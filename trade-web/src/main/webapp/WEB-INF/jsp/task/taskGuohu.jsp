@@ -541,6 +541,21 @@
 			});
 			return checkAtt;
 		}
+		
+		function checkAtts(){
+			var result = true;
+			
+			$(".table tbody tr .filelist").each(function(){
+				var length = $(this).find("li").length;
+				
+				if(length == 0){
+					result = false;
+					return false;
+				}
+			});
+			
+			return result;
+		}
 
 		/**保存数据*/
 		function save(b) {
@@ -589,11 +604,15 @@
 			if (!checkForm()) {
 				return false;
 			}
-/* 			if (!checkForm() || !deleteAndModify()) {				
-				return;
-			} */
 			
-			deleteAndModify();
+			//验证上传文件是否全部上传
+			var isCompletedUpload = fileUpload.isCompletedUpload();
+			
+			if(!isCompletedUpload){
+				window.wxc.alert("附件还未全部上传!");
+				return false;
+			}
+
 			var jsonData = $("#houseTransferForm").serializeArray();
 
 			var url = "${ctx}/task/ToHouseTransfer/saveToHouseTransfer";
@@ -763,6 +782,13 @@
 						return false;
 					}
 				}
+			}
+			
+			var result = checkAtts();
+			
+			if(!result){
+				window.wxc.alert('请上传附件！');
+				return false;
 			}
 
 			return true;

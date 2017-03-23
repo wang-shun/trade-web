@@ -87,13 +87,23 @@
                                    <div class="case_lump">
                                        <p><em>合作机构</em><span class="span_one">${info.finOrgName}</span></p>
                                    </div>
+                                   
+                                    <div class="case_lump">
+                                       <p><em>证件类型</em><span class="span_one">
+                                       <aist:dict id="custCardType" name="custCardType" clazz="select_control sign_right_two"
+										display="onlyLabel"  dictType="CERT_TYPE" tag="forEloanApply" dictCode="${eloanCase.custCardType}"
+										ligerui='none'></aist:dict></span></p>
+                                   </div>
                                 </div>
                                 <div class="case_row">
                                    <div class="case_lump">
-                                       <p><em>客户姓名</em><span class="span_one">${eloanCase.custName}</span></p>
+                                       <p><em>办卡人姓名</em><span class="span_one">${eloanCase.custName}</span></p>
                                    </div>
                                    <div class="case_lump">
-                                       <p><em>客户电话</em><span class="span_one">${eloanCase.custPhone}</span></p>
+                                       <p><em>办卡人电话</em><span class="span_one">${eloanCase.custPhone}</span></p>
+                                   </div>
+                                    <div class="case_lump">
+                                       <p><em>办卡人证件号</em><span class="span_one">${eloanCase.custPaper}</span></p>
                                    </div>
                                 </div>
                                 <div class="case_row">
@@ -151,11 +161,11 @@
                         <ul class="form_lump loan_ul">
                             <li>
                                 <div class="form_content">
-                                    <label class="control-label sign_left_two">客户姓名 </label>
+                                    <label class="control-label sign_left_two">办卡人姓名 </label>
                                     <input class="input_type sign_right_two" name="custName" id="custName" value="${eloanCase.custName}" >
                                 </div>
                                 <div class="form_content">
-                                    <label class="control-label sign_left_two">客户电话</label>
+                                    <label class="control-label sign_left_two">办卡人电话</label>
                                     <input class="input_type sign_right_two"  name="custPhone" id="custPhone" value="${eloanCase.custPhone}" >
                                 </div>
                                 <div class="form_content">

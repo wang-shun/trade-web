@@ -125,7 +125,7 @@
 			<div id="caseCommentList" class="view-content"></div>
              <div class="form-btn">
                     <div class="text-center">
-                        <button class="btn btn-success btn-space" onclick="submit()">提交</button>
+                        <button id="btn_submit" type="button" class="btn btn-success btn-space" >提交</button>
                     </div>
                 </div>
                 </form>
@@ -135,8 +135,8 @@
 		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
-	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <!-- Data picker -->
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	
+	
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
 	<script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
@@ -152,10 +152,13 @@
 					caseCode : caseCode,
 					srvCode : taskitem
 				});
+				buildEvent();
 			});
-
+			function buildEvent(){
+				$("#btn_submit").on('click',doSubmit);
+			}
 			/**提交数据*/
-			function submit() {
+			function doSubmit() {
 				save(true);
 			}
 
@@ -230,8 +233,8 @@
 
 		</script>
 		<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+		<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 		<script src="${ctx}/js/common/common.js?v=1.0.1"></script> 
-		<script<script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/main.js"></script>
 		 </content>
 </body>
 

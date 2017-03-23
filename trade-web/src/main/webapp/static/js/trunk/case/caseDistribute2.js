@@ -6,6 +6,7 @@ $(document).ready(function(){
 	});
 	
 	var data = getQueryParams(1);
+	
     aist.wrap(data);
 	//添加排序------------
 	reloadGrid(data);
@@ -41,7 +42,10 @@ function getQueryParams(page){
 	if(caseNo==""){
 		caseNo=null;
 	}
-	var caseAddr = $('#caseAddr').val();
+	
+	
+	var caseAddr = $.trim($('#caseAddr').val());
+	
 	if(caseAddr==""){
 		caseAddr=null;
 	}
@@ -51,7 +55,7 @@ function getQueryParams(page){
 		argu_queryorgid : queryOrgId,
 		search_ctmNo : ctmNo,
 		search_caseNo : caseNo,
-		search_caseAddr : caseAddr,
+		propertyAddr : caseAddr,
 		queryId : 'queryCastListItemListUnDistribute',
 		rows : 10,
 	    page : page
@@ -83,8 +87,6 @@ function reloadGrid(data) {
 			$(".blockOverlay").css({'z-index':'9998'});
         },  
         success: function(data){
-        	console.log(data);
-        	
         	$.unblockUI();   	 
         	var myCaseList = template('template_myCaseList' , data);
         	$("#myCaseList").empty();

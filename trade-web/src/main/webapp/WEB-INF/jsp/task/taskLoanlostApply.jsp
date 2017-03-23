@@ -239,7 +239,6 @@
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
 	<script	src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 	<!-- bank select -->
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
 	<script	src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
@@ -322,12 +321,7 @@
 					readOnlyForm();
 				}
 
-				$("#bank").change(function() {
-					var selectValue = $("#bank").val();
-					getBranchBankList(selectValue)
-				});
 
-				getBankList(finOrgCode);
 				getGuestInfo();
 
 				/*案件备注信息*/
@@ -458,87 +452,7 @@
 				return loanLostApplyFlag;
 			}
 
-			/*获取银行列表*/
-			function getBankList(pcode) {
-				var friend = $("#bank");
-				friend.empty();
-				$
-						.ajax({
-							url : ctx + "/manage/queryBankListByPcode",
-							method : "post",
-							dataType : "json",
-							data : {
-								"pcode" : pcode
-							},
-							success : function(data) {
-								if (data.bankList != null) {
-									for (var i = 0; i < data.bankList.length; i++) {
-										if (data.bankCode == data.bankList[i].finOrgCode) {
-											friend.append("<option value='"+data.bankList[i].finOrgCode+"' selected='selected'>"
-															+ data.bankList[i].finOrgName
-															+ "</option>");
-										} else {
-											friend.append("<option value='"+data.bankList[i].finOrgCode+"'>"
-															+ data.bankList[i].finOrgName
-															+ "</option>");
-										}
-									}
-									friend.chosen({
-										no_results_text : "未找到该选项",
-										
-										search_contains : true,
-										disable_search_threshold : 10
-									});
-									if (pcode == null || pcode == ""
-											|| pcode == undefined) {
-										getBranchBankList(data.bankList[0].finOrgCode);
-									} else {
-										getBranchBankList(data.bankCode);
-									}
-								}
-							}
-						});
-			}
-
-			/*获取支行列表*/
-			function getBranchBankList(pcode) {
-				var friend = $("#lastLoanBank");
-				if (document.getElementById("lastLoanBank")["options"].length > 0) {
-					friend.chosen('destroy');
-				}
-				friend.empty();
-				$
-						.ajax({
-							url : ctx + "/manage/queryBankListByParentCode",
-							method : "post",
-							dataType : "json",
-							data : {
-								faFinOrgCode : pcode
-							},
-							success : function(data) {
-								if (data != null) {
-									for (var i = 0; i < data.length; i++) {
-										if (finOrgCode == data[i].finOrgCode) {
-											friend
-													.append("<option value='"+data[i].finOrgCode+"' selected='selected'>"
-															+ data[i].finOrgName
-															+ "</option>");
-										} else {
-											friend
-													.append("<option value='"+data[i].finOrgCode+"'>"
-															+ data[i].finOrgName
-															+ "</option>");
-										}
-									}
-									friend.chosen({
-										no_results_text : "未找到该选项",
-										search_contains : true,
-										disable_search_threshold : 10
-									});
-								}
-							}
-						});
-			}
+		
 			//页面初始化时  初始化复选框按钮
 			function forLoanLostApplyReasonShow() {
 				var oldVal = $("#loanLostApplyReason").val();
@@ -636,13 +550,96 @@
     <script>
     	var fileUpload;
 	    require(['main'], function() {
-			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination','chosen'],function($,aistFileUpload){
 				fileUpload = aistFileUpload;
 				fileUpload.init({
 		    		caseCode : $('#caseCode').val(),
 		    		partCode : "LoanlostApply",
 		    		fileUploadContainer : "loanlostApplyfileUploadContainer"
 		    	}); 
+				$("#bank").change(function() {
+					var selectValue = $("#bank").val();
+					getBranchBankList(selectValue);
+				});
+				getBankList(finOrgCode);
+
+				/*获取银行列表*/
+				function getBankList(pcode) {
+					var friend = $("#bank");
+					friend.empty();
+					$.ajax({
+						url : ctx + "/manage/queryBankListByPcode",
+						method : "post",
+						dataType : "json",
+						data : {
+							"pcode" : pcode
+						},
+						success : function(data) {
+							if (data.bankList != null) {
+								for (var i = 0; i < data.bankList.length; i++) {
+									if (data.bankCode == data.bankList[i].finOrgCode) {
+										friend.append("<option value='"+data.bankList[i].finOrgCode+"' selected='selected'>"
+														+ data.bankList[i].finOrgName
+														+ "</option>");
+									} else {
+										friend.append("<option value='"+data.bankList[i].finOrgCode+"'>"
+														+ data.bankList[i].finOrgName
+														+ "</option>");
+									}
+								}
+								
+								if (pcode == null || pcode == ""
+										|| pcode == undefined) {
+									getBranchBankList(data.bankList[0].finOrgCode);
+									$("#lastLoanBank").chosen({
+										no_results_text : "未找到该选项",
+										search_contains : true,
+										disable_search_threshold : 10
+									});
+								} else {
+									getBranchBankList(data.bankCode);
+								}
+							}
+							friend.chosen({
+								no_results_text : "未找到该选项",
+								
+								search_contains : true,
+								disable_search_threshold : 10
+							});
+						}
+					});
+				}
+
+				/*获取支行列表*/
+				function getBranchBankList(pcode) {
+					var friend = $("#lastLoanBank");
+					friend.empty();
+					$.ajax({
+							url : ctx + "/manage/queryBankListByParentCode",
+							method : "post",
+							dataType : "json",
+							data : {
+								faFinOrgCode : pcode
+							},
+							async:false,
+							success : function(data) {
+								if (data != null) {
+									for (var i = 0; i < data.length; i++) {
+										if (finOrgCode == data[i].finOrgCode) {
+											friend.append("<option value='"+data[i].finOrgCode+"' selected='selected'>"
+															+ data[i].finOrgName
+															+ "</option>");
+										} else {
+											friend.append("<option value='"+data[i].finOrgCode+"'>"
+															+ data[i].finOrgName
+															+ "</option>");
+										}
+									}
+									friend.trigger('chosen:updated');
+								}
+							}
+						});
+				}
 		    });
 	    });
 	</script>

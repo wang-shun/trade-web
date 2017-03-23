@@ -14,7 +14,7 @@
 		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
 		<customDict id="guoHuPrice" beanName="guoHuPrice" />
 		<customDict id="custPhoneByCode" beanName="custPhoneByCode" />
-		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+<!-- 		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict> -->
 		<customDict id="qqManagerByOrgIdAndJobCode" beanName="qqManagerByOrgIdAndJobCode"></customDict>
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName" />
 		<customDict id="qqFenHang" beanName="qqFenHang" />
@@ -232,7 +232,9 @@
 
 				<column type="both" name="ORG_ID" index="" checkbox="" display="组织id" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
 				<!-- <column type="virtual" name="REAL_NAME" index="" checkbox="" display="主管" customDict="qqManagerByOrgIdAndJobCode" referencecol="ORG_ID"/> -->
-				<column type="virtual" name="REAL_NAME,ORG_NAME" index="" checkbox="" display="主管,组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
+				<!-- <column type="virtual" name="REAL_NAME,ORG_NAME" index="" checkbox="" display="主管,组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/> -->
+				<column type="virtual" name="REAL_NAME" index="" checkbox="" title="主管" display="主管" customDict="qqManagerByOrgIdAndJobCode" referencecol="ORG_ID"/>
+				<column type="virtual" name="ORG_NAME" index="" checkbox=""  title="组别" display="组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
 
 				<column type="both" name="INST_CODE" title="片区"	customDict="" hidden="false" />
 				<column type="virtual" name="START_TIME"  title="过户创建时间" index="" checkbox="" display="组别" customDict="sumByInstCode" referencecol="INST_CODE" beanFormatter="dateFormatterOne"/>
