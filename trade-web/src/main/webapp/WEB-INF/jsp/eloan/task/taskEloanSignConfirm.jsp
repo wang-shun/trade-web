@@ -102,7 +102,7 @@
 											ligerui='none'></aist:dict></span></p>
                                    </div>
                                    <div class="case_lump">
-                                       <p><em>办卡人证件号</em><span class="span_one" id="custPaper" name="custPaper" value="${eloanCase.custPaper}""></span></p>
+                                       <p><em>办卡人证件号</em><span class="span_one" id="custPaper" name="custPaper">${eloanCase.custPaper}</span></p>
                                    </div>
                                 </div>
                                 
