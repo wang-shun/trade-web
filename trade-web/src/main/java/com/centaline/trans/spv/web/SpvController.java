@@ -19,7 +19,6 @@ import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -613,13 +612,13 @@ public class SpvController {
      */
     @RequestMapping("spvApply/deal")
     @ResponseBody
-	public AjaxResponse<?> spvApply(@RequestBody SpvBaseInfoVO spvBaseInfoVO, String spvCode, String caseCode, String source, String instCode,
-			String taskId){	
+	public AjaxResponse<?> spvApply(SpvBaseInfoVO spvBaseInfoVO){	
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
     		//保存相关信息
     		SessionUser user= uamSessionService.getSessionUser();
-    		toSpvService.spvApply(spvBaseInfoVO, spvCode, caseCode, source, instCode, taskId, user);
+    		toSpvService.spvApply(spvBaseInfoVO, spvBaseInfoVO.getSpvCode(), spvBaseInfoVO.getCaseCode(), 
+    				spvBaseInfoVO.getSource(), spvBaseInfoVO.getInstCode(), spvBaseInfoVO.getTaskId(), user);
     		response.setSuccess(true);
 		} catch (Exception e) {
 			setExMsgForResp(response,e);

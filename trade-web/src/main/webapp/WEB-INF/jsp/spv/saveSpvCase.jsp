@@ -85,6 +85,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input id="pkid" type="hidden" value="${spvBaseInfoVO.toSpv.pkid }">
 	<div id="wrapper">
+	<form id="extraInfo">
 	    <%-- 流程相关 --%>
 		<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
@@ -92,6 +93,8 @@
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
 		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
+		<input type="hidden" name="spvCode" value="${spvBaseInfoVO.toSpv.spvCode }"/>
+     </form>
 		
 		<!-- main Start -->
 		<div

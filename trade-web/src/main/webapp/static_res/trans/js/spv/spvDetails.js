@@ -196,7 +196,7 @@ $(document).ready(function(){
        
        //风控专员审核驳回
        $("#riskOfficerApproveN").click(function(){
-           riskAjaxRequest(true,'SpvAudit',ctx+'/spv/spvAudit/deal');	
+           riskAjaxRequest(false,'SpvAudit',ctx+'/spv/spvAudit/deal');	
        });
        
        //风控总监审批通过
@@ -1136,7 +1136,6 @@ $(document).ready(function(){
   	  		    return false;
   	  	    }
     	}
-
     	  if(handle == 'SpvApply'){
   	  		window.wxc.confirm("是否确定提交申请！",{"wxcOk":function(){
   	  			requestUrl(handle,url,data);
@@ -1165,25 +1164,26 @@ $(document).ready(function(){
     }
     
     function requestUrl(handle,url,data){
-    	var totalArr = [];
-     	  $("form").each(function(){
-     		 var obj = $(this).serializeArray();
-     		for(var i in obj){
-     			if(obj[i].name.indexOf("idValiDate") != -1 && obj[i].value == '长期有效'){
-     				obj[i].value = '3000-01-01';
-     			}
-          		totalArr.push(obj[i]);
-     		}
-     	  });
-     	  
-      data.spvBaseInfoVO = totalArr;
-      
+    	if(handle == 'SpvApply'){
+          var totalArr = [];
+       	  $("form").each(function(){
+       		var obj = $(this).serializeArray();
+       		for(var i in obj){
+       			if(obj[i].name.indexOf("idValiDate") != -1 && obj[i].value == '长期有效'){
+       				obj[i].value = '3000-01-01';
+       			}
+            	totalArr.push(obj[i]);
+       		}
+       	  });
+          data = totalArr;
+    	}
+
    	  $.ajax({
      		url:url,
      		method:"post",
      		dataType:"json",
      		data:data,   		        				        		    
-  		beforeSend:function(){  
+     		beforeSend:function(){  
 			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 			$(".blockOverlay").css({'z-index':'9998'});
            },
@@ -1201,11 +1201,19 @@ $(document).ready(function(){
 			success : function(data) {   
 					if(data.success){
 						window.wxc.success(handle == 'SpvApply'?"开启资金监管流程成功！":"流程提交成功！",{"wxcOk":function(){
-							window.location.href = ctx+"/spv/spvList";
+							if($("#urlType").val() == "myTask"){
+								window.location.href = ctx+"/task/myTaskList";
+							}else{
+								window.location.href = ctx+"/spv/spvList";
+							}
 						}});  	 
 					}else{
 						window.wxc.error(handle == 'SpvApply'?"开启资金监管流程失败！":"流程提交失败！",{"wxcOk":function(){
-							window.location.href = ctx+"/spv/spvList";
+							if($("#urlType").val() == "myTask"){
+								window.location.href = ctx+"/task/myTaskList";
+							}else{
+								window.location.href = ctx+"/spv/spvList";
+							}
 						}});  	 
 					}     
 					 $.unblockUI();
