@@ -468,6 +468,13 @@ public class ToMortgageServiceImpl implements ToMortgageService {
                                               String taskId, String bankCode,
                                               String temBankRejectReason, String processInstanceId,
                                               String caseCode, String post) {
+    	
+    	
+    	
+    	//prAddress物业地址
+    	//tmpBankCheck   true：是否审批通过
+    	//temBankRejectReason  审批意见
+    	//post 区分 主管、高级主管、总监审批
     	 ToCase te = toCaseService.findToCaseByCaseCode(caseCode);
          String orgId = te.getOrgId();
         SessionUser user = uamSessionService.getSessionUser();
