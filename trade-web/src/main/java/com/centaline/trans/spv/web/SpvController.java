@@ -832,7 +832,7 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvSign/deal")
-	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove, String spvCode, String caseCode, String source, String instCode, String taskId, String spvConCode, Date signTime){
+	public AjaxResponse<?> spvSign(String spvCode, String caseCode, String source, String instCode, String taskId, String spvConCode, Date signTime){
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
     		//保存相关信息

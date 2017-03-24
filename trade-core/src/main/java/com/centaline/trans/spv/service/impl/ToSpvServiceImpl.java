@@ -685,7 +685,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 		Map<String, Object> vars = new HashMap<String, Object>();
 		ToSpv toSpv = spvBaseInfoVO.getToSpv();
 		String spvPkid = toSpv.getPkid().toString();
-		vars.put("isFourParties", "1".equals(toSpv.getPrdCode()));
 		vars.put("spvPkid", spvPkid);
 		vars.put("consultant", user.getUsername());
 		SessionUser RiskControlOfficer = uamSessionService.getSessionUserById(toSpv.getRiskControlOfficer());
@@ -1778,7 +1777,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 		ToSpv toSpv = spvBaseInfoVO.getToSpv();
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
-		variables.add(new RestVariable("isFourParties", "1".equals(toSpv.getPrdCode())));
 		SessionUser RiskControlOfficer = uamSessionService.getSessionUserById(toSpv.getRiskControlOfficer());
 		variables.add(new RestVariable("RiskControlOfficer", RiskControlOfficer.getUsername()));
 		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
