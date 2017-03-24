@@ -477,6 +477,12 @@ $(document).ready(function(){
 			changeClass($("input[name='spvCustList[0].idValiDate']"));
 		    return false; 
 		}
+
+		if($("select[name='spvCustList[0].idType']").val() == ''){
+			window.wxc.alert("请选择买方证件编号类型！");
+			changeClass($("select[name='spvCustList[0].idType']"));
+			return false;
+		}
 		
 		var buyerIdCode = $("input[name='spvCustList[0].idCode']").val();
 		if(buyerIdCode == ""){
@@ -583,6 +589,12 @@ $(document).ready(function(){
 		if(sellerIdValiDate == ""){
 			window.wxc.alert("请填写卖方证件有效期！");
 			changeClass($("input[name='spvCustList[1].idValiDate']"));
+			return false;
+		}
+		
+		if($("select[name='spvCustList[1].idType']").val() == ''){
+			window.wxc.alert("请选择卖方证件编号类型！");
+			changeClass($("select[name='spvCustList[1].idType']"));
 			return false;
 		}
 		
@@ -1182,7 +1194,9 @@ $(document).ready(function(){
 					  {
 					    msg:"抱歉，系统处理超时。"
 					  }); 
-			                } 
+			         } else if(status=='error'){
+			        	 alert("error");
+			         }
 			            } ,   
 			success : function(data) {   
 					if(data.success){
@@ -1196,7 +1210,7 @@ $(document).ready(function(){
 					}     
 					 $.unblockUI();
 				},		
-			error : function(errors) {
+			error : function(error) {
 					$.unblockUI();   
 					window.wxc.error("数据保存出错！");
 				}  
