@@ -715,7 +715,7 @@
 						        <label for="" class="lable-one"><i style="color:red;">*</i> 风控专员</label>
 						        <input type="hidden" id="userName" name="toSpv.riskControlOfficer" value='${spvBaseInfoVO.toSpv.riskControlOfficer }'>
 						        <input type="text" id="realName"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
-												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value='${riskControlOfficerName }'>
+												jobCode:'JYFKZY',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value='${riskControlOfficerName }'>
 							<div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont">&#xe627;</i>
                                     </div>

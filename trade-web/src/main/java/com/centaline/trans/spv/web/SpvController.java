@@ -39,11 +39,9 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.enums.AppTypeEnum;
-import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.vo.FileUploadVO;
-import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
@@ -579,6 +577,11 @@ public class SpvController {
 			request.setAttribute("toApproveRecord", record);
 		}
 		
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getRiskControlOfficer())){
+			request.setAttribute("riskControlOfficerName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getRiskControlOfficer()).getRealName());
+		}
+		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
@@ -657,6 +660,11 @@ public class SpvController {
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
 		
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getRiskControlOfficer())){
+			request.setAttribute("riskControlOfficerName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getRiskControlOfficer()).getRealName());
+		}
+		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
@@ -729,6 +737,11 @@ public class SpvController {
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
 		
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getRiskControlOfficer())){
+			request.setAttribute("riskControlOfficerName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getRiskControlOfficer()).getRealName());
+		}
+		
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
 	    request.setAttribute("imgweb", app.genAbsoluteUrl());
@@ -791,6 +804,11 @@ public class SpvController {
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
 	    request.setAttribute("imgweb", app.genAbsoluteUrl());
+	    
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getRiskControlOfficer())){
+			request.setAttribute("riskControlOfficerName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getRiskControlOfficer()).getRealName());
+		}
 		
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
