@@ -41,6 +41,7 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.remote.service.CommFindUserService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
@@ -55,7 +56,8 @@ public class LoanlostApproveController {
 	private ToCaseService toCaseService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
-
+	@Autowired
+	private CommFindUserService commFindUserService;
 	@Autowired
 	private LoanlostApproveService loanlostApproveService;
 
@@ -176,13 +178,14 @@ public class LoanlostApproveController {
 		/* 流程引擎变量设置 */
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		if (LoanLost_manager.equals("true")) {// 主管审核的结果
-			User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");// 查询高级主管
+			//User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");// 查询高级主管
+			String seniorManager = commFindUserService.findUserByCase("Senior_Manager", processInstanceVO.getCaseCode());
 			RestVariable restVariableSeniorManager = new RestVariable();
 			RestVariable restVariableSeniorManagerType = new RestVariable();
 			if (null != seniorManager
-					&& !StringUtil.isBlank(seniorManager.getId())) {
+					&& !StringUtil.isBlank(seniorManager)) {
 				restVariableSeniorManager.setName("SeniorManager");
-				restVariableSeniorManager.setValue(seniorManager.getUsername());
+				restVariableSeniorManager.setValue(seniorManager);
 				restVariableSeniorManagerType.setName("LoanLost_manager");
 			} else {
 				restVariableSeniorManager.setName("SeniorManager");
@@ -279,14 +282,14 @@ public class LoanlostApproveController {
 
 		if (!LoanLost_director.equals("true")) {
 			// 查询高级主管
-			User seniorManager = uamUserOrgService
-					.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
+			//User seniorManager = uamUserOrgService .getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
+			String seniorManager = commFindUserService.findUserByCase("Senior_Manager", processInstanceVO.getCaseCode()); 
 			RestVariable restVariableDirector = new RestVariable();
 			RestVariable restVariableDirectorType = new RestVariable();
 			if (null != seniorManager
-					&& !StringUtil.isBlank(seniorManager.getId())) {
+					&& !StringUtil.isBlank(seniorManager)) {
 				restVariableDirector.setName("SeniorManager");
-				restVariableDirector.setValue(seniorManager.getUsername());
+				restVariableDirector.setValue(seniorManager);
 				restVariableDirectorType.setName("LoanLost_director");
 			} else {
 				restVariableDirector.setName("SeniorManager");
