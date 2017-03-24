@@ -1112,10 +1112,10 @@ $(document).ready(function(){
 	}
 	
 	//流程开启、提交通用方法   
-    function riskAjaxRequest(SpvApplyApprove,handle,url){
+    function riskAjaxRequest(spvApplyApprove,handle,url){
 	    var data = {spvCode:$("input[name='toSpv.spvCode']").val(),caseCode:$("#caseCode").val(),taskId:$("#taskId").val(),instCode:$("#instCode").val(),remark:$("#passOrRefuseReason").val(),source:$("#source").val()};
-	    if(SpvApplyApprove != null){
-	    	data.SpvApplyApprove = SpvApplyApprove;
+	    if(spvApplyApprove != null){
+	    	data.spvApplyApprove = spvApplyApprove;
 	    }
 	    if(handle == "SpvSign"){
 	    	data.spvConCode = $("input[name='toSpv.spvConCode']").val();
@@ -1136,23 +1136,24 @@ $(document).ready(function(){
   	  		    return false;
   	  	    }
     	}
+
     	  if(handle == 'SpvApply'){
   	  		window.wxc.confirm("是否确定提交申请！",{"wxcOk":function(){
   	  			requestUrl(handle,url,data);
   	  		}});
-    	  }else if(handle == 'SpvAudit' && SpvApplyApprove){
+    	  }else if(handle == 'SpvAudit' && spvApplyApprove){
 	  	  	window.wxc.confirm("是否确定通过！",{"wxcOk":function(){	  			
 	  	  		requestUrl(handle,url,data);
 	  	    }});
-    	  }else if(handle == 'SpvAudit' && !SpvApplyApprove){
+    	  }else if(handle == 'SpvAudit' && !spvApplyApprove){
   	  		window.wxc.confirm("是否确定驳回！",{"wxcOk":function(){
   	  			requestUrl(handle,url,data);
   	  		}});
-    	  }else if(handle == 'SpvApprove' && SpvApplyApprove){
+    	  }else if(handle == 'SpvApprove' && spvApplyApprove){
   	  		window.wxc.confirm("是否确定通过！",{"wxcOk":function(){	  			
   	  			requestUrl(handle,url,data);
   	  		}});
-    	  }else if(handle == 'SpvApprove' && !SpvApplyApprove){
+    	  }else if(handle == 'SpvApprove' && !spvApplyApprove){
   	  		window.wxc.confirm("是否确定驳回！",{"wxcOk":function(){
   	  			requestUrl(handle,url,data);
   	  		}});
