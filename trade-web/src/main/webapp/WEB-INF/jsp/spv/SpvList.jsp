@@ -67,12 +67,13 @@
 							class="form-control select-one" name="status"  id="status">
 							<option value="">请选择</option>
 							<option value="0">起草</option>
-							<option value="1">申请</option>
+							<option value="1">初审</option>
+							<option value="2">审批</option>
 							<option value="3">签约</option>
-							<option value="4">中止中</option>
-							<option value="5">结束中</option>
-							<option value="7">中止</option>
-							<option value="6">完成</option>
+							<option value="5">中止中</option>
+							<option value="6">结束中</option>
+							<option value="8">中止</option>
+							<option value="7">完成</option>
 						</select>
 					</div>
 					<div class="form-group form-margin form-space-one ">

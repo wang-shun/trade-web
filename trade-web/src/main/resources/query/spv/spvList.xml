@@ -81,7 +81,7 @@
 					LEFT JOIN sctrans.sys_org org ON spv.APPLY_TEAM=org.ID
                    where spv.IS_DELETED=0
                       <if test="serviceJobCode == 'JYFKZY' ">
-			           and spv.CREATE_BY = #sessionUserId#
+			           and spv.RISK_CONTROL_OFFICER = #sessionUserId#
 			        </if>
 			        <if test="serviceJobCode == 'consultant' ">
 			        and spv.APPLY_USER = #sessionUserId#

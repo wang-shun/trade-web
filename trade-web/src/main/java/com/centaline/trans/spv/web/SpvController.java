@@ -832,12 +832,15 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvSign/deal")
-	public AjaxResponse<?> spvSign(String spvCode, String caseCode, String source, String instCode, String taskId, String spvConCode, Date signTime){
+	public AjaxResponse<?> spvSign(String spvCode, String caseCode, String source, String instCode, String taskId, 
+			String spvConCode, Date signTime, Long sellerAccountPkid, String sellerAccountName, String sellerAccountNo, 
+			String sellerAccountTelephone, String sellerAccountBank, String sellerAccountBranchBank){
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
     		//保存相关信息
     		SessionUser user= uamSessionService.getSessionUser();
-    		toSpvService.spvSign(spvCode, caseCode, source, instCode, taskId, spvConCode, signTime, user);
+    		toSpvService.spvSign(spvCode, caseCode, source, instCode, taskId, spvConCode, signTime, sellerAccountPkid, sellerAccountName, sellerAccountNo, 
+    				sellerAccountTelephone, sellerAccountBank, sellerAccountBranchBank, user);
     		response.setSuccess(true);
 		} catch (Exception e) {
 			setExMsgForResp(response,e);

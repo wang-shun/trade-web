@@ -365,60 +365,7 @@ $(document).ready(function(){
 		    changeClass(deAmountEle);
 			return false;
         }
-		
-		//签约时判断
-		  if($("#handle").val() == 'SpvSign'){
-			  var spvAccountName = $("input[name='toSpvAccountList[1].name']").val();
-			  if(spvAccountName == null || spvAccountName == ''){
-				  window.wxc.alert("请填写卖方收款账号名称！");
-				  changeClass($("input[name='toSpvAccountList[1].name']"));
-				  return false;
-			  }
-			  var spvAccountAcc = $("input[name='toSpvAccountList[1].account']").val();
-			  if(spvAccountAcc == null || spvAccountAcc == ''){
-				  window.wxc.alert("请填写卖方收款账号！");
-				  changeClass($("input[name='toSpvAccountList[1].account']"));
-				  return false;
-			  }
-			  var spvAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
-			  if(spvAccountTelephone == null || spvAccountTelephone == ''){
-				  window.wxc.alert("请填写卖方电话！");
-				  changeClass($("input[name='toSpvAccountList[1].telephone']"));
-				  return false;
-			  }
-			  if(spvAccountTelephone != null && spvAccountTelephone != ''){
-				  if(!isMobile(spvAccountTelephone)){
-					  window.wxc.alert("请填写有效的卖方电话！(1(3、4、5、7、8)+9位数字)");
-					  changeClass($("input[name='toSpvAccountList[1].telephone']"));
-					  return false;
-				  }
-			  }
-			  var spvAccountBank = $("input[name='toSpvAccountList[1].bank']").val();
-			  if(spvAccountBank == null || spvAccountBank == ''){
-				  window.wxc.alert("请填写卖方收款账号开户行（银行）！");
-				  changeClass($("input[name='toSpvAccountList[1].bank']"));
-				  return false;
-			  }
-			  var spvAccountBranchBank = $("input[name='toSpvAccountList[1].branchBank']").val();
-			  if(spvAccountBranchBank == null || spvAccountBranchBank == ''){
-				  window.wxc.alert("请填写卖方收款账号开户行（支行）！");
-				  changeClass($("input[name='toSpvAccountList[1].branchBank']"));
-				  return false;
-			  }
-			  var spvConCode = $("input[name='toSpv.spvConCode']").val();
-			  if(spvConCode == null || spvConCode == ''){
-				  window.wxc.alert("请填写签约合同号！");
-				  changeClass($("input[name='toSpv.spvConCode']"));
-				  return false;
-			  }
-			  var signTime = $("input[name='toSpv.signTime']").val();
-			  if(signTime == null || signTime == ''){
-				  window.wxc.alert("请填写签约时间！");
-				  changeClass($("input[name='toSpv.signTime']"));
-				  return false;
-			  }
-		  }
-		
+	
 		 return true;
 	}
 	
@@ -1092,6 +1039,60 @@ $(document).ready(function(){
 		}
 		/** ------附件验证结束--------------  **/
 		
+		/** ------签约时判断开始-----------------**/
+		  if($("#handle").val() == 'SpvSign'){
+			  var spvAccountName = $("input[name='toSpvAccountList[1].name']").val();
+			  if(spvAccountName == null || spvAccountName == ''){
+				  window.wxc.alert("请填写卖方收款账号名称！");
+				  changeClass($("input[name='toSpvAccountList[1].name']"));
+				  return false;
+			  }
+			  var spvAccountAcc = $("input[name='toSpvAccountList[1].account']").val();
+			  if(spvAccountAcc == null || spvAccountAcc == ''){
+				  window.wxc.alert("请填写卖方收款账号！");
+				  changeClass($("input[name='toSpvAccountList[1].account']"));
+				  return false;
+			  }
+			  var spvAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
+			  if(spvAccountTelephone == null || spvAccountTelephone == ''){
+				  window.wxc.alert("请填写卖方电话！");
+				  changeClass($("input[name='toSpvAccountList[1].telephone']"));
+				  return false;
+			  }
+			  if(spvAccountTelephone != null && spvAccountTelephone != ''){
+				  if(!isMobile(spvAccountTelephone)){
+					  window.wxc.alert("请填写有效的卖方电话！(1(3、4、5、7、8)+9位数字)");
+					  changeClass($("input[name='toSpvAccountList[1].telephone']"));
+					  return false;
+				  }
+			  }
+			  var spvAccountBank = $("input[name='toSpvAccountList[1].bank']").val();
+			  if(spvAccountBank == null || spvAccountBank == ''){
+				  window.wxc.alert("请填写卖方收款账号开户行（银行）！");
+				  changeClass($("input[name='toSpvAccountList[1].bank']"));
+				  return false;
+			  }
+			  var spvAccountBranchBank = $("input[name='toSpvAccountList[1].branchBank']").val();
+			  if(spvAccountBranchBank == null || spvAccountBranchBank == ''){
+				  window.wxc.alert("请填写卖方收款账号开户行（支行）！");
+				  changeClass($("input[name='toSpvAccountList[1].branchBank']"));
+				  return false;
+			  }
+			  var spvConCode = $("input[name='toSpv.spvConCode']").val();
+			  if(spvConCode == null || spvConCode == ''){
+				  window.wxc.alert("请填写签约合同号！");
+				  changeClass($("input[name='toSpv.spvConCode']"));
+				  return false;
+			  }
+			  var signTime = $("input[name='toSpv.signTime']").val();
+			  if(signTime == null || signTime == ''){
+				  window.wxc.alert("请填写签约时间！");
+				  changeClass($("input[name='toSpv.signTime']"));
+				  return false;
+			  }
+		  }
+		  /** ------签约时判断结束-----------------**/  
+		
 		return true;
 	}
 	
@@ -1120,9 +1121,15 @@ $(document).ready(function(){
 	    if(handle == "SpvSign"){
 	    	data.spvConCode = $("input[name='toSpv.spvConCode']").val();
 	    	data.signTime = $("input[name='toSpv.signTime']").val();
+	    	data.sellerAccountPkid = $("input[name='toSpvAccountList[1].pkid']").val();
+	    	data.sellerAccountName = $("input[name='toSpvAccountList[1].name']").val();
+	    	data.sellerAccountNo = $("input[name='toSpvAccountList[1].account']").val();
+	    	data.sellerAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
+	    	data.sellerAccountBank = $("input[name='toSpvAccountList[1].bank']").val();
+	    	data.sellerAccountBranchBank = $("input[name='toSpvAccountList[1].branchBank']").val();
 	    }
     	//申请时验证参数
-    	if(handle == 'SpvApply'){
+    	if(handle == 'SpvApply' || handle == 'SpvSign'){
     	  if(!checkFormSubmit()){
       		  return false;
       	  }
@@ -1210,11 +1217,11 @@ $(document).ready(function(){
 						}});  	 
 					}else{
 						window.wxc.error(handle == 'SpvApply'?"开启资金监管流程失败！":"流程提交失败！",{"wxcOk":function(){
-							if($("#urlType").val() == "myTask"){
-								window.location.href = ctx+"/task/myTaskList";
-							}else{
-								window.location.href = ctx+"/spv/spvList";
-							}
+//							if($("#urlType").val() == "myTask"){
+//								window.location.href = ctx+"/task/myTaskList";
+//							}else{
+//								window.location.href = ctx+"/spv/spvList";
+//							}
 						}});  	 
 					}     
 					 $.unblockUI();
