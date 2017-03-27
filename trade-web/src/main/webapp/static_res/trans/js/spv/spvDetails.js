@@ -14,28 +14,28 @@ $(document).ready(function(){
 			switch(val){
 			case '1':
 				//全款
-				amountMort_.prop("readonly",true).val('').blur();
+				amountMort_.prop("disabled",true).val('').blur();
 				amountOwn_.siblings("label").prepend("<i style='color:red;'>*</i> ");
-				amountMortCom_.prop("readonly",true).val('').blur();
-				amountMortPsf_.prop("readonly",true).val('').blur();
+				amountMortCom_.prop("disabled",true).val('').blur();
+				amountMortPsf_.prop("disabled",true).val('').blur();
 				break;
 			case '2':
 				//纯商贷
-                amountMort_.prop("readonly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
-				amountMortCom_.prop("readonly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
-				amountMortPsf_.prop("readonly",true).val('').blur();
+                amountMort_.prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+				amountMortCom_.prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+				amountMortPsf_.prop("disabled",true).val('').blur();
 				break;
 			case '3':
 				//组合贷
-				amountMort_.prop("readonly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
-				amountMortCom_.prop("readonly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
-				amountMortPsf_.prop("readonly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+				amountMort_.prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+				amountMortCom_.prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+				amountMortPsf_.prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
 				break;
 			case '4':
 				//公积金贷
-				amountMort_.prop("readonly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
-				amountMortCom_.prop("readonly",true).val('').blur();
-				amountMortPsf_.prop("readonly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+				amountMort_.prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+				amountMortCom_.prop("disabled",true).val('').blur();
+				amountMortPsf_.prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
 				break;
 			} 
 		}).change();
@@ -1236,7 +1236,7 @@ $(document).ready(function(){
     
     //风控申请审批时只读表单
     function readOnlyRiskForm(){
-    	$("input").prop("readOnly",true);
+    	$("input").prop("disabled",true);
     	$(":radio").prop("disabled",true);
     	$("input[name='spvCustList[0].idValiDate']").prop("disabled",true);
     	$("input[name='spvCustList[1].idValiDate']").prop("disabled",true);

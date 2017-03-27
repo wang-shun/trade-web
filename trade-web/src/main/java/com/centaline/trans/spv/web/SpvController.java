@@ -832,6 +832,7 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvSign/deal")
+	@ResponseBody
 	public AjaxResponse<?> spvSign(String spvCode, String caseCode, String source, String instCode, String taskId, 
 			String spvConCode, Date signTime, Long sellerAccountPkid, String sellerAccountName, String sellerAccountNo, 
 			String sellerAccountTelephone, String sellerAccountBank, String sellerAccountBranchBank){

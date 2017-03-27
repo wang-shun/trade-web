@@ -455,7 +455,7 @@
 									class="date_icon">万元</span>
 							</div>
                             <div class="form-group form-margin form-space-one pledgeinfo">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"  readonly="readonly"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>	 	
 						</div>
@@ -477,7 +477,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-							<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"  readonly="readonly"
+							<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"  disabled="disabled"
 								class="form-control input-two" placeholder="">
 						    </div> 
 						</div>	
@@ -500,7 +500,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountDX" readonly="readonly"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountDX" disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -532,7 +532,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountOwnDX" readonly="readonly"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountOwnDX" disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -544,7 +544,7 @@
 									<span class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortDX"  readonly="readonly"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>		
 						</div>
@@ -556,7 +556,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortComDX"  readonly="readonly"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortComDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -568,7 +568,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortPsfDX"  readonly="readonly"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortPsfDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 						    </div>
 						</div>
@@ -638,7 +638,7 @@
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account" readOnly="readOnly"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account" disabled="disabled"
 								    <%-- value="${spvBaseInfoVO.toSpvAccountList[2].account }" --%> value="76310188000148842"
 									class="form-control input-two" placeholder="">
 							</div>
@@ -657,12 +657,12 @@
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"  readOnly="readOnly"
+								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"  disabled="disabled"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].account }"
 									class="form-control input-two" placeholder="">			
 							</div>
 							<div class="form-group form-margin form-space-one">
-							    <label for="" class="lable-one">开户行</label> <input type="text" name="toSpvAccountList[3].branchBank"  readOnly="readOnly"
+							    <label for="" class="lable-one">开户行</label> <input type="text" name="toSpvAccountList[3].branchBank"  disabled="disabled"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].branchBank }"
 									class="form-control input-three" placeholder="">
 							</div>
@@ -959,7 +959,7 @@
 				}else{
 					$("#spvAccountDiv").show();
 				}
-			});
+			}).change();
 			
 			longTermSuit(0);
 			longTermSuit(1);
@@ -990,13 +990,13 @@
 			/*签约环节需添加的内容：资金监管协议编号、签约时间
 	                         签约环节需可修改的内容：卖方监管账户名称、卖方监管账号、开户行*/
 			if($("#handle").val() == 'SpvSign'){
-  				$("input[name='toSpvAccountList[1].name']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
-  				$("input[name='toSpvAccountList[1].account']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
-  				$("input[name='toSpvAccountList[1].telephone']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[1].name']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[1].account']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[1].telephone']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
   				$("#bank_1").prop("disabled",false);
   				$("input[name='toSpvAccountList[1].bank']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
   				$("input[name='toSpvAccountList[1].branchBank']").prop("disabled",false);
-  				$("#signDiv").show().find("input").prop("readOnly",false);
+  				$("#signDiv").show().find("input").prop("disabled",false);
 	         }
 			
 			$("select[name='toSpvAccountList[3].name']").change(function(){
