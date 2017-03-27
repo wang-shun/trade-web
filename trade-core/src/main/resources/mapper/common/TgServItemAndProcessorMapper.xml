@@ -332,8 +332,8 @@
 <select id="findTgServItemAndProcessorByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR
-    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR  with (nolock)
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
   </select>
 <select id="findCaseCodesByUserId" parameterType="java.lang.String" resultType="java.lang.String">
     select distinct
