@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+	</dicts>
+
+	<formatters>
+		<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref=""
+			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>
+
+	<query id="queryELoanProcess">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+ 					SELECT 
+							cc.TYPE AS status,
+							CONVERT(varchar(100), cc.CREATE_TIME, 23) AS createTime,
+							u.REAL_NAME AS createBy,
+							ISNULL(cc.COMMENT,'') AS comment
+					FROM sctrans.T_TO_CASE_COMMENT cc 
+					INNER JOIN sctrans.SYS_USER u ON u.ID = cc.CREATE_BY
+					WHERE cc.BIZ_CODE = #eLoanCode# AND cc.SOURCE = 'EPLUS'
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="status" title="跟进状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="createTime" title="创建时间"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="createBy" title="创建人"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="comment" title="跟进内容"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+			</table-row>
+		</grid>
+	</query>
+</querys>

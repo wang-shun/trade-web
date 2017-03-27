@@ -31,6 +31,66 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
+	
+	<query id="queryELoanCaseDetail">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[  	
+			   		SELECT 
+						--prdType--
+						'EPLUS' AS prdType,
+						--mortInfo--
+						(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.LOAN_SRV_CODE AND TYPE = 'yu_serv_cat_code_tree' AND IS_DELETED = 0 AND AVAILABLE = 1) AS mortType,
+						ec.APPLY_AMOUNT AS totalAmount,
+						ISNULL(ec.MONTH, 0) AS month,
+						(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.STATE_IN_BANK AND IS_DELETED = 0 AND AVAILABLE = 1) AS eLoanStatus,
+						--yuOperator--
+						ec.EXCUTOR_ID AS excutorId,
+						u.REAL_NAME AS excutorName,
+						u.MOBILE AS excutorMobile,
+						(SELECT ORG_NAME FROM sctrans.SYS_ORG WHERE ID = ec.EXCUTOR_TEAM) AS excutorOrg,
+						--custInfo--
+						ec.CUST_NAME AS customerName,
+						ec.CUST_PHONE AS customerMobile,
+						--tradeInfo--
+						ec.CASE_CODE AS caseCode,
+						p.PROPERTY_ADDR AS propertyAddress,
+						(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = c.STATUS AND IS_DELETED = 0 AND AVAILABLE = 1) AS caseStatus
+					FROM sctrans.T_TO_ELOAN_CASE ec
+					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = ec.CASE_CODE
+					INNER JOIN sctrans.SYS_USER u ON u.ID = ec.EXCUTOR_ID
+					INNER JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = ec.CASE_CODE
+					WHERE ec.ELOAN_CODE = #eLoanCode#
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>		
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="prdType" title="产品类型"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="mortType" title="贷款类型"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="totalAmount" title="申请金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="month" title="申请月份"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="eLoanStatus" title="E+申请状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="excutorId" title="执行人id"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="excutorName" title="执行人名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="excutorMobile" title="执行人手机号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="excutorOrg" title="执行人所在组"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="customerName" title="客户名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="customerMobile" title="客户手机号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="caseCode" title="案件编号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="propertyAddress" title="产证地址"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="caseStatus" title="案件状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+			</table-row>
+		</grid>
+	</query>
+	
+	
 	<query id="EloanCaseListQuery">
 		<searchCondition>
 			<condition field="ec.CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
@@ -111,7 +171,6 @@
 				<column  name="REAL_NAME" title="客户"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 			    <column  name="APPLY_CONF_TIME" title="申请确认时间"  index="" checkbox="" customDict="" sysDict=""   beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable="" />
 				<column  name="taskKey" title="流程状态"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
-			
 			</table-row>
 		</grid>
 	</query>
