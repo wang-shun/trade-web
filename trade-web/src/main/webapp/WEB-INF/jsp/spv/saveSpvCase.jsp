@@ -641,6 +641,7 @@
 								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account" disabled="disabled"
 								    <%-- value="${spvBaseInfoVO.toSpvAccountList[2].account }" --%> value="76310188000148842"
 									class="form-control input-two" placeholder="">
+									<input type="hidden" name="toSpvAccountList[2].account" value="76310188000148842">
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
@@ -1249,21 +1250,26 @@
 		}
 		
 		function delAccTr(this_){
-			var deleteFlag = true;
+			var deleteComfirm = false;
 			var accountType = $(this_).parents('.form-rowbot').prev().find('input[name$="accountType"]').val();
 			$("select[name^='toSpvDeDetailList'][name$='payeeAccountType']").each(function(i,e){
 				var eVal = $(e).val();
 				if(eVal == accountType){
-					
-					window.wxc.confirm("出款约定中已选择该账户类型，是否确定删除?",{"wxcOk":function(){
-						$(this_).parents('.form-rowbot').prev().remove();
-						$(this_).parents('.form-rowbot').remove();
-						updateAccTypeOptions();
-						
-						return false;
-					}});
+					deleteComfirm = true;
 				}
 			});
+			
+			if(deleteComfirm){
+				window.wxc.confirm("出款约定中已选择该账户类型，是否确定删除?",{"wxcOk":function(){
+					$(this_).parents('.form-rowbot').prev().remove();
+					$(this_).parents('.form-rowbot').remove();
+					updateAccTypeOptions();
+				}});
+			}else{
+				$(this_).parents('.form-rowbot').prev().remove();
+				$(this_).parents('.form-rowbot').remove();
+				updateAccTypeOptions();
+			}
 			
 			/* if(!deleteFlag){
 				return false;
@@ -1454,7 +1460,7 @@
 	       <script>
 	       		var fileUpload;
 			    require(['main'], function() {
-					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager'],function($,aistFileUpload){
+					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager','eselect'],function($,aistFileUpload){
 						fileUpload = aistFileUpload;
 						var handle = $("#handle").val();
 						if(handle == "SpvAudit" || handle == "SpvApprove" || handle == "SpvSign"){

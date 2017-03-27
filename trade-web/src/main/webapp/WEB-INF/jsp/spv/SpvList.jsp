@@ -233,7 +233,7 @@
 												 <a href="#"><em>申请人：{{item.APPLY_USER}}</em></a>
                                             </span>
                                             <span class="manager">
-                                                <a href="#"><em>经办人：{{item.CREATE_BY}}</em></a>
+                                                <a href="#"><em>经办人：{{item.RISK_CONTROL_OFFICER}}</em></a>
                                             </span>
                                         </td>
                                         <td class="text-center"> 
