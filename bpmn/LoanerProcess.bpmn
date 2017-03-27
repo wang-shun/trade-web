@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
+  <message id="BankLevelApproveMsg" name="BankLevelApproveMsg"></message>
+  <message id="TempBankAduitFinishMessage" name="TempBankAduitFinishMessage"></message>
   <process id="Loaner_Process" name="Loaner_Process" isExecutable="true">
     <startEvent id="startevent2" name="Start"></startEvent>
-    <userTask id="LoanerSendOrder" name="交易顾问派单" activiti:assignee="${sessionUserId}" activiti:formKey="/task/comLoanProcess/process"></userTask>
-    <userTask id="LoanerAccept" name="信贷员接单" activiti:assignee="${loanerUserId}"></userTask>
-    <userTask id="LoanerAcceptApprove" name="银行审核" activiti:assignee="${loanerUserId}"></userTask>
+    <userTask id="LoanerSendOrder" name="交易顾问派单" activiti:assignee="${sessionUserId}" activiti:formKey="/loaner/comLoanerChange/process"></userTask>
+    <userTask id="LoanerAccept" name="信贷员接单" activiti:assignee="${loanerUserId}" activiti:formKey="/loaner/loanerAcceptTest/process"></userTask>
+    <userTask id="LoanerAcceptApprove" name="银行审核" activiti:assignee="${loanerUserId}" activiti:formKey="/loaner/bankAcceptTest/process"></userTask>
     <endEvent id="endevent3" name="End"></endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent2" targetRef="LoanerSendOrder"></sequenceFlow>
-    <intermediateCatchEvent id="BankLevelMsg" name="Message">
-      <messageEventDefinition></messageEventDefinition>
+    <intermediateCatchEvent id="BankLevelApproveMsgEventCatch" name="Message">
+      <messageEventDefinition messageRef="TempBankAduitFinishMessage"></messageEventDefinition>
     </intermediateCatchEvent>
     <sequenceFlow id="flow4" sourceRef="LoanerAccept" targetRef="LoanerAcceptApprove">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${loanerAccept == true}]]></conditionExpression>
@@ -27,16 +29,16 @@
     <sequenceFlow id="flow3" sourceRef="exclusivegateway1" targetRef="LoanerAccept">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bankLevel ==0}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow21" sourceRef="exclusivegateway1" targetRef="BankLevelMsg">
+    <sequenceFlow id="flow21" sourceRef="exclusivegateway1" targetRef="BankLevelApproveMsgEventCatch">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bankLevel == 1 || bankLevel == 9}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow22" sourceRef="BankLevelMsg" targetRef="exclusivegateway2"></sequenceFlow>
+    <sequenceFlow id="flow22" sourceRef="BankLevelApproveMsgEventCatch" targetRef="exclusivegateway2"></sequenceFlow>
     <sequenceFlow id="flow23" sourceRef="exclusivegateway2" targetRef="LoanerAccept">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bankLevelApprove == 'true'}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bankLevelApprove == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow24" sourceRef="exclusivegateway2" targetRef="LoanerSendOrder">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bankLevelApprove == 'false'}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${bankLevelApprove == false}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow6" sourceRef="LoanerSendOrder" targetRef="endevent3">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${mainBankChoose == true}]]></conditionExpression>
@@ -59,7 +61,7 @@
       <bpmndi:BPMNShape bpmnElement="endevent3" id="BPMNShape_endevent3">
         <omgdc:Bounds height="35.0" width="35.0" x="880.0" y="340.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="BankLevelMsg" id="BPMNShape_BankLevelMsg">
+      <bpmndi:BPMNShape bpmnElement="BankLevelApproveMsgEventCatch" id="BPMNShape_BankLevelApproveMsgEventCatch">
         <omgdc:Bounds height="35.0" width="35.0" x="353.0" y="264.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">

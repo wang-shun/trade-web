@@ -12,6 +12,22 @@ public interface LoanerProcessService {
      */
     AjaxResponse<String> startLoanerOrderWorkFlow(String caseCode,String loanerUserId, String loanerOrgId, String bankOrgCode,int bankLevel);
 
+    
+    /**
+     * 信贷员收单审批操作
+     * @param caseCode
+     * @return
+     */
+	AjaxResponse<String> isLoanerAcceptCase(boolean isAcceptCase, String taskId,String processInstanceId,String caseCode);
+
+    /**
+     * 银行审批操作流程
+     * @param caseCode
+     * @return
+     */
+	AjaxResponse<String> isBankAcceptCase(boolean isAcceptCase, String taskId,
+			String processInstanceId, String caseCode);
+
 
 
 

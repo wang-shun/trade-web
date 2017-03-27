@@ -40,8 +40,8 @@ public interface MessageService {
 	 * @param event
 	 * @param action
 	 */
-	void sendBankLevelApproveTrue(String instanceId);
-	void sendBankLevelApproveFalse(String instanceId);
+	void sendBankLevelApproveMsg(String instanceId,boolean approveFlag);
+
 	
 
 }

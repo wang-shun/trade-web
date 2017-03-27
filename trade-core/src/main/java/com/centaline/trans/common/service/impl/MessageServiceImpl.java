@@ -1,5 +1,6 @@
 package com.centaline.trans.common.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -105,44 +106,24 @@ public class MessageServiceImpl implements MessageService {
 	 * 
 	 */
 	@Override
-	public void sendBankLevelApproveTrue(String instanceId) {
+	public void sendBankLevelApproveMsg(String instanceId,boolean approveFlag) {
 		// 发送消息
 		ActRuEventSubScr event = new ActRuEventSubScr();
-		event.setEventType(MessageEnum.BANK_LEVEL_APPROVE_TRUE.getEventType());
-		event.setEventName(MessageEnum.BANK_LEVEL_APPROVE_TRUE.getName());
+		event.setEventType(MessageEnum.BANK_LEVEL_APPROVE_MSG.getEventType());
+		event.setEventName(MessageEnum.BANK_LEVEL_APPROVE_MSG.getName());
 		event.setProcInstId(instanceId);
 		event.setActivityId(EventTypeEnum.BANKLEVELAPPROVEEVENTCATCH.getName());
-		
+				
 		ExecuteAction action = new ExecuteAction();
 		action.setAction(EventTypeEnum.BANKLEVELAPPROVEEVENTCATCH.getEventType());
-		action.setMessageName(MessageEnum.BANK_LEVEL_APPROVE_TRUE.getName());
+		action.setMessageName(MessageEnum.BANK_LEVEL_APPROVE_MSG.getName());
+		
+		//添加消息标示
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		variables.add(new RestVariable("approveFlag",approveFlag));
+		action.setVariables(variables);
 
 		sendMessage(event,action);
 		
 	}
-	
-	
-	/*
-	 * @author:zhuody
-	 * @date: 2017-03-27
-	 * @des: 分级银行审批不通过发送信息
-	 * 
-	 */
-	
-	@Override
-	public void sendBankLevelApproveFalse(String instanceId) {
-		// 发送消息
-		ActRuEventSubScr event = new ActRuEventSubScr();
-		event.setEventType(MessageEnum.BANK_LEVEL_APPROVE_FASLE.getEventType());
-		event.setEventName(MessageEnum.BANK_LEVEL_APPROVE_FASLE.getName());
-		event.setProcInstId(instanceId);
-		event.setActivityId(EventTypeEnum.BANKLEVELAPPROVEEVENTCATCH.getName());
-		
-		ExecuteAction action = new ExecuteAction();
-		action.setAction(EventTypeEnum.BANKLEVELAPPROVEEVENTCATCH.getEventType());
-		action.setMessageName(MessageEnum.BANK_LEVEL_APPROVE_FASLE.getName());
-
-		sendMessage(event,action);
-	}
-	
 }

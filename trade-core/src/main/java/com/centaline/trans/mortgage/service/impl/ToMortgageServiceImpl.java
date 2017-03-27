@@ -589,18 +589,18 @@ public class ToMortgageServiceImpl implements ToMortgageService {
             ToMortgage mortageDb = findToMortgageById(mortage.getPkid());
             ToCase c = toCaseService.findToCaseByCaseCode(mortageDb.getCaseCode());
             
+            //获取流程变量
             String loanerInstCode = workFlowManager.getVar(processInstanceId, "loanerInstCode")==null?"":workFlowManager.getVar(processInstanceId, "loanerInstCode").toString();
             //更新案件信息
             if ("false".equals(tmpBankCheck)) {
                 mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
                 mortageDb.setTmpBankRejectReason(temBankRejectReason);
                 
-				//高级主管审批不通过的情况下 发送失败信息
+				//总监审批不通过的情况下 发送失败信息
                 if(!"".equals(loanerInstCode)){
                 	setLoanerProcessVariable(loanerInstCode,false);                	
-                }
-               
-                //第二步：找到 instcode，设置流程变量bankLevelApprove = false;
+                }               
+             
             } else if ("true".equals(tmpBankCheck)) {
                 mortageDb.setTmpBankStatus(TmpBankStatusEnum.AGREE.getCode());
                 
@@ -612,7 +612,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
             updateToMortgage(mortageDb);
 
-            //更新流程状态为‘4’：已完成
+            //更新流程状态为'4'：已完成
             ToWorkFlow twf = new ToWorkFlow();
             twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
             twf.setCaseCode(caseCode);
@@ -735,15 +735,16 @@ public class ToMortgageServiceImpl implements ToMortgageService {
                 RestVariable restVariableFalse = new RestVariable();
                 restVariableFalse.setType("boolean");
                 restVariableFalse.setValue(false);
-        		messageService.sendBankLevelApproveFalse(loanerInstCode);        		
+        		messageService.sendBankLevelApproveMsg(loanerInstCode,approveFlag);        		
         		workFlowManager.setVariableByProcessInsId(loanerInstCode, "bankLevelApprove", restVariableFalse);
         	}else{
         		
-                RestVariable restVariabletrue = new RestVariable();
-                restVariabletrue.setType("boolean");
-                restVariabletrue.setValue(true);
-        		messageService.sendBankLevelApproveTrue(loanerInstCode);
-        		workFlowManager.setVariableByProcessInsId(loanerInstCode, "bankLevelApprove", restVariabletrue);
+                RestVariable restVariableTrue = new RestVariable();
+                restVariableTrue.setType("boolean");
+                restVariableTrue.setValue(true);
+        		messageService.sendBankLevelApproveMsg(loanerInstCode,approveFlag);
+        		// 设置流程变量
+        		workFlowManager.setVariableByProcessInsId(loanerInstCode, "bankLevelApprove", restVariableTrue);
         	}    
     	}catch(BusinessException e){
     		 throw new BusinessException("银行分级审批消息发送异常！");
