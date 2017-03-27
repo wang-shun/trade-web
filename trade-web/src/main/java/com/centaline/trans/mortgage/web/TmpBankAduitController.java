@@ -23,7 +23,6 @@ import com.centaline.trans.common.enums.TmpBankStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 
@@ -51,25 +50,26 @@ public class TmpBankAduitController {
 	@Autowired(required = true)
 	ToCaseInfoService toCaseInfoService;
 	
+	
 	@RequestMapping("start")
 	@ResponseBody
 	public AjaxResponse<String> startWorkFlow(String caseCode) {	
 		
-	ToWorkFlow twf = new ToWorkFlow();
-	twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
-	twf.setCaseCode(caseCode);
-
-	ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+		ToWorkFlow twf = new ToWorkFlow();
+		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
+		twf.setCaseCode(caseCode);
 	
-	//更新贷款表临时银行状态为默认：‘’
-	ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-	String status = mortage.getTmpBankStatus();
+		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+		
+		//更新贷款表临时银行状态为默认：‘’
+		ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+		String status = mortage.getTmpBankStatus();
+		
+		if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status)){
+			throw new BusinessException("启动失败：流程正在运行或已经结束！");
+		}
 	
-	if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status)){
-		throw new BusinessException("启动失败：流程正在运行或已经结束！");
-	}
-
-	return toMortgageService.startTmpBankWorkFlow(caseCode);
+		return toMortgageService.startTmpBankWorkFlow(caseCode,"");
 	
 	}
 	

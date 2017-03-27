@@ -495,6 +495,16 @@
  	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and IS_ACTIVE='1'
  </select>
  
+ <select id="findToMortgageByCaseCodeAndLoanerId" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+	    select 
+		<include refid="Base_Column_List" />
+	    from sctrans.T_TO_MORTGAGE
+	    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
+	    	  AND LOANER_ID = #{loanerId,jdbcType=VARCHAR} 
+	    	  AND IS_ACTIVE='1'
+  </select> 
+ 
+ 
  <select id="findToMortgageByCaseCodeAndBankType" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" resultMap="ResultMapWithBLOBs"  >
  	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and IS_ACTIVE='1'
  	<if test="isMainLoanBank != null">

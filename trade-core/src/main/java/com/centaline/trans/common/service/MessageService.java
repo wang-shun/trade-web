@@ -31,5 +31,17 @@ public interface MessageService {
 	void sendMessage(ActRuEventSubScr event,ExecuteAction action);
 
 	void sendSpvFinishMsgByIntermi(String instanceId);
+	
+	
+	/***
+	 * @author zhuody
+	 * @date：2017-03-27
+	 * 银行分级审批
+	 * @param event
+	 * @param action
+	 */
+	void sendBankLevelApproveTrue(String instanceId);
+	void sendBankLevelApproveFalse(String instanceId);
+	
 
 }

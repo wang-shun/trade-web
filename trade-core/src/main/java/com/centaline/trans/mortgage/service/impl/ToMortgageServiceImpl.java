@@ -392,7 +392,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
     }
 
     @Override
-    public AjaxResponse<String> startTmpBankWorkFlow(String caseCode) {
+    public AjaxResponse<String> startTmpBankWorkFlow(String caseCode,String loanerInstCode) {
 
         User manager = null, seniorManager = null, director = null;
         AjaxResponse<String> response = new AjaxResponse<String>();
@@ -407,11 +407,16 @@ public class ToMortgageServiceImpl implements ToMortgageService {
             manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Manager");
             String parsentId = uamUserOrgService.getOrgById(orgId).getParentId();
             //查询高级主管
-            seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId,
-                "Senior_Manager");
+            seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId,"Senior_Manager");
             //查询总监
             director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(parsentId, "director");
-
+            
+            
+            //信贷员新流程需要设置的参数
+            if(null != loanerInstCode  && !"".equals(loanerInstCode)){
+            	variables.add(new RestVariable("loanerInstCode", loanerInstCode));
+            }
+            
             variables.add(new RestVariable("Manager", manager.getUsername()));
             /*variables.add(new RestVariable("SeniorManager",
                 seniorManager == null ? null : seniorManager.getUsername()));
@@ -477,7 +482,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
     	//post 区分 主管、高级主管、总监审批
     	 ToCase te = toCaseService.findToCaseByCaseCode(caseCode);
          String orgId = te.getOrgId();
-        SessionUser user = uamSessionService.getSessionUser();
+         SessionUser user = uamSessionService.getSessionUser();
 
         if ("manager".equals(post)) {
             boolean isManagerApprove = false;
@@ -583,13 +588,26 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
             ToMortgage mortageDb = findToMortgageById(mortage.getPkid());
             ToCase c = toCaseService.findToCaseByCaseCode(mortageDb.getCaseCode());
+            
+            String loanerInstCode = workFlowManager.getVar(processInstanceId, "loanerInstCode")==null?"":workFlowManager.getVar(processInstanceId, "loanerInstCode").toString();
             //更新案件信息
             if ("false".equals(tmpBankCheck)) {
                 mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
                 mortageDb.setTmpBankRejectReason(temBankRejectReason);
+                
+				//高级主管审批不通过的情况下 发送失败信息
+                if(!"".equals(loanerInstCode)){
+                	setLoanerProcessVariable(loanerInstCode,false);                	
+                }
+               
+                //第二步：找到 instcode，设置流程变量bankLevelApprove = false;
             } else if ("true".equals(tmpBankCheck)) {
                 mortageDb.setTmpBankStatus(TmpBankStatusEnum.AGREE.getCode());
-                //mortageDb.setTmpBankUpdateTime(new Date());
+                
+                if(!"".equals(loanerInstCode)){
+                	setLoanerProcessVariable(loanerInstCode,true);  
+                }              
+                               
             }
 
             updateToMortgage(mortageDb);
@@ -648,6 +666,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
         return AjaxResponse.success();
     }
 
+    
+    
     @Override
     public ToMortgage getMortgageByCaseCode(String caseCode) {
         return toMortgageMapper.getMortgageByCaseCode(caseCode);
@@ -706,5 +726,28 @@ public class ToMortgageServiceImpl implements ToMortgageService {
         throw new BusinessException("按揭贷款编号为空");
 
     }
-
+    
+    
+    private void setLoanerProcessVariable(String loanerInstCode, boolean approveFlag) {
+    	//银行分级审批通过标志判断发送消息类别    	
+    	try{
+        	if(approveFlag == false){
+                RestVariable restVariableFalse = new RestVariable();
+                restVariableFalse.setType("boolean");
+                restVariableFalse.setValue(false);
+        		messageService.sendBankLevelApproveFalse(loanerInstCode);        		
+        		workFlowManager.setVariableByProcessInsId(loanerInstCode, "bankLevelApprove", restVariableFalse);
+        	}else{
+        		
+                RestVariable restVariabletrue = new RestVariable();
+                restVariabletrue.setType("boolean");
+                restVariabletrue.setValue(true);
+        		messageService.sendBankLevelApproveTrue(loanerInstCode);
+        		workFlowManager.setVariableByProcessInsId(loanerInstCode, "bankLevelApprove", restVariabletrue);
+        	}    
+    	}catch(BusinessException e){
+    		 throw new BusinessException("银行分级审批消息发送异常！");
+    	}
+	
+    }
 }

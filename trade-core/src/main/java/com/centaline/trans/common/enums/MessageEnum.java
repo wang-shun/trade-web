@@ -4,7 +4,9 @@ public enum MessageEnum {
 	
 	START_MORTGAGE_SELECT_MSG("message","StartMortgageSelectMsg","StartMortgageSelectMsg "), 
 	MORTGAGE_FINISH_MSG("message","MortgageFinishMsg", "MortgageFinishMsg"),
-	SPV_FINISH_MSG("message","SpvFinishMsg", "SpvFinishMsg");
+	SPV_FINISH_MSG("message","SpvFinishMsg", "SpvFinishMsg"),	
+	BANK_LEVEL_APPROVE_TRUE("message","BankLevelApproveTrue", "BankLevelApproveTrue"),
+	BANK_LEVEL_APPROVE_FASLE("message","BankLevelApproveFalse", "BankLevelApproveFalse");
 
 	private String eventType;
 

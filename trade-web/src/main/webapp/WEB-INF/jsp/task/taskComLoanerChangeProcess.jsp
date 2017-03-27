@@ -1831,11 +1831,11 @@ function checkInt(obj){
 	}
 	
 	function startTmpBankWorkFlow(){
-		//'我要修改'页面不触发流程 	
+		//'我要修改'页面不触发流程 
 		if(source != null && source !=''){
 			return;
 		}
-		//未选择临时银行
+		
 		if(!$("#isTmpBank").is(':checked')){
 			return;
 		}
