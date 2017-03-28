@@ -157,24 +157,9 @@
 								<div class="ibox" style="width:988px;">
 								<div class="ibox-content">
 								<form id="mortgageForm" class="form_list">
-								    <input type="hidden" name="pkid" id="pkid"/>
+								    <input type="hidden" name="pkid" id="pkid"  value="${mortgage.pkid}"/>
 									<input type="hidden" name="caseCode" value="${caseCode}">									
-		                            <div class="marinfo">		                            
-		                            
-		                            		<div class="line">
-								                <div class="form_content">
-							                        <label class="control-label sign_left_small">银行标记<font color=" red" class="mr5" >*</font></label>
-							                        <div class="controls">							                          
-														<label class="radio inline"> 
-															<input type="radio" value="30003003" checked="checked" id="optionsRadios1" name="bankValid">有效
-														</label>
-														<label class="radio inline">
-															 <input type="radio"  value="30003001" id="optionsRadios2" name="bankValid">无效
-														</label>															
-							                        </div>
-								                 </div>
-								            </div>
-								            
+		                            <div class="marinfo">
 		                                    <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 主贷人<span class="star">*</span></label> 
