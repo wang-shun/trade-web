@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
+import com.aist.common.quickQuery.service.QuerysParseService;
 import com.aist.common.quickQuery.service.QuickGridService;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.common.vo.MobileHolder;
 
 /**
  * eLoan案件控制器
@@ -32,11 +36,58 @@ public class ELoanCaseController {
 	@Resource(name = "quickGridService")
 	private QuickGridService quickGridService;
 
+	@Autowired
+	private QuerysParseService querysParseService;
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private final static String queryELoanCaseDetail = "queryELoanCaseDetail";
 	private final static String queryELoanProcess = "queryELoanProcess";
 	private final static String queryELoanTradeProcess = "queryELoanTradeProcess";
+
+	@RequestMapping(value = "list")
+	@ResponseBody
+	public String list(Integer page, Integer pageSize, String sidx,
+			String sord, String userId, String condition) {
+		JQGridParam gp = new JQGridParam();
+		gp.setPagination(true);
+		gp.setPage(page);
+		gp.setRows(pageSize);
+		gp.setQueryId("eloanCaseListQuery");
+		gp.setSidx(sidx);
+		gp.setSord(sord);
+		Map<String, Object> paramter = new HashMap<String, Object>();
+
+		// SessionUser sessionUser = MobileHolder.getMobileUser();
+		paramter.put("loanerId", userId);
+
+		if (condition != null && !"".equals(condition)) {
+			String formatCondtion = condition.trim();
+			paramter.put("condition", formatCondtion);
+		}
+
+		gp.putAll(paramter);
+		querysParseService.reloadFile();
+		Page<Map<String, Object>> returnPage = quickGridService
+				.findPageForSqlServer(gp, MobileHolder.getMobileUser());
+
+		JSONObject result = new JSONObject();
+		result.put("page", page);
+		result.put("total", returnPage.getTotalPages());
+		result.put("records", returnPage.getTotalElements());
+		result.put("pageSize", pageSize);
+		List<Map<String, Object>> contentList = returnPage.getContent();
+
+		JSONArray content = new JSONArray();
+		for (int i = 0; i < contentList.size(); i++) {
+			Map<String, Object> mapObj = contentList.get(i);
+
+			content.add(JSONObject.toJSON(mapObj));
+		}
+		result.put("rows", content);
+
+		return result.toJSONString();
+	}
 
 	@RequestMapping(value = "/{eLoanCode}")
 	@ResponseBody
@@ -82,7 +133,7 @@ public class ELoanCaseController {
 			List<Map<String, Object>> eLoanCaseTradeProcessMapList) {
 
 		Map<String, Object> contentMap = new HashMap<String, Object>();
-		
+
 		// 结果集map
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
@@ -92,50 +143,94 @@ public class ELoanCaseController {
 			eLoanCaseDetailMap = eLoanCaseDetailMapList.get(0);
 		}
 
-		resultMap.put("prdType", eLoanCaseDetailMap.get("prdType") != null ? eLoanCaseDetailMap.get("prdType") : "");
-		
+		resultMap.put(
+				"prdType",
+				eLoanCaseDetailMap.get("prdType") != null ? eLoanCaseDetailMap
+						.get("prdType") : "");
+
 		Map<String, Object> mortInfoMap = new HashMap<String, Object>();
 		mortInfoMap.put("morCode", eLoanCode);
-		mortInfoMap.put("mortType", eLoanCaseDetailMap.get("mortType") != null ? eLoanCaseDetailMap.get("mortType") : "");
-		mortInfoMap.put("totalAmount", eLoanCaseDetailMap.get("totalAmount") != null ? eLoanCaseDetailMap.get("totalAmount") : "0");
-		mortInfoMap.put("month", eLoanCaseDetailMap.get("month") != null ? eLoanCaseDetailMap.get("month") : "0");
-		mortInfoMap.put("status", eLoanCaseDetailMap.get("eLoanStatus") != null ? eLoanCaseDetailMap.get("eLoanStatus") : "");
-		
+		mortInfoMap.put(
+				"mortType",
+				eLoanCaseDetailMap.get("mortType") != null ? eLoanCaseDetailMap
+						.get("mortType") : "");
+		mortInfoMap
+				.put("totalAmount",
+						eLoanCaseDetailMap.get("totalAmount") != null ? eLoanCaseDetailMap
+								.get("totalAmount") : "0");
+		mortInfoMap.put(
+				"month",
+				eLoanCaseDetailMap.get("month") != null ? eLoanCaseDetailMap
+						.get("month") : "0");
+		mortInfoMap
+				.put("status",
+						eLoanCaseDetailMap.get("eLoanStatus") != null ? eLoanCaseDetailMap
+								.get("eLoanStatus") : "");
+
 		Map<String, Object> yuOperatorMap = new HashMap<String, Object>();
-		yuOperatorMap.put("userId", eLoanCaseDetailMap.get("excutorId") != null ? eLoanCaseDetailMap.get("excutorId") : "");
-		yuOperatorMap.put("name", eLoanCaseDetailMap.get("excutorName") != null ? eLoanCaseDetailMap.get("excutorName") : "");
-		yuOperatorMap.put("mobile", eLoanCaseDetailMap.get("excutorMobile") != null ? eLoanCaseDetailMap.get("excutorMobile") : "");
-		yuOperatorMap.put("org", eLoanCaseDetailMap.get("excutorOrg") != null ?  eLoanCaseDetailMap.get("excutorOrg") : "");
-		
+		yuOperatorMap
+				.put("userId",
+						eLoanCaseDetailMap.get("excutorId") != null ? eLoanCaseDetailMap
+								.get("excutorId") : "");
+		yuOperatorMap
+				.put("name",
+						eLoanCaseDetailMap.get("excutorName") != null ? eLoanCaseDetailMap
+								.get("excutorName") : "");
+		yuOperatorMap
+				.put("mobile",
+						eLoanCaseDetailMap.get("excutorMobile") != null ? eLoanCaseDetailMap
+								.get("excutorMobile") : "");
+		yuOperatorMap
+				.put("org",
+						eLoanCaseDetailMap.get("excutorOrg") != null ? eLoanCaseDetailMap
+								.get("excutorOrg") : "");
+
 		Map<String, Object> custInfoMap = new HashMap<String, Object>();
-		custInfoMap.put("name", eLoanCaseDetailMap.get("customerName") != null ? eLoanCaseDetailMap.get("customerName") : "");
-		custInfoMap.put("mobile", eLoanCaseDetailMap.get("customerMobile") != null ? eLoanCaseDetailMap.get("customerMobile") : ""); 
-		//由于T_TO_ELOAN_CASE没有USER_ID这个字段,所以无法获取该字段信息,所以先暂时设置该字段为空字符串
+		custInfoMap
+				.put("name",
+						eLoanCaseDetailMap.get("customerName") != null ? eLoanCaseDetailMap
+								.get("customerName") : "");
+		custInfoMap
+				.put("mobile",
+						eLoanCaseDetailMap.get("customerMobile") != null ? eLoanCaseDetailMap
+								.get("customerMobile") : "");
+		// 由于T_TO_ELOAN_CASE没有USER_ID这个字段,所以无法获取该字段信息,所以先暂时设置该字段为空字符串
 		custInfoMap.put("custID", "");
-		
+
 		Map<String, Object> tradeInfoMap = new HashMap<String, Object>();
-		tradeInfoMap.put("caseCode", eLoanCaseDetailMap.get("caseCode") != null ? eLoanCaseDetailMap.get("caseCode") : "");
-		tradeInfoMap.put("addr", eLoanCaseDetailMap.get("propertyAddress") != null ? eLoanCaseDetailMap.get("propertyAddress") : "");
-		tradeInfoMap.put("status", eLoanCaseDetailMap.get("caseStatus") != null ? eLoanCaseDetailMap.get("caseStatus") : "");
-		
+		tradeInfoMap.put(
+				"caseCode",
+				eLoanCaseDetailMap.get("caseCode") != null ? eLoanCaseDetailMap
+						.get("caseCode") : "");
+		tradeInfoMap
+				.put("addr",
+						eLoanCaseDetailMap.get("propertyAddress") != null ? eLoanCaseDetailMap
+								.get("propertyAddress") : "");
+		tradeInfoMap
+				.put("status",
+						eLoanCaseDetailMap.get("caseStatus") != null ? eLoanCaseDetailMap
+								.get("caseStatus") : "");
+
 		resultMap.put("mortInfo", mortInfoMap);
 		resultMap.put("yuOperator", yuOperatorMap);
 		resultMap.put("custInfo", custInfoMap);
 		resultMap.put("tradeInfo", tradeInfoMap);
-		
-		if(eLoanCaseProcessMapList == null || eLoanCaseProcessMapList.size() == 0){
-			eLoanCaseProcessMapList = new ArrayList<Map<String,Object>>();
+
+		if (eLoanCaseProcessMapList == null
+				|| eLoanCaseProcessMapList.size() == 0) {
+			eLoanCaseProcessMapList = new ArrayList<Map<String, Object>>();
 		}
-		
-		if(eLoanCaseTradeProcessMapList == null || eLoanCaseTradeProcessMapList.size() == 0){
-			eLoanCaseTradeProcessMapList = new ArrayList<Map<String,Object>>();
+
+		if (eLoanCaseTradeProcessMapList == null
+				|| eLoanCaseTradeProcessMapList.size() == 0) {
+			eLoanCaseTradeProcessMapList = new ArrayList<Map<String, Object>>();
 		}
-		
+
 		resultMap.put("mortProcess", eLoanCaseProcessMapList);
 		resultMap.put("tradeProcess", eLoanCaseTradeProcessMapList);
-		
+
 		contentMap.put("content", resultMap);
-		
+
 		String str = JSONObject.toJSONString(contentMap);
 
 		return str;
