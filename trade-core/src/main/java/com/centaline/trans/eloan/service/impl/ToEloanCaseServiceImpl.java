@@ -110,6 +110,9 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
     	}else{
     		vars.put("Manager", manager==null?null:manager.getUsername());
     	}	
+    	//信贷员
+    	vars.put("Loaner", tEloanCase.getLoanerUserName());
+    	
 /*    	ToEloanCase eloanCase=toEloanCaseMapper.selectByPrimaryKey((long) pkid);*/
     	String demo=propertyUtilsService.getProcessEloanDfKey();
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessEloanDfKey(),tEloanCase.getEloanCode(),vars);
@@ -193,7 +196,10 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		workFlow.setInstCode(tEloanCase.getProcessInstanceId());
 		toWorkFlowService.updateWorkFlowByInstCode(workFlow);
 		
-		taskService.complete(tEloanCase.getTaskId());
+		Map<String, Object> vars = new HashMap<String,Object>();
+    	//交易顾问重新选择信贷员
+    	vars.put("Loaner", tEloanCase.getLoanerUserName());
+		taskService.complete(tEloanCase.getTaskId(),vars);
 		
 		ToEloanCase property = new ToEloanCase();
 		property.setEloanCode(tEloanCase.getEloanCode());

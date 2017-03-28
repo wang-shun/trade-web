@@ -438,6 +438,42 @@ public class WarnListController {
 			return AjaxResponse.fail("操作失败");
 		}
 	}
+	
+	/**
+	 * 信贷员确认申请是否通过
+	 * @param eloanCode
+	 * @param taskId
+	 * @param loanerApprove
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "loanerConfirm")
+	@ResponseBody
+	public AjaxResponse<String> loanerConfirm(String eloanCode, String taskId, String loanerApprove) {
+
+		SessionUser user = uamSessionService.getSessionUser();
+		try {
+			ToEloanCase toEloanCase = new ToEloanCase();
+			toEloanCase.setEloanCode( null==eloanCode ? "":eloanCode);
+			
+			boolean flag = false;
+			Map<String, Object> map = new HashMap<String, Object>();
+			if ("1".equals(loanerApprove)) {
+				toEloanCase.setLoanerId(user.getId());
+				toEloanCase.setLoanerConfTime(new Date());
+				map.put("LoanerApprove", true);
+				flag = true;
+			} else {
+				map.put("LoanerApprove", false);
+			}
+			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase, flag);
+
+			return AjaxResponse.success("操作成功");
+		} catch (Exception e) {
+			logger.debug("信贷员确认申请失败", e);
+			return AjaxResponse.fail("操作失败");
+		}
+	}
 
 	@RequestMapping(value = "validateEloanApply")
 	@ResponseBody
@@ -495,8 +531,7 @@ public class WarnListController {
 	 * processInstanceId, String caseCode,String eContent,String custName,String
 	 * custPhone,String month,String applyAmount
 	 */
-	public AjaxResponse<String> saveEloanApplyConfirm(ToEloanCase eloanCase, String eContent, String approved,
-			String taskId) {
+	public AjaxResponse<String> saveEloanApplyConfirm(ToEloanCase eloanCase, String eContent,String taskId) {
 
 		SessionUser user = uamSessionService.getSessionUser();
 		try {
@@ -514,16 +549,10 @@ public class WarnListController {
 				 * toEloanCase.setMonth(eloanCase.getMonth());
 				 */
 			}
-
-			boolean isUpdate = false;
+			
 			Map<String, Object> map = new HashMap<String, Object>();
-			if ("1".equals(approved)) {
-				map.put("ApplyApprove", true);
-				isUpdate = true;
-			} else {
-				map.put("ApplyApprove", false);
-			}
-			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase, isUpdate);
+			map.put("ApplyApprove", true);//兼容新老流程
+			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase, true);
 
 			// E+借贷审核添加 审核说明，条件审核记录到ToApproveRecord
 			ToApproveRecord toApproveRecord = new ToApproveRecord();

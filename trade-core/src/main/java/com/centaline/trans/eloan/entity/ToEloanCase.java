@@ -98,6 +98,10 @@ public class ToEloanCase {
 	
 	private String loanerPhone; 
 	
+	private String loanerUserName;
+	
+	private Date loanerConfTime;
+	
 	public String getLoanerPhone() {
 		return loanerPhone;
 	}
@@ -473,6 +477,22 @@ public class ToEloanCase {
 
 	public void setCustCardType(String custCardType) {
 		this.custCardType = custCardType;
+	}
+
+	public String getLoanerUserName() {
+		return loanerUserName;
+	}
+
+	public void setLoanerUserName(String loanerUserName) {
+		this.loanerUserName = loanerUserName;
+	}
+
+	public Date getLoanerConfTime() {
+		return loanerConfTime;
+	}
+
+	public void setLoanerConfTime(Date loanerConfTime) {
+		this.loanerConfTime = loanerConfTime;
 	}
 	
 	

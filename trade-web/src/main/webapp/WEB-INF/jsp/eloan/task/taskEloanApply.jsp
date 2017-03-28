@@ -382,7 +382,7 @@
 								<label class="control-label sign_left_two"> <i
 									style="color:red">* </i> 信贷员
 								</label> <input type="text" name="loanerName" id="loanerName"
-									style="background-color: #FFFFFF;" 
+									style="background-color: #FFFFFF;" readonly="readonly"
 									class="sign_right_two input_type" id="txt_proOrgId_gb"
 									value='${eloanCase.loanerName}' onkeyup="onkeyuploanerName()">
 									<i style=" position: absolute; top: 5px; right: 5px; color:#52cdec; " id="loanerNameImage" name ="loanerNameImage" class="icon iconfont"
@@ -393,6 +393,8 @@
 								 <input value="${eloanCase.loanerOrgCode}" type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
 								 <input value="${eloanCase.loanerOrgId}" type="hidden" id="loanerOrgId" name ="loanerOrgId" />
 								 <input value="${eloanCase.loanerId}" type="hidden"  id="loanerId" name="loanerId" />
+								 <input value="${eloanCase.loanerUserName}" type="hidden"  id="loanerUserName" name="loanerUserName" />
+								 
 							</div>
 							 <div class="form_content">
 								<label class="control-label sign_left_two"> 信贷员电话 </label> <input
@@ -437,7 +439,8 @@
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
 		src="${ctx}/js/jquery.editable-select.min.js"></script> 
-		<script	src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> <script
+		<script	src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> 
+		<script
 		src="${ctx}/static/trans/js/workbench/stickDash.js"></script> 
 		<script
 		id="queryCastListItemList" type="text/html">
@@ -1153,12 +1156,14 @@
 						$("#loanerId").val(data.user.id);
 						$("#loanerOrgCode").val(data.user.orgName);
 						$("#loanerOrgId").val(data.user.orgId);
+						$("#loanerUserName").val(data.user.username);
 					}
 				})
 			} else {
 				$("#loanerName").val("");
 				$("#loanerOrgCode").val("");
 				$("#loanerOrgId").val("");
+				$("#loanerUserName").val("");
 			}
 		}
 
