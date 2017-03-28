@@ -8,7 +8,7 @@
     <userTask id="LoanerAcceptApprove" name="银行审核" activiti:assignee="${loanerUserId}" activiti:formKey="/task/bankAcceptTest/process"></userTask>
     <endEvent id="endevent3" name="End"></endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent2" targetRef="LoanerSendOrder"></sequenceFlow>
-    <intermediateCatchEvent id="BankLevelApproveMsgEventCatch" name="Message">
+    <intermediateCatchEvent id="BankLevelApproveMsgEventCatch" name="BankLevelApproveMsgEventCatch">
       <messageEventDefinition messageRef="BankLevelApproveMsg"></messageEventDefinition>
     </intermediateCatchEvent>
     <sequenceFlow id="flow4" sourceRef="LoanerAccept" targetRef="LoanerAcceptApprove">
