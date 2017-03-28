@@ -106,7 +106,7 @@
 				<li class="menuItem"><a href="#spvthree_info">资金方案填写</a></li>
 				<li class="menuItem"><a href="#spvfour_info">上传备件</a></li>
 			</ul>
-			<c:if test="${empty handle or handle eq 'SpvApply'}">
+			<c:if test="${empty handle or handle eq 'SpvApply' or handle eq 'SpvAudit'}">
 			<div class="menu_btn"
 				style="margin-left: 960px; margin-top: 7px;">
 				<button id="saveBtn" class="btn btn-warning">保存</button>
@@ -116,7 +116,7 @@
 		<div class="row">
 			<div class="wrapper wrapper-content animated fadeInUp">
 			                    <!-- <div class="ibox"> -->
-			      <c:if test="${empty handle or handle eq 'SpvApply'}">
+			      <c:if test="${empty handle or handle eq 'SpvApply' or handle eq 'SpvAudit'}">
                     <div class="ibox-content" id="case_info">
                         <div class="main_titile" style="position: relative;">
                             
@@ -671,7 +671,7 @@
 							</div>
 						</div>
 							
-						<c:if test="${empty handle or handle eq 'SpvApply' }">
+						<c:if test="${empty handle or handle eq 'SpvApply' or handle eq 'SpvAudit'}">
 						<div class="form-row form-rowbot">
 						<div class="form-group form-margin form-space-one">
 								<a onClick="getAccTr()">添加账户</a>
@@ -786,7 +786,7 @@
 										<td class="text-left"><input name="toSpvDeDetailList[${status.index }].deAddition" value="${toSpvDeDetail.deAddition }" class="table-input"
 											type="text" placeholder="" /></td>
 										<td align="center">
-										<c:if test="${empty handle  or handle eq 'SpvApply'}">
+										<c:if test="${empty handle  or handle eq 'SpvApply' or handle eq 'SpvAudit'}">
 										<a href="javascript:void(0)" onClick="getAtr(this)">添加</a>
 										<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a>
 										</c:if>
@@ -1457,14 +1457,14 @@
 					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager','eselect'],function($,aistFileUpload){
 						fileUpload = aistFileUpload;
 						var handle = $("#handle").val();
-						if(handle == "SpvAudit" || handle == "SpvApprove" || handle == "SpvSign"){
+						if(handle == "SpvApprove" || handle == "SpvSign"){
 							fileUpload.init({
 					    		caseCode : $('#caseCode').val(),
 					    		partCode : "SpvApplyApprove",
 					    		fileUploadContainer : "fileUploadContainer",
 					    		readonly : true
 					    	});
-						}else if(handle == "" || handle == "SpvApply"){
+						}else if(handle == "" || handle == "SpvApply" || handle == "SpvAudit"){
 							if($('#caseCode').val() != ''){
 								fileUpload.init({
 						    		caseCode : $('#caseCode').val(),

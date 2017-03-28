@@ -41,7 +41,7 @@ $(document).ready(function(){
 		}).change();
 		
 		//流程开启后只读表单
-		if($("#handle").val() != '' && $("#handle").val() != 'SpvApply'){
+		if($("#handle").val() != '' && $("#handle").val() != 'SpvApply' && $("#handle").val() != 'SpvAudit'){
 		    readOnlyRiskForm();
 		}
 
@@ -269,7 +269,7 @@ $(document).ready(function(){
 	 			success : function(data) {
 				    	 if(data.success){
 				    		 if($("#urlType").val() == 'myTask'){    	
-		 			        	window.wxc.success("提交成功！",{"wxcOk":function(){
+		 			        	window.wxc.success("保存成功！",{"wxcOk":function(){
 		 			        		window.opener.location.reload(); //刷新父窗口
 			 			        	window.close(); //关闭子窗口.
 		 				  		}});
@@ -1133,7 +1133,7 @@ $(document).ready(function(){
 	    	data.sellerAccountBranchBank = $("input[name='toSpvAccountList[1].branchBank']").val();
 	    }
     	//申请时验证参数
-    	if(handle == 'SpvApply' || handle == 'SpvSign'){
+    	if(handle == 'SpvApply' || handle == 'SpvSign' || handle == 'SpvAudit'){
     	  if(!checkFormSubmit()){
       		  return false;
       	  }
@@ -1176,7 +1176,7 @@ $(document).ready(function(){
     }
     
     function requestUrl(handle,url,data){
-    	if(handle == 'SpvApply'){
+    	if(handle == 'SpvApply' || handle == 'SpvAudit'){
           var totalArr = [];
        	  $("form").each(function(){
        		var obj = $(this).serializeArray();
@@ -1187,6 +1187,10 @@ $(document).ready(function(){
             	totalArr.push(obj[i]);
        		}
        	  });
+       	if(handle == 'SpvAudit'){
+       		totalArr.push({name:'spvApplyApprove',value:data.spvApplyApprove});
+       		totalArr.push({name:'remark',value:data.remark});
+        }
           data = totalArr;
     	}
 

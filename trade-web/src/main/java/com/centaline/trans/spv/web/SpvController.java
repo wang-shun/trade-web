@@ -696,13 +696,13 @@ public class SpvController {
      */
     @RequestMapping("spvAudit/deal")
     @ResponseBody
-	public AjaxResponse<?> spvAudit(String spvCode, Boolean spvApplyApprove, String caseCode, String source, String instCode, 
+	public AjaxResponse<?> spvAudit(SpvBaseInfoVO spvBaseInfoVO, String spvCode, Boolean spvApplyApprove, String caseCode, String source, String instCode, 
 			String taskId, String remark){
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
     		//保存相关信息
     		SessionUser user= uamSessionService.getSessionUser();
-    		toSpvService.spvAudit(spvApplyApprove, spvCode, caseCode, source, instCode, taskId, remark, user);
+    		toSpvService.spvAudit(spvBaseInfoVO, spvApplyApprove, spvCode, caseCode, source, instCode, taskId, remark, user);
     		response.setSuccess(true);
 		} catch (Exception e) {
 			setExMsgForResp(response,e);

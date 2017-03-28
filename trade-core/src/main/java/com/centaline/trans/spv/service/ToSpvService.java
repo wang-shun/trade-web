@@ -245,7 +245,7 @@ public interface ToSpvService {
 	void spvApply(SpvBaseInfoVO spvBaseInfoVO, String spvCode, String caseCode, String source, String instCode,
 			String taskId, SessionUser user);
 
-	void spvAudit(Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,
+	void spvAudit(SpvBaseInfoVO spvBaseInfoVO, Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,
 			String taskId, String remark, SessionUser user);
 
 	void spvApprove(Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,

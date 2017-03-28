@@ -1786,8 +1786,11 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 
 	@Override
-	public void spvAudit(Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,
+	public void spvAudit(SpvBaseInfoVO spvBaseInfoVO, Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,
 			String taskId, String remark, SessionUser user) {
+		
+		saveNewSpv(spvBaseInfoVO, user);
+		
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 
 		variables.add(new RestVariable("SpvOfficerApprove",spvApplyApprove));
@@ -1814,8 +1817,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 		toApproveRecord.setProcessInstance(instCode);		
 		
 		toApproveRecordService.insertToApproveRecord(toApproveRecord);
-
-		updateByPrimaryKey(spv);
 	}
 
 	@Override
