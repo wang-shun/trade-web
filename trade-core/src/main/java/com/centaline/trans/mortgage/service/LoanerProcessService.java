@@ -29,6 +29,14 @@ public interface LoanerProcessService {
 			String processInstanceId, String caseCode);
 
 
+    /**
+     * 信贷员派单流程结束
+     * @param caseCode
+     * @return
+     */
+	AjaxResponse<String> loanerProcessDelete(String caseCode, String taskitem,String processInstanceId);
+
+
 
 
 }

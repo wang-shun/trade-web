@@ -220,4 +220,34 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
         
          return response;      
     }
+
+
+
+	@Override
+	public AjaxResponse<String> loanerProcessDelete(String caseCode,String taskitem, String processInstanceId) {
+		
+		AjaxResponse<String>  response = new AjaxResponse<String>();
+		if((null == caseCode ||"".equals(caseCode)) || (null == taskitem ||"".equals(taskitem)) || (null == processInstanceId ||"".equals(processInstanceId)) ){
+			throw new BusinessException("结束  交易顾问派单流程请求参数异常！");			
+		}	
+		
+		try{
+	        ToWorkFlow workFlow = new ToWorkFlow();
+	        workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getCode());//Loaner_Process:1:1012544
+	        workFlow.setCaseCode(caseCode);
+	        ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
+	        if (record != null) {
+	            record.setStatus(WorkFlowStatus.COMPLETE.getCode());
+	            toWorkFlowService.updateByPrimaryKeySelective(record);
+	        }
+	        
+	        response.setSuccess(true);
+	        response.setMessage("交易顾问派单流程成功结束！");
+		}catch(BusinessException e) {
+	      	response.setSuccess(false);
+	      	throw new BusinessException("交易顾问派单流程结束异常！");
+	     } 
+		
+		return response;
+	}
 }

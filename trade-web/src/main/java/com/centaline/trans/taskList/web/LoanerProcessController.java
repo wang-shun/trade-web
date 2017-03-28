@@ -54,6 +54,7 @@ public class LoanerProcessController {
 	
 	
 	/*
+	 * 手机端实现
 	 * @author:zhuody
 	 * @date:2017-03-27
 	 * @des:信贷员接单流程启动
@@ -78,6 +79,7 @@ public class LoanerProcessController {
 	
 	
 	/*
+	 * 手机端实现
 	 * @author:zhuody
 	 * @date:2017-03-27
 	 * @des:信贷员接单流程启动
@@ -136,6 +138,46 @@ public class LoanerProcessController {
 
 		
 		return "task/taskBankAccept";
+	}
+	
+	
+	/*
+	 * @author:zhuody
+	 * @date:2017-03-28
+	 * @des:信贷员流程 结束
+	 * */
+	@RequestMapping(value = "loanerProcessSubmit")
+	public AjaxResponse<String> loanerProcessSubmit(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskitem, String processInstanceId) {
+		
+		AjaxResponse<String>  responseStr = new AjaxResponse<String>();
+		//根据caseCode去查询相关页面信息，并且设置 页面的流程变量
+		try{
+			responseStr = loanerProcessService.loanerProcessDelete(caseCode,taskitem,processInstanceId);
+		}catch(BusinessException e){
+			throw new BusinessException("交易顾问派单流程删除异常！");
+		}
+		
+		return responseStr;
+	}
+	
+	
+	/*
+	 * @author:zhuody
+	 * @date:2017-03-28
+	 * @des:信贷员流程 结束
+	 * */
+	@RequestMapping(value = "loanerProcessDelete")
+	public AjaxResponse<String> loanerProcessDelete(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskitem, String processInstanceId) {
+		
+		AjaxResponse<String>  responseStr = new AjaxResponse<String>();
+		//根据caseCode去查询相关页面信息，并且设置 页面的流程变量
+		try{
+			responseStr = loanerProcessService.loanerProcessDelete(caseCode,taskitem,processInstanceId);
+		}catch(BusinessException e){
+			throw new BusinessException("交易顾问派单流程删除异常！");
+		}
+		
+		return responseStr;
 	}
 	
 	
