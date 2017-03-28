@@ -167,7 +167,7 @@ function checkFormSubmit(){
     });
     
     if(!imgFlag){
-    	window.wxc.alert("需要上传至少一张附件！");
+    	window.wxc.alert("出账申请附件和凭证附件都需要上传至少一张附件！");
     	return false;
     }
     

@@ -641,6 +641,7 @@
 								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account" disabled="disabled"
 								    <%-- value="${spvBaseInfoVO.toSpvAccountList[2].account }" --%> value="76310188000148842"
 									class="form-control input-two" placeholder="">
+									<input type="hidden" name="toSpvAccountList[2].account" value="76310188000148842">
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
@@ -659,12 +660,14 @@
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"  disabled="disabled"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].account }"
-									class="form-control input-two" placeholder="">			
+									class="form-control input-two" placeholder="">
+									<input type="hidden" name="toSpvAccountList[3].account" value="${spvBaseInfoVO.toSpvAccountList[3].account }">
 							</div>
 							<div class="form-group form-margin form-space-one">
 							    <label for="" class="lable-one">开户行</label> <input type="text" name="toSpvAccountList[3].branchBank"  disabled="disabled"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].branchBank }"
 									class="form-control input-three" placeholder="">
+									<input type="hidden" name="toSpvAccountList[3].branchBank" value="${spvBaseInfoVO.toSpvAccountList[3].branchBank }">
 							</div>
 						</div>
 							
@@ -1249,29 +1252,26 @@
 		}
 		
 		function delAccTr(this_){
-			var deleteFlag = true;
+			var deleteComfirm = false;
 			var accountType = $(this_).parents('.form-rowbot').prev().find('input[name$="accountType"]').val();
 			$("select[name^='toSpvDeDetailList'][name$='payeeAccountType']").each(function(i,e){
 				var eVal = $(e).val();
 				if(eVal == accountType){
-					
-					window.wxc.confirm("出款约定中已选择该账户类型，是否确定删除?",{"wxcOk":function(){
-						$(this_).parents('.form-rowbot').prev().remove();
-						$(this_).parents('.form-rowbot').remove();
-						updateAccTypeOptions();
-						
-						return false;
-					}});
+					deleteComfirm = true;
 				}
 			});
 			
-			/* if(!deleteFlag){
-				return false;
+			if(deleteComfirm){
+				window.wxc.confirm("出款约定中已选择该账户类型，是否确定删除?",{"wxcOk":function(){
+					$(this_).parents('.form-rowbot').prev().remove();
+					$(this_).parents('.form-rowbot').remove();
+					updateAccTypeOptions();
+				}});
+			}else{
+				$(this_).parents('.form-rowbot').prev().remove();
+				$(this_).parents('.form-rowbot').remove();
+				updateAccTypeOptions();
 			}
-			
-			$(this_).parents('.form-rowbot').prev().remove();
-			$(this_).parents('.form-rowbot').remove();
-			updateAccTypeOptions(); */
 		}
 		
 		/**
@@ -1454,7 +1454,7 @@
 	       <script>
 	       		var fileUpload;
 			    require(['main'], function() {
-					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager'],function($,aistFileUpload){
+					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager','eselect'],function($,aistFileUpload){
 						fileUpload = aistFileUpload;
 						var handle = $("#handle").val();
 						if(handle == "SpvAudit" || handle == "SpvApprove" || handle == "SpvSign"){
@@ -1465,11 +1465,13 @@
 					    		readonly : true
 					    	});
 						}else if(handle == "" || handle == "SpvApply"){
-							fileUpload.init({
-					    		caseCode : $('#caseCode').val(),
-					    		partCode : "SpvApplyApprove",
-					    		fileUploadContainer : "fileUploadContainer"
-					    	});
+							if($('#caseCode').val() != ''){
+								fileUpload.init({
+						    		caseCode : $('#caseCode').val(),
+						    		partCode : "SpvApplyApprove",
+						    		fileUploadContainer : "fileUploadContainer"
+						    	});
+							}
 						}
 				    });
 			    });

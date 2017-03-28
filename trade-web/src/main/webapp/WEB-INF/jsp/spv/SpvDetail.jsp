@@ -84,7 +84,7 @@
 									<dt>风控专员</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：${createPhone}">${spvBaseInfoVO.toSpv.createBy}</a>
+											data-placement="right" data-content="手机：${createPhone}">${officer}</a>
 									</dd>
 									<dt>风控总监</dt>
 									<dd>
@@ -122,7 +122,7 @@
 									</div>
 									<div class="col-lg-4 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${spvBaseInfoVO.toSpv.status>=2 && spvBaseInfoVO.toSpv.signTime!=undefined}"> complete
+										    <c:when test="${spvBaseInfoVO.toSpv.status>=1 && spvBaseInfoVO.toSpv.signTime!=undefined}"> complete
 										   </c:when>    
 										   <c:otherwise> 
 										   disabled
@@ -143,7 +143,7 @@
 									</div>
 									<div class="col-lg-4 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${spvBaseInfoVO.toSpv.status>=3 && spvBaseInfoVO.toSpv.closeTime!=undefined}"> complete
+										    <c:when test="${spvBaseInfoVO.toSpv.status>=4 && spvBaseInfoVO.toSpv.closeTime!=undefined}"> complete
 										   </c:when>    
 										   <c:otherwise> 
 										   disabled
@@ -158,7 +158,7 @@
 											<dl>
 												<dd>
 											<c:choose>  
-										    <c:when test="${spvBaseInfoVO.toSpv.status==7 && spvBaseInfoVO.toSpv.closeTime!=undefined}"> 
+										    <c:when test="${(spvBaseInfoVO.toSpv.status==7 || spvBaseInfoVO.toSpv.status==8) && spvBaseInfoVO.toSpv.closeTime!=undefined}"> 
 										     <span>中止（时间：<fmt:formatDate value="${spvBaseInfoVO.toSpv.closeTime}" pattern="yyyy-MM-dd" />）</span>
 										    </c:when>    
 										    <c:otherwise> 
