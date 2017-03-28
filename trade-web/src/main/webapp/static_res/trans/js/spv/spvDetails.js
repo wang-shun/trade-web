@@ -232,6 +232,10 @@ $(document).ready(function(){
 });
     
     function saveNewSpv(){
+    	if(!checkFormSave()){
+    		return false;
+    	}
+    	
    	  	var totalArr = [];
 	      	  $("form").each(function(){
 	      		 var obj = $(this).serializeArray();

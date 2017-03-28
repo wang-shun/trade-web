@@ -18,10 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.aist.common.exception.BusinessException;
-import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
@@ -1812,7 +1810,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		toApproveRecord.setOperator(user.getId());
 		toApproveRecord.setTaskId(taskId);
 		toApproveRecord.setOperatorTime(new Date());
-		toApproveRecord.setPartCode("SpvOfficerApprove");//todo
+		toApproveRecord.setPartCode("SpvApplyApprove");//todo
 		toApproveRecord.setProcessInstance(instCode);		
 		
 		toApproveRecordService.insertToApproveRecord(toApproveRecord);
@@ -1845,7 +1843,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		toApproveRecord.setOperator(user.getId());
 		toApproveRecord.setTaskId(taskId);
 		toApproveRecord.setOperatorTime(new Date());
-		toApproveRecord.setPartCode("SpvDirectorApprove");//todo
+		toApproveRecord.setPartCode("SpvApplyApprove");//todo
 		toApproveRecord.setProcessInstance(instCode);		
 		
 		toApproveRecordService.insertToApproveRecord(toApproveRecord);

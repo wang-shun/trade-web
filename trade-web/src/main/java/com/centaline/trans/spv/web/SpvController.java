@@ -182,10 +182,10 @@ public class SpvController {
 		*/
 		ToSpv spv= toSpvService.selectByPrimaryKey(pkid);
 		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(pkid);
-		User user=uamUserOrgService.getUserById(spvBaseInfoVO.getToSpv().getCreateBy());
-		String name=user.getRealName();
-		String phone=user.getMobile();
-		spvBaseInfoVO.getToSpv().setCreateBy(name);
+		User officer=uamUserOrgService.getUserById(spvBaseInfoVO.getToSpv().getRiskControlOfficer());
+		String name=officer.getRealName();
+		String phone=officer.getMobile();
+		//spvBaseInfoVO.getToSpv().setCreateBy(name);
 		//经办人
 		ToCase toCase= toCaseService.findToCaseByCaseCode(spv.getCaseCode());
 		//申请人
@@ -196,7 +196,7 @@ public class SpvController {
 			jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		}
 		//风控总监
-		List<User> zj =uamUserOrgService.getUserByOrgIdAndJobCode(user.getOrgId(), "JYFKZJ");
+		List<User> zj =uamUserOrgService.getUserByOrgIdAndJobCode(officer.getOrgId(), "JYFKZJ");
 		User FKZJ=new User();
 		if(zj.size()>0){
 			FKZJ=zj.get(0);
@@ -204,9 +204,9 @@ public class SpvController {
 		//驳回原因
     if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 		ToWorkFlow record=new ToWorkFlow();
-		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
 		record.setBizCode(spv.getSpvCode());
-	    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByBizCodeBusKey(record);
+		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
+	    ToWorkFlow workFlow= flowService.queryToWorkFlowByBizCodeBusKey(record);
 		 
 		//查询审核结果
 	    if(workFlow !=null){
@@ -223,6 +223,7 @@ public class SpvController {
         cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
         request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
+		request.setAttribute("officer", officer == null?null:officer.getRealName());
 		request.setAttribute("jingban", jingban == null?null:jingban.getRealName());
 	    request.setAttribute("zj",FKZJ);
 	    request.setAttribute("applyUser",applyUser);

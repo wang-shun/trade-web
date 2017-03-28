@@ -656,12 +656,14 @@
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"  readOnly="readOnly"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].account }"
-									class="form-control input-two" placeholder="">			
+									class="form-control input-two" placeholder="">
+									<input type="hidden" name="toSpvAccountList[3].account" value="${spvBaseInfoVO.toSpvAccountList[3].account }">
 							</div>
 							<div class="form-group form-margin form-space-one">
 							    <label for="" class="lable-one">开户行</label> <input type="text" name="toSpvAccountList[3].branchBank"  readOnly="readOnly"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].branchBank }"
 									class="form-control input-three" placeholder="">
+									<input type="hidden" name="toSpvAccountList[3].branchBank" value="${spvBaseInfoVO.toSpvAccountList[3].branchBank }">
 							</div>
 						</div>
 							
@@ -1262,13 +1264,17 @@
 				}
 			});
 			
-			/* if(!deleteFlag){
-				return false;
+			if(deleteComfirm){
+				window.wxc.confirm("出款约定中已选择该账户类型，是否确定删除?",{"wxcOk":function(){
+					$(this_).parents('.form-rowbot').prev().remove();
+					$(this_).parents('.form-rowbot').remove();
+					updateAccTypeOptions();
+				}});
+			}else{
+				$(this_).parents('.form-rowbot').prev().remove();
+				$(this_).parents('.form-rowbot').remove();
+				updateAccTypeOptions();
 			}
-			
-			$(this_).parents('.form-rowbot').prev().remove();
-			$(this_).parents('.form-rowbot').remove();
-			updateAccTypeOptions(); */
 		}
 		
 		/**
