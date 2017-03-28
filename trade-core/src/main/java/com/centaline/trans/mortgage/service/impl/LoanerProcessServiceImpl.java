@@ -104,16 +104,18 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			}
 			User loaner = uamUserOrgService.getUserById(loanerUserId);
 			
-			//loanerUserId = "39AB6F35DD96436EAA4B93D8A6B12380";  //测试，这个userId 为蒲亚萍的userId
-			variables.add(new RestVariable("loanerUserId", loanerUserId));
+			
+			
+			//variables.add(new RestVariable("loanerUserId", loanerUserId));
+			variables.add(new RestVariable("loanerUserId", "puyp"));
 			variables.add(new RestVariable("bankLevel", bankLevel)); 
-			variables.add(new RestVariable("sessionUserId", user.getId()));   //派单人	
+			variables.add(new RestVariable("sessionUserId", user.getUsername()));   //派单人	
 
             
             //启动 			
             ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode, variables);
-            StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process,loaner.getUsername(), caseCode);
-            
+            //StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process,loaner.getUsername(), caseCode);
+            StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process,"puyp", caseCode);
             
             
             Map<String,Object>  map = new HashMap<String,Object>();
@@ -164,11 +166,11 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
         try{
          	//信贷员接单
         	if(isLonaerAcceptCase == true){
-    			variables.add(new RestVariable("loanerUserId", user.getId()));
+    			variables.add(new RestVariable("loanerUserId", user.getUsername()));
     			variables.add(new RestVariable("loanerAccept", true));
     			
         	}else{
-    			variables.add(new RestVariable("loanerUserId", user.getId()));
+    			variables.add(new RestVariable("loanerUserId", user.getUsername()));
     			variables.add(new RestVariable("loanerAccept", false));
         	}
         	//提交流程

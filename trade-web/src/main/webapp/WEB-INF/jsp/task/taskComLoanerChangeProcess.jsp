@@ -356,9 +356,9 @@
 		                </div>
 					</section>
 				</div>
-            </div>
+              </div>
         	</div>
-        	</div>
+          </div>
         </div>
       </div>
      </div>
@@ -400,8 +400,6 @@ function readOnlyForm(){
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script src="${ctx}/js/stickUp.js"></script>
 <!-- 改版引入的新的js文件 --> 
-<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
-<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 <script>

@@ -4,9 +4,9 @@
   <message id="TempBankAduitFinishMessage" name="TempBankAduitFinishMessage"></message>
   <process id="Loaner_Process" name="Loaner_Process" isExecutable="true">
     <startEvent id="startevent2" name="Start"></startEvent>
-    <userTask id="LoanerSendOrder" name="交易顾问派单" activiti:assignee="${sessionUserId}" activiti:formKey="/loaner/comLoanerChange/process"></userTask>
-    <userTask id="LoanerAccept" name="信贷员接单" activiti:assignee="${loanerUserId}" activiti:formKey="/loaner/loanerAcceptTest/process"></userTask>
-    <userTask id="LoanerAcceptApprove" name="银行审核" activiti:assignee="${loanerUserId}" activiti:formKey="/loaner/bankAcceptTest/process"></userTask>
+    <userTask id="LoanerSendOrder" name="交易顾问派单" activiti:assignee="${sessionUserId}" activiti:formKey="/task/comLoanerChange/process"></userTask>
+    <userTask id="LoanerAccept" name="信贷员接单" activiti:assignee="${loanerUserId}" activiti:formKey="/task/loanerAcceptTest/process"></userTask>
+    <userTask id="LoanerAcceptApprove" name="银行审核" activiti:assignee="${loanerUserId}" activiti:formKey="/task/bankAcceptTest/process"></userTask>
     <endEvent id="endevent3" name="End"></endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent2" targetRef="LoanerSendOrder"></sequenceFlow>
     <intermediateCatchEvent id="BankLevelApproveMsgEventCatch" name="Message">

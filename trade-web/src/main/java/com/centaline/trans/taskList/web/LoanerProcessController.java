@@ -1,4 +1,4 @@
-package com.centaline.trans.mortgage.web;
+package com.centaline.trans.taskList.web;
 
 
 
@@ -17,7 +17,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.mortgage.service.LoanerProcessService;
 
 @Controller
-@RequestMapping(value = "/loaner")
+@RequestMapping(value = "/task")
 public class LoanerProcessController {
 	
 	@Autowired(required = true)
@@ -121,20 +121,6 @@ public class LoanerProcessController {
 	}
 	
 	
-	/*
-	 * @author:zhuody
-	 * @date:2017-03-27
-	 * @des:信贷员接单流程页面
-	 * */
-	@RequestMapping(value = "loanerAcceptTest/process")
-	public String loanerAcceptTest(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
-			String taskitem, String processInstanceId) {
-		
-		
-
-		return "task/taskLoanerAccept";
-	}
-	
 	
 	/*
 	 * @author:zhuody
@@ -153,6 +139,66 @@ public class LoanerProcessController {
 	}
 	
 	
+/*	
+	
+	@RequestMapping(value = "submit")
+	@ResponseBody
+	public boolean submit(HttpServletRequest request,FirstFollowVO firstFollowVO) {
+		SessionUser user = uamSessionService.getSessionUser();
+		firstFollowVO.setUserId(user.getId());
+		firstFollowVO.setUserOrgId(getOrgId(user.getId()));
+		firstFollowVO.setUserName(user.getUsername());
+		
+		firstFollowService.saveFirstFollow(firstFollowVO);
+
+		 无效案件保存到审批记录表 
+		if (firstFollowVO.getCaseProperty().equals("30003001")) {
+			saveToApproveRecord(firstFollowVO, firstFollowVO.getOperator(),	firstFollowVO.getApproveType());
+		} else {
+			firstFollowVO = firstFollowService.switchWorkFlowWithCurrentVersion(firstFollowVO);
+		}
+
+		 流程引擎相关 
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		RestVariable restVariable = new RestVariable();
+		restVariable.setName("isvalid");
+		restVariable.setValue(firstFollowVO.getCaseProperty().equals("30003001"));
+		variables.add(restVariable);
+		if (firstFollowVO.getCaseProperty().equals("30003001")) {
+			if (!StringUtils.isBlank(firstFollowVO.getInvalid_reason())) {
+				RestVariable restVariable6 = new RestVariable();
+				restVariable6.setName("invalid_reason");
+				restVariable6.setValue(firstFollowVO.getInvalid_reason());
+				variables.add(restVariable6);
+			}
+		} else {
+			RestVariable restVariable3 = new RestVariable(); 限购 
+			restVariable3.setName("PurLimitCheckNeed");
+			RestVariable restVariable4 = new RestVariable(); 抵押 
+			restVariable4.setName("LoanCloseNeed");
+
+			restVariable3
+					.setValue(firstFollowVO.getChaxiangou().equals("true"));
+			restVariable4.setValue(firstFollowVO.getDiya().equals("true"));
+
+			variables.add(restVariable3);
+			variables.add(restVariable4);
+
+			// variables = editRestVariables(variables,
+			// firstFollowVO.getMortageService());
+		}
+		RestVariable signAssignee = new RestVariable();
+		signAssignee.setName("signAssignee");
+		signAssignee.setValue(user.getUsername());
+		variables.add(signAssignee);
+		ToCase toCase = toCaseService.findToCaseByCaseCode(firstFollowVO
+				.getCaseCode());
+		return workFlowManager.submitTask(variables, firstFollowVO.getTaskId(),
+				firstFollowVO.getProcessInstanceId(),
+				toCase.getLeadingProcessId(), firstFollowVO.getCaseCode());
+		// return false;
+	}
+	*/
 	
 
 }

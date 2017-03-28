@@ -216,5 +216,9 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	public String getProcessPSFLoanDfKey() {
 		return processPSFLoanDfKey;
 	}
+	
+	public String getProcessLoanerDfKey() {
+		return processLoanerDfKey;
+	}
 
 }

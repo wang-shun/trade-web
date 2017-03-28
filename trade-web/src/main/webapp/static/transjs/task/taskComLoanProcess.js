@@ -1410,13 +1410,14 @@ $(document).ready(function () {
  			//第五步：更新备选银行信息 需要判断是否主选银行 审核通过
  			
  			
- 			var bankLevel = $("#finOrgCode").attr("colevel");//所选银行分行级别
+ 			var bankLevel = $("#finOrgCode").find('option:selected').attr('coLevel');//所选银行分行级别 
  			//以下参数查询  银行的接单数配置，超过配置则不能选择信贷员
  			var loanerUserId = $("#loanerId").val();		//所选信贷员的userId
  			var loanerOrgId = $("#loanerOrgId").val();		//所选信贷员的OrgId
  			var bankOrgCode = $("#finOrgCode").val();		//所选银行分行的OrgCode
  			
  			alert("银行等级======"+bankLevel);
+ 			alert("银行code======"+bankOrgCode);
  			if(bankLevel == 0){
  				//A级   合作银行不需要 审核
  				startLoanerOrderWorkFlow(bankLevel);
@@ -1771,7 +1772,7 @@ function  startLoanerOrderWorkFlow(bankLevel){
 	 };
 	
  	$.ajax({
-	    url:ctx+"/loaner/sendOrderStart",
+	    url:ctx+"/task/sendOrderStart",
 	    async:false,
     	method:"post",
     	dataType:"json",
