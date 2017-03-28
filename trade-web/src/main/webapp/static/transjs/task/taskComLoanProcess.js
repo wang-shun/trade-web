@@ -1770,7 +1770,7 @@ function  startLoanerOrderWorkFlow(bankLevel){
 	   "bankOrgCode":bankOrgCode,
 	   "bankLevel":bankLevel
 	 };
-	
+	alert(ctx+"/task/sendOrderStart");
  	$.ajax({
 	    url:ctx+"/task/sendOrderStart",
 	    async:false,

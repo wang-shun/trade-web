@@ -246,14 +246,21 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
      * 
      */
 	@Override
-	public AjaxResponse<String> loanerProcessDelete(String caseCode,String taskitem, String processInstanceId) {
+	public AjaxResponse<String> loanerProcessDelete(String caseCode,String taskId, String processInstanceId) {
 		
 		AjaxResponse<String>  response = new AjaxResponse<String>();
-		if((null == caseCode ||"".equals(caseCode)) || (null == taskitem ||"".equals(taskitem)) || (null == processInstanceId ||"".equals(processInstanceId)) ){
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		if((null == caseCode ||"".equals(caseCode)) || (null == taskId ||"".equals(taskId)) || (null == processInstanceId ||"".equals(processInstanceId)) ){
 			throw new BusinessException("结束交易顾问派单流程请求参数异常！");			
 		}	
 		
 		try{
+			//结束流程
+			variables.add(new RestVariable("mainBankChoose", true));
+	    	//提交流程
+	        workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
+	        
+	        //更新流程表的状态
 	        ToWorkFlow workFlow = new ToWorkFlow();
 	        workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getCode());//Loaner_Process:1:1012544
 	        workFlow.setCaseCode(caseCode);
