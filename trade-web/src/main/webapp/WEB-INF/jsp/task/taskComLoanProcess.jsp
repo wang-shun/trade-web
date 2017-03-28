@@ -1847,7 +1847,12 @@ function checkInt(obj){
 	    	dataType:"json",
 	    	data:{caseCode:$("#caseCode").val()},
 	    	success:function(data){
-	    		window.wxc.success(data.message);
+	    		if(data.success){
+	    			window.wxc.success(data.message);
+	    		}else{
+	    			window.wxc.error("流程开启失败！\n"+data.message);
+	    		}
+	    		
 	    	}
 	 	});
 

@@ -54,23 +54,32 @@ public class TmpBankAduitController {
 	@RequestMapping("start")
 	@ResponseBody
 	public AjaxResponse<String> startWorkFlow(String caseCode) {	
+		AjaxResponse<String> response = new AjaxResponse<>();
+		try {
+			ToWorkFlow twf = new ToWorkFlow();
+			twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
+			twf.setCaseCode(caseCode);
 		
-	ToWorkFlow twf = new ToWorkFlow();
-	twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
-	twf.setCaseCode(caseCode);
-
-	ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-	
-	//更新贷款表临时银行状态为默认：‘’
-	ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-	String status = mortage.getTmpBankStatus();
-	
-	if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status)){
-		throw new BusinessException("启动失败：流程正在运行或已经结束！");
-	}
-
-	return toMortgageService.startTmpBankWorkFlow(caseCode);
-	
+			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+			
+			//更新贷款表临时银行状态为默认：‘’
+			ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+			String status = mortage.getTmpBankStatus();
+			
+			if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status)){
+				throw new BusinessException("启动失败：流程正在运行或已经结束！");
+			}
+		
+			response = toMortgageService.startTmpBankWorkFlow(caseCode);
+			response.setSuccess(true);
+			response.setMessage("流程开启成功！");
+		} catch (Exception e) {
+			response.setSuccess(false);
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		
+	    return response;
 	}
 	
 	
@@ -106,12 +115,22 @@ public class TmpBankAduitController {
 	}
 	
 	@RequestMapping("audit")
+	@ResponseBody
 	public AjaxResponse<?> toTmpBankAduitProcess(ToMortgage mortage,String prAddress,
 			String tmpBankName,String tmpBankCheck,String taskId,String bankCode,String temBankRejectReason,
 			String processInstanceId,String caseCode,String post) {
+		AjaxResponse<?> response = new AjaxResponse<>();
+		try {
+			response = toMortgageService.tmpBankThriceAduit(mortage, prAddress, tmpBankName, tmpBankCheck, taskId, bankCode, temBankRejectReason, processInstanceId, caseCode, post);
+			response.setSuccess(true);
+			response.setMessage("任务提交成功！");
+		} catch (Exception e) {
+			response.setSuccess(false);
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
 		
-		return toMortgageService.tmpBankThriceAduit(mortage, prAddress, tmpBankName, tmpBankCheck, taskId, bankCode, temBankRejectReason, processInstanceId, caseCode, post);
-		
+		return response;
 	}
 	
 
