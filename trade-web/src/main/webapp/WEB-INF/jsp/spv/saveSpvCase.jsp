@@ -660,12 +660,14 @@
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"  disabled="disabled"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].account }"
-									class="form-control input-two" placeholder="">			
+									class="form-control input-two" placeholder="">
+									<input type="hidden" name="toSpvAccountList[3].account" value="${spvBaseInfoVO.toSpvAccountList[3].account }">
 							</div>
 							<div class="form-group form-margin form-space-one">
 							    <label for="" class="lable-one">开户行</label> <input type="text" name="toSpvAccountList[3].branchBank"  disabled="disabled"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].branchBank }"
 									class="form-control input-three" placeholder="">
+									<input type="hidden" name="toSpvAccountList[3].branchBank" value="${spvBaseInfoVO.toSpvAccountList[3].branchBank }">
 							</div>
 						</div>
 							
@@ -1270,14 +1272,6 @@
 				$(this_).parents('.form-rowbot').remove();
 				updateAccTypeOptions();
 			}
-			
-			/* if(!deleteFlag){
-				return false;
-			}
-			
-			$(this_).parents('.form-rowbot').prev().remove();
-			$(this_).parents('.form-rowbot').remove();
-			updateAccTypeOptions(); */
 		}
 		
 		/**
