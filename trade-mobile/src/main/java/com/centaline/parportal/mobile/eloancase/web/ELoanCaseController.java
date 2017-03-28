@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuerysParseService;
 import com.aist.common.quickQuery.service.QuickGridService;
-import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.vo.MobileHolder;
@@ -49,7 +48,7 @@ public class ELoanCaseController {
 	@RequestMapping(value = "list")
 	@ResponseBody
 	public String list(Integer page, Integer pageSize, String sidx,
-			String sord, String condition) {
+			String sord, String userId, String condition) {
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(true);
 		gp.setPage(page);
@@ -59,8 +58,8 @@ public class ELoanCaseController {
 		gp.setSord(sord);
 		Map<String, Object> paramter = new HashMap<String, Object>();
 
-		SessionUser sessionUser = MobileHolder.getMobileUser();
-		paramter.put("loanerId", sessionUser.getId());
+		// SessionUser sessionUser = MobileHolder.getMobileUser();
+		paramter.put("loanerId", userId);
 
 		if (condition != null && !"".equals(condition)) {
 			String formatCondtion = condition.trim();
@@ -144,31 +143,73 @@ public class ELoanCaseController {
 			eLoanCaseDetailMap = eLoanCaseDetailMapList.get(0);
 		}
 
-		resultMap.put("prdType",eLoanCaseDetailMap.get("prdType") != null ? eLoanCaseDetailMap.get("prdType") : "");
+		resultMap.put(
+				"prdType",
+				eLoanCaseDetailMap.get("prdType") != null ? eLoanCaseDetailMap
+						.get("prdType") : "");
 
 		Map<String, Object> mortInfoMap = new HashMap<String, Object>();
 		mortInfoMap.put("morCode", eLoanCode);
-		mortInfoMap.put("mortType",eLoanCaseDetailMap.get("mortType") != null ? eLoanCaseDetailMap.get("mortType") : "");
-		mortInfoMap.put("totalAmount",eLoanCaseDetailMap.get("totalAmount") != null ? eLoanCaseDetailMap.get("totalAmount") : "0");
-		mortInfoMap.put("month",eLoanCaseDetailMap.get("month") != null ? eLoanCaseDetailMap.get("month") : "0");
-		mortInfoMap.put("status",eLoanCaseDetailMap.get("eLoanStatus") != null ? eLoanCaseDetailMap.get("eLoanStatus") : "");
+		mortInfoMap.put(
+				"mortType",
+				eLoanCaseDetailMap.get("mortType") != null ? eLoanCaseDetailMap
+						.get("mortType") : "");
+		mortInfoMap
+				.put("totalAmount",
+						eLoanCaseDetailMap.get("totalAmount") != null ? eLoanCaseDetailMap
+								.get("totalAmount") : "0");
+		mortInfoMap.put(
+				"month",
+				eLoanCaseDetailMap.get("month") != null ? eLoanCaseDetailMap
+						.get("month") : "0");
+		mortInfoMap
+				.put("status",
+						eLoanCaseDetailMap.get("eLoanStatus") != null ? eLoanCaseDetailMap
+								.get("eLoanStatus") : "");
 
 		Map<String, Object> yuOperatorMap = new HashMap<String, Object>();
-		yuOperatorMap.put("userId",eLoanCaseDetailMap.get("excutorId") != null ? eLoanCaseDetailMap.get("excutorId") : "");
-		yuOperatorMap.put("name",eLoanCaseDetailMap.get("excutorName") != null ? eLoanCaseDetailMap.get("excutorName") : "");
-		yuOperatorMap.put("mobile",eLoanCaseDetailMap.get("excutorMobile") != null ? eLoanCaseDetailMap.get("excutorMobile") : "");
-		yuOperatorMap.put("org",eLoanCaseDetailMap.get("excutorOrg") != null ? eLoanCaseDetailMap.get("excutorOrg") : "");
+		yuOperatorMap
+				.put("userId",
+						eLoanCaseDetailMap.get("excutorId") != null ? eLoanCaseDetailMap
+								.get("excutorId") : "");
+		yuOperatorMap
+				.put("name",
+						eLoanCaseDetailMap.get("excutorName") != null ? eLoanCaseDetailMap
+								.get("excutorName") : "");
+		yuOperatorMap
+				.put("mobile",
+						eLoanCaseDetailMap.get("excutorMobile") != null ? eLoanCaseDetailMap
+								.get("excutorMobile") : "");
+		yuOperatorMap
+				.put("org",
+						eLoanCaseDetailMap.get("excutorOrg") != null ? eLoanCaseDetailMap
+								.get("excutorOrg") : "");
 
 		Map<String, Object> custInfoMap = new HashMap<String, Object>();
-		custInfoMap.put("name",eLoanCaseDetailMap.get("customerName") != null ? eLoanCaseDetailMap.get("customerName") : "");
-		custInfoMap.put("mobile",eLoanCaseDetailMap.get("customerMobile") != null ? eLoanCaseDetailMap.get("customerMobile") : "");
+		custInfoMap
+				.put("name",
+						eLoanCaseDetailMap.get("customerName") != null ? eLoanCaseDetailMap
+								.get("customerName") : "");
+		custInfoMap
+				.put("mobile",
+						eLoanCaseDetailMap.get("customerMobile") != null ? eLoanCaseDetailMap
+								.get("customerMobile") : "");
 		// 由于T_TO_ELOAN_CASE没有USER_ID这个字段,所以无法获取该字段信息,所以先暂时设置该字段为空字符串
 		custInfoMap.put("custID", "");
 
 		Map<String, Object> tradeInfoMap = new HashMap<String, Object>();
-		tradeInfoMap.put("caseCode",eLoanCaseDetailMap.get("caseCode") != null ? eLoanCaseDetailMap.get("caseCode") : "");
-		tradeInfoMap.put("addr",eLoanCaseDetailMap.get("propertyAddress") != null ? eLoanCaseDetailMap.get("propertyAddress") : "");
-		tradeInfoMap.put("status",eLoanCaseDetailMap.get("caseStatus") != null ? eLoanCaseDetailMap.get("caseStatus") : "");
+		tradeInfoMap.put(
+				"caseCode",
+				eLoanCaseDetailMap.get("caseCode") != null ? eLoanCaseDetailMap
+						.get("caseCode") : "");
+		tradeInfoMap
+				.put("addr",
+						eLoanCaseDetailMap.get("propertyAddress") != null ? eLoanCaseDetailMap
+								.get("propertyAddress") : "");
+		tradeInfoMap
+				.put("status",
+						eLoanCaseDetailMap.get("caseStatus") != null ? eLoanCaseDetailMap
+								.get("caseStatus") : "");
 
 		resultMap.put("mortInfo", mortInfoMap);
 		resultMap.put("yuOperator", yuOperatorMap);
