@@ -112,6 +112,11 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	public ToWorkFlow queryActiveToWorkFlowByBizCodeBusKey(ToWorkFlow record) {
 		return toWorkFlowMapper.queryActiveToWorkFlowByBizCodeBusKey(record);
 	}
+	
+	@Override
+	public ToWorkFlow queryToWorkFlowByBizCodeBusKey(ToWorkFlow record) {
+		return toWorkFlowMapper.queryToWorkFlowByBizCodeBusKey(record);
+	}
 
 	@Override
 	public ToWorkFlow queryToWorkFlowByCaseCodeAndBusinessKey(ToWorkFlow record) {
