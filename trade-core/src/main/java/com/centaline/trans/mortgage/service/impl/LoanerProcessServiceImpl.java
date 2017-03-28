@@ -72,6 +72,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
     @Autowired
     private UamTemplateService       uamTemplateService;
     @Qualifier("uamMessageServiceClient")
+    
     @Autowired
     private UamMessageService        uamMessageService;
     
@@ -102,20 +103,16 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			if(null != record){
 				throw new BusinessException("启动失败,该流程正在运行！");
 			}
-			User loaner = uamUserOrgService.getUserById(loanerUserId);
+			User loaner = uamUserOrgService.getUserById(loanerUserId);								
 			
-			
-			
-			//variables.add(new RestVariable("loanerUserId", loanerUserId));
-			variables.add(new RestVariable("loanerUserId", "puyp"));
+			variables.add(new RestVariable("loanerUserId", loaner.getUsername()));
 			variables.add(new RestVariable("bankLevel", bankLevel)); 
 			variables.add(new RestVariable("sessionUserId", user.getUsername()));   //派单人	
 
             
-            //启动 			
+            //启动流程 			
             ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode, variables);
-            //StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process,loaner.getUsername(), caseCode);
-            StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process,"puyp", caseCode);
+            StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process,loaner.getUsername(), caseCode);    
             
             
             Map<String,Object>  map = new HashMap<String,Object>();
@@ -154,15 +151,25 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 
 	
 	
-	//信贷员是否接单审批
+	    
+    /*
+     * @author:zhuody
+     * @date:2017-03-28
+     * @des:信贷员是否接单确认
+     * 
+     */
     @Override
     public AjaxResponse<String> isLoanerAcceptCase(boolean isLonaerAcceptCase,String taskId, String processInstanceId,
                                               String caseCode) {
     	
-    	AjaxResponse<String> response  = new AjaxResponse<String>();         
-    	SessionUser user = uamSessionService.getSessionUser();    
+		if((null == caseCode ||"".equals(caseCode)) || (null == taskId ||"".equals(taskId)) || (null == processInstanceId ||"".equals(processInstanceId)) ){
+			throw new BusinessException("信贷员接单确认请求参数异常！");			
+		}	
     	
-        List<RestVariable> variables = new ArrayList<RestVariable>();
+    	AjaxResponse<String> response  = new AjaxResponse<String>();         
+    	SessionUser user = uamSessionService.getSessionUser(); 
+        List<RestVariable> variables = new ArrayList<RestVariable>();        
+        
         try{
          	//信贷员接单
         	if(isLonaerAcceptCase == true){
@@ -176,18 +183,27 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
         	//提交流程
             workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
             response.setSuccess(true);
+            response.setMessage("信贷员确认接单成功！");
         }catch(BusinessException e) {
         	response.setSuccess(false);
         	throw new BusinessException("信贷员接单流程推进失败！");
         } 
         return response;        
     }
+   
     
-    
-    
-    //信贷员是否接单   银行审批
+    /*
+     * @author:zhuody
+     * @date:2017-03-28
+     * @des:信贷员是否接单   银行审批
+     * 
+     */
     @Override
     public AjaxResponse<String> isBankAcceptCase(boolean isBankAcceptCase,String taskId, String processInstanceId,String caseCode) {
+    	
+		if((null == caseCode ||"".equals(caseCode)) || (null == taskId ||"".equals(taskId)) || (null == processInstanceId ||"".equals(processInstanceId)) ){
+			throw new BusinessException("信贷员接单银行确认请求参数异常！");			
+		}	
     	
     	AjaxResponse<String> response  = new AjaxResponse<String>();     	
         List<RestVariable> variables = new ArrayList<RestVariable>();
@@ -212,7 +228,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	    	//提交流程
 	        workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
 	        response.setSuccess(true);
-	        
+	        response.setMessage("信贷员接单银行审批通过！");
 	     }catch(BusinessException e) {
 	      	response.setSuccess(false);
 	      	throw new BusinessException("信贷员接单流程推进失败！");
@@ -222,13 +238,19 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
     }
 
 
-
+    
+    /*
+     * @author:zhuody
+     * @date:2017-03-28
+     * @des:交易顾问派单 流程关闭
+     * 
+     */
 	@Override
 	public AjaxResponse<String> loanerProcessDelete(String caseCode,String taskitem, String processInstanceId) {
 		
 		AjaxResponse<String>  response = new AjaxResponse<String>();
 		if((null == caseCode ||"".equals(caseCode)) || (null == taskitem ||"".equals(taskitem)) || (null == processInstanceId ||"".equals(processInstanceId)) ){
-			throw new BusinessException("结束  交易顾问派单流程请求参数异常！");			
+			throw new BusinessException("结束交易顾问派单流程请求参数异常！");			
 		}	
 		
 		try{
@@ -248,6 +270,49 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	      	throw new BusinessException("交易顾问派单流程结束异常！");
 	     } 
 		
+		return response;
+	}
+
+
+    /*
+     * @author:zhuody
+     * @date:2017-03-28
+     * @des:交易顾问派单信息提交
+     * 
+     */
+	@Override
+	public AjaxResponse<String> loanerProcessSubmit(ToMortgage toMortgage,String caseCode, String taskId, String processInstanceId,int bankLevel) {
+		
+		
+		if((null == caseCode ||"".equals(caseCode)) || (null == taskId ||"".equals(taskId)) || (null == processInstanceId ||"".equals(processInstanceId)) ){
+			throw new BusinessException("交易顾问派单流程请求参数异常！");			
+		}
+		
+		AjaxResponse<String>  response = new AjaxResponse<String>();
+        List<RestVariable> variables = new ArrayList<RestVariable>();
+		try{
+			
+			variables.add(new RestVariable("bankLevel", bankLevel)); 
+			
+        	//提交流程
+            workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);	
+			
+            //派单给BC级别银行的信贷员之后,启动银行分级审批
+            if(bankLevel == 1 || bankLevel == 9 ){
+            	toMortgageService.startTmpBankWorkFlow(caseCode,processInstanceId);
+            }
+			
+			//更新 信贷员信息、贷款机构信息		
+			if(null != toMortgage){
+				toMortgageService.updateToMortgage(toMortgage);//toMortgage 主键pkid作为条件更新
+			}
+            
+	        response.setSuccess(true);
+	        response.setMessage("交易顾问派单信息提交成功！");
+		}catch(BusinessException e) {
+	      	response.setSuccess(false);
+	      	throw new BusinessException("交易顾问派单流程结束异常！");
+	     } 		
 		return response;
 	}
 }

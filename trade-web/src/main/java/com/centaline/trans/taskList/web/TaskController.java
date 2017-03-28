@@ -309,9 +309,8 @@ public class TaskController {
     		}else{
         		request.setAttribute("isMainLoanBank", "1");
         		request.setAttribute("evaCode", "");
-    		}
-	
-    	新增信贷员
+    		}	
+    	//新增交易顾问派单 流程
     	}else if(taskitem.equals("LoanerProcess")){
     		
     		ToMortgage mortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);

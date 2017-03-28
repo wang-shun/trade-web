@@ -14,6 +14,7 @@ import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.LoanerProcessService;
 
 @Controller
@@ -147,12 +148,12 @@ public class LoanerProcessController {
 	 * @des:信贷员流程 结束
 	 * */
 	@RequestMapping(value = "loanerProcessSubmit")
-	public AjaxResponse<String> loanerProcessSubmit(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskitem, String processInstanceId) {
+	public AjaxResponse<String> loanerProcessSubmit(HttpServletRequest request, HttpServletResponse response, ToMortgage toMortgage,String caseCode,String taskitem, String processInstanceId,int bankLevel) {
 		
 		AjaxResponse<String>  responseStr = new AjaxResponse<String>();
 		//根据caseCode去查询相关页面信息，并且设置 页面的流程变量
 		try{
-			responseStr = loanerProcessService.loanerProcessDelete(caseCode,taskitem,processInstanceId);
+			responseStr = loanerProcessService.loanerProcessSubmit(toMortgage,caseCode,taskitem,processInstanceId,bankLevel);
 		}catch(BusinessException e){
 			throw new BusinessException("交易顾问派单流程删除异常！");
 		}
