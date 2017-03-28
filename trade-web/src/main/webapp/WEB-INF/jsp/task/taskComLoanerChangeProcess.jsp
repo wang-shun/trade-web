@@ -162,79 +162,74 @@
 		                            <div class="marinfo">
 		                                    <div class="line">
 		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small"> 主贷人<span class="star">*</span></label> 
-													 <select name="custCode" id="custCode" class="input_type yuanwid">
-													 </select>
-													 <input type="hidden" name="custName" id="custName" />
+		                                             <label class="control-label sign_left_small"> 主贷人<span class="star">*</span></label>
+													 <input class=" input_type yuanwid" placeholder="" value="${custName}" readonly="readonly" style="background-color:#ccc;">
 		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small"> 贷款总额<span class="star">*</span></label>
-		                                             <input type="text" name="mortTotalAmount" id="mortTotalAmount" class="input_type yuanwid" onkeyup="checknum(this)" placeholder="">
-													 <span class="date_icon">万元</span>
-		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">贷款类型<span class="star">*</span></label>
-														<aist:dict id="mortType" name="mortType"
-															clazz="select_control data_style" display="select" dictType="30016"
-															defaultvalue="" />
-		                                         </div>
+												<div class="form_content">
+													<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>贷款总额 </label>
+													<input type="text" name="mortTotalAmount" style="background-color:#ccc;" id="mortTotalAmount" class="input_type yuanwid"  readonly="readonly"  onkeyup="checkNum(this)"
+														   value="<fmt:formatNumber value='${toMortgage.mortTotalAmount/10000}' type='number' pattern='#0.00' />">
+													<span class="date_icon">万元</span>
+												</div>
+												<div class="form_content">
+													<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>贷款类型</label>
+													<aist:dict id="mortType" name="mortType"
+															   clazz="select_control data_style" display="select" dictType="30016"
+															   defaultvalue="${toMortgage.mortType }" />
+												</div>
 		                                     </div>    
 		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">主贷人单位</label>
-													 <input type="text" name="custCompany" id="custCompany"
-														class="input_type mendwidth">
+													 <input class="input_type mendwidth" placeholder="" style="background-color:#ccc;" value="${custCompany}" readonly="readonly">
 		                                         </div>
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">认定套数</label>
-													 <input type="text" name="houseNum" id="houseNum"
-															class="input_type data_style" onkeyup="checkInt(this)">
+													 <input type="text" name="houseNum" id="houseNum" style="background-color:#ccc;" class="input_type data_style"  readonly="readonly" value="${toMortgage.houseNum}" onkeyup="checkNum2(this)">
 		                                         </div>
 		                                     </div>
 		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">商贷金额<span class="star">*</span></label>
-													 <input type="text" name="comAmount" id="comAmount"
-															class="input_type yuanwid" onkeyup="checknum(this)" placeholder="">
+													 <input type="text" name="comAmount" style="background-color:#ccc;" id="comAmount" class="input_type yuanwid"  readonly="readonly" onkeyup="checkNum(this)"
+															value="<fmt:formatNumber value='${toMortgage.comAmount/10000}' type='number' pattern='#0.00' />">
 													 <span class="date_icon">万元</span>
 		                                         </div>
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">商贷利率折扣<span class="star">*</span></label>
-													 <input type="text" name="comDiscount" id="comDiscount" placeholder="0.50~1.50之间"
-															class="input_type yuanwid"  onkeyup="autoCompleteComDiscount(this)">
+													 <input type="text" name="comDiscount" style="background-color:#ccc;" id="comDiscount"  readonly="readonly" class="input_type yuanwid" onkeyup="autoCompleteComDiscount(this)" placeholder="0.50~1.50之间"
+															value="<fmt:formatNumber value='${toMortgage.comDiscount}' type='number' pattern='#0.00' />">
 		                                         </div>
 		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">商贷年限<span class="star">*</span></label>
-													 <input type="text" name="comYear" id="comYear"
-														    class="input_type data_style" onkeyup="checknum(this)">
+													 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>商贷部分年限</label>
+													 <input type="text" name="comYear" style="background-color:#ccc;" id="comYear" class="input_type data_style"  readonly="readonly" value="${toMortgage.comYear}" onkeyup="checkNum2(this)">
 		                                         </div>
 		                                     </div>
 		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">公积金贷款金额</label>
-													 <input type="text" name="prfAmount" id="prfAmount"
-															class="input_type yuanwid" onkeyup="checknum(this)" placeholder="">
+													 <input type="text" name="prfAmount" style="background-color:#ccc;" id="prfAmount" class="input_type yuanwid"  readonly="readonly" onkeyup="checkNum(this)"
+															value="<fmt:formatNumber value='${toMortgage.prfAmount/10000}' type='number' pattern='#0.00' />">
 													 <span class="date_icon">万元</span>		
 		                                         </div>
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">公积金贷款年限</label>
-													 <input type="text" name="prfYear" id="prfYear"
-															class="input_type data_style" onkeyup="checknum(this)">
+													 <input type="text" name="prfYear" style="background-color:#ccc;" readonly="readonly"  id="prfYear"　 class="input_type data_style" value="${toMortgage.prfYear}" onkeyup="checkNum2(this)">
 		                                         </div>
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left">放款方式<span class="star">*</span></label>
 													 <aist:dict id="lendWay" name="lendWay" clazz="select_control data_style"
-															display="select" dictType="30017" defaultvalue="" />
+															display="select" dictType="30017" defaultvalue="${toMortgage.lendWay }" />
 		                                         </div>
 		                                     </div>
 	
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
-													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
+													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" value="${toMortgage.loanerName}"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 															nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})">
 													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
@@ -246,14 +241,21 @@
 		                                         </div>
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
-													 <input type="text" name="loanerPhone" id="loanerPhone"
+													 <input type="text" name="loanerPhone" id="loanerPhone"  value="${toMortgage.loanerPhone}"
 															placeholder="联系方式" class="input_type data_style">
 		                                         </div>
 		                                         <div class="form_content" style="margin-top:8px;">
 		                                             <label class="control-label sign_left">信贷员到场</label> 
 		                                             <div class="controls" >
-											              <label class="radio inline"> <input type="radio" value="1" name="isLoanerArrive">是</label> 
-								                          <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive" checked="checked">否</label>
+														 <c:if test="${toMortgage.isLoanerArrive=='1'}">
+															 <label class="radio inline"> <input type="radio" value="1" checked="checked" name="isLoanerArrive">是</label>
+															 <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive" checked="checked">否</label>
+														 </c:if>
+														 <c:if test="${toMortgage.isLoanerArrive=='0'}">
+															 <label class="radio inline"> <input type="radio" value="1"  name="isLoanerArrive">是</label>
+															 <label class="radio inline"> <input type="radio" value="0" checked="checked" name="isLoanerArrive" checked="checked">否</label>
+														 </c:if>
+
 		                                             </div>
 		                                         </div>
 		                                     </div>
@@ -263,67 +265,52 @@
 		                                             <label class="control-label sign_left_small select_style mend_select">签约时间<span class="star" >*</span>
 		                                             </label>
 		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
-                                                            <input class="input_type yuanwid" type="text" placeholder="" name="signDate" id="signDate" readonly>
-                                                     </div>										
+														 <input type="text" value="<fmt:formatDate  value='${toMortgage.signDate}' type='both' pattern='yyyy-MM-dd'/>"
+																class="input_type yuanwid" style="background-color:#ccc;" readonly="readonly"   name="signDate" id="signDate" readonly>
+                                                           <%-- <input class="input_type yuanwid" type="text" placeholder=""　value name="signDate" id="signDate" readonly>--%>
+                                                     </div>
 		                                         </div>
 		                                         <div class="form_content radio-seat" style="margin-top:7px;">
 		                                             <label class="control-label sign_left_small">需要放款前报告</label>							             
 										             <div class="controls">
-                                                         <label class="radio inline"> <input type="radio" value="1" name="ifReportBeforeLend">是</label>
-                                                         <label class="radio inline"> <input type="radio" value="0" name="ifReportBeforeLend" checked="checked">否</label>
+														 <c:if test="${toMortgage.ifReportBeforeLend =='1'}">
+															 <label class="radio inline"> <input type="radio" value="1"　 checked="checked" name="ifReportBeforeLend">是</label>
+
+														 </c:if>
+														 <c:if test="${toMortgage.ifReportBeforeLend =='0'}">
+
+															 <label class="radio inline"> <input type="radio" value="0"  checked="checked"　name="ifReportBeforeLend" checked="checked">否</label>
+														 </c:if>
+
                                                      </div>
 		                                         </div>
 		                                     </div>
 		                                     
 		                                     <div class="line">
-		                                         <div class="form_content radio-seat" style="margin-top:5px;">
-		                                             <label class="control-label sign_left_small">是否临时银行</label>
-													 <div class="controls ">
-                                                        <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
-                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
-                                                     </div>
-		                                         </div>
-		                                         <div class="form_content" style="margin-left:-40px;">
-		                                             <label class="control-label sign_left_small" style="width: 170px;">推荐函编号<span class="star">*</span></label>
-													 <input type="text" name="recLetterNo" id="recLetterNo" class="input_type yuanwid">
-		                                         </div>
+												 <div class="form_content">
+													 <label class="control-label sign_left_small select_style mend_select">推荐函编号<span class="star" >*</span>
+													 </label>
+													 <div class="input-group sign-right dataleft input-daterange pull-left">
+														 <input type="text" name="recLetterNo" id="recLetterNo" readonly="readonly" style="background-color:#ccc;"  value="${toMortgage.recLetterNo}"  class="input_type yuanwid" />
+													 </div>
+												 </div>
 		                                     </div>
-		                                     
-		                                     <div class="line">
-		                                         <div class="form_content tmpBankReasonDiv">
-		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
-													 <input type="text" name="tmpBankReason" class="input_type optionwid">
-		                                         </div>
-		                                     </div>
-		                                     
+
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">贷款银行</label>																										
-													 <select  name="bank_type" class="select_control" id="bank_type" ></select>	
+													 <select  name="bank_type" class="select_control" id="bank_type" ></select>
+													 <input type="hidden" value="${toMortgage.finOrgCode}" id="caseFinOrgCode" />
 		                                         </div>
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small" style="width: 204px;">贷款支行<span class="star">*</span></label>
 													 <select  name="finOrgCode" class="select_control" id="finOrgCode" ></select>
 		                                         </div>
 		                                     </div>
-		                                     
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">补件名称</label>
-											         <input type="text" class="input_type yuanwid" name="supContent" id="supContent">										
-		                                         </div>
-		                                         <div class="form_content" style="margin-left:-28px;">
-		                                             <label class="control-label sign_left select_style mend_select" style="width: 204px;">补件时间</label>										             
-										             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_1" data-date-format="yyyy-mm-dd">
-                                                            <input class="input_type yuanwid datatime" type="text" name="remindTime" id="remindTime" readonly>
-                                                     </div>
-		                                         </div>
-		                                     </div>
-		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">备注</label>
-													 <input type="text" name="remark" id="remark" class="input_type optionwid">
+													 <input type="text" name="remark" id="remark" style="background-color:#ccc;" readonly="readonly"  value="${toMortgage.remark}"  class="input_type optionwid">
 		                                         </div>
 		                                     </div>		                                     
 		                               </div>
@@ -335,7 +322,6 @@
 						
 						<div class="form-btn">
 		                    <div class="text-center">
-		                        <button  class="btn btn-success btn-space" onclick="save(false)" id="btnSave">保存</button>
 		                         <button class="btn btn-success btn-space" onclick="submit()">提交</button>
 		                    </div>
 		                </div>
@@ -373,7 +359,6 @@ function readOnlyForm(){
 <script src="${ctx}/js/plugins/staps/jquery.steps.min.js"></script> 
 <script src="${ctx}/js/plugins/chosen/chosen.jquery.js?v=1.01"></script> 
 <!-- 上传附件结束 -->
-<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.4.9"></script> 
 <script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 <script src="${ctx}/transjs/sms/sms.js"></script>	
@@ -388,21 +373,6 @@ function readOnlyForm(){
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 <script>
-var afterTimeFlag=${afterTimeFlag};
-var popInited=false;
-//点击tab页面触发函数   -----From Bootstrap 标签页（Tab）插件
-$(".nav-tabs").find("a").on('shown.bs.tab', function (e) {
-	  var id = e.target.id;
-	  if(id == 'tab1'){
-		  //点击主选银行
-		  $("#isMainLoanBank").val(1);
-		  $("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(1);
-	  }else if(id == 'tab2'){
-		  //点击候选银行
-		  $("#isMainLoanBank").val(0);
-		  $("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(0);
-	  }
-	})
 
 function checknum(obj){
 	obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
@@ -427,274 +397,101 @@ function autoCompleteComDiscount(obj){
 		}
 	}
 }
-
-function checkInt(obj){
-	obj.value = obj.value.replace(/[^\d]/g,"");  
-}
-
- 	var ctx = "${ctx}";
-	var step = ${step};
-	var step1 = ${step1};
-
-	var evaCode = "${evaCode}";
-	if(evaCode != ""){
-		$("#eva_code").val(evaCode);
-	}
  	var index = 0;
- 	
+
 	jQuery(document).ready(function() {
-		$("#mortgageForm1").find("select[name='custCode']").change(guestCompanyReadOnly);
-		$("select[name='mortType']").change(function(){
-			var f=$(this).closest('form');
-			if($(this).val()=='30016001'){
-				f.find("input[name='prfAmount']").val('').prop('disabled',true);
-    			f.find("input[name='prfYear']").val('').prop('disabled',true);
-			}else{
-				f.find("input[name='prfAmount']").prop('disabled',false);
-    			f.find("input[name='prfYear']").prop('disabled',false);
-			}
-		});
-		
-		$("#sendSMS").click(function(){
-					var t='';
-					var s='/';
-					$("#table_list_2").find("input:checkbox:checked").closest('td').next().each(function(){
-						t+=($(this).text()+s);
-					});
-					if(t!=''){
-						t=t.substring(0,t.length-1);
-					}
-					$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
-		});
-		
-		$("#sendSMS1").click(function(){
-					var t='';
-					var s='/';
-					$("#table_list_5").find("input:checkbox:checked").closest('td').next().each(function(){
-						t+=($(this).text()+s);
-					});
-					if(t!=''){
-						t=t.substring(0,t.length-1);
-					}
-					$("#smsPlatFrom").smsPlatFrom({ctx:'${ctx}',caseCode:$('#caseCode').val(),serviceItem:t});
-		});
-		
-		var updFun = function(e) {
-			var that = $(this).data('blueimp-fileupload')
-					|| $(this).data('fileupload');
-			that._resetFinishedDeferreds();
-			that._transition($(this).find('.fileupload-progress'))
-					.done(function() {
-						that._trigger('started', e);
-					});
-		};
-		
-		for(var i=1;i<4;i++){
-			AistUpload.init('picFileupload'+i, 'picContainer'+i,
-					'templateUpload'+i, 'templateDownload'+i,
-					updFun);
-			$("#picContainer"+i).bind('DOMNodeInserted', function(e) {
-				var picDiv=$("div[name='allPicDiv2']");
-				var input=$("input[name='picTag1']");
-				if(picDiv.length > input.length) {
-					index++;
-					if(index % 2 == 0) {
-						index = 0;
-						$("#startUpload").click();
-					}
-				}
-			});
-		}
-		
-		$.each(idList, function(index, value){
-			AistUpload.init('picFileupload'+value, 'picContainer'+value,
-					'templateUpload'+value, 'templateDownload'+value, updFun);
-			/**监听 div 执行自动上传*/
-			$("#picContainer"+value).bind('DOMNodeInserted', function(e) {
-				var picDiv=$("div[name='allPicDiv1']");
-				var input=$("input[name='picTag']");
-				if(picDiv.length > input.length) {
-					index++;
-					if(index % 2 == 0) {
-						//alert("执行自动上传");
-						index = 0;
-						$("#startUpload1").click();
-					}
-				}
-			});
-		});
-		
-		$("#code").inputmask({"mask":"999999-999999-999"});
-		
-		$("select[name='mortType']").each(function(){
-			$(this).find("option[value='30016003']").remove();
-		});
-		
-		$("select[name='mortType']").blur(function(){
-			if($(this).val()!=""){
-				$(this).css("border-color","#e5e6e7");
-			}
+		//银行下拉列表
+		getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"cl","equ");
+		$("#mortType").attr("disabled","disabled").css("background-color", "#ccc");
+		$("#lendWay").attr("disabled","disabled").css("background-color", "#ccc");
+		$("#bank_type").change(function(){
+			/*$("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy");*/
+			getBranchBankList($("#finOrgCode"),$("#bank_type").val(),"");
+
+			/*$("#mortgageForm").find("select[name='finOrgCode']").unbind('change');
+			 $("#mortgageForm").find("select[name='finOrgCode']").bind('change',subBankChange);*/
 		});
 
-		$('.input-group.date').datepicker({
-			todayBtn : "linked",
-			keyboardNavigation : false,
-			forceParse : false,
-			calendarWeeks : false,//显示年日历周
-			autoclose : true
-		});
-		//getPricingList("table_list_1","pager_list_1");
-		//设置初始操作步骤
-		getPricingList("table_list_3","pager_list_3",0);
-		getPricingList("table_list_1","pager_list_1",1);
-		 //银行下拉列表
-		getParentBank($("#addToEguPricingForm").find("select[name='bank_type']"),$("#bank_branch_id"),"",null,"egu");
-		
-		$("#addToEguPricingForm").find("select[name='bank_type']").change(function(){
-			/*$("#bank_branch_id").chosen("destroy");*/
-    	getBranchBankList($("#bank_branch_id"),$("#addToEguPricingForm").find("select[name='bank_type']").val(),"",null,"egu");
-        });
-		 document.getElementById('optionsRadios1').checked=true;
-            if($("input[name='optionsRadios']:checked").val()==0){
-                $("#direct_launch_div").hide();
-            }else{
-                $("#direct_launch_div").show();
-                 $("#addToEguPricingForm").find("input").each(function(){
-                     $(this).removeAttr("disabled");
-                     if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
-                         $(this).val("");
-                     }
-                 });
-                 $("#addToEguPricingForm").find("select").each(function(){
-                     $(this).removeAttr("disabled");
-                     if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
-                         $(this).val("");
-                     }
-                 });
-            }
-		if(popInited)return true;
-		popInited=true;
-		$("input[name='optionsRadios']").click(function(){
-			 if($(this).val()==0){
-				 $("#direct_launch_div").hide();
-				 $("#addToEguPricingForm").find("input").each(function(){
-					 if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios"){
-       					 $(this).attr("disabled","disabled");
-					 }
-   				 });
-				 $("#addToEguPricingForm").find("select").each(function(){
-   					 $(this).attr("disabled","disabled");
-   				 });
-			 }else{
-				 $("#direct_launch_div").show();
-				 $("#addToEguPricingForm").find("input").each(function(){
-       				 $(this).removeAttr("disabled");
-   				 });
-				 $("#addToEguPricingForm").find("select").each(function(){
-       				 $(this).removeAttr("disabled");
-   				 });
-			 }
-		 });
-			
-		if(step1 == 1){
- 			getReminderList("table_list_5","pager_list_5");
-		}else if(step1 == 2||step1==3){
-	 		getMortgageInfo($("#caseCode").val(),0);
-		}else if(step1 == 4){
-			getReportList("table_list_6","pager_list_6",0);
-		}else if(step1 == 5){
-			getCompleteMortInfo(0);
-		}
-
-			$("#isMainLoanBank").val("1");
-			$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(1);
-			
-			if(step == 1){
-	 			getReminderList("table_list_2","pager_list_2");
-			}else if(step == 2||step==3){
-		 		getMortgageInfo($("#caseCode").val(),1);
-			}else if(step == 4){
-				getReportList("table_list_4","pager_list_4",1);
-			}else if(step == 5){
-				getCompleteMortInfo(1);
-			}
-
-	 	$(".myDataToggle").click(function(){
-	 		$("#isMainLoanBank").val($(this).attr('data-m'));
-	 		$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val($(this).attr('data-m'));
-	 		if($("#isMainLoanBank").val() == "0"){
-	 			$("#first").removeClass("in");
-	 		}else{
-	 			$("#second").removeClass("in");
-	 		}
-		});
-		$("#caseCommentList").caseCommentGrid({
-			caseCode : caseCode,
-			srvCode : taskitem
-		});
-		
-		 $(window).bind('resize', function () {
-             var width = $('.jqGrid_wrapper').width();
-             $('#table_list_1').setGridWidth(width);
-             $('#table_list_2').setGridWidth(width);
-         });
-		
 	});
-	
-	var attachmentList = null;
-	var files = null;
-	var attachmentIds = null;
-	var preFileAdress = null;
-	var picTag = null;
-	var picName = null;
-	function getUploadPicInfo() {
-		attachmentIds =[];
-		preFileAdress = [];
-		picTag = [];
-		picName = [];
 
-		// 图片的ID
-		$("div[name='reportPic']").each(function(){
-			$(this).find("input[name='preFileAdress1']").each(function(){
-				preFileAdress.push($(this).val());
-			});
-			$(this).find("input[name='picTag1']").each(function(){
-				picTag.push($(this).val());
-			});
-			$(this).find("input[name='picName1']").each(function(){
-				picName.push($(this).val());
-			});
-			
+	//查询分行信息
+	function getParentBank(selector,selectorBranch,finOrgCode,tag,flag){
+		var bankHtml = "<option value=''>请选择</option>";
+		var param = {nowCode:finOrgCode};
+		if(tag == 'cl'){
+			param.tag = 'cl';
+		}
+		$.ajax({
+			cache:true,
+			url:ctx+"/manage/queryParentBankList",
+			method:"post",
+			dataType:"json",
+			async:false,
+			data:param,
+			success:function(data){
+				if(data != null){
+					for(var i = 0;i<data.length;i++){
+						if((data[i].finOrgCode!='1032900'&&data[i].finOrgCode!='3082900')||flag!='egu'){//不作农业银行的讯价
+							var coLevelStr='';
+							bankHtml+="<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>";
+						}
+					}
+				}
+			},
+			error:function(e){
+				window.wxc.error(e);
+			}
 		});
+		selector.find('option').remove();
+		selector.append($(bankHtml));
+		$.ajax({
+			url:ctx+"/manage/queryParentBankInfo",
+			method:"post",
+			dataType:"json",
+			async:false,
+			data:{finOrgCode:finOrgCode,flag:flag},
+			success:function(data){
+				if(data != null){
+					selector.val(data.content);
+				}
+			}
+		});
+		getBranchBankList(selectorBranch,selector.val(),finOrgCode,tag,flag);
 
-		$("input[name='attachmentId']").each(function(){
-			attachmentIds.push($(this).val());
-		});
-		
-		return false;
+		return bankHtml;
 	}
-	
-	function startTmpBankWorkFlow(){
-		//'我要修改'页面不触发流程 
-		if(source != null && source !=''){
-			return;
+	//查询支行信息
+	function getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag){
+		selectorBranch.find('option').remove();
+		selectorBranch[0];
+		selectorBranch.append($("<option value=''>请选择</option>"));
+		var param = {faFinOrgCode:pcode,flag:flag,nowCode:finOrgCode};
+		if(tag == 'cl'){
+			param.tag = 'cl';
 		}
-		
-		if(!$("#isTmpBank").is(':checked')){
-			return;
-		}
+		$.ajax({
+			cache:true,
+			url:ctx+"/manage/queryBankListByParentCode",
+			method:"post",
+			dataType:"json",
+			async:false,
+			data:param,
+			success:function(data){
+				if(data != null){
+					for(var i = 0;i<data.length;i++){
+						var coLevelStr='('+data[i].coLevelStr+')';
 
-	 	$.ajax({
-		    url:ctx+"/mortgage/tmpBankAudit/start",
-		    async:false,
-	    	method:"post",
-	    	dataType:"json",
-	    	data:{caseCode:$("#caseCode").val()},
-	    	success:function(data){
-	    		window.wxc.success(data.message);
-	    	}
-	 	});
+						var option = $("<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>");
+						if(data[i].finOrgCode==finOrgCode){
+							option.attr("selected",true);
+						}
 
+						selectorBranch.append(option);
+					}
+				}
+			}
+		});
+		return true;
 	}
 	function selectLoanerUser(array) {
 		selectLoanerUserCom(array,$("#mortgageForm"));
@@ -728,42 +525,12 @@ function checkInt(obj){
 			$form.find("#loanerOrgId").val("");
 		}
 	}
-	
-	//渲染图片 
-	function renderImg(){
-		$('.wrapper-content').viewer('destroy');
-		$('.wrapper-content').viewer();
+	function submit(){
+		alert("");
 	}
  	</script> 
  </content>
  <content tag="local_require">
-    <script>
-    	var fileUpload;
-    
-	    require(['main'], function() {
-			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
-				fileUpload = aistFileUpload; 
-				
-				fileUpload.init({
-		    		caseCode : $('#caseCode').val(),
-		    		partCode : "ComLoanProcess",
-		    		preFileCode : "_letter_first",
-		    		fileUploadContainer : "comLoanProcessfileUploadContainer"
-		    	});
-				
-				fileUpload.init({
-			    		caseCode : $('#caseCode').val(),
-			    		partCode : "ComLoanProcess",
-			    		preFileCode : "_letter_sec",
-			    		fileUploadContainer : "comLoanProcess1fileUploadContainer"
-			    	});
-				
-			    
-		    });
-	    });
-	    
-	    
-	</script>
 	</content>
 </body>
 </html>
