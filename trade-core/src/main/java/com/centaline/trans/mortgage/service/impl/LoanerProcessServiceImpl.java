@@ -108,6 +108,11 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			variables.add(new RestVariable("loanerUserId", loaner.getUsername()));
 			variables.add(new RestVariable("bankLevel", bankLevel)); 
 			variables.add(new RestVariable("sessionUserId", user.getUsername()));   //派单人	
+			
+			RestVariable restBankLevel = new RestVariable();
+			restBankLevel.setName("bankLevelApprove");
+			restBankLevel.setValue(false);
+			variables.add(restBankLevel);   //预设值消息信息
 
             
             //启动流程 			

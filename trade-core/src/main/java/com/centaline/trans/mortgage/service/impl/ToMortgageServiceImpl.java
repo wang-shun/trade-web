@@ -589,8 +589,9 @@ public class ToMortgageServiceImpl implements ToMortgageService {
             ToMortgage mortageDb = findToMortgageById(mortage.getPkid());
             ToCase c = toCaseService.findToCaseByCaseCode(mortageDb.getCaseCode());
             
-            //获取流程变量
-            String loanerInstCode = workFlowManager.getVar(processInstanceId, "loanerInstCode")==null?"":workFlowManager.getVar(processInstanceId, "loanerInstCode").toString();
+            //获取流程变量            
+            RestVariable restVariableCode = workFlowManager.getVar(processInstanceId, "loanerInstCode");
+            String loanerInstCode  = restVariableCode.getValue().toString();
             //更新案件信息
             if ("false".equals(tmpBankCheck)) {
                 mortageDb.setTmpBankStatus(TmpBankStatusEnum.REJECT.getCode());
@@ -745,6 +746,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
         		messageService.sendBankLevelApproveMsg(loanerInstCode,approveFlag);
         		// 设置流程变量
         		workFlowManager.setVariableByProcessInsId(loanerInstCode, "bankLevelApprove", restVariableTrue);
+        		String ss="";
         	}    
     	}catch(BusinessException e){
     		 throw new BusinessException("银行分级审批消息发送异常！");

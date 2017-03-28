@@ -119,9 +119,9 @@ public class MessageServiceImpl implements MessageService {
 		action.setMessageName(MessageEnum.BANK_LEVEL_APPROVE_MSG.getName());
 		
 		//添加消息标示
-		List<RestVariable> variables = new ArrayList<RestVariable>();
+/*		List<RestVariable> variables = new ArrayList<RestVariable>();
 		variables.add(new RestVariable("approveFlag",approveFlag));
-		action.setVariables(variables);
+		action.setVariables(variables);*/
 
 		sendMessage(event,action);
 		

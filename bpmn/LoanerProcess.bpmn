@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
   <message id="BankLevelApproveMsg" name="BankLevelApproveMsg"></message>
-  <message id="TempBankAduitFinishMessage" name="TempBankAduitFinishMessage"></message>
   <process id="Loaner_Process" name="Loaner_Process" isExecutable="true">
     <startEvent id="startevent2" name="Start"></startEvent>
     <userTask id="LoanerSendOrder" name="交易顾问派单" activiti:assignee="${sessionUserId}" activiti:formKey="/task/comLoanerChange/process"></userTask>
@@ -10,7 +9,7 @@
     <endEvent id="endevent3" name="End"></endEvent>
     <sequenceFlow id="flow1" sourceRef="startevent2" targetRef="LoanerSendOrder"></sequenceFlow>
     <intermediateCatchEvent id="BankLevelApproveMsgEventCatch" name="Message">
-      <messageEventDefinition messageRef="TempBankAduitFinishMessage"></messageEventDefinition>
+      <messageEventDefinition messageRef="BankLevelApproveMsg"></messageEventDefinition>
     </intermediateCatchEvent>
     <sequenceFlow id="flow4" sourceRef="LoanerAccept" targetRef="LoanerAcceptApprove">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${loanerAccept == true}]]></conditionExpression>
