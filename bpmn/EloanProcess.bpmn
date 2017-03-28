@@ -4,7 +4,7 @@
     <startEvent id="startevent1" name="Start"></startEvent>
     <userTask id="EloanApply" name="E+贷款申请" activiti:assignee="${Consultant}" activiti:formKey="/eloan/task/eloanApply/process"></userTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="EloanApply"></sequenceFlow>
-    <userTask id="EloanApplyConfirm" name="E+申请确认" activiti:assignee="${Manager}" activiti:formKey="/eloan/task/eloanApplyConfirm/process"></userTask>
+    <userTask id="EloanApplyConfirm" name="E+申请确认" activiti:assignee="${Manager}" activiti:formKey="/eloan/task/eloanApplyConfirm/process?v=2"></userTask>
     <userTask id="EloanSign" name="E+贷款签约" activiti:assignee="${Consultant}" activiti:formKey="/eloan/task/eloanSign/process"></userTask>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <userTask id="EloanSignConfirm" name="E+签约确认" activiti:assignee="${Manager}" activiti:formKey="/eloan/task/eloanSignConfirm/process"></userTask>
