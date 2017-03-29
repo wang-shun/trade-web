@@ -21,7 +21,6 @@ import com.aist.common.quickQuery.service.QuerysParseService;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.common.vo.MobileHolder;
 
 /**
  * eLoan案件控制器
@@ -69,7 +68,7 @@ public class ELoanCaseController {
 		gp.putAll(paramter);
 		querysParseService.reloadFile();
 		Page<Map<String, Object>> returnPage = quickGridService
-				.findPageForSqlServer(gp, MobileHolder.getMobileUser());
+				.findPageForSqlServer(gp);
 
 		JSONObject result = new JSONObject();
 		result.put("page", page);
