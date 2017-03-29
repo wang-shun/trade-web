@@ -242,7 +242,7 @@ select[readonly] option {
 							     }
 							}});
 					    }else{
-					    	window.wxc.error("数据保存失败！\n"+data.message);
+					    	window.wxc.error("流程提交失败！"+data.message);
 					    }
 					},
 					

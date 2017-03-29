@@ -1850,7 +1850,7 @@ function checkInt(obj){
 	    		if(data.success){
 	    			window.wxc.success(data.message);
 	    		}else{
-	    			window.wxc.error("流程开启失败！\n"+data.message);
+	    			window.wxc.error("流程开启失败！");
 	    		}
 	    		
 	    	}

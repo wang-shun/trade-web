@@ -75,7 +75,6 @@ public class TmpBankAduitController {
 			response.setMessage("流程开启成功！");
 		} catch (Exception e) {
 			response.setSuccess(false);
-			response.setMessage(e.getMessage());
 			e.printStackTrace();
 		}
 		
