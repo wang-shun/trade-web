@@ -28,9 +28,12 @@ import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.mgr.service.ToSupDocuService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
@@ -78,6 +81,9 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
     
 	@Autowired
 	private ToMortgageService toMortgageService;
+	
+	@Autowired
+	private TaskService taskService;
 
     
     /*
@@ -119,6 +125,17 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
             ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode, variables);
             StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process,loaner.getUsername(), caseCode);    
             
+            
+    		// 启动流程之后 把交易顾问派单流程直接推送完
+    		@SuppressWarnings("unchecked")
+			PageableVo<TaskVo> pageableVo = taskService.listTasks(process.getProcessDefinitionId(), false);
+    		List<TaskVo> taskList = pageableVo.getData();
+    		for (TaskVo task : taskList) {
+    			if ("LoanerSendOrder".equals(task.getTaskDefinitionKey())) {
+    				taskService.complete(task.getId() + "");
+    				break;
+    			}
+    		}
             
             Map<String,Object>  map = new HashMap<String,Object>();
             map.put("caseCode", caseCode);
@@ -324,6 +341,39 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		}catch(BusinessException e) {
 	      	response.setSuccess(false);
 	      	throw new BusinessException("交易顾问派单流程结束异常！");
+	     } 		
+		return response;
+	}
+
+
+
+    /*
+     * @author:zhuody
+     * @date:2017-03-29
+     * @des:交易顾问派单流程是否已起判断
+     * 
+     */
+	@Override
+	public AjaxResponse<String> isLoanerProcessStart(String caseCode) {
+		
+		AjaxResponse<String>  response = new AjaxResponse<String>();
+		try {
+			ToWorkFlow toWorkFlow = new ToWorkFlow();
+			toWorkFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getCode());
+			toWorkFlow.setCaseCode(caseCode);
+			//查询流程表记录
+			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(toWorkFlow);
+			if(null == record){
+		        response.setSuccess(true);
+		        response.setMessage("交易顾问派单流程没有启动！");
+			}else{
+		        response.setSuccess(false);
+		        response.setMessage("交易顾问派单流程已经启动！");
+			}
+
+		}catch(BusinessException e) {
+	      	response.setSuccess(false);
+	      	throw new BusinessException("查询交易顾问派单流程是否启动异常！");
 	     } 		
 		return response;
 	}

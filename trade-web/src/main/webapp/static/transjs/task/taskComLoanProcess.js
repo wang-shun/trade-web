@@ -1418,21 +1418,30 @@ $(document).ready(function () {
  			
  			alert("银行等级======"+bankLevel);
  			alert("银行code======"+bankOrgCode);
- 			if(bankLevel == 0){
- 				//A级   合作银行不需要 审核
- 				startLoanerOrderWorkFlow(bankLevel);
- 				
- 			}else if (bankLevel == 1 || bankLevel == 9){
- 				//B、C级银行需要二级审核
- 				startLoanerOrderWorkFlow(bankLevel);
- 				///startBankLevelApproveWorkFlow();
- 			}else{
- 				window.wxc.alert("银行级别信息有误，请核实！");
- 				return;
- 			}
  			
-
  			
+ 			var data = 
+ 			{
+ 			   "caseCode":$("#caseCode").val() 
+ 			};
+ 		 	$.ajax({
+ 			    url:ctx+"/task/isLoanerProcessStart",
+ 			    async:false,
+ 		    	method:"post",
+ 		    	dataType:"json",
+ 		    	data:data,
+ 		    	
+ 		    	success:function(data){
+ 		    		if(data.success == true){
+ 		    			if(null != bankLevel &&  bankLevel != undefined){ 		    				
+ 		    				startLoanerOrderWorkFlow(bankLevel);  
+ 		    			}else{
+ 		    				window.wxc.alert("获取银行级别信息异常，请核实！");
+ 		    				return;
+ 		    			}
+ 		    		} 		    		
+ 		    	}
+ 		 	}); 			
  		}else if(currentIndex == 4){
  			getMortgageInfo($("#caseCode").val(),1);
  			getReportList("table_list_4","pager_list_4",1);

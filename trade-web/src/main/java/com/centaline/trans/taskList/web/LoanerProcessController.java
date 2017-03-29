@@ -70,6 +70,30 @@ public class LoanerProcessController {
 	
 	
 	/*
+	 * @author:zhuody
+	 * @date:2017-03-24
+	 * @des:信贷员接单流程启动
+	 * */
+	@RequestMapping("isLoanerProcessStart")
+	@ResponseBody
+	public AjaxResponse<String> isLoanerProcessStart(String caseCode) {	
+		
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		if(null == caseCode  || "".equals(caseCode)){
+			throw new BusinessException("判断流程是否启动请求参数为空！");
+		}
+		
+		try{
+			response = loanerProcessService.isLoanerProcessStart(caseCode);
+		}catch(BusinessException e){
+			throw new BusinessException("信贷员流程启动异常！");
+		}	
+	
+		return response;	
+	}
+	
+	
+	/*
 	 * 手机端实现
 	 * @author:zhuody
 	 * @date:2017-03-27

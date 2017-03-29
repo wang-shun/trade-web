@@ -45,5 +45,13 @@ public interface LoanerProcessService {
 	AjaxResponse<String> loanerProcessSubmit(ToMortgage toMortgage,String caseCode, String taskitem,String processInstanceId,int bankLevel);
 
 
+    /**
+     * 商贷第3步 起交易顾问派单之前判断是否已经起了流程
+     * @param caseCode
+     * @return
+     */
+	AjaxResponse<String> isLoanerProcessStart(String caseCode);
+
+
 
 }
