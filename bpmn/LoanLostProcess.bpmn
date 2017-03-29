@@ -6,8 +6,8 @@
     <userTask id="LoanlostApply" name="贷款流失申请" activiti:assignee="${partner}" activiti:formKey="/task/loanlostApply/process"></userTask>
     <userTask id="LoanlostApproveManager" name="贷款流失审批－主管" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'Manager')}" activiti:formKey="/task/loanlostApproveManager/process"></userTask>
     <userTask id="LoanlostApproveDirector" name="贷款流失审批－总监" activiti:assignee="#{commonUserService.getAssigneeByCaseOwner(execution,'director')}" activiti:formKey="/task/loanlostApproveDirector/process"></userTask>
-    <userTask id="SelfLoanApprove" name="自办贷款审批" activiti:assignee="${member}" activiti:formKey="/task/selfLoanApprove/process">
-      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="${members}" activiti:elementVariable="member">
+    <userTask id="SelfLoanApprove" name="自办贷款补充" activiti:assignee="${loanHandler}" activiti:formKey="/task/selfLoanApprove/process">
+      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="${loanHandlers}" activiti:elementVariable="loanHandler">
         <completionCondition>${nrOfCompletedInstances &gt;= 1}</completionCondition>
       </multiInstanceLoopCharacteristics>
     </userTask>
@@ -24,7 +24,7 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SeniorManager != null && LoanLost_manager == true}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow42" sourceRef="exclusivegateway1" targetRef="LoanlostApproveDirector">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SeniorManager == null && LoanLost_manager == true}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${SeniorManager== null && LoanLost_manager == true}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow5" sourceRef="LoanlostApproveSeniorManager" targetRef="exclusivegateway2"></sequenceFlow>
