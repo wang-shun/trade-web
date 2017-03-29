@@ -59,7 +59,7 @@
 									<dt>产权地址</dt>
 									<dd>${spvBaseInfoVO.toSpvProperty.prAddr}</dd>
 									<dt>合作机构</dt>
-									<dd id="pcode">${spvBaseInfoVO.toSpv.prdCode}</dd>
+									<dd>${spvBaseInfoVO.toSpv.prdCode eq 1?'光大四方监管':'光大三方监管'}</dd>
 									<dt>监管合同号</dt>
 									<dd >${spvBaseInfoVO.toSpv.spvConCode}</dd>
 								</dl>
@@ -680,10 +680,6 @@
 			/*获取产品列表*/
 			function getPcode(pcode){
 				var pcode = $("#"+pcode);
-				if(pcode.html()==1){
-					pcode.html("光大四方资金监管");
-					return;
-				}
 				 $.ajax({
 					    url:ctx+"/spv/queryPrdcCodeByProdCode",
 					    method:"post",
@@ -701,7 +697,7 @@
 				$("span[name='DX']").each(function(index,element){
 					$(element).html(DX($(element).html()*10000));
 				});
-				getPcode("pcode");
+				//getPcode("pcode");
 /* 				getBank("bank0");
 				getBank("bank1"); */
 			})
