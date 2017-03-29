@@ -735,18 +735,18 @@ public class ToMortgageServiceImpl implements ToMortgageService {
         	if(approveFlag == false){
                 RestVariable restVariableFalse = new RestVariable();
                 restVariableFalse.setType("boolean");
-                restVariableFalse.setValue(false);
-        		messageService.sendBankLevelApproveMsg(loanerInstCode,approveFlag);        		
+                restVariableFalse.setValue(false);        		      		
         		workFlowManager.setVariableByProcessInsId(loanerInstCode, "bankLevelApprove", restVariableFalse);
+        		messageService.sendBankLevelApproveMsg(loanerInstCode,approveFlag);  
         	}else{
         		
                 RestVariable restVariableTrue = new RestVariable();
                 restVariableTrue.setType("boolean");
-                restVariableTrue.setValue(true);
-        		messageService.sendBankLevelApproveMsg(loanerInstCode,approveFlag);
+                restVariableTrue.setValue(true);        		
         		// 设置流程变量
         		workFlowManager.setVariableByProcessInsId(loanerInstCode, "bankLevelApprove", restVariableTrue);
-        		String ss="";
+        		messageService.sendBankLevelApproveMsg(loanerInstCode,approveFlag);
+
         	}    
     	}catch(BusinessException e){
     		 throw new BusinessException("银行分级审批消息发送异常！");

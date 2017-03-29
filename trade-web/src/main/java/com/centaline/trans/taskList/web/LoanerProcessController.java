@@ -52,15 +52,15 @@ public class LoanerProcessController {
 	 * */
 	@RequestMapping("sendOrderStart")
 	@ResponseBody
-	public AjaxResponse<String> sendOrderStart(String caseCode,String loanerUserId, String loanerOrgId, String bankOrgCode,int bankLevel) {	
+	public AjaxResponse<String> sendOrderStart(String caseCode,String loanerUserId, String loanerOrgId, String bankOrgCode,int bankLevel,String isMainLoanBank) {	
 		
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		if((null == caseCode  || "".equals(caseCode)) || (null == loanerUserId  || "".equals(loanerUserId)) ||  (null == loanerOrgId  || "".equals(loanerOrgId))  || (null == bankOrgCode  || "".equals(bankOrgCode))){
+		if((null == caseCode  || "".equals(caseCode)) || (null == loanerUserId  || "".equals(loanerUserId)) || (null == loanerOrgId  || "".equals(loanerOrgId))  || (null == bankOrgCode  || "".equals(bankOrgCode) || (null == isMainLoanBank  || "".equals(isMainLoanBank)))){
 			throw new BusinessException("信贷员流程启动请求参数为空！");
 		}
 		
 		try{
-			response = loanerProcessService.startLoanerOrderWorkFlow(caseCode,loanerUserId,loanerOrgId,bankOrgCode,bankLevel);
+			response = loanerProcessService.startLoanerOrderWorkFlow(caseCode,loanerUserId,loanerOrgId,bankOrgCode,bankLevel,isMainLoanBank);
 		}catch(BusinessException e){
 			throw new BusinessException("信贷员流程启动异常！");
 		}	
@@ -86,7 +86,7 @@ public class LoanerProcessController {
 		try{
 			response = loanerProcessService.isLoanerProcessStart(caseCode);
 		}catch(BusinessException e){
-			throw new BusinessException("信贷员流程启动异常！");
+			throw new BusinessException("判断流程是否启动程序异常！");
 		}	
 	
 		return response;	
@@ -160,36 +160,15 @@ public class LoanerProcessController {
 		request.setAttribute("toMortgage", toMortgage);
 		//判断案件是否有效
 		if (toMortgage != null) {
-			TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long
-					.parseLong(toMortgage.getCustCode()));
+			TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
 			if (null != guest) {
 				request.setAttribute("custCompany", guest.getWorkUnit());
 				request.setAttribute("custName", guest.getGuestName());
 			}
-		}
-		//response = loanerProcessService.startLoanerOrderWorkFlow(caseCode,loanerUserId,loanerOrgId,bankOrgCode,bankLevel);
+		}		
 		
 		return "task/taskComLoanerChangeProcess";
-	}
-	
-	
-	
-	/*
-	 * @author:zhuody
-	 * @date:2017-03-27
-	 * @des:银行接对接单流程审核
-	 * */
-	@RequestMapping(value = "bankAcceptTest/process")
-	public String bankAcceptTest(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
-			String taskitem, String processInstanceId) {
-		
-		
-		//根据caseCode去查询相关页面信息，并且设置 页面的流程变量
-
-		
-		return "task/taskBankAccept";
-	}
-	
+	}	
 	
 	/*
 	 * @author:zhuody
@@ -229,68 +208,4 @@ public class LoanerProcessController {
 		
 		return responseStr;
 	}
-	
-	
-/*	
-	
-	@RequestMapping(value = "submit")
-	@ResponseBody
-	public boolean submit(HttpServletRequest request,FirstFollowVO firstFollowVO) {
-		SessionUser user = uamSessionService.getSessionUser();
-		firstFollowVO.setUserId(user.getId());
-		firstFollowVO.setUserOrgId(getOrgId(user.getId()));
-		firstFollowVO.setUserName(user.getUsername());
-		
-		firstFollowService.saveFirstFollow(firstFollowVO);
-
-		 无效案件保存到审批记录表 
-		if (firstFollowVO.getCaseProperty().equals("30003001")) {
-			saveToApproveRecord(firstFollowVO, firstFollowVO.getOperator(),	firstFollowVO.getApproveType());
-		} else {
-			firstFollowVO = firstFollowService.switchWorkFlowWithCurrentVersion(firstFollowVO);
-		}
-
-		 流程引擎相关 
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-		RestVariable restVariable = new RestVariable();
-		restVariable.setName("isvalid");
-		restVariable.setValue(firstFollowVO.getCaseProperty().equals("30003001"));
-		variables.add(restVariable);
-		if (firstFollowVO.getCaseProperty().equals("30003001")) {
-			if (!StringUtils.isBlank(firstFollowVO.getInvalid_reason())) {
-				RestVariable restVariable6 = new RestVariable();
-				restVariable6.setName("invalid_reason");
-				restVariable6.setValue(firstFollowVO.getInvalid_reason());
-				variables.add(restVariable6);
-			}
-		} else {
-			RestVariable restVariable3 = new RestVariable(); 限购 
-			restVariable3.setName("PurLimitCheckNeed");
-			RestVariable restVariable4 = new RestVariable(); 抵押 
-			restVariable4.setName("LoanCloseNeed");
-
-			restVariable3
-					.setValue(firstFollowVO.getChaxiangou().equals("true"));
-			restVariable4.setValue(firstFollowVO.getDiya().equals("true"));
-
-			variables.add(restVariable3);
-			variables.add(restVariable4);
-
-			// variables = editRestVariables(variables,
-			// firstFollowVO.getMortageService());
-		}
-		RestVariable signAssignee = new RestVariable();
-		signAssignee.setName("signAssignee");
-		signAssignee.setValue(user.getUsername());
-		variables.add(signAssignee);
-		ToCase toCase = toCaseService.findToCaseByCaseCode(firstFollowVO
-				.getCaseCode());
-		return workFlowManager.submitTask(variables, firstFollowVO.getTaskId(),
-				firstFollowVO.getProcessInstanceId(),
-				toCase.getLeadingProcessId(), firstFollowVO.getCaseCode());
-		// return false;
-	}
-	*/
-	
-
 }

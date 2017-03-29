@@ -2,6 +2,7 @@ package com.centaline.trans.mortgage.service.impl;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +94,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
      * 
      */
 	@Override
-	public AjaxResponse<String> startLoanerOrderWorkFlow(String caseCode,String loanerUserId, String loanerOrgId, String bankOrgCode,int bankLevel) {
+	public AjaxResponse<String> startLoanerOrderWorkFlow(String caseCode,String loanerUserId, String loanerOrgId, String bankOrgCode,int bankLevel,String isMainLoanBank) {
 				
 		AjaxResponse<String> response  = new AjaxResponse<String>();
         /*流程引擎相关*/
@@ -114,24 +115,24 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			variables.add(new RestVariable("loanerUserId", loaner.getUsername()));
 			variables.add(new RestVariable("bankLevel", bankLevel)); 
 			variables.add(new RestVariable("sessionUserId", user.getUsername()));   //派单人	
-			//variables.add(new RestVariable("bankLevelApprove", false));   //派单人	
+			//设置流程变量的2中方式	
 			RestVariable restBankLevel = new RestVariable();
 			restBankLevel.setName("bankLevelApprove");
 			restBankLevel.setValue(false);
 			variables.add(restBankLevel);   //预设值消息信息
-
+			variables.add(new RestVariable("mainBankChoose", false)); //默认启动流程时，不走作废程序
             
             //启动流程 			
             ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode, variables);
             StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process,loaner.getUsername(), caseCode);    
             
             
-    		// 启动流程之后 把交易顾问派单流程直接推送完
-    		@SuppressWarnings("unchecked")
-			PageableVo<TaskVo> pageableVo = taskService.listTasks(process.getProcessDefinitionId(), false);
+    		// 启动流程之后 把交易顾问派单流程直接推送完 
+			
+			PageableVo pageableVo = taskService.listTasks(vo.getId(), false);//Loaner_Process:4:1030016
     		List<TaskVo> taskList = pageableVo.getData();
     		for (TaskVo task : taskList) {
-    			if ("LoanerSendOrder".equals(task.getTaskDefinitionKey())) {
+    			if ("LoanerSendOrder".equals(task.getTaskDefinitionKey())) {//ZY-AJ-201605-1460
     				taskService.complete(task.getId() + "");
     				break;
     			}
@@ -141,9 +142,24 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
             map.put("caseCode", caseCode);
             map.put("loanerId", loanerUserId);
             ToMortgage toMortgageInfo = toMortgageMapper.findToMortgageByCaseCodeAndLoanerId(map);	
-            String bizCode = "";
-            if(null != toMortgageInfo){
+            String bizCode = "";            
+            
+            //添加贷款表中的  信贷员、派单员等信息
+            ToMortgage toMortgage = new ToMortgage();
+            toMortgage.setCaseCode(caseCode);
+            toMortgage.setDispachUserId(user.getId());
+            toMortgage.setDispachTime(new Date());
+            toMortgage.setLoanerId(loanerUserId);
+            toMortgage.setLoanerProcessInstCode(vo.getId());
+            toMortgage.setIsActive("1");
+            toMortgage.setIsMainLoanBank(isMainLoanBank);//0 备选银行,1 主选银行
+            toMortgage.setFinOrgCode(bankOrgCode);//此处设置银行Code才能保证 先启的银行审批流程
+            if(null != toMortgageInfo){          	
+            	toMortgage.setPkid(toMortgageInfo.getPkid());
+                toMortgageMapper.update(toMortgage); 
             	bizCode = toMortgageInfo.getPkid() == null ?"":toMortgageInfo.getPkid().toString();
+            }else{ 
+                toMortgageMapper.insertSelective(toMortgage);
             }
             //插入工作流表
             ToWorkFlow workFlow = new ToWorkFlow();
@@ -151,22 +167,22 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
             workFlow.setCaseCode(caseCode);
             workFlow.setBizCode(bizCode);
             workFlow.setInstCode(vo.getId());
-            workFlow.setProcessDefinitionId(propertyUtilsService.getProcessLoanerDfKey());//////propertyUtilsService.getProcessTmpBankAuditDfKey()  变成 信贷员的
+            workFlow.setProcessDefinitionId(propertyUtilsService.getProcessLoanerDfKey());
             workFlow.setProcessOwner(user.getId());
             workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
             toWorkFlowService.insertSelective(workFlow);             
             
             
             //派单给BC级别银行的信贷员之后,启动银行分级审批
-            if(bankLevel ==1 || bankLevel == 9 ){
+            if(bankLevel == 1 || bankLevel == 9 ){
             	toMortgageService.startTmpBankWorkFlow(caseCode,vo.getId());
-            }            
+            } 
             
             response.setSuccess(true);
-            response.setMessage("信贷员接单流程启动成功！");
+            response.setMessage("恭喜，交易顾问派单成功！");
         } catch (BusinessException e) {
         	response.setSuccess(false);
-        	throw new BusinessException("信贷员接单流程启动失败！"); 
+        	throw new BusinessException("Sorry,交易顾问派单失败！"); 
         }
         return response;
 	}
@@ -181,31 +197,29 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
      * 
      */
     @Override
-    public AjaxResponse<String> isLoanerAcceptCase(boolean isLonaerAcceptCase,String taskId, String processInstanceId,
-                                              String caseCode) {
+    public AjaxResponse<String> isLoanerAcceptCase(boolean isLonaerAcceptCase,String taskId, String processInstanceId, String caseCode) {
     	
 		if((null == caseCode ||"".equals(caseCode)) || (null == taskId ||"".equals(taskId)) || (null == processInstanceId ||"".equals(processInstanceId)) ){
 			throw new BusinessException("信贷员接单确认请求参数异常！");			
 		}	
     	
     	AjaxResponse<String> response  = new AjaxResponse<String>();         
-    	SessionUser user = uamSessionService.getSessionUser(); 
+    	
         List<RestVariable> variables = new ArrayList<RestVariable>();        
         
         try{
          	//信贷员接单
-        	if(isLonaerAcceptCase == true){
-    			variables.add(new RestVariable("loanerUserId", user.getUsername()));
+        	if(isLonaerAcceptCase == true){    			
     			variables.add(new RestVariable("loanerAccept", true));
     			
-        	}else{
-    			variables.add(new RestVariable("loanerUserId", user.getUsername()));
+        	}else{    			
     			variables.add(new RestVariable("loanerAccept", false));
         	}
         	//提交流程
             workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
             response.setSuccess(true);
             response.setMessage("信贷员确认接单成功！");
+            
         }catch(BusinessException e) {
         	response.setSuccess(false);
         	throw new BusinessException("信贷员接单流程推进失败！");
@@ -322,6 +336,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		try{
 			
 			variables.add(new RestVariable("bankLevel", bankLevel)); 
+			variables.add(new RestVariable("mainBankChoose", false)); 
 			
         	//提交流程
             workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);	

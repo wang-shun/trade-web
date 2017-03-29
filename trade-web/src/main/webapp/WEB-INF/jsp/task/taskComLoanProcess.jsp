@@ -768,7 +768,29 @@
 		                                         </div>
 		                                     </div>
 	
-		                                     <div class="line">
+	
+			                                  <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small select_style mend_select">签约时间<span class="star" >*</span>
+		                                             </label>
+		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
+                                                            <input class="input_type yuanwid" type="text" placeholder="" name="signDate" id="signDate" readonly>
+                                                     </div>										
+		                                         </div>
+		                                		<div class="form_content">
+		                                             <label class="control-label sign_left_small">推荐函编号<span class="star">*</span></label>
+													 <input type="text" name="recLetterNo" id="recLetterNo" class="input_type data_style">
+		                                         </div>
+		                                         <div class="form_content radio-seat" style="margin-top:8px;">
+		                                             <label class="control-label sign_left">需要放款前报告</label>							             
+										             <div class="controls">
+                                                         <label class="radio inline"> <input type="radio" value="1" name="ifReportBeforeLend">是</label>
+                                                         <label class="radio inline"> <input type="radio" value="0" name="ifReportBeforeLend" checked="checked">否</label>
+                                                     </div>
+		                                         </div>
+		                                     </div>
+	
+		                                     <div class="line">		                                     
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
 													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
@@ -795,25 +817,9 @@
 		                                         </div>
 		                                     </div>
 		                                     
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small select_style mend_select">
-		                                                 签约时间<span class="star" >*</span>
-		                                             </label>
-		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
-                                                            <input class="input_type yuanwid" type="text" placeholder="" name="signDate" id="signDate" readonly>
-                                                     </div>										
-		                                         </div>
-		                                         <div class="form_content radio-seat" style="margin-top:7px;">
-		                                             <label class="control-label sign_left_small">需要放款前报告</label>							             
-										             <div class="controls">
-                                                         <label class="radio inline"> <input type="radio" value="1" name="ifReportBeforeLend">是</label>
-                                                         <label class="radio inline"> <input type="radio" value="0" name="ifReportBeforeLend" checked="checked">否</label>
-                                                     </div>
-		                                         </div>
-		                                     </div>
+
 		                                     
-		                                     <div class="line">
+<%-- 		                                     <div class="line">
 		                                         <div class="form_content radio-seat" style="margin-top:5px;">
 		                                             <label class="control-label sign_left_small">是否临时银行</label>
 													 <div class="controls ">
@@ -821,27 +827,28 @@
                                                         <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
                                                      </div>
 		                                         </div>
-		                                         <div class="form_content" style="margin-left:-40px;">
-		                                             <label class="control-label sign_left_small" style="width: 170px;">推荐函编号<span class="star">*</span></label>
-													 <input type="text" name="recLetterNo" id="recLetterNo" class="input_type yuanwid">
-		                                         </div>
-		                                     </div>
+
+		                                     </div> --%>
 		                                     
-		                                     <div class="line">
+		         <!--                             <div class="line">
 		                                         <div class="form_content tmpBankReasonDiv">
 		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
 													 <input type="text" name="tmpBankReason" class="input_type optionwid">
 		                                         </div>
-		                                     </div>
+		                                     </div> -->
 		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">贷款银行</label>																										
-													 <select  name="bank_type" class="select_control" id="bank_type" ></select>	
+													 <select  name="bank_type" class="select_control data_style" id="bank_type" ></select>	
 		                                         </div>
 		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small" style="width: 204px;">贷款支行<span class="star">*</span></label>
-													 <select  name="finOrgCode" class="select_control" id="finOrgCode" ></select>
+		                                             <label class="control-label sign_left_small" style="width: 147px;">贷款支行<span class="star">*</span></label>
+													 <select  name="finOrgCode" class="select_control data_style" id="finOrgCode" ></select>
+		                                         </div>
+		                                         
+		                                         <div class="form_content">
+		                                          	 <button type="button" class="btn btn-success"  style="background:#52cdec" onclick="loanerProcessStart(1)" id="toLoanerCase">派单—>信贷员</button>		                                         	 
 		                                         </div>
 		                                     </div>
 		                                     
@@ -850,12 +857,10 @@
 		                                             <label class="control-label sign_left_small">补件名称</label>
 											         <input type="text" class="input_type yuanwid" name="supContent" id="supContent">										
 		                                         </div>
-		                                         <div class="form_content" style="margin-left:-28px;">
-		                                             <label class="control-label sign_left select_style mend_select" style="width: 204px;">
-		                                                 补件时间
-		                                             </label>										             
+		                                         <div class="form_content" >
+		                                             <label class="control-label sign_left_small select_style mend_select">补件时间</label>										             
 										             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_1" data-date-format="yyyy-mm-dd">
-                                                            <input class="input_type yuanwid datatime" type="text" name="remindTime" id="remindTime" readonly>
+                                                            <input class="input_type yuanwid" type="text" name="remindTime" id="remindTime" readonly>
                                                      </div>
 		                                         </div>
 		                                     </div>
@@ -1084,6 +1089,26 @@
 		                                         </div>
 		                                     </div>
 	
+				                             <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small select_style mend_select">签约时间<span class="star" >*</span>
+		                                             </label>
+		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
+                                                            <input class="input_type yuanwid" type="text" placeholder="" name="signDate" id="signDate" readonly>
+                                                     </div>										
+		                                         </div>
+		                                		<div class="form_content">
+		                                             <label class="control-label sign_left_small">推荐函编号<span class="star">*</span></label>
+													 <input type="text" name="recLetterNo" id="recLetterNo" class="input_type data_style">
+		                                         </div>
+		                                         <div class="form_content radio-seat" style="margin-top:8px;">
+		                                             <label class="control-label sign_left">需要放款前报告</label>							             
+										             <div class="controls">
+                                                         <label class="radio inline"> <input type="radio" value="1" name="ifReportBeforeLend">是</label>
+                                                         <label class="radio inline"> <input type="radio" value="0" name="ifReportBeforeLend" checked="checked">否</label>
+                                                     </div>
+		                                         </div>
+		                                     </div>
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
@@ -1107,30 +1132,40 @@
 		                                             <label class="control-label sign_left">信贷员到场</label> 
 		                                             <div class="controls" >
 											              <label class="radio inline"> <input type="radio" value="1" name="isLoanerArrive">是</label> 
-								                          <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive">否</label>
+								                          <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive" checked="checked">否</label>
 		                                             </div>
+		                                         </div>
+		                                     </div>
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">贷款银行</label>																										
+													 <select  name="bank_type" class="select_control data_style" id="bank_type" ></select>	
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small" style="width: 147px;">贷款支行<span class="star">*</span></label>
+													 <select  name="finOrgCode" class="select_control data_style" id="finOrgCode" ></select>
+		                                         </div>
+		                                         
+		                                         <div class="form_content">
+		                                          	 <button type="button" class="btn btn-success" style="background:#52cdec" onclick="loanerProcessStart(0)" id="toLoanerCaseTemp">派单—>信贷员</button>		                                         	 
 		                                         </div>
 		                                     </div>
 		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small select_style mend_select">
-		                                                 签约时间<span class="star" >*</span>
-		                                             </label>
-		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
-                                                            <input class="input_type yuanwid" type="text" placeholder="" name="signDate" id="signDate" readonly>
-                                                     </div>										
+		                                             <label class="control-label sign_left_small">补件名称</label>
+											         <input type="text" class="input_type yuanwid" name="supContent" id="supContent">										
 		                                         </div>
-		                                         <div class="form_content radio-seat" style="margin-top:7px;">
-		                                             <label class="control-label sign_left_small">需要放款前报告</label>							             
-										             <div class="controls">
-                                                         <label class="radio inline"> <input type="radio" value="1" name="ifReportBeforeLend">是</label>
-                                                         <label class="radio inline"> <input type="radio" value="0" name="ifReportBeforeLend">否</label>
+		                                         <div class="form_content" >
+		                                             <label class="control-label sign_left_small select_style mend_select">补件时间</label>										             
+										             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_1" data-date-format="yyyy-mm-dd">
+                                                            <input class="input_type yuanwid" type="text" name="remindTime" id="remindTime" readonly>
                                                      </div>
 		                                         </div>
 		                                     </div>
+
 		                                     
-		                                     <div class="line">
+	<!-- 	                                     <div class="line">
 		                                         <div class="form_content radio-seat" style="margin-top:5px;">
 		                                             <label class="control-label sign_left_small">是否临时银行</label>
 													 <div class="controls ">
@@ -1142,9 +1177,9 @@
 		                                             <label class="control-label sign_left_small" style="width: 170px;">推荐函编号<span class="star">*</span></label>
 													 <input type="text" name="recLetterNo" id="recLetterNo" class="input_type yuanwid">
 		                                         </div>
-		                                     </div>              
+		                                     </div>    -->           
 		                                     
-		                                     <div class="line">
+	<!-- 	                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">贷款银行</label>																										
 													 <select  name="bank_type" class="select_control" id="bank_type" ></select>	
@@ -1168,7 +1203,7 @@
                                                             <input class="input_type yuanwid datatime" type="text" name="remindTime" id="remindTime" readonly>
                                                      </div>
 		                                         </div>
-		                                     </div>
+		                                     </div> -->
 		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">

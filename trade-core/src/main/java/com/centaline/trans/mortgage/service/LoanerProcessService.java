@@ -11,7 +11,7 @@ public interface LoanerProcessService {
      * @param caseCode
      * @return
      */
-    AjaxResponse<String> startLoanerOrderWorkFlow(String caseCode,String loanerUserId, String loanerOrgId, String bankOrgCode,int bankLevel);
+    AjaxResponse<String> startLoanerOrderWorkFlow(String caseCode,String loanerUserId, String loanerOrgId, String bankOrgCode,int bankLevel,String isMainLoanBank);
 
     
     /**
@@ -26,8 +26,7 @@ public interface LoanerProcessService {
      * @param caseCode
      * @return
      */
-	AjaxResponse<String> isBankAcceptCase(boolean isAcceptCase, String taskId,
-			String processInstanceId, String caseCode);
+	AjaxResponse<String> isBankAcceptCase(boolean isAcceptCase, String taskId,String processInstanceId, String caseCode);
 
 
     /**
