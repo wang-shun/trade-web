@@ -347,6 +347,14 @@
 
 			/**保存数据*/
 			function save(b) {
+				
+				if(!b){
+					if ( ($("#loan_lost_confirmation_pic_list li").length == undefined || $("#loan_lost_confirmation_pic_list li").length == 0) ) {
+						window.wxc.alert("请上传附件信息！");
+						return false;
+					}
+				}
+				
 				if (!checkForm()) {
 					return;
 				}
