@@ -33,7 +33,7 @@ import com.centaline.trans.common.vo.MobileHolder;
  *          sstonehu Exp $
  */
 @Controller
-@RequestMapping(value = "/mobile/case")
+@RequestMapping({ "/mobile/case", "/case" })
 public class MortgageListController {
 
 	private static Logger logger = LoggerFactory
@@ -49,9 +49,6 @@ public class MortgageListController {
 	@ResponseBody
 	public String caseList(Integer page, Integer pageSize, String sidx,
 			String sord, String userid, String q_text) {
-
-		long millisecond = System.currentTimeMillis();
-		logger.info("Start:caseList 房源列表数据加载开始 ：" + millisecond + "/毫秒");
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(true);
 		gp.setPage(page);
