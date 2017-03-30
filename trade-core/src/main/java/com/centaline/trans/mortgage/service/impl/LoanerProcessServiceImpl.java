@@ -404,7 +404,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		        response.setMessage("交易顾问派单流程没有启动！");
 			}else{
 		        response.setSuccess(false);
-		        response.setMessage("交易顾问派单流程已经启动！");
+		        response.setMessage("交易顾问派单流程已经启动，请勿重复操作！");
 			}
 
 		}catch(BusinessException e) {

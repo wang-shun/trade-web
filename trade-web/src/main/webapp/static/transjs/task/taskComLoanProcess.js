@@ -1712,8 +1712,8 @@ function onkeyuploanerName(){
 }
 
 
-function loanerProcessStart(isMainLoanBank){
-
+function loanerProcessStart(isMainLoanBank){	
+	
 	var bankLevel = $("#finOrgCode").find('option:selected').attr('coLevel');//所选银行分行级别 
 	//以下参数查询  银行的接单数配置，超过配置则不能选择信贷员
 	var loanerUserId = $("#loanerId").val();		//所选信贷员的userId
@@ -1730,14 +1730,17 @@ function loanerProcessStart(isMainLoanBank){
     	dataType:"json",
     	data:data,
     	
-    	success:function(data){
-    		if(data.success == true){
-    			if(null != bankLevel &&  bankLevel != undefined  && null != loanerUserId){ 		    				
+    	success:function(data){    		
+    		if(data.success == true){    			
+    			if(null != bankLevel &&  bankLevel != undefined  && null != loanerUserId){     				
     				startLoanerOrderWorkFlow(bankLevel,isMainLoanBank);  
-    			}else{
+    			}else{    				
     				window.wxc.alert("启动派单流程需选择信贷员和银行信息");
     				return;
     			}
+    		}else{
+				window.wxc.alert(data.message);
+				return;
     		} 		    		
     	}
  	}); 

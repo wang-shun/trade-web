@@ -451,7 +451,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
             toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
             toWorkFlowService.insertSelective(toWorkFlow);
 
-            //更新贷款表临时银行状态为默认：‘’
+            //更新贷款表临时银行状态为默认
             ToMortgage mortageDb = findToMortgageByCaseCode2(caseCode);
             if (mortageDb != null) {
                 mortageDb.setComAmount(mortageDb.getComAmount() != null
