@@ -4,14 +4,11 @@
  */
 package com.centaline.parportal.mobile.mortgage.web;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -25,13 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuerysParseService;
 import com.aist.common.quickQuery.service.QuickGridService;
-import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.comment.entity.ToCaseComment;
-import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.common.vo.MobileHolder;
-import com.centaline.trans.mortgage.service.LoanerProcessService;
 
 /**
  * 
@@ -52,17 +45,10 @@ public class MortgageListController {
 	@Autowired
 	private QuerysParseService querysParseService;
 
-	@Autowired
-	private LoanerProcessService loanerProcessService;
-
-	@Autowired
-	private ToCaseCommentService toCaseCommentService;
-
 	@RequestMapping(value = "list")
 	@ResponseBody
-	public String caseList(HttpServletRequest request,
-			HttpServletResponse response, Integer page, Integer pageSize,
-			String sidx, String sord, String userid, String q_text) {
+	public String caseList(Integer page, Integer pageSize, String sidx,
+			String sord, String userid, String q_text) {
 
 		long millisecond = System.currentTimeMillis();
 		logger.info("Start:caseList 房源列表数据加载开始 ：" + millisecond + "/毫秒");
@@ -104,93 +90,6 @@ public class MortgageListController {
 		result.put("rows", content);
 
 		return result.toJSONString();
-	}
-
-	/**
-	 * 按揭贷款接单
-	 * 
-	 * @param taskId
-	 *            任务id
-	 * @param procInstanceId
-	 *            流程实例id
-	 * @param caseCode
-	 *            案件编号
-	 * @param comment
-	 *            案件跟进备注
-	 * @return
-	 */
-	@RequestMapping(value = "track/accept")
-	@ResponseBody
-	public String accept(String taskId, String procInstanceId, String caseCode,
-			String comment) {
-		boolean isSuccess = loanerProcessService.isLoanerAcceptCase(true,
-				taskId, procInstanceId, caseCode);
-
-		// 如果接单成功，添加案件跟进信息
-		if (isSuccess) {
-			SessionUser sessionUser = MobileHolder.getMobileUser();
-
-			// 添加案件跟进信息
-			ToCaseComment toCaseComment = new ToCaseComment();
-			toCaseComment.setCaseCode(caseCode);
-			toCaseComment.setType("TRACK");
-			toCaseComment.setSource("MORT");
-			toCaseComment.setSrvCode("accept");
-			toCaseComment.setComment(comment);
-			toCaseComment.setCreateTime(new Date());
-			toCaseComment.setCreateBy(sessionUser.getId());
-			toCaseComment.setCreatorOrgId(sessionUser.getServiceDepId());
-
-			toCaseCommentService.insertToCaseComment(toCaseComment);
-
-			return "true";
-		}
-
-		return null;
-	}
-
-	/**
-	 * 按揭贷款打回
-	 * 
-	 * @param taskId
-	 *            任务id
-	 * @param procInstanceId
-	 *            流程实例id
-	 * 
-	 * @param caseCode
-	 *            案件编号
-	 * @param comment
-	 *            案件跟进备注
-	 * @return
-	 */
-	@RequestMapping(value = "track/reject")
-	@ResponseBody
-	public String reject(String taskId, String procInstanceId, String caseCode,
-			String comment) {
-		boolean isSuccess = loanerProcessService.isLoanerAcceptCase(false,
-				taskId, procInstanceId, caseCode);
-
-		// 如果接单成功，添加案件跟进信息
-		if (isSuccess) {
-			SessionUser sessionUser = MobileHolder.getMobileUser();
-
-			// 添加案件跟进信息
-			ToCaseComment toCaseComment = new ToCaseComment();
-			toCaseComment.setCaseCode(caseCode);
-			toCaseComment.setType("TRACK");
-			toCaseComment.setSource("MORT");
-			toCaseComment.setSrvCode("reject");
-			toCaseComment.setComment(comment);
-			toCaseComment.setCreateTime(new Date());
-			toCaseComment.setCreateBy(sessionUser.getId());
-			toCaseComment.setCreatorOrgId(sessionUser.getServiceDepId());
-
-			toCaseCommentService.insertToCaseComment(toCaseComment);
-
-			return "true";
-		}
-
-		return null;
 	}
 
 }
