@@ -36,8 +36,6 @@ public class MortgageController {
 	@RequestMapping(value = "/{bizCode}")
 	@ResponseBody
 	public String mortgageCaseDetail(@PathVariable String bizCode) {
-		System.out.println("###########mortgageCaseDetail############");
-
 		List<Map<String, Object>> respDetail = mortgageCaseInfoQuery(
 				queryDetail, bizCode, 1, 10);
 
