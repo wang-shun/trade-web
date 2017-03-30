@@ -29,7 +29,7 @@ import com.alibaba.fastjson.JSONObject;
  *
  */
 @Controller
-@RequestMapping(value = "/eLoanCase")
+@RequestMapping(value = "/eloanCase")
 public class ELoanCaseController {
 
 	@Resource(name = "quickGridService")
@@ -44,7 +44,7 @@ public class ELoanCaseController {
 	private final static String queryELoanProcess = "queryELoanProcess";
 	private final static String queryELoanTradeProcess = "queryELoanTradeProcess";
 
-	@RequestMapping(value = "list")
+	@RequestMapping(value = "/list")
 	@ResponseBody
 	public String list(Integer page, Integer pageSize, String sidx,
 			String sord, String userId, String condition) {
