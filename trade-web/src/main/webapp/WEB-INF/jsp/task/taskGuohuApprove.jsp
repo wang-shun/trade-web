@@ -619,8 +619,13 @@
 					return false;
 				}
 			}
-
-				save();
+			if($("input[name='GuohuApprove']:checked").val()== 'true'){
+				if (!clickAttachmentf()) {
+					return;
+				}
+			}
+			save();
+				
 			}
 
 			/**保存数据*/
@@ -673,7 +678,23 @@
 					}
 				});
 			}
-			
+			function clickAttachmentf(){
+				var caseCode = $("#caseCode").val();
+				$.ajax({
+					cache : true,
+					async : false,//false同步，true异步
+					type : "POST",
+					url : "${ctx}/task/guohuApprove/getAttType",
+					dataType : "json",
+					data :  {caseCode:caseCode},
+					success : function(data) {
+						if(data.code=="N"){
+							window.wxc.alert("流失确认函未上传，请到贷款流失页面先上传！");
+							return false;
+						}
+					}
+				});
+			}
 			//渲染图片 
 			function renderImg(){
 				$('.wrapper-content').viewer('destroy');

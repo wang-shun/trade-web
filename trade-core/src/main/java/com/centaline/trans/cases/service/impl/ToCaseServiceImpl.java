@@ -1257,19 +1257,39 @@ public class ToCaseServiceImpl implements ToCaseService {
 		tp.setCaseCode(caseCode);
 		tp.setSrvCode(srvCode);
 		TgServItemAndProcessor tsip = tgservItemAndProcessorMapper.selectServItemandName(tp);
-		TgServItemAndProcessor tsipF = tgservItemAndProcessorMapper.selectServItemandNameF(tp);
+		//TgServItemAndProcessor tsipF = tgservItemAndProcessorMapper.selectServItemandNameF(tp);
 		if(null != tsip && !StringUtils.isBlank(tsip.getSrvName())){
 			st = tsip.getSrvName();
 		}
-		if(null != tsipF && !StringUtils.isBlank(tsipF.getSrvName())){
+		/*if(null != tsipF && !StringUtils.isBlank(tsipF.getSrvName())){
 			if(null == st){
 				st = tsipF.getSrvName();
 			}else{
 				st = st+","+tsipF.getSrvName();
 			}
 			
-		}
+		}*/
 		return st;
+	}
+	/**
+	 * 查询贷款流失申请书有没有提交
+	 * @author hejf10 2017-3-16 13:55:58
+	 * @param srvCode
+	 * @param caseCode  
+	 * @date 2017-3-16 13:55:58
+	 * @return
+	 */
+	@Override
+	public String selectAtt(String caseCode){
+		
+		int attCu = tgservItemAndProcessorMapper.selectAtt(caseCode);
+		int taskCu = tgservItemAndProcessorMapper.selectTask(caseCode);
+		if(taskCu > 0){
+			if(attCu < 1){
+				return "Y";
+			}
+		}
+		return "N";
 	}
 	
 
