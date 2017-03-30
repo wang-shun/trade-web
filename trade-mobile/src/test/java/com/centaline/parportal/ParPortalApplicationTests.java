@@ -22,8 +22,8 @@ public class ParPortalApplicationTests {
 	@Test
 	public void contextLoads() {
 
-		String result = mortgageListController.caseList(null, null, 1, 10,
-				null, null, "ff80808158bd58c10158bda37f100020", null);
+		String result = mortgageListController.caseList(1, 10, null, null,
+				"ff80808158bd58c10158bda37f100020", null);
 
 		System.out.println(result);
 	}

@@ -178,20 +178,22 @@ public class MortgageController {
 	@RequestMapping(value = "/{bizCode}")
 	@ResponseBody
 	public String mortgageCaseDetail(@PathVariable String bizCode) {
-
 		List<Map<String, Object>> respDetail = mortgageCaseInfoQuery(
 				queryDetail, bizCode, 1, 10);
 
 		List<Map<String, Object>> respMortProc = mortgageCaseInfoQuery(
 				queryMortProcess, bizCode, 1, 10);
 
-		String caseCode = (String) respDetail.get(0).get("tradeInfo_caseCode");
+		Map<String, Object> result = new HashMap<String, Object>();
+		String caseCode = "";
+		if (respDetail != null && respDetail.size() > 0) {
+			caseCode = (String) respDetail.get(0).get("tradeInfo_caseCode");
+			this.parseMortDetail(result, respDetail.get(0));
+		}
 
 		List<Map<String, Object>> respTradeProc = mortgageCaseInfoQuery(
 				queryTradeProcess, caseCode, 1, 10);
 
-		Map<String, Object> result = new HashMap<String, Object>();
-		this.parseMortDetail(result, respDetail.get(0));
 		result.put("mortProcess", respMortProc);
 		result.put("tradeProcess", respTradeProc);
 

@@ -53,6 +53,7 @@ import com.centaline.trans.product.service.ProductCategoryService;
 import com.centaline.trans.product.service.ProductService;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvAccount;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.service.CashFlowInService;
@@ -835,14 +836,33 @@ public class SpvController {
 	@RequestMapping("spvSign/deal")
 	@ResponseBody
 	public AjaxResponse<?> spvSign(String spvCode, String caseCode, String source, String instCode, String taskId, 
-			String spvConCode, Date signTime, Long sellerAccountPkid, String sellerAccountName, String sellerAccountNo, 
-			String sellerAccountTelephone, String sellerAccountBank, String sellerAccountBranchBank){
+			String spvConCode, Date signTime, Long buyerAccountPkid, String buyerAccountName, String buyerAccountNo, 
+			String buyerAccountTelephone, String buyerAccountBank, String buyerAccountBranchBank, Long sellerAccountPkid, String sellerAccountName, String sellerAccountNo, 
+			String sellerAccountTelephone, String sellerAccountBank, String sellerAccountBranchBank, Long fundAccountPkid, String fundAccountName, String fundAccountNo, String fundAccountBranchBank){
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
     		//保存相关信息
     		SessionUser user= uamSessionService.getSessionUser();
-    		toSpvService.spvSign(spvCode, caseCode, source, instCode, taskId, spvConCode, signTime, sellerAccountPkid, sellerAccountName, sellerAccountNo, 
-    				sellerAccountTelephone, sellerAccountBank, sellerAccountBranchBank, user);
+    		ToSpvAccount buyerAcc = new ToSpvAccount();
+    		buyerAcc.setPkid(buyerAccountPkid);
+    		buyerAcc.setName(buyerAccountName);
+    		buyerAcc.setAccount(buyerAccountNo);
+    		buyerAcc.setTelephone(buyerAccountTelephone);
+    		buyerAcc.setBank(buyerAccountBank);
+    		buyerAcc.setBranchBank(buyerAccountBranchBank);
+    		ToSpvAccount sellerAcc = new ToSpvAccount();
+    		sellerAcc.setPkid(sellerAccountPkid);
+    		sellerAcc.setName(sellerAccountName);
+    		sellerAcc.setAccount(sellerAccountNo);
+    		sellerAcc.setTelephone(sellerAccountTelephone);
+    		sellerAcc.setBank(sellerAccountBank);
+    		sellerAcc.setBranchBank(sellerAccountBranchBank);
+    		ToSpvAccount fundAcc = new ToSpvAccount();
+    		fundAcc.setPkid(fundAccountPkid);
+    		fundAcc.setName(fundAccountName);
+    		fundAcc.setAccount(fundAccountNo);
+    		fundAcc.setBranchBank(fundAccountBranchBank);
+    		toSpvService.spvSign(spvCode, caseCode, source, instCode, taskId, spvConCode, signTime, buyerAcc, sellerAcc, fundAcc, user);
     		response.setSuccess(true);
 		} catch (Exception e) {
 			setExMsgForResp(response,e);

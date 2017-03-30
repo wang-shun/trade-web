@@ -10,21 +10,19 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuerysParseService;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.common.vo.MobileHolder;
 
 /**
  * 
@@ -32,8 +30,8 @@ import com.centaline.trans.common.vo.MobileHolder;
  * @version $Id: MortgageListController.java, v 0.1 2016年12月12日 上午3:45:44
  *          sstonehu Exp $
  */
-@RestController
-@RequestMapping(value = "/mobile/case")
+@Controller
+@RequestMapping(value = "/mortgageList")
 public class MortgageListController {
 
 	private static Logger logger = LoggerFactory
@@ -49,9 +47,6 @@ public class MortgageListController {
 	@ResponseBody
 	public String caseList(Integer page, Integer pageSize, String sidx,
 			String sord, String userid, String q_text) {
-
-		long millisecond = System.currentTimeMillis();
-		logger.info("Start:caseList 房源列表数据加载开始 ：" + millisecond + "/毫秒");
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(true);
 		gp.setPage(page);
@@ -65,14 +60,15 @@ public class MortgageListController {
 		// paramter.put("userid", sessionUser.getId());
 		paramter.put("userid", userid);
 
-		if (StringUtils.isNotBlank(q_text) && StringUtils.isNotEmpty(q_text)) {
-			paramter.put("q_text", q_text);
+		if (q_text != null && !"".equals(q_text)) {
+			String formatCondtion = q_text.trim();
+			paramter.put("q_text", formatCondtion);
 		}
 
 		gp.putAll(paramter);
 		querysParseService.reloadFile();
 		Page<Map<String, Object>> returnPage = quickGridService
-				.findPageForSqlServer(gp, MobileHolder.getMobileUser());
+				.findPageForSqlServer(gp);
 
 		JSONObject result = new JSONObject();
 		result.put("page", page);

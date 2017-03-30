@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
@@ -388,6 +389,28 @@ public class GuohuApproveController {
 			List<TaskVo> result = new ArrayList<>(hashMap.values());
 			return result;
 		}
-	
+	/**
+	  * @throws Exception 
+	  * @Title:  
+	  * @author: hejf 
+	  * @return caseCode
+	  * @throws
+	  */
+	 @RequestMapping("getAttType")
+	 @ResponseBody
+	 public AjaxResponse<String> cashFlowOutApprDeleteCashFlowAll(HttpServletRequest request,String caseCode) throws Exception {
+		 AjaxResponse<String> response = new AjaxResponse<>();
+		 try{
+			 String type = toCaseService.selectAtt(caseCode);
+			 response.setSuccess(true);
+			 response.setCode(type);
+		 }catch(Exception e){
+			 response.setMessage(e.getMessage());
+			 response.setSuccess(false);
+			 response.setCode("N");
+			 throw e;
+		 }
+		 return response;
+	 }
 	
 }
