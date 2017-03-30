@@ -10,7 +10,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +60,9 @@ public class MortgageListController {
 		// paramter.put("userid", sessionUser.getId());
 		paramter.put("userid", userid);
 
-		if (StringUtils.isNotBlank(q_text) && StringUtils.isNotEmpty(q_text)) {
-			paramter.put("q_text", q_text);
+		if (q_text != null && !"".equals(q_text)) {
+			String formatCondtion = q_text.trim();
+			paramter.put("q_text", formatCondtion);
 		}
 
 		gp.putAll(paramter);
