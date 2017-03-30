@@ -353,7 +353,6 @@
 						<c:if test="${not empty users }">	
 						<div class="col-sm-6">&nbsp;</div>
 						<div class="col-sm-6">&nbsp;</div>
-                        <div class="col-sm-6">&nbsp;</div>
 						<div class="col-sm-6">分配人员：</div>
 						<div class="col-sm-6">&nbsp;</div>
 						<c:forEach items="${users}" var="user" varStatus="var">
@@ -619,15 +618,14 @@
 					return false;
 				}
 			}
-			if($("input[name='GuohuApprove']:checked").val()== 'true'){
-				if (!clickAttachmentf()) {
-					return;
+				if($("input[name='GuohuApprove']:checked").val()== 'true'){
+					clickAttachmentf();
+				}else{
+					save();
 				}
+			
 			}
-			save();
-				
-			}
-
+			
 			/**保存数据*/
 			function save() {
 				var jsonData = $("#guohuApproveForm").serializeArray();
@@ -688,10 +686,12 @@
 					dataType : "json",
 					data :  {caseCode:caseCode},
 					success : function(data) {
-						if(data.code=="N"){
+						if(data.code=="Y"){
 							window.wxc.alert("流失确认函未上传，请到贷款流失页面先上传！");
-							return false;
+						}else{
+							save();
 						}
+						
 					}
 				});
 			}
