@@ -353,7 +353,6 @@
 						<c:if test="${not empty users }">	
 						<div class="col-sm-6">&nbsp;</div>
 						<div class="col-sm-6">&nbsp;</div>
-                        <div class="col-sm-6">&nbsp;</div>
 						<div class="col-sm-6">分配人员：</div>
 						<div class="col-sm-6">&nbsp;</div>
 						<c:forEach items="${users}" var="user" varStatus="var">
