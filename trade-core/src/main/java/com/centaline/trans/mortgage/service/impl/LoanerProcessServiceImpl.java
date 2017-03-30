@@ -1,6 +1,7 @@
 package com.centaline.trans.mortgage.service.impl;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -302,20 +303,16 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
      * 
      */
 	@Override
-	public AjaxResponse<String> loanerProcessDelete(String caseCode,String taskId, String processInstanceId) {
-		
-		AjaxResponse<String>  response = new AjaxResponse<String>();
+	public void loanerProcessDelete(String caseCode,String taskId, String processInstanceId) {
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		if((null == caseCode ||"".equals(caseCode)) || (null == taskId ||"".equals(taskId)) || (null == processInstanceId ||"".equals(processInstanceId)) ){
 			throw new BusinessException("结束交易顾问派单流程请求参数异常！");			
 		}	
-		
 		try{
 			//结束流程
 			variables.add(new RestVariable("mainBankChoose", true));
 	    	//提交流程
 	        workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
-	        
 	        //更新流程表的状态
 	        ToWorkFlow workFlow = new ToWorkFlow();
 	        workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());//Loaner_Process:1:1012544
@@ -325,15 +322,9 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	            record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 	            toWorkFlowService.updateByPrimaryKeySelective(record);
 	        }
-	        
-	        response.setSuccess(true);
-	        response.setMessage("交易顾问派单流程成功结束！");
 		}catch(BusinessException e) {
-	      	response.setSuccess(false);
 	      	throw new BusinessException("交易顾问派单流程结束异常！");
-	     } 
-		
-		return response;
+	     }
 	}
 
 
@@ -344,43 +335,29 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
      * 
      */
 	@Override
-	public AjaxResponse<String> loanerProcessSubmit(ToMortgage toMortgage,String caseCode, String taskId, String processInstanceId,int bankLevel) {
-		
-		
+	public void loanerProcessSubmit(ToMortgage toMortgage,String caseCode, String taskId, String processInstanceId,int bankLevel) {
 		if((null == caseCode ||"".equals(caseCode)) || (null == taskId ||"".equals(taskId)) || (null == processInstanceId ||"".equals(processInstanceId)) ){
 			throw new BusinessException("交易顾问派单流程请求参数异常！");			
 		}
-		
 		AjaxResponse<String>  response = new AjaxResponse<String>();
         List<RestVariable> variables = new ArrayList<RestVariable>();
+		//更新 信贷员信息、贷款机构信息
+		ToMortgage toMortgageDTO = vilidateMortage(toMortgage);//验证前台传来的参数
 		try{
-			
-			variables.add(new RestVariable("bankLevel", bankLevel)); 
-			variables.add(new RestVariable("mainBankChoose", false)); 
-			
-        	//提交流程
-            workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);	
-			
-            //派单给BC级别银行的信贷员之后,启动银行分级审批
-            if(bankLevel == 1 || bankLevel == 9 ){
-            	toMortgageService.startTmpBankWorkFlow(caseCode,processInstanceId);
-            }
-			
-			//更新 信贷员信息、贷款机构信息		
-			if(null != toMortgage){
-				toMortgageService.updateToMortgage(toMortgage);//toMortgage 主键pkid作为条件更新
+			//提交流程
+			variables.add(new RestVariable("bankLevel", bankLevel));
+			variables.add(new RestVariable("mainBankChoose", false));
+			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
+			//派单给BC级别银行的信贷员之后,启动银行分级审批
+			if(bankLevel == 1 || bankLevel == 9 ){
+				toMortgageService.startTmpBankWorkFlow(caseCode, processInstanceId);
 			}
-            
-	        response.setSuccess(true);
+			toMortgageService.updateToMortgage(toMortgageDTO);//toMortgage 主键pkid作为条件更新
 	        response.setMessage("交易顾问派单信息提交成功！");
 		}catch(BusinessException e) {
-	      	response.setSuccess(false);
 	      	throw new BusinessException("交易顾问派单流程结束异常！");
-	     } 		
-		return response;
+	     }
 	}
-
-
 
     /*
      * @author:zhuody
@@ -411,5 +388,68 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	      	throw new BusinessException("查询交易顾问派单流程是否启动异常！");
 	     } 		
 		return response;
+	}
+	/**
+	 * @author:caoy
+	 * 验证传来的贷款参数
+	 * @param toMortgage
+	 * @return
+	 */
+	private ToMortgage vilidateMortage(ToMortgage toMortgage){
+		if(toMortgage==null){
+			throw new BusinessException("参数错误");
+		}
+		ToMortgage toMortgageDTO = new ToMortgage();
+		if(toMortgage.getComAmount()!=null){
+			BigDecimal b2 = new BigDecimal(10000);
+			toMortgageDTO.setComAmount(toMortgage.getComAmount().multiply(b2));
+		}
+		if(toMortgage.getPrfAmount()!=null){
+			BigDecimal b2 = new BigDecimal(10000);
+			toMortgageDTO.setComAmount(toMortgage.getPrfAmount().multiply(b2));
+		}
+		if(toMortgage.getPkid()==null||"".equals(toMortgage.getPkid())){
+			throw new BusinessException("参数错误");
+		}
+		if(toMortgage.getLoanerName()==null||"".equals(toMortgage.getLoanerName())){
+			throw new BusinessException("信贷员名字为空");
+		}
+		if(toMortgage.getLoanerPhone()==null||"".equals(toMortgage.getLoanerPhone())){
+			throw new BusinessException("信贷员电话为空");
+		}
+		if(toMortgage.getLoanerId()==null||"".equals(toMortgage.getLoanerId())){
+			throw new BusinessException("信贷员主键为空");
+		}
+		if(toMortgage.getLoanerOrgId()==null||"".equals(toMortgage.getLoanerOrgId())){
+			throw new BusinessException("信贷员组织主键为空");
+		}
+		if(toMortgage.getLoanerOrgCode()==null||"".equals(toMortgage.getLoanerOrgCode())){
+			throw new BusinessException("信贷员组织代为空");
+		}
+		if(toMortgage.getIsLoanerArrive()==null||"".equals(toMortgage.getIsLoanerArrive())){
+			throw new BusinessException("信贷员是否到场为空");
+		}
+		if(toMortgage.getIsTmpBank()==null||"".equals(toMortgage.getIsTmpBank())){
+			throw new BusinessException("临时银行选项为空");
+		}
+		if(toMortgage.getFinOrgCode()==null||"".equals(toMortgage.getFinOrgCode())){
+			throw new BusinessException("选择的银行选项为空");
+		}
+		toMortgageDTO.setLoanerId(toMortgage.getLoanerId());//信贷员ID
+		toMortgageDTO.setLoanerOrgId(toMortgage.getLoanerOrgId());//信贷员组织id
+		toMortgageDTO.setLoanerOrgCode(toMortgage.getLoanerOrgCode());//信贷员组织code
+		toMortgageDTO.setLoanerName(toMortgage.getLoanerName());//信贷员名称
+		toMortgageDTO.setLoanerPhone(toMortgage.getLoanerPhone());//信贷员电话
+		toMortgageDTO.setIsLoanerArrive(toMortgage.getIsLoanerArrive());//信贷员是否到场
+		toMortgageDTO.setIsTmpBank(toMortgage.getIsTmpBank());//是否是临时银行
+		toMortgageDTO.setFinOrgCode(toMortgage.getFinOrgCode());//贷款银行
+		toMortgageDTO.setPkid(toMortgage.getPkid());//贷款表更新主键
+		toMortgageDTO.setComAmount(toMortgage.getComAmount());//商贷金额
+		toMortgageDTO.setComDiscount(toMortgage.getComDiscount());//商贷折扣率
+		toMortgageDTO.setComYear(toMortgage.getComYear());//商贷年份
+		toMortgageDTO.setPrfAmount(toMortgage.getPrfAmount());//公积金金额
+		toMortgageDTO.setPrfYear(toMortgage.getPrfYear());//公积金年份
+
+		return toMortgageDTO;
 	}
 }
