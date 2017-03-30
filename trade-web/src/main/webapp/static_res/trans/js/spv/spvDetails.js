@@ -1129,6 +1129,14 @@ $(document).ready(function(){
 	    if(handle == "SpvSign"){
 	    	data.spvConCode = $("input[name='toSpv.spvConCode']").val();
 	    	data.signTime = $("input[name='toSpv.signTime']").val();
+	    	
+	    	data.buyerAccountPkid = $("input[name='toSpvAccountList[0].pkid']").val();
+	    	data.buyerAccountName = $("input[name='toSpvAccountList[0].name']").val();
+	    	data.buyerAccountNo = $("input[name='toSpvAccountList[0].account']").val();
+	    	data.buyerAccountTelephone = $("input[name='toSpvAccountList[0].telephone']").val();
+	    	data.buyerAccountBank = $("input[name='toSpvAccountList[0].bank']").val();
+	    	data.buyerAccountBranchBank = $("input[name='toSpvAccountList[0].branchBank']").val();
+	    	
 	    	data.sellerAccountPkid = $("input[name='toSpvAccountList[1].pkid']").val();
 	    	data.sellerAccountName = $("input[name='toSpvAccountList[1].name']").val();
 	    	data.sellerAccountNo = $("input[name='toSpvAccountList[1].account']").val();

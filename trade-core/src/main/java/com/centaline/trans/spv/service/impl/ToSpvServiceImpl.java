@@ -856,7 +856,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public int updateByPrimaryKey(ToSpv record) {
-		return toSpvMapper.updateByPrimaryKey(record);
+		return toSpvMapper.updateByPrimaryKeySelective(record);
 	}
 
 	/**
@@ -1852,8 +1852,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public void spvSign(String spvCode, String caseCode, String source, String instCode, String taskId,
-			String spvConCode, Date signTime, Long SellerAccountPkid, String SellerAccountName, String SellerAccountNo, 
-			String SellerAccountTelephone, String SellerAccountBank, String SellerAccountBranchBank, SessionUser user) {
+			String spvConCode, Date signTime, ToSpvAccount buyerAcc, ToSpvAccount sellerAcc, SessionUser user) {
 		
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
@@ -1863,15 +1862,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 		spv.setSpvConCode(spvConCode);
 		spv.setSignTime(signTime);
 		updateByPrimaryKey(spv);
-		
-		ToSpvAccount toSpvAccount = new ToSpvAccount();
-		toSpvAccount.setPkid(SellerAccountPkid);
-		toSpvAccount.setName(SellerAccountName);
-		toSpvAccount.setAccount(SellerAccountNo);
-		toSpvAccount.setTelephone(SellerAccountTelephone);
-		toSpvAccount.setBank(SellerAccountBank);
-		toSpvAccount.setBranchBank(SellerAccountBranchBank);
-		toSpvAccountMapper.updateByPrimaryKey(toSpvAccount);
+
+		toSpvAccountMapper.updateByPrimaryKeySelective(buyerAcc);
+		toSpvAccountMapper.updateByPrimaryKeySelective(sellerAcc);
 	}
 	
 }
