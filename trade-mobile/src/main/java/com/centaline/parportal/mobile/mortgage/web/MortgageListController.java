@@ -31,7 +31,7 @@ import com.alibaba.fastjson.JSONObject;
  *          sstonehu Exp $
  */
 @Controller
-@RequestMapping(value = "/case")
+@RequestMapping(value = "/mortgageList")
 public class MortgageListController {
 
 	private static Logger logger = LoggerFactory
