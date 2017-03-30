@@ -74,7 +74,7 @@ public class MortgageController {
 					procInstanceId, caseCode);
 
 			// 设置案件跟进信息
-			toCaseComment = setToCaseComment(sessionUser, caseCode, "accept",
+			toCaseComment = setToCaseComment(sessionUser, caseCode, "ACCEPT",
 					comment);
 		}
 		// 信贷员打回
@@ -84,7 +84,7 @@ public class MortgageController {
 					procInstanceId, caseCode);
 
 			// 设置案件跟进信息
-			toCaseComment = setToCaseComment(sessionUser, caseCode, "beatBack",
+			toCaseComment = setToCaseComment(sessionUser, caseCode, "REJECT",
 					comment);
 		}
 
@@ -109,22 +109,25 @@ public class MortgageController {
 	 *            案件跟进备注
 	 * @return
 	 */
-	@RequestMapping(value = "track/audit")
+	@RequestMapping(value = "track/followUp")
 	@ResponseBody
-	public String audit(String isPass, String taskId, String procInstanceId,
-			String caseCode, String comment) {
+	public String followUp(String isPass, String taskId, String procInstanceId,
+			String srvCode, String caseCode, String comment) {
 		SessionUser sessionUser = MobileHolder.getMobileUser();
 
 		ToCaseComment toCaseComment = null;
 
 		// 银行审核通过
 		if ("true".equals(isPass)) {
-			// 处理流程,银行审核通过
-			loanerProcessService.isBankAcceptCase(true, taskId, procInstanceId,
-					caseCode);
+
+			if ("MORT_APPROVED".equals(srvCode)) {
+				// 处理流程,银行审核通过
+				loanerProcessService.isBankAcceptCase(true, taskId,
+						procInstanceId, caseCode);
+			}
 
 			// 设置案件跟进信息
-			toCaseComment = setToCaseComment(sessionUser, caseCode, "success",
+			toCaseComment = setToCaseComment(sessionUser, caseCode, srvCode,
 					comment);
 		}
 		// 银行审核拒绝
@@ -133,7 +136,7 @@ public class MortgageController {
 			loanerProcessService.isBankAcceptCase(false, taskId,
 					procInstanceId, caseCode);
 			// 设置案件跟进信息
-			toCaseComment = setToCaseComment(sessionUser, caseCode, "reject",
+			toCaseComment = setToCaseComment(sessionUser, caseCode, "REJECT",
 					comment);
 		}
 
