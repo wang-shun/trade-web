@@ -34,14 +34,14 @@ public interface LoanerProcessService {
      * @param caseCode
      * @return
      */
-	AjaxResponse<String> loanerProcessDelete(String caseCode, String taskitem,String processInstanceId);
+	void loanerProcessDelete(String caseCode, String taskitem,String processInstanceId);
 
     /**
      * 交易顾问派单 信贷员信息提交
      * @param caseCode
      * @return
      */
-	AjaxResponse<String> loanerProcessSubmit(ToMortgage toMortgage,String caseCode, String taskitem,String processInstanceId,int bankLevel);
+	void loanerProcessSubmit(ToMortgage toMortgage,String caseCode, String taskitem,String processInstanceId,int bankLevel);
 
 
     /**

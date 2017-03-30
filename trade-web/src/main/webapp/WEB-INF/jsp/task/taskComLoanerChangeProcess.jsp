@@ -157,7 +157,7 @@
 								<div class="ibox" style="width:988px;">
 								<div class="ibox-content">
 								<form id="mortgageForm" class="form_list">
-								    <input type="hidden" name="pkid" id="pkid"  value="${mortgage.pkid}"/>
+								    <input type="hidden" name="pkid" id="pkid"  value="${toMortgage.pkid}"/>
 									<input type="hidden" name="caseCode" value="${caseCode}">									
 		                            <div class="marinfo">
 		                                    <div class="line">
@@ -234,9 +234,9 @@
 													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
 													 </input>			
-													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
-													 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
-													 <input type="hidden"  id="loanerId" name="loanerId" />
+													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" value="${toMortgage.loanerOrgCode}" />
+													 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" value="${toMortgage.loanerOrgId}" />
+													 <input type="hidden"  id="loanerId" name="loanerId" value="${toMortgage.loanerId}" />
 													 <div class="input-group float_icon organize_icon" ></div>	
 		                                         </div>
 		                                         <div class="form_content">
@@ -287,6 +287,13 @@
 		                                     </div>
 		                                     
 		                                     <div class="line">
+												 <div class="form_content radio-seat" style="margin-top:5px;">
+													 <label class="control-label sign_left_small">是否临时银行</label>
+													 <div class="controls ">
+														 <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
+														 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
+													 </div>
+												 </div>
 												 <div class="form_content">
 													 <label class="control-label sign_left_small select_style mend_select">推荐函编号<span class="star" >*</span>
 													 </label>
@@ -323,6 +330,7 @@
 						<div class="form-btn">
 		                    <div class="text-center">
 		                         <button class="btn btn-success btn-space" onclick="submit()">提交</button>
+								<button class="btn btn-success btn-space" onclick="refuse()">驳回</button>
 		                    </div>
 		                </div>
 					</section>
@@ -337,20 +345,7 @@
 </div>
 </div>  
 
-<content tag="local_script"> 
-<script>
-var source = "${source}";
-
-//‘我要修改’时不可修改签约时间和审批时间
-if('caseDetails'==source){
-	readOnlyForm();
-}
-
-function readOnlyForm(){
-	$("input[name='signDate']").attr('readOnly',true).css("background-color","#eee").parent().removeClass("input-daterange");
-	$("input[name='apprDate']").attr('readOnly',true).css("background-color","#eee").parent().removeClass("input-daterange");
-}
-</script>
+<content tag="local_script">
 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
@@ -373,45 +368,41 @@ function readOnlyForm(){
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 <script>
+	var isTmpBank = ${toMortgage.isTmpBank}
 
-function checknum(obj){
-	obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-	obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是. 
-	obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.   
-	obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-}
+	function checknum(obj){
+		obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
+		obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是.
+		obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+	}
 
-/*贷款折扣自动补全*/
-function autoCompleteComDiscount(obj){
-	
-	obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-	obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是. 
-	obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.   
-	obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-	
-	var inputVal = obj.value;
- 	if(inputVal>=0.5 && inputVal<=1.5){
-		var reg =/^[01]{1}\.{1}\d{3,}$/;
-		if(reg.test(inputVal)){
-			obj.value = inputVal.substring(0,4);
+	/*贷款折扣自动补全*/
+	function autoCompleteComDiscount(obj){
+
+		obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
+		obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是.
+		obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+
+		var inputVal = obj.value;
+		if(inputVal>=0.5 && inputVal<=1.5){
+			var reg =/^[01]{1}\.{1}\d{3,}$/;
+			if(reg.test(inputVal)){
+				obj.value = inputVal.substring(0,4);
+			}
 		}
 	}
-}
- 	var index = 0;
-
 	jQuery(document).ready(function() {
 		//银行下拉列表
-		getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"cl","equ");
+		if(isTmpBank=='1'){
+			getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"","equ");
+		}else{
+			getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"cl","equ");
+		}
 		$("#mortType").attr("disabled","disabled").css("background-color", "#ccc");
 		$("#lendWay").attr("disabled","disabled").css("background-color", "#ccc");
-		$("#bank_type").change(function(){
-			/*$("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy");*/
-			getBranchBankList($("#finOrgCode"),$("#bank_type").val(),"");
-
-			/*$("#mortgageForm").find("select[name='finOrgCode']").unbind('change');
-			 $("#mortgageForm").find("select[name='finOrgCode']").bind('change',subBankChange);*/
-		});
-
+		$("input[name='isTmpBank']").on('click',isTmpBankChange);
 	});
 
 	//查询分行信息
@@ -457,7 +448,6 @@ function autoCompleteComDiscount(obj){
 			}
 		});
 		getBranchBankList(selectorBranch,selector.val(),finOrgCode,tag,flag);
-
 		return bankHtml;
 	}
 	//查询支行信息
@@ -485,7 +475,6 @@ function autoCompleteComDiscount(obj){
 						if(data[i].finOrgCode==finOrgCode){
 							option.attr("selected",true);
 						}
-
 						selectorBranch.append(option);
 					}
 				}
@@ -526,11 +515,149 @@ function autoCompleteComDiscount(obj){
 		}
 	}
 	function submit(){
-		alert("");
+		if(!checkForm()) {
+			return;
+		}
+
+		$.ajax({
+			url:ctx+"/task/loanerProcessSubmit",
+			method:"post",
+			dataType:"json",
+			data:{
+				loanerOrgCode:$("#loanerOrgCode").val(),
+				loanerOrgId:$("#loanerOrgId").val(),
+				loanerId:$("#loanerId").val(),
+				loanerName:$("#loanerName").val(),
+				loanerPhone:$("#loanerPhone").val(),
+
+				isLoanerArrive:$("input[name='isLoanerArrive']:checked").val(),
+				isTmpBank:$("input[name='isTmpBank']:checked").val(),
+				finOrgCode:$("#finOrgCode").val(),
+
+				comAmount:$("#comAmount").val(),
+				comDiscount:$("#comDiscount").val(),
+				comYear:$("#comYear").val(),
+				prfAmount:$("#prfAmount").val(),
+				prfYear:$("#prfYear").val(),
+				pkid:$("#pkid").val(),
+				caseCode:$("#caseCode").val(),
+				bankLevel: $("#finOrgCode").find('option:selected').attr('coLevel'),
+				taskId:$("#taskId").val(),
+				processInstanceId:$("#processInstanceId").val()
+			},
+			beforeSend:function(){
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+				$(".blockOverlay").css({'z-index':'9998'});
+			},
+			complete: function() {
+				$.unblockUI();
+				if(status=='timeout'){//超时,status还有success,error等值的情况
+					Modal.alert(
+							{
+								msg:"抱歉，系统处理超时。"
+							});
+					$(".btn-primary").one("click",function(){
+						parent.$.fancybox.close();
+					});
+				}
+			} ,
+			success : function(data) {
+				if(data.success){
+					window.wxc.success("保存成功。",{"wxcOk":function(){
+						window.close();
+						window.opener.callback();
+					}});
+				}else{
+					window.wxc.error(data.message);
+				}
+			},
+			error : function(errors) {
+				window.wxc.error(errors);
+			}
+
+		});
 	}
- 	</script> 
+	function refuse(){
+		$.ajax({
+			url:ctx+"/task/loanerProcessDelete",
+			method:"post",
+			dataType:"json",
+			data:{
+				pkid:$("#pkid").val(),
+				caseCode:$("#caseCode").val(),
+				taskId:$("#taskId").val(),
+				processInstanceId:$("#processInstanceId").val()
+			},
+			beforeSend:function(){
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+				$(".blockOverlay").css({'z-index':'9998'});
+			},
+			complete: function() {
+				$.unblockUI();
+				if(status=='timeout'){//超时,status还有success,error等值的情况
+					Modal.alert(
+							{
+								msg:"抱歉，系统处理超时。"
+							});
+					$(".btn-primary").one("click",function(){
+						parent.$.fancybox.close();
+					});
+				}
+			} ,
+			success : function(data) {
+				if(data.success){
+					window.wxc.success("交易顾问派单流程成功结束",{"wxcOk":function(){
+						window.close();
+						window.opener.callback();
+					}});
+				}else{
+					window.wxc.error(data.message);
+				}
+			},
+			error : function(errors) {
+				window.wxc.error(errors);
+			}
+
+		});
+
+
+	}
+	function isTmpBankChange(){
+		if(!!$(this).attr('readOnly')){
+			return false;
+		}
+		var f=$(this).closest('form');
+		var checkBtnVal = $("input[name='isTmpBank']:checked").val();
+		if(checkBtnVal == '1'){
+			getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"","equ");
+			$("#bank_type").change(function(){
+				getBranchBankList($("#finOrgCode"),$("#bank_type").val(),"");
+			});
+		}else{
+			getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"cl","equ");
+			$("#bank_type").change(function(){
+				getBranchBankList($("#finOrgCode"),$("#bank_type").val(),"cl");
+			});
+		}
+	}
+	//验证控件checkUI();
+	function checkForm() {
+
+		if($('input[name=loanerName]').val()=='') {
+			window.wxc.alert("信贷员为必选项!");
+			$('input[name=loanerName]').focus();
+			return false;
+		}
+		if($('input[name=loanerPhone]').val()=='') {
+			window.wxc.alert("信贷员电话为必填项!");
+			$('input[name=loanerPhone]').focus();
+			return false;
+		}
+		return true;
+	}
+
+</script>
  </content>
- <content tag="local_require">
-	</content>
+ <content tag="local_require"></content>
 </body>
 </html>

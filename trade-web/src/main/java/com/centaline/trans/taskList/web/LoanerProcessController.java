@@ -11,6 +11,7 @@ import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,9 @@ import com.centaline.trans.mortgage.service.LoanerProcessService;
 
 @Controller
 @RequestMapping(value = "/task")
-public class LoanerProcessController {
+public class LoanerProcessController{
+
+	private Logger logger = Logger.getLogger(LoanerProcessController.class);
 	
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
@@ -125,17 +128,16 @@ public class LoanerProcessController {
 	 * @des:信贷员流程 结束
 	 * */
 	@RequestMapping(value = "loanerProcessSubmit")
-	public AjaxResponse<String> loanerProcessSubmit(HttpServletRequest request, HttpServletResponse response, ToMortgage toMortgage,String caseCode,String taskitem, String processInstanceId,int bankLevel) {
-		
-		AjaxResponse<String>  responseStr = new AjaxResponse<String>();
-		//根据caseCode去查询相关页面信息，并且设置 页面的流程变量
+	@ResponseBody
+	public AjaxResponse loanerProcessSubmit(HttpServletRequest request, HttpServletResponse response, ToMortgage toMortgage,String caseCode,String taskId, String processInstanceId,int bankLevel) {
 		try{
-			responseStr = loanerProcessService.loanerProcessSubmit(toMortgage, caseCode, taskitem, processInstanceId, bankLevel);
-		}catch(BusinessException e){
-			throw new BusinessException("交易顾问派单流程删除异常！");
+			loanerProcessService.loanerProcessSubmit(toMortgage, caseCode, taskId, processInstanceId, bankLevel);
+			return AjaxResponse.success();
+		}catch (BusinessException e){
+			logger.error(e.getMessage(),e);
+			return AjaxResponse.fail(e.getMessage());
 		}
-		
-		return responseStr;
+
 	}
 	
 	
@@ -145,16 +147,15 @@ public class LoanerProcessController {
 	 * @des:信贷员流程 结束
 	 * */
 	@RequestMapping(value = "loanerProcessDelete")
+	@ResponseBody
 	public AjaxResponse<String> loanerProcessDelete(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskitem, String processInstanceId) {
-		
-		AjaxResponse<String>  responseStr = new AjaxResponse<String>();
-		//根据caseCode去查询相关页面信息，并且设置 页面的流程变量
 		try{
-			responseStr = loanerProcessService.loanerProcessDelete(caseCode,taskitem,processInstanceId);
+			loanerProcessService.loanerProcessDelete(caseCode,taskitem,processInstanceId);
+			return AjaxResponse.success("交易顾问派单流程成功结束");
 		}catch(BusinessException e){
-			throw new BusinessException("交易顾问派单流程删除异常！");
+			logger.error(e.getMessage(),e);
+			return AjaxResponse.fail(e.getMessage());
 		}
-		
-		return responseStr;
+
 	}
 }
