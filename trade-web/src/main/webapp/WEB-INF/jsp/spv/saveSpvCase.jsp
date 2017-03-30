@@ -1007,6 +1007,8 @@
   				$("input[name='toSpvAccountList[1].bank']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
   				$("input[name='toSpvAccountList[1].branchBank']").prop("disabled",false);
   				$("#signDiv").show().find("input").prop("disabled",false);
+  				
+  				$("select[name='toSpvAccountList[3].name']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
 	         }
 			
 			$("select[name='toSpvAccountList[3].name']").change(function(){

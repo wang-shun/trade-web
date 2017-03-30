@@ -805,24 +805,6 @@ $(document).ready(function(){
 		/** ------监管资金的支付信息验证结束--------  **/
 		
 		/** ------资金监管账号信息验证开始--------  **/
-        /**卖方*/
-		var sellerAccount = $("input[name='toSpvAccountList[1].account']").val();
-		if(sellerAccount != null && sellerAccount != ''){
-			if(!isNumber2(sellerAccount)){
-				window.wxc.alert("请填写有效的卖方收款账号！(纯数字(首位非0))");
-				changeClass($("input[name='toSpvAccountList[1].account']"));
-				return false;
-			}
-		}
-		
-		var sellerAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
-		if(sellerAccountTelephone != null && sellerAccountTelephone != ''){
-			if(!isMobile(sellerAccountTelephone)){
-				window.wxc.alert("请填写有效的卖方电话！(1(3、4、5、7、8)+9位数字)");
-				changeClass($("input[name='toSpvAccountList[1].telephone']"));
-				return false;
-			}
-		}
 		
 		/**托管方*/
 		var spvAccountName = $("select[name='toSpvAccountList[2].name'] option:selected").val();
@@ -995,44 +977,53 @@ $(document).ready(function(){
 		/** ------签约时判断开始-----------------**/
 		  if($("#handle").val() == 'SpvSign'){
 			  /**卖方*/
-			  var spvAccountName = $("input[name='toSpvAccountList[1].name']").val();
-			  if(spvAccountName == null || spvAccountName == ''){
+			  var sellerAccountName = $("input[name='toSpvAccountList[1].name']").val();
+			  if(sellerAccountName == null || sellerAccountName == ''){
 				  window.wxc.alert("请填写卖方收款账号名称！");
 				  changeClass($("input[name='toSpvAccountList[1].name']"));
 				  return false;
 			  }
-			  var spvAccountAcc = $("input[name='toSpvAccountList[1].account']").val();
-			  if(spvAccountAcc == null || spvAccountAcc == ''){
+			  var sellerAccountAcc = $("input[name='toSpvAccountList[1].account']").val();
+			  if(sellerAccountAcc == null || sellerAccountAcc == ''){
 				  window.wxc.alert("请填写卖方收款账号！");
 				  changeClass($("input[name='toSpvAccountList[1].account']"));
 				  return false;
 			  }
-			  var spvAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
-			  if(spvAccountTelephone == null || spvAccountTelephone == ''){
+			  var sellerAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
+			  if(sellerAccountTelephone == null || sellerAccountTelephone == ''){
 				  window.wxc.alert("请填写卖方电话！");
 				  changeClass($("input[name='toSpvAccountList[1].telephone']"));
 				  return false;
 			  }
-			  if(spvAccountTelephone != null && spvAccountTelephone != ''){
-				  if(!isMobile(spvAccountTelephone)){
+			  if(sellerAccountTelephone != null && sellerAccountTelephone != ''){
+				  if(!isMobile(sellerAccountTelephone)){
 					  window.wxc.alert("请填写有效的卖方电话！(1(3、4、5、7、8)+9位数字)");
 					  changeClass($("input[name='toSpvAccountList[1].telephone']"));
 					  return false;
 				  }
 			  }
-			  var spvAccountBank = $("input[name='toSpvAccountList[1].bank']").val();
-			  if(spvAccountBank == null || spvAccountBank == ''){
+			  var sellerAccountBank = $("input[name='toSpvAccountList[1].bank']").val();
+			  if(sellerAccountBank == null || sellerAccountBank == ''){
 				  window.wxc.alert("请填写卖方收款账号开户行（银行）！");
 				  changeClass($("input[name='toSpvAccountList[1].bank']"));
 				  return false;
 			  }
-			  var spvAccountBranchBank = $("input[name='toSpvAccountList[1].branchBank']").val();
-			  if(spvAccountBranchBank == null || spvAccountBranchBank == ''){
+			  var sellerAccountBranchBank = $("input[name='toSpvAccountList[1].branchBank']").val();
+			  if(sellerAccountBranchBank == null || sellerAccountBranchBank == ''){
 				  window.wxc.alert("请填写卖方收款账号开户行（支行）！");
 				  changeClass($("input[name='toSpvAccountList[1].branchBank']"));
 				  return false;
 			  }
 			  /**卖方*/
+			  
+			  /**资金方*/
+			  var fundAccountName = $("select[name='toSpvAccountList[3].name']").val();
+			  if(fundAccountName == null || fundAccountName == ''){
+				  window.wxc.alert("请选择资金方方收款账号名称！");
+				  changeClass($("input[name='toSpvAccountList[3].name']"));
+				  return false;
+			  }
+			  /**资金方*/
 			  
 			  	/**买方*/
 				var buyerAccountName = $("input[name='toSpvAccountList[0].name']").val();
