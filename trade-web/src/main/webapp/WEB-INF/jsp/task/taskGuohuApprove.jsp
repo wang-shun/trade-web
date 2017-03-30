@@ -688,7 +688,7 @@
 					dataType : "json",
 					data :  {caseCode:caseCode},
 					success : function(data) {
-						if(data.code=="N"){
+						if(data.code=="Y"){
 							window.wxc.alert("流失确认函未上传，请到贷款流失页面先上传！");
 							return false;
 						}
