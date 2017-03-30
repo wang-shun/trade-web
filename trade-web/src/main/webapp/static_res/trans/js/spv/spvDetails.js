@@ -1134,6 +1134,11 @@ $(document).ready(function(){
 	    	data.sellerAccountTelephone = $("input[name='toSpvAccountList[1].telephone']").val();
 	    	data.sellerAccountBank = $("input[name='toSpvAccountList[1].bank']").val();
 	    	data.sellerAccountBranchBank = $("input[name='toSpvAccountList[1].branchBank']").val();
+	    	
+	    	data.fundAccountPkid = $("input[name='toSpvAccountList[3].pkid']").val();
+	    	data.fundAccountName = $("select[name='toSpvAccountList[3].name']").val();
+	    	data.fundAccountNo = $("input[name='toSpvAccountList[3].account']").val();
+	    	data.fundAccountBranchBank = $("input[name='toSpvAccountList[3].branchBank']").val();
 	    }
     	//申请时验证参数
     	if(handle == 'SpvApply' || handle == 'SpvSign' || handle == 'SpvAudit'){

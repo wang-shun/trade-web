@@ -252,5 +252,5 @@ public interface ToSpvService {
 			String taskId, String remark, SessionUser user);
 
 	void spvSign(String spvCode, String caseCode, String source, String instCode, String taskId, String spvConCode,
-			Date signTime, ToSpvAccount buyerAcc, ToSpvAccount sellerAcc, SessionUser user);
+			Date signTime, ToSpvAccount buyerAcc, ToSpvAccount sellerAcc, ToSpvAccount fundAcc, SessionUser user);
 }
