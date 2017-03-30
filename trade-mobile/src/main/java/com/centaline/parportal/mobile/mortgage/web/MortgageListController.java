@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -49,9 +47,8 @@ public class MortgageListController {
 
 	@RequestMapping(value = "list")
 	@ResponseBody
-	public String caseList(HttpServletRequest request,
-			HttpServletResponse response, Integer page, Integer pageSize,
-			String sidx, String sord, String userid, String q_text) {
+	public String caseList(Integer page, Integer pageSize, String sidx,
+			String sord, String userid, String q_text) {
 
 		long millisecond = System.currentTimeMillis();
 		logger.info("Start:caseList 房源列表数据加载开始 ：" + millisecond + "/毫秒");
