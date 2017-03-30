@@ -67,4 +67,14 @@ public interface ToMortgageMapper {
      * @return
      */
     ToMortgage findToMortgageByCaseCodeAndLoanerId(Map<String,Object> map);
+    
+    /**
+     * 根据caseCode 和 派单信息查询贷款信息
+     * 
+     * @param caseCode
+     * @param LoanerId
+     * @return
+     */
+
+	ToMortgage findToMortgageByCaseCodeAndDisTime(String caseCode);
 }

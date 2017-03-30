@@ -583,6 +583,11 @@
  	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and last_loan_bank is not null and IS_ACTIVE='1'
  </select>
  
+  
+  <select id="findToMortgageByCaseCodeAndDisTime" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
+ 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and dispachUserId is not null  and dispachTime is not null and IS_ACTIVE='1'
+ </select>
+ 
  <select id="getMortgageByCaseCode" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
  	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and IS_TMP_BANK = '1'
  </select>

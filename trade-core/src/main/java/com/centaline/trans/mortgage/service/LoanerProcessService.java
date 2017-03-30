@@ -19,14 +19,14 @@ public interface LoanerProcessService {
      * @param caseCode
      * @return
      */
-	AjaxResponse<String> isLoanerAcceptCase(boolean isAcceptCase, String taskId,String processInstanceId,String caseCode);
+	boolean isLoanerAcceptCase(boolean isAcceptCase, String taskId,String processInstanceId,String caseCode);
 
     /**
      * 信贷员收单，银行审批操作流程
      * @param caseCode
      * @return
      */
-	AjaxResponse<String> isBankAcceptCase(boolean isAcceptCase, String taskId,String processInstanceId, String caseCode);
+	boolean isBankAcceptCase(boolean isAcceptCase, String taskId,String processInstanceId, String caseCode);
 
 
     /**

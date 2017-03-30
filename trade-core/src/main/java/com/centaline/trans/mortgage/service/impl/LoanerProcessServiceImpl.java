@@ -198,36 +198,40 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
      * 
      */
     @Override
-    public AjaxResponse<String> isLoanerAcceptCase(boolean isLonaerAcceptCase,String taskId, String processInstanceId, String caseCode) {
+    public boolean isLoanerAcceptCase(boolean isLonaerAcceptCase,String taskId, String processInstanceId, String caseCode) {
     	
+    	boolean  loanerAccetpFlag = false;
 		if((null == caseCode ||"".equals(caseCode)) || (null == taskId ||"".equals(taskId)) || (null == processInstanceId ||"".equals(processInstanceId)) ){
 			throw new BusinessException("信贷员接单确认请求参数异常！");			
-		}	
-    	
-    	AjaxResponse<String> response  = new AjaxResponse<String>();         
-    	
+		}	    	
+    	    
+    	SessionUser user = uamSessionService.getSessionUser();   
         List<RestVariable> variables = new ArrayList<RestVariable>();        
         
         try{
          	//信贷员接单
         	if(isLonaerAcceptCase == true){    			
-    			variables.add(new RestVariable("loanerAccept", true));
-    			
-    			//TODO
-    			
+    			variables.add(new RestVariable("loanerAccept", true));    			
+    		
+	    		ToMortgage toMortgage = toMortgageMapper.findToMortgageByCaseCodeAndDisTime(caseCode);
+	    		if(null != toMortgage){
+	    			ToMortgage toMortgageForUpdate = new ToMortgage();
+	    			toMortgageForUpdate.setPkid(toMortgage.getPkid());
+	    			toMortgageForUpdate.setLoanerAcceptTime(new Date());
+	    			toMortgageForUpdate.setLoanerId(user.getId());
+	    			toMortgageMapper.update(toMortgageForUpdate);
+	    		}
         	}else{    			
     			variables.add(new RestVariable("loanerAccept", false));
         	}
         	//提交流程
             workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
-            response.setSuccess(true);
-            response.setMessage("信贷员确认接单成功！");
+            loanerAccetpFlag = true;
             
-        }catch(BusinessException e) {
-        	response.setSuccess(false);
+        }catch(BusinessException e) {        	
         	throw new BusinessException("信贷员接单流程推进失败！");
         } 
-        return response;        
+        return loanerAccetpFlag;        
     }
    
     
@@ -238,13 +242,15 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
      * 
      */
     @Override
-    public AjaxResponse<String> isBankAcceptCase(boolean isBankAcceptCase,String taskId, String processInstanceId,String caseCode) {
+    public boolean isBankAcceptCase(boolean isBankAcceptCase,String taskId, String processInstanceId,String caseCode) {
+    	
+    	boolean  bankAccetpFlag = false;
     	
 		if((null == caseCode ||"".equals(caseCode)) || (null == taskId ||"".equals(taskId)) || (null == processInstanceId ||"".equals(processInstanceId)) ){
 			throw new BusinessException("信贷员接单银行确认请求参数异常！");			
 		}	
     	
-    	AjaxResponse<String> response  = new AjaxResponse<String>();     	
+		SessionUser user = uamSessionService.getSessionUser();   	
         List<RestVariable> variables = new ArrayList<RestVariable>();
         try{
 	        //信贷员接单
@@ -259,24 +265,32 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	            if (record != null) {
 	                record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 	                toWorkFlowService.updateByPrimaryKeySelective(record);
-	            }
+	            }           
+
 	            
-	            //TODO
-	            //设置审批状态、审批时间
+	    		ToMortgage toMortgage = toMortgageMapper.findToMortgageByCaseCodeAndDisTime(caseCode);
+	    		if(null != toMortgage){
+	    			ToMortgage toMortgageForUpdate = new ToMortgage();
+	    			toMortgageForUpdate.setPkid(toMortgage.getPkid());
+	    			toMortgageForUpdate.setBankApproveTime(new Date());	
+	    			toMortgageForUpdate.setBankApproveUserId(user.getId());
+	    			//临时银行 1 审批通过，现在银行信贷员审核通过为 3
+	    			toMortgageForUpdate.setTmpBankStatus("3");
+	    			toMortgageMapper.update(toMortgageForUpdate);
+	    		}
 	
 	    	}else{			
 				variables.add(new RestVariable("bankBusinessApprove", false));			
 	    	}
 	    	//提交流程
 	        workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
-	        response.setSuccess(true);
-	        response.setMessage("信贷员接单银行审批通过！");
+	        bankAccetpFlag = true;
 	     }catch(BusinessException e) {
-	      	response.setSuccess(false);
+	      	
 	      	throw new BusinessException("信贷员接单流程推进失败！");
 	     } 
         
-         return response;      
+         return bankAccetpFlag;      
     }
 
 
