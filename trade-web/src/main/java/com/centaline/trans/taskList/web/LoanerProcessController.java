@@ -92,57 +92,6 @@ public class LoanerProcessController {
 		return response;	
 	}
 	
-	
-	/*
-	 * 手机端实现
-	 * @author:zhuody
-	 * @date:2017-03-27
-	 * @des:信贷员接单流程启动
-	 * */
-	@RequestMapping("loanerApproveCase")
-	@ResponseBody
-	public AjaxResponse<String> loanerApproveCase(boolean isLonaerAcceptCase,String taskId, String processInstanceId, String caseCode) {	
-		
-		AjaxResponse<String> response = new AjaxResponse<String>();
-		if((null == caseCode  || "".equals(caseCode)) || (null == taskId  || "".equals(taskId)) ||  (null == processInstanceId  || "".equals(processInstanceId))){
-			throw new BusinessException("信贷员流程推进请求参数为空！");
-		}
-		
-		try{
-			response = loanerProcessService.isLoanerAcceptCase(true,taskId,processInstanceId,caseCode);
-		}catch(BusinessException e){
-			throw new BusinessException("信贷员流程推进异常！");
-		}	
-	
-		return response;	
-	}
-	
-	
-	/*
-	 * 手机端实现
-	 * @author:zhuody
-	 * @date:2017-03-27
-	 * @des:信贷员接单流程启动
-	 * */
-	@RequestMapping("bankApproveCase")
-	@ResponseBody
-	public AjaxResponse<String> bankApproveCase(boolean isBankAcceptCase,String taskId, String processInstanceId, String caseCode) {	
-		
-		AjaxResponse<String> response = new AjaxResponse<String>();
-		if((null == caseCode  || "".equals(caseCode)) || (null == taskId  || "".equals(taskId)) ||  (null == processInstanceId  || "".equals(processInstanceId))){
-			throw new BusinessException("银行审核信贷员信息流程推进请求参数为空！");
-		}
-		
-		try{
-			response = loanerProcessService.isBankAcceptCase(true,taskId,processInstanceId,caseCode);
-		}catch(BusinessException e){
-			throw new BusinessException("银行审核信贷员信息流程异常！");
-		}	
-	
-		return response;	
-	}
-	
-	
 	/*
 	 * @author:zhuody
 	 * @date:2017-03-27

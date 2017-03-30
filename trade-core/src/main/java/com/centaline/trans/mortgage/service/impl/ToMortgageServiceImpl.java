@@ -134,6 +134,20 @@ public class ToMortgageServiceImpl implements ToMortgageService {
         } else {
             toMortgage.setIsDelegateYucui("1");
             toMortgageMapper.insertSelective(toMortgage);
+            
+            //会写bizCode            
+            ToWorkFlow toWorkFlowForSelect = new ToWorkFlow();
+            toWorkFlowForSelect.setCaseCode(toMortgage.getCaseCode());
+            toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
+            ToWorkFlow workFlow = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
+            if(null != workFlow){
+                ToWorkFlow workFlowForUpdate = new ToWorkFlow();
+                workFlowForUpdate.setPkid(workFlow.getPkid());
+                workFlowForUpdate.setBizCode(toMortgage.getPkid()==null?"":toMortgage.getPkid().toString());                
+                toWorkFlowService.updateByPrimaryKeySelective(workFlowForUpdate);
+            }
+ 
+            
         }
         if ("1".equals(toMortgage.getFormCommLoan())
             && StringUtils.isNotBlank(toMortgage.getLastLoanBank())) {
