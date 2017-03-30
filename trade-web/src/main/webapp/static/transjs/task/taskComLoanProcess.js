@@ -393,8 +393,6 @@ function completeMortgage(form){
 	var tmpBankCheckflag = $('#fl_is_tmp_bank').val() == '1';
 	
 	
-	
-	
 	/*
 	 * @author：zhuody
 	 * @Date：2017年3月24日
@@ -402,10 +400,10 @@ function completeMortgage(form){
 	 *  	$("#tmpBankStatus").val() != '1'：   = 1 表示临时银行审批通过
 	 */	
 	
-/*	if(tmpBankCheckflag && $("#tmpBankStatus").val() != '1'){     
-		window.wxc.alert("临时银行审批未完成或不通过！");
+	if(tmpBankCheckflag && $("#tmpBankStatus").val() != '3'){     
+		window.wxc.alert("信贷员接单银行审批未完成或不通过！");
 		return;
-	}*/
+	}
 
 	var lastLoanBank = null;
 	if(lastBankSub.val() != undefined){
