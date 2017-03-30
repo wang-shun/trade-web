@@ -55,27 +55,31 @@ public class TmpBankAduitController {
 	@ResponseBody
 	public AjaxResponse<String> startWorkFlow(String caseCode) {	
 		AjaxResponse<String> response = new AjaxResponse<>();
-		try {
-			ToWorkFlow twf = new ToWorkFlow();
-			twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
-			twf.setCaseCode(caseCode);
+			try {
+				ToWorkFlow twf = new ToWorkFlow();
+				twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
+				twf.setCaseCode(caseCode);
+			
+				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+				
+				//更新贷款表临时银行状态为默认：‘’
+				ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+				String status = mortage.getTmpBankStatus();
+				
+				if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status)){
+					throw new BusinessException("启动失败：流程正在运行或已经结束！");
+				}
+			
+				response = toMortgageService.startTmpBankWorkFlow(caseCode,"");
+				response.setSuccess(true);
+				response.setMessage("流程开启成功！");
+			} catch (Exception e) {
+				response.setSuccess(false);
+				e.printStackTrace();
+			}
 		
-		ToWorkFlow twf = new ToWorkFlow();
-		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
-		twf.setCaseCode(caseCode);
-	
-		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-		
-		//更新贷款表临时银行状态为默认：‘’
-		ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-		String status = mortage.getTmpBankStatus();
-		
-		if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status)){
-			throw new BusinessException("启动失败：流程正在运行或已经结束！");
-		}
-	
-		return toMortgageService.startTmpBankWorkFlow(caseCode,"");
-	
+			return response;
+	}
 	
 	@RequestMapping("process")
 	public String TmpBankAduitProcess(Model model, HttpServletRequest request, String taskitem,
