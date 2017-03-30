@@ -124,7 +124,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
         condition.setCaseCode(toMortgage.getCaseCode());
         condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
         condition.setIsDelegateYucui("1");
-        List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(condition);
+        List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
         if (list != null && !list.isEmpty()) {
             mortgage = list.get(0);
         }

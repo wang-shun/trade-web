@@ -103,7 +103,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		
 		try {
 			ToWorkFlow toWorkFlow = new ToWorkFlow();
-			toWorkFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getCode());
+			toWorkFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
 			toWorkFlow.setCaseCode(caseCode);
 			//查询流程表记录
 			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(toWorkFlow);
@@ -152,6 +152,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
             toMortgage.setLoanerId(loanerUserId);
             toMortgage.setLoanerProcessInstCode(vo.getId());
             toMortgage.setIsActive("1");
+            toMortgage.setIsDelegateYucui("1");
             toMortgage.setIsMainLoanBank(isMainLoanBank);//0 备选银行,1 主选银行
             toMortgage.setFinOrgCode(bankOrgCode);//此处设置银行Code才能保证 先启的银行审批流程
             toMortgage.setBankLevel(String.valueOf(bankLevel));
@@ -259,7 +260,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 				//审批通过 更改流程状态
 	            //更新流程状态为'4'：已完成
 	            ToWorkFlow workFlow = new ToWorkFlow();
-	            workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getCode());
+	            workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
 	            workFlow.setCaseCode(caseCode);
 	            ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
 	            if (record != null) {
@@ -318,7 +319,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	        
 	        //更新流程表的状态
 	        ToWorkFlow workFlow = new ToWorkFlow();
-	        workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getCode());//Loaner_Process:1:1012544
+	        workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());//Loaner_Process:1:1012544
 	        workFlow.setCaseCode(caseCode);
 	        ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
 	        if (record != null) {
@@ -394,7 +395,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		AjaxResponse<String>  response = new AjaxResponse<String>();
 		try {
 			ToWorkFlow toWorkFlow = new ToWorkFlow();
-			toWorkFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getCode());
+			toWorkFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
 			toWorkFlow.setCaseCode(caseCode);
 			//查询流程表记录
 			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(toWorkFlow);

@@ -644,6 +644,7 @@
  		and is_main_loan_bank=#{isMainLoanBank,jdbcType=VARCHAR}
  	</if>
  </select>
+ 
  <update id="restSetLastLoanBank" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" >
  	update sctrans.T_TO_MORTGAGE set last_loan_bank = null
  	,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
