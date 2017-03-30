@@ -5,21 +5,13 @@
 	<import resource="query/mortgage/toMortgageDetail4Par.xml" />
 	<import resource="query/mortgage/toMortProcess4Par.xml" />
 	<import resource="query/mortgage/toTradeProcess4Par.xml" />
-	
-
 	<import resource="query/case/toCaseListQuery.xml" />
-	
-	
-
 	
 	<!-- E贷款 -->
 	<import resource="query/eloan/warnListQuery.xml" />
 	<import resource="query/eloan/changeListQuery.xml" />
 	<import resource="query/eloan/eloanRiskCtlList.xml" />
 	<import resource="query/eloan/toELoanProcess.xml" />
-	
-
-	
 	
 	<import resource="query/eloan/ELoanCaseList.xml" />
 	<import resource="query/eloan/eloanContractList.xml" />
@@ -28,4 +20,5 @@
 	<import resource="query/tradeCase/processListQueryMobile.xml" />
 
    	<import resource="query/task/toTaskListQueryMobile.xml" />
+   	<import resource="query/task/toApproveRecordQuery.xml" />
 </queryConfig>
