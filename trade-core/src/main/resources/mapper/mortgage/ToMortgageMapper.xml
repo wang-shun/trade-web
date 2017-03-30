@@ -32,6 +32,7 @@
     <result column="LOANER_ACCEPT_TIME" property="loanerAcceptTime" jdbcType="TIMESTAMP" />
     <result column="BANK_APPROVE_TIME" property="bankApproveTime" jdbcType="TIMESTAMP" />
     <result column="LOANER_PROCESS_INSTCODE" property="loanerProcessInstCode" jdbcType="VARCHAR" />
+    <result column="BANK_LEVEL" property="bankLevel" jdbcType="VARCHAR" />
     
     
     <result column="LOANER_ORG_CODE" property="loanerOrgCode" jdbcType="VARCHAR" />
@@ -67,7 +68,7 @@
     PKID, CASE_CODE, MORT_TYPE, MORT_TOTAL_AMOUNT, FIN_ORG_CODE, CUST_CODE, COM_AMOUNT, 
     COM_YEAR, COM_DISCOUNT, PRF_AMOUNT, PRF_YEAR, LEND_WAY, HOUSE_NUM, IS_LOANER_ARRIVE, 
     SIGN_DATE, APPR_DATE, TAZHENG_ARR_DATE, LEND_DATE, CUST_COMPANY, IF_REPORT_BEFORE_LEND, 
-    LOANER_ID,DISPACH_USER_ID,BANK_APPROVE_USER_ID,DISPACH_TIME,LOANER_ACCEPT_TIME,BANK_APPROVE_TIME,LOANER_PROCESS_INSTCODE,
+    LOANER_ID,DISPACH_USER_ID,BANK_APPROVE_USER_ID,DISPACH_TIME,LOANER_ACCEPT_TIME,BANK_APPROVE_TIME,LOANER_PROCESS_INSTCODE,BANK_LEVEL,
     LOANER_NAME, LOANER_PHONE,LAST_LOAN_BANK,PRF_APPLY_DATE,IF_REQUIRE_RECONSIDER,IS_DELEGATE_YUCUI,
     IS_MAIN_LOAN_BANK,CUST_NAME,self_Del_Reason,rec_Letter_No,is_Tmp_Bank,TMP_BANK_UPDATE_TIME,
     TMP_BANK_UPDATE_BY,TMP_BANK_REASON,LOANLOST_APPLY_REASON,LOANLOST_CONFIRM_CODE,
@@ -187,6 +188,10 @@
       <if test="loanerProcessInstCode != null" >
         LOANER_PROCESS_INSTCODE,
       </if>
+      <if test="bankLevel != null" >
+        BANK_LEVEL,
+      </if>
+      
       <if test="loanerOrgCode != null" >
         LOANER_ORG_CODE,
       </if>
@@ -337,6 +342,9 @@
         #{loanerProcessInstCode,jdbcType=VARCHAR},
       </if>
       
+      <if test="bankLevel != null" >
+         #{bankLevel,jdbcType=VARCHAR},
+      </if>
       <if test="loanerOrgCode != null" >
         #{loanerOrgCode,jdbcType=VARCHAR},
       </if>
@@ -493,6 +501,10 @@
       
       <if test="loanerProcessInstCode != null" >
         LOANER_PROCESS_INSTCODE = #{loanerProcessInstCode,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="bankLevel != null" >
+        BANK_LEVEL = #{bankLevel,jdbcType=VARCHAR},
       </if>
       <if test="loanerOrgCode != null" >
         LOANER_ORG_CODE = #{loanerOrgCode,jdbcType=VARCHAR},
@@ -759,6 +771,10 @@
       
       <if test="loanerProcessInstCode != null" >
         LOANER_PROCESS_INSTCODE = #{loanerProcessInstCode,jdbcType=VARCHAR},
+      </if>
+      
+     <if test="bankLevel != null" >
+        BANK_LEVEL = #{bankLevel,jdbcType=VARCHAR},
       </if>
       
       <if test="loanerOrgCode != null" >

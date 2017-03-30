@@ -72,7 +72,7 @@ public class LoanerProcessController {
 	/*
 	 * @author:zhuody
 	 * @date:2017-03-24
-	 * @des:信贷员接单流程启动
+	 * @des:信贷员接单流程启动判断
 	 * */
 	@RequestMapping("isLoanerProcessStart")
 	@ResponseBody

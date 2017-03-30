@@ -154,6 +154,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
             toMortgage.setIsActive("1");
             toMortgage.setIsMainLoanBank(isMainLoanBank);//0 备选银行,1 主选银行
             toMortgage.setFinOrgCode(bankOrgCode);//此处设置银行Code才能保证 先启的银行审批流程
+            toMortgage.setBankLevel(String.valueOf(bankLevel));
             if(null != toMortgageInfo){          	
             	toMortgage.setPkid(toMortgageInfo.getPkid());
                 toMortgageMapper.update(toMortgage); 
@@ -163,7 +164,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
             }
             //插入工作流表
             ToWorkFlow workFlow = new ToWorkFlow();
-            workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getCode());
+            workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
             workFlow.setCaseCode(caseCode);
             workFlow.setBizCode(bizCode);
             workFlow.setInstCode(vo.getId());
@@ -212,6 +213,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
         	if(isLonaerAcceptCase == true){    			
     			variables.add(new RestVariable("loanerAccept", true));
     			
+    			//TODO
+    			
         	}else{    			
     			variables.add(new RestVariable("loanerAccept", false));
         	}
@@ -257,6 +260,9 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	                record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 	                toWorkFlowService.updateByPrimaryKeySelective(record);
 	            }
+	            
+	            //TODO
+	            //设置审批状态、审批时间
 	
 	    	}else{			
 				variables.add(new RestVariable("bankBusinessApprove", false));			

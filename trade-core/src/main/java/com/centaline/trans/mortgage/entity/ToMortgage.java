@@ -65,6 +65,7 @@ public class ToMortgage {
     private String     dispachUserId;
     private String     bankApproveUserId;
     private String     loanerProcessInstCode;
+    private String     bankLevel;
     
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date       dispachTime;
@@ -636,6 +637,15 @@ public class ToMortgage {
 
 	public void setLoanerProcessInstCode(String loanerProcessInstCode) {
 		this.loanerProcessInstCode = loanerProcessInstCode;
+	}
+
+	public String getBankLevel() {
+		return bankLevel;
+	}
+
+	public void setBankLevel(String bankLevel) {
+		this.bankLevel = bankLevel;
 	}  
+	
 	
 }

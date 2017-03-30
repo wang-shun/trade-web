@@ -816,10 +816,7 @@
 		                                             </div>
 		                                         </div>
 		                                     </div>
-		                                     
-
-		                                     
-<%-- 		                                     <div class="line">
+	                                     	<div class="line">
 		                                         <div class="form_content radio-seat" style="margin-top:5px;">
 		                                             <label class="control-label sign_left_small">是否临时银行</label>
 													 <div class="controls ">
@@ -827,15 +824,13 @@
                                                         <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
                                                      </div>
 		                                         </div>
-
-		                                     </div> --%>
-		                                     
-		         <!--                             <div class="line">
+		                                     </div> 		                                     
+		         							 <div class="line">
 		                                         <div class="form_content tmpBankReasonDiv">
 		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
 													 <input type="text" name="tmpBankReason" class="input_type optionwid">
 		                                         </div>
-		                                     </div> -->
+		                                     </div> 
 		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
@@ -1136,6 +1131,22 @@
 		                                             </div>
 		                                         </div>
 		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content radio-seat" style="margin-top:5px;">
+		                                             <label class="control-label sign_left_small">是否临时银行</label>
+													 <div class="controls ">
+                                                        <label class="radio inline"> <input type="radio" value="1" name="isTmpBank" disabled="true">是</label>
+                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" disabled="true" checked="checked">否</label>
+                                                     </div>
+		                                         </div>
+		                                     </div> 		                                     
+		         							 <div class="line">
+		                                         <div class="form_content tmpBankReasonDiv">
+		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
+													 <input type="text" name="tmpBankReason" class="input_type optionwid">
+		                                         </div>
+		                                     </div> 
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">贷款银行</label>																										
