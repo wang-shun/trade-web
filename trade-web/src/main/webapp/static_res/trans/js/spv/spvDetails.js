@@ -397,7 +397,7 @@ $(document).ready(function(){
 		}
 		
 		if(!isName(buyerName)){
-			window.wxc.alert("请填写有效的买方姓名！(1-5个汉字或者多个英文)");
+			window.wxc.alert("请填写有效的买方姓名！(多个汉字或者多个英文)");
 			changeClass($("input[name='spvCustList[0].name']"));
 			return false;
 		}
@@ -456,12 +456,12 @@ $(document).ready(function(){
 			}
 		}
 		
-		var buyAddress = $("input[name='spvCustList[0].homeAddr']").val();
+		/*var buyAddress = $("input[name='spvCustList[0].homeAddr']").val();
 		if(buyAddress == ''){
 			window.wxc.alert("请填写买房家庭地址！");
 			changeClass($("input[name='spvCustList[0].homeAddr']"));
 			return false;
-		}
+		}*/
 		
 		var buyerHasDele = $("input[name='spvCustList[0].hasDele'][value='1']").is(":checked");
 		
@@ -474,7 +474,7 @@ $(document).ready(function(){
 		
 		if(buyerHasDele && (buyerAgentName != null && buyerAgentName != '')){
 			if(!isName(buyerAgentName)){
-				window.wxc.alert("请填写有效的买方委托人姓名！(1-5个汉字或者多个英文)");
+				window.wxc.alert("请填写有效的买方委托人姓名！(多个汉字或者多个英文)");
 				changeClass($("input[name='spvCustList[0].agentName']"));
 				return false;
 			}
@@ -511,7 +511,7 @@ $(document).ready(function(){
 		}
 		
 		if(!isName(sellerName)){
-			window.wxc.alert("请填写有效的卖方姓名！(1-5个汉字或者多个英文)");
+			window.wxc.alert("请填写有效的卖方姓名！(多个汉字或者多个英文)");
 			changeClass($("input[name='spvCustList[1].name']"));
 			return false;
 		}
@@ -570,12 +570,12 @@ $(document).ready(function(){
 			}
 		}
 		
-		var sellerAddress = $("input[name='spvCustList[1].homeAddr']").val();
+		/*var sellerAddress = $("input[name='spvCustList[1].homeAddr']").val();
 		if(sellerAddress == ""){
 			window.wxc.alert("请填写卖方家庭地址！");
 			changeClass($("input[name='spvCustList[1].homeAddr']"));
 			return false;
-		}
+		}*/
 		
 		var sellerHasDele = $("input[name='spvCustList[1].hasDele'][value='1']").is(":checked");
 		
@@ -588,7 +588,7 @@ $(document).ready(function(){
 		
 		if(sellerHasDele && (sellerAgentName != null && sellerAgentName != '')){
 			if(!isName(sellerAgentName)){
-				window.wxc.alert("请填写有效的卖方委托人姓名！(1-5个汉字或者多个英文)");
+				window.wxc.alert("请填写有效的卖方委托人姓名！(多个汉字或者多个英文)");
 				changeClass($("input[name='spvCustList[1].agentName']"));
 				return false;
 			}
@@ -626,7 +626,7 @@ $(document).ready(function(){
 		}
 		
 		if(!isName(prOwnerName)){
-			window.wxc.alert("请填写有效的房产权利人！(1-5个汉字或者多个英文)");
+			window.wxc.alert("请填写有效的房产权利人！(多个汉字或者多个英文)");
 			changeClass($("input[name='toSpvProperty.prOwnerName']"));
 			return false;
 		}
@@ -1448,7 +1448,7 @@ $(document).ready(function(){
 	//姓名验证(汉字和英文大小写)
 	function isName(name){
 		name = name.replace(/\s/g,"");//去除中间空格
-		reg = /((^[\u4E00-\u9FA5]{1,5}$)|(^[a-zA-Z]+[\s\.]?([a-zA-Z]+[\s\.]?){0,4}[a-zA-Z]$))/;
+		reg = /((^[\u4E00-\u9FA5]+$)|(^[a-zA-Z]+[\s\.]?([a-zA-Z]+[\s\.]?)+[a-zA-Z]$))/;
 		if (!reg.test(name)) {
 	         return false; 
 	     }
