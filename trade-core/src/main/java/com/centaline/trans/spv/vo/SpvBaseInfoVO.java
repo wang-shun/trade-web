@@ -28,6 +28,16 @@ public class SpvBaseInfoVO {
 	
 	private String handle;
 	
+	private String spvCode;
+	
+	private String caseCode; 
+	
+	private String source;
+	
+	private String instCode;
+	
+	private String taskId;
+	
 	public List<ToSpvCust> getSpvCustList() {
 		return spvCustList;
 	}
@@ -88,4 +98,45 @@ public class SpvBaseInfoVO {
 	public void setToSpvAccountListVo(List<ToSpvAccountVO> toSpvAccountListVo) {
 		this.toSpvAccountListVo = toSpvAccountListVo;
 	}
+
+	public String getSpvCode() {
+		return spvCode;
+	}
+
+	public void setSpvCode(String spvCode) {
+		this.spvCode = spvCode;
+	}
+
+	public String getCaseCode() {
+		return caseCode;
+	}
+
+	public void setCaseCode(String caseCode) {
+		this.caseCode = caseCode;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public String getInstCode() {
+		return instCode;
+	}
+
+	public void setInstCode(String instCode) {
+		this.instCode = instCode;
+	}
+
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+	
 }
