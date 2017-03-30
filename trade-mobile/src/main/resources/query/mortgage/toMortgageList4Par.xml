@@ -67,7 +67,7 @@
 				AND EXISTS (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE = m.CASE_CODE and c.LOAN_REQ=1)
 				<ifNotNull q_text>
 					 AND (m.cust_name LIKE '%'+#q_text#+'%'
-					     			OR pi.property_addr	LIKE '%'+#q_text#+'%'
+					     			OR p.property_addr	LIKE '%'+#q_text#+'%'
 					     			OR uoj.real_name LIKE '%'+#q_text#+'%')
 				</ifNotNull>		
 				]]>
