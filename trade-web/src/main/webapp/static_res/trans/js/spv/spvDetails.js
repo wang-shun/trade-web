@@ -823,57 +823,6 @@ $(document).ready(function(){
 				return false;
 			}
 		}
-		/**买方*/
-		var buyerAccountName = $("input[name='toSpvAccountList[0].name']").val();
-		if(buyerAccountName == null || buyerAccountName == ''){
-			window.wxc.alert("请填写买方退款账户名称！");
-			changeClass($("input[name='toSpvAccountList[0].name']"));
-			return false;
-		}
-		
-		var buyerAccount = $("input[name='toSpvAccountList[0].account']").val();
-		if(buyerAccount == null || buyerAccount == ''){
-			window.wxc.alert("请填写买方退款账号！");
-			changeClass($("input[name='toSpvAccountList[0].account']"));
-			return false;
-		}
-		
-		if(buyerAccount != null && buyerAccount != ''){
-		    if(!isNumber2(buyerAccount)){
-		    	window.wxc.alert("请填写有效的买方退款账号！(纯数字(首位非0))");
-		    	changeClass($("input[name='toSpvAccountList[0].account']"));
-		    	return false;
-		    }
-		}
-		
-		var buyerAccountTelephone = $("input[name='toSpvAccountList[0].telephone']").val();
-		if(buyerAccountTelephone == null || buyerAccountTelephone == ''){
-			window.wxc.alert("请填写买方电话！");
-			changeClass($("input[name='toSpvAccountList[0].telephone']"));
-			return false;
-		}
-		
-		if(buyerAccountTelephone != null && buyerAccountTelephone != ''){
-			if(!isMobile(buyerAccountTelephone)){
-				window.wxc.alert("请填写有效的买方电话！(1(3、4、5、7、8)+9位数字)");
-				changeClass($("input[name='toSpvAccountList[0].telephone']"));
-				return false;
-			}
-		}
-		
-		var buyerBank = $("input[name='toSpvAccountList[0].bank']").val();
-		if(buyerBank == null || buyerBank == ''){
-			window.wxc.alert("请填写买方开户行（银行）！");
-			changeClass($("input[name='toSpvAccountList[0].bank']"));
-			return false;
-		}
-		
-		var buyerBranchBank = $("input[name='toSpvAccountList[0].branchBank']").val();
-		if(buyerBranchBank == null || buyerBranchBank == ''){
-			window.wxc.alert("请填写买方开户行（支行）！");
-			changeClass($("input[name='toSpvAccountList[0].branchBank']"));
-			return false;
-		}
 		
 		/**托管方*/
 		var spvAccountName = $("select[name='toSpvAccountList[2].name'] option:selected").val();
@@ -1045,6 +994,7 @@ $(document).ready(function(){
 		
 		/** ------签约时判断开始-----------------**/
 		  if($("#handle").val() == 'SpvSign'){
+			  /**卖方*/
 			  var spvAccountName = $("input[name='toSpvAccountList[1].name']").val();
 			  if(spvAccountName == null || spvAccountName == ''){
 				  window.wxc.alert("请填写卖方收款账号名称！");
@@ -1082,6 +1032,60 @@ $(document).ready(function(){
 				  changeClass($("input[name='toSpvAccountList[1].branchBank']"));
 				  return false;
 			  }
+			  /**卖方*/
+			  
+			  	/**买方*/
+				var buyerAccountName = $("input[name='toSpvAccountList[0].name']").val();
+				if(buyerAccountName == null || buyerAccountName == ''){
+					window.wxc.alert("请填写买方退款账户名称！");
+					changeClass($("input[name='toSpvAccountList[0].name']"));
+					return false;
+				}
+				
+				var buyerAccount = $("input[name='toSpvAccountList[0].account']").val();
+				if(buyerAccount == null || buyerAccount == ''){
+					window.wxc.alert("请填写买方退款账号！");
+					changeClass($("input[name='toSpvAccountList[0].account']"));
+					return false;
+				}
+				
+				if(buyerAccount != null && buyerAccount != ''){
+				    if(!isNumber2(buyerAccount)){
+				    	window.wxc.alert("请填写有效的买方退款账号！(纯数字(首位非0))");
+				    	changeClass($("input[name='toSpvAccountList[0].account']"));
+				    	return false;
+				    }
+				}
+				
+				var buyerAccountTelephone = $("input[name='toSpvAccountList[0].telephone']").val();
+				if(buyerAccountTelephone == null || buyerAccountTelephone == ''){
+					window.wxc.alert("请填写买方电话！");
+					changeClass($("input[name='toSpvAccountList[0].telephone']"));
+					return false;
+				}
+				
+				if(buyerAccountTelephone != null && buyerAccountTelephone != ''){
+					if(!isMobile(buyerAccountTelephone)){
+						window.wxc.alert("请填写有效的买方电话！(1(3、4、5、7、8)+9位数字)");
+						changeClass($("input[name='toSpvAccountList[0].telephone']"));
+						return false;
+					}
+				}
+				
+				var buyerBank = $("input[name='toSpvAccountList[0].bank']").val();
+				if(buyerBank == null || buyerBank == ''){
+					window.wxc.alert("请填写买方开户行（银行）！");
+					changeClass($("input[name='toSpvAccountList[0].bank']"));
+					return false;
+				}
+				
+				var buyerBranchBank = $("input[name='toSpvAccountList[0].branchBank']").val();
+				if(buyerBranchBank == null || buyerBranchBank == ''){
+					window.wxc.alert("请填写买方开户行（支行）！");
+					changeClass($("input[name='toSpvAccountList[0].branchBank']"));
+					return false;
+				}
+				/**买方**/
 			  var spvConCode = $("input[name='toSpv.spvConCode']").val();
 			  if(spvConCode == null || spvConCode == ''){
 				  window.wxc.alert("请填写签约合同号！");
