@@ -618,15 +618,14 @@
 					return false;
 				}
 			}
-			if($("input[name='GuohuApprove']:checked").val()== 'true'){
-				if (!clickAttachmentf()) {
-					return;
+				if($("input[name='GuohuApprove']:checked").val()== 'true'){
+					clickAttachmentf();
+				}else{
+					save();
 				}
+			
 			}
-			save();
-				
-			}
-
+			
 			/**保存数据*/
 			function save() {
 				var jsonData = $("#guohuApproveForm").serializeArray();
@@ -689,8 +688,10 @@
 					success : function(data) {
 						if(data.code=="Y"){
 							window.wxc.alert("流失确认函未上传，请到贷款流失页面先上传！");
-							return false;
+						}else{
+							save();
 						}
+						
 					}
 				});
 			}
