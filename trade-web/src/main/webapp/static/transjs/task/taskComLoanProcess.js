@@ -981,7 +981,14 @@ function getCompleteMortInfo(isMainLoanBank){
 	    			$("#completeForm").find("#comAmount").html(data.content.comAmount+"万元");
 	    			$("#completeForm").find("#comDiscount").html(data.content.comDiscount+"折");
 	    			$("#completeForm").find("input[name='finOrgCode']").val(data.content.finOrgCode);
-	    			$("#completeForm").find("input[name='apprDate']").val(data.content.apprDate);
+	    			//派单流程银行审批通过有时间即设置，其他保持不变
+	    			if(data.content.bankApproveTime){
+	    				$("#completeForm").find("input[name='apprDate']").val(data.content.bankApproveTime);
+	    			}else{
+	    				$("#completeForm").find("input[name='apprDate']").val(data.content.apprDate);
+	    			}
+	    			
+	    			
 	    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
 		    			$("#completeForm").find("input[name='lastBankSub']").attr("checked","checked");
 	    			}
@@ -991,7 +998,16 @@ function getCompleteMortInfo(isMainLoanBank){
 	    			$("#completeForm1").find("#comAmount").html(data.content.comAmount+"万元");
 	    			$("#completeForm1").find("#comDiscount").html(data.content.comDiscount+"折");
 	    			$("#completeForm1").find("input[name='finOrgCode']").val(data.content.finOrgCode);
-	    			$("#completeForm1").find("input[name='apprDate']").val(data.content.apprDate);
+	    			
+	    			//派单流程银行审批通过有时间即设置，其他保持不变
+	    			if(data.content.bankApproveTime){
+	    				$("#completeForm1").find("input[name='apprDate']").val(data.content.bankApproveTime);
+	    			}else{
+	    				$("#completeForm1").find("input[name='apprDate']").val(data.content.apprDate);
+	    			}
+	    			
+	    			//$("#completeForm1").find("input[name='apprDate']").val(data.content.apprDate);
+	    			
 	    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
 		    			$("#completeForm1").find("input[name='lastBankSub']").attr("checked","checked");
 	    			}
