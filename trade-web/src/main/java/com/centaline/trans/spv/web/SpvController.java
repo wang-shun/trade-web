@@ -838,7 +838,7 @@ public class SpvController {
 	public AjaxResponse<?> spvSign(String spvCode, String caseCode, String source, String instCode, String taskId, 
 			String spvConCode, Date signTime, Long buyerAccountPkid, String buyerAccountName, String buyerAccountNo, 
 			String buyerAccountTelephone, String buyerAccountBank, String buyerAccountBranchBank, Long sellerAccountPkid, String sellerAccountName, String sellerAccountNo, 
-			String sellerAccountTelephone, String sellerAccountBank, String sellerAccountBranchBank){
+			String sellerAccountTelephone, String sellerAccountBank, String sellerAccountBranchBank, Long fundAccountPkid, String fundAccountName, String fundAccountNo, String fundAccountBranchBank){
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
     		//保存相关信息
@@ -857,7 +857,12 @@ public class SpvController {
     		sellerAcc.setTelephone(sellerAccountTelephone);
     		sellerAcc.setBank(sellerAccountBank);
     		sellerAcc.setBranchBank(sellerAccountBranchBank);
-    		toSpvService.spvSign(spvCode, caseCode, source, instCode, taskId, spvConCode, signTime, buyerAcc, sellerAcc, user);
+    		ToSpvAccount fundAcc = new ToSpvAccount();
+    		fundAcc.setPkid(fundAccountPkid);
+    		fundAcc.setName(fundAccountName);
+    		fundAcc.setAccount(fundAccountNo);
+    		fundAcc.setBranchBank(fundAccountBranchBank);
+    		toSpvService.spvSign(spvCode, caseCode, source, instCode, taskId, spvConCode, signTime, buyerAcc, sellerAcc, fundAcc, user);
     		response.setSuccess(true);
 		} catch (Exception e) {
 			setExMsgForResp(response,e);

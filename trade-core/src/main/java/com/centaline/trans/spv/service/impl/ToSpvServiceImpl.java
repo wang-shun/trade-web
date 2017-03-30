@@ -1852,7 +1852,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public void spvSign(String spvCode, String caseCode, String source, String instCode, String taskId,
-			String spvConCode, Date signTime, ToSpvAccount buyerAcc, ToSpvAccount sellerAcc, SessionUser user) {
+			String spvConCode, Date signTime, ToSpvAccount buyerAcc, ToSpvAccount sellerAcc, ToSpvAccount fundAcc, SessionUser user) {
 		
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
@@ -1863,8 +1863,21 @@ public class ToSpvServiceImpl implements ToSpvService {
 		spv.setSignTime(signTime);
 		updateByPrimaryKey(spv);
 
-		toSpvAccountMapper.updateByPrimaryKeySelective(buyerAcc);
-		toSpvAccountMapper.updateByPrimaryKeySelective(sellerAcc);
+		if(buyerAcc.getPkid() != null){
+			toSpvAccountMapper.updateByPrimaryKeySelective(buyerAcc);
+		}else{
+			toSpvAccountMapper.insertSelective(buyerAcc);
+		}
+		if(sellerAcc.getPkid() != null){
+			toSpvAccountMapper.updateByPrimaryKeySelective(sellerAcc);
+		}else{
+			toSpvAccountMapper.insertSelective(sellerAcc);
+		}
+		if(fundAcc.getPkid() != null){
+			toSpvAccountMapper.updateByPrimaryKeySelective(fundAcc);
+		}else{
+			toSpvAccountMapper.insertSelective(fundAcc);
+		}
 	}
 	
 }
