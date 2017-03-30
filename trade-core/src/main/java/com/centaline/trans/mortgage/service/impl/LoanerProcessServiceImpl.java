@@ -127,8 +127,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
             StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process,loaner.getUsername(), caseCode);    
             
             
-    		// 启动流程之后 把交易顾问派单流程直接推送完 
-			
+    		// 启动流程之后 把交易顾问派单流程直接推送完 			
 			PageableVo pageableVo = taskService.listTasks(vo.getId(), false);//Loaner_Process:4:1030016
     		List<TaskVo> taskList = pageableVo.getData();
     		for (TaskVo task : taskList) {
