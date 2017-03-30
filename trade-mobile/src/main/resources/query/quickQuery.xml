@@ -16,6 +16,7 @@
 	<import resource="query/eloan/warnListQuery.xml" />
 	<import resource="query/eloan/changeListQuery.xml" />
 	<import resource="query/eloan/eloanRiskCtlList.xml" />
+	<import resource="query/eloan/toELoanProcess.xml" />
 	
 
 	

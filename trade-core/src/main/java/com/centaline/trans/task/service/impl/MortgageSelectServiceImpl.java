@@ -80,7 +80,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	private BizWarnInfoMapper bizWarnInfoMapper;
 	@Autowired
 	private ProcessInstanceService processInstanceService;
-	
+
 	private String getLoanReq(String mortageService){
 		if(mortageService==null)return null;
 		switch (mortageService) {
@@ -213,11 +213,16 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				// 发送边界消息
 				List<RestVariable> variables = new ArrayList<RestVariable>();
 				editRestVariables(variables, vo.getMortageService());
-				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId(),variables);
-				
+
+				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId(), variables);
+				//修改流程变量
+				for(RestVariable var:variables){
+					workFlowManager.setVariableByProcessInsId(vo.getProcessInstanceId(),var.getName(),var);
+				}
 				// 删除所有的贷款流程
 				deleteMortFlowByCaseCode(vo.getCaseCode());
 				// 发送消息
+
 				messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
 				// 设置主流程任务的assignee
 				ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
@@ -281,10 +286,10 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			action.setMessageName("StartMortgageSelectMsg");
 			action.setVariables(variables);
 			workFlowManager.executeAction(action);
-			workFlowManager.claimByInstCode(vo.getProcessInstanceId(),vo.getCaseCode(),null);
+			workFlowManager.claimByInstCode(vo.getProcessInstanceId(), vo.getCaseCode(), null);
 		}
 	}
-	
+
 	/****
 	 *  删除该案件下的所有贷款类型
 	 * 
@@ -317,7 +322,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		record.setCaseCode(vo.getCaseCode());
 		record.setLoanReq(getLoanReq(vo.getMortageService()));
 		caseMapper.updateByCaseCodeSelective(record);
-		
+
 		tgServItemAndProcessorMapper.deleteMortageServItem(vo.getCaseCode());
 		
 		if (!"0".equals(vo.getMortageService())) {// 有贷款
@@ -371,7 +376,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		ExecuteGet exGet = new ExecuteGet();
 		exGet.setProcessInstanceId(instId);
 		exGet.setMessageEventSubscriptionName("StartMortgageSelectMsg");
-		ActRuEventSubScr condition=new ActRuEventSubScr();
+		ActRuEventSubScr condition =new ActRuEventSubScr();
 		condition.setEventType("message");
 		condition.setEventName("StartMortgageSelectMsg");
 		condition.setProcInstId(instId);

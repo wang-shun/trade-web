@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuerysParseService;
 import com.aist.common.quickQuery.service.QuickGridService;
-import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.vo.MobileHolder;
@@ -32,65 +31,105 @@ import com.centaline.trans.common.vo.MobileHolder;
 /**
  * 
  * @author sstonehu
- * @version $Id: MortgageListController.java, v 0.1 2016年12月12日 上午3:45:44 sstonehu Exp $
+ * @version $Id: MortgageListController.java, v 0.1 2016年12月12日 上午3:45:44
+ *          sstonehu Exp $
  */
 @RestController
 @RequestMapping(value = "/mobile/case")
 public class MortgageListController {
 
-    private static Logger      logger = LoggerFactory.getLogger(MortgageListController.class);
+	private static Logger logger = LoggerFactory
+			.getLogger(MortgageListController.class);
 
-    @Resource(name = "quickGridService")
-    private QuickGridService   quickGridService;
+	@Resource(name = "quickGridService")
+	private QuickGridService quickGridService;
 
-    @Autowired
-    private QuerysParseService querysParseService;
+	@Autowired
+	private QuerysParseService querysParseService;
 
-    @RequestMapping(value = "list")
-    @ResponseBody
-    public String caseList(HttpServletRequest request, HttpServletResponse response, Integer page,
-                           Integer pageSize, String sidx, String sord, String userid,
-                           String q_text) {
+	@RequestMapping(value = "list")
+	@ResponseBody
+	public String caseList(HttpServletRequest request,
+			HttpServletResponse response, Integer page, Integer pageSize,
+			String sidx, String sord, String userid, String q_text) {
 
-        long millisecond = System.currentTimeMillis();
-        logger.info("Start:caseList 房源列表数据加载开始 ：" + millisecond + "/毫秒");
-        JQGridParam gp = new JQGridParam();
-        gp.setPagination(true);
-        gp.setPage(page);
-        gp.setRows(pageSize);
-        gp.setQueryId("findToMortgage4Par");
-        gp.setSidx(sidx);
-        gp.setSord(sord);
-        Map<String, Object> paramter = new HashMap<String, Object>();
+		long millisecond = System.currentTimeMillis();
+		logger.info("Start:caseList 房源列表数据加载开始 ：" + millisecond + "/毫秒");
+		JQGridParam gp = new JQGridParam();
+		gp.setPagination(true);
+		gp.setPage(page);
+		gp.setRows(pageSize);
+		gp.setQueryId("findToMortgage4Par");
+		gp.setSidx(sidx);
+		gp.setSord(sord);
+		Map<String, Object> paramter = new HashMap<String, Object>();
 
-        SessionUser sessionUser = MobileHolder.getMobileUser();
-        paramter.put("userid", sessionUser.getId());
+		// SessionUser sessionUser = MobileHolder.getMobileUser();
+		// paramter.put("userid", sessionUser.getId());
+		paramter.put("userid", userid);
 
-        if (StringUtils.isNotBlank(q_text) && StringUtils.isNotEmpty(q_text)) {
-            paramter.put("q_text", q_text);
-        }
+		if (StringUtils.isNotBlank(q_text) && StringUtils.isNotEmpty(q_text)) {
+			paramter.put("q_text", q_text);
+		}
 
-        gp.putAll(paramter);
-        querysParseService.reloadFile();
-        Page<Map<String, Object>> returnPage = quickGridService.findPageForSqlServer(gp,
-            MobileHolder.getMobileUser());
+		gp.putAll(paramter);
+		querysParseService.reloadFile();
+		Page<Map<String, Object>> returnPage = quickGridService
+				.findPageForSqlServer(gp, MobileHolder.getMobileUser());
 
-        JSONObject result = new JSONObject();
-        result.put("page", page);
-        result.put("total", returnPage.getTotalPages());
-        result.put("records", returnPage.getTotalElements());
-        result.put("pageSize", pageSize);
-        List<Map<String, Object>> contentList = returnPage.getContent();
+		JSONObject result = new JSONObject();
+		result.put("page", page);
+		result.put("total", returnPage.getTotalPages());
+		result.put("records", returnPage.getTotalElements());
+		result.put("pageSize", pageSize);
+		List<Map<String, Object>> contentList = returnPage.getContent();
 
-        JSONArray content = new JSONArray();
-        for (int i = 0; i < contentList.size(); i++) {
-            Map<String, Object> mapObj = contentList.get(i);
+		JSONArray content = new JSONArray();
+		for (int i = 0; i < contentList.size(); i++) {
+			Map<String, Object> mapObj = contentList.get(i);
 
-            content.add(JSONObject.toJSON(mapObj));
-        }
-        result.put("rows", content);
+			content.add(JSONObject.toJSON(mapObj));
+		}
+		result.put("rows", content);
 
-        return result.toJSONString();
-    }
+		return result.toJSONString();
+	}
+
+	/**
+	 * 按揭贷款接单
+	 * 
+	 * @param taskId
+	 *            任务id
+	 * @param procInstanceId
+	 *            流程实例id
+	 * @param caseCode
+	 *            案件编号
+	 * @return
+	 */
+	@RequestMapping(value = "track/accept")
+	@ResponseBody
+	public String accept(String taskId, String procInstanceId, String caseCode) {
+
+		return null;
+	}
+
+	/**
+	 * 按揭贷款打回
+	 * 
+	 * @param taskId
+	 *            任务id
+	 * @param procInstanceId
+	 *            流程实例id
+	 * 
+	 * @param caseCode
+	 *            案件编号
+	 * @return
+	 */
+	@RequestMapping(value = "track/reject")
+	@ResponseBody
+	public String reject(String taskId, String procInstanceId, String caseCode) {
+
+		return null;
+	}
 
 }

@@ -19,7 +19,6 @@ import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -39,11 +38,9 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.enums.AppTypeEnum;
-import com.centaline.trans.common.enums.SpvStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.vo.FileUploadVO;
-import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
@@ -185,10 +182,10 @@ public class SpvController {
 		*/
 		ToSpv spv= toSpvService.selectByPrimaryKey(pkid);
 		SpvBaseInfoVO spvBaseInfoVO = toSpvService.findSpvBaseInfoVOByPkid(pkid);
-		User user=uamUserOrgService.getUserById(spvBaseInfoVO.getToSpv().getCreateBy());
-		String name=user.getRealName();
-		String phone=user.getMobile();
-		spvBaseInfoVO.getToSpv().setCreateBy(name);
+		User officer=uamUserOrgService.getUserById(spvBaseInfoVO.getToSpv().getRiskControlOfficer());
+		String name=officer.getRealName();
+		String phone=officer.getMobile();
+		//spvBaseInfoVO.getToSpv().setCreateBy(name);
 		//经办人
 		ToCase toCase= toCaseService.findToCaseByCaseCode(spv.getCaseCode());
 		//申请人
@@ -199,7 +196,7 @@ public class SpvController {
 			jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		}
 		//风控总监
-		List<User> zj =uamUserOrgService.getUserByOrgIdAndJobCode(user.getOrgId(), "JYFKZJ");
+		List<User> zj =uamUserOrgService.getUserByOrgIdAndJobCode(officer.getOrgId(), "JYFKZJ");
 		User FKZJ=new User();
 		if(zj.size()>0){
 			FKZJ=zj.get(0);
@@ -207,9 +204,9 @@ public class SpvController {
 		//驳回原因
     if(spv.getStatus()!="0"&&spv.getApplyTime()!=null){
 		ToWorkFlow record=new ToWorkFlow();
-		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
 		record.setBizCode(spv.getSpvCode());
-	    ToWorkFlow workFlow= flowService.queryActiveToWorkFlowByBizCodeBusKey(record);
+		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
+	    ToWorkFlow workFlow= flowService.queryToWorkFlowByBizCodeBusKey(record);
 		 
 		//查询审核结果
 	    if(workFlow !=null){
@@ -226,6 +223,7 @@ public class SpvController {
         cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
         request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
+		request.setAttribute("officer", officer == null?null:officer.getRealName());
 		request.setAttribute("jingban", jingban == null?null:jingban.getRealName());
 	    request.setAttribute("zj",FKZJ);
 	    request.setAttribute("applyUser",applyUser);
@@ -579,6 +577,11 @@ public class SpvController {
 			request.setAttribute("toApproveRecord", record);
 		}
 		
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getRiskControlOfficer())){
+			request.setAttribute("riskControlOfficerName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getRiskControlOfficer()).getRealName());
+		}
+		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
@@ -610,13 +613,13 @@ public class SpvController {
      */
     @RequestMapping("spvApply/deal")
     @ResponseBody
-	public AjaxResponse<?> spvApply(@RequestBody SpvBaseInfoVO spvBaseInfoVO, String spvCode, String caseCode, String source, String instCode,
-			String taskId){	
+	public AjaxResponse<?> spvApply(SpvBaseInfoVO spvBaseInfoVO){	
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
     		//保存相关信息
     		SessionUser user= uamSessionService.getSessionUser();
-    		toSpvService.spvApply(spvBaseInfoVO, spvCode, caseCode, source, instCode, taskId, user);
+    		toSpvService.spvApply(spvBaseInfoVO, spvBaseInfoVO.getSpvCode(), spvBaseInfoVO.getCaseCode(), 
+    				spvBaseInfoVO.getSource(), spvBaseInfoVO.getInstCode(), spvBaseInfoVO.getTaskId(), user);
     		response.setSuccess(true);
 		} catch (Exception e) {
 			setExMsgForResp(response,e);
@@ -657,6 +660,11 @@ public class SpvController {
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
 		
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getRiskControlOfficer())){
+			request.setAttribute("riskControlOfficerName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getRiskControlOfficer()).getRealName());
+		}
+		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
@@ -688,13 +696,13 @@ public class SpvController {
      */
     @RequestMapping("spvAudit/deal")
     @ResponseBody
-	public AjaxResponse<?> spvAudit(String spvCode, Boolean spvApplyApprove, String caseCode, String source, String instCode, 
+	public AjaxResponse<?> spvAudit(SpvBaseInfoVO spvBaseInfoVO, String spvCode, Boolean spvApplyApprove, String caseCode, String source, String instCode, 
 			String taskId, String remark){
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
     		//保存相关信息
     		SessionUser user= uamSessionService.getSessionUser();
-    		toSpvService.spvAudit(spvApplyApprove, spvCode, caseCode, source, instCode, taskId, remark, user);
+    		toSpvService.spvAudit(spvBaseInfoVO, spvApplyApprove, spvCode, caseCode, source, instCode, taskId, remark, user);
     		response.setSuccess(true);
 		} catch (Exception e) {
 			setExMsgForResp(response,e);
@@ -728,6 +736,11 @@ public class SpvController {
 		toApproveRecordForItem.setPartCode("SpvDirectorApprove");		
 		ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
 		request.setAttribute("toApproveRecord", toApproveRecord);
+		
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getRiskControlOfficer())){
+			request.setAttribute("riskControlOfficerName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getRiskControlOfficer()).getRealName());
+		}
 		
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
@@ -791,6 +804,11 @@ public class SpvController {
 		toAccesoryListService.getAccesoryList(request, "SpvApplyApprove");
 	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
 	    request.setAttribute("imgweb", app.genAbsoluteUrl());
+	    
+		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getRiskControlOfficer())){
+			request.setAttribute("riskControlOfficerName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getRiskControlOfficer()).getRealName());
+		}
 		
 		request.setAttribute("taskId", taskId);
     	request.setAttribute("instCode", instCode);
@@ -815,12 +833,16 @@ public class SpvController {
      * @return
      */
 	@RequestMapping("spvSign/deal")
-	public AjaxResponse<?> spvSign(Boolean SpvApplyApprove, String spvCode, String caseCode, String source, String instCode, String taskId, String spvConCode, Date signTime){
+	@ResponseBody
+	public AjaxResponse<?> spvSign(String spvCode, String caseCode, String source, String instCode, String taskId, 
+			String spvConCode, Date signTime, Long sellerAccountPkid, String sellerAccountName, String sellerAccountNo, 
+			String sellerAccountTelephone, String sellerAccountBank, String sellerAccountBranchBank){
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
     		//保存相关信息
     		SessionUser user= uamSessionService.getSessionUser();
-    		toSpvService.spvSign(spvCode, caseCode, source, instCode, taskId, spvConCode, signTime, user);
+    		toSpvService.spvSign(spvCode, caseCode, source, instCode, taskId, spvConCode, signTime, sellerAccountPkid, sellerAccountName, sellerAccountNo, 
+    				sellerAccountTelephone, sellerAccountBank, sellerAccountBranchBank, user);
     		response.setSuccess(true);
 		} catch (Exception e) {
 			setExMsgForResp(response,e);

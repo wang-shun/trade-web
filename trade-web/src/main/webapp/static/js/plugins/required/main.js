@@ -27,7 +27,8 @@ require.config({
     		"bootstrapModal" : "js/bootstrap-modal",
     		"aistJqueryCustom" : "js/plugins/aist/aist.jquery.custom",   //解决$(...).reloadGrid is not a function的问题
     		"poshytip" : "js/poshytitle/src/jquery.poshytip",  //解决$(...).poshytip is not a function的问题
-    		"chosen" : "js/plugins/chosen/chosen.jquery"	
+    		"chosen" : "js/plugins/chosen/chosen.jquery",
+    		"eselect" : "js/jquery.editable-select.min"
     	}
     });
 
