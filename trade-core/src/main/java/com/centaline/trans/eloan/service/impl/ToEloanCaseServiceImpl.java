@@ -304,5 +304,14 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		return toEloanCaseMapper.selectByEloanCode(eloanCode);
 	}
 
+	@Override
+	@TaskOperate(submitVal="map")
+	public void eloanProcessLoanerConfirm(String taskId, Map<String, Object> map, ToEloanCase toEloanCase,
+			boolean isUpdate) {
+		if(isUpdate) {
+			toEloanCaseMapper.updateEloanCaseByEloanCode(toEloanCase);
+		}
+	}
+
 
 }

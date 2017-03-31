@@ -1,12 +1,14 @@
 package com.centaline.parportal.mobile.eloancase.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuerysParseService;
 import com.aist.common.quickQuery.service.QuickGridService;
+import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.eloan.entity.ToEloanCase;
+import com.centaline.trans.eloan.service.ToEloanCaseService;
 
 /**
  * eLoan案件控制器
@@ -35,8 +42,12 @@ public class ELoanCaseController {
 	@Resource(name = "quickGridService")
 	private QuickGridService quickGridService;
 
+	@Autowired(required = true)
+	UamSessionService uamSessionService;
 	@Autowired
 	private QuerysParseService querysParseService;
+	@Autowired
+	ToEloanCaseService toEloanCaseService;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -317,5 +328,40 @@ public class ELoanCaseController {
 		}
 
 		return null;
+	}
+	
+	/**
+	 * 信贷员确认申请是否通过
+	 * @param eloanCode
+	 * @param taskId
+	 * @param loanerApprove
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "loanerConfirm")
+	@ResponseBody
+	public AjaxResponse<String> loanerConfirm(String eloanCode, String taskId, String loanerApprove) {
+
+		SessionUser user = uamSessionService.getSessionUser();
+		try {
+			ToEloanCase toEloanCase = new ToEloanCase();
+			toEloanCase.setEloanCode( null==eloanCode ? "":eloanCode);
+			
+			boolean flag = false;
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (StringUtils.isNotBlank(loanerApprove) && "1".equals(loanerApprove)) {
+				toEloanCase.setLoanerId(user.getId());
+				toEloanCase.setLoanerConfTime(new Date());
+				map.put("LoanerApprove", true);
+				flag = true;
+			} else {
+				map.put("LoanerApprove", false);
+			}
+			toEloanCaseService.eloanProcessLoanerConfirm(taskId, map, toEloanCase, flag);
+			return AjaxResponse.success("操作成功");
+		} catch (Exception e) {
+			logger.debug("信贷员确认申请失败", e);
+			return AjaxResponse.fail("操作失败");
+		}
 	}
 }

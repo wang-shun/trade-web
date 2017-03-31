@@ -32,4 +32,6 @@ public interface ToEloanCaseService {
 	void eloanInfoForUpdate(ToEloanCase toEloanCase);
     void abanById(ToEloanCase eloanCase);
     ToEloanCase selectByEloanCode(String eloanCode);
+    
+    void eloanProcessLoanerConfirm(String taskId,Map<String,Object> map,ToEloanCase toEloanCase,boolean isUpdate);
 }
