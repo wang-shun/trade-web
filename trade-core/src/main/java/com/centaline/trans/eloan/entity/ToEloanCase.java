@@ -17,9 +17,9 @@ public class ToEloanCase {
 	private String custName;
 
 	private String custPhone;
-	
+
 	private String custPaper;
-	
+
 	private String custCardType;
 
 	private Date applyTime;
@@ -75,33 +75,43 @@ public class ToEloanCase {
 	private String taskId;
 
 	private String processInstanceId;
-	
-	private BigDecimal chargeAmount;   //手续费
-	
-	private String remark;   // 情况说明
-	
-	private String status;  
-	
-	private String abanReason; 
-	
-	private Date abanTime;  
-	
-	private String loanerId; 
-	
-	private String loanerName; 
-	
-	private String loanerMobile; 
-	
-	private String loanerOrgCode; 
-	
-	private String loanerOrgId; 
-	
-	private String loanerPhone; 
-	
+
+	private BigDecimal chargeAmount; // 手续费
+
+	private String remark; // 情况说明
+
+	private String status;
+
+	private String abanReason;
+
+	private Date abanTime;
+
+	private String loanerId;
+
+	private String loanerName;
+
+	private String loanerMobile;
+
+	private String loanerOrgCode;
+
+	private String loanerOrgId;
+
+	private String loanerPhone;
+
 	private String loanerUserName;
-	
+
 	private Date loanerConfTime;
-	
+
+	private String stateInBank;
+
+	public String getStateInBank() {
+		return stateInBank;
+	}
+
+	public void setStateInBank(String stateInBank) {
+		this.stateInBank = stateInBank;
+	}
+
 	public String getLoanerPhone() {
 		return loanerPhone;
 	}
@@ -150,7 +160,6 @@ public class ToEloanCase {
 		this.loanerOrgId = loanerOrgId;
 	}
 
-	
 	public BigDecimal getChargeAmount() {
 		return chargeAmount;
 	}
@@ -162,7 +171,7 @@ public class ToEloanCase {
 	public String getRemark() {
 		return remark;
 	}
-	
+
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
@@ -284,7 +293,8 @@ public class ToEloanCase {
 	}
 
 	public void setExcutorDistrict(String excutorDistrict) {
-		this.excutorDistrict = excutorDistrict == null ? null : excutorDistrict.trim();
+		this.excutorDistrict = excutorDistrict == null ? null : excutorDistrict
+				.trim();
 	}
 
 	public String getZjName() {
@@ -364,7 +374,8 @@ public class ToEloanCase {
 	}
 
 	public void setApplyConfUser(String applyConfUser) {
-		this.applyConfUser = applyConfUser == null ? null : applyConfUser.trim();
+		this.applyConfUser = applyConfUser == null ? null : applyConfUser
+				.trim();
 	}
 
 	public Date getSignConfTime() {
@@ -494,7 +505,5 @@ public class ToEloanCase {
 	public void setLoanerConfTime(Date loanerConfTime) {
 		this.loanerConfTime = loanerConfTime;
 	}
-	
-	
 
 }
