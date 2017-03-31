@@ -90,12 +90,16 @@ public class MortgageController {
 	/**
 	 * 银行审核
 	 * 
+	 * @param bizCode
+	 *            按揭贷款信息id
 	 * @param isPass
 	 *            是否通过,isPass如果为true,银行审核通过;为false,银行审核驳回;
 	 * @param taskId
 	 *            任务id
 	 * @param procInstanceId
 	 *            流程实例id
+	 * @param stateInBank
+	 *            状态
 	 * @param caseCode
 	 *            案件编号
 	 * @param comment
@@ -105,8 +109,8 @@ public class MortgageController {
 	@RequestMapping(value = "track/followUp")
 	@ResponseBody
 	public boolean followUp(String bizCode, String isPass, String taskId,
-			String procInstanceId, String srvCode, String stateInBank,
-			String caseCode, String comment) {
+			String procInstanceId, String stateInBank, String caseCode,
+			String comment) {
 
 		// 获取当前用户信息
 		SessionUser sessionUser = MobileHolder.getMobileUser();

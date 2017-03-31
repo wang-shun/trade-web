@@ -949,7 +949,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	 * @param caseCode
 	 *            案件编号
 	 * @param srvCode
-	 *            环节编码,其中accept:接单,beatBack:打回,success:银行审核通过,reject:银行审核驳回
+	 *            环节编码
 	 * @param comment
 	 *            跟进跟进内容
 	 * @return 返回案件跟进信息
