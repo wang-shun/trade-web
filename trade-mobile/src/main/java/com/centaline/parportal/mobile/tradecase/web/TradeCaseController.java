@@ -2,6 +2,7 @@ package com.centaline.parportal.mobile.tradecase.web;
 
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.centaline.parportal.mobile.track.vo.CommentVo;
-import com.centaline.parportal.mobile.util.Pages2JSONMoblie;
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
@@ -48,6 +48,7 @@ import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.stuff.enums.CommentType;
 import com.centaline.trans.track.service.TrackService;
 import com.centaline.trans.utils.BeanUtils;
+import com.centaline.trans.utils.Pages2JSONMoblie;
 
 @RestController
 @RequestMapping(value = "/tradeCase")
@@ -205,11 +206,41 @@ public class TradeCaseController {
 	}
 	
 	private void buildEplusInfo(JSONObject result, String caseCode, SessionUser user) {
-		result.put("eplusInfo", new JSONObject());
+		JQGridParam gp = new JQGridParam();
+		gp.setQueryId("queryEplusInfo");
+		gp.setPagination(false);
+		Map<String, Object> paramMap = gp.getParamtMap();
+		paramMap.put("caseCode", caseCode);
+
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
+		List<Map<String, Object>> list = pages.getContent();
+		if(list == null || list.isEmpty()){
+			result.put("eplusInfo", new JSONObject());
+			return;
+		}
+		generateWantData(list,"queryEplusInfo");
+		result.put("eplusInfo", list);
 	}
 	
+	
+
 	private void buildJianguanInfo(JSONObject result, String caseCode, SessionUser user) {
-		result.put("jianguanInfo", new JSONObject());
+		
+		JQGridParam gp = new JQGridParam();
+		gp.setQueryId("queryJianguanInfo");
+		gp.setPagination(false);
+		Map<String, Object> paramMap = gp.getParamtMap();
+		paramMap.put("caseCode", caseCode);
+
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
+		List<Map<String, Object>> list = pages.getContent();
+		if(list == null || list.isEmpty()){
+			result.put("jianguanInfo", new JSONObject());
+			return;
+		}
+		generateWantData(list,"jianguanInfo");
+		
+		result.put("jianguanInfo", list);
 	}
 
 	private void buildTradeInfo(JSONObject result,String caseCode,SessionUser user){
@@ -294,22 +325,17 @@ public class TradeCaseController {
 	
 	private void buildZhuliInfo(Map<String, Object> map,String caseCode) {
 		// 助理
-		JQGridParam gp = new JQGridParam();
-		gp.setQueryId("queryTradeCaseZhuliMoblie");
-		gp.setPagination(false);
-		Map<String, Object> paramMap = gp.getParamtMap();
-		paramMap.put("caseCode", caseCode);
-		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp);
+		String orgId = String.valueOf(map.get("orgId"));
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZL.getCode());
 		
-		List<Map<String,Object>> asList = pages.getContent();
+//		List<Map<String,Object>> asList = pages.getContent();
 		JSONObject ja = new JSONObject();
 		if (asList != null && asList.size() > 0) {
-			Map<String,Object> reusltMap = asList.get(0);
-			ja.put("name", reusltMap.get("name"));
-			Object ec = reusltMap.get("employeeCode");
-			ja.put("avatar", ec == null ? "" : MessageFormat.format(imgUrl,ec) + ".jpg");
-			ja.put("org", reusltMap.get("org"));
-			ja.put("mobile", reusltMap.get("moblie"));
+			User user = asList.get(0);
+			ja.put("name", user.getRealName());
+			ja.put("avatar", StringUtils.isBlank(user.getEmployeeCode()) ? "" : MessageFormat.format(imgUrl,user.getEmployeeCode()) + ".jpg");
+			ja.put("org", user.getOrgName());
+			ja.put("mobile", user.getMobile());
 		}
 		map.put("zhuli", ja);
 	}
@@ -433,10 +459,11 @@ public class TradeCaseController {
     public String addTrack(@PathVariable("caseCode")String caseCode, CommentVo cmtVo) {
 
     	cmtVo.setCaseCode(caseCode);
+    	SessionUser user = sessionService.getSessionUser();
+    	
         ToCaseComment track = new ToCaseComment();
         //        boolean isNofigyCustomer = cmt.isNotifyCustomer();
         BeanUtils.copyProperties(cmtVo, track);
-
         //检查track的完整性。不完整时抛出业务异常
         this.checkTrackIntegrity(track);
         int resultCount = 0;
@@ -483,4 +510,103 @@ public class TradeCaseController {
 
         return false;
     }
+    
+    private void generateWantData(List<Map<String, Object>> list,String type) {
+		Map<String,Object> map = null;
+		if("queryEplusInfo".equals(type)){
+			for(Map<String, Object> singleMap:list){
+				map = new HashMap<String,Object>();
+				// 申请时间
+				if (null!=singleMap.get("applyTime")) {
+					String applyTime = singleMap.get("applyTime").toString();
+					map.put("applyTime", StringUtils.isBlank(applyTime) ? "" : applyTime);
+				}else{
+					map.put("applyTime","");
+				}
+				//申请金额
+				if (null!=singleMap.get("amount")) {
+					String amount = singleMap.get("amount").toString();
+					map.put("applyAmount", StringUtils.isBlank(amount) ? "" : amount);
+				}else{
+					map.put("applyAmount","");
+				}
+				//签约时间
+				if (null!=singleMap.get("signTime")) {
+					String signTime = singleMap.get("signTime").toString();
+					map.put("signTime", StringUtils.isBlank(signTime) ? "" : signTime);
+				}else{
+					map.put("signTime","");
+				}
+				//签约金额
+				if (null!=singleMap.get("signAmount")) {
+					String signAmount = singleMap.get("signAmount").toString();
+					map.put("signAmount", StringUtils.isBlank(signAmount) ? "" : signAmount);
+				}else{
+					map.put("signAmount","");
+				}
+				//放款时间
+				if (null!=singleMap.get("releaseTime")) {
+					String releaseTime = singleMap.get("releaseTime").toString();
+					map.put("releaseTime", StringUtils.isBlank(releaseTime) ? "" : releaseTime);
+				}else{
+					map.put("releaseTime","");
+				}
+				//放款金额
+				if (null!=singleMap.get("releaseAmount")) {
+					String releaseAmount = singleMap.get("releaseAmount").toString();
+					map.put("releaseAmount", StringUtils.isBlank(releaseAmount) ? "" : releaseAmount);
+				}else{
+					map.put("releaseAmount","");
+				}
+				
+				singleMap.put("progress", map);
+				singleMap.remove("LOAN_SRV_CODE");
+				singleMap.remove("LOANER_ORG_CODE");
+				singleMap.remove("EXCUTOR_ID");
+				singleMap.remove("EXCUTOR_TEAM");
+				singleMap.remove("applyTime");
+				singleMap.remove("signAmount");
+				singleMap.remove("releaseTime");
+				singleMap.remove("signTime");
+				singleMap.remove("releaseAmount");
+			}
+		}else if("jianguanInfo".equals(type)){
+			for(Map<String, Object> singleMap:list){
+				map = new HashMap<String,Object>();
+				// 申请时间
+				if (null!=singleMap.get("applyTime")) {
+					String applyTime = singleMap.get("applyTime").toString();
+					map.put("applyTime", StringUtils.isBlank(applyTime) ? "" : applyTime);
+				}else{
+					map.put("applyTime","");
+				}
+				
+				//签约时间
+				if (null!=singleMap.get("signTime")) {
+					String signTime = singleMap.get("signTime").toString();
+					map.put("signTime", StringUtils.isBlank(signTime) ? "" : signTime);
+				}else{
+					map.put("signTime","");
+				}
+				
+				//结束时间
+				if (null!=singleMap.get("closeTime")) {
+					String closeTime = singleMap.get("closeTime").toString();
+					map.put("closeTime", StringUtils.isBlank(closeTime) ? "" : closeTime);
+				}else{
+					map.put("closeTime","");
+				}
+				singleMap.put("progress", map);
+				singleMap.remove("APPLY_USER");
+				singleMap.remove("RISK_CONTROL_OFFICER");
+				singleMap.remove("applyTime");
+				singleMap.remove("signTime");
+				singleMap.remove("closeTime");
+			}
+			
+		}
+		
+		
+	}
+    
 }

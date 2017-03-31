@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.parportal.mobile.mortgage.web.MortgageListController;
 import com.centaline.parportal.mobile.track.vo.CommentVo;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.service.ToCaseCommentService;
-import com.centaline.trans.common.vo.MobileHolder;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.stuff.enums.CommentType;
 import com.centaline.trans.stuff.service.StuffService;
@@ -46,6 +47,9 @@ public class TrackController {
     private StuffService         stuffService;
     @Autowired
     private TrackService trackService;
+    
+    @Autowired
+    private UamSessionService sessionService;
 
     @RequestMapping(value = "/add")
     @ResponseBody
@@ -97,9 +101,9 @@ public class TrackController {
             throw new BusinessException("抱歉，提交的跟进type为空,请联系技术支持");
         if (null == track.getBizCode())
             throw new BusinessException("抱歉，提交的跟进bizCode为空,请联系技术支持");
-
-        if (MobileHolder.getMobileUser() != null)
-            track.setCreatorOrgId(MobileHolder.getMobileUser().getServiceDepId());
+        SessionUser user = sessionService.getSessionUser();
+        if (user != null)
+            track.setCreatorOrgId(user.getServiceDepId());
 
         return false;
     }

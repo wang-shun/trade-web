@@ -25,6 +25,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>誉萃交易系统</title>
+	<link rel="icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
+	<link rel="shortcut icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
     <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
 

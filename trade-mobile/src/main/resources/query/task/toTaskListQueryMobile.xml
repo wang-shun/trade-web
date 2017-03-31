@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>
-		<customDict id="qqcdOrgNameByCode" beanName="qqcdOrgNameByCode" />
-		<customDict id="qqcdSeller" beanName="qqcdSeller" />
-		<customDict id="qqManagerInfo" beanName="qqManagerInfo" />
-		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
-		<customDict id="qqFindCaseInfo" beanName="qqFindCaseInfo" />
-		<customDict id="qqGetCaseId" beanName="qqGetCaseId" />
-		<customDict id="qqGetCasePropertyInfo" beanName="qqGetCasePropertyInfo" />
-		<customDict id="qqFindTranPlan" beanName="qqFindTranPlan" />
-		<customDict id="qqWorkflow" beanName="qqWorkflow" />
-		<customDict id="getMegerCuntByCaseCode" beanName="getMegerCuntByCaseCode" />
-		<customDict id="getTaskNameTypeByTaskName" beanName="getTaskNameTypeByTaskName" />
-
+		<customDict id="getCaseSalerInfo" beanName="getCaseSalerInfo" />
+		<customDict id="getCaseBuyyerInfo" beanName="getCaseBuyyerInfo" />
+		<customDict id="qqLightService" beanName="qqLightService" />
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
-				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+				<property name="pattern">yyyy/MM/dd</property>
 			</properties>
 		</formatter>
 
@@ -49,23 +40,46 @@
 				<![CDATA[
 					select * from ( SELECT
 						ART.ID_ AS taskID,
-						ART.CREATE_TIME_ CREATE_TIME,
+						ART.CREATE_TIME_ createTime,
 						ART.NAME_ AS taskName,
 						ART.TASK_DEF_KEY_ AS taskCode,
 						ART.PROC_INST_ID_ AS INST_CODE,
 						ART.DELEGATION_ AS DELEGATION,
-						tw.CASE_CODE,
-						tw.BUSINESS_KEY,
-						(select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.CASE_CODE ) as SUBSCRIBE_COUNT
-						,(select PROPERTY_CODE  from sctrans.T_TO_PROPERTY_INFO where CASE_CODE=tw.CASE_CODE) propertyCode
-						,(select CASE_ORIGIN from sctrans.T_TO_CASE where CASE_CODE=tw.CASE_CODE) CASE_ORIGIN
-
+						tw.CASE_CODE caseCode,
+						swt.WFE_CATAGORY prdType,
+						tpi.PROPERTY_ADDR addr,
+						tpi.PROPERTY_CODE propertyCode,
+						ttp.EST_PART_TIME todoTime,
+						tci.AGENT_PHONE,
+						tci.AGENT_NAME,
+						su.EMPLOYEE_CODE,
+						iif(tps.IS_MANUAL_SET = 0 ,'false','true' ) planChangePermit,
+						tw.BIZ_CODE srvCode,
+						case when ttp.EST_PART_TIME is null then '2'
+							when datediff(day, GETDATE(), ttp.EST_PART_TIME) &lt; 0 then '-1'
+                        	when datediff(day, GETDATE(), ttp.EST_PART_TIME) = 0  then '0'   
+                         	when datediff(day, GETDATE(), ttp.EST_PART_TIME) > 0 then '1'  
+                      		else 2  end taskTag
 					FROM
 						sctrans.ACT_RU_TASK ART
-						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
-						  WHERE  ART.ASSIGNEE_ = #userLoginName#
+						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_ = tw.INST_CODE
+						left join sctrans.T_TO_PROPERTY_INFO tpi on tpi.case_code = tw.CASE_CODE
+					    left join sctrans.T_TO_TRANS_PLAN ttp on ttp.case_code = tw.CASE_CODE and ttp.PART_CODE = ART.TASK_DEF_KEY_
+					    inner join sctrans.T_TO_CASE_INFO  tci on tci.CASE_CODE=tw.CASE_CODE
+					    left join sctrans.sys_user su on su.id = tci.AGENT_CODE
+					    left join sctrans.t_ts_task_plan_set tps on tps.part_code = art.TASK_DEF_KEY_
+					    left join sctrans.SYS_WFE_TEMPLATE swt on swt.WFE_CODE = tw.BUSINESS_KEY
+					WHERE  ART.ASSIGNEE_ = #userLoginName#
 					    AND ART.SUSPENSION_STATE_ = '1'
-					    and exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=tw.CASE_CODE)
+						<ifNotNull q_text>
+							and (
+								tci.AGENT_NAME like '%' + #q_text# + '%'
+								or tpi.PROPERTY_ADDR like '%' + #q_text# + '%'
+								or ART.NAME_ like '%' + #q_text# + '%'
+								or EXISTS (select 1 FROM sctrans.T_TG_GUEST_INFO tgi 
+									where tgi.case_code = tci.case_code and tgi.GUEST_NAME like '%' + #q_text# + '%' )
+							) 
+						</ifNotNull>
 						<ifNotNull allType>
    						AND ART.DELEGATION_ IS NULL
 						</ifNotNull>
@@ -73,6 +87,9 @@
 						AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = tw.CASE_CODE and GUEST_NAME LIKE '%'+#guestname#+'%' )
 						</ifNotNull>
 					) as AB where 1=1
+						<ifNotNull taskTag>
+							and AB.taskTag in (#taskTag#)
+						</ifNotNull>
 						<when test	="isSubscribeFilter==0">
 							and AB.SUBSCRIBE_COUNT>0
 					     </when>
@@ -119,34 +136,33 @@
 		]]>
 			</baseSql>
 			<orderBySql>
-				ORDER BY AB.CREATE_TIME  DESC
+				ORDER BY AB.createTime  DESC
 			</orderBySql>
-			<groupSql>
-			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="CASE_CODE"   display="CASECODE" hide="true"/>
-				<column type="both" name="INST_CODE"   display="INSTCODE" hide="true"/>
-				<column type="both" name="SUBSCRIBE_COUNT"   display="是否关注"/>
-				<column type="both" name="BUSINESS_KEY"   display=""/>
-				<column type="virtual" name="PKID"  referencecol="CASE_CODE" isDynamicDict="true" customDict="qqGetCaseId"  title="caseId" />
-				<column type="virtual" name="SELLER" referencecol="CASE_CODE"   display="上家" customDict="qqcdSeller"/>
-				<column type="virtual" name="BUYER" referencecol="CASE_CODE"   display="下家" customDict="qqcdBuyer" />
-				<column type="virtual" name="AGENT_ORG_NAME,AGENT_NAME,CTM_CODE,MOBILE,ORG_ID,MANAGER_INFO" isDynamicDict="true" display="所属分行,经纪人,CTM_CODE,手机,ORG_ID" referencecol="CASE_CODE"   customDict="qqFindCaseInfo" />
-				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" isDynamicDict="true" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,taskCode"   customDict="qqFindTranPlan" />
-				<column type="virtual" name="WFE_NAME" isDynamicDict="true" display="流程环节" referencecol="BUSINESS_KEY"   customDict="qqWorkflow" />
-				<column type="virtual" name="cu" isDynamicDict="true" display="流程环节" referencecol="propertyCode"   customDict="getMegerCuntByCaseCode" />
-				<column type="virtual" name="taskNameType" isDynamicDict="true" display="流程环节名" referencecol="taskName"   customDict="getTaskNameTypeByTaskName" />
-				<column type="both" name="propertyCode"   display="propertyCode"   />
-				<column type="both" name="CASE_ORIGIN"   display="CASE_ORIGIN"   />
-				
 				<column type="both" name="taskName"   display="任务名"/>
 				<column type="both" name="taskCode"   display="taskCode"/>
 				<column type="both" name="taskID"   display="TASKID" hide="true"/>
-				<column type="virtual" name="addr" referencecol="CASE_CODE" isDynamicDict="true" customDict="qqGetCasePropertyInfo"   display="产证地址" />
-				<column type="both" name="createTime"   display="创建时间"   beanFormatter="dateFormatter1"/>
-				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" isDynamicDict="true" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,taskCode"   customDict="qqFindTranPlan" />
+				<column type="both" name="addr"  display="产证地址" />
+				<column type="both" name="todoTime" />
+				<column type="both" name="caseCode"/>
+				
+				<!-- 中介信息  -->
+				<column type="both" name="AGENT_NAME" dataType="String" defaultVal=""/>
+				<column type="both" name="EMPLOYEE_CODE" dataType="String" defaultVal=""/>
+				<column type="both" name="AGENT_PHONE" dataType="String" defaultVal=""/>
+				
+				<column type="both" name="light" customDict="qqLightService" referencecol="todoTime" dataType="String" defaultVal=""/>
+				<column type="virtual" name="shangjia" isDynamicDict="true" customDict="getCaseSalerInfo" referencecol="caseCode" dataType="JSONARRAY" defaultVal="[]"/>
+				<column type="virtual" name="xiajia" customDict="getCaseBuyyerInfo" referencecol="caseCode" dataType="JSONARRAY" defaultVal="[]"/>
+				<column type="both" name="createTime" beanFormatter="dateFormatter" dataType="String" defaultVal=""/>
+				
+				<column type="both" name="todoTime" beanFormatter="dateFormatter" dataType="String" defaultVal="" />
+				<column type="both" name="planChangePermit" dataType="boolean" defaultVal="false"/>
+				<column type="both" name="srvCode" dataType="String" defaultVal=""/>
+				
+				<column type="both" name="prdType" dataType="String" defaultVal=""></column>
 			</table-row>
 		</grid>
 	</query>

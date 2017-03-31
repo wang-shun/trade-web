@@ -27,6 +27,10 @@ public class QuickQueryGetShowWarnTypeServiceImpl implements CustomDictService {
 			if(warnType!=null){
 				if("LOANLOSS".equals(warnType.toString())){
 					val = "贷款流失";
+				}else if("RepayOverdue".equals(warnType.toString())){
+					val = "还贷逾期";
+				}else if("TransferOverdue".equals(warnType.toString())){
+					val = "过户逾期";
 				}
 			}
 			key.put("val", val);

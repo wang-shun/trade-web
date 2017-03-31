@@ -22,6 +22,14 @@
 		<customDict id="getCaseSalerInfo" beanName="getCaseSalerInfo" />
 		<customDict id="getCaseBuyyerInfo" beanName="getCaseBuyyerInfo" />
 		<customDict id="getQianHouTai" beanName="getQianHouTai" />
+		<customDict id="getLoanTypeName" beanName="getLoanTypeName" />
+		<customDict id="qqfinOrgIdName" beanName="qqfinOrgIdName" />
+		<customDict id="getOperatorInfo" beanName="getOperatorInfo" />
+		<customDict id="getRishControlOfficerInfo" beanName="getRishControlOfficerInfo" />
+		<customDict id="getSolutionList" beanName="getSolutionList" />
+		
+		
+		
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -298,7 +306,7 @@
 					CASE WHEN ms.pkid is null then 'false' else 'true' end isFocus,
 					ti.AGENT_CODE,ti.AGENT_PHONE,ti.AGENT_NAME,su.EMPLOYEE_CODE,
 					CASE WHEN tw.pkid is null then 'false' else 'true' end loanLostAlert,
-					so.org_name org 
+					so.org_name org ,tc.ORG_ID orgId
 				from sctrans.T_TO_CASE tc
 					LEFT JOIN sctrans.SYS_DICT sd on sd.type='30001' and sd.is_deleted = '0' and tc.STATUS = sd.code
 					left join SCTRANS.T_TO_PROPERTY_INFO pi on pi.case_code = tc.case_code 
@@ -324,9 +332,10 @@
 				<column type="both" name="EMPLOYEE_CODE" />
 				
 				<column type="both" name="houtai" referencecol="caseCode" customDict="getQianHouTai" dataType="JSONARRAY"/>
-				<column type="both" name="leadingProcessId" dataType="BOOLEAN"/>
+				<column type="both" name="leadingProcessId" dataType="String"/>
 				<column type="both" name="loanLostAlert" dataType="BOOLEAN"/>
 				<column type="both" name="org" defaultVal=""/>
+				<column type="both" name="orgId" dataType="String" defaultVal=""/>
 			</table-row>
 		</grid>
 	</query>
@@ -429,6 +438,106 @@
 				<column type="both" name="moblie"  defaultVal=""/>
 				<column type="both" name="employeeCode" />
 				<column type="both" name="org" defaultVal=""/>
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryEplusInfo">
+		<searchSql>
+			<baseSql>
+				SELECT      T.LOAN_SRV_CODE,
+				            T.ELOAN_CODE AS bizCode,
+				            T.CUST_NAME AS custName,
+							T.MONTH AS month,
+							T.APPLY_AMOUNT AS amount,
+							T.LOANER_NAME AS loaner,
+							T.LOANER_ORG_CODE,
+							T.LOANER_PHONE AS loanerPhone,
+							T.EXCUTOR_ID,
+							T.EXCUTOR_TEAM,
+							T.APPLY_TIME AS applyTime,
+							T.SIGN_TIME AS signTime,
+							T.SIGN_AMOUNT AS signAmount,
+							(SELECT MIN(E.RELEASE_TIME) FROM sctrans.T_TO_ELOAN_REL E WHERE E.ELOAN_CODE = T.ELOAN_CODE) releaseTime,
+							(SELECT SUM(E.RELEASE_AMOUNT) FROM sctrans.T_TO_ELOAN_REL E WHERE E.ELOAN_CODE = T.ELOAN_CODE) releaseAmount
+  				FROM      sctrans.T_TO_ELOAN_CASE T 
+  				WHERE T.CASE_CODE = #caseCode#
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="LOAN_SRV_CODE" />
+				<column type="virtual" name="loanType"  customDict="getLoanTypeName" referencecol="LOAN_SRV_CODE" />
+				<column type="both" name="bizCode" />
+				<column type="both" name="custName" dataType="String" defaultVal=""/>
+				<column type="both" name="month" />
+				<column type="both" name="loaner" dataType="String" defaultVal=""/>
+				<column type="both" name="LOANER_ORG_CODE" />
+				<column type="virtual" name="loanerOrg"  customDict="qqfinOrgIdName" referencecol="LOANER_ORG_CODE" />
+				<column type="both" name="loanerPhone" dataType="String" defaultVal=""/>
+				<column type="both" name="EXCUTOR_ID" />
+				<column type="both" name="EXCUTOR_TEAM" />
+				<column type="virtual" name="operatorName,operatorOrg,operatorPhone" isDynamicDict="true" customDict="getOperatorInfo" referencecol="EXCUTOR_ID,EXCUTOR_TEAM" />
+				<column type="both" name="applyTime" beanFormatter="dateFormatter"/>
+				<column type="both" name="amount" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="signTime" beanFormatter="dateFormatter"/>
+				<column type="both" name="signAmount" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="releaseTime" beanFormatter="dateFormatter"/>
+				<column type="both" name="releaseAmount" dataType="DOUBLE" defaultVal="0"/>
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryJianguanInfo">
+		<searchSql>
+			<baseSql>
+				SELECT  CASE WHEN T.PRD_CODE = '1'
+							 		THEN '光大四方监管'
+									ELSE '光大三方监管' END AS jianguanType,
+				        T.SPV_CODE AS bizCode,
+				        T.AMOUNT AS totalAmount,
+				        ( SELECT    SUM(O.AMOUNT)
+				          FROM      sctrans.T_TO_SPV_CASHFLOW_APPLY S
+				                    LEFT JOIN sctrans.T_TO_SPV_CASHFLOW O ON S.PKID = O.CASHFLOW_APPLY_ID
+				                                                             AND s.SPV_CODE = O.SPV_CODE
+				          WHERE     S.STATUS = '03'
+				                    AND S.USAGE = 'in'
+				                    AND S.spv_code = T.SPV_CODE
+				        ) importAmount,
+						( SELECT    SUM(O.AMOUNT)
+				          FROM      sctrans.T_TO_SPV_CASHFLOW_APPLY S
+				                    LEFT JOIN sctrans.T_TO_SPV_CASHFLOW O ON S.PKID = O.CASHFLOW_APPLY_ID
+				                                                             AND s.SPV_CODE = O.SPV_CODE
+				          WHERE     S.STATUS = '14'
+				                    AND S.USAGE = 'out'
+				                    AND S.spv_code = T.SPV_CODE
+				        ) exportAmount,
+						T.SPV_CON_CODE AS contractCode,
+						T.APPLY_USER,
+						T.RISK_CONTROL_OFFICER,
+						T.APPLY_TIME AS applyTime,--申请时间
+						T.SIGN_TIME AS signTime,--签约时间
+						T.close_time AS closeTime--结束时间
+				FROM    sctrans.T_TO_SPV T 
+  				WHERE T.CASE_CODE = #caseCode#
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="jianguanType" />
+				<column type="both" name="bizCode" />
+				<column type="both" name="totalAmount" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="importAmount" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="exportAmount" dataType="DOUBLE" defaultVal="0"/>
+				<column type="both" name="contractCode" />
+				<column type="both" name="APPLY_USER" />
+				<column type="virtual" name="applicant"  customDict="qqcdUserIdName" referencecol="APPLY_USER" />
+				<column type="both" name="RISK_CONTROL_OFFICER" />
+				<column type="virtual" name="operatorName,operatorOrg,operatorPhone" isDynamicDict="true" customDict="getRishControlOfficerInfo" referencecol="RISK_CONTROL_OFFICER" />
+				<column type="both" name="applyTime" beanFormatter="dateFormatter"/>
+				<column type="both" name="signTime" beanFormatter="dateFormatter"/>
+				<column type="both" name="closeTime" beanFormatter="dateFormatter"/>
+				<column type="virtual" name="solution" referencecol="bizCode" index="" checkbox="" customDict="getSolutionList" />
 			</table-row>
 		</grid>
 	</query>

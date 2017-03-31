@@ -1,5 +1,6 @@
 package com.centaline.trans.spv.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -240,4 +241,16 @@ public interface ToSpvService {
     Map queryInfoByCaseCode(String caseCode);
 
 	Map<String, Object> queryCaseInfoMapByCaseCode(String caseCode);
+
+	void spvApply(SpvBaseInfoVO spvBaseInfoVO, String spvCode, String caseCode, String source, String instCode,
+			String taskId, SessionUser user);
+
+	void spvAudit(SpvBaseInfoVO spvBaseInfoVO, Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,
+			String taskId, String remark, SessionUser user);
+
+	void spvApprove(Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,
+			String taskId, String remark, SessionUser user);
+
+	void spvSign(String spvCode, String caseCode, String source, String instCode, String taskId, String spvConCode,
+			Date signTime, ToSpvAccount buyerAcc, ToSpvAccount sellerAcc, ToSpvAccount fundAcc, SessionUser user);
 }

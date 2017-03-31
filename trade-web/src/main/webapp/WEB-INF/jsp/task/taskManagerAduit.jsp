@@ -230,16 +230,20 @@ select[readonly] option {
 	    		                } 
 	    		            } ,   
 				success : function(data) {
-						window.wxc.success("数据保存成功！",{"wxcOk":function(){
-							if(window.opener)
-						     {
-								 window.close();
-								 window.opener.callback();
-						     } else {
-						    	 window.location.href = "${ctx }/task/myTaskList";
-						     }
-							 $.unblockUI();
-						}});
+					 	$.unblockUI();
+					    if(data.success){
+							window.wxc.success(data.message,{"wxcOk":function(){
+								if(window.opener)
+							     {
+									 window.close();
+									 window.opener.callback();
+							     } else {
+							    	 window.location.href = "${ctx }/task/myTaskList";
+							     }
+							}});
+					    }else{
+					    	window.wxc.error("流程提交失败！"+data.message);
+					    }
 					},
 					
 					error : function(errors) {

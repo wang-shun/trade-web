@@ -14,4 +14,82 @@
 			<column name="JOB_CODE"/>
 		</grid>
 	</query>
+	<query id="getGroup">
+		<searchScript>	
+         select o.id,o.org_name as name from sctrans.sys_org o
+         <if test="#gb=='false'" >
+          inner JOIN sctrans.T_TS_TEAM_PROPERTY t on o.org_code=t.YU_TEAM_CODE
+          </if>
+			<where>
+			  <trim prefix="and" prefixOverrides="and|or">
+			  o.is_deleted=0
+			   <if test="#parentId !=null and #parentId != ''">
+			   and o.PARENT_ID=#{parentId}
+			  </if>
+			  <if test="#gb=='true'" >
+			  and o.ORG_NAME like '%贵宾服务部%'
+			  </if>
+			  <if test="#type=='QT'" >
+			   and t.TEAM_PROPERTY ='yu_front'
+			  </if>
+			  <if test="#type=='HT'" >
+			   and t.TEAM_PROPERTY !='yu_front'
+			  </if>
+			   </trim>
+			</where>
+		</searchScript>
+		<grid>
+			 <column name="id" title="id" hidden="true" />
+		     <column name="name" title="name" hidden="true" />
+		</grid>
+	</query>
+	
+		<query id="getQD">
+		<searchScript>
+		<if test="#jobCode!='JQYDS'">
+		 with o as(
+			    select p.id,p.parent_id from sctrans.sys_org p where p.id =#{orgId} and p.is_deleted=0
+			    union all
+			    select c.id,c.parent_id from o inner join sctrans.sys_org c on c.parent_id = o.id and c.is_deleted=0
+			) 
+		</if>
+			SELECT uoj.user_id,uoj.org_id, org.org_name,uoj.job_code,uoj.job_name,uoj.real_name FROM sctrans.v_user_org_job uoj 
+			INNER join sctrans.sys_org org on uoj.org_id=org.id
+			<where>
+				ismain=1 and is_leader=1
+			 <trim prefix="and" prefixOverrides="and|or">
+			     and uoj.job_code =#{jobCode}
+				<if test="#jobCode!='JQYDS'">
+				 and exists(select 1 from o where uoj.org_id = o.id)
+				</if>
+			   </trim>
+			</where>
+		</searchScript>
+		<grid>
+			 <column name="user_id" title="user_id" hidden="true" />
+		     <column name="org_id" title="org_id" hidden="true" />
+		     <column name="org_name" title="org_name" hidden="true" />
+		     <column name="job_code" title="job_code" hidden="true" />
+		     <column name="job_name" title="job_name" hidden="true" />
+		     <column name="real_name" title="real_name" hidden="true" />
+		</grid>
+	</query>
+
+   <query id="getFH">
+		<searchScript>
+            select id as org_id,org_name from sctrans.sys_org
+			<where>
+			 <trim prefix="and" prefixOverrides="and|or">
+			    is_deleted=0
+				<if test="#parentId !=null and #parentId != ''">
+				and parent_id=#{parentId}
+				</if>
+			   </trim>
+			</where>
+		</searchScript>
+		<grid>
+		     <column name="org_id" title="org_id" hidden="true" />
+		     <column name="org_name" title="org_name" hidden="true" />
+		</grid>
+	</query>
 </querys>

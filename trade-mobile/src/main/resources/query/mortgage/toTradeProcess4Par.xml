@@ -33,6 +33,39 @@
 			</properties>
 		</formatter>
 	</formatters>
+	
+	<query id="queryELoanTradeProcess">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[  	
+			    	SELECT 
+							(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = tpqv.PART_CODE AND IS_DELETED = 0 AND AVAILABLE = 1 AND TYPE = 'part_code') AS status,
+							CONVERT(varchar(100), tpqv.REAL_TIME, 23) AS createTime,
+							u.REAL_NAME as createBy,
+							ISNULL(tpqv.COMMENT,'') AS comment
+					FROM sctrans.V_TRADE_PROCESS_QUERY_VIEW tpqv
+					INNER JOIN sctrans.SYS_USER u ON u.ID = tpqv.CREATE_BY
+					WHERE tpqv.CASE_CODE = #caseCode#
+					ORDER BY tpqv.REAL_TIME DESC
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="status" title="案件环节状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="createTime" title="创建时间"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="createBy" title="创建人" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="comment" title="跟进内容"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+			</table-row>
+		</grid>
+	</query>
+	
 
 	<query id="queryTradeProcess">
 		<searchCondition>

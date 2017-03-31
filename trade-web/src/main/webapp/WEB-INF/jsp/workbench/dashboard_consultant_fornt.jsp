@@ -216,6 +216,15 @@
 								<p>
 									无主资源<br> <span id="unLocatedResourcesCount"></span>
 								</p></li>
+							<li><i class="icon iconfont icon40 pink">&#xe6ab;</i>
+								<p>
+									还贷逾期<br /> <span id="repayOverdueCaseCount"></span>
+								</p></li>
+								
+							<li><i class="icon iconfont icon40 pink">&#xe6a9;</i>
+								<p>
+									过户逾期<br /> <span id="transferOverdueCaseCount"></span>
+								</p></li>
 						</ul>
 					</div>
 				</div>

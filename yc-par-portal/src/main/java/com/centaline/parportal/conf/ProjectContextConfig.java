@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.common.quickQuery.service.impl.CacheableSqlCustomDictServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryEPlusLoanStatusServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImpl;
@@ -127,6 +128,12 @@ public class ProjectContextConfig {
     public CustomDictService qqMortgageAmount() {
         QuickQueryMortgageStringChangeServiceImpl dict = new QuickQueryMortgageStringChangeServiceImpl();
         dict.setDictType("mortgageAmount");
+        return dict;
+    };
+    
+    @Bean(name = "ePlusLoanStatus")
+    public CustomDictService ePlusLoanStatus() {
+    	QuickQueryEPlusLoanStatusServiceImpl dict = new QuickQueryEPlusLoanStatusServiceImpl();
         return dict;
     };
 

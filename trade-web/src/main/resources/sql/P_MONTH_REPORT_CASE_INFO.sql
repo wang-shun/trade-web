@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/3/1 11:10:09 ******/
+/****** Object:  StoredProcedure [sctrans].[P_MONTH_REPORT_CASE_INFO]    Script Date: 2017/3/22 16:16:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -24,7 +24,8 @@ BEGIN
   IF @belong_month = 0
 		BEGIN
 			set @belong_month = year(getdate())*100 + month(dateadd(month,-1,getdate()));
-		
+			set @update_year =year(getdate());
+			set @update_month =month(dateadd(month,-1,getdate()));
 		END
   
 
@@ -102,11 +103,16 @@ BEGIN
 	[WZ_NAME],
 	[BA_CODE],
 	[BA_NAME],
+	[GROUP_ORG_ID],
+	[BUSIAR_ORG_ID],
+	[BUSISWZ_ORG_ID],
+	[BUSIWZ_ORG_ID],
+	[BUSISH_ORG_ID],
 	[JQYJL_NAME],
 	[JQYJL_EMPLOYEE_CODE],
 	[JQYJL_PHONE],
 	[JQYZJ_NAME],
-	[JQYZJ_CODE],
+	[JQYZJ_EMPLOYEE_CODE],
 	[JQYZJ_PHONE],
 	[JQYDS_NAME],
 	[JQYDS_EMPLOYEE_CODE],
@@ -197,13 +203,19 @@ BEGIN
 	[ELOAN_KA],
 	[ELOAN_KA_AMOUNT_STR],
 	[ELOAN_KA_AMOUNT],
+	[ELOAN_KA_APPLY_COUNT],
+	[ELOAN_KA_CARD_COUNT],
+	[ELOAN_KA_CARD_AMOUNT],
+	[ELOAN_KA_CARD_TYPE],
 	[CASE_USE_CARD_PAY],
 	[CASE_USE_CARD_PAY_CN],
 	[CASE_CARD_PAY_AMOUNT],
 	[INFO_CREATE_BY],
 	[INFO_CREATE_TIME],
 	[CREATE_TIME],
-	[BELONG_MONTH]
+	[BELONG_MONTH],
+	[BELONG_FOR_YEAR],
+	[BELONG_FOR_MONTH]
 	)
 SELECT
 	[CASE_PKID],
@@ -269,11 +281,16 @@ SELECT
 	[WZ_NAME],
 	[BA_CODE],
 	[BA_NAME],
+	[GROUP_ORG_ID],
+	[BUSIAR_ORG_ID],
+	[BUSISWZ_ORG_ID],
+	[BUSIWZ_ORG_ID],
+	[BUSISH_ORG_ID],
 	[JQYJL_NAME],
 	[JQYJL_EMPLOYEE_CODE],
 	[JQYJL_PHONE],
 	[JQYZJ_NAME],
-	[JQYZJ_CODE],
+	[JQYZJ_EMPLOYEE_CODE],
 	[JQYZJ_PHONE],
 	[JQYDS_NAME],
 	[JQYDS_EMPLOYEE_CODE],
@@ -364,6 +381,10 @@ SELECT
 	[ELOAN_KA],
 	[ELOAN_KA_AMOUNT_STR],
 	[ELOAN_KA_AMOUNT],
+	[ELOAN_KA_APPLY_COUNT],
+	[ELOAN_KA_CARD_COUNT],
+	[ELOAN_KA_CARD_AMOUNT],
+	[ELOAN_KA_CARD_TYPE],
 	[CASE_USE_CARD_PAY],
 	[CASE_USE_CARD_PAY_CN],
 	[CASE_CARD_PAY_AMOUNT],
@@ -371,7 +392,9 @@ SELECT
 	[INFO_CREATE_TIME],
 
 	GETDATE(),
-	@belong_month--所属月份
+	@belong_month,--所属月份
+	@update_year,
+	@update_month
 	FROM    
 	  SCTRANS.T_RPT_CASE_BASE_INFO
 	  commit tran;
@@ -383,6 +406,10 @@ SELECT
 		select error_message();
 		THROW;
 	END CATCH
+
+	EXEC [sctrans].[P_MONTH_ELOAN_CASE_BASE_INFO];
+
+
 
 END
 

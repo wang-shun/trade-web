@@ -42,37 +42,34 @@
         </searchCondition> 
 		<searchSql>
 			<baseSql>
-				<![CDATA[  				
-					select
-					uoj.employee_code 	as avartaUrl,
-					uoj.real_name 		as consultantName,
-					m.loan_agent 		as consultantID,
-					m.cust_name 		as custName,
-					ISNULL(M.STATE_IN_BANK,'') 	AS statusCode,
-					M.MORT_TOTAL_AMOUNT as loanAmount,
-					CAST(m.COM_YEAR as varchar)+'年'		as loanTime,
-					pi.PROPERTY_ADDR 	as addr,
-					m.SIGN_DATE 			as applyTime,
-					'MORT'	 				as prdType,
-					M.case_code 		as caseCode,
-					CAST(M.PKID as varchar)			as bizCode
-				from
-					sctrans.T_TO_MORTGAGE M
-					INNER JOIN 	sctrans.T_TO_PROPERTY_INFO pi 
-								ON		m.CASE_CODE = pi.CASE_CODE
-								AND		M.LOANER_ID = #userId# 
-								AND		m.is_active = '1'	
-					INNER JOIN		sctrans.V_USER_ORG_JOB uoj
-								ON 		m.loan_agent = uoj.user_id
-								AND		uoj.ismain = 1
-								AND		uoj.JOB_CODE = 'consultant'
-					WHERE EXISTS
-								(select 1 from sctrans.T_TO_CASE c where c.CASE_CODE=M.CASE_CODE and c.LOAN_REQ=1)
-					<ifNotNull q_text>
-					     		AND		(	m.cust_name 			LIKE		'%'+#q_text#+'%'
-					     					OR pi.property_addr	LIKE		'%'+#q_text#+'%'
-					     					OR uoj.real_name		LIKE		'%'+#q_text#+'%')
-					</ifNotNull>				
+				<![CDATA[  	
+					SELECT 
+							t.ID_ AS taskId,
+							t.PROC_INST_ID_ AS procInstanceId,
+							m.loan_agent as consultantID,
+							m.cust_name as custName,
+							ISNULL(m.STATE_IN_BANK,'') AS statusCode,
+							m.MORT_TOTAL_AMOUNT as loanAmount,
+							CAST(m.COM_YEAR as varchar)+'年' as loanTime,
+							m.SIGN_DATE as applyTime,
+							'MORT' as prdType,
+							m.case_code as caseCode,
+							CAST(m.PKID as varchar)	as bizCode,
+							p.PROPERTY_ADDR 	as addr,
+							uoj.employee_code 	as avartaUrl,
+							uoj.real_name 		as consultantName
+				FROM sctrans.ACT_RU_TASK t
+				INNER JOIN sctrans.T_TO_WORKFLOW w ON t.PROC_INST_ID_  = w.INST_CODE
+				INNER JOIN sctrans.T_TO_MORTGAGE m ON m.CASE_CODE = w.CASE_CODE
+				INNER JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = w.CASE_CODE AND m.LOANER_ID = #userid# AND	m.is_active = '1'
+				INNER JOIN sctrans.V_USER_ORG_JOB uoj ON m.loan_agent = uoj.user_id AND uoj.ismain = 1 AND uoj.JOB_CODE = 'consultant'
+				WHERE t.ASSIGNEE_ = (SELECT USERNAME FROM sctrans.SYS_USER WHERE ID = #userid#) AND t.SUSPENSION_STATE_ = '1'
+				AND EXISTS (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE = m.CASE_CODE and c.LOAN_REQ=1)
+				<ifNotNull q_text>
+					 AND (m.cust_name LIKE '%'+#q_text#+'%'
+					     			OR p.property_addr	LIKE '%'+#q_text#+'%'
+					     			OR uoj.real_name LIKE '%'+#q_text#+'%')
+				</ifNotNull>		
 				]]>
 			</baseSql>
 			<groupSql>
@@ -83,6 +80,8 @@
 		</searchSql>
 		<grid>
 			<table-row>
+				<column type="both" name="taskId" index="" />
+				<column type="both" name="procInstanceId" index="" />
 				<column type="both" name="avartaUrl" index="" />
 				<column type="both" name="consultantName" index="" />
 				<column type="both" name="consultantID" index="" />

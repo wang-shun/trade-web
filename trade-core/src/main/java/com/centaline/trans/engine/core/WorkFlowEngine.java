@@ -36,7 +36,6 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.common.vo.MobileHolder;
 import com.centaline.trans.engine.WorkFlowConstant;
 import com.centaline.trans.engine.bean.RestStatus;
 import com.centaline.trans.engine.exception.WorkFlowException;
@@ -54,6 +53,8 @@ public class WorkFlowEngine {
     @Value("${trade.workflow.server}")
     private String            workflowServer;
 
+    @Autowired
+    private UamSessionService sessionService;
     /**
      * 
      * @param workflow
@@ -165,7 +166,7 @@ public class WorkFlowEngine {
             SessionUser u = uamSessionService.getSessionUser();
             //TODO: 统一web和移动端的sessionUser后将此处调整
             if (u == null) {
-                u = MobileHolder.getMobileUser();
+                u = sessionService.getSessionUser();
             }
             user = uamUserOrgService.getUserById(u.getId());
 

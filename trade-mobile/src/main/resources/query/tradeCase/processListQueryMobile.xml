@@ -21,9 +21,12 @@
 					prdType,
 					caseCode,
 					star,
-					type
+					type,
+					
+					srvCode srvCode
 				from sctrans.V_PROCESS_AND_COMMENT_QUERY
 				 where caseCode = #caseCode#
+				 order by createTime desc
 			</baseSql>
 		</searchSql>
 		
@@ -41,6 +44,7 @@
 				<column type="both" name="caseCode" defaultVal=""/>
 				<column type="both" name="star" defaultVal=""/>
 				<column type="both" name="type" defaultVal=""/>
+				<column type="both" name="srvCode" defaultVal=""/>
 			</table-row>
 		</grid>
 	</query>

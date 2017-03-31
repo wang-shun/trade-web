@@ -37,8 +37,9 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						available : null,
 						bizCode : null,
 						readonly:false,    //是否只读,true:只读,false:可以添加图片
-						isNestTable:false,   //是否嵌套表格 例子：产调那边上传图片已经在table里边,如果不做限制会影响页面美观
-						tdWidth : 100         //设置表格单元格宽度,该属性一般跟isNestTable共用
+						isNestTable:false, //是否嵌套表格 例子：产调那边上传图片已经在table里边,如果不做限制会影响页面美观
+						tdWidth : 100,     //设置表格单元格宽度,该属性一般跟isNestTable共用
+						exclude : null     //排除的附件编号
 				  },options||{});
 				  
 				  container = settings.fileUploadContainer;
@@ -187,15 +188,11 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					    if ($error.length) {
 					    	$error.remove();
 					    }
-					    
+					    var preFileCode = $('#'+file.id).siblings().last().attr("id");
 						$.each(res.files, function(index, item){
 							var id = item.id;
 							var fileCat = item.fileCat;
 							var fileName = item.fileName;
-							
-							//preFileCode
-							var checkedBtn = $("."+settings.pick+".checked");
-							var preFileCode = checkedBtn.attr("id");
 							
 							addAttachment(settings.caseCode,settings.partCode,id,preFileCode,fileName);
 							
@@ -309,7 +306,30 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						}],
 						dataType : "json",
 						success : function(data) {
-						  
+				    	if(settings.exclude){
+						    //删除附件类型里面排除的类型
+						    if(data && data.toAccesoryList){
+						    	var accesorys = data.toAccesoryList;
+						    	accesorys.forEach(function(e,i){
+						    			settings.exclude.forEach(function(f){
+						    				if(e.accessoryCode == f){
+						    					accesorys.splice(i,1);
+						    				}
+						    			})
+						    		})  
+						    	}
+						    //删除附件中排除的类型附件
+						    if(data && data.attachmentList){
+						    	var attachments = data.attachmentList;
+						    	attachments.forEach(function(e,i){
+						    			settings.exclude.forEach(function(f){
+						    				if(e.preFileCode == f){
+						    					attachments.splice(i,1);
+						    				}
+						    			})
+						    		})  
+						    	}
+			    			}
 							//如果没有案件编号，就将图片列表置为空
 							if(caseCode == null || caseCode == ""){
 								data.attachmentList = "";

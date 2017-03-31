@@ -150,18 +150,18 @@
 								value="${spvBaseInfoVO.spvCustList[0].idCode }"
 								type="text" class="form-control input-two" placeholder="">
 							</div>
-							<div class="form-group form-margin form-space-one">
+<%-- 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">发证机关</label> <input type="text" name="spvCustList[0].idIssueInst"
 								    value="${spvBaseInfoVO.spvCustList[0].idIssueInst }"
 									class="form-control input-four" placeholder="">
-							</div>
+							</div> --%>
 						</div>
 						<div class="form-row form-rowbot">
-						    <div class="form-group form-margin form-space-one">
+<%-- 						    <div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 家庭地址</label> <input name="spvCustList[0].homeAddr"
 								    value="${spvBaseInfoVO.spvCustList[0].homeAddr }"
 									type="text" class="form-control input-five" placeholder="">
-							</div>
+							</div> --%>
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
@@ -242,18 +242,18 @@
 								    value="${spvBaseInfoVO.spvCustList[1].idCode }"
 									class="form-control input-two" placeholder="">
 							</div>
-							<div class="form-group form-margin form-space-one">
+<%-- 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">发证机关</label> <input type="text" name="spvCustList[1].idIssueInst"
 								    value="${spvBaseInfoVO.spvCustList[1].idIssueInst }"
 									class="form-control input-four" placeholder="">
-							</div>
+							</div> --%>
 						</div>
 						<div class="form-row form-rowbot">
-							<div class="form-group form-margin form-space-one">
+<%-- 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 家庭地址</label> <input name="spvCustList[1].homeAddr"
 								    value="${spvBaseInfoVO.spvCustList[1].homeAddr }"
 									type="text" class="form-control input-five" placeholder="">
-							</div>
+							</div> --%>
 						</div>	
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
@@ -396,7 +396,7 @@
 						<div class="form-row form-rowbot">
 						    <div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label>
-									<input name="toSpv.prdCode" class="form-control input-two" value="光大四方资金监管">
+									<input name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode eq 1?'光大四方资金监管':'光大三方资金监管'}">
 									<%-- <select id="prd" class="form-control input-one"></select>
 									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }"></select> --%>
 							</div>

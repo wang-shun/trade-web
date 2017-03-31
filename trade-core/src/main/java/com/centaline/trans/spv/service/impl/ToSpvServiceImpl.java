@@ -522,6 +522,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpvMapper.updateByPrimaryKeySelective(toSpv);
 			} else {
 				toSpv.setStatus(SpvStatusEnum.DRAFT.getCode());
+				toSpv.setApplyUser(user.getId());
+				toSpv.setApplyTeam(user.getServiceDepId());
 				toSpv.setCreateBy(user.getId());
 				toSpv.setCreateTime(new Date());
 				toSpv.setSpvCode(spvCode);
@@ -679,10 +681,13 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 		// 查询风控专员和总监
 		Map<String, Object> vars = new HashMap<String, Object>();
-		String spvPkid = spvBaseInfoVO.getToSpv().getPkid().toString();
+		ToSpv toSpv = spvBaseInfoVO.getToSpv();
+		String spvPkid = toSpv.getPkid().toString();
 		vars.put("spvPkid", spvPkid);
-		vars.put("RiskControlOfficer",user.getUsername());
-		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+		vars.put("consultant", user.getUsername());
+		SessionUser RiskControlOfficer = uamSessionService.getSessionUserById(toSpv.getRiskControlOfficer());
+		vars.put("RiskControlOfficer",RiskControlOfficer.getUsername());
+		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(RiskControlOfficer.getServiceDepId(), "JYFKZJ");
 		vars.put("RiskControlDirector",riskControlDirector.getUsername());
 
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
@@ -692,7 +697,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
 		List<TaskVo> taskList = pageableVo.getData();
 		for (TaskVo task : taskList) {
-			if ("SpvApply".equals(task.getTaskDefinitionKey())) {
+			if ("SpvConsultantApply".equals(task.getTaskDefinitionKey())) {
 				taskService.complete(task.getId() + "");
 			}
 		}
@@ -707,9 +712,12 @@ public class ToSpvServiceImpl implements ToSpvService {
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(workFlow);
 
-		// 首次开启流程时间为申请时间
+		// 首次开启流程时间为申请时间,当前交易顾问为申请人
 		if (spvBaseInfoVO.getToSpv().getApplyTime() == null) {
 			spvBaseInfoVO.getToSpv().setApplyTime(new Date());
+		}
+		if (spvBaseInfoVO.getToSpv().getRiskControlOfficer() == null){
+			spvBaseInfoVO.getToSpv().setRiskControlOfficer(RiskControlOfficer.getId());
 		}
 		spvBaseInfoVO.getToSpv().setStatus(SpvStatusEnum.AUDIT.getCode());
 		toSpvMapper.updateByPrimaryKeySelective(spvBaseInfoVO.getToSpv());
@@ -740,8 +748,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 
 		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
-				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
-			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getRiskControlOfficer())){
+			request.setAttribute("riskControlOfficerName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getRiskControlOfficer()).getRealName());
 		}
 		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
@@ -848,7 +856,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public int updateByPrimaryKey(ToSpv record) {
-		return toSpvMapper.updateByPrimaryKey(record);
+		return toSpvMapper.updateByPrimaryKeySelective(record);
 	}
 
 	/**
@@ -1755,6 +1763,121 @@ public class ToSpvServiceImpl implements ToSpvService {
 		caseInfoMap.put("buyerMobil", buyerMobil.indexOf("/") == -1?buyerMobil:buyerMobil.substring(0, buyerMobil.indexOf("/")));
 		
 		return caseInfoMap;
+	}
+
+	@Override
+	public void spvApply(SpvBaseInfoVO spvBaseInfoVO, String spvCode, String caseCode, String source, String instCode,
+			String taskId, SessionUser user) {
+		
+		saveNewSpv(spvBaseInfoVO, user);
+
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+
+		ToSpv toSpv = spvBaseInfoVO.getToSpv();
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
+		SessionUser RiskControlOfficer = uamSessionService.getSessionUserById(toSpv.getRiskControlOfficer());
+		variables.add(new RestVariable("RiskControlOfficer", RiskControlOfficer.getUsername()));
+		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
+		
+		ToSpv spv = findToSpvBySpvCode(spvCode);
+		spv.setStatus(SpvStatusEnum.AUDIT.getCode());
+
+		updateByPrimaryKey(spv);	
+	}
+
+	@Override
+	public void spvAudit(SpvBaseInfoVO spvBaseInfoVO, Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,
+			String taskId, String remark, SessionUser user) {
+		
+		saveNewSpv(spvBaseInfoVO, user);
+		
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+
+		variables.add(new RestVariable("SpvOfficerApprove",spvApplyApprove));
+		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		
+		ToSpv spv = findToSpvBySpvCode(spvCode);
+		if(!spvApplyApprove){
+			spv.setStatus(SpvStatusEnum.DRAFT.getCode());
+		}else{
+			spv.setStatus(SpvStatusEnum.APPROVE.getCode());
+		}
+		//spv.setRemark(remark);
+		updateByPrimaryKey(spv);
+		
+		//添加审核记录到ToApproveRecord
+		ToApproveRecord toApproveRecord=new ToApproveRecord();
+		toApproveRecord.setCaseCode(caseCode);
+		toApproveRecord.setContent(remark);
+		toApproveRecord.setApproveType("8");//todo
+		toApproveRecord.setOperator(user.getId());
+		toApproveRecord.setTaskId(taskId);
+		toApproveRecord.setOperatorTime(new Date());
+		toApproveRecord.setPartCode("SpvApplyApprove");//todo
+		toApproveRecord.setProcessInstance(instCode);		
+		
+		toApproveRecordService.insertToApproveRecord(toApproveRecord);
+	}
+
+	@Override
+	public void spvApprove(Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,
+			String taskId, String remark, SessionUser user) {
+		
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		variables.add(new RestVariable("SpvDirectorApprove",spvApplyApprove));
+		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		
+		ToSpv spv = findToSpvBySpvCode(spvCode);
+		if(!spvApplyApprove){
+			spv.setStatus(SpvStatusEnum.DRAFT.getCode());
+		}else{
+			spv.setStatus(SpvStatusEnum.SIGN.getCode());
+		}
+		//spv.setRemark(remark);
+		updateByPrimaryKey(spv);
+		
+		//添加审核记录到ToApproveRecord
+		ToApproveRecord toApproveRecord=new ToApproveRecord();
+		toApproveRecord.setCaseCode(caseCode);
+		toApproveRecord.setContent(remark);
+		toApproveRecord.setApproveType("8");//todo
+		toApproveRecord.setOperator(user.getId());
+		toApproveRecord.setTaskId(taskId);
+		toApproveRecord.setOperatorTime(new Date());
+		toApproveRecord.setPartCode("SpvApplyApprove");//todo
+		toApproveRecord.setProcessInstance(instCode);		
+		
+		toApproveRecordService.insertToApproveRecord(toApproveRecord);
+	}
+
+	@Override
+	public void spvSign(String spvCode, String caseCode, String source, String instCode, String taskId,
+			String spvConCode, Date signTime, ToSpvAccount buyerAcc, ToSpvAccount sellerAcc, ToSpvAccount fundAcc, SessionUser user) {
+		
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
+		
+		ToSpv spv = findToSpvBySpvCode(spvCode);
+		spv.setStatus(SpvStatusEnum.SIGNCOMPLETE.getCode());
+		spv.setSpvConCode(spvConCode);
+		spv.setSignTime(signTime);
+		updateByPrimaryKey(spv);
+
+		if(buyerAcc.getPkid() != null){
+			toSpvAccountMapper.updateByPrimaryKeySelective(buyerAcc);
+		}else{
+			toSpvAccountMapper.insertSelective(buyerAcc);
+		}
+		if(sellerAcc.getPkid() != null){
+			toSpvAccountMapper.updateByPrimaryKeySelective(sellerAcc);
+		}else{
+			toSpvAccountMapper.insertSelective(sellerAcc);
+		}
+		if(fundAcc.getPkid() != null){
+			toSpvAccountMapper.updateByPrimaryKeySelective(fundAcc);
+		}else{
+			toSpvAccountMapper.insertSelective(fundAcc);
+		}
 	}
 	
 }

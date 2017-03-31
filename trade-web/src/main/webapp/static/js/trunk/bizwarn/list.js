@@ -1,6 +1,6 @@
 var ctx = $("#ctx").val();
 
-function relieve(caseCode,status){
+function relieve(caseCode,status,warnType){
 	if(status == "1"){
 		window.wxc.alert("该案件状态已经处于解除状态！");
 		return false;
@@ -12,9 +12,11 @@ function relieve(caseCode,status){
 				async:true,
 				type:"POST",
 				dataType:"json",
-				url:ctx+"/bizwarn/relieve",
-				data:{caseCode:caseCode},
+				//url:ctx+"/bizwarn/relieve",				
+				url:ctx+"/bizwarn/relieveWarn",
+				data:{"caseCode":caseCode,"warnType":warnType},
 				success:function(data){
+					console.log("===Result==="+JSON.stringify(data));					
 					if(data.success){
 						window.wxc.alert('解除成功');
 						reloadGrid();
@@ -48,7 +50,7 @@ function getParams() {
 	var caseCode = $.trim($("#caseCode").val());
 	var propertyAddr = $.trim($("#addr").val());
 	var warnTimeStart = $("#warnTimeStart").val();
-	var warnTimeEnd = $("#warnTimeEnd").val();
+	var warnTimeEnd = $("#warnTimeEnd").val();	
 	
 	var data = {};
 	data.currentOrgId = currentOrgId;
@@ -104,6 +106,8 @@ function init(){
 
 $(document).ready(function() {
 	
+	statusInit();
+	
 	init();
 	
 	$('#addrSearchButton').click(function(){
@@ -129,21 +133,18 @@ $(document).ready(function() {
 	
 });
 
+function statusInit(){
+	var warnType = getUrlParamValue("warnType");
+	if(warnType !=undefined && warnType != null){			
+		$("#warnType option[value='"+warnType+"']").attr("selected",true);
+	}
+	
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function getUrlParamValue(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)
+    	 return  unescape(r[2]); 
+     return null;
+}

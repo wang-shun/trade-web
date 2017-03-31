@@ -1,6 +1,7 @@
 package com.centaline.trans.taskList.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,15 +30,18 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
+import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.remote.service.CommFindUserService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
@@ -52,7 +56,8 @@ public class LoanlostApproveController {
 	private ToCaseService toCaseService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
-
+	@Autowired
+	private CommFindUserService commFindUserService;
 	@Autowired
 	private LoanlostApproveService loanlostApproveService;
 
@@ -73,6 +78,7 @@ public class LoanlostApproveController {
 
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;
+
 
 	@RequestMapping(value = { "loanlostApproveManager/process",
 			"loanlostApproveSeniorManager/process",
@@ -172,13 +178,14 @@ public class LoanlostApproveController {
 		/* 流程引擎变量设置 */
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		if (LoanLost_manager.equals("true")) {// 主管审核的结果
-			User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");// 查询高级主管
+			//User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");// 查询高级主管
+			String seniorManager = commFindUserService.findUserByCase("Senior_Manager", processInstanceVO.getCaseCode());
 			RestVariable restVariableSeniorManager = new RestVariable();
 			RestVariable restVariableSeniorManagerType = new RestVariable();
 			if (null != seniorManager
-					&& !StringUtil.isBlank(seniorManager.getId())) {
+					&& !StringUtil.isBlank(seniorManager)) {
 				restVariableSeniorManager.setName("SeniorManager");
-				restVariableSeniorManager.setValue(seniorManager.getUsername());
+				restVariableSeniorManager.setValue(seniorManager);
 				restVariableSeniorManagerType.setName("LoanLost_manager");
 			} else {
 				restVariableSeniorManager.setName("SeniorManager");
@@ -275,14 +282,14 @@ public class LoanlostApproveController {
 
 		if (!LoanLost_director.equals("true")) {
 			// 查询高级主管
-			User seniorManager = uamUserOrgService
-					.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
+			//User seniorManager = uamUserOrgService .getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");
+			String seniorManager = commFindUserService.findUserByCase("Senior_Manager", processInstanceVO.getCaseCode()); 
 			RestVariable restVariableDirector = new RestVariable();
 			RestVariable restVariableDirectorType = new RestVariable();
 			if (null != seniorManager
-					&& !StringUtil.isBlank(seniorManager.getId())) {
+					&& !StringUtil.isBlank(seniorManager)) {
 				restVariableDirector.setName("SeniorManager");
-				restVariableDirector.setValue(seniorManager.getUsername());
+				restVariableDirector.setValue(seniorManager);
 				restVariableDirectorType.setName("LoanLost_director");
 			} else {
 				restVariableDirector.setName("SeniorManager");
@@ -305,7 +312,16 @@ public class LoanlostApproveController {
 			restVariable1.setValue(LoanLost_director_response);
 			variables.add(restVariable1);
 		}
-
+		
+		/** 服务编码[srv_code]和案件编号[case_code]到服务表[T_TG_SERV_ITEM_AND_PROCESSOR]中去查询交易顾问id[processor_id] 30004010029交易过户（除签约外）)**/
+		/*String ts = toCaseService.selectServItem(processInstanceVO.getCaseCode(),"3000401002");
+		List<String> membersList = null;
+		if(ts != null && ts.length() > 0){
+			membersList = Arrays.asList(ts.split(","));
+		}
+		variables.add(new RestVariable("loanHandlers",membersList)); */
+		
+		
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO
 				.getCaseCode());
 		return workFlowManager.submitTask(variables,

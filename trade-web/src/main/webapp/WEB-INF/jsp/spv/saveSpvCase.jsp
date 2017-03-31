@@ -85,6 +85,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input id="pkid" type="hidden" value="${spvBaseInfoVO.toSpv.pkid }">
 	<div id="wrapper">
+	<form id="extraInfo">
 	    <%-- 流程相关 --%>
 		<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
@@ -92,6 +93,8 @@
 		<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 		<input type="hidden" id="source" name="source" value="${source}">
 		<input type="hidden" id="urlType" name="urlType" value="${urlType}">
+		<input type="hidden" name="spvCode" value="${spvBaseInfoVO.toSpv.spvCode }"/>
+     </form>
 		
 		<!-- main Start -->
 		<div
@@ -103,15 +106,9 @@
 				<li class="menuItem"><a href="#spvthree_info">资金方案填写</a></li>
 				<li class="menuItem"><a href="#spvfour_info">上传备件</a></li>
 			</ul>
-			<c:if test="${empty handle or handle eq 'SpvApply'}">
+			<c:if test="${empty handle or handle eq 'SpvApply' or handle eq 'SpvAudit'}">
 			<div class="menu_btn"
 				style="margin-left: 960px; margin-top: 7px;">
-				<button id="saveBtn" class="btn btn-warning">保存</button>
-			</div>
-			</c:if>
-			<c:if test="${handle eq 'SpvSign'}">
-			<div class="menu_btn"
-				style="margin-left: 960px; margin-top: 7px;display:none;" >
 				<button id="saveBtn" class="btn btn-warning">保存</button>
 			</div>
 			</c:if>
@@ -119,7 +116,7 @@
 		<div class="row">
 			<div class="wrapper wrapper-content animated fadeInUp">
 			                    <!-- <div class="ibox"> -->
-			      <c:if test="${empty handle or handle eq 'SpvApply'}">
+			      <c:if test="${empty handle or handle eq 'SpvApply' or handle eq 'SpvAudit'}">
                     <div class="ibox-content" id="case_info">
                         <div class="main_titile" style="position: relative;">
                             
@@ -256,18 +253,18 @@
 								value="${spvBaseInfoVO.spvCustList[0].idCode }"
 								type="text" class="form-control input-two" placeholder="">
 							</div>
-							<div class="form-group form-margin form-space-one">
+							<%-- <div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">发证机关</label> <input type="text" name="spvCustList[0].idIssueInst"
 								    value="${spvBaseInfoVO.spvCustList[0].idIssueInst }"
 									class="form-control input-four" placeholder="">
-							</div>
+							</div> --%>
 						</div>
 						<div class="form-row form-rowbot">
-						    <div class="form-group form-margin form-space-one">
+						    <%-- <div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 家庭地址</label> <input name="spvCustList[0].homeAddr"
 								    value="${spvBaseInfoVO.spvCustList[0].homeAddr }"
 									type="text" class="form-control input-five" placeholder="">
-							</div>
+							</div> --%>
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
@@ -351,19 +348,19 @@
 								    value="${spvBaseInfoVO.spvCustList[1].idCode }"
 									class="form-control input-two" placeholder="">
 							</div>
-							<div class="form-group form-margin form-space-one">
+							<%-- <div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">发证机关</label> <input type="text" name="spvCustList[1].idIssueInst"
 								    value="${spvBaseInfoVO.spvCustList[1].idIssueInst }"
 									class="form-control input-four" placeholder="">
-							</div>
+							</div> --%>
 						</div>
-						<div class="form-row form-rowbot">
+						<%-- <div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 家庭地址</label> <input name="spvCustList[1].homeAddr"
 								    value="${spvBaseInfoVO.spvCustList[1].homeAddr }"
 									type="text" class="form-control input-five" placeholder="">
 							</div>
-						</div>	
+						</div>	 --%>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one">委托他人办理</label> <label
@@ -458,7 +455,7 @@
 									class="date_icon">万元</span>
 							</div>
                             <div class="form-group form-margin form-space-one pledgeinfo">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"  readonly="readonly"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="leftAmountDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>	 	
 						</div>
@@ -480,7 +477,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-							<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"  readonly="readonly"
+							<label for="" class="lable-one">金额大写</label> <input type="text" id="signAmountDX"  disabled="disabled"
 								class="form-control input-two" placeholder="">
 						    </div> 
 						</div>	
@@ -503,7 +500,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountDX" readonly="readonly"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountDX" disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -511,7 +508,8 @@
 						    <div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 监管产品</label>
 									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }">
-									<option value="1">光大四方资金监管</option>
+									<option value="1" ${spvBaseInfoVO.toSpv.prdCode eq 1?'selected="selected"':''}>光大四方资金监管</option>
+									<option value="2" ${spvBaseInfoVO.toSpv.prdCode eq 2?'selected="selected"':''}>光大三方资金监管</option>
 									</select>
 									<%-- <select id="prd" class="form-control input-one"></select>
 									<select name="toSpv.prdCode" class="form-control input-two" value="${spvBaseInfoVO.toSpv.prdCode }"></select> --%>
@@ -534,7 +532,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountOwnDX" readonly="readonly"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountOwnDX" disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -546,7 +544,7 @@
 									<span class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortDX"  readonly="readonly"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>		
 						</div>
@@ -558,7 +556,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortComDX"  readonly="readonly"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortComDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 							</div>
 						</div>
@@ -570,7 +568,7 @@
 									class="date_icon">万元</span>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortPsfDX"  readonly="readonly"
+								<label for="" class="lable-one">金额大写</label> <input type="text" id="amountMortPsfDX"  disabled="disabled"
 									class="form-control input-two" placeholder="">
 						    </div>
 						</div>
@@ -606,12 +604,12 @@
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[0].pkid" value="${spvBaseInfoVO.toSpvAccountList[0].pkid }"/>
 								<input type="hidden" name="toSpvAccountList[0].accountType" value="BUYER" />
-								<label for="" class="lable-one"><i style="color:red;">*</i> 买方退款账号名称</label> <input name="toSpvAccountList[0].name"
+								<label for="" class="lable-one">买方退款账号名称</label> <input name="toSpvAccountList[0].name"
 								    value="${spvBaseInfoVO.toSpvAccountList[0].name }" onBlur="updateAccTypeOptions()"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
                             <div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input name="toSpvAccountList[0].account"
+								<label for="" class="lable-one">账号</label> <input name="toSpvAccountList[0].account"
 								    value="${spvBaseInfoVO.toSpvAccountList[0].account }" type="text"
 									class="form-control input-two" placeholder="">
 							</div>
@@ -619,18 +617,18 @@
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 电话</label> <input name="toSpvAccountList[0].telephone"
+								<label for="" class="lable-one">电话</label> <input name="toSpvAccountList[0].telephone"
 								    value="${spvBaseInfoVO.toSpvAccountList[0].telephone }" type="text"
 									class="form-control input-one" placeholder="">
 							</div>	
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 开户行</label>
+								<label for="" class="lable-one">开户行</label>
 									<select id="bank_0" name="toSpvAccountList[0].bank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[0].bank }" ></select>
 									<select name="toSpvAccountList[0].branchBank" class="form-control input-two" value="${spvBaseInfoVO.toSpvAccountList[0].branchBank }" ></select>
 							</div>	
 						</div>
 						
-						<div class="form-row form-rowbot">
+						<div id="spvAccountDiv" class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[2].pkid" value="${spvBaseInfoVO.toSpvAccountList[2].pkid }"/>
 							    <input type="hidden" name="toSpvAccountList[2].accountType" value="SPV" />
@@ -640,9 +638,10 @@
 								</select>
 							</div>
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account" readOnly="readOnly"
+								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account" disabled="disabled"
 								    <%-- value="${spvBaseInfoVO.toSpvAccountList[2].account }" --%> value="76310188000148842"
 									class="form-control input-two" placeholder="">
+									<input type="hidden" name="toSpvAccountList[2].account" value="76310188000148842">
 							</div>
 						</div>
 						<div class="form-row form-rowbot">
@@ -659,18 +658,20 @@
 						</div>
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
-								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"  readOnly="readOnly"
+								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"  disabled="disabled"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].account }"
-									class="form-control input-two" placeholder="">			
+									class="form-control input-two" placeholder="">
+									<input type="hidden" name="toSpvAccountList[3].account" value="${spvBaseInfoVO.toSpvAccountList[3].account }">
 							</div>
 							<div class="form-group form-margin form-space-one">
-							    <label for="" class="lable-one">开户行</label> <input type="text" name="toSpvAccountList[3].branchBank"  readOnly="readOnly"
+							    <label for="" class="lable-one">开户行</label> <input type="text" name="toSpvAccountList[3].branchBank"  disabled="disabled"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].branchBank }"
 									class="form-control input-three" placeholder="">
+									<input type="hidden" name="toSpvAccountList[3].branchBank" value="${spvBaseInfoVO.toSpvAccountList[3].branchBank }">
 							</div>
 						</div>
 							
-						<c:if test="${empty handle or handle eq 'SpvApply' }">
+						<c:if test="${empty handle or handle eq 'SpvApply' or handle eq 'SpvAudit'}">
 						<div class="form-row form-rowbot">
 						<div class="form-group form-margin form-space-one">
 								<a onClick="getAccTr()">添加账户</a>
@@ -714,19 +715,18 @@
 						</c:if>
 						</c:forEach>
 						</c:if>
-						
-						<div id="spvAccDiv" class="form-row form-rowbot">
+				
+ 						<div id="spvAccDiv" class="form-row form-rowbot">
 						    <div class="form-group form-margin form-space-one">
-						        <label for="" class="lable-one"><i style="color:red;">*</i> 申请人</label>
-						        <input type="hidden" id="userName" name="toSpv.applyUser" value='${spvBaseInfoVO.toSpv.applyUser }'>
+						        <label for="" class="lable-one"><i style="color:red;">*</i> 风控专员</label>
+						        <input type="hidden" id="userName" name="toSpv.riskControlOfficer" value='${spvBaseInfoVO.toSpv.riskControlOfficer }'>
 						        <input type="text" id="realName"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
-												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value='${applyUserName }'>
-							    <input type="hidden" id="team" name="toSpv.applyTeam"  value='${spvBaseInfoVO.toSpv.applyTeam }'>
+												jobCode:'JYFKZY',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" value='${riskControlOfficerName }'>
 							<div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont">&#xe627;</i>
                                     </div>
 							</div>
-					    </div>
+					    </div> 
 					    
 						<div class="form-row form-rowbot" id="signDiv" style="display:none;">
 						    <div class="form-group form-margin form-space-one">
@@ -741,7 +741,7 @@
 							</div>
 						</div>
 									
-					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" ${handle eq 'SpvApprove'?'':'style="display:none;"'}>						
+					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" ${handle eq 'SpvApprove' or handle eq 'SpvAudit'?'':'style="display:none;"'}>						
 						<div class="form-group form-margin form-space-one">
 							<label class="lable-one"  style="text-align: right;"><i style="color:red;">*</i> 审批意见</label>							
 							<div class="form-group form-margin form-space-one left-extent" >
@@ -786,7 +786,7 @@
 										<td class="text-left"><input name="toSpvDeDetailList[${status.index }].deAddition" value="${toSpvDeDetail.deAddition }" class="table-input"
 											type="text" placeholder="" /></td>
 										<td align="center">
-										<c:if test="${empty handle  or handle eq 'SpvApply'}">
+										<c:if test="${empty handle  or handle eq 'SpvApply' or handle eq 'SpvAudit'}">
 										<a href="javascript:void(0)" onClick="getAtr(this)">添加</a>
 										<a onClick="getDel(this)" class="grey" href="javascript:void(0)">删除</a>
 										</c:if>
@@ -816,8 +816,16 @@
 							<div class="form-btn">						
 							<c:if test="${handle eq 'SpvApply' }">
 							    <div>
-									<a id="riskOfficerApply" class="btn btn-success">提交申请</a>
-									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
+									<a id="consultantApply" class="btn btn-success">提交申请</a>
+									<a onclick="rescCallback()" class="btn btn-default">取消</a>
+								</div>
+							</c:if>
+							
+							<c:if test="${handle eq 'SpvAudit' }">
+							    <div>
+									<a id="riskOfficerApproveY" class="btn btn-success">通过</a>
+									<a id="riskOfficerApproveN" class="btn btn-success">驳回</a>
+									<a onclick="rescCallback()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 							
@@ -825,21 +833,21 @@
 							    <div>
 									<a id="riskDirectorApproveY" class="btn btn-success">通过</a>
 									<a id="riskDirectorApproveN" class="btn btn-success">驳回</a>
-									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
+									<a onclick="rescCallback()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 													
 							<c:if test="${handle eq 'SpvSign' }">
 							    <div>
 									<a id="RiskOfficerSign" class="btn btn-success">提交签约</a>
-									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
+									<a onclick="rescCallback()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>
 							
-							<c:if test="${handle ne 'SpvApply' and handle ne 'SpvApprove' and handle ne 'SpvSign' }">
+							<c:if test="${empty handle}">
 							    <div>
 									<a id="submitBtn" class="btn btn-success">提交申请</a>
-									<a onclick="rescCallbocak()" class="btn btn-default">取消</a>
+									<a onclick="rescCallback()" class="btn btn-default">取消</a>
 								</div>
 							</c:if>			
 							</div>
@@ -947,6 +955,15 @@
         var accTypeSum;//账户类型 
 		
 		$(document).ready(function(){
+			
+			$("select[name='toSpv.prdCode']").change(function(){
+				if($(this).val() == 2){
+					$("#spvAccountDiv").hide();
+				}else{
+					$("#spvAccountDiv").show();
+				}
+			}).change();
+			
 			longTermSuit(0);
 			longTermSuit(1);
 
@@ -976,13 +993,22 @@
 			/*签约环节需添加的内容：资金监管协议编号、签约时间
 	                         签约环节需可修改的内容：卖方监管账户名称、卖方监管账号、开户行*/
 			if($("#handle").val() == 'SpvSign'){
-  				$("input[name='toSpvAccountList[1].name']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
-  				$("input[name='toSpvAccountList[1].account']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
-  				$("input[name='toSpvAccountList[1].telephone']").prop("readOnly",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[0].name']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[0].account']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[0].telephone']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("#bank_0").prop("disabled",false);
+  				$("input[name='toSpvAccountList[0].bank']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[0].branchBank']").prop("disabled",false);
+  				
+  				$("input[name='toSpvAccountList[1].name']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[1].account']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("input[name='toSpvAccountList[1].telephone']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
   				$("#bank_1").prop("disabled",false);
   				$("input[name='toSpvAccountList[1].bank']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
   				$("input[name='toSpvAccountList[1].branchBank']").prop("disabled",false);
-  				$("#signDiv").show().find("input").prop("readOnly",false);
+  				$("#signDiv").show().find("input").prop("disabled",false);
+  				
+  				$("select[name='toSpvAccountList[3].name']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
 	         }
 			
 			$("select[name='toSpvAccountList[3].name']").change(function(){
@@ -1096,7 +1122,8 @@
    					    		fileUpload.init({
 							    		caseCode : $('#caseCode').val(),
 							    		partCode : "SpvApplyApprove",
-							    		fileUploadContainer : "fileUploadContainer"
+							    		fileUploadContainer : "fileUploadContainer",
+							    		exclude : ['spv_contract']
 							    });
    					    		
    					    		$("#content_caseCode").html(caseInfoMap['caseCode']);
@@ -1235,29 +1262,26 @@
 		}
 		
 		function delAccTr(this_){
-			var deleteFlag = true;
+			var deleteComfirm = false;
 			var accountType = $(this_).parents('.form-rowbot').prev().find('input[name$="accountType"]').val();
 			$("select[name^='toSpvDeDetailList'][name$='payeeAccountType']").each(function(i,e){
 				var eVal = $(e).val();
 				if(eVal == accountType){
-					
-					window.wxc.confirm("出款约定中已选择该账户类型，是否确定删除?",{"wxcOk":function(){
-						$(this_).parents('.form-rowbot').prev().remove();
-						$(this_).parents('.form-rowbot').remove();
-						updateAccTypeOptions();
-						
-						return false;
-					}});
+					deleteComfirm = true;
 				}
 			});
 			
-			/* if(!deleteFlag){
-				return false;
+			if(deleteComfirm){
+				window.wxc.confirm("出款约定中已选择该账户类型，是否确定删除?",{"wxcOk":function(){
+					$(this_).parents('.form-rowbot').prev().remove();
+					$(this_).parents('.form-rowbot').remove();
+					updateAccTypeOptions();
+				}});
+			}else{
+				$(this_).parents('.form-rowbot').prev().remove();
+				$(this_).parents('.form-rowbot').remove();
+				updateAccTypeOptions();
 			}
-			
-			$(this_).parents('.form-rowbot').prev().remove();
-			$(this_).parents('.form-rowbot').remove();
-			updateAccTypeOptions(); */
 		}
 		
 		/**
@@ -1289,11 +1313,9 @@
 			if(array && array.length >0){
 		        $("#realName").val(array[0].username);
 				$("#userName").val(array[0].userId);
-                $("#team").val(array[0].orgId);
 			}else{
 				$("#realName").val("");
 				$("#userName").val("");
-				$("#team").val("");
 			}
 		}
 		
@@ -1442,17 +1464,27 @@
 	       <script>
 	       		var fileUpload;
 			    require(['main'], function() {
-					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager'],function($,aistFileUpload){
+					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager','eselect'],function($,aistFileUpload){
 						fileUpload = aistFileUpload;
 						var handle = $("#handle").val();
-						if(handle == "SpvApprove" || handle == "SpvSign"){
+						if(handle == "SpvApprove"){
 							fileUpload.init({
 					    		caseCode : $('#caseCode').val(),
 					    		partCode : "SpvApplyApprove",
 					    		fileUploadContainer : "fileUploadContainer",
-					    		readonly : true
+					    		readonly : true,
+					    		exclude : ['spv_contract']
 					    	});
-						}else if(handle == "" || handle == "SpvApply"){
+						}else if(handle == "" || handle == "SpvApply" || handle == "SpvAudit"){
+							if($('#caseCode').val() != ''){
+								fileUpload.init({
+						    		caseCode : $('#caseCode').val(),
+						    		partCode : "SpvApplyApprove",
+						    		fileUploadContainer : "fileUploadContainer",
+						    		exclude : ['spv_contract']
+						    	});
+							}
+						}else if(handle == "SpvSign"){
 							fileUpload.init({
 					    		caseCode : $('#caseCode').val(),
 					    		partCode : "SpvApplyApprove",

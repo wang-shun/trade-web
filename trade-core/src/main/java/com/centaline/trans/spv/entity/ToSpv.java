@@ -47,6 +47,8 @@ public class ToSpv {
     private String applyUser;
     
     private String applyTeam;
+    
+    private String riskControlOfficer;
 
     private Date createTime;
 
@@ -230,6 +232,14 @@ public class ToSpv {
 
 	public void setApplyTeam(String applyTeam) {
 		this.applyTeam = applyTeam;
+	}
+
+	public String getRiskControlOfficer() {
+		return riskControlOfficer;
+	}
+
+	public void setRiskControlOfficer(String riskControlOfficer) {
+		this.riskControlOfficer = riskControlOfficer;
 	}
 
 	public Date getCreateTime() {

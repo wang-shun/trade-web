@@ -1,6 +1,8 @@
 package com.centaline.trans.bizwarn.web;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -164,9 +167,8 @@ public class BizWarnInfoController {
 	@ResponseBody
 	public AjaxResponse relieve(String caseCode) {
 		AjaxResponse result = new AjaxResponse();
-
-		BizWarnInfo bizWarnInfo = bizWarnInfoService
-				.getBizWarnInfoByCaseCode(caseCode);
+		//新增warnType  确认案件的唯一性
+		BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(caseCode);
 		bizWarnInfo.setStatus("1");
 		bizWarnInfo.setRelieveTime(new Date());
 
@@ -177,6 +179,46 @@ public class BizWarnInfoController {
 		} else {
 			return result.fail("解除失败！");
 		}
+	}
+	
+	
+	
+	
+	
+	/**
+	 * @author zhuody
+	 * @Date 2017-03-15
+	 *  
+	 * 预警解除 
+	 * @param caseCode 案件编号
+	 * @param warnType 预警类型
+	 * @return
+	 */
+	@RequestMapping(value = "relieveWarn")
+	@ResponseBody
+	public AjaxResponse<String> relieveWarn(String caseCode,String warnType) {
+		AjaxResponse<String> result = new AjaxResponse<String>();
+		//新增warnType  确认案件的唯一性
+		if(null == caseCode || "".equals(caseCode) && (null == warnType || "".equals(warnType))){
+			throw new BusinessException("查询预警案件信息请求参数有误！");
+		}		
+		
+		Map<String,Object> paraMap = new HashMap<String,Object>();
+		paraMap.put("caseCode", caseCode);
+		paraMap.put("warnType", warnType);
+		int k = 0;
+		
+		try{
+			k = bizWarnInfoService.relieveWarn(paraMap);
+		}catch(BusinessException e){
+			throw new BusinessException("案件取消预警异常！");
+		}		
 
+		if (k > 0) {			
+			result.setSuccess(true);
+		} else {
+			result.setSuccess(false);			
+		}
+		return result;
 	}
 }

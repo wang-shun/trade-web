@@ -16,7 +16,6 @@ shiroConfig.shiroFilter:
     /cas: cas
     /html/**: anon
     /remote/**: anon
-    /mobile/**: anon
     /test/**: anon
     /momedia/**: anon
     /webservices/**: anon
@@ -30,7 +29,9 @@ shiroConfig.shiroFilter:
     /weixin/**: weiXinUser
     /tweixin/**: weiXinUser
     /weixinAuth: weixinAuth
-    /**: user
+    /restful/login**: restfulAuth
+    /restful/refreshToken**: restfulAuth
+    /**: customUser
   filters:
     weiXinUser:
       corpId: wx7b47806a86fe27db

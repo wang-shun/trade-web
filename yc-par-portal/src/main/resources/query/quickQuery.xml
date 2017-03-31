@@ -23,5 +23,5 @@
 	<import resource="query/eloan/ELoanCaseList.xml" />
 	<import resource="query/eloan/eloanContractList.xml" />
 	
-
+	<import resource="query/mortgage/EPlusLoanList4Par.xml"></import>
 </queryConfig>

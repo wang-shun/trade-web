@@ -35,7 +35,6 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.parportal.mobile.aop.RefreshTokenAutoAop;
 import com.centaline.parportal.mobile.login.entity.TAppEquipmentBindingDetail;
 import com.centaline.parportal.mobile.login.service.MobileUserService;
 import com.centaline.parportal.mobile.login.service.TAppEquipmentBindingDetailService;
@@ -294,7 +293,6 @@ public class LoginController {
      */
     @RequestMapping(value = "refreshToken")
     @ResponseBody
-    @RefreshTokenAutoAop
     public String refreshToken(@RequestParam(required = true) String oldToken,
                                @RequestParam(required = true) int random,
                                @RequestParam(required = true) String securityCode) {
