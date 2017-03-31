@@ -1,14 +1,12 @@
 package com.centaline.parportal.mobile.eloancase.web;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +19,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuerysParseService;
 import com.aist.common.quickQuery.service.QuickGridService;
-import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.eloan.entity.ToEloanCase;
+import com.centaline.trans.common.vo.MobileHolder;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
+import com.centaline.trans.eloan.vo.ELoanVo;
 
 /**
  * eLoan案件控制器
@@ -54,6 +52,59 @@ public class ELoanCaseController {
 	private final static String queryELoanCaseDetail = "queryELoanCaseDetail";
 	private final static String queryELoanProcess = "queryELoanProcess";
 	private final static String queryELoanTradeProcess = "queryELoanTradeProcess";
+
+	/**
+	 * E+贷款信贷员接单和打回
+	 * 
+	 * @param eLoanCode
+	 *            E+金融编号
+	 * @param isPass
+	 *            是否接单,isPass如果为true,信贷员接单;为false,信贷员打回;
+	 * @param taskId
+	 *            任务id
+	 * @param caseCode
+	 *            案件编号
+	 * @param comment
+	 *            案件跟进备注
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	@RequestMapping(value = "track/accept")
+	@ResponseBody
+	public boolean accept(String eLoanCode, String isPass, String taskId,
+			String stateInBank, String caseCode, String comment) {
+		// 获取当前用户信息
+		SessionUser sessionUser = MobileHolder.getMobileUser();
+
+		// 设置前台传的参数信息
+		ELoanVo eLoanVo = new ELoanVo();
+		eLoanVo.seteLoanCode(eLoanCode);
+		eLoanVo.setIsPass(isPass);
+		eLoanVo.setTaskId(taskId);
+		eLoanVo.setStateInBank(stateInBank);
+		eLoanVo.setCaseCode(caseCode);
+		eLoanVo.setComment(comment);
+		eLoanVo.setUser(sessionUser);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		if ("true".equals(eLoanVo.getIsPass())) {
+			map.put("LoanerApprove", true);
+		} else if ("false".equals(eLoanVo.getIsPass())) {
+			map.put("LoanerApprove", false);
+		}
+
+		// 返回结果信息,默认为true
+		boolean result = true;
+
+		try {
+			result = toEloanCaseService.accept(eLoanVo, map);
+		} catch (Exception e) {
+			result = false;
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 
 	@RequestMapping(value = "/list")
 	@ResponseBody
@@ -329,39 +380,5 @@ public class ELoanCaseController {
 
 		return null;
 	}
-	
-	/**
-	 * 信贷员确认申请是否通过
-	 * @param eloanCode
-	 * @param taskId
-	 * @param loanerApprove
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "loanerConfirm")
-	@ResponseBody
-	public AjaxResponse<String> loanerConfirm(String eloanCode, String taskId, String loanerApprove) {
 
-		SessionUser user = uamSessionService.getSessionUser();
-		try {
-			ToEloanCase toEloanCase = new ToEloanCase();
-			toEloanCase.setEloanCode( null==eloanCode ? "":eloanCode);
-			
-			boolean flag = false;
-			Map<String, Object> map = new HashMap<String, Object>();
-			if (StringUtils.isNotBlank(loanerApprove) && "1".equals(loanerApprove)) {
-				toEloanCase.setLoanerId(user.getId());
-				toEloanCase.setLoanerConfTime(new Date());
-				map.put("LoanerApprove", true);
-				flag = true;
-			} else {
-				map.put("LoanerApprove", false);
-			}
-			toEloanCaseService.eloanProcessLoanerConfirm(taskId, map, toEloanCase, flag);
-			return AjaxResponse.success("操作成功");
-		} catch (Exception e) {
-			logger.debug("信贷员确认申请失败", e);
-			return AjaxResponse.fail("操作失败");
-		}
-	}
 }
