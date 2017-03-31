@@ -58,7 +58,7 @@
 						tw.BUSINESS_KEY,
 						(select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.CASE_CODE ) as SUBSCRIBE_COUNT
 						,(select PROPERTY_CODE  from sctrans.T_TO_PROPERTY_INFO where CASE_CODE=tw.CASE_CODE) propertyCode
-						,(select CASE_ORIGIN from sctrans.T_TO_CASE where CASE_CODE=tw.CASE_CODE) CASE_ORIGIN
+						,(select top 1 CASE_ORIGIN from sctrans.T_TO_CASE where CASE_CODE=tw.CASE_CODE) CASE_ORIGIN
 
 					FROM
 						sctrans.ACT_RU_TASK ART

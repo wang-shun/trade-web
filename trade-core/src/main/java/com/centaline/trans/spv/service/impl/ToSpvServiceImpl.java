@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
-import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
@@ -684,12 +683,11 @@ public class ToSpvServiceImpl implements ToSpvService {
 		Map<String, Object> vars = new HashMap<String, Object>();
 		ToSpv toSpv = spvBaseInfoVO.getToSpv();
 		String spvPkid = toSpv.getPkid().toString();
-		vars.put("isFourParties", "1".equals(toSpv.getPrdCode()));
 		vars.put("spvPkid", spvPkid);
 		vars.put("consultant", user.getUsername());
 		SessionUser RiskControlOfficer = uamSessionService.getSessionUserById(toSpv.getRiskControlOfficer());
 		vars.put("RiskControlOfficer",RiskControlOfficer.getUsername());
-		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(RiskControlOfficer.getServiceDepId(), "JYFKZJ");
 		vars.put("RiskControlDirector",riskControlDirector.getUsername());
 
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
@@ -699,7 +697,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
 		List<TaskVo> taskList = pageableVo.getData();
 		for (TaskVo task : taskList) {
-			if ("SpvApply".equals(task.getTaskDefinitionKey())) {
+			if ("SpvConsultantApply".equals(task.getTaskDefinitionKey())) {
 				taskService.complete(task.getId() + "");
 			}
 		}
@@ -750,8 +748,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 
 		if(spvBaseInfoVO != null && spvBaseInfoVO.getToSpv() != null 
-				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getApplyUser())){
-			request.setAttribute("applyUserName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getApplyUser()).getRealName());
+				&& !StringUtils.isBlank(spvBaseInfoVO.getToSpv().getRiskControlOfficer())){
+			request.setAttribute("riskControlOfficerName",uamSessionService.getSessionUserById(spvBaseInfoVO.getToSpv().getRiskControlOfficer()).getRealName());
 		}
 		
 		request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
@@ -858,7 +856,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public int updateByPrimaryKey(ToSpv record) {
-		return toSpvMapper.updateByPrimaryKey(record);
+		return toSpvMapper.updateByPrimaryKeySelective(record);
 	}
 
 	/**
@@ -1777,7 +1775,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 		ToSpv toSpv = spvBaseInfoVO.getToSpv();
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);	
-		variables.add(new RestVariable("isFourParties", "1".equals(toSpv.getPrdCode())));
+		SessionUser RiskControlOfficer = uamSessionService.getSessionUserById(toSpv.getRiskControlOfficer());
+		variables.add(new RestVariable("RiskControlOfficer", RiskControlOfficer.getUsername()));
 		workFlowManager.submitTask(variables, taskId, instCode, null, toCase.getCaseCode());
 		
 		ToSpv spv = findToSpvBySpvCode(spvCode);
@@ -1787,8 +1786,11 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 
 	@Override
-	public void spvAudit(Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,
+	public void spvAudit(SpvBaseInfoVO spvBaseInfoVO, Boolean spvApplyApprove, String spvCode, String caseCode, String source, String instCode,
 			String taskId, String remark, SessionUser user) {
+		
+		saveNewSpv(spvBaseInfoVO, user);
+		
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 
 		variables.add(new RestVariable("SpvOfficerApprove",spvApplyApprove));
@@ -1811,12 +1813,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 		toApproveRecord.setOperator(user.getId());
 		toApproveRecord.setTaskId(taskId);
 		toApproveRecord.setOperatorTime(new Date());
-		toApproveRecord.setPartCode("SpvOfficerApprove");//todo
+		toApproveRecord.setPartCode("SpvApplyApprove");//todo
 		toApproveRecord.setProcessInstance(instCode);		
 		
 		toApproveRecordService.insertToApproveRecord(toApproveRecord);
-
-		updateByPrimaryKey(spv);
 	}
 
 	@Override
@@ -1844,7 +1844,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		toApproveRecord.setOperator(user.getId());
 		toApproveRecord.setTaskId(taskId);
 		toApproveRecord.setOperatorTime(new Date());
-		toApproveRecord.setPartCode("SpvDirectorApprove");//todo
+		toApproveRecord.setPartCode("SpvApplyApprove");//todo
 		toApproveRecord.setProcessInstance(instCode);		
 		
 		toApproveRecordService.insertToApproveRecord(toApproveRecord);
@@ -1852,7 +1852,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public void spvSign(String spvCode, String caseCode, String source, String instCode, String taskId,
-			String spvConCode, Date signTime, SessionUser user) {
+			String spvConCode, Date signTime, ToSpvAccount buyerAcc, ToSpvAccount sellerAcc, ToSpvAccount fundAcc, SessionUser user) {
 		
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
@@ -1862,6 +1862,22 @@ public class ToSpvServiceImpl implements ToSpvService {
 		spv.setSpvConCode(spvConCode);
 		spv.setSignTime(signTime);
 		updateByPrimaryKey(spv);
+
+		if(buyerAcc.getPkid() != null){
+			toSpvAccountMapper.updateByPrimaryKeySelective(buyerAcc);
+		}else{
+			toSpvAccountMapper.insertSelective(buyerAcc);
+		}
+		if(sellerAcc.getPkid() != null){
+			toSpvAccountMapper.updateByPrimaryKeySelective(sellerAcc);
+		}else{
+			toSpvAccountMapper.insertSelective(sellerAcc);
+		}
+		if(fundAcc.getPkid() != null){
+			toSpvAccountMapper.updateByPrimaryKeySelective(fundAcc);
+		}else{
+			toSpvAccountMapper.insertSelective(fundAcc);
+		}
 	}
 	
 }

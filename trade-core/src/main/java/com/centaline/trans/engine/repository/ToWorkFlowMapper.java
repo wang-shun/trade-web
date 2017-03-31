@@ -40,6 +40,8 @@ public interface ToWorkFlowMapper {
 	
 	ToWorkFlow queryActiveToWorkFlowByBizCodeBusKey(ToWorkFlow record);
 	
+	ToWorkFlow queryToWorkFlowByBizCodeBusKey(ToWorkFlow record);
+	
 	List<ToWorkFlow> queryActiveToWorkFlowByCaseCode(ToWorkFlow record);
 	
 	List<ToWorkFlow> getMortToWorkFlowByCaseCode(ToWorkFlow record);

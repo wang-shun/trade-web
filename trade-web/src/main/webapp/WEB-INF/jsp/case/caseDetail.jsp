@@ -31,11 +31,11 @@
 <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"	rel="stylesheet">
 <link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
-
 <link href="${ctx}/static/trans/css/workflow/caseDetail.css" rel="stylesheet" />
 <link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
+<link href="${ctx}/css/common/subscribe.css" rel="stylesheet">
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" />
 <link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
@@ -102,9 +102,9 @@
                    		<c:if test="${toApproveRecord!=''}">
                   		class="hint hint-top" data-hint="${toApproveRecord}"
                   		</c:if> >爆单</span>
-                  		
+
                   		</div>
-                  	</c:if>                    
+                  	</c:if>
                    	<c:if test="${toCase.caseProperty=='30003003' || toCase.caseProperty=='30003007' || toCase.caseProperty=='30003008'}">
                    		<div class="sign sign-red">在途</div>
 	                   <div class="sign sign-blue">
@@ -129,7 +129,7 @@
 	                   	<c:if test="${toCase.status=='30001007'}">
 	                   		被合流
 	                   	</c:if>
-	                   </div>                    		
+	                   </div>
                     </c:if>
                    	<c:if test="${toCase.caseProperty=='30003004'}">
                    		<div class="sign sign-red">挂起</div>
@@ -155,7 +155,7 @@
 	                   	<c:if test="${toCase.status=='30001007'}">
 	                   		被合流
 	                   	</c:if>
-	                   </div>                    		
+	                   </div>
                     </c:if>
                   	<c:if test="${toCase.caseProperty=='30003006'}">
                   		<div class="sign sign-red">全部</div>
@@ -181,11 +181,11 @@
 	                   	<c:if test="${toCase.status=='30001007'}">
 	                   		被合流
 	                   	</c:if>
-	                   </div>                   		
+	                   </div>
                    	</c:if>
                    	<c:if test="${caseDetailVO.loanType=='30004005'}">
                   		<div class="sign sign-yellow">税费卡</div>
-                  	</c:if> 
+                  	</c:if>
 					<div class="panel-body">
 						<div class="ibox-content-head lh24">
 							<h5>案件基本信息</h5>
@@ -389,20 +389,20 @@
 										<!-- 已经结案审批通过限制流程重启 -->
 										<!-- 已经过户或者已经领证的案件限制流程重启 -->
 										<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' || serviceJobType=='Y' }">
-										<shiro:hasPermission name="TRADE.CASE.RESTART"> 
+										<shiro:hasPermission name="TRADE.CASE.RESTART">
 											<a role="button" id="processRestart"
 												class="btn btn-primary btn-xm btn-activity"
 												href="javascript:serviceRestart()">流程重启</a>
 									    </shiro:hasPermission>
-										</c:if> 
+										</c:if>
 									</c:if>
 									<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' || serviceJobType == 'Y' }">
-									<shiro:hasPermission name="TRADE.CASE.RESET"> 
+									<shiro:hasPermission name="TRADE.CASE.RESET">
 										<a role="button" id="caseResetes"
 											class="btn btn-primary btn-xm btn-activity"
 											href="javascript:caseReset()">案件重置</a>
 									 </shiro:hasPermission>
-									</c:if> 
+									</c:if>
 									<c:if test="${isCaseOwner && isNewFlow}">
 										<!-- 主办 &10:445004或者之后的流程-->
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
@@ -585,7 +585,7 @@
 								<div id="change-modal-form" class="modal fade" role="dialog" aria-labelledby="leading-modal-title" aria-hidden="true">
 									<form id="changeCooprations" action="${ctx}/case/updateCoope"
 										method="post" class="form-horizontal">
-										<input type="hidden" name="instCode" value="${toWorkFlow.instCode}" /> 
+										<input type="hidden" name="instCode" value="${toWorkFlow.instCode}" />
 										<input type="hidden" name="caseId" value="${toCase.pkid}" />
 										<div class="modal-dialog" style="width: 800px">
 											<div class="modal-content">
@@ -1036,7 +1036,7 @@
 										</c:if>
 									</c:forEach>
 								</c:forEach>
-								
+
 								<c:if test="${toEloanCases.size()>0&&toLoanAgents.size()>0}">
 								<div class="hr-line-dashed"></div>
 								</c:if>
@@ -1052,7 +1052,7 @@
 										</div>
 										<div class="row ">
 											<label class="col-sm-3 control-label">客户电话：${toEloanCase.custPhone}</label>
-											<label class="col-sm-3 control-label">贷款金额： 
+											<label class="col-sm-3 control-label">贷款金额：
 			                                                ${toEloanCase.applyAmount}&nbsp&nbsp万元
 			                                            </label> <label
 												class="col-sm-3 control-label">放款金额：
@@ -1087,7 +1087,7 @@
 											<label class="col-sm-3 control-label">信贷员：${toEloanCase.loanerName}</label>
 											<label class="col-sm-3 control-label">信贷员电话：${toEloanCase.loanerPhone}</label>
 										</div>
-																				
+
 									<%-- 	<div class="row ">
 											<label class="col-sm-3 control-label">对账时间：${toEloanCaseVO.incomeConfirmTime}</label>
 											<label class="col-sm-3 control-label">结账时间：${toLoanAgentVO.incomeArriveTime}</label>
@@ -1111,7 +1111,7 @@
 							<div class="tab-pane fade" id="caseComment-info">
 								<div id="caseCommentList" class="add_form"></div>
 							</div>
-							
+
 							<div class="tab-pane fade" id="bizwarn-info">
 								<div class="row">
 									<c:choose>
@@ -1138,7 +1138,7 @@
 												</span>
 											</label>
 											<label class="col-sm-3 control-label" style="width:10%;">
-												
+
 												<c:if test="${bizWarnInfo.status == '0' }">
 													<div class="btn btn-primary add_btn" style="margin-top:-10px;" id="relieve">解除</div>
 												</c:if>
@@ -1162,7 +1162,7 @@
 		</div>
 	</div>
 	</div>
-	
+
 	<div id="bizwarnForm-modal-form" class="modal fade" role="dialog" aria-labelledby="plan-modal-title" aria-hidden="true">
 		<div class="modal-dialog" style="width: 1000px">
 			<div class="modal-content">
@@ -1178,7 +1178,7 @@
 								<input type="hidden" name="caseCode" value="${toCase.caseCode}"/>
 								<input type="text" name="content" style="width:550px;"/>
 							</div>
-						</div>					
+						</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default"
@@ -1188,9 +1188,9 @@
 			</div>
 		</div>
 	</div>
-	
-	<content tag="local_script"> <!-- Peity --> 
-	<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
+
+	<content tag="local_script"> <!-- Peity -->
+	<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
 	<!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
@@ -1199,25 +1199,26 @@
 	<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<script	src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 	<script src="${ctx}/js/plugins/jasny/jasny-bootstrap.min.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	<%-- <script src="${ctx}/transjs/task/follow.pic.list.js"></script> --%>
 	<script src="${ctx}/js/trunk/case/moduleSubscribe.js?v=1.0.6"></script>
 	<script src="${ctx}/js/trunk/case/caseDetail.js?v=1.0.6"></script>
-	<%-- <script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> --%> 
+	<%-- <script src="${ctx}/js/trunk/case/showCaseAttachment.js"></script> --%>
 	<script src="${ctx}/js/viewer/viewer.min.js"></script>
 	<script src="${ctx}/js/trunk/case/showCaseAttachmentByJagd.js"></script>
 	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
 	<script src="${ctx}/js/stickUp.js"></script>
-	<script	src="${ctx}/toastr.min.js"></script> 
+	<script	src="${ctx}/toastr.min.js"></script>
 	<!-- 放款监管信息  -->
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 	<script	src="${ctx}/transjs/task/caseflowlist.js"></script>
 	<script	type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script>
 	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
+	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<!-- 各个环节的备注信息  -->
 	<script src="${ctx}/js/trunk/case/caseRemark.js"></script>
 	<jsp:include	page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
@@ -1230,32 +1231,32 @@
 	    var changeTaskRole=false;
 	    var serivceDepId='${serivceDefId}';
 	    var loanReqType="${loanReqType}";
-	    <shiro:hasPermission name="TRADE.CASE.DEALPRICE:SHOW">  
+	    <shiro:hasPermission name="TRADE.CASE.DEALPRICE:SHOW">
 			r1 = true;
 		</shiro:hasPermission>
 		<shiro:hasPermission name="TRADE.CASE.TASK:ASSIGN">
 			changeTaskRole=true;
 		</shiro:hasPermission>
-		var isNewFlow =${isNewFlow}; 
+		var isNewFlow =${isNewFlow};
 		var isCaseManager=${isCaseManager};
 	      $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
  	      $('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
- 	      
+
  	     function getCurrentDate(){
  	    	var d = new Date()
  	    	var vYear = d.getFullYear();
  	    	var vMon = d.getMonth() + 1;
  	    	var vDay = d.getDate();
- 	    	
+
  	    	var str = vYear + "-" + (vMon<10 ? "0" + vMon : vMon) + "-" + (vDay<10 ? "0"+ vDay : vDay);
 	    	return str;
     	  }
- 	     
+
  	      $("#btnSave").click(function(){
  	    	  var content = $("#bizwarnForm-modal-form input[name=content]").val();
  	    	  var caseCode = $("#bizwarnForm-modal-form input[name=caseCode]").val();
  	    	  var caseId = $("#bizwarnForm-modal-form input[name=caseId]").val();
- 	    	  
+
  	    	 $.ajax({
 					cache:false,
 					async:true,
@@ -1271,17 +1272,17 @@
 						}
 					}
 				});
- 	    	  
+
  	      });
- 	      
+
  	      $("#add").click(function(){
  	    	  $("#bizwarnForm-modal-form").modal("show");
  	      });
- 	      
+
  	     $("#edit").click(function(){
  	    	 var caseCode = $("#editBizwarnForm-modal-form input[name=caseCode]").val();
- 	    	 
- 	    	 
+
+
  	    	 var status;
  	    	 var content;
  	    	 $.ajax({
@@ -1296,21 +1297,21 @@
 						content = data.content
 					}
 				});
- 	    	  
+
  	    	 	if(status == "1"){
  	    	 		window.wxc.alert("解除状态不能修改商贷预警信息！");
  	    	 		return false;
  	    	 	}
- 	    	 	
+
  	    	  $("#editBizwarnForm-modal-form input[name=content]").val(content);
 	    	  $("#editBizwarnForm-modal-form").modal("show");
 	      });
- 	     
+
  	     $("#btnEdit").click(function(){
  	    	 var content = $("#editBizwarnForm-modal-form input[name=content]").val();
 	    	 var caseCode = $("#editBizwarnForm-modal-form input[name=caseCode]").val();
-	    	 var caseId = $("#editBizwarnForm-modal-form input[name=caseId]").val(); 
-	    	 
+	    	 var caseId = $("#editBizwarnForm-modal-form input[name=caseId]").val();
+
 	    	 $.ajax({
 					cache:false,
 					async:true,
@@ -1327,10 +1328,10 @@
 					}
 				});
  	     });
- 	      
+
  	      $("#relieve").click(function(){
  	    	  var status = $("input[name=status]").val();
- 	    	  
+
  	    	 window.wxc.confirm("是否确定解除？",{"wxcOk":function(){
   				$.ajax({
   					cache:false,
@@ -1351,7 +1352,7 @@
   				});
  	    	}});
  	      });
- 	      
+
 		//jqGrid 初始化
 		$("#gridTable").jqGrid({
 			url : ctx+url,
@@ -1410,26 +1411,26 @@
 				for (var i = 0; i < ids.length; i++) {
     				var id = ids[i];
     				var rowDatas = jQuery("#gridTable").jqGrid('getRowData', ids[i]); // 获取当前行
-    				
+
     				var link = "<button  class='btn red' onclick='addAttachmentReadLog(\""+ctx+"\",\""+ctmCode+"\",\""+caseCode+"\",\""+rowDatas['ATT_NAME']+"\",\""+rowDatas['ATT_PATH']+"\")'>查看附件</a>";
-    				
+
     				//var detailBtn = "<button  class='btn red' id='alertOper' onclick='openLoan(\""+ctx+"\",\""+rowDatas['pkId']+"\")' style='width:90px;'>详细</button>";
-    				
+
     				jQuery("#gridTable").jqGrid('setRowData', ids[i], { READ: link});
-    				
+
     				var attType = rowDatas["ATT_TYPE"];
     				if(!r1 && attType =='买卖居间协议') {
-   					   $("#gridTable").jqGrid("delRowData", id);      
-    				} 
+   					   $("#gridTable").jqGrid("delRowData", id);
+    				}
 				}
 			},
 			postData : {
 				queryId : "followPicListQuery",
 				argu_ctmCode : ctmCode
 			}
-			 
+
 		});
-		
+
 		//附件连接
 		function linkhouseInfo(cellvalue, options, rowObject){
 			 var link = '<a href="" target="_black" onclick="addAttachmentReadLog('+cellvalue+')">'+cellvalue+'</a>';
@@ -1444,7 +1445,7 @@
 				 	'attachmentAddress':attachPath
 			};
 			//tsAttachmentReadLog=$.toJSON(tsAttachmentReadLog);
-			
+
 			$.ajax({
 				type : 'post',
 				cache : false,
@@ -1460,7 +1461,7 @@
 					return false;
 				}
 			});
-			
+
 			window.open(attachPath);
 			/*var url=ctx+"/api/imageshow/imgShow?img="+attachPath;
 			window.open(encodeURI(encodeURI(url)));*/
@@ -1468,15 +1469,15 @@
 
 		//加载页面获取屏幕高度
  		$(function(){
- 			
+
 			var caseCode = $('#caseCode').val();
-		
+
 			$("#caseCommentList").caseCommentGrid({
 				caseCode : caseCode,
 				srvCode : null
 			});
 /* 	        var h= window.screen.availHeight;
-			$("#scroll").css("height",h-h*0.32); */ 
+			$("#scroll").css("height",h-h*0.32); */
 			  //点击浏览器任何位置隐藏提示信息
 		      $("body").bind("click",function(evt){
 	              if($(evt.target).attr("data-toggle")!='popover'){
@@ -1484,7 +1485,7 @@
 	              }
 	          });
 	    	//隐藏头部信息
- 	        window.onscroll = function(){ 
+ 	        window.onscroll = function(){
 	        	if(document.body.scrollTop>62){
 	        		$("#isFixed").css("position","fixed");
 	        		$("#isFixed").addClass("istauk");
@@ -1492,12 +1493,12 @@
 	        	}else{
 	        		$("#isFixed").css("position","relative");
 	        		$("#isFixed").removeClass("istauk");
-	        		
+
 	        	}
 	        }
 
 		});
-		
+
 		/*动态生成上下家*/
 		function generateSellerAndBuyer(name, phone){
  			var nameArr = name.split('/');
@@ -1527,10 +1528,10 @@
                                   });
             });
         });
-            
-            
-            
-    
+
+
+
+
 	</script>
 </content>
 

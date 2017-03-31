@@ -42,7 +42,7 @@
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-
+<link href="${ctx}/css/common/subscribe.css" rel="stylesheet">
 <link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
 <link rel="stylesheet" href="${ctx}/css/workflow/newRecordpop.css" />
 <!-- 必须CSS -->

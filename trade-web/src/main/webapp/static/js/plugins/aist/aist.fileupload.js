@@ -187,15 +187,11 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					    if ($error.length) {
 					    	$error.remove();
 					    }
-					    
+					    var preFileCode = $('#'+file.id).siblings().last().attr("id");
 						$.each(res.files, function(index, item){
 							var id = item.id;
 							var fileCat = item.fileCat;
 							var fileName = item.fileName;
-							
-							//preFileCode
-							var checkedBtn = $("."+settings.pick+".checked");
-							var preFileCode = checkedBtn.attr("id");
 							
 							addAttachment(settings.caseCode,settings.partCode,id,preFileCode,fileName);
 							

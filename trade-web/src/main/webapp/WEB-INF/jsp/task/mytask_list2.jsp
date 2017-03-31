@@ -21,6 +21,7 @@
 <link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
 <link href="${ctx}/css/common/common.css" rel="stylesheet">
+<link href="${ctx}/css/common/subscribe.css" rel="stylesheet">
 <!-- Morris -->
 <link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
 <link href="${ctx}/css/transcss/task/myTaskList.css" rel="stylesheet">
