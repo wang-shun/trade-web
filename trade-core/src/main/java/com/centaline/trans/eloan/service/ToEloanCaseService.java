@@ -50,4 +50,13 @@ public interface ToEloanCaseService {
 	 * @return 返回true,操作成功;返回false,操作失败。
 	 */
 	public boolean accept(ELoanVo eLoanVo, Map<String, Object> map);
+
+	/**
+	 * E+案件跟进
+	 * 
+	 * @param eLoanVo
+	 *            E+贷款案件前台传值对象
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	public boolean followUp(ELoanVo eLoanVo);
 }

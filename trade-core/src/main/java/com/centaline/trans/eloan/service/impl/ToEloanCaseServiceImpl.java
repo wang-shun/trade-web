@@ -19,6 +19,7 @@ import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
+import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.DepTypeEnum;
@@ -332,13 +333,58 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	public boolean accept(ELoanVo eLoanVo, Map<String, Object> map) {
 		ToEloanCase toEloanCase = new ToEloanCase();
 		toEloanCase.setEloanCode(eLoanVo.geteLoanCode());
+		toEloanCase.setStateInBank(eLoanVo.getStateInBank());
 
 		if ("true".equals(eLoanVo.getIsPass())) {
 			toEloanCase.setLoanerId(eLoanVo.getUser().getId());
 			toEloanCase.setLoanerConfTime(new Date());
 		}
 
+		// 设置案件跟进信息
+		ToCaseComment toCaseComment = setToCaseComment(eLoanVo.getUser(),
+				eLoanVo.getCaseCode(), eLoanVo.getStateInBank(),
+				eLoanVo.getComment());
+
+		// 保存案件跟进信息
+		toCaseCommentService.insertToCaseComment(toCaseComment);
+
+		// 更新E+案件信息
 		toEloanCaseMapper.updateEloanCaseByEloanCode(toEloanCase);
+
+		return true;
+	}
+
+	/**
+	 * 设置E+贷款案件跟进信息
+	 * 
+	 * @param user
+	 *            用户信息
+	 * @param caseCode
+	 *            案件编号
+	 * @param srvCode
+	 *            环节编码
+	 * @param comment
+	 *            跟进跟进内容
+	 * @return 返回案件跟进信息
+	 */
+	private ToCaseComment setToCaseComment(SessionUser user, String caseCode,
+			String srvCode, String comment) {
+		// 添加案件跟进信息
+		ToCaseComment toCaseComment = new ToCaseComment();
+		toCaseComment.setCaseCode(caseCode);
+		toCaseComment.setType("TRACK");
+		toCaseComment.setSource("EPLUS");
+		toCaseComment.setSrvCode(srvCode);
+		toCaseComment.setComment(comment);
+		toCaseComment.setCreateTime(new Date());
+		toCaseComment.setCreateBy(user.getId());
+		toCaseComment.setCreatorOrgId(user.getServiceDepId());
+
+		return toCaseComment;
+	}
+
+	@Override
+	public boolean followUp(ELoanVo eLoanVo) {
 
 		return false;
 	}

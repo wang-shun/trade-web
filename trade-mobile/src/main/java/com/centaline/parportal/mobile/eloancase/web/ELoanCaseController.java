@@ -54,6 +54,50 @@ public class ELoanCaseController {
 	private final static String queryELoanTradeProcess = "queryELoanTradeProcess";
 
 	/**
+	 * E+案件跟进
+	 * 
+	 * @param eLoanCode
+	 *            E+金融编号
+	 * @param taskId
+	 *            任务id
+	 * @param stateInBank
+	 *            状态
+	 * @param caseCode
+	 *            案件编号
+	 * @param comment
+	 *            案件跟进备注
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	@RequestMapping(value = "track/followUp")
+	@ResponseBody
+	public boolean followUp(String eLoanCode, String taskId,
+			String stateInBank, String caseCode, String comment) {
+
+		// 获取当前用户信息
+		SessionUser sessionUser = MobileHolder.getMobileUser();
+
+		// 设置前台传的参数信息
+		ELoanVo eLoanVo = new ELoanVo();
+		eLoanVo.seteLoanCode(eLoanCode);
+		eLoanVo.setTaskId(taskId);
+		eLoanVo.setStateInBank(stateInBank);
+		eLoanVo.setCaseCode(caseCode);
+		eLoanVo.setComment(comment);
+		eLoanVo.setUser(sessionUser);
+
+		boolean result = true;
+
+		try {
+			result = toEloanCaseService.followUp(eLoanVo);
+		} catch (Exception e) {
+			result = false;
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	/**
 	 * E+贷款信贷员接单和打回
 	 * 
 	 * @param eLoanCode
@@ -85,6 +129,7 @@ public class ELoanCaseController {
 		eLoanVo.setComment(comment);
 		eLoanVo.setUser(sessionUser);
 
+		// 定义流程引擎所需参数
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		if ("true".equals(eLoanVo.getIsPass())) {

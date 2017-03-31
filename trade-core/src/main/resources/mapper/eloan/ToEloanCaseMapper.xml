@@ -564,6 +564,9 @@
       <if test="loanerConfTime  != null" >
         LOANER_CONF_TIME  = #{loanerConfTime ,jdbcType=TIMESTAMP},
       </if>
+       <if test="stateInBank  != null" >
+        	STATE_IN_BANK  = #{stateInBank ,jdbcType=VARCHAR},
+      </if>
       
       
 <!--         CREATE_TIME = GETDATE(),
