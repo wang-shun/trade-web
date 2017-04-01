@@ -164,11 +164,7 @@
 	 	<dependency>
 			<groupId>com.centaline</groupId>
 			<artifactId>trade-core</artifactId>
-<<<<<<< HEAD
 			<version>1.2.12-SNAPSHOT</version>
-=======
-			<version>1.2.11</version>
->>>>>>> hotfix/1.2.11
 		</dependency>
 		
 		<dependency>
