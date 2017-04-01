@@ -81,8 +81,10 @@
 					  finOrg.FIN_ORG_NAME as 'finOrgName',
 					  loanAgent.cust_name as custName,
 					  caseInfo.AGENT_NAME as AgentName,
-					  '' as zjName
-					FROM 
+					  '' as zjName,
+				      '' as custCardType,
+					  '' as custPaper
+					FROM
 					   sctrans.T_TO_LOAN_AGENT loanAgent
 					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN sctrans.T_TO_CASE_INFO caseInfo ON caseInfo.CASE_CODE =  loanAgent.CASE_CODE
@@ -96,22 +98,22 @@
 				        sctrans.v_yucui_org_hierarchy orgHierarchy
 				    ON
 				        orgHierarchy.ORG_ID = loanAgent.executor_team
-				    WHERE 
+				    WHERE
 				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !=''
-				    
+
 				     <ifNotNull caseCode>
 						and loanAgent.CASE_CODE= #caseCode#
 					</ifNotNull>
-					
+
 					<ifNotNull propertyAddr>
 						and INFO.PROPERTY_ADDR like  #propertyAddr#
 					</ifNotNull>
-					
+
 					<ifNotNull loanSrvCode>
 						and loanAgent.LOAN_SRV_CODE =  #loanSrvCode#
 					</ifNotNull>
-					
-					
+
+
 				    <ifNotNull applyTimeStart>
 						and loanAgent.APPLY_TIME &gt;= #applyTimeStart#
 					</ifNotNull>
@@ -124,20 +126,20 @@
 					<ifNotNull signTimeEnd>
 						and loanAgent.SIGN_TIME &lt; #signTimeEnd#
 					</ifNotNull>
-				    
+
 				    <ifNotNull releaseTimeStart>
 						and loanAgent.RELEASE_TIME &gt;= #releaseTimeStart#
 					</ifNotNull>
 					<ifNotNull releaseTimeEnd>
 						and loanAgent.RELEASE_TIME &lt; #releaseTimeEnd#
 					</ifNotNull>
-				    
+
 					<if test="yuCuiOriGrpId!=null and yuCuiOriGrpId!=''">
 						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
 					</if>
-					
+
 					UNION ALL
-SELECT 
+				SELECT
 					  c.PKID,
 					  loanAgent.CASE_CODE,
 					  INFO.PROPERTY_ADDR,
@@ -161,22 +163,31 @@ SELECT
 					finOrg.FIN_ORG_NAME as 'finOrgName',
 					loanAgent.cust_name as custName,
 					caseInfo.AGENT_NAME as AgentName,
-					loanAgent.ZJ_NAME
-					FROM 
+					loanAgent.ZJ_NAME,
+					CASE
+						WHEN loanAgent.CUST_CARD_TYPE='SFZ' THEN '身份证'
+						WHEN loanAgent.CUST_CARD_TYPE='HZ' THEN '护照'
+						WHEN loanAgent.CUST_CARD_TYPE='XGSFZ' THEN '香港身份证'
+						WHEN loanAgent.CUST_CARD_TYPE='GATXZ' THEN '港澳通行证'
+						WHEN loanAgent.CUST_CARD_TYPE='TBZ' THEN '台胞证'
+					END as custCardType,
+					loanAgent.CUST_PAPER as custPaper
+
+					FROM
 					   sctrans.T_TO_ELOAN_CASE loanAgent
 					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
 					INNER JOIN sctrans.T_TO_CASE_INFO caseInfo ON caseInfo.CASE_CODE = loanAgent.CASE_CODE
 					LEFT JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
 					LEFT JOIN sctrans.T_TO_ELOAN_REL rel ON rel.ELOAN_CODE = loanAgent.ELOAN_CODE and rel.CONFIRM_STATUS=1
 					INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
-					INNER JOIN sctrans.T_TS_FIN_ORG finOrg ON finOrg.FIN_ORG_CODE = loanAgent.FIN_ORG_CODE 
+					INNER JOIN sctrans.T_TS_FIN_ORG finOrg ON finOrg.FIN_ORG_CODE = loanAgent.FIN_ORG_CODE
 					<ifNotNull isJygw>
 						and loanAgent.EXCUTOR_ID = #userId#
 					</ifNotNull>
 					INNER JOIN sctrans.v_yucui_org_hierarchy orgHierarchy ON orgHierarchy.ORG_ID = loanAgent.excutor_team
-				    WHERE 
-				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !='' AND (loanAgent.STATUS IS NULL OR loanAgent.STATUS='VALID') 
-				    
+				    WHERE
+				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !='' AND (loanAgent.STATUS IS NULL OR loanAgent.STATUS='VALID')
+
 				    <ifNotNull applyTimeStart>
 						and loanAgent.APPLY_TIME &gt;= #applyTimeStart#
 					</ifNotNull>
@@ -189,7 +200,7 @@ SELECT
 					<ifNotNull signTimeEnd>
 						and loanAgent.SIGN_TIME &lt; #signTimeEnd#
 					</ifNotNull>
-				    
+
 				    <ifNotNull releaseTimeStart>
 						and rel.RELEASE_TIME &gt;= #releaseTimeStart#
 					</ifNotNull>
@@ -218,7 +229,7 @@ SELECT
 				<column type="virtual" name="EXECUTOR_ID" customDict="getUserNameByUserId" referencecol="EXECUTOR_ID_OLD"  display="经办人" title="经办人"/>
 				<column type="both" name="CREATE_ID_OLD" index="" checkbox="" display="创建人" title="创建人" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="CREATE_ID" customDict="getUserNameByUserId" referencecol="CREATE_ID_OLD"  display="创建人" title="创建人"/>
-				<!-- 
+				<!--
 				<column type="both" name="PARENT_ORG_NAME_OLD" index="" checkbox="" display="所属服务部" title="所属服务部" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="PARENT_ORG_NAME" customDict="getParentOrgNameByOrgId" referencecol="PARENT_ORG_NAME_OLD"  display="所属服务部" title="所属服务部"/>
 				 -->
@@ -231,11 +242,11 @@ SELECT
 				<column type="both" name="ACTUAL_AMOUNT" index="" checkbox="" display="放款金额(万元)" title="放款金额(万元)"  expType="Double" customDict="" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="EVAL_FEE,RECORD_TIME"  referencecol="CASE_CODE" index="" checkbox="" display="评估费(元),评估确认时间" title="评估费(元),评估确认时间" customDict="qqEvaFee" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CREATE_TIME" index="" checkbox="" display="创建时间" title="创建时间" customDict="" sysDict="" format="" beanFormatter="datetimeFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" width="90" isSort="" align="" halign="" order="" resizable="" />
-				
-				
+
+
 				<column type="both" name="DISTRICT_ID" display="贵宾服务部ID" title="贵宾服务部ID"/>
 				<column type="virtual" name="DISTRICT_NAME" customDict="getOrgNameByOrgId" referencecol="DISTRICT_ID"  display="贵宾服务部" title="贵宾服务部"/>
-				
+
 				<column type="both" name="LEADING_PROCESS_ID" display="归属人ID" title="归属人ID"/>
 				<column type="virtual" name="LEADING_PROCESS_NAME" referencecol="LEADING_PROCESS_ID"  customDict="getUserNameByUserId"  display="归属人" title="归属人"/>
 
@@ -248,7 +259,11 @@ SELECT
 				<column type="both" name="custName" index="" checkbox="" title="客户姓名" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
 			    <column type="both" name="AgentName" index="" checkbox="" title="经纪人" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
 			    <column type="both" name="zjName" index="" checkbox="" title="转介人" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
-			    
+
+				<column type="both" name="custCardType" index="" checkbox="" title="客户证件类别" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="custPaper" index="" checkbox="" title="客户证件号码" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+
+
 			</table-row>
 		</grid>
 	</query>
