@@ -1,4 +1,4 @@
-package com.centaline.parportal.mobile.tasList.web;
+package com.centaline.parportal.mobile.taskList.web;
 
 import java.util.Map;
 
