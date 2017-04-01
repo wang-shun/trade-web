@@ -46,10 +46,12 @@ public interface ToEloanCaseService {
 	 *            E+贷款案件前台传值对象
 	 * @param map
 	 *            流程参数
-	 * 
+	 * @param taskId
+	 *            任务id
 	 * @return 返回true,操作成功;返回false,操作失败。
 	 */
-	public boolean accept(ELoanVo eLoanVo, Map<String, Object> map);
+	public boolean accept(ELoanVo eLoanVo, Map<String, Object> map,
+			String taskId);
 
 	/**
 	 * E+案件跟进

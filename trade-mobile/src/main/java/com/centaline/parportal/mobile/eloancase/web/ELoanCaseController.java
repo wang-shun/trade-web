@@ -58,8 +58,6 @@ public class ELoanCaseController {
 	 * 
 	 * @param eLoanCode
 	 *            E+金融编号
-	 * @param taskId
-	 *            任务id
 	 * @param stateInBank
 	 *            状态
 	 * @param caseCode
@@ -70,8 +68,8 @@ public class ELoanCaseController {
 	 */
 	@RequestMapping(value = "track/followUp")
 	@ResponseBody
-	public boolean followUp(String eLoanCode, String taskId,
-			String stateInBank, String caseCode, String comment) {
+	public boolean followUp(String eLoanCode, String stateInBank,
+			String caseCode, String comment) {
 
 		// 获取当前用户信息
 		SessionUser sessionUser = MobileHolder.getMobileUser();
@@ -79,7 +77,6 @@ public class ELoanCaseController {
 		// 设置前台传的参数信息
 		ELoanVo eLoanVo = new ELoanVo();
 		eLoanVo.seteLoanCode(eLoanCode);
-		eLoanVo.setTaskId(taskId);
 		eLoanVo.setStateInBank(stateInBank);
 		eLoanVo.setCaseCode(caseCode);
 		eLoanVo.setComment(comment);
@@ -142,7 +139,8 @@ public class ELoanCaseController {
 		boolean result = true;
 
 		try {
-			result = toEloanCaseService.accept(eLoanVo, map);
+			result = toEloanCaseService.accept(eLoanVo, map,
+					eLoanVo.getTaskId());
 		} catch (Exception e) {
 			result = false;
 			e.printStackTrace();

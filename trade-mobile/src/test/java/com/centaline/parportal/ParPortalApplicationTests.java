@@ -25,8 +25,14 @@ public class ParPortalApplicationTests {
 		// String result = mortgageListController.caseList(1, 10, null, null,
 		// "8a8493d45921d36901593e4adc95007b", null);
 
-		String result = eLoanCaseController.list(1, 10, null, null,
-				"8a8493d45921d56d01593fd036e100f1", null);
+		// String result = eLoanCaseController.list(1, 10, null, null,
+		// "8a8493d45921d56d01593fd036e100f1", null);
+
+		// boolean result = eLoanCaseController.accept("ZY-JR-201704-0001",
+		// "true", "1036766", "ACCEPT", "ZY-ZL-201701-0027", null);
+
+		boolean result = eLoanCaseController.followUp("ZY-JR-201704-0001",
+				"LOAN_RELEASED", "ZY-ZL-201701-0027", "没问题");
 
 		System.out.println(result);
 	}

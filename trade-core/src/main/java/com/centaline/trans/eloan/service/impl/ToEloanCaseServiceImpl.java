@@ -330,23 +330,47 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 	@Override
 	@TaskOperate(submitVal = "map")
-	public boolean accept(ELoanVo eLoanVo, Map<String, Object> map) {
+	public boolean accept(ELoanVo eLoanVo, Map<String, Object> map,
+			String taskId) {
 		ToEloanCase toEloanCase = new ToEloanCase();
 		toEloanCase.setEloanCode(eLoanVo.geteLoanCode());
 		toEloanCase.setStateInBank(eLoanVo.getStateInBank());
 
 		if ("true".equals(eLoanVo.getIsPass())) {
-			toEloanCase.setLoanerId(eLoanVo.getUser().getId());
+			if (eLoanVo.getUser() != null)
+				toEloanCase.setLoanerId(eLoanVo.getUser().getId());
+
 			toEloanCase.setLoanerConfTime(new Date());
 		}
 
 		// 设置案件跟进信息
 		ToCaseComment toCaseComment = setToCaseComment(eLoanVo.getUser(),
-				eLoanVo.getCaseCode(), eLoanVo.getStateInBank(),
-				eLoanVo.getComment());
+				eLoanVo.getCaseCode(), eLoanVo.geteLoanCode(),
+				eLoanVo.getStateInBank(), eLoanVo.getComment());
 
 		// 保存案件跟进信息
 		toCaseCommentService.insertToCaseComment(toCaseComment);
+
+		// 更新E+案件信息
+		toEloanCaseMapper.updateEloanCaseByEloanCode(toEloanCase);
+
+		return true;
+	}
+
+	@Override
+	public boolean followUp(ELoanVo eLoanVo) {
+
+		// 设置案件跟进信息
+		ToCaseComment toCaseComment = setToCaseComment(eLoanVo.getUser(),
+				eLoanVo.getCaseCode(), eLoanVo.geteLoanCode(),
+				eLoanVo.getStateInBank(), eLoanVo.getComment());
+
+		// 保存案件跟进信息
+		toCaseCommentService.insertToCaseComment(toCaseComment);
+
+		ToEloanCase toEloanCase = new ToEloanCase();
+		toEloanCase.setEloanCode(eLoanVo.geteLoanCode());
+		toEloanCase.setStateInBank(eLoanVo.getStateInBank());
 
 		// 更新E+案件信息
 		toEloanCaseMapper.updateEloanCaseByEloanCode(toEloanCase);
@@ -368,25 +392,23 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	 * @return 返回案件跟进信息
 	 */
 	private ToCaseComment setToCaseComment(SessionUser user, String caseCode,
-			String srvCode, String comment) {
+			String eLoanCode, String srvCode, String comment) {
 		// 添加案件跟进信息
 		ToCaseComment toCaseComment = new ToCaseComment();
 		toCaseComment.setCaseCode(caseCode);
+		toCaseComment.setBizCode(eLoanCode);
 		toCaseComment.setType("TRACK");
 		toCaseComment.setSource("EPLUS");
 		toCaseComment.setSrvCode(srvCode);
 		toCaseComment.setComment(comment);
 		toCaseComment.setCreateTime(new Date());
-		toCaseComment.setCreateBy(user.getId());
-		toCaseComment.setCreatorOrgId(user.getServiceDepId());
+
+		if (user != null) {
+			toCaseComment.setCreateBy(user.getId());
+			toCaseComment.setCreatorOrgId(user.getServiceDepId());
+		}
 
 		return toCaseComment;
-	}
-
-	@Override
-	public boolean followUp(ELoanVo eLoanVo) {
-
-		return false;
 	}
 
 }
