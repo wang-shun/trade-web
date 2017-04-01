@@ -849,19 +849,12 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 	@Override
 	public boolean accept(MortgageVo mortgageVo) {
-		ToCaseComment toCaseComment = null;
-
 		// 信贷员接单
 		if ("true".equals(mortgageVo.getIsPass())) {
 			// 处理流程,信贷员接单,流程进入银行审核流程
 			loanerProcessService.isLoanerAcceptCase(true,
 					mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 					mortgageVo.getCaseCode());
-
-			// 设置案件跟进信息
-			toCaseComment = setToCaseComment(mortgageVo.getUser(),
-					mortgageVo.getCaseCode(), mortgageVo.getStateInBank(),
-					mortgageVo.getComment());
 		}
 		// 信贷员打回
 		else if ("false".equals(mortgageVo.getIsPass())) {
@@ -869,12 +862,12 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			loanerProcessService.isLoanerAcceptCase(false,
 					mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 					mortgageVo.getCaseCode());
-
-			// 设置案件跟进信息
-			toCaseComment = setToCaseComment(mortgageVo.getUser(),
-					mortgageVo.getCaseCode(), mortgageVo.getStateInBank(),
-					mortgageVo.getComment());
 		}
+
+		// 设置案件跟进信息
+		ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(),
+				mortgageVo.getCaseCode(), mortgageVo.getStateInBank(),
+				mortgageVo.getComment());
 
 		// 保存案件跟进信息
 		toCaseCommentService.insertToCaseComment(toCaseComment);
@@ -895,8 +888,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 	@Override
 	public boolean followUp(MortgageVo mortgageVo) {
-		ToCaseComment toCaseComment = null;
-
 		// 银行审核通过
 		if ("true".equals(mortgageVo.getIsPass())) {
 
@@ -906,11 +897,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 						mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 						mortgageVo.getCaseCode());
 			}
-
-			// 设置案件跟进信息
-			toCaseComment = setToCaseComment(mortgageVo.getUser(),
-					mortgageVo.getCaseCode(), mortgageVo.getStateInBank(),
-					mortgageVo.getComment());
 		}
 		// 银行审核拒绝
 		else if ("false".equals(mortgageVo.getIsPass())) {
@@ -918,11 +904,13 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			loanerProcessService.isBankAcceptCase(false,
 					mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 					mortgageVo.getCaseCode());
-			// 设置案件跟进信息
-			toCaseComment = setToCaseComment(mortgageVo.getUser(),
-					mortgageVo.getCaseCode(), mortgageVo.getStateInBank(),
-					mortgageVo.getComment());
+
 		}
+
+		// 设置案件跟进信息
+		ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(),
+				mortgageVo.getCaseCode(), mortgageVo.getStateInBank(),
+				mortgageVo.getComment());
 
 		// 保存案件跟进信息
 		toCaseCommentService.insertToCaseComment(toCaseComment);
