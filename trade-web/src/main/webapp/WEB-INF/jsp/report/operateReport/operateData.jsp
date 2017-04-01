@@ -31,12 +31,12 @@
 		var monthLast = monthDisplay;
 	</script>
 </head>
-<body style="background-color: #fff">
+<body style="background-color: #fff" id="bd1">
 
 <ul id="menu">
-    <li data-menuanchor="firstPage"><a href="#firstPage">贷款签约与过户对比</a></li>
-    <li data-menuanchor="secondPage"><a href="#secondPage">过户数据</a></li>
-    <li data-menuanchor="3rdPage"><a href="#3rdPage">签约贷款</a></li>
+	<li attr="1" class="nav_move active" style="background: #faab58;"><a href="#firstPage">贷款签约与过户对比</a></li>
+	<li attr="2" class="nav_move" ><a href="#secondPage">过户数据</a></li>
+	<li attr="3" class="nav_move" ><a href="#3rdPage">签约贷款</a></li>
 </ul>
 
 <div id="fullpage">
