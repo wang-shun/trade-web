@@ -171,9 +171,7 @@ public class WorkFlowEngine {
 			if (u == null) {
 				u = sessionService.getSessionUser();
 			}
-			// user = uamUserOrgService.getUserById(u.getId());
-			user = uamUserOrgService
-					.getUserById("8a8493d45921d56d01593fd036e100f1");
+			user = uamUserOrgService.getUserById(u.getId());
 
 		}
 
