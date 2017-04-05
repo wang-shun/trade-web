@@ -25,6 +25,7 @@
         <pattern>/anon/weixin/loan/*</pattern>
         <pattern>/anon/weixin/work/*</pattern>
 		<pattern>/weixinAuth/*</pattern>
+		<pattern>/restful/login</pattern>
 	</excludes>
 
 	<decorator name="default" page="INSPINIA_template.jsp">

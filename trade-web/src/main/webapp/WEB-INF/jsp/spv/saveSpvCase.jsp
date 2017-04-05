@@ -1122,7 +1122,8 @@
    					    		fileUpload.init({
 							    		caseCode : $('#caseCode').val(),
 							    		partCode : "SpvApplyApprove",
-							    		fileUploadContainer : "fileUploadContainer"
+							    		fileUploadContainer : "fileUploadContainer",
+							    		exclude : ['spv_contract']
 							    });
    					    		
    					    		$("#content_caseCode").html(caseInfoMap['caseCode']);
@@ -1471,17 +1472,24 @@
 					    		caseCode : $('#caseCode').val(),
 					    		partCode : "SpvApplyApprove",
 					    		fileUploadContainer : "fileUploadContainer",
-					    		readonly : true
+					    		readonly : true,
+					    		exclude : ['spv_contract']
 					    	});
-
-						}else if(handle == "" || handle == "SpvApply" || handle == "SpvAudit" || handle == "SpvSign"){
+						}else if(handle == "" || handle == "SpvApply" || handle == "SpvAudit"){
 							if($('#caseCode').val() != ''){
 								fileUpload.init({
 						    		caseCode : $('#caseCode').val(),
 						    		partCode : "SpvApplyApprove",
-						    		fileUploadContainer : "fileUploadContainer"
+						    		fileUploadContainer : "fileUploadContainer",
+						    		exclude : ['spv_contract']
 						    	});
 							}
+						}else if(handle == "SpvSign"){
+							fileUpload.init({
+					    		caseCode : $('#caseCode').val(),
+					    		partCode : "SpvApplyApprove",
+					    		fileUploadContainer : "fileUploadContainer"
+					    	});
 						}
 				    });
 			    });

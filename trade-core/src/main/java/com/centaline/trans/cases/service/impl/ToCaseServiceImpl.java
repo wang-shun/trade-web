@@ -1283,8 +1283,9 @@ public class ToCaseServiceImpl implements ToCaseService {
 	public String selectAtt(String caseCode){
 		
 		int attCu = tgservItemAndProcessorMapper.selectAtt(caseCode);
-		int taskCu = tgservItemAndProcessorMapper.selectTask(caseCode);
-		if(taskCu > 0){
+		//int taskCu = tgservItemAndProcessorMapper.selectTask(caseCode);
+		int mgCu = tgservItemAndProcessorMapper.selectMg(caseCode);
+		if(mgCu > 0){
 			if(attCu < 1){
 				return "Y";
 			}

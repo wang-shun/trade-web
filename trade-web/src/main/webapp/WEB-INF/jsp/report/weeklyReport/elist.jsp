@@ -36,13 +36,13 @@
 		yearDisplay = yearNow;
 	</script>
 </head>
-<body style="background-color: #fff">
+<body style="background-color: #fff"  id="bd1">
 
 <ul id="menu">
-    <li data-menuanchor="firstPage"><a href="#firstPage">贷款流失率</a></li>
-    <li data-menuanchor="secondPage"><a href="#secondPage">评估转化率</a></li>
-    <li data-menuanchor="3rdPage"><a href="#3rdPage">金融产品转化率-卡类</a></li>
-    <li data-menuanchor="4thPage"><a href="#4thPage">金融产品转化率-贷款</a></li>
+    <li attr="1" class="nav_move active" style="background: #faab58;"><a href="#firstPage">贷款流失率</a></li>
+    <li attr="2" class="nav_move"><a href="#secondPage">评估转化率</a></li>
+    <li attr="3" class="nav_move"><a href="#3rdPage">金融产品转化率-卡类</a></li>
+    <li attr="4" class="nav_move"><a href="#4thPage">金融产品转化率-贷款</a></li>
 </ul>
 
 <div id="fullpage">
@@ -63,10 +63,11 @@
 <script  src="${ctx }/js/eachartdata/jquery-ui.min.js"></script>
 <script  src="${ctx }/js/eachartdata/scrolloverflow.js"></script>
 <script  src="${ctx }/js/eachartdata/jquery.fullPage.js"></script>
-<script  src="${ctx }/js/eachartdata/fullPage-setting.js"></script>
+
 <script  src="${ctx }/js/eachartdata/getMonthWeek.js"></script>
 <!-- 引入弹出框js文件 -->
 <script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+<script  src="${ctx }/js/eachartdata/fullPage-setting.js"></script>
 <script type="text/javascript">
 //声明各iframe
 var iframe1 = $("#iframe1")[0];
