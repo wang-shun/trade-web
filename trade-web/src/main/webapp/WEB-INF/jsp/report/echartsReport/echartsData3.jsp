@@ -56,8 +56,8 @@
                             </table>
                         </div>
                         <div class="pull-left">
-                            <div class="plot-rightone">
-                                <div id="plotCont2"  style="width:100%;height:300px; ">
+                            <div class="plot-rightone" style="width:319px;padding:16px 0px 0px 10px;">
+                                <div id="plotCont2"  style="width:319px;height:300px; ">
                                 </div>
                             </div>
                             <div class="plot-righttwo mt10 relative">

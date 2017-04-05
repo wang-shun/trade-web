@@ -169,15 +169,16 @@ function returnPie(data, items, myChart1, color, title,unit) {
 					color: '#555',
 	                fontSytle: 'normal',
 	                fontWeight: 'normal',
-	                fontSize: '12'
+	                fontSize: '16',
+					width:'300px'
 	            },
 	            x:'left',
 	            y: 'top',
 	            padding: [
 	                0,  // 上
-	                10, // 右
+	                0, // 右
 	                10,  // 下
-	                90, // 左
+	                0, // 左
 	            ],
 	        },
 		tooltip : {
@@ -194,7 +195,7 @@ function returnPie(data, items, myChart1, color, title,unit) {
 		series : [ {
 			name : '访问来源',
 			type : 'pie',
-			radius : '28%',
+			radius : '25%',
 			center : [ '55%', '60%' ],
 			animation : true,
 			selectedMode : 'multiple',

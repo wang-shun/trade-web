@@ -117,16 +117,8 @@
                         returnBar(ECHART_D3_.xAxisData,yAxis,ECHART_D3_.legend,datas,type,null,myChart1,"各贵宾中心商贷比较");
                         var unit='';
 
-
-                        if(ECHART_D3_.totalComMortAmount>99999999){
-                            ECHART_D3_.pie_items.push(accDiv(accSub(ECHART_D3_.totalLossAmount,ECHART_D3_.totalComMortAmount),100000000));
-                            ECHART_D3_.pie_items.push(accDiv(ECHART_D3_.totalLossAmount,100000000));
-                            unit='亿';
-                        }else{
-                            ECHART_D3_.pie_items.push(accDiv(accSub(ECHART_D3_.totalLossAmount,ECHART_D3_.totalComMortAmount),10000));
-                            ECHART_D3_.pie_items.push(accDiv(ECHART_D3_.totalLossAmount,10000));
-                            unit='万';
-                        }
+                        ECHART_D3_.pie_items.push(accDiv(accSub(ECHART_D3_.totalLossAmount,ECHART_D3_.totalComMortAmount),10000));
+                        ECHART_D3_.pie_items.push(accDiv(ECHART_D3_.totalLossAmount,10000));
                         var color=null;
                         var data = [ "收单", "流失" ];
                         returnPie(data, ECHART_D3_.pie_items, myChart2, color,"商贷总金额",unit);
