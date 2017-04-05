@@ -1,4 +1,6 @@
 package com.centaline.trans.TestAction.web;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -77,6 +79,10 @@ public class TestActionController {
 	@RequestMapping("saveMortgage")
 	public AjaxResponse<String> saveMortgage(Model model,ToMortgage mortgage){
 		try {
+			SessionUser user = uamSessionService.getSessionUser();
+			String updateBy = user.getRealName();
+			mortgage.setUpdateBy(updateBy);
+			mortgage.setUpdateTime(new Date());
 			ToMortgageService.updateByTest(mortgage);
 			return AjaxResponse.success("操作成功");
 		} catch(Exception e) {
