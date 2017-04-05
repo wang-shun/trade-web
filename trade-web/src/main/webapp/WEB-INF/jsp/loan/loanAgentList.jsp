@@ -248,6 +248,7 @@ text-decoration: underline !important;
 
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="isJygw" value="${isJygw}" />
+	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 	<content tag="local_script"> 
     <script
 		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
@@ -364,12 +365,37 @@ text-decoration: underline !important;
 	 		params.argu_yuCuiOriGrpId = 	$("#yuCuiOriGrpId").val();
 	 		params.argu_isJygw = 	$("#isJygw").val();
 	 		
-        	aist.exportExcel({
-    	    	ctx : "${ctx}",
-    	    	queryId : 'loanAgentListQuery',
-    	    	colomns : ['CREATE_TIME','CASE_CODE','custName','custCardType','custPaper','PROPERTY_ADDR','LOAN_SRV_CODE','finOrgName','LEADING_PROCESS_NAME','ORG_NAME','DISTRICT_NAME','QJDS_NAME','zjName','AgentName','GRP_NAME','CON_PRICE','APPLY_TIME','SIGN_TIME','RELEASE_TIME','LOAN_AMOUNT','SIGN_AMOUNT','ACTUAL_AMOUNT','CREATE_ID'],
-    	    	data : params
-    	    }) 
+
+	 		var displayColomn = new Array;
+	 		displayColomn.push('CREATE_TIME');
+	 		displayColomn.push('CASE_CODE');
+	 		displayColomn.push('custName');
+	 		displayColomn.push('PROPERTY_ADDR');
+	 		displayColomn.push('LOAN_SRV_CODE');
+	 		displayColomn.push('finOrgName');
+	 		displayColomn.push('LEADING_PROCESS_NAME');
+	 		displayColomn.push('ORG_NAME');
+	 		displayColomn.push('DISTRICT_NAME');
+	 		displayColomn.push('QJDS_NAME');
+	 		displayColomn.push('zjName');
+	 		displayColomn.push('AgentName');
+	 		displayColomn.push('GRP_NAME');
+	 		displayColomn.push('CON_PRICE');
+	 		displayColomn.push('APPLY_TIME');
+	 		displayColomn.push('SIGN_TIME');
+	 		displayColomn.push('RELEASE_TIME');
+	 		displayColomn.push('LOAN_AMOUNT');
+	 		displayColomn.push('SIGN_AMOUNT');
+	 		displayColomn.push('ACTUAL_AMOUNT');
+	 		displayColomn.push('CREATE_ID');
+	 		var colomns = '&colomns=' + displayColomn;
+	 		var url = "/quickGrid/findPage?xlsx&";
+	 		var ctx = $("#ctx").val();
+	 		var queryId = '&queryId=loanAgentListQuery';
+	 		url = ctx + url + jQuery.param(params) + queryId  + colomns;
+	 		$('#excelForm').attr('action', url);
+	 		$('#excelForm').method="post" ;
+	 		$('#excelForm').submit();  
         }
      </script>
 
