@@ -166,7 +166,7 @@ function returnPie(data, items, myChart1, color, title,unit) {
 		 title : {
 	            text: title,
 	            textStyle: {
-	                color: 'red',
+					color: '#555',
 	                fontSytle: 'normal',
 	                fontWeight: 'normal',
 	                fontSize: '12'
