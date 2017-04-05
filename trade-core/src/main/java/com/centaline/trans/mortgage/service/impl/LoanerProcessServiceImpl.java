@@ -291,7 +291,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 					ToMortgage toMortgageForUpdate = new ToMortgage();
 					toMortgageForUpdate.setPkid(toMortgage.getPkid());
 					toMortgageForUpdate.setBankApproveTime(new Date());
-					toMortgageForUpdate.setBankApproveUserId(user.getId());
+					if (user != null)
+						toMortgageForUpdate.setBankApproveUserId(user.getId());
 					// 临时银行 1 审批通过，现在银行信贷员审核通过为 3
 					toMortgageForUpdate.setTmpBankStatus("3");
 					toMortgageMapper.update(toMortgageForUpdate);
