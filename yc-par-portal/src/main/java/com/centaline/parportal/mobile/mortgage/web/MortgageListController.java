@@ -62,13 +62,10 @@ public class MortgageListController {
 		gp.setSord(sord);
 		Map<String, Object> paramter = new HashMap<String, Object>();
 
-		SessionUser sessionUser = MobileHolder.getMobileUser();
+		// SessionUser sessionUser = MobileHolder.getMobileUser();
 
-		logger.error("################" + sessionUser.getId()
-				+ "####################");
-
-		// SessionUser sessionUser = uamSessionService
-		// .getSessionUserById("ff80808158bd58c10158bda37f100020");
+		SessionUser sessionUser = uamSessionService
+				.getSessionUserById(MobileHolder.getMobileUser().getId());
 		paramter.put("userid", sessionUser.getId());
 
 		if (q_text != null && !"".equals(q_text)) {
