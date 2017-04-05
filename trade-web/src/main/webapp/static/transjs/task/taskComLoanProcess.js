@@ -516,7 +516,7 @@ function getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag){
 	return true;
 }
 
-//给贷款银行赋值222
+//给贷款银行赋值
 function getParentBankInfo(finOrgCode,formId){
 	 $.ajax({
 	    url:ctx+"/manage/queryParentBankInfo",
