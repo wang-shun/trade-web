@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuerysParseService;
 import com.aist.common.quickQuery.service.QuickGridService;
+import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -45,6 +46,9 @@ public class MortgageListController {
 	@Autowired
 	private QuerysParseService querysParseService;
 
+	@Autowired
+	private UamSessionService uamSessionService;
+
 	@RequestMapping(value = "list")
 	@ResponseBody
 	public String caseList(Integer page, Integer pageSize, String sidx,
@@ -59,7 +63,12 @@ public class MortgageListController {
 		Map<String, Object> paramter = new HashMap<String, Object>();
 
 		SessionUser sessionUser = MobileHolder.getMobileUser();
-		// paramter.put("userid", "ff80808158bd58c10158bda37f100020");
+
+		System.out.println("################" + sessionUser.getId()
+				+ "####################");
+
+		// SessionUser sessionUser = uamSessionService
+		// .getSessionUserById("ff80808158bd58c10158bda37f100020");
 		paramter.put("userid", sessionUser.getId());
 
 		if (q_text != null && !"".equals(q_text)) {
@@ -70,7 +79,7 @@ public class MortgageListController {
 		gp.putAll(paramter);
 		querysParseService.reloadFile();
 		Page<Map<String, Object>> returnPage = quickGridService
-				.findPageForSqlServer(gp, MobileHolder.getMobileUser());
+				.findPageForSqlServer(gp, sessionUser);
 
 		JSONObject result = new JSONObject();
 		result.put("page", page);
@@ -89,5 +98,4 @@ public class MortgageListController {
 
 		return result.toJSONString();
 	}
-
 }
