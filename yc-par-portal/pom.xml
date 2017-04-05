@@ -168,11 +168,7 @@
 	 	<dependency>
 			<groupId>com.centaline</groupId>
 			<artifactId>trade-core</artifactId>
-<<<<<<< HEAD
 			<version>1.2.16-SNAPSHOT</version>
-=======
-			<version>1.2.18-SNAPSHOT</version>
->>>>>>> feature/mortage_workflow
 		</dependency>
 		
 		<dependency>
