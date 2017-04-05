@@ -152,7 +152,7 @@ public class ELoanCaseController {
 	@RequestMapping(value = "/list")
 	@ResponseBody
 	public String list(Integer page, Integer pageSize, String sidx,
-			String sord, String userId, String condition) {
+			String sord, String condition) {
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(true);
 		gp.setPage(page);
@@ -162,8 +162,8 @@ public class ELoanCaseController {
 		gp.setSord(sord);
 		Map<String, Object> paramter = new HashMap<String, Object>();
 
-		// SessionUser sessionUser = MobileHolder.getMobileUser();
-		paramter.put("loanerId", userId);
+		SessionUser sessionUser = MobileHolder.getMobileUser();
+		paramter.put("loanerId", sessionUser.getId());
 
 		if (condition != null && !"".equals(condition)) {
 			String formatCondtion = condition.trim();
