@@ -585,7 +585,7 @@
  
   
   <select id="findToMortgageByCaseCodeAndDisTime" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
- 	SELECT * FROM sctrans.T_TO_MORTGAGE where CASE_CODE = #{caseCode,jdbcType=VARCHAR}  AND  DISPACH_USER_ID IS NOT NULL  AND DISPACH_TIME IS NOT NULL AND IS_ACTIVE='1'
+ 	select * from  sctrans.T_TO_MORTGAGE where CASE_CODE = #{caseCode,jdbcType=VARCHAR}  AND  DISPACH_USER_ID IS NOT NULL  AND DISPACH_TIME IS NOT NULL  AND  IS_ACTIVE='1'
  </select>
  
  <select id="getMortgageByCaseCode" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
