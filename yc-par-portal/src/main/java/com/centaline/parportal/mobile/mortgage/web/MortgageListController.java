@@ -25,6 +25,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.common.vo.MobileHolder;
 
 /**
  * 
@@ -61,10 +62,7 @@ public class MortgageListController {
 		gp.setSord(sord);
 		Map<String, Object> paramter = new HashMap<String, Object>();
 
-		// SessionUser sessionUser = MobileHolder.getMobileUser();
-
-		SessionUser sessionUser = uamSessionService
-				.getSessionUserById("ff80808158bd58c10158bda37f100020");
+		SessionUser sessionUser = MobileHolder.getMobileUser();
 		paramter.put("userid", sessionUser.getId());
 
 		if (q_text != null && !"".equals(q_text)) {
