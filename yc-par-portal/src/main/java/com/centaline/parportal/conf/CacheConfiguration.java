@@ -4,7 +4,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackages="com.aist.common.redisson")
+@ComponentScan(basePackages="com.aist.common.conf.Redisson")
 public class CacheConfiguration {
 
 	/**jedis连接池*//*

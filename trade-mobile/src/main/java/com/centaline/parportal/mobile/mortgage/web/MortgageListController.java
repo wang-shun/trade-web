@@ -88,36 +88,4 @@ public class MortgageListController {
 		return result.toJSONString();
 	}
 
-	/**
-	 * 按揭贷款接单
-	 * 
-	 * @param taskId
-	 *            任务id
-	 * @param procInstanceId
-	 *            流程实例id
-	 * @return
-	 */
-	@RequestMapping(value = "track/accept")
-	@ResponseBody
-	public String accept(String taskId, String procInstanceId) {
-
-		return null;
-	}
-
-	/**
-	 * 按揭贷款打回
-	 * 
-	 * @param taskId
-	 *            任务id
-	 * @param procInstanceId
-	 *            流程实例id
-	 * @return
-	 */
-	@RequestMapping(value = "track/reject")
-	@ResponseBody
-	public String reject(String taskId, String procInstanceId) {
-
-		return null;
-	}
-
 }

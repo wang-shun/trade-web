@@ -438,6 +438,8 @@ public class WarnListController {
 			return AjaxResponse.fail("操作失败");
 		}
 	}
+	
+	
 
 	@RequestMapping(value = "validateEloanApply")
 	@ResponseBody
@@ -495,8 +497,7 @@ public class WarnListController {
 	 * processInstanceId, String caseCode,String eContent,String custName,String
 	 * custPhone,String month,String applyAmount
 	 */
-	public AjaxResponse<String> saveEloanApplyConfirm(ToEloanCase eloanCase, String eContent, String approved,
-			String taskId) {
+	public AjaxResponse<String> saveEloanApplyConfirm(ToEloanCase eloanCase, String eContent,String taskId,String param,String approved) {
 
 		SessionUser user = uamSessionService.getSessionUser();
 		try {
@@ -514,16 +515,18 @@ public class WarnListController {
 				 * toEloanCase.setMonth(eloanCase.getMonth());
 				 */
 			}
-
-			boolean isUpdate = false;
+			
 			Map<String, Object> map = new HashMap<String, Object>();
-			if ("1".equals(approved)) {
-				map.put("ApplyApprove", true);
-				isUpdate = true;
-			} else {
-				map.put("ApplyApprove", false);
+			//兼容新老流程
+			if(StringUtils.isBlank(param) && StringUtils.isNotBlank(approved)){
+				if("0".equals(approved)){
+					map.put("ApplyApprove", false);
+				}else{
+					map.put("ApplyApprove", true);
+				}
 			}
-			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase, isUpdate);
+			
+			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase, true);
 
 			// E+借贷审核添加 审核说明，条件审核记录到ToApproveRecord
 			ToApproveRecord toApproveRecord = new ToApproveRecord();
@@ -617,6 +620,8 @@ public class WarnListController {
 		request.setAttribute("excutorName", excutor.getRealName());
 		request.setAttribute("eloanCase",
 				(CollectionUtils.isEmpty(eloanCaseList) == true) ? null : eloanCaseList.get(0));
+		request.setAttribute("v", request.getParameter("v"));
+		
 	}
 
 	@RequestMapping(value = "saveEloanSign")

@@ -19,8 +19,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuerysParseService;
 import com.aist.common.quickQuery.service.QuickGridService;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.common.vo.MobileHolder;
+import com.centaline.trans.eloan.service.ToEloanCaseService;
+import com.centaline.trans.eloan.vo.ELoanVo;
 
 /**
  * eLoan案件控制器
@@ -35,8 +40,12 @@ public class ELoanCaseController {
 	@Resource(name = "quickGridService")
 	private QuickGridService quickGridService;
 
+	@Autowired(required = true)
+	UamSessionService uamSessionService;
 	@Autowired
 	private QuerysParseService querysParseService;
+	@Autowired
+	ToEloanCaseService toEloanCaseService;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -44,10 +53,106 @@ public class ELoanCaseController {
 	private final static String queryELoanProcess = "queryELoanProcess";
 	private final static String queryELoanTradeProcess = "queryELoanTradeProcess";
 
+	/**
+	 * E+案件跟进
+	 * 
+	 * @param eLoanCode
+	 *            E+金融编号
+	 * @param stateInBank
+	 *            状态
+	 * @param caseCode
+	 *            案件编号
+	 * @param comment
+	 *            案件跟进备注
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	@RequestMapping(value = "track/followUp")
+	@ResponseBody
+	public boolean followUp(String eLoanCode, String stateInBank,
+			String caseCode, String comment) {
+
+		// 获取当前用户信息
+		SessionUser sessionUser = MobileHolder.getMobileUser();
+
+		// 设置前台传的参数信息
+		ELoanVo eLoanVo = new ELoanVo();
+		eLoanVo.seteLoanCode(eLoanCode);
+		eLoanVo.setStateInBank(stateInBank);
+		eLoanVo.setCaseCode(caseCode);
+		eLoanVo.setComment(comment);
+		eLoanVo.setUser(sessionUser);
+
+		boolean result = true;
+
+		try {
+			result = toEloanCaseService.followUp(eLoanVo);
+		} catch (Exception e) {
+			result = false;
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	/**
+	 * E+贷款信贷员接单和打回
+	 * 
+	 * @param eLoanCode
+	 *            E+金融编号
+	 * @param isPass
+	 *            是否接单,isPass如果为true,信贷员接单;为false,信贷员打回;
+	 * @param taskId
+	 *            任务id
+	 * @param caseCode
+	 *            案件编号
+	 * @param comment
+	 *            案件跟进备注
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	@RequestMapping(value = "track/accept")
+	@ResponseBody
+	public boolean accept(String eLoanCode, String isPass, String taskId,
+			String stateInBank, String caseCode, String comment) {
+		// 获取当前用户信息
+		SessionUser sessionUser = MobileHolder.getMobileUser();
+
+		// 设置前台传的参数信息
+		ELoanVo eLoanVo = new ELoanVo();
+		eLoanVo.seteLoanCode(eLoanCode);
+		eLoanVo.setIsPass(isPass);
+		eLoanVo.setTaskId(taskId);
+		eLoanVo.setStateInBank(stateInBank);
+		eLoanVo.setCaseCode(caseCode);
+		eLoanVo.setComment(comment);
+		eLoanVo.setUser(sessionUser);
+
+		// 定义流程引擎所需参数
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		if ("true".equals(eLoanVo.getIsPass())) {
+			map.put("LoanerApprove", true);
+		} else if ("false".equals(eLoanVo.getIsPass())) {
+			map.put("LoanerApprove", false);
+		}
+
+		// 返回结果信息,默认为true
+		boolean result = true;
+
+		try {
+			result = toEloanCaseService.accept(eLoanVo, map,
+					eLoanVo.getTaskId());
+		} catch (Exception e) {
+			result = false;
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 	@RequestMapping(value = "/list")
 	@ResponseBody
 	public String list(Integer page, Integer pageSize, String sidx,
-			String sord, String userId, String condition) {
+			String sord, String condition) {
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(true);
 		gp.setPage(page);
@@ -57,8 +162,8 @@ public class ELoanCaseController {
 		gp.setSord(sord);
 		Map<String, Object> paramter = new HashMap<String, Object>();
 
-		// SessionUser sessionUser = MobileHolder.getMobileUser();
-		paramter.put("loanerId", userId);
+		SessionUser sessionUser = MobileHolder.getMobileUser();
+		paramter.put("loanerId", sessionUser.getId());
 
 		if (condition != null && !"".equals(condition)) {
 			String formatCondtion = condition.trim();
@@ -318,4 +423,5 @@ public class ELoanCaseController {
 
 		return null;
 	}
+
 }

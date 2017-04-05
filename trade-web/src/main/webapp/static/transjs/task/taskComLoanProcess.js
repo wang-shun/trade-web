@@ -41,7 +41,7 @@ function checkDisagree(){
 	return true;
 }
 
-function checkMortgageForm(formId){
+function checkMortgageForm(formId){	
 	$("input,select").css("border-color","#ccc");
 	
 	if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
@@ -392,9 +392,16 @@ function completeMortgage(form){
 
 	var tmpBankCheckflag = $('#fl_is_tmp_bank').val() == '1';
 	
-	//提交时
-	if(tmpBankCheckflag && $("#tmpBankStatus").val() != '1'){
-		window.wxc.alert("临时银行审批未完成或不通过！");
+	
+	/*
+	 * @author：zhuody
+	 * @Date：2017年3月24日
+	 * @Des：以前临时银行审批未结束之前，不许提交商贷流程，现在取消  即下面的判断取消
+	 *  	$("#tmpBankStatus").val() != '1'：   = 1 表示临时银行审批通过
+	 */	
+	
+	if(tmpBankCheckflag && $("#tmpBankStatus").val() != '3'){     
+		window.wxc.alert("信贷员接单银行审批未完成或不通过！");
 		return;
 	}
 
@@ -974,7 +981,14 @@ function getCompleteMortInfo(isMainLoanBank){
 	    			$("#completeForm").find("#comAmount").html(data.content.comAmount+"万元");
 	    			$("#completeForm").find("#comDiscount").html(data.content.comDiscount+"折");
 	    			$("#completeForm").find("input[name='finOrgCode']").val(data.content.finOrgCode);
-	    			$("#completeForm").find("input[name='apprDate']").val(data.content.apprDate);
+	    			//派单流程银行审批通过有时间即设置，其他保持不变
+	    			if(data.content.bankApproveTime){
+	    				$("#completeForm").find("input[name='apprDate']").val(data.content.bankApproveTime);
+	    			}else{
+	    				$("#completeForm").find("input[name='apprDate']").val(data.content.apprDate);
+	    			}
+	    			
+	    			
 	    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
 		    			$("#completeForm").find("input[name='lastBankSub']").attr("checked","checked");
 	    			}
@@ -1680,6 +1694,89 @@ function onkeyuploanerName(){
 	$("#loanerId").val("");
 	$("#loanerOrgCode").val("");
 	$("#loanerOrgId").val("");
+}
+
+
+function loanerProcessStart(isMainLoanBank){	
+	
+	var bankLevel = $("#finOrgCode").find('option:selected').attr('coLevel');//所选银行分行级别 
+	//以下参数查询  银行的接单数配置，超过配置则不能选择信贷员
+	var loanerUserId = $("#loanerId").val();		//所选信贷员的userId
+	var loanerOrgId = $("#loanerOrgId").val();		//所选信贷员的OrgId
+	var bankOrgCode = $("#finOrgCode").val();		//所选银行分行的OrgCode
+	$("#processStart").val("processIsStart");
+	
+	var data = 
+	{
+	   "caseCode":$("#caseCode").val() 
+	};
+ 	$.ajax({
+	    url:ctx+"/task/isLoanerProcessStart",
+	    async:false,
+    	method:"post",
+    	dataType:"json",
+    	data:data,
+    	
+    	success:function(data){    		
+    		if(data.success == true){    			
+    			if(null != bankLevel &&  bankLevel != undefined  && null != loanerUserId){     				
+    				startLoanerOrderWorkFlow(bankLevel,isMainLoanBank);  
+    			}else{    				
+    				window.wxc.alert("启动派单流程需选择信贷员和银行信息");
+    				return;
+    			}
+    		}else{
+				window.wxc.alert(data.message);
+				return;
+    		} 		    		
+    	}
+ 	}); 
+	
+}
+function startBankLevelApproveWorkFlow(){
+	//'我要修改'页面不触发流程 	
+	if(source != null && source !=''){
+		return;
+	}
+ 	$.ajax({
+	    url:ctx+"/mortgage/tmpBankAudit/start",
+	    async:false,
+    	method:"post",
+    	dataType:"json",
+    	data:{caseCode:$("#caseCode").val()},
+    	
+    	success:function(data){
+    		window.wxc.success(data.message);
+    	}
+ 	});
+
+}
+//启动 信贷员审核流程
+function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
+	
+	var loanerUserId = $("#loanerId").val();		//所选信贷员的userId
+	var loanerOrgId = $("#loanerOrgId").val();		//所选信贷员的OrgId
+	var bankOrgCode = $("#finOrgCode").val();		//所选银行分行的OrgCode
+	var data = 
+	{
+	   "caseCode":$("#caseCode").val(),
+	   "loanerUserId":loanerUserId,
+	   "loanerOrgId":loanerOrgId,
+	   "bankOrgCode":bankOrgCode,
+	   "bankLevel":bankLevel,
+	   "isMainLoanBank":isMainLoanBank
+	 };	
+ 	$.ajax({
+	    url:ctx+"/task/sendOrderStart",
+	    async:false,
+    	method:"post",
+    	dataType:"json",
+    	data:data,
+    	
+    	success:function(data){
+    		window.wxc.success(data.message);
+    	}
+ 	});
 }
 
 

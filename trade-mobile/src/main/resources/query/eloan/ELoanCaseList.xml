@@ -116,7 +116,7 @@
 					INNER JOIN sctrans.T_TO_PROPERTY_INFO pi ON ec.CASE_CODE = pi.CASE_CODE
 					INNER JOIN sctrans.SYS_USER u on u.ID = ec.EXCUTOR_ID
 					INNER JOIN sctrans.V_USER_ORG_JOB uoj ON ec.LOANER_ID = uoj.user_id 
-					WHERE ec.LOANER_ID = #loanerId# 
+					WHERE ec.LOANER_ID = #loanerId# and t.ASSIGNEE_ = (SELECT USERNAME FROM sctrans.SYS_USER WHERE ID = #loanerId#) AND t.SUSPENSION_STATE_ = '1' 
 					<ifNotNull condition>
 					     		AND	(ec.CUST_NAME LIKE '%'+#condition#+'%'
 					     			OR pi.property_addr	LIKE '%'+#condition#+'%'

@@ -65,41 +65,4 @@
 			</table-row>
 		</grid>
 	</query>
-	
-
-	<query id="queryTradeProcess">
-		<searchCondition>
-		</searchCondition>
-		<searchSql>
-			<baseSql>
-				<![CDATA[  	
-			    SELECT 
-                    VTP.CASE_CODE,
-      				VTP.PART_CODE AS SRV_CODE,
-      				VTP.REAL_TIME,
-      				ISNULL(VTP.CREATE_BY,'') AS CREATE_BY,
-      				ISNULL(VTP.COMMENT,'') AS COMMENT
-				    FROM sctrans.V_TRADE_PROCESS_QUERY_VIEW AS VTP
-        			
-        			WHERE VTP.CASE_CODE = #bizCode#
-			    	
-			    	ORDER BY VTP.REAL_TIME DESC
-				]]>
-			</baseSql>
-			<groupSql>
-			</groupSql>
-			<orderBySql>
-			</orderBySql>
-		</searchSql>
-		<grid>
-			<table-row>
-			<column type="both" name="SRV_CODE" />
-			<column type="virtual" name="SRV_NAME" referencecol="SRV_CODE" customDict="qqcdMortServName"  />
-			<column type="both" name="REAL_TIME" display="createTime" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" />
-			<column type="both" name="CREATE_BY" display="createBy" />
-			<column type="virtual" name="REAL_NAME" display="yuOperator_name" referencecol="CREATE_BY" customDict="qqRealName"  />
-			<column type="both" name="COMMENT" display="comments" />
-			</table-row>
-		</grid>
-	</query>
 </querys>

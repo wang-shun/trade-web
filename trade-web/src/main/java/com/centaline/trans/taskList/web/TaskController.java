@@ -309,9 +309,14 @@ public class TaskController {
     		}else{
         		request.setAttribute("isMainLoanBank", "1");
         		request.setAttribute("evaCode", "");
-    		}
-	
-    	} else if(taskitem.equals("LoanlostApply")){/*贷款流失申请*/
+    		}	
+    	//新增交易顾问派单 流程
+    	}else if(taskitem.equals("LoanerProcess")){
+    		
+    		ToMortgage mortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+    		request.setAttribute("mortgage", mortgage);
+    	
+    	}else if(taskitem.equals("LoanlostApply")){/*贷款流失申请*/
     		getAccesoryList(request, taskitem);   		
     		
     		/*贷款流失审批 添加流失原因*/
