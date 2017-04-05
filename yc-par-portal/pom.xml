@@ -4,7 +4,7 @@
 
 	<groupId>com.centaline</groupId>
 	<artifactId>yc-par-portal</artifactId>
-	<version>1.2.16-SNAPSHOT</version>
+	<version>1.2.12-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>Yucui Partner Portal</name>
@@ -168,7 +168,11 @@
 	 	<dependency>
 			<groupId>com.centaline</groupId>
 			<artifactId>trade-core</artifactId>
+<<<<<<< .mine
 			<version>1.2.16-SNAPSHOT</version>
+=======
+			<version>1.2.12-SNAPSHOT</version>
+>>>>>>> .theirs
 		</dependency>
 		
 		<dependency>

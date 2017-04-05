@@ -698,9 +698,9 @@ function ChangeModal(data) {
 				preProcessorId = value.id;
 				oldOrgId=value.orgId;
 			});
-			if(data.orgcode!='033F045'){/*浦东合作顾问选中台*/
+			//if(data.orgcode!='033F045'){/*浦东合作顾问选中台*/
 				addHtml += "<option value='-1'>---跨区选择---</option>";
-			}
+			//}
 			addHtml += "</select>";
 			addHtml += "<input type='hidden' name='orgId' id='org"+index+"' value='"+value.orgId+"'/>";
 			addHtml += "<input type='hidden'  id='processorId"+index+"' name='processorId' value=''/>";

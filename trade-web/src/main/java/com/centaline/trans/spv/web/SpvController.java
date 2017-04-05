@@ -843,6 +843,7 @@ public class SpvController {
     	try {
     		//保存相关信息
     		SessionUser user= uamSessionService.getSessionUser();
+    		
     		ToSpvAccount buyerAcc = new ToSpvAccount();
     		buyerAcc.setPkid(buyerAccountPkid);
     		buyerAcc.setName(buyerAccountName);
@@ -850,6 +851,7 @@ public class SpvController {
     		buyerAcc.setTelephone(buyerAccountTelephone);
     		buyerAcc.setBank(buyerAccountBank);
     		buyerAcc.setBranchBank(buyerAccountBranchBank);
+    		
     		ToSpvAccount sellerAcc = new ToSpvAccount();
     		sellerAcc.setPkid(sellerAccountPkid);
     		sellerAcc.setName(sellerAccountName);
@@ -857,11 +859,13 @@ public class SpvController {
     		sellerAcc.setTelephone(sellerAccountTelephone);
     		sellerAcc.setBank(sellerAccountBank);
     		sellerAcc.setBranchBank(sellerAccountBranchBank);
+    		
     		ToSpvAccount fundAcc = new ToSpvAccount();
     		fundAcc.setPkid(fundAccountPkid);
     		fundAcc.setName(fundAccountName);
     		fundAcc.setAccount(fundAccountNo);
     		fundAcc.setBranchBank(fundAccountBranchBank);
+    		
     		toSpvService.spvSign(spvCode, caseCode, source, instCode, taskId, spvConCode, signTime, buyerAcc, sellerAcc, fundAcc, user);
     		response.setSuccess(true);
 		} catch (Exception e) {

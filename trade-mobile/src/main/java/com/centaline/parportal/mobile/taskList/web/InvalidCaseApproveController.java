@@ -1,4 +1,4 @@
-package com.centaline.parportal.mobile.tasList.web;
+package com.centaline.parportal.mobile.taskList.web;
 
 import java.util.Map;
 
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.task.service.InvalidCaseApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
@@ -28,10 +30,14 @@ public class InvalidCaseApproveController {
 	@Autowired
 	private QuickGridService quickGridService;
 	
+	@Autowired
+	private UamSessionService uamSessionService;
+	
 	@RequestMapping(value = "process")
 	@ResponseBody
 	public String toProcess(HttpServletRequest request,
 			HttpServletResponse response, String caseCode, String source) {
+		
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(false);
         gp.put("caseCode", caseCode);
@@ -47,6 +53,10 @@ public class InvalidCaseApproveController {
         	json.put(e.getKey(), e.getValue()[0]);
 		}
         json.put("approveList", pages.getContent());
+        
+		SessionUser user = uamSessionService.getSessionUser();
+		json.put("approveType", "0");
+		json.put("operator", user != null ? user.getId() : "");
         return json.toJSONString();
 	}
 

@@ -6,7 +6,7 @@
 		<customDict id="qqRealName" beanName="qqRealName"></customDict>
 		<customDict id="qqcdCaseStatus" beanName="qqcdCaseStatus"></customDict>
 	</dicts>
-
+ 
 	<formatters>
 		<formatter id="dateFormatter" ref=""
 			class="com.aist.common.quickQuery.formatter.DateFormatter">
