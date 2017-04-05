@@ -101,43 +101,29 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
     @Override
     public ToMortgage saveToMortgage(ToMortgage toMortgage) {
-        ToMortgage mortgage = null;
-        ToMortgage condition = new ToMortgage();//用这三个条件确定一条商贷的贷款信息,防止前台重复提交数据或者加载数据出问题时数据重复
-        condition.setCaseCode(toMortgage.getCaseCode());
-        condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
-        condition.setIsDelegateYucui("1");
-        List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
-        if (list != null && !list.isEmpty()) {
-            mortgage = list.get(0);
-        }
-        if (mortgage != null) {
-            toMortgage.setPkid(mortgage.getPkid());
+        //有记录  update、反之 insert
+        if (toMortgage.getPkid() != null) {
             toMortgageMapper.update(toMortgage);
-            writeBackBizCode(mortgage.getCaseCode(),mortgage.getPkid());
         } else {
-            toMortgage.setIsDelegateYucui("1");
             toMortgageMapper.insertSelective(toMortgage);
-            //toMortgage.getPkid() 返回插入当前数据的主键
-            writeBackBizCode(toMortgage.getCaseCode(),toMortgage.getPkid());           
-            
         }
+        //formCommLoan 是否商贷
         if ("1".equals(toMortgage.getFormCommLoan())
             && StringUtils.isNotBlank(toMortgage.getLastLoanBank())) {
+            //   重新设定最终贷款银行（商贷）
             toMortgageMapper.restSetLastLoanBank(toMortgage);
         }
-        ToSupDocu toSupDocu = toMortgage.getToSupDocu();
-        ToSupDocu supDocu = toSupDocuService.findByCaseCode(toMortgage.getCaseCode());
 
-		if (null != toMortgage.getCustCode()) {
-			TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long
-					.parseLong(toMortgage.getCustCode()));
-			if (guest != null) {
-				guest.setWorkUnit(toMortgage.getCustCompany());
-				guest.setGuestName(toMortgage.getCustName());
-				tgGuestInfoService.updateByPrimaryKeySelective(guest);
-			}
-		}
-		return toMortgage;
+        if (null != toMortgage.getCustCode()) {
+            TgGuestInfo guest = tgGuestInfoService
+                .selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
+            if (guest != null) {
+                guest.setWorkUnit(toMortgage.getCustCompany());
+                guest.setGuestName(toMortgage.getCustName());
+                tgGuestInfoService.updateByPrimaryKeySelective(guest);
+            }
+        }
+        return toMortgage;
 	}
 
 	@Override
@@ -147,33 +133,19 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		condition.setCaseCode(toMortgage.getCaseCode());
 		condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
 		condition.setIsDelegateYucui("1");
-		List<ToMortgage> list = toMortgageMapper
-				.findToMortgageByCondition(condition);
+		List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
 		if (list != null && !list.isEmpty()) {
 			mortgage = list.get(0);
 		}
 		if (mortgage != null) {
 			toMortgage.setPkid(mortgage.getPkid());
 			toMortgageMapper.update(toMortgage);
+			writeBackBizCode(mortgage.getCaseCode(),mortgage.getPkid());
 		} else {
 			toMortgage.setIsDelegateYucui("1");
 			toMortgageMapper.insertSelective(toMortgage);
-
-			// 会写bizCode
-			ToWorkFlow toWorkFlowForSelect = new ToWorkFlow();
-			toWorkFlowForSelect.setCaseCode(toMortgage.getCaseCode());
-			toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS
-					.getName());
-			ToWorkFlow workFlow = toWorkFlowService
-					.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
-			if (null != workFlow) {
-				ToWorkFlow workFlowForUpdate = new ToWorkFlow();
-				workFlowForUpdate.setPkid(workFlow.getPkid());
-				workFlowForUpdate.setBizCode(toMortgage.getPkid() == null ? ""
-						: toMortgage.getPkid().toString());
-				toWorkFlowService
-						.updateByPrimaryKeySelective(workFlowForUpdate);
-			}
+            //toMortgage.getPkid() 返回插入当前数据的主键
+            writeBackBizCode(toMortgage.getCaseCode(),toMortgage.getPkid());   
 
 		}
 		if ("1".equals(toMortgage.getFormCommLoan())
