@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.centaline.parportal.mobile.eloancase.web.ELoanCaseController;
+import com.centaline.parportal.mobile.mortgage.web.MortgageController;
 import com.centaline.parportal.mobile.mortgage.web.MortgageListController;
 
 @RunWith(SpringRunner.class)
@@ -19,6 +20,9 @@ public class ParPortalApplicationTests {
 	@Autowired
 	private MortgageListController mortgageListController;
 
+	@Autowired
+	private MortgageController mortgageController;
+
 	@Test
 	public void contextLoads() {
 
@@ -27,4 +31,5 @@ public class ParPortalApplicationTests {
 
 		System.out.println(result);
 	}
+
 }
