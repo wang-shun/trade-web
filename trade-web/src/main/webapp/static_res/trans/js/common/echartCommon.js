@@ -196,7 +196,7 @@ function returnPie(data, items, myChart1, color, title,unit) {
 			name : '访问来源',
 			type : 'pie',
 			radius : '25%',
-			center : [ '55%', '60%' ],
+			center : [ '50%', '60%' ],
 			animation : true,
 			selectedMode : 'multiple',
 			data : [],
