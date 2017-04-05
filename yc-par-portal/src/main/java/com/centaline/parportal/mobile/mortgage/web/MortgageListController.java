@@ -64,7 +64,7 @@ public class MortgageListController {
 
 		SessionUser sessionUser = MobileHolder.getMobileUser();
 
-		System.out.println("################" + sessionUser.getId()
+		logger.error("################" + sessionUser.getId()
 				+ "####################");
 
 		// SessionUser sessionUser = uamSessionService
