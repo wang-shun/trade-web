@@ -693,6 +693,7 @@
 								<div class="ibox" style="width:988px;">
 								<div class="ibox-content">
 								<form id="mortgageForm" class="form_list">
+								    <input type="hidden" name="processStart" id="processStart" value=""/>
 								    <input type="hidden" name="pkid" id="pkid"/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
 									<input type="hidden" name="isMainLoanBank" value="1"/>
@@ -1010,6 +1011,7 @@
 								<div class="ibox-content">
 								<form id="mortgageForm1" class="form_list">
 								    <input type="hidden" name="pkid" id="pkid"/>
+								    <input type="hidden" name="processStart" id="processStart" value=""/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
 									<input type="hidden" name="isMainLoanBank" value="0"/>
 		                            <div class="marinfo">

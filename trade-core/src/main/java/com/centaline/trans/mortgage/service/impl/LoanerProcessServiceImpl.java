@@ -141,7 +141,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
             Map<String,Object>  map = new HashMap<String,Object>();
             map.put("caseCode", caseCode);
             map.put("loanerId", loanerUserId);
-            ToMortgage toMortgageInfo = toMortgageMapper.findToMortgageByCaseCodeAndLoanerId(map);	
+            //ToMortgage toMortgageInfo = toMortgageMapper.findToMortgageByCaseCodeAndLoanerId(map);	
+            ToMortgage toMortgageInfo = toMortgageMapper.findToMortgageByCaseCodeAndDisTime(caseCode);
             String bizCode = "";            
             
             //添加贷款表中的  信贷员、派单员等信息
