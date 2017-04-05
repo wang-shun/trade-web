@@ -59,8 +59,8 @@ public class MortgageListController {
 		Map<String, Object> paramter = new HashMap<String, Object>();
 
 		SessionUser sessionUser = MobileHolder.getMobileUser();
+		// paramter.put("userid", "ff80808158bd58c10158bda37f100020");
 		paramter.put("userid", sessionUser.getId());
-		// paramter.put("userid", userid);
 
 		if (q_text != null && !"".equals(q_text)) {
 			String formatCondtion = q_text.trim();
@@ -70,7 +70,7 @@ public class MortgageListController {
 		gp.putAll(paramter);
 		querysParseService.reloadFile();
 		Page<Map<String, Object>> returnPage = quickGridService
-				.findPageForSqlServer(gp);
+				.findPageForSqlServer(gp, MobileHolder.getMobileUser());
 
 		JSONObject result = new JSONObject();
 		result.put("page", page);
