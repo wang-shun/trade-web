@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.vo.MobileHolder;
+import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.mortgage.vo.MortgageVo;
 
 @Controller
 @RequestMapping({ "/mobile/case", "/case" })
@@ -27,11 +31,112 @@ public class MortgageController {
 	@Resource(name = "quickGridService")
 	private QuickGridService quickGridService;
 
+	@Autowired
+	private ToMortgageService toMortgageService;
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private final static String queryDetail = "queryMortgageCaseDetail";
 	private final static String queryMortProcess = "queryMortProcess";
 	private final static String queryTradeProcess = "queryTradeProcess";
+
+	/**
+	 * 按揭贷款信贷员接单和打回
+	 * 
+	 * @param isPass
+	 *            是否接单,isPass如果为true,信贷员接单;为false,信贷员打回;
+	 * @param taskId
+	 *            任务id
+	 * @param procInstanceId
+	 *            流程实例id
+	 * @param caseCode
+	 *            案件编号
+	 * @param comment
+	 *            案件跟进备注
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	@RequestMapping(value = "track/accept")
+	@ResponseBody
+	public boolean accept(String bizCode, String isPass, String taskId,
+			String procInstanceId, String stateInBank, String caseCode,
+			String comment) {
+		// 获取当前用户信息
+		SessionUser sessionUser = MobileHolder.getMobileUser();
+
+		// 设置前台传的参数信息
+		MortgageVo mortgageVo = new MortgageVo();
+		mortgageVo.setBizCode(bizCode);
+		mortgageVo.setIsPass(isPass);
+		mortgageVo.setTaskId(taskId);
+		mortgageVo.setProcInstanceId(procInstanceId);
+		mortgageVo.setStateInBank(stateInBank);
+		mortgageVo.setCaseCode(caseCode);
+		mortgageVo.setComment(comment);
+		mortgageVo.setUser(sessionUser);
+
+		// 返回结果信息,默认为true
+		boolean result = true;
+
+		try {
+			result = toMortgageService.accept(mortgageVo);
+		} catch (Exception e) {
+			result = false;
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	/**
+	 * 银行审核
+	 * 
+	 * @param bizCode
+	 *            按揭贷款信息id
+	 * @param isPass
+	 *            是否通过,isPass如果为true,银行审核通过;为false,银行审核驳回;
+	 * @param taskId
+	 *            任务id
+	 * @param procInstanceId
+	 *            流程实例id
+	 * @param stateInBank
+	 *            状态
+	 * @param caseCode
+	 *            案件编号
+	 * @param comment
+	 *            案件跟进备注
+	 * @return 返回true,操作成功;返回false,操作失败。
+	 */
+	@RequestMapping(value = "track/followUp")
+	@ResponseBody
+	public boolean followUp(String bizCode, String isPass, String taskId,
+			String procInstanceId, String stateInBank, String caseCode,
+			String comment) {
+
+		// 获取当前用户信息
+		SessionUser sessionUser = MobileHolder.getMobileUser();
+
+		// 设置前台传的参数信息
+		MortgageVo mortgageVo = new MortgageVo();
+		mortgageVo.setBizCode(bizCode);
+		mortgageVo.setIsPass(isPass);
+		mortgageVo.setTaskId(taskId);
+		mortgageVo.setProcInstanceId(procInstanceId);
+		mortgageVo.setStateInBank(stateInBank);
+		mortgageVo.setCaseCode(caseCode);
+		mortgageVo.setComment(comment);
+		mortgageVo.setUser(sessionUser);
+
+		boolean result = true;
+
+		try {
+			result = toMortgageService.followUp(mortgageVo);
+		} catch (Exception e) {
+			result = false;
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 
 	@RequestMapping(value = "/{bizCode}")
 	@ResponseBody

@@ -6,7 +6,8 @@ public enum EventTypeEnum {
 	
 	INTERMEDIATECATCHEVENT(ConstantsUtil.MESSAGE_EVENT,"MortgageFinishMsgEventCatch","MortgageFinishMsgEventCatch "), 
 	SPVFINISHEVENTCATCH(ConstantsUtil.MESSAGE_EVENT,"SpvFinishMsgEventCatch","SpvFinishMsgEventCatch"),
-	TRADEBOUNDARYMSG(ConstantsUtil.MESSAGE_EVENT,"TradeBoundaryMsg", "TradeBoundaryMsg");
+	TRADEBOUNDARYMSG(ConstantsUtil.MESSAGE_EVENT,"TradeBoundaryMsg", "TradeBoundaryMsg"),
+	BANKLEVELAPPROVEEVENTCATCH(ConstantsUtil.MESSAGE_EVENT,"BankLevelApproveMsgEventCatch","BankLevelApproveMsgEventCatch");
 
 	private String eventType;
 

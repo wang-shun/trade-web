@@ -57,11 +57,22 @@ public class ToMortgage {
 
     private String     loanerPhone;
 
-    private String     loanerId;
-
     private String     loanerOrgCode;
 
     private String     loanerOrgId;
+    
+    private String     loanerId;
+    private String     dispachUserId;
+    private String     bankApproveUserId;
+    private String     loanerProcessInstCode;
+    private String     bankLevel;
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date       dispachTime;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date       loanerAcceptTime;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date       bankApproveTime;
 
     private String     remark;
 
@@ -580,4 +591,61 @@ public class ToMortgage {
         this.stateInBank = stateInBank;
     }
 
+	public String getDispachUserId() {
+		return dispachUserId;
+	}
+
+	public void setDispachUserId(String dispachUserId) {
+		this.dispachUserId = dispachUserId;
+	}
+
+	public String getBankApproveUserId() {
+		return bankApproveUserId;
+	}
+
+	public void setBankApproveUserId(String bankApproveUserId) {
+		this.bankApproveUserId = bankApproveUserId;
+	}
+
+	public Date getDispachTime() {
+		return dispachTime;
+	}
+
+	public void setDispachTime(Date dispachTime) {
+		this.dispachTime = dispachTime;
+	}
+
+	public Date getLoanerAcceptTime() {
+		return loanerAcceptTime;
+	}
+
+	public void setLoanerAcceptTime(Date loanerAcceptTime) {
+		this.loanerAcceptTime = loanerAcceptTime;
+	}
+
+	public Date getBankApproveTime() {
+		return bankApproveTime;
+	}
+
+	public void setBankApproveTime(Date bankApproveTime) {
+		this.bankApproveTime = bankApproveTime;
+	}
+
+	public String getLoanerProcessInstCode() {
+		return loanerProcessInstCode;
+	}
+
+	public void setLoanerProcessInstCode(String loanerProcessInstCode) {
+		this.loanerProcessInstCode = loanerProcessInstCode;
+	}
+
+	public String getBankLevel() {
+		return bankLevel;
+	}
+
+	public void setBankLevel(String bankLevel) {
+		this.bankLevel = bankLevel;
+	}  
+	
+	
 }
