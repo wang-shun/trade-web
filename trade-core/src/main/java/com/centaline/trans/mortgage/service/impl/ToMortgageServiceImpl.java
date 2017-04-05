@@ -131,22 +131,13 @@ public class ToMortgageServiceImpl implements ToMortgageService {
         if (mortgage != null) {
             toMortgage.setPkid(mortgage.getPkid());
             toMortgageMapper.update(toMortgage);
+            writeBackBizCode(mortgage.getCaseCode(),mortgage.getPkid());
         } else {
             toMortgage.setIsDelegateYucui("1");
             toMortgageMapper.insertSelective(toMortgage);
-            
-            //会写bizCode            
-            ToWorkFlow toWorkFlowForSelect = new ToWorkFlow();
-            toWorkFlowForSelect.setCaseCode(toMortgage.getCaseCode());
-            toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
-            ToWorkFlow workFlow = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
-            if(null != workFlow){
-                ToWorkFlow workFlowForUpdate = new ToWorkFlow();
-                workFlowForUpdate.setPkid(workFlow.getPkid());
-                workFlowForUpdate.setBizCode(toMortgage.getPkid()==null?"":toMortgage.getPkid().toString());                
-                toWorkFlowService.updateByPrimaryKeySelective(workFlowForUpdate);
-            }
- 
+            //toMortgage.getPkid() 返回插入当前数据的主键
+            writeBackBizCode(toMortgage.getCaseCode(),toMortgage.getPkid());
+           
             
         }
         if ("1".equals(toMortgage.getFormCommLoan())
@@ -742,6 +733,12 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
     }
     
+    /*
+     *@author: zhuody
+     *@date : 2017-03-30
+     *@des: 三级银行审批 总监审批完之后 发送分单信贷员流程消息和设置流程变量 
+     * 
+     */
     
     private void setLoanerProcessVariable(String loanerInstCode, boolean approveFlag) {
     	//银行分级审批通过标志判断发送消息类别    	
@@ -764,7 +761,37 @@ public class ToMortgageServiceImpl implements ToMortgageService {
         	}    
     	}catch(BusinessException e){
     		 throw new BusinessException("银行分级审批消息发送异常！");
-    	}
-	
+    	}	
+    }
+    
+    /*
+     *@author: zhuody
+     *@date  : 2017-04-05
+     *@des	 : 派单结束之后，回写pkid到T_TO_WORKFLOW表的biz_code 
+     * 
+     */
+    
+    private void writeBackBizCode(String caseCode,long pkid) {
+    	
+    	if((null == caseCode || "".equals(caseCode)) || pkid < 0){
+    		throw new BusinessException("回写bizCode参数异常！");
+    	}    	
+    	try{    
+                    
+            ToWorkFlow toWorkFlowForSelect = new ToWorkFlow();
+            toWorkFlowForSelect.setCaseCode(caseCode);
+            toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
+            ToWorkFlow workFlow = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
+            
+            if(null != workFlow){
+                ToWorkFlow workFlowForUpdate = new ToWorkFlow();
+                workFlowForUpdate.setPkid(workFlow.getPkid());
+                workFlowForUpdate.setBizCode(String.valueOf(pkid));                
+                toWorkFlowService.updateByPrimaryKeySelective(workFlowForUpdate);
+            }
+   
+    	}catch(BusinessException e){
+    		 throw new BusinessException("回写bizCode数据异常！");
+    	}	
     }
 }

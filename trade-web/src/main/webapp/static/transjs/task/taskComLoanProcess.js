@@ -41,12 +41,16 @@ function checkDisagree(){
 	return true;
 }
 
-function checkMortgageForm(formId){
+function checkMortgageForm(formId){	
 	$("input,select").css("border-color","#ccc");
 	
 	if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
 		window.wxc.alert("主贷人为必填项！");
 		formId.find("select[name='custCode']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='processStart']").val() == "" || formId.find("input[name='processStart']").val() == null){
+		window.wxc.alert("请先完成派单至信贷员任务！");
+		formId.find("input[name='processStart']").css("border-color","red");
 		return false;
 	}else if(formId.find("input[name='mortTotalAmount']").val() == ""){
 		window.wxc.alert("贷款总额为必填项！");
@@ -1355,7 +1359,8 @@ $(document).ready(function () {
  			}
 
  		}else if(currentIndex == 2){
- 			var flag = false;
+ 			var flag = false;		
+ 			
  			if(checkMortgageForm($("#mortgageForm"))){
 	 			saveMortgage($("#mortgageForm"));
 	 			flag = true;
@@ -1734,6 +1739,8 @@ function loanerProcessStart(isMainLoanBank){
 	var loanerUserId = $("#loanerId").val();		//所选信贷员的userId
 	var loanerOrgId = $("#loanerOrgId").val();		//所选信贷员的OrgId
 	var bankOrgCode = $("#finOrgCode").val();		//所选银行分行的OrgCode
+	$("#processStart").val("processIsStart");
+	
 	var data = 
 	{
 	   "caseCode":$("#caseCode").val() 
