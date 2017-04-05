@@ -1,9 +1,14 @@
 package com.centaline.trans.workspace.entity;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class LoanStaDetails {
+public class LoanStaDetails implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4729555507387182893L;
 	// 统计金额
 	private Double amount;
 	// 统计数量

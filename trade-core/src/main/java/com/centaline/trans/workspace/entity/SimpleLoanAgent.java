@@ -1,6 +1,12 @@
 package com.centaline.trans.workspace.entity;
 
-public class SimpleLoanAgent {
+import java.io.Serializable;
+
+public class SimpleLoanAgent implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8985730643968145225L;
 	private String realName;
 	private String orgName;
 	private String loanSevCode;

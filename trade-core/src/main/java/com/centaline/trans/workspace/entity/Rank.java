@@ -1,6 +1,12 @@
 package com.centaline.trans.workspace.entity;
 
-public class Rank {
+import java.io.Serializable;
+
+public class Rank implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6362769245516932550L;
 	private Integer rankNo;
 	private Double rankValue;
 	private String rankId;
