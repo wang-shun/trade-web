@@ -32,12 +32,4 @@ public class ParPortalApplicationTests {
 		System.out.println(result);
 	}
 
-	@Test
-	public void reject() {
-
-		String result = mortgageController.accept("false", "1035338",
-				"1035321", "ZY-AJ-201601-1313", null);
-
-		System.out.println(result);
-	}
 }
