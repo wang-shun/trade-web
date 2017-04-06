@@ -128,16 +128,32 @@
 										id="finOrgCode" value="${eloanCase.finOrgCode}">
 									</select>
 								</div>
-
+							</li>	
+							<li>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 证件类型 </label>
+									<aist:dict id="custCardType" name="custCardType"
+										clazz="select_control sign_right_two" display="select"
+										dictType="CERT_TYPE" tag="forEloanApply" ligerui='none'
+										defaultvalue="${eloanCase.custCardType}"></aist:dict>
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 办卡人证件号 </label> <input
+										type="text" id="custPaper" name="custPaper"
+										class="input_type sign_right_two"
+										style="width: 172px; display: inline-block;"
+										value="${eloanCase.custPaper}" />
+								</div>
+								
 							</li>
 							<li>
 								<div class="form_content">
-									<label class="control-label sign_left_two"> 客户姓名 </label> <input
+									<label class="control-label sign_left_two"> 办卡人姓名 </label> <input
 										class="input_type sign_right_two" name="custName"
 										id="custName" value="${eloanCase.custName}">
 								</div>
 								<div class="form_content">
-									<label class="control-label sign_left_two"> 客户电话 </label> <input
+									<label class="control-label sign_left_two"> 办卡人电话 </label> <input
 										class="input_type sign_right_two" name="custPhone"
 										id="custPhone" value="${eloanCase.custPhone}">
 								</div>
@@ -204,7 +220,6 @@
 										class="input_type sign_right_two" name="zjCode" id="zjCode"
 										value="${eloanCase.zjCode}">
 								</div>
-
 							</li>
 							<li>
 								<div class="form_content">
