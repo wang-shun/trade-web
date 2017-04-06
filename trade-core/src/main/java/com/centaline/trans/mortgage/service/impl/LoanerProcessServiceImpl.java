@@ -316,7 +316,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	        workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
 	        //更新流程表的状态
 	        ToWorkFlow workFlow = new ToWorkFlow();
-	        workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());//Loaner_Process:1:1012544
+	        workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());//Loaner_Process
 	        workFlow.setCaseCode(caseCode);
 	        ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
 	        if (record != null) {
