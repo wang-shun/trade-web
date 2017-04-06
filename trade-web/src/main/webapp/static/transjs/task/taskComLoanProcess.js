@@ -48,6 +48,10 @@ function checkMortgageForm(formId){
 		window.wxc.alert("主贷人为必填项！");
 		formId.find("select[name='custCode']").css("border-color","red");
 		return false;
+	}else if(formId.find("input[name='processStart']").val() == "" || formId.find("input[name='processStart']").val() == null){
+		window.wxc.alert("请先完成派单至信贷员任务！");
+		formId.find("input[name='processStart']").css("border-color","red");
+		return false;
 	}else if(formId.find("input[name='mortTotalAmount']").val() == ""){
 		window.wxc.alert("贷款总额为必填项！");
 		formId.find("input[name='mortTotalAmount']").css("border-color","red");
