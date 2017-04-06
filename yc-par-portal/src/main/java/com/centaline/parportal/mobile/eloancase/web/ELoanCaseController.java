@@ -164,6 +164,7 @@ public class ELoanCaseController {
 
 		SessionUser sessionUser = uamSessionService.getSessionUser();
 		paramter.put("loanerId", sessionUser.getId());
+		// paramter.put("loanerId", "8a8493d45921d36901593e4adc95007b");
 
 		if (condition != null) {
 			String formatCondtion = condition.trim();
