@@ -9,7 +9,7 @@
 		<customDict id="qqGetLostCount" beanName="qqGetLostCount" />
 		<customDict id="qqGetLostMorTotalAmount" beanName="qqGetLostMorTotalAmount" />
 	</dicts>
-<formatters>
+	<formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
@@ -24,8 +24,8 @@
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
 	<query id="queryDispatchSignList" cacheResult="true">
-	    <searchCondition>        
-        </searchCondition>
+		<searchCondition>
+		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -44,7 +44,7 @@
 			<orderBySql>
 			</orderBySql>
 			<groupSql>
-			group by main.CASE_DISTRICT_ID
+				group by main.CASE_DISTRICT_ID
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -55,16 +55,16 @@
 				<column type="both" name="GUOHU_NUM" index="" checkbox="" title="过户量"  customDict="" sysDict=""  format="" width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="SIGN_CON_PRICE" index="" checkbox="" title="签贷合同价" expType="Double" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
 				<column type="both" name="COM_AMOUNT" index="" checkbox="" title="商贷金额" expType="Double" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
-				<column type="both" name="PRF_AMOUNT" index="" checkbox="" title="公积金金额" expType="Double" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />	
+				<column type="both" name="PRF_AMOUNT" index="" checkbox="" title="公积金金额" expType="Double" customDict="" sysDict="" format="" width="60" align="" halign="" order="" resizable="" />
 				<column type="both" name="COM_NUM" index="" checkbox="" title="商贷量" customDict="" sysDict="" format=""  width="60" align="" halign="" order="" resizable="" />
-				<column type="both" name="PRF_NUM" index="" checkbox="" title="纯公积金量"  customDict="" sysDict="" format=""  width="60" align="" halign="" order="" resizable="" />					
+				<column type="both" name="PRF_NUM" index="" checkbox="" title="纯公积金量"  customDict="" sysDict="" format=""  width="60" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
-	
+
 	<query id="querySignBankList" cacheResult="true">
-	    <searchCondition>        
-        </searchCondition>
+		<searchCondition>
+		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -80,10 +80,10 @@
 	            ]]>
 			</baseSql>
 			<orderBySql>
-			order by CONTRACT_AMOUNT desc
+				order by CONTRACT_AMOUNT desc
 			</orderBySql>
 			<groupSql>
-			group by main.MORT_FA_FIN_ORG_CODE
+				group by main.MORT_FA_FIN_ORG_CODE
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -91,14 +91,14 @@
 				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="" title="银行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="FA_FIN_ORG_NAME_YC" index="" checkbox="" display="银行简写名" customDict="qqGetfinOrgYCName" referencecol="FA_FIN_ORG_CODE"/>
 				<column type="both" name="CONTRACT_AMOUNT" index="" checkbox="" title="总金额" expType="Double" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="SIGN_NUM" index="" checkbox="" title="总单量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="180" align="" halign="" order="" resizable=""/>					
+				<column type="both" name="SIGN_NUM" index="" checkbox="" title="总单量" expType="Integer" customDict="" sysDict="" format="" beanFormatter="integerFormater" width="180" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
-	
+
 	<query id="querySignBranchBankList" cacheResult="true">
-	    <searchCondition>        
-        </searchCondition>
+		<searchCondition>
+		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -117,16 +117,16 @@
 	            ]]>
 			</baseSql>
 			<orderBySql>
-			order by CONTRACT_AMOUNT desc
+				order by CONTRACT_AMOUNT desc
 			</orderBySql>
 			<groupSql>
-			group by main.MORT_FIN_ORG_CODE
+				group by main.MORT_FIN_ORG_CODE
 			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-			    <column type="both" name="SIGN_NUM" index="" checkbox="" title="总单量"  customDict="" sysDict="" format=""  width="180" align="" halign="" order="" resizable=""/>					
-			    <column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="" title="银行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="SIGN_NUM" index="" checkbox="" title="总单量"  customDict="" sysDict="" format=""  width="180" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox="" title="银行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="FA_FIN_ORG_NAME_YC" index="" checkbox="" display="银行简写名" customDict="qqGetfinOrgYCName" referencecol="FA_FIN_ORG_CODE"/>
 				<column type="both" name="MORTGAGET_FIN_ORG_CODE" index="" checkbox="" title="支行编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="FIN_ORG_NAME_YC" index="" checkbox="" display="支行简写名" customDict="qqGetfinOrgYCName" referencecol="MORTGAGET_FIN_ORG_CODE"/>
@@ -136,7 +136,7 @@
 		</grid>
 	</query>
 
-	<query id="queryHourseTransferCaseBaseInfoForDistrict" cacheResult="true">
+	<query id="queryHourseTransferCaseBaseInfoForDistrict"  cacheResult="true">
 		<searchCondition>
 
 		</searchCondition>
