@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aist.common.exception.BusinessException;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.parportal.mobile.track.vo.CommentVo;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.service.ToCaseCommentService;
@@ -45,7 +46,7 @@ public class TrackController {
 
 	@RequestMapping(value = "/add")
 	@ResponseBody
-	public String addTrack(Model model, @RequestBody CommentVo cmtVo) {
+	public JSONObject addTrack(Model model, @RequestBody CommentVo cmtVo) {
 
 		ToCaseComment track = new ToCaseComment();
 		// boolean isNofigyCustomer = cmt.isNotifyCustomer();
@@ -77,8 +78,9 @@ public class TrackController {
 		if (resultCount <= 0) {
 			throw new BusinessException("对不起,跟进保存失败");
 		} else {
-			return new StringBuilder("{\"msg\":\"").append(track.getCaseCode())
-					.append("跟进保存成功").append("\"}").toString();
+			JSONObject json  = new JSONObject(); 
+			json.put("msg", track.getCaseCode() + "跟进保存成功");
+			return json;
 		}
 
 	}

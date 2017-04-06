@@ -30,7 +30,6 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.centaline.parportal.mobile.track.vo.CommentVo;
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
@@ -455,10 +454,9 @@ public class TradeCaseController {
 	
     @RequestMapping(value = "{caseCode}/track")
     @ResponseBody
-    public String addTrack(@PathVariable("caseCode")String caseCode, CommentVo cmtVo) {
+    public JSONObject addTrack(@PathVariable("caseCode")String caseCode, CommentVo cmtVo) {
 
     	cmtVo.setCaseCode(caseCode);
-    	SessionUser user = sessionService.getSessionUser();
     	
         ToCaseComment track = new ToCaseComment();
         //        boolean isNofigyCustomer = cmt.isNotifyCustomer();
@@ -488,8 +486,9 @@ public class TradeCaseController {
         if (resultCount <= 0) {
             throw new BusinessException("对不起,跟进保存失败");
         } else {
-            return new StringBuilder("{\"msg\":\"").append(track.getCaseCode()).append("跟进保存成功")
-                .append("\"}").toString();
+        	JSONObject json = new JSONObject();
+        	json.put("msg", track.getCaseCode() + "跟进保存成功!");
+            return json;
         }
 
     }
