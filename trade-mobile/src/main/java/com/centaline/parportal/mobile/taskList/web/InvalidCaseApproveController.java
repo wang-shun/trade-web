@@ -39,7 +39,7 @@ public class InvalidCaseApproveController {
 	
 	@RequestMapping(value = "process")
 	@ResponseBody
-	public String toProcess(HttpServletRequest request,
+	public  JSONObject toProcess(HttpServletRequest request,
 			HttpServletResponse response, String caseCode, String source) {
 		
 		JQGridParam gp = new JQGridParam();
@@ -61,7 +61,7 @@ public class InvalidCaseApproveController {
 		SessionUser user = uamSessionService.getSessionUser();
 		json.put("approveType", "0");
 		json.put("operator", user != null ? user.getId() : "");
-        return json.toJSONString();
+        return json;
 	}
 
 	@RequestMapping(value = "invalidCaseApprove")
