@@ -319,8 +319,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	 * @des:交易顾问派单 流程关闭
 	 */
 	@Override
-	public void loanerProcessDelete(String caseCode, String taskId,
-			String processInstanceId) {
+	public void loanerProcessDelete(String caseCode, String taskId,	String processInstanceId) {
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		if ((null == caseCode || "".equals(caseCode))
 				|| (null == taskId || "".equals(taskId))
