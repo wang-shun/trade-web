@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <queryConfig  debug="false">
 	<description></description>
+	<!--  
 	<import resource="query/mortgage/toMortgageList4Par.xml" />
 	<import resource="query/mortgage/toMortgageDetail4Par.xml" />
 	<import resource="query/mortgage/toMortProcess4Par.xml" />
 	<import resource="query/mortgage/toTradeProcess4Par.xml" />
+	-->
 	<import resource="query/case/toCaseListQuery.xml" />
 	
 	<!-- E贷款 -->

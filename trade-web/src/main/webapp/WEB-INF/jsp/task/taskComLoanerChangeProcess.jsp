@@ -253,7 +253,11 @@
 														 </c:if>
 														 <c:if test="${toMortgage.isLoanerArrive=='0'}">
 															 <label class="radio inline"> <input type="radio" value="1"  name="isLoanerArrive">是</label>
-															 <label class="radio inline"> <input type="radio" value="0" checked="checked" name="isLoanerArrive" checked="checked">否</label>
+															 <label class="radio inline"> <input type="radio" value="0" checked="checked" name="isLoanerArrive">否</label>
+														 </c:if>
+														 <c:if test="${toMortgage.isLoanerArrive==null}">
+															 <label class="radio inline"> <input type="radio" value="1"  name="isLoanerArrive">是</label>
+															 <label class="radio inline"> <input type="radio" value="0"  name="isLoanerArrive" >否</label>
 														 </c:if>
 
 		                                             </div>
