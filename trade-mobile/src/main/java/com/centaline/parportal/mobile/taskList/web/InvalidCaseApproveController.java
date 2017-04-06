@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ import com.centaline.trans.task.vo.ProcessInstanceVO;
 @Controller
 @RequestMapping(value = "/task/invalidCaseApprove")
 public class InvalidCaseApproveController {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(InvalidCaseApproveController.class);
 
 	@Autowired
 	private InvalidCaseApproveService invalidCaseApproveService;
@@ -66,9 +70,16 @@ public class InvalidCaseApproveController {
 			ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String InvalidCaseApprove,
 			String InvalidCaseApprove_response) {
-		Boolean result = invalidCaseApproveService.invalidCaseApprove(processInstanceVO,
-				loanlostApproveVO, InvalidCaseApprove,
-				InvalidCaseApprove_response);
+	
+		Boolean result = true;
+		try {
+			result = invalidCaseApproveService.invalidCaseApprove(processInstanceVO, loanlostApproveVO,
+					InvalidCaseApprove, InvalidCaseApprove_response);
+		}catch (Exception e) {
+			result = false;
+			LOGGER.error("操作失败",e);
+		}
+
 		JSONObject json = new JSONObject();
 		json.put("isSuccess", result);
 		String msg = result ? "操作成功!" : "操作失败!";
