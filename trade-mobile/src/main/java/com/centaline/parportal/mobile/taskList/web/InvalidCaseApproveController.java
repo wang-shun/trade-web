@@ -62,13 +62,18 @@ public class InvalidCaseApproveController {
 
 	@RequestMapping(value = "invalidCaseApprove")
 	@ResponseBody
-	public Boolean invalidCaseApprove(HttpServletRequest request,
+	public JSONObject invalidCaseApprove(HttpServletRequest request,
 			ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String InvalidCaseApprove,
 			String InvalidCaseApprove_response) {
-		return invalidCaseApproveService.invalidCaseApprove(processInstanceVO,
+		Boolean result = invalidCaseApproveService.invalidCaseApprove(processInstanceVO,
 				loanlostApproveVO, InvalidCaseApprove,
 				InvalidCaseApprove_response);
+		JSONObject json = new JSONObject();
+		json.put("isSuccess", result);
+		String msg = result ? "操作成功!" : "操作失败!";
+		json.put("msg", msg);
+		return json;
 	}
 
 }
