@@ -92,7 +92,7 @@ public class TradeCaseController {
     
 	@RequestMapping(value = "list")
 	@ResponseBody
-	public String list(@RequestParam(required = true) Integer page,
+	public JSONObject list(@RequestParam(required = true) Integer page,
 			@RequestParam(required = true) Integer pageSize, Integer property, Integer status, Boolean onlyFocus,
 			Boolean onlyLoanLostAlert, String q_text) {
 		SessionUser user = sessionService.getSessionUser();
@@ -127,9 +127,8 @@ public class TradeCaseController {
 		List<Map<String, Object>> list = pages.getContent();
 		buildZhongjieInfo(list);
 
-		JSON json = Pages2JSONMoblie.pages2JsonMoblie(pages);
-		String resultStr = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue);
-		return resultStr;
+		JSONObject json = Pages2JSONMoblie.pages2JsonMoblie(pages);
+		return json;
 	}
 	
 	private void buildDataAuthorityParam(Map<String, Object> paramMap,SessionUser user){
@@ -192,7 +191,7 @@ public class TradeCaseController {
 
 	@RequestMapping(value = "{caseCode}")
 	@ResponseBody
-	public String getCaseInfo(@PathVariable("caseCode") String caseCode) {
+	public JSONObject getCaseInfo(@PathVariable("caseCode") String caseCode) {
 		JSONObject result = new JSONObject();
 		SessionUser user = sessionService.getSessionUser();
 
@@ -202,7 +201,7 @@ public class TradeCaseController {
 		
 		buildEplusInfo(result,caseCode,user);
 		buildJianguanInfo(result,caseCode,user);
-		return result.toJSONString();
+		return result;
 	}
 	
 	private void buildEplusInfo(JSONObject result, String caseCode, SessionUser user) {
@@ -380,7 +379,7 @@ public class TradeCaseController {
 	
 	@RequestMapping(value = "{caseCode}/process")
 	@ResponseBody
-	public String process(@PathVariable("caseCode") String caseCode ) {
+	public JSONArray process(@PathVariable("caseCode") String caseCode ) {
 		SessionUser user = sessionService.getSessionUser();
 		JQGridParam gp = new JQGridParam();
 		gp.setQueryId("getProcessListMobile");
@@ -391,13 +390,13 @@ public class TradeCaseController {
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
 		JSONArray ja = (JSONArray) JSONArray.toJSON(list);
-		return ja.toJSONString();
+		return ja;
 	}
 	
 	
 	@RequestMapping(value = "{caseCode}/focus")
 	@ResponseBody
-	public String focus( @PathVariable("caseCode") String caseCode,
+	public JSONObject focus( @PathVariable("caseCode") String caseCode,
 			@RequestParam(required = true)Boolean action){
 		SessionUser user = sessionService.getSessionUser();
 		ToModuleSubscribeVo vo = new ToModuleSubscribeVo();
@@ -409,12 +408,12 @@ public class TradeCaseController {
         toModuleSubscribeService.saveOrDeleteCaseSubscribe(vo);
         JSONObject jo = new JSONObject();
         jo.put("success", true);
-        return jo.toJSONString();
+        return jo;
 	}
 	
 	@RequestMapping(value = "{caseCode}/loanLostAlert")
 	@ResponseBody
-	public String loanLostAlert(@PathVariable("caseCode")String caseCode,
+	public JSONObject loanLostAlert(@PathVariable("caseCode")String caseCode,
 			@RequestParam(required = true)Boolean action,@RequestParam(required = true)String reason){
 		BizWarnInfo bizWarnInfo = new BizWarnInfo();
 		
@@ -450,7 +449,7 @@ public class TradeCaseController {
 		}
         JSONObject jo = new JSONObject();
         jo.put("success", true);
-        return jo.toJSONString();
+        return jo;
 	}
 	
 	

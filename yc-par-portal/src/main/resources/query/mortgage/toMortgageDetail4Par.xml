@@ -43,7 +43,8 @@
 		</searchCondition>
 		<searchSql>
 			<baseSql>
-				<![CDATA[  	
+				<![CDATA[  
+					
 			   SELECT
 			   				M.PKID,
 						    CAST(M.PKID as varchar)	AS bizCode,
@@ -75,13 +76,6 @@
 						    SCTRANS.T_TO_CASE AS TCASE
 						ON
 						    M.CASE_CODE = TCASE.CASE_CODE
-						AND m.PKID = #bizCode#
-						AND (
-						        m.MORT_TYPE = '30016001'
-						    OR  m.MORT_TYPE = '30016002')
-						AND m.IS_DELEGATE_YUCUI = 1
-						AND m.IS_ACTIVE = 1
-						AND m.LOANER_ID = #userId#
 						LEFT JOIN
 						    SCTRANS.T_TO_PROPERTY_INFO AS PRI
 						ON
@@ -89,7 +83,9 @@
 						LEFT JOIN
 						    SCTRANS.T_TG_GUEST_INFO AS TCUST
 						ON
-						    M.CUST_CODE = TCUST.PKID 
+						    M.CUST_CODE = TCUST.PKID
+						where
+						    m.PKID = #bizCode# 
 				]]>
 			</baseSql>
 			<groupSql>

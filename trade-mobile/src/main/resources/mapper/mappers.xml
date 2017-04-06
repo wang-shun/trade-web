@@ -14,12 +14,4 @@
 	</plugins>
  
 
-	<mappers>
-
-		<!-- login -->
-	<!-- 	<mapper resource="mapper/login/TAppEquipmentBindingDetailMapper.xml" />
-		<mapper resource="mapper/login/TSmMobileTokenMapper.xml" />
-		 -->
-		<mapper resource="mapper/common/ToModuleSubscribe.xml"/>
-	</mappers>
 </configuration>

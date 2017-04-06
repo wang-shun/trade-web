@@ -46,23 +46,23 @@
 					SELECT 
 							t.ID_ AS taskId,
 							t.PROC_INST_ID_ AS procInstanceId,
-							m.loan_agent as consultantID,
-							m.cust_name as custName,
-							ISNULL(m.STATE_IN_BANK,'') AS statusCode,
-							m.MORT_TOTAL_AMOUNT as loanAmount,
-							CAST(m.COM_YEAR as varchar)+'年' as loanTime,
-							m.SIGN_DATE as applyTime,
+							ISNULL(m.loan_agent,'') as consultantID,
+							ISNULL(m.cust_name,'') as custName,
+							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = m.STATE_IN_BANK AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS statusCode,
+							ISNULL(m.MORT_TOTAL_AMOUNT,0.00) as loanAmount,
+							CAST(ISNULL(m.COM_YEAR,0) as varchar)+'年' as loanTime,
+							ISNULL(CONVERT(varchar(100), m.SIGN_DATE, 23),'') as applyTime,
 							'MORT' as prdType,
 							m.case_code as caseCode,
 							CAST(m.PKID as varchar)	as bizCode,
-							p.PROPERTY_ADDR 	as addr,
-							uoj.employee_code 	as avartaUrl,
-							uoj.real_name 		as consultantName
+							ISNULL(p.PROPERTY_ADDR,'') 	as addr,
+							ISNULL(uoj.employee_code,'') 	as avartaUrl,
+							ISNULL(uoj.real_name,'') 		as consultantName
 				FROM sctrans.ACT_RU_TASK t
 				INNER JOIN sctrans.T_TO_WORKFLOW w ON t.PROC_INST_ID_  = w.INST_CODE
 				INNER JOIN sctrans.T_TO_MORTGAGE m ON m.CASE_CODE = w.CASE_CODE
 				INNER JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = w.CASE_CODE AND m.LOANER_ID = #userid# AND	m.is_active = '1'
-				INNER JOIN sctrans.V_USER_ORG_JOB uoj ON m.loan_agent = uoj.user_id AND uoj.ismain = 1 AND uoj.JOB_CODE = 'consultant'
+				INNER JOIN sctrans.V_USER_ORG_JOB uoj ON m.LOANER_ID = uoj.user_id AND uoj.ismain = 1
 				WHERE t.ASSIGNEE_ = (SELECT USERNAME FROM sctrans.SYS_USER WHERE ID = #userid#) AND t.SUSPENSION_STATE_ = '1'
 				AND EXISTS (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE = m.CASE_CODE and c.LOAN_REQ=1)
 				<ifNotNull q_text>
@@ -80,21 +80,20 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="taskId" index="" />
-				<column type="both" name="procInstanceId" index="" />
-				<column type="both" name="avartaUrl" index="" />
-				<column type="both" name="consultantName" index="" />
-				<column type="both" name="consultantID" index="" />
-				<column type="both" name="custName" index="" />
-				<column type="both" name="loanAmount" index="" />
-				<column type="both" name="loanTime" index="" />
-				<column type="both" name="addr" index="" />
-				<column type="both" name="applyTime" index=""  beanFormatter="dateFormatter" expFmt="yyyy/MM/dd" expType="date" />
-				<column type="both" name="prdType" index="" />
-				<column type="both" name="caseCode" index="" />
-				<column type="both" name="bizCode" index="" />
-				<column type="both" name="statusCode" display="mortInfo_statusCode"  />
-				<column type="virtual" name="status"  referencecol="statusCode" customDict="qqcdMortServName" />
+				<column  name="taskId" title="任务id" index=""  default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="procInstanceId" title="流程实例id" index=""  default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="avartaUrl"   title="交易顾问头像地址"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="consultantID"   title="交易顾问id"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="consultantName"   title="交易顾问名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="custName"   title="客户名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="statusCode"   title="E+案件状态"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="loanAmount"   title="贷款金额"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="loanTime"   title="贷款期数"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="addr"   title="产证地址"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="applyTime"   title="申请时间"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="prdType"   title="产品类型"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="caseCode"   title="案件编号"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="bizCode"   title="E+金融编号"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

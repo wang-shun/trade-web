@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,8 @@ import com.centaline.trans.task.vo.ProcessInstanceVO;
 @RequestMapping(value = "/task/invalidCaseApprove")
 public class InvalidCaseApproveController {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(InvalidCaseApproveController.class);
+
 	@Autowired
 	private InvalidCaseApproveService invalidCaseApproveService;
 	
@@ -35,7 +39,7 @@ public class InvalidCaseApproveController {
 	
 	@RequestMapping(value = "process")
 	@ResponseBody
-	public String toProcess(HttpServletRequest request,
+	public  JSONObject toProcess(HttpServletRequest request,
 			HttpServletResponse response, String caseCode, String source) {
 		
 		JQGridParam gp = new JQGridParam();
@@ -57,18 +61,30 @@ public class InvalidCaseApproveController {
 		SessionUser user = uamSessionService.getSessionUser();
 		json.put("approveType", "0");
 		json.put("operator", user != null ? user.getId() : "");
-        return json.toJSONString();
+        return json;
 	}
 
 	@RequestMapping(value = "invalidCaseApprove")
 	@ResponseBody
-	public Boolean invalidCaseApprove(HttpServletRequest request,
+	public JSONObject invalidCaseApprove(HttpServletRequest request,
 			ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String InvalidCaseApprove,
 			String InvalidCaseApprove_response) {
-		return invalidCaseApproveService.invalidCaseApprove(processInstanceVO,
-				loanlostApproveVO, InvalidCaseApprove,
-				InvalidCaseApprove_response);
+	
+		Boolean result = true;
+		try {
+			result = invalidCaseApproveService.invalidCaseApprove(processInstanceVO, loanlostApproveVO,
+					InvalidCaseApprove, InvalidCaseApprove_response);
+		}catch (Exception e) {
+			result = false;
+			LOGGER.error("操作失败",e);
+		}
+
+		JSONObject json = new JSONObject();
+		json.put("isSuccess", result);
+		String msg = result ? "操作成功!" : "操作失败!";
+		json.put("msg", msg);
+		return json;
 	}
 
 }

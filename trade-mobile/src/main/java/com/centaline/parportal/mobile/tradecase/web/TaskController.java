@@ -35,7 +35,7 @@ public class TaskController {
 	
 	@RequestMapping(value = "list")
 	@ResponseBody
-	public String list(@RequestParam(required = true) Integer page, 
+	public JSONObject list(@RequestParam(required = true) Integer page, 
 			@RequestParam(required = true) Integer pageSize,
 			String q_text,@RequestParam(required = true)Boolean pastTask,
 			@RequestParam(required = true)Boolean todayTask,
@@ -67,7 +67,7 @@ public class TaskController {
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		buildZhongjieInfo(pages.getContent());
 		
-		return Pages2JSONMoblie.pages2JsonMoblie(pages).toJSONString();
+		return Pages2JSONMoblie.pages2JsonMoblie(pages);
 	}
 	
 	private void buildZhongjieInfo(List<Map<String, Object>> list) {
