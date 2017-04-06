@@ -71,8 +71,8 @@
                                 ECHART_D3_.totalComMortAmount= accAdd(ECHART_D3_.totalComMortAmount,item.MORTGAGET_COM_AMOUNT);
                                 for(var i=0;i<ECHART_D3_.districtID.length;i++){
                                     if(item.DISTRICT_ID == ECHART_D3_.districtID[i]){
-                                        ECHART_D3_.mort_total[i]=item.MORTGAGET_COM_AMOUNT/10000;
-                                        ECHART_D3_.mort_loss[i]=item.LOST_AMOUNT/10000;
+                                        ECHART_D3_.mort_total[i]=(item.MORTGAGET_COM_AMOUNT/10000).toFixed(0);
+                                        ECHART_D3_.mort_loss[i]=(item.LOST_AMOUNT/10000).toFixed(0);
                                         if(item.MORTGAGET_COM_AMOUNT!=0){
                                             ECHART_D3_.lossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_COM_AMOUNT);
                                             ECHART_D3_.oldLossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT);
@@ -116,9 +116,10 @@
                         ];
                         returnBar(ECHART_D3_.xAxisData,yAxis,ECHART_D3_.legend,datas,type,null,myChart1,"各贵宾中心商贷比较");
                         var unit='';
-
-                        ECHART_D3_.pie_items.push(accDiv(accSub(ECHART_D3_.totalLossAmount,ECHART_D3_.totalComMortAmount),10000));
-                        ECHART_D3_.pie_items.push(accDiv(ECHART_D3_.totalLossAmount,10000));
+                        var pie1=accDiv(accSub(ECHART_D3_.totalLossAmount,ECHART_D3_.totalComMortAmount),10000);
+                        var pie2=accDiv(ECHART_D3_.totalLossAmount,10000);
+                        ECHART_D3_.pie_items.push(Number(pie1).toFixed(0));
+                        ECHART_D3_.pie_items.push(Number(pie2).toFixed(0));
                         var color=null;
                         var data = [ "收单", "流失" ];
                         returnPie(data, ECHART_D3_.pie_items, myChart2, color,"商贷总金额",unit);
