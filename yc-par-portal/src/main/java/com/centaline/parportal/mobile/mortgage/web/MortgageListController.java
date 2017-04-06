@@ -63,7 +63,7 @@ public class MortgageListController {
 		Map<String, Object> paramter = new HashMap<String, Object>();
 
 		SessionUser sessionUser = MobileHolder.getMobileUser();
-		paramter.put("userid", sessionUser.getId());
+		paramter.put("userid", "8a8493d45921d36901593e4adc95007b");
 
 		if (q_text != null && !"".equals(q_text)) {
 			String formatCondtion = q_text.trim();
