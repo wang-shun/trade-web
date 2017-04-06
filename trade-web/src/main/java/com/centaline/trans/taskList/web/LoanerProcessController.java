@@ -148,9 +148,9 @@ public class LoanerProcessController{
 	 * */
 	@RequestMapping(value = "loanerProcessDelete")
 	@ResponseBody
-	public AjaxResponse<String> loanerProcessDelete(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskitem, String processInstanceId) {
+	public AjaxResponse<String> loanerProcessDelete(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskId, String processInstanceId) {
 		try{
-			loanerProcessService.loanerProcessDelete(caseCode,taskitem,processInstanceId);
+			loanerProcessService.loanerProcessDelete(caseCode,taskId,processInstanceId);
 			return AjaxResponse.success("交易顾问派单流程成功结束");
 		}catch(BusinessException e){
 			logger.error(e.getMessage(),e);

@@ -1164,7 +1164,7 @@ function saveSrvItemsForManager(){
 		var resSrvCheck1 = $("input[name='srvCode'][value="+resSrvs[0]+"]").prop('checked');
 		var resSrvCheck2 = $("input[name='srvCode'][value="+resSrvs[1]+"]").prop('checked');
 		if(resSrvCheck1 && resSrvCheck2) {
-			window.wxc.alert("商贷/组合贷和纯公积金贷只允许存在一种！");
+			window.wxc.alert("商贷和纯公积金贷只允许存在一种！");
 			return;
 		}
 

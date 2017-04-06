@@ -34,7 +34,7 @@ public interface LoanerProcessService {
      * @param caseCode
      * @return
      */
-	void loanerProcessDelete(String caseCode, String taskitem,String processInstanceId);
+	void loanerProcessDelete(String caseCode, String taskId,String processInstanceId);
 
     /**
      * 交易顾问派单 信贷员信息提交

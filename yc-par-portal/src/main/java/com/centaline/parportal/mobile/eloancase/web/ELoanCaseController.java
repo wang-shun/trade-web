@@ -162,12 +162,15 @@ public class ELoanCaseController {
 		gp.setSord(sord);
 		Map<String, Object> paramter = new HashMap<String, Object>();
 
-		SessionUser sessionUser = MobileHolder.getMobileUser();
+		SessionUser sessionUser = uamSessionService.getSessionUser();
 		paramter.put("loanerId", sessionUser.getId());
 
-		if (condition != null && !"".equals(condition)) {
+		if (condition != null) {
 			String formatCondtion = condition.trim();
-			paramter.put("condition", formatCondtion);
+
+			if (!"".equals(formatCondtion)) {
+				paramter.put("condition", formatCondtion);
+			}
 		}
 
 		gp.putAll(paramter);

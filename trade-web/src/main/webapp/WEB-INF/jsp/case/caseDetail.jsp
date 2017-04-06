@@ -555,9 +555,9 @@
 																</shiro:hasPermission>
 
 																<shiro:hasPermission name="TRADE.CASE.DETAIL.SERVE.CHANGE">
-																	<div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_0" type="checkbox" value="30004010" name="srvCode" class="" validate=""></span></div>交易过户</div>
+																	<!-- <div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_0" type="checkbox" value="30004010" name="srvCode" class="" validate=""></span></div>交易过户</div> -->
 																	<div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_3" type="checkbox" value="30004001" name="srvCode" class="" validate=""></span></div>商业贷款</div>
-																	<div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_3" type="checkbox" value="30004002" name="srvCode" class="" validate=""></span></div>公积金贷款</div>
+																	<div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_0" type="checkbox" value="30004002" name="srvCode" class="" validate=""></span></div>纯公积金贷款</div>
 																</shiro:hasPermission>
 															</div>
 														</div>

@@ -99,31 +99,31 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Autowired
 	private ToCaseCommentService toCaseCommentService;
 
-    @Override
-    public ToMortgage saveToMortgage(ToMortgage toMortgage) {
-        //有记录  update、反之 insert
-        if (toMortgage.getPkid() != null) {
-            toMortgageMapper.update(toMortgage);
-        } else {
-            toMortgageMapper.insertSelective(toMortgage);
-        }
-        //formCommLoan 是否商贷
-        if ("1".equals(toMortgage.getFormCommLoan())
-            && StringUtils.isNotBlank(toMortgage.getLastLoanBank())) {
-            //   重新设定最终贷款银行（商贷）
-            toMortgageMapper.restSetLastLoanBank(toMortgage);
-        }
+	@Override
+	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
+		// 有记录 update、反之 insert
+		if (toMortgage.getPkid() != null) {
+			toMortgageMapper.update(toMortgage);
+		} else {
+			toMortgageMapper.insertSelective(toMortgage);
+		}
+		// formCommLoan 是否商贷
+		if ("1".equals(toMortgage.getFormCommLoan())
+				&& StringUtils.isNotBlank(toMortgage.getLastLoanBank())) {
+			// 重新设定最终贷款银行（商贷）
+			toMortgageMapper.restSetLastLoanBank(toMortgage);
+		}
 
-        if (null != toMortgage.getCustCode()) {
-            TgGuestInfo guest = tgGuestInfoService
-                .selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
-            if (guest != null) {
-                guest.setWorkUnit(toMortgage.getCustCompany());
-                guest.setGuestName(toMortgage.getCustName());
-                tgGuestInfoService.updateByPrimaryKeySelective(guest);
-            }
-        }
-        return toMortgage;
+		if (null != toMortgage.getCustCode()) {
+			TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long
+					.parseLong(toMortgage.getCustCode()));
+			if (guest != null) {
+				guest.setWorkUnit(toMortgage.getCustCompany());
+				guest.setGuestName(toMortgage.getCustName());
+				tgGuestInfoService.updateByPrimaryKeySelective(guest);
+			}
+		}
+		return toMortgage;
 	}
 
 	@Override
@@ -133,19 +133,20 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		condition.setCaseCode(toMortgage.getCaseCode());
 		condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
 		condition.setIsDelegateYucui("1");
-		List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
+		List<ToMortgage> list = toMortgageMapper
+				.findToMortgageByCondition(condition);
 		if (list != null && !list.isEmpty()) {
 			mortgage = list.get(0);
 		}
 		if (mortgage != null) {
 			toMortgage.setPkid(mortgage.getPkid());
 			toMortgageMapper.update(toMortgage);
-			writeBackBizCode(mortgage.getCaseCode(),mortgage.getPkid());
+			writeBackBizCode(mortgage.getCaseCode(), mortgage.getPkid());
 		} else {
 			toMortgage.setIsDelegateYucui("1");
 			toMortgageMapper.insertSelective(toMortgage);
-            //toMortgage.getPkid() 返回插入当前数据的主键
-            writeBackBizCode(toMortgage.getCaseCode(),toMortgage.getPkid());   
+			// toMortgage.getPkid() 返回插入当前数据的主键
+			writeBackBizCode(toMortgage.getCaseCode(), toMortgage.getPkid());
 
 		}
 		if ("1".equals(toMortgage.getFormCommLoan())
@@ -431,7 +432,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	}
 
 	@Override
-	public AjaxResponse<String> startTmpBankWorkFlow(String caseCode,String loanerInstCode) {
+	public AjaxResponse<String> startTmpBankWorkFlow(String caseCode,
+			String loanerInstCode) {
 
 		User manager = null, seniorManager = null, director = null;
 		AjaxResponse<String> response = new AjaxResponse<String>();
@@ -736,9 +738,9 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 			toApproveRecordService.insertToApproveRecord(toApproveRecord);
 		}
-		 return AjaxResponse.success();
-    }
-    
+		return AjaxResponse.success();
+	}
+
 	@Override
 	public ToMortgage getMortgageByCaseCode(String caseCode) {
 		return toMortgageMapper.getMortgageByCaseCode(caseCode);
@@ -800,29 +802,36 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		throw new BusinessException("按揭贷款编号为空");
 
 	}
-    /*
-     *@author: zhuody
-     *@date : 2017-03-30
-     *@des: 三级银行审批 总监审批完之后 发送分单信贷员流程消息和设置流程变量 
-     * 
-     */
-	private void setLoanerProcessVariable(String loanerInstCode,boolean approveFlag) {
+
+	/*
+	 * @author: zhuody
+	 * 
+	 * @date : 2017-03-30
+	 * 
+	 * @des: 三级银行审批 总监审批完之后 发送分单信贷员流程消息和设置流程变量
+	 */
+	private void setLoanerProcessVariable(String loanerInstCode,
+			boolean approveFlag) {
 		// 银行分级审批通过标志判断发送消息类别
 		try {
 			if (approveFlag == false) {
 				RestVariable restVariableFalse = new RestVariable();
 				restVariableFalse.setType("boolean");
 				restVariableFalse.setValue(false);
-				workFlowManager.setVariableByProcessInsId(loanerInstCode,"bankLevelApprove", restVariableFalse);
-				messageService.sendBankLevelApproveMsg(loanerInstCode,approveFlag);
+				workFlowManager.setVariableByProcessInsId(loanerInstCode,
+						"bankLevelApprove", restVariableFalse);
+				messageService.sendBankLevelApproveMsg(loanerInstCode,
+						approveFlag);
 			} else {
 
 				RestVariable restVariableTrue = new RestVariable();
 				restVariableTrue.setType("boolean");
 				restVariableTrue.setValue(true);
 				// 设置流程变量
-				workFlowManager.setVariableByProcessInsId(loanerInstCode,"bankLevelApprove", restVariableTrue);
-				messageService.sendBankLevelApproveMsg(loanerInstCode,approveFlag);
+				workFlowManager.setVariableByProcessInsId(loanerInstCode,
+						"bankLevelApprove", restVariableTrue);
+				messageService.sendBankLevelApproveMsg(loanerInstCode,
+						approveFlag);
 
 			}
 		} catch (BusinessException e) {
@@ -936,41 +945,48 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		toCaseComment.setSrvCode(srvCode);
 		toCaseComment.setComment(comment);
 		toCaseComment.setCreateTime(new Date());
-		toCaseComment.setCreateBy(user.getId());
-		toCaseComment.setCreatorOrgId(user.getServiceDepId());
+
+		if (user != null) {
+			toCaseComment.setCreateBy(user.getId());
+			toCaseComment.setCreatorOrgId(user.getServiceDepId());
+		}
 
 		return toCaseComment;
 	}
-    
-    /*
-     *@author: zhuody
-     *@date  : 2017-04-05
-     *@des	 : 派单结束之后，回写pkid到T_TO_WORKFLOW表的biz_code 
-     * 
-     */
-    
-    private void writeBackBizCode(String caseCode,long pkid) {
-    	
-    	if((null == caseCode || "".equals(caseCode)) || pkid < 0){
-    		throw new BusinessException("回写bizCode参数异常！");
-    	}    	
-    	try{    
-                    
-            ToWorkFlow toWorkFlowForSelect = new ToWorkFlow();
-            toWorkFlowForSelect.setCaseCode(caseCode);
-            toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
-            ToWorkFlow workFlow = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
-            
-            if(null != workFlow){
-                ToWorkFlow workFlowForUpdate = new ToWorkFlow();
-                workFlowForUpdate.setPkid(workFlow.getPkid());
-                workFlowForUpdate.setBizCode(String.valueOf(pkid));                
-                toWorkFlowService.updateByPrimaryKeySelective(workFlowForUpdate);
-            }
-   
-    	}catch(BusinessException e){
-    		 throw new BusinessException("回写bizCode数据异常！");
-    	}	
-    }
+
+	/*
+	 * @author: zhuody
+	 * 
+	 * @date : 2017-04-05
+	 * 
+	 * @des : 派单结束之后，回写pkid到T_TO_WORKFLOW表的biz_code
+	 */
+
+	private void writeBackBizCode(String caseCode, long pkid) {
+
+		if ((null == caseCode || "".equals(caseCode)) || pkid < 0) {
+			throw new BusinessException("回写bizCode参数异常！");
+		}
+		try {
+
+			ToWorkFlow toWorkFlowForSelect = new ToWorkFlow();
+			toWorkFlowForSelect.setCaseCode(caseCode);
+			toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS
+					.getName());
+			ToWorkFlow workFlow = toWorkFlowService
+					.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
+
+			if (null != workFlow) {
+				ToWorkFlow workFlowForUpdate = new ToWorkFlow();
+				workFlowForUpdate.setPkid(workFlow.getPkid());
+				workFlowForUpdate.setBizCode(String.valueOf(pkid));
+				toWorkFlowService
+						.updateByPrimaryKeySelective(workFlowForUpdate);
+			}
+
+		} catch (BusinessException e) {
+			throw new BusinessException("回写bizCode数据异常！");
+		}
+	}
 
 }
