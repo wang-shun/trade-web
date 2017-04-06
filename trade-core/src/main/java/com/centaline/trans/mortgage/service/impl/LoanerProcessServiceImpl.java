@@ -148,8 +148,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			map.put("loanerId", loanerUserId);
 			// ToMortgage toMortgageInfo =
 			// toMortgageMapper.findToMortgageByCaseCodeAndLoanerId(map);
-			ToMortgage toMortgageInfo = toMortgageMapper
-					.findToMortgageByCaseCodeAndDisTime(caseCode);
+			ToMortgage toMortgageInfo = toMortgageMapper.findToMortgageByCaseCodeAndDisTime(caseCode);
 			String bizCode = "";
 
 			// 添加贷款表中的 信贷员、派单员等信息
@@ -178,8 +177,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			workFlow.setCaseCode(caseCode);
 			workFlow.setBizCode(bizCode);
 			workFlow.setInstCode(vo.getId());
-			workFlow.setProcessDefinitionId(propertyUtilsService
-					.getProcessLoanerDfKey());
+			workFlow.setProcessDefinitionId(propertyUtilsService.getProcessLoanerDfKey());
 			workFlow.setProcessOwner(user.getId());
 			workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 			toWorkFlowService.insertSelective(workFlow);

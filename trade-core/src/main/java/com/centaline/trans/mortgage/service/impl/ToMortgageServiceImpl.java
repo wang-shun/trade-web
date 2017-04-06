@@ -810,30 +810,16 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	 * 
 	 * @des: 三级银行审批 总监审批完之后 发送分单信贷员流程消息和设置流程变量
 	 */
-	private void setLoanerProcessVariable(String loanerInstCode,
-			boolean approveFlag) {
+	private void setLoanerProcessVariable(String loanerInstCode,boolean approveFlag) {
+		
+		RestVariable restVariable = new RestVariable();
+		restVariable.setType("boolean");
 		// 银行分级审批通过标志判断发送消息类别
 		try {
-			if (approveFlag == false) {
-				RestVariable restVariableFalse = new RestVariable();
-				restVariableFalse.setType("boolean");
-				restVariableFalse.setValue(false);
-				workFlowManager.setVariableByProcessInsId(loanerInstCode,
-						"bankLevelApprove", restVariableFalse);
-				messageService.sendBankLevelApproveMsg(loanerInstCode,
-						approveFlag);
-			} else {
-
-				RestVariable restVariableTrue = new RestVariable();
-				restVariableTrue.setType("boolean");
-				restVariableTrue.setValue(true);
-				// 设置流程变量
-				workFlowManager.setVariableByProcessInsId(loanerInstCode,
-						"bankLevelApprove", restVariableTrue);
-				messageService.sendBankLevelApproveMsg(loanerInstCode,
-						approveFlag);
-
-			}
+			if (approveFlag == false) {	 restVariable.setValue(false); } else {	 restVariable.setValue(true); }
+			// 设置流程变量
+			workFlowManager.setVariableByProcessInsId(loanerInstCode,"bankLevelApprove", restVariable);
+			messageService.sendBankLevelApproveMsg(loanerInstCode,approveFlag);
 		} catch (BusinessException e) {
 			throw new BusinessException("银行分级审批消息发送异常！");
 		}
@@ -971,17 +957,14 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 			ToWorkFlow toWorkFlowForSelect = new ToWorkFlow();
 			toWorkFlowForSelect.setCaseCode(caseCode);
-			toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS
-					.getName());
-			ToWorkFlow workFlow = toWorkFlowService
-					.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
+			toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
+			ToWorkFlow workFlow = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
 
 			if (null != workFlow) {
 				ToWorkFlow workFlowForUpdate = new ToWorkFlow();
 				workFlowForUpdate.setPkid(workFlow.getPkid());
 				workFlowForUpdate.setBizCode(String.valueOf(pkid));
-				toWorkFlowService
-						.updateByPrimaryKeySelective(workFlowForUpdate);
+				toWorkFlowService.updateByPrimaryKeySelective(workFlowForUpdate);
 			}
 
 		} catch (BusinessException e) {
