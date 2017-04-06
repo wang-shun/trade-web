@@ -98,7 +98,7 @@ public class ContentWarpAop {
                 returnObj.put("empId", user.getId());
                 returnObj.put("msg", "处理成功");
                 returnObj.put("isSuccess", true);
-                return returnObj.toJSONString();
+                return returnObj;
             }
             return returnValue;
         } catch (Throwable e) {

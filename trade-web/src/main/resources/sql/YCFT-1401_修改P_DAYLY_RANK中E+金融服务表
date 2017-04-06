@@ -1,0 +1,191 @@
+GO
+/****** Object:  StoredProcedure [sctrans].[P_DAYLY_RANK]    Script Date: 2017/4/6 11:17:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [sctrans].[P_DAYLY_RANK]
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	--删除当生成的数据
+delete from sctrans.T_TS_DAYLY_RANK where DATEDIFF(DAY, rank_day, GETDATE())=0
+-- 申请个人统计(月)
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value,RANK_DURATION)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,
+'loan_amount','consultant',GETDATE()
+,rank() over(order by sum(la.APPLY_AMOUNT) desc) ,sum(la.APPLY_AMOUNT),'MONTH'
+from sctrans.T_TO_ELOAN_CASE as la right join
+	 sctrans.sys_user as u on la.EXCUTOR_ID = u.id and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj on uoj.USER_ID=u.ID
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_org as so on so.id=uoj.org_id
+	 where sj.JOB_CODE='consultant' and u.AVAILABLE='1' and u.is_deleted='0'
+		   and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+-- 申请个人统计(周)
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value,RANK_DURATION)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'loan_amount','consultant',GETDATE()
+,rank() over(order by sum(la.APPLY_AMOUNT) desc) ,sum(la.APPLY_AMOUNT),'WEEK'
+from sctrans.T_TO_ELOAN_CASE as la right join
+	 sctrans.sys_user as u on la.EXCUTOR_ID = u.id and DATEDIFF(WW, la.APPLY_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj on uoj.USER_ID=u.ID
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_org as so on so.id=uoj.org_id
+	 where sj.JOB_CODE='consultant' and u.AVAILABLE='1' and u.is_deleted='0'
+		   and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+--申请组统计(月)
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value,RANK_DURATION)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'loan_amount','Manager',GETDATE()
+,rank() over(order by sum(la.APPLY_AMOUNT) desc) ,sum(la.APPLY_AMOUNT),'MONTH'
+from sctrans.T_TO_ELOAN_CASE as la right join
+	 sctrans.sys_org as so on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 where sj.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
+	 and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+--申请组统计(周)
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value,RANK_DURATION)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'loan_amount','Manager',GETDATE()
+,rank() over(order by sum(la.APPLY_AMOUNT) desc) ,sum(la.APPLY_AMOUNT),'WEEK'
+from sctrans.T_TO_ELOAN_CASE as la right join
+	 sctrans.sys_org as so on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 where sj.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
+	 and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+--申请区统计
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'loan_amount','director',GETDATE()
+,rank() over(order by sum(la.APPLY_AMOUNT) desc) ,sum(la.APPLY_AMOUNT)
+from sctrans.T_TO_ELOAN_CASE as la right join
+	 sctrans.sys_org as sos on (la.EXCUTOR_TEAM = sos.id ) and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
+	 right join  sctrans.sys_org as so on (so.id=sos.parent_id or so.id=sos.id)
+	 left join sctrans.SYS_USER_ORG_JOB  as uoj on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 where sj.JOB_CODE='director' and u.AVAILABLE=1 and u.is_deleted=0
+	 and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+  -- 签约个人统计
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'sign_amount','consultant',GETDATE()
+,rank() over(order by sum(la.sign_amount) desc) ,sum(la.sign_amount)
+from sctrans.T_TO_ELOAN_CASE as la right join
+	 sctrans.sys_user as u on la.EXCUTOR_ID = u.id and DATEDIFF(MM, la.SIGN_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj on uoj.USER_ID=u.ID
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_org as so on so.id=uoj.org_id
+	 where sj.JOB_CODE='consultant' and u.AVAILABLE='1' and u.is_deleted='0'
+	 and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+--签约组统计
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'sign_amount','Manager',GETDATE()
+,rank() over(order by sum(la.sign_amount) desc) ,sum(la.sign_amount)
+from sctrans.T_TO_ELOAN_CASE as la right join
+	 sctrans.sys_org as so on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, la.SIGN_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 where sj.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
+	 and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+--签约区统计
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'sign_amount','director',GETDATE()
+,rank() over(order by sum(la.sign_amount) desc) ,sum(la.sign_amount)
+from sctrans.T_TO_ELOAN_CASE as la right join
+	 sctrans.sys_org as sos on la.EXCUTOR_TEAM = sos.id and DATEDIFF(MM, la.SIGN_TIME, GETDATE())=0
+	 right join  sctrans.sys_org as so on (so.id=sos.parent_id or so.id=sos.id)
+	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 where sj.JOB_CODE='director' and u.AVAILABLE=1 and u.is_deleted=0
+	 and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+  -- 放款个人统计
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'actual_amount','consultant',GETDATE()
+,rank() over(order by sum(fang.RELEASE_AMOUNT) desc) ,sum(fang.RELEASE_AMOUNT)
+from sctrans.T_TO_ELOAN_CASE as la
+	 left join sctrans.T_TO_ELOAN_REL as fang on la.ELOAN_CODE=fang.ELOAN_CODE and fang.CONFIRM_STATUS=1
+	 right join sctrans.sys_user as u on la.EXCUTOR_ID = u.id and DATEDIFF(MM, fang.RELEASE_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj on uoj.USER_ID=u.ID
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_org as so on so.id=uoj.org_id
+	 where sj.JOB_CODE='consultant' and u.AVAILABLE='1' and u.is_deleted='0'
+	 and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+--放款组统计
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'actual_amount','Manager',GETDATE()
+,rank() over(order by sum(fang.RELEASE_AMOUNT) desc) ,sum(fang.RELEASE_AMOUNT)
+from sctrans.T_TO_ELOAN_CASE as la
+	 left join sctrans.T_TO_ELOAN_REL as fang on la.ELOAN_CODE=fang.ELOAN_CODE and fang.CONFIRM_STATUS=1
+	 right join sctrans.sys_org as so on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, fang.RELEASE_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 where sj.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
+	 and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+
+--放款区统计
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'actual_amount','director',GETDATE()
+,rank() over(order by sum(fang.RELEASE_AMOUNT) desc) ,sum(fang.RELEASE_AMOUNT)
+from sctrans.T_TO_ELOAN_CASE as la
+	 left join sctrans.T_TO_ELOAN_REL as fang on la.ELOAN_CODE=fang.ELOAN_CODE and fang.CONFIRM_STATUS=1
+	 right join sctrans.sys_org as sos on la.EXCUTOR_TEAM = sos.id and DATEDIFF(MM, fang.RELEASE_TIME, GETDATE())=0
+	 right join  sctrans.sys_org as so on (so.id=sos.parent_id or so.id=sos.id)
+	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 where sj.JOB_CODE='director' and u.AVAILABLE=1 and u.is_deleted=0
+	 and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+
+--转化率排名组(月)
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value,RANK_DURATION)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'loan_rate','Manager',GETDATE()
+,rank() over(order by CAST((sum(la.APPLY_AMOUNT)/SUM(tsi.con_price)*100) as decimal(38, 2)) desc) ,CAST((sum(la.APPLY_AMOUNT)/SUM(tsi.con_price)*100) as decimal(38, 2)),'MONTH'
+from sctrans.T_TO_ELOAN_CASE as la
+left join sctrans.t_to_sign as tsi
+	 on la.CASE_CODE=tsi.CASE_CODE right join
+	 sctrans.sys_org as so on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 where sj.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
+	 and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+
+--转化率排名组(周)
+insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value,RANK_DURATION)
+select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'loan_rate','Manager',GETDATE()
+,rank() over(order by CAST((sum(la.APPLY_AMOUNT)/SUM(tsi.con_price)*100) as decimal(38, 2)) desc) ,CAST((sum(la.APPLY_AMOUNT)/SUM(tsi.con_price)*100) as decimal(38, 2)),'WEEK'
+from sctrans.T_TO_ELOAN_CASE as la
+left join sctrans.t_to_sign as tsi
+	 on la.CASE_CODE=tsi.CASE_CODE right join
+	 sctrans.sys_org as so on la.EXCUTOR_TEAM = so.id and DATEDIFF(WW, la.APPLY_TIME, GETDATE())=0
+	left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 where sj.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
+	 and la.CASE_CODE is not null and la.CASE_CODE <>''
+group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
+END
+
