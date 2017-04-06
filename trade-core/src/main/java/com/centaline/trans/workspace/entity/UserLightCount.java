@@ -1,6 +1,12 @@
 package com.centaline.trans.workspace.entity;
 
-public class UserLightCount {
+import java.io.Serializable;
+
+public class UserLightCount implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8351231790748127178L;
 	private String eCode;
 	private String realName;
 	private Integer count;

@@ -464,12 +464,12 @@
 						SELECT 
 							(SELECT o1.ID FROM sctrans.SYS_ORG o1 WHERE o1.ID = (SELECT PARENT_ID FROM sctrans.SYS_ORG o2 WHERE o2.ID = o.ID)) AS districtID,
 							(SELECT o1.ORG_NAME FROM sctrans.SYS_ORG o1 WHERE o1.ID = (SELECT PARENT_ID FROM sctrans.SYS_ORG o2 WHERE o2.ID = o.ID)) AS districtName,
-							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_REAL_PLS_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS cxgCount,
-							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_PRICING_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS hjCount,
-							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_TAX_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS ssCount,
-							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID and convert(varchar(7),c.MORT_SIGN_DATE,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
-							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.TRANSFER_REAL_HT_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
-							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_LEADING_PROCESS_ID_B = u.ID AND convert(varchar(7),c.CASE_REAL_PROPERTY_GET_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS lzCount
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_PLIMIT_USER_ID = u.ID AND convert(varchar(7),c.CASE_REAL_PLS_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS cxgCount,
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_PRICING_USER_ID = u.ID AND convert(varchar(7),c.CASE_PRICING_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS hjCount,
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_TAX_USER_ID = u.ID AND convert(varchar(7),c.CASE_TAX_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS ssCount,
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_PSF_USER_ID = u.ID and convert(varchar(7),c.MORT_SIGN_DATE,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS gjjCount,
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_TRANSFER_USER_ID = u.ID AND convert(varchar(7),c.TRANSFER_REAL_HT_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS ghCount,
+							(SELECT COUNT(*) FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO c WHERE c.CASE_GETBOOK_USER_ID = u.ID AND convert(varchar(7),c.CASE_REAL_PROPERTY_GET_TIME,120) = #searchDateTime# and c.BELONG_MONTH = #searchBelongMonth#) AS lzCount
 						FROM sctrans.SYS_USER u 
 						LEFT JOIN sctrans.SYS_ORG o ON u.ORG_ID = o.ID
 						WHERE u.ORG_ID IN (
