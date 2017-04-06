@@ -60,12 +60,31 @@
     from sctrans.T_TO_ELOAN_CASE
     where ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectBackByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_ELOAN_CASE
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
+  <select id="selectBackKaCountByTime" parameterType="java.lang.Integer" resultType="int">
+    select
+    count(1)
+    from sctrans.T_TO_ELOAN_CASE c
+    left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR s on c.EXCUTOR_TEAM = s.ORG_ID
+    where c.STATUS != 'ABAN' and c.LOAN_SRV_CODE IN ('30004005','30004015') 
+    and cast(convert(varchar(8) , c.CREATE_TIME, 112 ) as int) between #{endWeekDay}/100*100+1 and #{endWeekDay}
+    and s.SRV_CODE = '3000401002'
+  </select>
+  <select id="selectBackAppCountByTime" parameterType="java.lang.Integer" resultType="int">
+    select
+    count(1)
+    from sctrans.T_TO_ELOAN_CASE c
+    left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR s on c.EXCUTOR_TEAM = s.ORG_ID
+    where c.STATUS != 'ABAN' and c.LOAN_SRV_CODE NOT IN ('30004005','30004015') 
+    and cast(convert(varchar(8) , c.CREATE_TIME, 112 ) as int) between #{endWeekDay}/100*100+1 and #{endWeekDay}
+    and s.SRV_CODE = '3000401002'
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_ELOAN_CASE
     where PKID = #{pkid,jdbcType=BIGINT}

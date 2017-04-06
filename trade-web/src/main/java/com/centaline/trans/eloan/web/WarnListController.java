@@ -982,6 +982,40 @@ public class WarnListController {
 
 		return "eloan/eloanRiskCtlList";
 	}
+	
+	@RequestMapping("queryKaCount")
+	@ResponseBody
+	public AjaxResponse<Integer> queryKaCount(int endWeekDay) {
+		AjaxResponse<Integer> result = new AjaxResponse<>();
+		try {
+			int count = toEloanCaseService.selectBackKaCountByTime(endWeekDay);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+			result.setContent(count);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
+	} 
+	
+	@RequestMapping("queryAppCount")
+	@ResponseBody
+	public AjaxResponse<Integer> queryAppCount(int endWeekDay) {
+		AjaxResponse<Integer> result = new AjaxResponse<>();
+		try {
+			int count = toEloanCaseService.selectBackAppCountByTime(endWeekDay);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+			result.setContent(count);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
 
 	private boolean getApproveRecordForItem(ToApproveRecord toApproveRecord, HttpServletRequest request) {
 		boolean flag = false;

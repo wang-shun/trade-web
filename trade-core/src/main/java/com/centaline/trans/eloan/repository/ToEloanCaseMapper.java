@@ -15,6 +15,10 @@ public interface ToEloanCaseMapper {
     ToEloanCase selectByPrimaryKey(Long pkid);
     
     ToEloanCase selectByEloanCode(String eloanCode);
+    
+    int selectBackKaCountByTime(Integer endWeekDay);
+    
+    int selectBackAppCountByTime(Integer endWeekDay);
 
     int updateByPrimaryKeySelective(ToEloanCase record);
 
