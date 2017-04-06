@@ -410,5 +410,12 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 		return toCaseComment;
 	}
+	
+	public int selectBackKaCountByTime(int endWeekDay){
+		return toEloanCaseMapper.selectBackKaCountByTime(endWeekDay);
+	}
 
+	public int selectBackAppCountByTime(int endWeekDay){
+		return toEloanCaseMapper.selectBackAppCountByTime(endWeekDay);
+	}
 }

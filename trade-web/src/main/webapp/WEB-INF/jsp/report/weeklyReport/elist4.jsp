@@ -81,6 +81,7 @@ th, td {
 				   </div>
 				</div>
 			</div>
+			<div style="height: 34px;line-height: 34px;"><i class="icon iconfont icon40 yellow martop20" style="font-size: 30px;float: left;"></i>本月后台E+贷款申请量:<span id="notHaveOwnerVal"></span></div>
 		</div>
 	</div>
 	<!--*********************** HTML_main*********************** -->
@@ -171,6 +172,25 @@ th, td {
 				trStr += "<td>"+tb12+"</td>";
 				$("#eloanList").append(trStr);
 			}
+			
+			//查询后台贷款申请总量
+			$.ajax({
+				url : ctx+"/eloan/queryAppCount",
+				method : "post",
+				dataType : "json",
+				data : {endWeekDay : parseInt(endWeekDay)},
+				success : function(data) {
+					if(!data || !data.success){
+	                    window.parent.wxc.alert("数据加载失败！");
+						return;			
+					}
+					
+					$("#notHaveOwnerVal").text(data.content);
+				},
+				error : function(e, jqxhr, settings, exception) {
+					//$.unblockUI();
+				}
+			});
 		}
 	</script>
 </body>

@@ -61,4 +61,24 @@ public interface ToEloanCaseService {
 	 * @return 返回true,操作成功;返回false,操作失败。
 	 */
 	public boolean followUp(ELoanVo eLoanVo);
+	
+	/**
+	 * selectBackKaCountByTime:(根据时间查询后台卡类申请总量). <br/> 
+	 * 
+	 * @author gongjd 
+	 * @param endWeekDay
+	 * @return 
+	 * @since JDK 1.8
+	 */
+	int selectBackKaCountByTime(int endWeekDay);
+	
+	/**
+	 * selectBackKaCountByTime:(根据时间查询后台贷款类申请总量). <br/> 
+	 * 
+	 * @author gongjd 
+	 * @param endWeekDay
+	 * @return 
+	 * @since JDK 1.8
+	 */
+	int selectBackAppCountByTime(int endWeekDay);
 }
