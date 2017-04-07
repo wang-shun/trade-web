@@ -77,22 +77,8 @@ public class ContentWarpAop {
                     return returnValue;
                 }
                 
-                Object obj = null;
-
-                if(returnValue instanceof String){
-                	obj = JSONObject.parse(returnValue.toString());
-                }else{
-                	obj = returnValue;
-                }
-                
                 JSONObject returnObj = new JSONObject();
-                if (obj instanceof JSONObject) {
-                    JSONObject jsonObj = (JSONObject) obj;
-                    returnObj.put("content", jsonObj);
-                } else {
-                    JSONArray jsonObj = (JSONArray) obj;
-                    returnObj.put("content", jsonObj);
-                }
+                returnObj.put("content",returnValue);
                 String newToken = getToken();
                 returnObj.put("token", newToken);
                 returnObj.put("empId", user.getId());

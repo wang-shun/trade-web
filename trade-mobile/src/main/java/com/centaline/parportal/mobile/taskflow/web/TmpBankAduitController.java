@@ -114,7 +114,7 @@ public class TmpBankAduitController {
 	
 	@RequestMapping("audit")
 	@ResponseBody
-	public AjaxResponse<?> toTmpBankAduitProcess(ToMortgage mortage,String prAddress,
+	public Object toTmpBankAduitProcess(ToMortgage mortage,String prAddress,
 			String tmpBankName,String tmpBankCheck,String taskId,String bankCode,String temBankRejectReason,
 			String processInstanceId,String caseCode,String post) {
 		AjaxResponse<?> response = new AjaxResponse<>();
