@@ -57,7 +57,7 @@ public class MortgageController {
 	 */
 	@RequestMapping(value = "track/accept")
 	@ResponseBody
-	public boolean accept(String bizCode, String isPass, String taskId,
+	public String accept(String bizCode, String isPass, String taskId,
 			String procInstanceId, String stateInBank, String caseCode,
 			String comment) {
 		// 获取当前用户信息
@@ -84,7 +84,7 @@ public class MortgageController {
 			e.printStackTrace();
 		}
 
-		return result;
+		return String.valueOf(result);
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class MortgageController {
 	 */
 	@RequestMapping(value = "track/followUp")
 	@ResponseBody
-	public boolean followUp(String bizCode, String isPass, String taskId,
+	public String followUp(String bizCode, String isPass, String taskId,
 			String procInstanceId, String stateInBank, String caseCode,
 			String comment) {
 
@@ -135,7 +135,7 @@ public class MortgageController {
 			e.printStackTrace();
 		}
 
-		return result;
+		return String.valueOf(result);
 	}
 
 	@RequestMapping(value = "/{bizCode}")
