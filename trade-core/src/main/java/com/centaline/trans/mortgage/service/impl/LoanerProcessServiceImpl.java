@@ -276,15 +276,13 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 				ToWorkFlow workFlow = new ToWorkFlow();
 				workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
 				workFlow.setCaseCode(caseCode);
-				ToWorkFlow record = toWorkFlowService
-						.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
+				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
 				if (record != null) {
 					record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 					toWorkFlowService.updateByPrimaryKeySelective(record);
 				}
 
-				ToMortgage toMortgage = toMortgageMapper
-						.findToMortgageByCaseCodeAndDisTime(caseCode);
+				ToMortgage toMortgage = toMortgageMapper.findToMortgageByCaseCodeAndDisTime(caseCode);
 				if (null != toMortgage) {
 					ToMortgage toMortgageForUpdate = new ToMortgage();
 					toMortgageForUpdate.setPkid(toMortgage.getPkid());
@@ -300,8 +298,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 				variables.add(new RestVariable("bankBusinessApprove", false));
 			}
 			// 提交流程
-			workFlowManager.submitTask(variables, taskId, processInstanceId,
-					null, caseCode);
+			workFlowManager.submitTask(variables, taskId, processInstanceId,null, caseCode);
 			bankAccetpFlag = true;
 		} catch (BusinessException e) {
 

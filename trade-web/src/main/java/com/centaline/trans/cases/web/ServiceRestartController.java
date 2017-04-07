@@ -40,8 +40,7 @@ public class ServiceRestartController {
 	 */
 	@RequestMapping(value = "/restart")
 	@ResponseBody
-	public AjaxResponse<StartProcessInstanceVo> restart(Model model,
-			ServiceRestartVo vo) {
+	public AjaxResponse<StartProcessInstanceVo> restart(Model model,ServiceRestartVo vo) {
 		
 		AjaxResponse<StartProcessInstanceVo> resp = new AjaxResponse<>();
 		SessionUser u = uamSessionService.getSessionUser();

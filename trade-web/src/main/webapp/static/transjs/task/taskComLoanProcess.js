@@ -1247,11 +1247,24 @@ function checkReportAtt(){
 	}
 	return flag;
 }
+
+
 var stepIndex = 0;
 
-$(document).ready(function () {
+$(document).ready(function (){		
+	  $("#processStart").val("");//页面初始化的时候清空
+	  //判断 信贷员流程  修改信息时不需要提交流程
+	  var processFlag = getUrlParams('comFlag');				
+	  if(processFlag == "processButtonHidden"){			
+			 $("#toLoanerCase").hide();
+			 $("#toLoanerCaseTemp").hide();
+			 $("#processStart").val("processIsStart");
+	  }else{			 
+			 $("#toLoanerCaseTemp").show();
+			 $("#toLoanerCase").show();
+	  }
 	/*$("#bank_branch_id").change(subBankChange);*/
-	$(".tmpBankReasonDiv").hide();
+	 $(".tmpBankReasonDiv").hide();
 	 $("input[name=optionsRadios]").each(function(){
 		 $(this).click(function(){
 				$("input[type='text']").each(function(){
@@ -1351,6 +1364,7 @@ $(document).ready(function () {
  			}
 
  		}else if(currentIndex == 2){
+ 			
  			var flag = false;
  			if(checkMortgageForm($("#mortgageForm"))){
 	 			saveMortgage($("#mortgageForm"));
@@ -1405,7 +1419,7 @@ $(document).ready(function () {
  			getReportList("table_list_4","pager_list_4",1);
  		}else if(currentIndex == 5 && priorIndex == 4){
  			//离开报告步骤执行临时银行审批流程
- 			startTmpBankWorkFlow();
+ 			//startTmpBankWorkFlow();
  			getCompleteMortInfo(1);
  		}
  	},
@@ -1445,7 +1459,7 @@ transitionEffect: "slide",
 			$("#eva_code").val(accPricing['EVA_CODE']);
 			}*/
 
-		}else if(currentIndex == 2 ){
+		}else if(currentIndex == 2 ){			
 			var flag = false;
 			if(checkMortgageForm($("#mortgageForm1"))){
  			saveMortgage($("#mortgageForm1"));
@@ -1781,6 +1795,12 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
     		window.wxc.success(data.message);
     	}
  	});
+}
+
+function getUrlParams(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
 }
 
 
