@@ -91,7 +91,9 @@ public class ELoanCaseController {
 			e.printStackTrace();
 		}
 
-		return String.valueOf(result);
+		String str = JSONObject.toJSONString(result);
+
+		return str;
 	}
 
 	/**
@@ -146,7 +148,9 @@ public class ELoanCaseController {
 			e.printStackTrace();
 		}
 
-		return String.valueOf(result);
+		String str = JSONObject.toJSONString(result);
+
+		return str;
 	}
 
 	@RequestMapping(value = "/list")

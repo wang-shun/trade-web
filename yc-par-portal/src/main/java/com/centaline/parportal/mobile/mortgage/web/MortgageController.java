@@ -84,7 +84,9 @@ public class MortgageController {
 			e.printStackTrace();
 		}
 
-		return String.valueOf(result);
+		String str = JSONObject.toJSONString(result);
+
+		return str;
 	}
 
 	/**
@@ -135,7 +137,9 @@ public class MortgageController {
 			e.printStackTrace();
 		}
 
-		return String.valueOf(result);
+		String str = JSONObject.toJSONString(result);
+
+		return str;
 	}
 
 	@RequestMapping(value = "/{bizCode}")
