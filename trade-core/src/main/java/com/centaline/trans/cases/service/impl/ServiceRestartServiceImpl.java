@@ -111,8 +111,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 		wf.setCaseCode(vo.getCaseCode());
-		ToWorkFlow sameOne = toWorkFlowService
-				.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+		ToWorkFlow sameOne = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 		if (sameOne != null) {
 			throw new BusinessException("当前重启流程尚未结束！");
 		}
@@ -124,23 +123,16 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		 * vo.getUserName(),vo.getCaseCode());
 		 */
 		Map<String, Object> vars = new HashMap<>();
-		User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(
-				vo.getOrgId(), "Manager");
+		User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(vo.getOrgId(), "Manager");
 
 		// 根据案件所在组找主管
-		String managerName = toCaseService.getManagerByCaseOwner(vo
-				.getCaseCode());
+		String managerName = toCaseService.getManagerByCaseOwner(vo.getCaseCode());
 
 		vars.put("consultant", vo.getUserName());
 		vars.put("Manager", managerName);
 		// vars.put("Manager", manager.getUsername());
-		StartProcessInstanceVo spv = processInstanceService
-				.startWorkFlowByDfId(
-						propertyUtilsService
-								.getProcessDfId(WorkFlowEnum.SERVICE_RESTART
-										.getCode()), vo.getCaseCode(), vars);
-		List<TaskVo> tasks = taskService.listTasks(spv.getId(), false,
-				vo.getUserName()).getData();
+		StartProcessInstanceVo spv = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode(), vars);
+		List<TaskVo> tasks = taskService.listTasks(spv.getId(), false,vo.getUserName()).getData();
 		if (tasks != null && !tasks.isEmpty()) {
 			spv.setActiveTaskId(tasks.get(0).getId() + "");
 		}
@@ -148,8 +140,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		wf.setCaseCode(vo.getCaseCode());
 		wf.setBizCode(vo.getCaseCode());
 		wf.setProcessOwner(vo.getUserId());
-		wf.setProcessDefinitionId(propertyUtilsService
-				.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()));
+		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()));
 		wf.setInstCode(spv.getId());
 		toWorkFlowService.insertSelective(wf);
 		return spv;

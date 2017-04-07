@@ -80,7 +80,15 @@ $(document).ready(function() {
 				}
 			});
 			$("#sel_changeFrom").change(function(){
-					$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
+				
+					if($("#sel_changeFrom").val() == "ComLoanProcess"){
+						
+						$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val()+'?comFlag=processButtonHidden');							
+						
+					}else{
+						$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
+					}
+					
 			});
 			
 			$("#sel_changeFrom").change();
@@ -91,7 +99,7 @@ $(document).ready(function() {
 				if($("#sel_changeFrom").val()==null||$("#sel_changeFrom").val()==''){
 					window.wxc.alert('请选择要修改的项目！');
 					return false;
-				}
+				}	
 			});
 			$("#mortageService").change(function(){
 				mortageService();
