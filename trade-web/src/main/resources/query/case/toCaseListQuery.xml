@@ -130,7 +130,7 @@
 						    EXISTS (SELECT 1 FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p where p.CASE_CODE = A.CASE_CODE and p.PROCESSOR_ID = #proName#))
 					</ifNotNull>
 					<ifNotNull agentOrgName>
-						AND  EXISTS(SELECT 1 FROM sctrans.V_USER_ORG_JOB uoj where uoj.user_id = A.AGENT_CODE  AND uoj.org_id = #agentOrgName# )
+						AND  EXISTS(SELECT 1 FROM sctrans.V_USER_ORG_JOB uoj where uoj.user_id = B.AGENT_CODE  AND uoj.org_id = #agentOrgName# )
 					</ifNotNull>
 					<ifNotNull srvCode1>
 						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode1#)

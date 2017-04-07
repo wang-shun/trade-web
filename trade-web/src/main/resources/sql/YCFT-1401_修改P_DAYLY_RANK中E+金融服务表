@@ -22,11 +22,11 @@ insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,bel
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,
 'loan_amount','consultant',GETDATE()
 ,rank() over(order by sum(la.APPLY_AMOUNT) desc) ,sum(la.APPLY_AMOUNT),'MONTH'
-from sctrans.T_TO_ELOAN_CASE as la right join
-	 sctrans.sys_user as u on la.EXCUTOR_ID = u.id and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
-	 left join sctrans.sys_user_org_job as uoj on uoj.USER_ID=u.ID
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_org as so on so.id=uoj.org_id
+from sctrans.T_TO_ELOAN_CASE as la with(nolock) right join
+	 sctrans.sys_user as u with(nolock) on la.EXCUTOR_ID = u.id and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj with(nolock) on uoj.USER_ID=u.ID
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_org as so with(nolock) on so.id=uoj.org_id
 	 where sj.JOB_CODE='consultant' and u.AVAILABLE='1' and u.is_deleted='0'
 		   and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
@@ -34,11 +34,11 @@ group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
 insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value,RANK_DURATION)
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'loan_amount','consultant',GETDATE()
 ,rank() over(order by sum(la.APPLY_AMOUNT) desc) ,sum(la.APPLY_AMOUNT),'WEEK'
-from sctrans.T_TO_ELOAN_CASE as la right join
-	 sctrans.sys_user as u on la.EXCUTOR_ID = u.id and DATEDIFF(WW, la.APPLY_TIME, GETDATE())=0
-	 left join sctrans.sys_user_org_job as uoj on uoj.USER_ID=u.ID
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_org as so on so.id=uoj.org_id
+from sctrans.T_TO_ELOAN_CASE as la with(nolock)  right join
+	 sctrans.sys_user as u with(nolock) on la.EXCUTOR_ID = u.id and DATEDIFF(WW, la.APPLY_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj with(nolock) on uoj.USER_ID=u.ID
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_org as so with(nolock) on so.id=uoj.org_id
 	 where sj.JOB_CODE='consultant' and u.AVAILABLE='1' and u.is_deleted='0'
 		   and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
@@ -46,11 +46,11 @@ group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
 insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value,RANK_DURATION)
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'loan_amount','Manager',GETDATE()
 ,rank() over(order by sum(la.APPLY_AMOUNT) desc) ,sum(la.APPLY_AMOUNT),'MONTH'
-from sctrans.T_TO_ELOAN_CASE as la right join
-	 sctrans.sys_org as so on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
-	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_user as u on u.id=uoj.user_id
+from sctrans.T_TO_ELOAN_CASE as la with(nolock) right join
+	 sctrans.sys_org as so with(nolock) on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj with(nolock) on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 	 where sj.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
 	 and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
@@ -58,11 +58,11 @@ group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
 insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value,RANK_DURATION)
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'loan_amount','Manager',GETDATE()
 ,rank() over(order by sum(la.APPLY_AMOUNT) desc) ,sum(la.APPLY_AMOUNT),'WEEK'
-from sctrans.T_TO_ELOAN_CASE as la right join
-	 sctrans.sys_org as so on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
-	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_user as u on u.id=uoj.user_id
+from sctrans.T_TO_ELOAN_CASE as la with(nolock) right join
+	 sctrans.sys_org as so with(nolock) on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj with(nolock) on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 	 where sj.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
 	 and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
@@ -70,12 +70,12 @@ group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
 insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'loan_amount','director',GETDATE()
 ,rank() over(order by sum(la.APPLY_AMOUNT) desc) ,sum(la.APPLY_AMOUNT)
-from sctrans.T_TO_ELOAN_CASE as la right join
-	 sctrans.sys_org as sos on (la.EXCUTOR_TEAM = sos.id ) and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
-	 right join  sctrans.sys_org as so on (so.id=sos.parent_id or so.id=sos.id)
-	 left join sctrans.SYS_USER_ORG_JOB  as uoj on so.id=uoj.org_id
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_user as u on u.id=uoj.user_id
+from sctrans.T_TO_ELOAN_CASE as la with(nolock) right join
+	 sctrans.sys_org as sos with(nolock) on (la.EXCUTOR_TEAM = sos.id ) and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
+	 right join  sctrans.sys_org as so with(nolock) on (so.id=sos.parent_id or so.id=sos.id)
+	 left join sctrans.SYS_USER_ORG_JOB  as uoj with(nolock) on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 	 where sj.JOB_CODE='director' and u.AVAILABLE=1 and u.is_deleted=0
 	 and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
@@ -83,11 +83,11 @@ group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
 insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'sign_amount','consultant',GETDATE()
 ,rank() over(order by sum(la.sign_amount) desc) ,sum(la.sign_amount)
-from sctrans.T_TO_ELOAN_CASE as la right join
-	 sctrans.sys_user as u on la.EXCUTOR_ID = u.id and DATEDIFF(MM, la.SIGN_TIME, GETDATE())=0
-	 left join sctrans.sys_user_org_job as uoj on uoj.USER_ID=u.ID
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_org as so on so.id=uoj.org_id
+from sctrans.T_TO_ELOAN_CASE as la with(nolock) right join
+	 sctrans.sys_user as u with(nolock) on la.EXCUTOR_ID = u.id and DATEDIFF(MM, la.SIGN_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj with(nolock) on uoj.USER_ID=u.ID
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_org as so with(nolock) on so.id=uoj.org_id
 	 where sj.JOB_CODE='consultant' and u.AVAILABLE='1' and u.is_deleted='0'
 	 and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
@@ -95,11 +95,11 @@ group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
 insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'sign_amount','Manager',GETDATE()
 ,rank() over(order by sum(la.sign_amount) desc) ,sum(la.sign_amount)
-from sctrans.T_TO_ELOAN_CASE as la right join
+from sctrans.T_TO_ELOAN_CASE as la with(nolock) right join
 	 sctrans.sys_org as so on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, la.SIGN_TIME, GETDATE())=0
-	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 left join sctrans.sys_user_org_job as uoj with(nolock) on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 	 where sj.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
 	 and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
@@ -107,12 +107,12 @@ group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
 insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'sign_amount','director',GETDATE()
 ,rank() over(order by sum(la.sign_amount) desc) ,sum(la.sign_amount)
-from sctrans.T_TO_ELOAN_CASE as la right join
-	 sctrans.sys_org as sos on la.EXCUTOR_TEAM = sos.id and DATEDIFF(MM, la.SIGN_TIME, GETDATE())=0
-	 right join  sctrans.sys_org as so on (so.id=sos.parent_id or so.id=sos.id)
-	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_user as u on u.id=uoj.user_id
+from sctrans.T_TO_ELOAN_CASE as la with(nolock) right join
+	 sctrans.sys_org as sos with(nolock) on la.EXCUTOR_TEAM = sos.id and DATEDIFF(MM, la.SIGN_TIME, GETDATE())=0
+	 right join  sctrans.sys_org as so with(nolock) on (so.id=sos.parent_id or so.id=sos.id)
+	 left join sctrans.sys_user_org_job as uoj with(nolock) on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 	 where sj.JOB_CODE='director' and u.AVAILABLE=1 and u.is_deleted=0
 	 and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
@@ -120,12 +120,12 @@ group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
 insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'actual_amount','consultant',GETDATE()
 ,rank() over(order by sum(fang.RELEASE_AMOUNT) desc) ,sum(fang.RELEASE_AMOUNT)
-from sctrans.T_TO_ELOAN_CASE as la
-	 left join sctrans.T_TO_ELOAN_REL as fang on la.ELOAN_CODE=fang.ELOAN_CODE and fang.CONFIRM_STATUS=1
-	 right join sctrans.sys_user as u on la.EXCUTOR_ID = u.id and DATEDIFF(MM, fang.RELEASE_TIME, GETDATE())=0
-	 left join sctrans.sys_user_org_job as uoj on uoj.USER_ID=u.ID
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_org as so on so.id=uoj.org_id
+from sctrans.T_TO_ELOAN_CASE as la with(nolock)
+	 left join sctrans.T_TO_ELOAN_REL as fang with(nolock) on la.ELOAN_CODE=fang.ELOAN_CODE and fang.CONFIRM_STATUS=1
+	 right join sctrans.sys_user as u with(nolock) on la.EXCUTOR_ID = u.id and DATEDIFF(MM, fang.RELEASE_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj with(nolock) on uoj.USER_ID=u.ID
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_org as so with(nolock) on so.id=uoj.org_id
 	 where sj.JOB_CODE='consultant' and u.AVAILABLE='1' and u.is_deleted='0'
 	 and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
@@ -133,12 +133,12 @@ group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
 insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'actual_amount','Manager',GETDATE()
 ,rank() over(order by sum(fang.RELEASE_AMOUNT) desc) ,sum(fang.RELEASE_AMOUNT)
-from sctrans.T_TO_ELOAN_CASE as la
-	 left join sctrans.T_TO_ELOAN_REL as fang on la.ELOAN_CODE=fang.ELOAN_CODE and fang.CONFIRM_STATUS=1
-	 right join sctrans.sys_org as so on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, fang.RELEASE_TIME, GETDATE())=0
-	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_user as u on u.id=uoj.user_id
+from sctrans.T_TO_ELOAN_CASE as la with(nolock)
+	 left join sctrans.T_TO_ELOAN_REL as fang with(nolock) on la.ELOAN_CODE=fang.ELOAN_CODE and fang.CONFIRM_STATUS=1
+	 right join sctrans.sys_org as so with(nolock) on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, fang.RELEASE_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj with(nolock) on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 	 where sj.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
 	 and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
@@ -147,13 +147,13 @@ group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
 insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value)
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'actual_amount','director',GETDATE()
 ,rank() over(order by sum(fang.RELEASE_AMOUNT) desc) ,sum(fang.RELEASE_AMOUNT)
-from sctrans.T_TO_ELOAN_CASE as la
-	 left join sctrans.T_TO_ELOAN_REL as fang on la.ELOAN_CODE=fang.ELOAN_CODE and fang.CONFIRM_STATUS=1
-	 right join sctrans.sys_org as sos on la.EXCUTOR_TEAM = sos.id and DATEDIFF(MM, fang.RELEASE_TIME, GETDATE())=0
-	 right join  sctrans.sys_org as so on (so.id=sos.parent_id or so.id=sos.id)
-	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_user as u on u.id=uoj.user_id
+from sctrans.T_TO_ELOAN_CASE as la with(nolock)
+	 left join sctrans.T_TO_ELOAN_REL as fang with(nolock) on la.ELOAN_CODE=fang.ELOAN_CODE and fang.CONFIRM_STATUS=1
+	 right join sctrans.sys_org as sos with(nolock) on la.EXCUTOR_TEAM = sos.id and DATEDIFF(MM, fang.RELEASE_TIME, GETDATE())=0
+	 right join  sctrans.sys_org as so with(nolock) on (so.id=sos.parent_id or so.id=sos.id)
+	 left join sctrans.sys_user_org_job as uoj with(nolock) on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 	 where sj.JOB_CODE='director' and u.AVAILABLE=1 and u.is_deleted=0
 	 and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
@@ -162,13 +162,13 @@ group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
 insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value,RANK_DURATION)
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'loan_rate','Manager',GETDATE()
 ,rank() over(order by CAST((sum(la.APPLY_AMOUNT)/SUM(tsi.con_price)*100) as decimal(38, 2)) desc) ,CAST((sum(la.APPLY_AMOUNT)/SUM(tsi.con_price)*100) as decimal(38, 2)),'MONTH'
-from sctrans.T_TO_ELOAN_CASE as la
-left join sctrans.t_to_sign as tsi
+from sctrans.T_TO_ELOAN_CASE as la with(nolock)
+left join sctrans.t_to_sign as tsi with(nolock)
 	 on la.CASE_CODE=tsi.CASE_CODE right join
-	 sctrans.sys_org as so on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
-	 left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 sctrans.sys_org as so with(nolock) on la.EXCUTOR_TEAM = so.id and DATEDIFF(MM, la.APPLY_TIME, GETDATE())=0
+	 left join sctrans.sys_user_org_job as uoj with(nolock) on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 	 where sj.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
 	 and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
@@ -177,13 +177,13 @@ group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;
 insert into sctrans.T_TS_DAYLY_RANK(rank_id,real_name,emp_code,belong_org_id,belong_org_name,rank_cat,rank_type,rank_day,rank_no,rank_value,RANK_DURATION)
 select u.id,u.real_name as userName,u.EMPLOYEE_CODE as employee_code,so.ID as orgId,so.ORG_NAME as orgName ,'loan_rate','Manager',GETDATE()
 ,rank() over(order by CAST((sum(la.APPLY_AMOUNT)/SUM(tsi.con_price)*100) as decimal(38, 2)) desc) ,CAST((sum(la.APPLY_AMOUNT)/SUM(tsi.con_price)*100) as decimal(38, 2)),'WEEK'
-from sctrans.T_TO_ELOAN_CASE as la
-left join sctrans.t_to_sign as tsi
+from sctrans.T_TO_ELOAN_CASE as la with(nolock)
+left join sctrans.t_to_sign as tsi with(nolock)
 	 on la.CASE_CODE=tsi.CASE_CODE right join
-	 sctrans.sys_org as so on la.EXCUTOR_TEAM = so.id and DATEDIFF(WW, la.APPLY_TIME, GETDATE())=0
-	left join sctrans.sys_user_org_job as uoj on so.id=uoj.org_id
-	 left join sctrans.sys_job as sj on sj.id=uoj.job_id
-	 left join sctrans.sys_user as u on u.id=uoj.user_id
+	 sctrans.sys_org as so with(nolock) on la.EXCUTOR_TEAM = so.id and DATEDIFF(WW, la.APPLY_TIME, GETDATE())=0
+	left join sctrans.sys_user_org_job as uoj with(nolock) on so.id=uoj.org_id
+	 left join sctrans.sys_job as sj with(nolock) on sj.id=uoj.job_id
+	 left join sctrans.sys_user as u with(nolock) on u.id=uoj.user_id
 	 where sj.JOB_CODE='Manager' and u.AVAILABLE=1 and u.is_deleted=0
 	 and la.CASE_CODE is not null and la.CASE_CODE <>''
 group by u.id,u.real_name,u.EMPLOYEE_CODE,so.ORG_NAME,so.ID;

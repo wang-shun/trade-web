@@ -499,7 +499,6 @@
 				},
 				success : function(data) {
 					window.wxc.success(data.message);
-					debugger;
 					var bohui = $("#processInstanceId").val();
 					if (bohui != null && bohui != '') {
 						window.close();

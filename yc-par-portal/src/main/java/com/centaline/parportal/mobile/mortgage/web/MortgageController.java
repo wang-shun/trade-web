@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
+import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.vo.MobileHolder;
@@ -33,6 +34,9 @@ public class MortgageController {
 
 	@Autowired
 	private ToMortgageService toMortgageService;
+
+	@Autowired
+	private UamSessionService uamSessionService;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -57,11 +61,11 @@ public class MortgageController {
 	 */
 	@RequestMapping(value = "track/accept")
 	@ResponseBody
-	public boolean accept(String bizCode, String isPass, String taskId,
+	public String accept(String bizCode, String isPass, String taskId,
 			String procInstanceId, String stateInBank, String caseCode,
 			String comment) {
 		// 获取当前用户信息
-		SessionUser sessionUser = MobileHolder.getMobileUser();
+		SessionUser sessionUser = uamSessionService.getSessionUser();
 
 		// 设置前台传的参数信息
 		MortgageVo mortgageVo = new MortgageVo();
@@ -74,17 +78,13 @@ public class MortgageController {
 		mortgageVo.setComment(comment);
 		mortgageVo.setUser(sessionUser);
 
-		// 返回结果信息,默认为true
-		boolean result = true;
-
 		try {
-			result = toMortgageService.accept(mortgageVo);
+			toMortgageService.accept(mortgageVo);
 		} catch (Exception e) {
-			result = false;
 			e.printStackTrace();
 		}
 
-		return result;
+		return null;
 	}
 
 	/**
@@ -108,12 +108,12 @@ public class MortgageController {
 	 */
 	@RequestMapping(value = "track/followUp")
 	@ResponseBody
-	public boolean followUp(String bizCode, String isPass, String taskId,
+	public String followUp(String bizCode, String isPass, String taskId,
 			String procInstanceId, String stateInBank, String caseCode,
 			String comment) {
 
 		// 获取当前用户信息
-		SessionUser sessionUser = MobileHolder.getMobileUser();
+		SessionUser sessionUser = uamSessionService.getSessionUser();
 
 		// 设置前台传的参数信息
 		MortgageVo mortgageVo = new MortgageVo();
@@ -126,16 +126,13 @@ public class MortgageController {
 		mortgageVo.setComment(comment);
 		mortgageVo.setUser(sessionUser);
 
-		boolean result = true;
-
 		try {
-			result = toMortgageService.followUp(mortgageVo);
+			toMortgageService.followUp(mortgageVo);
 		} catch (Exception e) {
-			result = false;
 			e.printStackTrace();
 		}
 
-		return result;
+		return null;
 	}
 
 	@RequestMapping(value = "/{bizCode}")
