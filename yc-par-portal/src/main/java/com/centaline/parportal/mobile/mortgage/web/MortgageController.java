@@ -74,19 +74,13 @@ public class MortgageController {
 		mortgageVo.setComment(comment);
 		mortgageVo.setUser(sessionUser);
 
-		// 返回结果信息,默认为true
-		boolean result = true;
-
 		try {
-			result = toMortgageService.accept(mortgageVo);
+			toMortgageService.accept(mortgageVo);
 		} catch (Exception e) {
-			result = false;
 			e.printStackTrace();
 		}
 
-		String str = JSONObject.toJSONString(result);
-
-		return str;
+		return null;
 	}
 
 	/**
@@ -128,18 +122,13 @@ public class MortgageController {
 		mortgageVo.setComment(comment);
 		mortgageVo.setUser(sessionUser);
 
-		boolean result = true;
-
 		try {
-			result = toMortgageService.followUp(mortgageVo);
+			toMortgageService.followUp(mortgageVo);
 		} catch (Exception e) {
-			result = false;
 			e.printStackTrace();
 		}
 
-		String str = JSONObject.toJSONString(result);
-
-		return str;
+		return null;
 	}
 
 	@RequestMapping(value = "/{bizCode}")

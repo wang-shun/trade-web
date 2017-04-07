@@ -82,18 +82,13 @@ public class ELoanCaseController {
 		eLoanVo.setComment(comment);
 		eLoanVo.setUser(sessionUser);
 
-		boolean result = true;
-
 		try {
-			result = toEloanCaseService.followUp(eLoanVo);
+			toEloanCaseService.followUp(eLoanVo);
 		} catch (Exception e) {
-			result = false;
 			e.printStackTrace();
 		}
 
-		String str = JSONObject.toJSONString(result);
-
-		return str;
+		return null;
 	}
 
 	/**
@@ -137,20 +132,13 @@ public class ELoanCaseController {
 			map.put("LoanerApprove", false);
 		}
 
-		// 返回结果信息,默认为true
-		boolean result = true;
-
 		try {
-			result = toEloanCaseService.accept(eLoanVo, map,
-					eLoanVo.getTaskId());
+			toEloanCaseService.accept(eLoanVo, map, eLoanVo.getTaskId());
 		} catch (Exception e) {
-			result = false;
 			e.printStackTrace();
 		}
 
-		String str = JSONObject.toJSONString(result);
-
-		return str;
+		return null;
 	}
 
 	@RequestMapping(value = "/list")
