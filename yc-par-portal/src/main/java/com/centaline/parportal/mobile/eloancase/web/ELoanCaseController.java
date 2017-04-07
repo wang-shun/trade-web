@@ -68,7 +68,7 @@ public class ELoanCaseController {
 	 */
 	@RequestMapping(value = "track/followUp")
 	@ResponseBody
-	public boolean followUp(String eLoanCode, String stateInBank,
+	public String followUp(String eLoanCode, String stateInBank,
 			String caseCode, String comment) {
 
 		// 获取当前用户信息
@@ -82,16 +82,13 @@ public class ELoanCaseController {
 		eLoanVo.setComment(comment);
 		eLoanVo.setUser(sessionUser);
 
-		boolean result = true;
-
 		try {
-			result = toEloanCaseService.followUp(eLoanVo);
+			toEloanCaseService.followUp(eLoanVo);
 		} catch (Exception e) {
-			result = false;
 			e.printStackTrace();
 		}
 
-		return result;
+		return null;
 	}
 
 	/**
@@ -111,7 +108,7 @@ public class ELoanCaseController {
 	 */
 	@RequestMapping(value = "track/accept")
 	@ResponseBody
-	public boolean accept(String eLoanCode, String isPass, String taskId,
+	public String accept(String eLoanCode, String isPass, String taskId,
 			String stateInBank, String caseCode, String comment) {
 		// 获取当前用户信息
 		SessionUser sessionUser = MobileHolder.getMobileUser();
@@ -135,18 +132,13 @@ public class ELoanCaseController {
 			map.put("LoanerApprove", false);
 		}
 
-		// 返回结果信息,默认为true
-		boolean result = true;
-
 		try {
-			result = toEloanCaseService.accept(eLoanVo, map,
-					eLoanVo.getTaskId());
+			toEloanCaseService.accept(eLoanVo, map, eLoanVo.getTaskId());
 		} catch (Exception e) {
-			result = false;
 			e.printStackTrace();
 		}
 
-		return result;
+		return null;
 	}
 
 	@RequestMapping(value = "/list")

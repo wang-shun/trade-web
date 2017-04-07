@@ -74,7 +74,8 @@
 			 		 <ifNotNull groupParentID>
 					 	and org.parent_id=#groupParentID#
 					 </ifNotNull>
-			 		</if>
+			 	</if>
+			 	
 					union
 					SELECT t.groupName,t.groupParentID,t.groupParentName,t.name,t.pkid,
 					t.caseCode,t.instCode,t.createTime,t.candidateId,t.taskId,
@@ -95,8 +96,7 @@
 					 <if test="userServiceJobCode != 'COXXGLY' ">
 					 <ifNotNull groupParentID>
 					 	and t.groupParentID=#groupParentID#
-					 </ifNotNull>
-					 
+					 </ifNotNull>					 
 					 <ifNotNull mOrgId>
 						and (t.candidateId=#candidateId# or  t.org_id=#mOrgId#)
 			 		</ifNotNull>
@@ -104,6 +104,51 @@
 			 			and t.candidateId=#candidateId#
 			 		</ifNotNull>
 			 		</if>
+			 		
+			 		union
+			 		select t1.groupName,t1.groupParentID,t1.groupParentName,t1.name,t1.pkid,
+					t1.caseCode,t1.instCode,t1.createTime,t1.candidateId,t1.taskId,
+					t1.taskDfKey_OLD,t1.caseId,t1.propertyAddr,t1.CTM_CODE,t1.WFE_NAME,t1.AGENT_NAME,t1.AGENT_PHONE,t1.GRP_NAME
+					from (
+					select 
+					org.org_name groupName,
+					org.parent_id as groupParentID,
+					(SELECT org_parent.org_name FROM sctrans.SYS_ORG org_parent WHERE org_parent.id=org.parent_id) groupParentName,
+					task.NAME_ as name,
+					null as pkid,
+					tca.CASE_CODE as caseCode,
+					pro.PROC_INST_ID_ as instCode,
+					task.CREATE_TIME_ as createTime, 
+					task.ASSIGNEE_ as candidateId,
+				    task.ID_ as taskId,
+				    task.TASK_DEF_KEY_ as taskDfKey_OLD,
+				    tca.pkid as caseId,
+				    b.PROPERTY_ADDR as propertyAddr,
+				    tca.CTM_CODE as CTM_CODE,
+				    wfe.WFE_NAME,
+				    b.AGENT_NAME,
+				    b.AGENT_PHONE,
+				    b.GRP_NAME 
+				    from sctrans.ACT_RU_TASK task 
+				    left join sctrans.T_TO_WORKFLOW wf on task.PROC_INST_ID_ = wf.INST_CODE
+					left join sctrans.ACT_HI_PROCINST pro on task.PROC_INST_ID_=pro.PROC_INST_ID_
+					inner join sctrans.t_to_case as tca on wf.case_code =tca.case_code
+					left join sctrans.v_case_list_base b on b.case_code = wf.case_code
+					left join sctrans.SYS_ORG org ON tca.ORG_ID=org.id
+					left join sctrans.SYS_WFE_TEMPLATE as wfe on wf.case_code=wfe.WFE_CODE
+					where task.ASSIGNEE_ is not null and pro.BUSINESS_KEY_ is not null and task.TASK_DEF_KEY_ is not null and WF.STATUS=0) t1
+					<if test="userServiceJobCode != 'COXXGLY' ">
+					<ifNotNull groupParentID>
+					 	and t1.groupParentID=#groupParentID#
+					 </ifNotNull>					 
+					 <ifNotNull mOrgId>
+						and (t1.candidateId=#candidateId# or t1.org_id=#mOrgId#)
+			 		</ifNotNull>
+			 		<ifNotNull managerFlag>
+			 			and t1.candidateId=#candidateId#
+			 		</ifNotNull>
+			 		</if>
+			 		
 				) as tt where 1=1 
 				]]>
 			</baseSql>
