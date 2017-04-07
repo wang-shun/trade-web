@@ -104,7 +104,7 @@
 			 			and t.candidateId=#candidateId#
 			 		</ifNotNull>
 			 		</if>
-			 		
+			 		<if test="userServiceJobCode == 'COXXGLY' ">
 			 		union
 			 		select t1.groupName,t1.groupParentID,t1.groupParentName,t1.name,t1.pkid,
 					t1.caseCode,t1.instCode,t1.createTime,t1.candidateId,t1.taskId,
@@ -137,18 +137,7 @@
 					left join sctrans.SYS_ORG org ON tca.ORG_ID=org.id
 					left join sctrans.SYS_WFE_TEMPLATE as wfe on wf.case_code=wfe.WFE_CODE
 					where task.ASSIGNEE_ is not null and pro.BUSINESS_KEY_ is not null and task.TASK_DEF_KEY_ is not null and WF.STATUS=0) t1
-					<if test="userServiceJobCode != 'COXXGLY' ">
-					<ifNotNull groupParentID>
-					 	and t1.groupParentID=#groupParentID#
-					 </ifNotNull>					 
-					 <ifNotNull mOrgId>
-						and (t1.candidateId=#candidateId# or t1.org_id=#mOrgId#)
-			 		</ifNotNull>
-			 		<ifNotNull managerFlag>
-			 			and t1.candidateId=#candidateId#
-			 		</ifNotNull>
 			 		</if>
-			 		
 				) as tt where 1=1 
 				]]>
 			</baseSql>
