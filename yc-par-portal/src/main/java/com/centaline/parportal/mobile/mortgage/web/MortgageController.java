@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
+import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.vo.MobileHolder;
@@ -33,6 +34,9 @@ public class MortgageController {
 
 	@Autowired
 	private ToMortgageService toMortgageService;
+
+	@Autowired
+	private UamSessionService uamSessionService;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -61,7 +65,7 @@ public class MortgageController {
 			String procInstanceId, String stateInBank, String caseCode,
 			String comment) {
 		// 获取当前用户信息
-		SessionUser sessionUser = MobileHolder.getMobileUser();
+		SessionUser sessionUser = uamSessionService.getSessionUser();
 
 		// 设置前台传的参数信息
 		MortgageVo mortgageVo = new MortgageVo();
@@ -109,7 +113,7 @@ public class MortgageController {
 			String comment) {
 
 		// 获取当前用户信息
-		SessionUser sessionUser = MobileHolder.getMobileUser();
+		SessionUser sessionUser = uamSessionService.getSessionUser();
 
 		// 设置前台传的参数信息
 		MortgageVo mortgageVo = new MortgageVo();

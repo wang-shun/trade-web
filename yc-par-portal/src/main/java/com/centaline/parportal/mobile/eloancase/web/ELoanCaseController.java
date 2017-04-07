@@ -23,7 +23,6 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.common.vo.MobileHolder;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.vo.ELoanVo;
 
@@ -72,7 +71,7 @@ public class ELoanCaseController {
 			String caseCode, String comment) {
 
 		// 获取当前用户信息
-		SessionUser sessionUser = MobileHolder.getMobileUser();
+		SessionUser sessionUser = uamSessionService.getSessionUser();
 
 		// 设置前台传的参数信息
 		ELoanVo eLoanVo = new ELoanVo();
@@ -111,7 +110,7 @@ public class ELoanCaseController {
 	public String accept(String eLoanCode, String isPass, String taskId,
 			String stateInBank, String caseCode, String comment) {
 		// 获取当前用户信息
-		SessionUser sessionUser = MobileHolder.getMobileUser();
+		SessionUser sessionUser = uamSessionService.getSessionUser();
 
 		// 设置前台传的参数信息
 		ELoanVo eLoanVo = new ELoanVo();
