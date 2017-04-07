@@ -378,7 +378,7 @@ public class TradeCaseController {
 	
 	@RequestMapping(value = "{caseCode}/process")
 	@ResponseBody
-	public JSONArray process(@PathVariable("caseCode") String caseCode ) {
+	public JSON process(@PathVariable("caseCode") String caseCode ) {
 		SessionUser user = sessionService.getSessionUser();
 		JQGridParam gp = new JQGridParam();
 		gp.setQueryId("getProcessListMobile");
@@ -388,7 +388,15 @@ public class TradeCaseController {
 
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
-		JSONArray ja = (JSONArray) JSONArray.toJSON(list);
+		
+		JSON ja = JSONArray.parseArray(JSON.toJSONString(list));
+		
+//		JSONArray ja = new JSONArray();
+//		for (Map<String, Object> map : list) {
+//			String str = JSON.toJSONString(map);
+//			ja.add(JSON.parse(str));
+//		}
+//		String jsonStr = JSON.toJSONString(list);
 		return ja;
 	}
 	
