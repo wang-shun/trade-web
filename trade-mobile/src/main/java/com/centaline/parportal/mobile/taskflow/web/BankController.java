@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.centaline.trans.mgr.entity.TsFinOrg;
@@ -26,6 +27,21 @@ public class BankController {
 	@ResponseBody
 	public Object queryParentBankList() {
 		List<TsFinOrg> bankList = tsFinOrgService.findParentBankList(null,null,null);
+		return bankList;
+	}
+	
+	
+	/**
+	 * 根据分行编号查询egu或非egu支行下拉列表
+	 * 
+	 * @param faFinOrgCode
+	 * @return
+	 */
+	@RequestMapping(value = "queryBankListByParentCode")
+	@ResponseBody
+	public Object findBankListByParentCode(@RequestParam(required = true)String faFinOrgCode) {
+		List<TsFinOrg> bankList = tsFinOrgService.findBankListByParentCode(
+				null, faFinOrgCode,null,null);
 		return bankList;
 	}
 }
