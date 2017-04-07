@@ -843,7 +843,7 @@
 													 <select  name="finOrgCode" class="select_control data_style" id="finOrgCode" ></select>
 		                                         </div>
 		                                         
-		                                         <div class="form_content"  id="processButtonHidden">
+		                                         <div class="form_content"  id="processButtonHidden1">
 		                                          	 <button type="button" class="btn btn-success"  style="background:#52cdec" onclick="loanerProcessStart(1)" id="toLoanerCase">派单—>信贷员</button>		                                         	 
 		                                         </div>
 		                                     </div>
@@ -1159,7 +1159,7 @@
 													 <select  name="finOrgCode" class="select_control data_style" id="finOrgCode" ></select>
 		                                         </div>
 		                                         
-		                                         <div class="form_content" id="processButtonHidden">
+		                                         <div class="form_content" id="processButtonHidden0">
 		                                          	 <button type="button" class="btn btn-success" style="background:#52cdec" onclick="loanerProcessStart(0)" id="toLoanerCaseTemp">派单—>信贷员</button>		                                         	 
 		                                         </div>
 		                                     </div>
