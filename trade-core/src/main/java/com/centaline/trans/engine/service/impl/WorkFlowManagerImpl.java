@@ -624,8 +624,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		vars.put("processInstanceId", processInstanceId);
 		// vars.put("name", variableName);
 		vars.put("type", restVariable.getType());
-		vars.put("value", restVariable.getValue() == null ? "" : restVariable
-				.getValue().toString());
+		vars.put("value", restVariable.getValue() == null ? "" : restVariable.getValue().toString());
 		restVariable.setName(variableName);
 		return (RestVariable) engine.RESTfulWorkFlow(
 				WorkFlowConstant.PUT_VARIABLE_KEY, RestVariable.class,

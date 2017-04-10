@@ -86,8 +86,8 @@ public class MortgageController {
 
 	@RequestMapping(value = "comLoanProcess/process")
 	public String toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
-			String taskitem, String processInstanceId) {
-
+			String taskitem, String processInstanceId) {	
+		
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
 		if ( cou >0) {
@@ -115,7 +115,7 @@ public class MortgageController {
 		}else{
 			request.setAttribute("isMainLoanBank", "1");
 			request.setAttribute("evaCode", "");
-		}
+		}		
 		return "task/taskComLoanProcess";
 	}
 	

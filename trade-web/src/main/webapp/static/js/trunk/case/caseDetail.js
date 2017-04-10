@@ -483,14 +483,16 @@ function showLoanReqmentChgModal(){
 	
 }	*/
 
+
 /*贷款需求选择*/
 function mortageService() {
 	var value = $("#mortageService").val();
 	if(value!='0'){
 		$("#loan_reqment_chg_form").find("#estPartTime").removeProp('disabled');
 		$("#loan_reqment_chg_form").find("#estPartTime").removeAttr('disabled');
-		 $('#div_releasePlan').show();
+		$('#div_releasePlan').show();
 	}else{
+		//0 表示无贷款
 		$("#loan_reqment_chg_form").find("#estPartTime").prop('disabled','disabled');//防止后台拿到数据
 		$('#div_releasePlan').hide();
 	}

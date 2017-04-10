@@ -397,8 +397,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public void deleteTmpBankProcess(ToWorkFlow twf) {
 		try {
-			ToWorkFlow temBankWF = toWorkFlowService
-					.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+			ToWorkFlow temBankWF = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 			// 删除临时银行审批任务和流程
 			if (temBankWF != null) {
 				unlocatedTaskService.deleteByInstCode(temBankWF.getInstCode());

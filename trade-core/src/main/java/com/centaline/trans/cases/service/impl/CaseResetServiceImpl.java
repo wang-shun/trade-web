@@ -55,8 +55,7 @@ public class CaseResetServiceImpl implements CaseResetService {
 		// 更新Workflow表为终止状态
 		ToWorkFlow tf = new ToWorkFlow();
 		tf.setCaseCode(vo.getCaseCode());
-		List<ToWorkFlow> tfs = workflowService
-				.queryActiveToWorkFlowByCaseCode(tf);
+		List<ToWorkFlow> tfs = workflowService.queryActiveToWorkFlowByCaseCode(tf);
 		if (tfs != null) {
 			for (ToWorkFlow toWorkFlow : tfs) {
 				toWorkFlow.setStatus(WorkFlowStatus.TERMINATE.getCode());// 流程终止状态
@@ -65,8 +64,7 @@ public class CaseResetServiceImpl implements CaseResetService {
 		}
 		// 操作Case表和Caseinfo表
 		ToCase cas = caseService.findToCaseByCaseCode(vo.getCaseCode());
-		ToCaseInfo casInfo = caseInfoservice.findToCaseInfoByCaseCode(vo
-				.getCaseCode());
+		ToCaseInfo casInfo = caseInfoservice.findToCaseInfoByCaseCode(vo.getCaseCode());
 
 		cas.setLeadingProcessId(casInfo.getRequireProcessorId());
 		cas.setStatus(CaseStatusEnum.WFD.getCode());
@@ -86,8 +84,7 @@ public class CaseResetServiceImpl implements CaseResetService {
 		if (tfs != null) {
 			for (ToWorkFlow toWorkFlow : tfs) {
 				try {
-					unlocatedTaskService.deleteByInstCode(toWorkFlow
-							.getInstCode());
+					unlocatedTaskService.deleteByInstCode(toWorkFlow.getInstCode());
 					workflowManager.deleteProcess(toWorkFlow.getInstCode());
 				} catch (WorkFlowException e) {
 					if (!e.getMessage().contains("statusCode[404]"))
@@ -100,8 +97,7 @@ public class CaseResetServiceImpl implements CaseResetService {
 		bizWarnInfoService.deleteByCaseCode(vo.getCaseCode()); // 删除商贷流失预警信息
 
 		// 流程重启更改掉案件临时银行的状态
-		ToMortgage toMortgage = toMortgageService.getMortgageByCaseCode(vo
-				.getCaseCode());
+		ToMortgage toMortgage = toMortgageService.getMortgageByCaseCode(vo.getCaseCode());
 		if (toMortgage != null) {
 			toMortgageService.updateTmpBankStatus(vo.getCaseCode());
 		}

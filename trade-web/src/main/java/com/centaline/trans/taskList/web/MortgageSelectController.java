@@ -64,7 +64,7 @@ public class MortgageSelectController {
 	@ResponseBody
 	@RequestMapping(value = "loanRequirementChange")
 	public AjaxResponse<?> loanRequirementChange(MortgageSelecteVo vo) {	
-		//判断是否完成‘贷款需求选择’待办任务
+		//判断是否完成'贷款需求选择'待办任务
 		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
 		if(workF!=null &&"operation_process:34:620096".compareTo(workF.getProcessDefinitionId())<=0){//在这个版本之前的流程是没有贷款需求选择的 要变更贷款只能做流程重启  之后的版本都可以做，但operation_process:40:645454之前的版本是子流程的方式
 			vo.setProcessDefinitionId(workF.getProcessDefinitionId());
@@ -87,6 +87,7 @@ public class MortgageSelectController {
 			SessionUser u = uamSessionService.getSessionUser();
 			vo.setPartner(u.getId());
 		}
+		
 		try {
 			mortgageSelectService.loanRequirementChange(vo);
 		} catch (BusinessException ex) {
