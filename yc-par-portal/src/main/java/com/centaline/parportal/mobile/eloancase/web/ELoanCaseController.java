@@ -328,7 +328,7 @@ public class ELoanCaseController {
 		resultMap.put("mortProcess", eLoanCaseProcessMapList);
 		resultMap.put("tradeProcess", eLoanCaseTradeProcessMapList);
 
-		String str = JSONObject.toJSONString(contentMap);
+		String str = JSONObject.toJSONString(resultMap);
 
 		return str;
 	}
