@@ -196,6 +196,8 @@ public class SpvController {
 		if(StringUtils.isNotBlank(toCase.getLeadingProcessId())){
 			jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		}
+		//风控专员
+		List<User> zys =uamUserOrgService.getUserByOrgIdAndJobCode(officer.getOrgId(), "JYFKZY");
 		//风控总监
 		List<User> zj =uamUserOrgService.getUserByOrgIdAndJobCode(officer.getOrgId(), "JYFKZJ");
 		User FKZJ=new User();
@@ -224,8 +226,9 @@ public class SpvController {
         cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
         request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
-		request.setAttribute("officer", officer == null?null:officer.getRealName());
-		request.setAttribute("jingban", jingban == null?null:jingban.getRealName());
+		request.setAttribute("officer", officer);
+		request.setAttribute("jingban", jingban);
+	    request.setAttribute("zys",zys);
 	    request.setAttribute("zj",FKZJ);
 	    request.setAttribute("applyUser",applyUser);
 		return "spv/SpvDetail";
@@ -1229,6 +1232,20 @@ public class SpvController {
 		}catch(Exception e){
 			response.setSuccess(false);
 			response.setMessage("保存失败！");
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	@RequestMapping("changeOfficer")
+	@ResponseBody
+	public AjaxResponse<String> changeOfficer(String spvCode, String oldOfficer, String newOfficer) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			toSpvService.changeOfficer(spvCode, oldOfficer, newOfficer);
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setSuccess(false);
 			e.printStackTrace();
 		}
 		return response;

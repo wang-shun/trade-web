@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.spv.entity.ToCashFlow;
+import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
 
 @MyBatisRepository
 public interface ToCashFlowMapper {
@@ -22,7 +23,7 @@ public interface ToCashFlowMapper {
     int updateByPrimaryKey(ToCashFlow record);
     
     List<ToCashFlow> queryCashFlowsByCaseCode(String caseCode);
-    
+
     List<ToCashFlow> findCashFlowByCaseCodeAndDirection(@Param("caseCode") String caseCode,@Param("flowDirection") String flowDirection);
 
 }

@@ -32,7 +32,7 @@
 
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<!-- main Start -->
 
 	<div class="row">
@@ -84,7 +84,7 @@
 									<dt>风控专员</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：${createPhone}">${officer}</a>
+											data-placement="right" data-content="手机：${createPhone}">${officer.realName}</a>
 									</dd>
 									<dt>风控总监</dt>
 									<dd>
@@ -188,7 +188,7 @@
 								</div>
 								<div class="media-body">
 									<strong><a href="${ctx}/case/caseCodeDetail?caseCode=${spvBaseInfoVO.toSpv.caseCode}">${spvBaseInfoVO.toSpv.caseCode}</a></strong><br />经办人
-									<strong>${jingban}</strong> <br /> 
+									<strong>${jingban.realName}</strong> <br /> 
 								</div>
 							</div>
 						</div>
@@ -219,6 +219,8 @@
 								<li class=""><a href="#tab-7" data-toggle="tab">出入帐记录</a>
 								</li>
 								<li class=""><a href="#tab-6" data-toggle="tab">审批记录</a>
+								</li>
+								<li class=""><a href="#tab-8" data-toggle="tab">操作</a>
 								</li>
 							</ul>
 						</div>
@@ -618,13 +620,21 @@
 							</div>
 							<div class="tab-pane" id="tab-6">
 							<div class="info_box info_box_one col-md-8 ">
-
-												
-												<p><strong>审批记录</strong> <p>
-												<div style="margin-left:50px;min-height:100px;"class="ibox-conn ibox-text">
-                                              ${toApproveRecord.content} 
-												</div>
-                            	</div>
+							<p><strong>审批记录</strong> <p>
+							<div style="margin-left:50px;min-height:100px;"class="ibox-conn ibox-text">
+                                         ${toApproveRecord.content} 
+							</div>
+                           	</div>
+							</div>
+							<div class="tab-pane" id="tab-8">
+								<div class="info_box info_box_one col-md-8 ">
+								  <c:if test="${spvBaseInfoVO.toSpv.status>=1 }">
+									<shiro:hasPermission name="TRADE.FUND.SPVDETAIL.CHANGEOFFICER">
+										<a role="button" class="btn btn-primary btn-xm" style="background-color: #f8ac59;border-color: #f8ac59;color: #FFFFFF;"
+											href="javascript:$('#srv-modal-form').modal('show');">更改风控专员 </a>
+									</shiro:hasPermission>
+								  </c:if>	
+	                            </div>
 							</div>
 						</div>
 					</div>
@@ -633,7 +643,40 @@
 		</div>
 	</div>
 	<!-- main End -->
-
+	<!-- 风控专员变更 -->
+	<div id="srv-modal-form" class="modal fade" role="dialog"
+		aria-labelledby="srv-modal-title" aria-hidden="true">
+		<div class="modal-dialog" style="width: 700px">
+			<div class="modal-content">
+				<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+				<h4 class="modal-title" id="srv-modal-title">选择风控专员</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<div class="col-lg-3 control-label">风控专员：</div>
+								<div class="col-lg-9 checkbox i-checks checkbox-inline">
+									<shiro:hasPermission name="TRADE.FUND.SPVDETAIL.CHANGEOFFICER">
+									    <c:forEach items="${zys}" var="zy" >
+									    	<label><input type="radio" name="newOfficer" value="${zy.id}" style="margin-left:20px;" ${zy.id eq officer.id?'checked="checked"':''}>${zy.realName}</input></label>
+									    </c:forEach>
+									</shiro:hasPermission>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" style="background-color: #f8ac59;border-color: #f8ac59;color: #FFFFFF;" onclick="javascript:changeOfficer()">提交</button>
+					<button type="button" class="btn btn-default"
+						data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<content tag="local_script">  
 	<script>
@@ -697,12 +740,53 @@
 				$("span[name='DX']").each(function(index,element){
 					$(element).html(DX($(element).html()*10000));
 				});
-				//getPcode("pcode");
-/* 				getBank("bank0");
-				getBank("bank1"); */
 			})
 			
-					</script> </content>
+			/*风控总监更改合约所属风控专员*/
+			function changeOfficer(){
+				$('#srv-modal-form').modal('hide');
+				if(${spvBaseInfoVO.toSpv.status eq 5 or spvBaseInfoVO.toSpv.status eq 6}){
+					window.wxc.alert("当前处于中止/结束流程中，无法进行变更！");
+					return false;
+				}
+				if("${officer.id}" == $("input[name='newOfficer']:checked").attr("value")){
+					window.wxc.alert("请选择不同的专员！");
+					return false;
+				}
+	   	 		$.ajax({
+	   	      		url:ctx+"/spv/changeOfficer",
+	   	      		method:"post",
+	   	      		dataType:"json",
+	   	      		data:{spvCode:"${spvBaseInfoVO.toSpv.spvCode}",oldOfficer:"${officer.id}",newOfficer:$("input[name='newOfficer']:checked").attr("value")},   		        				        		    
+	   	       		beforeSend:function(){  
+	   					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	   					$(".blockOverlay").css({'z-index':'9998'});
+	   	            },
+	   		        complete: function() {
+	   		                 $.unblockUI(); 
+	   		                 if(status=='timeout'){ //超时,status还有success,error等值的情况
+	   			          	  Modal.alert(
+	   						  {
+	   						    msg:"抱歉，系统处理超时。"
+	   						  }); 
+	   				                } 
+	   				            } ,   
+	   				success : function(data) {  
+	   					        if(data.success){
+	   					        	window.wxc.alert("操作成功！");
+	   					        }else{
+	   					        	window.wxc.error("操作失败！");
+	   					        }		    		
+								$.unblockUI();
+	   					},		
+	   				error : function(errors) {
+	   						$.unblockUI();   
+	   						window.wxc.error("请求出错！");
+	   					}  
+	   	       });
+			}
+		</script> 
+	</content>
 </body>
 </html>
 

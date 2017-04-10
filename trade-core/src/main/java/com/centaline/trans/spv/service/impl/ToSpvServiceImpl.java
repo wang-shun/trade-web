@@ -1879,5 +1879,91 @@ public class ToSpvServiceImpl implements ToSpvService {
 			toSpvAccountMapper.insertSelective(fundAcc);
 		}
 	}
+
+	@Override
+	public void changeOfficer(String spvCode, String oldOfficer, String newOfficer) {
+		//待办分配给新的人员
+		SessionUser oldOfficerUser = uamSessionService.getSessionUserById(oldOfficer);
+		SessionUser newOfficerUser = uamSessionService.getSessionUserById(newOfficer);
+		if(newOfficerUser == null){
+			throw new BusinessException("找不到选择的风控专员！");
+		}
+		//更新合约表风控专员字段
+		ToSpv record = new ToSpv();
+		record.setSpvCode(spvCode);
+		record.setRiskControlOfficer(newOfficerUser.getId());
+		toSpvMapper.updateOfficerBySpvCode(record);
+		//查询资金监管流程更新流程变量和未完成的任务办理人为所选人员
+		ToWorkFlow query1 = new ToWorkFlow();
+		query1.setBizCode(spvCode);
+		query1.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
+		ToWorkFlow twf1 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query1);
+		workFlowManager.setVariableByProcessInsId(twf1.getInstCode(), "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+		PageableVo pageableVo1 = taskService.listTasks(twf1.getInstCode(), false);
+		List<TaskVo> taskList1 = pageableVo1.getData();
+		for (TaskVo task : taskList1) {
+			if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
+				taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+			}
+		}
+		//查询中止/结束流程更新流程变量和未完成的任务办理人为所选人员
+/*		ToWorkFlow query2 = new ToWorkFlow();
+		query2.setBizCode(spvCode);
+		query2.setBusinessKey(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode());
+		ToWorkFlow twf2 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query2);
+		if(twf2 != null){
+			workFlowManager.setVariableByProcessInsId(twf2.getInstCode(), "applier",new RestVariable("applier",newOfficerUser.getUsername()));
+			PageableVo pageableVo2 = taskService.listTasks(twf2.getInstCode(), false);
+			List<TaskVo> taskList2 = pageableVo2.getData();
+			for (TaskVo task : taskList2) {
+				if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
+					taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+				}
+			}
+		}*/
+		//出入账和中止结束流程分配给新的人员
+		List<ToSpvCashFlowApply> toCashFlows = findCashFlowApplyCodeBySpvCode(spvCode);
+		if(toCashFlows != null && toCashFlows.size()>0){
+			toCashFlows.forEach((item)->{
+				String cashFlowApplyCode = item.getCashflowApplyCode();
+				if("in".equals(item.getUsage())){
+					ToWorkFlow query3 = new ToWorkFlow();
+					query3.setBizCode(cashFlowApplyCode);
+					query3.setBusinessKey(WorkFlowEnum.SPV_CASHFLOW_IN_DEFKEY.getCode());
+					ToWorkFlow twf3 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query3);
+					workFlowManager.setVariableByProcessInsId(twf3.getInstCode(), "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+					PageableVo pageableVo3 = taskService.listTasks(twf3.getInstCode(), false);
+					List<TaskVo> taskList3 = pageableVo3.getData();
+					for (TaskVo task : taskList3) {
+						if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
+							taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+						}
+					}
+				}else if("out".equals(item.getUsage())){
+					ToWorkFlow query4 = new ToWorkFlow();
+					query4.setBizCode(cashFlowApplyCode);
+					query4.setBusinessKey(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode());
+					ToWorkFlow twf4 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query4);
+					workFlowManager.setVariableByProcessInsId(twf4.getInstCode(), "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+					PageableVo pageableVo4 = taskService.listTasks(twf4.getInstCode(), false);
+					List<TaskVo> taskList4 = pageableVo4.getData();
+					for (TaskVo task : taskList4) {
+						if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
+							taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+						}
+					}
+				}
+				
+			});
+		}
+	}
+
+	/**
+	 * 根据合约号查询申请号
+	 */
+	@Override
+	public List<ToSpvCashFlowApply> findCashFlowApplyCodeBySpvCode(String spvCode) {
+		return toSpvCashFlowApplyMapper.selectCashFlowApplysBySpvCode(spvCode);
+	}
 	
 }

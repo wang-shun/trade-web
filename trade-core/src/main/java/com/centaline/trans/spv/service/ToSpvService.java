@@ -13,6 +13,7 @@ import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.entity.ToSpvAccount;
+import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
 import com.centaline.trans.spv.entity.ToSpvCust;
 import com.centaline.trans.spv.entity.ToSpvDe;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
@@ -253,4 +254,8 @@ public interface ToSpvService {
 
 	void spvSign(String spvCode, String caseCode, String source, String instCode, String taskId, String spvConCode,
 			Date signTime, ToSpvAccount buyerAcc, ToSpvAccount sellerAcc, ToSpvAccount fundAcc, SessionUser user);
+
+	void changeOfficer(String spvCode,String oldOfficer, String newOfficer);
+	
+	List<ToSpvCashFlowApply> findCashFlowApplyCodeBySpvCode(String spvCode);
 }
