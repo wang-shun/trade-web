@@ -1,9 +1,8 @@
 package com.centaline.parportal.mobile.taskflow.web;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -11,18 +10,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.uam.auth.remote.UamSessionService;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
-import com.centaline.trans.common.enums.TmpBankStatusEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.service.ToWorkFlowService;
+import com.centaline.trans.mgr.entity.TsFinOrg;
+import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 
@@ -45,76 +42,50 @@ public class TmpBankAduitController {
 
 	
 	@Autowired(required = true)
-	private ToWorkFlowService toWorkFlowService;
-	
-	@Autowired(required = true)
 	ToCaseInfoService toCaseInfoService;
 	
-	
-	@RequestMapping("start")
-	@ResponseBody
-	public AjaxResponse<String> startWorkFlow(String caseCode) {	
-		AjaxResponse<String> response = new AjaxResponse<>();
-			try {
-				ToWorkFlow twf = new ToWorkFlow();
-				twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
-				twf.setCaseCode(caseCode);
-			
-				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-				
-				//更新贷款表临时银行状态为默认：‘’
-				ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-				String status = mortage.getTmpBankStatus();
-				
-				if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status)){
-					throw new BusinessException("启动失败：流程正在运行或已经结束！");
-				}
-			
-				response = toMortgageService.startTmpBankWorkFlow(caseCode,"");
-				response.setSuccess(true);
-				response.setMessage("流程开启成功！");
-			} catch (Exception e) {
-				response.setSuccess(false);
-				e.printStackTrace();
-			}
-		
-			return response;
-	}
+	@Autowired
+	private TsFinOrgService tsFinOrgService;
 	
 	@RequestMapping("process")
-	public String TmpBankAduitProcess(Model model, HttpServletRequest request, String taskitem,
-    		String caseCode, String taskId, String instCode,String source,String post){
+	@ResponseBody
+	public Object TmpBankAduitProcess(Model model, HttpServletRequest request, String taskitem,
+    		String caseCode, String instCode,String source,String post){
+		String taskId = request.getParameter("taskId");
 		ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-		
-		request.setAttribute("post", post);
-		request.setAttribute("taskId", taskId);
-    	request.setAttribute("processInstanceId", instCode);
-		request.setAttribute("caseCode", caseCode);
-		request.setAttribute("taskitem", taskitem);
-		request.setAttribute("source", source);
 		ToCase c = toCaseService.findToCaseByCaseCode(caseCode);
 		request.setAttribute("afterTimeFlag", false);
+		CaseBaseVO caseBaseVO = null;
 		if(c != null) {
-			CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(c.getPkid());
-			if(c.getCreateTime()!=null){
-				request.setAttribute("afterTimeFlag", c.getCreateTime().after(new Date(1467302399999l)));
-			}
-			//税费卡
-			int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
-			if ( cou >0) {
-				caseBaseVO.setLoanType("30004005");
-			}
-			request.setAttribute("caseBaseVO", caseBaseVO);
+			caseBaseVO = toCaseService.getCaseBaseVO(c.getPkid());
 		}
-
-		request.setAttribute("post", post);
-		request.setAttribute("mortage", mortage);
-		return "task/taskManagerAduit";
+		
+        JSONObject json = new JSONObject();
+        //根据post 是否等于  manager 判断银行 是否可以选择
+		json.put("post", post);
+		json.put("prAddress", caseBaseVO.getToPropertyInfo().getPropertyAddr());
+//		处理分行名字
+//		json.put("tmpBankName", value);
+		
+		json.put("partCode", taskitem);
+		json.put("pkid", mortage.getPkid());
+		json.put("taskId", taskId);
+		json.put("caseCode", caseCode);
+		json.put("processInstanceId", instCode);
+		
+		if(StringUtils.isNotBlank(mortage.getFinOrgCode())) {
+			TsFinOrg childBank = tsFinOrgService.findBankByFinOrg(mortage.getFinOrgCode());
+			json.put("childBank", childBank);
+			
+			TsFinOrg parentsBank = tsFinOrgService.findBankByFinOrg(childBank.getFaFinOrgCode());
+			json.put("parentsBank", parentsBank);
+		}
+		return json;
 	}
 	
 	@RequestMapping("audit")
 	@ResponseBody
-	public AjaxResponse<?> toTmpBankAduitProcess(ToMortgage mortage,String prAddress,
+	public Object toTmpBankAduitProcess(ToMortgage mortage,String prAddress,
 			String tmpBankName,String tmpBankCheck,String taskId,String bankCode,String temBankRejectReason,
 			String processInstanceId,String caseCode,String post) {
 		AjaxResponse<?> response = new AjaxResponse<>();
