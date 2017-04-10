@@ -122,9 +122,15 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		 * StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi,
 		 * vo.getUserName(),vo.getCaseCode());
 		 */
+		//相关流程都挂起
+		ToWorkFlow zhuwf = new ToWorkFlow();
+		zhuwf.setCaseCode(vo.getCaseCode());
+		List<ToWorkFlow> zhulcList = toWorkFlowService.queryActiveToWorkFlowByCaseCode(zhuwf);
+		for(ToWorkFlow t : zhulcList){
+			workFlowManager.activateOrSuspendProcessInstance(t.getInstCode(),false);//案件的相关流程挂起
+		}
+        //打开重启流程
 		Map<String, Object> vars = new HashMap<>();
-		User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(vo.getOrgId(), "Manager");
-
 		// 根据案件所在组找主管
 		String managerName = toCaseService.getManagerByCaseOwner(vo.getCaseCode());
 
@@ -154,13 +160,11 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 
 		ToWorkFlow workFlow = new ToWorkFlow();
 		workFlow.setCaseCode(caseCode);
-		List<ToWorkFlow> wordkFlowDBList = toWorkFlowService
-				.getMortToWorkFlowByCaseCode(workFlow);
+		List<ToWorkFlow> wordkFlowDBList = toWorkFlowService.getMortToWorkFlowByCaseCode(workFlow);
 
 		for (ToWorkFlow workFlowDB : wordkFlowDBList) {
-			workFlowManager.deleteProcess(workFlowDB.getInstCode());
-			toWorkFlowService
-					.deleteWorkFlowByInstCode(workFlowDB.getInstCode());
+			workFlowManager.deleteProcess(workFlowDB.getInstCode());               //清除流程 activiti接口
+			toWorkFlowService.deleteWorkFlowByInstCode(workFlowDB.getInstCode());  //修改数据状态
 		}
 	}
 
@@ -184,11 +188,21 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	@Transactional(readOnly = false)
 	@Override
 	public boolean approve(ServiceRestartVo vo) {
+		//打开挂起的流程
+		ToWorkFlow zhuwf = new ToWorkFlow();
+		zhuwf.setCaseCode(vo.getCaseCode());
+		List<ToWorkFlow> zhulcList = toWorkFlowService.queryActiveToWorkFlowByCaseCode(zhuwf);
+		for(ToWorkFlow t : zhulcList){
+			if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(t.getBusinessKey())){
+				workFlowManager.activateOrSuspendProcessInstance(t.getInstCode(),true);//案件的相关流程挂起
+			}
+		}
 		List<RestVariable> vs = new ArrayList<>();
 		RestVariable v = new RestVariable("is_approved", vo.getIsApproved());
 		vs.add(v);
-		workFlowManager.submitTask(vs, vo.getTaskId(), vo.getInstCode(), null,
-				vo.getCaseCode());
+		
+		workFlowManager.submitTask(vs, vo.getTaskId(), vo.getInstCode(), null,vo.getCaseCode());
+		
 		ToApproveRecord record = new ToApproveRecord();
 		record.setApproveType("7");
 		record.setCaseCode(vo.getCaseCode());
@@ -200,13 +214,29 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		toApproveService.insertToApproveRecord(record);
 		// add by zhoujp
 		if (vo.getIsApproved()) {
+			
+			/*
+			 * @author: zhuody
+			 * @date:2017-04-10
+			 * @desc:删除交易顾问派单流程
+			 * */		
+			ToWorkFlow loanerProcessWf = new ToWorkFlow();
+			loanerProcessWf.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
+			loanerProcessWf.setCaseCode(vo.getCaseCode());		
+			toMortgageService.deleteTmpBankProcess(loanerProcessWf);
+			toWorkFlowService.deleteWorkFlowByProperty(loanerProcessWf);
+			
+			
+			
 			/* 删除临时银行流程相关 */
 			ToWorkFlow twf = new ToWorkFlow();
 
 			twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 			twf.setCaseCode(vo.getCaseCode());
 			toMortgageService.deleteTmpBankProcess(twf);
+			//将T_TO_WORKFLOW 和 T_HI_WORKFLOW 中的status设置为2 非正常结束
 			toWorkFlowService.deleteWorkFlowByProperty(twf);
+			
 
 			ToWorkFlow wf = new ToWorkFlow();
 			wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
@@ -220,8 +250,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		}
 		// 如果流程重启申请审批通过的话将交易计划表的数据转移到交易计划历史表并删除交易计划表add by zhoujp
 		if (vo.getIsApproved()) {
-			toTransplanOperateService.processRestartOrResetOperate(
-					vo.getCaseCode(), ConstantsUtil.PROCESS_RESTART);
+			toTransplanOperateService.processRestartOrResetOperate(vo.getCaseCode(), ConstantsUtil.PROCESS_RESTART);
 		}
 
 		// 如果流程重启申请审批通过的话，就删除对应的预警信息
@@ -230,12 +259,10 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		}
 
 		// 流程重启更改掉案件临时银行的状态
-		ToMortgage toMortgage = toMortgageService.getMortgageByCaseCode(vo
-				.getCaseCode());
+		ToMortgage toMortgage = toMortgageService.getMortgageByCaseCode(vo.getCaseCode());
 		if (toMortgage != null) {
 			toMortgageService.updateTmpBankStatus(vo.getCaseCode());
 		}
-
 		return true;
 	}
 
@@ -250,8 +277,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		ToWorkFlow t = new ToWorkFlow();
 		t.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 		t.setCaseCode(vo.getCaseCode());
-		ToWorkFlow mainflow = toWorkFlowService
-				.queryActiveToWorkFlowByCaseCodeBusKey(t);
+		ToWorkFlow mainflow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(t);
 		if (mainflow != null) {
 			try {
 				unlocatedTaskService.deleteByInstCode(mainflow.getInstCode());
@@ -273,8 +299,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		// 无效业务表单
 		toWorkFlowService.inActiveForm(vo.getCaseCode());
 		// 更新当前流程为结束
-		ToWorkFlow tf = toWorkFlowService.queryWorkFlowByInstCode(vo
-				.getInstCode());
+		ToWorkFlow tf = toWorkFlowService.queryWorkFlowByInstCode(vo.getInstCode());
 		tf.setStatus(WorkFlowStatus.COMPLETE.getCode());
 		toWorkFlowService.updateByPrimaryKeySelective(tf);
 

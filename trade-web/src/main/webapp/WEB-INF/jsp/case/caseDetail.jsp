@@ -1211,7 +1211,7 @@
 	<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
 	<script src="${ctx}/js/stickUp.js"></script>
-	<script	src="${ctx}/toastr.min.js"></script>
+	<script	src="${ctx}/js/plugins/toastr/toastr.min.js"></script>
 	<!-- 放款监管信息  -->
 	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 	<script	src="${ctx}/transjs/task/caseflowlist.js"></script>

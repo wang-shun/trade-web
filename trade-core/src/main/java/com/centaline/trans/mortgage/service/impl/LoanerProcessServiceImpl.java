@@ -183,7 +183,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			toWorkFlowService.insertSelective(workFlow);
 
 			// 派单给BC级别银行的信贷员之后,启动银行分级审批
-			if (bankLevel == 1 || bankLevel == 9) {
+			//bankLevel == 1 B级银行不审批  变更
+			if (bankLevel == 9) {
 				toMortgageService.startTmpBankWorkFlow(caseCode, vo.getId());
 			}
 

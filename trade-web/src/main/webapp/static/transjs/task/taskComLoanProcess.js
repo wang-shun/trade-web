@@ -366,7 +366,29 @@ function saveMortgage(form){
 }
 
 //完成贷款审批
-function completeMortgage(form){
+function completeMortgage(form){	
+	
+	/*	是否临时银行 1 代表是临时银行   老方式判断
+	 * 
+	 *  var tmpBankCheckflag = $('#fl_is_tmp_bank').val() == '1';
+		if(tmpBankCheckflag && $("#tmpBankStatus").val() != '3'){ 	
+		window.wxc.alert("信贷员接单银行审批未完成或不通过！");
+		return;
+	}*/
+	
+	/*
+	 * @author：zhuody
+	 * @Date：2017年3月24日
+	 * @Des：以前临时银行审批未结束之前，不许提交商贷流程，现在取消  即下面的判断取消
+	 * $("#tmpBankStatus").val() != '1'：   = 1 表示临时银行审批通过   3表示分级银行审批通过
+	 * 并且不是信息管理员的情况下需要判断审核状态
+	 */	
+	if($("#adminLoanerProcess").val() != "adminLoanerProcess"){ 
+		if($("#tmpBankStatus").val() != '3'){ 	
+			window.wxc.alert("信贷员接单银行审批未完成或不通过！");
+			return;
+		}
+	}
 	
 	var pkid=form.find("input[name='pkid']").val();
 
@@ -391,21 +413,6 @@ function completeMortgage(form){
 	var apprDate=form.find("input[name='apprDate']").val();
 	if($.isBlank(apprDate)) {
 		window.wxc.alert("审批时间为必选项！");
-		return;
-	}
-
-	var tmpBankCheckflag = $('#fl_is_tmp_bank').val() == '1';
-	
-	
-	/*
-	 * @author：zhuody
-	 * @Date：2017年3月24日
-	 * @Des：以前临时银行审批未结束之前，不许提交商贷流程，现在取消  即下面的判断取消
-	 *  	$("#tmpBankStatus").val() != '1'：   = 1 表示临时银行审批通过
-	 */	
-	
-	if(tmpBankCheckflag && $("#tmpBankStatus").val() != '3'){     
-		window.wxc.alert("信贷员接单银行审批未完成或不通过！");
 		return;
 	}
 
@@ -1251,8 +1258,15 @@ function checkReportAtt(){
 
 var stepIndex = 0;
 
-$(document).ready(function (){		
+$(document).ready(function (){	
+	
 	  $("#processStart").val("");//页面初始化的时候清空
+	  var serviceJobCode = $("#serviceJobCode").val();
+	  if(serviceJobCode == "COXXGLY"){
+		  $("#processStart").val("processIsStart");
+		  $("#adminLoanerProcess").val("adminLoanerProcess");		  
+	  }
+	  
 	  //判断 信贷员流程  修改信息时不需要提交流程
 	  var processFlag = getUrlParams('comFlag');				
 	  if(processFlag == "processButtonHidden"){			

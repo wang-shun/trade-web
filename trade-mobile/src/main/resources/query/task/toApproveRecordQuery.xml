@@ -31,6 +31,11 @@
 	</formatters>
 	
 	<query id="queryLoanlostApproveList">
+		<searchCondition>
+            <condition field="TR.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+            <condition field="TR.APPROVE_TYPE" name="approveType" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+            <condition field="TR.PROCESS_INSTANCE" name="processInstanceId" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+        </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -41,7 +46,8 @@
 					CONTENT,
 					NOT_APPROVE AS NOT_APPROVE_OLD   
 					FROM sctrans.T_TO_APPROVE_RECORD TR
-					where TR.CASE_CODE = #caseCode#
+					where 1 = 1
+					
 				]]>
 			</baseSql>
 			<groupSql>
