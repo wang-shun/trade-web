@@ -35,7 +35,7 @@ public class ServiceRestartController {
 	private ToAttachmentService toAttachmentService;
 
 	/**
-	 * 
+	 * @流程重启
 	 * @return
 	 */
 	@RequestMapping(value = "/restart")
@@ -120,9 +120,10 @@ public class ServiceRestartController {
 	}
 
 	/**
-	 * 
+	 * @des  流程重启审批
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/approve")
 	@ResponseBody
 	public AjaxResponse approve(Model model, ServiceRestartVo vo) {
@@ -130,8 +131,7 @@ public class ServiceRestartController {
 		// 新增判断 如果审批通过 则将对应casecode附件表 可用字段置为N
 		if (vo != null) {
 			if (vo.getIsApproved()) {
-				toAttachmentService.updateToAttachmentByCaseCode(vo
-						.getCaseCode() == null ? "" : vo.getCaseCode());
+				toAttachmentService.updateToAttachmentByCaseCode(vo.getCaseCode() == null ? "" : vo.getCaseCode());
 			}
 		}
 
