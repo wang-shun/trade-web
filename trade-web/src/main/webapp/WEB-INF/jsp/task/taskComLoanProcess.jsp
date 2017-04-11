@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="com.centaline.trans.workspace.web.SessionUserConstants"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/scriptBase.jsp"></jsp:include>
@@ -91,6 +92,12 @@
     display: inline-block;
 }
 </style>
+<%
+	response.setHeader("Cache-Control", "no-store,no-cache,must-revalidate");
+	response.setHeader("Pragrma", "no-cache");
+	response.setDateHeader("Expires", 0);
+	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
+%>
 <script language="javascript">
 	var taskitem = "${taskitem}";
 	var caseCode = "${caseCode}";
@@ -103,6 +110,7 @@
 	}
 
 </script>
+
 </head>
 <body>
 
@@ -122,6 +130,8 @@
 <input type="hidden" id="isMainLoanBank" name="isMainLoanBank" value="1"/>
 <!-- 临时银行审批 -->
 <input type="hidden" id="tmpBankStatus" name="tmpBankStatus"/>
+<input type="hidden" id="serviceJobCode" value="${sessionUser.serviceJobCode }">
+<input type="hidden" id="adminLoanerProcess"  name="adminLoanerProcess">
 	<!-- 服务流程 -->
 		<div class="panel " id="serviceFlow">
         <div class="row wrapper white-bg new-heading ">
