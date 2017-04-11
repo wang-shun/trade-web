@@ -57,8 +57,8 @@ public class ContactController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value="contact",method=RequestMethod.POST)
-	public JSONObject contact(Integer page, Integer pageSize, String sidx, String sord, String q_text) {
+	@RequestMapping(value="contact")
+	public JSONObject contact(@RequestParam(required=true)Integer page, @RequestParam(required=true)Integer pageSize, String sidx, String sord,@RequestParam(required=true) String q_text) {
 
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(true);

@@ -619,7 +619,7 @@ public class TradeCaseController {
 		
 		
 	}
-    @RequestMapping(value = "{caseCode}/fileUpload" ,method=RequestMethod.POST)
+    @RequestMapping(value = "{caseCode}/fileUpload" )
 	@ResponseBody
 	public JSONObject fileUpload(@RequestParam(required = true)String fileList,@PathVariable(required=true,name="caseCode") String caseCode) {
     	JSONArray fileListArray= JSONArray.parseArray(fileList);
