@@ -129,6 +129,11 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		for(ToWorkFlow t : zhulcList){
 			workFlowManager.activateOrSuspendProcessInstance(t.getInstCode(),false);//案件的相关流程挂起
 		}
+		ToCase toCase = new ToCase();
+		toCase.setCaseProperty(CasePropertyEnum.TPGQ.getCode());
+		toCase.setCaseCode(vo.getCaseCode());
+		toCaseService.updateByCaseCodeSelective(toCase);//将案件更新成挂起案件
+
         //打开重启流程
 		Map<String, Object> vars = new HashMap<>();
 		// 根据案件所在组找主管
@@ -197,6 +202,10 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 				workFlowManager.activateOrSuspendProcessInstance(t.getInstCode(),true);//案件的相关流程挂起
 			}
 		}
+		ToCase toCase = new ToCase();
+		toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
+		toCase.setCaseCode(vo.getCaseCode());
+		toCaseService.updateByCaseCodeSelective(toCase);//将案件更新在途起案件
 		List<RestVariable> vs = new ArrayList<>();
 		RestVariable v = new RestVariable("is_approved", vo.getIsApproved());
 		vs.add(v);
