@@ -118,32 +118,31 @@ text-decoration: underline !important;
 					<div class="row date-info">
 						<div class="col-md-12">
 							<div class="form-group">
-							<label class="col-md-1 control-label m-l">变更时间</label>
-							<div id="dateDiv_0">
-							<div id="datepicker_0"
-								class="input-group input-medium date-picker input-daterange pull-left"
-								data-date-format="yyyy-mm-dd"  style="margin-left:13px;">
-								<input id="dtBegin" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${operateTimeStart}" placeholder="起始日期">
-								<span class="input-group-addon">到</span>
-								<input id="dtEnd" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${operateTimeEnd}" placeholder="结束日期" />
+								<label class="col-md-1 control-label m-l">变更时间</label>
+								<div id="dateDiv_0">
+									<div id="datepicker_0"
+									class="input-group input-medium date-picker input-daterange pull-left"
+									data-date-format="yyyy-mm-dd"  style="margin-left:13px;">
+										<input id="dtBegin" name="dtBegin" class="form-control" style="font-size: 13px;" type="text" value="${operateTimeStart}" placeholder="起始日期">
+										<span class="input-group-addon">到</span>
+										<input id="dtEnd" name="dtEnd" class="form-control" style="font-size: 13px;" type="text" value="${operateTimeEnd}" placeholder="结束日期" />
+									</div>
+									<div id="addLine" class="pull-left m-l"></div>
+								</div>
 							</div>
-							<div id="addLine" class="pull-left m-l">
-							
 						</div>
-						</div>
-						</div>
-							</div>
-						</div>	
+					</div>	
 						
 						<div class="row m-t-sm">
 							<div class="col-md-6">
 								<div class="form-group">
-							<label class="col-md-2 control-label m-l-lg"></label>
-							<div>
-							<button id="searchButton" type="button" class="btn btn-warning">查询</button>
-							<button id="cleanButton" type="button" class="btn btn-primary">清空</button>
+									<label class="col-md-2 control-label m-l-lg"></label>
+									<div>
+									<button id="searchButton" type="button" class="btn btn-warning">查询</button>
+									<button id="cleanButton" type="button" class="btn btn-primary">清空</button>
+									</div>
+								</div>
 							</div>
-						</div>
 						</div>
 							
 						<div class="col-md-6"  style="text-align:right;"> 
@@ -181,7 +180,7 @@ text-decoration: underline !important;
 		<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
 		<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
     </div>
-		</div>
+	</div>
 	</div>
 	
 	<input type="hidden" id="ctx" value="${ctx}" />
