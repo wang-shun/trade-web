@@ -60,7 +60,6 @@
 				</div>
 			</form>			
 	</div>
-	
 	 <div class="ibox-content" id="zj_info">
            <div class="row m-t-sm" id="">
                <div class="col-lg-12">
@@ -74,18 +73,23 @@
                            <div class="tab-content">
                                    <table class="table table-small table-striped table-bordered table-hover " >
                                        <thead>
-                                       <tr>
-											<th >案件编号</th>
-											<th >案件状态</th>
-											<th >产证地址</th>
-											<th >上家</th>
-											<th >下家</th>
-											<th >创建人</th>
-											<th >创建时间</th>
-										</tr>
+	                                       <tr>
+												<th >案件编号</th>
+												<th >案件状态</th>
+												<th >产证地址</th>
+												<th >上家</th>
+												<th >下家</th>
+												<th >创建人</th>
+												<th >创建时间</th>
+											</tr>
 										</thead>
-									<tbody id="myMortgageApproveLostZbList"></tbody>
+										<tbody id="myMortgageApproveLostZbList"></tbody>
 								</table>
+								<div class="text-center page_box">
+									<span id="currentTotalPagef"><strong ></strong></span>
+									<span class="ml15">共<strong  id="totalPf"></strong>条</span>&nbsp;
+								<div id="pageBarf" class="pagination text-center"></div>  
+						    </div>
 							</div>
 						</div>
 					  </div>	
@@ -149,13 +153,13 @@ var ctx = "${ctx}";
  * 进入页面查询设置
  */
 jQuery(document).ready(function() {
-	putParams("newCaseInputList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",false);
+	putParams("newCaseInputList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",false,1);
 });
-function putParams(qId,temp,tempValue,type){
-	var data = getParams(qId,true); 
+function putParams(qId,temp,tempValue,type,page){
+	var data = getParams(qId,true,page); 
 	reloadGrid(data,temp,tempValue,type);
 }
-function getParams(qId,type) {
+function getParams(qId,type,page) {
 	var startDate = $("#dtBegin_0").val();
 	var endDate = '';
 	if (!$.isBlank($("#dtEnd_0").val())) {
@@ -163,7 +167,7 @@ function getParams(qId,type) {
 	}
 	var data = {};
 	if(!page) { page = 1; }
-    data.rows = 12;
+    data.rows = 10;
     data.page = page;
 	data.startDate = startDate;
 	data.endDate = endDate;
@@ -179,7 +183,7 @@ function getParams(qId,type) {
  * 点击查询时调用的查询方法
  */
 $('#searchButton').click(function() {
-	putParams("exportcaseLossRateReasonZbList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",false);
+	putParams("newCaseInputList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",false,1);
 });
 /**
  *案件详细导出
@@ -233,9 +237,38 @@ function reloadGrid(data,temp,templateValue,type) {
 				var myMortgageApproveLostList = template( temp, data);
 				$("#"+templateValue).empty();
 				$("#"+templateValue).html( myMortgageApproveLostList);
+				initpagef(data.total,data.pagesize,data.page, data.records);
 			},
 			error : function(e, jqxhr, settings,exception) {$.unblockUI();}
 		});
+}
+
+/* 分页   **/
+function initpagef(totalCount,pageSize,currentPage,records) {
+	var currentTotalstrong=$('#currentTotalPagef').find('strong');
+	if(totalCount>1500){ totalCount = 1500; }
+	if (totalCount<1 || pageSize<1 || currentPage<1) {
+		$(currentTotalstrong).empty();
+		$('#totalPf').text(0);
+		$("#pageBarf").empty();
+		return;
+	}
+	$(currentTotalstrong).empty();
+	$(currentTotalstrong).text(currentPage+'/'+totalCount);
+	$('#totalPf').text(records);
+	$("#pageBarf").twbsPagination({
+		totalPages:totalCount,
+		visiblePages:9,
+		startPage:currentPage,
+		first:'<i class="fa fa-step-backward"></i>',
+		prev:'<i class="fa fa-chevron-left"></i>',
+		next:'<i class="fa fa-chevron-right"></i>',
+		last:'<i class="fa fa-step-forward"></i>',
+		showGoto:true,
+		onPageClick: function (event, page) {
+			putParams("newCaseInputList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",false,page);
+	    }
+	});
 }
 
 //日期控件
