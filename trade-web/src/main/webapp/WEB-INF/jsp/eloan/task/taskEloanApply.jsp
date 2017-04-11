@@ -47,7 +47,6 @@
 
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<div id="wrapper">
 		<!-- main Start -->
 		<div class="row wrapper border-bottom nav_heading">
@@ -432,25 +431,23 @@
 	</div>
 	<!-- main End -->
 	</div>
-
 	<!-- Mainly scripts -->
-	<content tag="local_script"> <!-- stickup plugin --> <script
+	<content tag="local_script"> <!-- stickup plugin -->
 	<!-- Toastr script -->
 	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> 
-		src="${ctx}/static/js/morris/morris.js"></script> <script
-		src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
-	   <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<!-- aist --> <script src="${ctx}/js/jquery.blockui.min.js"></script> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/jquery.editable-select.min.js"></script> 
-		<script	src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> 
-		<script
-		src="${ctx}/static/trans/js/workbench/stickDash.js"></script> 
-		<script
-		id="queryCastListItemList" type="text/html">
-                          {{each rows as item index}}
+	<script	src="${ctx}/static/js/morris/morris.js"></script> 
+	<script src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
+   	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+ 	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+ 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+ 	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
+ 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+ 	<script src="${ctx}/js/jquery.editable-select.min.js"></script> 
+	<script	src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> 
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	<script id="queryCastListItemList" type="text/html">
+    {{each rows as item index}}
 	<tr>
     <td>
         <p class="big">
@@ -503,7 +500,8 @@
     </td>
 </tr>
 {{/each}}
-	</script> <script>
+	</script> 
+	<script>
 		$(document)
 				.ready(
 						function() {
