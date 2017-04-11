@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
@@ -23,8 +25,8 @@ public class ContactController {
 	private QuickGridService quickGridService;
 
 	@ResponseBody
-	@RequestMapping("casecontact")
-	public JSONObject casecontact(String caseCode) {
+	@RequestMapping(value="casecontact",method=RequestMethod.POST)
+	public JSONObject casecontact(@RequestParam(required=true) String caseCode) {
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(false);
 
@@ -55,7 +57,7 @@ public class ContactController {
 	}
 
 	@ResponseBody
-	@RequestMapping("contact")
+	@RequestMapping(value="contact",method=RequestMethod.POST)
 	public JSONObject contact(Integer page, Integer pageSize, String sidx, String sord, String q_text) {
 
 		JQGridParam gp = new JQGridParam();
