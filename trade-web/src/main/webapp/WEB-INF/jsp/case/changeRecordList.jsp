@@ -143,12 +143,10 @@ text-decoration: underline !important;
 									</div>
 								</div>
 							</div>
+								<div class="col-md-6"  style="text-align:right;"> 
+									<a class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportToExcel()">列表导出</a>
+								</div>
 						</div>
-							
-						<div class="col-md-6"  style="text-align:right;"> 
-							<a class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportToExcel()">列表导出</a>
-						</div>
-						
 					</form>
 				</div>
 			</div>
