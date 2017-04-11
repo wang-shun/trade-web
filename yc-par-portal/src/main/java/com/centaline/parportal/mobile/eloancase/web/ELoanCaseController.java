@@ -23,6 +23,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.parportal.exception.CheckParametersException;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.vo.ELoanVo;
 
@@ -64,11 +65,16 @@ public class ELoanCaseController {
 	 * @param comment
 	 *            案件跟进备注
 	 * @return 返回true,操作成功;返回false,操作失败。
+	 * @throws CheckParametersException
 	 */
 	@RequestMapping(value = "track/followUp")
 	@ResponseBody
 	public String followUp(String eLoanCode, String stateInBank,
-			String caseCode, String comment) {
+			String caseCode, String comment) throws CheckParametersException {
+
+		if (eLoanCode == null || stateInBank == null || caseCode == null) {
+			throw new CheckParametersException("请检查参数!");
+		}
 
 		// 获取当前用户信息
 		SessionUser sessionUser = uamSessionService.getSessionUser();
@@ -104,11 +110,19 @@ public class ELoanCaseController {
 	 * @param comment
 	 *            案件跟进备注
 	 * @return 返回true,操作成功;返回false,操作失败。
+	 * @throws CheckParametersException
 	 */
 	@RequestMapping(value = "track/accept")
 	@ResponseBody
 	public String accept(String eLoanCode, String isPass, String taskId,
-			String stateInBank, String caseCode, String comment) {
+			String stateInBank, String caseCode, String comment)
+			throws CheckParametersException {
+
+		if (eLoanCode == null || isPass == null || taskId == null
+				|| stateInBank == null || caseCode == null) {
+			throw new CheckParametersException("请检查参数!");
+		}
+
 		// 获取当前用户信息
 		SessionUser sessionUser = uamSessionService.getSessionUser();
 
@@ -190,7 +204,12 @@ public class ELoanCaseController {
 
 	@RequestMapping(value = "/{eLoanCode}")
 	@ResponseBody
-	public String mortgageCaseDetail(@PathVariable String eLoanCode) {
+	public String mortgageCaseDetail(@PathVariable String eLoanCode)
+			throws CheckParametersException {
+
+		if (eLoanCode == null) {
+			throw new CheckParametersException("请检查参数!");
+		}
 
 		// 获取E+案件基本信息
 		List<Map<String, Object>> eLoanCaseDetailMapList = getELoanCaseDetailList(
