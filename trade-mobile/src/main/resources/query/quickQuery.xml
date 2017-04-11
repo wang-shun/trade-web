@@ -23,4 +23,6 @@
 
    	<import resource="query/task/toTaskListQueryMobile.xml" />
    	<import resource="query/task/toApproveRecordQuery.xml" />
+   	
+   	<import resource="query/chat/contactQuery.xml" />
 </queryConfig>

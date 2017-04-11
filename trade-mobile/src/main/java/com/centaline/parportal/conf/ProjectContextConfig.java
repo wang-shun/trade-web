@@ -4,6 +4,8 @@
  */
 package com.centaline.parportal.conf;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -229,5 +231,18 @@ public class ProjectContextConfig {
     	QuickQueryMultiDictCustomDictServiceImpl dict = new QuickQueryMultiDictCustomDictServiceImpl();
     	dict.setDictType("guohu_not_approve");
     	return dict;
+    }
+    @Bean(name="avatarUrlPrixDict")
+    public CustomDictService avatarUrlPrixDict(@Value("${img.sh.centaline.url}")String avatarUrlPrix){
+    	return new CustomDictService() {
+    		@Override
+    		public String getValue(String key) {
+    			if(StringUtils.isBlank(key)) {
+    				return key;
+    			}else{
+    				return avatarUrlPrix + key;
+    			}
+    		}
+		};
     }
 }

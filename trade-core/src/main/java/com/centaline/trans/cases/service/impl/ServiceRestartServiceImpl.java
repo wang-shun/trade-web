@@ -122,9 +122,15 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		 * StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi,
 		 * vo.getUserName(),vo.getCaseCode());
 		 */
+		//相关流程都挂起
+		ToWorkFlow zhuwf = new ToWorkFlow();
+		zhuwf.setCaseCode(vo.getCaseCode());
+		List<ToWorkFlow> zhulcList = toWorkFlowService.queryActiveToWorkFlowByCaseCode(zhuwf);
+		for(ToWorkFlow t : zhulcList){
+			workFlowManager.activateOrSuspendProcessInstance(t.getInstCode(),false);//案件的相关流程挂起
+		}
+        //打开重启流程
 		Map<String, Object> vars = new HashMap<>();
-		User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(vo.getOrgId(), "Manager");
-
 		// 根据案件所在组找主管
 		String managerName = toCaseService.getManagerByCaseOwner(vo.getCaseCode());
 
@@ -182,6 +188,15 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	@Transactional(readOnly = false)
 	@Override
 	public boolean approve(ServiceRestartVo vo) {
+		//打开挂起的流程
+		ToWorkFlow zhuwf = new ToWorkFlow();
+		zhuwf.setCaseCode(vo.getCaseCode());
+		List<ToWorkFlow> zhulcList = toWorkFlowService.queryActiveToWorkFlowByCaseCode(zhuwf);
+		for(ToWorkFlow t : zhulcList){
+			if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(t.getBusinessKey())){
+				workFlowManager.activateOrSuspendProcessInstance(t.getInstCode(),true);//案件的相关流程挂起
+			}
+		}
 		List<RestVariable> vs = new ArrayList<>();
 		RestVariable v = new RestVariable("is_approved", vo.getIsApproved());
 		vs.add(v);
@@ -248,7 +263,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		if (toMortgage != null) {
 			toMortgageService.updateTmpBankStatus(vo.getCaseCode());
 		}
-
 		return true;
 	}
 

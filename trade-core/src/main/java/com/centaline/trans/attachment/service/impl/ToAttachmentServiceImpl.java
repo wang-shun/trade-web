@@ -36,6 +36,15 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 		toAttachmentMapper.insert(toAttachment);
 	}
 	
+	@Override
+	public void saveToAttachment(List<ToAttachment> toAttachments){
+		if(toAttachments!=null){
+			for (ToAttachment toAttachment : toAttachments) {
+				toAttachmentMapper.insert(toAttachment);
+			}
+		}
+	}
+	
 	/**
 	 * 保存附件改变
 	 */

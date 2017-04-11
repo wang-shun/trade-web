@@ -107,18 +107,15 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			toWorkFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
 			toWorkFlow.setCaseCode(caseCode);
 			// 查询流程表记录
-			ToWorkFlow record = toWorkFlowService
-					.queryActiveToWorkFlowByCaseCodeBusKey(toWorkFlow);
+			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(toWorkFlow);
 			if (null != record) {
 				throw new BusinessException("启动失败,该流程正在运行！");
 			}
 			User loaner = uamUserOrgService.getUserById(loanerUserId);
 
-			variables
-					.add(new RestVariable("loanerUserId", loaner.getUsername()));
+			variables.add(new RestVariable("loanerUserId", loaner.getUsername()));
 			variables.add(new RestVariable("bankLevel", bankLevel));
-			variables
-					.add(new RestVariable("sessionUserId", user.getUsername())); // 派单人
+			variables.add(new RestVariable("sessionUserId", user.getUsername())); // 派单人
 			// 设置流程变量的2中方式
 			RestVariable restBankLevel = new RestVariable();
 			restBankLevel.setName("bankLevelApprove");
@@ -127,13 +124,11 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			variables.add(new RestVariable("mainBankChoose", false)); // 默认启动流程时，不走作废程序
 
 			// 启动流程
-			ProcessInstance process = new ProcessInstance(
-					propertyUtilsService.getProcessLoanerDfKey(), caseCode,
-					variables);
-			StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(
-					process, loaner.getUsername(), caseCode);
+			ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode,variables);
+			StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, loaner.getUsername(), caseCode);
 
 			// 启动流程之后 把交易顾问派单流程直接推送完
+			@SuppressWarnings("rawtypes")
 			PageableVo pageableVo = taskService.listTasks(vo.getId(), false);// Loaner_Process:4:1030016
 			List<TaskVo> taskList = pageableVo.getData();
 			for (TaskVo task : taskList) {
@@ -255,8 +250,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	 * @des:信贷员是否接单 银行审批
 	 */
 	@Override
-	public boolean isBankAcceptCase(boolean isBankAcceptCase, String taskId,
-			String processInstanceId, String caseCode) {
+	public boolean isBankAcceptCase(boolean isBankAcceptCase, String taskId,String processInstanceId, String caseCode) {
 
 		boolean bankAccetpFlag = false;
 
