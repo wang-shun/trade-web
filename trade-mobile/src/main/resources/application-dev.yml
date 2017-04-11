@@ -2,7 +2,7 @@
 shiroConfig.sessionIdCookie:
   name: clid
   domain: partner.centaline.com
-  path: /partner
+  path: /trade-mobile
 shiroConfig.sessionUserCookie:
   name: suid
   domain: centaline.com
