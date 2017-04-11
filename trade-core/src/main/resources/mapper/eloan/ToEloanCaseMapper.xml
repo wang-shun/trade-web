@@ -60,7 +60,7 @@
     from sctrans.T_TO_ELOAN_CASE
     where ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
   </select>
-  <select id="selectBackByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_ELOAN_CASE

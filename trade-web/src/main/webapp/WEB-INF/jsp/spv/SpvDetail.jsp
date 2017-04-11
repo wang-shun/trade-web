@@ -220,8 +220,10 @@
 								</li>
 								<li class=""><a href="#tab-6" data-toggle="tab">审批记录</a>
 								</li>
+								<shiro:hasPermission name="TRADE.FUND.SPVDETAIL.CHANGEOFFICER">
 								<li class=""><a href="#tab-8" data-toggle="tab">操作</a>
 								</li>
+								</shiro:hasPermission>
 							</ul>
 						</div>
 					</div>
@@ -626,16 +628,16 @@
 							</div>
                            	</div>
 							</div>
-							<div class="tab-pane" id="tab-8">
-								<div class="info_box info_box_one col-md-8 ">
-								  <c:if test="${spvBaseInfoVO.toSpv.status>=1 }">
-									<shiro:hasPermission name="TRADE.FUND.SPVDETAIL.CHANGEOFFICER">
+							<shiro:hasPermission name="TRADE.FUND.SPVDETAIL.CHANGEOFFICER">
+								<div class="tab-pane" id="tab-8">
+									<div class="info_box info_box_one col-md-8 ">
+									  <c:if test="${spvBaseInfoVO.toSpv.status>=1 }">
 										<a role="button" class="btn btn-primary btn-xm" style="background-color: #f8ac59;border-color: #f8ac59;color: #FFFFFF;"
 											href="javascript:$('#srv-modal-form').modal('show');">更改风控专员 </a>
-									</shiro:hasPermission>
-								  </c:if>	
-	                            </div>
-							</div>
+									  </c:if>	
+		                            </div>
+								</div>
+							</shiro:hasPermission>
 						</div>
 					</div>
 				</div>
@@ -659,11 +661,9 @@
 							<div class="form-group">
 								<div class="col-lg-3 control-label">风控专员：</div>
 								<div class="col-lg-9 checkbox i-checks checkbox-inline">
-									<shiro:hasPermission name="TRADE.FUND.SPVDETAIL.CHANGEOFFICER">
-									    <c:forEach items="${zys}" var="zy" >
-									    	<label><input type="radio" name="newOfficer" value="${zy.id}" style="margin-left:20px;" ${zy.id eq officer.id?'checked="checked"':''}>${zy.realName}</input></label>
-									    </c:forEach>
-									</shiro:hasPermission>
+								    <c:forEach items="${zys}" var="zy" >
+								    	<label><input type="radio" name="newOfficer" value="${zy.id}" style="margin-left:20px;" ${zy.id eq officer.id?'checked="checked"':''}>${zy.realName}</input></label>
+								    </c:forEach>
 								</div>
 							</div>
 						</form>
@@ -680,6 +680,7 @@
 
 	<content tag="local_script">  
 	<script>
+		var spvStatus = ${spvBaseInfoVO.toSpv.status};
 		var idValiDate0 = "<fmt:formatDate value='${spvBaseInfoVO.spvCustList[0].idValiDate }' pattern='yyyy-MM-dd'/>";
 		$("#idValiDate0").text(idValiDate0 == "3000-01-01"?"长期有效":idValiDate0);
 		var idValiDate1 = "<fmt:formatDate value='${spvBaseInfoVO.spvCustList[1].idValiDate }' pattern='yyyy-MM-dd'/>";
@@ -745,14 +746,6 @@
 			/*风控总监更改合约所属风控专员*/
 			function changeOfficer(){
 				$('#srv-modal-form').modal('hide');
-				if(${spvBaseInfoVO.toSpv.status eq 5 or spvBaseInfoVO.toSpv.status eq 6}){
-					window.wxc.alert("当前处于中止/结束流程中，无法进行变更！");
-					return false;
-				}
-				if("${officer.id}" == $("input[name='newOfficer']:checked").attr("value")){
-					window.wxc.alert("请选择不同的专员！");
-					return false;
-				}
 	   	 		$.ajax({
 	   	      		url:ctx+"/spv/changeOfficer",
 	   	      		method:"post",
