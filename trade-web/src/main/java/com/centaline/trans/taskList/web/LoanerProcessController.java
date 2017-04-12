@@ -78,7 +78,7 @@ public class LoanerProcessController{
 	 * */
 	@RequestMapping("sendOrderStart")
 	@ResponseBody
-	public AjaxResponse<String> sendOrderStart(HttpServletRequest request, ToMortgage toMortgage) {	
+	public AjaxResponse<String> sendOrderStart(ToMortgage toMortgage) {	
 		
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		if(null == toMortgage){

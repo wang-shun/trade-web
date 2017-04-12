@@ -706,8 +706,7 @@
 								    <input type="hidden" name="processStart" id="processStart" value=""/>
 								    <input type="hidden" name="pkid" id="pkid"/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
-									<input type="hidden" name="isMainLoanBank" value="1"/>
-									<input type="hidden" name="bankLevel" value=""/>
+									<input type="hidden" name="isMainLoanBank" value="1"/>									
 		                            <div class="marinfo">
 		                                     <div class="line">
 		                                         <div class="form_content">
@@ -835,6 +834,14 @@
                                                         <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
                                                         <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
                                                      </div>
+		                                         </div>
+		                                         
+		                                         <div class="form_content" style="display:none">
+		                                             <label class="control-label sign_left_small select_style mend_select">派单时间<span class="star" ></span>
+		                                             </label>
+		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
+                                                            <input class="input_type yuanwid" type="text" placeholder="" name="dispachTime" id="dispachTime1" readonly>
+                                                     </div>										
 		                                         </div>
 		                                     </div> 		                                     
 		         							 <div class="line">
@@ -1024,8 +1031,7 @@
 								    <input type="hidden" name="pkid" id="pkid"/>
 								    <input type="hidden" name="processStart" id="processStart" value=""/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
-									<input type="hidden" name="isMainLoanBank" value="0"/>
-									<input type="hidden" name="bankLevel" value=""/>
+									<input type="hidden" name="isMainLoanBank" value="0"/>									
 		                            <div class="marinfo">
 		                                     <div class="line">
 		                                         <div class="form_content">
@@ -1153,6 +1159,14 @@
                                                         <label class="radio inline"> <input type="radio" value="1" name="isTmpBank" disabled="true">是</label>
                                                         <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" disabled="true" checked="checked">否</label>
                                                      </div>
+		                                         </div>
+		                                         
+		                                         <div class="form_content" style="display:none">
+		                                             <label class="control-label sign_left_small select_style mend_select">派单时间<span class="star" ></span>
+		                                             </label>
+		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
+                                                            <input class="input_type yuanwid" type="text" placeholder="" name="dispachTime" id="dispachTime0" readonly>
+                                                     </div>										
 		                                         </div>
 		                                     </div> 		                                     
 		         							 <div class="line">

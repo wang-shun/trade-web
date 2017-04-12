@@ -651,7 +651,9 @@ public class CaseDetailController {
 				toLoanAgentVOs.add(toLoanAgentVO);
 			}
 		}
-		SessionUser sessionUser = uamSessionService.getSessionUser();
+		
+		
+		SessionUser sessionUser = uamSessionService.getSessionUser();		
 		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
 			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
@@ -664,8 +666,7 @@ public class CaseDetailController {
 				tasks.addAll(taskList1);
 			}
 			// 本人做的任务
-			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService
-					.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
 			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 		}
 		
@@ -853,7 +854,9 @@ public class CaseDetailController {
 		if (srvCodes.length() > 0)
 			srvCodes.deleteCharAt(srvCodes.length() - 1);
 		reVo.setSrvCodes(srvCodes.toString());
-
+		
+		
+		SessionUser sessionUser = uamSessionService.getSessionUser();
 		// 工作流
 		ToWorkFlow inWorkFlow = new ToWorkFlow();
 		inWorkFlow.setBusinessKey("operation_process");
@@ -1267,22 +1270,36 @@ public class CaseDetailController {
 				toLoanAgentVOs.add(toLoanAgentVO);
 			}
 		}
-		SessionUser sessionUser = uamSessionService.getSessionUser();
+	
 		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
+			//查询caseCode所有的流程instCode
 			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
 			for(String insCode : insCodeList) {
-				TaskHistoricQuery tq = new TaskHistoricQuery();
+				TaskHistoricQuery tq = new TaskHistoricQuery();				
 				tq.setProcessInstanceId(insCode);
 				tq.setFinished(true);
-				
-				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
+
+				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());		
 				tasks.addAll(taskList1);
 			}
 			// 本人做的任务
-			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService
-					.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			
+			/*
+			 * @author: zhuody
+			 * @date:2017-04-12
+			 * @desc:信息管理员 权限放大
+			 * */
+/*			if(null != sessionUser.getServiceJobCode() && !"".equals(sessionUser.getServiceJobCode())){
+				if("COXXGLY".equals(sessionUser.getServiceJobCode())){
+					request.setAttribute("myTasks",filterMyTask(null,tasks)) ;
+				}else{
+					
+				}		
+			}*/
 			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
+			
 		}
 		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser.getServiceDepCode());
 		boolean isBackTeam = false;
@@ -1384,7 +1401,9 @@ public class CaseDetailController {
 		if (tasks == null || mySerivceItems == null || tasks.isEmpty() || mySerivceItems.isEmpty()) {
 			return tasks;
 		}
+		
 		Set<String>taskDfKeys=new HashSet<>();
+		
 		mySerivceItems.parallelStream().forEach(item->{
 			Dict d =uamBasedataService.findDictByType(item.getSrvCode());
 			if(d!=null&&d.getChildren()!=null){
@@ -1395,7 +1414,8 @@ public class CaseDetailController {
 				});
 			}
 		});
-		Iterator<TaskVo> it=tasks.iterator();
+		
+		Iterator<TaskVo> it = tasks.iterator();
 		while (it.hasNext()) {
 			TaskVo task=it.next();
 			if(!taskDfKeys.contains(task.getTaskDefinitionKey())){

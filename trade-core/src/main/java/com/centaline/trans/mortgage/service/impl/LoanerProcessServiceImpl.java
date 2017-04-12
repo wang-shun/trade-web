@@ -1,6 +1,8 @@
 package com.centaline.trans.mortgage.service.impl;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -212,6 +214,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		String caseCode = toMortgage.getCaseCode() ==null?"":toMortgage.getCaseCode();
 		String loanerUserId = toMortgage.getLoanerId() == null ?"":toMortgage.getLoanerId();
 		String  bankLevel = toMortgage.getBankLevel()== null ?"":toMortgage.getBankLevel();
+		
 		try {
 			ToWorkFlow toWorkFlow = new ToWorkFlow();
 			toWorkFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
@@ -224,7 +227,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			User loaner = uamUserOrgService.getUserById(loanerUserId);
 
 			variables.add(new RestVariable("loanerUserId", loaner.getUsername()));
-			variables.add(new RestVariable("bankLevel", toMortgage.getBankLevel() == null?"":toMortgage.getBankLevel()));
+			variables.add(new RestVariable("bankLevel", bankLevel));
 			variables.add(new RestVariable("sessionUserId", user.getUsername())); // 派单人
 			// 设置流程变量的2中方式
 			RestVariable restBankLevel = new RestVariable();
@@ -255,7 +258,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			// toMortgageMapper.findToMortgageByCaseCodeAndLoanerId(map);
 			ToMortgage toMortgageInfo = toMortgageMapper.findToMortgageByCaseCodeAndDisTime(caseCode);
 			String bizCode = "";
-
+			
 			// 添加贷款表中的 信贷员、派单员等信息			
 			toMortgage.setCaseCode(caseCode);
 			toMortgage.setDispachUserId(user.getId());
@@ -264,28 +267,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			toMortgage.setLoanerProcessInstCode(vo.getId());
 			toMortgage.setIsActive("1");
 			toMortgage.setIsDelegateYucui("1");		
-			toMortgage.setBankLevel(bankLevel);
-			
-			
-			if(toMortgage.getMortTotalAmount() != null){
-				toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
-			}
-			if(toMortgage.getComAmount() != null){
-				toMortgage.setComAmount(toMortgage.getComAmount().multiply(new BigDecimal(10000)));
-			}
-			if(toMortgage.getPrfAmount() != null){
-				toMortgage.setPrfAmount(toMortgage.getPrfAmount().multiply(new BigDecimal(10000)));
-			}
-			if(toMortgage.getIfReportBeforeLend() == null){
-				toMortgage.setIfReportBeforeLend("0");
-			}
-			if(toMortgage.getIsLoanerArrive() == null){
-				toMortgage.setIsLoanerArrive("0");
-			}
-			if(toMortgage.getIsTmpBank() == null){
-				toMortgage.setIsTmpBank("0");
-			}
-			
+			toMortgage.setBankLevel(String.valueOf(bankLevel));				
 			
 			if (null != toMortgageInfo) {
 				toMortgage.setPkid(toMortgageInfo.getPkid());
@@ -306,14 +288,20 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 			toWorkFlowService.insertSelective(workFlow);
 
-			// 派单给BC级别银行的信贷员之后,启动银行分级审批
+			//派单给BC级别银行的信贷员之后,启动银行分级审批
 			//bankLevel == 1 B级银行不审批  变更
+			//if (bankLevel ==9) {
 			if ("9".equals(bankLevel)) {
 				toMortgageService.startTmpBankWorkFlow(caseCode, vo.getId());
 			}
-
+			
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			Date date=new Date();
+			String dispachTime=sdf.format(date); 
+			
 			response.setSuccess(true);
 			response.setMessage("恭喜，交易顾问派单成功！");
+			response.setContent(dispachTime);
 		} catch (BusinessException e) {
 			response.setSuccess(false);
 			throw new BusinessException("Sorry,交易顾问派单失败！");

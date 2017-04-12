@@ -104,12 +104,10 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Map<String, String> map = null;
 		try {
 			map = BeanToMapUtils.convertBean(tq);
-		} catch (IllegalAccessException | InvocationTargetException
-				| IntrospectionException e) {
+		} catch (IllegalAccessException | InvocationTargetException	| IntrospectionException e) {
 			e.printStackTrace();
 		}
-		PageableVo vo = (PageableVo) engine.RESTfulWorkFlow(
-				WorkFlowConstant.TASK_LIST_KEY, PageableVo.class, map);
+		PageableVo vo = (PageableVo) engine.RESTfulWorkFlow(WorkFlowConstant.TASK_LIST_KEY, PageableVo.class, map);
 		convertPageableData(vo, TaskVo.class);
 		setTasksGroups(vo.getData());
 		return vo;
@@ -542,12 +540,10 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Map<String, String> map = null;
 		try {
 			map = BeanToMapUtils.convertBean(tq);
-		} catch (IllegalAccessException | InvocationTargetException
-				| IntrospectionException e) {
+		} catch (IllegalAccessException | InvocationTargetException	| IntrospectionException e) {
 			e.printStackTrace();
 		}
-		PageableVo vo = (PageableVo) engine.RESTfulWorkFlow(
-				WorkFlowConstant.GET_HISTORY_TASK_KEY, PageableVo.class, map);
+		PageableVo vo = (PageableVo) engine.RESTfulWorkFlow(WorkFlowConstant.GET_HISTORY_TASK_KEY, PageableVo.class, map);
 		convertPageableData(vo, TaskVo.class);
 
 		return vo;

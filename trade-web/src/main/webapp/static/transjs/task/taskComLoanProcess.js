@@ -167,7 +167,7 @@ function checkMortgageForm(formId){
 }
 
 
-//派单前先进行校验
+//派单流程提交前  校验
 function beforeSendLoanerProcess(formId){	
 	$("input,select").css("border-color","#ccc");
 	
@@ -1504,6 +1504,8 @@ $(document).ready(function (){
  		}else if(currentIndex == 2){
  			
  			var flag = false;
+ 			
+ 			//TODO  第三步点击下一步的时候判断 信贷员是否变更？ 判断是否启流程
  			if(checkMortgageForm($("#mortgageForm"))){
 	 			saveMortgage($("#mortgageForm"));
 	 			flag = true;
@@ -1882,17 +1884,18 @@ function loanerProcessStart(isMainLoanBank){
     	
     	success:function(data){    		
     		if(data.success == true){   
-	    			//TODO 阿瓦达瓦达瓦大哇多哇多哇多
+	    			//TODO 
 	    			//if(null != bankLevel &&  bankLevel != undefined  && null != loanerUserId && "" != loanerUserId){
-	    			window.wxc.confirm("派单前，请再次确认您选择的信贷员是否正确！",{"wxcOk":function(){
-		    			if(beforeSendLoanerProcess(form)){
-		    				startLoanerOrderWorkFlow(bankLevel,isMainLoanBank,form);  
-		    			}else{    				
-		    				window.wxc.alert("启动派单流程需选择信贷员和银行信息");
-		    				return;
-		    			}
-	    			 }
-	    		 });   			    		
+    				if(beforeSendLoanerProcess(form)){
+	    				window.wxc.confirm("派单前，请再次确认您选择的信贷员是否正确！",{"wxcOk":function(){
+	    					startLoanerOrderWorkFlow(bankLevel,isMainLoanBank);  
+		    			 }
+	   	    		 });  
+	    			}/*else{    				
+	    				window.wxc.alert("启动派单流程需选择信贷员和银行信息");
+	    				return;
+	    			}*/
+ 			    		
 	    	}else{
 				window.wxc.alert(data.message);
 				return;
@@ -1919,36 +1922,35 @@ function startBankLevelApproveWorkFlow(){
 
 }
 //启动 信贷员审核流程
-function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank,form){
+function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
 	
 	var loanerUserId = $("#loanerId").val();		//所选信贷员的userId
 	var loanerOrgId = $("#loanerOrgId").val();		//所选信贷员的OrgId
 	var bankOrgCode = $("#finOrgCode").val();		//所选银行分行的OrgCode	
-	form.find("input[name='custName']").val(form.find("select[name='custCode']").find("option:selected").text());
-	form.find("input[name='isMainLoanBank']").val(isMainLoanBank);
-	form.find("input[name='bankLevel']").val(bankLevel);
 	
-	//data:form.serialize(),
-	var data = 
-	{
-	   "caseCode":$("#caseCode").val(),
-	   "loanerUserId":loanerUserId,
-	   "loanerOrgId":loanerOrgId,
-	   "bankOrgCode":bankOrgCode,
-	   "bankLevel":bankLevel,
-	   "isMainLoanBank":isMainLoanBank
-	 };	
+	var mor = getFormParams();
 	
+	mor.caseCode = $("#caseCode").val();
+	mor.loanerId = loanerUserId;
+	mor.loanerOrgId = loanerOrgId;
+	mor.finOrgCode = bankOrgCode;
+	mor.bankLevel = bankLevel;
+	mor.isMainLoanBank = isMainLoanBank;
+	//alert(JSON.stringify(mor));
 	
  	$.ajax({
 	    url:ctx+"/task/sendOrderStart",
 	    async:false,
     	method:"post",
     	dataType:"json",
-    	//data:data,
-    	data:form.serialize(),
+    	data:mor,
     	
-    	success:function(data){
+    	success:function(data){    		
+    		if(isMainLoanBank==1){
+    			$("#dispachTime1").val(data.content).show();
+    		}else if(isMainLoanBank==0){
+    			$("#dispachTime0").val(data.content).show();
+    		}
     		window.wxc.success(data.message);
     	}
  	});
@@ -1958,6 +1960,55 @@ function getUrlParams(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
+}
+
+
+function getFormParams(){
+	var custCode = $("#custCode").val();
+	
+	var custName = $("#custCode option:selected").text();
+	var mortType =  $("#mortType").val();
+	
+	var mortTotalAmount =0;
+	if(null != $("#mortTotalAmount").val()  && "" != $("#mortTotalAmount").val()){
+		mortTotalAmount =  $("#mortTotalAmount").val() * 10000;
+	}
+	
+	var comAmount =0;
+	if(null != $("#comAmount").val()  && "" != $("#comAmount").val()){
+		 comAmount =  $("#comAmount").val() * 10000;
+	}
+	
+	var prfAmount =0;
+	if(null != $("#prfAmount").val()  && "" != $("#prfAmount").val()){
+		prfAmount =  $("#prfAmount").val() * 10000;
+	}
+	
+	
+	var comDiscount =  $("#comDiscount").val();	
+	var comYear =  $("#comYear").val();
+	
+	var lendWay =  $("#lendWay").val();	
+	var loanerPhone =  $("#loanerPhone").val();
+	var signDate =  $("#signDate").val();
+	var recLetterNo =  $("#recLetterNo").val();	
+	var prfYear = $("#prfYear").val();	
+
+	var mor = {};
+	mor.custCode = custCode;
+	mor.custName = custName;
+	mor.mortTotalAmount = mortTotalAmount;
+	mor.mortType = mortType;
+	mor.comAmount = comAmount;
+	mor.comDiscount = comDiscount;	
+	mor.comYear = comYear;
+	mor.lendWay = lendWay;
+	mor.loanerPhone = loanerPhone;
+	mor.recLetterNo = recLetterNo;
+	mor.prfAmount = prfAmount;
+	mor.prfYear = prfYear;	
+	
+	return mor;
 }
 
 

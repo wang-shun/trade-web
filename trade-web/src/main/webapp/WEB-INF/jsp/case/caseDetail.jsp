@@ -636,13 +636,10 @@
 															style="margin-top: 9px; margin-left: 15px;">
 															请选择您要修改的环节</div>
 														<div class="col-lg-3">
-															<input name="caseCode" value="${toCase.caseCode}"
-																id="hid_case_code" type="hidden"> <input
-																name="source" value="caseDetails" type="hidden">
-															<input name="instCode" value="${toWorkFlow.instCode}"
-																type="hidden"> <select id="sel_changeFrom"
-																name="changeFrom" class="form-control m-b"
-																style="padding-bottom: 3px; height: 45.003px;">
+															<input name="caseCode" value="${toCase.caseCode}" id="hid_case_code" type="hidden">
+															<input name="source" value="caseDetails" type="hidden">
+															<input name="instCode" value="${toWorkFlow.instCode}" type="hidden">
+															<select id="sel_changeFrom"	name="changeFrom" class="form-control m-b"	style="padding-bottom: 3px; height: 45.003px;">
 																<c:forEach items="${myTasks}" var="item">
 																	<option value="${item.taskDefinitionKey }">${item.name }</option>
 																</c:forEach>
@@ -1224,6 +1221,7 @@
 	<script src="${ctx}/js/trunk/case/caseRemark.js"></script>
 	<jsp:include	page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script>
+
 		var caseCode = $("#caseCode").val();
 		var ctmCode = $("#ctm").val();
 		var url = "/quickGrid/findPage";

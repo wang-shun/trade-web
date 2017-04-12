@@ -67,24 +67,25 @@ function changeTaskAssignee(sendData){
 		}
 	});
 }
+
+
 $(document).ready(function() {
+
 			$("#subscribe").subscribeToggle({
 				moduleType:"1001",
 				subscribeType:"2001"
 			});
+			
 			$("#sel_changeFrom option").each(function(){
 				var _this=$(this);
 				var taskDfKey=_this.val();
-				if(!changeTaskList.contains(taskDfKey) ||(loanTaskArry.contains(taskDfKey)&&!loanTasks[loanReqType].contains(taskDfKey))){
+				if(!changeTaskList.contains(taskDfKey) ||(loanTaskArry.contains(taskDfKey) && !loanTasks[loanReqType].contains(taskDfKey))){
 					_this.remove();
 				}
 			});
-			$("#sel_changeFrom").change(function(){
-				
-					if($("#sel_changeFrom").val() == "ComLoanProcess"){
-						
-						$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val()+'?comFlag=processButtonHidden');							
-						
+			$("#sel_changeFrom").change(function(){				
+					if($("#sel_changeFrom").val() == "ComLoanProcess"){						
+						$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val()+'?comFlag=processButtonHidden');	
 					}else{
 						$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
 					}
@@ -1584,6 +1585,7 @@ function showTeamModal(data){
 	$("#team-form").html(inHtml);
 	$('#team-modal-form').modal("show");
 }
+//我要修改显示弹框
 function showChangeFormModal(){
 	$('#changeForm-modal-form').modal("show");
 }

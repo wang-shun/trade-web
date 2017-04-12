@@ -74,8 +74,7 @@ public class WorkFlowEngine {
 	 * @param queryParameters
 	 * @return
 	 */
-	public Object RESTfulWorkFlow(String workflow, Object cl,
-			Map<String, String> queryParameters) {
+	public Object RESTfulWorkFlow(String workflow, Object cl,Map<String, String> queryParameters) {
 		return RESTfulWorkFlow(workflow, cl, null, queryParameters);
 	}
 
@@ -92,12 +91,10 @@ public class WorkFlowEngine {
 	 *            查询条件
 	 * @return
 	 */
-	public Object RESTfulWorkFlow(String workflow, Object cl, Object vars,
-			Map<String, String> queryParameters) {
+	public Object RESTfulWorkFlow(String workflow, Object cl, Object vars,Map<String, String> queryParameters) {
 		String uri = WorkFlowConstant.WORK_FLOW_OPREATE.get(workflow);
 		if (StringUtils.isBlank(uri)) {
-			throw new WorkFlowException("RESTfulWorkFlow:未知的workflow:"
-					+ workflow);
+			throw new WorkFlowException("RESTfulWorkFlow:未知的workflow:"	+ workflow);
 		}
 		HttpResponse response = null;
 		try {
