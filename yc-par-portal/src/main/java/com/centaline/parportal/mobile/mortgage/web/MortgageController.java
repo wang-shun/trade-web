@@ -21,6 +21,7 @@ import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.parportal.exception.CheckParametersException;
 import com.centaline.trans.common.vo.MobileHolder;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.mortgage.vo.MortgageVo;
@@ -58,12 +59,20 @@ public class MortgageController {
 	 * @param comment
 	 *            案件跟进备注
 	 * @return 返回true,操作成功;返回false,操作失败。
+	 * @throws CheckParametersException
 	 */
 	@RequestMapping(value = "track/accept")
 	@ResponseBody
 	public String accept(String bizCode, String isPass, String taskId,
 			String procInstanceId, String stateInBank, String caseCode,
-			String comment) {
+			String comment) throws CheckParametersException {
+
+		if (bizCode == null || isPass == null || taskId == null
+				|| procInstanceId == null || stateInBank == null
+				|| caseCode == null) {
+			throw new CheckParametersException("请检查参数!");
+		}
+
 		// 获取当前用户信息
 		SessionUser sessionUser = uamSessionService.getSessionUser();
 
@@ -105,12 +114,19 @@ public class MortgageController {
 	 * @param comment
 	 *            案件跟进备注
 	 * @return 返回true,操作成功;返回false,操作失败。
+	 * @throws CheckParametersException
 	 */
 	@RequestMapping(value = "track/followUp")
 	@ResponseBody
 	public String followUp(String bizCode, String isPass, String taskId,
 			String procInstanceId, String stateInBank, String caseCode,
-			String comment) {
+			String comment) throws CheckParametersException {
+
+		if (bizCode == null || isPass == null || taskId == null
+				|| procInstanceId == null || stateInBank == null
+				|| caseCode == null) {
+			throw new CheckParametersException("请检查参数!");
+		}
 
 		// 获取当前用户信息
 		SessionUser sessionUser = uamSessionService.getSessionUser();
@@ -137,7 +153,13 @@ public class MortgageController {
 
 	@RequestMapping(value = "/{bizCode}")
 	@ResponseBody
-	public String mortgageCaseDetail(@PathVariable String bizCode) {
+	public String mortgageCaseDetail(@PathVariable String bizCode)
+			throws CheckParametersException {
+
+		if (bizCode == null) {
+			throw new CheckParametersException("请检查参数!");
+		}
+
 		List<Map<String, Object>> respDetail = mortgageCaseInfoQuery(
 				queryDetail, bizCode, 1, 10);
 

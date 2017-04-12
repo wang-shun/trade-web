@@ -370,6 +370,8 @@ text-decoration: underline !important;
 	 		displayColomn.push('CREATE_TIME');
 	 		displayColomn.push('CASE_CODE');
 	 		displayColomn.push('custName');
+			displayColomn.push('custCardType');
+			displayColomn.push('custPaper');
 	 		displayColomn.push('PROPERTY_ADDR');
 	 		displayColomn.push('LOAN_SRV_CODE');
 	 		displayColomn.push('finOrgName');

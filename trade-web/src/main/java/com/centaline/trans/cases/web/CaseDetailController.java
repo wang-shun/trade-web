@@ -2155,6 +2155,7 @@ public class CaseDetailController {
 	@ResponseBody
 	public AjaxResponse<?> casePause(String caseCode, HttpServletRequest request) {
 		// 案件状态查询
+		AjaxResponse response = new AjaxResponse();
 		boolean isSus = false;
 		ToCase record = new ToCase();
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
@@ -2165,14 +2166,20 @@ public class CaseDetailController {
 			record.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 			isSus = true;
 		}
+		ToWorkFlow wf = new ToWorkFlow();
+		wf.setCaseCode(caseCode);
+		List<ToWorkFlow> zhulcList = toWorkFlowService.queryActiveToWorkFlowByCaseCode(wf);
 		// 流程挂起
-		List<String> instCodes = toWorkFlowService.queryInstCodesByCaseCode(caseCode);
-		for (String instCode : instCodes) {
-			workFlowManager.activateOrSuspendProcessInstance(instCode, isSus);
+		for (ToWorkFlow toWorkFlow : zhulcList) {
+			if(WorkFlowEnum.SERVICE_RESTART.getCode().equals(toWorkFlow.getBusinessKey())){
+				response.setMessage("该案件有流程重启任务，等待主管审批");
+				response.setSuccess(false);
+				return response;
+			}
+			workFlowManager.activateOrSuspendProcessInstance(toWorkFlow.getInstCode(), isSus);
 		}
 		// 案件表更新
 		toCaseService.updateByCaseCodeSelective(record);
-		AjaxResponse response = new AjaxResponse();
 		response.setContent(record.getCaseProperty());
 		response.setMessage("变更成功！");
 		response.setSuccess(true);
