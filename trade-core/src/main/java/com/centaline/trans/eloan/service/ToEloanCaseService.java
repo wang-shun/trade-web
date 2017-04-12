@@ -81,4 +81,9 @@ public interface ToEloanCaseService {
 	 * @since JDK 1.8
 	 */
 	int selectBackAppCountByTime(int endWeekDay);
+
+	void changeOwner(String eloanCode, String oldConsultantId, String newConsultantId, String oldManagerId,
+			String newManagerId);
+
+	List<String> selectConsAndManager(Long pkId);
 }

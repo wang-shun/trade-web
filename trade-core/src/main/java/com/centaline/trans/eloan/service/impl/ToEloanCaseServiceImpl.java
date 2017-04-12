@@ -1,6 +1,7 @@
 package com.centaline.trans.eloan.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,12 +12,15 @@ import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.aist.uam.userorg.remote.vo.UserOrgJob;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.comment.entity.ToCaseComment;
@@ -32,10 +36,12 @@ import com.centaline.trans.eloan.repository.ToEloanRelMapper;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.vo.ELoanVo;
 import com.centaline.trans.engine.annotation.TaskOperate;
+import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -65,6 +71,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	UamSessionService uamSessionService;
 	@Autowired
 	private ToCaseCommentService toCaseCommentService;
+	@Autowired
+	private WorkFlowManager workFlowManager;
 
 	@Override
 	public void saveEloanApply(SessionUser user, ToEloanCase tEloanCase) {
@@ -417,5 +425,91 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 	public int selectBackAppCountByTime(int endWeekDay){
 		return toEloanCaseMapper.selectBackAppCountByTime(endWeekDay);
+	}
+
+	@Override
+	public void changeOwner(String eloanCode, String oldConsultantId, String newConsultantId, String oldManagerId,
+			String newManagerId) {
+		//相关人员
+		SessionUser oldConsultant = uamSessionService.getSessionUserById(oldConsultantId);
+		SessionUser newConsultant = uamSessionService.getSessionUserById(newConsultantId);
+		SessionUser oldManager = uamSessionService.getSessionUserById(oldManagerId);
+		SessionUser newManager = uamSessionService.getSessionUserById(newManagerId);
+		SessionUser user = uamSessionService.getSessionUser();
+		//1.更新t_to_eloan_case表中的excutor_id字段
+		ToEloanCase eloanCase = toEloanCaseMapper.selectByEloanCode(eloanCode);
+		String depType = "no";
+		if (user != null && eloanCase != null
+				&& user.getId().equals(newConsultantId)) {
+			depType = "yes";
+		}
+		User excutor = uamUserOrgService.getUserById(newConsultantId);
+		Org districtOrg = uamUserOrgService.getParentOrgByDepHierarchy(
+				excutor.getOrgId(), DepTypeEnum.TYCQY.getCode());
+		
+		eloanCase.setExcutorId(newConsultantId);
+		if (excutor != null) {
+			// 如果当前用户和提交用户是同一个人，用户部门就用当前session部门 deptype-- yes:同一个用户 no:不同用户
+			if (depType.equals("yes")) {
+				eloanCase.setExcutorTeam(user.getServiceCompanyId());
+				depType = "no";
+			} else {
+				eloanCase.setExcutorTeam(excutor.getOrgId());
+			}
+		}
+		if (districtOrg != null) {
+			eloanCase.setExcutorDistrict(districtOrg.getId());
+		}
+
+		toEloanCaseMapper.updateByPrimaryKey(eloanCase);
+		
+		//1.查询流程
+		ToWorkFlow record = new ToWorkFlow();
+		record.setBizCode(eloanCode);
+		record.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
+		ToWorkFlow workFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
+		if(workFlow == null){
+			throw new BusinessException("找不到E+申请流程！");
+		}
+		
+		//2.更新流程变量+已生成待办任务
+		workFlowManager.setVariableByProcessInsId(workFlow.getInstCode(), "Consultant", new RestVariable("Consultant",newConsultant.getRealName()));
+		workFlowManager.setVariableByProcessInsId(workFlow.getInstCode(), "Manager", new RestVariable("Manager",newManager.getUsername()));
+		PageableVo pageableVo = taskService.listTasks(workFlow.getInstCode(), false);
+		List<TaskVo> taskList = pageableVo.getData();
+		for (TaskVo task : taskList) {
+			if (oldConsultant.getUsername().equals(task.getAssignee())) {
+				taskService.updateAssignee(task.getId().toString(), newConsultant.getUsername());
+			}else if(oldManager.getUsername().equals(task.getAssignee())){
+				taskService.updateAssignee(task.getId().toString(), newManager.getUsername());
+			}
+		}
+	}
+
+	@Override
+	public List<String> selectConsAndManager(Long pkId) {
+		ToEloanCase toEloanCase = toEloanCaseMapper.selectByPrimaryKey(pkId);
+		//1.查询流程
+		ToWorkFlow record = new ToWorkFlow();
+		record.setBizCode(toEloanCase.getEloanCode());
+		record.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
+		ToWorkFlow workFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
+		if(workFlow == null){
+			throw new BusinessException("找不到E+申请流程！");
+		}
+		
+		String consultantUserName = (String) workFlowManager.getVar(workFlow.getInstCode(), "Consultant").getValue();
+		String managerUserName = (String) workFlowManager.getVar(workFlow.getInstCode(), "Manager").getValue();
+		
+		List<UserOrgJob> consultants = uamUserOrgService.findUserOrgJobByUsername(consultantUserName);
+		SessionUser consultant = uamSessionService.getSessionUserById(consultants.get(0).getUserId());
+		List<UserOrgJob> managers = uamUserOrgService.findUserOrgJobByUsername(managerUserName);
+		SessionUser manager = uamSessionService.getSessionUserById(managers.get(0).getUserId());
+		
+		List<String> mixUserList = new ArrayList<String>();
+		mixUserList.add(consultant.getId()+","+consultant.getServiceDepId()+","+consultant.getRealName());
+		mixUserList.add(manager.getId()+","+manager.getServiceDepId()+","+manager.getRealName());
+		
+		return mixUserList;
 	}
 }

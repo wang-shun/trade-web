@@ -258,4 +258,6 @@ public interface ToSpvService {
 	void changeOfficer(String spvCode,String oldOfficer, String newOfficer);
 	
 	List<ToSpvCashFlowApply> findCashFlowApplyCodeBySpvCode(String spvCode);
+
+	List<String> selectConsAndManager(Long pkId);
 }

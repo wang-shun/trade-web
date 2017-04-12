@@ -301,11 +301,6 @@
                                                         <li class="active">
                                                             <a href="#tab-fk" data-toggle="tab">风控准备</a>
                                                         </li>
-                                                        <shiro:hasPermission name="TRADE.ELOAN.CASEDETAIL.CHANGEOWNER">
-                                                        <li>
-                                                            <a href="#tab-cz" data-toggle="tab">操作</a>
-                                                        </li>
-                                                        </shiro:hasPermission>
                                                         <!-- <li class="">
                                                             <a href="#tab-hk" data-toggle="tab">回款方案</a>
                                                         </li> -->
@@ -372,14 +367,6 @@
                                                             </tbody>
                                                         </table> -->
                                                     </div>
-                                                    <shiro:hasPermission name="TRADE.ELOAN.CASEDETAIL.CHANGEOWNER">
-						                              	<div class="tab-pane" id="tab-cz">
-															<div class="info_box info_box_one col-md-8 ">
-																<a role="button" class="btn btn-primary btn-xm" style="background-color: #f8ac59;border-color: #f8ac59;color: #FFFFFF;"
-																	href="javascript:$('#srv-modal-form').modal('show');">更改负责人 </a>
-								                            </div>
-														</div>
-													</shiro:hasPermission>
                                                     <div class="tab-pane" id="tab-hk">
                                                         <table class="table table-striped">
                                                             <thead>
@@ -468,80 +455,23 @@
                     <div class="ibox-content" id="reportThree" style="display:none;">
                     </div>
                     <div class="ibox-content" id="reportFour" style="display:none;">
-
                     </div>
                     <div class="ibox-content" id="reportFive" style="display:none;">
-
                     </div>
-
                 </div>
             </div>
-    </div>
-    
-    <!-- 风控专员变更 -->
-	<div id="srv-modal-form" class="modal fade" role="dialog"
-		aria-labelledby="srv-modal-title" aria-hidden="true">
-		<div class="modal-dialog" style="width: 700px">
-			<div class="modal-content">
-				<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">×</button>
-			    
-				<h4 class="modal-title" id="srv-modal-title">选择交易顾问：</h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<form class="form-horizontal">
-							<div class="form-group">
-								<div class="col-lg-9 checkbox i-checks checkbox-inline">
-								    <input type="hidden" id="userName" name="toSpv.riskControlOfficer" value='${spvBaseInfoVO.toSpv.riskControlOfficer }'>
-			        				<input type="text" id="realName"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'',expandNodeId:'',
-									jobCode:'consultant',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" value=''>
-									<div class="input-group float_icon organize_icon">
-                                     <i class="icon iconfont">&#xe627;</i>
-                                 	</div>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-				<h4 class="modal-title" id="srv-modal-title">选择主管：</h4>
-				<div class="modal-body">
-					<div class="row">
-						<form class="form-horizontal">
-							<div class="form-group">
-								<div class="col-lg-9 checkbox i-checks checkbox-inline">
-								    <input type="hidden" id="userName" name="toSpv.riskControlOfficer" value='${spvBaseInfoVO.toSpv.riskControlOfficer }'>
-		        					<input type="text" id="realName"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'',expandNodeId:'',
-									jobCode:'consultant',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser_})" value=''>
-									<div class="input-group float_icon organize_icon">
-                                     <i class="icon iconfont">&#xe627;</i>
-                                 	</div>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" style="background-color: #f8ac59;border-color: #f8ac59;color: #FFFFFF;" onclick="javascript:changeOfficer()">提交</button>
-					<button type="button" class="btn btn-default"
-						data-dismiss="modal">取消</button>
-				</div>
-				</div>
-			</div>
-		</div>
+    	</div>
 	</div>
 	<!-- main End -->
 	<content tag="local_script"> 
-	   <%-- <script src="${ctx}/js/inspinia.js"></script> 
-	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script>  --%>
+<%-- 	   <script src="${ctx}/js/inspinia.js"></script> 
+	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script> --%>
 	   <!-- 开关按钮js -->
        <script src="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js"></script>
-       <%-- <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> --%>
        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-       <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+       <script src= "${ctx}/js/template.js" type="text/javascript"></script>
+       <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
        <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-       <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
        <script id="queryRiskControlList" type= "text/html">
                         {{each rows as item index}}
  				                 <tr>
@@ -708,39 +638,6 @@
 		   function refresh(){
 			   window.location.reload();
 		   }
-		   
-		   function selectLoanerUser(array) {
-				selectLoanerUserCom(array,$("#mortgageForm"));
-			}
-			
-			function selectLoanerUser_(array) {
-				selectLoanerUserCom(array,$("#mortgageForm1"));
-			}
-			
-			function selectLoanerUserCom(array,$form){
-				if (array && array.length > 0) {
-					$form.find("#loanerName").val(array[0].username);
-					$.ajax({
-						url : ctx + "/eloan/LoanerCode",
-						method : "post",
-						dataType : "json",
-						data : {
-							"userId" : array[0].userId
-						},
-						success : function(data) {
-							$form.find("#loanerNameImage").css("color","#52cdec");
-							$form.find("#loanerPhone").val(data.user.mobile);
-							$form.find("#loanerId").val(data.user.id);
-							$form.find("#loanerOrgCode").val(data.user.orgName);
-							$form.find("#loanerOrgId").val(data.user.orgId);
-						}
-					})
-				} else {
-					$form.find("#loanerName").val("");
-					$form.find("#loanerOrgCode").val("");
-					$form.find("#loanerOrgId").val("");
-				}
-			}
 	   </script> 
 	</content>
 </body>

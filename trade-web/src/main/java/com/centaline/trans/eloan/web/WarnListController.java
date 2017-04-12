@@ -268,15 +268,6 @@ public class WarnListController {
 			if (!StringUtils.isBlank(toCaseInfo.getAgentCode())) {
 				agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
 			}
-			//流程设置的交易顾问和主管
-			ToWorkFlow record = new ToWorkFlow();
-			record.setBizCode(eloanCase.getEloanCode());
-			record.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
-			ToWorkFlow workflow= toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
-			//查询流程变量
-			String consultantUserName = (String) workFlowManager.getVar(workflow.getInstCode(), "Consultant").getValue();
-			String managerUserName = (String) workFlowManager.getVar(workflow.getInstCode(), "Manager").getValue();
-			
 			// 上下家
 			List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
 			StringBuffer seller = new StringBuffer();
@@ -320,9 +311,6 @@ public class WarnListController {
 
 			SessionUser user = uamSessionService.getSessionUser();
 			model.addAttribute("userName", user.getRealName());
-			
-			model.addAttribute("consultantUserName", consultantUserName);
-			model.addAttribute("managerUserName", managerUserName);
 		}
 
 		if ("update".equals(action)) {
@@ -1030,7 +1018,40 @@ public class WarnListController {
 		}
 		return result;
 	}
-
+	
+	@RequestMapping("changeOwner")
+	@ResponseBody
+	public AjaxResponse<Integer> changeOwner(String eloanCode, String oldConsultantId, String newConsultantId, String oldManagerId, String newManagerId) {
+		AjaxResponse<Integer> result = new AjaxResponse<>();
+		try {
+			toEloanCaseService.changeOwner(eloanCode, oldConsultantId, newConsultantId, oldManagerId, newManagerId);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
+	@RequestMapping("selectConsAndManager")
+	@ResponseBody
+	public AjaxResponse<List<String>> selectConsAndManager(Long pkId) {
+		AjaxResponse<List<String>> result = new AjaxResponse<List<String>>();
+		try {
+			List<String> mixUserList = toEloanCaseService.selectConsAndManager(pkId);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+			result.setContent(mixUserList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
 	private boolean getApproveRecordForItem(ToApproveRecord toApproveRecord, HttpServletRequest request) {
 		boolean flag = false;
 		// E+ 申请查询审核结果

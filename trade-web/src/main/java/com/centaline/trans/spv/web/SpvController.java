@@ -196,8 +196,6 @@ public class SpvController {
 		if(StringUtils.isNotBlank(toCase.getLeadingProcessId())){
 			jingban =uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		}
-		//风控专员
-		List<User> zys =uamUserOrgService.getUserByOrgIdAndJobCode(officer.getOrgId(), "JYFKZY");
 		//风控总监
 		List<User> zj =uamUserOrgService.getUserByOrgIdAndJobCode(officer.getOrgId(), "JYFKZJ");
 		User FKZJ=new User();
@@ -228,7 +226,6 @@ public class SpvController {
 		request.setAttribute("createPhone", phone);
 		request.setAttribute("officer", officer);
 		request.setAttribute("jingban", jingban);
-	    request.setAttribute("zys",zys);
 	    request.setAttribute("zj",FKZJ);
 	    request.setAttribute("applyUser",applyUser);
 		return "spv/SpvDetail";
@@ -1249,6 +1246,23 @@ public class SpvController {
 			e.printStackTrace();
 		}
 		return response;
+	}
+	
+	@RequestMapping("selectOfficerAndDirector")
+	@ResponseBody
+	public AjaxResponse<List<String>> selectConsAndManager(Long pkId) {
+		AjaxResponse<List<String>> result = new AjaxResponse<List<String>>();
+		try {
+			List<String> mixUserList = toSpvService.selectConsAndManager(pkId);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+			result.setContent(mixUserList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
 	}
 	
     /**

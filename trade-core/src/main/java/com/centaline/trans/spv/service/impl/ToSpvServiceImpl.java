@@ -25,6 +25,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
@@ -40,6 +41,7 @@ import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
+import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskQuery;
@@ -1975,6 +1977,33 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public List<ToSpvCashFlowApply> findCashFlowApplyCodeBySpvCode(String spvCode) {
 		return toSpvCashFlowApplyMapper.selectCashFlowApplysBySpvCode(spvCode);
+	}
+
+	@Override
+	public List<String> selectConsAndManager(Long pkId) {
+		ToSpv toSpv = toSpvMapper.selectByPrimaryKey(pkId);
+		//1.查询流程
+		ToWorkFlow record = new ToWorkFlow();
+		record.setBizCode(toSpv.getSpvCode());
+		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
+		ToWorkFlow workFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
+		if(workFlow == null){
+			throw new BusinessException("找不到资金监管流程！");
+		}
+		
+		String officerUserName = (String) workFlowManager.getVar(workFlow.getInstCode(), "RiskControlOfficer").getValue();
+		String directorUserName = (String) workFlowManager.getVar(workFlow.getInstCode(), "RiskControlDirector").getValue();
+		
+		List<UserOrgJob> officers = uamUserOrgService.findUserOrgJobByUsername(officerUserName);
+		SessionUser officer = uamSessionService.getSessionUserById(officers.get(0).getUserId());
+		List<UserOrgJob> directors = uamUserOrgService.findUserOrgJobByUsername(directorUserName);
+		SessionUser director = uamSessionService.getSessionUserById(directors.get(0).getUserId());
+		
+		List<String> mixUserList = new ArrayList<String>();
+		mixUserList.add(officer.getId()+","+officer.getServiceDepId()+","+officer.getRealName());
+		mixUserList.add(director.getId()+","+director.getServiceDepId()+","+director.getRealName());
+		
+		return mixUserList;
 	}
 	
 }
