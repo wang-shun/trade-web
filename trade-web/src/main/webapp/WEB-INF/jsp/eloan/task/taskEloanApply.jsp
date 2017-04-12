@@ -387,10 +387,11 @@
 							<div class="form_content" style="position: relative;">
 								<label class="control-label sign_left_two"> <i
 									style="color:red">* </i> 信贷员
-								</label> <input type="text" name="loanerName" id="loanerName"
+								</label> <input type="text" name="loanerName" id="loanerName" 
+								onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})"
 									style="background-color: #FFFFFF;" readonly="readonly"
 									class="sign_right_two input_type" id="txt_proOrgId_gb"
-									value='${eloanCase.loanerName}' onkeyup="onkeyuploanerName()">
+									value='${eloanCase.loanerName}' >
 									<i style=" position: absolute; top: 5px; right: 5px; color:#52cdec; " id="loanerNameImage" name ="loanerNameImage" class="icon iconfont"
 									onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" 
