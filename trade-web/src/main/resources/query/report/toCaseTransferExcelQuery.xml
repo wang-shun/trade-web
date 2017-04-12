@@ -590,4 +590,36 @@
 			</table-row>
 		</grid>
 	</query>
+	<query id="newCaseInputList" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[	
+				select 
+					CASE_CODE caseCode,
+					STATUS	status,
+					CASE_PROPERTY	caseProperty,
+					(select REAL_NAME from sctrans.SYS_USER where ID=c.CREATE_BY) realName,
+					c.CREATE_TIME createTime
+				from sctrans.T_TO_CASE  c 
+				where 
+					c.CASE_ORIGIN='INPUT'
+				]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="caseCode" title="caseCode" customDict="" hidden="false" />
+				<column type="both" name="status" title="status" customDict="" hidden="false" />
+				<column type="both" name="caseProperty" title="caseProperty" customDict="" hidden="false" />
+				<column type="both" name="realName" title="realName" customDict="" hidden="false" />
+				<column type="both" name="createTime" title="createTime" customDict="" hidden="false"  beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" />
+			</table-row>
+		</grid>
+	</query>
 </querys>

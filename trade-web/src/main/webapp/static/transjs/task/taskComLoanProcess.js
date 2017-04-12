@@ -41,6 +41,9 @@ function checkDisagree(){
 	return true;
 }
 
+
+
+
 function checkMortgageForm(formId){	
 	$("input,select").css("border-color","#ccc");
 	
@@ -162,6 +165,127 @@ function checkMortgageForm(formId){
 	}
 	return true;
 }
+
+
+//派单前先进行校验
+function beforeSendLoanerProcess(formId){	
+	$("input,select").css("border-color","#ccc");
+	
+	if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
+		window.wxc.alert("主贷人为必填项！");
+		formId.find("select[name='custCode']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='mortTotalAmount']").val() == ""){
+		window.wxc.alert("贷款总额为必填项！");
+		formId.find("input[name='mortTotalAmount']").css("border-color","red");
+		return false;
+	}else if(formId.find("select[name='mortType']").val() == ""){
+		window.wxc.alert("贷款类型为必填项！");
+		formId.find("select[name='mortType']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='comAmount']").val() == ""){
+		window.wxc.alert("商贷金额为必填项！");
+		formId.find("input[name='comAmount']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='comDiscount']").val() == ""){
+		window.wxc.alert('商贷利率折扣为必填项');
+		formId.find("input[name='comDiscount']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='comDiscount']").val()<0.5||formId.find("input[name='comDiscount']").val()>1.5){
+		window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+		formId.find("input[name='comDiscount']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='comDiscount']").val()>=0.5&&formId.find("input[name='comDiscount']").val()<=1.5
+			&&new RegExp("/^[01]{1}\.{1}\d{3,}$/").test(formId.find("input[name='comDiscount']").val())){
+		window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
+		formId.find("input[name='comDiscount']").css("border-color","red");
+		return false;
+	}else if(isNaN(formId.find("input[name='comDiscount']").val())){
+		window.wxc.alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
+		formId.find("input[name='comDiscount']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='comYear']").val() == ""){
+		window.wxc.alert("商贷年限为必填项！");
+		formId.find("input[name='comYear']").css("border-color","red");
+		return false;
+	}else if(formId.find("select[name='lendWay']").val() == "" || formId.find("select[name='lendWay']").val() == null){
+		window.wxc.alert("放款方式为必填项！");
+		formId.find("select[name='lendWay']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='loanerName']").val() == ""){
+		window.wxc.alert("信贷员为必填项！");
+		formId.find("input[name='loanerName']").css("border-color","red");
+		return false;
+		
+	}else if(formId.find("input[name='loanerId']").val() == ""){
+		formId.find("input[name='loanerName']").css("border-color","red");
+		return false;
+		
+	}else if(formId.find("input[name='loanerPhone']").val() == ""){
+		window.wxc.alert("信贷员电话为必填项！");
+		formId.find("input[name='loanerPhone']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='loanerPhone']").val() != "" && !(/^0?1[3|4|5|7|8][0-9]\d{8}$/.test(formId.find("input[name='loanerPhone']").val()))){
+		formId.find("input[name='loanerPhone']").css("border-color","red");
+		window.wxc.alert("信贷员手机号码输入错误！");
+		return false;
+	}else if(formId.find("input[name='signDate']").val() == "" ){
+		window.wxc.alert("签约时间为必填项！");
+		formId.find("input[name='signDate']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='isTmpBank'][value='0']").is(":checked") && formId.find("input[name='recLetterNo']").val() == ""){
+		window.wxc.alert("推荐函编号为必填项！");
+		formId.find("input[name='recLetterNo']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='remindTime']").val() != "" && formId.find("input[name='supContent']").val()==""){
+		window.wxc.alert("请输入补件名称！");
+		return false;
+	}else if(formId.find("input[name='supContent']").val() != "" && formId.find("input[name='remindTime']").val()==""){
+		window.wxc.alert("请输入补件时间！");
+		return false;
+	}
+	
+	if(formId.find("select[name='finOrgCode']").val() == ""){
+		window.wxc.alert("贷款支行为必填项！");
+		formId.find("select[name='finOrgCode']").css("border-color","red");
+		return false;
+    }
+	if($("#finOrgCode").find('option:selected').attr('coLevel') == "0"){
+		/*if(formId.find("input[name='loanerId']").val() == ""){
+			alert("入围银行的信贷员请从合作银行中选择！");
+			formId.find("input[name='loanerName']").css("border-color","red");
+			return false;
+		}*/
+	}else{
+		//formId.find("input[name='loanerId']").val("");
+		//formId.find("input[name='loanerOrgCode']").val("");
+		//formId.find("input[name='loanerOrgId']").val("");
+	}
+	if(!formId.find("input[name='isTmpBank'][value='1']").prop('checked')){
+		if(afterTimeFlag){
+			if (formId.find("input[name='recLetterNo']").val()==""){
+				formId.find("input[name='recLetterNo']").css("border-color","red");
+				return false;
+			}
+		}		
+	}else{
+		if(formId.find("input[name='tmpBankReason']").val() == ""){
+			formId.find("input[name='tmpBankReason']").css("border-color","red");
+			return false;
+		}
+	}
+	var prfAmoutStr=formId.find("input[name='prfAmount']").val();
+	var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
+	var mortTotalAmount=parseFloat(formId.find("input[name='mortTotalAmount']").val());
+	var comAmount=parseFloat(formId.find("input[name='comAmount']").val());
+	
+	if((mortTotalAmount-prfAmount).toFixed(5)!=comAmount){
+		window.wxc.alert('贷款总额必须等于商贷和公积金之和');
+    	return false;
+	}
+	return true;
+}
+
 //询价	
 function assess(){
 	var isMainLoanBank = $("#isMainLoanBank").val();
@@ -1738,6 +1862,13 @@ function loanerProcessStart(isMainLoanBank){
 	var bankOrgCode = $("#finOrgCode").val();		//所选银行分行的OrgCode
 	$("#processStart").val("processIsStart");
 	
+	var form = '';
+	if(isMainLoanBank == "1"){
+		form = $("#mortgageForm");
+	}else if(isMainLoanBank == "0"){
+		form = $("#mortgageForm1");
+	}
+	
 	var data = 
 	{
 	   "caseCode":$("#caseCode").val() 
@@ -1750,20 +1881,24 @@ function loanerProcessStart(isMainLoanBank){
     	data:data,
     	
     	success:function(data){    		
-    		if(data.success == true){    			
-    			if(null != bankLevel &&  bankLevel != undefined  && null != loanerUserId){     				
-    				startLoanerOrderWorkFlow(bankLevel,isMainLoanBank);  
-    			}else{    				
-    				window.wxc.alert("启动派单流程需选择信贷员和银行信息");
-    				return;
-    			}
-    		}else{
+    		if(data.success == true){   
+	    			//TODO 阿瓦达瓦达瓦大哇多哇多哇多
+	    			//if(null != bankLevel &&  bankLevel != undefined  && null != loanerUserId && "" != loanerUserId){
+	    			window.wxc.confirm("派单前，请再次确认您选择的信贷员是否正确！",{"wxcOk":function(){
+		    			if(beforeSendLoanerProcess(form)){
+		    				startLoanerOrderWorkFlow(bankLevel,isMainLoanBank,form);  
+		    			}else{    				
+		    				window.wxc.alert("启动派单流程需选择信贷员和银行信息");
+		    				return;
+		    			}
+	    			 }
+	    		 });   			    		
+	    	}else{
 				window.wxc.alert(data.message);
 				return;
-    		} 		    		
+			} 
     	}
  	}); 
-	
 }
 function startBankLevelApproveWorkFlow(){
 	//'我要修改'页面不触发流程 	
@@ -1784,11 +1919,16 @@ function startBankLevelApproveWorkFlow(){
 
 }
 //启动 信贷员审核流程
-function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
+function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank,form){
 	
 	var loanerUserId = $("#loanerId").val();		//所选信贷员的userId
 	var loanerOrgId = $("#loanerOrgId").val();		//所选信贷员的OrgId
-	var bankOrgCode = $("#finOrgCode").val();		//所选银行分行的OrgCode
+	var bankOrgCode = $("#finOrgCode").val();		//所选银行分行的OrgCode	
+	form.find("input[name='custName']").val(form.find("select[name='custCode']").find("option:selected").text());
+	form.find("input[name='isMainLoanBank']").val(isMainLoanBank);
+	form.find("input[name='bankLevel']").val(bankLevel);
+	
+	//data:form.serialize(),
 	var data = 
 	{
 	   "caseCode":$("#caseCode").val(),
@@ -1798,12 +1938,15 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
 	   "bankLevel":bankLevel,
 	   "isMainLoanBank":isMainLoanBank
 	 };	
+	
+	
  	$.ajax({
 	    url:ctx+"/task/sendOrderStart",
 	    async:false,
     	method:"post",
     	dataType:"json",
-    	data:data,
+    	//data:data,
+    	data:form.serialize(),
     	
     	success:function(data){
     		window.wxc.success(data.message);

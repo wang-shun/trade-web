@@ -53,9 +53,9 @@ public class LoanerProcessController{
 	 * @date:2017-03-24
 	 * @des:信贷员接单流程启动
 	 * */
-	@RequestMapping("sendOrderStart")
+	@RequestMapping("oldSendOrderStart")
 	@ResponseBody
-	public AjaxResponse<String> sendOrderStart(String caseCode,String loanerUserId, String loanerOrgId, String bankOrgCode,int bankLevel,String isMainLoanBank) {	
+	public AjaxResponse<String> oldSendOrderStart(String caseCode,String loanerUserId, String loanerOrgId, String bankOrgCode,int bankLevel,String isMainLoanBank) {	
 		
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		if((null == caseCode  || "".equals(caseCode)) || (null == loanerUserId  || "".equals(loanerUserId)) || (null == loanerOrgId  || "".equals(loanerOrgId))  || (null == bankOrgCode  || "".equals(bankOrgCode) || (null == isMainLoanBank  || "".equals(isMainLoanBank)))){
@@ -64,6 +64,29 @@ public class LoanerProcessController{
 		
 		try{
 			response = loanerProcessService.startLoanerOrderWorkFlow(caseCode,loanerUserId,loanerOrgId,bankOrgCode,bankLevel,isMainLoanBank);
+		}catch(BusinessException e){
+			throw new BusinessException("信贷员流程启动异常！");
+		}	
+	
+		return response;	
+	}
+	
+	/*
+	 * @author:zhuody
+	 * @date:2017-04-12
+	 * @des:信贷员接单流程启动  时  保存贷款信息
+	 * */
+	@RequestMapping("sendOrderStart")
+	@ResponseBody
+	public AjaxResponse<String> sendOrderStart(HttpServletRequest request, ToMortgage toMortgage) {	
+		
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		if(null == toMortgage){
+			throw new BusinessException("信贷员流程启动请求参数为空！");
+		}
+		
+		try{
+			response = loanerProcessService.newStartLoanerOrderWorkFlow(toMortgage);
 		}catch(BusinessException e){
 			throw new BusinessException("信贷员流程启动异常！");
 		}	

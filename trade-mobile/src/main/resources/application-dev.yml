@@ -44,10 +44,10 @@ casRealm:
   casServerUrlPrefix: http://sso.centaline.com:8080/aist-sso-web
 # Server settings (ServerProperties)
 server:
-  port: 8090
+  port: 8095
   #address: 127.0.0.1
   sessionTimeout: 30
-  contextPath: /partner
+  contextPath: /trade-mobile
 #数据源
 dataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
