@@ -2,7 +2,7 @@
 <querys>
 	<dicts>	
 	
-			<customDict id="lastContents" beanName="lastContents" />
+		<customDict id="lastContents" beanName="lastContents" />
 		<customDict id="getCaseInfo" beanName="getCaseInfo" />
 		<customDict id="getPostInfo" beanName="getPostInfo" />
 		<customDict id="convertValueForLoanlostReason" beanName="convertValueForLoanlostReason" />
@@ -25,6 +25,7 @@
 		<customDict id="eloanKaAmount" beanName="eloanKaAmount" />
 		<customDict id="eloanKa" beanName="eloanKa" />
 		<customDict id="eloanProduct" beanName="eloanProduct" />
+		<customDict id="qqProaddrByCaseCode" beanName="qqProaddrByCaseCode"></customDict>	
 	</dicts>
 	<formatters>
 		<!-- 通过id确定时间格式化的样式 -->
@@ -597,7 +598,7 @@
 			<baseSql>
 				<![CDATA[	
 				select 
-					CASE_CODE caseCode,
+					CASE_CODE ,
 					STATUS	status,
 					CASE_PROPERTY	caseProperty,
 					(select REAL_NAME from sctrans.SYS_USER where ID=c.CREATE_BY) realName,
@@ -614,11 +615,12 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="caseCode" title="caseCode" customDict="" hidden="false" />
+				<column type="both" name="CASE_CODE" title="CASE_CODE" customDict="" hidden="false" />
 				<column type="both" name="status" title="status" customDict="" hidden="false" />
 				<column type="both" name="caseProperty" title="caseProperty" customDict="" hidden="false" />
 				<column type="both" name="realName" title="realName" customDict="" hidden="false" />
 				<column type="both" name="createTime" title="createTime" customDict="" hidden="false"  beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" />
+				<column type="virtual" name="PROPERTY_ADDR" index="" checkbox="true" title="案件地址"  customDict="qqProaddrByCaseCode" hidden="false" referencecol="CASE_CODE"/>
 			</table-row>
 		</grid>
 	</query>
