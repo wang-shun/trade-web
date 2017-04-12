@@ -1171,6 +1171,8 @@
 				$("#loanerOrgCode").val("");
 				$("#loanerOrgId").val("");
 				$("#loanerUserName").val("");
+				$("#loanerPhone").val("");
+				$("#loanerId").val("");
 			}
 		}
 
