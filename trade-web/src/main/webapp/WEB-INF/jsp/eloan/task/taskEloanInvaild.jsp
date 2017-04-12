@@ -34,8 +34,9 @@
 <link rel="stylesheet" href="${ctx}/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" type="text/css" />
 <!-- 分页控件 -->
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-<!-- aist列表样式 -->
-<%-- <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet"> --%>
+<!-- 备注信息 -->
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -152,6 +153,8 @@
                     </div>
 
                     <div class="ibox-content" id="loan_info">
+                    	<!-- 相关信息 -->
+						<div id="caseCommentList" class="view-content"></div>
                         <div class="main_titile">
                             <h5>可修改内容</h5>
                         </div>
@@ -184,15 +187,16 @@
     </div>
 	<!-- main End -->
 	<content tag="local_script"> 
-	   <script src="${ctx}/js/inspinia.js"></script> 
-	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script> 
 	   <!-- 开关按钮js -->
        <script src="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js"></script>
-       <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
+       <%-- <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> --%>
+       <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
        <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
        <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>   
-           <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>  
+       <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
+       <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+       <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
 	   <script>
 		   jQuery(document).ready(function() {
 			   var signAmount = $("#signAmount").val();
@@ -206,6 +210,13 @@
 				   $("#releaseInfoForShow").hide();
 			   }
 			   $("input[name='releaseTime']").attr("disabled", true);
+			   $("#caseCommentList").eloanCaseCommentGrid(
+						{
+							eloanCode : $("#eloanCode").val(),
+							source : 'EPLUS',
+							type : 'TRACK'
+						}	   
+					   );
 			  
 		   }) 
 		   
@@ -245,7 +256,7 @@
 					}
 				});
 			}
-
+		   
 	   </script> 
 	</content>
 </body>

@@ -121,7 +121,9 @@
 		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> <script
+	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+	<script
 		src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> <script
 		src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <script
 		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
@@ -212,7 +214,7 @@
                                       </shiro:hasPermission>
                                        <shiro:hasPermission name="TRADE.ELONE.DELETE">
                                        {{if item.taskKey =='EloanApply'}}
-                                      <li><a id="link_btn" onclick="deleteItem({{item.pkId}},'delete')">删除</a></li>{{/if}}
+                                        <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=invalid">作废</a></li>{{/if}}
                                        {{if item.taskKey !='EloanApply'&& item.applyTime!=undefined &&item.STATUS!='ABAN'}}
                                         <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=invalid">作废</a></li>{{/if}}
                                       </shiro:hasPermission>
