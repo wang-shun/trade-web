@@ -32,7 +32,7 @@
 		</javaTypeResolver>
 
 		<!-- targetProject:自动生成代码的位置 -->
-		<javaModelGenerator targetPackage="com.centaline.trans.cases.entity"
+		<javaModelGenerator targetPackage="com.centaline.trans.mortgage.entity"
 			targetProject="src\main\java">
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
@@ -40,14 +40,13 @@
 			<property name="trimStrings" value="true" /> 
 		</javaModelGenerator>
 
-		<sqlMapGenerator targetPackage="task" targetProject="src\main\resources\mapper\cases">
+		<sqlMapGenerator targetPackage="mortgage" targetProject="src\main\resources\mapper">
 			<property name="enableSubPackages" value="false" />
 		</sqlMapGenerator>
 		
-		<javaClientGenerator targetPackage="com.centaline.trans.cases.repository" targetProject="src\main\java" type="XMLMAPPER" />
+		<javaClientGenerator targetPackage="com.centaline.trans.mortgage.repository" targetProject="src\main\java" type="XMLMAPPER" />
 		
-		<!-- <table domainObjectName="TsApiLog" tableName="T_TS_API_LOG" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" /> -->
-		<table domainObjectName="ToCaseMerge" tableName="T_TO_CASE_MERGE" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" />
+		<table domainObjectName="ToMortLoaner" tableName="T_TO_MORT_LOANER" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" />
 	</context>
 
 </generatorConfiguration>  

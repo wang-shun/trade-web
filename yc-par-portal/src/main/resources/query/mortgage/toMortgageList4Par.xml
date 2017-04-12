@@ -59,7 +59,7 @@
 							ISNULL(uoj.employee_code,'') 	as avartaUrl,
 							ISNULL(uoj.real_name,'') 		as consultantName
 				FROM sctrans.ACT_RU_TASK t
-				INNER JOIN sctrans.T_TO_WORKFLOW w ON t.PROC_INST_ID_  = w.INST_CODE
+				INNER JOIN sctrans.T_TO_WORKFLOW w ON t.PROC_INST_ID_  = w.INST_CODE AND w.BUSINESS_KEY = 'Loaner_Process'
 				INNER JOIN sctrans.T_TO_MORTGAGE m ON m.CASE_CODE = w.CASE_CODE
 				INNER JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = w.CASE_CODE AND m.LOANER_ID = #userid# AND	m.is_active = '1'
 				INNER JOIN sctrans.V_USER_ORG_JOB uoj ON m.LOANER_ID = uoj.user_id AND uoj.ismain = 1

@@ -120,7 +120,7 @@
 
 			<td class="t-left">
 				 <p class="big">
-					{{item.caseCode}}
+					{{item.CASE_CODE}}
 				 </p>
 			</td>
 			<td class="t-left">
@@ -130,7 +130,17 @@
 			</td>
 			<td class="t-left">
 				 <p class="big">
-					{{item.caseProperty}}
+					{{item.PROPERTY_ADDR}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.realName}}
+				 </p>
+			</td>
+			<td class="t-left">
+				 <p class="big">
+					{{item.createTime}}
 				 </p>
 			</td>
 			<td class="t-left">
@@ -148,6 +158,10 @@
 		{{/each}}
 </script> 
 <script>
+/**
+ * 2017年4月11日17:33:06
+ * 自建案件列表 
+ */
 var ctx = "${ctx}";
 /**
  * 进入页面查询设置
@@ -155,10 +169,16 @@ var ctx = "${ctx}";
 jQuery(document).ready(function() {
 	putParams("newCaseInputList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",false,1);
 });
+/**
+ * 查询参数
+ */
 function putParams(qId,temp,tempValue,type,page){
 	var data = getParams(qId,true,page); 
 	reloadGrid(data,temp,tempValue,type);
 }
+/**
+ * 设置查询条件参数
+ */
 function getParams(qId,type,page) {
 	var startDate = $("#dtBegin_0").val();
 	var endDate = '';
@@ -207,18 +227,7 @@ function loanLostCaseExportToExcel(){
 		data : data
 	})
 } 
-$('#AtabZb').click(function() {
-	document.getElementById("tabZb").style.display="block";
-	document.getElementById("tabGb").style.display="none";
-});
-$('#AtabGb').click(function() {
-	document.getElementById("tabGb").style.display="block";
-	document.getElementById("tabZb").style.display="none";
-	if(readyType == 1 ){
-		putParams("exportcaseLossRateReasonGbList","template_myMortgageApproveLostGbList","myMortgageApproveLostGbList",false);
-		readyType = 0;
-	}
-});
+
 function reloadGrid(data,temp,templateValue,type) {
 	aist.wrap(data);
 	$.ajax({
@@ -243,7 +252,10 @@ function reloadGrid(data,temp,templateValue,type) {
 		});
 }
 
-/* 分页   **/
+
+/* *
+ * 分页
+ */
 function initpagef(totalCount,pageSize,currentPage,records) {
 	var currentTotalstrong=$('#currentTotalPagef').find('strong');
 	if(totalCount>1500){ totalCount = 1500; }
