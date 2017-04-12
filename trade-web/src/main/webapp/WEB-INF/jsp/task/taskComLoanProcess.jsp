@@ -707,6 +707,7 @@
 								    <input type="hidden" name="pkid" id="pkid"/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
 									<input type="hidden" name="isMainLoanBank" value="1"/>
+									<input type="hidden" name="bankLevel" value=""/>
 		                            <div class="marinfo">
 		                                     <div class="line">
 		                                         <div class="form_content">
@@ -1024,6 +1025,7 @@
 								    <input type="hidden" name="processStart" id="processStart" value=""/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
 									<input type="hidden" name="isMainLoanBank" value="0"/>
+									<input type="hidden" name="bankLevel" value=""/>
 		                            <div class="marinfo">
 		                                     <div class="line">
 		                                         <div class="form_content">

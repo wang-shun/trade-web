@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -93,9 +95,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	 * @des:启动信贷员流程
 	 */
 	@Override
-	public AjaxResponse<String> startLoanerOrderWorkFlow(String caseCode,
-			String loanerUserId, String loanerOrgId, String bankOrgCode,
-			int bankLevel, String isMainLoanBank) {
+	public AjaxResponse<String> startLoanerOrderWorkFlow(String caseCode,String loanerUserId,String loanerOrgId,String bankOrgCode,int bankLevel,String isMainLoanBank) {
 
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		/* 流程引擎相关 */
@@ -180,6 +180,135 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			// 派单给BC级别银行的信贷员之后,启动银行分级审批
 			//bankLevel == 1 B级银行不审批  变更
 			if (bankLevel == 9) {
+				toMortgageService.startTmpBankWorkFlow(caseCode, vo.getId());
+			}
+
+			response.setSuccess(true);
+			response.setMessage("恭喜，交易顾问派单成功！");
+		} catch (BusinessException e) {
+			response.setSuccess(false);
+			throw new BusinessException("Sorry,交易顾问派单失败！");
+		}
+		return response;
+	}
+	
+	
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-04-12
+	 * 
+	 * @des:启动信贷员流程
+	 */
+	@Override
+	public AjaxResponse<String> newStartLoanerOrderWorkFlow(ToMortgage toMortgage) {
+
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		/* 流程引擎相关 */
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		SessionUser user = uamSessionService.getSessionUser();
+		
+		String caseCode = toMortgage.getCaseCode() ==null?"":toMortgage.getCaseCode();
+		String loanerUserId = toMortgage.getLoanerId() == null ?"":toMortgage.getLoanerId();
+		String  bankLevel = toMortgage.getBankLevel()== null ?"":toMortgage.getBankLevel();
+		try {
+			ToWorkFlow toWorkFlow = new ToWorkFlow();
+			toWorkFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
+			toWorkFlow.setCaseCode(caseCode);
+			// 查询流程表记录
+			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(toWorkFlow);
+			if (null != record) {
+				throw new BusinessException("启动失败,该流程正在运行！");
+			}
+			User loaner = uamUserOrgService.getUserById(loanerUserId);
+
+			variables.add(new RestVariable("loanerUserId", loaner.getUsername()));
+			variables.add(new RestVariable("bankLevel", toMortgage.getBankLevel() == null?"":toMortgage.getBankLevel()));
+			variables.add(new RestVariable("sessionUserId", user.getUsername())); // 派单人
+			// 设置流程变量的2中方式
+			RestVariable restBankLevel = new RestVariable();
+			restBankLevel.setName("bankLevelApprove");
+			restBankLevel.setValue(false);
+			variables.add(restBankLevel); // 预设值消息信息
+			variables.add(new RestVariable("mainBankChoose", false)); // 默认启动流程时，不走作废程序
+
+			// 启动流程
+			ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode,variables);
+			StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, loaner.getUsername(), caseCode);
+
+			// 启动流程之后 把交易顾问派单流程直接推送完
+			@SuppressWarnings("rawtypes")
+			PageableVo pageableVo = taskService.listTasks(vo.getId(), false);// Loaner_Process:4:1030016
+			List<TaskVo> taskList = pageableVo.getData();
+			for (TaskVo task : taskList) {
+				if ("LoanerSendOrder".equals(task.getTaskDefinitionKey())) {// ZY-AJ-201605-1460
+					taskService.complete(task.getId() + "");
+					break;
+				}
+			}
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("caseCode", caseCode);
+			map.put("loanerId", loanerUserId);
+			// ToMortgage toMortgageInfo =
+			// toMortgageMapper.findToMortgageByCaseCodeAndLoanerId(map);
+			ToMortgage toMortgageInfo = toMortgageMapper.findToMortgageByCaseCodeAndDisTime(caseCode);
+			String bizCode = "";
+
+			// 添加贷款表中的 信贷员、派单员等信息			
+			toMortgage.setCaseCode(caseCode);
+			toMortgage.setDispachUserId(user.getId());
+			toMortgage.setDispachTime(new Date());
+			toMortgage.setLoanerId(loanerUserId);
+			toMortgage.setLoanerProcessInstCode(vo.getId());
+			toMortgage.setIsActive("1");
+			toMortgage.setIsDelegateYucui("1");		
+			toMortgage.setBankLevel(bankLevel);
+			
+			
+			if(toMortgage.getMortTotalAmount() != null){
+				toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000)));
+			}
+			if(toMortgage.getComAmount() != null){
+				toMortgage.setComAmount(toMortgage.getComAmount().multiply(new BigDecimal(10000)));
+			}
+			if(toMortgage.getPrfAmount() != null){
+				toMortgage.setPrfAmount(toMortgage.getPrfAmount().multiply(new BigDecimal(10000)));
+			}
+			if(toMortgage.getIfReportBeforeLend() == null){
+				toMortgage.setIfReportBeforeLend("0");
+			}
+			if(toMortgage.getIsLoanerArrive() == null){
+				toMortgage.setIsLoanerArrive("0");
+			}
+			if(toMortgage.getIsTmpBank() == null){
+				toMortgage.setIsTmpBank("0");
+			}
+			
+			
+			if (null != toMortgageInfo) {
+				toMortgage.setPkid(toMortgageInfo.getPkid());
+				toMortgageMapper.update(toMortgage);
+				bizCode = toMortgageInfo.getPkid() == null ? ""
+						: toMortgageInfo.getPkid().toString();
+			} else {
+				toMortgageMapper.insertSelective(toMortgage);
+			}
+			// 插入工作流表
+			ToWorkFlow workFlow = new ToWorkFlow();
+			workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
+			workFlow.setCaseCode(caseCode);
+			workFlow.setBizCode(bizCode);
+			workFlow.setInstCode(vo.getId());
+			workFlow.setProcessDefinitionId(propertyUtilsService.getProcessLoanerDfKey());
+			workFlow.setProcessOwner(user.getId());
+			workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
+			toWorkFlowService.insertSelective(workFlow);
+
+			// 派单给BC级别银行的信贷员之后,启动银行分级审批
+			//bankLevel == 1 B级银行不审批  变更
+			if ("9".equals(bankLevel)) {
 				toMortgageService.startTmpBankWorkFlow(caseCode, vo.getId());
 			}
 

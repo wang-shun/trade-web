@@ -52,5 +52,13 @@ public interface LoanerProcessService {
 	AjaxResponse<String> isLoanerProcessStart(String caseCode);
 
 
+    /**
+     * 启动交易顾问派单流程
+     * @param caseCode
+     * @return
+     */
+	AjaxResponse<String> newStartLoanerOrderWorkFlow(ToMortgage toMortgage);
+
+
 
 }
