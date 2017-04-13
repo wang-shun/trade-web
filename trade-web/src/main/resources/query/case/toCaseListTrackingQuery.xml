@@ -119,12 +119,10 @@
 					</ifNotNull>
 					<ifNotNull dtBegin_0>
 						and c.CREATE_TIME >=#dtBegin_0#
-
 					</ifNotNull>
 					<ifNotNull dtEnd_0>
 						and c.CREATE_TIME &lt;=#dtEnd_0#
 					</ifNotNull>
-					
 				]]>
 			</baseSql>
 			<orderBySql>

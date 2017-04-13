@@ -2,7 +2,7 @@
  * 功能：查询自建案件列表
  * 编写人：hjf
  * 编写时间：2017年4月13日9:44:16
- * 逻辑：查询出所有的自建案件
+ * 逻辑：根据登录用户查询出登录用户自建的所有自建案件
  * 版本：1.0
  */
 $(document).ready(function() {
@@ -93,7 +93,7 @@ $('#searchButton').click(function() {
 /**
  * 查询参数封装方法
  * @param page
- * @returns {___anonymous2309_2476}
+ * @returns data 
  */
 function getParams(page) {
 	if(!page) {
@@ -122,24 +122,24 @@ function getParams(page) {
  * 鼠标点击文字title样式显示
  */
 function cssDivPoshytip(){
-		$('.demo-left').poshytip({
-			className: 'tip-twitter',
-			showTimeout: 1,
-			alignTo: 'target',
-			alignX: 'left',
-			alignY: 'center',
-			offsetX: 8,
-			offsetY: 5,
-		});
-		$('.demo-top').poshytip({
-			className: 'tip-twitter',
-			showTimeout: 1,
-			alignTo: 'target',
-			alignX: 'center',
-			alignY: 'top',
-			offsetX: 8,
-			offsetY: 5,
-		});
+	$('.demo-left').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'left',
+		alignY: 'center',
+		offsetX: 8,
+		offsetY: 5,
+	});
+	$('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});
 }
 /**
  * 排序方法
