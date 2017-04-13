@@ -141,6 +141,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			// 启动流程之后 把交易顾问派单流程直接推送完
 			@SuppressWarnings("rawtypes")
 			PageableVo pageableVo = taskService.listTasks(vo.getId(), false);// Loaner_Process:4:1030016
+			@SuppressWarnings("unchecked")
 			List<TaskVo> taskList = pageableVo.getData();
 			for (TaskVo task : taskList) {
 				if ("LoanerSendOrder".equals(task.getTaskDefinitionKey())) {// ZY-AJ-201605-1460
@@ -172,8 +173,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			if (null != toMortgageInfo) {
 				toMortgage.setPkid(toMortgageInfo.getPkid());
 				toMortgageMapper.update(toMortgage);
-				bizCode = toMortgageInfo.getPkid() == null ? ""
-						: toMortgageInfo.getPkid().toString();
+				bizCode = toMortgageInfo.getPkid() == null ? ""	: toMortgageInfo.getPkid().toString();
 			} else {
 				toMortgageMapper.insertSelective(toMortgage);
 			}
@@ -241,17 +241,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			// 启动流程
 			ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode,variables);
 			StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, loaner.getUsername(), caseCode);
-
-			/*			
-			 *  启动流程之后 把交易顾问派单流程直接推送完		
-			PageableVo pageableVo = taskService.listTasks(vo.getId(), false);// Loaner_Process:4:1030016
-			List<TaskVo> taskList = pageableVo.getData();
-			for (TaskVo task : taskList) {
-				if ("LoanerSendOrder".equals(task.getTaskDefinitionKey())) {// ZY-AJ-201605-1460
-					taskService.complete(task.getId() + "");
-					break;
-				}
-			}*/
+			
 			
 			//具体的业务逻辑处理， 贷款表中  冗余派单人ID、 时间， 取消审核人id、时间信息			
 			ToMortgage toMortgageInfo = toMortgageMapper.findToMortgageByCaseCodeAndDisTime(caseCode);
@@ -290,7 +280,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			toMortLoaner.setComDiscount(toMortgage.getComDiscount());
 			toMortLoaner.setPrfAmount(toMortgage.getPrfAmount());
 			toMortLoaner.setPrfYear(toMortgage.getPrfYear());
-			toMortLoaner.setAgentCode(user.getId());
+			toMortLoaner.setMortPkid(mortPkid);
 			toMortLoaner.setLoanerStatus(ToMortLoanerEnums.LOANER_STATUS0.getCode());
 			
 			toMortLoaner.setSendId(user.getId());

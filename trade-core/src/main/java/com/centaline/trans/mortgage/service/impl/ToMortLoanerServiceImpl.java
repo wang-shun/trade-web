@@ -32,14 +32,12 @@ import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 
 @Service
-@Transactional
 public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 
 	@Autowired
-	private ToMortgageMapper toMortgageMapper;
-	
+	private ToMortgageMapper toMortgageMapper;	
 
-	@Autowired
+	@Autowired(required = true)
 	private ToMortLoanerMapper toMortLoanerMapper;
 
 	@Autowired
@@ -79,9 +77,6 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 
 	@Autowired
 	private ToPropertyInfoService toPropertyInfoService;
-	
-	@Autowired
-	private ToMortLoanerService ToMortLoanerService;
 
 	/*
 	 * @author:zhuody
