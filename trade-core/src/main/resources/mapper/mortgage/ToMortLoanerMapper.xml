@@ -14,7 +14,7 @@
     <result column="PRF_AMOUNT" property="prfAmount" jdbcType="DECIMAL" />
     <result column="PRF_YEAR" property="prfYear" jdbcType="INTEGER" />
     <result column="FLOW_STATUS" property="flowStatus" jdbcType="VARCHAR" />
-    <result column="AGENT_CODE" property="agentCode" jdbcType="VARCHAR" />
+    <result column="MORT_PKID" property="mortPkid" jdbcType="VARCHAR" />
     <result column="LOANER_STATUS" property="loanerStatus" jdbcType="VARCHAR" />
     <result column="LOANER_DESC" property="loanerDesc" jdbcType="VARCHAR" />
     <result column="SEND_ID" property="sendId" jdbcType="VARCHAR" />
@@ -44,7 +44,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CUST_NAME, CASE_CODE, RECEIVE_CODE, HOU_ADDRESS, MORT_TOTAL_AMOUNT, COM_AMOUNT, 
-    COM_YEAR, COM_DISCOUNT, PRF_AMOUNT, PRF_YEAR, FLOW_STATUS, AGENT_CODE, LOANER_STATUS, 
+    COM_YEAR, COM_DISCOUNT, PRF_AMOUNT, PRF_YEAR, FLOW_STATUS, MORT_PKID, LOANER_STATUS, 
     LOANER_DESC, SEND_ID, SEND_NAME, SEND_TIME, RECEIVE_TIME, RECEIVE_ID, RECEIVE_NAME, 
     REJECT_ID, REJECT_NAME, REJECT_TIME, CANCLE_ID, CANCLE_NAME, CANCLE_TIME, APPROVAL_ID, 
     APPROVAL_NAME, APPROVAL_TIME, LOANER_ID, LOANER_NAME, LOANER_PHONE, LOANER_ORG_ID, 
@@ -78,7 +78,7 @@
       RECEIVE_CODE, HOU_ADDRESS, MORT_TOTAL_AMOUNT, 
       COM_AMOUNT, COM_YEAR, COM_DISCOUNT, 
       PRF_AMOUNT, PRF_YEAR, FLOW_STATUS, 
-      AGENT_CODE, LOANER_STATUS, LOANER_DESC, 
+      MORT_PKID, LOANER_STATUS, LOANER_DESC, 
       SEND_ID, SEND_NAME, SEND_TIME, 
       RECEIVE_TIME, RECEIVE_ID, RECEIVE_NAME, 
       REJECT_ID, REJECT_NAME, REJECT_TIME, 
@@ -92,7 +92,7 @@
       #{receiveCode,jdbcType=VARCHAR}, #{houAddress,jdbcType=VARCHAR}, #{mortTotalAmount,jdbcType=DECIMAL}, 
       #{comAmount,jdbcType=DECIMAL}, #{comYear,jdbcType=INTEGER}, #{comDiscount,jdbcType=DECIMAL}, 
       #{prfAmount,jdbcType=DECIMAL}, #{prfYear,jdbcType=INTEGER}, #{flowStatus,jdbcType=VARCHAR}, 
-      #{agentCode,jdbcType=VARCHAR}, #{loanerStatus,jdbcType=VARCHAR}, #{loanerDesc,jdbcType=VARCHAR}, 
+      #{mortPkid,jdbcType=VARCHAR}, #{loanerStatus,jdbcType=VARCHAR}, #{loanerDesc,jdbcType=VARCHAR}, 
       #{sendId,jdbcType=VARCHAR}, #{sendName,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, 
       #{receiveTime,jdbcType=TIMESTAMP}, #{receiveId,jdbcType=VARCHAR}, #{receiveName,jdbcType=VARCHAR}, 
       #{rejectId,jdbcType=VARCHAR}, #{rejectName,jdbcType=VARCHAR}, #{rejectTime,jdbcType=TIMESTAMP}, 
@@ -142,8 +142,8 @@
       <if test="flowStatus != null" >
         FLOW_STATUS,
       </if>
-      <if test="agentCode != null" >
-        AGENT_CODE,
+      <if test="mortPkid != null" >
+        MORT_PKID,
       </if>
       <if test="loanerStatus != null" >
         LOANER_STATUS,
@@ -253,8 +253,8 @@
       <if test="flowStatus != null" >
         #{flowStatus,jdbcType=VARCHAR},
       </if>
-      <if test="agentCode != null" >
-        #{agentCode,jdbcType=VARCHAR},
+      <if test="mortPkid != null" >
+        #{mortPkid,jdbcType=VARCHAR},
       </if>
       <if test="loanerStatus != null" >
         #{loanerStatus,jdbcType=VARCHAR},
@@ -363,8 +363,8 @@
       <if test="flowStatus != null" >
         FLOW_STATUS = #{flowStatus,jdbcType=VARCHAR},
       </if>
-      <if test="agentCode != null" >
-        AGENT_CODE = #{agentCode,jdbcType=VARCHAR},
+      <if test="mortPkid != null" >
+        MORT_PKID = #{mortPkid,jdbcType=VARCHAR},
       </if>
       <if test="loanerStatus != null" >
         LOANER_STATUS = #{loanerStatus,jdbcType=VARCHAR},
@@ -452,7 +452,7 @@
       PRF_AMOUNT = #{prfAmount,jdbcType=DECIMAL},
       PRF_YEAR = #{prfYear,jdbcType=INTEGER},
       FLOW_STATUS = #{flowStatus,jdbcType=VARCHAR},
-      AGENT_CODE = #{agentCode,jdbcType=VARCHAR},
+      MORT_PKID = #{mortPkid,jdbcType=VARCHAR},
       LOANER_STATUS = #{loanerStatus,jdbcType=VARCHAR},
       LOANER_DESC = #{loanerDesc,jdbcType=VARCHAR},
       SEND_ID = #{sendId,jdbcType=VARCHAR},
