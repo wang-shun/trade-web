@@ -1132,15 +1132,14 @@
 													 <i style=" position: absolute; top: 5px; right: 20px;  " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser_})" >&#xe627;</i>
 													 </input>			
-													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
-													 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
+													 <input type="hidden"  id="loanerOrgCode"  name="loanerOrgCode" />
+													 <input type="hidden"  id="loanerOrgId" name ="loanerOrgId" />
 													 <input type="hidden"  id="loanerId" name="loanerId" />
 													 <div class="input-group float_icon organize_icon" ></div>	
 		                                         </div>
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
-													 <input type="text" name="loanerPhone" id="loanerPhone"
-															placeholder="联系方式" class="input_type data_style">
+													 <input type="text" name="loanerPhone" id="loanerPhone"	placeholder="联系方式" class="input_type data_style">
 		                                         </div>
 		                                         
 		                                         <div class="form_content" style="margin-top:8px;">
@@ -1165,10 +1164,11 @@
 		                                             <label class="control-label sign_left_small select_style mend_select">派单时间<span class="star" ></span>
 		                                             </label>
 		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
-                                                            <input class="input_type yuanwid" type="text" placeholder="" name="dispachTime" id="dispachTime0" readonly>
+                                                          <input class="input_type yuanwid" type="text" placeholder="" name="dispachTime" id="dispachTime0" readonly>
                                                      </div>										
 		                                         </div>
-		                                     </div> 		                                     
+		                                     </div> 
+		                                     		                                     
 		         							 <div class="line">
 		                                         <div class="form_content tmpBankReasonDiv">
 		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>

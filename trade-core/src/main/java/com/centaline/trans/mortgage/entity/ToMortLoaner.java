@@ -28,7 +28,7 @@ public class ToMortLoaner {
 
     private String flowStatus;
 
-    private String agentCode;
+    private String mortPkid;
 
     private String loanerStatus;
 
@@ -178,15 +178,15 @@ public class ToMortLoaner {
         this.flowStatus = flowStatus == null ? null : flowStatus.trim();
     }
 
-    public String getAgentCode() {
-        return agentCode;
-    }
+    public String getMortPkid() {
+		return mortPkid;
+	}
 
-    public void setAgentCode(String agentCode) {
-        this.agentCode = agentCode == null ? null : agentCode.trim();
-    }
+	public void setMortPkid(String mortPkid) {
+		this.mortPkid = mortPkid;
+	}
 
-    public String getLoanerStatus() {
+	public String getLoanerStatus() {
         return loanerStatus;
     }
 
