@@ -9,24 +9,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>修改case info</title>
 <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet" />
-<link href="${ctx}/fonts/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet" />
+<link href="${ctx}/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet" />
 <!-- IonRangeSlider -->
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
-	rel="stylesheet" />
-<link
-	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
-	rel="stylesheet" />
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet" />
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet" />
 <link href="${ctx}/css/animate.css" rel="stylesheet" />
 <%-- <link href="${ctx}/css/style.min.css" rel="stylesheet">  --%>
 <link href="${ctx}/css/transcss/award/bonus.css" rel="stylesheet" />
 <!-- Gritter -->
 <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet" />
 <!-- 分页控件 -->
-        <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-        <!-- aist列表样式 -->
-        <%-- <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet"> --%>
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css">
+<!-- aist列表样式 -->
+<%-- <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet"> --%>
 </head>
 <body class="pace-done">
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -35,11 +32,15 @@
 		<div class="main-bonus">
 			<div class="bonus-wrap">
 				<div class="bonus-header">
+					<div class="ibox-title">
+						<h5>案件组别设置</h5>
+					</div>
 					<div class="ibox-content bonus-m-con">
+					
 						<div class="row m-t">
 							<div class="col-lg-4 col-md-4">
 								<div class="form-group">
-									<label class="col-lg-3 col-md-3 control-label font_w">ctm编号</label>
+									<label class="col-lg-3 col-md-3 control-label font_w">CTM编号</label>
 									<div class="col-lg-9 col-md-9">
 										<input type="text" class="form-control" id="ctmCode"
 											name="ctmCode">
@@ -67,6 +68,9 @@
 
 			<div class="bonus-wrap">
 				<div class="bonus-header">
+					<div class="ibox-title">
+						<h5>导入CTM案件</h5>
+					</div>
 					<div class="ibox-content bonus-m-con">
 						<div class="row m-t">
 							<div class="col-lg-4 col-md-4">
@@ -91,6 +95,9 @@
 
 			<div class="bonus-wrap">
 				<div class="bonus-header">
+					<div class="ibox-title">
+						<h5>三级市场誉翠对应关系</h5>
+					</div>
 					<div class="ibox-content bonus-m-con">
 						<div class="row m-t">
 							<div class="col-lg-4 col-md-4">
@@ -147,7 +154,7 @@
 							</div>
 							<div class="col-lg-4 col-md-4">
 								<button class="btn btn-warning" id="searchIvalidMapingCase" style="height: 35px;padding: 6px 22px;margin-left: 20px;">
-									<span class="bold">修改</span>
+									<span class="bold">查询</span>
 								</button>
 							</div>
 						</div>
@@ -213,6 +220,9 @@
 				getAllTeamList();
 
 				initData();
+				
+				//表头背景色
+				$(".table thead tr th").attr("style","background-color: #4bccec;");
 			});
 
 			function initData() {

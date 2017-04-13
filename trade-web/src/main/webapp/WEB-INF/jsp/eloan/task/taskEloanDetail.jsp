@@ -459,24 +459,22 @@
                     <div class="ibox-content" id="reportThree" style="display:none;">
                     </div>
                     <div class="ibox-content" id="reportFour" style="display:none;">
-
                     </div>
                     <div class="ibox-content" id="reportFive" style="display:none;">
-
                     </div>
-
                 </div>
             </div>
-    </div>
+    	</div>
+	</div>
 	<!-- main End -->
 	<content tag="local_script"> 
-	   <%-- <script src="${ctx}/js/inspinia.js"></script> 
-	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script>  --%>
+<%-- 	   <script src="${ctx}/js/inspinia.js"></script> 
+	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script> --%>
 	   <!-- 开关按钮js -->
        <script src="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js"></script>
-       <%-- <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> --%>
        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-       <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+       <script src= "${ctx}/js/template.js" type="text/javascript"></script>
+       <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
        <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
        <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
     <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>

@@ -630,4 +630,10 @@
 	</if>
 
   </select>
+  
+  <update id="updateOfficerBySpvCode" parameterType="com.centaline.trans.spv.entity.ToSpv">
+  	update sctrans.T_TO_SPV
+    set RISK_CONTROL_OFFICER = #{riskControlOfficer,jdbcType=VARCHAR}
+    where SPV_CODE = #{spvCode,jdbcType=VARCHAR}
+  </update>
 </mapper>

@@ -51,7 +51,7 @@
 			<baseSql>
 				<![CDATA[
 			SELECT
-			    ec.PKID as pkId, ec.STATUS,ec.CASE_CODE as caseCode,ec.LOAN_SRV_CODE as loanSrvCode,INFO.PROPERTY_ADDR as propertyAddress,
+			    ec.PKID as pkId,ec.ELOAN_CODE eloanCode, ec.STATUS,ec.CASE_CODE as caseCode,ec.LOAN_SRV_CODE as loanSrvCode,INFO.PROPERTY_ADDR as propertyAddress,
 			    ec.EXCUTOR_ID as excutorName,u.MOBILE as phone, ec.CUST_NAME as custName,ec.APPLY_TIME as applyTime,ec.SIGN_TIME as signTime,
 			   (select MAX(RELEASE_TIME) from sctrans.T_TO_ELOAN_REL WHERE ELOAN_CODE = ec.ELOAN_CODE)as releaseTime,ec.APPLY_AMOUNT as Applymoney
 			    ,u.REAL_NAME as REAL_NAME,ec.APPLY_CONF_TIME,art.TASK_DEF_KEY_ as taskKey
