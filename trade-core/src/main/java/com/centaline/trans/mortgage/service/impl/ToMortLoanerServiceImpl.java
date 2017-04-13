@@ -116,4 +116,18 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 		}
 		
 	}
+
+	@Override
+	public void updateByPrimaryKeySelective(ToMortLoaner toMortLoaner) {
+		if(null == toMortLoaner){
+			throw new BusinessException("信贷员接单请求数据异常");
+		}
+		
+		try{
+			toMortLoanerMapper.updateByPrimaryKeySelective(toMortLoaner);
+		}catch(BusinessException e) {
+			throw new BusinessException("信贷员接单更新数据异常");
+		}
+		
+	}
 }
