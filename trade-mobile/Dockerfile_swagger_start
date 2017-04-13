@@ -9,6 +9,6 @@ RUN npm install -g swagger && \
     mkdir swagger && \
     cd swagger
 WORKDIR /opt/swagger
-ADD swagger/ /opt/swagger
+ADD swagger/* /opt/swagger
 EXPOSE 80
 CMD ["swagger", "project","start"]
