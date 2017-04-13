@@ -1,0 +1,16 @@
+#!/bin/bash
+#pomver=`mvn help:evaluate -Dexpression=project.version | sed -n -e '/^\[.*\]/ !{ /^[0-9]/ { p; q } }'`
+#pomver=`mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive exec:exec`
+pomver=`cat yc.version`
+version='latest'
+commit=`git rev-parse --verify --short=8 HEAD`
+branch=`git branch | grep "^\*" | sed -e "s/^\*\ //"`
+#sudo
+sudo docker build -f Dockerfile_edit -t docker.aist.io/swagger-edit:$version . \
+     --label commit=$commit \
+	 --label branch=$branch \
+	 --label version=$version \
+	 --label vendor=AIST \
+	 --label name=swagger-edit
+sudo docker push docker.aist.io/swagger-edit:$version
+sudo docker rmi docker.aist.io/swagger-edit:$version
