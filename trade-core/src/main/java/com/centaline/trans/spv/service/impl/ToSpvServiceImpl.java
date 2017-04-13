@@ -616,45 +616,43 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}*/
 
 			//重构toSpvDeDetailList
-			if(!"SpvApprove".equals(spvBaseInfoVO.getHandle()) && !"SpvSign".equals(spvBaseInfoVO.getHandle())){
-				List<ToSpvDeDetail> toSpvDeDetailNewList = new ArrayList<ToSpvDeDetail>();
-				if (toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()) {
-					for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
-						if(!(toSpvDeDetail == null || toSpvDeDetail.getDeCondCode()==null ||toSpvDeDetail.getPayeeAccountType()==null ||toSpvDeDetail.getDeAmount()==null ||toSpvDeDetail.getDeAddition()==null)){
-							toSpvDeDetailNewList.add(toSpvDeDetail);
-						}
+			List<ToSpvDeDetail> toSpvDeDetailNewList = new ArrayList<ToSpvDeDetail>();
+			if (toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()) {
+				for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
+					if(!(toSpvDeDetail == null || toSpvDeDetail.getDeCondCode()==null ||toSpvDeDetail.getPayeeAccountType()==null ||toSpvDeDetail.getDeAmount()==null ||toSpvDeDetail.getDeAddition()==null)){
+						toSpvDeDetailNewList.add(toSpvDeDetail);
 					}
 				}
-				List<ToSpvDeDetail> deIdDetailList = toSpvDeDetailMapper.selectByDeId(toSpvDe.getPkid());
-				for(ToSpvDeDetail toSpvDeDetail : deIdDetailList){
-					toSpvDeDetail.setUpdateBy(user.getId());
-					toSpvDeDetail.setUpdateTime(new Date());
-					toSpvDeDetail.setIsDeleted("1");
-					toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
-				}
-				if (toSpvDeDetailNewList != null && !toSpvDeDetailNewList.isEmpty()) {
-					// PayeeAccountType -> PayeeAccountId
-					for (ToSpvDeDetail toSpvDeDetail : toSpvDeDetailNewList) {
-						if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
-							for (ToSpvAccount toSpvAccount : toSpvAccountList) {
-								if (toSpvAccount.getAccountType().equals(toSpvDeDetail.getPayeeAccountType())) {
-									toSpvDeDetail.setPayeeAccountId(toSpvAccount.getPkid());
-								}
+			}
+			List<ToSpvDeDetail> deIdDetailList = toSpvDeDetailMapper.selectByDeId(toSpvDe.getPkid());
+			for(ToSpvDeDetail toSpvDeDetail : deIdDetailList){
+				toSpvDeDetail.setUpdateBy(user.getId());
+				toSpvDeDetail.setUpdateTime(new Date());
+				toSpvDeDetail.setIsDeleted("1");
+				toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
+			}
+			if (toSpvDeDetailNewList != null && !toSpvDeDetailNewList.isEmpty()) {
+				// PayeeAccountType -> PayeeAccountId
+				for (ToSpvDeDetail toSpvDeDetail : toSpvDeDetailNewList) {
+					if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
+						for (ToSpvAccount toSpvAccount : toSpvAccountList) {
+							if (toSpvAccount.getAccountType().equals(toSpvDeDetail.getPayeeAccountType())) {
+								toSpvDeDetail.setPayeeAccountId(toSpvAccount.getPkid());
 							}
 						}
-						
-						if(toSpvDeDetail.getPkid() != null){
-							toSpvDeDetail.setUpdateBy(user.getId());
-							toSpvDeDetail.setUpdateTime(new Date());
-							toSpvDeDetail.setIsDeleted("0");
-							toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
-						}else{
-							toSpvDeDetail.setCreateBy(user.getId());
-							toSpvDeDetail.setCreateTime(new Date());
-							toSpvDeDetail.setDeId(toSpvDe.getPkid());
-							toSpvDeDetail.setIsDeleted("0");
-							toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
-						}
+					}
+					
+					if(toSpvDeDetail.getPkid() != null){
+						toSpvDeDetail.setUpdateBy(user.getId());
+						toSpvDeDetail.setUpdateTime(new Date());
+						toSpvDeDetail.setIsDeleted("0");
+						toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
+					}else{
+						toSpvDeDetail.setCreateBy(user.getId());
+						toSpvDeDetail.setCreateTime(new Date());
+						toSpvDeDetail.setDeId(toSpvDe.getPkid());
+						toSpvDeDetail.setIsDeleted("0");
+						toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
 					}
 				}
 			}
@@ -842,7 +840,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 
 	@Override
-	public List<ToSpvAccount> findAccountBySpvCode(String spvCode) {
+	public List<ToSpvAccount> findAccountsBySpvCode(String spvCode) {
 		return toSpvAccountMapper.selectBySpvCode(spvCode);
 	}
 
@@ -925,7 +923,15 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public void saveSpvChargeInfoVO(SpvChargeInfoVO spvChargeInfoVO) {
 		SessionUser user = uamSessionService.getSessionUser();
-
+		//获取合约监管账户信息
+		String spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
+		List<ToSpvAccount> accounts = findAccountsBySpvCode(spvCode);
+		ToSpvAccount spvAcc = null;
+		for(ToSpvAccount accont:accounts){
+			if("SPV".equals(accont.getAccountType())){
+				spvAcc = accont;
+			}
+		}
 		/**1.申请*/
 		ToSpvCashFlowApply toSpvCashFlowApply = spvChargeInfoVO.getToSpvCashFlowApply();
 		if(toSpvCashFlowApply.getPkid() == null){
@@ -1014,15 +1020,14 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}
 			
 			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO:spvCaseFlowOutInfoVONewList){
-				
 				/**4.流水*/
 				ToSpvCashFlow toSpvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
 				if(toSpvCashFlow.getPkid() == null){
 					toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());
 					toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());
-					toSpvCashFlow.setPayer("上海中原物业顾问有限公司");
-					toSpvCashFlow.setPayerAcc("76310188000148842");
-					toSpvCashFlow.setPayerBank("光大银行市北支行");
+					toSpvCashFlow.setPayer(spvAcc.getName());
+					toSpvCashFlow.setPayerAcc(spvAcc.getAccount());
+					toSpvCashFlow.setPayerBank(spvAcc.getBranchBank());
 					toSpvCashFlow.setCreateBy(user.getId());
 					toSpvCashFlow.setCreateTime(new Date());
 					toSpvCashFlow.setIsDeleted("0");

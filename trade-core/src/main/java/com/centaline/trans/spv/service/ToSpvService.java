@@ -204,7 +204,7 @@ public interface ToSpvService {
 	 * @param spvCode
 	 * @return
 	 */
-	List<ToSpvAccount> findAccountBySpvCode(String spvCode);
+	List<ToSpvAccount> findAccountsBySpvCode(String spvCode);
 	
 	ToSpvDe findSpvDeBySpvCode(String spvcode);
 	

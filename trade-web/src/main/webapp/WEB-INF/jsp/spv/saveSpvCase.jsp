@@ -634,7 +634,8 @@
 							</div>	
 						</div>
 						
-						<div id="spvAccountDiv" class="form-row form-rowbot">
+						<div id="spvAccountDiv">
+						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[2].pkid" value="${spvBaseInfoVO.toSpvAccountList[2].pkid }"/>
 							    <input type="hidden" name="toSpvAccountList[2].accountType" value="SPV" />
@@ -644,12 +645,21 @@
 									<option value="上海中原物业顾问有限公司" ${spvBaseInfoVO.toSpvAccountList[2].name eq '上海中原物业顾问有限公司'?'selected="selected"':''}>上海中原物业顾问有限公司</option>
 								</select>
 							</div>
+						</div>
+						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account"
 								    value="${spvBaseInfoVO.toSpvAccountList[2].account }"
 									class="form-control input-two ${spvBaseInfoVO.toSpvAccountList[2].name eq '上海中原物业顾问有限公司'?'disabled':''}" placeholder="">
 							</div>
+							<div class="form-group form-margin form-space-one">
+							    <label for="" class="lable-one"><i style="color:red;">*</i> 开户行</label> <input type="text" name="toSpvAccountList[2].branchBank"
+								    value="${spvBaseInfoVO.toSpvAccountList[2].branchBank }"
+									class="form-control input-three ${spvBaseInfoVO.toSpvAccountList[2].name eq '上海中原物业顾问有限公司'?'disabled':''}" placeholder="">
+							</div>
 						</div>
+						</div>
+						
 						<div class="form-row form-rowbot">
 							<div class="form-group form-margin form-space-one left-extent">
 							    <input type="hidden" name="toSpvAccountList[3].pkid" value="${spvBaseInfoVO.toSpvAccountList[3].pkid }"/>
@@ -1020,10 +1030,12 @@
  						switch(eVal){
  						case '':
  							$("input[name='toSpvAccountList[2].account']").val("").removeClass("disabled");
+ 							$("input[name='toSpvAccountList[2].branchBank']").val("").removeClass("disabled");
  							$("input[name='toSpvAccountList[2].name']").val("");
  							break;
  						case '上海中原物业顾问有限公司':
  							$("input[name='toSpvAccountList[2].account']").val("76310188000148842").addClass("disabled");
+ 							$("input[name='toSpvAccountList[2].branchBank']").val("光大银行市北支行").addClass("disabled");
  							break;
  						}
 					}

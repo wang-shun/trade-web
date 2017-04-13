@@ -821,6 +821,13 @@ $(document).ready(function(){
 			return false;
 		}	
 		
+		var spvBranchBank = $("input[name='toSpvAccountList[2].branchBank']").val();
+		if(spvBranchBank == null || spvBranchBank == ''){
+			window.wxc.alert("请填写托管账号开户行！");
+			changeClass($("input[name='toSpvAccountList[2].branchBank']"));
+			return false;
+		}	
+		
 		if(spvAccount != null && spvAccount != ''){
 		    if(!isNumber2(spvAccount)){
 		    	window.wxc.alert("请填写有效的托管账号！(纯数字(首位非0))");
