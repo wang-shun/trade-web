@@ -1,5 +1,7 @@
 package com.centaline.trans.mortgage.repository;
 
+import java.util.Map;
+
 import com.centaline.trans.mortgage.entity.ToMortLoaner;
 
 public interface ToMortLoanerMapper {
@@ -14,4 +16,6 @@ public interface ToMortLoanerMapper {
     int updateByPrimaryKeySelective(ToMortLoaner record);
 
     int updateByPrimaryKey(ToMortLoaner record);
+    
+    ToMortLoaner findToMortLoanerByCaseCodeAndLoanerStatus(Map<String,String> map);
 }

@@ -1,15 +1,12 @@
 package com.centaline.trans.mortgage.service.impl;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,8 +41,10 @@ import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.mgr.service.ToSupDocuService;
 import com.centaline.trans.mortgage.entity.ToMortLoaner;
 import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.enums.ToMortLoanerEnums;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.mortgage.service.LoanerProcessService;
+import com.centaline.trans.mortgage.service.ToMortLoanerService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
@@ -95,8 +94,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	@Autowired
 	private ToPropertyInfoService toPropertyInfoService;
 	
-/*	@Autowired
-	private ToMortLoanerService ToMortLoanerService;*/
+	@Autowired
+	private ToMortLoanerService toMortLoanerService;
 	
 	
 	/*
@@ -292,7 +291,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			toMortLoaner.setPrfAmount(toMortgage.getPrfAmount());
 			toMortLoaner.setPrfYear(toMortgage.getPrfYear());
 			toMortLoaner.setAgentCode(user.getId());
-			toMortLoaner.setLoanerStatus("0");//各状态代表什么意思
+			toMortLoaner.setLoanerStatus(ToMortLoanerEnums.LOANER_STATUS0.getCode());
 			
 			toMortLoaner.setSendId(user.getId());
 			toMortLoaner.setSendName(user.getRealName());
@@ -339,7 +338,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	/*
 	 * @author:zhuody
 	 * 
-	 * @date:2017-03-28
+	 * @date:2017-04-13
 	 * 
 	 * @des:信贷员是否接单确认
 	 */
@@ -355,28 +354,21 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 
 		SessionUser user = uamSessionService.getSessionUser();
 		List<RestVariable> variables = new ArrayList<RestVariable>();
-
+		String loanerStatus = "";
 		try {
 			// 信贷员接单
 			if (isLonaerAcceptCase == true) {
-				variables.add(new RestVariable("loanerAccept", true));
-
-				ToMortgage toMortgage = toMortgageMapper
-						.findToMortgageByCaseCodeAndDisTime(caseCode);
-				if (null != toMortgage) {
-					ToMortgage toMortgageForUpdate = new ToMortgage();
-					toMortgageForUpdate.setPkid(toMortgage.getPkid());
-					toMortgageForUpdate.setLoanerAcceptTime(new Date());
-					if (user != null)
-						toMortgageForUpdate.setLoanerId(user.getId());
-					toMortgageMapper.update(toMortgageForUpdate);
-				}
+				variables.add(new RestVariable("loanerAccept", true));				
+				loanerStatus = ToMortLoanerEnums.LOANER_STATUS2.getCode();				
 			} else {
-				variables.add(new RestVariable("loanerAccept", false));
+				variables.add(new RestVariable("loanerAccept", false));			
+				loanerStatus = ToMortLoanerEnums.LOANER_STATUS1.getCode();
+				
 			}
+			//维护ToMortLoaner业务
+			maintainToMortLoaner(caseCode,loanerStatus);
 			// 提交流程
-			workFlowManager.submitTask(variables, taskId, processInstanceId,
-					null, caseCode);
+			workFlowManager.submitTask(variables, taskId, processInstanceId,null, caseCode);
 			loanerAccetpFlag = true;
 
 		} catch (BusinessException e) {
@@ -384,7 +376,38 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		}
 		return loanerAccetpFlag;
 	}
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-04-13
+	 * 
+	 * @des:维护ToMortLoaner表记录
+	 */
+	private void maintainToMortLoaner(String caseCode,String loanerStatus){
+		
+		if(null == loanerStatus || "".equals(loanerStatus)){
+			throw new BusinessException("信贷员是否接单请求参数异常！");
+		}		
+		ToMortLoaner toMortLoaner = new ToMortLoaner();
+		
+		try{
+			toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCodeAndLoanerStatus(caseCode, loanerStatus);
+			if(null != toMortLoaner){
+				//TODO 更新信息
+				toMortLoaner.setLoanerStatus(loanerStatus);
+				
+			}
 
+		}catch (BusinessException e) {
+			throw new BusinessException("信贷员派单信息保存异常！");
+		}
+	}
+	
+	
+	
+	
+	
 	/*
 	 * @author:zhuody
 	 * 
@@ -449,7 +472,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	/*
 	 * @author:zhuody
 	 * 
-	 * @date:2017-03-28
+	 * @date:2017-04-13
 	 * 
 	 * @des:交易顾问派单 流程关闭
 	 */
@@ -463,7 +486,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		}
 		try {
 			// 结束流程
-			variables.add(new RestVariable("mainBankChoose", true));
+			variables.add(new RestVariable("currentProcessEnd", true));
 	    	//提交流程
 	        workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
 	        //更新流程表的状态
@@ -475,6 +498,17 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	            record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 	            toWorkFlowService.updateByPrimaryKeySelective(record);
 	        }
+	        
+	        ToMortLoaner toMortLoaner = new ToMortLoaner();
+	        toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCodeAndLoanerStatus(caseCode, ToMortLoanerEnums.LOANER_STATUS1.getCode());
+	        if(null != toMortLoaner){
+	        	//TODO
+	        	//设置取消人信息
+	        	toMortLoaner.setAgentCode("");
+	        	toMortLoaner.setLoanerStatus(ToMortLoanerEnums.LOANER_STATUS3.getCode()); //取消派单
+	        }
+	        
+	        
 		}catch(BusinessException e) {
 	      	throw new BusinessException("交易顾问派单流程结束异常！");
 	     }
@@ -483,36 +517,91 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	/*
 	 * @author:zhuody
 	 * 
-	 * @date:2017-03-28
+	 * @date:2017-04-13
 	 * 
 	 * @des:交易顾问派单信息提交
 	 */
 	@Override
-	public void loanerProcessSubmit(ToMortgage toMortgage, String caseCode,
-			String taskId, String processInstanceId, int bankLevel) {
+	public void loanerProcessSubmit(ToMortgage toMortgage, String caseCode,String taskId, String processInstanceId, int bankLevel) {
 		if ((null == caseCode || "".equals(caseCode))
 				|| (null == taskId || "".equals(taskId))
 				|| (null == processInstanceId || "".equals(processInstanceId))) {
-			throw new BusinessException("交易顾问派单流程请求参数异常！");
-		}
-		AjaxResponse<String> response = new AjaxResponse<String>();
+			throw new BusinessException("交易顾问重新派单流程请求参数异常！");
+		}		
+		
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		// 更新 信贷员信息、贷款机构信息
 		ToMortgage toMortgageDTO = vilidateMortage(toMortgage);// 验证前台传来的参数
+		SessionUser user = uamSessionService.getSessionUser();
+		User loaner = uamUserOrgService.getUserById(toMortgageDTO.getLoanerId());
+		
 		try {
-			// 提交流程
-			variables.add(new RestVariable("bankLevel", bankLevel));
-			variables.add(new RestVariable("mainBankChoose", false));
-			workFlowManager.submitTask(variables, taskId, processInstanceId,
-					null, caseCode);
-			// 派单给BC级别银行的信贷员之后,启动银行分级审批
-			if (bankLevel == 1 || bankLevel == 9) {
-				toMortgageService.startTmpBankWorkFlow(caseCode,
-						processInstanceId);
+			// 设置流程变量、提交流程
+			variables.add(new RestVariable("currentProcessEnd", true));
+						
+			workFlowManager.submitTask(variables, taskId, processInstanceId,null, caseCode);
+	        //更新流程表的状态为已完成
+	        ToWorkFlow workFlow = new ToWorkFlow();
+	        workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());//Loaner_Process
+	        workFlow.setCaseCode(caseCode);
+	        ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
+	        if (record != null) {
+	            record.setStatus(WorkFlowStatus.COMPLETE.getCode());
+	            toWorkFlowService.updateByPrimaryKeySelective(record);
+	        }		        	
+	      
+	        variables.add(new RestVariable("currentProcessEnd", false));
+			variables.add(new RestVariable("loanerUserName", loaner.getUsername()));			
+			variables.add(new RestVariable("sessionUserName", user.getUsername())); //派单人
+			// 启动流程
+			ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode,variables);
+			StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, loaner.getUsername(), caseCode);
+			
+			// 插入工作流表
+			ToWorkFlow newWorkFlow = new ToWorkFlow();
+			newWorkFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
+			newWorkFlow.setCaseCode(caseCode);
+			newWorkFlow.setBizCode(String.valueOf(toMortgageDTO.getPkid()));
+			newWorkFlow.setInstCode(vo.getId());
+			newWorkFlow.setProcessDefinitionId(propertyUtilsService.getProcessLoanerDfKey());
+			newWorkFlow.setProcessOwner(user.getId());
+			newWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
+			toWorkFlowService.insertSelective(newWorkFlow);
+			
+
+			toMortgageService.updateToMortgage(toMortgageDTO);// 主键pkid作为条件更新
+			
+			//
+			ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+			
+			//冗余 派单流程表信息
+			ToMortLoaner toMortLoaner = new ToMortLoaner();
+			toMortLoaner.setCaseCode(caseCode);
+			toMortLoaner.setCustName(toMortgageDTO.getCustName());
+			if(null != toPropertyInfo){
+				toMortLoaner.setHouAddress(toPropertyInfo.getPropertyAddr());
 			}
-			toMortgageService.updateToMortgage(toMortgageDTO);// toMortgage
-																// 主键pkid作为条件更新
-			response.setMessage("交易顾问派单信息提交成功！");
+			toMortLoaner.setMortTotalAmount(toMortgageDTO.getMortTotalAmount());
+			toMortLoaner.setComAmount(toMortgageDTO.getComAmount());
+			toMortLoaner.setComYear(toMortgageDTO.getComYear());
+			toMortLoaner.setComDiscount(toMortgageDTO.getComDiscount());
+			toMortLoaner.setPrfAmount(toMortgageDTO.getPrfAmount());
+			toMortLoaner.setPrfYear(toMortgageDTO.getPrfYear());
+			toMortLoaner.setAgentCode(user.getId());
+			toMortLoaner.setLoanerStatus(ToMortLoanerEnums.LOANER_STATUS0.getCode());
+			
+			toMortLoaner.setSendId(user.getId());
+			toMortLoaner.setSendName(user.getRealName());
+			toMortLoaner.setSendTime(new Date());
+			
+			toMortLoaner.setLoanerId(toMortgageDTO.getLoanerId());
+			toMortLoaner.setLoanerName(loaner.getRealName());
+			toMortLoaner.setLoanerPhone(loaner.getMobile());
+			toMortLoaner.setLoanerOrgId(loaner.getOrgId());
+			toMortLoaner.setLoanerOrgCode(toMortgage.getLoanerOrgCode());
+			toMortLoanerService.insertByToMortLoaner(toMortLoaner);
+			//TODO		
+			
 		} catch (BusinessException e) {
 			throw new BusinessException("交易顾问派单流程结束异常！");
 		}
