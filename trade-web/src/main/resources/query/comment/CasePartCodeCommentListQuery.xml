@@ -87,4 +87,60 @@
 			</table-row>
 		</grid>
 	</query>
+	<query id="queryEloanCommentList">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						CC.CASE_CODE, 
+						CC.SRV_CODE AS SRV_CODE_OLD, 
+						CC.COMMENT,
+						CC.CREATE_BY AS CREATE_BY_OLD,
+						CC.CREATE_TIME,
+						CC.UPDATE_BY AS UPDATE_BY_OLD,
+						CC.UPDATE_TIME,
+						SJ.JOB_NAME AS jobName
+					FROM sctrans.T_TO_CASE_COMMENT  CC
+					LEFT JOIN sctrans.SYS_USER_ORG_JOB UOJ ON CC.CREATE_BY = UOJ.USER_ID AND UOJ.ISMAIN=1
+					LEFT JOIN sctrans.SYS_JOB SJ ON SJ.ID = UOJ.JOB_ID AND SJ.IS_DELETED = '0'
+					<choose>
+						<when test="eloanCode!=null and eloanCode != ''">
+							WHERE BIZ_CODE = #eloanCode#
+						</when>
+						<otherwise>
+						    WHERE BIZ_CODE IS NULL
+						</otherwise>
+					</choose>
+					<ifNotNull source>
+						AND SOURCE = #source#
+					</ifNotNull>
+					<ifNotNull type>
+						AND TYPE = #type#
+					</ifNotNull>
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY CREATE_TIME DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="SRV_CODE_OLD" index="" checkbox="" title="环节编码" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="virtual" name="SRV_CODE" title="环节编码" customDict="partName" referencecol="SRV_CODE_OLD"  />
+				<column type="both" name="COMMENT" index="" checkbox="" title="备注信息" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="CREATE_BY_OLD" index="" checkbox="" title="创建人" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="virtual" name="CREATE_BY" title="创建人" customDict="qqcdUserIdName" referencecol="CREATE_BY_OLD"  />
+				<column type="both" name="CREATE_TIME" index="" checkbox="" title="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="UPDATE_BY_OLD" index="" checkbox="" title="更新人" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="virtual" name="UPDATE_BY" title="更新人" customDict="qqcdUserIdName" referencecol="UPDATE_BY_OLD"  beanFormatter="dateFormatter"/>
+				<column type="both" name="UPDATE_TIME" index="" checkbox="" title="更新时间" customDict="" sysDict="" beanFormatter="dateFormatter" width="150" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="jobName" index="" checkbox="" title="角色名称" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
 </querys>

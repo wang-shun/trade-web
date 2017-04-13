@@ -311,7 +311,7 @@ function($, window) {
 		}
 	    
 		//现在的页面改版是跟进信息列表不需要分页
-		if(queryId != "queryCasePartCommentList"){
+		if(queryId != "queryCasePartCommentList" && queryId != "queryEloanCommentList"){
 			 var pageBar = "<div class=\"text-center\"><span id=\"currentTotalPage\"><strong class=\"bold\"></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"currentRecords\"><strong class=\"bold\"></strong></span><span><strong class=\"bold\" id=\"totalP\"></strong></span>&nbsp;<div id=\"pageBar\" class=\"pagination my-pagination text-center m0\"></div></div>";
 			    if($("#pageBar").length == 0) {
 			    	$(this).after(pageBar);

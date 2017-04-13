@@ -42,6 +42,8 @@
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
 <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
 </head>
 
 
@@ -419,13 +421,32 @@
 									style="margin-left: 4px; width: 757px; height: 71px; resize: none;">${toApproveRecord.content }</textarea>
 							</div>
 						</li>
+						<c:if test="${taskId!=null}">
+						<!-- 相关信息 -->
+						<li>
+						<div id="caseCommentList" class="view-content"></div>
+						</li>
+						<li>
+							<div class="form_content">
+									<input type="hidden" name="pkId" id="pkId" value="${eloanCase.pkid}"/>
+									<label class="control-label sign_left_two pull-left">作废原因</label>
+									<textarea class="input_type sign_right pull-left"  rows="2"  id="ezfContent"	name="ezfContent" style="margin-left: 4px;width: 757px;
+    											height: 71px;resize:none;"></textarea>
+							</div>
+						</li>
+						</c:if>
 					</ul>
+					
 					<p class="text-center">
-						<input type="button" class="btn btn-success submit_From"
-							value="提交"> <a type="button"
-							href="${ctx}/eloan/Eloanlist" class="btn btn-grey ml5">关闭</a>
+						<c:if test="${taskId==null}">
+							<input type="button" class="btn btn-success submit_From" value="提交"> 
+						</c:if>
+						<c:if test="${taskId!=null}">
+							<input type="button" class="btn btn-success" id="invalidEloan" value="作废">
+						</c:if>
+						<a type="button" href="${ctx}/eloan/Eloanlist" class="btn btn-grey ml5">关闭</a>
 					</p>
-
+					
 				</form>
 			</div>
 
@@ -435,22 +456,20 @@
 	</div>
 
 	<!-- Mainly scripts -->
-	<content tag="local_script"> <!-- stickup plugin --> <script
-	<!-- Toastr script -->
+	<content tag="local_script">
 	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> 
-		src="${ctx}/static/js/morris/morris.js"></script> <script
-		src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
-	   <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<!-- aist --> <script src="${ctx}/js/jquery.blockui.min.js"></script> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/jquery.editable-select.min.js"></script> 
-		<script	src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> 
-		<script
-		src="${ctx}/static/trans/js/workbench/stickDash.js"></script> 
-		<script
-		id="queryCastListItemList" type="text/html">
+	<script src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
+	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script src="${ctx}/js/jquery.editable-select.min.js"></script> 
+	
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+    <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
+	<script id="queryCastListItemList" type="text/html">
                           {{each rows as item index}}
 	<tr>
     <td>
@@ -783,6 +802,14 @@
 
 												getCustomerNameAndTel($("#caseCode").val());
 											});
+							//跟进信息
+							$("#caseCommentList").eloanCaseCommentGrid(
+									{
+										eloanCode : $("#eloanCode").val(),
+										source : 'EPLUS',
+										type : 'TRACK'
+									}	   
+								   );
 
 						});
 
@@ -1204,6 +1231,39 @@
 			$("#loanerId").val("");
 			$("#loanerOrgCode").val("");
 			$("#loanerOrgId").val("");
+		}
+		
+		$("#invalidEloan").click(function(){  
+     	   if($("#ezfContent").val()==null||$("#ezfContent").val()==""){
+     		   window.wxc.alert("请填写作废原因")
+     		   return;
+     	   }
+     	   
+     	   window.wxc.confirm("确定要作废这条数据吗？",{"wxcOk":function(){
+     		   saveEloanInfoForUpdate();
+     	   }});
+        })
+        function saveEloanInfoForUpdate(){
+			$.ajax({
+				type : "POST",
+			    url:ctx+"/eloan/deteleItem",
+				data:{pkid:$("#pkId").val(),action:"aban",content:$("#ezfContent").val()},
+				dataType : "json",
+				success : function(data) {	
+					if(data.success == true){
+						 window.wxc.success("数据保存成功",{"wxcOk":function(){
+							 window.close();
+							 window.opener.callback();
+						 }});
+					}else{
+						window.wxc.error("数据保存出错");
+					} 
+				},
+				error : function(errors) {
+					$.unblockUI();    
+					window.wxc.error("数据保存出错");
+				}
+			});
 		}
 
 	</script> </content>
