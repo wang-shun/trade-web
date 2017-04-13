@@ -1,9 +1,11 @@
  # Dockerfile for Swagger Editor
 # Updated 20170413
 
-FROM docker.aist.io/aist_swagger
+FROM swaggerapi/swagger-editor:v2.10.5
 
 MAINTAINER Lin Jiarong <linjr@aisthink.com>
-ADD swagger/ /opt/swagger
-EXPOSE 80
-CMD ["swagger","project","edit","-p","80"]
+ADD swagger/api/controllers/swagger/swagger.yaml /editor/spec-files/default.yaml
+ADD swagger/api/controllers/swagger/swagger.yaml /editor/dist.old/spec-files/default.yaml
+ADD swagger/api/controllers/swagger/swagger.yaml /editor/.grunt/grunt-gh-pages/gh-pages/main/spec-files/default.yaml
+EXPOSE 8080
+CMD ["http-server", "--cors", "-p8080", "/editor"]
