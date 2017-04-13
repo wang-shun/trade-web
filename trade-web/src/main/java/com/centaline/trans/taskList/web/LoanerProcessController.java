@@ -11,6 +11,7 @@ import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -150,6 +151,7 @@ public class LoanerProcessController{
 	 * @date:2017-03-28
 	 * @des:信贷员流程 结束
 	 * */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "loanerProcessSubmit")
 	@ResponseBody
 	public AjaxResponse loanerProcessSubmit(HttpServletRequest request, HttpServletResponse response, ToMortgage toMortgage,String caseCode,String taskId, String processInstanceId,int bankLevel) {
@@ -169,6 +171,7 @@ public class LoanerProcessController{
 	 * @date:2017-03-28
 	 * @des:信贷员流程 结束
 	 * */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "loanerProcessDelete")
 	@ResponseBody
 	public AjaxResponse<String> loanerProcessDelete(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskId, String processInstanceId) {

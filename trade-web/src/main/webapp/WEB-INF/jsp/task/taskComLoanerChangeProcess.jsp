@@ -333,8 +333,8 @@
 						
 						<div class="form-btn">
 		                    <div class="text-center">
-		                         <button class="btn btn-success btn-space" onclick="submit()">提交</button>
-								<button class="btn btn-success btn-space" onclick="refuse()">驳回</button>
+		                         <button class="btn btn-success btn-space" onclick="submit()">重新派单</button>
+								<button class="btn btn-success btn-space" onclick="refuse()">取消派单</button>
 		                    </div>
 		                </div>
 					</section>

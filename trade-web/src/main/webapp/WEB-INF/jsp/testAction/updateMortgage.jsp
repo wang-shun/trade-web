@@ -69,7 +69,7 @@
 						value="${eloanCase.createBy}"> --%>
 					<ul class="form_lump">
 						<li>
-							<div class="form_content">
+<%-- 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"> </i> PKID
 								</label>
@@ -81,7 +81,7 @@
 									class="red"> </i>案件编号
 								</label>  <input class="input_type sign_right_two" readonly="readonly"  value="${mortgage.caseCode}"
 									name="caseCode" id="caseCode">
-							</div>
+							</div> --%>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"> </i>按揭贷款类型
@@ -93,32 +93,44 @@
 
 						</li>
 						<li>
-							<div class="form_content">
+							<%-- <div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>贷款总额
 								</label>
 								<input class="input_type sign_right_two" value="${mortgage.mortTotalAmount}"
 									name="mortTotalAmount" id="mortTotalAmount">
-							</div>
+							</div> --%>
 							<div class="form_content">
-<!-- 								<label class="control-label sign_left_two"> <i
+<%--  								<label class="control-label sign_left_two"> <i
 									class="red"></i>贷款机构
 								</label> -->
-<%-- 								<input class="input_type sign_right_two" value="${mortgage.finOrgCode}"
+ 								<input class="input_type sign_right_two" value="${mortgage.finOrgCode}"
 									name="finOrgCode" id="finOrgCode"> --%>
 								
                                  <div class="form_content">
-                                     <label class="control-label sign_left_small">贷款银行</label>																										
-	 								 <select  name="bank_type" class="select_control" id="bank_type" ></select>	
+                                     <label class="control-label sign_left_small">贷款机构银行</label>																										
+	 								 <select  name="bank_type" class="select_control" id="bank_type1" ></select>	
                                  </div>
                                  <div class="form_content" style="margin-left:40px;">
-                                     <label class="control-label sign_left_small">贷款支行</label>
-		 							 <select  name="finOrgCode" class="select_control" id="finOrgCode" ></select>
+                                     <label class="control-label sign_left_small">贷款机构支行</label>
+		 							 <select  name="finOrgCode" class="select_control" id="finOrgCode1" ></select>
                                  </div>	
                                  
 							</div>
 						</li>
-					<li>
+						<li>
+							<div class="form_content">
+                                 <div class="form_content">
+                                     <label class="control-label sign_left_small">最终贷款银行</label>																										
+	 								 <select  name="bank_type" class="select_control" id="bank_type2" ></select>	
+                                 </div>
+                                 <div class="form_content" style="margin-left:40px;">
+                                     <label class="control-label sign_left_small">最终贷款支行</label>
+		 							 <select  name="finOrgCode" class="select_control" id="finOrgCode2" ></select>
+                                 </div>	
+							</div>
+						</li>
+<%-- 					<li>
 					        <div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>商贷金额
@@ -147,8 +159,8 @@
 								<input class="input_type sign_right_two" value="${mortgage.prfAmount}"
 									name="prfAmount" id="prfAmount">
 							</div>
-						</li>
-						<li>
+						</li> --%>
+						<%-- <li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>公积金贷款年限
@@ -197,8 +209,8 @@
 									<i class="fa fa-calendar"></i>
 								</div>
 							</div>
-						</li>
-						<li>
+						</li> --%>
+						<%-- <li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i> 批贷时间
@@ -226,8 +238,8 @@
 									<i class="fa fa-calendar"></i>
 								</div>
 							</div>
-						</li>
-						<li>
+						</li> --%>
+						<%-- <li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>客户编号
@@ -249,8 +261,8 @@
 								<input class="input_type sign_right_two" value="${mortgage.custName}"
 									name="custName" id="custName">
 							</div>
-						</li>
-						<li>
+						</li> --%>
+						<%-- <li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>是否需要评估报告
@@ -274,8 +286,8 @@
 								<input class="input_type sign_right_two" value="${mortgage.loanerPhone}"
 									name="loanerPhone" id="loanerPhone">
 							</div>
-						</li>
-						<li>
+						</li> --%>
+						<%-- <li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>最终贷款银行
@@ -301,9 +313,9 @@
 								</div>
 							</div>
 
-						</li>
+						</li> --%>
 						<li>
-							<div class="form_content">
+<%-- 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>是否需要复议
 								</label>
@@ -320,7 +332,7 @@
 								    <option value="1" ${mortgage.isMainLoanBank eq 1?'selected="selected"':''}>是</option>
 								    <option value="0" ${mortgage.isMainLoanBank eq 0?'selected="selected"':''}>否</option>
 								</select>	
-							</div>
+							</div> --%>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>是否有效
@@ -331,7 +343,7 @@
 								</select>	
 							</div>
 						</li>
-						<li>
+						<%-- <li>
 							<div class="form_content input-daterange"  data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>创建时间
@@ -363,8 +375,8 @@
 									<i class="fa fa-calendar"></i>
 								</div>
 							</div>
-						</li>
-						<li>
+						</li> --%>
+<%-- 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>更新人
@@ -392,8 +404,8 @@
                                     <option value="0" ${mortgage.isTmpBank eq 0?'selected="selected"':''}>否</option>
                                 </select>	
 							</div>
-						</li>
-						<li>
+						</li> --%>
+						<%-- <li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>临时银行处理人
@@ -415,14 +427,14 @@
 									<i class="fa fa-calendar"></i>
 								</div>
 							</div>
-<%-- 							<div class="form_content">
+							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"></i>临时银行原因
 								</label>
 								<input class="input_type sign_right_two" value="${mortgage.isActive}"
 									name="isActive" id="isActive">
-							</div> --%>
-						</li>
+							</div>
+						</li> --%>
 					</ul>
 					<p class="text-center">
 						<input type="button" class="btn btn-success submit_From" onclick="saveEloanApply()"
@@ -462,11 +474,18 @@
 					todayBtn : 'linked',
 					language : 'zh-CN'
 				});
-				//初始化银行列表
-				getParentBank($("#bank_type"),$("#finOrgCode"),"${mortgage.finOrgCode}","${mortgage.isTmpBank}" == "1"?"":"cl");
+				//初始化银行列表1
+				getParentBank($("#bank_type1"),$("#finOrgCode1"),"${mortgage.finOrgCode}","${mortgage.isTmpBank}" == "1"?"":"cl");
 				
-  				$("#bank_type").change(function(){
-  					getBranchBankList($("#finOrgCode"),$("#bank_type").val(),"${mortgage.finOrgCode}","${mortgage.isTmpBank}" == "1"?"":"cl")
+  				$("#bank_type1").change(function(){
+  					getBranchBankList($("#finOrgCode1"),$("#bank_type1").val(),"${mortgage.finOrgCode}","${mortgage.isTmpBank}" == "1"?"":"cl")
+			    });
+  				
+				//初始化银行列表2
+				getParentBank($("#bank_type2"),$("#finOrgCode2"),"${mortgage.lastLoanBank}","${mortgage.isTmpBank}" == "1"?"":"cl");
+				
+  				$("#bank_type2").change(function(){
+  					getBranchBankList($("#finOrgCode2"),$("#bank_type2").val(),"${mortgage.lastLoanBank}","${mortgage.isTmpBank}" == "1"?"":"cl")
 			    });
 			}
 		);
@@ -629,10 +648,10 @@
 		//切换临时银行
 		function toggleTmpBank(element){
 			//初始化银行列表
-			getParentBank($("#bank_type"),$("#finOrgCode"),"${mortgage.finOrgCode}",$(element).val() == "1"?"":"cl");
+			getParentBank($("#bank_type1"),$("#finOrgCode1"),"${mortgage.finOrgCode}",$(element).val() == "1"?"":"cl");
 			
-			$("#bank_type").change(function(){
-				getBranchBankList($("#finOrgCode"),$("#bank_type").val(),"${mortgage.finOrgCode}",$(element).val() == "1"?"":"cl")
+			$("#bank_type1").change(function(){
+				getBranchBankList($("#finOrgCode1"),$("#bank_type1").val(),"${mortgage.finOrgCode}",$(element).val() == "1"?"":"cl");
 		    });
 		}
 	</script> </content>

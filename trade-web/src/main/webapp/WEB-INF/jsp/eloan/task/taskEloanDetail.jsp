@@ -34,8 +34,8 @@
 <link rel="stylesheet" href="${ctx}/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" type="text/css" />
 <!-- 分页控件 -->
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-<!-- aist列表样式 -->
-<%-- <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet"> --%>
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -452,28 +452,32 @@
 
                              </div>
                     </div>
+                    <div class="ibox-content">
+                    <!-- 跟进信息 -->
+                    <div id="caseCommentList" class="view-content"></div>
+                    </div>
                     <div class="ibox-content" id="reportThree" style="display:none;">
                     </div>
                     <div class="ibox-content" id="reportFour" style="display:none;">
-
                     </div>
                     <div class="ibox-content" id="reportFive" style="display:none;">
-
                     </div>
-
                 </div>
             </div>
-    </div>
+    	</div>
+	</div>
 	<!-- main End -->
 	<content tag="local_script"> 
-	   <%-- <script src="${ctx}/js/inspinia.js"></script> 
-	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script>  --%>
+<%-- 	   <script src="${ctx}/js/inspinia.js"></script> 
+	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script> --%>
 	   <!-- 开关按钮js -->
        <script src="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js"></script>
-       <%-- <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> --%>
        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-       <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+       <script src= "${ctx}/js/template.js" type="text/javascript"></script>
+       <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
        <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+       <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+    <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
        <script id="queryRiskControlList" type= "text/html">
                         {{each rows as item index}}
  				                 <tr>
@@ -559,6 +563,15 @@
 					 window.location.href = "${ctx}/riskControl/guarantyfair?pkid=${pkId}";
 				  }
  			   });
+ 			   
+ 			//跟进信息
+				$("#caseCommentList").eloanCaseCommentGrid(
+						{
+							eloanCode : eloanCode,
+							source : 'EPLUS',
+							type : 'TRACK'
+						}	   
+					   );
 		   })
 	  
 			//点击浏览器任何位置隐藏提示信息

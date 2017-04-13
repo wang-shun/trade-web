@@ -1855,14 +1855,15 @@ function onkeyuploanerName(){
 }
 
 
+/*
+ * @author: zhuody
+ * @des:启动派单流程
+ * 
+ * */
+
 function loanerProcessStart(isMainLoanBank){	
-	
-	var bankLevel = $("#finOrgCode").find('option:selected').attr('coLevel');//所选银行分行级别 
-	//以下参数查询  银行的接单数配置，超过配置则不能选择信贷员
-	var loanerUserId = $("#loanerId").val();		//所选信贷员的userId
-	var loanerOrgId = $("#loanerOrgId").val();		//所选信贷员的OrgId
-	var bankOrgCode = $("#finOrgCode").val();		//所选银行分行的OrgCode
-	$("#processStart").val("processIsStart");
+	var bankLevel = $("#finOrgCode").find('option:selected').attr('coLevel');//所选银行分行级别 	
+	$("#processStart").val("processIsStart"); //点击派单流程设置 标志，作为"下一步"继续的依据
 	
 	var form = '';
 	if(isMainLoanBank == "1"){
@@ -1883,19 +1884,14 @@ function loanerProcessStart(isMainLoanBank){
     	data:data,
     	
     	success:function(data){    		
-    		if(data.success == true){   
-	    			//TODO 
+    		if(data.success == true){	    			
 	    			//if(null != bankLevel &&  bankLevel != undefined  && null != loanerUserId && "" != loanerUserId){
     				if(beforeSendLoanerProcess(form)){
 	    				window.wxc.confirm("派单前，请再次确认您选择的信贷员是否正确！",{"wxcOk":function(){
 	    					startLoanerOrderWorkFlow(bankLevel,isMainLoanBank);  
 		    			 }
 	   	    		 });  
-	    			}/*else{    				
-	    				window.wxc.alert("启动派单流程需选择信贷员和银行信息");
-	    				return;
-	    			}*/
- 			    		
+	    			} 			    		
 	    	}else{
 				window.wxc.alert(data.message);
 				return;
@@ -1903,6 +1899,7 @@ function loanerProcessStart(isMainLoanBank){
     	}
  	}); 
 }
+//启动临时银行审批
 function startBankLevelApproveWorkFlow(){
 	//'我要修改'页面不触发流程 	
 	if(source != null && source !=''){
@@ -1919,14 +1916,15 @@ function startBankLevelApproveWorkFlow(){
     		window.wxc.success(data.message);
     	}
  	});
-
 }
+
 //启动 信贷员审核流程
 function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
 	
 	var loanerUserId = $("#loanerId").val();		//所选信贷员的userId
 	var loanerOrgId = $("#loanerOrgId").val();		//所选信贷员的OrgId
 	var bankOrgCode = $("#finOrgCode").val();		//所选银行分行的OrgCode	
+	var loanerOrgCode = $("#loanerOrgCode").val();	
 	
 	var mor = getFormParams();
 	
@@ -1936,6 +1934,7 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
 	mor.finOrgCode = bankOrgCode;
 	mor.bankLevel = bankLevel;
 	mor.isMainLoanBank = isMainLoanBank;
+	mor.loanerOrgCode = loanerOrgCode;
 	//alert(JSON.stringify(mor));
 	
  	$.ajax({
@@ -1945,7 +1944,8 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
     	dataType:"json",
     	data:mor,
     	
-    	success:function(data){    		
+    	success:function(data){   
+    		//回显 派单成功时间
     		if(isMainLoanBank==1){
     			$("#dispachTime1").val(data.content).show();
     		}else if(isMainLoanBank==0){
@@ -1956,13 +1956,14 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
  	});
 }
 
+//获取地址栏参数的值
 function getUrlParams(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 }
 
-
+//封装页面填写值
 function getFormParams(){
 	var custCode = $("#custCode").val();
 	

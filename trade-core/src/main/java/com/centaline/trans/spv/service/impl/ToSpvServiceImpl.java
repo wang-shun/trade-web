@@ -25,6 +25,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
@@ -40,6 +41,7 @@ import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
+import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskQuery;
@@ -1878,6 +1880,147 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}else{
 			toSpvAccountMapper.insertSelective(fundAcc);
 		}
+	}
+
+	@Override
+	public void changeOfficer(String spvCode, String oldOfficer, String newOfficer, String oldDirector, String newDirector) {
+		//待办分配给新的人员
+		SessionUser oldOfficerUser = uamSessionService.getSessionUserById(oldOfficer);
+		SessionUser newOfficerUser = uamSessionService.getSessionUserById(newOfficer);
+		SessionUser oldDirectorUser = uamSessionService.getSessionUserById(oldDirector);
+		SessionUser newDirectorUser = uamSessionService.getSessionUserById(newDirector);
+		if(newOfficerUser == null){
+			throw new BusinessException("找不到选择的风控专员！");
+		}
+		if(newDirectorUser == null){
+			throw new BusinessException("找不到选择的风控总监！");
+		}
+		//更新合约表风控专员字段
+		ToSpv record = new ToSpv();
+		record.setSpvCode(spvCode);
+		record.setRiskControlOfficer(newOfficerUser.getId());
+		toSpvMapper.updateOfficerBySpvCode(record);
+		//查询资金监管流程更新流程变量和未完成的任务办理人为所选人员
+		ToWorkFlow query1 = new ToWorkFlow();
+		query1.setBizCode(spvCode);
+		query1.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
+		ToWorkFlow twf1 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query1);
+		if(twf1 == null){
+			throw new BusinessException("找不到资金监管流程！");
+		}
+		//查询流程是否挂起：若挂起临时唤醒，更改人员后再挂起
+		StartProcessInstanceVo historyInstances = workFlowManager.getHistoryInstances(twf1.getInstCode());
+		if(historyInstances.getSuspended()){
+			workFlowManager.activateOrSuspendProcessInstance(twf1.getInstCode(), true);
+		}
+		workFlowManager.setVariableByProcessInsId(twf1.getInstCode(), "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+		workFlowManager.setVariableByProcessInsId(twf1.getInstCode(), "RiskControlDirector",new RestVariable("RiskControlDirector",newDirectorUser.getUsername()));
+		PageableVo pageableVo1 = taskService.listTasks(twf1.getInstCode(), false);
+		List<TaskVo> taskList1 = pageableVo1.getData();
+		for (TaskVo task : taskList1) {
+			if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
+				taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+			}else if(oldDirectorUser.getUsername().equals(task.getAssignee())){
+				taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
+			}
+		}
+		if(historyInstances.getSuspended()){
+			workFlowManager.activateOrSuspendProcessInstance(twf1.getInstCode(), false);
+		}
+		//查询中止/结束流程更新流程变量和未完成的任务办理人为所选人员
+		ToWorkFlow query2 = new ToWorkFlow();
+		query2.setBizCode(spvCode);
+		query2.setBusinessKey(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode());
+		ToWorkFlow twf2 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query2);
+		if(twf2 != null){
+			workFlowManager.setVariableByProcessInsId(twf2.getInstCode(), "applier",new RestVariable("applier",newOfficerUser.getUsername()));
+			workFlowManager.setVariableByProcessInsId(twf2.getInstCode(), "director",new RestVariable("director",newDirectorUser.getUsername()));
+			PageableVo pageableVo2 = taskService.listTasks(twf2.getInstCode(), false);
+			List<TaskVo> taskList2 = pageableVo2.getData();
+			for (TaskVo task : taskList2) {
+				if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
+					taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+				}else if(oldDirectorUser.getUsername().equals(task.getAssignee())){
+					taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
+				}
+			}
+		}
+		//出入账和中止结束流程分配给新的人员
+		List<ToSpvCashFlowApply> toCashFlows = findCashFlowApplyCodeBySpvCode(spvCode);
+		if(toCashFlows != null && toCashFlows.size()>0){
+			toCashFlows.forEach((item)->{
+				String cashFlowApplyCode = item.getCashflowApplyCode();
+				if("in".equals(item.getUsage())){
+					ToWorkFlow query3 = new ToWorkFlow();
+					query3.setBizCode(cashFlowApplyCode);
+					query3.setBusinessKey(WorkFlowEnum.SPV_CASHFLOW_IN_DEFKEY.getCode());
+					ToWorkFlow twf3 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query3);
+					workFlowManager.setVariableByProcessInsId(twf3.getInstCode(), "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+					workFlowManager.setVariableByProcessInsId(twf3.getInstCode(), "RiskControlDirector",new RestVariable("RiskControlDirector",newDirectorUser.getUsername()));
+					PageableVo pageableVo3 = taskService.listTasks(twf3.getInstCode(), false);
+					List<TaskVo> taskList3 = pageableVo3.getData();
+					for (TaskVo task : taskList3) {
+						if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
+							taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+						}else if(oldDirectorUser.getUsername().equals(task.getAssignee())){
+							taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
+						}
+					}
+				}else if("out".equals(item.getUsage())){
+					ToWorkFlow query4 = new ToWorkFlow();
+					query4.setBizCode(cashFlowApplyCode);
+					query4.setBusinessKey(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode());
+					ToWorkFlow twf4 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query4);
+					workFlowManager.setVariableByProcessInsId(twf4.getInstCode(), "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+					workFlowManager.setVariableByProcessInsId(twf4.getInstCode(), "RiskControlDirector",new RestVariable("RiskControlDirector",newDirectorUser.getUsername()));
+					PageableVo pageableVo4 = taskService.listTasks(twf4.getInstCode(), false);
+					List<TaskVo> taskList4 = pageableVo4.getData();
+					for (TaskVo task : taskList4) {
+						if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
+							taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+						}else if(oldDirectorUser.getUsername().equals(task.getAssignee())){
+							taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
+						}
+					}
+				}
+				
+			});
+		}
+	}
+
+	/**
+	 * 根据合约号查询申请号
+	 */
+	@Override
+	public List<ToSpvCashFlowApply> findCashFlowApplyCodeBySpvCode(String spvCode) {
+		return toSpvCashFlowApplyMapper.selectCashFlowApplysBySpvCode(spvCode);
+	}
+
+	@Override
+	public List<String> selectConsAndManager(Long pkId) {
+		ToSpv toSpv = toSpvMapper.selectByPrimaryKey(pkId);
+		//1.查询流程
+		ToWorkFlow record = new ToWorkFlow();
+		record.setBizCode(toSpv.getSpvCode());
+		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
+		ToWorkFlow workFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
+		if(workFlow == null){
+			throw new BusinessException("找不到资金监管流程！");
+		}
+		
+		String officerUserName = (String) workFlowManager.getVar(workFlow.getInstCode(), "RiskControlOfficer").getValue();
+		String directorUserName = (String) workFlowManager.getVar(workFlow.getInstCode(), "RiskControlDirector").getValue();
+		
+		List<UserOrgJob> officers = uamUserOrgService.findUserOrgJobByUsername(officerUserName);
+		SessionUser officer = uamSessionService.getSessionUserById(officers.get(0).getUserId());
+		List<UserOrgJob> directors = uamUserOrgService.findUserOrgJobByUsername(directorUserName);
+		SessionUser director = uamSessionService.getSessionUserById(directors.get(0).getUserId());
+		
+		List<String> mixUserList = new ArrayList<String>();
+		mixUserList.add(officer.getId()+","+officer.getServiceDepId()+","+officer.getRealName());
+		mixUserList.add(director.getId()+","+director.getServiceDepId()+","+director.getRealName());
+		
+		return mixUserList;
 	}
 	
 }
