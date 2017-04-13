@@ -224,8 +224,8 @@ public class SpvController {
         cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
         request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
-		request.setAttribute("officer", officer == null?null:officer.getRealName());
-		request.setAttribute("jingban", jingban == null?null:jingban.getRealName());
+		request.setAttribute("officer", officer);
+		request.setAttribute("jingban", jingban);
 	    request.setAttribute("zj",FKZJ);
 	    request.setAttribute("applyUser",applyUser);
 		return "spv/SpvDetail";
@@ -1232,6 +1232,37 @@ public class SpvController {
 			e.printStackTrace();
 		}
 		return response;
+	}
+	
+	@RequestMapping("changeOfficer")
+	@ResponseBody
+	public AjaxResponse<String> changeOfficer(String spvCode, String oldOfficer, String newOfficer, String oldDirector, String newDirector) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			toSpvService.changeOfficer(spvCode, oldOfficer, newOfficer, oldDirector, newDirector);
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setSuccess(false);
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	@RequestMapping("selectOfficerAndDirector")
+	@ResponseBody
+	public AjaxResponse<List<String>> selectConsAndManager(Long pkId) {
+		AjaxResponse<List<String>> result = new AjaxResponse<List<String>>();
+		try {
+			List<String> mixUserList = toSpvService.selectConsAndManager(pkId);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+			result.setContent(mixUserList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
 	}
 	
     /**

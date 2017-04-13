@@ -103,4 +103,6 @@ public interface ToSpvMapper {
 	int countToSignByIdList(List<String> idList, String startDate,
 			String endDate);
 
+	void updateOfficerBySpvCode(ToSpv s);
+
 }

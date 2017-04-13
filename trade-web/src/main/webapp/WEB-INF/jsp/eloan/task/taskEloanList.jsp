@@ -116,6 +116,72 @@
 		</div>
 	</div>
 	<!-- main End -->
+	<!-- 设置隐藏字段，动态改变 下面form的参数值-->
+	<input type="hidden" id="bizCode" />
+	<input type="hidden" id="consultantId" />
+	<input type="hidden" id="consultantOrgId" />
+	<input type="hidden" id="consultantRealName" />
+	<input type="hidden" id="managerId" />
+	<input type="hidden" id="managerOrgId" />
+	<input type="hidden" id="managerRealName" />
+	<!-- 责任人变更 -->
+	<div id="srv-modal-form" class="modal fade" role="dialog"
+		aria-labelledby="srv-modal-title" aria-hidden="true">
+		<div class="modal-dialog" style="width: 700px">
+			<div class="modal-content">
+				<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+			    
+				<h4 class="modal-title" id="srv-modal-title">选择交易顾问：</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<div class="col-lg-5 checkbox i-checks checkbox-inline">
+									<label for="" class="lable-one">
+								    	<input type="hidden" id="userId1" name="consultant" >
+			        					<input type="text" id="realName1"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:$('#consultantOrgId').val(),expandNodeId:$('#consultantOrgId').val(),
+										jobCode:'consultant',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack1})" value="">
+										<div class="input-group float_icon organize_icon" style="margin-top: 5px;">
+                                     		<i class="icon iconfont">&#xe627;</i>
+                                 		</div>
+                                    </label>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-header">
+ 				<h4 class="modal-title" id="srv-modal-title">选择主管：</h4>
+ 				</div>
+				<div class="modal-body">
+					<div class="row">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<div class="col-lg-5 checkbox i-checks checkbox-inline">
+									<label>
+							    		<input type="hidden" id="userId2" name="manager" value=''>
+	        							<input type="text" id="realName2"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:$('#managerOrgId').val(),expandNodeId:$('#managerOrgId').val(),
+										jobCode:'manager',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack2})" value="">
+										<div class="input-group float_icon organize_icon" style="margin-top: 5px;">
+                                    		<i class="icon iconfont">&#xe627;</i>
+                               			</div>
+                               		</label>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div> 
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" style="background-color: #f8ac59;border-color: #f8ac59;color: #FFFFFF;" onclick="javascript:changeOwner()">提交</button>
+					<button type="button" class="btn btn-default"
+						data-dismiss="modal">取消</button>
+				</div>
+				</div>
+			</div>
+		</div>
 
 	<content tag="local_script"> <!-- Peity --> <script
 		src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
@@ -134,6 +200,8 @@
 		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <!-- 模板 -->
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script id="queryMortgageApproveLost" type="text/html">
          {{each rows as item index}}
 			<tr>
@@ -218,15 +286,16 @@
                                        {{if item.taskKey !='EloanApply'&& item.applyTime!=undefined &&item.STATUS!='ABAN'}}
                                         <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=invalid">作废</a></li>{{/if}}
                                       </shiro:hasPermission>
-                                      
+                                      <shiro:hasPermission name="TRADE.ELOAN.CASEDETAIL.CHANGEOWNER">
+										<li><a href="javascript:showSelectForm({{item.pkId}},'{{item.eloanCode}}');">变更责任人</a></li>
+									  </shiro:hasPermission>
                                </ul>
                       </div>
                 </td>
 			</tr>
 			{{/each}}          
-	    </script> <script>
-	   
-	    
+	    </script> 
+	    <script>
 						//初始化数据
 						 var  rule=false;
 						var serviceJobCode=$("#serviceJobCode").val(); 
@@ -375,6 +444,112 @@
 							}
 							initData();
 						});
-					</script> </content>
+						
+						function showSelectForm(id,eloanCode){
+							//查询交易顾问和主管相关信息
+							$.ajax({
+				   	      		url:ctx+"/eloan/selectConsAndManager",
+				   	      		method:"post",
+				   	      		dataType:"json",
+				   	      		data:{pkId:id},   		        				        		    
+				   	       		beforeSend:function(){  
+				   					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				   					$(".blockOverlay").css({'z-index':'9998'});
+				   	            },
+				   		        complete: function() {
+				   		                 $.unblockUI(); 
+				   		                 if(status=='timeout'){ //超时,status还有success,error等值的情况
+				   			          	  Modal.alert(
+				   						  {
+				   						    msg:"抱歉，系统处理超时。"
+				   						  }); 
+				   				                } 
+				   				            } ,   
+				   				success : function(data) {  
+				   					        if(data.success){
+				   					        	console.log("信息："+JSON.stringify(data.content));
+				   					        	$("#consultantId").val(data.content[0].split(",")[0]);
+				   					        	$("#userId1").val(data.content[0].split(",")[0]);
+				   					        	$("#consultantOrgId").val(data.content[0].split(",")[1]);
+				   					        	$("#consultantRealName").val(data.content[0].split(",")[2]);
+				   					        	$("#realName1").val(data.content[0].split(",")[2]);
+				   					        	$("#managerId").val(data.content[1].split(",")[0]);
+				   					        	$("#userId2").val(data.content[1].split(",")[0]);
+				   					        	$("#managerOrgId").val(data.content[1].split(",")[1]);
+				   					        	$("#managerRealName").val(data.content[1].split(",")[2]);
+				   					        	$("#realName2").val(data.content[1].split(",")[2]);
+				   					        	$("#bizCode").val(eloanCode);
+				   					        	$('#srv-modal-form').modal('show');
+				   					        }else{
+				   					        	window.wxc.error("操作失败！");
+				   					        }		    		
+											$.unblockUI();
+				   					},		
+				   				error : function(errors) {
+				   						$.unblockUI();   
+				   						window.wxc.error("请求出错！");
+				   					}  
+				   	       });
+						}
+						/**
+						 * 更新input的值
+						 */
+						function selectUserBack1(array){
+							if(array && array.length >0){
+						        $("#realName1").val(array[0].username);
+								$("#userId1").val(array[0].userId);
+							}else{
+						        $("#realName1").val("");
+								$("#userId1").val("");
+							}
+						}
+						
+						function selectUserBack2(array){
+							if(array && array.length >0){
+						        $("#realName2").val(array[0].username);
+								$("#userId2").val(array[0].userId);
+							}else{
+						        $("#realName2").val("");
+								$("#userId2").val("");
+							}
+						}
+						
+						//更改交易顾问和主管方法
+						function changeOwner(){
+							$('#srv-modal-form').modal('hide');
+				   	 		$.ajax({
+				   	      		url:ctx+"/eloan/changeOwner",
+				   	      		method:"post",
+				   	      		dataType:"json",
+				   	      		data:{eloanCode:$("#bizCode").val(),oldConsultantId:$("#consultantId").val(),newConsultantId:$("#userId1").val(),oldManagerId:$("#managerId").val(),newManagerId:$("#userId2").val()},   		        				        		    
+				   	       		beforeSend:function(){  
+				   					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				   					$(".blockOverlay").css({'z-index':'9998'});
+				   	            },
+				   		        complete: function() {
+				   		                 $.unblockUI(); 
+				   		                 if(status=='timeout'){ //超时,status还有success,error等值的情况
+				   			          	  Modal.alert(
+				   						  {
+				   						    msg:"抱歉，系统处理超时。"
+				   						  }); 
+				   				                } 
+				   				            } ,   
+				   				success : function(data) {  
+				   					        if(data.success){
+				   					        	window.wxc.alert("操作成功！");
+				   					        }else{
+				   					        	window.wxc.error("操作失败！");
+				   					        }		    		
+											$.unblockUI();
+				   					},		
+				   				error : function(errors) {
+				   						$.unblockUI();   
+				   						window.wxc.error("请求出错！");
+				   					}  
+				   	       });
+						}
+					</script> 
+			</content>
 </body>
 </html>

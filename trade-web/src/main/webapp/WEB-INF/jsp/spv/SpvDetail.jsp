@@ -32,7 +32,7 @@
 
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<!-- main Start -->
 
 	<div class="row">
@@ -84,7 +84,7 @@
 									<dt>风控专员</dt>
 									<dd>
 										<a data-container="body" data-toggle="popover"
-											data-placement="right" data-content="手机：${createPhone}">${officer}</a>
+											data-placement="right" data-content="手机：${createPhone}">${officer.realName}</a>
 									</dd>
 									<dt>风控总监</dt>
 									<dd>
@@ -188,7 +188,7 @@
 								</div>
 								<div class="media-body">
 									<strong><a href="${ctx}/case/caseCodeDetail?caseCode=${spvBaseInfoVO.toSpv.caseCode}">${spvBaseInfoVO.toSpv.caseCode}</a></strong><br />经办人
-									<strong>${jingban}</strong> <br /> 
+									<strong>${jingban.realName}</strong> <br /> 
 								</div>
 							</div>
 						</div>
@@ -618,13 +618,11 @@
 							</div>
 							<div class="tab-pane" id="tab-6">
 							<div class="info_box info_box_one col-md-8 ">
-
-												
-												<p><strong>审批记录</strong> <p>
-												<div style="margin-left:50px;min-height:100px;"class="ibox-conn ibox-text">
-                                              ${toApproveRecord.content} 
-												</div>
-                            	</div>
+							<p><strong>审批记录</strong> <p>
+							<div style="margin-left:50px;min-height:100px;"class="ibox-conn ibox-text">
+                                         ${toApproveRecord.content} 
+							</div>
+                           	</div>
 							</div>
 						</div>
 					</div>
@@ -633,10 +631,9 @@
 		</div>
 	</div>
 	<!-- main End -->
-
-
 	<content tag="local_script">  
 	<script>
+		var spvStatus = ${spvBaseInfoVO.toSpv.status};
 		var idValiDate0 = "<fmt:formatDate value='${spvBaseInfoVO.spvCustList[0].idValiDate }' pattern='yyyy-MM-dd'/>";
 		$("#idValiDate0").text(idValiDate0 == "3000-01-01"?"长期有效":idValiDate0);
 		var idValiDate1 = "<fmt:formatDate value='${spvBaseInfoVO.spvCustList[1].idValiDate }' pattern='yyyy-MM-dd'/>";
@@ -697,12 +694,10 @@
 				$("span[name='DX']").each(function(index,element){
 					$(element).html(DX($(element).html()*10000));
 				});
-				//getPcode("pcode");
-/* 				getBank("bank0");
-				getBank("bank1"); */
 			})
 			
-					</script> </content>
+		</script> 
+	</content>
 </body>
 </html>
 
