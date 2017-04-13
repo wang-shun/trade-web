@@ -1927,6 +1927,7 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
 	var loanerUserId = $("#loanerId").val();		//所选信贷员的userId
 	var loanerOrgId = $("#loanerOrgId").val();		//所选信贷员的OrgId
 	var bankOrgCode = $("#finOrgCode").val();		//所选银行分行的OrgCode	
+	var loanerOrgCode = $("#loanerOrgCode").val();	
 	
 	var mor = getFormParams();
 	
@@ -1936,6 +1937,7 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
 	mor.finOrgCode = bankOrgCode;
 	mor.bankLevel = bankLevel;
 	mor.isMainLoanBank = isMainLoanBank;
+	mor.loanerOrgCode = loanerOrgCode;
 	//alert(JSON.stringify(mor));
 	
  	$.ajax({
@@ -1945,7 +1947,8 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
     	dataType:"json",
     	data:mor,
     	
-    	success:function(data){    		
+    	success:function(data){   
+    		//先回显 派单成功时间
     		if(isMainLoanBank==1){
     			$("#dispachTime1").val(data.content).show();
     		}else if(isMainLoanBank==0){
