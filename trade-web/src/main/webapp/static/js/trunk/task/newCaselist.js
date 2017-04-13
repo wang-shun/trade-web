@@ -3,7 +3,7 @@
  * 编写人：hjf
  * 编写时间：2017年4月13日9:44:16
  * 逻辑：查询出所有的自建案件
- * 
+ * 版本：1.0
  */
 $(document).ready(function() {
 	searchMethod(1);

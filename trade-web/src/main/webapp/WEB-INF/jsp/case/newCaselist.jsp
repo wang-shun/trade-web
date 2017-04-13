@@ -59,7 +59,6 @@
                 		 <label class="sign_left control-label">案件编号 </label>
                 		 <div class="sign_right teamcode">
 							  <input id="caseCode" id="caseCode" type="text" class="teamcode form-control"  value="">
-							 
 						 </div>
 				 </div>
                  <div class="form_content">
