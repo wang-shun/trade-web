@@ -17,11 +17,16 @@ public interface ToMortLoanerService {
 
 
     /**
-     * 插入贷款信息
+     * 插入派单贷款信息
      * @param ToMortLoaner 
      * @return
      */
 	void insertByToMortLoaner(ToMortLoaner toMortLoaner);
 
-
+    /**
+     * 更新派单贷款信息
+     * @param ToMortLoaner 
+     * @return
+     */
+	void updateByPrimaryKeySelective(ToMortLoaner toMortLoaner);
 }

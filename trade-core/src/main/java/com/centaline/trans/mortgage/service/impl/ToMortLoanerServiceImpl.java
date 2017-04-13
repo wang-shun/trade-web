@@ -32,14 +32,12 @@ import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 
 @Service
-@Transactional
 public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 
 	@Autowired
-	private ToMortgageMapper toMortgageMapper;
-	
+	private ToMortgageMapper toMortgageMapper;	
 
-	@Autowired
+	@Autowired(required = true)
 	private ToMortLoanerMapper toMortLoanerMapper;
 
 	@Autowired
@@ -79,9 +77,6 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 
 	@Autowired
 	private ToPropertyInfoService toPropertyInfoService;
-	
-	@Autowired
-	private ToMortLoanerService ToMortLoanerService;
 
 	/*
 	 * @author:zhuody
@@ -118,6 +113,20 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 			toMortLoanerMapper.insertSelective(toMortLoaner);
 		}catch(BusinessException e) {
 			throw new BusinessException("交易顾问从新派单保存数据异常");
+		}
+		
+	}
+
+	@Override
+	public void updateByPrimaryKeySelective(ToMortLoaner toMortLoaner) {
+		if(null == toMortLoaner){
+			throw new BusinessException("信贷员接单请求数据异常");
+		}
+		
+		try{
+			toMortLoanerMapper.updateByPrimaryKeySelective(toMortLoaner);
+		}catch(BusinessException e) {
+			throw new BusinessException("信贷员接单更新数据异常");
 		}
 		
 	}
