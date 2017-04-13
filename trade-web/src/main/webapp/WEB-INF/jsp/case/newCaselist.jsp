@@ -1,45 +1,78 @@
+
 <!DOCTYPE html>
+
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
-<%@page import="com.centaline.trans.workspace.web.SessionUserConstants"%>
-<%
-	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
-%>
+
 <html>
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>自录单案件详细列表</title>
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet" />
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link href="${ctx}/css/animate.css" rel="stylesheet" />
-<link href="${ctx}/css/style.css" rel="stylesheet" />
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Toastr style -->
+<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+<!-- Gritter -->
+<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="${ctx}/css/animate.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+<link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+<link href="${ctx}/css/common/common.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">								
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />									
+<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet" />  									
 <!-- Data Tables -->
-<link href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/dataTables/dataTables.responsive.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
-<!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"	rel="stylesheet" />
+<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css" />
+<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.responsive.css" />
+<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css" />
+<!-- index_css -->
+<link rel="stylesheet" href="${ctx}/css/workflow/myCaseList.css" />
+<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
+
 <!-- index_css -->
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+<style type="text/css">
+</style>
 </head>
-<body class="pace-done">
-	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-	<div class="wrapper wrapper-content animated fadeInRight">
-		<div class="ibox-content border-bottom clearfix space_box">
-			<h2 class="title">自录单案件详细列表</h2>
-			<form method="get" class="form_list">
-				<div class="line">
-					<div class="form_content">
+<body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<input type="hidden" id="userId" value="${queryUserId}" />
+<div class="wrapper wrapper-content animated fadeInRight">
+     <div class="ibox-content border-bottom clearfix space_box">
+         <h2 class="title">
+           	  自建案件列表
+         </h2>
+		<form method="get" class="form-horizontal form_box">
+             <div class="row clearfix">
+                 <div class="form_content">
+                		 <label class="sign_left control-label">案件编号 </label>
+                		 <div class="sign_right teamcode">
+							  <input id="caseCode" id="caseCode" type="text" class="teamcode form-control"  value="">
+							 
+						 </div>
+				 </div>
+                 <div class="form_content">
+                		 <label class="sign_left control-label">CTM编号 </label>
+                		 <div class="sign_right teamcode">
+							  <input id="ctmCode" type="text" class="teamcode form-control" >
+						 </div>
+				 </div>
+			</div>
+             <div class="row clearfix">
+                	<div class="form_content" style="margin-left: 115px; ">
 						<label class="control-label mr10 select_style mend_select" >创建时间</label>
-						<div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" id="datepicker_0">
+						<div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" id="datepicker_0"  style=" padding-left: 10px; ">
 							<input id="dtBegin_0" name="dtBegin"
 								class="form-control data_style" type="text" value="${startTime}"
 								placeholder="起始日期"> <span class="input-group-addon">到</span>
@@ -47,243 +80,201 @@
 								type="text" value="${endTime}" placeholder="结束日期">
 						</div>
 					</div>
-					<div class="add_btn">
-						<button id="searchButton" type="button" class="btn btn-success">
-							<i class="icon iconfont">&#xe635;</i> 查询
-						</button>
-						<!-- <button type="button" id="loanLostExportExcelButton"
-							class="btn btn-success"
-							onclick="javascript:loanLostCaseExportToExcel()" >导出列表</button> -->
-						<button type="reset" id="loanLostCleanButton"
-							class="btn btn-grey">清&nbsp;&nbsp;空</button>
-					</div>
-				</div>
-			</form>			
+			</div>
+			<div class="row clearfix">
+                 <div class="form_content">
+                		 <label class="sign_left control-label">产证地址 </label>
+                		 <div class="sign_right intextval">
+							  <input id="caseAddress" type="text"  class="form-control pull-left" >
+						 </div>
+				 </div>
+				 <button id="searchButton" type="button" class="btn btn-success" style="margin-left: 10px;" >
+                        <i class="icon iconfont">&#xe635;</i>   查询
+                 </button>
+                 <button type="reset" id="loanLostCleanButton" class="btn btn-grey">清&nbsp;&nbsp;空</button>
+			</div>
+	   </form>
 	</div>
-	 <div class="ibox-content" id="zj_info">
-           <div class="row m-t-sm" id="">
-               <div class="col-lg-12">
-                   <div class="panel blank-panel">
-                       <div class="panel-heading">
-                           <div class="panel-options">
-                               
-                           </div>
-                       </div>
-                       <div class="panel-body">
-                           <div class="tab-content">
-                                   <table class="table table-small table-striped table-bordered table-hover " >
-                                       <thead>
-	                                       <tr>
-												<th >案件编号</th>
-												<th >案件状态</th>
-												<th >产证地址</th>
-												<th >上家</th>
-												<th >下家</th>
-												<th >创建人</th>
-												<th >创建时间</th>
-											</tr>
-										</thead>
-										<tbody id="myMortgageApproveLostZbList"></tbody>
-								</table>
-								<div class="text-center page_box">
-									<span id="currentTotalPagef"><strong ></strong></span>
-									<span class="ml15">共<strong  id="totalPf"></strong>条</span>&nbsp;
-								<div id="pageBarf" class="pagination text-center"></div>  
-						    </div>
-							</div>
-						</div>
-					  </div>	
-				</div>	
-			</div>	
-		</div>	
-</div>	
+	<div class="table_content">
+		<table border="0" cellpadding="0" cellspacing="0" class="table table_blue table-striped table-bordered table-hover ">
+			<thead>
+				<tr>
+					<th ><span class="sort" sortColumn="A.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</th>
+					<th >产证地址</th>
+					<th >上家</th>
+					<th >下家</th>
+					<th >经办人</th>
+					<th >创建时间</th>
+					<th >创建人</th>
+					<th >案件状态</th>
+				</tr>
+			</thead>
+			<tbody id="myTaskList">
+				
+			</tbody>
+		</table>
+	</div>
+			
+	<div class="text-center page_box">
+		<span id="currentTotalPage"><strong ></strong></span>
+		<span class="ml15">共<strong  id="totalP"></strong>条</span>&nbsp;
+		<div id="pageBar" class="pagergoto">
+		</div>  
+    </div> 	
 	
-<content tag="local_script"> 
+</div>
+
+<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
+
+<content tag="local_script">
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
 <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script	src="${ctx}/js/inspinia.js"></script> 
-<script	src="${ctx}/js/plugins/pace/pace.min.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="${ctx}/js/inspinia.js"></script>
+<script src="${ctx}/js/plugins/pace/pace.min.js"></script>
+
+<!-- 选择组织控件 -->
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+
+<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+<!-- iCheck -->
+<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
+<script src="${ctx}/js/trunk/task/newCaselist.js?version=1.1.1"></script> 
+<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+<!-- 分页控件  -->
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-<script src="${ctx}/js/template.js" type="text/javascript"></script> 
-<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-<script	src="${ctx}/js/plugins/jquery.custom.js"></script> 
+<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-<script	id="template_myMortgageApproveLostZbList" type="text/html">
-         {{each rows as item index}}
- 					{{if index%2 == 0}}
- 				     	<tr class="tr-1">
-                    {{else}}
-                        <tr class="tr-2">
-                    {{/if}}
 
-			<td class="t-left">
-				 <p class="big">
-					{{item.CASE_CODE}}
-				 </p>
-			</td>
-			<td class="t-left">
-				 <p class="big">
-					{{item.status}}
-				 </p>
-			</td>
-			<td class="t-left">
-				 <p class="big">
-					{{item.PROPERTY_ADDR}}
-				 </p>
-			</td>
-			<td class="t-left">
-				 <p class="big">
-					{{item.realName}}
-				 </p>
-			</td>
-			<td class="t-left">
-				 <p class="big">
-					{{item.createTime}}
-				 </p>
-			</td>
-			<td class="t-left">
-				 <p class="big">
-					{{item.realName}}
-				 </p>
-			</td>
-			<td class="t-left">
-				 <p class="big">
-					{{item.createTime}}
-				 </p>
-			</td>
-			
- 			</tr>
+
+<script id="template_myTaskList" type= "text/html">
+               {{each rows as item index}}
+                 {{if index%2 == 0}}
+ 				      <tr class="tr-1">
+                  {{else}}
+                       <tr class="tr-2">
+                   {{/if}}
+					<td >
+ 						<p class="big">
+							{{item.CASE_CODE}}
+						</p>
+ 						<p class="big">
+							<i class="tag_sign">c</i>{{item.CTM_CODE}}
+						</p>
+					</td>
+					<td >
+
+
+{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+<p class="demo-top" title="{{item.PROPERTY_ADDR}}">
+{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+{{else}}
+</p><p>
+{{item.PROPERTY_ADDR}}
+{{/if}}					 
+						</p>
+ 							<p >
+								 <i class="salesman-icon"> </i>
+								
+{{if item.AGENT_ORG_NAME !="" && item.AGENT_ORG_NAME !=null && item.AGENT_ORG_NAME.length>11}}	
+ <a class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}" >
+{{if item.AGENT_NAME !=null && item.AGENT_NAME.length > 2}}			
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,10)}}...
+{{else}}
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME.substring(0,11)}}...
+{{/if}}						
+</a></p><p>
+{{else}}<a>
+{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}
+{{/if}}	
+								</a>
+							</p>
+					</td>
+					<td >
+
+ <p  >
+						
+{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
+{{if item.SELLER.split("/").length-1 >1}}
+<a  class="demo-left" title="上家信息:{{item.SELLER}}" >
+{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+{{
+(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
+}}</br>...
+{{else}}
+{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+{{
+(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
+}}</br>
+{{/if}}
+{{else}}</a></p><p>
+{{item.SELLER}}
+{{/if}}
+						
+						</p>
+
+
+					</td>
+					<td >
+  <p  >
+							
+{{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
+{{if item.BUYER.split("/").length-1 >1}}
+<a class="demo-left" title="下家信息:{{item.BUYER}}" >
+{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
+{{
+(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).indexOf("/"))+1)
+}}</br>...
+{{else}}
+{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
+{{
+(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).length)+1)
+}}</br>
+{{/if}}</a></p><p>
+{{else}}
+{{item.BUYER}}
+{{/if}}
+                          </p>
+					</td>
+					<td >
+						{{if "" != item.PROCESSOR_ID  && null != item.PROCESSOR_ID}}
+					   			<p>经办人： {{item.PROCESSOR_ID}}</p> 	
+						{{else}}
+								<p>经办人： {{item.REQUIRE}}</p>
+						{{/if}}
+					   <p>主&nbsp;&nbsp;&nbsp;&nbsp;管：{{item.MANAGER}}</p>
+					</td>
+
+					<td >
+ 						<p >
+							{{item.createTime}}
+						</p>
+					</td>
+					<td >
+ 						<p >
+							{{item.realName}}
+						</p>
+					</td>
+					<td >
+ 						<p >
+							<i class="sign_blue">{{item.STATUS}}</i>
+						</p>
+					</td>
+				</tr>
 		{{/each}}
-</script> 
+</script>
+
 <script>
+aist.sortWrapper({ reloadGrid : searchMethod }); 
 /**
- * 2017年4月11日17:33:06
- * 自建案件列表 
+ * 日期控件
  */
-var ctx = "${ctx}";
-/**
- * 进入页面查询设置
- */
-jQuery(document).ready(function() {
-	putParams("newCaseInputList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",false,1);
-});
-/**
- * 查询参数
- */
-function putParams(qId,temp,tempValue,type,page){
-	var data = getParams(qId,true,page); 
-	reloadGrid(data,temp,tempValue,type);
-}
-/**
- * 设置查询条件参数
- */
-function getParams(qId,type,page) {
-	var startDate = $("#dtBegin_0").val();
-	var endDate = '';
-	if (!$.isBlank($("#dtEnd_0").val())) {
-		endDate = $("#dtEnd_0").val() + " 23:59:59";
-	}
-	var data = {};
-	if(!page) { page = 1; }
-    data.rows = 10;
-    data.page = page;
-	data.startDate = startDate;
-	data.endDate = endDate;
-	
-	if("false" == "${sessionUser.serviceDepHierarchy == 'yucui_headquarter'}")
-	{data.serviceDepId = "${sessionUser.serviceDepId}";}
-	/**分页设置**/
-	data.pagination = true;
-	if(type) {data.queryId=qId};
-	return data;
-}
-/***
- * 点击查询时调用的查询方法
- */
-$('#searchButton').click(function() {
-	putParams("newCaseInputList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",false,1);
-});
-/**
- *案件详细导出
- */
-function loanLostCaseExportToExcel(){
-	var qId ;
-	var colom =['orgName','reason1','reason2','reason3','reason4','reason5','reason6',
-		         'reason7','reason8','reason9','reason10','reason11','reason12','reason13'];
-
-	if(document.getElementById("tabZb").style.display == 'block'){
-		qId = 'exportcaseLossRateReasonZbList';
-	}
-	if(document.getElementById("tabGb").style.display == 'block'){
-		qId = 'exportcaseLossRateReasonGbList';
-	}
-	var data = 	getParams(qId,false);
-	aist.exportExcel({
-		ctx : "${ctx}",
-		queryId : qId,
-		colomns : colom,
-		data : data
-	})
-} 
-
-function reloadGrid(data,temp,templateValue,type) {
-	aist.wrap(data);
-	$.ajax({
-			async : true,
-			url : ctx + "/quickGrid/findPage",
-			method : "post",
-			dataType : "json",
-			data : data,
-			beforeSend : function() {
-				$.blockUI({ message : $("#salesLoading"), css : { 'border' : 'none', 'z-index' : '9999' } });
-				$(".blockOverlay").css({ 'z-index' : '9998' });
-			},
-			success : function(data) {
-				$.unblockUI();
-				data.ctx = ctx;
-				var myMortgageApproveLostList = template( temp, data);
-				$("#"+templateValue).empty();
-				$("#"+templateValue).html( myMortgageApproveLostList);
-				initpagef(data.total,data.pagesize,data.page, data.records);
-			},
-			error : function(e, jqxhr, settings,exception) {$.unblockUI();}
-		});
-}
-
-
-/* *
- * 分页
- */
-function initpagef(totalCount,pageSize,currentPage,records) {
-	var currentTotalstrong=$('#currentTotalPagef').find('strong');
-	if(totalCount>1500){ totalCount = 1500; }
-	if (totalCount<1 || pageSize<1 || currentPage<1) {
-		$(currentTotalstrong).empty();
-		$('#totalPf').text(0);
-		$("#pageBarf").empty();
-		return;
-	}
-	$(currentTotalstrong).empty();
-	$(currentTotalstrong).text(currentPage+'/'+totalCount);
-	$('#totalPf').text(records);
-	$("#pageBarf").twbsPagination({
-		totalPages:totalCount,
-		visiblePages:9,
-		startPage:currentPage,
-		first:'<i class="fa fa-step-backward"></i>',
-		prev:'<i class="fa fa-chevron-left"></i>',
-		next:'<i class="fa fa-chevron-right"></i>',
-		last:'<i class="fa fa-step-forward"></i>',
-		showGoto:true,
-		onPageClick: function (event, page) {
-			putParams("newCaseInputList","template_myMortgageApproveLostZbList","myMortgageApproveLostZbList",false,page);
-	    }
-	});
-}
-
-//日期控件
 $('#datepicker_0').datepicker({
 	format : 'yyyy-mm-dd',
 	weekStart : 1,
@@ -291,18 +282,7 @@ $('#datepicker_0').datepicker({
 	todayBtn : 'linked',
 	language : 'zh-CN'
 });
-$('.demo-top').poshytip({
-	className: 'tip-twitter',
-	showTimeout: 1,
-	alignTo: 'target',
-	alignX: 'center',
-	alignY: 'top',
-	offsetX: 8,
-	offsetY: 5,
-});
-
-</script>
+</script> 
 </content>
-<input type="hidden" id="ctx" value="${ctx}" />
 </body>
 </html>
