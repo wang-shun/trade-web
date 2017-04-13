@@ -40,30 +40,30 @@ public interface ToEloanCaseService {
 	ToEloanCase selectByEloanCode(String eloanCode);
 
 	/**
-	 * E+´û¿îĞÅ´ûÔ±½Óµ¥ºÍ´ò»Ø
+	 * E+è´·æ¬¾ä¿¡è´·å‘˜æ¥å•å’Œæ‰“å›
 	 * 
 	 * @param eLoanVo
-	 *            E+´û¿î°¸¼şÇ°Ì¨´«Öµ¶ÔÏó
+	 *            E+è´·æ¬¾æ¡ˆä»¶å‰å°ä¼ å€¼å¯¹è±¡
 	 * @param map
-	 *            Á÷³Ì²ÎÊı
+	 *            æµç¨‹å‚æ•°
 	 * @param taskId
-	 *            ÈÎÎñid
-	 * @return ·µ»Øtrue,²Ù×÷³É¹¦;·µ»Øfalse,²Ù×÷Ê§°Ü¡£
+	 *            ä»»åŠ¡id
+	 * @return è¿”å›true,æ“ä½œæˆåŠŸ;è¿”å›false,æ“ä½œå¤±è´¥ã€‚
 	 */
 	public boolean accept(ELoanVo eLoanVo, Map<String, Object> map,
 			String taskId);
 
 	/**
-	 * E+°¸¼ş¸ú½ø
+	 * E+æ¡ˆä»¶è·Ÿè¿›
 	 * 
 	 * @param eLoanVo
-	 *            E+´û¿î°¸¼şÇ°Ì¨´«Öµ¶ÔÏó
-	 * @return ·µ»Øtrue,²Ù×÷³É¹¦;·µ»Øfalse,²Ù×÷Ê§°Ü¡£
+	 *            E+è´·æ¬¾æ¡ˆä»¶å‰å°ä¼ å€¼å¯¹è±¡
+	 * @return è¿”å›true,æ“ä½œæˆåŠŸ;è¿”å›false,æ“ä½œå¤±è´¥ã€‚
 	 */
 	public boolean followUp(ELoanVo eLoanVo);
 	
 	/**
-	 * selectBackKaCountByTime:(¸ù¾İÊ±¼ä²éÑ¯ºóÌ¨¿¨ÀàÉêÇë×ÜÁ¿). <br/> 
+	 * selectBackKaCountByTime:(æ ¹æ®æ—¶é—´æŸ¥è¯¢åå°å¡ç±»ç”³è¯·æ€»é‡). <br/> 
 	 * 
 	 * @author gongjd 
 	 * @param endWeekDay
@@ -73,7 +73,7 @@ public interface ToEloanCaseService {
 	int selectBackKaCountByTime(int endWeekDay);
 	
 	/**
-	 * selectBackKaCountByTime:(¸ù¾İÊ±¼ä²éÑ¯ºóÌ¨´û¿îÀàÉêÇë×ÜÁ¿). <br/> 
+	 * selectBackKaCountByTime:(æ ¹æ®æ—¶é—´æŸ¥è¯¢åå°è´·æ¬¾ç±»ç”³è¯·æ€»é‡). <br/> 
 	 * 
 	 * @author gongjd 
 	 * @param endWeekDay
