@@ -6,11 +6,11 @@ version='latest'
 commit=`git rev-parse --verify --short=8 HEAD`
 branch=`git branch | grep "^\*" | sed -e "s/^\*\ //"`
 #sudo
-sudo docker build -f Dockerfile_edit -t docker.aist.io/swagger-edit:$version . \
+sudo docker build -f Dockerfile_swagger_edit -t docker.aist.io/trade-mobile-swagger-edit:$version . \
      --label commit=$commit \
 	 --label branch=$branch \
 	 --label version=$version \
 	 --label vendor=AIST \
-	 --label name=swagger-edit
-sudo docker push docker.aist.io/swagger-edit:$version
-sudo docker rmi docker.aist.io/swagger-edit:$version
+	 --label name=trade-mobile-swagger-edit
+sudo docker push docker.aist.io/trade-mobile-swagger-edit:$version
+sudo docker rmi docker.aist.io/trade-mobile-swagger-edit:$version
