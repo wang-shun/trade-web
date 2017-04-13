@@ -136,12 +136,12 @@
 	<!-- main End -->
 	<!-- 设置隐藏字段，动态改变 下面form的参数值-->
 	<input type="hidden" id="bizCode" />
-	<input type="hidden" id="consultantId" />
-	<input type="hidden" id="consultantOrgId" />
-	<input type="hidden" id="consultantRealName" />
-	<input type="hidden" id="managerId" />
-	<input type="hidden" id="managerOrgId" />
-	<input type="hidden" id="managerRealName" />
+	<input type="hidden" id="officerId" />
+	<input type="hidden" id="officerOrgId" />
+	<input type="hidden" id="officerRealName" />
+	<input type="hidden" id="directorId" />
+	<input type="hidden" id="directorOrgId" />
+	<input type="hidden" id="directorRealName" />
 	<!-- 责任人变更 -->
 	<div id="srv-modal-form" class="modal fade" role="dialog"
 		aria-labelledby="srv-modal-title" aria-hidden="true">
@@ -160,7 +160,7 @@
 								<div class="col-lg-4 checkbox i-checks checkbox-inline">
 									<label for="" class="lable-one">
 								    	<input type="hidden" id="userId1" name="consultant" >
-			        					<input type="text" id="realName1"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:$('#consultantOrgId').val(),expandNodeId:$('#consultantOrgId').val(),
+			        					<input type="text" id="realName1"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:$('#officerOrgId').val(),expandNodeId:$('#officerOrgId').val(),
 										jobCode:'JYFKZY',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack1})" value="">
 										<div class="input-group float_icon organize_icon" style="margin-top: 5px;">
                                      		<i class="icon iconfont">&#xe627;</i>
@@ -181,7 +181,7 @@
 								<div class="col-lg-4 checkbox i-checks checkbox-inline">
 									<label>
 							    		<input type="hidden" id="userId2" name="manager" value=''>
-	        							<input type="text" id="realName2"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:$('#managerOrgId').val(),expandNodeId:$('#managerOrgId').val(),
+	        							<input type="text" id="realName2"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:$('#directorOrgId').val(),expandNodeId:$('#directorOrgId').val(),
 										jobCode:'JYFKZJ',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack2})" value="">
 										<div class="input-group float_icon organize_icon" style="margin-top: 5px;">
                                     		<i class="icon iconfont">&#xe627;</i>
@@ -542,16 +542,15 @@
 				   				            } ,   
 				   				success : function(data) {  
 				   					        if(data.success){
-				   					        	console.log("信息："+JSON.stringify(data.content));
-				   					        	$("#consultantId").val(data.content[0].split(",")[0]);
+				   					        	$("#officerId").val(data.content[0].split(",")[0]);
 				   					        	$("#userId1").val(data.content[0].split(",")[0]);
-				   					        	$("#consultantOrgId").val(data.content[0].split(",")[1]);
-				   					        	$("#consultantRealName").val(data.content[0].split(",")[2]);
+				   					        	$("#officerOrgId").val(data.content[0].split(",")[1]);
+				   					        	$("#officerRealName").val(data.content[0].split(",")[2]);
 				   					        	$("#realName1").val(data.content[0].split(",")[2]);
-				   					        	$("#managerId").val(data.content[1].split(",")[0]);
+				   					        	$("#directorId").val(data.content[1].split(",")[0]);
 				   					        	$("#userId2").val(data.content[1].split(",")[0]);
-				   					        	$("#managerOrgId").val(data.content[1].split(",")[1]);
-				   					        	$("#managerRealName").val(data.content[1].split(",")[2]);
+				   					        	$("#directorOrgId").val(data.content[1].split(",")[1]);
+				   					        	$("#directorRealName").val(data.content[1].split(",")[2]);
 				   					        	$("#realName2").val(data.content[1].split(",")[2]);
 				   					        	$("#bizCode").val(spvCode);
 				   					        	$('#srv-modal-form').modal('show');

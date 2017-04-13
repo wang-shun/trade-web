@@ -465,7 +465,6 @@
 				   				            } ,   
 				   				success : function(data) {  
 				   					        if(data.success){
-				   					        	console.log("信息："+JSON.stringify(data.content));
 				   					        	$("#consultantId").val(data.content[0].split(",")[0]);
 				   					        	$("#userId1").val(data.content[0].split(",")[0]);
 				   					        	$("#consultantOrgId").val(data.content[0].split(",")[1]);
