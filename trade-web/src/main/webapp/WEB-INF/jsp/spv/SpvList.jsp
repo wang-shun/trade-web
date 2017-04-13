@@ -312,7 +312,7 @@
                                                
                                                 <ul class="dropdown-menu" role="menu" style="left:-95px;">
                                                     <shiro:hasPermission name="TRADE.SPV.UPDATE">
-												 		{{if item.STATUS==0&&item.applyTime==undefined}}
+												 		{{if item.STATUS==0}}
                                                    		 <li><a href="${ctx}/spv/saveHTML?pkid={{item.PKID}}">修改</a></li>
                                                     	{{/if}}
 												    </shiro:hasPermission>

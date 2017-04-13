@@ -807,10 +807,10 @@ $(document).ready(function(){
 		/** ------资金监管账号信息验证开始--------  **/
 		
 		/**托管方*/
-		var spvAccountName = $("select[name='toSpvAccountList[2].name'] option:selected").val();
+		var spvAccountName = $("input[name='toSpvAccountList[2].name']").val();
 		if(spvAccountName == null || spvAccountName == ''){
-			window.wxc.alert("请选择托管账户名称！");
-			changeClass($("select[name='toSpvAccountList[2].name']"));
+			window.wxc.alert("请填写托管账户名称！");
+			changeClass($("input[name='toSpvAccountList[2].name']"));
 			return false;
 		}
 		
@@ -1017,7 +1017,7 @@ $(document).ready(function(){
 			  /**卖方*/
 			  
 			  /**资金方*/
-			  var fundAccountName = $("select[name='toSpvAccountList[3].name']").val();
+			  var fundAccountName = $("input[name='toSpvAccountList[3].name']").val();
 			  if(fundAccountName == null || fundAccountName == ''){
 				  window.wxc.alert("请选择资金方方收款账号名称！");
 				  changeClass($("input[name='toSpvAccountList[3].name']"));
@@ -1136,7 +1136,7 @@ $(document).ready(function(){
 	    	data.sellerAccountBranchBank = $("input[name='toSpvAccountList[1].branchBank']").val();
 	    	
 	    	data.fundAccountPkid = $("input[name='toSpvAccountList[3].pkid']").val();
-	    	data.fundAccountName = $("select[name='toSpvAccountList[3].name']").val();
+	    	data.fundAccountName = $("input[name='toSpvAccountList[3].name']").val();
 	    	data.fundAccountNo = $("input[name='toSpvAccountList[3].account']").val();
 	    	data.fundAccountBranchBank = $("input[name='toSpvAccountList[3].branchBank']").val();
 	    }
