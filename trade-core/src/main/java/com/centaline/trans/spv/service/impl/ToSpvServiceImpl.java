@@ -1883,12 +1883,17 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 
 	@Override
-	public void changeOfficer(String spvCode, String oldOfficer, String newOfficer) {
+	public void changeOfficer(String spvCode, String oldOfficer, String newOfficer, String oldDirector, String newDirector) {
 		//待办分配给新的人员
 		SessionUser oldOfficerUser = uamSessionService.getSessionUserById(oldOfficer);
 		SessionUser newOfficerUser = uamSessionService.getSessionUserById(newOfficer);
+		SessionUser oldDirectorUser = uamSessionService.getSessionUserById(oldDirector);
+		SessionUser newDirectorUser = uamSessionService.getSessionUserById(newDirector);
 		if(newOfficerUser == null){
 			throw new BusinessException("找不到选择的风控专员！");
+		}
+		if(newDirectorUser == null){
+			throw new BusinessException("找不到选择的风控总监！");
 		}
 		//更新合约表风控专员字段
 		ToSpv record = new ToSpv();
@@ -1909,11 +1914,14 @@ public class ToSpvServiceImpl implements ToSpvService {
 			workFlowManager.activateOrSuspendProcessInstance(twf1.getInstCode(), true);
 		}
 		workFlowManager.setVariableByProcessInsId(twf1.getInstCode(), "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+		workFlowManager.setVariableByProcessInsId(twf1.getInstCode(), "RiskControlDirector",new RestVariable("RiskControlDirector",newDirectorUser.getUsername()));
 		PageableVo pageableVo1 = taskService.listTasks(twf1.getInstCode(), false);
 		List<TaskVo> taskList1 = pageableVo1.getData();
 		for (TaskVo task : taskList1) {
 			if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
 				taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+			}else if(oldDirectorUser.getUsername().equals(task.getAssignee())){
+				taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
 			}
 		}
 		if(historyInstances.getSuspended()){
@@ -1926,11 +1934,14 @@ public class ToSpvServiceImpl implements ToSpvService {
 		ToWorkFlow twf2 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query2);
 		if(twf2 != null){
 			workFlowManager.setVariableByProcessInsId(twf2.getInstCode(), "applier",new RestVariable("applier",newOfficerUser.getUsername()));
+			workFlowManager.setVariableByProcessInsId(twf2.getInstCode(), "director",new RestVariable("director",newDirectorUser.getUsername()));
 			PageableVo pageableVo2 = taskService.listTasks(twf2.getInstCode(), false);
 			List<TaskVo> taskList2 = pageableVo2.getData();
 			for (TaskVo task : taskList2) {
 				if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
 					taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+				}else if(oldDirectorUser.getUsername().equals(task.getAssignee())){
+					taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
 				}
 			}
 		}
@@ -1945,11 +1956,14 @@ public class ToSpvServiceImpl implements ToSpvService {
 					query3.setBusinessKey(WorkFlowEnum.SPV_CASHFLOW_IN_DEFKEY.getCode());
 					ToWorkFlow twf3 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query3);
 					workFlowManager.setVariableByProcessInsId(twf3.getInstCode(), "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+					workFlowManager.setVariableByProcessInsId(twf3.getInstCode(), "RiskControlDirector",new RestVariable("RiskControlDirector",newDirectorUser.getUsername()));
 					PageableVo pageableVo3 = taskService.listTasks(twf3.getInstCode(), false);
 					List<TaskVo> taskList3 = pageableVo3.getData();
 					for (TaskVo task : taskList3) {
 						if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
 							taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+						}else if(oldDirectorUser.getUsername().equals(task.getAssignee())){
+							taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
 						}
 					}
 				}else if("out".equals(item.getUsage())){
@@ -1958,11 +1972,14 @@ public class ToSpvServiceImpl implements ToSpvService {
 					query4.setBusinessKey(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode());
 					ToWorkFlow twf4 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query4);
 					workFlowManager.setVariableByProcessInsId(twf4.getInstCode(), "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+					workFlowManager.setVariableByProcessInsId(twf4.getInstCode(), "RiskControlDirector",new RestVariable("RiskControlDirector",newDirectorUser.getUsername()));
 					PageableVo pageableVo4 = taskService.listTasks(twf4.getInstCode(), false);
 					List<TaskVo> taskList4 = pageableVo4.getData();
 					for (TaskVo task : taskList4) {
 						if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
 							taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+						}else if(oldDirectorUser.getUsername().equals(task.getAssignee())){
+							taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
 						}
 					}
 				}

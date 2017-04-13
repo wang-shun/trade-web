@@ -117,6 +117,7 @@
 	</div>
 	<!-- main End -->
 	<!-- 设置隐藏字段，动态改变 下面form的参数值-->
+	<input type="hidden" id="bizCode" />
 	<input type="hidden" id="consultantId" />
 	<input type="hidden" id="consultantOrgId" />
 	<input type="hidden" id="consultantRealName" />
@@ -284,7 +285,7 @@
                                         <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=invalid">作废</a></li>{{/if}}
                                       </shiro:hasPermission>
                                       <shiro:hasPermission name="TRADE.ELOAN.CASEDETAIL.CHANGEOWNER">
-										<li><a href="javascript:showSelectForm({{item.pkId}});">变更责任人</a></li>
+										<li><a href="javascript:showSelectForm({{item.pkId}},'{{item.eloanCode}}');">变更责任人</a></li>
 									  </shiro:hasPermission>
                                </ul>
                       </div>
@@ -442,7 +443,7 @@
 							initData();
 						});
 						
-						function showSelectForm(id){
+						function showSelectForm(id,eloanCode){
 							//查询交易顾问和主管相关信息
 							$.ajax({
 				   	      		url:ctx+"/eloan/selectConsAndManager",
@@ -475,6 +476,7 @@
 				   					        	$("#managerOrgId").val(data.content[1].split(",")[1]);
 				   					        	$("#managerRealName").val(data.content[1].split(",")[2]);
 				   					        	$("#realName2").val(data.content[1].split(",")[2]);
+				   					        	$("#bizCode").val(eloanCode);
 				   					        	$('#srv-modal-form').modal('show');
 				   					        }else{
 				   					        	window.wxc.error("操作失败！");
@@ -517,7 +519,7 @@
 				   	      		url:ctx+"/eloan/changeOwner",
 				   	      		method:"post",
 				   	      		dataType:"json",
-				   	      		data:{eloanCode:eloanCode,oldConsultantId:$("#consultantId").val(),newConsultantId:$("#userId1").val(),oldManagerId:$("#managerId").val(),newManagerId:$("#userId2").val()},   		        				        		    
+				   	      		data:{eloanCode:$("#bizCode").val(),oldConsultantId:$("#consultantId").val(),newConsultantId:$("#userId1").val(),oldManagerId:$("#managerId").val(),newManagerId:$("#userId2").val()},   		        				        		    
 				   	       		beforeSend:function(){  
 				   					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				   					$(".blockOverlay").css({'z-index':'9998'});

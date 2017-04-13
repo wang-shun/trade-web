@@ -473,7 +473,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		}
 		
 		//2.更新流程变量+已生成待办任务
-		workFlowManager.setVariableByProcessInsId(workFlow.getInstCode(), "Consultant", new RestVariable("Consultant",newConsultant.getRealName()));
+		workFlowManager.setVariableByProcessInsId(workFlow.getInstCode(), "Consultant", new RestVariable("Consultant",newConsultant.getUsername()));
 		workFlowManager.setVariableByProcessInsId(workFlow.getInstCode(), "Manager", new RestVariable("Manager",newManager.getUsername()));
 		PageableVo pageableVo = taskService.listTasks(workFlow.getInstCode(), false);
 		List<TaskVo> taskList = pageableVo.getData();

@@ -134,7 +134,8 @@
                                                 <i class="tag_sign">c</i>{{item.CTM_CODE}}
                                             </p> -->
 	<!-- main End -->
-		<!-- 设置隐藏字段，动态改变 下面form的参数值-->
+	<!-- 设置隐藏字段，动态改变 下面form的参数值-->
+	<input type="hidden" id="bizCode" />
 	<input type="hidden" id="consultantId" />
 	<input type="hidden" id="consultantOrgId" />
 	<input type="hidden" id="consultantRealName" />
@@ -156,7 +157,7 @@
 					<div class="row">
 						<form class="form-horizontal">
 							<div class="form-group">
-								<div class="col-lg-5 checkbox i-checks checkbox-inline">
+								<div class="col-lg-4 checkbox i-checks checkbox-inline">
 									<label for="" class="lable-one">
 								    	<input type="hidden" id="userId1" name="consultant" >
 			        					<input type="text" id="realName1"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:$('#consultantOrgId').val(),expandNodeId:$('#consultantOrgId').val(),
@@ -177,7 +178,7 @@
 					<div class="row">
 						<form class="form-horizontal">
 							<div class="form-group">
-								<div class="col-lg-5 checkbox i-checks checkbox-inline">
+								<div class="col-lg-4 checkbox i-checks checkbox-inline">
 									<label>
 							    		<input type="hidden" id="userId2" name="manager" value=''>
 	        							<input type="text" id="realName2"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:$('#managerOrgId').val(),expandNodeId:$('#managerOrgId').val(),
@@ -192,7 +193,7 @@
 					</div>
 				</div> 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" style="background-color: #f8ac59;border-color: #f8ac59;color: #FFFFFF;" onclick="javascript:changeOwner()">提交</button>
+					<button type="button" class="btn btn-primary" style="background-color: #f8ac59;border-color: #f8ac59;color: #FFFFFF;" onclick="javascript:changeOfficer()">提交</button>
 					<button type="button" class="btn btn-default"
 						data-dismiss="modal">取消</button>
 				</div>
@@ -336,7 +337,7 @@
                                                           {{/if}}
                                                     </shiro:hasPermission>
 													<shiro:hasPermission name="TRADE.FUND.SPVDETAIL.CHANGEOFFICER">
-														<li><a href="javascript:showSelectForm({{item.PKID}});" >变更责任人</a></li>
+														<li><a href="javascript:showSelectForm({{item.PKID}},'{{item.SPV_CODE}}');" >变更责任人</a></li>
 													</shiro:hasPermission>
                                               </ul>
                                             </div>
@@ -519,7 +520,7 @@
 							initData();
 						});
 						
-						function showSelectForm(id){
+						function showSelectForm(id,spvCode){
 							//查询交易顾问和主管相关信息
 							$.ajax({
 				   	      		url:ctx+"/spv/selectOfficerAndDirector",
@@ -552,6 +553,7 @@
 				   					        	$("#managerOrgId").val(data.content[1].split(",")[1]);
 				   					        	$("#managerRealName").val(data.content[1].split(",")[2]);
 				   					        	$("#realName2").val(data.content[1].split(",")[2]);
+				   					        	$("#bizCode").val(spvCode);
 				   					        	$('#srv-modal-form').modal('show');
 				   					        }else{
 				   					        	window.wxc.error("操作失败！");
@@ -616,7 +618,7 @@
 				   	      		url:ctx+"/spv/changeOfficer",
 				   	      		method:"post",
 				   	      		dataType:"json",
-				   	      		data:{spvCode:"${spvBaseInfoVO.toSpv.spvCode}",oldOfficer:"${officer.id}",newOfficer:$("input[name='newOfficer']:checked").attr("value")},   		        				        		    
+				   	      		data:{spvCode:$("#bizCode").val(),oldOfficer:$("#consultantId").val(),newOfficer:$("#userId1").val(),oldDirector:$("#managerId").val(),newDirector:$("#userId2").val()},   		        				        		    
 				   	       		beforeSend:function(){  
 				   					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				   					$(".blockOverlay").css({'z-index':'9998'});

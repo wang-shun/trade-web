@@ -1236,10 +1236,10 @@ public class SpvController {
 	
 	@RequestMapping("changeOfficer")
 	@ResponseBody
-	public AjaxResponse<String> changeOfficer(String spvCode, String oldOfficer, String newOfficer) {
+	public AjaxResponse<String> changeOfficer(String spvCode, String oldOfficer, String newOfficer, String oldDirector, String newDirector) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try{
-			toSpvService.changeOfficer(spvCode, oldOfficer, newOfficer);
+			toSpvService.changeOfficer(spvCode, oldOfficer, newOfficer, oldDirector, newDirector);
 			response.setSuccess(true);
 		}catch(Exception e){
 			response.setSuccess(false);
