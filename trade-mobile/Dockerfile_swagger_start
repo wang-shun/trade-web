@@ -4,7 +4,7 @@
 FROM node
 
 MAINTAINER Lin Jiarong <linjr@aisthink.com>
-
+ENV /opt/swagger
 RUN npm install -g swagger && \
     cd /opt && \
     mkdir swagger && \

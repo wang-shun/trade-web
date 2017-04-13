@@ -1,10 +1,10 @@
-# Dockerfile for Swagger Editor
+ # Dockerfile for Swagger Editor
 # Updated 20170413
 
 FROM node
 
 MAINTAINER Lin Jiarong <linjr@aisthink.com>
-
+ENV /opt/swagger
 RUN npm install -g swagger && \
     cd /opt && \
     mkdir swagger &&\
