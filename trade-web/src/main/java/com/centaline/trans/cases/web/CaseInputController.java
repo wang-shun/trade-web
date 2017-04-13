@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.service.CaseMergeService;
 import com.centaline.trans.common.entity.CaseMergerParameter;
 
@@ -28,6 +30,8 @@ public class CaseInputController {
 	
 	@Autowired(required = true)
 	CaseMergeService caseMergeService;	
+	@Autowired(required = true)
+	UamSessionService uamSessionService;
 	
 	/**
 	 * 页面跳转 
@@ -38,7 +42,9 @@ public class CaseInputController {
 
 	@RequestMapping(value="input")
 	public String inputCaseInfo(Model model, ServletRequest request){
-		
+		SessionUser user = uamSessionService.getSessionUser();
+		String queryUserId = user.getId();
+		request.setAttribute("queryUserId", queryUserId);
 		return "case/newCaselist";
 	}	
 	/**
