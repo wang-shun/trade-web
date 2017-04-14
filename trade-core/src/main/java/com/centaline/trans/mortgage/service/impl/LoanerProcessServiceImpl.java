@@ -357,7 +357,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 				
 			}
 			//维护ToMortLoaner业务
-			maintainToMortLoaner(caseCode,loanerStatus);
+			maintainToMortLoaner(caseCode,loanerStatus,"0");
 			// 提交流程
 			workFlowManager.submitTask(variables, taskId, processInstanceId,null, caseCode);
 			loanerAccetpFlag = true;
@@ -375,36 +375,47 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	 * 
 	 * @des:维护ToMortLoaner表记录
 	 */
-	private void maintainToMortLoaner(String caseCode,String loanerStatus){
+	private void maintainToMortLoaner(String caseCode,String loanerStatus,String stepFlag){
 		
 		SessionUser user = uamSessionService.getSessionUser();
 		if(null == loanerStatus || "".equals(loanerStatus)){
 			throw new BusinessException("信贷员是否接单请求参数异常！");
 		}		
 		ToMortLoaner toMortLoaner = new ToMortLoaner();
-		
+		toMortLoaner.setLoanerStatus(loanerStatus);
 		try{			
-			toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCodeAndLoanerStatus(caseCode, ToMortLoanerEnums.LOANER_STATUS0.getCode());
-			if(null != toMortLoaner){				
-				toMortLoaner.setLoanerStatus(loanerStatus);
-				if("1".equals(loanerStatus) || "5".equals(loanerStatus)){ //信贷员接单审批不通过 、银行审批不通过
-					toMortLoaner.setRejectId(user.getId());
-					toMortLoaner.setRejectName(user.getRealName());
-					toMortLoaner.setRejectTime(new Date());
-				}else if("2".equals(loanerStatus)){//接单审批不通过
-					toMortLoaner.setReceiveId(user.getId());
-					toMortLoaner.setReceiveName(user.getRealName());
-					toMortLoaner.setReceiveTime(new Date());
-				}else if("4".equals(loanerStatus)){//银行审批通过
-					toMortLoaner.setApprovalId(user.getId());
-					toMortLoaner.setApprovalName(user.getRealName());
-					toMortLoaner.setApprovalTime(new Date());
-				}			
-				toMortLoanerService.updateByPrimaryKeySelective(toMortLoaner);				
+			if("0".equals(stepFlag)){ //代表"待接单状态"
+				toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCodeAndLoanerStatus(caseCode, ToMortLoanerEnums.LOANER_STATUS0.getCode());
+				if(null != toMortLoaner){
+					if("1".equals(loanerStatus)){ //信贷员接单审批不通过 、银行审批不通过
+						toMortLoaner.setRejectId(user.getId());
+						toMortLoaner.setRejectName(user.getRealName());
+						toMortLoaner.setRejectTime(new Date());
+					}else if("2".equals(loanerStatus)){//接单审批不通过
+						toMortLoaner.setReceiveId(user.getId());
+						toMortLoaner.setReceiveName(user.getRealName());
+						toMortLoaner.setReceiveTime(new Date());
+					}				
+					toMortLoanerService.updateByPrimaryKeySelective(toMortLoaner);			
+				}	
+			}else if("2".equals(stepFlag)){ //代表"已接单状态 并且审核通过"
+				toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCodeAndLoanerStatus(caseCode, ToMortLoanerEnums.LOANER_STATUS2.getCode());
+				if(null != toMortLoaner){				
+					if("5".equals(loanerStatus)){ //信贷员接单审批不通过 、银行审批不通过
+						toMortLoaner.setRejectId(user.getId());
+						toMortLoaner.setRejectName(user.getRealName());
+						toMortLoaner.setRejectTime(new Date());
+					}else if("4".equals(loanerStatus)){//银行审批通过
+						toMortLoaner.setApprovalId(user.getId());
+						toMortLoaner.setApprovalName(user.getRealName());
+						toMortLoaner.setApprovalTime(new Date());
+					}
+					toMortLoanerService.updateByPrimaryKeySelective(toMortLoaner);
+				}
 			}
 
 		}catch (BusinessException e) {
-			throw new BusinessException("信贷员派单信息保存异常！");
+			throw new BusinessException("信贷员派单、银行审核信息更新异常！");
 		}
 	}
 	
@@ -461,7 +472,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			}			
 
 			////维护ToMortLoaner业务
-			maintainToMortLoaner(caseCode,loanerStatus);
+			maintainToMortLoaner(caseCode,loanerStatus,"2");
 			
 			// 提交流程
 			workFlowManager.submitTask(variables, taskId, processInstanceId,null, caseCode);

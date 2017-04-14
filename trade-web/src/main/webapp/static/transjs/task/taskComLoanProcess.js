@@ -831,6 +831,7 @@ function isTmpBankChange(){
 	}
 	var f=$(this).closest('form');
 	var checkBtnVal = $("input[name='isTmpBank']:checked").val();
+	
 	if(checkBtnVal == '1'){
 		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'');
 		f.find("select[name='bank_type']").change(function(){
@@ -838,6 +839,12 @@ function isTmpBankChange(){
     }); 
 		f.find("input[name='recLetterNo']").prop('disabled',true).val("").css("background-color","#DDDDDD");
 		f.find(".tmpBankReasonDiv").show();
+		
+		//派单按钮 隐藏
+		$("#toLoanerCase").hide();
+		$("#toLoanerCaseTemp").hide();
+		$("#processStart").val("processIsStart");
+		
 	}else{
 		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'','cl');
 		f.find("select[name='bank_type']").change(function(){
@@ -845,6 +852,9 @@ function isTmpBankChange(){
     }); 
 		f.find("input[name='recLetterNo']").prop('disabled',false).css("background-color","");
 		f.find(".tmpBankReasonDiv").hide();
+		// 派单按钮 显示
+		$("#toLoanerCaseTemp").show();
+		$("#toLoanerCase").show();
 	}
 	
 	
@@ -1383,7 +1393,8 @@ function checkReportAtt(){
 var stepIndex = 0;
 
 $(document).ready(function (){	
-	
+	  $("#dispachTimeShow1").hide();
+	  $("#dispachTimeShow0").hide();
 	  $("#processStart").val("");//页面初始化的时候清空
 	  var serviceJobCode = $("#serviceJobCode").val();
 	  if(serviceJobCode == "COXXGLY"){
@@ -1944,12 +1955,17 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
     	dataType:"json",
     	data:mor,
     	
-    	success:function(data){   
+    	success:function(data){  
+    		
+    		alert(data.content);
     		//回显 派单成功时间
-    		if(isMainLoanBank==1){
-    			$("#dispachTime1").val(data.content).show();
-    		}else if(isMainLoanBank==0){
-    			$("#dispachTime0").val(data.content).show();
+    		if(isMainLoanBank == 1){
+    			$("#dispachTime1").val(data.content);
+    			$("#dispachTimeShow1").show();
+
+    		}else if(isMainLoanBank == 0){
+    			$("#dispachTime0").val(data.content);
+    			$("#dispachTimeShow0").show();
     		}
     		window.wxc.success(data.message);
     	}

@@ -20,7 +20,7 @@ public enum WorkFlowEnum {
 	SERVICE_RESTART("serviceRestart","serviceRestartBusinesskey"),
 	COMLOAN_PROCESS("ComLoan_Process:4:645463","ComLoan_Process"),	
 	LOANLOST_PROCESS("LoanLost_Process:10:950004","LoanLost_Process"),	
-	LOANER_PROCESS("Loaner_Process:4:1030016","Loaner_Process"),	
+	LOANER_PROCESS("Loaner_Process:5:1030036","Loaner_Process"),	
 	PSFLOAN_PROCESS("PSFLoan_Process:1:645460","PSFLoan_Process"),
 	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId"),
 	REQ_STUFF("reqStuffProcess","reqStuffProcess");

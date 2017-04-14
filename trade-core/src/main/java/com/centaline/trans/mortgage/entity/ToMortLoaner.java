@@ -3,6 +3,8 @@ package com.centaline.trans.mortgage.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ToMortLoaner {
     private Long pkid;
 
@@ -38,8 +40,10 @@ public class ToMortLoaner {
 
     private String sendName;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date sendTime;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date receiveTime;
 
     private String receiveId;
@@ -50,18 +54,21 @@ public class ToMortLoaner {
 
     private String rejectName;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date rejectTime;
 
     private String cancleId;
 
     private String cancleName;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date cancleTime;
 
     private String approvalId;
 
     private String approvalName;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date approvalTime;
 
     private String loanerId;
@@ -74,10 +81,12 @@ public class ToMortLoaner {
 
     private String loanerOrgCode;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date createTime;
 
     private String createBy;
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date updateTime;
 
     private Date updateBy;

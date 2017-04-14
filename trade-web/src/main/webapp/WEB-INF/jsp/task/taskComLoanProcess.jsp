@@ -800,7 +800,44 @@
                                                      </div>
 		                                         </div>
 		                                     </div>
-	
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content radio-seat" style="margin-top:5px;">
+		                                             <label class="control-label sign_left_small">是否临时银行</label>
+													 <div class="controls ">
+                                                        <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
+                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
+                                                     </div>
+		                                         </div>
+		                                         
+		                                         <div class="form_content" id="dispachTimeShow1">
+		                                         	<div class="form_content radio-seat" style="margin-left:26px;">
+			                                             <label class="control-label sign_left_small">派单时间<span class="star" ></span></label>
+	                                                     <input class="input_type yuanwid" type=text placeholder="" name="dispachTime" id="dispachTime1" readonly>
+                                                   </div>  								
+		                                         </div>
+		                                     </div> 		                                     
+		         							 <div class="line">
+		                                         <div class="form_content tmpBankReasonDiv">
+		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
+													 <input type="text" name="tmpBankReason" class="input_type optionwid">
+		                                         </div>
+		                                     </div> 
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">贷款银行</label>																										
+													 <select  name="bank_type" class="select_control data_style" id="bank_type" ></select>	
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small" style="width: 147px;">贷款支行<span class="star">*</span></label>
+													 <select  name="finOrgCode" class="select_control data_style" id="finOrgCode" ></select>
+		                                         </div>
+		                                         
+		                                         <div class="form_content"  id="processButtonHidden1">
+		                                          	 <button type="button" class="btn btn-success"  style="background:#52cdec" onclick="loanerProcessStart(1)" id="toLoanerCase">派  单</button>		                                         	 
+		                                         </div>
+		                                     </div>
+		                                     
 		                                     <div class="line">		                                     
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
@@ -827,45 +864,6 @@
 		                                             </div>
 		                                         </div>
 		                                     </div>
-	                                     	<div class="line">
-		                                         <div class="form_content radio-seat" style="margin-top:5px;">
-		                                             <label class="control-label sign_left_small">是否临时银行</label>
-													 <div class="controls ">
-                                                        <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
-                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
-                                                     </div>
-		                                         </div>
-		                                         
-		                                         <div class="form_content" style="display:none">
-		                                             <label class="control-label sign_left_small select_style mend_select">派单时间<span class="star" ></span>
-		                                             </label>
-		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
-                                                            <input class="input_type yuanwid" type="text" placeholder="" name="dispachTime" id="dispachTime1" readonly>
-                                                     </div>										
-		                                         </div>
-		                                     </div> 		                                     
-		         							 <div class="line">
-		                                         <div class="form_content tmpBankReasonDiv">
-		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
-													 <input type="text" name="tmpBankReason" class="input_type optionwid">
-		                                         </div>
-		                                     </div> 
-		                                     
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">贷款银行</label>																										
-													 <select  name="bank_type" class="select_control data_style" id="bank_type" ></select>	
-		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small" style="width: 147px;">贷款支行<span class="star">*</span></label>
-													 <select  name="finOrgCode" class="select_control data_style" id="finOrgCode" ></select>
-		                                         </div>
-		                                         
-		                                         <div class="form_content"  id="processButtonHidden1">
-		                                          	 <button type="button" class="btn btn-success"  style="background:#52cdec" onclick="loanerProcessStart(1)" id="toLoanerCase">派单—>信贷员</button>		                                         	 
-		                                         </div>
-		                                     </div>
-		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">补件名称</label>
@@ -1125,6 +1123,44 @@
 		                                         </div>
 		                                     </div>
 		                                     <div class="line">
+		                                         <div class="form_content radio-seat" style="margin-top:5px;">
+		                                             <label class="control-label sign_left_small">是否临时银行</label>
+													 <div class="controls ">
+                                                        <label class="radio inline"> <input type="radio" value="1" name="isTmpBank" disabled="true">是</label>
+                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" disabled="true" checked="checked">否</label>
+                                                     </div>
+		                                         </div>
+		                                         
+		                                         <div class="form_content" id="dispachTimeShow0">
+		                                          	<div class="form_content radio-seat" style="margin-left:26px;">
+			                                             <label class="control-label sign_left_small">派单时间<span class="star" ></span></label>
+	                                                     <input class="input_type yuanwid" type=text placeholder="" name="dispachTime" id="dispachTime0" readonly>	
+                                                    </div>								
+		                                         </div>
+		                                     </div> 
+		                                     		                                     
+		         							 <div class="line">
+		                                         <div class="form_content tmpBankReasonDiv">
+		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
+													 <input type="text" name="tmpBankReason" class="input_type optionwid">
+		                                         </div>
+		                                     </div> 
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">贷款银行</label>																										
+													 <select  name="bank_type" class="select_control data_style" id="bank_type" ></select>	
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small" style="width: 147px;">贷款支行<span class="star">*</span></label>
+													 <select  name="finOrgCode" class="select_control data_style" id="finOrgCode" ></select>
+		                                         </div>
+		                                         
+		                                         <div class="form_content" id="processButtonHidden0">
+		                                          	 <button type="button" class="btn btn-success" style="background:#52cdec" onclick="loanerProcessStart(0)" id="toLoanerCaseTemp">派  单</button>		                                         	 
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
 													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
@@ -1149,46 +1185,9 @@
 								                          <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive" checked="checked">否</label>
 		                                             </div>
 		                                         </div>
-		                                     </div>
-		                                     
-		                                     <div class="line">
-		                                         <div class="form_content radio-seat" style="margin-top:5px;">
-		                                             <label class="control-label sign_left_small">是否临时银行</label>
-													 <div class="controls ">
-                                                        <label class="radio inline"> <input type="radio" value="1" name="isTmpBank" disabled="true">是</label>
-                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" disabled="true" checked="checked">否</label>
-                                                     </div>
-		                                         </div>
-		                                         
-		                                         <div class="form_content" style="display:none">
-		                                             <label class="control-label sign_left_small select_style mend_select">派单时间<span class="star" ></span>
-		                                             </label>
-		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
-                                                          <input class="input_type yuanwid" type="text" placeholder="" name="dispachTime" id="dispachTime0" readonly>
-                                                     </div>										
-		                                         </div>
-		                                     </div> 
-		                                     		                                     
-		         							 <div class="line">
-		                                         <div class="form_content tmpBankReasonDiv">
-		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
-													 <input type="text" name="tmpBankReason" class="input_type optionwid">
-		                                         </div>
-		                                     </div> 
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">贷款银行</label>																										
-													 <select  name="bank_type" class="select_control data_style" id="bank_type" ></select>	
-		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small" style="width: 147px;">贷款支行<span class="star">*</span></label>
-													 <select  name="finOrgCode" class="select_control data_style" id="finOrgCode" ></select>
-		                                         </div>
-		                                         
-		                                         <div class="form_content" id="processButtonHidden0">
-		                                          	 <button type="button" class="btn btn-success" style="background:#52cdec" onclick="loanerProcessStart(0)" id="toLoanerCaseTemp">派单—>信贷员</button>		                                         	 
-		                                         </div>
-		                                     </div>
+		                                     </div>                                 
+
+
 		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
