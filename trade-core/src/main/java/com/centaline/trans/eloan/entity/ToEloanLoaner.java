@@ -24,12 +24,6 @@ public class ToEloanLoaner {
 
     private Integer month;
 
-    private String excutorId;
-
-    private String excutorTeam;
-
-    private String excutorDistrict;
-
     private String flowStatus;
 
     private String loanerStatus;
@@ -72,7 +66,7 @@ public class ToEloanLoaner {
 
     private Date updateTime;
 
-    private Date updateBy;
+    private String updateBy;
 
     public Long getPkid() {
         return pkid;
@@ -152,30 +146,6 @@ public class ToEloanLoaner {
 
     public void setMonth(Integer month) {
         this.month = month;
-    }
-
-    public String getExcutorId() {
-        return excutorId;
-    }
-
-    public void setExcutorId(String excutorId) {
-        this.excutorId = excutorId == null ? null : excutorId.trim();
-    }
-
-    public String getExcutorTeam() {
-        return excutorTeam;
-    }
-
-    public void setExcutorTeam(String excutorTeam) {
-        this.excutorTeam = excutorTeam == null ? null : excutorTeam.trim();
-    }
-
-    public String getExcutorDistrict() {
-        return excutorDistrict;
-    }
-
-    public void setExcutorDistrict(String excutorDistrict) {
-        this.excutorDistrict = excutorDistrict == null ? null : excutorDistrict.trim();
     }
 
     public String getFlowStatus() {
@@ -346,11 +316,13 @@ public class ToEloanLoaner {
         this.updateTime = updateTime;
     }
 
-    public Date getUpdateBy() {
-        return updateBy;
-    }
+	public String getUpdateBy() {
+		return updateBy;
+	}
 
-    public void setUpdateBy(Date updateBy) {
-        this.updateBy = updateBy;
-    }
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
+	}
+
+    
 }
