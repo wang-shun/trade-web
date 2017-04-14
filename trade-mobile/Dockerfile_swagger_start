@@ -1,13 +1,9 @@
 # Dockerfile for Swagger Editor
 # Updated 20170413
 
-FROM node
+FROM docker.aist.io/aist_swagger
 
 MAINTAINER Lin Jiarong <linjr@aisthink.com>
-RUN npm install -g swagger && \
-    cd /opt && \
-    mkdir swagger && \
-    cd swagger
 WORKDIR /opt/swagger
 ADD swagger/ /opt/swagger
 EXPOSE 80
