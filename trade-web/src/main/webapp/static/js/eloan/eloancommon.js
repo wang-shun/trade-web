@@ -1,5 +1,7 @@
 (function($, window){
-	jQuery.fn.eloanCaseCommentGrid = function(options) {
+	
+	var ctx = window.ctx;
+	$.fn.eloanCaseCommentGrid = function(options) {
 
 		var templeteSource = '<div class="view-box" style="height:100px;">{{if rows.length>0}}'  
 			+'{{each rows as item index}}'
@@ -17,7 +19,6 @@
 		$(this).before(commentTitile);
 		
 		
-		self = $(this);
 		setMaxHeight();
 		
 		$(this).aistGrid({

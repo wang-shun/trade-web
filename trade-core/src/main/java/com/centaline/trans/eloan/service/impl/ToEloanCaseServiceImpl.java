@@ -538,7 +538,6 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	    String receiveCode;
 	    String custName = tEloanCase.getCustName();
 	    String custPhone = tEloanCase.getCustPhone();
-	    String houAddress ;
 	    Date applyTime = tEloanCase.getApplyTime();
 	    BigDecimal applyAmount = tEloanCase.getApplyAmount();
 	    Integer month = tEloanCase.getMonth();
