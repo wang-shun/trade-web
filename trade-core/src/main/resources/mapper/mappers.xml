@@ -57,6 +57,7 @@
 		<mapper resource="mapper/mortgage/ToMortgageMapper.xml" />
 		<mapper resource="mapper/mortgage/ToEguPropertyInfoMapper.xml" />
 		<mapper resource="mapper/mortgage/MortStepMapper.xml" />
+		<mapper resource="mapper/mortgage/ToMortLoanerMapper.xml" />
 		
 		<!-- 贷款 -->
 		<mapper resource="mapper/eloan/ToCloseLoanMapper.xml" />

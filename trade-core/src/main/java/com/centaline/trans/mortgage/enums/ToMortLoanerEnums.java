@@ -3,6 +3,7 @@ package com.centaline.trans.mortgage.enums;
 
 /*
  * 信贷员接单状态
+ * 注释的作用：在代码中即可看见具体的值
  * */
 public enum ToMortLoanerEnums {
 	/**
