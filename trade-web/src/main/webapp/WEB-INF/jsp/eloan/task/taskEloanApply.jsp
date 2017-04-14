@@ -49,7 +49,6 @@
 
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<div id="wrapper">
 		<!-- main Start -->
 		<div class="row wrapper border-bottom nav_heading">
@@ -466,7 +465,7 @@
 	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 	<script src="${ctx}/js/jquery.editable-select.min.js"></script> 
-	
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
     <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
 	<script id="queryCastListItemList" type="text/html">
