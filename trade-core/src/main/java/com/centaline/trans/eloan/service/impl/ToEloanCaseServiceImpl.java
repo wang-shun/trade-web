@@ -555,6 +555,9 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	    Date sendTime = new Date();
 	    Date createTime = new Date();
 	    Date updateTime = new Date();
+	    String loanerId = tEloanCase.getLoanerId();
+	    String loanerName = tEloanCase.getLoanerName();
+	    String loanerOrgId = tEloanCase.getLoanerOrgId();
 		
 		if(StringUtils.isNotBlank(eloanCode)){
 			record.setEloanCode(eloanCode);
@@ -591,5 +594,17 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		record.setUpdateTime(updateTime);
 		record.setCreateBy(userId);
 		record.setUpdateBy(userId);
+		
+		if(StringUtils.isNotBlank(loanerId)){
+			record.setLoanerId(loanerId);
+		}
+		if(StringUtils.isNotBlank(loanerName)){
+			record.setLoanerName(loanerName);
+		}
+		if(StringUtils.isNotBlank(loanerOrgId)){
+			record.setLoanerOrgId(loanerOrgId);
+		}
+		
+		
 	}
 }

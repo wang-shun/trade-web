@@ -54,11 +54,9 @@ public class ToEloanLoaner {
 
     private Date cancleTime;
 
-    private String approvalId;
-
-    private String approvalName;
-
-    private Date approvalTime;
+    private String loanerId;
+    private String loanerName;
+    private String loanerOrgId;
 
     private Date createTime;
 
@@ -268,30 +266,6 @@ public class ToEloanLoaner {
         this.cancleTime = cancleTime;
     }
 
-    public String getApprovalId() {
-        return approvalId;
-    }
-
-    public void setApprovalId(String approvalId) {
-        this.approvalId = approvalId == null ? null : approvalId.trim();
-    }
-
-    public String getApprovalName() {
-        return approvalName;
-    }
-
-    public void setApprovalName(String approvalName) {
-        this.approvalName = approvalName == null ? null : approvalName.trim();
-    }
-
-    public Date getApprovalTime() {
-        return approvalTime;
-    }
-
-    public void setApprovalTime(Date approvalTime) {
-        this.approvalTime = approvalTime;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -324,5 +298,30 @@ public class ToEloanLoaner {
 		this.updateBy = updateBy;
 	}
 
+	public String getLoanerId() {
+		return loanerId;
+	}
+
+	public void setLoanerId(String loanerId) {
+		this.loanerId = loanerId;
+	}
+
+	public String getLoanerName() {
+		return loanerName;
+	}
+
+	public void setLoanerName(String loanerName) {
+		this.loanerName = loanerName;
+	}
+
+	public String getLoanerOrgId() {
+		return loanerOrgId;
+	}
+
+	public void setLoanerOrgId(String loanerOrgId) {
+		this.loanerOrgId = loanerOrgId;
+	}
+	
+	
     
 }
