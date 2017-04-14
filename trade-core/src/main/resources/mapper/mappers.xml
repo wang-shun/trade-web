@@ -236,6 +236,8 @@
  		<mapper resource="mapper/cases/task/ToCaseMergeMapper.xml" /> 
 		<!-- 大数据报表-->
  		<mapper resource="mapper/task/ReportOperateDataMapper.xml" />
+ 		<!-- e+接收记录表 -->
+ 		<mapper resource="mapper/eloan/ToEloanLoanerMapper.xml" />
 		
 	</mappers>
 </configuration>

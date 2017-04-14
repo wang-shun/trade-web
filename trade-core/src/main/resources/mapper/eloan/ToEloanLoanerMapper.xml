@@ -33,7 +33,7 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="UPDATE_BY" property="updateBy" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, ELOAN_CODE, CASE_CODE, RECEIVE_CODE, CUST_NAME, CUST_PHONE, HOU_ADDRESS, APPLY_TIME, 
@@ -74,7 +74,7 @@
       #{rejectTime,jdbcType=TIMESTAMP}, #{cancleId,jdbcType=VARCHAR}, #{cancleName,jdbcType=VARCHAR}, 
       #{cancleTime,jdbcType=TIMESTAMP}, #{approvalId,jdbcType=VARCHAR}, #{approvalName,jdbcType=VARCHAR}, 
       #{approvalTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=TIMESTAMP})
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eloan.entity.ToEloanLoaner" >
     insert into sctrans.T_TO_ELOAN_LOANER
@@ -271,7 +271,7 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateBy != null" >
-        #{updateBy,jdbcType=TIMESTAMP},
+        #{updateBy,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -369,7 +369,7 @@
         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateBy != null" >
-        UPDATE_BY = #{updateBy,jdbcType=TIMESTAMP},
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -406,7 +406,7 @@
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      UPDATE_BY = #{updateBy,jdbcType=TIMESTAMP}
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
 </mapper>

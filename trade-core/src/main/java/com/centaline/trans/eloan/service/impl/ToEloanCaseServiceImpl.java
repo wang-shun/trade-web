@@ -17,6 +17,7 @@ import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
@@ -49,6 +50,7 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.utils.DateUtil;
 
 @Service
 public class ToEloanCaseServiceImpl implements ToEloanCaseService {
@@ -81,6 +83,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	private ToEloanLoanerMapper toEloanLoanerMapper;
 	@Autowired
 	ToPropertyInfoMapper toPropertyInfoMapper;
+	@Autowired
+	private UamBasedataService uamBasedataService;
 
 	@Override
 	public void saveEloanApply(SessionUser user, ToEloanCase tEloanCase) {
@@ -532,10 +536,15 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	}
 	
 	private void buildToEloanLoanerInfo(ToEloanCase tEloanCase, ToEloanLoaner record) {
+		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
+		String jdmonth = dateStr.substring(0, 6);			
+		String receiveCode = uamBasedataService.nextSeqVal("CASE_EP_CODE", jdmonth);
+		if(StringUtils.isBlank(receiveCode)){
+			throw new BusinessException("生成接收编码异常！");
+		}
 		String userId = uamSessionService.getSessionUser().getId();
 		String eloanCode = tEloanCase.getEloanCode();
 	    String caseCode = tEloanCase.getCaseCode();
-	    String receiveCode;
 	    String custName = tEloanCase.getCustName();
 	    String custPhone = tEloanCase.getCustPhone();
 	    Date applyTime = tEloanCase.getApplyTime();
@@ -553,9 +562,9 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		if(StringUtils.isNotBlank(caseCode)){
 			record.setCaseCode(caseCode);
 		}
-		/*if(StringUtils.isNotBlank(receiveCode)){
+		if(StringUtils.isNotBlank(receiveCode)){
 			record.setReceiveCode(receiveCode);
-		}*/
+		}
 		if(StringUtils.isNotBlank(custName)){
 			record.setCustName(custName);
 		}
