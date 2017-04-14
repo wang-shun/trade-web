@@ -12,9 +12,6 @@
     <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
     <result column="APPLY_AMOUNT" property="applyAmount" jdbcType="DECIMAL" />
     <result column="MONTH" property="month" jdbcType="INTEGER" />
-    <result column="EXCUTOR_ID" property="excutorId" jdbcType="VARCHAR" />
-    <result column="EXCUTOR_TEAM" property="excutorTeam" jdbcType="VARCHAR" />
-    <result column="EXCUTOR_DISTRICT" property="excutorDistrict" jdbcType="VARCHAR" />
     <result column="FLOW_STATUS" property="flowStatus" jdbcType="VARCHAR" />
     <result column="LOANER_STATUS" property="loanerStatus" jdbcType="VARCHAR" />
     <result column="LOANER_DESC" property="loanerDesc" jdbcType="VARCHAR" />
@@ -40,7 +37,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, ELOAN_CODE, CASE_CODE, RECEIVE_CODE, CUST_NAME, CUST_PHONE, HOU_ADDRESS, APPLY_TIME, 
-    APPLY_AMOUNT, MONTH, EXCUTOR_ID, EXCUTOR_TEAM, EXCUTOR_DISTRICT, FLOW_STATUS, LOANER_STATUS, 
+    APPLY_AMOUNT, MONTH, FLOW_STATUS, LOANER_STATUS, 
     LOANER_DESC, SEND_ID, SEND_NAME, RECEIVE_TIME, SEND_TIME, RECEIVE_ID, RECEIVE_NAME, 
     REJECT_ID, REJECT_NAME, REJECT_TIME, CANCLE_ID, CANCLE_NAME, CANCLE_TIME, APPROVAL_ID, 
     APPROVAL_NAME, APPROVAL_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
@@ -59,8 +56,7 @@
     insert into sctrans.T_TO_ELOAN_LOANER (ELOAN_CODE, CASE_CODE, 
       RECEIVE_CODE, CUST_NAME, CUST_PHONE, 
       HOU_ADDRESS, APPLY_TIME, APPLY_AMOUNT, 
-      MONTH, EXCUTOR_ID, EXCUTOR_TEAM, 
-      EXCUTOR_DISTRICT, FLOW_STATUS, LOANER_STATUS, 
+      MONTH, FLOW_STATUS, LOANER_STATUS, 
       LOANER_DESC, SEND_ID, SEND_NAME, 
       RECEIVE_TIME, SEND_TIME, RECEIVE_ID, 
       RECEIVE_NAME, REJECT_ID, REJECT_NAME, 
@@ -71,8 +67,7 @@
     values (#{eloanCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
       #{receiveCode,jdbcType=VARCHAR}, #{custName,jdbcType=NVARCHAR}, #{custPhone,jdbcType=VARCHAR}, 
       #{houAddress,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{applyAmount,jdbcType=DECIMAL}, 
-      #{month,jdbcType=INTEGER}, #{excutorId,jdbcType=VARCHAR}, #{excutorTeam,jdbcType=VARCHAR}, 
-      #{excutorDistrict,jdbcType=VARCHAR}, #{flowStatus,jdbcType=VARCHAR}, #{loanerStatus,jdbcType=VARCHAR}, 
+      #{month,jdbcType=INTEGER},#{flowStatus,jdbcType=VARCHAR}, #{loanerStatus,jdbcType=VARCHAR}, 
       #{loanerDesc,jdbcType=VARCHAR}, #{sendId,jdbcType=VARCHAR}, #{sendName,jdbcType=VARCHAR}, 
       #{receiveTime,jdbcType=TIMESTAMP}, #{sendTime,jdbcType=TIMESTAMP}, #{receiveId,jdbcType=VARCHAR}, 
       #{receiveName,jdbcType=VARCHAR}, #{rejectId,jdbcType=VARCHAR}, #{rejectName,jdbcType=VARCHAR}, 
@@ -113,15 +108,6 @@
       </if>
       <if test="month != null" >
         MONTH,
-      </if>
-      <if test="excutorId != null" >
-        EXCUTOR_ID,
-      </if>
-      <if test="excutorTeam != null" >
-        EXCUTOR_TEAM,
-      </if>
-      <if test="excutorDistrict != null" >
-        EXCUTOR_DISTRICT,
       </if>
       <if test="flowStatus != null" >
         FLOW_STATUS,
@@ -221,15 +207,6 @@
       <if test="month != null" >
         #{month,jdbcType=INTEGER},
       </if>
-      <if test="excutorId != null" >
-        #{excutorId,jdbcType=VARCHAR},
-      </if>
-      <if test="excutorTeam != null" >
-        #{excutorTeam,jdbcType=VARCHAR},
-      </if>
-      <if test="excutorDistrict != null" >
-        #{excutorDistrict,jdbcType=VARCHAR},
-      </if>
       <if test="flowStatus != null" >
         #{flowStatus,jdbcType=VARCHAR},
       </if>
@@ -328,15 +305,6 @@
       <if test="month != null" >
         MONTH = #{month,jdbcType=INTEGER},
       </if>
-      <if test="excutorId != null" >
-        EXCUTOR_ID = #{excutorId,jdbcType=VARCHAR},
-      </if>
-      <if test="excutorTeam != null" >
-        EXCUTOR_TEAM = #{excutorTeam,jdbcType=VARCHAR},
-      </if>
-      <if test="excutorDistrict != null" >
-        EXCUTOR_DISTRICT = #{excutorDistrict,jdbcType=VARCHAR},
-      </if>
       <if test="flowStatus != null" >
         FLOW_STATUS = #{flowStatus,jdbcType=VARCHAR},
       </if>
@@ -417,9 +385,6 @@
       APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
       APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
       MONTH = #{month,jdbcType=INTEGER},
-      EXCUTOR_ID = #{excutorId,jdbcType=VARCHAR},
-      EXCUTOR_TEAM = #{excutorTeam,jdbcType=VARCHAR},
-      EXCUTOR_DISTRICT = #{excutorDistrict,jdbcType=VARCHAR},
       FLOW_STATUS = #{flowStatus,jdbcType=VARCHAR},
       LOANER_STATUS = #{loanerStatus,jdbcType=VARCHAR},
       LOANER_DESC = #{loanerDesc,jdbcType=VARCHAR},

@@ -1,7 +1,8 @@
 package com.centaline.trans.eloan.repository;
 
+import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eloan.entity.ToEloanLoaner;
-
+@MyBatisRepository
 public interface ToEloanLoanerMapper {
     int deleteByPrimaryKey(Long pkid);
 

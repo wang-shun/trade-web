@@ -1,0 +1,10 @@
+# Dockerfile for Swagger Editor
+# Updated 20170413
+
+FROM docker.aist.io/aist_swagger
+
+MAINTAINER Lin Jiarong <linjr@aisthink.com>
+WORKDIR /opt/swagger
+ADD swagger/ /opt/swagger
+EXPOSE 80
+CMD ["swagger", "project","start"]
