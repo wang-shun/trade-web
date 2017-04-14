@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
@@ -20,18 +21,21 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.aist.uam.userorg.remote.vo.UserOrgJob;
-import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
+import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
+import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.eloan.entity.ToEloanCase;
+import com.centaline.trans.eloan.entity.ToEloanLoaner;
 import com.centaline.trans.eloan.repository.ToEloanCaseMapper;
+import com.centaline.trans.eloan.repository.ToEloanLoanerMapper;
 import com.centaline.trans.eloan.repository.ToEloanRelMapper;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.vo.ELoanVo;
@@ -73,6 +77,10 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	private ToCaseCommentService toCaseCommentService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
+	@Autowired
+	private ToEloanLoanerMapper toEloanLoanerMapper;
+	@Autowired
+	ToPropertyInfoMapper toPropertyInfoMapper;
 
 	@Override
 	public void saveEloanApply(SessionUser user, ToEloanCase tEloanCase) {
@@ -106,6 +114,16 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		bindServItem(tEloanCase);
 
 		toEloanCaseMapper.insertSelective(tEloanCase);
+		
+		//插入e+接受记录信息
+		ToEloanLoaner record = new ToEloanLoaner();
+		buildToEloanLoanerInfo(tEloanCase,record);
+		//产证信息
+		ToPropertyInfo property = toPropertyInfoMapper.findToPropertyInfoByCaseCode(tEloanCase.getCaseCode());
+		if(!ObjectUtils.isEmpty(property) && StringUtils.isNotBlank(property.getPropertyAddr())){
+				record.setHouAddress(property.getPropertyAddr());
+		}
+		toEloanLoanerMapper.insertSelective(record);
 
 		// start
 		User manager = new User();
@@ -511,5 +529,59 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		mixUserList.add(manager.getId()+","+manager.getServiceDepId()+","+manager.getRealName());
 		
 		return mixUserList;
+	}
+	
+	private void buildToEloanLoanerInfo(ToEloanCase tEloanCase, ToEloanLoaner record) {
+		String userId = uamSessionService.getSessionUser().getId();
+		String eloanCode = tEloanCase.getEloanCode();
+	    String caseCode = tEloanCase.getCaseCode();
+	    String receiveCode;
+	    String custName = tEloanCase.getCustName();
+	    String custPhone = tEloanCase.getCustPhone();
+	    String houAddress ;
+	    Date applyTime = tEloanCase.getApplyTime();
+	    BigDecimal applyAmount = tEloanCase.getApplyAmount();
+	    Integer month = tEloanCase.getMonth();
+	    String sendId = userId;
+	    String sendName = uamSessionService.getSessionUser().getUsername();
+	    Date sendTime = new Date();
+	    Date createTime = new Date();
+	    Date updateTime = new Date();
+		
+		if(StringUtils.isNotBlank(eloanCode)){
+			record.setEloanCode(eloanCode);
+		}
+		if(StringUtils.isNotBlank(caseCode)){
+			record.setCaseCode(caseCode);
+		}
+		/*if(StringUtils.isNotBlank(receiveCode)){
+			record.setReceiveCode(receiveCode);
+		}*/
+		if(StringUtils.isNotBlank(custName)){
+			record.setCustName(custName);
+		}
+		if(StringUtils.isNotBlank(custPhone)){
+			record.setCustPhone(custPhone);
+		}
+		if(!ObjectUtils.isEmpty(applyTime)){
+			record.setApplyTime(applyTime);
+		}
+		if(!ObjectUtils.isEmpty(applyAmount)){
+			record.setApplyAmount(applyAmount);
+		}
+		if(!ObjectUtils.isEmpty(month)){
+			record.setMonth(month);
+		}
+		if(StringUtils.isNotBlank(sendId)){
+			record.setSendId(sendId);
+		}
+		if(StringUtils.isNotBlank(sendName)){
+			record.setSendName(sendName);
+		}
+		record.setSendTime(sendTime);
+		record.setCreateTime(createTime);
+		record.setUpdateTime(updateTime);
+		record.setCreateBy(userId);
+		record.setUpdateBy(userId);
 	}
 }
