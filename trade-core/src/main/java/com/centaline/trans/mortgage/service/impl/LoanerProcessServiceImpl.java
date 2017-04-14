@@ -18,6 +18,7 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
@@ -48,6 +49,7 @@ import com.centaline.trans.mortgage.service.ToMortLoanerService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
+import com.centaline.trans.utils.DateUtil;
 
 @Service
 @Transactional
@@ -96,6 +98,10 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	
 	@Autowired
 	private ToMortLoanerService toMortLoanerService;
+	
+	
+	@Autowired
+	private UamBasedataService uamBasedataService;
 	
 	
 	/*
@@ -268,13 +274,23 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			
 			//冗余 派单流程表信息
 			ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
-						
+			
+			
+			//生产 receiveCode
+			String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
+			String month = dateStr.substring(0, 6);			
+			String receiveCode = uamBasedataService.nextSeqVal("CASE_MJD_CODE", month);
+			if(null == receiveCode){
+				throw new BusinessException("生成接收编码异常！");
+			}
+			
 			ToMortLoaner toMortLoaner = new ToMortLoaner();
 			toMortLoaner.setCaseCode(caseCode);
 			toMortLoaner.setCustName(toMortgage.getCustName());
 			if(null != toPropertyInfo){
 				toMortLoaner.setHouAddress(toPropertyInfo.getPropertyAddr());
 			}
+			toMortLoaner.setReceiveCode(receiveCode);
 			toMortLoaner.setMortTotalAmount(toMortgage.getMortTotalAmount());
 			toMortLoaner.setComAmount(toMortgage.getComAmount());
 			toMortLoaner.setComYear(toMortgage.getComYear());
@@ -282,7 +298,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			toMortLoaner.setPrfAmount(toMortgage.getPrfAmount());
 			toMortLoaner.setPrfYear(toMortgage.getPrfYear());
 			toMortLoaner.setMortPkid(bizCode);
-			toMortLoaner.setLoanerStatus(ToMortLoanerEnums.LOANER_STATUS0.getCode());
+			//toMortLoaner.setLoanerStatus(ToMortLoanerEnums.LOANER_STATUS0.getCode());
+			toMortLoaner.setLoanerStatus("");
 			
 			toMortLoaner.setSendId(user.getId());
 			toMortLoaner.setSendName(user.getRealName());
@@ -307,9 +324,9 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			toWorkFlowService.insertSelective(workFlow);
 
 			//注意C级银行 不走派单流程
-			if ("9".equals(bankLevel)) {
+/*			if ("9".equals(bankLevel)) {
 				toMortgageService.startTmpBankWorkFlow(caseCode, vo.getId());
-			}
+			}*/
 			
 			//回显 派单时间
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");

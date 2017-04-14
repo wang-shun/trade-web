@@ -1570,7 +1570,7 @@ $(document).ready(function (){
  			getReportList("table_list_4","pager_list_4",1);
  		}else if(currentIndex == 5 && priorIndex == 4){
  			//离开报告步骤执行临时银行审批流程
- 			//startTmpBankWorkFlow();
+ 			startTmpBankWorkFlow();
  			getCompleteMortInfo(1);
  		}
  	},
@@ -1661,7 +1661,7 @@ transitionEffect: "slide",
 			getMortgageInfo($("#caseCode").val(),0);
 			getReportList("table_list_6","pager_list_6",0);
 		}else if(currentIndex == 5 && priorIndex == 4){
-			//startTmpBankWorkFlow();
+			startTmpBankWorkFlow();
 			getCompleteMortInfo(0);
 		}
 	},

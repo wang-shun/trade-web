@@ -133,20 +133,20 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		condition.setCaseCode(toMortgage.getCaseCode());
 		condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
 		condition.setIsDelegateYucui("1");
-		List<ToMortgage> list = toMortgageMapper
-				.findToMortgageByCondition(condition);
+		
+		List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
 		if (list != null && !list.isEmpty()) {
 			mortgage = list.get(0);
 		}
 		if (mortgage != null) {
 			toMortgage.setPkid(mortgage.getPkid());
 			toMortgageMapper.update(toMortgage);
-			writeBackBizCode(mortgage.getCaseCode(), mortgage.getPkid());
+			//writeBackBizCode(mortgage.getCaseCode(), mortgage.getPkid());
 		} else {
 			toMortgage.setIsDelegateYucui("1");
 			toMortgageMapper.insertSelective(toMortgage);
 			// toMortgage.getPkid() 返回插入当前数据的主键
-			writeBackBizCode(toMortgage.getCaseCode(), toMortgage.getPkid());
+			//writeBackBizCode(toMortgage.getCaseCode(), toMortgage.getPkid());
 
 		}
 		if ("1".equals(toMortgage.getFormCommLoan())
@@ -251,12 +251,10 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public ToMortgage findToMortgageByCaseCodeWithCommLoan(ToMortgage toMortgage) {
 		toMortgage.setIsDelegateYucui("1");
-		List<ToMortgage> list = toMortgageMapper
-				.findToMortgageByConditionWithCommLoan(toMortgage);
+		List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(toMortgage);
 		if (CollectionUtils.isNotEmpty(list)) {
 			ToMortgage mort = null;
-			ToSupDocu toSupDocu = toSupDocuService.findByCaseCode(toMortgage
-					.getCaseCode());
+			ToSupDocu toSupDocu = toSupDocuService.findByCaseCode(toMortgage.getCaseCode());
 
 			if (list.size() == 1) {
 				mort = list.get(0);
