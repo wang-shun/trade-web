@@ -19,6 +19,8 @@ import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -117,6 +119,7 @@ public class SpvController {
 		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
 		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
 	
+		request.setAttribute("rcOrgId", curentOrg.getId());
 		request.setAttribute("orgId", parentOrg.getId());
 		return "spv/SpvList";
 	}
@@ -1234,12 +1237,26 @@ public class SpvController {
 		return response;
 	}
 	
-	@RequestMapping("changeOfficer")
+	@RequestMapping("batchChangeOfficer")
 	@ResponseBody
-	public AjaxResponse<String> changeOfficer(String spvCode, String oldOfficer, String newOfficer, String oldDirector, String newDirector) {
+	public AjaxResponse<String> batchChangeOfficer(String spvCodeListStr, String newOfficer, String newDirector) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try{
-			toSpvService.changeOfficer(spvCode, oldOfficer, newOfficer, oldDirector, newDirector);
+			toSpvService.batchChangeOfficer(spvCodeListStr.split(","), newOfficer, newDirector);
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setSuccess(false);
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	@RequestMapping("changeOfficer")
+	@ResponseBody
+	public AjaxResponse<String> changeOfficer(String spvCode, String newOfficer, String newDirector) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			toSpvService.changeOfficer(spvCode, newOfficer, newDirector);
 			response.setSuccess(true);
 		}catch(Exception e){
 			response.setSuccess(false);
@@ -1250,10 +1267,10 @@ public class SpvController {
 	
 	@RequestMapping("selectOfficerAndDirector")
 	@ResponseBody
-	public AjaxResponse<List<String>> selectConsAndManager(Long pkId) {
+	public AjaxResponse<List<String>> selectOfficerAndDirector(String spvCode) {
 		AjaxResponse<List<String>> result = new AjaxResponse<List<String>>();
 		try {
-			List<String> mixUserList = toSpvService.selectConsAndManager(pkId);
+			List<String> mixUserList = toSpvService.selectOfficerAndDirector(spvCode);
 			result.setSuccess(true);
 			result.setMessage("操作成功!");
 			result.setContent(mixUserList);
@@ -1278,5 +1295,4 @@ public class SpvController {
 		response.setMessage(e.getMessage());
 		e.printStackTrace();
 	}
-    
 }

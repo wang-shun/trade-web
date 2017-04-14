@@ -41,7 +41,6 @@ import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
-import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskQuery;
@@ -61,6 +60,7 @@ import com.centaline.trans.spv.entity.ToSpvAduit;
 import com.centaline.trans.spv.entity.ToSpvCashFlow;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
+import com.centaline.trans.spv.entity.ToSpvCloseApply;
 import com.centaline.trans.spv.entity.ToSpvCust;
 import com.centaline.trans.spv.entity.ToSpvDe;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
@@ -78,6 +78,7 @@ import com.centaline.trans.spv.repository.ToSpvAduitMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowApplyAttachMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowApplyMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowMapper;
+import com.centaline.trans.spv.repository.ToSpvCloseApplyMapper;
 import com.centaline.trans.spv.repository.ToSpvCustMapper;
 import com.centaline.trans.spv.repository.ToSpvDeCondMapper;
 import com.centaline.trans.spv.repository.ToSpvDeDetailMapper;
@@ -106,6 +107,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Autowired
 	private ToSpvMapper toSpvMapper;
+	@Autowired
+	private ToSpvCloseApplyMapper toSpvCloseApplyMapper;
 	@Autowired
 	private ToCashFlowMapper toCashFlowMapper;
 	@Autowired
@@ -1888,11 +1891,18 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 
 	@Override
-	public void changeOfficer(String spvCode, String oldOfficer, String newOfficer, String oldDirector, String newDirector) {
+	public void batchChangeOfficer(String[] spvCodeListArr, String newOfficer, String newDirector) {
+		if(spvCodeListArr != null && spvCodeListArr.length > 0){
+			for(String spvCode:spvCodeListArr){
+				changeOfficer(spvCode, newOfficer, newDirector);
+			}
+		}
+	}
+	
+	@Override
+	public void changeOfficer(String spvCode, String newOfficer, String newDirector) {
 		//待办分配给新的人员
-		SessionUser oldOfficerUser = uamSessionService.getSessionUserById(oldOfficer);
 		SessionUser newOfficerUser = uamSessionService.getSessionUserById(newOfficer);
-		SessionUser oldDirectorUser = uamSessionService.getSessionUserById(oldDirector);
 		SessionUser newDirectorUser = uamSessionService.getSessionUserById(newDirector);
 		if(newOfficerUser == null){
 			throw new BusinessException("找不到选择的风控专员！");
@@ -1905,6 +1915,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		record.setSpvCode(spvCode);
 		record.setRiskControlOfficer(newOfficerUser.getId());
 		toSpvMapper.updateOfficerBySpvCode(record);
+		
 		//查询资金监管流程更新流程变量和未完成的任务办理人为所选人员
 		ToWorkFlow query1 = new ToWorkFlow();
 		query1.setBizCode(spvCode);
@@ -1913,28 +1924,15 @@ public class ToSpvServiceImpl implements ToSpvService {
 		if(twf1 == null){
 			throw new BusinessException("找不到资金监管流程！");
 		}
-		//查询流程是否挂起：若挂起临时唤醒，更改人员后再挂起
-		StartProcessInstanceVo historyInstances = workFlowManager.getHistoryInstances(twf1.getInstCode());
-		if(historyInstances.getSuspended()){
-			workFlowManager.activateOrSuspendProcessInstance(twf1.getInstCode(), true);
-		}
-		workFlowManager.setVariableByProcessInsId(twf1.getInstCode(), "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
-		workFlowManager.setVariableByProcessInsId(twf1.getInstCode(), "RiskControlDirector",new RestVariable("RiskControlDirector",newDirectorUser.getUsername()));
-		PageableVo pageableVo1 = taskService.listTasks(twf1.getInstCode(), false);
-		List<TaskVo> taskList1 = pageableVo1.getData();
-		for (TaskVo task : taskList1) {
-			if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
-				taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
-			}else if(oldDirectorUser.getUsername().equals(task.getAssignee())){
-				taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
-			}
-		}
-		if(historyInstances.getSuspended()){
-			workFlowManager.activateOrSuspendProcessInstance(twf1.getInstCode(), false);
-		}
+		String instCode = twf1.getInstCode();
+		//原风控专员和总监
+		String oldOfficer = (String) workFlowManager.getVar(instCode, "RiskControlOfficer").getValue();
+		String oldDirector = (String) workFlowManager.getVar(instCode, "RiskControlDirector").getValue();
+		//查询中止/结束申请号
+		ToSpvCloseApply spvCloseApply = toSpvCloseApplyMapper.selectBySpvCode(spvCode);
 		//查询中止/结束流程更新流程变量和未完成的任务办理人为所选人员
 		ToWorkFlow query2 = new ToWorkFlow();
-		query2.setBizCode(spvCode);
+		query2.setBizCode(spvCloseApply.getSpvCloseCode());
 		query2.setBusinessKey(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode());
 		ToWorkFlow twf2 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query2);
 		if(twf2 != null){
@@ -1943,13 +1941,32 @@ public class ToSpvServiceImpl implements ToSpvService {
 			PageableVo pageableVo2 = taskService.listTasks(twf2.getInstCode(), false);
 			List<TaskVo> taskList2 = pageableVo2.getData();
 			for (TaskVo task : taskList2) {
-				if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
+				if (oldOfficer.equals(task.getAssignee())) {
 					taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
-				}else if(oldDirectorUser.getUsername().equals(task.getAssignee())){
+				}else if(oldDirector.equals(task.getAssignee())){
 					taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
 				}
 			}
 		}
+
+		//如果存在活跃的中止/结束流程说明资金监管流程被挂起：若挂起临时唤醒，更改人员后再挂起
+		if(twf2 != null)
+			processInstanceService.activateOrSuspendProcessInstance(instCode, true);
+		//新风控专员和总监
+		workFlowManager.setVariableByProcessInsId(instCode, "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+		workFlowManager.setVariableByProcessInsId(instCode, "RiskControlDirector",new RestVariable("RiskControlDirector",newDirectorUser.getUsername()));
+		PageableVo pageableVo1 = taskService.listTasks(instCode, false);
+		List<TaskVo> taskList1 = pageableVo1.getData();
+		for (TaskVo task : taskList1) {
+			if (oldOfficer.equals(task.getAssignee())) {
+				taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+			}else if(oldDirector.equals(task.getAssignee())){
+				taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
+			}
+		}
+		if(twf2 != null)
+			processInstanceService.activateOrSuspendProcessInstance(instCode, false);
+		
 		//出入账和中止结束流程分配给新的人员
 		List<ToSpvCashFlowApply> toCashFlows = findCashFlowApplyCodeBySpvCode(spvCode);
 		if(toCashFlows != null && toCashFlows.size()>0){
@@ -1965,9 +1982,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 					PageableVo pageableVo3 = taskService.listTasks(twf3.getInstCode(), false);
 					List<TaskVo> taskList3 = pageableVo3.getData();
 					for (TaskVo task : taskList3) {
-						if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
+						if (oldOfficer.equals(task.getAssignee())) {
 							taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
-						}else if(oldDirectorUser.getUsername().equals(task.getAssignee())){
+						}else if(oldDirector.equals(task.getAssignee())){
 							taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
 						}
 					}
@@ -1981,9 +1998,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 					PageableVo pageableVo4 = taskService.listTasks(twf4.getInstCode(), false);
 					List<TaskVo> taskList4 = pageableVo4.getData();
 					for (TaskVo task : taskList4) {
-						if (oldOfficerUser.getUsername().equals(task.getAssignee())) {
+						if (oldOfficer.equals(task.getAssignee())) {
 							taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
-						}else if(oldDirectorUser.getUsername().equals(task.getAssignee())){
+						}else if(oldDirector.equals(task.getAssignee())){
 							taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
 						}
 					}
@@ -2002,11 +2019,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 
 	@Override
-	public List<String> selectConsAndManager(Long pkId) {
-		ToSpv toSpv = toSpvMapper.selectByPrimaryKey(pkId);
+	public List<String> selectOfficerAndDirector(String spvCode) {
 		//1.查询流程
 		ToWorkFlow record = new ToWorkFlow();
-		record.setBizCode(toSpv.getSpvCode());
+		record.setBizCode(spvCode);
 		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
 		ToWorkFlow workFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
 		if(workFlow == null){
@@ -2022,8 +2038,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 		SessionUser director = uamSessionService.getSessionUserById(directors.get(0).getUserId());
 		
 		List<String> mixUserList = new ArrayList<String>();
-		mixUserList.add(officer.getId()+","+officer.getServiceDepId()+","+officer.getRealName());
-		mixUserList.add(director.getId()+","+director.getServiceDepId()+","+director.getRealName());
+		mixUserList.add(officer.getId()+","+officer.getRealName());
+		mixUserList.add(director.getId()+","+director.getRealName());
 		
 		return mixUserList;
 	}
