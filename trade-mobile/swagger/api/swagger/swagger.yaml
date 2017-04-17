@@ -42,38 +42,38 @@ paths:
   /chat/contact:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
-    get:
+    post:
       description: demo config
       # used as the method name of the controller
       operationId: contactRsponse
       parameters:
         - name: token
-          in: query
+          in: formData
           description: token
           required: true
           type: string
         - name: page
-          in: query
+          in: formData
           description: page
           required: true
           type: integer
         - name: pageSize
-          in: query
+          in: formData
           description: pageSize
           required: true
           type: integer 
         - name: sidx
-          in: query
+          in: formData
           description: sidx
           required: true
           type: string
         - name: sord
-          in: query
+          in: formData
           description: sord
           required: false
           type: string  
         - name: q_text
-          in: query
+          in: formData
           description: q_text
           required: false
           type: string 
@@ -86,7 +86,7 @@ paths:
   /chat/casecontact:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
-    post:
+    get:
       description: demo config
       # used as the method name of the controller
       operationId: casecontactRsponse

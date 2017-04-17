@@ -39,9 +39,9 @@ public class TaxReviewController {
 
     @RequestMapping(value = "process")
     @ResponseBody
-    public JSONObject toProcess(String taskitem, String processInstanceId) {
+    public JSONObject toProcess(String taskId, String processInstanceId) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("taskId", taskitem);
+        jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
         return jsonObject;
     }
