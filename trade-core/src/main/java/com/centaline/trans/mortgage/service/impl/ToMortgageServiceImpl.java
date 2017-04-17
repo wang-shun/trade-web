@@ -909,6 +909,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 					mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
 					mortgageVo.getIsPass());
 
+			toMortLoaner.setLoanerStatus("BANKREJECT");
 		}
 
 		// 设置案件跟进信息
