@@ -4,6 +4,7 @@
 		<customDict id="getCaseSalerInfo" beanName="getCaseSalerInfo" />
 		<customDict id="getCaseBuyyerInfo" beanName="getCaseBuyyerInfo" />
 		<customDict id="qqLightService" beanName="qqLightService" />
+		<customDict id="getQianHouTai" beanName="getQianHouTai" />
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">

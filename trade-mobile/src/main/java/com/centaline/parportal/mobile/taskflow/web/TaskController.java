@@ -2,6 +2,7 @@ package com.centaline.parportal.mobile.taskflow.web;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.utils.Pages2JSONMoblie;
@@ -68,6 +70,8 @@ public class TaskController {
 		if(tmrTask) {
 			taskTag.add("1");
 		}
+		
+		taskTag.add("2");
  		
 		if(!taskTag.isEmpty()) {
 			paramMap.put("taskTag",(String[])taskTag.toArray(new String[taskTag.size()]));
@@ -76,9 +80,29 @@ public class TaskController {
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		buildZhongjieInfo(pages.getContent());
 		buildZhuliInfo(pages.getContent());
+		buildHoutaiInfo(pages.getContent());
 		return Pages2JSONMoblie.pages2JsonMoblie(pages);
 	}
 	
+	private void buildHoutaiInfo(List<Map<String, Object>> list) {
+		if(CollectionUtils.isEmpty(list)) {
+			return ;
+		}
+		
+		for (Map<String, Object> map : list) {
+			JSONArray ja = (JSONArray) map.get("houtai");
+			
+			Iterator<Object> it = ja.iterator();
+			List<Object> nameList = new ArrayList<Object>();
+			while (it.hasNext()) {
+				JSONObject jo = (JSONObject) it.next();
+				nameList.add(jo.get("name"));
+			}
+			if(!CollectionUtils.isEmpty(nameList) ) {
+				map.put("houtai", nameList);
+			}
+		}
+	}
 	private void buildZhuliInfo(List<Map<String, Object>> list) {
 		if(CollectionUtils.isEmpty(list)) {
 			return ;
