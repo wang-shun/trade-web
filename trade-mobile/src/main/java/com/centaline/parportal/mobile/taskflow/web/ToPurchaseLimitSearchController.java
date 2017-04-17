@@ -1,6 +1,7 @@
 package com.centaline.parportal.mobile.taskflow.web;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.service.TgGuestInfoService;
@@ -37,6 +38,14 @@ public class ToPurchaseLimitSearchController {
 
     @Autowired
     private TgGuestInfoService tgGuestInfoService;
+
+    @RequestMapping(value = "process")
+    public JSONObject toProcess(String taskitem, String processInstanceId) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("taskId", taskitem);
+        jsonObject.put("processInstanceId", processInstanceId);
+        return jsonObject;
+    }
 
     @RequestMapping(value = "submitPls",method = RequestMethod.POST)
     @ResponseBody

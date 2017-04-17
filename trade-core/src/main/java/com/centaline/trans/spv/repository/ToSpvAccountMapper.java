@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.spv.entity.ToSpvAccount;
-import com.centaline.trans.spv.vo.ToSpvAccountVO;
 
 @MyBatisRepository
 public interface ToSpvAccountMapper {
@@ -21,5 +20,6 @@ public interface ToSpvAccountMapper {
     int updateByPrimaryKey(ToSpvAccount record);
     
     List<ToSpvAccount> selectBySpvCode(String spvCode);
+    
     List<ToSpvAccount> selectBySpvCodeinCaseFlowApple(String spvCode);
 }

@@ -6,9 +6,11 @@ var serviceDepId = $("#serviceDepId").val();
  */
 $(document).ready(function() {
 
-	reloadGrid();
-	$('.wrapper-content').viewer();
-	
+	reloadGrid();	
+	/* 加载排序查询组件 */
+/*	aist.sortWrapper({
+		reloadGrid : reloadGrid
+	});*/
 	//top
 	$('.demo-top').poshytip({
 		className: 'tip-twitter',
@@ -54,19 +56,19 @@ function getParams() {
 		propertyAddr = null;
 	}
 	// 信贷员
-	var loaner = $("#loaner").val().trim();
-	if (loaner == "" || loaner == null) {
-		loaner = null;
+	var loanerId = $("#loanerId").val().trim();
+	if (loanerId == "" || loanerId == null) {
+		loanerId = null;
 	}
 	// 银行信息
-	var bankFinOrg = $("#bankFinOrg").val().trim();
+/*	var bankFinOrg = $("#bankFinOrg").val().trim();
 	if (bankFinOrg == "" || bankFinOrg == null) {
 		bankFinOrg = null;
-	}
-	params.bankFinOrg = bankFinOrg;
+	}*/
+	//params.bankFinOrg = bankFinOrg;
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;
-	params.loaner = loaner;
+	params.loanerId = loanerId;	
 	
 	return params;
 }
@@ -90,7 +92,9 @@ $('#loanerConditionSearch').click(function() {
 $('#loanerConditionClean').click(function() {
 	$("input[name='caseCode']").val('');
 	$("input[name='propertyAddr']").val('');
-	$("input[name='loaner']").val('');
+	
+	$("input[name='loanerId']").val('');
+	$("input[name='loanerName']").val('');
 	
 });
 
@@ -237,5 +241,33 @@ function  finishLoanerProcess(instCode,caseCode,taskId){
 		}
 	});
 	
+}
+
+
+function loanerClick(){
+	userSelect({
+		startOrgId : '10B1F16BDC5E7F33E0532429030A8872',//非营业部
+		expandNodeId : '10B1F16BDC5E7F33E0532429030A8872',
+		nameType : 'long|short',
+		orgType : '',
+		departmentType : '',
+		departmentHeriarchy : '',
+		chkStyle : 'radio',		
+		jobCode : '',
+		callBack : selectLoanerUserBack
+	});
+	
+	
+	//选取人员的回调函数
+	function selectLoanerUserBack(array) {	
+		if (array && array.length > 0) {			
+			$("#loanerName").val(array[0].username);	
+			$("#loanerId").val(array[0].userId);
+
+		} else {
+			$("#loanerName").val("");
+			$("#loanerId").val("");		
+		}
+	}
 }
 

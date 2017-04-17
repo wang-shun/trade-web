@@ -190,6 +190,9 @@
 	<import resource="query/spv/spvList.xml" />
 	<import resource="query/spv/spvFlowList.xml" />
 	<import resource="query/eloan/RiskControlQuery.xml" />
+	<!-- 信贷员派单流程信息列表 -->
+	<import resource="query/mortgage/loanerProcessListQuery.xml" />
+	
 
 	<!-- 我的预约列表 -->
 	<import resource="query/signroom/myReservationList.xml" />

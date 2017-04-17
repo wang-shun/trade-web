@@ -40,30 +40,30 @@ public interface ToEloanCaseService {
 	ToEloanCase selectByEloanCode(String eloanCode);
 
 	/**
-	 * E+è´·æ¬¾ä¿¡è´·å‘˜æ¥å•å’Œæ‰“å›
+	 * E+´û¿îĞÅ´ûÔ±½Óµ¥ºÍ´ò»Ø
 	 * 
 	 * @param eLoanVo
-	 *            E+è´·æ¬¾æ¡ˆä»¶å‰å°ä¼ å€¼å¯¹è±¡
+	 *            E+´û¿î°¸¼şÇ°Ì¨´«Öµ¶ÔÏó
 	 * @param map
-	 *            æµç¨‹å‚æ•°
+	 *            Á÷³Ì²ÎÊı
 	 * @param taskId
-	 *            ä»»åŠ¡id
-	 * @return è¿”å›true,æ“ä½œæˆåŠŸ;è¿”å›false,æ“ä½œå¤±è´¥ã€‚
+	 *            ÈÎÎñid
+	 * @return ·µ»Øtrue,²Ù×÷³É¹¦;·µ»Øfalse,²Ù×÷Ê§°Ü¡£
 	 */
 	public boolean accept(ELoanVo eLoanVo, Map<String, Object> map,
 			String taskId);
 
 	/**
-	 * E+æ¡ˆä»¶è·Ÿè¿›
+	 * E+°¸¼ş¸ú½ø
 	 * 
 	 * @param eLoanVo
-	 *            E+è´·æ¬¾æ¡ˆä»¶å‰å°ä¼ å€¼å¯¹è±¡
-	 * @return è¿”å›true,æ“ä½œæˆåŠŸ;è¿”å›false,æ“ä½œå¤±è´¥ã€‚
+	 *            E+´û¿î°¸¼şÇ°Ì¨´«Öµ¶ÔÏó
+	 * @return ·µ»Øtrue,²Ù×÷³É¹¦;·µ»Øfalse,²Ù×÷Ê§°Ü¡£
 	 */
 	public boolean followUp(ELoanVo eLoanVo);
 	
 	/**
-	 * selectBackKaCountByTime:(æ ¹æ®æ—¶é—´æŸ¥è¯¢åå°å¡ç±»ç”³è¯·æ€»é‡). <br/> 
+	 * selectBackKaCountByTime:(¸ù¾İÊ±¼ä²éÑ¯ºóÌ¨¿¨ÀàÉêÇë×ÜÁ¿). <br/> 
 	 * 
 	 * @author gongjd 
 	 * @param endWeekDay
@@ -73,7 +73,7 @@ public interface ToEloanCaseService {
 	int selectBackKaCountByTime(int endWeekDay);
 	
 	/**
-	 * selectBackKaCountByTime:(æ ¹æ®æ—¶é—´æŸ¥è¯¢åå°è´·æ¬¾ç±»ç”³è¯·æ€»é‡). <br/> 
+	 * selectBackKaCountByTime:(¸ù¾İÊ±¼ä²éÑ¯ºóÌ¨´û¿îÀàÉêÇë×ÜÁ¿). <br/> 
 	 * 
 	 * @author gongjd 
 	 * @param endWeekDay
@@ -82,8 +82,9 @@ public interface ToEloanCaseService {
 	 */
 	int selectBackAppCountByTime(int endWeekDay);
 
-	void changeOwner(String eloanCode, String oldConsultantId, String newConsultantId, String oldManagerId,
-			String newManagerId);
+	void batchChangeOwner(String[] eloanCode, String newConsultantId, String newManagerId);
+	
+	void changeOwner(String eloanCode, String newConsultantId, String newManagerId);
 
 	List<String> selectConsAndManager(Long pkId);
 }
