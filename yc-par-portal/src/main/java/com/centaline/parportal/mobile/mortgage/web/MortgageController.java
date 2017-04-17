@@ -121,10 +121,15 @@ public class MortgageController {
 			String procInstanceId, String stateInBank, String caseCode,
 			String comment) throws CheckParametersException {
 
-		if (bizCode == null || isPass == null || taskId == null
-				|| procInstanceId == null || stateInBank == null
+		if (bizCode == null || isPass == null || stateInBank == null
 				|| caseCode == null) {
 			throw new CheckParametersException("请检查参数!");
+		}
+
+		if (bizCode == "BANKAUDITSUCCESS" || bizCode == "BANKREJECT") {
+			if (taskId == null || procInstanceId == null) {
+				throw new CheckParametersException("请检查参数!");
+			}
 		}
 
 		// 获取当前用户信息
