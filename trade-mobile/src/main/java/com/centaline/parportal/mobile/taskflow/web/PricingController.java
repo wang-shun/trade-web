@@ -45,7 +45,7 @@ public class PricingController {
     @ResponseBody
     public JSONObject toProcess(String taskId, String processInstanceId) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("taskId", "111");
+        jsonObject.put("test", "111");
         jsonObject.put("processInstanceId", processInstanceId);
         return jsonObject;
     }
