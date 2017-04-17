@@ -68,16 +68,16 @@
 				AND EXISTS (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE = m.CASE_CODE and c.LOAN_REQ=1)
 				
 				<if test="flag == 'noAccept'">
-					AND (m.STATE_IN_BANK = '' or m.STATE_IN_BANK IS NULL)
+					AND (m.LOANER_STATUS = '' or m.LOANER_STATUS IS NULL)
 				</if>
 				
 				<if test="flag == 'exceptNoAccept'">
-					AND (m.STATE_IN_BANK != '' and m.STATE_IN_BANK IS NOT NULL)
+					AND (m.LOANER_STATUS != '' and m.LOANER_STATUS IS NOT NULL)
 				</if>
 				
 				<ifNotNull q_text>
-					 AND (m.cust_name LIKE '%'+#q_text#+'%'
-					     			OR p.property_addr	LIKE '%'+#q_text#+'%'
+					 AND (m.CUST_NAME LIKE '%'+#q_text#+'%'
+					     			OR p.PROPERTY_ADDR	LIKE '%'+#q_text#+'%'
 					     			OR uoj.real_name LIKE '%'+#q_text#+'%')
 				</ifNotNull>		
 				]]>
@@ -85,7 +85,8 @@
 			<groupSql>
 			</groupSql>
 			<orderBySql>
-			  ORDER BY m.SIGN_DATE DESC
+			  ORDER BY m.SEND_TIME
+			   DESC
 			</orderBySql>
 		</searchSql>
 		<grid>

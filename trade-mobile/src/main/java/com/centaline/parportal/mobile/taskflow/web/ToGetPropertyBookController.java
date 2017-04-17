@@ -1,6 +1,7 @@
 package com.centaline.parportal.mobile.taskflow.web;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.service.TgGuestInfoService;
@@ -12,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -35,7 +37,15 @@ public class ToGetPropertyBookController {
     @Autowired
     private TgGuestInfoService tgGuestInfoService;
 
-    @RequestMapping(value = "submitToGetPropertyBook")
+    @RequestMapping(value = "process")
+    public JSONObject toProcess(String taskitem, String processInstanceId) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("taskId", taskitem);
+        jsonObject.put("processInstanceId", processInstanceId);
+        return jsonObject;
+    }
+
+    @RequestMapping(value = "submitToGetPropertyBook",method = RequestMethod.POST)
     @ResponseBody
     public AjaxResponse submitToGetPropertyBook(ToGetPropertyBook toGetPropertyBook, String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
