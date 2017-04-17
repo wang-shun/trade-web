@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
@@ -105,7 +106,7 @@ public class LoanlostApproveController {
 
 	@RequestMapping(value = "loanlostApprove/loanlostApproveFirst")
 	@ResponseBody
-	public Boolean loanlostApproveFirst(HttpServletRequest request,
+	public Object loanlostApproveFirst(HttpServletRequest request,
 			ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String LoanLost_manager,
 			String LoanLost_manager_response, String loanLostManagerNotApprove) {
@@ -134,11 +135,13 @@ public class LoanlostApproveController {
 
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO
 				.getCaseCode());
-
-		return workFlowManager.submitTask(variables,
+		Boolean result = workFlowManager.submitTask(variables,
 				processInstanceVO.getTaskId(),
 				processInstanceVO.getProcessInstanceId(),
 				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		ajaxResponse.setSuccess(result);
+		return ajaxResponse;
 	}
 
 	@RequestMapping(value = "loanlostApprove/loanlostApproveFirstNew")
