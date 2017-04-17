@@ -1,7 +1,6 @@
 package com.centaline.parportal.mobile.taskflow.web;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,17 +23,13 @@ import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
-import com.aist.uam.userorg.remote.UamUserOrgService;
-import com.aist.uam.userorg.remote.vo.User;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
-import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
-import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
@@ -46,7 +41,6 @@ import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
-import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping(value = "/task")
@@ -80,36 +74,33 @@ public class LoanlostApproveController {
 	@RequestMapping(value = { "loanlostApproveManager/process",
 			"loanlostApproveSeniorManager/process",
 			"loanlostApproveDirector/process" })
-	public String toLoanLostApproveManagerProcess(HttpServletRequest request,
+	@ResponseBody
+	public Object toLoanLostApproveManagerProcess(HttpServletRequest request,
 			HttpServletResponse response, String caseCode, String source,
 			String taskitem, String processInstanceId) {
 		SessionUser user = uamSessionService.getSessionUser();
-		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		// 税费卡
-		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
-		if (cou > 0) {
-			caseBaseVO.setLoanType("30004005");
-		}
-		request.setAttribute("source", source);
-		request.setAttribute("caseBaseVO", caseBaseVO);
-		request.setAttribute("approveType", "1");
-		request.setAttribute("operator", user != null ? user.getId() : "");
-		request.setAttribute("caseDetail", loanlostApproveService
-				.queryCaseInfo(caseCode, "LoanlostApply", processInstanceId));
-		ToMortgage mortgage = toMortgageService
-				.findToSelfLoanMortgage(caseCode);
-
+		
+		JSONObject jo = new JSONObject();
+		Map<String, Object> caseDetail= loanlostApproveService.queryCaseInfo(caseCode, "LoanlostApply", processInstanceId);
+		jo.putAll(caseDetail);
+		
+		jo.put("partCode", taskitem);
+		jo.put("taskId", request.getAttribute("taskId"));
+		jo.put("processInstanceId", processInstanceId);
+		jo.put("approveType", "1");
+		jo.put("operator", user != null ? user.getId() : "");
+		
+		ToMortgage mortgage = toMortgageService.findToSelfLoanMortgage(caseCode);
 		if (mortgage != null && mortgage.getCustCode() != null) {
 			TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long
 					.parseLong(mortgage.getCustCode()));
 			if (null != guest) {
-				request.setAttribute("custCompany", guest.getWorkUnit());
-				request.setAttribute("custName", guest.getGuestName());
+				jo.put("custName", guest.getGuestName());
+				jo.put("custCompany", guest.getWorkUnit());
 			}
 		}
-		;
 
-		return "task" + UiImproveUtil.getPageType(request) + "/task" + taskitem;
+		return jo;
 	}
 
 	@RequestMapping(value = "loanlostApprove/loanlostApproveFirst")
