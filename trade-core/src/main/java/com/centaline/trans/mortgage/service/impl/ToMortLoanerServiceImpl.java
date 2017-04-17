@@ -166,4 +166,9 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 		return toMortLoaner;
 	}
 
+
+	@Override
+	public ToMortLoaner getToMortLoanerByMortgageId(String mortgageId) {
+		return toMortLoanerMapper.getToMortLoanerByMortgageId(mortgageId);
+	}
 }

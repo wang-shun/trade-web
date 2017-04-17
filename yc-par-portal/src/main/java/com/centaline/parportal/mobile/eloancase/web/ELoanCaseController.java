@@ -169,7 +169,8 @@ public class ELoanCaseController {
 
 		SessionUser sessionUser = uamSessionService.getSessionUser();
 		paramter.put("loanerId", sessionUser.getId());
-		// paramter.put("loanerId", "8a8493d45921d36901593e4adc95007b");
+		// paramter.put("loanerId", "8a8493d45921d56d01593fd036e100f1");
+		paramter.put("flag", "noAccept");
 
 		if (condition != null) {
 			String formatCondtion = condition.trim();
@@ -181,22 +182,50 @@ public class ELoanCaseController {
 
 		gp.putAll(paramter);
 		querysParseService.reloadFile();
-		Page<Map<String, Object>> returnPage = quickGridService
-				.findPageForSqlServer(gp);
+
+		// 查询未接单E+列表信息
+		Page<Map<String, Object>> noAcceptELoanCaseMapList = quickGridService
+				.findPageForSqlServer(gp, sessionUser);
+
+		// 查询除未接单状态之外的E+列表信息
+		paramter.put("flag", "exceptNoAccept");
+		gp.putAll(paramter);
+		Page<Map<String, Object>> eLoanCaseMapList = quickGridService
+				.findPageForSqlServer(gp, sessionUser);
+
+		// 未接单记录数
+		long noAcceptCount = noAcceptELoanCaseMapList.getTotalElements();
+		// 除未接单状态之外的按揭记录数
+		long mortgageCount = eLoanCaseMapList.getTotalElements();
+		// 总记录数
+		long totalElements = noAcceptCount + mortgageCount;
+		// 总页数
+		int totalPage = (int) (totalElements + pageSize - 1) / pageSize;
 
 		JSONObject result = new JSONObject();
 		result.put("page", page);
-		result.put("total", returnPage.getTotalPages());
-		result.put("records", returnPage.getTotalElements());
+		result.put("total", totalPage);
+		result.put("records", totalElements);
 		result.put("pageSize", pageSize);
-		List<Map<String, Object>> contentList = returnPage.getContent();
+
+		List<Map<String, Object>> noAcceptELoanCaseList = noAcceptELoanCaseMapList
+				.getContent();
+
+		List<Map<String, Object>> eLoanCaseList = eLoanCaseMapList.getContent();
 
 		JSONArray content = new JSONArray();
-		for (int i = 0; i < contentList.size(); i++) {
-			Map<String, Object> mapObj = contentList.get(i);
+		for (int i = 0; i < noAcceptELoanCaseList.size(); i++) {
+			Map<String, Object> mapObj = noAcceptELoanCaseList.get(i);
 
 			content.add(JSONObject.toJSON(mapObj));
 		}
+
+		for (int i = 0; i < eLoanCaseList.size(); i++) {
+			Map<String, Object> mapObj = eLoanCaseList.get(i);
+
+			content.add(JSONObject.toJSON(mapObj));
+		}
+
 		result.put("rows", content);
 
 		return result.toJSONString();

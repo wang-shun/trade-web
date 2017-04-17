@@ -17,6 +17,7 @@ import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
@@ -81,6 +82,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	private ToEloanLoanerMapper toEloanLoanerMapper;
 	@Autowired
 	ToPropertyInfoMapper toPropertyInfoMapper;
+	@Autowired
+	private UamBasedataService uamBasedataService;
 
 	@Override
 	public void saveEloanApply(SessionUser user, ToEloanCase tEloanCase) {
@@ -114,14 +117,16 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		bindServItem(tEloanCase);
 
 		toEloanCaseMapper.insertSelective(tEloanCase);
-		
-		//插入e+接受记录信息
+
+		// 插入e+接受记录信息
 		ToEloanLoaner record = new ToEloanLoaner();
-		buildToEloanLoanerInfo(tEloanCase,record);
-		//产证信息
-		ToPropertyInfo property = toPropertyInfoMapper.findToPropertyInfoByCaseCode(tEloanCase.getCaseCode());
-		if(!ObjectUtils.isEmpty(property) && StringUtils.isNotBlank(property.getPropertyAddr())){
-				record.setHouAddress(property.getPropertyAddr());
+		buildToEloanLoanerInfo(tEloanCase, record);
+		// 产证信息
+		ToPropertyInfo property = toPropertyInfoMapper
+				.findToPropertyInfoByCaseCode(tEloanCase.getCaseCode());
+		if (!ObjectUtils.isEmpty(property)
+				&& StringUtils.isNotBlank(property.getPropertyAddr())) {
+			record.setHouAddress(property.getPropertyAddr());
 		}
 		toEloanLoanerMapper.insertSelective(record);
 
@@ -358,15 +363,31 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	@TaskOperate(submitVal = "map")
 	public boolean accept(ELoanVo eLoanVo, Map<String, Object> map,
 			String taskId) {
+		// 获取当前用户信息
+		SessionUser user = uamSessionService.getSessionUser();
+
+		// 设置E+信息
 		ToEloanCase toEloanCase = new ToEloanCase();
 		toEloanCase.setEloanCode(eLoanVo.geteLoanCode());
 		toEloanCase.setStateInBank(eLoanVo.getStateInBank());
+
+		// 设置E+接收信息
+		ToEloanLoaner toEloanLoaner = new ToEloanLoaner();
+		toEloanLoaner.setLoanerStatus(eLoanVo.getStateInBank());
 
 		if ("true".equals(eLoanVo.getIsPass())) {
 			if (eLoanVo.getUser() != null)
 				toEloanCase.setLoanerId(eLoanVo.getUser().getId());
 
 			toEloanCase.setLoanerConfTime(new Date());
+
+			toEloanLoaner.setReceiveId(user.getId());
+			toEloanLoaner.setReceiveName(user.getRealName());
+			toEloanLoaner.setReceiveTime(new Date());
+		} else if ("false".equals(eLoanVo.getIsPass())) {
+			toEloanLoaner.setRejectId(user.getId());
+			toEloanLoaner.setRejectName(user.getRealName());
+			toEloanLoaner.setRejectTime(new Date());
 		}
 
 		// 设置案件跟进信息
@@ -379,6 +400,10 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 		// 更新E+案件信息
 		toEloanCaseMapper.updateEloanCaseByEloanCode(toEloanCase);
+
+		// 更新E+接收记录表信息
+		toEloanLoaner.setEloanCode(eLoanVo.geteLoanCode());
+		toEloanLoanerMapper.updateEloanLoanerByELoanCode(toEloanLoaner);
 
 		return true;
 	}
@@ -400,6 +425,13 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 		// 更新E+案件信息
 		toEloanCaseMapper.updateEloanCaseByEloanCode(toEloanCase);
+
+		// 更新T_TO_ELOAN_LOANER表中的跟进状态(FLOW_STATUS)
+		ToEloanLoaner toEloanLoaner = new ToEloanLoaner();
+		toEloanLoaner.setFlowStatus(eLoanVo.getStateInBank());
+		toEloanLoaner.setEloanCode(eLoanVo.geteLoanCode());
+
+		toEloanLoanerMapper.updateEloanLoanerByELoanCode(toEloanLoaner);
 
 		return true;
 	}
@@ -436,25 +468,29 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 		return toCaseComment;
 	}
-	
-	public int selectBackKaCountByTime(int endWeekDay){
+
+	public int selectBackKaCountByTime(int endWeekDay) {
 		return toEloanCaseMapper.selectBackKaCountByTime(endWeekDay);
 	}
 
-	public int selectBackAppCountByTime(int endWeekDay){
+	public int selectBackAppCountByTime(int endWeekDay) {
 		return toEloanCaseMapper.selectBackAppCountByTime(endWeekDay);
 	}
 
 	@Override
-	public void changeOwner(String eloanCode, String oldConsultantId, String newConsultantId, String oldManagerId,
-			String newManagerId) {
-		//相关人员
-		SessionUser oldConsultant = uamSessionService.getSessionUserById(oldConsultantId);
-		SessionUser newConsultant = uamSessionService.getSessionUserById(newConsultantId);
-		SessionUser oldManager = uamSessionService.getSessionUserById(oldManagerId);
-		SessionUser newManager = uamSessionService.getSessionUserById(newManagerId);
+	public void changeOwner(String eloanCode, String oldConsultantId,
+			String newConsultantId, String oldManagerId, String newManagerId) {
+		// 相关人员
+		SessionUser oldConsultant = uamSessionService
+				.getSessionUserById(oldConsultantId);
+		SessionUser newConsultant = uamSessionService
+				.getSessionUserById(newConsultantId);
+		SessionUser oldManager = uamSessionService
+				.getSessionUserById(oldManagerId);
+		SessionUser newManager = uamSessionService
+				.getSessionUserById(newManagerId);
 		SessionUser user = uamSessionService.getSessionUser();
-		//1.更新t_to_eloan_case表中的excutor_id字段
+		// 1.更新t_to_eloan_case表中的excutor_id字段
 		ToEloanCase eloanCase = toEloanCaseMapper.selectByEloanCode(eloanCode);
 		String depType = "no";
 		if (user != null && eloanCase != null
@@ -464,7 +500,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		User excutor = uamUserOrgService.getUserById(newConsultantId);
 		Org districtOrg = uamUserOrgService.getParentOrgByDepHierarchy(
 				excutor.getOrgId(), DepTypeEnum.TYCQY.getCode());
-		
+
 		eloanCase.setExcutorId(newConsultantId);
 		if (excutor != null) {
 			// 如果当前用户和提交用户是同一个人，用户部门就用当前session部门 deptype-- yes:同一个用户 no:不同用户
@@ -480,26 +516,34 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		}
 
 		toEloanCaseMapper.updateByPrimaryKey(eloanCase);
-		
-		//1.查询流程
+
+		// 1.查询流程
 		ToWorkFlow record = new ToWorkFlow();
 		record.setBizCode(eloanCode);
 		record.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
-		ToWorkFlow workFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
-		if(workFlow == null){
+		ToWorkFlow workFlow = toWorkFlowService
+				.queryActiveToWorkFlowByBizCodeBusKey(record);
+		if (workFlow == null) {
 			throw new BusinessException("找不到E+申请流程！");
 		}
-		
-		//2.更新流程变量+已生成待办任务
-		workFlowManager.setVariableByProcessInsId(workFlow.getInstCode(), "Consultant", new RestVariable("Consultant",newConsultant.getUsername()));
-		workFlowManager.setVariableByProcessInsId(workFlow.getInstCode(), "Manager", new RestVariable("Manager",newManager.getUsername()));
-		PageableVo pageableVo = taskService.listTasks(workFlow.getInstCode(), false);
+
+		// 2.更新流程变量+已生成待办任务
+		workFlowManager.setVariableByProcessInsId(workFlow.getInstCode(),
+				"Consultant",
+				new RestVariable("Consultant", newConsultant.getUsername()));
+		workFlowManager.setVariableByProcessInsId(workFlow.getInstCode(),
+				"Manager",
+				new RestVariable("Manager", newManager.getUsername()));
+		PageableVo pageableVo = taskService.listTasks(workFlow.getInstCode(),
+				false);
 		List<TaskVo> taskList = pageableVo.getData();
 		for (TaskVo task : taskList) {
 			if (oldConsultant.getUsername().equals(task.getAssignee())) {
-				taskService.updateAssignee(task.getId().toString(), newConsultant.getUsername());
-			}else if(oldManager.getUsername().equals(task.getAssignee())){
-				taskService.updateAssignee(task.getId().toString(), newManager.getUsername());
+				taskService.updateAssignee(task.getId().toString(),
+						newConsultant.getUsername());
+			} else if (oldManager.getUsername().equals(task.getAssignee())) {
+				taskService.updateAssignee(task.getId().toString(),
+						newManager.getUsername());
 			}
 		}
 	}
@@ -507,75 +551,86 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	@Override
 	public List<String> selectConsAndManager(Long pkId) {
 		ToEloanCase toEloanCase = toEloanCaseMapper.selectByPrimaryKey(pkId);
-		//1.查询流程
+		// 1.查询流程
 		ToWorkFlow record = new ToWorkFlow();
 		record.setBizCode(toEloanCase.getEloanCode());
 		record.setBusinessKey(WorkFlowEnum.ELOAN_BUSSKEY.getCode());
-		ToWorkFlow workFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
-		if(workFlow == null){
+		ToWorkFlow workFlow = toWorkFlowService
+				.queryActiveToWorkFlowByBizCodeBusKey(record);
+		if (workFlow == null) {
 			throw new BusinessException("找不到E+申请流程！");
 		}
-		
-		String consultantUserName = (String) workFlowManager.getVar(workFlow.getInstCode(), "Consultant").getValue();
-		String managerUserName = (String) workFlowManager.getVar(workFlow.getInstCode(), "Manager").getValue();
-		
-		List<UserOrgJob> consultants = uamUserOrgService.findUserOrgJobByUsername(consultantUserName);
-		SessionUser consultant = uamSessionService.getSessionUserById(consultants.get(0).getUserId());
-		List<UserOrgJob> managers = uamUserOrgService.findUserOrgJobByUsername(managerUserName);
-		SessionUser manager = uamSessionService.getSessionUserById(managers.get(0).getUserId());
-		
+
+		String consultantUserName = (String) workFlowManager.getVar(
+				workFlow.getInstCode(), "Consultant").getValue();
+		String managerUserName = (String) workFlowManager.getVar(
+				workFlow.getInstCode(), "Manager").getValue();
+
+		List<UserOrgJob> consultants = uamUserOrgService
+				.findUserOrgJobByUsername(consultantUserName);
+		SessionUser consultant = uamSessionService
+				.getSessionUserById(consultants.get(0).getUserId());
+		List<UserOrgJob> managers = uamUserOrgService
+				.findUserOrgJobByUsername(managerUserName);
+		SessionUser manager = uamSessionService.getSessionUserById(managers
+				.get(0).getUserId());
+
 		List<String> mixUserList = new ArrayList<String>();
-		mixUserList.add(consultant.getId()+","+consultant.getServiceDepId()+","+consultant.getRealName());
-		mixUserList.add(manager.getId()+","+manager.getServiceDepId()+","+manager.getRealName());
-		
+		mixUserList.add(consultant.getId() + "," + consultant.getServiceDepId()
+				+ "," + consultant.getRealName());
+		mixUserList.add(manager.getId() + "," + manager.getServiceDepId() + ","
+				+ manager.getRealName());
+
 		return mixUserList;
 	}
-	
-	private void buildToEloanLoanerInfo(ToEloanCase tEloanCase, ToEloanLoaner record) {
+
+	private void buildToEloanLoanerInfo(ToEloanCase tEloanCase,
+			ToEloanLoaner record) {
 		String userId = uamSessionService.getSessionUser().getId();
 		String eloanCode = tEloanCase.getEloanCode();
-	    String caseCode = tEloanCase.getCaseCode();
-	    String receiveCode;
-	    String custName = tEloanCase.getCustName();
-	    String custPhone = tEloanCase.getCustPhone();
-	    String houAddress ;
-	    Date applyTime = tEloanCase.getApplyTime();
-	    BigDecimal applyAmount = tEloanCase.getApplyAmount();
-	    Integer month = tEloanCase.getMonth();
-	    String sendId = userId;
-	    String sendName = uamSessionService.getSessionUser().getUsername();
-	    Date sendTime = new Date();
-	    Date createTime = new Date();
-	    Date updateTime = new Date();
-		
-		if(StringUtils.isNotBlank(eloanCode)){
+		String caseCode = tEloanCase.getCaseCode();
+		String receiveCode;
+		String custName = tEloanCase.getCustName();
+		String custPhone = tEloanCase.getCustPhone();
+		String houAddress;
+		Date applyTime = tEloanCase.getApplyTime();
+		BigDecimal applyAmount = tEloanCase.getApplyAmount();
+		Integer month = tEloanCase.getMonth();
+		String sendId = userId;
+		String sendName = uamSessionService.getSessionUser().getUsername();
+		Date sendTime = new Date();
+		Date createTime = new Date();
+		Date updateTime = new Date();
+
+		if (StringUtils.isNotBlank(eloanCode)) {
 			record.setEloanCode(eloanCode);
 		}
-		if(StringUtils.isNotBlank(caseCode)){
+		if (StringUtils.isNotBlank(caseCode)) {
 			record.setCaseCode(caseCode);
 		}
-		/*if(StringUtils.isNotBlank(receiveCode)){
-			record.setReceiveCode(receiveCode);
-		}*/
-		if(StringUtils.isNotBlank(custName)){
+		/*
+		 * if(StringUtils.isNotBlank(receiveCode)){
+		 * record.setReceiveCode(receiveCode); }
+		 */
+		if (StringUtils.isNotBlank(custName)) {
 			record.setCustName(custName);
 		}
-		if(StringUtils.isNotBlank(custPhone)){
+		if (StringUtils.isNotBlank(custPhone)) {
 			record.setCustPhone(custPhone);
 		}
-		if(!ObjectUtils.isEmpty(applyTime)){
+		if (!ObjectUtils.isEmpty(applyTime)) {
 			record.setApplyTime(applyTime);
 		}
-		if(!ObjectUtils.isEmpty(applyAmount)){
+		if (!ObjectUtils.isEmpty(applyAmount)) {
 			record.setApplyAmount(applyAmount);
 		}
-		if(!ObjectUtils.isEmpty(month)){
+		if (!ObjectUtils.isEmpty(month)) {
 			record.setMonth(month);
 		}
-		if(StringUtils.isNotBlank(sendId)){
+		if (StringUtils.isNotBlank(sendId)) {
 			record.setSendId(sendId);
 		}
-		if(StringUtils.isNotBlank(sendName)){
+		if (StringUtils.isNotBlank(sendName)) {
 			record.setSendName(sendName);
 		}
 		record.setSendTime(sendTime);

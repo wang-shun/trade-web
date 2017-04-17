@@ -27,20 +27,20 @@
     <result column="CANCLE_ID" property="cancleId" jdbcType="VARCHAR" />
     <result column="CANCLE_NAME" property="cancleName" jdbcType="VARCHAR" />
     <result column="CANCLE_TIME" property="cancleTime" jdbcType="TIMESTAMP" />
-    <result column="APPROVAL_ID" property="approvalId" jdbcType="VARCHAR" />
-    <result column="APPROVAL_NAME" property="approvalName" jdbcType="VARCHAR" />
-    <result column="APPROVAL_TIME" property="approvalTime" jdbcType="TIMESTAMP" />
+    <result column="LOANER_ID" property="loanerId" jdbcType="VARCHAR" />
+    <result column="LOANER_NAME" property="loanerName" jdbcType="NVARCHAR" />
+    <result column="LOANER_ORG_ID" property="loanerOrgId" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="UPDATE_BY" property="updateBy" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, ELOAN_CODE, CASE_CODE, RECEIVE_CODE, CUST_NAME, CUST_PHONE, HOU_ADDRESS, APPLY_TIME, 
     APPLY_AMOUNT, MONTH, FLOW_STATUS, LOANER_STATUS, 
     LOANER_DESC, SEND_ID, SEND_NAME, RECEIVE_TIME, SEND_TIME, RECEIVE_ID, RECEIVE_NAME, 
-    REJECT_ID, REJECT_NAME, REJECT_TIME, CANCLE_ID, CANCLE_NAME, CANCLE_TIME, APPROVAL_ID, 
-    APPROVAL_NAME, APPROVAL_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    REJECT_ID, REJECT_NAME, REJECT_TIME, CANCLE_ID, CANCLE_NAME, CANCLE_TIME, LOANER_ID, 
+    LOANER_NAME, LOANER_ORG_ID, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -61,8 +61,8 @@
       RECEIVE_TIME, SEND_TIME, RECEIVE_ID, 
       RECEIVE_NAME, REJECT_ID, REJECT_NAME, 
       REJECT_TIME, CANCLE_ID, CANCLE_NAME, 
-      CANCLE_TIME, APPROVAL_ID, APPROVAL_NAME, 
-      APPROVAL_TIME, CREATE_TIME, CREATE_BY, 
+      CANCLE_TIME, LOANER_ID,  LOANER_NAME, 
+      LOANER_ORG_ID, CREATE_TIME, CREATE_BY, 
       UPDATE_TIME, UPDATE_BY)
     values (#{eloanCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
       #{receiveCode,jdbcType=VARCHAR}, #{custName,jdbcType=NVARCHAR}, #{custPhone,jdbcType=VARCHAR}, 
@@ -72,9 +72,9 @@
       #{receiveTime,jdbcType=TIMESTAMP}, #{sendTime,jdbcType=TIMESTAMP}, #{receiveId,jdbcType=VARCHAR}, 
       #{receiveName,jdbcType=VARCHAR}, #{rejectId,jdbcType=VARCHAR}, #{rejectName,jdbcType=VARCHAR}, 
       #{rejectTime,jdbcType=TIMESTAMP}, #{cancleId,jdbcType=VARCHAR}, #{cancleName,jdbcType=VARCHAR}, 
-      #{cancleTime,jdbcType=TIMESTAMP}, #{approvalId,jdbcType=VARCHAR}, #{approvalName,jdbcType=VARCHAR}, 
-      #{approvalTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=TIMESTAMP})
+      #{cancleTime,jdbcType=TIMESTAMP}, #{loanerId,jdbcType=VARCHAR}, #{loanerName,jdbcType=NVARCHAR}, 
+      #{loanerOrgId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eloan.entity.ToEloanLoaner" >
     insert into sctrans.T_TO_ELOAN_LOANER
@@ -154,14 +154,14 @@
       <if test="cancleTime != null" >
         CANCLE_TIME,
       </if>
-      <if test="approvalId != null" >
-        APPROVAL_ID,
+      <if test="loanerId != null" >
+        LOANER_ID,
       </if>
-      <if test="approvalName != null" >
-        APPROVAL_NAME,
+      <if test="loanerName != null" >
+        LOANER_NAME,
       </if>
-      <if test="approvalTime != null" >
-        APPROVAL_TIME,
+      <if test="loanerOrgId != null" >
+        LOANER_ORG_ID,
       </if>
       <if test="createTime != null" >
         CREATE_TIME,
@@ -252,14 +252,14 @@
       <if test="cancleTime != null" >
         #{cancleTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="approvalId != null" >
-        #{approvalId,jdbcType=VARCHAR},
+      <if test="loanerId != null" >
+        #{loanerId,jdbcType=VARCHAR},
       </if>
-      <if test="approvalName != null" >
-        #{approvalName,jdbcType=VARCHAR},
+      <if test="loanerName != null" >
+        #{loanerName,jdbcType=VARCHAR},
       </if>
-      <if test="approvalTime != null" >
-        #{approvalTime,jdbcType=TIMESTAMP},
+      <if test="loanerOrgId != null" >
+        #{loanerOrgId,jdbcType=NVARCHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -271,11 +271,146 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateBy != null" >
-        #{updateBy,jdbcType=TIMESTAMP},
+        #{updateBy,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eloan.entity.ToEloanLoaner" >
+    update sctrans.T_TO_ELOAN_LOANER
+    <set >
+      <if test="eloanCode != null" >
+        ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveCode != null" >
+        RECEIVE_CODE = #{receiveCode,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        CUST_NAME = #{custName,jdbcType=NVARCHAR},
+      </if>
+      <if test="custPhone != null" >
+        CUST_PHONE = #{custPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="houAddress != null" >
+        HOU_ADDRESS = #{houAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyAmount != null" >
+        APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="month != null" >
+        MONTH = #{month,jdbcType=INTEGER},
+      </if>
+      <if test="flowStatus != null" >
+        FLOW_STATUS = #{flowStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerStatus != null" >
+        LOANER_STATUS = #{loanerStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerDesc != null" >
+        LOANER_DESC = #{loanerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sendId != null" >
+        SEND_ID = #{sendId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendName != null" >
+        SEND_NAME = #{sendName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveTime != null" >
+        RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveId != null" >
+        RECEIVE_ID = #{receiveId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveName != null" >
+        RECEIVE_NAME = #{receiveName,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectId != null" >
+        REJECT_ID = #{rejectId,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectName != null" >
+        REJECT_NAME = #{rejectName,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectTime != null" >
+        REJECT_TIME = #{rejectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancleId != null" >
+        CANCLE_ID = #{cancleId,jdbcType=VARCHAR},
+      </if>
+      <if test="cancleName != null" >
+        CANCLE_NAME = #{cancleName,jdbcType=VARCHAR},
+      </if>
+      <if test="cancleTime != null" >
+        CANCLE_TIME = #{cancleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanerId != null" >
+        LOANER_ID = #{loanerId,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerName != null" >
+        LOANER_NAME = #{loanerName,jdbcType=NVARCHAR},
+      </if>
+      <if test="loanerOrgId != null" >
+        LOANER_ORG_ID = #{loanerOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eloan.entity.ToEloanLoaner" >
+    update sctrans.T_TO_ELOAN_LOANER
+    set ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      RECEIVE_CODE = #{receiveCode,jdbcType=VARCHAR},
+      CUST_NAME = #{custName,jdbcType=NVARCHAR},
+      CUST_PHONE = #{custPhone,jdbcType=VARCHAR},
+      HOU_ADDRESS = #{houAddress,jdbcType=VARCHAR},
+      APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
+      MONTH = #{month,jdbcType=INTEGER},
+      FLOW_STATUS = #{flowStatus,jdbcType=VARCHAR},
+      LOANER_STATUS = #{loanerStatus,jdbcType=VARCHAR},
+      LOANER_DESC = #{loanerDesc,jdbcType=VARCHAR},
+      SEND_ID = #{sendId,jdbcType=VARCHAR},
+      SEND_NAME = #{sendName,jdbcType=VARCHAR},
+      RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      RECEIVE_ID = #{receiveId,jdbcType=VARCHAR},
+      RECEIVE_NAME = #{receiveName,jdbcType=VARCHAR},
+      REJECT_ID = #{rejectId,jdbcType=VARCHAR},
+      REJECT_NAME = #{rejectName,jdbcType=VARCHAR},
+      REJECT_TIME = #{rejectTime,jdbcType=TIMESTAMP},
+      CANCLE_ID = #{cancleId,jdbcType=VARCHAR},
+      CANCLE_NAME = #{cancleName,jdbcType=VARCHAR},
+      CANCLE_TIME = #{cancleTime,jdbcType=TIMESTAMP},
+      LOANER_ID = #{loanerId,jdbcType=VARCHAR},
+      LOANER_NAME = #{loanerName,jdbcType=NVARCHAR},
+      LOANER_ORG_ID = #{loanerOrgId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+   <update id="updateEloanLoanerByELoanCode" parameterType="com.centaline.trans.eloan.entity.ToEloanLoaner" >
     update sctrans.T_TO_ELOAN_LOANER
     <set >
       <if test="eloanCode != null" >
@@ -365,48 +500,11 @@
       <if test="createBy != null" >
         CREATE_BY = #{createBy,jdbcType=VARCHAR},
       </if>
-      <if test="updateTime != null" >
-        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null" >
-        UPDATE_BY = #{updateBy,jdbcType=TIMESTAMP},
-      </if>
+       UPDATE_TIME = GETDATE(),
+       UPDATE_BY =@{SESSION_USER_ID}
     </set>
-    where PKID = #{pkid,jdbcType=BIGINT}
+    where ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eloan.entity.ToEloanLoaner" >
-    update sctrans.T_TO_ELOAN_LOANER
-    set ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR},
-      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
-      RECEIVE_CODE = #{receiveCode,jdbcType=VARCHAR},
-      CUST_NAME = #{custName,jdbcType=NVARCHAR},
-      CUST_PHONE = #{custPhone,jdbcType=VARCHAR},
-      HOU_ADDRESS = #{houAddress,jdbcType=VARCHAR},
-      APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
-      APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
-      MONTH = #{month,jdbcType=INTEGER},
-      FLOW_STATUS = #{flowStatus,jdbcType=VARCHAR},
-      LOANER_STATUS = #{loanerStatus,jdbcType=VARCHAR},
-      LOANER_DESC = #{loanerDesc,jdbcType=VARCHAR},
-      SEND_ID = #{sendId,jdbcType=VARCHAR},
-      SEND_NAME = #{sendName,jdbcType=VARCHAR},
-      RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
-      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
-      RECEIVE_ID = #{receiveId,jdbcType=VARCHAR},
-      RECEIVE_NAME = #{receiveName,jdbcType=VARCHAR},
-      REJECT_ID = #{rejectId,jdbcType=VARCHAR},
-      REJECT_NAME = #{rejectName,jdbcType=VARCHAR},
-      REJECT_TIME = #{rejectTime,jdbcType=TIMESTAMP},
-      CANCLE_ID = #{cancleId,jdbcType=VARCHAR},
-      CANCLE_NAME = #{cancleName,jdbcType=VARCHAR},
-      CANCLE_TIME = #{cancleTime,jdbcType=TIMESTAMP},
-      APPROVAL_ID = #{approvalId,jdbcType=VARCHAR},
-      APPROVAL_NAME = #{approvalName,jdbcType=VARCHAR},
-      APPROVAL_TIME = #{approvalTime,jdbcType=TIMESTAMP},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      CREATE_BY = #{createBy,jdbcType=VARCHAR},
-      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      UPDATE_BY = #{updateBy,jdbcType=TIMESTAMP}
-    where PKID = #{pkid,jdbcType=BIGINT}
-  </update>
+  
+  
 </mapper>
