@@ -75,20 +75,26 @@ public class TaskController {
 		SessionUser user = sessionService.getSessionUser();
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		buildZhongjieInfo(pages.getContent());
-		
+		buildZhuliInfo(pages.getContent());
 		return Pages2JSONMoblie.pages2JsonMoblie(pages);
 	}
 	
-	private void buildZhuliInfo(Map<String, Object> map) {
-		// 助理
-		String orgId = String.valueOf(map.get("orgId"));
-		String zhuli = "";
-		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZL.getCode());
-		if (CollectionUtils.isEmpty(asList)) {
-			User user = asList.get(0);
-			zhuli = user.getUsername();
+	private void buildZhuliInfo(List<Map<String, Object>> list) {
+		if(CollectionUtils.isEmpty(list)) {
+			return ;
 		}
-		map.put("zhuli", zhuli);
+		
+		for (Map<String, Object> map : list) {
+			// 助理
+			String orgId = String.valueOf(map.get("orgId"));
+			String zhuli = "";
+			List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZL.getCode());
+			if (CollectionUtils.isEmpty(asList)) {
+				User user = asList.get(0);
+				zhuli = user.getUsername();
+			}
+			map.put("zhuli", zhuli);
+		}
 	}
 	
 	private void buildZhongjieInfo(List<Map<String, Object>> list) {
