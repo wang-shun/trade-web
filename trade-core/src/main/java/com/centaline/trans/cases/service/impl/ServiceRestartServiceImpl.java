@@ -232,11 +232,11 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 			 * @date:2017-04-14
 			 * @desc:需求变更，流程重启时不删除  派单流程
 			 * */		
-			ToWorkFlow loanerProcessWf = new ToWorkFlow();
+/*			ToWorkFlow loanerProcessWf = new ToWorkFlow();
 			loanerProcessWf.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
 			loanerProcessWf.setCaseCode(vo.getCaseCode());		
 			toMortgageService.deleteTmpBankProcess(loanerProcessWf);
-			toWorkFlowService.deleteWorkFlowByProperty(loanerProcessWf);
+			toWorkFlowService.deleteWorkFlowByProperty(loanerProcessWf);*/
 			
 			
 			

@@ -1,11 +1,9 @@
 package com.centaline.trans.taskList.web;
 
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
@@ -127,8 +125,7 @@ public class LoanerProcessController{
 	@RequestMapping(value = "comLoanerChange/process")
 	public String comLoanerChangeProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
 			String taskitem, String processInstanceId) {
-
-		SessionUser user = uamSessionService.getSessionUser();
+		
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
 		//根据caseCode去查询相关页面信息，并且设置 页面的流程变量
@@ -184,4 +181,24 @@ public class LoanerProcessController{
 		}
 
 	}
+	
+	
+	/*
+	 * @author:zhuody
+	 * @date:2017-04-14
+	 * @des:跳转到 信贷员派单列表
+	 * */
+	@RequestMapping(value = "/loanerProcessList")
+	public String loanerProcessList(HttpServletRequest request) {
+		
+		try{
+			loanerProcessService.loanerProcessList(request);
+			
+		}catch(BusinessException e){
+			logger.error(e.getMessage(),e);			
+		}
+	
+		return "mortgage/loanerProcessList";
+	}
+	
 }

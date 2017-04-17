@@ -55,11 +55,18 @@ public class CaseResetServiceImpl implements CaseResetService {
 		// 更新Workflow表为终止状态
 		ToWorkFlow tf = new ToWorkFlow();
 		tf.setCaseCode(vo.getCaseCode());
-		List<ToWorkFlow> tfs = workflowService.queryActiveToWorkFlowByCaseCode(tf);
-		if (tfs != null) {
+		List<ToWorkFlow> tfs = workflowService.queryActiveToWorkFlowByCaseCode(tf);		
+		if (tfs != null) {			
 			for (ToWorkFlow toWorkFlow : tfs) {
-				toWorkFlow.setStatus(WorkFlowStatus.TERMINATE.getCode());// 流程终止状态
-				workflowService.updateByPrimaryKeySelective(toWorkFlow);
+				/*
+				 * @author:zhuody
+				 * @date:2017-04-14
+				 * @desc:流程重启、重置时，排除信贷员派单流程
+				 * */
+				if(!"Loaner_Process".equals(toWorkFlow.getBusinessKey())){
+					toWorkFlow.setStatus(WorkFlowStatus.TERMINATE.getCode());// 流程终止状态
+					workflowService.updateByPrimaryKeySelective(toWorkFlow);
+				}
 			}
 		}
 		// 操作Case表和Caseinfo表
@@ -83,14 +90,20 @@ public class CaseResetServiceImpl implements CaseResetService {
 		// 删除流程引擎
 		if (tfs != null) {
 			for (ToWorkFlow toWorkFlow : tfs) {
-				try {
-					unlocatedTaskService.deleteByInstCode(toWorkFlow.getInstCode());
-					workflowManager.deleteProcess(toWorkFlow.getInstCode());
-				} catch (WorkFlowException e) {
-					if (!e.getMessage().contains("statusCode[404]"))
-						throw e;
+				/*
+				 * @author:zhuody
+				 * @date:2017-04-14
+				 * @desc:流程重启、重置时，排除信贷员派单流程
+				 * */
+				if(!"Loaner_Process".equals(toWorkFlow.getBusinessKey())){
+					try {
+						unlocatedTaskService.deleteByInstCode(toWorkFlow.getInstCode());
+						workflowManager.deleteProcess(toWorkFlow.getInstCode());
+					} catch (WorkFlowException e) {
+						if (!e.getMessage().contains("statusCode[404]"))
+							throw e;
+					}
 				}
-
 			}
 		}
 

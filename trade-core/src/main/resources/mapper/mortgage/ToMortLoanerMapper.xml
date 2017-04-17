@@ -66,6 +66,13 @@
     AND   LOANER_STATUS = #{loanerStatus,jdbcType=VARCHAR}
   </select>  
   
+  <select id="findToMortLoanerByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    	<include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND   LOANER_STATUS IN ('BANKREJECT','REJECT')
+  </select>   
   
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >

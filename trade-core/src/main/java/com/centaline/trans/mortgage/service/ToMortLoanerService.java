@@ -15,6 +15,14 @@ public interface ToMortLoanerService {
      */
 	ToMortLoaner findToMortLoanerByCaseCodeAndLoanerStatus(String caseCode,String loanerStatus);
 
+	
+    /**
+     * 信贷员驳回、银行驳回信息查询
+     * @param caseCode   
+     * @return
+     */
+	ToMortLoaner findToMortLoanerByCaseCode(String caseCode);
+	
 
     /**
      * 插入派单贷款信息

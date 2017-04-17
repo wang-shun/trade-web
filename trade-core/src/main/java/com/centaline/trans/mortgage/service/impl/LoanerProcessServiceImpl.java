@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,12 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
@@ -228,7 +233,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		
 		String caseCode = toMortgage.getCaseCode() ==null?"":toMortgage.getCaseCode();
 		String loanerId = toMortgage.getLoanerId() == null ?"":toMortgage.getLoanerId();
-		String  bankLevel = toMortgage.getBankLevel()== null ?"":toMortgage.getBankLevel();
+		String bankLevel = toMortgage.getBankLevel()== null ?"":toMortgage.getBankLevel();
 		
 		try {
 			ToWorkFlow toWorkFlow = new ToWorkFlow();
@@ -277,9 +282,10 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			
 			
 			//生产 receiveCode
+			//TODO 待定
 			String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
 			String month = dateStr.substring(0, 6);			
-			String receiveCode = uamBasedataService.nextSeqVal("CASE_MJD_CODE", month);
+			String receiveCode = uamBasedataService.nextSeqVal("CASE_AP_CODE", month);
 			if(null == receiveCode){
 				throw new BusinessException("生成接收编码异常！");
 			}
@@ -330,8 +336,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			
 			//回显 派单时间
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-			Date date=new Date();
-			String dispachTime=sdf.format(date); 
+			Date date = new Date();
+			String dispachTime = sdf.format(date); 
 			
 			response.setSuccess(true);
 			response.setMessage("恭喜，交易顾问派单成功！");
@@ -479,6 +485,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 					ToMortgage toMortgageForUpdate = new ToMortgage();
 					toMortgageForUpdate.setPkid(toMortgage.getPkid());
 					toMortgageForUpdate.setTmpBankStatus("3");
+					toMortgageForUpdate.setBankApproveTime(new Date());  //冗余信贷员审核通过时间，在页面做展示
 					toMortgageMapper.update(toMortgageForUpdate);
 				}
 				loanerStatus = ToMortLoanerEnums.LOANER_STATUS4.getCode();				
@@ -535,13 +542,16 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	        }
 	        
 	        ToMortLoaner toMortLoaner = new ToMortLoaner();
-	        toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCodeAndLoanerStatus(caseCode, ToMortLoanerEnums.LOANER_STATUS1.getCode());
+	        //toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCodeAndLoanerStatus(caseCode, ToMortLoanerEnums.LOANER_STATUS1.getCode());
+	        //取消情况比较特殊，可能是信贷员驳回、也可能是银行驳回，此处不带查询状态
+	        toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCode(caseCode);
+	        
 	        if(null != toMortLoaner){	        	
 	        	toMortLoaner.setCancleId(user.getId());
 	        	toMortLoaner.setCancleName(user.getRealName());
 	        	toMortLoaner.setCancleTime(new Date());
-	        	toMortLoaner.setLoanerStatus(ToMortLoanerEnums.LOANER_STATUS3.getCode()); //取消派单
-	        	
+	        	//toMortLoaner.setLoanerStatus(ToMortLoanerEnums.LOANER_STATUS3.getCode()); //取消派单
+	        	toMortLoaner.setLoanerStatus("CANCEL"); //取消派单
 	        	toMortLoanerService.updateByPrimaryKeySelective(toMortLoaner);	
 	        }
 	        
@@ -742,5 +752,50 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		toMortgageDTO.setPrfYear(toMortgage.getPrfYear());// 公积金年份
 
 		return toMortgageDTO;
+	}
+
+
+
+	@Override
+	public void loanerProcessList(HttpServletRequest request) {
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		String userJob=user.getServiceJobCode();
+		boolean queryOrgFlag = false;
+		boolean isAdminFlag = false;
+		int userJobCode = -1;
+
+        StringBuffer reBuffer = new StringBuffer();
+        //如果不是交易顾问
+		if(!userJob.equals(TransJobs.TJYGW.getCode())){
+			//下面有组别
+			queryOrgFlag = true;
+			String depString = user.getServiceDepHierarchy();
+			String userOrgIdString = user.getServiceDepId();
+			if(depString.equals(DepTypeEnum.TYCTEAM.getCode())){
+				reBuffer.append(userOrgIdString);
+				userJobCode = 2;
+			}else if(depString.equals(DepTypeEnum.TYCQY.getCode())){
+				List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgIdString, DepTypeEnum.TYCTEAM.getCode());
+				for(Org org:orgList){
+					reBuffer.append(org.getId());
+					reBuffer.append(",");
+				}
+				reBuffer.deleteCharAt(reBuffer.length()-1);
+				userJobCode = 1;
+			}else{
+				isAdminFlag=true;
+				userJobCode = 0;
+			}
+		} else {
+			userJobCode = 3;
+		}
+		
+		request.setAttribute("queryOrgs", reBuffer.toString());
+		request.setAttribute("queryOrgFlag", queryOrgFlag);
+		request.setAttribute("isAdminFlag", isAdminFlag);	
+		request.setAttribute("userJobCode", userJobCode);
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
+		
 	}
 }

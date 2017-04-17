@@ -21,4 +21,6 @@ public interface ToMortLoanerMapper {
     int updateByPrimaryKey(ToMortLoaner record);
     
     ToMortLoaner findToMortLoanerByCaseCodeAndLoanerStatus(Map<String,String> map);
+    
+    ToMortLoaner findToMortLoanerByCaseCode(String caseCode);
 }
