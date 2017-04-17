@@ -472,12 +472,9 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("processInstanceId", processInstanceId);
 		try {
-			engine.RESTfulWorkFlow(
-					WorkFlowConstant.DELETE_PROCESS_INSTANCE_KEY, Map.class,
-					vars, null);
+			engine.RESTfulWorkFlow(WorkFlowConstant.DELETE_PROCESS_INSTANCE_KEY, Map.class,vars, null);
 		} catch (WorkFlowException e) {
-			if (!e.getMessage().contains("statusCode[404]"))
-				throw e;
+			if (!e.getMessage().contains("statusCode[404]"))	throw e;
 			e.printStackTrace();
 		}
 	}
@@ -487,9 +484,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("processInstanceId", processInstanceId);
 		vars.put("variableName", variableName);
-		return (RestVariable) engine.RESTfulWorkFlow(
-				WorkFlowConstant.GET_PROCESS_VARIABLES_KEY, RestVariable.class,
-				vars, null);
+		return (RestVariable) engine.RESTfulWorkFlow(WorkFlowConstant.GET_PROCESS_VARIABLES_KEY, RestVariable.class,vars, null);
 	}
 
 	@Override

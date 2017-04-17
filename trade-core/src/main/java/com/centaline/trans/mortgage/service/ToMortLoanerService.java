@@ -15,6 +15,14 @@ public interface ToMortLoanerService {
      */
 	ToMortLoaner findToMortLoanerByCaseCodeAndLoanerStatus(String caseCode,String loanerStatus);
 
+	
+    /**
+     * 信贷员驳回、银行驳回信息查询
+     * @param caseCode   
+     * @return
+     */
+	ToMortLoaner findToMortLoanerByCaseCode(String caseCode);
+	
 
     /**
      * 插入派单贷款信息
@@ -29,4 +37,11 @@ public interface ToMortLoanerService {
      * @return
      */
 	void updateByPrimaryKeySelective(ToMortLoaner toMortLoaner);
+	
+	/**
+     * 根据按揭信息id获取按揭接收记录信息
+     * @param mortgageId 按揭信息id
+     * @return 按揭接收记录信息
+     */
+	ToMortLoaner getToMortLoanerByMortgageId(String mortgageId);
 }

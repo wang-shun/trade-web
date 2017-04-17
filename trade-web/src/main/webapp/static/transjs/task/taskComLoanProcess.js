@@ -1126,7 +1126,7 @@ function getCompleteMortInfo(isMainLoanBank){
 	    			$("#completeForm").find("#comAmount").html(data.content.comAmount+"万元");
 	    			$("#completeForm").find("#comDiscount").html(data.content.comDiscount+"折");
 	    			$("#completeForm").find("input[name='finOrgCode']").val(data.content.finOrgCode);
-	    			//派单流程银行审批通过有时间即设置，其他保持不变
+	    			//派单流程银行审批通过有时间即设置，其他保持不变	    			
 	    			if(data.content.bankApproveTime){
 	    				$("#completeForm").find("input[name='apprDate']").val(data.content.bankApproveTime);
 	    			}else{
@@ -1661,7 +1661,7 @@ transitionEffect: "slide",
 			getMortgageInfo($("#caseCode").val(),0);
 			getReportList("table_list_6","pager_list_6",0);
 		}else if(currentIndex == 5 && priorIndex == 4){
-			startTmpBankWorkFlow();
+			//startTmpBankWorkFlow(); 候选银行禁止选临时银行
 			getCompleteMortInfo(0);
 		}
 	},
@@ -1911,7 +1911,8 @@ function loanerProcessStart(isMainLoanBank){
  	}); 
 }
 //启动临时银行审批
-function startBankLevelApproveWorkFlow(){
+function startTmpBankWorkFlow(){
+	
 	//'我要修改'页面不触发流程 	
 	if(source != null && source !=''){
 		return;
@@ -1957,7 +1958,7 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
     	
     	success:function(data){  
     		
-    		alert(data.content);
+    		//alert(data.content);
     		//回显 派单成功时间
     		if(isMainLoanBank == 1){
     			$("#dispachTime1").val(data.content);

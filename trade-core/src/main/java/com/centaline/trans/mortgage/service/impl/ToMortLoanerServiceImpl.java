@@ -1,13 +1,11 @@
 package com.centaline.trans.mortgage.service.impl;
 
 import java.util.HashMap;
-
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.message.core.remote.UamMessageService;
@@ -101,6 +99,14 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 		}		
 		return toMortLoaner;
 	}
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-04-13
+	 * 
+	 * @des:ToMortLoaner添加
+	 */
 
 	@Override
 	public void insertByToMortLoaner(ToMortLoaner toMortLoaner) {
@@ -117,6 +123,13 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 		
 	}
 
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-04-13
+	 * 
+	 * @des:ToMortLoaner更新
+	 */
 	@Override
 	public void updateByPrimaryKeySelective(ToMortLoaner toMortLoaner) {
 		if(null == toMortLoaner){
@@ -129,5 +142,33 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 			throw new BusinessException("信贷员接单更新数据异常");
 		}
 		
+	}
+
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-04-14
+	 * 
+	 * @des:查询信贷员接单信息（特殊情况 信贷员驳回、银行驳回时）
+	 */
+	
+	@Override
+	public ToMortLoaner findToMortLoanerByCaseCode(String caseCode) {
+		
+		ToMortLoaner toMortLoaner = new ToMortLoaner();
+		try{
+			toMortLoaner  = toMortLoanerMapper.findToMortLoanerByCaseCode(caseCode);
+
+		}catch (BusinessException e) {
+			throw new BusinessException("查询信贷员派单信息异常");
+		}		
+		return toMortLoaner;
+	}
+
+
+	@Override
+	public ToMortLoaner getToMortLoanerByMortgageId(String mortgageId) {
+		return toMortLoanerMapper.getToMortLoanerByMortgageId(mortgageId);
 	}
 }

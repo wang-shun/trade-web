@@ -1,5 +1,7 @@
 package com.centaline.trans.mortgage.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 
@@ -19,14 +21,14 @@ public interface LoanerProcessService {
      * @param caseCode
      * @return
      */
-	boolean isLoanerAcceptCase(boolean isAcceptCase, String taskId,String processInstanceId,String caseCode);
+	boolean isLoanerAcceptCase(boolean isAcceptCase, String taskId,String processInstanceId,String caseCode,String mortgageId,String stateInBank);
 
     /**
      * 信贷员收单，银行审批操作流程
      * @param caseCode
      * @return
      */
-	boolean isBankAcceptCase(boolean isAcceptCase, String taskId,String processInstanceId, String caseCode);
+	boolean isBankAcceptCase(boolean isAcceptCase, String taskId,String processInstanceId, String caseCode,String mortgageId,String stateInBank);
 
 
     /**
@@ -60,5 +62,12 @@ public interface LoanerProcessService {
 	AjaxResponse<String> newStartLoanerOrderWorkFlow(ToMortgage toMortgage);
 
 
+    /**
+     * 交易顾问派单流程列表
+     * @return 
+     *  
+     * @return
+     */
+	void loanerProcessList(HttpServletRequest request);
 
 }

@@ -10,7 +10,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tg
+					select us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tg
 						left join sctrans.T_TO_MORTGAGE mort 
 						on mort.CASE_CODE=tg.CASE_CODE
 						inner join sctrans.t_yucui_org_hierarchy ht
@@ -32,6 +32,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
+				<column type="both" name="userId" index="" checkbox="" display="用户ID" />
 			    <column type="both" name="name" index="" checkbox="" display="姓名" />
 				<column type="both" name="userName" index="" checkbox="" display="登录名" title="登录名" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="avatarUrl" customDict="avatarUrlPrixDict"   display="头像URI" title="头像URI"/>
@@ -45,7 +46,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org from
+					select us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org from
 						
 						 (select * from sctrans.SYS_USER where IS_DELETED='0')us
 						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where ISMAIN=1 and IS_DELETED='0') uoj
@@ -66,6 +67,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
+				<column type="both" name="userId" index="" checkbox="" display="用户ID" />
 			    <column type="both" name="name" index="" checkbox="" display="姓名" />
 				<column type="both" name="userName" index="" checkbox="" display="登录名" title="登录名" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="avatarUrl" customDict="avatarUrlPrixDict"   display="头像URI" title="头像URI"/>
