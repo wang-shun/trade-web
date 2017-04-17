@@ -39,6 +39,50 @@ paths:
           schema:
             # a pointer to a definition
             $ref: "#/definitions/getUserSuccessResponse"
+  /chat/contact:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: demo config
+      # used as the method name of the controller
+      operationId: contactRsponse
+      parameters:
+        - name: token
+          in: query
+          description: token
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: page
+          required: true
+          type: integer
+        - name: pageSize
+          in: query
+          description: pageSize
+          required: true
+          type: integer 
+        - name: sidx
+          in: query
+          description: sidx
+          required: true
+          type: string
+        - name: sord
+          in: query
+          description: sord
+          required: false
+          type: string  
+        - name: q_text
+          in: query
+          description: q_text
+          required: false
+          type: string 
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/getContactSuccessResponse"
 
 # complex objects have schema definitions
 definitions:
@@ -51,6 +95,52 @@ definitions:
         type: string
       orgId:
        type: string
+  contactUser:
+    type: object
+    properties:
+      org: 
+        type: string
+      avatarUrl:
+        type: string
+      name:
+        type: string
+      mobile: 
+        type: string
+      userName:
+        type: string
+      job: 
+        type: string
+      userId: 
+        type: string
+  getContactSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+       $ref: "#/definitions/contactContent"
+  contactContent:
+    properties:
+      total:
+        type: integer
+      records:
+        type: integer
+      pageSize:
+        type: integer
+      page:
+        type: integer
+      rows:
+        type: array
+        items:
+          $ref: '#/definitions/contactUser'
+        
   getUserSuccessResponse:
     required:
       - isSuccess
