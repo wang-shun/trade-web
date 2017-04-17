@@ -42,6 +42,7 @@ public class PricingController {
     private TgGuestInfoService tgGuestInfoService;
 
     @RequestMapping(value = "process")
+    @ResponseBody
     public JSONObject toProcess(String taskitem, String processInstanceId) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("taskId", taskitem);
