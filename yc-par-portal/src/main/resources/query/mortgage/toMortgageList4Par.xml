@@ -46,25 +46,35 @@
 					SELECT 
 							t.ID_ AS taskId,
 							t.PROC_INST_ID_ AS procInstanceId,
-							ISNULL(m.loan_agent,'') as consultantID,
-							ISNULL(m.cust_name,'') as custName,
-							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = m.STATE_IN_BANK AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS statusCode,
+							ISNULL(m.SEND_ID,'') as consultantID,
+							ISNULL(m.CUST_NAME,'') as custName,
+							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = m.LOANER_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1 AND TAG = 'MORT'),'派单') AS loanerStatus,
+							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = m.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
 							ISNULL(m.MORT_TOTAL_AMOUNT,0.00) as loanAmount,
 							CAST(ISNULL(m.COM_YEAR,0) as varchar)+'年' as loanTime,
-							ISNULL(CONVERT(varchar(100), m.SIGN_DATE, 23),'') as applyTime,
+							ISNULL(CONVERT(varchar(100), m.SEND_TIME, 23),'') as applyTime,
 							'MORT' as prdType,
-							m.case_code as caseCode,
-							CAST(m.PKID as varchar)	as bizCode,
+							m.CASE_CODE as caseCode,
+							CAST(m.MORT_PKID as varchar)	as bizCode,
 							ISNULL(p.PROPERTY_ADDR,'') 	as addr,
 							ISNULL(uoj.employee_code,'') 	as avartaUrl,
 							ISNULL(uoj.real_name,'') 		as consultantName
 				FROM sctrans.ACT_RU_TASK t
 				INNER JOIN sctrans.T_TO_WORKFLOW w ON t.PROC_INST_ID_  = w.INST_CODE AND w.BUSINESS_KEY = 'Loaner_Process'
-				INNER JOIN sctrans.T_TO_MORTGAGE m ON m.CASE_CODE = w.CASE_CODE
-				INNER JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = w.CASE_CODE AND m.LOANER_ID = #userid# AND	m.is_active = '1'
+				INNER JOIN sctrans.T_TO_MORT_LOANER m ON m.CASE_CODE = w.CASE_CODE
+				INNER JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = w.CASE_CODE AND m.LOANER_ID = #userid# 
 				INNER JOIN sctrans.V_USER_ORG_JOB uoj ON m.LOANER_ID = uoj.user_id AND uoj.ismain = 1
 				WHERE t.ASSIGNEE_ = (SELECT USERNAME FROM sctrans.SYS_USER WHERE ID = #userid#) AND t.SUSPENSION_STATE_ = '1'
 				AND EXISTS (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE = m.CASE_CODE and c.LOAN_REQ=1)
+				
+				<if test="flag == 'noAccept'">
+					AND (m.STATE_IN_BANK = '' or m.STATE_IN_BANK IS NULL)
+				</if>
+				
+				<if test="flag == 'exceptNoAccept'">
+					AND (m.STATE_IN_BANK != '' and m.STATE_IN_BANK IS NOT NULL)
+				</if>
+				
 				<ifNotNull q_text>
 					 AND (m.cust_name LIKE '%'+#q_text#+'%'
 					     			OR p.property_addr	LIKE '%'+#q_text#+'%'
@@ -86,7 +96,8 @@
 				<column  name="consultantID"   title="交易顾问id"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="consultantName"   title="交易顾问名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="custName"   title="客户名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
-				<column  name="statusCode"   title="E+案件状态"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="loanerStatus"   title="派单状态"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="flowStatus"   title="跟进状态"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="loanAmount"   title="贷款金额"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="loanTime"   title="贷款期数"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="addr"   title="产证地址"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />

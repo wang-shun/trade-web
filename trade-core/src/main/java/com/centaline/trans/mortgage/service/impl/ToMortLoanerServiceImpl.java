@@ -1,7 +1,6 @@
 package com.centaline.trans.mortgage.service.impl;
 
 import java.util.HashMap;
-
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,5 +128,10 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 			throw new BusinessException("信贷员接单更新数据异常");
 		}
 		
+	}
+
+	@Override
+	public ToMortLoaner getToMortLoanerByMortgageId(String mortgageId) {
+		return toMortLoanerMapper.getToMortLoanerByMortgageId(mortgageId);
 	}
 }

@@ -45,7 +45,9 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.service.ToSupDocuService;
+import com.centaline.trans.mortgage.entity.ToMortLoaner;
 import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.repository.ToMortLoanerMapper;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.mortgage.service.LoanerProcessService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
@@ -99,6 +101,9 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Autowired
 	private ToCaseCommentService toCaseCommentService;
 
+	@Autowired
+	private ToMortLoanerMapper toMortLoanerMapper;
+
 	@Override
 	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
 		// 有记录 update、反之 insert
@@ -133,20 +138,21 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		condition.setCaseCode(toMortgage.getCaseCode());
 		condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
 		condition.setIsDelegateYucui("1");
-		
-		List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
+
+		List<ToMortgage> list = toMortgageMapper
+				.findToMortgageByCondition(condition);
 		if (list != null && !list.isEmpty()) {
 			mortgage = list.get(0);
 		}
 		if (mortgage != null) {
 			toMortgage.setPkid(mortgage.getPkid());
 			toMortgageMapper.update(toMortgage);
-			//writeBackBizCode(mortgage.getCaseCode(), mortgage.getPkid());
+			// writeBackBizCode(mortgage.getCaseCode(), mortgage.getPkid());
 		} else {
 			toMortgage.setIsDelegateYucui("1");
 			toMortgageMapper.insertSelective(toMortgage);
 			// toMortgage.getPkid() 返回插入当前数据的主键
-			//writeBackBizCode(toMortgage.getCaseCode(), toMortgage.getPkid());
+			// writeBackBizCode(toMortgage.getCaseCode(), toMortgage.getPkid());
 
 		}
 		if ("1".equals(toMortgage.getFormCommLoan())
@@ -251,10 +257,12 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public ToMortgage findToMortgageByCaseCodeWithCommLoan(ToMortgage toMortgage) {
 		toMortgage.setIsDelegateYucui("1");
-		List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(toMortgage);
+		List<ToMortgage> list = toMortgageMapper
+				.findToMortgageByConditionWithCommLoan(toMortgage);
 		if (CollectionUtils.isNotEmpty(list)) {
 			ToMortgage mort = null;
-			ToSupDocu toSupDocu = toSupDocuService.findByCaseCode(toMortgage.getCaseCode());
+			ToSupDocu toSupDocu = toSupDocuService.findByCaseCode(toMortgage
+					.getCaseCode());
 
 			if (list.size() == 1) {
 				mort = list.get(0);
@@ -395,7 +403,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public void deleteTmpBankProcess(ToWorkFlow twf) {
 		try {
-			ToWorkFlow temBankWF = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+			ToWorkFlow temBankWF = toWorkFlowService
+					.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 			// 删除临时银行审批任务和流程
 			if (temBankWF != null) {
 				unlocatedTaskService.deleteByInstCode(temBankWF.getInstCode());
@@ -807,16 +816,22 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	 * 
 	 * @des: 三级银行审批 总监审批完之后 发送分单信贷员流程消息和设置流程变量
 	 */
-	private void setLoanerProcessVariable(String loanerInstCode,boolean approveFlag) {
-		
+	private void setLoanerProcessVariable(String loanerInstCode,
+			boolean approveFlag) {
+
 		RestVariable restVariable = new RestVariable();
 		restVariable.setType("boolean");
 		// 银行分级审批通过标志判断发送消息类别
 		try {
-			if (approveFlag == false) {	 restVariable.setValue(false); } else {	 restVariable.setValue(true); }
+			if (approveFlag == false) {
+				restVariable.setValue(false);
+			} else {
+				restVariable.setValue(true);
+			}
 			// 设置流程变量
-			workFlowManager.setVariableByProcessInsId(loanerInstCode,"bankLevelApprove", restVariable);
-			messageService.sendBankLevelApproveMsg(loanerInstCode,approveFlag);
+			workFlowManager.setVariableByProcessInsId(loanerInstCode,
+					"bankLevelApprove", restVariable);
+			messageService.sendBankLevelApproveMsg(loanerInstCode, approveFlag);
 		} catch (BusinessException e) {
 			throw new BusinessException("银行分级审批消息发送异常！");
 		}
@@ -830,14 +845,16 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			// 处理流程,信贷员接单,流程进入银行审核流程
 			loanerProcessService.isLoanerAcceptCase(true,
 					mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
-					mortgageVo.getCaseCode());
+					mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
+					mortgageVo.getStateInBank());
 		}
 		// 信贷员打回
 		else if ("false".equals(mortgageVo.getIsPass())) {
 			// 处理流程,信贷员打回,流程进入交易顾问派单
 			loanerProcessService.isLoanerAcceptCase(false,
 					mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
-					mortgageVo.getCaseCode());
+					mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
+					mortgageVo.getStateInBank());
 		}
 
 		// 设置案件跟进信息
@@ -871,7 +888,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 				// 处理流程,银行审核通过
 				loanerProcessService.isBankAcceptCase(true,
 						mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
-						mortgageVo.getCaseCode());
+						mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
+						mortgageVo.getIsPass());
 			}
 		}
 		// 银行审核拒绝
@@ -879,7 +897,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			// 处理流程,银行审核驳回
 			loanerProcessService.isBankAcceptCase(false,
 					mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
-					mortgageVo.getCaseCode());
+					mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
+					mortgageVo.getIsPass());
 
 		}
 
@@ -901,6 +920,13 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			// 更新按揭表的状态(字段STATE_IN_BANK)
 			toMortgageMapper.updateStateInBankByBizCode(toMortgage);
 		}
+
+		// 更新T_TO_MORT_LOANER表中的跟进状态字段(FLOW_STATUS)
+		ToMortLoaner toMortLoaner = new ToMortLoaner();
+		toMortLoaner.setFlowStatus(mortgageVo.getStateInBank());
+		toMortLoaner.setMortPkid(mortgageVo.getBizCode());
+
+		toMortLoanerMapper.updateToMortLoanerByMortId(toMortLoaner);
 
 		return true;
 	}
@@ -954,14 +980,17 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 			ToWorkFlow toWorkFlowForSelect = new ToWorkFlow();
 			toWorkFlowForSelect.setCaseCode(caseCode);
-			toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
-			ToWorkFlow workFlow = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
+			toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS
+					.getName());
+			ToWorkFlow workFlow = toWorkFlowService
+					.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
 
 			if (null != workFlow) {
 				ToWorkFlow workFlowForUpdate = new ToWorkFlow();
 				workFlowForUpdate.setPkid(workFlow.getPkid());
 				workFlowForUpdate.setBizCode(String.valueOf(pkid));
-				toWorkFlowService.updateByPrimaryKeySelective(workFlowForUpdate);
+				toWorkFlowService
+						.updateByPrimaryKeySelective(workFlowForUpdate);
 			}
 
 		} catch (BusinessException e) {

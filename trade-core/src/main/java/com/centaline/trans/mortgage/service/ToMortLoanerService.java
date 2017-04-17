@@ -29,4 +29,11 @@ public interface ToMortLoanerService {
      * @return
      */
 	void updateByPrimaryKeySelective(ToMortLoaner toMortLoaner);
+	
+	/**
+     * 根据按揭信息id获取按揭接收记录信息
+     * @param mortgageId 按揭信息id
+     * @return 按揭接收记录信息
+     */
+	ToMortLoaner getToMortLoanerByMortgageId(String mortgageId);
 }
