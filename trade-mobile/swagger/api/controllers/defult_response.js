@@ -27,7 +27,8 @@ var rf=require("fs");
  */
 module.exports = {
   responseJSON: responseJSON,
-  contactRsponse: responseJSON
+  contactRsponse: responseJSON,
+  casecontactRsponse: responseJSON
 };
 
 /*

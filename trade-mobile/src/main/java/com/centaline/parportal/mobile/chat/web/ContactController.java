@@ -25,7 +25,7 @@ public class ContactController {
 	private QuickGridService quickGridService;
 
 	@ResponseBody
-	@RequestMapping(value="casecontact",method=RequestMethod.POST)
+	@RequestMapping(value="casecontact")
 	public JSONObject casecontact(@RequestParam(required=true) String caseCode) {
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(false);

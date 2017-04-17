@@ -83,7 +83,30 @@ paths:
           schema:
             # a pointer to a definition
             $ref: "#/definitions/getContactSuccessResponse"
-
+  /chat/casecontact:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: demo config
+      # used as the method name of the controller
+      operationId: casecontactRsponse
+      parameters:
+        - name: token
+          in: query
+          description: token
+          required: true
+          type: string
+        - name: caseCode
+          in: query
+          description: token
+          required: true
+          type: string
+      responses:
+       "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/getCasecontactSuccessResponse"
 # complex objects have schema definitions
 definitions:
   user:
@@ -95,6 +118,20 @@ definitions:
         type: string
       orgId:
        type: string
+  getUserSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/user"
   contactUser:
     type: object
     properties:
@@ -140,8 +177,7 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/contactUser'
-        
-  getUserSuccessResponse:
+  getCasecontactSuccessResponse:
     required:
       - isSuccess
     properties:
@@ -154,6 +190,14 @@ definitions:
       token:
         type: string
       content:
-        $ref: "#/definitions/getUserSuccessResponse"
+        $ref: "#/definitions/casecontactContent"
+  casecontactContent:
+     properties:
+      total:
+        type: integer
+      rows:
+        type: array
+        items:
+          $ref: '#/definitions/contactUser'
       
   
