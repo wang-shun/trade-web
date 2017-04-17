@@ -92,12 +92,12 @@ paths:
       operationId: casecontactRsponse
       parameters:
         - name: token
-          in: query
+          in: formData
           description: token
           required: true
           type: string
         - name: caseCode
-          in: query
+          in: formData
           description: token
           required: true
           type: string
