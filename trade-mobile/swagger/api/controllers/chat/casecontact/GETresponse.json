@@ -1,83 +1,83 @@
 {
-"msg": "处理成功",
-"empId": "55CC7FA667894BB2943CDC074018DA3A",
-"content": {
-"total": 1,
-"rows": [
-  {
-"org": "平安银行上海分行",
-"avatarUrl": "",
-"name": "徐咏",
-"mobile": "13788901226",
-"userName": "paxuyong",
-"job": "按揭经理",
-"userId": "8a8493d45921d56d01593fd036e100f1"
-},
-  {
-"org": "平安银行上海分行",
-"avatarUrl": "",
-"name": "徐咏",
-"mobile": "13788901226",
-"userName": "paxuyong",
-"job": "按揭经理",
-"userId": "8a8493d45921d56d01593fd036e100f1"
-},
-  {
-"org": "平安银行上海分行",
-"avatarUrl": "",
-"name": "徐咏",
-"mobile": "13788901226",
-"userName": "paxuyong",
-"job": "按揭经理",
-"userId": "8a8493d45921d56d01593fd036e100f1"
-},
-  {
-"org": "市区贵宾服务部",
-"avatarUrl": "",
-"name": "陶晨",
-"mobile": "13918843797",
-"userName": "taochen01",
-"job": "誉萃总监",
-"userId": "04E5FEFE71B445D587C8433E4DEF69A4"
-},
-  {
-"org": "市区贵宾服务部",
-"avatarUrl": "",
-"name": "陶晨",
-"mobile": "13918843797",
-"userName": "taochen01",
-"job": "誉萃总监",
-"userId": "04E5FEFE71B445D587C8433E4DEF69A4"
-},
-  {
-"org": "市区贵宾服务部前台组",
-"avatarUrl": "",
-"name": "林莉",
-"mobile": "13816125688",
-"userName": "linli2",
-"job": "交易顾问",
-"userId": "abf56c022ffa409f84f387376491ec1c"
-},
-  {
-"org": "市区贵宾服务部前台组",
-"avatarUrl": "",
-"name": "林莉",
-"mobile": "13816125688",
-"userName": "linli2",
-"job": "交易顾问",
-"userId": "abf56c022ffa409f84f387376491ec1c"
-},
-  {
-"org": "市区贵宾服务部后台组",
-"avatarUrl": "",
-"name": "胡元",
-"mobile": "13801852299",
-"userName": "huyuan",
-"job": "交易主管",
-"userId": "2054941BB3C44826BD74DF85BAF01FD8"
-}
-],
-},
-"token": "c595d92a-5c73-49fb-84a4-cff2a5e6216c",
-"isSuccess": true
+    "msg": "处理成功",
+    "empId": "55CC7FA667894BB2943CDC074018DA3A",
+    "content": {
+        "total": 1,
+        "rows": [
+            {
+                "org": "平安银行上海分行",
+                "avatarUrl": "",
+                "name": "徐咏",
+                "mobile": "13788901226",
+                "userName": "paxuyong",
+                "job": "按揭经理",
+                "userId": "8a8493d45921d56d01593fd036e100f1"
+            },
+            {
+                "org": "平安银行上海分行",
+                "avatarUrl": "",
+                "name": "徐咏",
+                "mobile": "13788901226",
+                "userName": "paxuyong",
+                "job": "按揭经理",
+                "userId": "8a8493d45921d56d01593fd036e100f1"
+            },
+            {
+                "org": "平安银行上海分行",
+                "avatarUrl": "",
+                "name": "徐咏",
+                "mobile": "13788901226",
+                "userName": "paxuyong",
+                "job": "按揭经理",
+                "userId": "8a8493d45921d56d01593fd036e100f1"
+            },
+            {
+                "org": "市区贵宾服务部",
+                "avatarUrl": "",
+                "name": "陶晨",
+                "mobile": "13918843797",
+                "userName": "taochen01",
+                "job": "誉萃总监",
+                "userId": "04E5FEFE71B445D587C8433E4DEF69A4"
+            },
+            {
+                "org": "市区贵宾服务部",
+                "avatarUrl": "",
+                "name": "陶晨",
+                "mobile": "13918843797",
+                "userName": "taochen01",
+                "job": "誉萃总监",
+                "userId": "04E5FEFE71B445D587C8433E4DEF69A4"
+            },
+            {
+                "org": "市区贵宾服务部前台组",
+                "avatarUrl": "",
+                "name": "林莉",
+                "mobile": "13816125688",
+                "userName": "linli2",
+                "job": "交易顾问",
+                "userId": "abf56c022ffa409f84f387376491ec1c"
+            },
+            {
+                "org": "市区贵宾服务部前台组",
+                "avatarUrl": "",
+                "name": "林莉",
+                "mobile": "13816125688",
+                "userName": "linli2",
+                "job": "交易顾问",
+                "userId": "abf56c022ffa409f84f387376491ec1c"
+            },
+            {
+                "org": "市区贵宾服务部后台组",
+                "avatarUrl": "",
+                "name": "胡元",
+                "mobile": "13801852299",
+                "userName": "huyuan",
+                "job": "交易主管",
+                "userId": "2054941BB3C44826BD74DF85BAF01FD8"
+            }
+        ]
+    },
+    "token": "c595d92a-5c73-49fb-84a4-cff2a5e6216c",
+    "isSuccess": true
 }
