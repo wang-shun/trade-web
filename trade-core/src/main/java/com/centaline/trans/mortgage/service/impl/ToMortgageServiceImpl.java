@@ -893,7 +893,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 				loanerProcessService.isBankAcceptCase(true,
 						mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 						mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
-						mortgageVo.getIsPass());
+						mortgageVo.getStateInBank());
 
 				toMortLoaner.setLoanerStatus("BANKAUDITSUCCESS");
 			} else {
@@ -907,7 +907,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			loanerProcessService.isBankAcceptCase(false,
 					mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 					mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
-					mortgageVo.getIsPass());
+					mortgageVo.getStateInBank());
 
 			toMortLoaner.setLoanerStatus("BANKREJECT");
 		}
