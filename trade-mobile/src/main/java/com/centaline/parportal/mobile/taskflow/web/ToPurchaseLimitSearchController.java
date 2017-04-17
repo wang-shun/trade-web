@@ -1,19 +1,18 @@
 package com.centaline.parportal.mobile.taskflow.web;
 
 import com.aist.common.web.validate.AjaxResponse;
-import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.task.entity.ToPricing;
 import com.centaline.trans.task.entity.ToPurchaseLimitSearch;
 import com.centaline.trans.task.service.ToPurchaseLimitSearchService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class ToPurchaseLimitSearchController {
     @Autowired
     private TgGuestInfoService tgGuestInfoService;
 
-    @RequestMapping(value = "submitPls")
+    @RequestMapping(value = "submitPls",method = RequestMethod.POST)
     @ResponseBody
     public AjaxResponse submitPls(ToPurchaseLimitSearch toPurchaseLimitSearch, String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();

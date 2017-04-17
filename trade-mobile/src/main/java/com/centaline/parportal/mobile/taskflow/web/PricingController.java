@@ -1,6 +1,5 @@
 package com.centaline.parportal.mobile.taskflow.web;
 
-import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
