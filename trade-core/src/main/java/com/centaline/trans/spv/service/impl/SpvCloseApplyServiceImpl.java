@@ -375,7 +375,6 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 					toWorkFlowMapper.updateByPrimaryKeySelective(wf4);
 				}
 			}else if("0".equals(closeType)){
-				//结束:发送消息到资金监管流程，更新t_to_workflow表(资金监管流程)，更新spv表状态
 				ToSpv toSpv = toSpvMapper.findToSpvBySpvCode(spvCode);	
 				//更新t_to_workflow表(资金监管流程)
 				ToWorkFlow wf = new ToWorkFlow();

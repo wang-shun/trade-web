@@ -683,6 +683,31 @@ function subBankChange(){
 		alert('您选择的当前银行为非入围银行，4月15日起将无法在系统内被选择！');
 	}*/
 }
+
+
+//TODO
+$("#finOrgCode").change(function(){
+	var tempBank = $("input[name='isTmpBank']:checked").val();
+	var finOrgCode = $("select[name='finOrgCode']").val();
+	
+	//finOrgCode 查询 orgId
+	
+	if(tempBank == 1){
+		
+	}else if(tempBank == 0){
+		
+	}
+})
+
+//
+function onkeyuploanerName(){
+	$("#loanerNameImage").css("color","#676A6C");
+	$("#loanerId").val("");
+	$("#loanerOrgCode").val("");
+	$("#loanerOrgId").val("");
+}
+
+
 var mCustCode='';
 var custCode='';
 //查询贷款信息
@@ -1857,14 +1882,6 @@ transitionEffect: "slide",
    // getPricingList("table_list_1","pager_list_1");
  
  });
-//
-function onkeyuploanerName(){
-	$("#loanerNameImage").css("color","#676A6C");
-	$("#loanerId").val("");
-	$("#loanerOrgCode").val("");
-	$("#loanerOrgId").val("");
-}
-
 
 /*
  * @author: zhuody
