@@ -85,7 +85,7 @@
 			<groupSql>
 			</groupSql>
 			<orderBySql>
-			  ORDER BY m.SIGN_DATE DESC
+			  ORDER BY m.SEND_TIME DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
