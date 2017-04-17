@@ -4,8 +4,8 @@
 FROM swaggerapi/swagger-editor:v2.10.5
 
 MAINTAINER Lin Jiarong <linjr@aisthink.com>
-#ADD swagger/api/swagger/swagger.yaml /editor/spec-files/default.yaml
-#ADD swagger/api/swagger/swagger.yaml /editor/dist.old/spec-files/default.yaml
+ADD swagger/api/swagger/swagger.yaml /editor/spec-files/default.yaml
+ADD swagger/api/swagger/swagger.yaml /editor/dist.old/spec-files/default.yaml
 ADD swagger/api/swagger/swagger.yaml /editor/.grunt/grunt-gh-pages/gh-pages/main/spec-files/default.yaml
 EXPOSE 8080
 CMD ["http-server", "--cors", "-p8080", "/editor"]
