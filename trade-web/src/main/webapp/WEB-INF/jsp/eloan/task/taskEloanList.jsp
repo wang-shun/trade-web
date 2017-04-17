@@ -104,7 +104,10 @@
 								href="${ctx}/eloan/task/eloanApply/process"> <i
 								class=" iconfont">&#xe617;</i>&nbsp;新增
 							</a>
-							</shiro:hasPermission>
+							<!-- </shiro:hasPermission>
+							<shiro:hasPermission name="TRADE.ELOAN.CASEDETAIL.CHANGEOWNER">
+								<button type="button" onclick="javascript:showSelectForm2();" class="btn btn-success mr15">一键变更责任人</button>
+							</shiro:hasPermission> -->
 						</div>
 					</div>
 				</form>
@@ -117,7 +120,6 @@
 	</div>
 	<!-- main End -->
 	<!-- 设置隐藏字段，动态改变 下面form的参数值-->
-	<input type="hidden" id="bizCode" />
 	<input type="hidden" id="consultantId" />
 	<input type="hidden" id="consultantOrgId" />
 	<input type="hidden" id="consultantRealName" />
@@ -140,7 +142,7 @@
 						<form class="form-horizontal">
 							<div class="form-group">
 								<div class="col-lg-5 checkbox i-checks checkbox-inline">
-									<label for="" class="lable-one">
+									<label>
 								    	<input type="hidden" id="userId1" name="consultant" >
 			        					<input type="text" id="realName1"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:$('#consultantOrgId').val(),expandNodeId:$('#consultantOrgId').val(),
 										jobCode:'consultant',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack1})" value="">
@@ -164,7 +166,7 @@
 									<label>
 							    		<input type="hidden" id="userId2" name="manager" value=''>
 	        							<input type="text" id="realName2"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:$('#managerOrgId').val(),expandNodeId:$('#managerOrgId').val(),
-										jobCode:'manager',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack2})" value="">
+										jobCode:'Manager',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack2})" value="">
 										<div class="input-group float_icon organize_icon" style="margin-top: 5px;">
                                     		<i class="icon iconfont">&#xe627;</i>
                                			</div>
@@ -175,7 +177,7 @@
 					</div>
 				</div> 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" style="background-color: #f8ac59;border-color: #f8ac59;color: #FFFFFF;" onclick="javascript:changeOwner()">提交</button>
+					<button type="button" class="btn btn-primary" style="background-color: #f8ac59;border-color: #f8ac59;color: #FFFFFF;" onclick="javascript:batchChangeOwner()">提交</button>
 					<button type="button" class="btn btn-default"
 						data-dismiss="modal">取消</button>
 				</div>
@@ -203,6 +205,15 @@
 	<script id="queryMortgageApproveLost" type="text/html">
          {{each rows as item index}}
 			<tr>
+				<!--{{if item.STATUS!='ABAN'}}
+                    <td>
+						<input type="checkbox" class="i-checks" name="checkRow" value="{{item.eloanCode}}">
+					</td>
+						{{else}}
+                    <td>
+						<input type="checkbox" class="i-checks" name="checkRow" value="{{item.eloanCode}}" disabled="disabled">
+					</td>
+				{{/if}}-->
 				<td class="text-center">
 				    <p>{{item.loanSrvCode}}</p>
                        {{if item.STATUS=='ABAN'}}
@@ -285,7 +296,9 @@
                                         <li><a href="${ctx}/eloan/getEloanCaseDetails?pkid={{item.pkId}}&action=invalid">作废</a></li>{{/if}}
                                       </shiro:hasPermission>
                                       <shiro:hasPermission name="TRADE.ELOAN.CASEDETAIL.CHANGEOWNER">
-										<li><a href="javascript:showSelectForm({{item.pkId}},'{{item.eloanCode}}');">变更责任人</a></li>
+										{{if item.STATUS!='ABAN'}}
+											<li><a href="javascript:showSelectForm({{item.pkId}},'{{item.eloanCode}}');">变更责任人</a></li>
+										{{/if}}
 									  </shiro:hasPermission>
                                </ul>
                       </div>
@@ -294,8 +307,9 @@
 			{{/each}}          
 	    </script> 
 	    <script>
+	    				var eloanCodes = "";
 						//初始化数据
-						 var  rule=false;
+						var rule=false;
 						var serviceJobCode=$("#serviceJobCode").val(); 
 						var serviceDepHierarchy=$("#serviceDepHierarchy").val(); 
 						if(serviceJobCode=='consultant'){
@@ -406,7 +420,9 @@
 												templeteId : 'queryMortgageApproveLost',
 												gridClass : 'table table_blue table-striped table-bordered table-hover',
 												data : params,
-												columns : [ {
+												columns : [ /* {
+													colName : ""
+												}, */{
 													colName : "产品类型	"
 												//sortColumn : "CASE_CODE",
 												//sord: "desc",
@@ -464,6 +480,7 @@
 				   				                } 
 				   				            } ,   
 				   				success : function(data) {  
+				   					console.log(JSON.stringify(data));
 				   					        if(data.success){
 				   					        	$("#consultantId").val(data.content[0].split(",")[0]);
 				   					        	$("#userId1").val(data.content[0].split(",")[0]);
@@ -475,7 +492,7 @@
 				   					        	$("#managerOrgId").val(data.content[1].split(",")[1]);
 				   					        	$("#managerRealName").val(data.content[1].split(",")[2]);
 				   					        	$("#realName2").val(data.content[1].split(",")[2]);
-				   					        	$("#bizCode").val(eloanCode);
+				   					        	eloanCodes = eloanCode;
 				   					        	$('#srv-modal-form').modal('show');
 				   					        }else{
 				   					        	window.wxc.error("操作失败！");
@@ -488,6 +505,25 @@
 				   					}  
 				   	       });
 						}
+						
+						function showSelectForm2(){
+							eloanCodes = "";
+							if($("input[name='checkRow']:checked").size() == 0){
+								window.wxc.alert("请先选择合约！");
+								return false;
+							}
+							$("#bizCode").val($("input[name='checkRow']:checked").each(function(i,e){
+								eloanCodes += $(e).val()+",";
+							}));
+							$("#realName1").val("");
+							$("#userId1").val("");
+							$("#realName2").val("");
+							$("#userId2").val("");
+							$("#consultantOrgId").val("ff8080814f459a78014f45a73d820006");
+							$("#managerOrgId").val("ff8080814f459a78014f45a73d820006");
+							$('#srv-modal-form').modal('show');
+						}
+						
 						/**
 						 * 更新input的值
 						 */
@@ -512,13 +548,13 @@
 						}
 						
 						//更改交易顾问和主管方法
-						function changeOwner(){
+						function batchChangeOwner(){
 							$('#srv-modal-form').modal('hide');
 				   	 		$.ajax({
-				   	      		url:ctx+"/eloan/changeOwner",
+				   	      		url:ctx+"/eloan/batchChangeOwner",
 				   	      		method:"post",
 				   	      		dataType:"json",
-				   	      		data:{eloanCode:$("#bizCode").val(),oldConsultantId:$("#consultantId").val(),newConsultantId:$("#userId1").val(),oldManagerId:$("#managerId").val(),newManagerId:$("#userId2").val()},   		        				        		    
+				   	      		data:{eloanCodeListStr:eloanCodes,newConsultantId:$("#userId1").val(),newManagerId:$("#userId2").val()},   		        				        		    
 				   	       		beforeSend:function(){  
 				   					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				   					$(".blockOverlay").css({'z-index':'9998'});
@@ -534,7 +570,10 @@
 				   				            } ,   
 				   				success : function(data) {  
 				   					        if(data.success){
-				   					        	window.wxc.alert("操作成功！");
+				   					        	window.wxc.success("操作成功!",{"wxcOk":function(){
+				   					        		window.location.href = ctx+"/eloan/Eloanlist";
+				   					        	}
+				   					        });
 				   					        }else{
 				   					        	window.wxc.error("操作失败！");
 				   					        }		    		

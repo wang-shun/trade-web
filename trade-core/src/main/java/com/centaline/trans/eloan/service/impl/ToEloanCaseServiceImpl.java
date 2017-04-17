@@ -20,7 +20,6 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.aist.uam.userorg.remote.vo.UserOrgJob;
-import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.comment.entity.ToCaseComment;
@@ -428,12 +427,18 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	}
 
 	@Override
-	public void changeOwner(String eloanCode, String oldConsultantId, String newConsultantId, String oldManagerId,
-			String newManagerId) {
+	public void batchChangeOwner(String[] eloanCodeList, String newConsultantId, String newManagerId) {
+		if(eloanCodeList != null && eloanCodeList.length > 0){
+			for(String spvCode:eloanCodeList){
+				changeOwner(spvCode, newConsultantId, newManagerId);
+			}
+		}
+	}
+	
+	@Override
+	public void changeOwner(String eloanCode, String newConsultantId, String newManagerId) {
 		//相关人员
-		SessionUser oldConsultant = uamSessionService.getSessionUserById(oldConsultantId);
 		SessionUser newConsultant = uamSessionService.getSessionUserById(newConsultantId);
-		SessionUser oldManager = uamSessionService.getSessionUserById(oldManagerId);
 		SessionUser newManager = uamSessionService.getSessionUserById(newManagerId);
 		SessionUser user = uamSessionService.getSessionUser();
 		//1.更新t_to_eloan_case表中的excutor_id字段
@@ -472,15 +477,19 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 			throw new BusinessException("找不到E+申请流程！");
 		}
 		
+		String instCode = workFlow.getInstCode();
 		//2.更新流程变量+已生成待办任务
-		workFlowManager.setVariableByProcessInsId(workFlow.getInstCode(), "Consultant", new RestVariable("Consultant",newConsultant.getUsername()));
-		workFlowManager.setVariableByProcessInsId(workFlow.getInstCode(), "Manager", new RestVariable("Manager",newManager.getUsername()));
-		PageableVo pageableVo = taskService.listTasks(workFlow.getInstCode(), false);
+		String oldConsultant = (String) workFlowManager.getVar(instCode, "Consultant").getValue();
+		String oldManager = (String) workFlowManager.getVar(instCode, "Manager").getValue();
+		
+		workFlowManager.setVariableByProcessInsId(instCode, "Consultant", new RestVariable("Consultant",newConsultant.getUsername()));
+		workFlowManager.setVariableByProcessInsId(instCode, "Manager", new RestVariable("Manager",newManager.getUsername()));
+		PageableVo pageableVo = taskService.listTasks(instCode, false);
 		List<TaskVo> taskList = pageableVo.getData();
 		for (TaskVo task : taskList) {
-			if (oldConsultant.getUsername().equals(task.getAssignee())) {
+			if (oldConsultant.equals(task.getAssignee())) {
 				taskService.updateAssignee(task.getId().toString(), newConsultant.getUsername());
-			}else if(oldManager.getUsername().equals(task.getAssignee())){
+			}else if(oldManager.equals(task.getAssignee())){
 				taskService.updateAssignee(task.getId().toString(), newManager.getUsername());
 			}
 		}

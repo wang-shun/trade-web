@@ -1891,19 +1891,19 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 
 	@Override
-	public void batchChangeOfficer(String[] spvCodeListArr, String newOfficer, String newDirector) {
+	public void batchChangeOfficer(String[] spvCodeListArr, String newOfficerId, String newDirectorId) {
 		if(spvCodeListArr != null && spvCodeListArr.length > 0){
 			for(String spvCode:spvCodeListArr){
-				changeOfficer(spvCode, newOfficer, newDirector);
+				changeOfficer(spvCode, newOfficerId, newDirectorId);
 			}
 		}
 	}
 	
 	@Override
-	public void changeOfficer(String spvCode, String newOfficer, String newDirector) {
+	public void changeOfficer(String spvCode, String newOfficerId, String newDirectorId) {
 		//待办分配给新的人员
-		SessionUser newOfficerUser = uamSessionService.getSessionUserById(newOfficer);
-		SessionUser newDirectorUser = uamSessionService.getSessionUserById(newDirector);
+		SessionUser newOfficerUser = uamSessionService.getSessionUserById(newOfficerId);
+		SessionUser newDirectorUser = uamSessionService.getSessionUserById(newDirectorId);
 		if(newOfficerUser == null){
 			throw new BusinessException("找不到选择的风控专员！");
 		}

@@ -157,7 +157,7 @@
 						<form class="form-horizontal">
 							<div class="form-group">
 								<div class="col-lg-4 checkbox i-checks checkbox-inline">
-									<label for="" class="lable-one">
+									<label>
 								    	<input type="hidden" id="userId1" name="consultant" >
 			        					<input type="text" id="realName1"  style="background-color:#FFFFFF" readonly="readonly" class="form-control" id="txt_proOrgId_gb" onclick="userSelect({startOrgId:'${rcOrgId}',expandNodeId:'${rcOrgId}',
 										jobCode:'JYFKZY',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack1})" value="">
@@ -459,9 +459,11 @@
 												data : params,
 												wrapperData : {job : $("#serviceJobCode").val()},
 												columns : [
+													<shiro:hasPermission name="TRADE.FUND.SPVDETAIL.CHANGEOFFICER">
 										 				{
 															colName : ""
 														}, 
+													</shiro:hasPermission>	
 														{
 																   colName :"<span style='color:#ffffff' onclick='caseCodeSort();' >合约编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
 									    		    	           sortColumn : "SPV_CODE",
@@ -619,7 +621,7 @@
 				   	      		url:ctx+"/spv/batchChangeOfficer",
 				   	      		method:"post",
 				   	      		dataType:"json",
-				   	      		data:{spvCodeListStr:spvCodes,newOfficer:$("#userId1").val(),newDirector:$("#userId2").val()},   		        				        		    
+				   	      		data:{spvCodeListStr:spvCodes,newOfficerId:$("#userId1").val(),newDirectorId:$("#userId2").val()},   		        				        		    
 				   	       		beforeSend:function(){  
 				   					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				   					$(".blockOverlay").css({'z-index':'9998'});

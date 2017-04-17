@@ -255,9 +255,9 @@ public interface ToSpvService {
 	void spvSign(String spvCode, String caseCode, String source, String instCode, String taskId, String spvConCode,
 			Date signTime, ToSpvAccount buyerAcc, ToSpvAccount sellerAcc, ToSpvAccount fundAcc, SessionUser user);
 
-	void batchChangeOfficer(String[] spvCodeListArr, String newOfficer, String newDirector);
+	void batchChangeOfficer(String[] spvCodeListArr, String newOfficerId, String newDirectorId);
 	
-	void changeOfficer(String spvCode, String newOfficer, String newDirector);
+	void changeOfficer(String spvCode, String newOfficerId, String newDirectorId);
 	
 	List<ToSpvCashFlowApply> findCashFlowApplyCodeBySpvCode(String spvCode);
 
