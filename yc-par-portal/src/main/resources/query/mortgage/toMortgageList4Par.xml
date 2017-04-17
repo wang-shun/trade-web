@@ -42,10 +42,10 @@
         </searchCondition> 
 		<searchSql>
 			<baseSql>
-				<![CDATA[  	
+				<![CDATA[
 					SELECT 
-							t.ID_ AS taskId,
-							t.PROC_INST_ID_ AS procInstanceId,
+							(SELECT ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE BIZ_CODE = m.MORT_PKID AND BUSINESS_KEY = 'Loaner_Process')) AS taskId,
+							(SELECT PROC_INST_ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE BIZ_CODE = m.MORT_PKID AND BUSINESS_KEY = 'Loaner_Process')) AS taskId,
 							ISNULL(m.SEND_ID,'') as consultantID,
 							ISNULL(m.CUST_NAME,'') as custName,
 							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = m.LOANER_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1 AND TAG = 'MORT'),'派单') AS loanerStatus,
@@ -59,13 +59,11 @@
 							ISNULL(p.PROPERTY_ADDR,'') 	as addr,
 							ISNULL(uoj.employee_code,'') 	as avartaUrl,
 							ISNULL(uoj.real_name,'') 		as consultantName
-				FROM sctrans.ACT_RU_TASK t
-				INNER JOIN sctrans.T_TO_WORKFLOW w ON t.PROC_INST_ID_  = w.INST_CODE AND w.BUSINESS_KEY = 'Loaner_Process'
-				INNER JOIN sctrans.T_TO_MORT_LOANER m ON m.CASE_CODE = w.CASE_CODE
-				INNER JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = w.CASE_CODE AND m.LOANER_ID = #userid# 
-				INNER JOIN sctrans.V_USER_ORG_JOB uoj ON m.LOANER_ID = uoj.user_id AND uoj.ismain = 1
-				WHERE m.LOANER_ID = #userid# AND t.SUSPENSION_STATE_ = '1'
-				AND EXISTS (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE = m.CASE_CODE and c.LOAN_REQ=1)
+					FROM sctrans.T_TO_MORT_LOANER m
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = m.CASE_CODE AND m.LOANER_ID = #userid#
+					LEFT JOIN sctrans.V_USER_ORG_JOB uoj ON m.LOANER_ID = uoj.user_id AND uoj.ismain = 1
+					WHERE m.LOANER_ID = #userid# 
+					AND EXISTS (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE = m.CASE_CODE and c.LOAN_REQ=1)
 				
 				<if test="flag == 'noAccept'">
 					AND (m.LOANER_STATUS = '' or m.LOANER_STATUS IS NULL)
