@@ -17,6 +17,7 @@ import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
@@ -81,6 +82,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	private ToEloanLoanerMapper toEloanLoanerMapper;
 	@Autowired
 	ToPropertyInfoMapper toPropertyInfoMapper;
+	@Autowired
+	private UamBasedataService uamBasedataService;
 
 	@Override
 	public void saveEloanApply(SessionUser user, ToEloanCase tEloanCase) {

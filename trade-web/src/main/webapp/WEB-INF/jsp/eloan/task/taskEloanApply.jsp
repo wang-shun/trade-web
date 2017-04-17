@@ -453,6 +453,7 @@
 	</div>
 	<!-- main End -->
 	</div>
+
 	<!-- Mainly scripts -->
 	<content tag="local_script">
 	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> 
@@ -464,13 +465,11 @@
 	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 	<script src="${ctx}/js/jquery.editable-select.min.js"></script> 
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
     <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
-    <script	src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
-    <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script id="queryCastListItemList" type="text/html">
-    {{each rows as item index}}
+                          {{each rows as item index}}
 	<tr>
     <td>
         <p class="big">
@@ -523,8 +522,7 @@
     </td>
 </tr>
 {{/each}}
-	</script> 
-	<script>
+	</script> <script>
 		$(document)
 				.ready(
 						function() {
