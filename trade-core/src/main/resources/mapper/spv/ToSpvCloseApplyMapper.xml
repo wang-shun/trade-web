@@ -31,6 +31,12 @@
     from sctrans.T_TO_SPV_CLOSE
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
+  <select id="selectBySpvCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_SPV_CLOSE
+    where SPV_CODE = #{spvCode,jdbcType=VARCHAR}
+  </select>
   <select id="selectBySpvCloseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
