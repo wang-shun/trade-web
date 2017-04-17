@@ -608,10 +608,29 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			toMortgageService.updateToMortgage(toMortgageDTO);// 主键pkid作为条件更新
 
 			//
+			ToMortLoaner toMortLoaner = new ToMortLoaner();
+			toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCode(caseCode);
+	        
+			if(null != toMortLoaner){
+				
+				toMortLoaner.setSendId(user.getId());
+				toMortLoaner.setSendName(user.getRealName());
+				toMortLoaner.setSendTime(new Date());
+
+				toMortLoaner.setLoanerId(loaner.getId());
+				toMortLoaner.setLoanerName(loaner.getRealName());
+				toMortLoaner.setLoanerPhone(loaner.getMobile());
+				toMortLoaner.setLoanerOrgId(loaner.getOrgId());
+				toMortLoaner.setLoanerOrgCode(toMortgage.getLoanerOrgCode());
+				toMortLoaner.setLoanerStatus("");
+
+	        	toMortLoanerService.updateByPrimaryKeySelective(toMortLoaner);	
+	        }
+/*			//
 			ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
 
 			// 冗余 派单流程表信息
-			ToMortLoaner toMortLoaner = new ToMortLoaner();
+		
 			toMortLoaner.setCaseCode(caseCode);
 			toMortLoaner.setCustName(toMortgageDTO.getCustName());
 			if (null != toPropertyInfo) {
@@ -628,12 +647,13 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			toMortLoaner.setSendId(user.getId());
 			toMortLoaner.setSendName(user.getRealName());
 			toMortLoaner.setSendTime(new Date());
+			
 			toMortLoaner.setLoanerId(toMortgageDTO.getLoanerId());
 			toMortLoaner.setLoanerName(loaner.getRealName());
 			toMortLoaner.setLoanerPhone(loaner.getMobile());
 			toMortLoaner.setLoanerOrgId(loaner.getOrgId());
 			toMortLoaner.setLoanerOrgCode(toMortgage.getLoanerOrgCode());
-			toMortLoanerService.insertByToMortLoaner(toMortLoaner);
+			toMortLoanerService.insertByToMortLoaner(toMortLoaner);*/
 
 		} catch (BusinessException e) {
 			throw new BusinessException("交易顾问派单流程结束异常！");

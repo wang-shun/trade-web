@@ -7,7 +7,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet" />
 <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link href="${ctx}/css/animate.css" rel="stylesheet" />
 <link href="${ctx}/css/style.css" rel="stylesheet" />
@@ -44,6 +43,15 @@
     .dataheight {
         height: 45px!important;
     }
+    
+    
+    .sum_marb {
+        margin-bottom: 0;
+    }
+    .loan_sum {
+        display: inline-block;
+        width: 115px;
+    }
 </style>
 </head>
 
@@ -60,10 +68,14 @@
                       </div>
                       <div class="form_content">
                           <label class="control-label sign_left_small">信贷员</label>
-                          <input class="teamcode input_type" placeholder="请输入" value=""  name="loaner" id="loaner"/>
+                          <input class="teamcode input_type" placeholder="请输入" value=""  name="loanerName" id="loanerName"  onclick="loanerClick()"/>                          
                           <div class="input-group float_icon organize_icon">
-                              <i class="icon iconfont">&#xe627;</i>
+                              <i class="icon iconfont"  onclick="loanerClick()">&#xe627;</i>
                           </div>
+                          
+                   		 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
+						 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
+						 <input type="hidden"  id="loanerId" name="loanerId" />
                       </div>
                   </div>
                   <div class="line">
@@ -171,7 +183,7 @@
                                 </p>
                        </td>
 
-                        <td><p class="big">{{item.FIN_ORG_NAME}}</p></td>
+                        <td><p class="big">{{item.FIN_ORG_NAME}}-{{item.FIN_ORG_NAME_YC}}</p></td>
 
                         <td>{{item.LOANER_NAME}}</td>
 
