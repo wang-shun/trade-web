@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -17,7 +20,10 @@ import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.utils.Pages2JSONMoblie;
 
 @RestController
@@ -33,6 +39,9 @@ public class TaskController {
 	@Autowired
 	private QuickGridService quickGridService;
 	
+    @Resource
+    private UamUserOrgService uamUserOrgService;
+    
 	@RequestMapping(value = "list")
 	@ResponseBody
 	public JSONObject list(@RequestParam(required = true) Integer page, 
@@ -68,6 +77,18 @@ public class TaskController {
 		buildZhongjieInfo(pages.getContent());
 		
 		return Pages2JSONMoblie.pages2JsonMoblie(pages);
+	}
+	
+	private void buildZhuliInfo(Map<String, Object> map) {
+		// 助理
+		String orgId = String.valueOf(map.get("orgId"));
+		String zhuli = "";
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZL.getCode());
+		if (CollectionUtils.isEmpty(asList)) {
+			User user = asList.get(0);
+			zhuli = user.getUsername();
+		}
+		map.put("zhuli", zhuli);
 	}
 	
 	private void buildZhongjieInfo(List<Map<String, Object>> list) {
