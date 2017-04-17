@@ -1,19 +1,18 @@
 package com.centaline.parportal.mobile.taskflow.web;
 
 import com.aist.common.web.validate.AjaxResponse;
-import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.task.entity.ToPurchaseLimitSearch;
 import com.centaline.trans.task.entity.ToTax;
 import com.centaline.trans.task.service.ToTaxService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class TaxReviewController {
     @Autowired
     private TgGuestInfoService tgGuestInfoService;
 
-    @RequestMapping(value = "submitTaxReview")
+    @RequestMapping(value = "submitTaxReview", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResponse submitTaxReview(ToTax toTax,String taskId, String processInstanceId, String partCode) {
         AjaxResponse<?> response = new AjaxResponse<>();

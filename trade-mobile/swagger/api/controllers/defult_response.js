@@ -26,7 +26,9 @@ var rf=require("fs");
   we specify that in the exports of this module that 'hello' maps to the function named 'hello'
  */
 module.exports = {
-  responseJSON: responseJSON
+  responseJSON: responseJSON,
+  contactRsponse: responseJSON,
+  casecontactRsponse: responseJSON
 };
 
 /*

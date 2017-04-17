@@ -22,7 +22,6 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.parportal.exception.CheckParametersException;
-import com.centaline.trans.common.vo.MobileHolder;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.mortgage.vo.MortgageVo;
 
@@ -186,24 +185,29 @@ public class MortgageController {
 
 	private List<Map<String, Object>> mortgageCaseInfoQuery(String queryId,
 			String bizCode, Integer page, Integer rows) {
+
 		try {
 			JQGridParam gp = new JQGridParam();
 			gp.put("bizCode", bizCode);
-			gp.setPage(page);
-			gp.setRows(rows);
+			// gp.setPage(page);
+			// gp.setRows(rows);
+			gp.setPagination(false);
 			gp.setQueryId(queryId);
 			Page<Map<String, Object>> result = quickGridService
-					.findPageForSqlServer(gp, MobileHolder.getMobileUser());
+					.findPageForSqlServer(gp);
 
-			if (null != result && null != result.getContent()
-					&& result.getContent().size() > 0)
-				return result.getContent();
+			System.out.println(queryId + ":" + result);
 
+			if (result != null) {
+				List<Map<String, Object>> contentList = result.getContent();
+
+				return contentList;
+			}
 		} catch (Exception e) {
 			logger.info("quick query for mobile mortgate detail failed, queryID: #"
 					+ queryId + "#, caseCode: #" + bizCode + "#");
 		}
-		return new ArrayList();
+		return new ArrayList<Map<String, Object>>();
 	}
 
 	/**
