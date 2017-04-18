@@ -107,6 +107,62 @@ paths:
           schema:
             # a pointer to a definition
             $ref: "#/definitions/getCasecontactSuccessResponse"
+  /task/pricing:
+      # binds a127 app logic to a route
+      x-swagger-router-controller: defult_response
+      get:
+        description: pricing
+        # used as the method name of the controller
+        operationId: responseJSON
+        parameters:
+          - name: partCode
+            in: save
+            description: 环节code,本接口为'Pricing'
+            required: true
+            type: string
+
+          - name: caseCode
+            in: save
+            description: 案件编号
+            required: true
+            type: string
+
+          - name: taskId
+            in: save
+            description: 任务id
+            required: true
+            type: string
+
+          - name: processInstanceId
+            in: save
+            description: 流程id
+            required: true
+            type: string
+
+          - name: pricingTime
+            in: save
+            description: 核价时间
+            required: true
+            type: string
+
+          - name: taxPricing
+            in: save
+            description: 税务核定价
+            required: true
+            type: double
+
+          - name: houseProperty
+            in: save
+            description: 房屋性质（普通：0;非普通：1;非居：2）
+            required: true
+            type: integer
+  responses:
+       "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/getPricingSuccessResponse"
+
 # complex objects have schema definitions
 definitions:
   user:
@@ -199,5 +255,25 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/contactUser'
-      
+   getPricingSuccessResponse:
+      required:
+        - isSuccess
+      properties:
+        isSuccess:
+          type: boolean
+        msg:
+          type: string
+        empId:
+          type: string
+        token:
+          type: string
+        content:
+          $ref: "#/definitions/pricingContent"
+    pricingContent:
+       properties:
+        processInstanceId:
+          type: integer
+        rows:
+          taskId: integer
+
   
