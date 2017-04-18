@@ -113,15 +113,9 @@ public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String sou
 		String cashflowApplyCode = "";
 		if(!StringUtils.isBlank(handle)){ 
 			switch (handle) {
-			case "apply":
-				cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);
-				break;
-		    case "directorAduit":
-		    	cashFlowInService.cashFlowInDirectorAduitDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);
-				break;
-		    case "financeAduit":
-		    	cashFlowInService.cashFlowInFinanceAduitDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);
-		    	break;
+				case "apply": cashFlowInService.cashFlowInApplyDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);break;
+			    case "directorAduit": cashFlowInService.cashFlowInDirectorAduitDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);break;
+			    case "financeAduit": cashFlowInService.cashFlowInFinanceAduitDeal(request, instCode, taskId, handle, spvRecordedsVO, cashflowApplyCode,chargeInAppr);break;
 			}	
 		}
 		response.setSuccess(true);
