@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +19,6 @@ import com.aist.uam.permission.remote.UamPermissionService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
-import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.utils.UriUtility;
 import com.opensymphony.module.sitemesh.RequestConstants;
 
@@ -30,15 +31,13 @@ import com.opensymphony.module.sitemesh.RequestConstants;
 @Controller("engine.taskController")
 @RequestMapping("/engine/task")
 public class TaskController {
+	
+    private final Logger        LOGGER        = LoggerFactory.getLogger(this.getClass());
+    
 	@Autowired
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	private UamPermissionService uamPermissionService;
-
-	@Autowired
-	private ToApproveRecordService toApproveRecordService;
-
-	
 
 	/**
 	 * 任务处理跳转
@@ -80,7 +79,7 @@ public class TaskController {
 				sameSever = true;
 			}
 		} else {
-			System.out.println("result1===task/"+task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters));
+			LOGGER.info("result1===task/"+task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters));
 			return "forward:/task/" + task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters);
 		}
 		if (sameSever) {
@@ -90,28 +89,21 @@ public class TaskController {
 			request.setAttribute("source", source);
 			request.setAttribute("businessKey", businessKey);
 			request.setAttribute("caseCode",  businessKey);//兼容老代码
-/*			//E+ 申请查询审核结果
-			ToApproveRecord toApproveRecordForItem=new ToApproveRecord();	
-						
-			toApproveRecordForItem.setProcessInstance(instCode);
-			toApproveRecordForItem.setPartCode("eApplyApprove");		
-			ToApproveRecord toApproveRecord=toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);		
-			request.setAttribute("toApproveRecord", toApproveRecord);*/
 		}
 		if (!sameSever) {
 			String[] formKeys = formKey.split(":");
 			String absoluteUrl = uamPermissionService.getAppByAppName(formKeys[0]).genAbsoluteUrl();
-			System.out.println("result2==="+UriUtility.getQueryString(absoluteUrl + formKeys[1], queryParameters));
+			LOGGER.info("result2==="+UriUtility.getQueryString(absoluteUrl + formKeys[1], queryParameters));
 			return "redirect:" + UriUtility.getQueryString(absoluteUrl + formKeys[1], queryParameters);
 		} else {
 			String decorator = getDecorator(task.getFormKey());
 			if (!StringUtils.isBlank(decorator)) {
 				request.setAttribute(RequestConstants.DECORATOR, decorator);
-		}	
-			System.out.println("result3==="+UriUtility.getQueryString(task.getFormKey(), queryParameters));
+			}	
+			LOGGER.info("result3==="+UriUtility.getQueryString(task.getFormKey(), queryParameters));
 			return "forward:" + UriUtility.getQueryString(task.getFormKey(), queryParameters);
-
-	}
+	
+		}
 
 	}
 
