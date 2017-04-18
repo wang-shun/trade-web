@@ -42,7 +42,9 @@ public class ToGetPropertyBookController {
     @ResponseBody
     public JSONObject toProcess(HttpServletRequest request, String processInstanceId) {
         String taskId = request.getParameter("taskId");
+        String caseCode = request.getParameter("caseCode");
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("caseCode", caseCode);
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
         return jsonObject;
