@@ -887,8 +887,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		// 银行审核通过
 		if ("true".equals(mortgageVo.getIsPass())) {
 
-			// 银行审核通过
-			if ("BANKAUDITSUCCESS".equals(mortgageVo.getStateInBank())) {
+			if ("MORT_APPROVED".equals(mortgageVo.getStateInBank())) {
 				// 处理流程,银行审核通过
 				loanerProcessService.isBankAcceptCase(true,
 						mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
@@ -896,10 +895,9 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 						mortgageVo.getStateInBank());
 
 				toMortLoaner.setLoanerStatus("BANKAUDITSUCCESS");
-			} else {
-				// 更新跟进状态
-				toMortLoaner.setFlowStatus(mortgageVo.getStateInBank());
 			}
+
+			toMortLoaner.setFlowStatus(mortgageVo.getStateInBank());
 		}
 		// 银行审核拒绝
 		else if ("false".equals(mortgageVo.getIsPass())) {

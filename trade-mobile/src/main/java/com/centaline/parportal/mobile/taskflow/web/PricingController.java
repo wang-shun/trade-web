@@ -13,7 +13,9 @@ import com.centaline.trans.task.service.ToPricingService;
 import com.centaline.trans.utils.UiImproveUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.apache.log4j.Logger;
@@ -45,16 +47,20 @@ public class PricingController {
     @ResponseBody
     public JSONObject toProcess(HttpServletRequest request, String processInstanceId) {
         String taskId = request.getParameter("taskId");
+        String caseCode = request.getParameter("caseCode");
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("caseCode", caseCode);
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
         return jsonObject;
     }
 
 
-    @RequestMapping(value = "submitPricing")
+    @RequestMapping(value = "submitPricing",method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResponse submitPricing(ToPricing toPricing, String taskId, String processInstanceId) {
+    public AjaxResponse submitPricing(HttpServletRequest request,@RequestBody ToPricing toPricing) {
+        String taskId = request.getParameter("taskId");
+        String processInstanceId = request.getParameter("processInstanceId");
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
             Boolean saveFlag = toPricingService.saveToPricing(toPricing);

@@ -42,38 +42,38 @@ paths:
   /chat/contact:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
-    post:
+    get:
       description: demo config
       # used as the method name of the controller
       operationId: contactRsponse
       parameters:
         - name: token
-          in: formData
+          in: query
           description: token
           required: true
           type: string
         - name: page
-          in: formData
+          in: query
           description: page
           required: true
           type: integer
         - name: pageSize
-          in: formData
+          in: query
           description: pageSize
           required: true
           type: integer 
         - name: sidx
-          in: formData
+          in: query
           description: sidx
           required: true
           type: string
         - name: sord
-          in: formData
+          in: query
           description: sord
           required: false
           type: string  
         - name: q_text
-          in: formData
+          in: query
           description: q_text
           required: false
           type: string 
@@ -86,7 +86,7 @@ paths:
   /chat/casecontact:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
-    get:
+    post:
       description: demo config
       # used as the method name of the controller
       operationId: casecontactRsponse
@@ -107,6 +107,61 @@ paths:
           schema:
             # a pointer to a definition
             $ref: "#/definitions/getCasecontactSuccessResponse"
+  /task/pricing:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: pricing
+          # used as the method name of the controller
+      operationId: pricingRsponse
+      parameters:
+        - name: partCode
+          in: query
+          description: ww# 环节code,本接口为'Pricing'
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+
+        - name: pricingTime
+          in: query
+          description: 核价时间
+          required: true
+          type: string
+        - name: taxPricing
+          in: query
+          description: 税务核定价
+          required: true
+          type: string
+
+
+        - name: houseProperty
+          in: query
+          description: ww#房屋性质（普通：0;非普通：1;非居：2）
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getPricingSuccessResponse"    
 # complex objects have schema definitions
 definitions:
   user:
@@ -199,5 +254,24 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/contactUser'
+  getPricingSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/pricingContent"
+  pricingContent:
+    properties:
+      processInstanceId:
+        type: integer
+      taskId:
+        type: integer
       
-  

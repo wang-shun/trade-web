@@ -5,12 +5,19 @@ var serviceDepId = $("#serviceDepId").val();
  * 信贷员派单流程列表
  */
 $(document).ready(function() {
+	
+	// 初始化列表
+	var data = {};	
+	data.queryId = "findLoanerProcessList";
+	data.rows = 10;
+	data.page = 1;
+	
+	reloadGrid(data);
 
-	reloadGrid();	
 	/* 加载排序查询组件 */
-/*	aist.sortWrapper({
-		reloadGrid : reloadGrid
-	});*/
+	aist.sortWrapper({
+		reloadGrid : loanerConditionSearchMethod
+	});
 	//top
 	$('.demo-top').poshytip({
 		className: 'tip-twitter',
@@ -21,10 +28,120 @@ $(document).ready(function() {
 		offsetX: 8,
 		offsetY: 5,
 	});	
+	
+	getParentBank($("select[name='loanLostFinOrgName']"),$("select[name='loanLostFinOrgNameYc']"), "", "", "");
+
+	$("select[name='loanLostFinOrgName']").change(function() {
+		getBranchBankList($("select[name='loanLostFinOrgNameYc']"), $("select[name='loanLostFinOrgName']").val(), "");
+
+	})
 			
 });
 
-function reloadGrid(){
+
+function reloadGrid(data) {
+
+	var queryOrgFlag = $("#queryOrgFlag").val();
+	var isAdminFlag = $("#isAdminFlag").val();
+	var queryOrgs = $("#queryOrgs").val();
+	var arguUserId = null;
+	if (queryOrgFlag == 'true') {
+		arguUserId = null;
+		if (isAdminFlag == 'true') {
+			queryOrgs = null;
+		}
+	} else {
+		queryOrgs = null;
+		arguUserId = "yes";
+	}
+
+	var sortcolumn = $('span.active').attr("sortColumn");
+	var sortgz = $('span.active').attr("sord");
+	data.sidx = sortcolumn;
+	data.sord = sortgz;
+
+	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
+	data.argu_idflag = arguUserId;
+	data.argu_queryorgs = orgArray;
+	aist.wrap(data);
+
+	$.ajax({
+		async : true,
+		url : ctx + "/quickGrid/findPage",
+		method : "post",
+		dataType : "json",
+		data : data,
+		beforeSend : function() {
+			$.blockUI({
+				message : $("#salesLoading"),
+				css : {
+					'border' : 'none',
+					'z-index' : '9999'
+				}
+			});
+			$(".blockOverlay").css({
+				'z-index' : '9998'
+			});
+		},
+		success : function(data) {			
+			$.unblockUI();
+			data.ctx = ctx;
+			var loanerProcessList = template('template_loanerProcessList', data);
+			$("#loanerProcessList").empty();
+			$("#loanerProcessList").html(loanerProcessList);
+			// 显示分页
+			initpage(data.total, data.pagesize, data.page, data.records);
+			
+		},
+		error : function(e, jqxhr, settings, exception) {
+			$.unblockUI();
+		}
+	});
+}
+
+// 分页
+function initpage(totalCount, pageSize, currentPage, records) {
+	if (totalCount > 1500) {
+		totalCount = 1500;
+	}
+	var currentTotalstrong = $('#currentTotalPage').find('strong');
+	if (totalCount < 1 || pageSize < 1 || currentPage < 1) {
+		$(currentTotalstrong).empty();
+		$('#totalP').text(0);
+		$("#pageBar").empty();
+		return;
+	}
+	$(currentTotalstrong).empty();
+	$(currentTotalstrong).text(currentPage + '/' + totalCount);
+	$('#totalP').text(records);
+	$(function() {
+		// top
+		$('.demo-top').poshytip({
+			className : 'tip-twitter',
+			showTimeout : 1,
+			alignTo : 'target',
+			alignX : 'center',
+			alignY : 'top',
+			offsetX : 8,
+			offsetY : 5,
+		});
+	});
+
+	$("#pageBar").twbsPagination({
+		totalPages : totalCount,
+		visiblePages : 9,
+		startPage : currentPage,
+		first : '<i class="fa fa-step-backward"></i>',
+		prev : '<i class="fa fa-chevron-left"></i>',
+		next : '<i class="fa fa-chevron-right"></i>',
+		last : '<i class="fa fa-step-forward"></i>',
+		showGoto : true,
+		onPageClick : function(event, page) {
+			loanerConditionSearchMethod(page);
+		}
+	});
+}
+/*function reloadGrid(){
 	var data = getParams();
 	
 	$("#loanerProcessList").reloadGrid({
@@ -34,7 +151,7 @@ function reloadGrid(){
 	    data : data,
 	    wrapperData : data
     });
-}
+}*/
 
 /**
  * 查询参数取得
@@ -55,38 +172,41 @@ function getParams() {
 	if (propertyAddr == "" || propertyAddr == null) {
 		propertyAddr = null;
 	}
-	// 信贷员
-	var loanerId = $("#loanerId").val().trim();
+	// 信贷员	
+	var loanerId = $("#loanerId").val().trim();	
 	if (loanerId == "" || loanerId == null) {
 		loanerId = null;
 	}
 	// 银行信息
-/*	var bankFinOrg = $("#bankFinOrg").val().trim();
-	if (bankFinOrg == "" || bankFinOrg == null) {
-		bankFinOrg = null;
-	}*/
-	//params.bankFinOrg = bankFinOrg;
+	var loanLostFinOrgNameCode = $("#loanLostFinOrgName option:selected").val();
+	var loanLostFinOrgNameYcCode = $("#loanLostFinOrgNameYc option:selected").val();
+	
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;
-	params.loanerId = loanerId;	
+	params.loanerId = loanerId;		
+	
+	params.loanLostFinOrgNameCode = loanLostFinOrgNameCode;
+	params.loanLostFinOrgNameYcCode = loanLostFinOrgNameYcCode;
 	
 	return params;
 }
 /* 查询按钮查询 */
 $('#loanerConditionSearch').click(function() {
-	reloadGrid();
-	
-	$('.demo-top').poshytip({
-		className: 'tip-twitter',
-		showTimeout: 1,
-		alignTo: 'target',
-		alignX: 'center',
-		alignY: 'top',
-		offsetX: 8,
-		offsetY: 5,
-	});	
+	loanerConditionSearchMethod()
 });
 
+//查询
+function loanerConditionSearchMethod(page) {
+	if (!page) {
+		page = 1;
+	}
+	var params = getParams();
+	params.page = page;
+	params.rows = 10;
+	params.queryId = "findLoanerProcessList";
+	
+	reloadGrid(params);
+};
 
 // 清空
 $('#loanerConditionClean').click(function() {
@@ -96,88 +216,10 @@ $('#loanerConditionClean').click(function() {
 	$("input[name='loanerId']").val('');
 	$("input[name='loanerName']").val('');
 	
+	$("#loanLostFinOrgNameYc").val("");
+	$("#loanLostFinOrgName").val("");
+	
 });
-
-
-
-
-// 主办图标选择
-$('#MortgageLostListOnclick').click(function() {
-	chooseCaseOperator(serviceDepId);
-});
-
-// 组织图标选择
-$('#MortgageLostListOrganizeOnclick').click(function() {
-	orgSelect({
-		displayId : 'oriGrpId',
-		displayName : 'radioOrgName',
-		startOrgId : serviceDepId,
-		expandNodeId : serviceDepId, // 添加此属性的作用是展开 组织列表
-		orgType : '',
-		departmentType : '',
-		departmentHeriarchy : '',
-		chkStyle : 'radio',
-		callBack : radioYuCuiOrgSelectCallBack
-	})
-});
-
-// 选业务组织的回调函数
-function radioYuCuiOrgSelectCallBack(array) {
-	if (array && array.length > 0) {
-		$("#orgName").val(array[0].name);
-		$("#orgHierarchy").val(array[0].extendField);
-		$("#yuCuiOriGrpId").val(array[0].id);
-	} else {
-		$("#orgName").val("");
-		$("#yuCuiOriGrpId").val("");
-	}
-}
-
-// 选择组织之后 级联选择主办人信息
-function chooseCaseOperator(id) {
-	var serviceDepId = id;
-	var yuCuiOriGrpId = $("#yuCuiOriGrpId").val();
-	console.log("serviceDepId:"+serviceDepId+"expandNodeId:"+serviceDepId+"");
-	if (yuCuiOriGrpId != "") {
-		userSelect({
-			startOrgId : yuCuiOriGrpId,
-			expandNodeId : yuCuiOriGrpId,
-			nameType : 'long|short',
-			orgType : '',
-			departmentType : '',
-			departmentHeriarchy : '',
-			chkStyle : 'radio',
-			jobCode : 'consultant',
-			callBack : loanLostCaseListSelectUserBack
-		});
-		// $("#yuCuiOriGrpId").val("");
-	} else {
-		userSelect({
-			startOrgId : serviceDepId,
-			expandNodeId : serviceDepId,
-			nameType : 'long|short',
-			orgType : '',
-			departmentType : '',
-			departmentHeriarchy : '',
-			chkStyle : 'radio',
-			jobCode : 'consultant',
-			callBack : loanLostCaseListSelectUserBack
-		});
-	}
-}
-
-// 选取人员的回调函数
-function loanLostCaseListSelectUserBack(array) {
-	if (array && array.length > 0) {
-		$("#REAL_NAME").val(array[0].username);
-		$("#REAL_NAME").attr('hVal', array[0].userId);
-
-	} else {
-		$("#REAL_NAME").val("");
-		$("#REAL_NAME").attr('hVal', "");
-	}
-}
-
 
 // 案件case_code排序图标变化函数
 function caseCodeSort() {
@@ -202,7 +244,7 @@ function  finishLoanerProcess(instCode,caseCode,taskId){
 	}
 	
 	$.ajax({
-		url:ctx+"/task/loanerProcessDelete",
+		url:ctx+"/task/loanerProcessCancle",
 		method:"post",
 		dataType:"json",
 		data:{		
@@ -228,9 +270,10 @@ function  finishLoanerProcess(instCode,caseCode,taskId){
 		} ,
 		success : function(data) {
 			if(data.success){
-				window.wxc.success("交易顾问派单流程成功结束",{"wxcOk":function(){
-					window.close();
-					window.opener.callback();
+				window.wxc.success("恭喜，取消派单流程成功！",{"wxcOk":function(){
+/*					window.close();
+					window.opener.callback();*/
+					window.location.reload(); 
 				}});
 			}else{
 				window.wxc.error(data.message);
@@ -271,3 +314,111 @@ function loanerClick(){
 	}
 }
 
+
+
+//查询分行信息
+function getParentBank(selector, selectorBranch, finOrgCode, tag, flag) {
+	var bankHtml = "<option value=''>请选择</option>";
+	var param = {
+		nowCode : finOrgCode
+	};
+	// cl 表示入围银行（即和中原合作的银行，范围小一些）; 不加tag=cl 表示临时银行,范围大一些，银行多一些
+	// finOrgCode 银行的代码，不加该字段表示查询所有的分行信息
+	// flag, "egu" 农业银行 单独处理
+	if (tag == 'cl') {
+		param.tag = 'cl';
+	}
+	$
+			.ajax({
+				cache : true,
+				url : ctx + "/manage/queryParentBankList",
+				method : "post",
+				dataType : "json",
+				async : false,
+				data : param,
+				success : function(data) {
+					if (data != null) {
+						for (var i = 0; i < data.length; i++) {
+							if ((data[i].finOrgCode != '1032900' && data[i].finOrgCode != '3082900')
+									|| flag != 'egu') {// 不作农业银行的讯价
+								var coLevelStr = '';
+								bankHtml += "<option coLevel='"
+										+ data[i].coLevel + "' value='"
+										+ data[i].finOrgCode + "'>"
+										+ data[i].finOrgNameYc + coLevelStr
+										+ "</option>";
+							}
+						}
+					}
+				},
+				error : function(e) {
+					window.wxc.error(e);
+				}
+			});
+
+	selector.find('option').remove();
+	selector.append($(bankHtml));
+	$.ajax({
+		url : ctx + "/manage/queryParentBankInfo",
+		method : "post",
+		dataType : "json",
+		async : false,
+		data : {
+			finOrgCode : finOrgCode,
+			flag : flag
+		},
+		success : function(data) {
+			if (data != null) {
+				selector.val(data.content);
+			}
+		}
+	});
+
+	getBranchBankList(selectorBranch, selector.val(), finOrgCode, tag, flag);
+
+	return bankHtml;
+}
+
+// 查询 分行对应的支行信息
+function getBranchBankList(selectorBranch, pcode, finOrgCode, tag, flag) {
+	selectorBranch.find('option').remove();
+	selectorBranch[0];
+	selectorBranch.append($("<option value=''>请选择</option>"));
+	var param = {
+		faFinOrgCode : pcode,
+		flag : flag,
+		nowCode : finOrgCode
+	};
+	if (tag == 'cl') {
+		param.tag = 'cl';
+	}
+	$.ajax({
+		cache : true,
+		url : ctx + "/manage/queryBankListByParentCode",
+		method : "post",
+		dataType : "json",
+		async : false,
+		data : param,
+		success : function(data) {
+			if (data != null) {
+				for (var i = 0; i < data.length; i++) {
+					var coLevelStr = '(' + data[i].coLevelStr + ')';
+
+					// 以下各支行后面有(其他)
+					// var option = $("<option coLevel='"+data[i].coLevel+"'
+					// value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>");
+					var option = $("<option coLevel='" + data[i].coLevel
+							+ "' value='" + data[i].finOrgCode + "'>"
+							+ data[i].finOrgNameYc + "</option>");
+					if (data[i].finOrgCode == finOrgCode) {
+						option.attr("selected", true);
+					}
+
+					selectorBranch.append(option);
+				}
+			}
+		}
+	});
+
+	return true;
+}

@@ -44,20 +44,32 @@
 						M.CASE_CODE,
 						M.MORT_TYPE,						
 						ISNULL(M.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,
-					  	ISNULL(M.COM_AMOUNT,0)/10000 COM_AMOUNT,
+						ISNULL(M.COM_AMOUNT,0)/10000 COM_AMOUNT,
+						ISNULL(M.PRF_AMOUNT,0)/10000 PRF_AMOUNT,
 						M.COM_DISCOUNT,
 						M.COM_YEAR,
+						M.PRF_YEAR,						
 						M.LOANER_ID,
 						M.FIN_ORG_CODE,
 						W.INST_CODE,
-						T.ID_
-					
+						W.STATUS,
+						T.ID_,
+						L.CUST_NAME,
+						L.LOANER_STATUS
+										
 					FROM sctrans.T_TO_WORKFLOW  W
 					INNER JOIN  sctrans.T_TO_MORTGAGE  M ON W.CASE_CODE = M.CASE_CODE  AND M.IS_ACTIVE = '1' AND  M.DISPACH_TIME IS NOT NULL
 					INNER JOIN  sctrans.ACT_HI_TASKINST T ON T.PROC_INST_ID_ = W.INST_CODE AND T.ID_= (SELECT MAX(TA.ID_) FROM sctrans.ACT_HI_TASKINST TA WHERE TA.PROC_INST_ID_ = W.INST_CODE)
-					WHERE  W.BUSINESS_KEY='Loaner_Process'  AND W.STATUS='0'
+					INNER JOIN  sctrans.T_TO_MORT_LOANER L ON L.CASE_CODE = W.CASE_CODE 
+					WHERE  W.BUSINESS_KEY='Loaner_Process' 
 					
-					
+					<if test="idflag != null and idflag !='' ">				
+				    AND  EXISTS( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = M.CASE_CODE    AND C.LEADING_PROCESS_ID = #userId#)
+				    </if>
+				    <if test="queryorgs != null and queryorgs !='' ">				
+					AND  EXISTS( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = M.CASE_CODE    AND C.ORG_ID in (#queryorgs#))
+					</if>	
+									
 					<if test="caseCode != null and caseCode !='' ">
 					 AND M.CASE_CODE = #caseCode#
 					</if>
@@ -67,9 +79,16 @@
 					</if>								
 		
 					<if test="loanerId != null and loanerId !='' ">
-					 	  AND M.LOANER_ID = #loanId# 
+					 	  AND M.LOANER_ID = #loanerId# 
 					</if>
-			
+					
+					<if test="loanLostFinOrgNameCode != null  and loanLostFinOrgNameCode !='' ">					
+						 AND EXISTS (select 1 from sctrans.T_TS_FIN_ORG FOCODE  where FOCODE.FIN_ORG_CODE=M.FIN_ORG_CODE and FOCODE.FA_FIN_ORG_CODE = #loanLostFinOrgNameCode#)
+					</if>
+		
+					<if test="loanLostFinOrgNameYcCode != null and loanLostFinOrgNameYcCode !='' ">				
+						AND M.FIN_ORG_CODE = #loanLostFinOrgNameYcCode#
+					</if>
 				]]>
 			</baseSql>
 			<groupSql>
@@ -103,9 +122,15 @@
 				<column type="both" name="COM_YEAR" index="" checkbox=""   title="商贷年限" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
 				
 				<column type="both" name="INST_CODE" index="" checkbox=""   title="INST_CODE" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="STATUS" index="" checkbox=""   title="STATUS" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="ID_" index="" checkbox=""   title="TASKID" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
-						
+			
+				<column type="both" name="PRF_AMOUNT" index="" checkbox=""   title="公积金金额" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>	
+				<column type="both" name="PRF_YEAR" index="" checkbox=""   title="公积金年限" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>	
+				<column type="both" name="CUST_NAME" index="" checkbox=""   title="主贷人" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>	
+				<column type="both" name="LOANER_STATUS" index="" checkbox=""   title="派单状态" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>	
 				
+					
 			</table-row>
 		</grid>
 	</query>
