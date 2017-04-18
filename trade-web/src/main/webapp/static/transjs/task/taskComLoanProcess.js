@@ -791,9 +791,9 @@ var mCustCode='';
 var custCode='';
 //查询贷款信息
 function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
-	if(isMainLoanBank=='0'&&!mCustCode){
+	 if(isMainLoanBank=='0' && !mCustCode){
 		getMortgageInfo(caseCode,'1',true);
-	}
+	 }
 	 $.ajax({
 	    url:ctx+"/task/getMortgageInfo",
 	    method:"post",
@@ -912,6 +912,10 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    				f.find("input[name='recLetterNo']").prop('disabled',false).css("background-color","");
 		    				f.find(".tmpBankReasonDiv").hide();
 		    			}
+		    			
+		    			//新增派单时间   TODO
+		    			f.find("input[name='dispachTime']").show();
+		    			f.find("input[name='dispachTime']").val(data.content.dispachTime);
 		    			
 		    			//两种情况下可选：1.流程还未开启 2.申请被驳回 
 		    			if((data.code == '0' && !data.content.tmpBankUpdateBy) 
@@ -1511,9 +1515,11 @@ function checkReportAtt(){
 
 var stepIndex = 0;
 
-$(document).ready(function (){	
-	  $("#dispachTimeShow1").hide();
-	  $("#dispachTimeShow0").hide();
+
+$(document).ready(function (){
+	
+/*	  $("#dispachTimeShow1").hide();
+	  $("#dispachTimeShow0").hide();*/
 	  $("#processStart").val("");//页面初始化的时候清空
 	  var serviceJobCode = $("#serviceJobCode").val();
 	  if(serviceJobCode == "COXXGLY"){
@@ -1563,11 +1569,9 @@ $(document).ready(function (){
 	 //关闭询价输入窗口，刷新询价列表
 	 $("#pricingClose").click(function(){
 		 var isMainLoanBank = $("#isMainLoanBank").val();
-		 if(isMainLoanBank == 1){
-			 //searchPricingList("table_list_1");
+		 if(isMainLoanBank == 1){			 
 			 getPricingList("table_list_1","pager_list_1",1);
-		 }else{
-			 //searchPricingList("table_list_3");
+		 }else{			
 			 getPricingList("table_list_3","pager_list_3",0);
 		 }
 	 });
@@ -1576,11 +1580,9 @@ $(document).ready(function (){
 	 $("#reportClose").click(function(){
 		 var isMainLoanBank = $("#isMainLoanBank").val();
 		 if(isMainLoanBank == 1){
-			 searchReportList("table_list_4");
-		//	 getReportList("table_list_4","pager_list_4");
+			 searchReportList("table_list_4");		
 		 }else{
-			 searchReportList("table_list_6");
-		//	 getReportList("table_list_6","pager_list_6");
+			 searchReportList("table_list_6");		
 		 }
 	 });
 	 
@@ -1623,10 +1625,6 @@ $(document).ready(function (){
  	enableCancelButton:false,
  	onStepChanging: function (event, currentIndex, newIndex){
  		if(currentIndex == 0){
- 			/*if(accPricing == null){
- 				alert("请先接受询价结果！");
- 				return false;
- 			}*/
  			if(accPricing){
  				$("#eva_code").val(accPricing['EVA_CODE']);
  			}
@@ -1642,9 +1640,7 @@ $(document).ready(function (){
  			}
  			return flag;
  		}else if(currentIndex == 3 ){
- 			/*if(checkAttUp($(".att_first"),$("#mortgageForm"))){
- 				return deleteAndModify();
- 			}*/
+
  			if ($("#loan_doc_confirm_letter_first_pic_list li").length == undefined
 					|| $("#loan_doc_confirm_letter_first_pic_list li").length == 0 ) {
 				window.wxc.alert("贷款材料确认书未上传!");
@@ -1681,9 +1677,13 @@ $(document).ready(function (){
  		if(currentIndex == 1){
  			getReminderList("table_list_2","pager_list_2");
  		}else if(currentIndex == 2){
+ 			//获取页面信息  1 表示主选银行
 	 		getMortgageInfo($("#caseCode").val(),1);
+	 		
  		}else if(currentIndex == 3 && priorIndex !=2){
+ 			
  			getMortgageInfo($("#caseCode").val(),1);
+ 			
  		}else if(currentIndex == 4){
  			getMortgageInfo($("#caseCode").val(),1);
  			getReportList("table_list_4","pager_list_4",1);
@@ -1891,8 +1891,8 @@ transitionEffect: "slide",
     		  		 $(".btn-primary").one("click",function(){
     		  				parent.$.fancybox.close();
     		  			});	 
-    		                } 
-    		            } , 
+    		        } 
+    		    }, 
         		success:function(data){
         			//$("#reportSubBtn").attr("disabled",false);
 
@@ -1996,7 +1996,8 @@ function loanerProcessStart(isMainLoanBank){
 	
 	var data = 
 	{
-	   "caseCode":$("#caseCode").val() 
+	   "caseCode":$("#caseCode").val(),
+	   "isMainLoanBank":isMainLoanBank 
 	};
  	$.ajax({
 	    url:ctx+"/task/isLoanerProcessStart",

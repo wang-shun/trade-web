@@ -35,6 +35,10 @@ public class ToMortLoaner {
 	private String loanerStatus;
 
 	private String loanerDesc;
+	
+	private String mortType;
+	
+	private String isMainLoanBankProcess;
 
 	private String sendId;
 
@@ -149,6 +153,23 @@ public class ToMortLoaner {
 
 	public Integer getComYear() {
 		return comYear;
+	}	
+	
+	
+	public String getMortType() {
+		return mortType;
+	}
+
+	public void setMortType(String mortType) {
+		this.mortType = mortType;
+	}
+
+	public String getIsMainLoanBankProcess() {
+		return isMainLoanBankProcess;
+	}
+
+	public void setIsMainLoanBankProcess(String isMainLoanBankProcess) {
+		this.isMainLoanBankProcess = isMainLoanBankProcess;
 	}
 
 	public void setComYear(Integer comYear) {

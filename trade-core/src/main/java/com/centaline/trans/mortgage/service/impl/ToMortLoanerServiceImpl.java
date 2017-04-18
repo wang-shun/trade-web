@@ -171,4 +171,35 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 	public ToMortLoaner getToMortLoanerByMortgageId(String mortgageId) {
 		return toMortLoanerMapper.getToMortLoanerByMortgageId(mortgageId);
 	}
+	
+	
+	@Override
+	public ToMortLoaner findToMortLoanerByCaseCodeAndIsMainBank(String caseCode,String isMainLoanBankProcess){
+		
+		ToMortLoaner toMortLoaner = new ToMortLoaner();
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("caseCode", caseCode);
+		map.put("isMainLoanBankProcess", isMainLoanBankProcess);
+		try{
+			toMortLoaner  = toMortLoanerMapper.findToMortLoanerByCaseCodeAndIsMainBank(map);
+
+		}catch (BusinessException e) {
+			throw new BusinessException("查询信贷员派单信息异常");
+		}		
+		return toMortLoaner;
+	}
+	
+	
+	@Override
+	public ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner){
+		
+		if(null == toMortLoaner) throw new BusinessException("查询信贷员派单信息参数异常");
+		try{
+			toMortLoaner  = toMortLoanerMapper.findToMortLoaner(toMortLoaner);
+
+		}catch (BusinessException e) {
+			throw new BusinessException("查询信贷员派单信息异常");
+		}		
+		return toMortLoaner;
+	}
 }

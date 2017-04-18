@@ -55,10 +55,12 @@
 						W.STATUS,
 						T.ID_,
 						L.CUST_NAME,
-						L.LOANER_STATUS
+						L.LOANER_STATUS,
+						L.HOU_ADDRESS,
+						L.IS_MAIN_LOANBANK_PROCESS
 										
 					FROM sctrans.T_TO_WORKFLOW  W
-					INNER JOIN  sctrans.T_TO_MORTGAGE  M ON W.CASE_CODE = M.CASE_CODE  AND M.IS_ACTIVE = '1' AND  M.DISPACH_TIME IS NOT NULL
+					INNER JOIN  sctrans.T_TO_MORTGAGE  M ON W.CASE_CODE = M.CASE_CODE  AND M.IS_ACTIVE = '1' 
 					INNER JOIN  sctrans.ACT_HI_TASKINST T ON T.PROC_INST_ID_ = W.INST_CODE AND T.ID_= (SELECT MAX(TA.ID_) FROM sctrans.ACT_HI_TASKINST TA WHERE TA.PROC_INST_ID_ = W.INST_CODE)
 					INNER JOIN  sctrans.T_TO_MORT_LOANER L ON L.CASE_CODE = W.CASE_CODE 
 					WHERE  W.BUSINESS_KEY='Loaner_Process' 
@@ -75,7 +77,8 @@
 					</if>
 					
 					<if test="propertyAddr != null and propertyAddr !='' ">
-						AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE M.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
+						AND L.HOU_ADDRESS '%' + #propertyAddr# + '%'
+						<!-- AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE M.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%')  -->
 					</if>								
 		
 					<if test="loanerId != null and loanerId !='' ">
@@ -101,7 +104,9 @@
 			<table-row>
 			    <column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 			   	<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="PROPERTY_ADDR" index="" checkbox="true" title="案件地址"  customDict="qqProaddrByCaseCode" hidden="false" referencecol="CASE_CODE"/>
+			   	<column type="both" name="HOU_ADDRESS" index="" checkbox="true" title="案件地址"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			   	<column type="both" name="IS_MAIN_LOANBANK_PROCESS" index="" checkbox="true" title="派单流程标示"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="PROPERTY_ADDR" index="" checkbox="true" title="案件地址"  customDict="" hidden="false" referencecol="CASE_CODE"/>
 				
 				<column type="both" name="MORT_TYPE" index="" checkbox=""   title="贷款类型IN" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
 				<column type="virtual" name="MORT_TYPE_CN" index="" checkbox="true" title="贷款类型"  customDict="qqcdMortName" hidden="false" referencecol="MORT_TYPE"/>
