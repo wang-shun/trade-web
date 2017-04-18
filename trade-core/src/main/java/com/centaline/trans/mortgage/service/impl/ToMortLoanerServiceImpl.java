@@ -194,12 +194,13 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 	public ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner){
 		
 		if(null == toMortLoaner) throw new BusinessException("查询信贷员派单信息参数异常");
+		ToMortLoaner toMortLoanerProcess = new  ToMortLoaner();
 		try{
-			toMortLoaner  = toMortLoanerMapper.findToMortLoaner(toMortLoaner);
+			toMortLoanerProcess  = toMortLoanerMapper.findToMortLoaner(toMortLoaner);
 
 		}catch (BusinessException e) {
 			throw new BusinessException("查询信贷员派单信息异常");
 		}		
-		return toMortLoaner;
+		return toMortLoanerProcess;
 	}
 }
