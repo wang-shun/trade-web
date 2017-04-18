@@ -52,9 +52,9 @@ public class PricingController {
     }
 
 
-    @RequestMapping(value = "submitPricing",method = RequestMethod.POST)
+    @RequestMapping(value = "submitPricing")
     @ResponseBody
-    public AjaxResponse submitPricing(ToPricing toPricing, String taskId, String processInstanceId) {
+    public Object submitPricing(ToPricing toPricing, String taskId, String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
             Boolean saveFlag = toPricingService.saveToPricing(toPricing);
