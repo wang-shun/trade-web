@@ -485,15 +485,6 @@
       <if test="cancleTime != null" >
         CANCLE_TIME = #{cancleTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="approvalId != null" >
-        APPROVAL_ID = #{approvalId,jdbcType=VARCHAR},
-      </if>
-      <if test="approvalName != null" >
-        APPROVAL_NAME = #{approvalName,jdbcType=VARCHAR},
-      </if>
-      <if test="approvalTime != null" >
-        APPROVAL_TIME = #{approvalTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
