@@ -105,6 +105,14 @@ function getParams(page) {
 	var uId = $("#userId").val();
 	var dtBegin_0 = $("#dtBegin_0").val();
 	var dtEnd_0 =   $("#dtEnd_0").val();
+	
+	if(dtBegin_0!=null){
+		dtBegin_0=dtBegin_0+" 00:00:00";
+	}
+	if(dtEnd_0!=null){
+		dtEnd_0=dtEnd_0+" 23:59:59";
+	}
+	
 	var data = {
 			search_propertyAddr: propertyAddr,
 			search_caseCode:caseCode,

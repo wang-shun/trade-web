@@ -126,7 +126,8 @@ public class MortgageController {
 			throw new CheckParametersException("请检查参数!");
 		}
 
-		if (bizCode == "BANKAUDITSUCCESS" || bizCode == "BANKREJECT") {
+		if ("MORT_APPROVED".equals(stateInBank)
+				|| "BANKREJECT".equals(stateInBank)) {
 			if (taskId == null || procInstanceId == null) {
 				throw new CheckParametersException("请检查参数!");
 			}

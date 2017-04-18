@@ -50,6 +50,7 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.utils.DateUtil;
 
 @Service
 public class ToEloanCaseServiceImpl implements ToEloanCaseService {
@@ -128,7 +129,22 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 				&& StringUtils.isNotBlank(property.getPropertyAddr())) {
 			record.setHouAddress(property.getPropertyAddr());
 		}
+
 		toEloanLoanerMapper.insertSelective(record);
+
+		// 需不需要判断案件重复记录
+		// boolean isExist =
+		// toEloanLoanerMapper.isExist(tEloanCase.getCaseCode());
+
+		// if (!isExist) {
+		// toEloanLoanerMapper.insertSelective(record);
+		// } else {
+		// ToEloanLoaner toEloanLoaner = toEloanLoanerMapper
+		// .getEloanLoanerByCaseCode(tEloanCase.getCaseCode());
+
+		// record.setPkid(toEloanLoaner.getPkid());
+		// toEloanLoanerMapper.updateByPrimaryKeySelective(record);
+		// }
 
 		// start
 		User manager = new User();
@@ -478,19 +494,23 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	}
 
 	@Override
-	public void batchChangeOwner(String[] eloanCodeList, String newConsultantId, String newManagerId) {
-		if(eloanCodeList != null && eloanCodeList.length > 0){
-			for(String spvCode:eloanCodeList){
+	public void batchChangeOwner(String[] eloanCodeList,
+			String newConsultantId, String newManagerId) {
+		if (eloanCodeList != null && eloanCodeList.length > 0) {
+			for (String spvCode : eloanCodeList) {
 				changeOwner(spvCode, newConsultantId, newManagerId);
 			}
 		}
 	}
-	
+
 	@Override
-	public void changeOwner(String eloanCode, String newConsultantId, String newManagerId) {
-		//相关人员
-		SessionUser newConsultant = uamSessionService.getSessionUserById(newConsultantId);
-		SessionUser newManager = uamSessionService.getSessionUserById(newManagerId);
+	public void changeOwner(String eloanCode, String newConsultantId,
+			String newManagerId) {
+		// 相关人员
+		SessionUser newConsultant = uamSessionService
+				.getSessionUserById(newConsultantId);
+		SessionUser newManager = uamSessionService
+				.getSessionUserById(newManagerId);
 		SessionUser user = uamSessionService.getSessionUser();
 		// 1.更新t_to_eloan_case表中的excutor_id字段
 		ToEloanCase eloanCase = toEloanCaseMapper.selectByEloanCode(eloanCode);
@@ -530,19 +550,25 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		}
 
 		String instCode = workFlow.getInstCode();
-		//2.更新流程变量+已生成待办任务
-		String oldConsultant = (String) workFlowManager.getVar(instCode, "Consultant").getValue();
-		String oldManager = (String) workFlowManager.getVar(instCode, "Manager").getValue();
-		
-		workFlowManager.setVariableByProcessInsId(instCode, "Consultant", new RestVariable("Consultant",newConsultant.getUsername()));
-		workFlowManager.setVariableByProcessInsId(instCode, "Manager", new RestVariable("Manager",newManager.getUsername()));
+		// 2.更新流程变量+已生成待办任务
+		String oldConsultant = (String) workFlowManager.getVar(instCode,
+				"Consultant").getValue();
+		String oldManager = (String) workFlowManager
+				.getVar(instCode, "Manager").getValue();
+
+		workFlowManager.setVariableByProcessInsId(instCode, "Consultant",
+				new RestVariable("Consultant", newConsultant.getUsername()));
+		workFlowManager.setVariableByProcessInsId(instCode, "Manager",
+				new RestVariable("Manager", newManager.getUsername()));
 		PageableVo pageableVo = taskService.listTasks(instCode, false);
 		List<TaskVo> taskList = pageableVo.getData();
 		for (TaskVo task : taskList) {
 			if (oldConsultant.equals(task.getAssignee())) {
-				taskService.updateAssignee(task.getId().toString(), newConsultant.getUsername());
-			}else if(oldManager.equals(task.getAssignee())){
-				taskService.updateAssignee(task.getId().toString(), newManager.getUsername());
+				taskService.updateAssignee(task.getId().toString(),
+						newConsultant.getUsername());
+			} else if (oldManager.equals(task.getAssignee())) {
+				taskService.updateAssignee(task.getId().toString(),
+						newManager.getUsername());
 			}
 		}
 	}
@@ -585,13 +611,18 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 	private void buildToEloanLoanerInfo(ToEloanCase tEloanCase,
 			ToEloanLoaner record) {
+		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
+		String jdmonth = dateStr.substring(0, 6);
+		String receiveCode = uamBasedataService.nextSeqVal("CASE_EP_CODE",
+				jdmonth);
+		if (StringUtils.isBlank(receiveCode)) {
+			throw new BusinessException("生成接收编码异常！");
+		}
 		String userId = uamSessionService.getSessionUser().getId();
 		String eloanCode = tEloanCase.getEloanCode();
 		String caseCode = tEloanCase.getCaseCode();
-		String receiveCode;
 		String custName = tEloanCase.getCustName();
 		String custPhone = tEloanCase.getCustPhone();
-		String houAddress;
 		Date applyTime = tEloanCase.getApplyTime();
 		BigDecimal applyAmount = tEloanCase.getApplyAmount();
 		Integer month = tEloanCase.getMonth();
@@ -600,6 +631,9 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		Date sendTime = new Date();
 		Date createTime = new Date();
 		Date updateTime = new Date();
+		String loanerId = tEloanCase.getLoanerId();
+		String loanerName = tEloanCase.getLoanerName();
+		String loanerOrgId = tEloanCase.getLoanerOrgId();
 
 		if (StringUtils.isNotBlank(eloanCode)) {
 			record.setEloanCode(eloanCode);
@@ -607,10 +641,9 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		if (StringUtils.isNotBlank(caseCode)) {
 			record.setCaseCode(caseCode);
 		}
-		/*
-		 * if(StringUtils.isNotBlank(receiveCode)){
-		 * record.setReceiveCode(receiveCode); }
-		 */
+		if (StringUtils.isNotBlank(receiveCode)) {
+			record.setReceiveCode(receiveCode);
+		}
 		if (StringUtils.isNotBlank(custName)) {
 			record.setCustName(custName);
 		}
@@ -637,5 +670,15 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		record.setUpdateTime(updateTime);
 		record.setCreateBy(userId);
 		record.setUpdateBy(userId);
+
+		if (StringUtils.isNotBlank(loanerId)) {
+			record.setLoanerId(loanerId);
+		}
+		if (StringUtils.isNotBlank(loanerName)) {
+			record.setLoanerName(loanerName);
+		}
+		if (StringUtils.isNotBlank(loanerOrgId)) {
+			record.setLoanerOrgId(loanerOrgId);
+		}
 	}
 }

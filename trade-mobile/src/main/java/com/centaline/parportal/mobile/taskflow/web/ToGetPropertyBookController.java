@@ -40,7 +40,7 @@ public class ToGetPropertyBookController {
 
     @RequestMapping(value = "process")
     @ResponseBody
-    public JSONObject toProcess(HttpServletRequest request, String processInstanceId) {
+    public Object toProcess(HttpServletRequest request, String processInstanceId) {
         String taskId = request.getParameter("taskId");
         String caseCode = request.getParameter("caseCode");
         JSONObject jsonObject = new JSONObject();
@@ -52,7 +52,7 @@ public class ToGetPropertyBookController {
 
     @RequestMapping(value = "submitToGetPropertyBook",method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResponse submitToGetPropertyBook(ToGetPropertyBook toGetPropertyBook, String taskId,String processInstanceId) {
+    public Object submitToGetPropertyBook(ToGetPropertyBook toGetPropertyBook, String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
             Boolean saveFlag =  toGetPropertyBookService.saveToGetPropertyBook(toGetPropertyBook);
