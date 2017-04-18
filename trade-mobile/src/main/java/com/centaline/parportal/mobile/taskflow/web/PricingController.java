@@ -41,7 +41,7 @@ public class PricingController {
 
     @RequestMapping(value = "process")
     @ResponseBody
-    public JSONObject toProcess(HttpServletRequest request, String processInstanceId) {
+    public Object toProcess(HttpServletRequest request, String processInstanceId) {
         String taskId = request.getParameter("taskId");
         String caseCode = request.getParameter("caseCode");
         JSONObject jsonObject = new JSONObject();
