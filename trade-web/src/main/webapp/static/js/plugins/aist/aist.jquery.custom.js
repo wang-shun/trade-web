@@ -342,7 +342,7 @@ function($, window) {
 		var data = ($.isBlank(settings.data))?{}:settings.data;
 		data.queryId = settings.queryId;
 		data.page = settings.page;
-		data.rows = settings.rows;
+		data.rows = data.pageSize != null ? data.pageSize : settings.rows;
 		aist.wrap(data);
 		var templeteId = settings.templeteId;
 		var templeteSource = settings.templeteSource;

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,8 @@ public class TaxReviewController {
 
     @RequestMapping(value = "process")
     @ResponseBody
-    public JSONObject toProcess(String taskId, String processInstanceId) {
+    public JSONObject toProcess(HttpServletRequest request, String processInstanceId) {
+        String taskId = request.getParameter("taskId");
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
