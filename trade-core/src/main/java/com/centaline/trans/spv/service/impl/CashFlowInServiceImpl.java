@@ -310,36 +310,40 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 	private String createSpvApplyCode() {
 		return uamBasedataService.nextSeqVal("SPV_CODE", new SimpleDateFormat("yyyyMMdd").format(new Date()));
 	}
-	
+	/**
+	 * 入账提交申请创建流程
+	 * 
+	 */
 	@Override
 	public void cashFlowInPageDeal(HttpServletRequest request, String handle, SpvRecordedsVO spvRecordedsVO, String businessKey) throws Exception {
-		SessionUser user = uamSessionService.getSessionUser();
-		
-		if(null == spvRecordedsVO || null == spvRecordedsVO.getItems()) throw new BusinessException("申请入账流水信息不存在！");
-		
-		//创建spvApplyCode
-		String spvApplyCode = createSpvApplyCode();
-		if(null == spvApplyCode ) throw new BusinessException("创建spvApplyCode失败！");
-		//保存数据
-		toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO,handle,spvApplyCode); 
 		
 		Map<String, Object> vars = new HashMap<String, Object>();
-		vars.put("RiskControlOfficer", user.getUsername());
+		SessionUser user = uamSessionService.getSessionUser();
+		/**创建spvApplyCode**/
+		String spvApplyCode = createSpvApplyCode();
+		
+		if( StringUtils.isBlank(user.getServiceDepId())){ throw new BusinessException("申请人部门为空！"); }
+		if(null == spvRecordedsVO || null == spvRecordedsVO.getItems()) {throw new BusinessException("申请入账流水信息不存在！");}
+		if(null == spvApplyCode ) throw new BusinessException("创建spvApplyCode失败！");
+		if(StringUtils.isBlank(spvRecordedsVO.getSpvConCode())){throw new BusinessException("监管合约信息不存在！");}
+		/**保存数据**/
+		toSpvService.saveSpvChargeInfoVObyIn(spvRecordedsVO,handle,spvApplyCode); 
+		
 		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+		if(null == riskControlDirector || StringUtils.isBlank(riskControlDirector.getUsername()) 
+				|| StringUtils.isBlank(user.getUsername())){
+			throw new BusinessException("查询不到处理人！");
+		}
+		vars.put("RiskControlOfficer", user.getUsername());
 		vars.put("RiskControlDirector", riskControlDirector.getUsername());
-		//开启流程
-		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(
+		/**开启流程**/
+		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId( 
 				propertyUtilsService.getSpvCashflowInProcess(), spvApplyCode, vars);
 
-		//插入工作流表
+		/**插入工作流表**/
 		ToWorkFlow workFlow = new ToWorkFlow();
-		//workFlow.setBusinessKey(spvApplyCode);
 		workFlow.setBusinessKey("SpvCashflowInProcess");
-		if(null != spvRecordedsVO.getSpvConCode()){
-			workFlow.setCaseCode(spvRecordedsVO.getCaseCode());
-		}else{
-			throw new BusinessException("监管合约信息不存在！");
-		}
+		workFlow.setCaseCode(spvRecordedsVO.getCaseCode());
 		workFlow.setInstCode(processInstance.getId());
 		workFlow.setProcessDefinitionId(propertyUtilsService.getSpvCashflowInProcess());
 		workFlow.setProcessOwner(user.getId());
@@ -348,7 +352,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		workFlow.setCaseCode(spvRecordedsVO.getCaseCode());
 		toWorkFlowService.insertSelective(workFlow);
 		
-		// 提交申请任务
+		/**提交申请任务**/
 		PageableVo pageableVo = taskService.listTasks(processInstance.getId(), false);
 		List<TaskVo> taskList = pageableVo.getData();
 		for (TaskVo task : taskList) {

@@ -1329,9 +1329,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public void saveSpvChargeInfoVObyIn(SpvRecordedsVO spvRecordedsVO,String handle,String spvApplyCode) throws Exception{
 		
-		if(null == spvRecordedsVO){
-			throw new BusinessException("申请信息数据为空！");
-		}
+		if(null == spvRecordedsVO){ throw new BusinessException("申请信息数据为空！"); }
+		
 		SessionUser user = uamSessionService.getSessionUser();
 		ToSpvCashFlowApply toSpvCashFlowApply = new ToSpvCashFlowApply();
 		List<SpvRecordedsVOItem> spvRecordedsVOItems = spvRecordedsVO.getItems();
@@ -1389,7 +1388,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 				throw new BusinessException("没有监管合约编号！");
 			}
 			toSpvCashFlowApply.setUsage("in");
-			//备注	toSpvCashFlowApply.setComment(comment);
 			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());//状态
 			toSpvCashFlowApply.setIsDeleted("0");//是否删除
 			if(!StringUtils.isBlank(user.getId())){//申请人
