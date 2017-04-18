@@ -86,7 +86,7 @@
     AND   LOANER_STATUS IN ('BANKREJECT','REJECT')
   </select>   
   
-  <select id="findToMortLoaner" resultMap="BaseResultMap" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner"  >
+  <select id="findToMortLoaner" resultMap="BaseResultMap" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
     select 
     	<include refid="Base_Column_List" />
     from sctrans.T_TO_MORT_LOANER
@@ -99,9 +99,8 @@
      <if test="isMainLoanBankProcess != null">
  	 	AND  IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR}
  	 </if>
-
  </select>
-  </select>   
+
   
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
