@@ -21,6 +21,13 @@ $(document).ready(function() {
 		offsetX: 8,
 		offsetY: 5,
 	});	
+	
+	getParentBank($("select[name='loanLostFinOrgName']"),$("select[name='loanLostFinOrgNameYc']"), "", "", "");
+
+	$("select[name='loanLostFinOrgName']").change(function() {
+		getBranchBankList($("select[name='loanLostFinOrgNameYc']"), $("select[name='loanLostFinOrgName']").val(), "");
+
+	})
 			
 });
 
@@ -57,18 +64,21 @@ function getParams() {
 	}
 	// 信贷员
 	var loanerId = $("#loanerId").val().trim();
+	alert(loanerId);
 	if (loanerId == "" || loanerId == null) {
 		loanerId = null;
 	}
 	// 银行信息
-/*	var bankFinOrg = $("#bankFinOrg").val().trim();
-	if (bankFinOrg == "" || bankFinOrg == null) {
-		bankFinOrg = null;
-	}*/
+	var loanLostFinOrgNameCode = $("#loanLostFinOrgName option:selected").val();
+	var loanLostFinOrgNameYcCode = $("#loanLostFinOrgNameYc option:selected").val();
 	//params.bankFinOrg = bankFinOrg;
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;
 	params.loanerId = loanerId;	
+	params.pagesize = 1;	
+	
+	params.loanLostFinOrgNameCode = loanLostFinOrgNameCode;
+	params.loanLostFinOrgNameYcCode = loanLostFinOrgNameYcCode;
 	
 	return params;
 }
@@ -95,6 +105,9 @@ $('#loanerConditionClean').click(function() {
 	
 	$("input[name='loanerId']").val('');
 	$("input[name='loanerName']").val('');
+	
+	$("#loanLostFinOrgNameYc").val("");
+	$("#loanLostFinOrgName").val("");
 	
 });
 
@@ -271,3 +284,111 @@ function loanerClick(){
 	}
 }
 
+
+
+//查询分行信息
+function getParentBank(selector, selectorBranch, finOrgCode, tag, flag) {
+	var bankHtml = "<option value=''>请选择</option>";
+	var param = {
+		nowCode : finOrgCode
+	};
+	// cl 表示入围银行（即和中原合作的银行，范围小一些）; 不加tag=cl 表示临时银行,范围大一些，银行多一些
+	// finOrgCode 银行的代码，不加该字段表示查询所有的分行信息
+	// flag, "egu" 农业银行 单独处理
+	if (tag == 'cl') {
+		param.tag = 'cl';
+	}
+	$
+			.ajax({
+				cache : true,
+				url : ctx + "/manage/queryParentBankList",
+				method : "post",
+				dataType : "json",
+				async : false,
+				data : param,
+				success : function(data) {
+					if (data != null) {
+						for (var i = 0; i < data.length; i++) {
+							if ((data[i].finOrgCode != '1032900' && data[i].finOrgCode != '3082900')
+									|| flag != 'egu') {// 不作农业银行的讯价
+								var coLevelStr = '';
+								bankHtml += "<option coLevel='"
+										+ data[i].coLevel + "' value='"
+										+ data[i].finOrgCode + "'>"
+										+ data[i].finOrgNameYc + coLevelStr
+										+ "</option>";
+							}
+						}
+					}
+				},
+				error : function(e) {
+					window.wxc.error(e);
+				}
+			});
+
+	selector.find('option').remove();
+	selector.append($(bankHtml));
+	$.ajax({
+		url : ctx + "/manage/queryParentBankInfo",
+		method : "post",
+		dataType : "json",
+		async : false,
+		data : {
+			finOrgCode : finOrgCode,
+			flag : flag
+		},
+		success : function(data) {
+			if (data != null) {
+				selector.val(data.content);
+			}
+		}
+	});
+
+	getBranchBankList(selectorBranch, selector.val(), finOrgCode, tag, flag);
+
+	return bankHtml;
+}
+
+// 查询 分行对应的支行信息
+function getBranchBankList(selectorBranch, pcode, finOrgCode, tag, flag) {
+	selectorBranch.find('option').remove();
+	selectorBranch[0];
+	selectorBranch.append($("<option value=''>请选择</option>"));
+	var param = {
+		faFinOrgCode : pcode,
+		flag : flag,
+		nowCode : finOrgCode
+	};
+	if (tag == 'cl') {
+		param.tag = 'cl';
+	}
+	$.ajax({
+		cache : true,
+		url : ctx + "/manage/queryBankListByParentCode",
+		method : "post",
+		dataType : "json",
+		async : false,
+		data : param,
+		success : function(data) {
+			if (data != null) {
+				for (var i = 0; i < data.length; i++) {
+					var coLevelStr = '(' + data[i].coLevelStr + ')';
+
+					// 以下各支行后面有(其他)
+					// var option = $("<option coLevel='"+data[i].coLevel+"'
+					// value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>");
+					var option = $("<option coLevel='" + data[i].coLevel
+							+ "' value='" + data[i].finOrgCode + "'>"
+							+ data[i].finOrgNameYc + "</option>");
+					if (data[i].finOrgCode == finOrgCode) {
+						option.attr("selected", true);
+					}
+
+					selectorBranch.append(option);
+				}
+			}
+		}
+	});
+
+	return true;
+}
