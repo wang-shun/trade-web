@@ -56,8 +56,11 @@ public class ToHouseTransferController {
     @ResponseBody
     public JSONObject toProcess(HttpServletRequest request, String processInstanceId) {
         String taskId = request.getParameter("taskId");
+        String caseCode = request.getParameter("caseCode");
         SessionUser user= uamSessionService.getSessionUser();
         JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("caseCode", caseCode);
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
         jsonObject.put("approveType", "2");
