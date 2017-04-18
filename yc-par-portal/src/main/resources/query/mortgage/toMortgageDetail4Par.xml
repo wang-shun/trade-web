@@ -56,7 +56,7 @@
 							CAST(ISNULL(ml.COM_YEAR,0) as varchar) + '年' AS mortInfo_comYear,
 							ISNULL(ml.COM_DISCOUNT,0) AS mortInfo_comDiscount,
 							ISNULL(ml.PRF_AMOUNT,0) AS mortInfo_prfAmount,
-							ISNULL(CAST(ml.PRF_YEAR AS VARCHAR) + '年','') 	AS mortInfo_prfYear,
+							CAST(ISNULL(ml.PRF_YEAR,0) as varchar) + '年' AS mortInfo_prfYear,
 							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ml.LOANER_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1 AND TAG = 'MORT'),'派单') AS mortInfo_statusCode,
 							ISNULL(ml.SEND_ID,'')  AS yuOperator_userId,
 							ISNULL(M.LOAN_AGENT_TEAM,'')  AS yuOperator_teamId,

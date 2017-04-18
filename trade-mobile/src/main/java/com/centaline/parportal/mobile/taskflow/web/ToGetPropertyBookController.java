@@ -38,9 +38,10 @@ public class ToGetPropertyBookController {
     private TgGuestInfoService tgGuestInfoService;
 
     @RequestMapping(value = "process")
-    public JSONObject toProcess(String taskitem, String processInstanceId) {
+    @ResponseBody
+    public JSONObject toProcess(String taskId, String processInstanceId) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("taskId", taskitem);
+        jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
         return jsonObject;
     }

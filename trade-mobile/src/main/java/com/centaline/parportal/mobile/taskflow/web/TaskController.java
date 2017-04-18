@@ -2,9 +2,13 @@ package com.centaline.parportal.mobile.taskflow.web;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -17,7 +21,11 @@ import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.utils.Pages2JSONMoblie;
 
 @RestController
@@ -33,6 +41,9 @@ public class TaskController {
 	@Autowired
 	private QuickGridService quickGridService;
 	
+    @Resource
+    private UamUserOrgService uamUserOrgService;
+    
 	@RequestMapping(value = "list")
 	@ResponseBody
 	public JSONObject list(@RequestParam(required = true) Integer page, 
@@ -59,6 +70,8 @@ public class TaskController {
 		if(tmrTask) {
 			taskTag.add("1");
 		}
+		
+		taskTag.add("2");
  		
 		if(!taskTag.isEmpty()) {
 			paramMap.put("taskTag",(String[])taskTag.toArray(new String[taskTag.size()]));
@@ -66,8 +79,46 @@ public class TaskController {
 		SessionUser user = sessionService.getSessionUser();
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		buildZhongjieInfo(pages.getContent());
-		
+		buildZhuliInfo(pages.getContent());
+		buildHoutaiInfo(pages.getContent());
 		return Pages2JSONMoblie.pages2JsonMoblie(pages);
+	}
+	
+	private void buildHoutaiInfo(List<Map<String, Object>> list) {
+		if(CollectionUtils.isEmpty(list)) {
+			return ;
+		}
+		
+		for (Map<String, Object> map : list) {
+			JSONArray ja = (JSONArray) map.get("houtai");
+			
+			Iterator<Object> it = ja.iterator();
+			List<Object> nameList = new ArrayList<Object>();
+			while (it.hasNext()) {
+				JSONObject jo = (JSONObject) it.next();
+				nameList.add(jo.get("name"));
+			}
+			if(!CollectionUtils.isEmpty(nameList) ) {
+				map.put("houtai", nameList);
+			}
+		}
+	}
+	private void buildZhuliInfo(List<Map<String, Object>> list) {
+		if(CollectionUtils.isEmpty(list)) {
+			return ;
+		}
+		
+		for (Map<String, Object> map : list) {
+			// 助理
+			String orgId = String.valueOf(map.get("orgId"));
+			String zhuli = "";
+			List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZL.getCode());
+			if (CollectionUtils.isEmpty(asList)) {
+				User user = asList.get(0);
+				zhuli = user.getUsername();
+			}
+			map.put("zhuli", zhuli);
+		}
 	}
 	
 	private void buildZhongjieInfo(List<Map<String, Object>> list) {

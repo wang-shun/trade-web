@@ -1019,12 +1019,28 @@ public class WarnListController {
 		return result;
 	}
 	
+	@RequestMapping("batchChangeOwner")
+	@ResponseBody
+	public AjaxResponse<Integer> batchChangeOwner(String eloanCodeListStr, String newConsultantId, String newManagerId) {
+		AjaxResponse<Integer> result = new AjaxResponse<>();
+		try {
+			toEloanCaseService.batchChangeOwner(eloanCodeListStr.split(","), newConsultantId, newManagerId);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
 	@RequestMapping("changeOwner")
 	@ResponseBody
 	public AjaxResponse<Integer> changeOwner(String eloanCode, String oldConsultantId, String newConsultantId, String oldManagerId, String newManagerId) {
 		AjaxResponse<Integer> result = new AjaxResponse<>();
 		try {
-			toEloanCaseService.changeOwner(eloanCode, oldConsultantId, newConsultantId, oldManagerId, newManagerId);
+			toEloanCaseService.changeOwner(eloanCode, newConsultantId, newManagerId);
 			result.setSuccess(true);
 			result.setMessage("操作成功!");
 		} catch (Exception e) {

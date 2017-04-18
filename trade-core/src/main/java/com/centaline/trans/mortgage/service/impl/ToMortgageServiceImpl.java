@@ -881,15 +881,24 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 	@Override
 	public boolean followUp(MortgageVo mortgageVo) {
+		ToMortLoaner toMortLoaner = new ToMortLoaner();
+		toMortLoaner.setMortPkid(mortgageVo.getBizCode());
+
 		// 银行审核通过
 		if ("true".equals(mortgageVo.getIsPass())) {
 
-			if ("MORT_APPROVED".equals(mortgageVo.getStateInBank())) {
+			// 银行审核通过
+			if ("BANKAUDITSUCCESS".equals(mortgageVo.getStateInBank())) {
 				// 处理流程,银行审核通过
 				loanerProcessService.isBankAcceptCase(true,
 						mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 						mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
-						mortgageVo.getIsPass());
+						mortgageVo.getStateInBank());
+
+				toMortLoaner.setLoanerStatus("BANKAUDITSUCCESS");
+			} else {
+				// 更新跟进状态
+				toMortLoaner.setFlowStatus(mortgageVo.getStateInBank());
 			}
 		}
 		// 银行审核拒绝
@@ -898,8 +907,9 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 			loanerProcessService.isBankAcceptCase(false,
 					mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 					mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
-					mortgageVo.getIsPass());
+					mortgageVo.getStateInBank());
 
+			toMortLoaner.setLoanerStatus("BANKREJECT");
 		}
 
 		// 设置案件跟进信息
@@ -910,22 +920,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		// 保存案件跟进信息
 		toCaseCommentService.insertToCaseComment(toCaseComment);
 
-		// 根据按揭信息主键id获取按揭信息对象
-		ToMortgage toMortgage = toMortgageMapper
-				.getMortgageByBizCode(mortgageVo.getBizCode());
-
-		if (toMortgage != null) {
-			toMortgage.setStateInBank(mortgageVo.getStateInBank());
-
-			// 更新按揭表的状态(字段STATE_IN_BANK)
-			toMortgageMapper.updateStateInBankByBizCode(toMortgage);
-		}
-
 		// 更新T_TO_MORT_LOANER表中的跟进状态字段(FLOW_STATUS)
-		ToMortLoaner toMortLoaner = new ToMortLoaner();
-		toMortLoaner.setFlowStatus(mortgageVo.getStateInBank());
-		toMortLoaner.setMortPkid(mortgageVo.getBizCode());
-
 		toMortLoanerMapper.updateToMortLoanerByMortId(toMortLoaner);
 
 		return true;
