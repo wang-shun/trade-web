@@ -4,16 +4,13 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
-import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToPricing;
 import com.centaline.trans.task.service.ToPricingService;
-import com.centaline.trans.utils.UiImproveUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,9 +54,7 @@ public class PricingController {
 
     @RequestMapping(value = "submitPricing",method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResponse submitPricing(HttpServletRequest request,@RequestBody ToPricing toPricing) {
-        String taskId = request.getParameter("taskId");
-        String processInstanceId = request.getParameter("processInstanceId");
+    public AjaxResponse submitPricing(ToPricing toPricing, String taskId, String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
             Boolean saveFlag = toPricingService.saveToPricing(toPricing);
