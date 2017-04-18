@@ -107,13 +107,74 @@ paths:
           schema:
             # a pointer to a definition
             $ref: "#/definitions/getCasecontactSuccessResponse"
-  /task/pricing:
+  /task/loanlostApprove/loanlostApproveFirstNew:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
     get:
       description: pricing
           # used as the method name of the controller
       operationId: pricingRsponse
+      parameters:
+        - name: partCode
+          in: query
+          description: partCode
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+
+        - name: approveType
+          in: query
+          description: 审批类型
+          required: true
+          type: integer
+        - name: operator
+          in: query
+          description: 操作人id
+          required: true
+          type: string
+
+
+        - name: LoanLost_manager
+          in: query
+          description: 是否同意
+          required: true
+          type: boolean
+        - name: LoanLost_manager_response
+          in: query
+          description: 备注
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getLoanlostApproveResponse"    
+              
+  /task/pricing:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: loanlostApproveFirstNew
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew
       parameters:
         - name: partCode
           in: query
@@ -274,4 +335,17 @@ definitions:
         type: integer
       taskId:
         type: integer
+  getLoanlostApproveResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+
       
