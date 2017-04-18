@@ -686,20 +686,99 @@ function subBankChange(){
 
 
 //TODO
-$("#finOrgCode").change(function(){
-	var tempBank = $("input[name='isTmpBank']:checked").val();
-	var finOrgCode = $("select[name='finOrgCode']").val();
+function selectLoanerByOrgId1(){
 	
-	//finOrgCode 查询 orgId
-	
-	if(tempBank == 1){
-		
-	}else if(tempBank == 0){
-		
-	}
-})
+	var finOrgId = $("#bankOrgId1").val();	
+	if(finOrgId != null  && finOrgId !=""  && finOrgId != undefined){
+		userSelect({
+			startOrgId : finOrgId,//非营业部
+			expandNodeId : finOrgId,
+			nameType : 'long|short',
+			orgType : '',
+			departmentType : '',
+			departmentHeriarchy : '',
+			chkStyle : 'radio',
+			jobCode : '',		
+			callBack : selectLoanerUser
+		});	
+	}else{		
+		userSelect({
+			startOrgId : '10B1F16BDC5E7F33E0532429030A8872',//非营业部
+			expandNodeId : '10B1F16BDC5E7F33E0532429030A8872',
+			nameType : 'long|short',
+			orgType : '',
+			departmentType : '',
+			departmentHeriarchy : '',
+			chkStyle : 'radio',
+			jobCode : '',		
+			callBack : selectLoanerUser
+		});		
+	}	
+}
 
-//
+function selectLoanerByOrgId0(){
+	var finOrgId = $("#bankOrgId0").val();
+	if(finOrgId != null  && finOrgId !=""  && finOrgId != undefined){
+		userSelect({
+			startOrgId : finOrgId,//非营业部
+			expandNodeId : finOrgId,
+			nameType : 'long|short',
+			orgType : '',
+			departmentType : '',
+			departmentHeriarchy : '',
+			chkStyle : 'radio',
+			jobCode : '',		
+			callBack : selectLoanerUser_
+		});	
+	}else{		
+		userSelect({
+			startOrgId : '10B1F16BDC5E7F33E0532429030A8872',//非营业部
+			expandNodeId : '10B1F16BDC5E7F33E0532429030A8872',
+			nameType : 'long|short',
+			orgType : '',
+			departmentType : '',
+			departmentHeriarchy : '',
+			chkStyle : 'radio',
+			jobCode : '',		
+			callBack : selectLoanerUser_
+		});		
+	}	
+}
+
+/*function selectLoanerUser(array) {
+	selectLoanerUserCom(array,$("#mortgageForm"));
+}
+
+function selectLoanerUser_(array) {
+	selectLoanerUserCom(array,$("#mortgageForm1"));
+}
+
+function selectLoanerUserCom(array,$form){
+	if (array && array.length > 0) {
+		$form.find("#loanerName").val(array[0].username);
+		$.ajax({
+			url : ctx + "/eloan/LoanerCode",
+			method : "post",
+			dataType : "json",
+			data : {
+				"userId" : array[0].userId
+			},
+			success : function(data) {
+				$form.find("#loanerNameImage").css("color","#52cdec");
+				$form.find("#loanerPhone").val(data.user.mobile);
+				$form.find("#loanerId").val(data.user.id);
+				$form.find("#loanerOrgCode").val(data.user.orgName);
+				$form.find("#loanerOrgId").val(data.user.orgId);
+			}
+		})
+	} else {
+		$form.find("#loanerName").val("");
+		$form.find("#loanerOrgCode").val("");
+		$form.find("#loanerOrgId").val("");
+	}
+}*/
+
+//设置  可输入  信贷员
 function onkeyuploanerName(){
 	$("#loanerNameImage").css("color","#676A6C");
 	$("#loanerId").val("");
@@ -850,6 +929,13 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    	}
 	  });
 }
+
+
+//
+/**
+ * @date:2017-04-17
+ * @desc:临时银行变更时，隐藏派单按钮、信贷员选择问题设置
+ * */
 function isTmpBankChange(){
 	if(!!$(this).attr('readOnly')){
 		return false;
@@ -870,6 +956,10 @@ function isTmpBankChange(){
 		$("#toLoanerCaseTemp").hide();
 		$("#processStart").val("processIsStart");
 		
+		//临时银行 信贷员可以 输入  可以选择
+		$("#forLoanerProcessShuru").show();
+		$("#forLoanerProcessNoShuru").hide();
+
 	}else{
 		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'','cl');
 		f.find("select[name='bank_type']").change(function(){
@@ -880,6 +970,10 @@ function isTmpBankChange(){
 		// 派单按钮 显示
 		$("#toLoanerCaseTemp").show();
 		$("#toLoanerCase").show();
+		
+		//临时银行 信贷员只能选择
+		$("#forLoanerProcessShuru").hide();
+		$("#forLoanerProcessNoShuru").show();
 	}
 	
 	
