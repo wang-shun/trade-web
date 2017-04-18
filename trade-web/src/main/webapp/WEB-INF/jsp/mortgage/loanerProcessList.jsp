@@ -79,11 +79,8 @@
 	                        <input class="teamcode input_type" placeholder="请输入" value=""  name="loanerName" id="loanerName"  onclick="loanerClick()"/>                          
 	                        <div class="input-group float_icon organize_icon">
 	                            <i class="icon iconfont"  onclick="loanerClick()">&#xe627;</i>
-	                        </div>
-	                        
-	                 		 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
-							 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
-							 <input type="hidden"  id="loanerId" name="loanerId" />
+	                        </div> 
+						    <input type="hidden"  id="loanerId" name="loanerId" value=""/>
 	                  </div>
 	                  <div class="form_content space">
 	                          <div class="add_btn" style="margin-left:122px;">
@@ -201,8 +198,8 @@
                         <td class="center">{{item.BUYER}}</td>
 
                         <td>
-							{{if item.STATUS != "0" && item.LOANER_STATUS != "CANCEL"}}
-								<button class="btn btn-grey" onclick="finishLoanerProcess({{item.INST_CODE}},{{item.CASE_CODE}},{{item.ID_}})">取消</button>
+							{{if item.STATUS == "0" || item.LOANER_STATUS != "CANCEL"}}
+								<button class="btn btn-grey" onclick="finishLoanerProcess('{{item.INST_CODE}}','{{item.CASE_CODE}}','{{item.ID_}}')">取消</button>
 							{{else}}
 								<button class="btn smll_sign" disable">取消</button>
 							{{/if}}	
