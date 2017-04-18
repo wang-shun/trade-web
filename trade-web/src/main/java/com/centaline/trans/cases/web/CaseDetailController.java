@@ -2196,8 +2196,11 @@ public class CaseDetailController {
 				response.setSuccess(false);
 				return response;
 			}
+		}
+		for (ToWorkFlow toWorkFlow : zhulcList) {
 			workFlowManager.activateOrSuspendProcessInstance(toWorkFlow.getInstCode(), isSus);
 		}
+
 		// 案件表更新
 		toCaseService.updateByCaseCodeSelective(record);
 		response.setContent(record.getCaseProperty());
