@@ -1,10 +1,20 @@
+/**
+ * isNaNu问题
+ * @param num
+ * @returns
+ */
 function getNum(num){
 	if(isNaN(num)){
 		return 0;
 	}
-	//return num/1000;
 	return num;
 }
+/**
+ * 加法函数
+ * @param num1
+ * @param num2
+ * @returns
+ */
 function sum(num1,num2){
 	if(isNaN(num1)){
 		return 0
@@ -14,10 +24,15 @@ function sum(num1,num2){
 	}
 	return num1 + num2;
 }
-//乘法函数，用来得到精确的乘法结果
-//说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
-//调用：accMul(arg1,arg2)
-//返回值：arg1乘以arg2的精确结果
+/**
+ * 乘法函数，用来得到精确的乘法结果
+ * 说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
+ * 调用：accMul(arg1,arg2)
+ * 返回值：arg1乘以arg2的精确结果
+ * @param arg1
+ * @param arg2
+ * @returns
+ */
 function accMul(arg1,arg2)
 {
     var m=0,s1=arg1.toString(),s2=arg2.toString();
@@ -25,10 +40,15 @@ function accMul(arg1,arg2)
     try{m+=s2.split(".")[1].length}catch(e){}
     return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)).toFixed();
 }
-//除法函数，用来得到精确的除法结果
-//说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
-//调用：accDiv(arg1,arg2)
-//返回值：arg1除以arg2的精确结果
+/**
+ * 除法函数，用来得到精确的除法结果
+ * 说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
+ * 调用：accDiv(arg1,arg2)
+ * 返回值：arg1除以arg2的精确结果
+ * @param arg1
+ * @param arg2
+ * @returns
+ */
 function accDiv(arg1,arg2){
     var t1=0,t2=0,r1,r2;
     try{t1=arg1.toString().split(".")[1].length}catch(e){}
@@ -39,10 +59,15 @@ function accDiv(arg1,arg2){
         return ((r1/r2)*pow(10,t2-t1)).toFixed(2);
     }
 }
-//除法函数，用来得到精确的除法结果
-//说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
-//调用：accDiv(arg1,arg2)
-//返回值：arg1除以arg2的精确结果
+/**
+ * 除法函数，用来得到精确的除法结果
+ * 说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
+ * 调用：accDiv(arg1,arg2)
+ * 返回值：arg1除以arg2的精确结果
+ * @param arg1
+ * @param arg2
+ * @returns
+ */
 function accDivN(arg1,arg2){
 	var t1=0,t2=0,r1,r2;
 	try{t1=arg1.toString().split(".")[1].length}catch(e){}
@@ -53,10 +78,15 @@ function accDivN(arg1,arg2){
 		return ((r1/r2)*pow(10,t2-t1)).toFixed();
 	}
 }
-//加法函数，用来得到精确的加法结果
-//说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
-//调用：accAdd(arg1,arg2)
-//返回值：arg1加上arg2的精确结果
+/**
+ * 加法函数，用来得到精确的加法结果
+ * 说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+ * 调用：accAdd(arg1,arg2)
+ * 返回值：arg1加上arg2的精确结果
+ * @param arg1
+ * @param arg2
+ * @returns
+ */
 function accAdd(arg1,arg2){
     var r1,r2,m;
     try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
