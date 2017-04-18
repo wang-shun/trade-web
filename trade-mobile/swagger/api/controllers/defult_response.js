@@ -28,7 +28,8 @@ var rf=require("fs");
 module.exports = {
   responseJSON: responseJSON,
   contactRsponse: responseJSON,
-  casecontactRsponse: responseJSON
+  casecontactRsponse: responseJSON,
+  pricingRsponse: responseJSON
 };
 
 /*
