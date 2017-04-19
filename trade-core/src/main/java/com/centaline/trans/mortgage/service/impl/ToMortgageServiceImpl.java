@@ -30,7 +30,6 @@ import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.repository.ToCaseCommentMapper;
 import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.common.enums.LoanerStatusEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.TmpBankStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -140,7 +139,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
 		condition.setIsDelegateYucui("1");
 
-		List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
+		List<ToMortgage> list = toMortgageMapper
+				.findToMortgageByCondition(condition);
 		if (list != null && !list.isEmpty()) {
 			mortgage = list.get(0);
 		}
@@ -889,7 +889,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 			// 设置案件跟进信息
 			ToCaseComment toCaseComment = setToCaseComment(
-					mortgageVo.getUser(), mortgageVo.getCaseCode(),
+					mortgageVo.getUser(), mortgageVo.getBizCode(),
+					mortgageVo.getCaseCode(), "TRACK",
 					mortgageVo.getStateInBank(), mortgageVo.getComment());
 
 			// 保存案件跟进信息
@@ -920,26 +921,15 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	 *            跟进跟进内容
 	 * @return 返回案件跟进信息
 	 */
-	private ToCaseComment setToCaseComment(SessionUser user, String caseCode,
-			String srvCode, String comment) {
+	private ToCaseComment setToCaseComment(SessionUser user, String bizCode,
+			String caseCode, String type, String srvCode, String comment) {
 		// 添加案件跟进信息
 		ToCaseComment toCaseComment = new ToCaseComment();
+		toCaseComment.setBizCode(bizCode);
 		toCaseComment.setCaseCode(caseCode);
-		toCaseComment.setType("TRACK");
+		toCaseComment.setType(type);
 		toCaseComment.setSource("MORT");
-
-		if ("ACCEPT".equals(srvCode)) {
-			toCaseComment.setSrvCode(LoanerStatusEnum.AUDITING.getCode());
-		} else if ("REJECT".equals(srvCode)) {
-			toCaseComment.setSrvCode(LoanerStatusEnum.ACC_REJECTED.getCode());
-		} else if ("BANKREJECT".equals(srvCode)) {
-			toCaseComment.setSrvCode(LoanerStatusEnum.AUD_REJECTED.getCode());
-		} else if ("MORT_APPROVED".equals(srvCode)) {
-			toCaseComment.setSrvCode(LoanerStatusEnum.COMPLETED.getCode());
-		} else {
-			toCaseComment.setSrvCode(srvCode);
-		}
-
+		toCaseComment.setSrvCode(srvCode);
 		toCaseComment.setComment(comment);
 		toCaseComment.setCreateTime(new Date());
 
@@ -968,14 +958,17 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 			ToWorkFlow toWorkFlowForSelect = new ToWorkFlow();
 			toWorkFlowForSelect.setCaseCode(caseCode);
-			toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
-			ToWorkFlow workFlow = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
+			toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS
+					.getName());
+			ToWorkFlow workFlow = toWorkFlowService
+					.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
 
 			if (null != workFlow) {
 				ToWorkFlow workFlowForUpdate = new ToWorkFlow();
 				workFlowForUpdate.setPkid(workFlow.getPkid());
 				workFlowForUpdate.setBizCode(String.valueOf(pkid));
-				toWorkFlowService.updateByPrimaryKeySelective(workFlowForUpdate);
+				toWorkFlowService
+						.updateByPrimaryKeySelective(workFlowForUpdate);
 			}
 
 		} catch (BusinessException e) {
@@ -983,4 +976,14 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		}
 	}
 
+	@Override
+	public void suppleInfo(MortgageVo mortgageVo) {
+		ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(),
+				mortgageVo.getBizCode(), mortgageVo.getCaseCode(),
+				mortgageVo.getType(), mortgageVo.getStateInBank(),
+				mortgageVo.getComment());
+
+		// 保存案件跟进信息
+		toCaseCommentService.insertToCaseComment(toCaseComment);
+	}
 }

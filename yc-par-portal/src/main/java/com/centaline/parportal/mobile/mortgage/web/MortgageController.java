@@ -45,6 +45,53 @@ public class MortgageController {
 	private final static String queryTradeProcess = "queryTradeProcess";
 
 	/**
+	 * 信息补充、补件
+	 * 
+	 * @param bizCode
+	 *            按揭信息id
+	 * @param type
+	 *            如果信息补充,type为CMT,补件,type为BUJIAN
+	 * @param stateInBank
+	 *            跟进类型
+	 * @param caseCode
+	 *            案件编号
+	 * @param comment
+	 *            备注
+	 * @return
+	 * @throws CheckParametersException
+	 */
+	@RequestMapping(value = "suppleInfo")
+	@ResponseBody
+	public String suppleInfo(String bizCode, String type, String stateInBank,
+			String caseCode, String comment) throws CheckParametersException {
+
+		if (bizCode == null || type == null || comment == null
+				|| stateInBank == null || caseCode == null) {
+			throw new CheckParametersException("请检查参数!");
+		}
+
+		// 获取当前用户信息
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+
+		// 设置前台传的参数信息
+		MortgageVo mortgageVo = new MortgageVo();
+		mortgageVo.setBizCode(bizCode);
+		mortgageVo.setType(type);
+		mortgageVo.setStateInBank(stateInBank);
+		mortgageVo.setCaseCode(caseCode);
+		mortgageVo.setComment(comment);
+		mortgageVo.setUser(sessionUser);
+
+		try {
+			toMortgageService.suppleInfo(mortgageVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	/**
 	 * 按揭贷款信贷员接单和打回
 	 * 
 	 * @param isPass

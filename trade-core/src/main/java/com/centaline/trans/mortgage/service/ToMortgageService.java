@@ -174,4 +174,12 @@ public interface ToMortgageService {
 	 */
 	public boolean followUp(MortgageVo mortgageVo);
 
+	/**
+	 * 信息补充
+	 * 
+	 * @param mortgageVo
+	 *            按揭贷款案件前台传值对象
+	 */
+	public void suppleInfo(MortgageVo mortgageVo);
+
 }
