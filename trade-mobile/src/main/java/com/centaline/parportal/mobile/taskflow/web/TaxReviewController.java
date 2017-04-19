@@ -40,7 +40,7 @@ public class TaxReviewController {
 
     @RequestMapping(value = "process")
     @ResponseBody
-    public JSONObject toProcess(HttpServletRequest request, String processInstanceId) {
+    public Object toProcess(HttpServletRequest request, String processInstanceId) {
         String taskId = request.getParameter("taskId");
         String caseCode = request.getParameter("caseCode");
         JSONObject jsonObject = new JSONObject();
@@ -52,7 +52,7 @@ public class TaxReviewController {
 
     @RequestMapping(value = "submitTaxReview", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResponse submitTaxReview(ToTax toTax,String taskId, String processInstanceId, String partCode) {
+    public Object submitTaxReview(ToTax toTax,String taskId, String processInstanceId, String partCode) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
             Boolean saveFlag = toTaxService.saveToTax(toTax);

@@ -83,12 +83,15 @@ $(document).ready(function() {
 					_this.remove();
 				}
 			});
-			$("#sel_changeFrom").change(function(){				
-					if($("#sel_changeFrom").val() == "ComLoanProcess"){						
+			$("#sel_changeFrom").change(function(){		
+					//添加判断是为了  修改商贷环节时不能派单
+/*					if($("#sel_changeFrom").val() == "ComLoanProcess"){			
+						
 						$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val()+'?comFlag=processButtonHidden');	
 					}else{
 						$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
-					}
+					}*/					
+					$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
 					
 			});
 			

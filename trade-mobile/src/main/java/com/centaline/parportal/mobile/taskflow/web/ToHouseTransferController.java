@@ -54,7 +54,7 @@ public class ToHouseTransferController {
 
     @RequestMapping(value = "process")
     @ResponseBody
-    public JSONObject toProcess(HttpServletRequest request, String processInstanceId) {
+    public Object toProcess(HttpServletRequest request, String processInstanceId) {
         String taskId = request.getParameter("taskId");
         String caseCode = request.getParameter("caseCode");
         SessionUser user= uamSessionService.getSessionUser();
@@ -71,7 +71,7 @@ public class ToHouseTransferController {
 
     @RequestMapping(value = "submitToHouseTransfer")
     @ResponseBody
-    public AjaxResponse submitToHouseTransfer(ToHouseTransfer toHouseTransfer,LoanlostApproveVO loanlostApproveVO,String taskId,String processInstanceId) {
+    public Object submitToHouseTransfer(ToHouseTransfer toHouseTransfer,LoanlostApproveVO loanlostApproveVO,String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
             ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());

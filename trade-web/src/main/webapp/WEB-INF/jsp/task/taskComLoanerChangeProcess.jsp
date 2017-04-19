@@ -114,7 +114,7 @@
 <!-- 流程引擎需要字段 -->
 <input type="hidden" id="taskId" name="taskId" value="${taskId }"> 
 <input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-<input type="hidden" id="isMainLoanBank" name="isMainLoanBank" value="1"/>
+
 <!-- 临时银行审批 -->
 <input type="hidden" id="tmpBankStatus" name="tmpBankStatus"/>
 	<!-- 服务流程 -->
@@ -139,7 +139,7 @@
                         <div class="panel-heading" style="padding:0;">
                             <div class="panel-options">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a id="tab1" data-toggle="tab" href="#tab-1">主选银行</a></li>                                 
+                                    <li class="active"><a id="tab1" data-toggle="tab" href="#tab-1">从新派单</a></li>                                 
                                 </ul>
                             </div>
                         </div>
@@ -158,7 +158,9 @@
 								<div class="ibox-content">
 								<form id="mortgageForm" class="form_list">
 								    <input type="hidden" name="pkid" id="pkid"  value="${toMortgage.pkid}"/>
-									<input type="hidden" name="caseCode" value="${caseCode}">									
+									<input type="hidden" name="caseCode" value="${caseCode}">	
+									<input type="hidden" id="isMainLoanBank" name="isMainLoanBank" value="${toMortgage.isMainLoanBank}"/>
+																	
 		                            <div class="marinfo">
 		                                    <div class="line">
 		                                         <div class="form_content">
@@ -590,7 +592,8 @@
 				pkid:$("#pkid").val(),
 				caseCode:$("#caseCode").val(),
 				taskId:$("#taskId").val(),
-				processInstanceId:$("#processInstanceId").val()
+				processInstanceId:$("#processInstanceId").val(),
+				isMainLoanBank:$("#isMainLoanBank").val()
 			},
 			beforeSend:function(){
 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});

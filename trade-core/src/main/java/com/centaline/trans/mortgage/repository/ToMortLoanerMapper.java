@@ -36,4 +36,8 @@ public interface ToMortLoanerMapper {
 	 * @return 返回1,更新成功;返回0，更新失败。
 	 */
 	public int updateToMortLoanerByMortId(ToMortLoaner toMortLoaner);
+
+	ToMortLoaner findToMortLoanerByCaseCodeAndIsMainBank(Map<String, String> map);
+	
+	ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner);
 }

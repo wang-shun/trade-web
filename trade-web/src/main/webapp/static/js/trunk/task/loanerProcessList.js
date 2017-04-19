@@ -237,7 +237,7 @@ function caseCodeSort() {
 /*
  * 取消流程
  * */
-function  finishLoanerProcess(instCode,caseCode,taskId){
+function  finishLoanerProcess(instCode,caseCode,taskId,isMainLoanBankProcess){
 	if((instCode == null || instCode == "" || instCode == undefined) || (caseCode == null || caseCode == "" || caseCode == undefined) || (taskId == null || taskId == "" || taskId == undefined)){
 		window.wxc.alert('结束流程请求参数有误！'); 
 		return;
@@ -250,7 +250,8 @@ function  finishLoanerProcess(instCode,caseCode,taskId){
 		data:{		
 			caseCode:caseCode,
 			taskId:taskId,
-			processInstanceId:instCode
+			processInstanceId:instCode,
+			isMainLoanBankProcess:isMainLoanBankProcess
 		},
 		beforeSend:function(){
 			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});

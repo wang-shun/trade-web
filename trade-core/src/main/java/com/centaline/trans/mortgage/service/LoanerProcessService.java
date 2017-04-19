@@ -36,7 +36,7 @@ public interface LoanerProcessService {
      * @param caseCode
      * @return
      */
-	void loanerProcessDelete(String caseCode, String taskId,String processInstanceId,boolean cancleFlag);
+	void loanerProcessDelete(String caseCode, String taskId,String processInstanceId,String isMainLoanBankProcess, boolean cancleFlag);
 
     /**
      * 交易顾问派单 信贷员信息提交
@@ -51,7 +51,7 @@ public interface LoanerProcessService {
      * @param caseCode
      * @return
      */
-	AjaxResponse<String> isLoanerProcessStart(String caseCode);
+	AjaxResponse<String> isLoanerProcessStart(String caseCode,String isMainLoanBank);
 
 
     /**

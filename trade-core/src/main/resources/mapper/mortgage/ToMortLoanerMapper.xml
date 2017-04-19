@@ -7,6 +7,8 @@
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
     <result column="RECEIVE_CODE" property="receiveCode" jdbcType="VARCHAR" />
     <result column="HOU_ADDRESS" property="houAddress" jdbcType="VARCHAR" />
+    <result column="MORT_TYPE" property="mortType" jdbcType="VARCHAR" />
+    <result column="IS_MAIN_LOANBANK_PROCESS" property="isMainLoanBankProcess" jdbcType="VARCHAR" />    
     <result column="MORT_TOTAL_AMOUNT" property="mortTotalAmount" jdbcType="DECIMAL" />
     <result column="COM_AMOUNT" property="comAmount" jdbcType="DECIMAL" />
     <result column="COM_YEAR" property="comYear" jdbcType="INTEGER" />
@@ -43,7 +45,7 @@
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CUST_NAME, CASE_CODE, RECEIVE_CODE, HOU_ADDRESS, MORT_TOTAL_AMOUNT, COM_AMOUNT, 
+    PKID, CUST_NAME, CASE_CODE, RECEIVE_CODE, HOU_ADDRESS,MORT_TYPE,IS_MAIN_LOANBANK_PROCESS,MORT_TOTAL_AMOUNT, COM_AMOUNT, 
     COM_YEAR, COM_DISCOUNT, PRF_AMOUNT, PRF_YEAR, FLOW_STATUS, MORT_PKID, LOANER_STATUS, 
     LOANER_DESC, SEND_ID, SEND_NAME, SEND_TIME, RECEIVE_TIME, RECEIVE_ID, RECEIVE_NAME, 
     REJECT_ID, REJECT_NAME, REJECT_TIME, CANCLE_ID, CANCLE_NAME, CANCLE_TIME, APPROVAL_ID, 
@@ -66,13 +68,39 @@
     AND   LOANER_STATUS = #{loanerStatus,jdbcType=VARCHAR}
   </select>  
   
+  
+  
+  <select id="findToMortLoanerByCaseCodeAndIsMainBank" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND   IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR}
+  </select>  
+  
   <select id="findToMortLoanerByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     	<include refid="Base_Column_List" />
     from sctrans.T_TO_MORT_LOANER
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-    AND   LOANER_STATUS IN ('BANKREJECT','REJECT')
+    AND   LOANER_STATUS IN ('AUD_REJECTED','ACC_REJECTED')
   </select>   
+  
+  <select id="findToMortLoaner" resultMap="BaseResultMap" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
+    select 
+    	<include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    
+    where 
+    	LOANER_STATUS NOT IN ('AUD_REJECTED','ACC_REJECTED','CANCELED')
+     <if test="caseCode != null">
+    	AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+     </if>
+     <if test="isMainLoanBankProcess != null">
+ 	 	AND  IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR}
+ 	 </if>
+ </select>
+
   
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
@@ -82,7 +110,7 @@
   
   <insert id="insert" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
     insert into sctrans.T_TO_MORT_LOANER (CUST_NAME, CASE_CODE, 
-      RECEIVE_CODE, HOU_ADDRESS, MORT_TOTAL_AMOUNT, 
+      RECEIVE_CODE, HOU_ADDRESS, MORT_TYPE,IS_MAIN_LOANBANK_PROCESS,MORT_TOTAL_AMOUNT, 
       COM_AMOUNT, COM_YEAR, COM_DISCOUNT, 
       PRF_AMOUNT, PRF_YEAR, FLOW_STATUS, 
       MORT_PKID, LOANER_STATUS, LOANER_DESC, 
@@ -96,7 +124,8 @@
       CREATE_BY, UPDATE_TIME, UPDATE_BY
       )
     values ( #{custName,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
-      #{receiveCode,jdbcType=VARCHAR}, #{houAddress,jdbcType=VARCHAR}, #{mortTotalAmount,jdbcType=DECIMAL}, 
+      #{receiveCode,jdbcType=VARCHAR}, #{houAddress,jdbcType=VARCHAR}, #{mortType,jdbcType=VARCHAR}, 
+      #{isMainLoanBankProcess,jdbcType=VARCHAR}, #{mortTotalAmount,jdbcType=DECIMAL}, 
       #{comAmount,jdbcType=DECIMAL}, #{comYear,jdbcType=INTEGER}, #{comDiscount,jdbcType=DECIMAL}, 
       #{prfAmount,jdbcType=DECIMAL}, #{prfYear,jdbcType=INTEGER}, #{flowStatus,jdbcType=VARCHAR}, 
       #{mortPkid,jdbcType=VARCHAR}, #{loanerStatus,jdbcType=VARCHAR}, #{loanerDesc,jdbcType=VARCHAR}, 
@@ -111,6 +140,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
+     <selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER" >
+    	SELECT @@IDENTITY
+  	 </selectKey>
     insert into sctrans.T_TO_MORT_LOANER
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -127,6 +159,12 @@
       </if>
       <if test="houAddress != null" >
         HOU_ADDRESS,
+      </if>
+      <if test="mortType != null" >
+        MORT_TYPE,
+      </if>
+      <if test="isMainLoanBankProcess != null" >
+        IS_MAIN_LOANBANK_PROCESS,
       </if>
       <if test="mortTotalAmount != null" >
         MORT_TOTAL_AMOUNT,
@@ -239,6 +277,12 @@
       <if test="houAddress != null" >
         #{houAddress,jdbcType=VARCHAR},
       </if>
+      <if test="mortType != null" >
+        #{mortType,jdbcType=VARCHAR},
+      </if>      
+      <if test="isMainLoanBankProcess != null" >
+        #{isMainLoanBankProcess,jdbcType=VARCHAR},
+      </if>      
       <if test="mortTotalAmount != null" >
         #{mortTotalAmount,jdbcType=DECIMAL},
       </if>
@@ -349,6 +393,12 @@
       <if test="houAddress != null" >
         HOU_ADDRESS = #{houAddress,jdbcType=VARCHAR},
       </if>
+      <if test="mortType != null" >
+        MORT_TYPE,
+      </if>
+      <if test="isMainLoanBankProcess != null" >
+        IS_MAIN_LOANBANK_PROCESS,
+      </if>
       <if test="mortTotalAmount != null" >
         MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},
       </if>
@@ -452,6 +502,8 @@
       CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       RECEIVE_CODE = #{receiveCode,jdbcType=VARCHAR},
       HOU_ADDRESS = #{houAddress,jdbcType=VARCHAR},
+      MORT_TYPE = #{mortType,jdbcType=VARCHAR},
+      IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR},      
       MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},
       COM_AMOUNT = #{comAmount,jdbcType=DECIMAL},
       COM_YEAR = #{comYear,jdbcType=INTEGER},
@@ -512,6 +564,14 @@
       <if test="houAddress != null" >
         HOU_ADDRESS = #{houAddress,jdbcType=VARCHAR},
       </if>
+      
+      <if test="mortType != null" >
+        MORT_TYPE,
+      </if>
+      <if test="isMainLoanBankProcess != null" >
+        IS_MAIN_LOANBANK_PROCESS,
+      </if>
+      
       <if test="mortTotalAmount != null" >
         MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},
       </if>

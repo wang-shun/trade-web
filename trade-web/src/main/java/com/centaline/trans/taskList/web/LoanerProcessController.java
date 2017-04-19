@@ -101,15 +101,15 @@ public class LoanerProcessController{
 	 * */
 	@RequestMapping("isLoanerProcessStart")
 	@ResponseBody
-	public AjaxResponse<String> isLoanerProcessStart(String caseCode) {	
+	public AjaxResponse<String> isLoanerProcessStart(String caseCode,String isMainLoanBank) {	
 		
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		if(null == caseCode  || "".equals(caseCode)){
+		if((null == caseCode  || "".equals(caseCode)) || (null == isMainLoanBank  || "".equals(isMainLoanBank))){
 			throw new BusinessException("判断流程是否启动请求参数为空！");
 		}
 		
 		try{
-			response = loanerProcessService.isLoanerProcessStart(caseCode);
+			response = loanerProcessService.isLoanerProcessStart(caseCode,isMainLoanBank);
 		}catch(BusinessException e){
 			throw new BusinessException("判断流程是否启动程序异常！");
 		}	
@@ -171,9 +171,9 @@ public class LoanerProcessController{
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "loanerProcessDelete")
 	@ResponseBody
-	public AjaxResponse<String> loanerProcessDelete(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskId, String processInstanceId) {
+	public AjaxResponse<String> loanerProcessDelete(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskId, String processInstanceId,String isMainLoanBank) {
 		try{
-			loanerProcessService.loanerProcessDelete(caseCode,taskId,processInstanceId,false);
+			loanerProcessService.loanerProcessDelete(caseCode,taskId,processInstanceId,isMainLoanBank,false);
 			return AjaxResponse.success("交易顾问派单流程成功结束");
 		}catch(BusinessException e){
 			logger.error(e.getMessage(),e);
@@ -191,9 +191,10 @@ public class LoanerProcessController{
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "loanerProcessCancle")
 	@ResponseBody
-	public AjaxResponse<String> loanerProcessCancle(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskId, String processInstanceId) {
+	public AjaxResponse<String> loanerProcessCancle(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskId, 
+			String processInstanceId,String isMainLoanBankProcess) {
 		try{
-			loanerProcessService.loanerProcessDelete(caseCode,taskId,processInstanceId,true);
+			loanerProcessService.loanerProcessDelete(caseCode,taskId,processInstanceId,isMainLoanBankProcess,true);
 			return AjaxResponse.success("恭喜，取消派单流程成功！");
 		}catch(BusinessException e){
 			logger.error(e.getMessage(),e);

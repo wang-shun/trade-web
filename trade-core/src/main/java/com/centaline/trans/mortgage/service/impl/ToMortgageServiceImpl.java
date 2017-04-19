@@ -140,8 +140,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
 		condition.setIsDelegateYucui("1");
 
-		List<ToMortgage> list = toMortgageMapper
-				.findToMortgageByCondition(condition);
+		List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
 		if (list != null && !list.isEmpty()) {
 			mortgage = list.get(0);
 		}
@@ -969,17 +968,14 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 			ToWorkFlow toWorkFlowForSelect = new ToWorkFlow();
 			toWorkFlowForSelect.setCaseCode(caseCode);
-			toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS
-					.getName());
-			ToWorkFlow workFlow = toWorkFlowService
-					.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
+			toWorkFlowForSelect.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
+			ToWorkFlow workFlow = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlowForSelect);
 
 			if (null != workFlow) {
 				ToWorkFlow workFlowForUpdate = new ToWorkFlow();
 				workFlowForUpdate.setPkid(workFlow.getPkid());
 				workFlowForUpdate.setBizCode(String.valueOf(pkid));
-				toWorkFlowService
-						.updateByPrimaryKeySelective(workFlowForUpdate);
+				toWorkFlowService.updateByPrimaryKeySelective(workFlowForUpdate);
 			}
 
 		} catch (BusinessException e) {

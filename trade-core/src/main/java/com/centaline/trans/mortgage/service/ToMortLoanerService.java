@@ -44,4 +44,10 @@ public interface ToMortLoanerService {
      * @return 按揭接收记录信息
      */
 	ToMortLoaner getToMortLoanerByMortgageId(String mortgageId);
+
+
+	ToMortLoaner findToMortLoanerByCaseCodeAndIsMainBank(String caseCode,String isMainLoanBankProcess);
+	
+	ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner);
+	
 }

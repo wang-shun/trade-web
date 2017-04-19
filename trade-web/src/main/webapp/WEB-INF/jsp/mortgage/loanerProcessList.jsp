@@ -168,11 +168,11 @@
                        <td>
 							<p class="big"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a></p>                                 
 							
-                            {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
-								<p class = "demo-top"  title = "{{item.PROPERTY_ADDR}}">{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+                            {{if item.HOU_ADDRESS != null && item.HOU_ADDRESS!="" && item.HOU_ADDRESS.length>24}}
+								<p class = "demo-top"  title = "{{item.HOU_ADDRESS}}">{{item.HOU_ADDRESS.substring(item.HOU_ADDRESS.length-24,item.HOU_ADDRESS.length)}}
 							{{else}}
 								</p>
-								<p class = "demo-top">{{item.PROPERTY_ADDR}}
+								<p class = "demo-top">{{item.HOU_ADDRESS}}
 							{{/if}}	
                                 </p>
                        </td>
@@ -198,8 +198,8 @@
                         <td class="center">{{item.BUYER}}</td>
 
                         <td>
-							{{if item.STATUS == "0" || item.LOANER_STATUS != "CANCEL"}}
-								<button class="btn btn-grey" onclick="finishLoanerProcess('{{item.INST_CODE}}','{{item.CASE_CODE}}','{{item.ID_}}')">取消</button>
+							{{if item.STATUS == "0" || item.LOANER_STATUS != "CANCELED"}}
+								<button class="btn btn-grey" onclick="finishLoanerProcess('{{item.INST_CODE}}','{{item.CASE_CODE}}','{{item.ID_}}','{{item.IS_MAIN_LOANBANK_PROCESS}}')">取消</button>
 							{{else}}
 								<button class="btn smll_sign" disable">取消</button>
 							{{/if}}	
