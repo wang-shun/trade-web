@@ -684,10 +684,8 @@ function subBankChange(){
 	}*/
 }
 
-
-//TODO
-function selectLoanerByOrgId1(){
-	
+//信贷员选择
+function selectLoanerByOrgId1(){	
 	var finOrgId = $("#bankOrgId1").val();	
 	if(finOrgId != null  && finOrgId !=""  && finOrgId != undefined){
 		userSelect({
@@ -733,7 +731,9 @@ function selectLoanerByOrgId0(){
 		});	
 	}else{	
 		window.wxc.alert('您选择的银行暂时未添加信贷员信息，请联系管理员！');
-		/*userSelect({
+		/*
+		 * 默认非营业部所有的信贷员
+		 * userSelect({
 			startOrgId : '10B1F16BDC5E7F33E0532429030A8872',//非营业部
 			expandNodeId : '10B1F16BDC5E7F33E0532429030A8872',
 			nameType : 'long|short',
@@ -794,16 +794,15 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    		
  				 //银行下拉列表
 			
-    				getGuestInfo(fStr);
-
-    				if(data.content && data.content.isTmpBank=='1'){
-    					//临时银行
-    					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode);
-    					//alert(f.find("select[name='bank_type']"));
-    				}else{
-    					//非临时银行
-    					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode,'cl');
-    				}
+				getGuestInfo(fStr);
+				if(data.content && data.content.isTmpBank=='1'){
+					//临时银行
+					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode);
+					//alert(f.find("select[name='bank_type']"));
+				}else{
+					//非临时银行
+					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode,'cl');
+				}
 	  				
 	  				
 	  				f.find("select[name='bank_type']").change(function(){
@@ -1623,10 +1622,12 @@ $(document).ready(function (){
  			}
 
  		}else if(currentIndex == 2){ 			
- 			var flag = false;
- 			
- 			
- 			//TODO  第三步点击下一步的时候判断 信贷员是否变更？ 判断是否启流程
+ 			var flag = false; 			
+ 			//TODO  
+ 			/*第三步点击下一步的时候判断 信贷员是否变更？ 判断是否启流程
+ 			 * 变更为：选择信贷员派单之后，设置银行、信贷员为disabled
+ 			 * 
+ 			 * */
  			if(checkMortgageForm($("#mortgageForm"))){
 	 			saveMortgage($("#mortgageForm"));
 	 			flag = true;
