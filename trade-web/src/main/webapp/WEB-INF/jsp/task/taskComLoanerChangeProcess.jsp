@@ -550,7 +550,7 @@
 				isLoanerArrive:$("input[name='isLoanerArrive']:checked").val(),
 				isTmpBank:$("input[name='isTmpBank']:checked").val(),
 				finOrgCode:$("#finOrgCode").val(),
-
+				isMainLoanBank:$("#isMainLoanBank").val(),
 				comAmount:$("#comAmount").val(),
 				comDiscount:$("#comDiscount").val(),
 				comYear:$("#comYear").val(),
