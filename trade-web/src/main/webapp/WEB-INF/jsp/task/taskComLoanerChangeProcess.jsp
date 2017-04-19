@@ -296,8 +296,14 @@
 												 <div class="form_content radio-seat" style="margin-top:5px;">
 													 <label class="control-label sign_left_small">是否临时银行</label>
 													 <div class="controls ">
-														 <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
-														 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
+														 <c:if test="${toMortgage.isMainLoanBank=='0'}">
+															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
+														 </c:if>
+														 <c:if test="${toMortgage.isMainLoanBank!='0'}">
+															 <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
+															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
+														 </c:if>
+
 													 </div>
 												 </div>
 												 <div class="form_content">
