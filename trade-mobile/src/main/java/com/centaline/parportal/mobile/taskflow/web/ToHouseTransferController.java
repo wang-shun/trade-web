@@ -6,6 +6,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.apilog.service.SalesDealApiService;
+import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 
@@ -52,11 +53,16 @@ public class ToHouseTransferController {
     @Autowired
     private UamSessionService uamSessionService;
 
+    @Autowired
+    private ToAccesoryListService toAccesoryListService;
+
     @RequestMapping(value = "process")
     @ResponseBody
     public Object toProcess(HttpServletRequest request, String processInstanceId) {
         String taskId = request.getParameter("taskId");
         String caseCode = request.getParameter("caseCode");
+        String taskitem = request.getParameter("taskitem");
+
         SessionUser user= uamSessionService.getSessionUser();
         JSONObject jsonObject = new JSONObject();
 
@@ -66,12 +72,18 @@ public class ToHouseTransferController {
         jsonObject.put("approveType", "2");
         jsonObject.put("operator", user != null ? user.getId() : "");
         jsonObject.put("partCode", "Guohu");
+
+        toAccesoryListService.getAccesoryListGuoHu(request, taskitem, caseCode);
+        request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
+        ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+        request.setAttribute("toMortgage", toMortgage);
+
         return jsonObject;
     }
 
     @RequestMapping(value = "submitToHouseTransfer")
     @ResponseBody
-    public Object submitToHouseTransfer(ToHouseTransfer toHouseTransfer,LoanlostApproveVO loanlostApproveVO,String taskId,String processInstanceId) {
+    public Object submitToHouseTransfer(ToHouseTransfer toHouseTransfer,LoanlostApproveVO loanlostApproveVO,ToMortgage toMortgage,String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
             ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
@@ -87,7 +99,6 @@ public class ToHouseTransferController {
                     return response;
                 }
 
-                ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(toHouseTransfer.getCaseCode());
                 toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
                 // 回写三级市场, 交易过户
                 salesdealApiService.noticeSalesDeal(toCase.getCtmCode());
