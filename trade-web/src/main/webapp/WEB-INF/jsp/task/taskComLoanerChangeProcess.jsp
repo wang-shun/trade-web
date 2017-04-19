@@ -139,7 +139,12 @@
                         <div class="panel-heading" style="padding:0;">
                             <div class="panel-options">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a id="tab1" data-toggle="tab" href="#tab-1">从新派单</a></li>                                 
+									<c:if test="${toMortgage.isMainLoanBank=='0'}">
+										<li class="active"><a id="tab1" data-toggle="tab" href="#tab-1">候选银行重新派单</a></li>
+									</c:if>
+									<c:if test="${toMortgage.isMainLoanBank!='0'}">
+										<li class="active"><a id="tab2" data-toggle="tab" href="#tab-1">主选银行重新派单</a></li>
+									</c:if>
                                 </ul>
                             </div>
                         </div>
