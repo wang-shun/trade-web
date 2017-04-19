@@ -3,6 +3,10 @@ package com.centaline.trans.cases.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,10 +34,10 @@ public class ServiceRestartController {
 	private UamSessionService uamSessionService;
 	@Autowired
 	private ToCaseService toCaseService;
-
 	@Autowired
 	private ToAttachmentService toAttachmentService;
-
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
 	/**
 	 * @流程重启
 	 * @return
@@ -133,6 +137,14 @@ public class ServiceRestartController {
 			if (vo.getIsApproved()) {
 				toAttachmentService.updateToAttachmentByCaseCode(vo.getCaseCode() == null ? "" : vo.getCaseCode());
 			}
+		}
+		ToWorkFlow workFlow = new ToWorkFlow();
+
+		workFlow.setCaseCode(vo.getCaseCode());
+		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
+		if (record != null) {
+			record.setStatus(WorkFlowStatus.COMPLETE.getCode());
+			toWorkFlowService.updateByPrimaryKeySelective(record);
 		}
 
 		vo.setUserId(u.getId());
