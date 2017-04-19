@@ -71,7 +71,7 @@
 			<baseSql>
 				<![CDATA[
  					SELECT 
-							cc.TYPE AS status,
+							(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = cc.SRV_CODE AND IS_DELETED = 0 AND AVAILABLE = 1) AS status,
 							CONVERT(varchar(100), cc.CREATE_TIME, 23) AS createTime,
 							u.REAL_NAME AS createBy,
 							ISNULL(cc.COMMENT,'') AS comment
