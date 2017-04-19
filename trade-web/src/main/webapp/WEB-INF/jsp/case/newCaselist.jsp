@@ -264,6 +264,18 @@
  						<p >
 							<i class="sign_blue">{{item.STATUS}}</i>
 						</p>
+							{{if item.CASE_ORIGIN == 'MERGE'}}
+                                <p class="tip"> <i class="sign_blue">  合流 </i> </p>
+							{{/if}}
+							{{if item.CASE_ORIGIN == 'INPUT'}}
+                                <p class="tip" style="position:relative;overflow:visible;"> <i class="sign_brown"> 自录 </i> </p>
+							{{/if}}
+							{{if item.CASE_ORIGIN == 'CTM'}}
+                                <p class="tip" style="position:relative;overflow:visible;"> <i class="sign_blue"> 导入 </i> </p>
+							{{/if}}
+							{{if item.CASE_ORIGIN == 'PROCESS'}}
+                                <p class="tip"> <i class="sign_blue"> 合流申请中 </i>  </p>
+							{{/if}}
 					</td>
 				</tr>
 		{{/each}}
