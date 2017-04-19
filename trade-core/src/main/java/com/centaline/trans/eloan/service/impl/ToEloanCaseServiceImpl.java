@@ -664,6 +664,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		if (StringUtils.isNotBlank(sendName)) {
 			record.setSendName(sendName);
 		}
+
+		record.setLoanerStatus(LoanerStatusEnum.ACCEPTING.getCode());
 		record.setSendTime(sendTime);
 		record.setCreateTime(createTime);
 		record.setUpdateTime(updateTime);

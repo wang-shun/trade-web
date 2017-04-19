@@ -105,15 +105,15 @@
 						--prdType--
 						'EPLUS' AS prdType,
 						--mortInfo--
-						(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.LOAN_SRV_CODE AND TYPE = 'yu_serv_cat_code_tree' AND IS_DELETED = 0 AND AVAILABLE = 1) AS mortType,
+						(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = e.LOAN_SRV_CODE AND TYPE = 'yu_serv_cat_code_tree' AND IS_DELETED = 0 AND AVAILABLE = 1) AS mortType,
 						ec.APPLY_AMOUNT AS totalAmount,
 						ISNULL(ec.MONTH, 0) AS month,
-						(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.STATE_IN_BANK AND IS_DELETED = 0 AND AVAILABLE = 1) AS eLoanStatus,
+						CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END  AS eLoanStatus,
 						--yuOperator--
-						ec.EXCUTOR_ID AS excutorId,
+						ec.SEND_ID AS excutorId,
 						u.REAL_NAME AS excutorName,
 						u.MOBILE AS excutorMobile,
-						(SELECT ORG_NAME FROM sctrans.SYS_ORG WHERE ID = ec.EXCUTOR_TEAM) AS excutorOrg,
+						(SELECT ORG_NAME FROM sctrans.SYS_ORG WHERE ID = (SELECT ORG_ID FROM sctrans.SYS_USER WHERE ID = ec.SEND_ID)) AS excutorOrg,
 						--custInfo--
 						ec.CUST_NAME AS customerName,
 						ec.CUST_PHONE AS customerMobile,
@@ -121,9 +121,10 @@
 						ec.CASE_CODE AS caseCode,
 						p.PROPERTY_ADDR AS propertyAddress,
 						(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = c.STATUS AND IS_DELETED = 0 AND AVAILABLE = 1) AS caseStatus
-					FROM sctrans.T_TO_ELOAN_CASE ec
+					FROM sctrans.T_TO_ELOAN_LOANER ec
+					INNER JOIN sctrans.T_TO_ELOAN_CASE e on e.ELOAN_CODE = ec.ELOAN_CODE
 					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = ec.CASE_CODE
-					INNER JOIN sctrans.SYS_USER u ON u.ID = ec.EXCUTOR_ID
+					INNER JOIN sctrans.SYS_USER u ON u.ID = ec.SEND_ID
 					INNER JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = ec.CASE_CODE
 					WHERE ec.ELOAN_CODE = #eLoanCode#
 				]]>
@@ -165,7 +166,7 @@
 						ISNULL(ec.SEND_ID,'') as consultantID,
 						ISNULL(u.REAL_NAME,'') as consultantName,
 						ISNULL(ec.CUST_NAME,'') as custName,
-						ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.LOANER_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1 AND TAG = 'EPLUS'),'派单') AS loanerStatus,
+						CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS loanerStatus,
 						ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
 						ISNULL(ec.APPLY_AMOUNT,0.00) as loanAmount,
 						CAST(ISNULL(ec.MONTH,0) as varchar)+'期' as loanTime,
