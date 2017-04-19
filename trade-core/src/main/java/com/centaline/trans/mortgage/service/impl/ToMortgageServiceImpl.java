@@ -30,6 +30,7 @@ import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.repository.ToCaseCommentMapper;
 import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.enums.LoanerStatusEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.TmpBankStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -857,14 +858,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 					mortgageVo.getStateInBank());
 		}
 
-		// 设置案件跟进信息
-		ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(),
-				mortgageVo.getCaseCode(), mortgageVo.getStateInBank(),
-				mortgageVo.getComment());
-
-		// 保存案件跟进信息
-		toCaseCommentService.insertToCaseComment(toCaseComment);
-
 		// 根据按揭信息主键id获取按揭信息对象
 		ToMortgage toMortgage = toMortgageMapper
 				.getMortgageByBizCode(mortgageVo.getBizCode());
@@ -893,11 +886,15 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 						mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 						mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
 						mortgageVo.getStateInBank());
-
-				toMortLoaner.setLoanerStatus("BANKAUDITSUCCESS");
 			}
 
-			toMortLoaner.setFlowStatus(mortgageVo.getStateInBank());
+			// 设置案件跟进信息
+			ToCaseComment toCaseComment = setToCaseComment(
+					mortgageVo.getUser(), mortgageVo.getCaseCode(),
+					mortgageVo.getStateInBank(), mortgageVo.getComment());
+
+			// 保存案件跟进信息
+			toCaseCommentService.insertToCaseComment(toCaseComment);
 		}
 		// 银行审核拒绝
 		else if ("false".equals(mortgageVo.getIsPass())) {
@@ -906,20 +903,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 					mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 					mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
 					mortgageVo.getStateInBank());
-
-			toMortLoaner.setLoanerStatus("BANKREJECT");
 		}
-
-		// 设置案件跟进信息
-		ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(),
-				mortgageVo.getCaseCode(), mortgageVo.getStateInBank(),
-				mortgageVo.getComment());
-
-		// 保存案件跟进信息
-		toCaseCommentService.insertToCaseComment(toCaseComment);
-
-		// 更新T_TO_MORT_LOANER表中的跟进状态字段(FLOW_STATUS)
-		toMortLoanerMapper.updateToMortLoanerByMortId(toMortLoaner);
 
 		return true;
 	}
@@ -944,7 +928,19 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		toCaseComment.setCaseCode(caseCode);
 		toCaseComment.setType("TRACK");
 		toCaseComment.setSource("MORT");
-		toCaseComment.setSrvCode(srvCode);
+
+		if ("ACCEPT".equals(srvCode)) {
+			toCaseComment.setSrvCode(LoanerStatusEnum.AUDITING.getCode());
+		} else if ("REJECT".equals(srvCode)) {
+			toCaseComment.setSrvCode(LoanerStatusEnum.ACC_REJECTED.getCode());
+		} else if ("BANKREJECT".equals(srvCode)) {
+			toCaseComment.setSrvCode(LoanerStatusEnum.AUD_REJECTED.getCode());
+		} else if ("MORT_APPROVED".equals(srvCode)) {
+			toCaseComment.setSrvCode(LoanerStatusEnum.COMPLETED.getCode());
+		} else {
+			toCaseComment.setSrvCode(srvCode);
+		}
+
 		toCaseComment.setComment(comment);
 		toCaseComment.setCreateTime(new Date());
 
