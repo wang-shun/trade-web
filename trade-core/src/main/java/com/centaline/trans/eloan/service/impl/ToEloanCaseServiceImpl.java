@@ -428,7 +428,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 		// 设置案件跟进信息
 		ToCaseComment toCaseComment = setToCaseComment(eLoanVo.getUser(),
-				eLoanVo.getCaseCode(), eLoanVo.geteLoanCode(),
+				eLoanVo.getCaseCode(), eLoanVo.geteLoanCode(), "TRACK",
 				eLoanVo.getStateInBank(), eLoanVo.getComment());
 
 		// 保存案件跟进信息
@@ -465,12 +465,12 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	 * @return 返回案件跟进信息
 	 */
 	private ToCaseComment setToCaseComment(SessionUser user, String caseCode,
-			String eLoanCode, String srvCode, String comment) {
+			String eLoanCode, String type, String srvCode, String comment) {
 		// 添加案件跟进信息
 		ToCaseComment toCaseComment = new ToCaseComment();
 		toCaseComment.setCaseCode(caseCode);
 		toCaseComment.setBizCode(eLoanCode);
-		toCaseComment.setType("TRACK");
+		toCaseComment.setType(type);
 		toCaseComment.setSource("EPLUS");
 		toCaseComment.setSrvCode(srvCode);
 		toCaseComment.setComment(comment);
@@ -679,5 +679,17 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		if (StringUtils.isNotBlank(loanerOrgId)) {
 			record.setLoanerOrgId(loanerOrgId);
 		}
+	}
+
+	@Override
+	public void suppleInfo(ELoanVo eLoanVo) {
+		// 设置案件跟进信息
+		ToCaseComment toCaseComment = setToCaseComment(eLoanVo.getUser(),
+				eLoanVo.getCaseCode(), eLoanVo.geteLoanCode(),
+				eLoanVo.getType(), eLoanVo.getStateInBank(),
+				eLoanVo.getComment());
+
+		// 保存案件跟进信息
+		toCaseCommentService.insertToCaseComment(toCaseComment);
 	}
 }

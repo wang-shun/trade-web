@@ -54,6 +54,54 @@ public class ELoanCaseController {
 	private final static String queryELoanTradeProcess = "queryELoanTradeProcess";
 
 	/**
+	 * 信息补充、补件
+	 * 
+	 * @param eLoanCode
+	 *            E+金融编号
+	 * @param type
+	 *            如果信息补充,type为CMT,补件,type为BUJIAN
+	 * @param stateInBank
+	 *            跟进类型
+	 * @param caseCode
+	 *            案件编号
+	 * @param comment
+	 *            备注
+	 * @return
+	 * @throws CheckParametersException
+	 */
+	@RequestMapping(value = "suppleInfo")
+	@ResponseBody
+	public String suppleInfo(String eLoanCode, String type, String stateInBank,
+			String caseCode, String comment) throws CheckParametersException {
+
+		if (eLoanCode == null || type == null || comment == null
+				|| stateInBank == null || caseCode == null) {
+			throw new CheckParametersException("请检查参数!");
+		}
+
+		// 获取当前用户信息
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+
+		// 设置前台传的参数信息
+		// 设置前台传的参数信息
+		ELoanVo eLoanVo = new ELoanVo();
+		eLoanVo.seteLoanCode(eLoanCode);
+		eLoanVo.setType(type);
+		eLoanVo.setStateInBank(stateInBank);
+		eLoanVo.setCaseCode(caseCode);
+		eLoanVo.setComment(comment);
+		eLoanVo.setUser(sessionUser);
+
+		try {
+			toEloanCaseService.suppleInfo(eLoanVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	/**
 	 * E+案件跟进
 	 * 
 	 * @param eLoanCode

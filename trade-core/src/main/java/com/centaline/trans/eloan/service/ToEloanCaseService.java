@@ -40,51 +40,61 @@ public interface ToEloanCaseService {
 	ToEloanCase selectByEloanCode(String eloanCode);
 
 	/**
-	 * E+´û¿îĞÅ´ûÔ±½Óµ¥ºÍ´ò»Ø
+	 * E+ï¿½ï¿½ï¿½ï¿½Å´ï¿½Ô±ï¿½Óµï¿½ï¿½Í´ï¿½ï¿½
 	 * 
 	 * @param eLoanVo
-	 *            E+´û¿î°¸¼şÇ°Ì¨´«Öµ¶ÔÏó
+	 *            E+ï¿½ï¿½î°¸ï¿½ï¿½Ç°Ì¨ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
 	 * @param map
-	 *            Á÷³Ì²ÎÊı
+	 *            ï¿½ï¿½ï¿½Ì²ï¿½ï¿½ï¿½
 	 * @param taskId
-	 *            ÈÎÎñid
-	 * @return ·µ»Øtrue,²Ù×÷³É¹¦;·µ»Øfalse,²Ù×÷Ê§°Ü¡£
+	 *            ï¿½ï¿½ï¿½ï¿½id
+	 * @return ï¿½ï¿½ï¿½ï¿½true,ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½;ï¿½ï¿½ï¿½ï¿½false,ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü¡ï¿½
 	 */
 	public boolean accept(ELoanVo eLoanVo, Map<String, Object> map,
 			String taskId);
 
 	/**
-	 * E+°¸¼ş¸ú½ø
+	 * E+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param eLoanVo
-	 *            E+´û¿î°¸¼şÇ°Ì¨´«Öµ¶ÔÏó
-	 * @return ·µ»Øtrue,²Ù×÷³É¹¦;·µ»Øfalse,²Ù×÷Ê§°Ü¡£
+	 *            E+ï¿½ï¿½î°¸ï¿½ï¿½Ç°Ì¨ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
+	 * @return ï¿½ï¿½ï¿½ï¿½true,ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½;ï¿½ï¿½ï¿½ï¿½false,ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü¡ï¿½
 	 */
 	public boolean followUp(ELoanVo eLoanVo);
-	
+
 	/**
-	 * selectBackKaCountByTime:(¸ù¾İÊ±¼ä²éÑ¯ºóÌ¨¿¨ÀàÉêÇë×ÜÁ¿). <br/> 
+	 * selectBackKaCountByTime:(ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½). <br/>
 	 * 
-	 * @author gongjd 
+	 * @author gongjd
 	 * @param endWeekDay
-	 * @return 
+	 * @return
 	 * @since JDK 1.8
 	 */
 	int selectBackKaCountByTime(int endWeekDay);
-	
+
 	/**
-	 * selectBackKaCountByTime:(¸ù¾İÊ±¼ä²éÑ¯ºóÌ¨´û¿îÀàÉêÇë×ÜÁ¿). <br/> 
+	 * selectBackKaCountByTime:(ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½). <br/>
 	 * 
-	 * @author gongjd 
+	 * @author gongjd
 	 * @param endWeekDay
-	 * @return 
+	 * @return
 	 * @since JDK 1.8
 	 */
 	int selectBackAppCountByTime(int endWeekDay);
 
-	void batchChangeOwner(String[] eloanCode, String newConsultantId, String newManagerId);
-	
-	void changeOwner(String eloanCode, String newConsultantId, String newManagerId);
+	void batchChangeOwner(String[] eloanCode, String newConsultantId,
+			String newManagerId);
+
+	void changeOwner(String eloanCode, String newConsultantId,
+			String newManagerId);
 
 	List<String> selectConsAndManager(Long pkId);
+
+	/**
+	 * ä¿¡æ¯è¡¥å……ã€è¡¥å»º
+	 * 
+	 * @param eLoanVo
+	 *            E+ä¿¡æ¯å¯¹è±¡
+	 */
+	public void suppleInfo(ELoanVo eLoanVo);
 }
