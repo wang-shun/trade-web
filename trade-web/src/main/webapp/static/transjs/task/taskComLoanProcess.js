@@ -819,7 +819,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 				    }); 
 	  			
 	  				
-	  			console.log("===Result==="+JSON.stringify(data.content));
+	  			//console.log("===Result==="+JSON.stringify(data.content));
 	    		if(data != null && data.content != null){
 	    				
 		    			f.find("input[name='pkid']").val(data.content.pkid);
@@ -843,6 +843,10 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			f.find("input[name='custCompany']").val(data.content.custCompany);
 		    			f.find("select[name='lendWay']").val(data.content.lendWay);
 		    			f.find("input[name='loanerName']").val(data.content.loanerName);
+		    			if(data.content.isMainLoanBank == 1){
+		    				f.find("input[name='loanerName1']").val(data.content.loanerName);
+		    			}
+		    			
 		    			if(data.content.isTmpBank == 1){
 		    				//临时银行 信贷员可以 输入  可以选择
 		    				$("#forLoanerProcessShuru").show();
@@ -852,8 +856,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    				//临时银行 信贷员只能选择
 		    				$("#forLoanerProcessShuru").hide();
 		    				$("#forLoanerProcessNoShuru").show();		    				
-		    			}
-		    			f.find("#loanerName1']").val(data.content.loanerName);
+		    			}		    			
 		    			f.find("input[name='loanerId']").val(data.content.loanerId);
 		    			f.find("input[name='loanerOrgId']").val(data.content.loanerOrgId);
 		    			f.find("input[name='loanerOrgCode']").val(data.content.loanerOrgCode);

@@ -1177,7 +1177,7 @@
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
 													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" onclick="selectLoanerByOrgId0()">
-													 <i style=" position: absolute; top: 5px; right: 20px;  " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId0()" >&#xe627;</i>
+													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId0()" >&#xe627;</i>
 													 </input>			
 													 <input type="hidden"  id="loanerOrgCode"  name="loanerOrgCode" />
 													 <input type="hidden"  id="loanerOrgId" name ="loanerOrgId" />
@@ -1798,9 +1798,15 @@ function checkInt(obj){
         });
 		
     	
-		$("#finOrgCode").change(function(){    	
-    		var isMainLoanBank = $("#isMainLoanBank").val();    		
-    		var finOrgCode = $("#mortgageForm").find("select[name='finOrgCode']").val();    		
+		//$("#finOrgCode").change(function(){ 
+		$("select[name='finOrgCode']").change(function(){ 		
+    		var isMainLoanBank = $("#isMainLoanBank").val();
+    		var finOrgCode="";
+    		if(isMainLoanBank == 1){
+    			finOrgCode= $("#mortgageForm").find("select[name='finOrgCode']").val();   
+    		}else if(isMainLoanBank == 0){
+    			finOrgCode= $("#mortgageForm1").find("select[name='finOrgCode']").val(); 
+    		}    		  		
     		var finOrgId='';	
 
     		$.ajax({
@@ -2007,7 +2013,10 @@ function checkInt(obj){
 					}
 				})
 			} else {
-				$form.find("#loanerName").val("");
+				if(isMainLoanBank == 1){
+					$form.find("#loanerName1").val("");
+				}
+				$form.find("#loanerName").val("");				
 				$form.find("#loanerOrgCode").val("");
 				$form.find("#loanerOrgId").val("");
 			}
