@@ -702,7 +702,7 @@ function selectLoanerByOrgId1(){
 			callBack : selectLoanerUser
 		});	
 	}else{	
-		//window.wxc.alert('您选择的银行暂时未添加信贷员信息，请联系管理员！');
+		window.wxc.alert('您选择的银行暂时未添加信贷员信息，请联系管理员！');
 /*		userSelect({
 			startOrgId : '10B1F16BDC5E7F33E0532429030A8872',//非营业部
 			expandNodeId : '10B1F16BDC5E7F33E0532429030A8872',
