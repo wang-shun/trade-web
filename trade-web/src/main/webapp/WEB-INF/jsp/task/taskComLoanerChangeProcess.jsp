@@ -164,14 +164,14 @@
 								<div class="ibox-content">
 								<form id="mortgageForm" class="form_list">
 								    <input type="hidden" name="pkid" id="pkid"  value="${toMortgage.pkid}"/>
-									<input type="hidden" name="caseCode" value="${caseCode}">	
+									<input type="hidden" name="caseCode" id="caseCode" value="${caseCode}">	
 									<input type="hidden" id="isMainLoanBank" name="isMainLoanBank" value="${toMortgage.isMainLoanBank}"/>
 																	
 		                            <div class="marinfo">
 		                                    <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 主贷人<span class="star">*</span></label>
-													 <input class=" input_type yuanwid" placeholder="" value="${custName}" readonly="readonly" style="background-color:#ccc;">
+													 <input class=" input_type yuanwid" placeholder="" value="${custName}" readonly="readonly" name="custName" id="custName" style="background-color:#ccc;">
 		                                         </div>
 												<div class="form_content">
 													<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>贷款总额 </label>
@@ -535,11 +535,13 @@
 				loanerId:$("#loanerId").val(),
 				loanerName:$("#loanerName").val(),
 				loanerPhone:$("#loanerPhone").val(),
-
 				isLoanerArrive:$("input[name='isLoanerArrive']:checked").val(),
 				isTmpBank:$("input[name='isTmpBank']:checked").val(),
 				finOrgCode:$("#finOrgCode").val(),
-				isMainLoanBank:$("#isMainLoanBank").val(),
+				isMainLoanBank:$("#isMainLoanBank").val(),				
+				mortTotalAmount:$("#mortTotalAmount").val(),
+				custName:$("#custName").val(),
+				mortType:$("#mortType option:selected").val(),				
 				comAmount:$("#comAmount").val(),
 				comDiscount:$("#comDiscount").val(),
 				comYear:$("#comYear").val(),
@@ -686,7 +688,7 @@
 	
 	function selectLoanerUser(array){			
 		if (array && array.length > 0) {
-				("#loanerName").val(array[0].username);
+				$("#loanerName").val(array[0].username);				
 				$.ajax({
 					url : ctx + "/eloan/LoanerCode",
 					method : "post",
@@ -694,18 +696,18 @@
 					data : {
 						"userId" : array[0].userId
 					},
-					success : function(data) {
-						$form.find("#loanerNameImage").css("color","#52cdec");
-						$form.find("#loanerPhone").val(data.user.mobile);
-						$form.find("#loanerId").val(data.user.id);
-						$form.find("#loanerOrgCode").val(data.user.orgName);
-						$form.find("#loanerOrgId").val(data.user.orgId);
+					success : function(data) {						
+						$("#loanerNameImage").css("color","#52cdec");
+						$("#loanerPhone").val(data.user.mobile);
+						$("#loanerId").val(data.user.id);
+						$("#loanerOrgCode").val(data.user.orgName);
+						$("#loanerOrgId").val(data.user.orgId);
 					}
 				})
 			} else {
-				$form.find("#loanerName").val("");				
-				$form.find("#loanerOrgCode").val("");
-				$form.find("#loanerOrgId").val("");
+				$("#loanerName").val("");				
+				$("#loanerOrgCode").val("");
+				$("#loanerOrgId").val("");
 			}
 	}
 
