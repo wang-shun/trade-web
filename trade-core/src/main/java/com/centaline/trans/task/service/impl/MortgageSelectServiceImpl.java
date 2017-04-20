@@ -297,13 +297,13 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		 * 
 		 * */
 		
-		if(null == vo.getMortageService() || "".equals(vo.getMortageService())){
+		/*	if(null == vo.getMortageService() || "".equals(vo.getMortageService())){
 			throw new BusinessException("贷款需求变更类型不明确！");
 		}
 		if (!"1".equals(vo.getMortageService())){
 			//删除信贷员派单和分级银行审批流程
 			deleteLoanerProcess(vo);
-		}
+		}*/
 	}
 	
 	
@@ -329,9 +329,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		twf.setCaseCode(vo.getCaseCode());
 		toMortgageService.deleteTmpBankProcess(twf);
 		//将T_TO_WORKFLOW 和 T_HI_WORKFLOW 中的status设置为2 非正常结束
-		toWorkFlowService.deleteWorkFlowByProperty(twf);
+		toWorkFlowService.deleteWorkFlowByProperty(twf);		
 		
-		deleteMortFlowByCaseCode(vo.getCaseCode());
 	}
 	
 	/****
