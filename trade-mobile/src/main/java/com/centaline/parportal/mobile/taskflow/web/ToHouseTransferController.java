@@ -85,7 +85,7 @@ public class ToHouseTransferController {
 
     @RequestMapping(value = "submitToHouseTransfer")
     @ResponseBody
-    public Object submitToHouseTransfer(ToHouseTransfer toHouseTransfer,LoanlostApproveVO loanlostApproveVO,ToMortgage toMortgage,String taskId,String processInstanceId) {
+    public Object submitToHouseTransfer(ToHouseTransfer toHouseTransfer,LoanlostApproveVO loanlostApproveVO,String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
             ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
@@ -100,6 +100,7 @@ public class ToHouseTransferController {
                     response.setMessage("ctmCode不可为空");
                     return response;
                 }
+                ToMortgage toMortgage =  toMortgageService.findToMortgageByCaseCode2(toHouseTransfer.getCaseCode());
                 toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
                 // 回写三级市场, 交易过户
                 salesdealApiService.noticeSalesDeal(toCase.getCtmCode());
