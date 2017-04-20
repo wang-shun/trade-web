@@ -114,6 +114,7 @@
 <!-- 流程引擎需要字段 -->
 <input type="hidden" id="taskId" name="taskId" value="${taskId }"> 
 <input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+<input type="hidden" name="bankOrgId" id="bankOrgId" value=""/>
 
 <!-- 临时银行审批 -->
 <input type="hidden" id="tmpBankStatus" name="tmpBankStatus"/>
@@ -139,7 +140,12 @@
                         <div class="panel-heading" style="padding:0;">
                             <div class="panel-options">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a id="tab1" data-toggle="tab" href="#tab-1">从新派单</a></li>                                 
+									<c:if test="${toMortgage.isMainLoanBank=='0'}">
+										<li class="active"><a id="tab1" data-toggle="tab" href="#tab-1">候选银行重新派单</a></li>
+									</c:if>
+									<c:if test="${toMortgage.isMainLoanBank!='0'}">
+										<li class="active"><a id="tab2" data-toggle="tab" href="#tab-1">主选银行重新派单</a></li>
+									</c:if>
                                 </ul>
                             </div>
                         </div>
@@ -158,14 +164,14 @@
 								<div class="ibox-content">
 								<form id="mortgageForm" class="form_list">
 								    <input type="hidden" name="pkid" id="pkid"  value="${toMortgage.pkid}"/>
-									<input type="hidden" name="caseCode" value="${caseCode}">	
+									<input type="hidden" name="caseCode" id="caseCode" value="${caseCode}">	
 									<input type="hidden" id="isMainLoanBank" name="isMainLoanBank" value="${toMortgage.isMainLoanBank}"/>
 																	
 		                            <div class="marinfo">
 		                                    <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 主贷人<span class="star">*</span></label>
-													 <input class=" input_type yuanwid" placeholder="" value="${custName}" readonly="readonly" style="background-color:#ccc;">
+													 <input class=" input_type yuanwid" placeholder="" value="${custName}" readonly="readonly" name="custName" id="custName" style="background-color:#ccc;">
 		                                         </div>
 												<div class="form_content">
 													<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>贷款总额 </label>
@@ -227,14 +233,72 @@
 															display="select" dictType="30017" defaultvalue="${toMortgage.lendWay }" />
 		                                         </div>
 		                                     </div>
-	
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small select_style mend_select">签约时间<span class="star" >*</span>
+		                                             </label>
+		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
+														 <input type="text" value="<fmt:formatDate  value='${toMortgage.signDate}' type='both' pattern='yyyy-MM-dd'/>"
+																class="input_type yuanwid" style="background-color:#ccc;" readonly="readonly"   name="signDate" id="signDate" readonly>
+                                                           <%-- <input class="input_type yuanwid" type="text" placeholder=""　value name="signDate" id="signDate" readonly>--%>
+                                                     </div>
+		                                         </div>
+		                                         <div class="form_content radio-seat" style="margin-top:7px;">
+		                                             <label class="control-label sign_left_small">需要放款前报告</label>							             
+										             <div class="controls">
+														 <c:if test="${toMortgage.ifReportBeforeLend =='1'}">
+															 <label class="radio inline"> <input type="radio" value="1"　 checked="checked" name="ifReportBeforeLend">是</label>
+
+														 </c:if>
+														 <c:if test="${toMortgage.ifReportBeforeLend =='0'}">
+
+															 <label class="radio inline"> <input type="radio" value="0"  checked="checked"　name="ifReportBeforeLend" checked="checked">否</label>
+														 </c:if>
+
+                                                     </div>
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+												 <div class="form_content radio-seat" style="margin-top:5px;">
+													 <label class="control-label sign_left_small">是否临时银行</label>
+													 <div class="controls ">
+														 <c:if test="${toMortgage.isMainLoanBank=='0'}">
+															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
+														 </c:if>
+														 <c:if test="${toMortgage.isMainLoanBank!='0'}">
+															 <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" readonly>是</label>
+															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
+														 </c:if>
+
+													 </div>
+												 </div>
+												 <div class="form_content">
+													 <label class="control-label sign_left_small select_style mend_select">推荐函编号<span class="star" >*</span>
+													 </label>
+													 <div class="input-group sign-right dataleft input-daterange pull-left">
+														 <input type="text" name="recLetterNo" id="recLetterNo" readonly="readonly" style="background-color:#ccc;"  value="${toMortgage.recLetterNo}"  class="input_type yuanwid" />
+													 </div>
+												 </div>
+		                                     </div>
+
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">贷款银行</label>																										
+													 <select  name="bank_type" class="select_control" id="bank_type" ></select>
+													 <input type="hidden" value="${toMortgage.finOrgCode}" id="caseFinOrgCode" />
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small" style="width: 204px;">贷款支行<span class="star">*</span></label>
+													 <select  name="finOrgCode" class="select_control" id="finOrgCode" ></select>
+		                                         </div>
+		                                     </div>
+		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
-													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" value="${toMortgage.loanerName}"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
-															nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})">
-													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
-														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
+													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" value="${toMortgage.loanerName}"  onclick="selectLoanerByOrgId()">
+													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId()" >&#xe627;</i>
 													 </input>			
 													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" value="${toMortgage.loanerOrgCode}" />
 													 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" value="${toMortgage.loanerOrgId}" />
@@ -266,60 +330,6 @@
 		                                         </div>
 		                                     </div>
 		                                     
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small select_style mend_select">签约时间<span class="star" >*</span>
-		                                             </label>
-		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
-														 <input type="text" value="<fmt:formatDate  value='${toMortgage.signDate}' type='both' pattern='yyyy-MM-dd'/>"
-																class="input_type yuanwid" style="background-color:#ccc;" readonly="readonly"   name="signDate" id="signDate" readonly>
-                                                           <%-- <input class="input_type yuanwid" type="text" placeholder=""　value name="signDate" id="signDate" readonly>--%>
-                                                     </div>
-		                                         </div>
-		                                         <div class="form_content radio-seat" style="margin-top:7px;">
-		                                             <label class="control-label sign_left_small">需要放款前报告</label>							             
-										             <div class="controls">
-														 <c:if test="${toMortgage.ifReportBeforeLend =='1'}">
-															 <label class="radio inline"> <input type="radio" value="1"　 checked="checked" name="ifReportBeforeLend">是</label>
-
-														 </c:if>
-														 <c:if test="${toMortgage.ifReportBeforeLend =='0'}">
-
-															 <label class="radio inline"> <input type="radio" value="0"  checked="checked"　name="ifReportBeforeLend" checked="checked">否</label>
-														 </c:if>
-
-                                                     </div>
-		                                         </div>
-		                                     </div>
-		                                     
-		                                     <div class="line">
-												 <div class="form_content radio-seat" style="margin-top:5px;">
-													 <label class="control-label sign_left_small">是否临时银行</label>
-													 <div class="controls ">
-														 <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
-														 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
-													 </div>
-												 </div>
-												 <div class="form_content">
-													 <label class="control-label sign_left_small select_style mend_select">推荐函编号<span class="star" >*</span>
-													 </label>
-													 <div class="input-group sign-right dataleft input-daterange pull-left">
-														 <input type="text" name="recLetterNo" id="recLetterNo" readonly="readonly" style="background-color:#ccc;"  value="${toMortgage.recLetterNo}"  class="input_type yuanwid" />
-													 </div>
-												 </div>
-		                                     </div>
-
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">贷款银行</label>																										
-													 <select  name="bank_type" class="select_control" id="bank_type" ></select>
-													 <input type="hidden" value="${toMortgage.finOrgCode}" id="caseFinOrgCode" />
-		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small" style="width: 204px;">贷款支行<span class="star">*</span></label>
-													 <select  name="finOrgCode" class="select_control" id="finOrgCode" ></select>
-		                                         </div>
-		                                     </div>
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">备注</label>
@@ -399,7 +409,8 @@
 			}
 		}
 	}
-	jQuery(document).ready(function() {
+	jQuery(document).ready(function() {		
+		
 		//银行下拉列表
 		if(isTmpBank=='1'){
 			getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"","equ");
@@ -409,6 +420,26 @@
 		$("#mortType").attr("disabled","disabled").css("background-color", "#ccc");
 		$("#lendWay").attr("disabled","disabled").css("background-color", "#ccc");
 		$("input[name='isTmpBank']").on('click',isTmpBankChange);
+		
+		
+ 		$("select[name='finOrgCode']").change(function(){     	
+    		var finOrgCode = $("select[name='finOrgCode']").val();	  		
+    		var finOrgId='';			
+    		$.ajax({
+    			    url:ctx+"/manage/queryBankOrgIdByOrgCode",
+    			    method:"post",
+    			    dataType:"json",
+    				async:false,
+    			    data:{finOrgCode:finOrgCode},
+    			    
+    			    success:function(data){
+    		    		if(data != null){
+    		    			finOrgId = data.content;
+    		    		}
+    		    	}
+    		 });
+    		$("#bankOrgId").val(finOrgId);    		
+    	}) 
 	});
 
 	//查询分行信息
@@ -488,38 +519,7 @@
 		});
 		return true;
 	}
-	function selectLoanerUser(array) {
-		selectLoanerUserCom(array,$("#mortgageForm"));
-	}
-	
-	function selectLoanerUser_(array) {
-		selectLoanerUserCom(array,$("#mortgageForm1"));
-	}
-	
-	function selectLoanerUserCom(array,$form){
-		if (array && array.length > 0) {
-			$form.find("#loanerName").val(array[0].username);
-			$.ajax({
-				url : ctx + "/eloan/LoanerCode",
-				method : "post",
-				dataType : "json",
-				data : {
-					"userId" : array[0].userId
-				},
-				success : function(data) {
-					$form.find("#loanerNameImage").css("color","#52cdec");
-					$form.find("#loanerPhone").val(data.user.mobile);
-					$form.find("#loanerId").val(data.user.id);
-					$form.find("#loanerOrgCode").val(data.user.orgName);
-					$form.find("#loanerOrgId").val(data.user.orgId);
-				}
-			})
-		} else {
-			$form.find("#loanerName").val("");
-			$form.find("#loanerOrgCode").val("");
-			$form.find("#loanerOrgId").val("");
-		}
-	}
+
 	function submit(){
 		if(!checkForm()) {
 			return;
@@ -535,11 +535,13 @@
 				loanerId:$("#loanerId").val(),
 				loanerName:$("#loanerName").val(),
 				loanerPhone:$("#loanerPhone").val(),
-
 				isLoanerArrive:$("input[name='isLoanerArrive']:checked").val(),
 				isTmpBank:$("input[name='isTmpBank']:checked").val(),
 				finOrgCode:$("#finOrgCode").val(),
-
+				isMainLoanBank:$("#isMainLoanBank").val(),				
+				mortTotalAmount:$("#mortTotalAmount").val(),
+				custName:$("#custName").val(),
+				mortType:$("#mortType option:selected").val(),				
 				comAmount:$("#comAmount").val(),
 				comDiscount:$("#comDiscount").val(),
 				comYear:$("#comYear").val(),
@@ -661,6 +663,52 @@
 			return false;
 		}
 		return true;
+	}
+	
+	
+	//信贷员选择
+	function selectLoanerByOrgId(){	
+		var finOrgId = $("#bankOrgId").val();	
+		if(finOrgId != null  && finOrgId !=""  && finOrgId != undefined){
+			userSelect({
+				startOrgId : finOrgId,//非营业部
+				expandNodeId : finOrgId,
+				nameType : 'long|short',
+				orgType : '',
+				departmentType : '',
+				departmentHeriarchy : '',
+				chkStyle : 'radio',
+				jobCode : '',		
+				callBack : selectLoanerUser
+			});	
+		}else{	
+			window.wxc.alert('您选择的银行暂时未添加信贷员信息，请联系管理员！');
+		}	
+	}
+	
+	function selectLoanerUser(array){			
+		if (array && array.length > 0) {
+				$("#loanerName").val(array[0].username);				
+				$.ajax({
+					url : ctx + "/eloan/LoanerCode",
+					method : "post",
+					dataType : "json",
+					data : {
+						"userId" : array[0].userId
+					},
+					success : function(data) {						
+						$("#loanerNameImage").css("color","#52cdec");
+						$("#loanerPhone").val(data.user.mobile);
+						$("#loanerId").val(data.user.id);
+						$("#loanerOrgCode").val(data.user.orgName);
+						$("#loanerOrgId").val(data.user.orgId);
+					}
+				})
+			} else {
+				$("#loanerName").val("");				
+				$("#loanerOrgCode").val("");
+				$("#loanerOrgId").val("");
+			}
 	}
 
 </script>

@@ -83,7 +83,7 @@
     	<include refid="Base_Column_List" />
     from sctrans.T_TO_MORT_LOANER
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-    AND   LOANER_STATUS IN ('BANKREJECT','REJECT')
+    AND   LOANER_STATUS IN ('AUD_REJECTED','ACC_REJECTED')
   </select>   
   
   <select id="findToMortLoaner" resultMap="BaseResultMap" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
@@ -92,7 +92,7 @@
     from sctrans.T_TO_MORT_LOANER
     
     where 
-    	LOANER_STATUS IN ('BANKREJECT','REJECT','CANCEL')
+    	LOANER_STATUS NOT IN ('AUD_REJECTED','ACC_REJECTED','CANCELED')
      <if test="caseCode != null">
     	AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
      </if>
@@ -394,10 +394,10 @@
         HOU_ADDRESS = #{houAddress,jdbcType=VARCHAR},
       </if>
       <if test="mortType != null" >
-        MORT_TYPE,
+        MORT_TYPE = #{mortType,jdbcType=VARCHAR},
       </if>
       <if test="isMainLoanBankProcess != null" >
-        IS_MAIN_LOANBANK_PROCESS,
+        IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR},
       </if>
       <if test="mortTotalAmount != null" >
         MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},
@@ -546,7 +546,7 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_MORT_LOANER
-    where MORT_PKID = #{mortgageId,jdbcType=VARCHAR}
+    where MORT_PKID = #{mortgageId,jdbcType=VARCHAR} and LOANER_STATUS = 'ACCEPTING'
   </select>
   
   <update id="updateToMortLoanerByMortId" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
@@ -566,12 +566,11 @@
       </if>
       
       <if test="mortType != null" >
-        MORT_TYPE,
+        MORT_TYPE = #{mortType,jdbcType=VARCHAR},
       </if>
       <if test="isMainLoanBankProcess != null" >
-        IS_MAIN_LOANBANK_PROCESS,
+        IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR},
       </if>
-      
       <if test="mortTotalAmount != null" >
         MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},
       </if>

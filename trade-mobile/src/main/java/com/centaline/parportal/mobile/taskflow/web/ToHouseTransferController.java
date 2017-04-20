@@ -6,6 +6,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.apilog.service.SalesDealApiService;
+import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 
@@ -52,11 +53,16 @@ public class ToHouseTransferController {
     @Autowired
     private UamSessionService uamSessionService;
 
+    @Autowired
+    private ToAccesoryListService toAccesoryListService;
+
     @RequestMapping(value = "process")
     @ResponseBody
     public Object toProcess(HttpServletRequest request, String processInstanceId) {
         String taskId = request.getParameter("taskId");
         String caseCode = request.getParameter("caseCode");
+        String taskitem = request.getParameter("taskitem");
+
         SessionUser user= uamSessionService.getSessionUser();
         JSONObject jsonObject = new JSONObject();
 
@@ -66,28 +72,34 @@ public class ToHouseTransferController {
         jsonObject.put("approveType", "2");
         jsonObject.put("operator", user != null ? user.getId() : "");
         jsonObject.put("partCode", "Guohu");
+
+        ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+        toAccesoryListService.getAccesoryListGuoHu(request, taskitem, caseCode);
+        ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+
+        jsonObject.put("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
+        jsonObject.put("loanReq", toCase.getLoanReq());
+        jsonObject.put("toMortgage", toMortgage);
         return jsonObject;
     }
 
     @RequestMapping(value = "submitToHouseTransfer")
     @ResponseBody
-    public Object submitToHouseTransfer(ToHouseTransfer toHouseTransfer,LoanlostApproveVO loanlostApproveVO,String taskId,String processInstanceId) {
+    public Object submitToHouseTransfer(ToHouseTransfer toHouseTransfer,LoanlostApproveVO loanlostApproveVO,ToMortgage toMortgage,String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
             ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
             if(null!=toCase){
-                if(toCase.getCtmCode() == null){
-                    response.setSuccess(false);
-                    response.setMessage("ctmCode不可为空");
-                    return response;
-                }
                 if(CaseMergeStatusEnum.INPUT.getCode().equals(toCase.getCaseOrigin())){
                     response.setSuccess(false);
                     response.setMessage("自建案件必须完成案件合流才能提交过户申请");
                     return response;
                 }
-
-                ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(toHouseTransfer.getCaseCode());
+                if(toCase.getCtmCode() == null){
+                    response.setSuccess(false);
+                    response.setMessage("ctmCode不可为空");
+                    return response;
+                }
                 toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
                 // 回写三级市场, 交易过户
                 salesdealApiService.noticeSalesDeal(toCase.getCtmCode());
@@ -100,6 +112,7 @@ public class ToHouseTransferController {
             }
             response.setSuccess(true);
         }catch (Exception e){
+            response.setSuccess(false);
             e.printStackTrace();
             logger.error(e.getMessage());
         }

@@ -46,6 +46,7 @@ public class ToPurchaseLimitSearchController {
         String taskId = request.getParameter("taskId");
         String caseCode = request.getParameter("caseCode");
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("partId", "PurchaseLimit");
         jsonObject.put("caseCode", caseCode);
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);

@@ -57,7 +57,7 @@
 							ISNULL(ml.COM_DISCOUNT,0) AS mortInfo_comDiscount,
 							ISNULL(ml.PRF_AMOUNT,0) AS mortInfo_prfAmount,
 							CAST(ISNULL(ml.PRF_YEAR,0) as varchar) + '年' AS mortInfo_prfYear,
-							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ml.LOANER_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1 AND TAG = 'MORT'),'派单') AS mortInfo_statusCode,
+							CASE ml.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS mortInfo_statusCode,
 							ISNULL(ml.SEND_ID,'')  AS yuOperator_userId,
 							ISNULL(M.LOAN_AGENT_TEAM,'')  AS yuOperator_teamId,
 							ISNULL(ml.CUST_NAME,'') AS custInfo_name,

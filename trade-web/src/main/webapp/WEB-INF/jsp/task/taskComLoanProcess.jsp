@@ -835,34 +835,32 @@
 		                                         </div>
 		                                         
 		                                         <div class="form_content"  id="processButtonHidden1">
-		                                          	 <button type="button" class="btn btn-success"  style="background:#52cdec" onclick="loanerProcessStart(1)" id="toLoanerCase">派  单</button>		                                         	 
+		                                          	 <button type="button" class="btn btn-success"  style="background:#52cdec" onclick="loanerProcessStart(1)" id="toLoanerCase">派  单</button>
+		                                          	 		                                         	                                         	 
 		                                         </div>
 		                                     </div>
 		                                     
-		                                     <div class="line">		                                     
-		                                         <div class="form_content"  id="forLoanerProcessNoShuru">
+		                                     <div class="line">		
+		                                     	 <input  type="hidden"  name="loanerName" id="loanerName">                                     
+	                                         	 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
+												 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
+												 <input type="hidden"  id="loanerId" name="loanerId" />
+		                                         <div class="form_content"  id="forLoanerProcessNoShuru">		                                         
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
-													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid"  onclick="selectLoanerByOrgId1()">
-													 
+													 <input  type="text" readonly='readonly' name="loanerName1" id="loanerName1" placeholder="" class="input_type yuanwid"  onclick="selectLoanerByOrgId1()">
 													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId1()" >&#xe627;</i>
 													 </input>			
-													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
-													 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
-													 <input type="hidden"  id="loanerId" name="loanerId" />
+												
 													 <div class="input-group float_icon organize_icon" ></div>	
 		                                         </div>
 		                                         
-		                                         <div class="form_content" id="forLoanerProcessShuru" style="display:none">
+ 		                                         <div class="form_content" id="forLoanerProcessShuru" style="display:none">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
-													 <input  type="text" name="loanerName" id="loanerName1" placeholder="" class="input_type yuanwid" onkeyup="onkeyuploanerName()">
-													 
-													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage1" name ="loanerNameImage"  onclick="selectLoanerByOrgId1()" >&#xe627;</i>
-													 </input>			
-													 <input type="hidden" id="loanerOrgCode1"  name="loanerOrgCode" />
-													 <input type="hidden" id="loanerOrgId1" name ="loanerOrgId" />
-													 <input type="hidden"  id="loanerId1" name="loanerId" />
+													 <input  type="text" name="loanerName1" id="loanerName1" placeholder="" class="input_type yuanwid" onkeyup="onkeyuploanerName()">													 
+													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId1()" >&#xe627;</i>
+													 </input>											
 													 <div class="input-group float_icon organize_icon" ></div>	
-		                                         </div>
+		                                         </div> 
 		                                         
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
@@ -1179,7 +1177,7 @@
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
 													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" onclick="selectLoanerByOrgId0()">
-													 <i style=" position: absolute; top: 5px; right: 20px;  " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId0()" >&#xe627;</i>
+													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId0()" >&#xe627;</i>
 													 </input>			
 													 <input type="hidden"  id="loanerOrgCode"  name="loanerOrgCode" />
 													 <input type="hidden"  id="loanerOrgId" name ="loanerOrgId" />
@@ -1800,9 +1798,15 @@ function checkInt(obj){
         });
 		
     	
-		$("#finOrgCode").change(function(){    	
-    		var isMainLoanBank = $("#isMainLoanBank").val();    		
-    		var finOrgCode = $("#mortgageForm").find("select[name='finOrgCode']").val();    		
+		//$("#finOrgCode").change(function(){ 
+		$("select[name='finOrgCode']").change(function(){ 		
+    		var isMainLoanBank = $("#isMainLoanBank").val();
+    		var finOrgCode="";
+    		if(isMainLoanBank == 1){
+    			finOrgCode= $("#mortgageForm").find("select[name='finOrgCode']").val();   
+    		}else if(isMainLoanBank == 0){
+    			finOrgCode= $("#mortgageForm1").find("select[name='finOrgCode']").val(); 
+    		}    		  		
     		var finOrgId='';	
 
     		$.ajax({
@@ -1984,10 +1988,15 @@ function checkInt(obj){
 	
 	function selectLoanerUserCom(array,$form){		
 		//TODO
-		var isTmpBank = $("input[name='isTmpBank']:checked").val();
-		if(isTmpBank == 1){
-			if (array && array.length > 0) {
-				$form.find("#loanerName1").val(array[0].username);
+ 		//var isTmpBank = $("input[name='isTmpBank']:checked").val();	
+		var isMainLoanBank = $("#isMainLoanBank").val();
+		if (array && array.length > 0) {
+				if(isMainLoanBank == 1){
+					$form.find("#loanerName1").val(array[0].username);
+					$form.find("#loanerName").val(array[0].username);
+				}else if(isMainLoanBank == 0){
+					$form.find("#loanerName").val(array[0].username);
+				}				
 				$.ajax({
 					url : ctx + "/eloan/LoanerCode",
 					method : "post",
@@ -1996,19 +2005,22 @@ function checkInt(obj){
 						"userId" : array[0].userId
 					},
 					success : function(data) {
-						$form.find("#loanerNameImage1").css("color","#52cdec");
-						$form.find("#loanerPhone1").val(data.user.mobile);
-						$form.find("#loanerId1").val(data.user.id);
-						$form.find("#loanerOrgCode1").val(data.user.orgName);
-						$form.find("#loanerOrgId1").val(data.user.orgId);
+						$form.find("#loanerNameImage").css("color","#52cdec");
+						$form.find("#loanerPhone").val(data.user.mobile);
+						$form.find("#loanerId").val(data.user.id);
+						$form.find("#loanerOrgCode").val(data.user.orgName);
+						$form.find("#loanerOrgId").val(data.user.orgId);
 					}
 				})
 			} else {
-				$form.find("#loanerName1").val("");
-				$form.find("#loanerOrgCode1").val("");
-				$form.find("#loanerOrgId1").val("");
+				if(isMainLoanBank == 1){
+					$form.find("#loanerName1").val("");
+				}
+				$form.find("#loanerName").val("");				
+				$form.find("#loanerOrgCode").val("");
+				$form.find("#loanerOrgId").val("");
 			}
-		}else if(isTmpBank == 0){
+		/* }else if(isTmpBank == 0){
 			if (array && array.length > 0) {
 				$form.find("#loanerName").val(array[0].username);
 				$.ajax({
@@ -2032,7 +2044,7 @@ function checkInt(obj){
 				$form.find("#loanerOrgId").val("");
 			}
 			
-		}
+		} */
 	}
 	
 	//渲染图片 

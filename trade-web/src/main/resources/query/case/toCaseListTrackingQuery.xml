@@ -109,11 +109,12 @@
 					    A.GRP_NAME as AGENT_ORG_NAME,
 					    A.AGENT_PHONE,
 					    A.REQUIRE_PROCESSOR_ID,
-					   (select REAL_NAME from sctrans.SYS_USER where ID=C.CREATE_BY) realName,
-					   C.CREATE_TIME createTime
+					    (select REAL_NAME from sctrans.SYS_USER where ID=C.CREATE_BY) realName,
+					    C.CREATE_TIME createTime,
+					    C.CASE_ORIGIN
 					FROM SCTRANS.T_TO_CASE_INFO A INNER JOIN SCTRANS.T_TO_CASE C ON C.CASE_CODE=A.CASE_CODE
 					LEFT JOIN SCTRANS.T_TO_PROPERTY_INFO tp ON tp.CASE_CODE=C.CASE_CODE 
-					WHERE c.CASE_ORIGIN='INPUT'
+					WHERE c.CASE_CODE like 'ZY-ZL%'
 					<ifNotNull uId>
 						and c.CREATE_BY= #uId#
 					</ifNotNull>
@@ -134,6 +135,7 @@
 			<table-row>
 				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="CASE_ORIGIN" index="" checkbox="" display="案件所属" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>

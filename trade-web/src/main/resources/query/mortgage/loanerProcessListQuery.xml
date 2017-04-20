@@ -42,6 +42,7 @@
 				<![CDATA[
 					SELECT
 						M.CASE_CODE,
+						(SELECT TOP 1 C.PKID FROM sctrans.T_TO_CASE C WHERE C.CASE_CODE = W.CASE_CODE) PKID,
 						M.MORT_TYPE,						
 						ISNULL(M.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,
 						ISNULL(M.COM_AMOUNT,0)/10000 COM_AMOUNT,
@@ -77,7 +78,7 @@
 					</if>
 					
 					<if test="propertyAddr != null and propertyAddr !='' ">
-						AND L.HOU_ADDRESS '%' + #propertyAddr# + '%'
+						AND L.HOU_ADDRESS like '%' + #propertyAddr# + '%'
 						<!-- AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE M.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%')  -->
 					</if>								
 		

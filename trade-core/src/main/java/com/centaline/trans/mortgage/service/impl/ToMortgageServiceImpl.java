@@ -857,14 +857,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 					mortgageVo.getStateInBank());
 		}
 
-		// 设置案件跟进信息
-		ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(),
-				mortgageVo.getCaseCode(), mortgageVo.getStateInBank(),
-				mortgageVo.getComment());
-
-		// 保存案件跟进信息
-		toCaseCommentService.insertToCaseComment(toCaseComment);
-
 		// 根据按揭信息主键id获取按揭信息对象
 		ToMortgage toMortgage = toMortgageMapper
 				.getMortgageByBizCode(mortgageVo.getBizCode());
@@ -893,11 +885,16 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 						mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 						mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
 						mortgageVo.getStateInBank());
-
-				toMortLoaner.setLoanerStatus("BANKAUDITSUCCESS");
 			}
 
-			toMortLoaner.setFlowStatus(mortgageVo.getStateInBank());
+			// 设置案件跟进信息
+			ToCaseComment toCaseComment = setToCaseComment(
+					mortgageVo.getUser(), mortgageVo.getBizCode(),
+					mortgageVo.getCaseCode(), "TRACK",
+					mortgageVo.getStateInBank(), mortgageVo.getComment());
+
+			// 保存案件跟进信息
+			toCaseCommentService.insertToCaseComment(toCaseComment);
 		}
 		// 银行审核拒绝
 		else if ("false".equals(mortgageVo.getIsPass())) {
@@ -906,20 +903,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 					mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 					mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
 					mortgageVo.getStateInBank());
-
-			toMortLoaner.setLoanerStatus("BANKREJECT");
 		}
-
-		// 设置案件跟进信息
-		ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(),
-				mortgageVo.getCaseCode(), mortgageVo.getStateInBank(),
-				mortgageVo.getComment());
-
-		// 保存案件跟进信息
-		toCaseCommentService.insertToCaseComment(toCaseComment);
-
-		// 更新T_TO_MORT_LOANER表中的跟进状态字段(FLOW_STATUS)
-		toMortLoanerMapper.updateToMortLoanerByMortId(toMortLoaner);
 
 		return true;
 	}
@@ -937,12 +921,13 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	 *            跟进跟进内容
 	 * @return 返回案件跟进信息
 	 */
-	private ToCaseComment setToCaseComment(SessionUser user, String caseCode,
-			String srvCode, String comment) {
+	private ToCaseComment setToCaseComment(SessionUser user, String bizCode,
+			String caseCode, String type, String srvCode, String comment) {
 		// 添加案件跟进信息
 		ToCaseComment toCaseComment = new ToCaseComment();
+		toCaseComment.setBizCode(bizCode);
 		toCaseComment.setCaseCode(caseCode);
-		toCaseComment.setType("TRACK");
+		toCaseComment.setType(type);
 		toCaseComment.setSource("MORT");
 		toCaseComment.setSrvCode(srvCode);
 		toCaseComment.setComment(comment);
@@ -991,4 +976,14 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		}
 	}
 
+	@Override
+	public void suppleInfo(MortgageVo mortgageVo) {
+		ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(),
+				mortgageVo.getBizCode(), mortgageVo.getCaseCode(),
+				mortgageVo.getType(), mortgageVo.getStateInBank(),
+				mortgageVo.getComment());
+
+		// 保存案件跟进信息
+		toCaseCommentService.insertToCaseComment(toCaseComment);
+	}
 }

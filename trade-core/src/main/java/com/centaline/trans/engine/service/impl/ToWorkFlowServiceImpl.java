@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.exception.BusinessException;
 import com.centaline.trans.engine.entity.ToOutTimeTask;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.repository.ToWorkFlowMapper;
 import com.centaline.trans.engine.service.ToWorkFlowService;
+import com.centaline.trans.mortgage.entity.ToMortLoaner;
 
 @Service
 public class ToWorkFlowServiceImpl implements ToWorkFlowService {
@@ -69,6 +71,25 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	public ToWorkFlow queryActiveToWorkFlowByCaseCodeBusKey(ToWorkFlow record) {
 		return toWorkFlowMapper.queryActiveToWorkFlowByCaseCodeBusKey(record);
 	}
+	
+	
+	@Override
+	public ToWorkFlow queryActiveToWorkFlowByCaseCodeBusKeyBizCode(ToWorkFlow record) {
+		
+		if(null == record){
+			throw new BusinessException("查询信贷员派单有效流程信息参数异常");
+		}
+		ToWorkFlow toWorkFlow= new ToWorkFlow();
+		
+		try{
+			toWorkFlow  = toWorkFlowMapper.queryActiveToWorkFlowByCaseCodeBusKeyBizCode(record);
+
+		}catch (BusinessException e) {
+			throw new BusinessException("查询信贷员派单有效流程信息异常");
+		}	
+		return toWorkFlow;
+	}
+
 
 	@Override
 	public List<ToWorkFlow> queryActiveToWorkFlowByCaseCode(ToWorkFlow record) {

@@ -29,6 +29,7 @@ import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.LoanerStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
@@ -389,7 +390,6 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 		// 设置E+接收信息
 		ToEloanLoaner toEloanLoaner = new ToEloanLoaner();
-		toEloanLoaner.setLoanerStatus(eLoanVo.getStateInBank());
 
 		if ("true".equals(eLoanVo.getIsPass())) {
 			if (eLoanVo.getUser() != null)
@@ -397,22 +397,21 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 			toEloanCase.setLoanerConfTime(new Date());
 
+			// 接单设置派单状态为完成
+			toEloanLoaner.setLoanerStatus(LoanerStatusEnum.COMPLETED.getCode());
 			toEloanLoaner.setReceiveId(user.getId());
 			toEloanLoaner.setReceiveName(user.getRealName());
 			toEloanLoaner.setReceiveTime(new Date());
+
 		} else if ("false".equals(eLoanVo.getIsPass())) {
 			toEloanLoaner.setRejectId(user.getId());
 			toEloanLoaner.setRejectName(user.getRealName());
 			toEloanLoaner.setRejectTime(new Date());
+
+			// 接单打回设置派单状态为接单打回
+			toEloanLoaner.setLoanerStatus(LoanerStatusEnum.ACC_REJECTED
+					.getCode());
 		}
-
-		// 设置案件跟进信息
-		ToCaseComment toCaseComment = setToCaseComment(eLoanVo.getUser(),
-				eLoanVo.getCaseCode(), eLoanVo.geteLoanCode(),
-				eLoanVo.getStateInBank(), eLoanVo.getComment());
-
-		// 保存案件跟进信息
-		toCaseCommentService.insertToCaseComment(toCaseComment);
 
 		// 更新E+案件信息
 		toEloanCaseMapper.updateEloanCaseByEloanCode(toEloanCase);
@@ -429,7 +428,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 		// 设置案件跟进信息
 		ToCaseComment toCaseComment = setToCaseComment(eLoanVo.getUser(),
-				eLoanVo.getCaseCode(), eLoanVo.geteLoanCode(),
+				eLoanVo.getCaseCode(), eLoanVo.geteLoanCode(), "TRACK",
 				eLoanVo.getStateInBank(), eLoanVo.getComment());
 
 		// 保存案件跟进信息
@@ -466,12 +465,12 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	 * @return 返回案件跟进信息
 	 */
 	private ToCaseComment setToCaseComment(SessionUser user, String caseCode,
-			String eLoanCode, String srvCode, String comment) {
+			String eLoanCode, String type, String srvCode, String comment) {
 		// 添加案件跟进信息
 		ToCaseComment toCaseComment = new ToCaseComment();
 		toCaseComment.setCaseCode(caseCode);
 		toCaseComment.setBizCode(eLoanCode);
-		toCaseComment.setType("TRACK");
+		toCaseComment.setType(type);
 		toCaseComment.setSource("EPLUS");
 		toCaseComment.setSrvCode(srvCode);
 		toCaseComment.setComment(comment);
@@ -665,6 +664,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		if (StringUtils.isNotBlank(sendName)) {
 			record.setSendName(sendName);
 		}
+
+		record.setLoanerStatus(LoanerStatusEnum.ACCEPTING.getCode());
 		record.setSendTime(sendTime);
 		record.setCreateTime(createTime);
 		record.setUpdateTime(updateTime);
@@ -680,5 +681,17 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 		if (StringUtils.isNotBlank(loanerOrgId)) {
 			record.setLoanerOrgId(loanerOrgId);
 		}
+	}
+
+	@Override
+	public void suppleInfo(ELoanVo eLoanVo) {
+		// 设置案件跟进信息
+		ToCaseComment toCaseComment = setToCaseComment(eLoanVo.getUser(),
+				eLoanVo.getCaseCode(), eLoanVo.geteLoanCode(),
+				eLoanVo.getType(), eLoanVo.getStateInBank(),
+				eLoanVo.getComment());
+
+		// 保存案件跟进信息
+		toCaseCommentService.insertToCaseComment(toCaseComment);
 	}
 }
