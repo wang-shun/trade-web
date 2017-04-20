@@ -114,6 +114,7 @@
 <!-- 流程引擎需要字段 -->
 <input type="hidden" id="taskId" name="taskId" value="${taskId }"> 
 <input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+<input type="hidden" name="bankOrgId" id="bankOrgId" value=""/>
 
 <!-- 临时银行审批 -->
 <input type="hidden" id="tmpBankStatus" name="tmpBankStatus"/>
@@ -232,45 +233,6 @@
 															display="select" dictType="30017" defaultvalue="${toMortgage.lendWay }" />
 		                                         </div>
 		                                     </div>
-	
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
-													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" value="${toMortgage.loanerName}"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
-															nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})">
-													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
-														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
-													 </input>			
-													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" value="${toMortgage.loanerOrgCode}" />
-													 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" value="${toMortgage.loanerOrgId}" />
-													 <input type="hidden"  id="loanerId" name="loanerId" value="${toMortgage.loanerId}" />
-													 <div class="input-group float_icon organize_icon" ></div>	
-		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
-													 <input type="text" name="loanerPhone" id="loanerPhone"  value="${toMortgage.loanerPhone}"
-															placeholder="联系方式" class="input_type data_style">
-		                                         </div>
-		                                         <div class="form_content" style="margin-top:8px;">
-		                                             <label class="control-label sign_left">信贷员到场</label> 
-		                                             <div class="controls" >
-														 <c:if test="${toMortgage.isLoanerArrive=='1'}">
-															 <label class="radio inline"> <input type="radio" value="1" checked="checked" name="isLoanerArrive">是</label>
-															 <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive" checked="checked">否</label>
-														 </c:if>
-														 <c:if test="${toMortgage.isLoanerArrive=='0'}">
-															 <label class="radio inline"> <input type="radio" value="1"  name="isLoanerArrive">是</label>
-															 <label class="radio inline"> <input type="radio" value="0" checked="checked" name="isLoanerArrive">否</label>
-														 </c:if>
-														 <c:if test="${toMortgage.isLoanerArrive==null}">
-															 <label class="radio inline"> <input type="radio" value="1"  name="isLoanerArrive">是</label>
-															 <label class="radio inline"> <input type="radio" value="0"  name="isLoanerArrive" >否</label>
-														 </c:if>
-
-		                                             </div>
-		                                         </div>
-		                                     </div>
-		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small select_style mend_select">签约时间<span class="star" >*</span>
@@ -305,7 +267,7 @@
 															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
 														 </c:if>
 														 <c:if test="${toMortgage.isMainLoanBank!='0'}">
-															 <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" ${empty source?'':'readonly="true"' }>是</label>
+															 <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" readonly>是</label>
 															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
 														 </c:if>
 
@@ -331,6 +293,43 @@
 													 <select  name="finOrgCode" class="select_control" id="finOrgCode" ></select>
 		                                         </div>
 		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
+													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" value="${toMortgage.loanerName}"  onclick="selectLoanerByOrgId()">
+													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId()" >&#xe627;</i>
+													 </input>			
+													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" value="${toMortgage.loanerOrgCode}" />
+													 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" value="${toMortgage.loanerOrgId}" />
+													 <input type="hidden"  id="loanerId" name="loanerId" value="${toMortgage.loanerId}" />
+													 <div class="input-group float_icon organize_icon" ></div>	
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
+													 <input type="text" name="loanerPhone" id="loanerPhone"  value="${toMortgage.loanerPhone}"
+															placeholder="联系方式" class="input_type data_style">
+		                                         </div>
+		                                         <div class="form_content" style="margin-top:8px;">
+		                                             <label class="control-label sign_left">信贷员到场</label> 
+		                                             <div class="controls" >
+														 <c:if test="${toMortgage.isLoanerArrive=='1'}">
+															 <label class="radio inline"> <input type="radio" value="1" checked="checked" name="isLoanerArrive">是</label>
+															 <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive" checked="checked">否</label>
+														 </c:if>
+														 <c:if test="${toMortgage.isLoanerArrive=='0'}">
+															 <label class="radio inline"> <input type="radio" value="1"  name="isLoanerArrive">是</label>
+															 <label class="radio inline"> <input type="radio" value="0" checked="checked" name="isLoanerArrive">否</label>
+														 </c:if>
+														 <c:if test="${toMortgage.isLoanerArrive==null}">
+															 <label class="radio inline"> <input type="radio" value="1"  name="isLoanerArrive">是</label>
+															 <label class="radio inline"> <input type="radio" value="0"  name="isLoanerArrive" >否</label>
+														 </c:if>
+
+		                                             </div>
+		                                         </div>
+		                                     </div>
+		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">备注</label>
@@ -410,7 +409,8 @@
 			}
 		}
 	}
-	jQuery(document).ready(function() {
+	jQuery(document).ready(function() {		
+		
 		//银行下拉列表
 		if(isTmpBank=='1'){
 			getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"","equ");
@@ -420,6 +420,26 @@
 		$("#mortType").attr("disabled","disabled").css("background-color", "#ccc");
 		$("#lendWay").attr("disabled","disabled").css("background-color", "#ccc");
 		$("input[name='isTmpBank']").on('click',isTmpBankChange);
+		
+		
+ 		$("select[name='finOrgCode']").change(function(){     	
+    		var finOrgCode = $("select[name='finOrgCode']").val();	  		
+    		var finOrgId='';			
+    		$.ajax({
+    			    url:ctx+"/manage/queryBankOrgIdByOrgCode",
+    			    method:"post",
+    			    dataType:"json",
+    				async:false,
+    			    data:{finOrgCode:finOrgCode},
+    			    
+    			    success:function(data){
+    		    		if(data != null){
+    		    			finOrgId = data.content;
+    		    		}
+    		    	}
+    		 });
+    		$("#bankOrgId").val(finOrgId);    		
+    	}) 
 	});
 
 	//查询分行信息
@@ -509,7 +529,7 @@
 	
 	function selectLoanerUserCom(array,$form){
 		if (array && array.length > 0) {
-			$form.find("#loanerName").val(array[0].username);
+			("#loanerName").val(array[0].username);
 			$.ajax({
 				url : ctx + "/eloan/LoanerCode",
 				method : "post",
@@ -672,6 +692,52 @@
 			return false;
 		}
 		return true;
+	}
+	
+	
+	//信贷员选择
+	function selectLoanerByOrgId(){	
+		var finOrgId = $("#bankOrgId").val();	
+		if(finOrgId != null  && finOrgId !=""  && finOrgId != undefined){
+			userSelect({
+				startOrgId : finOrgId,//非营业部
+				expandNodeId : finOrgId,
+				nameType : 'long|short',
+				orgType : '',
+				departmentType : '',
+				departmentHeriarchy : '',
+				chkStyle : 'radio',
+				jobCode : '',		
+				callBack : selectLoanerUser
+			});	
+		}else{	
+			window.wxc.alert('您选择的银行暂时未添加信贷员信息，请联系管理员！');
+		}	
+	}
+	
+	function selectLoanerUser(array){			
+		if (array && array.length > 0) {
+				("#loanerName").val(array[0].username);
+				$.ajax({
+					url : ctx + "/eloan/LoanerCode",
+					method : "post",
+					dataType : "json",
+					data : {
+						"userId" : array[0].userId
+					},
+					success : function(data) {
+						$form.find("#loanerNameImage").css("color","#52cdec");
+						$form.find("#loanerPhone").val(data.user.mobile);
+						$form.find("#loanerId").val(data.user.id);
+						$form.find("#loanerOrgCode").val(data.user.orgName);
+						$form.find("#loanerOrgId").val(data.user.orgId);
+					}
+				})
+			} else {
+				$form.find("#loanerName").val("");				
+				$form.find("#loanerOrgCode").val("");
+				$form.find("#loanerOrgId").val("");
+			}
 	}
 
 </script>
