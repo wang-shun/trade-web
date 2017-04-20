@@ -519,38 +519,7 @@
 		});
 		return true;
 	}
-	function selectLoanerUser(array) {
-		selectLoanerUserCom(array,$("#mortgageForm"));
-	}
-	
-	function selectLoanerUser_(array) {
-		selectLoanerUserCom(array,$("#mortgageForm1"));
-	}
-	
-	function selectLoanerUserCom(array,$form){
-		if (array && array.length > 0) {
-			("#loanerName").val(array[0].username);
-			$.ajax({
-				url : ctx + "/eloan/LoanerCode",
-				method : "post",
-				dataType : "json",
-				data : {
-					"userId" : array[0].userId
-				},
-				success : function(data) {
-					$form.find("#loanerNameImage").css("color","#52cdec");
-					$form.find("#loanerPhone").val(data.user.mobile);
-					$form.find("#loanerId").val(data.user.id);
-					$form.find("#loanerOrgCode").val(data.user.orgName);
-					$form.find("#loanerOrgId").val(data.user.orgId);
-				}
-			})
-		} else {
-			$form.find("#loanerName").val("");
-			$form.find("#loanerOrgCode").val("");
-			$form.find("#loanerOrgId").val("");
-		}
-	}
+
 	function submit(){
 		if(!checkForm()) {
 			return;
