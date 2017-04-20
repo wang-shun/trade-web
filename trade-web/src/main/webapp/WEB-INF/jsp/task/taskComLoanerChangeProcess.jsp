@@ -440,6 +440,11 @@
     		 });
     		$("#bankOrgId").val(finOrgId);    		
     	}) 
+    	
+		$("#bank_type").change(function(){
+			//getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag)
+			getBranchBankList($("#finOrgCode"),$("#bank_type").val(),"cl");
+		});
 	});
 
 	//查询分行信息
@@ -484,6 +489,7 @@
 				}
 			}
 		});
+
 		getBranchBankList(selectorBranch,selector.val(),finOrgCode,tag,flag);
 		return bankHtml;
 	}
@@ -492,10 +498,10 @@
 		selectorBranch.find('option').remove();
 		selectorBranch[0];
 		selectorBranch.append($("<option value=''>请选择</option>"));
+
 		var param = {faFinOrgCode:pcode,flag:flag,nowCode:finOrgCode};
-		if(tag == 'cl'){
-			param.tag = 'cl';
-		}
+		
+		param.tag = 'cl';
 		$.ajax({
 			cache:true,
 			url:ctx+"/manage/queryBankListByParentCode",
