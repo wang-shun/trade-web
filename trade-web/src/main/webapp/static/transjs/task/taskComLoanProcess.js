@@ -2082,8 +2082,9 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
     			var form = $("#mortgageForm");
     			form.find("select[name='bank_type']").attr("disabled",true);
     			form.find("select[name='finOrgCode']").attr("disabled",true);
-    			form.find("input[name='loanerName']").attr("disabled",true);
+    			form.find("input[name='loanerName1']").attr("disabled",true);
     			form.find("#loanerNameImage").attr("disabled",true);
+    			form.find("#loanerNameImage1").attr("disabled",true);    			
     			
     		}else if(isMainLoanBank == 0){
     			$("#dispachTime0").val(data.content);

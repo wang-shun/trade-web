@@ -394,10 +394,10 @@
         HOU_ADDRESS = #{houAddress,jdbcType=VARCHAR},
       </if>
       <if test="mortType != null" >
-        MORT_TYPE,
+        MORT_TYPE = #{mortType,jdbcType=VARCHAR},
       </if>
       <if test="isMainLoanBankProcess != null" >
-        IS_MAIN_LOANBANK_PROCESS,
+        IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR},
       </if>
       <if test="mortTotalAmount != null" >
         MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},
@@ -566,12 +566,11 @@
       </if>
       
       <if test="mortType != null" >
-        MORT_TYPE,
+        MORT_TYPE = #{mortType,jdbcType=VARCHAR},
       </if>
       <if test="isMainLoanBankProcess != null" >
-        IS_MAIN_LOANBANK_PROCESS,
+        IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR},
       </if>
-      
       <if test="mortTotalAmount != null" >
         MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},
       </if>

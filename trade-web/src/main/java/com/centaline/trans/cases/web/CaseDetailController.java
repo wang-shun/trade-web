@@ -1583,7 +1583,7 @@ public class CaseDetailController {
 		
 		tgServItemAndProcessorService.updateByCaseCode(record);
 
-		// 更新流程引擎
+		// 更新流程引擎  变更流程的责任人，待办里面也是根据案件的执行人来查询的
 		if (!StringUtils.isBlank(instCode)) {
 			String variableName = "caseOwner";
 			RestVariable restVariable = new RestVariable();
