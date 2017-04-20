@@ -520,17 +520,30 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		if ((null == caseCode || "".equals(caseCode))	|| (null == taskId || "".equals(taskId))
 				|| (null == processInstanceId || "".equals(processInstanceId)) || (null == isMainLoanBankProcess || "".equals(isMainLoanBankProcess))) {
-			throw new BusinessException("交易顾问派单流程请求参数异常！");
+			throw new BusinessException("取消、驳回交易顾问派单流程请求参数异常！");
 		}
-
+		
+		//派单流程特殊,可能会有 主选银行和备选银行 2条派单记录
 		SessionUser user = uamSessionService.getSessionUser();
+		ToMortLoaner toMortLoaner = new ToMortLoaner();
 		try {
 			
-	        //更新流程表的状态
-	        ToWorkFlow workFlow = new ToWorkFlow();
+			ToWorkFlow workFlow = new ToWorkFlow();
+			toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCodeAndIsMainBank(caseCode,isMainLoanBankProcess);
+			if(null != toMortLoaner){
+				workFlow.setBizCode(String.valueOf(toMortLoaner.getPkid()));	
+				
+				
+	        	toMortLoaner.setCancleId(user.getId());
+	        	toMortLoaner.setCancleName(user.getRealName());
+	        	toMortLoaner.setCancleTime(new Date());	        	
+	        	toMortLoaner.setLoanerStatus(LoanerStatusEnum.CANCELED.getCode()); //取消派单
+	        	toMortLoanerService.updateByPrimaryKeySelective(toMortLoaner);	
+			}
+	        //更新流程表的状态	        
 	        workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());//Loaner_Process
-	        workFlow.setCaseCode(caseCode);
-	        ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
+	        workFlow.setCaseCode(caseCode);	       
+	        ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKeyBizCode(workFlow);
 	        
 	        //驳回流程操作
 			if(!cancleFlag){
@@ -546,24 +559,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		        if (record != null) {
 		            record.setStatus(WorkFlowStatus.TERMINATE.getCode());		          
 		        }
-			}
-			
+			}			
 			toWorkFlowService.updateByPrimaryKeySelective(record);
-			
-	        ToMortLoaner toMortLoaner = new ToMortLoaner();
-	        //toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCodeAndLoanerStatus(caseCode, ToMortLoanerEnums.LOANER_STATUS1.getCode());
-	        //取消情况比较特殊，可能是信贷员驳回、也可能是银行驳回，此处不带查询状态
-	        //toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCode(caseCode);
-	        toMortLoaner = toMortLoanerService.findToMortLoanerByCaseCodeAndIsMainBank(caseCode,isMainLoanBankProcess);
-	        
-	        if(null != toMortLoaner){	        	
-	        	toMortLoaner.setCancleId(user.getId());
-	        	toMortLoaner.setCancleName(user.getRealName());
-	        	toMortLoaner.setCancleTime(new Date());	        	
-	        	toMortLoaner.setLoanerStatus(LoanerStatusEnum.CANCELED.getCode()); //取消派单
-	        	toMortLoanerService.updateByPrimaryKeySelective(toMortLoaner);	
-	        }
-	        
 	        
 		}catch(BusinessException e) {
 	      	throw new BusinessException("交易顾问派单流程结束异常！");

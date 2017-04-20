@@ -173,6 +173,13 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 	}
 	
 	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-04-19
+	 * 
+	 * @des:根据caseCode和是否主贷流程查询信贷员派单情况
+	 */
 	@Override
 	public ToMortLoaner findToMortLoanerByCaseCodeAndIsMainBank(String caseCode,String isMainLoanBankProcess){
 		
@@ -189,7 +196,13 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 		return toMortLoaner;
 	}
 	
-	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-04-19
+	 * 
+	 * @des:根据caseCode和派单状态查询信贷员派单是否可以派单
+	 */
 	@Override
 	public ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner){
 		
