@@ -451,9 +451,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	 * @des:信贷员是否接单之银行审批
 	 */
 	@Override
-	public boolean isBankAcceptCase(boolean isBankAcceptCase, String taskId,
-			String processInstanceId, String caseCode, String mortgageId,
-			String stateInBank) {
+	public boolean isBankAcceptCase(boolean isBankAcceptCase, String taskId,String processInstanceId, String caseCode, String mortgageId,String stateInBank) {
 
 		boolean bankAccetpFlag = false;
 
@@ -468,19 +466,19 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			// 信贷员接单
 			if (isBankAcceptCase == true) {
 				variables.add(new RestVariable("bankBusinessApprove", true));
-				// 审批通过 更改流程状态
-				// 更新流程状态为'4'：已完成
-				ToWorkFlow workFlow = new ToWorkFlow();
+				// 审批通过 更改流程状态、更新流程状态为'4'：已完成				
+/*				ToWorkFlow workFlow = new ToWorkFlow();
 				workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
 				workFlow.setCaseCode(caseCode);
-				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
+				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);*/
+				//查询方式变更，以防主选银行和备选银行 同时派单的重复
+		        ToWorkFlow record = toWorkFlowService.queryWorkFlowByInstCode(processInstanceId);
 				if (record != null) {
 					record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 					toWorkFlowService.updateByPrimaryKeySelective(record);
 				}
 
-				ToMortgage toMortgage = toMortgageMapper
-						.findToMortgageByCaseCodeAndDisTime(caseCode);
+				ToMortgage toMortgage = toMortgageMapper.findToMortgageByCaseCodeAndDisTime(caseCode);
 				if (null != toMortgage) {
 					ToMortgage toMortgageForUpdate = new ToMortgage();
 					toMortgageForUpdate.setPkid(toMortgage.getPkid());
@@ -558,7 +556,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			toWorkFlowService.updateByPrimaryKeySelective(record);
 	        
 		}catch(BusinessException e) {
-	      	throw new BusinessException("交易顾问派单流程结束异常！");
+	      	throw new BusinessException("取消交易顾问派单流程异常！");
 	     }
 	}
 	

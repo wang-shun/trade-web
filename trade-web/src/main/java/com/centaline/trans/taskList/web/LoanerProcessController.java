@@ -174,7 +174,7 @@ public class LoanerProcessController{
 	public AjaxResponse<String> loanerProcessDelete(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskId, String processInstanceId,String isMainLoanBank) {
 		try{
 			loanerProcessService.loanerProcessDelete(caseCode,taskId,processInstanceId,isMainLoanBank);
-			return AjaxResponse.success("交易顾问派单流程成功结束");
+			return AjaxResponse.success("取消交易顾问派单流程成功！");
 		}catch(BusinessException e){
 			logger.error(e.getMessage(),e);
 			return AjaxResponse.fail(e.getMessage());
