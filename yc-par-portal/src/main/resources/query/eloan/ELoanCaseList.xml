@@ -159,29 +159,28 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select 
-						t.ID_ AS taskId,
-						t.PROC_INST_ID_ AS procInstanceId,
-						ISNULL(uoj.employee_code,'') 	as avartaUrl,
-						ISNULL(ec.SEND_ID,'') as consultantID,
-						ISNULL(u.REAL_NAME,'') as consultantName,
-						ISNULL(ec.CUST_NAME,'') as custName,
-						CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS loanerStatus,
-						ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
-						ISNULL(ec.APPLY_AMOUNT,0.00) as loanAmount,
-						CAST(ISNULL(ec.MONTH,0) as varchar)+'期' as loanTime,
-						ISNULL(pi.PROPERTY_ADDR,'') 	as addr,
-						ISNULL(CONVERT(varchar(100), ec.APPLY_TIME, 23),'') as applyTime,
-						'EPLUS' as prdType,
-						ISNULL(ec.CASE_CODE,'') as caseCode,
-						ISNULL(ec.ELOAN_CODE,'') as bizCode
-					from sctrans.ACT_RU_TASK t
-					INNER JOIN sctrans.T_TO_WORKFLOW w ON t.PROC_INST_ID_  = w.INST_CODE
-					INNER JOIN sctrans.T_TO_ELOAN_LOANER ec on w.BIZ_CODE = ec.ELOAN_CODE AND w.BUSINESS_KEY = 'EloanProcess'
+						select 
+							ISNULL((SELECT ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE CASE_CODE = ec.CASE_CODE AND BIZ_CODE = ec.ELOAN_CODE AND BUSINESS_KEY = 'EloanProcess')),'') AS taskId,
+							ISNULL((SELECT PROC_INST_ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE CASE_CODE = ec.CASE_CODE AND BIZ_CODE = ec.ELOAN_CODE AND BUSINESS_KEY = 'EloanProcess')),'') AS procInstanceId,
+							ISNULL(uoj.employee_code,'') 	as avartaUrl,
+							ISNULL(ec.SEND_ID,'') as consultantID,
+							ISNULL(u.REAL_NAME,'') as consultantName,
+							ISNULL(ec.CUST_NAME,'') as custName,
+							CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS loanerStatus,
+							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
+							ISNULL(ec.APPLY_AMOUNT,0.00) as loanAmount,
+							CAST(ISNULL(ec.MONTH,0) as varchar)+'期' as loanTime,
+							ISNULL(pi.PROPERTY_ADDR,'') 	as addr,
+							ISNULL(CONVERT(varchar(100), ec.APPLY_TIME, 23),'') as applyTime,
+							'EPLUS' as prdType,
+							ISNULL(ec.CASE_CODE,'') as caseCode,
+							ISNULL(ec.ELOAN_CODE,'') as bizCode
+					FROM sctrans.T_TO_ELOAN_LOANER ec 
 					INNER JOIN sctrans.T_TO_PROPERTY_INFO pi ON ec.CASE_CODE = pi.CASE_CODE
 					INNER JOIN sctrans.SYS_USER u on u.ID = ec.SEND_ID
 					INNER JOIN sctrans.V_USER_ORG_JOB uoj ON ec.LOANER_ID = uoj.user_id 
-					WHERE ec.LOANER_ID = #loanerId# AND t.SUSPENSION_STATE_ = '1' 
+					WHERE ec.LOANER_ID = #loanerId#
+			
 					
 					<if test="flag == 'noAccept'">
 						AND (ec.LOANER_STATUS = '' or ec.LOANER_STATUS IS NULL)
@@ -199,7 +198,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			  		
+			  		order by ec.SEND_TIME desc
 			</orderBySql>
 		</searchSql>
 		<grid>
