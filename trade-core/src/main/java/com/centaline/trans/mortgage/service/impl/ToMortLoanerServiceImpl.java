@@ -1,6 +1,8 @@
 package com.centaline.trans.mortgage.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,19 +183,19 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 	 * @des:根据caseCode和是否主贷流程查询信贷员派单情况
 	 */
 	@Override
-	public ToMortLoaner findToMortLoanerByCaseCodeAndIsMainBank(String caseCode,String isMainLoanBankProcess){
+	public List<ToMortLoaner> findToMortLoanerByCaseCodeAndIsMainBank(String caseCode,String isMainLoanBankProcess){
 		
-		ToMortLoaner toMortLoaner = new ToMortLoaner();
+		List<ToMortLoaner> toMortLoanerList = new ArrayList<ToMortLoaner>();
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("caseCode", caseCode);
 		map.put("isMainLoanBankProcess", isMainLoanBankProcess);
 		try{
-			toMortLoaner  = toMortLoanerMapper.findToMortLoanerByCaseCodeAndIsMainBank(map);
+			toMortLoanerList  = toMortLoanerMapper.findToMortLoanerByCaseCodeAndIsMainBank(map);
 
 		}catch (BusinessException e) {
 			throw new BusinessException("查询信贷员派单信息异常");
 		}		
-		return toMortLoaner;
+		return toMortLoanerList;
 	}
 	
 	/*

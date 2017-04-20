@@ -76,6 +76,8 @@
     from sctrans.T_TO_MORT_LOANER
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
     AND   IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR}
+    AND   LOANER_STATUS IN ('AUD_REJECTED','ACC_REJECTED')
+    ORDER BY PKID DESC
   </select>  
   
   <select id="findToMortLoanerByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -92,7 +94,7 @@
     from sctrans.T_TO_MORT_LOANER
     
     where 
-    	LOANER_STATUS NOT IN ('AUD_REJECTED','ACC_REJECTED','CANCELED')
+    	LOANER_STATUS NOT IN ('AUD_REJECTED','ACC_REJECTED','CANCELED','COMPLETED')
      <if test="caseCode != null">
     	AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
      </if>

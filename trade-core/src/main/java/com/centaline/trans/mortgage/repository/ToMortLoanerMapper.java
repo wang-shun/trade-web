@@ -1,5 +1,6 @@
 package com.centaline.trans.mortgage.repository;
 
+import java.util.List;
 import java.util.Map;
 
 import com.centaline.trans.common.MyBatisRepository;
@@ -37,7 +38,7 @@ public interface ToMortLoanerMapper {
 	 */
 	public int updateToMortLoanerByMortId(ToMortLoaner toMortLoaner);
 
-	ToMortLoaner findToMortLoanerByCaseCodeAndIsMainBank(Map<String, String> map);
+	List<ToMortLoaner> findToMortLoanerByCaseCodeAndIsMainBank(Map<String, String> map);
 	
 	ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner);
 }

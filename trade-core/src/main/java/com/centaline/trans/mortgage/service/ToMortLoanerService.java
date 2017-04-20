@@ -1,6 +1,8 @@
 package com.centaline.trans.mortgage.service;
 
 
+import java.util.List;
+
 import com.centaline.trans.mortgage.entity.ToMortLoaner;
 
 
@@ -46,7 +48,7 @@ public interface ToMortLoanerService {
 	ToMortLoaner getToMortLoanerByMortgageId(String mortgageId);
 
 
-	ToMortLoaner findToMortLoanerByCaseCodeAndIsMainBank(String caseCode,String isMainLoanBankProcess);
+	List<ToMortLoaner> findToMortLoanerByCaseCodeAndIsMainBank(String caseCode,String isMainLoanBankProcess);
 	
 	ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner);
 	

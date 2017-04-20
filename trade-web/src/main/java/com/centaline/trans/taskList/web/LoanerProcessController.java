@@ -173,7 +173,7 @@ public class LoanerProcessController{
 	@ResponseBody
 	public AjaxResponse<String> loanerProcessDelete(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskId, String processInstanceId,String isMainLoanBank) {
 		try{
-			loanerProcessService.loanerProcessDelete(caseCode,taskId,processInstanceId,isMainLoanBank,false);
+			loanerProcessService.loanerProcessDelete(caseCode,taskId,processInstanceId,isMainLoanBank);
 			return AjaxResponse.success("交易顾问派单流程成功结束");
 		}catch(BusinessException e){
 			logger.error(e.getMessage(),e);
@@ -194,7 +194,7 @@ public class LoanerProcessController{
 	public AjaxResponse<String> loanerProcessCancle(HttpServletRequest request, HttpServletResponse response, String caseCode,String taskId, 
 			String processInstanceId,String isMainLoanBankProcess) {
 		try{
-			loanerProcessService.loanerProcessDelete(caseCode,taskId,processInstanceId,isMainLoanBankProcess,true);
+			loanerProcessService.loanerProcessCancle(caseCode,taskId,processInstanceId,isMainLoanBankProcess);
 			return AjaxResponse.success("恭喜，取消派单流程成功！");
 		}catch(BusinessException e){
 			logger.error(e.getMessage(),e);
