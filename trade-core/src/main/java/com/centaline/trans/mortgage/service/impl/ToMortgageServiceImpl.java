@@ -986,4 +986,14 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		// 保存案件跟进信息
 		toCaseCommentService.insertToCaseComment(toCaseComment);
 	}
+
+	/**
+	 * 根据casecode查询贷款
+	 * @author caoy
+	 * @param caseCode
+	 * @return
+	 */
+	public List<ToMortgage> findToMortgageByCaseCodeNoBlank(String caseCode) {
+		return toMortgageMapper.findToMortgageByCaseCodeNoBlank(caseCode);
+	}
 }
