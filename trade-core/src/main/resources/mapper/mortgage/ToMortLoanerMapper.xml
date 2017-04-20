@@ -546,7 +546,7 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_MORT_LOANER
-    where MORT_PKID = #{mortgageId,jdbcType=VARCHAR}
+    where MORT_PKID = #{mortgageId,jdbcType=VARCHAR} and LOANER_STATUS = 'ACCEPTING'
   </select>
   
   <update id="updateToMortLoanerByMortId" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
