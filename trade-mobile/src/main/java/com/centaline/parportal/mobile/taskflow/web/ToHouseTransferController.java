@@ -73,10 +73,12 @@ public class ToHouseTransferController {
         jsonObject.put("operator", user != null ? user.getId() : "");
         jsonObject.put("partCode", "Guohu");
 
+        ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
         toAccesoryListService.getAccesoryListGuoHu(request, taskitem, caseCode);
-        jsonObject.put("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
         ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-        request.setAttribute("toMortgage", toMortgage);
+
+        jsonObject.put("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
+        jsonObject.put("loanReq", toCase.getLoanReq());
         jsonObject.put("toMortgage", toMortgage);
         return jsonObject;
     }
