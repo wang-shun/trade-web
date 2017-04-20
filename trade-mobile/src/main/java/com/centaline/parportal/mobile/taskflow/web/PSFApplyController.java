@@ -36,6 +36,8 @@ public class PSFApplyController {
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
         jsonObject.put("source", source);
+        jsonObject.put("partCode", "PSFApply");
+
         jsonObject.put("toTransPlan", transplanServiceFacade.findTransPlan(toTransPlan));
         jsonObject.put("apply", toMortgageService.findToMortgageByMortTypeAndCaseCode(caseCode, "30016003"));// --
 

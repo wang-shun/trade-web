@@ -182,4 +182,5 @@ public interface ToMortgageService {
 	 */
 	public void suppleInfo(MortgageVo mortgageVo);
 
+	List<ToMortgage> findToMortgageByCaseCodeNoBlank(String caseCode);
 }
