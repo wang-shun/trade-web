@@ -88,17 +88,16 @@ public class ToHouseTransferController {
         try {
             ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
             if(null!=toCase){
-                if(toCase.getCtmCode() == null){
-                    response.setSuccess(false);
-                    response.setMessage("ctmCode不可为空");
-                    return response;
-                }
                 if(CaseMergeStatusEnum.INPUT.getCode().equals(toCase.getCaseOrigin())){
                     response.setSuccess(false);
                     response.setMessage("自建案件必须完成案件合流才能提交过户申请");
                     return response;
                 }
-
+                if(toCase.getCtmCode() == null){
+                    response.setSuccess(false);
+                    response.setMessage("ctmCode不可为空");
+                    return response;
+                }
                 toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
                 // 回写三级市场, 交易过户
                 salesdealApiService.noticeSalesDeal(toCase.getCtmCode());
@@ -111,6 +110,7 @@ public class ToHouseTransferController {
             }
             response.setSuccess(true);
         }catch (Exception e){
+            response.setSuccess(false);
             e.printStackTrace();
             logger.error(e.getMessage());
         }
