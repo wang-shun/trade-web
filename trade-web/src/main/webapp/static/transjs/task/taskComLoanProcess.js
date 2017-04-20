@@ -701,17 +701,6 @@ function selectLoanerByOrgId1(){
 		});	
 	}else{	
 		window.wxc.alert('您选择的银行暂时未添加信贷员信息，请联系管理员！');
-/*		userSelect({
-			startOrgId : '10B1F16BDC5E7F33E0532429030A8872',//非营业部
-			expandNodeId : '10B1F16BDC5E7F33E0532429030A8872',
-			nameType : 'long|short',
-			orgType : '',
-			departmentType : '',
-			departmentHeriarchy : '',
-			chkStyle : 'radio',
-			jobCode : '',		
-			callBack : selectLoanerUser
-		});	*/	
 	}	
 }
 
@@ -907,6 +896,8 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    					$("#dispachTimeShow0").show();
 		    					f.find("input[name='dispachTime']").val(data.content.dispachTime);
 		    				}
+		    				//派单时间不为空，显示 并且设置可以进行下一步提交
+		    				$("#processStart").val("processIsStart");
 		    			}
 		    			
 		    			//两种情况下可选：1.流程还未开启 2.申请被驳回 
