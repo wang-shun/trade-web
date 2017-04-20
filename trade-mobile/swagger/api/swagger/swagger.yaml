@@ -166,19 +166,269 @@ paths:
             description: Success
             schema:
               # a pointer to a definition
-              $ref: "#/definitions/getLoanlostApproveResponse"    
-              
-  /task/pricing:
+              $ref: "#/definitions/getLoanlostApproveResponse"
+  /task/ToHouseTransfer/process:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
     get:
-      description: loanlostApproveFirstNew
+      description: 过户任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew11
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getHouseTransferResponse"
+              
+  /task/taxReview/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 审税任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew7
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getPricingSuccessResponse"
+  /task/purchaseLimit/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 查限购任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew9
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getPricingSuccessResponse"
+              
+  /task/pricing/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 核价任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew2
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getPricingSuccessResponse" 
+  /task/PSFApply/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 公积金申请任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew3
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getPSFApplyResponse"
+  /task/mortgage/submitPsfApply:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交公积金申请情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew5
+      parameters:
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+        - name: prfApplyDate
+          in: query
+          description: 公积金申请时间
+          required: true
+          type: string
+        - name: ifRequireReconsider
+          in: query
+          description: 是否需要复议
+          required: true
+          type: string
+        - name: estPartTime
+          in: query
+          description: 预计签约时间
+          required: true
+          type: string
+          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"   
+  /task/ToHouseTransfer/submitToHouseTransfer:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交过户接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew13
+      parameters:
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+          
+        - name: partCode
+          in: query
+          description: "Guohu"
+          required: true
+          type: string
+          
+        - name: pkid
+          in: query
+          description: 过户交易计划的pkid
+          required: true
+          type: string
+          
+        - name: approveType
+          in: query
+          description: "2"
+          required: true
+          type: string
+          
+        - name: operator
+          in: query
+          description: 执行人
+          required: true
+          type: string  
+          
+        - name: realHtTime
+          in: query
+          description: 实际过户时间
+          required: true
+          type: string
+          
+        - name: houseHodingTax
+          in: query
+          description: 房产税
+          required: true
+          type: string  
+          
+        - name: personalIncomeTax
+          in: query
+          description: 个人所得税
+          required: true
+          type: string
+          
+        - name: businessTax
+          in: query
+          description: 上家营业税
+          required: true
+          type: string            
+          
+        - name: contractTax
+          in: query
+          description: 下家契税
+          required: true
+          type: string
+          
+        - name: landIncrementTax
+          in: query
+          description: 土地增值税
+          required: true
+          type: string            
+        
+        - name: useCardPay
+          in: query
+          description: 是否刷卡(是：1;否：0)
+          required: true
+          type: string
+          
+        - name: cardPayAmount
+          in: query
+          description: 刷卡金额
+          required: true
+          type: number   
+          
+          
+          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse" 
+              
+  /task/pricing/submitPricing:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交核价接口
       # used as the method name of the controller
       operationId: loanlostApproveFirstNew
       parameters:
         - name: partCode
           in: query
-          description: ww# 环节code,本接口为'Pricing'
+          description:  环节code,本接口为'Pricing'
           required: true
           type: string
 
@@ -209,12 +459,12 @@ paths:
           in: query
           description: 税务核定价
           required: true
-          type: string
+          type: number
 
 
         - name: houseProperty
           in: query
-          description: ww#房屋性质（普通：0;非普通：1;非居：2）
+          description: 房屋性质（普通：0;非普通：1;非居：2）
           required: true
           type: string
       responses:
@@ -222,7 +472,109 @@ paths:
             description: Success
             schema:
               # a pointer to a definition
-              $ref: "#/definitions/getPricingSuccessResponse"    
+              $ref: "#/definitions/subPricingSuccessResponse"
+  /task/taxReview/submitTaxReview:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交核价接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew8
+      parameters:
+        - name: partCode
+          in: query
+          description:  环节code,本接口为'TaxReview'
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+
+        - name: taxTime
+          in: query
+          description: 审税时间
+          required: true
+          type: string
+          
+        - name: isUniqueHome
+          in: query
+          description: 是否是唯一住房(是：1;否：0)
+          required: true
+          type: string
+
+
+        - name: holdYear
+          in: query
+          description: 购房年数（满二：0;满五：1;两年内：2）
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse" 
+              
+  /task/purchaseLimit/submitPls:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交查限购接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew10
+      parameters:
+        - name: partId
+          in: query
+          description:  环节code,本接口为'PurchaseLimit'
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+
+        - name: realPlsTime
+          in: query
+          description: 查限购时间
+          required: true
+          type: string
+          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"
+              
 # complex objects have schema definitions
 definitions:
   user:
@@ -315,6 +667,20 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/contactUser'
+  subPricingSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/subpricingContent"
   getPricingSuccessResponse:
     required:
       - isSuccess
@@ -328,13 +694,42 @@ definitions:
       token:
         type: string
       content:
-        $ref: "#/definitions/pricingContent"
-  pricingContent:
+        $ref: "#/definitions/getpricingContent"
+  getPSFApplyResponse:
+    required:
+      - isSuccess
     properties:
-      processInstanceId:
-        type: integer
-      taskId:
-        type: integer
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getPSFApplyContent"      
+  getHouseTransferResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getHouseTransferContent"
+        
+  subpricingContent:
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
   getLoanlostApproveResponse:
     required:
       - isSuccess
@@ -347,5 +742,87 @@ definitions:
         type: string
       token:
         type: string
-
-      
+  getpricingContent:
+    properties:
+      success:
+        type: boolean
+      partCode:
+        type: string
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+  getPSFApplyContent:
+    properties:
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      partCode:
+        type: string
+      estPartTime:
+        type: string
+        description: 预计签约时间（提交时用）
+      prfApplyDate:
+        type: string
+        description: 公积金申请时间（提交时用）
+      ifRequireReconsider:
+        type: string
+        description: 是否需要复议（提交时用）
+  getHouseTransferContent:
+    properties:
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      partCode:
+        type: string  
+        description: "Guohu"
+      operator:
+        type: string
+        description: 执行人
+      approveType:
+        type: string  
+      loanReq:
+        type: string
+        description: 是否有贷款需求      
+      toMortgage:
+        type: string
+        description: 贷款相关字段 
+      houseTransfer:
+        type: string
+        description: 过户交易相关字段
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
