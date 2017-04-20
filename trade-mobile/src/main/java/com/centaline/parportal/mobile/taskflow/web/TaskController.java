@@ -90,7 +90,9 @@ public class TaskController {
 		
 		for (Map<String, Object> map : list) {
 			JSONArray ja = (JSONArray) map.get("houtai");
-			
+			if(ja == null) {
+				continue;
+			}
 			Iterator<Object> it = ja.iterator();
 			List<Object> nameList = new ArrayList<Object>();
 			while (it.hasNext()) {
@@ -112,7 +114,7 @@ public class TaskController {
 			String orgId = String.valueOf(map.get("orgId"));
 			String zhuli = "";
 			List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZL.getCode());
-			if (CollectionUtils.isEmpty(asList)) {
+			if (CollectionUtils.isNotEmpty(asList)) {
 				User user = asList.get(0);
 				zhuli = user.getUsername();
 			}
