@@ -35,7 +35,7 @@ import com.centaline.trans.task.service.UnlocatedTaskService;
 public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 
 	@Autowired
-	private ToMortgageMapper toMortgageMapper;	
+	private ToMortgageMapper toMortgageMapper;
 
 	@Autowired(required = true)
 	private ToMortLoanerMapper toMortLoanerMapper;
@@ -85,23 +85,25 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 	 * 
 	 * @des:查询信贷员接单信息
 	 */
-	
+
 	@Override
-	public ToMortLoaner findToMortLoanerByCaseCodeAndLoanerStatus(String caseCode, String loanerStatus) {
-		
+	public ToMortLoaner findToMortLoanerByCaseCodeAndLoanerStatus(
+			String caseCode, String loanerStatus) {
+
 		ToMortLoaner toMortLoaner = new ToMortLoaner();
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String, String> map = new HashMap<String, String>();
 		map.put("caseCode", caseCode);
 		map.put("loanerStatus", loanerStatus);
-		try{
-			toMortLoaner  = toMortLoanerMapper.findToMortLoanerByCaseCodeAndLoanerStatus(map);
+		try {
+			toMortLoaner = toMortLoanerMapper
+					.findToMortLoanerByCaseCodeAndLoanerStatus(map);
 
-		}catch (BusinessException e) {
+		} catch (BusinessException e) {
 			throw new BusinessException("查询信贷员派单信息异常");
-		}		
+		}
 		return toMortLoaner;
 	}
-	
+
 	/*
 	 * @author:zhuody
 	 * 
@@ -112,17 +114,17 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 
 	@Override
 	public void insertByToMortLoaner(ToMortLoaner toMortLoaner) {
-		
-		if(null == toMortLoaner){
+
+		if (null == toMortLoaner) {
 			throw new BusinessException("交易顾问从新派单请求数据异常");
 		}
-		
-		try{
+
+		try {
 			toMortLoanerMapper.insertSelective(toMortLoaner);
-		}catch(BusinessException e) {
+		} catch (BusinessException e) {
 			throw new BusinessException("交易顾问从新派单保存数据异常");
 		}
-		
+
 	}
 
 	/*
@@ -134,19 +136,18 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 	 */
 	@Override
 	public void updateByPrimaryKeySelective(ToMortLoaner toMortLoaner) {
-		if(null == toMortLoaner){
+		if (null == toMortLoaner) {
 			throw new BusinessException("信贷员接单请求数据异常");
 		}
-		
-		try{
+
+		try {
 			toMortLoanerMapper.updateByPrimaryKeySelective(toMortLoaner);
-		}catch(BusinessException e) {
+		} catch (BusinessException e) {
 			throw new BusinessException("信贷员接单更新数据异常");
 		}
-		
+
 	}
 
-	
 	/*
 	 * @author:zhuody
 	 * 
@@ -154,27 +155,26 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 	 * 
 	 * @des:查询信贷员接单信息（特殊情况 信贷员驳回、银行驳回时）
 	 */
-	
+
 	@Override
 	public ToMortLoaner findToMortLoanerByCaseCode(String caseCode) {
-		
-		ToMortLoaner toMortLoaner = new ToMortLoaner();
-		try{
-			toMortLoaner  = toMortLoanerMapper.findToMortLoanerByCaseCode(caseCode);
 
-		}catch (BusinessException e) {
+		ToMortLoaner toMortLoaner = new ToMortLoaner();
+		try {
+			toMortLoaner = toMortLoanerMapper
+					.findToMortLoanerByCaseCode(caseCode);
+
+		} catch (BusinessException e) {
 			throw new BusinessException("查询信贷员派单信息异常");
-		}		
+		}
 		return toMortLoaner;
 	}
 
-
 	@Override
-	public ToMortLoaner getToMortLoanerByMortgageId(String mortgageId) {
-		return toMortLoanerMapper.getToMortLoanerByMortgageId(mortgageId);
+	public ToMortLoaner getToMortLoanerById(Long id) {
+		return toMortLoanerMapper.getToMortLoanerById(id);
 	}
-	
-	
+
 	/*
 	 * @author:zhuody
 	 * 
@@ -183,21 +183,23 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 	 * @des:根据caseCode和是否主贷流程查询信贷员派单情况
 	 */
 	@Override
-	public List<ToMortLoaner> findToMortLoanerByCaseCodeAndIsMainBank(String caseCode,String isMainLoanBankProcess){
-		
+	public List<ToMortLoaner> findToMortLoanerByCaseCodeAndIsMainBank(
+			String caseCode, String isMainLoanBankProcess) {
+
 		List<ToMortLoaner> toMortLoanerList = new ArrayList<ToMortLoaner>();
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String, String> map = new HashMap<String, String>();
 		map.put("caseCode", caseCode);
 		map.put("isMainLoanBankProcess", isMainLoanBankProcess);
-		try{
-			toMortLoanerList  = toMortLoanerMapper.findToMortLoanerByCaseCodeAndIsMainBank(map);
+		try {
+			toMortLoanerList = toMortLoanerMapper
+					.findToMortLoanerByCaseCodeAndIsMainBank(map);
 
-		}catch (BusinessException e) {
+		} catch (BusinessException e) {
 			throw new BusinessException("查询信贷员派单信息异常");
-		}		
+		}
 		return toMortLoanerList;
 	}
-	
+
 	/*
 	 * @author:zhuody
 	 * 
@@ -206,16 +208,18 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 	 * @des:根据caseCode和派单状态查询信贷员派单是否可以派单
 	 */
 	@Override
-	public ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner){
-		
-		if(null == toMortLoaner) throw new BusinessException("查询信贷员派单信息参数异常");
-		ToMortLoaner toMortLoanerProcess = new  ToMortLoaner();
-		try{
-			toMortLoanerProcess  = toMortLoanerMapper.findToMortLoaner(toMortLoaner);
+	public ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner) {
 
-		}catch (BusinessException e) {
+		if (null == toMortLoaner)
+			throw new BusinessException("查询信贷员派单信息参数异常");
+		ToMortLoaner toMortLoanerProcess = new ToMortLoaner();
+		try {
+			toMortLoanerProcess = toMortLoanerMapper
+					.findToMortLoaner(toMortLoaner);
+
+		} catch (BusinessException e) {
 			throw new BusinessException("查询信贷员派单信息异常");
-		}		
+		}
 		return toMortLoanerProcess;
 	}
 }

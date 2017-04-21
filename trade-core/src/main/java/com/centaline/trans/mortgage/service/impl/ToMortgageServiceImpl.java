@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.cases.entity.Result2;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.comment.entity.ToCaseComment;
@@ -55,6 +58,10 @@ import com.centaline.trans.mortgage.vo.MortgageVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
+import com.centaline.trans.task.vo.LoanlostApproveVO;
+import com.centaline.trans.task.vo.ProcessInstanceVO;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
 @Service
 @Transactional
@@ -62,10 +69,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 	@Autowired
 	private ToMortgageMapper toMortgageMapper;
-
 	@Autowired
 	private ToCaseCommentMapper toCaseCommentMapper;
-
 	@Autowired
 	private ToSupDocuService toSupDocuService;
 	@Autowired
@@ -82,7 +87,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	private UnlocatedTaskService unlocatedTaskService;
 	@Autowired
 	private ToApproveRecordService toApproveRecordService;
-
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
@@ -94,15 +98,14 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Qualifier("uamMessageServiceClient")
 	@Autowired
 	private UamMessageService uamMessageService;
-
 	@Autowired
 	private LoanerProcessService loanerProcessService;
-
 	@Autowired
 	private ToCaseCommentService toCaseCommentService;
-
 	@Autowired
 	private ToMortLoanerMapper toMortLoanerMapper;
+	@Autowired
+	private TransplanServiceFacade transplanServiceFacade;
 
 	@Override
 	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
@@ -857,17 +860,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 					mortgageVo.getStateInBank());
 		}
 
-		// 根据按揭信息主键id获取按揭信息对象
-		ToMortgage toMortgage = toMortgageMapper
-				.getMortgageByBizCode(mortgageVo.getBizCode());
-
-		if (toMortgage != null) {
-			toMortgage.setStateInBank(mortgageVo.getStateInBank());
-
-			// 更新按揭表的状态(字段STATE_IN_BANK)
-			toMortgageMapper.updateStateInBankByBizCode(toMortgage);
-		}
-
 		return true;
 	}
 
@@ -989,11 +981,172 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 	/**
 	 * 根据casecode查询贷款
+	 * 
 	 * @author caoy
 	 * @param caseCode
 	 * @return
 	 */
 	public List<ToMortgage> findToMortgageByCaseCodeNoBlank(String caseCode) {
 		return toMortgageMapper.findToMortgageByCaseCodeNoBlank(caseCode);
+	}
+
+	@Override
+	public Result2 submitLoanlostApply(HttpServletRequest request,
+			ToMortgage toMortgage, ProcessInstanceVO processInstanceVO,
+			LoanlostApproveVO loanlostApproveVO, String partCode, Long lapPkid) {
+		if (toMortgage.getMortTotalAmount() != null) {
+			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount()
+					.multiply(new BigDecimal(10000)));
+		}
+		toMortgage.setIsMainLoanBank("1");
+
+		SessionUser user = uamSessionService.getSessionUser();
+		toMortgage.setLoanAgent(user.getId());
+		toMortgage.setLoanAgentTeam(user.getServiceDepId());
+		saveToMortgage(toMortgage);
+
+		/* 流程引擎相关 */
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+
+		ToCase toCase = toCaseService.findToCaseByCaseCode(toMortgage
+				.getCaseCode());
+		workFlowManager.submitTask(variables, processInstanceVO.getTaskId(),
+				processInstanceVO.getProcessInstanceId(),
+				toCase.getLeadingProcessId(), toMortgage.getCaseCode());
+
+		/**
+		 * 功能: 给客户发送短信 作者：zhangxb16
+		 */
+		Result2 rs = new Result2();
+		try {
+			int result = tgGuestInfoService.sendMsgHistory(
+					toMortgage.getCaseCode(), partCode);
+			if (result > 0) {
+			} else {
+				rs.setMessage("短信发送失败, 请您线下手工再次发送！");
+			}
+		} catch (BusinessException ex) {
+			ex.getMessage();
+		}
+
+		return rs;
+	}
+
+	@Override
+	public Boolean submitSelfLoanApprove(HttpServletRequest request,
+			ToMortgage toMortgage, String taskId, String processInstanceId) {
+		if (toMortgage.getMortTotalAmount() != null) {
+			toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount()
+					.multiply(new BigDecimal(10000)));
+		}
+		if (toMortgage.getComAmount() != null) {
+			toMortgage.setComAmount(toMortgage.getComAmount().multiply(
+					new BigDecimal(10000)));
+		}
+		if (toMortgage.getPrfAmount() != null) {
+			toMortgage.setPrfAmount(toMortgage.getPrfAmount().multiply(
+					new BigDecimal(10000)));
+		}
+		toMortgage.setIsMainLoanBank("1");
+		saveToMortgage(toMortgage);
+
+		// 发送消息
+		ToWorkFlow wf = new ToWorkFlow();
+		wf.setCaseCode(toMortgage.getCaseCode());
+		wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+		ToWorkFlow wordkFlowDB = toWorkFlowService
+				.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+		if (wordkFlowDB != null
+				&& "operation_process:40:645454".compareTo(wordkFlowDB
+						.getProcessDefinitionId()) <= 0) {
+			messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB
+					.getInstCode());
+			// 设置主流程任务的assignee
+			ToCase toCase = toCaseService.findToCaseByCaseCode(toMortgage
+					.getCaseCode());
+			workFlowManager.setAssginee(wordkFlowDB.getInstCode(),
+					toCase.getLeadingProcessId(), wordkFlowDB.getCaseCode());
+
+			// 结束当前流程
+			ToWorkFlow workFlowOld = new ToWorkFlow();
+			// 流程结束状态
+			workFlowOld.setStatus("4");
+			workFlowOld.setInstCode(processInstanceId);
+			toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
+		}
+
+		/* 流程引擎相关 */
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		ToCase toCase = toCaseService.findToCaseByCaseCode(toMortgage
+				.getCaseCode());
+		return workFlowManager.submitTask(variables, taskId, processInstanceId,
+				toCase.getLeadingProcessId(), toMortgage.getCaseCode());
+	}
+
+	@Override
+	public Result2 submitLoanRelease(HttpServletRequest request,
+			ToMortgage toMortgage, String taskitem, Date estPartTime,
+			String taskId, String processInstanceId, String partCode) {
+		toMortgage.setIsMainLoanBank("1");
+		ToMortgage mortage = findToMortgageById(toMortgage.getPkid());
+		mortage.setLendDate(toMortgage.getLendDate());
+		mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
+		mortage.setRemark(toMortgage.getRemark());
+		saveToMortgage(mortage);
+
+		/* 流程引擎相关 */
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		ToCase toCase = toCaseService.findToCaseByCaseCode(toMortgage
+				.getCaseCode());
+		workFlowManager.submitTask(variables, taskId, processInstanceId,
+				toCase.getLeadingProcessId(), toMortgage.getCaseCode());
+
+		/**
+		 * 功能: 给客户发送短信 作者：zhangxb16
+		 */
+		Result2 rs = new Result2();
+		try {
+			int result = tgGuestInfoService.sendMsgHistory(
+					toMortgage.getCaseCode(), partCode);
+			if (result > 0) {
+			} else {
+				rs.setMessage("短信发送失败, 请您线下手工再次发送！");
+			}
+		} catch (BusinessException ex) {
+			ex.getMessage();
+		}
+
+		return rs;
+	}
+
+	@Override
+	public Boolean submitPsfApply(HttpServletRequest request,
+			ToMortgage toMortgage, String taskitem, Date estPartTime,
+			String taskId, String processInstanceId) {
+		ToTransPlan toTransPlan = new ToTransPlan();
+		toTransPlan.setCaseCode(toMortgage.getCaseCode());
+
+		// 修改人：zhangxb16 时间：2015-11-12
+		toTransPlan.setPartCode("PSFApply");
+		toTransPlan.setEstPartTime(estPartTime);
+		toMortgage.setIsDelegateYucui("1");
+		transplanServiceFacade.updateTransPlan(toTransPlan);
+		toMortgage
+				.setMortTotalAmount(toMortgage.getMortTotalAmount() != null ? toMortgage
+						.getMortTotalAmount().multiply(new BigDecimal(10000))
+						: null);
+		toMortgage.setIsMainLoanBank("1");
+
+		SessionUser user = uamSessionService.getSessionUser();
+		toMortgage.setLoanAgent(user.getId());
+		toMortgage.setLoanAgentTeam(user.getServiceDepId());
+		saveToMortgage(toMortgage);
+
+		/* 流程引擎相关 */
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		ToCase toCase = toCaseService.findToCaseByCaseCode(toMortgage
+				.getCaseCode());
+		return workFlowManager.submitTask(variables, taskId, processInstanceId,
+				toCase.getLeadingProcessId(), toMortgage.getCaseCode());
 	}
 }

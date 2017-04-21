@@ -66,19 +66,14 @@ public class MortgageController {
 
     @RequestMapping(value="mortgage/submitPsfApply")
     @ResponseBody
-    public  Object submitPsfApply(String caseCode,Date estPartTime,String taskId, String processInstanceId) {
+    public  Object submitPsfApply(String caseCode,Date estPartTime,String ifRequireReconsider,Date prfApplyDate,String taskId, String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
-            if(caseCode==null||"".equals(caseCode)){
-                response.setSuccess(false);
-                response.setMessage("案件编号为空");
-                return response;
-            }
-            if(taskId==null||"".equals(taskId)||processInstanceId==null||"".equals(processInstanceId)){
-                response.setSuccess(false);
-                response.setMessage("环节编码为空");
-                return response;
-            }
+            if(caseCode==null||"".equals(caseCode)){response.setSuccess(false);response.setMessage("案件编号为空");return response;}
+            if(taskId==null||"".equals(taskId)||processInstanceId==null||"".equals(processInstanceId)){response.setSuccess(false);response.setMessage("环节编码为空");return response;}
+            if(ifRequireReconsider==null||"".equals(ifRequireReconsider)){response.setSuccess(false);response.setMessage("是否需要复议为空");return response;}
+            if(prfApplyDate==null){response.setSuccess(false);response.setMessage("公积金申请时间为空");return response;}
+
             ToTransPlan toTransPlan = new ToTransPlan();
             toTransPlan.setCaseCode(caseCode);
             toTransPlan.setPartCode("PSFApply");
@@ -88,7 +83,8 @@ public class MortgageController {
             ToMortgage mortgage =  toMortgageService.findToMortgageByCaseCodeNoBlank(caseCode).get(0);
             mortgage.setIsDelegateYucui("1");
             mortgage.setIsMainLoanBank("1");
-
+            mortgage.setIfRequireReconsider(ifRequireReconsider);
+            mortgage.setPrfApplyDate(prfApplyDate);
             SessionUser user = uamSessionService.getSessionUser();
             mortgage.setLoanAgent(user.getId());
             mortgage.setLoanAgentTeam(user.getServiceDepId());
