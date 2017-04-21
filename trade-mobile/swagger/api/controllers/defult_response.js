@@ -31,6 +31,7 @@ module.exports = {
   casecontactRsponse: responseJSON,
   pricingRsponse: responseJSON,
   testRsponse: responseJSON,
+  dictListResponse: responseJSON
 };
 
 /*

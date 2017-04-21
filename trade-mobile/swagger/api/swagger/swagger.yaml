@@ -595,6 +595,29 @@ paths:
         - name: realName
           in: formData
           description: 真实姓名
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/testInterfaceResponse"
+            
+  /baseData/getDictListByDictType:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 根据DictType获得数据字典
+      # used as the method name of the controller
+      operationId: dictListResponse
+      parameters:
+        - name: token
+          in: query
+          description:  认证token
+          required: true
+          type: string
+        - name: dictType
+          in: query
+          description:  数据字典类型
           required: true
           type: string
       responses:
@@ -602,8 +625,7 @@ paths:
             description: Success
             schema:
               # a pointer to a definition
-              $ref: "#/definitions/testInterfaceResponse"
-              
+              $ref: "#/definitions/dictListByDictTypeResponse"
 # complex objects have schema definitions
 definitions:
   testInterfaceResponse:
@@ -879,9 +901,48 @@ definitions:
       houseTransfer:
         type: string
         description: 过户交易相关字段
-        
-        
-        
+      
+  dictListByDictTypeResponse:        
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/dicts"  
+  dicts:
+    properties:
+      dicts:
+        type: array
+        items:
+          $ref: '#/definitions/dict'
+  dict:
+    properties:
+      code:
+        type: string
+        description: 字典编码
+      name:
+        type: string
+        description: 字典名字
+      type:
+        type: string
+        description: 字典类型
+      tag:
+        type: string
+        description: 字典标签
+      isDefault:
+        type: string
+        description: 是否为默认值
+      orderby:
+        type: string 
+        description: 排序字段
+  
         
         
         
