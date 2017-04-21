@@ -224,7 +224,7 @@ paths:
             description: Success
             schema:
               # a pointer to a definition
-              $ref: "#/definitions/getPricingSuccessResponse"
+              $ref: "#/definitions/getPurchaseLimitResponse"
               
   /task/pricing/process:
     # binds a127 app logic to a route
@@ -408,9 +408,6 @@ paths:
           description: 刷卡金额
           required: true
           type: number   
-          
-          
-          
       responses:
          "200":
             description: Success
@@ -724,6 +721,21 @@ definitions:
       content:
         $ref: "#/definitions/getHouseTransferContent"
         
+  getPurchaseLimitResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getPurchaseLimitContent"        
+        
   subpricingContent:
     properties:
       success:
@@ -752,6 +764,37 @@ definitions:
         type: string
       processInstanceId:
         type: string
+      pkid:
+        type: string  
+        description: 核价主键
+      pricingTime:
+        type: string  
+        description: 核价时间  
+      taxPricing:
+        type: string  
+        description: 税务核定价  
+      houseProperty:
+        type: string  
+        description: 房屋性质（普通：0;非普通：1;非居：2）
+        
+        
+  getPurchaseLimitContent:
+    properties:
+      success:
+        type: boolean
+      partCode:
+        type: string
+      taskId:
+        type: string
+      processInstanceId:
+        type: string        
+      pkid:
+        type: string
+        description: 查限购的pkid
+      realPlsTime:
+        type: string  
+        description: 查限购的时间
+        
   getPSFApplyContent:
     properties:
       taskId:
