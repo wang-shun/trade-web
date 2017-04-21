@@ -859,6 +859,7 @@ definitions:
       houseTransfer:
         type: string
         description: 过户交易相关字段
+      
   dictListByDictTypeResponse:        
     required:
       - isSuccess
@@ -899,6 +900,7 @@ definitions:
       orderby:
         type: string 
         description: 排序字段
+  
         
         
         
