@@ -205,7 +205,7 @@ paths:
             description: Success
             schema:
               # a pointer to a definition
-              $ref: "#/definitions/getPricingSuccessResponse"
+              $ref: "#/definitions/getTaxReviewResponse"
   /task/purchaseLimit/process:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
@@ -706,21 +706,6 @@ definitions:
         type: string
       content:
         $ref: "#/definitions/getPSFApplyContent"      
-  getHouseTransferResponse:
-    required:
-      - isSuccess
-    properties:
-      isSuccess:
-        type: boolean
-      msg:
-        type: string
-      empId:
-        type: string
-      token:
-        type: string
-      content:
-        $ref: "#/definitions/getHouseTransferContent"
-        
   getPurchaseLimitResponse:
     required:
       - isSuccess
@@ -734,7 +719,21 @@ definitions:
       token:
         type: string
       content:
-        $ref: "#/definitions/getPurchaseLimitContent"        
+        $ref: "#/definitions/getPurchaseLimitContent"
+  getTaxReviewResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getTaxReviewContent"
         
   subpricingContent:
     properties:
@@ -812,6 +811,43 @@ definitions:
       ifRequireReconsider:
         type: string
         description: 是否需要复议（提交时用）
+  getTaxReviewContent:
+    properties:
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      partCode:
+        type: string  
+        description: "TaxReview"
+      caseCode:
+        type: string
+        description: 案件编号
+      taxTime:
+        type: string
+        description: 审税时间
+      isUniqueHome:
+        type: string
+        description: 是否是唯一住房(是：1;否：0)     
+      holdYear:
+        type: string
+        description: 购房年数（满二：0;满五：1;两年内：2） 
+##过户的返回值START       
+  getHouseTransferResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getHouseTransferContent"
+        
   getHouseTransferContent:
     properties:
       taskId:
@@ -833,8 +869,80 @@ definitions:
         type: string
         description: 贷款相关字段 
       houseTransfer:
+        $ref: "#/definitions/getHouseHouseTransferContent"
+      attachments:
+        $ref: "#/definitions/getHouseTransferattachMentsContent"
+      accesoryList:
+        $ref: "#/definitions/getHouseTransferAccesoryListContent"
+  getHouseHouseTransferContent:
+    properties:
+      pkid:
         type: string
-        description: 过户交易相关字段
+        description: 过户交易主键
+      realHtTime:
+        type: string
+        description: 实际过户时间
+      houseHodingTax:
+        type: string
+        description: 房产税
+      personalIncomeTax:
+        type: string
+        description: 个人所得税
+      businessTax:
+        type: string
+        description: 上家营业税
+      contractTax:
+        type: string
+        description: 下家契税
+      landIncrementTax:
+        type: string
+        description: 土地增值税
+      
+  getHouseTransferattachMentsContent:
+    properties:
+      pkid:
+        type: string
+        description: 上传附件的主键
+      preFileAdress:
+        type: string
+        description: 文件id
+      preFileCode:
+        type: string
+        description: 备件编码
+      preFileName:
+        type: string
+        description: 备件名称
+      partCode:
+        type: string
+        description: Guohu
+      fileName:
+        type: string
+        description: 文件名
+        
+  getHouseTransferAccesoryListContent:
+    properties:
+      pkid:
+        type: string
+        description: 备件配置的主键
+      partCode:
+        type: string
+        description: Guohu
+      accessoryName:
+        type: string
+        description: 配置项名称
+      accessoryCode:
+        type: string
+        description: 备件编码
+      
+  
+##过户的返回值END          
+        
+        
+        
+        
+        
+        
+      
         
         
         
