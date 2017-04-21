@@ -371,5 +371,46 @@ public class CaseMergeController {
 		if(StringUtils.equals(caseInfo.getType(), "1")){response.setContent(true);}
 		if(StringUtils.equals(caseInfo.getType(), "0")){response.setContent(false);}
 		return response;
-	}	
+	}
+	/**
+	 * 新建外单页面跳转 
+	 * @author hejf10
+	 * @date 2017年4月21日13:27:19
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="addWdCase")
+	public String addWdCase(Model model, ServletRequest request){
+		model.addAttribute("flag","add");
+		return "case/addWdCase";
+	}
+	/**
+	 * 新建外单提交
+	 * @author hjf
+	 * @date 2017年4月21日13:59:02
+	 * @param request
+	 * @param caseMergeVo
+	 * @param keyFlag
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping("saveWdCaseInfo/{keyFlag}")
+	public String saveWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo,@PathVariable String keyFlag) throws Exception{
+		try{
+			String caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			if(!"".equals(keyFlag) && null != keyFlag){
+				if("case".equals(keyFlag)){				
+					return "redirect:/case/tracking?caseCode="+caseCode;						
+				}else if("eloan".equals(keyFlag)){				
+					return "redirect:/eloan/task/eloanApply/process";										
+				}else if("spv".equals(keyFlag)){
+					return "redirect:/spv/saveHTML";									
+				}
+			}
+		}catch(BusinessException e){
+			throw new BusinessException("自录案件信息保存异常！");
+		}
+		return  "case/mycase_list2";
+	}
+	
 }

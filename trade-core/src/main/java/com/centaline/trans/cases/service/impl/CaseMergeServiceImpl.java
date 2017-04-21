@@ -250,12 +250,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		
 		if(null == caseMergeVo){ throw new BusinessException("新建外单案件信息为空！");	  }	
 		
-		String caseCode="";  /**调用caseCode 的接口方法**/
-		//String caseCode=apiCaseCode();  /**调用caseCode 的接口方法**/
-		if(null==caseCode || "".equals(caseCode)){ /**如果调用apiCaseCode()方式返回的是空, 则调用本地的 generateCode() 方法**/
-			caseCode=getNewCaseCode();  /**调用我们自己的生成规则**/
-		}
-		
+		String caseCode=getNewCaseCode();  /**调用caseCode 的本地的方法**/
 		Map<String, Object> map = new HashMap<String, Object>();
 		int insertUp=0,insertDown=0,insertCase=0,insertCaseInfo=0,insertTz=0;		
 			
