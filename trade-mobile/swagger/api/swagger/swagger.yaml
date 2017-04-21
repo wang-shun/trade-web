@@ -866,8 +866,7 @@ definitions:
         type: string
         description: 是否有贷款需求      
       toMortgage:
-        type: string
-        description: 贷款相关字段 
+        $ref: "#/definitions/getToMortgageContent"
       houseTransfer:
         $ref: "#/definitions/getHouseHouseTransferContent"
       attachments:
@@ -933,8 +932,31 @@ definitions:
       accessoryCode:
         type: string
         description: 备件编码
-      
   
+  getToMortgageContent:
+    properties:
+      mortType:
+        type: string
+        description: 贷款类型（（纯商贷:30016001，组合贷:30016002，公积金:30016003））
+      mortTotalAmount:
+        type: string
+        description: 贷款总额
+      comAmount:
+        type: string
+        description: 商贷金额
+      comYear:
+        type: string
+        description: 商贷年限 
+      comDiscount:
+        type: string
+        description: 商贷折扣
+      prfAmount:
+        type: string
+        description: 公积金贷款金额
+      prfYear:
+        type: string
+        description: 公积金贷款年限  
+        
 ##过户的返回值END          
         
         
