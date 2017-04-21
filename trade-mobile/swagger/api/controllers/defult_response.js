@@ -29,7 +29,8 @@ module.exports = {
   responseJSON: responseJSON,
   contactRsponse: responseJSON,
   casecontactRsponse: responseJSON,
-  pricingRsponse: responseJSON
+  pricingRsponse: responseJSON,
+  dictListResponse: responseJSON
 };
 
 /*
