@@ -72,7 +72,7 @@
 				LEFT JOIN sctrans.T_TG_GUEST_INFO g ON g.PKID = m.CUST_CODE
 				LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = ml.CASE_CODE
 				LEFT JOIN sctrans.T_TO_CASE c ON  c.CASE_CODE = ml.CASE_CODE
-				WHERE ml.MORT_PKID = #bizCode#
+				WHERE ml.PKID = #bizCode#
 				]]>
 			</baseSql>
 			<groupSql>
