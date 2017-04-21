@@ -55,7 +55,7 @@
 							ISNULL(CONVERT(varchar(100), m.SEND_TIME, 23),'') as applyTime,
 							'MORT' as prdType,
 							m.CASE_CODE as caseCode,
-							CAST(m.MORT_PKID as varchar)	as bizCode,
+							CAST(m.PKID as varchar)	as bizCode,
 							ISNULL(p.PROPERTY_ADDR,'') 	as addr,
 							ISNULL(uoj.employee_code,'') 	as avartaUrl,
 							ISNULL((select REAL_NAME FROM sctrans.SYS_USER WHERE ID = m.SEND_ID),'') 		as consultantName
