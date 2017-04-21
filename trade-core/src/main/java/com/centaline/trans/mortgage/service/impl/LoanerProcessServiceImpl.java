@@ -492,7 +492,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 
 			}
 
-			// //维护ToMortLoaner业务
+			//维护ToMortLoaner业务
 			maintainToMortLoaner(mortgageId, stateInBank);
 
 			// 提交流程
@@ -557,7 +557,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	        
 		}catch(BusinessException e) {
 	      	throw new BusinessException("取消交易顾问派单流程异常！");
-	     }
+	    }
 	}
 	
 	
