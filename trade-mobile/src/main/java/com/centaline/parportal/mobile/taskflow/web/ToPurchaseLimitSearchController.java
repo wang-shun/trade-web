@@ -50,6 +50,8 @@ public class ToPurchaseLimitSearchController {
         jsonObject.put("caseCode", caseCode);
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
+        jsonObject.put("purchaseLimit", toPurchaseLimitSearchService.findToPlsByCaseCode(caseCode));
+
         return jsonObject;
     }
 

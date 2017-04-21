@@ -48,6 +48,8 @@ public class TaxReviewController {
         jsonObject.put("caseCode", caseCode);
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
+        jsonObject.put("taxReview", toTaxService.findToTaxByCaseCode(caseCode));
+
         return jsonObject;
     }
 

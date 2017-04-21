@@ -49,6 +49,7 @@ public class PricingController {
         jsonObject.put("caseCode", caseCode);
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
+        jsonObject.put("pricing", toPricingService.qureyPricing(caseCode));
         return jsonObject;
     }
 

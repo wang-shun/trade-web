@@ -103,6 +103,7 @@
 									class="fa fa-sort-desc fa_down"></i></th>
                                   <th>银行</th>
                                   <th>贷款信息</th>
+                                  <th>派单状态</th>
                                   <th>上家</th>
                                   <th>下家 </th>
                                   <th>操作</th>
@@ -193,9 +194,51 @@
                                  <span class="mr5"><i class="sign_normal">年</i>{{item.PRF_YEAR}}</span>
                              </p>
                          </td>
+						<td class="center">
+						{{if item.LOANER_STATUS == "ACCEPTING"}}
+                         	<p class="big">待接单</p>
+						{{else if item.LOANER_STATUS == "AUDITING"}}
+							<p class="big">待审批</p>
+						{{else if item.LOANER_STATUS == "ACC_REJECTED"}}
+							<p class="big">接单打回</p>	 
+						{{else if item.LOANER_STATUS == "AUD_REJECTED"}}
+							<p class="big">审批打回</p>	 	
+						{{else if item.ITEM_STATUS == "CANCELED"}}
+                            <p><i class="sign_brown">誉萃撤单</i></p>						
+						{{else if item.ITEM_STATUS == "COMPLETED"}}
+                            <p><i class="sign_brown">审批完成</i></p>
+						{{/if}}  
+						</td>
 
-                        <td class="center">{{item.SELLER}}</td>
-                        <td class="center">{{item.BUYER}}</td>
+
+                        <td class="center">							
+							<p>                          
+								{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
+								{{if item.SELLER.split("/").length-1 >1}}
+									<a class="demo-top" title="上家信息: {{item.SELLER}}">
+									{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+									{{(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)}}</br>...
+								{{else}}
+									{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+									{{(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)}}</br></a>
+								{{/if}}
+								{{else}}{{item.SELLER}}{{/if}}
+                          </p>
+						</td>
+                        <td class="center">							
+							<p>                           
+							{{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
+							{{if item.BUYER.split("/").length-1 >1}}
+								<a class="demo-left" title="下家信息:{{item.BUYER}}">
+								{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
+								{{(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).indexOf("/"))+1)}}</br>...
+							{{else}}
+								{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
+								{{(item.BUYER.substring(item.BUYER.indexOf("/"),item.BUYER.length)).substring(1,((item.BUYER.substring(item.BUYER.indexOf("/")+1,item.BUYER.length)).length)+1)}}</br>
+							{{/if}}</a>
+							{{else}}{{item.BUYER}}{{/if}}                                              
+                          </p>
+						</td>
 
                         <td>
 							{{if item.STATUS == "0" || item.LOANER_STATUS != "CANCELED"}}
