@@ -62,8 +62,20 @@ public class ToCaseInfo {
 	private String referConsultantId;
 	/** refer_consultant_id 意向顾问 refer_consultant_realname **/
 	private String referConsultantRealname;
+	/**
+	 *  外单案件的合作来源
+	 */
+	private String sourceOfCooperation;
 	
-    public String getReferConsultantId() {
+    public String getSourceOfCooperation() {
+		return sourceOfCooperation;
+	}
+
+	public void setSourceOfCooperation(String sourceOfCooperation) {
+		this.sourceOfCooperation = sourceOfCooperation;
+	}
+
+	public String getReferConsultantId() {
 		return referConsultantId;
 	}
 

@@ -35,7 +35,7 @@
                     <label class="control-label sign_left_small">
                         	房屋地址
                     </label>
-                    <input type="text" placeholder="请输入房屋地址"  name="blocksSelect"  id="blocksSelect" class="select_control home-adress">
+                    <input type="text" placeholder="请输入房屋地址"  name="propertyAddr"  id="propertyAddr" class="select_control home-adress">
                 </div>
             </div>
             <div class="line">
@@ -43,26 +43,26 @@
                     <label class="control-label sign_left_small">
                         	推荐人
                     </label>
-                    <input type="text" class="select_control sign_right_one" name="agentName" id="agentName">
+                    <input type="text" class="select_control sign_right_one" name="guestNameRecommend" id="guestNameRecommend">
                 </div>
                 <div class="form_content">
-                    <label class="control-label sign_left_small" name="agentPhone" id="agentPhone">
+                    <label class="control-label sign_left_small" >
                         	推荐人电话
                     </label>
-                    <input type="text" class="select_control sign_right_one" value="">
+                    <input type="text" class="select_control sign_right_one" name="guestPhoneRecommend" id="guestPhoneRecommend">
                 </div>
                 <div class="form_content">
                     <label class="control-label sign_left_small">
                         	合作来源
                     </label>
-                    <select class="select_control sign_right_one">
+                    <select class="select_control sign_right_one"  onChange="this.value" name="sourceOfCooperation">
                         <option value=""> 请选择 </option>
-                        <option value=""> 小中介 </option>
-                        <option value=""> 一手 </option>
-                        <option value=""> 联动 </option>
-                        <option value=""> 朋友介绍 </option>
-                        <option value=""> 老客户 </option>
-                        <option value=""> 中原门店 </option>
+                        <option value="小中介"> 小中介 </option>
+                        <option value="一手"> 一手 </option>
+                        <option value="联动"> 联动 </option>
+                        <option value="朋友介绍"> 朋友介绍 </option>
+                        <option value="老客户"> 老客户 </option>
+                        <option value="中原门店"> 中原门店 </option>
                     </select>
                 </div>
             </div>

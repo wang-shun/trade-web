@@ -30,6 +30,7 @@
 	<result column="BA_NAME" jdbcType="VARCHAR" property="baName" />
 	<result column="refer_consultant_id" jdbcType="VARCHAR" property="referConsultantId" />
 	<result column="refer_consultant_realname" jdbcType="VARCHAR" property="referConsultantRealname" />
+	<result column="SOURCE_OF_COOPERATION" jdbcType="VARCHAR" property="sourceOfCooperation" />
   </resultMap>
   <sql id="Base_Column_List">
      PKID, CTM_CODE, AGENT_CODE, CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
@@ -111,6 +112,9 @@
       <if test="targetCode != null" >
         TARGET_CODE,
       </if>
+      <if test="sourceOfCooperation != null" >
+        SOURCE_OF_COOPERATION,
+      </if>
        CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -164,6 +168,9 @@
       </if>
       <if test="targetCode != null" >
         #{targetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceOfCooperation != null" >
+        #{sourceOfCooperation,jdbcType=VARCHAR},
       </if>
        GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>

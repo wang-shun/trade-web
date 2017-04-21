@@ -29,8 +29,23 @@ public class CaseMergeVo {
     private List<Long> pkidDown;
     private List<String> guestNameDown;
     private List<String> guestPhoneDown;
-    /*上下家删除的记录id*/
+    /**外单案件推荐人*/
+    private List<Long> pkidRecommend;
+    private List<String> guestNameRecommend;
+    private List<String> guestPhoneRecommend;
+   
+	/*上下家删除的记录id*/
     private List<Long> guestPkid;
+    /**
+     * 外单案件的合作来源
+     */
+    private String sourceOfCooperation;
+	public String getSourceOfCooperation() {
+		return sourceOfCooperation;
+	}
+	public void setSourceOfCooperation(String sourceOfCooperation) {
+		this.sourceOfCooperation = sourceOfCooperation;
+	}
 	public String getPropertyCode() {
 		return propertyCode;
 	}
@@ -158,6 +173,23 @@ public class CaseMergeVo {
 	public void setFinishYear(String finishYear) {
 		this.finishYear = finishYear;
 	}
-	
+	public List<Long> getPkidRecommend() {
+		return pkidRecommend;
+	}
+	public void setPkidRecommend(List<Long> pkidRecommend) {
+		this.pkidRecommend = pkidRecommend;
+	}
+	public List<String> getGuestNameRecommend() {
+		return guestNameRecommend;
+	}
+	public void setGuestNameRecommend(List<String> guestNameRecommend) {
+		this.guestNameRecommend = guestNameRecommend;
+	}
+	public List<String> getGuestPhoneRecommend() {
+		return guestPhoneRecommend;
+	}
+	public void setGuestPhoneRecommend(List<String> guestPhoneRecommend) {
+		this.guestPhoneRecommend = guestPhoneRecommend;
+	}
 		
 }

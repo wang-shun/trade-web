@@ -258,6 +258,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		List<String>  namePhoneList = caseMergeVo.getGuestPhoneUp();
 		List<String>  nameDownList = caseMergeVo.getGuestNameDown();
 		List<String>  phoneDownList = caseMergeVo.getGuestPhoneDown();		
+		List<String>  nameRecommendList = caseMergeVo.getGuestNameRecommend();
+		List<String>  phoneRecommendList = caseMergeVo.getGuestPhoneRecommend();		
 		
 		ToCase toCase = setToCase(caseCode);
 		ToCaseInfo toCaseInfo = setToCaseInfo(toCase,caseMergeVo);
@@ -279,7 +281,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		 */
 		insertUp = saveIntoGuestInfo(nameUpList,namePhoneList,caseCode,1);
 		insertDown = saveIntoGuestInfo(nameDownList,phoneDownList,caseCode,2);
-		insertTz = saveIntoGuestInfo(nameDownList,phoneDownList,caseCode,3);
+		insertTz = saveIntoGuestInfo(nameRecommendList,phoneRecommendList,caseCode,3);
 		/**
 		 * 5.保存案件附件信息
 		 */
@@ -328,6 +330,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
 		toCaseInfo.setIsResponsed("0");
 		toCaseInfo.setImportTime(new Date());
+		toCaseInfo.setSourceOfCooperation(caseMergeVo.getSourceOfCooperation());
 		toCaseInfo.setRequireProcessorId(getManagerUserId(caseMergeVo.getAgentOrgCode()));
 		return toCaseInfo;
 	}
