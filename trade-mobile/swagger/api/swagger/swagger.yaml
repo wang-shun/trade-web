@@ -572,8 +572,52 @@ paths:
               # a pointer to a definition
               $ref: "#/definitions/subPricingSuccessResponse"
               
+  /test/testInterface:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 测试接口
+      # used as the method name of the controller
+      operationId: testRsponse
+      parameters:
+        - name: userId
+          in: formData 
+          description:  用户id
+          required: true
+          type: string
+
+        - name: username
+          in: formData
+          description: 用户名
+          required: true
+          type: string
+
+        - name: realName
+          in: formData
+          description: 真实姓名
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/testInterfaceResponse"
+              
 # complex objects have schema definitions
 definitions:
+  testInterfaceResponse:
+	required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
   user:
     type: object
     properties:
