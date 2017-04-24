@@ -76,5 +76,5 @@ public interface ToMortgageMapper {
      * @return
      */
 
-	ToMortgage findToMortgageByCaseCodeAndDisTime(String caseCode);
+	ToMortgage findToMortgageByCaseCodeAndDisTime(Map<String,Object> map);
 }
