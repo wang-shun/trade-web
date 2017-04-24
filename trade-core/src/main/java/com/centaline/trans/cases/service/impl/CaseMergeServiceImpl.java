@@ -19,6 +19,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.attachment.repository.ToAttachmentMapper;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.CaseMergeService;
@@ -32,7 +33,7 @@ import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
-
+import com.centaline.trans.eloan.repository.ToRcAttachmentMapper;
 import com.centaline.trans.team.entity.TsTeamScopeTarget;
 import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.utils.DateUtil;
@@ -59,6 +60,9 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	
+	@Autowired
+	private ToAttachmentMapper toAttachmentMapper; 
 
 	@Override
 	public void saveCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo,String caseCode) {
@@ -249,6 +253,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	public String saveWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo)throws Exception{
 		
 		if(null == caseMergeVo){ throw new BusinessException("新建外单案件信息为空！");	  }	
+		if(null == caseMergeVo.getDistCode()){ throw new BusinessException("新建外单案件没有上传附件！");	  }	
 		
 		String caseCode=getNewCaseCode();  /**调用caseCode 的本地的方法**/
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -285,6 +290,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		/**
 		 * 5.保存案件附件信息
 		 */
+		toAttachmentMapper.updateToAttachmentForCaseCodeByCaseCode(caseMergeVo.getDistCode().toString(), caseCode);
 		
 		if(caseMergeVo.getAgentOrgId() != null && !"".equals(caseMergeVo.getAgentOrgId())){				
 			map.put("caseCode", caseCode);

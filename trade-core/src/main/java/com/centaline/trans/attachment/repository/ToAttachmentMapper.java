@@ -2,6 +2,8 @@ package com.centaline.trans.attachment.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.centaline.trans.attachment.entity.ToAttachment;
 import com.centaline.trans.common.MyBatisRepository;
 
@@ -41,6 +43,14 @@ public interface ToAttachmentMapper {
 	int updateToAttachmentByCaseCode(String caseCode);
 	
 	int updateAvaliableAttachmentByProperty(ToAttachment record);
+	/**
+	 * 更新附件casecode
+	 * @author hejf10
+	 * @param caseCode
+	 * @param newCaseCod
+	 * @return
+	 */
+	int updateToAttachmentForCaseCodeByCaseCode(@Param("caseCode")String caseCode,@Param("newCaseCode")String newCaseCod);
 	
 	
 }

@@ -23,6 +23,7 @@
 
 <body>
 <input type="hidden" id="ctx" value="${ctx}" />
+<input type="hidden" id="caseCode" value="${caseCode}" />
 <div class="wrapper wrapper-content animated fadeInUp">
     <div class="ibox-content" id="reportFive">
         <form  action="${ctx}/caseMerge/saveWdCaseInfo/${flag}"  method="post"  id="saveCaseInfo">
@@ -36,6 +37,7 @@
                         	房屋地址
                     </label>
                     <input type="text" placeholder="请输入房屋地址"  name="propertyAddr"  id="propertyAddr" class="select_control home-adress">
+                    <input type="hidden"   name="distCode"  id="distCode" class="select_control home-adress" value="${caseCode}" >
                 </div>
             </div>
             <div class="line">
@@ -138,15 +140,25 @@
                 </div>
             </div>
             <div class="line">
-                <div class="form_content">
-                    <label class="control-label sign_left_small pull-left file-mt-label">上传附件</label> 
-                    <div class="add-file"></div>
+                <div>
+                     <div class="ibox-title" style="height: auto;border:0;padding-left:0;" id="aboutInfo">
+						<c:choose>
+							<c:when test="${accesoryList!=null}">
+								<label class="control-label sign_left_small">上传附件</label>
+								<div class="table-box" id="addWdCaseContract" style="margin-left: 127px;margin-top: -27px;"></div>
+							</c:when>
+							<c:otherwise>
+								<label class="control-label sign_left_small pull-left">上传附件</label>
+								<p style=" float: left;  margin-left: 5px; font-weight: bold; ">无需上传备件</p>
+							</c:otherwise>
+						</c:choose>
+					</div>
                 </div>
             </div>
         </div>
         <div class="text-center mt40 mb30">
             <button type="submit" class="btn btn-success mr5" id="newCaseInfoSubmit">创建</button>
-            <button type="btn" class="btn btn-grey" data-toggle="modal" data-target="#myModal">清空</button>
+            <button type="reset" id="loanLostCleanButton" class="btn btn-grey">清&nbsp;&nbsp;空</button>
         </div>
          </form>
     </div>
@@ -163,6 +175,25 @@
     });
     $btn_spans.eq(3).click(function() {
         $else.toggle();
+    });
+</script>
+</content>
+<content tag="local_require">
+<script>
+  	/**
+  	* 添加附件
+  	*/
+  	var fileUpload;
+    require(['main'], function() {
+    	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+    		fileUpload = aistFileUpload;
+    		
+    		fileUpload.init({
+	    		caseCode : $('#caseCode').val(),
+	    		partCode : "AddWdCase",
+	    		fileUploadContainer : "addWdCaseContract"
+	    	}); 
+	    });
     });
 </script>
 </content>

@@ -56,6 +56,12 @@ function getDel(k){
     $(k).parents('.line').remove();
 }
 
+/*$("#loanLostCleanButton").click(function(){
+	window.wxc.confirm("确定清空所有信息？",{"wxcOk":function(){
+		
+	}});
+});*/
+
 //案件经纪人
 $('#newCaseAgent').click(function() {	
 	addCaseFindAgent();
@@ -200,6 +206,7 @@ function getParams() {
 $("#caseInfoClean").click(function(){
 	$("#myModal").show();	
 });
+
 $("#newCaseInfoCancel").click(function(){
 	$("#myModal").hide();	
 });

@@ -2,6 +2,7 @@ package com.centaline.trans.cases.web;
 
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.CaseMergeService;
@@ -91,6 +93,8 @@ public class CaseMergeController {
 	PropertyUtilsService propertyUtilsService;
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	@Autowired
+	private ToAccesoryListService toAccesoryListService;
 	
 	
 	/**
@@ -380,8 +384,12 @@ public class CaseMergeController {
 	 * @return
 	 */
 	@RequestMapping(value="addWdCase")
-	public String addWdCase(Model model, ServletRequest request){
+	public String addWdCase(Model model, HttpServletRequest request) throws Exception{
 		model.addAttribute("flag","add");
+		toAccesoryListService.getAccesoryList(request, "AddWdCase");
+		
+		model.addAttribute("caseCode",getRandom());
+		
 		return "case/addWdCase";
 	}
 	/**
@@ -398,6 +406,7 @@ public class CaseMergeController {
 	public String saveWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo,@PathVariable String keyFlag) throws Exception{
 		try{
 			String caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			
 			if(!"".equals(keyFlag) && null != keyFlag){
 				if("case".equals(keyFlag)){				
 					return "redirect:/case/tracking?caseCode="+caseCode;						
@@ -412,5 +421,15 @@ public class CaseMergeController {
 		}
 		return  "case/mycase_list2";
 	}
-	
+	/**
+	 * 返来日期时间的一个字符串
+	 * @author hejf10
+	 * @return
+	 */
+	public String getRandom(){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");  
+		java.util.Date date=new java.util.Date();  
+		String str=sdf.format(date);  
+		return str;
+	}
 }
