@@ -67,11 +67,11 @@
 					AND EXISTS (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE = m.CASE_CODE and c.LOAN_REQ=1)
 				
 				<if test="flag == 'noAccept'">
-					AND (m.LOANER_STATUS = '' or m.LOANER_STATUS IS NULL)
+					AND m.LOANER_STATUS = 'ACCEPTING'
 				</if>
 				
 				<if test="flag == 'exceptNoAccept'">
-					AND (m.LOANER_STATUS != '' and m.LOANER_STATUS IS NOT NULL)
+					AND m.LOANER_STATUS != 'ACCEPTING'
 				</if>
 				
 				<ifNotNull q_text>
@@ -84,8 +84,7 @@
 			<groupSql>
 			</groupSql>
 			<orderBySql>
-			  ORDER BY m.SEND_TIME
-			   DESC
+			  ORDER BY m.SEND_TIME DESC
 			</orderBySql>
 		</searchSql>
 		<grid>

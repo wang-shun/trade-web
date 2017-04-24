@@ -32,6 +32,49 @@
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
 	
+	<query id="eLoanOperateList">
+	    <searchCondition>      
+        </searchCondition> 
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+							el.PKID AS pkid,
+							ISNULL(el.CUST_NAME,'') AS customerName,
+							ISNULL(el.APPLY_AMOUNT,'0.00') AS mortTotalAmount,
+							ISNULL(CONVERT(varchar(100), el.APPLY_TIME, 23),'') as applyTime,
+							ISNULL(p.PROPERTY_ADDR,'') AS propertyAddress,
+							CASE c.SRV_CODE WHEN 'ACCEPT' THEN '接单' WHEN 'REJECT' THEN '打回' WHEN 'BANKREJECT' THEN '打回' WHEN 'CANCEL' THEN '撤销' END AS srvName,
+							c.CREATE_TIME AS operateTime,
+							c.COMMENT AS comment,
+							(SELECT REAL_NAME FROM sctrans.SYS_USER WHERE ID = c.CREATE_BY) AS createBy
+					FROM sctrans.T_TO_ELOAN_LOANER el
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = el.CASE_CODE
+					LEFT JOIN sctrans.T_TO_CASE_COMMENT c ON c.BIZ_CODE = convert(varchar(20),el.PKID) AND (c.SRV_CODE = 'ACCEPT' OR c.SRV_CODE = 'REJECT')
+					where el.LOANER_ID = #loanerId#
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			  	  order by el.PKID desc
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column  name="pkid" title="按揭接收信息主键id" index=""  default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="customerName" title="客户姓名" index=""  default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="mortTotalAmount"   title="贷款总额"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="applyTime"   title="申请时间"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="propertyAddress"   title="产证地址"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="srvName"   title="服务项目名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="operateTime"   title="操作时间"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="comment"   title="备注"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="createBy"   title="创建人姓名"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
 	<query id="queryELoanTradeProcess">
 		<searchCondition>
 		</searchCondition>
@@ -184,11 +227,11 @@
 			
 					
 					<if test="flag == 'noAccept'">
-						AND (ec.LOANER_STATUS = '' or ec.LOANER_STATUS IS NULL)
+						AND m.LOANER_STATUS = 'ACCEPTING'
 					</if>
 					
 					<if test="flag == 'exceptNoAccept'">
-						AND (ec.LOANER_STATUS != '' and ec.LOANER_STATUS IS NOT NULL)
+						AND m.LOANER_STATUS != 'ACCEPTING'
 					</if>
 					
 					<ifNotNull condition>

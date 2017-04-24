@@ -48,10 +48,21 @@ public class MortgageListController {
 	@Autowired
 	private UamSessionService uamSessionService;
 
+	/**
+	 * 按揭案件操作记录列表
+	 * 
+	 * @param page
+	 *            当前页
+	 * @param pageSize
+	 *            每页记录数
+	 * @param sidx
+	 * @param sord
+	 * @return 按揭案件操作记录列表
+	 */
 	@RequestMapping(value = "operateList")
 	@ResponseBody
 	public String operateList(Integer page, Integer pageSize, String sidx,
-			String sord, String q_text) {
+			String sord) {
 		JSONObject result = new JSONObject();
 
 		// 设置快速查询id和分页参数
@@ -66,8 +77,8 @@ public class MortgageListController {
 
 		// 设置用户id
 		SessionUser sessionUser = uamSessionService.getSessionUser();
-		paramter.put("userid", sessionUser.getId());
-		// paramter.put("userid", "ff80808158bd58c10158bda37f100020");
+		// paramter.put("userid", sessionUser.getId());
+		paramter.put("userid", "ff80808158bd58c10158bda37f100020");
 
 		gp.putAll(paramter);
 		querysParseService.reloadFile();
