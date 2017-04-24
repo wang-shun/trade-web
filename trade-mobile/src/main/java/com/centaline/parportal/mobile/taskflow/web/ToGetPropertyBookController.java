@@ -31,12 +31,7 @@ public class ToGetPropertyBookController {
 
     @Autowired
     private ToGetPropertyBookService toGetPropertyBookService;
-    @Autowired(required = true)
-    private ToCaseService toCaseService;
-    @Autowired
-    private WorkFlowManager workFlowManager;
-    @Autowired
-    private TgGuestInfoService tgGuestInfoService;
+
 
     @RequestMapping(value = "process")
     @ResponseBody
@@ -44,6 +39,8 @@ public class ToGetPropertyBookController {
         String taskId = request.getParameter("taskId");
         String caseCode = request.getParameter("caseCode");
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("propertyBook", toGetPropertyBookService.queryToGetPropertyBook(caseCode));
+        jsonObject.put("partCode", "HouseBookGet");
         jsonObject.put("caseCode", caseCode);
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
@@ -55,24 +52,7 @@ public class ToGetPropertyBookController {
     public Object submitToGetPropertyBook(ToGetPropertyBook toGetPropertyBook, String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
-            Boolean saveFlag =  toGetPropertyBookService.saveToGetPropertyBook(toGetPropertyBook);
-            if(saveFlag){
-                List<RestVariable> variables = new ArrayList<RestVariable>();
-                ToCase toCase = toCaseService.findToCaseByCaseCode(toGetPropertyBook.getCaseCode());
-                workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(),toGetPropertyBook.getCaseCode());
-                toCase.setStatus("30001005");	/* 修改案件状态 */
-                toCaseService.updateByCaseCodeSelective(toCase);
-                int result = tgGuestInfoService.sendMsgHistory(toGetPropertyBook.getCaseCode(),toGetPropertyBook.getPartCode());
-                if (result >0) {
-                    response.setMessage("领证保存成功");
-                }else {
-                    response.setMessage("短信发送失败, 请您线下手工再次发送！");
-                }
-                response.setSuccess(true);
-            } else {
-                response.setSuccess(false);
-                response.setMessage("保存领证出错");
-            }
+            response = toGetPropertyBookService.saveAndSubmitPropertyBook(toGetPropertyBook,taskId,processInstanceId);
         }catch (Exception e){
             e.printStackTrace();
             logger.error(e.getMessage());
