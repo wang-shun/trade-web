@@ -417,7 +417,7 @@ public class CaseMergeController {
 				}
 			}
 		}catch(BusinessException e){
-			throw new BusinessException("自录案件信息保存异常！");
+			throw new BusinessException("外单案件信息保存异常！");
 		}
 		return  "case/mycase_list2";
 	}
