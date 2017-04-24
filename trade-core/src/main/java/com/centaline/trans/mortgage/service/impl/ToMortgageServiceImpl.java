@@ -860,6 +860,14 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 					mortgageVo.getStateInBank());
 		}
 
+		// 设置案件跟进信息
+		ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(),
+				mortgageVo.getBizCode(), mortgageVo.getCaseCode(), "TRACK",
+				mortgageVo.getStateInBank(), mortgageVo.getComment());
+
+		// 保存案件跟进信息
+		toCaseCommentService.insertToCaseComment(toCaseComment);
+
 		return true;
 	}
 
@@ -878,15 +886,6 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 						mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
 						mortgageVo.getStateInBank());
 			}
-
-			// 设置案件跟进信息
-			ToCaseComment toCaseComment = setToCaseComment(
-					mortgageVo.getUser(), mortgageVo.getBizCode(),
-					mortgageVo.getCaseCode(), "TRACK",
-					mortgageVo.getStateInBank(), mortgageVo.getComment());
-
-			// 保存案件跟进信息
-			toCaseCommentService.insertToCaseComment(toCaseComment);
 		}
 		// 银行审核拒绝
 		else if ("false".equals(mortgageVo.getIsPass())) {
@@ -896,6 +895,14 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 					mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
 					mortgageVo.getStateInBank());
 		}
+
+		// 设置案件跟进信息
+		ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(),
+				mortgageVo.getBizCode(), mortgageVo.getCaseCode(), "TRACK",
+				mortgageVo.getStateInBank(), mortgageVo.getComment());
+
+		// 保存案件跟进信息
+		toCaseCommentService.insertToCaseComment(toCaseComment);
 
 		return true;
 	}

@@ -26,6 +26,8 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.comment.entity.ToCaseComment;
+import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.LoanerStatusEnum;
@@ -106,6 +108,9 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 
 	@Autowired
 	private UamBasedataService uamBasedataService;
+
+	@Autowired
+	private ToCaseCommentService toCaseCommentService;
 
 	/*
 	 * @author:zhuody
@@ -616,7 +621,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	 */
 	@Override
 	public void loanerProcessCancle(String caseCode, String taskId,
-			String processInstanceId, String isMainLoanBankProcess) {
+			String processInstanceId, String isMainLoanBankProcess, String loanerPkid) {
 
 		if ((null == caseCode || "".equals(caseCode))
 				|| (null == taskId || "".equals(taskId))
@@ -648,6 +653,24 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			toMortLoaner.setCancleTime(new Date());
 			toMortLoaner.setLoanerStatus(LoanerStatusEnum.CANCELED.getCode()); // 取消派单
 			toMortLoanerService.updateByPrimaryKeySelective(toMortLoaner);
+
+			// 记录一下取消操作记录
+			ToCaseComment toCaseComment = new ToCaseComment();
+			toCaseComment.setBizCode(loanerPkid);
+			toCaseComment.setCaseCode(caseCode);
+			toCaseComment.setType("TRACK");
+			toCaseComment.setSource("MORT");
+			toCaseComment.setSrvCode("CANCEL");
+			toCaseComment.setComment("");
+			toCaseComment.setCreateTime(new Date());
+
+			if (user != null) {
+				toCaseComment.setCreateBy(user.getId());
+				toCaseComment.setCreatorOrgId(user.getServiceDepId());
+			}
+
+			// 保存案件操作信息
+			toCaseCommentService.insertToCaseComment(toCaseComment);
 
 		} catch (BusinessException e) {
 			throw new BusinessException("交易顾问派单流程结束异常！");
