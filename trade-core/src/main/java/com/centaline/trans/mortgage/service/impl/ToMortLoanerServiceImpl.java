@@ -214,8 +214,7 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 			throw new BusinessException("查询信贷员派单信息参数异常");
 		ToMortLoaner toMortLoanerProcess = new ToMortLoaner();
 		try {
-			toMortLoanerProcess = toMortLoanerMapper
-					.findToMortLoaner(toMortLoaner);
+			toMortLoanerProcess = toMortLoanerMapper.findToMortLoaner(toMortLoaner);
 
 		} catch (BusinessException e) {
 			throw new BusinessException("查询信贷员派单信息异常");

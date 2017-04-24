@@ -2029,29 +2029,24 @@ function startTmpBankWorkFlow(){
 
 //启动 信贷员审核流程
 function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
-	
-	var loanerUserId =  $("#loanerId").val();		//所选信贷员的userId
-	var loanerOrgId = $("#loanerOrgId").val();		//所选信贷员的OrgId
-	var bankOrgCode = $("#finOrgCode").val();		//所选银行分行的OrgCode	
-	var loanerOrgCode = $("#loanerOrgCode").val();	
-	
-/*	var isTmpBank =  $("input[name='isTmpBank']:checked").val();
+	var loanerUserId =  "";		//所选信贷员的userId
+	var loanerOrgId  =  "";		//所选信贷员的OrgId
+	var bankOrgCode  =  "";		//所选银行分行的OrgCode	
+	var loanerOrgCode = "";	
+	var  formId = "";
 	if(isMainLoanBank == 1){
-		if(isTmpBank == 1){
-			loanerUserId = $("#loanerId1").val()
-			loanerOrgId = $("#loanerOrgId1").val();
-			loanerOrgCode = $("#loanerOrgCode1").val();
-		}else if(isTmpBank == 0){
-			loanerUserId = $("#loanerId").val()
-			loanerOrgId = $("#loanerOrgId").val();
-			loanerOrgCode = $("#loanerOrgCode").val();
-		}
-	}else if(isMainLoanBank == 0){
-		loanerUserId = $("#loanerId").val()
-		loanerOrgId = $("#loanerOrgId").val();
-		loanerOrgCode = $("#loanerOrgCode").val();
-	}*/
-	
+		formId = $("#mortgageForm");
+		loanerUserId = formId.find("input[name='loanerId']").val();
+		loanerOrgId = formId.find("input[name='loanerOrgId']").val();
+		bankOrgCode = formId.find("select[name='finOrgCode']").val();  
+		loanerOrgCode = formId.find("input[name='loanerOrgCode']").val();
+	}else if (isMainLoanBank == 0){
+		formId = $("#mortgageForm1");
+		loanerUserId = formId.find("input[name='loanerId']").val();
+		loanerOrgId = formId.find("input[name='loanerOrgId']").val();
+		bankOrgCode = formId.find("select[name='finOrgCode']").val();  
+		loanerOrgCode = formId.find("input[name='loanerOrgCode']").val();
+	}
 	
 	var mor = getFormParams();
 	
@@ -2078,23 +2073,21 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
     			$("#dispachTime1").val(data.content);
     			$("#dispachTimeShow1").show();
     			
-    			//派单成功之后 银行信息、信贷员信息不给修改
-    			var form = $("#mortgageForm");
-    			form.find("select[name='bank_type']").attr("disabled",true);
-    			form.find("select[name='finOrgCode']").attr("disabled",true);
-    			form.find("input[name='loanerName1']").attr("disabled",true);
-    			form.find("#loanerNameImage").attr("disabled",true);
-    			form.find("#loanerNameImage1").attr("disabled",true);    			
+    			//派单成功之后 银行信息、信贷员信息不给修改    		
+    			formId.find("select[name='bank_type']").attr("disabled",true);
+    			formId.find("select[name='finOrgCode']").attr("disabled",true);
+    			formId.find("input[name='loanerName1']").attr("disabled",true);
+    			formId.find("#loanerNameImage").attr("disabled",true);
+    			formId.find("#loanerNameImage1").attr("disabled",true);    			
     			
     		}else if(isMainLoanBank == 0){
     			$("#dispachTime0").val(data.content);
-    			$("#dispachTimeShow0").show();
-    			
-    			var form = $("#mortgageForm1");
-    			form.find("select[name='bank_type']").attr("disabled",true);
-    			form.find("select[name='finOrgCode']").attr("disabled",true);
-    			form.find("input[name='loanerName']").attr("disabled",true);
-    			form.find("#loanerNameImage").attr("disabled",true);
+    			$("#dispachTimeShow0").show();    			
+    		
+    			formId.find("select[name='bank_type']").attr("disabled",true);
+    			formId.find("select[name='finOrgCode']").attr("disabled",true);
+    			formId.find("input[name='loanerName']").attr("disabled",true);
+    			formId.find("#loanerNameImage").attr("disabled",true);
     		}
     		window.wxc.success(data.message);
     	}
