@@ -591,7 +591,55 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/subPricingSuccessResponse"
-              
+  /task/houseBookGet/submitToGetPropertyBook:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交领证接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew16
+      parameters:
+        - name: partCode
+          in: query
+          description:  环节code,本接口为'HouseBookGet'
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+
+        - name: pkid
+          in: query
+          description: 领证主键
+          required: true
+          type: string
+          
+        - name: realPropertyGetTime
+          in: query
+          description: 实际领证时间
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"               
 # complex objects have schema definitions
 definitions:
   user:
