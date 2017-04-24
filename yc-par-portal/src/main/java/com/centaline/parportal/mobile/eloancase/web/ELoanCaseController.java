@@ -54,6 +54,55 @@ public class ELoanCaseController {
 	private final static String queryELoanTradeProcess = "queryELoanTradeProcess";
 
 	/**
+	 * E+案件操作记录列表
+	 * 
+	 * @param page
+	 *            当前页
+	 * @param pageSize
+	 *            每页记录数
+	 * @param sidx
+	 * @param sord
+	 * @return E+案件操作记录列表
+	 */
+	@RequestMapping(value = "/operateList")
+	@ResponseBody
+	public String operateList(Integer page, Integer pageSize, String sidx,
+			String sord) {
+		JSONObject result = new JSONObject();
+		JQGridParam gp = new JQGridParam();
+		gp.setPagination(true);
+		gp.setPage(page);
+		gp.setRows(pageSize);
+		gp.setQueryId("eLoanOperateList");
+		gp.setSidx(sidx);
+		gp.setSord(sord);
+		Map<String, Object> paramter = new HashMap<String, Object>();
+
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+		paramter.put("loanerId", sessionUser.getId());
+		// paramter.put("loanerId", "8a8493d45921d36901593e4adc95007b");
+
+		gp.putAll(paramter);
+		querysParseService.reloadFile();
+
+		Page<Map<String, Object>> contentMapList = quickGridService
+				.findPageForSqlServer(gp, sessionUser);
+
+		List<Map<String, Object>> contentList = contentMapList.getContent();
+
+		JSONArray content = new JSONArray();
+		for (int i = 0; i < contentList.size(); i++) {
+			Map<String, Object> mapObj = contentList.get(i);
+
+			content.add(JSONObject.toJSON(mapObj));
+		}
+
+		result.put("rows", content);
+
+		return result.toJSONString();
+	}
+
+	/**
 	 * 信息补充、补件
 	 * 
 	 * @param eLoanCode

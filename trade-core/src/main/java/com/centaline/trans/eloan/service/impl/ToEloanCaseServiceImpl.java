@@ -413,6 +413,14 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 					.getCode());
 		}
 
+		// 设置案件跟进信息
+		ToCaseComment toCaseComment = setToCaseComment(eLoanVo.getUser(),
+				eLoanVo.getCaseCode(), eLoanVo.geteLoanCode(), "TRACK",
+				eLoanVo.getStateInBank(), eLoanVo.getComment());
+
+		// 保存案件跟进信息
+		toCaseCommentService.insertToCaseComment(toCaseComment);
+
 		// 更新E+案件信息
 		toEloanCaseMapper.updateEloanCaseByEloanCode(toEloanCase);
 
