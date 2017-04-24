@@ -595,6 +595,7 @@ paths:
         - name: realName
           in: formData
           description: 真实姓名
+          type: string
       responses:
         "200":
           description: Success
@@ -629,7 +630,7 @@ paths:
 # complex objects have schema definitions
 definitions:
   testInterfaceResponse:
-	required:
+    required:
       - isSuccess
     properties:
       isSuccess:
