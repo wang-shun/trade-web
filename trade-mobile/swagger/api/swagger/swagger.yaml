@@ -205,7 +205,7 @@ paths:
             description: Success
             schema:
               # a pointer to a definition
-              $ref: "#/definitions/getPricingSuccessResponse"
+              $ref: "#/definitions/getTaxReviewResponse"
   /task/purchaseLimit/process:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
@@ -264,6 +264,26 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/getPSFApplyResponse"
+  /task/houseBookGet/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 领证任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew15
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getHouseBookResponse"
+              
   /task/mortgage/submitPsfApply:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
@@ -572,75 +592,8 @@ paths:
               # a pointer to a definition
               $ref: "#/definitions/subPricingSuccessResponse"
               
-  /test/testInterface:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: defult_response
-    post:
-      description: 测试接口
-      # used as the method name of the controller
-      operationId: testRsponse
-      parameters:
-        - name: userId
-          in: formData 
-          description:  用户id
-          required: true
-          type: string
-
-        - name: username
-          in: formData
-          description: 用户名
-          required: true
-          type: string
-
-        - name: realName
-          in: formData
-          description: 真实姓名
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/testInterfaceResponse"
-            
-  /baseData/getDictListByDictType:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: defult_response
-    get:
-      description: 根据DictType获得数据字典
-      # used as the method name of the controller
-      operationId: dictListResponse
-      parameters:
-        - name: token
-          in: query
-          description:  认证token
-          required: true
-          type: string
-        - name: dictType
-          in: query
-          description:  数据字典类型
-          required: true
-          type: string
-      responses:
-         "200":
-            description: Success
-            schema:
-              # a pointer to a definition
-              $ref: "#/definitions/dictListByDictTypeResponse"
 # complex objects have schema definitions
 definitions:
-  testInterfaceResponse:
-    required:
-      - isSuccess
-    properties:
-      isSuccess:
-        type: boolean
-      msg:
-        type: string
-      empId:
-        type: string
-      token:
-        type: string
   user:
     type: object
     properties:
@@ -731,7 +684,7 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/contactUser'
-  subPricingSuccessResponse:
+  getLoanlostApproveResponse:
     required:
       - isSuccess
     properties:
@@ -743,8 +696,7 @@ definitions:
         type: string
       token:
         type: string
-      content:
-        $ref: "#/definitions/subpricingContent"
+#核价详情Start
   getPricingSuccessResponse:
     required:
       - isSuccess
@@ -759,68 +711,6 @@ definitions:
         type: string
       content:
         $ref: "#/definitions/getpricingContent"
-  getPSFApplyResponse:
-    required:
-      - isSuccess
-    properties:
-      isSuccess:
-        type: boolean
-      msg:
-        type: string
-      empId:
-        type: string
-      token:
-        type: string
-      content:
-        $ref: "#/definitions/getPSFApplyContent"      
-  getHouseTransferResponse:
-    required:
-      - isSuccess
-    properties:
-      isSuccess:
-        type: boolean
-      msg:
-        type: string
-      empId:
-        type: string
-      token:
-        type: string
-      content:
-        $ref: "#/definitions/getHouseTransferContent"
-        
-  getPurchaseLimitResponse:
-    required:
-      - isSuccess
-    properties:
-      isSuccess:
-        type: boolean
-      msg:
-        type: string
-      empId:
-        type: string
-      token:
-        type: string
-      content:
-        $ref: "#/definitions/getPurchaseLimitContent"        
-        
-  subpricingContent:
-    properties:
-      success:
-        type: boolean
-      message:
-        type: string
-  getLoanlostApproveResponse:
-    required:
-      - isSuccess
-    properties:
-      isSuccess:
-        type: boolean
-      msg:
-        type: string
-      empId:
-        type: string
-      token:
-        type: string
   getpricingContent:
     properties:
       success:
@@ -843,8 +733,22 @@ definitions:
       houseProperty:
         type: string  
         description: 房屋性质（普通：0;非普通：1;非居：2）
-        
-        
+#核价详情END
+#查限购详情START
+  getPurchaseLimitResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getPurchaseLimitContent"
   getPurchaseLimitContent:
     properties:
       success:
@@ -861,7 +765,23 @@ definitions:
       realPlsTime:
         type: string  
         description: 查限购的时间
-        
+#查限购详情END
+
+#获取纯公积金申请START 
+  getPSFApplyResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getPSFApplyContent"
   getPSFApplyContent:
     properties:
       taskId:
@@ -878,7 +798,83 @@ definitions:
         description: 公积金申请时间（提交时用）
       ifRequireReconsider:
         type: string
-        description: 是否需要复议（提交时用）
+        description: 是否需要复议（提交时用）        
+#获取纯公积金申请end
+#审税返回值Start
+  getTaxReviewResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getTaxReviewContent"
+  getTaxReviewContent:
+    properties:
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      partCode:
+        type: string  
+        description: "TaxReview"
+      caseCode:
+        type: string
+        description: 案件编号
+      taxTime:
+        type: string
+        description: 审税时间
+      isUniqueHome:
+        type: string
+        description: 是否是唯一住房(是：1;否：0)     
+      holdYear:
+        type: string
+        description: 购房年数（满二：0;满五：1;两年内：2）
+#审税返回值end   
+#提交核价Start        
+  subPricingSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/subpricingContent"
+  subpricingContent:
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string 
+#提交核价END
+##过户的返回值START       
+  getHouseTransferResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getHouseTransferContent"
+        
   getHouseTransferContent:
     properties:
       taskId:
@@ -897,13 +893,100 @@ definitions:
         type: string
         description: 是否有贷款需求      
       toMortgage:
-        type: string
-        description: 贷款相关字段 
+        $ref: "#/definitions/getToMortgageContent"
       houseTransfer:
+        $ref: "#/definitions/getHouseHouseTransferContent"
+      attachments:
+        $ref: "#/definitions/getHouseTransferattachMentsContent"
+      accesoryList:
+        $ref: "#/definitions/getHouseTransferAccesoryListContent"
+  getHouseHouseTransferContent:
+    properties:
+      pkid:
         type: string
-        description: 过户交易相关字段
+        description: 过户交易主键
+      realHtTime:
+        type: string
+        description: 实际过户时间
+      houseHodingTax:
+        type: string
+        description: 房产税
+      personalIncomeTax:
+        type: string
+        description: 个人所得税
+      businessTax:
+        type: string
+        description: 上家营业税
+      contractTax:
+        type: string
+        description: 下家契税
+      landIncrementTax:
+        type: string
+        description: 土地增值税
       
-  dictListByDictTypeResponse:        
+  getHouseTransferattachMentsContent:
+    properties:
+      pkid:
+        type: string
+        description: 上传附件的主键
+      preFileAdress:
+        type: string
+        description: 文件id
+      preFileCode:
+        type: string
+        description: 备件编码
+      preFileName:
+        type: string
+        description: 备件名称
+      partCode:
+        type: string
+        description: Guohu
+      fileName:
+        type: string
+        description: 文件名
+        
+  getHouseTransferAccesoryListContent:
+    properties:
+      pkid:
+        type: string
+        description: 备件配置的主键
+      partCode:
+        type: string
+        description: Guohu
+      accessoryName:
+        type: string
+        description: 配置项名称
+      accessoryCode:
+        type: string
+        description: 备件编码
+  
+  getToMortgageContent:
+    properties:
+      mortType:
+        type: string
+        description: 贷款类型（（纯商贷:30016001，组合贷:30016002，公积金:30016003））
+      mortTotalAmount:
+        type: string
+        description: 贷款总额
+      comAmount:
+        type: string
+        description: 商贷金额
+      comYear:
+        type: string
+        description: 商贷年限 
+      comDiscount:
+        type: string
+        description: 商贷折扣
+      prfAmount:
+        type: string
+        description: 公积金贷款金额
+      prfYear:
+        type: string
+        description: 公积金贷款年限  
+        
+##过户的返回值END          
+##领证返回值START
+  getHouseBookResponse:
     required:
       - isSuccess
     properties:
@@ -916,34 +999,39 @@ definitions:
       token:
         type: string
       content:
-        $ref: "#/definitions/dicts"  
-  dicts:
+        $ref: "#/definitions/getHouseBookContent"
+  getHouseBookContent:
     properties:
-      dicts:
-        type: array
-        items:
-          $ref: '#/definitions/dict'
-  dict:
+      caseCode:
+        type: string
+        description: 案件code
+      taskId:
+        type: string
+        description: 任务id
+      processInstanceId:
+        type: string
+        description: 流程id
+      propertyBook:
+        $ref: "#/definitions/getPropertyBookContent"
+  getPropertyBookContent:
     properties:
-      code:
+      pkid:
         type: string
-        description: 字典编码
-      name:
+        description: 领证的主键
+      partCode:
         type: string
-        description: 字典名字
-      type:
+        description: "HouseBookGet"
+      realPropertyGetTime:
         type: string
-        description: 字典类型
-      tag:
-        type: string
-        description: 字典标签
-      isDefault:
-        type: string
-        description: 是否为默认值
-      orderby:
-        type: string 
-        description: 排序字段
-  
+        description: 实际领证时间
+##领证返回值END     
+        
+        
+        
+      
+        
+        
+        
         
         
         
