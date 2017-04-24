@@ -95,8 +95,7 @@ public class LoanerProcessController {
 		}
 
 		try {
-			response = loanerProcessService
-					.newStartLoanerOrderWorkFlow(toMortgage);
+			response = loanerProcessService.newStartLoanerOrderWorkFlow(toMortgage);
 		} catch (BusinessException e) {
 			throw new BusinessException("信贷员流程启动异常！");
 		}

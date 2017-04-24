@@ -814,8 +814,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			ToMortLoaner toMortLoaner = new ToMortLoaner();
 			toMortLoaner.setCaseCode(caseCode);
 			toMortLoaner.setIsMainLoanBankProcess(isMainLoanBank);
-			ToMortLoaner toMortLoanerProcess = toMortLoanerService
-					.findToMortLoaner(toMortLoaner);
+			ToMortLoaner toMortLoanerProcess = toMortLoanerService.findToMortLoaner(toMortLoaner);
 
 			if (null == toMortLoanerProcess) {
 				response.setSuccess(true);

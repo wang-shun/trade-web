@@ -1857,7 +1857,7 @@ public class CaseDetailController {
 		List<String> oldSrvs = new ArrayList<String>();
 		oldSrvs.addAll(srvsd);
 
-		// 删除项
+		// 删除项  相同的服务项则不变更
 		for (String s : prItems) {
 			if (srvsd.contains(s)) {
 				srvsd.remove(s);
