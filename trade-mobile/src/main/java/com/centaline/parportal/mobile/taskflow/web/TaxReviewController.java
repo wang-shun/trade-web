@@ -31,12 +31,7 @@ public class TaxReviewController {
 
     @Autowired
     private ToTaxService toTaxService;
-    @Autowired(required = true)
-    private ToCaseService toCaseService;
-    @Autowired
-    private WorkFlowManager workFlowManager;
-    @Autowired
-    private TgGuestInfoService tgGuestInfoService;
+
 
     @RequestMapping(value = "process")
     @ResponseBody
@@ -56,24 +51,9 @@ public class TaxReviewController {
     @RequestMapping(value = "submitTaxReview", method = RequestMethod.POST)
     @ResponseBody
     public Object submitTaxReview(ToTax toTax,String taskId, String processInstanceId, String partCode) {
-        AjaxResponse<?> response = new AjaxResponse<>();
+        AjaxResponse response = new AjaxResponse();
         try {
-            Boolean saveFlag = toTaxService.saveToTax(toTax);
-            if(saveFlag){
-                List<RestVariable> variables = new ArrayList<RestVariable>();
-                ToCase toCase = toCaseService.findToCaseByCaseCode(toTax.getCaseCode());
-                workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(), toTax.getCaseCode());
-                int result=tgGuestInfoService.sendMsgHistory(toTax.getCaseCode(), partCode);
-                if (result >0) {
-                    response.setMessage("审税保存成功");
-                }else {
-                    response.setMessage("短信发送失败, 请您线下手工再次发送！");
-                }
-                response.setSuccess(true);
-            } else {
-                response.setSuccess(false);
-                response.setMessage("保存审税出错");
-            }
+            response = toTaxService.saveAndSubmitTax(toTax,taskId,processInstanceId,partCode);
         }catch (Exception e){
             e.printStackTrace();
             logger.error(e.getMessage());

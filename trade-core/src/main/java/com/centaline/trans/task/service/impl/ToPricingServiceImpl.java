@@ -1,7 +1,15 @@
 package com.centaline.trans.task.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.aist.common.web.validate.AjaxResponse;
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +22,13 @@ public class ToPricingServiceImpl implements ToPricingService {
 
 	@Autowired
 	private ToPricingMapper toPricingMapper;
+
+	@Autowired(required = true)
+	private ToCaseService toCaseService;
+	@Autowired
+	private WorkFlowManager workFlowManager;
+	@Autowired
+	private TgGuestInfoService tgGuestInfoService;
 
 	@Override
 	public boolean saveToPricing(ToPricing toPricing) {
@@ -48,6 +63,28 @@ public class ToPricingServiceImpl implements ToPricingService {
 							: null);
 		}
 		return toPricing;
+	}
+
+	@Override
+	public AjaxResponse saveAndSubmitPricing(ToPricing toPricing, String taskId, String processInstanceId) {
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		Boolean saveFlag = saveToPricing(toPricing);
+		if(saveFlag){
+			List<RestVariable> variables = new ArrayList<RestVariable>();
+			ToCase toCase = toCaseService.findToCaseByCaseCode(toPricing.getCaseCode());
+			workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(), toPricing.getCaseCode());
+			int result = tgGuestInfoService.sendMsgHistory(toPricing.getCaseCode(), toPricing.getPartCode());
+			if (result >0) {
+				ajaxResponse.setMessage("核价保存成功");
+			}else {
+				ajaxResponse.setMessage("短信发送失败, 请您线下手工再次发送！");
+			}
+			ajaxResponse.setSuccess(true);
+		} else {
+			ajaxResponse.setSuccess(false);
+			ajaxResponse.setMessage("保存核价出错");
+		}
+		return ajaxResponse;
 	}
 
 }

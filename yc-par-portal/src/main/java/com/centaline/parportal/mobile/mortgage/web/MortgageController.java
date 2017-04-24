@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.parportal.exception.CheckParametersException;
+import com.centaline.trans.mortgage.service.ToMortLoanerService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.mortgage.vo.MortgageVo;
 
@@ -37,6 +38,9 @@ public class MortgageController {
 
 	@Autowired
 	private UamSessionService uamSessionService;
+
+	@Autowired
+	private ToMortLoanerService toMortLoanerService;
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -58,16 +62,15 @@ public class MortgageController {
 	 * @param comment
 	 *            备注
 	 * @return
-	 * @throws CheckParametersException
 	 */
 	@RequestMapping(value = "suppleInfo")
 	@ResponseBody
 	public String suppleInfo(String bizCode, String type, String stateInBank,
-			String caseCode, String comment) throws CheckParametersException {
+			String caseCode, String comment) {
 
 		if (bizCode == null || type == null || comment == null
 				|| stateInBank == null || caseCode == null) {
-			throw new CheckParametersException("请检查参数!");
+			throw new BusinessException("请检查参数!");
 		}
 
 		// 获取当前用户信息
@@ -105,18 +108,17 @@ public class MortgageController {
 	 * @param comment
 	 *            案件跟进备注
 	 * @return 返回true,操作成功;返回false,操作失败。
-	 * @throws CheckParametersException
 	 */
 	@RequestMapping(value = "track/accept")
 	@ResponseBody
 	public String accept(String bizCode, String isPass, String taskId,
 			String procInstanceId, String stateInBank, String caseCode,
-			String comment) throws CheckParametersException {
+			String comment) {
 
 		if (bizCode == null || isPass == null || taskId == null
 				|| procInstanceId == null || stateInBank == null
 				|| caseCode == null) {
-			throw new CheckParametersException("请检查参数!");
+			throw new BusinessException("请检查参数！");
 		}
 
 		// 获取当前用户信息
@@ -160,23 +162,23 @@ public class MortgageController {
 	 * @param comment
 	 *            案件跟进备注
 	 * @return 返回true,操作成功;返回false,操作失败。
-	 * @throws CheckParametersException
 	 */
 	@RequestMapping(value = "track/followUp")
 	@ResponseBody
 	public String followUp(String bizCode, String isPass, String taskId,
 			String procInstanceId, String stateInBank, String caseCode,
-			String comment) throws CheckParametersException {
+			String comment) {
 
 		if (bizCode == null || isPass == null || stateInBank == null
 				|| caseCode == null) {
-			throw new CheckParametersException("请检查参数!");
+			throw new BusinessException("请检查参数!");
 		}
 
 		if ("MORT_APPROVED".equals(stateInBank)
 				|| "BANKREJECT".equals(stateInBank)) {
-			if (taskId == null || procInstanceId == null) {
-				throw new CheckParametersException("请检查参数!");
+			if ((taskId == null || "".equals(taskId))
+					|| (procInstanceId == null || "".equals(procInstanceId))) {
+				throw new BusinessException("请检查参数!");
 			}
 		}
 
@@ -205,11 +207,10 @@ public class MortgageController {
 
 	@RequestMapping(value = "/{bizCode}")
 	@ResponseBody
-	public String mortgageCaseDetail(@PathVariable String bizCode)
-			throws CheckParametersException {
+	public String mortgageCaseDetail(@PathVariable String bizCode) {
 
 		if (bizCode == null) {
-			throw new CheckParametersException("请检查参数!");
+			throw new BusinessException("请检查参数!");
 		}
 
 		List<Map<String, Object>> respDetail = mortgageCaseInfoQuery(
