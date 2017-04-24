@@ -44,7 +44,7 @@ public interface LoanerProcessService {
      * @param caseCode
      * @return
      */
-	void loanerProcessCancle(String caseCode, String taskId,String processInstanceId,String isMainLoanBankProcess);
+	void loanerProcessCancle(String caseCode, String taskId,String processInstanceId,String isMainLoanBankProcess,String loanerPkid);
 	
 
     /**
