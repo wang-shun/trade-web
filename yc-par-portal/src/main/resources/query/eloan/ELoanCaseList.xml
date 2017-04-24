@@ -227,11 +227,11 @@
 			
 					
 					<if test="flag == 'noAccept'">
-						AND m.LOANER_STATUS = 'ACCEPTING'
+						AND ec.LOANER_STATUS = 'ACCEPTING'
 					</if>
 					
 					<if test="flag == 'exceptNoAccept'">
-						AND m.LOANER_STATUS != 'ACCEPTING'
+						AND ec.LOANER_STATUS != 'ACCEPTING'
 					</if>
 					
 					<ifNotNull condition>
