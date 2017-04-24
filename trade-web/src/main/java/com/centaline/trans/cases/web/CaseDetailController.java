@@ -1879,7 +1879,8 @@ public class CaseDetailController {
 		    vars.put("consultant", sessionUser.getUsername());
 		    vars.put("Manager", manager.getUsername());
 		    StartProcessInstanceVo pIVo =processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SRV_BUSSKEY.getCode()), caseCode, vars);
-			ToWorkFlow toWorkFlow = new ToWorkFlow();
+			
+		    ToWorkFlow toWorkFlow = new ToWorkFlow();
 			toWorkFlow.setCaseCode(caseCode);
 			toWorkFlow.setBizCode(caseCode);
 			toWorkFlow.setInstCode(pIVo.getId());
@@ -1889,6 +1890,7 @@ public class CaseDetailController {
 			toWorkFlowService.insertSelective(toWorkFlow);
 
 			AjaxResponse response = new AjaxResponse();
+			//获取所有运行中的流程
 			TaskQuery tq = new TaskQuery(pIVo.getId(), true);
 			PageableVo pageableVo = workFlowManager.listTasks(tq);
 			List<TaskVo> taskList = pageableVo.getData();
