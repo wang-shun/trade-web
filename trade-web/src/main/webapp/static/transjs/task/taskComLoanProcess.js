@@ -2033,6 +2033,7 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
 	var loanerOrgId  =  "";		//所选信贷员的OrgId
 	var bankOrgCode  =  "";		//所选银行分行的OrgCode	
 	var loanerOrgCode = "";	
+	var loanerName = "";
 	var  formId = "";
 	if(isMainLoanBank == 1){
 		formId = $("#mortgageForm");
@@ -2040,16 +2041,18 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
 		loanerOrgId = formId.find("input[name='loanerOrgId']").val();
 		bankOrgCode = formId.find("select[name='finOrgCode']").val();  
 		loanerOrgCode = formId.find("input[name='loanerOrgCode']").val();
+		loanerName = formId.find("input[name='loanerName']").val();
 	}else if (isMainLoanBank == 0){
 		formId = $("#mortgageForm1");
 		loanerUserId = formId.find("input[name='loanerId']").val();
 		loanerOrgId = formId.find("input[name='loanerOrgId']").val();
 		bankOrgCode = formId.find("select[name='finOrgCode']").val();  
 		loanerOrgCode = formId.find("input[name='loanerOrgCode']").val();
+		loanerName = formId.find("input[name='loanerName']").val();
 	}
 	
 	var mor = getFormParams();
-	
+	mor.loanerName = loanerName;
 	mor.caseCode = $("#caseCode").val();
 	mor.loanerId = loanerUserId;
 	mor.loanerOrgId = loanerOrgId;
@@ -2130,8 +2133,6 @@ function getFormParams(){
 	var lendWay =  $("#lendWay").val();	
 	var loanerPhone =  $("#loanerPhone").val();
 	
-	var loanerName =  $("#loanerName").val();;
-	
 	var signDate =  $("#signDate").val();
 	var recLetterNo =  $("#recLetterNo").val();	
 	var prfYear = $("#prfYear").val();	
@@ -2139,11 +2140,6 @@ function getFormParams(){
 	var isTmpBank =  $("input[name='isTmpBank']:checked").val();
 	var ifReportBeforeLend =  $("input[name='ifReportBeforeLend']:checked").val();
 	var isLoanerArrive =  $("input[name='isLoanerArrive']:checked").val();
-/*	if(isTmpBank == 1){
-		loanerName = $("#loanerName1").val();
-	}else if (isTmpBank == 0){
-		loanerName = $("#loanerName").val();
-	}*/
 	
 	var mor = {};
 	mor.custCode = custCode;
@@ -2162,8 +2158,7 @@ function getFormParams(){
 	mor.custCompany = custCompany;
 	mor.isTmpBank = isTmpBank;
 	mor.ifReportBeforeLend = ifReportBeforeLend;
-	mor.isLoanerArrive = isLoanerArrive;	
-	mor.loanerName = loanerName;	
+	mor.isLoanerArrive = isLoanerArrive;
 	
 	return mor;
 }
