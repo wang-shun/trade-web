@@ -794,18 +794,18 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 				}
 	  				
 	  				
-	  				f.find("select[name='bank_type']").change(function(){
-	  					/*$("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy");*/
-	  					if(data.content && data.content.isTmpBank=='1'){
-	  						getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
-	  					}else{
-	  						getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"",'cl');
-	  					}
-				    	
-				    	/*$("#mortgageForm").find("select[name='finOrgCode']").unbind('change');
-				    	$("#mortgageForm").find("select[name='finOrgCode']").bind('change',subBankChange);*/
-				    }); 
-	  			
+  				f.find("select[name='bank_type']").change(function(){
+  					/*$("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy");*/
+  					if(data.content && data.content.isTmpBank=='1'){
+  						getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
+  					}else{
+  						getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"",'cl');
+  					}
+			    	
+			    	/*$("#mortgageForm").find("select[name='finOrgCode']").unbind('change');
+			    	$("#mortgageForm").find("select[name='finOrgCode']").bind('change',subBankChange);*/
+			    }); 
+  			
 	  				
 	  			//console.log("===Result==="+JSON.stringify(data.content));
 	    		if(data != null && data.content != null){
@@ -889,15 +889,17 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			
 		    			//新增派单时间   TODO
 		    			if(data.content.dispachTime !=null && data.content.dispachTime !="" && data.content.dispachTime != undefined){	
+		    				$("#processStart").val("processIsStart");
 		    				if(data.content.isMainLoanBank == 1){
 		    					$("#dispachTimeShow1").show();
 		    					f.find("input[name='dispachTime']").val(data.content.dispachTime);
 		    				}else if(data.content.isMainLoanBank == 0){
 		    					$("#dispachTimeShow0").show();
-		    					f.find("input[name='dispachTime']").val(data.content.dispachTime);
+		    					f.find("input[name='dispachTime']").val(data.content.dispachTime);		    					
 		    				}
 		    				//派单时间不为空，显示 并且设置可以进行下一步提交
-		    				$("#processStart").val("processIsStart");
+		    				
+		    				
 		    			}
 		    			
 		    			//两种情况下可选：1.流程还未开启 2.申请被驳回 
@@ -1970,15 +1972,17 @@ transitionEffect: "slide",
 
 function loanerProcessStart(isMainLoanBank){	
 	var bankLevel = $("#finOrgCode").find('option:selected').attr('coLevel');//所选银行分行级别 	
-	$("#processStart").val("processIsStart"); //点击派单流程设置 标志，作为"下一步"继续的依据
+	//$("#processStart").val("processIsStart"); //点击派单流程设置 标志，作为"下一步"继续的依据
 	
 	var form = '';
 	if(isMainLoanBank == "1"){
-		form = $("#mortgageForm");
+		form = $("#mortgageForm");		
 	}else if(isMainLoanBank == "0"){
 		form = $("#mortgageForm1");
-	}
-	
+	}	
+
+	form.find("input[name='processStart']").val("processIsStart");
+
 	var data = 
 	{
 	   "caseCode":$("#caseCode").val(),

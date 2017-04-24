@@ -271,6 +271,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			String bizCode = "";
 
 			// 添加贷款表中的 信贷员、派单员等信息
+			toMortgage.setLoanerName(loaner.getRealName());
+			toMortgage.setLoanerPhone(loaner.getMobile());
 			toMortgage.setCaseCode(caseCode);
 			toMortgage.setDispachUserId(user.getId());
 			toMortgage.setDispachTime(new Date());
