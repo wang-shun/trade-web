@@ -889,7 +889,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    			
 		    			//新增派单时间   TODO
 		    			if(data.content.dispachTime !=null && data.content.dispachTime !="" && data.content.dispachTime != undefined){	
-		    				$("#processStart").val("processIsStart");
+		    				f.find("input[name='processStart']").val("processIsStart");
 		    				if(data.content.isMainLoanBank == 1){
 		    					$("#dispachTimeShow1").show();
 		    					f.find("input[name='dispachTime']").val(data.content.dispachTime);
