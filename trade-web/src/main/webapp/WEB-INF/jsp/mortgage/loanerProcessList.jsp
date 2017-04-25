@@ -208,6 +208,11 @@
 						{{else if item.ITEM_STATUS == "COMPLETED"}}
                             <p><i class="sign_brown">审批完成</i></p>
 						{{/if}}  
+
+ 						<p class="sign_blue">
+							{{if item.IS_MAIN_LOANBANK_PROCESS == "1"}}主选银行派单
+							{{else if item.IS_MAIN_LOANBANK_PROCESS == "0"}}候选银行派单{{/if}}  
+						</p>
 						</td>
 
 
