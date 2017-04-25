@@ -761,7 +761,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	}
 
 	@Override
-	public ToMortgage findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage) {
+	public List<ToMortgage> findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage) {
 		// TODO Auto-generated method stub
 		return toMortgageMapper.findToMortgageByCaseCodeAndCustcode(toMortgage);
 	}

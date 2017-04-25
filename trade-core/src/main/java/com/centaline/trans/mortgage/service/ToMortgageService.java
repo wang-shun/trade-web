@@ -95,7 +95,7 @@ public interface ToMortgageService {
 	/*
 	 * 签约时同步更新贷款主贷人信息 获取casecode和custcode获取贷款表信息
 	 */
-	ToMortgage findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage);
+	List<ToMortgage> findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage);
 
 	ToMortgage findToMortgageByMortTypeAndCaseCode(String caseCode,
 			String mortType);
