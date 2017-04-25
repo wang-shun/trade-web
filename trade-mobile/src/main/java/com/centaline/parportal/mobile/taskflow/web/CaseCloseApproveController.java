@@ -1,19 +1,14 @@
 package com.centaline.parportal.mobile.taskflow.web;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.aist.common.web.validate.AjaxResponse;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -26,31 +21,17 @@ import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
-import com.aist.uam.userorg.remote.UamUserOrgService;
-import com.centaline.trans.cases.entity.ToCase;
-import com.centaline.trans.cases.service.ToCaseService;
-import com.centaline.trans.cases.vo.CaseBaseVO;
-import com.centaline.trans.cases.vo.EditCaseDetailVO;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.ToPropertyInfoService;
-import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.service.AwardBaseService;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
-import com.centaline.trans.utils.UiImproveUtil;
 /**
  * Created by caoyuan7 on 2017/4/25.
  */
-
 
 @Controller
 @RequestMapping(value="/task/caselostApprove")
@@ -58,12 +39,6 @@ public class CaseCloseApproveController {
 
     private Logger logger = Logger.getLogger(PricingController.class);
 
-    @Autowired(required = true)
-    private ToCaseService toCaseService;
-    @Autowired
-    private WorkFlowManager workFlowManager;
-    @Autowired
-    private AwardBaseService awardBaseService;
     /*发送消息*/
     @Autowired(required=true)
     @Qualifier("uamMessageServiceClient")
@@ -78,15 +53,15 @@ public class CaseCloseApproveController {
     @Autowired
     private LoanlostApproveService loanlostApproveService;
 
-    @Autowired
-    private ToWorkFlowService toWorkFlowService;
     @RequestMapping("first/process")
+    @ResponseBody
     public Object toFirstProcess(HttpServletRequest request,String processInstanceId){
         String taskId = request.getParameter("taskId");
         String caseCode = request.getParameter("caseCode");
         JSONObject jsonObject = new JSONObject();
         SessionUser user=uamSessionService.getSessionUser();
         jsonObject.put("caseCode", caseCode);
+        jsonObject.put("partCode", "CaseCloseFirstApprove");
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
         jsonObject.put("approveType", "3");
@@ -94,12 +69,14 @@ public class CaseCloseApproveController {
        return jsonObject;
     }
     @RequestMapping("second/process")
+    @ResponseBody
     public Object toSecondProcess(HttpServletRequest request,String processInstanceId){
         String taskId = request.getParameter("taskId");
         String caseCode = request.getParameter("caseCode");
         SessionUser user=uamSessionService.getSessionUser();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("caseCode", caseCode);
+        jsonObject.put("partCode", "CaseCloseSecondApprove");
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
         jsonObject.put("approveType", "3");
