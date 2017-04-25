@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.wdcase.repository.TpdPaymentMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.wdcase.entity.TpdPayment" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="PAYMENT_CODE" property="paymentCode" jdbcType="VARCHAR" />
+    <result column="PAYMENT_AMOUNT" property="paymentAmount" jdbcType="DECIMAL" />
+    <result column="PAYER" property="payer" jdbcType="VARCHAR" />
+    <result column="RECEIVER" property="receiver" jdbcType="VARCHAR" />
+    <result column="PAYMENT_DATE" property="paymentDate" jdbcType="TIMESTAMP" />
+    <result column="PAYMENT_STATUS" property="paymentStatus" jdbcType="VARCHAR" />
+    <result column="RECO_STATUS" property="recoStatus" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, PAYMENT_CODE, PAYMENT_AMOUNT, PAYER, RECEIVER, PAYMENT_DATE, PAYMENT_STATUS, 
+    RECO_STATUS, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, IS_DELETED
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_PD_PAYMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_PD_PAYMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.wdcase.entity.TpdPayment" >
+    insert into sctrans.T_PD_PAYMENT (PKID, CASE_CODE, PAYMENT_CODE, 
+      PAYMENT_AMOUNT, PAYER, RECEIVER, 
+      PAYMENT_DATE, PAYMENT_STATUS, RECO_STATUS, 
+      CREATE_BY, CREATE_TIME, UPDATE_BY, 
+      UPDATE_TIME, IS_DELETED)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{paymentCode,jdbcType=VARCHAR}, 
+      #{paymentAmount,jdbcType=DECIMAL}, #{payer,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, 
+      #{paymentDate,jdbcType=TIMESTAMP}, #{paymentStatus,jdbcType=VARCHAR}, #{recoStatus,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.wdcase.entity.TpdPayment" >
+    insert into sctrans.T_PD_PAYMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="paymentCode != null" >
+        PAYMENT_CODE,
+      </if>
+      <if test="paymentAmount != null" >
+        PAYMENT_AMOUNT,
+      </if>
+      <if test="payer != null" >
+        PAYER,
+      </if>
+      <if test="receiver != null" >
+        RECEIVER,
+      </if>
+      <if test="paymentDate != null" >
+        PAYMENT_DATE,
+      </if>
+      <if test="paymentStatus != null" >
+        PAYMENT_STATUS,
+      </if>
+      <if test="recoStatus != null" >
+        RECO_STATUS,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentCode != null" >
+        #{paymentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentAmount != null" >
+        #{paymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payer != null" >
+        #{payer,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null" >
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentDate != null" >
+        #{paymentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentStatus != null" >
+        #{paymentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="recoStatus != null" >
+        #{recoStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.wdcase.entity.TpdPayment" >
+    update sctrans.T_PD_PAYMENT
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentCode != null" >
+        PAYMENT_CODE = #{paymentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentAmount != null" >
+        PAYMENT_AMOUNT = #{paymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payer != null" >
+        PAYER = #{payer,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null" >
+        RECEIVER = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentDate != null" >
+        PAYMENT_DATE = #{paymentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentStatus != null" >
+        PAYMENT_STATUS = #{paymentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="recoStatus != null" >
+        RECO_STATUS = #{recoStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.wdcase.entity.TpdPayment" >
+    update sctrans.T_PD_PAYMENT
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      PAYMENT_CODE = #{paymentCode,jdbcType=VARCHAR},
+      PAYMENT_AMOUNT = #{paymentAmount,jdbcType=DECIMAL},
+      PAYER = #{payer,jdbcType=VARCHAR},
+      RECEIVER = #{receiver,jdbcType=VARCHAR},
+      PAYMENT_DATE = #{paymentDate,jdbcType=TIMESTAMP},
+      PAYMENT_STATUS = #{paymentStatus,jdbcType=VARCHAR},
+      RECO_STATUS = #{recoStatus,jdbcType=VARCHAR},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      IS_DELETED = #{isDeleted,jdbcType=INTEGER}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>
