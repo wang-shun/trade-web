@@ -45,8 +45,7 @@ function checkDisagree(){
 
 
 function checkMortgageForm(formId){	
-	$("input,select").css("border-color","#ccc");
-	
+	$("input,select").css("border-color","#ccc");	
 	if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
 		window.wxc.alert("主贷人为必填项！");
 		formId.find("select[name='custCode']").css("border-color","red");
@@ -2055,7 +2054,7 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
 		loanerName = formId.find("input[name='loanerName']").val();
 	}
 	
-	var mor = getFormParams();
+	var mor = getFormParams(formId);
 	mor.loanerName = loanerName;
 	mor.caseCode = $("#caseCode").val();
 	mor.loanerId = loanerUserId;
@@ -2064,7 +2063,6 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
 	mor.bankLevel = bankLevel;
 	mor.isMainLoanBank = isMainLoanBank;
 	mor.loanerOrgCode = loanerOrgCode;
-	//alert(JSON.stringify(mor));
 	
  	$.ajax({
 	    url:ctx+"/task/sendOrderStart",
@@ -2109,41 +2107,36 @@ function getUrlParams(name){
 }
 
 //封装页面填写值
-function getFormParams(){
-	var custCode = $("#custCode").val();
-	
-	var custName = $("#custCode option:selected").text();
-	var mortType =  $("#mortType").val();
-	
-	var mortTotalAmount =0;
-	if(null != $("#mortTotalAmount").val()  && "" != $("#mortTotalAmount").val()){
-		mortTotalAmount =  $("#mortTotalAmount").val() * 10000;
-	}
-	
+function getFormParams(formId){	
+	var custCode = formId.find("select[name='custCode']").val();	
+	var custName = formId.find("select[name='custCode']").find("option:selected").text();	
+	var mortType = formId.find("select[name='mortType']").val();	
+	var mortTotalAmount = 0;
+	if(null != formId.find("input[name='mortTotalAmount']").val()  && "" != formId.find("input[name='mortTotalAmount']").val()){
+		mortTotalAmount = formId.find("input[name='mortTotalAmount']").val() * 10000;		
+	}	
 	var comAmount =0;
-	if(null != $("#comAmount").val()  && "" != $("#comAmount").val()){
-		 comAmount =  $("#comAmount").val() * 10000;
-	}
-	
+	if(null != formId.find("input[name='comAmount']").val()  && "" != formId.find("input[name='comAmount']").val()){
+		 comAmount = formId.find("input[name='comAmount']").val() * 10000;
+	}	
 	var prfAmount =0;
-	if(null != $("#prfAmount").val()  && "" != $("#prfAmount").val()){
-		prfAmount =  $("#prfAmount").val() * 10000;
-	}
+	if(null != formId.find("input[name='prfAmount']").val()  && "" != formId.find("input[name='prfAmount']").val()){
+		prfAmount =  formId.find("input[name='prfAmount']").val() * 10000;
+	}	
 	
+	var comDiscount =  formId.find("input[name='comDiscount']").val();
+	var comYear =  formId.find("input[name='comYear']").val();	
+	var lendWay =  formId.find("select[name='lendWay']").val();
+	var loanerPhone =  formId.find("input[name='loanerPhone']").val();
 	
-	var comDiscount =  $("#comDiscount").val();	
-	var comYear =  $("#comYear").val();
+	var signDate =  formId.find("input[name='signDate']").val();
+	var recLetterNo =  formId.find("input[name='recLetterNo']").val();
 	
-	var lendWay =  $("#lendWay").val();	
-	var loanerPhone =  $("#loanerPhone").val();
-	
-	var signDate =  $("#signDate").val();
-	var recLetterNo =  $("#recLetterNo").val();	
-	var prfYear = $("#prfYear").val();	
-	var custCompany = $("#custCompany").val();	
-	var isTmpBank =  $("input[name='isTmpBank']:checked").val();
-	var ifReportBeforeLend =  $("input[name='ifReportBeforeLend']:checked").val();
-	var isLoanerArrive =  $("input[name='isLoanerArrive']:checked").val();
+	var prfYear = formId.find("input[name='prfYear']").val();
+	var custCompany = formId.find("input[name='custCompany']").val();
+	var isTmpBank =  formId.find("input[name='isTmpBank']:checked").val();
+	var ifReportBeforeLend =  formId.find("input[name='ifReportBeforeLend']:checked").val();
+	var isLoanerArrive =  formId.find("input[name='isLoanerArrive']:checked").val();
 	
 	var mor = {};
 	mor.custCode = custCode;
