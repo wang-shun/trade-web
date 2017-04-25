@@ -51,6 +51,7 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.stuff.service.StuffService;
 import com.centaline.trans.utils.DateUtil;
 
 @Service
@@ -86,6 +87,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 	ToPropertyInfoMapper toPropertyInfoMapper;
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	@Autowired
+	private StuffService stuffService;
 
 	@Override
 	public void saveEloanApply(SessionUser user, ToEloanCase tEloanCase) {
@@ -701,5 +704,16 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService {
 
 		// 保存案件跟进信息
 		toCaseCommentService.insertToCaseComment(toCaseComment);
+
+		// 如果是补件,开启流程
+		if ("BUJIAN".equals(eLoanVo.getType())) {
+			ToCaseComment track = new ToCaseComment();
+			track.setSource(eLoanVo.getSource());
+			track.setType(eLoanVo.getType());
+			track.setCaseCode(eLoanVo.getCaseCode());
+			track.setPkid(toCaseComment.getPkid());
+
+			stuffService.reqStuff(track, true);
+		}
 	}
 }

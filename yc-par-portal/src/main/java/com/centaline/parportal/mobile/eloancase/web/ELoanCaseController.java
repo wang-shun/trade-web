@@ -85,6 +85,7 @@ public class ELoanCaseController {
 		// 设置前台传的参数信息
 		ELoanVo eLoanVo = new ELoanVo();
 		eLoanVo.seteLoanCode(eLoanCode);
+		eLoanVo.setSource("CARD");
 		eLoanVo.setType(type);
 		eLoanVo.setStateInBank(stateInBank);
 		eLoanVo.setCaseCode(caseCode);

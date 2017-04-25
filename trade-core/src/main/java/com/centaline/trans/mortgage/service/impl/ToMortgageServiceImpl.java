@@ -55,6 +55,7 @@ import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.mortgage.service.LoanerProcessService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.mortgage.vo.MortgageVo;
+import com.centaline.trans.stuff.service.StuffService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
@@ -106,6 +107,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	private ToMortLoanerMapper toMortLoanerMapper;
 	@Autowired
 	private TransplanServiceFacade transplanServiceFacade;
+	@Autowired
+	private StuffService stuffService;
 
 	@Override
 	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
@@ -146,20 +149,20 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 				.findToMortgageByCondition(condition);
 
 		Long pkid = toMortgage.getPkid();
-		if(pkid == null){
+		if (pkid == null) {
 			if (!CollectionUtils.isEmpty(list)) {
 				throw new BusinessException("贷款信息已存在！");
 			}
 			toMortgage.setIsDelegateYucui("1");
 			toMortgageMapper.insertSelective(toMortgage);
-		}else{
+		} else {
 			if (CollectionUtils.isEmpty(list)) {
 				throw new BusinessException("贷款信息不存在！");
 			}
 			toMortgage.setPkid(list.get(0).getPkid());
 			toMortgageMapper.update(toMortgage);
 		}
-		
+
 		if ("1".equals(toMortgage.getFormCommLoan())
 				&& StringUtils.isNotBlank(toMortgage.getLastLoanBank())) {
 			toMortgageMapper.restSetLastLoanBank(toMortgage);
@@ -763,7 +766,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	}
 
 	@Override
-	public List<ToMortgage> findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage) {
+	public List<ToMortgage> findToMortgageByCaseCodeAndCustcode(
+			ToMortgage toMortgage) {
 		// TODO Auto-generated method stub
 		return toMortgageMapper.findToMortgageByCaseCodeAndCustcode(toMortgage);
 	}
@@ -986,6 +990,17 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 		// 保存案件跟进信息
 		toCaseCommentService.insertToCaseComment(toCaseComment);
+
+		// 如果是补件,开启流程
+		if ("BUJIAN".equals(mortgageVo.getType())) {
+			ToCaseComment track = new ToCaseComment();
+			track.setSource(mortgageVo.getSource());
+			track.setType(mortgageVo.getType());
+			track.setCaseCode(mortgageVo.getCaseCode());
+			track.setPkid(toCaseComment.getPkid());
+
+			stuffService.reqStuff(track, true);
+		}
 	}
 
 	/**

@@ -84,6 +84,7 @@ public class MortgageController {
 		mortgageVo.setCaseCode(caseCode);
 		mortgageVo.setComment(comment);
 		mortgageVo.setUser(sessionUser);
+		mortgageVo.setSource("MORT");
 
 		try {
 			toMortgageService.suppleInfo(mortgageVo);
