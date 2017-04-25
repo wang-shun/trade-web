@@ -348,6 +348,11 @@
        <if test="partCode != null" >
      		and PART_CODE = #{partCode,jdbcType=VARCHAR}
        </if>
-  </update> 
+  </update>
+    <update id="updateToAttachmentForCaseCodeByCaseCode" parameterType="java.lang.String" >
+    update sctrans.T_TO_ATTACHMENT
+    set case_code = #{newCaseCode,jdbcType=VARCHAR}
+	where case_code=#{caseCode,jdbcType=VARCHAR}
+  </update>  
   
 </mapper>

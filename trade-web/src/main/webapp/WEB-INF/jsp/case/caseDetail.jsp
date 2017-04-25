@@ -96,6 +96,9 @@
                    	<c:if test="${toCase.caseProperty=='30003002'}">
                    			<div class="sign sign-red">结案</div>
                     </c:if>
+                   	<c:if test="${toCase.caseProperty=='30003009'}">
+                   			<div class="sign sign-out"> 外单 </div>
+                    </c:if>
                  	<c:if test="${toCase.caseProperty=='30003005'}">
                   		<div class="sign sign-red ">
                   		<span

@@ -101,6 +101,8 @@
 		<pattern>/caseMerge/caseRecord</pattern>
 		<pattern>/newCase/input</pattern>
 		<pattern>/task/loanerProcessList</pattern>
+		<pattern>/caseMerge/addWdCase</pattern>
+		<pattern>/caseMerge/saveWdCaseInfo/add</pattern>
 	</decorator>
 	<decorator name="noTemplate">
 		<pattern>/report/guoHuReport</pattern>

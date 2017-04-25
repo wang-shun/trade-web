@@ -2,6 +2,7 @@ package com.centaline.trans.cases.web;
 
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.CaseMergeService;
@@ -43,6 +45,7 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.spv.vo.SpvRecordedsVO;
 import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.utils.DateUtil;
 
@@ -91,6 +94,8 @@ public class CaseMergeController {
 	PropertyUtilsService propertyUtilsService;
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	@Autowired
+	private ToAccesoryListService toAccesoryListService;
 	
 	
 	/**
@@ -371,5 +376,141 @@ public class CaseMergeController {
 		if(StringUtils.equals(caseInfo.getType(), "1")){response.setContent(true);}
 		if(StringUtils.equals(caseInfo.getType(), "0")){response.setContent(false);}
 		return response;
-	}	
+	}
+	/**
+	 * 新建外单页面跳转 
+	 * @author hejf10
+	 * @date 2017年4月21日13:27:19
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="addWdCase")
+	public String addWdCase(Model model, HttpServletRequest request) throws Exception{
+		model.addAttribute("flag","add");
+		toAccesoryListService.getAccesoryList(request, "AddWdCase");
+		
+		model.addAttribute("caseCode",getRandom());
+		
+		return "case/addWdCase";
+	}
+	/**
+	 * 修改外单页面跳转 
+	 * @author hejf10
+	 * @date 2017年4月24日16:25:14
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="editWdCase")
+	public String editWdCase(Model model, HttpServletRequest request,String caseCode) throws Exception{
+		model.addAttribute("flag","edit");
+		toAccesoryListService.getAccesoryList(request, "AddWdCase");
+		//caseMergeService.saveWdCaseInfo(request,caseMergeVo);}
+		model.addAttribute("caseCode",caseCode);
+		return "case/editWdCase";
+	}
+	
+	
+	/**
+	 * 新建外单提交
+	 * @author hjf
+	 * @date 2017年4月21日13:59:02
+	 * @param request
+	 * @param caseMergeVo
+	 * @param keyFlag
+	 * @return
+	 * @throws Exception 
+	 *//*
+	@RequestMapping("saveWdCaseInfo")
+	public String saveWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo) throws Exception{
+		String caseCode = null;
+		try{
+			
+			if(StringUtils.equals("add", keyFlag)){
+				caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			}
+			if(StringUtils.equals("edit", keyFlag)){
+				caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			}
+			
+			caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			if(!"".equals(keyFlag) && null != keyFlag){
+				if("case".equals(keyFlag)){				
+					return "redirect:/case/tracking?caseCode="+caseCode;						
+				}else if("eloan".equals(keyFlag)){				
+					return "redirect:/eloan/task/eloanApply/process";										
+				}else if("spv".equals(keyFlag)){
+					return "redirect:/spv/saveHTML";									
+				}
+			}
+		}catch(BusinessException e){
+			throw new BusinessException("外单案件信息保存异常！");
+		}
+		return   "redirect:/case/tracking?caseCode="+caseCode;	
+		//return  "case/mycase_list2";
+	}*/
+	
+
+	@RequestMapping(value = "/saveWdCaseInfo")
+	@ResponseBody
+	public AjaxResponse<?>  saveWdCaseInfo(CaseMergeVo caseMergeVo,HttpServletRequest request){
+		AjaxResponse<?> response = new AjaxResponse<>();
+		String caseCode = null;
+		try{
+			caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+/*	*//**
+	 * 新建外单提交
+	 * @author hjf
+	 * @date 2017年4月21日13:59:02
+	 * @param request
+	 * @param caseMergeVo
+	 * @param keyFlag
+	 * @return
+	 * @throws Exception 
+	 *//*
+	@RequestMapping("saveWdCaseInfo/{keyFlag}")
+	public String saveWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo,@PathVariable String keyFlag) throws Exception{
+		try{
+			String caseCode = null;
+			if(StringUtils.equals("add", keyFlag)){
+				caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			}
+			if(StringUtils.equals("edit", keyFlag)){
+				caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			}
+			
+			caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			if(!"".equals(keyFlag) && null != keyFlag){
+				if("case".equals(keyFlag)){				
+					return "redirect:/case/tracking?caseCode="+caseCode;						
+				}else if("eloan".equals(keyFlag)){				
+					return "redirect:/eloan/task/eloanApply/process";										
+				}else if("spv".equals(keyFlag)){
+					return "redirect:/spv/saveHTML";									
+				}
+			}
+		}catch(BusinessException e){
+			throw new BusinessException("外单案件信息保存异常！");
+		}
+		return  "case/mycase_list2";
+	}
+*/	/**
+	 * 返来日期时间的一个字符串
+	 * @author hejf10
+	 * @return
+	 */
+	public String getRandom(){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");  
+		java.util.Date date=new java.util.Date();  
+		String str=sdf.format(date);  
+		return str;
+	}
 }

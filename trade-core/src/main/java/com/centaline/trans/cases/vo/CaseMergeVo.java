@@ -1,5 +1,6 @@
 package com.centaline.trans.cases.vo;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class CaseMergeVo {
@@ -29,8 +30,44 @@ public class CaseMergeVo {
     private List<Long> pkidDown;
     private List<String> guestNameDown;
     private List<String> guestPhoneDown;
-    /*上下家删除的记录id*/
+    /**外单案件推荐人*/
+    private List<Long> pkidRecommend;
+    private List<String> guestNameRecommend;
+    private List<String> guestPhoneRecommend;
+   
+	/*上下家删除的记录id*/
     private List<Long> guestPkid;
+    /**
+     * 外单案件的合作来源
+     */
+    private String sourceOfCooperation;
+    /**
+     * 外单案件的应收费用项
+     */
+	private String commSubject;
+	/**
+     * 外单案件的应收费金额
+     */
+    private BigDecimal commCost;
+   
+	public String getCommSubject() {
+		return commSubject;
+	}
+	public void setCommSubject(String commSubject) {
+		this.commSubject = commSubject;
+	}
+	public BigDecimal getCommCost() {
+		return commCost;
+	}
+	public void setCommCost(BigDecimal commCost) {
+		this.commCost = commCost;
+	}
+	public String getSourceOfCooperation() {
+		return sourceOfCooperation;
+	}
+	public void setSourceOfCooperation(String sourceOfCooperation) {
+		this.sourceOfCooperation = sourceOfCooperation;
+	}
 	public String getPropertyCode() {
 		return propertyCode;
 	}
@@ -158,6 +195,23 @@ public class CaseMergeVo {
 	public void setFinishYear(String finishYear) {
 		this.finishYear = finishYear;
 	}
-	
+	public List<Long> getPkidRecommend() {
+		return pkidRecommend;
+	}
+	public void setPkidRecommend(List<Long> pkidRecommend) {
+		this.pkidRecommend = pkidRecommend;
+	}
+	public List<String> getGuestNameRecommend() {
+		return guestNameRecommend;
+	}
+	public void setGuestNameRecommend(List<String> guestNameRecommend) {
+		this.guestNameRecommend = guestNameRecommend;
+	}
+	public List<String> getGuestPhoneRecommend() {
+		return guestPhoneRecommend;
+	}
+	public void setGuestPhoneRecommend(List<String> guestPhoneRecommend) {
+		this.guestPhoneRecommend = guestPhoneRecommend;
+	}
 		
 }
