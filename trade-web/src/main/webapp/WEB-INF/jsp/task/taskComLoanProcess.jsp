@@ -847,7 +847,7 @@
 												 <input type="hidden"  id="loanerId" name="loanerId" />
 		                                         <div class="form_content"  id="forLoanerProcessNoShuru">		                                         
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
-													 <input  type="text" readonly='readonly' name="loanerName1" id="loanerName1" placeholder="" class="input_type yuanwid"  onclick="selectLoanerByOrgId1()">
+													 <input  type="text" readonly='readonly' name="loanerName1"  placeholder="" class="input_type yuanwid"  onclick="selectLoanerByOrgId1()">
 													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId1()" >&#xe627;</i>
 													 </input>			
 												

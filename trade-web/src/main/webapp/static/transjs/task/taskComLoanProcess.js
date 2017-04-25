@@ -738,11 +738,19 @@ function selectLoanerByOrgId0(){
 
 //设置  可输入  信贷员
 function onkeyuploanerName(){
+
 	$("#loanerNameImage").css("color","#676A6C");
 	$("#loanerId").val("");
 	$("#loanerOrgCode").val("");
 	$("#loanerOrgId").val("");
+	
+	//设置信贷员的值
+	var formId = $("#mortgageForm");	
+	$("input[name='loanerName']",formId).val($("#loanerName1").val());	
 }
+
+
+
 
 
 var mCustCode='';
