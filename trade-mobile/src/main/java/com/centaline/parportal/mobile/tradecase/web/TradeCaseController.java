@@ -9,7 +9,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.aist.common.web.validate.AjaxResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -55,6 +57,8 @@ import com.centaline.trans.utils.Pages2JSONMoblie;
 @RestController
 @RequestMapping(value = "/tradeCase")
 public class TradeCaseController {
+
+	private Logger logger = Logger.getLogger(TradeCaseController.class);
 
 	@Value("${agent.img.url}")
 	private String imgUrl;
@@ -615,26 +619,34 @@ public class TradeCaseController {
 			}
 			
 		}
-		
-		
 	}
     @RequestMapping(value = "{caseCode}/fileUpload" )
 	@ResponseBody
-	public JSONObject fileUpload(@RequestParam(required = true)String fileList,@PathVariable(required=true,name="caseCode") String caseCode) {
-    	JSONArray fileListArray= JSONArray.parseArray(fileList);
-    	List<ToAttachment>toAttachments=new ArrayList<>();
-    	for (Object object : fileListArray) {
-    		JSONObject file=(JSONObject)object;
-    		ToAttachment attach=new ToAttachment();
-    		attach.setAvailable("Y");
-    		attach.setPreFileAdress(file.getString("fileID"));
-    		attach.setPreFileCode(file.getString("fileCode"));
-    		attach.setFileCat(file.getString("fileCat"));
-    		attach.setFileName(file.getString("fileName"));
-    		attach.setCaseCode(caseCode);
-    		toAttachments.add(attach);
+	public Object fileUpload(@RequestParam(required = true)String fileList,@PathVariable(required=true,name="caseCode") String caseCode) {
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		JSONArray fileListArray= JSONArray.parseArray(fileList);
+		List<ToAttachment>toAttachments=new ArrayList<>();
+    	try{
+			for (Object object : fileListArray) {
+				JSONObject file=(JSONObject)object;
+				ToAttachment attach=new ToAttachment();
+				attach.setAvailable("Y");
+				attach.setPreFileAdress(file.getString("fileID"));
+				attach.setPreFileCode(file.getString("fileCode"));
+				attach.setFileCat(file.getString("fileCat"));
+				attach.setFileName(file.getString("fileName"));
+				attach.setCaseCode(caseCode);
+				toAttachments.add(attach);
+			}
+			toAttachmentService.saveToAttachment(toAttachments);
+			ajaxResponse.setSuccess(true);
+			ajaxResponse.setMessage("保存成功");
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error(e.getMessage());
+			ajaxResponse.setSuccess(false);
+			ajaxResponse.setMessage("保存失败");
 		}
-    	toAttachmentService.saveToAttachment(toAttachments);
-    	return null;
+		return ajaxResponse;
     }
 }
