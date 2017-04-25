@@ -31,6 +31,8 @@ public class ToPurchaseLimitSearchController {
 
     @Autowired
     private ToPurchaseLimitSearchService toPurchaseLimitSearchService;
+    @Autowired
+    private TgGuestInfoService tgGuestInfoService;
 
     @RequestMapping(value = "process")
     @ResponseBody
@@ -52,8 +54,15 @@ public class ToPurchaseLimitSearchController {
     public Object submitPls(ToPurchaseLimitSearch toPurchaseLimitSearch, String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
-
+            toPurchaseLimitSearchService.saveAndSubmitPurchaseLimit(toPurchaseLimitSearch,taskId,processInstanceId);
+            int result = tgGuestInfoService.sendMsgHistory(toPurchaseLimitSearch.getCaseCode(),toPurchaseLimitSearch.getPartId());
+            if (result >0) {
+                response.setMessage("查限购保存成功");
+            }else {
+                response.setMessage("短信发送失败, 请您线下手工再次发送！");
+            }
         }catch (Exception e){
+            response.setSuccess(false);
             e.printStackTrace();
             logger.error(e.getMessage());
         }
