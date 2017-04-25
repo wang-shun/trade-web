@@ -285,10 +285,8 @@ $("#newCaseInfoSave,#newCaseInfoSubmit").click(function(){
 		url : url,
 		dataType : "json",
 		data : data,
-		beforeSend:function(){  
-         },
-		success : function(data) {
-			window.location.href = ctx+"/case/myCaseList";
+		success : function(data) {			
+			
 			/*if(data.success){
 				window.wxc.success("新建外单成功！",{"wxcOk":function(){
 					window.location.href=ctx+"/case/myCaseList";
@@ -297,11 +295,7 @@ $("#newCaseInfoSave,#newCaseInfoSubmit").click(function(){
 				window.wxc.error("新建外单失败！"+data.message); 
 			}*/
 			
-		},complete: function() { 
-		},
-		error : function(errors) {
 		}
-		
 	});
 	
 });
