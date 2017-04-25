@@ -156,8 +156,7 @@
                                    <div class="ibox float-e-margins">
                                         <div>
                                         
-                          <div id="wizard">
-							<h3>贷款签约</h3>
+                          <div id="wizard">							
 							<section>
 							<div class="step-content" style="margin-top: -30px;">
 								<div class="ibox" style="width:988px;">
@@ -342,6 +341,7 @@
 							</div>
 						</div>
 						
+						<div id="caseCommentList" class="view-content"></div>
 						
 						<div class="form-btn">
 		                    <div class="text-center">
@@ -383,6 +383,10 @@
 <!-- 改版引入的新的js文件 --> 
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+
+<!-- 改版引入的新的js文件 --> 
+<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+<script src="${ctx}/js/common/common.js?v=1.0.1"></script> 
 <script>
 	var isTmpBank = ${toMortgage.isTmpBank}
 
@@ -410,6 +414,10 @@
 		}
 	}
 	jQuery(document).ready(function() {		
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode
+			
+		});
 		
 		//银行下拉列表
 		if(isTmpBank=='1'){
