@@ -264,11 +264,11 @@
 													 <label class="control-label sign_left_small">是否临时银行</label>
 													 <div class="controls ">
 														 <c:if test="${toMortgage.isMainLoanBank=='0'}">
-															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
+															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" readonly } checked="checked">否</label>
 														 </c:if>
 														 <c:if test="${toMortgage.isMainLoanBank!='0'}">
 															 <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" readonly>是</label>
-															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
+															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" readonly } checked="checked">否</label>
 														 </c:if>
 
 													 </div>

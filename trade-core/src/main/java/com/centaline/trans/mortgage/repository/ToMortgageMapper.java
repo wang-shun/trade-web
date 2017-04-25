@@ -41,7 +41,7 @@ public interface ToMortgageMapper {
 
     public int updateTmpBankStatus(String caseCode);
 
-    ToMortgage findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage);
+    List<ToMortgage> findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage);
 
     /**
      * 根据biz_code更新按揭垫款在银行内部的审批状态
@@ -76,5 +76,5 @@ public interface ToMortgageMapper {
      * @return
      */
 
-	ToMortgage findToMortgageByCaseCodeAndDisTime(String caseCode);
+	ToMortgage findToMortgageByCaseCodeAndDisTime(Map<String,Object> map);
 }

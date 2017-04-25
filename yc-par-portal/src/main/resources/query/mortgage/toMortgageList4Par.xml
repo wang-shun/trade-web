@@ -67,11 +67,11 @@
 					AND EXISTS (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE = m.CASE_CODE and c.LOAN_REQ=1)
 				
 				<if test="flag == 'noAccept'">
-					AND (m.LOANER_STATUS = '' or m.LOANER_STATUS IS NULL)
+					AND m.LOANER_STATUS = 'ACCEPTING'
 				</if>
 				
 				<if test="flag == 'exceptNoAccept'">
-					AND (m.LOANER_STATUS != '' and m.LOANER_STATUS IS NOT NULL)
+					AND m.LOANER_STATUS != 'ACCEPTING'
 				</if>
 				
 				<ifNotNull q_text>
@@ -84,8 +84,7 @@
 			<groupSql>
 			</groupSql>
 			<orderBySql>
-			  ORDER BY m.SEND_TIME
-			   DESC
+			  ORDER BY m.SEND_TIME DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
@@ -129,7 +128,7 @@
 					FROM sctrans.T_TO_MORT_LOANER ml
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = ml.CASE_CODE
 					LEFT JOIN sctrans.T_TO_CASE_COMMENT c ON c.BIZ_CODE = convert(varchar(20),ml.PKID) AND (c.SRV_CODE = 'ACCEPT' OR c.SRV_CODE = 'REJECT' OR c.SRV_CODE = 'BANKREJECT' OR c.SRV_CODE = 'CANCEL')
-					where ml.LOANER_ID = #userid#
+					where ml.LOANER_ID = #loanerId#
 				]]>
 			</baseSql>
 			<groupSql>

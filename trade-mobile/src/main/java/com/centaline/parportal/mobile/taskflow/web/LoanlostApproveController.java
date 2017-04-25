@@ -146,7 +146,7 @@ public class LoanlostApproveController {
 
 	@RequestMapping(value = "loanlostApprove/loanlostApproveFirstNew")
 	@ResponseBody
-	public Boolean loanlostApproveFirstNew(HttpServletRequest request,
+	public Object loanlostApproveFirstNew(HttpServletRequest request,
 			ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String LoanLost_manager,
 			String LoanLost_manager_response, String loanLostManagerNotApprove) {
@@ -205,10 +205,14 @@ public class LoanlostApproveController {
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO
 				.getCaseCode());
 
-		return workFlowManager.submitTask(variables,
+		Boolean result = workFlowManager.submitTask(variables,
 				processInstanceVO.getTaskId(),
 				processInstanceVO.getProcessInstanceId(),
 				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+		
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		ajaxResponse.setSuccess(result);
+		return ajaxResponse;
 	}
 
 	@RequestMapping(value = "loanlostApprove/loanlostApproveBySeniorManager")

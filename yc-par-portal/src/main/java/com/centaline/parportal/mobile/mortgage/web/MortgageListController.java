@@ -48,47 +48,6 @@ public class MortgageListController {
 	@Autowired
 	private UamSessionService uamSessionService;
 
-	@RequestMapping(value = "operateList")
-	@ResponseBody
-	public String operateList(Integer page, Integer pageSize, String sidx,
-			String sord, String q_text) {
-		JSONObject result = new JSONObject();
-
-		// 设置快速查询id和分页参数
-		JQGridParam gp = new JQGridParam();
-		gp.setPagination(true);
-		gp.setPage(page);
-		gp.setRows(pageSize);
-		gp.setQueryId("mortgageOperateList");
-		gp.setSidx(sidx);
-		gp.setSord(sord);
-		Map<String, Object> paramter = new HashMap<String, Object>();
-
-		// 设置用户id
-		SessionUser sessionUser = uamSessionService.getSessionUser();
-		paramter.put("userid", sessionUser.getId());
-		// paramter.put("userid", "ff80808158bd58c10158bda37f100020");
-
-		gp.putAll(paramter);
-		querysParseService.reloadFile();
-
-		Page<Map<String, Object>> contentListMap = quickGridService
-				.findPageForSqlServer(gp, sessionUser);
-
-		List<Map<String, Object>> contentList = contentListMap.getContent();
-
-		JSONArray content = new JSONArray();
-		for (int i = 0; i < contentList.size(); i++) {
-			Map<String, Object> mapObj = contentList.get(i);
-
-			content.add(JSONObject.toJSON(mapObj));
-		}
-
-		result.put("rows", content);
-
-		return result.toJSONString();
-	}
-
 	@RequestMapping(value = "list")
 	@ResponseBody
 	public String caseList(Integer page, Integer pageSize, String sidx,

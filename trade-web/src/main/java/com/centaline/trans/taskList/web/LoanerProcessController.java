@@ -14,8 +14,6 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.cases.service.ToCaseService;
-import com.centaline.trans.cases.vo.CaseBaseVO;
-import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.LoanerProcessService;
@@ -95,8 +93,7 @@ public class LoanerProcessController {
 		}
 
 		try {
-			response = loanerProcessService
-					.newStartLoanerOrderWorkFlow(toMortgage);
+			response = loanerProcessService.newStartLoanerOrderWorkFlow(toMortgage);
 		} catch (BusinessException e) {
 			throw new BusinessException("信贷员流程启动异常！");
 		}
@@ -142,24 +139,18 @@ public class LoanerProcessController {
 	@RequestMapping(value = "comLoanerChange/process")
 	public String comLoanerChangeProcess(HttpServletRequest request,
 			HttpServletResponse response, String caseCode, String source,
-			String taskitem, String processInstanceId) {
-
-		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		ToMortgage toMortgage = toMortgageService
-				.findToMortgageByCaseCode2(caseCode);
-		// 根据caseCode去查询相关页面信息，并且设置 页面的流程变量
-		request.setAttribute("caseBaseVO", caseBaseVO);
-		request.setAttribute("toMortgage", toMortgage);
-		// 判断案件是否有效
-		if (toMortgage != null) {
-			TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long
-					.parseLong(toMortgage.getCustCode()));
-			if (null != guest) {
-				request.setAttribute("custCompany", guest.getWorkUnit());
-				request.setAttribute("custName", guest.getGuestName());
-			}
+			String taskitem, String processInstanceId) {		
+		
+		if ((null == caseCode || "".equals(caseCode))	|| (null == processInstanceId || "".equals(processInstanceId))) {
+			throw new BusinessException("重新派单流程请求参数异常！");
 		}
-
+		
+		try {
+			 loanerProcessService.comLoanerChangeProcess(request,caseCode,taskitem,processInstanceId);
+		} catch (BusinessException e) {
+			throw new BusinessException("重新派单流程 查询信息异常");
+		}
+		
 		return "task/taskComLoanerChangeProcess";
 	}
 

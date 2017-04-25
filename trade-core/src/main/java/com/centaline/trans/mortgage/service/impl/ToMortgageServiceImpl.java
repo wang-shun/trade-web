@@ -144,20 +144,22 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 
 		List<ToMortgage> list = toMortgageMapper
 				.findToMortgageByCondition(condition);
-		if (list != null && !list.isEmpty()) {
-			mortgage = list.get(0);
-		}
-		if (mortgage != null) {
-			toMortgage.setPkid(mortgage.getPkid());
-			toMortgageMapper.update(toMortgage);
-			// writeBackBizCode(mortgage.getCaseCode(), mortgage.getPkid());
-		} else {
+
+		Long pkid = toMortgage.getPkid();
+		if(pkid == null){
+			if (!CollectionUtils.isEmpty(list)) {
+				throw new BusinessException("贷款信息已存在！");
+			}
 			toMortgage.setIsDelegateYucui("1");
 			toMortgageMapper.insertSelective(toMortgage);
-			// toMortgage.getPkid() 返回插入当前数据的主键
-			// writeBackBizCode(toMortgage.getCaseCode(), toMortgage.getPkid());
-
+		}else{
+			if (CollectionUtils.isEmpty(list)) {
+				throw new BusinessException("贷款信息不存在！");
+			}
+			toMortgage.setPkid(list.get(0).getPkid());
+			toMortgageMapper.update(toMortgage);
 		}
+		
 		if ("1".equals(toMortgage.getFormCommLoan())
 				&& StringUtils.isNotBlank(toMortgage.getLastLoanBank())) {
 			toMortgageMapper.restSetLastLoanBank(toMortgage);
@@ -295,8 +297,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public ToMortgage findToMortgageByCaseCode2(String caseCode) {
 
-		List<ToMortgage> toMortgageList = toMortgageMapper
-				.findToMortgageByCaseCodeNoBlank(caseCode);
+		List<ToMortgage> toMortgageList = toMortgageMapper.findToMortgageByCaseCodeNoBlank(caseCode);
 		if (CollectionUtils.isNotEmpty(toMortgageList)) {
 			ToMortgage mort = null;
 			if (toMortgageList.size() == 1) {
@@ -761,7 +762,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	}
 
 	@Override
-	public ToMortgage findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage) {
+	public List<ToMortgage> findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage) {
 		// TODO Auto-generated method stub
 		return toMortgageMapper.findToMortgageByCaseCodeAndCustcode(toMortgage);
 	}

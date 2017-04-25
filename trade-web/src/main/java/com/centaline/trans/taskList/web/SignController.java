@@ -96,44 +96,41 @@ public class SignController {
 					: transSignVO.getCaseCode());
 			pkidDownList = transSignVO.getPkidDown();
 
-			for (int i = 0; i < pkidDownList.size(); i++) {
-				if (pkidDownList.get(i) != 0) {
-					toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
-					ToMortgage getMortgageByCode = toMortgageService
-							.findToMortgageByCaseCodeAndCustcode(toMortgage);
-					toMortgageList.add(getMortgageByCode);
+			for (int i = 0; i < pkidDownList.size(); i++) {				
+				toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
+				List<ToMortgage> getMortgageByCodeList = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);					
+				if(null == getMortgageByCodeList || getMortgageByCodeList.size() <= 0){
+					continue;
 				}
+				
+				for(int k=0; k < getMortgageByCodeList.size();k++){
+					toMortgageList.add(getMortgageByCodeList.get(k));
+				}					
+								
 			}
 
-			if (toMortgageList.size() > 0) {
-				for (int i = 0; i < toMortgageList.size(); i++) {
-					if (toMortgageList.get(i) != null) {
-						if (toMortgageList.get(i).getCustCode() != null) {
-							for (int k = 0; k < pkidDownList.size(); k++) {
-								if (toMortgageList.get(i).getCustCode()
-										.equals(pkidDownList.get(k).toString())) {
-									// 不为空 说明更新了主贷人信息
-									ToMortgage toMortgageForUpdate = new ToMortgage();
-									toMortgageForUpdate.setCaseCode(transSignVO
-											.getCaseCode() == null ? ""
-											: transSignVO.getCaseCode());
-									toMortgageForUpdate.setCustCode(String
-											.valueOf(pkidDownList.get(i)));
-									TgGuestInfo tgGuestInfo = tgGuestInfoService
-											.findTgGuestInfoById(pkidDownList
-													.get(i));
-									if (tgGuestInfo != null) {
-										toMortgageForUpdate
-												.setCustName(tgGuestInfo
-														.getGuestName() == null ? ""
-														: tgGuestInfo
-																.getGuestName());
-									}
-									toMortgageService
-											.updateToMortgageBySign(toMortgageForUpdate);
-								}
-							}
+			for (int i = 0; i < toMortgageList.size(); i++) {
+				ToMortgage toMortgageItem = toMortgageList.get(i);
+				if(toMortgageItem == null){
+					continue;
+				}
+				String custCode = toMortgageItem.getCustCode();
+				if(custCode == null){
+					continue;
+				}
+				
+				for (Long longPkid : pkidDownList) {
+					String strPkid = longPkid.toString();
+					if (custCode.equals(strPkid)) {
+						// 签约修改下家信息时，更新主贷人
+						ToMortgage toMortgageForUpdate = new ToMortgage();
+						toMortgageForUpdate.setCaseCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
+						toMortgageForUpdate.setCustCode(strPkid);
+						TgGuestInfo tgGuestInfo = tgGuestInfoService.findTgGuestInfoById(longPkid);
+						if (tgGuestInfo != null) {
+							toMortgageForUpdate.setCustName(tgGuestInfo.getGuestName() == null ? "": tgGuestInfo.getGuestName());
 						}
+						toMortgageService.updateToMortgageBySign(toMortgageForUpdate);
 					}
 				}
 			}
@@ -146,9 +143,7 @@ public class SignController {
 				}
 			}
 			if (flag) {
-				toMortgageService
-						.updateToMortgageByCode(transSignVO.getCaseCode() == null ? ""
-								: transSignVO.getCaseCode());
+				toMortgageService.updateToMortgageByCode(transSignVO.getCaseCode() == null ? ""	: transSignVO.getCaseCode());
 			}
 
 		}
@@ -168,66 +163,55 @@ public class SignController {
 		List<Long> pkidDownList = new ArrayList<Long>();
 		List<ToMortgage> toMortgageList = new ArrayList<ToMortgage>();
 		if (null != transSignVO) {
-			toMortgage.setCaseCode(transSignVO.getCaseCode() == null ? ""
-					: transSignVO.getCaseCode());
+			toMortgage.setCaseCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
 			pkidDownList = transSignVO.getPkidDown();
-
-			for (int i = 0; i < pkidDownList.size(); i++) {
-				if (pkidDownList.get(i) != 0) {
-					toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
-					ToMortgage getMortgageByCode = toMortgageService
-							.findToMortgageByCaseCodeAndCustcode(toMortgage);
-					toMortgageList.add(getMortgageByCode);
+			for (int i = 0; i < pkidDownList.size(); i++) {				
+				toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
+				List<ToMortgage> getMortgageByCodeList = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);
+				if(null == getMortgageByCodeList || getMortgageByCodeList.size() <= 0){
+					continue;
 				}
+				
+				for(int k=0; k < getMortgageByCodeList.size();k++){
+					toMortgageList.add(getMortgageByCodeList.get(k));
+				}				
 			}
 
-			if (toMortgageList.size() > 0) {
-				for (int i = 0; i < toMortgageList.size(); i++) {
-					if (toMortgageList.get(i) != null) {
-						if (toMortgageList.get(i).getCustCode() != null) {
-							for (int k = 0; k < pkidDownList.size(); k++) {
-								if (toMortgageList.get(i).getCustCode()
-										.equals(pkidDownList.get(k).toString())) {
-									// 签约修改下家信息时，更新主贷人
-									ToMortgage toMortgageForUpdate = new ToMortgage();
-									toMortgageForUpdate.setCaseCode(transSignVO
-											.getCaseCode() == null ? ""
-											: transSignVO.getCaseCode());
-									toMortgageForUpdate.setCustCode(String
-											.valueOf(pkidDownList.get(i)));
-									TgGuestInfo tgGuestInfo = tgGuestInfoService
-											.findTgGuestInfoById(pkidDownList
-													.get(i));
-									if (tgGuestInfo != null) {
-										toMortgageForUpdate
-												.setCustName(tgGuestInfo
-														.getGuestName() == null ? ""
-														: tgGuestInfo
-																.getGuestName());
-									}
-									toMortgageService
-											.updateToMortgageBySign(toMortgageForUpdate);
-								}
-							}
+			for (int i = 0; i < toMortgageList.size(); i++) {
+				ToMortgage toMortgageItem = toMortgageList.get(i);
+				if(toMortgageItem == null){
+					continue;
+				}
+				String custCode = toMortgageItem.getCustCode();
+				if(custCode == null){
+					continue;
+				}
+				
+				for (Long longPkid : pkidDownList) {
+					String strPkid = longPkid.toString();
+					if (custCode.equals(strPkid)) {
+						// 签约修改下家信息时，更新主贷人
+						ToMortgage toMortgageForUpdate = new ToMortgage();
+						toMortgageForUpdate.setCaseCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
+						toMortgageForUpdate.setCustCode(strPkid);
+						TgGuestInfo tgGuestInfo = tgGuestInfoService.findTgGuestInfoById(longPkid);
+						if (tgGuestInfo != null) {
+							toMortgageForUpdate.setCustName(tgGuestInfo.getGuestName() == null ? "": tgGuestInfo.getGuestName());
 						}
+						toMortgageService.updateToMortgageBySign(toMortgageForUpdate);
 					}
 				}
 			}
 			// 主贷人信息在签约环境被删除时，贷款表中没有任何记录，list中的对象全部为空； 则情况贷款表的主贷人信息
-			if (toMortgageList.size() > 0) {
-				for (int m = 0; m < toMortgageList.size(); m++) {
-					if (toMortgageList.get(m) != null) {
-						flag = false;
-						break;
-					}
+			for (int m = 0; m < toMortgageList.size(); m++) {
+				if (toMortgageList.get(m) != null) {
+					flag = false;
+					break;
 				}
 			}
 			if (flag) {
-				toMortgageService
-						.updateToMortgageByCode(transSignVO.getCaseCode() == null ? ""
-								: transSignVO.getCaseCode());
+				toMortgageService.updateToMortgageByCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
 			}
-
 		}
 
 		// toMortgageService.updateToMortgage(toMortgage);
@@ -241,8 +225,7 @@ public class SignController {
 			restVariable3.setName("PurLimitCheckNeed");
 			RestVariable restVariable4 = new RestVariable();/* 抵押 */
 			restVariable4.setName("LoanCloseNeed");
-			restVariable3.setValue(transSignVO.getIsPerchaseReserachNeed()
-					.equals("true"));
+			restVariable3.setValue(transSignVO.getIsPerchaseReserachNeed().equals("true"));
 			restVariable4.setValue(transSignVO.getIsLoanClose().equals("true"));
 			variables.add(restVariable3);
 			variables.add(restVariable4);
