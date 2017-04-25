@@ -57,7 +57,8 @@
 							ISNULL(ml.COM_DISCOUNT,0) AS mortInfo_comDiscount,
 							ISNULL(ml.PRF_AMOUNT,0) AS mortInfo_prfAmount,
 							CAST(ISNULL(ml.PRF_YEAR,0) as varchar) + '年' AS mortInfo_prfYear,
-							CASE ml.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS mortInfo_statusCode,
+							ml.LOANER_STATUS as mortInfo_statusCode,
+							CASE ml.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS mortInfo_status,
 							ISNULL(ml.SEND_ID,'')  AS yuOperator_userId,
 							ISNULL(M.LOAN_AGENT_TEAM,'')  AS yuOperator_teamId,
 							ISNULL(ml.CUST_NAME,'') AS custInfo_name,
@@ -95,7 +96,7 @@
 			<column type="both" name="mortInfo_prfAmount" display="mortInfo_prfAmount"  />
 			<column type="both" name="mortInfo_prfYear" display="mortInfo_prfYear"  />
 			<column type="both" name="mortInfo_statusCode" display="mortInfo_statusCode"  />
-			<column type="virtual" name="mortInfo_status"  referencecol="mortInfo_statusCode" customDict="qqcdMortServName" />
+			<column type="both" name="mortInfo_status" display="mortInfo_status"  />
 			<column type="both" name="yuOperator_userId" display="yuOperator_userId"  />
 			<column type="both" name="yuOperator_teamId" display="yuOperator_teamId"  />
 			<column type="virtual" name="yuOperator_name" display="yuOperator_name" referencecol="yuOperator_userId" customDict="qqRealName"  />
@@ -108,7 +109,7 @@
 			<column type="both" name="custInfo_mobile" display="custInfo_mobile"  />
 			<column type="both" name="tradeInfo_addr" display="tradeInfo_addr"  />
 			<column type="both" name="tradeInfo_caseCode" display="tradeInfo_caseCode"  />
-			<column type="both" name="tradeInfo_status" display="tradeInfo_status"  customDict="qqcdCaseStatus" />
+			<column type="both" name="tradeInfo_status" display="tradeInfo_status" />
 			
 			</table-row>
 		</grid>
