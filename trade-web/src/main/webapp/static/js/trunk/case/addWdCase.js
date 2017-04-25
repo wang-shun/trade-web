@@ -254,17 +254,7 @@ function getCheckBoxValues(name) {
 /**
  * 页面提交
  */
-$("#newCaseInfoSave,#newCaseInfoSubmit").click(function(){	
-	//TODO  submit之前需要判断哪些字段为空的情况的下不能提交
-	/*if(!checkForm()){
-		return false;		
-	}
-	if(!phoneUpAndphoneDownCheck()){
-		return false;
-	}*/
-	
-	//$("#saveCaseInfo").submit();
-	
+function sumbitRe(){	
 	var commSubject = getCheckBoxValues("commSubject");
 	var data = [];
 	$("form").each(function(){
@@ -280,31 +270,29 @@ $("#newCaseInfoSave,#newCaseInfoSubmit").click(function(){
 	var url = ctx+"/caseMerge/saveWdCaseInfo";
 	$.ajax({
 		cache : false,
-		async : false,/**false同步，true异步**/
-		type : "POST",
+		async : false,
+		type : "post",
 		url : url,
 		dataType : "json",
 		data : data,
 		beforeSend:function(){  
          },
-		success : function(data) {
-			window.location.href = ctx+"/case/myCaseList";
-			/*if(data.success){
+		success : function(data){
+			if(data.success){
 				window.wxc.success("新建外单成功！",{"wxcOk":function(){
 					window.location.href=ctx+"/case/myCaseList";
 				}});
 			}else{
 				window.wxc.error("新建外单失败！"+data.message); 
-			}*/
+			}
 			
 		},complete: function() { 
 		},
 		error : function(errors) {
 		}
-		
 	});
 	
-});
+}
 
 function checkForm(){
 	var formSubmitFlag = true;	

@@ -151,8 +151,8 @@
             </div>
         </div>
         <div class="text-center mt40 mb30">
-            <button type="submit" class="btn btn-success mr5" id="newCaseInfoSubmit">创建</button>
-            <button type="reset" id="loanLostCleanButton" class="btn btn-grey">清&nbsp;&nbsp;空</button>
+             <a onclick="sumbitRe()" class="btn btn-success">创建</a>
+           <!--  <button type="reset" id="loanLostCleanButton" class="btn btn-grey">清&nbsp;&nbsp;空</button> -->
         </div>
          </form>
     </div>
