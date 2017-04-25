@@ -120,7 +120,7 @@
 							ISNULL(cc.COMMENT,'') AS comment
 					FROM sctrans.T_TO_CASE_COMMENT cc 
 					INNER JOIN sctrans.SYS_USER u ON u.ID = cc.CREATE_BY
-					WHERE cc.BIZ_CODE = #eLoanCode# AND cc.SOURCE = 'EPLUS' AND (cc.SRV_CODE = 'CARD_APPROVED' or cc.SRV_CODE = 'CARD_SEND')
+					WHERE cc.BIZ_CODE = #eLoanCode# AND cc.SOURCE = 'EPLUS'
 				]]>
 			</baseSql>
 			<groupSql>
