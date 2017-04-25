@@ -31,7 +31,8 @@ public class ToGetPropertyBookController {
 
     @Autowired
     private ToGetPropertyBookService toGetPropertyBookService;
-
+    @Autowired
+    private TgGuestInfoService tgGuestInfoService;
 
     @RequestMapping(value = "process")
     @ResponseBody
@@ -53,7 +54,14 @@ public class ToGetPropertyBookController {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
             response = toGetPropertyBookService.saveAndSubmitPropertyBook(toGetPropertyBook,taskId,processInstanceId);
+            int result = tgGuestInfoService.sendMsgHistory(toGetPropertyBook.getCaseCode(),toGetPropertyBook.getPartCode());
+            if (result >0) {
+                response.setMessage("领证保存成功");
+            }else {
+                response.setMessage("短信发送失败, 请您线下手工再次发送！");
+            }
         }catch (Exception e){
+            response.setSuccess(false);
             e.printStackTrace();
             logger.error(e.getMessage());
         }

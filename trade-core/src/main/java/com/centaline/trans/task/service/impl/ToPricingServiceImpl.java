@@ -27,8 +27,7 @@ public class ToPricingServiceImpl implements ToPricingService {
 	private ToCaseService toCaseService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
-	@Autowired
-	private TgGuestInfoService tgGuestInfoService;
+
 
 	@Override
 	public boolean saveToPricing(ToPricing toPricing) {
@@ -72,13 +71,7 @@ public class ToPricingServiceImpl implements ToPricingService {
 		if(saveFlag){
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			ToCase toCase = toCaseService.findToCaseByCaseCode(toPricing.getCaseCode());
-			workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(), toPricing.getCaseCode());
-			int result = tgGuestInfoService.sendMsgHistory(toPricing.getCaseCode(), toPricing.getPartCode());
-			if (result >0) {
-				ajaxResponse.setMessage("核价保存成功");
-			}else {
-				ajaxResponse.setMessage("短信发送失败, 请您线下手工再次发送！");
-			}
+			workFlowManager.submitTask(variables, taskId, processInstanceId, toCase.getLeadingProcessId(), toPricing.getCaseCode());
 			ajaxResponse.setSuccess(true);
 		} else {
 			ajaxResponse.setSuccess(false);

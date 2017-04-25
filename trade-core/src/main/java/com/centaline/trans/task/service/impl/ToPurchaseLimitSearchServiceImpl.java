@@ -27,9 +27,6 @@ public class ToPurchaseLimitSearchServiceImpl implements ToPurchaseLimitSearchSe
 	@Autowired
 	private WorkFlowManager workFlowManager;
 
-	@Autowired
-	private TgGuestInfoService tgGuestInfoService;
-
 	@Override
 	public boolean saveToPurchaseLimitSearch( ToPurchaseLimitSearch toPurchaseLimitSearch) {
 		if(toPurchaseLimitSearch.getCaseCode()==null || toPurchaseLimitSearch.getCaseCode().intern().length() == 0) {
@@ -63,12 +60,6 @@ public class ToPurchaseLimitSearchServiceImpl implements ToPurchaseLimitSearchSe
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			ToCase toCase = toCaseService.findToCaseByCaseCode(toPurchaseLimitSearch.getCaseCode());
 			workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(),toPurchaseLimitSearch.getCaseCode());
-			int result = tgGuestInfoService.sendMsgHistory(toPurchaseLimitSearch.getCaseCode(),toPurchaseLimitSearch.getPartId());
-			if (result >0) {
-				ajaxResponse.setMessage("查限购保存成功");
-			}else {
-				ajaxResponse.setMessage("短信发送失败, 请您线下手工再次发送！");
-			}
 			ajaxResponse.setSuccess(true);
 		} else {
 			ajaxResponse.setSuccess(false);

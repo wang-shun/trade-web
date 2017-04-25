@@ -78,5 +78,14 @@ public interface LoanerProcessService {
      * @return
      */
 	void loanerProcessList(HttpServletRequest request);
+	
+	
+    /**
+     * 重新派单流程
+     * @return 
+     *  
+     * @return
+     */
+	void comLoanerChangeProcess(HttpServletRequest request,String caseCode, String taskitem, String processInstanceId);
 
 }

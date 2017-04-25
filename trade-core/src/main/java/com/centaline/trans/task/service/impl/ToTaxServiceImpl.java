@@ -27,9 +27,7 @@ public class ToTaxServiceImpl implements ToTaxService{
 	private ToCaseService toCaseService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
-	@Autowired
-	private TgGuestInfoService tgGuestInfoService;
-	
+
 	@Override
 	public boolean saveToTax(ToTax toTax) {
 		if(StringUtils.isBlank(toTax.getCaseCode())) {
@@ -61,12 +59,6 @@ public class ToTaxServiceImpl implements ToTaxService{
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			ToCase toCase = toCaseService.findToCaseByCaseCode(toTax.getCaseCode());
 			workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(), toTax.getCaseCode());
-			int result=tgGuestInfoService.sendMsgHistory(toTax.getCaseCode(), partCode);
-			if (result >0) {
-				ajaxResponse.setMessage("审税保存成功");
-			}else {
-				ajaxResponse.setMessage("短信发送失败, 请您线下手工再次发送！");
-			}
 			ajaxResponse.setSuccess(true);
 		} else {
 			ajaxResponse.setSuccess(false);

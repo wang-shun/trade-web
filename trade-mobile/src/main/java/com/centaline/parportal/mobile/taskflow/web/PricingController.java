@@ -32,7 +32,8 @@ public class PricingController {
 
     @Autowired
     private ToPricingService toPricingService;
-
+    @Autowired
+    private TgGuestInfoService tgGuestInfoService;
 
     @RequestMapping(value = "process")
     @ResponseBody
@@ -55,7 +56,14 @@ public class PricingController {
         AjaxResponse response = new AjaxResponse();
         try {
             response = toPricingService.saveAndSubmitPricing(toPricing,taskId,processInstanceId);
+            int result = tgGuestInfoService.sendMsgHistory(toPricing.getCaseCode(), toPricing.getPartCode());
+            if (result >0) {
+                response.setMessage("核价保存成功");
+            }else {
+                response.setMessage("短信发送失败, 请您线下手工再次发送！");
+            }
         }catch (Exception e){
+            response.setSuccess(false);
             e.printStackTrace();
             logger.error(e.getMessage());
         }

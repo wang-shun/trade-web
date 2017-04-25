@@ -26,8 +26,6 @@ public class ToGetPropertyBookServiceImpl implements ToGetPropertyBookService {
 	private ToCaseService toCaseService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
-	@Autowired
-	private TgGuestInfoService tgGuestInfoService;
 
 	@Override
 	public Boolean saveToGetPropertyBook(ToGetPropertyBook toGetPropertyBook) {
@@ -71,12 +69,6 @@ public class ToGetPropertyBookServiceImpl implements ToGetPropertyBookService {
 			workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(),toGetPropertyBook.getCaseCode());
 			toCase.setStatus("30001005");	/* 修改案件状态 */
 			toCaseService.updateByCaseCodeSelective(toCase);
-			int result = tgGuestInfoService.sendMsgHistory(toGetPropertyBook.getCaseCode(),toGetPropertyBook.getPartCode());
-			if (result >0) {
-				ajaxResponse.setMessage("领证保存成功");
-			}else {
-				ajaxResponse.setMessage("短信发送失败, 请您线下手工再次发送！");
-			}
 			ajaxResponse.setSuccess(true);
 		} else {
 			ajaxResponse.setSuccess(false);

@@ -26,8 +26,10 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.service.ToCaseCommentService;
+import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.LoanerStatusEnum;
@@ -277,8 +279,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			Map<String, Object> mapParam = new HashMap<String, Object>();
 			mapParam.put("caseCode", caseCode);
 			mapParam.put("isMainLoanBank", toMortgage.getIsMainLoanBank());
-			ToMortgage toMortgageInfo = toMortgageMapper
-					.findToMortgageByCaseCodeAndDisTime(mapParam);
+			ToMortgage toMortgageInfo = toMortgageMapper.findToMortgageByCaseCodeAndDisTime(mapParam);
 			String bizCode = "";
 
 			// 添加贷款表中的 信贷员、派单员等信息
@@ -970,5 +971,45 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		request.setAttribute("userJobCode", userJobCode);
 		request.setAttribute("serviceDepId", user.getServiceDepId());// 登录用户的org_id
 
+	}
+	
+	/**
+	 * @author:	zhuody 
+	 * @param caseCode & processInstanceId
+	 * @return
+	 */
+	
+	@Override
+	public void comLoanerChangeProcess(HttpServletRequest request,String caseCode, String taskitem, String processInstanceId) {
+		
+		
+		ToMortLoaner toMortLoaner = new ToMortLoaner();
+		// 查询方式变更，以防主选银行和备选银行 同时派单的重复
+		ToWorkFlow record = toWorkFlowService.queryWorkFlowByInstCode(processInstanceId);
+		if (record != null) {
+			if(null != record.getBizCode() && !"".equals(record.getBizCode()))
+			toMortLoaner = toMortLoanerService.getToMortLoanerById(Long.parseLong(record.getBizCode()));			
+		}		
+	
+		long pkid = 1;
+		if (null != toMortLoaner) {
+			if (null != toMortLoaner.getMortPkid()	&& !"".equals(toMortLoaner.getMortPkid())) {
+				pkid = Long.parseLong(toMortLoaner.getMortPkid());
+			}
+		}
+
+		ToMortgage toMortgage = toMortgageMapper.selectByPrimaryKey(pkid);
+		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);			
+		// 根据caseCode去查询相关页面信息，并且设置 页面的流程变量
+		request.setAttribute("caseBaseVO", caseBaseVO);
+		request.setAttribute("toMortgage", toMortgage);
+		// 判断案件是否有效
+		if (toMortgage != null) {
+			TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
+			if (null != guest) {
+				request.setAttribute("custCompany", guest.getWorkUnit());
+				request.setAttribute("custName", guest.getGuestName());
+			}
+		}
 	}
 }

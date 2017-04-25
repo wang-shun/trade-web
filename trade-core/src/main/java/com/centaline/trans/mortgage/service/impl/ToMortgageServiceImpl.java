@@ -300,8 +300,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public ToMortgage findToMortgageByCaseCode2(String caseCode) {
 
-		List<ToMortgage> toMortgageList = toMortgageMapper
-				.findToMortgageByCaseCodeNoBlank(caseCode);
+		List<ToMortgage> toMortgageList = toMortgageMapper.findToMortgageByCaseCodeNoBlank(caseCode);
 		if (CollectionUtils.isNotEmpty(toMortgageList)) {
 			ToMortgage mort = null;
 			if (toMortgageList.size() == 1) {

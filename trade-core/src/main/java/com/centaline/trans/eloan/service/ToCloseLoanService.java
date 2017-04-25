@@ -1,5 +1,6 @@
 package com.centaline.trans.eloan.service;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.eloan.entity.ToCloseLoan;
 
 public interface ToCloseLoanService {
@@ -13,4 +14,7 @@ public interface ToCloseLoanService {
 	 * @return
 	 */
 	String getLoanLostTypeValue(String caseCode);
+
+
+	AjaxResponse saveAndSubmitCloseLoan(ToCloseLoan toCloseLoan,String taskId,String  processInstanceId);
 }

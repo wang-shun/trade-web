@@ -33,15 +33,6 @@ public class PSFSignController {
 
     @Autowired
     private PSFSignService psfSignService;
-    @Autowired
-    private TgGuestInfoService tgGuestInfoService;
-
-    @Autowired(required = true)
-    private ToCaseService toCaseService;
-    @Autowired
-    private WorkFlowManager workFlowManager;
-    @Autowired
-    private ToAccesoryListService toAccesoryListService;
 
     @RequestMapping("process")
     @ResponseBody
@@ -66,6 +57,7 @@ public class PSFSignController {
         try {
             response = psfSignService.saveAndSubmitPSFSign(psfSignVO);
         }catch (Exception e){
+            response.setSuccess(false);
             e.printStackTrace();
             logger.error(e.getMessage());
         }
