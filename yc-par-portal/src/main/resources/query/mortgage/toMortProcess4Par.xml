@@ -50,9 +50,9 @@
                     CMT.SOURCE,
                     CMT.TYPE
 			        FROM SCTRANS.T_TO_CASE_COMMENT CMT 
-			        WHERE BIZ_CODE = #bizCode#
- 					AND CMT.SOURCE = 'MORT'
-					
+			        WHERE CMT.BIZ_CODE = #bizCode#
+ 					AND CMT.SOURCE = 'MORT' 
+ 					AND (CMT.SRV_CODE = 'MORT_APPROVED' or CMT.SRV_CODE = 'MORT_SEALED' or CMT.SRV_CODE = 'MORT_MAILED' or CMT.SRV_CODE = 'MORT_TAZHENG' or CMT.SRV_CODE = 'MORT_RELEASED')
  					ORDER BY CMT.CREATE_TIME DESC
 				]]>
 			</baseSql>

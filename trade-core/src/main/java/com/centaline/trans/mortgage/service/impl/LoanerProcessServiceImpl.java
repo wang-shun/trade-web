@@ -174,8 +174,9 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("caseCode", caseCode);
-			map.put("isMainLoanBank", isMainLoanBank);			
-			ToMortgage toMortgageInfo = toMortgageMapper.findToMortgageByCaseCodeAndDisTime(map);
+			map.put("isMainLoanBank", isMainLoanBank);
+			ToMortgage toMortgageInfo = toMortgageMapper
+					.findToMortgageByCaseCodeAndDisTime(map);
 			String bizCode = "";
 
 			// 添加贷款表中的 信贷员、派单员等信息
@@ -233,16 +234,20 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	 * @des:启动信贷员流程
 	 */
 	@Override
-	public AjaxResponse<String> newStartLoanerOrderWorkFlow(ToMortgage toMortgage) {
+	public AjaxResponse<String> newStartLoanerOrderWorkFlow(
+			ToMortgage toMortgage) {
 
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		/* 流程引擎相关 */
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		SessionUser user = uamSessionService.getSessionUser();
 
-		String caseCode = toMortgage.getCaseCode() == null ? "" : toMortgage.getCaseCode();
-		String loanerId = toMortgage.getLoanerId() == null ? "" : toMortgage.getLoanerId();
-		String bankLevel = toMortgage.getBankLevel() == null ? "" : toMortgage.getBankLevel();
+		String caseCode = toMortgage.getCaseCode() == null ? "" : toMortgage
+				.getCaseCode();
+		String loanerId = toMortgage.getLoanerId() == null ? "" : toMortgage
+				.getLoanerId();
+		String bankLevel = toMortgage.getBankLevel() == null ? "" : toMortgage
+				.getBankLevel();
 
 		try {
 			/*
@@ -256,18 +261,24 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 
 			User loaner = uamUserOrgService.getUserById(loanerId);
 
-			variables.add(new RestVariable("loanerUserName", loaner.getUsername()));
-			variables.add(new RestVariable("sessionUserName", user.getUsername())); // 派单人
+			variables.add(new RestVariable("loanerUserName", loaner
+					.getUsername()));
+			variables.add(new RestVariable("sessionUserName", user
+					.getUsername())); // 派单人
 
 			// 启动流程
-			ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode,variables);
-			StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, loaner.getUsername(), caseCode);
+			ProcessInstance process = new ProcessInstance(
+					propertyUtilsService.getProcessLoanerDfKey(), caseCode,
+					variables);
+			StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(
+					process, loaner.getUsername(), caseCode);
 
 			// 具体的业务逻辑处理， 贷款表中 冗余派单人ID、 时间， 取消审核人id、时间信息
-			Map<String,Object> mapParam = new HashMap<String,Object>();
+			Map<String, Object> mapParam = new HashMap<String, Object>();
 			mapParam.put("caseCode", caseCode);
-			mapParam.put("isMainLoanBank", toMortgage.getIsMainLoanBank());			
-			ToMortgage toMortgageInfo = toMortgageMapper.findToMortgageByCaseCodeAndDisTime(mapParam);
+			mapParam.put("isMainLoanBank", toMortgage.getIsMainLoanBank());
+			ToMortgage toMortgageInfo = toMortgageMapper
+					.findToMortgageByCaseCodeAndDisTime(mapParam);
 			String bizCode = "";
 
 			// 添加贷款表中的 信贷员、派单员等信息
@@ -285,7 +296,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			if (null != toMortgageInfo) {
 				toMortgage.setPkid(toMortgageInfo.getPkid());
 				toMortgageMapper.update(toMortgage);
-				bizCode = toMortgageInfo.getPkid() == null ? "": toMortgageInfo.getPkid().toString();
+				bizCode = toMortgageInfo.getPkid() == null ? ""
+						: toMortgageInfo.getPkid().toString();
 			} else {
 				toMortgageMapper.insertSelective(toMortgage);
 				bizCode = toMortgage.getPkid().toString();
@@ -458,6 +470,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 				// 审批成功之后设置为派单状态为完成
 				toMortLoaner.setLoanerStatus(LoanerStatusEnum.COMPLETED
 						.getCode());
+
+				toMortLoaner.setFlowStatus(stateInBank);
 			} else {
 				toMortLoaner.setFlowStatus(stateInBank);
 			}
@@ -505,20 +519,24 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 				 * .queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
 				 */
 				// 查询方式变更，以防主选银行和备选银行 同时派单的重复
-				ToWorkFlow record = toWorkFlowService.queryWorkFlowByInstCode(processInstanceId);
+				ToWorkFlow record = toWorkFlowService
+						.queryWorkFlowByInstCode(processInstanceId);
 				if (record != null) {
 					record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 					toWorkFlowService.updateByPrimaryKeySelective(record);
 				}
-				ToMortLoaner toMortLoaner = toMortLoanerService.getToMortLoanerById(Long.parseLong(mortgageId));
+				ToMortLoaner toMortLoaner = toMortLoanerService
+						.getToMortLoanerById(Long.parseLong(mortgageId));
 				long pkid = 1;
-				if(null != toMortLoaner){
-					if(null != toMortLoaner.getMortPkid() && !"".equals(toMortLoaner.getMortPkid())){
+				if (null != toMortLoaner) {
+					if (null != toMortLoaner.getMortPkid()
+							&& !"".equals(toMortLoaner.getMortPkid())) {
 						pkid = Long.parseLong(toMortLoaner.getMortPkid());
-					}					
+					}
 				}
-				
-				ToMortgage toMortgage = toMortgageMapper.selectByPrimaryKey(pkid);
+
+				ToMortgage toMortgage = toMortgageMapper
+						.selectByPrimaryKey(pkid);
 				if (null != toMortgage) {
 					ToMortgage toMortgageForUpdate = new ToMortgage();
 					toMortgageForUpdate.setPkid(toMortgage.getPkid());
@@ -617,7 +635,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	 */
 	@Override
 	public void loanerProcessCancle(String caseCode, String taskId,
-			String processInstanceId, String isMainLoanBankProcess, String loanerPkid) {
+			String processInstanceId, String isMainLoanBankProcess,
+			String loanerPkid) {
 
 		if ((null == caseCode || "".equals(caseCode))
 				|| (null == taskId || "".equals(taskId))
@@ -810,7 +829,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			ToMortLoaner toMortLoaner = new ToMortLoaner();
 			toMortLoaner.setCaseCode(caseCode);
 			toMortLoaner.setIsMainLoanBankProcess(isMainLoanBank);
-			ToMortLoaner toMortLoanerProcess = toMortLoanerService.findToMortLoaner(toMortLoaner);
+			ToMortLoaner toMortLoanerProcess = toMortLoanerService
+					.findToMortLoaner(toMortLoaner);
 
 			if (null == toMortLoanerProcess) {
 				response.setSuccess(true);
