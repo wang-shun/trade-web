@@ -242,7 +242,7 @@ function  finishLoanerProcess(instCode,caseCode,taskId,isMainLoanBankProcess,loa
 		window.wxc.alert('结束流程请求参数有误！'); 
 		return;
 	}
-	window.wxc.confirm("确认取消该信贷员的拍单流程？",{"wxcOk":function(){
+	window.wxc.confirm("确认取消该信贷员的派单流程？",{"wxcOk":function(){
 	$.ajax({
 		url:ctx+"/task/loanerProcessCancle",
 		method:"post",
