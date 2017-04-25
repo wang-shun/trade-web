@@ -64,8 +64,8 @@ public class OperateListController {
 		Map<String, Object> paramter = new HashMap<String, Object>();
 
 		SessionUser sessionUser = uamSessionService.getSessionUser();
-		// paramter.put("loanerId", sessionUser.getId());
-		paramter.put("loanerId", "8a8493d45921d36901593e4adc95007b");
+		paramter.put("loanerId", sessionUser.getId());
+		// paramter.put("loanerId", "8a8493d45921d36901593e4adc95007b");
 
 		gp.putAll(paramter);
 		querysParseService.reloadFile();
@@ -86,6 +86,23 @@ public class OperateListController {
 		List<Map<String, Object>> mortgageContentList = mortgageContentMapList
 				.getContent();
 
+		// E+操作记录数
+		long eloanOperateCount = eloanContentMapList.getTotalElements();
+
+		// 按揭操作记录数
+		long mortOperateCount = mortgageContentMapList.getTotalElements();
+
+		// 总记录数
+		long totalElements = eloanOperateCount + mortOperateCount;
+
+		// 总页数
+		int totalPage = (int) (totalElements + pageSize - 1) / pageSize;
+
+		result.put("page", page);
+		result.put("total", totalPage);
+		result.put("records", totalElements);
+		result.put("pageSize", pageSize);
+
 		JSONArray content = new JSONArray();
 		for (int i = 0; i < mortgageContentList.size(); i++) {
 			Map<String, Object> mapObj = mortgageContentList.get(i);
@@ -98,9 +115,6 @@ public class OperateListController {
 
 			content.add(JSONObject.toJSON(mapObj));
 		}
-
-		System.out.println("mortgageContentList:" + mortgageContentList.size());
-		System.out.println("eloanContentList:" + eloanContentList.size());
 
 		result.put("rows", content);
 
