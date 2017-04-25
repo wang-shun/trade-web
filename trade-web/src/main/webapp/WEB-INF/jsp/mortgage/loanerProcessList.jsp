@@ -203,10 +203,10 @@
 							<p class="big">接单打回</p>	 
 						{{else if item.LOANER_STATUS == "AUD_REJECTED"}}
 							<p class="big">审批打回</p>	 	
-						{{else if item.ITEM_STATUS == "CANCELED"}}
-                            <p><i class="sign_brown">誉萃撤单</i></p>						
-						{{else if item.ITEM_STATUS == "COMPLETED"}}
-                            <p><i class="sign_brown">审批完成</i></p>
+						{{else if item.LOANER_STATUS == "CANCELED"}}
+                            <p><i class="big">誉萃撤单</i></p>						
+						{{else if item.LOANER_STATUS == "COMPLETED"}}
+                            <p><i class="big">审批完成</i></p>
 						{{/if}}  
 
  						<p class="sign_blue">
