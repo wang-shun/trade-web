@@ -1,5 +1,6 @@
 package com.centaline.trans.cases.vo;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class CaseMergeVo {
@@ -40,6 +41,27 @@ public class CaseMergeVo {
      * 外单案件的合作来源
      */
     private String sourceOfCooperation;
+    /**
+     * 外单案件的应收费用项
+     */
+	private String commSubject;
+	/**
+     * 外单案件的应收费金额
+     */
+    private BigDecimal commCost;
+   
+	public String getCommSubject() {
+		return commSubject;
+	}
+	public void setCommSubject(String commSubject) {
+		this.commSubject = commSubject;
+	}
+	public BigDecimal getCommCost() {
+		return commCost;
+	}
+	public void setCommCost(BigDecimal commCost) {
+		this.commCost = commCost;
+	}
 	public String getSourceOfCooperation() {
 		return sourceOfCooperation;
 	}

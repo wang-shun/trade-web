@@ -23,10 +23,12 @@
 
 <body>
 <input type="hidden" id="ctx" value="${ctx}" />
+<input type="hidden" id="flag" value="${flag}" />
 <input type="hidden" id="caseCode" value="${caseCode}" />
 <div class="wrapper wrapper-content animated fadeInUp">
     <div class="ibox-content" id="reportFive">
-        <form  action="${ctx}/caseMerge/saveWdCaseInfo/${flag}"  method="post"  id="saveCaseInfo">
+        <form  id="saveCaseInfo">
+<%--         <form  action="${ctx}/caseMerge/saveWdCaseInfo/${flag}"  method="post"  id="saveCaseInfo"> --%>
         <div method="get" class="form_list">
             <div class="title"> 新建外单 </div>
         </div>
@@ -108,35 +110,27 @@
             <div class="line">
                 <div class="row product-type">
                     <div class="form_content">
-                        <label class="soutlist-btns-label pull-left">
-                            	服务项目
-                        </label>
+                        <label class="soutlist-btns-label pull-left"> 服务项目 </label>
                         <div class="pull-left outlist-btns" >
-                            <span class="btn btn-white">
-                                	签约
-                            </span>
-                            <span class="btn btn-white">
-                               	 	过户
-                            </span>
-                            <span class="btn btn-white">
-                                	贷款
-                            </span>
-                            <span class="btn btn-white">
-                               	 	其它
-                            </span>
+                            <span class="btn btn-white" onclick="" name="commSubject" value="签约"> 签约 </span>
+                            <span class="btn btn-white" onclick="" name="commSubject" value="过户 "> 过户 </span>
+                            <span class="btn btn-white" onclick="" name="commSubject" value="贷款 "> 贷款 </span>
+                            <span class="btn btn-white" onclick="" name="commSubject" value="其它"> 其它  </span> 
+                            
+                             <!-- <input type="hidden" class="select_control sign_right_one" name="agentName" id="agentName" value=""> -->
                         </div>
                     </div>
                 </div>
             </div>
             <div class="line hide-style" id="elseInput" style="margin-left: 127px;">
-                <div class="form_content">
-                    <input class="select_control sign_right_one" placeholder="请输入服务项目" value="">
+                <div class="form_content"> 
+                    <input class="select_control sign_right_one" placeholder="请输入服务项目" name="commSubject"  /> 
                 </div>
             </div>
             <div class="line">
                 <div class="form_content">
-                    <label class="control-label sign_left_small">服务价格</label> <input class="select_control sign_right_one" placeholder="" value="">
-                   <span class="date_icon">元</span>
+                    <label class="control-label sign_left_small">服务价格</label> <input class="select_control sign_right_one" placeholder="" id="commCost" name="commCost" >
+                   <span class="date_icon" >元</span>
                 </div>
             </div>
             <div class="line">
@@ -166,7 +160,8 @@
     </div>
 </div>
 <content tag="local_script"> 
-<script src="${ctx}/js/trunk/case/addWdCase.js"></script>
+<script src="${ctx}/js/trunk/case/addWdCase.js"></script><%-- 
+<script src="${ctx}/js/trunk/case/jquery.serializejson.js"></script> --%>
 <script>
     var $else = $('#elseInput'); 
     var $btn_spans = $('.outlist-btns span');
@@ -195,6 +190,23 @@
 	    	}); 
 	    });
     });
+    
+    
+    function mathOper(oper){
+    	var rsltEl = document.getElementById('agentName');
+    
+    	alert($("#commSubject").attr('class'));
+    	rsltEl.value = rsltEl.value+oper;
+    	alert(rsltEl.value);
+    	}
+    
+    jQuery(document).ready(function() {
+	    $("span[name='commSubject']").click(function(){								
+			var id = $(this).attr("id");								
+			$("span[id='"+id+"']").changeSelect();
+		});
+    });
+    
 </script>
 </content>
 </body>

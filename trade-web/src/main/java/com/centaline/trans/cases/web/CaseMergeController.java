@@ -45,6 +45,7 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.spv.vo.SpvRecordedsVO;
 import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.utils.DateUtil;
 
@@ -393,6 +394,23 @@ public class CaseMergeController {
 		return "case/addWdCase";
 	}
 	/**
+	 * 修改外单页面跳转 
+	 * @author hejf10
+	 * @date 2017年4月24日16:25:14
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="editWdCase")
+	public String editWdCase(Model model, HttpServletRequest request,String caseCode) throws Exception{
+		model.addAttribute("flag","edit");
+		toAccesoryListService.getAccesoryList(request, "AddWdCase");
+		//caseMergeService.saveWdCaseInfo(request,caseMergeVo);}
+		model.addAttribute("caseCode",caseCode);
+		return "case/editWdCase";
+	}
+	
+	
+	/**
 	 * 新建外单提交
 	 * @author hjf
 	 * @date 2017年4月21日13:59:02
@@ -401,12 +419,75 @@ public class CaseMergeController {
 	 * @param keyFlag
 	 * @return
 	 * @throws Exception 
-	 */
+	 *//*
+	@RequestMapping("saveWdCaseInfo")
+	public String saveWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo) throws Exception{
+		String caseCode = null;
+		try{
+			
+			if(StringUtils.equals("add", keyFlag)){
+				caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			}
+			if(StringUtils.equals("edit", keyFlag)){
+				caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			}
+			
+			caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			if(!"".equals(keyFlag) && null != keyFlag){
+				if("case".equals(keyFlag)){				
+					return "redirect:/case/tracking?caseCode="+caseCode;						
+				}else if("eloan".equals(keyFlag)){				
+					return "redirect:/eloan/task/eloanApply/process";										
+				}else if("spv".equals(keyFlag)){
+					return "redirect:/spv/saveHTML";									
+				}
+			}
+		}catch(BusinessException e){
+			throw new BusinessException("外单案件信息保存异常！");
+		}
+		return   "redirect:/case/tracking?caseCode="+caseCode;	
+		//return  "case/mycase_list2";
+	}*/
+	
+
+	@RequestMapping(value = "/saveWdCaseInfo")
+	@ResponseBody
+	public AjaxResponse<?>  saveWdCaseInfo(CaseMergeVo caseMergeVo,HttpServletRequest request){
+		AjaxResponse<?> response = new AjaxResponse<>();
+		String caseCode = null;
+		try{
+			caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+/*	*//**
+	 * 新建外单提交
+	 * @author hjf
+	 * @date 2017年4月21日13:59:02
+	 * @param request
+	 * @param caseMergeVo
+	 * @param keyFlag
+	 * @return
+	 * @throws Exception 
+	 *//*
 	@RequestMapping("saveWdCaseInfo/{keyFlag}")
 	public String saveWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo,@PathVariable String keyFlag) throws Exception{
 		try{
-			String caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			String caseCode = null;
+			if(StringUtils.equals("add", keyFlag)){
+				caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			}
+			if(StringUtils.equals("edit", keyFlag)){
+				caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			}
 			
+			caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
 			if(!"".equals(keyFlag) && null != keyFlag){
 				if("case".equals(keyFlag)){				
 					return "redirect:/case/tracking?caseCode="+caseCode;						
@@ -421,7 +502,7 @@ public class CaseMergeController {
 		}
 		return  "case/mycase_list2";
 	}
-	/**
+*/	/**
 	 * 返来日期时间的一个字符串
 	 * @author hejf10
 	 * @return

@@ -1,7 +1,8 @@
 package com.centaline.trans.wdcase.repository;
 
+import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.wdcase.entity.TpdCommSubs;
-
+@MyBatisRepository
 public interface TpdCommSubsMapper {
     int deleteByPrimaryKey(Long pkid);
 

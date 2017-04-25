@@ -10,11 +10,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
@@ -37,6 +39,8 @@ import com.centaline.trans.eloan.repository.ToRcAttachmentMapper;
 import com.centaline.trans.team.entity.TsTeamScopeTarget;
 import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.utils.DateUtil;
+import com.centaline.trans.wdcase.entity.TpdCommSubs;
+import com.centaline.trans.wdcase.repository.TpdCommSubsMapper;
 
 @Service
 public class CaseMergeServiceImpl implements CaseMergeService {
@@ -63,7 +67,13 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	
 	@Autowired
 	private ToAttachmentMapper toAttachmentMapper; 
+	
+	@Autowired
+	private TpdCommSubsMapper tpdCommSubsMapper; 
 
+	@Autowired(required = true)
+	UamSessionService uamSessionService;
+	
 	@Override
 	public void saveCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo,String caseCode) {
 		
@@ -255,6 +265,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		if(null == caseMergeVo){ throw new BusinessException("新建外单案件信息为空！");	  }	
 		if(null == caseMergeVo.getDistCode()){ throw new BusinessException("新建外单案件没有上传附件！");	  }	
 		
+		SessionUser user = uamSessionService.getSessionUser();
+		
 		String caseCode=getNewCaseCode();  /**调用caseCode 的本地的方法**/
 		Map<String, Object> map = new HashMap<String, Object>();
 		int insertUp=0,insertDown=0,insertCase=0,insertCaseInfo=0,insertTz=0;		
@@ -266,8 +278,9 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		List<String>  nameRecommendList = caseMergeVo.getGuestNameRecommend();
 		List<String>  phoneRecommendList = caseMergeVo.getGuestPhoneRecommend();		
 		
-		ToCase toCase = setToCase(caseCode);
+		ToCase toCase = setToCase(caseCode,user);
 		ToCaseInfo toCaseInfo = setToCaseInfo(toCase,caseMergeVo);
+		TpdCommSubs tpdCommSubs = setTpdCommSubs(toCase,caseMergeVo,user);
 		
 		/**
 		 * 1.保存案件信息				
@@ -291,6 +304,10 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		 * 5.保存案件附件信息
 		 */
 		toAttachmentMapper.updateToAttachmentForCaseCodeByCaseCode(caseMergeVo.getDistCode().toString(), caseCode);
+		/**
+		 * 6.保存案件应收记录
+		 */
+		tpdCommSubsMapper.insertSelective(tpdCommSubs);
 		
 		if(caseMergeVo.getAgentOrgId() != null && !"".equals(caseMergeVo.getAgentOrgId())){				
 			map.put("caseCode", caseCode);
@@ -312,12 +329,14 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 * @date 2017年4月21日14:18:47
 	 * @param toCase
 	 */
-	public ToCase setToCase(String caseCode){
+	public ToCase setToCase(String caseCode,SessionUser user){
 		ToCase toCase = new ToCase();
 		toCase.setCaseCode(caseCode);
 		toCase.setCaseProperty(CasePropertyEnum.TPWD.getCode());
 		toCase.setStatus(CaseStatusEnum.WFD.getCode());
 		toCase.setCaseOrigin(CaseOriginEnum.WD.getCode());	
+		/*toCase.setCreateBy(user.getId());
+		toCase.setCreateTime(new Date());*/
 		return toCase;
 	}
 	/**
@@ -347,7 +366,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 * @param toPropertyInfo
 	 * @throws ParseException 
 	 */
-	public ToPropertyInfo setToPropertyInfo(ToCase toCase,CaseMergeVo caseMergeVo) throws ParseException{
+	public ToPropertyInfo setToPropertyInfo(ToCase toCase,CaseMergeVo caseMergeVo)throws ParseException{
 		
 		ToPropertyInfo toPropertyInfo = new ToPropertyInfo();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 	
@@ -363,6 +382,23 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 			toPropertyInfo.setFinishYear(sdf.parse(caseMergeVo.getFinishYear()+"-01-01 00:00"));
 		}
 		return toPropertyInfo;
+	}
+	/**
+	 * 设置案件地址信息
+	 * @author hejf10
+	 * @date 2017年4月21日14:18:47
+	 * @param toPropertyInfo
+	 * @throws ParseException 
+	 */
+	public TpdCommSubs setTpdCommSubs(ToCase toCase,CaseMergeVo caseMergeVo,SessionUser user) throws ParseException{
+		
+		TpdCommSubs tpdCommSubs = new TpdCommSubs();
+		tpdCommSubs.setCaseCode(toCase.getCaseCode());
+		tpdCommSubs.setCommSubject(caseMergeVo.getCommSubject());
+		tpdCommSubs.setCommCost(caseMergeVo.getCommCost());
+		tpdCommSubs.setCreateBy(user.getId());
+		tpdCommSubs.setCreateTime(new Date());
+		return tpdCommSubs;
 	}
 	/**
 	 * 保存案件上下家/推荐人信息
@@ -406,7 +442,56 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		}		
 		return k;
 	}
-	
+	/**
+	 * 查询外单详细
+	 * @author hejf10
+	 * @date 2017年4月24日17:26:51
+	 * @param request
+	 * @param caseCode
+	 * @throws Exception
+	 *//*
+	@Override
+	public void getCaseInfo(HttpServletRequest request,String caseCode)throws Exception{
+		
+		if(StringUtils.isBlank(caseCode)){new BusinessException("caseCode为空！");}
+		
+		*//**
+		 * 1.保存案件信息				
+		 *//*
+		insertCase = toCaseService.insertSelective(toCase);
+		*//**
+		 * 2.保存案件详细信息
+		 *//*
+		insertCaseInfo = toCaseInfoService.insertSelective(toCaseInfo);
+		*//**
+		 * 3.保存案件地址信息			
+		 *//*
+		toPropertyInfoService.insertSelective(setToPropertyInfo(toCase,caseMergeVo));
+		*//**
+		 * 4.保存案件上下家/推荐人信息
+		 *//*
+		insertUp = saveIntoGuestInfo(nameUpList,namePhoneList,caseCode,1);
+		insertDown = saveIntoGuestInfo(nameDownList,phoneDownList,caseCode,2);
+		insertTz = saveIntoGuestInfo(nameRecommendList,phoneRecommendList,caseCode,3);
+		*//**
+		 * 5.保存案件附件信息
+		 *//*
+		toAttachmentMapper.updateToAttachmentForCaseCodeByCaseCode(caseMergeVo.getDistCode().toString(), caseCode);
+		
+		if(caseMergeVo.getAgentOrgId() != null && !"".equals(caseMergeVo.getAgentOrgId())){				
+			map.put("caseCode", caseCode);
+			map.put("orgId", caseMergeVo.getAgentOrgId());
+			toCaseInfoService.updateCaseInfoByOrgId(map);
+		}
+		
+		if(insertUp > 0 && insertDown > 0 && insertCase>0 && insertCaseInfo > 0 && insertTz >0){					
+			request.setAttribute("caseCode", caseCode);
+			request.setAttribute("busFlag", "success");
+		}	
+		
+		return caseCode;			
+			
+	}*/
 	
 	
 }
