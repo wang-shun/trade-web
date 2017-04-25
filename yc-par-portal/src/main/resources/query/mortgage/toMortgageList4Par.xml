@@ -128,7 +128,7 @@
 					FROM sctrans.T_TO_MORT_LOANER ml
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = ml.CASE_CODE
 					LEFT JOIN sctrans.T_TO_CASE_COMMENT c ON c.BIZ_CODE = convert(varchar(20),ml.PKID) AND (c.SRV_CODE = 'ACCEPT' OR c.SRV_CODE = 'REJECT' OR c.SRV_CODE = 'BANKREJECT' OR c.SRV_CODE = 'CANCEL')
-					where ml.LOANER_ID = #userid#
+					where ml.LOANER_ID = #loanerId#
 				]]>
 			</baseSql>
 			<groupSql>

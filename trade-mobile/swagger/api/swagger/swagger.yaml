@@ -167,11 +167,12 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/getLoanlostApproveResponse"
-  /task/ToHouseTransfer/process:
+ 
+  /task/caselostApprove/first/process:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
     get:
-      description: 过户任务详情接口
+      description: 结案审核任务详情接口
       # used as the method name of the controller
       operationId: loanlostApproveFirstNew11
       parameters:
@@ -185,8 +186,48 @@ paths:
             description: Success
             schema:
               # a pointer to a definition
-              $ref: "#/definitions/getHouseTransferResponse"
+              $ref: "#/definitions/getcaselostApproveFirstResponse"
               
+  /task/caselostApprove/second/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 结案审批任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew23
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getcaselostApproveSecondResponse"  
+              
+  /task/ToHouseTransfer/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 过户任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew22
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getHouseTransferResponse"
+                            
   /task/taxReview/process:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
@@ -283,6 +324,125 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/getHouseBookResponse"
+  /task/caselostApprove/caselostApproveFirst:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交结案审核接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew20
+      parameters:
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+          
+        - name: partCode
+          in: query
+          description: 'CaseCloseFirstApprove'
+          required: true
+          type: string
+        - name: approveType
+          in: query
+          description: '3'
+          required: true
+          type: string
+        - name: operator
+          in: query
+          description: 操作人
+          required: true
+          type: string
+          
+        - name: CaseCloseFirstCheck
+          in: query
+          description: 是否审核通过
+          required: true
+          type: boolean
+        - name: CaseCloseFirstCheck_response
+          in: query
+          description: 是否审核通过(通过、不通过)
+          required: true
+          type: string
+          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"
+ 
+  /task/caselostApprove/caselostApproveSecond:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交结案审批接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew24
+      parameters:
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+          
+        - name: partCode
+          in: query
+          description: 'CaseCloseSecondApprove'
+          required: true
+          type: string
+        - name: approveType
+          in: query
+          description: '3'
+          required: true
+          type: string
+        - name: operator
+          in: query
+          description: 操作人
+          required: true
+          type: string
+          
+        - name: CaseCloseFirstCheck
+          in: query
+          description: 是否审核通过
+          required: true
+          type: boolean
+        - name: CaseCloseFirstCheck_response
+          in: query
+          description: 是否审核通过(通过、不通过)
+          required: true
+          type: string
+          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"
               
   /task/mortgage/submitPsfApply:
     # binds a127 app logic to a route
@@ -744,6 +904,80 @@ definitions:
         type: string
       token:
         type: string
+        
+
+#结案审批任务详情接口START
+  getcaselostApproveSecondResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getcaselostApproveSecondContent"     
+  getcaselostApproveSecondContent:
+    properties:
+      success:
+        type: boolean
+      partCode:
+        type: string
+        description: 'CaseCloseSecondApprove'  
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      approveType:
+        type: string  
+        description: '3'
+      operator:
+        type: string  
+        description: 操作人 
+      
+#结案审批任务详情接口END
+#结案审核任务详情接口START
+  getcaselostApproveFirstResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getcaselostApproveFirstContent"     
+  getcaselostApproveFirstContent:
+    properties:
+      success:
+        type: boolean
+      partCode:
+        type: string
+        description: 'CaseCloseFirstApprove'  
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      approveType:
+        type: string  
+        description: '3'
+      operator:
+        type: string  
+        description: 操作人 
+      
+#结案审核任务详情接口END
+
+        
+        
+        
 #核价详情Start
   getPricingSuccessResponse:
     required:
