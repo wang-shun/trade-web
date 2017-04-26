@@ -50,7 +50,7 @@
 							(SELECT REAL_NAME FROM sctrans.SYS_USER WHERE ID = c.CREATE_BY) AS createBy
 					FROM sctrans.T_TO_ELOAN_LOANER el
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = el.CASE_CODE
-					LEFT JOIN sctrans.T_TO_CASE_COMMENT c ON c.BIZ_CODE = convert(varchar(20),el.PKID) AND (c.SRV_CODE = 'ACCEPT' OR c.SRV_CODE = 'REJECT')
+					INNER JOIN sctrans.T_TO_CASE_COMMENT c ON c.BIZ_CODE = convert(varchar(20),el.PKID) AND (c.SRV_CODE = 'ACCEPT' OR c.SRV_CODE = 'REJECT')
 					where el.LOANER_ID = #loanerId#
 				]]>
 			</baseSql>

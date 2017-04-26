@@ -53,6 +53,7 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.repository.ToMortLoanerMapper;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.mortgage.service.LoanerProcessService;
+import com.centaline.trans.mortgage.service.ToMortLoanerService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.mortgage.vo.MortgageVo;
 import com.centaline.trans.stuff.service.StuffService;
@@ -109,6 +110,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	private TransplanServiceFacade transplanServiceFacade;
 	@Autowired
 	private StuffService stuffService;
+	@Autowired
+	private ToMortLoanerService toMortLoanerService;
 
 	@Override
 	public ToMortgage saveToMortgage(ToMortgage toMortgage) {
@@ -300,7 +303,8 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public ToMortgage findToMortgageByCaseCode2(String caseCode) {
 
-		List<ToMortgage> toMortgageList = toMortgageMapper.findToMortgageByCaseCodeNoBlank(caseCode);
+		List<ToMortgage> toMortgageList = toMortgageMapper
+				.findToMortgageByCaseCodeNoBlank(caseCode);
 		if (CollectionUtils.isNotEmpty(toMortgageList)) {
 			ToMortgage mort = null;
 			if (toMortgageList.size() == 1) {
@@ -879,7 +883,7 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 	@Override
 	public boolean followUp(MortgageVo mortgageVo) {
 		ToMortLoaner toMortLoaner = new ToMortLoaner();
-		toMortLoaner.setMortPkid(mortgageVo.getBizCode());
+		toMortLoaner.setPkid(Long.parseLong(mortgageVo.getBizCode()));
 
 		// 银行审核通过
 		if ("true".equals(mortgageVo.getIsPass())) {
@@ -890,7 +894,12 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 						mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(),
 						mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
 						mortgageVo.getStateInBank());
+			} else {
+				// 更新跟进状态
+				toMortLoaner.setFlowStatus(mortgageVo.getStateInBank());
+				toMortLoanerService.updateByPrimaryKeySelective(toMortLoaner);
 			}
+
 		}
 		// 银行审核拒绝
 		else if ("false".equals(mortgageVo.getIsPass())) {
