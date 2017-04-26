@@ -46,17 +46,15 @@
 				      ,bw.WARN_TYPE
 				      ,bw.WARN_TIME
 				      ,bw.STATUS
-				      ,bw.RELIEVE_TIME 
-				      ,c.pkid,ART.ASSIGNEE_
-		              ,ART.SUSPENSION_STATE_
+				      ,bw.RELIEVE_TIME
+				      ,c.pkid
 		              ,bw.CREATE_TIME
 					  ,c.ORG_ID
 				  FROM sctrans.T_TO_BIZ_WARN bw
 				  LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS ttpi ON ttpi.CASE_CODE = bw.CASE_CODE
 				  LEFT JOIN sctrans.T_TO_CASE as c on c.case_code = bw.CASE_CODE
-				  LEFT JOIN sctrans.T_TO_WORKFLOW tw on tw.CASE_CODE = bw.CASE_CODE
-				  LEFT JOIN sctrans.ACT_RU_TASK ART on ART.PROC_INST_ID_  = tw.INST_CODE) t
-				  where t.SUSPENSION_STATE_ = '1' and t.ASSIGNEE_ = #userLoginName#
+				  LEFT JOIN sctrans.T_TO_WORKFLOW tw on tw.CASE_CODE = bw.CASE_CODE) t
+				  where 1=1
 				  <ifNotNull warnType>	
    						and t.WARN_TYPE=#warnType# 
 				  </ifNotNull>
@@ -80,6 +78,30 @@
 				  <ifNotNull warnTimeEnd>
 						AND t.WARN_TIME &lt;= #warnTimeEnd#
 				  </ifNotNull>
+				 <if test="warnType == 'RepayOverdue' ">
+						 <if test="orgFlag == 'false' ">
+							and exists(
+							 (SELECT u.USERNAME FROM sctrans.T_TO_CASE c inner join sctrans.sys_user u on c.LEADING_PROCESS_ID = u.id WHERE CASE_CODE=t.CASE_CODE and u.USERNAME=#userLoginName#)
+								UNION
+							 (SELECT u.USERNAME FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p inner join sctrans.sys_user u on p.PROCESSOR_ID = u.id WHERE CASE_CODE=t.CASE_CODE and u.USERNAME=#userLoginName#)
+							)
+						 </if>
+						 <if test="orgFlag == 'true' ">
+							and exists (select 1 from sctrans.T_TO_CASE tc where tc.CASE_CODE = t.CASE_CODE and  tc.ORG_ID in (#queryorgs#))
+						 </if>
+				 </if>
+
+				<if test="warnType == 'TransferOverdue' ">
+					<if test="orgFlag == 'false' ">
+					   and exists(select 1 from sctrans.T_TO_ELOAN_CASE t1 left join sctrans.SYS_USER t2 on t1.CREATE_BY=t2.ID where t1.CASE_CODE=t.CASE_CODE and t2.USERNAME = #userLoginName#)
+					</if>
+					 <if test="orgFlag == 'true' ">
+						  and exists(
+							  select 1 from (select t2.ORG_ID from sctrans.T_TO_ELOAN_CASE t1 left join sctrans.SYS_USER t2 on t1.CREATE_BY=t2.ID where t1.CASE_CODE=t.CASE_CODE ) t3
+							  where t3.ORG_ID in (#queryorgs#)
+						  )
+					 </if>
+				</if>
 				]]>
 			</baseSql>
 			<orderBySql>
