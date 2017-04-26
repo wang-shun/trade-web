@@ -236,20 +236,16 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 	 * @des:启动信贷员流程
 	 */
 	@Override
-	public AjaxResponse<String> newStartLoanerOrderWorkFlow(
-			ToMortgage toMortgage) {
+	public AjaxResponse<String> newStartLoanerOrderWorkFlow(ToMortgage toMortgage) {
 
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		/* 流程引擎相关 */
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		SessionUser user = uamSessionService.getSessionUser();
 
-		String caseCode = toMortgage.getCaseCode() == null ? "" : toMortgage
-				.getCaseCode();
-		String loanerId = toMortgage.getLoanerId() == null ? "" : toMortgage
-				.getLoanerId();
-		String bankLevel = toMortgage.getBankLevel() == null ? "" : toMortgage
-				.getBankLevel();
+		String caseCode = toMortgage.getCaseCode() == null ? "" : toMortgage.getCaseCode();
+		String loanerId = toMortgage.getLoanerId() == null ? "" : toMortgage.getLoanerId();
+		String bankLevel = toMortgage.getBankLevel() == null ? "" : toMortgage.getBankLevel();
 
 		try {
 			/*
@@ -263,17 +259,12 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 
 			User loaner = uamUserOrgService.getUserById(loanerId);
 
-			variables.add(new RestVariable("loanerUserName", loaner
-					.getUsername()));
-			variables.add(new RestVariable("sessionUserName", user
-					.getUsername())); // 派单人
+			variables.add(new RestVariable("loanerUserName", loaner.getUsername()));
+			variables.add(new RestVariable("sessionUserName", user.getUsername())); // 派单人
 
 			// 启动流程
-			ProcessInstance process = new ProcessInstance(
-					propertyUtilsService.getProcessLoanerDfKey(), caseCode,
-					variables);
-			StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(
-					process, loaner.getUsername(), caseCode);
+			ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode,variables);
+			StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, loaner.getUsername(), caseCode);
 
 			// 具体的业务逻辑处理， 贷款表中 冗余派单人ID、 时间， 取消审核人id、时间信息
 			Map<String, Object> mapParam = new HashMap<String, Object>();
@@ -305,14 +296,12 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			}
 
 			// 冗余 派单流程表信息
-			ToPropertyInfo toPropertyInfo = toPropertyInfoService
-					.findToPropertyInfoByCaseCode(caseCode);
+			ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
 
 			// 生产 receiveCode
 			String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
 			String month = dateStr.substring(0, 6);
-			String receiveCode = uamBasedataService.nextSeqVal("CASE_AP_CODE",
-					month);
+			String receiveCode = uamBasedataService.nextSeqVal("CASE_AP_CODE",month);
 			if (null == receiveCode) {
 				throw new BusinessException("生成接收编码异常！");
 			}
@@ -325,8 +314,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			}
 			toMortLoaner.setReceiveCode(receiveCode);
 			toMortLoaner.setMortType(toMortgage.getMortType());
-			toMortLoaner.setIsMainLoanBankProcess(toMortgage
-					.getIsMainLoanBank());// 1:主选银行派单流程
+			toMortLoaner.setIsMainLoanBankProcess(toMortgage.getIsMainLoanBank());// 1:主选银行派单流程
 			toMortLoaner.setMortTotalAmount(toMortgage.getMortTotalAmount());
 			toMortLoaner.setComAmount(toMortgage.getComAmount());
 			toMortLoaner.setComYear(toMortgage.getComYear());
@@ -351,8 +339,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			workFlow.setCaseCode(caseCode);
 			workFlow.setBizCode(String.valueOf(toMortLoaner.getPkid()));// 插入数据的主键返回
 			workFlow.setInstCode(vo.getId());
-			workFlow.setProcessDefinitionId(propertyUtilsService
-					.getProcessLoanerDfKey());
+			workFlow.setProcessDefinitionId(propertyUtilsService.getProcessLoanerDfKey());
 			workFlow.setProcessOwner(user.getId());
 			workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 			toWorkFlowService.insertSelective(workFlow);
@@ -726,18 +713,15 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			ToWorkFlow workFlow = new ToWorkFlow();
 			workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());// Loaner_Process
 			workFlow.setCaseCode(caseCode);
-			ToWorkFlow record = toWorkFlowService
-					.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
+			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
 			if (record != null) {
 				record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 				toWorkFlowService.updateByPrimaryKeySelective(record);
 			}
 
 			variables.add(new RestVariable("currentProcessEnd", false));
-			variables.add(new RestVariable("loanerUserName", loaner
-					.getUsername()));
-			variables.add(new RestVariable("sessionUserName", user
-					.getUsername())); // 派单人
+			variables.add(new RestVariable("loanerUserName", loaner.getUsername()));
+			variables.add(new RestVariable("sessionUserName", user.getUsername())); // 派单人
 			// 启动流程
 			ProcessInstance process = new ProcessInstance(
 					propertyUtilsService.getProcessLoanerDfKey(), caseCode,
@@ -761,8 +745,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			// 生产 receiveCode
 			String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
 			String month = dateStr.substring(0, 6);
-			String receiveCode = uamBasedataService.nextSeqVal("CASE_AP_CODE",
-					month);
+			String receiveCode = uamBasedataService.nextSeqVal("CASE_AP_CODE",month);
 			if (null == receiveCode) {
 				throw new BusinessException("生成接收编码异常！");
 			}

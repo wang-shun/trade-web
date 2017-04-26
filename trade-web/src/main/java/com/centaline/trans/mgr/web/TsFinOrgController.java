@@ -73,8 +73,7 @@ public class TsFinOrgController {
 	public List<TsFinOrg> findBankListByParentCode(String faFinOrgCode,
 			String flag,String tag,String nowCode) {
 
-		List<TsFinOrg> bankList = tsFinOrgService.findBankListByParentCode(
-				flag, faFinOrgCode,tag,nowCode);
+		List<TsFinOrg> bankList = tsFinOrgService.findBankListByParentCode(flag, faFinOrgCode,tag,nowCode);
 		return bankList;
 	}
 

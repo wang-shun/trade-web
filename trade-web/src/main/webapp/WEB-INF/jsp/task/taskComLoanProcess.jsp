@@ -1992,10 +1992,10 @@ function checkInt(obj){
 		var isMainLoanBank = $("#isMainLoanBank").val();
 		if (array && array.length > 0) {
 				if(isMainLoanBank == 1){
-					$form.find("#loanerName1").val(array[0].username);
-					$form.find("#loanerName").val(array[0].username);
+					$form.find("input[name='loanerName1']").val(array[0].username);
+					$form.find("input[name='loanerName']").val(array[0].username);
 				}else if(isMainLoanBank == 0){
-					$form.find("#loanerName").val(array[0].username);
+					$form.find("input[name='loanerName']").val(array[0].username);
 				}				
 				$.ajax({
 					url : ctx + "/eloan/LoanerCode",
@@ -2014,9 +2014,9 @@ function checkInt(obj){
 				})
 			} else {
 				if(isMainLoanBank == 1){
-					$form.find("#loanerName1").val("");
+					$form.find("input[name='loanerName1']").val("");
 				}
-				$form.find("#loanerName").val("");				
+				$form.find("input[name='loanerName']").val("");				
 				$form.find("#loanerOrgCode").val("");
 				$form.find("#loanerOrgId").val("");
 			}
