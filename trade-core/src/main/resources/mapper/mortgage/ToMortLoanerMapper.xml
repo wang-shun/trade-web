@@ -544,7 +544,14 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   
-   <select id="getToMortLoanerByMortgageId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   <select id="getToMortLoanerById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    where PKID = #{id,jdbcType=BIGINT} 
+  </select>
+  
+   <select id="getAcceptingMortLoanerInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_MORT_LOANER

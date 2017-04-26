@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuerysParseService;
 import com.aist.common.quickQuery.service.QuickGridService;
@@ -23,7 +24,6 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.parportal.exception.CheckParametersException;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.vo.ELoanVo;
 
@@ -67,16 +67,15 @@ public class ELoanCaseController {
 	 * @param comment
 	 *            备注
 	 * @return
-	 * @throws CheckParametersException
 	 */
 	@RequestMapping(value = "suppleInfo")
 	@ResponseBody
 	public String suppleInfo(String eLoanCode, String type, String stateInBank,
-			String caseCode, String comment) throws CheckParametersException {
+			String caseCode, String comment) {
 
 		if (eLoanCode == null || type == null || comment == null
 				|| stateInBank == null || caseCode == null) {
-			throw new CheckParametersException("请检查参数!");
+			throw new BusinessException("请检查参数!");
 		}
 
 		// 获取当前用户信息
@@ -86,6 +85,7 @@ public class ELoanCaseController {
 		// 设置前台传的参数信息
 		ELoanVo eLoanVo = new ELoanVo();
 		eLoanVo.seteLoanCode(eLoanCode);
+		eLoanVo.setSource("CARD");
 		eLoanVo.setType(type);
 		eLoanVo.setStateInBank(stateInBank);
 		eLoanVo.setCaseCode(caseCode);
@@ -113,15 +113,14 @@ public class ELoanCaseController {
 	 * @param comment
 	 *            案件跟进备注
 	 * @return 返回true,操作成功;返回false,操作失败。
-	 * @throws CheckParametersException
 	 */
 	@RequestMapping(value = "track/followUp")
 	@ResponseBody
 	public String followUp(String eLoanCode, String stateInBank,
-			String caseCode, String comment) throws CheckParametersException {
+			String caseCode, String comment) {
 
 		if (eLoanCode == null || stateInBank == null || caseCode == null) {
-			throw new CheckParametersException("请检查参数!");
+			throw new BusinessException("请检查参数!");
 		}
 
 		// 获取当前用户信息
@@ -158,17 +157,15 @@ public class ELoanCaseController {
 	 * @param comment
 	 *            案件跟进备注
 	 * @return 返回true,操作成功;返回false,操作失败。
-	 * @throws CheckParametersException
 	 */
 	@RequestMapping(value = "track/accept")
 	@ResponseBody
 	public String accept(String eLoanCode, String isPass, String taskId,
-			String stateInBank, String caseCode, String comment)
-			throws CheckParametersException {
+			String stateInBank, String caseCode, String comment) {
 
 		if (eLoanCode == null || isPass == null || taskId == null
 				|| stateInBank == null || caseCode == null) {
-			throw new CheckParametersException("请检查参数!");
+			throw new BusinessException("请检查参数!");
 		}
 
 		// 获取当前用户信息
@@ -217,7 +214,7 @@ public class ELoanCaseController {
 
 		SessionUser sessionUser = uamSessionService.getSessionUser();
 		paramter.put("loanerId", sessionUser.getId());
-		// paramter.put("loanerId", "8a8493d45921d56d01593fd036e100f1");
+		// paramter.put("loanerId", "8a8493d45921d36901593e4adc95007b");
 		paramter.put("flag", "noAccept");
 
 		if (condition != null) {
@@ -281,11 +278,10 @@ public class ELoanCaseController {
 
 	@RequestMapping(value = "/{eLoanCode}")
 	@ResponseBody
-	public String mortgageCaseDetail(@PathVariable String eLoanCode)
-			throws CheckParametersException {
+	public String mortgageCaseDetail(@PathVariable String eLoanCode) {
 
 		if (eLoanCode == null) {
-			throw new CheckParametersException("请检查参数!");
+			throw new BusinessException("请检查参数!");
 		}
 
 		// 获取E+案件基本信息

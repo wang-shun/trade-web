@@ -48,6 +48,7 @@
 							ISNULL((SELECT PROC_INST_ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE BIZ_CODE = m.PKID AND BUSINESS_KEY = 'Loaner_Process' AND CASE_CODE = m.CASE_CODE)),'') AS procInstanceId,
 							ISNULL(m.SEND_ID,'') as consultantID,
 							ISNULL(m.CUST_NAME,'') as custName,
+							ISNULL(m.FLOW_STATUS,'') as flowStatusCode,
 							CASE m.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS loanerStatus,
 							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = m.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
 							ISNULL(m.MORT_TOTAL_AMOUNT,0.00) as loanAmount,
@@ -55,10 +56,10 @@
 							ISNULL(CONVERT(varchar(100), m.SEND_TIME, 23),'') as applyTime,
 							'MORT' as prdType,
 							m.CASE_CODE as caseCode,
-							CAST(m.MORT_PKID as varchar)	as bizCode,
+							CAST(m.PKID as varchar)	as bizCode,
 							ISNULL(p.PROPERTY_ADDR,'') 	as addr,
 							ISNULL(uoj.employee_code,'') 	as avartaUrl,
-							ISNULL(uoj.real_name,'') 		as consultantName
+							ISNULL((select REAL_NAME FROM sctrans.SYS_USER WHERE ID = m.SEND_ID),'') 		as consultantName
 					FROM sctrans.T_TO_MORT_LOANER m
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = m.CASE_CODE AND m.LOANER_ID = #userid#
 					LEFT JOIN sctrans.V_USER_ORG_JOB uoj ON m.LOANER_ID = uoj.user_id AND uoj.ismain = 1
@@ -66,11 +67,11 @@
 					AND EXISTS (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE = m.CASE_CODE and c.LOAN_REQ=1)
 				
 				<if test="flag == 'noAccept'">
-					AND (m.LOANER_STATUS = '' or m.LOANER_STATUS IS NULL)
+					AND m.LOANER_STATUS = 'ACCEPTING'
 				</if>
 				
 				<if test="flag == 'exceptNoAccept'">
-					AND (m.LOANER_STATUS != '' and m.LOANER_STATUS IS NOT NULL)
+					AND m.LOANER_STATUS != 'ACCEPTING'
 				</if>
 				
 				<ifNotNull q_text>
@@ -83,8 +84,7 @@
 			<groupSql>
 			</groupSql>
 			<orderBySql>
-			  ORDER BY m.SEND_TIME
-			   DESC
+			  ORDER BY m.SEND_TIME DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
@@ -95,6 +95,7 @@
 				<column  name="consultantID"   title="交易顾问id"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="consultantName"   title="交易顾问名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="custName"   title="客户名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="flowStatusCode"   title="跟进状态code"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="loanerStatus"   title="派单状态"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="flowStatus"   title="跟进状态"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="loanAmount"   title="贷款金额"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
@@ -107,4 +108,49 @@
 			</table-row>
 		</grid>
 	</query>
+	
+	<query id="mortgageOperateList">
+	    <searchCondition>      
+        </searchCondition> 
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+							ml.PKID AS pkid,
+							ISNULL(ml.CUST_NAME,'') AS customerName,
+							ISNULL(ml.MORT_TOTAL_AMOUNT,'0.00') AS mortTotalAmount,
+							ISNULL(CONVERT(varchar(100), ml.SEND_TIME, 23),'') as applyTime,
+							ISNULL(p.PROPERTY_ADDR,'') AS propertyAddress,
+							CASE c.SRV_CODE WHEN 'ACCEPT' THEN '接单' WHEN 'REJECT' THEN '打回' WHEN 'BANKREJECT' THEN '打回' WHEN 'CANCEL' THEN '撤销' END AS srvName,
+							c.CREATE_TIME AS operateTime,
+							c.COMMENT AS comment,
+							(SELECT REAL_NAME FROM sctrans.SYS_USER WHERE ID = c.CREATE_BY) AS createBy
+					FROM sctrans.T_TO_MORT_LOANER ml
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = ml.CASE_CODE
+					LEFT JOIN sctrans.T_TO_CASE_COMMENT c ON c.BIZ_CODE = convert(varchar(20),ml.PKID) AND (c.SRV_CODE = 'ACCEPT' OR c.SRV_CODE = 'REJECT' OR c.SRV_CODE = 'BANKREJECT' OR c.SRV_CODE = 'CANCEL')
+					where ml.LOANER_ID = #loanerId#
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			  	  order by ml.PKID desc
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column  name="pkid" title="按揭接收信息主键id" index=""  default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="customerName" title="客户姓名" index=""  default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="mortTotalAmount"   title="贷款总额"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="applyTime"   title="申请时间"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="propertyAddress"   title="产证地址"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="srvName"   title="服务项目名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="operateTime"   title="操作时间"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="comment"   title="备注"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="createBy"   title="创建人姓名"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+	
 </querys>

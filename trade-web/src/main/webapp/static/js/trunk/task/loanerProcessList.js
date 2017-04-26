@@ -237,12 +237,12 @@ function caseCodeSort() {
 /*
  * 取消流程
  * */
-function  finishLoanerProcess(instCode,caseCode,taskId,isMainLoanBankProcess){
+function  finishLoanerProcess(instCode,caseCode,taskId,isMainLoanBankProcess,loanerPkid){
 	if((instCode == null || instCode == "" || instCode == undefined) || (caseCode == null || caseCode == "" || caseCode == undefined) || (taskId == null || taskId == "" || taskId == undefined)){
 		window.wxc.alert('结束流程请求参数有误！'); 
 		return;
 	}
-	
+	window.wxc.confirm("确认取消该信贷员的派单流程？",{"wxcOk":function(){
 	$.ajax({
 		url:ctx+"/task/loanerProcessCancle",
 		method:"post",
@@ -251,7 +251,8 @@ function  finishLoanerProcess(instCode,caseCode,taskId,isMainLoanBankProcess){
 			caseCode:caseCode,
 			taskId:taskId,
 			processInstanceId:instCode,
-			isMainLoanBankProcess:isMainLoanBankProcess
+			isMainLoanBankProcess:isMainLoanBankProcess,
+			loanerPkid:loanerPkid
 		},
 		beforeSend:function(){
 			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
@@ -284,7 +285,7 @@ function  finishLoanerProcess(instCode,caseCode,taskId,isMainLoanBankProcess){
 			window.wxc.error(errors);
 		}
 	});
-	
+ }});
 }
 
 

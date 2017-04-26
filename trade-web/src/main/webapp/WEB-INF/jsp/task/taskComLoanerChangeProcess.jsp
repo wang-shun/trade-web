@@ -156,8 +156,7 @@
                                    <div class="ibox float-e-margins">
                                         <div>
                                         
-                          <div id="wizard">
-							<h3>贷款签约</h3>
+                          <div id="wizard">							
 							<section>
 							<div class="step-content" style="margin-top: -30px;">
 								<div class="ibox" style="width:988px;">
@@ -264,11 +263,11 @@
 													 <label class="control-label sign_left_small">是否临时银行</label>
 													 <div class="controls ">
 														 <c:if test="${toMortgage.isMainLoanBank=='0'}">
-															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
+															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" readonly } checked="checked">否</label>
 														 </c:if>
 														 <c:if test="${toMortgage.isMainLoanBank!='0'}">
 															 <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" readonly>是</label>
-															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
+															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" readonly } checked="checked">否</label>
 														 </c:if>
 
 													 </div>
@@ -342,6 +341,7 @@
 							</div>
 						</div>
 						
+						<div id="caseCommentList" class="view-content"></div>
 						
 						<div class="form-btn">
 		                    <div class="text-center">
@@ -383,6 +383,10 @@
 <!-- 改版引入的新的js文件 --> 
 <script src="${ctx}/js/viewer/viewer.min.js"></script>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+
+<!-- 改版引入的新的js文件 --> 
+<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
+<script src="${ctx}/js/common/common.js?v=1.0.1"></script> 
 <script>
 	var isTmpBank = ${toMortgage.isTmpBank}
 
@@ -410,6 +414,10 @@
 		}
 	}
 	jQuery(document).ready(function() {		
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode
+			
+		});
 		
 		//银行下拉列表
 		if(isTmpBank=='1'){
@@ -440,6 +448,11 @@
     		 });
     		$("#bankOrgId").val(finOrgId);    		
     	}) 
+    	
+		$("#bank_type").change(function(){
+			//getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag)
+			getBranchBankList($("#finOrgCode"),$("#bank_type").val(),"cl");
+		});
 	});
 
 	//查询分行信息
@@ -484,6 +497,7 @@
 				}
 			}
 		});
+
 		getBranchBankList(selectorBranch,selector.val(),finOrgCode,tag,flag);
 		return bankHtml;
 	}
@@ -492,10 +506,10 @@
 		selectorBranch.find('option').remove();
 		selectorBranch[0];
 		selectorBranch.append($("<option value=''>请选择</option>"));
+
 		var param = {faFinOrgCode:pcode,flag:flag,nowCode:finOrgCode};
-		if(tag == 'cl'){
-			param.tag = 'cl';
-		}
+		
+		param.tag = 'cl';
 		$.ajax({
 			cache:true,
 			url:ctx+"/manage/queryBankListByParentCode",

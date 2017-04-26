@@ -1075,16 +1075,20 @@ function changeSrvs(){
 	});
 	$("#selectedSrvs").html(reHtml);
 }
-var resSrvs = [ '30004001', '30004002'];
-var delSrv='30004010';
+
+var resSrvs = [ '30004001', '30004002'];  //商贷、公积金贷款  流程重启
+var delSrv='30004010'; //交易过户后台组服务  直接爆单
 //保存服务项
 function saveSrvItems(){
 	window.wxc.confirm("您是否确认进行服务项变更？",{"wxcOk":function(){
 		var isDel = false;
 		var delSrvCheck = $("input[name='srvCode'][value="+delSrv+"]").prop('checked');
-		if(srvs.indexOf(delSrv)>-1 && !delSrvCheck){
+		//srvs 根据caseCode查询的有哪些服务项
+		if(srvs.indexOf(delSrv)>-1 && !delSrvCheck){  //查询返回下标，从0开始， 
+			//原先有商贷、现在没有勾选
 			isDel=true;
 		}else if(delSrvCheck && srvs.indexOf(delSrv)==-1){
+			//现在已勾选商贷服务、原先没有商贷
 			isDel=true;
 		}
 

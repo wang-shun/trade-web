@@ -26,9 +26,19 @@ public class MortgageVo implements Serializable {
 
 	private String comment; // 跟进备注信息
 
+	private String source; // 来源
+
 	private String type; // 类型
 
 	private SessionUser user; // 当前用户信息
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
 
 	public String getType() {
 		return type;

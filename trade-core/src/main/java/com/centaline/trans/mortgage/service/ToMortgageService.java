@@ -1,13 +1,19 @@
 package com.centaline.trans.mortgage.service;
 
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.aist.common.web.validate.AjaxResponse;
+import com.centaline.trans.cases.entity.Result2;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.vo.MortgageVo;
+import com.centaline.trans.task.vo.LoanlostApproveVO;
+import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 public interface ToMortgageService {
 
@@ -89,7 +95,7 @@ public interface ToMortgageService {
 	/*
 	 * 签约时同步更新贷款主贷人信息 获取casecode和custcode获取贷款表信息
 	 */
-	ToMortgage findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage);
+	List<ToMortgage> findToMortgageByCaseCodeAndCustcode(ToMortgage toMortgage);
 
 	ToMortgage findToMortgageByMortTypeAndCaseCode(String caseCode,
 			String mortType);
@@ -182,4 +188,30 @@ public interface ToMortgageService {
 	 */
 	public void suppleInfo(MortgageVo mortgageVo);
 
+	List<ToMortgage> findToMortgageByCaseCodeNoBlank(String caseCode);
+	
+	/**
+	 * 
+	 * submitLoanlostApply:(提交贷款流失申请). <br/> 
+	 * @author gongjd 
+	 * @param request
+	 * @param toMortgage
+	 * @param processInstanceVO
+	 * @param loanlostApproveVO
+	 * @param partCode
+	 * @param lapPkid
+	 * @return 
+	 * @since JDK 1.8
+	 */
+	Result2 submitLoanlostApply(HttpServletRequest request, ToMortgage toMortgage, 
+			ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO, String partCode,Long lapPkid);
+
+	Boolean submitSelfLoanApprove(HttpServletRequest request, ToMortgage toMortgage, String taskId,
+			String processInstanceId);
+
+	Result2 submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem,
+			Date estPartTime, String taskId, String processInstanceId, String partCode);
+
+	Boolean submitPsfApply(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime,
+			String taskId, String processInstanceId);
 }

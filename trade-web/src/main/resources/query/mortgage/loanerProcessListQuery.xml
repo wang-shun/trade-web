@@ -58,12 +58,13 @@
 						L.CUST_NAME,
 						L.LOANER_STATUS,
 						L.HOU_ADDRESS,
-						L.IS_MAIN_LOANBANK_PROCESS
+						L.IS_MAIN_LOANBANK_PROCESS,
+						L.PKID AS LOANERPKID
 										
 					FROM sctrans.T_TO_WORKFLOW  W
 					INNER JOIN  sctrans.T_TO_MORTGAGE  M ON W.CASE_CODE = M.CASE_CODE  AND M.IS_ACTIVE = '1' 
 					INNER JOIN  sctrans.ACT_HI_TASKINST T ON T.PROC_INST_ID_ = W.INST_CODE AND T.ID_= (SELECT MAX(TA.ID_) FROM sctrans.ACT_HI_TASKINST TA WHERE TA.PROC_INST_ID_ = W.INST_CODE)
-					INNER JOIN  sctrans.T_TO_MORT_LOANER L ON L.CASE_CODE = W.CASE_CODE 
+					INNER JOIN  sctrans.T_TO_MORT_LOANER L ON L.CASE_CODE = W.CASE_CODE AND W.BIZ_CODE = L.PKID
 					WHERE  W.BUSINESS_KEY='Loaner_Process' 
 					
 					<if test="idflag != null and idflag !='' ">				
@@ -104,6 +105,7 @@
 		<grid>
 			<table-row>
 			    <column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+			    <column type="both" name="LOANERPKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 			   	<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			   	<column type="both" name="HOU_ADDRESS" index="" checkbox="true" title="案件地址"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			   	<column type="both" name="IS_MAIN_LOANBANK_PROCESS" index="" checkbox="true" title="派单流程标示"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>

@@ -8,37 +8,44 @@ import com.centaline.trans.mortgage.entity.ToMortLoaner;
 
 @MyBatisRepository
 public interface ToMortLoanerMapper {
-	
-    int deleteByPrimaryKey(Long pkid);
 
-    int insert(ToMortLoaner record);
+	int deleteByPrimaryKey(Long pkid);
 
-    int insertSelective(ToMortLoaner record);
+	int insert(ToMortLoaner record);
 
-    ToMortLoaner selectByPrimaryKey(Long pkid);
+	int insertSelective(ToMortLoaner record);
 
-    int updateByPrimaryKeySelective(ToMortLoaner record);
+	ToMortLoaner selectByPrimaryKey(Long pkid);
 
-    int updateByPrimaryKey(ToMortLoaner record);
-    
-    ToMortLoaner findToMortLoanerByCaseCodeAndLoanerStatus(Map<String,String> map);
-    ToMortLoaner findToMortLoanerByCaseCode(String caseCode);
-    
-    /**
-     * 根据按揭信息id获取按揭接收记录信息
-     * @param mortgageId 按揭信息id
-     * @return 按揭接收记录信息
-     */
-	ToMortLoaner getToMortLoanerByMortgageId(String mortgageId);
-	
+	int updateByPrimaryKeySelective(ToMortLoaner record);
+
+	int updateByPrimaryKey(ToMortLoaner record);
+
+	ToMortLoaner findToMortLoanerByCaseCodeAndLoanerStatus(
+			Map<String, String> map);
+
+	ToMortLoaner findToMortLoanerByCaseCode(String caseCode);
+
+	/**
+	 * 根据按揭信息id获取按揭接收记录信息
+	 * 
+	 * @param id
+	 *            按揭信息id
+	 * @return 按揭接收记录信息
+	 */
+	ToMortLoaner getToMortLoanerById(Long id);
+
 	/**
 	 * 根据按揭信息id更新按揭接收记录信息
-	 * @param toMortLoaner 按揭接收记录信息
+	 * 
+	 * @param toMortLoaner
+	 *            按揭接收记录信息
 	 * @return 返回1,更新成功;返回0，更新失败。
 	 */
 	public int updateToMortLoanerByMortId(ToMortLoaner toMortLoaner);
 
-	List<ToMortLoaner> findToMortLoanerByCaseCodeAndIsMainBank(Map<String, String> map);
-	
+	List<ToMortLoaner> findToMortLoanerByCaseCodeAndIsMainBank(
+			Map<String, String> map);
+
 	ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner);
 }

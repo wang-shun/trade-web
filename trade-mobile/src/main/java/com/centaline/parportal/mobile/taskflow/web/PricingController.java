@@ -32,10 +32,6 @@ public class PricingController {
 
     @Autowired
     private ToPricingService toPricingService;
-    @Autowired(required = true)
-    private ToCaseService toCaseService;
-    @Autowired
-    private WorkFlowManager workFlowManager;
     @Autowired
     private TgGuestInfoService tgGuestInfoService;
 
@@ -49,6 +45,7 @@ public class PricingController {
         jsonObject.put("caseCode", caseCode);
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
+        jsonObject.put("pricing", toPricingService.qureyPricing(caseCode));
         return jsonObject;
     }
 
@@ -56,25 +53,17 @@ public class PricingController {
     @RequestMapping(value = "submitPricing")
     @ResponseBody
     public Object submitPricing(ToPricing toPricing, String taskId, String processInstanceId) {
-        AjaxResponse<?> response = new AjaxResponse<>();
+        AjaxResponse response = new AjaxResponse();
         try {
-            Boolean saveFlag = toPricingService.saveToPricing(toPricing);
-            if(saveFlag){
-                List<RestVariable> variables = new ArrayList<RestVariable>();
-                ToCase toCase = toCaseService.findToCaseByCaseCode(toPricing.getCaseCode());
-                workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(), toPricing.getCaseCode());
-                int result = tgGuestInfoService.sendMsgHistory(toPricing.getCaseCode(), toPricing.getPartCode());
-                if (result >0) {
-                    response.setMessage("核价保存成功");
-                }else {
-                    response.setMessage("短信发送失败, 请您线下手工再次发送！");
-                }
-                response.setSuccess(true);
-            } else {
-                response.setSuccess(false);
-                response.setMessage("保存核价出错");
+            response = toPricingService.saveAndSubmitPricing(toPricing,taskId,processInstanceId);
+            int result = tgGuestInfoService.sendMsgHistory(toPricing.getCaseCode(), toPricing.getPartCode());
+            if (result >0) {
+                response.setMessage("核价保存成功");
+            }else {
+                response.setMessage("短信发送失败, 请您线下手工再次发送！");
             }
         }catch (Exception e){
+            response.setSuccess(false);
             e.printStackTrace();
             logger.error(e.getMessage());
         }

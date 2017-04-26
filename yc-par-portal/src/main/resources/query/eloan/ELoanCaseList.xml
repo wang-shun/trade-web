@@ -32,6 +32,49 @@
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
 	
+	<query id="eLoanOperateList">
+	    <searchCondition>      
+        </searchCondition> 
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+							el.PKID AS pkid,
+							ISNULL(el.CUST_NAME,'') AS customerName,
+							ISNULL(el.APPLY_AMOUNT,'0.00') AS mortTotalAmount,
+							ISNULL(CONVERT(varchar(100), el.APPLY_TIME, 23),'') as applyTime,
+							ISNULL(p.PROPERTY_ADDR,'') AS propertyAddress,
+							CASE c.SRV_CODE WHEN 'ACCEPT' THEN '接单' WHEN 'REJECT' THEN '打回' WHEN 'BANKREJECT' THEN '打回' WHEN 'CANCEL' THEN '撤销' END AS srvName,
+							c.CREATE_TIME AS operateTime,
+							c.COMMENT AS comment,
+							(SELECT REAL_NAME FROM sctrans.SYS_USER WHERE ID = c.CREATE_BY) AS createBy
+					FROM sctrans.T_TO_ELOAN_LOANER el
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = el.CASE_CODE
+					LEFT JOIN sctrans.T_TO_CASE_COMMENT c ON c.BIZ_CODE = convert(varchar(20),el.PKID) AND (c.SRV_CODE = 'ACCEPT' OR c.SRV_CODE = 'REJECT')
+					where el.LOANER_ID = #loanerId#
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			  	  order by el.PKID desc
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column  name="pkid" title="按揭接收信息主键id" index=""  default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="customerName" title="客户姓名" index=""  default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="mortTotalAmount"   title="贷款总额"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="applyTime"   title="申请时间"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="propertyAddress"   title="产证地址"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="srvName"   title="服务项目名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="operateTime"   title="操作时间"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="comment"   title="备注"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="createBy"   title="创建人姓名"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
 	<query id="queryELoanTradeProcess">
 		<searchCondition>
 		</searchCondition>
@@ -77,7 +120,7 @@
 							ISNULL(cc.COMMENT,'') AS comment
 					FROM sctrans.T_TO_CASE_COMMENT cc 
 					INNER JOIN sctrans.SYS_USER u ON u.ID = cc.CREATE_BY
-					WHERE cc.BIZ_CODE = #eLoanCode# AND cc.SOURCE = 'EPLUS'
+					WHERE cc.BIZ_CODE = #eLoanCode# AND cc.SOURCE = 'EPLUS' AND (cc.SRV_CODE = 'CARD_APPROVED' or cc.SRV_CODE = 'CARD_SEND')
 				]]>
 			</baseSql>
 			<groupSql>
@@ -149,7 +192,7 @@
 				<column type="both" name="customerMobile" title="客户手机号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
 				<column type="both" name="caseCode" title="案件编号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
 				<column type="both" name="propertyAddress" title="产证地址"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
-				<column type="both" name="caseStatus" title="案件状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="caseStatus" title="案件状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>	
 			</table-row>
 		</grid>
 	</query>
@@ -174,7 +217,8 @@
 							ISNULL(CONVERT(varchar(100), ec.APPLY_TIME, 23),'') as applyTime,
 							'EPLUS' as prdType,
 							ISNULL(ec.CASE_CODE,'') as caseCode,
-							ISNULL(ec.ELOAN_CODE,'') as bizCode
+							ISNULL(ec.ELOAN_CODE,'') as bizCode,
+							ISNULL(ec.FLOW_STATUS,'') as flowStatusCode
 					FROM sctrans.T_TO_ELOAN_LOANER ec 
 					INNER JOIN sctrans.T_TO_PROPERTY_INFO pi ON ec.CASE_CODE = pi.CASE_CODE
 					INNER JOIN sctrans.SYS_USER u on u.ID = ec.SEND_ID
@@ -183,11 +227,11 @@
 			
 					
 					<if test="flag == 'noAccept'">
-						AND (ec.LOANER_STATUS = '' or ec.LOANER_STATUS IS NULL)
+						AND ec.LOANER_STATUS = 'ACCEPTING'
 					</if>
 					
 					<if test="flag == 'exceptNoAccept'">
-						AND (ec.LOANER_STATUS != '' and ec.LOANER_STATUS IS NOT NULL)
+						AND ec.LOANER_STATUS != 'ACCEPTING'
 					</if>
 					
 					<ifNotNull condition>
@@ -218,6 +262,7 @@
 				<column  name="prdType"   title="产品类型"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="caseCode"   title="案件编号"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="bizCode"   title="E+金融编号"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="flowStatusCode" title="跟进状态code"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

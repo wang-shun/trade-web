@@ -6,7 +6,9 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.apilog.service.SalesDealApiService;
+import com.centaline.trans.attachment.entity.ToAttachment;
 import com.centaline.trans.attachment.service.ToAccesoryListService;
+import com.centaline.trans.attachment.service.ToAttachmentService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 
@@ -18,6 +20,8 @@ import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by caoyuan7 on 2017/4/14.
@@ -56,12 +61,18 @@ public class ToHouseTransferController {
     @Autowired
     private ToAccesoryListService toAccesoryListService;
 
+    @Autowired
+    private ToAttachmentService toAttachmentService;
+
     @RequestMapping(value = "process")
     @ResponseBody
     public Object toProcess(HttpServletRequest request, String processInstanceId) {
         String taskId = request.getParameter("taskId");
         String caseCode = request.getParameter("caseCode");
         String taskitem = request.getParameter("taskitem");
+        ToAttachment toAttachment = new ToAttachment();
+        toAttachment.setCaseCode(caseCode);
+        toAttachment.setPartCode("Guohu");
 
         SessionUser user= uamSessionService.getSessionUser();
         JSONObject jsonObject = new JSONObject();
@@ -76,7 +87,17 @@ public class ToHouseTransferController {
         ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
         toAccesoryListService.getAccesoryListGuoHu(request, taskitem, caseCode);
         ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-
+        List<ToAttachment> attachments = toAttachmentService
+                .quereyAttachments(toAttachment);
+        if (CollectionUtils.isNotEmpty(attachments)) {
+            for (ToAttachment attachment : attachments) {
+                if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
+                    attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+                }
+            }
+        }
+        jsonObject.put("attachments", attachments);
+        jsonObject.put("accesoryList", request.getAttribute("accesoryList"));
         jsonObject.put("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
         jsonObject.put("loanReq", toCase.getLoanReq());
         jsonObject.put("toMortgage", toMortgage);
@@ -85,7 +106,7 @@ public class ToHouseTransferController {
 
     @RequestMapping(value = "submitToHouseTransfer")
     @ResponseBody
-    public Object submitToHouseTransfer(ToHouseTransfer toHouseTransfer,LoanlostApproveVO loanlostApproveVO,ToMortgage toMortgage,String taskId,String processInstanceId) {
+    public Object submitToHouseTransfer(ToHouseTransfer toHouseTransfer,LoanlostApproveVO loanlostApproveVO,String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
             ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
@@ -100,6 +121,7 @@ public class ToHouseTransferController {
                     response.setMessage("ctmCode不可为空");
                     return response;
                 }
+                ToMortgage toMortgage =  toMortgageService.findToMortgageByCaseCode2(toHouseTransfer.getCaseCode());
                 toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
                 // 回写三级市场, 交易过户
                 salesdealApiService.noticeSalesDeal(toCase.getCtmCode());

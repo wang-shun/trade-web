@@ -286,9 +286,6 @@ function sumbitRe(){
 				window.wxc.error("新建外单失败！"+data.message); 
 			}
 			
-		},complete: function() { 
-		},
-		error : function(errors) {
 		}
 	});
 	
