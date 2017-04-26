@@ -70,7 +70,7 @@
 
 				<div class="line">
 					<div class="form_content">
-						<label class="control-label sign_left_small">信贷员</label> <input class="teamcode input_type" placeholder="请输入" value="" name="loanerName" id="loanerName" onclick="loanerClick()" />
+						<label class="control-label sign_left_small">信贷员</label> <input class="teamcode input_type" placeholder="请输入" value="" name="loanerName" id="loanerName" onclick="loanerClick()"  readonly/>
 						<div class="input-group float_icon organize_icon">
 							<i class="icon iconfont" onclick="loanerClick()">&#xe627;</i>
 						</div>
