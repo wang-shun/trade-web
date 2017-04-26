@@ -71,7 +71,7 @@
 				</if>
 				
 				<if test="flag == 'exceptNoAccept'">
-					AND m.LOANER_STATUS != 'ACCEPTING'
+					AND (m.LOANER_STATUS = 'AUDITING' or m.LOANER_STATUS = 'COMPLETED')
 				</if>
 				
 				<ifNotNull q_text>

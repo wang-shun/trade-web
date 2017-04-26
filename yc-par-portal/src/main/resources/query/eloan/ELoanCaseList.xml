@@ -225,13 +225,12 @@
 					INNER JOIN sctrans.V_USER_ORG_JOB uoj ON ec.LOANER_ID = uoj.user_id 
 					WHERE ec.LOANER_ID = #loanerId#
 			
-					
 					<if test="flag == 'noAccept'">
 						AND ec.LOANER_STATUS = 'ACCEPTING'
 					</if>
 					
 					<if test="flag == 'exceptNoAccept'">
-						AND ec.LOANER_STATUS != 'ACCEPTING'
+						AND (ec.LOANER_STATUS = 'AUDITING' or ec.LOANER_STATUS = 'COMPLETED')
 					</if>
 					
 					<ifNotNull condition>
