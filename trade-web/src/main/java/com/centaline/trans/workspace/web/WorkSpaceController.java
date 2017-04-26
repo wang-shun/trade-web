@@ -171,7 +171,7 @@ public class WorkSpaceController {
 		Date now = new Date();
 		
 		model.addAttribute("jobCode", jobCode);
-		if (TransJobs.TZJL.getCode().equals(jobCode)) {// 总经理
+		if (TransJobs.TZJL.getCode().equals(jobCode)) { // 总经理
 			/*各个贵宾服务部*/
 			List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgId, DepTypeEnum.TYCQY.getCode());
 			if (CollectionUtils.isNotEmpty(orgList)) {
@@ -1115,13 +1115,19 @@ public class WorkSpaceController {
 		int transferOverdueCaseCount = 0;
 		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
 			bizwarnCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername(),"LOANLOSS");
-			repayOverdueCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername(),"RepayOverdue");
-			transferOverdueCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername(),"TransferOverdue");
 		} else {
-			bizwarnCaseCount = benchBizwarnCaseCountQueryByDistinct(currentUser.getServiceCompanyId(),"LOANLOSS");
-			repayOverdueCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername(),"RepayOverdue");
-			transferOverdueCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername(),"TransferOverdue");
-		}		
+			bizwarnCaseCount = benchBizwarnCaseCountQueryByDistinct(currentUser.getServiceCompanyId(), "LOANLOSS");
+		}
+
+		if(!currentUser.getServiceJobCode().equals(TransJobs.TJYGW.getCode())){//如果不是交易顾问
+			repayOverdueCaseCount = benchBizwarnCaseCountQuery(currentUser.getServiceDepId(), "RepayOverdue", currentUser.getServiceDepHierarchy(),"NO_CONSULTANT");
+			transferOverdueCaseCount = benchBizwarnCaseCountQuery(currentUser.getServiceDepId(), "TransferOverdue", currentUser.getServiceDepHierarchy(), "NO_CONSULTANT");
+		}else{
+			repayOverdueCaseCount = benchBizwarnCaseCountQuery(currentUser.getUsername(), "RepayOverdue", currentUser.getServiceDepHierarchy(),"YES_CONSULTANT");
+			transferOverdueCaseCount = benchBizwarnCaseCountQuery(currentUser.getUsername(), "TransferOverdue", currentUser.getServiceDepHierarchy(),"YES_CONSULTANT");
+		}
+
+
 		map.put("bizwarnCaseCount", bizwarnCaseCount);
 		map.put("repayOverdueCaseCount", repayOverdueCaseCount);
 		map.put("transferOverdueCaseCount", transferOverdueCaseCount);
@@ -1133,7 +1139,31 @@ public class WorkSpaceController {
 		
 		return map;
 	}
-	
+
+	private int benchBizwarnCaseCountQuery(String serviceDepId, String warnType, String serviceDepHierarchy, String no_consultant) {
+		JQGridParam gp = new CacheGridParam();
+		gp.setPagination(false);
+		gp.put("warnType", warnType);
+		if("YES_CONSULTANT".equals(no_consultant)){
+			gp.put("orgFlag", "false");
+			gp.put("user_LoginName", serviceDepId);
+		}
+		if("NO_CONSULTANT".equals(no_consultant)){
+			gp.put("orgFlag", "true");
+			gp.put("depHierarchy", serviceDepHierarchy);
+			gp.put("serviceDepId", serviceDepId);
+		}
+
+		gp.setQueryId("workbenchBizwarnQuery");
+		Page<Map<String, Object>> benchBizwarnCaseResultByTeam = quickGridService.findPageForSqlServer(gp);
+		int bizwarnCount = 0;
+		if(benchBizwarnCaseResultByTeam!=null && benchBizwarnCaseResultByTeam.getContent()!=null && benchBizwarnCaseResultByTeam.getContent().size()>0){
+			bizwarnCount= (int) benchBizwarnCaseResultByTeam.getContent().get(0).get("bizwarn");
+		}
+		return bizwarnCount;
+
+	}
+
 	/**
 	 * 待分配任务预警数
 	 */
@@ -1222,13 +1252,13 @@ public class WorkSpaceController {
 	}
 	
 	//查找本组流失预警数量
-	private int benchBizwarnCaseCountQueryByTeam(String userName,String warnType) {	
+	private int benchBizwarnCaseCountQueryByTeam(String userName,String warnType) {
 		
 		JQGridParam gp = new CacheGridParam();
 		gp.setPagination(false);				
 		gp.put("user_LoginName", userName);
 		gp.put("warnType", warnType);
-		
+
 		gp.setQueryId("personalWorkbenchBizwarnCaseCountQueryByTeam");
 		Page<Map<String, Object>> benchBizwarnCaseResultByTeam = quickGridService.findPageForSqlServer(gp);		
 		int bizwarnCaseCount = 0;
