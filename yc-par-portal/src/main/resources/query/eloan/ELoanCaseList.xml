@@ -82,10 +82,10 @@
 			<baseSql>
 				<![CDATA[  	
 			    	SELECT 
-							(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = tpqv.PART_CODE AND IS_DELETED = 0 AND AVAILABLE = 1 AND TYPE = 'part_code') AS status,
-							CONVERT(varchar(100), tpqv.REAL_TIME, 23) AS createTime,
-							u.REAL_NAME as createBy,
-							ISNULL(tpqv.COMMENT,'') AS comment
+							(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = tpqv.PART_CODE AND IS_DELETED = 0 AND AVAILABLE = 1 AND TYPE = 'part_code') AS SRV_NAME,
+							CONVERT(varchar(100), tpqv.REAL_TIME, 23) AS REAL_TIME,
+							u.REAL_NAME as REAL_NAME,
+							ISNULL(tpqv.COMMENT,'') AS COMMENT
 					FROM sctrans.V_TRADE_PROCESS_QUERY_VIEW tpqv
 					INNER JOIN sctrans.SYS_USER u ON u.ID = tpqv.CREATE_BY
 					WHERE tpqv.CASE_CODE = #caseCode#
@@ -99,10 +99,10 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="status" title="案件环节状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
-				<column type="both" name="createTime" title="创建时间"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
-				<column type="both" name="createBy" title="创建人" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
-				<column type="both" name="comment" title="跟进内容"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="SRV_NAME" title="案件环节状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="REAL_TIME" title="创建时间"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="REAL_NAME" title="创建人" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="COMMENT" title="跟进内容"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
 			</table-row>
 		</grid>
 	</query>
@@ -114,10 +114,10 @@
 			<baseSql>
 				<![CDATA[
  					SELECT 
-							(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = cc.SRV_CODE AND IS_DELETED = 0 AND AVAILABLE = 1) AS status,
-							CONVERT(varchar(100), cc.CREATE_TIME, 23) AS createTime,
-							u.REAL_NAME AS createBy,
-							ISNULL(cc.COMMENT,'') AS comment
+							(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = cc.SRV_CODE AND IS_DELETED = 0 AND AVAILABLE = 1) AS SRV_NAME,
+							CONVERT(varchar(100), cc.CREATE_TIME, 23) AS REAL_TIME,
+							u.REAL_NAME AS REAL_NAME,
+							ISNULL(cc.COMMENT,'') AS COMMENT
 					FROM sctrans.T_TO_CASE_COMMENT cc 
 					INNER JOIN sctrans.SYS_USER u ON u.ID = cc.CREATE_BY
 					WHERE cc.BIZ_CODE = #eLoanCode# AND cc.SOURCE = 'EPLUS'
@@ -130,10 +130,10 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="status" title="跟进状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
-				<column type="both" name="createTime" title="创建时间"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
-				<column type="both" name="createBy" title="创建人"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
-				<column type="both" name="comment" title="跟进内容"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="SRV_NAME" title="跟进状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="REAL_TIME" title="创建时间"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="REAL_NAME" title="创建人"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="COMMENT" title="跟进内容"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
 			</table-row>
 		</grid>
 	</query>
