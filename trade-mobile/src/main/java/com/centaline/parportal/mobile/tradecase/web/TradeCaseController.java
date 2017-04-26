@@ -622,7 +622,7 @@ public class TradeCaseController {
 	}
     @RequestMapping(value = "{caseCode}/fileUpload" )
 	@ResponseBody
-	public Object fileUpload(@RequestParam(required = true)String fileList,@PathVariable(required=true,name="caseCode") String caseCode) {
+	public Object fileUpload(@RequestParam(required = true)String fileList,@PathVariable(required=true,name="caseCode") String caseCode,String partCode) {
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		JSONArray fileListArray= JSONArray.parseArray(fileList);
 		List<ToAttachment>toAttachments=new ArrayList<>();
@@ -631,7 +631,7 @@ public class TradeCaseController {
 				JSONObject file=(JSONObject)object;
 				ToAttachment attach=new ToAttachment();
 				attach.setAvailable("Y");
-				attach.setPartCode(file.getString("partCode"));
+				attach.setPartCode(partCode);
 				attach.setPreFileAdress(file.getString("fileID"));
 				attach.setPreFileCode(file.getString("fileCode"));
 				attach.setFileCat(file.getString("fileCat"));
