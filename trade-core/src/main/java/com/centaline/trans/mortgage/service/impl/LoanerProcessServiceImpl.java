@@ -498,7 +498,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 					//ToMortgage toMortgageForUpdate = new ToMortgage();				
 					toMortgage.setTmpBankStatus("3");
 					toMortgage.setBankApproveTime(new Date()); // 冗余信贷员审核通过时间，在页面做展示
-					toMortgageMapper.update(toMortgage);
+					toMortgageMapper.updateByPkId(toMortgage);
 				}
 
 			} else {
