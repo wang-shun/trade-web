@@ -236,7 +236,7 @@
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small select_style mend_select">签约时间<span class="star" >*</span>
 		                                             </label>
-		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
+		                                             <div class="input-group sign-right dataleft  pull-left" id="date_4">
 														 <input type="text" value="<fmt:formatDate  value='${toMortgage.signDate}' type='both' pattern='yyyy-MM-dd'/>"
 																class="input_type yuanwid" style="background-color:#ccc;" readonly="readonly"   name="signDate" id="signDate" readonly>
                                                            <%-- <input class="input_type yuanwid" type="text" placeholder=""　value name="signDate" id="signDate" readonly>--%>
@@ -275,7 +275,7 @@
 												 <div class="form_content">
 													 <label class="control-label sign_left_small select_style mend_select">推荐函编号<span class="star" >*</span>
 													 </label>
-													 <div class="input-group sign-right dataleft input-daterange pull-left">
+													 <div class="input-group sign-right dataleft  pull-left">
 														 <input type="text" name="recLetterNo" id="recLetterNo" readonly="readonly" style="background-color:#ccc;"  value="${toMortgage.recLetterNo}"  class="input_type yuanwid" />
 													 </div>
 												 </div>
