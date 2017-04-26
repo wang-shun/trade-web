@@ -115,6 +115,10 @@
 					 </if>
 				</if>
 
+				<if test="warnType == 'LoanerOverdueAccept' ">
+					and exists(SELECT u.USERNAME FROM sctrans.T_TO_CASE c inner join sctrans.sys_user u on c.LEADING_PROCESS_ID = u.id WHERE CASE_CODE=t.CASE_CODE and u.USERNAME=#userLoginName#)
+				</if>
+
 				]]>
 			</baseSql>
 			<orderBySql>
