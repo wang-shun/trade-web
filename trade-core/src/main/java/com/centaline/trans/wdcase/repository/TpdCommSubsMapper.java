@@ -15,4 +15,12 @@ public interface TpdCommSubsMapper {
     int updateByPrimaryKeySelective(TpdCommSubs record);
 
     int updateByPrimaryKey(TpdCommSubs record);
+    /**
+     * 查询应收费用信息
+     * @author hejf10
+     * @date 2017年4月26日18:07:47
+     * @param caseCode
+     * @return
+     */
+    TpdCommSubs selectByCaseCode(String caseCode);
 }

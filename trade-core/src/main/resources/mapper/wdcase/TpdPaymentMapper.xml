@@ -27,6 +27,12 @@
     from sctrans.T_PD_PAYMENT
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
+  <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_PD_PAYMENT
+    where case_code = #{caseCode,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_PD_PAYMENT
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -43,7 +49,7 @@
       #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.centaline.trans.wdcase.entity.TpdPayment" >
+  <insert id="insertSelective" parameterType="com.centaline.trans.wdcase.entity.TpdPayment"  useGeneratedKeys="true" keyProperty="pkid">
     insert into sctrans.T_PD_PAYMENT
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >

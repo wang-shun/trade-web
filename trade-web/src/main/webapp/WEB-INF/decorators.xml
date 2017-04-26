@@ -103,6 +103,7 @@
 		<pattern>/task/loanerProcessList</pattern>
 		<pattern>/caseMerge/addWdCase</pattern>
 		<pattern>/caseMerge/saveWdCaseInfo/add</pattern>
+		<pattern>/caseMerge/addLiushui</pattern>
 	</decorator>
 	<decorator name="noTemplate">
 		<pattern>/report/guoHuReport</pattern>

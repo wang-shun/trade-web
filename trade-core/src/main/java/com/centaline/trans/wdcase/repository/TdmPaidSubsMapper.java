@@ -15,4 +15,12 @@ public interface TdmPaidSubsMapper {
     int updateByPrimaryKeySelective(TdmPaidSubs record);
 
     int updateByPrimaryKey(TdmPaidSubs record);
+    /**
+     * 查询应收款项
+     * @author hejf10
+     * @date 2017年4月26日18:33:36
+     * @param paymentCode
+     * @return
+     */
+    TdmPaidSubs selectByPaymentCode(String paymentCode);
 }

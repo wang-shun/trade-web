@@ -41,6 +41,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
+import com.centaline.trans.cases.service.CaseMergeService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
@@ -110,6 +111,7 @@ import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.entity.TsTransPlanHistory;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.wdcase.vo.TpdPaymentVO;
 
 /**
  * 
@@ -206,6 +208,8 @@ public class CaseDetailController {
 	//审批记录
 	@Autowired
 	ToApproveRecordService toApproveRecordService;
+	@Autowired
+	CaseMergeService caseMergeService;
 
 	/**
 	 * 页面初始化
@@ -1353,6 +1357,10 @@ public class CaseDetailController {
 		//是否关注
 		boolean isSubscribe = toModuleSubscribeService.checkIsSubscribe(toCase.getCaseCode(), uamSessionService.getSessionUser().getId(), SubscribeModuleType.CASE.getValue(),SubscribeType.COLLECTION.getValue());
 		
+		/**
+		 * 外单收款流水
+		 */
+		caseMergeService.getTpdPaymentVO(toCase.getCaseCode(),request);
 		/*String guohuApproveType = tgServItemAndProcessorService.findGuohuApproveTypeByCaseCode(toCase.getCaseCode());
 		
 		if(null != guohuApproveType)

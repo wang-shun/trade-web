@@ -1,6 +1,7 @@
 package com.centaline.trans.cases.vo;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public class CaseMergeVo {
@@ -49,7 +50,47 @@ public class CaseMergeVo {
      * 外单案件的应收费金额
      */
     private BigDecimal commCost;
+    /**
+     * 外单案件的流水付款人
+     */
+    private String payer;
+    /**
+     * 外单案件的流水付款金额
+     */
+    private BigDecimal paymentAmount;
+    /**
+     * 外单案件的支付日期
+     */
+    private Date paymentDate;
+    /**
+     * 外单案件的支付caseCode
+     */
+    private String caseCode;
    
+	public String getCaseCode() {
+		return caseCode;
+	}
+	public void setCaseCode(String caseCode) {
+		this.caseCode = caseCode;
+	}
+	public Date getPaymentDate() {
+		return paymentDate;
+	}
+	public void setPaymentDate(Date paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+	public String getPayer() {
+		return payer;
+	}
+	public void setPayer(String payer) {
+		this.payer = payer;
+	}
+	public BigDecimal getPaymentAmount() {
+		return paymentAmount;
+	}
+	public void setPaymentAmount(BigDecimal paymentAmount) {
+		this.paymentAmount = paymentAmount;
+	}
 	public String getCommSubject() {
 		return commSubject;
 	}

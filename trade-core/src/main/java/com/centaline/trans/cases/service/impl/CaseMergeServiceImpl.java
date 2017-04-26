@@ -1,13 +1,16 @@
 package com.centaline.trans.cases.service.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +24,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.attachment.entity.ToAttachment;
 import com.centaline.trans.attachment.repository.ToAttachmentMapper;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -39,8 +43,13 @@ import com.centaline.trans.eloan.repository.ToRcAttachmentMapper;
 import com.centaline.trans.team.entity.TsTeamScopeTarget;
 import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.utils.DateUtil;
+import com.centaline.trans.wdcase.entity.TdmPaidSubs;
+import com.centaline.trans.wdcase.entity.TpdPayment;
 import com.centaline.trans.wdcase.entity.TpdCommSubs;
+import com.centaline.trans.wdcase.repository.TdmPaidSubsMapper;
 import com.centaline.trans.wdcase.repository.TpdCommSubsMapper;
+import com.centaline.trans.wdcase.repository.TpdPaymentMapper;
+import com.centaline.trans.wdcase.vo.TpdPaymentVO;
 
 @Service
 public class CaseMergeServiceImpl implements CaseMergeService {
@@ -70,6 +79,13 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	
 	@Autowired
 	private TpdCommSubsMapper tpdCommSubsMapper; 
+	
+	@Autowired
+	private TdmPaidSubsMapper tdmPaidSubsMapper; 
+	
+	@Autowired
+	private TpdPaymentMapper tpdPaymentMapper; 
+	
 
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
@@ -334,7 +350,9 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		toCase.setCaseCode(caseCode);
 		toCase.setCaseProperty(CasePropertyEnum.TPWD.getCode());
 		toCase.setStatus(CaseStatusEnum.WFD.getCode());
-		toCase.setCaseOrigin(CaseOriginEnum.WD.getCode());	
+		toCase.setCaseOrigin(CaseOriginEnum.WD.getCode());
+		toCase.setLeadingProcessId(user.getId());
+		toCase.setOrgId(user.getServiceDepId());
 		/*toCase.setCreateBy(user.getId());
 		toCase.setCreateTime(new Date());*/
 		return toCase;
@@ -390,7 +408,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 * @param toPropertyInfo
 	 * @throws ParseException 
 	 */
-	public TpdCommSubs setTpdCommSubs(ToCase toCase,CaseMergeVo caseMergeVo,SessionUser user) throws ParseException{
+	public TpdCommSubs setTpdCommSubs(ToCase toCase,CaseMergeVo caseMergeVo,SessionUser user){
 		
 		TpdCommSubs tpdCommSubs = new TpdCommSubs();
 		tpdCommSubs.setCaseCode(toCase.getCaseCode());
@@ -493,5 +511,143 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 			
 	}*/
 	
+	/**
+     * 新增实收流水
+     * @author hejf10
+     * @date 2017年4月26日17:24:36
+     * @param request
+     * @param caseMergeVo
+     * @param caseCode
+     * @throws Exception
+     */
+	@Override
+	public String saveLiushui(HttpServletRequest request,CaseMergeVo caseMergeVo)throws Exception{
+		
+		if(null == caseMergeVo){ throw new BusinessException("实收流水信息为空！");	  }	
+		String  receiptPic="";
+		
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		TpdPayment tpdPayment = TpdPayment(caseMergeVo,user);
+		
+		List<ToAttachment> toAttachmentList = toAttachmentMapper.findToAttachmentByCaseCode(caseMergeVo.getDistCode().toString());
+		if(null !=toAttachmentList && toAttachmentList.size()>0){
+			receiptPic = toAttachmentList.get(0).getPreFileAdress();
+		}else{
+			throw new BusinessException("新建外单案件没有上传附件！");
+		}
+		
+		/**
+		 * 1.保存付款信息
+		 */
+		tpdPaymentMapper.insertSelective(tpdPayment);
+		TdmPaidSubs tdmPaidSubs = setTdmPaidSubs(caseMergeVo,tpdPayment,user,receiptPic);
+		/**
+		 * 2.保存实收款项
+		 */
+		tdmPaidSubsMapper.insertSelective(tdmPaidSubs);
+		/**
+		 * 3.保存附件信息
+		 */
+		toAttachmentMapper.updateToAttachmentForCaseCodeByCaseCode(caseMergeVo.getDistCode().toString(), caseMergeVo.getCaseCode());
+		
+		
+		return caseMergeVo.getCaseCode();			
+			
+	}
+	/**
+	 * 设置付款信息
+	 * @author hejf10
+	 * @date 2017年4月26日15:19:43
+	 * @param caseMergeVo
+	 * @param user
+	 * @return
+	 * @throws ParseException
+	 */
+	public TdmPaidSubs setTdmPaidSubs(CaseMergeVo caseMergeVo,TpdPayment tpdPayment,SessionUser user,String receiptPic){
+		TdmPaidSubs tdmPaidSubs = new TdmPaidSubs();
+		//tdmPaidSubs.setPaymentCode(tpdPayment.get);
+		tdmPaidSubs.setCommSubject("服务费");
+		tdmPaidSubs.setPaidAmount(caseMergeVo.getPaymentAmount());
+		tdmPaidSubs.setReceiptPic(receiptPic);
+		tdmPaidSubs.setPaymentCode(tpdPayment.getPkid().toString());
+		tdmPaidSubs.setCreateBy(user.getId());
+		tdmPaidSubs.setCreateTime(new Date());
+		return tdmPaidSubs;
+	}
+	/**
+	 * 设置实收款项
+	 * @author hejf10
+	 * @date 2017年4月26日15:20:46
+	 * @param caseMergeVo
+	 * @param user
+	 * @return
+	 * @throws ParseException
+	 */
+	public TpdPayment TpdPayment(CaseMergeVo caseMergeVo,SessionUser user){
+		TpdPayment tpdPayment = new TpdPayment();
+		tpdPayment.setCaseCode(caseMergeVo.getCaseCode());
+		tpdPayment.setPaymentDate(caseMergeVo.getPaymentDate());
+		tpdPayment.setPayer(caseMergeVo.getPayer());
+		tpdPayment.setPaymentAmount(caseMergeVo.getPaymentAmount());
+		tpdPayment.setCreateBy(user.getId());
+		tpdPayment.setCreateTime(new Date());
+		return tpdPayment;
+	}
+	/**
+	 * 查询应收款项金额
+	 * @author hejf10
+	 * @date 2017年4月26日18:11:18
+	 * @param caseCode
+	 * @return
+	 * @throws ParseException
+	 */
+	@Override
+	public BigDecimal getCommCostAmount(String caseCode){
+		TpdCommSubs tpdCommSubs = tpdCommSubsMapper.selectByCaseCode(caseCode);
+		if(null == tpdCommSubs){return new BigDecimal(0);}
+		return tpdCommSubs.getCommCost();
+	}
 	
+	/**
+	 * 查询应收款流水信息
+	 * @author hejf10
+	 * @date 2017年4月26日18:11:18
+	 * @param caseCode
+	 * @return
+	 * @throws ParseException
+	 */
+	@Override
+	public void getTpdPaymentVO(String caseCode,ServletRequest request){
+		List<TpdPaymentVO> tpdPaymentVOs = new ArrayList<TpdPaymentVO>();
+		List<TpdPayment> tpdPayments = tpdPaymentMapper.selectByCaseCode(caseCode);
+		BigDecimal bigDecimal = new BigDecimal(0);
+		if(null != tpdPayments && tpdPayments.size()>0)
+		for(TpdPayment tpdPayment:tpdPayments){
+			TdmPaidSubs tdmPaidSubs = tdmPaidSubsMapper.selectByPaymentCode(tpdPayment.getPkid().toString());
+			TpdPaymentVO tpdPaymentVO = setTpdPaymentVO( tpdPayment, tdmPaidSubs);
+			bigDecimal = bigDecimal.add(tpdPayment.getPaymentAmount());
+			tpdPaymentVOs.add(tpdPaymentVO);
+		}
+		
+		request.setAttribute("allAmount", bigDecimal);
+		request.setAttribute("tpdPaymentVOs", tpdPaymentVOs);
+		request.setAttribute("commCostAmount", getCommCostAmount(caseCode));
+	}
+	/**
+	 * 查询外单流水
+	 * @author hejf10
+	 * @date 2017年4月26日18:35:24
+	 * @param tpdPayment
+	 * @param tdmPaidSubs
+	 * @return
+	 */
+	public TpdPaymentVO setTpdPaymentVO(TpdPayment tpdPayment,TdmPaidSubs tdmPaidSubs){
+		TpdPaymentVO tpdPaymentVO = new TpdPaymentVO();
+		tpdPaymentVO.setPayer(tpdPayment.getPayer());
+		tpdPaymentVO.setPaymentAmount(tpdPayment.getPaymentAmount());
+		tpdPaymentVO.setPaymentDate(tpdPayment.getPaymentDate());
+		tpdPaymentVO.setReceiptPic(tdmPaidSubs.getReceiptPic());
+		return tpdPaymentVO;
+	}
 }

@@ -394,6 +394,20 @@ public class CaseMergeController {
 		return "case/addWdCase";
 	}
 	/**
+	 * 新增流水页面跳转 
+	 * @author hejf10
+	 * @date 2017年4月26日14:22:15
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="addLiushui")
+	public String addLiushui(Model model, HttpServletRequest request,String caseCode) throws Exception{
+		request.setAttribute("caseCode", caseCode);
+		toAccesoryListService.getAccesoryList(request, "AddLiushui");
+		model.addAttribute("caseCode_",getRandom());
+		return "case/addLiushui";
+	}
+	/**
 	 * 修改外单页面跳转 
 	 * @author hejf10
 	 * @date 2017年4月24日16:25:14
@@ -449,7 +463,14 @@ public class CaseMergeController {
 		//return  "case/mycase_list2";
 	}*/
 	
-
+	/**
+	 * 新建外单
+	 * @author hejf10
+	 * @date 2017年4月26日15:02:27
+	 * @param caseMergeVo
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/saveWdCaseInfo")
 	@ResponseBody
 	public AjaxResponse<?>  saveWdCaseInfo(CaseMergeVo caseMergeVo,HttpServletRequest request){
@@ -465,6 +486,30 @@ public class CaseMergeController {
 		}
 		return response;
 	}
+	/**
+	 * 保存流水
+	 * @author hejf10
+	 * @date 2017年4月26日15:02:27
+	 * @param caseMergeVo
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/saveLiushui")
+	@ResponseBody
+	public AjaxResponse<?>  saveLiushui(CaseMergeVo caseMergeVo,HttpServletRequest request){
+		AjaxResponse<?> response = new AjaxResponse<>();
+		String caseCode = null;
+		try{
+			caseCode = caseMergeService.saveLiushui(request,caseMergeVo);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
 	
 /*	*//**
 	 * 新建外单提交
