@@ -709,11 +709,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 
 			workFlowManager.submitTask(variables, taskId, processInstanceId,
 					null, caseCode);
-			// 更新流程表的状态为已完成
-			ToWorkFlow workFlow = new ToWorkFlow();
-			workFlow.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());// Loaner_Process
-			workFlow.setCaseCode(caseCode);
-			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
+			// 更新流程表的状态为已完成	
+			ToWorkFlow record = toWorkFlowService.queryWorkFlowByInstCode(processInstanceId);
 			if (record != null) {
 				record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 				toWorkFlowService.updateByPrimaryKeySelective(record);
@@ -723,11 +720,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			variables.add(new RestVariable("loanerUserName", loaner.getUsername()));
 			variables.add(new RestVariable("sessionUserName", user.getUsername())); // 派单人
 			// 启动流程
-			ProcessInstance process = new ProcessInstance(
-					propertyUtilsService.getProcessLoanerDfKey(), caseCode,
-					variables);
-			StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(
-					process, loaner.getUsername(), caseCode);
+			ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode,variables);
+			StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, loaner.getUsername(), caseCode);
 
 			toMortgageService.updateToMortgage(toMortgageDTO);// 主键pkid作为条件更新
 

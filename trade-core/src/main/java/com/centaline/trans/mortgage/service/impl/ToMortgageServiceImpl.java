@@ -148,16 +148,16 @@ public class ToMortgageServiceImpl implements ToMortgageService {
 		condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
 		condition.setIsDelegateYucui("1");
 
-		List<ToMortgage> list = toMortgageMapper
-				.findToMortgageByCondition(condition);
+		List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
 
 		Long pkid = toMortgage.getPkid();
 		if (pkid == null) {
 			if (!CollectionUtils.isEmpty(list)) {
-				throw new BusinessException("贷款信息已存在！");
+				toMortgageMapper.update(toMortgage);
+			}else{
+				toMortgage.setIsDelegateYucui("1");
+				toMortgageMapper.insertSelective(toMortgage);
 			}
-			toMortgage.setIsDelegateYucui("1");
-			toMortgageMapper.insertSelective(toMortgage);
 		} else {
 			if (CollectionUtils.isEmpty(list)) {
 				throw new BusinessException("贷款信息不存在！");
