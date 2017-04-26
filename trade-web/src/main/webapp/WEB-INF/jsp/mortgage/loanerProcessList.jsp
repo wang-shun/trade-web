@@ -234,7 +234,7 @@
 						</td>
 
                         <td>
-							{{if item.STATUS == "0" || item.LOANER_STATUS != "CANCELED"}}
+							{{if item.LOANER_STATUS != "CANCELED" && item.LOANER_STATUS != "AUD_REJECTED" && item.LOANER_STATUS != "ACC_REJECTED"}}
 								<button class="btn btn-grey" onclick="finishLoanerProcess('{{item.INST_CODE}}','{{item.CASE_CODE}}','{{item.ID_}}','{{item.IS_MAIN_LOANBANK_PROCESS}}','{{item.LOANERPKID}}')">取消</button>
 							{{else}}
 								<button class="btn smll_sign" disable">取消</button>
