@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 
 <html>
@@ -11,13 +11,13 @@
 <link href="${ctx}/css/animate.css" rel="stylesheet" />
 <link href="${ctx}/css/style.css" rel="stylesheet" />
 <!-- Data Tables -->
-<link href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/dataTables/dataTables.responsive.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
+<link href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="${ctx}/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet" />
+<link href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet" />
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
 <link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet" />
 
 <!-- index_css -->
@@ -30,98 +30,90 @@
 <!-- 必须CSS -->
 <link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
 <style type="text/css">
-    .sum_marb {
-        margin-bottom: 0;
-    }
-    .loan_sum {
-        display: inline-block;
-        width: 115px;
-    }
+.sum_marb {
+	margin-bottom: 0;
+}
+
+.loan_sum {
+	display: inline-block;
+	width: 115px;
+}
 </style>
 </head>
 
 <body>
-   <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-   <div class="wrapper wrapper-content animated fadeInRight">
-       <div class="ibox-content border-bottom clearfix space_box">
-           	  <h2 class="title">派单列表</h2>
-              <form method="get" class="form_list">              
-                  <div class="line">
-                  
-                      <div class="form_content">
-                          <label class="control-label sign_left_small">案件编号</label>
-                          <input class="teamcode input_type" placeholder="请输入"  id="caseCode" name="caseCode" value=""/>
-                      </div>
-                      
-                      <div class="form_content">
-                          <label class="control-label sign_left_small">产证地址</label>
-                          <input class="teamcode input_type" style="width:435px;" name="propertyAddr" id="propertyAddr" placeholder="请输入" value="" />
-                      </div> 
-                  </div>
-                  <div class="line">
-                  	<div class="form_content">
-						<label class="control-label sign_left_small"> 贷款银行 </label> <select
-							name="loanLostFinOrgName" id="loanLostFinOrgName"
-							class="teamcode select_control ">
+	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="ibox-content border-bottom clearfix space_box">
+			<h2 class="title">派单列表</h2>
+			<form method="get" class="form_list">
+				<div class="line">
+
+					<div class="form_content">
+						<label class="control-label sign_left_small">案件编号</label> <input class="teamcode input_type" placeholder="请输入" id="caseCode" name="caseCode" value="" />
+					</div>
+
+					<div class="form_content">
+						<label class="control-label sign_left_small">产证地址</label> <input class="teamcode input_type" style="width: 435px;" name="propertyAddr" id="propertyAddr" placeholder="请输入" value="" />
+					</div>
+				</div>
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small"> 贷款银行 </label> <select name="loanLostFinOrgName" id="loanLostFinOrgName" class="teamcode select_control ">
 						</select>
 					</div>
 					<div class="form_content">
-						<label class="control-label sign_left_small"> 贷款支行 </label> <select
-							name="loanLostFinOrgNameYc" id="loanLostFinOrgNameYc"
-							class="teamcode select_control ">							
+						<label class="control-label sign_left_small"> 贷款支行 </label> <select name="loanLostFinOrgNameYc" id="loanLostFinOrgNameYc" class="teamcode select_control ">
 						</select>
 					</div>
-                  </div>
-                  
-                 <div class="line">    
-	                 <div class="form_content">
-	                        <label class="control-label sign_left_small">信贷员</label>
-	                        <input class="teamcode input_type" placeholder="请输入" value=""  name="loanerName" id="loanerName"  onclick="loanerClick()"/>                          
-	                        <div class="input-group float_icon organize_icon">
-	                            <i class="icon iconfont"  onclick="loanerClick()">&#xe627;</i>
-	                        </div> 
-						    <input type="hidden"  id="loanerId" name="loanerId" value=""/>
-	                  </div>
-	                  <div class="form_content space">
-	                          <div class="add_btn" style="margin-left:122px;">
-	                              <button type="button" class="btn btn-success mr5" id="loanerConditionSearch">
-	                                  <i class="icon iconfont">&#xe635;</i>查询</button>
-	                              <button type="button" class="btn btn-grey mr5"  id="loanerConditionClean">清空</button>
-	                          </div>
-	                   </div>
-	               </div>
-              </form>
-          </div>
-          <div class="row">
-              <div class="col-md-12">
-                  <div class="table_content">
-                      <table class="table table_blue table-striped table-bordered table-hover " id="editable" >
-                          <thead>
-                              <tr>
-								<th><span class="sort" sortColumn="M.CASE_CODE" sord="desc"
-									onclick="caseCodeSort();">案件编号</span><i id="caseCodeSorti"
-									class="fa fa-sort-desc fa_down"></i></th>
-                                  <th>银行</th>
-                                  <th>贷款信息</th>
-                                  <th>派单状态</th>
-                                  <th>上家</th>
-                                  <th>下家 </th>
-                                  <th>操作</th>
-                              </tr>
-                          </thead>
-                          <tbody id="loanerProcessList"></tbody>
-                     </table>
-				</div>			
-				
+				</div>
+
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small">信贷员</label> <input class="teamcode input_type" placeholder="请输入" value="" name="loanerName" id="loanerName" onclick="loanerClick()" />
+						<div class="input-group float_icon organize_icon">
+							<i class="icon iconfont" onclick="loanerClick()">&#xe627;</i>
+						</div>
+						<input type="hidden" id="loanerId" name="loanerId" value="" />
+					</div>
+					<div class="form_content space">
+						<div class="add_btn" style="margin-left: 122px;">
+							<button type="button" class="btn btn-success mr5" id="loanerConditionSearch">
+								<i class="icon iconfont">&#xe635;</i>查询
+							</button>
+							<button type="button" class="btn btn-grey mr5" id="loanerConditionClean">清空</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table_content">
+					<table class="table table_blue table-striped table-bordered table-hover " id="editable">
+						<thead>
+							<tr>
+								<th><span class="sort" sortColumn="M.CASE_CODE" sord="desc" onclick="caseCodeSort();">案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
+								<th>银行</th>
+								<th>贷款信息</th>
+								<th>派单状态</th>
+								<th>上家</th>
+								<th>下家</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody id="loanerProcessList"></tbody>
+					</table>
+				</div>
+
 				<div class="text-center page_box">
-					<span id="currentTotalPage"><strong></strong></span> <span
-						class="ml15">共<strong id="totalP"></strong>条
+					<span id="currentTotalPage"><strong></strong></span> <span class="ml15">共<strong id="totalP"></strong>条
 					</span>&nbsp;
 					<div id="pageBar" class="pagergoto"></div>
-				</div>    
-              </div>
-          </div>
-    </div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 	<input type="hidden" id="ctx" value="${ctx}" />
@@ -130,36 +122,32 @@
 	<input type="hidden" id="userJobCode" value="${userJobCode}" />
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 	<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
-	
+
 
 	<content tag="local_script"> 
-	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
-	<script	src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
+	<script src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script> 
+	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-	<script	src="${ctx}/js/jquery.blockui.min.js"></script> 
-	<script	src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
-	<script	src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-	<script	src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>	
-	<script src="${ctx}/js/trunk/task/loanerProcessList.js"></script> 	
+	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script> 
+	<script	src="${ctx}/js/trunk/task/loanerProcessList.js"></script> 
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
-	
-	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 	<!-- 排序插件 --> 
-	<script	src="${ctx}/js/plugins/jquery.custom.js"></script> 
-
-	<!-- 分页控件  -->
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	<!-- 日期拖拽 -->
-	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.js"></script>	
-	<script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script>
-		
-	<!-- 必须JS -->
-	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-	
-	<script	id="template_loanerProcessList" type="text/html">
+	<script src="${ctx}/js/plugins/jquery.custom.js"></script> 
+	<!-- 分页控件  --> 
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
+	<!-- 日期拖拽 --> 
+	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.js"></script> 
+	<script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script> 
+	<!-- 必须JS --> 
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script> 
+	<script id="template_loanerProcessList"	type="text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}
  				      <tr class="tr-1">
@@ -254,8 +242,7 @@
 						</td>
                      </tr>			
        {{/each}}
-     </script> 
-     <script type="text/javascript">
+     </script> <script type="text/javascript">
 			$(function(){				
 				//top
 				$('.demo-top').poshytip({
@@ -266,10 +253,8 @@
 					alignY: 'top',
 					offsetX: 8,
 					offsetY: 5,
-				});
-				
+				});				
 			});
-	</script> 
-</content>
+	</script> </content>
 </body>
 </html>
