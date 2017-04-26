@@ -700,15 +700,13 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		// 更新 信贷员信息、贷款机构信息
 		ToMortgage toMortgageDTO = vilidateMortage(toMortgage);// 验证前台传来的参数
 		SessionUser user = uamSessionService.getSessionUser();
-		User loaner = uamUserOrgService
-				.getUserById(toMortgageDTO.getLoanerId());
+		User loaner = uamUserOrgService.getUserById(toMortgageDTO.getLoanerId());
 
 		try {
 			// 设置流程变量、提交流程
 			variables.add(new RestVariable("currentProcessEnd", true));
 
-			workFlowManager.submitTask(variables, taskId, processInstanceId,
-					null, caseCode);
+			workFlowManager.submitTask(variables, taskId, processInstanceId,null, caseCode);
 			// 更新流程表的状态为已完成	
 			ToWorkFlow record = toWorkFlowService.queryWorkFlowByInstCode(processInstanceId);
 			if (record != null) {
@@ -727,8 +725,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 
 			//
 			ToMortLoaner toMortLoaner = new ToMortLoaner();
-			ToPropertyInfo toPropertyInfo = toPropertyInfoService
-					.findToPropertyInfoByCaseCode(caseCode);
+			ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
 
 			// 冗余 派单流程表信息
 			toMortLoaner.setCaseCode(caseCode);
@@ -745,8 +742,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			}
 			toMortLoaner.setReceiveCode(receiveCode);
 			toMortLoaner.setMortType(toMortgage.getMortType());
-			toMortLoaner.setIsMainLoanBankProcess(toMortgage
-					.getIsMainLoanBank());// 1:主选银行派单流程
+			toMortLoaner.setIsMainLoanBankProcess(toMortgage.getIsMainLoanBank());// 1:主选银行派单流程
 
 			toMortLoaner.setMortTotalAmount(toMortgageDTO.getMortTotalAmount());
 			toMortLoaner.setComAmount(toMortgageDTO.getComAmount());

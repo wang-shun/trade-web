@@ -418,7 +418,7 @@
 			caseCode : caseCode
 			
 		});
-		
+		//$("#bankOrgId").val(finOrgId);  
 		//银行下拉列表
 		if(isTmpBank=='1'){
 			getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"","equ");
@@ -433,26 +433,14 @@
  		$("select[name='finOrgCode']").change(function(){     	
     		var finOrgCode = $("select[name='finOrgCode']").val();	  		
     		var finOrgId='';			
-    		$.ajax({
-    			    url:ctx+"/manage/queryBankOrgIdByOrgCode",
-    			    method:"post",
-    			    dataType:"json",
-    				async:false,
-    			    data:{finOrgCode:finOrgCode},
-    			    
-    			    success:function(data){
-    		    		if(data != null){
-    		    			finOrgId = data.content;
-    		    		}
-    		    	}
-    		 });
-    		$("#bankOrgId").val(finOrgId);    		
+    		getFinOrgId(finOrgCode);   		
     	}) 
     	
 		$("#bank_type").change(function(){
 			//getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag)
 			getBranchBankList($("#finOrgCode"),$("#bank_type").val(),"cl");
-		});
+		});		
+
 	});
 
 	//查询分行信息
@@ -523,8 +511,10 @@
 						var coLevelStr='('+data[i].coLevelStr+')';
 
 						var option = $("<option coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"+data[i].finOrgNameYc+coLevelStr+"</option>");
-						if(data[i].finOrgCode==finOrgCode){
-							option.attr("selected",true);
+						if(data[i].finOrgCode == finOrgCode){
+							getFinOrgId(finOrgCode);						
+							option.attr("selected",true);			
+							
 						}
 						selectorBranch.append(option);
 					}
@@ -534,6 +524,26 @@
 		return true;
 	}
 
+	function getFinOrgId(finOrgCode){
+		var finOrgId='';
+		if(null != finOrgCode && "" != finOrgCode && undefined != finOrgCode){
+			$.ajax({
+			    url:ctx+"/manage/queryBankOrgIdByOrgCode",
+			    method:"post",
+			    dataType:"json",
+				async:false,
+			    data:{finOrgCode:finOrgCode},
+			    
+			    success:function(data){
+		    		if(data != null){
+		    			finOrgId = data.content;
+		    		}
+		    	}
+		 });
+		$("#bankOrgId").val(finOrgId);  
+		} 
+	}
+	
 	function submit(){
 		if(!checkForm()) {
 			return;
@@ -682,8 +692,8 @@
 	
 	//信贷员选择
 	function selectLoanerByOrgId(){	
-		var finOrgId = $("#bankOrgId").val();	
-		if(finOrgId != null  && finOrgId !=""  && finOrgId != undefined){
+		var finOrgId = $("#bankOrgId").val();			
+		if(finOrgId != null  && finOrgId !=""  && finOrgId != undefined){			
 			userSelect({
 				startOrgId : finOrgId,//非营业部
 				expandNodeId : finOrgId,
