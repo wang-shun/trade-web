@@ -61,6 +61,7 @@
 							CASE ml.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS mortInfo_status,
 							ISNULL(ml.SEND_ID,'')  AS yuOperator_userId,
 							ISNULL(M.LOAN_AGENT_TEAM,'')  AS yuOperator_teamId,
+							(SELECT ORG_NAME FROM sctrans.SYS_ORG WHERE ID = (SELECT ORG_ID FROM sctrans.SYS_USER WHERE ID = ml.SEND_ID)) as yuOperator_org,
 							ISNULL(ml.CUST_NAME,'') AS custInfo_name,
 							ISNULL(m.CUST_CODE,'')  AS custInfo_custCode,
 							ISNULL(g.PKID,'') AS custInfo_custID,
@@ -101,7 +102,7 @@
 			<column type="both" name="yuOperator_teamId" display="yuOperator_teamId"  />
 			<column type="virtual" name="yuOperator_name" display="yuOperator_name" referencecol="yuOperator_userId" customDict="qqRealName"  />
 			<column type="virtual" name="yuOperator_mobile" display="yuOperator_mobile" referencecol="yuOperator_userId" customDict="qqUserIdMobile"  />
-			<column type="virtual" name="yuOperator_org" display="yuOperator_org" referencecol="yuOperator_teamId" customDict="qqcdOrgIdName"  />
+			<column type="both" name="yuOperator_org" display="yuOperator_org"/>
 			
 			<column type="both" name="custInfo_name" display="custInfo_name"  />
 			<column type="both" name="custInfo_custCode" display="custInfo_custCode"  />
