@@ -902,7 +902,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    					f.find("input[name='dispachTime']").val(data.content.dispachTime);
 		    				}else if(data.content.isMainLoanBank == 0){
 		    					$("#dispachTimeShow0").show();
-		    					f.find("input[name='dispachTime']").val(data.content.dispachTime);		    					
+		    					f.find("input[name='dispachTime']").val(data.content.dispachTime);			    					
 		    				}
 		    				//派单时间不为空，显示 并且设置可以进行下一步提交
 		    				
@@ -1252,16 +1252,31 @@ function getCompleteMortInfo(isMainLoanBank){
 	    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
 		    			$("#completeForm").find("input[name='lastBankSub']").attr("checked","checked");
 	    			}
+	    			
+	    			if(data.content.tmpBankStatus == '3'){
+	    				$("#completeForm").find("#tmpBankRejectReason").text("银行审批通过！");
+		    		}
 
     			}else{
     				$("#completeForm1").find("input[name='pkid']").val(data.content.pkid);
 	    			$("#completeForm1").find("#comAmount").html(data.content.comAmount+"万元");
 	    			$("#completeForm1").find("#comDiscount").html(data.content.comDiscount+"折");
-	    			$("#completeForm1").find("input[name='finOrgCode']").val(data.content.finOrgCode);
-	    			$("#completeForm1").find("input[name='apprDate']").val(data.content.apprDate);
+	    			$("#completeForm1").find("input[name='finOrgCode']").val(data.content.finOrgCode);	    			
+	    			//派单流程银行审批通过有时间即设置，其他保持不变	    			
+	    			if(data.content.bankApproveTime){
+	    				$("#completeForm1").find("input[name='apprDate']").val(data.content.bankApproveTime);
+	    			}else{
+	    				$("#completeForm1").find("input[name='apprDate']").val(data.content.apprDate);
+	    			}
+	    			
 	    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
 		    			$("#completeForm1").find("input[name='lastBankSub']").attr("checked","checked");
 	    			}
+	    			
+	    			
+	    			if(data.content.tmpBankStatus == '3'){
+	    				$("#completeForm1").find("#tmpBankRejectReason").text("银行审批通过！");
+		    		}
     			}
     		}
     	}
