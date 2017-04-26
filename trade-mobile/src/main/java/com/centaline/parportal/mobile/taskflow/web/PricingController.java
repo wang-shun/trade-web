@@ -2,24 +2,17 @@ package com.centaline.parportal.mobile.taskflow.web;
 
 import com.aist.common.web.validate.AjaxResponse;
 import com.alibaba.fastjson.JSONObject;
-import com.centaline.trans.cases.entity.ToCase;
-import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToPricing;
 import com.centaline.trans.task.service.ToPricingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by caoyuan7 on 2017/4/14.

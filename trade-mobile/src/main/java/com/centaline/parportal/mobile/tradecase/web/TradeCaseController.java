@@ -631,6 +631,7 @@ public class TradeCaseController {
 				JSONObject file=(JSONObject)object;
 				ToAttachment attach=new ToAttachment();
 				attach.setAvailable("Y");
+				attach.setPartCode(file.getString("partCode"));
 				attach.setPreFileAdress(file.getString("fileID"));
 				attach.setPreFileCode(file.getString("fileCode"));
 				attach.setFileCat(file.getString("fileCat"));
