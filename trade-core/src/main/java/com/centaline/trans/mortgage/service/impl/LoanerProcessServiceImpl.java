@@ -493,9 +493,14 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 					}
 				}
 
+				System.out.println("toMortLoaner.getComAmount()="+toMortLoaner.getComAmount());
+				System.out.println("toMortLoaner.getComYear()="+toMortLoaner.getComYear());
 				ToMortgage toMortgage = toMortgageMapper.selectByPrimaryKey(pkid);
 				if (null != toMortgage) {
-					//ToMortgage toMortgageForUpdate = new ToMortgage();				
+					//ToMortgage toMortgageForUpdate = new ToMortgage();
+					System.out.println("ToMortgage toMortgage = toMortgageMapper.selectByPrimaryKey(pkid)");
+					System.out.println("1toMortgage.getComAmount()="+toMortgage.getComAmount());
+					System.out.println("1toMortgage.getComYear()="+toMortgage.getComYear());
 					toMortgage.setTmpBankStatus("3");
 					toMortgage.setBankApproveTime(new Date()); // 冗余信贷员审核通过时间，在页面做展示
 					toMortgage.setMortTotalAmount(toMortLoaner.getMortTotalAmount());
@@ -503,8 +508,13 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 					toMortgage.setComDiscount(toMortLoaner.getComDiscount());
 					toMortgage.setComYear(toMortLoaner.getComYear());
 					toMortgage.setPrfAmount(toMortLoaner.getPrfAmount());
-					toMortgage.setPrfYear(toMortLoaner.getPrfYear());
+					toMortgage.setPrfYear(20);
+					//toMortgage.setPrfYear(toMortLoaner.getPrfYear());
+					System.out.println("2toMortgage.getComAmount()="+toMortgage.getComAmount());
+					System.out.println("2toMortgage.getComYear()="+toMortgage.getComYear());
 					toMortgageMapper.updateByPkId(toMortgage);
+					System.out.println("3toMortgage.getComAmount()="+toMortgage.getComAmount());
+					System.out.println("3toMortgage.getComYear()="+toMortgage.getComYear());
 				}
 
 			} else {
