@@ -57,7 +57,6 @@
 							ISNULL(ml.COM_DISCOUNT,0) AS mortInfo_comDiscount,
 							ISNULL(ml.PRF_AMOUNT,0) AS mortInfo_prfAmount,
 							CAST(ISNULL(ml.PRF_YEAR,0) as varchar) + '年' AS mortInfo_prfYear,
-							ml.LOANER_STATUS as mortInfo_statusCode,
 							CASE ml.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS mortInfo_status,
 							ISNULL(ml.SEND_ID,'')  AS yuOperator_userId,
 							ISNULL(M.LOAN_AGENT_TEAM,'')  AS yuOperator_teamId,
@@ -68,7 +67,10 @@
 							ISNULL(g.GUEST_PHONE,'') AS custInfo_mobile,
 							ISNULL(p.PROPERTY_ADDR,'')  AS tradeInfo_addr,
 							ISNULL(c.CASE_CODE,'') AS tradeInfo_caseCode,
-							(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = c.STATUS AND IS_DELETED = 0 AND AVAILABLE = 1) AS tradeInfo_status
+							(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = c.STATUS AND IS_DELETED = 0 AND AVAILABLE = 1) AS tradeInfo_status,
+							ISNULL(ml.LOANER_STATUS,'') as mortInfo_loanerStatusCode,
+							ISNULL(ml.FLOW_STATUS,'') as mortInfo_flowStatusCode,
+							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ml.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS mortInfo_flowStatus
 				FROM sctrans.T_TO_MORT_LOANER ml
 				LEFT JOIN sctrans.T_TO_MORTGAGE m ON m.PKID = ml.MORT_PKID
 				LEFT JOIN sctrans.T_TG_GUEST_INFO g ON g.PKID = m.CUST_CODE
@@ -96,8 +98,10 @@
 			<column type="both" name="mortInfo_comDiscount" display="mortInfo_comDiscount"  />
 			<column type="both" name="mortInfo_prfAmount" display="mortInfo_prfAmount"  />
 			<column type="both" name="mortInfo_prfYear" display="mortInfo_prfYear"  />
-			<column type="both" name="mortInfo_statusCode" display="mortInfo_statusCode"  />
+			<column type="both" name="mortInfo_loanerStatusCode" display="mortInfo_loanerStatusCode"  />
 			<column type="both" name="mortInfo_status" display="mortInfo_status"  />
+			<column type="both" name="mortInfo_flowStatusCode" display="mortInfo_flowStatusCode"  />
+			<column type="both" name="mortInfo_flowStatus" display="mortInfo_flowStatus"  />
 			<column type="both" name="yuOperator_userId" display="yuOperator_userId"  />
 			<column type="both" name="yuOperator_teamId" display="yuOperator_teamId"  />
 			<column type="virtual" name="yuOperator_name" display="yuOperator_name" referencecol="yuOperator_userId" customDict="qqRealName"  />

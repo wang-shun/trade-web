@@ -49,6 +49,7 @@
 							ISNULL(m.SEND_ID,'') as consultantID,
 							ISNULL(m.CUST_NAME,'') as custName,
 							ISNULL(m.FLOW_STATUS,'') as flowStatusCode,
+							ISNULL(m.LOANER_STATUS,'') as loanerStatusCode,
 							CASE m.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS loanerStatus,
 							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = m.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
 							ISNULL(m.MORT_TOTAL_AMOUNT,0.00) as loanAmount,
@@ -96,6 +97,7 @@
 				<column  name="consultantName"   title="交易顾问名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="custName"   title="客户名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="flowStatusCode"   title="跟进状态code"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="loanerStatusCode"   title="派单状态code"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="loanerStatus"   title="派单状态"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="flowStatus"   title="跟进状态"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="loanAmount"   title="贷款金额"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
