@@ -1113,6 +1113,7 @@ public class WorkSpaceController {
 		int bizwarnCaseCount = 0;
 		int repayOverdueCaseCount = 0;
 		int transferOverdueCaseCount = 0;
+		int loanerOverdueAcceptCount = 0;
 		if ("yucui_team".equals(currentUser.getServiceDepHierarchy())) {
 			bizwarnCaseCount = benchBizwarnCaseCountQueryByTeam(currentUser.getUsername(),"LOANLOSS");
 		} else {
@@ -1122,14 +1123,17 @@ public class WorkSpaceController {
 		if(!currentUser.getServiceJobCode().equals(TransJobs.TJYGW.getCode())){//如果不是交易顾问
 			repayOverdueCaseCount = benchBizwarnCaseCountQuery(currentUser.getServiceDepId(), "RepayOverdue", currentUser.getServiceDepHierarchy(),"NO_CONSULTANT");
 			transferOverdueCaseCount = benchBizwarnCaseCountQuery(currentUser.getServiceDepId(), "TransferOverdue", currentUser.getServiceDepHierarchy(), "NO_CONSULTANT");
+			loanerOverdueAcceptCount = benchBizwarnCaseCountQuery(currentUser.getServiceDepId(), "LoanerOverdueAccept", currentUser.getServiceDepHierarchy(),"NO_CONSULTANT");
 		}else{
 			repayOverdueCaseCount = benchBizwarnCaseCountQuery(currentUser.getUsername(), "RepayOverdue", currentUser.getServiceDepHierarchy(),"YES_CONSULTANT");
 			transferOverdueCaseCount = benchBizwarnCaseCountQuery(currentUser.getUsername(), "TransferOverdue", currentUser.getServiceDepHierarchy(),"YES_CONSULTANT");
+			loanerOverdueAcceptCount = benchBizwarnCaseCountQuery(currentUser.getUsername(), "LoanerOverdueAccept", currentUser.getServiceDepHierarchy(),"YES_CONSULTANT");
 		}
 
 
 		map.put("bizwarnCaseCount", bizwarnCaseCount);
 		map.put("repayOverdueCaseCount", repayOverdueCaseCount);
+		map.put("loanerOverdueAcceptCount", loanerOverdueAcceptCount);
 		map.put("transferOverdueCaseCount", transferOverdueCaseCount);
 		map.put("redLight", redLight);
 		map.put("yeLight", yeLight);
