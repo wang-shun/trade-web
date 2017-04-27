@@ -485,6 +485,10 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 					record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 					toWorkFlowService.updateByPrimaryKeySelective(record);
 				}
+				
+				// 维护ToMortLoaner业务
+				maintainToMortLoaner(mortgageId, stateInBank);
+				
 				ToMortLoaner toMortLoaner = toMortLoanerService.getToMortLoanerById(Long.parseLong(mortgageId));
 				long pkid = 1;
 				if (null != toMortLoaner) {
@@ -512,9 +516,6 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 				variables.add(new RestVariable("bankBusinessApprove", false));
 
 			}
-
-			// 维护ToMortLoaner业务
-			maintainToMortLoaner(mortgageId, stateInBank);
 
 			// 提交流程
 			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
