@@ -358,6 +358,21 @@ public class ELoanCaseController {
 						eLoanCaseDetailMap.get("eLoanStatus") != null ? eLoanCaseDetailMap
 								.get("eLoanStatus") : "");
 
+		mortInfoMap
+				.put("loanerStatusCode",
+						eLoanCaseDetailMap.get("loanerStatusCode") != null ? eLoanCaseDetailMap
+								.get("loanerStatusCode") : "");
+
+		mortInfoMap
+				.put("flowStatusCode",
+						eLoanCaseDetailMap.get("flowStatusCode") != null ? eLoanCaseDetailMap
+								.get("flowStatusCode") : "");
+
+		mortInfoMap
+				.put("flowStatus",
+						eLoanCaseDetailMap.get("flowStatus") != null ? eLoanCaseDetailMap
+								.get("flowStatus") : "");
+
 		Map<String, Object> yuOperatorMap = new HashMap<String, Object>();
 		yuOperatorMap
 				.put("userId",
