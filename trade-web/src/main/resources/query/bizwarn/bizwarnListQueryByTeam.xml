@@ -114,11 +114,14 @@
 						  )
 					 </if>
 				</if>
-
 				<if test="warnType == 'LoanerOverdueAccept' ">
-					and exists(SELECT u.USERNAME FROM sctrans.T_TO_CASE c inner join sctrans.sys_user u on c.LEADING_PROCESS_ID = u.id WHERE CASE_CODE=t.CASE_CODE and u.USERNAME=#userLoginName#)
+					<if test="orgFlag == 'false' ">
+						and exists(SELECT u.USERNAME FROM sctrans.T_TO_CASE c inner join sctrans.sys_user u on c.LEADING_PROCESS_ID = u.id WHERE CASE_CODE=t.CASE_CODE and u.USERNAME=#userLoginName#)
+					</if>
+					<if test="orgFlag == 'true' ">
+						and exists(SELECT 1 FROM sctrans.T_TO_CASE c  WHERE CASE_CODE=t.CASE_CODE and c.ORG_ID in (#queryorgs#) )
+					</if>
 				</if>
-
 				]]>
 			</baseSql>
 			<orderBySql>
