@@ -10,7 +10,6 @@
 	<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
 	<link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
 	<link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
-	
 	<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 	<!-- stickUp fixed css -->
 	<link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
@@ -21,8 +20,6 @@
 	<link rel="stylesheet" href="${ctx}/static_res/trans/css/common/report.css">
 	<link rel="stylesheet" href="${ctx}/static/trans/css/addOutlist.css">
 	<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" ">
-	
-	
 </head>
 
 <body>
@@ -81,26 +78,7 @@
       <div class="ibox-content" style="height:250px;background:#f3f3f4;border-top:none;">
       </div>
   </div>
-<!-- main End -->
-<!-- <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" >
-    <div class="modal-dialog">
-        <div class="modal-content animated fadeIn">
-            <div class="modal-body" style="background:#fff;">
-              <p class="text-center" style="font-size: 20px;">点击删除，将丢失本次填写信息！选择保存按钮可保存本次填写信息！</p>
-          </div>
-          <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="btn btn-save">确认保存</button>
-                <button type="button" class="btn btn-success">我要删除</button>
-                <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-            </div>
-        </div>
-    </div>
-</div> -->
- <script>
-    /*  $('.outlist-btns span').click(function() {
-         $(this).toggleClass('out-btn-select');
-     }) */
- </script>    
+ 
 <content tag="local_require">
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <script>

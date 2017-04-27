@@ -290,6 +290,45 @@ function sumbitRe(){
 	});
 	
 }
+/**
+ * 编辑提交
+ */
+function saveRe(){	
+	var commSubject = getCheckBoxValues("commSubject");
+	var data = [];
+	$("form").each(function(){
+		var obj = $(this).serializeArray();
+		for(var i in obj){
+			if(obj[i].name=="commSubject"){
+				obj[i].value=commSubject.toString();
+			}
+			data.push(obj[i]);
+		}
+	}); 
+	
+	var url = ctx+"/caseMerge/editWdCaseInfo";
+	$.ajax({
+		cache : false,
+		async : false,
+		type : "post",
+		url : url,
+		dataType : "json",
+		data : data,
+		beforeSend:function(){  
+		},
+		success : function(data){
+			if(data.success){
+				window.wxc.success("保存外单成功！",{"wxcOk":function(){
+					window.location.href=ctx+"/case/myCaseList";
+				}});
+			}else{
+				window.wxc.error("保存外单失败！"+data.message); 
+			}
+			
+		}
+	});
+	
+}
 
 function checkForm(){
 	var formSubmitFlag = true;	

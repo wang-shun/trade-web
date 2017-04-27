@@ -2,13 +2,11 @@ package com.centaline.trans.cases.service;
 
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import com.centaline.trans.cases.vo.CaseMergeVo;
-import com.centaline.trans.wdcase.vo.TpdPaymentVO;
 
 
 public interface CaseMergeService {	
@@ -24,15 +22,6 @@ public interface CaseMergeService {
      * @throws Exception
      */
 	String saveWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo)throws Exception;
-	/**
-	 * 查询外单详细
-	 * @author hejf10
-	 * @date 2017年4月24日17:26:51
-	 * @param request
-	 * @param caseCode
-	 * @throws Exception
-	 */
-	//public void getCaseInfo(HttpServletRequest request,String caseCode)throws Exception;
 	/**
 	 * 保存外单支付流水
 	 * @author hejf10
@@ -59,5 +48,22 @@ public interface CaseMergeService {
      * @return
      */
     BigDecimal getCommCostAmount(String caseCode);
-
+    /**
+     * 查询外单详细信息外单编辑页面显示
+     * @author hejf10
+     * @date 2017年4月27日10:14:29
+     * @param request
+     * @param caseCode
+     */
+    void setCaseMergeVo(HttpServletRequest request,String caseCode);
+    /**
+     * 更新外单
+     * @author hejf10
+     * @date 2017年4月27日15:52:11
+     * @param request
+     * @param caseMergeVo
+     * @return
+     * @throws Exception
+     */
+    String editWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo)throws Exception;
 }

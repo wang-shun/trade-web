@@ -390,6 +390,7 @@ public class CaseMergeController {
 		toAccesoryListService.getAccesoryList(request, "AddWdCase");
 		
 		model.addAttribute("caseCode",getRandom());
+		request.setAttribute("type", "add");
 		
 		return "case/addWdCase";
 	}
@@ -410,59 +411,18 @@ public class CaseMergeController {
 	/**
 	 * 修改外单页面跳转 
 	 * @author hejf10
-	 * @date 2017年4月24日16:25:14
+	 * @date 2017年4月27日10:07:20
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value="editWdCase")
 	public String editWdCase(Model model, HttpServletRequest request,String caseCode) throws Exception{
-		model.addAttribute("flag","edit");
 		toAccesoryListService.getAccesoryList(request, "AddWdCase");
-		//caseMergeService.saveWdCaseInfo(request,caseMergeVo);}
-		model.addAttribute("caseCode",caseCode);
-		return "case/editWdCase";
+		caseMergeService.setCaseMergeVo(request, caseCode);
+		request.setAttribute("type", "edit");
+		return "case/addWdCase";
 	}
-	
-	
-	/**
-	 * 新建外单提交
-	 * @author hjf
-	 * @date 2017年4月21日13:59:02
-	 * @param request
-	 * @param caseMergeVo
-	 * @param keyFlag
-	 * @return
-	 * @throws Exception 
-	 *//*
-	@RequestMapping("saveWdCaseInfo")
-	public String saveWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo) throws Exception{
-		String caseCode = null;
-		try{
-			
-			if(StringUtils.equals("add", keyFlag)){
-				caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
-			}
-			if(StringUtils.equals("edit", keyFlag)){
-				caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
-			}
-			
-			caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
-			if(!"".equals(keyFlag) && null != keyFlag){
-				if("case".equals(keyFlag)){				
-					return "redirect:/case/tracking?caseCode="+caseCode;						
-				}else if("eloan".equals(keyFlag)){				
-					return "redirect:/eloan/task/eloanApply/process";										
-				}else if("spv".equals(keyFlag)){
-					return "redirect:/spv/saveHTML";									
-				}
-			}
-		}catch(BusinessException e){
-			throw new BusinessException("外单案件信息保存异常！");
-		}
-		return   "redirect:/case/tracking?caseCode="+caseCode;	
-		//return  "case/mycase_list2";
-	}*/
-	
+
 	/**
 	 * 新建外单
 	 * @author hejf10
@@ -478,6 +438,29 @@ public class CaseMergeController {
 		String caseCode = null;
 		try{
 			caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		return response;
+	}
+	/**
+	 * 更新外单
+	 * @author hejf10
+	 * @date 2017年4月26日15:02:27
+	 * @param caseMergeVo
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/editWdCaseInfo")
+	@ResponseBody
+	public AjaxResponse<?>  editWdCaseInfo(CaseMergeVo caseMergeVo,HttpServletRequest request){
+		AjaxResponse<?> response = new AjaxResponse<>();
+		String caseCode = null;
+		try{
+			caseCode = caseMergeService.editWdCaseInfo(request,caseMergeVo);
 			response.setSuccess(true);
 		} catch (Exception e) {
 			response.setSuccess(false);
@@ -510,44 +493,7 @@ public class CaseMergeController {
 		return response;
 	}
 	
-	
-/*	*//**
-	 * 新建外单提交
-	 * @author hjf
-	 * @date 2017年4月21日13:59:02
-	 * @param request
-	 * @param caseMergeVo
-	 * @param keyFlag
-	 * @return
-	 * @throws Exception 
-	 *//*
-	@RequestMapping("saveWdCaseInfo/{keyFlag}")
-	public String saveWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo,@PathVariable String keyFlag) throws Exception{
-		try{
-			String caseCode = null;
-			if(StringUtils.equals("add", keyFlag)){
-				caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
-			}
-			if(StringUtils.equals("edit", keyFlag)){
-				caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
-			}
-			
-			caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
-			if(!"".equals(keyFlag) && null != keyFlag){
-				if("case".equals(keyFlag)){				
-					return "redirect:/case/tracking?caseCode="+caseCode;						
-				}else if("eloan".equals(keyFlag)){				
-					return "redirect:/eloan/task/eloanApply/process";										
-				}else if("spv".equals(keyFlag)){
-					return "redirect:/spv/saveHTML";									
-				}
-			}
-		}catch(BusinessException e){
-			throw new BusinessException("外单案件信息保存异常！");
-		}
-		return  "case/mycase_list2";
-	}
-*/	/**
+	/**
 	 * 返来日期时间的一个字符串
 	 * @author hejf10
 	 * @return

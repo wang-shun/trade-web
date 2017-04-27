@@ -36,7 +36,7 @@
      PKID, CTM_CODE, AGENT_CODE, CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
     AGENT_NAME,DISPATCH_TIME,IMPORT_TIME, GRP_CODE, GRP_NAME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE,TARGET_CODE, 
     QJDS_NAME,QYJL_NAME,QYZJ_NAME,SWZ_CODE,SWZ_NAME,WZ_CODE,WZ_NAME,BA_CODE,BA_NAME,
-    refer_consultant_id,refer_consultant_realname
+    refer_consultant_id,refer_consultant_realname,SOURCE_OF_COOPERATION
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 

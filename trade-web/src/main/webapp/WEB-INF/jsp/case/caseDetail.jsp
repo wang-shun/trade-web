@@ -258,25 +258,42 @@
 											</dd>
 										</dl>
 									</div>
-									<span>经纪人信息</span>
-									<div class="ibox-conn else_conn_two ">
-										<dl class="dl-horizontal">
-											<dt>姓名</dt>
-											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${toCaseInfo.agentPhone}">
-													${caseDetailVO.agentName}</a>
-											</dd>
-											<dt>所属分行</dt>
-											<dd>${toCaseInfo.grpName }</dd>
-											<dt>直管经理</dt>
-											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseDetailVO.mcMobile}">
-													${caseDetailVO.mcName} </a>
-											</dd>
-										</dl>
-									</div>
+									<c:choose>  
+										    <c:when test="${toCase.caseProperty=='30003009'}">
+										        <span>推荐人信息</span>
+												<div class="ibox-conn else_conn_two ">
+													<dl class="dl-horizontal">
+														<dt>姓名</dt>
+														<dd>
+															<a data-toggle="popover" data-placement="right" data-content="${toCaseInfo.agentPhone}"> ${caseDetailVO.agentName}</a>
+														</dd>
+														<dt>手机号</dt>
+														<dd>${toCaseInfo.agentPhone }</dd>
+													</dl>
+												</div>
+										   </c:when>  
+										   <c:otherwise> 
+											    <span>经纪人信息</span>
+												<div class="ibox-conn else_conn_two ">
+													<dl class="dl-horizontal">
+														<dt>姓名</dt>
+														<dd>
+															<a data-toggle="popover" data-placement="right"
+																data-content="${toCaseInfo.agentPhone}">
+																${caseDetailVO.agentName}</a>
+														</dd>
+														<dt>所属分行</dt>
+														<dd>${toCaseInfo.grpName }</dd>
+														<dt>直管经理</dt>
+														<dd>
+															<a data-toggle="popover" data-placement="right"
+																data-content="${caseDetailVO.mcMobile}">
+																${caseDetailVO.mcName} </a>
+														</dd>
+													</dl>
+												</div>
+									       </c:otherwise> 
+										</c:choose>	
 								</div>
 								<div class="info_box info_box_three col-sm-3">
 									<span>经办人信息</span>

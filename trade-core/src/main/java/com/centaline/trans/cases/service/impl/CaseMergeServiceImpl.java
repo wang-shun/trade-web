@@ -1,6 +1,5 @@
 package com.centaline.trans.cases.service.impl;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,6 +27,8 @@ import com.centaline.trans.attachment.entity.ToAttachment;
 import com.centaline.trans.attachment.repository.ToAttachmentMapper;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
+import com.centaline.trans.cases.repository.ToCaseInfoMapper;
+import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.CaseMergeService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -37,9 +38,10 @@ import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.CaseOriginEnum;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.common.repository.TgGuestInfoMapper;
+import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
-import com.centaline.trans.eloan.repository.ToRcAttachmentMapper;
 import com.centaline.trans.team.entity.TsTeamScopeTarget;
 import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.utils.DateUtil;
@@ -85,6 +87,18 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	
 	@Autowired
 	private TpdPaymentMapper tpdPaymentMapper; 
+	
+	@Autowired
+	private ToCaseMapper toCaseMapper; 
+	
+	@Autowired
+	private ToCaseInfoMapper toCaseInfoMapper; 
+	
+	@Autowired
+	private TgGuestInfoMapper tgGuestInfoMapper; 
+	
+	@Autowired
+	private ToPropertyInfoMapper toPropertyInfoMapper; 
 	
 
 	@Autowired(required = true)
@@ -460,56 +474,6 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		}		
 		return k;
 	}
-	/**
-	 * 查询外单详细
-	 * @author hejf10
-	 * @date 2017年4月24日17:26:51
-	 * @param request
-	 * @param caseCode
-	 * @throws Exception
-	 *//*
-	@Override
-	public void getCaseInfo(HttpServletRequest request,String caseCode)throws Exception{
-		
-		if(StringUtils.isBlank(caseCode)){new BusinessException("caseCode为空！");}
-		
-		*//**
-		 * 1.保存案件信息				
-		 *//*
-		insertCase = toCaseService.insertSelective(toCase);
-		*//**
-		 * 2.保存案件详细信息
-		 *//*
-		insertCaseInfo = toCaseInfoService.insertSelective(toCaseInfo);
-		*//**
-		 * 3.保存案件地址信息			
-		 *//*
-		toPropertyInfoService.insertSelective(setToPropertyInfo(toCase,caseMergeVo));
-		*//**
-		 * 4.保存案件上下家/推荐人信息
-		 *//*
-		insertUp = saveIntoGuestInfo(nameUpList,namePhoneList,caseCode,1);
-		insertDown = saveIntoGuestInfo(nameDownList,phoneDownList,caseCode,2);
-		insertTz = saveIntoGuestInfo(nameRecommendList,phoneRecommendList,caseCode,3);
-		*//**
-		 * 5.保存案件附件信息
-		 *//*
-		toAttachmentMapper.updateToAttachmentForCaseCodeByCaseCode(caseMergeVo.getDistCode().toString(), caseCode);
-		
-		if(caseMergeVo.getAgentOrgId() != null && !"".equals(caseMergeVo.getAgentOrgId())){				
-			map.put("caseCode", caseCode);
-			map.put("orgId", caseMergeVo.getAgentOrgId());
-			toCaseInfoService.updateCaseInfoByOrgId(map);
-		}
-		
-		if(insertUp > 0 && insertDown > 0 && insertCase>0 && insertCaseInfo > 0 && insertTz >0){					
-			request.setAttribute("caseCode", caseCode);
-			request.setAttribute("busFlag", "success");
-		}	
-		
-		return caseCode;			
-			
-	}*/
 	
 	/**
      * 新增实收流水
@@ -649,5 +613,289 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		tpdPaymentVO.setPaymentDate(tpdPayment.getPaymentDate());
 		tpdPaymentVO.setReceiptPic(tdmPaidSubs.getReceiptPic());
 		return tpdPaymentVO;
+	}
+	/**
+	 * 查询外单详细信息用在编辑页面显示 
+	 * @author hejf10
+	 * @date 2017年4月27日10:09:08
+	 * @param tpdPayment
+	 * @param tdmPaidSubs
+	 * @return
+	 */
+	@Override
+	public void setCaseMergeVo(HttpServletRequest request,String caseCode){
+		
+		CaseMergeVo caseMergeVo = new CaseMergeVo();
+		/**
+		 * 1.案件信息
+		 */
+		ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
+		/**
+		 * 2.案件详细
+		 */
+		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
+		/**
+		 * 3.上下家
+		 */
+		List<TgGuestInfo> tgGuestInfos = tgGuestInfoMapper.findTgGuestInfoByCaseCode(caseCode);
+		/**
+		 * 4案件地址信息			
+		 */
+		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(caseCode);
+		
+		if(null != toCase){
+			setCaseMergeVoForToCase(caseMergeVo,toCase);
+		}
+		
+		if(null != toCaseInfo){
+			setCaseMergeVoForToCaseInfo(caseMergeVo,toCaseInfo);
+		}
+		
+		if(null != toPropertyInfo){
+			setCaseMergeVoForToPropertyInfo(caseMergeVo,toPropertyInfo);
+		}
+		
+		if(null != tgGuestInfos && tgGuestInfos.size()>0){
+			setCaseMergeVoForTgGuestInfos(caseMergeVo,tgGuestInfos);
+		}
+		
+		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("caseMergeVo", caseMergeVo);
+	}
+	/**
+	 * @author hejf10
+	 * @date 2017年4月27日11:11:43
+	 * @param caseMergeVo
+	 * @param toCase
+	 * @return
+	 */
+	public CaseMergeVo setCaseMergeVoForToCase(CaseMergeVo caseMergeVo,ToCase toCase){
+		caseMergeVo.setCaseCode(toCase.getCaseCode());
+		return caseMergeVo;
+	}
+	/**
+	 * @author hejf10
+	 * @date 2017年4月27日11:11:43
+	 * @param caseMergeVo
+	 * @param toCaseInfo
+	 * @return
+	 */
+	public CaseMergeVo setCaseMergeVoForToCaseInfo(CaseMergeVo caseMergeVo,ToCaseInfo toCaseInfo){
+		caseMergeVo.setSourceOfCooperation(toCaseInfo.getSourceOfCooperation());
+		return caseMergeVo;
+	}
+	/**
+	 * @author hejf10
+	 * @date 2017年4月27日11:11:43
+	 * @param caseMergeVo
+	 * @param toPropertyInfo
+	 * @return
+	 */
+	public CaseMergeVo setCaseMergeVoForToPropertyInfo(CaseMergeVo caseMergeVo,ToPropertyInfo toPropertyInfo){
+		caseMergeVo.setPropertyAddr(toPropertyInfo.getPropertyAddr());
+		return caseMergeVo;
+	}
+	/**
+	 * @author hejf10
+	 * @date 2017年4月27日11:11:43
+	 * @param List<TgGuestInfo> tgGuestInfos
+	 * @param toCase
+	 * @return
+	 */
+	public CaseMergeVo setCaseMergeVoForTgGuestInfos(CaseMergeVo caseMergeVo,List<TgGuestInfo> tgGuestInfos){
+		/**
+		 * 上家
+		 */
+		List<Long> pkidUps = new ArrayList<Long>();
+		List<String> guestNameUps = new ArrayList<String>();
+		List<String> guestPhoneUps = new ArrayList<String>();
+		/**
+		 * 下家
+		 */
+		List<Long> pkidDowns = new ArrayList<Long>();
+		List<String> guestNameDowns = new ArrayList<String>();
+		List<String> guestPhoneDowns = new ArrayList<String>();
+		/**
+		 * 推荐人
+		 */
+		List<Long> pkidRecommends = new ArrayList<Long>();
+		List<String> guestNameRecommends = new ArrayList<String>();
+		List<String> guestPhoneRecommends = new ArrayList<String>();
+		
+		for(TgGuestInfo tgGuestInfo:tgGuestInfos){
+			if(StringUtils.equals("30006001", tgGuestInfo.getTransPosition())){
+				pkidUps.add(tgGuestInfo.getPkid());
+				guestNameUps.add(tgGuestInfo.getGuestName());
+				guestPhoneUps.add(tgGuestInfo.getGuestPhone());
+			}
+			if(StringUtils.equals("30006002", tgGuestInfo.getTransPosition())){
+				pkidDowns.add(tgGuestInfo.getPkid());
+				guestNameDowns.add(tgGuestInfo.getGuestName());
+				guestPhoneDowns.add(tgGuestInfo.getGuestPhone());
+			}
+			if(StringUtils.equals("30006003", tgGuestInfo.getTransPosition())){
+				pkidRecommends.add(tgGuestInfo.getPkid());
+				guestNameRecommends.add(tgGuestInfo.getGuestName());
+				guestPhoneRecommends.add(tgGuestInfo.getGuestPhone());
+			}
+		}
+		caseMergeVo.setPkidUp(pkidUps);
+		caseMergeVo.setGuestNameUp(guestNameUps);
+		caseMergeVo.setGuestPhoneUp(guestPhoneUps);
+		
+		caseMergeVo.setPkidDown(pkidDowns);
+		caseMergeVo.setGuestNameDown(guestNameDowns);
+		caseMergeVo.setGuestPhoneDown(guestPhoneDowns);
+		
+		caseMergeVo.setPkidRecommend(pkidRecommends);
+		caseMergeVo.setGuestNameRecommend(guestNameRecommends);
+		caseMergeVo.setGuestPhoneRecommend(guestPhoneRecommends);
+		
+		return caseMergeVo;
+	}
+	
+	/**
+     * 保存新建外单案件信息
+     * 1.保存案件信息
+     * 2.保存案件详细信息
+     * 3.保存案件地址信息
+     * 4.保存案件上下家/推荐人信息
+     * 5.保存案件附件信息
+     * @author hejf10
+     * @date 2017年4月21日14:09:17
+     * @param request
+     * @param caseMergeVo
+     * @param caseCode
+     * @throws Exception
+     */
+	@Override
+	public String editWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo)throws Exception{
+		
+		if(null == caseMergeVo){ throw new BusinessException("外单案件信息为空！");	  }	
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		
+		String caseCode=caseMergeVo.getCaseCode();
+		Map<String, Object> map = new HashMap<String, Object>();
+		int insertUp=0,insertDown=0,insertCase=0,insertCaseInfo=0,insertTz=0;		
+			
+		List<String>  nameUpList = caseMergeVo.getGuestNameUp();
+		List<String>  namePhoneList = caseMergeVo.getGuestPhoneUp();
+		List<String>  nameDownList = caseMergeVo.getGuestNameDown();
+		List<String>  phoneDownList = caseMergeVo.getGuestPhoneDown();		
+		List<String>  nameRecommendList = caseMergeVo.getGuestNameRecommend();
+		List<String>  phoneRecommendList = caseMergeVo.getGuestPhoneRecommend();		
+		
+		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
+		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(caseCode);
+		TpdCommSubs tpdCommSubs = tpdCommSubsMapper.selectByCaseCode(caseCode);
+		
+		editToCaseInfo(toCaseInfo,caseMergeVo);
+		editToPropertyInfo(toPropertyInfo,caseMergeVo);
+		editTpdCommSubs(tpdCommSubs,caseMergeVo,user);
+		/**
+		 * 1.更新案件详细信息
+		 */
+		toCaseInfoService.updateByPrimaryKey(toCaseInfo);
+		/**
+		 * 2.保存案件地址信息			
+		 */
+		toPropertyInfoMapper.updateByPrimaryKey(toPropertyInfo);
+		/**
+		 * 3.保存案件应收记录
+		 */
+		tpdCommSubsMapper.updateByPrimaryKey(tpdCommSubs);
+		/**
+		 * 4.保存案件上下家/推荐人信息
+		 */
+		/*insertUp = saveIntoGuestInfo(nameUpList,namePhoneList,caseCode,1);
+		insertDown = saveIntoGuestInfo(nameDownList,phoneDownList,caseCode,2);
+		insertTz = saveIntoGuestInfo(nameRecommendList,phoneRecommendList,caseCode,3);*/
+		/**
+		 * 5.保存案件附件信息
+		 */
+		/*toAttachmentMapper.updateToAttachmentForCaseCodeByCaseCode(caseMergeVo.getDistCode().toString(), caseCode);*/
+	
+		
+		return caseCode;			
+			
+	}
+	
+	/**
+	 * 编辑案件明细信息
+	 * @author hejf10
+	 * @date 2017年4月27日16:01:58
+	 * @param toCaseInfo
+	 */
+	public ToCaseInfo editToCaseInfo(ToCaseInfo toCaseInfo,CaseMergeVo caseMergeVo){
+		toCaseInfo.setSourceOfCooperation(caseMergeVo.getSourceOfCooperation());
+		return toCaseInfo;
+	}
+	/**
+	 * 编辑案件地址信息
+	 * @author hejf10
+	 * @date 2017年4月27日16:02:57
+	 * @param toPropertyInfo
+	 * @throws ParseException 
+	 */
+	public ToPropertyInfo editToPropertyInfo(ToPropertyInfo toPropertyInfo,CaseMergeVo caseMergeVo)throws ParseException{
+		toPropertyInfo.setPropertyAddr(caseMergeVo.getPropertyAddr());
+		return toPropertyInfo;
+	}
+	/**
+	 * 编辑外单应收
+	 * @author hejf10
+	 * @date 2017年4月27日16:05:12
+	 * @param toPropertyInfo
+	 * @throws ParseException 
+	 */
+	public TpdCommSubs editTpdCommSubs(TpdCommSubs tpdCommSubs,CaseMergeVo caseMergeVo,SessionUser user){
+		tpdCommSubs.setCommSubject(caseMergeVo.getCommSubject());
+		tpdCommSubs.setCommCost(caseMergeVo.getCommCost());
+		tpdCommSubs.setUpdateBy(user.getId());
+		tpdCommSubs.setUpdateTime(new Date());
+		return tpdCommSubs;
+	}
+	/**
+	 * 编辑案件上下家/推荐人信息
+	 * 30006001：上家
+	 * 30006002：下家
+	 * 30006003：推荐人
+	 * @param 1:上家 2：下家 3：推荐人
+	 * @author hjf
+	 * @date 2017年4月27日16:07:08
+	 * */
+	private int editIntoGuestInfo(List<String> nameList, List<String> phoneList,String caseCode,int flag) {
+		int k = 0;
+		TgGuestInfo tgGuestInfo = new TgGuestInfo();
+		
+		if(nameList.size() > 0  && phoneList.size() > 0){
+			if(flag==1){
+				for(int i=0; i<nameList.size() ;i++){
+					tgGuestInfo.setCaseCode(caseCode);
+					tgGuestInfo.setGuestName(nameList.get(i));
+					tgGuestInfo.setGuestPhone(phoneList.get(i));
+					tgGuestInfo.setTransPosition("30006001");
+					k = tgGuestInfoService.insertSelective(tgGuestInfo);
+				}
+			}else if(flag==2){
+				for(int i=0; i<nameList.size() ;i++){
+					tgGuestInfo.setCaseCode(caseCode);
+					tgGuestInfo.setGuestName(nameList.get(i));
+					tgGuestInfo.setGuestPhone(phoneList.get(i));
+					tgGuestInfo.setTransPosition("30006002");
+					k = tgGuestInfoService.insertSelective(tgGuestInfo);
+				}
+			}else if(flag==3){
+				for(int i=0; i<nameList.size() ;i++){
+					tgGuestInfo.setCaseCode(caseCode);
+					tgGuestInfo.setGuestName(nameList.get(i));
+					tgGuestInfo.setGuestPhone(phoneList.get(i));
+					tgGuestInfo.setTransPosition("30006003");
+					k = tgGuestInfoService.insertSelective(tgGuestInfo);
+				}
+			}
+		}		
+		return k;
 	}
 }
