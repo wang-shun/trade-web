@@ -82,17 +82,4 @@
 			<property name="targetDataSource" ref="readOnlyDataSource"/>
 		</bean>
     </beans>
-    <beans profile="junit">
-    	<context:property-placeholder ignore-resource-not-found="true"
-			location="classpath:properties/resources.development.properties"/>
-		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-              <property name="driverClassName"><value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value></property> 
-              <property name="url"><value>jdbc:sqlserver://10.4.19.203:1433;databaseName=scpf</value></property> 
-              <property name="username"><value>jira</value></property> 
-              <property name="password"><value>jira.good</value></property> 
-        </bean>
-		<bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
-	       	<property name="targetDataSource" ref="dataSource"/>
-	    </bean>
-    </beans>
 </beans>
