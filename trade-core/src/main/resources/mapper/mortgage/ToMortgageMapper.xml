@@ -24,12 +24,9 @@
     <result column="IF_REPORT_BEFORE_LEND" property="ifReportBeforeLend" jdbcType="CHAR" />
     <result column="LOANER_NAME" property="loanerName" jdbcType="VARCHAR" />
     <result column="LOANER_PHONE" property="loanerPhone" jdbcType="VARCHAR" />
-    <result column="LOANER_ID" property="loanerId" jdbcType="VARCHAR" />
-    
-    <result column="DISPACH_USER_ID" property="dispachUserId" jdbcType="VARCHAR" />
-    <result column="BANK_APPROVE_USER_ID" property="bankApproveUserId" jdbcType="VARCHAR" />
-    <result column="DISPACH_TIME" property="dispachTime" jdbcType="TIMESTAMP" />
-    <result column="LOANER_ACCEPT_TIME" property="loanerAcceptTime" jdbcType="TIMESTAMP" />
+    <result column="LOANER_ID" property="loanerId" jdbcType="VARCHAR" />    
+    <result column="DISPACH_USER_ID" property="dispachUserId" jdbcType="VARCHAR" />  
+    <result column="DISPACH_TIME" property="dispachTime" jdbcType="TIMESTAMP" /> 
     <result column="BANK_APPROVE_TIME" property="bankApproveTime" jdbcType="TIMESTAMP" />
     <result column="LOANER_PROCESS_INSTCODE" property="loanerProcessInstCode" jdbcType="VARCHAR" />
     <result column="BANK_LEVEL" property="bankLevel" jdbcType="VARCHAR" />
@@ -68,7 +65,7 @@
     PKID, CASE_CODE, MORT_TYPE, MORT_TOTAL_AMOUNT, FIN_ORG_CODE, CUST_CODE, COM_AMOUNT, 
     COM_YEAR, COM_DISCOUNT, PRF_AMOUNT, PRF_YEAR, LEND_WAY, HOUSE_NUM, IS_LOANER_ARRIVE, 
     SIGN_DATE, APPR_DATE, TAZHENG_ARR_DATE, LEND_DATE, CUST_COMPANY, IF_REPORT_BEFORE_LEND, 
-    LOANER_ID,DISPACH_USER_ID,BANK_APPROVE_USER_ID,DISPACH_TIME,LOANER_ACCEPT_TIME,BANK_APPROVE_TIME,LOANER_PROCESS_INSTCODE,BANK_LEVEL,
+    LOANER_ID,DISPACH_USER_ID,DISPACH_TIME,BANK_APPROVE_TIME,LOANER_PROCESS_INSTCODE,BANK_LEVEL,
     LOANER_NAME, LOANER_PHONE,LAST_LOAN_BANK,PRF_APPLY_DATE,IF_REQUIRE_RECONSIDER,IS_DELEGATE_YUCUI,
     IS_MAIN_LOAN_BANK,CUST_NAME,self_Del_Reason,rec_Letter_No,is_Tmp_Bank,TMP_BANK_UPDATE_TIME,
     TMP_BANK_UPDATE_BY,TMP_BANK_REASON,LOANLOST_APPLY_REASON,LOANLOST_CONFIRM_CODE,
@@ -169,18 +166,10 @@
         DISPACH_USER_ID,
       </if>
       
-      <if test="bankApproveUserId != null" >
-        BANK_APPROVE_USER_ID,
-      </if>
-      
       <if test="dispachTime != null" >
         DISPACH_TIME,
       </if>
-      
-      <if test="loanerAcceptTime != null" >
-        LOANER_ACCEPT_TIME,
-      </if>
-      
+            
       <if test="bankApproveTime != null" >
         BANK_APPROVE_TIME,
       </if>      
@@ -321,19 +310,12 @@
       
       <if test="dispachUserId != null" >
         #{dispachUserId,jdbcType=VARCHAR},
-      </if>
-      
-      <if test="bankApproveUserId != null" >
-        #{bankApproveUserId,jdbcType=VARCHAR},
-      </if>
-      
+      </if>      
 
       <if test="dispachTime != null" >
         #{dispachTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="loanerAcceptTime != null" >
-        #{loanerAcceptTime,jdbcType=TIMESTAMP},
-      </if>
+
       <if test="bankApproveTime != null" >
         #{bankApproveTime,jdbcType=TIMESTAMP},
       </if>
@@ -481,18 +463,9 @@
       
       <if test="dispachUserId != null" >
         DISPACH_USER_ID = #{dispachUserId,jdbcType=VARCHAR},
-      </if>
-      
-      <if test="bankApproveUserId != null" >
-        BANK_APPROVE_USER_ID = #{bankApproveUserId,jdbcType=VARCHAR},
-      </if>
-      
+      </if>      
       <if test="dispachTime != null" >
         DISPACH_TIME = #{dispachTime,jdbcType=TIMESTAMP},
-      </if>
-      
-      <if test="loanerAcceptTime != null" >
-        LOANER_ACCEPT_TIME = #{loanerAcceptTime,jdbcType=TIMESTAMP},
       </if>
       
       <if test="bankApproveTime != null" >
@@ -761,18 +734,9 @@
       
       <if test="dispachUserId != null" >
         DISPACH_USER_ID = #{dispachUserId,jdbcType=VARCHAR},
-      </if>
-      
-      <if test="bankApproveUserId != null" >
-        BANK_APPROVE_USER_ID = #{bankApproveUserId,jdbcType=VARCHAR},
-      </if>
-      
+      </if>      
       <if test="dispachTime != null" >
         DISPACH_TIME = #{dispachTime,jdbcType=TIMESTAMP},
-      </if>
-      
-      <if test="loanerAcceptTime != null" >
-        LOANER_ACCEPT_TIME = #{loanerAcceptTime,jdbcType=TIMESTAMP},
       </if>
       
       <if test="bankApproveTime != null" >
@@ -947,18 +911,10 @@
         DISPACH_USER_ID = #{dispachUserId,jdbcType=VARCHAR},
       </if>
       
-      <if test="bankApproveUserId != null" >
-        BANK_APPROVE_USER_ID = #{bankApproveUserId,jdbcType=VARCHAR},
-      </if>
-      
       <if test="dispachTime != null" >
         DISPACH_TIME = #{dispachTime,jdbcType=TIMESTAMP},
       </if>
-      
-      <if test="loanerAcceptTime != null" >
-        LOANER_ACCEPT_TIME = #{loanerAcceptTime,jdbcType=TIMESTAMP},
-      </if>
-      
+
       <if test="bankApproveTime != null" >
         BANK_APPROVE_TIME = #{bankApproveTime,jdbcType=TIMESTAMP},
       </if> 

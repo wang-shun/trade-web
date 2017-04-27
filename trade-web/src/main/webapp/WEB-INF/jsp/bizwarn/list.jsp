@@ -7,17 +7,23 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- 日期空间样式 -->
-    <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-	
-	<!-- 分页控件样式 -->
-	<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-	
-	<!-- 绘制列表表格样式 -->
-	<link href="${ctx}/css/common/drawtable.css" rel="stylesheet" />
+<!-- 日期空间样式 -->
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+<!-- 分页控件样式 -->
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+
+<!-- 绘制列表表格样式 -->
+<link href="${ctx}/css/common/drawtable.css" rel="stylesheet" />
+<style>
+.copyrightstyle{
+	margin-left: 0px !important;
+}
+
+</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
