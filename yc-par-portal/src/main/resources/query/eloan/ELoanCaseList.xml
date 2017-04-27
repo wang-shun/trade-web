@@ -148,7 +148,7 @@
 						--prdType--
 						'EPLUS' AS prdType,
 						--mortInfo--
-						(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = e.LOAN_SRV_CODE AND TYPE = 'yu_serv_cat_code_tree' AND IS_DELETED = 0 AND AVAILABLE = 1) AS mortType,
+						(SELECT DESCR FROM sctrans.SYS_DICT WHERE CODE = e.LOAN_SRV_CODE AND TYPE = 'yu_serv_cat_code_tree' AND IS_DELETED = 0 AND AVAILABLE = 1) AS mortType,
 						ec.APPLY_AMOUNT AS totalAmount,
 						ISNULL(ec.MONTH, 0) AS month,
 						CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END  AS eLoanStatus,
