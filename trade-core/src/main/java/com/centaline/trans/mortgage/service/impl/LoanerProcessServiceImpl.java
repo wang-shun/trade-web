@@ -796,7 +796,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 
 		if (toMortgage.getPrfAmount() != null) {
 			BigDecimal b2 = new BigDecimal(10000);
-			toMortgageDTO.setComAmount(toMortgage.getPrfAmount().multiply(b2));
+			toMortgageDTO.setPrfAmount(toMortgage.getPrfAmount().multiply(b2));
 		}
 
 		if (toMortgage.getPkid() == null || "".equals(toMortgage.getPkid())) {
@@ -837,10 +837,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		toMortgageDTO.setIsTmpBank(toMortgage.getIsTmpBank());// 是否是临时银行
 		toMortgageDTO.setFinOrgCode(toMortgage.getFinOrgCode());// 贷款银行
 		toMortgageDTO.setPkid(toMortgage.getPkid());// 贷款表更新主键
-		toMortgageDTO.setComAmount(toMortgage.getComAmount());// 商贷金额
 		toMortgageDTO.setComDiscount(toMortgage.getComDiscount());// 商贷折扣率
 		toMortgageDTO.setComYear(toMortgage.getComYear());// 商贷年份
-		toMortgageDTO.setPrfAmount(toMortgage.getPrfAmount());// 公积金金额
 		toMortgageDTO.setPrfYear(toMortgage.getPrfYear());// 公积金年份
 
 		return toMortgageDTO;
