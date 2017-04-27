@@ -94,13 +94,11 @@ function checkMortgageForm(formId){
 	}else if(formId.find("input[name='loanerName']").val() == ""){
 		window.wxc.alert("信贷员为必填项！");
 		formId.find("input[name='loanerName']").css("border-color","red");
-		return false;
-		
-	}else if(formId.find("input[name='loanerId']").val() == ""){
+		return false;		
+	}/*else if(formId.find("input[name='loanerId']").val() == ""){
 		formId.find("input[name='loanerName']").css("border-color","red");
-		return false;
-		
-	}else if(formId.find("input[name='loanerPhone']").val() == ""){
+		return false;		
+	}*/else if(formId.find("input[name='loanerPhone']").val() == ""){
 		window.wxc.alert("信贷员电话为必填项！");
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		return false;
