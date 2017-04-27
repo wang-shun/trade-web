@@ -40,7 +40,7 @@
 	<input type="hidden" id="caseCode" value="${caseMergeVo.caseCode}" />
  </c:if> --%>
         <div method="get" class="form_list">
-            <div class="title"> 新建外单 ${caseCode}</div>
+            <div class="title"> 新建外单 </div>
         </div>
         <div  class="form_list mt20" >
             <div class="line">

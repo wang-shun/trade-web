@@ -775,7 +775,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		
 		SessionUser user = uamSessionService.getSessionUser();
 		
-		String caseCode=caseMergeVo.getCaseCode();
+		String caseCode=caseMergeVo.getDistCode();
 		Map<String, Object> map = new HashMap<String, Object>();
 		int insertUp=0,insertDown=0,insertCase=0,insertCaseInfo=0,insertTz=0;		
 			
