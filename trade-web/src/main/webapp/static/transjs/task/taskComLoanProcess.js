@@ -491,10 +491,9 @@ function saveMortgage(form){
 //完成贷款审批
 function completeMortgage(form){	
 	
-	/*	是否临时银行 1 代表是临时银行   老方式判断
-	 * 
-	 *  var tmpBankCheckflag = $('#fl_is_tmp_bank').val() == '1';
-		if(tmpBankCheckflag && $("#tmpBankStatus").val() != '3'){ 	
+
+	 var tmpBankCheckflag = $('#fl_is_tmp_bank').val() == '1';
+/*		if(tmpBankCheckflag && $("#tmpBankStatus").val() != '3'){ 	
 		window.wxc.alert("信贷员接单银行审批未完成或不通过！");
 		return;
 	}*/
@@ -1202,7 +1201,7 @@ function getCompleteMortInfo(isMainLoanBank){
     	if(!data.success){
     		window.wxc.error(data.message);
     	}else{
-    		if(data.content != null){
+    		if(data.content != null){    			
     			if(data.content.tmpBankStatus != null){
 	    			$("#tmpBankStatus").val(data.content.tmpBankStatus);
     			}
@@ -1252,10 +1251,6 @@ function getCompleteMortInfo(isMainLoanBank){
 	    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
 		    			$("#completeForm").find("input[name='lastBankSub']").attr("checked","checked");
 	    			}
-	    			
-	    			if(data.content.tmpBankStatus == '3'){
-	    				$("#completeForm").find("#tmpBankRejectReason").text("银行审批通过！");
-		    		}
 
     			}else{
     				$("#completeForm1").find("input[name='pkid']").val(data.content.pkid);
@@ -1272,11 +1267,7 @@ function getCompleteMortInfo(isMainLoanBank){
 	    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
 		    			$("#completeForm1").find("input[name='lastBankSub']").attr("checked","checked");
 	    			}
-	    			
-	    			
-	    			if(data.content.tmpBankStatus == '3'){
-	    				$("#completeForm1").find("#tmpBankRejectReason").text("银行审批通过！");
-		    		}
+
     			}
     		}
     	}
