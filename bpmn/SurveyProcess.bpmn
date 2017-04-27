@@ -8,13 +8,13 @@
     <sequenceFlow id="flow2" sourceRef="startevent1" targetRef="SignSurvey"></sequenceFlow>
     <userTask id="SignFollow" name="签约跟进" activiti:assignee="${consultant}" activiti:formKey="/survey/task/SignFollow/process?__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="SignFollow">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${signPass == false}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${signResult == false}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow7" sourceRef="SignFollow" targetRef="SignSurvey"></sequenceFlow>
     <endEvent id="endevent1" name="End"></endEvent>
     <userTask id="TransferFollow" name="过户跟进" activiti:assignee="${consultant}" activiti:formKey="/survey/task/TransferFollow/process?__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow13" sourceRef="exclusivegateway2" targetRef="TransferFollow">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${transferPass == false}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${transferResult == false}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow14" sourceRef="TransferFollow" targetRef="TransferSurvey"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
@@ -22,13 +22,13 @@
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow17" sourceRef="TransferSurvey" targetRef="exclusivegateway2"></sequenceFlow>
     <sequenceFlow id="flow18" sourceRef="exclusivegateway2" targetRef="endevent1">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${transferPass}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${transferResult}]]></conditionExpression>
     </sequenceFlow>
     <intermediateCatchEvent id="TransferFinishMsgEventCatch" name="TransferFinishMsgEventCatch">
       <messageEventDefinition messageRef="TransferFinishMsg"></messageEventDefinition>
     </intermediateCatchEvent>
     <sequenceFlow id="flow19" sourceRef="exclusivegateway1" targetRef="TransferFinishMsgEventCatch">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${signPass}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${signResult}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow21" sourceRef="TransferFinishMsgEventCatch" targetRef="TransferSurvey"></sequenceFlow>
   </process>
