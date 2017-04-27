@@ -215,11 +215,12 @@
 							CAST(ISNULL(ec.MONTH,0) as varchar)+'期' as loanTime,
 							ISNULL(pi.PROPERTY_ADDR,'') 	as addr,
 							ISNULL(CONVERT(varchar(100), ec.APPLY_TIME, 23),'') as applyTime,
-							'EPLUS' as prdType,
+							(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = e.LOAN_SRV_CODE AND TYPE = 'yu_serv_cat_code_tree' AND IS_DELETED = 0 AND AVAILABLE = 1) as prdType,
 							ISNULL(ec.CASE_CODE,'') as caseCode,
 							ISNULL(ec.ELOAN_CODE,'') as bizCode,
 							ISNULL(ec.FLOW_STATUS,'') as flowStatusCode
 					FROM sctrans.T_TO_ELOAN_LOANER ec 
+					INNER JOIN sctrans.T_TO_ELOAN_CASE e ON ec.ELOAN_CODE = e.ELOAN_CODE
 					INNER JOIN sctrans.T_TO_PROPERTY_INFO pi ON ec.CASE_CODE = pi.CASE_CODE
 					INNER JOIN sctrans.SYS_USER u on u.ID = ec.SEND_ID
 					INNER JOIN sctrans.V_USER_ORG_JOB uoj ON ec.LOANER_ID = uoj.user_id 

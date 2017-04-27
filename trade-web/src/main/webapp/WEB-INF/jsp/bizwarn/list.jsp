@@ -49,6 +49,7 @@
 				    						<option value="LOANLOSS">贷款流失</option>
 				    						<option value="RepayOverdue">还贷逾期</option>
 				    						<option value="TransferOverdue">过户逾期</option>
+										    <option value="LoanerOverdueAccept">信贷员接单预警</option>
 				    					</select>
 			    				</div>
 			    				<label class="col-md-1  control-label">状态</label>

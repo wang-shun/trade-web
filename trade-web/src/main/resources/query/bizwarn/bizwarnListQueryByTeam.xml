@@ -53,8 +53,20 @@
 				  FROM sctrans.T_TO_BIZ_WARN bw
 				  LEFT JOIN sctrans.T_TO_PROPERTY_INFO AS ttpi ON ttpi.CASE_CODE = bw.CASE_CODE
 				  LEFT JOIN sctrans.T_TO_CASE as c on c.case_code = bw.CASE_CODE
-				  LEFT JOIN sctrans.T_TO_WORKFLOW tw on tw.CASE_CODE = bw.CASE_CODE) t
+				  LEFT JOIN sctrans.T_TO_WORKFLOW tw on tw.CASE_CODE = bw.CASE_CODE
+				  <if test="warnType == 'LOANLOSS' ">
+					LEFT JOIN sctrans.ACT_RU_TASK ART on ART.PROC_INST_ID_  = tw.INST_CODE
+				  </if>
+				  ) t
+
 				  where 1=1
+				   <if test="warnType == 'LOANLOSS' ">
+					    t.SUSPENSION_STATE_ = '1'
+						<if test="user_LoginName != null">
+							 AND t.ASSIGNEE_ = #userLoginName#
+						</if>
+				  </if>
+
 				  <ifNotNull warnType>	
    						and t.WARN_TYPE=#warnType# 
 				  </ifNotNull>
@@ -102,6 +114,11 @@
 						  )
 					 </if>
 				</if>
+
+				<if test="warnType == 'LoanerOverdueAccept' ">
+					and exists(SELECT u.USERNAME FROM sctrans.T_TO_CASE c inner join sctrans.sys_user u on c.LEADING_PROCESS_ID = u.id WHERE CASE_CODE=t.CASE_CODE and u.USERNAME=#userLoginName#)
+				</if>
+
 				]]>
 			</baseSql>
 			<orderBySql>
