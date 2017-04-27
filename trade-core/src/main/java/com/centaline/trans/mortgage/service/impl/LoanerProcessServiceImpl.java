@@ -485,6 +485,10 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 					record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 					toWorkFlowService.updateByPrimaryKeySelective(record);
 				}
+				
+				// 维护ToMortLoaner业务
+				maintainToMortLoaner(mortgageId, stateInBank);
+				
 				ToMortLoaner toMortLoaner = toMortLoanerService.getToMortLoanerById(Long.parseLong(mortgageId));
 				long pkid = 1;
 				if (null != toMortLoaner) {
@@ -493,37 +497,25 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 					}
 				}
 
-				System.out.println("toMortLoaner.getComAmount()="+toMortLoaner.getComAmount());
-				System.out.println("toMortLoaner.getComYear()="+toMortLoaner.getComYear());
 				ToMortgage toMortgage = toMortgageMapper.selectByPrimaryKey(pkid);
-				if (null != toMortgage) {
-					//ToMortgage toMortgageForUpdate = new ToMortgage();
-					System.out.println("ToMortgage toMortgage = toMortgageMapper.selectByPrimaryKey(pkid)");
-					System.out.println("1toMortgage.getComAmount()="+toMortgage.getComAmount());
-					System.out.println("1toMortgage.getComYear()="+toMortgage.getComYear());
+				if (null != toMortgage) {					
+
 					toMortgage.setTmpBankStatus("3");
 					toMortgage.setBankApproveTime(new Date()); // 冗余信贷员审核通过时间，在页面做展示
 					toMortgage.setMortTotalAmount(toMortLoaner.getMortTotalAmount());
 					toMortgage.setComAmount(toMortLoaner.getComAmount());
 					toMortgage.setComDiscount(toMortLoaner.getComDiscount());
 					toMortgage.setComYear(toMortLoaner.getComYear());
-					toMortgage.setPrfAmount(toMortLoaner.getPrfAmount());
-					toMortgage.setPrfYear(20);
-					//toMortgage.setPrfYear(toMortLoaner.getPrfYear());
-					System.out.println("2toMortgage.getComAmount()="+toMortgage.getComAmount());
-					System.out.println("2toMortgage.getComYear()="+toMortgage.getComYear());
+					toMortgage.setPrfAmount(toMortLoaner.getPrfAmount());					
+					toMortgage.setPrfYear(toMortLoaner.getPrfYear());
 					toMortgageMapper.updateByPkId(toMortgage);
-					System.out.println("3toMortgage.getComAmount()="+toMortgage.getComAmount());
-					System.out.println("3toMortgage.getComYear()="+toMortgage.getComYear());
+
 				}
 
 			} else {
 				variables.add(new RestVariable("bankBusinessApprove", false));
 
 			}
-
-			// 维护ToMortLoaner业务
-			maintainToMortLoaner(mortgageId, stateInBank);
 
 			// 提交流程
 			workFlowManager.submitTask(variables, taskId, processInstanceId, null, caseCode);
@@ -804,7 +796,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 
 		if (toMortgage.getPrfAmount() != null) {
 			BigDecimal b2 = new BigDecimal(10000);
-			toMortgageDTO.setComAmount(toMortgage.getPrfAmount().multiply(b2));
+			toMortgageDTO.setPrfAmount(toMortgage.getPrfAmount().multiply(b2));
 		}
 
 		if (toMortgage.getPkid() == null || "".equals(toMortgage.getPkid())) {
@@ -845,10 +837,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		toMortgageDTO.setIsTmpBank(toMortgage.getIsTmpBank());// 是否是临时银行
 		toMortgageDTO.setFinOrgCode(toMortgage.getFinOrgCode());// 贷款银行
 		toMortgageDTO.setPkid(toMortgage.getPkid());// 贷款表更新主键
-		toMortgageDTO.setComAmount(toMortgage.getComAmount());// 商贷金额
 		toMortgageDTO.setComDiscount(toMortgage.getComDiscount());// 商贷折扣率
 		toMortgageDTO.setComYear(toMortgage.getComYear());// 商贷年份
-		toMortgageDTO.setPrfAmount(toMortgage.getPrfAmount());// 公积金金额
 		toMortgageDTO.setPrfYear(toMortgage.getPrfYear());// 公积金年份
 
 		return toMortgageDTO;

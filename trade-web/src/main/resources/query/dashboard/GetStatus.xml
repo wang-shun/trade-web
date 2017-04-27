@@ -960,6 +960,22 @@
 								</if>
 							</if>
  						 </if>
+ 						 <if test="warnType == 'LoanerOverdueAccept' ">
+ 						 	<if test="orgFlag == 'false' ">
+								and exists(SELECT u.USERNAME FROM sctrans.T_TO_CASE c inner join sctrans.sys_user u on c.LEADING_PROCESS_ID = u.id WHERE CASE_CODE=t.CASE_CODE and u.USERNAME=#userLoginName#)
+ 						 	</if>
+
+ 						 	<if test="orgFlag == 'true' ">
+								<if test="depHierarchy == 'yucui_team' ">
+									and exists(SELECT 1 FROM sctrans.T_TO_CASE c  WHERE CASE_CODE=t.CASE_CODE and c.ORG_ID = #serviceDepId# )
+								</if>
+								<if test="depHierarchy == 'yucui_district' ">
+									and exists(SELECT 1 FROM sctrans.T_TO_CASE c  WHERE CASE_CODE=t.CASE_CODE and c.ORG_ID in(
+									   select ORG_ID from sctrans.v_yucui_org_hierarchy where DISTRICT_ID=#serviceDepId# and DEP_HIERARCHY='yucui_team'
+									))
+								</if>
+ 						 	</if>
+ 						 </if>
 				]]>
 			</baseSql>
 		</searchSql>

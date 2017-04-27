@@ -107,6 +107,21 @@ function queryBizwarnCaseCount(){
 						  return '<a href="'+ctx+'/bizwarn/list?status=0&warnType=TransferOverdue" target="_blank"></a>';
 					});
 				}
+
+				//信贷员接单预警
+				if(data.loanerOverdueAcceptCount!=undefined && data.loanerOverdueAcceptCount>=0){
+					$("#loanerOverdueAcceptCount").html(data.loanerOverdueAcceptCount).parent('p').siblings("i").addClass('martop20');
+					$("#loanerOverdueAcceptCount").parent('p').addClass('line').parents("li").addClass('light active').hover(function() {
+						$(this).css("background","#52cdec");
+						$(this).find(".icon,.line,span").addClass('white');
+					},function() {
+						$(this).css("background","#edfcfd");
+						$(this).find(".icon,.line,span").removeClass('white');
+					});
+					$("#loanerOverdueAcceptCount").parents("li").children().wrapAll(function() {
+						return '<a href="'+ctx+'/bizwarn/list?status=0&warnType=LoanerOverdueAccept" target="_blank"></a>';
+					});
+				}
 				
 				//黄灯任务
 				if(data.yeLight!=undefined && data.yeLight>=0){
