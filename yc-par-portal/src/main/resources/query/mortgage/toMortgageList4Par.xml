@@ -60,7 +60,7 @@
 							CAST(m.PKID as varchar)	as bizCode,
 							ISNULL(p.PROPERTY_ADDR,'') 	as addr,
 							ISNULL(uoj.employee_code,'') 	as avartaUrl,
-							ISNULL((select REAL_NAME FROM sctrans.SYS_USER WHERE ID = m.SEND_ID),'') 		as consultantName
+							ISNULL(m.SEND_NAME,'') 		as consultantName
 					FROM sctrans.T_TO_MORT_LOANER m
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = m.CASE_CODE AND m.LOANER_ID = #userid#
 					LEFT JOIN sctrans.V_USER_ORG_JOB uoj ON m.LOANER_ID = uoj.user_id AND uoj.ismain = 1
@@ -76,9 +76,7 @@
 				</if>
 				
 				<ifNotNull q_text>
-					 AND (m.CUST_NAME LIKE '%'+#q_text#+'%'
-					     			OR p.PROPERTY_ADDR	LIKE '%'+#q_text#+'%'
-					     			OR uoj.real_name LIKE '%'+#q_text#+'%')
+					 AND (m.CUST_NAME LIKE '%'+#q_text#+'%' OR p.PROPERTY_ADDR	LIKE '%'+#q_text#+'%' OR m.SEND_NAME LIKE '%'+#q_text#+'%')
 				</ifNotNull>		
 				]]>
 			</baseSql>

@@ -155,6 +155,7 @@
 						ISNULL(ec.FLOW_STATUS, '') as flowStatusCode,
 						CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END  AS eLoanStatus,
 						ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
+						CASE e.LOAN_SRV_CODE WHEN '30004005' THEN 'CARD' WHEN '30004015' THEN 'CARD' ELSE 'LOAN' END as type,
 						--yuOperator--
 						ec.SEND_ID AS excutorId,
 						u.REAL_NAME AS excutorName,
@@ -198,7 +199,8 @@
 				<column type="both" name="customerMobile" title="客户手机号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
 				<column type="both" name="caseCode" title="案件编号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
 				<column type="both" name="propertyAddress" title="产证地址"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
-				<column type="both" name="caseStatus" title="案件状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>	
+				<column type="both" name="caseStatus" title="案件状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="type" title="E+类型"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>	
 			</table-row>
 		</grid>
 	</query>
