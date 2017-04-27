@@ -80,7 +80,13 @@ public class MortgageController {
 		MortgageVo mortgageVo = new MortgageVo();
 		mortgageVo.setBizCode(bizCode);
 		mortgageVo.setType(type);
-		mortgageVo.setStateInBank(stateInBank);
+
+		if ("BUJIAN".equals(type)) {
+			mortgageVo.setStateInBank("BUJIAN");
+		} else {
+			mortgageVo.setStateInBank(stateInBank);
+		}
+
 		mortgageVo.setCaseCode(caseCode);
 		mortgageVo.setComment(comment);
 		mortgageVo.setUser(sessionUser);
