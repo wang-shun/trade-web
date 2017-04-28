@@ -254,12 +254,20 @@ function getCheckBoxValues(name) {
 /**
  * 页面提交
  */
-function sumbitRe(){	
+function sumbitRe(){
+	
+	if(!checkForm()){
+		return false;		
+	}
+	if(!phoneUpAndphoneDownCheck()){
+		return false;
+	}
+	
 	var commSubject = getCheckBoxValues("commSubject");
 	var data = [];
 	$("form").each(function(){
 		var obj = $(this).serializeArray();
-		for(var i in obj){
+		for(var i in obj){debugger;
 			if(obj[i].name=="commSubject"){
 				obj[i].value=commSubject.toString();
 			}
@@ -298,7 +306,7 @@ function saveRe(){
 	var data = [];
 	$("form").each(function(){
 		var obj = $(this).serializeArray();
-		for(var i in obj){
+		for(var i in obj){debugger;
 			if(obj[i].name=="commSubject"){
 				obj[i].value=commSubject.toString();
 			}

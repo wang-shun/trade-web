@@ -1,8 +1,12 @@
 package com.centaline.trans.cases.vo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.spv.vo.SpvRecordedsVOItem;
 
 public class CaseMergeVo {
 	
@@ -66,7 +70,18 @@ public class CaseMergeVo {
      * 外单案件的支付caseCode
      */
     private String caseCode;
+    /**
+     * 外单上下家 
+     */
+    private List<TgGuestInfo> items = new ArrayList<TgGuestInfo>();
    
+	
+	public List<TgGuestInfo> getItems() {
+		return items;
+	}
+	public void setItems(List<TgGuestInfo> items) {
+		this.items = items;
+	}
 	public String getCaseCode() {
 		return caseCode;
 	}

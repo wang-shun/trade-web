@@ -1,5 +1,6 @@
 package com.centaline.trans.cases.service.impl;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -788,7 +789,6 @@ public class CaseMergeServiceImpl implements CaseMergeService {
      * 2.保存案件详细信息
      * 3.保存案件地址信息
      * 4.保存案件上下家/推荐人信息
-     * 5.保存案件附件信息
      * @author hejf10
      * @date 2017年4月21日14:09:17
      * @param request
@@ -807,16 +807,22 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int insertUp=0,insertDown=0,insertCase=0,insertCaseInfo=0,insertTz=0;		
 			
+		List<Long> 	  pkidUpList = caseMergeVo.getPkidUp();
 		List<String>  nameUpList = caseMergeVo.getGuestNameUp();
-		List<String>  namePhoneList = caseMergeVo.getGuestPhoneUp();
+		List<String>  nameUpPhoneList = caseMergeVo.getGuestPhoneUp();
+		
+		List<Long> 	  pkidDownList = caseMergeVo.getPkidDown();
 		List<String>  nameDownList = caseMergeVo.getGuestNameDown();
-		List<String>  phoneDownList = caseMergeVo.getGuestPhoneDown();		
+		List<String>  phoneDownList = caseMergeVo.getGuestPhoneDown();	
+		
+		List<Long> 	  pkidRecommendList = caseMergeVo.getPkidRecommend();
 		List<String>  nameRecommendList = caseMergeVo.getGuestNameRecommend();
 		List<String>  phoneRecommendList = caseMergeVo.getGuestPhoneRecommend();		
 		
 		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
 		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(caseCode);
 		TpdCommSubs tpdCommSubs = tpdCommSubsMapper.selectByCaseCode(caseCode);
+		List<TgGuestInfo> tgGuestInfoList = tgGuestInfoMapper.findTgGuestInfoByCaseCode(caseCode);
 		
 		editToCaseInfo(toCaseInfo,caseMergeVo);
 		editToPropertyInfo(toPropertyInfo,caseMergeVo);
@@ -836,14 +842,9 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		/**
 		 * 4.保存案件上下家/推荐人信息
 		 */
-		/*insertUp = saveIntoGuestInfo(nameUpList,namePhoneList,caseCode,1);
-		insertDown = saveIntoGuestInfo(nameDownList,phoneDownList,caseCode,2);
-		insertTz = saveIntoGuestInfo(nameRecommendList,phoneRecommendList,caseCode,3);*/
-		/**
-		 * 5.保存案件附件信息
-		 */
-		/*toAttachmentMapper.updateToAttachmentForCaseCodeByCaseCode(caseMergeVo.getDistCode().toString(), caseCode);*/
-	
+		insertUp = updateToGuestInfo(pkidUpList,nameUpList,nameUpPhoneList,caseCode,1,tgGuestInfoList);
+		insertDown = updateToGuestInfo(pkidDownList,nameDownList,phoneDownList,caseCode,2,tgGuestInfoList);
+		insertTz = updateToGuestInfo(pkidRecommendList,nameRecommendList,phoneRecommendList,caseCode,3,tgGuestInfoList);
 		
 		return caseCode;			
 			
@@ -926,6 +927,95 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 				}
 			}
 		}		
+		return k;
+	}
+	/**
+	 * 更新上下家/推荐人信息
+	 * 30006001：上家
+	 * 30006002：下家
+	 * 30006003：推荐人
+	 * @param 1:上家 2：下家 3：推荐人
+	 * @author hjf
+	 * @date 2017年4月28日16:36:19
+	 * */
+	private int updateToGuestInfo(List<Long> pkidList,List<String> nameList, List<String> phoneList,String caseCode,int flag,
+								  List<TgGuestInfo> tgGuestInfoList) {
+		int k = 0;
+		List<Long> pkidLists = new ArrayList<Long>();
+		for(TgGuestInfo tgGuestInfof:tgGuestInfoList){
+			if(flag==1){
+				if(StringUtils.equals("30006001",tgGuestInfof.getTransPosition())){
+					pkidLists.add(tgGuestInfof.getPkid());
+				}
+			}
+			if(flag==2){
+				if(StringUtils.equals("30006002",tgGuestInfof.getTransPosition())){
+					pkidLists.add(tgGuestInfof.getPkid());
+				}
+			}
+			if(flag==3){
+				if(StringUtils.equals("30006003",tgGuestInfof.getTransPosition())){
+					pkidLists.add(tgGuestInfof.getPkid());
+				}
+			}
+			
+		}
+		for(TgGuestInfo tgGuestInfof:tgGuestInfoList){
+			if(nameList.size() > 0  && phoneList.size() > 0){
+				if(flag==1){
+					for(int i=0; i<nameList.size() ;i++){
+						TgGuestInfo tgGuestInfo = new TgGuestInfo();
+						if(StringUtils.equals("30006001",tgGuestInfof.getTransPosition())){
+							
+							/*if(null != pkidList.get(i) && StringUtils.contains(pkidList.get(i).toString(), tgGuestInfof.getPkid().toString()) ){*/
+							if(pkidLists.contains(pkidList.get(i)) ){
+								tgGuestInfo = tgGuestInfof;
+								tgGuestInfo.setGuestName(nameList.get(i));
+								tgGuestInfo.setGuestPhone(phoneList.get(i));
+								k = tgGuestInfoService.updateByPrimaryKeySelective(tgGuestInfo);
+								
+							}else{
+								tgGuestInfo.setCaseCode(caseCode);
+								tgGuestInfo.setGuestName(nameList.get(i));
+								tgGuestInfo.setGuestPhone(phoneList.get(i));
+								tgGuestInfo.setTransPosition("30006001");
+								k = tgGuestInfoService.insertSelective(tgGuestInfo);
+							}
+							
+						}
+					}
+				}else if(flag==2){
+					for(int i=0; i<nameList.size() ;i++){
+						TgGuestInfo tgGuestInfo = new TgGuestInfo();
+						if(StringUtils.equals("30006002",tgGuestInfof.getTransPosition())){
+							if(pkidLists.contains(pkidList.get(i)) ){
+								tgGuestInfo = tgGuestInfof;
+								tgGuestInfo.setGuestName(nameList.get(i));
+								tgGuestInfo.setGuestPhone(phoneList.get(i));
+								k = tgGuestInfoService.updateByPrimaryKeySelective(tgGuestInfo);
+							}else{
+								tgGuestInfo.setCaseCode(caseCode);
+								tgGuestInfo.setGuestName(nameList.get(i));
+								tgGuestInfo.setGuestPhone(phoneList.get(i));
+								tgGuestInfo.setTransPosition("30006002");
+								k = tgGuestInfoService.insertSelective(tgGuestInfo);
+							}
+						}
+						
+					}
+				}else if(flag==3){
+					for(int i=0; i<nameList.size() ;i++){
+						TgGuestInfo tgGuestInfo = new TgGuestInfo();
+						if(StringUtils.equals("30006003",tgGuestInfof.getTransPosition())){
+							tgGuestInfo = tgGuestInfof;
+							tgGuestInfo.setGuestName(nameList.get(i));
+							tgGuestInfo.setGuestPhone(phoneList.get(i));
+							k = tgGuestInfoService.updateByPrimaryKeySelective(tgGuestInfo);
+						}
+					}
+				}
+			}		
+		}
 		return k;
 	}
 }
