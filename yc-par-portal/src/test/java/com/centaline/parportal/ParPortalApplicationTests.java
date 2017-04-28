@@ -17,8 +17,7 @@ public class ParPortalApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		String result = mortgageListController
-				.caseList(1, 10, null, null, null);
+		String result = mortgageListController.caseList(1, 10, null, null, null);
 
 		System.out.println(result);
 	}
