@@ -540,7 +540,7 @@ function completeMortgage(form){
 	if(lastBankSub.val() != undefined){
 		lastLoanBank = form.find("input[name='finOrgCode']").val();
 	}
-
+	//isMainLoanBank
 	$.ajax({
 		url:ctx+"/task/completeMortgage",
 		method:"post",
