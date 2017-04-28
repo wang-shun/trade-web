@@ -30,7 +30,7 @@
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="flag" value="${flag}" />
 <input type="hidden" id="caseCode" value="${caseCode}" />
-<input type="hidden" id="ffc" value="${caseMergeVo.sourceOfCooperation}" />
+<input type="hidden" id="commSubject" value="${caseMergeVo.commSubject}" />
 <input type="hidden" id="type" value="${type}" />
 <div class="wrapper wrapper-content animated fadeInUp">
     <div class="ibox-content" id="reportFive">
@@ -182,10 +182,10 @@
                 <div class="row product-type">
                     <div class="form_content">
                         <label class="soutlist-btns-label pull-left"> 服务项目 </label>
-                        <div class="pull-left outlist-btns" >
+                        <div class="pull-left outlist-btns" id="Tnumber">
                             <span class="btn btn-white" onclick="" name="commSubject" value="签约"> 签约 </span>
-                            <span class="btn btn-white" onclick="" name="commSubject" value="过户 "> 过户 </span>
-                            <span class="btn btn-white" onclick="" name="commSubject" value="贷款 "> 贷款 </span>
+                            <span class="btn btn-white" onclick="" name="commSubject" value="过户"> 过户 </span>
+                            <span class="btn btn-white" onclick="" name="commSubject" value="贷款"> 贷款 </span>
                             <span class="btn btn-white" onclick="" name="commSubject" value="其它"> 其它  </span> 
                         </div>
                     </div>
@@ -223,7 +223,7 @@
         <div class="text-center mt40 mb30">
         
         	 <c:if test="${type eq 'edit'}" >
-             <a onclick="saveRe()" class="btn btn-success">确认</a>
+             <a onclick="saveRe()" class="btn btn-success">修改确认</a>
 			 </c:if>
         	 <c:if test="${type eq 'add'}" >
              <a onclick="sumbitRe()" class="btn btn-success">创建</a>
@@ -248,6 +248,8 @@
     $btn_spans.eq(3).click(function() {
         $else.toggle();
     });
+    
+     
 </script>
 </content>
 <content tag="local_require">
@@ -268,26 +270,23 @@
 	    });
     });
     
-    
-    function mathOper(oper){
-    	var rsltEl = document.getElementById('agentName');
-    
-    	alert($("#commSubject").attr('class'));
-    	rsltEl.value = rsltEl.value+oper;
-    	alert(rsltEl.value);
-    	}
+  
     
     jQuery(document).ready(function() {
-    	
-    	//alert($("#ffc").val());
-    	
+    	spansClick($("#commSubject").val()); 
 	    $("span[name='commSubject']").click(function(){								
 			var id = $(this).attr("id");								
 			$("span[id='"+id+"']").changeSelect();
 		});
     });
     
-    
+    function spansClick(list){
+    	var t = list.split(",");
+    	var btnwhite =  $('#Tnumber .btn-white');debugger;
+    	for(i=0;i<t.length;i++){
+    		$('#Tnumber .btn-white[value="'+t[i]+'"]').addClass("out-btn-select");
+    	}
+    } 
     
 </script>
 </content>

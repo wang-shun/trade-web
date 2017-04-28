@@ -639,9 +639,13 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		 */
 		List<TgGuestInfo> tgGuestInfos = tgGuestInfoMapper.findTgGuestInfoByCaseCode(caseCode);
 		/**
-		 * 4案件地址信息			
+		 * 4.案件地址信息			
 		 */
 		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(caseCode);
+		/**
+		 * 5.案件应收金额
+		 */
+		TpdCommSubs tpdCommSubs = tpdCommSubsMapper.selectByCaseCode(caseCode);
 		
 		if(null != toCase){
 			setCaseMergeVoForToCase(caseMergeVo,toCase);
@@ -659,10 +663,16 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 			setCaseMergeVoForTgGuestInfos(caseMergeVo,tgGuestInfos);
 		}
 		
+		if(null != tpdCommSubs ){
+			setCaseMergeVoForTpdCommSubs(caseMergeVo,tpdCommSubs);
+		}
+		
+		
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("caseMergeVo", caseMergeVo);
 	}
 	/**
+	 * 设置caseCode
 	 * @author hejf10
 	 * @date 2017年4月27日11:11:43
 	 * @param caseMergeVo
@@ -674,6 +684,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		return caseMergeVo;
 	}
 	/**
+	 * 设置推荐人
 	 * @author hejf10
 	 * @date 2017年4月27日11:11:43
 	 * @param caseMergeVo
@@ -687,6 +698,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		return caseMergeVo;
 	}
 	/**
+	 * 设置地址
 	 * @author hejf10
 	 * @date 2017年4月27日11:11:43
 	 * @param caseMergeVo
@@ -695,6 +707,20 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 */
 	public CaseMergeVo setCaseMergeVoForToPropertyInfo(CaseMergeVo caseMergeVo,ToPropertyInfo toPropertyInfo){
 		caseMergeVo.setPropertyAddr(toPropertyInfo.getPropertyAddr());
+		return caseMergeVo;
+	}
+	/**
+	 * 设置应收金额
+	 * @author hejf10
+	 * @date 2017年4月27日11:11:43
+	 * @param caseMergeVo
+	 * @param toPropertyInfo
+	 * @return
+	 */
+	public CaseMergeVo setCaseMergeVoForTpdCommSubs(CaseMergeVo caseMergeVo,TpdCommSubs tpdCommSubs){
+		
+		caseMergeVo.setCommCost(tpdCommSubs.getCommCost());
+		caseMergeVo.setCommSubject(tpdCommSubs.getCommSubject());
 		return caseMergeVo;
 	}
 	/**
