@@ -265,7 +265,7 @@
 													<dl class="dl-horizontal">
 														<dt>姓名</dt>
 														<dd>
-															<a data-toggle="popover" data-placement="right" data-content="${toCaseInfo.agentPhone}"> ${caseDetailVO.agentName}</a>
+															<a data-toggle="popover" data-placement="right" data-content="${toCaseInfo.agentPhone}"> ${toCaseInfo.agentName}</a>
 														</dd>
 														<dt>手机号</dt>
 														<dd>${toCaseInfo.agentPhone }</dd>

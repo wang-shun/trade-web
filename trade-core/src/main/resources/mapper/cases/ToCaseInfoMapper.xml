@@ -205,7 +205,8 @@
       TARGET_CODE = #{targetCode,jdbcType=VARCHAR},
       refer_consultant_id = #{referConsultantId,jdbcType=VARCHAR},
       refer_consultant_realname = #{referConsultantRealname,jdbcType=VARCHAR},
-      AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR}
+      AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR},
+      SOURCE_OF_COOPERATION = #{sourceOfCooperation,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   

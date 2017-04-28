@@ -381,8 +381,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		ToCaseInfo toCaseInfo = new ToCaseInfo();
 		toCaseInfo.setCaseCode(toCase.getCaseCode());
 		toCaseInfo.setAgentCode(caseMergeVo.getAgentCode() == null?"":caseMergeVo.getAgentCode());
-		toCaseInfo.setAgentName(caseMergeVo.getAgentName()== null?"":caseMergeVo.getAgentName());
-		toCaseInfo.setAgentPhone(caseMergeVo.getAgentPhone()== null?"":caseMergeVo.getAgentPhone());			
+		toCaseInfo.setAgentName(caseMergeVo.getGuestNameRecommend()== null?"":caseMergeVo.getGuestNameRecommend().get(0));
+		toCaseInfo.setAgentPhone(caseMergeVo.getGuestPhoneRecommend()== null?"":caseMergeVo.getGuestPhoneRecommend().get(0));			
 		toCaseInfo.setGrpName(caseMergeVo.getAgentOrgName()== null?"":caseMergeVo.getAgentOrgName());
 		toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
 		toCaseInfo.setIsResponsed("0");
@@ -682,6 +682,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 */
 	public CaseMergeVo setCaseMergeVoForToCaseInfo(CaseMergeVo caseMergeVo,ToCaseInfo toCaseInfo){
 		caseMergeVo.setSourceOfCooperation(toCaseInfo.getSourceOfCooperation());
+		caseMergeVo.setAgentName(toCaseInfo.getAgentName());
+		caseMergeVo.setAgentPhone(toCaseInfo.getAgentPhone());
 		return caseMergeVo;
 	}
 	/**
@@ -829,6 +831,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 */
 	public ToCaseInfo editToCaseInfo(ToCaseInfo toCaseInfo,CaseMergeVo caseMergeVo){
 		toCaseInfo.setSourceOfCooperation(caseMergeVo.getSourceOfCooperation());
+		toCaseInfo.setAgentName(caseMergeVo.getGuestNameRecommend()== null?"":caseMergeVo.getGuestNameRecommend().get(0));
+		toCaseInfo.setAgentPhone(caseMergeVo.getGuestPhoneRecommend()== null?"":caseMergeVo.getGuestPhoneRecommend().get(0));
 		return toCaseInfo;
 	}
 	/**
