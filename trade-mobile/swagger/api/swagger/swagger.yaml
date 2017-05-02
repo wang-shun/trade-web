@@ -167,7 +167,26 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/getLoanlostApproveResponse"
- 
+  /case/getTransPlanByCaseCode:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 改期获得交易计划列表接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew29
+      parameters:
+        - name: caseCode
+          in: query
+          description:  案件code
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getTransPlanByCaseCodeResponse"
+              
   /task/caselostApprove/first/process:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
@@ -305,6 +324,7 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/getPricingSuccessResponse" 
+              
   /task/PSFApply/process:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
@@ -343,6 +363,7 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/getHouseBookResponse"
+  
   /manage/queryBankListByPcode:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
@@ -1542,7 +1563,44 @@ definitions:
         type: string
         description: 实际领证时间
 ##领证返回值END     
+##改期列表接口Start
+  getTransPlanByCaseCodeResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getTransPlanByCaseCodeContent"
         
+  getTransPlanByCaseCodeContent:
+    properties:
+      currentPartCode:
+        type: string
+        description: 当前任务
+      plans:
+        $ref: "#/definitions/TransPlans" 
+        
+  TransPlans:
+    properties:
+      partName:
+        type: string
+        description: 领证的主键
+      estPartTimeStr:
+        type: string
+        description: 计划变更时间
+         
+
+##改期列表接口END
+
+
+
         
         
       
