@@ -4,57 +4,56 @@
  * 时间：2017年4月21日13:51:21
  * 版本：1.0
  */
-/**
- * 上家信息  动态添加
- */
-function getAtr(obj){
-    var str='';
-    str +=  '<div class="line">'
-        +   '<div class="form_content">'
-        +   '<input type="hidden" class="select_control sign_right_one" name="pkidUp" id="pkidUp" value="">'
-        +   '<label class="control-label sign_left_small mar24">'
-        +   '上家姓名'
-        +   '</label>'
-        +   '<input type="text" class="select_control sign_right_one" name="guestNameUp" id="guestNameUp" value="">'
-        +   ' </div>'
-        +   '<div class="form_content">'
-        +   '<label class="control-label sign_left_small mar24">'
-        +   '上家电话'
-        +   '</label>'
-        +   '<input type="text" class="select_control sign_right_one" name="guestPhoneUp" id="guestPhoneUp" value="">'
-        +   '</div>'
-        +   '<a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
-        +   '</div>';
-    $("#topHome").after(str);
+
+function getAtr2(obj){
+	var str='';
+	str +=  '<div class="line">'
+		+   '<div class="form_content">'
+		+   '<input type="hidden" class="select_control sign_right_one" name="pkidUp" id="pkidUp" value="">'
+		+   '<label class="control-label sign_left_small mar24">'
+		+   '上家姓名'
+		+   '</label>'
+		+   '<input type="text" class="select_control sign_right_one" name="guestNameUp" id="guestNameUp" value="">'
+		+   ' </div>'
+		+   '<div class="form_content">'
+		+   '<label class="control-label sign_left_small mar24">'
+		+   '上家电话'
+		+   '</label>'
+		+   '<input type="text" class="select_control sign_right_one" name="guestPhoneUp" id="guestPhoneUp" value="">'
+		+   '</div>'
+		+   '<a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
+		+   '</div>';
+	$("#topHome").after(str);
 }
+
 /**
  * 下家信息	动态添加
  * @param obj
  */
-function getNext(obj){
-    var str='';
-    str +=  '<div class="line">'
-        +   '<div class="form_content">'
-        +   ' <input type="hidden" class="select_control sign_right_one" name="pkidDown" id="pkidUp" value="">'
-        +   '<label class="control-label sign_left_small mar24">'
-        +   '下家姓名'
-        +   '</label>'
-        +   '<input type="text" class="select_control sign_right_one"  name="guestNameDown" id="guestNameDown" value="">'
-        +   ' </div>'
-        +   '<div class="form_content">'
-        +   '<label class="control-label sign_left_small mar24">'
-        +   '下家电话'
-        +   '</label>'
-        +   '<input type="text" class="select_control sign_right_one" name="guestPhoneDown"  id="guestPhoneDown" value="" >'
-        +   '</div>'
-        +   '<a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
-        +   '</div>';
-    $("#downHome").after(str);
+function getNext2(obj){
+	var str='';
+	str +=  '<div class="line">'
+		+   '<div class="form_content">'
+		+   ' <input type="hidden" class="select_control sign_right_one" name="pkidDown" id="pkidUp" value="">'
+		+   '<label class="control-label sign_left_small mar24">'
+		+   '下家姓名'
+		+   '</label>'
+		+   '<input type="text" class="select_control sign_right_one"  name="guestNameDown" id="guestNameDown" value="">'
+		+   ' </div>'
+		+   '<div class="form_content">'
+		+   '<label class="control-label sign_left_small mar24">'
+		+   '下家电话'
+		+   '</label>'
+		+   '<input type="text" class="select_control sign_right_one" name="guestPhoneDown"  id="guestPhoneDown" value="" >'
+		+   '</div>'
+		+   '<a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
+		+   '</div>';
+	$("#downHome").after(str);
 }
 /*上下家信息 删除*/
-function getDel(k){
+/*function getDel(k){
     $(k).parents('.line').remove();
-}
+}*/
 
 /*$("#loanLostCleanButton").click(function(){
 	window.wxc.confirm("确定清空所有信息？",{"wxcOk":function(){

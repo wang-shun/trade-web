@@ -71,16 +71,27 @@ public class CaseMergeVo {
      */
     private String caseCode;
     /**
-     * 外单上下家 
+     * 外单上家 
      */
-    private List<TgGuestInfo> items = new ArrayList<TgGuestInfo>();
+    private List<TgGuestInfo> tgGuestInfoUp = new ArrayList<TgGuestInfo>();
+    /**
+     * 外单下家 
+     */
+    private List<TgGuestInfo> tgGuestInfoDown = new ArrayList<TgGuestInfo>();
    
 	
-	public List<TgGuestInfo> getItems() {
-		return items;
+	
+	public List<TgGuestInfo> getTgGuestInfoUp() {
+		return tgGuestInfoUp;
 	}
-	public void setItems(List<TgGuestInfo> items) {
-		this.items = items;
+	public void setTgGuestInfoUp(List<TgGuestInfo> tgGuestInfoUp) {
+		this.tgGuestInfoUp = tgGuestInfoUp;
+	}
+	public List<TgGuestInfo> getTgGuestInfoDown() {
+		return tgGuestInfoDown;
+	}
+	public void setTgGuestInfoDown(List<TgGuestInfo> tgGuestInfoDown) {
+		this.tgGuestInfoDown = tgGuestInfoDown;
 	}
 	public String getCaseCode() {
 		return caseCode;

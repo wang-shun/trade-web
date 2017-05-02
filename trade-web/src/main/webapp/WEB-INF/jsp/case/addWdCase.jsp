@@ -32,6 +32,8 @@
 <input type="hidden" id="caseCode" value="${caseCode}" />
 <input type="hidden" id="commSubject" value="${caseMergeVo.commSubject}" />
 <input type="hidden" id="type" value="${type}" />
+<input type="hidden" id="sumUp" value="${caseMergeVo.tgGuestInfoUp.size()}" />
+<input type="hidden" id="sumDown" value="${caseMergeVo.tgGuestInfoDown.size()}" />
 <div class="wrapper wrapper-content animated fadeInUp">
     <div class="ibox-content" id="reportFive">
         <form  id="saveCaseInfo">
@@ -58,16 +60,16 @@
 	                    <label class="control-label sign_left_small">
 	                        	推荐人
 	                    </label>
-	                    <input type="text" class="select_control sign_right_one" name="guestNameRecommend" id="guestNameRecommend" value="${caseMergeVo.guestNameRecommend[0]}">
+	                    <input type="text" class="select_control sign_right_one" name="agentName" id="agentName" value="${caseMergeVo.agentName}">
 	                </div>
 	          
 	            <c:if test="${type eq 'edit'}" >
-	            <c:forEach items="${caseMergeVo.pkidRecommend}" var="caseMerge" varStatus="status2">
+	            <c:forEach items="${caseMergeVo.agentPhone}" var="caseMerge" varStatus="status2">
 	                <div class="form_content">
 	                    <label class="control-label sign_left_small" >
 	                        	推荐人电话
 	                    </label>
-	                    <input type="text" class="select_control sign_right_one" name="guestPhoneRecommend" id="guestPhoneRecommend" value="${caseMergeVo.guestPhoneRecommend[status2.index]}">
+	                    <input type="text" class="select_control sign_right_one" name="agentPhone" id="agentPhone" value="${caseMergeVo.agentPhone}">
 	                </div>
 				</c:forEach> 
 				</c:if>
@@ -76,7 +78,7 @@
 	                    <label class="control-label sign_left_small" >
 	                        	推荐人电话
 	                    </label>
-	                    <input type="text" class="select_control sign_right_one" name="guestPhoneRecommend" id="guestPhoneRecommend" value="">
+	                    <input type="text" class="select_control sign_right_one" name="agentPhone" id="agentPhone" value="">
 	                </div>
 				</c:if>
                   
@@ -96,22 +98,25 @@
                 </div>
             </div>
             <c:if test="${type eq 'edit'}" >
-            <c:forEach items="${caseMergeVo.pkidUp}" var="caseMerge" varStatus="status2"> 
+            <c:forEach items="${caseMergeVo.tgGuestInfoUp}" var="caseMerge" varStatus="status2"> 
             <div class="line" id="topHome">
                 <div class="form_content">
                     <label class="control-label sign_left_small">
                         	上家姓名
                     </label>
-                    <input type="text" class="select_control sign_right_one" name="guestNameUp" id="guestNameUp" value="${caseMergeVo.guestNameUp[status2.index]}">
-                    <input type="hidden" class="select_control sign_right_one" name="pkidUp" id="pkidUp" value="${caseMergeVo.pkidUp[status2.index]}">
+                    <input type="text" class="select_control sign_right_one" name="tgGuestInfoUp[${status2.index }].guestName" id="tgGuestInfoUp[0].guestName" value="${caseMerge.guestName}">
+                    <input type="hidden" class="select_control sign_right_one" name="tgGuestInfoUp[${status2.index }].pkid" id="tgGuestInfoUp[0].pkid" value="${caseMerge.pkid}">
                 </div>
              
                 <div class="form_content">
                     <label class="control-label sign_left_small">
                         	上家电话
                     </label>
-                    <input type="text" class="select_control sign_right_one" name="guestPhoneUp" id="guestPhoneUp" value="${caseMergeVo.guestPhoneUp[status2.index]}">
+                    <input type="text" class="select_control sign_right_one" name="tgGuestInfoUp[${status2.index }].guestPhone" id="tgGuestInfoUp[0].guestPhone" value="${caseMerge.guestPhone}">
                 </div>
+                <c:if test="${status2.index>0 }" >
+                	<a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>
+                </c:if>
             </div>
 			</c:forEach> 
 			</c:if>
@@ -121,39 +126,42 @@
                     <label class="control-label sign_left_small">
                         	上家姓名
                     </label>
-                    <input type="text" class="select_control sign_right_one" name="guestNameUp" id="guestNameUp" value="">
-                    <input type="hidden" class="select_control sign_right_one" name="pkidUp" id="pkidUp" value="">
+                    <input type="text" class="select_control sign_right_one" name="tgGuestInfoUp[0].guestName" id="tgGuestInfoUp[0].guestName" value="">
+                    <input type="hidden" class="select_control sign_right_one" name="tgGuestInfoUp[0].pkid" id="tgGuestInfoUp[0].pkid" value="">
                 </div>
              
                 <div class="form_content">
                     <label class="control-label sign_left_small">
                         	上家电话
                     </label>
-                    <input type="text" class="select_control sign_right_one" name="guestPhoneUp" id="guestPhoneUp" value="">
+                    <input type="text" class="select_control sign_right_one" name="tgGuestInfoUp[0].guestPhone" id="tgGuestInfoUp[0].guestPhone" value="">
                 </div>
             </div>
 			</c:if>
 			 
-            <div class="line mb20">
-                <a href="javascript:void(0)" style="margin-left:126px;" onclick="getAtr(this)">添加</a>
+            <div class="line mb20" id="upDiv">
+                <a href="javascript:void(0)" style="margin-left:126px;" onclick="getAtr()">添加</a>
             </div>
             
             <c:if test="${type eq 'edit'}" >
-            <c:forEach items="${caseMergeVo.pkidDown}" var="caseMerge" varStatus="status2">
+            <c:forEach items="${caseMergeVo.tgGuestInfoDown}" var="caseMerge" varStatus="status2">
             <div class="line" id="downHome">
                 <div class="form_content">
                     <label class="control-label sign_left_small">
                         	下家姓名
                     </label>
-                    <input type="text" class="select_control sign_right_one" name="guestNameDown" id="guestNameDown" value="${caseMergeVo.guestNameDown[status2.index]}">
-                     <input type="hidden" class="select_control sign_right_one" name="pkidDown" id="pkidDown" value="${caseMergeVo.pkidDown[status2.index]}">
+                    <input type="text" class="select_control sign_right_one" name="tgGuestInfoDown[${status2.index }].guestName" id="tgGuestInfoDown[${status2.index }].guestName" value="${caseMerge.guestName}">
+                     <input type="hidden" class="select_control sign_right_one" name="tgGuestInfoDown[${status2.index }].pkid" id="tgGuestInfoDown[${status2.index }].pkid" value="${caseMerge.pkid}">
                 </div>
                 <div class="form_content">
                     <label class="control-label sign_left_small">
                         	下家电话
                     </label>
-                    <input type="text" class="select_control sign_right_one" name="guestPhoneDown" id="guestPhoneDown" value="${caseMergeVo.guestPhoneDown[status2.index]}">
+                    <input type="text" class="select_control sign_right_one" name="tgGuestInfoDown[${status2.index }].guestPhone" id="tgGuestInfoDown[${status2.index }].guestPhone" value="${caseMerge.guestPhone}">
                 </div>
+                <c:if test="${status2.index>0 }" >
+                	<a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>
+                </c:if>
             </div>
 			</c:forEach> 
 			</c:if>
@@ -163,20 +171,20 @@
                     <label class="control-label sign_left_small">
                         	下家姓名
                     </label>
-                    <input type="text" class="select_control sign_right_one" name="guestNameDown" id="guestNameDown" value="">
-                     <input type="hidden" class="select_control sign_right_one" name="pkidDown" id="pkidDown" value="">
+                    <input type="text" class="select_control sign_right_one" name="tgGuestInfoDown[0].guestName" id="tgGuestInfoDown[0].guestName" value="">
+                     <input type="hidden" class="select_control sign_right_one" name="tgGuestInfoDown[0].pkid" id="tgGuestInfoDown[0].pkid" value="">
                 </div>
                 <div class="form_content">
                     <label class="control-label sign_left_small">
                         	下家电话
                     </label>
-                    <input type="text" class="select_control sign_right_one" name="guestPhoneDown" id="guestPhoneDown" value="">
+                    <input type="text" class="select_control sign_right_one" name="tgGuestInfoDown[0].guestPhone" id="tgGuestInfoDown[0].guestPhone" value="">
                 </div>
             </div>
 			</c:if>
             
-            <div class="line mb20">
-                <a href="javascript:void(0)" style="margin-left:126px;"  onclick="getNext(this)">添加</a>
+            <div class="line mb20" id="downDiv">
+                <a href="javascript:void(0)" style="margin-left:126px;"  onclick="getNext()">添加</a>
             </div>
             <div class="line">
                 <div class="row product-type">
@@ -254,6 +262,70 @@
 </content>
 <content tag="local_require">
 <script>
+
+
+/**
+ * 上家信息  动态添加
+ */
+var indexUp =parseInt($("#type").val()=="add"?1:$("#sumUp").val());
+var indexDown =parseInt($("#type").val()=="add"?1:$("#sumDown").val());
+
+function getAtr(){
+    var str='';
+    str +=  '<div class="line">'
+        +   '<div class="form_content">'
+        +   '<input type="hidden" class="select_control sign_right_one" name="tgGuestInfoUp['+indexUp+'].pkidUp" id="tgGuestInfoUp['+indexUp+'].pkidUp" value="">'
+        +   '<label class="control-label sign_left_small mar24">'
+        +   '上家姓名'
+        +   '</label>'
+        +   '<input type="text" class="select_control sign_right_one" name="tgGuestInfoUp['+indexUp+'].guestName" id="tgGuestInfoUp['+indexUp+'].guestName" value="">'
+        +   ' </div>'
+        +   '<div class="form_content">'
+        +   '<label class="control-label sign_left_small mar24">'
+        +   '上家电话'
+        +   '</label>'
+        +   '<input type="text" class="select_control sign_right_one" name="tgGuestInfoUp['+indexUp+'].guestPhone" id="tgGuestInfoUp['+indexUp+'].guestPhone" value="">'
+        +   '</div>'
+        +   '<a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
+        +   '</div>';
+    //$("#topHome").after(str);
+    $("#upDiv").before(str);
+    indexUp++;
+	$("#sumUp").val(sumUp);
+}
+/**
+ * 下家信息	动态添加
+ * @param obj
+ */
+function getNext(){
+    var str='';
+    str +=  '<div class="line">'
+        +   '<div class="form_content">'
+        +   ' <input type="hidden" class="select_control sign_right_one" name="tgGuestInfoDown['+indexDown+'].pkidUp" id="tgGuestInfoDown['+indexDown+'].pkidUp" value="">'
+        +   '<label class="control-label sign_left_small mar24">'
+        +   '下家姓名'
+        +   '</label>'
+        +   '<input type="text" class="select_control sign_right_one"  name="tgGuestInfoDown['+indexDown+'].guestName" id="tgGuestInfoDown['+indexDown+'].guestName" value="">'
+        +   ' </div>'
+        +   '<div class="form_content">'
+        +   '<label class="control-label sign_left_small mar24">'
+        +   '下家电话'
+        +   '</label>'
+        +   '<input type="text" class="select_control sign_right_one" name="tgGuestInfoDown['+indexDown+'].guestPhone"  id="tgGuestInfoDown['+indexDown+'].guestPhone" value="" >'
+        +   '</div>'
+        +   '<a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
+        +   '</div>';
+    //$("#downHome").after(str);
+    $("#downDiv").before(str);
+    indexDown++;
+	$("#sumDown").val(sumDown);
+}
+
+/*上下家信息 删除*/
+function getDel(k){
+    $(k).parents('.line').remove();
+}
+
   	/**
   	* 添加附件
   	*/
