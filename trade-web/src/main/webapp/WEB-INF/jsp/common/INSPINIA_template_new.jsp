@@ -55,6 +55,7 @@
 			document.domain = domain;
 	 		//document.domain = '';
 	 	}catch(e){}
+	 	
 	</script>
 </head>
 
@@ -83,6 +84,9 @@
                               </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a href="${ctx}/user/userInfo">我的信息</a></li>
+                                <li class="divider"></li>
+                                <li id="switchUserLi">
+                                </li>
                                 <li class="divider"></li>
                                 <li><a href="javascript:void(0)" onclick="LogoutUtils.logout();return false;">注销</a></li>
                             </ul>
@@ -150,7 +154,35 @@
 	        
 	        <!-- 右侧页面主体内容 -->
 	        <sitemesh:body></sitemesh:body>
-	        
+	        <a class="grouped_elements" rel="group1" href="image_big_2.jpg">
+	        	<input type="text" name="" />
+	        </a>  
+	         
+			<div class="modal fade" id="myModal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								&times;
+							</button>
+							<h4 class="modal-title" id="myModalLabel">
+								切换用户
+							</h4>
+						</div>
+						<div class="modal-body">
+							用户名：<input type="text" name="username" id="username" >
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+							</button>
+							<button type="button" onclick="runAs()" class="btn btn-primary">
+								切换
+							</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+			</div>
+			
             <div class="copyrightstyle">
             	Copyright ©2017 AIST All rights reserved. Version : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("Implementation-Version")%> commit : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("commit")%> branch : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("branch")%> buildTime : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("buildTime")%> hostname: <%=java.net.InetAddress.getLocalHost().getHostName() %>  
             </div>    
@@ -172,6 +204,11 @@
     <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- 引入弹出框js文件 -->
 	<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+	
+	<script type="text/javascript" src="${ctx}/js/jquery.fancybox.js?v=2.1.5"></script> <!-- Add Button helper (this is optional) -->
+	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-buttons.js"></script> <!-- Add Thumbnail helper (this is optional) -->
+	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-thumbs.js"></script> <!-- Add Media helper (this is optional) -->
+	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-media.js"></script>
     <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%> 
     <script type="text/javascript" src="${ctx}/static/js/INSPINIA_template.js"></script>
     <script type="text/javascript">
@@ -208,7 +245,54 @@
 			    	}
 			    }
 			});
+			
+			//切换用户
+			var isRunAs= <%=org.apache.shiro.SecurityUtils.getSubject().isRunAs() %>;
+			if(!isRunAs){
+				$("#switchUserLi").append("<a id='runasLink' href='javascript:void(0)' data-toggle='modal' data-target='#myModal'>切换用户</a>");
+			}else{
+				$("#switchUserLi").append("<a id='releaseRunasLink' onclick='releaseRunas();' href='javascript:void(0)'>返回原用户</a>");
+			}
 		});
+		
+
+		
+		function runAs(){
+			var username = $("#username").val();
+			if(username == ""){
+				alert("用户名不能为空！");
+				return ;
+			}
+			var url = "${ctx}/switchUser/runAs";
+			$.ajax({
+			  type: 'POST',
+			  url: url,
+			  data: "username=" + username,
+			  dataType: "json",
+	   		  success: function(data){
+	   			  alert(data.message);
+	   			  if(data.success){
+	   			 	window.location.reload();
+	   			  }
+	   		  }
+			});
+		}
+
+		function releaseRunas(){
+			var url = "${ctx}/switchUser/releaseRunAs";
+			$.ajax({
+			  type: 'POST',
+			  url: url,
+			  dataType: "json",
+	   		  success: function(data){
+	   			  alert(data.message);
+	   			  if(data.success){
+	   			 	window.location.reload();
+	   			  }
+	   		  }
+			});
+		}
+
     </script>
     <sitemesh:getProperty property="page.local_script"></sitemesh:getProperty>
     <script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/main.js"></script>
