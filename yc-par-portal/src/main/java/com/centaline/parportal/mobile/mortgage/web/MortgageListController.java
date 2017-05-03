@@ -36,8 +36,8 @@ import com.alibaba.fastjson.JSONObject;
 @RequestMapping(value = "/mortgageList")
 public class MortgageListController {
 
-	private static Logger logger = LoggerFactory
-			.getLogger(MortgageListController.class);
+	@SuppressWarnings("unused")
+	private static Logger logger = LoggerFactory.getLogger(MortgageListController.class);
 
 	@Resource(name = "quickGridService")
 	private QuickGridService quickGridService;
@@ -50,8 +50,7 @@ public class MortgageListController {
 
 	@RequestMapping(value = "list")
 	@ResponseBody
-	public String caseList(Integer page, Integer pageSize, String sidx,
-			String sord, String q_text) {
+	public String caseList(Integer page, Integer pageSize, String sidx, String sord, String q_text) {
 		// 设置快速查询id和分页参数
 		JQGridParam gp = new JQGridParam();
 		gp.setPagination(true);
@@ -81,14 +80,12 @@ public class MortgageListController {
 		querysParseService.reloadFile();
 
 		// 查询未接单按揭列表信息
-		Page<Map<String, Object>> noAcceptMortgageMapList = quickGridService
-				.findPageForSqlServer(gp, sessionUser);
+		Page<Map<String, Object>> noAcceptMortgageMapList = quickGridService.findPageForSqlServer(gp, sessionUser);
 
 		// 查询除未接单状态之外的按揭列表信息
 		paramter.put("flag", "exceptNoAccept");
 		gp.putAll(paramter);
-		Page<Map<String, Object>> mortgageMapList = quickGridService
-				.findPageForSqlServer(gp, sessionUser);
+		Page<Map<String, Object>> mortgageMapList = quickGridService.findPageForSqlServer(gp, sessionUser);
 
 		// 未接单记录数
 		long noAcceptCount = noAcceptMortgageMapList.getTotalElements();
@@ -105,8 +102,7 @@ public class MortgageListController {
 		result.put("records", totalElements);
 		result.put("pageSize", pageSize);
 
-		List<Map<String, Object>> noAcceptMortgageList = noAcceptMortgageMapList
-				.getContent();
+		List<Map<String, Object>> noAcceptMortgageList = noAcceptMortgageMapList.getContent();
 
 		List<Map<String, Object>> mortgageList = mortgageMapList.getContent();
 

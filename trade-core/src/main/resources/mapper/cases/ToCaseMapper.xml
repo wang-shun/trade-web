@@ -177,19 +177,19 @@
 <select id="findToCaseByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_CASE
+    from sctrans.T_TO_CASE  with(nolock)
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 
   </select>
 <select id="findToLoanAgentByCaseCode" parameterType="java.lang.String" resultType="java.lang.Integer">
     
- select count(*) from sctrans.T_TO_LOAN_AGENT t where t.loan_srv_code='30004005' and t.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+ select count(*) from sctrans.T_TO_LOAN_AGENT t with(nolock) where t.loan_srv_code='30004005' and t.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
 
   </select>
  <select id="queryConutCase" parameterType="com.centaline.trans.cases.entity.ToCase" resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">
   SELECT 
   	COUNT(CASE_CODE) AS countJDS
-  	FROM sctrans.T_TO_CASE WHERE 
+  	FROM sctrans.T_TO_CASE with(nolock)  WHERE 
 	convert(char(7) ,CREATE_TIME , 120) = #{time,jdbcType=VARCHAR} 
 	AND LEADING_PROCESS_ID = #{leadingProcessId,jdbcType=VARCHAR}
   
@@ -198,7 +198,7 @@
 <select id="countToCaseInfoByOrgId" parameterType="com.centaline.trans.cases.entity.ToCase" resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">
 	SELECT 
 		COUNT(CASE_CODE) AS countJDS
-	FROM sctrans.T_TO_CASE 
+	FROM sctrans.T_TO_CASE  with(nolock)
 	WHERE datediff(month,CREATE_TIME,getdate())=0 
 	
 	<if test="startDate != null">

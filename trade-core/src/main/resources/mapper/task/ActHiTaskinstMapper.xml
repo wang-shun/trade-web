@@ -6,19 +6,19 @@
 
 select distinct aht.id_ as pkid,aht.TASK_DEF_KEY_ as taskDefKey,aht.PROC_INST_ID_ as procInstId
 ,aht.NAME_ as name,aht.ASSIGNEE_ as assignee,u.ORG_ID as orgId,u.USER_ID as userId
- from sctrans.ACT_HI_TASKINST aht 
- left join sctrans.T_TO_WORKFLOW tf 
+ from sctrans.ACT_HI_TASKINST aht  with(nolock)
+ left join sctrans.T_TO_WORKFLOW tf  with(nolock)
  on tf.INST_CODE=aht.PROC_INST_ID_
- left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi on tsi.CASE_CODE=tf.CASE_CODE 
- left join sctrans.SYS_DICT d on d.CODE=aht.TASK_DEF_KEY_ and tsi.SRV_CODE=d.TYPE
- left join sctrans.V_USER_ORG_JOB u on u.USERNAME=aht.ASSIGNEE_ and u.JOB_CODE='consultant'
+ left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi with(nolock) on tsi.CASE_CODE=tf.CASE_CODE 
+ left join sctrans.SYS_DICT d with(nolock) on d.CODE=aht.TASK_DEF_KEY_ and tsi.SRV_CODE=d.TYPE
+ left join sctrans.V_USER_ORG_JOB u with(nolock) on u.USERNAME=aht.ASSIGNEE_ and u.JOB_CODE='consultant'
  where d.id is not null and aht.ID_ in (
  select max(aht.ID_)
- from sctrans.ACT_HI_TASKINST aht 
- right join sctrans.T_TO_WORKFLOW tf 
+ from sctrans.ACT_HI_TASKINST aht  with(nolock)
+ right join sctrans.T_TO_WORKFLOW tf  with(nolock)
  on tf.INST_CODE=aht.PROC_INST_ID_ 
- left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi on tsi.CASE_CODE=tf.CASE_CODE 
- left join sctrans.SYS_DICT d on d.CODE=aht.TASK_DEF_KEY_ and tsi.SRV_CODE=d.TYPE
+ left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tsi with(nolock) on tsi.CASE_CODE=tf.CASE_CODE 
+ left join sctrans.SYS_DICT d with(nolock) on d.CODE=aht.TASK_DEF_KEY_ and tsi.SRV_CODE=d.TYPE
  
 where d.id is not null  and TASK_DEF_KEY_ in <foreach collection="taskDfs" item="df" index="index1" open="(" separator="," close=")">#{df}</foreach> 
 and aht.PROC_INST_ID_=#{processInstanceId,jdbcType=VARCHAR} group by aht.TASK_DEF_KEY_

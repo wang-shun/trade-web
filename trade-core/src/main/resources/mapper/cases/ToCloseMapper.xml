@@ -23,7 +23,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from sctrans.T_TO_CLOSE
+    from sctrans.T_TO_CLOSE with(nolock)
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
@@ -133,7 +133,7 @@
   <select id="findToCloseByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_CLOSE
+    from sctrans.T_TO_CLOSE  with(nolock)
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </select>
   
@@ -159,7 +159,7 @@
   <select id="countToCloseByOrgId" parameterType="java.lang.String" resultType="com.centaline.trans.cases.entity.ToCaseInfoCountVo">
     SELECT 
     	COUNT(CASE_CODE) AS countJAS
-    FROM sctrans.T_TO_CASE 
+    FROM sctrans.T_TO_CASE  with(nolock)
     where  datediff(month,Close_Time,getdate())=0
     <if test="startDate != null">
      	AND   CREATE_TIME &gt;= #{startDate,jdbcType=VARCHAR}  

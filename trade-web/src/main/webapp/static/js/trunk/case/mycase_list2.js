@@ -738,7 +738,7 @@ function exportToExcel() {
 		url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
 		//url+= "&_s(earch=true";
 		//url= decodeURI(url);
-//		alert(url);
+		//alert(url);
 		$('#excelForm').attr('action', url);
 		
 		$('#excelForm').method="post" ;

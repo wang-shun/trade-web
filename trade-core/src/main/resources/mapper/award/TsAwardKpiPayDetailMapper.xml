@@ -25,7 +25,7 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TS_AWARD_KPI_PAY_DETAIL
+    from sctrans.T_TS_AWARD_KPI_PAY_DETAIL  with(nolock)
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
