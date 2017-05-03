@@ -185,6 +185,11 @@ paths:
           description:  任务code
           required: true
           type: string
+        - name: partName
+          in: query
+          description:  任务名字
+          required: true
+          type: string
       responses:
          "200":
             description: Success
