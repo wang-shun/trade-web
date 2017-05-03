@@ -180,6 +180,11 @@ paths:
           description:  案件code
           required: true
           type: string
+        - name: partCode
+          in: query
+          description:  任务code
+          required: true
+          type: string
       responses:
          "200":
             description: Success

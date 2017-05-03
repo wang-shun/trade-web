@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -47,7 +48,7 @@ public class CaseDetailController {
      */
     @RequestMapping(value = "/getTransPlanByCaseCode")
     @ResponseBody
-    public Object getTransPlanByCaseCode(String caseCode, String partCode) {
+    public Object getTransPlanByCaseCode(String caseCode, String partCode,String partName) {
         JSONObject jsonObject = new JSONObject();
         List<ToTransPlan> plans = transplanServiceFacade.queryPlansByCaseCode(caseCode);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -62,6 +63,7 @@ public class CaseDetailController {
             }
         }
         jsonObject.put("currentPartCode",partCode);
+        jsonObject.put("partName",partName);
         jsonObject.put("plans",plans);
         return jsonObject;
     }
@@ -70,7 +72,7 @@ public class CaseDetailController {
      * @author caoy
      * @return AjaxResponse
      */
-    @RequestMapping(value = "/savePlanItems")
+    @RequestMapping(value = "/savePlanItems" , method = RequestMethod.POST)
     @ResponseBody
     public Object savePlanItems(@RequestParam(required = true) String planItems) {
         AjaxResponse ajaxResponse = new AjaxResponse();
