@@ -1244,7 +1244,7 @@ function getCompleteMortInfo(isMainLoanBank){
     			if(isMainLoanBank == 1){
 	    			$("#completeForm").find("input[name='pkid']").val(data.content.pkid);
 	    			$("#completeForm").find("#comAmount").html(data.content.comAmount+"万元");
-	    			$("#completeForm").find("#comDiscount").html(data.content.comDiscount+"折");
+	    			$("#completeForm").find("#comDiscount").html(data.content.comDiscount);
 	    			$("#completeForm").find("input[name='finOrgCode']").val(data.content.finOrgCode);
 	    			//派单流程银行审批通过有时间即设置，其他保持不变	    			
 	    			if(data.content.bankApproveTime){
