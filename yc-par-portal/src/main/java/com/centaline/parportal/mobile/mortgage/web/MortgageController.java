@@ -122,10 +122,8 @@ public class MortgageController {
 			String procInstanceId, String stateInBank, String caseCode,
 			String comment) {
 
-		if (bizCode == null || isPass == null || taskId == null
-				|| procInstanceId == null || stateInBank == null
-				|| caseCode == null) {
-			throw new BusinessException("请检查参数！");
+		if (bizCode == null || "".equals(bizCode) || isPass == null || taskId == null || "".equals(taskId)	|| procInstanceId == null || "".equals(procInstanceId)	|| stateInBank == null || caseCode == null) {
+			throw new BusinessException("信贷员接单请求参数异常！");
 		}
 
 		// 获取当前用户信息

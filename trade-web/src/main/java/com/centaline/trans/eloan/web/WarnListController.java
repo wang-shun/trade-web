@@ -883,7 +883,7 @@ public class WarnListController {
 				ToWorkFlow workFlow = flowService.queryActiveToWorkFlowByBizCodeBusKey(record);
 				if (workFlow != null) {
 					workFlow.setStatus("4");
-					flowService.updateByPrimaryKey(workFlow);
+					flowService.updateByPrimaryKeySelective(workFlow);
 					processInstanceService.deleteProcess(workFlow.getInstCode());
 				}
 				if ("aban".equals(action)) {
