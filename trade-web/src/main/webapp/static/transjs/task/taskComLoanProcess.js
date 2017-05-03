@@ -504,9 +504,16 @@ function completeMortgage(form){
 	 * 并且不是信息管理员的情况下需要判断审核状态
 	 */	
 	if($("#adminLoanerProcess").val() != "adminLoanerProcess"){ 
-		if($("#tmpBankStatus").val() != '3'){ 	
-			window.wxc.alert("信贷员接单银行审批未完成或不通过！");
-			return;
+		if(tmpBankCheckflag){
+			if($("#tmpBankStatus").val() != '1'){
+				window.wxc.alert("临时银行审批未完成或不通过！");
+				return;
+			}
+		}else{
+			if($("#tmpBankStatus").val() != '3'){ 	
+				window.wxc.alert("信贷员接单银行审批未完成或不通过！");
+				return;
+			}
 		}
 	}
 	
@@ -550,6 +557,7 @@ function completeMortgage(form){
 			if(data.success){
 				if('caseDetails'==source){
 					if(data.message){
+						//TODO 如果作为最终银行提交，自动结束候选银行或者主选银行的的派单流程
 						window.close();
 						window.opener.callback();
 					}else{
