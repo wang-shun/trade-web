@@ -51,6 +51,7 @@
 					FROM sctrans.T_TO_ELOAN_LOANER el
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = el.CASE_CODE
 					INNER JOIN sctrans.T_TO_CASE_COMMENT c ON c.BIZ_CODE = convert(varchar(20),el.PKID) AND (c.SRV_CODE = 'ACCEPT' OR c.SRV_CODE = 'REJECT')
+					INNER JOIN sctrans.T_TO_WORKFLOW w on el.ELOAN_CODE = w.BIZ_CODE and w.STATUS != 4
 					where el.LOANER_ID = #loanerId#
 				]]>
 			</baseSql>
