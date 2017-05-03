@@ -415,8 +415,11 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 			}
 			// 信贷员打回或银行打回
 			else if ("REJECT".equals(stateInBank) || "BANKREJECT".equals(stateInBank)) {
-				toMortLoaner.setRejectId(user.getId());
-				toMortLoaner.setRejectName(user.getRealName());
+				if (user != null) {
+					toMortLoaner.setRejectId(user.getId());
+					toMortLoaner.setRejectName(user.getRealName());
+				}
+
 				toMortLoaner.setRejectTime(new Date());
 
 				// 接单打回之后设置派单状态为接单打回
@@ -467,6 +470,10 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 
 		try {
+
+			// 维护ToMortLoaner业务
+			maintainToMortLoaner(mortgageId, stateInBank);
+
 			// 信贷员接单
 			if (isBankAcceptCase == true) {
 				variables.add(new RestVariable("bankBusinessApprove", true));
@@ -485,10 +492,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 					record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 					toWorkFlowService.updateByPrimaryKeySelective(record);
 				}
-				
-				// 维护ToMortLoaner业务
-				maintainToMortLoaner(mortgageId, stateInBank);
-				
+
 				ToMortLoaner toMortLoaner = toMortLoanerService.getToMortLoanerById(Long.parseLong(mortgageId));
 				long pkid = 1;
 				if (null != toMortLoaner) {
@@ -498,7 +502,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 				}
 
 				ToMortgage toMortgage = toMortgageMapper.selectByPrimaryKey(pkid);
-				if (null != toMortgage) {					
+				if (null != toMortgage) {
 
 					toMortgage.setTmpBankStatus("3");
 					toMortgage.setBankApproveTime(new Date()); // 冗余信贷员审核通过时间，在页面做展示
@@ -506,7 +510,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService {
 					toMortgage.setComAmount(toMortLoaner.getComAmount());
 					toMortgage.setComDiscount(toMortLoaner.getComDiscount());
 					toMortgage.setComYear(toMortLoaner.getComYear());
-					toMortgage.setPrfAmount(toMortLoaner.getPrfAmount());					
+					toMortgage.setPrfAmount(toMortLoaner.getPrfAmount());
 					toMortgage.setPrfYear(toMortLoaner.getPrfYear());
 					toMortgageMapper.updateByPkId(toMortgage);
 

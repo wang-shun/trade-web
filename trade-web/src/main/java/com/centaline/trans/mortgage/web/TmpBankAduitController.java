@@ -72,7 +72,7 @@ public class TmpBankAduitController {
 			
 				response = toMortgageService.startTmpBankWorkFlow(caseCode,"");
 				response.setSuccess(true);
-				response.setMessage("流程开启成功！");
+				response.setMessage("临时银行审批流程开启成功！");
 			} catch (Exception e) {
 				response.setSuccess(false);
 				e.printStackTrace();
