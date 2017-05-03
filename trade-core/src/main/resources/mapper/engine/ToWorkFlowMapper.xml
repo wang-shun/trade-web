@@ -39,14 +39,14 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_WORKFLOW with(nolock)
+    from sctrans.T_TO_WORKFLOW  with(nolock)
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
   
   <select id="queryWorkFlowByInstCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
   select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_WORKFLOW with(nolock)
+    from sctrans.T_TO_WORKFLOW  with(nolock)
     where INST_CODE = #{instCode,jdbcType=VARCHAR}
   </select>
 
@@ -344,20 +344,20 @@
   <select id="queryInstCodesByCaseCode" resultType="java.lang.String" parameterType="java.lang.String" >
     select 
     INST_CODE
-    from sctrans.T_TO_WORKFLOW with(nolock)
+    from sctrans.T_TO_WORKFLOW  with(nolock)
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
     and status=0
   </select>
    <select id="queryAllInstCodesByCaseCode" resultType="java.lang.String" parameterType="java.lang.String" >
     select 
     INST_CODE
-    from sctrans.T_TO_WORKFLOW with(nolock)
+    from sctrans.T_TO_WORKFLOW  with(nolock)
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </select>
   <select id="queryToWorkFlowByCaseCodeBusKey" resultMap="BaseResultMap" parameterType="com.centaline.trans.engine.entity.ToWorkFlow" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_WORKFLOW with(nolock)
+    from sctrans.T_TO_WORKFLOW  with(nolock)
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
     AND BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR}
     and status=0
@@ -365,7 +365,7 @@
     <select id="queryToWorkFlowByCaseCodeBusKeys" resultMap="BaseResultMap" parameterType="com.centaline.trans.engine.entity.ToWorkFlow" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_WORKFLOW with(nolock)
+    from sctrans.T_TO_WORKFLOW  with(nolock)
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
     AND BUSINESS_KEY IN <foreach collection="bizCodes" item="item" index="index" open="(" separator="," close=")">#{item}</foreach> 
     
@@ -461,8 +461,8 @@
 	INNER JOIN sctrans.T_TO_TRANS_PLAN TR with(nolock) ON TR.PART_CODE=ART.TASK_DEF_KEY_ AND TR.CASE_CODE=TW.CASE_CODE
 	INNER JOIN sctrans.SYS_USER SU with(nolock) ON SU.USERNAME = ART.ASSIGNEE_
   INNER JOIN sctrans.T_TO_CASE TC with(nolock) ON TC.CASE_CODE = TW.CASE_CODE
-  LEFT JOIN sctrans.V_USER_ORG_JOB V1 ON V1.job_code = 'Manager' AND V1.ORG_id = TC.ORG_ID
-  LEFT JOIN sctrans.V_USER_ORG_JOB V2 ON V2.job_code = 'Manager' AND V2.ORG_id = SU.ORG_ID
+  LEFT JOIN sctrans.V_USER_ORG_JOB V1 with(nolock) ON V1.job_code = 'Manager' AND V1.ORG_id = TC.ORG_ID
+  LEFT JOIN sctrans.V_USER_ORG_JOB V2 with(nolock) ON V2.job_code = 'Manager' AND V2.ORG_id = SU.ORG_ID
   WHERE ART.SUSPENSION_STATE_ = 1
   </select>
   <select id="inActiveForm" parameterType="java.lang.String" >
