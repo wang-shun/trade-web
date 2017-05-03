@@ -83,10 +83,7 @@
                              	<span class="text-muted text-xs block">${sessionUser.serviceDepName}<b class="caret"></b></span>
                               </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a href="${ctx}/user/userInfo">我的信息</a></li>
-                                <li class="divider"></li>
-                                <li id="switchUserLi">
-                                </li>
+                                <li id="myInfo"><a href="${ctx}/user/userInfo">我的信息</a></li>
                                 <li class="divider"></li>
                                 <li><a href="javascript:void(0)" onclick="LogoutUtils.logout();return false;">注销</a></li>
                             </ul>
@@ -246,13 +243,18 @@
 			    }
 			});
 			
+			var username = "${sessionUser.username}";
+			
 			//切换用户
 			var isRunAs= <%=org.apache.shiro.SecurityUtils.getSubject().isRunAs() %>;
-			if(!isRunAs){
-				$("#switchUserLi").append("<a id='runasLink' href='javascript:void(0)' data-toggle='modal' data-target='#myModal'>切换用户</a>");
-			}else{
-				$("#switchUserLi").append("<a id='releaseRunasLink' onclick='releaseRunas();' href='javascript:void(0)'>返回原用户</a>");
+			if(!isRunAs && "admin" == username){
+				$("#myInfo").after(" <li class='divider'></li><li><a id='runasLink' href='javascript:void(0)' data-toggle='modal' data-target='#myModal'>切换用户</a></li>");
 			}
+			
+			if(isRunAs){
+				$("#myInfo").after(" <li class='divider'></li><li><a id='releaseRunasLink' onclick='releaseRunas();' href='javascript:void(0)'>返回原用户</a></li>");
+			}
+			
 		});
 		
 
