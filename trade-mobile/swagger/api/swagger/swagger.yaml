@@ -186,6 +186,26 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/getTransPlanByCaseCodeResponse"
+
+  /case/savePlanItems:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 改期提交交易计划接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew30
+      parameters:
+        - name: planItems
+          in: query
+          description:  json数据
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"
               
   /task/caselostApprove/first/process:
     # binds a127 app logic to a route
