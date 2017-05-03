@@ -168,7 +168,7 @@
                             <em>批贷时间</em><span class="yuanwid">${caseDetailVO.apprDate}</span>
                         </li>
                         <li>
-                            <em>他证送达时间</em><span class="yuanwid">${caseDetailVO.tazhengArrDate}</span>
+                            <em>实际过户时间</em><span class="yuanwid"><fmt:formatDate value="${caseInfo.realHtTime}" pattern="yyyy-MM-dd" /></span>
                         </li>
                         <li>
                             <em>放款时间</em><span class="yuanwid">${caseDetailVO.lendDate}</span>
