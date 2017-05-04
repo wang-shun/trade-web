@@ -34,6 +34,7 @@
 <input type="hidden" id="type" value="${type}" />
 <input type="hidden" id="sumUp" value="${caseMergeVo.tgGuestInfoUp.size()}" />
 <input type="hidden" id="sumDown" value="${caseMergeVo.tgGuestInfoDown.size()}" />
+<input type="hidden" id="subjectOther" value="${caseMergeVo.commSubjectOther}" />
 <div class="wrapper wrapper-content animated fadeInUp">
     <div class="ibox-content" id="reportFive">
         <form  id="saveCaseInfo">
@@ -190,16 +191,19 @@
                             <span class="btn btn-white" onclick="" name="commSubject" value="签约"> 签约 </span>
                             <span class="btn btn-white" onclick="" name="commSubject" value="过户"> 过户 </span>
                             <span class="btn btn-white" onclick="" name="commSubject" value="贷款"> 贷款 </span>
-                            <span class="btn btn-white" onclick="" name="commSubject" value="其它"> 其它  </span> 
+                            <span class="btn btn-white" onclick="" name="commSubject" value="其他"> 其他  </span> 
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="line hide-style" id="elseInput" style="margin-left: 127px;">
+           
+            <div class="line hide-style"  id="elseInput" style="margin-left: 127px;">
                 <div class="form_content"> 
-                    <input class="select_control sign_right_one" placeholder="请输入服务项目" name="commSubject"  /> 
+                    <input class="select_control sign_right_one commSubject" placeholder="请输入服务项目" name="commSubjectOther" id="commSubjectOther" value="${caseMergeVo.commSubjectOther}"  /> 
+                    <input type="hidden" name="commSubject" id="commSubject" value=""  /> 
                 </div>
             </div>
+            
             <div class="line">
                 <div class="form_content">
                     <label class="control-label sign_left_small">服务价格</label> 
@@ -346,6 +350,12 @@ function getDel(k){
 			var id = $(this).attr("id");								
 			$("span[id='"+id+"']").changeSelect();
 		});
+	    
+	    var other = $("#subjectOther").val();
+	    if(null !=other && other.length>0){
+	    	spansShow();
+	    }
+	    
     });
     
     function spansClick(list){
@@ -355,7 +365,12 @@ function getDel(k){
     		$('#Tnumber .btn-white[value="'+t[i]+'"]').addClass("out-btn-select");
     	}
     } 
-    
+    function spansShow(){
+    	var $else = $('#elseInput'); 
+   	    
+   	        $else.toggle();
+   	    
+    }
 </script>
 </content>
 </body>

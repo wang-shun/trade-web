@@ -419,7 +419,11 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		
 		TpdCommSubs tpdCommSubs = new TpdCommSubs();
 		tpdCommSubs.setCaseCode(toCase.getCaseCode());
-		tpdCommSubs.setCommSubject(caseMergeVo.getCommSubject());
+		if(null != caseMergeVo.getCommSubjectOther()){
+			tpdCommSubs.setCommSubject(caseMergeVo.getCommSubject()+","+caseMergeVo.getCommSubjectOther());
+		}else{
+			tpdCommSubs.setCommSubject(caseMergeVo.getCommSubject());
+		}
 		tpdCommSubs.setCommCost(caseMergeVo.getCommCost());
 		tpdCommSubs.setCreateBy(user.getId());
 		tpdCommSubs.setCreateTime(new Date());
@@ -730,7 +734,25 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	public CaseMergeVo setCaseMergeVoForTpdCommSubs(CaseMergeVo caseMergeVo,TpdCommSubs tpdCommSubs){
 		
 		caseMergeVo.setCommCost(tpdCommSubs.getCommCost());
-		caseMergeVo.setCommSubject(tpdCommSubs.getCommSubject());
+		
+		if(!StringUtils.isBlank(tpdCommSubs.getCommSubject())){
+			String str = tpdCommSubs.getCommSubject();
+			String commSubject = new String();
+			String[] newstr = str.split(",");
+			for(int i =0;i<newstr.length;i++){
+				if(i==0){
+					commSubject = commSubject+newstr[i];
+				}else{
+					commSubject = commSubject+","+newstr[i];
+				}
+				if(StringUtils.equals("其他", newstr[i]) && i< newstr.length-1){
+					caseMergeVo.setCommSubjectOther(newstr[i+1]);break;
+				}
+			}
+			
+			if(null != commSubject && commSubject.length()>0){caseMergeVo.setCommSubject(commSubject);}
+			
+		}
 		return caseMergeVo;
 	}
 	/**
@@ -901,7 +923,11 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 * @throws ParseException 
 	 */
 	public TpdCommSubs editTpdCommSubs(TpdCommSubs tpdCommSubs,CaseMergeVo caseMergeVo,SessionUser user){
-		tpdCommSubs.setCommSubject(caseMergeVo.getCommSubject());
+		if(null != caseMergeVo.getCommSubjectOther()){
+			tpdCommSubs.setCommSubject(caseMergeVo.getCommSubject()+","+caseMergeVo.getCommSubjectOther());
+		}else{
+			tpdCommSubs.setCommSubject(caseMergeVo.getCommSubject());
+		}
 		tpdCommSubs.setCommCost(caseMergeVo.getCommCost());
 		tpdCommSubs.setUpdateBy(user.getId());
 		tpdCommSubs.setUpdateTime(new Date());

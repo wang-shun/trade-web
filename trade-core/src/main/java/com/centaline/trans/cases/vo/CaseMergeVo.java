@@ -51,6 +51,10 @@ public class CaseMergeVo {
      */
 	private String commSubject;
 	/**
+	 * 外单案件的应收费用项
+	 */
+	private String commSubjectOther;
+	/**
      * 外单案件的应收费金额
      */
     private BigDecimal commCost;
@@ -79,7 +83,12 @@ public class CaseMergeVo {
      */
     private List<TgGuestInfo> tgGuestInfoDown = new ArrayList<TgGuestInfo>();
    
-	
+    public String getCommSubjectOther() {
+		return commSubjectOther;
+	}
+	public void setCommSubjectOther(String commSubjectOther) {
+		this.commSubjectOther = commSubjectOther;
+	}
 	
 	public List<TgGuestInfo> getTgGuestInfoUp() {
 		return tgGuestInfoUp;

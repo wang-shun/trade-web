@@ -9,15 +9,18 @@
 function getCheckBoxValues(name) {
 	var commSubject = [];
 	$("span[name='commSubject'].out-btn-select").each(function() {
-		var val = $(this).attr('value');							
+		var val = $(this).attr('value');
 		commSubject.push(val);
 	});							
 	return commSubject;
 }
+
 /**
  * 页面提交
  */
 function sumbitRe(){
+	
+	
 	
 	if(!checkForm()){
 		return false;		
@@ -25,7 +28,6 @@ function sumbitRe(){
 	if(!phoneUpAndphoneDownCheck()){
 		return false;
 	}
-	
 	var commSubject = getCheckBoxValues("commSubject");
 	var data = [];
 	$("form").each(function(){
@@ -107,12 +109,12 @@ function saveRe(){
 	});
 	
 }
-
+/**
+ * 页面校验
+ * @returns {Boolean}
+ */
 function checkForm(){
 	var formSubmitFlag = true;
-	
-	
-	
 	
     var voucherNoFlag = true;
 	var voucherNoEle;
