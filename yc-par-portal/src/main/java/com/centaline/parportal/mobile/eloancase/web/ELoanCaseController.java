@@ -71,11 +71,11 @@ public class ELoanCaseController
      */
     @RequestMapping(value = "suppleInfo")
     @ResponseBody
-    public String suppleInfo(String eLoanCode, String type, String stateInBank, String caseCode, String comment)
+    public String suppleInfo(String eLoanCode, String type, String caseCode, String comment)
     {
 
-        if (eLoanCode == null || "".equals(eLoanCode) || type == null || "".equals(type) || comment == null || "".equals(comment) || stateInBank == null
-                || "".equals(stateInBank) || caseCode == null || "".equals(caseCode))
+        if (eLoanCode == null || "".equals(eLoanCode) || type == null || "".equals(type) || comment == null || "".equals(comment) || caseCode == null
+                || "".equals(caseCode))
         {
             throw new BusinessException("请检查参数!");
         }
