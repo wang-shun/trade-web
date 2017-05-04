@@ -214,7 +214,7 @@
 						select 
 							ISNULL((SELECT ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE CASE_CODE = ec.CASE_CODE AND BIZ_CODE = ec.ELOAN_CODE AND BUSINESS_KEY = 'EloanProcess')),'') AS taskId,
 							ISNULL((SELECT PROC_INST_ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE CASE_CODE = ec.CASE_CODE AND BIZ_CODE = ec.ELOAN_CODE AND BUSINESS_KEY = 'EloanProcess')),'') AS procInstanceId,
-							ISNULL(uoj.employee_code,'') 	as avartaUrl,
+							'http://aimg.sh.centanet.com/salesweb/image/' + ISNULL(uoj.avatar,'') + '.jpg' 	as avartaUrl,
 							ISNULL(ec.SEND_ID,'') as consultantID,
 							ISNULL(u.REAL_NAME,'') as consultantName,
 							ISNULL(ec.CUST_NAME,'') as custName,
