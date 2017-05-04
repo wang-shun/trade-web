@@ -59,7 +59,7 @@
 							m.CASE_CODE as caseCode,
 							CAST(m.PKID as varchar)	as bizCode,
 							ISNULL(p.PROPERTY_ADDR,'') 	as addr,
-							ISNULL(uoj.employee_code,'') 	as avartaUrl,
+							'http://aimg.sh.centanet.com/salesweb/image/' + ISNULL(uoj.avatar,'') + '.jpg' 	as avartaUrl,
 							ISNULL(m.SEND_NAME,'') 		as consultantName
 					FROM sctrans.T_TO_MORT_LOANER m
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = m.CASE_CODE AND m.LOANER_ID = #userid#
