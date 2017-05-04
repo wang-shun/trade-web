@@ -193,7 +193,91 @@ function cleanForm() {
 	$("input[name='propertyAddr']").val("");
 }
 
-function caseTransferExportToExcel() {
+/*
+ * 过户优化后的导出字段信息
+ * */
+function newCaseTransferExportToExcel() {	
+
+	var url = "/quickGrid/findPage?xlsx&";
+	var ctx = $("#ctx").val();
+	// excel导出列
+	var displayColomn = new Array;
+	displayColomn.push('BA_NAME');
+	displayColomn.push('JQYDS_NAME');
+	displayColomn.push('GRP_NAME');
+	displayColomn.push('AGENT_NAME');
+	displayColomn.push('AGENT_PHONE');
+	
+	displayColomn.push('CASE_DISTRICT_NAME');
+	displayColomn.push('TRANSFER_TRADE_NAME');
+	displayColomn.push('CASE_HOUSE_UNIT_PRICE');
+	displayColomn.push('HOUSR_DIST_CODE_CN');
+	
+	//displayColomn.push('dist_name');
+	displayColomn.push('TRANSFER_REAL_HT_TIME');
+	displayColomn.push('TRANSFER_CREATE_TIME');
+	displayColomn.push('CTM_CODE');	
+	displayColomn.push('MORT_CUST_NAME');
+	displayColomn.push('MORT_CUST_PHONE');	
+	displayColomn.push('HOUSR_PROPERTY_ADDR');	
+	displayColomn.push('CASE_CON_PRICE');	
+	displayColomn.push('MORT_FIN_BRANCH_NAME');
+	displayColomn.push('MORT_FIN_SUB_BRANCH_NAME');
+	
+	displayColomn.push('MORT_COM_AMOUNT');
+	displayColomn.push('MORT_PRF_AMOUNT');
+	displayColomn.push('MORT_TOTAL_AMOUNT');
+	displayColomn.push('MORT_COM_DISCOUNT');
+	displayColomn.push('CASE_CODE');	
+	
+	displayColomn.push('MORT_TYPE_CN');
+	displayColomn.push('CASE_REAL_NAME_F');
+	displayColomn.push('CASE_REC_STATUS_CN');
+	displayColomn.push('LOAN_LOST_APPLY_REASON');
+	displayColomn.push('LOAN_SELF_DEL_REASON');
+	displayColomn.push('EVA_EVAL_FEE');	
+	
+	displayColomn.push('GUEST_NAME_UP');
+	displayColomn.push('GUEST_PHONE_UP');	
+	displayColomn.push('GUEST_NAME_DOWN');
+	displayColomn.push('GUEST_PHONE_DOWN');
+	
+	displayColomn.push('TRANSFER_SUB_TIME');
+	displayColomn.push('TRANSFER_APP_TIME');	
+	displayColomn.push('TRANSFER_ISPASS_CN');
+	displayColomn.push('TRANSFER_APP_OPERATOR_NAME');
+	displayColomn.push('TRANSFER_LAST_CONTENT');
+	displayColomn.push('TRANSFER_NOT_APPROVE');	
+	displayColomn.push('CASE_MANAGER_REAL_NAME');
+	displayColomn.push('CASE_MANAGER_ORG_NAME');
+	displayColomn.push('AR_NAME');
+	
+	displayColomn.push('ELOAN_PRO');
+	displayColomn.push('ELOAN_PRO_AMOUNT');
+	displayColomn.push('ELOAN_KA');
+	displayColomn.push('ELOAN_KA_AMOUNT_STR');
+	displayColomn.push('CASE_USE_CARD_PAY_CN');
+	displayColomn.push('CASE_CARD_PAY_AMOUNT');
+	
+	var params = getParamsValue();	
+	var queryId = '&queryId=optimizeQueryCastTransferExcelItemList';
+	var colomns = '&colomns=' + displayColomn;
+
+	url = ctx + url + jQuery.param(params) + queryId + ""
+			+ "" + colomns;
+
+	$('#excelForm').attr('action', url);
+
+	$('#excelForm').method = "post";
+	$('#excelForm').submit();
+
+}
+
+/*
+ * 过户优化前的导出
+ * */
+function oldCaseTransferExportToExcel() {
+
 	var url = "/quickGrid/findPage?xlsx&";
 	var ctx = $("#ctx").val();
 	// excel导出列
@@ -252,6 +336,7 @@ function caseTransferExportToExcel() {
 	displayColomn.push('ELOAN_APPLYAMOUNT_COUNT_STRING');
 	displayColomn.push('USE_CARD_PAY');
 	displayColomn.push('CARD_PAY_AMOUNT');
+	
 	var params = getParamsValue();	
 	var queryId = '&queryId=newQueryCastTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
@@ -279,6 +364,7 @@ $('#caseTransferCleanButton').click(function() {
 	$("input[name='caseCode']").val("");
 	$("input[name='propertyAddr']").val("");
 	$("#yuCuiOriGrpId").val("");
+	$("#managerId").val("");
 });
 
 // 选业务组织的回调函数

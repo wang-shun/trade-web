@@ -278,7 +278,7 @@
 								<div class="col-md-6" style="text-align: right;">
 									<a data-toggle="modal" class="btn btn-primary"
 										href="javascript:void(0)"
-										onclick="javascript:caseTransferExportToExcel()">案件导出Excel</a>
+										onclick="javascript:newCaseTransferExportToExcel()">案件导出Excel</a>
 								</div>
 
 							</div>

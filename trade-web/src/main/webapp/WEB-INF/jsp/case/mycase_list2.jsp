@@ -344,7 +344,7 @@ text-decoration: underline !important;
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 						</button>
 						<button type="button" class="btn btn-success"
-							onclick="javascript:exportToExcel()">导出至Excel</button>
+							onclick="javascript:newExportToExcel()">导出至Excel</button>
 					</div>
 				</div>
 			</div>
