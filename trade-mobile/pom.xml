@@ -4,7 +4,7 @@
 
 	<groupId>com.centaline</groupId>
 	<artifactId>trade-mobile</artifactId>
-	<version>1.2.10-SNAPSHOT</version>
+	<version>1.2.12-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>Trade Mobile </name>
@@ -137,10 +137,16 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>sqljdbc41</artifactId>
-			<version>4.1</version>
-		</dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>6.1.0.jre8</version>
+			<exclusions>  
+				<exclusion>  
+					  <groupId>com.microsoft.azure</groupId>
+					  <artifactId>azure-keyvault</artifactId> 
+				</exclusion>
+			</exclusions>  
+        </dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
@@ -164,7 +170,7 @@
 	 	<dependency>
 			<groupId>com.centaline</groupId>
 			<artifactId>trade-core</artifactId>
-			<version>1.2.10-SNAPSHOT</version>
+			<version>1.2.12-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>

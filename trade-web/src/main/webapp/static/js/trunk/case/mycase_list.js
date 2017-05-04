@@ -513,15 +513,15 @@ function cleanForm() {
 }
 //全选
 function checkAllItem() {
-		$(".excel_in").prop("checked", true);
-		 $("#checkAll").hide();
-		 $("#unCheckAll").show();
+	$(".excel_in").prop("checked", true);
+	$("#checkAll").hide();
+	$("#unCheckAll").show();
 }
 //反选
 function unCheckAllItem() {
-		$(".excel_in").removeAttr("checked");
-		 $("#unCheckAll").hide();
-		 $("#checkAll").show();
+	$(".excel_in").removeAttr("checked");
+	$("#unCheckAll").hide();
+	$("#checkAll").show();
 		
 }
 //show modal
@@ -532,12 +532,9 @@ function showExcelIn() {
 
 //Excel显示列
 var colNames = {
-	30010001 : [ 'AGENT_NAME', 'AGENT_ORG', 'AGENT_FHJL', 'AGENT_QYJL',
-		 			'AGENT_QYZJ','AGENT_QYDS','AGENT_QDORG' ],
-	30010002 : [ 'OP_NAME', 'OP_CODE', 'OP_ORG', 'OP_MANAGER','OP_AS',
-	             'OP_PARENT_ORG','SRV_STR','PROCESSOR_ID'],
-	30010003 : [ 'PROPERTY_ADDR', 'SELLER', 'SELLER_PHONE', 'BUYER',
-			'BUYER_PHONE' ],
+	30010001 : [ 'AGENT_NAME', 'AGENT_ORG', 'AGENT_FHJL', 'AGENT_QYJL',	'AGENT_QYZJ','AGENT_QYDS','AGENT_QDORG' ],
+	30010002 : [ 'OP_NAME', 'OP_CODE', 'OP_ORG', 'OP_MANAGER','OP_AS', 'OP_PARENT_ORG','SRV_STR','PROCESSOR_ID'],
+	30010003 : [ 'PROPERTY_ADDR', 'SELLER', 'SELLER_PHONE', 'BUYER','BUYER_PHONE' ],
 	30010004 : 'CREATE_TIME',
 	30010005 : 'RES_DATE',
 	30010006 : 'CASE_PROPERTY',
@@ -554,8 +551,7 @@ var colNames = {
 	30011008 : 'COM_DISCOUNT',
 	30011010 : 'REC_LETTER_NO',
 	30012001 : [ 'REAL_PRICE', 'CON_PRICE','CHECK_PRICE','UNIT_PRICE' ],
-	30012002 : [ 'REAL_CON_TIME', 'TAX_TIME', 'PRICING_TIME', 'REAL_PLS_TIME',
-			'REAL_HT_TIME', 'GUOHU_CREATE_TIME','GUOHU_COMMENT','REAL_PROPERTY_GET_TIME','CLOSE_TIME' ],
+	30012002 : [ 'REAL_CON_TIME', 'TAX_TIME', 'PRICING_TIME', 'REAL_PLS_TIME','REAL_HT_TIME', 'GUOHU_CREATE_TIME','GUOHU_COMMENT','REAL_PROPERTY_GET_TIME','CLOSE_TIME' ],
 	30013001 : 'SPV_TYPE',
 	30013002 : 'AMOUNT',
 	30013003 : 'SIGN_TIME',

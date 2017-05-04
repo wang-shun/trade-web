@@ -408,12 +408,10 @@ function getParamsValue() {
 		search_ctmCode : ctmCode,
 		search_caseProperty : caseProperty,
 		search_status : status,
-		
 		argu_guestname : guestName,
 		search_agentName :agentName,
 		argu_proName : proName,
 		argu_agentOrgName : agentOrgName,
-		
 		search_propertyAddr : propertyAddr,
 		argu_srvCode : srvCode,
 		argu_srvCode1 : srvCode1,
@@ -640,16 +638,14 @@ function unCheckAllItem() {
 		 $("#checkAll").show();
 		
 }
-
-
-//案件总览导出老 方式
+//show modal
 function showExcelIn() {
 	checkAllItem();
 	$('#modal-form').modal("show");
 }
 
-//Excel显示列  老方式
-var oldColNames = {
+//Excel显示列
+var colNames = {
 	30010001 : [ 'AGENT_NAME', 'AGENT_EMP_CODE','AGENT_ORG', 'AGENT_FHJL', 'JFHJL_MGR_CODE','AGENT_QYJL','JQYJL_MGR_CODE',
 		 			'AGENT_QYZJ','JQYZJ_MGR_CODE','AGENT_QYDS','JQYDS_MGR_CODE','AGENT_QDORG' ],
 	30010002 : [ 'OP_NAME', 'OP_CODE', 'OP_ORG', 'OP_MANAGER','OP_AS',
@@ -680,46 +676,6 @@ var oldColNames = {
 	30012003:['GUOHU_APPROVER','GUOHU_APPROVER_TIME']
 };
 
-
-
-
-/*
- * 2017-03-20
-   newExcel显示列
-*/
-var newColNames = {
-	30010001 : [ 'AGENT_NAME', 'AGENT_EMPLOYEE_CODE','GRP_NAME', 'JFHJL_NAME', 'JFHJL_EMPLOYEE_CODE','JQYJL_NAME','JQYJL_EMPLOYEE_CODE',
-		 		 'JQYZJ_NAME','JQYZJ_EMPLOYEE_CODE','JQYDS_NAME','JQYDS_EMPLOYEE_CODE','BA_NAME' ],		 	   
-	30010002 : [ 'CASE_REAL_NAME_F', 'CASE_EMPLOYEE_CODE_F', 'CASE_ORG_NAME_F', 'CASE_MANAGER_REAL_NAME','CASE_ASSISTANT_REAL_NAME','CASE_DISTRICT_NAME','CASE_SRV_NAME','CASE_SRV_REAL_NAME','CASE_SRV_ORG_NAME'],
-		
-	30010003 : [ 'HOUSR_PROPERTY_ADDR', 'GUEST_NAME_UP', 'GUEST_PHONE_UP', 'GUEST_NAME_DOWN','GUEST_PHONE_DOWN' ],
-	
-	
-	30010004 : 'CASE_CREATE_TIME',
-	30010005 : 'CASE_DISPATCH_TIME',
-	30010006 : 'CASE_PROPERTY_CN', //英文
-	30010007 : 'CASE_STATUS_CN',
-	30010008 : 'AGENT_QDORG',
-	
-	30011001 : ['CASE_LOAN_REQ_CN','MORT_TYPE_CN','IS_DELEGATE_YUCUI_CN'],
-	//30011009 : ,
-	30011002 : [ 'MORT_TOTAL_AMOUNT', 'MORT_COM_AMOUNT', 'MORT_PRF_AMOUNT' ],
-	30011003 : [ 'MORT_FIN_BRANCH_NAME', 'MORT_FIN_SUB_BRANCH_NAME' ],
-	30011004 : [ 'MORT_LOANER_NAME', 'IS_LOANER_ARRIVE_CN' ],
-	30011005 : 'CASE_EVA_COMPANY',
-	30011006 : [ 'MORT_CUST_NAME', 'MORT_CUST_PHONE' ],
-	30011007 : [ 'MORT_SIGN_DATE', 'MORT_APPR_DATE', 'MORT_LEND_DATE' ],
-	30011008 : 'MORT_COM_DISCOUNT',
-	30011010 : 'LOAN_REC_LETTER_NO',
-	30012001 : [ 'CASE_REAL_PRICE', 'CASE_CON_PRICE','CASE_TAX_PRICING','CASE_HOUSE_UNIT_PRICE' ],
-	30012002 : [ 'CASE_REAL_CON_TIME', 'CASE_TAX_TIME', 'CASE_PRICING_TIME', 'CASE_REAL_PLS_TIME','TRANSFER_REAL_HT_TIME','TRANSFER_CREATE_TIME','TRANSFER_COMMENT','CASE_REAL_PROPERTY_GET_TIME','CASE_CLOSE_TIME' ],
-	30013001 : 'SPV_TYPE_CN',
-	30013002 : 'SPV_AMOUNT',
-	30013003 : 'SPV_SIGN_TIME',
-	30012003:['TRANSFER_APP_OPERATOR_NAME','TRANSFER_APP_PASS_TIME']
-};
-
-
 function exportToExcel() {
 	if (getSearchDateValues()) {
 		var url = "/quickGrid/findPage?xlsx&";
@@ -727,30 +683,31 @@ function exportToExcel() {
 		//excel导出列
 		var displayColomn = new Array;
 		displayColomn.push('CASE_CODE');
-		displayColomn.push('CTM_CODE');		
+		displayColomn.push('CTM_CODE');
+		displayColomn.push('AGENT_FHJL_CODE');
 		$("input[name='basic_info_item']:checked").each(function() {
 			var val = this.value;
-			displayColomn.push(newColNames[val]);
+			displayColomn.push(colNames[val]);
 		});
 		$("input[name='mortage_info_item']:checked").each(function() {
 			var val = this.value;
-			displayColomn.push(newColNames[val]);
+			displayColomn.push(colNames[val]);
 		});
 		/*新增确认函编号*/
-
-		displayColomn.push('LOAN_LOST_CONFIRM_CODE');		
-		displayColomn.push('LOAN_SELF_DEL_REASON');
-		displayColomn.push('LOAN_LOST_APPLY_REASON');
+		displayColomn.push('REC_LETTER_NO');
+		displayColomn.push('LOANLOST_CONFIRM_CODE');		
+		displayColomn.push('SELF_DEL_REASON');
+		displayColomn.push('loanlost_apply_reason');
 		$("input[name='trade_info_item']:checked").each(function() {
 			var val = this.value;
-			displayColomn.push(newColNames[val]);
+			displayColomn.push(colNames[val]);
 		});
 		$("input[name='fund_info_item']:checked").each(function() {
 			var val = this.value;
-			displayColomn.push(newColNames[val]);
+			displayColomn.push(colNames[val]);
 		});
-		displayColomn.push('EVA_EVAL_FEE');
-		displayColomn.push('EVA_RECORD_TIME');
+		displayColomn.push('EVAL_FEE');
+		displayColomn.push('RECORD_TIME');
 
 		var queryOrgFlag = $("#queryOrgFlag").val();
 		var isAdminFlag = $("#isAdminFlag").val();
@@ -774,11 +731,14 @@ function exportToExcel() {
 		var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
 		if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 		var params = getParamsValue();
-		var queryId = '&queryId=newQueryCaseExcelItemList';
+		var queryId = '&queryId=queryCaseExcelItemList';
 		var colomns = '&colomns=' + displayColomn;
 		
 		
 		url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
+		//url+= "&_s(earch=true";
+		//url= decodeURI(url);
+		//alert(url);
 		$('#excelForm').attr('action', url);
 		
 		$('#excelForm').method="post" ;
@@ -787,8 +747,6 @@ function exportToExcel() {
 		window.wxc.alert("请不要选择同样的日期类型！");
 	}
 }
-
-//输入   交易顾问和分行信息的时候 根据数据库中的值 完成自动补全
 function intextTypeChange(){
 	var inTextType = $('#inTextType').val();
 	var ctx = $("#ctx").val();
@@ -831,6 +789,8 @@ function radioYuCuiOrgSelectCallBack(array) {
 }
 //清空
 $('#myCaseListCleanButton').click(function() {
+	//$("input[id='inTextVal']").val('');
+	//$("input[name='teamCode']").val('');
 	$("input[name='dtBegin']").val('');
 	$("input[name='dtEnd']").val('');
 	$("span[name='srvCode']").removeClass("selected");
@@ -861,250 +821,3 @@ function hlts(){
 
 
 
-
-//案件总览导出优化 方式
-function newCaseToExcel(){
-	
-	var url = "/quickGrid/findPage?xlsx&";
-	// excel导出列
-	var displayColomn = new Array;
-	displayColomn.push('CASE_CODE');
-	displayColomn.push('CTM_CODE');
-	displayColomn.push('CASE_STATUS_CN');
-	displayColomn.push('CASE_PROPERTY_CN');
-	displayColomn.push('CASE_CREATE_TIME');
-	displayColomn.push('CASE_DISPATCH_TIME');
-	displayColomn.push('CASE_REAL_NAME_F');	
-	displayColomn.push('CASE_EMPLOYEE_CODE_F');
-	displayColomn.push('CASE_ORG_NAME_F');
-	displayColomn.push('CASE_MANAGER_REAL_NAME');
-	displayColomn.push('CASE_ASSISTANT_REAL_NAME');	
-	displayColomn.push('CASE_DISTRICT_NAME');
-	displayColomn.push('CASE_SRV_NAME');
-	displayColomn.push('CASE_SRV_REAL_NAME');
-	displayColomn.push('CASE_SRV_ORG_NAME');	
-	displayColomn.push('HOUSR_PROPERTY_ADDR');	
-	displayColomn.push('GUEST_NAME_UP');
-	displayColomn.push('GUEST_PHONE_UP');
-	displayColomn.push('GUEST_NAME_DOWN');
-	displayColomn.push('GUEST_PHONE_DOWN');	
-	displayColomn.push('BA_NAME');
-	displayColomn.push('AGENT_NAME');
-	displayColomn.push('AGENT_EMPLOYEE_CODE');	
-	displayColomn.push('GRP_NAME');
-	displayColomn.push('JFHJL_NAME');
-	displayColomn.push('JFHJL_EMPLOYEE_CODE');
-	displayColomn.push('JQYJL_NAME');
-	displayColomn.push('JQYJL_EMPLOYEE_CODE');
-	displayColomn.push('JQYZJ_NAME');	
-	displayColomn.push('JQYZJ_EMPLOYEE_CODE');
-	displayColomn.push('JQYDS_NAME');
-	displayColomn.push('JQYDS_EMPLOYEE_CODE');
-	displayColomn.push('CASE_EVA_COMPANY');	
-	displayColomn.push('MORT_FIN_BRANCH_NAME');
-	displayColomn.push('MORT_FIN_SUB_BRANCH_NAME');
-	displayColomn.push('MORT_SIGN_DATE');	
-	displayColomn.push('MORT_APPR_DATE');
-	displayColomn.push('MORT_LEND_DATE');	
-	displayColomn.push('MORT_COM_DISCOUNT');
-	displayColomn.push('CASE_LOAN_REQ_CN');
-	displayColomn.push('MORT_TYPE_CN');
-	displayColomn.push('IS_DELEGATE_YUCUI_CN');	
-	displayColomn.push('MORT_TOTAL_AMOUNT');
-	displayColomn.push('MORT_COM_AMOUNT');
-	displayColomn.push('MORT_PRF_AMOUNT');	
-	displayColomn.push('MORT_LOANER_NAME');	
-	displayColomn.push('IS_LOANER_ARRIVE_CN');
-	displayColomn.push('MORT_CUST_NAME');
-	displayColomn.push('MORT_CUST_PHONE');	
-	displayColomn.push('LOAN_REC_LETTER_NO');
-	displayColomn.push('LOAN_LOST_CONFIRM_CODE');	
-	displayColomn.push('LOAN_SELF_DEL_REASON');
-	displayColomn.push('LOAN_LOST_APPLY_REASON');
-	displayColomn.push('CASE_REAL_CON_TIME');
-	displayColomn.push('CASE_TAX_TIME');	
-	displayColomn.push('CASE_PRICING_TIME');
-	displayColomn.push('CASE_REAL_PLS_TIME');
-	displayColomn.push('TRANSFER_REAL_HT_TIME');
-	displayColomn.push('TRANSFER_CREATE_TIME');
-	displayColomn.push('TRANSFER_COMMENT');
-	displayColomn.push('CASE_REAL_PROPERTY_GET_TIME');
-	displayColomn.push('CASE_CLOSE_TIME');
-	displayColomn.push('CASE_REAL_PRICE');	
-	displayColomn.push('CASE_CON_PRICE');
-	displayColomn.push('CASE_TAX_PRICING');
-	displayColomn.push('CASE_HOUSE_UNIT_PRICE');
-	displayColomn.push('SPV_TYPE_CN');
-	displayColomn.push('SPV_AMOUNT');
-	displayColomn.push('SPV_SIGN_TIME');
-	displayColomn.push('EVA_EVAL_FEE');
-	displayColomn.push('EVA_RECORD_TIME');
-
-	
-	var queryOrgFlag = $("#queryOrgFlag").val();
-	var isAdminFlag = $("#isAdminFlag").val();
-	var queryOrgs = $("#queryOrgs").val();
-	var arguUserId = null;
-	if (queryOrgFlag == 'true') {
-		arguUserId = null;
-		if (isAdminFlag == 'true') {
-			queryOrgs = null;
-		}
-	} else {
-		queryOrgs = null;
-		arguUserId = "yes";
-	}
-
-	var orgArray = queryOrgs == null ? '' : queryOrgs.split(",");
-
-	var argu_idflag = '&argu_idflag=' + arguUserId;
-
-	if (arguUserId == null)
-		argu_idflag = '&argu_idflag=';
-	var argu_queryorgs = "&" + jQuery.param({
-		argu_queryorgs : orgArray
-	});
-	if (argu_queryorgs == null)
-		argu_queryorgs = '&argu_queryorgs=';
-	
-	var params = getNewCaseToExcelData();
-	
-	var queryId = '&queryId=newQueryCaseExcelItemList';
-	var colomns = '&colomns=' + displayColomn;
-
-	url = ctx + url + jQuery.param(params) + queryId + argu_idflag
-			+ argu_queryorgs + colomns;
-
-	$('#excelForm').attr('action', url);
-
-	$('#excelForm').method = "post";
-	$('#excelForm').submit();
-}
-
-
-function getNewCaseToExcelData() {	
-	// 设置查询参数
-	var params = {};
-	
-	// 案件类型
-	var caseProperty = $('#caseProperty option:selected').val().trim();
-	// 案件性质
-	var caseStatus = $('#status option:selected').val().trim();	
-	//案件是否关注
-	var isSubscribeFilter = $('#isSubscribeFilter option:selected').val().trim();	
-	//案件来源
-	var caseOriginType = $('#caseOriginType option:selected').val().trim();	
-	
-	
-	// 客户姓名 物业地址 经纪人
-	var inTextVal = $('#inTextVal').val();	
-	var hVal = $('#inTextVal').attr('hVal');
-	var guestName = "";
-	var agentName = "";
-	var proName = "";
-	var propertyAddr = "";
-	var agentOrgName = "";
-	// caseCode与ctmCode
-	var caseCode =  "";
-	var ctmCode = "";
-	if (inTextVal != null && inTextVal.trim() != "") {
-		var inTextType = $('#inTextType').val();
-		if (inTextType == '0') {
-			guestName = inTextVal.trim();//客户姓名
-		} else if (inTextType == '1') {
-			propertyAddr = inTextVal.trim();//产证地址
-		} else if (inTextType == '2') {
-			agentName = inTextVal.trim();//经纪人姓名
-		}else if (inTextType == '3') {
-			agentOrgName = hVal.trim();//分行名称  orgId
-		}else if (inTextType == '4') {
-			proName = hVal.trim(); //交易顾问
-		}else if (inTextType == '5') {
-			caseCode = inTextVal.trim();
-		}else if (inTextType == '6') {
-			ctmCode = inTextVal.trim();
-		}
-	}
-	
-	
-	
-	
-	var inputTimeStart = null;
-	var inputTimeEnd = null;
-	var outputTimeStart = null;
-	var outputTimeEnd = null;	
-	var backTimeStart = null;
-	var backTimeEnd = null;
-	var actionTimeStart = null;
-	var actionTimeEnd = null;
-
-	
-
-	var start = $('#dtBegin_0').val();
-	var end = $('#dtEnd_0').val();
-	if (end && end != '') {
-		end = end + ' 23:59:59';
-	}
-	
-	// 案件编号
-	var caseCode = $("#caseCode").val().trim();
-	if ("" == caseCode || null == caseCode) {
-		caseCode = null;
-	}
-
-	// 物业地址
-	var propertyAddr = $("#propertyAddr").val().trim();
-	if (propertyAddr == "" || propertyAddr == null) {
-		propertyAddr = null;
-	}
-	// 提交人
-	var createBy = $("#createBy").val().trim();
-	if (createBy == "" || createBy == null) {
-		createBy = null;
-	}
-	// 保管人
-	var itemManager = $("#itemManager").val().trim();
-	if (itemManager == "" || itemManager == null) {
-		itemManager = null;
-	}
-	
-	//var timeSelect = $("#loanLostCaseListTimeSelect").val();
-	var itemCategory=$("#itemCategory option:selected").val();
-	var itemStatus=$("#itemStatus option:selected").val();
-	
-	
-	// 获取select 选中时间的值
-	var timeSelect = $("#timeSelect option:selected").val();
-	if (timeSelect == "ITEM_INPUT_TIME") {
-		inputTimeStart = start;
-		inputTimeEnd = end;
-		params.inputTimeStart = inputTimeStart;
-		params.inputTimeEnd = inputTimeEnd;
-	} else if (timeSelect == "ITEM_OUTPUT_TIME") {
-		outputTimeStart = start;
-		outputTimeEnd = end;
-		params.outputTimeStart = outputTimeStart;
-		params.outputTimeEnd = outputTimeEnd;
-	} else if (timeSelect == "ACTION_PRE_DATE") {
-		actionTimeStart = start;
-		actionTimeEnd = end;
-		params.actionTimeStart = actionTimeStart;
-		params.actionTimeEnd = actionTimeEnd;
-	} else if (timeSelect == "ITEM_BACK_TIME") {
-		backTimeStart = start;
-		backTimeEnd = end;
-		params.backTimeStart = backTimeStart;
-		params.backTimeEnd = backTimeEnd;
-	}
-	
-	var itemManagerId = $("#itemManagerId").val();	
-	params.itemManagerId = itemManagerId;
-	params.caseCode = caseCode;
-	params.propertyAddr = propertyAddr;
-	params.createBy = createBy;
-	params.itemManager = itemManager;
-	params.itemCategory = itemCategory;
-	params.itemStatus = itemStatus;
-	
-	return params;
-}

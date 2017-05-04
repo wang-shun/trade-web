@@ -81,7 +81,7 @@
                             <h5>e+产品</h5>
                             <div class="case_content">
                                 <div class="case_row">
-                                    <div class="case_row">
+                                 <div class="case_row">
                                    <div class="case_lump">
                                        <p><em>产品类型</em><span class="span_one">
                                        <aist:dict id="loanSrvCode" name="loanSrvCode" clazz="select_control sign_right_two"
@@ -92,22 +92,30 @@
                                        <p><em>合作机构</em><span class="span_one" id="finOrgCode" name="finOrgCode" value="${eloanCase.finOrgCode}""></span></p>
                                    </div>
                                 </div>
-                                <div class="case_row">
-                                <div class="case_lump">
-                                       <p><em>归属人</em><span class="span_one">${excutorName}</span></p>
+                                
+                                 <div class="case_row">
+                                   <div class="case_lump">
+                                       <p><em>证件类型</em><span class="span_one">
+                                       <aist:dict id="custCardType" name="custCardType" clazz="select_control sign_right_two"
+											display="onlyLabel"  dictType="CERT_TYPE" tag="forEloanApply" dictCode="${eloanCase.custCardType}"
+											ligerui='none'></aist:dict></span></p>
+                                   </div>
+                                   <div class="case_lump">								
+                                       <p><em>办卡人证件号</em><span class="span_one" id="custPaper" name="custPaper">${eloanCase.custPaper}</span></p>
+                                   </div>
+                                </div>
+                                <div class="case_row">                        
+                                   <div class="case_lump">
+                                       <p><em>办卡人姓名</em><span class="span_one">${eloanCase.custName}</span></p>
                                    </div>
                                    <div class="case_lump">
-                                       <p><em>客户姓名</em><span class="span_one">${eloanCase.custName}</span></p>
-                                   </div>
-                                   <div class="case_lump">
-                                       <p><em>客户电话</em><span class="span_one">${eloanCase.custPhone}</span></p>
+                                       <p><em>办卡人电话</em><span class="span_one">${eloanCase.custPhone}</span></p>
                                    </div> 
-<%--                                    <div class="case_lump">
-                                       <p><em>客户姓名</em><input  class="span_one" name="custName"  id="custName" value="${eloanCase.custName}"></p>
-                                   </div>
-                                   <div class="case_lump">
-                                       <p><em>客户电话</em><input  class="span_one" name="custPhone"  id="custPhone" value="${eloanCase.custPhone}"></p>
-                                   </div> --%>
+	                                <div class="case_lump">
+										<p>
+											<em>案件归属</em><span class="span_one">${excutorName}</span>
+										</p>
+									</div>
                                 </div>
                                 <div class="case_row">
                                     <div class="case_lump">

@@ -15,6 +15,7 @@ import com.aist.common.exception.BusinessException;
 import com.aist.common.utils.PasswordHelper;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.common.vo.MobileHolder;
 
 /**
@@ -31,7 +32,7 @@ public class ProfileController {
 
     @RequestMapping(value = "/changePasswd", method = RequestMethod.POST)
     @ResponseBody
-    public String changePasswd(@RequestBody User userVo) {
+    public JSONObject changePasswd(@RequestBody User userVo) {
         User user = uamUserOrgService.getUserById(MobileHolder.getMobileUser().getId());
         String oldPass = new PasswordHelper().encryptPassword(user.getSalt(),
             userVo.getOldPassword(), user.getUsername());
@@ -41,6 +42,8 @@ public class ProfileController {
         userVo.setId(user.getId());
         userVo.setUsername(user.getUsername());
         uamUserOrgService.changePassword(userVo);
-        return "{\"msg\":\"密码修改成功!\"}";
+        JSONObject json = new JSONObject();
+        json.put("msg", "密码修改成功!");
+        return json;
     }
 }

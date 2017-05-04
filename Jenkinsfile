@@ -12,9 +12,13 @@ node('docker-agent'){
 		}
 		dir('yc-par-portal') {
 		    sh "sh Dockermake.sh"
+		    sh "sh Dockermake_swagger_start.sh"
+		    sh "sh Dockermake_swagger_edit.sh"
 		}
 		dir('trade-mobile') {
 		    sh "sh Dockermake.sh"
+		    sh "sh Dockermake_swagger_start.sh"
+		    sh "sh Dockermake_swagger_edit.sh"
 		}
 	}
 }

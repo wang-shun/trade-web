@@ -31,15 +31,16 @@
 		var monthLast = monthDisplay;
 	</script>
 </head>
-<body style="background-color: #fff">
+<body style="background-color: #fff" id="bd1">
 
 <ul id="menu">
-    <li data-menuanchor="firstPage"><a href="#firstPage">签约数据</a></li>
-    <li data-menuanchor="secondPage"><a href="#secondPage">明细表一</a></li>
-    <li data-menuanchor="3rdPage"><a href="#3rdPage">明细表二</a></li>
-    <li data-menuanchor="4thPage"><a href="#4thPage">签约贷款数据</a></li>
-    <li data-menuanchor="5thPage"><a href="#5thPage">贷款银行流向</a></li>
-    <li data-menuanchor="lastPage"><a href="#lastPage">后台交易顾问工作量统计</a></li>
+
+    <li attr="1" class="nav_move active" style="background: #faab58;"><a href="#firstPage">签约数据</a></li>
+    <li attr="2" class="nav_move"><a href="#secondPage">明细表一</a></li>
+    <li attr="3" class="nav_move"><a href="#3rdPage">明细表二</a></li>
+    <li attr="4" class="nav_move"><a href="#4rdPage">签约贷款数据</a></li>
+    <li attr="5" class="nav_move"><a href="#5rdPage">贷款银行流向</a></li>
+    <li attr="6" class="nav_move"><a href="#6rdPage">后台交易顾问工作量统计</a></li>
 </ul>
 
 <div id="fullpage">
@@ -135,6 +136,7 @@ function changeBtnClass(item){
     	$(item.contentWindow.document).find(".calendar-month span:gt("+monthLast+")").removeClass("disabled").addClass("disabled");
     }
 }
+
 </script>
 </body>
 </html>

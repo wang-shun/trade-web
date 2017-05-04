@@ -45,7 +45,10 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	private String processComLoanDfKey;
 
 	@Value("${process.df.key.LoanLost_Process}")
-	private String processLoanLostDfKey;
+	private String processLoanLostDfKey;	
+	
+	@Value("${process.df.key.Loaner_Process}")
+	private String processLoanerDfKey;
 
 	@Value("${process.df.key.PSFLoan_Process}")
 	private String processPSFLoanDfKey;
@@ -212,6 +215,10 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 
 	public String getProcessPSFLoanDfKey() {
 		return processPSFLoanDfKey;
+	}
+	
+	public String getProcessLoanerDfKey() {
+		return processLoanerDfKey;
 	}
 
 }

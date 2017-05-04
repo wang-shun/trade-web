@@ -130,4 +130,13 @@ public interface ToCaseService {
 	 * @return
 	 */
 	public String selectServItem(String caseCode,String srvCode);
+	/**
+	 * 服务编码[srv_code]和案件编号[case_code]到服务表[T_TG_SERV_ITEM_AND_PROCESSOR]中去查询交易顾问id[processor_id]
+	 * @author hejf10 2017-3-16 13:55:58
+	 * @param srvCode
+	 * @param caseCode  
+	 * @date 2017-3-16 13:55:58
+	 * @return
+	 */
+	public String selectAtt(String caseCode);
 }

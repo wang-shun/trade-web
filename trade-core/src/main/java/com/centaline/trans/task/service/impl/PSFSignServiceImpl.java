@@ -1,8 +1,16 @@
 package com.centaline.trans.task.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.aist.common.web.validate.AjaxResponse;
+import com.centaline.trans.attachment.service.ToAccesoryListService;
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +31,13 @@ public class PSFSignServiceImpl implements PSFSignService {
 	private ToMortgageMapper toMortgageMapper;
 	@Autowired
 	private TgGuestInfoMapper tgGuestInfoMapper;
+	@Autowired
+	private PSFSignService psfSignService;
+	@Autowired(required = true)
+	private ToCaseService toCaseService;
+	@Autowired
+	private WorkFlowManager workFlowManager;
+
 	
 	@Override
 	public Boolean savePSFSign(PSFSignVO psfSignVO) {
@@ -129,6 +144,22 @@ public class PSFSignServiceImpl implements PSFSignService {
 			}
 		}
 		return psfSignVO;
+	}
+
+	@Override
+	public AjaxResponse saveAndSubmitPSFSign(PSFSignVO psfSignVO) {
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		Boolean saveFlag = psfSignService.savePSFSign(psfSignVO);
+		if(saveFlag){
+			List<RestVariable> variables = new ArrayList<RestVariable>();
+			ToCase toCase = toCaseService.findToCaseByCaseCode(psfSignVO.getCaseCode());
+			workFlowManager.submitTask(variables, psfSignVO.getTaskId(), psfSignVO.getProcessInstanceId(),toCase.getLeadingProcessId(), psfSignVO.getCaseCode());
+			ajaxResponse.setSuccess(true);
+		} else {
+			ajaxResponse.setSuccess(false);
+			ajaxResponse.setMessage("公积金贷款签约出错");
+		}
+		return ajaxResponse;
 	}
 
 }

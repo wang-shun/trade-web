@@ -110,7 +110,7 @@
 				    <p>{{item.LOANER_NAME}}</p>
 				</td>
                 <td class="text-center">
-				    <p>{{item.IS_ACTIVE}}</p>
+				    <p>{{item.IS_ACTIVE == '1'?'是':'否'}}</p>
 				</td>
                 <td class="text-center">
 				    <p>{{item.loanlost_apply_reason}}</p>
@@ -127,13 +127,13 @@
 	    <script>
 			//加载页面
 						function initData() {
-				                  var caseCode=$("#caseCode").val();
+		                  	var caseCode=$("#caseCode").val().trim();
 							$(".bonus-table")
 									.aistGrid(
 											{
 												ctx : "${ctx}",
 												url : "/rapidQuery/findPage",
-												 rows : 6,
+												rows : 6,
 												queryId : 'mortgageList',
 												templeteId : 'mortgageList',
 												gridClass : 'table table_blue table-striped table-bordered table-hover',

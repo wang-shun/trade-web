@@ -23,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
@@ -47,17 +46,17 @@ import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.OrgService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
-
+import com.centaline.trans.eloan.entity.LoanAgent;
+import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.entity.ToEloanRel;
+import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.service.ToEloanRelService;
 import com.centaline.trans.eloan.vo.ToEloanRelListVO;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.eloan.entity.LoanAgent;
-import com.centaline.trans.eloan.entity.ToEloanCase;
-import com.centaline.trans.eloan.service.LoanAgentService;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mgr.Consts;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -106,6 +105,11 @@ public class WarnListController {
 	ToWorkFlowService flowService;
 	@Autowired
 	ProcessInstanceService processInstanceService;
+	@Autowired
+	ToWorkFlowService toWorkFlowService;
+	
+	@Autowired
+	WorkFlowManager workFlowManager;
 
 	// E+列表
 	@RequestMapping("Eloanlist")
@@ -230,7 +234,6 @@ public class WarnListController {
 			for (ToEloanRel toEloanRel : eloanRels) {
 				if (toEloanRel.getConfirmStatus().equals("1")) {
 					releaseAmount = releaseAmount.add(toEloanRel.getReleaseAmount());
-
 				}
 			}
 			object.put("releaseAmount", releaseAmount);
@@ -265,7 +268,6 @@ public class WarnListController {
 			if (!StringUtils.isBlank(toCaseInfo.getAgentCode())) {
 				agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
 			}
-
 			// 上下家
 			List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
 			StringBuffer seller = new StringBuffer();
@@ -438,6 +440,8 @@ public class WarnListController {
 			return AjaxResponse.fail("操作失败");
 		}
 	}
+	
+	
 
 	@RequestMapping(value = "validateEloanApply")
 	@ResponseBody
@@ -495,8 +499,7 @@ public class WarnListController {
 	 * processInstanceId, String caseCode,String eContent,String custName,String
 	 * custPhone,String month,String applyAmount
 	 */
-	public AjaxResponse<String> saveEloanApplyConfirm(ToEloanCase eloanCase, String eContent, String approved,
-			String taskId) {
+	public AjaxResponse<String> saveEloanApplyConfirm(ToEloanCase eloanCase, String eContent,String taskId,String param,String approved) {
 
 		SessionUser user = uamSessionService.getSessionUser();
 		try {
@@ -514,16 +517,18 @@ public class WarnListController {
 				 * toEloanCase.setMonth(eloanCase.getMonth());
 				 */
 			}
-
-			boolean isUpdate = false;
+			
 			Map<String, Object> map = new HashMap<String, Object>();
-			if ("1".equals(approved)) {
-				map.put("ApplyApprove", true);
-				isUpdate = true;
-			} else {
-				map.put("ApplyApprove", false);
+			//兼容新老流程
+			if(StringUtils.isBlank(param) && StringUtils.isNotBlank(approved)){
+				if("0".equals(approved)){
+					map.put("ApplyApprove", false);
+				}else{
+					map.put("ApplyApprove", true);
+				}
 			}
-			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase, isUpdate);
+			
+			toEloanCaseService.eloanProcessConfirm(taskId, map, toEloanCase, true);
 
 			// E+借贷审核添加 审核说明，条件审核记录到ToApproveRecord
 			ToApproveRecord toApproveRecord = new ToApproveRecord();
@@ -617,6 +622,8 @@ public class WarnListController {
 		request.setAttribute("excutorName", excutor.getRealName());
 		request.setAttribute("eloanCase",
 				(CollectionUtils.isEmpty(eloanCaseList) == true) ? null : eloanCaseList.get(0));
+		request.setAttribute("v", request.getParameter("v"));
+		
 	}
 
 	@RequestMapping(value = "saveEloanSign")
@@ -876,7 +883,7 @@ public class WarnListController {
 				ToWorkFlow workFlow = flowService.queryActiveToWorkFlowByBizCodeBusKey(record);
 				if (workFlow != null) {
 					workFlow.setStatus("4");
-					flowService.updateByPrimaryKey(workFlow);
+					flowService.updateByPrimaryKeySelective(workFlow);
 					processInstanceService.deleteProcess(workFlow.getInstCode());
 				}
 				if ("aban".equals(action)) {
@@ -977,7 +984,90 @@ public class WarnListController {
 
 		return "eloan/eloanRiskCtlList";
 	}
-
+	
+	@RequestMapping("queryKaCount")
+	@ResponseBody
+	public AjaxResponse<Integer> queryKaCount(int endWeekDay) {
+		AjaxResponse<Integer> result = new AjaxResponse<>();
+		try {
+			int count = toEloanCaseService.selectBackKaCountByTime(endWeekDay);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+			result.setContent(count);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
+	} 
+	
+	@RequestMapping("queryAppCount")
+	@ResponseBody
+	public AjaxResponse<Integer> queryAppCount(int endWeekDay) {
+		AjaxResponse<Integer> result = new AjaxResponse<>();
+		try {
+			int count = toEloanCaseService.selectBackAppCountByTime(endWeekDay);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+			result.setContent(count);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
+	@RequestMapping("batchChangeOwner")
+	@ResponseBody
+	public AjaxResponse<Integer> batchChangeOwner(String eloanCodeListStr, String newConsultantId, String newManagerId) {
+		AjaxResponse<Integer> result = new AjaxResponse<>();
+		try {
+			toEloanCaseService.batchChangeOwner(eloanCodeListStr.split(","), newConsultantId, newManagerId);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
+	@RequestMapping("changeOwner")
+	@ResponseBody
+	public AjaxResponse<Integer> changeOwner(String eloanCode, String oldConsultantId, String newConsultantId, String oldManagerId, String newManagerId) {
+		AjaxResponse<Integer> result = new AjaxResponse<>();
+		try {
+			toEloanCaseService.changeOwner(eloanCode, newConsultantId, newManagerId);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
+	@RequestMapping("selectConsAndManager")
+	@ResponseBody
+	public AjaxResponse<List<String>> selectConsAndManager(Long pkId) {
+		AjaxResponse<List<String>> result = new AjaxResponse<List<String>>();
+		try {
+			List<String> mixUserList = toEloanCaseService.selectConsAndManager(pkId);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+			result.setContent(mixUserList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
 	private boolean getApproveRecordForItem(ToApproveRecord toApproveRecord, HttpServletRequest request) {
 		boolean flag = false;
 		// E+ 申请查询审核结果

@@ -524,29 +524,26 @@ public class FirstFollowController {
 
 	@RequestMapping(value = "submit")
 	@ResponseBody
-	public boolean submit(HttpServletRequest request,
-			FirstFollowVO firstFollowVO) {
+	public boolean submit(HttpServletRequest request,FirstFollowVO firstFollowVO) {
 		SessionUser user = uamSessionService.getSessionUser();
 		firstFollowVO.setUserId(user.getId());
 		firstFollowVO.setUserOrgId(getOrgId(user.getId()));
 		firstFollowVO.setUserName(user.getUsername());
+		
 		firstFollowService.saveFirstFollow(firstFollowVO);
 
 		/* 无效案件保存到审批记录表 */
 		if (firstFollowVO.getCaseProperty().equals("30003001")) {
-			saveToApproveRecord(firstFollowVO, firstFollowVO.getOperator(),
-					firstFollowVO.getApproveType());
+			saveToApproveRecord(firstFollowVO, firstFollowVO.getOperator(),	firstFollowVO.getApproveType());
 		} else {
-			firstFollowVO = firstFollowService
-					.switchWorkFlowWithCurrentVersion(firstFollowVO);
+			firstFollowVO = firstFollowService.switchWorkFlowWithCurrentVersion(firstFollowVO);
 		}
 
 		/* 流程引擎相关 */
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		RestVariable restVariable = new RestVariable();
 		restVariable.setName("isvalid");
-		restVariable.setValue(firstFollowVO.getCaseProperty()
-				.equals("30003001"));
+		restVariable.setValue(firstFollowVO.getCaseProperty().equals("30003001"));
 		variables.add(restVariable);
 		if (firstFollowVO.getCaseProperty().equals("30003001")) {
 			if (!StringUtils.isBlank(firstFollowVO.getInvalid_reason())) {

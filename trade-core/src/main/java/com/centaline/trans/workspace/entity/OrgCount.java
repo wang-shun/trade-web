@@ -1,6 +1,12 @@
 package com.centaline.trans.workspace.entity;
 
-public class OrgCount {
+import java.io.Serializable;
+
+public class OrgCount implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -861337232274696495L;
 	private String orgName;
 	private Integer count;
 	public String getOrgName() {

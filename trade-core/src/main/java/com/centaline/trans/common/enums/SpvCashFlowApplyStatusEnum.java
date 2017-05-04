@@ -4,9 +4,13 @@ package com.centaline.trans.common.enums;
  */
 public enum SpvCashFlowApplyStatusEnum {
 	/**入账*/
+	/**入账起草**/
 	APPLY("00", "入账起草"),
+	/**总监审批**/
 	DIRECTORADUIT("01", "总监审批"),
+	/**财务审核**/
 	FINANCEADUIT("02", "财务审核"),
+	/**审核完成**/
 	AUDITCOMPLETED("03", "审核完成"),
 	
 	/**出账*/

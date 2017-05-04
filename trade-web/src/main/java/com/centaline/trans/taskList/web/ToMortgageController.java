@@ -138,13 +138,7 @@ public class ToMortgageController {
 			response.setContent(mortgage);
 		}catch(Exception e){
 			response.setSuccess(false);
-			StringBuffer sOut = new StringBuffer();
-            sOut.append(e.getMessage() + "\r\n");
-            StackTraceElement[] trace = e.getStackTrace();
-            for (StackTraceElement s : trace) {
-                sOut.append("\tat " + s + "\r\n");
-            }
-			response.setMessage("查询出错！"+sOut);
+			response.setMessage("查询出错！");
 			e.printStackTrace();
 		}
 		
@@ -214,9 +208,6 @@ public class ToMortgageController {
 
 		try{
 			ToMortgage entity = toMortgageService.findToMortgageById(toMortgage.getPkid());
-//			entity.setComAmount(NumberUtil.multiply(toMortgage.getComAmount(), new BigDecimal(10000)));
-//			entity.setMortTotalAmount(NumberUtil.multiply(toMortgage.getMortTotalAmount(), new BigDecimal(10000)));
-//			entity.setPrfAmount(NumberUtil.multiply(toMortgage.getPrfAmount(), new BigDecimal(10000)));
 			entity.setApprDate(toMortgage.getApprDate());
 			entity.setFormCommLoan("1");
 			entity.setLastLoanBank(toMortgage.getLastLoanBank());

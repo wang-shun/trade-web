@@ -53,6 +53,7 @@ import com.centaline.trans.product.service.ProductCategoryService;
 import com.centaline.trans.product.service.ProductService;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.entity.ToSpvAccount;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
 import com.centaline.trans.spv.entity.ToSpvDeRec;
 import com.centaline.trans.spv.service.CashFlowInService;
@@ -116,6 +117,7 @@ public class SpvController {
 		Org curentOrg = uamUserOrgService.getOrgById(currentDeptId);
 		Org parentOrg = uamUserOrgService.getOrgById(curentOrg.getParentId());
 	
+		request.setAttribute("rcOrgId", curentOrg.getId());
 		request.setAttribute("orgId", parentOrg.getId());
 		return "spv/SpvList";
 	}
@@ -223,8 +225,8 @@ public class SpvController {
         cashFlowOutService.getCashFlowList(request,spv.getSpvCode());
         request.setAttribute("spvBaseInfoVO", spvBaseInfoVO);
 		request.setAttribute("createPhone", phone);
-		request.setAttribute("officer", officer == null?null:officer.getRealName());
-		request.setAttribute("jingban", jingban == null?null:jingban.getRealName());
+		request.setAttribute("officer", officer);
+		request.setAttribute("jingban", jingban);
 	    request.setAttribute("zj",FKZJ);
 	    request.setAttribute("applyUser",applyUser);
 		return "spv/SpvDetail";
@@ -835,14 +837,37 @@ public class SpvController {
 	@RequestMapping("spvSign/deal")
 	@ResponseBody
 	public AjaxResponse<?> spvSign(String spvCode, String caseCode, String source, String instCode, String taskId, 
-			String spvConCode, Date signTime, Long sellerAccountPkid, String sellerAccountName, String sellerAccountNo, 
-			String sellerAccountTelephone, String sellerAccountBank, String sellerAccountBranchBank){
+			String spvConCode, Date signTime, Long buyerAccountPkid, String buyerAccountName, String buyerAccountNo, 
+			String buyerAccountTelephone, String buyerAccountBank, String buyerAccountBranchBank, Long sellerAccountPkid, String sellerAccountName, String sellerAccountNo, 
+			String sellerAccountTelephone, String sellerAccountBank, String sellerAccountBranchBank, Long fundAccountPkid, String fundAccountName, String fundAccountNo, String fundAccountBranchBank){
     	AjaxResponse<?> response = new AjaxResponse<>();
     	try {
     		//保存相关信息
     		SessionUser user= uamSessionService.getSessionUser();
-    		toSpvService.spvSign(spvCode, caseCode, source, instCode, taskId, spvConCode, signTime, sellerAccountPkid, sellerAccountName, sellerAccountNo, 
-    				sellerAccountTelephone, sellerAccountBank, sellerAccountBranchBank, user);
+    		
+    		ToSpvAccount buyerAcc = new ToSpvAccount();
+    		buyerAcc.setPkid(buyerAccountPkid);
+    		buyerAcc.setName(buyerAccountName);
+    		buyerAcc.setAccount(buyerAccountNo);
+    		buyerAcc.setTelephone(buyerAccountTelephone);
+    		buyerAcc.setBank(buyerAccountBank);
+    		buyerAcc.setBranchBank(buyerAccountBranchBank);
+    		
+    		ToSpvAccount sellerAcc = new ToSpvAccount();
+    		sellerAcc.setPkid(sellerAccountPkid);
+    		sellerAcc.setName(sellerAccountName);
+    		sellerAcc.setAccount(sellerAccountNo);
+    		sellerAcc.setTelephone(sellerAccountTelephone);
+    		sellerAcc.setBank(sellerAccountBank);
+    		sellerAcc.setBranchBank(sellerAccountBranchBank);
+    		
+    		ToSpvAccount fundAcc = new ToSpvAccount();
+    		fundAcc.setPkid(fundAccountPkid);
+    		fundAcc.setName(fundAccountName);
+    		fundAcc.setAccount(fundAccountNo);
+    		fundAcc.setBranchBank(fundAccountBranchBank);
+    		
+    		toSpvService.spvSign(spvCode, caseCode, source, instCode, taskId, spvConCode, signTime, buyerAcc, sellerAcc, fundAcc, user);
     		response.setSuccess(true);
 		} catch (Exception e) {
 			setExMsgForResp(response,e);
@@ -1210,6 +1235,51 @@ public class SpvController {
 		return response;
 	}
 	
+	@RequestMapping("batchChangeOfficer")
+	@ResponseBody
+	public AjaxResponse<String> batchChangeOfficer(String spvCodeListStr, String newOfficer, String newDirector) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			toSpvService.batchChangeOfficer(spvCodeListStr.split(","), newOfficer, newDirector);
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setSuccess(false);
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	@RequestMapping("changeOfficer")
+	@ResponseBody
+	public AjaxResponse<String> changeOfficer(String spvCode, String newOfficer, String newDirector) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			toSpvService.changeOfficer(spvCode, newOfficer, newDirector);
+			response.setSuccess(true);
+		}catch(Exception e){
+			response.setSuccess(false);
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	@RequestMapping("selectOfficerAndDirector")
+	@ResponseBody
+	public AjaxResponse<List<String>> selectOfficerAndDirector(String spvCode) {
+		AjaxResponse<List<String>> result = new AjaxResponse<List<String>>();
+		try {
+			List<String> mixUserList = toSpvService.selectOfficerAndDirector(spvCode);
+			result.setSuccess(true);
+			result.setMessage("操作成功!");
+			result.setContent(mixUserList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setMessage("操作失败!");
+		}
+		return result;
+	}
+	
     /**
      * @Title: setExMsgForResp 
      * @Description: 将错误信息封装给response.message
@@ -1223,5 +1293,4 @@ public class SpvController {
 		response.setMessage(e.getMessage());
 		e.printStackTrace();
 	}
-    
 }

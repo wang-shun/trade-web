@@ -499,5 +499,30 @@
 	INNER JOIN  sctrans.ACT_HI_VARINST  V  ON  W.INST_CODE = V.PROC_INST_ID_ AND V.NAME_ = 'GuohuApprove'  
 	WHERE V.LONG_=1  AND CASE_CODE= #{caseCode,jdbcType=VARCHAR}
   </select>
+   <!-- 功能：案件交易顾问 作者：hejf -->
+   <select id="selectAtt" parameterType="java.lang.String"  resultType="java.lang.Integer">
+  		select count(*)  cu from sctrans.T_TO_ATTACHMENT t 
+  		where t.PART_CODE='LoanlostApply'  
+  		and t.PRE_FILE_CODE='loan_lost_letter' and t.AVAILABLE='Y' 
+		and t.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  </select>
+   <!-- 功能：案件交易顾问 作者：hejf -->
+    <select id="selectTask" parameterType="java.lang.String" resultType="java.lang.Integer">
+  		select count(t.TASK_DEF_KEY_) cu
+		from sctrans.ACT_HI_TASKINST t 
+		inner join sctrans.T_TO_WORKFLOW w on t.PROC_INST_ID_=w.INST_CODE 
+		where 
+		t.TASK_DEF_KEY_='LoanlostApply'
+		and w.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  </select>
+   <!-- 功能：案件交易顾问 作者：hejf -->
+    <select id="selectMg" parameterType="java.lang.String" resultType="java.lang.Integer">
+  		select count(*) cu 
+  		from sctrans.T_TO_MORTGAGE m 
+		where  
+		m.IS_ACTIVE=1 and 
+		m.IS_DELEGATE_YUCUI=0 and 
+		m.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  </select>
   
 </mapper>

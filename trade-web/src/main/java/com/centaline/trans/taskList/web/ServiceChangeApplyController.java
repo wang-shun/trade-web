@@ -123,11 +123,9 @@ public class ServiceChangeApplyController {
 		ToWorkFlow toWorkFlow = new ToWorkFlow();
 		toWorkFlow.setBusinessKey(WorkFlowEnum.SRV_BUSSKEY.getCode());
 		toWorkFlow.setCaseCode(processInstanceVO.getCaseCode());
-		ToWorkFlow nwf = toWorkFlowService
-				.queryActiveToWorkFlowByCaseCodeBusKey(toWorkFlow);
+		ToWorkFlow nwf = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(toWorkFlow);
 		if (Approve_Result.equals("true")) {
-			updateType = serviceChangeService.updateServItemAndProcessor(
-					processInstanceVO.getCaseCode(), Approve_Result);
+			updateType = serviceChangeService.updateServItemAndProcessor(processInstanceVO.getCaseCode(), Approve_Result);
 		} else {
 			updateType = serviceChangeService
 					.updateServChangeHistroty(processInstanceVO.getCaseCode());
@@ -144,8 +142,7 @@ public class ServiceChangeApplyController {
 			restVariable.setValue(Approve_Result.equals("true"));
 			variables.add(restVariable);
 
-			ToCase toCase = toCaseService
-					.findToCaseByCaseCode(processInstanceVO.getCaseCode());
+			ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
 			workFlowManager.submitTask(variables,
 					processInstanceVO.getTaskId(),
 					processInstanceVO.getProcessInstanceId(),

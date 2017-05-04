@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.mortgage.repository.ToMortLoanerMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.mortgage.entity.ToMortLoaner" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="RECEIVE_CODE" property="receiveCode" jdbcType="VARCHAR" />
+    <result column="HOU_ADDRESS" property="houAddress" jdbcType="VARCHAR" />
+    <result column="MORT_TYPE" property="mortType" jdbcType="VARCHAR" />
+    <result column="IS_MAIN_LOANBANK_PROCESS" property="isMainLoanBankProcess" jdbcType="VARCHAR" />    
+    <result column="MORT_TOTAL_AMOUNT" property="mortTotalAmount" jdbcType="DECIMAL" />
+    <result column="COM_AMOUNT" property="comAmount" jdbcType="DECIMAL" />
+    <result column="COM_YEAR" property="comYear" jdbcType="INTEGER" />
+    <result column="COM_DISCOUNT" property="comDiscount" jdbcType="DECIMAL" />
+    <result column="PRF_AMOUNT" property="prfAmount" jdbcType="DECIMAL" />
+    <result column="PRF_YEAR" property="prfYear" jdbcType="INTEGER" />
+    <result column="FLOW_STATUS" property="flowStatus" jdbcType="VARCHAR" />
+    <result column="MORT_PKID" property="mortPkid" jdbcType="VARCHAR" />
+    <result column="LOANER_STATUS" property="loanerStatus" jdbcType="VARCHAR" />
+    <result column="LOANER_DESC" property="loanerDesc" jdbcType="VARCHAR" />
+    <result column="SEND_ID" property="sendId" jdbcType="VARCHAR" />
+    <result column="SEND_NAME" property="sendName" jdbcType="VARCHAR" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="RECEIVE_TIME" property="receiveTime" jdbcType="TIMESTAMP" />
+    <result column="RECEIVE_ID" property="receiveId" jdbcType="VARCHAR" />
+    <result column="RECEIVE_NAME" property="receiveName" jdbcType="VARCHAR" />
+    <result column="REJECT_ID" property="rejectId" jdbcType="VARCHAR" />
+    <result column="REJECT_NAME" property="rejectName" jdbcType="VARCHAR" />
+    <result column="REJECT_TIME" property="rejectTime" jdbcType="TIMESTAMP" />
+    <result column="CANCLE_ID" property="cancleId" jdbcType="VARCHAR" />
+    <result column="CANCLE_NAME" property="cancleName" jdbcType="VARCHAR" />
+    <result column="CANCLE_TIME" property="cancleTime" jdbcType="TIMESTAMP" />
+    <result column="APPROVAL_ID" property="approvalId" jdbcType="VARCHAR" />
+    <result column="APPROVAL_NAME" property="approvalName" jdbcType="VARCHAR" />
+    <result column="APPROVAL_TIME" property="approvalTime" jdbcType="TIMESTAMP" />
+    <result column="LOANER_ID" property="loanerId" jdbcType="VARCHAR" />
+    <result column="LOANER_NAME" property="loanerName" jdbcType="VARCHAR" />
+    <result column="LOANER_PHONE" property="loanerPhone" jdbcType="VARCHAR" />
+    <result column="LOANER_ORG_ID" property="loanerOrgId" jdbcType="VARCHAR" />
+    <result column="LOANER_ORG_CODE" property="loanerOrgCode" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CUST_NAME, CASE_CODE, RECEIVE_CODE, HOU_ADDRESS,MORT_TYPE,IS_MAIN_LOANBANK_PROCESS,MORT_TOTAL_AMOUNT, COM_AMOUNT, 
+    COM_YEAR, COM_DISCOUNT, PRF_AMOUNT, PRF_YEAR, FLOW_STATUS, MORT_PKID, LOANER_STATUS, 
+    LOANER_DESC, SEND_ID, SEND_NAME, SEND_TIME, RECEIVE_TIME, RECEIVE_ID, RECEIVE_NAME, 
+    REJECT_ID, REJECT_NAME, REJECT_TIME, CANCLE_ID, CANCLE_NAME, CANCLE_TIME, APPROVAL_ID, 
+    APPROVAL_NAME, APPROVAL_TIME, LOANER_ID, LOANER_NAME, LOANER_PHONE, LOANER_ORG_ID, 
+    LOANER_ORG_CODE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findToMortLoanerByCaseCodeAndLoanerStatus" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND   LOANER_STATUS = #{loanerStatus,jdbcType=VARCHAR}
+  </select>  
+  
+  
+  
+  <select id="findToMortLoanerByCaseCodeAndIsMainBank" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND   IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR}
+    AND   LOANER_STATUS IN ('AUD_REJECTED','ACC_REJECTED')
+    ORDER BY PKID DESC
+  </select>  
+  
+  <select id="findToMortLoanerByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    	<include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND   LOANER_STATUS IN ('AUD_REJECTED','ACC_REJECTED')
+  </select>   
+  
+  <select id="findToMortLoaner" resultMap="BaseResultMap" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
+    select 
+    	<include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    
+    where 
+    	LOANER_STATUS NOT IN ('AUD_REJECTED','ACC_REJECTED','CANCELED','COMPLETED')
+     <if test="caseCode != null">
+    	AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+     </if>
+     <if test="isMainLoanBankProcess != null">
+ 	 	AND  IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR}
+ 	 </if>
+ </select>
+
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_MORT_LOANER
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
+    insert into sctrans.T_TO_MORT_LOANER (CUST_NAME, CASE_CODE, 
+      RECEIVE_CODE, HOU_ADDRESS, MORT_TYPE,IS_MAIN_LOANBANK_PROCESS,MORT_TOTAL_AMOUNT, 
+      COM_AMOUNT, COM_YEAR, COM_DISCOUNT, 
+      PRF_AMOUNT, PRF_YEAR, FLOW_STATUS, 
+      MORT_PKID, LOANER_STATUS, LOANER_DESC, 
+      SEND_ID, SEND_NAME, SEND_TIME, 
+      RECEIVE_TIME, RECEIVE_ID, RECEIVE_NAME, 
+      REJECT_ID, REJECT_NAME, REJECT_TIME, 
+      CANCLE_ID, CANCLE_NAME, CANCLE_TIME, 
+      APPROVAL_ID, APPROVAL_NAME, APPROVAL_TIME, 
+      LOANER_ID, LOANER_NAME, LOANER_PHONE, 
+      LOANER_ORG_ID, LOANER_ORG_CODE, CREATE_TIME, 
+      CREATE_BY, UPDATE_TIME, UPDATE_BY
+      )
+    values ( #{custName,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
+      #{receiveCode,jdbcType=VARCHAR}, #{houAddress,jdbcType=VARCHAR}, #{mortType,jdbcType=VARCHAR}, 
+      #{isMainLoanBankProcess,jdbcType=VARCHAR}, #{mortTotalAmount,jdbcType=DECIMAL}, 
+      #{comAmount,jdbcType=DECIMAL}, #{comYear,jdbcType=INTEGER}, #{comDiscount,jdbcType=DECIMAL}, 
+      #{prfAmount,jdbcType=DECIMAL}, #{prfYear,jdbcType=INTEGER}, #{flowStatus,jdbcType=VARCHAR}, 
+      #{mortPkid,jdbcType=VARCHAR}, #{loanerStatus,jdbcType=VARCHAR}, #{loanerDesc,jdbcType=VARCHAR}, 
+      #{sendId,jdbcType=VARCHAR}, #{sendName,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, 
+      #{receiveTime,jdbcType=TIMESTAMP}, #{receiveId,jdbcType=VARCHAR}, #{receiveName,jdbcType=VARCHAR}, 
+      #{rejectId,jdbcType=VARCHAR}, #{rejectName,jdbcType=VARCHAR}, #{rejectTime,jdbcType=TIMESTAMP}, 
+      #{cancleId,jdbcType=VARCHAR}, #{cancleName,jdbcType=VARCHAR}, #{cancleTime,jdbcType=TIMESTAMP}, 
+      #{approvalId,jdbcType=VARCHAR}, #{approvalName,jdbcType=VARCHAR}, #{approvalTime,jdbcType=TIMESTAMP}, 
+      #{loanerId,jdbcType=VARCHAR}, #{loanerName,jdbcType=VARCHAR}, #{loanerPhone,jdbcType=VARCHAR}, 
+      #{loanerOrgId,jdbcType=VARCHAR}, #{loanerOrgCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
+     <selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER" >
+    	SELECT @@IDENTITY
+  	 </selectKey>
+    insert into sctrans.T_TO_MORT_LOANER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="custName != null" >
+        CUST_NAME,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="receiveCode != null" >
+        RECEIVE_CODE,
+      </if>
+      <if test="houAddress != null" >
+        HOU_ADDRESS,
+      </if>
+      <if test="mortType != null" >
+        MORT_TYPE,
+      </if>
+      <if test="isMainLoanBankProcess != null" >
+        IS_MAIN_LOANBANK_PROCESS,
+      </if>
+      <if test="mortTotalAmount != null" >
+        MORT_TOTAL_AMOUNT,
+      </if>
+      <if test="comAmount != null" >
+        COM_AMOUNT,
+      </if>
+      <if test="comYear != null" >
+        COM_YEAR,
+      </if>
+      <if test="comDiscount != null" >
+        COM_DISCOUNT,
+      </if>
+      <if test="prfAmount != null" >
+        PRF_AMOUNT,
+      </if>
+      <if test="prfYear != null" >
+        PRF_YEAR,
+      </if>
+      <if test="flowStatus != null" >
+        FLOW_STATUS,
+      </if>
+      <if test="mortPkid != null" >
+        MORT_PKID,
+      </if>
+      <if test="loanerStatus != null" >
+        LOANER_STATUS,
+      </if>
+      <if test="loanerDesc != null" >
+        LOANER_DESC,
+      </if>
+      <if test="sendId != null" >
+        SEND_ID,
+      </if>
+      <if test="sendName != null" >
+        SEND_NAME,
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME,
+      </if>
+      <if test="receiveTime != null" >
+        RECEIVE_TIME,
+      </if>
+      <if test="receiveId != null" >
+        RECEIVE_ID,
+      </if>
+      <if test="receiveName != null" >
+        RECEIVE_NAME,
+      </if>
+      <if test="rejectId != null" >
+        REJECT_ID,
+      </if>
+      <if test="rejectName != null" >
+        REJECT_NAME,
+      </if>
+      <if test="rejectTime != null" >
+        REJECT_TIME,
+      </if>
+      <if test="cancleId != null" >
+        CANCLE_ID,
+      </if>
+      <if test="cancleName != null" >
+        CANCLE_NAME,
+      </if>
+      <if test="cancleTime != null" >
+        CANCLE_TIME,
+      </if>
+      <if test="approvalId != null" >
+        APPROVAL_ID,
+      </if>
+      <if test="approvalName != null" >
+        APPROVAL_NAME,
+      </if>
+      <if test="approvalTime != null" >
+        APPROVAL_TIME,
+      </if>
+      <if test="loanerId != null" >
+        LOANER_ID,
+      </if>
+      <if test="loanerName != null" >
+        LOANER_NAME,
+      </if>
+      <if test="loanerPhone != null" >
+        LOANER_PHONE,
+      </if>
+      <if test="loanerOrgId != null" >
+        LOANER_ORG_ID,
+      </if>
+      <if test="loanerOrgCode != null" >
+        LOANER_ORG_CODE,
+      </if>
+	    CREATE_TIME,
+	    CREATE_BY,
+	    UPDATE_TIME,
+	    UPDATE_BY
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="custName != null" >
+        #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveCode != null" >
+        #{receiveCode,jdbcType=VARCHAR},
+      </if>
+      <if test="houAddress != null" >
+        #{houAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mortType != null" >
+        #{mortType,jdbcType=VARCHAR},
+      </if>      
+      <if test="isMainLoanBankProcess != null" >
+        #{isMainLoanBankProcess,jdbcType=VARCHAR},
+      </if>      
+      <if test="mortTotalAmount != null" >
+        #{mortTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="comAmount != null" >
+        #{comAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="comYear != null" >
+        #{comYear,jdbcType=INTEGER},
+      </if>
+      <if test="comDiscount != null" >
+        #{comDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="prfAmount != null" >
+        #{prfAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="prfYear != null" >
+        #{prfYear,jdbcType=INTEGER},
+      </if>
+      <if test="flowStatus != null" >
+        #{flowStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="mortPkid != null" >
+        #{mortPkid,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerStatus != null" >
+        #{loanerStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerDesc != null" >
+        #{loanerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sendId != null" >
+        #{sendId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendName != null" >
+        #{sendName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveTime != null" >
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveId != null" >
+        #{receiveId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveName != null" >
+        #{receiveName,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectId != null" >
+        #{rejectId,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectName != null" >
+        #{rejectName,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectTime != null" >
+        #{rejectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancleId != null" >
+        #{cancleId,jdbcType=VARCHAR},
+      </if>
+      <if test="cancleName != null" >
+        #{cancleName,jdbcType=VARCHAR},
+      </if>
+      <if test="cancleTime != null" >
+        #{cancleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalId != null" >
+        #{approvalId,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalName != null" >
+        #{approvalName,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalTime != null" >
+        #{approvalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanerId != null" >
+        #{loanerId,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerName != null" >
+        #{loanerName,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerPhone != null" >
+        #{loanerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerOrgId != null" >
+        #{loanerOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerOrgCode != null" >
+        #{loanerOrgCode,jdbcType=VARCHAR},
+      </if>
+ 		GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID}
+    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
+    update sctrans.T_TO_MORT_LOANER
+    <set >
+      <if test="custName != null" >
+        CUST_NAME = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveCode != null" >
+        RECEIVE_CODE = #{receiveCode,jdbcType=VARCHAR},
+      </if>
+      <if test="houAddress != null" >
+        HOU_ADDRESS = #{houAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mortType != null" >
+        MORT_TYPE = #{mortType,jdbcType=VARCHAR},
+      </if>
+      <if test="isMainLoanBankProcess != null" >
+        IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR},
+      </if>
+      <if test="mortTotalAmount != null" >
+        MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="comAmount != null" >
+        COM_AMOUNT = #{comAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="comYear != null" >
+        COM_YEAR = #{comYear,jdbcType=INTEGER},
+      </if>
+      <if test="comDiscount != null" >
+        COM_DISCOUNT = #{comDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="prfAmount != null" >
+        PRF_AMOUNT = #{prfAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="prfYear != null" >
+        PRF_YEAR = #{prfYear,jdbcType=INTEGER},
+      </if>
+      <if test="flowStatus != null" >
+        FLOW_STATUS = #{flowStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="mortPkid != null" >
+        MORT_PKID = #{mortPkid,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerStatus != null" >
+        LOANER_STATUS = #{loanerStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerDesc != null" >
+        LOANER_DESC = #{loanerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sendId != null" >
+        SEND_ID = #{sendId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendName != null" >
+        SEND_NAME = #{sendName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveTime != null" >
+        RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveId != null" >
+        RECEIVE_ID = #{receiveId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveName != null" >
+        RECEIVE_NAME = #{receiveName,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectId != null" >
+        REJECT_ID = #{rejectId,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectName != null" >
+        REJECT_NAME = #{rejectName,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectTime != null" >
+        REJECT_TIME = #{rejectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancleId != null" >
+        CANCLE_ID = #{cancleId,jdbcType=VARCHAR},
+      </if>
+      <if test="cancleName != null" >
+        CANCLE_NAME = #{cancleName,jdbcType=VARCHAR},
+      </if>
+      <if test="cancleTime != null" >
+        CANCLE_TIME = #{cancleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalId != null" >
+        APPROVAL_ID = #{approvalId,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalName != null" >
+        APPROVAL_NAME = #{approvalName,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalTime != null" >
+        APPROVAL_TIME = #{approvalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanerId != null" >
+        LOANER_ID = #{loanerId,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerName != null" >
+        LOANER_NAME = #{loanerName,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerPhone != null" >
+        LOANER_PHONE = #{loanerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerOrgId != null" >
+        LOANER_ORG_ID = #{loanerOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerOrgCode != null" >
+        LOANER_ORG_CODE = #{loanerOrgCode,jdbcType=VARCHAR},
+      </if>
+       CREATE_TIME = GETDATE(),
+       CREATE_BY = @{SESSION_USER_ID},
+       UPDATE_TIME = GETDATE(),
+       UPDATE_BY =@{SESSION_USER_ID}
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
+    update sctrans.T_TO_MORT_LOANER
+    set CUST_NAME = #{custName,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      RECEIVE_CODE = #{receiveCode,jdbcType=VARCHAR},
+      HOU_ADDRESS = #{houAddress,jdbcType=VARCHAR},
+      MORT_TYPE = #{mortType,jdbcType=VARCHAR},
+      IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR},      
+      MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},
+      COM_AMOUNT = #{comAmount,jdbcType=DECIMAL},
+      COM_YEAR = #{comYear,jdbcType=INTEGER},
+      COM_DISCOUNT = #{comDiscount,jdbcType=DECIMAL},
+      PRF_AMOUNT = #{prfAmount,jdbcType=DECIMAL},
+      PRF_YEAR = #{prfYear,jdbcType=INTEGER},
+      FLOW_STATUS = #{flowStatus,jdbcType=VARCHAR},
+      MORT_PKID = #{mortPkid,jdbcType=VARCHAR},
+      LOANER_STATUS = #{loanerStatus,jdbcType=VARCHAR},
+      LOANER_DESC = #{loanerDesc,jdbcType=VARCHAR},
+      SEND_ID = #{sendId,jdbcType=VARCHAR},
+      SEND_NAME = #{sendName,jdbcType=VARCHAR},
+      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      RECEIVE_ID = #{receiveId,jdbcType=VARCHAR},
+      RECEIVE_NAME = #{receiveName,jdbcType=VARCHAR},
+      REJECT_ID = #{rejectId,jdbcType=VARCHAR},
+      REJECT_NAME = #{rejectName,jdbcType=VARCHAR},
+      REJECT_TIME = #{rejectTime,jdbcType=TIMESTAMP},
+      CANCLE_ID = #{cancleId,jdbcType=VARCHAR},
+      CANCLE_NAME = #{cancleName,jdbcType=VARCHAR},
+      CANCLE_TIME = #{cancleTime,jdbcType=TIMESTAMP},
+      APPROVAL_ID = #{approvalId,jdbcType=VARCHAR},
+      APPROVAL_NAME = #{approvalName,jdbcType=VARCHAR},
+      APPROVAL_TIME = #{approvalTime,jdbcType=TIMESTAMP},
+      LOANER_ID = #{loanerId,jdbcType=VARCHAR},
+      LOANER_NAME = #{loanerName,jdbcType=VARCHAR},
+      LOANER_PHONE = #{loanerPhone,jdbcType=VARCHAR},
+      LOANER_ORG_ID = #{loanerOrgId,jdbcType=VARCHAR},
+      LOANER_ORG_CODE = #{loanerOrgCode,jdbcType=VARCHAR}, 
+      CREATE_TIME = GETDATE(),
+      CREATE_BY = @{SESSION_USER_ID},
+      UPDATE_TIME = GETDATE(),
+      UPDATE_BY =@{SESSION_USER_ID}
+
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+   <select id="getToMortLoanerById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    where PKID = #{id,jdbcType=BIGINT} 
+  </select>
+  
+   <select id="getAcceptingMortLoanerInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    where MORT_PKID = #{mortgageId,jdbcType=VARCHAR} and LOANER_STATUS = 'ACCEPTING'
+  </select>
+  
+  <update id="updateToMortLoanerByMortId" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
+    update sctrans.T_TO_MORT_LOANER
+    <set >
+      <if test="custName != null" >
+        CUST_NAME = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveCode != null" >
+        RECEIVE_CODE = #{receiveCode,jdbcType=VARCHAR},
+      </if>
+      <if test="houAddress != null" >
+        HOU_ADDRESS = #{houAddress,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="mortType != null" >
+        MORT_TYPE = #{mortType,jdbcType=VARCHAR},
+      </if>
+      <if test="isMainLoanBankProcess != null" >
+        IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR},
+      </if>
+      <if test="mortTotalAmount != null" >
+        MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="comAmount != null" >
+        COM_AMOUNT = #{comAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="comYear != null" >
+        COM_YEAR = #{comYear,jdbcType=INTEGER},
+      </if>
+      <if test="comDiscount != null" >
+        COM_DISCOUNT = #{comDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="prfAmount != null" >
+        PRF_AMOUNT = #{prfAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="prfYear != null" >
+        PRF_YEAR = #{prfYear,jdbcType=INTEGER},
+      </if>
+      <if test="flowStatus != null" >
+        FLOW_STATUS = #{flowStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="mortPkid != null" >
+        MORT_PKID = #{mortPkid,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerStatus != null" >
+        LOANER_STATUS = #{loanerStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerDesc != null" >
+        LOANER_DESC = #{loanerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sendId != null" >
+        SEND_ID = #{sendId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendName != null" >
+        SEND_NAME = #{sendName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveTime != null" >
+        RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveId != null" >
+        RECEIVE_ID = #{receiveId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveName != null" >
+        RECEIVE_NAME = #{receiveName,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectId != null" >
+        REJECT_ID = #{rejectId,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectName != null" >
+        REJECT_NAME = #{rejectName,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectTime != null" >
+        REJECT_TIME = #{rejectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancleId != null" >
+        CANCLE_ID = #{cancleId,jdbcType=VARCHAR},
+      </if>
+      <if test="cancleName != null" >
+        CANCLE_NAME = #{cancleName,jdbcType=VARCHAR},
+      </if>
+      <if test="cancleTime != null" >
+        CANCLE_TIME = #{cancleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalId != null" >
+        APPROVAL_ID = #{approvalId,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalName != null" >
+        APPROVAL_NAME = #{approvalName,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalTime != null" >
+        APPROVAL_TIME = #{approvalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanerId != null" >
+        LOANER_ID = #{loanerId,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerName != null" >
+        LOANER_NAME = #{loanerName,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerPhone != null" >
+        LOANER_PHONE = #{loanerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerOrgId != null" >
+        LOANER_ORG_ID = #{loanerOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerOrgCode != null" >
+        LOANER_ORG_CODE = #{loanerOrgCode,jdbcType=VARCHAR},
+      </if>
+       UPDATE_TIME = GETDATE(),
+       UPDATE_BY =@{SESSION_USER_ID}
+    </set>
+    where MORT_PKID = #{mortPkid,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

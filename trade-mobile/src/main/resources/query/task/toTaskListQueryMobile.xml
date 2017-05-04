@@ -4,6 +4,7 @@
 		<customDict id="getCaseSalerInfo" beanName="getCaseSalerInfo" />
 		<customDict id="getCaseBuyyerInfo" beanName="getCaseBuyyerInfo" />
 		<customDict id="qqLightService" beanName="qqLightService" />
+		<customDict id="getQianHouTai" beanName="getQianHouTai" />
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -55,6 +56,10 @@
 						su.EMPLOYEE_CODE,
 						iif(tps.IS_MANUAL_SET = 0 ,'false','true' ) planChangePermit,
 						tw.BIZ_CODE srvCode,
+						swt.WFE_NAME as wfeName,
+						sd.name caseStatus,
+						su2.username qiantai,
+						tc.org_id orgId,
 						case when ttp.EST_PART_TIME is null then '2'
 							when datediff(day, GETDATE(), ttp.EST_PART_TIME) &lt; 0 then '-1'
                         	when datediff(day, GETDATE(), ttp.EST_PART_TIME) = 0  then '0'   
@@ -69,6 +74,9 @@
 					    left join sctrans.sys_user su on su.id = tci.AGENT_CODE
 					    left join sctrans.t_ts_task_plan_set tps on tps.part_code = art.TASK_DEF_KEY_
 					    left join sctrans.SYS_WFE_TEMPLATE swt on swt.WFE_CODE = tw.BUSINESS_KEY
+					    left join sctrans.T_TO_CASE tc on tci.case_code = tc.case_code
+					    left join sctrans.sys_dict sd on sd.code = tc.status
+					    left join sctrans.sys_user su2 on su2.id = tc.LEADING_PROCESS_ID
 					WHERE  ART.ASSIGNEE_ = #userLoginName#
 					    AND ART.SUSPENSION_STATE_ = '1'
 						<ifNotNull q_text>
@@ -162,7 +170,13 @@
 				<column type="both" name="planChangePermit" dataType="boolean" defaultVal="false"/>
 				<column type="both" name="srvCode" dataType="String" defaultVal=""/>
 				
-				<column type="both" name="prdType" dataType="String" defaultVal=""></column>
+				<column type="both" name="prdType" dataType="String" defaultVal=""/>
+				<column type="both" name="wfeName" dataType="String" defaultVal=""/>
+				<column type="both" name="caseStatus" dataType="String" defaultVal="" />
+				
+				<column type="both" name="houtai" referencecol="caseCode" customDict="getQianHouTai" dataType="JSONARRAY"/>
+				<column type="both" name="qiantai" />
+				<column type="both" name="orgId" />
 			</table-row>
 		</grid>
 	</query>

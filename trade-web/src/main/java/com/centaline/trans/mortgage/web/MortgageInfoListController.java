@@ -68,24 +68,6 @@ public class MortgageInfoListController {
 		} else {
 			userJobCode = 3;
 		}
-		//贷款信息列表 判断登录的用户是前台组还是后台组，前台组看见所有信息，后台组只看后台组的信息
-/*		String orgId[] = reBuffer.toString().split(",");
-		if(orgId.length > 0){
-			for(int i=0; i<orgId.length; i++){
-				Org org = uamUserOrgService.getOrgById(orgId[i]);
-				if(org!=null){
-					TsTeamProperty TsTeamProperty =tsTeamPropertyService.findTeamPropertyByTeamCode(org.getOrgCode());
-					if(TsTeamProperty != null){
-						if("yu_back".equals(TsTeamProperty.getTeamProperty())){
-							request.setAttribute("queryOrgs", reBuffer.toString());
-						}else{
-							
-							request.setAttribute("queryOrgs", "notBack");
-						}
-					}
-				}
-			}
-		}*/
 		request.setAttribute("queryOrgs", reBuffer.toString());
 		request.setAttribute("queryOrgFlag", queryOrgFlag);
 		request.setAttribute("isAdminFlag", isAdminFlag);	

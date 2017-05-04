@@ -71,4 +71,27 @@ public interface TgServItemAndProcessorMapper {
      */
     String findGuohuApproveTypeByCaseCode(String caseCode);
     
+    /**
+     * 查询审核结果
+     * @author hejf10
+     * @param caseCode
+     * @return
+     */
+    int selectAtt(String caseCode);
+    
+    /**
+     * 查询审核结果
+     * @author hejf10
+     * @param caseCode
+     * @return
+     */
+    int selectTask(String caseCode);
+    /**
+     * 查询审核结果
+     * @author hejf10
+     * @param caseCode
+     * @return
+     */
+    int selectMg(String caseCode);
+    
 }

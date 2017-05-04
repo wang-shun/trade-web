@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_MONTH_ELOAN_CASE_BASE_INFO]    Script Date: 2017/3/22 11:40:30 ******/
+/****** Object:  StoredProcedure [sctrans].[P_MONTH_ELOAN_CASE_BASE_INFO]    Script Date: 2017/3/31 9:37:18 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -36,7 +36,7 @@ BEGIN
 	BEGIN TRY
 	 begin tran
 	--删除当月统计的数据
-    DELETE  FROM sctrans.T_RPT_HISTORY_CASE_BASE_INFO
+    DELETE  FROM sctrans.T_RPT_ELOAN_CASE_BASE_INFO
     WHERE   BELONG_MONTH = @belong_month;
 
 	INSERT INTO sctrans.[T_RPT_ELOAN_CASE_BASE_INFO](

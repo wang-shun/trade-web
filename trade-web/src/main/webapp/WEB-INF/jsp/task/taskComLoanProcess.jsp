@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="com.centaline.trans.workspace.web.SessionUserConstants"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/scriptBase.jsp"></jsp:include>
@@ -91,6 +92,12 @@
     display: inline-block;
 }
 </style>
+<%
+	response.setHeader("Cache-Control", "no-store,no-cache,must-revalidate");
+	response.setHeader("Pragrma", "no-cache");
+	response.setDateHeader("Expires", 0);
+	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
+%>
 <script language="javascript">
 	var taskitem = "${taskitem}";
 	var caseCode = "${caseCode}";
@@ -103,6 +110,7 @@
 	}
 
 </script>
+
 </head>
 <body>
 
@@ -122,6 +130,8 @@
 <input type="hidden" id="isMainLoanBank" name="isMainLoanBank" value="1"/>
 <!-- 临时银行审批 -->
 <input type="hidden" id="tmpBankStatus" name="tmpBankStatus"/>
+<input type="hidden" id="serviceJobCode" value="${sessionUser.serviceJobCode }">
+<input type="hidden" id="adminLoanerProcess"  name="adminLoanerProcess">
 	<!-- 服务流程 -->
 		<div class="panel " id="serviceFlow">
         <div class="row wrapper white-bg new-heading ">
@@ -693,9 +703,11 @@
 								<div class="ibox" style="width:988px;">
 								<div class="ibox-content">
 								<form id="mortgageForm" class="form_list">
+								    <input type="hidden" name="processStart" id="processStart" value=""/>
 								    <input type="hidden" name="pkid" id="pkid"/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
-									<input type="hidden" name="isMainLoanBank" value="1"/>
+									<input type="hidden" name="isMainLoanBank" value="1"/>	
+									<input type="hidden" name="bankOrgId1" id="bankOrgId1" value=""/>								
 		                            <div class="marinfo">
 		                                     <div class="line">
 		                                         <div class="form_content">
@@ -768,44 +780,21 @@
 		                                         </div>
 		                                     </div>
 	
-		                                     <div class="line">
+	
+			                                  <div class="line">
 		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
-													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
-															nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})">
-													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
-														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" >&#xe627;</i>
-													 </input>			
-													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
-													 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
-													 <input type="hidden"  id="loanerId" name="loanerId" />
-													 <div class="input-group float_icon organize_icon" ></div>	
-		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
-													 <input type="text" name="loanerPhone" id="loanerPhone"
-															placeholder="联系方式" class="input_type data_style">
-		                                         </div>
-		                                         <div class="form_content" style="margin-top:8px;">
-		                                             <label class="control-label sign_left">信贷员到场</label> 
-		                                             <div class="controls" >
-											              <label class="radio inline"> <input type="radio" value="1" name="isLoanerArrive">是</label> 
-								                          <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive" checked="checked">否</label>
-		                                             </div>
-		                                         </div>
-		                                     </div>
-		                                     
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small select_style mend_select">
-		                                                 签约时间<span class="star" >*</span>
+		                                             <label class="control-label sign_left_small select_style mend_select">签约时间<span class="star" >*</span>
 		                                             </label>
 		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
                                                             <input class="input_type yuanwid" type="text" placeholder="" name="signDate" id="signDate" readonly>
                                                      </div>										
 		                                         </div>
-		                                         <div class="form_content radio-seat" style="margin-top:7px;">
-		                                             <label class="control-label sign_left_small">需要放款前报告</label>							             
+		                                		<div class="form_content">
+		                                             <label class="control-label sign_left_small">推荐函编号<span class="star">*</span></label>
+													 <input type="text" name="recLetterNo" id="recLetterNo" class="input_type data_style">
+		                                         </div>
+		                                         <div class="form_content radio-seat" style="margin-top:8px;">
+		                                             <label class="control-label sign_left">需要放款前报告</label>							             
 										             <div class="controls">
                                                          <label class="radio inline"> <input type="radio" value="1" name="ifReportBeforeLend">是</label>
                                                          <label class="radio inline"> <input type="radio" value="0" name="ifReportBeforeLend" checked="checked">否</label>
@@ -821,41 +810,80 @@
                                                         <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" ${empty source?'':'readonly="true"' } checked="checked">否</label>
                                                      </div>
 		                                         </div>
-		                                         <div class="form_content" style="margin-left:-40px;">
-		                                             <label class="control-label sign_left_small" style="width: 170px;">推荐函编号<span class="star">*</span></label>
-													 <input type="text" name="recLetterNo" id="recLetterNo" class="input_type yuanwid">
+		                                         
+		                                         <div class="form_content" id="dispachTimeShow1">
+		                                         	<div class="form_content radio-seat" style="margin-left:26px;">
+			                                             <label class="control-label sign_left_small">派单时间<span class="star" ></span></label>
+	                                                     <input class="input_type yuanwid" type=text placeholder="" name="dispachTime" id="dispachTime1" readonly>
+                                                   </div>  								
 		                                         </div>
-		                                     </div>
-		                                     
-		                                     <div class="line">
+		                                     </div> 		                                     
+		         							 <div class="line">
 		                                         <div class="form_content tmpBankReasonDiv">
 		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
 													 <input type="text" name="tmpBankReason" class="input_type optionwid">
 		                                         </div>
-		                                     </div>
-		                                     
+		                                     </div> 
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">贷款银行</label>																										
-													 <select  name="bank_type" class="select_control" id="bank_type" ></select>	
+													 <select  name="bank_type" class="select_control data_style" id="bank_type" ></select>	
 		                                         </div>
 		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small" style="width: 204px;">贷款支行<span class="star">*</span></label>
-													 <select  name="finOrgCode" class="select_control" id="finOrgCode" ></select>
+		                                             <label class="control-label sign_left_small" style="width: 147px;">贷款支行<span class="star">*</span></label>
+													 <select  name="finOrgCode" class="select_control data_style" id="finOrgCode" ></select>
+		                                         </div>
+		                                         
+		                                         <div class="form_content"  id="processButtonHidden1">
+		                                          	 <button type="button" class="btn btn-success"  style="background:#52cdec" onclick="loanerProcessStart(1)" id="toLoanerCase">派  单</button>
+		                                          	 		                                         	                                         	 
 		                                         </div>
 		                                     </div>
 		                                     
+		                                     <div class="line">		
+		                                     	 <input  type="hidden"  name="loanerName" id="loanerName">                                     
+	                                         	 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
+												 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
+												 <input type="hidden"  id="loanerId" name="loanerId" />
+		                                         <div class="form_content"  id="forLoanerProcessNoShuru">		                                         
+		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
+													 <input  type="text" readonly='readonly' name="loanerName1"  placeholder="" class="input_type yuanwid"  onclick="selectLoanerByOrgId1()">
+													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId1()" >&#xe627;</i>
+													 </input>			
+												
+													 <div class="input-group float_icon organize_icon" ></div>	
+		                                         </div>
+		                                         
+ 		                                         <div class="form_content" id="forLoanerProcessShuru" style="display:none">
+		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
+													 <input  type="text" name="loanerName1" id="loanerName1" placeholder="" class="input_type yuanwid" onkeyup="onkeyuploanerName()">													 
+													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId1()" >&#xe627;</i>
+													 </input>											
+													 <div class="input-group float_icon organize_icon" ></div>	
+		                                         </div> 
+		                                         
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
+													 <input type="text" name="loanerPhone" id="loanerPhone"
+															placeholder="联系方式" class="input_type data_style">
+		                                         </div>
+		                                         <div class="form_content" style="margin-top:8px;">
+		                                             <label class="control-label sign_left">信贷员到场</label> 
+		                                             <div class="controls" >
+											              <label class="radio inline"> <input type="radio" value="1" name="isLoanerArrive">是</label> 
+								                          <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive" checked="checked">否</label>
+		                                             </div>
+		                                         </div>
+		                                     </div>
 		                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">补件名称</label>
 											         <input type="text" class="input_type yuanwid" name="supContent" id="supContent">										
 		                                         </div>
-		                                         <div class="form_content" style="margin-left:-28px;">
-		                                             <label class="control-label sign_left select_style mend_select" style="width: 204px;">
-		                                                 补件时间
-		                                             </label>										             
+		                                         <div class="form_content" >
+		                                             <label class="control-label sign_left_small select_style mend_select">补件时间</label>										             
 										             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_1" data-date-format="yyyy-mm-dd">
-                                                            <input class="input_type yuanwid datatime" type="text" name="remindTime" id="remindTime" readonly>
+                                                            <input class="input_type yuanwid" type="text" name="remindTime" id="remindTime" readonly>
                                                      </div>
 		                                         </div>
 		                                     </div>
@@ -1010,8 +1038,10 @@
 								<div class="ibox-content">
 								<form id="mortgageForm1" class="form_list">
 								    <input type="hidden" name="pkid" id="pkid"/>
+								    <input type="hidden" name="processStart" id="processStart" value=""/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
-									<input type="hidden" name="isMainLoanBank" value="0"/>
+									<input type="hidden" name="isMainLoanBank" value="0"/>	
+									<input type="hidden" name="bankOrgId0" id="bankOrgId0" value=""/>								
 		                            <div class="marinfo">
 		                                     <div class="line">
 		                                         <div class="form_content">
@@ -1084,53 +1114,107 @@
 		                                         </div>
 		                                     </div>
 	
+				                             <div class="line">
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small select_style mend_select">签约时间<span class="star" >*</span>
+		                                             </label>
+		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
+                                                            <input class="input_type yuanwid" type="text" placeholder="" name="signDate" id="signDate" readonly>
+                                                     </div>										
+		                                         </div>
+		                                		<div class="form_content">
+		                                             <label class="control-label sign_left_small">推荐函编号<span class="star">*</span></label>
+													 <input type="text" name="recLetterNo" id="recLetterNo" class="input_type data_style">
+		                                         </div>
+		                                         <div class="form_content radio-seat" style="margin-top:8px;">
+		                                             <label class="control-label sign_left">需要放款前报告</label>							             
+										             <div class="controls">
+                                                         <label class="radio inline"> <input type="radio" value="1" name="ifReportBeforeLend">是</label>
+                                                         <label class="radio inline"> <input type="radio" value="0" name="ifReportBeforeLend" checked="checked">否</label>
+                                                     </div>
+		                                         </div>
+		                                     </div>
+		                                     <div class="line">
+		                                         <div class="form_content radio-seat" style="margin-top:5px;">
+		                                             <label class="control-label sign_left_small">是否临时银行</label>
+													 <div class="controls ">
+                                                        <label class="radio inline"> <input type="radio" value="1" name="isTmpBank" disabled="true">是</label>
+                                                        <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" disabled="true" checked="checked">否</label>
+                                                     </div>
+		                                         </div>
+		                                         
+		                                         <div class="form_content" id="dispachTimeShow0">
+		                                          	<div class="form_content radio-seat" style="margin-left:26px;">
+			                                             <label class="control-label sign_left_small">派单时间<span class="star" ></span></label>
+	                                                     <input class="input_type yuanwid" type=text placeholder="" name="dispachTime" id="dispachTime0" readonly>	
+                                                    </div>								
+		                                         </div>
+		                                     </div> 
+		                                     		                                     
+		         							 <div class="line">
+		                                         <div class="form_content tmpBankReasonDiv">
+		                                             <label class="control-label sign_left_small">临时银行原因<span class="star">*</span></label>
+													 <input type="text" name="tmpBankReason" class="input_type optionwid">
+		                                         </div>
+		                                     </div> 
 		                                     <div class="line">
 		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small">贷款银行</label>																										
+													 <select  name="bank_type" class="select_control data_style" id="bank_type" ></select>	
+		                                         </div>
+		                                         <div class="form_content">
+		                                             <label class="control-label sign_left_small" style="width: 147px;">贷款支行<span class="star">*</span></label>
+													 <select  name="finOrgCode" class="select_control data_style" id="finOrgCode" ></select>
+		                                         </div>
+		                                         
+		                                         <div class="form_content" id="processButtonHidden0">
+		                                          	 <button type="button" class="btn btn-success" style="background:#52cdec" onclick="loanerProcessStart(0)" id="toLoanerCaseTemp">派  单</button>		                                         	 
+		                                         </div>
+		                                     </div>
+		                                     
+		                                     <div class="line">
+		                                     
+		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
-													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
-														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser_})">
-													 <i style=" position: absolute; top: 5px; right: 20px;  " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
-														nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser_})" >&#xe627;</i>
+													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" onclick="selectLoanerByOrgId0()">
+													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId0()" >&#xe627;</i>
 													 </input>			
-													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
-													 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" />
+													 <input type="hidden"  id="loanerOrgCode"  name="loanerOrgCode" />
+													 <input type="hidden"  id="loanerOrgId" name ="loanerOrgId" />
 													 <input type="hidden"  id="loanerId" name="loanerId" />
 													 <div class="input-group float_icon organize_icon" ></div>	
 		                                         </div>
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
-													 <input type="text" name="loanerPhone" id="loanerPhone"
-															placeholder="联系方式" class="input_type data_style">
+													 <input type="text" name="loanerPhone" id="loanerPhone"	placeholder="联系方式" class="input_type data_style">
 		                                         </div>
 		                                         
 		                                         <div class="form_content" style="margin-top:8px;">
 		                                             <label class="control-label sign_left">信贷员到场</label> 
 		                                             <div class="controls" >
 											              <label class="radio inline"> <input type="radio" value="1" name="isLoanerArrive">是</label> 
-								                          <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive">否</label>
+								                          <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive" checked="checked">否</label>
 		                                             </div>
 		                                         </div>
-		                                     </div>
+		                                     </div>                                 
+
+
 		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small select_style mend_select">
-		                                                 签约时间<span class="star" >*</span>
-		                                             </label>
-		                                             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_4">
-                                                            <input class="input_type yuanwid" type="text" placeholder="" name="signDate" id="signDate" readonly>
-                                                     </div>										
+		                                             <label class="control-label sign_left_small">补件名称</label>
+											         <input type="text" class="input_type yuanwid" name="supContent" id="supContent">										
 		                                         </div>
-		                                         <div class="form_content radio-seat" style="margin-top:7px;">
-		                                             <label class="control-label sign_left_small">需要放款前报告</label>							             
-										             <div class="controls">
-                                                         <label class="radio inline"> <input type="radio" value="1" name="ifReportBeforeLend">是</label>
-                                                         <label class="radio inline"> <input type="radio" value="0" name="ifReportBeforeLend">否</label>
+		                                         <div class="form_content" >
+		                                             <label class="control-label sign_left_small select_style mend_select">补件时间</label>										             
+										             <div class="input-group sign-right dataleft input-daterange pull-left" id="date_1" data-date-format="yyyy-mm-dd">
+                                                            <input class="input_type yuanwid" type="text" name="remindTime" id="remindTime" readonly>
                                                      </div>
 		                                         </div>
 		                                     </div>
+
 		                                     
-		                                     <div class="line">
+	<!-- 	                                     <div class="line">
 		                                         <div class="form_content radio-seat" style="margin-top:5px;">
 		                                             <label class="control-label sign_left_small">是否临时银行</label>
 													 <div class="controls ">
@@ -1142,9 +1226,9 @@
 		                                             <label class="control-label sign_left_small" style="width: 170px;">推荐函编号<span class="star">*</span></label>
 													 <input type="text" name="recLetterNo" id="recLetterNo" class="input_type yuanwid">
 		                                         </div>
-		                                     </div>              
+		                                     </div>    -->           
 		                                     
-		                                     <div class="line">
+	<!-- 	                                     <div class="line">
 		                                         <div class="form_content">
 		                                             <label class="control-label sign_left_small">贷款银行</label>																										
 													 <select  name="bank_type" class="select_control" id="bank_type" ></select>	
@@ -1168,7 +1252,7 @@
                                                             <input class="input_type yuanwid datatime" type="text" name="remindTime" id="remindTime" readonly>
                                                      </div>
 		                                         </div>
-		                                     </div>
+		                                     </div> -->
 		                                     
 		                                     <div class="line">
 		                                         <div class="form_content">
@@ -1527,7 +1611,7 @@ function readOnlyForm(){
 <script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 <script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 <!-- 上传附件结束 -->
-<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.4.9"></script> 
+<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.5.0"></script> 
 <script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 <script src="${ctx}/transjs/sms/sms.js"></script>	
@@ -1597,8 +1681,10 @@ function checkInt(obj){
 		$("#eva_code").val(evaCode);
 	}
  	var index = 0;
+
  	
-	jQuery(document).ready(function() {
+ 	
+ 	jQuery(document).ready(function() {
 		$("#mortgageForm1").find("select[name='custCode']").change(guestCompanyReadOnly);
 		$("select[name='mortType']").change(function(){
 			var f=$(this).closest('form');
@@ -1710,6 +1796,41 @@ function checkInt(obj){
 			/*$("#bank_branch_id").chosen("destroy");*/
     	getBranchBankList($("#bank_branch_id"),$("#addToEguPricingForm").find("select[name='bank_type']").val(),"",null,"egu");
         });
+		
+    	
+		//$("#finOrgCode").change(function(){ 
+		$("select[name='finOrgCode']").change(function(){ 		
+    		var isMainLoanBank = $("#isMainLoanBank").val();
+    		var finOrgCode="";
+    		if(isMainLoanBank == 1){
+    			finOrgCode= $("#mortgageForm").find("select[name='finOrgCode']").val();   
+    		}else if(isMainLoanBank == 0){
+    			finOrgCode= $("#mortgageForm1").find("select[name='finOrgCode']").val(); 
+    		}    		  		
+    		var finOrgId='';	
+
+    		$.ajax({
+    			    url:ctx+"/manage/queryBankOrgIdByOrgCode",
+    			    method:"post",
+    			    dataType:"json",
+    				async:false,
+    			    data:{finOrgCode:finOrgCode},
+    			    
+    			    success:function(data){
+    		    		if(data != null){
+    		    			finOrgId = data.content;
+    		    		}
+    		    	}
+    		 });
+    		
+    		if(isMainLoanBank == 1){
+    			$("#bankOrgId1").val(finOrgId);    		
+    		}else if(isMainLoanBank == 0){
+    			$("#bankOrgId0").val(finOrgId);    			
+    		}   
+
+    	})
+		
 		 document.getElementById('optionsRadios1').checked=true;
             if($("input[name='optionsRadios']:checked").val()==0){
                 $("#direct_launch_div").hide();
@@ -1831,11 +1952,11 @@ function checkInt(obj){
 	}
 	
 	function startTmpBankWorkFlow(){
-		//'我要修改'页面不触发流程 
+		//'我要修改'页面不触发流程 	
 		if(source != null && source !=''){
 			return;
 		}
-		
+		//未选择临时银行
 		if(!$("#isTmpBank").is(':checked')){
 			return;
 		}
@@ -1850,7 +1971,7 @@ function checkInt(obj){
 	    		if(data.success){
 	    			window.wxc.success(data.message);
 	    		}else{
-	    			window.wxc.error(data.message);
+	    			window.wxc.error("流程开启失败！");
 	    		}
 	    		
 	    	}
@@ -1865,29 +1986,65 @@ function checkInt(obj){
 		selectLoanerUserCom(array,$("#mortgageForm1"));
 	}
 	
-	function selectLoanerUserCom(array,$form){
+	function selectLoanerUserCom(array,$form){		
+		//TODO
+ 		//var isTmpBank = $("input[name='isTmpBank']:checked").val();	
+		var isMainLoanBank = $("#isMainLoanBank").val();
 		if (array && array.length > 0) {
-			$form.find("#loanerName").val(array[0].username);
-			$.ajax({
-				url : ctx + "/eloan/LoanerCode",
-				method : "post",
-				dataType : "json",
-				data : {
-					"userId" : array[0].userId
-				},
-				success : function(data) {
-					$form.find("#loanerNameImage").css("color","#52cdec");
-					$form.find("#loanerPhone").val(data.user.mobile);
-					$form.find("#loanerId").val(data.user.id);
-					$form.find("#loanerOrgCode").val(data.user.orgName);
-					$form.find("#loanerOrgId").val(data.user.orgId);
+				if(isMainLoanBank == 1){
+					$form.find("input[name='loanerName1']").val(array[0].username);
+					$form.find("input[name='loanerName']").val(array[0].username);
+				}else if(isMainLoanBank == 0){
+					$form.find("input[name='loanerName']").val(array[0].username);
+				}				
+				$.ajax({
+					url : ctx + "/eloan/LoanerCode",
+					method : "post",
+					dataType : "json",
+					data : {
+						"userId" : array[0].userId
+					},
+					success : function(data) {
+						$form.find("#loanerNameImage").css("color","#52cdec");
+						$form.find("#loanerPhone").val(data.user.mobile);
+						$form.find("#loanerId").val(data.user.id);
+						$form.find("#loanerOrgCode").val(data.user.orgName);
+						$form.find("#loanerOrgId").val(data.user.orgId);
+					}
+				})
+			} else {
+				if(isMainLoanBank == 1){
+					$form.find("input[name='loanerName1']").val("");
 				}
-			})
-		} else {
-			$form.find("#loanerName").val("");
-			$form.find("#loanerOrgCode").val("");
-			$form.find("#loanerOrgId").val("");
-		}
+				$form.find("input[name='loanerName']").val("");				
+				$form.find("#loanerOrgCode").val("");
+				$form.find("#loanerOrgId").val("");
+			}
+		/* }else if(isTmpBank == 0){
+			if (array && array.length > 0) {
+				$form.find("#loanerName").val(array[0].username);
+				$.ajax({
+					url : ctx + "/eloan/LoanerCode",
+					method : "post",
+					dataType : "json",
+					data : {
+						"userId" : array[0].userId
+					},
+					success : function(data) {
+						$form.find("#loanerNameImage").css("color","#52cdec");
+						$form.find("#loanerPhone").val(data.user.mobile);
+						$form.find("#loanerId").val(data.user.id);
+						$form.find("#loanerOrgCode").val(data.user.orgName);
+						$form.find("#loanerOrgId").val(data.user.orgId);
+					}
+				})
+			} else {
+				$form.find("#loanerName").val("");
+				$form.find("#loanerOrgCode").val("");
+				$form.find("#loanerOrgId").val("");
+			}
+			
+		} */
 	}
 	
 	//渲染图片 

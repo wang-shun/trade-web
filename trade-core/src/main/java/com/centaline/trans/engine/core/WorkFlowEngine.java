@@ -43,344 +43,350 @@ import com.centaline.trans.utils.UriUtility;
 
 @Component
 public class WorkFlowEngine {
-    private String            authUserName;
+	private String authUserName;
 
-    @Autowired
-    private UamSessionService uamSessionService;
-    @Autowired
-    private UamUserOrgService uamUserOrgService;
+	@Autowired
+	private UamSessionService uamSessionService;
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
 
-    @Value("${trade.workflow.server}")
-    private String            workflowServer;
+	@Value("${trade.workflow.server}")
+	private String workflowServer;
 
-    @Autowired
-    private UamSessionService sessionService;
-    /**
-     * 
-     * @param workflow
-     * @param cl
-     * @param vars
-     * @return
-     */
-    public Object RESTfulWorkFlow(String workflow, Object cl, Object vars) {
-        return RESTfulWorkFlow(workflow, cl, vars, null);
-    }
+	@Autowired
+	private UamSessionService sessionService;
 
-    /**
-     * 
-     * @param workflow
-     * @param cl
-     * @param queryParameters
-     * @return
-     */
-    public Object RESTfulWorkFlow(String workflow, Object cl, Map<String, String> queryParameters) {
-        return RESTfulWorkFlow(workflow, cl, null, queryParameters);
-    }
+	/**
+	 * 
+	 * @param workflow
+	 * @param cl
+	 * @param vars
+	 * @return
+	 */
+	public Object RESTfulWorkFlow(String workflow, Object cl, Object vars) {
+		return RESTfulWorkFlow(workflow, cl, vars, null);
+	}
 
-    /**
-     * 调用 RESTful
-     * 
-     * @param workflow
-     * @param cl
-     * @param vars
-     *            需要传递的参数对象,get请求的pathValues
-     * 
-     *            返回参数
-     * @param queryParameters
-     *            查询条件
-     * @return
-     */
-    public Object RESTfulWorkFlow(String workflow, Object cl, Object vars,
-                                  Map<String, String> queryParameters) {
-        String uri = WorkFlowConstant.WORK_FLOW_OPREATE.get(workflow);
-        if (StringUtils.isBlank(uri)) {
-            throw new WorkFlowException("RESTfulWorkFlow:未知的workflow:" + workflow);
-        }
-        HttpResponse response = null;
-        try {
-            if (uri.startsWith(WorkFlowConstant.HTTP_TYPE_GET)) {
-                uri = uri.substring(WorkFlowConstant.HTTP_TYPE_GET.length());
-                response = executeGet(uri, vars, queryParameters);
-            } else if (uri.startsWith(WorkFlowConstant.HTTP_TYPE_POST)) {
-                uri = uri.substring(WorkFlowConstant.HTTP_TYPE_POST.length());
-                response = executePost(uri, vars, queryParameters);
-            } else if (uri.startsWith(WorkFlowConstant.HTTP_TYPE_PUT)) {
-                uri = uri.substring(WorkFlowConstant.HTTP_TYPE_PUT.length());
-                response = executePut(uri, vars, queryParameters);
-            } else if (uri.startsWith(WorkFlowConstant.HTTP_TYPE_DELETE)) {
-                uri = uri.substring(WorkFlowConstant.HTTP_TYPE_DELETE.length());
-                response = executeDelete(uri, vars, queryParameters);
-            } else {
-                throw new WorkFlowException("只支持 POST,GET,PUT,DELETE 请求");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new WorkFlowException("执行Http请求异常", e);
-        }
+	/**
+	 * 
+	 * @param workflow
+	 * @param cl
+	 * @param queryParameters
+	 * @return
+	 */
+	public Object RESTfulWorkFlow(String workflow, Object cl,Map<String, String> queryParameters) {
+		return RESTfulWorkFlow(workflow, cl, null, queryParameters);
+	}
 
-        RestStatus restStatus = checkResponse(response);
+	/**
+	 * 调用 RESTful
+	 * 
+	 * @param workflow
+	 * @param cl
+	 * @param vars
+	 *            需要传递的参数对象,get请求的pathValues
+	 * 
+	 *            返回参数
+	 * @param queryParameters
+	 *            查询条件
+	 * @return
+	 */
+	public Object RESTfulWorkFlow(String workflow, Object cl, Object vars,Map<String, String> queryParameters) {
+		String uri = WorkFlowConstant.WORK_FLOW_OPREATE.get(workflow);
+		if (StringUtils.isBlank(uri)) {
+			throw new WorkFlowException("RESTfulWorkFlow:未知的workflow:"	+ workflow);
+		}
+		HttpResponse response = null;
+		try {
+			if (uri.startsWith(WorkFlowConstant.HTTP_TYPE_GET)) {
+				uri = uri.substring(WorkFlowConstant.HTTP_TYPE_GET.length());
+				response = executeGet(uri, vars, queryParameters);
+			} else if (uri.startsWith(WorkFlowConstant.HTTP_TYPE_POST)) {
+				uri = uri.substring(WorkFlowConstant.HTTP_TYPE_POST.length());
+				response = executePost(uri, vars, queryParameters);
+			} else if (uri.startsWith(WorkFlowConstant.HTTP_TYPE_PUT)) {
+				uri = uri.substring(WorkFlowConstant.HTTP_TYPE_PUT.length());
+				response = executePut(uri, vars, queryParameters);
+			} else if (uri.startsWith(WorkFlowConstant.HTTP_TYPE_DELETE)) {
+				uri = uri.substring(WorkFlowConstant.HTTP_TYPE_DELETE.length());
+				response = executeDelete(uri, vars, queryParameters);
+			} else {
+				throw new WorkFlowException("只支持 POST,GET,PUT,DELETE 请求");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new WorkFlowException("执行Http请求异常", e);
+		}
 
-        if (restStatus.isSuccess()) {
-            Object result;
-            try {
-                Class cla;
-                if (!(cl instanceof Class)) {
-                    cla = cl.getClass();
-                } else {
-                    cla = (Class) cl;
-                }
-                result = paseResponseBody(response, cla);
-            } catch (ParseException | IOException e) {
-                e.printStackTrace();
-                throw new WorkFlowException("解析返回值异常", e);
-            }
-            return result;
-        } else {
-            HttpEntity entity = response.getEntity();
-            try {
-                String str = EntityUtils.toString(entity, "UTF-8");
-                System.err.println(str);
-            } catch (ParseException | IOException e) {
-                e.printStackTrace();
-            }
+		RestStatus restStatus = checkResponse(response);
 
-            throw new WorkFlowException(
-                "RESTfulWorkFlow:处理失败:statusCode[" + restStatus.getStatusCode() + "]restMsge["
-                                        + restStatus.getReturnMsg() + "]",
-                restStatus.getStatusCode());
-        }
-    }
+		if (restStatus.isSuccess()) {
+			Object result;
+			try {
+				Class cla;
+				if (!(cl instanceof Class)) {
+					cla = cl.getClass();
+				} else {
+					cla = (Class) cl;
+				}
+				result = paseResponseBody(response, cla);
+			} catch (ParseException | IOException e) {
+				e.printStackTrace();
+				throw new WorkFlowException("解析返回值异常", e);
+			}
+			return result;
+		} else {
+			HttpEntity entity = response.getEntity();
+			try {
+				String str = EntityUtils.toString(entity, "UTF-8");
+				System.err.println(str);
+			} catch (ParseException | IOException e) {
+				e.printStackTrace();
+			}
 
-    /**
-     * 获得httpClient
-     * 
-     * @return
-     */
-    private HttpClient createHttpClient() {
-        // 设置Base Auth验证信息
-        CredentialsProvider provider = new BasicCredentialsProvider();
-        User user = null;
-        if (!StringUtils.isBlank(this.authUserName)) {
-            user = uamUserOrgService.getUserByUsername(this.authUserName);
-        } else {
-            SessionUser u = uamSessionService.getSessionUser();
-            //TODO: 统一web和移动端的sessionUser后将此处调整
-            if (u == null) {
-                u = sessionService.getSessionUser();
-            }
-            user = uamUserOrgService.getUserById(u.getId());
+			throw new WorkFlowException("RESTfulWorkFlow:处理失败:statusCode["
+					+ restStatus.getStatusCode() + "]restMsge["
+					+ restStatus.getReturnMsg() + "]",
+					restStatus.getStatusCode());
+		}
+	}
 
-        }
+	/**
+	 * 获得httpClient
+	 * 
+	 * @return
+	 */
+	private HttpClient createHttpClient() {
+		// 设置Base Auth验证信息
+		CredentialsProvider provider = new BasicCredentialsProvider();
+		User user = null;
+		if (!StringUtils.isBlank(this.authUserName)) {
+			user = uamUserOrgService.getUserByUsername(this.authUserName);
+		} else {
+			SessionUser u = uamSessionService.getSessionUser();
+			// TODO: 统一web和移动端的sessionUser后将此处调整
+			if (u == null) {
+				u = sessionService.getSessionUser();
+			}
+			user = uamUserOrgService.getUserById(u.getId());
 
-        UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
-            user.getUsername(), user.getPassword());
-        provider.setCredentials(AuthScope.ANY, credentials);
+		}
 
-        // 创建HttpClient
-        HttpClient client = HttpClientBuilder.create().setDefaultCredentialsProvider(provider)
-            .build();
-        return client;
-    }
+		UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
+				user.getUsername(), user.getPassword());
+		provider.setCredentials(AuthScope.ANY, credentials);
 
-    /**
-     * 执行http post
-     * 
-     * @param uri
-     * @param vars
-     * @return
-     * @throws ClientProtocolException
-     * @throws IOException
-     */
-    private HttpResponse executePost(String uri, Object vars,
-                                     Map<String, String> queryParameters) throws ClientProtocolException,
-                                                                          IOException {
-        // 创建HttpClient
-        HttpClient client = createHttpClient();
-        uri = replacePathVar(uri, vars, queryParameters);
-        HttpPost post = new HttpPost(workflowServer + uri);
-        String jsonStr = JSONObject.toJSONString(vars);
-        HttpEntity entity = new StringEntity(jsonStr, ContentType.APPLICATION_JSON);
-        post.setEntity(entity);
-        HttpResponse response = client.execute(post);
-        return response;
-    }
+		// 创建HttpClient
+		HttpClient client = HttpClientBuilder.create()
+				.setDefaultCredentialsProvider(provider).build();
+		return client;
+	}
 
-    /**
-     * 执行http get
-     * 
-     * @param uri
-     * @param vars
-     * @return
-     * @throws ClientProtocolException
-     * @throws IOException
-     */
-    private HttpResponse executeGet(String uri, Object vars,
-                                    Map<String, String> queryParameters) throws ClientProtocolException,
-                                                                         IOException {
-        // 创建HttpClient
-        HttpClient client = createHttpClient();
-        uri = replacePathVar(uri, vars, queryParameters);
-        HttpGet get = new HttpGet(
-            workflowServer + uri + UriUtility.getQueryString(queryParameters));
-        return client.execute(get);
-    }
+	/**
+	 * 执行http post
+	 * 
+	 * @param uri
+	 * @param vars
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	private HttpResponse executePost(String uri, Object vars,
+			Map<String, String> queryParameters)
+			throws ClientProtocolException, IOException {
+		// 创建HttpClient
+		HttpClient client = createHttpClient();
+		uri = replacePathVar(uri, vars, queryParameters);
+		HttpPost post = new HttpPost(workflowServer + uri);
+		String jsonStr = JSONObject.toJSONString(vars);
+		HttpEntity entity = new StringEntity(jsonStr,
+				ContentType.APPLICATION_JSON);
+		post.setEntity(entity);
+		HttpResponse response = client.execute(post);
+		return response;
+	}
 
-    /**
-     * 执行http get
-     * 
-     * @param uri
-     * @param vars
-     * @return
-     * @throws ClientProtocolException
-     * @throws IOException
-     */
-    private HttpResponse executeDelete(String uri, Object vars,
-                                       Map<String, String> queryParameters) throws ClientProtocolException,
-                                                                            IOException {
-        // 创建HttpClient
-        HttpClient client = createHttpClient();
-        uri = replacePathVar(uri, vars, queryParameters);
-        HttpDelete delete = new HttpDelete(
-            workflowServer + uri + UriUtility.getQueryString(queryParameters));
-        return client.execute(delete);
-    }
+	/**
+	 * 执行http get
+	 * 
+	 * @param uri
+	 * @param vars
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	private HttpResponse executeGet(String uri, Object vars,
+			Map<String, String> queryParameters)
+			throws ClientProtocolException, IOException {
+		// 创建HttpClient
+		HttpClient client = createHttpClient();
+		uri = replacePathVar(uri, vars, queryParameters);
+		HttpGet get = new HttpGet(workflowServer + uri
+				+ UriUtility.getQueryString(queryParameters));
+		return client.execute(get);
+	}
 
-    /**
-     * 执行http put
-     * 
-     * @param uri
-     * @param vars
-     * @return
-     * @throws ClientProtocolException
-     * @throws IOException
-     */
-    private HttpResponse executePut(String uri, Object vars,
-                                    Map<String, String> queryParameters) throws ClientProtocolException,
-                                                                         IOException {
-        // 创建HttpClient
-        HttpClient client = createHttpClient();
-        uri = replacePathVar(uri, vars, queryParameters);
-        HttpPut put = new HttpPut(
-            workflowServer + uri + UriUtility.getQueryString(queryParameters));
-        String jsonStr = JSONObject.toJSONString(vars);
-        HttpEntity entity = new StringEntity(jsonStr, ContentType.APPLICATION_JSON);
-        put.setEntity(entity);
+	/**
+	 * 执行http get
+	 * 
+	 * @param uri
+	 * @param vars
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	private HttpResponse executeDelete(String uri, Object vars,
+			Map<String, String> queryParameters)
+			throws ClientProtocolException, IOException {
+		// 创建HttpClient
+		HttpClient client = createHttpClient();
+		uri = replacePathVar(uri, vars, queryParameters);
+		HttpDelete delete = new HttpDelete(workflowServer + uri
+				+ UriUtility.getQueryString(queryParameters));
+		return client.execute(delete);
+	}
 
-        return client.execute(put);
-    }
+	/**
+	 * 执行http put
+	 * 
+	 * @param uri
+	 * @param vars
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	private HttpResponse executePut(String uri, Object vars,
+			Map<String, String> queryParameters)
+			throws ClientProtocolException, IOException {
+		// 创建HttpClient
+		HttpClient client = createHttpClient();
+		uri = replacePathVar(uri, vars, queryParameters);
+		HttpPut put = new HttpPut(workflowServer + uri
+				+ UriUtility.getQueryString(queryParameters));
+		String jsonStr = JSONObject.toJSONString(vars);
+		HttpEntity entity = new StringEntity(jsonStr,
+				ContentType.APPLICATION_JSON);
+		put.setEntity(entity);
 
-    /**
-     * 替换path value
-     * 
-     * @param url
-     * @param obj
-     * @return
-     */
-    private String replacePathVar(String url, Object obj, Map<String, String> queryString) {
-        if (StringUtils.isBlank(url)) {
-            return url;
-        }
-        String str = url;
-        String tempContent = url;
-        String regex = "\\{\\w*\\}";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(str);
-        while (matcher.find()) {
-            String temp = str.substring(matcher.start(), matcher.end());
-            String maStr = temp.substring(1, temp.length() - 1);
-            Object val = null;
-            if (queryString != null && !StringUtils.isBlank(queryString.get(maStr))) {
-                val = queryString.get(maStr);
-                queryString.remove(maStr);
-            } else {
-                val = getReaVal(obj, maStr);
-            }
-            tempContent = tempContent.replace(temp, val == null ? "" : val.toString());
-        }
-        return tempContent;
-    }
+		return client.execute(put);
+	}
 
-    /**
-     * 获得path value的值并置空对象的值
-     * 
-     * @param obj
-     * @param pathVal
-     * @return
-     */
-    private Object getReaVal(Object obj, String pathVal) {
-        if (obj instanceof Map) {
-            Object val = ((Map) obj).get(pathVal);
-            ((Map) obj).put(pathVal, null);
-            return val;
-        }
-        try {
-            PropertyDescriptor pd;
+	/**
+	 * 替换path value
+	 * 
+	 * @param url
+	 * @param obj
+	 * @return
+	 */
+	private String replacePathVar(String url, Object obj,
+			Map<String, String> queryString) {
+		if (StringUtils.isBlank(url)) {
+			return url;
+		}
+		String str = url;
+		String tempContent = url;
+		String regex = "\\{\\w*\\}";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(str);
+		while (matcher.find()) {
+			String temp = str.substring(matcher.start(), matcher.end());
+			String maStr = temp.substring(1, temp.length() - 1);
+			Object val = null;
+			if (queryString != null
+					&& !StringUtils.isBlank(queryString.get(maStr))) {
+				val = queryString.get(maStr);
+				queryString.remove(maStr);
+			} else {
+				val = getReaVal(obj, maStr);
+			}
+			tempContent = tempContent.replace(temp,
+					val == null ? "" : val.toString());
+		}
+		return tempContent;
+	}
 
-            pd = new PropertyDescriptor(pathVal, obj.getClass());
-            Method method = pd.getReadMethod();
-            Object val;
-            val = method.invoke(obj);
-            method = pd.getWriteMethod();
-            Class clas = method.getParameterTypes()[0];
-            method.invoke(obj, new Object[] { null });
-            return val;
+	/**
+	 * 获得path value的值并置空对象的值
+	 * 
+	 * @param obj
+	 * @param pathVal
+	 * @return
+	 */
+	private Object getReaVal(Object obj, String pathVal) {
+		if (obj instanceof Map) {
+			Object val = ((Map) obj).get(pathVal);
+			((Map) obj).put(pathVal, null);
+			return val;
+		}
+		try {
+			PropertyDescriptor pd;
 
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-            throw new WorkFlowException("读取属性" + pathVal + "失败", e);
-        } catch (IntrospectionException e) {
-            throw new WorkFlowException("不存在该属性:" + pathVal, e);
-        }
-    }
+			pd = new PropertyDescriptor(pathVal, obj.getClass());
+			Method method = pd.getReadMethod();
+			Object val;
+			val = method.invoke(obj);
+			method = pd.getWriteMethod();
+			Class clas = method.getParameterTypes()[0];
+			method.invoke(obj, new Object[] { null });
+			return val;
 
-    /**
-     * 检查Http返回头
-     * 
-     * @param response
-     * @return
-     */
-    private RestStatus checkResponse(HttpResponse response) {
-        RestStatus r = new RestStatus();
-        r.setSuccess(WorkFlowConstant.SCUESSFUL_STATUS_CODE
-            .contains(response.getStatusLine().getStatusCode()));
-        r.setReturnMsg(response.getStatusLine().getReasonPhrase());
-        r.setStatusCode(response.getStatusLine().getStatusCode());
-        return r;
-    }
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+			throw new WorkFlowException("读取属性" + pathVal + "失败", e);
+		} catch (IntrospectionException e) {
+			throw new WorkFlowException("不存在该属性:" + pathVal, e);
+		}
+	}
 
-    /**
-     * 解析返回值
-     * 
-     * @param response
-     * @param cl
-     * @return
-     * @throws ParseException
-     * @throws IOException
-     */
-    private Object paseResponseBody(HttpResponse response, Class cl) throws ParseException,
-                                                                     IOException {
-        HttpEntity entity = response.getEntity();
-        if (entity == null)
-            return null;
-        String str = EntityUtils.toString(entity, "UTF-8");
-        if (StringUtils.isBlank(str))
-            return null;
-        Object t = JSONObject.parseObject(str, cl);
-        return t;
-    }
+	/**
+	 * 检查Http返回头
+	 * 
+	 * @param response
+	 * @return
+	 */
+	private RestStatus checkResponse(HttpResponse response) {
+		RestStatus r = new RestStatus();
+		r.setSuccess(WorkFlowConstant.SCUESSFUL_STATUS_CODE.contains(response
+				.getStatusLine().getStatusCode()));
+		r.setReturnMsg(response.getStatusLine().getReasonPhrase());
+		r.setStatusCode(response.getStatusLine().getStatusCode());
+		return r;
+	}
 
-    /**
-     * @return the authUserName
-     */
-    public String getAuthUserName() {
-        return authUserName;
-    }
+	/**
+	 * 解析返回值
+	 * 
+	 * @param response
+	 * @param cl
+	 * @return
+	 * @throws ParseException
+	 * @throws IOException
+	 */
+	private Object paseResponseBody(HttpResponse response, Class cl)
+			throws ParseException, IOException {
+		HttpEntity entity = response.getEntity();
+		if (entity == null)
+			return null;
+		String str = EntityUtils.toString(entity, "UTF-8");
+		if (StringUtils.isBlank(str))
+			return null;
+		Object t = JSONObject.parseObject(str, cl);
+		return t;
+	}
 
-    /**
-     * @param authUserName
-     *            the authUserName to set
-     */
-    public void setAuthUserName(String authUserName) {
-        this.authUserName = authUserName;
-    }
+	/**
+	 * @return the authUserName
+	 */
+	public String getAuthUserName() {
+		return authUserName;
+	}
+
+	/**
+	 * @param authUserName
+	 *            the authUserName to set
+	 */
+	public void setAuthUserName(String authUserName) {
+		this.authUserName = authUserName;
+	}
 }

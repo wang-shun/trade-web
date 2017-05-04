@@ -3,43 +3,43 @@
  * --------------------------------------- */
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,
 form,fieldset,input,textarea,p,blockquote,th,td {
-    padding: 0;
-    margin: 0;
+	padding: 0;
+	margin: 0;
 }
 a{
 	text-decoration:none;
 }
 table {
-    border-spacing: 0;
+	border-spacing: 0;
 }
 fieldset,img {
-    border: 0;
+	border: 0;
 }
 address,caption,cite,code,dfn,em,strong,th,var {
-    font-weight: normal;
-    font-style: normal;
+	font-weight: normal;
+	font-style: normal;
 }
 strong{
 	font-weight: bold;
 }
 ol,ul {
-    list-style: none;
-    margin:0;
-    padding:0;
+	list-style: none;
+	margin:0;
+	padding:0;
 }
 caption,th {
-    text-align: left;
+	text-align: left;
 
 }
 h1,h2,h3,h4,h5,h6 {
-    font-weight: normal;
-    font-size: 100%;
-    margin:0;
-    padding:0;
-    color:#444;
+	font-weight: normal;
+	font-size: 100%;
+	margin:0;
+	padding:0;
+	color:#444;
 }
 q:before,q:after {
-    content:'';
+	content:'';
 }
 abbr,acronym { border: 0;
 }
@@ -204,11 +204,11 @@ p{
 	color: #6fdafe;
 }
 .today {
-  color: #fff;
+	color: #fff;
 }
 .today:hover {
-  color: #fff;
-  background-color: #f8ac59!important;
+	color: #fff;
+	background-color: #f8ac59!important;
 }
 #examplesList{
 	display:none;
@@ -274,8 +274,8 @@ p{
 }
 
 .ibox-content {
-    clear: both;
-    padding-top: 70px;
+	clear: both;
+	padding-top: 70px;
 }
 
 .echarsTable {
@@ -307,7 +307,7 @@ p{
 	border: 0px;
 }
 
- span.colorBar {
+span.colorBar {
 	width: 24px;
 	height: 12px;
 	border-radius: 3px;
@@ -316,7 +316,7 @@ p{
 	margin: 3px 5px 0px 3px;
 }
 
- i.colorBar {
+i.colorBar {
 	width: 24px;
 	height: 12px;
 	border-radius: 3px;
@@ -341,7 +341,7 @@ p{
 }
 
 .left-content {
-	width: 930px;
+	width: 907px;
 	height: 650px;
 	float: left;
 	border: 1px solid #eee;
@@ -374,9 +374,9 @@ p{
 	position: relative;
 }
 .total-data h3, .sum-data h3 {
-    margin: 0 0 6px 0;
-    font-size: 16px;
-    color: #555;
+	margin: 0 0 6px 0;
+	font-size: 16px;
+	color: #555;
 }
 .total-data ul {
 	margin-top: 10px;
@@ -423,9 +423,9 @@ p{
 }
 .zhyu-icon {
 	position: absolute;
-    bottom: 30px;
-    left: 50%;
-    margin-left: -47px;
+	bottom: 30px;
+	left: 50%;
+	margin-left: -47px;
 }
 .merge-box {
 	height: 650px;
@@ -441,9 +441,9 @@ p{
 	position: relative;
 }
 .data-list li {
-    padding: 10px 0 12px 0px;
-    font-family: "Microsoft Yahei";
-    font-size: 14px;
+	padding: 10px 0 12px 0px;
+	font-family: "Microsoft Yahei";
+	font-size: 14px;
 }
 .else-list li {
 	padding: 5px;
@@ -467,7 +467,7 @@ p{
 	border-top: 1px solid #eee;
 }
 .else-table > tbody > tr {
-    height: 32px;
+	height: 32px;
 }
 .ok-blue {
 	color: #4bccec;
@@ -501,13 +501,13 @@ p{
 }
 .calendar-month span {
 	display: block;
-    float: left;
-    margin: 3px 5px 0;
-    padding: 5px 12px;
-    border-radius: 3px;
-    font-size: 12px;
-    border: 1px solid #eee;
-    cursor: pointer;
+	float: left;
+	margin: 3px 5px 0;
+	padding: 5px 12px;
+	border-radius: 3px;
+	font-size: 12px;
+	border: 1px solid #eee;
+	cursor: pointer;
 }
 .select-blue {
 	color: #fff;
@@ -540,8 +540,8 @@ p{
 /*  em .disabled{
 	background-color:#ccc !important;
 } */
- .customerinfo tr th.stress01,.customerinfo tr td.stress01,.customerinfo tr th.stress02,.customerinfo tr td.stress02 {
-    border-right: 6px solid #fff !important;
+.customerinfo tr th.stress01,.customerinfo tr td.stress01,.customerinfo tr th.stress02,.customerinfo tr td.stress02 {
+	border-right: 6px solid #fff !important;
 }
 
 .stress01,.stress02 {

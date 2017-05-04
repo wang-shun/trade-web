@@ -2,7 +2,7 @@
 shiroConfig.sessionIdCookie:
   name: clid
   domain: partner.centaline.com
-  path: /partner
+  path: /trade-mobile
 shiroConfig.sessionUserCookie:
   name: suid
   domain: centaline.com
@@ -44,10 +44,10 @@ casRealm:
   casServerUrlPrefix: http://sso.sh.centaline.com.cn/aist-sso-web
 # Server settings (ServerProperties Spring boot)
 server:
-  port: 8090
+  port: 8095
   #address: 127.0.0.1
   sessionTimeout: 30
-  contextPath: /partner
+  contextPath: /trade-mobile
 #数据源
 dataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver

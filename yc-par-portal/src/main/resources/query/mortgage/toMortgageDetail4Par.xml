@@ -43,59 +43,45 @@
 		</searchCondition>
 		<searchSql>
 			<baseSql>
-				<![CDATA[  	
-			   SELECT
-			   				M.PKID,
-						    CAST(M.PKID as varchar)	AS bizCode,
-						    'MORT'              			AS prdType,
-						    M.PKID         AS mortInfo_mortCode,
-						    M.MORT_TYPE         AS mortInfo_mortType,
-						    ''                  				AS mortInfo_refundType,
-						    M.LEND_WAY         	AS mortInfo_lendWay,
-						    M.MORT_TOTAL_AMOUNT 	AS mortInfo_totalAmount,
-						    M.COM_AMOUNT       			AS mortInfo_comAmount,
-						    CAST(M.COM_YEAR as varchar) + '年'          	AS mortInfo_comYear,
-						    M.COM_DISCOUNT      			AS mortInfo_comDiscount,
-						    ISNULL(M.PRF_AMOUNT,0) 	AS mortInfo_prfAmount                   ,
-            					ISNULL(CAST(M.PRF_YEAR AS VARCHAR) + '年','') 	AS mortInfo_prfYear,
-            					ISNULL(M.STATE_IN_BANK,'') 	AS mortInfo_statusCode,
-						    M.LOAN_AGENT        			AS yuOperator_userId,
-						    M.LOAN_AGENT_TEAM   		AS yuOperator_teamId,
-						    
-						    M.CUST_NAME         			AS custInfo_name,
-						    M.CUST_CODE         			AS custInfo_custCode,
-						    TCUST.PKID          				AS custInfo_custID,
-						    TCUST.GUEST_PHONE   		AS custInfo_mobile,
-						    PRI.PROPERTY_ADDR   		AS tradeInfo_addr,
-						    TCASE.CASE_CODE     		AS tradeInfo_caseCode,
-						    TCASE.STATUS        			AS tradeInfo_status
-						FROM
-						    SCTRANS.T_TO_MORTGAGE AS M
-						INNER JOIN
-						    SCTRANS.T_TO_CASE AS TCASE
-						ON
-						    M.CASE_CODE = TCASE.CASE_CODE
-						AND m.PKID = #bizCode#
-						AND (
-						        m.MORT_TYPE = '30016001'
-						    OR  m.MORT_TYPE = '30016002')
-						AND m.IS_DELEGATE_YUCUI = 1
-						AND m.IS_ACTIVE = 1
-						AND m.LOANER_ID = #userId#
-						LEFT JOIN
-						    SCTRANS.T_TO_PROPERTY_INFO AS PRI
-						ON
-						    M.CASE_CODE = PRI.CASE_CODE
-						LEFT JOIN
-						    SCTRANS.T_TG_GUEST_INFO AS TCUST
-						ON
-						    M.CUST_CODE = TCUST.PKID 
+				<![CDATA[
+				
+					SELECT 
+							CAST(ISNULL(ml.MORT_PKID,'') as varchar)	AS bizCode,
+							'MORT' AS prdType,
+							m.MORT_TYPE AS mortInfo_mortType,
+							'' AS mortInfo_refundType,
+							ISNULL(m.LEND_WAY,'') AS mortInfo_lendWay,
+							ml.MORT_TOTAL_AMOUNT AS mortInfo_totalAmount,
+							ISNULL(ml.COM_AMOUNT,0) AS mortInfo_comAmount,
+							CAST(ISNULL(ml.COM_YEAR,0) as varchar) + '年' AS mortInfo_comYear,
+							ISNULL(ml.COM_DISCOUNT,0) AS mortInfo_comDiscount,
+							ISNULL(ml.PRF_AMOUNT,0) AS mortInfo_prfAmount,
+							CAST(ISNULL(ml.PRF_YEAR,0) as varchar) + '年' AS mortInfo_prfYear,
+							CASE ml.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS mortInfo_status,
+							ISNULL(ml.SEND_ID,'')  AS yuOperator_userId,
+							ISNULL(M.LOAN_AGENT_TEAM,'')  AS yuOperator_teamId,
+							(SELECT ORG_NAME FROM sctrans.SYS_ORG WHERE ID = (SELECT ORG_ID FROM sctrans.SYS_USER WHERE ID = ml.SEND_ID)) as yuOperator_org,
+							ISNULL(ml.CUST_NAME,'') AS custInfo_name,
+							ISNULL(m.CUST_CODE,'')  AS custInfo_custCode,
+							ISNULL(g.PKID,'') AS custInfo_custID,
+							ISNULL(g.GUEST_PHONE,'') AS custInfo_mobile,
+							ISNULL(p.PROPERTY_ADDR,'')  AS tradeInfo_addr,
+							ISNULL(c.CASE_CODE,'') AS tradeInfo_caseCode,
+							(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = c.STATUS AND IS_DELETED = 0 AND AVAILABLE = 1) AS tradeInfo_status,
+							ISNULL(ml.LOANER_STATUS,'') as mortInfo_loanerStatusCode,
+							ISNULL(ml.FLOW_STATUS,'') as mortInfo_flowStatusCode,
+							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ml.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS mortInfo_flowStatus
+				FROM sctrans.T_TO_MORT_LOANER ml
+				LEFT JOIN sctrans.T_TO_MORTGAGE m ON m.PKID = ml.MORT_PKID
+				LEFT JOIN sctrans.T_TG_GUEST_INFO g ON g.PKID = m.CUST_CODE
+				LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = ml.CASE_CODE
+				LEFT JOIN sctrans.T_TO_CASE c ON  c.CASE_CODE = ml.CASE_CODE
+				WHERE ml.PKID = #bizCode#
 				]]>
 			</baseSql>
 			<groupSql>
 			</groupSql>
 			<orderBySql>
-						 ORDER BY M.PKID DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
@@ -112,13 +98,15 @@
 			<column type="both" name="mortInfo_comDiscount" display="mortInfo_comDiscount"  />
 			<column type="both" name="mortInfo_prfAmount" display="mortInfo_prfAmount"  />
 			<column type="both" name="mortInfo_prfYear" display="mortInfo_prfYear"  />
-			<column type="both" name="mortInfo_statusCode" display="mortInfo_statusCode"  />
-			<column type="virtual" name="mortInfo_status"  referencecol="mortInfo_statusCode" customDict="qqcdMortServName" />
+			<column type="both" name="mortInfo_loanerStatusCode" display="mortInfo_loanerStatusCode"  />
+			<column type="both" name="mortInfo_status" display="mortInfo_status"  />
+			<column type="both" name="mortInfo_flowStatusCode" display="mortInfo_flowStatusCode"  />
+			<column type="both" name="mortInfo_flowStatus" display="mortInfo_flowStatus"  />
 			<column type="both" name="yuOperator_userId" display="yuOperator_userId"  />
 			<column type="both" name="yuOperator_teamId" display="yuOperator_teamId"  />
 			<column type="virtual" name="yuOperator_name" display="yuOperator_name" referencecol="yuOperator_userId" customDict="qqRealName"  />
 			<column type="virtual" name="yuOperator_mobile" display="yuOperator_mobile" referencecol="yuOperator_userId" customDict="qqUserIdMobile"  />
-			<column type="virtual" name="yuOperator_org" display="yuOperator_org" referencecol="yuOperator_teamId" customDict="qqcdOrgIdName"  />
+			<column type="both" name="yuOperator_org" display="yuOperator_org"/>
 			
 			<column type="both" name="custInfo_name" display="custInfo_name"  />
 			<column type="both" name="custInfo_custCode" display="custInfo_custCode"  />
@@ -126,7 +114,7 @@
 			<column type="both" name="custInfo_mobile" display="custInfo_mobile"  />
 			<column type="both" name="tradeInfo_addr" display="tradeInfo_addr"  />
 			<column type="both" name="tradeInfo_caseCode" display="tradeInfo_caseCode"  />
-			<column type="both" name="tradeInfo_status" display="tradeInfo_status"  customDict="qqcdCaseStatus" />
+			<column type="both" name="tradeInfo_status" display="tradeInfo_status" />
 			
 			</table-row>
 		</grid>

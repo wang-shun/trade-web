@@ -555,8 +555,9 @@
 																</shiro:hasPermission>
 
 																<shiro:hasPermission name="TRADE.CASE.DETAIL.SERVE.CHANGE">
-																	<div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_0" type="checkbox" value="30004010" name="srvCode" class="" validate=""></span></div>交易过户</div>
+																	<!-- <div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_0" type="checkbox" value="30004010" name="srvCode" class="" validate=""></span></div>交易过户</div> -->
 																	<div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_3" type="checkbox" value="30004001" name="srvCode" class="" validate=""></span></div>商业贷款</div>
+																	<div class="" style="float:left;"><div class="checker"><span class=""><input id="srvCode_0" type="checkbox" value="30004002" name="srvCode" class="" validate=""></span></div>纯公积金贷款</div>
 																</shiro:hasPermission>
 															</div>
 														</div>
@@ -635,13 +636,10 @@
 															style="margin-top: 9px; margin-left: 15px;">
 															请选择您要修改的环节</div>
 														<div class="col-lg-3">
-															<input name="caseCode" value="${toCase.caseCode}"
-																id="hid_case_code" type="hidden"> <input
-																name="source" value="caseDetails" type="hidden">
-															<input name="instCode" value="${toWorkFlow.instCode}"
-																type="hidden"> <select id="sel_changeFrom"
-																name="changeFrom" class="form-control m-b"
-																style="padding-bottom: 3px; height: 45.003px;">
+															<input name="caseCode" value="${toCase.caseCode}" id="hid_case_code" type="hidden">
+															<input name="source" value="caseDetails" type="hidden">
+															<input name="instCode" value="${toWorkFlow.instCode}" type="hidden">
+															<select id="sel_changeFrom"	name="changeFrom" class="form-control m-b"	style="padding-bottom: 3px; height: 45.003px;">
 																<c:forEach items="${myTasks}" var="item">
 																	<option value="${item.taskDefinitionKey }">${item.name }</option>
 																</c:forEach>
@@ -1210,7 +1208,7 @@
 	<script src="${ctx}/js/plugins/validate/common/additional-methods.js"></script>
 	<script src="${ctx}/js/plugins/validate/common/messages_zh.js"></script>
 	<script src="${ctx}/js/stickUp.js"></script>
-	<script	src="${ctx}/toastr.min.js"></script>
+	<script	src="${ctx}/js/plugins/toastr/toastr.min.js"></script>
 	<!-- 放款监管信息  -->
 	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 	<script	src="${ctx}/transjs/task/caseflowlist.js"></script>
@@ -1223,6 +1221,7 @@
 	<script src="${ctx}/js/trunk/case/caseRemark.js"></script>
 	<jsp:include	page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script>
+
 		var caseCode = $("#caseCode").val();
 		var ctmCode = $("#ctm").val();
 		var url = "/quickGrid/findPage";

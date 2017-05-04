@@ -1,0 +1,1670 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Hello World App
+# during dev, should point to your local machine
+host: swagger.centaline.com:8086
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /swagger:
+    x-swagger-pipe: swagger_raw
+  /getUser:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: demo config
+      # used as the method name of the controller
+      operationId: responseJSON
+      parameters:
+        - name: id
+          in: query
+          description: provide a user id
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/getUserSuccessResponse"
+  /chat/contact:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: demo config
+      # used as the method name of the controller
+      operationId: contactRsponse
+      parameters:
+        - name: token
+          in: query
+          description: token
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: page
+          required: true
+          type: integer
+        - name: pageSize
+          in: query
+          description: pageSize
+          required: true
+          type: integer 
+        - name: sidx
+          in: query
+          description: sidx
+          required: true
+          type: string
+        - name: sord
+          in: query
+          description: sord
+          required: false
+          type: string  
+        - name: q_text
+          in: query
+          description: q_text
+          required: false
+          type: string 
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/getContactSuccessResponse"
+  /chat/casecontact:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: demo config
+      # used as the method name of the controller
+      operationId: casecontactRsponse
+      parameters:
+        - name: token
+          in: query
+          description: token
+          required: true
+          type: string
+        - name: caseCode
+          in: query
+          description: token
+          required: true
+          type: string
+      responses:
+       "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/getCasecontactSuccessResponse"
+  /task/loanlostApprove/loanlostApproveFirstNew:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: pricing
+          # used as the method name of the controller
+      operationId: pricingRsponse
+      parameters:
+        - name: partCode
+          in: query
+          description: partCode
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+
+        - name: approveType
+          in: query
+          description: 审批类型
+          required: true
+          type: integer
+        - name: operator
+          in: query
+          description: 操作人id
+          required: true
+          type: string
+
+
+        - name: LoanLost_manager
+          in: query
+          description: 是否同意
+          required: true
+          type: boolean
+        - name: LoanLost_manager_response
+          in: query
+          description: 备注
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getLoanlostApproveResponse"
+  /case/getTransPlanByCaseCode:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 改期获得交易计划列表接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew29
+      parameters:
+        - name: caseCode
+          in: query
+          description:  案件code
+          required: true
+          type: string
+        - name: partCode
+          in: query
+          description:  任务code
+          required: true
+          type: string
+        - name: partName
+          in: query
+          description:  任务名字
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getTransPlanByCaseCodeResponse"
+
+  /case/savePlanItems:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 改期提交交易计划接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew30
+      parameters:
+        - name: planItems
+          in: query
+          description:  json数据
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"
+              
+  /task/caselostApprove/first/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 结案审核任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew11
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getcaselostApproveFirstResponse"
+              
+  /task/caselostApprove/second/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 结案审批任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew23
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getcaselostApproveSecondResponse"  
+              
+  /task/ToHouseTransfer/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 过户任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew22
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getHouseTransferResponse"
+  /task/closeLoan/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 上家贷款还清任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew25
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getCloseLoanResponse"
+              
+  /task/taxReview/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 审税任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew7
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getTaxReviewResponse"
+  /task/purchaseLimit/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 查限购任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew9
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getPurchaseLimitResponse"
+              
+  /task/pricing/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 核价任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew2
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getPricingSuccessResponse" 
+              
+  /task/PSFApply/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 公积金申请任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew3
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getPSFApplyResponse"
+  /task/houseBookGet/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 领证任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew15
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getHouseBookResponse"
+  
+  /manage/queryBankListByPcode:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 根据金融机构编码查询银行信息接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew27
+      parameters:
+        - name: pcode
+          in: query
+          description:  金融机构编码
+          required: true
+          type: string          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getBankResponse"
+              
+  /manage/queryBankListByParentCode:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 得到支行信息接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew28
+      parameters:
+        - name: pcode
+          in: query
+          description:  银行编码
+          required: true
+          type: string          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getZhiBankResponse"
+              
+  /task/caselostApprove/caselostApproveFirst:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交结案审核接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew20
+      parameters:
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+          
+        - name: partCode
+          in: query
+          description: 'CaseCloseFirstApprove'
+          required: true
+          type: string
+        - name: approveType
+          in: query
+          description: '3'
+          required: true
+          type: string
+        - name: operator
+          in: query
+          description: 操作人
+          required: true
+          type: string
+          
+        - name: CaseCloseFirstCheck
+          in: query
+          description: 是否审核通过
+          required: true
+          type: boolean
+        - name: CaseCloseFirstCheck_response
+          in: query
+          description: 是否审核通过(通过、不通过)
+          required: true
+          type: string
+          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"
+ 
+  /task/caselostApprove/caselostApproveSecond:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交结案审批接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew24
+      parameters:
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+          
+        - name: partCode
+          in: query
+          description: 'CaseCloseSecondApprove'
+          required: true
+          type: string
+        - name: approveType
+          in: query
+          description: '3'
+          required: true
+          type: string
+        - name: operator
+          in: query
+          description: 操作人
+          required: true
+          type: string
+          
+        - name: CaseCloseFirstCheck
+          in: query
+          description: 是否审核通过
+          required: true
+          type: boolean
+        - name: CaseCloseFirstCheck_response
+          in: query
+          description: 是否审核通过(通过、不通过)
+          required: true
+          type: string
+          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"
+              
+  /task/mortgage/submitPsfApply:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交公积金申请情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew5
+      parameters:
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+        - name: prfApplyDate
+          in: query
+          description: 公积金申请时间
+          required: true
+          type: string
+        - name: ifRequireReconsider
+          in: query
+          description: 是否需要复议
+          required: true
+          type: string
+        - name: estPartTime
+          in: query
+          description: 预计签约时间
+          required: true
+          type: string
+          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"   
+  /task/ToHouseTransfer/submitToHouseTransfer:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交过户接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew13
+      parameters:
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+          
+        - name: partCode
+          in: query
+          description: "Guohu"
+          required: true
+          type: string
+          
+        - name: pkid
+          in: query
+          description: 过户交易计划的pkid
+          required: true
+          type: string
+          
+        - name: approveType
+          in: query
+          description: "2"
+          required: true
+          type: string
+          
+        - name: operator
+          in: query
+          description: 执行人
+          required: true
+          type: string  
+          
+        - name: realHtTime
+          in: query
+          description: 实际过户时间
+          required: true
+          type: string
+          
+        - name: houseHodingTax
+          in: query
+          description: 房产税
+          required: true
+          type: string  
+          
+        - name: personalIncomeTax
+          in: query
+          description: 个人所得税
+          required: true
+          type: string
+          
+        - name: businessTax
+          in: query
+          description: 上家营业税
+          required: true
+          type: string            
+          
+        - name: contractTax
+          in: query
+          description: 下家契税
+          required: true
+          type: string
+          
+        - name: landIncrementTax
+          in: query
+          description: 土地增值税
+          required: true
+          type: string            
+        
+        - name: useCardPay
+          in: query
+          description: 是否刷卡(是：1;否：0)
+          required: true
+          type: string
+          
+        - name: cardPayAmount
+          in: query
+          description: 刷卡金额
+          required: true
+          type: number   
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse" 
+  /task/closeLoan/submitCloseLoan:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交上家贷款还清接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew26
+      parameters:
+        - name: partCode
+          in: query
+          description:  环节code,本接口为'LoanClose'
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+
+        - name: pkid
+          in: query
+          description: 上家贷款还清的主键
+          required: true
+          type: string
+        - name: loanCloseCode
+          in: query
+          description: 还款时间
+          required: true
+          type: number
+        - name: uncloseMoney
+          in: query
+          description: 上家抵押金额
+          required: true
+          type: string
+        - name: closeType
+          in: query
+          description: 还款资金来源
+          required: true
+          type: number
+          
+        - name: mortgageBank
+          in: query
+          description: 贷款银行
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"
+              
+  /task/pricing/submitPricing:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交核价接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew
+      parameters:
+        - name: partCode
+          in: query
+          description:  环节code,本接口为'Pricing'
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+
+        - name: pricingTime
+          in: query
+          description: 核价时间
+          required: true
+          type: string
+        - name: taxPricing
+          in: query
+          description: 税务核定价
+          required: true
+          type: number
+
+
+        - name: houseProperty
+          in: query
+          description: 房屋性质（普通：0;非普通：1;非居：2）
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"
+  /task/taxReview/submitTaxReview:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交核价接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew8
+      parameters:
+        - name: partCode
+          in: query
+          description:  环节code,本接口为'TaxReview'
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+
+        - name: taxTime
+          in: query
+          description: 审税时间
+          required: true
+          type: string
+          
+        - name: isUniqueHome
+          in: query
+          description: 是否是唯一住房(是：1;否：0)
+          required: true
+          type: string
+
+
+        - name: holdYear
+          in: query
+          description: 购房年数（满二：0;满五：1;两年内：2）
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse" 
+              
+  /task/purchaseLimit/submitPls:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交查限购接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew10
+      parameters:
+        - name: partId
+          in: query
+          description:  环节code,本接口为'PurchaseLimit'
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+
+        - name: realPlsTime
+          in: query
+          description: 查限购时间
+          required: true
+          type: string
+          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"
+  /task/houseBookGet/submitToGetPropertyBook:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 提交领证接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew16
+      parameters:
+        - name: partCode
+          in: query
+          description:  环节code,本接口为'HouseBookGet'
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+
+        - name: processInstanceId
+          in: query
+          description: 流程id
+          required: true
+          type: string
+
+        - name: pkid
+          in: query
+          description: 领证主键
+          required: true
+          type: string
+          
+        - name: realPropertyGetTime
+          in: query
+          description: 实际领证时间
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/subPricingSuccessResponse"               
+# complex objects have schema definitions
+definitions:
+  user:
+    type: object
+    properties:
+      name:
+        type: string
+      id:
+        type: string
+      orgId:
+       type: string
+  getUserSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/user"
+  contactUser:
+    type: object
+    properties:
+      org: 
+        type: string
+      avatarUrl:
+        type: string
+      name:
+        type: string
+      mobile: 
+        type: string
+      userName:
+        type: string
+      job: 
+        type: string
+      userId: 
+        type: string
+  getContactSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+       $ref: "#/definitions/contactContent"
+  contactContent:
+    properties:
+      total:
+        type: integer
+      records:
+        type: integer
+      pageSize:
+        type: integer
+      page:
+        type: integer
+      rows:
+        type: array
+        items:
+          $ref: '#/definitions/contactUser'
+  getCasecontactSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/casecontactContent"
+  casecontactContent:
+     properties:
+      total:
+        type: integer
+      rows:
+        type: array
+        items:
+          $ref: '#/definitions/contactUser'
+  getLoanlostApproveResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+#根据金融机构编码查询银行信息start
+  getBankResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getBankListContent"
+  getBankListContent:
+    properties:
+      pkid:
+        type: string
+        description: 银行主键 
+      finOrgName:
+        type: string
+        description: 分行名
+      finOrgNameYc:
+        type: string
+        description: 父类银行名
+      finOrgCode:
+        type: string
+        description: 父类银行编号
+        
+#根据金融机构编码查询银行信息end
+
+#根据分行查支行行信息start
+  getZhiBankResponse:
+    properties:
+      pkid:
+        type: string
+        description: 支行主键
+      finOrgName:
+        type: string
+        description: 支行名称
+      finOrgNameYc:
+        type: string
+        description: 支行简称
+      finOrgCode:
+        type: string
+        description: 支行编号
+      faFinOrgCode:
+        type: string
+        description: 父类银行编号
+      coLevel:
+        type: string
+        description: 银行等级  
+        
+#根据分行查支行行信息end
+
+#获取上家贷款还清Start      
+  getCloseLoanResponse:
+    required:
+      - bankCode
+    properties:
+      bankCode:
+        type: string
+        description: 金融机构  
+      content:
+        $ref: "#/definitions/getCloseLoanContent"
+  getCloseLoanContent:
+    properties:
+      success:
+        type: boolean
+      partCode:
+        type: string
+        description: 'LoanClose'  
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      caseCode:
+        type: string
+        description: 案件编号    
+      approveType:
+        type: string  
+        description: '3'
+      operator:
+        type: string  
+        description: 操作人   
+      loanClose:
+         $ref: "#/definitions/getloanClose" 
+  getloanClose:
+    properties:
+      pkid:
+        type: string
+        description: 上家贷款还清主键
+      caseCode:
+        type: string
+        description: 案件编号
+      loanCloseCode:
+        type: string
+        description: 还款时间
+      closeType:
+        type: string
+        description: 还款来源（自有资金：0、下家首付：1、赎楼贷款：2、其他：3） 
+      uncloseMoney:
+        type: number
+        description: 上手抵押金额
+      mortgageBank:
+        type: string
+        description: 贷款银行编号      
+        
+        
+#获取上家贷款还清END
+#结案审批任务详情接口START
+  getcaselostApproveSecondResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getcaselostApproveSecondContent"     
+  getcaselostApproveSecondContent:
+    properties:
+      success:
+        type: boolean
+      partCode:
+        type: string
+        description: 'CaseCloseSecondApprove'  
+      caseCode:
+        type: string
+        description: 案件编号
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      approveType:
+        type: string  
+        description: '3'
+      operator:
+        type: string  
+        description: 操作人 
+      
+#结案审批任务详情接口END
+#结案审核任务详情接口START
+  getcaselostApproveFirstResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getcaselostApproveFirstContent"     
+  getcaselostApproveFirstContent:
+    properties:
+      success:
+        type: boolean
+      partCode:
+        type: string
+        description: 'CaseCloseFirstApprove'  
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      approveType:
+        type: string  
+        description: '3'
+      operator:
+        type: string  
+        description: 操作人 
+      
+#结案审核任务详情接口END
+
+        
+        
+        
+#核价详情Start
+  getPricingSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getpricingContent"
+  getpricingContent:
+    properties:
+      success:
+        type: boolean
+      partCode:
+        type: string
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      pkid:
+        type: string  
+        description: 核价主键
+      pricingTime:
+        type: string  
+        description: 核价时间  
+      taxPricing:
+        type: string  
+        description: 税务核定价  
+      houseProperty:
+        type: string  
+        description: 房屋性质（普通：0;非普通：1;非居：2）
+#核价详情END
+#查限购详情START
+  getPurchaseLimitResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getPurchaseLimitContent"
+  getPurchaseLimitContent:
+    properties:
+      success:
+        type: boolean
+      partCode:
+        type: string
+      taskId:
+        type: string
+      processInstanceId:
+        type: string        
+      pkid:
+        type: string
+        description: 查限购的pkid
+      realPlsTime:
+        type: string  
+        description: 查限购的时间
+#查限购详情END
+
+#获取纯公积金申请START 
+  getPSFApplyResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getPSFApplyContent"
+  getPSFApplyContent:
+    properties:
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      partCode:
+        type: string
+      estPartTime:
+        type: string
+        description: 预计签约时间（提交时用）
+      prfApplyDate:
+        type: string
+        description: 公积金申请时间（提交时用）
+      ifRequireReconsider:
+        type: string
+        description: 是否需要复议（提交时用）        
+#获取纯公积金申请end
+#审税返回值Start
+  getTaxReviewResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getTaxReviewContent"
+  getTaxReviewContent:
+    properties:
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      partCode:
+        type: string  
+        description: "TaxReview"
+      caseCode:
+        type: string
+        description: 案件编号
+      taxTime:
+        type: string
+        description: 审税时间
+      isUniqueHome:
+        type: string
+        description: 是否是唯一住房(是：1;否：0)     
+      holdYear:
+        type: string
+        description: 购房年数（满二：0;满五：1;两年内：2）
+#审税返回值end   
+#提交核价Start        
+  subPricingSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/subpricingContent"
+  subpricingContent:
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string 
+#提交核价END
+##过户的返回值START       
+  getHouseTransferResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getHouseTransferContent"
+        
+  getHouseTransferContent:
+    properties:
+      taskId:
+        type: string
+      processInstanceId:
+        type: string
+      partCode:
+        type: string  
+        description: "Guohu"
+      operator:
+        type: string
+        description: 执行人
+      approveType:
+        type: string  
+      loanReq:
+        type: string
+        description: 是否有贷款需求      
+      toMortgage:
+        $ref: "#/definitions/getToMortgageContent"
+      houseTransfer:
+        $ref: "#/definitions/getHouseHouseTransferContent"
+      attachments:
+        $ref: "#/definitions/getHouseTransferattachMentsContent"
+      accesoryList:
+        $ref: "#/definitions/getHouseTransferAccesoryListContent"
+  getHouseHouseTransferContent:
+    properties:
+      pkid:
+        type: string
+        description: 过户交易主键
+      realHtTime:
+        type: string
+        description: 实际过户时间
+      houseHodingTax:
+        type: string
+        description: 房产税
+      personalIncomeTax:
+        type: string
+        description: 个人所得税
+      businessTax:
+        type: string
+        description: 上家营业税
+      contractTax:
+        type: string
+        description: 下家契税
+      landIncrementTax:
+        type: string
+        description: 土地增值税
+      
+  getHouseTransferattachMentsContent:
+    properties:
+      pkid:
+        type: string
+        description: 上传附件的主键
+      preFileAdress:
+        type: string
+        description: 文件id
+      preFileCode:
+        type: string
+        description: 备件编码
+      preFileName:
+        type: string
+        description: 备件名称
+      partCode:
+        type: string
+        description: Guohu
+      fileName:
+        type: string
+        description: 文件名
+        
+  getHouseTransferAccesoryListContent:
+    properties:
+      pkid:
+        type: string
+        description: 备件配置的主键
+      partCode:
+        type: string
+        description: Guohu
+      accessoryName:
+        type: string
+        description: 配置项名称
+      accessoryCode:
+        type: string
+        description: 备件编码
+  
+  getToMortgageContent:
+    properties:
+      mortType:
+        type: string
+        description: 贷款类型（（纯商贷:30016001，组合贷:30016002，公积金:30016003））
+      mortTotalAmount:
+        type: string
+        description: 贷款总额
+      comAmount:
+        type: string
+        description: 商贷金额
+      comYear:
+        type: string
+        description: 商贷年限 
+      comDiscount:
+        type: string
+        description: 商贷折扣
+      prfAmount:
+        type: string
+        description: 公积金贷款金额
+      prfYear:
+        type: string
+        description: 公积金贷款年限  
+        
+##过户的返回值END          
+##领证返回值START
+  getHouseBookResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getHouseBookContent"
+  getHouseBookContent:
+    properties:
+      caseCode:
+        type: string
+        description: 案件code
+      taskId:
+        type: string
+        description: 任务id
+      processInstanceId:
+        type: string
+        description: 流程id
+      propertyBook:
+        $ref: "#/definitions/getPropertyBookContent"
+  getPropertyBookContent:
+    properties:
+      pkid:
+        type: string
+        description: 领证的主键
+      partCode:
+        type: string
+        description: "HouseBookGet"
+      realPropertyGetTime:
+        type: string
+        description: 实际领证时间
+##领证返回值END     
+##改期列表接口Start
+  getTransPlanByCaseCodeResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getTransPlanByCaseCodeContent"
+        
+  getTransPlanByCaseCodeContent:
+    properties:
+      currentPartCode:
+        type: string
+        description: 当前任务
+      plans:
+        $ref: "#/definitions/TransPlans" 
+        
+  TransPlans:
+    properties:
+      partName:
+        type: string
+        description: 领证的主键
+      estPartTimeStr:
+        type: string
+        description: 计划变更时间
+         
+
+##改期列表接口END
+
+
+
+        
+        
+      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        

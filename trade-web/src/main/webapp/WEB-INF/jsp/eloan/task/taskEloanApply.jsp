@@ -42,12 +42,13 @@
 <link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
 <link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
 </head>
 
 
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<div id="wrapper">
 		<!-- main Start -->
 		<div class="row wrapper border-bottom nav_heading">
@@ -214,6 +215,9 @@
 									id="finOrgCode" value="${eloanCase.finOrgCode}">
 								</select>
 							</div>
+						</li>
+						
+						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									style="color:red">* </i>证件类型
@@ -222,7 +226,14 @@
 									display="select" dictType="CERT_TYPE"  tag="forEloanApply"  ligerui='none'  defaultvalue="${eloanCase.custCardType}" >									
 									</aist:dict>												
 							</div>
+							
+							<div class="form_content">
+								<label class="control-label sign_left_two"> <i  style="color:red">* </i> 办卡人证件号
+								</label> <input class="input_type sign_right_two" style="width: 172px;"
+									value="${eloanCase.custPaper}" name="custPaper" id="custPaper">
+							</div> 
 						</li>
+						
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 办卡人姓名</label>
@@ -254,11 +265,7 @@
 							</shiro:hasPermission>
 							
 							
-							<div class="form_content">
-								<label class="control-label sign_left_two"> <i  style="color:red">* </i> 办卡人证件号
-								</label> <input class="input_type sign_right_two"
-									value="${eloanCase.custPaper}" name="custPaper" id="custPaper">
-							</div> 
+
 							
 						</li>
 						<li>
@@ -381,10 +388,11 @@
 							<div class="form_content" style="position: relative;">
 								<label class="control-label sign_left_two"> <i
 									style="color:red">* </i> 信贷员
-								</label> <input type="text" name="loanerName" id="loanerName"
-									style="background-color: #FFFFFF;" 
+								</label> <input type="text" name="loanerName" id="loanerName" 
+								onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})"
+									style="background-color: #FFFFFF;" readonly="readonly"
 									class="sign_right_two input_type" id="txt_proOrgId_gb"
-									value='${eloanCase.loanerName}' onkeyup="onkeyuploanerName()">
+									value='${eloanCase.loanerName}' >
 									<i style=" position: absolute; top: 5px; right: 5px; color:#52cdec; " id="loanerNameImage" name ="loanerNameImage" class="icon iconfont"
 									onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
 												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" 
@@ -393,6 +401,8 @@
 								 <input value="${eloanCase.loanerOrgCode}" type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
 								 <input value="${eloanCase.loanerOrgId}" type="hidden" id="loanerOrgId" name ="loanerOrgId" />
 								 <input value="${eloanCase.loanerId}" type="hidden"  id="loanerId" name="loanerId" />
+								 <input value="${eloanCase.loanerUserName}" type="hidden"  id="loanerUserName" name="loanerUserName" />
+								 
 							</div>
 							 <div class="form_content">
 								<label class="control-label sign_left_two"> 信贷员电话 </label> <input
@@ -410,13 +420,32 @@
 									style="margin-left: 4px; width: 757px; height: 71px; resize: none;">${toApproveRecord.content }</textarea>
 							</div>
 						</li>
+						<c:if test="${taskId!=null}">
+						<!-- 相关信息 -->
+						<li>
+						<div id="caseCommentList" class="view-content"></div>
+						</li>
+						<li>
+							<div class="form_content">
+									<input type="hidden" name="pkId" id="pkId" value="${eloanCase.pkid}"/>
+									<label class="control-label sign_left_two pull-left">作废原因</label>
+									<textarea class="input_type sign_right pull-left"  rows="2"  id="ezfContent"	name="ezfContent" style="margin-left: 4px;width: 757px;
+    											height: 71px;resize:none;"></textarea>
+							</div>
+						</li>
+						</c:if>
 					</ul>
+					
 					<p class="text-center">
-						<input type="button" class="btn btn-success submit_From"
-							value="提交"> <a type="button"
-							href="${ctx}/eloan/Eloanlist" class="btn btn-grey ml5">关闭</a>
+						<c:if test="${taskId==null}">
+							<input type="button" class="btn btn-success submit_From" value="提交"> 
+						</c:if>
+						<c:if test="${taskId!=null}">
+							<input type="button" class="btn btn-success" id="invalidEloan" value="作废">
+						</c:if>
+						<a type="button" href="${ctx}/eloan/Eloanlist" class="btn btn-grey ml5">关闭</a>
 					</p>
-
+					
 				</form>
 			</div>
 
@@ -426,21 +455,20 @@
 	</div>
 
 	<!-- Mainly scripts -->
-	<content tag="local_script"> <!-- stickup plugin --> <script
-	<!-- Toastr script -->
+	<content tag="local_script">
 	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> 
-		src="${ctx}/static/js/morris/morris.js"></script> <script
-		src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
-	   <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<!-- aist --> <script src="${ctx}/js/jquery.blockui.min.js"></script> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/jquery.editable-select.min.js"></script> 
-		<script	src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> <script
-		src="${ctx}/static/trans/js/workbench/stickDash.js"></script> 
-		<script
-		id="queryCastListItemList" type="text/html">
+	<script src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
+	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script src="${ctx}/js/jquery.editable-select.min.js"></script> 
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+    <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
+	<script id="queryCastListItemList" type="text/html">
                           {{each rows as item index}}
 	<tr>
     <td>
@@ -773,6 +801,14 @@
 
 												getCustomerNameAndTel($("#caseCode").val());
 											});
+							//跟进信息
+							$("#caseCommentList").eloanCaseCommentGrid(
+									{
+										eloanCode : $("#eloanCode").val(),
+										source : 'EPLUS',
+										type : 'TRACK'
+									}	   
+								   );
 
 						});
 
@@ -1153,12 +1189,16 @@
 						$("#loanerId").val(data.user.id);
 						$("#loanerOrgCode").val(data.user.orgName);
 						$("#loanerOrgId").val(data.user.orgId);
+						$("#loanerUserName").val(data.user.username);
 					}
 				})
 			} else {
 				$("#loanerName").val("");
 				$("#loanerOrgCode").val("");
 				$("#loanerOrgId").val("");
+				$("#loanerUserName").val("");
+				$("#loanerPhone").val("");
+				$("#loanerId").val("");
 			}
 		}
 
@@ -1190,6 +1230,39 @@
 			$("#loanerId").val("");
 			$("#loanerOrgCode").val("");
 			$("#loanerOrgId").val("");
+		}
+		
+		$("#invalidEloan").click(function(){  
+     	   if($("#ezfContent").val()==null||$("#ezfContent").val()==""){
+     		   window.wxc.alert("请填写作废原因")
+     		   return;
+     	   }
+     	   
+     	   window.wxc.confirm("确定要作废这条数据吗？",{"wxcOk":function(){
+     		   saveEloanInfoForUpdate();
+     	   }});
+        })
+        function saveEloanInfoForUpdate(){
+			$.ajax({
+				type : "POST",
+			    url:ctx+"/eloan/deteleItem",
+				data:{pkid:$("#pkId").val(),action:"aban",content:$("#ezfContent").val()},
+				dataType : "json",
+				success : function(data) {	
+					if(data.success == true){
+						 window.wxc.success("数据保存成功",{"wxcOk":function(){
+							 window.close();
+							 window.opener.callback();
+						 }});
+					}else{
+						window.wxc.error("数据保存出错");
+					} 
+				},
+				error : function(errors) {
+					$.unblockUI();    
+					window.wxc.error("数据保存出错");
+				}
+			});
 		}
 
 	</script> </content>

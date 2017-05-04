@@ -3,6 +3,10 @@ package com.centaline.trans.workspace.entity;
 import java.io.Serializable;
 
 public class WorkLoad  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3590632599897490444L;
 	private String userId;
 	private String userName;
 	// 任务数

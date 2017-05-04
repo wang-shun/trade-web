@@ -19,7 +19,7 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TS_API_LOG
+    from sctrans.T_TS_API_LOG  with(nolock)
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >

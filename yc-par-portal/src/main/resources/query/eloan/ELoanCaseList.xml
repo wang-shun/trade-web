@@ -31,19 +31,270 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
-	<query id="EloanCaseListQuery">
+	
+	<query id="eLoanOperateList">
+	    <searchCondition>      
+        </searchCondition> 
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+							el.PKID AS pkid,
+							ISNULL(el.CUST_NAME,'') AS customerName,
+							ISNULL(el.APPLY_AMOUNT,'0.00') AS mortTotalAmount,
+							ISNULL(CONVERT(varchar(100), el.APPLY_TIME, 23),'') as applyTime,
+							ISNULL(p.PROPERTY_ADDR,'') AS propertyAddress,
+							CASE c.SRV_CODE WHEN 'ACCEPT' THEN '接单' WHEN 'REJECT' THEN '打回' WHEN 'BANKREJECT' THEN '打回' WHEN 'CANCEL' THEN '撤销' END AS srvName,
+							c.CREATE_TIME AS operateTime,
+							c.COMMENT AS comment,
+							(SELECT REAL_NAME FROM sctrans.SYS_USER WHERE ID = c.CREATE_BY) AS createBy
+					FROM sctrans.T_TO_ELOAN_LOANER el
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = el.CASE_CODE
+					INNER JOIN sctrans.T_TO_CASE_COMMENT c ON c.BIZ_CODE = convert(varchar(20),el.PKID) AND (c.SRV_CODE = 'ACCEPT' OR c.SRV_CODE = 'REJECT')
+					where el.LOANER_ID = #loanerId#
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			  	  order by el.PKID desc
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column  name="pkid" title="按揭接收信息主键id" index=""  default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="customerName" title="客户姓名" index=""  default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="mortTotalAmount"   title="贷款总额"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="applyTime"   title="申请时间"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="propertyAddress"   title="产证地址"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="srvName"   title="服务项目名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="operateTime"   title="操作时间"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="comment"   title="备注"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="createBy"   title="创建人姓名"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryELoanTradeProcess">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[  	
+			    	SELECT 
+							(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = tpqv.PART_CODE AND IS_DELETED = 0 AND AVAILABLE = 1 AND TYPE = 'part_code') AS SRV_NAME,
+							CONVERT(varchar(100), tpqv.REAL_TIME, 23) AS REAL_TIME,
+							u.REAL_NAME as REAL_NAME,
+							ISNULL(tpqv.COMMENT,'') AS COMMENT
+					FROM sctrans.V_TRADE_PROCESS_QUERY_VIEW tpqv
+					INNER JOIN sctrans.SYS_USER u ON u.ID = tpqv.CREATE_BY
+					WHERE tpqv.CASE_CODE = #caseCode#
+					ORDER BY tpqv.REAL_TIME DESC
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="SRV_NAME" title="案件环节状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="REAL_TIME" title="创建时间"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="REAL_NAME" title="创建人" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="COMMENT" title="跟进内容"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryELoanProcess">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+ 					SELECT 
+							(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = cc.SRV_CODE AND IS_DELETED = 0 AND AVAILABLE = 1) AS SRV_NAME,
+							CONVERT(varchar(100), cc.CREATE_TIME, 23) AS REAL_TIME,
+							u.REAL_NAME AS REAL_NAME,
+							ISNULL(cc.COMMENT,'') AS COMMENT
+					FROM sctrans.T_TO_CASE_COMMENT cc 
+					INNER JOIN sctrans.SYS_USER u ON u.ID = cc.CREATE_BY
+					WHERE cc.BIZ_CODE = #eLoanCode# AND cc.SOURCE = 'EPLUS'
+					order by cc.CREATE_TIME desc
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="SRV_NAME" title="跟进状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="REAL_TIME" title="创建时间"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="REAL_NAME" title="创建人"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="COMMENT" title="跟进内容"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryELoanCaseDetail">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[  	
+			   		SELECT 
+						--prdType--
+						'EPLUS' AS prdType,
+						--mortInfo--
+						(SELECT DESCR FROM sctrans.SYS_DICT WHERE CODE = e.LOAN_SRV_CODE AND TYPE = 'yu_serv_cat_code_tree' AND IS_DELETED = 0 AND AVAILABLE = 1) AS mortType,
+						ec.APPLY_AMOUNT AS totalAmount,
+						ISNULL(ec.MONTH, 0) AS month,
+						ISNULL(ec.LOANER_STATUS, '') as loanerStatusCode,
+						ISNULL(ec.FLOW_STATUS, '') as flowStatusCode,
+						CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '接单完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END  AS eLoanStatus,
+						ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
+						CASE WHEN e.LOAN_SRV_CODE IN ('30004005','30004015') THEN 'CARD' ELSE 'LOAN' END as type,
+						--yuOperator--
+						ec.SEND_ID AS excutorId,
+						u.REAL_NAME AS excutorName,
+						u.MOBILE AS excutorMobile,
+						(SELECT ORG_NAME FROM sctrans.SYS_ORG WHERE ID = (SELECT ORG_ID FROM sctrans.SYS_USER WHERE ID = ec.SEND_ID)) AS excutorOrg,
+						--custInfo--
+						ec.CUST_NAME AS customerName,
+						ec.CUST_PHONE AS customerMobile,
+						--tradeInfo--
+						ec.CASE_CODE AS caseCode,
+						p.PROPERTY_ADDR AS propertyAddress,
+						(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = c.STATUS AND IS_DELETED = 0 AND AVAILABLE = 1) AS caseStatus
+					FROM sctrans.T_TO_ELOAN_LOANER ec
+					INNER JOIN sctrans.T_TO_ELOAN_CASE e on e.ELOAN_CODE = ec.ELOAN_CODE
+					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = ec.CASE_CODE
+					INNER JOIN sctrans.SYS_USER u ON u.ID = ec.SEND_ID
+					INNER JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = ec.CASE_CODE
+					WHERE ec.ELOAN_CODE = #eLoanCode#
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>		
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="prdType" title="产品类型"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="mortType" title="贷款类型"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="totalAmount" title="申请金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="month" title="申请月份"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="loanerStatusCode" title="E+派单状态code"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="eLoanStatus" title="E+申请状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="flowStatusCode" title="跟进状态code"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>	
+				<column type="both" name="flowStatus" title="跟进状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="excutorId" title="执行人id"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="excutorName" title="执行人名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="excutorMobile" title="执行人手机号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="excutorOrg" title="执行人所在组"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="customerName" title="客户名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="customerMobile" title="客户手机号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="caseCode" title="案件编号"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>			
+				<column type="both" name="propertyAddress" title="产证地址"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>		
+				<column type="both" name="caseStatus" title="案件状态"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="type" title="E+类型"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>	
+			</table-row>
+		</grid>
+	</query>
+	
+	
+	<query id="eloanCaseListQuery">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+						select 
+							ISNULL((SELECT ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE CASE_CODE = ec.CASE_CODE AND BIZ_CODE = ec.ELOAN_CODE AND BUSINESS_KEY = 'EloanProcess')),'') AS taskId,
+							ISNULL((SELECT PROC_INST_ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE CASE_CODE = ec.CASE_CODE AND BIZ_CODE = ec.ELOAN_CODE AND BUSINESS_KEY = 'EloanProcess')),'') AS procInstanceId,
+							'http://aimg.sh.centanet.com/salesweb/image/' + ISNULL(uoj.avatar,'') + '.jpg' 	as avartaUrl,
+							ISNULL(ec.SEND_ID,'') as consultantID,
+							ISNULL(u.REAL_NAME,'') as consultantName,
+							ISNULL(ec.CUST_NAME,'') as custName,
+							CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '接单完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS loanerStatus,
+							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
+							ISNULL(ec.APPLY_AMOUNT,0.00) as loanAmount,
+							CAST(ISNULL(ec.MONTH,0) as varchar)+'期' as loanTime,
+							ISNULL(pi.PROPERTY_ADDR,'') 	as addr,
+							ISNULL(CONVERT(varchar(100), ec.APPLY_TIME, 23),'') as applyTime,
+							'EPLUS' as prdType,
+							ISNULL(ec.CASE_CODE,'') as caseCode,
+							ISNULL(ec.ELOAN_CODE,'') as bizCode,
+							ISNULL(ec.FLOW_STATUS,'') as flowStatusCode,
+							ISNULL(ec.LOANER_STATUS,'') as loanerStatusCode,
+							CASE WHEN e.LOAN_SRV_CODE IN ('30004005','30004015') THEN 'CARD' ELSE 'LOAN' END as type
+					FROM sctrans.T_TO_ELOAN_LOANER ec 
+					INNER JOIN sctrans.T_TO_ELOAN_CASE e on e.ELOAN_CODE = ec.ELOAN_CODE
+					INNER JOIN sctrans.T_TO_PROPERTY_INFO pi ON ec.CASE_CODE = pi.CASE_CODE
+					INNER JOIN sctrans.SYS_USER u on u.ID = ec.SEND_ID
+					INNER JOIN sctrans.V_USER_ORG_JOB uoj ON ec.LOANER_ID = uoj.user_id 
+					INNER JOIN sctrans.T_TO_WORKFLOW w on ec.ELOAN_CODE = w.BIZ_CODE 
+					WHERE ec.LOANER_ID = #loanerId# and w.STATUS != 4
+			
+					<if test="flag == 'noAccept'">
+						AND ec.LOANER_STATUS = 'ACCEPTING'
+					</if>
+					
+					<if test="flag == 'exceptNoAccept'">
+						AND (ec.LOANER_STATUS = 'AUDITING' or ec.LOANER_STATUS = 'COMPLETED')
+					</if>
+					
+					<ifNotNull condition>
+					     		AND	(ec.CUST_NAME LIKE '%'+#condition#+'%'
+					     			OR pi.property_addr	LIKE '%'+#condition#+'%'
+					     			OR uoj.real_name LIKE '%'+#condition#+'%')
+					</ifNotNull>				
+				]]>
+			</baseSql>
+			<orderBySql>
+			  		order by ec.SEND_TIME desc
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column  name="taskId" title="任务id" index=""  default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="procInstanceId" title="流程实例id" index=""  default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="avartaUrl"   title="交易顾问头像地址"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="consultantID"   title="交易顾问id"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="consultantName"   title="交易顾问名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="custName"   title="客户名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="loanerStatus"   title="派单状态"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="flowStatus"   title="跟进状态"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="loanAmount"   title="贷款金额"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="loanTime"   title="贷款期数"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="addr"   title="产证地址"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="applyTime"   title="申请时间"  beanFormatter="dateFormatter" expFmt="yyyy/MM/dd" expType="date" index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="prdType"   title="产品类型"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="caseCode"   title="案件编号"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="bizCode"   title="E+金融编号"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column type="both" name="flowStatusCode" title="跟进状态code"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="loanerStatusCode" title="派单状态code"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="type" title="E+类型"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>	
+			</table-row>
+		</grid>
+	</query>
+	
+	
+	<!-- <query id="EloanCaseListQuery">
 		<searchCondition>
 			<condition field="ec.CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="INFO.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="ec.CUST_NAME" name="custName" label="客户人员" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="ec.LOAN_SRV_CODE" name="loanSrvCode" label="税费卡" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-           <!--  <condition field="er.CONFIRM_STATUS" name="status" label="状态" searchType="EQ" showType="" showCallback="" defaultValue=""/> -->
+            <condition field="er.CONFIRM_STATUS" name="status" label="状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="ec.APPLY_TIME" name="applyTimeStart" label="申请开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="ec.APPLY_TIME" name="applyTimeEnd" label="申请结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="ec.SIGN_TIME" name="signTimeStart" label="面签开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="ec.SIGN_TIME" name="signTimeEnd" label="面签结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-            <!-- <condition field="ers.RELEASE_TIME" name="releaseTimeStart" label="放款开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-            <condition field="ers.RELEASE_TIME" name="releaseTimeEnd" label="放款结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/> -->
+            <condition field="ers.RELEASE_TIME" name="releaseTimeStart" label="放款开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="ers.RELEASE_TIME" name="releaseTimeEnd" label="放款结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
             <condition field="ec.CREATE_TIME" name="createTimeStart" label="创建开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="ec.CREATE_TIME" name="createTimeEnd" label="创建结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
@@ -111,8 +362,7 @@
 				<column  name="REAL_NAME" title="客户"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 			    <column  name="APPLY_CONF_TIME" title="申请确认时间"  index="" checkbox="" customDict="" sysDict=""   beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" isSort="" align="" halign="" resizable="" />
 				<column  name="taskKey" title="流程状态"  index="" checkbox="" default=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
-			
 			</table-row>
 		</grid>
-	</query>
+	</query> -->
 </querys>

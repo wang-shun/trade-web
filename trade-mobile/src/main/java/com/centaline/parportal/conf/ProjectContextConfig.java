@@ -4,12 +4,15 @@
  */
 package com.centaline.parportal.conf;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.common.quickQuery.service.impl.CacheableSqlCustomDictServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryCaseSalerInfoServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryFinOrgImpl;
 import com.centaline.trans.common.service.impl.QuickQueryGetCaseOverviewInfoServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryGetGlCaseCountServiceImpl;
@@ -20,6 +23,7 @@ import com.centaline.trans.common.service.impl.QuickQueryHouTaiServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryLightServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryMortgageFinOrgValueServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryMortgageStringChangeServiceImpl;
+import com.centaline.trans.common.service.impl.QuickQueryMultiDictCustomDictServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryOrgCustomDictServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQueryPropertyServiceImpl;
 import com.centaline.trans.common.service.impl.QuickQuerySrvsDictCustomDictServiceImpl;
@@ -213,5 +217,32 @@ public class ProjectContextConfig {
     public QuickQueryGetSolutionListServiceImpl getSolutionList() {
     	QuickQueryGetSolutionListServiceImpl dict = new QuickQueryGetSolutionListServiceImpl();
     	return dict;
+    }
+    
+    @Bean(name="qqcdDictPartName")
+    public QuickQueryDictCustomDictServiceImpl qqcdDictPartName() {
+    	QuickQueryDictCustomDictServiceImpl dict = new QuickQueryDictCustomDictServiceImpl();
+    	dict.setDictType("part_code");
+    	return dict;
+    }
+    
+    @Bean(name="qqcdDictNotAppeoveName")
+    public QuickQueryMultiDictCustomDictServiceImpl qqcdDictNotAppeoveName() {
+    	QuickQueryMultiDictCustomDictServiceImpl dict = new QuickQueryMultiDictCustomDictServiceImpl();
+    	dict.setDictType("guohu_not_approve");
+    	return dict;
+    }
+    @Bean(name="avatarUrlPrixDict")
+    public CustomDictService avatarUrlPrixDict(@Value("${img.sh.centaline.url}")String avatarUrlPrix){
+    	return new CustomDictService() {
+    		@Override
+    		public String getValue(String key) {
+    			if(StringUtils.isBlank(key)) {
+    				return key;
+    			}else{
+    				return avatarUrlPrix + key;
+    			}
+    		}
+		};
     }
 }

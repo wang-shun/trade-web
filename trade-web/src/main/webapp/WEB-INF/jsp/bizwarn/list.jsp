@@ -7,17 +7,23 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- 日期空间样式 -->
-    <link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-	
-	<!-- 分页控件样式 -->
-	<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-	
-	<!-- 绘制列表表格样式 -->
-	<link href="${ctx}/css/common/drawtable.css" rel="stylesheet" />
+<!-- 日期空间样式 -->
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+
+<!-- 分页控件样式 -->
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+
+<!-- 绘制列表表格样式 -->
+<link href="${ctx}/css/common/drawtable.css" rel="stylesheet" />
+<style>
+.copyrightstyle{
+	margin-left: 0px !important;
+}
+
+</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -30,20 +36,27 @@
 				</div>
 				<div class="ibox-content" style="padding-bottom: 5px;">
 					<form action="${ctx }/quickGrid/findPage?xlsx" class="form-horizontal" method="post" id ='myForm'>
-						<input type="hidden" name="currentOrgId" id="currentOrgId" value="${currentUser.serviceCompanyId }" /> 
-						<input type="hidden" name="currentDepHierarchy" id="currentDepHierarchy" value="${currentUser.serviceDepHierarchy }"
+						<input type="hidden" name="currentOrgId" id="currentOrgId" value="${currentUser.serviceCompanyId }" />
+						<input type="hidden" name="currentDepHierarchy" id="currentDepHierarchy" value="${currentUser.serviceDepHierarchy }" />
+						<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
+						<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
+						<input type="hidden" id="userJobCode" value="${userJobCode}" />
+						<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
+						<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
+
 					    <div class="jqGrid_wrapper">
 					    	<input type="hidden" id="ctx" value="${ctx}"/>
 					    	<div class="row form-group">
 			    				<label class="col-md-1  control-label">预警类型</label>
 			    				<div class="col-md-3">
-			    					  <!-- 数据字段配置  调整 -->			    				
+			    					  <!-- 数据字段配置  调整 -->
 				    				  <select id="warnType" class="form-control pull-left">
 				    						<option value="">请选择</option>
 				    						<option value="LOANLOSS">贷款流失</option>
 				    						<option value="RepayOverdue">还贷逾期</option>
 				    						<option value="TransferOverdue">过户逾期</option>
-				    					</select> 			    					
+										    <option value="LoanerOverdueAccept">信贷员接单预警</option>
+				    					</select>
 			    				</div>
 			    				<label class="col-md-1  control-label">状态</label>
 			    				<div class="col-md-3">
@@ -51,15 +64,15 @@
 			    						<option value="">请选择</option>
 			    						<option value="0" <c:if test="${status == '0' }">selected</c:if> >生效</option>
 			    						<option value="1" <c:if test="${status == '1' }">selected</c:if> >解除</option>
-			    					</select> 
+			    					</select>
 			    				</div>
-				    		</div> 
+				    		</div>
 					        <div class="row form-group">
 			        			<label class="col-md-1  control-label">案件编号</label>
 			    				<div class="col-md-3">
 			    					<input type="text" id="caseCode" name="search_caseCode" class="form-control"/>
 			    				</div>
-			
+
 			        			<label class="col-md-1  control-label">产证地址 </label>
 			    				<div class="col-md-3">
 			    					<input type="text" id="addr" name="search_propertyAddr" class="form-control"/>
@@ -85,12 +98,12 @@
 									<button id="cleanButton" type="button" class="btn btn-primary">清空</button>
 								</div>
 							</div>
-					     </div>                         
+					     </div>
 					</form>
 				</div>
 			</div>
 		</div>
-    
+
 	<div class="main">
 		<div class="apply-wrap">
 			<div class="table">
@@ -98,18 +111,18 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<content tag="local_script">
 	    <!-- 日期控件 -->
 		<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	
+
 		<script src="${ctx}/js/trunk/bizwarn/list.js?v=1.0.3"></script>
-		
+
 		<!-- 分页控件  -->
 	    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 		<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-		
+
 		<script id="template_bizwarnList" type="text/html">
          	{{each rows as item index}}
                  {{if index%2 == 0}}
@@ -128,7 +141,7 @@
 						</td>
 					</tr>
 			{{/each}}
-	 	</script> 
+	 	</script>
 	</content>
 </body>
 </html>

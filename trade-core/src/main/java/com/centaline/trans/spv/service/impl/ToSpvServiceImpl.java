@@ -25,6 +25,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
@@ -59,6 +60,7 @@ import com.centaline.trans.spv.entity.ToSpvAduit;
 import com.centaline.trans.spv.entity.ToSpvCashFlow;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApply;
 import com.centaline.trans.spv.entity.ToSpvCashFlowApplyAttach;
+import com.centaline.trans.spv.entity.ToSpvCloseApply;
 import com.centaline.trans.spv.entity.ToSpvCust;
 import com.centaline.trans.spv.entity.ToSpvDe;
 import com.centaline.trans.spv.entity.ToSpvDeCond;
@@ -76,6 +78,7 @@ import com.centaline.trans.spv.repository.ToSpvAduitMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowApplyAttachMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowApplyMapper;
 import com.centaline.trans.spv.repository.ToSpvCashFlowMapper;
+import com.centaline.trans.spv.repository.ToSpvCloseApplyMapper;
 import com.centaline.trans.spv.repository.ToSpvCustMapper;
 import com.centaline.trans.spv.repository.ToSpvDeCondMapper;
 import com.centaline.trans.spv.repository.ToSpvDeDetailMapper;
@@ -104,6 +107,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Autowired
 	private ToSpvMapper toSpvMapper;
+	@Autowired
+	private ToSpvCloseApplyMapper toSpvCloseApplyMapper;
 	@Autowired
 	private ToCashFlowMapper toCashFlowMapper;
 	@Autowired
@@ -614,45 +619,43 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}*/
 
 			//重构toSpvDeDetailList
-			if(!"SpvApprove".equals(spvBaseInfoVO.getHandle()) && !"SpvSign".equals(spvBaseInfoVO.getHandle())){
-				List<ToSpvDeDetail> toSpvDeDetailNewList = new ArrayList<ToSpvDeDetail>();
-				if (toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()) {
-					for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
-						if(!(toSpvDeDetail == null || toSpvDeDetail.getDeCondCode()==null ||toSpvDeDetail.getPayeeAccountType()==null ||toSpvDeDetail.getDeAmount()==null ||toSpvDeDetail.getDeAddition()==null)){
-							toSpvDeDetailNewList.add(toSpvDeDetail);
-						}
+			List<ToSpvDeDetail> toSpvDeDetailNewList = new ArrayList<ToSpvDeDetail>();
+			if (toSpvDeDetailList != null && !toSpvDeDetailList.isEmpty()) {
+				for(ToSpvDeDetail toSpvDeDetail : toSpvDeDetailList){
+					if(!(toSpvDeDetail == null || toSpvDeDetail.getDeCondCode()==null ||toSpvDeDetail.getPayeeAccountType()==null ||toSpvDeDetail.getDeAmount()==null ||toSpvDeDetail.getDeAddition()==null)){
+						toSpvDeDetailNewList.add(toSpvDeDetail);
 					}
 				}
-				List<ToSpvDeDetail> deIdDetailList = toSpvDeDetailMapper.selectByDeId(toSpvDe.getPkid());
-				for(ToSpvDeDetail toSpvDeDetail : deIdDetailList){
-					toSpvDeDetail.setUpdateBy(user.getId());
-					toSpvDeDetail.setUpdateTime(new Date());
-					toSpvDeDetail.setIsDeleted("1");
-					toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
-				}
-				if (toSpvDeDetailNewList != null && !toSpvDeDetailNewList.isEmpty()) {
-					// PayeeAccountType -> PayeeAccountId
-					for (ToSpvDeDetail toSpvDeDetail : toSpvDeDetailNewList) {
-						if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
-							for (ToSpvAccount toSpvAccount : toSpvAccountList) {
-								if (toSpvAccount.getAccountType().equals(toSpvDeDetail.getPayeeAccountType())) {
-									toSpvDeDetail.setPayeeAccountId(toSpvAccount.getPkid());
-								}
+			}
+			List<ToSpvDeDetail> deIdDetailList = toSpvDeDetailMapper.selectByDeId(toSpvDe.getPkid());
+			for(ToSpvDeDetail toSpvDeDetail : deIdDetailList){
+				toSpvDeDetail.setUpdateBy(user.getId());
+				toSpvDeDetail.setUpdateTime(new Date());
+				toSpvDeDetail.setIsDeleted("1");
+				toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
+			}
+			if (toSpvDeDetailNewList != null && !toSpvDeDetailNewList.isEmpty()) {
+				// PayeeAccountType -> PayeeAccountId
+				for (ToSpvDeDetail toSpvDeDetail : toSpvDeDetailNewList) {
+					if (toSpvAccountList != null && !toSpvAccountList.isEmpty()) {
+						for (ToSpvAccount toSpvAccount : toSpvAccountList) {
+							if (toSpvAccount.getAccountType().equals(toSpvDeDetail.getPayeeAccountType())) {
+								toSpvDeDetail.setPayeeAccountId(toSpvAccount.getPkid());
 							}
 						}
-						
-						if(toSpvDeDetail.getPkid() != null){
-							toSpvDeDetail.setUpdateBy(user.getId());
-							toSpvDeDetail.setUpdateTime(new Date());
-							toSpvDeDetail.setIsDeleted("0");
-							toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
-						}else{
-							toSpvDeDetail.setCreateBy(user.getId());
-							toSpvDeDetail.setCreateTime(new Date());
-							toSpvDeDetail.setDeId(toSpvDe.getPkid());
-							toSpvDeDetail.setIsDeleted("0");
-							toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
-						}
+					}
+					
+					if(toSpvDeDetail.getPkid() != null){
+						toSpvDeDetail.setUpdateBy(user.getId());
+						toSpvDeDetail.setUpdateTime(new Date());
+						toSpvDeDetail.setIsDeleted("0");
+						toSpvDeDetailMapper.updateByPrimaryKeySelective(toSpvDeDetail);
+					}else{
+						toSpvDeDetail.setCreateBy(user.getId());
+						toSpvDeDetail.setCreateTime(new Date());
+						toSpvDeDetail.setDeId(toSpvDe.getPkid());
+						toSpvDeDetail.setIsDeleted("0");
+						toSpvDeDetailMapper.insertSelective(toSpvDeDetail);
 					}
 				}
 			}
@@ -840,7 +843,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 
 	@Override
-	public List<ToSpvAccount> findAccountBySpvCode(String spvCode) {
+	public List<ToSpvAccount> findAccountsBySpvCode(String spvCode) {
 		return toSpvAccountMapper.selectBySpvCode(spvCode);
 	}
 
@@ -856,7 +859,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public int updateByPrimaryKey(ToSpv record) {
-		return toSpvMapper.updateByPrimaryKey(record);
+		return toSpvMapper.updateByPrimaryKeySelective(record);
 	}
 
 	/**
@@ -923,7 +926,15 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public void saveSpvChargeInfoVO(SpvChargeInfoVO spvChargeInfoVO) {
 		SessionUser user = uamSessionService.getSessionUser();
-
+		//获取合约监管账户信息
+		String spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
+		List<ToSpvAccount> accounts = findAccountsBySpvCode(spvCode);
+		ToSpvAccount spvAcc = null;
+		for(ToSpvAccount accont:accounts){
+			if("SPV".equals(accont.getAccountType())){
+				spvAcc = accont;
+			}
+		}
 		/**1.申请*/
 		ToSpvCashFlowApply toSpvCashFlowApply = spvChargeInfoVO.getToSpvCashFlowApply();
 		if(toSpvCashFlowApply.getPkid() == null){
@@ -1012,15 +1023,14 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}
 			
 			for(SpvCaseFlowOutInfoVO spvCaseFlowOutInfoVO:spvCaseFlowOutInfoVONewList){
-				
 				/**4.流水*/
 				ToSpvCashFlow toSpvCashFlow = spvCaseFlowOutInfoVO.getToSpvCashFlow();
 				if(toSpvCashFlow.getPkid() == null){
 					toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());
 					toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());
-					toSpvCashFlow.setPayer("上海中原物业顾问有限公司");
-					toSpvCashFlow.setPayerAcc("76310188000148842");
-					toSpvCashFlow.setPayerBank("光大银行市北支行");
+					toSpvCashFlow.setPayer(spvAcc.getName());
+					toSpvCashFlow.setPayerAcc(spvAcc.getAccount());
+					toSpvCashFlow.setPayerBank(spvAcc.getBranchBank());
 					toSpvCashFlow.setCreateBy(user.getId());
 					toSpvCashFlow.setCreateTime(new Date());
 					toSpvCashFlow.setIsDeleted("0");
@@ -1319,9 +1329,8 @@ public class ToSpvServiceImpl implements ToSpvService {
 	@Override
 	public void saveSpvChargeInfoVObyIn(SpvRecordedsVO spvRecordedsVO,String handle,String spvApplyCode) throws Exception{
 		
-		if(null == spvRecordedsVO){
-			throw new BusinessException("申请信息数据为空！");
-		}
+		if(null == spvRecordedsVO){ throw new BusinessException("申请信息数据为空！"); }
+		
 		SessionUser user = uamSessionService.getSessionUser();
 		ToSpvCashFlowApply toSpvCashFlowApply = new ToSpvCashFlowApply();
 		List<SpvRecordedsVOItem> spvRecordedsVOItems = spvRecordedsVO.getItems();
@@ -1367,34 +1376,23 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 
 		if(!"apply".equals(handle)){
-			if(!StringUtils.isBlank(spvApplyCode)){//流水申请编号
-				toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);
-			}else{
-				throw new BusinessException("流程申请编号生成失败！");
-			}
 			
-			if(!StringUtils.isBlank(spvRecordedsVO.getSpvConCode())){//监管合约内部编号
-				toSpvCashFlowApply.setSpvCode(spvRecordedsVO.getSpvConCode());
-			}else{
-				throw new BusinessException("没有监管合约编号！");
-			}
-			toSpvCashFlowApply.setUsage("in");
-			//备注	toSpvCashFlowApply.setComment(comment);
-			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());//状态
-			toSpvCashFlowApply.setIsDeleted("0");//是否删除
-			if(!StringUtils.isBlank(user.getId())){//申请人
-				toSpvCashFlowApply.setApplier(user.getId());
-			}else{
-				throw new BusinessException("申请人信息为空！");
-			}
 			User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
-			toSpvCashFlowApply.setApplyAuditor(riskControlDirector.getId());//申请复审人	 wufeng01
-			//toSpvCashFlowApply.setFtPreAuditor("ff80808156b51e7b0156b55f02ce0008");//财务初审人	
-			//toSpvCashFlowApply.setFtPostAuditor("ff80808156b51e7b0156b55f02ce0008");//财务复审人	现在测试设置为wangqaio7
-			toSpvCashFlowApply.setCreateTime(new Date());//创建时间
-			toSpvCashFlowApply.setCreateBy(user.getId());//创建人
-			//更新时间toSpvCashFlowApply.setUpdateBy(updateBy);
-			//更新人toSpvCashFlowApply.setUpdateBy(updateBy);
+			
+			if(StringUtils.isBlank(spvApplyCode)){throw new BusinessException("流程申请编号生成失败！");}
+			if(StringUtils.isBlank(spvRecordedsVO.getSpvConCode())){throw new BusinessException("没有监管合约编号！"); }
+			if(StringUtils.isBlank(user.getId())){throw new BusinessException("申请人信息为空！"); }
+			if(StringUtils.isBlank(riskControlDirector.getId())){throw new BusinessException("申请复审人为空！"); }
+			
+			toSpvCashFlowApply.setSpvCode(spvRecordedsVO.getSpvConCode());/**监管合约内部编号**/
+			toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);/**流水申请编号**/
+			toSpvCashFlowApply.setUsage("in");
+			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());/**状态**/
+			toSpvCashFlowApply.setIsDeleted("0");/**是否删除**/
+			toSpvCashFlowApply.setApplier(user.getId());/**申请人**/
+			toSpvCashFlowApply.setApplyAuditor(riskControlDirector.getId());/**申请复审人**/
+			toSpvCashFlowApply.setCreateTime(new Date());/**创建时间**/
+			toSpvCashFlowApply.setCreateBy(user.getId());/**创建人**/
 			toSpvCashFlowApplyMapper.insertSelective(toSpvCashFlowApply);
 		}
 			
@@ -1402,54 +1400,41 @@ public class ToSpvServiceImpl implements ToSpvService {
 		if(null != spvRecordedsVOItems)
 		for(int i=0;i<spvRecordedsVOItems.size();i++){
 			
-			if(null == spvRecordedsVOItems.get(i) || null == spvRecordedsVOItems.get(i).getPayerAcc()){
-				break;
-			}
+			if(null == spvRecordedsVOItems.get(i) || null == spvRecordedsVOItems.get(i).getPayerAcc()){ break; }
+			if(StringUtils.isBlank(spvRecordedsVO.getSpvAccountName())){throw new BusinessException("收款人名称为空！");}
+			if(StringUtils.isBlank(spvRecordedsVO.getSpvAccountCode())){throw new BusinessException("收款账户为空！"); }
+			if(StringUtils.isBlank(spvRecordedsVO.getSpvAccountBank())){/**throw new BusinessException("收款人开户行为空！");**/ }
 			
 			ToSpvCashFlow toSpvCashFlow = new ToSpvCashFlow();
-			toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());//监管合约内部编号_中原
-			toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());//流水申请ID
-			toSpvCashFlow.setDirection(spvRecordedsVOItems.get(i).getVoucherNo());//流水方向
-			if(!StringUtils.isBlank(spvRecordedsVO.getSpvAccountName())){//收款人名称
-				toSpvCashFlow.setReceiver(spvRecordedsVO.getSpvAccountName());
-			}else{
-				throw new BusinessException("收款人名称为空！");
+			
+			toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());/**监管合约内部编号_中原**/
+			toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());/**流水申请ID**/
+			toSpvCashFlow.setDirection(spvRecordedsVOItems.get(i).getVoucherNo());/**流水方向**/
+			toSpvCashFlow.setReceiver(spvRecordedsVO.getSpvAccountName());/**收款人名称**/
+			toSpvCashFlow.setReceiverAcc(spvRecordedsVO.getSpvAccountCode());/**收款账户**/
+			toSpvCashFlow.setReceiverBank(spvRecordedsVO.getSpvAccountBank());/**收款人开户行**/
+			
+			if(!StringUtils.isBlank(spvRecordedsVOItems.get(i).getPayerName())){
+				toSpvCashFlow.setPayer(spvRecordedsVOItems.get(i).getPayerName());/**付款人名称**/
 			}
-			if(!StringUtils.isBlank(spvRecordedsVO.getSpvAccountCode())){//收款账户
-				toSpvCashFlow.setReceiverAcc(spvRecordedsVO.getSpvAccountCode());
-			}else{
-				throw new BusinessException("收款账户为空！");
+			if(!StringUtils.isBlank(spvRecordedsVOItems.get(i).getPayerAcc())){
+				toSpvCashFlow.setPayerAcc(spvRecordedsVOItems.get(i).getPayerAcc());/**付款人账户**/
 			}
-			if(!StringUtils.isBlank(spvRecordedsVO.getSpvAccountBank())){//收款人开户行
-				toSpvCashFlow.setReceiverBank(spvRecordedsVO.getSpvAccountBank());
-			}else{
-				//throw new BusinessException("收款人开户行为空！");
+			if(!StringUtils.isBlank(spvRecordedsVOItems.get(i).getPayerBank())){
+				toSpvCashFlow.setPayerBank(spvRecordedsVOItems.get(i).getPayerBank());/**付款人银行**/
 			}
-			if(!StringUtils.isBlank(spvRecordedsVOItems.get(i).getPayerName())){//付款人名称
-				toSpvCashFlow.setPayer(spvRecordedsVOItems.get(i).getPayerName());
+			if(null != spvRecordedsVOItems.get(i).getPayerAmount()){
+				toSpvCashFlow.setAmount(spvRecordedsVOItems.get(i).getPayerAmount().multiply(new BigDecimal(10000)));/**流水金额**/
+			}	
+			toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());/**审核状态**/
+			toSpvCashFlow.setReceiptTime(spvRecordedsVOItems.get(i).getCashFlowCreateTime());/**回单生成时间**/
+			toSpvCashFlow.setInputTime(new Date());/**录入日期**/
+			toSpvCashFlow.setIsDeleted("0");/**是否删除**/
+			toSpvCashFlow.setCreateTime(new Date());/**创建时间**/
+			toSpvCashFlow.setCreateBy(user.getId());/**创建人**/
+			if(null != spvRecordedsVOItems.get(i).getReceiptNo()){
+				toSpvCashFlow.setVoucherNo(spvRecordedsVOItems.get(i).getReceiptNo());/**贷记凭证编号**/
 			}
-			if(!StringUtils.isBlank(spvRecordedsVOItems.get(i).getPayerAcc())){//付款人账户
-				toSpvCashFlow.setPayerAcc(spvRecordedsVOItems.get(i).getPayerAcc());
-			}
-			if(!StringUtils.isBlank(spvRecordedsVOItems.get(i).getPayerBank())){//付款人银行
-				toSpvCashFlow.setPayerBank(spvRecordedsVOItems.get(i).getPayerBank());
-			}
-			//进出账条件	toSpvCashFlow.setFlowCondition(flowCondition);
-			if(null != spvRecordedsVOItems.get(i).getPayerAmount()){//流水金额
-				toSpvCashFlow.setAmount(spvRecordedsVOItems.get(i).getPayerAmount().multiply(new BigDecimal(10000)));
-			}
-			//toSpvCashFlow.setReceiptNo(receiptNo);回单编号	
-			toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());//审核状态
-			//送结束日期	toSpvCashFlow.setCloseTime(closeTime);
-			toSpvCashFlow.setReceiptTime(spvRecordedsVOItems.get(i).getCashFlowCreateTime());//回单生成时间
-			toSpvCashFlow.setInputTime(new Date());//录入日期
-			toSpvCashFlow.setIsDeleted("0");//是否删除
-			toSpvCashFlow.setCreateTime(new Date());//创建时间
-			toSpvCashFlow.setCreateBy(user.getId());//创建人
-			//更新时间	toSpvCashFlow.setUpdateTime(updateTime);
-			//更新时间	toSpvCashFlow.setUpdateBy(updateBy);
-			if(null != spvRecordedsVOItems.get(i).getReceiptNo())
-				toSpvCashFlow.setVoucherNo(spvRecordedsVOItems.get(i).getReceiptNo());//贷记凭证编号
 			
 			toSpvCashFlowMapper.insertSelective(toSpvCashFlow);
 			
@@ -1457,32 +1442,28 @@ public class ToSpvServiceImpl implements ToSpvService {
 				String[] fileIds = spvRecordedsVOItems.get(i).getFileId().split(",");
 				String[] fileNames = spvRecordedsVOItems.get(i).getFileName().split(",");
 			    for (int f = 0 ; f <fileIds.length ; f++ ) {
-			    	//4.小票、回单
+			    	/**4.小票、回单**/
 					ToSpvReceipt toSpvReceipt = new ToSpvReceipt();
-					toSpvReceipt.setCashflowId(toSpvCashFlow.getPkid().toString());//流水ID
-					toSpvReceipt.setType(fileNames[f].substring(fileNames[f].indexOf("."), fileNames[f].length()));//凭证类型
-					toSpvReceipt.setAttachId(fileIds[f]);//附件ID
-					toSpvReceipt.setComment(fileNames[f]);//备注
-					toSpvReceipt.setIsDeleted("0");//是否删除
-					toSpvReceipt.setCreateTime(new Date());//创建时间
-					toSpvReceipt.setCreateBy(user.getId());//创建人
-					//更新时间	toSpvReceipt.setUpdateTime(updateTime);
-					//更新人	toSpvReceipt.setUpdateBy(updateBy);
+					toSpvReceipt.setCashflowId(toSpvCashFlow.getPkid().toString());/**流水ID**/
+					toSpvReceipt.setType(fileNames[f].substring(fileNames[f].indexOf("."), fileNames[f].length()));/**凭证类型**/
+					toSpvReceipt.setAttachId(fileIds[f]);/**附件ID**/
+					toSpvReceipt.setComment(fileNames[f]);/**备注**/
+					toSpvReceipt.setIsDeleted("0");/**是否删除**/
+					toSpvReceipt.setCreateTime(new Date());/**创建时间**/
+					toSpvReceipt.setCreateBy(user.getId());/**创建人**/
 					toSpvReceiptMapper.insertSelective(toSpvReceipt);
 	
 			    }
 			}else{
-				//4.小票、回单
+				/**4.小票、回单**/
 				ToSpvReceipt toSpvReceipt = new ToSpvReceipt();
-				toSpvReceipt.setCashflowId(toSpvCashFlow.getPkid().toString());//流水ID
+				toSpvReceipt.setCashflowId(toSpvCashFlow.getPkid().toString());/**流水ID**/
 				toSpvReceipt.setType(spvRecordedsVOItems.get(i).getFileName().substring(spvRecordedsVOItems.get(i).getFileName().indexOf("."), spvRecordedsVOItems.get(i).getFileName().length()));//凭证类型
-				toSpvReceipt.setAttachId(spvRecordedsVOItems.get(i).getFileId());//附件ID
-				toSpvReceipt.setComment(spvRecordedsVOItems.get(i).getFileName());//备注
-				toSpvReceipt.setIsDeleted("0");//是否删除
-				toSpvReceipt.setCreateTime(new Date());//创建时间
-				toSpvReceipt.setCreateBy(user.getId());//创建人
-				//更新时间	toSpvReceipt.setUpdateTime(updateTime);
-				//更新人	toSpvReceipt.setUpdateBy(updateBy);
+				toSpvReceipt.setAttachId(spvRecordedsVOItems.get(i).getFileId());/**附件ID**/
+				toSpvReceipt.setComment(spvRecordedsVOItems.get(i).getFileName());/**备注**/
+				toSpvReceipt.setIsDeleted("0");/**是否删除**/
+				toSpvReceipt.setCreateTime(new Date());/**创建时间**/
+				toSpvReceipt.setCreateBy(user.getId());/**创建人**/
 				toSpvReceiptMapper.insertSelective(toSpvReceipt);
 			}
 			
@@ -1852,8 +1833,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 
 	@Override
 	public void spvSign(String spvCode, String caseCode, String source, String instCode, String taskId,
-			String spvConCode, Date signTime, Long SellerAccountPkid, String SellerAccountName, String SellerAccountNo, 
-			String SellerAccountTelephone, String SellerAccountBank, String SellerAccountBranchBank, SessionUser user) {
+			String spvConCode, Date signTime, ToSpvAccount buyerAcc, ToSpvAccount sellerAcc, ToSpvAccount fundAcc, SessionUser user) {
 		
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		workFlowManager.submitTask(variables, taskId, instCode, null, caseCode);
@@ -1863,15 +1843,176 @@ public class ToSpvServiceImpl implements ToSpvService {
 		spv.setSpvConCode(spvConCode);
 		spv.setSignTime(signTime);
 		updateByPrimaryKey(spv);
+
+		if(buyerAcc.getPkid() != null){
+			toSpvAccountMapper.updateByPrimaryKeySelective(buyerAcc);
+		}else{
+			toSpvAccountMapper.insertSelective(buyerAcc);
+		}
+		if(sellerAcc.getPkid() != null){
+			toSpvAccountMapper.updateByPrimaryKeySelective(sellerAcc);
+		}else{
+			toSpvAccountMapper.insertSelective(sellerAcc);
+		}
+		if(fundAcc.getPkid() != null){
+			toSpvAccountMapper.updateByPrimaryKeySelective(fundAcc);
+		}else{
+			toSpvAccountMapper.insertSelective(fundAcc);
+		}
+	}
+
+	@Override
+	public void batchChangeOfficer(String[] spvCodeListArr, String newOfficerId, String newDirectorId) {
+		if(spvCodeListArr != null && spvCodeListArr.length > 0){
+			for(String spvCode:spvCodeListArr){
+				changeOfficer(spvCode, newOfficerId, newDirectorId);
+			}
+		}
+	}
+	
+	@Override
+	public void changeOfficer(String spvCode, String newOfficerId, String newDirectorId) {
+		//待办分配给新的人员
+		SessionUser newOfficerUser = uamSessionService.getSessionUserById(newOfficerId);
+		SessionUser newDirectorUser = uamSessionService.getSessionUserById(newDirectorId);
+		if(newOfficerUser == null){
+			throw new BusinessException("找不到选择的风控专员！");
+		}
+		if(newDirectorUser == null){
+			throw new BusinessException("找不到选择的风控总监！");
+		}
+		//更新合约表风控专员字段
+		ToSpv record = new ToSpv();
+		record.setSpvCode(spvCode);
+		record.setRiskControlOfficer(newOfficerUser.getId());
+		toSpvMapper.updateOfficerBySpvCode(record);
 		
-		ToSpvAccount toSpvAccount = new ToSpvAccount();
-		toSpvAccount.setPkid(SellerAccountPkid);
-		toSpvAccount.setName(SellerAccountName);
-		toSpvAccount.setAccount(SellerAccountNo);
-		toSpvAccount.setTelephone(SellerAccountTelephone);
-		toSpvAccount.setBank(SellerAccountBank);
-		toSpvAccount.setBranchBank(SellerAccountBranchBank);
-		toSpvAccountMapper.updateByPrimaryKey(toSpvAccount);
+		//查询资金监管流程更新流程变量和未完成的任务办理人为所选人员
+		ToWorkFlow query1 = new ToWorkFlow();
+		query1.setBizCode(spvCode);
+		query1.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
+		ToWorkFlow twf1 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query1);
+		if(twf1 == null){
+			throw new BusinessException("找不到资金监管流程！");
+		}
+		String instCode = twf1.getInstCode();
+		//原风控专员和总监
+		String oldOfficer = (String) workFlowManager.getVar(instCode, "RiskControlOfficer").getValue();
+		String oldDirector = (String) workFlowManager.getVar(instCode, "RiskControlDirector").getValue();
+		//查询中止/结束申请号
+		ToSpvCloseApply spvCloseApply = toSpvCloseApplyMapper.selectBySpvCode(spvCode);
+		//查询中止/结束流程更新流程变量和未完成的任务办理人为所选人员
+		ToWorkFlow query2 = new ToWorkFlow();
+		query2.setBizCode(spvCloseApply.getSpvCloseCode());
+		query2.setBusinessKey(WorkFlowEnum.SPV_CLOSE_DEFKEY.getCode());
+		ToWorkFlow twf2 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query2);
+		if(twf2 != null){
+			workFlowManager.setVariableByProcessInsId(twf2.getInstCode(), "applier",new RestVariable("applier",newOfficerUser.getUsername()));
+			workFlowManager.setVariableByProcessInsId(twf2.getInstCode(), "director",new RestVariable("director",newDirectorUser.getUsername()));
+			PageableVo pageableVo2 = taskService.listTasks(twf2.getInstCode(), false);
+			List<TaskVo> taskList2 = pageableVo2.getData();
+			for (TaskVo task : taskList2) {
+				if (oldOfficer.equals(task.getAssignee())) {
+					taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+				}else if(oldDirector.equals(task.getAssignee())){
+					taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
+				}
+			}
+		}
+
+		//如果存在活跃的中止/结束流程说明资金监管流程被挂起：若挂起临时唤醒，更改人员后再挂起
+		if(twf2 != null)
+			processInstanceService.activateOrSuspendProcessInstance(instCode, true);
+		//新风控专员和总监
+		workFlowManager.setVariableByProcessInsId(instCode, "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+		workFlowManager.setVariableByProcessInsId(instCode, "RiskControlDirector",new RestVariable("RiskControlDirector",newDirectorUser.getUsername()));
+		PageableVo pageableVo1 = taskService.listTasks(instCode, false);
+		List<TaskVo> taskList1 = pageableVo1.getData();
+		for (TaskVo task : taskList1) {
+			if (oldOfficer.equals(task.getAssignee())) {
+				taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+			}else if(oldDirector.equals(task.getAssignee())){
+				taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
+			}
+		}
+		if(twf2 != null)
+			processInstanceService.activateOrSuspendProcessInstance(instCode, false);
+		
+		//出入账和中止结束流程分配给新的人员
+		List<ToSpvCashFlowApply> toCashFlows = findCashFlowApplyCodeBySpvCode(spvCode);
+		if(toCashFlows != null && toCashFlows.size()>0){
+			toCashFlows.forEach((item)->{
+				String cashFlowApplyCode = item.getCashflowApplyCode();
+				if("in".equals(item.getUsage())){
+					ToWorkFlow query3 = new ToWorkFlow();
+					query3.setBizCode(cashFlowApplyCode);
+					query3.setBusinessKey(WorkFlowEnum.SPV_CASHFLOW_IN_DEFKEY.getCode());
+					ToWorkFlow twf3 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query3);
+					workFlowManager.setVariableByProcessInsId(twf3.getInstCode(), "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+					workFlowManager.setVariableByProcessInsId(twf3.getInstCode(), "RiskControlDirector",new RestVariable("RiskControlDirector",newDirectorUser.getUsername()));
+					PageableVo pageableVo3 = taskService.listTasks(twf3.getInstCode(), false);
+					List<TaskVo> taskList3 = pageableVo3.getData();
+					for (TaskVo task : taskList3) {
+						if (oldOfficer.equals(task.getAssignee())) {
+							taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+						}else if(oldDirector.equals(task.getAssignee())){
+							taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
+						}
+					}
+				}else if("out".equals(item.getUsage())){
+					ToWorkFlow query4 = new ToWorkFlow();
+					query4.setBizCode(cashFlowApplyCode);
+					query4.setBusinessKey(WorkFlowEnum.SPV_CASHFLOW_OUT_DEFKEY.getCode());
+					ToWorkFlow twf4 = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(query4);
+					workFlowManager.setVariableByProcessInsId(twf4.getInstCode(), "RiskControlOfficer",new RestVariable("RiskControlOfficer",newOfficerUser.getUsername()));
+					workFlowManager.setVariableByProcessInsId(twf4.getInstCode(), "RiskControlDirector",new RestVariable("RiskControlDirector",newDirectorUser.getUsername()));
+					PageableVo pageableVo4 = taskService.listTasks(twf4.getInstCode(), false);
+					List<TaskVo> taskList4 = pageableVo4.getData();
+					for (TaskVo task : taskList4) {
+						if (oldOfficer.equals(task.getAssignee())) {
+							taskService.updateAssignee(task.getId().toString(), newOfficerUser.getUsername());
+						}else if(oldDirector.equals(task.getAssignee())){
+							taskService.updateAssignee(task.getId().toString(), newDirectorUser.getUsername());
+						}
+					}
+				}
+				
+			});
+		}
+	}
+
+	/**
+	 * 根据合约号查询申请号
+	 */
+	@Override
+	public List<ToSpvCashFlowApply> findCashFlowApplyCodeBySpvCode(String spvCode) {
+		return toSpvCashFlowApplyMapper.selectCashFlowApplysBySpvCode(spvCode);
+	}
+
+	@Override
+	public List<String> selectOfficerAndDirector(String spvCode) {
+		//1.查询流程
+		ToWorkFlow record = new ToWorkFlow();
+		record.setBizCode(spvCode);
+		record.setBusinessKey(WorkFlowEnum.SPV_DEFKEY.getCode());
+		ToWorkFlow workFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
+		if(workFlow == null){
+			throw new BusinessException("找不到资金监管流程！");
+		}
+		
+		String officerUserName = (String) workFlowManager.getVar(workFlow.getInstCode(), "RiskControlOfficer").getValue();
+		String directorUserName = (String) workFlowManager.getVar(workFlow.getInstCode(), "RiskControlDirector").getValue();
+		
+		List<UserOrgJob> officers = uamUserOrgService.findUserOrgJobByUsername(officerUserName);
+		SessionUser officer = uamSessionService.getSessionUserById(officers.get(0).getUserId());
+		List<UserOrgJob> directors = uamUserOrgService.findUserOrgJobByUsername(directorUserName);
+		SessionUser director = uamSessionService.getSessionUserById(directors.get(0).getUserId());
+		
+		List<String> mixUserList = new ArrayList<String>();
+		mixUserList.add(officer.getId()+","+officer.getRealName());
+		mixUserList.add(director.getId()+","+director.getRealName());
+		
+		return mixUserList;
 	}
 	
 }

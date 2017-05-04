@@ -239,7 +239,7 @@ text-decoration: underline !important;
 						<td class="center">
                                 <p class="big">
                                 <i class="sign_blue">
-                                    {{item.taskDfKey}}           
+                                    {{item.taskDfKey == ""?item.name:item.taskDfKey}}           
                                 </i>
                                 </p>
                                 <p>
@@ -365,7 +365,6 @@ function reloadGrid(page) {
 	data1.sidx=sortcolumn;
 	data1.sord=sortgz;
 	data1.userServiceJobCode="${userServiceJobCode}";
-	
     fetchData(data1);
   	}
 function packgeData(page){

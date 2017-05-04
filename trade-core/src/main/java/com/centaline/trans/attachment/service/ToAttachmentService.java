@@ -56,4 +56,6 @@ public interface ToAttachmentService {
 	
 	int updateAvaliableAttachmentByProperty(ToAttachment record);
 
+	void saveToAttachment(List<ToAttachment> toAttachment);
+
 }

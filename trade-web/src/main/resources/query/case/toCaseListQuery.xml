@@ -130,7 +130,7 @@
 						    EXISTS (SELECT 1 FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p where p.CASE_CODE = A.CASE_CODE and p.PROCESSOR_ID = #proName#))
 					</ifNotNull>
 					<ifNotNull agentOrgName>
-						AND  EXISTS(SELECT 1 FROM sctrans.V_USER_ORG_JOB uoj where uoj.user_id = A.AGENT_CODE  AND uoj.org_id = #agentOrgName# )
+						AND  EXISTS(SELECT 1 FROM sctrans.V_USER_ORG_JOB uoj where uoj.user_id = B.AGENT_CODE  AND uoj.org_id = #agentOrgName# )
 					</ifNotNull>
 					<ifNotNull srvCode1>
 						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode1#)
@@ -1126,10 +1126,7 @@ select stuff((select ',' +a.GUEST_NAME from sctrans.T_TG_GUEST_INFO a where a.CA
 				from sctrans.T_TO_CASE_INFO i 
 				left join sctrans.T_TO_PROPERTY_INFO t on i.CASE_CODE=t.CASE_CODE
 				inner join sctrans.T_TO_CASE c on i.CASE_CODE=c.CASE_CODE 
-				where 
-					   c.CREATE_TIME >DATEADD(mm,-6,GETDATE())
-					  and c.CREATE_TIME > cast(substring('2016-12-28 00:00:00.000',0,19) as datetime)
-					
+				where 1=1					
 				 <if test="inputType != null">
 					and c.CASE_ORIGIN != #inputType#  and c.CASE_ORIGIN !='PROCESS'
 				 </if>	

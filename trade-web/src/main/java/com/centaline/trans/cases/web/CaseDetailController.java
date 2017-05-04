@@ -651,7 +651,9 @@ public class CaseDetailController {
 				toLoanAgentVOs.add(toLoanAgentVO);
 			}
 		}
-		SessionUser sessionUser = uamSessionService.getSessionUser();
+		
+		
+		SessionUser sessionUser = uamSessionService.getSessionUser();		
 		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
 			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
@@ -664,8 +666,7 @@ public class CaseDetailController {
 				tasks.addAll(taskList1);
 			}
 			// 本人做的任务
-			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService
-					.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
 			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 		}
 		
@@ -853,7 +854,9 @@ public class CaseDetailController {
 		if (srvCodes.length() > 0)
 			srvCodes.deleteCharAt(srvCodes.length() - 1);
 		reVo.setSrvCodes(srvCodes.toString());
-
+		
+		
+		SessionUser sessionUser = uamSessionService.getSessionUser();
 		// 工作流
 		ToWorkFlow inWorkFlow = new ToWorkFlow();
 		inWorkFlow.setBusinessKey("operation_process");
@@ -1267,22 +1270,36 @@ public class CaseDetailController {
 				toLoanAgentVOs.add(toLoanAgentVO);
 			}
 		}
-		SessionUser sessionUser = uamSessionService.getSessionUser();
+	
 		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
+			//查询caseCode所有的流程instCode
 			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
 			for(String insCode : insCodeList) {
-				TaskHistoricQuery tq = new TaskHistoricQuery();
+				TaskHistoricQuery tq = new TaskHistoricQuery();				
 				tq.setProcessInstanceId(insCode);
 				tq.setFinished(true);
-				
-				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
+
+				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());		
 				tasks.addAll(taskList1);
 			}
 			// 本人做的任务
-			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService
-					.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			
+			/*
+			 * @author: zhuody
+			 * @date:2017-04-12
+			 * @desc:信息管理员 权限放大
+			 * */
+/*			if(null != sessionUser.getServiceJobCode() && !"".equals(sessionUser.getServiceJobCode())){
+				if("COXXGLY".equals(sessionUser.getServiceJobCode())){
+					request.setAttribute("myTasks",filterMyTask(null,tasks)) ;
+				}else{
+					
+				}		
+			}*/
 			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
+			
 		}
 		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser.getServiceDepCode());
 		boolean isBackTeam = false;
@@ -1384,7 +1401,9 @@ public class CaseDetailController {
 		if (tasks == null || mySerivceItems == null || tasks.isEmpty() || mySerivceItems.isEmpty()) {
 			return tasks;
 		}
+		
 		Set<String>taskDfKeys=new HashSet<>();
+		
 		mySerivceItems.parallelStream().forEach(item->{
 			Dict d =uamBasedataService.findDictByType(item.getSrvCode());
 			if(d!=null&&d.getChildren()!=null){
@@ -1395,7 +1414,8 @@ public class CaseDetailController {
 				});
 			}
 		});
-		Iterator<TaskVo> it=tasks.iterator();
+		
+		Iterator<TaskVo> it = tasks.iterator();
 		while (it.hasNext()) {
 			TaskVo task=it.next();
 			if(!taskDfKeys.contains(task.getTaskDefinitionKey())){
@@ -1563,7 +1583,7 @@ public class CaseDetailController {
 		
 		tgServItemAndProcessorService.updateByCaseCode(record);
 
-		// 更新流程引擎
+		// 更新流程引擎  变更流程的责任人，待办里面也是根据案件的执行人来查询的
 		if (!StringUtils.isBlank(instCode)) {
 			String variableName = "caseOwner";
 			RestVariable restVariable = new RestVariable();
@@ -1837,7 +1857,7 @@ public class CaseDetailController {
 		List<String> oldSrvs = new ArrayList<String>();
 		oldSrvs.addAll(srvsd);
 
-		// 删除项
+		// 删除项  相同的服务项则不变更
 		for (String s : prItems) {
 			if (srvsd.contains(s)) {
 				srvsd.remove(s);
@@ -1859,7 +1879,8 @@ public class CaseDetailController {
 		    vars.put("consultant", sessionUser.getUsername());
 		    vars.put("Manager", manager.getUsername());
 		    StartProcessInstanceVo pIVo =processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SRV_BUSSKEY.getCode()), caseCode, vars);
-			ToWorkFlow toWorkFlow = new ToWorkFlow();
+			
+		    ToWorkFlow toWorkFlow = new ToWorkFlow();
 			toWorkFlow.setCaseCode(caseCode);
 			toWorkFlow.setBizCode(caseCode);
 			toWorkFlow.setInstCode(pIVo.getId());
@@ -1869,6 +1890,7 @@ public class CaseDetailController {
 			toWorkFlowService.insertSelective(toWorkFlow);
 
 			AjaxResponse response = new AjaxResponse();
+			//获取所有运行中的流程
 			TaskQuery tq = new TaskQuery(pIVo.getId(), true);
 			PageableVo pageableVo = workFlowManager.listTasks(tq);
 			List<TaskVo> taskList = pageableVo.getData();
@@ -2155,6 +2177,7 @@ public class CaseDetailController {
 	@ResponseBody
 	public AjaxResponse<?> casePause(String caseCode, HttpServletRequest request) {
 		// 案件状态查询
+		AjaxResponse response = new AjaxResponse();
 		boolean isSus = false;
 		ToCase record = new ToCase();
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
@@ -2165,14 +2188,23 @@ public class CaseDetailController {
 			record.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 			isSus = true;
 		}
+		ToWorkFlow wf = new ToWorkFlow();
+		wf.setCaseCode(caseCode);
+		List<ToWorkFlow> zhulcList = toWorkFlowService.queryActiveToWorkFlowByCaseCode(wf);
 		// 流程挂起
-		List<String> instCodes = toWorkFlowService.queryInstCodesByCaseCode(caseCode);
-		for (String instCode : instCodes) {
-			workFlowManager.activateOrSuspendProcessInstance(instCode, isSus);
+		for (ToWorkFlow toWorkFlow : zhulcList) {
+			if(WorkFlowEnum.SERVICE_RESTART.getCode().equals(toWorkFlow.getBusinessKey())){
+				response.setMessage("该案件有流程重启任务，等待主管审批");
+				response.setSuccess(false);
+				return response;
+			}
 		}
+		for (ToWorkFlow toWorkFlow : zhulcList) {
+			workFlowManager.activateOrSuspendProcessInstance(toWorkFlow.getInstCode(), isSus);
+		}
+
 		// 案件表更新
 		toCaseService.updateByCaseCodeSelective(record);
-		AjaxResponse response = new AjaxResponse();
 		response.setContent(record.getCaseProperty());
 		response.setMessage("变更成功！");
 		response.setSuccess(true);

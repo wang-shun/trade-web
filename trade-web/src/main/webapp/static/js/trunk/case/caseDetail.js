@@ -67,20 +67,32 @@ function changeTaskAssignee(sendData){
 		}
 	});
 }
+
+
 $(document).ready(function() {
+
 			$("#subscribe").subscribeToggle({
 				moduleType:"1001",
 				subscribeType:"2001"
 			});
+			
 			$("#sel_changeFrom option").each(function(){
 				var _this=$(this);
 				var taskDfKey=_this.val();
-				if(!changeTaskList.contains(taskDfKey) ||(loanTaskArry.contains(taskDfKey)&&!loanTasks[loanReqType].contains(taskDfKey))){
+				if(!changeTaskList.contains(taskDfKey) ||(loanTaskArry.contains(taskDfKey) && !loanTasks[loanReqType].contains(taskDfKey))){
 					_this.remove();
 				}
 			});
-			$("#sel_changeFrom").change(function(){
+			$("#sel_changeFrom").change(function(){		
+					//添加判断是为了  修改商贷环节时不能派单
+/*					if($("#sel_changeFrom").val() == "ComLoanProcess"){			
+						
+						$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val()+'?comFlag=processButtonHidden');	
+					}else{
+						$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
+					}*/					
 					$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
+					
 			});
 			
 			$("#sel_changeFrom").change();
@@ -91,7 +103,7 @@ $(document).ready(function() {
 				if($("#sel_changeFrom").val()==null||$("#sel_changeFrom").val()==''){
 					window.wxc.alert('请选择要修改的项目！');
 					return false;
-				}
+				}	
 			});
 			$("#mortageService").change(function(){
 				mortageService();
@@ -475,14 +487,16 @@ function showLoanReqmentChgModal(){
 	
 }	*/
 
+
 /*贷款需求选择*/
 function mortageService() {
 	var value = $("#mortageService").val();
 	if(value!='0'){
 		$("#loan_reqment_chg_form").find("#estPartTime").removeProp('disabled');
 		$("#loan_reqment_chg_form").find("#estPartTime").removeAttr('disabled');
-		 $('#div_releasePlan').show();
+		$('#div_releasePlan').show();
 	}else{
+		//0 表示无贷款
 		$("#loan_reqment_chg_form").find("#estPartTime").prop('disabled','disabled');//防止后台拿到数据
 		$('#div_releasePlan').hide();
 	}
@@ -698,9 +712,9 @@ function ChangeModal(data) {
 				preProcessorId = value.id;
 				oldOrgId=value.orgId;
 			});
-			if(data.orgcode!='033F045'){/*浦东合作顾问选中台*/
+			//if(data.orgcode!='033F045'){/*浦东合作顾问选中台*/
 				addHtml += "<option value='-1'>---跨区选择---</option>";
-			}
+			//}
 			addHtml += "</select>";
 			addHtml += "<input type='hidden' name='orgId' id='org"+index+"' value='"+value.orgId+"'/>";
 			addHtml += "<input type='hidden'  id='processorId"+index+"' name='processorId' value=''/>";
@@ -1061,16 +1075,20 @@ function changeSrvs(){
 	});
 	$("#selectedSrvs").html(reHtml);
 }
-var resSrvs = [ '30004001', '30004002'];
-var delSrv='30004010';
+
+var resSrvs = [ '30004001', '30004002'];  //商贷、公积金贷款  流程重启
+var delSrv='30004010'; //交易过户后台组服务  直接爆单
 //保存服务项
 function saveSrvItems(){
 	window.wxc.confirm("您是否确认进行服务项变更？",{"wxcOk":function(){
 		var isDel = false;
 		var delSrvCheck = $("input[name='srvCode'][value="+delSrv+"]").prop('checked');
-		if(srvs.indexOf(delSrv)>-1 && !delSrvCheck){
+		//srvs 根据caseCode查询的有哪些服务项
+		if(srvs.indexOf(delSrv)>-1 && !delSrvCheck){  //查询返回下标，从0开始， 
+			//原先有商贷、现在没有勾选
 			isDel=true;
 		}else if(delSrvCheck && srvs.indexOf(delSrv)==-1){
+			//现在已勾选商贷服务、原先没有商贷
 			isDel=true;
 		}
 
@@ -1164,7 +1182,7 @@ function saveSrvItemsForManager(){
 		var resSrvCheck1 = $("input[name='srvCode'][value="+resSrvs[0]+"]").prop('checked');
 		var resSrvCheck2 = $("input[name='srvCode'][value="+resSrvs[1]+"]").prop('checked');
 		if(resSrvCheck1 && resSrvCheck2) {
-			window.wxc.alert("商贷/组合贷和纯公积金贷只允许存在一种！");
+			window.wxc.alert("商贷和纯公积金贷只允许存在一种！");
 			return;
 		}
 
@@ -1574,6 +1592,7 @@ function showTeamModal(data){
 	$("#team-form").html(inHtml);
 	$('#team-modal-form').modal("show");
 }
+//我要修改显示弹框
 function showChangeFormModal(){
 	$('#changeForm-modal-form').modal("show");
 }

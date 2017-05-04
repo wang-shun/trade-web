@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
@@ -127,16 +128,32 @@
 										id="finOrgCode" value="${eloanCase.finOrgCode}">
 									</select>
 								</div>
-
+							</li>	
+							<li>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 证件类型 </label>
+									<aist:dict id="custCardType" name="custCardType"
+										clazz="select_control sign_right_two" display="select"
+										dictType="CERT_TYPE" tag="forEloanApply" ligerui='none'
+										defaultvalue="${eloanCase.custCardType}"></aist:dict>
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 办卡人证件号 </label> <input
+										type="text" id="custPaper" name="custPaper"
+										class="input_type sign_right_two"
+										style="width: 172px; display: inline-block;"
+										value="${eloanCase.custPaper}" />
+								</div>
+								
 							</li>
 							<li>
 								<div class="form_content">
-									<label class="control-label sign_left_two"> 客户姓名 </label> <input
+									<label class="control-label sign_left_two"> 办卡人姓名 </label> <input
 										class="input_type sign_right_two" name="custName"
 										id="custName" value="${eloanCase.custName}">
 								</div>
 								<div class="form_content">
-									<label class="control-label sign_left_two"> 客户电话 </label> <input
+									<label class="control-label sign_left_two"> 办卡人电话 </label> <input
 										class="input_type sign_right_two" name="custPhone"
 										id="custPhone" value="${eloanCase.custPhone}">
 								</div>
@@ -203,7 +220,6 @@
 										class="input_type sign_right_two" name="zjCode" id="zjCode"
 										value="${eloanCase.zjCode}">
 								</div>
-
 							</li>
 							<li>
 								<div class="form_content">
@@ -258,14 +274,17 @@
 								</div>
 							</li>
 							<li>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 审批 </label> <select
-										name="approved" id="approved"
+								<c:if test="${ v!=2 }">
+									<div class="form_content">
+									<label class="control-label sign_left_two"> 审批 </label> 
+									<select name="approved" id="approved"
 										class="select_control sign_right_two">
 										<option value="1">同意</option>
 										<option value="0">驳回</option>
 									</select>
-								</div>
+									</div>
+								</c:if>
+								<input type="hidden" name="param" id="param" value="${v }"> 
 								<div class="form_content"></div>
 								<div class="form_content"></div>
 							</li>
@@ -317,9 +336,14 @@
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script>
 			$(document).ready(function() {
+				$("#loanSrvCode").attr("disabled", true);
+				$("#finOrgCode").attr("disabled", true);
+				$("#custCardType").attr("disabled", true);
 				$("input:not([type='button'])").attr("disabled", true);
 				$("input[type='hidden']").attr("disabled", false);
-				$("select:not([name='approved'])").attr("disabled", true);
+				if($("#param").val()!=2){
+					$("select:not([name='approved'])").attr("disabled", true);
+				}
 				
 /* 				$("input[name='custName']").attr("disabled", false);
 				$("input[name='custPhone']").attr("disabled", false);
@@ -329,15 +353,17 @@
 				getBankList($("#finOrgCode").val());
 
 				$(".submit_From").click(function() {
-					 //提交之前先验证 是否驳回
-					 var eContent = $("#eContent").val();				
-			    	 var approved = $("#approved").val();
-			     	 if(approved==0){
-			     		 if(eContent == '' || eContent == null){
-			     			window.wxc.alert("申请驳回时请填写驳回原因！");
-				     		 return;
-			     		 }
-			     	 }
+					if($("#param").val()!=2){
+						//提交之前先验证 是否驳回
+						 var eContent = $("#eContent").val();				
+				    	 var approved = $("#approved").val();
+				     	 if(approved==0){
+				     		 if(eContent == '' || eContent == null){
+				     			window.wxc.alert("申请驳回时请填写驳回原因！");
+					     		 return;
+				     		 }
+				     	 }
+					}
 					saveEloanApplyConfirm();
 				})
 			});

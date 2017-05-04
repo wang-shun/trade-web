@@ -43,13 +43,15 @@
     <result column="ABAN_TIME" property="abanTime" jdbcType="TIMESTAMP" />
     <result column="LOANER_NAME" property="loanerName" jdbcType="VARCHAR" />
     <result column="LOANER_PHONE" property="loanerPhone" jdbcType="VARCHAR" />
+    <result column="LOANER_CONF_TIME" property="loanerConfTime" jdbcType="TIMESTAMP" />
+    <result column="STATE_IN_BANK" property="stateInBank" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, ELOAN_CODE, CASE_CODE, LOAN_SRV_CODE, FIN_ORG_CODE, CUST_NAME, CUST_PHONE, CUST_PAPER,CUST_CARD_TYPE,
     APPLY_TIME, APPLY_AMOUNT, MONTH, SIGN_AMOUNT, SIGN_TIME, EXCUTOR_ID, EXCUTOR_TEAM, 
     EXCUTOR_DISTRICT, ZJ_NAME, ZJ_CODE, CO_NAME, CO_CODE, CO_PART, PD_CODE, PD_NAME, 
     PD_PART, APPLY_CONF_TIME, APPLY_CONF_USER, SIGN_CONF_TIME, SIGN_CONF_USER, IS_REL_FINISH, 
-    CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY,CHARGE_AMOUNT,REMARK,STATUS,ABAN_REASON,ABAN_TIME,LOANER_NAME,LOANER_PHONE
+    CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY,CHARGE_AMOUNT,REMARK,STATUS,ABAN_REASON,ABAN_TIME,LOANER_NAME,LOANER_PHONE,STATE_IN_BANK
   </sql>
   
   <select id="selectByEloanCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -64,6 +66,25 @@
     from sctrans.T_TO_ELOAN_CASE
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
+  <select id="selectBackKaCountByTime" parameterType="java.lang.Integer" resultType="int">
+    select
+    count(1)
+    from sctrans.T_TO_ELOAN_CASE c
+    left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR s on c.EXCUTOR_TEAM = s.ORG_ID
+    where c.STATUS != 'ABAN' and c.LOAN_SRV_CODE IN ('30004005','30004015') 
+    and cast(convert(varchar(8) , c.CREATE_TIME, 112 ) as int) between #{endWeekDay}/100*100+1 and #{endWeekDay}
+    and s.SRV_CODE = '3000401002'
+  </select>
+  <select id="selectBackAppCountByTime" parameterType="java.lang.Integer" resultType="int">
+    select
+    count(1)
+    from sctrans.T_TO_ELOAN_CASE c
+    left join sctrans.T_TG_SERV_ITEM_AND_PROCESSOR s on c.EXCUTOR_TEAM = s.ORG_ID
+    where c.STATUS != 'ABAN' and c.LOAN_SRV_CODE NOT IN ('30004005','30004015') 
+    and cast(convert(varchar(8) , c.CREATE_TIME, 112 ) as int) between #{endWeekDay}/100*100+1 and #{endWeekDay}
+    and s.SRV_CODE = '3000401002'
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_ELOAN_CASE
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -556,6 +577,16 @@
       <if test="abanTime  != null" >
         ABAN_TIME  = #{abanTime ,jdbcType=TIMESTAMP},
       </if>
+      <if test="loanerId != null" >
+        LOANER_ID  = #{loanerId ,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerConfTime  != null" >
+        LOANER_CONF_TIME  = #{loanerConfTime ,jdbcType=TIMESTAMP},
+      </if>
+       <if test="stateInBank  != null" >
+        	STATE_IN_BANK  = #{stateInBank ,jdbcType=VARCHAR},
+      </if>
+      
       
 <!--         CREATE_TIME = GETDATE(),
         CREATE_BY = @{SESSION_USER_ID}, -->
@@ -706,7 +737,12 @@
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      LOANER_ID = #{loanerId,jdbcType=VARCHAR},
+      LOANER_NAME = #{loanerName,jdbcType=VARCHAR},
+      LOANER_ORG_CODE = #{loanerOrgCode,jdbcType=VARCHAR},
+      LOANER_ORG_ID = #{loanerOrgId,jdbcType=VARCHAR},
+      LOANER_PHONE = #{loanerPhone,jdbcType=VARCHAR} 
    	where ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >

@@ -32,7 +32,7 @@ function relieve(caseCode,status,warnType){
 function reloadGrid(){
 	
 	var data = getParams();
-	
+
 	$("#bizwarnList").reloadGrid({
     	ctx : ctx,
 		queryId : data.queryId,
@@ -50,8 +50,13 @@ function getParams() {
 	var caseCode = $.trim($("#caseCode").val());
 	var propertyAddr = $.trim($("#addr").val());
 	var warnTimeStart = $("#warnTimeStart").val();
-	var warnTimeEnd = $("#warnTimeEnd").val();	
-	
+	var warnTimeEnd = $("#warnTimeEnd").val();
+
+	var isAdminFlag = $("#isAdminFlag").val();
+	var userJobCode = $("#userJobCode").val();
+	var queryOrgs = $("#queryOrgs").val();
+	var serviceDepId = $("#serviceDepId").val();
+
 	var data = {};
 	data.currentOrgId = currentOrgId;
 	data.warnType = warnType;
@@ -60,17 +65,24 @@ function getParams() {
 	data.propertyAddr = propertyAddr;
 	data.warnTimeStart = warnTimeStart;
 	data.warnTimeEnd = warnTimeEnd?(warnTimeEnd+' 23:59:59'):warnTimeEnd;
-	
-	var queryId = "";
-	if(currentDepHierarchy == "yucui_team"){
-		queryId = "bizwarnListQueryByTeam";
+
+	data.isAdminFlag =isAdminFlag;
+	data.userJobCode =userJobCode;
+	data.serviceDepId = serviceDepId;
+	if(queryOrgs.length>0){
+		data.orgFlag = 'true';
+	}else{
+		data.orgFlag = 'false';
 	}
-	else {
-		queryId = "bizwarnListQueryByDistinct";
-	}
+	var orgArray = queryOrgs == null ? null : queryOrgs.split(",");
+	data.argu_queryorgs = orgArray;
+
+
+	var queryId = "bizwarnListQueryByTeam";
+
 	
 	data.queryId = queryId;
-	
+
 	return data;
 }
 

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 
@@ -24,6 +26,9 @@ public class TsFinOrgController {
 
 	@Autowired
 	private TsFinOrgService tsFinOrgService;
+	
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
 
 	/**
 	 * 查询egu非egu分行下拉列表
@@ -68,8 +73,7 @@ public class TsFinOrgController {
 	public List<TsFinOrg> findBankListByParentCode(String faFinOrgCode,
 			String flag,String tag,String nowCode) {
 
-		List<TsFinOrg> bankList = tsFinOrgService.findBankListByParentCode(
-				flag, faFinOrgCode,tag,nowCode);
+		List<TsFinOrg> bankList = tsFinOrgService.findBankListByParentCode(flag, faFinOrgCode,tag,nowCode);
 		return bankList;
 	}
 
@@ -156,6 +160,21 @@ public class TsFinOrgController {
 		}
 		return response;
 	}
+	
+	
+	@RequestMapping(value = "queryBankOrgIdByOrgCode")
+	@ResponseBody
+	public AjaxResponse<String> queryBankOrgIdByOrgCode(String finOrgCode) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		if (StringUtils.isNotBlank(finOrgCode)) {			
+			Org org = uamUserOrgService.getOrgByCode(finOrgCode);			
+			if(org != null) 
+				response.setContent(org.getId());
+		
+		}
+		return response;
+	}
+	
 	
 	@RequestMapping(value = "queryParentBankName")
 	@ResponseBody

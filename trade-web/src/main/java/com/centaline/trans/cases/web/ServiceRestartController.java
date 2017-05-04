@@ -3,6 +3,10 @@ package com.centaline.trans.cases.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,18 +34,17 @@ public class ServiceRestartController {
 	private UamSessionService uamSessionService;
 	@Autowired
 	private ToCaseService toCaseService;
-
 	@Autowired
 	private ToAttachmentService toAttachmentService;
-
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
 	/**
-	 * 
+	 * @流程重启
 	 * @return
 	 */
 	@RequestMapping(value = "/restart")
 	@ResponseBody
-	public AjaxResponse<StartProcessInstanceVo> restart(Model model,
-			ServiceRestartVo vo) {
+	public AjaxResponse<StartProcessInstanceVo> restart(Model model,ServiceRestartVo vo) {
 		
 		AjaxResponse<StartProcessInstanceVo> resp = new AjaxResponse<>();
 		SessionUser u = uamSessionService.getSessionUser();
@@ -121,9 +124,10 @@ public class ServiceRestartController {
 	}
 
 	/**
-	 * 
+	 * @des  流程重启审批
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/approve")
 	@ResponseBody
 	public AjaxResponse approve(Model model, ServiceRestartVo vo) {
@@ -131,9 +135,16 @@ public class ServiceRestartController {
 		// 新增判断 如果审批通过 则将对应casecode附件表 可用字段置为N
 		if (vo != null) {
 			if (vo.getIsApproved()) {
-				toAttachmentService.updateToAttachmentByCaseCode(vo
-						.getCaseCode() == null ? "" : vo.getCaseCode());
+				toAttachmentService.updateToAttachmentByCaseCode(vo.getCaseCode() == null ? "" : vo.getCaseCode());
 			}
+		}
+		ToWorkFlow workFlow = new ToWorkFlow();
+
+		workFlow.setCaseCode(vo.getCaseCode());
+		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
+		if (record != null) {
+			record.setStatus(WorkFlowStatus.COMPLETE.getCode());
+			toWorkFlowService.updateByPrimaryKeySelective(record);
 		}
 
 		vo.setUserId(u.getId());

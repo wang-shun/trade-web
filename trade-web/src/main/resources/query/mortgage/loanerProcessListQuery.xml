@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="qqProaddrByCaseCode" beanName="qqProaddrByCaseCode"></customDict>	
+		<customDict id="qqcdSeller" beanName="qqcdSeller" />
+		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />			
+		<customDict id="qqcdMortName" beanName="qqcdMortName"></customDict>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>			
+		<customDict id="qqFenHang" beanName="qqFenHang"></customDict>	
+		<customDict id="qqFinOrgNameYC" beanName="qqFinOrgNameYC"></customDict>	
+			
+	</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter" />
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+	</formatters>	
+	
+	<query id="findLoanerProcessList">
+	    <searchCondition>    
+        </searchCondition> 
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+				SELECT 
+						LOAN.CASE_CODE,
+						LOAN.PKID,
+						LOAN.MORT_TYPE,						
+						LOAN.MORT_TOTAL_AMOUNT,
+						LOAN.COM_AMOUNT,
+						LOAN.PRF_AMOUNT,
+						LOAN.COM_DISCOUNT,
+						LOAN.COM_YEAR,
+						LOAN.PRF_YEAR,						
+						LOAN.LOANER_ID,
+						LOAN.FIN_ORG_CODE,						
+						LOAN.INST_CODE,
+						LOAN.STATUS,
+						LOAN.ID_,
+						LOAN.CUST_NAME,
+						LOAN.LOANER_STATUS,
+						LOAN.HOU_ADDRESS,
+						LOAN.IS_MAIN_LOANBANK_PROCESS,
+						LOAN.LOANERPKID
+				 FROM(
+						SELECT
+							L.CASE_CODE,
+							(SELECT TOP 1 C.PKID FROM sctrans.T_TO_CASE C WHERE C.CASE_CODE = L.CASE_CODE) PKID,
+							L.MORT_TYPE,						
+							ISNULL(L.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,
+							ISNULL(L.COM_AMOUNT,0)/10000 COM_AMOUNT,
+							ISNULL(L.PRF_AMOUNT,0)/10000 PRF_AMOUNT,
+							L.COM_DISCOUNT,
+							L.COM_YEAR,
+							L.PRF_YEAR,						
+							L.LOANER_ID,
+							(SELECT TOP 1 M.FIN_ORG_CODE FROM sctrans.T_TO_MORTGAGE M WHERE M.PKID = L.MORT_PKID AND M.IS_ACTIVE = '1') FIN_ORG_CODE,						
+							W.INST_CODE,
+							W.STATUS,
+							T.ID_,
+							L.CUST_NAME,
+							L.LOANER_STATUS,
+							L.HOU_ADDRESS,
+							L.IS_MAIN_LOANBANK_PROCESS,
+							L.PKID AS LOANERPKID
+											
+						FROM  sctrans.T_TO_MORT_LOANER L					
+						INNER JOIN  sctrans.T_TO_WORKFLOW  W  ON L.CASE_CODE = W.CASE_CODE AND W.BIZ_CODE = L.PKID  AND  W.BUSINESS_KEY='Loaner_Process'				
+						INNER JOIN  sctrans.ACT_HI_TASKINST T ON T.PROC_INST_ID_ = W.INST_CODE AND T.ID_= (SELECT MAX(TA.ID_) FROM sctrans.ACT_HI_TASKINST TA WHERE TA.PROC_INST_ID_ = W.INST_CODE)
+					)LOAN
+					WHERE 1=1
+					<if test="idflag != null and idflag !='' ">				
+				    AND  EXISTS( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = LOAN.CASE_CODE    AND C.LEADING_PROCESS_ID = #userId#)
+				    </if>
+				    <if test="queryorgs != null and queryorgs !='' ">				
+					AND  EXISTS( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = LOAN.CASE_CODE    AND C.ORG_ID in (#queryorgs#))
+					</if>	
+									
+					<if test="caseCode != null and caseCode !='' ">
+					 AND LOAN.CASE_CODE = #caseCode#
+					</if>
+					
+					<if test="propertyAddr != null and propertyAddr !='' ">
+						AND LOAN.HOU_ADDRESS like '%' + #propertyAddr# + '%'
+						<!-- AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE L.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%')  -->
+					</if>								
+		
+					<if test="loanerId != null and loanerId !='' ">
+					 	  AND LOAN.LOANER_ID = #loanerId# 
+					</if>
+					
+					<if test="loanLostFinOrgNameCode != null  and loanLostFinOrgNameCode !='' ">					
+						 AND EXISTS (select 1 from sctrans.T_TS_FIN_ORG FOCODE  where FOCODE.FIN_ORG_CODE = LOAN.FIN_ORG_CODE and FOCODE.FA_FIN_ORG_CODE = #loanLostFinOrgNameCode#)
+					</if>
+		
+					<if test="loanLostFinOrgNameYcCode != null and loanLostFinOrgNameYcCode !='' ">				
+						AND LOAN.FIN_ORG_CODE = #loanLostFinOrgNameYcCode#
+					</if>
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+			  		ORDER BY LOAN.CASE_CODE DESC 
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+			    <column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+			    <column type="both" name="LOANERPKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+			   	<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			   	<column type="both" name="HOU_ADDRESS" index="" checkbox="true" title="案件地址"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			   	<column type="both" name="IS_MAIN_LOANBANK_PROCESS" index="" checkbox="true" title="派单流程标示"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="PROPERTY_ADDR" index="" checkbox="true" title="案件地址"  customDict="" hidden="false" referencecol="CASE_CODE"/>
+				
+				<column type="both" name="MORT_TYPE" index="" checkbox=""   title="贷款类型IN" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="MORT_TYPE_CN" index="" checkbox="true" title="贷款类型"  customDict="qqcdMortName" hidden="false" referencecol="MORT_TYPE"/>
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				
+				
+				<column type="both" name="LOANER_ID" index="" checkbox=""   title="信贷员ID" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="LOANER_NAME" index="" checkbox="true" title="信贷员姓名"  customDict="qqcdUserIdName" hidden="false" referencecol="LOANER_ID"/>
+				
+				<column type="both" name="FIN_ORG_CODE" index="" checkbox="true" title="银行Code"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="FIN_ORG_NAME" index="" checkbox="true" title="银行名称"  customDict="qqFenHang" hidden="false" referencecol="FIN_ORG_CODE"/>
+				<column type="virtual" name="FIN_ORG_NAME_YC,FA_FIN_ORG_CODE" isDynamicDict="true" index="" checkbox="true" title="贷款银行分行全称,贷款银行分行代码"  referencecol="FIN_ORG_CODE"  customDict="qqFinOrgNameYC" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				
+				<column type="both" name="MORT_TOTAL_AMOUNT" index="" checkbox="true" title="贷款总额"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="COM_AMOUNT" index="" checkbox=""   title="商贷总额" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="COM_DISCOUNT" index="" checkbox=""   title="商贷利率" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="COM_YEAR" index="" checkbox=""   title="商贷年限" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				
+				<column type="both" name="INST_CODE" index="" checkbox=""   title="INST_CODE" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="STATUS" index="" checkbox=""   title="STATUS" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="ID_" index="" checkbox=""   title="TASKID" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+			
+				<column type="both" name="PRF_AMOUNT" index="" checkbox=""   title="公积金金额" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>	
+				<column type="both" name="PRF_YEAR" index="" checkbox=""   title="公积金年限" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>	
+				<column type="both" name="CUST_NAME" index="" checkbox=""   title="主贷人" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>	
+				<column type="both" name="LOANER_STATUS" index="" checkbox=""   title="派单状态" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>	
+				
+					
+			</table-row>
+		</grid>
+	</query>
+</querys>

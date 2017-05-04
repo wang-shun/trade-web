@@ -1,6 +1,7 @@
 package com.centaline.parportal.mobile.tradecase.web;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +9,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.aist.common.web.validate.AjaxResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -30,8 +33,9 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.centaline.parportal.mobile.track.vo.CommentVo;
+import com.centaline.trans.attachment.entity.ToAttachment;
+import com.centaline.trans.attachment.service.ToAttachmentService;
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
@@ -53,6 +57,8 @@ import com.centaline.trans.utils.Pages2JSONMoblie;
 @RestController
 @RequestMapping(value = "/tradeCase")
 public class TradeCaseController {
+
+	private Logger logger = Logger.getLogger(TradeCaseController.class);
 
 	@Value("${agent.img.url}")
 	private String imgUrl;
@@ -89,10 +95,11 @@ public class TradeCaseController {
     
     @Autowired
     private TrackService trackService;
-    
+    @Autowired
+    private ToAttachmentService toAttachmentService;
 	@RequestMapping(value = "list")
 	@ResponseBody
-	public String list(@RequestParam(required = true) Integer page,
+	public JSONObject list(@RequestParam(required = true) Integer page,
 			@RequestParam(required = true) Integer pageSize, Integer property, Integer status, Boolean onlyFocus,
 			Boolean onlyLoanLostAlert, String q_text) {
 		SessionUser user = sessionService.getSessionUser();
@@ -127,9 +134,8 @@ public class TradeCaseController {
 		List<Map<String, Object>> list = pages.getContent();
 		buildZhongjieInfo(list);
 
-		JSON json = Pages2JSONMoblie.pages2JsonMoblie(pages);
-		String resultStr = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue);
-		return resultStr;
+		JSONObject json = Pages2JSONMoblie.pages2JsonMoblie(pages);
+		return json;
 	}
 	
 	private void buildDataAuthorityParam(Map<String, Object> paramMap,SessionUser user){
@@ -192,7 +198,7 @@ public class TradeCaseController {
 
 	@RequestMapping(value = "{caseCode}")
 	@ResponseBody
-	public String getCaseInfo(@PathVariable("caseCode") String caseCode) {
+	public JSONObject getCaseInfo(@PathVariable("caseCode") String caseCode) {
 		JSONObject result = new JSONObject();
 		SessionUser user = sessionService.getSessionUser();
 
@@ -202,7 +208,7 @@ public class TradeCaseController {
 		
 		buildEplusInfo(result,caseCode,user);
 		buildJianguanInfo(result,caseCode,user);
-		return result.toJSONString();
+		return result;
 	}
 	
 	private void buildEplusInfo(JSONObject result, String caseCode, SessionUser user) {
@@ -380,7 +386,7 @@ public class TradeCaseController {
 	
 	@RequestMapping(value = "{caseCode}/process")
 	@ResponseBody
-	public String process(@PathVariable("caseCode") String caseCode ) {
+	public JSON process(@PathVariable("caseCode") String caseCode ) {
 		SessionUser user = sessionService.getSessionUser();
 		JQGridParam gp = new JQGridParam();
 		gp.setQueryId("getProcessListMobile");
@@ -390,14 +396,22 @@ public class TradeCaseController {
 
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
-		JSONArray ja = (JSONArray) JSONArray.toJSON(list);
-		return ja.toJSONString();
+		
+		JSON ja = JSONArray.parseArray(JSON.toJSONString(list));
+		
+//		JSONArray ja = new JSONArray();
+//		for (Map<String, Object> map : list) {
+//			String str = JSON.toJSONString(map);
+//			ja.add(JSON.parse(str));
+//		}
+//		String jsonStr = JSON.toJSONString(list);
+		return ja;
 	}
 	
 	
 	@RequestMapping(value = "{caseCode}/focus")
 	@ResponseBody
-	public String focus( @PathVariable("caseCode") String caseCode,
+	public JSONObject focus( @PathVariable("caseCode") String caseCode,
 			@RequestParam(required = true)Boolean action){
 		SessionUser user = sessionService.getSessionUser();
 		ToModuleSubscribeVo vo = new ToModuleSubscribeVo();
@@ -409,12 +423,12 @@ public class TradeCaseController {
         toModuleSubscribeService.saveOrDeleteCaseSubscribe(vo);
         JSONObject jo = new JSONObject();
         jo.put("success", true);
-        return jo.toJSONString();
+        return jo;
 	}
 	
 	@RequestMapping(value = "{caseCode}/loanLostAlert")
 	@ResponseBody
-	public String loanLostAlert(@PathVariable("caseCode")String caseCode,
+	public JSONObject loanLostAlert(@PathVariable("caseCode")String caseCode,
 			@RequestParam(required = true)Boolean action,@RequestParam(required = true)String reason){
 		BizWarnInfo bizWarnInfo = new BizWarnInfo();
 		
@@ -450,16 +464,15 @@ public class TradeCaseController {
 		}
         JSONObject jo = new JSONObject();
         jo.put("success", true);
-        return jo.toJSONString();
+        return jo;
 	}
 	
 	
     @RequestMapping(value = "{caseCode}/track")
     @ResponseBody
-    public String addTrack(@PathVariable("caseCode")String caseCode, CommentVo cmtVo) {
+    public JSONObject addTrack(@PathVariable("caseCode")String caseCode, CommentVo cmtVo) {
 
     	cmtVo.setCaseCode(caseCode);
-    	SessionUser user = sessionService.getSessionUser();
     	
         ToCaseComment track = new ToCaseComment();
         //        boolean isNofigyCustomer = cmt.isNotifyCustomer();
@@ -489,8 +502,9 @@ public class TradeCaseController {
         if (resultCount <= 0) {
             throw new BusinessException("对不起,跟进保存失败");
         } else {
-            return new StringBuilder("{\"msg\":\"").append(track.getCaseCode()).append("跟进保存成功")
-                .append("\"}").toString();
+        	JSONObject json = new JSONObject();
+        	json.put("msg", track.getCaseCode() + "跟进保存成功!");
+            return json;
         }
 
     }
@@ -605,8 +619,35 @@ public class TradeCaseController {
 			}
 			
 		}
-		
-		
 	}
-    
+    @RequestMapping(value = "{caseCode}/fileUpload" )
+	@ResponseBody
+	public Object fileUpload(@RequestParam(required = true)String fileList,@PathVariable(required=true,name="caseCode") String caseCode,String partCode) {
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		JSONArray fileListArray= JSONArray.parseArray(fileList);
+		List<ToAttachment>toAttachments=new ArrayList<>();
+    	try{
+			for (Object object : fileListArray) {
+				JSONObject file=(JSONObject)object;
+				ToAttachment attach=new ToAttachment();
+				attach.setAvailable("Y");
+				attach.setPartCode(partCode);
+				attach.setPreFileAdress(file.getString("fileID"));
+				attach.setPreFileCode(file.getString("fileCode"));
+				attach.setFileCat(file.getString("fileCat"));
+				attach.setFileName(file.getString("fileName"));
+				attach.setCaseCode(caseCode);
+				toAttachments.add(attach);
+			}
+			toAttachmentService.saveToAttachment(toAttachments);
+			ajaxResponse.setSuccess(true);
+			ajaxResponse.setMessage("保存成功");
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error(e.getMessage());
+			ajaxResponse.setSuccess(false);
+			ajaxResponse.setMessage("保存失败");
+		}
+		return ajaxResponse;
+    }
 }

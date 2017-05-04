@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>
-
 		<customDict id="qqcdMortStrCodeName" beanName="qqcdMortStrCodeName"></customDict>
 		<customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict>
 		<customDict id="getPropertyNameByCode" beanName="qqcdDict30003"></customDict>
@@ -14,10 +13,6 @@
 		<customDict id="qqcdYuCuiFhjlName" beanName="qqcdYuCuiFhjlName" />
 		<customDict id="qqcdYuCuiTSName" beanName="qqcdYuCuiTSName" />
 		<customDict id="qqcdYuCuiOrgName" beanName="qqcdYuCuiOrgName" />
-		<!-- <customDict id="qqcdFhjlNameByOrgCode" beanName="qqcdFhjlNameByOrgCode" /> -->
-		<!-- <customDict id="qqcdQyjlNameByOrgCode" beanName="qqcdQyjlNameByOrgCode" /> -->
-		<!-- <customDict id="qqcdQyzjNameByOrgCode" beanName="qqcdQyzjNameByOrgCode" /> -->
-		<!-- <customDict id="qqcdQydsNameByOrgCode" beanName="qqcdQydsNameByOrgCode" /> -->
 		<customDict id="qqcdFinOrgNameDict" beanName="qqcdFinOrgNameDict" />
 		<customDict id="qqcdFaFinOrgNameDict" beanName="qqcdFaFinOrgNameDict" />
  		<customDict id="qqEvaFee" beanName="qqEvaFee"></customDict>
@@ -28,7 +23,7 @@
 		<formatter id="dateFormatter" ref=""
 			class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
-				<property name="pattern">yyyy-MM-dd</property>
+				<property name="pattern">yyyy/MM/dd</property>
 			</properties>
 		</formatter>
 		<formatter id="numberFormater" ref=""
@@ -564,18 +559,9 @@
 	</query>
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	<!-- 案件总览导出优化 -->
 	<query id="newQueryCaseExcelItemList">
 		<searchCondition>
-
 		</searchCondition>
 		<searchSql>
 			<baseSql>
@@ -593,9 +579,11 @@
 							--查询
 							B.CASE_LEADING_PROCESS_ID_F,
 							B.CASE_ORG_ID_F,
-							B.CASE_ISSUBSCRIBE,
-							B.CASE_ORIGIN,
+							B.CASE_ISSUBSCRIBE,							
 							B.CASE_LOAN_REQ,
+							B.CASE_LEADING_PROCESS_ID_B,
+							B.GROUP_ORG_ID, --经纪人orgid
+							B.TRANSFER_APP_TIME,
 							
 							B.CASE_DISPATCH_TIME,
 							B.CASE_REAL_NAME_F,
@@ -667,10 +655,10 @@
 					
 					FROM  sctrans.T_RPT_CASE_BASE_INFO B
 					
-					WHERE 
-						1=1		AND		  
-						  
-					 (EXISTS ( SELECT 1 FROM  SCTRANS.T_TO_CASE C  WHERE C.CASE_CODE = B.CASE_CODE  
+					WHERE 	1=1 
+					AND					 
+					
+					  (EXISTS ( SELECT 1 FROM  SCTRANS.T_TO_CASE C  WHERE C.CASE_CODE = B.CASE_CODE  
 					  	    <ifNotNull idflag> and C.LEADING_PROCESS_ID = #userId# 	</ifNotNull>
 					  	    <ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)     </ifNotNull>)
 			    	  OR EXISTS ( SELECT 1 FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR C WHERE C.CASE_CODE = B.CASE_CODE 
@@ -686,7 +674,7 @@
                                 AND A.SRV_CODE IN ( '3000400201', '3000401002' ) )
                       )	                 
                       
-					<if test="isSubscribeFilter != null and isSubscribeFilter !='' ">
+					<if test="isSubscribeFilter != '-1' ">
 						 AND  B.CASE_ISSUBSCRIBE = #isSubscribeFilter# 
 					</if>
 					
@@ -707,25 +695,138 @@
 					</if>
 					<if test="ctmCode != null and ctmCode !='' ">
 						 AND  B.CTM_CODE = #ctmCode# 
-					</if>
+					</if>					
 					
 					<if test="propertyAddr != null and propertyAddr !='' ">
 						 AND  B.HOUSR_PROPERTY_ADDR  LIKE '%'+#propertyAddr#+'%' 
 					</if>
 				
 					<if test="guestname != null and guestname !='' ">
-						 AND  (B.GUEST_NAME_UP  LIKE '%'+#guestname#+'%'   OR B.GUEST_NAME_DOWN  LIKE '%'+#guestname#+'%')
+						 AND  (B.GUEST_NAME_UP  LIKE '%'+#guestname#+'%'   OR  B.GUEST_NAME_DOWN  LIKE '%'+#guestname#+'%')
+					</if>
+										
+					<if test="proName != null and proName !='' ">					
+						AND  (B.CASE_LEADING_PROCESS_ID_F = #proName#  OR  B.CASE_LEADING_PROCESS_ID_B = #proName#)
 					</if>
 					
-					<ifNotNull proName>
-						AND ( EXISTS (SELECT 1 FROM sctrans.T_TO_CASE c where c.LEADING_PROCESS_ID = #proName# and  CASE_CODE = B.CASE_CODE)
-						    OR  
-						      EXISTS (SELECT 1 FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p where p.PROCESSOR_ID = #proName# and CASE_CODE = B.CASE_CODE) )
-					</ifNotNull>
+					<if test="agentOrgName != null and agentOrgName !='' ">				
+						AND  B.GROUP_ORG_ID =  #agentOrgName#  
+					</if>
 					
-					<ifNotNull agentOrgName>
-						AND  EXISTS ( SELECT 1 FROM sctrans.V_USER_ORG_JOB uoj where uoj.user_id = B.AGENT_CODE  AND uoj.org_id = #agentOrgName# )
-					</ifNotNull>
+					<if test="createTimeStart != null and createTimeStart !='' ">		
+						AND  B.CASE_CREATE_TIME >=  #createTimeStart#  
+					</if>
+					<if test="createTimeEnd != null and createTimeEnd !='' ">		
+						AND  B.CASE_CREATE_TIME &lt;=  #createTimeEnd#  
+					</if>
+					
+					<if test="resDateStart != null and resDateStart !='' ">		
+						AND  B.CASE_DISPATCH_TIME >=  #resDateStart#  
+					</if>
+					<if test="resDateEnd != null and resDateEnd !='' ">		
+						AND  B.CASE_DISPATCH_TIME &lt;=  #resDateEnd#  
+					</if>
+					
+					<if test="realConTimeStart != null and realConTimeStart !='' ">		
+						AND  B.CASE_REAL_CON_TIME >=  #realConTimeStart#  
+					</if>
+					<if test="realConTimeEnd != null and realConTimeEnd !='' ">		
+						AND  B.CASE_REAL_CON_TIME &lt;=  #realConTimeEnd#  
+					</if>
+					
+					<if test="realHtTimeStart != null and realHtTimeStart !='' ">		
+						AND  B.TRANSFER_REAL_HT_TIME >=  #realHtTimeStart#  
+					</if>
+					<if test="realHtTimeEnd != null and realHtTimeEnd !='' ">		
+						AND  B.TRANSFER_REAL_HT_TIME &lt;=  #realHtTimeEnd#  
+					</if>
+					
+					<if test="realPropertyGetTimeStart != null and realPropertyGetTimeStart !='' ">		
+						AND  B.CASE_REAL_PROPERTY_GET_TIME >=  #realPropertyGetTimeStart#  
+					</if>
+					<if test="realPropertyGetTimeEnd != null and realPropertyGetTimeEnd !='' ">		
+						AND  B.CASE_REAL_PROPERTY_GET_TIME &lt;=  #realPropertyGetTimeEnd#  
+					</if>
+					
+					<if test="signDateStart != null and signDateStart !='' ">		
+						AND  B.MORT_SIGN_DATE >=  #signDateStart#  
+					</if>
+					<if test="signDateEnd != null and signDateEnd !='' ">		
+						AND  B.MORT_SIGN_DATE &lt;=  #signDateEnd#  
+					</if>
+					
+					<if test="lendDateStart != null and lendDateStart !='' ">		
+						AND  B.MORT_LEND_DATE >=  #lendDateStart#  
+					</if>
+					<if test="lendDateEnd != null and lendDateEnd !='' ">		
+						AND  B.MORT_LEND_DATE &lt;=  #lendDateEnd#  
+					</if>
+					
+					<if test="approveTimeStart != null and approveTimeStart !='' ">		
+						AND  B.CASE_CLOSE_TIME >=  #approveTimeStart#  
+					</if>
+					<if test="approveTimeEnd != null and approveTimeEnd !='' ">		
+						AND  B.CASE_CLOSE_TIME &lt;=  #approveTimeEnd#  
+					</if>
+					
+					<if test="guohuApproveTimeStart != null and guohuApproveTimeStart !='' ">		
+						AND  B.TRANSFER_APP_TIME >=  #guohuApproveTimeStart#  
+					</if>					
+					<if test="guohuApproveTimeEnd != null and guohuApproveTimeEnd !='' ">		
+						AND  B.TRANSFER_APP_TIME &lt;=  #guohuApproveTimeEnd#  
+					</if>	
+					
+					<if test="isNotResearchCloseCase != null and isNotResearchCloseCase !='' ">		
+						AND  B.CASE_PROPERTY != '30003002' --结案案件
+					</if>	
+		
+					
+					<if test="srvCode1 != null and srvCode1 !='' ">						
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode1#)
+					</if>
+					<if test="srvCode2 != null and srvCode2 !='' ">	
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode2#)
+					</if>
+					<if test="srvCode3 != null and srvCode3 !='' ">						
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode3#)
+					</if>
+					<if test="srvCode4 != null and srvCode4 !='' ">		
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode4#)
+					</if>
+					<if test="srvCode5 != null and srvCode5 !='' ">		
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode5#)
+					</if>
+					<if test="srvCode6 != null and srvCode6 !='' ">		
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode6#)
+					</if>
+					<if test="srvCode7 != null and srvCode7 !='' ">		
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode7#)
+					</if>
+					<if test="srvCode8 != null and srvCode8 !='' ">		
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode8#)
+					</if>
+					<if test="srvCode9 != null and srvCode9 !='' ">		
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode9#)
+					</if>
+					<if test="srvCode10 != null and srvCode10 !='' ">		
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode10#)
+					</if>
+					<if test="srvCode11 != null and srvCode11 !='' ">		
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode11#)
+					</if>
+					<if test="srvCode12 != null and srvCode12 !='' ">		
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode12#)
+					</if>
+					<if test="srvCode13 != null and srvCode13 !='' ">		
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode13#)
+					</if>
+					<if test="srvCode14 != null and srvCode14 !='' ">		
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode14#)
+					</if>
+					<if test="srvCode15 != null and srvCode15 !='' ">
+						AND exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = B.CASE_CODE AND SRV_CAT = #srvCode15#)
+					</if>
+					
 					<choose>
 						<when test	="mortageType==0">
 						  	AND B.CASE_LOAN_REQ = '0'
@@ -762,7 +863,10 @@
 				<column type="both" name="CASE_CREATE_TIME" title="报单日期" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" />
 				<column type="both" name="CASE_DISPATCH_TIME" title="分单日期" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="CASE_REAL_NAME_F" title="交易顾问"	 hidden="true" />
-				<column type="both" name="CASE_EMPLOYEE_CODE_F" title="雇员编号"	 hidden="true" />				
+				<column type="both" name="CASE_EMPLOYEE_CODE_F" title="雇员编号"	 hidden="true" />	
+				<column type="both" name="CASE_LEADING_PROCESS_ID_B" title="前台组交易顾问userid"	 hidden="true" />
+				<column type="both" name="GROUP_ORG_ID" title="经纪人组织id"	 hidden="true" />
+				<column type="both" name="TRANSFER_APP_TIME" title="过户审批日期" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="CASE_ORG_NAME_F" title="所属组别" hidden="true" />				
 				<column type="both" name="CASE_MANAGER_REAL_NAME"  customDict="" title="组别主管"/>
 				<column type="both" name="CASE_ASSISTANT_REAL_NAME"  customDict="" 	title="组别助理"/>

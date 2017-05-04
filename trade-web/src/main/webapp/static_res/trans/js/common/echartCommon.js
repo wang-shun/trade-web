@@ -147,7 +147,7 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
  * @param myChart1   图表div
  * @param color      维度对应颜色
  */
-function returnPie(data, items, myChart1, color, title) {
+function returnPie(data, items, myChart1, color, title,unit) {
 	if(color==null){
 		color=[
                '#295aa5', '#f784a5', '#ffad6b', '#52bdbd','#0e73da','#ff9696','#ffac88','#58cfc2','#439cf0','#fc96d0','#ffd480','#84d3dc','#7aa6ea','#ffd2df','#ffdadb','#ade9e9'
@@ -155,23 +155,28 @@ function returnPie(data, items, myChart1, color, title) {
 	}
 	var format = "{b}:\n{c}个  \n ({d}%)";
 	if(title=='商贷总金额'){
-		format="{b}:\n{c}万元  \n ({d}%)";
+		if(unit=='亿'){
+			format="{b}:\n{c}亿元  \n ({d}%)";
+		}else{
+			format="{b}:\n{c}万元  \n ({d}%)";
+		}
 	}
 
 	var option = {
 		 title : {
 	            text: title,
 	            textStyle: {
-	                color: '#555',
+					color: '#555',
 	                fontSytle: 'normal',
 	                fontWeight: 'normal',
-	                fontSize: '16'
+	                fontSize: '16',
+					width:'300px'
 	            },
 	            x:'left',
 	            y: 'top',
 	            padding: [
 	                0,  // 上
-	                10, // 右
+	                0, // 右
 	                10,  // 下
 	                0, // 左
 	            ],
@@ -190,7 +195,7 @@ function returnPie(data, items, myChart1, color, title) {
 		series : [ {
 			name : '访问来源',
 			type : 'pie',
-			radius : '30%',
+			radius : '25%',
 			center : [ '50%', '60%' ],
 			animation : true,
 			selectedMode : 'multiple',

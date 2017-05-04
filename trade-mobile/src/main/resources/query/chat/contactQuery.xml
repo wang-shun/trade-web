@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+        <customDict id="avatarUrlPrixDict" beanName="avatarUrlPrixDict"></customDict>
+</dicts>
+<formatters>
+
+	</formatters>
+	<query id="casecontact">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tg
+						left join sctrans.T_TO_MORTGAGE mort 
+						on mort.CASE_CODE=tg.CASE_CODE
+						inner join sctrans.t_yucui_org_hierarchy ht
+						on tg.ORG_ID=ht.ORG_ID
+						left join (select * from sctrans.SYS_USER where IS_DELETED=0)us
+						on us.id=ht.MANAGER_ID or ht.DISTRICT_ID=us.id or tg.PROCESSOR_ID=us.ID or mort.LOANER_ID=us.ID
+						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where ISMAIN=1 and IS_DELETED=0) uoj
+						on uoj.USER_ID=us.ID 
+						left join sctrans.SYS_ORG o on o.id=uoj.ORG_ID
+						left join sctrans.SYS_JOB j on j.id=uoj.JOB_ID
+						where tg.CASE_CODE=#caseCode#
+				]]>
+			</baseSql>
+			<orderBySql>
+			  	ORDER BY us.REAL_NAME DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="userId" index="" checkbox="" display="用户ID" />
+			    <column type="both" name="name" index="" checkbox="" display="姓名" />
+				<column type="both" name="userName" index="" checkbox="" display="登录名" title="登录名" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="avatarUrl" customDict="avatarUrlPrixDict"   display="头像URI" title="头像URI"/>
+				<column type="both" name="org" index="" checkbox="" display="所属组织" title="所属组织" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="job" index="" checkbox="" display="岗位" title="岗位" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="mobile"  display="电话" title="电话"/>
+			</table-row>
+		</grid>
+	</query>
+	<query id="contact">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org from
+						
+						 (select * from sctrans.SYS_USER where IS_DELETED='0')us
+						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where ISMAIN=1 and IS_DELETED='0') uoj
+						on uoj.USER_ID=us.ID 
+						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where IS_DELETED='0') uoj1
+						on uoj1.USER_ID=us.id
+						left join sctrans.SYS_ORG o on o.id=uoj.ORG_ID
+						left join sctrans.SYS_JOB j on j.id=uoj.JOB_ID
+						left join sctrans.SYS_ORG o1 on o1.id=uoj1.ORG_ID
+						where us.REAL_NAME like #q_text# + '%' or o1.ORG_NAME like #q_text# + '%'
+				]]>
+			</baseSql>
+			<orderBySql>
+			  	ORDER BY us.REAL_NAME DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="userId" index="" checkbox="" display="用户ID" />
+			    <column type="both" name="name" index="" checkbox="" display="姓名" />
+				<column type="both" name="userName" index="" checkbox="" display="登录名" title="登录名" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="avatarUrl" customDict="avatarUrlPrixDict"   display="头像URI" title="头像URI"/>
+				<column type="both" name="org" index="" checkbox="" display="所属组织" title="所属组织" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="job" index="" checkbox="" display="岗位" title="岗位" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="mobile"  display="电话" title="电话"/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

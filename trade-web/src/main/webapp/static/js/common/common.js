@@ -79,7 +79,8 @@ function saveCaseComment() {
         success: function(data){
             //console.log(data);
         	$("#caseComment").val('');
-        	reloadGrid();
+        	setTimeout(reloadGrid,1000);
+        	//reloadGrid();
         	$('#caseCommentList').scrollTop(0);
         }
     });

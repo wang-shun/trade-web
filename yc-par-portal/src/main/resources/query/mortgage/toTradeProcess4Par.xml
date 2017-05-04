@@ -47,9 +47,7 @@
       				ISNULL(VTP.CREATE_BY,'') AS CREATE_BY,
       				ISNULL(VTP.COMMENT,'') AS COMMENT
 				    FROM sctrans.V_TRADE_PROCESS_QUERY_VIEW AS VTP
-        			
         			WHERE VTP.CASE_CODE = #bizCode#
-			    	
 			    	ORDER BY VTP.REAL_TIME DESC
 				]]>
 			</baseSql>

@@ -104,12 +104,10 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Map<String, String> map = null;
 		try {
 			map = BeanToMapUtils.convertBean(tq);
-		} catch (IllegalAccessException | InvocationTargetException
-				| IntrospectionException e) {
+		} catch (IllegalAccessException | InvocationTargetException	| IntrospectionException e) {
 			e.printStackTrace();
 		}
-		PageableVo vo = (PageableVo) engine.RESTfulWorkFlow(
-				WorkFlowConstant.TASK_LIST_KEY, PageableVo.class, map);
+		PageableVo vo = (PageableVo) engine.RESTfulWorkFlow(WorkFlowConstant.TASK_LIST_KEY, PageableVo.class, map);
 		convertPageableData(vo, TaskVo.class);
 		setTasksGroups(vo.getData());
 		return vo;
@@ -474,12 +472,9 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("processInstanceId", processInstanceId);
 		try {
-			engine.RESTfulWorkFlow(
-					WorkFlowConstant.DELETE_PROCESS_INSTANCE_KEY, Map.class,
-					vars, null);
+			engine.RESTfulWorkFlow(WorkFlowConstant.DELETE_PROCESS_INSTANCE_KEY, Map.class,vars, null);
 		} catch (WorkFlowException e) {
-			if (!e.getMessage().contains("statusCode[404]"))
-				throw e;
+			if (!e.getMessage().contains("statusCode[404]"))	throw e;
 			e.printStackTrace();
 		}
 	}
@@ -489,9 +484,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("processInstanceId", processInstanceId);
 		vars.put("variableName", variableName);
-		return (RestVariable) engine.RESTfulWorkFlow(
-				WorkFlowConstant.GET_PROCESS_VARIABLES_KEY, RestVariable.class,
-				vars, null);
+		return (RestVariable) engine.RESTfulWorkFlow(WorkFlowConstant.GET_PROCESS_VARIABLES_KEY, RestVariable.class,vars, null);
 	}
 
 	@Override
@@ -542,12 +535,10 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		Map<String, String> map = null;
 		try {
 			map = BeanToMapUtils.convertBean(tq);
-		} catch (IllegalAccessException | InvocationTargetException
-				| IntrospectionException e) {
+		} catch (IllegalAccessException | InvocationTargetException	| IntrospectionException e) {
 			e.printStackTrace();
 		}
-		PageableVo vo = (PageableVo) engine.RESTfulWorkFlow(
-				WorkFlowConstant.GET_HISTORY_TASK_KEY, PageableVo.class, map);
+		PageableVo vo = (PageableVo) engine.RESTfulWorkFlow(WorkFlowConstant.GET_HISTORY_TASK_KEY, PageableVo.class, map);
 		convertPageableData(vo, TaskVo.class);
 
 		return vo;
@@ -624,8 +615,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 		vars.put("processInstanceId", processInstanceId);
 		// vars.put("name", variableName);
 		vars.put("type", restVariable.getType());
-		vars.put("value", restVariable.getValue() == null ? "" : restVariable
-				.getValue().toString());
+		vars.put("value", restVariable.getValue() == null ? "" : restVariable.getValue().toString());
 		restVariable.setName(variableName);
 		return (RestVariable) engine.RESTfulWorkFlow(
 				WorkFlowConstant.PUT_VARIABLE_KEY, RestVariable.class,
