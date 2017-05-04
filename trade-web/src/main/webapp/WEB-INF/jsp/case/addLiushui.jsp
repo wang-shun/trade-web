@@ -160,11 +160,59 @@ var fileUpload;
 			return false;
 		}
 		
+		var payerAmountFlag = true;
+		var payerAmountEle;
+		$("input[name$='paymentAmount']").each(function(i,e){
+			if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isNumber($(e).val()))){
+				payerAmountFlag = false;
+				payerAmountEle = $(e);
+				
+				return false;
+			}
+		});
+		if(!payerAmountFlag){
+				window.wxc.alert("请填写有效的金额！");
+			    changeClass(payerAmountEle);
+				return false;
+		}
+		
 		if ($('input[name=payer]').val() == '') {
 			window.wxc.alert("付款人不能为空!");
 			$('input[name=payer]').focus();
 			return false;
 		}
+		
+		var payerNameFlag = true;
+		var payerNameEle;
+		$("input[name='payer']").each(function(i,e){
+			if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
+				payerNameFlag = false;
+				payerNameEle = $(e);
+				 return false;
+				 }
+			});
+		
+		 if(!payerNameFlag){
+			 window.wxc.alert("请填写有效的付款人姓名！");
+		    changeClass(payerNameEle);
+			return false;
+		 }
+		 
+		 
+		 var cashFlowCreateTimeFlag = true;
+			var cashFlowCreateTimeEle;
+			$("input[name='paymentDate']").each(function(i,e){
+				if(($(e).val() == null || $(e).val() == '')){
+					cashFlowCreateTimeFlag = false;
+					cashFlowCreateTimeEle = $(e);
+					return false;
+				}
+			});
+			if(!cashFlowCreateTimeFlag){
+				window.wxc.alert("请选择有效的付款时间！");
+				changeClass(cashFlowCreateTimeEle);
+				return false;
+			}
 		
 		if ( ($("#addLiushui_contract_pic_list li").length == undefined || $("#addLiushui_contract_pic_list li").length == 0) ) {
 			window.wxc.alert("请上传附件信息！");
@@ -173,6 +221,36 @@ var fileUpload;
 		}
 		return formSubmitFlag;
 		
+ }
+ 
+ function changeClass(object){
+		$(object).focus();
+		$(object).addClass("borderClass").blur(function(){
+			$(this).removeClass("borderClass");
+		});	;
+	}
+ 
+ /**
+  * 金额验证(两位小数)
+  */
+ function isNumber(num){
+ 	var reg=/^([1-9]{1}\d*)(\.\d{1,2})?$/;
+ 	if(!reg.test(num)){
+ 		return false;
+ 	}
+ 	return true;
+ }
+ 
+ /**
+  * 姓名验证(汉字和英文大小写)
+  */
+ function isName(name){
+ 	name = name.replace(/\s/g,"");
+ 	reg = /((^[\u4E00-\u9FA5]{1,5}$)|(^[a-zA-Z]+[\s\.]?([a-zA-Z]+[\s\.]?){0,4}[a-zA-Z]$))/;
+ 	if (!reg.test(name)) {
+        return false; 
+    }
+    return true;
  }
      
 </script>
