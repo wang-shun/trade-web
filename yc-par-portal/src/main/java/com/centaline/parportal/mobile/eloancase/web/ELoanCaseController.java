@@ -57,7 +57,7 @@ public class ELoanCaseController
     /**
      * 信息补充、补件
      * 
-     * @param eLoanCode
+     * @param bizCode
      *            E+金融编号
      * @param type
      *            如果信息补充,type为CMT,补件,type为BUJIAN
@@ -71,10 +71,10 @@ public class ELoanCaseController
      */
     @RequestMapping(value = "suppleInfo")
     @ResponseBody
-    public String suppleInfo(String eLoanCode, String type, String caseCode, String comment)
+    public String suppleInfo(String bizCode, String type, String caseCode, String comment)
     {
 
-        if (eLoanCode == null || "".equals(eLoanCode) || type == null || "".equals(type) || comment == null || "".equals(comment) || caseCode == null
+        if (bizCode == null || "".equals(bizCode) || type == null || "".equals(type) || comment == null || "".equals(comment) || caseCode == null
                 || "".equals(caseCode))
         {
             throw new BusinessException("请检查参数!");
@@ -86,7 +86,7 @@ public class ELoanCaseController
         // 设置前台传的参数信息
         // 设置前台传的参数信息
         ELoanVo eLoanVo = new ELoanVo();
-        eLoanVo.seteLoanCode(eLoanCode);
+        eLoanVo.seteLoanCode(bizCode);
         eLoanVo.setSource("EPLUS");
         eLoanVo.setType(type);
         eLoanVo.setStateInBank(type);
