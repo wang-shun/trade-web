@@ -112,10 +112,7 @@ function checkForm(){
 	var formSubmitFlag = true;
 	
 	
-	if ( ($("#addWdCase_contract_pic_list li").length == undefined || $("#addWdCase_contract_pic_list li").length == 0) ) {
-		window.wxc.alert("请上传附件信息！");
-		return false;
-	}
+	
 	
     var voucherNoFlag = true;
 	var voucherNoEle;
@@ -126,12 +123,7 @@ function checkForm(){
 			return false;
 		}
 	});
-	if(!voucherNoFlag){
-		window.wxc.alert("请选择有效的合作来源！");
-	    changeClass(voucherNoEle);
-		return false;
-	 }
-   
+	
 	if ($('input[name=propertyAddr]').val() == '') {
 		window.wxc.alert("房屋地址不能为空!");
 		$('input[name=propertyAddr]').focus();
@@ -142,11 +134,53 @@ function checkForm(){
 		$('input[name=agentName]').focus();
 		return false;
 	}
+	
+	var payerNameFlag = true;
+	var payerNameEle;
+	$("input[name='agentName']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !isName($(e).val()))){
+			payerNameFlag = false;
+			payerNameEle = $(e);
+			 return false;
+			 }
+		});
+	
+	 if(!payerNameFlag){
+		 window.wxc.alert("请填写有效的推荐人姓名！");
+	    changeClass(payerNameEle);
+		return false;
+	 }
+	 
+	
 	if ($('input[name=agentPhone]').val() == '') {
 		window.wxc.alert("推荐人电话不能为空!");
 		$('input[name=agentPhone]').focus();
 		return false;
 	}
+	
+	var agentPhoneFlag = true;
+	var agentPhoneEle;
+	$("input[name='agentPhone']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '') || ($(e).val() != null && $(e).val() != '' && !checkContactNumber($(e).val()))){
+			agentPhoneFlag = false;
+			agentPhoneEle = $(e);
+			 return false;
+			 }
+		});
+	
+	 if(!agentPhoneFlag){
+		 window.wxc.alert("请填写有效的推荐人电话！");
+	    changeClass(payerNameEle);
+		return false;
+	 }
+	
+	if(!voucherNoFlag){
+		window.wxc.alert("请选择有效的合作来源！");
+	    changeClass(voucherNoEle);
+		return false;
+	 }
+   
+	
 	if ($('input[name$=guestName]').val() == '') {
 		window.wxc.alert("上下家姓名不能为空!");
 		$('input[name$=guestName]').focus();
@@ -160,6 +194,11 @@ function checkForm(){
 	if ($('input[name=commCost]').val() == '') {
 		window.wxc.alert("服务价格不能为空!");
 		$('input[name=commCost]').focus();
+		return false;
+	}
+	
+	if ( ($("#addWdCase_contract_pic_list li").length == undefined || $("#addWdCase_contract_pic_list li").length == 0) ) {
+		window.wxc.alert("请上传附件信息！");
 		return false;
 	}
 /*	
@@ -178,6 +217,29 @@ function changeClass(object){
 	$(object).addClass("borderClass").blur(function(){
 		$(this).removeClass("borderClass");
 	});	;
+}
+
+/**
+ * 金额验证(两位小数)
+ */
+function isNumber(num){
+	var reg=/^([1-9]{1}\d*)(\.\d{1,2})?$/;
+	if(!reg.test(num)){
+		return false;
+	}
+	return true;
+}
+
+/**
+ * 姓名验证(汉字和英文大小写)
+ */
+function isName(name){
+	name = name.replace(/\s/g,"");
+	reg = /((^[\u4E00-\u9FA5]{1,5}$)|(^[a-zA-Z]+[\s\.]?([a-zA-Z]+[\s\.]?){0,4}[a-zA-Z]$))/;
+	if (!reg.test(name)) {
+       return false; 
+   }
+   return true;
 }
 
 //上下家电话相同验证
