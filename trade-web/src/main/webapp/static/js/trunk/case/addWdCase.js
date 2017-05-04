@@ -5,242 +5,6 @@
  * 版本：1.0
  */
 
-function getAtr2(obj){
-	var str='';
-	str +=  '<div class="line">'
-		+   '<div class="form_content">'
-		+   '<input type="hidden" class="select_control sign_right_one" name="pkidUp" id="pkidUp" value="">'
-		+   '<label class="control-label sign_left_small mar24">'
-		+   '上家姓名'
-		+   '</label>'
-		+   '<input type="text" class="select_control sign_right_one" name="guestNameUp" id="guestNameUp" value="">'
-		+   ' </div>'
-		+   '<div class="form_content">'
-		+   '<label class="control-label sign_left_small mar24">'
-		+   '上家电话'
-		+   '</label>'
-		+   '<input type="text" class="select_control sign_right_one" name="guestPhoneUp" id="guestPhoneUp" value="">'
-		+   '</div>'
-		+   '<a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
-		+   '</div>';
-	$("#topHome").after(str);
-}
-
-/**
- * 下家信息	动态添加
- * @param obj
- */
-function getNext2(obj){
-	var str='';
-	str +=  '<div class="line">'
-		+   '<div class="form_content">'
-		+   ' <input type="hidden" class="select_control sign_right_one" name="pkidDown" id="pkidUp" value="">'
-		+   '<label class="control-label sign_left_small mar24">'
-		+   '下家姓名'
-		+   '</label>'
-		+   '<input type="text" class="select_control sign_right_one"  name="guestNameDown" id="guestNameDown" value="">'
-		+   ' </div>'
-		+   '<div class="form_content">'
-		+   '<label class="control-label sign_left_small mar24">'
-		+   '下家电话'
-		+   '</label>'
-		+   '<input type="text" class="select_control sign_right_one" name="guestPhoneDown"  id="guestPhoneDown" value="" >'
-		+   '</div>'
-		+   '<a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
-		+   '</div>';
-	$("#downHome").after(str);
-}
-/*上下家信息 删除*/
-/*function getDel(k){
-    $(k).parents('.line').remove();
-}*/
-
-/*$("#loanLostCleanButton").click(function(){
-	window.wxc.confirm("确定清空所有信息？",{"wxcOk":function(){
-		
-	}});
-});*/
-
-//案件经纪人
-$('#newCaseAgent').click(function() {	
-	addCaseFindAgent();
-});
-//案件经纪人函数
-function addCaseFindAgent(){	
-	userSelect({
-		startOrgId : '1D29BB468F504774ACE653B946A393EE',
-		expandNodeId : '1D29BB468F504774ACE653B946A393EE',
-		nameType : 'long|short',
-		orgType : '',
-		departmentType : '',
-		departmentHeriarchy : '',
-		chkStyle : 'radio',				
-		jobCode : '',
-		callBack : addCaseAgent
-	});	
-}
-
-//选取责任人的回调函数
-function addCaseAgent(array) {	
-	if (array && array.length > 0) {
-		$("#agentName").val(array[0].username);
-		$("#agentName").attr('hVal', array[0].userId);
-		$("#agentCode").val(array[0].userId);
-		
-		$("#agentPhone").val(array[0].mobile);		
-		$("#agentOrgName").val(array[0].orgName);
-		$("#agentOrgId").val(array[0].orgId);
-		$("#agentOrgCode").val(array[0].orgCode);
-		
-	} else {
-		$("#agentName").val("");
-		$("#agentName").attr('hVal', "");
-	}
-}
-
-
-//定义全局变量
-//var sale_ctx = "http://10.4.19.87:8081/sales-web";
-var sale_ctx = $("#appCtx").val();
-var trade_ctx = $("#ctx").val();
-
-//初始化select
-function initSelectYear(id, value) {
-	var d = new Date();
-	var endYear = d.getFullYear();
-	var starYear = 1900;
-	var friend = $("#" + id);
-	friend.empty();
-	for (var i = endYear; i >= starYear; i--) {
-		if (value == null || value == '' || value == undefined
-				|| value > endYear || value < starYear) {
-			value = endYear;
-		}
-		if (value == i) {
-			friend
-					.append("<option value='"+i+"'  selected='selected'>"
-							+ i + "</option>");
-		} else {
-			friend.append("<option value='"+i+"'>" + i
-					+ "</option>");
-		}
-
-	}
-}
-
-
-//显示 选取的值
-function formatRepoSelection(results) {	
-    if (results != null && results != undefined) {
-    	$("#blockId").val(results.id);
-    	
-    	results.selected = true; 
-    	results.id = results.id
-    	results.name = results.text
-        if(results.id == null || results.id == ""){
-        	results.text = '请输入房屋地址'
-        	results.name = results.text
-        }
-        $("#blocksSelect").val(results.name);
-       
-        select2DivClick(results);   
-        return results.name;
-    }
-};
-
-
-
-
-$("#buildingsSelect").change(function(){
-	buildingChange();
-});
-
-
-function reloadGrid(data){
-	$.ajax({
-		async : true,
-		url : trade_ctx + "/quickGrid/findPage",
-		method : "post",
-		dataType : "json",
-		data : data,
-		success : function(data) {
-			//alert(JSON.stringify(data));
-			$.unblockUI();			
-			if(data != null && data.rows.length > 0){	//&& data.page > 0
-				$("#isRepeatCase").show();
-				var addCaseList = template('template_addCaseList', data);
-				$("#addCaseList").empty();
-				$("#addCaseList").html(addCaseList);
-				// 显示分页
-				initpage(data.total, data.pagesize, data.page, data.records);
-			}			
-		},
-		error : function(e, jqxhr, settings, exception) {
-			$.unblockUI();
-		}
-	});
-}
-
-
-function searchMethod(page){
-	if (!page) {
-		page = 1;
-	}	
-	var params = getParams();
-	params.page = page;
-	params.rows = 4;
-	params.queryId = "isRepeatCaseList";
-	reloadGrid(params);
-}
-
-function getParams() {
-	var houseId = $('#roomSelect').val(); //房屋编号     	
-	var params = {};
-	params.propertyCode = houseId;
-	
-	return params;
-}
-
-
-$("#caseInfoClean").click(function(){
-	$("#myModal").show();	
-});
-
-$("#newCaseInfoCancel").click(function(){
-	$("#myModal").hide();	
-});
-$("#newCaseInfoDelete").click(function(){
-	$("#blockId").val("");	
-	$("#buildingsSelect").val("");
-	$("#floorSelect").val("");
-	$("#roomSelect").val("");	
-	$("#blocksSelect").val("请输入房屋地址").trigger("change");//或者	
-	
-	$("#propertyType").val("");
-	$("#distCode").val("");
-	$("#finishYear").val("");
-	$("input[name='propertyAddr']").val("");
-	$("input[name='propertyCode']").val("");
-	$("input[name='square']").val("");
-	$("input[name='floor']").val("");	
-	$("input[name='totalFloor']").val("");
-	$("input[name='propertyAddr']").val("");
-	$("#houseInfo").hide();
-	
-	$("input[name='agentPhone']").val("");
-	$("input[name='agentOrgName']").val("");
-	$("input[name='agentName']").val("");
-	$("input[name='agentOrgId']").val("");
-	$("input[name='agentCode']").val("");
-	
-	$("input[name='guestNameUp']").val("");
-	$("input[name='guestPhoneUp']").val("");
-	$("input[name='guestNameDown']").val("");
-	$("input[name='guestPhoneDown']").val("");	
-	$("#myModal").hide();	
-	
-	$("#isRepeatCase").hide();	
-});
 
 function getCheckBoxValues(name) {
 	var commSubject = [];
@@ -266,14 +30,14 @@ function sumbitRe(){
 	var data = [];
 	$("form").each(function(){
 		var obj = $(this).serializeArray();
-		for(var i in obj){debugger;
+		for(var i in obj){
 			if(obj[i].name=="commSubject"){
 				obj[i].value=commSubject.toString();
 			}
 			data.push(obj[i]);
 		}
 	}); 
-
+return false;
 	var url = ctx+"/caseMerge/saveWdCaseInfo";
 	$.ajax({
 		cache : false,
@@ -305,7 +69,7 @@ function saveRe(){
 	var data = [];
 	$("form").each(function(){
 		var obj = $(this).serializeArray();
-		for(var i in obj){debugger;
+		for(var i in obj){
 			if(obj[i].name=="commSubject"){
 				obj[i].value=commSubject.toString();
 			}
@@ -338,63 +102,76 @@ function saveRe(){
 }
 
 function checkForm(){
-	var formSubmitFlag = true;	
-
-	if ($("#blocksSelect").val() == '') {	
-		window.wxc.alert("楼盘信息不能为空！");
-		$("#blocksSelect").focus();		
-		return false;
-	}	
-	if ($("#buildingsSelect option:selected").val() == '') {
-		window.wxc.alert("楼栋信息不能为空！");
-		$("#buildingsSelect").focus();		
-		return false;
-	}	
-	if ($("#floorSelect option:selected").val() == '') {
-		window.wxc.alert("楼层信息不能为空！");
-		$("#floorSelect").focus();		
-		return false;
-	}	
-	if ($("#roomSelect option:selected").val() == '') {
-		window.wxc.alert("房屋号信息不能为空！");
-		$("#roomSelect").focus();	
-		return false;
-	}	
+	var formSubmitFlag = true;
 	
+	
+	if ( ($("#addWdCase_contract_pic_list li").length == undefined || $("#addWdCase_contract_pic_list li").length == 0) ) {
+		window.wxc.alert("请上传附件信息！");
+		return false;
+	}
+	
+    var voucherNoFlag = true;
+	var voucherNoEle;
+	$("select[name$='sourceOfCooperation']").each(function(i,e){
+		if(($(e).val() == null || $(e).val() == '')){
+			voucherNoFlag = false;
+			voucherNoEle = $(e);
+			return false;
+		}
+	});
+	if(!voucherNoFlag){
+		window.wxc.alert("请选择有效的合作来源！");
+	    changeClass(voucherNoEle);
+		return false;
+	 }
+   
+	if ($('input[name=propertyAddr]').val() == '') {
+		window.wxc.alert("房屋地址不能为空!");
+		$('input[name=propertyAddr]').focus();
+		return false;
+	}
 	if ($('input[name=agentName]').val() == '') {
-		window.wxc.alert("经纪人姓名不能为空!");
+		window.wxc.alert("推荐人姓名不能为空!");
 		$('input[name=agentName]').focus();
 		return false;
 	}
 	if ($('input[name=agentPhone]').val() == '') {
-		window.wxc.alert("经纪人电话不能为空!");
+		window.wxc.alert("推荐人电话不能为空!");
 		$('input[name=agentPhone]').focus();
 		return false;
 	}
-	if ($('input[name=guestNameUp]').val() == '') {
-		window.wxc.alert("上家姓名不能为空!");
-		$('input[name=guestNameUp]').focus();
+	if ($('input[name$=guestName]').val() == '') {
+		window.wxc.alert("上下家姓名不能为空!");
+		$('input[name$=guestName]').focus();
 		return false;
 	}
-	if ($('input[name=guestPhoneUp]').val() == '') {
-		window.wxc.alert("上家电话不能为空!");
-		$('input[name=guestPhoneUp]').focus();
+	if ($('input[name$=guestPhone]').val() == '') {
+		window.wxc.alert("上下家电话不能为空!");
+		$('input[name$=guestPhone]').focus();
 		return false;
 	}
-	if ($('input[name=guestNameDown]').val() == '') {
-		window.wxc.alert("下家姓名不能为空!");
-		$('input[name=guestNameDown]').focus();
+	if ($('input[name=commCost]').val() == '') {
+		window.wxc.alert("服务价格不能为空!");
+		$('input[name=commCost]').focus();
 		return false;
 	}
-	if ($('input[name=guestPhoneDown]').val() == '') {
-		window.wxc.alert("下家电话不能为空!");
-		$('input[name=guestPhoneDown]').focus();
-		return false;
-	}
+/*	
+	 $('span[.out-btn-select]').each(function(i,e){
+	    	var length = $(e).find("span").length;
+	    	if(length == 0){
+	    		window.wxc.alert("服务项目不能为空!");
+	    		return false;
+	    	}
+	    });*/
 	
 	return formSubmitFlag;
 }
-
+function changeClass(object){
+	$(object).focus();
+	$(object).addClass("borderClass").blur(function(){
+		$(this).removeClass("borderClass");
+	});	;
+}
 
 //上下家电话相同验证
 function phoneUpAndphoneDownCheck() {
@@ -498,30 +275,3 @@ function checkContactNumber(ContactNumber) {
 	return isValid;
 }
 
-//拼接地址
-function setPropertyAddr(){
-	$("#propertyAddr").val("");
-	var addr = "上海市" + $('#distName').val();
-	
-	if($("#blockName").val() != "" && $("#blockName").val() != null){
-		addr += $("#blockName").val();
-	}
-	
-	if($("#buildingName").val() != "" && $("#buildingName").val() != null){
-		if($("#buildingName").val().indexOf("栋") > 0 ){
-			addr += $("#buildingName").val();
-		}else{
-			addr += $("#buildingName").val();
-			addr += "栋";
-		}
-	}
-	if($("#floorName").val() != "" && $("#floorName").val() != null){
-		addr += $("#floorName").val();
-	}
-	if($("#roomName").val() != "" && $("#roomName").val() != null){
-		addr += $("#roomName").val();
-		addr += "室";
-	}
-	
-	return addr;	
-}

@@ -114,6 +114,11 @@ var fileUpload;
   * 页面提交
   */
  function sumbitRe(){	
+	 
+	if(!checkForm()){
+		return false;		
+	}
+	
  	var data = [];
  	$("form").each(function(){
  		var obj = $(this).serializeArray();
@@ -146,6 +151,15 @@ var fileUpload;
  	
  }
  
+ function checkForm(){
+		var formSubmitFlag = true;
+		
+		if ( ($("#addLiushui_contract_pic_list li").length == undefined || $("#addLiushui_contract_pic_list li").length == 0) ) {
+			window.wxc.alert("请上传附件信息！");
+			formSubmitFlag = false;
+			return false;
+		}
+ }
      
 </script>
 </content>

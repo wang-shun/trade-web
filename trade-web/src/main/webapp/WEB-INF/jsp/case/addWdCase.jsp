@@ -37,10 +37,6 @@
 <div class="wrapper wrapper-content animated fadeInUp">
     <div class="ibox-content" id="reportFive">
         <form  id="saveCaseInfo">
-<%--         <form  action="${ctx}/caseMerge/saveWdCaseInfo/${flag}"  method="post"  id="saveCaseInfo"> --%>
-<%--  <c:if test="${type eq 'edit'}" >
-	<input type="hidden" id="caseCode" value="${caseMergeVo.caseCode}" />
- </c:if> --%>
         <div method="get" class="form_list">
             <div class="title"> 新建外单 </div>
         </div>
