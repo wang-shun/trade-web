@@ -37,7 +37,6 @@ function sumbitRe(){
 			data.push(obj[i]);
 		}
 	}); 
-return false;
 	var url = ctx+"/caseMerge/saveWdCaseInfo";
 	$.ajax({
 		cache : false,
@@ -65,6 +64,14 @@ return false;
  * 编辑提交
  */
 function saveRe(){	
+	
+	if(!checkForm()){
+		return false;		
+	}
+	if(!phoneUpAndphoneDownCheck()){
+		return false;
+	}
+	
 	var commSubject = getCheckBoxValues("commSubject");
 	var data = [];
 	$("form").each(function(){
