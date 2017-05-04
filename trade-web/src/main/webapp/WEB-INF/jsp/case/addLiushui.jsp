@@ -154,11 +154,25 @@ var fileUpload;
  function checkForm(){
 		var formSubmitFlag = true;
 		
+		if ($('input[name=paymentAmount]').val() == '') {
+			window.wxc.alert("付款金额不能为空!");
+			$('input[name=paymentAmount]').focus();
+			return false;
+		}
+		
+		if ($('input[name=payer]').val() == '') {
+			window.wxc.alert("付款人不能为空!");
+			$('input[name=payer]').focus();
+			return false;
+		}
+		
 		if ( ($("#addLiushui_contract_pic_list li").length == undefined || $("#addLiushui_contract_pic_list li").length == 0) ) {
 			window.wxc.alert("请上传附件信息！");
 			formSubmitFlag = false;
 			return false;
 		}
+		return formSubmitFlag;
+		
  }
      
 </script>
