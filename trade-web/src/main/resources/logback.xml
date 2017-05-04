@@ -69,6 +69,7 @@
     <logger name="org.apache.zookeeper" level="INFO">
     </logger>
     
+    <logger name="org.mybatis.spring.mapper" level="INFO"></logger>
 	<!-- <logger name="com.centaline.trans.utils.wechat" level="DEBUG">
         <appender-ref ref="APILOG_FILE"/>
     </logger> -->
