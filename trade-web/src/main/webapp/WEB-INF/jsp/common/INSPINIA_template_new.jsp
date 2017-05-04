@@ -151,9 +151,6 @@
 	        
 	        <!-- 右侧页面主体内容 -->
 	        <sitemesh:body></sitemesh:body>
-	        <a class="grouped_elements" rel="group1" href="image_big_2.jpg">
-	        	<input type="text" name="" />
-	        </a>  
 	         
 			<div class="modal fade" id="myModal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
