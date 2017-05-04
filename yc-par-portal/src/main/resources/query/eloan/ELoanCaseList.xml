@@ -121,6 +121,7 @@
 					FROM sctrans.T_TO_CASE_COMMENT cc 
 					INNER JOIN sctrans.SYS_USER u ON u.ID = cc.CREATE_BY
 					WHERE cc.BIZ_CODE = #eLoanCode# AND cc.SOURCE = 'EPLUS'
+					order by cc.CREATE_TIME desc
 				]]>
 			</baseSql>
 			<groupSql>
