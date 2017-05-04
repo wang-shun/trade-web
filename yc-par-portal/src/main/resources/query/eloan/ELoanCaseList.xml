@@ -121,6 +121,7 @@
 					FROM sctrans.T_TO_CASE_COMMENT cc 
 					INNER JOIN sctrans.SYS_USER u ON u.ID = cc.CREATE_BY
 					WHERE cc.BIZ_CODE = #eLoanCode# AND cc.SOURCE = 'EPLUS'
+					order by cc.CREATE_TIME desc
 				]]>
 			</baseSql>
 			<groupSql>
@@ -213,7 +214,7 @@
 						select 
 							ISNULL((SELECT ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE CASE_CODE = ec.CASE_CODE AND BIZ_CODE = ec.ELOAN_CODE AND BUSINESS_KEY = 'EloanProcess')),'') AS taskId,
 							ISNULL((SELECT PROC_INST_ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE CASE_CODE = ec.CASE_CODE AND BIZ_CODE = ec.ELOAN_CODE AND BUSINESS_KEY = 'EloanProcess')),'') AS procInstanceId,
-							ISNULL(uoj.employee_code,'') 	as avartaUrl,
+							'http://aimg.sh.centanet.com/salesweb/image/' + ISNULL(uoj.avatar,'') + '.jpg' 	as avartaUrl,
 							ISNULL(ec.SEND_ID,'') as consultantID,
 							ISNULL(u.REAL_NAME,'') as consultantName,
 							ISNULL(ec.CUST_NAME,'') as custName,
@@ -234,8 +235,7 @@
 					INNER JOIN sctrans.T_TO_PROPERTY_INFO pi ON ec.CASE_CODE = pi.CASE_CODE
 					INNER JOIN sctrans.SYS_USER u on u.ID = ec.SEND_ID
 					INNER JOIN sctrans.V_USER_ORG_JOB uoj ON ec.LOANER_ID = uoj.user_id 
-					INNER JOIN sctrans.T_TO_WORKFLOW w on ec.ELOAN_CODE = w.BIZ_CODE 
-					WHERE ec.LOANER_ID = #loanerId# and w.STATUS != 4
+					WHERE ec.LOANER_ID = #loanerId# and e.STATUS != 'ABAN'
 			
 					<if test="flag == 'noAccept'">
 						AND ec.LOANER_STATUS = 'ACCEPTING'
