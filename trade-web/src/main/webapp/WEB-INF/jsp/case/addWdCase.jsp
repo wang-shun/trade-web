@@ -208,7 +208,7 @@
                 <div class="form_content">
                     <label class="control-label sign_left_small">服务价格</label> 
                     <input class="select_control sign_right_one" placeholder="" id="commCost" name="commCost" value="${caseMergeVo.commCost}">
-                   <span class="date_icon" >万元</span>
+                   <span class="date_icon" >元</span>
                 </div>
             </div>
             <div class="line">

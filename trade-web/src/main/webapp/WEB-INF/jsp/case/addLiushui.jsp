@@ -37,7 +37,7 @@
                   <div class="form_content">
                       <label class="control-label sign_left_small">付款金额</label> 
                       <input class="select_control sign_right_one" placeholder="" name="paymentAmount" id="paymentAmount" value="">
-                     <span class="date_icon">万元</span>
+                     <span class="date_icon">元</span>
                   </div>
                   <div class="form_content">
                       <label class="control-label sign_left_small">

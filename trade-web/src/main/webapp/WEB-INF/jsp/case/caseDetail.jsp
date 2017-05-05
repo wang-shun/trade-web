@@ -1190,7 +1190,7 @@
                                 <div class="row">
                                     <div class="table_content">
 	                                <p>
-	                                    <span class="mr10">应收金额:<strong>${commCostAmount}万元</strong></span>
+	                                    <span class="mr10">应收金额:<strong>${commCostAmount}元</strong></span>
 	                                    <a > <button type="button" class="btn btn-success mr5" id="addLiushui"> 新增收款流水 </button> </a>
 	                                </p>
  		                            <table class="table table_blue table-striped table-bordered table-hover customerinfo" id="editable"> 
@@ -1220,7 +1220,7 @@
 											</tr>
 										</c:forEach>
 												<tr>
-													<td colspan="4">总计:${allAmount}万元</td>
+													<td colspan="4">总计:${allAmount}元</td>
 												</tr>
 												  
 		                                <tbody>
