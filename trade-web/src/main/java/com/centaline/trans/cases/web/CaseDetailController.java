@@ -17,6 +17,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.task.service.ActRuTaskService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -206,7 +207,8 @@ public class CaseDetailController {
 	//审批记录
 	@Autowired
 	ToApproveRecordService toApproveRecordService;
-
+	@Autowired
+	private ActRuTaskService actRuTaskService;
 	/**
 	 * 页面初始化
 	 * 
@@ -2188,21 +2190,34 @@ public class CaseDetailController {
 			record.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 			isSus = true;
 		}
-		ToWorkFlow wf = new ToWorkFlow();
-		wf.setCaseCode(caseCode);
-		List<ToWorkFlow> zhulcList = toWorkFlowService.queryActiveToWorkFlowByCaseCode(wf);
-		// 流程挂起
-		for (ToWorkFlow toWorkFlow : zhulcList) {
-			if(WorkFlowEnum.SERVICE_RESTART.getCode().equals(toWorkFlow.getBusinessKey())){
+
+		List<TaskVo> taskVos = actRuTaskService.getRuTask(caseCode);
+		Map<String,Boolean> taskInstCode = new HashMap<>();
+		for(TaskVo task : taskVos){
+			if(WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
 				response.setMessage("该案件有流程重启任务，等待主管审批");
 				response.setSuccess(false);
 				return response;
 			}
+			if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
+				taskInstCode.put(task.getInstCode(), task.getSuspended());
+			}
 		}
-		for (ToWorkFlow toWorkFlow : zhulcList) {
-			workFlowManager.activateOrSuspendProcessInstance(toWorkFlow.getInstCode(), isSus);
-		}
+		for (String instCode : taskInstCode.keySet()) {
+			if(!com.alibaba.druid.util.StringUtils.isEmpty(instCode)){
+				if(isSus){
+					if(taskInstCode.get(instCode)){//如果是挂起状态
+						workFlowManager.activateOrSuspendProcessInstance(instCode, true);
+					}
+				}else{
+					if(!taskInstCode.get(instCode)){//如果不是挂起状态
+						workFlowManager.activateOrSuspendProcessInstance(instCode, false);
+					}
 
+				}
+
+			}
+		}
 		// 案件表更新
 		toCaseService.updateByCaseCodeSelective(record);
 		response.setContent(record.getCaseProperty());
