@@ -19,9 +19,6 @@ function getCheckBoxValues(name) {
  * 页面提交
  */
 function sumbitRe(){
-	
-	
-	
 	if(!checkForm()){
 		return false;		
 	}
@@ -243,8 +240,10 @@ function isName(name){
    }
    return true;
 }
-
-//上下家电话相同验证
+/**
+ * 上下家电话相同验证
+ * @returns {Boolean}
+ */
 function phoneUpAndphoneDownCheck() {
 	var checkGuestPhone= true;
 	var selectsPhoneDown = $("input[name='guestPhoneDown']");
@@ -303,8 +302,11 @@ function phoneUpAndphoneDownCheck() {
 	return checkGuestPhone;
 }
 
-
-//判断是否有重复字符
+/**
+ * 判断是否有重复字符
+ * @param value
+ * @returns {Boolean}
+ */
 function isUniqueChar(value){
 	if(!value){
 		return false;
@@ -320,7 +322,11 @@ function isUniqueChar(value){
 	}
 	return (result.length==1);
 }
-//验证手机和电话号码
+/**
+ * 验证手机和电话号码
+ * @param ContactNumber
+ * @returns {Boolean}
+ */
 function checkContactNumber(ContactNumber) {
 	
 	var mobile = $.trim(ContactNumber);	
