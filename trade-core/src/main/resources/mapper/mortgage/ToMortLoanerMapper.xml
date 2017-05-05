@@ -94,7 +94,7 @@
     from sctrans.T_TO_MORT_LOANER
     
     where 
-    	LOANER_STATUS NOT IN ('AUD_REJECTED','ACC_REJECTED','CANCELED','COMPLETED')
+    	LOANER_STATUS NOT IN ('AUD_REJECTED','ACC_REJECTED','CANCELED')
      <if test="caseCode != null">
     	AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
      </if>
