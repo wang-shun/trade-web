@@ -47,5 +47,5 @@ public interface ToMortLoanerMapper {
 	List<ToMortLoaner> findToMortLoanerByCaseCodeAndIsMainBank(
 			Map<String, String> map);
 
-	ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner);
+	List<ToMortLoaner> findToMortLoaner(ToMortLoaner toMortLoaner);
 }

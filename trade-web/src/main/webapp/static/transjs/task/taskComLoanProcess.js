@@ -1540,7 +1540,10 @@ $(document).ready(function (){
 	  }else{			 
 			 $("#toLoanerCaseTemp").show();
 			 $("#toLoanerCase").show();
-	  }
+	  }  
+	  
+	  getProcessStart();
+
 	/*$("#bank_branch_id").change(subBankChange);*/
 	 $(".tmpBankReasonDiv").hide();
 	 $("input[name=optionsRadios]").each(function(){
@@ -2015,7 +2018,7 @@ function loanerProcessStart(isMainLoanBank){
     	data:data,
     	
     	success:function(data){    		
-    		if(data.success == true){	    			
+    		if(data.success == false){	  //未启动  			
 	    			//if(null != bankLevel &&  bankLevel != undefined  && null != loanerUserId && "" != loanerUserId){
     				if(beforeSendLoanerProcess(form)){
 	    				window.wxc.confirm("派单前，请再次确认您选择的信贷员是否正确！",{"wxcOk":function(){
@@ -2181,5 +2184,25 @@ function getFormParams(formId){
 }
 
 
-
+function getProcessStart(){
+	var data = 
+	{
+	   "caseCode":$("#caseCode").val(),
+	   "isMainLoanBank":$("#isMainLoanBank").val()
+	};	
+	
+ 	$.ajax({
+	    url:ctx+"/task/isLoanerProcessStart",
+	    async:false,
+    	method:"post",
+    	dataType:"json",
+    	data:data,
+    	
+    	success:function(data){    		
+    		if(data.success == true){	 //已经启动    		
+    			 $("#processStart").val("processIsStart");		    		
+	    	}
+    	}
+ 	});  	
+}
 
