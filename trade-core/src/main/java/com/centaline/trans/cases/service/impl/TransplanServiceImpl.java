@@ -43,7 +43,6 @@ public class TransplanServiceImpl implements TransplanService {
         SessionUser user = uamSessionService.getSessionUser();
         boolean isDeal = true;//是否处理
         TtsTransPlanHistoryBatch ttpb = new TtsTransPlanHistoryBatch();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try{
            for (Object object : fileListArray) {
                JSONObject planItems = (JSONObject) object;
