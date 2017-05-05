@@ -40,8 +40,15 @@
 <link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
 <link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 </head>
-
 <body>
+<style>
+.table thead tr th {
+    background-color: #4bccec;
+    font-size: 14px;
+    font-weight: normal;
+    color: #fff;
+}
+</style>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="ctm" value="${toCaseInfo.ctmCode}" />
@@ -95,6 +102,9 @@
                   	</c:if>
                    	<c:if test="${toCase.caseProperty=='30003002'}">
                    			<div class="sign sign-red">结案</div>
+                    </c:if>
+                   	<c:if test="${toCase.caseProperty=='30003009'}">
+                   			<div class="sign sign-out"> 外单 </div>
                     </c:if>
                  	<c:if test="${toCase.caseProperty=='30003005'}">
                   		<div class="sign sign-red ">
@@ -248,25 +258,42 @@
 											</dd>
 										</dl>
 									</div>
-									<span>经纪人信息</span>
-									<div class="ibox-conn else_conn_two ">
-										<dl class="dl-horizontal">
-											<dt>姓名</dt>
-											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${toCaseInfo.agentPhone}">
-													${caseDetailVO.agentName}</a>
-											</dd>
-											<dt>所属分行</dt>
-											<dd>${toCaseInfo.grpName }</dd>
-											<dt>直管经理</dt>
-											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseDetailVO.mcMobile}">
-													${caseDetailVO.mcName} </a>
-											</dd>
-										</dl>
-									</div>
+									<c:choose>  
+										    <c:when test="${toCase.caseProperty=='30003009'}">
+										        <span>推荐人信息</span>
+												<div class="ibox-conn else_conn_two ">
+													<dl class="dl-horizontal">
+														<dt>姓名</dt>
+														<dd>
+															<a data-toggle="popover" data-placement="right" data-content="${toCaseInfo.agentPhone}"> ${toCaseInfo.agentName}</a>
+														</dd>
+														<dt>手机号</dt>
+														<dd>${toCaseInfo.agentPhone }</dd>
+													</dl>
+												</div>
+										   </c:when>  
+										   <c:otherwise> 
+											    <span>经纪人信息</span>
+												<div class="ibox-conn else_conn_two ">
+													<dl class="dl-horizontal">
+														<dt>姓名</dt>
+														<dd>
+															<a data-toggle="popover" data-placement="right"
+																data-content="${toCaseInfo.agentPhone}">
+																${caseDetailVO.agentName}</a>
+														</dd>
+														<dt>所属分行</dt>
+														<dd>${toCaseInfo.grpName }</dd>
+														<dt>直管经理</dt>
+														<dd>
+															<a data-toggle="popover" data-placement="right"
+																data-content="${caseDetailVO.mcMobile}">
+																${caseDetailVO.mcName} </a>
+														</dd>
+													</dl>
+												</div>
+									       </c:otherwise> 
+										</c:choose>	
 								</div>
 								<div class="info_box info_box_three col-sm-3">
 									<span>经办人信息</span>
@@ -332,6 +359,10 @@
 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUSPEND">
 										<a role="button" id="casePause" class="btn btn-primary btn-xm"
 											href="javascript:casePause()">案件挂起/恢复 </a>
+									</shiro:hasPermission>
+									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE">
+										<a role="button" id="editWdCase" class="btn btn-primary btn-xm"
+											href="javascript:editWdCase()">修改外单 </a>
 									</shiro:hasPermission>
 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PRARISE">
 										<a role="button" data-toggle="modal"
@@ -787,6 +818,8 @@
 							</li>
 							<li class=""><a href="#bizwarn-info" data-toggle="tab" style="padding:10px;">商贷流失预警信息</a>
 							</li>
+							<li class=""><a href="#liushui-info" data-toggle="tab" style="padding:10px;">收款流水</a>
+							</li>
 						</ul>
 
 						<div class="tab-content">
@@ -1153,6 +1186,49 @@
 									</c:choose>
 								</div>
 							</div>
+							<div class="tab-pane fade" id="liushui-info">
+                                <div class="row">
+                                    <div class="table_content">
+	                                <p>
+	                                    <span class="mr10">应收金额:<strong>${commCostAmount}万元</strong></span>
+	                                    <a > <button type="button" class="btn btn-success mr5" id="addLiushui"> 新增收款流水 </button> </a>
+	                                </p>
+ 		                            <table class="table table_blue table-striped table-bordered table-hover customerinfo" id="editable"> 
+		                                <thead>
+		                                    <tr>
+		                                        <th>付款金额 </th>
+		                                        <th>付款人 </th>
+		                                        <th>付款时间</th>
+		                                        <th>付款凭证</th>
+		                                    </tr>
+		                                </thead>
+		                                <c:forEach items="${tpdPaymentVOs}" var="item">
+											<tr>
+												<td>
+														${item.paymentAmount}
+												</td>
+												<td>
+														${item.payer}
+												</td>
+												<td>
+														<fmt:formatDate value="${item.paymentDate}" type="date" pattern="yyyy-MM-dd"/>
+												</td>
+												<td>
+														<%--  <a href="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${item.receiptPic}" target="_blank">查看凭证</a> --%>
+														 <a href="<aist:appCtx appName='aist-filesvr-web'/>/JQeryUpload/getfile?fileId=${item.receiptPic}" target="_blank">查看凭证</a>
+												</td>
+											</tr>
+										</c:forEach>
+												<tr>
+													<td colspan="4">总计:${allAmount}万元</td>
+												</tr>
+												  
+		                                <tbody>
+		                                </tbody>
+		                            </table>
+                        		</div>
+							</div>	
+						</div>	
 						</div>
 					</div>
 				</div>
@@ -1527,7 +1603,12 @@
                                   });
             });
         });
-
+        /**
+         * 新建外单案件
+         */
+        $('#addLiushui').click(function() {	
+        	window.location.href = ctx+"/caseMerge/addLiushui?caseCode="+$('#caseCode').val();
+        });
 
 
 

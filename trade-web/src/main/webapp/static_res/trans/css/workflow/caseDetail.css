@@ -30,6 +30,13 @@
   width: 52px;
   height: 35px;
 }
+#basicInfo .sign-out {
+  background: url(../../img/qizi-04.png) no-repeat;
+  top: 0px;
+  left: 270px;
+  width: 36px;
+  height: 35px;
+}
 
 .title {
   float: left;
