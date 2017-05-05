@@ -71,7 +71,7 @@
           </div>
           <div class="text-center mt40 mb30">
                <a onclick="sumbitRe()" class="btn btn-success">创建</a>
-              <button type="reset" class="btn btn-grey" data-toggle="modal" >清空</button>
+             <!--  <button type="reset" class="btn btn-grey" data-toggle="modal" >清空</button> -->
           </div>
           </form>
       </div>
