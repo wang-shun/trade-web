@@ -356,7 +356,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		ToCase toCase = new ToCase();
 		toCase.setCaseCode(caseCode);
 		toCase.setCaseProperty(CasePropertyEnum.TPWD.getCode());
-		toCase.setStatus(CaseStatusEnum.WFD.getCode());
+		toCase.setStatus(CaseStatusEnum.YFD.getCode());
 		toCase.setCaseOrigin(CaseOriginEnum.WD.getCode());
 		toCase.setLeadingProcessId(user.getId());
 		toCase.setOrgId(user.getServiceDepId());
