@@ -59,7 +59,8 @@
 						LOAN.LOANER_STATUS,
 						LOAN.HOU_ADDRESS,
 						LOAN.IS_MAIN_LOANBANK_PROCESS,
-						LOAN.LOANERPKID
+						LOAN.LOANERPKID,
+						LOAN.LOANER_STATUS_FLAG
 				 FROM(
 						SELECT
 							L.CASE_CODE,
@@ -80,11 +81,14 @@
 							L.LOANER_STATUS,
 							L.HOU_ADDRESS,
 							L.IS_MAIN_LOANBANK_PROCESS,
-							L.PKID AS LOANERPKID
+							L.PKID AS LOANERPKID,
+							CASE WHEN L.LOANER_STATUS IN ('CANCELED','AUD_REJECTED','ACC_REJECTED')  THEN  1
+								 WHEN L.LOANER_STATUS IN ('ACCEPTING','AUDITING','COMPLETED')  THEN  0							
+							END   LOANER_STATUS_FLAG
 											
 						FROM  sctrans.T_TO_MORT_LOANER L					
-						INNER JOIN  sctrans.T_TO_WORKFLOW  W  ON L.CASE_CODE = W.CASE_CODE AND W.BIZ_CODE = L.PKID  AND  W.BUSINESS_KEY='Loaner_Process'				
-						INNER JOIN  sctrans.ACT_HI_TASKINST T ON T.PROC_INST_ID_ = W.INST_CODE AND T.ID_= (SELECT MAX(TA.ID_) FROM sctrans.ACT_HI_TASKINST TA WHERE TA.PROC_INST_ID_ = W.INST_CODE)
+						LEFT JOIN  sctrans.T_TO_WORKFLOW  W  ON L.CASE_CODE = W.CASE_CODE AND W.BIZ_CODE = L.PKID  AND  W.BUSINESS_KEY='Loaner_Process'				
+						LEFT JOIN  sctrans.ACT_HI_TASKINST T ON T.PROC_INST_ID_ = W.INST_CODE AND T.ID_= (SELECT MAX(TA.ID_) FROM sctrans.ACT_HI_TASKINST TA WHERE TA.PROC_INST_ID_ = W.INST_CODE)
 					)LOAN
 					WHERE 1=1
 					<if test="idflag != null and idflag !='' ">				
@@ -99,8 +103,7 @@
 					</if>
 					
 					<if test="propertyAddr != null and propertyAddr !='' ">
-						AND LOAN.HOU_ADDRESS like '%' + #propertyAddr# + '%'
-						<!-- AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE L.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%')  -->
+						AND LOAN.HOU_ADDRESS like '%' + #propertyAddr# + '%'						
 					</if>								
 		
 					<if test="loanerId != null and loanerId !='' ">
@@ -119,7 +122,7 @@
 			<groupSql>
 			</groupSql>
 			<orderBySql>
-			  		ORDER BY LOAN.CASE_CODE DESC 
+			  		ORDER BY LOAN.LOANER_STATUS_FLAG  
 			</orderBySql>
 		</searchSql>
 		<grid>
@@ -157,7 +160,7 @@
 				<column type="both" name="PRF_YEAR" index="" checkbox=""   title="公积金年限" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>	
 				<column type="both" name="CUST_NAME" index="" checkbox=""   title="主贷人" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>	
 				<column type="both" name="LOANER_STATUS" index="" checkbox=""   title="派单状态" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>	
-				
+				<column type="both" name="LOANER_STATUS_FLAG" index="" checkbox=""   title="派单状态" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>	
 					
 			</table-row>
 		</grid>

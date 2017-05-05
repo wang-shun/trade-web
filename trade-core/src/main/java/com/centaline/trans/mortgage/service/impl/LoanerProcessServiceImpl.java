@@ -851,7 +851,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             List<ToMortLoaner> toMortLoanerProcessList = toMortLoanerService.findToMortLoaner(toMortLoaner);
             ToMortLoaner toMortLoanerProcess = null;
             if(null != toMortLoanerProcessList && toMortLoanerProcessList.size() > 0 ){
-            	toMortLoanerProcess= toMortLoanerProcessList.get(0);
+            	toMortLoanerProcess = toMortLoanerProcessList.get(0);
             }	
             
             if (null != toMortLoanerProcess)

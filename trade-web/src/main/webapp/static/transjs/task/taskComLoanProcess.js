@@ -2018,7 +2018,7 @@ function loanerProcessStart(isMainLoanBank){
     	data:data,
     	
     	success:function(data){    		
-    		if(data.success == false){	  //未启动  			
+    		if(data.success == false){	  //未启动派单流程  			
 	    			//if(null != bankLevel &&  bankLevel != undefined  && null != loanerUserId && "" != loanerUserId){
     				if(beforeSendLoanerProcess(form)){
 	    				window.wxc.confirm("派单前，请再次确认您选择的信贷员是否正确！",{"wxcOk":function(){
