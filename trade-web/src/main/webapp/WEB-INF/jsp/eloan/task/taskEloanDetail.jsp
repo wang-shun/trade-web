@@ -568,8 +568,8 @@
 				$("#caseCommentList").eloanCaseCommentGrid(
 						{
 							eloanCode : eloanCode,
-							source : 'EPLUS',
-							type : 'TRACK'
+							source : 'EPLUS'
+							//type : 'TRACK'
 						}	   
 					   );
 		   })
