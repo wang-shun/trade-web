@@ -8,6 +8,8 @@ public enum CaseOriginEnum {
 	
 	CTM("CTM", "CTM推送案件"),
 	INPUT("INPUT", "自录案件"),
+	/**外单案件**/
+	WD("WD", "外单案件"),
 	MERGE("MERGE", "合流案件");
 
     

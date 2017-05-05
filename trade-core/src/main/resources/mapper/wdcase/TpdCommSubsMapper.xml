@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.wdcase.repository.TpdCommSubsMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.wdcase.entity.TpdCommSubs" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="COMM_SUBJECT" property="commSubject" jdbcType="VARCHAR" />
+    <result column="STD_RATE" property="stdRate" jdbcType="DECIMAL" />
+    <result column="STD_COST" property="stdCost" jdbcType="DECIMAL" />
+    <result column="DISCOUNT" property="discount" jdbcType="DECIMAL" />
+    <result column="COMM_COST" property="commCost" jdbcType="DECIMAL" />
+    <result column="BUYER_COST" property="buyerCost" jdbcType="DECIMAL" />
+    <result column="BUYER_PAID" property="buyerPaid" jdbcType="DECIMAL" />
+    <result column="SELLER_COST" property="sellerCost" jdbcType="DECIMAL" />
+    <result column="SELLER_PAID" property="sellerPaid" jdbcType="DECIMAL" />
+    <result column="PAYEE" property="payee" jdbcType="NVARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, COMM_SUBJECT, STD_RATE, STD_COST, DISCOUNT, COMM_COST, BUYER_COST, 
+    BUYER_PAID, SELLER_COST, SELLER_PAID, PAYEE, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, 
+    IS_DELETED
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_PD_COMM_SUBS
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_PD_COMM_SUBS
+    where case_code = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_PD_COMM_SUBS
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.wdcase.entity.TpdCommSubs" >
+    insert into sctrans.T_PD_COMM_SUBS (PKID, CASE_CODE, COMM_SUBJECT, 
+      STD_RATE, STD_COST, DISCOUNT, 
+      COMM_COST, BUYER_COST, BUYER_PAID, 
+      SELLER_COST, SELLER_PAID, PAYEE, 
+      CREATE_BY, CREATE_TIME, UPDATE_BY, 
+      UPDATE_TIME, IS_DELETED)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{commSubject,jdbcType=VARCHAR}, 
+      #{stdRate,jdbcType=DECIMAL}, #{stdCost,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, 
+      #{commCost,jdbcType=DECIMAL}, #{buyerCost,jdbcType=DECIMAL}, #{buyerPaid,jdbcType=DECIMAL}, 
+      #{sellerCost,jdbcType=DECIMAL}, #{sellerPaid,jdbcType=DECIMAL}, #{payee,jdbcType=NVARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.wdcase.entity.TpdCommSubs"  useGeneratedKeys="true" keyProperty="pkid">
+    insert into sctrans.T_PD_COMM_SUBS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="commSubject != null" >
+        COMM_SUBJECT,
+      </if>
+      <if test="stdRate != null" >
+        STD_RATE,
+      </if>
+      <if test="stdCost != null" >
+        STD_COST,
+      </if>
+      <if test="discount != null" >
+        DISCOUNT,
+      </if>
+      <if test="commCost != null" >
+        COMM_COST,
+      </if>
+      <if test="buyerCost != null" >
+        BUYER_COST,
+      </if>
+      <if test="buyerPaid != null" >
+        BUYER_PAID,
+      </if>
+      <if test="sellerCost != null" >
+        SELLER_COST,
+      </if>
+      <if test="sellerPaid != null" >
+        SELLER_PAID,
+      </if>
+      <if test="payee != null" >
+        PAYEE,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="commSubject != null" >
+        #{commSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="stdRate != null" >
+        #{stdRate,jdbcType=DECIMAL},
+      </if>
+      <if test="stdCost != null" >
+        #{stdCost,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="commCost != null" >
+        #{commCost,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerCost != null" >
+        #{buyerCost,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerPaid != null" >
+        #{buyerPaid,jdbcType=DECIMAL},
+      </if>
+      <if test="sellerCost != null" >
+        #{sellerCost,jdbcType=DECIMAL},
+      </if>
+      <if test="sellerPaid != null" >
+        #{sellerPaid,jdbcType=DECIMAL},
+      </if>
+      <if test="payee != null" >
+        #{payee,jdbcType=NVARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.wdcase.entity.TpdCommSubs" >
+    update sctrans.T_PD_COMM_SUBS
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="commSubject != null" >
+        COMM_SUBJECT = #{commSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="stdRate != null" >
+        STD_RATE = #{stdRate,jdbcType=DECIMAL},
+      </if>
+      <if test="stdCost != null" >
+        STD_COST = #{stdCost,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        DISCOUNT = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="commCost != null" >
+        COMM_COST = #{commCost,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerCost != null" >
+        BUYER_COST = #{buyerCost,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerPaid != null" >
+        BUYER_PAID = #{buyerPaid,jdbcType=DECIMAL},
+      </if>
+      <if test="sellerCost != null" >
+        SELLER_COST = #{sellerCost,jdbcType=DECIMAL},
+      </if>
+      <if test="sellerPaid != null" >
+        SELLER_PAID = #{sellerPaid,jdbcType=DECIMAL},
+      </if>
+      <if test="payee != null" >
+        PAYEE = #{payee,jdbcType=NVARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.wdcase.entity.TpdCommSubs" >
+    update sctrans.T_PD_COMM_SUBS
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      COMM_SUBJECT = #{commSubject,jdbcType=VARCHAR},
+      STD_RATE = #{stdRate,jdbcType=DECIMAL},
+      STD_COST = #{stdCost,jdbcType=DECIMAL},
+      DISCOUNT = #{discount,jdbcType=DECIMAL},
+      COMM_COST = #{commCost,jdbcType=DECIMAL},
+      BUYER_COST = #{buyerCost,jdbcType=DECIMAL},
+      BUYER_PAID = #{buyerPaid,jdbcType=DECIMAL},
+      SELLER_COST = #{sellerCost,jdbcType=DECIMAL},
+      SELLER_PAID = #{sellerPaid,jdbcType=DECIMAL},
+      PAYEE = #{payee,jdbcType=NVARCHAR},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      IS_DELETED = #{isDeleted,jdbcType=INTEGER}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

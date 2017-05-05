@@ -77,6 +77,12 @@ $('#searchButton').click(function() {
 $('#addNewCase').click(function() {	
 	window.location.href = ctx+"/caseMerge/addCase/case";
 });
+/**
+ * 新建外单案件
+ */
+$('#addNewWdCase').click(function() {	
+	window.location.href = ctx+"/caseMerge/addWdCase";
+});
 // 添加日期查询条件
 var divIndex = 1;
 var count = $('#case_date_0 option:last').index();

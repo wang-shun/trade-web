@@ -1,6 +1,12 @@
 package com.centaline.trans.cases.vo;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.spv.vo.SpvRecordedsVOItem;
 
 public class CaseMergeVo {
 	
@@ -29,8 +35,115 @@ public class CaseMergeVo {
     private List<Long> pkidDown;
     private List<String> guestNameDown;
     private List<String> guestPhoneDown;
-    /*上下家删除的记录id*/
+    /**外单案件推荐人*/
+    private List<Long> pkidRecommend;
+    private List<String> guestNameRecommend;
+    private List<String> guestPhoneRecommend;
+   
+	/*上下家删除的记录id*/
     private List<Long> guestPkid;
+    /**
+     * 外单案件的合作来源
+     */
+    private String sourceOfCooperation;
+    /**
+     * 外单案件的应收费用项
+     */
+	private String commSubject;
+	/**
+	 * 外单案件的应收费用项
+	 */
+	private String commSubjectOther;
+	/**
+     * 外单案件的应收费金额
+     */
+    private BigDecimal commCost;
+    /**
+     * 外单案件的流水付款人
+     */
+    private String payer;
+    /**
+     * 外单案件的流水付款金额
+     */
+    private BigDecimal paymentAmount;
+    /**
+     * 外单案件的支付日期
+     */
+    private Date paymentDate;
+    /**
+     * 外单案件的支付caseCode
+     */
+    private String caseCode;
+    /**
+     * 外单上家 
+     */
+    private List<TgGuestInfo> tgGuestInfoUp = new ArrayList<TgGuestInfo>();
+    /**
+     * 外单下家 
+     */
+    private List<TgGuestInfo> tgGuestInfoDown = new ArrayList<TgGuestInfo>();
+   
+    public String getCommSubjectOther() {
+		return commSubjectOther;
+	}
+	public void setCommSubjectOther(String commSubjectOther) {
+		this.commSubjectOther = commSubjectOther;
+	}
+	
+	public List<TgGuestInfo> getTgGuestInfoUp() {
+		return tgGuestInfoUp;
+	}
+	public void setTgGuestInfoUp(List<TgGuestInfo> tgGuestInfoUp) {
+		this.tgGuestInfoUp = tgGuestInfoUp;
+	}
+	public List<TgGuestInfo> getTgGuestInfoDown() {
+		return tgGuestInfoDown;
+	}
+	public void setTgGuestInfoDown(List<TgGuestInfo> tgGuestInfoDown) {
+		this.tgGuestInfoDown = tgGuestInfoDown;
+	}
+	public String getCaseCode() {
+		return caseCode;
+	}
+	public void setCaseCode(String caseCode) {
+		this.caseCode = caseCode;
+	}
+	public Date getPaymentDate() {
+		return paymentDate;
+	}
+	public void setPaymentDate(Date paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+	public String getPayer() {
+		return payer;
+	}
+	public void setPayer(String payer) {
+		this.payer = payer;
+	}
+	public BigDecimal getPaymentAmount() {
+		return paymentAmount;
+	}
+	public void setPaymentAmount(BigDecimal paymentAmount) {
+		this.paymentAmount = paymentAmount;
+	}
+	public String getCommSubject() {
+		return commSubject;
+	}
+	public void setCommSubject(String commSubject) {
+		this.commSubject = commSubject;
+	}
+	public BigDecimal getCommCost() {
+		return commCost;
+	}
+	public void setCommCost(BigDecimal commCost) {
+		this.commCost = commCost;
+	}
+	public String getSourceOfCooperation() {
+		return sourceOfCooperation;
+	}
+	public void setSourceOfCooperation(String sourceOfCooperation) {
+		this.sourceOfCooperation = sourceOfCooperation;
+	}
 	public String getPropertyCode() {
 		return propertyCode;
 	}
@@ -158,6 +271,23 @@ public class CaseMergeVo {
 	public void setFinishYear(String finishYear) {
 		this.finishYear = finishYear;
 	}
-	
+	public List<Long> getPkidRecommend() {
+		return pkidRecommend;
+	}
+	public void setPkidRecommend(List<Long> pkidRecommend) {
+		this.pkidRecommend = pkidRecommend;
+	}
+	public List<String> getGuestNameRecommend() {
+		return guestNameRecommend;
+	}
+	public void setGuestNameRecommend(List<String> guestNameRecommend) {
+		this.guestNameRecommend = guestNameRecommend;
+	}
+	public List<String> getGuestPhoneRecommend() {
+		return guestPhoneRecommend;
+	}
+	public void setGuestPhoneRecommend(List<String> guestPhoneRecommend) {
+		this.guestPhoneRecommend = guestPhoneRecommend;
+	}
 		
 }
