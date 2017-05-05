@@ -154,12 +154,10 @@
 						</if>
 						<if test="caseTransferDateEnd != null and caseTransferDateEnd !='' ">		
 							AND  B.TRANSFER_APP_TIME &lt;=  #caseTransferDateEnd#  
-						</if>				
-
+						</if>
 						<if test="orgName != null and orgName != '' ">
 							AND B.CASE_ORG_ID_F = #orgName#  
 						</if>
-						
 						<if test="managerName != null and managerName != ''">	
 							AND B.CASE_MANAGER_USER_ID = #managerName# 							
 						</if>
@@ -230,9 +228,7 @@
 		</grid>
 	</query>
 	
-	
-	
-	<query id="newQueryCastTransferExcelItemList" cacheCount="true">
+	<query id="queryCastTransferExcelItemList" cacheCount="true">
 		<searchCondition>
 		</searchCondition>
 		<searchSql>

@@ -338,7 +338,7 @@ function oldCaseTransferExportToExcel() {
 	displayColomn.push('CARD_PAY_AMOUNT');
 	
 	var params = getParamsValue();	
-	var queryId = '&queryId=newQueryCastTransferExcelItemList';
+	var queryId = '&queryId=queryCastTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
 
 	url = ctx + url + jQuery.param(params) + queryId + ""
