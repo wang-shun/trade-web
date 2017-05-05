@@ -336,6 +336,9 @@
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script>
 			$(document).ready(function() {
+				$("#loanSrvCode").attr("disabled", true);
+				$("#finOrgCode").attr("disabled", true);
+				$("#custCardType").attr("disabled", true);
 				$("input:not([type='button'])").attr("disabled", true);
 				$("input[type='hidden']").attr("disabled", false);
 				if($("#param").val()!=2){

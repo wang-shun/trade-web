@@ -744,7 +744,7 @@ function exportToExcel() {
 		url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
 		//url+= "&_s(earch=true";
 		//url= decodeURI(url);
-//		alert(url);
+		//alert(url);
 		$('#excelForm').attr('action', url);
 		
 		$('#excelForm').method="post" ;
@@ -782,19 +782,6 @@ function initAutocomplete(url){
 		}
     }).AutoComplete('show');
 }
-//选业务组织的回调函数
-/*function radioYuCuiOrgSelectCallBack(array){
-    if(array && array.length >0){
-        $("#teamCode").val(array[0].name);
-		$("#yuCuiOriGrpId").val(array[0].id);
-		
-		var userSelect = "userSelect({displayId:'oriAgentId',displayName:'radioUserNameCallBack',startOrgId:'"+array[0].id+"',nameType:'long|short',jobIds:'',jobCode:'JWYGW,JFHJL,JQYZJ,JQYDS',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:checkboxUser})";
-		$("#oldactiveName").attr("onclick",userSelect);
-	}else{
-		$("#teamCode").val("");
-		$("#yuCuiOriGrpId").val("");
-	}
-}*/
 
 //选业务组织的回调函数
 function radioYuCuiOrgSelectCallBack(array) {
@@ -837,3 +824,6 @@ function ts(status){
 function hlts(){
 	window.wxc.alert("没有找到可以合流的案件！");
 }
+
+
+

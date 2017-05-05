@@ -71,19 +71,19 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_CASE_MERGE
+    from sctrans.T_TO_CASE_MERGE  with(nolock)
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
   <select id="selectByPrimaryPropertyCode" parameterType="java.lang.String" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_CASE_MERGE
+    from sctrans.T_TO_CASE_MERGE  with(nolock)
     where PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR}
   </select>
   <select id="selectByPrimaryCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_CASE_MERGE m 
+    from sctrans.T_TO_CASE_MERGE m   with(nolock)
 	where m.APPLY_STATUS='1' and m.OPERATOR='1' and m.CONFIRMOR_ID is not null and m.APPLY_DIRECTION is not null
 	and  exists (select top 1 * from sctrans.T_TO_CASE where CASE_CODE=m.C_CASE_CODE and STATUS ='30001007' )
 	and m.CASE_CODE= #{caseCode,jdbcType=VARCHAR}
@@ -675,7 +675,7 @@
   </update>
   <select id="getMergeInfoList" parameterType="java.lang.String" resultType="java.util.HashMap">
   	select  count(*) cu 
-	from sctrans.T_TO_PROPERTY_INFO t 
+	from sctrans.T_TO_PROPERTY_INFO t  with(nolock)
 	where 
 	t.PROPERTY_CODE =  #{propertyCode,jdbcType=VARCHAR}
   </select>

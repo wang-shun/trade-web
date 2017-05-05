@@ -74,7 +74,7 @@
 						<i class="iconfont icon"></i> 在途单列表
 					</button>
 					<button type="button" class="btn btn-icon btn-blue mr5"
-						id="btnCaseView" lang="caseCode">
+						id="btnCaseView" lang="${caseCode}">
 						<i class="iconfont icon"></i> 案件视图
 					</button>
 				</div>

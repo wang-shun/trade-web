@@ -52,23 +52,15 @@ public class LoanerProcessController {
 	 */
 	@RequestMapping("oldSendOrderStart")
 	@ResponseBody
-	public AjaxResponse<String> oldSendOrderStart(String caseCode,
-			String loanerUserId, String loanerOrgId, String bankOrgCode,
-			int bankLevel, String isMainLoanBank) {
+	public AjaxResponse<String> oldSendOrderStart(String caseCode, String loanerUserId, String loanerOrgId, String bankOrgCode, int bankLevel, String isMainLoanBank) {
 
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		if ((null == caseCode || "".equals(caseCode))
-				|| (null == loanerUserId || "".equals(loanerUserId))
-				|| (null == loanerOrgId || "".equals(loanerOrgId))
-				|| (null == bankOrgCode || "".equals(bankOrgCode) || (null == isMainLoanBank || ""
-						.equals(isMainLoanBank)))) {
+		if ((null == caseCode || "".equals(caseCode)) || (null == loanerUserId || "".equals(loanerUserId)) || (null == loanerOrgId || "".equals(loanerOrgId)) || (null == bankOrgCode || "".equals(bankOrgCode) || (null == isMainLoanBank || "".equals(isMainLoanBank)))) {
 			throw new BusinessException("信贷员流程启动请求参数为空！");
 		}
 
 		try {
-			response = loanerProcessService.startLoanerOrderWorkFlow(caseCode,
-					loanerUserId, loanerOrgId, bankOrgCode, bankLevel,
-					isMainLoanBank);
+			response = loanerProcessService.startLoanerOrderWorkFlow(caseCode, loanerUserId, loanerOrgId, bankOrgCode, bankLevel, isMainLoanBank);
 		} catch (BusinessException e) {
 			throw new BusinessException("信贷员流程启动异常！");
 		}
@@ -110,18 +102,15 @@ public class LoanerProcessController {
 	 */
 	@RequestMapping("isLoanerProcessStart")
 	@ResponseBody
-	public AjaxResponse<String> isLoanerProcessStart(String caseCode,
-			String isMainLoanBank) {
+	public AjaxResponse<String> isLoanerProcessStart(String caseCode, String isMainLoanBank) {
 
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		if ((null == caseCode || "".equals(caseCode))
-				|| (null == isMainLoanBank || "".equals(isMainLoanBank))) {
+		if ((null == caseCode || "".equals(caseCode)) || (null == isMainLoanBank || "".equals(isMainLoanBank))) {
 			throw new BusinessException("判断流程是否启动请求参数为空！");
 		}
 
 		try {
-			response = loanerProcessService.isLoanerProcessStart(caseCode,
-					isMainLoanBank);
+			response = loanerProcessService.isLoanerProcessStart(caseCode, isMainLoanBank);
 		} catch (BusinessException e) {
 			throw new BusinessException("判断流程是否启动程序异常！");
 		}
@@ -137,20 +126,18 @@ public class LoanerProcessController {
 	 * @des:信贷员接单流程驳回
 	 */
 	@RequestMapping(value = "comLoanerChange/process")
-	public String comLoanerChangeProcess(HttpServletRequest request,
-			HttpServletResponse response, String caseCode, String source,
-			String taskitem, String processInstanceId) {		
-		
-		if ((null == caseCode || "".equals(caseCode))	|| (null == processInstanceId || "".equals(processInstanceId))) {
+	public String comLoanerChangeProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source, String taskitem, String processInstanceId) {
+
+		if ((null == caseCode || "".equals(caseCode)) || (null == processInstanceId || "".equals(processInstanceId))) {
 			throw new BusinessException("重新派单流程请求参数异常！");
 		}
-		
+
 		try {
-			 loanerProcessService.comLoanerChangeProcess(request,caseCode,taskitem,processInstanceId);
+			loanerProcessService.comLoanerChangeProcess(request, caseCode, taskitem, processInstanceId);
 		} catch (BusinessException e) {
 			throw new BusinessException("重新派单流程 查询信息异常");
 		}
-		
+
 		return "task/taskComLoanerChangeProcess";
 	}
 
@@ -164,13 +151,9 @@ public class LoanerProcessController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "loanerProcessSubmit")
 	@ResponseBody
-	public AjaxResponse loanerProcessSubmit(HttpServletRequest request,
-			HttpServletResponse response, ToMortgage toMortgage,
-			String caseCode, String taskId, String processInstanceId,
-			int bankLevel) {
+	public AjaxResponse loanerProcessSubmit(HttpServletRequest request, HttpServletResponse response, ToMortgage toMortgage, String caseCode, String taskId, String processInstanceId, int bankLevel) {
 		try {
-			loanerProcessService.loanerProcessSubmit(toMortgage, caseCode,
-					taskId, processInstanceId, bankLevel);
+			loanerProcessService.loanerProcessSubmit(toMortgage, caseCode, taskId, processInstanceId, bankLevel);
 			return AjaxResponse.success();
 		} catch (BusinessException e) {
 			logger.error(e.getMessage(), e);
@@ -189,12 +172,9 @@ public class LoanerProcessController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "loanerProcessDelete")
 	@ResponseBody
-	public AjaxResponse<String> loanerProcessDelete(HttpServletRequest request,
-			HttpServletResponse response, String caseCode, String taskId,
-			String processInstanceId, String isMainLoanBank) {
+	public AjaxResponse<String> loanerProcessDelete(HttpServletRequest request, HttpServletResponse response, String caseCode, String taskId, String processInstanceId, String isMainLoanBank) {
 		try {
-			loanerProcessService.loanerProcessDelete(caseCode, taskId,
-					processInstanceId, isMainLoanBank);
+			loanerProcessService.loanerProcessDelete(caseCode, taskId, processInstanceId, isMainLoanBank);
 			return AjaxResponse.success("取消交易顾问派单流程成功！");
 		} catch (BusinessException e) {
 			logger.error(e.getMessage(), e);
@@ -213,12 +193,9 @@ public class LoanerProcessController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "loanerProcessCancle")
 	@ResponseBody
-	public AjaxResponse<String> loanerProcessCancle(HttpServletRequest request,
-			HttpServletResponse response, String caseCode, String taskId,
-			String processInstanceId, String isMainLoanBankProcess, String loanerPkid) {
+	public AjaxResponse<String> loanerProcessCancle(HttpServletRequest request, HttpServletResponse response, String caseCode, String taskId, String processInstanceId, String isMainLoanBankProcess, String loanerPkid) {
 		try {
-			loanerProcessService.loanerProcessCancle(caseCode, taskId,
-					processInstanceId, isMainLoanBankProcess, loanerPkid);
+			loanerProcessService.loanerProcessCancle(caseCode, taskId, processInstanceId, isMainLoanBankProcess, loanerPkid);
 			return AjaxResponse.success("恭喜，取消派单流程成功！");
 		} catch (BusinessException e) {
 			logger.error(e.getMessage(), e);

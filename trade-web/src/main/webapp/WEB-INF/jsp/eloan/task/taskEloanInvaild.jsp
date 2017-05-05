@@ -213,8 +213,8 @@
 			   $("#caseCommentList").eloanCaseCommentGrid(
 						{
 							eloanCode : $("#eloanCode").val(),
-							source : 'EPLUS',
-							type : 'TRACK'
+							source : 'EPLUS'
+							//type : 'TRACK'
 						}	   
 					   );
 			  

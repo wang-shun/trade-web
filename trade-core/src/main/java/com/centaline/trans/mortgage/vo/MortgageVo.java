@@ -10,106 +10,139 @@ import com.aist.uam.auth.remote.vo.SessionUser;
  * @author yinjf2
  *
  */
-public class MortgageVo implements Serializable {
+public class MortgageVo implements Serializable
+{
 
-	private String bizCode; // 按揭信息id
+    private String bizCode; // 按揭信息id
 
-	private String isPass; // 是否接单(true:接单,false:打回)
+    private String isPass; // 是否接单(true:接单,false:打回)
 
-	private String taskId; // 任务id
+    private String taskId; // 任务id
 
-	private String procInstanceId; // 流程实例id
+    private String procInstanceId; // 流程实例id
 
-	private String stateInBank; // 状态编码
+    private String stateInBank; // 状态编码
 
-	private String caseCode; // 案件编号
+    private String caseCode; // 案件编号
 
-	private String comment; // 跟进备注信息
+    private String comment; // 跟进备注信息
 
-	private String source; // 来源
+    private String source; // 来源
 
-	private String type; // 类型
+    private String type; // 类型
 
-	private SessionUser user; // 当前用户信息
+    private SessionUser user; // 当前用户信息
 
-	public String getSource() {
-		return source;
-	}
+    private String date; // 完成环节时间
 
-	public void setSource(String source) {
-		this.source = source;
-	}
+    public String getDate()
+    {
+        return date;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setDate(String date)
+    {
+        this.date = date;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getSource()
+    {
+        return source;
+    }
 
-	public String getBizCode() {
-		return bizCode;
-	}
+    public void setSource(String source)
+    {
+        this.source = source;
+    }
 
-	public void setBizCode(String bizCode) {
-		this.bizCode = bizCode;
-	}
+    public String getType()
+    {
+        return type;
+    }
 
-	public SessionUser getUser() {
-		return user;
-	}
+    public void setType(String type)
+    {
+        this.type = type;
+    }
 
-	public void setUser(SessionUser user) {
-		this.user = user;
-	}
+    public String getBizCode()
+    {
+        return bizCode;
+    }
 
-	public String getIsPass() {
-		return isPass;
-	}
+    public void setBizCode(String bizCode)
+    {
+        this.bizCode = bizCode;
+    }
 
-	public void setIsPass(String isPass) {
-		this.isPass = isPass;
-	}
+    public SessionUser getUser()
+    {
+        return user;
+    }
 
-	public String getTaskId() {
-		return taskId;
-	}
+    public void setUser(SessionUser user)
+    {
+        this.user = user;
+    }
 
-	public void setTaskId(String taskId) {
-		this.taskId = taskId;
-	}
+    public String getIsPass()
+    {
+        return isPass;
+    }
 
-	public String getProcInstanceId() {
-		return procInstanceId;
-	}
+    public void setIsPass(String isPass)
+    {
+        this.isPass = isPass;
+    }
 
-	public void setProcInstanceId(String procInstanceId) {
-		this.procInstanceId = procInstanceId;
-	}
+    public String getTaskId()
+    {
+        return taskId;
+    }
 
-	public String getStateInBank() {
-		return stateInBank;
-	}
+    public void setTaskId(String taskId)
+    {
+        this.taskId = taskId;
+    }
 
-	public void setStateInBank(String stateInBank) {
-		this.stateInBank = stateInBank;
-	}
+    public String getProcInstanceId()
+    {
+        return procInstanceId;
+    }
 
-	public String getCaseCode() {
-		return caseCode;
-	}
+    public void setProcInstanceId(String procInstanceId)
+    {
+        this.procInstanceId = procInstanceId;
+    }
 
-	public void setCaseCode(String caseCode) {
-		this.caseCode = caseCode;
-	}
+    public String getStateInBank()
+    {
+        return stateInBank;
+    }
 
-	public String getComment() {
-		return comment;
-	}
+    public void setStateInBank(String stateInBank)
+    {
+        this.stateInBank = stateInBank;
+    }
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    public String getCaseCode()
+    {
+        return caseCode;
+    }
+
+    public void setCaseCode(String caseCode)
+    {
+        this.caseCode = caseCode;
+    }
+
+    public String getComment()
+    {
+        return comment;
+    }
+
+    public void setComment(String comment)
+    {
+        this.comment = comment;
+    }
 
 }

@@ -144,7 +144,7 @@
   <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String">
 	    select 
 		<include refid="Base_Column_List" />
-	    from sctrans.T_TO_BIZ_WARN
+	    from sctrans.T_TO_BIZ_WARN  with(nolock)
 	    where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
   </select> 
   
@@ -152,7 +152,7 @@
    <select id="selectBizWarnInfoByMap" resultMap="BaseResultMap" parameterType="java.util.HashMap">
 	    select 
 		<include refid="Base_Column_List" />
-	    from sctrans.T_TO_BIZ_WARN
+	    from sctrans.T_TO_BIZ_WARN  with(nolock)
 	    where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
 	    AND WARN_TYPE=#{warnType,jdbcType=VARCHAR} 
   </select> 

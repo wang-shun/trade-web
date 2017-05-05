@@ -17,7 +17,7 @@
 		parameterType="java.lang.Long">
 		select
 		<include refid="Base_Column_List" />
-		from sctrans.T_TO_ACCESORY_LIST
+		from sctrans.T_TO_ACCESORY_LIST  with(nolock)
 		where PKID = #{pkid,jdbcType=BIGINT}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
@@ -90,7 +90,7 @@
 		parameterType="com.centaline.trans.attachment.entity.ToAccesoryList">
 		select
 		<include refid="Base_Column_List" />
-		from sctrans.T_TO_ACCESORY_LIST
+		from sctrans.T_TO_ACCESORY_LIST  with(nolock)
 		where 1=1
 		<if test="partCode!=null">
 			and PART_CODE = #{partCode,jdbcType=VARCHAR}
@@ -104,7 +104,7 @@
 		parameterType="java.lang.String">
 		select
 		TOP 1 ACCESSORY_NAME
-		from sctrans.T_TO_ACCESORY_LIST
+		from sctrans.T_TO_ACCESORY_LIST  with(nolock)
 		where 1=1
 		and ACCESSORY_CODE = #{accessoryCode,jdbcType=VARCHAR}
 	</select>
@@ -112,7 +112,7 @@
 		parameterType="com.centaline.trans.attachment.entity.ToAccesoryList">
 		select
 		<include refid="Base_Column_List" />
-		from sctrans.T_TO_ACCESORY_LIST
+		from sctrans.T_TO_ACCESORY_LIST  with(nolock)
 		where 1=1
 		<if test="partCode!=null">
 			and PART_CODE = #{partCode,jdbcType=VARCHAR}
@@ -125,7 +125,7 @@
 		parameterType="com.centaline.trans.attachment.entity.ToAttachment">
 		select
 		<include refid="Base_Column_List" />
-		from sctrans.T_TO_ACCESORY_LIST
+		from sctrans.T_TO_ACCESORY_LIST  with(nolock)
 		where 1=1
 		and ACCESSORY_CODE = #{preFileCode,jdbcType=VARCHAR}
 		and PART_CODE = #{partCode,jdbcType=VARCHAR}

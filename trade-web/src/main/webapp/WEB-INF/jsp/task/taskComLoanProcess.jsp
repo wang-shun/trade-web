@@ -1611,7 +1611,7 @@ function readOnlyForm(){
 <script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 <script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 <!-- 上传附件结束 -->
-<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.4.9"></script> 
+<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.5.0"></script> 
 <script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 <script src="${ctx}/transjs/sms/sms.js"></script>	
@@ -1992,10 +1992,10 @@ function checkInt(obj){
 		var isMainLoanBank = $("#isMainLoanBank").val();
 		if (array && array.length > 0) {
 				if(isMainLoanBank == 1){
-					$form.find("#loanerName1").val(array[0].username);
-					$form.find("#loanerName").val(array[0].username);
+					$form.find("input[name='loanerName1']").val(array[0].username);
+					$form.find("input[name='loanerName']").val(array[0].username);
 				}else if(isMainLoanBank == 0){
-					$form.find("#loanerName").val(array[0].username);
+					$form.find("input[name='loanerName']").val(array[0].username);
 				}				
 				$.ajax({
 					url : ctx + "/eloan/LoanerCode",
@@ -2014,9 +2014,9 @@ function checkInt(obj){
 				})
 			} else {
 				if(isMainLoanBank == 1){
-					$form.find("#loanerName1").val("");
+					$form.find("input[name='loanerName1']").val("");
 				}
-				$form.find("#loanerName").val("");				
+				$form.find("input[name='loanerName']").val("");				
 				$form.find("#loanerOrgCode").val("");
 				$form.find("#loanerOrgId").val("");
 			}

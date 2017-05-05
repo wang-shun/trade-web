@@ -2,10 +2,13 @@ package com.centaline.trans.bizwarn.web;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
 
+import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -152,6 +155,45 @@ public class BizWarnInfoController {
 		}
 
 		request.setAttribute("currentUser", currentUser);
+
+		SessionUser user = uamSessionService.getSessionUser();
+		String userJob = user.getServiceJobCode();
+		boolean queryOrgFlag = false;
+		boolean isAdminFlag = false;
+		int userJobCode = -1;
+
+		StringBuffer reBuffer = new StringBuffer();
+		// 如果不是交易顾问
+		if (!userJob.equals(TransJobs.TJYGW.getCode())) {
+			// 下面有组别
+			queryOrgFlag = true;
+			String depString = user.getServiceDepHierarchy();
+			String userOrgIdString = user.getServiceDepId();
+			if (depString.equals(DepTypeEnum.TYCTEAM.getCode())) {
+				reBuffer.append(userOrgIdString);
+				userJobCode = 2;
+			} else if (depString.equals(DepTypeEnum.TYCQY.getCode())) {
+				List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
+						userOrgIdString, DepTypeEnum.TYCTEAM.getCode());
+				for (Org org : orgList) {
+					reBuffer.append(org.getId());
+					reBuffer.append(",");
+				}
+				reBuffer.deleteCharAt(reBuffer.length() - 1);
+				userJobCode = 1;
+			} else {
+				isAdminFlag = true;
+				userJobCode = 0;
+			}
+		} else {
+			userJobCode = 3;
+		}
+
+		request.setAttribute("queryOrgs", reBuffer.toString());
+		request.setAttribute("queryOrgFlag", queryOrgFlag);
+		request.setAttribute("isAdminFlag", isAdminFlag);
+		request.setAttribute("userJobCode", userJobCode);
+		request.setAttribute("serviceDepId", user.getServiceDepId());// 登录用户的org_id
 
 		return "bizwarn/list";
 	}

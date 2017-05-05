@@ -41,7 +41,7 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_CASE_INFO
+    from sctrans.T_TO_CASE_INFO with(nolock)
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
@@ -250,7 +250,7 @@
 <select id="queryCountCasesByUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
     select 
        COUNT(CASE_CODE) 
-    from sctrans.T_TO_CASE
+    from sctrans.T_TO_CASE  with(nolock)
     where LEADING_PROCESS_ID = #{userId,jdbcType=VARCHAR}
     GROUP BY LEADING_PROCESS_ID
   </select>
@@ -267,7 +267,7 @@
 <select id="queryCountUnTransCasesByUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
     select 
        COUNT(CASE_CODE) 
-    from sctrans.T_TO_CASE
+    from sctrans.T_TO_CASE with(nolock)
     where LEADING_PROCESS_ID = #{userId,jdbcType=VARCHAR}
 	AND STATUS in('30001003','30001002')
   </select>

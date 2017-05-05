@@ -49,6 +49,7 @@
 							ISNULL(m.SEND_ID,'') as consultantID,
 							ISNULL(m.CUST_NAME,'') as custName,
 							ISNULL(m.FLOW_STATUS,'') as flowStatusCode,
+							ISNULL(m.LOANER_STATUS,'') as loanerStatusCode,
 							CASE m.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS loanerStatus,
 							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = m.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
 							ISNULL(m.MORT_TOTAL_AMOUNT,0.00) as loanAmount,
@@ -58,11 +59,11 @@
 							m.CASE_CODE as caseCode,
 							CAST(m.PKID as varchar)	as bizCode,
 							ISNULL(p.PROPERTY_ADDR,'') 	as addr,
-							ISNULL(uoj.employee_code,'') 	as avartaUrl,
-							ISNULL((select REAL_NAME FROM sctrans.SYS_USER WHERE ID = m.SEND_ID),'') 		as consultantName
+							(case u.avatar when null then '' else 'http://aimg.sh.centanet.com/salesweb/image/' + u.avatar + '.jpg' END) as avartaUrl,
+							ISNULL(m.SEND_NAME,'') 		as consultantName
 					FROM sctrans.T_TO_MORT_LOANER m
+					LEFT JOIN sctrans.SYS_USER u ON u.ID = m.SEND_ID
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = m.CASE_CODE AND m.LOANER_ID = #userid#
-					LEFT JOIN sctrans.V_USER_ORG_JOB uoj ON m.LOANER_ID = uoj.user_id AND uoj.ismain = 1
 					WHERE m.LOANER_ID = #userid# 
 					AND EXISTS (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE = m.CASE_CODE and c.LOAN_REQ=1)
 				
@@ -71,13 +72,11 @@
 				</if>
 				
 				<if test="flag == 'exceptNoAccept'">
-					AND m.LOANER_STATUS != 'ACCEPTING'
+					AND (m.LOANER_STATUS = 'AUDITING' or m.LOANER_STATUS = 'COMPLETED')
 				</if>
 				
 				<ifNotNull q_text>
-					 AND (m.CUST_NAME LIKE '%'+#q_text#+'%'
-					     			OR p.PROPERTY_ADDR	LIKE '%'+#q_text#+'%'
-					     			OR uoj.real_name LIKE '%'+#q_text#+'%')
+					 AND (m.CUST_NAME LIKE '%'+#q_text#+'%' OR p.PROPERTY_ADDR	LIKE '%'+#q_text#+'%' OR m.SEND_NAME LIKE '%'+#q_text#+'%')
 				</ifNotNull>		
 				]]>
 			</baseSql>
@@ -96,6 +95,7 @@
 				<column  name="consultantName"   title="交易顾问名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="custName"   title="客户名称"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="flowStatusCode"   title="跟进状态code"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
+				<column  name="loanerStatusCode"   title="派单状态code"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="loanerStatus"   title="派单状态"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="flowStatus"   title="跟进状态"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column  name="loanAmount"   title="贷款金额"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
@@ -127,7 +127,7 @@
 							(SELECT REAL_NAME FROM sctrans.SYS_USER WHERE ID = c.CREATE_BY) AS createBy
 					FROM sctrans.T_TO_MORT_LOANER ml
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = ml.CASE_CODE
-					LEFT JOIN sctrans.T_TO_CASE_COMMENT c ON c.BIZ_CODE = convert(varchar(20),ml.PKID) AND (c.SRV_CODE = 'ACCEPT' OR c.SRV_CODE = 'REJECT' OR c.SRV_CODE = 'BANKREJECT' OR c.SRV_CODE = 'CANCEL')
+					INNER JOIN sctrans.T_TO_CASE_COMMENT c ON c.BIZ_CODE = convert(varchar(20),ml.PKID) AND (c.SRV_CODE = 'ACCEPT' OR c.SRV_CODE = 'REJECT' OR c.SRV_CODE = 'BANKREJECT' OR c.SRV_CODE = 'CANCEL')
 					where ml.LOANER_ID = #loanerId#
 				]]>
 			</baseSql>

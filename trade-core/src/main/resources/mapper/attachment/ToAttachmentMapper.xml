@@ -22,7 +22,7 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_ATTACHMENT
+    from sctrans.T_TO_ATTACHMENT  with(nolock)
     where 1=1 
     <if test="pkid != null" >
     	and PKID = #{pkid,jdbcType=BIGINT}
@@ -197,7 +197,7 @@
   <select id="quereyAttachments" resultMap="BaseResultMap" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_ATTACHMENT
+    from sctrans.T_TO_ATTACHMENT  with(nolock)
     where 1=1
      
     <if test="caseCode != null" >
@@ -230,7 +230,7 @@
     <select id="quereyAttachmentForDetails" resultMap="BaseResultMap" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_ATTACHMENT
+    from sctrans.T_TO_ATTACHMENT  with(nolock)
     where AVAILABLE='Y'
      
     <if test="caseCode != null" >
@@ -261,7 +261,7 @@
     <select id="quereyAttachmentForMaterial" resultMap="BaseResultMap" parameterType="com.centaline.trans.attachment.entity.ToAttachment" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_ATTACHMENT
+    from sctrans.T_TO_ATTACHMENT  with(nolock)
     where AVAILABLE = 'Y'
     <if test="pkid != null" >
     	and PKID = #{pkid,jdbcType=BIGINT}
@@ -291,7 +291,7 @@
    <select id="findAttachmentByCount" parameterType="com.centaline.trans.attachment.entity.ToAttachment" resultType="java.lang.Integer">
     select 
     count(1)
-    from sctrans.T_TO_ATTACHMENT
+    from sctrans.T_TO_ATTACHMENT with(nolock)
     where 1=1 
     <if test="caseCode != null" >
       	and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
@@ -308,7 +308,7 @@
   <select id="findToAttachmentByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_ATTACHMENT
+    from sctrans.T_TO_ATTACHMENT  with(nolock)
     where CASE_CODE = #{prCode,jdbcType=VARCHAR}
     ORDER BY PKID DESC
   </select>
