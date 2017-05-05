@@ -50,7 +50,11 @@
         <dependency>
             <groupId>com.centaline</groupId>
             <artifactId>trade-core</artifactId>
+<<<<<<< .mine
             <version>1.2.13</version>
+=======
+            <version>1.2.14-SNAPSHOT</version>
+>>>>>>> .theirs
             <exclusions>
                 <exclusion>
                     <artifactId>jedis</artifactId>
@@ -67,7 +71,11 @@
         <dependency>
             <groupId>com.centaline</groupId>
             <artifactId>trade-frontend</artifactId>
+<<<<<<< .mine
             <version>1.2.13</version>
+=======
+            <version>1.2.14-SNAPSHOT</version>
+>>>>>>> .theirs
             <exclusions>
                 <exclusion>
                     <artifactId>jedis</artifactId>

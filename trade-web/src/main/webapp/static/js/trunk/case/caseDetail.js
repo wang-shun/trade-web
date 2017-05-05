@@ -1721,5 +1721,15 @@ function caseReset(){
 	}});
 }
 
+/**
+ * 修改外单
+ * hejf
+ * 2017年4月24日16:10:46
+ */
+function editWdCase(){
+	var caseCode = $("#caseCode").val();
+	window.location.href = ctx+"/caseMerge/editWdCase"+'?caseCode=' + caseCode;
+}
+
 
 

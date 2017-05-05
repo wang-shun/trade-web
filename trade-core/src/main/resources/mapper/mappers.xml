@@ -238,6 +238,10 @@
  		<mapper resource="mapper/task/ReportOperateDataMapper.xml" />
  		<!-- e+接收记录表 -->
  		<mapper resource="mapper/eloan/ToEloanLoanerMapper.xml" />
-		
+ 		<!-- 外单记录表 -->
+ 		<mapper resource="mapper/wdcase/TpdCommSubsMapper.xml" />
+ 		<mapper resource="mapper/wdcase/TdmPaidSubsMapper.xml" />
+ 		<mapper resource="mapper/wdcase/TpdPaymentMapper.xml" />
+
 	</mappers>
 </configuration>

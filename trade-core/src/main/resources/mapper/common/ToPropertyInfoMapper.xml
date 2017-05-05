@@ -223,7 +223,7 @@
       FINISH_YEAR = #{finishYear,jdbcType=TIMESTAMP},
       DIST_CODE = #{distCode,jdbcType=VARCHAR},
       CTM_CODE = #{ctmCode,jdbcType=VARCHAR},
-      UPDATE_TIM = GETDATE(),
+      UPDATE_TIME = GETDATE(),
       UPDATE_BY =@{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
