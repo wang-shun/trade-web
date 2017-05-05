@@ -212,13 +212,34 @@
 			<baseSql>
 				<![CDATA[
 						select 
+							T.taskId,
+							T.procInstanceId,
+							T.avartaUrl,
+							T.consultantID,
+							T.consultantName,
+							T.custName,
+							T.loanerStatus,
+							T.flowStatus,
+							T.loanAmount,
+							T.loanTime,
+							T.addr,
+							T.applyTime,
+							T.prdType,
+							T.caseCode,
+							T.bizCode,
+							T.flowStatusCode,
+							T.loanerStatusCode,
+							T.type,
+							T.sort
+						from 
+						(select 
 							ISNULL((SELECT ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE CASE_CODE = ec.CASE_CODE AND BIZ_CODE = ec.ELOAN_CODE AND BUSINESS_KEY = 'EloanProcess')),'') AS taskId,
 							ISNULL((SELECT PROC_INST_ID_ FROM sctrans.ACT_RU_TASK WHERE PROC_INST_ID_ = (SELECT INST_CODE FROM sctrans.T_TO_WORKFLOW WHERE CASE_CODE = ec.CASE_CODE AND BIZ_CODE = ec.ELOAN_CODE AND BUSINESS_KEY = 'EloanProcess')),'') AS procInstanceId,
 							(case u.avatar when null then '' else 'http://aimg.sh.centanet.com/salesweb/image/' + u.avatar + '.jpg' END) as avartaUrl,
 							ISNULL(ec.SEND_ID,'') as consultantID,
 							ISNULL(u.REAL_NAME,'') as consultantName,
 							ISNULL(ec.CUST_NAME,'') as custName,
-							CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '接单完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS loanerStatus,
+							(CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '接单完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END) AS loanerStatus,
 							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
 							ISNULL(ec.APPLY_AMOUNT,0.00) as loanAmount,
 							CAST(ISNULL(ec.MONTH,0) as varchar)+'期' as loanTime,
@@ -229,31 +250,27 @@
 							ISNULL(ec.ELOAN_CODE,'') as bizCode,
 							ISNULL(ec.FLOW_STATUS,'') as flowStatusCode,
 							ISNULL(ec.LOANER_STATUS,'') as loanerStatusCode,
-							CASE WHEN e.LOAN_SRV_CODE IN ('30004005','30004015') THEN 'CARD' ELSE 'LOAN' END as type
+							CASE WHEN e.LOAN_SRV_CODE IN ('30004005','30004015') THEN 'CARD' ELSE 'LOAN' END as type,
+							(CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '1' WHEN 'AUDITING' THEN '2' WHEN 'COMPLETED' THEN '3' END) AS sort
 					FROM sctrans.T_TO_ELOAN_LOANER ec 
 					INNER JOIN sctrans.T_TO_ELOAN_CASE e on e.ELOAN_CODE = ec.ELOAN_CODE
 					INNER JOIN sctrans.T_TO_PROPERTY_INFO pi ON ec.CASE_CODE = pi.CASE_CODE
 					INNER JOIN sctrans.SYS_USER u on u.ID = ec.SEND_ID
 					INNER JOIN sctrans.V_USER_ORG_JOB uoj ON ec.LOANER_ID = uoj.user_id 
-					WHERE ec.LOANER_ID = #loanerId# and e.STATUS != 'ABAN'
-			
-					<if test="flag == 'noAccept'">
-						AND ec.LOANER_STATUS = 'ACCEPTING'
-					</if>
-					
-					<if test="flag == 'exceptNoAccept'">
-						AND (ec.LOANER_STATUS = 'AUDITING' or ec.LOANER_STATUS = 'COMPLETED')
-					</if>
-					
-					<ifNotNull condition>
+					WHERE ec.LOANER_ID = #loanerId# 
+						  AND e.STATUS != 'ABAN'
+						  AND (ec.LOANER_STATUS = 'ACCEPTING' or ec.LOANER_STATUS = 'AUDITING' or ec.LOANER_STATUS = 'COMPLETED')
+						
+						  <ifNotNull condition>
 					     		AND	(ec.CUST_NAME LIKE '%'+#condition#+'%'
 					     			OR pi.property_addr	LIKE '%'+#condition#+'%'
 					     			OR uoj.real_name LIKE '%'+#condition#+'%')
-					</ifNotNull>				
+						  </ifNotNull>	  
+					) T
+					ORDER BY T.sort ASC,T.applyTime DESC
 				]]>
 			</baseSql>
 			<orderBySql>
-			  		order by ec.SEND_TIME desc
 			</orderBySql>
 		</searchSql>
 		<grid>
