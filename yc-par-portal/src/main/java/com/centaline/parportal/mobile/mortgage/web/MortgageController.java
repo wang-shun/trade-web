@@ -174,7 +174,7 @@ public class MortgageController
      */
     @RequestMapping(value = "track/followUp")
     @ResponseBody
-    public String followUp(String bizCode, String isPass, String taskId, String procInstanceId, String stateInBank, String caseCode, String comment)
+    public String followUp(String bizCode, String isPass, String taskId, String procInstanceId, String stateInBank, String caseCode, String comment, String date)
     {
 
         if (bizCode == null || isPass == null || stateInBank == null || caseCode == null)
@@ -203,6 +203,7 @@ public class MortgageController
         mortgageVo.setCaseCode(caseCode);
         mortgageVo.setComment(comment);
         mortgageVo.setUser(sessionUser);
+        mortgageVo.setDate(date);
 
         try
         {

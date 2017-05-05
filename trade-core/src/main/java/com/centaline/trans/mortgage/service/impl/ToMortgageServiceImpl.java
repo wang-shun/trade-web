@@ -1,6 +1,8 @@
 package com.centaline.trans.mortgage.service.impl;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -899,6 +901,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
     @Override
     public boolean followUp(MortgageVo mortgageVo)
     {
+
         ToMortLoaner toMortLoaner = new ToMortLoaner();
         toMortLoaner.setPkid(Long.parseLong(mortgageVo.getBizCode()));
 
@@ -911,6 +914,23 @@ public class ToMortgageServiceImpl implements ToMortgageService
                 // 处理流程,银行审核通过
                 loanerProcessService.isBankAcceptCase(true, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(),
                         mortgageVo.getBizCode(), mortgageVo.getStateInBank());
+
+                try
+                {
+                    // 获取按揭接收信息
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+                    ToMortLoaner toMortLoanerInfo = toMortLoanerMapper.getToMortLoanerById(Long.parseLong(mortgageVo.getBizCode()));
+                    ToMortgage toMortgage = new ToMortgage();
+                    toMortgage.setPkid(Long.parseLong(toMortLoanerInfo.getMortPkid()));
+                    toMortgage.setApprDate(sdf.parse(mortgageVo.getDate()));
+
+                    toMortgageMapper.updateByPkId(toMortgage);
+                }
+                catch (ParseException e)
+                {
+                    e.printStackTrace();
+                }
             }
             else
             {
