@@ -415,9 +415,9 @@
 				<column type="both" name="BUYER" title="下家"  hidden="true" />
 				<column type="both" name="BUYER_PHONE" title="下家电话" hidden="true" />
 
-				<column type="both" name="CREATE_TIME" title="报单日期" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" />
+				<column type="both" name="CREATE_TIME" title="报单日期" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" />
 
-				<column type="both" name="RES_DATE" title="分单日期" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"/>
+				<column type="both" name="RES_DATE" title="分单日期" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 
 				<column type="both" name="CASE_PROPERTY_OLD" title="案件性质"	customDict="" />
 				<column type="virtual" name="CASE_PROPERTY" title="案件性质" customDict="getPropertyNameByCode" referencecol="CASE_PROPERTY_OLD"  />
@@ -454,33 +454,33 @@
 				<column type="both" name="loanlost_apply_reason" title="贷款流失主要原因"	customDict="" />
 				<column type="both" name="SELF_DEL_REASON" title="贷款流失详情"	customDict="" />
 					
-				<column type="both" name="SIGN_DATE" title="签贷时间" customDict=""	hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
-				<column type="both" name="APPR_DATE" title="批贷时间" customDict=""	hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
-				<column type="both" name="LEND_DATE" title="放款时间" customDict=""	hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
+				<column type="both" name="SIGN_DATE" title="签贷时间" customDict=""	hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="APPR_DATE" title="批贷时间" customDict=""	hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="LEND_DATE" title="放款时间" customDict=""	hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
 
 				<column type="both" name="COM_DISCOUNT" title="利率折扣" expType="Double" 	customDict="" hidden="true" />
 				<column type="both" name="REAL_PRICE" title="成交价(万元)" expType="Double"  customDict="" hidden="true" />
 				<column type="both" name="CON_PRICE" title="合同价(万元)" 	expType="Double"  customDict="" hidden="true" />
 				<column type="both" name="CHECK_PRICE" title="核定价"		expType="Double"  customDict="" hidden="true" />
 				<column type="both" name="UNIT_PRICE" title="过户单价"	expType="Double"  customDict="" hidden="true" />
-				<column type="both" name="REAL_CON_TIME" title="签约时间"		customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
-				<column type="both" name="TAX_TIME" title="审税时间" customDict=""	hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"/>
-				<column type="both" name="PRICING_TIME" title="核价时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
-				<column type="both" name="REAL_PLS_TIME" title="查限购时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
-				<column type="both" name="REAL_HT_TIME" title="过户时间"		customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
-				<column type="both" name="GUOHU_CREATE_TIME" title="过户创建时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
+				<column type="both" name="REAL_CON_TIME" title="签约时间"		customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="TAX_TIME" title="审税时间" customDict=""	hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="PRICING_TIME" title="核价时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="REAL_PLS_TIME" title="查限购时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="REAL_HT_TIME" title="过户时间"		customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="GUOHU_CREATE_TIME" title="过户创建时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="GUOHU_COMMENT" title="过户备注"		customDict="" hidden="true"/>
-				<column type="both" name="REAL_PROPERTY_GET_TIME" title="领证时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
-				<column type="both" name="CLOSE_TIME" title="结案时间"		customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
+				<column type="both" name="REAL_PROPERTY_GET_TIME" title="领证时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="CLOSE_TIME" title="结案时间"		customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
 
 				<column type="both" name="SPV_TYPE_OLD" title="监管类型" customDict=""			hidden="true" />
 				<column type="virtual" name="SPV_TYPE" title="监管类型" customDict="getSrvNameByCode" referencecol="SPV_TYPE_OLD"  hidden="true"/>
 
 				<column type="both" name="AMOUNT" title="监管金额" customDict=""	expType="Double"	hidden="true" />
 
-				<column type="both" name="SIGN_TIME" title="监管签约时间"		customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
+				<column type="both" name="SIGN_TIME" title="监管签约时间"		customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="GUOHU_APPROVER" title="过户审批人" customDict=""		hidden="true" />
-				<column type="both" name="GUOHU_APPROVER_TIME" title="过户审批时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd"/>
+				<column type="both" name="GUOHU_APPROVER_TIME" title="过户审批时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="virtual" name="EVAL_FEE,RECORD_TIME"  referencecol="CASE_CODE" index="" checkbox="" display="评估费,评估确认时间" title="评估费,评估确认时间" customDict="qqEvaFee" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
 
 			</table-row>

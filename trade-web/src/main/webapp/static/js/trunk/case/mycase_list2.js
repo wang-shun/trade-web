@@ -488,9 +488,221 @@ function getParamsValue() {
 	};
 	return params;
 }
+
+
+
+
+function oldGetParamsValue() {
+	var isSubscribeFilter = $('#isSubscribeFilter option:selected').val();
+	if(isSubscribeFilter==null || isSubscribeFilter=='') {
+		isSubscribeFilter = -1;
+	}
+	var caseOriginType = $('#caseOriginType option:selected').val();
+	if(caseOriginType==null || caseOriginType=='') {
+		caseOriginType = null;
+	}
+	
+	// 贷款需求选择
+	var mortageType = $('#mortageService option:selected').val();
+	if(mortageType==null || mortageType=='') {
+		mortageType = -1;
+	}
+	// 案件类型
+	var caseProperty = $('#caseProperty option:selected').val();
+	// 服务阶段选择
+	var status = $('#status option:selected').val();
+	var yuCuiOriGrpId =  $('#yuCuiOriGrpId').val();
+	// 全选情况
+	if (caseProperty == '30003006')
+		caseProperty = null;
+	// 如果不是选择结案
+	var isNotResearchCloseCase;
+	if(caseProperty != '30003002') {
+		isNotResearchCloseCase = "true";
+	}
+	if (status == '30001006')
+		status = null;
+
+	// 产品类型
+	getCheckBoxValues("srvCode");
+
+	// 客户姓名 物业地址 经纪人
+	var inTextVal = $('#inTextVal').val();
+	var hVal = $('#inTextVal').attr('hVal');
+	var guestName = "";
+	var agentName = "";
+	var proName = "";
+	var propertyAddr = "";
+	var agentOrgName = "";
+	// caseCode与ctmCode
+	var caseCode =  "";
+	var ctmCode = "";
+	if (inTextVal != null && inTextVal.trim() != "") {
+		var inTextType = $('#inTextType').val();
+		if (inTextType == '0') {
+			guestName = inTextVal.trim();
+		} else if (inTextType == '1') {
+			propertyAddr = inTextVal.trim();
+		} else if (inTextType == '2') {
+			agentName = inTextVal.trim();
+		}else if (inTextType == '3') {
+			agentOrgName = hVal.trim();
+		}else if (inTextType == '4') {
+			proName = hVal.trim();
+		}else if (inTextType == '5') {
+			caseCode = inTextVal.trim();
+		}else if (inTextType == '6') {
+			ctmCode = inTextVal.trim();
+		}
+	}
+
+	//设置查询参数
+	var params = {
+		argu_sessionUserId : $("#userId").val(),
+		argu_isSubscribeFilter : isSubscribeFilter,
+		caseOriginType : caseOriginType,
+		argu_mortageType : mortageType,
+		search_caseCode : caseCode,
+		search_ctmCode : ctmCode,
+		search_caseProperty : caseProperty,
+		search_status : status,
+		argu_guestname : guestName,
+		search_agentName :agentName,
+		argu_proName : proName,
+		argu_agentOrgName : agentOrgName,
+		search_propertyAddr : propertyAddr,
+		argu_srvCode : srvCode,
+		argu_srvCode1 : srvCode1,
+		argu_srvCode2 : srvCode2,
+		argu_srvCode3 : srvCode3,
+		argu_srvCode4 : srvCode4,
+		argu_srvCode5 : srvCode5,
+		argu_srvCode6 : srvCode6,
+		argu_srvCode7 : srvCode7,
+		argu_srvCode8 : srvCode8,
+		argu_srvCode9 : srvCode9,
+		argu_srvCode11 : srvCode11,
+		argu_srvCode12 : srvCode12,
+		argu_srvCode13 : srvCode13,
+		argu_srvCode14 : srvCode14,
+		argu_srvCode15 : srvCode15,
+		search_createTimeStart : createTimeStart,
+		search_resDateStart : resDateStart,
+		search_approveTimeStart : approveTimeStart,
+		search_createTimeEnd : createTimeEnd,
+		search_resDateEnd : resDateEnd,
+		search_approveTimeEnd : approveTimeEnd,
+		
+		argu_realConTimeStart : realConTimeStart,
+		argu_realConTimeEnd : realConTimeEnd,
+		argu_realConTime : (realConTimeStart == null && realConTimeEnd == null ? null : true),
+		
+		argu_realHtTimeStart : realHtTimeStart,
+		argu_realHtTimeEnd : realHtTimeEnd,
+		argu_realHtTime : (realHtTimeStart == null && realHtTimeEnd == null ? null : true),
+
+		argu_realPropertyGetTimeStart : realPropertyGetTimeStart,
+		argu_realPropertyGetTimeEnd : realPropertyGetTimeEnd,
+		argu_realPropertyGetTime : (realPropertyGetTimeStart == null && realPropertyGetTimeEnd == null ? null : true),
+
+		argu_signDateStart : signDateStart,
+		argu_signDateEnd : signDateEnd,
+		argu_lendDateStart : lendDateStart,
+		argu_lendDateEnd : lendDateEnd,
+		argu_signlendDate : (signDateStart == null && signDateEnd == null && lendDateStart == null && lendDateEnd == null ? null : true),
+		
+		argu_guohuApproveTimeStart : guohuApproveTimeStart,
+		argu_guohuApproveTimeEnd : guohuApproveTimeEnd,
+		argu_guohuApproveTime : (guohuApproveTimeStart == null && guohuApproveTimeEnd == null ? null : true),
+		
+		argu_yuCuiOriGrpId : yuCuiOriGrpId,
+		argu_isNotResearchCloseCase : isNotResearchCloseCase
+
+	};
+	return params;
+}
 // 日期类型
 var createTimeStart, resDateStart, realHtTimeStart, realPropertyGetTimeStart, realConTimeStart, signDateStart, lendDateStart, approveTimeStart,guohuApproveTimeStart;
 var createTimeEnd, resDateEnd, realHtTimeEnd, realPropertyGetTimeEnd, realConTimeEnd, signDateEnd, lendDateEnd, approveTimeEnd,guohuApproveTimeEnd;
+
+
+function oldGetSearchDateValues() {
+	createTimeStart = null;
+	resDateStart = null;
+	realHtTimeStart = null;
+	realPropertyGetTimeStart = null;
+	realConTimeStart = null;
+	signDateStart = null;
+	lendDateStart = null;
+	approveTimeStart = null;
+	createTimeEnd = null;
+	resDateEnd = null;
+	realHtTimeEnd = null;
+	realPropertyGetTimeEnd = null;
+	realConTimeEnd = null;
+	signDateEnd = null;
+	lendDateEnd = null;
+	approveTimeEnd = null;
+	guohuApproveTimeStart = null;
+	guohuApproveTimeEnd = null;
+	var codeStr = "";
+	for (var r = 0; r < divIndex; r++) {
+		var val = $('#case_date_' + r + ' option:selected').val();
+		if (val == undefined)
+			continue;
+		var start = $('#dtBegin_' + r).val();
+		var end = $('#dtEnd_' + r).val();
+		if(end&&end!=''){
+			end=end+' 23:59:59';
+		}
+		if (codeStr.indexOf(val) != -1)
+			return false;
+		codeStr += val;
+		if (start != "") {
+			if (val == '30005001') {
+				createTimeStart = start;
+			} else if (val == '30005002') {
+				resDateStart = start;
+			} else if (val == '30005003') {
+				realConTimeStart = start;
+			} else if (val == '30005004') {
+				realHtTimeStart = start;
+			} else if (val == '30005005') {
+				realPropertyGetTimeStart = start;
+			} else if (val == '30005006') {
+				signDateStart = start;
+			} else if (val == '30005007') {
+				lendDateStart = start;
+			} else if (val == '30005008') {
+				approveTimeStart = start;
+			} else if (val == '30005009') {
+				guohuApproveTimeStart = start;
+			}
+		}
+		if (end != "") {
+			if (val == '30005001') {
+				createTimeEnd = end;
+			} else if (val == '30005002') {
+				resDateEnd = end;
+			} else if (val == '30005003') {
+				realConTimeEnd = end;
+			} else if (val == '30005004') {
+				realHtTimeEnd = end;
+			} else if (val == '30005005') {
+				realPropertyGetTimeEnd = end;
+			} else if (val == '30005006') {
+				signDateEnd = end;
+			} else if (val == '30005007') {
+				lendDateEnd = end;
+			} else if (val == '30005008') {
+				approveTimeEnd = end;
+			} else if (val == '30005009') {
+				guohuApproveTimeEnd = end;
+			}
+		}
+	}
+	return true;
+}
 
 
 // 日期控件取值
@@ -689,6 +901,12 @@ function showExcelIn() {
 	$('#modal-form').modal("show");
 }
 
+//show modal
+function realShowExcelIn() {
+	checkAllItem();
+	$('#realModal-form').modal("show");
+}
+
 //Excel显示列
 var oldColNames = {
 	30010001 : [ 'AGENT_NAME', 'AGENT_EMP_CODE','AGENT_ORG', 'AGENT_FHJL', 'JFHJL_MGR_CODE','AGENT_QYJL','JQYJL_MGR_CODE',
@@ -721,6 +939,78 @@ var oldColNames = {
 	30012003:['GUOHU_APPROVER','GUOHU_APPROVER_TIME']
 };
 
+
+function exportToExcel() {
+	if (oldGetSearchDateValues()) {
+		var url = "/quickGrid/findPage?xlsx&";
+		var ctx = $("#ctx").val();
+		//excel导出列
+		var displayColomn = new Array;
+		displayColomn.push('CASE_CODE');
+		displayColomn.push('CTM_CODE');
+		displayColomn.push('AGENT_FHJL_CODE');
+		$("input[name='basic_info_item']:checked").each(function() {
+			var val = this.value;
+			displayColomn.push(oldColNames[val]);
+		});
+		$("input[name='mortage_info_item']:checked").each(function() {
+			var val = this.value;
+			displayColomn.push(oldColNames[val]);
+		});
+		/*新增确认函编号*/
+		displayColomn.push('REC_LETTER_NO');
+		displayColomn.push('LOANLOST_CONFIRM_CODE');		
+		displayColomn.push('SELF_DEL_REASON');
+		displayColomn.push('loanlost_apply_reason');
+		$("input[name='trade_info_item']:checked").each(function() {
+			var val = this.value;
+			displayColomn.push(oldColNames[val]);
+		});
+		$("input[name='fund_info_item']:checked").each(function() {
+			var val = this.value;
+			displayColomn.push(oldColNames[val]);
+		});
+		displayColomn.push('EVAL_FEE');
+		displayColomn.push('RECORD_TIME');
+
+		var queryOrgFlag = $("#queryOrgFlag").val();
+		var isAdminFlag = $("#isAdminFlag").val();
+		var queryOrgs = $("#queryOrgs").val();
+		var arguUserId=null;
+		if(queryOrgFlag == 'true'){
+			arguUserId=null;
+			if(isAdminFlag == 'true'){
+				queryOrgs=null;
+			}
+		}else{
+			queryOrgs= null;
+			arguUserId="yes";
+		}
+
+		var orgArray = queryOrgs==null?'':queryOrgs.split(",");
+
+		var argu_idflag = '&argu_idflag='+arguUserId;
+		
+		if(arguUserId==null)argu_idflag='&argu_idflag=';
+		var argu_queryorgs = "&"+jQuery.param({argu_queryorgs:orgArray});
+		if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
+		var params = oldGetParamsValue();
+		var queryId = '&queryId=queryCaseExcelItemList';
+		var colomns = '&colomns=' + displayColomn;
+		
+		
+		url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
+		//url+= "&_s(earch=true";
+		//url= decodeURI(url);
+//		alert(url);
+		$('#excelForm').attr('action', url);
+		
+		$('#excelForm').method="post" ;
+		$('#excelForm').submit();
+	} else {
+		window.wxc.alert("请不要选择同样的日期类型！");
+	}
+}
 
 /*
  * 2017-04-11

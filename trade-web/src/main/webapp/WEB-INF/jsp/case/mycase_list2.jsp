@@ -351,6 +351,71 @@ text-decoration: underline !important;
 				</div>
 			</div>
 		</div>
+		
+		
+		<div id="realModal-form" class="modal fade" aria-hidden="true">
+			<div class="modal-dialog" style="width: 1200px">
+				<div class="modal-content ">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title" id="leading-modal-title">请选择导出项</h4>
+					</div>
+					<div class="modal-body ">
+						<form class="form-horizontal">
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">案件基本信息</label>
+								<div class="col-sm-9 checkbox i-checks checkbox-inline">
+									<aist:dict id="basic_info_item" name="basic_info_item"
+										display="checkbox" clazz="excel_in" defaultvalue=""
+										dictType="30010" />
+								</div>
+							</div>
+
+							<div class="hr-line-dashed"></div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">贷款服务信息</label>
+								<div class="col-sm-9 checkbox i-checks checkbox-inline">
+									<aist:dict id="mortage_info_item" name="mortage_info_item"
+										display="checkbox" clazz="excel_in"
+										defaultvalue="30010006,30010007" dictType="30011" />
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">交易服务信息</label>
+								<div class="checkbox i-checks checkbox-inline">
+									<aist:dict id="trade_info_item" name="trade_info_item"
+										display="checkbox" clazz="excel_in" defaultvalue=""
+										dictType="30012" />
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">资金监管信息</label>
+								<div class="checkbox i-checks checkbox-inline">
+									<aist:dict id="fund_info_item" name="fund_info_item"
+										display="checkbox" clazz="excel_in" defaultvalue=""
+										dictType="30013" />
+								</div>
+							</div>
+							<div class="hr-line-dashed"></div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button id="checkAll" type="button" class="btn btn-default"
+							onclick="javascript:checkAllItem()">全选</button>
+						<button id="unCheckAll" type="button" class="btn btn-default"
+							onclick="javascript:unCheckAllItem()">全不选</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						<button type="button" class="btn btn-success"
+							onclick="javascript:exportToExcel()">导出至Excel</button>
+					</div>
+				</div>
+			</div>
+		</div>
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
 <input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
