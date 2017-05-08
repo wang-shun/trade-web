@@ -52,6 +52,6 @@ public interface ToMortLoanerService {
 	List<ToMortLoaner> findToMortLoanerByCaseCodeAndIsMainBank(String caseCode,
 			String isMainLoanBankProcess);
 
-	ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner);
+	List<ToMortLoaner> findToMortLoaner(ToMortLoaner toMortLoaner);
 
 }

@@ -2,6 +2,7 @@ package com.centaline.trans.cases.web;
 
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,7 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.CaseMergeService;
@@ -43,6 +45,7 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.spv.vo.SpvRecordedsVO;
 import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.utils.DateUtil;
 
@@ -91,6 +94,8 @@ public class CaseMergeController {
 	PropertyUtilsService propertyUtilsService;
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	@Autowired
+	private ToAccesoryListService toAccesoryListService;
 	
 	
 	/**
@@ -371,5 +376,132 @@ public class CaseMergeController {
 		if(StringUtils.equals(caseInfo.getType(), "1")){response.setContent(true);}
 		if(StringUtils.equals(caseInfo.getType(), "0")){response.setContent(false);}
 		return response;
-	}	
+	}
+	/**
+	 * 新建外单页面跳转 
+	 * @author hejf10
+	 * @date 2017年4月21日13:27:19
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="addWdCase")
+	public String addWdCase(Model model, HttpServletRequest request) throws Exception{
+		model.addAttribute("flag","add");
+		toAccesoryListService.getAccesoryList(request, "AddWdCase");
+		
+		model.addAttribute("caseCode",getRandom());
+		request.setAttribute("type", "add");
+		
+		return "case/addWdCase";
+	}
+	/**
+	 * 新增流水页面跳转 
+	 * @author hejf10
+	 * @date 2017年4月26日14:22:15
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="addLiushui")
+	public String addLiushui(Model model, HttpServletRequest request,String caseCode) throws Exception{
+		request.setAttribute("caseCode", caseCode);
+		toAccesoryListService.getAccesoryList(request, "AddLiushui");
+		model.addAttribute("caseCode_",getRandom());
+		return "case/addLiushui";
+	}
+	/**
+	 * 修改外单页面跳转 
+	 * @author hejf10
+	 * @date 2017年4月27日10:07:20
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="editWdCase")
+	public String editWdCase(Model model, HttpServletRequest request,String caseCode) throws Exception{
+		toAccesoryListService.getAccesoryList(request, "AddWdCase");
+		caseMergeService.setCaseMergeVo(request, caseCode);
+		request.setAttribute("type", "edit");
+		return "case/addWdCase";
+	}
+
+	/**
+	 * 新建外单
+	 * @author hejf10
+	 * @date 2017年4月26日15:02:27
+	 * @param caseMergeVo
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/saveWdCaseInfo")
+	@ResponseBody
+	public AjaxResponse<?>  saveWdCaseInfo(CaseMergeVo caseMergeVo,HttpServletRequest request){
+		AjaxResponse<?> response = new AjaxResponse<>();
+		String caseCode = null;
+		try{
+			caseCode = caseMergeService.saveWdCaseInfo(request,caseMergeVo);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		return response;
+	}
+	/**
+	 * 更新外单
+	 * @author hejf10
+	 * @date 2017年4月26日15:02:27
+	 * @param caseMergeVo
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/editWdCaseInfo")
+	@ResponseBody
+	public AjaxResponse<?>  editWdCaseInfo(CaseMergeVo caseMergeVo,HttpServletRequest request){
+		AjaxResponse<?> response = new AjaxResponse<>();
+		String caseCode = null;
+		try{
+			caseCode = caseMergeService.editWdCaseInfo(request,caseMergeVo);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		return response;
+	}
+	/**
+	 * 保存流水
+	 * @author hejf10
+	 * @date 2017年4月26日15:02:27
+	 * @param caseMergeVo
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/saveLiushui")
+	@ResponseBody
+	public AjaxResponse<?>  saveLiushui(CaseMergeVo caseMergeVo,HttpServletRequest request){
+		AjaxResponse<?> response = new AjaxResponse<>();
+		String caseCode = null;
+		try{
+			caseCode = caseMergeService.saveLiushui(request,caseMergeVo);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			response.setSuccess(false);
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	/**
+	 * 返来日期时间的一个字符串
+	 * @author hejf10
+	 * @return
+	 */
+	public String getRandom(){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");  
+		java.util.Date date=new java.util.Date();  
+		String str=sdf.format(date);  
+		return str;
+	}
 }

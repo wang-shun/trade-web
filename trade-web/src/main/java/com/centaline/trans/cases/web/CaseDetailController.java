@@ -17,6 +17,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.task.service.ActRuTaskService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,6 +42,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
+import com.centaline.trans.cases.service.CaseMergeService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
@@ -110,6 +112,7 @@ import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.entity.TsTransPlanHistory;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.wdcase.vo.TpdPaymentVO;
 
 /**
  * 
@@ -206,6 +209,12 @@ public class CaseDetailController {
 	//审批记录
 	@Autowired
 	ToApproveRecordService toApproveRecordService;
+	@Autowired
+	CaseMergeService caseMergeService;
+
+
+	@Autowired
+	private ActRuTaskService actRuTaskService;
 
 	/**
 	 * 页面初始化
@@ -1353,6 +1362,10 @@ public class CaseDetailController {
 		//是否关注
 		boolean isSubscribe = toModuleSubscribeService.checkIsSubscribe(toCase.getCaseCode(), uamSessionService.getSessionUser().getId(), SubscribeModuleType.CASE.getValue(),SubscribeType.COLLECTION.getValue());
 		
+		/**
+		 * 外单收款流水
+		 */
+		caseMergeService.getTpdPaymentVO(toCase.getCaseCode(),request);
 		/*String guohuApproveType = tgServItemAndProcessorService.findGuohuApproveTypeByCaseCode(toCase.getCaseCode());
 		
 		if(null != guohuApproveType)
@@ -2188,21 +2201,34 @@ public class CaseDetailController {
 			record.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 			isSus = true;
 		}
-		ToWorkFlow wf = new ToWorkFlow();
-		wf.setCaseCode(caseCode);
-		List<ToWorkFlow> zhulcList = toWorkFlowService.queryActiveToWorkFlowByCaseCode(wf);
-		// 流程挂起
-		for (ToWorkFlow toWorkFlow : zhulcList) {
-			if(WorkFlowEnum.SERVICE_RESTART.getCode().equals(toWorkFlow.getBusinessKey())){
+
+		List<TaskVo> taskVos = actRuTaskService.getRuTask(caseCode);
+		Map<String,Boolean> taskInstCode = new HashMap<>();
+		for(TaskVo task : taskVos){
+			if(WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
 				response.setMessage("该案件有流程重启任务，等待主管审批");
 				response.setSuccess(false);
 				return response;
 			}
+			if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
+				taskInstCode.put(task.getInstCode(), task.getSuspended());
+			}
 		}
-		for (ToWorkFlow toWorkFlow : zhulcList) {
-			workFlowManager.activateOrSuspendProcessInstance(toWorkFlow.getInstCode(), isSus);
-		}
+		for (String instCode : taskInstCode.keySet()) {
+			if(!com.alibaba.druid.util.StringUtils.isEmpty(instCode)){
+				if(isSus){
+					if(taskInstCode.get(instCode)){//如果是挂起状态
+						workFlowManager.activateOrSuspendProcessInstance(instCode, true);
+					}
+				}else{
+					if(!taskInstCode.get(instCode)){//如果不是挂起状态
+						workFlowManager.activateOrSuspendProcessInstance(instCode, false);
+					}
 
+				}
+
+			}
+		}
 		// 案件表更新
 		toCaseService.updateByCaseCodeSelective(record);
 		response.setContent(record.getCaseProperty());

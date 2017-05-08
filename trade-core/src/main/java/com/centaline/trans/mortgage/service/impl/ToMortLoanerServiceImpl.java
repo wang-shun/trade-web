@@ -208,17 +208,17 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 	 * @des:根据caseCode和派单状态查询信贷员派单是否可以派单
 	 */
 	@Override
-	public ToMortLoaner findToMortLoaner(ToMortLoaner toMortLoaner) {
+	public List<ToMortLoaner> findToMortLoaner(ToMortLoaner toMortLoaner) {
 
 		if (null == toMortLoaner)
 			throw new BusinessException("查询信贷员派单信息参数异常");
-		ToMortLoaner toMortLoanerProcess = new ToMortLoaner();
+		List<ToMortLoaner> toMortLoanerProcessList = new ArrayList<ToMortLoaner>();
 		try {
-			toMortLoanerProcess = toMortLoanerMapper.findToMortLoaner(toMortLoaner);
+			toMortLoanerProcessList = toMortLoanerMapper.findToMortLoaner(toMortLoaner);
 
 		} catch (BusinessException e) {
 			throw new BusinessException("查询信贷员派单信息异常");
 		}
-		return toMortLoanerProcess;
+		return toMortLoanerProcessList;
 	}
 }

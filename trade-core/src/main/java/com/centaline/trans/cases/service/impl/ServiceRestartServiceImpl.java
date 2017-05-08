@@ -1,11 +1,9 @@
 package com.centaline.trans.cases.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.alibaba.druid.util.StringUtils;
+import com.centaline.trans.task.service.ActRuTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,6 +67,8 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private BizWarnInfoMapper bizWarnInfoMapper;
 	@Autowired
 	private TransplanServiceFacade toTransplanOperateService;// add by zhoujp
+	@Autowired
+	private ActRuTaskService actRuTaskService;
 
 	@Override
 	@Transactional(readOnly = false)
@@ -123,11 +123,21 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		 * vo.getUserName(),vo.getCaseCode());
 		 */
 		//相关流程都挂起
-		ToWorkFlow zhuwf = new ToWorkFlow();
-		zhuwf.setCaseCode(vo.getCaseCode());
-		List<ToWorkFlow> zhulcList = toWorkFlowService.queryActiveToWorkFlowByCaseCode(zhuwf);
-		for(ToWorkFlow t : zhulcList){
-			workFlowManager.activateOrSuspendProcessInstance(t.getInstCode(),false);//案件的相关流程挂起
+
+		List<TaskVo> taskVos = actRuTaskService.getRuTask(vo.getCaseCode());
+
+		Map<String,Boolean> taskInstCode = new HashMap<>();
+		for(TaskVo task : taskVos){
+			if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
+				taskInstCode.put(task.getInstCode(),task.getSuspended());
+			}
+		}
+		for (String instCode : taskInstCode.keySet()) {
+			if(!StringUtils.isEmpty(instCode)){
+				if(!taskInstCode.get(instCode)){//如果不是挂起状态
+					workFlowManager.activateOrSuspendProcessInstance(instCode,false);//案件的相关流程挂起
+				}
+			}
 		}
 		ToCase toCase = new ToCase();
 		toCase.setCaseProperty(CasePropertyEnum.TPGQ.getCode());
@@ -193,19 +203,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	@Transactional(readOnly = false)
 	@Override
 	public boolean approve(ServiceRestartVo vo) {
-		//打开挂起的流程
-		ToWorkFlow zhuwf = new ToWorkFlow();
-		zhuwf.setCaseCode(vo.getCaseCode());
-		List<ToWorkFlow> zhulcList = toWorkFlowService.queryActiveToWorkFlowByCaseCode(zhuwf);
-		for(ToWorkFlow t : zhulcList){
-			if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(t.getBusinessKey())){
-				workFlowManager.activateOrSuspendProcessInstance(t.getInstCode(),true);//案件的相关流程挂起
-			}
-		}
-		ToCase toCase = new ToCase();
-		toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
-		toCase.setCaseCode(vo.getCaseCode());
-		toCaseService.updateByCaseCodeSelective(toCase);//将案件更新在途起案件
 		List<RestVariable> vs = new ArrayList<>();
 		RestVariable v = new RestVariable("is_approved", vo.getIsApproved());
 		vs.add(v);
@@ -275,6 +272,31 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		if (toMortgage != null) {
 			toMortgageService.updateTmpBankStatus(vo.getCaseCode());
 		}
+
+		//打开挂起的流程
+		ToWorkFlow zhuwf = new ToWorkFlow();
+		zhuwf.setCaseCode(vo.getCaseCode());
+		List<TaskVo> taskVos = actRuTaskService.getRuTask(vo.getCaseCode());
+
+		Map<String,Boolean> taskInstCode = new HashMap<>();
+		for(TaskVo task : taskVos){
+			if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
+				taskInstCode.put(task.getInstCode(),task.getSuspended());
+			}
+		}
+		for (String instCode : taskInstCode.keySet()) {
+			if(!StringUtils.isEmpty(instCode)){
+				if(taskInstCode.get(instCode)){//如果是挂起状态
+					workFlowManager.activateOrSuspendProcessInstance(instCode,true);//案件的相关流程挂起恢复
+				}
+			}
+		}
+
+		ToCase toCase = new ToCase();
+		toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
+		toCase.setCaseCode(vo.getCaseCode());
+		toCaseService.updateByCaseCodeSelective(toCase);//将案件更新在途起案件
+
 		return true;
 	}
 

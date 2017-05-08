@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.wdcase.repository.TdmPaidSubsMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.wdcase.entity.TdmPaidSubs" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PAYMENT_CODE" property="paymentCode" jdbcType="VARCHAR" />
+    <result column="COMM_SUBJECT" property="commSubject" jdbcType="VARCHAR" />
+    <result column="COMM_AMOUNT" property="commAmount" jdbcType="DECIMAL" />
+    <result column="PAID_AMOUNT" property="paidAmount" jdbcType="DECIMAL" />
+    <result column="BUYER_COMM" property="buyerComm" jdbcType="DECIMAL" />
+    <result column="BUYER_THIS_PAID" property="buyerThisPaid" jdbcType="DECIMAL" />
+    <result column="SELLER_AMOUNT" property="sellerAmount" jdbcType="DECIMAL" />
+    <result column="SELLER_THIS_PAID" property="sellerThisPaid" jdbcType="DECIMAL" />
+    <result column="PAYMENT_METHOD" property="paymentMethod" jdbcType="VARCHAR" />
+    <result column="RECEIPT_CODE" property="receiptCode" jdbcType="VARCHAR" />
+    <result column="RECEIPT_PIC" property="receiptPic" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PAYMENT_CODE, COMM_SUBJECT, COMM_AMOUNT, PAID_AMOUNT, BUYER_COMM, BUYER_THIS_PAID, 
+    SELLER_AMOUNT, SELLER_THIS_PAID, PAYMENT_METHOD, RECEIPT_CODE, RECEIPT_PIC, CREATE_BY, 
+    CREATE_TIME, UPDATE_BY, UPDATE_TIME, IS_DELETED
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_DM_PAID_SUBS
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPaymentCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_DM_PAID_SUBS
+    where payment_code = #{pkid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_DM_PAID_SUBS
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.wdcase.entity.TdmPaidSubs" >
+    insert into sctrans.T_DM_PAID_SUBS (PKID, PAYMENT_CODE, COMM_SUBJECT, 
+      COMM_AMOUNT, PAID_AMOUNT, BUYER_COMM, 
+      BUYER_THIS_PAID, SELLER_AMOUNT, SELLER_THIS_PAID, 
+      PAYMENT_METHOD, RECEIPT_CODE, RECEIPT_PIC, 
+      CREATE_BY, CREATE_TIME, UPDATE_BY, 
+      UPDATE_TIME, IS_DELETED)
+    values (#{pkid,jdbcType=BIGINT}, #{paymentCode,jdbcType=VARCHAR}, #{commSubject,jdbcType=VARCHAR}, 
+      #{commAmount,jdbcType=DECIMAL}, #{paidAmount,jdbcType=DECIMAL}, #{buyerComm,jdbcType=DECIMAL}, 
+      #{buyerThisPaid,jdbcType=DECIMAL}, #{sellerAmount,jdbcType=DECIMAL}, #{sellerThisPaid,jdbcType=DECIMAL}, 
+      #{paymentMethod,jdbcType=VARCHAR}, #{receiptCode,jdbcType=VARCHAR}, #{receiptPic,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.wdcase.entity.TdmPaidSubs"  useGeneratedKeys="true" keyProperty="pkid">
+    insert into sctrans.T_DM_PAID_SUBS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="paymentCode != null" >
+        PAYMENT_CODE,
+      </if>
+      <if test="commSubject != null" >
+        COMM_SUBJECT,
+      </if>
+      <if test="commAmount != null" >
+        COMM_AMOUNT,
+      </if>
+      <if test="paidAmount != null" >
+        PAID_AMOUNT,
+      </if>
+      <if test="buyerComm != null" >
+        BUYER_COMM,
+      </if>
+      <if test="buyerThisPaid != null" >
+        BUYER_THIS_PAID,
+      </if>
+      <if test="sellerAmount != null" >
+        SELLER_AMOUNT,
+      </if>
+      <if test="sellerThisPaid != null" >
+        SELLER_THIS_PAID,
+      </if>
+      <if test="paymentMethod != null" >
+        PAYMENT_METHOD,
+      </if>
+      <if test="receiptCode != null" >
+        RECEIPT_CODE,
+      </if>
+      <if test="receiptPic != null" >
+        RECEIPT_PIC,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="paymentCode != null" >
+        #{paymentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="commSubject != null" >
+        #{commSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="commAmount != null" >
+        #{commAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paidAmount != null" >
+        #{paidAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerComm != null" >
+        #{buyerComm,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerThisPaid != null" >
+        #{buyerThisPaid,jdbcType=DECIMAL},
+      </if>
+      <if test="sellerAmount != null" >
+        #{sellerAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="sellerThisPaid != null" >
+        #{sellerThisPaid,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentMethod != null" >
+        #{paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptCode != null" >
+        #{receiptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptPic != null" >
+        #{receiptPic,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.wdcase.entity.TdmPaidSubs" >
+    update sctrans.T_DM_PAID_SUBS
+    <set >
+      <if test="paymentCode != null" >
+        PAYMENT_CODE = #{paymentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="commSubject != null" >
+        COMM_SUBJECT = #{commSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="commAmount != null" >
+        COMM_AMOUNT = #{commAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paidAmount != null" >
+        PAID_AMOUNT = #{paidAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerComm != null" >
+        BUYER_COMM = #{buyerComm,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerThisPaid != null" >
+        BUYER_THIS_PAID = #{buyerThisPaid,jdbcType=DECIMAL},
+      </if>
+      <if test="sellerAmount != null" >
+        SELLER_AMOUNT = #{sellerAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="sellerThisPaid != null" >
+        SELLER_THIS_PAID = #{sellerThisPaid,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentMethod != null" >
+        PAYMENT_METHOD = #{paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptCode != null" >
+        RECEIPT_CODE = #{receiptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptPic != null" >
+        RECEIPT_PIC = #{receiptPic,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.wdcase.entity.TdmPaidSubs" >
+    update sctrans.T_DM_PAID_SUBS
+    set PAYMENT_CODE = #{paymentCode,jdbcType=VARCHAR},
+      COMM_SUBJECT = #{commSubject,jdbcType=VARCHAR},
+      COMM_AMOUNT = #{commAmount,jdbcType=DECIMAL},
+      PAID_AMOUNT = #{paidAmount,jdbcType=DECIMAL},
+      BUYER_COMM = #{buyerComm,jdbcType=DECIMAL},
+      BUYER_THIS_PAID = #{buyerThisPaid,jdbcType=DECIMAL},
+      SELLER_AMOUNT = #{sellerAmount,jdbcType=DECIMAL},
+      SELLER_THIS_PAID = #{sellerThisPaid,jdbcType=DECIMAL},
+      PAYMENT_METHOD = #{paymentMethod,jdbcType=VARCHAR},
+      RECEIPT_CODE = #{receiptCode,jdbcType=VARCHAR},
+      RECEIPT_PIC = #{receiptPic,jdbcType=VARCHAR},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      IS_DELETED = #{isDeleted,jdbcType=INTEGER}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -15,7 +15,9 @@ public enum CasePropertyEnum {
 	TPBD("30003005", "爆单案件"),	
 	TPQB("30003006", "全部案件"),
 	TPHL("30003007", "合流案件"),
-	TPZJ("30003008", "自建案件");
+	TPZJ("30003008", "自建案件"),
+	/**外单案件**/
+	TPWD("30003009", "外单案件");
     
     private String name;
 
