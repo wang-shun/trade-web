@@ -34,7 +34,7 @@ public class ProfileController {
 
     @RequestMapping(value = "/changePasswd", method = RequestMethod.POST)
     @ResponseBody
-    public String changePasswd(User userVo) {
+    public String changePasswd(@RequestBody User userVo) {
         User user = uamUserOrgService.getUserById(sessionService.getSessionUser().getId());
         String oldPass = new PasswordHelper().encryptPassword(user.getSalt(),
             userVo.getOldPassword(), user.getUsername());
