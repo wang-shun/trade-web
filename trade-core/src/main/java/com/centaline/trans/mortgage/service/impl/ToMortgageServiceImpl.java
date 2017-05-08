@@ -230,6 +230,13 @@ public class ToMortgageServiceImpl implements ToMortgageService
         toMortgageMapper.update(toMortgage);
 
     }
+    
+    @Override
+    public void updateByPrimaryKey(ToMortgage toMortgage)
+    {
+        toMortgageMapper.updateByPrimaryKey(toMortgage);
+
+    }
 
     @Override
     public ToMortgage findToMortgageByCaseCode(String caseCode)

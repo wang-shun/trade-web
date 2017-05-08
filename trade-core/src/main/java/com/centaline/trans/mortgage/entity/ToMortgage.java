@@ -95,6 +95,7 @@ public class ToMortgage {
     private String     tmpBankReason;
 
     private String     isActive;
+    
     /* 是否商贷 */
     private String     formCommLoan;
     /** 推荐函编号 */

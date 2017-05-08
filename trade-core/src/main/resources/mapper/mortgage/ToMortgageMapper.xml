@@ -57,6 +57,8 @@
 	<result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR"/>
 	<result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
     <result column="IS_ACTIVE" property="isActive" jdbcType="CHAR"/>
+    <result column="STATE_IN_BANK" property="stateInBank" jdbcType="VARCHAR"/>
+    
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.mortgage.entity.ToMortgage" extends="BaseResultMap" >
     <result column="REMARK" property="remark" jdbcType="LONGVARCHAR" />
@@ -69,7 +71,7 @@
     LOANER_NAME, LOANER_PHONE,LAST_LOAN_BANK,PRF_APPLY_DATE,IF_REQUIRE_RECONSIDER,IS_DELEGATE_YUCUI,
     IS_MAIN_LOAN_BANK,CUST_NAME,self_Del_Reason,rec_Letter_No,is_Tmp_Bank,TMP_BANK_UPDATE_TIME,
     TMP_BANK_UPDATE_BY,TMP_BANK_REASON,LOANLOST_APPLY_REASON,LOANLOST_CONFIRM_CODE,
-    IS_ACTIVE,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY
+    IS_ACTIVE,STATE_IN_BANK,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY
   </sql>
   <sql id="Blob_Column_List" >
     REMARK
@@ -468,9 +470,9 @@
         DISPACH_TIME = #{dispachTime,jdbcType=TIMESTAMP},
       </if>
       
-      <if test="bankApproveTime != null" >
+      <if test="bankApproveTime != null" > 
         BANK_APPROVE_TIME = #{bankApproveTime,jdbcType=TIMESTAMP},
-      </if>       
+      </if>  
       
       <if test="loanerProcessInstCode != null" >
         LOANER_PROCESS_INSTCODE = #{loanerProcessInstCode,jdbcType=VARCHAR},
@@ -541,6 +543,10 @@
       </if>
       <if test="loanAgentTeam != null">
       	LOAN_AGENT_TEAM = #{loanAgentTeam,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="stateInBank != null">
+      	STATE_IN_BANK = #{stateInBank,jdbcType=VARCHAR},
       </if>
     </set>
     ,IS_ACTIVE='1'
@@ -998,5 +1004,65 @@
        UPDATE_BY =@{SESSION_USER_ID}
     </set>
     where PKID = #{pkid,jdbcType=BIGINT};
+  </update>
+  
+  
+    <update id="updateByPrimaryKey" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" >
+    update sctrans.T_TO_MORTGAGE    
+    set 
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      MORT_TYPE = #{mortType,jdbcType=VARCHAR},
+      MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},      
+      FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},      
+      CUST_CODE = #{custCode,jdbcType=VARCHAR},
+      COM_AMOUNT = #{comAmount,jdbcType=DECIMAL},
+      COM_YEAR = #{comYear,jdbcType=INTEGER},
+      COM_DISCOUNT = #{comDiscount,jdbcType=DECIMAL},
+      PRF_AMOUNT = #{prfAmount,jdbcType=DECIMAL},
+      PRF_YEAR = #{prfYear,jdbcType=INTEGER}, 
+      LEND_WAY = #{lendWay,jdbcType=VARCHAR},  
+      HOUSE_NUM = #{houseNum,jdbcType=INTEGER}, 
+      IS_LOANER_ARRIVE = #{isLoanerArrive,jdbcType=CHAR}, 
+      SIGN_DATE = #{signDate,jdbcType=TIMESTAMP},
+      APPR_DATE = #{apprDate,jdbcType=TIMESTAMP},
+      TAZHENG_ARR_DATE = #{tazhengArrDate,jdbcType=TIMESTAMP},
+      LEND_DATE = #{lendDate,jdbcType=TIMESTAMP},      
+      CUST_COMPANY = #{custCompany,jdbcType=VARCHAR},     
+      IF_REPORT_BEFORE_LEND = #{ifReportBeforeLend,jdbcType=VARCHAR},
+      LOANER_NAME = #{loanerName,jdbcType=VARCHAR},
+      LOANER_PHONE = #{loanerPhone,jdbcType=VARCHAR},    
+      LOANER_ID = #{loanerId,jdbcType=VARCHAR},     
+      DISPACH_USER_ID = #{dispachUserId,jdbcType=VARCHAR},
+      DISPACH_TIME = #{dispachTime,jdbcType=TIMESTAMP},
+      BANK_APPROVE_TIME = #{bankApproveTime,jdbcType=TIMESTAMP},
+      LOANER_PROCESS_INSTCODE = #{loanerProcessInstCode,jdbcType=VARCHAR},
+      BANK_LEVEL = #{bankLevel,jdbcType=VARCHAR},
+      LOANER_ORG_CODE = #{loanerOrgCode,jdbcType=VARCHAR},
+      LOANER_ORG_ID = #{loanerOrgId,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=LONGVARCHAR},
+      LAST_LOAN_BANK = #{lastLoanBank,jdbcType=VARCHAR},
+      PRF_APPLY_DATE = #{prfApplyDate,jdbcType=TIMESTAMP},
+      IF_REQUIRE_RECONSIDER = #{ifRequireReconsider,jdbcType=VARCHAR},
+      IS_DELEGATE_YUCUI = #{isDelegateYucui,jdbcType=VARCHAR},
+      IS_MAIN_LOAN_BANK = #{isMainLoanBank,jdbcType=VARCHAR},
+      CUST_NAME = #{custName,jdbcType=VARCHAR},
+      self_Del_Reason = #{selfDelReason,jdbcType=VARCHAR},
+   	  rec_Letter_No = #{recLetterNo,jdbcType=VARCHAR},
+   	  is_Tmp_Bank = #{isTmpBank,jdbcType=VARCHAR},
+   	  TMP_BANK_UPDATE_TIME = #{tmpBankUpdateTime,jdbcType=TIMESTAMP},
+   	  TMP_BANK_UPDATE_BY = #{tmpBankUpdateBy,jdbcType=VARCHAR},
+   	  TMP_BANK_REASON=#{tmpBankReason,jdbcType=VARCHAR},
+      TMP_BANK_STATUS=#{tmpBankStatus,jdbcType=VARCHAR},
+      TMP_BANK_REJECT_REASON=#{tmpBankRejectReason,jdbcType=VARCHAR},
+      LOANLOST_APPLY_REASON=#{loanLostApplyReason,jdbcType=VARCHAR},  
+      LOANLOST_CONFIRM_CODE=#{loanLostConfirmCode,jdbcType=VARCHAR},
+      LOAN_AGENT = #{loanAgent,jdbcType=VARCHAR},
+      LOAN_AGENT_TEAM = #{loanAgentTeam,jdbcType=VARCHAR},
+      IS_ACTIVE = #{isActive,jdbcType=CHAR},
+      STATE_IN_BANK = #{stateInBank,jdbcType=VARCHAR},      
+      UPDATE_TIME = GETDATE(),
+      UPDATE_BY =@{SESSION_USER_ID}
+
+    where PKID = #{pkid,jdbcType=BIGINT}  
   </update>
 </mapper>
