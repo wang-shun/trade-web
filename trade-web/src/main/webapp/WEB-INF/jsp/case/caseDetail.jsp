@@ -820,8 +820,10 @@
 							</li>
 							<li class=""><a href="#bizwarn-info" data-toggle="tab" style="padding:10px;">商贷流失预警信息</a>
 							</li>
-							<li class=""><a href="#liushui-info" data-toggle="tab" style="padding:10px;">收款流水</a>
-							</li>
+							<c:if test="${ toCase.caseOrigin eq 'WD'}">
+								<li class=""><a href="#liushui-info" data-toggle="tab" style="padding:10px;">收款流水</a>
+								</li>
+							</c:if>
 						</ul>
 
 						<div class="tab-content">
@@ -1188,6 +1190,7 @@
 									</c:choose>
 								</div>
 							</div>
+							<c:if test="${ toCase.caseOrigin eq 'WD'}">
 							<div class="tab-pane fade" id="liushui-info">
                                 <div class="row">
                                     <div class="table_content">
@@ -1231,6 +1234,7 @@
                         		</div>
 							</div>	
 						</div>	
+						</c:if>
 						</div>
 					</div>
 				</div>
