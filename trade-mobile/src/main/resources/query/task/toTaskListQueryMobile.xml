@@ -95,6 +95,9 @@
 						AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = tw.CASE_CODE and GUEST_NAME LIKE '%'+#guestname#+'%' )
 						</ifNotNull>
 					) as AB where 1=1
+
+						and taskCode not in('PSFApply','PSFSign','PSFApprove','CaseCloseFirstApprove','ServiceChangeApprove')
+
 						<ifNotNull taskTag>
 							and AB.taskTag in (#taskTag#)
 						</ifNotNull>
