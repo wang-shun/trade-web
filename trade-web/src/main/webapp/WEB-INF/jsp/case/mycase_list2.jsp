@@ -250,7 +250,8 @@ text-decoration: underline !important;
 							<!-- <button  onclick="showExcelIn()" class="btn btn-success" >案件导出</button>  -->
 							<!-- <div id="exportExcel"> -->
                             	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
-								<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:showExcelIn()">案件导出</a>
+									<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:realShowExcelIn()">实时导出</a>
+									<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:showExcelIn()">隔天导出</a>
 								</shiro:hasPermission>
 								<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
 						</div>
@@ -346,7 +347,7 @@ text-decoration: underline !important;
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 						</button>
 						<button type="button" class="btn btn-success"
-							onclick="javascript:newExportToExcel()">导出至Excel</button>
+							onclick="javascript:newExportToExcel()">隔天导出至Excel</button>
 					</div>
 				</div>
 			</div>
@@ -411,7 +412,7 @@ text-decoration: underline !important;
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 						</button>
 						<button type="button" class="btn btn-success"
-							onclick="javascript:exportToExcel()">导出至Excel</button>
+							onclick="javascript:exportToExcel()">实时导出至Excel</button>
 					</div>
 				</div>
 			</div>

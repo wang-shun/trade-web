@@ -270,38 +270,50 @@
 							LEFT JOIN  SCTRANS.T_TO_MORTGAGE M  ON C.CASE_CODE = M.CASE_CODE AND M.IS_ACTIVE ='1' AND M.LAST_LOAN_BANK  IS NOT NULL							    
 
 							<if test="(transferDateStart != null  and transferDateStart != '')  or  (transferDateEnd != null  and transferDateEnd != '')">	
-							INNER JOIN (							
+							INNER JOIN (
+							
 								SELECT P1.PROC_INST_ID_ FROM 
-									(
-										SELECT  AT.PROC_INST_ID_, RANK() OVER (PARTITION BY AT.PROC_INST_ID_ ORDER BY AT.ID_ ASC) RANKID
-										FROM  SCTRANS.ACT_HI_TASKINST AT
-										WHERE AT.TASK_DEF_KEY_=N'Guohu' 
+								(
+										SELECT S.END_TIME_, S.PROC_INST_ID_, S.RANKID FROM 
+										(
+											SELECT  TOP 1 AT.END_TIME_,AT.PROC_INST_ID_, RANK() OVER (PARTITION BY AT.PROC_INST_ID_ ORDER BY AT.ID_ ASC) RANKID
+											FROM  SCTRANS.ACT_HI_TASKINST AT
+											WHERE AT.TASK_DEF_KEY_=N'Guohu'
+											ORDER BY  AT.END_TIME_ ASC
+										) S
+										WHERE   1=1
 											<if test="transferDateStart != null  and transferDateStart != '' "> 							
-												AND AT.END_TIME_ &gt;= #transferDateStart#	
+												AND S.END_TIME_ &gt;= #transferDateStart#	
 											</if>	
 											<if test="transferDateEnd != null  and transferDateEnd != '' "> 	
-												AND AT.END_TIME_ &lt;= #transferDateEnd#
-											</if>
+												AND S.END_TIME_ &lt;= #transferDateEnd#
+											</if>					
+										
 									) P1 WHERE P1.RANKID = 1
-								)TASKHISTORY1 ON TASKHISTORY1.PROC_INST_ID_ = CONVERT(NVARCHAR(64),W.INST_CODE)							
-							</if>
+								)TASKHISTORY1 ON TASKHISTORY1.PROC_INST_ID_ = CONVERT(NVARCHAR(64),W.INST_CODE)		
+							</if>	
 
 							<if test="(caseTransferDateStart != null  and caseTransferDateStart != '')  or  (caseTransferDateEnd != null  and caseTransferDateEnd != '')">	
 								INNER JOIN (							
 									SELECT P2.PROC_INST_ID_ FROM 
 										(
-											SELECT  AT.PROC_INST_ID_, RANK() OVER (PARTITION BY AT.PROC_INST_ID_ ORDER BY AT.ID_ DESC) RANKID
-											FROM  SCTRANS.ACT_HI_TASKINST AT
-											WHERE AT.TASK_DEF_KEY_=N'GuohuApprove' 
+											SELECT S.END_TIME_, S.PROC_INST_ID_, S.RANKID FROM 
+											(
+												SELECT  TOP 1 AT.END_TIME_,AT.PROC_INST_ID_, RANK() OVER (PARTITION BY AT.PROC_INST_ID_ ORDER BY AT.ID_ ASC) RANKID
+												FROM  SCTRANS.ACT_HI_TASKINST AT
+												WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'
+												ORDER BY  AT.END_TIME_ DESC
+											) S
+											WHERE   1=1
 												<if test="caseTransferDateStart != null  and caseTransferDateStart != '' "> 							
-												AND AT.END_TIME_ &gt;= #caseTransferDateStart#	
+												AND S.END_TIME_ &gt;= #caseTransferDateStart#	
 												</if>	
 												<if test="caseTransferDateEnd != null  and caseTransferDateEnd != '' "> 	
-													AND AT.END_TIME_ &lt;= #caseTransferDateEnd#
+													AND S.END_TIME_ &lt;= #caseTransferDateEnd#
 												</if>
 										) P2 WHERE P2.RANKID = 1
 									)TASKHISTORY2 ON TASKHISTORY2.PROC_INST_ID_ = CONVERT(NVARCHAR(64),W.INST_CODE)						
-								</if>
+							</if>
 					    where 1=1
 							<if test="propertyAddr != null and propertyAddr !='' ">
 								AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE C.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
