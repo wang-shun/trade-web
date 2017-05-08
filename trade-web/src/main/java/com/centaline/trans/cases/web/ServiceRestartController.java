@@ -49,9 +49,9 @@ public class ServiceRestartController {
 		AjaxResponse<StartProcessInstanceVo> resp = new AjaxResponse<>();
 		SessionUser u = uamSessionService.getSessionUser();
 		String userId = u.getId();
-		
+		String userJob = u.getServiceJobCode();
 		try{
-			boolean flag = serviceRestart.restartCheckout(vo,userId);
+			boolean flag = serviceRestart.restartCheckout(vo,userJob);
 			if(flag == false){
 				 resp.setSuccess(false);
 				 resp.setMessage("此案件已过户，不能重启流程！");
