@@ -360,10 +360,12 @@
 										<a role="button" id="casePause" class="btn btn-primary btn-xm"
 											href="javascript:casePause()">案件挂起/恢复 </a>
 									</shiro:hasPermission>
-									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE">
-										<a role="button" id="editWdCase" class="btn btn-primary btn-xm"
-											href="javascript:editWdCase()">修改外单 </a>
-									</shiro:hasPermission>
+									<c:if test="${ toCase.caseOrigin eq 'WD'}">
+										<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE">
+											<a role="button" id="editWdCase" class="btn btn-primary btn-xm"
+												href="javascript:editWdCase()">修改外单 </a>
+										</shiro:hasPermission>
+									</c:if>
 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PRARISE">
 										<a role="button" data-toggle="modal"
 											class="btn btn-primary btn-xm btn-activity"
