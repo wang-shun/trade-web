@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.survey.service.SurveyService;
-import com.centaline.trans.survey.vo.SurveyVO;
+import com.centaline.trans.satisfaction.entity.ToSatisfaction;
+import com.centaline.trans.satisfaction.service.SatisfactionService;
 
 @Controller
 @RequestMapping("survey")
 public class SurveyController {
 	
 	@Autowired
-	private SurveyService surveyService;
+	private SatisfactionService satisfactionService;
 	
 	@Autowired
 	private WorkFlowManager workFlowManager;
@@ -27,21 +27,21 @@ public class SurveyController {
 	//页面
 	@RequestMapping("/list")
 	public String list(Model model){
-		List<SurveyVO> surveyVOList = surveyService.querySurveyVOList();
+		List<ToSatisfaction> surveyVOList = satisfactionService.queryToSatisfactionList();
 		model.addAttribute("surveyVOList", surveyVOList);
 		return "";
 	}
 	
 	@RequestMapping("/detail")
 	public String detail(Model model, int surveyId){
-		SurveyVO surveyVO = surveyService.querySurveyVOById(surveyId);
+		ToSatisfaction surveyVO = satisfactionService.queryToSatisfactionById(surveyId);
 		model.addAttribute("survey", surveyVO);
 		return "";
 	}
 	
 	@RequestMapping("/edit")
 	public String edit(Model model, int surveyId){
-		SurveyVO surveyVO = surveyService.querySurveyVOById(surveyId);
+		ToSatisfaction surveyVO = satisfactionService.queryToSatisfactionById(surveyId);
 		model.addAttribute("survey", surveyVO);
 		return "";
 	}
@@ -61,7 +61,7 @@ public class SurveyController {
 	}
 	
 	@RequestMapping("signPass")
-	public AjaxResponse<String> signPass(SurveyVO surveyVO){
+	public AjaxResponse<String> signPass(ToSatisfaction toSatisfaction){
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try{
 			//1.更新状态
@@ -82,7 +82,7 @@ public class SurveyController {
 	}
 	
 	@RequestMapping("signReject")
-	public AjaxResponse<String> signReject(SurveyVO surveyVO){
+	public AjaxResponse<String> signReject(ToSatisfaction toSatisfaction){
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try{
 			//1.更新状态
@@ -116,7 +116,7 @@ public class SurveyController {
 	}
 	
 	@RequestMapping("transferPass")
-	public AjaxResponse<String> transferPass(SurveyVO surveyVO){
+	public AjaxResponse<String> transferPass(ToSatisfaction toSatisfaction){
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try{
 			//1.更新状态
@@ -137,7 +137,7 @@ public class SurveyController {
 	}
 	
 	@RequestMapping("transferReject")
-	public AjaxResponse<String> transferReject(SurveyVO surveyVO){
+	public AjaxResponse<String> transferReject(ToSatisfaction toSatisfaction){
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try{
 			//1.更新状态
