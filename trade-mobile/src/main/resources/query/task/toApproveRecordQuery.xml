@@ -60,7 +60,7 @@
 				<column type="virtual" name="PART_CODE" display="环节编码" referencecol="PART_CODE_OLD"  customDict="getDictPartName" hidden="false"/>
 				<column type="both" name="OPERATOR_OLD"   display="操作人"  />
 				<column type="both" name="OPERATOR" display="操作人" />
-				<column type="both" name="OPERATOR_TIME"   display="操作时间" beanFormatter="dateFormatter" expType="date"/>
+				<column type="both" name="OPERATOR_TIME"  />
 				<column type="both" name="CONTENT"   display="内容" />
 				<column type="both" name="NOT_APPROVE_OLD"  display="未通过原因" />
 				<column type="virtual" name="NOT_APPROVE" display="未通过原因" referencecol="NOT_APPROVE_OLD"  customDict="getDictNotAppeove" hidden="false"/>
