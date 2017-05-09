@@ -441,8 +441,11 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             // 信贷员接单
             if ("ACCEPT".equals(stateInBank))
             {
-                toMortLoaner.setReceiveId(user.getId());
-                toMortLoaner.setReceiveName(user.getRealName());
+            	
+            	if(user != null){
+            		toMortLoaner.setReceiveId(user.getId());
+                    toMortLoaner.setReceiveName(user.getRealName());
+            	}
                 toMortLoaner.setReceiveTime(new Date());
                 // 接单之后设置派单状态为待审批
                 toMortLoaner.setLoanerStatus(LoanerStatusEnum.AUDITING.getCode());

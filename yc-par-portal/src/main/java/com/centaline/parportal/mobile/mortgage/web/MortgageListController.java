@@ -66,7 +66,7 @@ public class MortgageListController
         // 设置用户id
         SessionUser sessionUser = uamSessionService.getSessionUser();
         paramter.put("userid", sessionUser.getId());
-        // paramter.put("userid", "ff80808158bd58c10158bda37f100020");
+        //paramter.put("userid", "ff80808158bd58c10158bda37f100020");
 
         // 设置用户查询条件
         if (q_text != null)

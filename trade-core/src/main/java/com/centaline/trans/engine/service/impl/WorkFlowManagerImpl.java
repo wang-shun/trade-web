@@ -334,6 +334,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager {
 	public Boolean submitTask(List<RestVariable> variables, String taskId,
 			String processInstanceId, String caseowner, String caseCode) {
 		TaskVo task = getTask(taskId);
+		//String loginUser = uamSesstionService.getSessionUserById("ff80808158bd58c10158bda37f100020").getUsername();
 		String loginUser = uamSesstionService.getSessionUser().getUsername();
 		if (!loginUser.equals(task.getAssignee())) {
 			throw new WorkFlowException("您不是当前任务的经办人，不能提交该任务！");
