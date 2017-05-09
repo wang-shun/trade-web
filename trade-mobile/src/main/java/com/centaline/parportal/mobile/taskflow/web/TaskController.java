@@ -116,7 +116,7 @@ public class TaskController {
 			List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZL.getCode());
 			if (CollectionUtils.isNotEmpty(asList)) {
 				User user = asList.get(0);
-				zhuli = user.getUsername();
+				zhuli = user.getRealName();
 			}
 			map.put("zhuli", zhuli);
 		}

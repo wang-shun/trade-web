@@ -58,7 +58,7 @@
 						tw.BIZ_CODE srvCode,
 						swt.WFE_NAME as wfeName,
 						sd.name caseStatus,
-						su2.username qiantai,
+						su2.REAL_NAME qiantai,
 						tc.org_id orgId,
 						case when ttp.EST_PART_TIME is null then '2'
 							when datediff(day, GETDATE(), ttp.EST_PART_TIME) &lt; 0 then '-1'
