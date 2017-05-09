@@ -526,7 +526,7 @@ function completeMortgage(form){
 		return;
 	}
 	
-	var finOrgCode = form.find("input[name='finOrgCode']").val()
+	var finOrgCode = form.find("input[name='finOrgCode']").val();
 	if(finOrgCode == null || finOrgCode == ""){
 		alert("请先选择贷款银行和支行！");
 		return;

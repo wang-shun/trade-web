@@ -822,6 +822,9 @@
         <if test="isActive != null">
       	IS_ACTIVE = #{isActive,jdbcType=CHAR},
       </if>
+      <if test="stateInBank != null">
+      	STATE_IN_BANK = #{stateInBank,jdbcType=VARCHAR},
+      </if>
        <if test="updateTime != null">
       	CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -998,7 +1001,9 @@
         <if test="isActive != null">
       	IS_ACTIVE = #{isActive,jdbcType=CHAR},
       </if>
-      
+      <if test="stateInBank != null">
+      	STATE_IN_BANK = #{stateInBank,jdbcType=VARCHAR},
+      </if>
        UPDATE_TIME = GETDATE(),
        UPDATE_BY =@{SESSION_USER_ID}
     </set>
