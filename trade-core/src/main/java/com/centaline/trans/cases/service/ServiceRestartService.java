@@ -10,5 +10,5 @@ public interface ServiceRestartService {
 	boolean approve(ServiceRestartVo vo);
 	StartProcessInstanceVo restartAndDeleteSubProcess(ServiceRestartVo vo);
 	
-	boolean restartCheckout(ServiceRestartVo vo,String userId);
+	boolean restartCheckout(ServiceRestartVo vo,String userJob);
 }
