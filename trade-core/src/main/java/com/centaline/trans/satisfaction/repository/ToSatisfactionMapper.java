@@ -2,8 +2,10 @@ package com.centaline.trans.satisfaction.repository;
 
 import java.util.List;
 
+import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 
+@MyBatisRepository
 public interface ToSatisfactionMapper {
     int deleteByPrimaryKey(Long pkid);
 

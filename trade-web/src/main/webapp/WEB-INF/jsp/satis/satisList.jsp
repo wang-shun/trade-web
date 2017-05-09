@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf" %>
 <html>
     <head>
         <meta charset="utf-8"/>
@@ -14,19 +21,15 @@
         <link href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
         <link href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet"/>
         <link href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet"/>
-        <link href="${ctx}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-
          <!-- index_css -->
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
         <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" />
-        <link rel="stylesheet" href="${ctx}/static/trans/css/workflow/casevist.css" />
+        <link rel="stylesheet" href="${ctx}/css/satis/casevist.css" />
     </head>
     <body>
         <div id="wrapper">
-            <div id="page-wrapper" class="gray-bg">
-
                 <!--*********************** HTML_main*********************** -->
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="ibox-content border-bottom clearfix space_box">
@@ -101,6 +104,7 @@
                             </div>
                         </form>
                     </div>
+                    
                     <div class="row">
                     <div class="col-md-12">
                         <div class="table_content">
@@ -200,7 +204,7 @@
                                         <td><input type="checkbox" class="" name="split"></td>
                                         <td>
                                             <p>
-                                                <a href="${ctx}/workflow/detailsGuohuReturn.html">
+                                                <a href="${ctx}/satis/guohuReturn">
                                                 <i class="color_visited red_visited">
                                                     过户打回
                                                 </i>
@@ -254,7 +258,7 @@
                                         <td><input type="checkbox" class="" name="split"></td>
                                         <td>
                                             <p>
-                                                <a href="${ctx}/workflow/detailsVisitReturn.html">
+                                                <a href="${ctx}/satis/signReturn">
                                                 <i class="color_visited red_visited">
                                                     签约打回
                                                 </i>
@@ -308,7 +312,7 @@
                                         <td><input type="checkbox" class="" name="split"></td>
                                         <td>
                                             <p>
-                                                <a href="${ctx}/workflow/detailsGuohu.html">
+                                                <a href="${ctx}/satis/guohuDetail">
                                                 <i class="color_visited blue_visited">
                                                     过户回访
                                                 </i>
@@ -376,7 +380,7 @@
                                         <td><input type="checkbox" class="" name="split"></td>
                                         <td>
                                             <p>
-                                                <a href="${ctx}/workflow/detailsVisit.html">
+                                                <a href="${ctx}/satis/signDetail">
                                                 <i class="color_visited blue_visited">
                                                     签约回访
                                                 </i>
@@ -564,40 +568,6 @@
                 </div>
                 </div>
                 <!--*********************** HTML_main*********************** -->
-            </div>
         </div>
-<style>
-    .add {
-        border: 1px solid red;
-    }
-</style>
-        <!-- Mainly scripts -->
-        <script src="${ctx}/static/js/jquery-2.1.1.js">
-        </script>
-        <script src="${ctx}/static/js/bootstrap.min.js">
-        </script>
-        <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js">
-        </script>
-        <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js">
-        </script>
-        <!-- Custom and plugin javascript -->
-        <script src="${ctx}/static/js/inspinia.js">
-        </script>
-        <script src="${ctx}/static/js/plugins/pace/pace.min.js">
-        </script>
-
-
-        <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-        <script>
-            $(document).ready(function () {
-
-                $('.input-daterange').datepicker({
-                    keyboardNavigation: false,
-                    forceParse: false,
-                    autoclose: true
-                });
-            });
-        </script>
-
     </body>
 </html>

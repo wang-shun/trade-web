@@ -1,0 +1,26 @@
+.color_visited {
+    display: inline-block;
+    color: #fff;
+    font-size: 14px;
+    font-style: normal;
+    padding: 1px 10px;
+    margin-top: 2px;
+    margin-right: 5px;
+    border-radius: 3px;
+}
+.yellow_visited {
+    background-color: #f8cd59;
+}
+.red_visited {
+    background-color: #ed5565;
+}
+.green_visited {
+    background-color: #04bc5b;
+}
+.grey_visited {
+    background-color: #ccc;
+}
+
+.blue_visited {
+    background-color: #4bccec;
+}

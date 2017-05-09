@@ -101,7 +101,7 @@
 		<pattern>/caseMerge/caseRecord</pattern>
 		<pattern>/newCase/input</pattern>
 		<pattern>/task/loanerProcessList</pattern>
-		<pattern>/satis/satisList</pattern>
+		<pattern>/satis/list</pattern>
 	</decorator>
 	<decorator name="noTemplate">
 		<pattern>/report/guoHuReport</pattern>
