@@ -1,5 +1,7 @@
 package com.centaline.trans.satisfaction.repository;
 
+import java.util.List;
+
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 
 public interface ToSatisfactionMapper {
@@ -10,6 +12,8 @@ public interface ToSatisfactionMapper {
     int insertSelective(ToSatisfaction record);
 
     ToSatisfaction selectByPrimaryKey(Long pkid);
+    
+    List<ToSatisfaction> selectAll();
 
     int updateByPrimaryKeySelective(ToSatisfaction record);
 

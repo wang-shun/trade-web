@@ -239,8 +239,7 @@
  		<!-- e+接收记录表 -->
  		<mapper resource="mapper/eloan/ToEloanLoanerMapper.xml" />
 		<!-- 客服回访表 -->
-		<mapper resource="mapper/survey/ToSurveyMapper.xml" />
-		<mapper resource="mapper/survey/ToSurveyAttachMapper.xml" />
+		<mapper resource="mapper/satisfaction/ToSatisfactionMapper.xml" />
 		
 	</mappers>
 </configuration>

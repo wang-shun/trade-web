@@ -16,27 +16,28 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	private ToSatisfactionMapper toSatisfactionMapper;
 
 	@Override
-	public int updateToSatisfaction(ToSatisfaction toSatisfaction) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(ToSatisfaction toSatisfaction) {
+		return toSatisfactionMapper.updateByPrimaryKey(toSatisfaction);
+	}
+	
+	@Override
+	public int updateSelective(ToSatisfaction toSatisfaction) {
+		return toSatisfactionMapper.updateByPrimaryKeySelective(toSatisfaction);
 	}
 
 	@Override
-	public int insertToSatisfaction(ToSatisfaction toSatisfaction) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insert(ToSatisfaction toSatisfaction) {
+		return toSatisfactionMapper.insert(toSatisfaction);
 	}
 
 	@Override
 	public List<ToSatisfaction> queryToSatisfactionList() {
-		// TODO Auto-generated method stub
-		return null;
+		return toSatisfactionMapper.selectAll();
 	}
 
 	@Override
-	public ToSatisfaction queryToSatisfactionById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public ToSatisfaction queryToSatisfactionById(Long id) {
+		return toSatisfactionMapper.selectByPrimaryKey(id);
 	}
 
 }

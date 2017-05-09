@@ -1,15 +1,33 @@
 package com.centaline.trans.task.service.impl;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.exception.BusinessException;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.centaline.trans.cases.entity.Result2;
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.enums.SatisfactionStatusEnum;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
+import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.satisfaction.entity.ToSatisfaction;
+import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.entity.ToFirstFollow;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.entity.ToPayment;
@@ -25,6 +43,15 @@ import com.centaline.trans.utils.DateUtil;
 
 @Service
 public class SignServiceImpl implements SignService {
+	
+	@Autowired(required = true)
+	private ToCaseService toCaseService;
+	@Autowired
+	private TgGuestInfoService tgGuestInfoService;
+	@Autowired
+	private ToMortgageService toMortgageService;
+	@Autowired
+	private SatisfactionService satisfactionService;
 
 	@Autowired
 	private TgGuestInfoMapper tgGuestInfoMapper;
@@ -36,9 +63,15 @@ public class SignServiceImpl implements SignService {
 	private ToSignMapper toSignMapper;
 	@Autowired
 	private ToHouseTransferMapper toHouseTransferMapper;
-	
 	@Autowired
 	private ToFirstFollowMapper tofirstFollowMapper;
+	@Autowired
+	private WorkFlowManager workFlowManager;
+	
+	@Autowired
+	private UamBasedataService uamBasedataService;
+	@Autowired
+	private UamSessionService uamSessionService;
 	
 	@Override
 	public Boolean insertGuestInfo(TransSignVO transSignVO) {
@@ -320,6 +353,135 @@ public class SignServiceImpl implements SignService {
 		sign.setConPrice(sign.getConPrice()!=null?sign.getConPrice().divide(new BigDecimal(10000)):null);
 		sign.setRealPrice(sign.getRealPrice()!=null?sign.getRealPrice().divide(new BigDecimal(10000)):null);
 		return sign;
+	}
+
+	@Override
+	public Result2 submitSign(TransSignVO transSignVO) {
+		
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+		
+		// 签约保存信息先更新 客户信息表
+		insertGuestInfo(transSignVO);
+
+		boolean flag = true;
+		// 同时需要修改贷款表里面的 主贷人信息
+		ToMortgage toMortgage = new ToMortgage();
+		List<Long> pkidDownList = new ArrayList<Long>();
+		List<ToMortgage> toMortgageList = new ArrayList<ToMortgage>();
+		if (null != transSignVO) {
+			toMortgage.setCaseCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
+			pkidDownList = transSignVO.getPkidDown();
+			for (int i = 0; i < pkidDownList.size(); i++) {				
+				toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
+				List<ToMortgage> getMortgageByCodeList = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);
+				if(null == getMortgageByCodeList || getMortgageByCodeList.size() <= 0){
+					continue;
+				}
+				
+				for(int k=0; k < getMortgageByCodeList.size();k++){
+					toMortgageList.add(getMortgageByCodeList.get(k));
+				}				
+			}
+
+			for (int i = 0; i < toMortgageList.size(); i++) {
+				ToMortgage toMortgageItem = toMortgageList.get(i);
+				if(toMortgageItem == null){
+					continue;
+				}
+				String custCode = toMortgageItem.getCustCode();
+				if(custCode == null){
+					continue;
+				}
+				
+				for (Long longPkid : pkidDownList) {
+					String strPkid = longPkid.toString();
+					if (custCode.equals(strPkid)) {
+						// 签约修改下家信息时，更新主贷人
+						ToMortgage toMortgageForUpdate = new ToMortgage();
+						toMortgageForUpdate.setCaseCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
+						toMortgageForUpdate.setCustCode(strPkid);
+						TgGuestInfo tgGuestInfo = tgGuestInfoService.findTgGuestInfoById(longPkid);
+						if (tgGuestInfo != null) {
+							toMortgageForUpdate.setCustName(tgGuestInfo.getGuestName() == null ? "": tgGuestInfo.getGuestName());
+						}
+						toMortgageService.updateToMortgageBySign(toMortgageForUpdate);
+					}
+				}
+			}
+			// 主贷人信息在签约环境被删除时，贷款表中没有任何记录，list中的对象全部为空； 则情况贷款表的主贷人信息
+			for (int m = 0; m < toMortgageList.size(); m++) {
+				if (toMortgageList.get(m) != null) {
+					flag = false;
+					break;
+				}
+			}
+			if (flag) {
+				toMortgageService.updateToMortgageByCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
+			}
+		}
+
+		// toMortgageService.updateToMortgage(toMortgage);
+
+		try {
+			/* 流程引擎相关 */
+			List<RestVariable> variables = new ArrayList<RestVariable>();
+
+			/* start 查限购和有抵押工作流 作者：zhangxb16 时间：2016-1-27 */
+			RestVariable restVariable3 = new RestVariable();/* 限购 */
+			restVariable3.setName("PurLimitCheckNeed");
+			RestVariable restVariable4 = new RestVariable();/* 抵押 */
+			restVariable4.setName("LoanCloseNeed");
+			restVariable3.setValue(transSignVO.getIsPerchaseReserachNeed().equals("true"));
+			restVariable4.setValue(transSignVO.getIsLoanClose().equals("true"));
+			variables.add(restVariable3);
+			variables.add(restVariable4);
+			/* end 查限购和有抵押工作流 作者：zhangxb16 时间：2016-1-27 */
+
+			ToCase toCase = toCaseService.findToCaseByCaseCode(transSignVO
+					.getCaseCode());
+			workFlowManager.submitTask(variables, transSignVO.getTaskId(),
+					transSignVO.getProcessInstanceId(),
+					toCase.getLeadingProcessId(), transSignVO.getCaseCode());
+			
+			/**
+			 * 签约完成之后插入一条记录到sctrans.T_CS_CASE_SATISFACTION表
+			 * @for 满意度评分
+			 */
+			ToSatisfaction toSatisfaction = new ToSatisfaction();
+			toSatisfaction.setCaseCode(transSignVO.getCaseCode());
+			String castsatCode = uamBasedataService.nextSeqVal("CASTSAT_CODE", new SimpleDateFormat("yyyyMM").format(new Date()));
+			toSatisfaction.setCastsatCode(castsatCode);
+			toSatisfaction.setStatus(SatisfactionStatusEnum.DEFAULT.getCode());
+			toSatisfaction.setCreateBy(sessionUser.getId());
+			toSatisfaction.setCreateTime(new Date());
+			satisfactionService.insert(toSatisfaction);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// return false;
+		}
+
+		/* 修改案件状态 */
+		ToCase toCase = new ToCase();
+		toCase.setCaseCode(transSignVO.getCaseCode());
+		toCase.setStatus("30001003");
+		toCaseService.updateByCaseCodeSelective(toCase);
+
+		/**
+		 * 功能: 给客户发送短信 作者：zhangxb16
+		 */
+		Result2 rs = new Result2();
+		try {
+			int result = tgGuestInfoService.sendMsgHistory(
+					transSignVO.getCaseCode(), transSignVO.getPartCode());
+			if (result > 0) {
+			} else {
+				rs.setMessage("短信发送失败, 请您线下手工再次发送！");
+			}
+		} catch (BusinessException ex) {
+			ex.getMessage();
+		}
+
+		return rs;
 	}
 	
 }

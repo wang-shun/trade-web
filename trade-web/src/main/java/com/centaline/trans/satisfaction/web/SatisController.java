@@ -1,4 +1,4 @@
-package com.centaline.trans.survey.web;
+package com.centaline.trans.satisfaction.web;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,8 @@ import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
 
 @Controller
-@RequestMapping("survey")
-public class SurveyController {
+@RequestMapping("satis")
+public class SatisController {
 	
 	@Autowired
 	private SatisfactionService satisfactionService;
@@ -27,22 +27,22 @@ public class SurveyController {
 	//页面
 	@RequestMapping("/list")
 	public String list(Model model){
-		List<ToSatisfaction> surveyVOList = satisfactionService.queryToSatisfactionList();
-		model.addAttribute("surveyVOList", surveyVOList);
-		return "";
+		List<ToSatisfaction> satisfactionList = satisfactionService.queryToSatisfactionList();
+		model.addAttribute("surveyVOList", satisfactionList);
+		return "satis/satisList";
 	}
 	
 	@RequestMapping("/detail")
-	public String detail(Model model, int surveyId){
-		ToSatisfaction surveyVO = satisfactionService.queryToSatisfactionById(surveyId);
-		model.addAttribute("survey", surveyVO);
+	public String detail(Model model, Long satisId){
+		ToSatisfaction satisfaction = satisfactionService.queryToSatisfactionById(satisId);
+		model.addAttribute("survey", satisfaction);
 		return "";
 	}
 	
 	@RequestMapping("/edit")
-	public String edit(Model model, int surveyId){
-		ToSatisfaction surveyVO = satisfactionService.queryToSatisfactionById(surveyId);
-		model.addAttribute("survey", surveyVO);
+	public String edit(Model model, Long satisId){
+		ToSatisfaction satisfaction = satisfactionService.queryToSatisfactionById(satisId);
+		model.addAttribute("survey", satisfaction);
 		return "";
 	}
 	
