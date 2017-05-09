@@ -996,7 +996,7 @@
       <if test="loanAgentTeam != null">
       	LOAN_AGENT_TEAM = #{loanAgentTeam,jdbcType=VARCHAR},
       </if>
-        <if test="isActive != null">
+      <if test="isActive != null">
       	IS_ACTIVE = #{isActive,jdbcType=CHAR},
       </if>
       <if test="stateInBank != null">

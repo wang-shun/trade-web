@@ -573,24 +573,6 @@ public class ToMortgage {
         this.updateBy = updateBy;
     }
 
-    /**
-     * Getter method for property <tt>stateInBank</tt>.
-     * 
-     * @return property value of stateInBank
-     */
-    public String getStateInBank() {
-        return stateInBank;
-    }
-
-    /**
-     * Setter method for property <tt>stateInBank</tt>.
-     * 
-     * @param stateInBank value to be assigned to property stateInBank
-     */
-    public void setStateInBank(String stateInBank) {
-        this.stateInBank = stateInBank;
-    }
-
 	public String getDispachUserId() {
 		return dispachUserId;
 	}
@@ -630,7 +612,14 @@ public class ToMortgage {
 
 	public void setBankLevel(String bankLevel) {
 		this.bankLevel = bankLevel;
-	}  
-	
+	}
+
+	public String getStateInBank() {
+		return stateInBank;
+	}
+
+	public void setStateInBank(String stateInBank) {
+		this.stateInBank = stateInBank;
+	}  	
 	
 }
