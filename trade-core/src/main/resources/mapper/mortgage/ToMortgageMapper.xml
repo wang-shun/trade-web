@@ -470,9 +470,7 @@
         DISPACH_TIME = #{dispachTime,jdbcType=TIMESTAMP},
       </if>
       
-      <if test="bankApproveTime != null" > 
-        BANK_APPROVE_TIME = #{bankApproveTime,jdbcType=TIMESTAMP},
-      </if>  
+        BANK_APPROVE_TIME = #{bankApproveTime,jdbcType=TIMESTAMP},      
       
       <if test="loanerProcessInstCode != null" >
         LOANER_PROCESS_INSTCODE = #{loanerProcessInstCode,jdbcType=VARCHAR},
