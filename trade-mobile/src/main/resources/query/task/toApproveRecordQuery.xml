@@ -40,14 +40,15 @@
 			<baseSql>
 				<![CDATA[
 					SELECT
-					PART_CODE AS PART_CODE_OLD, 
-					OPERATOR AS OPERATOR_OLD, 
-					OPERATOR_TIME,
-					CONTENT,
-					NOT_APPROVE AS NOT_APPROVE_OLD   
+						PART_CODE AS PART_CODE_OLD, 
+						su.real_name as OPERATOR, 
+						OPERATOR_TIME,
+						CONTENT,
+						NOT_APPROVE AS NOT_APPROVE_OLD,
+						su.avatar as AVATAR
 					FROM sctrans.T_TO_APPROVE_RECORD TR
-					where 1 = 1
-					
+						left join sctrans.sys_user su on su.id = tr.OPERATOR 
+					where 1 = 1 
 				]]>
 			</baseSql>
 			<groupSql>
@@ -55,14 +56,15 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="PART_CODE_OLD" hidden="true" display="环节编码" />
-				<column type="both" name="NOT_APPROVE_OLD" hidden="true"/>
-				<column type="both" name="OPERATOR_OLD" hidden="true" display="操作人"  />
-				
-				<column type="virtual" name="OPERATOR" display="操作人" referencecol="OPERATOR_OLD"  customDict="getUserNameByCode" />
-				<column type="virtual" name="PART_CODE" display="环节编码" referencecol="PART_CODE_OLD"  customDict="getDictPartName" />
-				<column type="both" name="OPERATOR_TIME" display="操作时间" />
-				<column type="both" name="CONTENT"  />
+				<column type="both" name="PART_CODE_OLD"  display="环节编码" />
+				<column type="virtual" name="PART_CODE" display="环节编码" referencecol="PART_CODE_OLD"  customDict="getDictPartName" hidden="false"/>
+				<column type="both" name="OPERATOR_OLD"   display="操作人"  />
+				<column type="virtual" name="OPERATOR" display="操作人" />
+				<column type="both" name="OPERATOR_TIME"   display="操作时间" beanFormatter="dateFormatter" expType="date"/>
+				<column type="both" name="CONTENT"   display="内容" />
+				<column type="both" name="NOT_APPROVE_OLD"  display="未通过原因" />
+				<column type="virtual" name="NOT_APPROVE" display="未通过原因" referencecol="NOT_APPROVE_OLD"  customDict="getDictNotAppeove" hidden="false"/>
+				<column type="both" name="AVATAR" />
 			</table-row>
 		</grid>
 	</query>
