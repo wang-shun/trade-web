@@ -380,13 +380,13 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	}
 
 	@Override
-	public boolean restartCheckout(ServiceRestartVo vo, String userId) {
+	public boolean restartCheckout(ServiceRestartVo vo, String userJob) {
 		
-		if(null == userId || "".equals(userId)){
+		if(null == userJob || "".equals(userJob)){
 			throw new BusinessException("用户未登录！");	
 		}		
 		
-		if(!"8a8493d553ad8759015404ac92750d43".equals(userId)){
+		if(!"COXXGLY".equals(userJob)){
 			//案件详情页面未刷新时判断时候可以流程重启
 			String caseCode = "";
 			
