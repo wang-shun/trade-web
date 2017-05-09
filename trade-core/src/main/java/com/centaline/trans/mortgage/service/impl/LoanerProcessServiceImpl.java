@@ -559,7 +559,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
                 ToMortgage toMortgage = toMortgageMapper.selectByPrimaryKey(pkid);
                 if (null != toMortgage)
                 {
-                    //toMortgage.setTmpBankStatus("3");          
+                    toMortgage.setTmpBankStatus("4");          
                     toMortgage.setStateInBank("MORT_APPROVED");
                     toMortgage.setBankApproveTime(new Date()); // 冗余信贷员审核通过时间，在页面做展示
                     toMortgage.setMortTotalAmount(toMortLoaner.getMortTotalAmount());
