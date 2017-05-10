@@ -1,8 +1,11 @@
 package com.centaline.trans.satisfaction.web;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.aist.uam.basedata.remote.UamBasedataService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,6 +61,8 @@ public class SatisController {
 	UamUserOrgService uamUserOrgService;
 	@Autowired
 	UamSessionService uamSessionService;
+	@Autowired
+	UamBasedataService uamBasedataService;
 	
 	@Autowired
 	WorkFlowManager workFlowManager;
@@ -109,11 +114,15 @@ public class SatisController {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		uamSessionService.getSessionUserById(userId);
 		try{
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-			variables.add(new RestVariable("",""));
-			variables.add(new RestVariable("",""));
-/*			StartProcessInstanceVo vo = workFlowManager.startWorkFlow(new ProcessInstance(propertyUtilsService.getSatisProcessDfKey(),
-					businessKey, variables));*/
+			for(String caseCode : caseCodes){
+				String satisCode = createSatisCode();
+				ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+				List<RestVariable> variables = new ArrayList<RestVariable>();
+				variables.add(new RestVariable("caller",userId));
+				variables.add(new RestVariable("consultant",toCase.getLeadingProcessId()));
+				StartProcessInstanceVo vo = workFlowManager.startWorkFlow(new ProcessInstance(propertyUtilsService.getSatisProcessDfKey(),
+					satisCode, variables));
+			}
 			response.setSuccess(true);
 			response.setMessage("操作成功！");
 		}catch(Exception e){
@@ -231,6 +240,10 @@ public class SatisController {
 			response.setMessage("操作失败！"+e.getMessage());
 		}
 		return response;
+	}
+
+	private String createSatisCode(){
+		return uamBasedataService.nextSeqVal("CASTSAT_CODE", new SimpleDateFormat("yyyyMM").format(new Date()));
 	}
 	
 	private void setCaseInfoToModel(Model model , Long satisId){
