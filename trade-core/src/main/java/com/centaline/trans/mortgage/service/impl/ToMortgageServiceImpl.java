@@ -234,7 +234,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
         toMortgageMapper.update(toMortgage);
 
     }
-    
+
     @Override
     public void updateByPrimaryKey(ToMortgage toMortgage)
     {
@@ -891,6 +891,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
             loanerProcessService.isLoanerAcceptCase(true, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(),
                     mortgageVo.getBizCode(), mortgageVo.getStateInBank());
 
+            // 接单之后自动解除预警信息
             BizWarnInfo bizWarnInfo = new BizWarnInfo();
             bizWarnInfo.setStatus("1");
             bizWarnInfo.setCaseCode(mortgageVo.getCaseCode());
