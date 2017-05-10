@@ -360,10 +360,10 @@
 										<a role="button" id="casePause" class="btn btn-primary btn-xm"
 											href="javascript:casePause()">案件挂起/恢复 </a>
 									</shiro:hasPermission>
-									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE">
+<!-- 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE">
 										<a role="button" id="editWdCase" class="btn btn-primary btn-xm"
 											href="javascript:editWdCase()">修改外单 </a>
-									</shiro:hasPermission>
+									</shiro:hasPermission> -->
 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PRARISE">
 										<a role="button" data-toggle="modal"
 											class="btn btn-primary btn-xm btn-activity"
@@ -818,7 +818,7 @@
 							</li>
 							<li class=""><a href="#bizwarn-info" data-toggle="tab" style="padding:10px;">商贷流失预警信息</a>
 							</li>
-							<li class=""><a href="#liushui-info" data-toggle="tab" style="padding:10px;">收款流水</a>
+							<li class=""><a href="#liushui-info" data-toggle="tab" style="padding:10px; display:none">收款流水</a>
 							</li>
 						</ul>
 
@@ -1186,7 +1186,7 @@
 									</c:choose>
 								</div>
 							</div>
-							<div class="tab-pane fade" id="liushui-info">
+							<div class="tab-pane fade" id="liushui-info"  style="display:none">
                                 <div class="row">
                                     <div class="table_content">
 	                                <p>
