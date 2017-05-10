@@ -10,18 +10,18 @@
 		<customDict id="qqFinOrgNameYC" beanName="qqFinOrgNameYC" />
 		<customDict id="qqcdUserOrgName" beanName="qqcdUserOrgName" />
 		<customDict id="getGbdepartmentByOrgId" beanName="getGbdepartmentByOrgId" />
-		
+
 	</dicts>
 
 	<formatters>
 		<formatter id="dateFormatter" ref=""
-			class="com.aist.common.quickQuery.formatter.DateFormatter">
+				   class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy-MM-dd</property>
 			</properties>
 		</formatter>
 		<formatter id="numberFormater" ref=""
-			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+				   class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="groupingUsed">true</property>
 				<property name="maximumFractionDigits">3</property>
@@ -31,13 +31,13 @@
 			</properties>
 		</formatter>
 		<formatter id="integerFormater" ref=""
-			class="com.aist.common.quickQuery.formatter.NumberFormatter">
+				   class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="maximumFractionDigits">0</property>
 			</properties>
 		</formatter>
 		<formatter id="emailFormater" ref=""
-			class="com.aist.common.quickQuery.formatter.EmailFormatter" />
+				   class="com.aist.common.quickQuery.formatter.EmailFormatter" />
 	</formatters>
 
 	<query id="queryMortgageApproveLost">
@@ -58,85 +58,99 @@
 					  base.PROPERTY_ADDR,
 					  base.AGENT_NAME,
 					  base.AGENT_CODE,
+					  o4.ORG_NAME AGENT_ORG_NAME,
 					  base.AGENT_PHONE,
 					  base.GRP_NAME,
 					  base.LEADING_PROCESS_ID AS LEADING_PROCESS_ID_OLD,
-					  base.ORG_ID AS ORG_ID_OLD, 
+					  u1.REAL_NAME LEADING_PROCESS_ID,
+					  base.ORG_ID AS ORG_ID_OLD,
 					  mortgage.MORT_TYPE AS MORT_TYPE_OLD,
 					  mortgage.SIGN_DATE,
 					  ISNULL(mortgage.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,
 					  ISNULL(mortgage.COM_AMOUNT,0)/10000 COM_AMOUNT,
 					  ISNULL(mortgage.PRF_AMOUNT,0)/10000 PRF_AMOUNT,
-					  mortgage.FIN_ORG_CODE,					  
+					  mortgage.FIN_ORG_CODE,
+					  ts1.FIN_ORG_NAME_YC FIN_ORG_NAME_YC,
+					  ts2.FIN_ORG_NAME_YC FIN_ORG_NAME,
 					  mortgage.loanlost_apply_reason,
-					  mortgage.LOAN_AGENT_TEAM,					  
+					  mortgage.LOAN_AGENT_TEAM,
+					  o2.ORG_NAME ORG_NAME,
+					  o3.ORG_NAME ORG_ORG_NAME,
 					  WK.TASK_DEF_KEY_,
 					  WK.END_TIME_,
 					  WK.START_TIME_,
-					  WK.real_name,	 
+					  WK.real_name,
 					  (SELECT SU.ORG_ID FROM sctrans.SYS_USER SU WHERE SU.ID=base.AGENT_CODE AND SU.IS_DELETED=0) ORG_ID
-					FROM 
+					FROM
 					SCTRANS.T_TO_MORTGAGE  mortgage
-					INNER JOIN sctrans.V_CASE_LIST_BASE base	ON  mortgage.CASE_CODE = base.CASE_CODE					
+					INNER JOIN sctrans.V_CASE_LIST_BASE base	ON  mortgage.CASE_CODE = base.CASE_CODE
+					LEFT JOIN sctrans.sys_user u1 on  base.LEADING_PROCESS_ID = u1.id and u1.IS_DELETED=0
+					LEFT JOIN sctrans.sys_user u2 on  base.AGENT_CODE = u2.id and u2.IS_DELETED=0
+					LEFT JOIN sctrans.sys_org o1 on u1.org_id = o1.id
+					LEFT JOIN sctrans.sys_org o2 on mortgage.LOAN_AGENT_TEAM = o2.id
+					LEFT JOIN sctrans.sys_org o3 on mortgage.LOAN_AGENT_TEAM = o3.id and o3.PARENT_ID IN ('FF5BC56E0E4B45289DAA5721A494C7C5','8a8493d453141f3301532c9568011af9','d5878adf8b0c4032aeae895c701ed693','de81a98a8ec341caa8e9bc77c46cd370','54b3233fdf994d9987e7c8febc223588','960089538bc54a9a9139ef52ceb45b33','6114AB949B4445828D4383977C4FAC71','6a84979158b942b78a8a5921cc30b8c3')
+					LEFT JOIN sctrans.sys_org o4 on u2.org_id = o4.id
+					LEFT JOIN sctrans.T_TS_FIN_ORG ts1 on mortgage.FIN_ORG_CODE = ts1.FIN_ORG_CODE
+					LEFT JOIN sctrans.T_TS_FIN_ORG ts2 on ts1.FA_FIN_ORG_CODE= ts2.FIN_ORG_CODE
 					LEFT JOIN (
-						SELECT 		
-						W.CASE_CODE, 
+						SELECT
+						W.CASE_CODE,
 						taskInst.TASK_DEF_KEY_,
 						(SELECT TOP 1 aht.END_TIME_ FROM sctrans.ACT_HI_TASKINST aht WHERE  aht.task_def_key_='LoanlostApproveDirector' AND  aht.PROC_INST_ID_=taskInst.PROC_INST_ID_ ORDER BY aht.id_ desc) END_TIME_,
 						taskInst.START_TIME_,
 					  	guser.real_name
-						FROM sctrans.T_HI_WORKFLOW w 
+						FROM sctrans.T_HI_WORKFLOW w
 						INNER JOIN sctrans.ACT_HI_TASKINST taskInst ON taskInst.PROC_INST_ID_ = w.INST_CODE
-						AND taskInst.task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector') 
+						AND taskInst.task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector')
 						AND taskInst.ID_ = (SELECT MAX(ID_) FROM sctrans.ACT_HI_TASKINST WHERE PROC_INST_ID_ = taskInst.PROC_INST_ID_  and DELETE_REASON_='completed'
 						AND task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector'))
-						INNER JOIN sctrans.sys_user guser 
-						ON guser.username = taskInst.ASSIGNEE_ 
+						INNER JOIN sctrans.sys_user guser
+						ON guser.username = taskInst.ASSIGNEE_
 						AND guser.available = '1'
-						AND guser.is_deleted = '0'						
+						AND guser.is_deleted = '0'
 						AND w.STATUS IN ('0', '4')
 						AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE  AND STATUS IN ('0', '4'))
 					) AS WK ON WK.CASE_CODE = mortgage.CASE_CODE
-					
-					
+
+
 					WHERE
 						mortgage.IS_ACTIVE = 1 AND mortgage.IS_DELEGATE_YUCUI = 0 AND  (mortgage.MORT_TYPE IN ('30016001','30016002','') OR mortgage.MORT_TYPE IS NULL)
-						
-						AND EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C 
+
+						AND EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C
 								    INNER JOIN   sctrans.v_yucui_org_hierarchy orgHierarchy
 							        ON  orgHierarchy.ORG_ID = C.ORG_ID
-								  	WHERE C.CASE_CODE = base.CASE_CODE 
-					  	    		<ifNotNull queryorgs> 
+								  	WHERE C.CASE_CODE = base.CASE_CODE
+					  	    		<ifNotNull queryorgs>
 					  	    	 			AND (orgHierarchy.TEAM_ID=#queryorgs# or orgHierarchy.DISTRICT_ID=#queryorgs# or orgHierarchy.hq_id=#queryorgs#)
 					  	   			 </ifNotNull>
 					  	   		  )
-						
-						
-					<ifNotNull idflag> 								
-					  	 AND (mortgage.LOAN_AGENT = #userId#  or  (mortgage.LOAN_AGENT is null and mortgage.CREATE_BY = #userId#) )					  	    	
-					</ifNotNull> 
+
+
+					<ifNotNull idflag>
+					  	 AND (mortgage.LOAN_AGENT = #userId#  or  (mortgage.LOAN_AGENT is null and mortgage.CREATE_BY = #userId#) )
+					</ifNotNull>
 					  <if test="srvCode!=null">
 						AND (
 						   1=2
-							<if test="srvCode.contains('NULL')"> 
-							 or	(mortgage.MORT_TYPE ='' or mortgage.mort_type is null)					
+							<if test="srvCode.contains('NULL')">
+							 or	(mortgage.MORT_TYPE ='' or mortgage.mort_type is null)
 							</if>
-							<if test="srvCode.contains('30016001')"> 
-							 or	( mortgage.mort_type ='30016001')					
+							<if test="srvCode.contains('30016001')">
+							 or	( mortgage.mort_type ='30016001')
 							</if>
-							<if test="srvCode.contains('30016002')"> 
-							 or	( mortgage.mort_type ='30016002')					
+							<if test="srvCode.contains('30016002')">
+							 or	( mortgage.mort_type ='30016002')
 							</if>
 					 	)
 					 </if>
-					
+
 				]]>
 
 			</baseSql>
 			<groupSql>
 			</groupSql>
 			<orderBySql>
-				 ORDER BY mortgage.CASE_CODE DESC
+				ORDER BY mortgage.CASE_CODE DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
@@ -146,12 +160,12 @@
 				<column type="both" name="CTM_CODE" index="" checkbox="true"	title="CTM编号" display="CTM编号" customDict="" sysDict="" format=""	width="0" isSort="" align="" halign="" order="" resizable="" hide="true" />
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox=""	title="产证地址" display="产证地址" customDict="" sysDict="" format=""	width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
 				<column type="both" name="LEADING_PROCESS_ID_OLD" index=""	checkbox="" title="主办" display="主办" customDict="" sysDict=""	format="" width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
-				<column type="virtual" name="LEADING_PROCESS_ID" title="主办人姓名"	display="主办" referencecol="LEADING_PROCESS_ID_OLD" customDict="qqcdUserIdName"	isSort="true" order="desc" />
+				<column type="both" name="LEADING_PROCESS_ID" title="主办人姓名"	display="主办" isSort="true" order="desc" />
 				<column type="both" name="ORG_ID_OLD" index="" checkbox=""	title="交易顾问组织id" display="主办组" customDict="" sysDict="" format=""	width="150" isSort="true" align="" halign="" order="desc"		resizable="" />
-				
+
 				<column type="both" name="AGENT_CODE" index="" checkbox=""	title="经纪人id"  customDict="" sysDict="" format=""	width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
-				<column type="virtual" name="AGENT_ORG_NAME" title="经纪人组织" 	referencecol="AGENT_CODE" customDict="qqcdUserOrgName" isSort="true" order="desc" />
-				
+				<column type="both" name="AGENT_ORG_NAME" width="150" title="经纪人组织" 	isSort="true" order="desc" />
+
 				<column type="both" name="AGENT_NAME" index="" checkbox=""	title="经纪人姓名" display="经纪人" customDict="" sysDict="" format=""	width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
 				<column type="both" name="AGENT_PHONE" index="" checkbox=""	title="经纪人电话" display="经纪人电话" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
 				<column type="both" name="GRP_NAME" index="" checkbox=""	title="经纪人组别" display="经纪人组别" customDict="" sysDict="" format=""	width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
@@ -160,24 +174,169 @@
 				<column type="both" name="real_name" index="" checkbox=""	title="审批人" display="审批人" customDict="" sysDict="" width="150"	isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="END_TIME_" index="" checkbox=""	title="审批时间" display="审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" format="" width="150" isSort="true" align="" halign=""	order="" resizable="" />
 				<column type="both" name="START_TIME_" index="" checkbox=""	title="创建时间" display="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter"	expType="date" format="" width="150" isSort="true" align="" halign=""	order="" resizable="" />
-				
+
 				<column type="both" name="CASEOPERATOR" index="" checkbox=""	title="主办人" display="主办人" customDict="" sysDict="" format="" width="150" 	isSort="true" align="" halign="" order="desc" resizable="" />
-				
+
 				<column type="both" name="LOAN_AGENT_TEAM" index="" checkbox=""	title="主办人所属组id"  customDict="" sysDict="" format="" width="150" 	isSort="true" align="" halign="" order="desc" resizable="" />
-				<column type="virtual" name="ORG_NAME" index="" checkbox="" title="主办人所属组"  customDict="qqcdOrgIdName" referencecol="LOAN_AGENT_TEAM"/>
-				<column type="virtual" name="ORG_ORG_NAME" index="" checkbox="" title="主办人所属贵宾服务部"  customDict="getGbdepartmentByOrgId" referencecol="LOAN_AGENT_TEAM"/>
-							
+				<column type="both" name="ORG_NAME" width="150" index="" checkbox="" title="主办人所属组" />
+				<column type="both" name="ORG_ORG_NAME" width="150"  index="" checkbox="" title="主办人所属贵宾服务部" />
+
 				<column type="both" name="ORG_ID" index="" checkbox="" title="经纪人组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID"	index="" checkbox="" display="" customDict="qqManagerInfo" sysDict=""	format="" width="" isSort="true" align="" halign="" order=""	resizable="" />
-					
+
 				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)" expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
-                <column type="both" name="PRF_AMOUNT" title="公积金金额(万元)"  expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
+				<column type="both" name="PRF_AMOUNT" title="公积金金额(万元)"  expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
 				<column type="both" name="MORT_TOTAL_AMOUNT" index="" checkbox="" title="贷款总额(万元)"  expType="Double" customDict="" sysDict="" format="" beanFormatter="numberFormater" width="60" isSort="" align="" halign="" order="desc" resizable=""/>
-				
+
 				<column type="both" name="FIN_ORG_CODE" title="银行code" customDict="" hidden="false" />
-				<column type="virtual" name="FIN_ORG_NAME" title="银行"		customDict="qqFenHang" hidden="false" referencecol="FIN_ORG_CODE"/>
-				<column type="virtual" name="FIN_ORG_NAME_YC" title="支行"	customDict="qqFinOrgNameYC" hidden="false" referencecol="FIN_ORG_CODE"/>	
-				
+				<column type="both" name="FIN_ORG_NAME" title="银行" hidden="false" />
+				<column type="both" name="FIN_ORG_NAME_YC" title="支行" hidden="false" />>
+
+				<column type="both" name="loanlost_apply_reason" index="" checkbox="" title="流失原因"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+
+	<query id="queryMortgageApproveLost2">
+		<searchCondition>
+			<condition field="WK.END_TIME_" name="startDate" label="" 	searchType="GTE" showType="" showCallback="" defaultValue="" />
+			<condition field="WK.END_TIME_" name="endDate" label=""		searchType="LTE" showType="" showCallback="" defaultValue="" />
+			<condition field="base.CASE_CODE" name="caseCode" label=""	searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="base.HOUSR_PROPERTY_ADDR" name="propertyAddr"	label="" searchType="LIKE" showType="" showCallback="" defaultValue="" />
+			<condition field="base.CASE_LEADING_PROCESS_ID_F" name="caseoperator"	label="" searchType="EQ" showType="" showCallback="" defaultValue="" />
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+SELECT
+			base.CASE_PKID PKID,
+			base.CASE_CODE,
+			base.CTM_CODE,
+			base.HOUSR_PROPERTY_ADDR PROPERTY_ADDR,
+			base.AGENT_NAME,
+			base.AGENT_CODE,
+			base.GRP_NAME,
+			base.AGENT_PHONE,
+			base.GRP_NAME AS AGENT_ORG_NAME,
+			base.CASE_LEADING_PROCESS_ID_F AS LEADING_PROCESS_ID_OLD,
+			base.CASE_REAL_NAME_F AS LEADING_PROCESS_ID,
+			base.CASE_ORG_ID_F AS ORG_ID_OLD,
+			base.MORT_TYPE AS MORT_TYPE_OLD,
+			base.MORT_TYPE_CN AS MORT_TYPE,
+			base.MORT_SIGN_DATE AS SIGN_DATE,
+			ISNULL(base.MORT_TOTAL_AMOUNT,0)/10000 MORT_TOTAL_AMOUNT,
+			ISNULL(base.MORT_COM_AMOUNT,0)/10000 COM_AMOUNT,
+			ISNULL(base.MORT_PRF_AMOUNT,0)/10000 PRF_AMOUNT,
+			base.MORT_FIN_ORG_CODE AS FIN_ORG_CODE,
+			base.MORT_FIN_BRANCH_NAME AS FIN_ORG_NAME,
+			base.MORT_FIN_SUB_BRANCH_NAME AS FIN_ORG_NAME_YC,
+			base.LOAN_LOST_APPLY_REASON AS loanlost_apply_reason,
+			base.LOAN_AGENT_ORG_ID AS LOAN_AGENT_TEAM,
+			base.LOAN_AGENT_ORG_NAME AS ORG_NAME,
+			wk.TASK_DEF_KEY_,
+			wk.END_TIME_,
+			wk.START_TIME_,
+			wk.real_name,
+			base.GRP_CODE
+FROM sctrans.T_RPT_CASE_BASE_INFO base with(nolock)
+LEFT JOIN  sctrans.T_TO_MORTGAGE m with(nolock) ON m.CASE_CODE = base.CASE_CODE AND m.IS_ACTIVE = '1'
+
+LEFT JOIN (
+			SELECT
+			W.CASE_CODE,
+			taskInst.TASK_DEF_KEY_,
+			(SELECT TOP 1 aht.END_TIME_ FROM sctrans.ACT_HI_TASKINST aht WHERE  aht.task_def_key_='LoanlostApproveDirector' AND  aht.PROC_INST_ID_=taskInst.PROC_INST_ID_ ORDER BY aht.id_ desc) END_TIME_,
+			taskInst.START_TIME_,
+			guser.real_name
+			FROM sctrans.T_HI_WORKFLOW w with(nolock)
+			INNER JOIN sctrans.ACT_HI_TASKINST taskInst ON taskInst.PROC_INST_ID_ = w.INST_CODE
+			AND taskInst.task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector')
+			AND taskInst.ID_ = (SELECT MAX(ID_) FROM sctrans.ACT_HI_TASKINST WHERE PROC_INST_ID_ = taskInst.PROC_INST_ID_  and DELETE_REASON_='completed'
+			AND task_def_key_ in ('LoanlostApproveManager','LoanlostApproveDirector'))
+			INNER JOIN sctrans.sys_user guser with(nolock)
+			ON guser.username = taskInst.ASSIGNEE_
+			AND guser.available = '1'
+			AND guser.is_deleted = '0'
+			AND w.STATUS IN ('0', '4')
+			AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE  AND STATUS IN ('0', '4'))
+		) AS WK ON WK.CASE_CODE = base.CASE_CODE
+
+					WHERE
+						base.IS_DELEGATE_YUCUI = 0 AND  (base.MORT_TYPE IN ('30016001','30016002','') OR base.MORT_TYPE IS NULL)
+
+						AND EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C
+								    INNER JOIN   sctrans.v_yucui_org_hierarchy orgHierarchy
+							        ON  orgHierarchy.ORG_ID = C.ORG_ID
+								  	WHERE C.CASE_CODE = base.CASE_CODE
+					  	    		<ifNotNull queryorgs>
+					  	    	 			AND (orgHierarchy.TEAM_ID=#queryorgs# or orgHierarchy.DISTRICT_ID=#queryorgs# or orgHierarchy.hq_id=#queryorgs#)
+					  	   			 </ifNotNull>
+					  	   		  )
+
+					<ifNotNull idflag>
+					  	 AND (base.LOAN_AGENT_USER_ID = #userId#  or  (base.LOAN_AGENT_USER_ID is null and m.CREATE_BY = #userId#) )
+					</ifNotNull>
+					  <if test="srvCode!=null">
+						AND (
+						   1=2
+							<if test="srvCode.contains('NULL')">
+							 or	(base.MORT_TYPE ='' or base.mort_type is null)
+							</if>
+							<if test="srvCode.contains('30016001')">
+							 or	( base.mort_type ='30016001')
+							</if>
+							<if test="srvCode.contains('30016002')">
+							 or	( base.mort_type ='30016002')
+							</if>
+					 	)
+					 </if>
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+				ORDER BY base.CASE_CODE DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="true" title="案件ID" display="案件ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true" />
+				<column type="both" name="CASE_CODE" index="" checkbox="true"	title="案件编号" display="案件编号" customDict="" sysDict="" format=""	width="0" isSort="" align="" halign="" order="" resizable="" hide="true" />
+				<column type="both" name="CTM_CODE" index="" checkbox="true"	title="CTM编号" display="CTM编号" customDict="" sysDict="" format=""	width="0" isSort="" align="" halign="" order="" resizable="" hide="true" />
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox=""	title="产证地址" display="产证地址" customDict="" sysDict="" format=""	width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
+				<column type="both" name="LEADING_PROCESS_ID_OLD" index=""	checkbox="" title="主办" display="主办" customDict="" sysDict=""	format="" width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
+				<column type="both" name="LEADING_PROCESS_ID" title="主办人姓名"	display="主办" isSort="true" order="desc" />
+				<column type="both" name="ORG_ID_OLD" index="" checkbox=""	title="交易顾问组织id" display="主办组" customDict="" sysDict="" format=""	width="150" isSort="true" align="" halign="" order="desc"		resizable="" />
+
+				<column type="both" name="AGENT_CODE" index="" checkbox=""	title="经纪人id"  customDict="" sysDict="" format=""	width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
+				<column type="both" name="AGENT_ORG_NAME" title="经纪人组织"  isSort="true" order="desc" />
+
+				<column type="both" name="AGENT_NAME" index="" checkbox=""	title="经纪人姓名" display="经纪人" customDict="" sysDict="" format=""	width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
+				<column type="both" name="AGENT_PHONE" index="" checkbox=""	title="经纪人电话" display="经纪人电话" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
+				<column type="both" name="GRP_NAME" index="" checkbox=""	title="经纪人组别" display="经纪人组别" customDict="" sysDict="" format=""	width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
+				<column type="both" name="MORT_TYPE_OLD" index="" checkbox=""	title="贷款类型" display="贷款类型" customDict="" sysDict="" format=""	width="150" isSort="true" align="" halign="" order="desc"	resizable="" />
+				<column type="both" name="MORT_TYPE" title="贷款类型" display="贷款类型" isSort="true" order="desc" />
+				<column type="both" name="real_name" index="" checkbox=""	title="审批人" display="审批人" customDict="" sysDict="" width="150"	isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="END_TIME_" index="" checkbox=""	title="审批时间" display="审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" format="" width="150" isSort="true" align="" halign=""	order="" resizable="" />
+				<column type="both" name="START_TIME_" index="" checkbox=""	title="创建时间" display="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter"	expType="date" format="" width="150" isSort="true" align="" halign=""	order="" resizable="" />
+
+				<column type="both" name="CASEOPERATOR" index="" checkbox=""	title="主办人" display="主办人" customDict="" sysDict="" format="" width="150" 	isSort="true" align="" halign="" order="desc" resizable="" />
+
+				<column type="both" name="LOAN_AGENT_TEAM" index="" checkbox=""	title="主办人所属组id"  customDict="" sysDict="" format="" width="150" 	isSort="true" align="" halign="" order="desc" resizable="" />
+				<column type="both" name="ORG_NAME" index="" checkbox="" title="主办人所属组"  />
+				<column type="virtual" name="ORG_ORG_NAME" index="" checkbox="" title="主办人所属贵宾服务部"  customDict="getGbdepartmentByOrgId" referencecol="LOAN_AGENT_TEAM"/>
+
+				<column type="both" name="ORG_ID" index="" checkbox="" title="经纪人组织id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID"	index="" checkbox="" display="" customDict="qqManagerInfo" sysDict=""	format="" width="" isSort="true" align="" halign="" order=""	resizable="" />
+
+				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)" expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
+				<column type="both" name="PRF_AMOUNT" title="公积金金额(万元)"  expType="Double" beanFormatter="numberFormater" width="60" isSort="true" order="desc"/>
+				<column type="both" name="MORT_TOTAL_AMOUNT" index="" checkbox="" title="贷款总额(万元)"  expType="Double" customDict="" sysDict="" format="" beanFormatter="numberFormater" width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+
+				<column type="both" name="FIN_ORG_CODE" title="银行code" customDict="" hidden="false" />
+				<column type="both" name="FIN_ORG_NAME" title="银行" hidden="false"  />
+				<column type="both" name="FIN_ORG_NAME_YC" title="支行" hidden="false" />
+
 				<column type="both" name="loanlost_apply_reason" index="" checkbox="" title="流失原因"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
