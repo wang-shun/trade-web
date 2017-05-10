@@ -389,7 +389,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		if(!"COXXGLY".equals(userJob)){
 			//案件详情页面未刷新时判断时候可以流程重启
 			String caseCode = "";
-			
+
 			if(null != vo){
 				caseCode = vo.getCaseCode() == null ? "":vo.getCaseCode();
 			}
@@ -400,11 +400,11 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 					if("30001004".equals(status)){
 						return false;
 					}
-				}			
+				}
 			}
 		}
 		return true;
-		
+
 	}
 
 
