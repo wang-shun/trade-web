@@ -72,6 +72,8 @@ public class TmpBankAduitController {
 		json.put("taskId", taskId);
 		json.put("caseCode", caseCode);
 		json.put("processInstanceId", instCode);
+
+		json.put("approveType", 8);
 		
 		if(StringUtils.isNotBlank(mortage.getFinOrgCode())) {
 			TsFinOrg childBank = tsFinOrgService.findBankByFinOrg(mortage.getFinOrgCode());
