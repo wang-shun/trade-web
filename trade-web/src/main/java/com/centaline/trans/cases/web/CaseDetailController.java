@@ -1365,7 +1365,7 @@ public class CaseDetailController {
 		/**
 		 * 外单收款流水
 		 */
-		//caseMergeService.getTpdPaymentVO(toCase.getCaseCode(),request);
+		caseMergeService.getTpdPaymentVO(toCase.getCaseCode(),request);
 		/*String guohuApproveType = tgServItemAndProcessorService.findGuohuApproveTypeByCaseCode(toCase.getCaseCode());
 		
 		if(null != guohuApproveType)
