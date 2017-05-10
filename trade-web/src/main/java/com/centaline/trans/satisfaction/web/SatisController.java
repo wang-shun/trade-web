@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
@@ -26,8 +27,11 @@ import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
+import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
+import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
 
@@ -48,30 +52,38 @@ public class SatisController {
 	@Autowired
 	TgGuestInfoService tgGuestInfoService;
 	@Autowired
-	UamUserOrgService uamUserOrgService;
+	PropertyUtilsServiceImpl propertyUtilsService;
 	
 	@Autowired
-	private WorkFlowManager workFlowManager;
+	UamUserOrgService uamUserOrgService;
+	@Autowired
+	UamSessionService uamSessionService;
+	
+	@Autowired
+	WorkFlowManager workFlowManager;
 	
 	//页面
 	@RequestMapping("/list")
 	public String list(Model model){
-		List<ToSatisfaction> satisfactionList = satisfactionService.queryToSatisfactionList();
-		model.addAttribute("satisfactionList", satisfactionList);
+		//消息sendSatisFinishMsgByIntermi
+		//List<ToSatisfaction> satisfactionList = satisfactionService.queryToSatisfactionList();
+		//model.addAttribute("satisfactionList", satisfactionList);
 		return "satis/satisList";
 	}
 	
 	@RequestMapping("/signDetail")
 	public String signDetail(Model model, Long satisId){
-		ToSatisfaction satisfaction = satisfactionService.queryToSatisfactionById(satisId);
-		model.addAttribute("satisfaction", satisfaction);
+		
+		setCaseInfoToModel(model, satisId);
+		
 		return "satis/sign_detail";
 	}
 	
 	@RequestMapping("/guohuDetail")
 	public String guohuDetail(Model model, Long satisId){
-		ToSatisfaction satisfaction = satisfactionService.queryToSatisfactionById(satisId);
-		model.addAttribute("satisfaction", satisfaction);
+		
+		setCaseInfoToModel(model, satisId);
+		
 		return "satis/guohu_detail";
 	}
 	
@@ -93,9 +105,15 @@ public class SatisController {
 	
 	//操作
 	@RequestMapping("dispatch")
-	public AjaxResponse<String> dispatch(){
+	public AjaxResponse<String> dispatch(List<String> caseCodes,String userId){
 		AjaxResponse<String> response = new AjaxResponse<String>();
+		uamSessionService.getSessionUserById(userId);
 		try{
+			List<RestVariable> variables = new ArrayList<RestVariable>();
+			variables.add(new RestVariable("",""));
+			variables.add(new RestVariable("",""));
+/*			StartProcessInstanceVo vo = workFlowManager.startWorkFlow(new ProcessInstance(propertyUtilsService.getSatisProcessDfKey(),
+					businessKey, variables));*/
 			response.setSuccess(true);
 			response.setMessage("操作成功！");
 		}catch(Exception e){
@@ -239,7 +257,6 @@ public class SatisController {
 			List<User> mcList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(agentUser.getOrgId(),
 					TransJobs.TFHJL.getCode());
 			if (mcList != null && mcList.size() > 0) {
-
 				User mcUser = mcList.get(0);
 				reVo.setMcName(mcUser.getRealName());
 				reVo.setMcMobile(mcUser.getMobile());

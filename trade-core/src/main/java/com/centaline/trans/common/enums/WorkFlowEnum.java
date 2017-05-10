@@ -15,6 +15,7 @@ public enum WorkFlowEnum {
 	SPV_CASHFLOW_IN_DEFKEY("SpvCashflowInProcess","processDefinitionKey"),
 	SPV_CLOSE_DEFKEY("SpvCloseApplyProcess","processDefinitionKey"),
 	TMP_BANK_DEFKEY("TempBankAudit_Process","processDefinitionKey"),
+	SATIS_DEFKEY("SatisProcess","processDefinitionKey"),
 	
 	SPV_OUT("spv_out","businessKey"),
 	SERVICE_RESTART("serviceRestart","serviceRestartBusinesskey"),

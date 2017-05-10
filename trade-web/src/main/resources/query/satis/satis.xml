@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="qqcdOrgNameByCode" beanName="qqcdOrgNameByCode" />
+		<customDict id="qqcdSeller" beanName="qqcdSeller" />
+		<customDict id="qqManagerInfo" beanName="qqManagerInfo" />
+		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+		<customDict id="getUserNameByUserId" beanName="qqcdUserIdName"></customDict>
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query  id="ToSpvCaseListQuery">
+	    <searchCondition>
+            <condition field="sp.PR_ADDR" name="prAddress" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+		    <condition field="spv.CREATE_TIME" name="startDate" label="开始时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="spv.CREATE_TIME" name="endDate" label="结束时间" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+            <condition field="spv.STATUS" name="status" label="合约状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			       select 
+						s.*,
+						s.CALLER_ID,
+						a.CTM_CODE,
+						a.GRP_NAME AS AGENT_ORG_NAME,
+						a.AGENT_NAME,
+						a.agent_phone as MOBILE
+					from 
+						sctrans.T_CS_CASE_SATISFACTION s
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
+					LEFT JOIN sctrans.T_TO_CASE_INFO AS a ON s.CASE_CODE=a.CASE_CODE
+					LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
+					LEFT JOIN sctrans.T_TO_CASE c on c.case_code=s.case_code
+					LEFT JOIN sctrans.sys_org org ON s.CALLER_ID=org.ID
+                    <if test="serviceJobCode == 'JYUKFZY' ">
+			           and s.CALLER_ID = #sessionUserId#
+			        </if>
+				]]>
+			</baseSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASECODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CTM_CODE" index="" checkbox="" display="CTM_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="PRD_CODE" index="" checkbox="" display="PRD_CODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+                <column type="both" name="CREATE_TIME" index="" checkbox="" display="CREATE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CREATE_BY" index="" checkbox="" display="CREATE_BY" customDict="getUserNameByUserId"   sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PR_ADDR" index="" checkbox="" display="PR_ADDR" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="STATUS" index="" checkbox="" display="STATUS" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AMOUNT" index="" checkbox="" display="AMOUNT" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="applyTime" index="" checkbox="" display="CREATE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="signTime" index="" checkbox="" display="CREATE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="closeTime" index="" checkbox="" display="CREATE_TIME" customDict="" sysDict="" format="" width="0" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd"  align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="APPLY_USER" index="" checkbox="" display="APPLY_USER" customDict="getUserNameByUserId"   sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_ORG_NAME" index="" checkbox="" display="AGENT_ORG_NAME" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_NAME" index="" checkbox="" display="AGENT_NAME" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MOBILE" index="" checkbox="" display="MOBILE" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ORG_ID" index="" checkbox="" display="ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				
+				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID" index="" checkbox="" display="" customDict="qqManagerInfo" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+			    <column type="both" name="caseId" index="" checkbox="" display="caseId" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>			      
+			</table-row>
+		</grid>
+	</query>
+</querys>

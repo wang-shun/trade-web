@@ -1,6 +1,5 @@
 package com.centaline.trans.common.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -53,6 +52,22 @@ public class MessageServiceImpl implements MessageService {
 		ExecuteAction action = new ExecuteAction();
 		action.setAction(EventTypeEnum.SPVFINISHEVENTCATCH.getEventType());
 		action.setMessageName(MessageEnum.SPV_FINISH_MSG.getName());
+
+		sendMessage(event,action);
+	}
+	
+	@Override
+	public void sendSatisFinishMsgByIntermi(String instanceId) {
+		// 发送消息
+		ActRuEventSubScr event = new ActRuEventSubScr();
+		event.setEventType(MessageEnum.SATIS_FINISH_MSG.getEventType());
+		event.setEventName(MessageEnum.SATIS_FINISH_MSG.getName());
+		event.setProcInstId(instanceId);
+		event.setActivityId(EventTypeEnum.SATISFINISHEVENTCATCH.getName());
+		
+		ExecuteAction action = new ExecuteAction();
+		action.setAction(EventTypeEnum.SATISFINISHEVENTCATCH.getEventType());
+		action.setMessageName(MessageEnum.SATIS_FINISH_MSG.getName());
 
 		sendMessage(event,action);
 	}
