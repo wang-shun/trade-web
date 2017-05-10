@@ -109,7 +109,6 @@ public class ParPortalApplicationTests
     public void operateList()
     {
         String result = operateListController.operateList(1, 2, null, null);
-
         System.out.println(result);
     }
 

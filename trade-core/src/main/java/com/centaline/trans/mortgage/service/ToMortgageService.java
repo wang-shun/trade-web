@@ -214,4 +214,6 @@ public interface ToMortgageService {
 
 	Boolean submitPsfApply(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime,
 			String taskId, String processInstanceId);
+
+	void updateByPrimaryKey(ToMortgage toMortgage);
 }

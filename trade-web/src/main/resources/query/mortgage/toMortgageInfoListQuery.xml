@@ -296,7 +296,229 @@
 			</table-row>
 		</grid>
 	</query>
-	
+
+	<query id="findToMortgageList">
+		<searchCondition>
+			<condition field="t.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="t.MORT_CUST_NAME"   name="custName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+						select
+						t.CASE_CODE
+						,t.MORT_TYPE as MORT_TYPE_OLD --贷款类型
+						,t.HOUSR_PROPERTY_ADDR as PROPERTY_ADDR --此案件的地址
+						,t.MORT_TYPE_CN as MORT_TYPE --贷款类型(转译)
+						,t.CASE_PKID as PKID --案件的主键
+						,t.CASE_DISTRICT_ID as ORG_ORG_ID --案件所属贵宾服务部
+						,t.CASE_REC_STATUS_CN as SDSTATUS --是否收单
+						,t.LOAN_SELF_DEL_REASON as LOANLOST_APPLY_REASON --流失原因
+						,t.LOAN_APP_TIME as END_TIME_ --流失审核时间
+						,t.MORT_CUST_NAME as CUST_NAME --主贷人姓名
+						,t.MORT_TOTAL_AMOUNT as mortTotalAmount-- 贷款总金额
+						,t.MORT_COM_AMOUNT as comAmount --商贷金额
+						,t.MORT_PRF_AMOUNT as prfAmount --公积金金额
+						,t.CASE_CON_PRICE as conPrice --合同金额
+						,t.EVA_EVAL_FEE as EVAL_FEE --评估费(元)
+						,t.MORT_FIN_ORG_CODE as FIN_ORG_CODE
+						,t.MORT_FIN_BRANCH_NAME as FIN_ORG_NAME
+						,t.MORT_FIN_BRANCH_NAME as FIN_ORG_NAME_YC
+						,t.MORT_FA_FIN_ORG_CODE as FA_FIN_ORG_CODE
+						,t.IS_TMP_BANK_CN as IS_TMP_BANK --是否是临时银行
+						,t.LOAN_AGENT_REAL_NAME as REAL_NAME --贷款专员姓名
+						,t.LOAN_AGENT_USER_ID as LOAN_AGENT --贷款专员ID
+						,t.LOAN_AGENT_ORG_ID as LOAN_AGENT_TEAM --贷款专员所在组id
+						,t.MORT_SIGN_DATE as SIGN_DATE --签约时间
+						,t.TRANSFER_REAL_HT_TIME as REAL_HT_TIME --案件实际过户时间
+						,t.IS_DELEGATE_YUCUI as IS_DELEGATE_YUCUI
+						,t.MORT_APPR_DATE as APPR_DATE --贷款审批时间
+						,t.MORT_LEND_DATE as LEND_DATE --放款时间
+						,t.LOAN_CREATE_TIME as CREATE_TIME --流失申请时间
+						,t.TRANSFER_APP_PASS_TIME as CASETRANSFERDATE --过户审批通过时间
+						from sctrans.T_RPT_CASE_BASE_INFO t
+						where 1=1
+					<ifNotNull idflag>
+						AND  (t.LOAN_AGENT_USER_ID = #userId# OR EXISTS( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = t.CASE_CODE AND C.LEADING_PROCESS_ID = #userId#))
+					</ifNotNull>
+
+					<ifNotNull queryorgs>
+						AND (t.LOAN_AGENT_ORG_ID in (#queryorgs#)
+						OR EXISTS( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = t.CASE_CODE    AND C.ORG_ID in (#queryorgs#)))
+					</ifNotNull>
+					<ifNotNull signTimeStart>
+						AND t.MORT_SIGN_DATE >= #signTimeStart#
+					</ifNotNull>
+					<ifNotNull signTimeEnd>
+						AND t.MORT_SIGN_DATE &lt;= #signTimeEnd#
+					</ifNotNull>
+
+					<ifNotNull lendTimeStart>
+						AND t.MORT_LEND_DATE >= #lendTimeStart#
+					</ifNotNull>
+					<ifNotNull lendTimeEnd>
+						AND t.MORT_LEND_DATE &lt;= #lendTimeEnd#
+					</ifNotNull>
+
+					<ifNotNull propertyAddr>
+						AND PROPERTY_ADDR like '%'+#propertyAddr#+'%'
+					</ifNotNull>
+
+					<ifNotNull apprTimeStart>
+						AND t.MORT_APPR_DATE >= #apprTimeStart#
+					</ifNotNull>
+
+					<ifNotNull apprTimeEnd>
+						AND t.MORT_APPR_DATE &lt;= #apprTimeEnd#
+					</ifNotNull>
+
+
+					<ifNotNull realhtTimeStart>
+						AND t.TRANSFER_REAL_HT_TIME >= #realhtTimeStart#
+					</ifNotNull>
+					<ifNotNull realhtTimeEnd >
+						AND t.TRANSFER_REAL_HT_TIME &lt;= #realhtTimeEnd#
+					</ifNotNull>
+
+					<ifNotNull endTimeStart>
+					AND t.LOAN_APP_TIME >= #endTimeStart#
+					</ifNotNull>
+					<ifNotNull endTimeEnd>
+					AND t.LOAN_APP_TIME &lt;= #endTimeEnd#
+					</ifNotNull>
+
+					<ifNotNull createTimeStart>
+						AND t.LOAN_CREATE_TIME >= #createTimeStart#
+					</ifNotNull>
+					<ifNotNull createTimeEnd>
+						AND t.LOAN_CREATE_TIME &lt;= #createTimeEnd#
+					</ifNotNull>
+
+					<if test="transferTimeStart != null  and transferTimeStart != '' ">
+						AND t.TRANSFER_APP_PASS_TIME >= #transferTimeStart#
+					</if>
+					<if test="transferTimeEnd != null  and transferTimeEnd != '' ">
+						AND t.TRANSFER_APP_PASS_TIME &lt;= #transferTimeEnd#
+					</if>
+
+
+					<ifNotNull comAmountStart>
+						AND t.MORT_COM_AMOUNT >= #comAmountStart#
+					</ifNotNull>
+					<ifNotNull comAmountEnd>
+						AND t.MORT_COM_AMOUNT &lt;= #comAmountEnd#
+					</ifNotNull>
+
+					<ifNotNull mortTotalAmountStart>
+						AND t.MORT_TOTAL_AMOUNT >= #mortTotalAmountStart#
+					</ifNotNull>
+					<ifNotNull mortTotalAmountEnd>
+						AND t.MORT_TOTAL_AMOUNT &lt;= #mortTotalAmountEnd#
+					</ifNotNull>
+
+					<ifNotNull prfAmountStart>
+						AND t.MORT_PRF_AMOUNT >= #prfAmountStart#
+					</ifNotNull>
+					<ifNotNull prfAmountEnd>
+						AND t.MORT_PRF_AMOUNT &lt;= #prfAmountEnd#
+					</ifNotNull>
+
+					<if test=' isTempBank=="是" '>
+					AND t.IS_TMP_BANK = 1
+					</if>
+
+					<if test=' isTempBank=="否"'>
+					AND t.IS_TMP_BANK = 0
+					</if>
+
+					<ifNotNull loanLostFinOrgNameCode>
+						and exists (select 1 from sctrans.T_TS_FIN_ORG FOCODE  where FOCODE.FIN_ORG_CODE=t.MORT_FIN_ORG_CODE and FOCODE.FA_FIN_ORG_CODE=#loanLostFinOrgNameCode#)
+					</ifNotNull>
+
+					<ifNotNull loanLostFinOrgNameYcCode>
+						AND t.MORT_FIN_ORG_CODE = #loanLostFinOrgNameYcCode#
+					</ifNotNull>
+
+					<if test=' isLose=="否" '>
+						AND t.CASE_REC_STATUS = 0
+					</if>
+					<if test=' isLose=="是" '>
+						AND t.CASE_REC_STATUS = 1
+					</if>
+
+					<ifNotNull processorOrgId>
+						AND t.LOAN_AGENT_REAL_NAME = #processorOrgId#
+					</ifNotNull>
+
+					<if test="organizeOrgId !=null and orgHierarchy == 'yucui_team' ">
+						AND t.LOAN_AGENT_ORG_ID = #organizeOrgId#
+					</if>
+					<if test="organizeOrgId !=null and orgHierarchy == 'yucui_district' ">
+						AND t.LOAN_AGENT_ORG_ID in (select  id from sctrans.sys_org  where PARENT_ID = #organizeOrgId#)
+					</if>
+					<if test=' loanType=="1" '>
+						AND t.IS_DELEGATE_YUCUI=1 and  (t.MORT_TYPE='30016001' or t.MORT_TYPE ='30016002' )
+					</if>
+					<if test=' loanType=="3" '>
+						AND t.IS_DELEGATE_YUCUI=0 and  (t.MORT_TYPE='30016001' or t.MORT_TYPE ='30016002' )
+					</if>
+					<if test=' loanType=="2" '>
+						AND t.IS_DELEGATE_YUCUI=1 and t.MORT_TYPE='30016003'
+					</if>
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="true" title="案件编号"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="MORT_TYPE_OLD" index="" checkbox="true"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FIN_ORG_CODE" index="" checkbox=""   title="贷款银行代码" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox=""   title="案件地址" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="MORT_TYPE" index="" checkbox=""   title="贷款类型" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="FIN_ORG_NAME" index="" checkbox="true" title="贷款银行全称" referencecol="FIN_ORG_CODE"  customDict="qqcdFinOrgNameDict" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FIN_ORG_NAME_YC" index="" checkbox=""   title="贷款银行简称" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="FA_FIN_ORG_CODE" index="" checkbox=""   title="贷款银行分行代码" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PKID" index="" checkbox=""   title="案件主键" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="ORG_ORG_ID" index="" checkbox=""   title="贷款专员所属贵宾服务部ID" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+
+				<column type="virtual" name="ORG_ORG_NAME" index="" checkbox=""   title="贷款专员所属贵宾服务部" referencecol="ORG_ORG_ID" customDict="qqcdOrgIdName" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="SDSTATUS" index="" checkbox=""   title="是否流失" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="END_TIME_" index="" checkbox=""   title="流失审核时间" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="REAL_HT_TIME" index="" checkbox=""   title="实际过户时间" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+
+				<column type="both" name="conPrice" index="" checkbox=""   title="合同金额" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+
+				<column type="both" name="EVAL_FEE" index="" checkbox=""   title="评估费(元)" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="mortTotalAmount" index="" checkbox=""   title="贷款总金额" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="comAmount" index="" checkbox=""   title="商贷金额" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="prfAmount" index="" checkbox=""   title="公积金金额" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="IS_TMP_BANK" index="" checkbox=""   title="是否是临时银行" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="MORT_TOTAL_AMOUNT,COM_AMOUNT,PRF_AMOUNT,CON_PRICE" isDynamicDict="true" referencecol="mortTotalAmount,comAmount,prfAmount,conPrice"  customDict="qqMortgageAmount"  index="" checkbox="" title="贷款总额(万2元),商贷金额(万元),公积金金额(万元),合同金额(万元)"  expType="" sysDict="" format="" beanFormatter="numberFormater" width="60" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="LOAN_AGENT" index="" checkbox="true" title="货代专员id"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LOAN_AGENT_TEAM" index="" checkbox="true" title="组织id"   customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="REAL_NAME" index="" checkbox="" title="贷款专员"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="virtual" name="ORG_NAME" index="" checkbox="" title="贷款专员所属组"  referencecol="LOAN_AGENT_TEAM"  customDict="qqcdOrgIdName" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="IS_DELEGATE_YUCUI" index="" checkbox="true" title="是否中原办理"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CUST_NAME" index="" checkbox="" title="客户姓名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="SIGN_DATE" index="" checkbox="" title="签约时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="APPR_DATE" index="" checkbox="" title="贷款审批时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="LEND_DATE" index="" checkbox="" title="放款时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CREATE_TIME" index="" checkbox="" title="流失申请时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CASETRANSFERDATE" index="" checkbox="" title="过户审批通过时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="LOANLOST_APPLY_REASON" index="" checkbox="" title="流失原因"  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+
+			</table-row>
+		</grid>
+	</query>
+
+
+
+
 	
 	<query id="findToMortgageIsActiveForList">
 	    <searchCondition>      

@@ -563,8 +563,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
                 ToMortgage toMortgage = toMortgageMapper.selectByPrimaryKey(pkid);
                 if (null != toMortgage)
                 {
-
                     toMortgage.setTmpBankStatus("3");
+                    toMortgage.setStateInBank("MORT_APPROVED");
                     toMortgage.setBankApproveTime(new Date()); // 冗余信贷员审核通过时间，在页面做展示
                     toMortgage.setMortTotalAmount(toMortLoaner.getMortTotalAmount());
                     toMortgage.setComAmount(toMortLoaner.getComAmount());
@@ -573,7 +573,6 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
                     toMortgage.setPrfAmount(toMortLoaner.getPrfAmount());
                     toMortgage.setPrfYear(toMortLoaner.getPrfYear());
                     toMortgageMapper.updateByPkId(toMortgage);
-
                 }
 
             }
@@ -766,6 +765,13 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode, variables);
             StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, loaner.getUsername(), caseCode);
 
+            // 从新派单 需要从新设置这部分的值
+            toMortgageDTO.setBankApproveTime(null);
+            toMortgageDTO.setDispachUserId(user.getId());
+            toMortgageDTO.setDispachTime(new Date());
+            toMortgageDTO.setLoanerProcessInstCode(vo.getId());
+            toMortgageDTO.setBankLevel(String.valueOf(bankLevel));
+            toMortgageDTO.setStateInBank("ACCEPTING");
             toMortgageService.updateToMortgage(toMortgageDTO);// 主键pkid作为条件更新
 
             //

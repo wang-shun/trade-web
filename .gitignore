@@ -16,6 +16,9 @@
 .metadata
 .recommenders
 Servers
+.gitignore.swp
+trade-core/.gitignore
+trade-frontend/.gitignore
 	
 # External tool builders
 .externalToolBuilers/
