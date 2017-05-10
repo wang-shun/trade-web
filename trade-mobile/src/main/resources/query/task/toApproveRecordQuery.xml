@@ -53,6 +53,9 @@
 			</baseSql>
 			<groupSql>
 			</groupSql>
+			<orderBySql>
+				order by TR.OPERATOR_TIME desc
+			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>
