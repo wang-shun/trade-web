@@ -104,7 +104,7 @@ public class TradeCaseController {
 			Boolean onlyLoanLostAlert, String q_text) {
 		SessionUser user = sessionService.getSessionUser();
 		JQGridParam gp = new JQGridParam();
-		gp.setQueryId("queryTradeCastListMoblie");
+		gp.setQueryId("queryTradeCaseListMoblie");
 		gp.setPage(page);
 		gp.setRows(pageSize);
 
