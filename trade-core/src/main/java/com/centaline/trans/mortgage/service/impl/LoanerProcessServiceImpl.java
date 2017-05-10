@@ -441,8 +441,12 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             // 信贷员接单
             if ("ACCEPT".equals(stateInBank))
             {
-                toMortLoaner.setReceiveId(user.getId());
-                toMortLoaner.setReceiveName(user.getRealName());
+                if (user != null)
+                {
+                    toMortLoaner.setReceiveId(user.getId());
+                    toMortLoaner.setReceiveName(user.getRealName());
+                }
+
                 toMortLoaner.setReceiveTime(new Date());
                 // 接单之后设置派单状态为待审批
                 toMortLoaner.setLoanerStatus(LoanerStatusEnum.AUDITING.getCode());
@@ -681,10 +685,10 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             // 派单列表 取消操作
             if (record != null)
             {
-                //record.setStatus(WorkFlowStatus.TERMINATE.getCode());
+                // record.setStatus(WorkFlowStatus.TERMINATE.getCode());
                 toMortLoaner.setPkid(Long.parseLong(record.getBizCode()));
             }
-            //toWorkFlowService.updateByPrimaryKeySelective(record);
+            // toWorkFlowService.updateByPrimaryKeySelective(record);
 
             // 取消的时候 派单表需要修改 取消人的信息
 
@@ -850,10 +854,11 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             toMortLoaner.setIsMainLoanBankProcess(isMainLoanBank);
             List<ToMortLoaner> toMortLoanerProcessList = toMortLoanerService.findToMortLoaner(toMortLoaner);
             ToMortLoaner toMortLoanerProcess = null;
-            if(null != toMortLoanerProcessList && toMortLoanerProcessList.size() > 0 ){
-            	toMortLoanerProcess = toMortLoanerProcessList.get(0);
-            }	
-            
+            if (null != toMortLoanerProcessList && toMortLoanerProcessList.size() > 0)
+            {
+                toMortLoanerProcess = toMortLoanerProcessList.get(0);
+            }
+
             if (null != toMortLoanerProcess)
             {
                 response.setSuccess(true);
