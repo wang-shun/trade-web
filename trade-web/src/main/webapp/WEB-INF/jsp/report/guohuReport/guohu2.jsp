@@ -207,7 +207,7 @@
         	getGroup("ff8080814f459a78014f45a73d820006","true","districtId",null);
         	$("#districtId").change(function(item){
         		var parentId=$("#districtId").val();
-        		getGroup(parentId,false,"orgId","HT");
+        		getGroup(parentId,false,"orgId","");
         	/* 	$("#userId").html("<option value=''>请选择</option>");
         		type="district"; */
         	})
