@@ -270,13 +270,6 @@ public class LoanlostApproveController {
 		sendMessage(processInstanceVO, toApproveRecord.getContent(),
 				toApproveRecord.getApproveType());
 
-		ToCase te = null;
-		if (null != processInstanceVO) {
-			te = toCaseService.findToCaseByCaseCode(processInstanceVO
-					.getCaseCode());
-		}
-		String orgId = te.getOrgId();
-
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 
 		if (!LoanLost_director.equals("true")) {
