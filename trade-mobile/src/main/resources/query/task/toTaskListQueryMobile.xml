@@ -96,7 +96,7 @@
 						</ifNotNull>
 					) as AB where 1=1
 
-						and taskCode not in('PSFApply','PSFSign','PSFApprove','CaseCloseFirstApprove','ServiceChangeApprove')
+						and taskCode in('PurchaseLimit','Pricing','TaxReview','LoanClose','Guohu','HouseBookGet','serviceRestartApply','serviceRestartApprove','ManagerAduit','SuperManagerAudit','DirectorAudit','LoanlostApply','LoanlostApproveManager','LoanlostApproveSeniorManager','LoanlostApproveDirector')
 
 						<ifNotNull taskTag>
 							and AB.taskTag in (#taskTag#)
