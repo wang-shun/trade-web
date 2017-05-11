@@ -19,14 +19,12 @@ public class Pages2JSONMoblie {
             result.put("total", 0);
             result.put("pageSize", 0);
             result.put("rows", new JSONArray());
-            result.put("testBycy", "test");
             return result;
         }
         result.put("page", pages.getNumber());
         result.put("total", pages.getTotalPages());
         result.put("pageSize", pages.getSize());
         result.put("rows", pages.getContent());
-        result.put("testBycy", "test");
         return result;
 	}
 	
