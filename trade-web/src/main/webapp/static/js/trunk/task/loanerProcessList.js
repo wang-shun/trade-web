@@ -238,7 +238,7 @@ function caseCodeSort() {
  * 取消流程
  * */
 function  finishLoanerProcess(instCode,caseCode,taskId,isMainLoanBankProcess,loanerPkid){
-	if((instCode == null || instCode == "" || instCode == undefined) || (caseCode == null || caseCode == "" || caseCode == undefined) || (taskId == null || taskId == "" || taskId == undefined)){
+	if((instCode == null || instCode == "" || instCode == undefined) || (caseCode == null || caseCode == "" || caseCode == undefined)){
 		window.wxc.alert('结束流程请求参数有误！'); 
 		return;
 	}

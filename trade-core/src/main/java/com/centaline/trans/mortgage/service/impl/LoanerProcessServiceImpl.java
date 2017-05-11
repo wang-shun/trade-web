@@ -667,7 +667,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
     public void loanerProcessCancle(String caseCode, String taskId, String processInstanceId, String isMainLoanBankProcess, String loanerPkid)
     {
 
-        if ((null == caseCode || "".equals(caseCode)) || (null == taskId || "".equals(taskId)) || (null == processInstanceId || "".equals(processInstanceId))
+        if ((null == caseCode || "".equals(caseCode)) ||  (null == processInstanceId || "".equals(processInstanceId))
                 || (null == isMainLoanBankProcess || "".equals(isMainLoanBankProcess)))
         {
             throw new BusinessException("取消、驳回交易顾问派单流程请求参数异常！");
