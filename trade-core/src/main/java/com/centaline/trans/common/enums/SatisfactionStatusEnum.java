@@ -2,8 +2,8 @@ package com.centaline.trans.common.enums;
 
 public enum SatisfactionStatusEnum {
 	
-	DEFAULT("0", "待分单"), SIGN_SURVEY_ING("1", "签约回访中"), SIGN_SURVEY_PASS("2", "签约回访通过"), SIGN_SURVEY_REJECT("3", "签约回访打回"), 
-	TRANSFER_SURVEY_ING("4", "过户回访中"), TRANSFER_SURVEY_REJECT("5", "过户回访打回"), TRANSFER_SURVEY_PASS("6", "过户回访完成");
+	DEFAULT("1", "待分单"), SIGN_SURVEY_ING("2", "签约回访"), SIGN_SURVEY_REJECT("3", "签约打回"), 
+	GUOHU_SURVEY_ING("4", "过户回访"), GUOHU_SURVEY_REJECT("5", "过户打回"), GUOHU_SURVEY_PASS("6", "已回访");
 	
 	private String name;
 	private String code;

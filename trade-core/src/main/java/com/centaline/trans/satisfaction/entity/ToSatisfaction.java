@@ -68,6 +68,12 @@ public class ToSatisfaction {
     private String status;
 
     private String callerId;
+    
+    private Date signTime;
+    
+    private Date guohuTime;
+    
+    private Date closeTime;
 
     private Date createTime;
 
@@ -341,7 +347,31 @@ public class ToSatisfaction {
         this.callerId = callerId == null ? null : callerId.trim();
     }
 
-    public Date getCreateTime() {
+    public Date getSignTime() {
+		return signTime;
+	}
+
+	public void setSignTime(Date signTime) {
+		this.signTime = signTime;
+	}
+
+	public Date getGuohuTime() {
+		return guohuTime;
+	}
+
+	public void setGuohuTime(Date guohuTime) {
+		this.guohuTime = guohuTime;
+	}
+
+	public Date getCloseTime() {
+		return closeTime;
+	}
+
+	public void setCloseTime(Date closeTime) {
+		this.closeTime = closeTime;
+	}
+
+	public Date getCreateTime() {
         return createTime;
     }
 

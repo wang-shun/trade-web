@@ -158,6 +158,12 @@ public class ToCaseServiceImpl implements ToCaseService {
 	public ToCase findToCaseByCaseCode(String caseCode) {
 		return toCaseMapper.findToCaseByCaseCode(caseCode);
 	}
+	
+	@Override
+	public List<ToCase> findAllToCase(){
+		return toCaseMapper.findAllToCase();
+	}
+	
 	@Override
 	public int findToLoanAgentByCaseCode(String caseCode) {
 		return toCaseMapper.findToLoanAgentByCaseCode(caseCode);

@@ -179,8 +179,14 @@
     <include refid="Base_Column_List" />
     from sctrans.T_TO_CASE
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-
-  </select>
+</select>
+  
+<select id="findAllToCase" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE
+</select>  
+  
 <select id="findToLoanAgentByCaseCode" parameterType="java.lang.String" resultType="java.lang.Integer">
     
  select count(*) from sctrans.T_TO_LOAN_AGENT t where t.loan_srv_code='30004005' and t.CASE_CODE=#{caseCode,jdbcType=VARCHAR}

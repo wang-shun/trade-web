@@ -44,6 +44,9 @@
 			<div class="ibox-content border-bottom clearfix space_box">
 				<h2 class="title">案件回访</h2>
 				<form method="get" class="form_list">
+					<input type="hidden" name="sessionUserId" value="${sessionUserId}" />
+					<input type="hidden" name="serviceDepId" value="${serviceDepId}" />
+					<input type="hidden" name="serviceJobCode" value="${serviceJobCode}" />
 					<div class="line">
 						<div class="form_content">
 							<label class="control-label sign_left_small"> 案件编号 </label> 
@@ -80,7 +83,7 @@
 							</select>
 						</div>
 						<div class="add_btn">
-							<button type="button" class="btn btn-success mr5">
+							<button id="btn_search" type="button" class="btn btn-success mr5">
 								<i class="icon iconfont">&#xe635;</i> 查询
 							</button>
 							<a href="javascript:dispatch();"><button type="button"
@@ -109,53 +112,79 @@
 	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script> 
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-	<script id="queryMortgageApproveLost" type="text/html">
+	<script id="SatisListTemplate" type="text/html">
          {{each rows as item index}}
                 <tr>					
-										{{if item.STATUS!=7 && item.STATUS!=8}}
-                                       	<td>
-										 	<input type="checkbox" class="i-checks" name="checkRow" value="{{item.CASE_CODE}}">
-									   	</td>
-										{{else}}
-                                       	<td>
-										 	<input type="checkbox" class="i-checks" name="checkRow" value="{{item.CASE_CODE}}" disabled="disabled">
-									   	</td>
-										{{/if}}
-										<td>
-											<p>
-                                                <i class="color_visited grey_visited">
+				{{if item.STATUS!=7 && item.STATUS!=8}}
+                   <td>
+					 <input type="checkbox" class="i-checks" name="checkRow" value="{{item.CASE_CODE}}">
+				   </td>
+				{{else}}
+                   <td>
+					 <input type="checkbox" class="i-checks" name="checkRow" value="{{item.CASE_CODE}}" disabled="disabled">
+				   </td>
+				{{/if}}
+				   <td>
+					 <p>
+					{{if item.STATUS == 1}}
+                       <i class="color_visited grey_visited">
+                                                    待分单
+                       </i>
+					{{elseif item.STATUS == 2}}
+						<a href="${ctx}/satis/signDetail?satisId={{item.PKID}}">
+						<i class="color_visited blue_visited">
+                                                    签约回访
+                       </i>
+					{{elseif item.STATUS == 3}}
+						<a href="${ctx}/satis/signReturn?satisId={{item.PKID}}">
+						<i class="color_visited red_visited">
+					  签约打回
+                       </i>
+					{{elseif item.STATUS == 4}}
+						<a href="${ctx}/satis/guohuDetail?satisId={{item.PKID}}">
+						<i class="color_visited blue_visited">
+                                                    过户回访                              
+                       </i>
+					{{elseif item.STATUS == 5}}
+						<a href="${ctx}/satis/guohuReturn?satisId={{item.PKID}}">
+						<i class="color_visited red_visited">
+                                                    过户打回
+                       </i>
+					{{elseif item.STATUS == 6}}
+						<i class="color_visited grey_visited">
                                                     已回访
-                                                </i>
-                                            </p>
-										</td>
-                                        <td>
-                                            <p class="big">
-                                                <a href="${ctx}/spv/spvDetail?pkid={{item.PKID}}" target="_blank">
-								                     {{item.SPV_CODE}}
-							                    </a>
-                                            </p>
-                                            <p>
-                                                <i class="tag_sign">c</i>
-                                                BKS-2-451341-2154
-                                            </p>
-                                        </td>
-                                        <td>
-                                                <p class="big">
-                       		                     {{item.PR_ADDR}}
-												</p>
-						 						<span >
-												  <i class="salesman-icon"></i>
- 							                      <a class="hint hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName==null?"":item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} "  >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
-						                      </span>
-                                        </td>
-                                        <td>
+                       </i>
+					{{/if}}
+                     </p>
+				   </td>
+                   <td>
+                      <p class="big">
+                        <a href="${ctx}/case/caseDetail?caseCode={{item.CASE_CODE}}" target="_blank">
+							{{item.CASE_CODE}}
+						</a>
+                      </p>
+                      <p>
+                        <i class="tag_sign">c</i>
+                            {{item.CTM_CODE}}
+                      </p>
+                   </td>
+                   <td>
+                      <p class="big">
+                       	{{item.PR_ADDR}}
+					  </p>
+					  <span >
+						<i class="salesman-icon"></i>
+ 						<a class="hint hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName==null?"":item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} "  >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
+					  </span>
+                    </td>
+                  	<td>
                     <p class="smll_sign">                          
 					 {{if item.applyTime==undefined}}
 						<i class="sign_grey">签</i>
                       {{else}}
 						<i class="sign_normal">签</i>
                       {{/if}}
-					       {{item.applyTime}}
+					       {{item.SIGN_TIME}}
 					</p>
 					<p class="smll_sign">
 					  {{if item.signTime==undefined}}
@@ -163,7 +192,7 @@
                       {{else}}
 						<i class="sign_normal">过</i>
                       {{/if}}
-					       {{item.signTime}}
+					       {{item.GUOHU_TIME}}
 					</p>
 					<p class="smll_sign">
 					 {{if item.closeTime==undefined}}
@@ -171,36 +200,21 @@
                       {{else}}
 						<i class="sign_normal">完</i>
                       {{/if}}
-					       {{item.closeTime}}
+					       {{item.CLOSE_TIME}}
 					</p>
                     </td>
-                                        <td class="center">
-                                            <span class="manager">
-												 <a href="#"><em>上家1</em></a>
-                                            </span>
-                                            <span class="manager">
-                                                <a href="#"><em>上家2</em></a>
-                                            </span>
-											<span class="manager">
-                                                <a href="#"><em>上家3</em></a>
-                                            </span>
-                                        </td>
-										<td class="center">
-                                            <span class="manager">
-												 <a href="#"><em>下家1</em></a>
-                                            </span>
-                                            <span class="manager">
-                                                <a href="#"><em>下家2</em></a>
-                                            </span>
-											<span class="manager">
-                                                <a href="#"><em>下家3</em></a>
-                                            </span>
-                                        </td>
-                                        <td class="text-center"> 
-                                        	赵信
-                                        </td>
-                                        
-                                    </tr>
+                    <td class="center">
+                        <span class="manager">
+							<a href="#"><em>{{item.SWZ_NAME}}</em></a>
+                        </span>
+                    	<span class="manager">
+                            <a href="#"><em>{{item.AR_NAME}}</em></a>
+                        </span>
+                     </td>
+                    <td class="text-center"> 
+                        {{item.CALLER_NAME}}
+                    </td>
+            </tr>
 			{{/each}}          
 	    	</script> 
 	    	<script type="text/javascript">
@@ -252,16 +266,15 @@
 							//初始化数据
 							var params = {
 								page : 1,
-								sessionUserId : $("#userId").val(),
+								sessionUserId : $("#sessionUserId").val(),
 								serviceDepId : $("#serviceDepId").val(),
 								serviceJobCode : $("#serviceJobCode").val(),
-								serviceDepHierarchy : $("#serviceDepHierarchy").val()
 							}
 							
 							//查询
 							$("#btn_search").click(function() {
-								params.search_caseCode=$("input[name='caseCode']").val();
-								params.search_prAddress=$("input[name='prAddress']").val();
+								params.search_caseCode=$("input[name='caseCode']").val().trim();
+								params.search_prAddress=$("input[name='prAddress']").val().trim();
 								params.search_caller=$("#userId").val();
 								params.search_status=$("input[name='status']").val();
 
@@ -273,15 +286,13 @@
 								$(".bonus-table").aistGrid(
 								{
 									ctx : "${ctx}",
-									queryId : 'ToSpvCaseListQuery',
+									queryId : 'SatisListQuery',
 									rows : '12',
-									templeteId : 'queryMortgageApproveLost',
+									templeteId : 'SatisListTemplate',
 									gridClass : 'table table_blue table-striped table-bordered table-hover ',
 									data : params,
 									wrapperData : {
-										job : $(
-												"#serviceJobCode")
-												.val()
+										job : $("#serviceJobCode").val()
 									},
 									columns : [
 											{
@@ -302,9 +313,7 @@
 											{
 												colName : "签建时间"
 											}, {
-												colName : "上家"
-											}, {
-												colName : "下家"
+												colName : "归属组"
 											}, {
 												colName : "客服"
 											} ]

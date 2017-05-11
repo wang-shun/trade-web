@@ -15,6 +15,8 @@ public interface ToSatisfactionMapper {
 
     ToSatisfaction selectByPrimaryKey(Long pkid);
     
+    ToSatisfaction selectByCaseCode(String caseCode);
+    
     List<ToSatisfaction> selectAll();
 
     int updateByPrimaryKeySelective(ToSatisfaction record);

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.message.core.remote.UamMessageService;
-import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
 import com.centaline.trans.attachment.service.ToAccesoryListService;
@@ -23,10 +22,8 @@ import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.service.SignService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.TransSignVO;

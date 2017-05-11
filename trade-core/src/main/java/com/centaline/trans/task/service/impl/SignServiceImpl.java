@@ -447,14 +447,7 @@ public class SignServiceImpl implements SignService {
 			 * 签约完成之后插入一条记录到sctrans.T_CS_CASE_SATISFACTION表
 			 * @for 满意度评分
 			 */
-			ToSatisfaction toSatisfaction = new ToSatisfaction();
-			toSatisfaction.setCaseCode(transSignVO.getCaseCode());
-			String castsatCode = uamBasedataService.nextSeqVal("CASTSAT_CODE", new SimpleDateFormat("yyyyMM").format(new Date()));
-			toSatisfaction.setCastsatCode(castsatCode);
-			toSatisfaction.setStatus(SatisfactionStatusEnum.DEFAULT.getCode());
-			toSatisfaction.setCreateBy(sessionUser.getId());
-			toSatisfaction.setCreateTime(new Date());
-			satisfactionService.insert(toSatisfaction);
+			satisfactionService.handleAfterSign(transSignVO.getCaseCode(), sessionUser.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			// return false;

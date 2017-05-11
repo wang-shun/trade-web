@@ -35,6 +35,9 @@
     <result column="AGENT_GUOHU_COM" property="agentGuohuCom" jdbcType="NVARCHAR" />
     <result column="STATUS" property="status" jdbcType="VARCHAR" />
     <result column="CALLER_ID" property="callerId" jdbcType="VARCHAR" />
+    <result column="SIGN_TIME" property="signTime" jdbcType="TIMESTAMP" />
+    <result column="GUOHU_TIME" property="guohuTime" jdbcType="TIMESTAMP" />
+    <result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
@@ -47,13 +50,19 @@
     BUYER_PSFLOAN_SAT, BUYER_PSFLOAN_COM, BUYER_GUOHU_SAT, BUYER_GUOHU_COM, AGENT_PHONE_OK, 
     AGENT_PHONE_RES, AGENT_SIGN_SAT, AGENT_SIGN_COM, AGENT_COMLOAN_SAT, AGENT_COMLOAN_COM, 
     AGENT_PSFLOAN_SAT, AGENT_PSFLOAN_COM, AGENT_GUOHU_SAT, AGENT_GUOHU_COM, STATUS, CALLER_ID, 
-    CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    SIGN_TIME, GUOHU_TIME, CLOSE_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_CS_CASE_SATISFACTION
     where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_CS_CASE_SATISFACTION
+    where CASE_CODE = #{caseCode,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select 
@@ -76,7 +85,7 @@
       AGENT_SIGN_COM, AGENT_COMLOAN_SAT, AGENT_COMLOAN_COM, 
       AGENT_PSFLOAN_SAT, AGENT_PSFLOAN_COM, AGENT_GUOHU_SAT, 
       AGENT_GUOHU_COM, STATUS, CALLER_ID, 
-      CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+      SIGN_TIME, GUOHU_TIME, CLOSE_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, 
       UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{castsatCode,jdbcType=VARCHAR}, 
       #{salerPhoneOk,jdbcType=INTEGER}, #{salerPhoneRes,jdbcType=NVARCHAR}, #{salerSignSat,jdbcType=INTEGER}, 
@@ -89,6 +98,7 @@
       #{agentSignCom,jdbcType=NVARCHAR}, #{agentComloanSat,jdbcType=INTEGER}, #{agentComloanCom,jdbcType=NVARCHAR}, 
       #{agentPsfloanSat,jdbcType=INTEGER}, #{agentPsfloanCom,jdbcType=NVARCHAR}, #{agentGuohuSat,jdbcType=INTEGER}, 
       #{agentGuohuCom,jdbcType=NVARCHAR}, #{status,jdbcType=VARCHAR}, #{callerId,jdbcType=VARCHAR}, 
+      #{signTime,jdbcType=TIMESTAMP},#{guohuTime,jdbcType=TIMESTAMP},#{closeTime,jdbcType=TIMESTAMP},
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR})
   </insert>
@@ -193,6 +203,15 @@
       </if>
       <if test="callerId != null" >
         CALLER_ID,
+      </if>
+      <if test="signTime != null" >
+        SIGN_TIME,
+      </if>
+      <if test="guohuTime != null" >
+        GUOHU_TIME,
+      </if>
+      <if test="closeTime != null" >
+        CLOSE_TIME,
       </if>
       <if test="createTime != null" >
         CREATE_TIME,
@@ -307,6 +326,15 @@
       <if test="callerId != null" >
         #{callerId,jdbcType=VARCHAR},
       </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="guohuTime != null" >
+        #{guohuTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeTime != null" >
+        #{closeTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -420,6 +448,15 @@
       <if test="callerId != null" >
         CALLER_ID = #{callerId,jdbcType=VARCHAR},
       </if>
+      <if test="signTime != null" >
+        SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="guohuTime != null" >
+        GUOHU_TIME = #{guohuTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeTime != null" >
+        CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -469,6 +506,9 @@
       AGENT_GUOHU_COM = #{agentGuohuCom,jdbcType=NVARCHAR},
       STATUS = #{status,jdbcType=VARCHAR},
       CALLER_ID = #{callerId,jdbcType=VARCHAR},
+      SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+      GUOHU_TIME = #{guohuTime,jdbcType=TIMESTAMP},
+      CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},

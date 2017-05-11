@@ -56,6 +56,7 @@ import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.service.ToHouseTransferService;
@@ -104,6 +105,8 @@ public class GuohuApproveController {
 	TgServItemAndProcessorService tgServItemAndProcessorService;
 	@Autowired
     TaskService taskService;
+	@Autowired
+	SatisfactionService satisfactionService;
 	
 	@RequestMapping("process")
 	public String doProcesss(HttpServletRequest request,
@@ -173,6 +176,10 @@ public class GuohuApproveController {
 	@ResponseBody
 	public Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
 			String GuohuApprove, String GuohuApprove_response,String notApprove,String members) {
+		
+		SessionUser sender = uamSessionService.getSessionUser();
+		String caseCode = processInstanceVO.getCaseCode();
+		
 		/*流程引擎相关*/
 		List<String> membersList = null;
 		List<RestVariable> variables = new ArrayList<RestVariable>();
@@ -182,8 +189,6 @@ public class GuohuApproveController {
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response,notApprove);
 		if(!"true".equals(GuohuApprove)){
 			//没未通过审核，发站内信通知案件负责人
-			String sender = uamSessionService.getSessionUser().getId();
-			String caseCode = processInstanceVO.getCaseCode();
 			String result = toApproveRecord.getContent();
 			ToApproveRecord paramsApproveRecord = new ToApproveRecord();
 			paramsApproveRecord.setPartCode("Guohu");
@@ -192,7 +197,7 @@ public class GuohuApproveController {
 			ToApproveRecord lastApproveRecord = loanlostApproveService.findLastApproveRecord(paramsApproveRecord);
 			if(lastApproveRecord!=null){
 				String recevier = lastApproveRecord.getOperator();
-				sendMessage(sender,recevier,caseCode,result);
+				sendMessage(sender.getId(),recevier,caseCode,result);
 			}
 			variables.add(new RestVariable("members",membersList));
 		}
@@ -208,9 +213,18 @@ public class GuohuApproveController {
 			variables.add(restVariable1);
 		}
 
-		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());	
-		return workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
+		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
+		
+		Boolean flag = workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
 				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+		
+		/**
+		 * 过户审批通过后找到该案件对应的‘客服回访’流程并发送消息往下走，并更新sctrans.T_CS_CASE_SATISFACTION表
+		 * @for 满意度评分
+		 */
+		satisfactionService.handleAfterGuohuApprove(caseCode, sender.getId());
+		
+		return flag;
 	}
 	
 	/**
@@ -351,8 +365,6 @@ public class GuohuApproveController {
 		return workFlowManager.submitTask(variables, taskId, processInstanceId, 
 				toCase.getLeadingProcessId(), caseCode);
 	}
-	
-	
 	
 		private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){
 			if(tasks==null||mySerivceItems==null||tasks.isEmpty()||mySerivceItems.isEmpty()){return tasks;}

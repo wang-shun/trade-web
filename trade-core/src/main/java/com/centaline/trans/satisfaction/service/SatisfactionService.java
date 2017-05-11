@@ -15,5 +15,12 @@ public interface SatisfactionService {
 	List<ToSatisfaction> queryToSatisfactionList();
 	
 	ToSatisfaction queryToSatisfactionById(Long id);
-
+	
+	ToSatisfaction queryToSatisfactionByCaseCode(String caseCode);
+	
+	//签约完成操作
+	void handleAfterSign(String caseCode, String signer);
+	
+	//过户审批通过操作
+	void handleAfterGuohuApprove(String caseCode, String guohuer);
 }
