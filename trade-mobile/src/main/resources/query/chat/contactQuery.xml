@@ -15,7 +15,7 @@
 						on mort.CASE_CODE=tg.CASE_CODE
 						inner join sctrans.t_yucui_org_hierarchy ht
 						on tg.ORG_ID=ht.ORG_ID
-						left join (select * from sctrans.SYS_USER where IS_DELETED='0')us
+						left join (select * from sctrans.SYS_USER where IS_DELETED='0'  AVAILABLE='1')us
 						on us.id=ht.MANAGER_ID or ht.DISTRICT_ID=us.id or tg.PROCESSOR_ID=us.ID or mort.LOANER_ID=us.ID
 						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where uoj.ISMAIN=1 and uoj.IS_DELETED='0') uoj
 						on uoj.USER_ID=us.ID 
@@ -48,7 +48,7 @@
 				<![CDATA[
 					select us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org from
 						
-						 (select * from sctrans.SYS_USER where IS_DELETED='0')us
+						 (select * from sctrans.SYS_USER where IS_DELETED='0' and AVAILABLE='1')us
 						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where ISMAIN=1 and IS_DELETED='0') uoj
 						on uoj.USER_ID=us.ID 
 						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where ISMAIN=1 and IS_DELETED='0') uoj1

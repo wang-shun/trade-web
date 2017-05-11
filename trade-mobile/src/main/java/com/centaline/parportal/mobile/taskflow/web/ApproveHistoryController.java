@@ -34,32 +34,10 @@ public class ApproveHistoryController {
 //		toApproveRecord.setContent((b ? "通过" : "不通过")
 //				+ (c ? ",没有审批意见。" : ",审批意见为：" + loanLost_response));
         for (Map<String, Object> map : pages) {
-        	
         	Object avatarObj = map.get("AVATAR");
         	if(avatarObj != null) {
         		map.put("AVATAR", imgUrl+ String.valueOf(avatarObj) + ".jpg");
         	}
-        	
-			String content = String.valueOf(map.get("CONTENT"));
-			String approveTag = "";
-			String desc = "";
-			if(content.startsWith("通过")) {
-				approveTag =  "通过";
-				int idx = content.indexOf(",审批意见为：");
-				desc = (idx !=  -1) ? content.substring(idx+7) : "没有审批意见" ;
-				
-			}else if(content.startsWith("不通过")) {
-				approveTag =  "不通过";
-				int idx = content.indexOf(",审批意见为：");
-				desc = (idx !=  -1) ? content.substring(idx) : "没有审批意见" ;
-			}else {
-				desc = content;
-			}
-			map.put("APPROVETAG", approveTag);
-			map.put("DESC", desc);
-			
-			map.remove("CONTENT");
-			
 		}
         
         return pages.getContent();
