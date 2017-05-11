@@ -15,12 +15,12 @@
 						on mort.CASE_CODE=tg.CASE_CODE
 						inner join sctrans.t_yucui_org_hierarchy ht
 						on tg.ORG_ID=ht.ORG_ID
-						left join (select * from sctrans.SYS_USER where IS_DELETED=0)us
+						left join (select * from sctrans.SYS_USER where IS_DELETED='0')us
 						on us.id=ht.MANAGER_ID or ht.DISTRICT_ID=us.id or tg.PROCESSOR_ID=us.ID or mort.LOANER_ID=us.ID
-						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where ISMAIN=1 and IS_DELETED=0) uoj
+						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where uoj.ISMAIN=1 and uoj.IS_DELETED='0') uoj
 						on uoj.USER_ID=us.ID 
 						left join sctrans.SYS_ORG o on o.id=uoj.ORG_ID
-						left join sctrans.SYS_JOB j on j.id=uoj.JOB_ID
+						left join sctrans.SYS_JOB j on j.id=uoj.JOB_ID and uoj.ISMAIN = 1 and uoj.IS_DELETED=0
 						where tg.CASE_CODE=#caseCode#
 				]]>
 			</baseSql>
@@ -51,7 +51,7 @@
 						 (select * from sctrans.SYS_USER where IS_DELETED='0')us
 						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where ISMAIN=1 and IS_DELETED='0') uoj
 						on uoj.USER_ID=us.ID 
-						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where IS_DELETED='0') uoj1
+						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where ISMAIN=1 and IS_DELETED='0') uoj1
 						on uoj1.USER_ID=us.id
 						left join sctrans.SYS_ORG o on o.id=uoj.ORG_ID
 						left join sctrans.SYS_JOB j on j.id=uoj.JOB_ID
