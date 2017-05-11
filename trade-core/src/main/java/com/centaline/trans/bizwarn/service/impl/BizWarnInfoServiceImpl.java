@@ -21,64 +21,82 @@ import com.centaline.trans.bizwarn.service.BizWarnInfoService;
  * @date 2016年8月5日
  */
 @Service
-public class BizWarnInfoServiceImpl implements BizWarnInfoService {
+public class BizWarnInfoServiceImpl implements BizWarnInfoService
+{
 
-	@Autowired
-	private BizWarnInfoMapper bizWarnInfoMapper;
+    @Autowired
+    private BizWarnInfoMapper bizWarnInfoMapper;
 
-	@Override
-	public BizWarnInfo getBizWarnInfoByCaseCode(String caseCode) {
-		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(caseCode);
+    @Override
+    public BizWarnInfo getBizWarnInfoByCaseCode(String caseCode)
+    {
+        BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(caseCode);
 
-		return bizWarnInfo;
-	}
+        return bizWarnInfo;
+    }
 
-	@Override
-	public int insertSelective(BizWarnInfo bizWarnInfo) {
+    @Override
+    public int insertSelective(BizWarnInfo bizWarnInfo)
+    {
 
-		return bizWarnInfoMapper.insertSelective(bizWarnInfo);
-	}
+        return bizWarnInfoMapper.insertSelective(bizWarnInfo);
+    }
 
-	@Override
-	public int updateByCaseCode(BizWarnInfo bizWarnInfo) {
-		return bizWarnInfoMapper.updateByCaseCode(bizWarnInfo);
-	}
+    @Override
+    public int updateByCaseCode(BizWarnInfo bizWarnInfo)
+    {
+        return bizWarnInfoMapper.updateByCaseCode(bizWarnInfo);
+    }
 
-	@Override
-	public int deleteByCaseCode(String caseCode) {
-		return bizWarnInfoMapper.deleteByCaseCode(caseCode);
-	}
+    @Override
+    public int deleteByCaseCode(String caseCode)
+    {
+        return bizWarnInfoMapper.deleteByCaseCode(caseCode);
+    }
 
-	@Override
-	public int updateStatusByCaseCode(BizWarnInfo bizWarnInfo) {
-		return bizWarnInfoMapper.updateStatusByCaseCode(bizWarnInfo);
-	}
+    @Override
+    public int updateStatusByCaseCode(BizWarnInfo bizWarnInfo)
+    {
+        return bizWarnInfoMapper.updateStatusByCaseCode(bizWarnInfo);
+    }
 
-	@Override
-	public int getAllBizwarnCountByTeam(String userLoginName) {
-		return bizWarnInfoMapper.getAllBizwarnCountByTeam(userLoginName);
-	}
+    @Override
+    public int getAllBizwarnCountByTeam(String userLoginName)
+    {
+        return bizWarnInfoMapper.getAllBizwarnCountByTeam(userLoginName);
+    }
 
-	@Override
-	public int getAllBizwarnCountByDistinct(String currentOrgId) {
-		return bizWarnInfoMapper.getAllBizwarnCountByDistinct(currentOrgId);
-	}
+    @Override
+    public int getAllBizwarnCountByDistinct(String currentOrgId)
+    {
+        return bizWarnInfoMapper.getAllBizwarnCountByDistinct(currentOrgId);
+    }
 
-	@Override
-	public int relieveWarn(Map<String, Object> map) {	
-		int k = 0;
-		try {
-			BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectBizWarnInfoByMap(map);
-			
-			bizWarnInfo.setStatus("1");
-			bizWarnInfo.setRelieveTime(new Date());
+    @Override
+    public int relieveWarn(Map<String, Object> map)
+    {
+        int k = 0;
+        try
+        {
+            BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectBizWarnInfoByMap(map);
 
-			k = bizWarnInfoMapper.updateStatusByCaseCode(bizWarnInfo);		
-			
-		}catch(BusinessException e){
-			throw new BusinessException("案件取消预警异常！");
-		}
-		return k;
-	}
+            bizWarnInfo.setStatus("1");
+            bizWarnInfo.setRelieveTime(new Date());
+
+            k = bizWarnInfoMapper.updateStatusByCaseCode(bizWarnInfo);
+
+        }
+        catch (BusinessException e)
+        {
+            throw new BusinessException("案件取消预警异常！");
+        }
+        return k;
+    }
+
+    @Override
+    public void updateStatusByCaseCodeAndWarnType(BizWarnInfo bizWarnInfo)
+    {
+        bizWarnInfoMapper.updateStatusByCaseCodeAndWarnType(bizWarnInfo);
+    }
 
 }

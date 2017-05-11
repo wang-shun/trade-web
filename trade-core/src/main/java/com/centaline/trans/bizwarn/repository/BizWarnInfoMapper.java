@@ -6,26 +6,34 @@ import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.common.MyBatisRepository;
 
 @MyBatisRepository
-public interface BizWarnInfoMapper {
+public interface BizWarnInfoMapper
+{
 
-	int updateStatusInMortgageSelect(BizWarnInfo bizWarnInfo);
+    int updateStatusInMortgageSelect(BizWarnInfo bizWarnInfo);
 
-	int getAllBizwarnCountByTeam(String userLoginName);
+    int getAllBizwarnCountByTeam(String userLoginName);
 
-	int getAllBizwarnCountByDistinct(String currentOrgId);
+    int getAllBizwarnCountByDistinct(String currentOrgId);
 
-	int insert(BizWarnInfo bizWarnInfo);
+    int insert(BizWarnInfo bizWarnInfo);
 
-	int insertSelective(BizWarnInfo record);
-	
-	BizWarnInfo  selectBizWarnInfoByMap(Map<String,Object> map);
+    int insertSelective(BizWarnInfo record);
 
-	int updateByCaseCode(BizWarnInfo bizWarnInfo);
+    BizWarnInfo selectBizWarnInfoByMap(Map<String, Object> map);
 
-	int deleteByCaseCode(String caseCode);
+    int updateByCaseCode(BizWarnInfo bizWarnInfo);
 
-	BizWarnInfo selectByCaseCode(String caseCode);
+    int deleteByCaseCode(String caseCode);
 
-	int updateStatusByCaseCode(BizWarnInfo bizWarnInfo);
+    BizWarnInfo selectByCaseCode(String caseCode);
 
+    int updateStatusByCaseCode(BizWarnInfo bizWarnInfo);
+
+    /**
+     * 通过案件编号和预警类型更新预警状态
+     * 
+     * @param bizWarnInfo
+     *            预警信息
+     */
+    public void updateStatusByCaseCodeAndWarnType(BizWarnInfo bizWarnInfo);
 }

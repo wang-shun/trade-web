@@ -168,7 +168,7 @@ public class LoanlostApproveController {
 
 		/* 流程引擎变量设置 */
 		List<RestVariable> variables = new ArrayList<RestVariable>();
-		if (LoanLost_manager.equals("true")) {// 主管审核的结果
+		if (LoanLost_manager.equals("true")) { // 主管审核的结果
 			//User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgId, "Senior_Manager");// 查询高级主管
 			String seniorManager = commFindUserService.findUserByCase("Senior_Manager", processInstanceVO.getCaseCode());
 			RestVariable restVariableSeniorManager = new RestVariable();
@@ -217,7 +217,7 @@ public class LoanlostApproveController {
 
 	@RequestMapping(value = "loanlostApprove/loanlostApproveBySeniorManager")
 	@ResponseBody
-	public Boolean loanlostApproveBySeniorManager(HttpServletRequest request,
+	public Object loanlostApproveBySeniorManager(HttpServletRequest request,
 			ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String LoanLost_SeniorManager,
 			String LoanLost_SeniorManager_response,
@@ -246,15 +246,19 @@ public class LoanlostApproveController {
 
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO
 				.getCaseCode());
-		return workFlowManager.submitTask(variables,
+		Boolean flag = workFlowManager.submitTask(variables,
 				processInstanceVO.getTaskId(),
 				processInstanceVO.getProcessInstanceId(),
 				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		ajaxResponse.setSuccess(flag);
+		return ajaxResponse;
 	}
 
 	@RequestMapping(value = "loanlostApprove/loanlostApproveDirector")
 	@ResponseBody
-	public Boolean loanlostApproveDirector(HttpServletRequest request,
+	public Object loanlostApproveDirector(HttpServletRequest request,
 			ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String LoanLost_director,
 			String LoanLost_director_response, String loanLostDirectorNotApprove) {
@@ -265,13 +269,6 @@ public class LoanlostApproveController {
 		/* 发送提醒 */
 		sendMessage(processInstanceVO, toApproveRecord.getContent(),
 				toApproveRecord.getApproveType());
-
-		ToCase te = null;
-		if (null != processInstanceVO) {
-			te = toCaseService.findToCaseByCaseCode(processInstanceVO
-					.getCaseCode());
-		}
-		String orgId = te.getOrgId();
 
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 
@@ -319,10 +316,14 @@ public class LoanlostApproveController {
 		
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO
 				.getCaseCode());
-		return workFlowManager.submitTask(variables,
+		Boolean flag = workFlowManager.submitTask(variables,
 				processInstanceVO.getTaskId(),
 				processInstanceVO.getProcessInstanceId(),
 				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());//
+
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		ajaxResponse.setSuccess(flag);
+		return ajaxResponse;
 	}
 
 	@RequestMapping(value = "loanlostApprove/loanlostApproveSecond")

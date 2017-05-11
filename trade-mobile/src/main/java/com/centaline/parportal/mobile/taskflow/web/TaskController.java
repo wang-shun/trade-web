@@ -62,15 +62,15 @@ public class TaskController {
 		
 		if(pastTask) {
 			taskTag.add("-1");
-			taskTag.add("2");
+
 		}
 		if(todayTask) {
 			taskTag.add("0");
-			taskTag.add("2");
+
 		}
 		if(tmrTask) {
 			taskTag.add("1");
-			taskTag.add("2");
+
 		}
 		
 		if(!taskTag.isEmpty()) {
