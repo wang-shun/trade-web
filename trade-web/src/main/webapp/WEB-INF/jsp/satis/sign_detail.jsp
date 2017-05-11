@@ -29,37 +29,15 @@
     <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" >
     <link rel="stylesheet" href="${ctx}/static/trans/css/workflow/caseDetail.css" >
     <link rel="stylesheet" href="${ctx}/static/trans/css/workflow/details.css" >
+    <link rel="stylesheet" href="${ctx}/css/transcss/comment/caseComment.css">
 </head>
 
-<body class="pace-done"><div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
-  <div class="pace-progress-inner"></div>
-</div>
-<div class="pace-activity"></div></div>
+<body class="pace-done">
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <div id="wrapper">
     <!-- 右侧页面主体内容 -->
-    <input type="hidden" id="ctx" value="http://trade.centaline.com:8083/trade-web">
-    <input type="hidden" id="ctm" value="CBC-1-201608-0014">
-    <input type="hidden" id="Lamp1" value="-1">
-    <input type="hidden" id="Lamp2" value="1">
-    <input type="hidden" id="Lamp3" value="3">
-    <input type="hidden" id="Lamp3" value="3">
-    <input type="hidden" id="activityFlag" value="30003003">
-    <input type="hidden" id="caseCode" value="ZY-SH-201608-0095">
-    <input type="hidden" id="instCode" value="">
-    <input type="hidden" id="srvCodes" value="30004009,30004015">
-    <input type="hidden" id="processDefinitionId" value="">
-    <div id="salesLoading" style="display: none">
-        <div id="loading-center">
-            <div id="loading-center-absolute">
-                <div class="object" id="object_one"></div>
-                <div class="object" id="object_two" style="left: 20px;"></div>
-                <div class="object" id="object_three" style="left: 40px;"></div>
-                <div class="object" id="object_four" style="left: 60px;"></div>
-                <!--<div class="object" id="object_five" style="left:80px;"></div>-->
-            </div>
-        </div>
-        <div id="loading-center-absolute-second">系统正在处理，请稍后...</div>
-    </div>
+    <input type="hidden" id="taskId" name="taskId" value="${taskId}">
+    <input type="hidden" id="instCode" name="instCode" value="${instCode}">
     <!-- 主要内容页面 -->
     <nav id="navbar-example" class="navbar navbar-default navbar-static" role="navigation">
         <div id="isFixed" style="position: relative; top: 0px;" class="collapse navbar-collapse bs-js-navbar-scrollspy stuckMenu stickup-nav-bar scroll_nav">
@@ -88,96 +66,103 @@
                             <h2 class="title">
                                 案件基本信息
                             </h2>
-                            <small class="pull-right">誉萃编号：ZY-SH-201608-0095｜中原编号：CBC-1-201608-0014</small>
+                            <small class="pull-right">誉萃编号：${toCaseInfo.caseCode}｜中原编号：${toCaseInfo.ctmCode}</small>
                         </div>
                         <div id="infoDiv infos" class="row">
-                            <div class="ibox white_bg">
-                                <div class="info_box info_box_one col-sm-4 ">
-                                    <span>物业信息</span>
-                                    <div class="ibox-conn ibox-text">
-                                        <dl class="dl-horizontal">
-                                            <dt>CTM地址</dt>
-                                            <dd>上海浦东新区洋泾片区羽山路100弄5号0301室</dd>
-                                            <dt>产证地址</dt>
-                                            <dd>上海浦东新区洋泾片区羽山路100弄5号0301室</dd>
-                                            <dt>层高</dt>
-                                            <dd>3／18</dd>
-                                            <dt>产证面积</dt>
-                                            <dd>103.72平方</dd>
-                                            <dt>房屋类型</dt>
-                                            <dd>
+							<div class="ibox white_bg">
+								<div class="info_box info_box_one col-sm-4 ">
+									<span>物业信息</span>
+									<div class="ibox-conn ibox-text">
+										<dl class="dl-horizontal">
+											<dt>CTM地址</dt>
+											<dd>${toPropertyInfo.ctmAddr}</dd>
+											<dt>产证地址</dt>
+											<dd>${toPropertyInfo.propertyAddr}</dd>
+											<dt>层高</dt>
+											<dd>${toPropertyInfo.locateFloor}／${toPropertyInfo.totalFloor}</dd>
+											<dt>产证面积</dt>
+											<dd>${toPropertyInfo.square}平方</dd>
+											<dt>房屋类型</dt>
+											<dd>
+												<aist:dict id="propertyType" name="propertyType"
+													display="label" dictType="30014"
+													dictCode="${toPropertyInfo.propertyType}" />
+											</dd>
+										</dl>
+									</div>
+								</div>
+								<div class="info_box info_box_two col-sm-5">
+									<span>买卖双方</span>
+									<div class="ibox-conn else_conn">
+										<dl class="dl-horizontal col-sm-6">
+											<dt>上家姓名</dt>
+											<dd>
+												<div id="seller"></div>
+											</dd>
+										</dl>
+										<dl class="dl-horizontal col-sm-6">
+											<dt>下家姓名</dt>
+											<dd>
+												<div id="buyer"></div>
+											</dd>
+										</dl>
+									</div>
+									<span>经纪人信息</span>
+									<div class="ibox-conn else_conn_two ">
+										<dl class="dl-horizontal">
+											<dt>姓名</dt>
+											<dd>
+												<a data-toggle="popover" data-placement="right"
+													data-content="${toCaseInfo.agentPhone}">
+													${caseDetailVO.agentName}</a>
+											</dd>
+											<dt>所属分行</dt>
+											<dd>${toCaseInfo.grpName }</dd>
+											<dt>直管经理</dt>
+											<dd>
+												<a data-toggle="popover" data-placement="right"
+													data-content="${caseDetailVO.mcMobile}">
+													${caseDetailVO.mcName} </a>
+											</dd>
+										</dl>
+									</div>
+								</div>
+								<div class="info_box info_box_three col-sm-3">
+									<span>经办人信息</span>
+									<div class="ibox-conn  ibox-text">
+										<dl class="dl-horizontal">
+											<dt>交易顾问</dt>
+											<dd>
+												<a data-toggle="popover" data-placement="right"
+													data-content="${caseDetailVO.cpMobile}">
+													${caseDetailVO.cpName} </a>
+											</dd>
+											<c:if test="${empty caseDetailVO.proList}">
+												<dt>合作顾问</dt>
+												<dd></dd>
+											</c:if>
+											<c:if test="${!empty caseDetailVO.proList}">
+												<c:forEach items="${caseDetailVO.proList}" var="pro">
+													<dt>合作顾问</dt>
+													<dd>
+														<a data-toggle="popover" data-placement="right"
+															data-content="${pro.processorMobile}">
+															${pro.processorName} </a>
+													</dd>
+												</c:forEach>
+											</c:if>
+											<dt>助理</dt>
+											<dd>
+												<a data-toggle="popover" data-placement="right"
+													data-content="${caseDetailVO.asMobile}">
+													${caseDetailVO.asName} </a>
+											</dd>
+										</dl>
+									</div>
+								</div>
 
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                                <div class="info_box info_box_two col-sm-5">
-                                    <span>买卖双方</span>
-                                    <div class="ibox-conn else_conn">
-                                        <dl class="dl-horizontal col-sm-6">
-                                            <dt>上家姓名</dt>
-                                            <dd>
-                                                <div id="seller"><a data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">赵晓明</a>&nbsp;</div>
-                                            </dd>
-                                        </dl>
-                                        <dl class="dl-horizontal col-sm-6">
-                                            <dt>下家姓名</dt>
-                                            <dd>
-                                                <div id="buyer"><a data-toggle="popover" data-placement="right" data-content="13921981251" data-original-title="" title="">贾先生</a>&nbsp;</div>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                    <span>经纪人信息</span>
-                                    <div class="ibox-conn else_conn_two ">
-                                        <dl class="dl-horizontal">
-                                            <dt>姓名</dt>
-                                            <dd>
-                                                <a data-toggle="popover" data-placement="right" data-content="13701867479" data-original-title="" title="">
-                                                    阮俊</a>
-                                            </dd>
-                                            <dt>所属分行</dt>
-                                            <dd>ACCBCA.南丹分行一组全体</dd>
-                                            <dt>直管经理</dt>
-                                            <dd>
-                                                <a data-toggle="popover" data-placement="right" data-content="13817585505" data-original-title="" title="">
-                                                    邵雷 </a>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                                <div class="info_box info_box_three col-sm-3">
-                                    <span>经办人信息</span>
-                                    <div class="ibox-conn ibox-text">
-                                        <dl class="dl-horizontal">
-                                            <dt>交易顾问</dt>
-                                            <dd>
-                                                <a data-toggle="popover" data-placement="right" data-content="13918843797" data-original-title="" title="">
-                                                    陶晨 </a>
-                                            </dd>
-                                                    <dt>合作顾问</dt>
-                                                    <dd>
-                                                        <a data-toggle="popover" data-placement="right" data-content="13916540926" data-original-title="" title="">
-                                                            顾新峰 </a>
-                                                    </dd>
-
-                                                    <dt>合作顾问</dt>
-                                                    <dd>
-                                                        <a data-toggle="popover" data-placement="right" data-content="13817789952" data-original-title="" title="">
-                                                            许庆祺 </a>
-                                                    </dd>
-
-
-                                            <dt>助理</dt>
-                                            <dd>
-                                                <a data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
-                                                     </a>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+							</div>
+						</div>
                     </div>
                 </div>
 
@@ -451,28 +436,16 @@
                 </div>
             </div>
         </div>
+
+        
+        <div style="height: auto;">
+					    <div class="mb15">
+			            	<h2 class="newtitle title-mark">上传附件</h2>
+			            	<div class="table-box" id="fileUploadContainer"></div>
+       					</div>	
+		</div>		
         <div>
-            <div class="title title-mark">
-                <strong>附件信息</strong>
-            </div>
-            <div class="view-content">
-            </div>
-        </div>
-        <div>
-            <div class="title title-mark mb15">
-            <strong>案件跟进</strong>
-            </div>
-            <div class="view-content">
-                <div class="view-box">
-                    <p class="text-center">
-                        <img src="${ctx}/static/trans/img/false.png" height="100" alt="" />
-                    </p>
-                </div>
-                <div class="form_list clearfix">
-                   <input class="input_type pull-left" placeholder="" value="" style="width:93%;">
-                   <button class="btn btn_more pull-right" style="width:60px;">跟进</button>
-                </div>
-            </div>
+           				<div id="caseCommentList" class="add_form"></div>
         </div>
         
                         <div class="form-btn">
@@ -494,7 +467,7 @@
                             <div class="modal_title">
                                 回访打回
                             </div>
-                            <textarea name="" id="" class="textarearoom mt10" style="width:100%;max-width: 760px;margin-left:0;max-height: 150px;height: 150px;" >电话多次打不通，提示已关机！需要经纪人配合。。。
+                            <textarea name="" id="" class="textarearoom mt10" style="width:100%;max-width: 760px;margin-left:0;max-height: 150px;height: 150px;" >
                             </textarea>
                             <div class="add_btn text-center mt20">
                                 <button type="button" class="btn btn-success">
@@ -508,5 +481,57 @@
                     </div>
                 </div>
                 <!--********** 弹窗页面 **********-->
+                
+          <content tag="local_script">
+        	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+        	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+        	<script	src="${ctx}/js/template.js" type="text/javascript"></script>
+       		<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+        	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script>
+        	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script>
+        	<script src="${ctx}/js/viewer/viewer.min.js"></script>
+	        <script type="text/javascript">
+	        $(function(){
+				$("#caseCommentList").caseCommentGrid({
+					caseCode : '${toCaseInfo.caseCode}',
+					srvCode : null
+				});
+				
+			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
+		 	    $('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
+	        })
+
+	 	     /*动态生成上下家*/
+ 			function generateSellerAndBuyer(name, phone){
+ 	 			var nameArr = name.split('/');
+ 	 			var phoneArr = phone.split('/');
+ 	 			var str='';
+ 	 			for (var i=0; i<nameArr.length; i++) {
+ 	 				if(i%2==0){
+ 	 					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a>&nbsp;';
+ 	 				}else{
+ 	 					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a><br/>';
+ 	 				}
+ 	 			}
+ 	 			return str;
+ 	 		}
+	        </script>
+        </content>     
+        <content tag="local_require">
+	       <script>
+       		var fileUpload;
+		    require(['main'], function() {
+				requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager','eselect'],function($,aistFileUpload){
+					fileUpload = aistFileUpload;
+						fileUpload.init({
+				    		caseCode : 'ZY-SH-201612-0115',
+				    		partCode : "SpvApplyApprove",
+				    		fileUploadContainer : "fileUploadContainer",
+				    		readonly : true,
+				    	});
+					})
+			    });
+			</script>
+	    </content>      
     </body>
     </html>

@@ -33,35 +33,12 @@
     <link rel="stylesheet" href="${ctx}/css/transcss/comment/caseComment.css">
 </head>
 
-<body class="pace-done"><div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
-  <div class="pace-progress-inner"></div>
-</div>
-<div class="pace-activity"></div></div>
+<body class="pace-done">
+	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <div id="wrapper">
     <!-- 右侧页面主体内容 -->
-    <input type="hidden" id="ctx" value="http://trade.centaline.com:8083/trade-web">
-    <input type="hidden" id="ctm" value="CBC-1-201608-0014">
-    <input type="hidden" id="Lamp1" value="-1">
-    <input type="hidden" id="Lamp2" value="1">
-    <input type="hidden" id="Lamp3" value="3">
-    <input type="hidden" id="Lamp3" value="3">
-    <input type="hidden" id="activityFlag" value="30003003">
-    <input type="hidden" id="caseCode" value="ZY-SH-201608-0095">
-    <input type="hidden" id="instCode" value="">
-    <input type="hidden" id="srvCodes" value="30004009,30004015">
-    <input type="hidden" id="processDefinitionId" value="">
-    <div id="salesLoading" style="display: none">
-        <div id="loading-center">
-            <div id="loading-center-absolute">
-                <div class="object" id="object_one"></div>
-                <div class="object" id="object_two" style="left: 20px;"></div>
-                <div class="object" id="object_three" style="left: 40px;"></div>
-                <div class="object" id="object_four" style="left: 60px;"></div>
-                <!--<div class="object" id="object_five" style="left:80px;"></div>-->
-            </div>
-        </div>
-        <div id="loading-center-absolute-second">系统正在处理，请稍后...</div>
-    </div>
+    <input type="hidden" id="taskId" name="taskId" value="${taskId}">
+    <input type="hidden" id="instCode" name="instCode" value="${instCode}">
     <!-- 主要内容页面 -->
     <nav id="navbar-example" class="navbar navbar-default navbar-static" role="navigation">
         <div id="isFixed" style="position: relative; top: 0px;" class="collapse navbar-collapse bs-js-navbar-scrollspy stuckMenu stickup-nav-bar scroll_nav">
@@ -203,60 +180,14 @@
                 <div class="add-file"></div>
             </div>
         </div>
-        
-        <div class="title title-mark mb15">
-            <strong>案件跟进</strong>
-            </div>
-            <div class="view-content ">
-                <div class="view-box">
-                    <div class="view clearfix">
-                        <p>
-                            <span class="auditor">打回人：<em>赵信（客服）</em></span>
-                            <span class="sign_blue">签约打回</span>
-                            <span class="time">打回日期:<em>2016-9-12</em></span>
-                        </p>
-                        <p>
-                            <span class="auditing">打回原因</span>
-                            <em class="view_content">上家电话号码错误，请求修改！</em>
-                        </p>
-                    </div>
-                    <div class="view clearfix">
-                        <p>
-                            <span class="auditor">打回人：<em>赵信（客服）</em></span>
-                            <span class="sign_blue">过户打回</span>
-                            <span class="time">打回日期:<em>2016-9-12</em></span>
-                        </p>
-                        <p>
-                            <span class="auditing">打回原因</span>
-                            <em class="view_content">上家电话号码错误，请求修改！,上家电话号码错误，请求修改！,上家电话号码错误，请求修改！,上家电话号码错误，请求修改！</em>
-                        </p>
-                    </div>
-
-                    <div class="view clearfix">
-                        <p>
-                            <span class="auditor">打回人：<em>赵信（客服）</em></span>
-                            <span class="sign_blue">签约打回</span>
-                            <span class="time">打回日期:<em>2016-9-12</em></span>
-                        </p>
-                        <p>
-                            <span class="auditing">打回原因</span>
-                            <em class="view_content">上家电话号码错误，请求修改！</em>
-                        </p>
-                    </div>
-                </div>
-                <div class="form_list clearfix">
-                   <input class="input_type pull-left" placeholder="" value="" style="width:93%;">
-                   <button class="btn btn_more pull-right" style="width:60px;">跟进</button>
-                </div>
-            </div>
-
-                     <div class="form-btn">
-                            <div class="text-center">
-                                <button  class="btn btn-success btn-space">保存</button>
-                                <button class="btn btn-success btn-space">取消</button>
-                            </div>
-                        </div>
-                    </div>
+        <div id="caseCommentList" class="add_form"></div>
+        <div class="form-btn">
+               <div class="text-center">
+                   <button  class="btn btn-success btn-space">保存</button>
+                   <button class="btn btn-success btn-space">取消</button>
+               </div>
+           </div>
+        </div>
                 </div>
             </div>
         </div>

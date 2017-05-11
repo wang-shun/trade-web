@@ -23,4 +23,6 @@ public interface SatisfactionService {
 	
 	//过户审批通过操作
 	void handleAfterGuohuApprove(String caseCode, String guohuer);
+
+	int insertSelective(ToSatisfaction toSatisfaction);
 }

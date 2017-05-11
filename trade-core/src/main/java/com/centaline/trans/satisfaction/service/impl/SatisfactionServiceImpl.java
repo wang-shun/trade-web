@@ -52,6 +52,11 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	public int insert(ToSatisfaction toSatisfaction) {
 		return toSatisfactionMapper.insert(toSatisfaction);
 	}
+	
+	@Override
+	public int insertSelective(ToSatisfaction toSatisfaction) {
+		return toSatisfactionMapper.insertSelective(toSatisfaction);
+	}
 
 	@Override
 	public List<ToSatisfaction> queryToSatisfactionList() {
@@ -78,7 +83,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 		toSatisfaction.setStatus(SatisfactionStatusEnum.DEFAULT.getCode());
 		toSatisfaction.setCreateBy(signerId);
 		toSatisfaction.setCreateTime(new Date());
-		satisfactionService.insert(toSatisfaction);
+		satisfactionService.insertSelective(toSatisfaction);
 	}
 
 	@Override

@@ -130,27 +130,32 @@
                        <i class="color_visited grey_visited">
                                                     待分单
                        </i>
-					{{elseif item.STATUS == 2}}
-						<a href="${ctx}/satis/signDetail?satisId={{item.PKID}}">
+					{{/if}}
+					{{if item.STATUS == 2}}
+						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}">
 						<i class="color_visited blue_visited">
                                                     签约回访
                        </i>
-					{{elseif item.STATUS == 3}}
-						<a href="${ctx}/satis/signReturn?satisId={{item.PKID}}">
+					{{/if}}
+					{{if item.STATUS == 3}}
+						<a href="${ctx}/satis/task/signReturn?satisId={{item.PKID}}">
 						<i class="color_visited red_visited">
 					  签约打回
                        </i>
-					{{elseif item.STATUS == 4}}
-						<a href="${ctx}/satis/guohuDetail?satisId={{item.PKID}}">
+					{{/if}}
+					{{if item.STATUS == 4}}
+						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}">
 						<i class="color_visited blue_visited">
                                                     过户回访                              
                        </i>
-					{{elseif item.STATUS == 5}}
-						<a href="${ctx}/satis/guohuReturn?satisId={{item.PKID}}">
+					{{/if}}
+					{{if item.STATUS == 5}}
+						<a href="${ctx}/satis/task/guohuReturn?satisId={{item.PKID}}">
 						<i class="color_visited red_visited">
                                                     过户打回
                        </i>
-					{{elseif item.STATUS == 6}}
+					{{/if}}
+					{{if item.STATUS == 6}}
 						<i class="color_visited grey_visited">
                                                     已回访
                        </i>
@@ -159,7 +164,7 @@
 				   </td>
                    <td>
                       <p class="big">
-                        <a href="${ctx}/case/caseDetail?caseCode={{item.CASE_CODE}}" target="_blank">
+                        <a href="${ctx}/case/caseDetail?caseId={{item.CASE_ID}}" target="_blank">
 							{{item.CASE_CODE}}
 						</a>
                       </p>
@@ -179,7 +184,7 @@
                     </td>
                   	<td>
                     <p class="smll_sign">                          
-					 {{if item.applyTime==undefined}}
+					 {{if item.SIGN_TIME==undefined}}
 						<i class="sign_grey">签</i>
                       {{else}}
 						<i class="sign_normal">签</i>
@@ -187,7 +192,7 @@
 					       {{item.SIGN_TIME}}
 					</p>
 					<p class="smll_sign">
-					  {{if item.signTime==undefined}}
+					  {{if item.GUOHU_TIME==undefined}}
 						<i class="sign_grey">过</i>
                       {{else}}
 						<i class="sign_normal">过</i>
@@ -195,7 +200,7 @@
 					       {{item.GUOHU_TIME}}
 					</p>
 					<p class="smll_sign">
-					 {{if item.closeTime==undefined}}
+					 {{if item.CLOSE_TIME==undefined}}
 						<i class="sign_grey">完</i>
                       {{else}}
 						<i class="sign_normal">完</i>
@@ -205,10 +210,10 @@
                     </td>
                     <td class="center">
                         <span class="manager">
-							<a href="#"><em>{{item.SWZ_NAME}}</em></a>
+							<a href="#"><em>{{item.C_DISTRICT_NAME}}</em></a>
                         </span>
                     	<span class="manager">
-                            <a href="#"><em>{{item.AR_NAME}}</em></a>
+                            <a href="#"><em>{{item.C_ORG_NAME}}</em></a>
                         </span>
                      </td>
                     <td class="text-center"> 
@@ -223,9 +228,9 @@
 							});
 
 							function dispatch() {
-								var caseCodes = [];
+								var caseCodes = '';
 								$("input[name='checkRow']:enabled:checked").each(function(i,e){
-									caseCodes.push($(e).val());
+									caseCodes += $(e).val()+",";
 								})
 								var userId = $("#userId").val();
 								
@@ -240,7 +245,7 @@
 								
 								window.wxc.confirm("确定要分单吗？",{"wxcOk":function(){
 									$.ajax({
-										url:ctx+"/satis/dispatch",
+										url:ctx+"/satis/doDispatch",
 										method:"post",
 										dataType:"json",
 										data:{caseCodes:caseCodes,userId:userId},

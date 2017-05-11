@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
@@ -36,10 +37,13 @@ import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
 
@@ -79,7 +83,7 @@ public class SatisController {
     return "satis/satisList";
   }
   
-  @RequestMapping("/signDetail")
+  @RequestMapping("/task/signDetail")
   public String signDetail(Model model, Long satisId){
     
     setCaseInfoToModel(model, satisId);
@@ -87,24 +91,24 @@ public class SatisController {
     return "satis/sign_detail";
   }
   
-  @RequestMapping("/guohuDetail")
-  public String guohuDetail(Model model, Long satisId){
+  @RequestMapping("/task/guohuDetail")
+  public String guohuDetail(Model model, Long satisId, String taskId, String instCode){
     
     setCaseInfoToModel(model, satisId);
     
     return "satis/guohu_detail";
   }
   
-  @RequestMapping("/signReturn")
-  public String signReturn(Model model, Long satisId){
+  @RequestMapping("/task/signReturn")
+  public String signReturn(Model model, Long satisId, String taskId, String instCode){
     
     setCaseInfoToModel(model, satisId);
         
     return "satis/sign_return";
   }
   
-  @RequestMapping("/guohuReturn")
-  public String guohuReturn(Model model, Long satisId){
+  @RequestMapping("/task/guohuReturn")
+  public String guohuReturn(Model model, Long satisId, String taskId, String instCode){
   
     setCaseInfoToModel(model , satisId);
     
@@ -113,13 +117,15 @@ public class SatisController {
   
   //操作
   @RequestMapping("/doDispatch")
-  public AjaxResponse<String> dispatch(List<String> caseCodes,String userId){
+  @ResponseBody
+  public AjaxResponse<String> dispatch(String caseCodes,String userId){
     SessionUser user = uamSessionService.getSessionUser();
     SessionUser caller = uamSessionService.getSessionUserById(userId);
     AjaxResponse<String> response = new AjaxResponse<String>();
     uamSessionService.getSessionUserById(userId);
+    String[] caseCodesArr = caseCodes.split(",");
     try{
-      for(String caseCode : caseCodes){
+      for(String caseCode : caseCodesArr){
         /**
          * 查询案件签约和过户阶段对应的交易顾问
          * 1.字典表查出该案件下签约(3000401001)和过户(3000401002)对应的SRV_CODE
@@ -155,6 +161,7 @@ public class SatisController {
         toSatisfaction.setStatus(SatisfactionStatusEnum.SIGN_SURVEY_ING.getCode());
         toSatisfaction.setUpdateBy(user.getId());
         toSatisfaction.setUpdateTime(new Date());
+        toSatisfaction.setCallerId(caller.getId());
         satisfactionService.updateSelective(toSatisfaction);
       }
       response.setSuccess(true);
@@ -167,6 +174,7 @@ public class SatisController {
   }
   
   @RequestMapping("/doSignPass")
+  @ResponseBody
   public AjaxResponse<String> signPass(ToSatisfaction toSatisfaction, String taskId, String instCode){
     SessionUser user = uamSessionService.getSessionUser();
     AjaxResponse<String> response = new AjaxResponse<String>();
@@ -191,6 +199,7 @@ public class SatisController {
   }
   
   @RequestMapping("/doSignReject")
+  @ResponseBody
   public AjaxResponse<String> signReject(ToSatisfaction toSatisfaction, String taskId, String instCode){
     SessionUser user = uamSessionService.getSessionUser();
     AjaxResponse<String> response = new AjaxResponse<String>();
@@ -215,6 +224,7 @@ public class SatisController {
   }
   
   @RequestMapping("/doSignFollow")
+  @ResponseBody
   public AjaxResponse<String> signFollow(ToSatisfaction toSatisfaction, String taskId, String instCode){
     SessionUser user = uamSessionService.getSessionUser();
     AjaxResponse<String> response = new AjaxResponse<String>();
@@ -238,6 +248,7 @@ public class SatisController {
   }
   
   @RequestMapping("/doGuohuPass")
+  @ResponseBody
   public AjaxResponse<String> transferPass(ToSatisfaction toSatisfaction, String taskId, String instCode){
     SessionUser user = uamSessionService.getSessionUser();
     AjaxResponse<String> response = new AjaxResponse<String>();
@@ -262,6 +273,7 @@ public class SatisController {
   }
   
   @RequestMapping("/doGuohuReject")
+  @ResponseBody
   public AjaxResponse<String> transferReject(ToSatisfaction toSatisfaction, String taskId, String instCode){
     SessionUser user = uamSessionService.getSessionUser();
     AjaxResponse<String> response = new AjaxResponse<String>();
@@ -286,6 +298,7 @@ public class SatisController {
   }
   
   @RequestMapping("/doGuohuFollow")
+  @ResponseBody
   public AjaxResponse<String> guohuFollow(ToSatisfaction toSatisfaction, String taskId, String instCode){
     SessionUser user = uamSessionService.getSessionUser();
     AjaxResponse<String> response = new AjaxResponse<String>();
@@ -317,13 +330,14 @@ public class SatisController {
    * @since JDK 1.8
    */
   @RequestMapping("/initSatisList")
+  @ResponseBody
   public AjaxResponse<String> initSatisList(){
     AjaxResponse<String> response = new AjaxResponse<String>();
     try{
       List<ToCase> toCases = toCaseService.findAllToCase();
       for(ToCase toCase : toCases){
         //签约
-        if(CaseStatusEnum.YQY.getCode().compareTo(toCase.getStatus()) == -1){
+        if(CaseStatusEnum.YQY.getCode().compareTo(toCase.getStatus()) < 0 ){
           satisfactionService.handleAfterSign(toCase.getCaseCode(), "init");
         }
       }
@@ -337,13 +351,14 @@ public class SatisController {
   }
   
   @RequestMapping("/pushToGuohu")
+  @ResponseBody
   public AjaxResponse<String> pushToGuohu(){
     AjaxResponse<String> response = new AjaxResponse<String>();
     try{
       List<ToCase> toCases = toCaseService.findAllToCase();
       for(ToCase toCase : toCases){
         //过户(要等到分单之后并签约评分完成)
-        if(CaseStatusEnum.YGH.getCode().compareTo(toCase.getStatus()) == -1){
+        if(CaseStatusEnum.YGH.getCode().compareTo(toCase.getStatus()) < 0 ){
           satisfactionService.handleAfterGuohuApprove(toCase.getCaseCode(), "init");
         }
       }
@@ -457,11 +472,25 @@ public class SatisController {
     }
     reVo.setProList(proList);
     
+	//查询任务ID和流程ID
+    ToWorkFlow record = new ToWorkFlow();
+    record.setCaseCode(caseCode);
+    record.setBusinessKey(WorkFlowEnum.SATIS_DEFKEY.getCode());
+    ToWorkFlow tf = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
+    
+    TaskQuery tq = new TaskQuery();
+    tq.setProcessInstanceId(tf.getInstCode());
+    tq.setActive(true);
+    tq.setFinished(false);
+	PageableVo pageableVo = workFlowManager.listTasks(tq);
+	List<TaskVo> taskList = pageableVo.getData();
+    
     model.addAttribute("caseDetailVO", reVo);
     model.addAttribute("toCaseInfo", toCaseInfo);
     model.addAttribute("toPropertyInfo", toPropertyInfo);
     model.addAttribute("satisfaction", satisfaction);
-    
+    model.addAttribute("instCode", tf.getInstCode());
+    model.addAttribute("taskId", taskList.get(0).getId());
   }
 
 }

@@ -2,25 +2,25 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
   <message id="GuohuFinishMsg" name="GuohuFinishMsg"></message>
   <process id="SatisProcess" name="SatisProcess" isExecutable="true">
-    <userTask id="SignSurvey" name="签约回访" activiti:assignee="${caller}" activiti:formKey="/survey/task/SignSatis/process?__decorator=UI_V2"></userTask>
-    <userTask id="TransferSurvey" name="过户回访" activiti:assignee="${caller}" activiti:formKey="/survey/task/guohuSatis/process?__decorator=UI_V2"></userTask>
+    <userTask id="SignSurvey" name="签约回访" activiti:assignee="${caller}" activiti:formKey="/satis/task/SignDetail?__decorator=UI_V2"></userTask>
+    <userTask id="GuohuSurvey" name="过户回访" activiti:assignee="${caller}" activiti:formKey="/satis/task/guohuSatis?__decorator=UI_V2"></userTask>
     <startEvent id="startevent1" name="Start"></startEvent>
     <sequenceFlow id="flow2" sourceRef="startevent1" targetRef="SignSurvey"></sequenceFlow>
-    <userTask id="SignFollow" name="签约跟进" activiti:assignee="${consultant1}" activiti:formKey="/survey/task/SignReturn/process?__decorator=UI_V2"></userTask>
+    <userTask id="SignFollow" name="签约跟进" activiti:assignee="${consultant1}" activiti:formKey="/satis/task/SignReturn?__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="SignFollow">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${signResult == false}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow7" sourceRef="SignFollow" targetRef="SignSurvey"></sequenceFlow>
     <endEvent id="endevent1" name="End"></endEvent>
-    <userTask id="TransferFollow" name="过户跟进" activiti:assignee="${consultant2}" activiti:formKey="/survey/task/guohuReturn/process?__decorator=UI_V2"></userTask>
-    <sequenceFlow id="flow13" sourceRef="exclusivegateway2" targetRef="TransferFollow">
+    <userTask id="GuohuFollow" name="过户跟进" activiti:assignee="${consultant2}" activiti:formKey="/satis/task/guohuReturn?__decorator=UI_V2"></userTask>
+    <sequenceFlow id="flow13" sourceRef="exclusivegateway2" targetRef="GuohuFollow">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${guohuResult == false}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow14" sourceRef="TransferFollow" targetRef="TransferSurvey"></sequenceFlow>
+    <sequenceFlow id="flow14" sourceRef="GuohuFollow" targetRef="GuohuSurvey"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow15" sourceRef="SignSurvey" targetRef="exclusivegateway1"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow17" sourceRef="TransferSurvey" targetRef="exclusivegateway2"></sequenceFlow>
+    <sequenceFlow id="flow17" sourceRef="GuohuSurvey" targetRef="exclusivegateway2"></sequenceFlow>
     <sequenceFlow id="flow18" sourceRef="exclusivegateway2" targetRef="endevent1">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${guohuResult}]]></conditionExpression>
     </sequenceFlow>
@@ -30,14 +30,14 @@
     <sequenceFlow id="flow19" sourceRef="exclusivegateway1" targetRef="GuohuFinishMsgEventCatch">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${signResult}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow21" sourceRef="GuohuFinishMsgEventCatch" targetRef="TransferSurvey"></sequenceFlow>
+    <sequenceFlow id="flow21" sourceRef="GuohuFinishMsgEventCatch" targetRef="GuohuSurvey"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_SatisProcess">
     <bpmndi:BPMNPlane bpmnElement="SatisProcess" id="BPMNPlane_SatisProcess">
       <bpmndi:BPMNShape bpmnElement="SignSurvey" id="BPMNShape_SignSurvey">
         <omgdc:Bounds height="55.0" width="105.0" x="380.0" y="120.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="TransferSurvey" id="BPMNShape_TransferSurvey">
+      <bpmndi:BPMNShape bpmnElement="GuohuSurvey" id="BPMNShape_GuohuSurvey">
         <omgdc:Bounds height="55.0" width="105.0" x="780.0" y="120.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
@@ -49,7 +49,7 @@
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="1110.0" y="130.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="TransferFollow" id="BPMNShape_TransferFollow">
+      <bpmndi:BPMNShape bpmnElement="GuohuFollow" id="BPMNShape_GuohuFollow">
         <omgdc:Bounds height="55.0" width="105.0" x="780.0" y="240.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
