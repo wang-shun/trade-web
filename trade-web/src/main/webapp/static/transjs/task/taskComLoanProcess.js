@@ -1659,12 +1659,13 @@ $(document).ready(function (){
 				return false;
 			}
  			
- 			if ($("#rec_letter_first_pic_list li").length == undefined
-					|| $("#rec_letter_first_pic_list li").length == 0 ) {
-				window.wxc.alert("推荐函未上传!");
-				return false;
-			}
- 			
+ 			if($("#mortgageForm").find("input[name='isTmpBank']:checked").val() == '0'){
+ 				//非临时银行需要判断上传推荐函
+	 			if ($("#rec_letter_first_pic_list li").length == undefined || $("#rec_letter_first_pic_list li").length == 0 ) {
+					window.wxc.alert("推荐函未上传!");
+					return false;
+				}
+ 			}
  			var option = [];
  			option.container = "comLoanProcessfileUploadContainer";
  			
@@ -1756,12 +1757,13 @@ transitionEffect: "slide",
 				|| $("#loan_doc_confirm_letter_sec_pic_list li").length == 0 ) {
 			window.wxc.alert("贷款材料确认书未上传!");
 			return false;
-		}
-			if ($("#rec_letter_sec_pic_list li").length == undefined
-				|| $("#rec_letter_sec_pic_list li").length == 0 ) {
-			window.wxc.alert("推荐函未上传!");
-			return false;
-		}
+			}
+			if($("#mortgageForm1").find("input[name='isTmpBank']:checked").val() == '0'){
+				if ($("#rec_letter_sec_pic_list li").length == undefined || $("#rec_letter_sec_pic_list li").length == 0 ) {
+				window.wxc.alert("推荐函未上传!");
+				return false;
+				}
+			}
 			var option = [];
  			option.container = "comLoanProcess1fileUploadContainer";
  			

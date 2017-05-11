@@ -72,6 +72,7 @@
                         B.CASE_CODE,
                         B.CTM_CODE,
                         B.AGENT_NAME ,
+                        B.AGENT_PHONE ,
                         B.AGENT_CODE,
                         B.GRP_CODE as AGENT_ORG_CODE,
 						u1.REAL_NAME+(case when ttp.TEAM_PROPERTY='yu_back' then'(后台组)'
@@ -147,11 +148,17 @@
 							SELECT u.real_name+(case when ttp.TEAM_PROPERTY='yu_back' then'(后台组)'
 										   when ttp.TEAM_PROPERTY='yu_all' then '(全流程组)'
 										   when ttp.TEAM_PROPERTY='yu_front' then '(前台组)'
-										   end) as REAL_NAME,p.case_code FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p inner join sctrans.sys_user u on p.PROCESSOR_ID = u.id 
+										   end) as REAL_NAME,p.case_code FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p inner join sctrans.sys_user u on p.PROCESSOR_ID = u.id  AND  P.SRV_CODE IN ('3000400201','3000401002')
 									left join sctrans.sys_org o on o.id=p.org_id
 									left join sctrans.T_TS_TEAM_PROPERTY ttp on o.org_code= ttp.yu_team_code
 							)as tt1 where tt1.case_code=e.case_code FOR xml path(''))
 							,1,1,'') as PROCESSOR_ID,
+							
+					(SELECT STUFF((SELECT '/'+T.ORG_NAME FROM(
+													SELECT O.ORG_NAME,P.CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR P with(nolock) INNER JOIN  sctrans.SYS_USER U with(nolock) ON P.PROCESSOR_ID = U.ID  AND  P.SRV_CODE IN ('3000400201','3000401002')
+													LEFT JOIN sctrans.SYS_ORG O with(nolock) ON O.ID = P.ORG_ID					
+					)T WHERE T.CASE_CODE = E.CASE_CODE  FOR xml path('')),1,1,'')) PROCESSOR_ORG_NAME,	
+					
 					stuff((	select '/'+GUEST_NAME FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = e.CASE_CODE AND TRANS_POSITION = '30006001'
 							ORDER BY PKID FOR xml path(''))
 							,1,1,'') as SELLER,
@@ -165,7 +172,7 @@
 					stuff((	select '/'+GUEST_PHONE FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = e.CASE_CODE AND TRANS_POSITION = '30006002'
 							ORDER BY PKID FOR xml path(''))
 							,1,1,'') as BUYER_PHONE,
-					stuff((	select distinct'/'+ d.name  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR left join sctrans.sys_dict d on d.type='yu_serv_cat_code_tree' and d.code=SRV_CODE where  CASE_CODE = e.CASE_CODE 
+					stuff((	select distinct'/'+ d.name  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR left join sctrans.sys_dict d on d.type='yu_serv_cat_code_tree' and d.code=SRV_CODE where  CASE_CODE = e.CASE_CODE  AND SRV_CODE IN ('3000400201','3000401002') 
 							FOR xml path(''))
 							,1,1,'') as SRV_STR,
 							orgd.ORG_NAME as OP_PARENT_ORG,
@@ -369,6 +376,7 @@
 				<column type="both" name="CASE_CODE" title="案件编号" customDict=""	hidden="false" />
 				<column type="both" name="CTM_CODE" title="CTM编号" customDict=""	hidden="false" />
 				<column type="both" name="AGENT_NAME" title="经纪人" customDict=""	hidden="true" />
+				<column type="both" name="AGENT_PHONE" title="经纪人电话" customDict=""	hidden="true" />
 				<column type="both" name="AGENT_CODE" title="经纪人ID" customDict=""	hidden="true" />
 				<column type="virtual" name="AGENT_EMP_CODE" title="经纪人编号"	customDict="qqcdUserEmployeeCode" referencecol="AGENT_CODE" hidden="true" />
 				<column type="both" name="AGENT_ORG_CODE" title="所属分行CODE"		customDict="" hidden="true" />
@@ -408,6 +416,7 @@
 				<column  name="OP_PARENT_ORG" title="所属区域" hidden="true" />
 				<column type="both" name="SRV_STR" title="合作类型" hidden="true" />
 				<column  name="PROCESSOR_ID" title="合作对象"	 hidden="true" />
+				<column  name="PROCESSOR_ORG_NAME" title="合作对象组别"	 hidden="true" />
 
 				<column type="both" name="PROPERTY_ADDR" title="产证地址"	customDict="" hidden="true" />
 				<column type="both" name="SELLER" title="上家" hidden="true" />
@@ -531,6 +540,7 @@
 							B.GUEST_PHONE_DOWN,
 							B.BA_NAME,--大区
 							B.AGENT_NAME,
+							B.AGENT_PHONE,
 							B.AGENT_EMPLOYEE_CODE,
 							B.GRP_NAME,
 							B.JFHJL_NAME,
@@ -811,6 +821,7 @@
 				<column type="both" name="GUEST_PHONE_DOWN" title="下家电话" hidden="true" />
 				<column type="both" name="BA_NAME" title="所在大区" hidden="true" />					
 				<column type="both" name="AGENT_NAME" title="经纪人" customDict=""	hidden="true" />
+				<column type="both" name="AGENT_PHONE" title="经纪人电话" customDict=""	hidden="true" />				
 				<column type="both" name="AGENT_EMPLOYEE_CODE" title="经纪人编号"	customDict=""  hidden="true" />	
 				<column type="both" name="GRP_NAME" title="所属分行" customDict=""		hidden="true" />				
 				<column type="both" name="JFHJL_NAME" title="分行经理" hidden="true" />
