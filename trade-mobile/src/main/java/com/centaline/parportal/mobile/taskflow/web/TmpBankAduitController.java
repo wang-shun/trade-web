@@ -64,9 +64,6 @@ public class TmpBankAduitController {
         //根据post 是否等于  manager 判断银行 是否可以选择
 		json.put("post", post);
 		json.put("prAddress", caseBaseVO.getToPropertyInfo().getPropertyAddr());
-//		处理分行名字
-//		json.put("tmpBankName", value);
-		
 		json.put("partCode", taskitem);
 		json.put("pkid", mortage.getPkid());
 		json.put("taskId", taskId);
