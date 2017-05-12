@@ -35,9 +35,6 @@
 <body class="pace-done">
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <div id="wrapper">
-    <!-- 右侧页面主体内容 -->
-    <input type="hidden" id="taskId" name="taskId" value="${taskId}">
-    <input type="hidden" id="instCode" name="instCode" value="${instCode}">
     <!-- 主要内容页面 -->
     <nav id="navbar-example" class="navbar navbar-default navbar-static" role="navigation">
         <div id="isFixed" style="position: relative; top: 0px;" class="collapse navbar-collapse bs-js-navbar-scrollspy stuckMenu stickup-nav-bar scroll_nav">
@@ -174,6 +171,10 @@
             </div>
         </div>
 
+<form>
+	<input type="hidden" id="urlType" name="urlType" value="${urlType}">
+	<input type="hidden" id="taskId" name="taskId" value="${taskId}">
+    <input type="hidden" id="instCode" name="instCode" value="${instCode}">
     <div class="ibox-content border-bottom clearfix space_box noborder">
         <div>
             <h2 class="newtitle title-mark">上家回访</h2>
@@ -182,67 +183,52 @@
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">客户信息</label>
-                            <span class="mr10">赵晓明—189898989898</span>
-                            <span >赵晓明2—189898989898</span>
+                            <c:forEach items="${fn:split(caseDetailVO.sellerName,'/')}" var="seller" varStatus="stat">
+                            	<span class="mr10">${seller}—${fn:split(caseDetailVO.sellerMobile,'/')[stat.index]}</span>
+                            </c:forEach>
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">电话是否正确</label>
-                            <select class="select_control yuanwid">
-                                <option value="">是</option>
-                                <option value="">否</option>
+                            <select class="select_control yuanwid" name="salerPhoneOk" value="${satisfaction.salerPhoneOk}">
+                                <option value="1" ${satisfaction.salerPhoneOk eq 1?'selected="selected"':''}>是</option>
+                                <option value="0" ${satisfaction.salerPhoneOk eq 0?'selected="selected"':''}>否</option>
                             </select>
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small select_style mend_select">
                                 电话结果
                             </label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" value="" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="salerPhoneRes" value="${satisfaction.salerPhoneRes}" >
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">签约评分</label> 
-                            <select class="select_control yuanwid">
-                                <option value="">0</option>
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">4</option>
-                                <option value="">5</option>
-                                <option value="">6</option>
-                                <option value="">7</option>
-                                <option value="">8</option>
-                                <option value="">9</option>
-                                <option value="">10</option>
+                            <select class="select_control yuanwid" name="salerSignSat" value="${satisfaction.salerSignSat}">
+                            	<c:forEach begin="0" end="10" varStatus="stat">
+                            		<option value="${stat.index}" ${satisfaction.salerSignSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
+                            	</c:forEach>
                             </select>
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">签约意见</label> 
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" value="" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="salerSignCom" value="${satisfaction.salerSignCom}" >
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">陪还贷评分</label>
-                            <select class="select_control yuanwid">
-                                <option value="">0</option>
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">4</option>
-                                <option value="">5</option>
-                                <option value="">6</option>
-                                <option value="">7</option>
-                                <option value="">8</option>
-                                <option value="">9</option>
-                                <option value="">10</option>
+                            <select class="select_control yuanwid" name="salerLoancloseSat" value="${satisfaction.salerLoancloseSat}">
+                            	<c:forEach begin="0" end="10" varStatus="stat">
+                            		<option value="${stat.index}" ${satisfaction.salerLoancloseSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
+                            	</c:forEach>
                             </select>
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">陪同还贷意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" value="" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="salerLoancloseCom" value="${satisfaction.salerLoancloseCom}" >
                         </div>
                     </div>
                 </div>
@@ -255,88 +241,66 @@
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">客户信息</label>
-                            <span class="mr10">贾先生—13555555555</span>
+                            <c:forEach items="${fn:split(caseDetailVO.buyerName,'/')}" var="buyer" varStatus="stat">
+                            	<span class="mr10">${buyer}—${fn:split(caseDetailVO.buyerMobile,'/')[stat.index]}</span>
+                            </c:forEach>
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">电话是否正确</label>
-                                 <select class="select_control yuanwid">
-                                    <option value="">是</option>
-                                    <option value="">否</option>
+                                 <select class="select_control yuanwid" name="buyerPhoneOk" value="${satisfaction.buyerPhoneOk}">
+                                    <option value="1" ${satisfaction.buyerPhoneOk eq 1?'selected="selected"':''}>是</option>
+                                    <option value="0" ${satisfaction.buyerPhoneOk eq 0?'selected="selected"':''}>否</option>
                                 </select>
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small select_style mend_select">
                                 电话结果
                             </label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" value="" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="buyerPhoneRes" value="${satisfaction.buyerPhoneRes}" >
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">签约评分</label>
-                            <select class="select_control yuanwid">
-                                <option value="">0</option>
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">4</option>
-                                <option value="">5</option>
-                                <option value="">6</option>
-                                <option value="">7</option>
-                                <option value="">8</option>
-                                <option value="">9</option>
-                                <option value="">10</option>
+                            <select class="select_control yuanwid" name="buyerSignSat" value="${satisfaction.buyerSignSat}">
+                            	<c:forEach begin="0" end="10" varStatus="stat">
+                            		<option value="${stat.index}" ${satisfaction.buyerSignSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
+                            	</c:forEach>
                             </select>
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">签约意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" value="" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="buyerSignCom" value="${satisfaction.buyerSignCom}" >
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">贷款评分</label>
-                            <select class="select_control yuanwid">
-                                <option value="">0</option>
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">4</option>
-                                <option value="">5</option>
-                                <option value="">6</option>
-                                <option value="">7</option>
-                                <option value="">8</option>
-                                <option value="">9</option>
-                                <option value="">10</option>
+                            <select class="select_control yuanwid" name="buyerComloanSat" value="${satisfaction.buyerComloanSat}">
+                            	<c:forEach begin="0" end="10" varStatus="stat">
+                            		<option value="${stat.index}" ${satisfaction.buyerComloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
+                            	</c:forEach>
                             </select>
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">贷款意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" value="" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="buyerComloanCom" value="${satisfaction.buyerComloanCom}" >
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金评分</label>
-                            <select class="select_control yuanwid">
-                                <option value="">0</option>
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">4</option>
-                                <option value="">5</option>
-                                <option value="">6</option>
-                                <option value="">7</option>
-                                <option value="">8</option>
-                                <option value="">9</option>
-                                <option value="">10</option>
+                            <select class="select_control yuanwid" name="buyerPsfloanSat" value="${satisfaction.buyerPsfloanSat}">
+                            	<c:forEach begin="0" end="10" varStatus="stat">
+                            		<option value="${stat.index}" ${satisfaction.buyerPsfloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
+                            	</c:forEach>
                             </select>
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" value="" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="buyerPsfloanCom" value="${satisfaction.buyerPsfloanCom}" >
                         </div>
                     </div>
                 </div>
@@ -349,116 +313,91 @@
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">客户信息</label>
-                            <span class="mr10">阮俊—13666666666</span>
+                            <span class="mr10">${caseDetailVO.agentName}—${caseDetailVO.agentMobile}</span>
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">电话是否正确</label>
-                                 <select class="select_control yuanwid">
-                                    <option value="">是</option>
-                                    <option value="">否</option>
+                                 <select class="select_control yuanwid" name="agentPhoneOk" value="${satisfaction.agentPhoneOk}">
+                                    <option value="1" ${satisfaction.agentPhoneOk eq 1?'selected="selected"':''}>是</option>
+                                    <option value="0" ${satisfaction.agentPhoneOk eq 0?'selected="selected"':''}>否</option>
                                 </select>
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small select_style mend_select">
                                 电话结果
                             </label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" value="" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="agentPhoneRes" value="${satisfaction.agentPhoneRes}" >
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">签约评分</label>
-                            <select class="select_control yuanwid">
-                                <option value="">0</option>
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">4</option>
-                                <option value="">5</option>
-                                <option value="">6</option>
-                                <option value="">7</option>
-                                <option value="">8</option>
-                                <option value="">9</option>
-                                <option value="">10</option>
+                            <select class="select_control yuanwid" name="agentSignSat" value="${satisfaction.agentSignSat}">
+                                <c:forEach begin="0" end="10" varStatus="stat">
+                            		<option value="${stat.index}" ${satisfaction.agentSignSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
+                            	</c:forEach>
                             </select>
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">签约意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" value="" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="agentSignCom" value="${satisfaction.agentSignCom}" >
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">贷款评分</label>
-                            <select class="select_control yuanwid">
-                                <option value="">0</option>
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">4</option>
-                                <option value="">5</option>
-                                <option value="">6</option>
-                                <option value="">7</option>
-                                <option value="">8</option>
-                                <option value="">9</option>
-                                <option value="">10</option>
+                            <select class="select_control yuanwid" name="agentComloanSat" value="${satisfaction.agentComloanSat}">
+                                <c:forEach begin="0" end="10" varStatus="stat">
+                            		<option value="${stat.index}" ${satisfaction.agentComloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
+                            	</c:forEach>
                             </select>
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">贷款意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" value="" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="agentComloanCom" value="${satisfaction.agentComloanCom}" >
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金评分</label>
-                            <select class="select_control yuanwid">
-                                <option value="">0</option>
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">4</option>
-                                <option value="">5</option>
-                                <option value="">6</option>
-                                <option value="">7</option>
-                                <option value="">8</option>
-                                <option value="">9</option>
-                                <option value="">10</option>
+                            <select class="select_control yuanwid" name="agentPsfloanSat" value="${satisfaction.agentPsfloanSat}">
+                                <c:forEach begin="0" end="10" varStatus="stat">
+                            		<option value="${stat.index}" ${satisfaction.agentPsfloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
+                            	</c:forEach>
                             </select>
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" value="" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="agentPsfloanCom" value="${satisfaction.agentPsfloanCom}" >
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        
-        <div style="height: auto;">
-					    <div class="mb15">
-			            	<h2 class="newtitle title-mark">上传附件</h2>
-			            	<div class="table-box" id="fileUploadContainer"></div>
-       					</div>	
-		</div>		
-        <div>
-           				<div id="caseCommentList" class="add_form"></div>
-        </div>
-        
-                        <div class="form-btn">
-                            <div class="text-center">
-                                <button  class="btn btn-success btn-space">保存</button>
-                                <button class="btn btn-success btn-space" data-toggle="modal" data-target="#myModal">回访打回</button>
-                                <button class="btn btn-success btn-space">取消</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+		        <div style="height: auto;">
+				    <div class="mb15">
+			           	<h2 class="newtitle title-mark">上传附件</h2>
+			           	<div class="table-box" id="fileUploadContainer"></div>
+			   		</div>	
+				</div>		
+		        <div>
+		           <div id="caseCommentList" class="add_form"></div>
+		        </div>
+		        <div class="form-btn">
+		           <div class="text-center">
+		               <a class="btn btn-success btn-space" onclick="javascript:doSignPass();" >回访通过</a>
+		               <a class="btn btn-success btn-space" data-toggle="modal" data-target="#myModal" >回访打回</a>
+		               <a class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
+		           </div>
+		        </div>
             </div>
-        </div>
+		</form>                   
+      </div>
+    </div>
+</div>
 
         <!--********** 弹窗页面 **********-->
                 <div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="false" >
@@ -470,7 +409,7 @@
                             <textarea name="" id="" class="textarearoom mt10" style="width:100%;max-width: 760px;margin-left:0;max-height: 150px;height: 150px;" >
                             </textarea>
                             <div class="add_btn text-center mt20">
-                                <button type="button" class="btn btn-success">
+                                <button type="button" class="btn btn-success" onclick="javascript:doSignReject();">
                                     打回
                                 </button>
                                 <button type="reset" class="btn btn-grey" data-dismiss="modal">
@@ -490,10 +429,14 @@
         	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script>
         	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script>
         	<script src="${ctx}/js/viewer/viewer.min.js"></script>
+        	<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
 	        <script type="text/javascript">
+	        var caseCode = '${toCaseInfo.caseCode}';
+	        var urlType = $("#urlType").val();
+	        
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
-					caseCode : '${toCaseInfo.caseCode}',
+					caseCode : caseCode,
 					srvCode : null
 				});
 				
@@ -515,19 +458,76 @@
  	 			}
  	 			return str;
  	 		}
+	        
+	        /*签约通过*/
+	        function doSignPass(){
+	        	var data = $("form").serializeArray();
+	        	alert(JSON.stringify(data));
+
+	        	window.wxc.confirm("确定要回访通过吗？",{"wxcOk":function(){
+					$.ajax({
+						url:ctx+"/satis/doSignPass",
+						method:"post",
+						dataType:"json",
+						data:data,
+						success:function(data){
+							 if(data.success){
+								 window.wxc.success("操作成功！");
+								 goBack();
+							 }else{
+								 window.wxc.error("操作失败！\n"+data.message);
+							 } 
+						 }
+					})
+				  }
+				})
+	        }
+	        
+	        /*签约驳回*/
+	        function doSignReject(){
+	        	var data = $("form").serializeArray();
+	        	alert(JSON.stringify(data));
+
+	        	window.wxc.confirm("确定要回访打回吗？",{"wxcOk":function(){
+					$.ajax({
+						url:ctx+"/satis/doSignReject",
+						method:"post",
+						dataType:"json",
+						data:data,
+						success:function(data){
+							 if(data.success){
+								 window.wxc.success("操作成功！");
+								 goBack();
+							 }else{
+								 window.wxc.error("操作失败！\n"+data.message);
+							 } 
+						 }
+					})
+				  }
+				})
+	        }
+	        
+	        /*页面返回*/
+	        function goBack(){
+	        	if(urlType == 'list')
+					 window.location.href = ctx+"/satis/list";
+				 else
+					 window.location.href = ctx+"/task/myTaskList";
+	        }
 	        </script>
         </content>     
         <content tag="local_require">
 	       <script>
+	        var caseCode = '${toCaseInfo.caseCode}';
        		var fileUpload;
 		    require(['main'], function() {
 				requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager','eselect'],function($,aistFileUpload){
 					fileUpload = aistFileUpload;
 						fileUpload.init({
-				    		caseCode : 'ZY-SH-201612-0115',
-				    		partCode : "SpvApplyApprove",
+				    		caseCode : caseCode,
+				    		partCode : "Survey",
 				    		fileUploadContainer : "fileUploadContainer",
-				    		readonly : true,
+				    		readonly : true
 				    	});
 					})
 			    });

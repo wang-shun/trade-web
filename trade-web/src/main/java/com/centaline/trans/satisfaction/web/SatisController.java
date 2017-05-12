@@ -169,6 +169,7 @@ public class SatisController {
     }catch(Exception e){
       response.setSuccess(false);
       response.setMessage("操作失败!"+e.getMessage());
+      e.printStackTrace();
     }
     return response;
   }
@@ -194,6 +195,7 @@ public class SatisController {
     }catch(Exception e){
       response.setSuccess(false);
       response.setMessage("操作失败！"+e.getMessage());
+      e.printStackTrace();
     }
     return response;
   }
@@ -219,6 +221,7 @@ public class SatisController {
     }catch(Exception e){
       response.setSuccess(false);
       response.setMessage("操作失败！"+e.getMessage());
+      e.printStackTrace();
     }
     return response;
   }
@@ -243,6 +246,7 @@ public class SatisController {
     }catch(Exception e){
       response.setSuccess(false);
       response.setMessage("操作失败！"+e.getMessage());
+      e.printStackTrace();
     }
     return response;
   }
@@ -268,6 +272,7 @@ public class SatisController {
     }catch(Exception e){
       response.setSuccess(false);
       response.setMessage("操作失败！"+e.getMessage());
+      e.printStackTrace();
     }
     return response;
   }
@@ -293,6 +298,7 @@ public class SatisController {
     }catch(Exception e){
       response.setSuccess(false);
       response.setMessage("操作失败！"+e.getMessage());
+      e.printStackTrace();
     }
     return response;
   }
@@ -317,6 +323,7 @@ public class SatisController {
     }catch(Exception e){
       response.setSuccess(false);
       response.setMessage("操作失败！"+e.getMessage());
+      e.printStackTrace();
     }
     return response;
   }
@@ -346,6 +353,7 @@ public class SatisController {
     }catch(Exception e){
       response.setSuccess(false);
       response.setMessage("操作失败！"+e.getMessage());
+      e.printStackTrace();
     }
     return response;
   }
@@ -367,6 +375,7 @@ public class SatisController {
     }catch(Exception e){
       response.setSuccess(false);
       response.setMessage("操作失败！"+e.getMessage());
+      e.printStackTrace();
     }
     return response;
   }
@@ -390,6 +399,7 @@ public class SatisController {
     }
     if (agentUser != null) {
       reVo.setAgentName(agentUser.getRealName());
+      reVo.setAgentMobile(agentUser.getMobile());
       // 分行经理
       List<User> mcList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(agentUser.getOrgId(),
           TransJobs.TFHJL.getCode());

@@ -36,9 +36,6 @@
 <body class="pace-done">
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <div id="wrapper">
-    <!-- 右侧页面主体内容 -->
-    <input type="hidden" id="taskId" name="taskId" value="${taskId}">
-    <input type="hidden" id="instCode" name="instCode" value="${instCode}">
     <!-- 主要内容页面 -->
     <nav id="navbar-example" class="navbar navbar-default navbar-static" role="navigation">
         <div id="isFixed" style="position: relative; top: 0px;" class="collapse navbar-collapse bs-js-navbar-scrollspy stuckMenu stickup-nav-bar scroll_nav">
@@ -173,18 +170,21 @@
             </div>
         </div>
 
+    <input type="hidden" id="urlType" name="urlType" value="${urlType}">
+    <input type="hidden" id="taskId" name="taskId" value="${taskId}">
+    <input type="hidden" id="instCode" name="instCode" value="${instCode}">
     <div class="ibox-content border-bottom clearfix space_box noborder">
-        <div class="mb15">
-            <h2 class="newtitle title-mark">上传附件</h2>
-            <div class="form_list">
-                <div class="add-file"></div>
-            </div>
-        </div>
+        <div style="height: auto;">
+		    <div class="mb15">
+	           	<h2 class="newtitle title-mark">上传附件</h2>
+	           	<div class="table-box" id="fileUploadContainer"></div>
+	   		</div>	
+		</div>
 		<div id="caseCommentList" class="add_form"></div>
         <div class="form-btn">
                <div class="text-center">
-                   <button  class="btn btn-success btn-space">保存</button>
-                   <button class="btn btn-success btn-space">取消</button>
+                   <a  class="btn btn-success btn-space" onclick="javascript:doGuohuFollow();">提交跟进</a>
+                   <a  class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
                </div>
          </div>
      </div>
@@ -223,7 +223,55 @@
  	 			}
  	 			return str;
  	 		}
+	        
+	        /*过户跟进*/
+	        function doGuohuFollow(){
+	        	var data = $("form").serializeArray();
+	        	alert(JSON.stringify(data));
+
+	        	window.wxc.confirm("确定要回访通过吗？",{"wxcOk":function(){
+					$.ajax({
+						url:ctx+"/satis/doGuohuFollow",
+						method:"post",
+						dataType:"json",
+						data:data,
+						success:function(data){
+							 if(data.success){
+								 window.wxc.success("操作成功！");
+								 goBack();
+							 }else{
+								 window.wxc.error("操作失败！\n"+data.message);
+							 } 
+						 }
+					})
+				  }
+				})
+	        }
+	        
+	        /*页面返回*/
+	        function goBack(){
+	        	if(urlType == 'list')
+					 window.location.href = ctx+"/satis/list";
+				 else
+					 window.location.href = ctx+"/task/myTaskList";
+	        }
 	        </script>
+	        <content tag="local_require">
+	       <script>
+	        var caseCode = '${toCaseInfo.caseCode}';
+       		var fileUpload;
+		    require(['main'], function() {
+				requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager','eselect'],function($,aistFileUpload){
+					fileUpload = aistFileUpload;
+						fileUpload.init({
+				    		caseCode : caseCode,
+				    		partCode : "Survey",
+				    		fileUploadContainer : "fileUploadContainer"
+				    	});
+					})
+			    });
+			</script>
+	    </content>
         </content>
     </body>
     </html>

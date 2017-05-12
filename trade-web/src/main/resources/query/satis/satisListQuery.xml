@@ -14,7 +14,7 @@
 	<query  id="SatisListQuery">
 	    <searchCondition>
 	    	<condition field="s.CASE_CODE" name="caseCode" label="案件编码" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="p.PR_ADDR" name="prAddress" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="p.PROPERTY_ADDR" name="prAddress" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 		    <condition field="s.CALLER_ID" name="callerId" label="客服" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="s.STATUS" name="status" label="回访状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
@@ -45,6 +45,7 @@
 					LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
 					LEFT JOIN sctrans.T_TO_CASE c on c.case_code=s.case_code
 					LEFT JOIN sctrans.sys_org org ON s.CALLER_ID=org.ID
+					WHERE 1=1
                     <if test="serviceJobCode == 'JYUKFZY' ">
 			           and s.CALLER_ID = #sessionUserId#
 			        </if>

@@ -71,15 +71,15 @@
 
 						</div>
 						<div class="form_content mr10">
-							<label class="control-label sign_left_small"> 回访状态 </label> <select
-								class="select_control sign_right_one">
+							<label class="control-label sign_left_small"> 回访状态 </label> 
+							<select name="status" class="select_control sign_right_one">
 								<option value="">请选择</option>
-								<option value="6">已回访</option>
-								<option value="0">未分单</option>
-								<option value="5">过户打回</option>
+								<option value="1">未分单</option>
+								<option value="2">签约回访</option>
 								<option value="3">签约打回</option>
-								<option value="1">签约回访</option>
 								<option value="4">过户回访</option>
+								<option value="5">过户打回</option>
+								<option value="6">已回访</option>
 							</select>
 						</div>
 						<div class="add_btn">
@@ -115,7 +115,7 @@
 	<script id="SatisListTemplate" type="text/html">
          {{each rows as item index}}
                 <tr>					
-				{{if item.STATUS!=7 && item.STATUS!=8}}
+				{{if item.STATUS == 1}}
                    <td>
 					 <input type="checkbox" class="i-checks" name="checkRow" value="{{item.CASE_CODE}}">
 				   </td>
@@ -132,25 +132,25 @@
                        </i>
 					{{/if}}
 					{{if item.STATUS == 2}}
-						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}">
+						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType='list'">
 						<i class="color_visited blue_visited">
                                                     签约回访
                        </i>
 					{{/if}}
 					{{if item.STATUS == 3}}
-						<a href="${ctx}/satis/task/signReturn?satisId={{item.PKID}}">
+						<a href="${ctx}/satis/task/signReturn?satisId={{item.PKID}}&urlType='list'">
 						<i class="color_visited red_visited">
 					  签约打回
                        </i>
 					{{/if}}
 					{{if item.STATUS == 4}}
-						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}">
+						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&urlType='list'">
 						<i class="color_visited blue_visited">
                                                     过户回访                              
                        </i>
 					{{/if}}
 					{{if item.STATUS == 5}}
-						<a href="${ctx}/satis/task/guohuReturn?satisId={{item.PKID}}">
+						<a href="${ctx}/satis/task/guohuReturn?satisId={{item.PKID}}&urlType='list'">
 						<i class="color_visited red_visited">
                                                     过户打回
                        </i>
@@ -278,10 +278,10 @@
 							
 							//查询
 							$("#btn_search").click(function() {
-								params.search_caseCode=$("input[name='caseCode']").val().trim();
-								params.search_prAddress=$("input[name='prAddress']").val().trim();
-								params.search_caller=$("#userId").val();
-								params.search_status=$("input[name='status']").val();
+								params.caseCode=$("input[name='caseCode']").val().trim();
+								params.prAddress=$("input[name='prAddress']").val().trim();
+								params.callerId=$("#userId").val();
+								params.status=$("select[name='status']").val();
 
 								initData();
 							})
