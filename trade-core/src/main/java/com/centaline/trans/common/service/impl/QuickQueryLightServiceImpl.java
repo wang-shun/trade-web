@@ -148,7 +148,7 @@ public class QuickQueryLightServiceImpl implements CustomDictService
             for (Map<String, Object> lightMap : lightMapList)
             {
                 String color = (String) lightMap.get("COLOR");
-                int delayDay = Integer.parseInt((String) lightMap.get("DELAYTIME"));
+                int delayDay = Integer.parseInt(String.valueOf(lightMap.get("DELAYTIME")));
 
                 if (lightType.equals(color))
                 {
