@@ -5,7 +5,7 @@
 
 	<groupId>com.centaline</groupId>
 	<artifactId>yc-agent-web</artifactId>
-	<version>1.2.18-SNAPSHOT</version>
+	<version>1.2.20-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Yucui Agent Web</name>
