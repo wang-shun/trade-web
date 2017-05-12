@@ -29,6 +29,7 @@ import com.centaline.trans.attachment.entity.ToAccesoryList;
 import com.centaline.trans.attachment.entity.ToAttachment;
 import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.attachment.service.ToAttachmentService;
+import com.centaline.trans.attachment.vo.ToAttachmentVO;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
@@ -91,7 +92,14 @@ public class LoanlostApproveController
     @ResponseBody
     public Object quereyAttachments(HttpServletRequest request, ToAttachment toAttachment)
     {
+        ToAttachmentVO toAttachmentVO = new ToAttachmentVO();
+
         List<ToAttachment> attachments = toAttachmentService.quereyAttachments(toAttachment);
+
+        ToAccesoryList toAccesoryList = new ToAccesoryList();
+        toAccesoryList.setPartCode("LoanlostApply");
+        List<ToAccesoryList> toAccesoryLists = toAccesoryListService.qureyToAccesoryList(toAccesoryList);
+
         if (attachments != null && attachments.size() > 0)
         {
             for (ToAttachment attachment : attachments)
@@ -106,8 +114,11 @@ public class LoanlostApproveController
             }
         }
 
+        toAttachmentVO.setAttachmentList(attachments);
+        toAttachmentVO.setToAccesoryList(toAccesoryLists);
+
         AjaxResponse ajaxResponse = new AjaxResponse();
-        ajaxResponse.setContent(attachments);
+        ajaxResponse.setContent(toAttachmentVO);
 
         /** 读取上传附件备件表 */
         return ajaxResponse;
