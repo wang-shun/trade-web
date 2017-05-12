@@ -80,37 +80,41 @@ public class SatisController {
   //页面
   @RequestMapping("/list")
   public String list(Model model){
+	SessionUser user = uamSessionService.getSessionUser();
+	model.addAttribute("sessionUserId", user.getId());
+	model.addAttribute("serviceJobCode", user.getServiceJobCode());
+	System.out.println("职位："+user.getServiceJobCode());
     return "satis/satisList";
   }
   
   @RequestMapping("/task/signDetail")
-  public String signDetail(Model model, Long satisId){
+  public String signDetail(Model model, Long satisId, String urlType){
     
-    setCaseInfoToModel(model, satisId);
+    setCaseInfoToModel(model, satisId, urlType);
     
     return "satis/sign_detail";
   }
   
   @RequestMapping("/task/guohuDetail")
-  public String guohuDetail(Model model, Long satisId, String taskId, String instCode){
+  public String guohuDetail(Model model, Long satisId, String urlType){
     
-    setCaseInfoToModel(model, satisId);
+    setCaseInfoToModel(model, satisId, urlType);
     
     return "satis/guohu_detail";
   }
   
   @RequestMapping("/task/signReturn")
-  public String signReturn(Model model, Long satisId, String taskId, String instCode){
+  public String signReturn(Model model, Long satisId, String urlType){
     
-    setCaseInfoToModel(model, satisId);
+    setCaseInfoToModel(model, satisId, urlType);
         
     return "satis/sign_return";
   }
   
   @RequestMapping("/task/guohuReturn")
-  public String guohuReturn(Model model, Long satisId, String taskId, String instCode){
+  public String guohuReturn(Model model, Long satisId, String urlType){
   
-    setCaseInfoToModel(model , satisId);
+    setCaseInfoToModel(model , satisId, urlType);
     
     return "satis/guohu_return";
   }
@@ -380,7 +384,7 @@ public class SatisController {
     return response;
   }
   
-  private void setCaseInfoToModel(Model model , Long satisId){
+  private void setCaseInfoToModel(Model model , Long satisId , String urlType){
     
     ToSatisfaction satisfaction = satisfactionService.queryToSatisfactionById(satisId);
     
@@ -501,6 +505,7 @@ public class SatisController {
     model.addAttribute("satisfaction", satisfaction);
     model.addAttribute("instCode", tf.getInstCode());
     model.addAttribute("taskId", taskList.get(0).getId());
+    model.addAttribute("urlType", urlType);
   }
 
 }

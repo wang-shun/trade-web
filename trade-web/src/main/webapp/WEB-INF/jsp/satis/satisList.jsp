@@ -3,7 +3,7 @@
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<%-- <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%> --%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
@@ -44,9 +44,9 @@
 			<div class="ibox-content border-bottom clearfix space_box">
 				<h2 class="title">案件回访</h2>
 				<form method="get" class="form_list">
-					<input type="hidden" name="sessionUserId" value="${sessionUserId}" />
-					<input type="hidden" name="serviceDepId" value="${serviceDepId}" />
-					<input type="hidden" name="serviceJobCode" value="${serviceJobCode}" />
+					<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUserId}" />
+					<input type="hidden" id="serviceDepId" name="serviceDepId" value="${serviceDepId}" />
+					<input type="hidden" id="serviceJobCode" name="serviceJobCode" value="${serviceJobCode}" />
 					<div class="line">
 						<div class="form_content">
 							<label class="control-label sign_left_small"> 案件编号 </label> 
@@ -86,8 +86,10 @@
 							<button id="btn_search" type="button" class="btn btn-success mr5">
 								<i class="icon iconfont">&#xe635;</i> 查询
 							</button>
-							<a href="javascript:dispatch();"><button type="button"
-									class="btn btn-success mr5">派单</button></a>
+							<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">
+								<a href="javascript:dispatch();"><button type="button"
+										class="btn btn-success mr5">派单</button></a>
+							</shiro:hasPermission>		
 							<button type="button" onclick="clearForm()"
 								class="btn btn-grey mr5">清空</button>
 						</div>
@@ -114,7 +116,8 @@
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 	<script id="SatisListTemplate" type="text/html">
          {{each rows as item index}}
-                <tr>					
+                <tr>
+				<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">					
 				{{if item.STATUS == 1}}
                    <td>
 					 <input type="checkbox" class="i-checks" name="checkRow" value="{{item.CASE_CODE}}">
@@ -124,6 +127,7 @@
 					 <input type="checkbox" class="i-checks" name="checkRow" value="{{item.CASE_CODE}}" disabled="disabled">
 				   </td>
 				{{/if}}
+				</shiro:hasPermission>
 				   <td>
 					 <p>
 					{{if item.STATUS == 1}}
@@ -210,15 +214,15 @@
                     </td>
                     <td class="center">
                         <span class="manager">
-							<a href="#"><em>{{item.C_DISTRICT_NAME}}</em></a>
+							<a href="#"><em>{{item.WZ_NAME}}</em></a>
                         </span>
                     	<span class="manager">
                             <a href="#"><em>{{item.C_ORG_NAME}}</em></a>
                         </span>
                      </td>
-                    <td class="text-center"> 
+                     <td class="text-center"> 
                         {{item.CALLER_NAME}}
-                    </td>
+                     </td>
             </tr>
 			{{/each}}          
 	    	</script> 
@@ -288,6 +292,28 @@
 
 							//加载页面
 							function initData() {
+								var columns = [
+												{
+													colName : "回访状态"
+												},
+												{
+													colName : "<span style='color:#ffffff' onclick='caseCodeSort();' >案件编码</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
+													sortColumn : "CASE_CODE",
+													sord : "desc",
+													sortActive : true
+												},
+												{
+													colName : "产证地址"
+												},
+												{
+													colName : "签建时间"
+												}, {
+													colName : "归属组"
+												}];
+								<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">
+									columns.unshift({colName : "<input type=\"checkbox\" name=\"split\" onclick=\"javascript:toggleSelectAll(this.checked);\">"});
+									columns.push({colName : "客服"});
+								</shiro:hasPermission>
 								$(".bonus-table").aistGrid(
 								{
 									ctx : "${ctx}",
@@ -299,29 +325,7 @@
 									wrapperData : {
 										job : $("#serviceJobCode").val()
 									},
-									columns : [
-											{
-												colName : "<input type=\"checkbox\" name=\"split\" onclick=\"javascript:toggleSelectAll(this.checked);\">"
-											},
-											{
-												colName : "回访状态"
-											},
-											{
-												colName : "<span style='color:#ffffff' onclick='caseCodeSort();' >案件编码</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
-												sortColumn : "CASE_CODE",
-												sord : "desc",
-												sortActive : true
-											},
-											{
-												colName : "产证地址"
-											},
-											{
-												colName : "签建时间"
-											}, {
-												colName : "归属组"
-											}, {
-												colName : "客服"
-											} ]
+									columns : columns
 								});
 							}				
 							/**
