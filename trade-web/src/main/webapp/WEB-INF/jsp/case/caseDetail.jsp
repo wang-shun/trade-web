@@ -265,10 +265,10 @@
 													<dl class="dl-horizontal">
 														<dt>姓名</dt>
 														<dd>
-															<a data-toggle="popover" data-placement="right" data-content="${toCaseInfo.agentPhone}"> ${toCaseInfo.agentName}</a>
+															<a data-toggle="popover" data-placement="right" data-content="${toCaseInfo.recommendPhone}"> ${toCaseInfo.recommendUsername}</a>
 														</dd>
 														<dt>手机号</dt>
-														<dd>${toCaseInfo.agentPhone }</dd>
+														<dd>${toCaseInfo.recommendPhone }</dd>
 													</dl>
 												</div>
 										   </c:when>  

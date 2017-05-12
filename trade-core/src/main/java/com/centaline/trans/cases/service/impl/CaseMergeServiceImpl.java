@@ -374,8 +374,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		ToCaseInfo toCaseInfo = new ToCaseInfo();
 		toCaseInfo.setCaseCode(toCase.getCaseCode());
 		toCaseInfo.setAgentCode(caseMergeVo.getAgentCode() == null?"":caseMergeVo.getAgentCode());
-		toCaseInfo.setAgentName(caseMergeVo.getAgentName()== null?"":caseMergeVo.getAgentName());
-		toCaseInfo.setAgentPhone(caseMergeVo.getAgentPhone()== null?"":caseMergeVo.getAgentPhone());			
+		toCaseInfo.setRecommendUsername(caseMergeVo.getRecommendUsername()== null?"":caseMergeVo.getRecommendUsername());
+		toCaseInfo.setRecommendPhone(caseMergeVo.getRecommendPhone()== null?"":caseMergeVo.getRecommendPhone());			
 		toCaseInfo.setGrpName(caseMergeVo.getAgentOrgName()== null?"":caseMergeVo.getAgentOrgName());
 		toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
 		toCaseInfo.setIsResponsed("0");
@@ -707,8 +707,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 */
 	public CaseMergeVo setCaseMergeVoForToCaseInfo(CaseMergeVo caseMergeVo,ToCaseInfo toCaseInfo){
 		caseMergeVo.setSourceOfCooperation(toCaseInfo.getSourceOfCooperation());
-		caseMergeVo.setAgentName(toCaseInfo.getAgentName());
-		caseMergeVo.setAgentPhone(toCaseInfo.getAgentPhone());
+		caseMergeVo.setRecommendUsername(toCaseInfo.getRecommendUsername());
+		caseMergeVo.setRecommendPhone(toCaseInfo.getRecommendPhone());
 		return caseMergeVo;
 	}
 	/**
@@ -900,8 +900,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 */
 	public ToCaseInfo editToCaseInfo(ToCaseInfo toCaseInfo,CaseMergeVo caseMergeVo){
 		toCaseInfo.setSourceOfCooperation(caseMergeVo.getSourceOfCooperation());
-		toCaseInfo.setAgentName(caseMergeVo.getAgentName()== null?"":caseMergeVo.getAgentName());
-		toCaseInfo.setAgentPhone(caseMergeVo.getAgentPhone()== null?"":caseMergeVo.getAgentPhone());
+		toCaseInfo.setRecommendUsername(caseMergeVo.getRecommendUsername()== null?"":caseMergeVo.getRecommendUsername());
+		toCaseInfo.setRecommendPhone(caseMergeVo.getRecommendPhone()== null?"":caseMergeVo.getRecommendPhone());
 		return toCaseInfo;
 	}
 	/**

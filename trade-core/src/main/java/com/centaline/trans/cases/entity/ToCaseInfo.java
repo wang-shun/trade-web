@@ -66,8 +66,33 @@ public class ToCaseInfo {
 	 *  外单案件的合作来源
 	 */
 	private String sourceOfCooperation;
+	/**
+	 *  外单案件的推荐人
+	 */
+	private String recommendUsername;
+	/**
+	 *  外单案件的推荐人电话
+	 */
+	private String recommendPhone;
 	
-    public String getSourceOfCooperation() {
+	
+    public String getRecommendUsername() {
+		return recommendUsername;
+	}
+
+	public void setRecommendUsername(String recommendUsername) {
+		this.recommendUsername = recommendUsername;
+	}
+
+	public String getRecommendPhone() {
+		return recommendPhone;
+	}
+
+	public void setRecommendPhone(String recommendPhone) {
+		this.recommendPhone = recommendPhone;
+	}
+
+	public String getSourceOfCooperation() {
 		return sourceOfCooperation;
 	}
 
