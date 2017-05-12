@@ -233,14 +233,14 @@ public class ProjectContextConfig {
     	return dict;
     }
     @Bean(name="avatarUrlPrixDict")
-    public CustomDictService avatarUrlPrixDict(@Value("${img.sh.centaline.url}")String avatarUrlPrix){
+    public CustomDictService avatarUrlPrixDict(@Value("${gm.server.url:http://img.sh.centaline.com.cn/salesweb/}")String avatarUrlPrix){
     	return new CustomDictService() {
     		@Override
     		public String getValue(String key) {
     			if(StringUtils.isBlank(key)) {
     				return key;
     			}else{
-    				return avatarUrlPrix + key;
+    				return avatarUrlPrix +"image/"+key+"/80_80_f.jpg";
     			}
     		}
 		};
