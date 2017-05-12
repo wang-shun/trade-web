@@ -38,13 +38,16 @@ public class QuickQueryLightServiceImpl implements CustomDictService
         int redDay = getDelayDaysByLight(lightMapList, "0");
         // 黄灯延迟天数
         int yellowDay = getDelayDaysByLight(lightMapList, "1");
+        // 绿灯延迟天数
+        int greenDay = getDelayDaysByLight(lightMapList, "2");
 
+        String val = "";
         for (Map<String, Object> map : keys)
         {
             Object todoTime = map.get("todoTime");
             if (null == todoTime || !(todoTime instanceof Date))
             {
-                map.put(DICTVALCOL, LampEnum.GREEN.toString());
+                map.put(DICTVALCOL, val);
                 continue;
             }
 
@@ -58,7 +61,7 @@ public class QuickQueryLightServiceImpl implements CustomDictService
             long days = calDay(currentTime, date);
 
             // 根据相差天数显示对应的红绿灯
-            String val = getLightByDelayDays(days, redDay, yellowDay);
+            val = getLightByDelayDays(days, redDay, yellowDay, greenDay);
 
             map.put(DICTVALCOL, val);
         }
@@ -77,7 +80,7 @@ public class QuickQueryLightServiceImpl implements CustomDictService
      *            黄灯延迟天数
      * @return 红绿灯
      */
-    public String getLightByDelayDays(long delayDays, int redDay, int yellowDay)
+    public String getLightByDelayDays(long delayDays, int redDay, int yellowDay, int greenDay)
     {
         String light = "";
 
@@ -89,7 +92,7 @@ public class QuickQueryLightServiceImpl implements CustomDictService
         {
             light = LampEnum.YELLOW.toString();
         }
-        else
+        else if (delayDays >= greenDay)
         {
             light = LampEnum.GREEN.toString();
         }
