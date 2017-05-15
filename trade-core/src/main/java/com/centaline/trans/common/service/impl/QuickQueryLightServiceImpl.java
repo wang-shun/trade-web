@@ -47,7 +47,7 @@ public class QuickQueryLightServiceImpl implements CustomDictService
             Object todoTime = map.get("todoTime");
             if (null == todoTime || !(todoTime instanceof Date))
             {
-                map.put(DICTVALCOL, val);
+                map.put(DICTVALCOL, "");
                 continue;
             }
 
