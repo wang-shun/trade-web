@@ -213,9 +213,10 @@ function changeProfessor(caseCode){
 }
 //案件责任人
 function leadingProForChangeClick(){
+    var orgId = $("#orgId").val();
     userSelect({
-        startOrgId : 'ff8080814f459a78014f45a73d820006',
-        expandNodeId : 'ff8080814f459a78014f45a73d820006',
+        startOrgId : orgId,
+        expandNodeId : orgId,
         nameType : 'long|short',
         orgType : '',
         departmentType : '',

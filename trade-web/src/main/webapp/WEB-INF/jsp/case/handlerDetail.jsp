@@ -180,6 +180,9 @@
 	</div>
 </div>
 </content>
+
+
+<input type="hidden" value="${orgId}" id="orgId" />
 <input type="hidden" value="${userId}" id="userId" />
 <input type="hidden" value="${detailCode}" id="detailCode" />
 <input type="hidden" value="" id="changCaseCode" />

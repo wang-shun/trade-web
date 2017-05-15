@@ -32,6 +32,7 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
         if("Manager".equals(user.getServiceJobCode())){
             request.setAttribute("userId",userId);
             request.setAttribute("detailCode", detailCode);
+            request.setAttribute("orgId", user.getServiceDepId());
         }
 
     }
