@@ -169,10 +169,11 @@
             </h2>
             </div>
         </div>
-
+<form>
 	<input type="hidden" id="urlType" name="urlType" value="${urlType}">
     <input type="hidden" id="taskId" name="taskId" value="${taskId}">
     <input type="hidden" id="instCode" name="instCode" value="${instCode}">
+    <input type="hidden" id="pkid" name="pkid" value="${satisfaction.pkid}">
     <div class="ibox-content border-bottom clearfix space_box noborder">
         <div style="height: auto;">
 		    <div class="mb15">
@@ -183,30 +184,45 @@
         <div id="caseCommentList" class="add_form"></div>
         <div class="form-btn">
                <div class="text-center">
-                   <a  class="btn btn-success btn-space" onclick="javascript:doSignFollow();">提交跟进</a>
-                   <a class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
+               	   <c:if test="${satisfaction.status eq 3}">
+               	   		<a  class="btn btn-success btn-space" onclick="javascript:doSignFollow();">提交跟进</a>
+                   		<a class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
+               	   </c:if>
+                   <c:if test="${satisfaction.status ne 3}">
+                   		<a class="btn btn-success btn-space" onclick="javascript:goBack();">关闭</a>
+                   </c:if>
                </div>
-           </div>
         </div>
+     </div>
+</form>     
                 </div>
             </div>
         </div>
-        
+      </div>
         <content tag="local_script">
      	    <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
         	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
         	<script	src="${ctx}/js/template.js" type="text/javascript"></script>
        		<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
         	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script>
+        	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script>
+        	<script src="${ctx}/js/viewer/viewer.min.js"></script>
+        	<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
 	        <script type="text/javascript">
+	        var caseCode = '${toCaseInfo.caseCode}';
+	        
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
-					caseCode : '${toCaseInfo.caseCode}',
-					srvCode : null
+					caseCode : caseCode,
+					srvCode : "Survey"
 				});
 	        	
 			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
 				$('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
+				
+		 	    if('${satisfaction.status}' != 3){
+		 	    	readOnlyForm();
+		 	    }
 	        })
 			      
 			/*动态生成上下家*/
@@ -227,7 +243,6 @@
 	        /*签约跟进*/
 	        function doSignFollow(){
 	        	var data = $("form").serializeArray();
-	        	alert(JSON.stringify(data));
 
 	        	window.wxc.confirm("确定要提交跟进吗？",{"wxcOk":function(){
 					$.ajax({
@@ -235,12 +250,19 @@
 						method:"post",
 						dataType:"json",
 						data:data,
+						beforeSend:function(){  
+							$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+							$(".blockOverlay").css({'z-index':'9998'});
+				        },
 						success:function(data){
+							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.success("操作成功！");
-								 goBack();
+								 window.wxc.confirm("操作成功！",{"wxcOk":function(){
+									 goBack();
+								   }
+						   		 })
 							 }else{
-								 window.wxc.error("操作失败！\n"+data.message);
+								 window.wxc.error(data.message);
 							 } 
 						 }
 					})
@@ -255,24 +277,28 @@
 				 else
 					 window.location.href = ctx+"/task/myTaskList";
 	        }
+	        
+	        /*只读表单*/
+	        function readOnlyForm(){
+	        	$("input,select").prop("disabled",true);
+	        }
 	        </script>
+	        </content>
 	        <content tag="local_require">
-	       <script>
-	        var caseCode = '${toCaseInfo.caseCode}';
-       		var fileUpload;
-		    require(['main'], function() {
-				requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager','eselect'],function($,aistFileUpload){
-					fileUpload = aistFileUpload;
-						fileUpload.init({
-				    		caseCode : caseCode,
-				    		partCode : "Survey",
-				    		fileUploadContainer : "fileUploadContainer",
-				    		readonly : true
-				    	});
-					})
-			    });
-			</script>
-	    </content>
+		       <script>
+		        var caseCode = '${toCaseInfo.caseCode}';
+	       		var fileUpload;
+			    require(['main'], function() {
+					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager','eselect'],function($,aistFileUpload){
+						fileUpload = aistFileUpload;
+							fileUpload.init({
+					    		caseCode : caseCode,
+					    		partCode : "Survey",
+					    		fileUploadContainer : "fileUploadContainer",
+					    	});
+						})
+				    });
+				</script>
         </content>
     </body>
     </html>

@@ -1,7 +1,6 @@
 package com.centaline.trans.satisfaction.web;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,24 +24,18 @@ import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.enums.CaseStatusEnum;
-import com.centaline.trans.common.enums.SatisfactionStatusEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
-import com.centaline.trans.engine.bean.ProcessInstance;
-import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
-import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
@@ -83,38 +76,37 @@ public class SatisController {
 	SessionUser user = uamSessionService.getSessionUser();
 	model.addAttribute("sessionUserId", user.getId());
 	model.addAttribute("serviceJobCode", user.getServiceJobCode());
-	System.out.println("职位："+user.getServiceJobCode());
     return "satis/satisList";
   }
   
   @RequestMapping("/task/signDetail")
-  public String signDetail(Model model, Long satisId, String urlType){
+  public String signDetail(Model model, Long satisId, String caseCode, String urlType){
     
-    setCaseInfoToModel(model, satisId, urlType);
+    setCaseInfoToModel(model, satisId, caseCode, urlType);
     
     return "satis/sign_detail";
   }
   
   @RequestMapping("/task/guohuDetail")
-  public String guohuDetail(Model model, Long satisId, String urlType){
+  public String guohuDetail(Model model, Long satisId, String caseCode, String urlType){
     
-    setCaseInfoToModel(model, satisId, urlType);
+    setCaseInfoToModel(model, satisId, caseCode, urlType);
     
     return "satis/guohu_detail";
   }
   
   @RequestMapping("/task/signReturn")
-  public String signReturn(Model model, Long satisId, String urlType){
+  public String signReturn(Model model, Long satisId, String caseCode, String urlType){
     
-    setCaseInfoToModel(model, satisId, urlType);
+    setCaseInfoToModel(model, satisId, caseCode, urlType);
         
     return "satis/sign_return";
   }
   
   @RequestMapping("/task/guohuReturn")
-  public String guohuReturn(Model model, Long satisId, String urlType){
+  public String guohuReturn(Model model, Long satisId, String caseCode, String urlType){
   
-    setCaseInfoToModel(model , satisId, urlType);
+    setCaseInfoToModel(model , satisId, caseCode, urlType);
     
     return "satis/guohu_return";
   }
@@ -122,52 +114,10 @@ public class SatisController {
   //操作
   @RequestMapping("/doDispatch")
   @ResponseBody
-  public AjaxResponse<String> dispatch(String caseCodes,String userId){
-    SessionUser user = uamSessionService.getSessionUser();
-    SessionUser caller = uamSessionService.getSessionUserById(userId);
-    AjaxResponse<String> response = new AjaxResponse<String>();
-    uamSessionService.getSessionUserById(userId);
-    String[] caseCodesArr = caseCodes.split(",");
+  public AjaxResponse<String> dispatch(String caseCodes, String userId){
+	AjaxResponse<String> response = new AjaxResponse<String>();
     try{
-      for(String caseCode : caseCodesArr){
-        /**
-         * 查询案件签约和过户阶段对应的交易顾问
-         * 1.字典表查出该案件下签约(3000401001)和过户(3000401002)对应的SRV_CODE
-         * 2.sctrans.T_TG_SERV_ITEM_AND_PROCESSOR表查出SRV_CODE对应的PROCESSORID
-         * 3.根据PROCESSORID查出用户信息
-         */
-        TgServItemAndProcessor record = new TgServItemAndProcessor();
-        record.setCaseCode(caseCode);
-        record.setSrvCode("3000401001");
-        TgServItemAndProcessor processor1 = tgServItemAndProcessorService.findTgServItemAndProcessor(record);
-        record.setSrvCode("3000401002");
-        TgServItemAndProcessor processor2 = tgServItemAndProcessorService.findTgServItemAndProcessor(record);
-        SessionUser consultant1 = uamSessionService.getSessionUserById(processor1.getProcessorId());
-        SessionUser consultant2 = uamSessionService.getSessionUserById(processor2.getProcessorId());
-        List<RestVariable> variables = new ArrayList<RestVariable>();
-        variables.add(new RestVariable("caller", caller.getUsername()));
-        variables.add(new RestVariable("consultant1",consultant1.getUsername()));
-        variables.add(new RestVariable("consultant2",consultant2.getUsername()));
-        StartProcessInstanceVo vo = workFlowManager.startWorkFlow(new ProcessInstance(propertyUtilsService.getSatisProcessDfKey(),
-            WorkFlowEnum.SATIS_DEFKEY.getCode(), variables));
-        //插入流程表
-        ToWorkFlow twf = new ToWorkFlow();
-        twf.setBizCode(caseCode);
-        twf.setCaseCode(caseCode);
-        twf.setBusinessKey(WorkFlowEnum.SATIS_DEFKEY.getCode());
-        twf.setProcessDefinitionId(propertyUtilsService.getProcessTmpBankAuditDfKey());
-        twf.setProcessOwner(user.getId());
-        twf.setInstCode(vo.getId());
-        twf.setStatus(WorkFlowStatus.ACTIVE.getCode());
-        toWorkFlowService.insertSelective(twf);
-        //更新满意度表
-        ToSatisfaction toSatisfaction = satisfactionService.queryToSatisfactionByCaseCode(caseCode);
-        toSatisfaction.setStatus(SatisfactionStatusEnum.SIGN_SURVEY_ING.getCode());
-        toSatisfaction.setUpdateBy(user.getId());
-        toSatisfaction.setUpdateTime(new Date());
-        toSatisfaction.setCallerId(caller.getId());
-        satisfactionService.updateSelective(toSatisfaction);
-      }
+      satisfactionService.dispatch(caseCodes, userId);
       response.setSuccess(true);
       response.setMessage("操作成功！");
     }catch(Exception e){
@@ -181,19 +131,9 @@ public class SatisController {
   @RequestMapping("/doSignPass")
   @ResponseBody
   public AjaxResponse<String> signPass(ToSatisfaction toSatisfaction, String taskId, String instCode){
-    SessionUser user = uamSessionService.getSessionUser();
     AjaxResponse<String> response = new AjaxResponse<String>();
     try{
-      //1.更新状态
-      toSatisfaction.setStatus(SatisfactionStatusEnum.GUOHU_SURVEY_ING.getCode());
-      toSatisfaction.setUpdateBy(user.getId());
-      toSatisfaction.setUpdateTime(new Date());
-      satisfactionService.updateSelective(toSatisfaction);
-      //2.设置流程变量
-      List<RestVariable> variables = new ArrayList<RestVariable>();
-      variables.add(new RestVariable("signResult",true));
-      //3.推进流程
-      workFlowManager.submitTask(variables, taskId, instCode, null, toSatisfaction.getCaseCode());
+      satisfactionService.signPass(toSatisfaction, taskId, instCode);
       response.setSuccess(true);
       response.setMessage("操作成功！");
     }catch(Exception e){
@@ -207,19 +147,9 @@ public class SatisController {
   @RequestMapping("/doSignReject")
   @ResponseBody
   public AjaxResponse<String> signReject(ToSatisfaction toSatisfaction, String taskId, String instCode){
-    SessionUser user = uamSessionService.getSessionUser();
     AjaxResponse<String> response = new AjaxResponse<String>();
     try{
-      //1.更新状态
-      toSatisfaction.setStatus(SatisfactionStatusEnum.SIGN_SURVEY_REJECT.getCode());
-      toSatisfaction.setUpdateBy(user.getId());
-      toSatisfaction.setUpdateTime(new Date());
-      satisfactionService.updateSelective(toSatisfaction);
-      //2.设置流程变量
-      List<RestVariable> variables = new ArrayList<RestVariable>();
-      variables.add(new RestVariable("signResult",false));
-      //3.推进流程
-      workFlowManager.submitTask(variables, taskId, instCode, null, toSatisfaction.getCaseCode());
+      satisfactionService.signReject(toSatisfaction, taskId, instCode);
       response.setSuccess(true);
       response.setMessage("操作成功！");
     }catch(Exception e){
@@ -233,18 +163,9 @@ public class SatisController {
   @RequestMapping("/doSignFollow")
   @ResponseBody
   public AjaxResponse<String> signFollow(ToSatisfaction toSatisfaction, String taskId, String instCode){
-    SessionUser user = uamSessionService.getSessionUser();
     AjaxResponse<String> response = new AjaxResponse<String>();
     try{
-      //1.更新状态
-      toSatisfaction.setStatus(SatisfactionStatusEnum.SIGN_SURVEY_ING.getCode());
-      toSatisfaction.setUpdateBy(user.getId());
-      toSatisfaction.setUpdateTime(new Date());
-      satisfactionService.updateSelective(toSatisfaction);
-      //2.设置流程变量
-      List<RestVariable> variables = new ArrayList<RestVariable>();
-      //3.推进流程
-      workFlowManager.submitTask(variables, taskId, instCode, null, toSatisfaction.getCaseCode());
+      satisfactionService.signFollow(toSatisfaction, taskId, instCode);
       response.setSuccess(true);
       response.setMessage("操作成功！");
     }catch(Exception e){
@@ -257,20 +178,10 @@ public class SatisController {
   
   @RequestMapping("/doGuohuPass")
   @ResponseBody
-  public AjaxResponse<String> transferPass(ToSatisfaction toSatisfaction, String taskId, String instCode){
-    SessionUser user = uamSessionService.getSessionUser();
+  public AjaxResponse<String> guohuPass(ToSatisfaction toSatisfaction, String taskId, String instCode){
     AjaxResponse<String> response = new AjaxResponse<String>();
     try{
-      //1.更新状态
-      toSatisfaction.setStatus(SatisfactionStatusEnum.GUOHU_SURVEY_PASS.getCode());
-      toSatisfaction.setUpdateBy(user.getId());
-      toSatisfaction.setUpdateTime(new Date());
-      satisfactionService.updateSelective(toSatisfaction);
-      //2.设置流程变量
-      List<RestVariable> variables = new ArrayList<RestVariable>();
-      variables.add(new RestVariable("guohuResult",true));
-      //3.推进流程
-      workFlowManager.submitTask(variables, taskId, instCode, null, toSatisfaction.getCaseCode());
+      satisfactionService.guohuPass(toSatisfaction, taskId, instCode);
       response.setSuccess(true);
       response.setMessage("操作成功！");
     }catch(Exception e){
@@ -283,20 +194,10 @@ public class SatisController {
   
   @RequestMapping("/doGuohuReject")
   @ResponseBody
-  public AjaxResponse<String> transferReject(ToSatisfaction toSatisfaction, String taskId, String instCode){
-    SessionUser user = uamSessionService.getSessionUser();
+  public AjaxResponse<String> guohuReject(ToSatisfaction toSatisfaction, String taskId, String instCode){
     AjaxResponse<String> response = new AjaxResponse<String>();
     try{
-      //1.更新状态
-      toSatisfaction.setStatus(SatisfactionStatusEnum.GUOHU_SURVEY_REJECT.getCode());
-      toSatisfaction.setUpdateBy(user.getId());
-      toSatisfaction.setUpdateTime(new Date());
-      satisfactionService.updateSelective(toSatisfaction);
-      //2.设置流程变量
-      List<RestVariable> variables = new ArrayList<RestVariable>();
-      variables.add(new RestVariable("guohuResult",false));
-      //3.推进流程
-      workFlowManager.submitTask(variables, taskId, instCode, null, toSatisfaction.getCaseCode());
+      satisfactionService.guohuReject(toSatisfaction, taskId, instCode);
       response.setSuccess(true);
       response.setMessage("操作成功！");
     }catch(Exception e){
@@ -310,18 +211,9 @@ public class SatisController {
   @RequestMapping("/doGuohuFollow")
   @ResponseBody
   public AjaxResponse<String> guohuFollow(ToSatisfaction toSatisfaction, String taskId, String instCode){
-    SessionUser user = uamSessionService.getSessionUser();
     AjaxResponse<String> response = new AjaxResponse<String>();
     try{
-      //1.更新状态
-      toSatisfaction.setStatus(SatisfactionStatusEnum.GUOHU_SURVEY_ING.getCode());
-      toSatisfaction.setUpdateBy(user.getId());
-      toSatisfaction.setUpdateTime(new Date());
-      satisfactionService.updateSelective(toSatisfaction);
-      //2.设置流程变量
-      List<RestVariable> variables = new ArrayList<RestVariable>();
-      //3.推进流程
-      workFlowManager.submitTask(variables, taskId, instCode, null, toSatisfaction.getCaseCode());
+      satisfactionService.guohuFollow(toSatisfaction, taskId, instCode);
       response.setSuccess(true);
       response.setMessage("操作成功！");
     }catch(Exception e){
@@ -345,13 +237,7 @@ public class SatisController {
   public AjaxResponse<String> initSatisList(){
     AjaxResponse<String> response = new AjaxResponse<String>();
     try{
-      List<ToCase> toCases = toCaseService.findAllToCase();
-      for(ToCase toCase : toCases){
-        //签约
-        if(CaseStatusEnum.YQY.getCode().compareTo(toCase.getStatus()) < 0 ){
-          satisfactionService.handleAfterSign(toCase.getCaseCode(), "init");
-        }
-      }
+      satisfactionService.initSatisList();
       response.setSuccess(true);
       response.setMessage("操作成功！");
     }catch(Exception e){
@@ -362,18 +248,20 @@ public class SatisController {
     return response;
   }
   
+  /**
+   * 
+   * pushToGuohu: 对已经过户的案件发起过户跟进. <br/> 
+   * 
+   * @author gongjd 
+   * @return 
+   * @since JDK 1.8
+   */
   @RequestMapping("/pushToGuohu")
   @ResponseBody
   public AjaxResponse<String> pushToGuohu(){
     AjaxResponse<String> response = new AjaxResponse<String>();
     try{
-      List<ToCase> toCases = toCaseService.findAllToCase();
-      for(ToCase toCase : toCases){
-        //过户(要等到分单之后并签约评分完成)
-        if(CaseStatusEnum.YGH.getCode().compareTo(toCase.getStatus()) < 0 ){
-          satisfactionService.handleAfterGuohuApprove(toCase.getCaseCode(), "init");
-        }
-      }
+      satisfactionService.pushToGuohu();
       response.setSuccess(true);
       response.setMessage("操作成功！");
     }catch(Exception e){
@@ -384,11 +272,18 @@ public class SatisController {
     return response;
   }
   
-  private void setCaseInfoToModel(Model model , Long satisId , String urlType){
+  private void setCaseInfoToModel(Model model , Long satisId , String caseCode , String urlType){
     
-    ToSatisfaction satisfaction = satisfactionService.queryToSatisfactionById(satisId);
-    
-    String caseCode = satisfaction.getCaseCode();
+	ToSatisfaction satisfaction = null;  
+	  
+	if(StringUtils.isBlank(caseCode)){
+		satisfaction = satisfactionService.queryToSatisfactionById(satisId);
+		caseCode = satisfaction.getCaseCode();
+	}
+	else
+		satisfaction = satisfactionService.queryToSatisfactionByCaseCode(caseCode);
+		satisId = satisfaction.getPkid();
+
     ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
     
     //物业信息
@@ -488,9 +383,9 @@ public class SatisController {
     
 	//查询任务ID和流程ID
     ToWorkFlow record = new ToWorkFlow();
-    record.setCaseCode(caseCode);
+    record.setBizCode(satisId.toString());
     record.setBusinessKey(WorkFlowEnum.SATIS_DEFKEY.getCode());
-    ToWorkFlow tf = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(record);
+    ToWorkFlow tf = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
     
     TaskQuery tq = new TaskQuery();
     tq.setProcessInstanceId(tf.getInstCode());

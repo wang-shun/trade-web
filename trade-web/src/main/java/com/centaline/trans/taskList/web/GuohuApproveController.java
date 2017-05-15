@@ -222,7 +222,9 @@ public class GuohuApproveController {
 		 * 过户审批通过后找到该案件对应的‘客服回访’流程并发送消息往下走，并更新sctrans.T_CS_CASE_SATISFACTION表
 		 * @for 满意度评分
 		 */
-		satisfactionService.handleAfterGuohuApprove(caseCode, sender.getId());
+		if(flag){
+			satisfactionService.handleAfterGuohuApprove(caseCode, sender.getId());
+		}
 		
 		return flag;
 	}

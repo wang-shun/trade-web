@@ -169,10 +169,11 @@
             </h2>
             </div>
         </div>
-
+<form>
     <input type="hidden" id="urlType" name="urlType" value="${urlType}">
     <input type="hidden" id="taskId" name="taskId" value="${taskId}">
     <input type="hidden" id="instCode" name="instCode" value="${instCode}">
+    <input type="hidden" id="pkid" name="pkid" value="${satisfaction.pkid}">
     <div class="ibox-content border-bottom clearfix space_box noborder">
         <div style="height: auto;">
 		    <div class="mb15">
@@ -183,11 +184,17 @@
 		<div id="caseCommentList" class="add_form"></div>
         <div class="form-btn">
                <div class="text-center">
-                   <a  class="btn btn-success btn-space" onclick="javascript:doGuohuFollow();">提交跟进</a>
-                   <a  class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
+               	   <c:if test="${satisfaction.status eq 5}">
+               	   		<a  class="btn btn-success btn-space" onclick="javascript:doGuohuFollow();">提交跟进</a>
+                   		<a  class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
+               	   </c:if>
+				   <c:if test="${satisfaction.status ne 5}">
+                   		<a  class="btn btn-success btn-space" onclick="javascript:goBack();">关闭</a>
+               	   </c:if>
                </div>
          </div>
      </div>
+</form>     
                 </div>
             </div>
         </div>
@@ -202,11 +209,15 @@
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
 					caseCode : '${toCaseInfo.caseCode}',
-					srvCode : null
+					srvCode : "Survey"
 				});
 				
 			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
 		 	    $('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
+		 	    
+		 	    if('${satisfaction.status}' != 5){
+		 	    	readOnlyForm();
+		 	    }
 	        })
 
 	 	     /*动态生成上下家*/
@@ -227,20 +238,26 @@
 	        /*过户跟进*/
 	        function doGuohuFollow(){
 	        	var data = $("form").serializeArray();
-	        	alert(JSON.stringify(data));
 
-	        	window.wxc.confirm("确定要回访通过吗？",{"wxcOk":function(){
+	        	window.wxc.confirm("确定要提交跟进吗？",{"wxcOk":function(){
 					$.ajax({
 						url:ctx+"/satis/doGuohuFollow",
 						method:"post",
 						dataType:"json",
 						data:data,
+						beforeSend:function(){  
+							$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+							$(".blockOverlay").css({'z-index':'9998'});
+				        },
 						success:function(data){
+							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.success("操作成功！");
-								 goBack();
+								 window.wxc.confirm("操作成功！",{"wxcOk":function(){
+									 goBack();
+								   }
+						   		 })
 							 }else{
-								 window.wxc.error("操作失败！\n"+data.message);
+								 window.wxc.error(data.message);
 							 } 
 						 }
 					})
@@ -255,23 +272,27 @@
 				 else
 					 window.location.href = ctx+"/task/myTaskList";
 	        }
+	        /*只读表单*/
+	        function readOnlyForm(){
+	        	$("input,select").prop("disabled",true);
+	        }
 	        </script>
+	        </content>
 	        <content tag="local_require">
-	       <script>
-	        var caseCode = '${toCaseInfo.caseCode}';
-       		var fileUpload;
-		    require(['main'], function() {
-				requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager','eselect'],function($,aistFileUpload){
-					fileUpload = aistFileUpload;
-						fileUpload.init({
-				    		caseCode : caseCode,
-				    		partCode : "Survey",
-				    		fileUploadContainer : "fileUploadContainer"
-				    	});
-					})
-			    });
-			</script>
-	    </content>
+		       <script>
+		        var caseCode = '${toCaseInfo.caseCode}';
+	       		var fileUpload;
+			    require(['main'], function() {
+					requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','blockUI','steps','ligerui','aistJquery','poshytip','twbsPagination','bootstrapModal','modalmanager','eselect'],function($,aistFileUpload){
+						fileUpload = aistFileUpload;
+							fileUpload.init({
+					    		caseCode : caseCode,
+					    		partCode : "Survey",
+					    		fileUploadContainer : "fileUploadContainer"
+					    	});
+						})
+				    });
+				</script>
         </content>
     </body>
     </html>

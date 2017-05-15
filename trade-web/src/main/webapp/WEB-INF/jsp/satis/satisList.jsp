@@ -136,25 +136,25 @@
                        </i>
 					{{/if}}
 					{{if item.STATUS == 2}}
-						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType='list'">
+						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&caseCode={{item.CASE_CODE}}&urlType=list">
 						<i class="color_visited blue_visited">
                                                     签约回访
                        </i>
 					{{/if}}
 					{{if item.STATUS == 3}}
-						<a href="${ctx}/satis/task/signReturn?satisId={{item.PKID}}&urlType='list'">
+						<a href="${ctx}/satis/task/signReturn?satisId={{item.PKID}}&caseCode={{item.CASE_CODE}}&urlType=list">
 						<i class="color_visited red_visited">
 					  签约打回
                        </i>
 					{{/if}}
 					{{if item.STATUS == 4}}
-						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&urlType='list'">
+						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&caseCode={{item.CASE_CODE}}&urlType=list">
 						<i class="color_visited blue_visited">
                                                     过户回访                              
                        </i>
 					{{/if}}
 					{{if item.STATUS == 5}}
-						<a href="${ctx}/satis/task/guohuReturn?satisId={{item.PKID}}&urlType='list'">
+						<a href="${ctx}/satis/task/guohuReturn?satisId={{item.PKID}}&caseCode={{item.CASE_CODE}}&urlType=list">
 						<i class="color_visited red_visited">
                                                     过户打回
                        </i>
@@ -220,9 +220,11 @@
                             <a href="#"><em>{{item.C_ORG_NAME}}</em></a>
                         </span>
                      </td>
-                     <td class="text-center"> 
-                        {{item.CALLER_NAME}}
-                     </td>
+					<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">
+                     	<td class="text-center"> 
+                        	{{item.CALLER_NAME}}
+                     	</td>
+					</shiro:hasPermission>
             </tr>
 			{{/each}}          
 	    	</script> 
@@ -253,7 +255,12 @@
 										method:"post",
 										dataType:"json",
 										data:{caseCodes:caseCodes,userId:userId},
+										beforeSend:function(){  
+											$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+											$(".blockOverlay").css({'z-index':'9998'});
+								        },
 										success:function(data){
+											 $.unblockUI();
 											 if(data.success){
 												 window.wxc.success("分单成功！");
 											 }else{

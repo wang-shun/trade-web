@@ -177,6 +177,7 @@
 	<input type="hidden" id="urlType" name="urlType" value="${urlType}">
 	<input type="hidden" id="taskId" name="taskId" value="${taskId}">
     <input type="hidden" id="instCode" name="instCode" value="${instCode}">
+    <input type="hidden" id="pkid" name="pkid" value="${satisfaction.pkid}">
     <div class="ibox-content border-bottom clearfix space_box noborder">
         <div>
             <h2 class="newtitle title-mark">上家回访</h2>
@@ -432,9 +433,14 @@
 		        </div>
 		        <div class="form-btn">
 		           <div class="text-center">
-		               <a class="btn btn-success btn-space" onclick="javascript:doGuohuPass();" >回访通过</a>
-		               <a class="btn btn-success btn-space" data-toggle="modal" data-target="#myModal">回访打回</a>
-		               <a class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
+		           	   <c:if test="${satisfaction.status eq 4}">
+		           	   		<a class="btn btn-success btn-space" onclick="javascript:doGuohuPass();" >回访通过</a>
+		               		<a class="btn btn-success btn-space" data-toggle="modal" data-target="#myModal">回访打回</a>
+		               		<a class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
+		           	   </c:if>
+		           	   <c:if test="${satisfaction.status ne 4}">
+		           	   		<a class="btn btn-success btn-space" onclick="javascript:goBack();">关闭</a>
+		           	   </c:if>
 		           </div>
 		        </div>
             </div>
@@ -450,8 +456,7 @@
                             <div class="modal_title">
                                 回访打回
                             </div>
-                            <textarea name="" id="" class="textarearoom mt10" style="width:100%;max-width: 760px;margin-left:0;max-height: 150px;height: 150px;" >
-                            </textarea>
+                            <textarea name="" id="" class="textarearoom mt10" style="width:100%;max-width: 760px;margin-left:0;max-height: 150px;height: 150px;" ></textarea>
                             <div class="add_btn text-center mt20">
                                 <button type="button" class="btn btn-success" onclick="javascript:doGuohuReject();" >
                                     打回
@@ -476,11 +481,15 @@
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
 					caseCode : caseCode,
-					srvCode : null
+					srvCode : "Survey"
 				});
 				
 			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
 		 	    $('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
+		 	    
+		 	    if('${satisfaction.status}' != 4){
+		 	    	readOnlyForm();
+		 	    }
 	        })
 
 	 	     /*动态生成上下家*/
@@ -501,7 +510,6 @@
 	        /*过户通过*/
 	        function doGuohuPass(){
 	        	var data = $("form").serializeArray();
-	        	alert(JSON.stringify(data));
 
 	        	window.wxc.confirm("确定要回访通过吗？",{"wxcOk":function(){
 					$.ajax({
@@ -509,7 +517,12 @@
 						method:"post",
 						dataType:"json",
 						data:data,
+						beforeSend:function(){  
+							$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+							$(".blockOverlay").css({'z-index':'9998'});
+				        },
 						success:function(data){
+							 $.unblockUI();
 							 if(data.success){
 								 window.wxc.success("操作成功！");
 								 goBack();
@@ -525,7 +538,6 @@
 	        /*过户驳回*/
 	        function doGuohuReject(){
 	        	var data = $("form").serializeArray();
-	        	alert(JSON.stringify(data));
 
 	        	window.wxc.confirm("确定要回访打回吗？",{"wxcOk":function(){
 					$.ajax({
@@ -535,8 +547,10 @@
 						data:data,
 						success:function(data){
 							 if(data.success){
-								 window.wxc.success("操作成功！");
-								 goBack();
+								 window.wxc.confirm("操作成功！",{"wxcOk":function(){
+									 goBack();
+								   }
+						   		 })
 							 }else{
 								 window.wxc.error("操作失败！\n"+data.message);
 							 } 
@@ -552,6 +566,11 @@
 					 window.location.href = ctx+"/satis/list";
 				 else
 					 window.location.href = ctx+"/task/myTaskList";
+	        }
+	        
+	        /*只读表单*/
+	        function readOnlyForm(){
+	        	$("input,select").prop("disabled",true);
 	        }
 	        </script>
         </content> 
