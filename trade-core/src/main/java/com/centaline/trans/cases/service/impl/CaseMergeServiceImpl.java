@@ -378,7 +378,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		toCaseInfo.setRecommendPhone(caseMergeVo.getRecommendPhone()== null?"":caseMergeVo.getRecommendPhone());			
 		toCaseInfo.setGrpName(caseMergeVo.getAgentOrgName()== null?"":caseMergeVo.getAgentOrgName());
 		toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
-		toCaseInfo.setIsResponsed("0");
+		toCaseInfo.setIsResponsed("1");
 		toCaseInfo.setImportTime(new Date());
 		toCaseInfo.setSourceOfCooperation(caseMergeVo.getSourceOfCooperation());
 		toCaseInfo.setRequireProcessorId(getManagerUserId(caseMergeVo.getAgentOrgCode()));
