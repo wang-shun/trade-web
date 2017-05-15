@@ -41,6 +41,9 @@ public class QuickQueryLightServiceImpl implements CustomDictService
         // 绿灯延迟天数
         int greenDay = getDelayDaysByLight(lightMapList, "2");
 
+        // 当前时间
+        Date currentTime = new Date();
+        
         String val = "";
         for (Map<String, Object> map : keys)
         {
@@ -53,9 +56,6 @@ public class QuickQueryLightServiceImpl implements CustomDictService
 
             // 预计执行时间
             Date date = (Date) todoTime;
-
-            // 当前时间
-            Date currentTime = new Date();
 
             // 计算当前时间跟预计执行时间相差天数
             long days = calDay(currentTime, date);
