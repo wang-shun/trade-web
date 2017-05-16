@@ -179,7 +179,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	public void signPass(ToSatisfaction toSatisfaction, String taskId, String instCode) {
 		  SessionUser user = uamSessionService.getSessionUser();
 		  //1.更新状态
-	      toSatisfaction.setStatus(SatisfactionStatusEnum.GUOHU_SURVEY_ING.getCode());
+	      toSatisfaction.setStatus(SatisfactionStatusEnum.GUOHU_SURVEY_WAIT.getCode());
 	      toSatisfaction.setUpdateBy(user.getId());
 	      toSatisfaction.setUpdateTime(new Date());
 	      updateSelective(toSatisfaction);

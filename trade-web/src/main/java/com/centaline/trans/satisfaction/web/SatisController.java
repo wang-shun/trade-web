@@ -39,6 +39,8 @@ import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
+import com.centaline.trans.task.entity.ToApproveRecord;
+import com.centaline.trans.task.service.ToApproveRecordService;
 
 @Controller
 @RequestMapping("satis")
@@ -58,6 +60,8 @@ public class SatisController {
   TgGuestInfoService tgGuestInfoService;
   @Autowired
   PropertyUtilsServiceImpl propertyUtilsService;
+  @Autowired
+  ToApproveRecordService toApproveRecordService;
   
   @Autowired
   UamUserOrgService uamUserOrgService;
@@ -276,15 +280,41 @@ public class SatisController {
     
 	ToSatisfaction satisfaction = null;  
 	  
-	if(StringUtils.isBlank(caseCode)){
+	if(satisId == null){
+		satisfaction = satisfactionService.queryToSatisfactionByCaseCode(caseCode);
+		satisId = satisfaction.getPkid();
+	}else{
 		satisfaction = satisfactionService.queryToSatisfactionById(satisId);
 		caseCode = satisfaction.getCaseCode();
 	}
-	else
-		satisfaction = satisfactionService.queryToSatisfactionByCaseCode(caseCode);
-		satisId = satisfaction.getPkid();
+
 
     ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+    
+    //爆单和无效原因
+    String toApproveRecord = "";
+	ToApproveRecord toApproveRecordForItem=new ToApproveRecord();	
+      if(toCase.getCaseProperty().equals("30003001") || toCase.getCaseProperty().equals("30003005") ){
+      	ToWorkFlow workFlow = new ToWorkFlow();
+      	workFlow.setCaseCode(toCase.getCaseCode());
+      	workFlow.setBusinessKey("operation_process");
+      	workFlow.setStatus("4");
+      	ToWorkFlow toWorkFlow1= toWorkFlowService.queryToWorkFlowByCaseCodeAndBusinessKey(workFlow);				
+  		if(toWorkFlow1!=null){
+      	toApproveRecordForItem.setProcessInstance(toWorkFlow1.getInstCode());
+  		toApproveRecordForItem.setCaseCode(toCase.getCaseCode());
+		ToApproveRecord toApproveRecord2 = toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);
+			if(toApproveRecord2 != null){
+				toApproveRecord = toApproveRecord2.getContent();
+			}else{
+				toApproveRecord = "";
+			}
+      }else{
+    	  toApproveRecord = "";
+      }
+     }else{
+    	  toApproveRecord = "";
+     }
     
     //物业信息
     ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
@@ -394,12 +424,14 @@ public class SatisController {
 	PageableVo pageableVo = workFlowManager.listTasks(tq);
 	List<TaskVo> taskList = pageableVo.getData();
     
+	model.addAttribute("toApproveRecord", toApproveRecord);
+	model.addAttribute("toCase", toCase);
     model.addAttribute("caseDetailVO", reVo);
     model.addAttribute("toCaseInfo", toCaseInfo);
     model.addAttribute("toPropertyInfo", toPropertyInfo);
     model.addAttribute("satisfaction", satisfaction);
     model.addAttribute("instCode", tf.getInstCode());
-    model.addAttribute("taskId", taskList.get(0).getId());
+    model.addAttribute("taskId", taskList.get(0) == null?null:taskList.get(0).getId());
     model.addAttribute("urlType", urlType);
   }
 

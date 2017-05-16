@@ -3,7 +3,7 @@
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%-- <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%> --%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
@@ -77,9 +77,10 @@
 								<option value="1">未分单</option>
 								<option value="2">签约回访</option>
 								<option value="3">签约打回</option>
-								<option value="4">过户回访</option>
-								<option value="5">过户打回</option>
-								<option value="6">已回访</option>
+								<option value="4">待过户审批</option>
+								<option value="5">过户回访</option>
+								<option value="6">过户打回</option>
+								<option value="7">已回访</option>
 							</select>
 						</div>
 						<div class="add_btn">
@@ -136,30 +137,39 @@
                        </i>
 					{{/if}}
 					{{if item.STATUS == 2}}
-						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&caseCode={{item.CASE_CODE}}&urlType=list">
+						<shiro:lacksPermission name="TRADE.SURVEY.LIST.DISPATCH">
+							<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&caseCode={{item.CASE_CODE}}&urlType=list">
+						</shiro:lacksPermission>
 						<i class="color_visited blue_visited">
                                                     签约回访
                        </i>
 					{{/if}}
 					{{if item.STATUS == 3}}
-						<a href="${ctx}/satis/task/signReturn?satisId={{item.PKID}}&caseCode={{item.CASE_CODE}}&urlType=list">
+						<!--<a href="${ctx}/satis/task/signReturn?satisId={{item.PKID}}&caseCode={{item.CASE_CODE}}&urlType=list">-->
 						<i class="color_visited red_visited">
 					  签约打回
                        </i>
 					{{/if}}
 					{{if item.STATUS == 4}}
-						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&caseCode={{item.CASE_CODE}}&urlType=list">
+						<i class="color_visited blue_visited">
+                                                    待过户审批                              
+                       </i>
+					{{/if}}
+					{{if item.STATUS == 5}}
+						<shiro:lacksPermission name="TRADE.SURVEY.LIST.DISPATCH">
+							<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&caseCode={{item.CASE_CODE}}&urlType=list">
+						</shiro:lacksPermission>
 						<i class="color_visited blue_visited">
                                                     过户回访                              
                        </i>
 					{{/if}}
-					{{if item.STATUS == 5}}
-						<a href="${ctx}/satis/task/guohuReturn?satisId={{item.PKID}}&caseCode={{item.CASE_CODE}}&urlType=list">
+					{{if item.STATUS == 6}}
+						<!--<a href="${ctx}/satis/task/guohuReturn?satisId={{item.PKID}}&caseCode={{item.CASE_CODE}}&urlType=list">-->
 						<i class="color_visited red_visited">
                                                     过户打回
                        </i>
 					{{/if}}
-					{{if item.STATUS == 6}}
+					{{if item.STATUS == 7}}
 						<i class="color_visited grey_visited">
                                                     已回访
                        </i>
@@ -262,11 +272,13 @@
 										success:function(data){
 											 $.unblockUI();
 											 if(data.success){
-												 window.wxc.success("分单成功！");
+												 window.wxc.confirm("分单成功！",{"wxcOk":function(){
+													 window.location.reload();
+												 }
+											   })
 											 }else{
 												 window.wxc.error("分单失败！");
 											 } 
-											 initData();
 										 }
 									})
 								  }

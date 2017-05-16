@@ -2,11 +2,11 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
   <message id="GuohuFinishMsg" name="GuohuFinishMsg"></message>
   <process id="SatisProcess" name="SatisProcess" isExecutable="true">
-    <userTask id="SignSurvey" name="签约回访" activiti:assignee="${caller}" activiti:formKey="/satis/task/SignDetail?__decorator=UI_V2"></userTask>
-    <userTask id="GuohuSurvey" name="过户回访" activiti:assignee="${caller}" activiti:formKey="/satis/task/guohuSatis?__decorator=UI_V2"></userTask>
+    <userTask id="SignSurvey" name="签约回访" activiti:assignee="${caller}" activiti:formKey="/satis/task/signDetail?__decorator=UI_V2"></userTask>
+    <userTask id="GuohuSurvey" name="过户回访" activiti:assignee="${caller}" activiti:formKey="/satis/task/guohuDetail?__decorator=UI_V2"></userTask>
     <startEvent id="startevent1" name="Start"></startEvent>
     <sequenceFlow id="flow2" sourceRef="startevent1" targetRef="SignSurvey"></sequenceFlow>
-    <userTask id="SignFollow" name="签约跟进" activiti:assignee="${consultant1}" activiti:formKey="/satis/task/SignReturn?__decorator=UI_V2"></userTask>
+    <userTask id="SignFollow" name="签约跟进" activiti:assignee="${consultant1}" activiti:formKey="/satis/task/signReturn?__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="SignFollow">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${signResult == false}]]></conditionExpression>
     </sequenceFlow>

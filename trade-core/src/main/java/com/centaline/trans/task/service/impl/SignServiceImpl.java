@@ -1,9 +1,7 @@
 package com.centaline.trans.task.service.impl;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.enums.SatisfactionStatusEnum;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.common.service.TgGuestInfoService;
@@ -26,7 +23,6 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.entity.ToFirstFollow;
 import com.centaline.trans.task.entity.ToHouseTransfer;
@@ -67,9 +63,7 @@ public class SignServiceImpl implements SignService {
 	private ToFirstFollowMapper tofirstFollowMapper;
 	@Autowired
 	private WorkFlowManager workFlowManager;
-	
-	@Autowired
-	private UamBasedataService uamBasedataService;
+
 	@Autowired
 	private UamSessionService uamSessionService;
 	

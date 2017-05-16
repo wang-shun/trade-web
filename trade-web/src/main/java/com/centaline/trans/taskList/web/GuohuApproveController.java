@@ -224,6 +224,7 @@ public class GuohuApproveController {
 		 */
 		if(flag){
 			satisfactionService.handleAfterGuohuApprove(caseCode, sender.getId());
+			
 		}
 		
 		return flag;

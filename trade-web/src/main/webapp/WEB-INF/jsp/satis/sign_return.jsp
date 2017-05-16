@@ -48,15 +48,106 @@
         <div class="row animated fadeInDown">
             <div class="scroll_box fadeInDown animated marginbot">
                 <div class="top12 panel" id="basicInfo">
-                    <div class="sign sign-red">
-                        结案
-                    </div>
-                    <div class="sign sign-blue">
-                        已过户
-                    </div>
-                    <div class="sign sign-yellow">
-                        税费卡
-                    </div>
+                    <c:if test="${toCase.caseProperty=='30003001'}">
+                   		<div class="sign sign-red" ><span
+                   		<c:if test="${toApproveRecord!=''}">
+                  		class="hint hint-top" data-hint="${toApproveRecord}"
+                  		</c:if> >无效</span></div>
+
+                  	</c:if>
+                   	<c:if test="${toCase.caseProperty=='30003002'}">
+                   			<div class="sign sign-red">结案</div>
+                    </c:if>
+                 	<c:if test="${toCase.caseProperty=='30003005'}">
+                  		<div class="sign sign-red ">
+                  		<span
+                   		<c:if test="${toApproveRecord!=''}">
+                  		class="hint hint-top" data-hint="${toApproveRecord}"
+                  		</c:if> >爆单</span>
+
+                  		</div>
+                  	</c:if>
+                   	<c:if test="${toCase.caseProperty=='30003003' || toCase.caseProperty=='30003007' || toCase.caseProperty=='30003008'}">
+                   		<div class="sign sign-red">在途</div>
+	                   <div class="sign sign-blue">
+	                   	<c:if test="${toCase.status=='30001001'}">
+	                   		未分单
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001002'}">
+	                   		已分单
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001003'}">
+	                   		已签约
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001004'}">
+	                   		已过户
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001005'}">
+	                   		已领证
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001006'}">
+	                   		未指定
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001007'}">
+	                   		被合流
+	                   	</c:if>
+	                   </div>
+                    </c:if>
+                   	<c:if test="${toCase.caseProperty=='30003004'}">
+                   		<div class="sign sign-red">挂起</div>
+	                   <div class="sign sign-blue">
+	                   	<c:if test="${toCase.status=='30001001'}">
+	                   		未分单
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001002'}">
+	                   		已分单
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001003'}">
+	                   		已签约
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001004'}">
+	                   		已过户
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001005'}">
+	                   		已领证
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001006'}">
+	                   		未指定
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001007'}">
+	                   		被合流
+	                   	</c:if>
+	                   </div>
+                    </c:if>
+                  	<c:if test="${toCase.caseProperty=='30003006'}">
+                  		<div class="sign sign-red">全部</div>
+	                   <div class="sign sign-blue">
+	                   	<c:if test="${toCase.status=='30001001'}">
+	                   		未分单
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001002'}">
+	                   		已分单
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001003'}">
+	                   		已签约
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001004'}">
+	                   		已过户
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001005'}">
+	                   		已领证
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001006'}">
+	                   		未指定
+	                   	</c:if>
+	                   	<c:if test="${toCase.status=='30001007'}">
+	                   		被合流
+	                   	</c:if>
+	                   </div>
+                   	</c:if>
+                   	<c:if test="${caseDetailVO.loanType=='30004005'}">
+                  		<div class="sign sign-yellow">税费卡</div>
+                  	</c:if>           
                     <div class="panel-body">
                         <div class="ibox-content-head">
                             <h2 class="title">
@@ -219,10 +310,6 @@
 	        	
 			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
 				$('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
-				
-		 	    if('${satisfaction.status}' != 3){
-		 	    	readOnlyForm();
-		 	    }
 	        })
 			      
 			/*动态生成上下家*/
