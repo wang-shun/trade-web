@@ -3,8 +3,10 @@ package com.centaline.parportal.mobile.taskflow.web;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -98,8 +100,8 @@ public class LoanlostApproveController
 
         ToAccesoryList toAccesoryList = new ToAccesoryList();
         toAccesoryList.setPartCode("LoanlostApply");
-        List<ToAccesoryList> toAccesoryLists = toAccesoryListService.qureyToAccesoryList(toAccesoryList);
 
+        Set<ToAccesoryList> toAccesorySet = new HashSet<ToAccesoryList>();
         if (attachments != null && attachments.size() > 0)
         {
             for (ToAttachment attachment : attachments)
@@ -110,12 +112,20 @@ public class LoanlostApproveController
                     accesoryList.setAccessoryCode(attachment.getPreFileCode());
                     accesoryList.setPartCode(attachment.getPartCode());
                     attachment.setPreFileName(toAccesoryListService.findAccesoryNameByPartCode(accesoryList).getAccessoryName());
+                    
+                    accesoryList.setAccessoryName(attachment.getPreFileName());
+                    toAccesorySet.add(accesoryList);
                 }
             }
         }
 
         toAttachmentVO.setAttachmentList(attachments);
-        toAttachmentVO.setToAccesoryList(toAccesoryLists);
+        
+        List<ToAccesoryList> toAccesoryListlist = new ArrayList<ToAccesoryList>();
+        for (ToAccesoryList obj : toAccesorySet) {
+        	toAccesoryListlist.add(obj);
+		}
+        toAttachmentVO.setToAccesoryList(toAccesoryListlist);
 
         AjaxResponse ajaxResponse = new AjaxResponse();
         ajaxResponse.setContent(toAttachmentVO);

@@ -36,7 +36,7 @@
                         </div>
 
                         <!-- table -->
-                        <div class="table-scroll">
+                        <div class="table-scroll" style="height:550px;overflow: auto">
                         <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
                             <thead>
                                 <tr>
@@ -60,6 +60,12 @@
                                 
                             </tbody>
                         </table>
+                       
+                        </div><br>
+                         <div>
+                        	备注<br/>
+                        	①：商贷案件占比=商贷签约量/签约量（买卖）<br/>
+	  						②：公积金金额：包含组合贷款中的公积金和纯公积金贷款
                         </div>
                     </div>
                 </div>

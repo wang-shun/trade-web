@@ -35,7 +35,7 @@
 					</div>
 
 					<!-- table -->
-					 <div class="table-scroll">
+					 <div class="table-scroll" style="height:550px;overflow: auto">
 					<table
 						class="table table_blue  table-striped table-bordered table-hover customerinfo">
 						<thead>

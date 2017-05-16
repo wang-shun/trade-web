@@ -1,5 +1,7 @@
 package com.centaline.trans.cases.service;
 
+import com.aist.common.web.validate.AjaxResponse;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -10,4 +12,6 @@ public interface CaseHandlerService {
     void BelongAndTransferList(HttpServletRequest request);
 
     void handlerDetailList(HttpServletRequest request, String userId, String detailCode);
+
+    AjaxResponse changeLeadingPro(String[] caseCode, String userId,String detailCode);
 }

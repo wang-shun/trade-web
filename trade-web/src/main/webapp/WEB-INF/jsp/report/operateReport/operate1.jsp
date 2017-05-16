@@ -58,7 +58,14 @@
 						</thead>
 						<tbody id="tableTemplate">
 						</tbody>
+						
 					</table>
+						<div>
+						数据来源<br/>
+						①：过户数据取本月过户审批通过案件（商贷金额和公积金金额包含公司办理、客户自办、纯公积金各类贷款）<br/>
+						②：货款签约数据取本月实际签贷时间（是指公司办理的商贷和纯公积金）<br/>
+						</div>
+						
 				</div>
 				</div>
 			</div>
@@ -109,8 +116,8 @@
 						 for(var i = 0;i< listSize;i++){
 							 var row = list[i];
 						 	if(parseInt(row.month)==(month)){
-						 		var num1 = accDivN(getNum(row.mortComAmount),10000);
-						 		var num2 = accDivN(getNum(row.mortPrfAmount),10000);
+						 		var num1 = getNum(row.mortComAmount);
+						 		var num2 = getNum(row.mortPrfAmount);
 						 		var numA = accAdd(num1,num2);
 						 		td1Html = "<td>"+num1+"</td>";/*1商贷金额*/
 						 		td2Html = "<td>"+num2+"</td>";/*2公积金金额*/
@@ -143,8 +150,8 @@
 						 for(var i = 0;i< listSize;i++){
 							 var row = list[i];
 						 	if(parseInt(row.month)==(month)){
-						 		var num1 = accDivN(getNum(row.dkmortComAmount),10000);
-						 		var num2 = accDivN(getNum(row.dkmortPrfAmount),10000);
+						 		var num1 = getNum(row.dkmortComAmount);
+						 		var num2 = getNum(row.dkmortPrfAmount);
 						 		var numA = accAdd(num1,num2);
 						 		td1Html = "<td>"+num1+"</td>";/*1商贷金额*/
 						 		td2Html = "<td>"+num2+"</td>";/*2公积金金额*/

@@ -72,7 +72,12 @@ public class ServiceRestartController {
 		SessionUser u = uamSessionService.getSessionUser();
 		vo.setUserId(u.getId());
 		vo.setUserName(u.getUsername());
-		boolean piv = serviceRestart.apply(vo);
+		boolean piv =false;
+		try{
+			piv = serviceRestart.apply(vo);
+		}catch (Exception e){
+
+		}
 		AjaxResponse resp = new AjaxResponse(piv);
 		return resp;
 	}

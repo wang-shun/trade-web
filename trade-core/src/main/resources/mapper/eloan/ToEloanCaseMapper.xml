@@ -795,6 +795,11 @@
       <if test="caseCode != null" >
         AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
       </if>
+      <if test="excutorId != null" >
+        AND EXCUTOR_ID = #{excutorId,jdbcType=VARCHAR}
+      </if>
+
+
 	</where>
   </select>
   

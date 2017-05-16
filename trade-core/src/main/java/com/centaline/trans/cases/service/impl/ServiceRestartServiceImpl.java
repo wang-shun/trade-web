@@ -2,10 +2,15 @@ package com.centaline.trans.cases.service.impl;
 
 import java.util.*;
 
+import com.aist.common.quickQuery.bo.JQGridParam;
+import com.aist.common.quickQuery.service.QuickGridService;
 import com.alibaba.druid.util.StringUtils;
 import com.centaline.trans.task.service.ActRuTaskService;
+import com.centaline.trans.workspace.entity.CacheGridParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aist.common.exception.BusinessException;
@@ -69,7 +74,8 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private TransplanServiceFacade toTransplanOperateService;// add by zhoujp
 	@Autowired
 	private ActRuTaskService actRuTaskService;
-
+	@Autowired
+	private QuickGridService quickGridService;
 	@Override
 	@Transactional(readOnly = false)
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
@@ -139,19 +145,21 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 				}
 			}
 		}
-		ToCase toCase = new ToCase();
+
+		Map<String, Object> vars = new HashMap<>();
+
+		ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
+		vars.put("caseProperty", toCase.getCaseProperty());
 		toCase.setCaseProperty(CasePropertyEnum.TPGQ.getCode());
-		toCase.setCaseCode(vo.getCaseCode());
 		toCaseService.updateByCaseCodeSelective(toCase);//将案件更新成挂起案件
 
-        //打开重启流程
-		Map<String, Object> vars = new HashMap<>();
 		// 根据案件所在组找主管
 		String managerName = toCaseService.getManagerByCaseOwner(vo.getCaseCode());
-
 		vars.put("consultant", vo.getUserName());
 		vars.put("Manager", managerName);
+
 		// vars.put("Manager", manager.getUsername());
+		//打开重启流程
 		StartProcessInstanceVo spv = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.SERVICE_RESTART.getCode()), vo.getCaseCode(), vars);
 		List<TaskVo> tasks = taskService.listTasks(spv.getId(), false,vo.getUserName()).getData();
 		if (tasks != null && !tasks.isEmpty()) {
@@ -199,10 +207,38 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		toApproveService.insertToApproveRecord(record);
 		return true;
 	}
-
-	@Transactional(readOnly = false)
+	@Transactional(propagation = Propagation.REQUIRED,readOnly = false)
 	@Override
 	public boolean approve(ServiceRestartVo vo) {
+
+		if (vo.getIsApproved()) {
+			ToCase toCase = new ToCase();
+			toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
+			toCase.setCaseCode(vo.getCaseCode());
+			toCaseService.updateByCaseCodeSelective(toCase);//将案件更新在途起案件
+		}else{
+			JQGridParam gp =  new CacheGridParam();
+			gp.setPagination(false);
+			gp.setQueryId("queryVarinsts");
+			gp.put("variableName",  "caseProperty");
+			gp.put("instCode", vo.getInstCode());
+			Page<Map<String, Object>> varinsts = quickGridService.findPageForSqlServer(gp);
+			if(varinsts!=null){
+				if("".equals(varinsts.getContent().size()>0)){
+					ToCase toCase = new ToCase();
+					toCase.setCaseProperty((String)varinsts.getContent().get(0).get("vtext"));
+					toCase.setCaseCode(vo.getCaseCode());
+					toCaseService.updateByCaseCodeSelective(toCase);//将案件更新为原来的状态
+				}
+			}
+
+			ToWorkFlow wf = new ToWorkFlow();
+			wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+			wf.setCaseCode(vo.getCaseCode());
+			wf.setInstCode(vo.getInstCode());
+			toWorkFlowService.updateWorkFlowByInstCode(wf);
+		}
+
 		List<RestVariable> vs = new ArrayList<>();
 		RestVariable v = new RestVariable("is_approved", vo.getIsApproved());
 		vs.add(v);
@@ -245,11 +281,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 			toMortgageService.deleteTmpBankProcess(twf);
 			//将T_TO_WORKFLOW 和 T_HI_WORKFLOW 中的status设置为2 非正常结束
 			toWorkFlowService.deleteWorkFlowByProperty(twf);
-			
-
-			ToWorkFlow wf = new ToWorkFlow();
-			wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
-			wf.setCaseCode(vo.getCaseCode());
 			deleteMortFlowByCaseCode(vo.getCaseCode());
 		}
 		// end
@@ -290,12 +321,6 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 					workFlowManager.activateOrSuspendProcessInstance(instCode,true);//案件的相关流程挂起恢复
 				}
 			}
-		}
-		if (vo.getIsApproved()) {
-			ToCase toCase = new ToCase();
-			toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
-			toCase.setCaseCode(vo.getCaseCode());
-			toCaseService.updateByCaseCodeSelective(toCase);//将案件更新在途起案件
 		}
 
 		return true;
@@ -407,7 +432,16 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		return true;
 
 	}
+	@Transactional(propagation = Propagation.NESTED)
+	public String getVars(String instCode){
+		String var = "";
+		try{
+			var = (String) workFlowManager.getVar(instCode, "caseProperty1").getValue();
+		} catch (WorkFlowException e) {
+		}
 
+		return var;
+	}
 
 
 }
