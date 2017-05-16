@@ -81,7 +81,8 @@ th, td {
 				</div>
 			</div>
 			<div style="height: 34px;line-height: 34px;"><i class="icon iconfont icon40 yellow martop20" style="font-size: 30px;float: left;"></i>本月后台E+卡申请量:<span id="notHaveOwnerVal"></span></div>
-			备注： 单数转化率 = 过户案件中E+卡申请数 / 过户总单数<br>
+			备注： <br>
+			①单数转化率 = 过户案件中E+卡申请数 / 过户总单数<br>
 			数据来源：<br>
 			①本周过户审批通过案件<br>
 			②本周E+卡申请量 ： 取本月E+卡的创建时间
@@ -116,7 +117,7 @@ th, td {
 			  <td>{{item.KA_NUM_MONTH}}</td>
               <td>{{item.KA_APP_NUM_MONTH == 0?0:(item.KA_NUM_MONTH/item.KA_APP_NUM_MONTH*100).toFixed()}}%</td>
               <td>{{item.ELOAN_KA_APP_NUM_MONTH}}</td>
-			  <td>{{item.ELOAN_KA_APP_AMOUNT_MONTH}}万元</td>
+			  <td>{{item.ELOAN_KA_APP_AMOUNT_MONTH.toFixed()}}万元</td>
              </tr>
 		{{/each}}
 	    </script>
@@ -157,6 +158,7 @@ th, td {
 			tb4 = tb2 == 0?0:(tb3/tb2*100).toFixed();
 			tb7 = tb5 == 0?0:(tb6/tb5*100).toFixed();
 			tb9 = tb6 == 0?0:(tb8/tb6*100).toFixed();
+			tb11 = tb11 == 0?0:tb11.toFixed();
 			var trStr = "<tr>";
 			trStr += "<td>总计</td>";
 			trStr += "<td>"+tb2+"</td>";
