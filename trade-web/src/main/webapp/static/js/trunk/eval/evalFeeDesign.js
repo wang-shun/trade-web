@@ -98,7 +98,7 @@ $(document).ready(function() {
 						pgtext : " {0} 共 {1} 页",
 
 						onSelectRow : function(rowid, status) {
-							window.wxc.alert(rowid);
+							//window.wxc.alert(rowid);
 						},
 						postData : {
 							queryId : "queryEvalItemList",
@@ -110,7 +110,6 @@ $(document).ready(function() {
 			                for(var i=0;i<ids.length;i++){
 			                    var id = ids[i];
 			                    var row = $("#table_list_1").jqGrid("getRowData",id);
-			                    //var inHTML = "<input class='btn btn-primary' type='button' value='编辑' onclick='rowEdit(\""+id+"\""+CASE_ORIGIN+"\")' />";
 			                    var inHTML = "<input class='btn btn-primary' type='button' value='编辑' onclick='rowEdit(\""+id+"\")' />";
 			                    jQuery("#table_list_1").jqGrid('setRowData',ids[i],{EDIT:inHTML});
 			                } 
