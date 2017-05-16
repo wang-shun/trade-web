@@ -14,6 +14,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.janino.Java;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,16 +34,24 @@ import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.CaseMergeService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.cases.vo.CaseMergeVo;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.CaseOriginEnum;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.common.enums.TransDictEnum;
+import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
+import com.centaline.trans.eval.entity.ToEvaFeeRecord;
+import com.centaline.trans.mgr.entity.TsFinOrg;
+import com.centaline.trans.mortgage.entity.ToEvaReport;
+import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.team.entity.TsTeamScopeTarget;
 import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.utils.DateUtil;
@@ -510,7 +519,16 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		
 		List<ToAttachment> toAttachmentList = toAttachmentMapper.findToAttachmentByCaseCode(caseMergeVo.getDistCode().toString());
 		if(null !=toAttachmentList && toAttachmentList.size()>0){
-			receiptPic = toAttachmentList.get(0).getPreFileAdress();
+			String preFileAdress = null;
+			for(ToAttachment toAttachment:toAttachmentList){
+				if(null == preFileAdress){
+					preFileAdress = toAttachment.getPreFileAdress()+",";
+				}else{
+					preFileAdress = preFileAdress+toAttachment.getPreFileAdress()+",";
+				}
+				
+			}
+			receiptPic = preFileAdress.substring(0, preFileAdress.length()-1).toString();
 		}else{
 			throw new BusinessException("新建外单案件没有上传附件！");
 		}
@@ -625,7 +643,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		tpdPaymentVO.setPayer(tpdPayment.getPayer());
 		tpdPaymentVO.setPaymentAmount(tpdPayment.getPaymentAmount());
 		tpdPaymentVO.setPaymentDate(tpdPayment.getPaymentDate());
-		tpdPaymentVO.setReceiptPic(tdmPaidSubs.getReceiptPic());
+		tpdPaymentVO.setReceiptPicList(java.util.Arrays.asList(tdmPaidSubs.getReceiptPic().split(",")));
 		return tpdPaymentVO;
 	}
 	/**
@@ -1085,4 +1103,124 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		}
 		return k;
 	}
+	
+
+	/**
+	 * 查询案件基本信息
+	 * @param caseCode
+	 * @param toMortgage
+	 * @return
+	 */
+	@Override
+	public void setCaseAttribute(String caseCode,HttpServletRequest request) {
+		CaseDetailShowVO reVo = new CaseDetailShowVO();
+		
+		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+		ToCase te=toCaseService.findToCaseByCaseCode(caseCode);
+		if(null!=te){
+			reVo.setCaseProperty(te.getCaseProperty());
+		}
+		
+		/**物业信息**/
+		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+		if(toPropertyInfo!=null){
+			reVo.setPropertyAddress(toPropertyInfo.getPropertyAddr());
+		}
+		User agentUser=null;
+		/**经纪人**/
+		if(!StringUtils.isBlank(toCaseInfo.getAgentCode())){
+			agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
+		}
+		if(agentUser!=null){
+			reVo.setAgentId(agentUser.getId());
+			reVo.setAgentName(agentUser.getRealName());
+			reVo.setAgentMobile(agentUser.getMobile());
+			reVo.setAgentOrgId(agentUser.getOrgId());
+			reVo.setAgentOrgName(agentUser.getOrgName());
+			/**分行经理**/
+			List<User> mcList = uamUserOrgService.getUserByOrgIdAndJobCode(agentUser.getOrgId(), TransJobs.TFHJL.getCode());
+			if(mcList!=null && mcList.size()>0){
+
+				User mcUser = mcList.get(0);
+				reVo.setMcId(mcUser.getId());
+				reVo.setMcName(mcUser.getRealName());
+				reVo.setMcMobile(mcUser.getMobile());
+			}
+		}
+		
+		/**交易顾问**/
+		User consultUser = uamUserOrgService.getUserById(te.getLeadingProcessId());
+		if(consultUser!=null){
+			reVo.setCpId(consultUser.getId());
+			reVo.setCpName(consultUser.getRealName());
+			reVo.setCpMobile(consultUser.getMobile());
+		}
+		/**助理**/
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(consultUser.getOrgId(), TransJobs.TJYZL.getCode());
+		if(asList!=null && asList.size()>0){
+			User assistUser = asList.get(0);
+			reVo.setAsId(assistUser.getId());
+			reVo.setAsName(assistUser.getRealName());
+			reVo.setAsMobile(assistUser.getMobile());
+		}
+		/**上下家**/
+		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(caseCode);
+		StringBuffer seller = new StringBuffer();
+		StringBuffer sellerMobil = new StringBuffer();
+		StringBuffer buyer = new StringBuffer();
+		StringBuffer buyerMobil = new StringBuffer();
+		for (TgGuestInfo guest : guestList) {
+			if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
+				seller.append(guest.getGuestName());
+				sellerMobil.append(guest.getGuestPhone());
+				seller.append("/");
+				sellerMobil.append("/");
+			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
+				buyer.append(guest.getGuestName());
+				buyerMobil.append(guest.getGuestPhone());
+				buyer.append("/");
+				buyerMobil.append("/");
+			}
+		}
+
+		if (guestList.size() > 0) {
+			if (seller.length() > 1) {
+				seller.deleteCharAt(seller.length() - 1);
+				sellerMobil.deleteCharAt(sellerMobil.length() - 1);
+			}
+
+			if (buyer.length() > 1) {
+				buyer.deleteCharAt(buyer.length() - 1);
+				buyerMobil.deleteCharAt(buyerMobil.length() - 1);
+			}
+		}
+		BigDecimal allAmount = new BigDecimal(0); 
+		/**
+		 * 案件应收金额
+		 */
+		TpdCommSubs tpdCommSubs = tpdCommSubsMapper.selectByCaseCode(caseCode);
+		if(null != tpdCommSubs && null != tpdCommSubs.getCommCost()){
+			BigDecimal pyAmount = tpdCommSubs.getCommCost();
+		
+			List<TpdPayment> tpdPayments = tpdPaymentMapper.selectByCaseCode(caseCode);
+			if(null != tpdPayments && tpdPayments.size()>0){
+				for(TpdPayment tpdPayment:tpdPayments){
+					pyAmount =  pyAmount.subtract(tpdPayment.getPaymentAmount());
+				}
+			}
+			allAmount = pyAmount;
+		}
+		
+		reVo.setSellerName(seller.toString());
+		reVo.setSellerMobile(sellerMobil.toString());
+		reVo.setBuyerMobile(buyerMobil.toString());
+		reVo.setBuyerName(buyer.toString());
+		
+		request.setAttribute("toPropertyInfo", toPropertyInfo);
+		request.setAttribute("toCaseInfo", toCaseInfo);
+		request.setAttribute("caseDetailVO", reVo);
+		request.setAttribute("toCase", te);
+		request.setAttribute("allAmount", allAmount);
+	}
+	
 }

@@ -328,6 +328,7 @@
 								<div class="input-group float_icon organize_icon">
 									<i class="icon iconfont">&#xe627;</i>
 								</div>
+								<input type="hidden" id="caseOrigin"  name="caseOrigin"/>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> 转介人员工编号 </label> <input
@@ -502,7 +503,8 @@
             <span>经纪人：</span><a href="#" class="a_blue" id="modal_agentName{{index}}">{{item.AGENT_NAME}}</a>
         </p>
             <input type="hidden" id="modal_agentCode{{index}}"  value="{{item.AGENT_CODE}}">
-            <input type="hidden" id="modal_employeeCode{{index}}"  value="{{item.EMPLOYEE_CODE}}">
+           <input type="hidden" id="modal_employeeCode{{index}}"  value="{{item.EMPLOYEE_CODE}}">
+            <input type="hidden" id="modal_caseOrigin{{index}}"  value="{{item.CASE_ORIGIN}}">
     </td>
     <td class="center">
         <p class="big">
@@ -707,8 +709,10 @@
 								}
 								var zjName = $('#zjName').val();
 								if (zjName == null || zjName == '') {
-									window.wxc.alert("请填写转介人");
-									return false;
+									if($("#caseOrigin").val() == "WD"){}else{
+										window.wxc.alert("请填写转介人");
+										return false;
+										}
 								}
 								var loanerName = $('#loanerName').val();
 								if (loanerName == null || loanerName == '') {
@@ -796,6 +800,7 @@
 												$("#content_agentName").html($("#modal_agentName"+ index).html());
 												$("#zjName").val($("#modal_agentName"+ index).html());
 												$("#zjCode").val($("#modal_employeeCode"+ index).val());
+												$("#caseOrigin").val($("#modal_caseOrigin"+ index).val());
 												$('.case_content').show();
 												$('#myModal').modal('hide');
 
@@ -898,8 +903,10 @@
 			}
 			var zjName = $('#zjName').val();
 			if (zjName == null || zjName == '') {
+				if($("#caseOrigin").val() == "WD"){}else{
 				window.wxc.alert("请填写转介人");
 				return false;
+				}
 			}
 			var loanerName = $('#loanerName').val();
 			if (loanerName == null || loanerName == '') {

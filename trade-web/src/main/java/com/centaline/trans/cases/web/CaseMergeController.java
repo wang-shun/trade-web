@@ -405,6 +405,7 @@ public class CaseMergeController {
 	public String addLiushui(Model model, HttpServletRequest request,String caseCode) throws Exception{
 		request.setAttribute("caseCode", caseCode);
 		toAccesoryListService.getAccesoryList(request, "AddLiushui");
+		caseMergeService.setCaseAttribute(caseCode,request);
 		model.addAttribute("caseCode_",getRandom());
 		return "case/addLiushui";
 	}
