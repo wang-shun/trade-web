@@ -100,6 +100,7 @@
 		<pattern>/test/*</pattern>
 		<pattern>/caseMerge/caseRecord</pattern>
 		<pattern>/newCase/input</pattern>
+		<pattern>/newCase/inputWD</pattern>
 		<pattern>/task/loanerProcessList</pattern>
 		<pattern>/caseMerge/addWdCase</pattern>
 		<pattern>/caseMerge/saveWdCaseInfo/add</pattern>

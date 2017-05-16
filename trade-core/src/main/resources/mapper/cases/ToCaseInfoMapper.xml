@@ -31,12 +31,14 @@
 	<result column="refer_consultant_id" jdbcType="VARCHAR" property="referConsultantId" />
 	<result column="refer_consultant_realname" jdbcType="VARCHAR" property="referConsultantRealname" />
 	<result column="SOURCE_OF_COOPERATION" jdbcType="VARCHAR" property="sourceOfCooperation" />
+	<result column="recommend_Username" jdbcType="VARCHAR" property="recommendUsername" />
+	<result column="recommend_Phone" jdbcType="VARCHAR" property="recommendPhone" />
   </resultMap>
   <sql id="Base_Column_List">
      PKID, CTM_CODE, AGENT_CODE, CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
     AGENT_NAME,DISPATCH_TIME,IMPORT_TIME, GRP_CODE, GRP_NAME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE,TARGET_CODE, 
     QJDS_NAME,QYJL_NAME,QYZJ_NAME,SWZ_CODE,SWZ_NAME,WZ_CODE,WZ_NAME,BA_CODE,BA_NAME,
-    refer_consultant_id,refer_consultant_realname,SOURCE_OF_COOPERATION
+    refer_consultant_id,refer_consultant_realname,SOURCE_OF_COOPERATION,RECOMMEND_USERNAME,RECOMMEND_PHONE
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -115,6 +117,12 @@
       <if test="sourceOfCooperation != null" >
         SOURCE_OF_COOPERATION,
       </if>
+      <if test="recommendUsername != null" >
+        RECOMMEND_USERNAME,
+      </if>
+      <if test="recommendPhone != null" >
+         RECOMMEND_PHONE,
+      </if>
        CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -172,6 +180,12 @@
       <if test="sourceOfCooperation != null" >
         #{sourceOfCooperation,jdbcType=VARCHAR},
       </if>
+      <if test="recommendUsername != null" >
+        #{recommendUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendPhone != null" >
+        #{recommendPhone,jdbcType=VARCHAR},
+      </if>
        GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
@@ -206,7 +220,9 @@
       refer_consultant_id = #{referConsultantId,jdbcType=VARCHAR},
       refer_consultant_realname = #{referConsultantRealname,jdbcType=VARCHAR},
       AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR},
-      SOURCE_OF_COOPERATION = #{sourceOfCooperation,jdbcType=VARCHAR}
+      SOURCE_OF_COOPERATION = #{sourceOfCooperation,jdbcType=VARCHAR},
+      recommend_Username = #{recommendUsername,jdbcType=VARCHAR},
+      recommend_Phone = #{recommendPhone,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   

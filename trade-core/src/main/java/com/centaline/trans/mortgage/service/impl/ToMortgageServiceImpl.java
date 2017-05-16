@@ -28,6 +28,8 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.bizwarn.entity.BizWarnInfo;
+import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.Result2;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -115,6 +117,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
     private StuffService stuffService;
     @Autowired
     private ToMortLoanerService toMortLoanerService;
+    @Autowired
+    private BizWarnInfoService bizWarnInfoService;
 
     @Override
     public ToMortgage saveToMortgage(ToMortgage toMortgage)
@@ -228,6 +232,13 @@ public class ToMortgageServiceImpl implements ToMortgageService
     public void updateToMortgage(ToMortgage toMortgage)
     {
         toMortgageMapper.update(toMortgage);
+
+    }
+
+    @Override
+    public void updateByPrimaryKey(ToMortgage toMortgage)
+    {
+        toMortgageMapper.updateByPrimaryKey(toMortgage);
 
     }
 
@@ -879,6 +890,14 @@ public class ToMortgageServiceImpl implements ToMortgageService
             // 处理流程,信贷员接单,流程进入银行审核流程
             loanerProcessService.isLoanerAcceptCase(true, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(),
                     mortgageVo.getBizCode(), mortgageVo.getStateInBank());
+
+            // 接单之后自动解除预警信息
+            BizWarnInfo bizWarnInfo = new BizWarnInfo();
+            bizWarnInfo.setStatus("1");
+            bizWarnInfo.setCaseCode(mortgageVo.getCaseCode());
+            bizWarnInfo.setWarnType("LoanerOverdueAccept");
+
+            bizWarnInfoService.updateStatusByCaseCodeAndWarnType(bizWarnInfo);
         }
         // 信贷员打回
         else if ("false".equals(mortgageVo.getIsPass()))

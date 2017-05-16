@@ -132,6 +132,10 @@
   		update sctrans.T_TO_BIZ_WARN set STATUS=#{status,jdbcType=CHAR}, RELIEVE_TIME = GETDATE(), UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID} where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
   </update>
   
+  <update id="updateStatusByCaseCodeAndWarnType" parameterType="com.centaline.trans.bizwarn.entity.BizWarnInfo">
+  		update sctrans.T_TO_BIZ_WARN set STATUS=#{status,jdbcType=CHAR}, RELIEVE_TIME = GETDATE(), UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID} where CASE_CODE=#{caseCode,jdbcType=VARCHAR} AND WARN_TYPE = #{warnType,jdbcType=VARCHAR}
+  </update>
+  
    <update id="updateStatusInMortgageSelect" parameterType="com.centaline.trans.bizwarn.entity.BizWarnInfo">
   		update sctrans.T_TO_BIZ_WARN set STATUS=#{status,jdbcType=CHAR}, RELIEVE_TIME = GETDATE() where CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
   </update>

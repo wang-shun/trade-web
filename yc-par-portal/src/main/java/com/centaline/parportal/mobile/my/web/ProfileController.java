@@ -23,7 +23,7 @@ import com.aist.uam.userorg.remote.vo.User;
  * @version $Id: ProfileController.java, v 0.1 2016年12月20日 上午7:32:02 sstonehu Exp $
  */
 @RestController
-@RequestMapping({ "mobile/my" })
+@RequestMapping({ "my" })
 public class ProfileController {
 
     @Autowired

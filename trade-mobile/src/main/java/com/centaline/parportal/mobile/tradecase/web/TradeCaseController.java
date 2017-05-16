@@ -74,7 +74,7 @@ public class TradeCaseController {
 
 	@Autowired
 	private UamBasedataService uamBasedataService;
-	
+
     @Resource
     private ToModuleSubscribeService toModuleSubscribeService;
 	
@@ -104,7 +104,7 @@ public class TradeCaseController {
 			Boolean onlyLoanLostAlert, String q_text) {
 		SessionUser user = sessionService.getSessionUser();
 		JQGridParam gp = new JQGridParam();
-		gp.setQueryId("queryTradeCastListMoblie");
+		gp.setQueryId("queryTradeCaseListMoblie");
 		gp.setPage(page);
 		gp.setRows(pageSize);
 
@@ -207,7 +207,7 @@ public class TradeCaseController {
 		buildTradeInfo(result,caseCode,user);
 		
 		buildEplusInfo(result,caseCode,user);
-		buildJianguanInfo(result,caseCode,user);
+		buildJianguanInfo(result, caseCode, user);
 		return result;
 	}
 	
@@ -244,7 +244,7 @@ public class TradeCaseController {
 			result.put("jianguanInfo", new JSONObject());
 			return;
 		}
-		generateWantData(list,"jianguanInfo");
+		generateWantData(list, "jianguanInfo");
 		
 		result.put("jianguanInfo", list);
 	}
@@ -411,19 +411,27 @@ public class TradeCaseController {
 	
 	@RequestMapping(value = "{caseCode}/focus")
 	@ResponseBody
-	public JSONObject focus( @PathVariable("caseCode") String caseCode,
+	public Object focus( @PathVariable("caseCode") String caseCode,
 			@RequestParam(required = true)Boolean action){
 		SessionUser user = sessionService.getSessionUser();
+		AjaxResponse ajaxResponse = new AjaxResponse();
 		ToModuleSubscribeVo vo = new ToModuleSubscribeVo();
 		vo.setModuleCode(caseCode);
 		vo.setSubscriberId(user.getId());
 		vo.setSubscribeType("2001");
 		vo.setModuleType("1001");
 		vo.setIsSubscribe(action);
-        toModuleSubscribeService.saveOrDeleteCaseSubscribe(vo);
-        JSONObject jo = new JSONObject();
-        jo.put("success", true);
-        return jo;
+		vo.setRemark("");
+		try{
+		   toModuleSubscribeService.saveOrDeleteCaseSubscribe(vo);
+			ajaxResponse.setSuccess(true);
+			ajaxResponse.setMessage("关注成功");
+		}catch (BusinessException e){
+			e.printStackTrace();
+			ajaxResponse.setSuccess(false);
+			ajaxResponse.setMessage(e.getMessage());
+		}
+        return ajaxResponse;
 	}
 	
 	@RequestMapping(value = "{caseCode}/loanLostAlert")

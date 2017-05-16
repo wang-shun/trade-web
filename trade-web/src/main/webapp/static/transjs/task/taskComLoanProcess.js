@@ -510,7 +510,8 @@ function completeMortgage(form){
 				return;
 			}
 		}else{
-			if($("#tmpBankStatus").val() != '3'){ 	
+			//非临时银行
+			if(!($("#tmpBankStatus").val() == '3'  ||  $("#stateInBank").val() == 'MORT_APPROVED')){ 	
 				window.wxc.alert("信贷员接单银行审批未完成或不通过！");
 				return;
 			}
@@ -525,7 +526,7 @@ function completeMortgage(form){
 		return;
 	}
 	
-	var finOrgCode = form.find("input[name='finOrgCode']").val()
+	var finOrgCode = form.find("input[name='finOrgCode']").val();
 	if(finOrgCode == null || finOrgCode == ""){
 		alert("请先选择贷款银行和支行！");
 		return;
@@ -866,6 +867,8 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    				$(".loanerNameImage").css("color","#52cdec");
 		    			}else{$(".loanerNameImage").css("color","#676A6C");}
 		    			
+		    			//设置信贷员审批的值
+		    			f.find("input[name='stateInBank']").val(data.content.stateInBank);		    			
 		    			
 		    			if(data.content.isLoanerArrive == 1){
 		    				f.find("input[name='isLoanerArrive'][value='1']").prop("checked",true);
@@ -1656,12 +1659,13 @@ $(document).ready(function (){
 				return false;
 			}
  			
- 			if ($("#rec_letter_first_pic_list li").length == undefined
-					|| $("#rec_letter_first_pic_list li").length == 0 ) {
-				window.wxc.alert("推荐函未上传!");
-				return false;
-			}
- 			
+ 			if($("#mortgageForm").find("input[name='isTmpBank']:checked").val() == '0'){
+ 				//非临时银行需要判断上传推荐函
+	 			if ($("#rec_letter_first_pic_list li").length == undefined || $("#rec_letter_first_pic_list li").length == 0 ) {
+					window.wxc.alert("推荐函未上传!");
+					return false;
+				}
+ 			}
  			var option = [];
  			option.container = "comLoanProcessfileUploadContainer";
  			
@@ -1753,12 +1757,13 @@ transitionEffect: "slide",
 				|| $("#loan_doc_confirm_letter_sec_pic_list li").length == 0 ) {
 			window.wxc.alert("贷款材料确认书未上传!");
 			return false;
-		}
-			if ($("#rec_letter_sec_pic_list li").length == undefined
-				|| $("#rec_letter_sec_pic_list li").length == 0 ) {
-			window.wxc.alert("推荐函未上传!");
-			return false;
-		}
+			}
+			if($("#mortgageForm1").find("input[name='isTmpBank']:checked").val() == '0'){
+				if ($("#rec_letter_sec_pic_list li").length == undefined || $("#rec_letter_sec_pic_list li").length == 0 ) {
+				window.wxc.alert("推荐函未上传!");
+				return false;
+				}
+			}
 			var option = [];
  			option.container = "comLoanProcess1fileUploadContainer";
  			

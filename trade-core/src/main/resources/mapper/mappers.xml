@@ -44,7 +44,7 @@
 		<mapper resource="mapper/attachment/TsAttachmentReadLogMapper.xml" />
 		
 		<mapper resource="mapper/common/LampRuleMapper.xml" />
-		<mapper resource="mapper/common/ToModuleSubscribe.xml" />
+		<mapper resource="mapper/common/ToModuleSubscribeMapper.xml" />
 		<!-- 管理 -->
 		<mapper resource="mapper/mgr/TsFinOrgMapper.xml" />
 		<mapper resource="mapper/mgr/ToSupDocuMapper.xml" />

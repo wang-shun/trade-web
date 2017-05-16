@@ -122,17 +122,17 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		 * StartProcessInstanceVo spv=workFlowManager.startCaseWorkFlow(pi,
 		 * vo.getUserName(),vo.getCaseCode());
 		 */
-		//相关流程都挂起
+			//相关流程都挂起
 
-		List<TaskVo> taskVos = actRuTaskService.getRuTask(vo.getCaseCode());
+			List<TaskVo> taskVos = actRuTaskService.getRuTask(vo.getCaseCode());
 
-		Map<String,Boolean> taskInstCode = new HashMap<>();
-		for(TaskVo task : taskVos){
-			if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
-				taskInstCode.put(task.getInstCode(),task.getSuspended());
+			Map<String,Boolean> taskInstCode = new HashMap<>();
+			for(TaskVo task : taskVos){
+				if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
+					taskInstCode.put(task.getInstCode(),task.getSuspended());
+				}
 			}
-		}
-		for (String instCode : taskInstCode.keySet()) {
+			for (String instCode : taskInstCode.keySet()) {
 			if(!StringUtils.isEmpty(instCode)){
 				if(!taskInstCode.get(instCode)){//如果不是挂起状态
 					workFlowManager.activateOrSuspendProcessInstance(instCode,false);//案件的相关流程挂起
@@ -291,11 +291,12 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 				}
 			}
 		}
-
-		ToCase toCase = new ToCase();
-		toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
-		toCase.setCaseCode(vo.getCaseCode());
-		toCaseService.updateByCaseCodeSelective(toCase);//将案件更新在途起案件
+		if (vo.getIsApproved()) {
+			ToCase toCase = new ToCase();
+			toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
+			toCase.setCaseCode(vo.getCaseCode());
+			toCaseService.updateByCaseCodeSelective(toCase);//将案件更新在途起案件
+		}
 
 		return true;
 	}
@@ -380,16 +381,16 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	}
 
 	@Override
-	public boolean restartCheckout(ServiceRestartVo vo, String userId) {
+	public boolean restartCheckout(ServiceRestartVo vo, String userJob) {
 		
-		if(null == userId || "".equals(userId)){
+		if(null == userJob || "".equals(userJob)){
 			throw new BusinessException("用户未登录！");	
 		}		
 		
-		if(!"8a8493d553ad8759015404ac92750d43".equals(userId)){
+		if(!"COXXGLY".equals(userJob)){
 			//案件详情页面未刷新时判断时候可以流程重启
 			String caseCode = "";
-			
+
 			if(null != vo){
 				caseCode = vo.getCaseCode() == null ? "":vo.getCaseCode();
 			}
@@ -400,11 +401,11 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 					if("30001004".equals(status)){
 						return false;
 					}
-				}			
+				}
 			}
 		}
 		return true;
-		
+
 	}
 
 

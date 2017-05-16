@@ -242,6 +242,7 @@ public class QuickQueryMortFormServiceImpl implements CustomDictService{
 					keyer.put("TOTAL_CASE_COUNT", TOTAL_CASE_COUNT);
 					keyer.put("TOTAL_IS_DELEGATE_YUCUI_COUNT", TOTAL_IS_DELEGATE_YUCUI_COUNT);
 					keyer.put("TOTAL_IS_DELEGATE_CUSTOMER_COUNT", TOTAL_IS_DELEGATE_CUSTOMER_COUNT);
+					keyer.put("TOTAL_CASE_COM_CON_PRICE", TOTAL_CASE_COM_CON_PRICE);
 					keyer.put("TOTAL_ALL_COUNT", TOTAL_ALL_COUNT);
 
 				}

@@ -441,8 +441,12 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             // 信贷员接单
             if ("ACCEPT".equals(stateInBank))
             {
-                toMortLoaner.setReceiveId(user.getId());
-                toMortLoaner.setReceiveName(user.getRealName());
+                if (user != null)
+                {
+                    toMortLoaner.setReceiveId(user.getId());
+                    toMortLoaner.setReceiveName(user.getRealName());
+                }
+
                 toMortLoaner.setReceiveTime(new Date());
                 // 接单之后设置派单状态为待审批
                 toMortLoaner.setLoanerStatus(LoanerStatusEnum.AUDITING.getCode());
@@ -559,8 +563,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
                 ToMortgage toMortgage = toMortgageMapper.selectByPrimaryKey(pkid);
                 if (null != toMortgage)
                 {
-
                     toMortgage.setTmpBankStatus("3");
+                    toMortgage.setStateInBank("MORT_APPROVED");
                     toMortgage.setBankApproveTime(new Date()); // 冗余信贷员审核通过时间，在页面做展示
                     toMortgage.setMortTotalAmount(toMortLoaner.getMortTotalAmount());
                     toMortgage.setComAmount(toMortLoaner.getComAmount());
@@ -569,7 +573,6 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
                     toMortgage.setPrfAmount(toMortLoaner.getPrfAmount());
                     toMortgage.setPrfYear(toMortLoaner.getPrfYear());
                     toMortgageMapper.updateByPkId(toMortgage);
-
                 }
 
             }
@@ -664,7 +667,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
     public void loanerProcessCancle(String caseCode, String taskId, String processInstanceId, String isMainLoanBankProcess, String loanerPkid)
     {
 
-        if ((null == caseCode || "".equals(caseCode)) || (null == taskId || "".equals(taskId)) || (null == processInstanceId || "".equals(processInstanceId))
+        if ((null == caseCode || "".equals(caseCode)) ||  (null == processInstanceId || "".equals(processInstanceId))
                 || (null == isMainLoanBankProcess || "".equals(isMainLoanBankProcess)))
         {
             throw new BusinessException("取消、驳回交易顾问派单流程请求参数异常！");
@@ -681,10 +684,10 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             // 派单列表 取消操作
             if (record != null)
             {
-                //record.setStatus(WorkFlowStatus.TERMINATE.getCode());
+                // record.setStatus(WorkFlowStatus.TERMINATE.getCode());
                 toMortLoaner.setPkid(Long.parseLong(record.getBizCode()));
             }
-            //toWorkFlowService.updateByPrimaryKeySelective(record);
+            // toWorkFlowService.updateByPrimaryKeySelective(record);
 
             // 取消的时候 派单表需要修改 取消人的信息
 
@@ -762,6 +765,13 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             ProcessInstance process = new ProcessInstance(propertyUtilsService.getProcessLoanerDfKey(), caseCode, variables);
             StartProcessInstanceVo vo = workFlowManager.startCaseWorkFlow(process, loaner.getUsername(), caseCode);
 
+            // 从新派单 需要从新设置这部分的值
+            toMortgageDTO.setBankApproveTime(null);
+            toMortgageDTO.setDispachUserId(user.getId());
+            toMortgageDTO.setDispachTime(new Date());
+            toMortgageDTO.setLoanerProcessInstCode(vo.getId());
+            toMortgageDTO.setBankLevel(String.valueOf(bankLevel));
+            toMortgageDTO.setStateInBank("ACCEPTING");
             toMortgageService.updateToMortgage(toMortgageDTO);// 主键pkid作为条件更新
 
             //
@@ -850,10 +860,11 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             toMortLoaner.setIsMainLoanBankProcess(isMainLoanBank);
             List<ToMortLoaner> toMortLoanerProcessList = toMortLoanerService.findToMortLoaner(toMortLoaner);
             ToMortLoaner toMortLoanerProcess = null;
-            if(null != toMortLoanerProcessList && toMortLoanerProcessList.size() > 0 ){
-            	toMortLoanerProcess = toMortLoanerProcessList.get(0);
-            }	
-            
+            if (null != toMortLoanerProcessList && toMortLoanerProcessList.size() > 0)
+            {
+                toMortLoanerProcess = toMortLoanerProcessList.get(0);
+            }
+
             if (null != toMortLoanerProcess)
             {
                 response.setSuccess(true);

@@ -1743,8 +1743,8 @@ public class CaseDetailController {
 	
 	public void updateWorkflow(String userId, List<TaskVo> tasks,String caseCode) {
 		if (tasks != null && !tasks.isEmpty()) {
+			User u = uamUserOrgService.getUserById(userId);
 			for (TaskVo taskVo : tasks) {
-				User u = uamUserOrgService.getUserById(userId);
 				taskReassingtLogService.record(taskVo, u.getUsername(), caseCode);
 				taskVo.setAssignee(u.getUsername());
 				workFlowManager.updateTask(taskVo);

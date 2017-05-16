@@ -134,23 +134,21 @@
 <input type="hidden" id="adminLoanerProcess"  name="adminLoanerProcess">
 	<!-- 服务流程 -->
 		<div class="panel " id="serviceFlow">
-        <div class="row wrapper white-bg new-heading ">
-             <div class="pl10">
-                 <h2 class="newtitle-big">
-                        商贷审批
-                    </h2>
-                <div class="mt20">
-                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
-                            <i class="iconfont icon">&#xe600;</i> 在途单列表
-                        </button>
-                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
-                            <i class="iconfont icon">&#xe63f;</i> 案件视图
-                        </button>
-                    </div>
-             </div>
-        </div>
+	        <div class="row wrapper white-bg new-heading ">
+	             <div class="pl10">
+	                 <h2 class="newtitle-big">商贷审批</h2>
+	                    <div class="mt20">
+	                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+	                            <i class="iconfont icon">&#xe600;</i> 在途单列表
+	                        </button>
+	                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+	                            <i class="iconfont icon">&#xe63f;</i> 案件视图
+	                        </button>
+	                    </div>
+	             </div>
+	        </div>
         
-        	<div id="modal-form" class="modal fade" aria-hidden="true" >
+       <div id="modal-form" class="modal fade" aria-hidden="true" >
 		<div class="modal-dialog" style="width: 1000px;height:98%;overflow-y:scroll">
 			<div class="modal-content">
 				<div class="modal-body" >
@@ -707,6 +705,7 @@
 								    <input type="hidden" name="pkid" id="pkid"/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
 									<input type="hidden" name="isMainLoanBank" value="1"/>	
+									<input type="hidden" name="stateInBank"  id="stateInBank"  value=""/>	
 									<input type="hidden" name="bankOrgId1" id="bankOrgId1" value=""/>								
 		                            <div class="marinfo">
 		                                     <div class="line">
@@ -1041,6 +1040,7 @@
 								    <input type="hidden" name="processStart" id="processStart" value=""/>
 									<input type="hidden" name="caseCode" value="${caseCode}">
 									<input type="hidden" name="isMainLoanBank" value="0"/>	
+									<input type="hidden" name="stateInBank"  id="stateInBank"  value=""/>	
 									<input type="hidden" name="bankOrgId0" id="bankOrgId0" value=""/>								
 		                            <div class="marinfo">
 		                                     <div class="line">

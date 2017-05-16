@@ -14,7 +14,6 @@
 		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
 		<customDict id="guoHuPrice" beanName="guoHuPrice" />
 		<customDict id="custPhoneByCode" beanName="custPhoneByCode" />
-<!-- 		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict> -->
 		<customDict id="qqManagerByOrgIdAndJobCode" beanName="qqManagerByOrgIdAndJobCode"></customDict>
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName" />
 		<customDict id="qqFenHang" beanName="qqFenHang" />
@@ -61,14 +60,182 @@
 		<formatter id="emailFormater" ref=""
 				   class="com.aist.common.quickQuery.formatter.EmailFormatter" />
 	</formatters>
-
-	<query id="newQueryCastTransferExcelItemList" cacheCount="true">
+	
+	
+	<query id="optimizeQueryCastTransferExcelItemList" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[	
+						SELECT 
+							B.BA_NAME,
+							B.JQYDS_NAME,
+							B.GRP_NAME,
+							B.AGENT_NAME,
+							B.AGENT_PHONE,
+							B.CASE_DISTRICT_NAME,
+							B.TRANSFER_TRADE_NAME,
+							B.CASE_HOUSE_UNIT_PRICE,
+							B.HOUSR_DIST_CODE_CN,
+							B.TRANSFER_REAL_HT_TIME,
+							B.TRANSFER_CREATE_TIME,
+							B.CTM_CODE,
+							B.MORT_CUST_NAME,
+							B.MORT_CUST_PHONE,
+							B.HOUSR_PROPERTY_ADDR,
+							CAST(B.CASE_CON_PRICE / 10000 AS DECIMAL(18,2)) as CASE_CON_PRICE,							
+							B.MORT_FIN_BRANCH_NAME,
+							B.MORT_FIN_SUB_BRANCH_NAME,	
+							CAST(B.MORT_COM_AMOUNT / 10000 AS DECIMAL(18,2))   as MORT_COM_AMOUNT,
+							CAST(B.MORT_PRF_AMOUNT / 10000 AS DECIMAL(18,2))   as MORT_PRF_AMOUNT,
+							CAST(B.MORT_TOTAL_AMOUNT / 10000 AS DECIMAL(18,2)) as MORT_TOTAL_AMOUNT,							
+							B.MORT_COM_DISCOUNT,
+							B.CASE_CODE,
+							B.CASE_ORG_ID_F,
+							B.MORT_TYPE,
+							B.MORT_TYPE_CN,
+							B.CASE_REAL_NAME_F,
+							B.CASE_REC_STATUS,
+							B.CASE_REC_STATUS_CN,
+							B.LOAN_LOST_APPLY_REASON,
+							B.LOAN_SELF_DEL_REASON,
+							B.EVA_EVAL_FEE,
+							B.GUEST_NAME_UP,
+							B.GUEST_PHONE_UP,
+							B.GUEST_NAME_DOWN,
+							B.GUEST_PHONE_DOWN,
+							B.TRANSFER_SUB_TIME,
+							B.TRANSFER_APP_TIME,
+							B.TRANSFER_ISPASS,
+							B.TRANSFER_ISPASS_CN,
+							B.TRANSFER_APP_OPERATOR_USERID,
+							B.TRANSFER_APP_OPERATOR_NAME,
+							B.TRANSFER_LAST_CONTENT,
+							B.TRANSFER_NOT_APPROVE,
+							B.CASE_MANAGER_USER_ID,
+							B.CASE_MANAGER_REAL_NAME,
+							B.CASE_MANAGER_ORG_NAME,
+							B.AR_NAME,
+							B.ELOAN_PRO,
+							B.ELOAN_PRO_AMOUNT,
+							B.ELOAN_KA,
+							B.ELOAN_KA_AMOUNT_STR,
+							B.CASE_USE_CARD_PAY,
+							B.CASE_USE_CARD_PAY_CN,
+							B.CASE_CARD_PAY_AMOUNT							
+										
+					FROM  sctrans.T_RPT_CASE_BASE_INFO B
+						  INNER JOIN SCTRANS.T_TO_WORKFLOW W  ON B.CASE_CODE = W.CASE_CODE	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4)
+						  INNER JOIN SCTRANS.ACT_HI_VARINST V ON V.PROC_INST_ID_ = W.INST_CODE AND V.NAME_=N'GuohuApprove'			
+					WHERE 	1=1 
+					
+						<if test="propertyAddr != null and propertyAddr !='' ">
+							AND  B.HOUSR_PROPERTY_ADDR  LIKE '%'+#propertyAddr#+'%' 
+						</if>
+						<if test="caseCode != null and caseCode != ''">					
+							AND  B.CASE_CODE = #caseCode# 
+						</if>
+						<if test="vrealName != null and vrealName != ''">					
+							AND B.JQYDS_NAME LIKE '%' + #vrealName# + '%'
+						</if>
+						<if test="TransferStatus != null and TransferStatus != ''">	
+							AND B.TRANSFER_ISPASS = #TransferStatus# 
+						</if>
+						
+						<if test="transferDateStart != null and transferDateStart !='' ">		
+							AND  B.TRANSFER_SUB_TIME >=  #transferDateStart#  
+						</if>
+						<if test="transferDateEnd != null and transferDateEnd !='' ">		
+							AND  B.TRANSFER_SUB_TIME &lt;=  #transferDateEnd#  
+						</if>
+						<if test="caseTransferDateStart != null and caseTransferDateStart !='' ">		
+							AND  B.TRANSFER_APP_TIME >=  #caseTransferDateStart#  
+						</if>
+						<if test="caseTransferDateEnd != null and caseTransferDateEnd !='' ">		
+							AND  B.TRANSFER_APP_TIME &lt;=  #caseTransferDateEnd#  
+						</if>
+						<if test="orgName != null and orgName != '' ">
+							AND B.CASE_ORG_ID_F = #orgName#  
+						</if>
+						<if test="managerName != null and managerName != ''">	
+							AND B.CASE_MANAGER_USER_ID = #managerName# 							
+						</if>
+				]]>
+			</baseSql>
+			<orderBySql>
+				ORDER BY B.CASE_CODE DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_ORG_ID_F" title="组织ID" customDict=""	hidden="false" />
+				<column type="both" name="CASE_MANAGER_USER_ID" title="主管的userId" customDict=""	hidden="false" />
+				<column type="both" name="BA_NAME" title="大区" customDict=""	hidden="false" />
+				<column type="both" name="JQYDS_NAME" title="区董" customDict=""	hidden="false" />
+				<column type="both" name="GRP_NAME" title="分行" customDict=""	hidden="false" />
+				<column type="both" name="AGENT_NAME" title="业务员姓名" customDict=""	hidden="false" />
+				<column type="both" name="AGENT_PHONE" title="业务员电话" customDict=""	hidden="false" />
+				<column type="both" name="CASE_DISTRICT_NAME" title="贵宾服务部" customDict=""	hidden="false" />
+				<column type="both" name="TRANSFER_TRADE_NAME" title="过户交易员" customDict=""	hidden="false" />
+				<column type="both" name="CASE_HOUSE_UNIT_PRICE" title="过户单价" customDict=""	hidden="false" />
+				<column type="both" name="HOUSR_DIST_CODE" title="过户区域" customDict=""	hidden="false" />
+				<column type="both" name="TRANSFER_REAL_HT_TIME" title="实际过户时间" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" />
+				<column type="both" name="TRANSFER_CREATE_TIME" title="过户创建时间" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="CTM_CODE" title="CTM编号" customDict=""	hidden="false" />
+				<column type="both" name="MORT_CUST_NAME" title="主贷人姓名" customDict=""	hidden="false" />
+				<column type="both" name="MORT_CUST_PHONE" title="主贷人电话" customDict=""	hidden="false" />
+				<column type="both" name="HOUSR_PROPERTY_ADDR" title="产证地址" customDict=""	hidden="false" />
+				<column type="both" name="CASE_CON_PRICE" title="合同价(万元)"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="MORT_FIN_BRANCH_NAME" title="银行" customDict=""	hidden="false" />
+				<column type="both" name="MORT_FIN_SUB_BRANCH_NAME" title="支行" customDict=""	hidden="false" />				
+				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额(万元)"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="MORT_PRF_AMOUNT" title="公积金金额(万元)"	expType="Double"	customDict="" hidden="true" />		
+				<column type="both" name="MORT_TOTAL_AMOUNT" title="总金额(万元)"	expType="Double"	customDict="" hidden="true" />						
+				<column type="both" name="MORT_COM_DISCOUNT" title="利率折扣" expType="Double" 	customDict="" hidden="true" />
+				<column type="both" name="CASE_CODE" title="誉萃编号" customDict=""	hidden="false" />				
+				<column type="both" name="MORT_TYPE" title="贷款类型In" customDict=""	hidden="false" />				
+				<column type="both" name="MORT_TYPE_CN" title="贷款类型" customDict=""	hidden="false" />						
+				<column type="both" name="CASE_REAL_NAME_F" title="案件主办人" customDict=""	hidden="false" />				
+				<column type="both" name="CASE_REC_STATUS_CN" title="收单状态" customDict=""	hidden="false" />				
+				<column type="both" name="LOAN_LOST_APPLY_REASON" title="流失原因" customDict=""	hidden="false" />
+				<column type="both" name="LOAN_SELF_DEL_REASON" title="流失具体原因" customDict=""	hidden="false" />
+				<column type="both" name="EVA_EVAL_FEE" title="评估费" expType="Double" 	customDict="" hidden="true" />				
+				<column type="both" name="GUEST_NAME_UP" title="上家姓名" customDict=""	hidden="false" />
+				<column type="both" name="GUEST_PHONE_UP" title="上家电话" customDict=""	hidden="false" />
+				<column type="both" name="GUEST_NAME_DOWN" title="下家姓名" customDict=""	hidden="false" />
+				<column type="both" name="GUEST_PHONE_DOWN" title="下家电话" customDict=""	hidden="false" />
+				<column type="both" name="TRANSFER_SUB_TIME" title="过户提交时间" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" />
+				<column type="both" name="TRANSFER_APP_TIME" title="过户审批时间" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>		
+				<column type="both" name="TRANSFER_ISPASS" title="是否审批通过In" customDict=""	hidden="false" />
+				<column type="both" name="TRANSFER_ISPASS_CN" title="是否审批通过" customDict=""	hidden="false" />
+				<column type="both" name="TRANSFER_APP_OPERATOR_NAME" title="审批人" customDict=""	hidden="false" />
+				<column type="both" name="TRANSFER_LAST_CONTENT" title="审批意见" customDict=""	hidden="false" />
+				<column type="both" name="TRANSFER_NOT_APPROVE" title="审批勾选内容" customDict=""	hidden="false" />
+				<column type="both" name="CASE_MANAGER_REAL_NAME" title="主管" customDict="" hidden="false" />
+				<column type="both" name="CASE_MANAGER_ORG_NAME" title="组别"	customDict="" hidden="false" />
+				<column type="both" name="AR_NAME" title="片区"	customDict="" hidden="false" />
+				<column type="both" name="ELOAN_PRO" title="E+产品类别" customDict="" hidden="false" />
+				<column type="both" name="ELOAN_PRO_AMOUNT" title="E+产品申请总金额" expType="Double" 	customDict="" hidden="true" />
+				<column type="both" name="ELOAN_KA" title="E+卡类别" customDict="" hidden="false" />
+				<column type="both" name="ELOAN_KA_AMOUNT_STR" title="E+卡申请金额"	customDict="" hidden="false" />					
+				<column type="both" name="CASE_USE_CARD_PAY" title="是否刷卡In"	customDict="" hidden="false" />			
+				<column type="both" name="CASE_USE_CARD_PAY_CN" title="是否刷卡"	customDict="" hidden="false" />
+				<column type="both" name="CASE_CARD_PAY_AMOUNT" title="刷卡金额" expType="Double" 	customDict="" hidden="true" />			
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryCastTransferExcelItemList" cacheCount="true">
 		<searchCondition>
 		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[	
 						SELECT
+							
 							C.DISTRICT_ID,
 							(SELECT TOP 1 VJ.REAL_NAME FROM SCTRANS.SYS_USER VJ LEFT JOIN SCTRANS.ACT_HI_TASKINST AHT ON AHT.ASSIGNEE_=VJ.USERNAME WHERE AHT.TASK_DEF_KEY_ =N'GUOHU' AND AHT.PROC_INST_ID_ = W.INST_CODE) GUOHU_REAL_NAME,
 							C.PKID,
@@ -102,7 +269,7 @@
 							INNER JOIN SCTRANS.ACT_HI_VARINST V ON V.PROC_INST_ID_ = W.INST_CODE AND V.NAME_=N'GuohuApprove'															
 							LEFT JOIN  SCTRANS.T_TO_MORTGAGE M  ON C.CASE_CODE = M.CASE_CODE AND M.IS_ACTIVE ='1' AND M.LAST_LOAN_BANK  IS NOT NULL							    
 
-							<if test="(transferDateStart != null  and transferDateStart != '')  or  (transferDateEnd != null  and transferDateEnd != '')">	
+<!-- 							<if test="(transferDateStart != null  and transferDateStart != '')  or  (transferDateEnd != null  and transferDateEnd != '')">									
 							INNER JOIN (							
 								SELECT P1.PROC_INST_ID_ FROM 
 									(
@@ -134,8 +301,25 @@
 												</if>
 										) P2 WHERE P2.RANKID = 1
 									)TASKHISTORY2 ON TASKHISTORY2.PROC_INST_ID_ = CONVERT(NVARCHAR(64),W.INST_CODE)						
-								</if>
+								</if> -->
 					    where 1=1
+					    	
+					    	<if test="transferDateStart != null and transferDateStart !='' ">
+					    		AND (SELECT MIN(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_=W.INST_CODE) &gt;= #transferDateStart#	
+					    	</if>
+					    	
+					    	<if test="transferDateEnd != null and transferDateEnd !='' ">
+					    		AND (SELECT MIN(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_=W.INST_CODE) &lt;= #transferDateEnd#	
+					    	</if>
+					    	
+					    	<if test="caseTransferDateStart != null and caseTransferDateStart !='' ">
+					    	    AND (SELECT MAX(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'  AND AT.PROC_INST_ID_=W.INST_CODE) &gt;= #caseTransferDateStart#
+					    	</if>
+					    	
+					    	<if test="caseTransferDateEnd != null and caseTransferDateEnd !='' ">
+					    		AND (SELECT MAX(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'  AND AT.PROC_INST_ID_=W.INST_CODE) &lt;= #caseTransferDateEnd#
+					    	</if>
+					    	
 							<if test="propertyAddr != null and propertyAddr !='' ">
 								AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE C.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
 							</if>
@@ -174,19 +358,10 @@
 				<column type="both" name="CASE_CODE" title="誉萃编号" customDict=""	hidden="false" />
 				<column type="both" name="status" title="是否审批通过" customDict=""	hidden="false" />
 				<column type="virtual" name="GRP_NAME,AR_NAME,WZ_NAME,QJDS_NAME,GRP_CODE,BA_NAME,AGENT_NAME,AGENT_PHONE,N_STATUS" title="分行,片区,区域,区董,分行Code,大区,业务员姓名,业务员电话,是否审批通过" customDict="getCaseInfo" hidden="false" referencecol="CASE_CODE,status"/>
-			
-<!-- 			<column type="both" name="BA_NAME" title="大区" customDict="" hidden="false" />
-				<column type="both" name="QJDS_NAME" title="区董" customDict=""		hidden="false" />
-				<column type="both" name="GRP_NAME" title="分行"	customDict="" hidden="false" />
-				<column type="both" name="AR_NAME" title="片区"	customDict="" hidden="false" />				
-				<column type="both" name="AGENT_NAME" title="业务员姓名"	customDict="" hidden="false" />
-				<column type="both" name="AGENT_PHONE" title="业务员电话"	customDict="" hidden="false" /> -->
-				
+	
 				<column type="both" name="DISTRICT_ID" title="区域id" customDict="" hidden="false" />
 				<column type="virtual" name="GUOHU_ORG_NAME" title="贵宾服务部"	customDict="qqcdOrgIdName" hidden="false" referencecol="DISTRICT_ID"/>
 				<column type="both" name="GUOHU_REAL_NAME" title="过户交易员"	customDict="" hidden="false" />
-
-
 				<column type="both" name="CTM_CODE" title="CTM编号" customDict="" hidden="false" />
 				<column type="both" name="CUST_CODE" title="主贷人id" customDict="" hidden="false" />
 				<column type="both" name="CUST_NAME" title="主贷人姓名"	customDict="" hidden="false" />
@@ -220,11 +395,7 @@
 				<column type="virtual" name="BUYER_MOBILE" title="下家电话"	referencecol="CASE_CODE" index="" checkbox="" display="下家电话"	customDict="qqcdBuyerPhone" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
 				<column type="both" name="TRANSFERDATE" title="过户提交时间"	customDict="" beanFormatter="dateFormatter" expType="date"		expFmt="yyyy-MM-dd HH:mm:ss" hidden="false" />
 				<column type="both" name="CASETRANSFERDATE" title="过户审批时间"	customDict="" hidden="false" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd HH:mm:ss" />
-				<!-- 	<column type="both" name="ASSESSOR" title="审核人111" customDict=""		hidden="false" /> -->
-				<!-- 	<column type="virtual" name="LAST_CONTENT" title="审批意见"	referencecol="CONTENT,NOT_APPROVE" 	customDict="lastContent" sysDict="" /> -->
-				
 				<column type="virtual" name="ASSESSOR,LAST_CONTENT,NOT_APPROVE" title="审核人,审批意见,审核勾选内容"	referencecol="CASE_CODE"  customDict="lastContents" isDynamicDict="true"/>
-				<!-- <column type="virtual" name="status1" title="是否审批通过"	referencecol="status" customDict="convertValue" /> -->
 				<column type="both" name="CONTENT" title="审核结果" customDict=""		hidden="false" />
 				<column type="both" name="NOT_APPROVE" title="审核勾选内容" customDict=""		hidden="false" />
 			
@@ -232,8 +403,7 @@
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align=""	halign="" order="" resizable="" />
 
 				<column type="both" name="ORG_ID" index="" checkbox="" display="组织id" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
-				<!-- <column type="virtual" name="REAL_NAME" index="" checkbox="" display="主管" customDict="qqManagerByOrgIdAndJobCode" referencecol="ORG_ID"/> -->
-				<!-- <column type="virtual" name="REAL_NAME,ORG_NAME" index="" checkbox="" display="主管,组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/> -->
+			
 				<column type="virtual" name="REAL_NAME" index="" checkbox="" title="主管" display="主管" customDict="qqManagerByOrgIdAndJobCode" referencecol="ORG_ID"/>
 				<column type="virtual" name="ORG_NAME" index="" checkbox=""  title="组别" display="组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
 

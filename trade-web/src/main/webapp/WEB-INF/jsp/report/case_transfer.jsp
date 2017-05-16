@@ -276,11 +276,14 @@
 									</div>
 								</div>
 								<div class="col-md-6" style="text-align: right;">
-									<a data-toggle="modal" class="btn btn-primary"
+										<a data-toggle="modal" class="btn btn-primary"
 										href="javascript:void(0)"
-										onclick="javascript:caseTransferExportToExcel()">案件导出Excel</a>
+										onclick="javascript:oldCaseTransferExportToExcel()">实时案件导出</a>
+										
+										<a data-toggle="modal" class="btn btn-primary"
+										href="javascript:void(0)"
+										onclick="javascript:newCaseTransferExportToExcel()">隔天案件导出</a>
 								</div>
-
 							</div>
 						</form>
 					</div>
