@@ -121,7 +121,7 @@ th, td {
               <td>{{(item.PRO_APP_AMOUNT_MONTH/10000).toFixed()}}万元</td>
               <td>{{item.HOUSE_PRICE_MONTH == 0?0:(item.PRO_APP_AMOUNT_MONTH/item.HOUSE_PRICE_MONTH*100).toFixed()}}%</td>
 			  <td>{{item.ELOAN_PRO_APP_NUM_MONTH}}</td>
-			  <td>{{item.ELOAN_PRO_APP_AMOUNT_MONTH.toFixed()}}}万元</td>
+			  <td>{{item.ELOAN_PRO_APP_AMOUNT_MONTH.toFixed()}}万元</td>
              </tr>
 		{{/each}}
 	    </script>
