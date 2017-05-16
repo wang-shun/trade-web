@@ -110,10 +110,15 @@
 		  {{/each}}
 
 		  {{if rows.length > 0}}
+			<tr>
+             <td>其他</td>
+             <td>{{rows[rows.length-1].sumCaseCount - rows[rows.length-1].totalCaseCount}}</td>
+             <td>{{rows[rows.length-1].sumSdAmount - rows[rows.length-1].totalSdAmount}}</td>
+          </tr>
 		  <tr>
              <td>总计</td>
-             <td>{{rows[rows.length-1].totalCaseCount}}</td>
-             <td>{{rows[rows.length-1].totalSdAmount}}</td>
+             <td>{{rows[rows.length-1].sumCaseCount}}</td>
+             <td>{{rows[rows.length-1].sumSdAmount}}</td>
           </tr>
 		  {{else}}
 				<tr>
@@ -167,8 +172,9 @@
 	        //统计分行数据
 	        data.searchDateTime = year + "-" + month;
           	data.searchBelongMonth = getBelongMonth(data.searchDateTime);
-          	data.pagination = true;
           	data.queryId = "branchBankQuery";
+          	data.pagination = true;
+          	data.hidePagination = true;
   			var url = ctx+"/quickGrid/findPage";
 			initData(url,data,"template_table","tableTemplate1");
 		}

@@ -631,7 +631,9 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT *
+					SELECT *,
+					#searchDateTime# AS searchDateTime,
+					#searchBelongMonth# AS searchBelongMonth
 					FROM
 					(
 					select 
@@ -657,10 +659,11 @@
 				<column type="both" name="groupName" title="分行名称"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="caseCount" title="案件单数"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="sdAmount" title="商贷金额"  sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				
+				<column type="both" name="searchDateTime" />
+				<column type="both" name="searchBelongMonth" />
 				<column type="virtual" 
-						name="totalCaseCount,totalSdAmount" 
-						referencecol="caseCount,sdAmount" 
+						name="totalCaseCount,totalSdAmount,sumCaseCount,sumSdAmount" 
+						referencecol="caseCount,sdAmount,searchDateTime,searchBelongMonth" 
 						customDict="calTotalByBank" />
 			</table-row>
 		</grid>

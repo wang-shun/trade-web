@@ -50,6 +50,7 @@
 	    	if(url) {
 	    		form.attr('action', url);
 	    	}
+	    	$(document.body).append(form);
 	    	form.submit();
 	    },
 		
