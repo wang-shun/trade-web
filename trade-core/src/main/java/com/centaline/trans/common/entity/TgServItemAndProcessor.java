@@ -21,6 +21,8 @@ public class TgServItemAndProcessor {
     private String preOrgId;
     
     private List<User>users;
+
+	private String preDetailCode;
     /**
      * 冗余字段
      */
@@ -105,6 +107,12 @@ public class TgServItemAndProcessor {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
-	
-	
+
+	public String getPreDetailCode() {
+		return preDetailCode;
+	}
+
+	public void setPreDetailCode(String preDetailCode) {
+		this.preDetailCode = preDetailCode;
+	}
 }

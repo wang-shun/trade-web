@@ -15,7 +15,55 @@ $(function(){
     $("#leadingProClose").click(function(){
         cleanForm();
         $("#leadingProForChang").hide();
+    });
+    //变更责任人提交
+    $("#leadingProSubmit").click(function(){
+        var caseCode = $("#changCaseCode").val(); // 案件的caseCode
+        var leadingProId = $("#leadingProId").val();//新的责任人userId
+        var detailCode = "eloan";//E+案件变更归属人提交的专属code
+
+
+        if(leadingProId == "" || leadingProId ==  null || leadingProId == undefined){
+            window.wxc.alert("若要变更项目责任人，请先选择新的案件责任人！");
+            return;
+        }
+
+        window.wxc.confirm("您确定要进行责任人变更？",{"wxcOk":function(){
+            var url = "/case/handler/changeLeadingEloan";
+            var ctx = $("#ctx").val();
+            url = ctx + url;
+            var data = {
+                leadingProId:leadingProId,
+                changCaseCode:caseCode,
+                detailCode:detailCode
+            };
+
+            $.ajax({
+                async : true,
+                type : "POST",
+                url : url,
+                dataType : "json",
+                timeout : 10000,
+                data : data,
+                success : function(data) {
+                    if(data.success){
+                        $("#leadingProForChang").hide();
+                        reloadGrid(getParams(1));
+                        window.wxc.success("恭喜，责任人变更成功！");
+                    }else{
+                        window.wxc.error(data.message);
+                    }
+
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    window.wxc.error("系统错误,请重新登录");
+                }
+            });
+        }});
+
     })
+
+
     checkBoxALL();//全选和反选
 
 })
@@ -42,6 +90,7 @@ function reloadGrid(data) {
                 $("#changCaseCode").val(editCaseCode(thisCaseCode));
                 console.log($("#changCaseCode").val());
             });
+            $("#changCaseCode").val('');
         },
         error: function (e, jqxhr, settings, exception) {
             $.unblockUI();
@@ -95,6 +144,8 @@ function getParams(page) {
     var detailCode = $("#detailCode").val();
     var caseCode = $("#caseCode").val();
     var caseAddress = $("#caseAddress").val();
+
+
     if(userId.length>0&&detailCode.length>0){
         startList=1;
     }else{
@@ -105,13 +156,10 @@ function getParams(page) {
         search_caseCode:$.trim(caseCode),
         search_caseAddress:$.trim(caseAddress),
 
-        queryId : "queryCaseBelongAndTransferDetail",
+        queryId : "queryCaseBelongAndTransferEloanDetail",
         rows : 10,
         page : page
     };
-    if("processor"==detailCode){
-        data.srvCatType="30004010";
-    }
     return data;
 }
 //全选和反选的操作
@@ -137,15 +185,13 @@ function getList(){
     var detailCode = $("#detailCode").val();
     var data = {
         search_MuserId:$.trim(userId),
-        queryId : "queryCaseBelongAndTransferDetail",
+        queryId : "queryCaseBelongAndTransferEloanDetail",
         rows : 10,
         page : 1
     };
-    if("processor"==detailCode){
-        data.srvCatType="30004010";
-    }
     aist.wrap(data);
     startList=1;
+    console.log(data);
     reloadGrid(data);
 }
 //选择框选择后拼接caseCode字符串的方法

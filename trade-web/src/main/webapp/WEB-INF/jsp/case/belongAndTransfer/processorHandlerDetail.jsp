@@ -107,7 +107,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 	<!-- iCheck -->
 	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-	<script src="${ctx}/js/trunk/task/handlerDetail.js?version=1.1.1"></script>
+	<script src="${ctx}/js/trunk/task/processorHandlerDetail.js?version=1.1.1"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
 	<!-- 分页控件  -->
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>

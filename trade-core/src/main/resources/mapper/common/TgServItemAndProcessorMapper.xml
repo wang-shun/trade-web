@@ -168,14 +168,23 @@
       <if test="processorId != null" >
         PROCESSOR_ID = #{processorId,jdbcType=VARCHAR},
       </if>
-       <if test="orgId != null">
+      <if test="orgId != null">
       	ORG_ID = #{orgId,jdbcType=VARCHAR},
       </if>
         UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},
     </set>
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-    AND PROCESSOR_ID =#{preProcessorId,jdbcType=VARCHAR};
-    	     
+    AND PROCESSOR_ID =#{preProcessorId,jdbcType=VARCHAR}
+    <if test="preDetailCode == 'processor' ">
+      AND SRV_CAT = '30004010'
+    </if>
+    <if test="preDetailCode == 'comMort' ">
+      AND SRV_CODE = '3000400101'
+    </if>
+    <if test="preDetailCode == 'prfMort' ">
+      AND SRV_CODE = '3000400201'
+    </if>
+
 	 insert into  sctrans.T_HI_SERV_ITEM_AND_PROCESSOR
 	 <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
