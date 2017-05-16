@@ -101,17 +101,28 @@ public class ReportOperateData {
 	/**
 	 * 收单金额（商贷）
 	 */
-	private int sdAmount;
+	private BigDecimal sdAmount;
 	/**
 	 * 流失金额（商贷
 	 */
-	private int lsAmount;
+	private BigDecimal lsAmount;
 	/**
 	 * 商贷
 	 */
-	private int Allcom;
+	private BigDecimal Allcom;
+	/**
+	 * 杠杆率
+	 */
+	private BigDecimal Leverage;
 	
-    public int getDispatchSum() {
+ 
+	public BigDecimal getLeverage() {
+		return Leverage;
+	}
+	public void setLeverage(BigDecimal leverage) {
+		Leverage = leverage;
+	}
+	public int getDispatchSum() {
 		return dispatchSum;
 	}
 	public void setDispatchSum(int dispatchSum) {
@@ -189,22 +200,23 @@ public class ReportOperateData {
 	public void setLsRec(int lsRec) {
 		this.lsRec = lsRec;
 	}
-	public int getSdAmount() {
+	public BigDecimal getSdAmount() {
 		return sdAmount;
 	}
-	public void setSdAmount(int sdAmount) {
+	public void setSdAmount(BigDecimal sdAmount) {
 		this.sdAmount = sdAmount;
 	}
-	public int getLsAmount() {
+	
+	public BigDecimal getLsAmount() {
 		return lsAmount;
 	}
-	public void setLsAmount(int lsAmount) {
+	public void setLsAmount(BigDecimal lsAmount) {
 		this.lsAmount = lsAmount;
 	}
-	public int getAllcom() {
+	public BigDecimal getAllcom() {
 		return Allcom;
 	}
-	public void setAllcom(int allcom) {
+	public void setAllcom(BigDecimal allcom) {
 		Allcom = allcom;
 	}
 	public BigDecimal getMortComAmount() {
