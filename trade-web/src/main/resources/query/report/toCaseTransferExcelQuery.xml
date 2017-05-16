@@ -269,8 +269,7 @@
 							INNER JOIN SCTRANS.ACT_HI_VARINST V ON V.PROC_INST_ID_ = W.INST_CODE AND V.NAME_=N'GuohuApprove'															
 							LEFT JOIN  SCTRANS.T_TO_MORTGAGE M  ON C.CASE_CODE = M.CASE_CODE AND M.IS_ACTIVE ='1' AND M.LAST_LOAN_BANK  IS NOT NULL							    
 
-							<if test="(transferDateStart != null  and transferDateStart != '')  or  (transferDateEnd != null  and transferDateEnd != '')">
-									
+<!-- 							<if test="(transferDateStart != null  and transferDateStart != '')  or  (transferDateEnd != null  and transferDateEnd != '')">									
 							INNER JOIN (							
 								SELECT P1.PROC_INST_ID_ FROM 
 									(
@@ -302,8 +301,25 @@
 												</if>
 										) P2 WHERE P2.RANKID = 1
 									)TASKHISTORY2 ON TASKHISTORY2.PROC_INST_ID_ = CONVERT(NVARCHAR(64),W.INST_CODE)						
-								</if>
+								</if> -->
 					    where 1=1
+					    	
+					    	<if test="transferDateStart != null and transferDateStart !='' ">
+					    		AND (SELECT MIN(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_=W.INST_CODE) &gt;= #transferDateStart#	
+					    	</if>
+					    	
+					    	<if test="transferDateEnd != null and transferDateEnd !='' ">
+					    		AND (SELECT MIN(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_=W.INST_CODE) &lt;= #transferDateEnd#	
+					    	</if>
+					    	
+					    	<if test="caseTransferDateStart != null and caseTransferDateStart !='' ">
+					    	    AND (SELECT MAX(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'  AND AT.PROC_INST_ID_=W.INST_CODE) &gt;= #caseTransferDateStart#
+					    	</if>
+					    	
+					    	<if test="caseTransferDateEnd != null and caseTransferDateEnd !='' ">
+					    		AND (SELECT MAX(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'  AND AT.PROC_INST_ID_=W.INST_CODE) &lt;= #caseTransferDateEnd#
+					    	</if>
+					    	
 							<if test="propertyAddr != null and propertyAddr !='' ">
 								AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE C.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
 							</if>
