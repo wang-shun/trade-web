@@ -25,4 +25,6 @@
    	<import resource="query/task/toApproveRecordQuery.xml" />
    	
    	<import resource="query/chat/contactQuery.xml" />
+   	
+   	<import resource="query/case/activitiQuery.xml" />
 </queryConfig>
