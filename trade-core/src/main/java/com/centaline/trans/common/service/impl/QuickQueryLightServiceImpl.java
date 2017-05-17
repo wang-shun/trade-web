@@ -83,7 +83,7 @@ public class QuickQueryLightServiceImpl implements CustomDictService {
 
 		if (delayDays >= redDay) {
 			light = LampEnum.RED.toString();
-		} else if (delayDays > yellowDay) {
+		} else if (delayDays >= yellowDay) {
 			light = LampEnum.YELLOW.toString();
 		} else if (delayDays >= greenDay) {
 			light = LampEnum.GREEN.toString();
