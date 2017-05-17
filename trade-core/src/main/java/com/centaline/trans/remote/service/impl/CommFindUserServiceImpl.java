@@ -29,6 +29,9 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 	 * yucui总部orgCode
 	 */
 	public static final String YC_ORG_CODE = TsTaskDelegateServiceImpl.YC_ORG_CODE;
+	static final String GUOHU_APPROVAL_MODULE="GUOHU_APPROVE";
+	static final String GUOHU_APPROVAL_CODE="GUOHU_APPROVE_MAPPING";
+	static final String GUOHU_APPROVAL_TASK_DEF_KEY="GuohuApprove";
 	@Autowired
 	private ToCaseService toCaseService;
 
@@ -48,6 +51,8 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 
 	private Set<String> yucuiHeadQuarteSet = null;
 	private Set<String> yucuiDistrictSet = null;
+	@Autowired
+	private UamBasedataService uamBasedataService;
 
 	/**
 	 * 
@@ -84,7 +89,11 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 		return findWorkFlowUser(jobCode, toCase.getLeadingProcessId(),
 				toCase.getOrgId());
 	}
-
+	private String findGuohuApprovalUser(String teamId){
+		Org org= uamUserOrgService.getOrgById(teamId);
+		return uamBasedataService.getParam(GUOHU_APPROVAL_MODULE,GUOHU_APPROVAL_CODE, org.getParentId());
+	}
+	
 	@Override
 	public String findUserBySrv(String jobCode, String caseCode,
 			String taskDfKey) {
@@ -92,6 +101,10 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 		List<TgServItemAndProcessor> serviceMap = tgServItemAndProcessorService
 				.findTgServItemAndProcessorByCaseCode(caseCode);
 		TgServItemAndProcessor tsg = getServiceCode(serviceMap, taskDfKey);
+		
+		if(GUOHU_APPROVAL_TASK_DEF_KEY.equals(taskDfKey)){
+			return findGuohuApprovalUser(tsg.getOrgId());
+		}
 
 		if (tsg != null && !StringUtils.isBlank(tsg.getProcessorId())) {
 			return findWorkFlowUser(jobCode, tsg.getProcessorId(), tsg.getOrgId());
