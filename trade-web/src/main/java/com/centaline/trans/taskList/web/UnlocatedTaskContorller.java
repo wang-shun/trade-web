@@ -1,9 +1,12 @@
 package com.centaline.trans.taskList.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +36,14 @@ public class UnlocatedTaskContorller {
 		String jobCode = user.getServiceJobCode();
 		request.setAttribute("candidateId", user.getUsername());
 		request.setAttribute("userServiceJobCode", user.getServiceJobCode());
+		
+		List<String> permiss = user.getPermissions();
+		if(!CollectionUtils.isEmpty(permiss) && permiss.contains("TRADE.CASE.GUOHUAPPROVEUNLOCATEDTASK")){
+			request.setAttribute("guoHuApprFlag", 1);//具有过户无主任务审批权限
+		}else{
+			request.setAttribute("guoHuApprFlag", 0);
+		}
+		
 		if ("yucui_team".equals(user.getServiceDepHierarchy())) {
 			Org currentOrg = uamUserOrgService.getOrgById(user.getServiceCompanyId());
 			Org parentOrg = uamUserOrgService.getOrgById(currentOrg.getParentId());
