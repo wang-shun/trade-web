@@ -241,6 +241,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 			wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
 			wf.setCaseCode(vo.getCaseCode());
 			wf.setInstCode(vo.getInstCode());
+			wf.setStatus(WorkFlowStatus.COMPLETE.getCode());
 			toWorkFlowService.updateWorkFlowByInstCode(wf);
 		}
 
