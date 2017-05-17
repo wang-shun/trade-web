@@ -224,7 +224,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 			gp.put("instCode", vo.getInstCode());
 			Page<Map<String, Object>> varinsts = quickGridService.findPageForSqlServer(gp);
 			if(varinsts!=null){
-				if("".equals(varinsts.getContent().size()>0)){
+				if(varinsts.getContent().size()>0){
 					ToCase toCase = new ToCase();
 					toCase.setCaseProperty((String)varinsts.getContent().get(0).get("vtext"));
 					toCase.setCaseCode(vo.getCaseCode());
