@@ -60,14 +60,14 @@ public class MessageServiceImpl implements MessageService {
 	public void sendSatisFinishMsgByIntermi(String instanceId) {
 		// 发送消息
 		ActRuEventSubScr event = new ActRuEventSubScr();
-		event.setEventType(MessageEnum.SATIS_FINISH_MSG.getEventType());
-		event.setEventName(MessageEnum.SATIS_FINISH_MSG.getName());
+		event.setEventType(MessageEnum.GUOHU_FINISH_MSG.getEventType());
+		event.setEventName(MessageEnum.GUOHU_FINISH_MSG.getName());
 		event.setProcInstId(instanceId);
-		event.setActivityId(EventTypeEnum.SATISFINISHEVENTCATCH.getName());
+		event.setActivityId(EventTypeEnum.GUOHUFINISHEVENTCATCH.getName());
 		
 		ExecuteAction action = new ExecuteAction();
-		action.setAction(EventTypeEnum.SATISFINISHEVENTCATCH.getEventType());
-		action.setMessageName(MessageEnum.SATIS_FINISH_MSG.getName());
+		action.setAction(EventTypeEnum.GUOHUFINISHEVENTCATCH.getEventType());
+		action.setMessageName(MessageEnum.GUOHU_FINISH_MSG.getName());
 
 		sendMessage(event,action);
 	}
