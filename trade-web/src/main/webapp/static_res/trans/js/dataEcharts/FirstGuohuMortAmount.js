@@ -74,8 +74,7 @@
                                         ECHART_D3_.mort_total[i]=(item.MORTGAGET_COM_AMOUNT/10000).toFixed(0);
                                         ECHART_D3_.mort_loss[i]=(item.LOST_AMOUNT/10000).toFixed(0);
                                         if(item.MORTGAGET_COM_AMOUNT!=0){
-                                            ECHART_D3_.lossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_COM_AMOUNT);
-                                            ECHART_D3_.oldLossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT);
+                                            ECHART_D3_.lossRate[i]=ECHART_D3_.accMul(ECHART_D3_.accDiv2(item.LOST_AMOUNT,item.MORTGAGET_COM_AMOUNT),100);
                                         }
                                     }
                                 }
@@ -83,8 +82,8 @@
                             if(item.CHOICE_MONTH==ECHART_D3_.oldChoiceMonth){
                                 for(var i=0;i<ECHART_D3_.districtID.length;i++){
                                     if(item.DISTRICT_ID == ECHART_D3_.districtID[i]){
-                                        if(item.MORTGAGET_TOTAL_AMOUNT!=0){
-                                            ECHART_D3_.oldLossRate[i]=accDiv(item.LOST_AMOUNT,item.MORTGAGET_TOTAL_AMOUNT);
+                                        if(item.MORTGAGET_COM_AMOUNT!=0){
+                                            ECHART_D3_.oldLossRate[i]=ECHART_D3_.accMul(ECHART_D3_.accDiv2(item.LOST_AMOUNT,item.MORTGAGET_COM_AMOUNT),100);
                                         }
                                     }
 
@@ -116,13 +115,16 @@
                         ];
                         returnBar(ECHART_D3_.xAxisData,yAxis,ECHART_D3_.legend,datas,type,null,myChart1,"各贵宾中心商贷比较");
                         var unit='';
-                        var pie1=accDiv(accSub(ECHART_D3_.totalLossAmount,ECHART_D3_.totalComMortAmount),10000);
-                        var pie2=accDiv(ECHART_D3_.totalLossAmount,10000);
+                        var pie1=ECHART_D3_.accDiv2(accSub(ECHART_D3_.totalLossAmount,ECHART_D3_.totalComMortAmount),10000);
+                        var pie2=ECHART_D3_.accDiv2(ECHART_D3_.totalLossAmount,10000);
                         ECHART_D3_.pie_items.push(Number(pie1).toFixed(0));
                         ECHART_D3_.pie_items.push(Number(pie2).toFixed(0));
                         var color=null;
                         var data = [ "收单", "流失" ];
                         returnPie(data, ECHART_D3_.pie_items, myChart2, color,"商贷总金额",unit);
+
+                        $("#list_com_mort").html(ECHART_D3_.accDiv2(ECHART_D3_.totalComMortAmount,10000));
+
                     },
                     error:function(){}
                 });
@@ -146,8 +148,8 @@
                             ECHART_D3_.districtName.push(item.DISTRICT_NAME.substring(0,2));
                             ECHART_D3_.mort_total.push(0);
                             ECHART_D3_.mort_loss.push(0);
-                            ECHART_D3_.lossRate.push('0.00');
-                            ECHART_D3_.oldLossRate.push('0.00');
+                            ECHART_D3_.lossRate.push('0');
+                            ECHART_D3_.oldLossRate.push('0');
                         })
                     },
                     error:function(){}
@@ -231,6 +233,23 @@
                     }
                     reloadGrid(Number(year)+1,month);
                 })
+            },
+            accDiv2: function (arg1,arg2){
+                var t1=0,t2=0,r1,r2;
+                try{t1=arg1.toString().split(".")[1].length}catch(e){}
+                try{t2=arg2.toString().split(".")[1].length}catch(e){}
+                with(Math){
+                    r1=Number(arg1.toString().replace(".",""));
+                    r2=Number(arg2.toString().replace(".",""));
+                    return ((r1/r2)*pow(10,t2-t1)).toFixed(2);
+                }
+            },
+            accMul: function(arg1,arg2)
+            {
+                var m=0,s1=arg1.toString(),s2=arg2.toString();
+                try{m+=s1.split(".")[1].length}catch(e){}
+                try{m+=s2.split(".")[1].length}catch(e){}
+                return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)).toFixed(0);
             },
             /*获取当前年份数据*/
             getCurrentYear: function() {

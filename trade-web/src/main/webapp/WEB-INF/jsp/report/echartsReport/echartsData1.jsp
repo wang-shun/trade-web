@@ -54,6 +54,10 @@
                     <table class="echarsTable">
 
                     </table>
+                    <div style="height: 23px;line-height: 23px;"><i class="icon iconfont icon40 yellow martop20" style="font-size: 30px;float: left;"></i>备注:
+                        <span>数据来源:本月过户审批通过案件</span>
+                    </div>
+
                 </div>
                 <div class="pull-left">
                     <div class="plot-rightone">

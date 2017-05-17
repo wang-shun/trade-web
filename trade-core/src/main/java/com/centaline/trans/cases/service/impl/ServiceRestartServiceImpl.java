@@ -224,12 +224,17 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 			gp.put("instCode", vo.getInstCode());
 			Page<Map<String, Object>> varinsts = quickGridService.findPageForSqlServer(gp);
 			if(varinsts!=null){
-				if("".equals(varinsts.getContent().size()>0)){
+				if(varinsts.getContent().size()>0){
 					ToCase toCase = new ToCase();
 					toCase.setCaseProperty((String)varinsts.getContent().get(0).get("vtext"));
 					toCase.setCaseCode(vo.getCaseCode());
 					toCaseService.updateByCaseCodeSelective(toCase);//将案件更新为原来的状态
 				}
+			}else{//如果没有caseProperty这个参数，比如老的流程重启任务，则驳回执行下面这段代码，将案件变为在途状态
+				ToCase toCase = new ToCase();
+				toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
+				toCase.setCaseCode(vo.getCaseCode());
+				toCaseService.updateByCaseCodeSelective(toCase);//将案件更新为原来的状态
 			}
 
 			ToWorkFlow wf = new ToWorkFlow();
@@ -432,7 +437,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		return true;
 
 	}
-	@Transactional(propagation = Propagation.NESTED)
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public String getVars(String instCode){
 		String var = "";
 		try{

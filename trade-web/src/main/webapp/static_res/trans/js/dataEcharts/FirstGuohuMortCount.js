@@ -20,6 +20,7 @@
             oldLossRate:[],//上月流失率
             legend:'',//纬度
             totalLossCount:0,//本月总流失单数
+            totalMortCount:0,//本月商贷总单数
             totalMortCount:0,//本月总贷款单数
             pie_items : [],//饼图的数据
             url:'',//根路径
@@ -73,7 +74,7 @@
                                         ECHART_D2_.total[i]=item.MORTGAGET_TOTAL_COUNT;
                                         ECHART_D2_.loss[i]=item.LOST_COUNT;
                                         if(accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT)!=0){
-                                            ECHART_D2_.lossRate[i]=accDiv(item.LOST_COUNT,item.MORTGAGET_TOTAL_COUNT);
+                                            ECHART_D2_.lossRate[i]=ECHART_D2_.accMul(ECHART_D2_.accDiv2(item.LOST_COUNT,item.MORTGAGET_TOTAL_COUNT),100);
                                         }else{
                                             ECHART_D2_.lossRate[i]=0;
                                         }
@@ -85,7 +86,7 @@
                                 for(var i=0;i<ECHART_D2_.districtID.length;i++){
                                     if(item.DISTRICT_ID == ECHART_D2_.districtID[i]){
                                         if(accAdd(item.MORTGAGET_TOTAL_COUNT,item.LOST_COUNT)!=0){
-                                            ECHART_D2_.oldLossRate[i]=accDiv(item.LOST_COUNT,item.MORTGAGET_TOTAL_COUNT);
+                                            ECHART_D2_.oldLossRate[i]=ECHART_D2_.accMul(ECHART_D2_.accDiv2(item.LOST_COUNT,item.MORTGAGET_TOTAL_COUNT),100);
                                         }else{
                                             ECHART_D2_.oldLossRate[i]=0;
                                         }
@@ -122,6 +123,8 @@
                         var color=null;
                         var data = [ "收单", "流失" ];
                         returnPie(data, ECHART_D2_.pie_items, myChart2, color,"商贷总单数");
+                        $("#list_com_count").html(ECHART_D2_.totalMortCount);
+
                     },
                     error:function(){}
                 });
@@ -235,6 +238,23 @@
                 //动态控制精度长度
                 n=(r1>=r2)?r1:r2;
                 return ((arg2*m-arg1*m)/m).toFixed(0);
+            },
+            accMul:function(arg1,arg2){
+
+                var m=0,s1=arg1.toString(),s2=arg2.toString();
+                try{m+=s1.split(".")[1].length}catch(e){}
+                try{m+=s2.split(".")[1].length}catch(e){}
+                return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)).toFixed(0);
+            },
+            accDiv2: function (arg1,arg2){
+                var t1=0,t2=0,r1,r2;
+                try{t1=arg1.toString().split(".")[1].length}catch(e){}
+                try{t2=arg2.toString().split(".")[1].length}catch(e){}
+                with(Math){
+                    r1=Number(arg1.toString().replace(".",""));
+                    r2=Number(arg2.toString().replace(".",""));
+                    return ((r1/r2)*pow(10,t2-t1)).toFixed(2);
+                }
             },
             /*获取当前年份数据*/
             getCurrentYear: function() {
