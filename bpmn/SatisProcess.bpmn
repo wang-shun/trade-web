@@ -6,13 +6,13 @@
     <userTask id="GuohuSurvey" name="过户回访" activiti:assignee="${caller}" activiti:formKey="/satis/task/guohuDetail?__decorator=UI_V2"></userTask>
     <startEvent id="startevent1" name="Start"></startEvent>
     <sequenceFlow id="flow2" sourceRef="startevent1" targetRef="SignSurvey"></sequenceFlow>
-    <userTask id="SignFollow" name="签约跟进" activiti:assignee="${consultant1}" activiti:formKey="/satis/task/signReturn?__decorator=UI_V2"></userTask>
+    <userTask id="SignFollow" name="签约回访跟进" activiti:assignee="${consultant1}" activiti:formKey="/satis/task/signReturn?__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="SignFollow">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${signResult == false}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow7" sourceRef="SignFollow" targetRef="SignSurvey"></sequenceFlow>
     <endEvent id="endevent1" name="End"></endEvent>
-    <userTask id="GuohuFollow" name="过户跟进" activiti:assignee="${consultant2}" activiti:formKey="/satis/task/guohuReturn?__decorator=UI_V2"></userTask>
+    <userTask id="GuohuFollow" name="过户回访跟进" activiti:assignee="${consultant2}" activiti:formKey="/satis/task/guohuReturn?__decorator=UI_V2"></userTask>
     <sequenceFlow id="flow13" sourceRef="exclusivegateway2" targetRef="GuohuFollow">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${guohuResult == false}]]></conditionExpression>
     </sequenceFlow>

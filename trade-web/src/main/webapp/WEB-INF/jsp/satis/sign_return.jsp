@@ -276,7 +276,7 @@
         <div class="form-btn">
                <div class="text-center">
                	   <c:if test="${satisfaction.status eq 3}">
-               	   		<a  class="btn btn-success btn-space" onclick="javascript:doSignFollow();">提交跟进</a>
+               	   		<a  class="btn btn-success btn-space" onclick="javascript:doSignFollow();">提交</a>
                    		<a class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
                	   </c:if>
                    <c:if test="${satisfaction.status ne 3}">

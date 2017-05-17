@@ -275,11 +275,11 @@
 		<div id="caseCommentList" class="add_form"></div>
         <div class="form-btn">
                <div class="text-center">
-               	   <c:if test="${satisfaction.status eq 5}">
-               	   		<a  class="btn btn-success btn-space" onclick="javascript:doGuohuFollow();">提交跟进</a>
+               	   <c:if test="${satisfaction.status eq 6}">
+               	   		<a  class="btn btn-success btn-space" onclick="javascript:doGuohuFollow();">提交</a>
                    		<a  class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
                	   </c:if>
-				   <c:if test="${satisfaction.status ne 5}">
+				   <c:if test="${satisfaction.status ne 6}">
                    		<a  class="btn btn-success btn-space" onclick="javascript:goBack();">关闭</a>
                	   </c:if>
                </div>

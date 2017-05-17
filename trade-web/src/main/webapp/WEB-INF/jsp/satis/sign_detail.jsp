@@ -481,8 +481,8 @@
 		        <div class="form-btn">
 		           <div class="text-center">
 		           	   <c:if test="${satisfaction.status eq 2}">
-		           	   		<a class="btn btn-success btn-space" onclick="javascript:doSignPass();" >回访通过</a>
-		               		<a class="btn btn-success btn-space" data-toggle="modal" data-target="#myModal" >回访打回</a>
+		           	   		<a class="btn btn-success btn-space" onclick="javascript:doSignPass();" >通过</a>
+		               		<a class="btn btn-success btn-space" data-toggle="modal" data-target="#myModal" >打回</a>
 		               		<a class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
 		           	   </c:if>
 		               <c:if test="${satisfaction.status ne 2}">
@@ -503,7 +503,7 @@
                             <div class="modal_title">
                                 回访打回
                             </div>
-                            <textarea name="" id="" autoFocus  class="textarearoom mt10" style="width:100%;max-width: 760px;margin-left:0;max-height: 150px;height: 150px;" ></textarea>
+                            <textarea name="rejectComment" id="rejectComment" autoFocus  class="textarearoom mt10" style="width:100%;max-width: 760px;margin-left:0;max-height: 150px;height: 150px;" ></textarea>
                             <div class="add_btn text-center mt20">
                                 <button type="button" class="btn btn-success" onclick="javascript:doSignReject();">
                                     打回
@@ -564,7 +564,7 @@
 	        function doSignPass(){
 	        	var data = $("form").serializeArray();
 
-	        	window.wxc.confirm("确定要回访通过吗？",{"wxcOk":function(){
+	        	window.wxc.confirm("确定要通过吗？",{"wxcOk":function(){
 					$.ajax({
 						url:ctx+"/satis/doSignPass",
 						method:"post",
@@ -594,7 +594,10 @@
 	        function doSignReject(){
 	        	var data = $("form").serializeArray();
 
-	        	window.wxc.confirm("确定要回访打回吗？",{"wxcOk":function(){
+	        	window.wxc.confirm("确定要打回吗？",{"wxcOk":function(){
+		        	//先将回访意见添加到案件跟进
+		        	saveCaseComment2();
+		        	
 					$.ajax({
 						url:ctx+"/satis/doSignReject",
 						method:"post",
