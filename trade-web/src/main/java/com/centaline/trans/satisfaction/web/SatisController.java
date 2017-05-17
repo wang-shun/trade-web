@@ -84,33 +84,33 @@ public class SatisController {
   }
   
   @RequestMapping("/task/signDetail")
-  public String signDetail(Model model, Long satisId, String caseCode, String urlType){
+  public String signDetail(Model model, Long satisId, String caseCode, String urlType, Boolean readOnly){
     
-    setCaseInfoToModel(model, satisId, caseCode, urlType);
+    setCaseInfoToModel(model, satisId, caseCode, urlType, readOnly);
     
     return "satis/sign_detail";
   }
   
   @RequestMapping("/task/guohuDetail")
-  public String guohuDetail(Model model, Long satisId, String caseCode, String urlType){
+  public String guohuDetail(Model model, Long satisId, String caseCode, String urlType, Boolean readOnly){
     
-    setCaseInfoToModel(model, satisId, caseCode, urlType);
+    setCaseInfoToModel(model, satisId, caseCode, urlType, readOnly);
     
     return "satis/guohu_detail";
   }
   
   @RequestMapping("/task/signReturn")
-  public String signReturn(Model model, Long satisId, String caseCode, String urlType){
+  public String signReturn(Model model, Long satisId, String caseCode, String urlType, Boolean readOnly){
     
-    setCaseInfoToModel(model, satisId, caseCode, urlType);
+    setCaseInfoToModel(model, satisId, caseCode, urlType, readOnly);
         
     return "satis/sign_return";
   }
   
   @RequestMapping("/task/guohuReturn")
-  public String guohuReturn(Model model, Long satisId, String caseCode, String urlType){
+  public String guohuReturn(Model model, Long satisId, String caseCode, String urlType, Boolean readOnly){
   
-    setCaseInfoToModel(model , satisId, caseCode, urlType);
+    setCaseInfoToModel(model , satisId, caseCode, urlType, readOnly);
     
     return "satis/guohu_return";
   }
@@ -300,7 +300,7 @@ public class SatisController {
     return response;
   }
   
-  private void setCaseInfoToModel(Model model , Long satisId , String caseCode , String urlType){
+  private void setCaseInfoToModel(Model model , Long satisId , String caseCode , String urlType, Boolean readOnly){
     
 	ToSatisfaction satisfaction = null;  
 	  
@@ -457,6 +457,7 @@ public class SatisController {
     model.addAttribute("instCode", tf.getInstCode());
     model.addAttribute("taskId", taskList.get(0) == null?null:taskList.get(0).getId());
     model.addAttribute("urlType", urlType);
+    model.addAttribute("readOnly", readOnly);
   }
 
 }

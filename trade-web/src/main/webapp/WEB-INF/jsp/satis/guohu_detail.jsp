@@ -30,6 +30,10 @@
     <link rel="stylesheet" href="${ctx}/static/trans/css/workflow/caseDetail.css" >
     <link rel="stylesheet" href="${ctx}/static/trans/css/workflow/details.css" >
     <link rel="stylesheet" href="${ctx}/css/transcss/comment/caseComment.css">
+    <style>
+		.borderClass {border:1px solid red!important;resize: none;}
+		.borderClass:focus {border:1px solid red!important;resize: none;}
+	</style>
 </head>
 
 <body class="pace-done">
@@ -268,6 +272,9 @@
 	<input type="hidden" id="urlType" name="urlType" value="${urlType}">
 	<input type="hidden" id="taskId" name="taskId" value="${taskId}">
     <input type="hidden" id="instCode" name="instCode" value="${instCode}">
+    <input type="hidden" id="caseCode" name="caseCode" value="${toCaseInfo.caseCode}">
+    <input type="hidden" id="status" name="status" value="${satisfaction.status}">
+    <input type="hidden" id="readOnly" name="readOnly" value="${readOnly}">
     <input type="hidden" id="pkid" name="pkid" value="${satisfaction.pkid}">
     <div class="ibox-content border-bottom clearfix space_box noborder">
         <div>
@@ -524,12 +531,12 @@
 		        </div>
 		        <div class="form-btn">
 		           <div class="text-center">
-		           	   <c:if test="${satisfaction.status eq 5}">
+		           	   <c:if test="${satisfaction.status eq 5 and !readOnly}">
 		           	   		<a class="btn btn-success btn-space" onclick="javascript:doGuohuPass();" >通过</a>
 		               		<a class="btn btn-success btn-space" data-toggle="modal" data-target="#myModal">打回</a>
 		               		<a class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
 		           	   </c:if>
-		           	   <c:if test="${satisfaction.status ne 5}">
+		           	   <c:if test="${satisfaction.status ne 5 or readOnly}">
 		           	   		<a class="btn btn-success btn-space" onclick="javascript:goBack();">关闭</a>
 		           	   </c:if>
 		           </div>
@@ -568,9 +575,10 @@
        		<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
         	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	        <script type="text/javascript">
-	        var caseCode = '${toCaseInfo.caseCode}';
+	        var caseCode = $("#caseCode").val();
 	        var urlType = $("#urlType").val();
-	        var status = '${satisfaction.status}';
+	        var status = $("#status").val();
+	        var readOnly = $("#readOnly").val();
 	        
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
@@ -581,7 +589,7 @@
 			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
 		 	    $('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
 		 	    
-		 	   if(status != '5'){
+		 	   if(status != '5' || readOnly == 'true'){
 		 	    	readOnlyForm();
 		 	    }
 	        })
@@ -602,7 +610,12 @@
  	 		}
 	        
 	        /*过户通过*/
-	        function doGuohuPass(){	        	
+	        function doGuohuPass(){	    
+	        	
+	        	if(!checkForSubmit()){
+	        		return false;
+	        	}
+	        	
 	        	var data = $("form").serializeArray();
 
 	        	window.wxc.confirm("确定要通过吗？",{"wxcOk":function(){
@@ -668,6 +681,120 @@
 	        /*只读表单*/
 	        function readOnlyForm(){
 	        	$("input,select").prop("disabled",true);
+	        }
+	        
+	    	function changeClass(object){
+	    		$(object).focus().addClass("borderClass").blur(function(){
+	    			$(this).removeClass("borderClass");
+	    		});
+	    	}
+	        
+	    	 /*提交时验证表单*/
+	        function checkForSubmit(){
+                /***********************上家START**************************/
+                /*电话结果*/
+                var $salerPhoneRes = $("input[name='salerPhoneRes']");
+                if($salerPhoneRes.val().trim() == ''){
+                    window.wxc.alert("请填写上家电话结果！");
+                    changeClass($salerPhoneRes);
+                    return false;
+                }
+                /*签约意见*/
+                var $salerSignCom = $("input[name='salerSignCom']");
+                if($salerSignCom.val().trim() == ''){
+                    window.wxc.alert("请填写上家签约意见！");
+                    changeClass($salerSignCom);
+                    return false;
+                }
+                /*陪还贷意见*/
+                var $salerLoancloseCom = $("inputp[name='salerLoancloseCom']");
+                if($salerLoancloseCom.val().trim() == ''){
+                    window.wxc.alert("请填写上家贷款意见！");
+                    changeClass($salerLoancloseCom);
+                    return false;
+                }
+                /*过户意见*/
+                var $salerGuohuCom = $("input[name='salerGuohuCom']");
+                if($salerGuohuCom.val().trim() == ''){
+                    window.wxc.alert("请填写上家过户意见！");
+                    changeClass($salerGuohuCom);
+                    return false;
+                }
+                /***********************上家END**************************/
+                /***********************下家START**************************/
+                /*电话结果*/
+                var $buyerPhoneRes = $("input[name='buyerPhoneRes']");
+                if($buyerPhoneRes.val().trim() == ''){
+                    window.wxc.alert("请填写下家电话结果！");
+                    changeClass($buyerPhoneRes);
+                    return false;
+                }
+                /*签约意见*/
+                var $buyerSignCom = $("input[name='buyerSignCom']");
+                if($buyerSignCom.val().trim() == ''){
+                    window.wxc.alert("请填写下家签约意见！");
+                    changeClass($buyerSignCom);
+                    return false;
+                }
+                /*贷款意见*/
+                var $buyerComloanCom = $("inputp[name='buyerComloanCom']");
+                if($buyerComloanCom.val().trim() == ''){
+                    window.wxc.alert("请填写下家贷款意见！");
+                    changeClass($buyerComloanCom);
+                    return false;
+                }
+                /*公积金意见*/
+                var $buyerPsfloanCom = $("input[name='buyerPsfloanCom']");
+                if($buyerPsfloanCom.val().trim() == ''){
+                    window.wxc.alert("请填写下家公积金意见！");
+                    changeClass($buyerPsfloanCom);
+                    return false;
+                }
+                /*过户意见*/
+                var $buyerGuohuCom = $("input[name='buyerGuohuCom']");
+                if($buyerGuohuCom.val().trim() == ''){
+                    window.wxc.alert("请填写下家过户意见！");
+                    changeClass($buyerGuohuCom);
+                    return false;
+                }
+                /***********************下家END**************************/
+                /***********************经纪人START**************************/
+                /*电话结果*/
+                var $agentPhoneRes = $("input[name='agentPhoneRes']");
+                if($agentPhoneRes.val().trim() == ''){
+                    window.wxc.alert("请填写经纪人电话结果！");
+                    changeClass($agentPhoneRes);
+                    return false;
+                }
+                /*签约意见*/
+                var $agentSignCom = $("input[name='agentSignCom']");
+                if($agentSignCom.val().trim() == ''){
+                    window.wxc.alert("请填写经纪人签约意见！");
+                    changeClass($agentSignCom);
+                    return false;
+                }
+                /*贷款意见*/
+                var $agentComloanCom = $("inputp[name='agentComloanCom']");
+                if($agentComloanCom.val().trim() == ''){
+                    window.wxc.alert("请填写经纪人贷款意见！");
+                    changeClass($agentComloanCom);
+                    return false;
+                }
+                /*公积金意见*/
+                var $agentPsfloanCom = $("input[name='agentPsfloanCom']");
+                if($agentPsfloanCom.val().trim() == ''){
+                    window.wxc.alert("请填写经纪人公积金意见！");
+                    changeClass($agentPsfloanCom);
+                    return false;
+                }
+                /*过户意见*/
+                var $agentGuohuCom = $("input[name='agentGuohuCom']");
+                if($agentGuohuCom.val().trim() == ''){
+                    window.wxc.alert("请填写经纪人过户意见！");
+                    changeClass($agentGuohuCom);
+                    return false;
+                }
+                /***********************经纪人END**************************/
 	        }
 	        </script>
         </content> 

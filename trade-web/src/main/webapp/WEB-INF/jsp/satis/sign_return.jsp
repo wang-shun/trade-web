@@ -264,6 +264,9 @@
 	<input type="hidden" id="urlType" name="urlType" value="${urlType}">
     <input type="hidden" id="taskId" name="taskId" value="${taskId}">
     <input type="hidden" id="instCode" name="instCode" value="${instCode}">
+    <input type="hidden" id="caseCode" name="caseCode" value="${toCaseInfo.caseCode}">
+    <input type="hidden" id="status" name="status" value="${satisfaction.status}">
+    <input type="hidden" id="readOnly" name="readOnly" value="${readOnly}">
     <input type="hidden" id="pkid" name="pkid" value="${satisfaction.pkid}">
     <div class="ibox-content border-bottom clearfix space_box noborder">
         <div style="height: auto;">
@@ -275,11 +278,11 @@
         <div id="caseCommentList" class="add_form"></div>
         <div class="form-btn">
                <div class="text-center">
-               	   <c:if test="${satisfaction.status eq 3}">
+               	   <c:if test="${satisfaction.status eq 3 and !readOnly}">
                	   		<a  class="btn btn-success btn-space" onclick="javascript:doSignFollow();">提交</a>
                    		<a class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
                	   </c:if>
-                   <c:if test="${satisfaction.status ne 3}">
+                   <c:if test="${satisfaction.status ne 3 or readOnly}">
                    		<a class="btn btn-success btn-space" onclick="javascript:goBack();">关闭</a>
                    </c:if>
                </div>
@@ -300,8 +303,10 @@
         	<script src="${ctx}/js/viewer/viewer.min.js"></script>
         	<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
 	        <script type="text/javascript">
-	        var caseCode = '${toCaseInfo.caseCode}';
+	        var caseCode = $("#caseCode").val();
 	        var urlType = $("#urlType").val();
+	        var status = $("#status").val();
+	        var readOnly = $("#readOnly").val()
 	        
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
@@ -311,6 +316,10 @@
 	        	
 			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
 				$('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
+				
+				if(status != '3' || readOnly == 'true'){
+		 	    	readOnlyForm();
+		 	    }
 	        })
 			      
 			/*动态生成上下家*/
