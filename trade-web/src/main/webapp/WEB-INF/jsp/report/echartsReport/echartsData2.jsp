@@ -61,6 +61,10 @@
                         </div>
                     </div>
                     <div class="plot-righttwo mt10 relative">
+                        <ul class="total-list" id="list_chart">
+                            <li><i class="iconfont mr5 al-yellow al-icon-22"></i>商贷总单数<span id="list_com_count">0</span></li>
+
+                        </ul>
                         <p class="zhyu-icon"><img src="${ctx }/css/images/zhongyuan.png" alt="" /></p>
                     </div>
                     <input type="hidden" value="${ctx}" id="ctx">

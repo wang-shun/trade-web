@@ -12,6 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -385,6 +386,7 @@ public class CaseMergeController {
 	 * @return
 	 */
 	@RequestMapping(value="addWdCase")
+	@RequiresPermissions("TRADE.CASE.CASEDETAIL.EDITWDCASE")
 	public String addWdCase(Model model, HttpServletRequest request) throws Exception{
 		model.addAttribute("flag","add");
 		toAccesoryListService.getAccesoryList(request, "AddWdCase");
@@ -402,6 +404,7 @@ public class CaseMergeController {
 	 * @return
 	 */
 	@RequestMapping(value="addLiushui")
+	@RequiresPermissions("TRADE.CASE.CASEDETAIL.EDITWDCASE")
 	public String addLiushui(Model model, HttpServletRequest request,String caseCode) throws Exception{
 		request.setAttribute("caseCode", caseCode);
 		toAccesoryListService.getAccesoryList(request, "AddLiushui");
@@ -417,6 +420,7 @@ public class CaseMergeController {
 	 * @return
 	 */
 	@RequestMapping(value="editWdCase")
+	@RequiresPermissions("TRADE.CASE.CASEDETAIL.EDITWDCASE")
 	public String editWdCase(Model model, HttpServletRequest request,String caseCode) throws Exception{
 		toAccesoryListService.getAccesoryList(request, "AddWdCase");
 		caseMergeService.setCaseMergeVo(request, caseCode);
@@ -433,6 +437,7 @@ public class CaseMergeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/saveWdCaseInfo")
+	@RequiresPermissions("TRADE.CASE.CASEDETAIL.EDITWDCASE")
 	@ResponseBody
 	public AjaxResponse<?>  saveWdCaseInfo(CaseMergeVo caseMergeVo,HttpServletRequest request){
 		AjaxResponse<?> response = new AjaxResponse<>();
@@ -456,6 +461,7 @@ public class CaseMergeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/editWdCaseInfo")
+	@RequiresPermissions("TRADE.CASE.CASEDETAIL.EDITWDCASE")
 	@ResponseBody
 	public AjaxResponse<?>  editWdCaseInfo(CaseMergeVo caseMergeVo,HttpServletRequest request){
 		AjaxResponse<?> response = new AjaxResponse<>();
@@ -479,6 +485,7 @@ public class CaseMergeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/saveLiushui")
+	@RequiresPermissions("TRADE.CASE.CASEDETAIL.EDITWDCASE")
 	@ResponseBody
 	public AjaxResponse<?>  saveLiushui(CaseMergeVo caseMergeVo,HttpServletRequest request){
 		AjaxResponse<?> response = new AjaxResponse<>();
@@ -497,7 +504,8 @@ public class CaseMergeController {
 	/**
 	 * 返来日期时间的一个字符串
 	 * @author hejf10
-	 * @return
+	 * @date 2017年5月17日10:52:06
+	 * @return String
 	 */
 	public String getRandom(){
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");  

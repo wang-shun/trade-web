@@ -54,9 +54,23 @@
                     <table class="echarsTable">
 
                     </table>
+                    <div style="height: 23px;line-height: 23px;"><i class="icon iconfont icon40 yellow martop20" style="font-size: 30px;float: left;"></i>备注:
+                        <span>收单率=收单金额/商贷总额</span>
+                    </div>
+                    <div style="height: 23px;line-height: 23px;">&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span style="margin-left: 42px;">数据来源:过户审批通过中含商贷的案件（包含公司办理的商贷和客户自办的贷款，不包括一次性，纯公积金案件）</span>
+                    </div>
                 </div>
                   <div class="pull-left">
                     <div class="plot-rightone">
+                        <div class="total-data">
+                            <h3 id="list_title"></h3>
+                            <ul class="total-list" id="list_chart">
+                                <li><i class="iconfont mr5 al-yellow al-icon-22"></i>商贷总额<span id="list_com_mort">0</span>万元</li>
+                                <li><i class="iconfont mr5 al-grey al-icon-22"></i>收单金额<span id="list_shou_mort">0</span>万元</li>
+                                <li><i class="iconfont mr5 al-maize  al-icon-22"></i>收单率<span id="list_shou_lv">0</span>%</li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="plot-righttwo mt10 relative">
                          <p class="zhyu-icon"><img src="${ctx }/css/images/zhongyuan.png" alt="" /></p>
