@@ -59,6 +59,8 @@ public class ServiceRestartController {
 		jo.put("caseCode", caseCode);
 		jo.put("taskId", taskId);
 		jo.put("instCode", processInstanceId);
+		jo.put("approveType", 7);
+		jo.put("processInstanceId", processInstanceId);
 		return jo;
 	}
 
