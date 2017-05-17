@@ -66,7 +66,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="table-scroll">
+					<div class="table-scroll" style="height:450px;overflow: auto">
 						<!-- table -->
 						<table class="table table_blue  table-striped table-bordered table-hover customerinfo">
 							<thead>

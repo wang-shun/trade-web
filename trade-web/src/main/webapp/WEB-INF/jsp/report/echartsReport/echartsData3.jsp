@@ -48,7 +48,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="left-content">
+                        <div class="left-content" style="width: 915px;">
                             <div id="plotCont1" class="plot-leftone">
                             </div>
                             <table class="echarsTable">
@@ -56,8 +56,8 @@
                             </table>
                         </div>
                         <div class="pull-left">
-                            <div class="plot-rightone" style="width:319px;padding:16px 0px 0px 10px;">
-                                <div id="plotCont2"  style="width:319px;height:300px; ">
+                            <div class="plot-rightone" style="width:310px;padding:16px 0px 0px 0px;">
+                                <div id="plotCont2"  style="width:310px;height:300px; ">
                                 </div>
                             </div>
                             <div class="plot-righttwo mt10 relative">
