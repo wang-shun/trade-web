@@ -945,8 +945,9 @@ function isTmpBankChange(){
 		return false;
 	}
 	var f=$(this).closest('form');
-	var checkBtnVal = $("input[name='isTmpBank']:checked").val();
+	var checkBtnVal = $("input[name='isTmpBank']:checked").val(); 
 	
+	//=1代表选择临时银行
 	if(checkBtnVal == '1'){
 		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'');
 		f.find("select[name='bank_type']").change(function(){
@@ -1544,6 +1545,18 @@ $(document).ready(function (){
 			 $("#toLoanerCaseTemp").show();
 			 $("#toLoanerCase").show();
 	  }  
+	  
+	  var form = $("#mortgageForm");
+	  var form1 = $("#mortgageForm1");
+	 //派单按钮 隐藏
+	  var checkBtnValForm = form.find("input[name='isTmpBank']:checked").val(); 
+	  var checkBtnValForm1 = form1.find("input[name='isTmpBank']:checked").val(); 
+	
+	  //=1代表选择临时银行
+	  if(checkBtnValForm == '1' || checkBtnValForm1 == '1'){
+		  $("#toLoanerCase").hide();
+		  $("#toLoanerCaseTemp").hide();
+	  }
 	  
 	  getProcessStart();
 

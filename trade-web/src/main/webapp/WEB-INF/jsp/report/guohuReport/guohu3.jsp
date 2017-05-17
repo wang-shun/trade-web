@@ -66,7 +66,7 @@
 					</div>
 				</div>
 
-				<div class="table-scroll" style="height:500px;overflow: auto">
+				<div class="table-scroll" style="height:450px;overflow: auto">
 					<table
 							class="table table_blue  table-striped table-bordered table-hover customerinfo ">
 						<thead>
@@ -111,7 +111,14 @@
 				</div>
 			</div>
 		</div>
-		<div style="height: 34px;line-height: 34px;"><i class="icon iconfont icon40 yellow martop20" style="font-size: 30px;float: left;"></i>无主案件数:<span id="notHaveOwnerVal"></span></div>
+		<div style="height: 23px;line-height: 23px;"><i class="icon iconfont icon40 yellow martop20" style="font-size: 30px;float: left;"></i>无主案件数:<span id="notHaveOwnerVal"></span></div>
+		<div style="height: 23px;line-height: 23px;"><i class="icon iconfont icon40 yellow martop20" style="font-size: 30px;float: left;"></i>备注:
+			<span>应收评估费=收单案件合同价*0.001</span>
+		</div>
+		<div style="height: 23px;line-height: 23px;">&nbsp;&nbsp;&nbsp;&nbsp;
+			<span style="margin-left: 42px;">评估转化率=实收评估费单数/收单案件单数</span>
+		</div>
+
 	</div>
 </div>
 <!--*********************** HTML_main*********************** -->

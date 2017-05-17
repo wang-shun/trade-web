@@ -1,11 +1,50 @@
 package com.centaline.trans.common.enums;
 
 public enum TransJobs {
-	TJYGW("consultant", "交易顾问"), TJYZL("TeamAssistant", "交易助理"), TJYZG(
-			"Manager", "交易主管"), TQYMS("yucui_secretary", "区域秘书"), TFHJL(
-			"JFHJL", "分行经理"), TZJL("GeneralManager", "誉萃总经理"), TZJ("director",
-			"誉萃总监"), YCPRODUCT("yucui_product", "产品研发"),TSJYZG("Senior_Manager","高级交易主管"),
-	YCADM("yucui_admin","誉萃管理员"),JYUZTGW("JYUZTGW","中台顾问");
+	/**
+	 * 交易顾问
+	 */
+	TJYGW("consultant", "交易顾问"), 
+	/**
+	 * 交易助理
+	 */
+	TJYZL("TeamAssistant", "交易助理"), 
+	/**
+	 * 交易主管
+	 */
+	TJYZG("Manager", "交易主管"), 
+	/**
+	 * 区域秘书
+	 */
+	TQYMS("yucui_secretary", "区域秘书"), 
+	/**
+	 * 分行经理
+	 */
+	TFHJL("JFHJL", "分行经理"), 
+	/**
+	 * 誉萃总经理
+	 */
+	TZJL("GeneralManager", "誉萃总经理"), 
+	/**
+	 * 誉萃总监
+	 */
+	TZJ("director", "誉萃总监"), 
+	/**
+	 * 产品研发
+	 */
+	YCPRODUCT("yucui_product", "产品研发"),
+	/**
+	 * 高级交易主管
+	 */
+	TSJYZG("Senior_Manager","高级交易主管"),
+	/**
+	 * 誉萃管理员
+	 */
+	YCADM("yucui_admin","誉萃管理员"),
+	/**
+	 * 中台顾问
+	 */
+	JYUZTGW("JYUZTGW","中台顾问");
 
 	private String name;
 

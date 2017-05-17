@@ -84,8 +84,7 @@ public class AttachmentController {
 
 	@RequestMapping(value = "saveAttachment")
 	@ResponseBody
-	public AjaxResponse<String> saveAttachment(HttpServletRequest request,
-			FileUploadVO fileUploadVO) {
+	public AjaxResponse<String> saveAttachment(HttpServletRequest request, FileUploadVO fileUploadVO) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try {
 			toAttachmentService.saveAttachment(fileUploadVO);
@@ -97,12 +96,10 @@ public class AttachmentController {
 
 	@RequestMapping(value = "saveAttachmentForMaterial")
 	@ResponseBody
-	public AjaxResponse<String> saveAttachmentForMaterial(
-			HttpServletRequest request, FileUploadVO fileUploadVO) {
+	public AjaxResponse<String> saveAttachmentForMaterial(HttpServletRequest request, FileUploadVO fileUploadVO) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try {
-			String attPkid = toAttachmentService
-					.saveAttachmentForMaterial(fileUploadVO);
+			String attPkid = toAttachmentService.saveAttachmentForMaterial(fileUploadVO);
 			if (null != attPkid && !"".equals(attPkid)) {
 				response.setSuccess(true);
 				response.setMessage(attPkid);
@@ -119,18 +116,15 @@ public class AttachmentController {
 
 	@RequestMapping(value = "quereyAttachments")
 	@ResponseBody
-	public Map<String, Object> quereyAttachments(HttpServletRequest request,
-			ToAccesoryList toAccesoryList, ToAttachment toAttachment) {
+	public Map<String, Object> quereyAttachments(HttpServletRequest request, ToAccesoryList toAccesoryList, ToAttachment toAttachment) {
 		/** 读取上传附件备件表 */
 		// ToAccesoryList toAccesoryList = new ToAccesoryList();
 		// toAccesoryList.setPartCode(toAttachment.getPartCode());
-		if (toAccesoryList.getPartCode() != null
-				&& toAccesoryList.getPartCode().equals("CaseClose")) {
+		if (toAccesoryList.getPartCode() != null && toAccesoryList.getPartCode().equals("CaseClose")) {
 			toAccesoryList.setPartCode(null);
 			toAttachment.setPartCode(null);
 		}
-		List<ToAccesoryList> list = toAccesoryListService
-				.qureyToAccesoryList(toAccesoryList);
+		List<ToAccesoryList> list = toAccesoryListService.qureyToAccesoryList(toAccesoryList);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("accList", list);
 		map.put("attList", toAttachmentService.quereyAttachments(toAttachment));
@@ -139,12 +133,10 @@ public class AttachmentController {
 
 	@RequestMapping(value = "updateAvaliableAttachmentByProperty")
 	@ResponseBody
-	public AjaxResponse<String> updateAvaliableAttachmentByProperty(
-			HttpServletRequest request, ToAttachment toAttachment) {
+	public AjaxResponse<String> updateAvaliableAttachmentByProperty(HttpServletRequest request, ToAttachment toAttachment) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try {
-			toAttachmentService
-					.updateAvaliableAttachmentByProperty(toAttachment);
+			toAttachmentService.updateAvaliableAttachmentByProperty(toAttachment);
 		} catch (Exception e) {
 			response.setMessage("更新状态失败！");
 		}
@@ -153,26 +145,21 @@ public class AttachmentController {
 
 	@RequestMapping(value = "quereyAttachmentsForMaterital")
 	@ResponseBody
-	public Map<String, Object> quereyAttachmentsForMaterital(
-			HttpServletRequest request, ToAccesoryList toAccesoryList,
-			ToAttachment toAttachment) {
+	public Map<String, Object> quereyAttachmentsForMaterital(HttpServletRequest request, ToAccesoryList toAccesoryList, ToAttachment toAttachment) {
 		/** 读取上传附件备件表 */
 		// ToAccesoryList toAccesoryList = new ToAccesoryList();
 		// toAccesoryList.setPartCode(toAttachment.getPartCode());
-		if (toAccesoryList.getPartCode() != null
-				&& toAccesoryList.getPartCode().equals("CaseClose")) {
+		if (toAccesoryList.getPartCode() != null && toAccesoryList.getPartCode().equals("CaseClose")) {
 			toAccesoryList.setPartCode(null);
 			toAttachment.setPartCode(null);
 		}
-		List<ToAccesoryList> list = toAccesoryListService
-				.qureyToAccesoryList(toAccesoryList);
+		List<ToAccesoryList> list = toAccesoryListService.qureyToAccesoryList(toAccesoryList);
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		// 用toAttachment对象的pkid 存储卡证主表的pkid 来查找入库时上传附件的pkid
 		if (null != toAttachment) {
 			// 一个主表的pkid 可能对应多条操作记录
-			List<MmItemBatch> batchList = mmItemBatchService
-					.queryMmItemBatchList(toAttachment.getPkid());// 此处的pkid为卡证管理主表里面pkid
+			List<MmItemBatch> batchList = mmItemBatchService.queryMmItemBatchList(toAttachment.getPkid());// 此处的pkid为卡证管理主表里面pkid
 			if (batchList.size() > 0) {
 				// 动作表中入库的pkid值最小
 				int flag = 0;
@@ -186,32 +173,26 @@ public class AttachmentController {
 					}
 				}
 				MmItemBatch mmItemBatch = batchList.get(flag);
-				MmIoBatch mmIoBatchForAttaId = mmIoBatchService
-						.queryMmIoBatchByPkid(mmItemBatch.getBatchId());// 查询入库时添加附件的pkid
+				MmIoBatch mmIoBatchForAttaId = mmIoBatchService.queryMmIoBatchByPkid(mmItemBatch.getBatchId());// 查询入库时添加附件的pkid
 				toAttachment.setPkid(mmIoBatchForAttaId.getAttachId());
 			}
 		}
 		map.put("accList", list);
-		map.put("attList",
-				toAttachmentService.quereyAttachmentForMaterial(toAttachment));
+		map.put("attList", toAttachmentService.quereyAttachmentForMaterial(toAttachment));
 		return map;
 	}
 
 	@RequestMapping(value = "quereyAttachment")
 	@ResponseBody
-	public List<ToAttachment> quereyAttachments(HttpServletRequest request,
-			ToAttachment toAttachment) {
-		List<ToAttachment> attachments = toAttachmentService
-				.quereyAttachments(toAttachment);
+	public List<ToAttachment> quereyAttachments(HttpServletRequest request, ToAttachment toAttachment) {
+		List<ToAttachment> attachments = toAttachmentService.quereyAttachments(toAttachment);
 		if (attachments != null && attachments.size() > 0) {
 			for (ToAttachment attachment : attachments) {
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
 					ToAccesoryList accesoryList = new ToAccesoryList();
 					accesoryList.setAccessoryCode(attachment.getPreFileCode());
 					accesoryList.setPartCode(attachment.getPartCode());
-					attachment.setPreFileName(toAccesoryListService
-							.findAccesoryNameByPartCode(accesoryList)
-							.getAccessoryName());
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByPartCode(accesoryList).getAccessoryName());
 				}
 			}
 		}
@@ -221,8 +202,7 @@ public class AttachmentController {
 
 	@RequestMapping(value = "queryNewAttachment")
 	@ResponseBody
-	public ToAttachmentVO queryNewAttachment(HttpServletRequest request,
-			ToAttachment toAttachment) {
+	public ToAttachmentVO queryNewAttachment(HttpServletRequest request, ToAttachment toAttachment) {
 		ToAttachmentVO toAttachmentVO = new ToAttachmentVO();
 		if (StringUtils.isBlank(toAttachment.getAvailable())) {
 			toAttachment.setAvailable(null);
@@ -233,19 +213,14 @@ public class AttachmentController {
 		if (!StringUtil.isBlank(toAttachment.getPreFileCode())) {
 			property.setAccessoryCode(toAttachment.getPreFileCode());
 		}
-		List<ToAccesoryList> toAccesoryList = toAccesoryListService
-				.qureyToAccesoryList(property, toAttachment.getCaseCode());
+		List<ToAccesoryList> toAccesoryList = toAccesoryListService.qureyToAccesoryList(property, toAttachment.getCaseCode());
 		toAttachmentVO.setToAccesoryList(toAccesoryList);
 		toAttachment.setPreFileCode(null);
-		List<ToAttachment> attachments = toAttachmentService
-				.quereyAttachments(toAttachment);
+		List<ToAttachment> attachments = toAttachmentService.quereyAttachments(toAttachment);
 		if (CollectionUtils.isNotEmpty(attachments)) {
 			for (ToAttachment attachment : attachments) {
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
-					attachment
-							.setPreFileName(toAccesoryListService
-									.findAccesoryNameByCode(attachment
-											.getPreFileCode()));
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
 				}
 			}
 		}
@@ -257,19 +232,15 @@ public class AttachmentController {
 
 	@RequestMapping(value = "quereyAttachmentForDetails")
 	@ResponseBody
-	public List<ToAttachment> quereyAttachmentForDetails(
-			HttpServletRequest request, ToAttachment toAttachment) {
-		List<ToAttachment> attachments = toAttachmentService
-				.quereyAttachmentForDetails(toAttachment);
+	public List<ToAttachment> quereyAttachmentForDetails(HttpServletRequest request, ToAttachment toAttachment) {
+		List<ToAttachment> attachments = toAttachmentService.quereyAttachmentForDetails(toAttachment);
 		if (attachments != null && attachments.size() > 0) {
 			for (ToAttachment attachment : attachments) {
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
 					ToAccesoryList accesoryList = new ToAccesoryList();
 					accesoryList.setAccessoryCode(attachment.getPreFileCode());
 					accesoryList.setPartCode(attachment.getPartCode());
-					attachment.setPreFileName(toAccesoryListService
-							.findAccesoryNameByPartCode(accesoryList)
-							.getAccessoryName());
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByPartCode(accesoryList).getAccessoryName());
 				}
 			}
 		}
@@ -279,17 +250,12 @@ public class AttachmentController {
 
 	@RequestMapping(value = "quereyAttachmentForMaterial")
 	@ResponseBody
-	public List<ToAttachment> quereyAttachmentForMaterial(
-			HttpServletRequest request, ToAttachment toAttachment) {
-		List<ToAttachment> attachments = toAttachmentService
-				.quereyAttachmentForMaterial(toAttachment);
+	public List<ToAttachment> quereyAttachmentForMaterial(HttpServletRequest request, ToAttachment toAttachment) {
+		List<ToAttachment> attachments = toAttachmentService.quereyAttachmentForMaterial(toAttachment);
 		if (attachments != null && attachments.size() > 0) {
 			for (ToAttachment attachment : attachments) {
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
-					attachment
-							.setPreFileName(toAccesoryListService
-									.findAccesoryNameByCode(attachment
-											.getPreFileCode()));
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
 				}
 			}
 		}
@@ -311,10 +277,9 @@ public class AttachmentController {
 					continue;
 				}
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
-					attachment
-							.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
 					ToAccesoryList itemAccesoryList = toAccesoryListService.findAccesory(attachment);
-					
+
 					boolean isHave = false;
 					if (CollectionUtils.isNotEmpty(list)) {
 						for (ToAccesoryList item : list) {
@@ -338,8 +303,7 @@ public class AttachmentController {
 
 	@RequestMapping(value = "delAttachment")
 	@ResponseBody
-	public AjaxResponse<String> delAttachment(HttpServletRequest request,
-			FileUploadVO fileUploadVO) {
+	public AjaxResponse<String> delAttachment(HttpServletRequest request, FileUploadVO fileUploadVO) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try {
 			toAttachmentService.delAttachment(fileUploadVO.getPkIdArr());
@@ -352,8 +316,7 @@ public class AttachmentController {
 
 	@RequestMapping(value = "delAttachmentByFileAddress")
 	@ResponseBody
-	public AjaxResponse<String> delAttachmentByFileAdress(
-			HttpServletRequest request, String preFileAdress) {
+	public AjaxResponse<String> delAttachmentByFileAdress(HttpServletRequest request, String preFileAdress) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try {
 			toAttachmentService.deleteByFileAdress(preFileAdress);
@@ -364,8 +327,7 @@ public class AttachmentController {
 	}
 
 	@RequestMapping(value = "/resourcelibrary/downLoadResource.do")
-	public void downLoadResource(String name, String path,
-			HttpServletRequest request, HttpServletResponse response) {
+	public void downLoadResource(String name, String path, HttpServletRequest request, HttpServletResponse response) {
 
 		BufferedInputStream bis = null;
 		BufferedOutputStream bos = null;
@@ -374,15 +336,13 @@ public class AttachmentController {
 
 		try {
 			if (url == null) {
-				App app = uamPermissionService
-						.getAppByAppName("shcl-image-web");
+				App app = uamPermissionService.getAppByAppName("shcl-image-web");
 				url = app.genAbsoluteUrl();
 			}
 			HttpResponse httResponse = executeGet(url + "/image/" + path);
 
 			response.reset();
-			response.setHeader("Content-disposition",
-					"attachment;success=true;filename =" + name);
+			response.setHeader("Content-disposition", "attachment;success=true;filename =" + name);
 
 			fis = httResponse.getEntity().getContent();
 			bis = new BufferedInputStream(fis);
@@ -429,18 +389,15 @@ public class AttachmentController {
 		CredentialsProvider provider = new BasicCredentialsProvider();
 		SessionUser u = uamSessionService.getSessionUser();
 		User user = uamUserOrgService.getUserById(u.getId());
-		UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
-				user.getUsername(), user.getPassword());
+		UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(user.getUsername(), user.getPassword());
 		provider.setCredentials(AuthScope.ANY, credentials);
 
 		// 创建HttpClient
-		HttpClient client = HttpClientBuilder.create()
-				.setDefaultCredentialsProvider(provider).build();
+		HttpClient client = HttpClientBuilder.create().setDefaultCredentialsProvider(provider).build();
 		return client;
 	}
 
-	private HttpResponse executeGet(String queryUrl)
-			throws ClientProtocolException, IOException {
+	private HttpResponse executeGet(String queryUrl) throws ClientProtocolException, IOException {
 		// 创建HttpClient
 		HttpClient client = createHttpClient();
 		HttpGet get = new HttpGet("http://stage.vcainfo.com/v1/" + queryUrl);

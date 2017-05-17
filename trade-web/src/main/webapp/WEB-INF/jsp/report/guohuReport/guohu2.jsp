@@ -66,7 +66,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="table-scroll">
+					<div class="table-scroll" style="height:450px;overflow: auto">
 						<!-- table -->
 						<table class="table table_blue  table-striped table-bordered table-hover customerinfo">
 							<thead>
@@ -107,6 +107,20 @@
 					</div>
 				</div>
 			</div>
+			<div style="height: 23px;line-height: 23px;"><i class="icon iconfont icon40 yellow martop20" style="font-size: 30px;float: left;"></i>备注:
+				<span>评估转化率=评估费实收单数/收单单数</span>
+			</div>
+			<div style="height: 23px;line-height: 23px;">&nbsp;&nbsp;&nbsp;&nbsp;
+				<span style="margin-left: 42px;">E+卡转化率=E+卡申请单数/过户总单数</span>
+			</div>
+
+			<div style="height: 23px;line-height: 23px;">&nbsp;&nbsp;&nbsp;&nbsp;
+				<span style="margin-left: 42px;">刷卡率=刷卡单数/过户总单数</span>
+			</div>
+			<div style="height: 23px;line-height: 23px;">&nbsp;&nbsp;&nbsp;&nbsp;
+				<span style="margin-left: 42px;">E+贷款转化率=E+贷款申请金额/过户总金额（合同价）</span>
+			</div>
+
 		</div>
 	</div>
 	<!--*********************** HTML_main*********************** -->
