@@ -16,4 +16,5 @@ public interface CommFindUserService {
 	 * @return 
 	 */
 	String findUserBySrv(String jobCode, String caseCode, String taskDfKey);
+	String findGuohuApprovalUser(String teamId);
 }
