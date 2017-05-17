@@ -254,6 +254,30 @@ public class SatisController {
   
   /**
    * 
+   * batchPushToGuohu: 对已经过户的案件发起过户跟进. <br/> 
+   * 
+   * @author gongjd 
+   * @return 
+   * @since JDK 1.8
+   */
+  @RequestMapping("/batchPushToGuohu")
+  @ResponseBody
+  public AjaxResponse<String> batchPushToGuohu(){
+    AjaxResponse<String> response = new AjaxResponse<String>();
+    try{
+      satisfactionService.bacthPushToGuohu();
+      response.setSuccess(true);
+      response.setMessage("操作成功！");
+    }catch(Exception e){
+      response.setSuccess(false);
+      response.setMessage("操作失败！"+e.getMessage());
+      e.printStackTrace();
+    }
+    return response;
+  }
+  
+  /**
+   * 
    * pushToGuohu: 对已经过户的案件发起过户跟进. <br/> 
    * 
    * @author gongjd 
@@ -262,10 +286,10 @@ public class SatisController {
    */
   @RequestMapping("/pushToGuohu")
   @ResponseBody
-  public AjaxResponse<String> pushToGuohu(){
+  public AjaxResponse<String> pushToGuohu(String caseCode){
     AjaxResponse<String> response = new AjaxResponse<String>();
     try{
-      satisfactionService.pushToGuohu();
+      satisfactionService.pushToGuohu(caseCode);
       response.setSuccess(true);
       response.setMessage("操作成功！");
     }catch(Exception e){

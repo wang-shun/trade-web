@@ -2,7 +2,6 @@ package com.centaline.trans.satisfaction.service;
 
 import java.util.List;
 
-import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 
 public interface SatisfactionService {
@@ -42,7 +41,9 @@ public interface SatisfactionService {
 	void guohuFollow(ToSatisfaction toSatisfaction, String taskId, String instCode);
 
 	void initSatisList();
+	
+	void bacthPushToGuohu();
 
-	void pushToGuohu();
+	void pushToGuohu(String caseCode);
 
 }
