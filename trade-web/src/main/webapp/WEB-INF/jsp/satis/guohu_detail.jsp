@@ -524,12 +524,12 @@
 		        </div>
 		        <div class="form-btn">
 		           <div class="text-center">
-		           	   <c:if test="${satisfaction.status eq 4}">
+		           	   <c:if test="${satisfaction.status eq 5}">
 		           	   		<a class="btn btn-success btn-space" onclick="javascript:doGuohuPass();" >回访通过</a>
 		               		<a class="btn btn-success btn-space" data-toggle="modal" data-target="#myModal">回访打回</a>
 		               		<a class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
 		           	   </c:if>
-		           	   <c:if test="${satisfaction.status ne 4}">
+		           	   <c:if test="${satisfaction.status ne 5}">
 		           	   		<a class="btn btn-success btn-space" onclick="javascript:goBack();">关闭</a>
 		           	   </c:if>
 		           </div>
@@ -569,6 +569,9 @@
         	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	        <script type="text/javascript">
 	        var caseCode = '${toCaseInfo.caseCode}';
+	        var urlType = $("#urlType").val();
+	        var status = '${satisfaction.status}';
+	        
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
 					caseCode : caseCode,
@@ -577,6 +580,10 @@
 				
 			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
 		 	    $('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
+		 	    
+		 	   if(status != '5'){
+		 	    	readOnlyForm();
+		 	    }
 	        })
 
 	 	     /*动态生成上下家*/

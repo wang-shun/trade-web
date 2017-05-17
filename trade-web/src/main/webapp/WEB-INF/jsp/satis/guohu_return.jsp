@@ -297,9 +297,12 @@
        		<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
         	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	        <script type="text/javascript">
+	        var caseCode = '${toCaseInfo.caseCode}';
+	        var urlType = $("#urlType").val();
+	        
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
-					caseCode : '${toCaseInfo.caseCode}',
+					caseCode : caseCode,
 					srvCode : "Survey"
 				});
 				

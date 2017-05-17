@@ -301,6 +301,7 @@
         	<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
 	        <script type="text/javascript">
 	        var caseCode = '${toCaseInfo.caseCode}';
+	        var urlType = $("#urlType").val();
 	        
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({

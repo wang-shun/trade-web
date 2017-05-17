@@ -529,6 +529,7 @@
 	        <script type="text/javascript">
 	        var caseCode = '${toCaseInfo.caseCode}';
 	        var urlType = $("#urlType").val();
+	        var status = '${satisfaction.status}';
 	        
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
@@ -538,6 +539,10 @@
 				
 			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
 		 	    $('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
+		 	    
+		 	    if(status != '2'){
+		 	    	readOnlyForm();
+		 	    }
 	        })
 
 	 	     /*动态生成上下家*/
