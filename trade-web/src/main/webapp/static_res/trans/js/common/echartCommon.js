@@ -126,10 +126,10 @@ function returnBar(xAxisData,yAxis,legend,datas,type,color,myChart,title) {
 					 html+="<p class='al-text'>"+legend[i]+"</p></td>";
 				 }
 				 $.each(datas[i],function(j,item){
-					 if((title == "月分单、签约量统计" || title == "签约贷款金额占比") && type[i]=="line"){
+					 if((title == "月分单、签约量统计" || title == "签约贷款金额占比"||  title == "贷款银行分配情况"||title=="各贵宾中心商贷比较") && type[i]=="line"){
 						 html+="<td>"+item+"%</td>"; 
 					 }else{
-						 html+="<td>"+item+"</td>"; 
+						 html+="<td>"+item+"</td>";
 					 }
 				 })
 				 html+="</tr>"

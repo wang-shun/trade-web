@@ -462,6 +462,7 @@
 							(SELECT SUM(E.RELEASE_AMOUNT) FROM sctrans.T_TO_ELOAN_REL E WHERE E.ELOAN_CODE = T.ELOAN_CODE) releaseAmount
   				FROM      sctrans.T_TO_ELOAN_CASE T 
   				WHERE T.CASE_CODE = #caseCode#
+				and STATUS='VALID'
 			</baseSql>
 		</searchSql>
 		<grid>

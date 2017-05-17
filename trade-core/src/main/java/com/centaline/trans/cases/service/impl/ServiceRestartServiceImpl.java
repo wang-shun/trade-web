@@ -432,7 +432,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		return true;
 
 	}
-	@Transactional(propagation = Propagation.NESTED)
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public String getVars(String instCode){
 		String var = "";
 		try{
