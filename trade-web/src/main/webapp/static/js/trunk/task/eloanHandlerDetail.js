@@ -21,7 +21,7 @@ $(function(){
         var caseCode = $("#changCaseCode").val(); // 案件的caseCode
         var leadingProId = $("#leadingProId").val();//新的责任人userId
         var detailCode = "eloan";//E+案件变更归属人提交的专属code
-
+        var userId =$("#userId").val();
 
         if(leadingProId == "" || leadingProId ==  null || leadingProId == undefined){
             window.wxc.alert("若要变更项目责任人，请先选择新的案件责任人！");
@@ -29,13 +29,14 @@ $(function(){
         }
 
         window.wxc.confirm("您确定要进行责任人变更？",{"wxcOk":function(){
-            var url = "/case/handler/changeLeadingEloan";
+            var url = "/case/handler/changeLeadingPro";
             var ctx = $("#ctx").val();
             url = ctx + url;
             var data = {
                 leadingProId:leadingProId,
                 changCaseCode:caseCode,
-                detailCode:detailCode
+                detailCode:detailCode,
+                userId:userId
             };
 
             $.ajax({
@@ -48,8 +49,9 @@ $(function(){
                 success : function(data) {
                     if(data.success){
                         $("#leadingProForChang").hide();
-                        reloadGrid(getParams(1));
+                        //reloadGrid(getParams(1));
                         window.wxc.success("恭喜，责任人变更成功！");
+                        deleteDomByCaseCode(caseCode);
                     }else{
                         window.wxc.error(data.message);
                     }
@@ -62,12 +64,9 @@ $(function(){
         }});
 
     })
-
-
     checkBoxALL();//全选和反选
-
 })
-//即在数据的核心方法
+//加载数据的核心方法****!不是即时的!
 function reloadGrid(data) {
     $.ajax({
         async: true,
@@ -78,17 +77,14 @@ function reloadGrid(data) {
         success: function(data){
             var myTaskList = template('template_belongAndTransfer' , data);
             $("#myTaskList").empty();
-            if(startList==1 ){
-                $("#myTaskList").html(myTaskList);
-                // 显示分页
-                initpage(data.total,data.pagesize,data.page, data.records);
-                startList=0;
-            }
+            $("#myTaskList").html(myTaskList);
+            // 显示分页
+            initpage(data.total,data.pagesize,data.page, data.records);
+            startList=0;
             $.unblockUI();
             $(".checkbox_input").click(function(){
                 var thisCaseCode = $(this).val();
                 $("#changCaseCode").val(editCaseCode(thisCaseCode));
-                console.log($("#changCaseCode").val());
             });
             $("#changCaseCode").val('');
         },
@@ -272,7 +268,6 @@ function leadingProForChangeClick(){
         jobCode : '',
         callBack : selectLeadingPro
     });
-
 }
 
 //选取责任人的回调函数
@@ -286,4 +281,12 @@ function selectLeadingPro(array) {
         $("#leadingProName").val("");
         $("#leadingProName").attr('hVal', "");
     }
+}
+
+function deleteDomByCaseCode(caseCodes){
+    var caseCode = caseCodes.split(",");
+    for(var i=0;i<caseCode.length;i++){
+        $("#myTaskList tr[name='"+caseCode[i]+"']").remove();
+    }
+
 }

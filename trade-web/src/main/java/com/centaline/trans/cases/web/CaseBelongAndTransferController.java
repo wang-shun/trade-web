@@ -70,11 +70,11 @@ public class CaseBelongAndTransferController {
      */
     @RequestMapping(value = "changeLeadingPro" , method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResponse changeLeadingPro(String changCaseCode,String leadingProId,String detailCode){
+    public AjaxResponse changeLeadingPro(String changCaseCode,String userId,String leadingProId,String detailCode){
         AjaxResponse ajaxResponse = new AjaxResponse();
         try {
             String[] caseCode = changCaseCode.split(",");
-            ajaxResponse =caseHandlerService.changeLeadingPro(caseCode,leadingProId,detailCode);//detailCode是识别提交修改的类别，有时间改成枚举
+            ajaxResponse =caseHandlerService.changeLeadingPro(caseCode,userId,leadingProId,detailCode);//detailCode是识别提交修改的类别，有时间改成枚举
         }catch (BusinessException e){
             ajaxResponse.setSuccess(false);
             ajaxResponse.setMessage("案件" + e.getMessage() + "更新出错!");

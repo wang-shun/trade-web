@@ -146,7 +146,8 @@
                         left join sctrans.T_TO_PROPERTY_INFO t2 on t1.CASE_CODE=t2.CASE_CODE
                         left join sctrans.T_TO_CASE t3 on t2.CASE_CODE=t3.CASE_CODE
                          where
-                            t3.CASE_PROPERTY not in ('30003002','30003005')
+                            t1.STATUS = 'VALID'
+                           and  t3.CASE_PROPERTY not in ('30003002','30003005')
                         and t1.EXCUTOR_ID=#MuserId#
 
                         <ifNotNull caseCode>

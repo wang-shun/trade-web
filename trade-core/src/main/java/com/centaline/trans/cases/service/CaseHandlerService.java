@@ -13,5 +13,5 @@ public interface CaseHandlerService {
 
     void handlerDetailList(HttpServletRequest request, String userId, String detailCode);
 
-    AjaxResponse changeLeadingPro(String[] caseCode, String userId,String detailCode);
+    AjaxResponse changeLeadingPro(String[] caseCode, String userId,String leadingProId,String detailCode);
 }

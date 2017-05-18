@@ -121,7 +121,7 @@
 <script id="template_belongAndTransfer" type= "text/html">
 
 	{{each rows as item index}}
-	<tr class="tr-1">
+	<tr class="tr-1" name="{{item.CASE_CODE}}">
 		<td  align="center">
 			<p class="big"><input type="checkbox" class="checkbox_input"  value="{{item.CASE_CODE}}" /></p>
 		</td>

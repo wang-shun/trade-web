@@ -48,8 +48,8 @@ $(function(){
                 success : function(data) {
                     if(data.success){
                         $("#leadingProForChang").hide();
-                        reloadGrid(getParams(1));
                         window.wxc.success("恭喜，责任人变更成功！");
+                        deleteDomByCaseCode(caseCode);
                     }else{
                         window.wxc.error(data.message);
                     }
@@ -308,4 +308,11 @@ function selectLeadingPro(array) {
         $("#leadingProName").val("");
         $("#leadingProName").attr('hVal', "");
     }
+}
+function deleteDomByCaseCode(caseCodes){
+    var caseCode = caseCodes.split(",");
+    for(var i=0;i<caseCode.length;i++){
+        $("#myTaskList tr[name='"+caseCode[i]+"']").remove();
+    }
+
 }
