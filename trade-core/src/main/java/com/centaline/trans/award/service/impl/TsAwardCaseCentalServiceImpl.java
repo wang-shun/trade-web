@@ -127,22 +127,27 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			 //主管	
 			 if(null != manager){
 				 tsAwardCaseCental.setFrontManager(manager.getId());
+				 tsAwardCaseCental.setFrontManagerOrgId(manager.getOrgId());
 			 }			 
 			 //高级主管	
 			 if(null != seniorManager){
 				 tsAwardCaseCental.setFrontSeniorManager(seniorManager.getId());
+				 tsAwardCaseCental.setFrontSeniorManagerOrgId(seniorManager.getOrgId());
 			 }			 
 			 //总监
 			 if(null != director){
 				 tsAwardCaseCental.setFrontDirector(director.getId());
+				 tsAwardCaseCental.setFrontDirectorOrgId(director.getOrgId());
 			 }			 
 			 //助理
 			 if(null != teamAssistant){
 				 tsAwardCaseCental.setFrontTeamAssistant(teamAssistant.getId());
+				 tsAwardCaseCental.setFrontTeamAssistantOrgId(teamAssistant.getOrgId());
 			 }			
 			 //总经理
 			 if(null != generalManager){
 				 tsAwardCaseCental.setFrontGeneralManager(generalManager.getId());
+				 tsAwardCaseCental.setBackGeneralManagerOrgId(generalManager.getOrgId());
 			 }			 
 			 //运维经理
 			 tsAwardCaseCental.setFrontOperationsManager("8a8493d54ff83966014ffd95ca0901e6");
@@ -156,22 +161,27 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			 //主管	
 			 if(null != manager){
 				 tsAwardCaseCental.setBackManager(manager.getId());
+				 tsAwardCaseCental.setBackManagerOrgId(manager.getOrgId());
 			 }			 
 			 //高级主管	
 			 if(null != seniorManager){
 				 tsAwardCaseCental.setBackSeniorManager(seniorManager.getId());
+				 tsAwardCaseCental.setBackSeniorManagerOrgId(seniorManager.getOrgId());
 			 }			 
 			 //总监
 			 if(null != director){
 				 tsAwardCaseCental.setBackDirector(director.getId());
+				 tsAwardCaseCental.setBackDirectorOrgId(director.getOrgId());
 			 }			 
 			 //助理
 			 if(null != teamAssistant){
 				 tsAwardCaseCental.setBackTeamAssistant(teamAssistant.getId());
+				 tsAwardCaseCental.setBackTeamAssistantOrgId(teamAssistant.getOrgId());
 			 }			
 			 //总经理
 			 if(null != generalManager){
 				 tsAwardCaseCental.setBackGeneralManager(generalManager.getId());
+				 tsAwardCaseCental.setBackGeneralManagerOrgId(generalManager.getOrgId());
 			 }	
 			 //运维经理
 			 tsAwardCaseCental.setBackOperationsManager("8a8493d54ff83966014ffd95ca0901e6");
