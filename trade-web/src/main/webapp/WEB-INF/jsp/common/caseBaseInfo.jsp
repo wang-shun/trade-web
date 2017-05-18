@@ -3,8 +3,8 @@
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <!DOCTYPE html>
 
-<link href="${ctx}/static/trans/css/workflow/caseDetail.css" rel="stylesheet" />
-<link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
+<link href="<c:url value='/static/trans/css/workflow/caseDetail.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/trans/css/workflow/details.css' />" rel="stylesheet" />
 <style>
 [class^=mark]{position:absolute;top:8px;left:130px;width:56px;height:37px;z-index:0; background-position:left center;background-repeat:no-repeat}
 .mark-baodan{background-image:url(../img/mark-baodan.png);}

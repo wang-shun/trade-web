@@ -11,19 +11,19 @@
 	  </c:forEach>
 </script>
 <%-- <link href="${ctx}/static/tbsp/js/ligerui/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />  --%>
-<link href="${ctx}/static/tbsp/js/ligerui/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css" />  
+<link href="<c:url value='/static/tbsp/js/ligerui/skins/Aqua/css/ligerui-dialog.css' />" rel="stylesheet" type="text/css" />  
 <%-- <link href="${ctx}/static/tbsp/js/ligerui/skins/Aqua/css/gzl-style.css" rel="stylesheet" type="text/css" />   --%>
-<link href="${ctx}/static/tbsp/js/ligerui/skins/Aqua/css/ligerui-tree.css" rel="stylesheet" type="text/css" /> 
+<link href="<c:url value='/static/tbsp/js/ligerui/skins/Aqua/css/ligerui-tree.css' />" rel="stylesheet" type="text/css" /> 
 <%-- <link href="${ctx}/static/tbsp/css/fonts/font-awesome.css" rel="stylesheet" type="text/css" />   --%>
 <%-- <link href="${ctx}/media/css/midifiedStyle.css" rel="stylesheet" type="text/css">
 <link href="${ctx}/media/css/custom-mika.css" rel="stylesheet" type="text/css"> --%>
 <%-- <script src="${ctx}/static/tbsp/js/My97DatePicker/WdatePicker.js" type="text/javascript"></script> --%>
 <%-- <script src="${ctx}/static/tbsp/js/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>    
- --%><script src="${ctx}/static/tbsp/js/jquery-blockUI/jquery.blockUI.js" type="text/javascript"></script>
-<script src="${ctx}/static/tbsp/js/jquery/jquery.components.js" type="text/javascript"></script>    
-<script src="${ctx}/static/tbsp/js/ligerui/ligerui.all.js" type="text/javascript"></script> 
-<script src="${ctx}/static/tbsp/js/json/json2.js" type="text/javascript"></script>
-<script src="${ctx}/static/tbsp/js/pagebar/pagebar.js" type="text/javascript"></script>
+ --%><script src="<c:url value='/static/tbsp/js/jquery-blockUI/jquery.blockUI.js' />" type="text/javascript"></script>
+<script src="<c:url value='/static/tbsp/js/jquery/jquery.components.js' />" type="text/javascript"></script>    
+<script src="<c:url value='/static/tbsp/js/ligerui/ligerui.all.js' />" type="text/javascript"></script> 
+<script src="<c:url value='/static/tbsp/js/json/json2.js' />" type="text/javascript"></script>
+<script src="<c:url value='/static/tbsp/js/pagebar/pagebar.js' />" type="text/javascript"></script>
 
 <script type="text/javascript">
 function openDialog(option){

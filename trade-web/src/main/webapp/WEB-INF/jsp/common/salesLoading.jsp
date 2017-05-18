@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-	
-<link href="${ctx}${pubFolder }/css/trunk/salesLoading.css?v=1.0" rel="stylesheet" type="text/css"/>	
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<link href="<c:url value='${pubFolder }/css/trunk/salesLoading.css' />" rel="stylesheet" type="text/css"/>	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <div id="salesLoading" style="display: none">
 	<div id="loading-center">
