@@ -1,11 +1,11 @@
 #shiro setting
 shiroConfig.sessionIdCookie:
   name: clid
-  domain: partner.centaline.com
+  domain: a.sh.centanet.com
   path: /trade-mobile
 shiroConfig.sessionUserCookie:
   name: suid
-  domain: centaline.com
+  domain: a.sh.centanet.com
   path: /
 shiroConfig.shiroFilter:
   loginUrl: http://sso.sh.centaline.com.cn/aist-sso-web/login?service=http://a.sh.centanet.com/partner/cas
@@ -58,7 +58,8 @@ dataSource:
 #数据源
 readOnlyDataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://AG-LISTENER;databaseName=sctrans_prd;applicationName=trade-mobile;ApplicationIntent=ReadOnly
+  url: jdbc:sqlserver://AG-LISTENER;databaseName=sctrans_prd;applicationName=trade-mobile
+  #;ApplicationIntent=ReadOnly
   maxActive: 350
   initialSize: 50
   filters: stat
