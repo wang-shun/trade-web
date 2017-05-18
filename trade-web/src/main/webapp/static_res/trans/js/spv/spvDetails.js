@@ -807,34 +807,37 @@ $(document).ready(function(){
 		/** ------资金监管账号信息验证开始--------  **/
 		
 		/**托管方*/
-		var spvAccountName = $("input[name='toSpvAccountList[2].name']").val();
-		if(spvAccountName == null || spvAccountName == ''){
-			window.wxc.alert("请填写托管账户名称！");
-			changeClass($("input[name='toSpvAccountList[2].name']"));
-			return false;
-		}
-		
-		var spvAccount = $("input[name='toSpvAccountList[2].account']").val();
-		if(spvAccount == null || spvAccount == ''){
-			window.wxc.alert("请填写托管账号！");
-			changeClass($("input[name='toSpvAccountList[2].account']"));
-			return false;
-		}	
-		
-		var spvBranchBank = $("input[name='toSpvAccountList[2].branchBank']").val();
-		if(spvBranchBank == null || spvBranchBank == ''){
-			window.wxc.alert("请填写托管账号开户行！");
-			changeClass($("input[name='toSpvAccountList[2].branchBank']"));
-			return false;
-		}	
-		
-		if(spvAccount != null && spvAccount != ''){
-		    if(!isNumber2(spvAccount)){
-		    	window.wxc.alert("请填写有效的托管账号！(纯数字(首位非0))");
-		    	changeClass($("input[name='toSpvAccountList[2].account']"));
-		    	return false;
-		    }
-		}
+        //三方监管不做验证
+        if($("select[name='toSpv.prdCode']").val() == 1){
+        	var spvAccountName = $("input[name='toSpvAccountList[2].name']").val();
+    		if(spvAccountName == null || spvAccountName == ''){
+    			window.wxc.alert("请填写托管账户名称！");
+    			changeClass($("input[name='toSpvAccountList[2].name']"));
+    			return false;
+    		}
+    		
+    		var spvAccount = $("input[name='toSpvAccountList[2].account']").val();
+    		if(spvAccount == null || spvAccount == ''){
+    			window.wxc.alert("请填写托管账号！");
+    			changeClass($("input[name='toSpvAccountList[2].account']"));
+    			return false;
+    		}	
+    		
+    		var spvBranchBank = $("input[name='toSpvAccountList[2].branchBank']").val();
+    		if(spvBranchBank == null || spvBranchBank == ''){
+    			window.wxc.alert("请填写托管账号开户行！");
+    			changeClass($("input[name='toSpvAccountList[2].branchBank']"));
+    			return false;
+    		}	
+    		
+    		if(spvAccount != null && spvAccount != ''){
+    		    if(!isNumber2(spvAccount)){
+    		    	window.wxc.alert("请填写有效的托管账号！(纯数字(首位非0))");
+    		    	changeClass($("input[name='toSpvAccountList[2].account']"));
+    		    	return false;
+    		    }
+    		}
+        }
 		
 		/**新增*/
 		var customFlag = true;

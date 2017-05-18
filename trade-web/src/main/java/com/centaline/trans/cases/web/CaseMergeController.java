@@ -504,7 +504,8 @@ public class CaseMergeController {
 	/**
 	 * 返来日期时间的一个字符串
 	 * @author hejf10
-	 * @return
+	 * @date 2017年5月17日10:52:06
+	 * @return String
 	 */
 	public String getRandom(){
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");  

@@ -66,9 +66,9 @@
                         <div class="total-data">
                             <h3 id="list_title"></h3>
                             <ul class="total-list" id="list_chart">
-                                <li><i class="iconfont mr5 al-yellow al-icon-22"></i>商贷总额<span id="list_com_mort">0</span>万元</li>
-                                <li><i class="iconfont mr5 al-grey al-icon-22"></i>收单金额<span id="list_shou_mort">0</span>万元</li>
-                                <li><i class="iconfont mr5 al-maize  al-icon-22"></i>收单率<span id="list_shou_lv">0</span>%</li>
+                                <li style="width:300px"><i class="iconfont mr5 al-yellow al-icon-22"></i>商贷总额<span id="list_com_mort">0</span>万元</li>
+                                <li style="width:300px"><i class="iconfont mr5 al-grey al-icon-22"></i>收单金额<span id="list_shou_mort">0</span>万元</li>
+                                <li style="width:300px"><i class="iconfont mr5 al-maize  al-icon-22"></i>收单率<span id="list_shou_lv">0</span>%</li>
                             </ul>
                         </div>
                     </div>

@@ -89,7 +89,8 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 		return findWorkFlowUser(jobCode, toCase.getLeadingProcessId(),
 				toCase.getOrgId());
 	}
-	private String findGuohuApprovalUser(String teamId){
+	@Override
+	public String findGuohuApprovalUser(String teamId){
 		Org org= uamUserOrgService.getOrgById(teamId);
 		return uamBasedataService.getParam(GUOHU_APPROVAL_MODULE,GUOHU_APPROVAL_CODE, org.getParentId());
 	}

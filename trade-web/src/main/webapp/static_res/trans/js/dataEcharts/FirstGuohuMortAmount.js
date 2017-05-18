@@ -106,9 +106,9 @@
                             type : 'value',//右边
                             name : '比例',
                             min:0,
-                            max:1,
+                            max:100,
                             axisLabel : {
-                                formatter : '{value}'
+                                formatter: '{value}%'
                             }
                         }
 

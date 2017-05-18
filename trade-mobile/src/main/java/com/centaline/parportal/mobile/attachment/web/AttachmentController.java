@@ -27,13 +27,9 @@ public class AttachmentController {
     public Object delAttachmentByFileAdress(String preFileAdress) {
         AjaxResponse<String> response = new AjaxResponse<String>();
         try {
-            if(toAttachmentService.deleteByFileAdress(preFileAdress)){
-                response.setSuccess(true);
-                response.setMessage("删除成功！");
-            }else{
-                response.setSuccess(false);
-                response.setMessage("删除失败！");
-            }
+            toAttachmentService.deleteByFileAdress(preFileAdress);
+            response.setSuccess(true);
+            response.setMessage("删除成功！");
         } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
