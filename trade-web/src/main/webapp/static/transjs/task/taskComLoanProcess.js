@@ -797,11 +797,16 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
  				 //银行下拉列表
 			
 				getGuestInfo(fStr);
-				if(data.content && data.content.isTmpBank=='1'){
+				if(data.content && data.content.isTmpBank=='1'){					
+					 
+					 $("#toLoanerCase").hide();
+					 $("#toLoanerCaseTemp").hide();
 					//临时银行
 					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode);
 					//alert(f.find("select[name='bank_type']"));
 				}else{
+					 $("#toLoanerCase").show();
+					 $("#toLoanerCaseTemp").show();
 					//非临时银行
 					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode,'cl');
 				}

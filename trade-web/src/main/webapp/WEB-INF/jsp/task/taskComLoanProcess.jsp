@@ -834,7 +834,7 @@
 		                                         </div>
 		                                         
 		                                         <div class="form_content"  id="processButtonHidden1">
-		                                          	 <button type="button" class="btn btn-success"  style="background:#52cdec" onclick="loanerProcessStart(1)" id="toLoanerCase">派  单</button>
+		                                          	 <button type="button" class="btn btn-success"  style="background:#52cdec;" onclick="loanerProcessStart(1)" id="toLoanerCase">派  单</button>
 		                                          	 		                                         	                                         	 
 		                                         </div>
 		                                     </div>
