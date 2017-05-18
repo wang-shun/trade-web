@@ -243,6 +243,8 @@
  		<mapper resource="mapper/wdcase/TpdCommSubsMapper.xml" />
  		<mapper resource="mapper/wdcase/TdmPaidSubsMapper.xml" />
  		<mapper resource="mapper/wdcase/TpdPaymentMapper.xml" />
+ 		<!-- 可计件奖金 -->
+ 		<mapper resource="mapper/award/TtsAwardCaseCentalMapper.xml" />
 
 	</mappers>
 </configuration>
