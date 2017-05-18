@@ -1481,7 +1481,6 @@ public class CaseDetailController {
 	 * @param prItems
 	 * @param request
 	 * @param srvs
-	 * @author caoy
 	 * @return
 	 */
 	@RequestMapping(value = "/saveSrvItemsForManager")
