@@ -522,10 +522,10 @@
 					var bohui = $("#processInstanceId").val();
 					if (bohui != null && bohui != '') {
 						window.close();
-						window.opener.callback();
+						window.opener.initData();
 					} else {
 						window.close();
-						window.opener.callback();
+						window.opener.initData();
 					}
 
 				},
