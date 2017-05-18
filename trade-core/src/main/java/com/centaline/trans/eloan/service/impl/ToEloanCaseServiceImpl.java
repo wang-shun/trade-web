@@ -299,6 +299,21 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService
     }
 
     @Override
+    public int updateEloanByCaseCode(User user, ToEloanCase tEloanCase) {
+        Org districtOrg = uamUserOrgService.getParentOrgByDepHierarchy(user.getOrgId(), DepTypeEnum.TYCQY.getCode());
+        if (user != null)
+        {
+            tEloanCase.setExcutorTeam(user.getOrgId());
+        }
+        if (districtOrg != null)
+        {
+            tEloanCase.setExcutorDistrict(districtOrg.getId());
+        }
+
+        return  toEloanCaseMapper.updateByCaseCodeAndExcutor(user.getId(),tEloanCase);
+    }
+
+    @Override
     public List<ToEloanCase> getToEloanCaseListByProperty(ToEloanCase tEloanCase)
     {
         return toEloanCaseMapper.getToEloanCaseListByProperty(tEloanCase);

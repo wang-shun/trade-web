@@ -782,7 +782,19 @@
       UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  
+
+  <update id="updateByCaseCodeAndExcutor" >
+    update sctrans.T_TO_ELOAN_CASE
+    set
+    EXCUTOR_ID = #{userId,jdbcType=VARCHAR},
+    EXCUTOR_TEAM = #{tEloanCase.excutorTeam,jdbcType=VARCHAR},
+    EXCUTOR_DISTRICT = #{tEloanCase.excutorDistrict,jdbcType=VARCHAR}
+
+    where
+    CASE_CODE = #{tEloanCase.caseCode,jdbcType=VARCHAR}
+    AND EXCUTOR_ID = #{tEloanCase.excutorId,jdbcType=VARCHAR}
+  </update>
+
   <select id="getToEloanCaseListByProperty" resultMap="BaseResultMap" parameterType="com.centaline.trans.eloan.entity.ToEloanCase" >
     select 
     <include refid="Base_Column_List" />
