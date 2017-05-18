@@ -271,8 +271,7 @@ public class TgServItemAndProcessorServiceImpl implements
 	}
 
 	@Override
-	public TgServItemAndProcessor findTgServItemAndProcessor(
-			TgServItemAndProcessor record) {
+	public TgServItemAndProcessor findTgServItemAndProcessor(TgServItemAndProcessor record) {
 		// TODO Auto-generated method stub
 		return tgServItemAndProcessorMapper.findTgServItemAndProcessor(record);
 	}
