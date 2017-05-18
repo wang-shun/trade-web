@@ -51,14 +51,14 @@ server:
 #数据源
 dataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://10.4.19.11;databaseName=sctrans_prd;applicationName=partnetprd
+  url: jdbc:sqlserver://AG-LISTENER;databaseName=sctrans_prd;applicationName=trade-mobile
   maxActive: 250
   initialSize: 50
   filters: stat
 #数据源
 readOnlyDataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://10.4.19.89;databaseName=sctrans_prd;applicationName=partnetprd;ApplicationIntent=ReadOnly
+  url: jdbc:sqlserver://AG-LISTENER;databaseName=sctrans_prd;applicationName=trade-mobile;ApplicationIntent=ReadOnly
   maxActive: 350
   initialSize: 50
   filters: stat
