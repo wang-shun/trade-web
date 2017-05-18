@@ -12,6 +12,7 @@ import com.centaline.trans.award.entity.TsAwardCaseCental;
 import com.centaline.trans.award.repository.TsAwardCaseCentalMapper;
 import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
+import com.centaline.trans.common.enums.AwardStatusEnum;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 
 @Service
@@ -60,7 +61,7 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			awardCaseCentalInfo = setAwardCaseCentalInfo(awardCaseCentalInfo,tgServItemAndProcessor,"Back");
 			
 			//保存计件奖金池数据
-			awardCaseCentalInfo.setAwardStatus("0");//TODO  0 初始状态 待发放
+			awardCaseCentalInfo.setAwardStatus(AwardStatusEnum.WEIFAFANG.getCode());
 			tsAwardCaseCentalMapper.insertSelective(awardCaseCentalInfo);
 			
 			
