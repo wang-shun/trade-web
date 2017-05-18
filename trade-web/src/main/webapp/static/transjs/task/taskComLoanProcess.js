@@ -801,6 +801,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 					 
 					 $("#toLoanerCase").hide();
 					 $("#toLoanerCaseTemp").hide();
+					 $("#processStart").val("processIsStart");
 					//临时银行
 					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode);
 					//alert(f.find("select[name='bank_type']"));
