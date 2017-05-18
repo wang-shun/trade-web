@@ -35,7 +35,7 @@ public class ServiceRestartController {
 	
 	@RequestMapping("apply/process")
 	@ResponseBody
-	public String toApplyProcess(HttpServletRequest request,
+	public Object toApplyProcess(HttpServletRequest request,
 			HttpServletResponse response, String caseCode, String source,
 			String taskitem, String processInstanceId) {
 		SessionUser user = uamSessionService.getSessionUser();
