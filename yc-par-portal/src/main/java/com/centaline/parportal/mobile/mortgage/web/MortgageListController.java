@@ -66,8 +66,7 @@ public class MortgageListController
         // 设置用户id
         SessionUser sessionUser = uamSessionService.getSessionUser();
         paramter.put("userid", sessionUser.getId());
-        // paramter.put("userid", "ff80808158bd58c10158bda37f100020");
-        paramter.put("flag", "noAccept");
+        //paramter.put("userid", "ff80808158bd58c10158bda37f100020");
 
         // 设置用户查询条件
         if (q_text != null)
@@ -83,41 +82,17 @@ public class MortgageListController
         gp.putAll(paramter);
         querysParseService.reloadFile();
 
-        // 查询未接单按揭列表信息
-        Page<Map<String, Object>> noAcceptMortgageMapList = quickGridService.findPageForSqlServer(gp, sessionUser);
-
-        // 查询除未接单状态之外的按揭列表信息
-        paramter.put("flag", "exceptNoAccept");
-        gp.putAll(paramter);
+        // 查询按揭列表信息(待接单、待审核、完成状态)
         Page<Map<String, Object>> mortgageMapList = quickGridService.findPageForSqlServer(gp, sessionUser);
-
-        // 未接单记录数
-        long noAcceptCount = noAcceptMortgageMapList.getTotalElements();
-        // 除未接单状态之外的按揭记录数
-        long mortgageCount = mortgageMapList.getTotalElements();
-        // 总记录数
-        long totalElements = noAcceptCount + mortgageCount;
-        // 总页数
-        int totalPage = (int) (totalElements + pageSize - 1) / pageSize;
+        List<Map<String, Object>> mortgageList = mortgageMapList.getContent();
 
         JSONObject result = new JSONObject();
         result.put("page", page);
-        result.put("total", totalPage);
-        result.put("records", totalElements);
+        result.put("total", mortgageMapList.getTotalPages());
+        result.put("records", mortgageMapList.getTotalElements());
         result.put("pageSize", pageSize);
 
-        List<Map<String, Object>> noAcceptMortgageList = noAcceptMortgageMapList.getContent();
-
-        List<Map<String, Object>> mortgageList = mortgageMapList.getContent();
-
         JSONArray content = new JSONArray();
-        for (int i = 0; i < noAcceptMortgageList.size(); i++)
-        {
-            Map<String, Object> mapObj = noAcceptMortgageList.get(i);
-
-            content.add(JSONObject.toJSON(mapObj));
-        }
-
         for (int i = 0; i < mortgageList.size(); i++)
         {
             Map<String, Object> mapObj = mortgageList.get(i);

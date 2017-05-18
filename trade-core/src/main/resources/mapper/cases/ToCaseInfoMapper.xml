@@ -30,12 +30,13 @@
 	<result column="BA_NAME" jdbcType="VARCHAR" property="baName" />
 	<result column="refer_consultant_id" jdbcType="VARCHAR" property="referConsultantId" />
 	<result column="refer_consultant_realname" jdbcType="VARCHAR" property="referConsultantRealname" />
+	<result column="SOURCE_OF_COOPERATION" jdbcType="VARCHAR" property="sourceOfCooperation" />
   </resultMap>
   <sql id="Base_Column_List">
      PKID, CTM_CODE, AGENT_CODE, CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
     AGENT_NAME,DISPATCH_TIME,IMPORT_TIME, GRP_CODE, GRP_NAME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE,TARGET_CODE, 
     QJDS_NAME,QYJL_NAME,QYZJ_NAME,SWZ_CODE,SWZ_NAME,WZ_CODE,WZ_NAME,BA_CODE,BA_NAME,
-    refer_consultant_id,refer_consultant_realname
+    refer_consultant_id,refer_consultant_realname,SOURCE_OF_COOPERATION
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -111,6 +112,9 @@
       <if test="targetCode != null" >
         TARGET_CODE,
       </if>
+      <if test="sourceOfCooperation != null" >
+        SOURCE_OF_COOPERATION,
+      </if>
        CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -165,6 +169,9 @@
       <if test="targetCode != null" >
         #{targetCode,jdbcType=VARCHAR},
       </if>
+      <if test="sourceOfCooperation != null" >
+        #{sourceOfCooperation,jdbcType=VARCHAR},
+      </if>
        GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
@@ -198,7 +205,8 @@
       TARGET_CODE = #{targetCode,jdbcType=VARCHAR},
       refer_consultant_id = #{referConsultantId,jdbcType=VARCHAR},
       refer_consultant_realname = #{referConsultantRealname,jdbcType=VARCHAR},
-      AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR}
+      AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR},
+      SOURCE_OF_COOPERATION = #{sourceOfCooperation,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   

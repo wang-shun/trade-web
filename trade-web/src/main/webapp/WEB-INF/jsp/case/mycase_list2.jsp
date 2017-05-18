@@ -169,6 +169,7 @@ text-decoration: underline !important;
 								<option value="CTM">导入</option>
 								<option value="MERGE">合流</option>
 								<option value="PROCESS">合流申请中</option>
+								<option value="WD">外单</option>
 							</select>
 						</div>
 					</div>
@@ -245,6 +246,7 @@ text-decoration: underline !important;
 							<button id="more" type="button" class="btn  btn-default btn_more"> 更多搜索条件<i class="fa fa-caret-up"></i> </button>
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
 							<button id="addNewCase"  type="button" class="btn btn-success">新增案件</button>
+							<!-- <button id="addNewWdCase"  type="button" class="btn btn-info mr5 btn-icon">新增外单</button> -->
 							<!-- <button  onclick="showExcelIn()" class="btn btn-success" >案件导出</button>  -->
 							<!-- <div id="exportExcel"> -->
                             	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
@@ -443,6 +445,9 @@ text-decoration: underline !important;
                                     	合流申请中
                                   </i>
                                  </p>
+								{{/if}}
+								{{if item.CASE_ORIGIN == 'WD'}}
+                                	<p class="tip"> <i class="sign_out"> 外单  </i> </p>
 								{{/if}}
 						</td >
 						<td >

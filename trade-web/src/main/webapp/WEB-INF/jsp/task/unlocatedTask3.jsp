@@ -365,6 +365,7 @@ function reloadGrid(page) {
 	data1.sidx=sortcolumn;
 	data1.sord=sortgz;
 	data1.userServiceJobCode="${userServiceJobCode}";
+	data1.guoHuApprFlag = "${guoHuApprFlag}";
     fetchData(data1);
   	}
 function packgeData(page){

@@ -25,6 +25,7 @@ public class TaskSubmitLogServiceImpl implements TaskSubmitLogService {
 	@Override
 	public void record(TaskVo task) {
 		SessionUser user = uamSessionService.getSessionUser();
+		//SessionUser user = uamSessionService.getSessionUserById("ff80808158bd58c10158bda37f100020");
 		TlTaskSubmitLog taskSubmitLog = new TlTaskSubmitLog();
 		taskSubmitLog.setExecutor(user.getUsername());
 		taskSubmitLog.setExecutorId(user.getId());

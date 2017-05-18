@@ -26,6 +26,8 @@ public class TaskVo {
 	private String taskDefinitionKey;
 	private String url;
 	private String tenantId;
+	private String business_key;
+	private String instCode;
 
 	private String group;
 	/*查询Run的时候不会返回该值**/
@@ -315,5 +317,22 @@ public class TaskVo {
 
 	public void setFormKey(String formKey) {
 		this.formKey = formKey;
+	}
+
+
+	public String getBusiness_key() {
+		return business_key;
+	}
+
+	public void setBusiness_key(String business_key) {
+		this.business_key = business_key;
+	}
+
+	public String getInstCode() {
+		return instCode;
+	}
+
+	public void setInstCode(String instCode) {
+		this.instCode = instCode;
 	}
 }

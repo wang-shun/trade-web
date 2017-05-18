@@ -459,6 +459,7 @@
 			var ctmCode = "${caseBaseVO.toCaseInfo.ctmCode}";
 			var r1 = false;
 			var changeTaskRole = false;
+			var guoHuApprove = false;
 			var serivceDepId = '${serivceDefId}';
 			var loanReqType = "${loanReqType}";
 			<shiro:hasPermission name="TRADE.CASE.DEALPRICE:SHOW">
@@ -467,6 +468,10 @@
 			<shiro:hasPermission name="TRADE.CASE.TASK:ASSIGN">
 			changeTaskRole = true;
 			</shiro:hasPermission>
+			<shiro:hasPermission name="TRADE.CASE.GUOHUAPPROVEUNLOCATEDTASK">
+				guoHuApprove = true;
+			</shiro:hasPermission>
+			
 			function addAttachmentReadLog(ctx,ctmCode,caseCode,attachName,attachPath) {
 				var tsAttachmentReadLog = {
 					 	'caseCode':caseCode,
@@ -602,6 +607,10 @@
 
 			/**提交数据*/
 			function submit() {
+				if(!guoHuApprove){
+					window.wxc.alert("您不具有过户审批权限，请联系相关人员报修！");
+					return false;
+				}
 				if (!checkAttachment()) {
 					return;
 				}

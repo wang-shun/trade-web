@@ -510,7 +510,8 @@ function completeMortgage(form){
 				return;
 			}
 		}else{
-			if($("#tmpBankStatus").val() != '3'){ 	
+			//非临时银行
+			if(!($("#tmpBankStatus").val() == '3'  ||  $("#stateInBank").val() == 'MORT_APPROVED')){ 	
 				window.wxc.alert("信贷员接单银行审批未完成或不通过！");
 				return;
 			}
@@ -525,7 +526,7 @@ function completeMortgage(form){
 		return;
 	}
 	
-	var finOrgCode = form.find("input[name='finOrgCode']").val()
+	var finOrgCode = form.find("input[name='finOrgCode']").val();
 	if(finOrgCode == null || finOrgCode == ""){
 		alert("请先选择贷款银行和支行！");
 		return;
@@ -866,6 +867,8 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 		    				$(".loanerNameImage").css("color","#52cdec");
 		    			}else{$(".loanerNameImage").css("color","#676A6C");}
 		    			
+		    			//设置信贷员审批的值
+		    			f.find("input[name='stateInBank']").val(data.content.stateInBank);		    			
 		    			
 		    			if(data.content.isLoanerArrive == 1){
 		    				f.find("input[name='isLoanerArrive'][value='1']").prop("checked",true);
@@ -1540,7 +1543,10 @@ $(document).ready(function (){
 	  }else{			 
 			 $("#toLoanerCaseTemp").show();
 			 $("#toLoanerCase").show();
-	  }
+	  }  
+	  
+	  getProcessStart();
+
 	/*$("#bank_branch_id").change(subBankChange);*/
 	 $(".tmpBankReasonDiv").hide();
 	 $("input[name=optionsRadios]").each(function(){
@@ -2015,7 +2021,7 @@ function loanerProcessStart(isMainLoanBank){
     	data:data,
     	
     	success:function(data){    		
-    		if(data.success == true){	    			
+    		if(data.success == false){	  //未启动派单流程  			
 	    			//if(null != bankLevel &&  bankLevel != undefined  && null != loanerUserId && "" != loanerUserId){
     				if(beforeSendLoanerProcess(form)){
 	    				window.wxc.confirm("派单前，请再次确认您选择的信贷员是否正确！",{"wxcOk":function(){
@@ -2181,5 +2187,25 @@ function getFormParams(formId){
 }
 
 
-
+function getProcessStart(){
+	var data = 
+	{
+	   "caseCode":$("#caseCode").val(),
+	   "isMainLoanBank":$("#isMainLoanBank").val()
+	};	
+	
+ 	$.ajax({
+	    url:ctx+"/task/isLoanerProcessStart",
+	    async:false,
+    	method:"post",
+    	dataType:"json",
+    	data:data,
+    	
+    	success:function(data){    		
+    		if(data.success == true){	 //已经启动    		
+    			 $("#processStart").val("processIsStart");		    		
+	    	}
+    	}
+ 	});  	
+}
 

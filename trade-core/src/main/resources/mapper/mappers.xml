@@ -77,7 +77,8 @@
 		<mapper resource="mapper/task/ToApproveRecordMapper.xml" />
 		<mapper resource="mapper/task/TsPrResearchMapMapper.xml" />
 		<mapper resource="mapper/transplan/TsTransPlanHistoryMapper.xml" />
-		
+
+		<mapper resource="mapper/task/ActRuTaskMapper.xml" />
 		<!-- 任务授权 -->
 		<mapper resource="mapper/task/TsTaskDelegateMapper.xml" />
 		<mapper resource="mapper/task/ToUnlocatedTaskMapper.xml" />
@@ -238,6 +239,10 @@
  		<mapper resource="mapper/task/ReportOperateDataMapper.xml" />
  		<!-- e+接收记录表 -->
  		<mapper resource="mapper/eloan/ToEloanLoanerMapper.xml" />
-		
+ 		<!-- 外单记录表 -->
+ 		<mapper resource="mapper/wdcase/TpdCommSubsMapper.xml" />
+ 		<mapper resource="mapper/wdcase/TdmPaidSubsMapper.xml" />
+ 		<mapper resource="mapper/wdcase/TpdPaymentMapper.xml" />
+
 	</mappers>
 </configuration>
