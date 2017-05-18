@@ -45,7 +45,7 @@
 		
 		<javaClientGenerator targetPackage="com.centaline.trans.award.repository" targetProject="src\main\java" type="XMLMAPPER" />
 		
-		<table domainObjectName="TsAwardCaseCental" tableName="T_TS_AWARD_CASE_CENTAL" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" />
+		<table domainObjectName="TsManagementAwardBaseConfig" tableName="T_TS_MANAGEMENT_AWARD_BASE_CONFIG" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" schema="sctrans" selectByExampleQueryId="false" />
 	</context>
 
 </generatorConfiguration>  

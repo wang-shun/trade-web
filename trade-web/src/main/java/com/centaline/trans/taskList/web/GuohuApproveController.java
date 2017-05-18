@@ -32,6 +32,8 @@ import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.award.entity.TsAwardCaseCental;
+import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
@@ -105,6 +107,10 @@ public class GuohuApproveController {
 	@Autowired
     TaskService taskService;
 	
+	@Autowired
+	private TsAwardCaseCentalService tsAwardCaseCentalService;
+	
+	
 	@RequestMapping("process")
 	public String doProcesss(HttpServletRequest request,
 			HttpServletResponse response,String caseCode,String source,String processInstanceId){
@@ -176,6 +182,8 @@ public class GuohuApproveController {
 		/*流程引擎相关*/
 		List<String> membersList = null;
 		List<RestVariable> variables = new ArrayList<RestVariable>();
+		SessionUser user = uamSessionService.getSessionUser(); 
+		
 		if(members != null && members.length() > 0){
 			membersList = Arrays.asList(members.split(","));
 		}
@@ -196,7 +204,8 @@ public class GuohuApproveController {
 			}
 			variables.add(new RestVariable("members",membersList));
 		}
-	
+		
+		//过户审批通过
 		RestVariable restVariable = new RestVariable();
 		restVariable.setName("GuohuApprove");
 		restVariable.setValue(GuohuApprove.equals("true"));
@@ -207,7 +216,17 @@ public class GuohuApproveController {
 			restVariable1.setValue(GuohuApprove_response);
 			variables.add(restVariable1);
 		}
-
+		
+		//过户审批通过时  向计件奖金池插入数据   add  by zhuody  in 2017-05-18 
+		TsAwardCaseCental tsAwardCaseCental = new TsAwardCaseCental();
+		tsAwardCaseCental.setCaseCode(processInstanceVO.getCaseCode());		
+		tsAwardCaseCental.setGuohuApproveTime(new Date());
+		if(null != user){
+			tsAwardCaseCental.setGuohuApproveRecord(user.getId());	
+		}
+		tsAwardCaseCentalService.saveAwardCaseInfo(tsAwardCaseCental);
+		
+		
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());	
 		return workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
 				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
