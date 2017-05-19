@@ -636,4 +636,21 @@
     set RISK_CONTROL_OFFICER = #{riskControlOfficer,jdbcType=VARCHAR}
     where SPV_CODE = #{spvCode,jdbcType=VARCHAR}
   </update>
+
+  <select id="queryToSpvByCaseCodeAndApplyUser"   parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_SPV
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    and APPLY_USER= #{applyUser,jdbcType=VARCHAR}
+    and IS_DELETED = 0
+  </select>
+
+  <update id="updateBySpvCodeAndApplyUser" parameterType="com.centaline.trans.spv.entity.ToSpv">
+   update sctrans.T_TO_SPV
+    set APPLY_USER = #{applyUser,jdbcType=VARCHAR}
+    where CASE_CODE = #{applyUser,jdbcType=VARCHAR}
+   and IS_DELETED = 0
+  </update>
+
 </mapper>

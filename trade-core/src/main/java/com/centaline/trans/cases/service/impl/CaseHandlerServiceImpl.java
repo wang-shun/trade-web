@@ -25,13 +25,15 @@ import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.spv.entity.ToSpv;
+import com.centaline.trans.spv.repository.ToSpvMapper;
+import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.workspace.entity.CacheGridParam;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,7 +70,10 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
     private ToEloanCaseService toEloanCaseService;
     @Autowired
     private WorkFlowEngine engine;
-
+    @Autowired
+    private ToSpvService toSpvService;
+    @Autowired
+    private ToSpvMapper toSpvMapper;
     @Override
     public void BelongAndTransferList(HttpServletRequest request) {
         SessionUser user = uamSessionService.getSessionUser();
@@ -107,6 +112,11 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
            for(int i =0;i<caseCode.length;i++){
                if(!StringUtils.isEmpty(caseCode[i])){
                    currentCaseCode = caseCode[i];
+                   if("spv".equals(detailCode)){//如果是变更资金监管归属人
+                       if(!changeLeadingSpvDo(caseCode[i],userId,leadingProId,detailCode)){//如果更新责任人失败，将失败的caseCode返回
+                           throw new BusinessException(currentCaseCode);
+                       }
+                   }
                    if("eloan".equals(detailCode)){//如果是变更E+贷款归属人
                        if(!changeLeadingEloanDo(caseCode[i],userId,leadingProId,detailCode)){//如果更新责任人失败，将失败的caseCode返回
                            throw new BusinessException(currentCaseCode);
@@ -196,7 +206,60 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
         }
         return true;
     }
+    /**
+     * 更改资金监管归属人的实现方法
+     * @author caoy
+     * @param caseCode
+     * @param userId
+     * @param leadingProId
+     * @param detailCode
+     * @return
+     */
+    public Boolean changeLeadingSpvDo(String caseCode, String userId,String leadingProId,String detailCode){
+        try{
+            User u = uamUserOrgService.getUserById(userId);//E+案件旧的执行人
+            User u_ = uamUserOrgService.getUserById(leadingProId);//本次要更新的负责人
+            if(u_==null){//如果本次新更新的归属人不存在返回false
+                return false;
+            }
+           List<ToSpv> toSpvList = toSpvService.queryToSpvByCaseCodeAndApplyUser(caseCode, u.getId());
 
+            ToSpv toSpv = toSpvList.get(0);
+            toSpv.setApplyUser(u_.getId());
+            toSpvMapper.updateBySpvCodeAndApplyUser(toSpv);
+
+            ToWorkFlow inWorkFlow = new ToWorkFlow();
+            inWorkFlow.setBizCodes(Arrays.asList("SpvProcess"));
+            inWorkFlow.setCaseCode(caseCode);
+            List<ToWorkFlow> toWorkFlowList = toWorkFlowService.queryToWorkFlowByCaseCodeBusKeys(inWorkFlow);//获得案件E+贷款流程
+
+            for(ToWorkFlow toWorkFlow : toWorkFlowList) {
+                if (!StringUtils.isEmpty(toWorkFlow.getInstCode())) { // 更新流程引擎
+                    String variableName = "consultant";
+                    RestVariable restVariable = new RestVariable();
+                    restVariable.setType("string");
+                    restVariable.setValue(u_.getUsername());
+
+                    String consultantVar = gotVars(toWorkFlow.getInstCode(), variableName);//要更新掉工作流的参数表中的Consultant变量
+                    if(!StringUtils.isEmpty(consultantVar)){
+                        workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
+                    }
+                    TaskQuery tq = new TaskQuery();
+                    tq.setProcessInstanceId(toWorkFlow.getInstCode());
+                    tq.setFinished(false);
+                    tq.setAssignee(u.getUsername());
+                    List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
+                    updateWorkflow(leadingProId, tasks, caseCode);
+                }
+            }
+
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
+        return true;
+    }
     /**
      * 更改E+归属人的实现方法
      * @author caoy

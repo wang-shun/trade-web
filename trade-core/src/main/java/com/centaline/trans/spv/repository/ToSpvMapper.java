@@ -105,4 +105,7 @@ public interface ToSpvMapper {
 
 	void updateOfficerBySpvCode(ToSpv s);
 
+	List<ToSpv> queryToSpvByCaseCodeAndApplyUser(String caseCode, String userId);
+
+	int updateBySpvCodeAndApplyUser(ToSpv s);
 }

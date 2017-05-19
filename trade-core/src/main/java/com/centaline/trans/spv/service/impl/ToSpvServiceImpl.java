@@ -2014,5 +2014,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 		
 		return mixUserList;
 	}
-	
+
+	@Override
+	public List<ToSpv> queryToSpvByCaseCodeAndApplyUser(String caseCode, String userId) {
+		return toSpvMapper.queryToSpvByCaseCodeAndApplyUser(caseCode,userId);
+	}
+
 }

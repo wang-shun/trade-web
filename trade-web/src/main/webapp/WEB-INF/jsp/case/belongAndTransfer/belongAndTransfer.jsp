@@ -110,7 +110,7 @@
 			<p><a href="${ctx}/case/handler/eloan/detail?userId={{item.userId}}" target="_blank">{{item.ELOAN_COUNT}}</a></p>
 		</td>
 		<td>
-			<p><a href="##">{{item.SPV_COUNT}}</a></p>
+			<p><a href="${ctx}/case/handler/spv/detail?userId={{item.userId}}" target="_blank">{{item.SPV_COUNT}}</a></p>
 		</td>
 		<td>
 			<p>
