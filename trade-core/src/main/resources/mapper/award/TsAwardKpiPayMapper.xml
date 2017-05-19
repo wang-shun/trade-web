@@ -8,6 +8,7 @@
     <result column="PARTICIPANT_TYPE" property="participantType" jdbcType="VARCHAR" />
     <result column="AWARD_KPI_SUM" property="awardKpiSum" jdbcType="DECIMAL" />
     <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="AWARD_STEP" property="awardStep" jdbcType="CHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
@@ -16,7 +17,7 @@
     <result column="USER_COUNT" property="userCount" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, BELONG_MONTH, PARTICIPANT, PARTICIPANT_TYPE, AWARD_KPI_SUM, STATUS, CREATE_TIME, 
+    PKID, BELONG_MONTH, PARTICIPANT, PARTICIPANT_TYPE, AWARD_KPI_SUM, STATUS,AWARD_STEP, CREATE_TIME, 
     CREATE_BY, UPDATE_TIME, UPDATE_BY, CASE_COUNT, USER_COUNT
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -31,12 +32,12 @@
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >
     insert into sctrans.T_TS_AWARD_KPI_PAY (PKID, BELONG_MONTH, PARTICIPANT, 
-      PARTICIPANT_TYPE, AWARD_KPI_SUM, STATUS, 
+      PARTICIPANT_TYPE, AWARD_KPI_SUM, STATUS, AWARD_STEP,
       CREATE_TIME, CREATE_BY, UPDATE_TIME, 
       UPDATE_BY, CASE_COUNT, USER_COUNT
       )
     values (#{pkid,jdbcType=BIGINT}, #{belongMonth,jdbcType=TIMESTAMP}, #{participant,jdbcType=VARCHAR}, 
-      #{participantType,jdbcType=VARCHAR}, #{awardKpiSum,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{participantType,jdbcType=VARCHAR}, #{awardKpiSum,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, #{awardStep,jdbcType=CHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR}, #{caseCount,jdbcType=INTEGER}, #{userCount,jdbcType=INTEGER}
       )
@@ -61,6 +62,9 @@
       </if>
       <if test="status != null" >
         STATUS,
+      </if>
+      <if test="awardStep != null" >
+        AWARD_STEP,
       </if>
       <if test="createTime != null" >
         CREATE_TIME,
@@ -100,6 +104,9 @@
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
+      <if test="awardStep != null" >
+        #{awardStep,jdbcType=CHAR},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -138,6 +145,9 @@
       <if test="status != null" >
         STATUS = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="awardStep != null" >
+        AWARD_STEP = #{awardStep,jdbcType=CHAR},
+      </if>      
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -166,6 +176,7 @@
       PARTICIPANT_TYPE = #{participantType,jdbcType=VARCHAR},
       AWARD_KPI_SUM = #{awardKpiSum,jdbcType=DECIMAL},
       STATUS = #{status,jdbcType=VARCHAR},
+      AWARD_STEP = #{awardStep,jdbcType=CHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},

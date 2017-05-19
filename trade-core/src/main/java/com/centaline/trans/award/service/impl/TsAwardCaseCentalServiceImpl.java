@@ -1,6 +1,11 @@
 package com.centaline.trans.award.service.impl;
 
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,19 +64,30 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			tgServItemAndProcessor = getTgServItemAndProcessorInfo(tsp);
 			//设置计件奖金和后台组相关的信息
 			awardCaseCentalInfo = setAwardCaseCentalInfo(awardCaseCentalInfo,tgServItemAndProcessor,"Back");
+						
+			Date date = awardCaseCentalInfo.getAwardMonth();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);//设置当前时间
+			calendar.set(Calendar.DAY_OF_MONTH,1);//设置当月1号
 			
 			//保存计件奖金池数据
 			awardCaseCentalInfo.setAwardStatus(AwardStatusEnum.WEIFAFANG.getCode());
-			tsAwardCaseCentalMapper.insertSelective(awardCaseCentalInfo);
+			awardCaseCentalInfo.setAwardMonth(calendar.getTime());
+			tsAwardCaseCentalMapper.insertSelective(awardCaseCentalInfo);			
 			
+			Map<String, Object>  map = new HashMap<String, Object>();
+			map.put("belongMonth",calendar.getTime());
+			map.put("caseCode",awardCaseCentalInfo.getCaseCode());
 			
-			//存储过程  T_TS_AWARD_BASE 查记录
-			
-			//判断当前的案子是否是浦东的案件
+			//判断当前的案子是否是浦东的案件(过户审批时 后台组主办是否是浦东组织)
 			if("8a8493d450af62ed0150c32bba961167".equals(awardCaseCentalInfo.getBackOrgId()) || "8a8493d5508aecbb0150936d1e3c55d2".equals(awardCaseCentalInfo.getBackOrgId())){
-				//TODO  exec(caseCode,flag,new Date())
+				map.put("isPuDongCaseFlag","isPudongCase");					
+			}else{
+				map.put("isPuDongCaseFlag","notPudongCase");			
 			}
 			
+			//按是否浦东案子执行存储过程，计算环节占比
+			tsAwardCaseCentalMapper.callCreateAwardBaseInfo(map);
 		}catch(Exception e){
 			throw new BusinessException("保存数据至计件奖金池数据异常！");
 		}
@@ -151,6 +167,7 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			 }			 
 			 //运维经理
 			 tsAwardCaseCental.setFrontOperationsManager("8a8493d54ff83966014ffd95ca0901e6");
+			 tsAwardCaseCental.setFrontOperationsManagerOrgId("ff8080814f459a78014f45a73d820006");
 		 }else if("Back".equals(Flag)){
 			 //后台交易顾问
 			 tsAwardCaseCental.setBackLeadingProcess(tgServItemAndProcessor.getProcessorId());
@@ -185,7 +202,9 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			 }	
 			 //运维经理
 			 tsAwardCaseCental.setBackOperationsManager("8a8493d54ff83966014ffd95ca0901e6");
-		 }		 
+			 tsAwardCaseCental.setBackOperationsManagerOrgId("ff8080814f459a78014f45a73d820006");
+		 }			 
 		 return tsAwardCaseCental;
 	 }
+
 }

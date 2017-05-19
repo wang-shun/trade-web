@@ -5,8 +5,8 @@ public enum AwardStatusEnum {
 	WEIFAFANG("0", "未发放"),
 	/**已发放**/
 	YIFAFANG("1","已发放"),
-	/**问题案件**/
-	WENTI("2","问题案件");
+	/**特殊原因**/
+	WENTI("2","特殊原因");
 
 	
 	private String name;
