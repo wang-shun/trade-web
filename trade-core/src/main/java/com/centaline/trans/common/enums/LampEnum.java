@@ -1,21 +1,40 @@
 package com.centaline.trans.common.enums;
+
 /**
  * 案件状态
- * <p>Project: Credo's Base</p>
- * <p>Description: </p>
- * <p>Copyright (c) 2015 LionCredo.All Rights Reserved.</p>
+ * <p>
+ * Project: Credo's Base
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright (c) 2015 LionCredo.All Rights Reserved.
+ * </p>
+ * 
  * @author <a href="zhaoqianjava@foxmail.com">LionCredo</a>
  */
-public enum LampEnum {
-	GREEN("-1", "2"),//绿灯
-	YELLOW("1", "1"),//黄灯
-	RED("3", "0"); //红灯
-    
+public enum LampEnum
+{
+    /**
+     * 红绿灯规则: 相差天数(用d表示) = 当前时间 - 预计执行时间
+     * 
+     * 如果d <= 1 亮绿灯
+     * 
+     * 如果1<d<=2 亮黄灯
+     * 
+     * 如果d>2 亮红灯
+     */
+    GREEN("-1", "2"), // 绿灯
+    YELLOW("1", "1"), // 黄灯
+    RED("3", "0"); // 红灯
+
     private String name;
 
     private String code;
 
-    private LampEnum(String code, String name) {
+    private LampEnum(String code, String name)
+    {
         this.name = name;
         this.code = code;
     }
@@ -26,13 +45,16 @@ public enum LampEnum {
      * @param code
      * @return
      */
-    public static String getName(String code) {
-        for (LampEnum cte : LampEnum.values()) {
+    public static String getName(String code)
+    {
+        for (LampEnum cte : LampEnum.values())
+        {
             if (code.equalsIgnoreCase(cte.getCode()))
                 return cte.getCode();
         }
         return null;
     }
+
     /**
      * 根据code获取Name
      * 
@@ -40,30 +62,36 @@ public enum LampEnum {
      * @return
      */
     @SuppressWarnings("null")
-	public static String[] getCodes() {
-    	LampEnum[] lampEnums = LampEnum.values();
-    	String[] reStrings = new String[lampEnums.length];
-        for (int i=0;i<lampEnums.length;i++) {
-        	LampEnum lampEnum = lampEnums[i];
-        	reStrings[i]=lampEnum.getCode();
+    public static String[] getCodes()
+    {
+        LampEnum[] lampEnums = LampEnum.values();
+        String[] reStrings = new String[lampEnums.length];
+        for (int i = 0; i < lampEnums.length; i++)
+        {
+            LampEnum lampEnum = lampEnums[i];
+            reStrings[i] = lampEnum.getCode();
         }
         return reStrings;
     }
+
     /**
      * Getter method for property <tt>name</tt>.
      * 
      * @return property value of name
      */
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
     /**
      * Setter method for property <tt>name</tt>.
      * 
-     * @param name value to be assigned to property name
+     * @param name
+     *            value to be assigned to property name
      */
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
@@ -72,16 +100,19 @@ public enum LampEnum {
      * 
      * @return property value of code
      */
-    public String getCode() {
+    public String getCode()
+    {
         return code;
     }
 
     /**
      * Setter method for property <tt>code</tt>.
      * 
-     * @param code value to be assigned to property code
+     * @param code
+     *            value to be assigned to property code
      */
-    public void setCode(String code) {
+    public void setCode(String code)
+    {
         this.code = code;
     }
 }

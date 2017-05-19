@@ -57,16 +57,16 @@
 	                    <label class="control-label sign_left_small">
 	                        	推荐人
 	                    </label>
-	                    <input type="text" class="select_control sign_right_one" name="agentName" id="agentName" value="${caseMergeVo.agentName}">
+	                    <input type="text" class="select_control sign_right_one" name="recommendUsername" id="recommendUsername" value="${caseMergeVo.recommendUsername}">
 	                </div>
 	          
 	            <c:if test="${type eq 'edit'}" >
-	            <c:forEach items="${caseMergeVo.agentPhone}" var="caseMerge" varStatus="status2">
+	            <c:forEach items="${caseMergeVo.recommendPhone}" var="caseMerge" varStatus="status2">
 	                <div class="form_content">
 	                    <label class="control-label sign_left_small" >
 	                        	推荐人电话
 	                    </label>
-	                    <input type="text" class="select_control sign_right_one" name="agentPhone" id="agentPhone" value="${caseMergeVo.agentPhone}">
+	                    <input type="text" class="select_control sign_right_one" name="recommendPhone" id="recommendPhone" value="${caseMergeVo.recommendPhone}">
 	                </div>
 				</c:forEach> 
 				</c:if>
@@ -75,7 +75,7 @@
 	                    <label class="control-label sign_left_small" >
 	                        	推荐人电话
 	                    </label>
-	                    <input type="text" class="select_control sign_right_one" name="agentPhone" id="agentPhone" value="">
+	                    <input type="text" class="select_control sign_right_one" name="recommendPhone" id="recommendPhone" value="">
 	                </div>
 				</c:if>
                   
@@ -206,9 +206,9 @@
             
             <div class="line">
                 <div class="form_content">
-                    <label class="control-label sign_left_small">服务价格</label> 
+                    <label class="control-label sign_left_small">服务费</label> 
                     <input class="select_control sign_right_one" placeholder="" id="commCost" name="commCost" value="${caseMergeVo.commCost}">
-                   <span class="date_icon" >万元</span>
+                   <span class="date_icon" >元</span>
                 </div>
             </div>
             <div class="line">

@@ -265,10 +265,10 @@
 													<dl class="dl-horizontal">
 														<dt>姓名</dt>
 														<dd>
-															<a data-toggle="popover" data-placement="right" data-content="${toCaseInfo.agentPhone}"> ${toCaseInfo.agentName}</a>
+															<a data-toggle="popover" data-placement="right" data-content="${toCaseInfo.recommendPhone}"> ${toCaseInfo.recommendUsername}</a>
 														</dd>
 														<dt>手机号</dt>
-														<dd>${toCaseInfo.agentPhone }</dd>
+														<dd>${toCaseInfo.recommendPhone }</dd>
 													</dl>
 												</div>
 										   </c:when>  
@@ -360,10 +360,12 @@
 										<a role="button" id="casePause" class="btn btn-primary btn-xm"
 											href="javascript:casePause()">案件挂起/恢复 </a>
 									</shiro:hasPermission>
-<!-- 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE">
-										<a role="button" id="editWdCase" class="btn btn-primary btn-xm"
-											href="javascript:editWdCase()">修改外单 </a>
-									</shiro:hasPermission> -->
+									<c:if test="${ toCase.caseOrigin eq 'WD'}">
+										<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE">
+											<a role="button" id="editWdCase" class="btn btn-primary btn-xm"
+												href="javascript:editWdCase()">修改外单 </a>
+										</shiro:hasPermission>
+									</c:if>
 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PRARISE">
 										<a role="button" data-toggle="modal"
 											class="btn btn-primary btn-xm btn-activity"
@@ -419,7 +421,7 @@
 									<c:if test="${toCase.caseProperty != 30003002}">
 										<!-- 已经结案审批通过限制流程重启 -->
 										<!-- 已经过户或者已经领证的案件限制流程重启 -->
-										<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' || serviceJobType=='Y' }">
+										<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' and toCase.caseProperty!='30003009' || serviceJobType=='Y' }">
 										<shiro:hasPermission name="TRADE.CASE.RESTART">
 											<a role="button" id="processRestart"
 												class="btn btn-primary btn-xm btn-activity"
@@ -427,7 +429,7 @@
 									    </shiro:hasPermission>
 										</c:if>
 									</c:if>
-									<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' || serviceJobType == 'Y' }">
+									<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' and toCase.caseProperty!='30003009' || serviceJobType == 'Y' }">
 									<shiro:hasPermission name="TRADE.CASE.RESET">
 										<a role="button" id="caseResetes"
 											class="btn btn-primary btn-xm btn-activity"
@@ -818,8 +820,10 @@
 							</li>
 							<li class=""><a href="#bizwarn-info" data-toggle="tab" style="padding:10px;">商贷流失预警信息</a>
 							</li>
-							<li class=""><a href="#liushui-info" data-toggle="tab" style="padding:10px; display:none">收款流水</a>
-							</li>
+							<c:if test="${ toCase.caseOrigin eq 'WD'}">
+								<li class=""><a href="#liushui-info" data-toggle="tab" style="padding:10px;">收款流水</a>
+								</li>
+							</c:if>
 						</ul>
 
 						<div class="tab-content">
@@ -1186,11 +1190,12 @@
 									</c:choose>
 								</div>
 							</div>
-							<div class="tab-pane fade" id="liushui-info"  style="display:none">
+							<c:if test="${ toCase.caseOrigin eq 'WD'}">
+							<div class="tab-pane fade" id="liushui-info">
                                 <div class="row">
                                     <div class="table_content">
 	                                <p>
-	                                    <span class="mr10">应收金额:<strong>${commCostAmount}万元</strong></span>
+	                                    <span class="mr10">应收金额:<strong>${commCostAmount}元</strong></span>
 	                                    <a > <button type="button" class="btn btn-success mr5" id="addLiushui"> 新增收款流水 </button> </a>
 	                                </p>
  		                            <table class="table table_blue table-striped table-bordered table-hover customerinfo" id="editable"> 
@@ -1214,13 +1219,14 @@
 														<fmt:formatDate value="${item.paymentDate}" type="date" pattern="yyyy-MM-dd"/>
 												</td>
 												<td>
-														<%--  <a href="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${item.receiptPic}" target="_blank">查看凭证</a> --%>
-														 <a href="<aist:appCtx appName='aist-filesvr-web'/>/JQeryUpload/getfile?fileId=${item.receiptPic}" target="_blank">查看凭证</a>
+														<c:forEach items="${item.receiptPicList}" var="rePic">
+															 <a href="<aist:appCtx appName='aist-filesvr-web'/>/JQeryUpload/getfile?fileId=${rePic}" target="_blank">查看凭证</a>
+														</c:forEach>
 												</td>
 											</tr>
 										</c:forEach>
 												<tr>
-													<td colspan="4">总计:${allAmount}万元</td>
+													<td colspan="4">总计:${allAmount}元</td>
 												</tr>
 												  
 		                                <tbody>
@@ -1229,6 +1235,7 @@
                         		</div>
 							</div>	
 						</div>	
+						</c:if>
 						</div>
 					</div>
 				</div>

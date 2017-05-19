@@ -1,5 +1,7 @@
 package com.centaline.parportal;
 
+import java.util.UUID;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +46,11 @@ public class ParPortalApplicationTests
 
         System.out.println(result);
     }
-    
-    //信贷员接单
+
     @Test
     public void mortReject() throws CheckParametersException
     {
-        String result = mortgageController.accept("10241", "true", "1060712", "1060705", "ACCEPT", "ZY-SH-201705-0048", null);
+        String result = mortgageController.accept("10244", "true", "1065101", "1065094", "ACCEPT", "ZY-AJ-201512-0949", null);
 
         System.out.println(result);
     }
@@ -66,9 +67,11 @@ public class ParPortalApplicationTests
     @Test
     public void eLoanSuppleInfo() throws CheckParametersException
     {
-        String result = eLoanCaseController.suppleInfo("ZY-JR-201705-0032", "BUJIAN", "ZY-ZL-201704-0008", "备注");
+        // String result = eLoanCaseController.suppleInfo("ZY-JR-201705-0032",
+        // "BUJIAN", "ZY-ZL-201704-0008", "备注");
 
-        System.out.println(result);
+        String random = UUID.randomUUID().toString();
+        System.out.println(random);
     }
 
     @Test
@@ -97,7 +100,7 @@ public class ParPortalApplicationTests
     @Test
     public void mortBankAudit()
     {
-        String result = mortgageController.followUp("10241", "true", "1060740", "1060705", "MORT_APPROVED", "ZY-SH-201705-0048", null, "2017/5/9");
+        String result = mortgageController.followUp("10204", "true", "1058664", "1058652", "MORT_APPROVED", "ZY-AJ-201601-0192", null, "2017/5/2");
 
         System.out.println(result);
     }
@@ -106,7 +109,6 @@ public class ParPortalApplicationTests
     public void operateList()
     {
         String result = operateListController.operateList(1, 2, null, null);
-
         System.out.println(result);
     }
 

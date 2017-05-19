@@ -219,7 +219,10 @@
 						</button>
 						<button type="button" id="loanLostExportExcelButton"
 							class="btn btn-success"
-							onclick="javascript:loanLostCaseExportToExcel()" >导出列表</button>
+							onclick="javascript:loanLostCaseExportToExcel()" >导出列表（实时）</button>
+						<button type="button" id="loanLostExportExcelButton2"
+								class="btn btn-success"
+								onclick="javascript:loanLostCaseExportToExcel2()" >导出列表（隔天）</button>
 						<button type="button" id="loanLostCleanButton"
 							class="btn btn-grey">清&nbsp;&nbsp;空</button>
 					</div>
@@ -580,9 +583,24 @@
 										'loanlost_apply_reason' ],
 								data : data
 							})
-						} 
-						
-						//选取人员的回调函数
+						}
+
+                        function loanLostCaseExportToExcel2() {
+                            var data = getParams();
+                            aist.exportExcel({
+                                ctx : "${ctx}",
+                                queryId : 'queryMortgageApproveLost2',
+                                colomns : [ 'CASE_CODE', 'PROPERTY_ADDR',
+                                    'LEADING_PROCESS_ID','ORG_NAME','ORG_ORG_NAME',
+                                    'AGENT_ORG_NAME','AGENT_NAME',
+                                    'real_name','END_TIME_','MORT_TYPE', 'MORT_TOTAL_AMOUNT','COM_AMOUNT','PRF_AMOUNT',
+                                    'FIN_ORG_NAME','FIN_ORG_NAME_YC',
+                                    'loanlost_apply_reason' ],
+                                data : data
+                            })
+                        }
+
+                        //选取人员的回调函数
 						function loanLostCaseSelectUserBack(array) {
 							if (array && array.length > 0) {
 								$("#caseoperator").val(array[0].username);

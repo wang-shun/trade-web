@@ -35,18 +35,16 @@ public class ServiceRestartController {
 	
 	@RequestMapping("apply/process")
 	@ResponseBody
-	public String toApplyProcess(HttpServletRequest request,
-			HttpServletResponse response, String caseCode, String source,
-			String taskitem, String processInstanceId) {
+	public Object toApplyProcess(HttpServletRequest request, String caseCode, String source) {
+		JSONObject jsonObject = new JSONObject();
+
 		SessionUser user = uamSessionService.getSessionUser();
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		request.setAttribute("source", source);
-		request.setAttribute("caseBaseVO", caseBaseVO);
-
-		request.setAttribute("approveType", "7");
-		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "task" + UiImproveUtil.getPageType(request)
-				+ "/taskserviceRestartApply";
+		jsonObject.put("source", source);
+		jsonObject.put("caseBaseVO", caseBaseVO);
+		jsonObject.put("approveType", "7");
+		jsonObject.put("operator", user != null ? user.getId() : "");
+		return jsonObject;
 	}
 
 	@RequestMapping("approve/process")
@@ -59,6 +57,8 @@ public class ServiceRestartController {
 		jo.put("caseCode", caseCode);
 		jo.put("taskId", taskId);
 		jo.put("instCode", processInstanceId);
+		jo.put("approveType", 7);
+		jo.put("processInstanceId", processInstanceId);
 		return jo;
 	}
 
@@ -72,7 +72,12 @@ public class ServiceRestartController {
 		SessionUser u = uamSessionService.getSessionUser();
 		vo.setUserId(u.getId());
 		vo.setUserName(u.getUsername());
-		boolean piv = serviceRestart.apply(vo);
+		boolean piv =false;
+		try{
+			piv = serviceRestart.apply(vo);
+		}catch (Exception e){
+
+		}
 		AjaxResponse resp = new AjaxResponse(piv);
 		return resp;
 	}

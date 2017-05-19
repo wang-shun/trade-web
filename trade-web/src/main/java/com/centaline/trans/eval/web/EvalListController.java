@@ -98,7 +98,8 @@ public class EvalListController {
 			toEvaFeeRecordService.updateByPrimaryKeySelective(toEvaFeeRecord);
 		}
 
-		return this.evalFeeDesign(request);
+		//return this.evalFeeDesign(request);
+		return  "redirect:/eval/evalFeeDesign";
 	}
 
 	@RequestMapping("/evalListStatistics")

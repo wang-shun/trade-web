@@ -3,6 +3,7 @@ package com.centaline.trans.eloan.repository;
 import java.util.List;
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eloan.entity.ToEloanCase;
+import org.apache.ibatis.annotations.Param;
 
 @MyBatisRepository
 public interface ToEloanCaseMapper {
@@ -33,4 +34,6 @@ public interface ToEloanCaseMapper {
     List<String> validateEloanApply(ToEloanCase record);
 
 	void eloanInfoForUpdate(ToEloanCase toEloanCase);
+
+    int updateByCaseCodeAndExcutor(@Param("userId") String userId, @Param("tEloanCase")ToEloanCase tEloanCase);
 }

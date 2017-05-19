@@ -63,6 +63,7 @@
 							</div>
 						</div>
 					</div>
+					<div class="table-scroll" style="height:500px;overflow: auto">
                         <table class="table table_blue  table-striped table-bordered table-hover customerinfo" >
                             <thead>
                                 <tr>
@@ -89,6 +90,11 @@
                             <tbody id="tableTemplate" >
                             </tbody>
                         </table>
+                        </div>
+                        <em>备注：</em><br />
+                        <em style="margin-left: 38px">①取派单时间、实际签约时间、签贷时间、自办贷款申请时间、公积金签约时间、实际过户时间；</em><br />
+                        <em style="margin-left: 38px">②评估转化率 = 实收评估单数/商贷办理量；</em><br />
+                        <em style="margin-left: 38px">③E+申请单数：是指当月申请的E+金融产品。</em>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,7 @@ package com.centaline.trans.wdcase.vo;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class TpdPaymentVO {
 
@@ -17,6 +18,20 @@ public class TpdPaymentVO {
      * 流水合计金额
      */
     private BigDecimal allAmount;
+
+    /**
+     * 流水附件
+     * @return
+     */
+    
+    private List<String> receiptPicList;
+	public List<String> getReceiptPicList() {
+		return receiptPicList;
+	}
+
+	public void setReceiptPicList(List<String> receiptPicList) {
+		this.receiptPicList = receiptPicList;
+	}
 
 	public BigDecimal getAllAmount() {
 		return allAmount;

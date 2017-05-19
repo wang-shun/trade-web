@@ -62,6 +62,7 @@ public class ToPurchaseLimitSearchController {
                 response.setMessage("短信发送失败, 请您线下手工再次发送！");
             }
         }catch (Exception e){
+            response.setMessage(e.getMessage());
             response.setSuccess(false);
             e.printStackTrace();
             logger.error(e.getMessage());

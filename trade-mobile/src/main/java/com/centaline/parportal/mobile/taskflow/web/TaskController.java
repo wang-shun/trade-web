@@ -62,16 +62,17 @@ public class TaskController {
 		
 		if(pastTask) {
 			taskTag.add("-1");
+
 		}
 		if(todayTask) {
 			taskTag.add("0");
+
 		}
 		if(tmrTask) {
 			taskTag.add("1");
+
 		}
 		
-		taskTag.add("2");
- 		
 		if(!taskTag.isEmpty()) {
 			paramMap.put("taskTag",(String[])taskTag.toArray(new String[taskTag.size()]));
 		}
@@ -116,7 +117,7 @@ public class TaskController {
 			List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(orgId, TransJobs.TJYZL.getCode());
 			if (CollectionUtils.isNotEmpty(asList)) {
 				User user = asList.get(0);
-				zhuli = user.getUsername();
+				zhuli = user.getRealName();
 			}
 			map.put("zhuli", zhuli);
 		}

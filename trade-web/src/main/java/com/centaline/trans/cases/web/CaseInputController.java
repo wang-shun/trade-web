@@ -42,4 +42,19 @@ public class CaseInputController {
 		request.setAttribute("queryUserId", queryUserId);
 		return "case/newCaselist";
 	}	
+	/**
+	 * 外单案件列表页面跳转 
+	 * @author hejf10
+	 * @2017年5月15日16:04:48
+	 * @param request
+	 * @return
+	 */
+	
+	@RequestMapping(value="inputWD")
+	public String inputWDCaseInfo(Model model, ServletRequest request){
+		SessionUser user = uamSessionService.getSessionUser();
+		String queryUserId = user.getId();
+		request.setAttribute("queryUserId", queryUserId);
+		return "case/newWDCaselist";
+	}	
 }

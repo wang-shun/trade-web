@@ -25,6 +25,7 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.remote.service.CommFindUserService;
 import com.centaline.trans.task.service.impl.TsTaskDelegateServiceImpl;
 
 /**
@@ -59,6 +60,8 @@ public class FindUserLogicImpl implements FindUserLogic {
 	@Autowired
 	private ToWorkFlowService workFlowService;
 	private List<String>psfTasks=Arrays.asList("PSFApply","PSFSign","PSFApprove");
+	@Autowired
+	private CommFindUserService commFindUserService;
 
 	/**
 	 * 
@@ -176,13 +179,19 @@ public class FindUserLogicImpl implements FindUserLogic {
 	private String findWorkFlowUserForOneGroup(String groupId,
 			String caseowner, Map<String, String> serviceMap,
 			String taskDefinitionKey) {
-
+	
 		String userId = caseowner;
 		String serviceCode = getServiceCode(serviceMap, taskDefinitionKey);
 		String serviceUserId = serviceMap.get(serviceCode);
 		if (!StringUtils.isBlank(serviceUserId)) {
 			userId = serviceUserId;
 		}
+		if("GuohuApprove".equals(taskDefinitionKey)){
+			User baseonuser = uamUserOrgService.getUserById(userId);
+			if(baseonuser==null)return null;
+			return commFindUserService.findGuohuApprovalUser(baseonuser.getOrgId());
+		}
+		
 		return findWorkFlowUser(groupId, userId);
 	}
 

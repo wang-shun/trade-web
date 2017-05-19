@@ -7,6 +7,7 @@ function initData(url,data,templateId,tbodyId) {
 			var result = null;
 			
 			var pagination = data.pagination;
+			var hidePagination = data.hidePagination;//不显示分页导航但要显示第一页的数据
 			
 			$.ajax({
 				async : false,
@@ -28,7 +29,9 @@ function initData(url,data,templateId,tbodyId) {
 					$("#"+tbodyId).html(templateData);
 					
 					if(pagination == undefined || pagination){
-				        initpage(data.total,data.pagesize,data.page, data.records,tbodyId);
+						if(hidePagination == undefined || !hidePagination){
+							initpage(data.total,data.pagesize,data.page, data.records,tbodyId);
+						}
 					}
 					if($("#notHaveOwnerVal")){
 						$("#notHaveOwnerVal").html($("#notHaveOwner").val());

@@ -235,7 +235,10 @@
 				KA_NUM_MONTH,
 						
 				(select count(1) from sctrans.T_TO_ELOAN_CASE ec where ec.STATUS != 'ABAN' and ec.EXCUTOR_TEAM = week.CASE_ORG_ID_F and EC.LOAN_SRV_CODE IN ('30004005','30004015') and cast(convert(varchar(8) , EC.CREATE_TIME, 112 ) as int) 
-				between #endWeekDay#/100*100+1 and #endWeekDay#) ELOAN_KA_APP_NUM_MONTH
+				between #endWeekDay#/100*100+1 and #endWeekDay#) ELOAN_KA_APP_NUM_MONTH,
+
+				(select isnull(sum(ec.APPLY_AMOUNT),0) from sctrans.T_TO_ELOAN_CASE ec where ec.STATUS != 'ABAN' and ec.EXCUTOR_TEAM = week.CASE_ORG_ID_F and EC.LOAN_SRV_CODE IN ('30004005','30004015') and cast(convert(varchar(8) , EC.CREATE_TIME, 112 ) as int)
+				between #endWeekDay#/100*100+1 and #endWeekDay#) ELOAN_KA_APP_AMOUNT_MONTH
 						
 				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week where week.TRANSFER_ISPASS = 1 and week.BELONG_WEEK_END_DAY = #belongEndWeekDay#
 	            ]]>
@@ -256,6 +259,7 @@
 				<column type="both" name="KA_APP_NUM_MONTH" index="" checkbox="" title="卡申请单数" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="KA_NUM_MONTH" index="" checkbox="" title="刷卡单数" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="ELOAN_KA_APP_NUM_MONTH" index="" checkbox="" title="E+卡申请总量(月)[ELOAN_CASE表]" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ELOAN_KA_APP_AMOUNT_MONTH" index="" checkbox="" title="E+卡申请总额(月)[ELOAN_CASE表]" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
@@ -323,7 +327,10 @@
 				PRO_APP_AMOUNT_MONTH,
 				
 				(select count(1) from sctrans.T_TO_ELOAN_CASE ec where ec.STATUS != 'ABAN' and ec.EXCUTOR_TEAM = week.CASE_ORG_ID_F and EC.LOAN_SRV_CODE NOT IN ('30004005','30004015') and cast(convert(varchar(8) , EC.CREATE_TIME, 112 ) as int) 
-				between #endWeekDay#/100*100+1 and #endWeekDay#)  ELOAN_PRO_APP_NUM_MONTH
+				between #endWeekDay#/100*100+1 and #endWeekDay#)  ELOAN_PRO_APP_NUM_MONTH,
+
+				(select isnull(sum(ec.APPLY_AMOUNT),0) from sctrans.T_TO_ELOAN_CASE ec where ec.STATUS != 'ABAN' and ec.EXCUTOR_TEAM = week.CASE_ORG_ID_F and EC.LOAN_SRV_CODE NOT IN ('30004005','30004015') and cast(convert(varchar(8) , EC.CREATE_TIME, 112 ) as int)
+				between #endWeekDay#/100*100+1 and #endWeekDay#)  ELOAN_PRO_APP_AMOUNT_MONTH
 				
 				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week where week.TRANSFER_ISPASS = 1 and week.BELONG_WEEK_END_DAY = #belongEndWeekDay#
 	            ]]>
@@ -346,7 +353,8 @@
 			    <column type="both" name="HOUSE_PRICE_MONTH" index="" checkbox="" title="房屋价格(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			    <column type="both" name="PRO_APP_NUM_MONTH" index="" checkbox="" title="E+申请单数(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			    <column type="both" name="PRO_APP_AMOUNT_MONTH" index="" checkbox="" title="E+申请金额(月)" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-			    <column type="both" name="ELOAN_PRO_APP_NUM_MONTH" index="" checkbox="" title="E+申请总量(月)[ELOAN_CASE表]" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/> 
+			    <column type="both" name="ELOAN_PRO_APP_NUM_MONTH" index="" checkbox="" title="E+申请总量(月)[ELOAN_CASE表]" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ELOAN_PRO_APP_AMOUNT_MONTH" index="" checkbox="" title="E+申请总额(月)[ELOAN_CASE表]" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

@@ -1,6 +1,5 @@
 package com.centaline.trans.cases.service.impl;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,12 +32,15 @@ import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.CaseMergeService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.cases.vo.CaseMergeVo;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.CaseOriginEnum;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.common.service.TgGuestInfoService;
@@ -360,8 +362,6 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		toCase.setCaseOrigin(CaseOriginEnum.WD.getCode());
 		toCase.setLeadingProcessId(user.getId());
 		toCase.setOrgId(user.getServiceDepId());
-		/*toCase.setCreateBy(user.getId());
-		toCase.setCreateTime(new Date());*/
 		return toCase;
 	}
 	/**
@@ -374,11 +374,11 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		ToCaseInfo toCaseInfo = new ToCaseInfo();
 		toCaseInfo.setCaseCode(toCase.getCaseCode());
 		toCaseInfo.setAgentCode(caseMergeVo.getAgentCode() == null?"":caseMergeVo.getAgentCode());
-		toCaseInfo.setAgentName(caseMergeVo.getAgentName()== null?"":caseMergeVo.getAgentName());
-		toCaseInfo.setAgentPhone(caseMergeVo.getAgentPhone()== null?"":caseMergeVo.getAgentPhone());			
+		toCaseInfo.setRecommendUsername(caseMergeVo.getRecommendUsername()== null?"":caseMergeVo.getRecommendUsername());
+		toCaseInfo.setRecommendPhone(caseMergeVo.getRecommendPhone()== null?"":caseMergeVo.getRecommendPhone());			
 		toCaseInfo.setGrpName(caseMergeVo.getAgentOrgName()== null?"":caseMergeVo.getAgentOrgName());
 		toCaseInfo.setTargetCode(caseMergeVo.getAgentOrgCode()== null?"":caseMergeVo.getAgentOrgCode());
-		toCaseInfo.setIsResponsed("0");
+		toCaseInfo.setIsResponsed("1");
 		toCaseInfo.setImportTime(new Date());
 		toCaseInfo.setSourceOfCooperation(caseMergeVo.getSourceOfCooperation());
 		toCaseInfo.setRequireProcessorId(getManagerUserId(caseMergeVo.getAgentOrgCode()));
@@ -429,48 +429,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		tpdCommSubs.setCreateTime(new Date());
 		return tpdCommSubs;
 	}
-	/**
-	 * 保存案件上下家/推荐人信息
-	 * 30006001：上家
-	 * 30006002：下家
-	 * 30006003：推荐人
-	 * @param 1:上家 2：下家 3：推荐人
-	 * @author hjf
-	 * @date 2017年4月21日14:20:36
-	 * */
-	private int saveIntoGuestInfo(List<String> nameList, List<String> phoneList,String caseCode,int flag) {
-		int k = 0;
-		TgGuestInfo tgGuestInfo = new TgGuestInfo();
-		
-		if(nameList.size() > 0  && phoneList.size() > 0){
-			if(flag==1){
-				for(int i=0; i<nameList.size() ;i++){
-					tgGuestInfo.setCaseCode(caseCode);
-					tgGuestInfo.setGuestName(nameList.get(i));
-					tgGuestInfo.setGuestPhone(phoneList.get(i));
-					tgGuestInfo.setTransPosition("30006001");
-					k = tgGuestInfoService.insertSelective(tgGuestInfo);
-				}
-			}else if(flag==2){
-				for(int i=0; i<nameList.size() ;i++){
-					tgGuestInfo.setCaseCode(caseCode);
-					tgGuestInfo.setGuestName(nameList.get(i));
-					tgGuestInfo.setGuestPhone(phoneList.get(i));
-					tgGuestInfo.setTransPosition("30006002");
-					k = tgGuestInfoService.insertSelective(tgGuestInfo);
-				}
-			}else if(flag==3){
-				for(int i=0; i<nameList.size() ;i++){
-					tgGuestInfo.setCaseCode(caseCode);
-					tgGuestInfo.setGuestName(nameList.get(i));
-					tgGuestInfo.setGuestPhone(phoneList.get(i));
-					tgGuestInfo.setTransPosition("30006003");
-					k = tgGuestInfoService.insertSelective(tgGuestInfo);
-				}
-			}
-		}		
-		return k;
-	}
+	
 	/**
 	 * 保存案件上下家/推荐人信息
 	 * 30006001：上家
@@ -510,7 +469,16 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		
 		List<ToAttachment> toAttachmentList = toAttachmentMapper.findToAttachmentByCaseCode(caseMergeVo.getDistCode().toString());
 		if(null !=toAttachmentList && toAttachmentList.size()>0){
-			receiptPic = toAttachmentList.get(0).getPreFileAdress();
+			String preFileAdress = null;
+			for(ToAttachment toAttachment:toAttachmentList){
+				if(null == preFileAdress){
+					preFileAdress = toAttachment.getPreFileAdress()+",";
+				}else{
+					preFileAdress = preFileAdress+toAttachment.getPreFileAdress()+",";
+				}
+				
+			}
+			receiptPic = preFileAdress.substring(0, preFileAdress.length()-1).toString();
 		}else{
 			throw new BusinessException("新建外单案件没有上传附件！");
 		}
@@ -544,7 +512,6 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 */
 	public TdmPaidSubs setTdmPaidSubs(CaseMergeVo caseMergeVo,TpdPayment tpdPayment,SessionUser user,String receiptPic){
 		TdmPaidSubs tdmPaidSubs = new TdmPaidSubs();
-		//tdmPaidSubs.setPaymentCode(tpdPayment.get);
 		tdmPaidSubs.setCommSubject("服务费");
 		tdmPaidSubs.setPaidAmount(caseMergeVo.getPaymentAmount());
 		tdmPaidSubs.setReceiptPic(receiptPic);
@@ -625,7 +592,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		tpdPaymentVO.setPayer(tpdPayment.getPayer());
 		tpdPaymentVO.setPaymentAmount(tpdPayment.getPaymentAmount());
 		tpdPaymentVO.setPaymentDate(tpdPayment.getPaymentDate());
-		tpdPaymentVO.setReceiptPic(tdmPaidSubs.getReceiptPic());
+		tpdPaymentVO.setReceiptPicList(java.util.Arrays.asList(tdmPaidSubs.getReceiptPic().split(",")));
 		return tpdPaymentVO;
 	}
 	/**
@@ -707,8 +674,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 */
 	public CaseMergeVo setCaseMergeVoForToCaseInfo(CaseMergeVo caseMergeVo,ToCaseInfo toCaseInfo){
 		caseMergeVo.setSourceOfCooperation(toCaseInfo.getSourceOfCooperation());
-		caseMergeVo.setAgentName(toCaseInfo.getAgentName());
-		caseMergeVo.setAgentPhone(toCaseInfo.getAgentPhone());
+		caseMergeVo.setRecommendUsername(toCaseInfo.getRecommendUsername());
+		caseMergeVo.setRecommendPhone(toCaseInfo.getRecommendPhone());
 		return caseMergeVo;
 	}
 	/**
@@ -756,6 +723,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		return caseMergeVo;
 	}
 	/**
+	 * 设置上下家的相应信息显示在编辑页面
 	 * @author hejf10
 	 * @date 2017年4月27日11:11:43
 	 * @param List<TgGuestInfo> tgGuestInfos
@@ -778,64 +746,6 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		}
 		caseMergeVo.setTgGuestInfoUp(tgGuestInfoUp);
 		caseMergeVo.setTgGuestInfoDown(tgGuestInfoDown);
-		return caseMergeVo;
-	}
-	/**
-	 * @author hejf10
-	 * @date 2017年4月27日11:11:43
-	 * @param List<TgGuestInfo> tgGuestInfos
-	 * @param toCase
-	 * @return
-	 */
-	public CaseMergeVo setCaseMergeVoForTgGuestInfosf(CaseMergeVo caseMergeVo,List<TgGuestInfo> tgGuestInfos){
-		/**
-		 * 上家
-		 */
-		List<Long> pkidUps = new ArrayList<Long>();
-		List<String> guestNameUps = new ArrayList<String>();
-		List<String> guestPhoneUps = new ArrayList<String>();
-		/**
-		 * 下家
-		 */
-		List<Long> pkidDowns = new ArrayList<Long>();
-		List<String> guestNameDowns = new ArrayList<String>();
-		List<String> guestPhoneDowns = new ArrayList<String>();
-		/**
-		 * 推荐人
-		 */
-		List<Long> pkidRecommends = new ArrayList<Long>();
-		List<String> guestNameRecommends = new ArrayList<String>();
-		List<String> guestPhoneRecommends = new ArrayList<String>();
-		
-		for(TgGuestInfo tgGuestInfo:tgGuestInfos){
-			if(StringUtils.equals("30006001", tgGuestInfo.getTransPosition())){
-				pkidUps.add(tgGuestInfo.getPkid());
-				guestNameUps.add(tgGuestInfo.getGuestName());
-				guestPhoneUps.add(tgGuestInfo.getGuestPhone());
-			}
-			if(StringUtils.equals("30006002", tgGuestInfo.getTransPosition())){
-				pkidDowns.add(tgGuestInfo.getPkid());
-				guestNameDowns.add(tgGuestInfo.getGuestName());
-				guestPhoneDowns.add(tgGuestInfo.getGuestPhone());
-			}
-			if(StringUtils.equals("30006003", tgGuestInfo.getTransPosition())){
-				pkidRecommends.add(tgGuestInfo.getPkid());
-				guestNameRecommends.add(tgGuestInfo.getGuestName());
-				guestPhoneRecommends.add(tgGuestInfo.getGuestPhone());
-			}
-		}
-		caseMergeVo.setPkidUp(pkidUps);
-		caseMergeVo.setGuestNameUp(guestNameUps);
-		caseMergeVo.setGuestPhoneUp(guestPhoneUps);
-		
-		caseMergeVo.setPkidDown(pkidDowns);
-		caseMergeVo.setGuestNameDown(guestNameDowns);
-		caseMergeVo.setGuestPhoneDown(guestPhoneDowns);
-		
-		caseMergeVo.setPkidRecommend(pkidRecommends);
-		caseMergeVo.setGuestNameRecommend(guestNameRecommends);
-		caseMergeVo.setGuestPhoneRecommend(guestPhoneRecommends);
-		
 		return caseMergeVo;
 	}
 	
@@ -886,7 +796,6 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		 */
 		editWDToGuestInfo(caseMergeVo.getTgGuestInfoUp() ,tgGuestInfoList,caseCode,"30006001");
 		editWDToGuestInfo(caseMergeVo.getTgGuestInfoDown(), tgGuestInfoList ,caseCode,"30006002");
-		//insertTz = updateToGuestInfo(pkidRecommendList,nameRecommendList,phoneRecommendList,caseCode,3,tgGuestInfoList);
 		
 		return caseCode;			
 			
@@ -900,8 +809,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 */
 	public ToCaseInfo editToCaseInfo(ToCaseInfo toCaseInfo,CaseMergeVo caseMergeVo){
 		toCaseInfo.setSourceOfCooperation(caseMergeVo.getSourceOfCooperation());
-		toCaseInfo.setAgentName(caseMergeVo.getAgentName()== null?"":caseMergeVo.getAgentName());
-		toCaseInfo.setAgentPhone(caseMergeVo.getAgentPhone()== null?"":caseMergeVo.getAgentPhone());
+		toCaseInfo.setRecommendUsername(caseMergeVo.getRecommendUsername()== null?"":caseMergeVo.getRecommendUsername());
+		toCaseInfo.setRecommendPhone(caseMergeVo.getRecommendPhone()== null?"":caseMergeVo.getRecommendPhone());
 		return toCaseInfo;
 	}
 	/**
@@ -971,7 +880,14 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		 */
 		deleteToGuestInfo(oldPkidList);
 	}
-	
+	/**
+	 * 查询本案件中所用的上下家
+	 * @author hejf10
+	 * @date 2017年5月17日10:15:51
+	 * @param alltgGuestInfoList
+	 * @param type
+	 * @return
+	 */
 	private List<Long> getToGuestInfoForPkidList(List<TgGuestInfo> alltgGuestInfoList,String type) {
 		List<Long> oldpkid = new ArrayList<Long>();
 		for(TgGuestInfo tgGuestInfo:alltgGuestInfoList){
@@ -981,6 +897,12 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		}
 		return oldpkid;
 	}
+	/**
+	 * 根据页面数据删除没有查询到的用户
+	 * @author hejf10
+	 * @date 2017年5月17日10:14:06
+	 * @param oldPkidList
+	 */
 	private void deleteToGuestInfo(List<Long> oldPkidList) {
 		if(null != oldPkidList){
 			for(int i=0;i<oldPkidList.size();i++){
@@ -990,99 +912,125 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	}
 	
 	/**
-	 * 更新上下家/推荐人信息
-	 * 30006001：上家
-	 * 30006002：下家
-	 * 30006003：推荐人
-	 * @param 1:上家 2：下家 3：推荐人
-	 * @author hjf
-	 * @date 2017年4月28日16:36:19
-	 * */
-	private int updateToGuestInfo(List<Long> pkidList,List<String> nameList, List<String> phoneList,String caseCode,int flag,
-								  List<TgGuestInfo> tgGuestInfoList) {
-		int k = 0;
-		List<Long> pkidLists = new ArrayList<Long>();
-		for(TgGuestInfo tgGuestInfof:tgGuestInfoList){
-			if(flag==1){
-				if(StringUtils.equals("30006001",tgGuestInfof.getTransPosition())){
-					pkidLists.add(tgGuestInfof.getPkid());
-				}
-			}
-			if(flag==2){
-				if(StringUtils.equals("30006002",tgGuestInfof.getTransPosition())){
-					pkidLists.add(tgGuestInfof.getPkid());
-				}
-			}
-			if(flag==3){
-				if(StringUtils.equals("30006003",tgGuestInfof.getTransPosition())){
-					pkidLists.add(tgGuestInfof.getPkid());
-				}
-			}
-			
+	 * 查询案件基本信息
+	 * @author hejf10
+	 * @date 2017年5月17日10:12:15
+	 * @param caseCode
+	 * @param toMortgage
+	 * @return
+	 */
+	@Override
+	public void setCaseAttribute(String caseCode,HttpServletRequest request) {
+		CaseDetailShowVO reVo = new CaseDetailShowVO();
+		
+		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+		ToCase te=toCaseService.findToCaseByCaseCode(caseCode);
+		if(null!=te){
+			reVo.setCaseProperty(te.getCaseProperty());
 		}
-		for(TgGuestInfo tgGuestInfof:tgGuestInfoList){
-			if(nameList.size() > 0  && phoneList.size() > 0){
-				if(flag==1){
-					for(int i=0; i<nameList.size() ;i++){
-						TgGuestInfo tgGuestInfo = new TgGuestInfo();
-						if(StringUtils.equals("30006001",tgGuestInfof.getTransPosition())){
-							if(null != pkidList.get(i)){
-								if(pkidLists.contains(pkidList.get(i)) ){
-									if(tgGuestInfof.getPkid() == pkidList.get(i)){
-										tgGuestInfo = tgGuestInfof;
-										tgGuestInfo.setGuestName(nameList.get(i));
-										tgGuestInfo.setGuestPhone(phoneList.get(i));
-										k = tgGuestInfoService.updateByPrimaryKeySelective(tgGuestInfo);
-									}
-								}
-							}else{
-								tgGuestInfo.setCaseCode(caseCode);
-								tgGuestInfo.setGuestName(nameList.get(i));
-								tgGuestInfo.setGuestPhone(phoneList.get(i));
-								tgGuestInfo.setTransPosition("30006001");
-								k = tgGuestInfoService.insertSelective(tgGuestInfo);
-							}
-						}
-					}
-					break;
-				}else if(flag==2){
-					for(int i=0; i<nameList.size() ;i++){
-						TgGuestInfo tgGuestInfo = new TgGuestInfo();
-						if(StringUtils.equals("30006002",tgGuestInfof.getTransPosition())){
-							if(null != pkidList.get(i)){
-								if(pkidLists.contains(pkidList.get(i)) ){
-									if(tgGuestInfof.getPkid() == pkidList.get(i)){
-										tgGuestInfo = tgGuestInfof;
-										tgGuestInfo.setGuestName(nameList.get(i));
-										tgGuestInfo.setGuestPhone(phoneList.get(i));
-										k = tgGuestInfoService.updateByPrimaryKeySelective(tgGuestInfo);
-									}
-								}
-							}else{
-								tgGuestInfo.setCaseCode(caseCode);
-								tgGuestInfo.setGuestName(nameList.get(i));
-								tgGuestInfo.setGuestPhone(phoneList.get(i));
-								tgGuestInfo.setTransPosition("30006002");
-								k = tgGuestInfoService.insertSelective(tgGuestInfo);
-							}
-						}
-						
-					}
-					break;
-				}else if(flag==3){
-					for(int i=0; i<nameList.size() ;i++){
-						TgGuestInfo tgGuestInfo = new TgGuestInfo();
-						if(StringUtils.equals("30006003",tgGuestInfof.getTransPosition())){
-							tgGuestInfo = tgGuestInfof;
-							tgGuestInfo.setGuestName(nameList.get(i));
-							tgGuestInfo.setGuestPhone(phoneList.get(i));
-							k = tgGuestInfoService.updateByPrimaryKeySelective(tgGuestInfo);
-						}
-					}
-					break;
-				}
-			}		
+		
+		/**物业信息**/
+		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+		if(toPropertyInfo!=null){
+			reVo.setPropertyAddress(toPropertyInfo.getPropertyAddr());
 		}
-		return k;
+		User agentUser=null;
+		/**经纪人**/
+		if(!StringUtils.isBlank(toCaseInfo.getAgentCode())){
+			agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
+		}
+		if(agentUser!=null){
+			reVo.setAgentId(agentUser.getId());
+			reVo.setAgentName(agentUser.getRealName());
+			reVo.setAgentMobile(agentUser.getMobile());
+			reVo.setAgentOrgId(agentUser.getOrgId());
+			reVo.setAgentOrgName(agentUser.getOrgName());
+			/**分行经理**/
+			List<User> mcList = uamUserOrgService.getUserByOrgIdAndJobCode(agentUser.getOrgId(), TransJobs.TFHJL.getCode());
+			if(mcList!=null && mcList.size()>0){
+
+				User mcUser = mcList.get(0);
+				reVo.setMcId(mcUser.getId());
+				reVo.setMcName(mcUser.getRealName());
+				reVo.setMcMobile(mcUser.getMobile());
+			}
+		}
+		
+		/**交易顾问**/
+		User consultUser = uamUserOrgService.getUserById(te.getLeadingProcessId());
+		if(consultUser!=null){
+			reVo.setCpId(consultUser.getId());
+			reVo.setCpName(consultUser.getRealName());
+			reVo.setCpMobile(consultUser.getMobile());
+		}
+		/**助理**/
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(consultUser.getOrgId(), TransJobs.TJYZL.getCode());
+		if(asList!=null && asList.size()>0){
+			User assistUser = asList.get(0);
+			reVo.setAsId(assistUser.getId());
+			reVo.setAsName(assistUser.getRealName());
+			reVo.setAsMobile(assistUser.getMobile());
+		}
+		/**上下家**/
+		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(caseCode);
+		StringBuffer seller = new StringBuffer();
+		StringBuffer sellerMobil = new StringBuffer();
+		StringBuffer buyer = new StringBuffer();
+		StringBuffer buyerMobil = new StringBuffer();
+		for (TgGuestInfo guest : guestList) {
+			if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
+				seller.append(guest.getGuestName());
+				sellerMobil.append(guest.getGuestPhone());
+				seller.append("/");
+				sellerMobil.append("/");
+			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
+				buyer.append(guest.getGuestName());
+				buyerMobil.append(guest.getGuestPhone());
+				buyer.append("/");
+				buyerMobil.append("/");
+			}
+		}
+
+		if (guestList.size() > 0) {
+			if (seller.length() > 1) {
+				seller.deleteCharAt(seller.length() - 1);
+				sellerMobil.deleteCharAt(sellerMobil.length() - 1);
+			}
+
+			if (buyer.length() > 1) {
+				buyer.deleteCharAt(buyer.length() - 1);
+				buyerMobil.deleteCharAt(buyerMobil.length() - 1);
+			}
+		}
+		BigDecimal allAmount = new BigDecimal(0); 
+		/**
+		 * 案件应收金额
+		 */
+		TpdCommSubs tpdCommSubs = tpdCommSubsMapper.selectByCaseCode(caseCode);
+		if(null != tpdCommSubs && null != tpdCommSubs.getCommCost()){
+			BigDecimal pyAmount = tpdCommSubs.getCommCost();
+		
+			List<TpdPayment> tpdPayments = tpdPaymentMapper.selectByCaseCode(caseCode);
+			if(null != tpdPayments && tpdPayments.size()>0){
+				for(TpdPayment tpdPayment:tpdPayments){
+					pyAmount =  pyAmount.subtract(tpdPayment.getPaymentAmount());
+				}
+			}
+			allAmount = pyAmount;
+		}
+		
+		reVo.setSellerName(seller.toString());
+		reVo.setSellerMobile(sellerMobil.toString());
+		reVo.setBuyerMobile(buyerMobil.toString());
+		reVo.setBuyerName(buyer.toString());
+		/**
+		 * 设置案件相关信息
+		 */
+		request.setAttribute("toPropertyInfo", toPropertyInfo);
+		request.setAttribute("toCaseInfo", toCaseInfo);
+		request.setAttribute("caseDetailVO", reVo);
+		request.setAttribute("toCase", te);
+		request.setAttribute("allAmount", allAmount);/**案件应收金额**/
 	}
+	
 }

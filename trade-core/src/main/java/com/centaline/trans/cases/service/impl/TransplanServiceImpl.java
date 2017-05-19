@@ -43,12 +43,12 @@ public class TransplanServiceImpl implements TransplanService {
         SessionUser user = uamSessionService.getSessionUser();
         boolean isDeal = true;//是否处理
         TtsTransPlanHistoryBatch ttpb = new TtsTransPlanHistoryBatch();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try{
            for (Object object : fileListArray) {
                JSONObject planItems = (JSONObject) object;
                if("true".equals(planItems.getString("isChanges"))){
                    if(planItems.getString("estIds")!=null){
+                       Long e = Long.valueOf(planItems.getString("estDates"));
                        ToTransPlan oldPlan = transplanServiceFacade.selectByPrimaryKey(Long.parseLong(planItems.getString("estIds")));
                        TsTransPlanHistory hisRecord = new TsTransPlanHistory();
                        ToTransPlan record = new ToTransPlan();
@@ -57,7 +57,7 @@ public class TransplanServiceImpl implements TransplanService {
                        if(isDeal){
                            ttpb.setCaseCode(oldPlan.getCaseCode());
                            ttpb.setOldEstPartTime(oldPlan.getEstPartTime());
-                           ttpb.setNewEstPartTime(format.parse(planItems.getString("estDates")));
+                           ttpb.setNewEstPartTime(new Date(e.longValue()));
                            ttpb.setChangeReason(planItems.getString("whyChanges"));
                            ttpb.setPartCode(oldPlan.getPartCode());
                            ttpb.setOperateFlag("0");//手工
@@ -69,13 +69,13 @@ public class TransplanServiceImpl implements TransplanService {
                        hisRecord.setCaseCode(oldPlan.getCaseCode());
                        hisRecord.setPartCode(oldPlan.getPartCode());
                        hisRecord.setOldEstPartTime(oldPlan.getEstPartTime());
-                       hisRecord.setNewEstPartTime(format.parse(planItems.getString("estDates")));
+                       hisRecord.setNewEstPartTime(new Date(e.longValue()));
                        hisRecord.setChangeTime(new Date());
                        hisRecord.setChangerId(user.getId());
                        hisRecord.setChangeReason(planItems.getString("whyChanges"));
 
                        record.setPkid(Long.parseLong(planItems.getString("estIds")));
-                       record.setEstPartTime(format.parse(planItems.getString("estDates")));
+                       record.setEstPartTime(new Date(e.longValue()));
 
                        if (transplanServiceFacade.insertTsTransPlanHistorySelective(hisRecord) == 0){
                            throw new BusinessException("交易计划历史记录更新失败！");

@@ -414,6 +414,33 @@ paths:
               # a pointer to a definition
               $ref: "#/definitions/getBankResponse"
               
+  /task/quereyAttachment:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 贷款流失审批查询图片接口
+      # used as the method name of the controller
+      operationId: quereyAttachmentInLoanlostApprove
+      parameters:
+        - name: caseCode
+          in: query
+          description:  案件编号
+          required: true
+          type: string    
+        - name: partCode
+          in: query
+          description:  环节编码
+          required: true
+          type: string  
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getAttachmentsResponse"
+              
+              
+              
   /manage/queryBankListByParentCode:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
@@ -1629,42 +1656,38 @@ definitions:
 
 ##改期列表接口END
 
-
-
+  getAttachmentsResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getAttachmentsContent"
         
-        
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+  getAttachmentsContent:
+    properties:
+      caseCode:
+        type: string
+        description: 案件编号
+      preFileAdress:
+        type: string
+        description: 附件存储地址
+      preFileCode:
+        type: string
+        description: 附件编码
+      partCode:
+        type: string
+        description: 环节编码
+      fileCat:
+        type: string
+        description: 文件类型
+      fileName:
+        type: string
+        description: 文件名称

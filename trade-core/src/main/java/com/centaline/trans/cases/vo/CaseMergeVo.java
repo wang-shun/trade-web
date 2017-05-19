@@ -75,6 +75,15 @@ public class CaseMergeVo {
      */
     private String caseCode;
     /**
+     * 外单案件的推荐人
+     */
+    private String recommendUsername;
+    
+	/**
+     * 外单案件的推荐人电话
+     */
+    private String recommendPhone;
+    /**
      * 外单上家 
      */
     private List<TgGuestInfo> tgGuestInfoUp = new ArrayList<TgGuestInfo>();
@@ -288,6 +297,18 @@ public class CaseMergeVo {
 	}
 	public void setGuestPhoneRecommend(List<String> guestPhoneRecommend) {
 		this.guestPhoneRecommend = guestPhoneRecommend;
+	}
+	public String getRecommendUsername() {
+		return recommendUsername;
+	}
+	public void setRecommendUsername(String recommendUsername) {
+		this.recommendUsername = recommendUsername;
+	}
+	public String getRecommendPhone() {
+		return recommendPhone;
+	}
+	public void setRecommendPhone(String recommendPhone) {
+		this.recommendPhone = recommendPhone;
 	}
 		
 }

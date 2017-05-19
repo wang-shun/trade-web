@@ -12,32 +12,131 @@
 	<link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
 	<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 	<!-- stickUp fixed css -->
-	<link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
-	<link rel="stylesheet" href="${ctx}/static/trans/css/common/stickmenu.css">
 	<!-- index_css  -->
 	<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css">
 	<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css">
 	<link rel="stylesheet" href="${ctx}/static_res/trans/css/common/report.css">
 	<link rel="stylesheet" href="${ctx}/static/trans/css/addOutlist.css">
 	<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" ">
+	
+	<link href="${ctx}/static/trans/css/workflow/caseDetail.css" rel="stylesheet" />
+	<link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
 </head>
 
 <body>
 <input type="hidden" id="caseCode_" value="${caseCode_}" />
+<input type="hidden" id="allAmount" value="${allAmount}" />
   <div class="wrapper wrapper-content animated fadeInUp">
-      <div class="ibox-content" id="reportFive">
+      <div class="ibox-content" id="reportFive" style="  margin-top: 15px; ">
+      <div class="panel-body">
+						<div class="ibox-content-head lh24">
+							<h5>案件基本信息</h5>
+							
+							<small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
+						</div>
+						<div id="infoDiv infos" class="row">
+							<div class="ibox white_bg">
+								<div class="info_box info_box_one col-sm-4 ">
+									<span>物业信息</span>
+									<div class="ibox-conn ibox-text">
+										<dl class="dl-horizontal">
+											<dt>CTM地址</dt>
+											<dd>${toPropertyInfo.ctmAddr}</dd>
+											<dt>产证地址</dt>
+											<dd>${toPropertyInfo.propertyAddr}</dd>
+											<dt>层高</dt>
+											<dd>${toPropertyInfo.locateFloor}／${toPropertyInfo.totalFloor}</dd>
+											<dt>产证面积</dt>
+											<dd>${toPropertyInfo.square}平方</dd>
+											<dt>房屋类型</dt>
+											<dd>
+												<aist:dict id="propertyType" name="propertyType"
+													display="label" dictType="30014"
+													dictCode="${toPropertyInfo.propertyType}" />
+											</dd>
+										</dl>
+									</div>
+								</div>
+								<div class="info_box info_box_two col-sm-5">
+									<span>买卖双方</span>
+									<div class="ibox-conn else_conn">
+										<dl class="dl-horizontal col-sm-6">
+											<dt>上家姓名</dt>
+											<dd>
+												<div id="seller"></div>
+											</dd>
+										</dl>
+										<dl class="dl-horizontal col-sm-6">
+											<dt>下家姓名</dt>
+											<dd>
+												<div id="buyer"></div>
+											</dd>
+										</dl>
+									</div>
+								        <span>推荐人信息</span>
+										<div class="ibox-conn else_conn_two ">
+											<dl class="dl-horizontal">
+												<dt>姓名</dt>
+												<dd>
+													<a data-toggle="popover" data-placement="right" data-content="${toCaseInfo.recommendPhone}"> ${toCaseInfo.recommendUsername}</a>
+												</dd>
+												<dt>手机号</dt>
+												<dd>${toCaseInfo.recommendPhone }</dd>
+											</dl>
+										</div>
+								</div>
+								<div class="info_box info_box_three col-sm-3">
+									<span>经办人信息</span>
+									<div class="ibox-conn  ibox-text">
+										<dl class="dl-horizontal">
+											<dt>交易顾问</dt>
+											<dd>
+												<a data-toggle="popover" data-placement="right"
+													data-content="${caseDetailVO.cpMobile}">
+													${caseDetailVO.cpName} </a>
+											</dd>
+											<c:if test="${empty caseDetailVO.proList}">
+												<dt>合作顾问</dt>
+												<dd></dd>
+											</c:if>
+											<c:if test="${!empty caseDetailVO.proList}">
+												<c:forEach items="${caseDetailVO.proList}" var="pro">
+													<dt>合作顾问</dt>
+													<dd>
+														<a data-toggle="popover" data-placement="right"
+															data-content="${pro.processorMobile}">
+															${pro.processorName} </a>
+													</dd>
+												</c:forEach>
+											</c:if>
+											<dt>助理</dt>
+											<dd>
+												<a data-toggle="popover" data-placement="right"
+													data-content="${caseDetailVO.asMobile}">
+													${caseDetailVO.asName} </a>
+											</dd>
+										</dl>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+      </div>
+      
+      <div class="ibox-content" id="reportFive" style=" margin-top: 15px; ">
      	 <form  id="saveCaseInfo">
      	  <input type="hidden" name="distCode" id="distCode" value="${caseCode_}">
      	  <input type="hidden" id="caseCode" name="caseCode" value="${caseCode}" />
-          <div method="get" class="form_list">
-              <div class="title"> 新增实收流水 </div>
-          </div>
+         
+          <div style=" font-size: 14px; font-weight: bold; margin: 15px 0 0 33px; "> 新增实收流水 </div>
+        
           <div  class="form_list mt20" id="addVoucher">
               <div class="line">
                   <div class="form_content">
                       <label class="control-label sign_left_small">付款金额</label> 
                       <input class="select_control sign_right_one" placeholder="" name="paymentAmount" id="paymentAmount" value="">
-                     <span class="date_icon">万元</span>
+                     <span class="date_icon">元</span>
                   </div>
                   <div class="form_content">
                       <label class="control-label sign_left_small">
@@ -69,7 +168,7 @@
                 </div>
             </div>
           </div>
-          <div class="text-center mt40 mb30">
+          <div class="text-center mt40 mb30" style=" margin-top: 15px;  padding-bottom: 15px; ">
                <a onclick="sumbitRe()" class="btn btn-success">创建</a>
              <!--  <button type="reset" class="btn btn-grey" data-toggle="modal" >清空</button> -->
           </div>
@@ -82,6 +181,23 @@
 <content tag="local_require">
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <script>
+
+$('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
+$('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
+/*动态生成上下家*/
+function generateSellerAndBuyer(name, phone){
+		var nameArr = name.split('/');
+		var phoneArr = phone.split('/');
+		var str='';
+		for (var i=0; i<nameArr.length; i++) {
+			if(i%2==0){
+				str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a>&nbsp;';
+			}else{
+				str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a><br/>';
+			}
+		}
+		return str;
+	}
 
 /**
  * 日期控件
@@ -140,7 +256,7 @@ var fileUpload;
  		success : function(data){
  			if(data.success){
  				window.wxc.success("新增实收流水成功！",{"wxcOk":function(){
- 					window.location.href=ctx+"/case/myCaseList";
+ 					window.location.href=ctx+"/case/caseDetail?caseId="+'${toCase.pkid}';
  				}});
  			}else{
  				window.wxc.error("新增实收流水失败！"+data.message); 
@@ -158,7 +274,14 @@ var fileUpload;
 			window.wxc.alert("付款金额不能为空!");
 			$('input[name=paymentAmount]').focus();
 			return false;
+		}else{
+			var allamo = Number($("#allAmount").val());
+			if(Number($('input[name=paymentAmount]').val())>allamo){
+				alert("收取金额不允许大于应收金额减去已收取金额之和！");
+				return false;
+			}
 		}
+			
 		
 		var payerAmountFlag = true;
 		var payerAmountEle;

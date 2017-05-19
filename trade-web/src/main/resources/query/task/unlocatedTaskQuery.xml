@@ -147,7 +147,7 @@
 					left join sctrans.v_case_list_base b on b.case_code = wf.case_code
 					left join sctrans.SYS_ORG org ON tca.ORG_ID=org.id
 					left join sctrans.SYS_WFE_TEMPLATE as wfe on wf.case_code=wfe.WFE_CODE
-					where task.ASSIGNEE_ is not null and pro.BUSINESS_KEY_ is not null and task.TASK_DEF_KEY_ is not null and WF.STATUS=0) t1
+					where task.ASSIGNEE_ is null and pro.BUSINESS_KEY_ is not null and task.TASK_DEF_KEY_ is not null and WF.STATUS=0) t1
 			 		</if>
 				) as tt where 1=1 
 				]]>

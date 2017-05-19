@@ -58,7 +58,7 @@ th, td {
 								<th rowspan="2">所属组别</th>
 								<th colspan="3">本周过户案件中E+卡申请量</th>
 								<th colspan="5">本月过户案件累计</th>
-								<th>本月E+卡申请量</th>
+								<th colspan="2">本月E+卡申请量</th>
 							</tr>
 							<tr>
 								<th>过户单数</th>
@@ -70,6 +70,7 @@ th, td {
 								<th>刷卡单数</th>
 								<th>刷卡率</th>
 								<th>申请总量</th>
+								<th>申请总金额</th>
 							</tr>
 						</thead>
 						<tbody id="LoankaList">
@@ -80,6 +81,11 @@ th, td {
 				</div>
 			</div>
 			<div style="height: 34px;line-height: 34px;"><i class="icon iconfont icon40 yellow martop20" style="font-size: 30px;float: left;"></i>本月后台E+卡申请量:<span id="notHaveOwnerVal"></span></div>
+			备注： <br>
+			①单数转化率 = 过户案件中E+卡申请数 / 过户总单数<br>
+			数据来源：<br>
+			①本周过户审批通过案件<br>
+			②本周E+卡申请量 ： 取本月E+卡的创建时间
 		</div>
 	</div>
 	<!--*********************** HTML_main*********************** -->
@@ -111,6 +117,7 @@ th, td {
 			  <td>{{item.KA_NUM_MONTH}}</td>
               <td>{{item.KA_APP_NUM_MONTH == 0?0:(item.KA_NUM_MONTH/item.KA_APP_NUM_MONTH*100).toFixed()}}%</td>
               <td>{{item.ELOAN_KA_APP_NUM_MONTH}}</td>
+			  <td>{{item.ELOAN_KA_APP_AMOUNT_MONTH.toFixed()}}万元</td>
              </tr>
 		{{/each}}
 	    </script>
@@ -136,7 +143,7 @@ th, td {
 			var url = ctx+"/quickGrid/findPage";
 			var result = initData(url,data,"template_LoankaList","LoankaList");
 			if(result && result.rows){
-			var tb2 = 0,tb3 = 0,tb4 = 0,tb5 = 0,tb6 = 0,tb7 = 0,tb8 = 0,tb9 = 0,tb10 = 0;
+			var tb2 = 0,tb3 = 0,tb4 = 0,tb5 = 0,tb6 = 0,tb7 = 0,tb8 = 0,tb9 = 0,tb10 = 0,tb11 = 0;
 			
 			for(var i in result.rows){
 				var row = result.rows[i];
@@ -146,10 +153,12 @@ th, td {
 				tb6 += parseInt(row.KA_APP_NUM_MONTH);
 				tb8 += parseInt(row.KA_NUM_MONTH);
 				tb10 += parseInt(row.ELOAN_KA_APP_NUM_MONTH);
+				tb11 += parseInt(row.ELOAN_KA_APP_AMOUNT_MONTH);
 			}
 			tb4 = tb2 == 0?0:(tb3/tb2*100).toFixed();
 			tb7 = tb5 == 0?0:(tb6/tb5*100).toFixed();
 			tb9 = tb6 == 0?0:(tb8/tb6*100).toFixed();
+			tb11 = tb11 == 0?0:tb11.toFixed();
 			var trStr = "<tr>";
 			trStr += "<td>总计</td>";
 			trStr += "<td>"+tb2+"</td>";
@@ -161,6 +170,7 @@ th, td {
 			trStr += "<td>"+tb8+"</td>";
 			trStr += "<td>"+tb9+"%</td>";
 			trStr += "<td>"+tb10+"</td>";
+			trStr += "<td>"+tb11+"万元</td>";
 			$("#LoankaList").append(trStr);
 			}
 			

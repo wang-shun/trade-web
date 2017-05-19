@@ -10,7 +10,14 @@ function echartData (id,data) {
         },*/
         tooltip : {
             trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
+            formatter: 
+            	function (params,ticket,callback) {
+                var res = 'Function formatter : <br/>' + params[0].name;
+                for (var i = 0, l = params.length; i < l; i++) {
+                    res += '<br/>' + params[i].seriesName + ' : ' + params[i].value;
+                }
+                return params[0]+"<br />"+params[1]+" ："+params[2]+"("+Math.round(params[3])+")%";
+            }
         },
         legend: {
             orient: 'horizontal',
@@ -49,7 +56,7 @@ function echartData (id,data) {
 		if(i>4){break;};
 		var datai = {
 			value : items[i].caseCount,
-			name : legend[i]
+			name : legend[i] +" "+ accDiv(items[i].caseCount*100,items[i].totalCaseCount)+"%"
 		}
 		option1.series[0].data.push(datai);
 	}

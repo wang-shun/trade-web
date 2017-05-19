@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
         <link rel="stylesheet" href="${ctx }/static/trans/css/common/input.css" />
         <link rel="stylesheet" href="${ctx }/static/trans/css/common/btn.css" />
-        <link rel="stylesheet" href="${ctx }/static/iconfont/iconfont.css" ">
+        <link rel="stylesheet" href="${ctx }/static/iconfont/iconfont.css">
         <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
     </head>
     <body style="background-color:#fff;">

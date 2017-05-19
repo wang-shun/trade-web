@@ -66,4 +66,12 @@ public interface CaseMergeService {
      * @throws Exception
      */
     String editWdCaseInfo(HttpServletRequest request,CaseMergeVo caseMergeVo)throws Exception;
+    /**
+     * 查询案件基本信息
+     * @author hejf10
+     * @date 2017年5月15日17:07:14
+     * @param caseCode
+     * @param request
+     */
+    void setCaseAttribute(String caseCode,HttpServletRequest request);
 }

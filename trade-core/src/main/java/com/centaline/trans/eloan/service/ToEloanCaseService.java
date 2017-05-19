@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.vo.ELoanVo;
 
@@ -15,6 +16,8 @@ public interface ToEloanCaseService {
 	void saveEloanApply(SessionUser user, ToEloanCase tEloanCase);
 
 	int updateEloanApply(SessionUser user, ToEloanCase tEloanCase);
+
+	int updateEloanByCaseCode(User user ,ToEloanCase tEloanCase);
 
 	void deleteById(Long pkid);
 

@@ -62,6 +62,14 @@ public class QuickQueryMortgageStringChangeServiceImpl implements CustomDictServ
 					}else{
 						keyer.put("PRF_AMOUNT", 0);
 					}
+					if(keyer.get("conPrice")!=null){
+						BigDecimal prfAmountDouble = (BigDecimal)keyer.get("conPrice");
+						BigDecimal divideBg = prfAmountDouble.divide(bigDecimal,8,BigDecimal.ROUND_HALF_EVEN);
+						keyer.put("CON_PRICE",divideBg);
+					}else{
+						keyer.put("CON_PRICE", 0);
+					}
+
 					if(keyer.get("isTempBank")!=null){
 						if("1".equals(keyer.get("isTempBank"))){
 							keyer.put("IS_TMP_BANK", "是");

@@ -61,6 +61,9 @@
                             <tbody id="tableTemplate">
                             </tbody>
                         </table>
+                        <em>取数规则：</em><br/>
+                        <em style="margin-left: 65px;">①当月签贷时间、公积金签约时间；</em><br />
+                        <em style="margin-left: 65px;">②商贷金额占比 = 商贷金额/合同价。</em>
 				    </div>
                     </div>
                 </div>

@@ -53,7 +53,7 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
-	<query id="queryTradeCastListMoblie" cacheCount="true">
+	<query id="queryTradeCaseListMoblie" cacheCount="true">
 		<searchCondition>
 
 		   <condition field="A.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
@@ -462,6 +462,7 @@
 							(SELECT SUM(E.RELEASE_AMOUNT) FROM sctrans.T_TO_ELOAN_REL E WHERE E.ELOAN_CODE = T.ELOAN_CODE) releaseAmount
   				FROM      sctrans.T_TO_ELOAN_CASE T 
   				WHERE T.CASE_CODE = #caseCode#
+				and STATUS='VALID'
 			</baseSql>
 		</searchSql>
 		<grid>

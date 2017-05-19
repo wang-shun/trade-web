@@ -18,7 +18,8 @@
 	<import resource="query/task/taskDelegateQuery.xml"></import>
 	<import resource="query/eval/toEvalListQuery.xml" />
 	<import resource="query/trans/toTransPlanHistoryListQuery.xml" />
-	
+	<import resource="query/case/CaseBelongAndTransferQuery.xml" />
+
 	<!-- 佣金管理 -->
 	<import resource="query/income/toCaseCountAmountListQuery.xml" />
 	<import resource="query/income/toCaseExcelTrueCountListQuery.xml" />
@@ -215,7 +216,8 @@
 	
 	<!-- 按贵宾中心、组别、个人统计 -->
 	<import resource="query/report/signLoanReportQuery.xml"/>
-	
-	
+	<!-- 工作流当中要用的 -->
+	<import resource="query/task/activitiQuery.xml"/>
+
 	<!-- 签约贷款报表统计模块结束 -->
 </queryConfig>

@@ -8,10 +8,12 @@
             month:11,//用户选择的月份
             year:2016,//用户选择的月份
 
+            total_com_total:0,//商业贷款总额
+            total_shou_total:0,//收单总金额
             finID:[],//金融机构
             finName:[],//金融机构NAME
             xAxisData:[],//横坐标
-            com_total:[],//贷款总额
+            com_total:[],//商业贷款总额
             shou_total:[],//收单金额
             getRate:[],//收单率
             legend:[],//纬度
@@ -32,7 +34,7 @@
                 ECHART_D4_.month=month;
                 ECHART_D4_.year=year;
                 ECHART_D4_.url=$("#ctx").val();
-                ECHART_D4_.legend= ["总金额","收单金额","收单率"];
+                ECHART_D4_.legend= ["商贷总额(万元)","收单金额(万元)","收单率"];
             },
             /*报表一数据获得ajax*/
             getBarAjaxDate: function (dateMonth){
@@ -60,17 +62,20 @@
 
                         ECHART_D4_.shou_total.splice(0,ECHART_D4_.shou_total.length);
                         ECHART_D4_.getRate.splice(0,ECHART_D4_.getRate.length);
-
+                        ECHART_D4_.total_com_total=0;//商业贷款总额
+                        ECHART_D4_.total_shou_total=0;//收单总金额
                         if(data==null||data==undefined){
                             return;
                         }
                         $.each(data.rows,function(i,item){
+                            ECHART_D4_.total_com_total =ECHART_D4_.accAdd(ECHART_D4_.total_com_total,ECHART_D4_.accDiv(item.COM_AMOUNT,10000));//总的商贷金额
+                            ECHART_D4_.total_shou_total =ECHART_D4_.accAdd(ECHART_D4_.total_shou_total,ECHART_D4_.accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000));//总的收单金额
                             if(i<ECHART_D4_.finLimit){
                                 ECHART_D4_.finName.push(item.FA_FIN_ORG_NAME);
                                 ECHART_D4_.com_total.push(ECHART_D4_.accDiv(item.COM_AMOUNT,10000));
                                 ECHART_D4_.shou_total.push(ECHART_D4_.accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),10000));
                                 if(item.COM_AMOUNT!=0){
-                                    ECHART_D4_.getRate.push(accDiv(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),item.COM_AMOUNT));
+                                    ECHART_D4_.getRate.push(ECHART_D4_.accMul(ECHART_D4_.accDiv2(accSub(item.LOST_AMOUNT,item.COM_AMOUNT),item.COM_AMOUNT),100));
                                 }else{
                                     ECHART_D4_.getRate.push('0.00');
                                 }
@@ -86,7 +91,7 @@
                             ECHART_D4_.com_total.push(outBoundComTotal);
                             ECHART_D4_.shou_total.push(outBoundShouTotal);
                             if(outBoundComTotal!=0){
-                                ECHART_D4_.getRate.push(accDiv(outBoundShouTotal,outBoundComTotal));
+                                ECHART_D4_.getRate.push(ECHART_D4_.accMul(ECHART_D4_.accDiv2(outBoundShouTotal,outBoundComTotal),100));
                             }else{
                                 ECHART_D4_.getRate.push('0.00');
                             }
@@ -113,6 +118,14 @@
                         }
                         ];
                         returnBar(ECHART_D4_.xAxisData,yAxis,ECHART_D4_.legend,datas,type,null,myChart1,"贷款银行分配情况");
+
+                        $("#list_com_mort").html(ECHART_D4_.total_com_total);
+                        $("#list_shou_mort").html(ECHART_D4_.total_shou_total);
+                        if(ECHART_D4_.total_com_total!=0){
+                            $("#list_shou_lv").html(ECHART_D4_.accDiv2(ECHART_D4_.total_shou_total,ECHART_D4_.total_com_total)*100);
+                        }else{
+                            $("#list_shou_lv").html(0);
+                        }
 
                     },
                     error:function(){}
@@ -204,6 +217,23 @@
                     r2=Number(arg2.toString().replace(".",""));
                     return ((r1/r2)*pow(10,t2-t1)).toFixed(0);
                 }
+            },
+            accDiv2: function (arg1,arg2){
+                var t1=0,t2=0,r1,r2;
+                try{t1=arg1.toString().split(".")[1].length}catch(e){}
+                try{t2=arg2.toString().split(".")[1].length}catch(e){}
+                with(Math){
+                    r1=Number(arg1.toString().replace(".",""));
+                    r2=Number(arg2.toString().replace(".",""));
+                    return ((r1/r2)*pow(10,t2-t1)).toFixed(2);
+                }
+            },
+            accMul:function(arg1,arg2){
+
+                var m=0,s1=arg1.toString(),s2=arg2.toString();
+                try{m+=s1.split(".")[1].length}catch(e){}
+                try{m+=s2.split(".")[1].length}catch(e){}
+                return (Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)).toFixed(0);
             },
             /*获取当前年份数据*/
             getCurrentYear: function() {

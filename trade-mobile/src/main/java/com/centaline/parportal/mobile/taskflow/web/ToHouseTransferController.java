@@ -134,6 +134,7 @@ public class ToHouseTransferController {
             }
             response.setSuccess(true);
         }catch (Exception e){
+            response.setMessage(e.getMessage());
             response.setSuccess(false);
             e.printStackTrace();
             logger.error(e.getMessage());

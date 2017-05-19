@@ -403,7 +403,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	<script src="${ctx}/transjs/task/loanlostApprove.js"></script> 
-	<script src="${ctx}/transjs/task/showAttachment.js"></script> 
+	<script src="${ctx}/transjs/task/showAttachment.js"></script>  <%-- --%>
 	<!-- Custom and plugin javascript -->
 	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
 	<!-- Data picker -->
@@ -430,7 +430,7 @@
 	<script src="${ctx}/js/stickUp.js"></script> 
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
-	<script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<script src="${ctx}/js/trunk/task/attachment.js"></script><%--  --%>
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
 	<!-- 图片查看JS -->
 	<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
@@ -471,7 +471,7 @@
 			<shiro:hasPermission name="TRADE.CASE.GUOHUAPPROVEUNLOCATEDTASK">
 				guoHuApprove = true;
 			</shiro:hasPermission>
-			
+			guoHuApprove = true;
 			function addAttachmentReadLog(ctx,ctmCode,caseCode,attachName,attachPath) {
 				var tsAttachmentReadLog = {
 					 	'caseCode':caseCode,

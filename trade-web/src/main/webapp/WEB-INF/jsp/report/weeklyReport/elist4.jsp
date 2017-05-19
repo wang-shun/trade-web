@@ -58,7 +58,7 @@ th, td {
 								<th rowspan="2">所属组别</th>
 								<th colspan="5">本周过户案件中E+贷款申请量</th>
 								<th colspan="5">本月过户案件累计</th>
-								<th>本月E+贷款申请量</th>
+								<th colspan="2">本月E+贷款申请量</th>
 							</tr>
 							<tr>
 								<th>过户单数</th>
@@ -72,6 +72,7 @@ th, td {
 								<th>E+申请金额</th>
 								<th>金额转化率</th>
 								<th>申请总量</th>
+								<th>申请总金额</th>
 							</tr>
 						</thead>
 						<tbody id="eloanList">
@@ -82,6 +83,11 @@ th, td {
 				</div>
 			</div>
 			<div style="height: 34px;line-height: 34px;"><i class="icon iconfont icon40 yellow martop20" style="font-size: 30px;float: left;"></i>本月后台E+贷款申请量:<span id="notHaveOwnerVal"></span></div>
+			备注：<br>
+			①单数转化率 = 过户案件中E+贷款申请数 / 过户总单数<br>
+			数据来源：<br>
+			①本周过户审批通过案件<br>
+			②本周E+贷款申请量 ： 取本月E+贷款的创建时间
 		</div>
 	</div>
 	<!--*********************** HTML_main*********************** -->
@@ -115,6 +121,7 @@ th, td {
               <td>{{(item.PRO_APP_AMOUNT_MONTH/10000).toFixed()}}万元</td>
               <td>{{item.HOUSE_PRICE_MONTH == 0?0:(item.PRO_APP_AMOUNT_MONTH/item.HOUSE_PRICE_MONTH*100).toFixed()}}%</td>
 			  <td>{{item.ELOAN_PRO_APP_NUM_MONTH}}</td>
+			  <td>{{item.ELOAN_PRO_APP_AMOUNT_MONTH.toFixed()}}万元</td>
              </tr>
 		{{/each}}
 	    </script>
@@ -141,7 +148,7 @@ th, td {
 			var url = ctx+"/quickGrid/findPage";
 			var result = initData(url,data,"template_eloanList","eloanList");
 			if(result && result.rows){
-				var tb2 = 0,tb3 = 0,tb4 = 0,tb5 = 0,tb6 = 0,tb7 = 0,tb8 = 0,tb9 = 0,tb10 = 0,tb11 = 0,tb12 = 0;
+				var tb2 = 0,tb3 = 0,tb4 = 0,tb5 = 0,tb6 = 0,tb7 = 0,tb8 = 0,tb9 = 0,tb10 = 0,tb11 = 0,tb12 = 0,tb13 = 0;
 				
 				for(var i in result.rows){
 					var row = result.rows[i];
@@ -154,9 +161,11 @@ th, td {
 					tb9 += parseInt(row.PRO_APP_NUM_MONTH);
 					tb10 += Number(row.PRO_APP_AMOUNT_MONTH);
 					tb12 += parseInt(row.ELOAN_PRO_APP_NUM_MONTH);
+					tb13 += parseInt(row.ELOAN_PRO_APP_AMOUNT_MONTH);
 				}
 				tb6 = tb3 == 0?0:(tb5/tb3*100).toFixed(); 
 				tb11 = tb8 == 0?0:(tb10/tb8*100).toFixed();
+				tb13 = tb13 == 0?0:tb13.toFixed();
 				var trStr = "<tr>";
 				trStr += "<td>总计</td>";
 				trStr += "<td>"+tb2+"</td>";
@@ -170,6 +179,7 @@ th, td {
 				trStr += "<td>"+(tb10/10000).toFixed()+"万元</td>";
 				trStr += "<td>"+tb11+"%</td>";
 				trStr += "<td>"+tb12+"</td>";
+                trStr += "<td>"+tb13+"万元</td>";
 				$("#eloanList").append(trStr);
 			}
 			

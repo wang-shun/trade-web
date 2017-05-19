@@ -82,6 +82,7 @@
 								</label>  <input class="input_type sign_right_two" readonly="readonly"  value="${mortgage.caseCode}"
 									name="caseCode" id="caseCode">
 							</div> --%>
+							<input type="hidden" name="pkid" value="${mortgage.pkid}" />
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
 									class="red"> </i>按揭贷款类型
@@ -122,11 +123,11 @@
 							<div class="form_content">
                                  <div class="form_content">
                                      <label class="control-label sign_left_small">最终贷款银行</label>																										
-	 								 <select  name="bank_type" class="select_control" id="bank_type2" ></select>	
+	 								 <select name="bank_type2"  class="select_control" id="bank_type2" ></select>
                                  </div>
                                  <div class="form_content" style="margin-left:40px;">
                                      <label class="control-label sign_left_small">最终贷款支行</label>
-		 							 <select  name="finOrgCode" class="select_control" id="finOrgCode2" ></select>
+		 							 <select name="lastLoanBank" class="select_control" id="finOrgCode2" ></select>
                                  </div>	
 							</div>
 						</li>
@@ -492,7 +493,7 @@
 		function saveEloanApply() {		
 			var jsonData = $("#mortgageForm").serializeArray();
 			console.log(jsonData);
-			console.log("===Result==="+JSON.stringify(jsonData));			
+			console.log("===Result==="+JSON.stringify(jsonData));
 			var url = "${ctx}/test/saveMortgage";
 			$.ajax({
 				cache : false,
@@ -521,10 +522,10 @@
 					var bohui = $("#processInstanceId").val();
 					if (bohui != null && bohui != '') {
 						window.close();
-						window.opener.callback();
+						window.opener.initData();
 					} else {
 						window.close();
-						window.opener.callback();
+						window.opener.initData();
 					}
 
 				},

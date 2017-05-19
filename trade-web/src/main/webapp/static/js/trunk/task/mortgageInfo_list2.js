@@ -761,7 +761,74 @@ $('#mortgageInfoToExcel').click(
 			$('#excelForm').submit();
 
 		})
+$('#mortgageInfoToExcelB').click(
+	function() {
+		var url = "/quickGrid/findPage?xlsx&";
+		// excel导出列
+		var displayColomn = new Array;
+		displayColomn.push('CASE_CODE');
+		displayColomn.push('PROPERTY_ADDR');
+		displayColomn.push('SIGN_DATE');
+		displayColomn.push('LEND_DATE');
+		displayColomn.push('APPR_DATE');
+		displayColomn.push('REAL_HT_TIME');
+		displayColomn.push('CASETRANSFERDATE');
+		displayColomn.push('CREATE_TIME');
+		displayColomn.push('END_TIME_');
+		displayColomn.push('CUST_NAME');
+		displayColomn.push('MORT_TOTAL_AMOUNT');
+		displayColomn.push('COM_AMOUNT');
+		displayColomn.push('PRF_AMOUNT');
+		displayColomn.push('CON_PRICE');
+		displayColomn.push('EVAL_FEE');
 
+		displayColomn.push('SDSTATUS');
+		displayColomn.push('LOANLOST_APPLY_REASON');// 流失原因
+		displayColomn.push('FIN_ORG_NAME');
+		displayColomn.push('FIN_ORG_NAME_YC');
+		displayColomn.push('IS_TMP_BANK');
+		displayColomn.push('REAL_NAME');
+		displayColomn.push('ORG_NAME');
+		displayColomn.push('ORG_ORG_NAME');
+
+		var queryOrgFlag = $("#queryOrgFlag").val();
+		var isAdminFlag = $("#isAdminFlag").val();
+		var queryOrgs = $("#queryOrgs").val();
+		var arguUserId = null;
+		if (queryOrgFlag == 'true') {
+			arguUserId = null;
+			if (isAdminFlag == 'true') {
+				queryOrgs = null;
+			}
+		} else {
+			queryOrgs = null;
+			arguUserId = "yes";
+		}
+
+		var orgArray = queryOrgs == null ? '' : queryOrgs.split(",");
+
+		var argu_idflag = '&argu_idflag=' + arguUserId;
+
+		if (arguUserId == null)
+			argu_idflag = '&argu_idflag=';
+		var argu_queryorgs = "&" + jQuery.param({
+				argu_queryorgs : orgArray
+			});
+		if (argu_queryorgs == null)
+			argu_queryorgs = '&argu_queryorgs=';
+		var params = getParamsValue();
+		var queryId = '&queryId=findToMortgageList';
+		var colomns = '&colomns=' + displayColomn;
+
+		url = ctx + url + jQuery.param(params) + queryId + argu_idflag
+			+ argu_queryorgs + colomns;
+
+		$('#excelForm').attr('action', url);
+
+		$('#excelForm').method = "post";
+		$('#excelForm').submit();
+
+	})
 // 日期控件
 $('#datepicker_0').datepicker({
 	format : 'yyyy-mm-dd',

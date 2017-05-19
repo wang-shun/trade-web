@@ -64,14 +64,15 @@ public class TmpBankAduitController {
         //根据post 是否等于  manager 判断银行 是否可以选择
 		json.put("post", post);
 		json.put("prAddress", caseBaseVO.getToPropertyInfo().getPropertyAddr());
-//		处理分行名字
-//		json.put("tmpBankName", value);
-		
 		json.put("partCode", taskitem);
 		json.put("pkid", mortage.getPkid());
 		json.put("taskId", taskId);
 		json.put("caseCode", caseCode);
 		json.put("processInstanceId", instCode);
+		
+		
+		json.put("tmpBankReason", mortage.getTmpBankReason());
+		json.put("approveType", 8);
 		
 		if(StringUtils.isNotBlank(mortage.getFinOrgCode())) {
 			TsFinOrg childBank = tsFinOrgService.findBankByFinOrg(mortage.getFinOrgCode());

@@ -4,7 +4,7 @@
 
 	<groupId>com.centaline</groupId>
 	<artifactId>trade-mobile</artifactId>
-	<version>1.2.13</version>
+	<version>1.2.14</version>
 	<packaging>war</packaging>
 
 	<name>Trade Mobile </name>
@@ -21,7 +21,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<aist.version>1.5.12</aist.version>
+		<aist.version>1.5.14</aist.version>
 		<mybatis.version>3.4.1</mybatis.version>
 		<mybatis-spring.version>1.2.3</mybatis-spring.version>
 		<jackson.version>2.8.5</jackson.version>
@@ -170,7 +170,7 @@
 	 	<dependency>
 			<groupId>com.centaline</groupId>
 			<artifactId>trade-core</artifactId>
-			<version>1.2.13</version>
+			<version>1.2.14</version>
 		</dependency>
 		
 		<dependency>

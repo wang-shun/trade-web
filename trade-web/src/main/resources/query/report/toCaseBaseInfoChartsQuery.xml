@@ -241,11 +241,13 @@
 						and tb1.MORT_FA_FIN_ORG_CODE is not null
 	            ]]>
 			</baseSql>
-			<orderBySql>
-			</orderBySql>
+
 			<groupSql>
 				group by MORT_FA_FIN_ORG_CODE
 			</groupSql>
+			<orderBySql>
+				order by COM_AMOUNT desc
+			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>

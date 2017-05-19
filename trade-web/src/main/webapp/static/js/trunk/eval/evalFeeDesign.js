@@ -22,7 +22,7 @@ $(document).ready(function() {
 						rowNum : 10,
 						/* rowList: [10, 20, 30], */
 						colNames : [ 'id', 'EVALID','案件编号', '产证地址',
-								'经纪人', '上家', '下家', '评估费','足额收取','最后收取时间','操作'],
+								'经纪人', '上家', '下家', '评估费','足额收取','最后收取时间','操作','origin'],
 						colModel : [ {
 							name : 'ID',
 							index : 'ID',
@@ -79,6 +79,13 @@ $(document).ready(function() {
 							align : "center",
 							width : 40
 						},
+						{
+							name : 'CASE_ORIGIN',
+							index : 'CASE_ORIGIN',
+							align : "center",
+							width : 40,
+							hidden : true
+						},
 
 
 						],
@@ -91,7 +98,7 @@ $(document).ready(function() {
 						pgtext : " {0} 共 {1} 页",
 
 						onSelectRow : function(rowid, status) {
-							window.wxc.alert(rowid);
+							//window.wxc.alert(rowid);
 						},
 						postData : {
 							queryId : "queryEvalItemList",
@@ -102,6 +109,7 @@ $(document).ready(function() {
 			                var ids = $("#table_list_1").getDataIDs();//jqGrid('getDataIDs');
 			                for(var i=0;i<ids.length;i++){
 			                    var id = ids[i];
+			                    var row = $("#table_list_1").jqGrid("getRowData",id);
 			                    var inHTML = "<input class='btn btn-primary' type='button' value='编辑' onclick='rowEdit(\""+id+"\")' />";
 			                    jQuery("#table_list_1").jqGrid('setRowData',ids[i],{EDIT:inHTML});
 			                } 
@@ -131,7 +139,7 @@ $('#datepicker_0').datepicker({
 
 function rowEdit(id){
     var row = $("#table_list_1").getRowData(id);
-
+    
     var caseCode=row.CASE_CODE;
     var ctx = $("#ctx").val();
     
@@ -168,6 +176,7 @@ function rowEdit(id){
 	
     var inHtml = '<input type="hidden" id="evalId" value="'+row.EVALID+'">';
     inHtml += '<input type="hidden" id="caseCode" value="'+row.CASE_CODE+'">';
+    inHtml += '<input type="hidden" id="caseOrigin" value="'+row.CASE_ORIGIN+'">';
     inHtml += '<div class="form-group">';
     inHtml += '<label class="col-sm-4 control-label f-n">产证地址：</label>';
     inHtml += '<span class="col-sm-4 control-label f-n">'+row.PROPERTY_ADDR+'</span><br />';
@@ -288,6 +297,10 @@ function saveEvalItem(){
 	//$(".blockOverlay").css({'z-index':'9998'});
 	$('#editForm').attr('action', url);
 	
+	if($("#caseOrigin").val()=="WD"){
+		window.wxc.alert("外单禁止收取评估费!");
+		return false;
+	}
 	window.wxc.confirm("确定保存吗？",{"wxcOk":function(){
 		commitItem();
 	}});

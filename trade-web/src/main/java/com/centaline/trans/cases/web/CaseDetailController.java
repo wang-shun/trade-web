@@ -1365,7 +1365,7 @@ public class CaseDetailController {
 		/**
 		 * 外单收款流水
 		 */
-		//caseMergeService.getTpdPaymentVO(toCase.getCaseCode(),request);
+		caseMergeService.getTpdPaymentVO(toCase.getCaseCode(),request);
 		/*String guohuApproveType = tgServItemAndProcessorService.findGuohuApproveTypeByCaseCode(toCase.getCaseCode());
 		
 		if(null != guohuApproveType)
@@ -1481,7 +1481,6 @@ public class CaseDetailController {
 	 * @param prItems
 	 * @param request
 	 * @param srvs
-	 * @author caoy
 	 * @return
 	 */
 	@RequestMapping(value = "/saveSrvItemsForManager")
@@ -1494,7 +1493,7 @@ public class CaseDetailController {
 		}
 		List<String> oldSrvs = new ArrayList<String>();
 		oldSrvs.addAll(srvsd);
-		first:for(String strCode : oldSrvs){
+		/*first:for(String strCode : oldSrvs){
 			for (String s : prItems) {
 				if(strCode.equals(s)){
 					continue first;
@@ -1503,7 +1502,7 @@ public class CaseDetailController {
 			if(strCode.indexOf("30004010")!=-1||strCode.indexOf("30004001")!=-1){
 				return AjaxResponse.fail("交易过户与商业贷款不允许在此取消");
 			}
-		}
+		}*/
 		for (String s : prItems) {
 
 			if (oldSrvs.contains(s)) {
@@ -1743,8 +1742,8 @@ public class CaseDetailController {
 	
 	public void updateWorkflow(String userId, List<TaskVo> tasks,String caseCode) {
 		if (tasks != null && !tasks.isEmpty()) {
+			User u = uamUserOrgService.getUserById(userId);
 			for (TaskVo taskVo : tasks) {
-				User u = uamUserOrgService.getUserById(userId);
 				taskReassingtLogService.record(taskVo, u.getUsername(), caseCode);
 				taskVo.setAssignee(u.getUsername());
 				workFlowManager.updateTask(taskVo);

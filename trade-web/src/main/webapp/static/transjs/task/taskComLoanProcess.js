@@ -797,11 +797,17 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
  				 //银行下拉列表
 			
 				getGuestInfo(fStr);
-				if(data.content && data.content.isTmpBank=='1'){
+				if(data.content && data.content.isTmpBank=='1'){					
+					 
+					 $("#toLoanerCase").hide();
+					 $("#toLoanerCaseTemp").hide();
+					 $("#processStart").val("processIsStart");
 					//临时银行
 					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode);
 					//alert(f.find("select[name='bank_type']"));
 				}else{
+					 $("#toLoanerCase").show();
+					 $("#toLoanerCaseTemp").show();
 					//非临时银行
 					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode,'cl');
 				}
@@ -945,8 +951,9 @@ function isTmpBankChange(){
 		return false;
 	}
 	var f=$(this).closest('form');
-	var checkBtnVal = $("input[name='isTmpBank']:checked").val();
+	var checkBtnVal = $("input[name='isTmpBank']:checked").val(); 
 	
+	//=1代表选择临时银行
 	if(checkBtnVal == '1'){
 		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'');
 		f.find("select[name='bank_type']").change(function(){
@@ -1545,6 +1552,18 @@ $(document).ready(function (){
 			 $("#toLoanerCase").show();
 	  }  
 	  
+	  var form = $("#mortgageForm");
+	  var form1 = $("#mortgageForm1");
+	 //派单按钮 隐藏
+	  var checkBtnValForm = form.find("input[name='isTmpBank']:checked").val(); 
+	  var checkBtnValForm1 = form1.find("input[name='isTmpBank']:checked").val(); 
+	
+	  //=1代表选择临时银行
+	  if(checkBtnValForm == '1' || checkBtnValForm1 == '1'){
+		  $("#toLoanerCase").hide();
+		  $("#toLoanerCaseTemp").hide();
+	  }
+	  
 	  getProcessStart();
 
 	/*$("#bank_branch_id").change(subBankChange);*/
@@ -1659,12 +1678,13 @@ $(document).ready(function (){
 				return false;
 			}
  			
- 			if ($("#rec_letter_first_pic_list li").length == undefined
-					|| $("#rec_letter_first_pic_list li").length == 0 ) {
-				window.wxc.alert("推荐函未上传!");
-				return false;
-			}
- 			
+ 			if($("#mortgageForm").find("input[name='isTmpBank']:checked").val() == '0'){
+ 				//非临时银行需要判断上传推荐函
+	 			if ($("#rec_letter_first_pic_list li").length == undefined || $("#rec_letter_first_pic_list li").length == 0 ) {
+					window.wxc.alert("推荐函未上传!");
+					return false;
+				}
+ 			}
  			var option = [];
  			option.container = "comLoanProcessfileUploadContainer";
  			
@@ -1756,12 +1776,13 @@ transitionEffect: "slide",
 				|| $("#loan_doc_confirm_letter_sec_pic_list li").length == 0 ) {
 			window.wxc.alert("贷款材料确认书未上传!");
 			return false;
-		}
-			if ($("#rec_letter_sec_pic_list li").length == undefined
-				|| $("#rec_letter_sec_pic_list li").length == 0 ) {
-			window.wxc.alert("推荐函未上传!");
-			return false;
-		}
+			}
+			if($("#mortgageForm1").find("input[name='isTmpBank']:checked").val() == '0'){
+				if ($("#rec_letter_sec_pic_list li").length == undefined || $("#rec_letter_sec_pic_list li").length == 0 ) {
+				window.wxc.alert("推荐函未上传!");
+				return false;
+				}
+			}
 			var option = [];
  			option.container = "comLoanProcess1fileUploadContainer";
  			

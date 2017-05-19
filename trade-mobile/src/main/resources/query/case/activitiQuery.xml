@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+    <dicts>
+
+    </dicts>
+    <formatters>
+        <formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+            <properties>
+                <property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+            </properties>
+        </formatter>
+        <formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+
+        <formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+            <properties>
+                <property name="groupingUsed">true</property>
+                <property name="maximumFractionDigits">3</property>
+                <property name="maximumIntegerDigits">40</property>
+                <property name="minimumFractionDigits">0</property>
+                <property name="minimumIntegerDigits">1</property>
+            </properties>
+        </formatter>
+        <formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+            <properties>
+                <property name="maximumFractionDigits">0</property>
+            </properties>
+        </formatter>
+        <formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+    </formatters>
+    <query id="queryVarinsts">
+        <searchCondition>
+        </searchCondition>
+        <searchSql>
+            <baseSql>
+                <![CDATA[
+                    select TEXT_ as vtext from sctrans.ACT_HI_VARINST where NAME_=#variableName# and PROC_INST_ID_=#instCode#
+				]]>
+            </baseSql>
+            <orderBySql>
+            </orderBySql>
+            <groupSql>
+            </groupSql>
+        </searchSql>
+        <grid>
+            <table-row>
+                <column type="both" name="vtext" index="" checkbox="" display="变量值" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+            </table-row>
+        </grid>
+    </query>
+</querys>
