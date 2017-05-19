@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
+  <message id="GuohuFinishMsg" name="GuohuFinishMsg"></message>
+  <process id="SatisProcess" name="SatisProcess" isExecutable="true">
+    <userTask id="SignSurvey" name="签约回访" activiti:assignee="${caller}" activiti:formKey="/satis/task/signDetail?__decorator=UI_V2"></userTask>
+    <userTask id="GuohuSurvey" name="过户回访" activiti:assignee="${caller}" activiti:formKey="/satis/task/guohuDetail?__decorator=UI_V2"></userTask>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <sequenceFlow id="flow2" sourceRef="startevent1" targetRef="SignSurvey"></sequenceFlow>
+    <userTask id="SignFollow" name="签约回访跟进" activiti:assignee="${consultant1}" activiti:formKey="/satis/task/signReturn?__decorator=UI_V2"></userTask>
+    <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="SignFollow">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${signResult == false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow7" sourceRef="SignFollow" targetRef="SignSurvey"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <userTask id="GuohuFollow" name="过户回访跟进" activiti:assignee="${consultant2}" activiti:formKey="/satis/task/guohuReturn?__decorator=UI_V2"></userTask>
+    <sequenceFlow id="flow13" sourceRef="exclusivegateway2" targetRef="GuohuFollow">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${guohuResult == false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow14" sourceRef="GuohuFollow" targetRef="GuohuSurvey"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow15" sourceRef="SignSurvey" targetRef="exclusivegateway1"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow17" sourceRef="GuohuSurvey" targetRef="exclusivegateway2"></sequenceFlow>
+    <sequenceFlow id="flow18" sourceRef="exclusivegateway2" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${guohuResult}]]></conditionExpression>
+    </sequenceFlow>
+    <intermediateCatchEvent id="GuohuFinishMsgEventCatch" name="GuohuFinishMsgEventCatch">
+      <messageEventDefinition messageRef="GuohuFinishMsg"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow19" sourceRef="exclusivegateway1" targetRef="GuohuFinishMsgEventCatch">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${signResult}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow21" sourceRef="GuohuFinishMsgEventCatch" targetRef="GuohuSurvey"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_SatisProcess">
+    <bpmndi:BPMNPlane bpmnElement="SatisProcess" id="BPMNPlane_SatisProcess">
+      <bpmndi:BPMNShape bpmnElement="SignSurvey" id="BPMNShape_SignSurvey">
+        <omgdc:Bounds height="55.0" width="105.0" x="380.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="GuohuSurvey" id="BPMNShape_GuohuSurvey">
+        <omgdc:Bounds height="55.0" width="105.0" x="780.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="260.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="SignFollow" id="BPMNShape_SignFollow">
+        <omgdc:Bounds height="55.0" width="105.0" x="380.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="1110.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="GuohuFollow" id="BPMNShape_GuohuFollow">
+        <omgdc:Bounds height="55.0" width="105.0" x="780.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="571.0" y="127.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="979.0" y="127.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="GuohuFinishMsgEventCatch" id="BPMNShape_GuohuFinishMsgEventCatch">
+        <omgdc:Bounds height="35.0" width="35.0" x="675.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="295.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="380.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="591.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="591.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="485.0" y="267.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="432.0" y="240.0"></omgdi:waypoint>
+        <omgdi:waypoint x="432.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="999.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1001.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="885.0" y="267.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="832.0" y="240.0"></omgdi:waypoint>
+        <omgdi:waypoint x="832.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="485.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="571.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
+        <omgdi:waypoint x="885.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="979.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow18" id="BPMNEdge_flow18">
+        <omgdi:waypoint x="1019.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1110.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow19" id="BPMNEdge_flow19">
+        <omgdi:waypoint x="611.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="675.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow21" id="BPMNEdge_flow21">
+        <omgdi:waypoint x="710.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="780.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

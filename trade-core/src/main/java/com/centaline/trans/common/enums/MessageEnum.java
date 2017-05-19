@@ -4,7 +4,8 @@ public enum MessageEnum {
 	
 	START_MORTGAGE_SELECT_MSG("message","StartMortgageSelectMsg","StartMortgageSelectMsg "), 
 	MORTGAGE_FINISH_MSG("message","MortgageFinishMsg", "MortgageFinishMsg"),
-	SPV_FINISH_MSG("message","SpvFinishMsg", "SpvFinishMsg"),	
+	SPV_FINISH_MSG("message","SpvFinishMsg", "SpvFinishMsg"),
+	GUOHU_FINISH_MSG("message","GuohuFinishMsg", "GuohuFinishMsg"),
 	BANK_LEVEL_APPROVE_MSG("message","BankLevelApproveMsg", "BankLevelApproveMsg");
 	
 
