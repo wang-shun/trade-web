@@ -76,6 +76,8 @@ public class TsAwardCaseCental {
     private Date awardMonth;
 
     private String awardDesc;
+    
+    private String insertAwardCaseException;
 
     private String createBy;
 
@@ -412,4 +414,13 @@ public class TsAwardCaseCental {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+	public String getInsertAwardCaseException() {
+		return insertAwardCaseException;
+	}
+
+	public void setInsertAwardCaseException(String insertAwardCaseException) {
+		this.insertAwardCaseException = insertAwardCaseException;
+	}    
+    
 }

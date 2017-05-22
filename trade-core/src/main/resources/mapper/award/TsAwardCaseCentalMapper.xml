@@ -39,6 +39,7 @@
     <result column="AWARD_STATUS" property="awardStatus" jdbcType="CHAR" />
     <result column="AWARD_MONTH" property="awardMonth" jdbcType="TIMESTAMP" />
     <result column="AWARD_DESC" property="awardDesc" jdbcType="NVARCHAR" />
+    <result column="INSERT_AWARD_CASE_EXCEPTION" property="insertAwardCaseException" jdbcType="VARCHAR" />    
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
@@ -53,7 +54,7 @@
     BACK_DIRECTOR, BACK_TEAM_ASSISTANT, BACK_OPERATIONS_MANAGER, BACK_GENERAL_MANAGER, 
     BACK_MANAGER_ORG_ID, BACK_SENIOR_MANAGER_ORG_ID, BACK_DIRECTOR_ORG_ID, BACK_TEAM_ASSISTANT_ORG_ID, 
     BACK_OPERATIONS_MANAGER_ORG_ID, BACK_GENERAL_MANAGER_ORG_ID, GUOHU_APPROVE_TIME, 
-    GUOHU_APPROVE_RECORD, AWARD_STATUS, AWARD_MONTH, AWARD_DESC, CREATE_BY, CREATE_TIME, 
+    GUOHU_APPROVE_RECORD, AWARD_STATUS, AWARD_MONTH, AWARD_DESC, INSERT_AWARD_CASE_EXCEPTION,CREATE_BY, CREATE_TIME, 
     UPDATE_BY, UPDATE_TIME
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -81,7 +82,7 @@
       BACK_DIRECTOR_ORG_ID, BACK_TEAM_ASSISTANT_ORG_ID, 
       BACK_OPERATIONS_MANAGER_ORG_ID, BACK_GENERAL_MANAGER_ORG_ID, 
       GUOHU_APPROVE_TIME, GUOHU_APPROVE_RECORD, 
-      AWARD_STATUS, AWARD_MONTH, AWARD_DESC, 
+      AWARD_STATUS, AWARD_MONTH, AWARD_DESC, INSERT_AWARD_CASE_EXCEPTION,
       CREATE_BY, CREATE_TIME, UPDATE_BY, 
       UPDATE_TIME)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{frontLeadingProcess,jdbcType=VARCHAR}, 
@@ -98,7 +99,7 @@
       #{backDirectorOrgId,jdbcType=VARCHAR}, #{backTeamAssistantOrgId,jdbcType=VARCHAR}, 
       #{backOperationsManagerOrgId,jdbcType=VARCHAR}, #{backGeneralManagerOrgId,jdbcType=VARCHAR}, 
       #{guohuApproveTime,jdbcType=TIMESTAMP}, #{guohuApproveRecord,jdbcType=VARCHAR}, 
-      #{awardStatus,jdbcType=CHAR}, #{awardMonth,jdbcType=TIMESTAMP}, #{awardDesc,jdbcType=NVARCHAR}, 
+      #{awardStatus,jdbcType=CHAR}, #{awardMonth,jdbcType=TIMESTAMP}, #{awardDesc,jdbcType=NVARCHAR}, #{insertAwardCaseException,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -215,6 +216,9 @@
       </if>
       <if test="awardDesc != null" >
         AWARD_DESC,
+      </if>
+      <if test="insertAwardCaseException != null" >
+        INSERT_AWARD_CASE_EXCEPTION,
       </if>
 	    CREATE_TIME,
 	    CREATE_BY,
@@ -333,6 +337,9 @@
       <if test="awardDesc != null" >
         #{awardDesc,jdbcType=NVARCHAR},
       </if>
+      <if test="insertAwardCaseException != null" >
+        #{insertAwardCaseException,jdbcType=VARCHAR},
+      </if>
       GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID}
     </trim>
   </insert>
@@ -447,6 +454,9 @@
       <if test="awardDesc != null" >
         AWARD_DESC = #{awardDesc,jdbcType=NVARCHAR},
       </if>
+      <if test="insertAwardCaseException != null" >
+        INSERT_AWARD_CASE_EXCEPTION = #{insertAwardCaseException,jdbcType=VARCHAR},
+      </if>
       <if test="createBy != null" >
         CREATE_BY = #{createBy,jdbcType=VARCHAR},
       </if>
@@ -500,6 +510,7 @@
       AWARD_STATUS = #{awardStatus,jdbcType=CHAR},
       AWARD_MONTH = #{awardMonth,jdbcType=TIMESTAMP},
       AWARD_DESC = #{awardDesc,jdbcType=NVARCHAR},
+      INSERT_AWARD_CASE_EXCEPTION = #{insertAwardCaseException,jdbcType=VARCHAR},
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_BY = #{updateBy,jdbcType=VARCHAR},

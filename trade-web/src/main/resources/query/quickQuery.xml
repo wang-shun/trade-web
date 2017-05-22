@@ -116,6 +116,7 @@
 	<import resource="query/award/TsAwardBaseDetail.xml"></import>
 	<import resource="query/award/PersonBonus.xml"></import>
 	<import resource="query/award/personSumBonus.xml"></import>
+	<import resource="query/award/newAwardComputeModel.xml"></import>
 	
 	<!-- 案件统计 -->
 	<import resource="query/report/toCaseDetailListQuery.xml"></import>

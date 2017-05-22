@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>	
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>			
+</dicts>
+<formatters>
+	<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+		<properties>
+			<property name="pattern">yyyy-MM-dd</property>
+		</properties>
+	</formatter>
+	<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+		<properties>
+			<property name="groupingUsed">true</property>
+			<property name="maximumFractionDigits">3</property>
+			<property name="maximumIntegerDigits">40</property>
+			<property name="minimumFractionDigits">0</property>
+			<property name="minimumIntegerDigits">1</property>
+		</properties>
+	</formatter>
+	<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+		<properties>
+			<property name="maximumFractionDigits">0</property>
+		</properties>
+	</formatter>
+</formatters>
+
+<!-- 计件奖金 人员金额汇总 -->
+<query id="findPersonBonusCollectList">
+		<searchCondition></searchCondition>
+		<searchSql>
+		<baseSql>
+                 <![CDATA[
+                SELECT  
+                	U.ORG_ID,
+                	U.MOBILE,
+                	U.REAL_NAME,
+                	U.EMPLOYEE_CODE,
+                	T.SUMMONEY,
+                	T.PARTICIPANT  
+                FROM (
+						SELECT  AD.PARTICIPANT,SUM(AD.AWARD_KPI_MONEY) SUMMONEY     
+						FROM   sctrans.T_TS_AWARD_KPI_PAY_DETAIL  AD  
+						WHERE  1=1
+							<if test="belongMonth != null and belongMonth !='' ">	
+								AND DATEDIFF(mm,AD.BELONG_MONTH,#belongMonth#) = 0						
+							</if>						
+						GROUP BY  AD.PARTICIPANT
+					)T
+				INNER JOIN sctrans.SYS_USER U ON T.PARTICIPANT = U.ID
+                
+                WHERE  1=1
+                	<if test="orgId != null and orgId !='' ">				
+						AND U.ORG_ID = #orgId#
+					</if>
+					<if test="realName != null and realName !='' ">				
+						AND U.REAL_NAME like '%' + #realName# + '%'			
+					</if>
+			]]>
+		</baseSql>
+		<groupSql>
+		</groupSql>
+	</searchSql>
+	<grid>
+		<table-row>
+			<column type="both" name="REAL_NAME" index="" checkbox="" title="姓名" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			<column type="both" name="MOBILE" index="" checkbox="" title="电话" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			<column type="both" name="EMPLOYEE_CODE" index="" checkbox="" title="编号" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			<column type="both" name="ORG_ID" title="组别Id"  referencecol=""  customDict=""/>
+			<column type="virtual" name="ORG_NAME" title="组别" referencecol="ORG_ID"  customDict="qqcdOrgIdName"/>
+			<column type="both" name="SUMMONEY" index="" checkbox="" title="总金额" customDict="" expType="Double" hidden="true" />
+		</table-row>
+	</grid>
+</query>
+
+
+<!-- 计件奖金 发放信息汇总 -->
+<query id="findAwardCaseCollectList">
+		<searchCondition></searchCondition>
+		<searchSql>
+		<baseSql>
+                 <![CDATA[
+				SELECT 
+					TC.CASE_CODE,
+					(SELECT P.PROPERTY_ADDR FROM sctrans.T_TO_PROPERTY_INFO P WHERE P.CASE_CODE = TC.CASE_CODE) PROPERTY_ADDR,
+					TC.GUOHU_APPROVE_TIME,
+					TC.AWARD_STATUS,
+					TC.AWARD_MONTH,
+					TC.AWARD_DESC,
+					(SELECT  SUM(D.AWARD_KPI_MONEY)  FROM sctrans.T_TS_AWARD_KPI_PAY_DETAIL D  GROUP BY D.CASE_CODE) BASE_CASE_AMOUNT
+				FROM  sctrans.T_TS_AWARD_CASE_CENTAL TC
+                
+                WHERE  1=1
+                	<if test="caseCode != null and caseCode !='' ">				
+						AND TC.CASE_CODE = #caseCode#
+					</if>					
+					<if test="belongMonth != null and belongMonth !='' ">	
+						AND DATEDIFF(mm,TC.AWARD_MONTH,#belongMonth#) = 0						
+					</if>	
+					<if test="awardStatus != null and awardStatus !='' ">	
+						AND TC.AWARD_STATUS = #awardStatus#						
+					</if>	
+					<if test="propertyAddr != null and propertyAddr !='' ">
+						AND EXISTS( SELECT 1 FROM SCTRANS.T_TO_PROPERTY_INFO P WHERE TC.CASE_CODE = P.CASE_CODE AND P.PROPERTY_ADDR like '%' + #propertyAddr# + '%') 
+					</if>
+					
+					<if test="guohuApproveTimeStart != null  and guohuApproveTimeStart != '' "> 							
+						AND TC.GUOHU_APPROVE_TIME &gt;= #guohuApproveTimeStart#	
+					</if>	
+					<if test="guohuApproveTimeEnd != null  and guohuApproveTimeEnd != '' "> 	
+						AND TC.GUOHU_APPROVE_TIME &lt;= #guohuApproveTimeEnd#
+					</if>
+			]]>
+		</baseSql>
+		<groupSql>
+		</groupSql>
+	</searchSql>
+	<grid>
+		<table-row>
+			<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>		
+			<column type="both" name="GUOHU_APPROVE_TIME" index="" checkbox="" display="过户审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="60" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="AWARD_STATUS" title="奖金发放状态"  referencecol=""  customDict=""/>
+			<column type="both" name="AWARD_MONTH" title="计件年月" referencecol=""  customDict=""/>
+			<column type="both" name="AWARD_DESC" index="" checkbox="" title="备注信息" customDict=""  hidden="true" />
+			<column type="both" name="BASE_CASE_AMOUNT" title="计件奖金（元）"  referencecol=""  customDict="" expType="Double" hidden="true" />			
+		</table-row>
+	</grid>
+</query>
+	
+</querys>
