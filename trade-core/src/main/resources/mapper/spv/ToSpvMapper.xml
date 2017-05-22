@@ -637,7 +637,7 @@
     where SPV_CODE = #{spvCode,jdbcType=VARCHAR}
   </update>
 
-  <select id="queryToSpvByCaseCodeAndApplyUser"   parameterType="java.lang.String" >
+  <select id="queryToSpvByCaseCodeAndApplyUser" resultMap="BaseResultMap"   parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
     from sctrans.T_TO_SPV
@@ -649,7 +649,7 @@
   <update id="updateBySpvCodeAndApplyUser" parameterType="com.centaline.trans.spv.entity.ToSpv">
    update sctrans.T_TO_SPV
     set APPLY_USER = #{applyUser,jdbcType=VARCHAR}
-    where CASE_CODE = #{applyUser,jdbcType=VARCHAR}
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
    and IS_DELETED = 0
   </update>
 

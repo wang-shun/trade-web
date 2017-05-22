@@ -123,7 +123,7 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
                        }
                    }
                    if("processor".equals(detailCode)||"comMort".equals(detailCode)||"prfMort".equals(detailCode)){//如果是变更服务项归属人
-                       if(!changeLeadingProDo(caseCode[i],leadingProId,detailCode)){//如果更新责任人失败，将失败的caseCode返回
+                       if(!changeLeadingProDo(caseCode[i],userId,leadingProId,detailCode)){//如果更新责任人失败，将失败的caseCode返回
                            throw new BusinessException(currentCaseCode);
                        }
                    }
@@ -146,7 +146,7 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
      * @param leadingProId
      * @return
      */
-    public Boolean changeLeadingProDo(String caseCode, String leadingProId,String detailCode){
+    public Boolean changeLeadingProDo(String caseCode,String userId, String leadingProId,String detailCode){
         try{
             ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);//获得案件详细信息
             ToWorkFlow inWorkFlow = new ToWorkFlow();
@@ -154,15 +154,12 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
             inWorkFlow.setCaseCode(caseCode);
             ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);//获得案件主流程
 
-            User u = uamUserOrgService.getUserById(toCase.getLeadingProcessId());//案件旧的负责人
+            User u = uamUserOrgService.getUserById(userId);//案件旧的负责人
             User u_ = uamUserOrgService.getUserById(leadingProId);//本次要更新的负责人
 
             if(u_==null){//如果本次新更新的用户不存在返回false
                 return false;
             }
-
-            toCase.setLeadingProcessId(leadingProId);
-            toCaseService.updateByPrimaryKey(toCase);//更新案件的负责人,t_to_case的LeadingProcessId
 
             TgServItemAndProcessor record = new TgServItemAndProcessor();
             record.setPreProcessorId(u.getId());
@@ -173,25 +170,31 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
             record.setPreDetailCode(detailCode);
             tgServItemAndProcessorService.updateByCaseCode(record);//更新经办人表(T_TG_SERV_ITEM_AND_PROCESSOR)
 
+            if(u.getId().equals(toCase.getLeadingProcessId())){//相等的话，这次操作就是前台交易顾问的变更
+                toCase.setLeadingProcessId(leadingProId);
+                toCaseService.updateByPrimaryKey(toCase);//更新案件的负责人,t_to_case的LeadingProcessId
+
+                if (!StringUtils.isEmpty(toWorkFlow.getInstCode())) { // 更新流程引擎
+                    String variableName = "caseOwner";
+                    RestVariable restVariable = new RestVariable();
+                    restVariable.setType("string");
+                    restVariable.setValue(u_.getUsername());
+
+                    JQGridParam gp =  new CacheGridParam();
+                    gp.setPagination(false);
+                    gp.setQueryId("queryVarinsts");
+                    gp.put("variableName", variableName);
+                    gp.put("instCode",toWorkFlow.getInstCode());
+
+                    Page<Map<String, Object>> varinsts = quickGridService.findPageForSqlServer(gp);
+                    if(varinsts!=null){
+                        if(varinsts.getContent().size()>0){
+                            workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
+                        }
+                    }
+                }
+            }
             if (!StringUtils.isEmpty(toWorkFlow.getInstCode())) { // 更新流程引擎
-                String variableName = "caseOwner";
-                RestVariable restVariable = new RestVariable();
-                restVariable.setType("string");
-                restVariable.setValue(u_.getUsername());
-
-                JQGridParam gp =  new CacheGridParam();
-                gp.setPagination(false);
-                gp.setQueryId("queryVarinsts");
-                gp.put("variableName", variableName);
-                gp.put("instCode",toWorkFlow.getInstCode());
-
-                Page<Map<String, Object>> varinsts = quickGridService.findPageForSqlServer(gp);
-               if(varinsts!=null){
-                   if(varinsts.getContent().size()>0){
-                       workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
-                   }
-               }
-
                 TaskQuery tq = new TaskQuery();
                 tq.setProcessInstanceId(toWorkFlow.getInstCode());
                 tq.setFinished(false);
@@ -199,6 +202,7 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
                 List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
                 updateWorkflow(leadingProId, tasks, caseCode);
             }
+
         }catch (Exception e){
             logger.error(e.getMessage());
             e.printStackTrace();
@@ -340,7 +344,7 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
      * @return
      */
     @Transactional(noRollbackFor = Exception.class)
-    public String gotVars(String instCode,String variableName){
+    private String gotVars(String instCode,String variableName){
         String var = "";
         try{
             Map<String, String> vars = new HashMap<>();

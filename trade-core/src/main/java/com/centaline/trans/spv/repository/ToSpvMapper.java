@@ -6,6 +6,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.spv.entity.ToSpv;
+import org.apache.ibatis.annotations.Param;
 
 @MyBatisRepository
 public interface ToSpvMapper {
@@ -105,7 +106,7 @@ public interface ToSpvMapper {
 
 	void updateOfficerBySpvCode(ToSpv s);
 
-	List<ToSpv> queryToSpvByCaseCodeAndApplyUser(String caseCode, String userId);
+	List<ToSpv> queryToSpvByCaseCodeAndApplyUser(@Param("caseCode")String caseCode, @Param("applyUser")String applyUser);
 
 	int updateBySpvCodeAndApplyUser(ToSpv s);
 }

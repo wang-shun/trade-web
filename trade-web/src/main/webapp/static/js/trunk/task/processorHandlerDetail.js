@@ -21,7 +21,7 @@ $(function(){
         var caseCode = $("#changCaseCode").val(); // 案件的caseCode
         var leadingProId = $("#leadingProId").val();//新的责任人userId
         var detailCode = $("#detailCode").val();//新的责任人userId
-
+        var userId =$("#userId").val();
 
         if(leadingProId == "" || leadingProId ==  null || leadingProId == undefined){
             window.wxc.alert("若要变更项目责任人，请先选择新的案件责任人！");
@@ -35,7 +35,8 @@ $(function(){
             var data = {
                 leadingProId:leadingProId,
                 changCaseCode:caseCode,
-                detailCode:detailCode
+                detailCode:detailCode,
+                userId:userId
             };
 
             $.ajax({

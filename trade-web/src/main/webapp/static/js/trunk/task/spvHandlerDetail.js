@@ -20,7 +20,7 @@ $(function(){
     $("#leadingProSubmit").click(function(){
         var caseCode = $("#changCaseCode").val(); // 案件的caseCode
         var leadingProId = $("#leadingProId").val();//新的责任人userId
-        var detailCode = "eloan";//E+案件变更归属人提交的专属code
+        var detailCode = "spv";//E+案件变更归属人提交的专属code
         var userId =$("#userId").val();
 
         if(leadingProId == "" || leadingProId ==  null || leadingProId == undefined){
