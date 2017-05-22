@@ -64,12 +64,8 @@
       <if test="srvFee != null" >
         SRV_FEE,
       </if>
-      <if test="createTime != null" >
         CREATE_TIME,
-      </if>
-      <if test="createBy != null" >
         CREATE_BY,
-      </if>
       <if test="updateTime != null" >
         UPDATE_TIME,
       </if>
@@ -108,12 +104,8 @@
       <if test="srvFee != null" >
         #{srvFee,jdbcType=DECIMAL},
       </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createBy != null" >
-        #{createBy,jdbcType=VARCHAR},
-      </if>
+      GETDATE(),
+      @{SESSION_USER_ID},
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
@@ -158,26 +150,19 @@
       <if test="createBy != null" >
         CREATE_BY = #{createBy,jdbcType=VARCHAR},
       </if>
-      <if test="updateTime != null" >
-        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null" >
-        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
-      </if>
+        UPDATE_TIME = GETDATE(),
+        UPDATE_BY = @{SESSION_USER_ID},
       <if test="belongMonth != null" >
         BELONG_MONTH = #{belongMonth,jdbcType=TIMESTAMP},
       </if>
       <if test="employCode != null" >
         EMPLOY_CODE = #{employCode,jdbcType=VARCHAR},
       </if>
-      <if test="isComfirm != null" >
-        IS_COMFIRM = #{isComfirm,jdbcType=VARCHAR},
-      </if>
       <if test="jobName != null" >
         JOB_NAME = #{jobName,jdbcType=VARCHAR},
       </if>
     </set>
-    where PKID = #{pkid,jdbcType=BIGINT}
+    where PKID = #{pkid,jdbcType=BIGINT} AND IS_COMFIRM = 0
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.award.entity.TsManagementAwardBaseConfig" >
     update sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG

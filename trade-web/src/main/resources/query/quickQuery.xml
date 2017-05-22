@@ -155,6 +155,7 @@
 
 	<!-- 绩效奖金模块 -->
 	<import resource="query/award/awardHandler.xml" />
+	<import resource="query/award/ManagerReward.xml" />
 
 	
 	<!-- 本组商贷预警列表信息 -->
