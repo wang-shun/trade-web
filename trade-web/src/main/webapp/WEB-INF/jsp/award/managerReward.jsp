@@ -254,7 +254,7 @@
 <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 <script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"> </script>
-<script src="<c:url value='/transjs/award/managerRewardList.js?v=1.1' />"> </script>
+<script src="<c:url value='/transjs/award/managerRewardList.js' />"> </script>
 
 <script id="template_managerRewardList" type="text/html">
 		{{each rows as item index}}
@@ -315,7 +315,6 @@ function chooseManager(startOrgId) {
 	});
 }
 function chooseManagerBack(array){
-	console.log(array);
 	if (array && array.length > 0) {
 		$("#userId").val(array[0].userId);
 		$("#userName").val(array[0].username);
