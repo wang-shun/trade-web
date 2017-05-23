@@ -81,11 +81,11 @@ th, td {
 				</div>
 			</div>
 			<div style="height: 34px;line-height: 34px;"><i class="icon iconfont icon40 yellow martop20" style="font-size: 30px;float: left;"></i>本月后台E+卡申请量:<span id="notHaveOwnerVal"></span></div>
-			备注： <br>
-			①单数转化率 = 过户案件中E+卡申请数 / 过户总单数<br>
 			数据来源：<br>
 			①本周过户审批通过案件<br>
-			②本周E+卡申请量 ： 取本月E+卡的创建时间
+			②本月E+卡申请量 ： 取本月E+卡的创建时间<br>
+			③单数转化率 = 过户案件中E+卡申请数 / 过户总单数
+			④刷卡率 = 刷卡单数  / 过户总单数
 		</div>
 	</div>
 	<!--*********************** HTML_main*********************** -->
@@ -157,7 +157,7 @@ th, td {
 			}
 			tb4 = tb2 == 0?0:(tb3/tb2*100).toFixed();
 			tb7 = tb5 == 0?0:(tb6/tb5*100).toFixed();
-			tb9 = tb6 == 0?0:(tb8/tb6*100).toFixed();
+			tb9 = tb5 == 0?0:(tb8/tb5*100).toFixed();
 			tb11 = tb11 == 0?0:tb11.toFixed();
 			var trStr = "<tr>";
 			trStr += "<td>总计</td>";

@@ -72,13 +72,18 @@
 				end 
 				TOTAL_AMOUNT_MONTH
 				
-				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week where week.MORT_TYPE in ('30016001','30016002') and week.TRANSFER_ISPASS = 1 and week.BELONG_WEEK_END_DAY = #belongEndWeekDay#
+				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week
+				left join sctrans.v_yucui_org_hierarchy vyoh on week.CASE_ORG_ID_F = vyoh.TEAM_ID
+				
+				where week.MORT_TYPE in ('30016001','30016002') and week.TRANSFER_ISPASS = 1 and week.BELONG_WEEK_END_DAY = #belongEndWeekDay#
+				and vyoh.DEP_HIERARCHY='yucui_team' and vyoh.director is not null
 	            ]]>
 			</baseSql>
 			<orderBySql>
+			order by vyoh.DISTRICT_ID
 			</orderBySql>
 			<groupSql>
-			group by week.CASE_ORG_ID_F
+			group by vyoh.DISTRICT_ID,week.CASE_ORG_ID_F
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -164,13 +169,18 @@
 				end 
 				EVA_ACT_AMOUNT_MONTH
 						
-				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week where week.MORT_TYPE in ('30016001','30016002') and week.TRANSFER_ISPASS = 1 and week.CASE_REC_STATUS = 0 and week.BELONG_WEEK_END_DAY = #belongEndWeekDay#
+				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week
+				left join sctrans.v_yucui_org_hierarchy vyoh on week.CASE_ORG_ID_F = vyoh.TEAM_ID
+				
+				where week.MORT_TYPE in ('30016001','30016002') and week.TRANSFER_ISPASS = 1 and week.CASE_REC_STATUS = 0 and week.BELONG_WEEK_END_DAY = #belongEndWeekDay#
+	            and vyoh.DEP_HIERARCHY='yucui_team' and vyoh.director is not null
 	            ]]>
 			</baseSql>
 			<orderBySql>
+			order by vyoh.DISTRICT_ID
 			</orderBySql>
 			<groupSql>
-			group by week.CASE_ORG_ID_F
+			group by vyoh.DISTRICT_ID,week.CASE_ORG_ID_F
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -240,13 +250,18 @@
 				(select isnull(sum(ec.APPLY_AMOUNT),0) from sctrans.T_TO_ELOAN_CASE ec where ec.STATUS != 'ABAN' and ec.EXCUTOR_TEAM = week.CASE_ORG_ID_F and EC.LOAN_SRV_CODE IN ('30004005','30004015') and cast(convert(varchar(8) , EC.CREATE_TIME, 112 ) as int)
 				between #endWeekDay#/100*100+1 and #endWeekDay#) ELOAN_KA_APP_AMOUNT_MONTH
 						
-				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week where week.TRANSFER_ISPASS = 1 and week.BELONG_WEEK_END_DAY = #belongEndWeekDay#
+				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week
+				left join sctrans.v_yucui_org_hierarchy vyoh on week.CASE_ORG_ID_F = vyoh.TEAM_ID
+				
+				where week.TRANSFER_ISPASS = 1 and week.BELONG_WEEK_END_DAY = #belongEndWeekDay#
+				and vyoh.DEP_HIERARCHY='yucui_team' and vyoh.director is not null
 	            ]]>
 			</baseSql>
 			<orderBySql>
+			order by vyoh.DISTRICT_ID
 			</orderBySql>
 			<groupSql>
-			group by week.CASE_ORG_ID_F
+			group by vyoh.DISTRICT_ID,week.CASE_ORG_ID_F
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -332,13 +347,18 @@
 				(select isnull(sum(ec.APPLY_AMOUNT),0) from sctrans.T_TO_ELOAN_CASE ec where ec.STATUS != 'ABAN' and ec.EXCUTOR_TEAM = week.CASE_ORG_ID_F and EC.LOAN_SRV_CODE NOT IN ('30004005','30004015') and cast(convert(varchar(8) , EC.CREATE_TIME, 112 ) as int)
 				between #endWeekDay#/100*100+1 and #endWeekDay#)  ELOAN_PRO_APP_AMOUNT_MONTH
 				
-				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week where week.TRANSFER_ISPASS = 1 and week.BELONG_WEEK_END_DAY = #belongEndWeekDay#
+				from sctrans.T_RPT_WEEKLY_CASE_BASE_INFO week
+				left join sctrans.v_yucui_org_hierarchy vyoh on week.CASE_ORG_ID_F = vyoh.TEAM_ID
+				
+				where week.TRANSFER_ISPASS = 1 and week.BELONG_WEEK_END_DAY = #belongEndWeekDay#
+				and vyoh.DEP_HIERARCHY='yucui_team' and vyoh.director is not null
 	            ]]>
 			</baseSql>
 			<orderBySql>
+			order by vyoh.DISTRICT_ID
 			</orderBySql>
 			<groupSql>
-			group by week.CASE_ORG_ID_F
+			group by vyoh.DISTRICT_ID,week.CASE_ORG_ID_F
 			</groupSql>
 		</searchSql>
 		<grid>
