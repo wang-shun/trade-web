@@ -524,10 +524,10 @@
 	 <parameterMap type="Map" id="InsertFuneralMap">
 	   <parameter property="belongMonth" jdbcType="TIMESTAMP" javaType="Date" mode="IN" />
 	   <parameter property="caseCode" jdbcType="VARCHAR" javaType="String" mode="IN" />
-	   <parameter property="isPuDongCaseFlag" jdbcType="VARCHAR" javaType="String" mode="IN" /> 
+	   <parameter property="isPuDongCaseFlag" jdbcType="VARCHAR" javaType="String" mode="IN" /> 	 
 	</parameterMap> 
   
-   <select id="callCreateAwardBaseInfo" parameterMap="InsertFuneralMap" statementType="CALLABLE">   
+   <update id="callCreateAwardBaseInfo" parameterMap="InsertFuneralMap" statementType="CALLABLE">   
         {CALL [sctrans].[P_AWARD_BASE](?,?,?)}
-   </select>
+   </update>
 </mapper>

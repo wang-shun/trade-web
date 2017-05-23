@@ -40,6 +40,12 @@
 		<pattern>/awards/personalAward</pattern>		
 		<pattern>/awards/allAward</pattern>		
 		<pattern>/award/baseAwardReport</pattern>
+		
+		<!-- 计件奖金改版 -->
+		<pattern>/newAward/personBonusCollect</pattern>
+		<pattern>/newAward/awardCaseCollect</pattern>
+		<pattern>/newAward/newBonus</pattern>
+		
 		<pattern>/property/processWaitList</pattern>	
 		<pattern>/property/processingList</pattern>
 		<pattern>/property/successList</pattern>

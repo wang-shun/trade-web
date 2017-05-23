@@ -6,12 +6,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
@@ -20,6 +25,8 @@ import com.centaline.trans.award.repository.TsAwardCaseCentalMapper;
 import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.AwardStatusEnum;
+import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 
 @Service
@@ -33,7 +40,9 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 
 	@Autowired
 	private TsAwardCaseCentalMapper tsAwardCaseCentalMapper;
-
+	
+	@Autowired(required = true)
+	private UamSessionService uamSessionService;	
 	/*
 	 * @author:zhuody
 	 * 
@@ -93,7 +102,9 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			// 按是否浦东案子执行存储过程，计算环节占比
 			tsAwardCaseCentalMapper.callCreateAwardBaseInfo(map);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new BusinessException("保存数据至计件奖金池数据异常！");
+			
 		}
 
 	}
@@ -218,6 +229,18 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 	 * 
 	 * @date:2017-05-22
 	 * 
+	 * @desc:页面跳转至计件奖金明细
+	 */
+	public void jumpToNewBonus(HttpServletRequest request){
+		
+			getCurrentDate(request);
+			getCurrentLoginUserInfo(request);
+	}
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-05-22
+	 * 
 	 * @desc:String 转  Date 格式指定
 	 */
 	private Date convertToDate(String date) {
@@ -229,6 +252,77 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-05-22
+	 * 
+	 * @desc:获取当前系统时间，初始化页面计件年月
+	 */
+	private void getCurrentDate(HttpServletRequest  request){
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");//格式化对象 --yyyy-MM-dd
+		Date date = new Date();
+		Calendar calendar = Calendar.getInstance();		
+		calendar.setTime(date);//设置当前时间
+		//calendar.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+		
+		request.setAttribute("belongMonth", sdf.format(calendar.getTime()));
+	}
+	
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-05-22
+	 * 
+	 * @desc:获取当前系统时间，初始化页面计件年月
+	 */
+	private void getCurrentLoginUserInfo(HttpServletRequest  request){
+		
+		SessionUser user = uamSessionService.getSessionUser();
+		
+		if(null == user){
+			throw new BusinessException("用户未登录！");
+		}
+		String userJob = user.getServiceJobCode();
+		boolean queryOrgFlag = false;
+		boolean isAdminFlag = false;
+		int userJobCode = -1;
+
+        StringBuffer reBuffer = new StringBuffer();
+        //如果不是交易顾问
+		if(!userJob.equals(TransJobs.TJYGW.getCode())){
+				//誉萃3个层级
+				queryOrgFlag = true; //不是交易顾问说明对应的用户下面有组织
+				String depString = user.getServiceDepHierarchy();
+				String userOrgIdString = user.getServiceDepId();
+				if(depString.equals(DepTypeEnum.TYCTEAM.getCode())){ //组别
+					reBuffer.append(userOrgIdString);
+					userJobCode = 2;
+				}else if(depString.equals(DepTypeEnum.TYCQY.getCode())){ //区域 下面对应多个组别
+					List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgIdString, DepTypeEnum.TYCTEAM.getCode());
+					for(Org org:orgList){
+						reBuffer.append(org.getId());
+						reBuffer.append(",");
+					}
+					reBuffer.deleteCharAt(reBuffer.length()-1);
+					userJobCode = 1;
+				}else{
+					isAdminFlag = true; //领导层 誉萃总部
+					userJobCode = 0;
+				}
+		} else {
+			userJobCode = 3;
+		}
+		request.setAttribute("queryOrgs", reBuffer.toString()); //所有区域组织id拼接
+		request.setAttribute("queryOrgFlag", queryOrgFlag);
+		request.setAttribute("isAdminFlag", isAdminFlag);	
+		request.setAttribute("userJobCode", userJobCode);
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 	}
 
 }

@@ -2,7 +2,9 @@
 <querys>
 <dicts>
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>	
-		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>			
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>	
+		<customDict id="qqMKpi" beanName="qqMKpi"></customDict>	
+		<!-- convertValue -->		
 </dicts>
 <formatters>
 	<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -70,6 +72,7 @@
 			<column type="both" name="ORG_ID" title="组别Id"  referencecol=""  customDict=""/>
 			<column type="virtual" name="ORG_NAME" title="组别" referencecol="ORG_ID"  customDict="qqcdOrgIdName"/>
 			<column type="both" name="SUMMONEY" index="" checkbox="" title="总金额" customDict="" expType="Double" hidden="true" />
+			<column type="both" name="PARTICIPANT" title="参与人ID"  referencecol=""  customDict=""/>
 		</table-row>
 	</grid>
 </query>
@@ -83,6 +86,10 @@
                  <![CDATA[
 				SELECT 
 					TC.CASE_CODE,
+					TC.FRONT_LEADING_PROCESS,
+					TC.FRONT_ORG_ID,
+					TC.BANK_LEADING_PROCESS,
+					TC.BACK_ORG_ID,
 					(SELECT P.PROPERTY_ADDR FROM sctrans.T_TO_PROPERTY_INFO P WHERE P.CASE_CODE = TC.CASE_CODE) PROPERTY_ADDR,
 					TC.GUOHU_APPROVE_TIME,
 					TC.AWARD_STATUS,
@@ -119,10 +126,21 @@
 	<grid>
 		<table-row>
 			<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			
+			<column type="both" name="FRONT_LEADING_PROCESS" index="" checkbox="" title="前台主办Id" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			<column type="virtual" name="FRONT_LEADING_PROCESS_CN" index="" checkbox="" title="前台主办" referencecol="FRONT_LEADING_PROCESS"  customDict="qqcdUserIdName"/>
+			<column type="both" name="FRONT_ORG_ID" index="" checkbox="" title="前台主办orgId" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			<column type="virtual" name="FRONT_ORG_ID_CN" index="" checkbox="" title="前台主办组织" referencecol="FRONT_ORG_ID"  customDict="qqcdOrgIdName"/>
+			<column type="both" name="BANK_LEADING_PROCESS" index="" checkbox="" title="后台主办Id" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			<column type="virtual" name="BANK_LEADING_PROCESS_CN" index="" checkbox="" title="后台主办" referencecol="BANK_LEADING_PROCESS"  customDict="qqcdUserIdName"/>
+			<column type="both" name="BACK_ORG_ID" index="" checkbox="" title="前台主办orgId" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			<column type="virtual" name="BACK_ORG_ID_CN" index="" checkbox="" title="前台主办组织" referencecol="BACK_ORG_ID"  customDict="qqcdOrgIdName"/>
+			
 			<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" customDict="" sysDict="" beanFormatter="" format="" width="90" isSort="" align="" halign="" resizable=""/>		
-			<column type="both" name="GUOHU_APPROVE_TIME" index="" checkbox="" display="过户审批时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="60" isSort="true" align="" halign="" order="" resizable="" />
+			<column type="both" name="GUOHU_APPROVE_TIME" index="" checkbox="" display="过户审批通过时间" customDict="" sysDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="60" isSort="true" align="" halign="" order="" resizable="" />
 			<column type="both" name="AWARD_STATUS" title="奖金发放状态"  referencecol=""  customDict=""/>
-			<column type="both" name="AWARD_MONTH" title="计件年月" referencecol=""  customDict=""/>
+			<column type="virtual" name="AWARD_STATUS_CN" title="奖金发放状态CN"  referencecol="AWARD_STATUS"  customDict="qqMKpi"/>
+			<column type="both" name="AWARD_MONTH" title="应发奖金年月" customDict=""	hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>		
 			<column type="both" name="AWARD_DESC" index="" checkbox="" title="备注信息" customDict=""  hidden="true" />
 			<column type="both" name="BASE_CASE_AMOUNT" title="计件奖金（元）"  referencecol=""  customDict="" expType="Double" hidden="true" />			
 		</table-row>

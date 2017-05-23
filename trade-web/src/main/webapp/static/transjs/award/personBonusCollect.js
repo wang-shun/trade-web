@@ -173,6 +173,28 @@ function getParams() {
 }
 
 
+//导出Excel
 function exportPersonBonusToExcel(){
+	var url = "/quickGrid/findPage?xlsx&";
+	var ctx = $("#ctx").val();
+	// excel导出列
+	var displayColomn = new Array;
+	//暂时没有计件月份
+	displayColomn.push('REAL_NAME');
+	displayColomn.push('MOBILE');
+	displayColomn.push('EMPLOYEE_CODE');
+	displayColomn.push('ORG_NAME');
+	displayColomn.push('SUMMONEY');
 	
+	var params = getParams();	
+	var queryId = '&queryId=findPersonBonusCollectList';
+	var colomns = '&colomns=' + displayColomn;
+
+	url = ctx + url + jQuery.param(params) + queryId + ""
+			+ "" + colomns;
+
+	$('#excelForm').attr('action', url);
+
+	$('#excelForm').method = "post";
+	$('#excelForm').submit();
 }

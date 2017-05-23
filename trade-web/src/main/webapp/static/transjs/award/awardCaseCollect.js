@@ -110,27 +110,30 @@ function initpage(totalCount, pageSize, currentPage, records) {
 		last : '<i class="fa fa-step-forward"></i>',
 		showGoto : true,
 		onPageClick : function(event, page) {
-			personBonusCollectSearchMethod(page);
+			awardCaseCollectSearchMethod(page);
 		}
 	});
 }
 
 
 /* 查询按钮查询 */
-$('#personBonusCollectSearch').click(function() {
-	 personBonusCollectSearchMethod()
+$('#awardCaseCollectSearch').click(function() {
+	awardCaseCollectSearchMethod()
 });
 
 /* 清空查询条件 */
-$('#personBonusCollectClean').click(function() {
-	$("input[name='realName']").val('');
-	$("input[name='orgId']").val('');
-	$("input[name='orgName']").val('');	
+$('#awardCaseCollectClean').click(function() {
+	//$("input[name='realName']").val('');
+	
+	$("input[name='guohuApproveTime']").val('');	
+	$("input[name='awardStatus']").val('');		
+	$("input[name='propertyAddr']").val('');	
+	$("input[name='caseCode']").val('');	
 	$("input[name='belongMonth']").val('');
 
 });
 
-function personBonusCollectSearchMethod(page){
+function awardCaseCollectSearchMethod(page){
 	if (!page) {
 		page = 1;
 	}
@@ -151,28 +154,71 @@ function getParams() {
 	var params = {};
 	
 	// 员工姓名
-	var realName = $("#realName").val().trim();
-	if ("" == realName || null == realName) {
-		realName = null;
+	var caseCode = $("#caseCode").val().trim();
+	if ("" == caseCode || null == caseCode) {
+		caseCode = null;
+	}
+	// 员工姓名
+	var propertyAddr = $("#propertyAddr").val().trim();
+	if ("" == propertyAddr || null == propertyAddr) {
+		propertyAddr = null;
 	}
 
 	// 员工姓名组织Id
-	var orgId = $("#orgId").val().trim();
-	if (orgId == "" || orgId == null) {
-		orgId = null;
+	var awardStatus = $("#awardStatus").val().trim();
+	if (awardStatus == "" || awardStatus == null || awardStatus =="all") {
+		awardStatus = null;
 	}
-
+	
+	//签约
+	var guohuApproveTimeStart =  $('#dtBegin_0').val();
+	var guohuApproveTimeEnd = $('#dtEnd_0').val();
+	if (guohuApproveTimeEnd && guohuApproveTimeEnd != '') {
+		guohuApproveTimeEnd = guohuApproveTimeEnd + ' 23:59:59';
+	}
 	// 计件年月
 	var belongMonth = $("#belongMonth").val();	
 	
-	params.realName = realName;
-	params.orgId = orgId;	
+	params.caseCode = caseCode;
+	params.propertyAddr = propertyAddr;	
 	params.belongMonth = belongMonth;
+	params.awardStatus = awardStatus;
+	params.guohuApproveTimeStart = guohuApproveTimeStart;
+	params.guohuApproveTimeEnd = guohuApproveTimeEnd;
 	
 	return params;
 }
 
 
-function exportPersonBonusToExcel(){
+function exportAwardBaseToExcel(){
+	
+	var url = "/quickGrid/findPage?xlsx&";
+	var ctx = $("#ctx").val();
+	// excel导出列
+	var displayColomn = new Array;
+	
+	displayColomn.push('AWARD_MONTH');
+	displayColomn.push('CASE_CODE');
+	displayColomn.push('PROPERTY_ADDR');	
+	displayColomn.push('FRONT_LEADING_PROCESS_CN');
+	displayColomn.push('FRONT_ORG_ID_CN');
+	displayColomn.push('BANK_LEADING_PROCESS_CN');
+	displayColomn.push('BACK_ORG_ID_CN');	
+	displayColomn.push('GUOHU_APPROVE_TIME');
+	displayColomn.push('AWARD_STATUS_CN');	
+	displayColomn.push('BASE_CASE_AMOUNT');
+	displayColomn.push('AWARD_DESC');
+	
+	var params = getParams();	
+	var queryId = '&queryId=findAwardCaseCollectList';
+	var colomns = '&colomns=' + displayColomn;
+
+	url = ctx + url + jQuery.param(params) + queryId + ""
+			+ "" + colomns;
+
+	$('#excelForm').attr('action', url);
+
+	$('#excelForm').method = "post";
+	$('#excelForm').submit();
 	
 }
