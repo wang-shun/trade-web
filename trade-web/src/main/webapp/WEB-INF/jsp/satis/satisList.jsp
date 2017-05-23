@@ -115,7 +115,7 @@
 	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script> 
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-	<script id="SatisListTemplate" type="text/html">
+	<script id="template_satisList" type="text/html">
          {{each rows as item index}}
                 <tr>
 				<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">					
@@ -345,7 +345,7 @@
 									ctx : "${ctx}",
 									queryId : 'SatisListQuery',
 									rows : '12',
-									templeteId : 'SatisListTemplate',
+									templeteId : 'template_satisList',
 									gridClass : 'table table_blue table-striped table-bordered table-hover ',
 									data : params,
 									wrapperData : {
