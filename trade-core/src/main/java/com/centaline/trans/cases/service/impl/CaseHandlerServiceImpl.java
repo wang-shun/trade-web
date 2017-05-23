@@ -18,6 +18,7 @@ import com.centaline.trans.eloan.entity.ToEloanCase;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.engine.WorkFlowConstant;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.bean.TaskOperate;
 import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.core.WorkFlowEngine;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -158,13 +159,20 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
      * @return
      */
     private Boolean changeLeadingTaskDo(String taskId,String userId, String leadingProId,String detailCode) {
-        User u = uamUserOrgService.getUserById(userId);//任务旧的执行人
-        User u_ = uamUserOrgService.getUserById(leadingProId);//本次要更新的执行人
-
-        unlocatedTaskService.doLocateTask(u_.getId(), taskId,taskId);
-
-
-        return false;
+        try{
+            User u_ = uamUserOrgService.getUserById(leadingProId);//本次要更新的执行人
+            if(u_==null){
+                return false;
+            }
+            TaskOperate to = new TaskOperate(taskId, "delegate");
+            to.setAssignee(u_.getUsername());
+            workFlowManager.operaterTask(to);
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
+        return true;
     }
 
     /**
@@ -177,6 +185,9 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
     public Boolean changeLeadingProDo(String caseCode,String userId, String leadingProId,String detailCode){
         try{
             ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);//获得案件详细信息
+            if(toCase==null){//如果本次新更新案件不存在返回false
+                return false;
+            }
             ToWorkFlow inWorkFlow = new ToWorkFlow();
             inWorkFlow.setBusinessKey("operation_process");
             inWorkFlow.setCaseCode(caseCode);
@@ -201,35 +212,39 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
             if(u.getId().equals(toCase.getLeadingProcessId())){//相等的话，这次操作就是前台交易顾问的变更
                 toCase.setLeadingProcessId(leadingProId);
                 toCaseService.updateByPrimaryKey(toCase);//更新案件的负责人,t_to_case的LeadingProcessId
+                if(toWorkFlow!=null){
+                    if (!StringUtils.isEmpty(toWorkFlow.getInstCode())) { // 更新流程引擎
+                        String variableName = "caseOwner";
+                        RestVariable restVariable = new RestVariable();
+                        restVariable.setType("string");
+                        restVariable.setValue(u_.getUsername());
 
-                if (!StringUtils.isEmpty(toWorkFlow.getInstCode())) { // 更新流程引擎
-                    String variableName = "caseOwner";
-                    RestVariable restVariable = new RestVariable();
-                    restVariable.setType("string");
-                    restVariable.setValue(u_.getUsername());
+                        JQGridParam gp =  new CacheGridParam();
+                        gp.setPagination(false);
+                        gp.setQueryId("queryVarinsts");
+                        gp.put("variableName", variableName);
+                        gp.put("instCode",toWorkFlow.getInstCode());
 
-                    JQGridParam gp =  new CacheGridParam();
-                    gp.setPagination(false);
-                    gp.setQueryId("queryVarinsts");
-                    gp.put("variableName", variableName);
-                    gp.put("instCode",toWorkFlow.getInstCode());
-
-                    Page<Map<String, Object>> varinsts = quickGridService.findPageForSqlServer(gp);
-                    if(varinsts!=null){
-                        if(varinsts.getContent().size()>0){
-                            workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
+                        Page<Map<String, Object>> varinsts = quickGridService.findPageForSqlServer(gp);
+                        if(varinsts!=null){
+                            if(varinsts.getContent().size()>0){
+                                workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
+                            }
                         }
                     }
                 }
             }
-            if (!StringUtils.isEmpty(toWorkFlow.getInstCode())) { // 更新流程引擎
-                TaskQuery tq = new TaskQuery();
-                tq.setProcessInstanceId(toWorkFlow.getInstCode());
-                tq.setFinished(false);
-                tq.setAssignee(u.getUsername());
-                List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
-                updateWorkflow(leadingProId, tasks, caseCode);
+            if(toWorkFlow!=null){
+                if (!StringUtils.isEmpty(toWorkFlow.getInstCode())) { // 更新流程引擎
+                    TaskQuery tq = new TaskQuery();
+                    tq.setProcessInstanceId(toWorkFlow.getInstCode());
+                    tq.setFinished(false);
+                    tq.setAssignee(u.getUsername());
+                    List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
+                    updateWorkflow(leadingProId, tasks, caseCode);
+                }
             }
+
 
         }catch (Exception e){
             logger.error(e.getMessage());
@@ -254,7 +269,7 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
             if(u_==null){//如果本次新更新的归属人不存在返回false
                 return false;
             }
-           List<ToSpv> toSpvList = toSpvService.queryToSpvByCaseCodeAndApplyUser(caseCode, u.getId());
+            List<ToSpv> toSpvList = toSpvService.queryToSpvByCaseCodeAndApplyUser(caseCode, u.getId());
 
             ToSpv toSpv = toSpvList.get(0);
             toSpv.setApplyUser(u_.getId());
@@ -266,22 +281,24 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
             List<ToWorkFlow> toWorkFlowList = toWorkFlowService.queryToWorkFlowByCaseCodeBusKeys(inWorkFlow);//获得案件E+贷款流程
 
             for(ToWorkFlow toWorkFlow : toWorkFlowList) {
-                if (!StringUtils.isEmpty(toWorkFlow.getInstCode())) { // 更新流程引擎
-                    String variableName = "consultant";
-                    RestVariable restVariable = new RestVariable();
-                    restVariable.setType("string");
-                    restVariable.setValue(u_.getUsername());
+                if(toWorkFlow!=null){
+                    if (!StringUtils.isEmpty(toWorkFlow.getInstCode())) { // 更新流程引擎
+                        String variableName = "consultant";
+                        RestVariable restVariable = new RestVariable();
+                        restVariable.setType("string");
+                        restVariable.setValue(u_.getUsername());
 
-                    String consultantVar = gotVars(toWorkFlow.getInstCode(), variableName);//要更新掉工作流的参数表中的Consultant变量
-                    if(!StringUtils.isEmpty(consultantVar)){
-                        workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
+                        String consultantVar = gotVars(toWorkFlow.getInstCode(), variableName);//要更新掉工作流的参数表中的Consultant变量
+                        if(!StringUtils.isEmpty(consultantVar)){
+                            workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
+                        }
+                        TaskQuery tq = new TaskQuery();
+                        tq.setProcessInstanceId(toWorkFlow.getInstCode());
+                        tq.setFinished(false);
+                        tq.setAssignee(u.getUsername());
+                        List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
+                        updateWorkflow(leadingProId, tasks, caseCode);
                     }
-                    TaskQuery tq = new TaskQuery();
-                    tq.setProcessInstanceId(toWorkFlow.getInstCode());
-                    tq.setFinished(false);
-                    tq.setAssignee(u.getUsername());
-                    List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
-                    updateWorkflow(leadingProId, tasks, caseCode);
                 }
             }
 
@@ -319,23 +336,26 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
             List<ToWorkFlow> toWorkFlowList = toWorkFlowService.queryToWorkFlowByCaseCodeBusKeys(inWorkFlow);//获得案件E+贷款流程
 
             for(ToWorkFlow toWorkFlow : toWorkFlowList) {
-                if (!StringUtils.isEmpty(toWorkFlow.getInstCode())) { // 更新流程引擎
-                    String variableName = "Consultant";
-                    RestVariable restVariable = new RestVariable();
-                    restVariable.setType("string");
-                    restVariable.setValue(u_.getUsername());
+                if(toWorkFlow!=null){
+                    if (!StringUtils.isEmpty(toWorkFlow.getInstCode())) { // 更新流程引擎
+                        String variableName = "Consultant";
+                        RestVariable restVariable = new RestVariable();
+                        restVariable.setType("string");
+                        restVariable.setValue(u_.getUsername());
 
-                    String consultantVar = gotVars(toWorkFlow.getInstCode(), variableName);//要更新掉工作流的参数表中的Consultant变量
-                    if(!StringUtils.isEmpty(consultantVar)){
-                        workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
+                        String consultantVar = gotVars(toWorkFlow.getInstCode(), variableName);//要更新掉工作流的参数表中的Consultant变量
+                        if(!StringUtils.isEmpty(consultantVar)){
+                            workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
+                        }
+                        TaskQuery tq = new TaskQuery();
+                        tq.setProcessInstanceId(toWorkFlow.getInstCode());
+                        tq.setFinished(false);
+                        tq.setAssignee(u.getUsername());
+                        List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
+                        updateWorkflow(leadingProId, tasks, caseCode);
                     }
-                    TaskQuery tq = new TaskQuery();
-                    tq.setProcessInstanceId(toWorkFlow.getInstCode());
-                    tq.setFinished(false);
-                    tq.setAssignee(u.getUsername());
-                    List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
-                    updateWorkflow(leadingProId, tasks, caseCode);
                 }
+
             }
 
         }catch (Exception e){

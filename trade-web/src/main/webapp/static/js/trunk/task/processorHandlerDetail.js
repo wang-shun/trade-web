@@ -46,6 +46,21 @@ $(function(){
                 dataType : "json",
                 timeout : 10000,
                 data : data,
+                beforeSend : function() {
+                    $.blockUI({
+                        message : $("#salesLoading"),
+                        css : {
+                            'border' : 'none',
+                            'z-index' : '9999'
+                        }
+                    });
+                    $(".blockOverlay").css({
+                        'z-index' : '9998'
+                    });
+                },
+                complete : function() {
+                    $.unblockUI();
+                },
                 success : function(data) {
                     if(data.success){
                         $("#leadingProForChang").hide();
@@ -70,7 +85,6 @@ $(function(){
 })
 //即在数据的核心方法
 function reloadGrid(data) {
-    console.log("重新加载数据");
     $.ajax({
         async: true,
         url:ctx+ "/quickGrid/findPage" ,

@@ -46,6 +46,21 @@ $(function(){
                 dataType : "json",
                 timeout : 10000,
                 data : data,
+                beforeSend : function() {
+                    $.blockUI({
+                        message : $("#salesLoading"),
+                        css : {
+                            'border' : 'none',
+                            'z-index' : '9999'
+                        }
+                    });
+                    $(".blockOverlay").css({
+                        'z-index' : '9998'
+                    });
+                },
+                complete : function() {
+                    $.unblockUI();
+                },
                 success : function(data) {
                     if(data.success){
                         $("#leadingProForChang").hide();

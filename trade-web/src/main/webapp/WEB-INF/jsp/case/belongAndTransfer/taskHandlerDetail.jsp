@@ -28,6 +28,7 @@
 </style>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <div class="wrapper wrapper-content animated fadeInRight">
      <div class="ibox-content border-bottom clearfix space_box">
          <h2 class="title">
@@ -154,8 +155,8 @@
 			<form method="get" class="form_list">
 				<div class="line">
 					<div class="form_content">
-						<label class="control-label sign_left_small">案件编号</label>
-						<span id="codeShow"></span>
+						<label class="control-label sign_left_small" style="float:left;">案件编号</label>
+						<div id="codeShow" style="width: 550px;float: left;"></div>
 					</div>
 				</div>
 				<div class="line">

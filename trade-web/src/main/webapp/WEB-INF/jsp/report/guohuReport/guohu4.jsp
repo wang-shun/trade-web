@@ -96,8 +96,7 @@
 	<script src="${ctx}/js/bootstrap.min.js"></script>
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 	<!-- 分页控件  -->
-	<script
-		src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src="${ctx}/static/js/template.js" type="text/javascript"></script>
 	<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
 	<!-- 排序插件 -->
