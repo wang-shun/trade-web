@@ -34,7 +34,7 @@ $(function(){
             url = ctx + url;
             var data = {
                 leadingProId:leadingProId,
-                changCaseCode:caseCode,
+                changItems:caseCode,
                 detailCode:detailCode,
                 userId:userId
             };
@@ -265,7 +265,7 @@ function leadingProForChangeClick(){
         departmentHeriarchy : '',
         chkStyle : 'radio',
         //	jobCode : 'Manager,Senior_Manager',
-        jobCode : '',
+        jobCode : 'Manager,Consultant',
         callBack : selectLeadingPro
     });
 }

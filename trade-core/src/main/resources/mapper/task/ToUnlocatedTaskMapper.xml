@@ -39,7 +39,7 @@
     delete from sctrans.T_TO_UNLOCATED_TASK
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
-      <delete id="deleteByTaskId" parameterType="java.lang.String" >
+  <delete id="deleteByTaskId" parameterType="java.lang.String" >
     update sctrans.T_TO_UNLOCATED_TASK set IS_DELETE='1'
     where task_Id = #{taskId,jdbcType=BIGINT}
   </delete>
