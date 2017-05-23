@@ -110,6 +110,8 @@
 		<pattern>/caseMerge/addWdCase</pattern>
 		<pattern>/caseMerge/saveWdCaseInfo/add</pattern>
 		<pattern>/caseMerge/addLiushui</pattern>
+		<pattern>/award/managerRewardList</pattern>
+		<pattern>/award/managerPiecework</pattern>
 	</decorator>
 	<decorator name="noTemplate">
 		<pattern>/report/guoHuReport</pattern>
