@@ -105,32 +105,59 @@
 	<!-- 个人js -->
 	<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
 	<script id="template_table" type="text/html">
-          {{each rows as item index}}
+		{{c=0}}{{m=0}}	{{tc=0}}{{tm=0}}
+			{{each rows as item index}}
+				{{if index < 10}}
 		    <tr>
               <td>{{item.MORT_FIN_BRANCH_NAME}}</td>
               <td>{{item.CASE_COUNT}}</td>
               <td>{{(item.MORT_COM_AMOUNT/10000).toFixed()}}万元</td>
              </tr>
+				{{else}}
+					{{c=item.CASE_COUNT+c}}
+					{{m=(item.MORT_COM_AMOUNT/10000)+m}}
+				{{/if}}
+			{{tc=tc+item.CASE_COUNT}}
+			{{tm=tm+(item.MORT_COM_AMOUNT/10000)}}
 		  {{/each}}
+		<tr>
+			<td>其他</td>
+			<td>{{c}}</td>
+			<td>{{m.toFixed()}}万元</td>
+		</tr>
+		<tr>
+			<td>总计</td>
+			<td>{{tc}}</td>
+			<td>{{tm.toFixed()}}万元</td>
+		</tr>
 	    </script>
 	<script id="template_table1" type="text/html">
+		{{tc=0}}{{tm=0}}
           {{each rows as item index}}
 		  {{if item.IS_RUWEI_BANK=='cl'}}
-		  <tr>
-			  <td>{{item.MORT_FIN_BRANCH_NAME}}</td>
-			  <td>{{item.MORT_FIN_SUB_BRANCH_NAME}}</td>
-			  <td>{{item.CASE_COUNT}}</td>
-			  <td>{{(item.MORT_COM_AMOUNT/10000).toFixed()}}万元</td>
-		  </tr>
+			<tr>
+				<td>{{item.MORT_FIN_BRANCH_NAME}}</td>
+				<td>{{item.MORT_FIN_SUB_BRANCH_NAME}}</td>
+				<td>{{item.CASE_COUNT}}</td>
+				<td>{{(item.MORT_COM_AMOUNT/10000).toFixed()}}万元</td>
+			</tr>
 		  {{else}}
-		  <tr style="background: #f23c3c;color: white;">
-			  <td>{{item.MORT_FIN_BRANCH_NAME}}</td>
-			  <td>{{item.MORT_FIN_SUB_BRANCH_NAME}}</td>
-			  <td>{{item.CASE_COUNT}}</td>
-			  <td>{{(item.MORT_COM_AMOUNT/10000).toFixed()}}万元</td>
-		  </tr>
+			<tr style="background: #f23c3c;color: white;">
+				<td>{{item.MORT_FIN_BRANCH_NAME}}</td>
+				<td>{{item.MORT_FIN_SUB_BRANCH_NAME}}</td>
+				<td>{{item.CASE_COUNT}}</td>
+				<td>{{(item.MORT_COM_AMOUNT/10000).toFixed()}}万元</td>
+			</tr>
 		  {{/if}}
+			{{tc=tc+item.CASE_COUNT}}
+			{{tm=tm+(item.MORT_COM_AMOUNT/10000)}}
 		{{/each}}
+			<tr>
+				<td>总计</td>
+				<td></td>
+				<td>{{tc}}</td>
+				<td>{{tm.toFixed()}}万元</td>
+			</tr>
 	    </script>
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();

@@ -29,6 +29,7 @@ import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.repository.ToSpvMapper;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
+import com.centaline.trans.task.service.UnlocatedTaskService;
 import com.centaline.trans.workspace.entity.CacheGridParam;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,10 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
     private ToSpvService toSpvService;
     @Autowired
     private ToSpvMapper toSpvMapper;
+
+    @Autowired
+    private UnlocatedTaskService unlocatedTaskService;
+
     @Override
     public void BelongAndTransferList(HttpServletRequest request) {
         SessionUser user = uamSessionService.getSessionUser();
@@ -97,7 +102,7 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
     /**
      * 对责任人进行更改
      * @author caoy
-     * @param caseCode
+     * @param changItem
      * @param userId
      * @param detailCode 识别 提交变更的项，每个变更项目的业务逻辑不同，所以根据此字段来区分
      * @return
@@ -105,29 +110,33 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
 
     @Override
     @Transactional(noRollbackFor = WorkFlowException.class)
-    public AjaxResponse changeLeadingPro(String[] caseCode, String userId,String leadingProId,String detailCode){
+    public AjaxResponse changeLeadingPro(String[] changItem, String userId,String leadingProId,String detailCode){
         AjaxResponse ajaxResponse = new AjaxResponse();
         String currentCaseCode="";
        try{
-           for(int i =0;i<caseCode.length;i++){
-               if(!StringUtils.isEmpty(caseCode[i])){
-                   currentCaseCode = caseCode[i];
+           for(int i =0;i<changItem.length;i++){
+               if(!StringUtils.isEmpty(changItem[i])){
+                   currentCaseCode = changItem[i];
                    if("spv".equals(detailCode)){//如果是变更资金监管归属人
-                       if(!changeLeadingSpvDo(caseCode[i],userId,leadingProId,detailCode)){//如果更新责任人失败，将失败的caseCode返回
+                       if(!changeLeadingSpvDo(changItem[i],userId,leadingProId,detailCode)){//如果更新责任人失败，将失败的caseCode返回
                            throw new BusinessException(currentCaseCode);
                        }
                    }
                    if("eloan".equals(detailCode)){//如果是变更E+贷款归属人
-                       if(!changeLeadingEloanDo(caseCode[i],userId,leadingProId,detailCode)){//如果更新责任人失败，将失败的caseCode返回
+                       if(!changeLeadingEloanDo(changItem[i], userId, leadingProId, detailCode)){//如果更新责任人失败，将失败的caseCode返回
                            throw new BusinessException(currentCaseCode);
                        }
                    }
-                   if("processor".equals(detailCode)||"comMort".equals(detailCode)||"prfMort".equals(detailCode)){//如果是变更服务项归属人
-                       if(!changeLeadingProDo(caseCode[i],userId,leadingProId,detailCode)){//如果更新责任人失败，将失败的caseCode返回
+                   if("processor".equals(detailCode)||"comMort".equals(detailCode)||"prfMort".equals(detailCode)){ //如果是变更服务项归属人
+                       if(!changeLeadingProDo(changItem[i], userId, leadingProId, detailCode)){//如果更新责任人失败，将失败的caseCode返回
                            throw new BusinessException(currentCaseCode);
                        }
                    }
-
+                   if("task".equals(detailCode)){ //如果是变更服务项归属人
+                       if(!changeLeadingTaskDo(changItem[i], userId, leadingProId, detailCode)){//如果更新责任人失败，将失败的caseCode返回
+                           throw new BusinessException(currentCaseCode);
+                       }
+                   }
                }
            }
            ajaxResponse.setSuccess(true);
@@ -137,6 +146,25 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
        }
 
         return ajaxResponse;
+    }
+
+    /**
+     * 更改任务执行人
+     * @author caoy
+     * @param taskId
+     * @param userId
+     * @param leadingProId
+     * @param detailCode
+     * @return
+     */
+    private Boolean changeLeadingTaskDo(String taskId,String userId, String leadingProId,String detailCode) {
+        User u = uamUserOrgService.getUserById(userId);//任务旧的执行人
+        User u_ = uamUserOrgService.getUserById(leadingProId);//本次要更新的执行人
+
+        unlocatedTaskService.doLocateTask(u_.getId(), taskId,taskId);
+
+
+        return false;
     }
 
     /**
