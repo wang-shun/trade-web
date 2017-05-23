@@ -259,7 +259,8 @@
 					INNER JOIN sctrans.V_USER_ORG_JOB uoj ON ec.LOANER_ID = uoj.user_id 
 					WHERE ec.LOANER_ID = #loanerId# 
 						  AND e.STATUS != 'ABAN'
-						  AND (ec.LOANER_STATUS = 'ACCEPTING' or ec.LOANER_STATUS = 'AUDITING' or ec.LOANER_STATUS = 'COMPLETED')
+						  
+						  -- AND (ec.LOANER_STATUS = 'ACCEPTING' or ec.LOANER_STATUS = 'AUDITING' or ec.LOANER_STATUS = 'COMPLETED')
 						
 						  <ifNotNull condition>
 					     		AND	(ec.CUST_NAME LIKE '%'+#condition#+'%'
