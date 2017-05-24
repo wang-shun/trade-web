@@ -139,7 +139,9 @@ public class ToHouseTransferController {
                     return response;
                 }
                 ToMortgage toMortgage =  toMortgageService.findToMortgageByCaseCode2(toHouseTransfer.getCaseCode());
-                toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
+                response = toHouseTransferService.saveToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, processInstanceId);
+
+                response = toHouseTransferService.submitToHouseTransfer(toHouseTransfer,taskId,processInstanceId);
                 // 回写三级市场, 交易过户
                 salesdealApiService.noticeSalesDeal(toCase.getCtmCode());
                 //给客户发送短信
