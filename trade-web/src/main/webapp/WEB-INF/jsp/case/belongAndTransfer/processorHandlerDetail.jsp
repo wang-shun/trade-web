@@ -187,5 +187,6 @@
 <input type="hidden" value="${userId}" id="userId" />
 <input type="hidden" value="${detailCode}" id="detailCode" />
 <input type="hidden" value="" id="changCaseCode" />
+<input type="hidden" value="${cuserId}" id="cuserId" />
 </body>
 </html>

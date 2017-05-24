@@ -160,6 +160,7 @@ function getParams(page) {
     var detailCode = $("#detailCode").val();
     var caseCode = $("#caseCode").val();
     var caseAddress = $("#caseAddress").val();
+    var cuserId = $("#cuserId").val();
 
 
     if(userId.length>0&&detailCode.length>0){
@@ -171,7 +172,7 @@ function getParams(page) {
         search_MuserId:$.trim(userId),
         search_caseCode:$.trim(caseCode),
         search_caseAddress:$.trim(caseAddress),
-
+        search_cuserId:$.trim(cuserId),
         queryId : "queryCaseBelongAndTransferDetail",
         rows : 10,
         page : page
@@ -210,8 +211,12 @@ function checkBoxALL(){
 function getList(){
     var userId = $("#userId").val();
     var detailCode = $("#detailCode").val();
+    var cuserId =  $("#cuserId").val();
+
     var data = {
         search_MuserId:$.trim(userId),
+        search_cuserId:$.trim(cuserId),
+
         queryId : "queryCaseBelongAndTransferDetail",
         rows : 10,
         page : 1

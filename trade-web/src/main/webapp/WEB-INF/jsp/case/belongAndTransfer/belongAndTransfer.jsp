@@ -90,7 +90,7 @@
 	{{each rows as item index}}
 	<tr class="tr-1">
 		<td>
-			<p class="big">{{item.userName}} {{if item.available =='0' }}(离职){{/if}}</p>
+			<p class="big">{{item.userName}} {{if item.available =='0' }}(离职){{/if}} {{if item.is_delete =='1' }}(已删除){{/if}}</p>
 		</td>
 		<td>
 			<p>{{item.orgName}}</p>

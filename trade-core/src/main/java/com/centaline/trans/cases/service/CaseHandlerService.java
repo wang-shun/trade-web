@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface CaseHandlerService {
 
-    void BelongAndTransferList(HttpServletRequest request);
+    void belongAndTransferList(HttpServletRequest request);
 
     void handlerDetailList(HttpServletRequest request, String userId, String detailCode);
 
     AjaxResponse changeLeadingPro(String[] changItem, String userId,String leadingProId,String detailCode);
+
+    void processorChangeList(HttpServletRequest request);
 }

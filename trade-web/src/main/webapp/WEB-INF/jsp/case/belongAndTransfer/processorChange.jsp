@@ -71,7 +71,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 	<!-- iCheck -->
 	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-	<script src="${ctx}/js/trunk/task/belongAndTransfer.js?version=1.1.1"></script>
+	<script src="${ctx}/js/trunk/task/processorChange.js?version=1.1.1"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
 	<!-- 分页控件  -->
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
@@ -86,7 +86,7 @@
 	{{each rows as item index}}
 	<tr class="tr-1">
 		<td>
-			<p class="big">{{item.userName}} {{if item.available =='0' }}(离职){{/if}}</p>
+			<p class="big">{{item.userName}} {{if item.available =='0' }}(离职){{/if}} {{if item.is_delete =='1' }}(已删除){{/if}}</p>
 		</td>
 		<td>
 			<p>{{item.orgName}}</p>
@@ -94,25 +94,7 @@
 		<td>
 			<p><a href="${ctx}/case/handler/processor/detail?userId={{item.userId}}&detailCode=processor" target="_blank">{{item.PROCESSOR_COUNT}}（单）</a></p>
 		</td>
-		<td>
-			<p><a href="${ctx}/case/handler/processor/detail?userId={{item.userId}}&detailCode=comMort" target="_blank">{{item.COM_MORT_COUNT}}（单）</a></p>
-		</td>
-		<td>
-			<p><a href="${ctx}/case/handler/processor/detail?userId={{item.userId}}&detailCode=prfMort" target="_blank">{{item.PRF_MORT_COUNT}}（单）</a></p>
-		</td>
 
-
-		<td>
-			<p><a href="${ctx}/case/handler/eloan/detail?userId={{item.userId}}" target="_blank">{{item.ELOAN_COUNT}}（单）</a></p>
-		</td>
-		<td>
-			<p><a href="${ctx}/case/handler/spv/detail?userId={{item.userId}}" target="_blank">{{item.SPV_COUNT}}（单）</a></p>
-		</td>
-		<td>
-		<p>
-			<p><a href="${ctx}/case/handler/task/detail?userId={{item.userName_input}}" target="_blank">{{item.ASSIGNEE_COUNT}}（单）</a></p>
-		</p>
-		</td>
 	</tr>
 	{{/each}}
 </script>
@@ -120,6 +102,9 @@
 </content>
 <input type="hidden" value="${orgId}" id="userOrg" />
 <input type="hidden" value="${selectJobCode}" id="selectJobCode" />
+<input type="hidden" value="${orgCode}" id="orgCode" />
+<input type="hidden" value="${cuserId}" id="cuserId" />
+
 
 </body>
 </html>
