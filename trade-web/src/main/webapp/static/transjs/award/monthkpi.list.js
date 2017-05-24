@@ -1,113 +1,78 @@
-var MonthKpiImportList = (function(){    
-    return {    
-       init : function(ctx,url,gridTableId,gridPagerId,belongMonth){    
-    	 //jqGrid 初始化
-    		$("#"+gridTableId).jqGrid({
-    			url : ctx+url,
-    			mtype : 'GET',
-    			datatype : "json",
-    			height : 550,
-    			autowidth : true,
-    			shrinkToFit : true,
-    			rowNum : 8,
-    			/*   rowList: [10, 20, 30], */
-    			colNames : [ '主键','人员','所在组别','所属贵宾服务部','类型','当月金融产品数','上月滚存数','金融产品产出率','过户数'],
-    			colModel : [ {
-    				name : 'PKID',
-    				index : 'PKID',
-    				align : "center",
-    				width : 0,
-    				key : true,
-    				resizable : true,
-    				hidden : true
-    			}, {
-    				name : 'PARTICIPANT',
-    				index : 'PARTICIPANT',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			}, {
-    				name : 'TEAM_ID',
-    				index : 'TEAM_ID',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			},{
-    				name : 'DISTRICT_ID',
-    				index : 'DISTRICT_ID',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    				//hidden : true
-    			},{
-    				name : 'TYPE',
-    				index : 'TYPE',
-    				align : "center",
-    				width : 20,
-    				resizable : true,
-    				formatter : function(cellvalue,
-							options, rawObject) {
-    					if(cellvalue=='IMP'){
-    						return '导入';
-    					}else if(cellvalue=='GEN'){
-    						return '生成';
-    					}
-    					return cellvalue;
-    				}
-    			},{
-    				name : 'FIN_ORDER',
-    				index : 'FIN_ORDER',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			},{
-    				name : 'FIN_ORDER_ROLL',
-    				index : 'FIN_ORDER_ROLL',
-    				align : "center",
-    				width : 20,
-    				resizable : true
-    			}, {
-    				name : 'FIN_ORDER_RATE',
-    				index : 'FIN_ORDER_RATE',
-    				align:'center',
-    				resizable : true,
-    				width : 10
-    			}, {
-    				name : 'TOTAL_CASE',
-    				index : 'TOTAL_CASE',
-    				align:'center',
-    				resizable : true,
-    				width : 10
-    			}],
-    			multiselect: true,
-    			pager : "#"+gridPagerId,
-    			sortname:'PKID',
-    	        sortorder:'desc',
-    	        viewrecords : true,
-    			pagebuttions : true,
-    			multiselect:false,
-    			hidegrid : false,
-    			recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-    			pgtext : " {0} 共 {1} 页",
 
-    			gridComplete:function(){
-    				
-    			},
-    			postData : {
-    				queryId : "monthKpiList",
-                    argu_belongMonth : belongMonth
-    			}
+/**
+ * 功能：查询KPI列表
+ * 编写人：hjf
+ * 编写时间：2017年5月23日14:17:28
+ * 逻辑：KPI
+ * 版本：1.0
+ */
+$(document).ready(function() {
+	searchMethod(1);
+});
+/**
+ * 查询方法
+ * @param page 页码
+ */
+function searchMethod(page){
+	var data = getParams(page);
+   // aist.wrap(data);
+	reloadGrid(data);
+}
+$('#searchButton').click(function() {
+	searchMethod(1);
+});
+/**
+ * 查询参数封装方法
+ * @param page
+ * @returns data 
+ */
+function getParams(page) {
+	if(!page) {
+		page = 1;
+	}
+	var belongMonth = $("#belongMonthf").val()
+	if(null != belongMonth && "" != belongMonth){
+		belongMonth=belongMonth+"-01 00:00:00.000";
+	}
+	var data = {
+			search_teamId :$.trim( $('#yuCuiOriGrpId').val() ),
+			search_participant :$.trim( $('#userName').val() ), 
+			argu_belongMonth : belongMonth,
+			queryId:"monthKpiList",
+			rows : 10,
+			page : page
+		};
+    return data; 
+}
 
-    		});
-    		
-    		// Add responsive to jqGrid
-    		$(window).bind('resize', function() {
-    			var width = $('.jqGrid_wrapper').width();
-    			$("#"+gridTableId).setGridWidth(width);
-    		});
-       }
-    };    
-})();  
+
+/**
+ * 查询
+ * @author hejf10
+ * @date 2017年5月23日13:52:42
+ */
+function reloadGrid(data) {
+	$.ajax({
+		async: true,
+        url:ctx+ "/quickGrid/findPage" ,
+        method: "post",
+        dataType: "json",
+        data: data,
+        beforeSend: function () {  
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+        },
+        success: function(data){
+      	      var myTaskList = template('template_myTaskList' , data);
+      	      $("#myTaskList").empty();
+   			  $("#myTaskList").html(myTaskList);
+   			  initpage(data.total,data.pagesize,data.page, data.records);
+              $.unblockUI(); 
+        },
+        error: function (e, jqxhr, settings, exception) { $.unblockUI();    } 
+  });
+}
+
 
 function test() {
 	 var prCodeArray = new Array();
@@ -117,4 +82,40 @@ function test() {
 		 prCodeArray.push(item.PKID);
 	 }
 	 window.wxc.alert(prCodeArray);
+}
+
+/**
+ * 分页功能
+ * @param totalCount
+ * @param pageSize
+ * @param currentPage
+ * @param records
+ */
+function initpage(totalCount,pageSize,currentPage,records)
+{
+	if(totalCount>1500){ totalCount = 1500; }
+	var currentTotalstrong=$('#currentTotalPage').find('strong');
+	if (totalCount<1 || pageSize<1 || currentPage<1)
+	{
+		$(currentTotalstrong).empty();
+		$('#totalP').text(0);
+		$("#pageBar").empty();
+		return;
+	}
+	$(currentTotalstrong).empty();
+	$(currentTotalstrong).text(currentPage+'/'+totalCount);
+	$('#totalP').text(records);
+	$("#pageBar").twbsPagination({
+		totalPages:totalCount,
+		visiblePages:9,
+		startPage:currentPage,
+		first:'<i class="fa fa-step-backward"></i>',
+		prev :'<i class="fa fa-chevron-left"></i>',
+		next:'<i class="fa fa-chevron-right"></i>',
+		last:'<i class="fa fa-step-forward"></i>',
+		showGoto:true,
+		onPageClick: function (event, page) {
+			searchMethod(page);
+	    }
+	});
 }

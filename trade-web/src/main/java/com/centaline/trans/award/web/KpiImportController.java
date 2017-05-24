@@ -1,6 +1,7 @@
 package com.centaline.trans.award.web;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -157,6 +158,15 @@ public class KpiImportController {
 		// 默认是当月
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
+		
+		/**
+		 * 设置页面默认显示的当前月
+		 */
+		Calendar cd = Calendar.getInstance();
+		SimpleDateFormat s=new SimpleDateFormat("yyyy-MM");
+		String belongMonth = s.format(cd.getTime());  
+		request.setAttribute("belongMonthf", belongMonth);
+		
 		return "award/monthKpiImport";
 	}
 

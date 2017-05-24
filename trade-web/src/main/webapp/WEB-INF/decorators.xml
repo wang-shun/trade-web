@@ -112,6 +112,7 @@
 		<pattern>/caseMerge/addLiushui</pattern>
 		<pattern>/award/managerRewardList</pattern>
 		<pattern>/award/managerPiecework</pattern>
+		<pattern>/award/monthKpiImport</pattern>
 	</decorator>
 	<decorator name="noTemplate">
 		<pattern>/report/guoHuReport</pattern>
