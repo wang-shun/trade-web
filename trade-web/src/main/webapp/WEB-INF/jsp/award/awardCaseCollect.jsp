@@ -137,24 +137,18 @@
                   {{else}}
                        <tr class="tr-2">
                    {{/if}} 
-                     <td><p class="big"><a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a></p></td>
+                     <td><p class="big"><a href="{{ctx}}/case/caseDetail?caseId={{item.CASE_PKID}}" target="_blank">{{item.CASE_CODE}}</a></p></td>
 					<td>
-                            {{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
-								<p class = "demo-top"  title = "{{item.PROPERTY_ADDR}}">{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
-							{{else}}
-								</p>
-								<p class = "demo-top">{{item.PROPERTY_ADDR}}
-							{{/if}}	
-                                </p>
+						<p class = "demo-top">{{item.PROPERTY_ADDR}}</p>
 					</td>
 					<td>							
-                            <p class="big">{{item.GUOHU_APPROVE_TIME}}</p>
+                        <p class="big">{{item.GUOHU_APPROVE_TIME}}</p>
                     </td>
 					<td>							
-                            <p class="big">{{item.AWARD_STATUS_CN}}</p>
+                       <p class="big">{{item.AWARD_STATUS_CN}}</p>
                     </td>
 					<td>							
-                            <p class="big">{{item.BASE_CASE_AMOUNT}}</p>
+                        <p class="big">{{item.BASE_CASE_AMOUNT}}</p>
                     </td>
 					<td>				
                             {{ if item.AWARD_MONTH !="" && item.AWARD_MONTH !=null}}			
