@@ -321,9 +321,14 @@
     delete from sctrans.T_TS_KPI_SRV_CASE
     where BELONG_MONTH = #{0,jdbcType=TIMESTAMP}
   </delete>
-     <select id="callKpiStastic" parameterType="java.util.Date" statementType="CALLABLE"> 
+  
+   <select id="callKpiStastic" parameterType="java.util.Date" statementType="CALLABLE"> 
         {CALL [sctrans].[P_KPI_STASTIC](#{belongMonth,jdbcType=TIMESTAMP})}
    </select>
+   <update id="callKpiSyncSatis" parameterType="java.util.HashMap" statementType="CALLABLE"> 
+        {CALL [sctrans].[P_KPI_SYN_SATIS](#{guohu_approve_time,mode=IN,jdbcType=TIMESTAMP},#{belong_month,mode=IN,jdbcType=TIMESTAMP}))}
+   </update>
+   
         <select id="getNoneAwardCase" resultType="java.lang.String" parameterType="java.util.List" >
         truncate table sctrans.T_TT_KPI_TEMP;
         insert into sctrans.T_TT_KPI_TEMP(case_code) values

@@ -2,6 +2,7 @@ package com.centaline.trans.award.repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.centaline.trans.award.entity.TsKpiSrvCase;
@@ -34,4 +35,6 @@ public interface TsKpiSrvCaseMapper {
 	Set<String> getCaseCodeByCaseCodefromTToCase(List<KpiSrvCaseVo> list);
 	/* 计算过户案件的案件编号  */
 	Set<String> getCaseCodeByCaseCodefromTToAwardBase(List<KpiSrvCaseVo> list);
+	/*同步满意度到KPI表*/
+	void callKpiSyncSatis(Map<String,Date> map);
 }
