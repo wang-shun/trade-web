@@ -126,7 +126,6 @@
 
 	<content tag="local_script"> 
 	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
-	<script src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script> 
 	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
 	<script src="${ctx}/js/jquery.blockui.min.js"></script> 

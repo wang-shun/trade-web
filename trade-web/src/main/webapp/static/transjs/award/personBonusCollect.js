@@ -151,22 +151,22 @@ function getParams() {
 	var params = {};
 	
 	// 员工姓名
-	var realName = $("#realName").val().trim();
+	var realName = $.trim($("#realName").val());
 	if ("" == realName || null == realName) {
 		realName = null;
 	}
 
 	// 员工姓名组织Id
-	var orgId = $("#orgId").val().trim();
-	if (orgId == "" || orgId == null) {
-		orgId = null;
+	var userOrgId = $.trim($("#userOrgId").val());
+	if (userOrgId == "" || userOrgId == null) {
+		userOrgId = null;
 	}
-
+	
 	// 计件年月
 	var belongMonth = $("#belongMonth").val();	
 	
 	params.realName = realName;
-	params.orgId = orgId;	
+	params.userOrgId = userOrgId;	
 	params.belongMonth = belongMonth;
 	
 	return params;

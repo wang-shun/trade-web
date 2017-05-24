@@ -86,7 +86,7 @@
 								<th>姓名</th>
 								<th>员工编号</th>
 								<th>所在组别</th>
-								<th>绩效奖金</th>
+								<th>绩效奖金(元)</th>
 							</tr>
 						</thead>
 						<tbody id="personCollectList"></tbody>
@@ -124,6 +124,7 @@
         <!-- 分页控件  -->
         <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
         <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+        
         <script src= "${ctx}/transjs/award/personBonusCollect.js" type="text/javascript" ></script>
        	<!-- 必须JS --> 
 		<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script> 
@@ -135,11 +136,11 @@
                   {{else}}
                        <tr class="tr-2">
                    {{/if}} 
-					<td><p class="big">${belongMonth}</p></td>
+					<td><p class="sign_blue mr5">${belongMonth}</p></td>
 					<td><p class="big">{{item.REAL_NAME}}</p></td>
 					<td><p class="big">{{item.EMPLOYEE_CODE}}</p></td>
 					<td><p class="big">{{item.ORG_NAME}}</p></td>
-					<td><p class="big">{{item.SUMMONEY}}</p></td>
+					<td><p class="big">{{item.SUMMONEY}}</p></td>					
                  </tr>			
        {{/each}}  
 	    </script>	

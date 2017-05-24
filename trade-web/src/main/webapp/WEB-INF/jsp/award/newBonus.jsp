@@ -77,7 +77,7 @@
                                         <th>案件地址</th>
                                         <th>过户时间</th>
                                         <th>结案时间</th>
-                                        <th>奖金（元）</th>
+                                        <th>绩效奖金（元）</th>
                                         <th>操作</th>
                                     </tr>
                                 </thead>
@@ -116,7 +116,7 @@
                      <td>{{item.GUOHU_TIME}}</td>
                      <td>{{item.CLOSE_TIME}}</td>
                      <td>{{item.BASE_CASE_AMOUNT}}</td>
-                     <td><div class="expand"  style="color:#4bccec" id="{{item.CASE_CODE}}">展开</div></td>
+                     <td><div class="expand"  style="color:#4bccec;cursor:pointer;" id="{{item.CASE_CODE}}">展开</div></td>
              </tr>
              <tr class="toogle-show border-e7" id="toggle{{item.CASE_CODE}}" style="display:none;"></tr>
 		{{/each}}
