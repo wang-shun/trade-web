@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
     <link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
     <link rel="stylesheet" href="<c:url value='/static/trans/css/award/baseAward.css' />" />
+    <!-- 分页控件 -->
+	<link href="<c:url value='/static/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 </head>
 <body>
 	<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUserId}" />
@@ -75,7 +77,7 @@
                  </div>
                  </div>
              </div>
-             <div class="row">
+             <div class="row" style="margin-top: -75px;">
                  <div class="col-md-12">
                      <div class="table_content">
                          <div class="bonus-table"></div>
