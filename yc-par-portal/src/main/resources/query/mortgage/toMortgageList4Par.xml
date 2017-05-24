@@ -91,7 +91,9 @@
 					where 1 = 1
 					
 				    --	and (T.loanerStatusCode = 'ACCEPTING' or T.loanerStatusCode = 'AUDITING' or T.loanerStatusCode = 'COMPLETED')
-					
+					<ifNotNull loanerStatusCode>
+					 	and T.loanerStatusCode in (#loanerStatusCode#)
+					</ifNotNull>
 					<ifNotNull q_text>
 					 	AND (T.custName LIKE '%'+#q_text#+'%' OR T.addr	LIKE '%'+#q_text#+'%' OR T.consultantName LIKE '%'+#q_text#+'%')
 					</ifNotNull>
