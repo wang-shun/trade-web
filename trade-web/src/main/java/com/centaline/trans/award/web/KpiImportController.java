@@ -171,7 +171,6 @@ public class KpiImportController {
 	}
 
 	@RequestMapping(value = "/doMonthKpiImport")
-
 	public String doMonthKpiImport(String belongMonth, HttpServletRequest request, HttpServletResponse response)
 			throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
 		MultipartFile file = null;
@@ -186,7 +185,9 @@ public class KpiImportController {
 		Date belongM = null;
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
-		// 上月
+		/**
+		 * 根据页面得到是上月还是当月数据
+		 */
 		if ("0".equals(belongMonth)) {
 			belongM = DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1));
 		} else {

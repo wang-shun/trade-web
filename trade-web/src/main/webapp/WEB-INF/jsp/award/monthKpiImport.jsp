@@ -107,6 +107,52 @@
 		    </div>
         </div>
     </div>
+    
+    <!-- 失败数据 -->
+        <div id="error-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
+          <div class="modal-dialog" style="width:1200px">
+             <div class="modal-content">
+                 <div class="modal-header">
+				   <button type="button" class="close" data-dismiss="modal"
+				      aria-hidden="true">×
+				   </button>
+				   <h4 class="modal-title" id="excel-modal-title">
+				      	导入失败数据
+				   </h4>
+				</div>
+                
+                <div class="modal-footer">
+		            <div class="ibox float-e-margins">
+
+                                <div class="ibox-content">
+                                    <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>人员</th>
+                                    <th>员工编号</th>
+                                    <th>金融产品数</th>
+                                    <th>错误信息</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${errorList}"  var="item">
+                                <tr>
+                                    <td>${item.userName }</td>
+                                    <td>${item.employeeCode }</td>
+                                    <td>${item.finOrder }</td>
+                                    <td>${item.errorMessage }</td>
+                                </tr>
+                                </c:forEach>
+                                 
+                                </tbody>
+                            </table>
+                                </div>
+                            </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    
 </div>
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="ex_message" value="${ex_message}" />
