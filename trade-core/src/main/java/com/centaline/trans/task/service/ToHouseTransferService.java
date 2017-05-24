@@ -2,6 +2,7 @@ package com.centaline.trans.task.service;
 
 import java.util.List;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
@@ -100,4 +101,25 @@ public interface ToHouseTransferService {
 	 * @param processInstanceId
 	 */
 	String submitToHouseTransfer(ToHouseTransfer toHouseTransfer,ToMortgage toMortgage,LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId);
+
+	/**
+	 * 过户保存数据,提供给APP使得保存数据和提交流程分开的需求
+	 * @author caoy
+	 * @param toHouseTransfer
+	 * @param toMortgage
+	 * @param loanlostApproveVO
+	 * @param processInstanceId
+	 * @return
+	 */
+	AjaxResponse saveToHouseTransfer(ToHouseTransfer toHouseTransfer, ToMortgage toMortgage,LoanlostApproveVO loanlostApproveVO, String processInstanceId);
+
+	/**
+	 * 提交流程,提供给APP使得保存数据和提交流程分开的需求
+	 * @author caoy
+	 * @param toHouseTransfer
+	 * @param taskId
+	 * @param processInstanceId
+	 * @return
+	 */
+	AjaxResponse submitToHouseTransfer(ToHouseTransfer toHouseTransfer,String taskId, String processInstanceId);
 }

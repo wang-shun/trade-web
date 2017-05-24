@@ -64,20 +64,5 @@ public class ToPricingServiceImpl implements ToPricingService {
 		return toPricing;
 	}
 
-	@Override
-	public AjaxResponse saveAndSubmitPricing(ToPricing toPricing, String taskId, String processInstanceId) {
-		AjaxResponse ajaxResponse = new AjaxResponse();
-		Boolean saveFlag = saveToPricing(toPricing);
-		if(saveFlag){
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-			ToCase toCase = toCaseService.findToCaseByCaseCode(toPricing.getCaseCode());
-			workFlowManager.submitTask(variables, taskId, processInstanceId, toCase.getLeadingProcessId(), toPricing.getCaseCode());
-			ajaxResponse.setSuccess(true);
-		} else {
-			ajaxResponse.setSuccess(false);
-			ajaxResponse.setMessage("保存核价出错");
-		}
-		return ajaxResponse;
-	}
 
 }

@@ -26,16 +26,29 @@ public class CaseBelongAndTransferController {
     CaseHandlerService caseHandlerService;
 
     /**
-     * 服务归属或待办转移功能,得到处理人员列表
+     * 服务归属或待办转移功能,主管得到处理人员列表
      * @author caoy
      * @param request
      * @return
      */
-    @RequestMapping(value = "" , method = RequestMethod.GET)
-    public String BelongAndTransferList(HttpServletRequest request){
-        caseHandlerService.BelongAndTransferList(request);
+    @RequestMapping(value = "manager" , method = RequestMethod.GET)
+    public String belongAndTransferList(HttpServletRequest request){
+        caseHandlerService.belongAndTransferList(request);
         return "case/belongAndTransfer/belongAndTransfer";
     }
+
+    /**
+     * 服务归属或待办转移功能,主管得到处理人员列表
+     * @author caoy
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "consultant" , method = RequestMethod.GET)
+    public String processorChangeList(HttpServletRequest request){
+        caseHandlerService.processorChangeList(request);
+        return "case/belongAndTransfer/processorChange";
+    }
+
 
     /**
      * 服务归属或待办转移功能,从人员列表进入查看该人员的服务项
@@ -58,26 +71,29 @@ public class CaseBelongAndTransferController {
         if("spv".equals(pageType)){
             url="case/belongAndTransfer/spvHandlerDetail";
         }
+        if("task".equals(pageType)){
+            url="case/belongAndTransfer/taskHandlerDetail";
+        }
         return url;
     }
 
     /**
      * 对责任人进行更改
      * @author caoy
-     * @param changCaseCode
+     * @param changItems
      * @param leadingProId
      * @return
      */
     @RequestMapping(value = "changeLeadingPro" , method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResponse changeLeadingPro(String changCaseCode,String userId,String leadingProId,String detailCode){
+    public AjaxResponse changeLeadingPro(String changItems,String userId,String leadingProId,String detailCode){
         AjaxResponse ajaxResponse = new AjaxResponse();
         try {
-            String[] caseCode = changCaseCode.split(",");
-            ajaxResponse =caseHandlerService.changeLeadingPro(caseCode,userId,leadingProId,detailCode);//detailCode是识别提交修改的类别，有时间改成枚举
+            String[] changItem = changItems.split(",");
+            ajaxResponse =caseHandlerService.changeLeadingPro(changItem,userId,leadingProId,detailCode);//detailCode是识别提交修改的类别，有时间改成枚举
         }catch (BusinessException e){
             ajaxResponse.setSuccess(false);
-            ajaxResponse.setMessage("案件" + e.getMessage() + "更新出错!");
+            ajaxResponse.setMessage(e.getMessage() + ",更新出错!");
             logger.error(e.getMessage());
             return ajaxResponse;
         }

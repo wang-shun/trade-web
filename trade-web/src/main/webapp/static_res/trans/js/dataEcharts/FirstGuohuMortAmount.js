@@ -67,8 +67,8 @@
                         }
                         $.each(data.rows,function(i,item){
                             if(item.CHOICE_MONTH==ECHART_D3_.choiceMonth){
-                                ECHART_D3_.totalLossAmount=accAdd(ECHART_D3_.totalLossAmount,item.LOST_AMOUNT);
-                                ECHART_D3_.totalComMortAmount= accAdd(ECHART_D3_.totalComMortAmount,item.MORTGAGET_COM_AMOUNT);
+                                ECHART_D3_.totalLossAmount=accAdd(ECHART_D3_.totalLossAmount,(item.LOST_AMOUNT/10000).toFixed(0));
+                                ECHART_D3_.totalComMortAmount= accAdd(ECHART_D3_.totalComMortAmount,(item.MORTGAGET_COM_AMOUNT/10000).toFixed(0));
                                 for(var i=0;i<ECHART_D3_.districtID.length;i++){
                                     if(item.DISTRICT_ID == ECHART_D3_.districtID[i]){
                                         ECHART_D3_.mort_total[i]=(item.MORTGAGET_COM_AMOUNT/10000).toFixed(0);
@@ -123,7 +123,7 @@
                         var data = [ "收单", "流失" ];
                         returnPie(data, ECHART_D3_.pie_items, myChart2, color,"商贷总金额",unit);
 
-                        $("#list_com_mort").html(ECHART_D3_.accDiv2(ECHART_D3_.totalComMortAmount,10000));
+                        $("#list_com_mort").html(ECHART_D3_.totalLossAmount);
 
                     },
                     error:function(){}

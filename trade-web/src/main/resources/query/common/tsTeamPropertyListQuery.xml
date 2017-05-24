@@ -84,7 +84,9 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select DISTRICT_ID from sctrans.v_yucui_org_hierarchy where DEP_HIERARCHY='yucui_district' and director is not null  GROUP BY DISTRICT_ID order by DISTRICT_ID
+					select DISTRICT_ID from sctrans.v_yucui_org_hierarchy where DEP_HIERARCHY='yucui_district' and director is not null
+					GROUP BY DISTRICT_ID order by
+					charindex(DISTRICT_ID,'54b3233fdf994d9987e7c8febc223588,960089538bc54a9a9139ef52ceb45b33,8a8493d453141f3301532c9568011af9,6a84979158b942b78a8a5921cc30b8c3,de81a98a8ec341caa8e9bc77c46cd370,8a8493d55acd5445015aeb25f3a60240,d5878adf8b0c4032aeae895c701ed693,6114AB949B4445828D4383977C4FAC71,FF5BC56E0E4B45289DAA5721A494C7C5')
 				]]>
 			</baseSql>
 			<orderBySql>

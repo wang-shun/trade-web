@@ -8,7 +8,7 @@ $(function(){
         searchMethod(1);
     });
     $("#changePr").click(function(){
-        $("#codeShow").html($("#changCaseCode").val());
+        $("#codeShow").html($("#changTaskId").val());
         $("#leadingProForChang").show();
     });
     //变更责任人取消
@@ -18,9 +18,9 @@ $(function(){
     });
     //变更责任人提交
     $("#leadingProSubmit").click(function(){
-        var caseCode = $("#changCaseCode").val(); // 案件的caseCode
+        var taskId = $("#changTaskId").val(); // 案件的taskId
         var leadingProId = $("#leadingProId").val();//新的责任人userId
-        var detailCode = "spv";//E+案件变更归属人提交的专属code
+        var detailCode = "task";//E+案件变更归属人提交的专属code
         var userId =$("#userId").val();
 
         if(leadingProId == "" || leadingProId ==  null || leadingProId == undefined){
@@ -34,7 +34,7 @@ $(function(){
             url = ctx + url;
             var data = {
                 leadingProId:leadingProId,
-                changItems:caseCode,
+                changItems:taskId,
                 detailCode:detailCode,
                 userId:userId
             };
@@ -66,7 +66,7 @@ $(function(){
                         $("#leadingProForChang").hide();
                         //reloadGrid(getParams(1));
                         window.wxc.success("恭喜，责任人变更成功！");
-                        deleteDomByCaseCode(caseCode);
+                        deleteDomByCaseCode(taskId);
                     }else{
                         window.wxc.error(data.message);
                     }
@@ -98,8 +98,8 @@ function reloadGrid(data) {
             startList=0;
             $.unblockUI();
             $(".checkbox_input").click(function(){
-                var thisCaseCode = $(this).val();
-                $("#changCaseCode").val(editCaseCode(thisCaseCode));
+                var thisChangTaskId = $(this).val();
+                $("#changTaskId").val(editCaseCode(thisChangTaskId));
             });
             $("#changCaseCode").val('');
         },
@@ -155,7 +155,7 @@ function getParams(page) {
     var detailCode = $("#detailCode").val();
     var caseCode = $("#caseCode").val();
     var caseAddress = $("#caseAddress").val();
-
+    var taskDfKey = $("#taskDfKey").val();
 
     if(userId.length>0&&detailCode.length>0){
         startList=1;
@@ -166,8 +166,9 @@ function getParams(page) {
         search_MuserId:$.trim(userId),
         search_caseCode:$.trim(caseCode),
         search_caseAddress:$.trim(caseAddress),
+        search_taskDfKey:$.trim(taskDfKey),
 
-        queryId : "queryCaseBelongAndTransferSpvDetail",
+        queryId : "queryCaseBelongAndTransferTaskDetail",
         rows : 10,
         page : page
     };
@@ -178,14 +179,14 @@ function checkBoxALL(){
     $("#checkAll").click(function(){
         if($("#checkAll").is(':checked')){
             $("#myTaskList input[type='checkbox']").prop("checked", true);
-            $("#changCaseCode").val("");
-            $(".caseCode_choice").each(function(index){
-                $("#changCaseCode").val(editCaseCode($(this).text()));
+            $("#changTaskId").val("");
+            $(".task_choice").each(function(index){
+                $("#changTaskId").val(editCaseCode($(this).attr("name")));
             });
         }else{
             $("#myTaskList input[type='checkbox']").removeAttr("checked");
-            $(".caseCode_choice").each(function(index){
-                $("#changCaseCode").val("");
+            $(".task_choice").each(function(index){
+                $("#changTaskId").val("");
             });
         }
     });
@@ -196,7 +197,7 @@ function getList(){
     var detailCode = $("#detailCode").val();
     var data = {
         search_MuserId:$.trim(userId),
-        queryId : "queryCaseBelongAndTransferSpvDetail",
+        queryId : "queryCaseBelongAndTransferTaskDetail",
         rows : 10,
         page : 1
     };
@@ -206,27 +207,27 @@ function getList(){
 }
 //选择框选择后拼接caseCode字符串的方法
 function editCaseCode(str){
-    var thisCaseCode = $("#changCaseCode").val();
-    if(''!=thisCaseCode){
-        if(thisCaseCode.indexOf(str)>=0){
-            if(thisCaseCode.indexOf(str)==0){
-                if(thisCaseCode.length>str.length){
-                    thisCaseCode = thisCaseCode.replace(str+",","");
+    var thisChangTaskId = $("#changTaskId").val();
+    if(''!=thisChangTaskId){
+        if(thisChangTaskId.indexOf(str)>=0){
+            if(thisChangTaskId.indexOf(str)==0){
+                if(thisChangTaskId.length>str.length){
+                    thisChangTaskId = thisChangTaskId.replace(str+",","");
                 }else{
-                    thisCaseCode = thisCaseCode.replace(str,"");
+                    thisChangTaskId = thisChangTaskId.replace(str,"");
                 }
 
             }else{
-                thisCaseCode = thisCaseCode.replace(","+str,"");
+                thisChangTaskId = thisChangTaskId.replace(","+str,"");
             }
 
         }else{
-            thisCaseCode=thisCaseCode+","+str;
+            thisChangTaskId=thisChangTaskId+","+str;
         }
     }else{
-        thisCaseCode=str;
+        thisChangTaskId=str;
     }
-    return thisCaseCode;
+    return thisChangTaskId;
 }
 function cleanForm(){
     $("input[name='leadingProName']").val();

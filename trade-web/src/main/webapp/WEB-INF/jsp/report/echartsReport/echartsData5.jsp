@@ -55,6 +55,11 @@
                             <table class="echarsTable">
                             <!-- 图表 -->
                             </table>
+                            <div>
+                                                                      备注：
+                        	商贷占比 = 商贷量  / 签约量<br>
+                        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;纯公积金占比 = 纯公积金量  / 签约量
+                            </div>
                         </div>
                         <div class="pull-left">
                             <div class="plot-rightone relative merge-box">
@@ -219,7 +224,7 @@
                 }
 				];
             	//3.
-            	legend = data.rows.length>0?['分单量','签约量','过户量','商贷量','纯公积金量','商贷签贷占比','纯公积金占比']:[];
+            	legend = ['分单量','签约量','过户量','商贷量','纯公积金量','商贷签贷占比','纯公积金占比'];
             	//4.
             	datas = [dispatchNumArr,signNumArr,guohuNumArr,comNumArr,prfNumArr,comPercentArr,prfPercentArr];
             	//5.

@@ -33,6 +33,10 @@ public class ToPurchaseLimitSearchController {
     private ToPurchaseLimitSearchService toPurchaseLimitSearchService;
     @Autowired
     private TgGuestInfoService tgGuestInfoService;
+    @Autowired(required = true)
+    private ToCaseService toCaseService;
+    @Autowired
+    private WorkFlowManager workFlowManager;
 
     @RequestMapping(value = "process")
     @ResponseBody
@@ -49,12 +53,35 @@ public class ToPurchaseLimitSearchController {
         return jsonObject;
     }
 
+    @RequestMapping(value = "savePls")
+    @ResponseBody
+    public Object savePls(ToPurchaseLimitSearch toPurchaseLimitSearch) {
+        AjaxResponse response = new AjaxResponse<>();
+        try{
+            toPurchaseLimitSearchService.saveToPurchaseLimitSearch(toPurchaseLimitSearch);
+            response.setSuccess(true);
+            response.setMessage("操作成功！");
+        }catch(Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            response.setSuccess(false);
+            response.setMessage("操作失败！");
+        }
+        return response;
+
+    }
+
+
     @RequestMapping(value = "submitPls",method = RequestMethod.POST)
     @ResponseBody
     public Object submitPls(ToPurchaseLimitSearch toPurchaseLimitSearch, String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
-            toPurchaseLimitSearchService.saveAndSubmitPurchaseLimit(toPurchaseLimitSearch,taskId,processInstanceId);
+            toPurchaseLimitSearchService.saveToPurchaseLimitSearch(toPurchaseLimitSearch);
+            List<RestVariable> variables = new ArrayList<RestVariable>();
+            ToCase toCase = toCaseService.findToCaseByCaseCode(toPurchaseLimitSearch.getCaseCode());
+            workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(),toPurchaseLimitSearch.getCaseCode());
+            response.setSuccess(true);
             int result = tgGuestInfoService.sendMsgHistory(toPurchaseLimitSearch.getCaseCode(),toPurchaseLimitSearch.getPartId());
             if (result >0) {
                 response.setMessage("查限购保存成功");

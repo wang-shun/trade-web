@@ -9,5 +9,4 @@ public interface ToPurchaseLimitSearchService {
 	
 	public ToPurchaseLimitSearch findToPlsByCaseCode(String caseCode);
 
-	AjaxResponse saveAndSubmitPurchaseLimit(ToPurchaseLimitSearch toPurchaseLimitSearch,String taskId,String processInstanceId);
 }

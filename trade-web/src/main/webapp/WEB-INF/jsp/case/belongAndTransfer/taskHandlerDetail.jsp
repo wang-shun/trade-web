@@ -58,6 +58,11 @@
 				<button id="changePr" type="button" class="btn btn-success" style="margin-left: 10px;">
 					<i class="icon iconfont"></i>   变更
 				</button>
+
+				<div class="form_content">
+					<label class="control-label sign_left">任务名</label>
+					<aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="part_code" defaultvalue="" />
+				</div>
 			</div>
 	   </form>
 	</div>
@@ -66,13 +71,11 @@
 			<thead>
 				<tr>
 					<th style="text-align: center;"><p class="big"><input type="checkbox" id="checkAll" /></p></th>
-					<th>经办人</th>
+					<th>处理人</th>
 					<th>案件编号</th>
-					<th>案件地址</th>
+					<th>流程环节</th>
+					<th>产证地址</th>
 					<th>创建时间</th>
-					<th>任务名称</th>
-					<th>组别</th>
-
 				</tr>
 			</thead>
 			<tbody id="myTaskList">
@@ -108,7 +111,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 	<!-- iCheck -->
 	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-	<script src="${ctx}/js/trunk/task/eloanHandlerDetail.js?version=1.1.1"></script>
+	<script src="${ctx}/js/trunk/task/taskHandlerDetail.js?version=1.1.1"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
 	<!-- 分页控件  -->
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
@@ -122,27 +125,25 @@
 <script id="template_belongAndTransfer" type= "text/html">
 
 	{{each rows as item index}}
-	<tr class="tr-1" name="{{item.CASE_CODE}}">
+	<tr class="tr-1 task_choice" name="{{item.ID}}">
 		<td  align="center">
-			<p class="big"><input type="checkbox" class="checkbox_input"  value="{{item.CASE_CODE}}" /></p>
+			<p class="big"><input type="checkbox" class="checkbox_input"  value="{{item.ID}}" /></p>
 		</td>
 		<td>
 			<p>{{item.REAL_NAME}}</p>
 		</td>
 		<td>
-			<p class="caseCode_choice">{{item.CASE_CODE}}</p>
+			<p>{{item.CASE_CODE}}</p>
 		</td>
+		<td>
+			<p>{{item.NAME}}</p>
+		</td>
+
 		<td>
 			<p>{{item.PROPERTY_ADDR}}</p>
 		</td>
 		<td>
 			<p>{{item.CREATE_TIME}}</p>
-		</td>
-		<td>
-			<p>E+归属案件</p>
-		</td>
-		<td>
-			<p>{{item.ORG_NAME}}</p>
 		</td>
 	</tr>
 	{{/each}}
@@ -154,8 +155,8 @@
 			<form method="get" class="form_list">
 				<div class="line">
 					<div class="form_content">
-						<label class="control-label sign_left_small">案件编号</label>
-						<span id="codeShow"></span>
+						<label class="control-label sign_left_small" style="float:left;">案件编号</label>
+						<div id="codeShow" style="width: 550px;float: left;"></div>
 					</div>
 				</div>
 				<div class="line">
@@ -186,6 +187,7 @@
 <input type="hidden" value="${orgId}" id="orgId" />
 <input type="hidden" value="${userId}" id="userId" />
 <input type="hidden" value="${detailCode}" id="detailCode" />
-<input type="hidden" value="" id="changCaseCode" />
+<input type="hidden" value="" id="changTaskId" />
+<input type="hidden" value="${ID}" id="taskId" />
 </body>
 </html>

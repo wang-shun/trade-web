@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.aist.common.exception.BusinessException;
+import com.aist.common.web.validate.AjaxResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,8 @@ import com.centaline.trans.task.vo.LoanlostApproveVO;
 
 @Service
 public class ToHouseTransferServiceImpl implements ToHouseTransferService {
+
+	private Logger logger = Logger.getLogger(ToHouseTransferServiceImpl.class);
 
 	@Autowired
 	private ToHouseTransferMapper toHouseTransferMapper;
@@ -86,7 +91,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 			mortgage.setComAmount(toMortgage.getComAmount() != null?toMortgage.getComAmount().multiply(new BigDecimal(10000)):null);
 			mortgage.setComYear(toMortgage.getComYear());
 			mortgage.setComDiscount(toMortgage.getComDiscount());
-			mortgage.setPrfAmount(toMortgage.getPrfAmount()!=null?toMortgage.getPrfAmount().multiply(new BigDecimal(10000)):null);
+			mortgage.setPrfAmount(toMortgage.getPrfAmount() != null ? toMortgage.getPrfAmount().multiply(new BigDecimal(10000)) : null);
 			mortgage.setPrfYear(toMortgage.getPrfYear());
 			toMortgageService.saveToMortgage(mortgage);
 		}
@@ -95,11 +100,11 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 	public ToHouseTransfer findToGuoHuByCaseCode(String caseCode) {
 		ToHouseTransfer toHouseTransfer = toHouseTransferMapper.findToGuoHuByCaseCode(caseCode);
 		if(null!=toHouseTransfer){
-			toHouseTransfer.setBusinessTax(toHouseTransfer.getBusinessTax()!=null?toHouseTransfer.getBusinessTax().divide(new BigDecimal(10000)):null);
-			toHouseTransfer.setContractTax(toHouseTransfer.getContractTax()!=null?toHouseTransfer.getContractTax().divide(new BigDecimal(10000)):null);
-			toHouseTransfer.setHouseHodingTax(toHouseTransfer.getHouseHodingTax()!=null?toHouseTransfer.getHouseHodingTax().divide(new BigDecimal(10000)):null);
-			toHouseTransfer.setLandIncrementTax(toHouseTransfer.getLandIncrementTax()!=null?toHouseTransfer.getLandIncrementTax().divide(new BigDecimal(10000)):null);		
-			toHouseTransfer.setPersonalIncomeTax(toHouseTransfer.getPersonalIncomeTax()!=null?toHouseTransfer.getPersonalIncomeTax().divide(new BigDecimal(10000)):null);
+			toHouseTransfer.setBusinessTax(toHouseTransfer.getBusinessTax() != null ? toHouseTransfer.getBusinessTax().divide(new BigDecimal(10000)) : null);
+			toHouseTransfer.setContractTax(toHouseTransfer.getContractTax() != null ? toHouseTransfer.getContractTax().divide(new BigDecimal(10000)) : null);
+			toHouseTransfer.setHouseHodingTax(toHouseTransfer.getHouseHodingTax() != null ? toHouseTransfer.getHouseHodingTax().divide(new BigDecimal(10000)) : null);
+			toHouseTransfer.setLandIncrementTax(toHouseTransfer.getLandIncrementTax() != null ? toHouseTransfer.getLandIncrementTax().divide(new BigDecimal(10000)) : null);
+			toHouseTransfer.setPersonalIncomeTax(toHouseTransfer.getPersonalIncomeTax() != null ? toHouseTransfer.getPersonalIncomeTax().divide(new BigDecimal(10000)) : null);
 		}
 		return toHouseTransfer;
 	}
@@ -147,7 +152,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 	public int countToHouseTransferByOrgList(List<String> strList,
 			String startDate, String endDate) {
 		
-		return toHouseTransferMapper.countToHouseTransferByOrgList(strList,startDate,endDate);
+		return toHouseTransferMapper.countToHouseTransferByOrgList(strList, startDate, endDate);
 	}
 
 	@Override
@@ -190,6 +195,49 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 		
 		return null;
 	}
+
+	public AjaxResponse saveToHouseTransfer(ToHouseTransfer toHouseTransfer, ToMortgage toMortgage,LoanlostApproveVO loanlostApproveVO, String processInstanceId) {
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		try{
+			// 2 执行交易系统代码
+			saveToHouseTransferAndMort(toHouseTransfer, toMortgage);
+			/*保存过户申请*/
+			saveToApproveRecord(toHouseTransfer, processInstanceId, loanlostApproveVO);
+			/*佣金分配*/
+			awardBaseService.doAwardCalculate(toHouseTransfer, processInstanceId);
+			ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
+			/*修改案件状态*/
+			toCase.setStatus("30001004");
+			toCaseService.updateByCaseCodeSelective(toCase);
+			ajaxResponse.setSuccess(true);
+		}catch (BusinessException e){
+			ajaxResponse.setSuccess(false);
+			e.printStackTrace();
+			logger.error(e.getMessage());
+			throw new BusinessException("保存数据失败");
+		}
+		return ajaxResponse;
+	}
+
+	public AjaxResponse submitToHouseTransfer(ToHouseTransfer toHouseTransfer,String taskId, String processInstanceId){
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		try{
+			ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
+			List<RestVariable> variables = new ArrayList<RestVariable>();
+			workFlowManager.submitTask(variables, taskId, processInstanceId, toCase.getLeadingProcessId(), toHouseTransfer.getCaseCode());
+			ajaxResponse.setSuccess(true);
+		}catch (BusinessException e){
+			ajaxResponse.setSuccess(false);
+			e.printStackTrace();
+			logger.error(e.getMessage());
+			throw new BusinessException("提交流程失败");
+		}
+		return ajaxResponse;
+	}
+
+
+
+
 	/**
 	 * 保存审核记录
 	 * @param processInstanceVO
