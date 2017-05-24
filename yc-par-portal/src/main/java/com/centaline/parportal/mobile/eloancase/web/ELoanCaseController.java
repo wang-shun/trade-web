@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -216,7 +217,8 @@ public class ELoanCaseController
 
     @RequestMapping(value = "/list")
     @ResponseBody
-    public String list(Integer page, Integer pageSize, String sidx, String sord, String condition)
+    public String list(Integer page, Integer pageSize, String sidx, String sord, String condition,
+    		String loanerStatusCode)
     {
         JQGridParam gp = new JQGridParam();
         gp.setPagination(true);
@@ -229,8 +231,10 @@ public class ELoanCaseController
 
         SessionUser sessionUser = uamSessionService.getSessionUser();
         paramter.put("loanerId", sessionUser.getId());
-        // paramter.put("loanerId", "ff80808158bd58c10158bda37f100020");
-
+        if (StringUtils.isNotBlank(loanerStatusCode)) {
+			paramter.put("loanerStatusCode", loanerStatusCode.split(","));
+		}
+        
         if (condition != null)
         {
             String formatCondtion = condition.trim();

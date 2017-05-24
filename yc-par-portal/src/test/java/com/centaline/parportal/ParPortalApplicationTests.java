@@ -77,8 +77,8 @@ public class ParPortalApplicationTests
     @Test
     public void eloanCaseList()
     {
-        String result = eLoanCaseController.list(1, 10, null, null, null);
-        System.out.println(result);
+//        String result = eLoanCaseController.list(1, 10, null, null, null);
+//        System.out.println(result);
     }
 
     @Test
