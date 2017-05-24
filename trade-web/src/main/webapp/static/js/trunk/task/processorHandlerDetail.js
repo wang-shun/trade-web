@@ -104,7 +104,6 @@ function reloadGrid(data) {
             $(".checkbox_input").click(function(){
                 var thisCaseCode = $(this).val();
                 $("#changCaseCode").val(editCaseCode(thisCaseCode));
-                console.log($("#changCaseCode").val());
             });
             $("#changCaseCode").val('');
         },
@@ -233,7 +232,6 @@ function getList(){
     }
     aist.wrap(data);
     startList=1;
-    console.log(data);
     reloadGrid(data);
 }
 //选择框选择后拼接caseCode字符串的方法
