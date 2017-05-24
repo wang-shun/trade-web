@@ -301,7 +301,11 @@ function changeProfessor(caseCode){
 }
 //案件责任人
 function leadingProForChangeClick(){
-    var orgId = $("#orgId").val();
+    var orgId='ff8080814f459a78014f45a73d820006';
+    var cuserId = $("#cuserId").val();
+    if(cuserId==''){
+         orgId = $("#orgId").val();
+    }
     userSelect({
         startOrgId : orgId,
         expandNodeId : orgId,
