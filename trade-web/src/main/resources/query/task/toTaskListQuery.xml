@@ -41,7 +41,7 @@
 	<query id="queryTaskListItemList">
 		<searchCondition>
 			<condition field="AB.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-			<condition field="AB.PART_CODE" name="deleteByPrimaryKey" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="AB.PART_CODE" name="taskDfKey" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 			<condition field="AB.DELEGATION" name="ownerType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
 		</searchCondition>
 		<searchSql>
