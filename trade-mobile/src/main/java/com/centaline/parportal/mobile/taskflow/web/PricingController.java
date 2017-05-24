@@ -2,7 +2,11 @@ package com.centaline.parportal.mobile.taskflow.web;
 
 import com.aist.common.web.validate.AjaxResponse;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToPricing;
 import com.centaline.trans.task.service.ToPricingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by caoyuan7 on 2017/4/14.
@@ -27,6 +33,10 @@ public class PricingController {
     private ToPricingService toPricingService;
     @Autowired
     private TgGuestInfoService tgGuestInfoService;
+    @Autowired(required = true)
+    private ToCaseService toCaseService;
+    @Autowired
+    private WorkFlowManager workFlowManager;
 
     @RequestMapping(value = "process")
     @ResponseBody
@@ -64,7 +74,11 @@ public class PricingController {
     public Object submitPricing(ToPricing toPricing, String taskId, String processInstanceId) {
         AjaxResponse response = new AjaxResponse();
         try {
-            response = toPricingService.saveAndSubmitPricing(toPricing,taskId,processInstanceId);
+            toPricingService.saveToPricing(toPricing);
+            List<RestVariable> variables = new ArrayList<RestVariable>();
+            ToCase toCase = toCaseService.findToCaseByCaseCode(toPricing.getCaseCode());
+            workFlowManager.submitTask(variables, taskId, processInstanceId, toCase.getLeadingProcessId(), toPricing.getCaseCode());
+            response.setSuccess(true);
             int result = tgGuestInfoService.sendMsgHistory(toPricing.getCaseCode(), toPricing.getPartCode());
             if (result >0) {
                 response.setMessage("核价保存成功");

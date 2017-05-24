@@ -11,5 +11,4 @@ public interface ToGetPropertyBookService {
 	
 	ToGetPropertyBook findGetPropertyBookByCaseCode(String caseCode);
 
-	AjaxResponse saveAndSubmitPropertyBook(ToGetPropertyBook toGetPropertyBook, String taskId,String processInstanceId);
 }

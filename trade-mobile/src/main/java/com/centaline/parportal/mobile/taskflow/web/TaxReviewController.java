@@ -33,7 +33,10 @@ public class TaxReviewController {
     private ToTaxService toTaxService;
     @Autowired
     private TgGuestInfoService tgGuestInfoService;
-
+    @Autowired(required = true)
+    private ToCaseService toCaseService;
+    @Autowired
+    private WorkFlowManager workFlowManager;
 
     @RequestMapping(value = "process")
     @ResponseBody
@@ -73,7 +76,11 @@ public class TaxReviewController {
     public Object submitTaxReview(ToTax toTax,String taskId, String processInstanceId, String partCode) {
         AjaxResponse response = new AjaxResponse();
         try {
-            response = toTaxService.saveAndSubmitTax(toTax,taskId,processInstanceId,partCode);
+            toTaxService.saveToTax(toTax);
+            List<RestVariable> variables = new ArrayList<RestVariable>();
+            ToCase toCase = toCaseService.findToCaseByCaseCode(toTax.getCaseCode());
+            workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(), toTax.getCaseCode());
+            response.setSuccess(true);
             int result=tgGuestInfoService.sendMsgHistory(toTax.getCaseCode(), partCode);
             if (result >0) {
                 response.setMessage("审税保存成功");

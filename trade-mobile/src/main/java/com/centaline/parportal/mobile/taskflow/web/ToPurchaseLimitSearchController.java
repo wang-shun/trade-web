@@ -33,6 +33,10 @@ public class ToPurchaseLimitSearchController {
     private ToPurchaseLimitSearchService toPurchaseLimitSearchService;
     @Autowired
     private TgGuestInfoService tgGuestInfoService;
+    @Autowired(required = true)
+    private ToCaseService toCaseService;
+    @Autowired
+    private WorkFlowManager workFlowManager;
 
     @RequestMapping(value = "process")
     @ResponseBody
@@ -73,7 +77,11 @@ public class ToPurchaseLimitSearchController {
     public Object submitPls(ToPurchaseLimitSearch toPurchaseLimitSearch, String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
-            toPurchaseLimitSearchService.saveAndSubmitPurchaseLimit(toPurchaseLimitSearch,taskId,processInstanceId);
+            toPurchaseLimitSearchService.saveToPurchaseLimitSearch(toPurchaseLimitSearch);
+            List<RestVariable> variables = new ArrayList<RestVariable>();
+            ToCase toCase = toCaseService.findToCaseByCaseCode(toPurchaseLimitSearch.getCaseCode());
+            workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(),toPurchaseLimitSearch.getCaseCode());
+            response.setSuccess(true);
             int result = tgGuestInfoService.sendMsgHistory(toPurchaseLimitSearch.getCaseCode(),toPurchaseLimitSearch.getPartId());
             if (result >0) {
                 response.setMessage("查限购保存成功");

@@ -59,22 +59,5 @@ public class ToGetPropertyBookServiceImpl implements ToGetPropertyBookService {
 		return Book;
 	}
 
-	@Override
-	public AjaxResponse saveAndSubmitPropertyBook(ToGetPropertyBook toGetPropertyBook, String taskId, String processInstanceId) {
-		AjaxResponse ajaxResponse = new AjaxResponse();
-		Boolean saveFlag =  saveToGetPropertyBook(toGetPropertyBook);
-		if(saveFlag){
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-			ToCase toCase = toCaseService.findToCaseByCaseCode(toGetPropertyBook.getCaseCode());
-			workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(),toGetPropertyBook.getCaseCode());
-			toCase.setStatus("30001005");	/* 修改案件状态 */
-			toCaseService.updateByCaseCodeSelective(toCase);
-			ajaxResponse.setSuccess(true);
-		} else {
-			ajaxResponse.setSuccess(false);
-			ajaxResponse.setMessage("保存领证出错");
-		}
-		return ajaxResponse;
-	}
 
 }

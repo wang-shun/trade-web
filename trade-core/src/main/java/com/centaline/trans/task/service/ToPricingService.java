@@ -9,6 +9,4 @@ public interface ToPricingService {
 	
 	public ToPricing qureyPricing(String caseCode);
 
-	AjaxResponse saveAndSubmitPricing(ToPricing toPricing,String taskId,String processInstanceId);
-
 }
