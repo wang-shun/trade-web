@@ -1,6 +1,6 @@
 package com.centaline.trans.award.service.impl;
 
-import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,6 +28,7 @@ import com.centaline.trans.common.enums.AwardStatusEnum;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
+import com.centaline.trans.utils.DateUtil;
 
 @Service
 public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
@@ -85,11 +86,11 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			// 保存计件奖金池数据
 			awardCaseCentalInfo.setAwardStatus(AwardStatusEnum.WEIFAFANG.getCode());
-			awardCaseCentalInfo.setAwardMonth(convertToDate(format.format(calendar.getTime())));
+			awardCaseCentalInfo.setAwardMonth(DateUtil.strToFullDate(format.format(calendar.getTime())));
 			tsAwardCaseCentalMapper.insertSelective(awardCaseCentalInfo);
 
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("belongMonth", convertToDate(format.format(calendar.getTime())));
+			map.put("belongMonth", DateUtil.strToFullDate(format.format(calendar.getTime())));
 			map.put("caseCode", awardCaseCentalInfo.getCaseCode());
 
 			// 判断当前的案子是否是浦东的案件(过户审批时 后台组主办是否是浦东组织)
@@ -231,7 +232,7 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 	 * 
 	 * @desc:页面跳转至计件奖金明细
 	 */
-	public void jumpToNewBonus(HttpServletRequest request){
+	public void jumpToNewBonusJsp(HttpServletRequest request){
 		
 			getCurrentDate(request);
 			getCurrentLoginUserInfo(request);
@@ -243,9 +244,10 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 	 * 
 	 * @desc:String 转  Date 格式指定
 	 */
+	@SuppressWarnings("unused")
 	private Date convertToDate(String date) {
 
-		DateFormat format = new SimpleDateFormat("yyyy-MM-DD");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-DD");
 		try {
 			return format.parse(date);
 		} catch (ParseException e) {

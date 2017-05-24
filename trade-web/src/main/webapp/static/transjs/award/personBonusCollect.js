@@ -59,9 +59,9 @@ function reloadGrid(data) {
 		success : function(data) {			
 			$.unblockUI();
 			data.ctx = ctx;
-			var loanerProcessList = template('template_loanerProcessList', data);
-			$("#loanerProcessList").empty();
-			$("#loanerProcessList").html(loanerProcessList);
+			var personCollectList = template('template_personCollectList', data);
+			$("#personCollectList").empty();
+			$("#personCollectList").html(personCollectList);
 			// 显示分页
 			initpage(data.total, data.pagesize, data.page, data.records);
 			

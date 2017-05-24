@@ -1,7 +1,5 @@
 package com.centaline.trans.award.web;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +32,7 @@ public class TsAwardCaseCentalController {
 	@Autowired
 	private TsAwardKpiPayDetailService tsAwardKpiPayDetailService;
 	@Autowired
-	private TsAwardKpiPayService tsAwardKpiPayService;
-	
+	private TsAwardKpiPayService tsAwardKpiPayService;	
 	@Autowired
 	TsAwardCaseCentalService 	tsAwardCaseCentalService;
 	/*
@@ -43,14 +40,17 @@ public class TsAwardCaseCentalController {
 	 * 
 	 * @date:2017-05-22
 	 * 
-	 * @desc:分批次个人奖金明细
+	 * @desc:分批次 个人奖金发放汇总
 	 */
 	@RequestMapping(value = "/personBonusCollect")
 	public String personBonusCollect(HttpServletRequest request) {
 		
-		
-		request.setAttribute("belongM", LocalDate.now());
-		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
+		try{
+			tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new BusinessException("请求页面跳转异常，请稍后再试！");
+		}
 		return "award/personBonusCollect";
 	}
 	
@@ -59,14 +59,17 @@ public class TsAwardCaseCentalController {
 	 * 
 	 * @date:2017-05-22
 	 * 
-	 * @desc:分批次案件奖金发放情况统计列表
+	 * @desc:分批次案件奖金发放情况统计列表（计件池列表）
 	 */
 	@RequestMapping(value = "/awardCaseCollect")
 	public String awardCaseCollect(HttpServletRequest request) {
 		
-		
-		request.setAttribute("belongM", LocalDate.now());
-		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
+		try{
+			tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new BusinessException("请求页面跳转异常，请稍后再试！");
+		}		
 		return "award/awardCaseCollect";
 	}
 	
@@ -81,7 +84,7 @@ public class TsAwardCaseCentalController {
 	@RequestMapping(value = "/newBonus")
 	public String newBonus(HttpServletRequest request) {		
 		try{
-			tsAwardCaseCentalService.jumpToNewBonus(request);			
+			tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw new BusinessException("请求页面跳转异常，请稍后再试！");

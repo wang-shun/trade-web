@@ -10,6 +10,21 @@ $(document).ready(function() {
 	data.page = 1;
 	
 	reloadGrid(data);
+	/* 加载排序查询组件 */
+	aist.sortWrapper({
+		reloadGrid : awardCaseCollectSearchMethod
+	});
+	
+	//top
+	$('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});	
 });
 
 
@@ -59,9 +74,9 @@ function reloadGrid(data) {
 		success : function(data) {			
 			$.unblockUI();
 			data.ctx = ctx;
-			var loanerProcessList = template('template_loanerProcessList', data);
-			$("#loanerProcessList").empty();
-			$("#loanerProcessList").html(loanerProcessList);
+			var awardCaseCollectList = template('template_awardCaseCollectList', data);
+			$("#awardCaseCollectList").empty();
+			$("#awardCaseCollectList").html(awardCaseCollectList);
 			// 显示分页
 			initpage(data.total, data.pagesize, data.page, data.records);
 			
@@ -118,7 +133,7 @@ function initpage(totalCount, pageSize, currentPage, records) {
 
 /* 查询按钮查询 */
 $('#awardCaseCollectSearch').click(function() {
-	awardCaseCollectSearchMethod()
+	awardCaseCollectSearchMethod();
 });
 
 /* 清空查询条件 */
@@ -165,7 +180,7 @@ function getParams() {
 	}
 
 	// 员工姓名组织Id
-	var awardStatus = $("#awardStatus").val().trim();
+	var awardStatus = $.trim($("#awardStatus").val());
 	if (awardStatus == "" || awardStatus == null || awardStatus =="all") {
 		awardStatus = null;
 	}
@@ -177,7 +192,7 @@ function getParams() {
 		guohuApproveTimeEnd = guohuApproveTimeEnd + ' 23:59:59';
 	}
 	// 计件年月
-	var belongMonth = $("#belongMonth").val();	
+	var belongMonth = $.trim($("#belongMonth").val());	
 	
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;	
@@ -202,7 +217,7 @@ function exportAwardBaseToExcel(){
 	displayColomn.push('PROPERTY_ADDR');	
 	displayColomn.push('FRONT_LEADING_PROCESS_CN');
 	displayColomn.push('FRONT_ORG_ID_CN');
-	displayColomn.push('BANK_LEADING_PROCESS_CN');
+	displayColomn.push('BACK_LEADING_PROCESS_CN');
 	displayColomn.push('BACK_ORG_ID_CN');	
 	displayColomn.push('GUOHU_APPROVE_TIME');
 	displayColomn.push('AWARD_STATUS_CN');	
@@ -221,4 +236,15 @@ function exportAwardBaseToExcel(){
 	$('#excelForm').method = "post";
 	$('#excelForm').submit();
 	
+}
+
+//案件case_code排序图标变化函数
+function caseCodeSort() {
+	if ($("#caseCodeSorti").attr("class") == "fa fa-sort-desc fa_down") {
+		$("#caseCodeSorti").attr("class", 'fa fa-sort-asc fa_up ');
+	} else if ($("#caseCodeSorti").attr("class") == "fa fa-sort-desc fa_down icon-chevron-down") {
+		$("#caseCodeSorti").attr("class", 'fa fa-sort-asc fa_up');
+	} else {
+		$("#caseCodeSorti").attr("class", 'fa fa-sort-desc fa_down');
+	}
 }

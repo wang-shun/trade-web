@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>奖金派发信息统计列表</title>
+        <title>计件奖金派发案件列表</title>
 
 		<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet" />
 		<link href="${ctx}/css/animate.css" rel="stylesheet" />
@@ -25,18 +25,19 @@
 		<link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
 		<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 		<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-		<link rel="stylesheet" href="${ctx}/static/css/btn.css" />
-		<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+		<link rel="stylesheet" href="${ctx}/static/trans/css/award/baseAward.css">
 		
 		<!-- 必须CSS -->
 		<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
     </head>
-    
+        
     <body class="pace-done">
+            <input type="hidden" id="ctx" value="${ctx}" /> 
+        	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>	 
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box">
                     <div class="clearfix"> 
-                        <h2 class="title pull-left ml15">奖金派发信息统计列表</h2>
+                        <h2 class="title pull-left ml15">计件奖金派发案件列表</h2>
                     </div>
                     <div class="form_list">
                         <div class="line">                           
@@ -50,14 +51,16 @@
                             </div>
                             <div class="form_content">
                                 <label class="control-label sign_left_small">计件年月</label>
-                                <input class="input_type" style="width: 100px;" placeholder="" value="${belongMonth}" id="belongMonth" name="belongMonth">
+                                <div id="datepicker_0" class="input-group input-medium date-picker input-daterange" data-date-format="yyyy-mm" style="display:inline-block;">
+                                	<input class="input_type" style="width: 100px;" placeholder="" value="${belongMonth}" id="belongMonth" name="belongMonth">
+                                </div>
                             </div>
                             <div class="form_content ml5">
                                 <div class="add_btn">
                                     <button class="btn btn-success mr5 btn-icon" id="caseDetailsSearch"><i class="icon iconfont">&#xe635;</i>查询</button>
                                     <button class="btn btn-success" onclick="javascript:exportBonusExcelButton()">案件奖金汇总导出</button>
                                     <button class="btn btn-success" onclick="javascript:exportToExcel()">案件环节明细导出</button>
-                                    <button type="reset" class="btn btn-grey">清空</button>
+                                    <button class="btn btn-grey" type="button" id="caseDetailsClean">清空</button>
                                 </div>
                             </div>
                         </div>
@@ -79,102 +82,12 @@
                                     </tr>
                                 </thead>
                                 <tbody id="TsAwardBaseList">
-                                    <tr>
-                                        <td>ZY-SH-201609-0898</td>
-                                        <td>上海浦东二区孙桥片区孙桥路238弄6号0201室</td>
-                                        <td>2016-06-22</td>
-                                        <td>2016-06-22</td>
-                                        <td>452.8</td>
-                                        <td><a href="javascript:void(0)" class="spread" onclick="javascript:this.innerHTML=(this.innerHTML=='收起'?'展开':'收起');">收起</a></td>
-                                    </tr>
-                                    
-                                    <tr class="spread_line">
-                                        <td colspan="8" class="spread_td">
-                                        <table class="table spread_tab table-bordered">
-                                            <thead>
-	                                            <tr>
-	                                                <th>人员</th>
-	                                                <th>组件</th>
-	                                                <th>服务</th>
-	                                                <th>基础奖金</th>
-	                                                <th>满意度</th>
-	                                                <th>满意度占比</th>
-	                                                <th>金融达标</th>
-	                                                <th>贷款流失</th>
-	                                                <th>环节占比</th>
-	                                                <th>最终考核结果</th>
-	                                                <th>绩效奖金</th>
-	                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>吕江青</td>
-                                                    <td>浦东交易1组</td>
-                                                    <td>查限购</td>
-                                                    <td>15</td>
-                                                    <td>10（1.4）</td>
-                                                    <td>1</td>
-                                                    <td>否（1.2）</td>
-                                                    <td>否（1.4）</td>
-                                                    <td>1/1</td>
-                                                    <td>1.4</td>
-                                                    <td>21</td>
-                                                </tr>
-                                             </tbody>
-                                        </table>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>ZY-SH-201609-0898</td>
-                                        <td>上海浦东二区孙桥片区孙桥路238弄6号0201室</td>
-                                        <td>2016-06-22</td>
-                                        <td>2016-06-22</td>
-                                        <td>452.8</td>
-                                        <td><a href="javascript:void(0)" class="spread" onclick="javascript:this.innerHTML=(this.innerHTML=='收起'?'展开':'收起');">收起</a></td>
-                                    </tr>
-                                    
-                                    <tr class="spread_line">
-                                        <td colspan="8" class="spread_td">
-                                        <table class="table spread_tab table-bordered">
-                                            <thead>
-                                            <tr>
-                                                <th>人员</th>
-                                                <th>组件</th>
-                                                <th>服务</th>
-                                                <th>基础奖金</th>
-                                                <th>满意度</th>
-                                                <th>满意度占比</th>
-                                                <th>金融达标</th>
-                                                <th>贷款流失</th>
-                                                <th>环节占比</th>
-                                                <th>最终考核结果</th>
-                                                <th>绩效奖金</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>吕江青</td>
-                                                    <td>浦东交易1组</td>
-                                                    <td>查限购</td>
-                                                    <td>15</td>
-                                                    <td>10（1.4）</td>
-                                                    <td>1</td>
-                                                    <td>否（1.2）</td>
-                                                    <td>否（1.4）</td>
-                                                    <td>1/1</td>
-                                                    <td>1.4</td>
-                                                    <td>21</td>
-                                                </tr>                                                
-                                            </tbody>
-                                        </table>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>                       
                     </div>
                 </div>
+                
             </div>
                 
         <!-- End page wrapper-->
@@ -183,7 +96,7 @@
         <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
          <!-- 日期控件 -->
-    	<script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
+        <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>     
         <!-- Custom and plugin javascript -->
         <script src="${ctx}/js/inspinia.js"></script>
         <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
@@ -197,22 +110,22 @@
         <script src="${ctx}/js/plugins/jquery.custom.js"></script>
 		<script id="tsAwardBaseList" type= "text/html">
         {{each rows as item index}}
- 			<tr class="border-e7">
-                     <td></td>
+ 			<tr>                   
                      <td>{{item.CASE_CODE}}</td>
                      <td>{{item.PROPERTY_ADDR}}</td>
                      <td>{{item.GUOHU_TIME}}</td>
                      <td>{{item.CLOSE_TIME}}</td>
                      <td>{{item.BASE_CASE_AMOUNT}}</td>
-                     <td><div class="expand" id="{{item.CASE_CODE}}">展开</div></td>
+                     <td><div class="expand"  style="color:#4bccec" id="{{item.CASE_CODE}}">展开</div></td>
              </tr>
              <tr class="toogle-show border-e7" id="toggle{{item.CASE_CODE}}" style="display:none;"></tr>
 		{{/each}}
 	    </script>
 	    
 	    <script id="tsAwardSrvList" type= "text/html">
-			<td colspan="7" class="two-td">
-				<table class="two-table">
+									 
+             <td colspan="8" class="spread_td">
+                <table class="table spread_tab table-bordered">
 					<thead>
 						<tr>
 							<th>人员</th>
@@ -249,6 +162,5 @@
 			</td>
 	    </script>
 	    </content> 
-        <input type="hidden" id="ctx" value="${ctx}" /> 
     </body>
 </html>

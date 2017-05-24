@@ -23,5 +23,5 @@ public interface TsAwardCaseCentalService {
 	 * 
 	 * @desc:页面跳转至计件奖金明细
 	 */
-	void jumpToNewBonus(HttpServletRequest request);
+	void jumpToNewBonusJsp(HttpServletRequest request);
 }
