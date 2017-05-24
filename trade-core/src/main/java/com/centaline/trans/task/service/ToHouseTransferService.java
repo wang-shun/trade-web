@@ -2,11 +2,14 @@ package com.centaline.trans.task.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
+import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 public interface ToHouseTransferService {
 	
@@ -100,4 +103,8 @@ public interface ToHouseTransferService {
 	 * @param processInstanceId
 	 */
 	String submitToHouseTransfer(ToHouseTransfer toHouseTransfer,ToMortgage toMortgage,LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId);
+
+	Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
+			LoanlostApproveVO loanlostApproveVO, String GuohuApprove, String GuohuApprove_response, String notApprove,
+			String members);
 }
