@@ -50,6 +50,24 @@ public class TaxReviewController {
         return jsonObject;
     }
 
+    @RequestMapping(value="saveTaxReview")
+    @ResponseBody
+    public Object saveTaxReview(HttpServletRequest request, ToTax toTax) {
+        AjaxResponse response = new AjaxResponse<>();
+        try{
+            toTaxService.saveToTax(toTax);
+            response.setSuccess(true);
+            response.setMessage("操作成功！");
+        }catch(Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            response.setSuccess(false);
+            response.setMessage("操作失败！");
+        }
+        return response;
+    }
+
+
     @RequestMapping(value = "submitTaxReview", method = RequestMethod.POST)
     @ResponseBody
     public Object submitTaxReview(ToTax toTax,String taskId, String processInstanceId, String partCode) {

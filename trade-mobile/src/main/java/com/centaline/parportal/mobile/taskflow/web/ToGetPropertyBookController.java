@@ -48,6 +48,22 @@ public class ToGetPropertyBookController {
         return jsonObject;
     }
 
+    @RequestMapping(value = "saveToGetPropertyBook")
+    @ResponseBody
+    public Object saveToGetPropertyBook(ToGetPropertyBook toGetPropertyBook) {
+        AjaxResponse response = new AjaxResponse<>();
+        try{
+            boolean isSuccess = toGetPropertyBookService.saveToGetPropertyBook(toGetPropertyBook);
+            response.setSuccess(isSuccess);
+        }catch(Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            response.setSuccess(false);
+            response.setMessage("操作失败！");
+        }
+        return response;
+    }
+
     @RequestMapping(value = "submitToGetPropertyBook",method = RequestMethod.POST)
     @ResponseBody
     public Object submitToGetPropertyBook(ToGetPropertyBook toGetPropertyBook, String taskId,String processInstanceId) {

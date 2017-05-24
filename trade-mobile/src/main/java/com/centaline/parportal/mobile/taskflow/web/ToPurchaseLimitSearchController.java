@@ -49,6 +49,25 @@ public class ToPurchaseLimitSearchController {
         return jsonObject;
     }
 
+    @RequestMapping(value = "savePls")
+    @ResponseBody
+    public Object savePls(ToPurchaseLimitSearch toPurchaseLimitSearch) {
+        AjaxResponse response = new AjaxResponse<>();
+        try{
+            toPurchaseLimitSearchService.saveToPurchaseLimitSearch(toPurchaseLimitSearch);
+            response.setSuccess(true);
+            response.setMessage("操作成功！");
+        }catch(Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            response.setSuccess(false);
+            response.setMessage("操作失败！");
+        }
+        return response;
+
+    }
+
+
     @RequestMapping(value = "submitPls",method = RequestMethod.POST)
     @ResponseBody
     public Object submitPls(ToPurchaseLimitSearch toPurchaseLimitSearch, String taskId,String processInstanceId) {

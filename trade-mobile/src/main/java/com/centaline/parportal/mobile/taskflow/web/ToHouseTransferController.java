@@ -104,10 +104,27 @@ public class ToHouseTransferController {
         return jsonObject;
     }
 
+    @RequestMapping(value="saveToHouseTransfer")
+    @ResponseBody
+    public Object saveToHouseTransfer(ToHouseTransfer toHouseTransfer,ToMortgage toMortgage) {
+        AjaxResponse response = new AjaxResponse<>();
+        try{
+            toHouseTransferService.saveToHouseTransferAndMort(toHouseTransfer, toMortgage);
+            response.setSuccess(true);
+            response.setMessage("操作成功！");
+        }catch(Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            response.setSuccess(false);
+            response.setMessage("操作失败！");
+        }
+        return response;
+    }
+
     @RequestMapping(value = "submitToHouseTransfer")
     @ResponseBody
     public Object submitToHouseTransfer(ToHouseTransfer toHouseTransfer,LoanlostApproveVO loanlostApproveVO,String taskId,String processInstanceId) {
-        AjaxResponse<?> response = new AjaxResponse<>();
+        AjaxResponse response = new AjaxResponse<>();
         try {
             ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
             if(null!=toCase){

@@ -42,6 +42,22 @@ public class PricingController {
         return jsonObject;
     }
 
+    @RequestMapping(value = "savePricing")
+    @ResponseBody
+    public Object savePricing(ToPricing toPricing) {
+        AjaxResponse response = new AjaxResponse<>();
+        try{
+            toPricingService.saveToPricing(toPricing);
+            response.setSuccess(true);
+            response.setMessage("操作成功！");
+        }catch(Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            response.setSuccess(false);
+            response.setMessage("操作失败！");
+        }
+        return response;
+    }
 
     @RequestMapping(value = "submitPricing")
     @ResponseBody
