@@ -260,7 +260,7 @@
 					WHERE ec.LOANER_ID = #loanerId# 
 						  AND e.STATUS != 'ABAN'
 						  
-						<ifNotNull condition>
+						<ifNotNull loanerStatusCode>
 							AND ec.LOANER_STATUS in (#loanerStatusCode#)
 						</ifNotNull>
 						  <ifNotNull condition>
