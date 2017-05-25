@@ -127,13 +127,13 @@
 	{{each rows as item index}}
 	<tr class="tr-1 task_choice" name="{{item.ID}}">
 		<td  align="center">
-			<p class="big"><input type="checkbox" class="checkbox_input"  value="{{item.ID}}" /></p>
+			<p class="big"><input type="checkbox" class="checkbox_input"  value="{{item.ID}}" tValue="{{item.CASE_CODE}}" /></p>
 		</td>
 		<td>
 			<p>{{item.REAL_NAME}}</p>
 		</td>
 		<td>
-			<p>{{item.CASE_CODE}}</p>
+			<p class="caseCode_choice">{{item.CASE_CODE}}</p>
 		</td>
 		<td>
 			<p>{{item.NAME}}</p>
@@ -188,6 +188,8 @@
 <input type="hidden" value="${userId}" id="userId" />
 <input type="hidden" value="${detailCode}" id="detailCode" />
 <input type="hidden" value="" id="changTaskId" />
+
+<input type="hidden" value="" id="changCaseCode" />
 <input type="hidden" value="${ID}" id="taskId" />
 </body>
 </html>
