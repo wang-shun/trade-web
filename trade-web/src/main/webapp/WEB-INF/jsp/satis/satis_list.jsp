@@ -47,6 +47,8 @@
 					<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUserId}" />
 					<input type="hidden" id="serviceDepId" name="serviceDepId" value="${serviceDepId}" />
 					<input type="hidden" id="serviceJobCode" name="serviceJobCode" value="${serviceJobCode}" />
+					<!-- 保存分单的客服专员ID -->
+					<input type="hidden" id="callerId" name="callerId">
 					<div class="line">
 						<div class="form_content">
 							<label class="control-label sign_left_small"> 案件编号 </label> 
@@ -115,7 +117,7 @@
 	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script> 
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-	<script id="template_satisList" type="text/html">
+	<script id="SatisListTemplate" type="text/html">
          {{each rows as item index}}
                 <tr>
 				<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">					
@@ -252,44 +254,19 @@
 
 							function dispatch() {
 								var caseCodes = '';
+								
 								$("input[name='checkRow']:enabled:checked").each(function(i,e){
 									caseCodes += $(e).val()+",";
 								})
-								var userId = $("#userId").val();
 								
-								if($.trim(userId) == ''){
-									window.wxc.error("请选择客服专员！");
-									return false;
-								}
 								if($.trim(caseCodes) == ''){
 									window.wxc.error("请选择案件！");
 									return false;
 								}
 								
-								window.wxc.confirm("确定要分单吗？",{"wxcOk":function(){
-									$.ajax({
-										url:ctx+"/satis/doDispatch",
-										method:"post",
-										dataType:"json",
-										data:{caseCodes:caseCodes,userId:userId},
-										beforeSend:function(){  
-											$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-											$(".blockOverlay").css({'z-index':'9998'});
-								        },
-										success:function(data){
-											 $.unblockUI();
-											 if(data.success){
-												 window.wxc.confirm("分单成功！",{"wxcOk":function(){
-													 window.location.reload();
-												 }
-											   })
-											 }else{
-												 window.wxc.error("分单失败！");
-											 } 
-										 }
-									})
-								  }
-								})
+								userSelect({startOrgId:'2c9280845be6e90c015bf06436fb0021',expandNodeId:'2c9280845be6e90c015bf06436fb0021',
+									jobCode:'JYUKFZY',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectCallerBack});
+
 							}
 
 							//清空数据
@@ -345,7 +322,7 @@
 									ctx : "${ctx}",
 									queryId : 'SatisListQuery',
 									rows : '12',
-									templeteId : 'template_satisList',
+									templeteId : 'SatisListTemplate',
 									gridClass : 'table table_blue table-striped table-bordered table-hover ',
 									data : params,
 									wrapperData : {
@@ -365,6 +342,43 @@
 									$("#realName").val("");
 									$("#userId").val("");
 								}
+							}
+							
+							function selectCallerBack(array){
+								if (array && array.length > 0) {
+									$("#callerId").val(array[0].userId);
+								} else {
+									$("#callerId").val("");
+								}
+								
+								var callerId = $("#callerId").val();
+ 								if($.trim(callerId) == ''){
+									window.wxc.error("请选择客服专员！");
+									return false;
+								} 	
+								
+								window.wxc.confirm("确定要分单吗？",{"wxcOk":function(){
+									$.ajax({
+										url:ctx+"/satis/doDispatch",
+										method:"post",
+										dataType:"json",
+										data:{caseCodes:caseCodes,userId:userId},
+										beforeSend:function(){  
+											$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+											$(".blockOverlay").css({'z-index':'9998'});
+								        },
+										success:function(data){
+											 $.unblockUI();
+											 if(data.success){
+												 window.wxc.alert("分单成功！")
+												 initData();
+											 }else{
+												 window.wxc.error("分单失败！");
+											 } 
+										 }
+									})
+								  }
+								})
 							}
 							
 							/**

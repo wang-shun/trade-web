@@ -657,10 +657,8 @@
 						data:data,
 						success:function(data){
 							 if(data.success){
-								 window.wxc.confirm("操作成功！",{"wxcOk":function(){
-									 goBack();
-								   }
-						   		 })
+								 window.wxc.alert("操作成功！");
+								 goBack();
 							 }else{
 								 window.wxc.error("操作失败！\n"+data.message);
 							 } 
@@ -707,7 +705,7 @@
                     return false;
                 }
                 /*陪还贷意见*/
-                var $salerLoancloseCom = $("inputp[name='salerLoancloseCom']");
+                var $salerLoancloseCom = $("input[name='salerLoancloseCom']");
                 if($salerLoancloseCom.val().trim() == ''){
                     window.wxc.alert("请填写上家贷款意见！");
                     changeClass($salerLoancloseCom);
@@ -737,7 +735,7 @@
                     return false;
                 }
                 /*贷款意见*/
-                var $buyerComloanCom = $("inputp[name='buyerComloanCom']");
+                var $buyerComloanCom = $("input[name='buyerComloanCom']");
                 if($buyerComloanCom.val().trim() == ''){
                     window.wxc.alert("请填写下家贷款意见！");
                     changeClass($buyerComloanCom);
@@ -758,43 +756,6 @@
                     return false;
                 }
                 /***********************下家END**************************/
-                /***********************经纪人START**************************/
-                /*电话结果*/
-                var $agentPhoneRes = $("input[name='agentPhoneRes']");
-                if($agentPhoneRes.val().trim() == ''){
-                    window.wxc.alert("请填写经纪人电话结果！");
-                    changeClass($agentPhoneRes);
-                    return false;
-                }
-                /*签约意见*/
-                var $agentSignCom = $("input[name='agentSignCom']");
-                if($agentSignCom.val().trim() == ''){
-                    window.wxc.alert("请填写经纪人签约意见！");
-                    changeClass($agentSignCom);
-                    return false;
-                }
-                /*贷款意见*/
-                var $agentComloanCom = $("inputp[name='agentComloanCom']");
-                if($agentComloanCom.val().trim() == ''){
-                    window.wxc.alert("请填写经纪人贷款意见！");
-                    changeClass($agentComloanCom);
-                    return false;
-                }
-                /*公积金意见*/
-                var $agentPsfloanCom = $("input[name='agentPsfloanCom']");
-                if($agentPsfloanCom.val().trim() == ''){
-                    window.wxc.alert("请填写经纪人公积金意见！");
-                    changeClass($agentPsfloanCom);
-                    return false;
-                }
-                /*过户意见*/
-                var $agentGuohuCom = $("input[name='agentGuohuCom']");
-                if($agentGuohuCom.val().trim() == ''){
-                    window.wxc.alert("请填写经纪人过户意见！");
-                    changeClass($agentGuohuCom);
-                    return false;
-                }
-                /***********************经纪人END**************************/
 	        }
 	        </script>
         </content> 

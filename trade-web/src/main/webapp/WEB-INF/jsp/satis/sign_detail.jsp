@@ -33,6 +33,11 @@
     <style>
 		.borderClass {border:1px solid red!important;resize: none;}
 		.borderClass:focus {border:1px solid red!important;resize: none;}
+		.btn-primary {
+  			background-color: #f8ac59 !important;
+  			border-color: #f8ac59 !important;
+  			color: #FFFFFF !important;
+		}
 	</style>
 </head>
 
@@ -291,6 +296,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">电话是否正确</label>
                             <select class="select_control yuanwid" name="salerPhoneOk" value="${satisfaction.salerPhoneOk}">
+                            	<option value="">请选择</option>
                                 <option value="1" ${satisfaction.salerPhoneOk eq 1?'selected="selected"':''}>是</option>
                                 <option value="0" ${satisfaction.salerPhoneOk eq 0?'selected="selected"':''}>否</option>
                             </select>
@@ -306,6 +312,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">签约评分</label> 
                             <select class="select_control yuanwid" name="salerSignSat" value="${satisfaction.salerSignSat}">
+                            	<option value="">请选择</option>
                             	<c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.salerSignSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
                             	</c:forEach>
@@ -320,6 +327,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">陪还贷评分</label>
                             <select class="select_control yuanwid" name="salerLoancloseSat" value="${satisfaction.salerLoancloseSat}">
+                            		<option value="">请选择</option>
                             	<c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.salerLoancloseSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
                             	</c:forEach>
@@ -478,7 +486,7 @@
 
 		        <div style="height: auto;">
 				    <div class="mb15">
-			           	<h2 class="newtitle title-mark">上传附件</h2>
+			           	<h2 class="newtitle title-mark">上传附件(由交易顾问上传)</h2>
 			           	<div class="table-box" id="fileUploadContainer"></div>
 			   		</div>	
 				</div>		
@@ -590,10 +598,8 @@
 						success:function(data){
 							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.confirm("操作成功！",{"wxcOk":function(){
-									 goBack();
-								   }
-						   		 })
+								 window.wxc.alert("操作成功！");
+								 goBack();
 							 }else{
 								 window.wxc.error("操作失败！\n"+data.message);
 							 } 
@@ -653,6 +659,13 @@
 	        /*提交时验证表单*/
 	        function checkForSubmit(){
                 /***********************上家START**************************/
+                /*是否正确*/
+                var $salerPhoneOk = $("select[name='salerPhoneOk']");
+                if($salerPhoneOk.val() != '1'){
+                	window.wxc.alert("上家电话不正确，无法通过！");
+                    changeClass($salerPhoneOk);
+                    return false;
+                }
                 /*电话结果*/
                 var $salerPhoneRes = $("input[name='salerPhoneRes']");
                 if($salerPhoneRes.val().trim() == ''){
@@ -668,7 +681,7 @@
                     return false;
                 }
                 /*陪还贷意见*/
-                var $salerLoancloseCom = $("inputp[name='salerLoancloseCom']");
+                var $salerLoancloseCom = $("input[name='salerLoancloseCom']");
                 if($salerLoancloseCom.val().trim() == ''){
                     window.wxc.alert("请填写上家贷款意见！");
                     changeClass($salerLoancloseCom);
@@ -676,6 +689,13 @@
                 }
                 /***********************上家END**************************/
                 /***********************下家START**************************/
+                /*是否正确*/
+                var $buyerPhoneOk = $("select[name='buyerPhoneOk']");
+                if($buyerPhoneOk.val() != '1'){
+                	window.wxc.alert("上家电话不正确，无法通过！");
+                    changeClass($buyerPhoneOk);
+                    return false;
+                }
                 /*电话结果*/
                 var $buyerPhoneRes = $("input[name='buyerPhoneRes']");
                 if($buyerPhoneRes.val().trim() == ''){
@@ -691,7 +711,7 @@
                     return false;
                 }
                 /*贷款意见*/
-                var $buyerComloanCom = $("inputp[name='buyerComloanCom']");
+                var $buyerComloanCom = $("input[name='buyerComloanCom']");
                 if($buyerComloanCom.val().trim() == ''){
                     window.wxc.alert("请填写下家贷款意见！");
                     changeClass($buyerComloanCom);
@@ -705,36 +725,6 @@
                     return false;
                 }
                 /***********************下家END**************************/
-                /***********************经纪人START**************************/
-                /*电话结果*/
-                var $agentPhoneRes = $("input[name='agentPhoneRes']");
-                if($agentPhoneRes.val().trim() == ''){
-                    window.wxc.alert("请填写经纪人电话结果！");
-                    changeClass($agentPhoneRes);
-                    return false;
-                }
-                /*签约意见*/
-                var $agentSignCom = $("input[name='agentSignCom']");
-                if($agentSignCom.val().trim() == ''){
-                    window.wxc.alert("请填写经纪人签约意见！");
-                    changeClass($agentSignCom);
-                    return false;
-                }
-                /*贷款意见*/
-                var $agentComloanCom = $("inputp[name='agentComloanCom']");
-                if($agentComloanCom.val().trim() == ''){
-                    window.wxc.alert("请填写经纪人贷款意见！");
-                    changeClass($agentComloanCom);
-                    return false;
-                }
-                /*公积金意见*/
-                var $agentPsfloanCom = $("input[name='agentPsfloanCom']");
-                if($agentPsfloanCom.val().trim() == ''){
-                    window.wxc.alert("请填写经纪人公积金意见！");
-                    changeClass($agentPsfloanCom);
-                    return false;
-                }
-                /***********************经纪人END**************************/
 	        }
 	        </script>
         </content>     
