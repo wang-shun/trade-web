@@ -583,7 +583,7 @@
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
 					caseCode : caseCode,
-					srvCode : "Survey"
+					srvCode : "survey_guohu"
 				});
 				
 			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));

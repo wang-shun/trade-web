@@ -308,7 +308,7 @@
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
 					caseCode : caseCode,
-					srvCode : "Survey"
+					srvCode : "survey_g_return"
 				});
 				
 			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
