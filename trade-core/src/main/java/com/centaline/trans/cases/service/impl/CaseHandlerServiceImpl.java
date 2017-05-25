@@ -128,7 +128,7 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
      */
     public AjaxResponse changeLeadingPro(String[] changItem, String userId,String leadingProId,String detailCode) throws BusinessException{
         SessionUser user = uamSessionService.getSessionUser();
-        if ("Manager".equals(user.getServiceJobCode())){
+        if ("Manager".equals(user.getServiceJobCode())||"COXXGLY".equals(user.getServiceJobCode())){
             return changeLeadingProForManger(changItem,userId,leadingProId,detailCode);
         }
         if ("consultant".equals(user.getServiceJobCode())){
@@ -186,7 +186,7 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
     public AjaxResponse changeLeadingProForManger(String[] changItem, String userId,String leadingProId,String detailCode) throws BusinessException{
         AjaxResponse ajaxResponse = new AjaxResponse();
         SessionUser user = uamSessionService.getSessionUser();
-        if (!"Manager".equals(user.getServiceJobCode())){
+        if (!"Manager".equals(user.getServiceJobCode())&&!"COXXGLY".equals(user.getServiceJobCode())){
             throw new BusinessException("您没有权限访问");
         }
         for(int i =0;i<changItem.length;i++){

@@ -108,15 +108,21 @@ text-decoration: underline !important;
                             </div>
                         </div>
                         <div class="row clearfix">
-                            <div id="select_div_1" class="form_content">
-                                <label class="sign_left control-label">
-                                    	产证地址
-                                </label>
-                                <div class="sign_right intextval">
-                                    <input type="text" class="form-control pull-left" id="propertyAddr">
-                                </div>
-                            </div>
+							<div class="form_content">
+								<label class="control-label sign_left">任务名</label>
+								<aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="part_code" defaultvalue="" />
+							</div>
+
+							<div id="select_div_1" class="form_content">
+								<label class="sign_left control-label">
+									产证地址
+								</label>
+								<div class="sign_right intextval">
+									<input type="text" class="form-control pull-left" id="propertyAddr">
+								</div>
+							</div>
                         </div>
+
                         <div class="row clearfix">
                         	 <div class="form_content">
                                 <label class="sign_left control-label">
@@ -127,7 +133,7 @@ text-decoration: underline !important;
                                     onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"/>
                                     <input type="hidden" id="groupParentID" />
-                                    
+
                                     <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont"></i>
                                     </div>
@@ -135,6 +141,7 @@ text-decoration: underline !important;
                             </div>
                             
                         	<button id="searchButton" class="btn btn-success" style="margin-left: 10px;" type="button"> <i class="icon iconfont"></i> 查询 </button>
+							<button id="changePr" type="button" class="btn btn-success" style="margin-left: 10px;"><i class="icon iconfont"></i>变更</button>
                         </div>
 					</form>
 				</div>
@@ -144,11 +151,13 @@ text-decoration: underline !important;
 							<table class="table table_blue table-striped table-bordered table-hover ">
 								<thead>
 									<tr>
-										<th ><span class="sort" sortColumn="b.case_Code" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
+										<th style="text-align: center;"><p class="big"><input type="checkbox" id="checkAll" /></p></th>
+										<th>案件编号</th>
+										<th>案件编号</th>
 										<th>流程环节</th>	
 										<th>产证地址</th>
 										<th>贵宾服务中心</th>
-										<th ><span class="sort" sortColumn="createTime" sord="asc" onclick="createTimeSort();" >开始时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
+										<th>开始时间</th>
 										<th>操作</th>
 									</tr>
 								</thead>
@@ -208,15 +217,45 @@ text-decoration: underline !important;
 			
 </div>
 
+<div class="modal inmodal in" id="unlocatedTask" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" style="width: 800px;">
+		<div class="modal-content animated fadeIn popup-box">
+			<div class="modal_title">变更责任人</div>
+			<form method="get" class="form_list">
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small" style="float:left;">案件编号</label>
+						<div id="codeShow" style="width: 550px;float: left;"></div>
+					</div>
+				</div>
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small">责任人</label>
+						<input class="teamcode input_type" placeholder="" value=""  name="leadingProName" id="leadingProName"
+							   hVal="" onclick="leadingProForChangeClick()" />
+						<div class="input-group float_icon organize_icon" id="materialRefundUser">
+							<i class="icon iconfont">&#xe627;</i>
+						</div>
+						<input type="hidden"   name="leadingProId" id="leadingProId"  value=""/>
+					</div>
+				</div>
 
+				<div class="line">
+					<div class="add_btn text-center" style="margin:15px 126px;">
+						<button type="button" class="btn btn-success" id="leadingProSubmit" >确定</button>
+						<button type="button" class="btn btn-grey ml5" id="leadingProClose">关闭</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 <content tag="local_script"> 
 <!-- Peity --> 
-<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
+<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
-<script src="${ctx}/js/trunk/case/unlocatedTask3.js?v=1.1"></script><%-- 
-<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> --%>
-
+<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+<script src="${ctx}/js/trunk/case/unlocatedTask3.js?v=1.1"></script>
 <!-- 分页控件  -->
 <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 <!-- 必须JS -->
@@ -224,17 +263,20 @@ text-decoration: underline !important;
 
 <script id="template_unlocatedTask" type="text/html">
          {{each rows as item index}}
- 				     <tr class="tr-1">
+ 				     <tr class="tr-1" name="{{item.caseCode}}">
+						 <td  align="center">
+							 <p class="big"><input type="checkbox" class="checkbox_input"  value="{{item.caseCode}}" tValue="{{item.taskId}}" /></p>
+						 </td>
 						<td>
-                                <p class="big">
-                                <a href="{{ctx}}/case/caseDetail?caseId={{item.caseId}}" target="_blank">
-                                     {{item.caseCode}}              
-                                </a>
-                                </p>
-                                <p>
-                               <i class="tag_sign">c</i>
-                                     {{item.CTM_CODE}}                
-                               </p>
+							<p class="big">
+							<a href="{{ctx}}/case/caseDetail?caseId={{item.caseId}}" target="_blank" tValue="{{item.taskId}}" class="caseCode_choice">
+								{{item.caseCode}}
+							</a>
+							</p>
+							<p>
+							<i class="tag_sign">c</i>
+								{{item.CTM_CODE}}
+							</p>
                         </td>
 						<td class="center">
                                 <p class="big">
@@ -353,6 +395,82 @@ $(document).ready(function() {
 	reloadGrid();
 	//
 	changeTaskAssignee(1);
+	checkBoxALL();//全选和反选
+	$("#changePr").click(function(){
+		$("#codeShow").html($("#changCaseCode").val());
+		$("#unlocatedTask").show();
+	});
+	//变更责任人取消
+	$("#leadingProClose").click(function(){
+		cleanForm();
+		$("#unlocatedTask").hide();
+	});
+
+	$("#leadingProSubmit").click(function(){
+		var taskId = $("#changTaskId").val(); // 案件的taskId
+		var leadingProId = $("#leadingProId").val();//新的责任人userId
+		var detailCode = "task";//E+案件变更归属人提交的专属code
+		var userId =$("#userId").val();
+		var changCaseCode =$("#changCaseCode").val();
+
+
+		if(leadingProId == "" || leadingProId ==  null || leadingProId == undefined){
+			window.wxc.alert("若要变更项目责任人，请先选择新的案件责任人！");
+			return;
+		}
+
+		window.wxc.confirm("您确定要进行责任人变更？",{"wxcOk":function(){
+			var url = "/case/handler/changeLeadingPro";
+			var ctx = $("#ctx").val();
+			url = ctx + url;
+			var data = {
+				leadingProId:leadingProId,
+				changItems:taskId,
+				detailCode:detailCode,
+				userId:userId
+			};
+
+			$.ajax({
+				async : true,
+				type : "POST",
+				url : url,
+				dataType : "json",
+				timeout : 10000,
+				data : data,
+				beforeSend : function() {
+					$.blockUI({
+						message : $("#salesLoading"),
+						css : {
+							'border' : 'none',
+							'z-index' : '9999'
+						}
+					});
+					$(".blockOverlay").css({
+						'z-index' : '9998'
+					});
+				},
+				complete : function() {
+					$.unblockUI();
+				},
+				success : function(data) {
+					if(data.success){
+						$("#leadingProForChang").hide();
+						//reloadGrid(getParams(1));
+						window.wxc.success("恭喜，责任人变更成功！");
+						deleteDomByCaseCode(changCaseCode);
+					}else{
+						window.wxc.error(data.message);
+					}
+
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					window.wxc.error("系统错误,请重新登录");
+				}
+			});
+		}});
+
+	});
+
 });
 
 function reloadGrid(page) {
@@ -375,7 +493,7 @@ function packgeData(page){
      		var caseCode = $.trim($('#caseCode').val());
      		var ctmCODE = $.trim($('#ctmCODE').val());
      		var groupParentID = $("#groupParentID").val();
-     		
+     		var taskDfKey = $("#taskDfKey").val();
      	    data1.rows = 5;
      	     if(!page) {
      	    	 data1.page = 1;
@@ -390,7 +508,7 @@ function packgeData(page){
      	    data1.argu_propertyAddr=propertyAddr;
      	    data1.argu_ctmCODE=ctmCODE;
      	    data1.groupParentID = groupParentID;
-     	    
+			data1.taskDfKey = taskDfKey;
      	    return data1;
 }
 function fetchData(p){
@@ -411,6 +529,7 @@ function fetchData(p){
  	        	  var tsAwardBaseList= template('template_unlocatedTask' , data);
                   $("#tab_unlocatedTask").empty();
                   $("#tab_unlocatedTask").html(tsAwardBaseList);
+
                   
                  initpage(data.total,data.pagesize,data.page, data.records);
                  $('.demo-left').poshytip({
@@ -433,6 +552,15 @@ function fetchData(p){
          			offsetX: 8,
          			offsetY: 5,
          		});
+
+			  $(".checkbox_input").click(function(){
+				  var thisCaseCode = $(this).val();
+				  var thisTaskId = $(this).attr("tValue");
+				  $("#changCaseCode").val(editCaseCode(thisCaseCode,$("#changCaseCode").val()));
+				  $("#changTaskId").val(editCaseCode(thisTaskId,$("#changTaskId").val()));
+			  });
+			  $("#changCaseCode").val('');
+			  $("#changTaskCodeId").val('');
  	          }
  	     });
 } 
@@ -488,11 +616,15 @@ function doGroupClaim(taskId){
 	});
 }			
 function showLocate(taskId){
-		$("#taskId").val(taskId);
-		$('#myModal').modal("show");
+	$("#taskId").val(taskId);
+	$('#myModal').modal("show");
 }
 
 </script> 
-</content>				
+</content>
+<input type="hidden" value="" id="changCaseCode" />
+<input type="hidden" value="" id="changTaskId" />
+<input type="hidden" value="${ctx}" id="ctx" />
+
 </body>
 </html>

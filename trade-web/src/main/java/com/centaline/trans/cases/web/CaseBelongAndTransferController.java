@@ -78,7 +78,7 @@ public class CaseBelongAndTransferController {
     }
 
     /**
-     * 对责任人进行更改
+     * 对主办、商贷后台办理人、公积金后台办理人、e+归属、资金监管归属、待办归属进行更改
      * @author caoy
      * @param changItems
      * @param leadingProId
