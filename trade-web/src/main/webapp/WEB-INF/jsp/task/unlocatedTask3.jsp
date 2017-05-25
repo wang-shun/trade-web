@@ -141,7 +141,10 @@ text-decoration: underline !important;
                             </div>
                             
                         	<button id="searchButton" class="btn btn-success" style="margin-left: 10px;" type="button"> <i class="icon iconfont"></i> 查询 </button>
-							<button id="changePr" type="button" class="btn btn-success" style="margin-left: 10px;"><i class="icon iconfont"></i>变更</button>
+							<shiro:hasPermission name="TRADE.TASK.NO.EXECUTOR.MULITY.CHANGE">
+								<button id="changePr" type="button" class="btn btn-success" style="margin-left: 10px;"><i class="icon iconfont"></i>变更</button>
+							</shiro:hasPermission>
+
                         </div>
 					</form>
 				</div>
