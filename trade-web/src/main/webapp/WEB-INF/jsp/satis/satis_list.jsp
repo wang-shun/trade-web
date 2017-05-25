@@ -49,6 +49,8 @@
 					<input type="hidden" id="serviceJobCode" name="serviceJobCode" value="${serviceJobCode}" />
 					<!-- 保存分单的客服专员ID -->
 					<input type="hidden" id="callerId" name="callerId">
+					<!-- 保存选定案件编号 -->
+					<input type="hidden" id="caseCodes" name="caseCodes">
 					<div class="line">
 						<div class="form_content">
 							<label class="control-label sign_left_small"> 案件编号 </label> 
@@ -117,7 +119,7 @@
 	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script> 
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-	<script id="SatisListTemplate" type="text/html">
+	<script id="template_satisList" type="text/html">
          {{each rows as item index}}
                 <tr>
 				<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">					
@@ -259,6 +261,8 @@
 									caseCodes += $(e).val()+",";
 								})
 								
+								$("#caseCodes").val(caseCodes);
+								
 								if($.trim(caseCodes) == ''){
 									window.wxc.error("请选择案件！");
 									return false;
@@ -322,7 +326,7 @@
 									ctx : "${ctx}",
 									queryId : 'SatisListQuery',
 									rows : '12',
-									templeteId : 'SatisListTemplate',
+									templeteId : 'template_satisList',
 									gridClass : 'table table_blue table-striped table-bordered table-hover ',
 									data : params,
 									wrapperData : {
@@ -356,28 +360,27 @@
 									window.wxc.error("请选择客服专员！");
 									return false;
 								} 	
-								
-								window.wxc.confirm("确定要分单吗？",{"wxcOk":function(){
-									$.ajax({
-										url:ctx+"/satis/doDispatch",
-										method:"post",
-										dataType:"json",
-										data:{caseCodes:caseCodes,userId:userId},
-										beforeSend:function(){  
-											$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-											$(".blockOverlay").css({'z-index':'9998'});
-								        },
-										success:function(data){
-											 $.unblockUI();
-											 if(data.success){
-												 window.wxc.alert("分单成功！")
+									
+								$.ajax({
+									url:"${ctx}/satis/doDispatch",
+									method:"post",
+									dataType:"json",
+									data:{caseCodes:$("#caseCodes").val(),userId:$("#callerId").val()},
+									beforeSend:function(){  
+										$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+										$(".blockOverlay").css({'z-index':'9998'});
+							        },
+									success:function(data){
+										 $.unblockUI();
+										 if(data.success){
+											 window.wxc.alert("派单成功！",{"wxcOk":function(){
 												 initData();
-											 }else{
-												 window.wxc.error("分单失败！");
-											 } 
-										 }
-									})
-								  }
+											 	}
+											 });
+										 }else{
+											 window.wxc.error("派单失败！");
+										 } 
+									 }
 								})
 							}
 							
