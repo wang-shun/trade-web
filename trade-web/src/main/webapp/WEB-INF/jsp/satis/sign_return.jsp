@@ -354,10 +354,8 @@
 						success:function(data){
 							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.confirm("操作成功！",{"wxcOk":function(){
-									 goBack();
-								   }
-						   		 })
+								 window.wxc.confirm("操作成功！");
+								 goBack();
 							 }else{
 								 window.wxc.error(data.message);
 							 } 

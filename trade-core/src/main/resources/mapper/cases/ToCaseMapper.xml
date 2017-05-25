@@ -181,10 +181,11 @@
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 </select>
   
-<select id="findAllToCase" resultMap="BaseResultMap">
+<select id="findToCaseByStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_CASE
+    from sctrans.T_TO_CASE with(nolock)
+    where STATUS >= #{status,jdbcType=VARCHAR}
 </select>  
   
 <select id="findToLoanAgentByCaseCode" parameterType="java.lang.String" resultType="java.lang.Integer">

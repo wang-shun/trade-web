@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.basedata.remote.UamBasedataService;
 import com.centaline.trans.cases.entity.Result2;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -23,6 +22,7 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.entity.ToFirstFollow;
 import com.centaline.trans.task.entity.ToHouseTransfer;
@@ -438,10 +438,13 @@ public class SignServiceImpl implements SignService {
 					toCase.getLeadingProcessId(), transSignVO.getCaseCode());
 			
 			/**
-			 * 签约完成之后插入一条记录到sctrans.T_CS_CASE_SATISFACTION表
+			 * 签约完成之后如果sctrans.T_CS_CASE_SATISFACTION表没有对应casecode的记录则插入一条记录
 			 * @for 满意度评分
 			 */
-			satisfactionService.handleAfterSign(transSignVO.getCaseCode(), sessionUser.getId());
+			ToSatisfaction satis = satisfactionService.queryToSatisfactionByCaseCode(toCase.getCaseCode());
+			if(satis == null){
+				satisfactionService.handleAfterSign(transSignVO.getCaseCode(), sessionUser.getId());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			// return false;

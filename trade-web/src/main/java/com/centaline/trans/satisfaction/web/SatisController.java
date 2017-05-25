@@ -80,7 +80,7 @@ public class SatisController {
 	SessionUser user = uamSessionService.getSessionUser();
 	model.addAttribute("sessionUserId", user.getId());
 	model.addAttribute("serviceJobCode", user.getServiceJobCode());
-    return "satis/satisList";
+    return "satis/satis_list";
   }
   
   @RequestMapping("/task/signDetail")

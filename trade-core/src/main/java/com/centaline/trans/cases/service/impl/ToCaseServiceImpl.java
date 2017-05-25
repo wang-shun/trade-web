@@ -160,8 +160,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 	}
 	
 	@Override
-	public List<ToCase> findAllToCase(){
-		return toCaseMapper.findAllToCase();
+	public List<ToCase> findToCaseByStatus(String status){
+		return toCaseMapper.findToCaseByStatus(status);
 	}
 	
 	@Override
