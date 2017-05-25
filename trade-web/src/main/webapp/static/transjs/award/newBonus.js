@@ -187,6 +187,7 @@ var BonusList = function () {
 	 };
 }();
 
+
 //分页
 function initpage(totalCount,pageSize,currentPage,records)
 {
@@ -209,10 +210,10 @@ function initpage(totalCount,pageSize,currentPage,records)
 		totalPages:totalCount,
 		visiblePages:9,
 		startPage:currentPage,
-		first:'<i class="icon-step-backward"></i>',
-		prev:'<i class="icon-chevron-left"></i>',
-		next:'<i class="icon-chevron-right"></i>',
-		last:'<i class="icon-step-forward"></i>',
+		first : '<i class="fa fa-step-backward"></i>',
+		prev : '<i class="fa fa-chevron-left"></i>',
+		next : '<i class="fa fa-chevron-right"></i>',
+		last : '<i class="fa fa-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {			
 				goPage(page);

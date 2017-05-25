@@ -26,6 +26,7 @@
 		<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
 		<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
 		<link rel="stylesheet" href="${ctx}/static/trans/css/award/baseAward.css">
+		<link rel="stylesheet" href="${ctx}/static/css/btn.css" />
 		
 		<!-- 必须CSS -->
 		<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
@@ -84,7 +85,12 @@
                                 <tbody id="TsAwardBaseList">
                                 </tbody>
                             </table>
-                        </div>                       
+                        </div>  
+                        <div class="text-center page_box">
+							<span id="currentTotalPage"><strong></strong></span> <span class="ml15">共<strong id="totalP"></strong>条
+							</span>&nbsp;
+							<div id="pageBar" class="pagergoto"></div>
+						</div>                     
                     </div>
                 </div>
                 
