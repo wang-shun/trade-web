@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"></customDict>
+		<customDict id="qqcdSrvCode" beanName="qqcdSrvCode"></customDict>
+</dicts>
+	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="kpiCaseListQuery">
+		<searchCondition>
+			<condition field="CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+                  <![CDATA[
+					select 
+						CASE_CODE,
+						isnull(sum(case when SRV_CODE = 'TransSign' then SALER_SATIS else 0 end),0) as SALER_SIGN_SAT,
+						isnull(sum(case when SRV_CODE = 'Guohu' then SALER_SATIS else 0 end),0) as SALER_GUOHU_SAT,
+						isnull(sum(case when SRV_CODE = 'LoanClose' then SALER_SATIS else 0 end),0) as SALER_LOAN_SAT,
+						isnull(sum(case when SRV_CODE = 'TransSign' then BUYER_SATIS else 0 end),0) as BUYER_SIGN_SAT,
+						isnull(sum(case when SRV_CODE = 'Guohu' then BUYER_SATIS else 0 end),0) as BUYER_GUOHU_SAT,
+						isnull(sum(case when SRV_CODE = 'ComLoanProcess' then BUYER_SATIS else 0 end),0) as BUYER_COM_SAT,
+						isnull(sum(case when SRV_CODE = 'PSFSign' then BUYER_SATIS else 0 end),0) as BUYER_PSF_SAT,
+						MIN(SALER_CALLBACK) SALER_CALLBACK,
+						MIN(BUYER_CALLBACK) BUYER_CALLBACK,
+						MIN(BELONG_MONTH) BELONG_MONTH
+					from sctrans.t_ts_kpi_srv_case
+					where TYPE = 'IMP'
+						<ifNotNull belongMonth>
+			        		AND convert(VARCHAR(7),BELONG_MONTH,120) = #belongMonth#
+			 			</ifNotNull>
+			 			
+				]]>
+			</baseSql>
+			<orderBySql>
+			  		ORDER BY CASE_CODE  DESC
+			</orderBySql>
+			<groupSql>
+					GROUP BY CASE_CODE
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="SALER_SIGN_SAT" index="" checkbox="" title="上家签约评分" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="SALER_GUOHU_SAT" index="" checkbox="" title="上家过户评分" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="SALER_LOAN_SAT" index="" checkbox="" title="上家陪同还贷评分" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="BUYER_SIGN_SAT" index="" checkbox="" title="下家签约评分" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="BUYER_GUOHU_SAT" index="" checkbox="" title="下家过户评分" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="BUYER_COM_SAT" index="" checkbox="" title="下家商贷评分" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="BUYER_PSF_SAT" index="" checkbox="" title="下家公积金评分" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="SALER_CALLBACK" index="" checkbox="" title="上家电话是否接通" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="BUYER_CALLBACK" index="" checkbox="" title="下家电话是否接通" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="BELONG_MONTH" index="" checkbox="" title="计件年月" customDict="" sysDict=""  width="90" isSort="" align="" halign="" resizable="" beanFormatter="dateFormatter"/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

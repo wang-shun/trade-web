@@ -113,6 +113,7 @@
 		<pattern>/award/managerRewardList</pattern>
 		<pattern>/award/managerPiecework</pattern>
 		<pattern>/award/monthKpiImport</pattern>
+		<pattern>/award/satisSyncList</pattern>
 	</decorator>
 	<decorator name="noTemplate">
 		<pattern>/report/guoHuReport</pattern>

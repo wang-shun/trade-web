@@ -219,6 +219,8 @@
 	<!-- 按贵宾中心、组别、个人统计 -->
 	<import resource="query/report/signLoanReportQuery.xml"/>
 	
-	
 	<!-- 签约贷款报表统计模块结束 -->
+	
+	<!-- 满意度列表 -->
+	<import resource="query/award/kpiForCaseQuery.xml"/>
 </queryConfig>

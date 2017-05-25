@@ -2,12 +2,15 @@ package com.centaline.trans.award.service.impl;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +28,8 @@ import com.centaline.trans.award.service.KpiSrvCaseService;
 import com.centaline.trans.award.vo.KpiSrvCaseVo;
 import com.centaline.trans.utils.DateUtil;
 import com.centaline.trans.utils.NumberUtil;
+
+import sun.util.resources.nl.CalendarData_nl;
 
 @Service(value = "kpiSrvCaseService")
 @Transactional(readOnly = true)
@@ -575,5 +580,20 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 			kpiSrvCaseMapper.callKpiStastic(DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1)));
 		}
 		
+	}
+
+	@Override
+	public void callKpiSyncSatis() {
+		Map<String, Date> paramMap = new HashMap<String, Date>();
+		//过户时间：默认上月月底
+		Date today1 = DateUtil.getFirstDayOfTheMonth();
+		Date guohuTime = DateUtil.plusDay(today1, -1);
+		//计件月份：默认上月月初
+		Date today2 = DateUtil.getFirstDayOfTheMonth();
+		Date countTime = DateUtil.plusMonth(today2, -1);
+		
+	    paramMap.put("guohu_approve_time", guohuTime);
+	    paramMap.put("belong_month", countTime);
+		kpiSrvCaseMapper.callKpiSyncSatis(paramMap);
 	}
 }
