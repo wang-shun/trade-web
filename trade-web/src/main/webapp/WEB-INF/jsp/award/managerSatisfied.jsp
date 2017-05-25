@@ -77,7 +77,7 @@
                  </div>
                  </div>
              </div>
-             <div class="row" style="margin-top: -75px;">
+             <div class="row" style="margin-top: -40px;">
                  <div class="col-md-12">
                      <div class="table_content">
                          <div class="bonus-table"></div>
@@ -154,7 +154,57 @@
 				templeteId : 'template_kpiCaseList',
 				gridClass : 'table table_blue table-striped table-bordered table-hover ',
 				data : params,
-				columns : []
+				columns : [[
+					{
+						colName : '案件编号<a href=\'javascript:void(0);\'><i class=\'fa fa-sort-desc fa_down\'></i></a>',
+						sortColumn : 'CASE_CODE',
+						sord : 'desc',
+						sortActive : true,
+						rowspan : 2
+					},
+					{
+						colName : '上家',
+						colspan : 3,
+						th_clazz : 'text-center'
+					},
+					{
+						colName : '下家',
+						colspan : 4,
+						th_clazz : 'text-center'
+					},
+					{
+						colName : '上家-下家'
+					},
+					{
+						colName : '计件年月',
+						rowspan : 2
+					}
+					],[
+						{
+							colName : '签约评分'
+						},
+						{
+							colName : '过户评分'
+						},
+						{
+							colName : '陪同还贷评分'
+						},
+						{
+							colName : '签约评分'
+						},
+						{
+							colName : '过户评分'
+						},
+						{
+							colName : '贷款评分'
+						},
+						{
+							colName : '公积金'
+						},
+						{
+							colName : '电话是否接通'
+						}
+						]]
 			};
         
         //日期控件,只能选择月份
@@ -186,16 +236,7 @@
         
       	//加载页面
 		function initData() {
-
 			$(".bonus-table").aistGrid(settings);
-			
-			setThead();
-			
-		    aist.sortWrapper({
-				cacheData : settings,
-				_self : $(".bonus-table")
-			});
-		    
 		}
 		
 		//导出到excel
@@ -246,31 +287,6 @@
 			        }  
 			   })
 			 }})
-		}
-		
-		//设置表头(因是多行，插件不支持)
-		function setThead(){
-			
-			var thead = "";
-			thead += "<tr>";
-			thead += "<th rowspan='2'><span class='sort true' sortColumn='CASE_CODE' sord='desc'>案件编号<a href='javascript:void(0);'><i class='fa fa-sort-desc fa_down'></i></a></span></th>";
-			thead += "<th colspan='3' class='text-center'>上家</th>";
-			thead += "<th colspan='4' class='text-center'>下家</th>";
-			thead += "<th>上家-下家</th>";
-			thead += "<th rowspan='2'>计件年月</th>";
-			thead += "</tr>";
-			thead += "<tr>";
-			thead += "<th>签约评分</th>";
-			thead += "<th>过户评分</th>";
-			thead += "<th>陪同还贷评分</th>";
-			thead += "<th>签约评分</th>";
-			thead += "<th>过户评分</th>";
-			thead += "<th>贷款评分</th>";
-			thead += "<th>公积金</th>";
-			thead += "<th>电话是否接通</th>";
-			thead += "</tr>";
-			
-			$(".bonus-table").find("thead").append(thead)
 		}
     </script>
 </content>
