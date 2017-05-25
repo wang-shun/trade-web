@@ -52,6 +52,9 @@
 			        </if>
 				]]>
 			</baseSql>
+			<orderBySql>
+			  ORDER BY s.STATUS ASC
+			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>

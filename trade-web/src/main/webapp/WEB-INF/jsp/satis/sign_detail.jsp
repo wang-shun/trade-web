@@ -357,6 +357,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">电话是否正确</label>
                                  <select class="select_control yuanwid" name="buyerPhoneOk" value="${satisfaction.buyerPhoneOk}">
+                                 	<option value="">请选择</option>
                                     <option value="1" ${satisfaction.buyerPhoneOk eq 1?'selected="selected"':''}>是</option>
                                     <option value="0" ${satisfaction.buyerPhoneOk eq 0?'selected="selected"':''}>否</option>
                                 </select>
@@ -372,6 +373,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">签约评分</label>
                             <select class="select_control yuanwid" name="buyerSignSat" value="${satisfaction.buyerSignSat}">
+                            		<option value="">请选择</option>
                             	<c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.buyerSignSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
                             	</c:forEach>
@@ -386,6 +388,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">贷款评分</label>
                             <select class="select_control yuanwid" name="buyerComloanSat" value="${satisfaction.buyerComloanSat}">
+                            		<option value="">请选择</option>
                             	<c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.buyerComloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
                             	</c:forEach>
@@ -400,6 +403,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金评分</label>
                             <select class="select_control yuanwid" name="buyerPsfloanSat" value="${satisfaction.buyerPsfloanSat}">
+                            		<option value="">请选择</option>
                             	<c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.buyerPsfloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
                             	</c:forEach>
@@ -666,62 +670,13 @@
                     changeClass($salerPhoneOk);
                     return false;
                 }
-                /*电话结果*/
-                var $salerPhoneRes = $("input[name='salerPhoneRes']");
-                if($salerPhoneRes.val().trim() == ''){
-                    window.wxc.alert("请填写上家电话结果！");
-                    changeClass($salerPhoneRes);
-                    return false;
-                }
-                /*签约意见*/
-                var $salerSignCom = $("input[name='salerSignCom']");
-                if($salerSignCom.val().trim() == ''){
-                    window.wxc.alert("请填写上家签约意见！");
-                    changeClass($salerSignCom);
-                    return false;
-                }
-                /*陪还贷意见*/
-                var $salerLoancloseCom = $("input[name='salerLoancloseCom']");
-                if($salerLoancloseCom.val().trim() == ''){
-                    window.wxc.alert("请填写上家贷款意见！");
-                    changeClass($salerLoancloseCom);
-                    return false;
-                }
                 /***********************上家END**************************/
                 /***********************下家START**************************/
                 /*是否正确*/
                 var $buyerPhoneOk = $("select[name='buyerPhoneOk']");
                 if($buyerPhoneOk.val() != '1'){
-                	window.wxc.alert("上家电话不正确，无法通过！");
+                	window.wxc.alert("下家电话不正确，无法通过！");
                     changeClass($buyerPhoneOk);
-                    return false;
-                }
-                /*电话结果*/
-                var $buyerPhoneRes = $("input[name='buyerPhoneRes']");
-                if($buyerPhoneRes.val().trim() == ''){
-                    window.wxc.alert("请填写下家电话结果！");
-                    changeClass($buyerPhoneRes);
-                    return false;
-                }
-                /*签约意见*/
-                var $buyerSignCom = $("input[name='buyerSignCom']");
-                if($buyerSignCom.val().trim() == ''){
-                    window.wxc.alert("请填写下家签约意见！");
-                    changeClass($buyerSignCom);
-                    return false;
-                }
-                /*贷款意见*/
-                var $buyerComloanCom = $("input[name='buyerComloanCom']");
-                if($buyerComloanCom.val().trim() == ''){
-                    window.wxc.alert("请填写下家贷款意见！");
-                    changeClass($buyerComloanCom);
-                    return false;
-                }
-                /*公积金意见*/
-                var $buyerPsfloanCom = $("input[name='buyerPsfloanCom']");
-                if($buyerPsfloanCom.val().trim() == ''){
-                    window.wxc.alert("请填写下家公积金意见！");
-                    changeClass($buyerPsfloanCom);
                     return false;
                 }
                 /***********************下家END**************************/
