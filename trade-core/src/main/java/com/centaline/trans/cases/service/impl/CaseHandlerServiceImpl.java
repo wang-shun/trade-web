@@ -288,17 +288,9 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
                         restVariable.setType("string");
                         restVariable.setValue(u_.getUsername());
 
-                        JQGridParam gp =  new CacheGridParam();
-                        gp.setPagination(false);
-                        gp.setQueryId("queryVarinsts");
-                        gp.put("variableName", variableName);
-                        gp.put("instCode",toWorkFlow.getInstCode());
-
-                        Page<Map<String, Object>> varinsts = quickGridService.findPageForSqlServer(gp);
-                        if(varinsts!=null){
-                            if(varinsts.getContent().size()>0){
-                                workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
-                            }
+                        String consultantVar = gotVars(toWorkFlow.getInstCode(), variableName);//要更新掉工作流的参数表中的Consultant变量
+                        if(!StringUtils.isEmpty(consultantVar)){
+                            workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
                         }
                     }
                 }
