@@ -36,6 +36,7 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToHouseTransfer;
@@ -333,10 +334,13 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
 		
 		/**
-		 * 过户审批通过后找到该案件对应的‘客服回访’流程并发送消息往下走，并更新sctrans.T_CS_CASE_SATISFACTION表
+		 * 过户审批通过后查找该案件对应的sctrans.T_CS_CASE_SATISFACTION表记录，如果没有就找到对应的‘客服回访’流程并发送消息往下走，并更新表记录
 		 * @for 满意度评分
 		 */
-		satisfactionService.handleAfterGuohuApprove(caseCode, sender.getId());
+		ToSatisfaction satis = satisfactionService.queryToSatisfactionByCaseCode(caseCode);
+		if(satis == null){
+			satisfactionService.handleAfterGuohuApprove(caseCode, sender.getId());
+		}
 		
 		return workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
 				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
