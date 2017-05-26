@@ -160,15 +160,19 @@
 					<h2 class="newtitle title-mark">案件贷款情况 : 无贷款</h2>
 				</c:if>
                 <div class="text_list">
-                    <ul class="textinfo">
+                    <ul class="textinfo">                    
+                    	<li>
+                            <em>案件签约时间</em><span class="yuanwid"><fmt:formatDate value="${caseInfo.realConTime}" pattern="yyyy-MM-dd" /></span>
+                        </li>
+                        <li>
+                            <em>实际过户时间</em><span class="yuanwid"><fmt:formatDate value="${caseInfo.realHtTime}" pattern="yyyy-MM-dd" /></span>
+                        </li>
+                        
                         <li>
                             <em>签约时间</em><span class="yuanwid">${caseDetailVO.signDate}</span>
                         </li>
                         <li>
                             <em>批贷时间</em><span class="yuanwid">${caseDetailVO.apprDate}</span>
-                        </li>
-                        <li>
-                            <em>实际过户时间</em><span class="yuanwid"><fmt:formatDate value="${caseInfo.realHtTime}" pattern="yyyy-MM-dd" /></span>
                         </li>
                         <li>
                             <em>放款时间</em><span class="yuanwid">${caseDetailVO.lendDate}</span>
