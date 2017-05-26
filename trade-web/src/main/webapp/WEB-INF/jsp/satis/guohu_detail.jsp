@@ -645,8 +645,10 @@
 						success:function(data){
 							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.success("操作成功！");
-								 goBack();
+								 window.wxc.alert("操作成功！",{"wxcOk":function(){
+									 goBack();
+								   }
+						   		 })
 							 }else{
 								 window.wxc.error("操作失败！\n"+data.message);
 							 } 
@@ -676,8 +678,10 @@
 						success:function(data){
 							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.alert("操作成功！");
-								 goBack();
+								 window.wxc.alert("操作成功！",{"wxcOk":function(){
+									 goBack();
+								   }
+						   		 })
 							 }else{
 								 window.wxc.error("操作失败！\n"+data.message);
 							 } 
@@ -697,7 +701,7 @@
 	        
 	        /*只读表单*/
 	        function readOnlyForm(){
-	        	$("input,select").prop("disabled",true);
+	        	$("input:not('#caseComment'),select").prop("disabled",true);
 	        }
 	        
 	    	function changeClass(object){
