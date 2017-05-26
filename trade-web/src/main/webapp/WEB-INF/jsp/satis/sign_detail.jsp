@@ -586,7 +586,6 @@
 	        
 	        /*签约通过*/
 	        function doSignPass(){
-	        	
 	        	if(!checkForSubmit()){
 	        		return false;
 	        	}
@@ -714,6 +713,8 @@
                     return false;
                 }
                 /***********************下家END**************************/
+                
+                return true;
 	        }
 	        </script>
         </content>     
