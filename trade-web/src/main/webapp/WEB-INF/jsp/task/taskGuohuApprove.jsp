@@ -165,7 +165,21 @@
                             <em>案件签约时间</em><span class="yuanwid"><fmt:formatDate value="${caseInfo.realConTime}" pattern="yyyy-MM-dd" /></span>
                         </li>
                         <li>
+                            <em>签约提交时间</em><span class="yuanwid"><fmt:formatDate value="${caseInfo.transSignSubTime}" pattern="yyyy-MM-dd" /></span>
+                        </li>
+                        <li>
+                            <em>签约提交相差</em><span class="yuanwid">${caseInfo.transSignSubAndRealTimeDiff} 天</span>
+                        </li>
+                        
+                        
+                        <li>
                             <em>实际过户时间</em><span class="yuanwid"><fmt:formatDate value="${caseInfo.realHtTime}" pattern="yyyy-MM-dd" /></span>
+                        </li>
+                        <li>
+                            <em>过户提交时间</em><span class="yuanwid"><fmt:formatDate value="${caseInfo.realHtTime}" pattern="yyyy-MM-dd" /></span>
+                        </li>
+                        <li>
+                            <em>过户提交相差</em><span class="yuanwid">${caseInfo.guohuSubAndRealTimeDiff} 天</span>
                         </li>
                         
                         <li>
