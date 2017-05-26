@@ -971,15 +971,18 @@ $(document).ready(function(){
 		/** ------附件验证开始--------------  **/
 		var imgIsEmpty = false;
 		$("ul[class='filelist']").each(function(i,e){
+			debugger;
 			var length = $(e).find("img").length;
-			if(length == 0){
+			var attRequireArr = ["shanghai_house_contract","property_right_copy","buyer_idcard_copy","seller_idcard_copy"];
+			var spanName = $(e).find("span").attr("name");
+			if($.inArray(spanName, attRequireArr) != -1 &&　length == 0){
 				imgIsEmpty = true;
 				return false;
 			}
 		});
 		
 		if(imgIsEmpty){
-			window.wxc.alert("每种类型请至少上传一张附件！");
+			window.wxc.alert("必须上传‘上海市房屋买卖合同’、‘产权证复印件’、‘买方身份证复印件’、‘卖方身份证复印件’！");
 			return false;
 		}
 		/** ------附件验证结束--------------  **/
