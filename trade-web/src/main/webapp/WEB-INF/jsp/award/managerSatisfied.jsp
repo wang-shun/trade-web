@@ -141,6 +141,7 @@
 		//初始化数据
 		var params = {
 			page : 1,
+			belongMonth : $("#search_belong_month").val(),
 			sessionUserId : $("#sessionUserId").val(),
 			serviceDepId : $("#serviceDepId").val(),
 			serviceJobCode : $("#serviceJobCode").val(),

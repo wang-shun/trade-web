@@ -222,5 +222,5 @@
 	<!-- 签约贷款报表统计模块结束 -->
 	
 	<!-- 满意度列表 -->
-	<import resource="query/award/kpiForCaseQuery.xml"/>
+	<import resource="query/award/KpiForCaseQuery.xml"/>
 </queryConfig>
