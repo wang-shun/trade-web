@@ -92,14 +92,17 @@ public class GuohuApproveController {
 	@RequestMapping("process")
 	public String doProcesss(HttpServletRequest request,
 			HttpServletResponse response,String caseCode,String source,String processInstanceId){
+		
 		SessionUser user=uamSessionService.getSessionUser();
 		request.setAttribute("approveType", "2");
 		request.setAttribute("operator", user != null ? user.getId():"");
 		request.setAttribute("source", source);
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("caseBaseVO", caseBaseVO);
+		
 		//交易信息
 		VCaseTradeInfo caseInfo = vCaseTradeInfoService.queryCaseTradeInfoByCaseCode(caseCode);
+		
 		//贷款信息
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(caseCode);
 		CaseDetailShowVO reVo  = toCaseInfoService.getCaseDetailShowVO(caseCode,toMortgage);
