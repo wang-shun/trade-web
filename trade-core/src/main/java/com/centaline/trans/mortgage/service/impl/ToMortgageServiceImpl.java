@@ -37,6 +37,7 @@ import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.repository.ToCaseCommentMapper;
 import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.enums.LoanerStatusEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.TmpBankStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -955,6 +956,13 @@ public class ToMortgageServiceImpl implements ToMortgageService
             {
                 // 更新跟进状态
                 toMortLoaner.setFlowStatus(mortgageVo.getStateInBank());
+
+                // 如果是贷款发放,设置派单状态为已关闭状态
+                if ("MORT_RELEASED".equals(mortgageVo.getStateInBank()))
+                {
+                    toMortLoaner.setLoanerStatus(LoanerStatusEnum.CLOSED.getCode());
+                }
+
                 toMortLoanerService.updateByPrimaryKeySelective(toMortLoaner);
             }
 

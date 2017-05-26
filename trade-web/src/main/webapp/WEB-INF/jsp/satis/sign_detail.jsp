@@ -312,7 +312,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">签约评分</label> 
                             <select class="select_control yuanwid" name="salerSignSat" value="${satisfaction.salerSignSat}">
-                            	<option value="">请选择</option>
+                            		<option value="">请选择</option>
                             	<c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.salerSignSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
                             	</c:forEach>
@@ -431,6 +431,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">电话是否正确</label>
                                  <select class="select_control yuanwid" name="agentPhoneOk" value="${satisfaction.agentPhoneOk}">
+                                 	<option value="">请选择</option>
                                     <option value="1" ${satisfaction.agentPhoneOk eq 1?'selected="selected"':''}>是</option>
                                     <option value="0" ${satisfaction.agentPhoneOk eq 0?'selected="selected"':''}>否</option>
                                 </select>
@@ -446,6 +447,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">签约评分</label>
                             <select class="select_control yuanwid" name="agentSignSat" value="${satisfaction.agentSignSat}">
+                            		<option value="">请选择</option>
                                 <c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.agentSignSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
                             	</c:forEach>
@@ -460,6 +462,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">贷款评分</label>
                             <select class="select_control yuanwid" name="agentComloanSat" value="${satisfaction.agentComloanSat}">
+                            		<option value="">请选择</option>
                                 <c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.agentComloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
                             	</c:forEach>
@@ -474,6 +477,7 @@
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金评分</label>
                             <select class="select_control yuanwid" name="agentPsfloanSat" value="${satisfaction.agentPsfloanSat}">
+                            		<option value="">请选择</option>
                                 <c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.agentPsfloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
                             	</c:forEach>
@@ -554,7 +558,7 @@
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
 					caseCode : caseCode,
-					srvCode : "Survey"
+					srvCode : "survey_sign"
 				});
 				
 			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
@@ -670,6 +674,18 @@
                     changeClass($salerPhoneOk);
                     return false;
                 }
+                var $salerSignSat = $("select[name='salerSignSat']");
+                if($salerSignSat.val() == ''){
+                	window.wxc.alert("请选择上家签约评分！");
+                    changeClass($salerSignSat);
+                    return false;
+                }
+                var $salerLoancloseSat = $("select[name='salerLoancloseSat']");
+                if($salerLoancloseSat.val() == ''){
+                	window.wxc.alert("请选择上家陪还贷评分！");
+                    changeClass($salerLoancloseSat);
+                    return false;
+                }
                 /***********************上家END**************************/
                 /***********************下家START**************************/
                 /*是否正确*/
@@ -677,6 +693,24 @@
                 if($buyerPhoneOk.val() != '1'){
                 	window.wxc.alert("下家电话不正确，无法通过！");
                     changeClass($buyerPhoneOk);
+                    return false;
+                }
+                var $buyerSignSat = $("select[name='buyerSignSat']");
+                if($buyerSignSat.val() == ''){
+                	window.wxc.alert("请选择下家签约评分！");
+                    changeClass($buyerSignSat);
+                    return false;
+                }
+                var $buyerComloanSat = $("select[name='buyerComloanSat']");
+                if($buyerComloanSat.val() == ''){
+                	window.wxc.alert("请选择下家贷款评分！");
+                    changeClass($buyerComloanSat);
+                    return false;
+                }
+                var $buyerPsfloanSat = $("select[name='buyerPsfloanSat']");
+                if($buyerPsfloanSat.val() == ''){
+                	window.wxc.alert("请选择下家公积金评分！");
+                    changeClass($buyerPsfloanSat);
                     return false;
                 }
                 /***********************下家END**************************/
