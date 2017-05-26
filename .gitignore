@@ -54,3 +54,6 @@ target/
 catalina.base_IS_UNDEFINED
 ## Activiti
 .bpmn
+yc-par-portal/.tern-project
+trade-mobile/.tern-project
+trade-web/.tern-project
