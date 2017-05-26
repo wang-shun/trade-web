@@ -971,7 +971,6 @@ $(document).ready(function(){
 		/** ------附件验证开始--------------  **/
 		var imgIsEmpty = false;
 		$("ul[class='filelist']").each(function(i,e){
-			debugger;
 			var length = $(e).find("img").length;
 			var attRequireArr = ["shanghai_house_contract","property_right_copy","buyer_idcard_copy","seller_idcard_copy"];
 			var spanName = $(e).find("span").attr("name");
