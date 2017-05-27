@@ -207,6 +207,12 @@ public class SignServiceImpl implements SignService {
 		toSign.setRealConTime(transSignVO.getRealConTime());
 		toSign.setConPrice(transSignVO.getConPrice().multiply(new BigDecimal(10000)));  // 合同价
 		toSign.setRealPrice(transSignVO.getRealPrice().multiply(new BigDecimal(10000)));  // 成交价
+		/*预估税费*/
+		toSign.setBusinessTax(transSignVO.getBusinessTax()!=null?transSignVO.getBusinessTax().multiply(new BigDecimal(10000)):null);
+		toSign.setContractTax(transSignVO.getContractTax()!=null?transSignVO.getContractTax().multiply(new BigDecimal(10000)):null);
+		toSign.setHouseHodingTax(transSignVO.getHouseHodingTax()!=null?transSignVO.getHouseHodingTax().multiply(new BigDecimal(10000)):null);
+		toSign.setLandIncrementTax(transSignVO.getLandIncrementTax()!=null?transSignVO.getLandIncrementTax().multiply(new BigDecimal(10000)):null);
+		toSign.setPersonalIncomeTax(transSignVO.getPersonalIncomeTax()!=null?transSignVO.getPersonalIncomeTax().multiply(new BigDecimal(10000)):null);
 		
 		if(transSignVO.getSignPkid() != null) {
 			toSign.setPkid(transSignVO.getSignPkid());
@@ -216,25 +222,6 @@ public class SignServiceImpl implements SignService {
 				toSignMapper.insertSelective(toSign);
 			}
 		}
-		
-		ToTax toTax = new ToTax();
-		/*预估税费*/
-		toTax.setCaseCode(transSignVO.getCaseCode());
-		toTax.setBusinessTax(transSignVO.getBusinessTax()!=null?transSignVO.getBusinessTax().multiply(new BigDecimal(10000)):null);
-		toTax.setContractTax(transSignVO.getContractTax()!=null?transSignVO.getContractTax().multiply(new BigDecimal(10000)):null);
-		toTax.setHouseHodingTax(transSignVO.getHouseHodingTax()!=null?transSignVO.getHouseHodingTax().multiply(new BigDecimal(10000)):null);
-		toTax.setLandIncrementTax(transSignVO.getLandIncrementTax()!=null?transSignVO.getLandIncrementTax().multiply(new BigDecimal(10000)):null);
-		toTax.setPersonalIncomeTax(transSignVO.getPersonalIncomeTax()!=null?transSignVO.getPersonalIncomeTax().multiply(new BigDecimal(10000)):null);
-		toTax.setIsActive(TaxEnum.YX.getCode());
-		if(transSignVO.getHousePkid() != null) {
-			toTax.setPkid(transSignVO.getHousePkid());
-			toTaxMapper.updateByPrimaryKeySelective(toTax);
-		} else {
-			if(toTaxMapper.findToTaxByCaseCode(transSignVO.getCaseCode()) == null) {
-				toTaxMapper.insertSelective(toTax);
-			}
-		}
-		
 		
 		// 功能：根据 casecode 到T_TO_FIRST_FOLLOW表中去查询，如果存在则做update，否则做insert, 作者：zhangxb16 时间 2016-1-27
 		int isExist=tofirstFollowMapper.isExistCasecode(transSignVO.getCaseCode());
@@ -333,7 +320,16 @@ public class SignServiceImpl implements SignService {
 			transSignVO.setConPrice(toSign.getConPrice());  // 合同价 
 			transSignVO.setRealPrice(toSign.getRealPrice());  // 成交价 
 			transSignVO.setRealConTime(toSign.getRealConTime());
+			/**
+			 * 税费
+			 */
+			transSignVO.setBusinessTax(toSign.getBusinessTax() != null ? toSign.getBusinessTax().divide(new BigDecimal(10000)) : null);
+			transSignVO.setContractTax(toSign.getContractTax() != null ? toSign.getContractTax().divide(new BigDecimal(10000)) : null);
+			transSignVO.setHouseHodingTax(toSign.getHouseHodingTax() != null ? toSign.getHouseHodingTax().divide(new BigDecimal(10000)) : null);
+			transSignVO.setLandIncrementTax(toSign.getLandIncrementTax() != null ? toSign.getLandIncrementTax().divide(new BigDecimal(10000)) : null);
+			transSignVO.setPersonalIncomeTax(toSign.getPersonalIncomeTax() != null ? toSign.getPersonalIncomeTax().divide(new BigDecimal(10000)) : null);
 		}
+		
 		
 		/* 读取首次跟进信息 作者：zhangxb16 时间：2016-1-27 */
 		ToFirstFollow tofw=tofirstFollowMapper.selectByCaseCode(caseCode);

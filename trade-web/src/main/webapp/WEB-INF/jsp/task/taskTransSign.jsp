@@ -117,7 +117,6 @@
 				<input type="hidden" id="lastPayPkid" name="lastPayPkid" value="${transSign.lastPayPkid}"> 
 				<input type="hidden" id="compensatePayPkid" name="compensatePayPkid" value="${transSign.compensatePayPkid}"> 
 				<input type="hidden" id="signPkid" name="signPkid" value="${transSign.signPkid}"> 
-				<input type="hidden" id="housePkid" name="housePkid" value="${houseTransfer.pkid}">
 				
 	        	<div>
 	            	<h4 class="title-mark">填写任务信息</h4>
@@ -404,21 +403,21 @@
 		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房产税 </label> 
 		                            <input type="text" class="input_type yuanwid" id="houseHodingTax"
 									name="houseHodingTax" onkeyup="checkNum(this)"
-									value="<fmt:formatNumber value='${ houseTransfer.houseHodingTax}' type='number' pattern='#0.00' />">
+									value="<fmt:formatNumber value='${ transSign.houseHodingTax}' type='number' pattern='#0.00' />">
 		                            <span class="date_icon">万元</span>
 		                        </div>
 		                        <div class="form_content">
 		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>个人所得税 </label> 
 		                            <input type="text" class="input_type yuanwid" id="personalIncomeTax"
 									name="personalIncomeTax" onkeyup="checkNum(this)"
-									value="<fmt:formatNumber value='${ houseTransfer.personalIncomeTax}' type='number' pattern='#0.00' />">
+									value="<fmt:formatNumber value='${ transSign.personalIncomeTax}' type='number' pattern='#0.00' />">
 		                           <span class="date_icon">万元</span>
 		                        </div>
 		                        <div class="form_content">
 		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>上家营业税 </label>
 		                            <input type="text" class="input_type yuanwid" id="businessTax"
 									name="businessTax" onkeyup="checkNum(this)"
-									value="<fmt:formatNumber value='${ houseTransfer.businessTax}' type='number' pattern='#0.00' />"> 
+									value="<fmt:formatNumber value='${ transSign.businessTax}' type='number' pattern='#0.00' />"> 
 		                            <span class="date_icon">万元</span>
 		                        </div>
 		                    </div>
@@ -427,14 +426,14 @@
 		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>下家契税 </label>
 		                            <input type="text" class="input_type yuanwid" id="contractTax"
 									name="contractTax" onkeyup="checkNum(this)"
-									value="<fmt:formatNumber value='${ houseTransfer.contractTax}' type='number' pattern='#0.00' />">
+									value="<fmt:formatNumber value='${ transSign.contractTax}' type='number' pattern='#0.00' />">
 		                           <span class="date_icon">万元</span>
 		                        </div>
 		                        <div class="form_content">
 		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>土地增值税 </label>
 		                            <input type="text" class="input_type yuanwid" id="landIncrementTax"
 									name="landIncrementTax" onkeyup="checkNum(this)"
-									value="<fmt:formatNumber value='${ houseTransfer.landIncrementTax}' type='number' pattern='#0.00' />">
+									value="<fmt:formatNumber value='${ transSign.landIncrementTax}' type='number' pattern='#0.00' />">
 		                           <span class="date_icon">万元</span>
 		                        </div>
 		                    </div>

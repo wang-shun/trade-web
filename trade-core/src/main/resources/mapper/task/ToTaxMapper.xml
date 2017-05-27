@@ -8,11 +8,6 @@
     <result column="IS_UNIQUE_HOME" property="isUniqueHome" jdbcType="CHAR" />
     <result column="IS_ACTIVE" property="isActive" jdbcType="CHAR" />
     <result column="HOLD_YEAR" property="holdYear" jdbcType="NVARCHAR" />
-    <result column="HOUSE_HODING_TAX" property="houseHodingTax" jdbcType="DECIMAL" />
-    <result column="PERSONAL_INCOME_TAX" property="personalIncomeTax" jdbcType="DECIMAL" />
-    <result column="BUSINESS_TAX" property="businessTax" jdbcType="DECIMAL" />
-    <result column="CONTRACT_TAX" property="contractTax" jdbcType="DECIMAL" />
-    <result column="LAND_INCREMENT_TAX" property="landIncrementTax" jdbcType="DECIMAL" />
     <result column="USE_CARD_PAY" property="useCardPay" jdbcType="CHAR" />
     <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
@@ -24,8 +19,7 @@
     <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, TAX_TIME, IS_UNIQUE_HOME, IS_ACTIVE,HOLD_YEAR,HOUSE_HODING_TAX, PERSONAL_INCOME_TAX, 
-    BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX
+    PKID, CASE_CODE, TAX_TIME, IS_UNIQUE_HOME, IS_ACTIVE,HOLD_YEAR
   </sql>
   <sql id="Blob_Column_List" >
     COMMENT
@@ -74,21 +68,6 @@
       <if test="isActive != null" >
         IS_ACTIVE,
       </if>
-       <if test="houseHodingTax != null" >
-        HOUSE_HODING_TAX,
-      </if>
-      <if test="personalIncomeTax != null" >
-        PERSONAL_INCOME_TAX,
-      </if>
-      <if test="businessTax != null" >
-        BUSINESS_TAX,
-      </if>
-      <if test="contractTax != null" >
-        CONTRACT_TAX,
-      </if>
-      <if test="landIncrementTax != null" >
-        LAND_INCREMENT_TAX,
-      </if>
         CREATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -113,21 +92,6 @@
       <if test="isActive != null" >
         #{isActive,jdbcType=CHAR},
       </if>
-      <if test="houseHodingTax != null" >
-        #{houseHodingTax,jdbcType=DECIMAL},
-      </if>
-      <if test="personalIncomeTax != null" >
-        #{personalIncomeTax,jdbcType=DECIMAL},
-      </if>
-      <if test="businessTax != null" >
-        #{businessTax,jdbcType=DECIMAL},
-      </if>
-      <if test="contractTax != null" >
-        #{contractTax,jdbcType=DECIMAL},
-      </if>
-      <if test="landIncrementTax != null" >
-        #{landIncrementTax,jdbcType=DECIMAL},
-      </if>
         @{SESSION_USER_ID},
     </trim>
   </insert>
@@ -151,21 +115,6 @@
       </if>
       <if test="comment != null" >
         COMMENT = #{comment,jdbcType=LONGVARCHAR},
-      </if>
-       <if test="houseHodingTax != null" >
-        HOUSE_HODING_TAX = #{houseHodingTax,jdbcType=DECIMAL},
-      </if>
-      <if test="personalIncomeTax != null" >
-        PERSONAL_INCOME_TAX = #{personalIncomeTax,jdbcType=DECIMAL},
-      </if>
-      <if test="businessTax != null" >
-        BUSINESS_TAX = #{businessTax,jdbcType=DECIMAL},
-      </if>
-      <if test="contractTax != null" >
-        CONTRACT_TAX = #{contractTax,jdbcType=DECIMAL},
-      </if>
-      <if test="landIncrementTax != null" >
-        LAND_INCREMENT_TAX = #{landIncrementTax,jdbcType=DECIMAL},
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
