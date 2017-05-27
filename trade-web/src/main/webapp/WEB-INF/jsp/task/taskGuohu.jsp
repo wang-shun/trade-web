@@ -126,6 +126,9 @@
 										onfocus="this.blur()">
 	                            </div>
 	                        </div>
+	                    </div>
+	                    <h4>●实收税费</h4>
+	                    <div class="line">
 	                        <div class="form_content">
 	                            <label class="control-label sign_left_small">房产税<font color=" red" class="mr5" >*</font></label> 
 								<input type="text" class=" input_type yuanwid" id="houseHodingTax"
@@ -138,6 +141,13 @@
 	                            <input type="text" class=" input_type yuanwid" id="personalIncomeTax"
 									name="personalIncomeTax" onkeyup="checkNum(this)"
 									value="<fmt:formatNumber value='${ houseTransfer.personalIncomeTax}' type='number' pattern='#0.00' />">
+	                           <span class="date_icon">万元</span>
+	                        </div>
+	                        <div class="form_content">
+	                            <label class="control-label sign_left_small">土地增值税<font color=" red" class="mr5" >*</font></label> 
+	                            <input type="text" class=" input_type yuanwid" id="landIncrementTax"
+								name="landIncrementTax" onkeyup="checkNum(this)"
+								value="<fmt:formatNumber value='${ houseTransfer.landIncrementTax}' type='number' pattern='#0.00' />">
 	                           <span class="date_icon">万元</span>
 	                        </div>
 	                    </div>
@@ -156,15 +166,9 @@
 								value="<fmt:formatNumber value='${ houseTransfer.contractTax}' type='number' pattern='#0.00' />">
 	                           <span class="date_icon">万元</span>
 	                        </div>
-	                        <div class="form_content">
-	                            <label class="control-label sign_left_small">土地增值税<font color=" red" class="mr5" >*</font></label> 
-	                            <input type="text" class=" input_type yuanwid" id="landIncrementTax"
-								name="landIncrementTax" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${ houseTransfer.landIncrementTax}' type='number' pattern='#0.00' />">
-	                           <span class="date_icon">万元</span>
-	                        </div>
+	                        
 	                    </div>
-	                    	                     <div class="line">
+	                    <div class="line">
 	                        <div class="form_content">
 	                            <label class="control-label sign_left_small">是否刷卡<font color=" red" class="mr5" >*</font></label> 
 	                           <select  class="select_control yuanwid" name="useCardPay" id="useCardPay" onchange="showcardPayAmount()">
