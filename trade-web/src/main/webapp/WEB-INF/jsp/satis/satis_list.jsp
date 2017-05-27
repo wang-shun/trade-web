@@ -133,47 +133,37 @@
                        </i>
 					{{/if}}
 					{{if item.STATUS == 2}}
-						<shiro:lacksPermission name="TRADE.SURVEY.LIST.DISPATCH">
-							<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType=list&readOnly=false">
-						</shiro:lacksPermission>
-						<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">
-							<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType=list&readOnly=true">
-						</shiro:hasPermission>
+						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType=list&readOnly=true" target="_blank">
 						<i class="color_visited blue_visited">
                                                     签约回访
                        </i>
 					{{/if}}
 					{{if item.STATUS == 3}}
-						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType=list&readOnly=true">
+						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType=list&readOnly=true" target="_blank">
 						<i class="color_visited red_visited">
 					  签约打回
                        </i>
 					{{/if}}
 					{{if item.STATUS == 4}}
-						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType=list&readOnly=true">
+						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType=list&readOnly=true" target="_blank">
 						<i class="color_visited blue_visited">
                                                     待过户                              
                        </i>
 					{{/if}}
 					{{if item.STATUS == 5}}
-						<shiro:lacksPermission name="TRADE.SURVEY.LIST.DISPATCH">
-							<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&urlType=list&readOnly=false">
-						</shiro:lacksPermission>
-						<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">
-							<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&urlType=list&readOnly=true">
-						</shiro:hasPermission>
+						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&urlType=list&readOnly=true" target="_blank">
 						<i class="color_visited blue_visited">
                                                     过户回访                              
                        </i>
 					{{/if}}
 					{{if item.STATUS == 6}}
-						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&urlType=list&readOnly=true">
+						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&urlType=list&readOnly=true" target="_blank">
 						<i class="color_visited red_visited">
                                                     过户打回
                        </i>
 					{{/if}}
 					{{if item.STATUS == 7}}
-						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&urlType=list&readOnly=true">
+						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&urlType=list&readOnly=true" target="_blank">
 						<i class="color_visited grey_visited">
                                                     已回访
                        </i>

@@ -31,6 +31,13 @@
     <link rel="stylesheet" href="<c:url value='/static/trans/css/workflow/details.css' />" >
     <link rel="stylesheet" href="<c:url value='/css/satis/addOutlist.css' />">
     <link rel="stylesheet" href="<c:url value='/css/transcss/comment/caseComment.css' />">
+    <style>
+		.btn-primary {
+  			background-color: #f8ac59 !important;
+  			border-color: #f8ac59 !important;
+  			color: #FFFFFF !important;
+		}
+	</style>
 </head>
 
 <body class="pace-done">
@@ -260,7 +267,7 @@
             </h2>
             </div>
         </div>
-<form>
+<form id="satisForm">
     <input type="hidden" id="urlType" name="urlType" value="${urlType}">
     <input type="hidden" id="taskId" name="taskId" value="${taskId}">
     <input type="hidden" id="instCode" name="instCode" value="${instCode}">
@@ -275,6 +282,8 @@
 	           	<div class="table-box" id="fileUploadContainer"></div>
 	   		</div>	
 		</div>
+		<a style="float: right; margin-right: 12px; margin-top: 10px;"
+				href="javascript:showChangeFormModal();">我要修改</a>
 		<div id="caseCommentList" class="add_form"></div>
         <div class="form-btn">
                <div class="text-center">
@@ -289,6 +298,58 @@
          </div>
      </div>
 </form>     
+			<!-- 修改表单数据-->
+			<div id="changeForm-modal-form" class="modal fade" role="dialog"
+				aria-labelledby="plan-modal-title" aria-hidden="true">
+				<div class="modal-dialog" style="width: 1000px">
+					<form id="changeForm-form" id="modifyPartForm" class="form-horizontal"
+						method="post" target="_blank">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-hidden="true">×</button>
+								<h4 class="modal-title" id="plan-modal-title">
+									选择要修改的表单项目</h4>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-lg-3"
+										style="margin-top: 9px; margin-left: 15px;">
+										请选择您要修改的环节</div>
+									<div class="col-lg-3">
+										<input name="caseCode" value="${toCase.caseCode}" id="hid_case_code" type="hidden">
+										<input name="source" value="caseDetails" type="hidden">
+										<input name="instCode" value="${instCode}" type="hidden">
+										<select id="sel_changeFrom"	name="changeFrom" class="form-control m-b"	style="padding-bottom: 3px; height: 45.003px;">
+											<c:forEach items="${myTasks}" var="item">
+												<option value="${item.taskDefinitionKey }">${item.name }</option>
+											</c:forEach>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-12"
+										style="margin-top: 9px; margin-left: 10px;">
+										<font color="red">*</font>注1：交易顾问只能修改归属自己的、已提交的任务，未完成的任务请在待办任务中填写。
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-12"
+										style="margin-top: 9px; margin-left: 10px;">
+										<font color="red">*</font>注2：在环节表单中，凡是涉及到交易时间或变更流程走向的信息，系统不允许用户修改。
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭</button>
+								<button class="btn btn-primary" onclick="javascript:$('#modifyPartForm').submit();">去修改</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			
                 </div>
             </div>
         </div>
@@ -300,10 +361,29 @@
        		<script	src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
         	<script	src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	        <script type="text/javascript">
+	        Array.prototype.contains = function(obj){
+		       	 var i = this.length;
+		            while (i--) {
+		                if (this[i] === obj) {
+		                return true;
+		                }
+		            }
+		            return false;
+		       };
+		       
 	        var caseCode = $("#caseCode").val();
 	        var urlType = $("#urlType").val();
 	        var status = $("#status").val();
 	        var readOnly = $("#readOnly").val();
+	        var changeTaskList=['TransSign','PurchaseLimit','Pricing','TaxReview','LoanClose','ComLoanProcess','PSFApply','PSFSign', 'PSFApprove',
+                'LoanlostApply','SelfLoanApprove','Guohu','HouseBookGet','LoanRelease'];
+	        var comLoanTasks=['ComLoanProcess'];
+	        var psfLoanTasks=["PSFApply","PSFSign","PSFApprove"];
+	        var loanLostTasks=['LoanlostApply','LoanlostApproveManager','LoanlostApproveDirector','SelfLoanApprove'];
+	        var fullPay=[];
+	        var loanTasks={'PSFLoan':psfLoanTasks,'ComLoan':comLoanTasks,SelfLoan:loanLostTasks,"FullPay":fullPay};
+	        var loanTaskArry= new Array();
+	        loanTaskArry = loanTaskArry.concat(comLoanTasks,psfLoanTasks,loanLostTasks,fullPay);
 	        
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
@@ -317,6 +397,28 @@
 		 	    if(status != '6' || readOnly == 'true'){
 		 	    	readOnlyForm();
 		 	    }
+				
+				$("#sel_changeFrom option").each(function(){
+					var _this=$(this);
+					var taskDfKey=_this.val();
+					if(!changeTaskList.contains(taskDfKey) ||(loanTaskArry.contains(taskDfKey) && !loanTasks[loanReqType].contains(taskDfKey))){
+						_this.remove();
+					}
+				});
+				$("#sel_changeFrom").change(function(){					
+					$("#changeForm-form").attr('action','${ctx}/task/'+$("#sel_changeFrom").val());
+				});
+				
+				$("#sel_changeFrom").change();
+				$("#changeForm-form").submit(function(){
+					$('#changeForm-modal-form').modal("hide");
+				});
+				$("#changeForm-form").submit(function(){
+					if($("#sel_changeFrom").val()==null||$("#sel_changeFrom").val()==''){
+						window.wxc.alert('请选择要修改的项目！');
+						return false;
+					}	
+				});
 	        })
 
 	 	     /*动态生成上下家*/
@@ -336,7 +438,7 @@
 	        
 	        /*过户跟进*/
 	        function doGuohuFollow(){
-	        	var data = $("form").serializeArray();
+	        	var data = $("#satisForm").serializeArray();
 
 	        	window.wxc.confirm("确定要提交跟进吗？",{"wxcOk":function(){
 					$.ajax({
@@ -374,6 +476,10 @@
 	        /*只读表单*/
 	        function readOnlyForm(){
 	        	$("input:not('#caseComment'),select").prop("disabled",true);
+	        }
+	      	//我要修改显示弹框
+	        function showChangeFormModal(){
+	        	$('#changeForm-modal-form').modal("show");
 	        }
 	        </script>
 	        </content>
