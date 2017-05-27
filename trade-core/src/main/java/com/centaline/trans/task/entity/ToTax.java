@@ -16,16 +16,6 @@ public class ToTax {
 
     private String comment;
     
-    private BigDecimal houseHodingTax;
-
-    private BigDecimal personalIncomeTax;
-
-    private BigDecimal businessTax;
-
-    private BigDecimal contractTax;
-
-    private BigDecimal landIncrementTax;
-    
     private String createBy;
 
 	private String updateBy;
@@ -44,45 +34,6 @@ public class ToTax {
 		this.isActive = isActive;
 	}
 
-	public BigDecimal getHouseHodingTax() {
-		return houseHodingTax;
-	}
-
-	public void setHouseHodingTax(BigDecimal houseHodingTax) {
-		this.houseHodingTax = houseHodingTax;
-	}
-
-	public BigDecimal getPersonalIncomeTax() {
-		return personalIncomeTax;
-	}
-
-	public void setPersonalIncomeTax(BigDecimal personalIncomeTax) {
-		this.personalIncomeTax = personalIncomeTax;
-	}
-
-	public BigDecimal getBusinessTax() {
-		return businessTax;
-	}
-
-	public void setBusinessTax(BigDecimal businessTax) {
-		this.businessTax = businessTax;
-	}
-
-	public BigDecimal getContractTax() {
-		return contractTax;
-	}
-
-	public void setContractTax(BigDecimal contractTax) {
-		this.contractTax = contractTax;
-	}
-
-	public BigDecimal getLandIncrementTax() {
-		return landIncrementTax;
-	}
-
-	public void setLandIncrementTax(BigDecimal landIncrementTax) {
-		this.landIncrementTax = landIncrementTax;
-	}
 
 	public String getCreateBy() {
 		return createBy;

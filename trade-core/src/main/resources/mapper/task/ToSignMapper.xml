@@ -10,12 +10,18 @@
     <result column="REAL_PRICE" property="realPrice" jdbcType="DECIMAL" />
     <result column="IS_HUKOU" property="isHukou" jdbcType="CHAR" />
     <result column="IS_CON_CERT" property="isConCert" jdbcType="CHAR" />
+    <result column="HOUSE_HODING_TAX" property="houseHodingTax" jdbcType="DECIMAL" />
+    <result column="PERSONAL_INCOME_TAX" property="personalIncomeTax" jdbcType="DECIMAL" />
+    <result column="BUSINESS_TAX" property="businessTax" jdbcType="DECIMAL" />
+    <result column="CONTRACT_TAX" property="contractTax" jdbcType="DECIMAL" />
+    <result column="LAND_INCREMENT_TAX" property="landIncrementTax" jdbcType="DECIMAL" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.task.entity.ToSign" extends="BaseResultMap" >
     <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, PART_CODE, CASE_CODE, REAL_CON_TIME, CON_PRICE, REAL_PRICE, IS_HUKOU, IS_CON_CERT
+    PKID, PART_CODE, CASE_CODE, REAL_CON_TIME, CON_PRICE, REAL_PRICE, IS_HUKOU, IS_CON_CERT,
+    HOUSE_HODING_TAX, PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX
   </sql>
   <sql id="Blob_Column_List" >
     COMMENT
@@ -72,6 +78,21 @@
       <if test="comment != null and comment != ''" >
         COMMENT,
       </if>
+      <if test="houseHodingTax != null" >
+        HOUSE_HODING_TAX,
+      </if>
+      <if test="personalIncomeTax != null" >
+        PERSONAL_INCOME_TAX,
+      </if>
+      <if test="businessTax != null" >
+        BUSINESS_TAX,
+      </if>
+      <if test="contractTax != null" >
+        CONTRACT_TAX,
+      </if>
+      <if test="landIncrementTax != null" >
+        LAND_INCREMENT_TAX,
+      </if>
         CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -102,6 +123,21 @@
       <if test="comment != null and comment != ''" >
         #{comment,jdbcType=LONGVARCHAR},
       </if>
+      <if test="houseHodingTax != null" >
+        #{houseHodingTax,jdbcType=DECIMAL},
+      </if>
+      <if test="personalIncomeTax != null" >
+        #{personalIncomeTax,jdbcType=DECIMAL},
+      </if>
+      <if test="businessTax != null" >
+        #{businessTax,jdbcType=DECIMAL},
+      </if>
+      <if test="contractTax != null" >
+        #{contractTax,jdbcType=DECIMAL},
+      </if>
+      <if test="landIncrementTax != null" >
+        #{landIncrementTax,jdbcType=DECIMAL},
+      </if>
         GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
@@ -131,6 +167,21 @@
       </if>
       <if test="comment != null and comment != ''" >
         COMMENT = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+       <if test="houseHodingTax != null" >
+        HOUSE_HODING_TAX = #{houseHodingTax,jdbcType=DECIMAL},
+      </if>
+      <if test="personalIncomeTax != null" >
+        PERSONAL_INCOME_TAX = #{personalIncomeTax,jdbcType=DECIMAL},
+      </if>
+      <if test="businessTax != null" >
+        BUSINESS_TAX = #{businessTax,jdbcType=DECIMAL},
+      </if>
+      <if test="contractTax != null" >
+        CONTRACT_TAX = #{contractTax,jdbcType=DECIMAL},
+      </if>
+      <if test="landIncrementTax != null" >
+        LAND_INCREMENT_TAX = #{landIncrementTax,jdbcType=DECIMAL},
       </if>
         UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},
     </set>

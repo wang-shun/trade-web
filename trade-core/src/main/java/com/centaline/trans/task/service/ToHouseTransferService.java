@@ -127,12 +127,5 @@ public interface ToHouseTransferService {
 	Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String GuohuApprove, String GuohuApprove_response, String notApprove,
 			String members);
-   /**
-    * 从T_TO_TAX查询出预估税费详细信息
-    * @author hejf10
-    * @date 2017年5月26日16:05:18
-    * @param caseCode
-    * @return
-    */
-   ToHouseTransfer findToGuoHuByCaseCodeUpdateTax(String caseCode);
+   
 }

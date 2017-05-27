@@ -66,7 +66,6 @@ public class SignController {
 
 		toAccesoryListService.getAccesoryList(request, taskitem);
 		request.setAttribute("transSign", signService.qureyGuestInfo(caseCode));
-		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCodeUpdateTax(caseCode));
 
 		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR
 				.getCode());

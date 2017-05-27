@@ -21,8 +21,58 @@ public class ToSign {
     private String isConCert;
 
     private String comment;
+    
+    private BigDecimal houseHodingTax;
 
-    public Long getPkid() {
+    private BigDecimal personalIncomeTax;
+
+    private BigDecimal businessTax;
+
+    private BigDecimal contractTax;
+
+    private BigDecimal landIncrementTax;
+
+    public BigDecimal getHouseHodingTax() {
+		return houseHodingTax;
+	}
+
+	public void setHouseHodingTax(BigDecimal houseHodingTax) {
+		this.houseHodingTax = houseHodingTax;
+	}
+
+	public BigDecimal getPersonalIncomeTax() {
+		return personalIncomeTax;
+	}
+
+	public void setPersonalIncomeTax(BigDecimal personalIncomeTax) {
+		this.personalIncomeTax = personalIncomeTax;
+	}
+
+	public BigDecimal getBusinessTax() {
+		return businessTax;
+	}
+
+	public void setBusinessTax(BigDecimal businessTax) {
+		this.businessTax = businessTax;
+	}
+
+	public BigDecimal getContractTax() {
+		return contractTax;
+	}
+
+	public void setContractTax(BigDecimal contractTax) {
+		this.contractTax = contractTax;
+	}
+
+	public BigDecimal getLandIncrementTax() {
+		return landIncrementTax;
+	}
+
+	public void setLandIncrementTax(BigDecimal landIncrementTax) {
+		this.landIncrementTax = landIncrementTax;
+	}
+
+	public Long getPkid() {
         return pkid;
     }
 

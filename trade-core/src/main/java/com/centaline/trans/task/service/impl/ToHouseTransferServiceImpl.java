@@ -145,19 +145,6 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 		}
 		return toHouseTransfer;
 	}
-	@Override
-	public ToHouseTransfer findToGuoHuByCaseCodeUpdateTax(String caseCode) {
-		ToTax toTax = toTaxMapper.findToTaxByCaseCode(caseCode);
-		ToHouseTransfer toHouseTransfer = new ToHouseTransfer();
-		if(null!=toTax){
-			toHouseTransfer.setBusinessTax(toTax.getBusinessTax() != null ? toTax.getBusinessTax().divide(new BigDecimal(10000)) : null);
-			toHouseTransfer.setContractTax(toTax.getContractTax() != null ? toTax.getContractTax().divide(new BigDecimal(10000)) : null);
-			toHouseTransfer.setHouseHodingTax(toTax.getHouseHodingTax() != null ? toTax.getHouseHodingTax().divide(new BigDecimal(10000)) : null);
-			toHouseTransfer.setLandIncrementTax(toTax.getLandIncrementTax() != null ? toTax.getLandIncrementTax().divide(new BigDecimal(10000)) : null);
-			toHouseTransfer.setPersonalIncomeTax(toTax.getPersonalIncomeTax() != null ? toTax.getPersonalIncomeTax().divide(new BigDecimal(10000)) : null);
-		}
-		return toHouseTransfer;
-	}
 
 	@Override
 	public ToCaseInfoCountVo countToHouseTransferById(String userId) {
