@@ -1,10 +1,8 @@
 USE [sctrans_dev]
 GO
-
-/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/2/4 14:36:40 ******/  
+/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/5/26 14:49:51 ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -13,7 +11,7 @@ GO
 -- Create date: <2017-02-04>
 -- Description:	<caseBaseInfo table>
 -- =============================================
-CREATE PROCEDURE [sctrans].[P_DAILY_REPORT_CASE_INFO]
+ALTER PROCEDURE [sctrans].[P_DAILY_REPORT_CASE_INFO]
 AS
 BEGIN
 
@@ -77,9 +75,15 @@ BEGIN
 				CASE_TARGET_CODE            ,
 				CASE_DISTRICT_ID            ,
 				CASE_DISTRICT_NAME          ,
+
+				CASE_SRV_NAME				,	
+				CASE_SRV_REAL_NAME			,	
+				CASE_SRV_ORG_NAME			,	
+				
 				CTM_CODE                    ,
 				AGENT_NAME                  ,
 				AGENT_CODE                  ,
+				AGENT_EMPLOYEE_CODE			,
 				AGENT_PHONE                 ,
 				AGENT_USERNAME              ,
 				GRP_CODE                    ,
@@ -101,7 +105,7 @@ BEGIN
 				JQYJL_EMPLOYEE_CODE         ,
 				JQYJL_PHONE                 ,
 				JQYZJ_NAME                  ,
-				JQYZJ_CODE                  ,
+				JQYZJ_EMPLOYEE_CODE         ,
 				JQYZJ_PHONE                 ,
 				JQYDS_NAME                  ,
 				JQYDS_EMPLOYEE_CODE         ,
@@ -177,6 +181,13 @@ BEGIN
 				TRANSFER_APP_OPERATOR_NAME  ,
 				TRANSFER_CONTENT			,
 				TRANSFER_NOT_APPROVE        ,
+				TRANSFER_HOUSE_HODING_TAX        , --预估房产税
+				TRANSFER_PERSONAL_INCOME_TAX     , --预估个人所得税
+				TRANSFER_BUSINESS_TAX            , --预估上家营业税
+				TRANSFER_CONTRACT_TAX            , --预估下家契税
+				TRANSFER_LAND_INCREMENT_TAX      , --预估土地增值税
+
+				
 				CASE_REAL_PROPERTY_GET_TIME ,
 				CASE_CLOSE_TIME             ,
 				CASE_EVA_COMPANY            ,
@@ -190,12 +201,32 @@ BEGIN
 				ELOAN_PRO_AMOUNT            ,
 				ELOAN_KA                    ,
 				ELOAN_KA_AMOUNT_STR         ,
-				ELOAN_KA_AMOUNT             ,
+				ELOAN_KA_AMOUNT             ,				
+				ELOAN_PRO_APPLY_COUNT		,
+				ELOAN_KA_APPLY_COUNT		,
+				ELOAN_KA_CARD_COUNT			,
+				ELOAN_KA_CARD_AMOUNT		,
+				ELOAN_KA_CARD_TYPE			,
 				CASE_USE_CARD_PAY           ,
 				CASE_USE_CARD_PAY_CN        ,
 				CASE_CARD_PAY_AMOUNT        ,
+
+				CASE_TAX_USER_ID			,
+				CASE_PRICING_USER_ID		,				
+				CASE_PLIMIT_USER_ID			,
+				CASE_PSF_USER_ID			,
+				CASE_TRANSFER_USER_ID		,
+				CASE_GETBOOK_USER_ID		,
+
+				TAX_HOUSE_HODING_TAX        , --预估房产税
+				TAX_PERSONAL_INCOME_TAX     , --预估个人所得税
+				TAX_BUSINESS_TAX            , --预估上家营业税
+				TAX_CONTRACT_TAX            , --预估下家契税
+				TAX_LAND_INCREMENT_TAX      , --预估土地增值税
+
 				INFO_CREATE_BY              ,
 				INFO_CREATE_TIME            
+				
                                  		   
 		   )
 			SELECT  
@@ -216,6 +247,7 @@ BEGIN
 					WHEN C.CASE_ORIGIN = 'CTM'    THEN  '推送案件'--案件来源
 					WHEN C.CASE_ORIGIN = 'INPUT'  THEN  '自录案件'
 					WHEN C.CASE_ORIGIN = 'MERGE'  THEN  '合流案件'
+					WHEN C.CASE_ORIGIN = 'PROCESS'  THEN  '合流申请中'					
 					ELSE   '待确认' 
 				END   CASE_ORIGIN_CN,		
 				C.LOAN_REQ,
@@ -263,16 +295,28 @@ BEGIN
 				A3.ORG_NAME,
 		
 				CASE
-					WHEN (SELECT  COUNT(*)  FROM  sctrans.T_TO_MODULE_SUBSCRIBE with(nolock) WHERE MODULE_CODE = C.CASE_CODE) >0 THEN '是'
-					ELSE '否'
+					WHEN (SELECT  COUNT(*)  FROM  sctrans.T_TO_MODULE_SUBSCRIBE with(nolock) WHERE MODULE_CODE = C.CASE_CODE) >0 THEN '0'
+					ELSE '1'
 				END CASE_ISSUBSCRIBE,--案件是否被关注
 				CI.TARGET_CODE,
 				C.DISTRICT_ID,
 				(SELECT O1.ORG_NAME FROM sctrans.SYS_ORG O1 with(nolock)  WHERE O1.ID = C.DISTRICT_ID )DISTRICT_ID_CN,
 
+
+				(SELECT STUFF((	SELECT   DISTINCT '/'+ D.NAME  FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR P with(nolock) LEFT JOIN sctrans.SYS_DICT D  with(nolock) ON D.TYPE='yu_serv_cat_code_tree' AND D.CODE = P.SRV_CODE   WHERE  P.CASE_CODE = C.CASE_CODE  AND P.SRV_CODE IN ('3000400201','3000401002') FOR xml path('')),1,1,'')) SRV_STR,
+				(SELECT STUFF((SELECT '/'+T.REAL_NAME FROM(
+													SELECT U.REAL_NAME,P.CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR P with(nolock) INNER JOIN  sctrans.SYS_USER U with(nolock) ON P.PROCESSOR_ID = U.ID  AND  P.SRV_CODE IN ('3000400201','3000401002')
+													LEFT JOIN sctrans.SYS_ORG O with(nolock) ON O.ID = P.ORG_ID					
+				)T WHERE T.CASE_CODE = C.CASE_CODE  FOR xml path('')),1,1,'')) PROCESSOR_ID,		
+				(SELECT STUFF((SELECT '/'+T.ORG_NAME FROM(
+													SELECT O.ORG_NAME,P.CASE_CODE FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR P with(nolock) INNER JOIN  sctrans.SYS_USER U with(nolock) ON P.PROCESSOR_ID = U.ID  AND  P.SRV_CODE IN ('3000400201','3000401002')
+													LEFT JOIN sctrans.SYS_ORG O with(nolock) ON O.ID = P.ORG_ID					
+				)T WHERE T.CASE_CODE = C.CASE_CODE  FOR xml path('')),1,1,'')) PROCESSOR_ORG_NAME,
+
 				CI.CTM_CODE,
 				CI.AGENT_NAME,
 				CI.AGENT_CODE,
+				(SELECT EMPLOYEE_CODE FROM sctrans.SYS_USER U with(nolock) WHERE U.ID = CI.AGENT_CODE)AGENT_EMPLOYEE_CODE,
 				CI.AGENT_PHONE,
 				CI.AGENT_USERNAME,--登录用户名
 				CI.GRP_CODE,
@@ -292,14 +336,17 @@ BEGIN
 				SH.BUSISH_ID,  --分行经理组别
 
 				SH.JQYJL_MGR,
-				SH.JQYDS_MGR_CODE,--EMPLOYCODE
-				SH.JQYDS_PHONE,
+				SH.JQYJL_MGR_CODE,--EMPLOYCODE
+				SH.JQYJL_PHONE,
+
 				SH.JQYZJ_MGR,
 				SH.JQYZJ_MGR_CODE,
 				SH.JQYZJ_PHONE,
+
 				SH.JQYDS_MGR,
 				SH.JQYDS_MGR_CODE,
 				SH.JQYDS_PHONE,
+
 				SH.JFHJL_MGR,
 				SH.JFHJL_MGR_CODE,
 				SH.JFHJL_PHONE,
@@ -418,7 +465,12 @@ BEGIN
 				(SELECT  TOP 1 CONTENT  FROM sctrans.T_TO_APPROVE_RECORD  with(nolock) WHERE  PART_CODE =N'GuohuApprove' AND CASE_CODE = C.CASE_CODE  ORDER BY  OPERATOR_TIME  DESC)TRANSFER_CONTENT,
 				(SELECT  TOP 1 NOT_APPROVE  FROM sctrans.T_TO_APPROVE_RECORD  with(nolock) WHERE  PART_CODE =N'GuohuApprove' AND CASE_CODE = C.CASE_CODE  ORDER BY  OPERATOR_TIME  DESC)TRANSFER_NOT_APPROVE,
 		
-		
+				HT.HOUSE_HODING_TAX as TRANSFER_HOUSE_HODING_TAX        ,  --预估房产税
+				HT.PERSONAL_INCOME_TAX as TRANSFER_PERSONAL_INCOME_TAX  ,  --预估个人所得税
+				HT.BUSINESS_TAX as TRANSFER_BUSINESS_TAX                ,  --预估上家营业税
+				HT.CONTRACT_TAX as TRANSFER_CONTRACT_TAX                ,  --预估下家契税
+				HT.LAND_INCREMENT_TAX as TRANSFER_LAND_INCREMENT_TAX    ,  --预估土地增值税
+			
 				/* 截止上面 查询不会出现多条记录的情况*/
 
 				(SELECT  GB.REAL_PROPERTY_GET_TIME  FROM  sctrans.T_TO_GET_PROPERTY_BOOK GB with(nolock) WHERE GB.CASE_CODE = C.CASE_CODE) CASE_REAL_PROPERTY_GET_TIME, --实际领证时间
@@ -433,12 +485,28 @@ BEGIN
 				TR.EVAL_FEE,--评估费 单位元
 				TR.RECORD_TIME,
 
-				(SELECT STUFF((SELECT ','+D.NAME FROM  SCTRANS.SYS_DICT D with(nolock) WHERE D.CODE IN (SELECT EC.LOAN_SRV_CODE FROM SCTRANS.T_TO_ELOAN_CASE EC with(nolock) WHERE  EC.CASE_CODE=C.CASE_CODE AND EC.LOAN_SRV_CODE NOT IN ('30004005','30004015') AND EC.STATUS != 'ABAN') AND D.TYPE='yu_serv_cat_code_tree' AND (D.TAG LIKE '%Eloan%' or D.TAG LIKE '%eplus%') for xml path('')),1,1,''))  ELOAN_PRO_TYPE,
+				(SELECT STUFF((SELECT ','+D.NAME FROM  SCTRANS.SYS_DICT D with(nolock) WHERE D.CODE IN (SELECT EC.LOAN_SRV_CODE FROM SCTRANS.T_TO_ELOAN_CASE EC with(nolock) WHERE  EC.CASE_CODE=C.CASE_CODE AND EC.LOAN_SRV_CODE NOT IN ('30004005','30004015') AND EC.STATUS != 'ABAN') AND D.TYPE='yu_serv_cat_code_tree' AND (D.TAG LIKE '%Eloan%' or D.TAG LIKE '%eplus%') for xml path('')),1,1,''))  ELOAN_PRO_TYPE,					
 				(SELECT SUM(EC.APPLY_AMOUNT)  FROM sctrans.T_TO_ELOAN_CASE EC with(nolock) WHERE EC.CASE_CODE = C.CASE_CODE  AND  EC.LOAN_SRV_CODE NOT IN ('30004005','30004015') AND EC.STATUS != 'ABAN' ) ELOAN_APPLYAMOUNT_COUNT,
 				(SELECT STUFF((SELECT ','+D.NAME FROM  SCTRANS.SYS_DICT D with(nolock) WHERE D.CODE IN (SELECT EC.LOAN_SRV_CODE FROM SCTRANS.T_TO_ELOAN_CASE EC with(nolock) WHERE  EC.CASE_CODE=C.CASE_CODE AND EC.LOAN_SRV_CODE IN ('30004005','30004015') AND EC.STATUS != 'ABAN' ) AND D.TYPE='yu_serv_cat_code_tree' AND (D.TAG LIKE '%Eloan%' or D.TAG LIKE '%eplus%') for xml path('')),1,1,''))  ELOAN_PRO_TYPE_KA,
 				(SELECT STUFF((SELECT  ','+CAST(EC.APPLY_AMOUNT as varchar) FROM SCTRANS.T_TO_ELOAN_CASE EC with(nolock) WHERE  EC.CASE_CODE=C.CASE_CODE AND EC.LOAN_SRV_CODE IN ('30004005','30004015') AND EC.STATUS != 'ABAN'  for xml path('')),1,1,'')) AS ELOAN_KA_AMOUNT_STR,
 				(SELECT SUM(EC.APPLY_AMOUNT)  FROM sctrans.T_TO_ELOAN_CASE EC with(nolock)  WHERE EC.CASE_CODE = C.CASE_CODE  AND  EC.LOAN_SRV_CODE  IN ('30004005','30004015') AND EC.STATUS != 'ABAN' ) ELOAN_KA_AMOUNT,
 
+				--E+产品刷卡情况
+				--E+产品类申请单数
+				(SELECT  COUNT(EC.ELOAN_CODE)  FROM SCTRANS.T_TO_ELOAN_CASE EC with(nolock) WHERE  EC.CASE_CODE = C.CASE_CODE  AND EC.LOAN_SRV_CODE NOT IN ('30004005','30004015') AND EC.STATUS != 'ABAN') ELOAN_PRO_APPLY_COUNT,
+
+				--E+卡类申请单数
+				(SELECT  COUNT(EC.ELOAN_CODE)  FROM SCTRANS.T_TO_ELOAN_CASE EC with(nolock) WHERE  EC.CASE_CODE = C.CASE_CODE  AND EC.LOAN_SRV_CODE IN ('30004005','30004015') AND EC.STATUS != 'ABAN') ELOAN_KA_APPLY_COUNT,
+				--E+卡类刷卡单数
+				(SELECT  COUNT(*) FROM (SELECT  DISTINCT(E.ELOAN_CODE)  FROM sctrans.T_TO_ELOAN_CASE R  with(nolock) LEFT JOIN  sctrans.T_TO_ELOAN_REL E with(nolock) ON R.ELOAN_CODE = E.ELOAN_CODE  WHERE  E.RELEASE_AMOUNT IS NOT NULL   AND  R.CASE_CODE = C.CASE_CODE  AND R.LOAN_SRV_CODE IN ('30004005','30004015') AND R.STATUS != 'ABAN')T)ELOAN_KA_CARD_COUNT,
+				--E+卡类刷卡金额
+				(SELECT  SUM(RELEASE_AMOUNT)  FROM  sctrans.T_TO_ELOAN_REL  R with(nolock) WHERE  R.ELOAN_CODE IN (SELECT ELOAN_CODE FROM sctrans.T_TO_ELOAN_CASE EC  with(nolock) WHERE EC.CASE_CODE= C.CASE_CODE AND EC.LOAN_SRV_CODE IN ('30004005','30004015') AND EC.STATUS != 'ABAN'))ELOAN_KA_CARD_AMOUNT,
+				-- E+刷卡类别
+				(SELECT STUFF((SELECT ','+D.NAME FROM  SCTRANS.SYS_DICT D with(nolock) WHERE D.CODE IN (
+						SELECT R.LOAN_SRV_CODE FROM sctrans.T_TO_ELOAN_CASE R with(nolock) LEFT JOIN  sctrans.T_TO_ELOAN_REL E with(nolock) ON R.ELOAN_CODE = E.ELOAN_CODE  
+						WHERE  E.RELEASE_AMOUNT IS NOT NULL   AND R.CASE_CODE = C.CASE_CODE AND R.LOAN_SRV_CODE IN ('30004005','30004015') AND R.STATUS != 'ABAN' ) 				
+				AND D.TYPE='yu_serv_cat_code_tree' AND (D.TAG LIKE '%Eloan%' or D.TAG LIKE '%eplus%') for xml path('')),1,1,''))  ELOAN_KA_CARD_TYPE,
+				--过户刷卡情况
 				HT.USE_CARD_PAY,--是否刷卡
 				CASE 
 					WHEN  HT.USE_CARD_PAY = 1 THEN  '是'--刷卡
@@ -446,6 +514,26 @@ BEGIN
 					ELSE '不确定'
 				END   CASE_USE_CARD_PAY_CN,
 				HT.CARD_PAY_AMOUNT,--刷卡金额
+
+				--审税
+				(SELECT U1.ID FROM sctrans.SYS_USER U1  with(nolock) WHERE U1.USERNAME = (SELECT TOP 1 T1.ASSIGNEE_ FROM sctrans.ACT_HI_TASKINST T1  with(nolock) WHERE T1.TASK_DEF_KEY_='TaxReview' AND T1.PROC_INST_ID_=(SELECT TOP 1 W.INST_CODE  FROM  sctrans.T_TO_WORKFLOW W with(nolock)	WHERE  W.CASE_CODE = C.CASE_CODE 	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4))))CASE_TAX_USER_ID,				
+				--核价
+				(SELECT U2.ID FROM sctrans.SYS_USER U2  with(nolock) WHERE U2.USERNAME = (SELECT TOP 1 T2.ASSIGNEE_ FROM sctrans.ACT_HI_TASKINST T2  with(nolock) WHERE T2.TASK_DEF_KEY_='Pricing' 	AND T2.PROC_INST_ID_=(SELECT TOP 1 W.INST_CODE  FROM  sctrans.T_TO_WORKFLOW W with(nolock)	WHERE  W.CASE_CODE = C.CASE_CODE 	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4))))CASE_PRICING_USER_ID,				
+				--查限购
+				(SELECT U3.ID FROM sctrans.SYS_USER U3  with(nolock) WHERE U3.USERNAME = (SELECT TOP 1 T3.ASSIGNEE_ FROM sctrans.ACT_HI_TASKINST T3  with(nolock) WHERE T3.TASK_DEF_KEY_='PurchaseLimit' AND T3.PROC_INST_ID_=(SELECT TOP 1 W.INST_CODE  FROM  sctrans.T_TO_WORKFLOW W with(nolock)	WHERE  W.CASE_CODE = C.CASE_CODE AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4))))CASE_PLIMIT_USER_ID,				
+				--公积金 取签约环节
+				(SELECT U4.ID FROM sctrans.SYS_USER U4  with(nolock) WHERE U4.USERNAME = (SELECT TOP 1  T4.ASSIGNEE_ FROM sctrans.ACT_HI_TASKINST T4  with(nolock) WHERE T4.TASK_DEF_KEY_='PSFSign' 	AND T4.PROC_INST_ID_=(SELECT TOP 1 W.INST_CODE  FROM  sctrans.T_TO_WORKFLOW W with(nolock)	WHERE  W.CASE_CODE = C.CASE_CODE 	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4))))CASE_PSF_USER_ID,				
+				--过户
+				(SELECT U5.ID FROM sctrans.SYS_USER U5  with(nolock) WHERE U5.USERNAME = (SELECT TOP 1 T5.ASSIGNEE_ FROM sctrans.ACT_HI_TASKINST T5  with(nolock) WHERE T5.TASK_DEF_KEY_='Guohu' 	AND T5.PROC_INST_ID_=(SELECT TOP 1 W.INST_CODE  FROM  sctrans.T_TO_WORKFLOW W with(nolock)	WHERE  W.CASE_CODE = C.CASE_CODE 	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4))))CASE_TRANSFER_USER_ID,				
+				--领证				
+				(SELECT U6.ID FROM sctrans.SYS_USER U6  with(nolock) WHERE U6.USERNAME = (SELECT TOP 1 T6.ASSIGNEE_ FROM sctrans.ACT_HI_TASKINST T6  with(nolock) WHERE T6.TASK_DEF_KEY_='HouseBookGet' AND T6.PROC_INST_ID_=(SELECT TOP 1 W.INST_CODE  FROM  sctrans.T_TO_WORKFLOW W with(nolock)	WHERE  W.CASE_CODE = C.CASE_CODE AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4))))CASE_GETBOOK_USER_ID,				
+				
+				(SELECT TOP 1 HOUSE_HODING_TAX  FROM sctrans.T_TO_TAX TAX with(nolock) WHERE TAX.CASE_CODE = C.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_HOUSE_HODING_TAX,
+				(SELECT TOP 1 PERSONAL_INCOME_TAX FROM sctrans.T_TO_TAX TAX with(nolock) WHERE TAX.CASE_CODE = C.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_PERSONAL_INCOME_TAX,
+				(SELECT TOP 1 BUSINESS_TAX FROM sctrans.T_TO_TAX TAX with(nolock) WHERE TAX.CASE_CODE = C.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_BUSINESS_TAX,
+				(SELECT TOP 1 CONTRACT_TAX FROM sctrans.T_TO_TAX TAX with(nolock) WHERE TAX.CASE_CODE = C.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_CONTRACT_TAX ,
+				(SELECT TOP 1 LAND_INCREMENT_TAX FROM sctrans.T_TO_TAX TAX with(nolock) WHERE TAX.CASE_CODE = C.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_LAND_INCREMENT_TAX,
+
 				'CREATEBY_PROCEDURE',
 				GETDATE()
 	
@@ -530,9 +618,6 @@ BEGIN
 			PRINT @sqlSpvType
 			EXEC (@sqlSpvType)
 		END
-		
-
-
 
 		--关闭游标
 		CLOSE AppRecordCursor
@@ -567,7 +652,20 @@ BEGIN
 		DEALLOCATE SpvTypeCursor
 	END CATCH;  
 
-END
+		--返回当天是周几
+		declare @weekday int = DATEPART(weekday,getdate())
+		--今天是周5 (@weekday = 6)，添加上周5到本周4数据到周表
+		if (@weekday = 6) begin
+			print '今天是周5，添加上周5到本周4数据到周表'
+			--周的开始日期，上周5
+			declare @week_start int = cast(convert(char(10),getdate()-7,112) as int)
+			--周的结束日期，本周4
+			declare @week_end int   = cast(convert(char(10),getdate()-1,112) as int)
 
-GO
+			select @weekday,@week_start,@week_end
+
+			--添加周表数据
+			exec [sctrans].[P_WEEKLY_REPORT_CASE_INFO] @week_start,@week_end
+		end
+END
 
