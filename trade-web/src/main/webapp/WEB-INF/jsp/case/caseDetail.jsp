@@ -1212,7 +1212,7 @@
                                     <div class="table_content">
 	                                <p>
 	                                    <span class="mr10">应收金额:<strong>${commCostAmount}元</strong></span>
-	                                    <a > <button type="button" class="btn btn-success mr5" id="addLiushui"> 新增收款流水 </button> </a>
+	                                    <a > <button type="button" class="btn btn-success mr5" id="addLiushui"> 新增实收 </button> </a>
 	                                </p>
  		                            <table class="table table_blue table-striped table-bordered table-hover customerinfo" id="editable"> 
 		                                <thead>

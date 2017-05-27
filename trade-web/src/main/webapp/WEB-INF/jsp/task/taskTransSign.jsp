@@ -666,8 +666,65 @@
 					return false;
 				}
 
+				if(initAmount>0){
+					if(null == $('input[name=initPayTime]').val() || '' == $('input[name=initPayTime]').val()){
+						window.wxc.alert("首付付款时间不能为空!");
+						$('input[name=initPayTime]').focus();
+						return false;
+					}
+					
+					if ($('select[name=initPayType]').val() == '') {
+						window.wxc.alert("首付付款方式不能为空!");
+						$('select[name=initPayType]').focus();
+						return false;
+					}
+					
+				} 
+				if(secAmount>0){
+					if(null == $('input[name=secPayTime]').val() || '' == $('input[name=secPayTime]').val()){
+						window.wxc.alert("二期付款时间不能为空!");
+						$('input[name=secPayTime]').focus();
+						return false;
+					}
+					
+					if ($('select[name=secPayType]').val() == '') {
+						window.wxc.alert("二期付款方式不能为空!");
+						$('select[name=secPayType]').focus();
+						return false;
+					}
+					
+				} 
+				if(lastAmount>0){
+					if(null == $('input[name=lastPayTime]').val() || '' == $('input[name=lastPayTime]').val()){
+						window.wxc.alert("尾款付款时间不能为空!");
+						$('input[name=lastPayTime]').focus();
+						return false;
+					}
+					
+					if ($('select[name=lastPayType]').val() == '') {
+						window.wxc.alert("尾款付款方式不能为空!");
+						$('select[name=lastPayType]').focus();
+						return false;
+					}
+					
+				} 
+				if(compensateAmount>0){
+					if(null == $('input[name=compensatePayTime]').val() || '' == $('input[name=compensatePayTime]').val()){
+						window.wxc.alert("装修补偿款时间不能为空!");
+						$('input[name=compensatePayTime]').focus();
+						return false;
+					}
+					
+					if ($('select[name=compensatePayType]').val() == '') {
+						window.wxc.alert("装修补偿款方式不能为空!");
+						$('select[name=compensatevPayType]').focus();
+						return false;
+					}
+					
+				} 
+				
 				if (conPrice!=initAmount+secAmount+lastAmount+compensateAmount) {
-					window.wxc.alert("合同价必须等于付款信息项之和!");
+					window.wxc.alert("付款信息项之和必须等于合同价!");
 					$('input[name=conPrice]').focus();
 					return false;
 				}
