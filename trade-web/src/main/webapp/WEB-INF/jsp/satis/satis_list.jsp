@@ -11,30 +11,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>案件回访</title>
-<link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet" />
-<link href="${ctx}/static/font-awesome/css/font-awesome.css"
-	rel="stylesheet" />
-<link href="${ctx}/static/css/animate.css" rel="stylesheet" />
-<link href="${ctx}/static/css/style.css" rel="stylesheet" />
+<link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/css/animate.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/css/style.css' />" rel="stylesheet" />
 <!-- Data Tables -->
-<link
-	href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css"
-	rel="stylesheet" />
-<link
-	href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css"
-	rel="stylesheet" />
-<link
-	href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css"
-	rel="stylesheet" />
+<link href="<c:url value='/static/css/plugins/dataTables/dataTables.bootstrap.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/css/plugins/dataTables/dataTables.responsive.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/css/plugins/dataTables/dataTables.tableTools.min.css' />" rel="stylesheet" />
 <!-- index_css -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" />
-<link rel="stylesheet" href="${ctx}/css/satis/casevist.css" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/base.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/satis/casevist.css' />" />
 <!-- 分页控件 -->
-<link href="${ctx}/static/css/plugins/pager/centaline.pager.css"
-	rel="stylesheet" />
+<link href="<c:url value='static/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -115,10 +107,10 @@
 
 	<content tag="local_script"> 
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
-	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
-	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script> 
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script> 
+	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script> 
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
+	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
 	<script id="template_satisList" type="text/html">
          {{each rows as item index}}
                 <tr>

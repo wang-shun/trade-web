@@ -12,25 +12,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>回访打回
     </title>
-    <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/animate.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/style.css" />
+    <link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/animate.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/style.css' />" />
     <!-- Data Tables -->
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
-    <link href="${ctx}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-    <link href="${ctx}/static/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.bootstrap.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.responsive.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
+    <link href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
     <!-- index_css -->
-    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" />
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/btn.css" />
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
-    <link rel="stylesheet" href="${ctx}/static/trans/css/workflow/caseDetail.css" />
-    <link rel="stylesheet" href="${ctx}/static/trans/css/workflow/details.css" />
-    <link rel="stylesheet" href="${ctx}/css/satis/addOutlist.css">
-    <link rel="stylesheet" href="${ctx}/css/transcss/comment/caseComment.css">
+    <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/btn.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/workflow/caseDetail.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/workflow/details.css' />" />
+    <link rel="stylesheet" href="<c:url value='/css/satis/addOutlist.css' />">
+    <link rel="stylesheet" href="<c:url value='/css/transcss/comment/caseComment.css' />">
 </head>
 
 <body class="pace-done">
@@ -294,14 +294,14 @@
         </div>
       </div>
         <content tag="local_script">
-     	    <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-        	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-        	<script	src="${ctx}/js/template.js" type="text/javascript"></script>
-       		<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-        	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script>
-        	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script>
-        	<script src="${ctx}/js/viewer/viewer.min.js"></script>
-        	<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+     	    <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+        	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+        	<script	src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+       		<script	src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+        	<script	src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+        	<script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script>
+        	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
+        	<script src="<c:url value='/js/common/xcConfirm.js' />"></script>
 	        <script type="text/javascript">
 	        var caseCode = $("#caseCode").val();
 	        var urlType = $("#urlType").val();
