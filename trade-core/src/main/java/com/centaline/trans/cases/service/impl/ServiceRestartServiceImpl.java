@@ -139,12 +139,12 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 				}
 			}
 			for (String instCode : taskInstCode.keySet()) {
-			if(!StringUtils.isEmpty(instCode)){
-				if(!taskInstCode.get(instCode)){//如果不是挂起状态
-					workFlowManager.activateOrSuspendProcessInstance(instCode,false);//案件的相关流程挂起
+				if(!StringUtils.isEmpty(instCode)){
+					if(!taskInstCode.get(instCode)){//如果不是挂起状态
+						workFlowManager.activateOrSuspendProcessInstance(instCode,false);//案件的相关流程挂起
+					}
 				}
 			}
-		}
 
 		Map<String, Object> vars = new HashMap<>();
 

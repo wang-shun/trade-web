@@ -308,7 +308,7 @@
 	        $(function(){
 				$("#caseCommentList").caseCommentGrid({
 					caseCode : caseCode,
-					srvCode : "Survey"
+					srvCode : "survey_g_return"
 				});
 				
 			    $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
@@ -351,7 +351,7 @@
 						success:function(data){
 							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.confirm("操作成功！",{"wxcOk":function(){
+								 window.wxc.alert("操作成功！",{"wxcOk":function(){
 									 goBack();
 								   }
 						   		 })
@@ -373,7 +373,7 @@
 	        }
 	        /*只读表单*/
 	        function readOnlyForm(){
-	        	$("input,select").prop("disabled",true);
+	        	$("input:not('#caseComment'),select").prop("disabled",true);
 	        }
 	        </script>
 	        </content>

@@ -35,6 +35,7 @@
             <condition field="tt.caseCode"  name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="tt.propertyAddr"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="tt.CTM_CODE"  name="ctmCODE" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="tt.taskDfKey_OLD"  name="taskDfKey" label="环节code" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -63,12 +64,14 @@
 						ON tca.ORG_ID=org.id
 					left join sctrans.SYS_WFE_TEMPLATE as wfe on pro.BUSINESS_KEY_=wfe.WFE_CODE
 					where task.ASSIGNEE_ is null and ilink.TYPE_='participant'
-			 		<if test="guoHuApprFlag == 1 ">
+
+					<if test="guoHuApprFlag == 1 ">
 			 			and task.TASK_DEF_KEY_  =  'GuohuApprove'
 			 		</if>
 			 		<if test="guoHuApprFlag == 0 ">
 			 			and task.TASK_DEF_KEY_  !=  'GuohuApprove'
 			 		</if>
+
 					 <if test="userServiceJobCode != 'COXXGLY' ">
 						<ifNotNull mOrgId>
 							and (ilink.user_id_=#candidateId# or tca.org_id=#mOrgId#)
@@ -98,7 +101,7 @@
 						left join sctrans.SYS_ORG org ON tca.ORG_ID=org.id
 						left join sctrans.SYS_WFE_TEMPLATE as wfe on tw.BUSINESS_KEY=wfe.WFE_CODE) t
 					 where t.IS_DELETE='0'
-					 <if test="guoHuApprFlag == 1 ">
+					<if test="guoHuApprFlag == 1 ">
 			 			and t.taskDfKey_OLD  =  'GuohuApprove'
 			 		</if>
 			 		<if test="guoHuApprFlag == 0 ">

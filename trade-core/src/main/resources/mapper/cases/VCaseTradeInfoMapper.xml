@@ -55,10 +55,31 @@
     REAL_PROPERTY_GET_TIME, CLOSE_TIME,CON_PRICE,REAL_PRICE,AMOUNT1,AMOUNT3,AMOUNT2,AMOUNT4,UPBANK
   </sql>
   
-<select id="queryCaseTradeInfoByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from sctrans.V_CASE_TRADE_INFO_VIEW
-    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	<select id="queryCaseTradeInfoByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+	    select 
+	    <include refid="Base_Column_List" />
+	    from sctrans.V_CASE_TRADE_INFO_VIEW
+	    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+    <select id="selectTransSignSubTime" parameterType="java.lang.String" resultType="java.util.Date">
+	  	select END_TIME_
+		from sctrans.ACT_HI_TASKINST t 
+		inner join sctrans.T_TO_WORKFLOW w on t.PROC_INST_ID_=w.INST_CODE 
+		where 
+		t.TASK_DEF_KEY_='TransSign'
+		and w.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  </select>
+  
+ 
+    <select id="selectGuohuSubTime" parameterType="java.lang.String" resultType="java.util.Date">
+	  	select MIN(END_TIME_)
+		from sctrans.ACT_HI_TASKINST t 
+		inner join sctrans.T_TO_WORKFLOW w on t.PROC_INST_ID_=w.INST_CODE 
+		where 
+		t.TASK_DEF_KEY_='Guohu'
+		and w.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
   </select>
 </mapper>

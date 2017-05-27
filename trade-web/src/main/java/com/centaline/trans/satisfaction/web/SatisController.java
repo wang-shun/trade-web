@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -80,7 +81,7 @@ public class SatisController {
 	SessionUser user = uamSessionService.getSessionUser();
 	model.addAttribute("sessionUserId", user.getId());
 	model.addAttribute("serviceJobCode", user.getServiceJobCode());
-    return "satis/satisList";
+    return "satis/satis_list";
   }
   
   @RequestMapping("/task/signDetail")
@@ -455,7 +456,7 @@ public class SatisController {
     model.addAttribute("toPropertyInfo", toPropertyInfo);
     model.addAttribute("satisfaction", satisfaction);
     model.addAttribute("instCode", tf.getInstCode());
-    model.addAttribute("taskId", taskList.get(0) == null?null:taskList.get(0).getId());
+    model.addAttribute("taskId", CollectionUtils.isEmpty(taskList)?null:taskList.get(0).getId());
     model.addAttribute("urlType", urlType);
     model.addAttribute("readOnly", readOnly);
   }

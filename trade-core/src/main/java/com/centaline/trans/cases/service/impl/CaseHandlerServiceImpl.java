@@ -128,7 +128,7 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
      */
     public AjaxResponse changeLeadingPro(String[] changItem, String userId,String leadingProId,String detailCode) throws BusinessException{
         SessionUser user = uamSessionService.getSessionUser();
-        if ("Manager".equals(user.getServiceJobCode())){
+        if ("Manager".equals(user.getServiceJobCode())||"COXXGLY".equals(user.getServiceJobCode())){
             return changeLeadingProForManger(changItem,userId,leadingProId,detailCode);
         }
         if ("consultant".equals(user.getServiceJobCode())){
@@ -151,9 +151,9 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
         if (!"consultant".equals(user.getServiceJobCode())){
             throw new BusinessException("您没有权限访问");
         }
-        for(int i =0;i<changItem.length;i++){
+        for(int i =0;i<changItem.length;i++){ //传来的是一个要修改案件或者任务的数组，遍历一下，一个个案件的的修改
             if(!StringUtils.isEmpty(changItem[i])){
-                String currentCaseCode = changItem[i];
+                String currentCaseCode = changItem[i];//记录当前案件的caseCode,修改出错的时候返回给前端
                 if("processor".equals(detailCode)){ //如果是变更服务项归属人
                     ToCase toCase = toCaseService.findToCaseByCaseCode(changItem[i]);//获得案件详细信息
                     if(toCase==null){
@@ -186,12 +186,12 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
     public AjaxResponse changeLeadingProForManger(String[] changItem, String userId,String leadingProId,String detailCode) throws BusinessException{
         AjaxResponse ajaxResponse = new AjaxResponse();
         SessionUser user = uamSessionService.getSessionUser();
-        if (!"Manager".equals(user.getServiceJobCode())){
+        if (!"Manager".equals(user.getServiceJobCode())&&!"COXXGLY".equals(user.getServiceJobCode())){
             throw new BusinessException("您没有权限访问");
         }
-        for(int i =0;i<changItem.length;i++){
+        for(int i =0;i<changItem.length;i++){//传来的是一个要修改案件或者任务的数组，遍历一下，一个个案件的的修改
            if(!StringUtils.isEmpty(changItem[i])){
-               String currentCaseCode = changItem[i];
+               String currentCaseCode = changItem[i];//记录当前案件的caseCode,修改出错的时候返回给前端
                if("spv".equals(detailCode)){//如果是变更资金监管归属人
                    if(!changeLeadingSpvDo(changItem[i],userId,leadingProId,detailCode)){//如果更新责任人失败，将失败的caseCode返回
                        throw new BusinessException(currentCaseCode);
@@ -288,17 +288,9 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
                         restVariable.setType("string");
                         restVariable.setValue(u_.getUsername());
 
-                        JQGridParam gp =  new CacheGridParam();
-                        gp.setPagination(false);
-                        gp.setQueryId("queryVarinsts");
-                        gp.put("variableName", variableName);
-                        gp.put("instCode",toWorkFlow.getInstCode());
-
-                        Page<Map<String, Object>> varinsts = quickGridService.findPageForSqlServer(gp);
-                        if(varinsts!=null){
-                            if(varinsts.getContent().size()>0){
-                                workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
-                            }
+                        String consultantVar = gotVars(toWorkFlow.getInstCode(), variableName);//要更新掉工作流的参数表中的Consultant变量
+                        if(!StringUtils.isEmpty(consultantVar)){
+                            workFlowManager.setVariableByProcessInsId(toWorkFlow.getInstCode(), variableName, restVariable);
                         }
                     }
                 }
@@ -468,6 +460,7 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
             }
 
         } catch (WorkFlowException e) {
+            //不做处理
         }
         return var;
     }

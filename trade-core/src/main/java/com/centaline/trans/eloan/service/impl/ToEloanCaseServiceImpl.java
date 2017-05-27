@@ -299,7 +299,8 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService
     }
 
     @Override
-    public int updateEloanByCaseCode(User user, ToEloanCase tEloanCase) {
+    public int updateEloanByCaseCode(User user, ToEloanCase tEloanCase)
+    {
         Org districtOrg = uamUserOrgService.getParentOrgByDepHierarchy(user.getOrgId(), DepTypeEnum.TYCQY.getCode());
         if (user != null)
         {
@@ -310,7 +311,7 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService
             tEloanCase.setExcutorDistrict(districtOrg.getId());
         }
 
-        return  toEloanCaseMapper.updateByCaseCodeAndExcutor(user.getId(),tEloanCase);
+        return toEloanCaseMapper.updateByCaseCodeAndExcutor(user.getId(), tEloanCase);
     }
 
     @Override
@@ -497,6 +498,12 @@ public class ToEloanCaseServiceImpl implements ToEloanCaseService
         ToEloanLoaner toEloanLoaner = new ToEloanLoaner();
         toEloanLoaner.setFlowStatus(eLoanVo.getStateInBank());
         toEloanLoaner.setEloanCode(eLoanVo.geteLoanCode());
+
+        // 如果是跟进状态是贷款发放或寄卡,则将派单状态更新为已关闭状态
+        if ("LOAN_RELEASED".equals(eLoanVo.getStateInBank()) || "CARD_SEND".equals(eLoanVo.getStateInBank()))
+        {
+            toEloanLoaner.setLoanerStatus(LoanerStatusEnum.CLOSED.getCode());
+        }
 
         toEloanLoanerMapper.updateEloanLoanerByELoanCode(toEloanLoaner);
 

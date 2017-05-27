@@ -18,7 +18,7 @@ public interface ToCaseService {
 	
     ToCase findToCaseByCaseCode(String caseCode);
     
-    List<ToCase> findAllToCase();
+    List<ToCase> findToCaseByStatus(String status);
     
     int findToLoanAgentByCaseCode(String caseCode);
     

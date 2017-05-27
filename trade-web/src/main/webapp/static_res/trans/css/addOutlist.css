@@ -13,7 +13,9 @@
     text-align: right;
 }
 .out-btn-select {
-    border: 1px solid #1c84c6!important;
+    border: 1px solid #52cdec!important;
+   	background: #52cdec!important;
+    color: #fff!important;
 }
 
 .add-file {

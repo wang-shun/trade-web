@@ -24,7 +24,7 @@
 				<![CDATA[
 			       select 
 			       		s.PKID,
-			       		a.PKID CASE_ID,
+			       		c.PKID CASE_ID,
 			       		s.STATUS,
 						s.CASE_CODE,
 						a.CTM_CODE,
@@ -52,6 +52,9 @@
 			        </if>
 				]]>
 			</baseSql>
+			<orderBySql>
+			  ORDER BY s.STATUS ASC
+			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>

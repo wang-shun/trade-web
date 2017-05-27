@@ -47,6 +47,10 @@
 					<input type="hidden" id="sessionUserId" name="sessionUserId" value="${sessionUserId}" />
 					<input type="hidden" id="serviceDepId" name="serviceDepId" value="${serviceDepId}" />
 					<input type="hidden" id="serviceJobCode" name="serviceJobCode" value="${serviceJobCode}" />
+					<!-- 保存分单的客服专员ID -->
+					<input type="hidden" id="callerId" name="callerId">
+					<!-- 保存选定案件编号 -->
+					<input type="hidden" id="caseCodes" name="caseCodes">
 					<div class="line">
 						<div class="form_content">
 							<label class="control-label sign_left_small"> 案件编号 </label> 
@@ -77,7 +81,7 @@
 								<option value="1">未分单</option>
 								<option value="2">签约回访</option>
 								<option value="3">签约打回</option>
-								<option value="4">待过户审批</option>
+								<option value="4">待过户</option>
 								<option value="5">过户回访</option>
 								<option value="6">过户打回</option>
 								<option value="7">已回访</option>
@@ -115,7 +119,7 @@
 	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
 	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script> 
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-	<script id="SatisListTemplate" type="text/html">
+	<script id="template_satisList" type="text/html">
          {{each rows as item index}}
                 <tr>
 				<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">					
@@ -148,14 +152,15 @@
                        </i>
 					{{/if}}
 					{{if item.STATUS == 3}}
-						<!--<a href="${ctx}/satis/task/signReturn?satisId={{item.PKID}}&urlType=list&readOnly=true">-->
+						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType=list&readOnly=true">
 						<i class="color_visited red_visited">
 					  签约打回
                        </i>
 					{{/if}}
 					{{if item.STATUS == 4}}
+						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType=list&readOnly=true">
 						<i class="color_visited blue_visited">
-                                                    待过户审批                              
+                                                    待过户                              
                        </i>
 					{{/if}}
 					{{if item.STATUS == 5}}
@@ -170,7 +175,7 @@
                        </i>
 					{{/if}}
 					{{if item.STATUS == 6}}
-						<!--<a href="${ctx}/satis/task/guohuReturn?satisId={{item.PKID}}&urlType=list&readOnly=true">-->
+						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&urlType=list&readOnly=true">
 						<i class="color_visited red_visited">
                                                     过户打回
                        </i>
@@ -252,44 +257,21 @@
 
 							function dispatch() {
 								var caseCodes = '';
+								
 								$("input[name='checkRow']:enabled:checked").each(function(i,e){
 									caseCodes += $(e).val()+",";
 								})
-								var userId = $("#userId").val();
 								
-								if($.trim(userId) == ''){
-									window.wxc.error("请选择客服专员！");
-									return false;
-								}
+								$("#caseCodes").val(caseCodes);
+								
 								if($.trim(caseCodes) == ''){
 									window.wxc.error("请选择案件！");
 									return false;
 								}
 								
-								window.wxc.confirm("确定要分单吗？",{"wxcOk":function(){
-									$.ajax({
-										url:ctx+"/satis/doDispatch",
-										method:"post",
-										dataType:"json",
-										data:{caseCodes:caseCodes,userId:userId},
-										beforeSend:function(){  
-											$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-											$(".blockOverlay").css({'z-index':'9998'});
-								        },
-										success:function(data){
-											 $.unblockUI();
-											 if(data.success){
-												 window.wxc.confirm("分单成功！",{"wxcOk":function(){
-													 window.location.reload();
-												 }
-											   })
-											 }else{
-												 window.wxc.error("分单失败！");
-											 } 
-										 }
-									})
-								  }
-								})
+								userSelect({startOrgId:'2c9280845be6e90c015bf06436fb0021',expandNodeId:'2c9280845be6e90c015bf06436fb0021',
+									jobCode:'JYUKFZY',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectCallerBack});
+
 							}
 
 							//清空数据
@@ -323,7 +305,7 @@
 													colName : "回访状态"
 												},
 												{
-													colName : "<span style='color:#ffffff' onclick='caseCodeSort();' >案件编码</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
+													colName : "<span style='color:#ffffff' onclick='caseCodeSort();' >案件编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
 													sortColumn : "CASE_CODE",
 													sord : "desc",
 													sortActive : true
@@ -345,7 +327,7 @@
 									ctx : "${ctx}",
 									queryId : 'SatisListQuery',
 									rows : '12',
-									templeteId : 'SatisListTemplate',
+									templeteId : 'template_satisList',
 									gridClass : 'table table_blue table-striped table-bordered table-hover ',
 									data : params,
 									wrapperData : {
@@ -365,6 +347,42 @@
 									$("#realName").val("");
 									$("#userId").val("");
 								}
+							}
+							
+							function selectCallerBack(array){
+								if (array && array.length > 0) {
+									$("#callerId").val(array[0].userId);
+								} else {
+									$("#callerId").val("");
+								}
+								
+								var callerId = $("#callerId").val();
+ 								if($.trim(callerId) == ''){
+									window.wxc.error("请选择客服专员！");
+									return false;
+								} 	
+									
+								$.ajax({
+									url:"${ctx}/satis/doDispatch",
+									method:"post",
+									dataType:"json",
+									data:{caseCodes:$("#caseCodes").val(),userId:$("#callerId").val()},
+									beforeSend:function(){  
+										$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+										$(".blockOverlay").css({'z-index':'9998'});
+							        },
+									success:function(data){
+										 $.unblockUI();
+										 if(data.success){
+											 window.wxc.alert("派单成功！",{"wxcOk":function(){
+												 initData();
+											 	}
+											 });
+										 }else{
+											 window.wxc.error("派单失败！");
+										 } 
+									 }
+								})
 							}
 							
 							/**

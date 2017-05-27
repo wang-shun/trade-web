@@ -8,7 +8,7 @@ $(function(){
         searchMethod(1);
     });
     $("#changePr").click(function(){
-        $("#codeShow").html($("#changTaskId").val());
+        $("#codeShow").html($("#changCaseCode").val());
         $("#leadingProForChang").show();
     });
     //变更责任人取消
@@ -78,7 +78,7 @@ $(function(){
             });
         }});
 
-    })
+    });
     checkBoxALL();//全选和反选
 })
 //加载数据的核心方法****!不是即时的!
@@ -99,9 +99,12 @@ function reloadGrid(data) {
             $.unblockUI();
             $(".checkbox_input").click(function(){
                 var thisChangTaskId = $(this).val();
-                $("#changTaskId").val(editCaseCode(thisChangTaskId));
+                var thisCaseCode = $(this).attr("tValue");
+                $("#changTaskId").val(editCaseCode(thisChangTaskId,$("#changTaskId").val()));
+                $("#changCaseCode").val(editCaseCode(thisCaseCode,$("#changCaseCode").val()));
             });
             $("#changCaseCode").val('');
+            $("#changTaskId").val('');
         },
         error: function (e, jqxhr, settings, exception) {
             $.unblockUI();
@@ -180,13 +183,20 @@ function checkBoxALL(){
         if($("#checkAll").is(':checked')){
             $("#myTaskList input[type='checkbox']").prop("checked", true);
             $("#changTaskId").val("");
+            $("#changCaseCode").val("");
             $(".task_choice").each(function(index){
-                $("#changTaskId").val(editCaseCode($(this).attr("name")));
+                $("#changTaskId").val(editCaseCode($(this).attr("name"),$("#changTaskId").val()));
+            });
+            $(".caseCode_choice").each(function(index){
+                $("#changCaseCode").val(editCaseCode($(this).text(),$("#changCaseCode").val()));
             });
         }else{
             $("#myTaskList input[type='checkbox']").removeAttr("checked");
             $(".task_choice").each(function(index){
                 $("#changTaskId").val("");
+            });
+            $(".caseCode_choice").each(function(index){
+                $("#changCaseCode").val("");
             });
         }
     });
@@ -206,8 +216,7 @@ function getList(){
     reloadGrid(data);
 }
 //选择框选择后拼接caseCode字符串的方法
-function editCaseCode(str){
-    var thisChangTaskId = $("#changTaskId").val();
+function editCaseCode(str,thisChangTaskId){
     if(''!=thisChangTaskId){
         if(thisChangTaskId.indexOf(str)>=0){
             if(thisChangTaskId.indexOf(str)==0){

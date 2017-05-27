@@ -83,6 +83,15 @@ public class VCaseTradeInfo {
     private Date realPropertyGetTime;
 
     private Date closeTime;
+    
+    //过户流程提交时间
+    private Date guohuSubTime;
+    //签约流程提交时间
+    private Date transSignSubTime;
+    //过户流程提交时间 和实际过户时间相差的天数
+    private long guohuSubAndRealTimeDiff;
+    //签约流程提交时间 和实际签约时间相差的天数
+    private long transSignSubAndRealTimeDiff;
 
     public String getCaseCode() {
         return caseCode;
@@ -427,4 +436,38 @@ public class VCaseTradeInfo {
 	public void setUpBank(String upBank) {
 		this.upBank = upBank;
 	}
+
+	public Date getGuohuSubTime() {
+		return guohuSubTime;
+	}
+
+	public void setGuohuSubTime(Date guohuSubTime) {
+		this.guohuSubTime = guohuSubTime;
+	}
+
+	public Date getTransSignSubTime() {
+		return transSignSubTime;
+	}
+
+	public void setTransSignSubTime(Date transSignSubTime) {
+		this.transSignSubTime = transSignSubTime;
+	}
+
+	public long getGuohuSubAndRealTimeDiff() {
+		return guohuSubAndRealTimeDiff;
+	}
+
+	public void setGuohuSubAndRealTimeDiff(long guohuSubAndRealTimeDiff) {
+		this.guohuSubAndRealTimeDiff = guohuSubAndRealTimeDiff;
+	}
+
+	public long getTransSignSubAndRealTimeDiff() {
+		return transSignSubAndRealTimeDiff;
+	}
+
+	public void setTransSignSubAndRealTimeDiff(long transSignSubAndRealTimeDiff) {
+		this.transSignSubAndRealTimeDiff = transSignSubAndRealTimeDiff;
+	}
+	
+	
 }

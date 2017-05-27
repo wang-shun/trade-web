@@ -265,18 +265,16 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 
 	@Override
 	public void initSatisList() {
-		List<ToCase> toCases = toCaseService.findAllToCase();
+		List<ToCase> toCases = toCaseService.findToCaseByStatus(CaseStatusEnum.YQY.getCode());
 	      for(ToCase toCase : toCases){
 	        //签约
-	        if(CaseStatusEnum.YQY.getCode().compareTo(toCase.getStatus()) <= 0 ){
-	          handleAfterSign(toCase.getCaseCode(), "init");
-	        }
+	        handleAfterSign(toCase.getCaseCode(), "init");
 	      }
 	}
 
 	@Override
 	public void bacthPushToGuohu() {
-		List<ToCase> toCases = toCaseService.findAllToCase();
+		List<ToCase> toCases = toCaseService.findToCaseByStatus(CaseStatusEnum.YGH.getCode());
 	      for(ToCase toCase : toCases){
 	    	  pushToGuohu(toCase.getCaseCode());
 	      }
@@ -286,9 +284,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	public void pushToGuohu(String caseCode) {
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		//过户(要等到分单之后并签约评分完成)
-        if(CaseStatusEnum.YGH.getCode().compareTo(toCase.getStatus()) <= 0 ){
-          handleAfterGuohuApprove(toCase.getCaseCode(), "push");
-        }
+        handleAfterGuohuApprove(toCase.getCaseCode(), "push");
 	}
 
 }
