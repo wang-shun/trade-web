@@ -24,7 +24,7 @@
 				<![CDATA[
 			       select 
 			       		s.PKID,
-			       		a.PKID CASE_ID,
+			       		c.PKID CASE_ID,
 			       		s.STATUS,
 						s.CASE_CODE,
 						a.CTM_CODE,

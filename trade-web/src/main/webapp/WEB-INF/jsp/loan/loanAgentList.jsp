@@ -375,9 +375,12 @@ text-decoration: underline !important;
 	 		displayColomn.push('PROPERTY_ADDR');
 	 		displayColomn.push('LOAN_SRV_CODE');
 	 		displayColomn.push('finOrgName');
-	 		displayColomn.push('LEADING_PROCESS_NAME');
+	 		displayColomn.push('EXECUTOR_ID');
+	 		displayColomn.push('EXCUTOR_TEAM_NAME');
+	 		displayColomn.push('EXCUTOR_DISTRICT_NAME');
+	 		/* displayColomn.push('LEADING_PROCESS_NAME'); 
 	 		displayColomn.push('ORG_NAME');
-	 		displayColomn.push('DISTRICT_NAME');
+	 		displayColomn.push('DISTRICT_NAME');*/
 	 		displayColomn.push('QJDS_NAME');
 	 		displayColomn.push('zjName');
 	 		displayColomn.push('AgentName');

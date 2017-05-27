@@ -81,7 +81,7 @@
 								<option value="1">未分单</option>
 								<option value="2">签约回访</option>
 								<option value="3">签约打回</option>
-								<option value="4">待过户审批</option>
+								<option value="4">待过户</option>
 								<option value="5">过户回访</option>
 								<option value="6">过户打回</option>
 								<option value="7">已回访</option>
@@ -152,14 +152,15 @@
                        </i>
 					{{/if}}
 					{{if item.STATUS == 3}}
-						<!--<a href="${ctx}/satis/task/signReturn?satisId={{item.PKID}}&urlType=list&readOnly=true">-->
+						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType=list&readOnly=true">
 						<i class="color_visited red_visited">
 					  签约打回
                        </i>
 					{{/if}}
 					{{if item.STATUS == 4}}
+						<a href="${ctx}/satis/task/signDetail?satisId={{item.PKID}}&urlType=list&readOnly=true">
 						<i class="color_visited blue_visited">
-                                                    待过户审批                              
+                                                    待过户                              
                        </i>
 					{{/if}}
 					{{if item.STATUS == 5}}
@@ -174,7 +175,7 @@
                        </i>
 					{{/if}}
 					{{if item.STATUS == 6}}
-						<!--<a href="${ctx}/satis/task/guohuReturn?satisId={{item.PKID}}&urlType=list&readOnly=true">-->
+						<a href="${ctx}/satis/task/guohuDetail?satisId={{item.PKID}}&urlType=list&readOnly=true">
 						<i class="color_visited red_visited">
                                                     过户打回
                        </i>
@@ -304,7 +305,7 @@
 													colName : "回访状态"
 												},
 												{
-													colName : "<span style='color:#ffffff' onclick='caseCodeSort();' >案件编码</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
+													colName : "<span style='color:#ffffff' onclick='caseCodeSort();' >案件编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
 													sortColumn : "CASE_CODE",
 													sord : "desc",
 													sortActive : true

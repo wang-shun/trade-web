@@ -586,14 +586,13 @@
 	        
 	        /*签约通过*/
 	        function doSignPass(){
-	        	
 	        	if(!checkForSubmit()){
 	        		return false;
 	        	}
 	        	
 	        	var data = $("form").serializeArray();
 
-	        	window.wxc.confirm("确定要通过吗？",{"wxcOk":function(){
+	        	window.wxc.confirm("确定通过吗？",{"wxcOk":function(){
 					$.ajax({
 						url:ctx+"/satis/doSignPass",
 						method:"post",
@@ -606,8 +605,10 @@
 						success:function(data){
 							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.alert("操作成功！");
-								 goBack();
+								 window.wxc.alert("操作成功！",{"wxcOk":function(){
+									 goBack();
+								   }
+						   		 })
 							 }else{
 								 window.wxc.error("操作失败！\n"+data.message);
 							 } 
@@ -621,7 +622,7 @@
 	        function doSignReject(){
 	        	var data = $("form").serializeArray();
 
-	        	window.wxc.confirm("确定要打回吗？",{"wxcOk":function(){
+	        	window.wxc.confirm("确定打回吗？",{"wxcOk":function(){
 		        	//先将回访意见添加到案件跟进
 		        	saveCaseComment2();
 		        	
@@ -630,9 +631,14 @@
 						method:"post",
 						dataType:"json",
 						data:data,
+						beforeSend:function(){  
+							$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+							$(".blockOverlay").css({'z-index':'9998'});
+				        },
 						success:function(data){
+							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.confirm("操作成功！",{"wxcOk":function(){
+								 window.wxc.alert("操作成功！",{"wxcOk":function(){
 									 goBack();
 								   }
 						   		 })
@@ -655,7 +661,7 @@
 	        
 	        /*只读表单*/
 	        function readOnlyForm(){
-	        	$("input,select").prop("disabled",true);
+	        	$("input:not('#caseComment'),select").prop("disabled",true);
 	        }
 	        
 	    	function changeClass(object){
@@ -714,6 +720,8 @@
                     return false;
                 }
                 /***********************下家END**************************/
+                
+                return true;
 	        }
 	        </script>
         </content>     
