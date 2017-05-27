@@ -40,7 +40,9 @@ import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToHouseTransfer;
+import com.centaline.trans.task.entity.ToTax;
 import com.centaline.trans.task.repository.ToHouseTransferMapper;
+import com.centaline.trans.task.repository.ToTaxMapper;
 import com.centaline.trans.task.service.AwardBaseService;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.service.ToHouseTransferService;
@@ -73,6 +75,8 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 	private ToPropertyInfoService toPropertyInfoService;
 	@Autowired
 	private LoanlostApproveService loanlostApproveService;
+	@Autowired
+	private ToTaxMapper toTaxMapper;
 	
 	@Autowired(required = true)
 	private UamSessionService uamSessionService;/*用户信息*/
@@ -138,6 +142,19 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 			toHouseTransfer.setHouseHodingTax(toHouseTransfer.getHouseHodingTax() != null ? toHouseTransfer.getHouseHodingTax().divide(new BigDecimal(10000)) : null);
 			toHouseTransfer.setLandIncrementTax(toHouseTransfer.getLandIncrementTax() != null ? toHouseTransfer.getLandIncrementTax().divide(new BigDecimal(10000)) : null);
 			toHouseTransfer.setPersonalIncomeTax(toHouseTransfer.getPersonalIncomeTax() != null ? toHouseTransfer.getPersonalIncomeTax().divide(new BigDecimal(10000)) : null);
+		}
+		return toHouseTransfer;
+	}
+	@Override
+	public ToHouseTransfer findToGuoHuByCaseCodeUpdateTax(String caseCode) {
+		ToTax toTax = toTaxMapper.findToTaxByCaseCode(caseCode);
+		ToHouseTransfer toHouseTransfer = new ToHouseTransfer();
+		if(null!=toTax){
+			toHouseTransfer.setBusinessTax(toTax.getBusinessTax() != null ? toTax.getBusinessTax().divide(new BigDecimal(10000)) : null);
+			toHouseTransfer.setContractTax(toTax.getContractTax() != null ? toTax.getContractTax().divide(new BigDecimal(10000)) : null);
+			toHouseTransfer.setHouseHodingTax(toTax.getHouseHodingTax() != null ? toTax.getHouseHodingTax().divide(new BigDecimal(10000)) : null);
+			toHouseTransfer.setLandIncrementTax(toTax.getLandIncrementTax() != null ? toTax.getLandIncrementTax().divide(new BigDecimal(10000)) : null);
+			toHouseTransfer.setPersonalIncomeTax(toTax.getPersonalIncomeTax() != null ? toTax.getPersonalIncomeTax().divide(new BigDecimal(10000)) : null);
 		}
 		return toHouseTransfer;
 	}

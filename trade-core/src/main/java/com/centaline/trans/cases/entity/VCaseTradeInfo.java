@@ -92,6 +92,56 @@ public class VCaseTradeInfo {
     private long guohuSubAndRealTimeDiff;
     //签约流程提交时间 和实际签约时间相差的天数
     private long transSignSubAndRealTimeDiff;
+    
+    private BigDecimal houseHodingTaxSign;
+    
+    private BigDecimal personalIncomeTaxSign;
+    
+    private BigDecimal businessTaxSign;
+    
+    private BigDecimal contractTaxSign;
+    
+    private BigDecimal landIncrementTaxSign;
+    
+    public BigDecimal getHouseHodingTaxSign() {
+		return houseHodingTaxSign;
+	}
+
+	public void setHouseHodingTaxSign(BigDecimal houseHodingTaxSign) {
+		this.houseHodingTaxSign = houseHodingTaxSign;
+	}
+
+	public BigDecimal getPersonalIncomeTaxSign() {
+		return personalIncomeTaxSign;
+	}
+
+	public void setPersonalIncomeTaxSign(BigDecimal personalIncomeTaxSign) {
+		this.personalIncomeTaxSign = personalIncomeTaxSign;
+	}
+
+	public BigDecimal getBusinessTaxSign() {
+		return businessTaxSign;
+	}
+
+	public void setBusinessTaxSign(BigDecimal businessTaxSign) {
+		this.businessTaxSign = businessTaxSign;
+	}
+
+	public BigDecimal getContractTaxSign() {
+		return contractTaxSign;
+	}
+
+	public void setContractTaxSign(BigDecimal contractTaxSign) {
+		this.contractTaxSign = contractTaxSign;
+	}
+
+	public BigDecimal getLandIncrementTaxSign() {
+		return landIncrementTaxSign;
+	}
+
+	public void setLandIncrementTaxSign(BigDecimal landIncrementTaxSign) {
+		this.landIncrementTaxSign = landIncrementTaxSign;
+	}
 
     public String getCaseCode() {
         return caseCode;
