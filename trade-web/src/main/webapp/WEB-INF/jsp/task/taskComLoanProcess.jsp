@@ -8,10 +8,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
-<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />"
-	rel="stylesheet">
-<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />"
-	rel="stylesheet">
+<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
 <link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
 <link href="<c:url value='/css/style.css' />" rel="stylesheet">
 <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
@@ -31,7 +29,7 @@
 <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 <link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
 <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
-<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css' />" />
+<link rel="stylesheet" href="<c:url value='/js/viewer/viewer.min.css' />" />
 <!-- 新调整页面样式 -->
 <link href="<c:url value='/css/common/caseDetail.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
@@ -39,7 +37,6 @@
 <link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
-
 <link rel="stylesheet" href="<c:url value='/css/common/step-mend.css' />" >
 <style type="text/css">
 .wizard-big.wizard>.content {
