@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新增实收流水</title>
+    <title>新增实收</title>
 	<link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
 	<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
 	<link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
