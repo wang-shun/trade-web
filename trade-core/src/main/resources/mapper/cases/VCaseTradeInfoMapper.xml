@@ -45,6 +45,11 @@
     <result column="REAL_PLS_TIME" property="realPlsTime" jdbcType="TIMESTAMP" />
     <result column="REAL_PROPERTY_GET_TIME" property="realPropertyGetTime" jdbcType="TIMESTAMP" />
     <result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
+    <result column="HOUSE_HODING_TAX_SIGN" property="houseHodingTaxSign" jdbcType="DECIMAL" />
+    <result column="PERSONAL_INCOME_TAX_SIGN" property="personalIncomeTaxSign" jdbcType="DECIMAL" />
+    <result column="BUSINESS_TAX_SIGN" property="businessTaxSign" jdbcType="DECIMAL" />
+    <result column="CONTRACT_TAX_SIGN" property="contractTaxSign" jdbcType="DECIMAL" />
+    <result column="LAND_INCREMENT_TAX_SIGN" property="landIncrementTaxSign" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
     CASE_CODE, CREATE_TIME, RES_DATE, IS_HUKOU, IS_CON_CERT, REAL_CON_TIME, PAY_NAME1, 
@@ -52,7 +57,8 @@
     PAY_NAME4, PAY_TYPE4, PAY_TIME4, UNCLOSE_MONEY, CLOSE_TYPE, LOAN_CLOSE_CODE, HOUSE_HODING_TAX, 
     PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX, REAL_HT_TIME, 
     HOLD_YEAR, IS_UNIQUE_HOME, TAX_TIME, HOUSE_PROPERTY, PRICING_TIME, TAX_PRICING, REAL_PLS_TIME, 
-    REAL_PROPERTY_GET_TIME, CLOSE_TIME,CON_PRICE,REAL_PRICE,AMOUNT1,AMOUNT3,AMOUNT2,AMOUNT4,UPBANK
+    REAL_PROPERTY_GET_TIME, CLOSE_TIME,CON_PRICE,REAL_PRICE,AMOUNT1,AMOUNT3,AMOUNT2,AMOUNT4,UPBANK,
+    HOUSE_HODING_TAX_SIGN, PERSONAL_INCOME_TAX_SIGN, BUSINESS_TAX_SIGN, CONTRACT_TAX_SIGN, LAND_INCREMENT_TAX_SIGN
   </sql>
   
 	<select id="queryCaseTradeInfoByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">

@@ -15,6 +15,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.enums.TaxEnum;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.common.service.TgGuestInfoService;
@@ -28,10 +29,12 @@ import com.centaline.trans.task.entity.ToFirstFollow;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.entity.ToPayment;
 import com.centaline.trans.task.entity.ToSign;
+import com.centaline.trans.task.entity.ToTax;
 import com.centaline.trans.task.repository.ToFirstFollowMapper;
 import com.centaline.trans.task.repository.ToHouseTransferMapper;
 import com.centaline.trans.task.repository.ToPaymentMapper;
 import com.centaline.trans.task.repository.ToSignMapper;
+import com.centaline.trans.task.repository.ToTaxMapper;
 import com.centaline.trans.task.service.SignService;
 import com.centaline.trans.task.vo.TransSignVO;
 import com.centaline.trans.utils.DateUtil;
@@ -59,6 +62,8 @@ public class SignServiceImpl implements SignService {
 	private ToSignMapper toSignMapper;
 	@Autowired
 	private ToHouseTransferMapper toHouseTransferMapper;
+	@Autowired
+	private ToTaxMapper toTaxMapper;
 	@Autowired
 	private ToFirstFollowMapper tofirstFollowMapper;
 	@Autowired
@@ -212,21 +217,21 @@ public class SignServiceImpl implements SignService {
 			}
 		}
 		
+		ToTax toTax = new ToTax();
 		/*预估税费*/
-		ToHouseTransfer toHouseTransfer = new ToHouseTransfer();
-		toHouseTransfer.setCaseCode(transSignVO.getCaseCode());
-		toHouseTransfer.setBusinessTax(transSignVO.getBusinessTax()!=null?transSignVO.getBusinessTax().multiply(new BigDecimal(10000)):null);
-		toHouseTransfer.setContractTax(transSignVO.getContractTax()!=null?transSignVO.getContractTax().multiply(new BigDecimal(10000)):null);
-		toHouseTransfer.setHouseHodingTax(transSignVO.getHouseHodingTax()!=null?transSignVO.getHouseHodingTax().multiply(new BigDecimal(10000)):null);
-		toHouseTransfer.setLandIncrementTax(transSignVO.getLandIncrementTax()!=null?transSignVO.getLandIncrementTax().multiply(new BigDecimal(10000)):null);
-		toHouseTransfer.setPersonalIncomeTax(transSignVO.getPersonalIncomeTax()!=null?transSignVO.getPersonalIncomeTax().multiply(new BigDecimal(10000)):null);
+		toTax.setCaseCode(transSignVO.getCaseCode());
+		toTax.setBusinessTax(transSignVO.getBusinessTax()!=null?transSignVO.getBusinessTax().multiply(new BigDecimal(10000)):null);
+		toTax.setContractTax(transSignVO.getContractTax()!=null?transSignVO.getContractTax().multiply(new BigDecimal(10000)):null);
+		toTax.setHouseHodingTax(transSignVO.getHouseHodingTax()!=null?transSignVO.getHouseHodingTax().multiply(new BigDecimal(10000)):null);
+		toTax.setLandIncrementTax(transSignVO.getLandIncrementTax()!=null?transSignVO.getLandIncrementTax().multiply(new BigDecimal(10000)):null);
+		toTax.setPersonalIncomeTax(transSignVO.getPersonalIncomeTax()!=null?transSignVO.getPersonalIncomeTax().multiply(new BigDecimal(10000)):null);
+		toTax.setIsActive(TaxEnum.YX.getCode());
 		if(transSignVO.getHousePkid() != null) {
-			toHouseTransfer.setPkid(transSignVO.getHousePkid());
-			toHouseTransferMapper.updateByPrimaryKeySelective(toHouseTransfer);
+			toTax.setPkid(transSignVO.getHousePkid());
+			toTaxMapper.updateByPrimaryKeySelective(toTax);
 		} else {
-			toHouseTransfer.setPartCode("Guohu");
-			if(toHouseTransferMapper.findToGuoHuByCaseCode(transSignVO.getCaseCode()) == null) {
-				toHouseTransferMapper.insertSelective(toHouseTransfer);
+			if(toTaxMapper.findToTaxByCaseCode(transSignVO.getCaseCode()) == null) {
+				toTaxMapper.insertSelective(toTax);
 			}
 		}
 		
