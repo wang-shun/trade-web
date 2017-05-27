@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.product.repository.TtsProductCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.product.entity.TtsProductCategory" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PRDC_CODE" property="prdcCode" jdbcType="VARCHAR" />
+    <result column="PRDC_NAME" property="prdcName" jdbcType="NVARCHAR" />
+    <result column="PRDC_DESC" property="prdcDesc" jdbcType="NVARCHAR" />
+    <result column="APPLY_COND" property="applyCond" jdbcType="NVARCHAR" />
+    <result column="PRDC_ICON" property="prdcIcon" jdbcType="VARCHAR" />
+    <result column="PROP_GROUP" property="propGroup" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="SORT" property="sort" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="UBJECT_CODE" property="ubjectCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PRDC_CODE, PRDC_NAME, PRDC_DESC, APPLY_COND, PRDC_ICON, PROP_GROUP, CREATE_TIME, 
+    CREATE_BY, UPDATE_TIME, UPDATE_BY, SORT, STATUS, UBJECT_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_PRODUCT_CATEGORY
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_PRODUCT_CATEGORY
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.product.entity.TtsProductCategory" >
+    insert into sctrans.T_TS_PRODUCT_CATEGORY (PKID, PRDC_CODE, PRDC_NAME, 
+      PRDC_DESC, APPLY_COND, PRDC_ICON, 
+      PROP_GROUP, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY, SORT, 
+      STATUS, UBJECT_CODE)
+    values (#{pkid,jdbcType=BIGINT}, #{prdcCode,jdbcType=VARCHAR}, #{prdcName,jdbcType=NVARCHAR}, 
+      #{prdcDesc,jdbcType=NVARCHAR}, #{applyCond,jdbcType=NVARCHAR}, #{prdcIcon,jdbcType=VARCHAR}, 
+      #{propGroup,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{ubjectCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.product.entity.TtsProductCategory" >
+    insert into sctrans.T_TS_PRODUCT_CATEGORY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="prdcCode != null" >
+        PRDC_CODE,
+      </if>
+      <if test="prdcName != null" >
+        PRDC_NAME,
+      </if>
+      <if test="prdcDesc != null" >
+        PRDC_DESC,
+      </if>
+      <if test="applyCond != null" >
+        APPLY_COND,
+      </if>
+      <if test="prdcIcon != null" >
+        PRDC_ICON,
+      </if>
+      <if test="propGroup != null" >
+        PROP_GROUP,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="sort != null" >
+        SORT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="ubjectCode != null" >
+        UBJECT_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="prdcCode != null" >
+        #{prdcCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prdcName != null" >
+        #{prdcName,jdbcType=NVARCHAR},
+      </if>
+      <if test="prdcDesc != null" >
+        #{prdcDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="applyCond != null" >
+        #{applyCond,jdbcType=NVARCHAR},
+      </if>
+      <if test="prdcIcon != null" >
+        #{prdcIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="propGroup != null" >
+        #{propGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="ubjectCode != null" >
+        #{ubjectCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.product.entity.TtsProductCategory" >
+    update sctrans.T_TS_PRODUCT_CATEGORY
+    <set >
+      <if test="prdcCode != null" >
+        PRDC_CODE = #{prdcCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prdcName != null" >
+        PRDC_NAME = #{prdcName,jdbcType=NVARCHAR},
+      </if>
+      <if test="prdcDesc != null" >
+        PRDC_DESC = #{prdcDesc,jdbcType=NVARCHAR},
+      </if>
+      <if test="applyCond != null" >
+        APPLY_COND = #{applyCond,jdbcType=NVARCHAR},
+      </if>
+      <if test="prdcIcon != null" >
+        PRDC_ICON = #{prdcIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="propGroup != null" >
+        PROP_GROUP = #{propGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        SORT = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="ubjectCode != null" >
+        UBJECT_CODE = #{ubjectCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.product.entity.TtsProductCategory" >
+    update sctrans.T_TS_PRODUCT_CATEGORY
+    set PRDC_CODE = #{prdcCode,jdbcType=VARCHAR},
+      PRDC_NAME = #{prdcName,jdbcType=NVARCHAR},
+      PRDC_DESC = #{prdcDesc,jdbcType=NVARCHAR},
+      APPLY_COND = #{applyCond,jdbcType=NVARCHAR},
+      PRDC_ICON = #{prdcIcon,jdbcType=VARCHAR},
+      PROP_GROUP = #{propGroup,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      SORT = #{sort,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=INTEGER},
+      UBJECT_CODE = #{ubjectCode,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>
