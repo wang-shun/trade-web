@@ -127,7 +127,7 @@
 	                            </div>
 	                        </div>
 	                    </div>
-	                    <h4>●实收税费</h4>
+	                    <h2 class="newtitle title-mark">实收税费</h2>
 	                    <div class="line">
 	                        <div class="form_content">
 	                            <label class="control-label sign_left_small">房产税<font color=" red" class="mr5" >*</font></label> 

@@ -39,22 +39,47 @@ public class VCaseTradeInfoServiceImpl implements VCaseTradeInfoService {
 				caseTradeInfo.setGuohuSubTime(guohuSubTime);				
 			}
 			
-			long transSignDays = getDistanceDays(transSignSubTime, caseTradeInfo.getRealConTime());
+			long transSignDays = getDistanceDaysByOrder(transSignSubTime, caseTradeInfo.getRealConTime());
 			caseTradeInfo.setTransSignSubAndRealTimeDiff(transSignDays);
-			long guohuDays = getDistanceDays(guohuSubTime, caseTradeInfo.getRealHtTime());
+			long guohuDays = getDistanceDaysByOrder(guohuSubTime, caseTradeInfo.getRealHtTime());
 			caseTradeInfo.setGuohuSubAndRealTimeDiff(guohuDays);
 		}
 
 		return caseTradeInfo;
 	}
 
+	
+    /*
+     * @author:zhuody
+     * 
+     * @date:2017-05-27
+     * 
+     * @des:计算时间差，考虑时间大小
+     */
+	private long getDistanceDaysByOrder(Date subTime, Date realTime) {
+		
+		if(null == subTime || null == realTime){
+			return  0;
+		}
+		
+		long days = 0;
+		long time1 = subTime.getTime();
+		long time2 = realTime.getTime();
+		long diff = time1 - time2;
+		
+		days = diff / (1000 * 60 * 60 * 24);
+
+		return days;
+	}
     /*
      * @author:zhuody
      * 
      * @date:2017-05-26
      * 
-     * @des:计算时间差
+     * @des:计算时间差,不考虑时间大小
      */
+	
+	@SuppressWarnings("unused")
 	private long getDistanceDays(Date subTime, Date realTime) {
 		
 		if(null == subTime || null == realTime){

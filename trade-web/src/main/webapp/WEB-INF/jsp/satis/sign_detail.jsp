@@ -680,18 +680,6 @@
                     changeClass($salerPhoneOk);
                     return false;
                 }
-                var $salerSignSat = $("select[name='salerSignSat']");
-                if($salerSignSat.val() == ''){
-                	window.wxc.alert("请选择上家签约评分！");
-                    changeClass($salerSignSat);
-                    return false;
-                }
-                var $salerLoancloseSat = $("select[name='salerLoancloseSat']");
-                if($salerLoancloseSat.val() == ''){
-                	window.wxc.alert("请选择上家陪还贷评分！");
-                    changeClass($salerLoancloseSat);
-                    return false;
-                }
                 /***********************上家END**************************/
                 /***********************下家START**************************/
                 /*是否正确*/
@@ -699,24 +687,6 @@
                 if($buyerPhoneOk.val() != '1'){
                 	window.wxc.alert("下家电话不正确，无法通过！");
                     changeClass($buyerPhoneOk);
-                    return false;
-                }
-                var $buyerSignSat = $("select[name='buyerSignSat']");
-                if($buyerSignSat.val() == ''){
-                	window.wxc.alert("请选择下家签约评分！");
-                    changeClass($buyerSignSat);
-                    return false;
-                }
-                var $buyerComloanSat = $("select[name='buyerComloanSat']");
-                if($buyerComloanSat.val() == ''){
-                	window.wxc.alert("请选择下家贷款评分！");
-                    changeClass($buyerComloanSat);
-                    return false;
-                }
-                var $buyerPsfloanSat = $("select[name='buyerPsfloanSat']");
-                if($buyerPsfloanSat.val() == ''){
-                	window.wxc.alert("请选择下家公积金评分！");
-                    changeClass($buyerPsfloanSat);
                     return false;
                 }
                 /***********************下家END**************************/
