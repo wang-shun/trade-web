@@ -176,7 +176,7 @@
                             <em>实际过户时间</em><span class="yuanwid"><fmt:formatDate value="${caseInfo.realHtTime}" pattern="yyyy-MM-dd" /></span>
                         </li>
                         <li>
-                            <em>过户提交时间</em><span class="yuanwid"><fmt:formatDate value="${caseInfo.realHtTime}" pattern="yyyy-MM-dd" /></span>
+                            <em>过户提交时间</em><span class="yuanwid"><fmt:formatDate value="${caseInfo.guohuSubTime}" pattern="yyyy-MM-dd" /></span>
                         </li>
                         <li>
                             <em>过户提交相差</em><span class="yuanwid">${caseInfo.guohuSubAndRealTimeDiff} 天</span>

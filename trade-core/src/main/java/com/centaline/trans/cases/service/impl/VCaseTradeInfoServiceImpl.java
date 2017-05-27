@@ -21,7 +21,7 @@ public class VCaseTradeInfoServiceImpl implements VCaseTradeInfoService {
 
 		// 过户审批环节添加网签环节、过户环节提交时间 add by zhuody in 20170526
 		if (null == caseCode || "".equals(caseCode)) {
-			throw new BusinessException("查询网签时间时请求参数为空！");
+			throw new BusinessException("查询网签、过户提交时间时请求参数为空！");
 		}
 		
 		VCaseTradeInfo caseTradeInfo = new VCaseTradeInfo();
