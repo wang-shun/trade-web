@@ -637,7 +637,12 @@
 			//验证控件checkUI();
 			function checkForm() {
 				var checkGuest = true;
-				
+				var conPrice = Number($('input[name=conPrice]').val());
+				var initAmount = Number($('input[name=initAmount]').val());
+				var secAmount = Number($('input[name=secAmount]').val());
+				var lastAmount = Number($('input[name=lastAmount]').val());
+				var compensateAmount = Number($('input[name=compensateAmount]').val());
+
 				if ($('input[name=realConTime]').val() == '') {
 					window.wxc.alert("实际签约时间为必填项!");
 					$('input[name=realConTime]').focus();
@@ -658,6 +663,12 @@
 				
 				if ($('input[name=conPrice]').val() == '') {
 					window.wxc.alert("合同价为必填项!");
+					$('input[name=conPrice]').focus();
+					return false;
+				}
+
+				if (conPrice!=initAmount+secAmount+lastAmount+compensateAmount) {
+					window.wxc.alert("合同价必须等于付款信息项之和!");
 					$('input[name=conPrice]').focus();
 					return false;
 				}
