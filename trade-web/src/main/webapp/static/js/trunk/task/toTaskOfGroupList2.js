@@ -178,6 +178,9 @@ function showOptUsers(taskId,cc){
 			window.wxc.alert('请至少选择一个任务');
 			return ;
 		}
+	}	
+	if(serviceJobCode == "YCYYZG"){
+		sDepId = "ff8080814f459a78014f45a73d820006";
 	}
 	
 	userSelect({startOrgId:sDepId,expandNodeId:sDepId,
@@ -331,14 +334,17 @@ function radioYuCuiOrgSelectCallBack(array) {
 
 //主办图标选择
 $('#backlogOnclick').click(function() {
-	chooseCaseOperator(serviceDepId);
+	chooseCaseOperator(serviceJobCode,serviceDepId);
 });
 
 
 // 选择组织之后 级联选择主办人信息
-function chooseCaseOperator(id) {
+function chooseCaseOperator(code,id) {	
 	var serviceDepId = id;
-	var yuCuiOriGrpId = $("#organizeOrgId").val();	
+	if(code =="YCYYZG"){
+		serviceDepId = "ff8080814f459a78014f45a73d820006";
+	}	
+	var yuCuiOriGrpId = $("#organizeOrgId").val();		
 	console.log("serviceDepId:"+serviceDepId+"expandNodeId:"+serviceDepId+"");
 	if (yuCuiOriGrpId != "") {
 		userSelect({
@@ -381,28 +387,14 @@ function loanLostCaseListSelectUserBack(array) {
 }
 
 
+//清空
+$('#backlogCleanButton').click(function() {
+	$("input[name='orgName']").val('');	
+	$("input[name='REAL_NAME']").val('');
+	$("#REAL_NAME").attr('hVal','');
+	$("#organizeOrgId").val("");
+	$("#orgHierarchy").val("");
+	$("#taskDfKey").val("");
+	$("#inTextVal").val("");	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+});
