@@ -1,7 +1,12 @@
 package com.centaline.trans.satisfaction.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
@@ -32,6 +39,7 @@ import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
@@ -68,6 +76,8 @@ public class SatisController {
   UamUserOrgService uamUserOrgService;
   @Autowired
   UamSessionService uamSessionService;
+  @Autowired
+  UamBasedataService uamBasedataService;
   
   @Autowired
   WorkFlowManager workFlowManager;
@@ -448,6 +458,31 @@ public class SatisController {
     tq.setFinished(false);
 	PageableVo pageableVo = workFlowManager.listTasks(tq);
 	List<TaskVo> taskList = pageableVo.getData();
+	
+	//for：我要修改
+	// 工作流
+	ToWorkFlow inWorkFlow = new ToWorkFlow();
+	inWorkFlow.setBusinessKey("operation_process");
+	inWorkFlow.setCaseCode(toCase.getCaseCode());
+	ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
+
+	List<TaskVo> tasks = new ArrayList<TaskVo>();
+	if (toWorkFlow != null) {
+	    //查询caseCode所有的流程instCode
+	    List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
+	    for(String insCode : insCodeList) {
+	        TaskHistoricQuery tq2 = new TaskHistoricQuery();             
+	        tq2.setProcessInstanceId(insCode);
+	        tq2.setFinished(true);
+
+	        List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq2).getData());     
+	        tasks.addAll(taskList1);
+	    }
+	    // 本人做的任务
+	    List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+	    
+	    model.addAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
+	}
     
 	model.addAttribute("toApproveRecord", toApproveRecord);
 	model.addAttribute("toCase", toCase);
@@ -460,5 +495,42 @@ public class SatisController {
     model.addAttribute("urlType", urlType);
     model.addAttribute("readOnly", readOnly);
   }
+  
+	private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){
+		if (tasks == null || mySerivceItems == null || tasks.isEmpty() || mySerivceItems.isEmpty()) {
+			return tasks;
+		}
+		
+		Set<String>taskDfKeys=new HashSet<>();
+		
+		mySerivceItems.parallelStream().forEach(item->{
+			Dict d =uamBasedataService.findDictByType(item.getSrvCode());
+			if(d!=null&&d.getChildren()!=null){
+				d.getChildren().parallelStream().forEach(sc->{
+					if(!taskDfKeys.contains(sc.getCode())){
+						taskDfKeys.add(sc.getCode());
+					}
+				});
+			}
+		});
+		
+		Iterator<TaskVo> it = tasks.iterator();
+		while (it.hasNext()) {
+			TaskVo task=it.next();
+			if(!taskDfKeys.contains(task.getTaskDefinitionKey())){
+				it.remove();
+			}
+		}
+		return tasks;
+	}
+	private List<TaskVo> taskDuplicateRemoval(List<TaskVo> oList) {
+		Map<String, TaskVo> hashMap = new HashMap<>();
+	
+		for (TaskVo taskVo : oList) {
+			hashMap.put(taskVo.getTaskDefinitionKey(), taskVo);
+		}
+		List<TaskVo> result = new ArrayList<>(hashMap.values());
+		return result;
+	}
 
 }

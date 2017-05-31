@@ -258,7 +258,15 @@ public class CaseHandlerServiceImpl implements CaseHandlerService {
                 return false;
             }
             ToWorkFlow inWorkFlow = new ToWorkFlow();
-            inWorkFlow.setBusinessKey("operation_process");
+            if("processor".equals(detailCode)){
+                inWorkFlow.setBusinessKey("operation_process");
+            }
+            if("comMort".equals(detailCode)){
+                inWorkFlow.setBusinessKey("ComLoan_Process");
+            }
+            if("prfMort".equals(detailCode)){
+                inWorkFlow.setBusinessKey("PSFLoan_Process");
+            }
             inWorkFlow.setCaseCode(caseCode);
             ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);//获得案件主流程
 

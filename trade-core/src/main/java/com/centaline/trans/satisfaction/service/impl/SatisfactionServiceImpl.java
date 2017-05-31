@@ -224,6 +224,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 		  SessionUser user = uamSessionService.getSessionUser();
 		  //1.更新状态
 	      toSatisfaction.setStatus(SatisfactionStatusEnum.GUOHU_SURVEY_PASS.getCode());
+	      toSatisfaction.setCloseTime(new Date());
 	      toSatisfaction.setUpdateBy(user.getId());
 	      toSatisfaction.setUpdateTime(new Date());
 	      updateSelective(toSatisfaction);

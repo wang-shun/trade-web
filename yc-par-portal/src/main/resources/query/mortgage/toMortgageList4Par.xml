@@ -81,7 +81,7 @@
 							ISNULL(p.PROPERTY_ADDR,'') 	as addr,
 							(case u.avatar when null then '' else 'http://aimg.sh.centanet.com/salesweb/image/' + u.avatar + '.jpg' END) as avartaUrl,
 							ISNULL(m.SEND_NAME,'') 		as consultantName,
-							(CASE m.LOANER_STATUS WHEN 'ACCEPTING' THEN '1' WHEN 'AUDITING' THEN '2' WHEN 'COMPLETED' THEN '3' WHEN 'ACC_REJECTED' THEN '4' WHEN 'AUD_REJECTED' THEN '5' WHEN 'CANCELED' THEN '6' END) AS sort
+							(CASE m.LOANER_STATUS WHEN 'ACCEPTING' THEN '1' WHEN 'AUDITING' THEN '2' WHEN 'COMPLETED' THEN '3' WHEN 'ACC_REJECTED' THEN '4' WHEN 'AUD_REJECTED' THEN '4' WHEN 'CANCELED' THEN '4' WHEN 'CLOSED' THEN '4' END) AS sort
 					FROM sctrans.T_TO_MORT_LOANER m
 					LEFT JOIN sctrans.SYS_USER u ON u.ID = m.SEND_ID
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = m.CASE_CODE AND m.LOANER_ID = #userid#

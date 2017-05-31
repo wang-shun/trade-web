@@ -92,6 +92,7 @@ public class CaseTransferController {
 		String tempUser = null; // 交易主管下用户id
 		String tempName = null; // 交易主管下用户姓名
 		request.setAttribute("userId", userId);
+		request.setAttribute("jobCode", userJob);
 		request.setAttribute("tempUser", tempUser);
 		request.setAttribute("tempName", tempName);
 
