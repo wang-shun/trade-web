@@ -178,8 +178,7 @@ function showOptUsers(taskId,cc){
 			window.wxc.alert('请至少选择一个任务');
 			return ;
 		}
-	}
-	//TODO
+	}	
 	if(serviceJobCode == "YCYYZG"){
 		sDepId = "ff8080814f459a78014f45a73d820006";
 	}
