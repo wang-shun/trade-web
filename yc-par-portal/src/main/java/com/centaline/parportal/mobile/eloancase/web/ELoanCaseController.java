@@ -100,9 +100,9 @@ public class ELoanCaseController
         }
 
         // 判断案子是否有效
-        if (toEloanLoaner.getLoanerStatus() == LoanerStatusEnum.ACC_REJECTED.getCode()
-                || toEloanLoaner.getLoanerStatus() == LoanerStatusEnum.AUD_REJECTED.getCode()
-                || toEloanLoaner.getLoanerStatus() == LoanerStatusEnum.CANCELED.getCode())
+        if (LoanerStatusEnum.ACC_REJECTED.getCode().equals(toEloanLoaner.getLoanerStatus())
+                || LoanerStatusEnum.AUD_REJECTED.getCode().equals(toEloanLoaner.getLoanerStatus())
+                || LoanerStatusEnum.CANCELED.getCode().equals(toEloanLoaner.getLoanerStatus()))
         {
             throw new BusinessException("案件无效,不能进行操作!");
         }

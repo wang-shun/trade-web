@@ -91,9 +91,9 @@ public class MortgageController
         }
 
         // 判断案子是否有效
-        if (toMortLoaner.getLoanerStatus() == LoanerStatusEnum.ACC_REJECTED.getCode()
-                || toMortLoaner.getLoanerStatus() == LoanerStatusEnum.AUD_REJECTED.getCode()
-                || toMortLoaner.getLoanerStatus() == LoanerStatusEnum.CANCELED.getCode())
+        if (LoanerStatusEnum.ACC_REJECTED.getCode().equals(toMortLoaner.getLoanerStatus())
+                || LoanerStatusEnum.AUD_REJECTED.getCode().equals(toMortLoaner.getLoanerStatus())
+                || LoanerStatusEnum.CANCELED.getCode().equals(toMortLoaner.getLoanerStatus()))
         {
             throw new BusinessException("案件无效,不能进行操作!");
         }
