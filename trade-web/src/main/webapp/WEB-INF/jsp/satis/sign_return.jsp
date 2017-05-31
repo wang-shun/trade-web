@@ -282,7 +282,7 @@
 	           	<div class="table-box" id="fileUploadContainer"></div>
 	   		</div>	
 		</div>
-		<a style="float: right; margin-right: 12px; margin-top: 10px;"
+		<a class="btn btn-success btn-space" style="float: right; margin-right: 12px; margin-top: 10px;"
 						href="javascript:showChangeFormModal();">我要修改</a>
         <div id="caseCommentList" class="add_form"></div>
         <div class="form-btn">

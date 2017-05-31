@@ -4,10 +4,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.utils.UiImproveUtil;
 
 /**
@@ -27,6 +30,9 @@ import com.centaline.trans.utils.UiImproveUtil;
 @Controller
 @RequestMapping(value = "/report")
 public class CaseRejectionRateController {
+	
+	@Autowired
+	UamSessionService uamSessionService;
 	@RequestMapping(value = "caseLossRateReasonList")
 	@RequiresPermissions("TRADE.REPORT.CASELOSS")
 	public String caseLossRateReasonList(Model model, HttpServletRequest request) {
