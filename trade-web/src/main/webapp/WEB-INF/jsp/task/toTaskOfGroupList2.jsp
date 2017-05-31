@@ -78,7 +78,7 @@
 				</div>			
 				<div class="form_content" style="margin-left: -51px;">
 					<label class="control-label sign_left"> 执行人</label>
-					<input	class="teamcode input_type" placeholder="" style="width:167px"  value="" id="REAL_NAME" name="REAL_NAME"	onclick="chooseCaseOperator('${serviceDepId}')" hVal="" />
+					<input	class="teamcode input_type" placeholder="" style="width:167px"  value="" id="REAL_NAME" name="REAL_NAME"	onclick="chooseCaseOperator('${serviceJobCode}','${serviceDepId}')" hVal="" />
 					<div class="input-group float_icon organize_icon"	 id="backlogRealNameOnclick">
 						<i class="icon iconfont"></i>
 					</div>
@@ -104,6 +104,7 @@
 					<div class="add_btn">
 						<button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;
 						<button onclick="showOptUsers();" type="button" class="btn btn_blue" disabled="true" id="caseDistributeButton">批量分配</button>
+						<button type="button" class="btn btn-grey"		id="backlogCleanButton">清空</button>
 					</div>
 				</div>
 			</div>
