@@ -6,11 +6,11 @@ public interface ToEloanLoanerService
 {
 
     /**
-     * 根据主键id获取对应的E+接收案件信息表
+     * 根据E+金融编号获取E+案件接收信息
      * 
-     * @param pkid
-     *            主键id
-     * @return E+接收案件信息
+     * @param eLoanCode
+     *            金融编号
+     * @return E+案件接收信息
      */
-    public ToEloanLoaner getToEloanLoanerById(Long pkid);
+    public ToEloanLoaner getToEloanLoanerByELoanCode(String eLoanCode);
 }

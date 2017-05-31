@@ -28,7 +28,7 @@
     <result column="CANCLE_NAME" property="cancleName" jdbcType="VARCHAR" />
     <result column="CANCLE_TIME" property="cancleTime" jdbcType="TIMESTAMP" />
     <result column="LOANER_ID" property="loanerId" jdbcType="VARCHAR" />
-    <result column="LOANER_NAME" property="loanerName" jdbcType="NVARCHAR" />
+    <result column="LOANER_NAME" property="loanerName" jdbcType="VARCHAR" />
     <result column="LOANER_ORG_ID" property="loanerOrgId" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
@@ -496,6 +496,13 @@
     </set>
     where ELOAN_CODE = #{eloanCode,jdbcType=VARCHAR}
   </update>
+  
+  <select id="getToEloanLoanerByELoanCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_ELOAN_LOANER
+    where ELOAN_CODE = #{eLoanCode,jdbcType=VARCHAR}
+  </select>
   
   
 </mapper>

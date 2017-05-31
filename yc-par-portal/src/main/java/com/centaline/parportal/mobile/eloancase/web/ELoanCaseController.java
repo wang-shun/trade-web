@@ -91,7 +91,7 @@ public class ELoanCaseController
         SessionUser sessionUser = uamSessionService.getSessionUser();
 
         // 根据主键id获取E+案件接收信息
-        ToEloanLoaner toEloanLoaner = toEloanLoanerService.getToEloanLoanerById(Long.parseLong(bizCode));
+        ToEloanLoaner toEloanLoaner = toEloanLoanerService.getToEloanLoanerByELoanCode(bizCode);
 
         // 判断当前用户是否是同一个信贷员
         if (!sessionUser.getId().equals(toEloanLoaner.getLoanerId()))

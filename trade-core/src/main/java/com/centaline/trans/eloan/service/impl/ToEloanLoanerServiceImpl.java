@@ -15,8 +15,8 @@ public class ToEloanLoanerServiceImpl implements ToEloanLoanerService
     private ToEloanLoanerMapper toEloanLoanerMapper;
 
     @Override
-    public ToEloanLoaner getToEloanLoanerById(Long pkid)
+    public ToEloanLoaner getToEloanLoanerByELoanCode(String eLoanCode)
     {
-        return toEloanLoanerMapper.selectByPrimaryKey(pkid);
+        return toEloanLoanerMapper.getToEloanLoanerByELoanCode(eLoanCode);
     }
 }
