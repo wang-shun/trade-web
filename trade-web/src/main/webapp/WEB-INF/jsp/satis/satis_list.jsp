@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" />
 <link rel="stylesheet" href="<c:url value='/css/satis/casevist.css' />" />
 <!-- 分页控件 -->
-<link href="<c:url value='static/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -183,7 +183,7 @@
                    </td>
                    <td>
                       <p class="big">
-                       	{{item.PR_ADDR}}
+                       	{{item.PR_ADDR}}{{item.STATUS}}
 					  </p>
 					  <span >
 						<i class="salesman-icon"></i>
@@ -290,7 +290,7 @@
 													colName : "<span style='color:#ffffff' onclick='caseCodeSort();' >案件编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
 													sortColumn : "CASE_CODE",
 													sord : "desc",
-													sortActive : true
+													sortActive : false
 												},
 												{
 													colName : "产证地址"
@@ -361,7 +361,7 @@
 											 	}
 											 });
 										 }else{
-											 window.wxc.error("派单失败！");
+											 window.wxc.error("派单失败！\n"+data.message);
 										 } 
 									 }
 								})

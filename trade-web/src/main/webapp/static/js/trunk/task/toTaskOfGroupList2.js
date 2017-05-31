@@ -1,11 +1,16 @@
 
 $(document).ready(function() {
-	
+	//运营主管权限设置问题
+	if(serviceJobCode == "YCYYZG"){
+		$("#forOperationManager").show();
+	}
 	//初始化数据
 	var data = getParams(1);
     aist.wrap(data);
 	reloadGrid(data);
 });
+
+
 
 
 function reloadGrid(data) {
@@ -109,6 +114,11 @@ function searchMethod(page){
 
 function getParams(page) {
 	
+	//执行人
+	var realName = $("#REAL_NAME").attr('hVal');	
+	//所属组织
+	var orgHierarchy = $("#orgHierarchy").val();
+	var organizeOrgId = $("#organizeOrgId").val();	
 	// 客户姓名 物业地址 经纪人
 	var inTextVal = $('#inTextVal').val();
 	var hVal = $('#inTextVal').attr('hVal');
@@ -144,6 +154,9 @@ function getParams(page) {
 			search_caseCode : caseCode,
 			search_ctmCode : ctmCode,
 			argu_guestname : guestName,
+			argu_realName : realName,
+			argu_organizeOrgId : organizeOrgId,
+			argu_orgHierarchy : orgHierarchy,
 			search_agentName : agentName,
 			search_agentOrgName : agentOrgName,
 			search_propertyAddr : propertyAddr,
@@ -165,6 +178,9 @@ function showOptUsers(taskId,cc){
 			window.wxc.alert('请至少选择一个任务');
 			return ;
 		}
+	}	
+	if(serviceJobCode == "YCYYZG"){
+		sDepId = "ff8080814f459a78014f45a73d820006";
 	}
 	
 	userSelect({startOrgId:sDepId,expandNodeId:sDepId,
@@ -287,32 +303,98 @@ function ckbChange(){
 }
 
 
+// 组织图标选择
+$('#backlogOrgNameOnclick').click(function() {
+	orgSelect({
+		displayId : 'oriGrpId',
+		displayName : 'radioOrgName',
+		startOrgId : '1D29BB468F504774ACE653B946A393EE',
+		expandNodeId : '1D29BB468F504774ACE653B946A393EE', // 添加此属性的作用是展开 组织列表
+		orgType : '',
+		departmentType : '',
+		departmentHeriarchy : '',
+		chkStyle : 'radio',
+		callBack : radioYuCuiOrgSelectCallBack
+	})
+});
+
+// 选业务组织的回调函数
+function radioYuCuiOrgSelectCallBack(array) {
+	if (array && array.length > 0) {
+		$("#orgName").val(array[0].name);
+		$("#orgHierarchy").val(array[0].extendField);
+		$("#organizeOrgId").val(array[0].id);
+	} else {
+		$("#orgName").val("");
+		$("#organizeOrgId").val("");
+	}
+}
 
 
 
+//主办图标选择
+$('#backlogOnclick').click(function() {
+	chooseCaseOperator(serviceJobCode,serviceDepId);
+});
 
 
+// 选择组织之后 级联选择主办人信息
+function chooseCaseOperator(code,id) {	
+	var serviceDepId = id;
+	if(code =="YCYYZG"){
+		serviceDepId = "ff8080814f459a78014f45a73d820006";
+	}	
+	var yuCuiOriGrpId = $("#organizeOrgId").val();		
+	console.log("serviceDepId:"+serviceDepId+"expandNodeId:"+serviceDepId+"");
+	if (yuCuiOriGrpId != "") {
+		userSelect({
+			startOrgId : yuCuiOriGrpId,
+			expandNodeId : yuCuiOriGrpId,
+			nameType : 'long|short',
+			orgType : '',
+			departmentType : '',
+			departmentHeriarchy : '',
+			chkStyle : 'radio',
+			jobCode : 'consultant',
+			callBack : loanLostCaseListSelectUserBack
+		});
+		// $("#yuCuiOriGrpId").val("");
+	} else {
+		userSelect({
+			startOrgId : serviceDepId,
+			expandNodeId : serviceDepId,
+			nameType : 'long|short',
+			orgType : '',
+			departmentType : '',
+			departmentHeriarchy : '',
+			chkStyle : 'radio',
+			jobCode : 'consultant',
+			callBack : loanLostCaseListSelectUserBack
+		});
+	}
+}
+
+// 选取人员的回调函数
+function loanLostCaseListSelectUserBack(array) {
+	if (array && array.length > 0) {
+		$("#REAL_NAME").val(array[0].username);
+		$("#REAL_NAME").attr('hVal', array[0].userId);
+
+	} else {
+		$("#REAL_NAME").val("");
+		$("#REAL_NAME").attr('hVal', "");
+	}
+}
 
 
+//清空
+$('#backlogCleanButton').click(function() {
+	$("input[name='orgName']").val('');	
+	$("input[name='REAL_NAME']").val('');
+	$("#REAL_NAME").attr('hVal','');
+	$("#organizeOrgId").val("");
+	$("#orgHierarchy").val("");
+	$("#taskDfKey").val("");
+	$("#inTextVal").val("");	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+});

@@ -174,7 +174,8 @@ function getParamsValue() {
 		managerName : managerName,
 		caseCode : caseCode,
 		propertyAddr : propertyAddr,
-		serviceDepId :$("#serviceDepId").val()
+		serviceDepId :$("#serviceDepId").val(),
+		jobCode : $("#jobCode").val()
 	};	
 	return params;
 }

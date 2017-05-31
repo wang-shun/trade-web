@@ -42,7 +42,7 @@
 					from 
 						sctrans.T_CS_CASE_SATISFACTION s
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
-					LEFT JOIN sctrans.T_TO_CASE_INFO AS a ON s.CASE_CODE=a.CASE_CODE
+					LEFT JOIN sctrans.T_TO_CASE_INFO AS a ON s.CASE_CODE = a.CASE_CODE
 					LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
 					LEFT JOIN sctrans.T_TO_CASE c on c.case_code=s.case_code
 					LEFT JOIN sctrans.sys_org org ON s.CALLER_ID=org.ID
@@ -50,10 +50,16 @@
                     <if test="serviceJobCode == 'JYUKFZY' ">
 			           and s.CALLER_ID = #sessionUserId#
 			        </if>
+                    <if test="serviceJobCode == 'consultant' ">
+			           and CHARINDEX(#sessionUserId#, (select '/'+LEADING_PROCESS_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs where s.CASE_CODE = tgs.CASE_CODE for xml path(''))) > 0
+			        </if>
+                    <if test="serviceJobCode == 'Manager' ">
+			           and CHARINDEX(#sessionUserId#, (select '/'+vuoj.USER_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs LEFT JOIN sctrans.V_USER_ORG_JOB vuoj on vuoj.ORG_ID = tgs.ORG_ID where C.CASE_CODE = tgs.CASE_CODE and vuoj.JOB_CODE='Manager' for xml path(''))) > 0
+			        </if>
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY s.STATUS ASC
+			  ORDER BY s.STATUS DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
