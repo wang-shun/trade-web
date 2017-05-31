@@ -349,8 +349,7 @@
         	}
         	
         }
-		$(document).ready(
-				function() {
+		$(document).ready(function() {
 					
 					//过户环节贷款信息不能修改
  					$('#mortType').attr("readonly","readonly");					

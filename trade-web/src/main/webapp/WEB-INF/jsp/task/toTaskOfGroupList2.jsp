@@ -63,25 +63,48 @@
                         本组待办任务列表
          </h2>
 		<form method="get" class="form_list">
-			<div class="form_content">
-			    <select id="inTextType"  class="form-control select_control sign_left" >
-					<option value="1" selected>产证地址</option>
-					<option value="0" >客户姓名</option>
-					<option value="2">经纪人姓名</option>
-					<option value="3">所属分行</option>
-					<option value="4">案件编号</option>
-					<option value="5">CTM编号</option>
-				</select>
-				<input id="inTextVal"  class="sign_right input_type">
+			<div class="line"  id="forOperationManager"  >
+				<div class="form_content">
+						<label class="control-label sign_left">案件所属组织 </label> <input	class="teamcode input_type" placeholder="" value="" id="orgName"  style="width:288px"
+							name="orgName"
+							onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'',
+								orgType:'',departmentType:'',departmentHeriarchy:'',expandNodeId:'',
+								chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})">
+						<input type="hidden" id="organizeOrgId" value="">
+						<input type="hidden" id="orgHierarchy" value="">
+						<div class="input-group float_icon organize_icon"  id="backlogOrgNameOnclick">
+							<i class="icon iconfont"></i>
+						</div>
+				</div>			
+				<div class="form_content" style="margin-left: -51px;">
+					<label class="control-label sign_left"> 执行人</label>
+					<input	class="teamcode input_type" placeholder="" style="width:167px"  value="" id="REAL_NAME" name="REAL_NAME"	onclick="chooseCaseOperator('${serviceDepId}')" hVal="" />
+					<div class="input-group float_icon organize_icon"	 id="backlogRealNameOnclick">
+						<i class="icon iconfont"></i>
+					</div>
+				</div>
 			</div>
-			 <div class="form_content">
-				<label class="control-label sign_left" style="width:100px;">任务名</label>
-			    <aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="part_code" defaultvalue="" />
-			</div>
-			<div class="form_content space">
-				<div class="add_btn">
-					<button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;
-					<button onclick="showOptUsers();" type="button" class="btn btn_blue" disabled="true" id="caseDistributeButton">批量分配</button>
+			<div class="line">
+				<div class="form_content">
+				    <select id="inTextType"  class="form-control select_control sign_left" >
+						<option value="1" selected>产证地址</option>
+						<option value="0" >客户姓名</option>
+						<option value="2">经纪人姓名</option>
+						<option value="3">所属分行</option>
+						<option value="4">案件编号</option>
+						<option value="5">CTM编号</option>
+					</select>
+					<input id="inTextVal"  class="sign_right input_type">
+				</div>
+				 <div class="form_content">
+					<label class="control-label sign_left" style="width:100px;">任务名</label>
+				    <aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="part_code" defaultvalue="" />
+				</div>
+				<div class="form_content space">
+					<div class="add_btn">
+						<button id="searchButton" type="button" class="btn btn_blue"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;
+						<button onclick="showOptUsers();" type="button" class="btn btn_blue" disabled="true" id="caseDistributeButton">批量分配</button>
+					</div>
 				</div>
 			</div>
 		</form>
@@ -281,6 +304,7 @@
 <script>
 var ctx = "${ctx}";
 var sDepId = "${serviceDepId}";
+var serviceJobCode = "${serviceJobCode}";
 var Lamp1=${Lamp1};
 var Lamp2=${Lamp2};
 var Lamp3=${Lamp3};

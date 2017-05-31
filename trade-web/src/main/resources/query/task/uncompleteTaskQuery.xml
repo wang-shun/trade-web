@@ -47,7 +47,7 @@
 			<baseSql>
 				<![CDATA[
 			        SELECT 
-			        	SYSUSER.ORG_ID,
+			        	SYSUSER.ORG_ID AS USER_ORG_ID,
 						ART.ID_ AS ID, 
 						ART.CREATE_TIME_ CREATE_TIME,
             			DATEDIFF(DAY, tp.EST_PART_TIME, GETDATE()) AS DATELAMP,
@@ -64,6 +64,8 @@
 						a.agent_phone as MOBILE,
 						A.CTM_CODE as CTM_CODE,
 						b.pkid as PKID,
+						b.LEADING_PROCESS_ID,
+						b.ORG_ID,
 						assi.real_name as assignee,wfe.WFE_NAME as WFE_NAME
 					FROM 
 						sctrans.ACT_RU_TASK ART
@@ -81,6 +83,18 @@
      				<ifNotNull allType>	
    						AND ART.DELEGATION_ IS NULL 
 					</ifNotNull>
+					
+					<ifNotNull realName>	
+   						AND b.LEADING_PROCESS_ID = #realName#
+					</ifNotNull>
+					
+					<if test="organizeOrgId !=null and orgHierarchy == 'yucui_team' ">
+						and b.ORG_ID = #organizeOrgId#
+					</if>
+					<if test="organizeOrgId !=null and orgHierarchy == 'yucui_district' ">
+						and b.ORG_ID in (select  id from sctrans.sys_org  where PARENT_ID = #organizeOrgId#)
+					</if>
+										
 					<ifNotNull guestname>
 						AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = A.CASE_CODE and GUEST_NAME LIKE '%'+#guestname#+'%' )
 					</ifNotNull>
@@ -103,9 +117,12 @@
 				<column type="both" name="DATELAMP" index="" checkbox="" display="红绿灯" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="NAME" index="" checkbox="" display="任务名" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LEADING_PROCESS_ID" index="" checkbox="" display="执行人" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ORG_ID" index="" checkbox="" display="执行人组织" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MOBILE" index="" checkbox="" display="手机" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ORG_ID" index="" checkbox="" display="ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="USER_ORG_ID" index="" checkbox="" display="USER_ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID" index="" checkbox="" display="" customDict="qqManagerInfo" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
