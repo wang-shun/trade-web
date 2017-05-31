@@ -59,7 +59,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY s.STATUS ASC
+			  ORDER BY s.STATUS DESC
 			</orderBySql>
 		</searchSql>
 		<grid>

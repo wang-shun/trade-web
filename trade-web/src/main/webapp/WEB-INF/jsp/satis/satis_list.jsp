@@ -183,7 +183,7 @@
                    </td>
                    <td>
                       <p class="big">
-                       	{{item.PR_ADDR}}
+                       	{{item.PR_ADDR}}{{item.STATUS}}
 					  </p>
 					  <span >
 						<i class="salesman-icon"></i>
@@ -290,7 +290,7 @@
 													colName : "<span style='color:#ffffff' onclick='caseCodeSort();' >案件编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
 													sortColumn : "CASE_CODE",
 													sord : "desc",
-													sortActive : true
+													sortActive : false
 												},
 												{
 													colName : "产证地址"
