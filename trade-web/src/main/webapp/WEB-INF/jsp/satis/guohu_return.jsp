@@ -458,7 +458,7 @@
 								   }
 						   		 })
 							 }else{
-								 window.wxc.error(data.message);
+								 window.wxc.error("操作失败！\n"+data.message);
 							 } 
 						 }
 					})

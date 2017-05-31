@@ -361,7 +361,7 @@
 											 	}
 											 });
 										 }else{
-											 window.wxc.error("派单失败！");
+											 window.wxc.error("派单失败！\n"+data.message);
 										 } 
 									 }
 								})
