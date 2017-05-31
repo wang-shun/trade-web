@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" />
 <link rel="stylesheet" href="<c:url value='/css/satis/casevist.css' />" />
 <!-- 分页控件 -->
-<link href="<c:url value='static/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
