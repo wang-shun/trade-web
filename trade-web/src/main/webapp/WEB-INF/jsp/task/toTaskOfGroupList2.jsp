@@ -63,7 +63,7 @@
                         本组待办任务列表
          </h2>
 		<form method="get" class="form_list">
-			<div class="line"  id="forOperationManager"  >
+			<div class="line"  id="forOperationManager"  style="display:none">
 				<div class="form_content">
 						<label class="control-label sign_left">案件所属组织 </label> <input	class="teamcode input_type" placeholder="" value="" id="orgName"  style="width:288px"
 							name="orgName"
