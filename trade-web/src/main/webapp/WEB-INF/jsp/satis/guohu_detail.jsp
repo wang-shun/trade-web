@@ -33,6 +33,11 @@
     <style>
 		.borderClass {border:1px solid red!important;resize: none;}
 		.borderClass:focus {border:1px solid red!important;resize: none;}
+		.btn-primary {
+  			background-color: #f8ac59 !important;
+  			border-color: #f8ac59 !important;
+  			color: #FFFFFF !important;
+		}
 	</style>
 </head>
 
