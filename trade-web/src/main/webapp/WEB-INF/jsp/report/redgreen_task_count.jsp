@@ -100,7 +100,7 @@ text-decoration: underline !important;
                                      <label class="col-lg-3 col-md-3 control-label font_w">贵宾服务部</label>
                                      <div class="col-lg-9 col-md-9">
                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId_gb" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-							   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
+							   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
 							   chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBackgb})" value='${serOrgName }'>
                                          <input type="hidden" id="h_proOrgId_gb" value="${serOrgId==null?serviceDepId:serOrgId}">
                                      </div>
@@ -111,7 +111,7 @@ text-decoration: underline !important;
                                     <label class="col-lg-3 col-md-3 control-label font_w">组别</label>
                                      <div class="col-lg-9 col-md-9">
                                          <input type="text" style="background-color:#FFFFFF" readonly="readonly" class="form-control tbsporg" id="txt_proOrgId" serviceDepIdOld="${serviceDepId}" serviceDepId="${serviceDepId}"　
-                                         onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:$(this).attr('serviceDepId'), orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";
+                                         onClick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'yucui_headquarter',chkStyle:'radio',chkLast:'true',callBack:radioYuCuiOrgSelectCallBack})";
                                          >
                                          <input type="hidden" id="h_proOrgId" >
                                      </div>
