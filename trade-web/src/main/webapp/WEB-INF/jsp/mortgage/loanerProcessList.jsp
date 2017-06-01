@@ -194,8 +194,10 @@
 						{{else if item.LOANER_STATUS == "CANCELED"}}
                             <p><i class="big">誉萃撤单</i></p>						
 						{{else if item.LOANER_STATUS == "COMPLETED"}}
-                            <p><i class="big">审批完成</i></p>
-						{{/if}}  
+                            <p><i class="big">审批完成</i></p>						
+						{{else if item.LOANER_STATUS == "CLOSED"}}
+                            <p><i class="big">已关闭</i></p>
+						{{/if}} 
 
  						<p class="sign_blue">
 							{{if item.IS_MAIN_LOANBANK_PROCESS == "1"}}主选银行派单
