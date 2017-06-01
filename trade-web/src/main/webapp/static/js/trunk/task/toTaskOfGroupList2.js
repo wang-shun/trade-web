@@ -179,9 +179,9 @@ function showOptUsers(taskId,cc){
 			return ;
 		}
 	}	
-	if(serviceJobCode == "YCYYZG"){
+/*	if(serviceJobCode == "YCYYZG"){
 		sDepId = "ff8080814f459a78014f45a73d820006";
-	}
+	}*/
 	
 	userSelect({startOrgId:sDepId,expandNodeId:sDepId,
 		nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:taskUserSelectBack});
@@ -341,9 +341,9 @@ $('#backlogOnclick').click(function() {
 // 选择组织之后 级联选择主办人信息
 function chooseCaseOperator(code,id) {	
 	var serviceDepId = id;
-	if(code =="YCYYZG"){
+/*	if(code =="YCYYZG"){
 		serviceDepId = "ff8080814f459a78014f45a73d820006";
-	}	
+	}	*/
 	var yuCuiOriGrpId = $("#organizeOrgId").val();		
 	console.log("serviceDepId:"+serviceDepId+"expandNodeId:"+serviceDepId+"");
 	if (yuCuiOriGrpId != "") {
@@ -355,7 +355,7 @@ function chooseCaseOperator(code,id) {
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
-			jobCode : 'consultant',
+			jobCode : '',
 			callBack : loanLostCaseListSelectUserBack
 		});
 		// $("#yuCuiOriGrpId").val("");
@@ -368,7 +368,7 @@ function chooseCaseOperator(code,id) {
 			departmentType : '',
 			departmentHeriarchy : '',
 			chkStyle : 'radio',
-			jobCode : 'consultant',
+			jobCode : '',
 			callBack : loanLostCaseListSelectUserBack
 		});
 	}
