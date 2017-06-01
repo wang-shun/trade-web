@@ -177,7 +177,7 @@
 											<input type="text" class="form-control tbsporg" id="orgName"
 												name="orgName"
 												onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+										   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,expandNodeId:'',chkLast:'true'})"
 												value=''> <input type="hidden" id="yuCuiOriGrpId"
 												name="yuCuiOriGrpId" value="">
