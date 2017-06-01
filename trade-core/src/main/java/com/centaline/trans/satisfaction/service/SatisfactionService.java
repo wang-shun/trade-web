@@ -20,7 +20,7 @@ public interface SatisfactionService {
 	ToSatisfaction queryToSatisfactionByCaseCode(String caseCode);
 	
 	//签约完成操作
-	void handleAfterSign(String caseCode, String signer, Date signTime, Date guohuTime, String type);
+	void handleAfterSign(String caseCode, String signer, String type);
 	
 	//过户申请完成操作
 	void handleAfterGuohu(String caseCode, String guohuer, Date guohuTime);

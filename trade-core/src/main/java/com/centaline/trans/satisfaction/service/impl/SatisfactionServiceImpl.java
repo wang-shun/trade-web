@@ -20,7 +20,6 @@ import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.SatisfactionStatusEnum;
 import com.centaline.trans.common.enums.SatisfactionTypeEnum;
-import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
@@ -38,6 +37,8 @@ import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.repository.ToSatisfactionMapper;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
+import com.centaline.trans.task.repository.ToSignMapper;
+import com.centaline.trans.task.service.ToHouseTransferService;
 
 @Service
 public class SatisfactionServiceImpl implements SatisfactionService {
@@ -47,6 +48,11 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	
 	@Autowired
 	private VCaseTradeInfoMapper vCaseTradeInfoMapper;
+	
+	@Autowired
+	private ToSignMapper toSignMapper;
+	@Autowired
+	private ToHouseTransferService toHouseTransferService;
 	
 	@Autowired
 	MessageService messageService;
@@ -106,14 +112,12 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	}
 
 	@Override
-	public void handleAfterSign(String caseCode, String signerId, Date signTime, Date guohuTime, String type) {
+	public void handleAfterSign(String caseCode, String signerId, String type) {
 		if(SatisfactionTypeEnum.NEW.getCode().equals(type)){
 			ToSatisfaction toSatisfaction = new ToSatisfaction();
 			toSatisfaction.setType(type);
 			toSatisfaction.setCaseCode(caseCode);
 			String castsatCode = uamBasedataService.nextSeqVal("CASTSAT_CODE", new SimpleDateFormat("yyyyMM").format(new Date()));
-			//toSatisfaction.setSignTime(signTime);
-			//toSatisfaction.setGuohuTime(guohuTime);
 			toSatisfaction.setCastsatCode(castsatCode);
 			toSatisfaction.setStatus(SatisfactionStatusEnum.DEFAULT.getCode());
 			toSatisfaction.setCreateBy(signerId);
@@ -139,7 +143,6 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 			messageService.sendSatisFinishMsgByIntermi(wf.getInstCode());
 			
 			ToSatisfaction toSatisfaction = queryToSatisfactionByCaseCode(caseCode);
-			//toSatisfaction.setGuohuTime(guohuTime);
 			toSatisfaction.setStatus(SatisfactionStatusEnum.GUOHU_SURVEY_ING.getCode());
 			toSatisfaction.setUpdateBy(guohuerId);
 			toSatisfaction.setUpdateTime(new Date());
@@ -192,8 +195,6 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 		        messageService.sendSatisFinishMsgByIntermi(vo.getId());
 		        status = SatisfactionStatusEnum.GUOHU_SURVEY_ING.getCode();
 	        }
-	        
-
 	        /**过户案件特殊处理---END**/
 	        //更新满意度表
 	        ToSatisfaction toSatisfaction = queryToSatisfactionByCaseCode(caseCode);
@@ -311,16 +312,9 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 		List<ToCase> toCases = toCaseService.findToCaseByStatus(CaseStatusEnum.YQY.getCode());
 		toCases.forEach(toCase -> {
 			String caseCode = toCase.getCaseCode();
-			String taskDefKey = ToAttachmentEnum.TRANSSIGN.getCode();
-			//Date signTime = getSignTimeByCT(caseCode, taskDefKey);
-			//Date guohuTime = vCaseTradeInfoMapper.selectGuohuPassTime(caseCode);
 	        //签约
-	        handleAfterSign(caseCode, "init", null, null, SatisfactionTypeEnum.NEW.getCode());
+	        handleAfterSign(caseCode, "init", SatisfactionTypeEnum.NEW.getCode());
 		});
-	}
-	
-	private Date getSignTimeByCT(String caseCode, String taskDefKey){
-  		return vCaseTradeInfoMapper.selectTransSignSubTime(caseCode);
 	}
 
 }

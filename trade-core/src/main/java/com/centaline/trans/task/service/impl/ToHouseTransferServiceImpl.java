@@ -236,7 +236,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
          */
         ToSatisfaction satis = satisfactionService.queryToSatisfactionByCaseCode(toCase.getCaseCode());
         if(satis != null && SatisfactionTypeEnum.NEW.getCode().equals(satis.getType())){
-            satisfactionService.handleAfterGuohu(toCase.getCaseCode(), sender.getId(), new Date());
+            satisfactionService.handleAfterGuohu(toCase.getCaseCode(), sender.getId(), null);
         }
 		
 		return null;

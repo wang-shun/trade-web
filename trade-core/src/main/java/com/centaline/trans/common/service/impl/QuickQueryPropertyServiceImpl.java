@@ -33,7 +33,8 @@ public class QuickQueryPropertyServiceImpl implements CustomDictService {
 		}else if("fenHang".equals(dictType)){
 			sql.append("select TOP 1 FIN_ORG_NAME_YC as v from SCTRANS.T_TS_FIN_ORG where FIN_ORG_CODE in (select distinct FA_FIN_ORG_CODE  from SCTRANS.T_TS_FIN_ORG where FIN_ORG_CODE in(select FIN_ORG_CODE from SCTRANS.T_TS_SUP ts where ts.SUP_CAT='0' and ts.FIN_ORG_CODE=:code))");
 		}else if("getRealName".equals(dictType)){
-			sql.append("SELECT top 1 uj.real_name as v from SCTRANS.V_USER_ORG_JOB uj where uj.USER_ID=:code");
+		    sql.append("SELECT uj.real_name as v from SCTRANS.SYS_USER uj where uj.ID=:code");
+			//sql.append("SELECT top 1 uj.real_name as v from SCTRANS.V_USER_ORG_JOB uj where uj.USER_ID=:code");
 		}else if("lostPassTime".equals(dictType)){
 			sql.append("select MAX(END_TIME_) as v from(")
 					.append("SELECT END_TIME_,W.CASE_CODE")
