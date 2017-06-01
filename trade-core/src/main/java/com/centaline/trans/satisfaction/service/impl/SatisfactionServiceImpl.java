@@ -8,13 +8,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.repository.VCaseTradeInfoMapper;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.CaseStatusEnum;
@@ -28,7 +28,6 @@ import com.centaline.trans.common.service.TgServItemAndProcessorService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
@@ -45,6 +44,9 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	
 	@Autowired
 	private ToSatisfactionMapper toSatisfactionMapper;
+	
+	@Autowired
+	private VCaseTradeInfoMapper vCaseTradeInfoMapper;
 	
 	@Autowired
 	MessageService messageService;
@@ -104,13 +106,14 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	}
 
 	@Override
-	public void handleAfterSign(String caseCode, String signerId, Date signTime, String type) {
+	public void handleAfterSign(String caseCode, String signerId, Date signTime, Date guohuTime, String type) {
 		if(SatisfactionTypeEnum.NEW.getCode().equals(type)){
 			ToSatisfaction toSatisfaction = new ToSatisfaction();
 			toSatisfaction.setType(type);
 			toSatisfaction.setCaseCode(caseCode);
 			String castsatCode = uamBasedataService.nextSeqVal("CASTSAT_CODE", new SimpleDateFormat("yyyyMM").format(new Date()));
 			toSatisfaction.setSignTime(signTime);
+			toSatisfaction.setGuohuTime(guohuTime);
 			toSatisfaction.setCastsatCode(castsatCode);
 			toSatisfaction.setStatus(SatisfactionStatusEnum.DEFAULT.getCode());
 			toSatisfaction.setCreateBy(signerId);
@@ -170,6 +173,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	        variables.add(new RestVariable("caller", caller.getUsername()));
 	        variables.add(new RestVariable("consultant1",consultant1.getUsername()));
 	        variables.add(new RestVariable("consultant2",consultant2.getUsername()));
+	        variables.add(new RestVariable("signResult", false));//此处做默认设定，否则workFlowManager.setVariableByProcessInsId会报错
 	        StartProcessInstanceVo vo = workFlowManager.startWorkFlow(new ProcessInstance(propertyUtilsService.getSatisProcessDfKey(),
 	        		caseCode, variables));
 	        /**过户案件特殊处理---START**/
@@ -302,29 +306,22 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 		List<ToCase> toCases = toCaseService.findToCaseByStatus(CaseStatusEnum.YQY.getCode());
 		toCases.forEach(toCase -> {
 			String caseCode = toCase.getCaseCode();
+			String status = toCase.getStatus();
 			String taskDefKey = ToAttachmentEnum.TRANSSIGN.getCode();
 			Date signTime = getTimeByCaseCodeAndTaskDefKey(caseCode, taskDefKey);
+			Date guohuTime = null;
+			if(CaseStatusEnum.YGH.getCode().compareTo(status) <= 0){
+				String taskDefKey2 = ToAttachmentEnum.GUOHU.getCode();
+				guohuTime = getTimeByCaseCodeAndTaskDefKey(caseCode, taskDefKey2);
+			}
 	        //签约
-	        handleAfterSign(caseCode, "init", signTime, SatisfactionTypeEnum.NEW.getCode());
+	        handleAfterSign(caseCode, "init", signTime, guohuTime, SatisfactionTypeEnum.NEW.getCode());
 		});
 	}
 	
 	private Date getTimeByCaseCodeAndTaskDefKey(String caseCode, String taskDefKey){
-		Date signTime = null;
-		//查询流程
-		ToWorkFlow t = new ToWorkFlow();
-		t.setCaseCode(caseCode);
-		t.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
-		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(t);
-    	//查询签约时间
-    	TaskHistoricQuery query =new TaskHistoricQuery();
-  		query.setFinished(true);
-  		query.setTaskDefinitionKey(taskDefKey);
-  		query.setProcessInstanceId(toWorkFlow.getInstCode());
-  		PageableVo pageableVo=workFlowManager.listHistTasks(query);
-  		if(!CollectionUtils.isEmpty(pageableVo.getData())) {signTime = ((TaskVo)pageableVo.getData().get(0)).getDueDate();}
-  		
-  		return signTime;
+  		return ToAttachmentEnum.TRANSSIGN.getCode().equals(taskDefKey) ? 
+  				vCaseTradeInfoMapper.selectTransSignSubTime(caseCode): vCaseTradeInfoMapper.selectGuohuSubTime(caseCode);
 	}
 
 }

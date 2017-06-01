@@ -443,9 +443,9 @@ public class SignServiceImpl implements SignService {
 			 */
 			ToSatisfaction satis = satisfactionService.queryToSatisfactionByCaseCode(toCase.getCaseCode());
 			if(satis != null){
-				satisfactionService.handleAfterSign(transSignVO.getCaseCode(), sessionUser.getId(), new Date(), SatisfactionTypeEnum.ORIGIN.getCode());
+				satisfactionService.handleAfterSign(transSignVO.getCaseCode(), sessionUser.getId(), new Date(), null, SatisfactionTypeEnum.ORIGIN.getCode());
 			}else{
-				satisfactionService.handleAfterSign(transSignVO.getCaseCode(), sessionUser.getId(), new Date(), SatisfactionTypeEnum.NEW.getCode());
+				satisfactionService.handleAfterSign(transSignVO.getCaseCode(), sessionUser.getId(), new Date(), null, SatisfactionTypeEnum.NEW.getCode());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
