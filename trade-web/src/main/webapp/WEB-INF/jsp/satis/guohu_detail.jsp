@@ -667,32 +667,29 @@
 	        function doGuohuReject(){
 	        	var data = $("form").serializeArray();
 
-	        	window.wxc.confirm("确定要打回吗？",{"wxcOk":function(){
-		        	//先将回访意见添加到案件跟进
-		        	saveCaseComment2();
-		        	
-					$.ajax({
-						url:ctx+"/satis/doGuohuReject",
-						method:"post",
-						dataType:"json",
-						data:data,
-						beforeSend:function(){  
-							$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-							$(".blockOverlay").css({'z-index':'9998'});
-				        },
-						success:function(data){
-							 $.unblockUI();
-							 if(data.success){
-								 window.wxc.alert("操作成功！",{"wxcOk":function(){
-									 goBack();
-								   }
-						   		 })
-							 }else{
-								 window.wxc.error("操作失败！\n"+data.message);
-							 } 
-						 }
-					})
-				  }
+	        	//先将回访意见添加到案件跟进
+	        	saveCaseComment2();
+	        	
+				$.ajax({
+					url:ctx+"/satis/doGuohuReject",
+					method:"post",
+					dataType:"json",
+					data:data,
+					beforeSend:function(){  
+						$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+						$(".blockOverlay").css({'z-index':'9998'});
+			        },
+					success:function(data){
+						 $.unblockUI();
+						 if(data.success){
+							 window.wxc.alert("操作成功！",{"wxcOk":function(){
+								 goBack();
+							   }
+					   		 })
+						 }else{
+							 window.wxc.error("操作失败！\n"+data.message);
+						 } 
+					 }
 				})
 	        }
 	        
