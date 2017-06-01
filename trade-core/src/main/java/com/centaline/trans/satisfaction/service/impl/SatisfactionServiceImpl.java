@@ -112,8 +112,8 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 			toSatisfaction.setType(type);
 			toSatisfaction.setCaseCode(caseCode);
 			String castsatCode = uamBasedataService.nextSeqVal("CASTSAT_CODE", new SimpleDateFormat("yyyyMM").format(new Date()));
-			toSatisfaction.setSignTime(signTime);
-			toSatisfaction.setGuohuTime(guohuTime);
+			//toSatisfaction.setSignTime(signTime);
+			//toSatisfaction.setGuohuTime(guohuTime);
 			toSatisfaction.setCastsatCode(castsatCode);
 			toSatisfaction.setStatus(SatisfactionStatusEnum.DEFAULT.getCode());
 			toSatisfaction.setCreateBy(signerId);
@@ -139,7 +139,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 			messageService.sendSatisFinishMsgByIntermi(wf.getInstCode());
 			
 			ToSatisfaction toSatisfaction = queryToSatisfactionByCaseCode(caseCode);
-			toSatisfaction.setGuohuTime(guohuTime);
+			//toSatisfaction.setGuohuTime(guohuTime);
 			toSatisfaction.setStatus(SatisfactionStatusEnum.GUOHU_SURVEY_ING.getCode());
 			toSatisfaction.setUpdateBy(guohuerId);
 			toSatisfaction.setUpdateTime(new Date());
@@ -220,6 +220,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 		  SessionUser user = uamSessionService.getSessionUser();
 		  //1.更新状态
 	      toSatisfaction.setStatus(SatisfactionStatusEnum.GUOHU_SURVEY_WAIT.getCode());
+	      toSatisfaction.setSignTime(new Date());
 	      toSatisfaction.setUpdateBy(user.getId());
 	      toSatisfaction.setUpdateTime(new Date());
 	      updateSelective(toSatisfaction);
@@ -264,6 +265,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 		  SessionUser user = uamSessionService.getSessionUser();
 		  //1.更新状态
 	      toSatisfaction.setStatus(SatisfactionStatusEnum.GUOHU_SURVEY_PASS.getCode());
+	      toSatisfaction.setGuohuTime(new Date());
 	      toSatisfaction.setCloseTime(new Date());
 	      toSatisfaction.setUpdateBy(user.getId());
 	      toSatisfaction.setUpdateTime(new Date());

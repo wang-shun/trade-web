@@ -207,14 +207,14 @@
                       {{/if}}
 					       {{item.GUOHU_TIME}}
 					</p>
-					<p class="smll_sign">
+					<!--<p class="smll_sign">
 					 {{if item.CLOSE_TIME==undefined}}
 						<i class="sign_grey">完</i>
                       {{else}}
 						<i class="sign_normal">完</i>
                       {{/if}}
 					       {{item.CLOSE_TIME}}
-					</p>
+					</p>-->
                     </td>
                     <td class="center">
                         <span class="manager">
