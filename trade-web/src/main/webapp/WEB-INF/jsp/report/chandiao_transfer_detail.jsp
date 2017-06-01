@@ -101,7 +101,7 @@
 							   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 									   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'yucui_team',
 									   chkStyle:'radio', callBack:radioYuCuiOrgSelectCallBack,
-									   expandNodeId:'',chkLast:'true'})"  value="${serviceDepName}" />
+									   expandNodeId:'',chkLast:'true'})"  value="" />
 						<input class="m-wrap " type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">
 						<div class="input-group float_icon organize_icon">
 							<i class="icon iconfont">&#xe61b;</i>
