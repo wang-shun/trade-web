@@ -2,6 +2,7 @@ package com.centaline.trans.task.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.enums.TaxEnum;
+import com.centaline.trans.common.enums.SatisfactionTypeEnum;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.common.service.TgGuestInfoService;
@@ -26,10 +27,8 @@ import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.entity.ToFirstFollow;
-import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.entity.ToPayment;
 import com.centaline.trans.task.entity.ToSign;
-import com.centaline.trans.task.entity.ToTax;
 import com.centaline.trans.task.repository.ToFirstFollowMapper;
 import com.centaline.trans.task.repository.ToHouseTransferMapper;
 import com.centaline.trans.task.repository.ToPaymentMapper;
@@ -443,8 +442,10 @@ public class SignServiceImpl implements SignService {
 			 * @for 满意度评分
 			 */
 			ToSatisfaction satis = satisfactionService.queryToSatisfactionByCaseCode(toCase.getCaseCode());
-			if(satis == null){
-				satisfactionService.handleAfterSign(transSignVO.getCaseCode(), sessionUser.getId());
+			if(satis != null){
+				satisfactionService.handleAfterSign(transSignVO.getCaseCode(), sessionUser.getId(), new Date(), SatisfactionTypeEnum.ORIGIN.getCode());
+			}else{
+				satisfactionService.handleAfterSign(transSignVO.getCaseCode(), sessionUser.getId(), new Date(), SatisfactionTypeEnum.NEW.getCode());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
