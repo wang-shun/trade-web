@@ -10,8 +10,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.aist.common.exception.BusinessException;
-import com.aist.common.web.validate.AjaxResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.helper.StringUtil;
@@ -19,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.exception.BusinessException;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
@@ -31,6 +31,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
+import com.centaline.trans.common.enums.SatisfactionTypeEnum;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
@@ -40,7 +41,6 @@ import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToHouseTransfer;
-import com.centaline.trans.task.entity.ToTax;
 import com.centaline.trans.task.repository.ToHouseTransferMapper;
 import com.centaline.trans.task.repository.ToTaxMapper;
 import com.centaline.trans.task.service.AwardBaseService;
@@ -235,8 +235,8 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
          * @for 满意度评分
          */
         ToSatisfaction satis = satisfactionService.queryToSatisfactionByCaseCode(toCase.getCaseCode());
-        if(satis != null){
-            satisfactionService.handleAfterGuohuApprove(toCase.getCaseCode(), sender.getId());
+        if(satis != null && SatisfactionTypeEnum.NEW.getCode().equals(satis.getType())){
+            satisfactionService.handleAfterGuohu(toCase.getCaseCode(), sender.getId(), new Date());
         }
 		
 		return null;

@@ -1,5 +1,6 @@
 package com.centaline.trans.satisfaction.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
@@ -19,10 +20,10 @@ public interface SatisfactionService {
 	ToSatisfaction queryToSatisfactionByCaseCode(String caseCode);
 	
 	//签约完成操作
-	void handleAfterSign(String caseCode, String signer);
+	void handleAfterSign(String caseCode, String signer, Date signTime, String type);
 	
-	//过户审批通过操作
-	void handleAfterGuohuApprove(String caseCode, String guohuer);
+	//过户申请完成操作
+	void handleAfterGuohu(String caseCode, String guohuer, Date guohuTime);
 
 	int insertSelective(ToSatisfaction toSatisfaction);
 
@@ -41,9 +42,5 @@ public interface SatisfactionService {
 	void guohuFollow(ToSatisfaction toSatisfaction, String taskId, String instCode);
 
 	void initSatisList();
-	
-	void bacthPushToGuohu();
-
-	void pushToGuohu(String caseCode);
 
 }

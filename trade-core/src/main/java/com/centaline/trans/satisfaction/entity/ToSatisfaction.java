@@ -82,6 +82,9 @@ public class ToSatisfaction {
     private Date updateTime;
 
     private String updateBy;
+    
+    //因满意度只会插入一次,流程重启、案件重置等不会重复插入、更新和处理流程。用于判断满意度流程是否需要处理，origin：原始记录，后续操作(如过户)不做处理；new：新纪录，后续操作做处理
+    private String type;
 
     public Long getPkid() {
         return pkid;
@@ -402,4 +405,13 @@ public class ToSatisfaction {
     public void setUpdateBy(String updateBy) {
         this.updateBy = updateBy == null ? null : updateBy.trim();
     }
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+    
 }
