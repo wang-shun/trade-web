@@ -37,8 +37,6 @@ import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.repository.ToSatisfactionMapper;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
-import com.centaline.trans.task.entity.ToHouseTransfer;
-import com.centaline.trans.task.entity.ToSign;
 import com.centaline.trans.task.repository.ToSignMapper;
 import com.centaline.trans.task.service.ToHouseTransferService;
 
@@ -114,14 +112,12 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	}
 
 	@Override
-	public void handleAfterSign(String caseCode, String signerId, Date signTime, Date guohuTime, String type) {
+	public void handleAfterSign(String caseCode, String signerId, String type) {
 		if(SatisfactionTypeEnum.NEW.getCode().equals(type)){
 			ToSatisfaction toSatisfaction = new ToSatisfaction();
 			toSatisfaction.setType(type);
 			toSatisfaction.setCaseCode(caseCode);
 			String castsatCode = uamBasedataService.nextSeqVal("CASTSAT_CODE", new SimpleDateFormat("yyyyMM").format(new Date()));
-			toSatisfaction.setSignTime(signTime);
-			toSatisfaction.setGuohuTime(guohuTime);
 			toSatisfaction.setCastsatCode(castsatCode);
 			toSatisfaction.setStatus(SatisfactionStatusEnum.DEFAULT.getCode());
 			toSatisfaction.setCreateBy(signerId);
@@ -147,7 +143,6 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 			messageService.sendSatisFinishMsgByIntermi(wf.getInstCode());
 			
 			ToSatisfaction toSatisfaction = queryToSatisfactionByCaseCode(caseCode);
-			toSatisfaction.setGuohuTime(guohuTime);
 			toSatisfaction.setStatus(SatisfactionStatusEnum.GUOHU_SURVEY_ING.getCode());
 			toSatisfaction.setUpdateBy(guohuerId);
 			toSatisfaction.setUpdateTime(new Date());
@@ -317,14 +312,8 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 		List<ToCase> toCases = toCaseService.findToCaseByStatus(CaseStatusEnum.YQY.getCode());
 		toCases.forEach(toCase -> {
 			String caseCode = toCase.getCaseCode();
-			//实际签约时间
-			ToSign toSign = toSignMapper.findToSignByCaseCode(caseCode);
-			Date signTime = toSign.getRealConTime();
-			//实际过户时间
-			ToHouseTransfer toHouseTransfer = toHouseTransferService.findToGuoHuByCaseCode(caseCode);
-			Date guohuTime = toHouseTransfer.getRealHtTime();
 	        //签约
-	        handleAfterSign(caseCode, "init", signTime, guohuTime, SatisfactionTypeEnum.NEW.getCode());
+	        handleAfterSign(caseCode, "init", SatisfactionTypeEnum.NEW.getCode());
 		});
 	}
 
