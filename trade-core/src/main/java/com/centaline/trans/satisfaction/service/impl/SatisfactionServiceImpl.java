@@ -311,11 +311,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 			String status = toCase.getStatus();
 			String taskDefKey = ToAttachmentEnum.TRANSSIGN.getCode();
 			Date signTime = getTimeByCaseCodeAndTaskDefKey(caseCode, taskDefKey);
-			Date guohuTime = null;
-			if(CaseStatusEnum.YGH.getCode().compareTo(status) <= 0){
-				String taskDefKey2 = ToAttachmentEnum.GUOHU.getCode();
-				guohuTime = getTimeByCaseCodeAndTaskDefKey(caseCode, taskDefKey2);
-			}
+			Date guohuTime = vCaseTradeInfoMapper.selectGuohuSubTime(caseCode);
 	        //签约
 	        handleAfterSign(caseCode, "init", signTime, guohuTime, SatisfactionTypeEnum.NEW.getCode());
 		});
