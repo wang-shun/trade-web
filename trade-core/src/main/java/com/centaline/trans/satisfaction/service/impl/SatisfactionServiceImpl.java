@@ -187,10 +187,12 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	    		taskList.forEach(task -> {
 	    			if ("SignSurvey".equals(task.getTaskDefinitionKey())) {taskService.complete(task.getId() + "");}
 	    		});
+	    		
+		        messageService.sendSatisFinishMsgByIntermi(vo.getId());
+		        status = SatisfactionStatusEnum.GUOHU_SURVEY_ING.getCode();
 	        }
 	        
-	        messageService.sendSatisFinishMsgByIntermi(vo.getId());
-	        status = SatisfactionStatusEnum.GUOHU_SURVEY_ING.getCode();
+
 	        /**过户案件特殊处理---END**/
 	        //更新满意度表
 	        ToSatisfaction toSatisfaction = queryToSatisfactionByCaseCode(caseCode);
