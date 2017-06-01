@@ -312,10 +312,10 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 		toCases.forEach(toCase -> {
 			String caseCode = toCase.getCaseCode();
 			String taskDefKey = ToAttachmentEnum.TRANSSIGN.getCode();
-			Date signTime = getSignTimeByCT(caseCode, taskDefKey);
-			Date guohuTime = vCaseTradeInfoMapper.selectGuohuPassTime(caseCode);
+			//Date signTime = getSignTimeByCT(caseCode, taskDefKey);
+			//Date guohuTime = vCaseTradeInfoMapper.selectGuohuPassTime(caseCode);
 	        //签约
-	        handleAfterSign(caseCode, "init", signTime, guohuTime, SatisfactionTypeEnum.NEW.getCode());
+	        handleAfterSign(caseCode, "init", null, null, SatisfactionTypeEnum.NEW.getCode());
 		});
 	}
 	
