@@ -13,4 +13,6 @@ public interface VCaseTradeInfoMapper {
 	Date selectTransSignSubTime(String caseCode);
 	
 	Date selectGuohuSubTime(String caseCode);
+	
+	Date selectGuohuPassTime(String caseCode);
 }

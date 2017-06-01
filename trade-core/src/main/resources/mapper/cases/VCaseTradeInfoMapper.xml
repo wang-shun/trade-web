@@ -90,4 +90,15 @@
 		and t.TASK_DEF_KEY_='Guohu'
 		and w.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectGuohuPassTime" parameterType="java.lang.String" resultType="java.util.Date">
+	  	SELECT MAX(END_TIME_) 
+	  	FROM sctrans.ACT_HI_TASKINST AT  
+	  	inner join sctrans.ACT_HI_VARINST AV ON AT.PROC_INST_ID_ = AV.PROC_INST_ID_
+		inner join sctrans.T_TO_WORKFLOW w on AT.PROC_INST_ID_=w.INST_CODE 
+		where
+		AV.LONG_ = 1  AND AV.NAME_ =N'GuohuApprove' AND AT.TASK_DEF_KEY_=N'GuohuApprove' AND AT.DELETE_REASON_ = 'completed'
+		and w.STATUS IN ('0','4')
+		and w.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  </select>
 </mapper>

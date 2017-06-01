@@ -179,7 +179,8 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	        /**过户案件特殊处理---START**/
 	        String status = SatisfactionStatusEnum.SIGN_SURVEY_ING.getCode();
 	        ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
-	        if(CaseStatusEnum.YGH.getCode().compareTo(toCase.getStatus()) <= 0){
+	        Date guohuApplyTime = vCaseTradeInfoMapper.selectGuohuSubTime(caseCode);
+	        if(guohuApplyTime != null){
 	        	//跳过签约回访并发送消息，直接生成过户回访任务
 	        	workFlowManager.setVariableByProcessInsId(vo.getId(), "signResult", new RestVariable("signResult", true));
 	        	PageableVo pageableVo = taskService.listTasks(vo.getId(), false);
@@ -308,18 +309,16 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 		List<ToCase> toCases = toCaseService.findToCaseByStatus(CaseStatusEnum.YQY.getCode());
 		toCases.forEach(toCase -> {
 			String caseCode = toCase.getCaseCode();
-			String status = toCase.getStatus();
 			String taskDefKey = ToAttachmentEnum.TRANSSIGN.getCode();
-			Date signTime = getTimeByCaseCodeAndTaskDefKey(caseCode, taskDefKey);
-			Date guohuTime = vCaseTradeInfoMapper.selectGuohuSubTime(caseCode);
+			Date signTime = getSignTimeByCT(caseCode, taskDefKey);
+			Date guohuTime = vCaseTradeInfoMapper.selectGuohuPassTime(caseCode);
 	        //签约
 	        handleAfterSign(caseCode, "init", signTime, guohuTime, SatisfactionTypeEnum.NEW.getCode());
 		});
 	}
 	
-	private Date getTimeByCaseCodeAndTaskDefKey(String caseCode, String taskDefKey){
-  		return ToAttachmentEnum.TRANSSIGN.getCode().equals(taskDefKey) ? 
-  				vCaseTradeInfoMapper.selectTransSignSubTime(caseCode): vCaseTradeInfoMapper.selectGuohuSubTime(caseCode);
+	private Date getSignTimeByCT(String caseCode, String taskDefKey){
+  		return vCaseTradeInfoMapper.selectTransSignSubTime(caseCode);
 	}
 
 }
