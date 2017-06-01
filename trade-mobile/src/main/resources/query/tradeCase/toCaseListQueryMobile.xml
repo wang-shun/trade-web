@@ -345,7 +345,7 @@
 			<baseSql>
 				select
 				(select sd.name from sctrans.SYS_DICT sd where sd.CODE = tm.LEND_WAY and sd.TYPE =  '30017') refundType,
-				(select sd2.name from sctrans.SYS_DICT sd2 where sd2.CODE = ml.MORT_TYPE and sd2.TYPE =  '30016') mortType,
+				(select sd2.name from sctrans.SYS_DICT sd2 where sd2.CODE = tm.MORT_TYPE and sd2.TYPE =  '30016') mortType,
 				(select sd3.name from sctrans.SYS_DICT sd3 where sd3.CODE = ml.LOANER_STATUS and sd3.TYPE = 'part_code') status,
 				tm.MORT_TOTAL_AMOUNT totalAmount,
 				tm.COM_AMOUNT comAmount,
