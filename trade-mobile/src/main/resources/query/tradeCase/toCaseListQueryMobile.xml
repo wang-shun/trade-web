@@ -347,12 +347,12 @@
 				(select sd.name from sctrans.SYS_DICT sd where sd.CODE = tm.LEND_WAY and sd.TYPE =  '30017') refundType,
 				(select sd2.name from sctrans.SYS_DICT sd2 where sd2.CODE = ml.MORT_TYPE and sd2.TYPE =  '30016') mortType,
 				(select sd3.name from sctrans.SYS_DICT sd3 where sd3.CODE = ml.LOANER_STATUS and sd3.TYPE = 'part_code') status,
-				ml.MORT_TOTAL_AMOUNT totalAmount,
-				ml.COM_AMOUNT comAmount,
-				ml.COM_YEAR comYear,
-				ml.COM_DISCOUNT comDiscount,
-				ml.PRF_AMOUNT psfAmount,
-				ml.PRF_YEAR psfYear,
+				tm.MORT_TOTAL_AMOUNT totalAmount,
+				tm.COM_AMOUNT comAmount,
+				tm.COM_YEAR comYear,
+				tm.COM_DISCOUNT comDiscount,
+				tm.PRF_AMOUNT psfAmount,
+				tm.PRF_YEAR psfYear,
 				ml.LOANER_NAME loanerName,
 				ml.LOANER_PHONE loanerPhone,
 				(select fo.FIN_ORG_NAME from sctrans.T_TS_FIN_ORG fo where fo.FIN_ORG_CODE = tm.LAST_LOAN_BANK) loanerOrg
@@ -361,7 +361,7 @@
 				sctrans.T_TO_MORTGAGE tm left join sctrans.T_TO_MORT_LOANER ml on tm.pkid = ml.MORT_PKID
 
 				where
-				tm.case_code = #caseCode# and tm.IS_ACTIVE = 1
+				tm.case_code = #caseCode#  and tm.IS_ACTIVE = 1
 			</baseSql>
 		</searchSql>
 		<grid>
