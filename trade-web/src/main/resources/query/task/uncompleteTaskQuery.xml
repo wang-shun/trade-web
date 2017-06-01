@@ -65,7 +65,9 @@
 						A.CTM_CODE as CTM_CODE,
 						b.pkid as PKID,
 						b.LEADING_PROCESS_ID,
-						b.ORG_ID,
+						b.ORG_ID,						
+						assi.ID AS ASS_USER_ID,
+						assi.ORG_ID AS ASS_ORG_ID,
 						assi.real_name as assignee,wfe.WFE_NAME as WFE_NAME
 					FROM 
 						sctrans.ACT_RU_TASK ART
@@ -85,7 +87,7 @@
 					</ifNotNull>
 					
 					<ifNotNull realName>	
-   						AND b.LEADING_PROCESS_ID = #realName#
+   						AND assi.ID = #realName#
 					</ifNotNull>
 					
 					<if test="organizeOrgId !=null and orgHierarchy == 'yucui_team' ">
@@ -117,8 +119,10 @@
 				<column type="both" name="DATELAMP" index="" checkbox="" display="红绿灯" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="NAME" index="" checkbox="" display="任务名" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="LEADING_PROCESS_ID" index="" checkbox="" display="执行人" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ORG_ID" index="" checkbox="" display="执行人组织" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LEADING_PROCESS_ID" index="" checkbox="" display="主办" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ASS_USER_ID" index="" checkbox="" display="执行人userId" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ORG_ID" index="" checkbox="" display="案件组织" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="ASS_ORG_ID" index="" checkbox="" display="执行人组织" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="MOBILE" index="" checkbox="" display="手机" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>

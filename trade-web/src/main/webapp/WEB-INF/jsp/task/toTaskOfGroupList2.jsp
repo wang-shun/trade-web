@@ -59,9 +59,7 @@
 
 <div class="wrapper wrapper-content animated fadeInRight">
      <div class="ibox-content border-bottom clearfix space_box">
-         <h2 class="title">
-                        本组待办任务列表
-         </h2>
+        <h2 class="title">本组待办任务列表</h2>
 		<form method="get" class="form_list">
 			<div class="line"  id="forOperationManager"  style="display:none">
 				<div class="form_content">
