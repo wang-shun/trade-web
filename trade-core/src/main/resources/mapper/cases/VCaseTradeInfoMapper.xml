@@ -75,7 +75,8 @@
 		from sctrans.ACT_HI_TASKINST t 
 		inner join sctrans.T_TO_WORKFLOW w on t.PROC_INST_ID_=w.INST_CODE 
 		where 
-		t.TASK_DEF_KEY_='TransSign'
+		w.STATUS IN ('0','4')
+		and t.TASK_DEF_KEY_='TransSign'
 		and w.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
   </select>
   
@@ -85,7 +86,8 @@
 		from sctrans.ACT_HI_TASKINST t 
 		inner join sctrans.T_TO_WORKFLOW w on t.PROC_INST_ID_=w.INST_CODE 
 		where 
-		t.TASK_DEF_KEY_='Guohu'
+		w.STATUS IN ('0','4')
+		and t.TASK_DEF_KEY_='Guohu'
 		and w.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
   </select>
 </mapper>
