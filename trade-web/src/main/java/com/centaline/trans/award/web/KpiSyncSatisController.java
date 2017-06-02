@@ -1,5 +1,9 @@
 package com.centaline.trans.award.web;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +31,11 @@ public class KpiSyncSatisController {
 		SessionUser user = uamSessionService.getSessionUser();
 		model.addAttribute("sessionUserId", user.getId());
 		model.addAttribute("serviceJobCode", user.getServiceJobCode());
+		//默认当月
+		Date now = new Date();
+		String belongMonth =new SimpleDateFormat("yyyy-MM").format(now);
+	    model.addAttribute("belongMonth", belongMonth);  
+		
 	    return "award/managerSatisfied";
 	  }
 	  

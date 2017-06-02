@@ -136,7 +136,7 @@
                   {{else}}
                        <tr class="tr-2">
                    {{/if}} 
-					<td><p class="sign_blue mr5">${belongMonth}</p></td>
+					<td><p class="sign_blue">${belongMonth}</p></td>
 					<td><p class="big">{{item.REAL_NAME}}</p></td>
 					<td><p class="big">{{item.EMPLOYEE_CODE}}</p></td>
 					<td><p class="big">{{item.ORG_NAME}}</p></td>

@@ -138,9 +138,8 @@ $('#awardCaseCollectSearch').click(function() {
 
 /* 清空查询条件 */
 $('#awardCaseCollectClean').click(function() {
-	//$("input[name='realName']").val('');
-	
-	$("input[name='guohuApproveTime']").val('');	
+	$("input[name='dtBegin']").datepicker('update', '');
+	$("input[name='dtEnd']").datepicker('update', '');
 	$("input[name='awardStatus']").val('');		
 	$("input[name='propertyAddr']").val('');	
 	$("input[name='caseCode']").val('');	
@@ -193,6 +192,9 @@ function getParams() {
 	}
 	// 计件年月
 	var belongMonth = $.trim($("#belongMonth").val());	
+	if("" != belongMonth && null != belongMonth ){
+		belongMonth = belongMonth + "-01";
+	}
 	
 	params.caseCode = caseCode;
 	params.propertyAddr = propertyAddr;	
@@ -206,9 +208,9 @@ function getParams() {
 
 
 function exportAwardBaseToExcel(){
-	
+
 	var url = "/quickGrid/findPage?xlsx&";
-	var ctx = $("#ctx").val();
+	var ctx = $("#ctx").val();	
 	// excel导出列
 	var displayColomn = new Array;
 	
@@ -229,8 +231,8 @@ function exportAwardBaseToExcel(){
 	var colomns = '&colomns=' + displayColomn;
 
 	url = ctx + url + jQuery.param(params) + queryId + ""
-			+ "" + colomns;
-
+			+ "" + colomns;	
+	
 	$('#excelForm').attr('action', url);
 
 	$('#excelForm').method = "post";
@@ -248,3 +250,25 @@ function caseCodeSort() {
 		$("#caseCodeSorti").attr("class", 'fa fa-sort-desc fa_down');
 	}
 }
+
+
+//日期控件,只能选择月份
+$('#datepicker_0').datepicker({
+	format: 'yyyy-mm',  
+    weekStart: 1,  
+    autoclose: true,  
+    startView: 'year',
+    maxViewMode: 1,
+    minViewMode:1,
+	todayBtn : 'linked',
+	language : 'zh-CN',
+});
+
+//日期控件
+$('#datepicker_1').datepicker({
+	format : 'yyyy-mm-dd',
+	weekStart : 1,
+	autoclose : true,
+	todayBtn : 'linked',
+	language : 'zh-CN'
+});
