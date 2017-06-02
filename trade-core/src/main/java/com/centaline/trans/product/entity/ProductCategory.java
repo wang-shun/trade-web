@@ -29,6 +29,16 @@ public class ProductCategory implements Serializable {
 	private int sort; // 排序字段
 
 	private int status; // 状态(0:启用,1:禁用,2:删除)
+	
+	private String subjectCode;
+
+	public String getUbjectCode() {
+		return subjectCode;
+	}
+
+	public void setUbjectCode(String subjectCode) {
+		this.subjectCode = subjectCode ==null ? null :subjectCode.trim();
+	}
 
 	public Long getPkid() {
 		return pkid;
