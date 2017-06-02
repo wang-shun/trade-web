@@ -245,5 +245,9 @@
  		<mapper resource="mapper/wdcase/TpdPaymentMapper.xml" />
 		<!-- 客服回访表 -->
 		<mapper resource="mapper/satisfaction/ToSatisfactionMapper.xml" />
+		
+		<!-- 业绩目标设定 -->
+		<mapper resource="mapper/performance/PerfGoalMapper.xml" />
+		
 	</mappers>
 </configuration>
