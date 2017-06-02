@@ -2,7 +2,6 @@ package com.centaline.trans.task.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -257,6 +256,18 @@ public class SignServiceImpl implements SignService {
 			tofirstFollowMapper.insertSelective(ff);
 		}
 		
+		
+		RestVariable restVariable = new RestVariable(); 
+		restVariable.setName("LoanCloseNeed");
+		//有无抵押要修改 上家贷款结清流程变量  
+		//true: 有抵押需要启上家贷款结清流程
+		if("true".equals(transSignVO.getIsLoanClose())){			
+			restVariable.setValue(true);
+		}else{
+		//false: 无抵押不需要启上家贷款结清流程		
+			restVariable.setValue(false);
+		}
+		workFlowManager.setVariableByProcessInsId(transSignVO.getProcessInstanceId(),restVariable.getName(),restVariable);
 		return true;
 	}
 	

@@ -1019,7 +1019,7 @@
   				$("input[name='toSpvAccountList[1].branchBank']").prop("disabled",false);
   				$("#signDiv").show().find("input").prop("disabled",false);
   				
-  				$("select[name='toSpvAccountList[3].name']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
+  				$("select[name='toSpvAccountList[3].name']").prop("disabled",false);
 	         }
 			
 			$("select[name='toSpvAccountList[2].name']").editableSelect({
@@ -1284,7 +1284,7 @@
 			$str += '</div>';
 			$str += '<div class="form-row form-rowbot">';
 			$str += '<div class="form-group form-margin form-space-one">';
-			$str += 	'<label for="" class="lable-one"><i style="color:red;">*</i> 电话</label> <input name="toSpvAccountList['+accTypeSum+'].telephone" type="text" ';
+			$str += 	'<label for="" class="lable-one"> 电话</label> <input name="toSpvAccountList['+accTypeSum+'].telephone" type="text" ';
 			$str += 		'class="form-control input-one" placeholder="">';
 			$str += '</div>	';
 			$str += '<div class="form-group form-margin form-space-one">';
