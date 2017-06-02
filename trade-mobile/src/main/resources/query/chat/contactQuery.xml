@@ -10,7 +10,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org ,tg.CASE_CODE
+					select distinct us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org ,tg.CASE_CODE
                         from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tg
 						left join sctrans.T_TO_MORTGAGE mort 
 						on mort.CASE_CODE=tg.CASE_CODE
@@ -48,7 +48,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org from
+					select distinct us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org from
 						  sctrans.SYS_USER us
 						left join sctrans.SYS_USER_ORG_JOB uoj
 						on uoj.USER_ID=us.ID  and uoj.ISMAIN=1 and uoj.IS_DELETED='0'
