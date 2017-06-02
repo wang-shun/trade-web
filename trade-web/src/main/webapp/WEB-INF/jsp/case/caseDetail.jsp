@@ -828,7 +828,7 @@
 
 						<div class="tab-content">
 							<div class="tab-pane fade active in" id="home_info">
-							<h4>●交易相关时间</h4>
+							<h4><span style="font-size:12px;color:#b0b0b0;">● </span>交易相关时间</h4>
 								<div class="row ">
 									<label class="col-sm-3 control-label">派单时间：${caseDetailVO.createTime}</label>
 									<label class="col-sm-3 control-label">分单时间：${caseDetailVO.resDate}</label>
@@ -844,7 +844,7 @@
 									<label class="col-sm-3 control-label">领证时间：${caseDetailVO.realPropertyGetTime}</label>
 									<label class="col-sm-3 control-label">结案时间：${caseDetailVO.closeTime}</label>
 								</div>
-								<h4>●合同相关</h4>
+								<h4><span style="font-size:12px;color:#b0b0b0;">● </span>合同相关</h4>
 								<div class="row ">
 									<label class="col-sm-3 control-label">户口情况：${caseDetailVO.isHukou}</label>
 									<label class="col-sm-3 control-label">合同公证：${caseDetailVO.isConCert}</label>
@@ -863,7 +863,7 @@
 									</label> 
 									<label class="col-sm-3 control-label">房屋性质：${caseDetailVO.houseProperty}</label>
 								</div>
-								<h4>●付款相关</h4>
+								<h4><span style="font-size:12px;color:#b0b0b0;">● </span>付款相关</h4>
 								<div class="row ">
 									<label class="col-sm-3 control-label">付款金额(首付)： <c:if
 											test="${!empty caseInfo.amount1}">
@@ -896,12 +896,12 @@
 									<label class="col-sm-3 control-label">付款时间(尾款)：${caseDetailVO.payTime3}</label>
 									<label class="col-sm-3 control-label">付款时间(装修)：${caseDetailVO.payTime4}</label>
 								</div>
-								<h4>●房屋相关</h4>
+								<h4><span style="font-size:12px;color:#b0b0b0;">● </span>房屋相关</h4>
 								<div class="row ">
 									<label class="col-sm-3 control-label">购房年数：${caseDetailVO.holdYear}</label>
 									<label class="col-sm-3 control-label">唯一住房： ${caseDetailVO.isUniqueHome}</label> 
 								</div>
-								<h4>●预估税费</h4>
+								<h4><span style="font-size:12px;color:#b0b0b0;">● </span>预估税费</h4>
 								<div class="row ">
 									<label class="col-sm-3 control-label">房产税： 
 										<c:if test="${!empty caseInfo.houseHodingTaxSign}"> ${caseInfo.houseHodingTaxSign/10000}&nbsp&nbsp万元 </c:if>
@@ -921,7 +921,7 @@
 										<c:if test="${!empty caseInfo.contractTaxSign}">  ${caseInfo.contractTaxSign/10000}&nbsp&nbsp万元 </c:if>
 									</label>
 								</div>
-								<h4>●实收税费</h4>
+								<h4><span style="font-size:12px;color:#b0b0b0;">● </span>实收税费</h4>
 								<div class="row ">
 									<label class="col-sm-3 control-label">房产税： 
 										<c:if test="${!empty caseInfo.houseHodingTax}"> ${caseInfo.houseHodingTax/10000}&nbsp&nbsp万元 </c:if>
@@ -942,7 +942,7 @@
 										<c:if test="${!empty caseInfo.contractTax}">  ${caseInfo.contractTax/10000}&nbsp&nbsp万元 </c:if>
 									</label>
 								</div>
-								<h4>●贷款相关</h4>
+								<h4><span style="font-size:12px;color:#b0b0b0;">● </span>贷款相关</h4>
 								<div class="row ">
 									<label class="col-sm-3 control-label">上家剩余贷款： 
 										<c:if test="${!empty caseInfo.uncloseMoney}"> ${caseInfo.uncloseMoney/10000}&nbsp&nbsp万元 </c:if>
