@@ -1,7 +1,7 @@
 package com.centaline.trans.performance.service.impl;
 
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Date; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class PerfGoalServiceImpl implements PerfGoalService {
 		}
 		if (vo.getUojIds() != null && vo.getUojIds().length > 0) {
 			result += perfGoalMapper.batchInsertByUojId(vo.getUojIds(), vo.getPerfGoal(),
-					getBelongMonth(vo.getCurrentMonthDiff()), "0");
+					vo.getBelongMonth(), "0");
 		}
 		return result;
 	}
@@ -45,14 +45,14 @@ public class PerfGoalServiceImpl implements PerfGoalService {
 	 */
 	@Override
 	public int commitPerfGoal(PerfGoalVo vo) {
-		return perfGoalMapper.commitPerfGoal(vo.getOrgId(), vo.getCurrentMonthDiff());
+		return perfGoalMapper.commitPerfGoal(vo.getOrgId(), vo.getBelongMonth());
 	}
 	/**
 	 * 查询未设定目标人员数
 	 */
 	@Override
 	public int getNotSetCount(PerfGoalVo vo) {
-		return perfGoalMapper.getNotSetCount(vo.getOrgId(), vo.getCurrentMonthDiff());
+		return perfGoalMapper.getNotSetCount(vo.getOrgId(), vo.getBelongMonth());
 	}
 
 }

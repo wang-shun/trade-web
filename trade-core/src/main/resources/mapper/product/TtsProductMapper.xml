@@ -147,10 +147,10 @@
       <if test="updateBy != null" >
         UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
       </if>
-      <if test="sort != null" >
+      <if test="sort != null && sort!=0" >
         SORT = #{sort,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
+      <if test="status != null && status!=0" >
         STATUS = #{status,jdbcType=INTEGER},
       </if>
       <if test="prodName != null" >

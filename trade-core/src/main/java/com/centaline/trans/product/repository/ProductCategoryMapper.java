@@ -33,6 +33,7 @@ public interface ProductCategoryMapper {
 	 */
 	public List<ProductCategory> getAllProductCategoryList();
 	
+	
 	public void insertProCategory(ProductCategory proCategory);
 	
 	public void updateProCategory(ProductCategory record);

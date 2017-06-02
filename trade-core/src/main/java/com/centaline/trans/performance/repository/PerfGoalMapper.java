@@ -1,6 +1,6 @@
 package com.centaline.trans.performance.repository;
 
-import java.util.Date;
+import java.util.Date; 
 
 import org.apache.ibatis.annotations.Param;
 
@@ -39,12 +39,12 @@ public interface PerfGoalMapper {
 	 * @param orgId
 	 * @return
 	 */
-	int getNotSetCount(@Param("orgId") String orgId,@Param("currentMonthDiff")int currentMonthDiff);
+	int getNotSetCount(@Param("orgId") String orgId,@Param("belongMonth")Date belongMonth);
 	/**
 	 * 提交目标业绩
 	 * @param orgId
 	 * @param currentMonthDiff
 	 * @return
 	 */
-	int commitPerfGoal(@Param("orgId")String orgId,@Param("currentMonthDiff")int currentMonthDiff);
+	int commitPerfGoal(@Param("orgId")String orgId,@Param("belongMonth")Date belongMonth);
 }
