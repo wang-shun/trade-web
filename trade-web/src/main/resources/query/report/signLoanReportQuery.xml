@@ -325,7 +325,7 @@
 					
 					FROM sctrans.v_user_org_job uoj 
 					INNER join sctrans.sys_org org on uoj.org_id=org.id
-					WHERE exists(select 1 from o where uoj.org_id = o.id)
+					WHERE exists(select 1 from o where uoj.org_id = o.id) AND uoj.ismain=1 and uoj.is_leader=1
 					
 					<if test="condition == 'init'">
 						and uoj.job_code = 'JQYDS' 
