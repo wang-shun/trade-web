@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import com.aist.common.web.validate.AjaxResponse;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -252,7 +254,7 @@ public class TradeCaseController {
 	private void buildTradeInfo(JSONObject result,String caseCode,SessionUser user){
 		
 		Map<String,Object> jo = (Map<String,Object>)result.get("caseInfo");
-		if("未分单".equals(jo.get("status") + "")){
+		if(jo == null || jo.isEmpty() || "未分单".equals(jo.get("status") + "")){
 			result.put("tradeInfo", new JSONObject());
 			return;
 		}
@@ -314,7 +316,7 @@ public class TradeCaseController {
 
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
 		List<Map<String, Object>> list = pages.getContent();
-		if(list == null || list.get(0) == null){
+		if(CollectionUtils.isEmpty(list)){
 			return;
 		}
 		Map<String, Object> map = list.get(0);

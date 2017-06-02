@@ -70,7 +70,7 @@
 							ISNULL(m.CUST_NAME,'') as custName,
 							ISNULL(m.FLOW_STATUS,'') as flowStatusCode,
 							ISNULL(m.LOANER_STATUS,'') as loanerStatusCode,
-							CASE m.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END AS loanerStatus,
+							CASE m.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' WHEN 'CLOSED' THEN '已关闭' END AS loanerStatus,
 							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = m.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
 							ISNULL(m.MORT_TOTAL_AMOUNT,0.00) as loanAmount,
 							CAST(ISNULL(m.COM_YEAR,0) as varchar)+'年' as loanTime,
@@ -81,15 +81,19 @@
 							ISNULL(p.PROPERTY_ADDR,'') 	as addr,
 							(case u.avatar when null then '' else 'http://aimg.sh.centanet.com/salesweb/image/' + u.avatar + '.jpg' END) as avartaUrl,
 							ISNULL(m.SEND_NAME,'') 		as consultantName,
-							(CASE m.LOANER_STATUS WHEN 'ACCEPTING' THEN '1' WHEN 'AUDITING' THEN '2' WHEN 'COMPLETED' THEN '3' END) AS sort 
+							(CASE m.LOANER_STATUS WHEN 'ACCEPTING' THEN '1' WHEN 'AUDITING' THEN '2' WHEN 'COMPLETED' THEN '3' WHEN 'ACC_REJECTED' THEN '4' WHEN 'AUD_REJECTED' THEN '4' WHEN 'CANCELED' THEN '4' WHEN 'CLOSED' THEN '4' END) AS sort
 					FROM sctrans.T_TO_MORT_LOANER m
 					LEFT JOIN sctrans.SYS_USER u ON u.ID = m.SEND_ID
 					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = m.CASE_CODE AND m.LOANER_ID = #userid#
 					WHERE m.LOANER_ID = #userid#
 					AND EXISTS (select 1 from sctrans.T_TO_CASE c where c.CASE_CODE = m.CASE_CODE and c.LOAN_REQ=1)
 					) T
-					where (T.loanerStatusCode = 'ACCEPTING' or T.loanerStatusCode = 'AUDITING' or T.loanerStatusCode = 'COMPLETED')
+					where 1 = 1
 					
+				    --	and (T.loanerStatusCode = 'ACCEPTING' or T.loanerStatusCode = 'AUDITING' or T.loanerStatusCode = 'COMPLETED')
+					<ifNotNull loanerStatusCode>
+					 	and T.loanerStatusCode in (#loanerStatusCode#)
+					</ifNotNull>
 					<ifNotNull q_text>
 					 	AND (T.custName LIKE '%'+#q_text#+'%' OR T.addr	LIKE '%'+#q_text#+'%' OR T.consultantName LIKE '%'+#q_text#+'%')
 					</ifNotNull>

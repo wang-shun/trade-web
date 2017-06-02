@@ -66,7 +66,7 @@ public interface ToEloanCaseService {
 	public boolean followUp(ELoanVo eLoanVo);
 
 	/**
-	 * selectBackKaCountByTime:(���ʱ���ѯ��̨������������). <br/>
+	 * selectBackKaCountByTime:(获取卡类申请总数). <br/>
 	 * 
 	 * @author gongjd
 	 * @param endWeekDay
@@ -76,7 +76,7 @@ public interface ToEloanCaseService {
 	int selectBackKaCountByTime(int endWeekDay);
 
 	/**
-	 * selectBackKaCountByTime:(���ʱ���ѯ��̨�������������). <br/>
+	 * selectBackKaCountByTime:(获取贷款类申请总数). <br/>
 	 * 
 	 * @author gongjd
 	 * @param endWeekDay

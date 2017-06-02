@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,10 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.common.enums.LoanerStatusEnum;
+import com.centaline.trans.eloan.entity.ToEloanLoaner;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
+import com.centaline.trans.eloan.service.ToEloanLoanerService;
 import com.centaline.trans.eloan.vo.ELoanVo;
 
 /**
@@ -47,6 +51,9 @@ public class ELoanCaseController
     private QuerysParseService querysParseService;
     @Autowired
     ToEloanCaseService toEloanCaseService;
+
+    @Autowired
+    private ToEloanLoanerService toEloanLoanerService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -83,7 +90,23 @@ public class ELoanCaseController
         // 获取当前用户信息
         SessionUser sessionUser = uamSessionService.getSessionUser();
 
-        // 设置前台传的参数信息
+        // 根据主键id获取E+案件接收信息
+        ToEloanLoaner toEloanLoaner = toEloanLoanerService.getToEloanLoanerByELoanCode(bizCode);
+
+        // 判断当前用户是否是同一个信贷员
+        if (!sessionUser.getId().equals(toEloanLoaner.getLoanerId()))
+        {
+            throw new BusinessException("当前用户跟案件所属信贷员不是同一人,不能进行操作!");
+        }
+
+        // 判断案子是否有效
+        if (LoanerStatusEnum.ACC_REJECTED.getCode().equals(toEloanLoaner.getLoanerStatus())
+                || LoanerStatusEnum.AUD_REJECTED.getCode().equals(toEloanLoaner.getLoanerStatus())
+                || LoanerStatusEnum.CANCELED.getCode().equals(toEloanLoaner.getLoanerStatus()))
+        {
+            throw new BusinessException("案件无效,不能进行操作!");
+        }
+
         // 设置前台传的参数信息
         ELoanVo eLoanVo = new ELoanVo();
         eLoanVo.seteLoanCode(bizCode);
@@ -216,7 +239,7 @@ public class ELoanCaseController
 
     @RequestMapping(value = "/list")
     @ResponseBody
-    public String list(Integer page, Integer pageSize, String sidx, String sord, String condition)
+    public String list(Integer page, Integer pageSize, String sidx, String sord, String condition, String loanerStatusCode)
     {
         JQGridParam gp = new JQGridParam();
         gp.setPagination(true);
@@ -228,8 +251,13 @@ public class ELoanCaseController
         Map<String, Object> paramter = new HashMap<String, Object>();
 
         SessionUser sessionUser = uamSessionService.getSessionUser();
-        paramter.put("loanerId", sessionUser.getId());
-        // paramter.put("loanerId", "ff80808158bd58c10158bda37f100020");
+        // paramter.put("loanerId", sessionUser.getId());
+        paramter.put("loanerId", "ff80808158bd58c10158bda37f100020");
+
+        if (StringUtils.isNotBlank(loanerStatusCode))
+        {
+            paramter.put("loanerStatusCode", loanerStatusCode.split(","));
+        }
 
         if (condition != null)
         {

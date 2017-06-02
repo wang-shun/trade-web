@@ -22,6 +22,8 @@ import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.common.enums.LoanerStatusEnum;
+import com.centaline.trans.mortgage.entity.ToMortLoaner;
 import com.centaline.trans.mortgage.service.ToMortLoanerService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.mortgage.vo.MortgageVo;
@@ -76,8 +78,25 @@ public class MortgageController
             throw new BusinessException("请检查参数!");
         }
 
+        // 根据业务id获取对应的贷款接收信息
+        ToMortLoaner toMortLoaner = toMortLoanerService.getToMortLoanerById(Long.parseLong(bizCode));
+
         // 获取当前用户信息
         SessionUser sessionUser = uamSessionService.getSessionUser();
+
+        // 判断当前用户是否是同一个信贷员
+        if (!sessionUser.getId().equals(toMortLoaner.getLoanerId()))
+        {
+            throw new BusinessException("当前用户跟案件所属信贷员不是同一人,不能进行操作!");
+        }
+
+        // 判断案子是否有效
+        if (LoanerStatusEnum.ACC_REJECTED.getCode().equals(toMortLoaner.getLoanerStatus())
+                || LoanerStatusEnum.AUD_REJECTED.getCode().equals(toMortLoaner.getLoanerStatus())
+                || LoanerStatusEnum.CANCELED.getCode().equals(toMortLoaner.getLoanerStatus()))
+        {
+            throw new BusinessException("案件无效,不能进行操作!");
+        }
 
         // 设置前台传的参数信息
         MortgageVo mortgageVo = new MortgageVo();

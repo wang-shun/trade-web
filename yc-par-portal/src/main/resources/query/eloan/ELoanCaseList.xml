@@ -154,7 +154,7 @@
 						ISNULL(ec.MONTH, 0) AS month,
 						ISNULL(ec.LOANER_STATUS, '') as loanerStatusCode,
 						ISNULL(ec.FLOW_STATUS, '') as flowStatusCode,
-						CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '接单完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END  AS eLoanStatus,
+						CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '接单完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' WHEN 'CLOSED' THEN '已关闭' END  AS eLoanStatus,
 						ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
 						CASE WHEN e.LOAN_SRV_CODE IN ('30004005','30004015') THEN 'CARD' ELSE 'LOAN' END as type,
 						--yuOperator--
@@ -170,10 +170,10 @@
 						p.PROPERTY_ADDR AS propertyAddress,
 						(SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = c.STATUS AND IS_DELETED = 0 AND AVAILABLE = 1) AS caseStatus
 					FROM sctrans.T_TO_ELOAN_LOANER ec
-					INNER JOIN sctrans.T_TO_ELOAN_CASE e on e.ELOAN_CODE = ec.ELOAN_CODE
-					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = ec.CASE_CODE
-					INNER JOIN sctrans.SYS_USER u ON u.ID = ec.SEND_ID
-					INNER JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = ec.CASE_CODE
+					LEFT JOIN sctrans.T_TO_ELOAN_CASE e on e.ELOAN_CODE = ec.ELOAN_CODE
+					LEFT JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = ec.CASE_CODE
+					LEFT JOIN sctrans.SYS_USER u ON u.ID = ec.SEND_ID
+					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p ON p.CASE_CODE = ec.CASE_CODE
 					WHERE ec.ELOAN_CODE = #eLoanCode#
 				]]>
 			</baseSql>
@@ -239,7 +239,7 @@
 							ISNULL(ec.SEND_ID,'') as consultantID,
 							ISNULL(u.REAL_NAME,'') as consultantName,
 							ISNULL(ec.CUST_NAME,'') as custName,
-							(CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '接单完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' END) AS loanerStatus,
+							(CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '待接单' WHEN 'AUDITING' THEN '待审批' WHEN 'COMPLETED' THEN '接单完成' WHEN 'ACC_REJECTED' THEN '接单打回' WHEN 'AUD_REJECTED' THEN '审批打回' WHEN 'CANCELED' THEN '誉萃撤单' WHEN 'CLOSED' THEN '已关闭' END) AS loanerStatus,
 							ISNULL((SELECT NAME FROM sctrans.SYS_DICT WHERE CODE = ec.FLOW_STATUS AND IS_DELETED = 0 AND AVAILABLE = 1),'') AS flowStatus,
 							ISNULL(ec.APPLY_AMOUNT,0.00) as loanAmount,
 							CAST(ISNULL(ec.MONTH,0) as varchar)+'期' as loanTime,
@@ -251,7 +251,7 @@
 							ISNULL(ec.FLOW_STATUS,'') as flowStatusCode,
 							ISNULL(ec.LOANER_STATUS,'') as loanerStatusCode,
 							CASE WHEN e.LOAN_SRV_CODE IN ('30004005','30004015') THEN 'CARD' ELSE 'LOAN' END as type,
-							(CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '1' WHEN 'AUDITING' THEN '2' WHEN 'COMPLETED' THEN '3' END) AS sort
+							(CASE ec.LOANER_STATUS WHEN 'ACCEPTING' THEN '1' WHEN 'AUDITING' THEN '2' WHEN 'COMPLETED' THEN '3' WHEN 'ACC_REJECTED' THEN '4' WHEN 'CANCELED' THEN '4' WHEN 'CLOSED' THEN '4' END) AS sort
 					FROM sctrans.T_TO_ELOAN_LOANER ec 
 					INNER JOIN sctrans.T_TO_ELOAN_CASE e on e.ELOAN_CODE = ec.ELOAN_CODE
 					INNER JOIN sctrans.T_TO_PROPERTY_INFO pi ON ec.CASE_CODE = pi.CASE_CODE
@@ -259,8 +259,10 @@
 					INNER JOIN sctrans.V_USER_ORG_JOB uoj ON ec.LOANER_ID = uoj.user_id 
 					WHERE ec.LOANER_ID = #loanerId# 
 						  AND e.STATUS != 'ABAN'
-						  AND (ec.LOANER_STATUS = 'ACCEPTING' or ec.LOANER_STATUS = 'AUDITING' or ec.LOANER_STATUS = 'COMPLETED')
-						
+						  
+						<ifNotNull loanerStatusCode>
+							AND ec.LOANER_STATUS in (#loanerStatusCode#)
+						</ifNotNull>
 						  <ifNotNull condition>
 					     		AND	(ec.CUST_NAME LIKE '%'+#condition#+'%'
 					     			OR pi.property_addr	LIKE '%'+#condition#+'%'

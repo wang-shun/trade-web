@@ -25,6 +25,8 @@ public interface ToCaseMapper {
 	int updateByCaseCodeSelective(ToCase record);
 
 	ToCase findToCaseByCaseCode(String caseCode);
+	
+	List<ToCase> findToCaseByStatus(String status);
 
 	int findToLoanAgentByCaseCode(String caseCode);
 

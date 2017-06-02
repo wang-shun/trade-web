@@ -2,6 +2,7 @@
 <querys>
     <dicts>
         <customDict id="partName" beanName="qqcdDictPartName"></customDict>
+        <customDict id="qqGetCasePropertyInfo" beanName="qqGetCasePropertyInfo" />
     </dicts>
     <formatters>
         <formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -25,6 +26,62 @@
         </formatter>
         <formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
     </formatters>
+    <query id="queryCaseProcessorChange">
+        <searchCondition>
+
+        </searchCondition>
+        <searchSql>
+            <baseSql>
+                <![CDATA[
+					SELECT
+                    uoj.user_id userId
+                    ,u.real_name userName
+                    ,u.USERNAME userName_input
+                    ,o.org_name orgName
+                    ,uoj.org_id orgId
+                    ,u.AVAILABLE available
+                    ,u.IS_DELETED is_delete
+                    ,tp.TEAM_PROPERTY
+                    ,(
+                        select count(1) from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR t1
+                        where exists (select 1 from sctrans.T_TO_CASE t2 where t2.CASE_CODE=t1.CASE_CODE and t2.CASE_PROPERTY not in ('30003002','30003005'))
+                        and t1.PROCESSOR_ID=uoj.user_id and t1.SRV_CAT='30004010'
+                        and exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tn where tn.CASE_CODE=t1.CASE_CODE and tn.PROCESSOR_ID=#cuserId# and tn.SRV_CAT='30004010')
+                    ) as PROCESSOR_COUNT
+
+                FROM
+                    sctrans.sys_user_org_job uoj
+                    ,(select * from sctrans.SYS_ORG t1 where t1.PARENT_ID=#userOrg# union all select * from sctrans.SYS_ORG t1 where t1.ID=#userOrg#) o
+                    ,sctrans.sys_user u
+                    ,sctrans.sys_job j
+                    ,sctrans.T_TS_TEAM_PROPERTY tp
+                WHERE
+                    uoj.org_id = o.id
+                    AND uoj.user_id = u.id
+                    AND uoj.job_id = j.id
+                    AND o.ORG_CODE= tp.YU_TEAM_CODE
+                    and j.job_code = 'Consultant'
+                    and tp.TEAM_PROPERTY='yu_back'
+                    and exists(SELECT 1 FROM sctrans.T_TS_TEAM_SCOPE t1 inner join sctrans.T_TS_TEAM_SCOPE t2 on t1.YU_AGENT_TEAM_CODE=t2.YU_AGENT_TEAM_CODE
+                     where  t1.YU_TEAM_CODE=#userOrgCode# and t2.YU_TEAM_CODE=o.ORG_CODE)
+				]]>
+            </baseSql>
+            <groupSql>
+            </groupSql>
+        </searchSql>
+        <grid>
+            <table-row>
+                <column type="both" name="userId" index="" checkbox="" title="用户ID" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="userName" index="" checkbox="" title="用户名称" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="userName_input" index="" checkbox="" title="用户登录名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="orgName" index="" checkbox="" title="组织名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="orgId" index="" checkbox="" title="组织ID" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="available" index="" checkbox="" title="是否离职" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="is_delete" index="" checkbox="" title="是否删除" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="PROCESSOR_COUNT" index="" checkbox="" title="后台归属" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+            </table-row>
+        </grid>
+    </query>
 
     <query id="queryCaseBelongAndTransfer">
         <searchCondition>
@@ -36,8 +93,11 @@
 					SELECT
                         uoj.user_id userId
                         ,u.real_name userName
+                        ,u.USERNAME userName_input
                         ,o.org_name orgName
                         ,uoj.org_id orgId
+                        ,u.AVAILABLE available
+                        ,u.IS_DELETED is_delete
                         ,(select count(1) from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR t1 where exists (select 1 from sctrans.T_TO_CASE t2 where t2.CASE_CODE=t1.CASE_CODE and t2.CASE_PROPERTY not in ('30003002','30003005')  ) and t1.PROCESSOR_ID=uoj.user_id and t1.SRV_CAT='30004010' ) as PROCESSOR_COUNT
                         ,(select count(1) from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR t1 where exists (select 1 from sctrans.T_TO_CASE t2 where t2.CASE_CODE=t1.CASE_CODE and t2.CASE_PROPERTY not in ('30003002','30003005')  ) and t1.PROCESSOR_ID=uoj.user_id and t1.SRV_CODE='3000400101' ) as COM_MORT_COUNT
                         ,(select count(1) from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR t1 where exists (select 1 from sctrans.T_TO_CASE t2 where t2.CASE_CODE=t1.CASE_CODE and t2.CASE_PROPERTY not in ('30003002','30003005')  ) and t1.PROCESSOR_ID=uoj.user_id and t1.SRV_CODE='3000400201' ) as PRF_MORT_COUNT
@@ -66,8 +126,11 @@
             <table-row>
                 <column type="both" name="userId" index="" checkbox="" title="用户ID" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
                 <column type="both" name="userName" index="" checkbox="" title="用户名称" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="userName_input" index="" checkbox="" title="用户登录名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
                 <column type="both" name="orgName" index="" checkbox="" title="组织名" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
                 <column type="both" name="orgId" index="" checkbox="" title="组织ID" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="available" index="" checkbox="" title="是否离职" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="is_delete" index="" checkbox="" title="是否删除" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
 
                 <column type="both" name="PROCESSOR_COUNT" index="" checkbox="" title="后台归属" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
                 <column type="both" name="COM_MORT_COUNT" index="" checkbox="" title="后台归属" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
@@ -92,8 +155,8 @@
                         ,t3.CREATE_TIME as CREATE_TIME
                         ,(select TOP(1)NAME from sctrans.SYS_DICT where CODE=t1.SRV_CODE AND TYPE='yu_serv_cat_code_tree') AS SRV_CODE_NAME
                         ,t1.PROCESSOR_ID
-                        ,(select REAL_NAME from sctrans.SYS_USER where ID = t1.PROCESSOR_ID) AS REAL_NAME
-                        ,(select ORG_NAME from sctrans.SYS_ORG where id=t1.ORG_ID) AS ORG_NAME
+                        ,(select top 1 REAL_NAME from sctrans.SYS_USER where ID = t1.PROCESSOR_ID) AS REAL_NAME
+                        ,(select top 1 ORG_NAME from sctrans.SYS_ORG where id=t1.ORG_ID and IS_DELETED=0) AS ORG_NAME
 
                         from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR t1
                         left join sctrans.T_TO_PROPERTY_INFO t2 on t1.CASE_CODE=t2.CASE_CODE
@@ -113,6 +176,9 @@
                         <ifNotNull caseAddress>
 						    and t2.PROPERTY_ADDR like  '%' + #caseAddress# + '%'
 				    	</ifNotNull>
+                        <ifNotNull cuserId>
+                            and exists( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tn where tn.CASE_CODE=t1.CASE_CODE and tn.PROCESSOR_ID=#cuserId# and tn.SRV_CAT='30004010')
+                        </ifNotNull>
 				]]>
             </baseSql>
             <groupSql>
@@ -140,8 +206,8 @@
                         ,t2.PROPERTY_ADDR
                         ,t3.CREATE_TIME as CREATE_TIME
                         ,t1.EXCUTOR_ID
-                        ,(select REAL_NAME from sctrans.SYS_USER where ID = t1.EXCUTOR_ID) AS REAL_NAME
-                        ,(select ORG_NAME from sctrans.SYS_ORG where id=t1.EXCUTOR_TEAM) AS ORG_NAME
+                        ,(select top 1 REAL_NAME from sctrans.SYS_USER where ID = t1.EXCUTOR_ID) AS REAL_NAME
+                        ,(select top 1 ORG_NAME from sctrans.SYS_ORG where id=t1.EXCUTOR_TEAM and IS_DELETED=0) AS ORG_NAME
                         from sctrans.T_TO_ELOAN_CASE t1
                         left join sctrans.T_TO_PROPERTY_INFO t2 on t1.CASE_CODE=t2.CASE_CODE
                         left join sctrans.T_TO_CASE t3 on t2.CASE_CODE=t3.CASE_CODE
@@ -168,6 +234,101 @@
                 <column type="both" name="CREATE_TIME" title="案件创建时间" customDict=""  beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" />
                 <column type="both" name="REAL_NAME" index="" checkbox="" title="经办人" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
                 <column type="both" name="ORG_NAME" index="" checkbox="" title="组别" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+            </table-row>
+        </grid>
+    </query>
+
+    <query id="queryCaseBelongAndTransferSpvDetail">
+        <searchCondition>
+
+        </searchCondition>
+        <searchSql>
+            <baseSql>
+                <![CDATA[
+					select t1.CASE_CODE
+                            ,t2.PROPERTY_ADDR
+                            ,t3.CREATE_TIME as CREATE_TIME
+                            ,t1.APPLY_USER
+                            ,(select top 1 REAL_NAME from sctrans.SYS_USER where ID = t1.APPLY_USER) AS REAL_NAME
+                            ,(select top 1 ORG_NAME from sctrans.SYS_ORG where id=t1.APPLY_TEAM and IS_DELETED=0) AS ORG_NAME
+                            from sctrans.T_TO_SPV t1
+                            left join sctrans.T_TO_PROPERTY_INFO t2 on t1.CASE_CODE=t2.CASE_CODE
+                            left join sctrans.T_TO_CASE t3 on t2.CASE_CODE=t3.CASE_CODE
+                                where
+                                t1.STATUS != '8'
+                                and  t3.CASE_PROPERTY not in ('30003002','30003005')
+                            and t1.APPLY_USER=#MuserId#
+                        <ifNotNull caseCode>
+						    and t1.CASE_CODE=#caseCode#
+				    	</ifNotNull>
+                        <ifNotNull caseAddress>
+						    and t2.PROPERTY_ADDR like  '%' + #caseAddress# + '%'
+				    	</ifNotNull>
+				]]>
+            </baseSql>
+            <groupSql>
+            </groupSql>
+        </searchSql>
+        <grid>
+            <table-row>
+                <column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="案件地址" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="CREATE_TIME" title="案件创建时间" customDict=""  beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" />
+                <column type="both" name="REAL_NAME" index="" checkbox="" title="经办人" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+                <column type="both" name="ORG_NAME" index="" checkbox="" title="组别" customDict="" sysDict="" format="" width="150" isSort="" align="" halign="" resizable="" />
+            </table-row>
+        </grid>
+    </query>
+
+    <query id="queryCaseBelongAndTransferTaskDetail">
+        <searchCondition>
+            <condition field="ART.TASK_DEF_KEY_" name="taskDfKey" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
+        <searchSql>
+            <baseSql>
+                <![CDATA[
+					SELECT
+                        ART.ID_ AS ID,
+                        ART.CREATE_TIME_ CREATE_TIME,
+                        ART.NAME_ AS NAME,
+                        ART.ASSIGNEE_
+                        ,(select top 1 REAL_NAME from sctrans.SYS_USER where USERNAME = ART.ASSIGNEE_ ) AS REAL_NAME
+                        ,ART.TASK_DEF_KEY_ AS PART_CODE,
+                        ART.PROC_INST_ID_ AS INST_CODE,
+                        ART.DELEGATION_ AS DELEGATION,
+                        tw.CASE_CODE,
+                        tw.BUSINESS_KEY
+                        ,(select top 1 CASE_ORIGIN from sctrans.T_TO_CASE where CASE_CODE=tw.CASE_CODE) CASE_ORIGIN
+                    FROM
+                        sctrans.ACT_RU_TASK ART
+                        INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
+                            WHERE  ART.ASSIGNEE_ = #MuserId#
+                        AND ART.SUSPENSION_STATE_ = '1'
+                        and exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=tw.CASE_CODE)
+                        <ifNotNull caseCode>
+						    and tw.CASE_CODE=#caseCode#
+				    	</ifNotNull>
+                        <ifNotNull caseAddress>
+						  AND exists (select 1 from sctrans.T_TO_PROPERTY_INFO TP  where TP.CASE_CODE=AB.CASE_CODE AND TP.PROPERTY_ADDR like '%'+#caseAddress#+'%')
+				    	</ifNotNull>
+				]]>
+            </baseSql>
+            <groupSql>
+            </groupSql>
+        </searchSql>
+        <grid>
+            <table-row>
+                <column type="both" name="ID" index="" checkbox="" display="TASKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
+                <column type="both" name="CASE_CODE" index="" checkbox="" display="CASECODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+                <column type="both" name="PART_CODE" index="" checkbox="" display="PARTCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+                <column type="both" name="INST_CODE" index="" checkbox="" display="INSTCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+                <column type="both" name="NAME" index="" checkbox="" display="任务名" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
+                <column type="both" name="REAL_NAME" index="" checkbox="" display="处理人" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+                <column type="virtual" name="PROPERTY_ADDR" referencecol="CASE_CODE" isDynamicDict="true" customDict="qqGetCasePropertyInfo" index="" checkbox="" display="产证地址" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+                <column type="both" name="BUSINESS_KEY" index="" checkbox="" display="" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+                <column type="virtual" name="PROPERTY_ADDR" referencecol="CASE_CODE" isDynamicDict="true" customDict="qqGetCasePropertyInfo" index="" checkbox="" display="产证地址" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+                <column type="both" name="CREATE_TIME" title="任务创建时间" customDict=""  beanFormatter="dateFormatter" expType="date" expFmt="yyyy/MM/dd" />
+
             </table-row>
         </grid>
     </query>

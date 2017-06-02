@@ -12,20 +12,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aist.common.exception.BusinessException;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
 import com.centaline.trans.attachment.service.ToAccesoryListService;
-import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.entity.Result2;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
-import com.centaline.trans.cases.web.Result;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.service.SignService;
@@ -45,9 +41,6 @@ public class SignController {
 
 	@Autowired(required = true)
 	private ToCaseService toCaseService;
-
-	@Autowired
-	private WorkFlowManager workFlowManager;
 
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
@@ -73,8 +66,6 @@ public class SignController {
 
 		toAccesoryListService.getAccesoryList(request, taskitem);
 		request.setAttribute("transSign", signService.qureyGuestInfo(caseCode));
-		request.setAttribute("houseTransfer",
-				toHouseTransferService.findToGuoHuByCaseCode(caseCode));
 
 		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR
 				.getCode());
@@ -153,116 +144,8 @@ public class SignController {
 
 	@RequestMapping(value = "submitSign")
 	@ResponseBody
-	public Result submitSign(HttpServletRequest request, TransSignVO transSignVO) {
-		// 签约保存信息先更新 客户信息表
-		signService.insertGuestInfo(transSignVO);
-
-		boolean flag = true;
-		// 同时需要修改贷款表里面的 主贷人信息
-		ToMortgage toMortgage = new ToMortgage();
-		List<Long> pkidDownList = new ArrayList<Long>();
-		List<ToMortgage> toMortgageList = new ArrayList<ToMortgage>();
-		if (null != transSignVO) {
-			toMortgage.setCaseCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
-			pkidDownList = transSignVO.getPkidDown();
-			for (int i = 0; i < pkidDownList.size(); i++) {				
-				toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
-				List<ToMortgage> getMortgageByCodeList = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);
-				if(null == getMortgageByCodeList || getMortgageByCodeList.size() <= 0){
-					continue;
-				}
-				
-				for(int k=0; k < getMortgageByCodeList.size();k++){
-					toMortgageList.add(getMortgageByCodeList.get(k));
-				}				
-			}
-
-			for (int i = 0; i < toMortgageList.size(); i++) {
-				ToMortgage toMortgageItem = toMortgageList.get(i);
-				if(toMortgageItem == null){
-					continue;
-				}
-				String custCode = toMortgageItem.getCustCode();
-				if(custCode == null){
-					continue;
-				}
-				
-				for (Long longPkid : pkidDownList) {
-					String strPkid = longPkid.toString();
-					if (custCode.equals(strPkid)) {
-						// 签约修改下家信息时，更新主贷人
-						ToMortgage toMortgageForUpdate = new ToMortgage();
-						toMortgageForUpdate.setCaseCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
-						toMortgageForUpdate.setCustCode(strPkid);
-						TgGuestInfo tgGuestInfo = tgGuestInfoService.findTgGuestInfoById(longPkid);
-						if (tgGuestInfo != null) {
-							toMortgageForUpdate.setCustName(tgGuestInfo.getGuestName() == null ? "": tgGuestInfo.getGuestName());
-						}
-						toMortgageService.updateToMortgageBySign(toMortgageForUpdate);
-					}
-				}
-			}
-			// 主贷人信息在签约环境被删除时，贷款表中没有任何记录，list中的对象全部为空； 则情况贷款表的主贷人信息
-			for (int m = 0; m < toMortgageList.size(); m++) {
-				if (toMortgageList.get(m) != null) {
-					flag = false;
-					break;
-				}
-			}
-			if (flag) {
-				toMortgageService.updateToMortgageByCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
-			}
-		}
-
-		// toMortgageService.updateToMortgage(toMortgage);
-
-		try {
-			/* 流程引擎相关 */
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-
-			/* start 查限购和有抵押工作流 作者：zhangxb16 时间：2016-1-27 */
-			RestVariable restVariable3 = new RestVariable();/* 限购 */
-			restVariable3.setName("PurLimitCheckNeed");
-			RestVariable restVariable4 = new RestVariable();/* 抵押 */
-			restVariable4.setName("LoanCloseNeed");
-			restVariable3.setValue(transSignVO.getIsPerchaseReserachNeed().equals("true"));
-			restVariable4.setValue(transSignVO.getIsLoanClose().equals("true"));
-			variables.add(restVariable3);
-			variables.add(restVariable4);
-			/* end 查限购和有抵押工作流 作者：zhangxb16 时间：2016-1-27 */
-
-			ToCase toCase = toCaseService.findToCaseByCaseCode(transSignVO
-					.getCaseCode());
-			workFlowManager.submitTask(variables, transSignVO.getTaskId(),
-					transSignVO.getProcessInstanceId(),
-					toCase.getLeadingProcessId(), transSignVO.getCaseCode());
-		} catch (Exception e) {
-			e.printStackTrace();
-			// return false;
-		}
-
-		/* 修改案件状态 */
-		ToCase toCase = new ToCase();
-		toCase.setCaseCode(transSignVO.getCaseCode());
-		toCase.setStatus("30001003");
-		toCaseService.updateByCaseCodeSelective(toCase);
-
-		/**
-		 * 功能: 给客户发送短信 作者：zhangxb16
-		 */
-		Result rs = new Result();
-		try {
-			int result = tgGuestInfoService.sendMsgHistory(
-					transSignVO.getCaseCode(), transSignVO.getPartCode());
-			if (result > 0) {
-			} else {
-				rs.setMessage("短信发送失败, 请您线下手工再次发送！");
-			}
-		} catch (BusinessException ex) {
-			ex.getMessage();
-		}
-
-		return rs;
+	public Result2 submitSign(TransSignVO transSignVO) {
+		return signService.submitSign(transSignVO);
 	}
 
 	@RequestMapping(value = "/removeGuest")

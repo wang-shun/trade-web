@@ -1,23 +1,38 @@
 package com.centaline.trans.task.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.exception.BusinessException;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.cases.entity.Result2;
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
+import com.centaline.trans.common.enums.SatisfactionTypeEnum;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
+import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.satisfaction.entity.ToSatisfaction;
+import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.entity.ToFirstFollow;
-import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.entity.ToPayment;
 import com.centaline.trans.task.entity.ToSign;
 import com.centaline.trans.task.repository.ToFirstFollowMapper;
 import com.centaline.trans.task.repository.ToHouseTransferMapper;
 import com.centaline.trans.task.repository.ToPaymentMapper;
 import com.centaline.trans.task.repository.ToSignMapper;
+import com.centaline.trans.task.repository.ToTaxMapper;
 import com.centaline.trans.task.service.SignService;
 import com.centaline.trans.task.vo.TransSignVO;
 import com.centaline.trans.utils.DateUtil;
@@ -25,6 +40,15 @@ import com.centaline.trans.utils.DateUtil;
 
 @Service
 public class SignServiceImpl implements SignService {
+	
+	@Autowired(required = true)
+	private ToCaseService toCaseService;
+	@Autowired
+	private TgGuestInfoService tgGuestInfoService;
+	@Autowired
+	private ToMortgageService toMortgageService;
+	@Autowired
+	private SatisfactionService satisfactionService;
 
 	@Autowired
 	private TgGuestInfoMapper tgGuestInfoMapper;
@@ -36,9 +60,15 @@ public class SignServiceImpl implements SignService {
 	private ToSignMapper toSignMapper;
 	@Autowired
 	private ToHouseTransferMapper toHouseTransferMapper;
-	
+	@Autowired
+	private ToTaxMapper toTaxMapper;
 	@Autowired
 	private ToFirstFollowMapper tofirstFollowMapper;
+	@Autowired
+	private WorkFlowManager workFlowManager;
+
+	@Autowired
+	private UamSessionService uamSessionService;
 	
 	@Override
 	public Boolean insertGuestInfo(TransSignVO transSignVO) {
@@ -175,6 +205,12 @@ public class SignServiceImpl implements SignService {
 		toSign.setRealConTime(transSignVO.getRealConTime());
 		toSign.setConPrice(transSignVO.getConPrice().multiply(new BigDecimal(10000)));  // 合同价
 		toSign.setRealPrice(transSignVO.getRealPrice().multiply(new BigDecimal(10000)));  // 成交价
+		/*预估税费*/
+		toSign.setBusinessTax(transSignVO.getBusinessTax()!=null?transSignVO.getBusinessTax().multiply(new BigDecimal(10000)):null);
+		toSign.setContractTax(transSignVO.getContractTax()!=null?transSignVO.getContractTax().multiply(new BigDecimal(10000)):null);
+		toSign.setHouseHodingTax(transSignVO.getHouseHodingTax()!=null?transSignVO.getHouseHodingTax().multiply(new BigDecimal(10000)):null);
+		toSign.setLandIncrementTax(transSignVO.getLandIncrementTax()!=null?transSignVO.getLandIncrementTax().multiply(new BigDecimal(10000)):null);
+		toSign.setPersonalIncomeTax(transSignVO.getPersonalIncomeTax()!=null?transSignVO.getPersonalIncomeTax().multiply(new BigDecimal(10000)):null);
 		
 		if(transSignVO.getSignPkid() != null) {
 			toSign.setPkid(transSignVO.getSignPkid());
@@ -184,25 +220,6 @@ public class SignServiceImpl implements SignService {
 				toSignMapper.insertSelective(toSign);
 			}
 		}
-		
-		/*预估税费*/
-		ToHouseTransfer toHouseTransfer = new ToHouseTransfer();
-		toHouseTransfer.setCaseCode(transSignVO.getCaseCode());
-		toHouseTransfer.setBusinessTax(transSignVO.getBusinessTax()!=null?transSignVO.getBusinessTax().multiply(new BigDecimal(10000)):null);
-		toHouseTransfer.setContractTax(transSignVO.getContractTax()!=null?transSignVO.getContractTax().multiply(new BigDecimal(10000)):null);
-		toHouseTransfer.setHouseHodingTax(transSignVO.getHouseHodingTax()!=null?transSignVO.getHouseHodingTax().multiply(new BigDecimal(10000)):null);
-		toHouseTransfer.setLandIncrementTax(transSignVO.getLandIncrementTax()!=null?transSignVO.getLandIncrementTax().multiply(new BigDecimal(10000)):null);
-		toHouseTransfer.setPersonalIncomeTax(transSignVO.getPersonalIncomeTax()!=null?transSignVO.getPersonalIncomeTax().multiply(new BigDecimal(10000)):null);
-		if(transSignVO.getHousePkid() != null) {
-			toHouseTransfer.setPkid(transSignVO.getHousePkid());
-			toHouseTransferMapper.updateByPrimaryKeySelective(toHouseTransfer);
-		} else {
-			toHouseTransfer.setPartCode("Guohu");
-			if(toHouseTransferMapper.findToGuoHuByCaseCode(transSignVO.getCaseCode()) == null) {
-				toHouseTransferMapper.insertSelective(toHouseTransfer);
-			}
-		}
-		
 		
 		// 功能：根据 casecode 到T_TO_FIRST_FOLLOW表中去查询，如果存在则做update，否则做insert, 作者：zhangxb16 时间 2016-1-27
 		int isExist=tofirstFollowMapper.isExistCasecode(transSignVO.getCaseCode());
@@ -239,6 +256,18 @@ public class SignServiceImpl implements SignService {
 			tofirstFollowMapper.insertSelective(ff);
 		}
 		
+		
+		RestVariable restVariable = new RestVariable(); 
+		restVariable.setName("LoanCloseNeed");
+		//有无抵押要修改 上家贷款结清流程变量  
+		//true: 有抵押需要启上家贷款结清流程
+		if("true".equals(transSignVO.getIsLoanClose())){			
+			restVariable.setValue(true);
+		}else{
+		//false: 无抵押不需要启上家贷款结清流程		
+			restVariable.setValue(false);
+		}
+		workFlowManager.setVariableByProcessInsId(transSignVO.getProcessInstanceId(),restVariable.getName(),restVariable);
 		return true;
 	}
 	
@@ -301,7 +330,16 @@ public class SignServiceImpl implements SignService {
 			transSignVO.setConPrice(toSign.getConPrice());  // 合同价 
 			transSignVO.setRealPrice(toSign.getRealPrice());  // 成交价 
 			transSignVO.setRealConTime(toSign.getRealConTime());
+			/**
+			 * 税费
+			 */
+			transSignVO.setBusinessTax(toSign.getBusinessTax() != null ? toSign.getBusinessTax().divide(new BigDecimal(10000)) : null);
+			transSignVO.setContractTax(toSign.getContractTax() != null ? toSign.getContractTax().divide(new BigDecimal(10000)) : null);
+			transSignVO.setHouseHodingTax(toSign.getHouseHodingTax() != null ? toSign.getHouseHodingTax().divide(new BigDecimal(10000)) : null);
+			transSignVO.setLandIncrementTax(toSign.getLandIncrementTax() != null ? toSign.getLandIncrementTax().divide(new BigDecimal(10000)) : null);
+			transSignVO.setPersonalIncomeTax(toSign.getPersonalIncomeTax() != null ? toSign.getPersonalIncomeTax().divide(new BigDecimal(10000)) : null);
 		}
+		
 		
 		/* 读取首次跟进信息 作者：zhangxb16 时间：2016-1-27 */
 		ToFirstFollow tofw=tofirstFollowMapper.selectByCaseCode(caseCode);
@@ -320,6 +358,133 @@ public class SignServiceImpl implements SignService {
 		sign.setConPrice(sign.getConPrice()!=null?sign.getConPrice().divide(new BigDecimal(10000)):null);
 		sign.setRealPrice(sign.getRealPrice()!=null?sign.getRealPrice().divide(new BigDecimal(10000)):null);
 		return sign;
+	}
+
+	@Override
+	public Result2 submitSign(TransSignVO transSignVO) {
+		
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+		
+		// 签约保存信息先更新 客户信息表
+		insertGuestInfo(transSignVO);
+
+		boolean flag = true;
+		// 同时需要修改贷款表里面的 主贷人信息
+		ToMortgage toMortgage = new ToMortgage();
+		List<Long> pkidDownList = new ArrayList<Long>();
+		List<ToMortgage> toMortgageList = new ArrayList<ToMortgage>();
+		if (null != transSignVO) {
+			toMortgage.setCaseCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
+			pkidDownList = transSignVO.getPkidDown();
+			for (int i = 0; i < pkidDownList.size(); i++) {				
+				toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
+				List<ToMortgage> getMortgageByCodeList = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);
+				if(null == getMortgageByCodeList || getMortgageByCodeList.size() <= 0){
+					continue;
+				}
+				
+				for(int k=0; k < getMortgageByCodeList.size();k++){
+					toMortgageList.add(getMortgageByCodeList.get(k));
+				}				
+			}
+
+			for (int i = 0; i < toMortgageList.size(); i++) {
+				ToMortgage toMortgageItem = toMortgageList.get(i);
+				if(toMortgageItem == null){
+					continue;
+				}
+				String custCode = toMortgageItem.getCustCode();
+				if(custCode == null){
+					continue;
+				}
+				
+				for (Long longPkid : pkidDownList) {
+					String strPkid = longPkid.toString();
+					if (custCode.equals(strPkid)) {
+						// 签约修改下家信息时，更新主贷人
+						ToMortgage toMortgageForUpdate = new ToMortgage();
+						toMortgageForUpdate.setCaseCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
+						toMortgageForUpdate.setCustCode(strPkid);
+						TgGuestInfo tgGuestInfo = tgGuestInfoService.findTgGuestInfoById(longPkid);
+						if (tgGuestInfo != null) {
+							toMortgageForUpdate.setCustName(tgGuestInfo.getGuestName() == null ? "": tgGuestInfo.getGuestName());
+						}
+						toMortgageService.updateToMortgageBySign(toMortgageForUpdate);
+					}
+				}
+			}
+			// 主贷人信息在签约环境被删除时，贷款表中没有任何记录，list中的对象全部为空； 则情况贷款表的主贷人信息
+			for (int m = 0; m < toMortgageList.size(); m++) {
+				if (toMortgageList.get(m) != null) {
+					flag = false;
+					break;
+				}
+			}
+			if (flag) {
+				toMortgageService.updateToMortgageByCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
+			}
+		}
+
+		// toMortgageService.updateToMortgage(toMortgage);
+
+		try {
+			/* 流程引擎相关 */
+			List<RestVariable> variables = new ArrayList<RestVariable>();
+
+			/* start 查限购和有抵押工作流 作者：zhangxb16 时间：2016-1-27 */
+			RestVariable restVariable3 = new RestVariable();/* 限购 */
+			restVariable3.setName("PurLimitCheckNeed");
+			RestVariable restVariable4 = new RestVariable();/* 抵押 */
+			restVariable4.setName("LoanCloseNeed");
+			restVariable3.setValue(transSignVO.getIsPerchaseReserachNeed().equals("true"));
+			restVariable4.setValue(transSignVO.getIsLoanClose().equals("true"));
+			variables.add(restVariable3);
+			variables.add(restVariable4);
+			/* end 查限购和有抵押工作流 作者：zhangxb16 时间：2016-1-27 */
+
+			ToCase toCase = toCaseService.findToCaseByCaseCode(transSignVO
+					.getCaseCode());
+			workFlowManager.submitTask(variables, transSignVO.getTaskId(),
+					transSignVO.getProcessInstanceId(),
+					toCase.getLeadingProcessId(), transSignVO.getCaseCode());
+			
+			/**
+			 * 签约完成之后如果sctrans.T_CS_CASE_SATISFACTION表没有对应casecode的记录则插入一条记录
+			 * @for 满意度评分
+			 */
+			ToSatisfaction satis = satisfactionService.queryToSatisfactionByCaseCode(toCase.getCaseCode());
+			if(satis != null){
+				satisfactionService.handleAfterSign(transSignVO.getCaseCode(), sessionUser.getId(), SatisfactionTypeEnum.ORIGIN.getCode());
+			}else{
+				satisfactionService.handleAfterSign(transSignVO.getCaseCode(), sessionUser.getId(), SatisfactionTypeEnum.NEW.getCode());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			// return false;
+		}
+
+		/* 修改案件状态 */
+		ToCase toCase = new ToCase();
+		toCase.setCaseCode(transSignVO.getCaseCode());
+		toCase.setStatus("30001003");
+		toCaseService.updateByCaseCodeSelective(toCase);
+
+		/**
+		 * 功能: 给客户发送短信 作者：zhangxb16
+		 */
+		Result2 rs = new Result2();
+		try {
+			int result = tgGuestInfoService.sendMsgHistory(
+					transSignVO.getCaseCode(), transSignVO.getPartCode());
+			if (result > 0) {
+			} else {
+				rs.setMessage("短信发送失败, 请您线下手工再次发送！");
+			}
+		} catch (BusinessException ex) {
+			ex.getMessage();
+		}
+
+		return rs;
 	}
 	
 }

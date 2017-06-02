@@ -34,7 +34,7 @@ $(function(){
             url = ctx + url;
             var data = {
                 leadingProId:leadingProId,
-                changCaseCode:caseCode,
+                changItems:caseCode,
                 detailCode:detailCode,
                 userId:userId
             };
@@ -46,6 +46,21 @@ $(function(){
                 dataType : "json",
                 timeout : 10000,
                 data : data,
+                beforeSend : function() {
+                    $.blockUI({
+                        message : $("#salesLoading"),
+                        css : {
+                            'border' : 'none',
+                            'z-index' : '9999'
+                        }
+                    });
+                    $(".blockOverlay").css({
+                        'z-index' : '9998'
+                    });
+                },
+                complete : function() {
+                    $.unblockUI();
+                },
                 success : function(data) {
                     if(data.success){
                         $("#leadingProForChang").hide();
@@ -187,7 +202,6 @@ function getList(){
     };
     aist.wrap(data);
     startList=1;
-    console.log(data);
     reloadGrid(data);
 }
 //选择框选择后拼接caseCode字符串的方法
@@ -265,7 +279,7 @@ function leadingProForChangeClick(){
         departmentHeriarchy : '',
         chkStyle : 'radio',
         //	jobCode : 'Manager,Senior_Manager',
-        jobCode : '',
+        jobCode : 'Manager,Consultant',
         callBack : selectLeadingPro
     });
 }

@@ -262,4 +262,7 @@ public interface ToSpvService {
 	List<ToSpvCashFlowApply> findCashFlowApplyCodeBySpvCode(String spvCode);
 
 	List<String> selectOfficerAndDirector(String spvCode);
+
+
+	List<ToSpv> queryToSpvByCaseCodeAndApplyUser(String caseCode, String userId);
 }

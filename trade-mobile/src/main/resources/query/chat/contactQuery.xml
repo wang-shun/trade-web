@@ -10,17 +10,19 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tg
+					select distinct us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org ,tg.CASE_CODE
+                        from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tg
 						left join sctrans.T_TO_MORTGAGE mort 
 						on mort.CASE_CODE=tg.CASE_CODE
 						inner join sctrans.t_yucui_org_hierarchy ht
 						on tg.ORG_ID=ht.ORG_ID
-						left join (select * from sctrans.SYS_USER where IS_DELETED='0'  AVAILABLE='1')us
-						on us.id=ht.MANAGER_ID or ht.DISTRICT_ID=us.id or tg.PROCESSOR_ID=us.ID or mort.LOANER_ID=us.ID
-						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where uoj.ISMAIN=1 and uoj.IS_DELETED='0') uoj
-						on uoj.USER_ID=us.ID 
+						left join sctrans.SYS_USER us
+						on (us.id=ht.MANAGER_ID or ht.DISTRICT_ID=us.id or tg.PROCESSOR_ID=us.ID or mort.LOANER_ID=us.ID)
+						 and us.IS_DELETED='0' and  us.AVAILABLE='1'
+						left join sctrans.SYS_USER_ORG_JOB uoj
+						on uoj.USER_ID=us.ID and uoj.ISMAIN = 1 and uoj.IS_DELETED=0
 						left join sctrans.SYS_ORG o on o.id=uoj.ORG_ID
-						left join sctrans.SYS_JOB j on j.id=uoj.JOB_ID and uoj.ISMAIN = 1 and uoj.IS_DELETED=0
+						left join sctrans.SYS_JOB j on j.id=uoj.JOB_ID
 						where tg.CASE_CODE=#caseCode#
 				]]>
 			</baseSql>
@@ -46,17 +48,17 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					select us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org from
-						
-						 (select * from sctrans.SYS_USER where IS_DELETED='0' and AVAILABLE='1')us
-						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where ISMAIN=1 and IS_DELETED='0') uoj
-						on uoj.USER_ID=us.ID 
-						left join (select * from sctrans.SYS_USER_ORG_JOB uoj where ISMAIN=1 and IS_DELETED='0') uoj1
-						on uoj1.USER_ID=us.id
+					select distinct us.id userId,us.REAL_NAME name,us.USERNAME userName,us.MOBILE mobile,us.avatar avatarUrl,j.JOB_NAME job,o.ORG_NAME org from
+						  sctrans.SYS_USER us
+						left join sctrans.SYS_USER_ORG_JOB uoj
+						on uoj.USER_ID=us.ID  and uoj.ISMAIN=1 and uoj.IS_DELETED='0'
+						left join  sctrans.SYS_USER_ORG_JOB  uoj1
+						on uoj.USER_ID=us.ID and  uoj1.USER_ID=us.id and uoj1.ISMAIN=1 and uoj1.IS_DELETED='0'
 						left join sctrans.SYS_ORG o on o.id=uoj.ORG_ID
 						left join sctrans.SYS_JOB j on j.id=uoj.JOB_ID
 						left join sctrans.SYS_ORG o1 on o1.id=uoj1.ORG_ID
-						where us.REAL_NAME like #q_text# + '%' or o1.ORG_NAME like #q_text# + '%'
+						where (us.REAL_NAME like #q_text# + '%' or o1.ORG_NAME like #q_text# + '%')
+						 and us.IS_DELETED='0' and us.AVAILABLE='1'						
 				]]>
 			</baseSql>
 			<orderBySql>

@@ -21,7 +21,7 @@ $(function(){
         var caseCode = $("#changCaseCode").val(); // 案件的caseCode
         var leadingProId = $("#leadingProId").val();//新的责任人userId
         var detailCode = $("#detailCode").val();//新的责任人userId
-
+        var userId =$("#userId").val();
 
         if(leadingProId == "" || leadingProId ==  null || leadingProId == undefined){
             window.wxc.alert("若要变更项目责任人，请先选择新的案件责任人！");
@@ -34,8 +34,9 @@ $(function(){
             url = ctx + url;
             var data = {
                 leadingProId:leadingProId,
-                changCaseCode:caseCode,
-                detailCode:detailCode
+                changItems:caseCode,
+                detailCode:detailCode,
+                userId:userId
             };
 
             $.ajax({
@@ -45,6 +46,21 @@ $(function(){
                 dataType : "json",
                 timeout : 10000,
                 data : data,
+                beforeSend : function() {
+                    $.blockUI({
+                        message : $("#salesLoading"),
+                        css : {
+                            'border' : 'none',
+                            'z-index' : '9999'
+                        }
+                    });
+                    $(".blockOverlay").css({
+                        'z-index' : '9998'
+                    });
+                },
+                complete : function() {
+                    $.unblockUI();
+                },
                 success : function(data) {
                     if(data.success){
                         $("#leadingProForChang").hide();
@@ -69,7 +85,6 @@ $(function(){
 })
 //即在数据的核心方法
 function reloadGrid(data) {
-    console.log("重新加载数据");
     $.ajax({
         async: true,
         url:ctx+ "/quickGrid/findPage" ,
@@ -89,7 +104,6 @@ function reloadGrid(data) {
             $(".checkbox_input").click(function(){
                 var thisCaseCode = $(this).val();
                 $("#changCaseCode").val(editCaseCode(thisCaseCode));
-                console.log($("#changCaseCode").val());
             });
             $("#changCaseCode").val('');
         },
@@ -145,6 +159,7 @@ function getParams(page) {
     var detailCode = $("#detailCode").val();
     var caseCode = $("#caseCode").val();
     var caseAddress = $("#caseAddress").val();
+    var cuserId = $("#cuserId").val();
 
 
     if(userId.length>0&&detailCode.length>0){
@@ -156,7 +171,7 @@ function getParams(page) {
         search_MuserId:$.trim(userId),
         search_caseCode:$.trim(caseCode),
         search_caseAddress:$.trim(caseAddress),
-
+        search_cuserId:$.trim(cuserId),
         queryId : "queryCaseBelongAndTransferDetail",
         rows : 10,
         page : page
@@ -195,8 +210,12 @@ function checkBoxALL(){
 function getList(){
     var userId = $("#userId").val();
     var detailCode = $("#detailCode").val();
+    var cuserId =  $("#cuserId").val();
+
     var data = {
         search_MuserId:$.trim(userId),
+        search_cuserId:$.trim(cuserId),
+
         queryId : "queryCaseBelongAndTransferDetail",
         rows : 10,
         page : 1
@@ -213,7 +232,6 @@ function getList(){
     }
     aist.wrap(data);
     startList=1;
-    console.log(data);
     reloadGrid(data);
 }
 //选择框选择后拼接caseCode字符串的方法
@@ -281,7 +299,11 @@ function changeProfessor(caseCode){
 }
 //案件责任人
 function leadingProForChangeClick(){
-    var orgId = $("#orgId").val();
+    var orgId='ff8080814f459a78014f45a73d820006';
+    var cuserId = $("#cuserId").val();
+    if(cuserId==''){
+         orgId = $("#orgId").val();
+    }
     userSelect({
         startOrgId : orgId,
         expandNodeId : orgId,
@@ -290,8 +312,7 @@ function leadingProForChangeClick(){
         departmentType : '',
         departmentHeriarchy : '',
         chkStyle : 'radio',
-        //	jobCode : 'Manager,Senior_Manager',
-        jobCode : '',
+        jobCode : 'Manager,Consultant',
         callBack : selectLeadingPro
     });
 

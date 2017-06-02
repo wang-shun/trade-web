@@ -120,6 +120,19 @@
 						E.loanlost_apply_reason,
 						E.LOANLOST_CONFIRM_CODE,
 						AC.org_name AS  AGENT_ORG,
+
+						(SELECT TOP 1 HOUSE_HODING_TAX  FROM sctrans.T_TO_SIGN TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_HOUSE_HODING_TAX,
+						(SELECT TOP 1 PERSONAL_INCOME_TAX FROM sctrans.T_TO_SIGN TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_PERSONAL_INCOME_TAX,
+						(SELECT TOP 1 BUSINESS_TAX FROM sctrans.T_TO_SIGN TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_BUSINESS_TAX,
+						(SELECT TOP 1 CONTRACT_TAX FROM sctrans.T_TO_SIGN TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_CONTRACT_TAX ,
+						(SELECT TOP 1 LAND_INCREMENT_TAX FROM sctrans.T_TO_SIGN TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_LAND_INCREMENT_TAX,
+
+						(SELECT TOP 1 HOUSE_HODING_TAX  FROM sctrans.T_TO_HOUSE_TRANSFER TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TRANSFER_HOUSE_HODING_TAX,
+						(SELECT TOP 1 PERSONAL_INCOME_TAX FROM sctrans.T_TO_HOUSE_TRANSFER TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TRANSFER_PERSONAL_INCOME_TAX,
+						(SELECT TOP 1 BUSINESS_TAX FROM sctrans.T_TO_HOUSE_TRANSFER TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TRANSFER_BUSINESS_TAX,
+						(SELECT TOP 1 CONTRACT_TAX FROM sctrans.T_TO_HOUSE_TRANSFER TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TRANSFER_CONTRACT_TAX ,
+						(SELECT TOP 1 LAND_INCREMENT_TAX FROM sctrans.T_TO_HOUSE_TRANSFER TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TRANSFER_LAND_INCREMENT_TAX,
+
 						
 						AE.JFHJL_MGR AS AGENT_FHJL,						
 						AE.JQYJL_MGR AS AGENT_QYJL,						
@@ -492,6 +505,19 @@
 				<column type="both" name="GUOHU_APPROVER_TIME" title="过户审批时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="virtual" name="EVAL_FEE,RECORD_TIME"  referencecol="CASE_CODE" index="" checkbox="" display="评估费,评估确认时间" title="评估费,评估确认时间" customDict="qqEvaFee" sysDict="" format="" width="90" align="" halign="" order="" resizable=""/>
 
+				<column type="both" name="TRANSFER_HOUSE_HODING_TAX" title="房产税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TRANSFER_PERSONAL_INCOME_TAX" title="个人所得税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TRANSFER_BUSINESS_TAX" title="上家营业税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TRANSFER_CONTRACT_TAX" title="下家契税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TRANSFER_LAND_INCREMENT_TAX" title="土地增值税"	expType="Double"	customDict="" hidden="true" />
+
+				<column type="both" name="TAX_HOUSE_HODING_TAX" title="预估房产税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TAX_PERSONAL_INCOME_TAX" title="预估个人所得税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TAX_BUSINESS_TAX" title="预估上家营业税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TAX_CONTRACT_TAX" title="预估下家契税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TAX_LAND_INCREMENT_TAX" title="预估土地增值税"	expType="Double"	customDict="" hidden="true" />
+
+
 			</table-row>
 		</grid>
 	</query>
@@ -580,6 +606,17 @@
 							B.TRANSFER_REAL_HT_TIME,
 							B.TRANSFER_CREATE_TIME,
 							B.TRANSFER_COMMENT,
+							B.TRANSFER_HOUSE_HODING_TAX,
+							B.TRANSFER_PERSONAL_INCOME_TAX,
+							B.TRANSFER_BUSINESS_TAX,
+							B.TRANSFER_CONTRACT_TAX,
+							B.TRANSFER_LAND_INCREMENT_TAX,
+							B.TAX_HOUSE_HODING_TAX,
+							B.TAX_PERSONAL_INCOME_TAX,
+							B.TAX_BUSINESS_TAX,
+							B.TAX_CONTRACT_TAX,
+							B.TAX_LAND_INCREMENT_TAX,
+
 							B.CASE_REAL_PROPERTY_GET_TIME,
 							B.CASE_CLOSE_TIME,
 							CAST(B.CASE_REAL_PRICE / 10000 AS DECIMAL(18,2))  as CASE_REAL_PRICE,
@@ -871,7 +908,21 @@
 				<column type="both" name="SPV_AMOUNT" title="监管金额" customDict=""	expType="Double"	hidden="true" />
 				<column type="both" name="SPV_SIGN_TIME" title="监管签约时间"		customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="EVA_EVAL_FEE" title="评估费" customDict=""		hidden="true" />
-				<column type="both" name="EVA_RECORD_TIME" title="评估确认时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>				
+				<column type="both" name="EVA_RECORD_TIME" title="评估确认时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
+
+				<column type="both" name="TRANSFER_HOUSE_HODING_TAX" title="房产税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TRANSFER_PERSONAL_INCOME_TAX" title="个人所得税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TRANSFER_BUSINESS_TAX" title="上家营业税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TRANSFER_CONTRACT_TAX" title="下家契税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TRANSFER_LAND_INCREMENT_TAX" title="土地增值税"	expType="Double"	customDict="" hidden="true" />
+
+				<column type="both" name="TAX_HOUSE_HODING_TAX" title="预估房产税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TAX_PERSONAL_INCOME_TAX" title="预估个人所得税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TAX_BUSINESS_TAX" title="预估上家营业税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TAX_CONTRACT_TAX" title="预估下家契税"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="TAX_LAND_INCREMENT_TAX" title="预估土地增值税"	expType="Double"	customDict="" hidden="true" />
+
+
 			</table-row>
 		</grid>
 	</query>

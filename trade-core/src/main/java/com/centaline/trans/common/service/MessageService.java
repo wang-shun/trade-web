@@ -31,7 +31,8 @@ public interface MessageService {
 	void sendMessage(ActRuEventSubScr event,ExecuteAction action);
 
 	void sendSpvFinishMsgByIntermi(String instanceId);
-	
+
+	void sendSatisFinishMsgByIntermi(String instanceId);
 	
 	/***
 	 * @author zhuody
@@ -41,7 +42,5 @@ public interface MessageService {
 	 * @param action
 	 */
 	void sendBankLevelApproveMsg(String instanceId,boolean approveFlag);
-
-	
 
 }

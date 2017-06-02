@@ -15,9 +15,15 @@ import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
 public interface ToCaseService {
 	
 	ToCase selectByPrimaryKey(Long pkid);
+	
     ToCase findToCaseByCaseCode(String caseCode);
+    
+    List<ToCase> findToCaseByStatus(String status);
+    
     int findToLoanAgentByCaseCode(String caseCode);
+    
     int updateByPrimaryKey(ToCase record);
+    
     int updateByPrimaryKeySelective(ToCase record);
     /**
      * 查询统计

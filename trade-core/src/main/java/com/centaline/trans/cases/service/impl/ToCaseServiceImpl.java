@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -70,7 +71,6 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
-import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
@@ -158,6 +158,12 @@ public class ToCaseServiceImpl implements ToCaseService {
 	public ToCase findToCaseByCaseCode(String caseCode) {
 		return toCaseMapper.findToCaseByCaseCode(caseCode);
 	}
+	
+	@Override
+	public List<ToCase> findToCaseByStatus(String status){
+		return toCaseMapper.findToCaseByStatus(status);
+	}
+	
 	@Override
 	public int findToLoanAgentByCaseCode(String caseCode) {
 		return toCaseMapper.findToLoanAgentByCaseCode(caseCode);
@@ -654,7 +660,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		if(null != ctmToCase){}else{throw new BusinessException("没有查询到导入案件信息!"); }
 		if(null != toCase.getCreateTime()){}else{throw new BusinessException("自建案件创建时间为空，不支持合流!"); }
 		if(null != ctmToCase.getCreateTime()){}else{throw new BusinessException("导入案件创建时间为空，不支持合流!"); }
-		if(ctmToCase.getCreateTime().before(toCase.getCreateTime())){throw new BusinessException("导入案件创建时间必须在自建案件之后!"); }
+		if(ctmToCase.getCreateTime().before(toCase.getCreateTime())){throw new BusinessException("导入案件创建时间必须在自建案件之后，请将此案件做无效处理!"); }
 		if(StringUtils.isBlank(ctmToCase.getCaseCode())){throw new BusinessException("ctm案件CaseCode为空!"); }
 		if(StringUtils.isBlank(toCase.getCaseCode())){throw new BusinessException("自建案件CaseCode为空!"); }
 		if(StringUtils.equals(toCase.getCaseCode(),ctmToCase.getCaseCode())){throw new BusinessException("同一案件不能进行合并!"); }

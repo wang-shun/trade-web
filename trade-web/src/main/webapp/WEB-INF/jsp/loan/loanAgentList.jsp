@@ -250,24 +250,22 @@ text-decoration: underline !important;
 	<input type="hidden" id="isJygw" value="${isJygw}" />
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 	<content tag="local_script"> 
-    <script
-		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
-		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
-		<script src="${ctx}/js/jquery.blockui.min.js"></script>
-		 <script
-		src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script	src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	<script	src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
 	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
 	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	 <script src="${ctx}/js/trunk/loan/loan_agent_list.js?v=1.3"></script>
-	 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+	<script src="${ctx}/js/trunk/loan/loan_agent_list.js?v=1.3"></script>
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 	  <!-- 分页控件  -->
-     <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	 <script id="template_loanAgentList" type= "text/html">
+    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script id="template_loanAgentList" type= "text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}
  				      <tr class="tr-1">
@@ -309,7 +307,7 @@ text-decoration: underline !important;
 	 	 
 	 	 aist.sortWrapper({
 			reloadGrid : searchMethod
-		 });
+		 });	 	
 	 	 
 	 	function exportToExcel() {
 	 		var params = {};
@@ -375,9 +373,12 @@ text-decoration: underline !important;
 	 		displayColomn.push('PROPERTY_ADDR');
 	 		displayColomn.push('LOAN_SRV_CODE');
 	 		displayColomn.push('finOrgName');
-	 		displayColomn.push('LEADING_PROCESS_NAME');
+	 		displayColomn.push('EXECUTOR_ID');
+	 		displayColomn.push('EXCUTOR_TEAM_NAME');
+	 		displayColomn.push('EXCUTOR_DISTRICT_NAME');
+	 		/* displayColomn.push('LEADING_PROCESS_NAME'); 
 	 		displayColomn.push('ORG_NAME');
-	 		displayColomn.push('DISTRICT_NAME');
+	 		displayColomn.push('DISTRICT_NAME');*/
 	 		displayColomn.push('QJDS_NAME');
 	 		displayColomn.push('zjName');
 	 		displayColomn.push('AgentName');

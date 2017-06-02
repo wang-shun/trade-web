@@ -51,21 +51,4 @@ public class ToPurchaseLimitSearchServiceImpl implements ToPurchaseLimitSearchSe
 		return toPurchaseLimitSearchMapper.findToPlsByCaseCode(caseCode);
 	}
 
-	@Override
-	public AjaxResponse saveAndSubmitPurchaseLimit(ToPurchaseLimitSearch toPurchaseLimitSearch, String taskId, String processInstanceId) {
-		AjaxResponse ajaxResponse = new AjaxResponse();
-		Boolean saveFlag = saveToPurchaseLimitSearch(toPurchaseLimitSearch);
-
-		if(saveFlag){
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-			ToCase toCase = toCaseService.findToCaseByCaseCode(toPurchaseLimitSearch.getCaseCode());
-			workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(),toPurchaseLimitSearch.getCaseCode());
-			ajaxResponse.setSuccess(true);
-		} else {
-			ajaxResponse.setSuccess(false);
-			ajaxResponse.setMessage("保存查限购出错");
-		}
-		return ajaxResponse;
-	}
-
 }

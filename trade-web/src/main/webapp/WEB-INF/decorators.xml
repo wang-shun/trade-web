@@ -105,6 +105,7 @@
 		<pattern>/caseMerge/addWdCase</pattern>
 		<pattern>/caseMerge/saveWdCaseInfo/add</pattern>
 		<pattern>/caseMerge/addLiushui</pattern>
+		<pattern>/satis/*</pattern>
 	</decorator>
 	<decorator name="noTemplate">
 		<pattern>/report/guoHuReport</pattern>

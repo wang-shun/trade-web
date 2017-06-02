@@ -1,12 +1,14 @@
 package com.centaline.trans.task.service;
 
 import java.util.List;
-
+import com.aist.common.web.validate.AjaxResponse;
+import javax.servlet.http.HttpServletRequest;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
+import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 public interface ToHouseTransferService {
 	
@@ -100,4 +102,30 @@ public interface ToHouseTransferService {
 	 * @param processInstanceId
 	 */
 	String submitToHouseTransfer(ToHouseTransfer toHouseTransfer,ToMortgage toMortgage,LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId);
+
+	/**
+	 * 过户保存数据,提供给APP使得保存数据和提交流程分开的需求
+	 * @author caoy
+	 * @param toHouseTransfer
+	 * @param toMortgage
+	 * @param loanlostApproveVO
+	 * @param processInstanceId
+	 * @return
+	 */
+	AjaxResponse saveToHouseTransfer(ToHouseTransfer toHouseTransfer, ToMortgage toMortgage,LoanlostApproveVO loanlostApproveVO, String processInstanceId);
+
+	/**
+	 * 提交流程,提供给APP使得保存数据和提交流程分开的需求
+	 * @author caoy
+	 * @param toHouseTransfer
+	 * @param taskId
+	 * @param processInstanceId
+	 * @return
+	 */
+	AjaxResponse submitToHouseTransfer(ToHouseTransfer toHouseTransfer,String taskId, String processInstanceId);
+	
+	Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
+			LoanlostApproveVO loanlostApproveVO, String GuohuApprove, String GuohuApprove_response, String notApprove,
+			String members);
+   
 }

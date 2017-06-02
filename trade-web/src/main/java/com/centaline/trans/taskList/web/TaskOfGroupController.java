@@ -21,8 +21,12 @@ public class TaskOfGroupController {
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
-		SessionUser suser= uamSessionService.getSessionUser();
+		SessionUser suser= uamSessionService.getSessionUser();		
 		request.setAttribute("serviceDepId", suser.getServiceDepId());
+		
+		//针对运维主管 单独设置查询条件  add by  zhuody  in  20170527   || 主管code='YCYYZG'
+		request.setAttribute("serviceJobCode", suser.getServiceJobCode());
+		
 		return "/task/toTaskOfGroupList2";
 	}
 }

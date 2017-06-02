@@ -869,23 +869,6 @@ $(document).ready(function(){
 		    }
 		}
 		
-		var customAccountTelephone = $("input[name='toSpvAccountList["+index+"].telephone']").val();
-		if(customAccountTelephone == null || customAccountTelephone == ''){
-			window.wxc.alert("请填写新增账户电话！");
-			changeClass($("input[name='toSpvAccountList["+index+"].telephone']"));
-			customFlag = false;
-			return false;
-		}
-		
-		if(customAccountTelephone != null && customAccountTelephone != ''){
-			if(!isMobile(customAccountTelephone)){
-				window.wxc.alert("请填写有效的新增账户电话！(1(3、4、5、7、8)+9位数字)");
-				changeClass($("input[name='toSpvAccountList["+index+"].telephone']"));
-				customFlag = false;
-				return false;
-			}
-		}
-		
 		var customBank = $("input[name='toSpvAccountList["+index+"].bank']").val();
 		if(customBank == null || customBank == ''){
 			window.wxc.alert("请填写新增账户开户行（银行）！");
@@ -972,14 +955,16 @@ $(document).ready(function(){
 		var imgIsEmpty = false;
 		$("ul[class='filelist']").each(function(i,e){
 			var length = $(e).find("img").length;
-			if(length == 0){
+			var attRequireArr = ["shanghai_house_contract","property_right_copy","buyer_idcard_copy","seller_idcard_copy"];
+			var spanName = $(e).find("span").attr("name");
+			if($.inArray(spanName, attRequireArr) != -1 &&　length == 0){
 				imgIsEmpty = true;
 				return false;
 			}
 		});
 		
 		if(imgIsEmpty){
-			window.wxc.alert("每种类型请至少上传一张附件！");
+			window.wxc.alert("必须上传‘上海市房屋买卖合同’、‘产权证复印件’、‘买方身份证复印件’、‘卖方身份证复印件’！");
 			return false;
 		}
 		/** ------附件验证结束--------------  **/
@@ -1027,12 +1012,12 @@ $(document).ready(function(){
 			  /**卖方*/
 			  
 			  /**资金方*/
-			  var fundAccountName = $("input[name='toSpvAccountList[3].name']").val();
+/*			  var fundAccountName = $("input[name='toSpvAccountList[3].name']").val();
 			  if(fundAccountName == null || fundAccountName == ''){
 				  window.wxc.alert("请选择资金方方收款账号名称！");
 				  changeClass($("input[name='toSpvAccountList[3].name']"));
 				  return false;
-			  }
+			  }*/
 			  /**资金方*/
 			  
 			  	/**买方*/

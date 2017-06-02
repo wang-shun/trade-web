@@ -343,17 +343,25 @@
 	<query id="queryTradeCaseMortInfoMoblie">
 		<searchSql>
 			<baseSql>
-				select sd.name refundType, sd2.NAME mortType,
-					tm.MORT_TOTAL_AMOUNT totalAmount,tm.COM_AMOUNT comAmount,
-					tm.COM_YEAR comYear,tm.COM_DISCOUNT comDiscount,tm.PRF_AMOUNT psfAmount,
-					tm.PRF_YEAR psfYear,sd3.name status,
-					tm.LOANER_NAME loanerName,tm.LOANER_PHONE loanerPhone,fo.FIN_ORG_NAME loanerOrg
-				from sctrans.T_TO_MORTGAGE tm
-					left join sctrans.T_TS_FIN_ORG fo on fo.FIN_ORG_CODE = tm.LOANER_ORG_CODE
-					left join sctrans.SYS_DICT sd on sd.CODE = tm.LEND_WAY and sd.TYPE =  '30017'
-					left join sctrans.SYS_DICT sd2 on sd2.CODE = tm.MORT_TYPE and sd2.TYPE =  '30016'
-					left join sctrans.SYS_DICT sd3 on sd3.CODE = tm.STATE_IN_BANK and sd3.TYPE = 'part_code'
-				where tm.case_code = #caseCode# and IS_ACTIVE = 1 
+				select
+				(select sd.name from sctrans.SYS_DICT sd where sd.CODE = tm.LEND_WAY and sd.TYPE =  '30017') refundType,
+				(select sd2.name from sctrans.SYS_DICT sd2 where sd2.CODE = tm.MORT_TYPE and sd2.TYPE =  '30016') mortType,
+				(select sd3.name from sctrans.SYS_DICT sd3 where sd3.CODE = ml.LOANER_STATUS and sd3.TYPE = 'part_code') status,
+				tm.MORT_TOTAL_AMOUNT totalAmount,
+				tm.COM_AMOUNT comAmount,
+				tm.COM_YEAR comYear,
+				tm.COM_DISCOUNT comDiscount,
+				tm.PRF_AMOUNT psfAmount,
+				tm.PRF_YEAR psfYear,
+				ml.LOANER_NAME loanerName,
+				ml.LOANER_PHONE loanerPhone,
+				(select fo.FIN_ORG_NAME from sctrans.T_TS_FIN_ORG fo where fo.FIN_ORG_CODE = tm.LAST_LOAN_BANK) loanerOrg
+
+				from
+				sctrans.T_TO_MORTGAGE tm left join sctrans.T_TO_MORT_LOANER ml on tm.pkid = ml.MORT_PKID
+
+				where
+				tm.case_code = #caseCode#  and tm.IS_ACTIVE = 1
 			</baseSql>
 		</searchSql>
 		<grid>

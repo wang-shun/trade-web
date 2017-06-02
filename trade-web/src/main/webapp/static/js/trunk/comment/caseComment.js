@@ -92,6 +92,38 @@ function saveCaseComment() {
     });
 };
 
+function saveCaseComment2() {
+	var caseCode = $('#caseComment_caseCode').val();
+	var comment = $("#rejectComment").val();
+	var parentId=$("#caseComment_parentId").val();
+	var commentSource=$("#caseComment_commentSource").val();
+	var commentType=$("#caseComment_commentType").val();
+	var bizCode=$("#caseComment_bizCode").val();
+	if(comment==''){
+		window.wxc.alert('添加案件备注不能为空');
+		return false;
+	}
+	var srvCode = $('#caseComment_srvCode').val();
+	var toCaseComment = {
+		caseCode : 	caseCode,
+		srvCode : srvCode,
+		comment : comment,
+		parentId :parentId,
+		source:commentSource,
+		type:commentType,
+		bizCode:bizCode
+		
+	};
+	$.ajax({
+        url:ctx+ "/caseComment/insertToCaseComment",
+        method: "post",
+        dataType: "json",
+        data: toCaseComment,
+        success: function(data){
+        }
+    });
+};
+
 function reloadGrid() {
 	var templeteSource =  '{{if rows.length>0}}'
 						+ '{{each rows as item index}}'

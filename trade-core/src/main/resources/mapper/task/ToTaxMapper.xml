@@ -6,13 +6,20 @@
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
     <result column="TAX_TIME" property="taxTime" jdbcType="TIMESTAMP" />
     <result column="IS_UNIQUE_HOME" property="isUniqueHome" jdbcType="CHAR" />
+    <result column="IS_ACTIVE" property="isActive" jdbcType="CHAR" />
     <result column="HOLD_YEAR" property="holdYear" jdbcType="NVARCHAR" />
+    <result column="USE_CARD_PAY" property="useCardPay" jdbcType="CHAR" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.task.entity.ToTax" extends="BaseResultMap" >
     <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, TAX_TIME, IS_UNIQUE_HOME, HOLD_YEAR
+    PKID, CASE_CODE, TAX_TIME, IS_UNIQUE_HOME, IS_ACTIVE,HOLD_YEAR
   </sql>
   <sql id="Blob_Column_List" >
     COMMENT
@@ -58,6 +65,9 @@
       <if test="comment != null" >
         COMMENT,
       </if>
+      <if test="isActive != null" >
+        IS_ACTIVE,
+      </if>
         CREATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -79,6 +89,9 @@
       <if test="comment != null" >
         #{comment,jdbcType=LONGVARCHAR},
       </if>
+      <if test="isActive != null" >
+        #{isActive,jdbcType=CHAR},
+      </if>
         @{SESSION_USER_ID},
     </trim>
   </insert>
@@ -93,6 +106,9 @@
       </if>
       <if test="isUniqueHome != null" >
         IS_UNIQUE_HOME = #{isUniqueHome,jdbcType=CHAR},
+      </if>
+      <if test="isActive != null" >
+        IS_ACTIVE = #{isActive,jdbcType=CHAR},
       </if>
       <if test="holdYear != null" >
         HOLD_YEAR = #{holdYear,jdbcType=NVARCHAR},

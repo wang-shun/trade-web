@@ -576,7 +576,7 @@ text-decoration: underline !important;
 						</td>
 						
 						<td class="center">
-                          <p  >
+                          <p>
 						
 							{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
 							{{if item.SELLER.split("/").length-1 >1}}

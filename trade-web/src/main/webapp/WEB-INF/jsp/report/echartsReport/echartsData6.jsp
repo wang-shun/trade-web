@@ -54,6 +54,11 @@
                             </div>
                             <table class="echarsTable">
                             </table>
+                            <div>
+                                                                      备注：公积金金额包含纯公积金金额和组合贷款中的公积金金额<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商贷金额占比 = 商贷金额 / 签贷合同价<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公积金金额占比 = 公积金金额 / 签贷合同价                                           
+                            </div>
                         </div>                     
                         <div class="pull-left">
                             <div class="plot-rightone relative merge-box">
@@ -65,7 +70,7 @@
                                         <li><i class='colorBar' style='background-color:#ffad6b'></i><em>公积金金额</em><span id="span3"></span>万元</li>
                                     </ul>
                                     <ul class="data-list data-border">
-                                        <li><em>商贷签贷占比</em><span id="span4" class="red"></span></li>
+                                        <li><em>商贷金额占比</em><span id="span4" class="red"></span></li>
                                         <li><em>公积金金额占比</em><span id="span5" class="red"></span></li>
                                     </ul>
                                 </div>
@@ -206,7 +211,7 @@
                 }
 				];
             	//3.
-            	legend = data.rows.length>0?['签贷合同价','商贷金额','公积金金额','商贷签贷占比','公积金签贷占比']:[];
+            	legend = ['签贷合同价','商贷金额','公积金金额','商贷金额占比','公积金金额占比'];
             	//4.
             	datas = [totalAmountArr,comAmountArr,prfAmountArr,comPercentArr,prfPercentArr];
             	//5.

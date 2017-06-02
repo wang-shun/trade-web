@@ -177,7 +177,7 @@
 											<input type="text" class="form-control tbsporg" id="orgName"
 												name="orgName"
 												onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
-										   startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+										   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'',
 										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack,expandNodeId:'',chkLast:'true'})"
 												value=''> <input type="hidden" id="yuCuiOriGrpId"
 												name="yuCuiOriGrpId" value="">
@@ -324,6 +324,7 @@
 	<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
 	<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
 	<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
+	<input type="hidden" id="jobCode" value="${jobCode}" />
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 	<content tag="local_script"> 
 	<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>

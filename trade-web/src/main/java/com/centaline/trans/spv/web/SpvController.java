@@ -1130,7 +1130,7 @@ public class SpvController {
     
     /**
      * 
-     * checkInOutWorkFlowProcess:(这里用一句话描述这个方法的作用). <br/> 
+     * checkInOutWorkFlowProcess: 检查是否存在出入账流程正在进行中. <br/> 
      * 
      * @author gongjd 
      * @param request

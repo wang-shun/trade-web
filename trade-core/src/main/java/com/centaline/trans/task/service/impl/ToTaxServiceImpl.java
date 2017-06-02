@@ -51,19 +51,5 @@ public class ToTaxServiceImpl implements ToTaxService{
 	public ToTax findToTaxByCaseCode(String caseCode) {
 		return toTaxMapper.findToTaxByCaseCode(caseCode);
 	}
-	@Override
-	public AjaxResponse saveAndSubmitTax(ToTax toTax, String taskId, String processInstanceId,String partCode) {
-		AjaxResponse ajaxResponse = new AjaxResponse();
-		Boolean saveFlag = saveToTax(toTax);
-		if(saveFlag){
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-			ToCase toCase = toCaseService.findToCaseByCaseCode(toTax.getCaseCode());
-			workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(), toTax.getCaseCode());
-			ajaxResponse.setSuccess(true);
-		} else {
-			ajaxResponse.setSuccess(false);
-			ajaxResponse.setMessage("保存审税出错");
-		}
-		return ajaxResponse;
-	}
+
 }

@@ -1,5 +1,6 @@
 package com.centaline.trans.task.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 /**审税*/
 public class ToTax {
@@ -14,8 +15,59 @@ public class ToTax {
     private String holdYear;
 
     private String comment;
+    
+    private String createBy;
 
-    public Long getPkid() {
+	private String updateBy;
+	
+	private Date updateTime;
+	
+	private Date createTime;
+	
+	private String isActive;
+
+    public String getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(String isActive) {
+		this.isActive = isActive;
+	}
+
+
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
+
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Long getPkid() {
         return pkid;
     }
 

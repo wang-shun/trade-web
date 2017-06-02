@@ -90,32 +90,32 @@
 	{{each rows as item index}}
 	<tr class="tr-1">
 		<td>
-			<p class="big">{{item.userName}}</p>
+			<p class="big">{{item.userName}} {{if item.available =='0' }}(离职){{/if}} {{if item.is_delete =='1' }}(已删除){{/if}}</p>
 		</td>
 		<td>
 			<p>{{item.orgName}}</p>
 		</td>
 		<td>
-			<p><a href="${ctx}/case/handler/processor/detail?userId={{item.userId}}&detailCode=processor" target="_blank">{{item.PROCESSOR_COUNT}}</a></p>
+			<p><a href="${ctx}/case/handler/processor/detail?userId={{item.userId}}&detailCode=processor" target="_blank">{{item.PROCESSOR_COUNT}}（单）</a></p>
 		</td>
 		<td>
-			<p><a href="${ctx}/case/handler/processor/detail?userId={{item.userId}}&detailCode=comMort" target="_blank">{{item.COM_MORT_COUNT}}</a></p>
+			<p><a href="${ctx}/case/handler/processor/detail?userId={{item.userId}}&detailCode=comMort" target="_blank">{{item.COM_MORT_COUNT}}（单）</a></p>
 		</td>
 		<td>
-			<p><a href="${ctx}/case/handler/processor/detail?userId={{item.userId}}&detailCode=prfMort" target="_blank">{{item.PRF_MORT_COUNT}}</a></p>
+			<p><a href="${ctx}/case/handler/processor/detail?userId={{item.userId}}&detailCode=prfMort" target="_blank">{{item.PRF_MORT_COUNT}}（单）</a></p>
 		</td>
 
 
 		<td>
-			<p><a href="${ctx}/case/handler/eloan/detail?userId={{item.userId}}" target="_blank">{{item.ELOAN_COUNT}}</a></p>
+			<p><a href="${ctx}/case/handler/eloan/detail?userId={{item.userId}}" target="_blank">{{item.ELOAN_COUNT}}（单）</a></p>
 		</td>
 		<td>
-			<p><a href="##">{{item.SPV_COUNT}}</a></p>
+			<p><a href="${ctx}/case/handler/spv/detail?userId={{item.userId}}" target="_blank">{{item.SPV_COUNT}}（单）</a></p>
 		</td>
 		<td>
-			<p>
-			<p><a href="##">{{item.ASSIGNEE_COUNT}}</a></p>
-			</p>
+		<p>
+			<p><a href="${ctx}/case/handler/task/detail?userId={{item.userName_input}}" target="_blank">{{item.ASSIGNEE_COUNT}}（单）</a></p>
+		</p>
 		</td>
 	</tr>
 	{{/each}}

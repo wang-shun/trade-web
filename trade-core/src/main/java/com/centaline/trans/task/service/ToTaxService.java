@@ -9,5 +9,4 @@ public interface ToTaxService {
 	
 	public ToTax findToTaxByCaseCode(String caseCode);
 
-	AjaxResponse saveAndSubmitTax(ToTax toTax, String taskId, String processInstanceId,String partCode);
 }

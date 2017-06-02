@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.satisfaction.repository.ToSatisfactionMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.satisfaction.entity.ToSatisfaction" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="CASTSAT_CODE" property="castsatCode" jdbcType="VARCHAR" />
+    <result column="SALER_PHONE_OK" property="salerPhoneOk" jdbcType="INTEGER" />
+    <result column="SALER_PHONE_RES" property="salerPhoneRes" jdbcType="NVARCHAR" />
+    <result column="SALER_SIGN_SAT" property="salerSignSat" jdbcType="INTEGER" />
+    <result column="SALER_SIGN_COM" property="salerSignCom" jdbcType="NVARCHAR" />
+    <result column="SALER_LOANCLOSE_SAT" property="salerLoancloseSat" jdbcType="INTEGER" />
+    <result column="SALER_LOANCLOSE_COM" property="salerLoancloseCom" jdbcType="NVARCHAR" />
+    <result column="SALER_GUOHU_SAT" property="salerGuohuSat" jdbcType="INTEGER" />
+    <result column="SALER_GUOHU_COM" property="salerGuohuCom" jdbcType="NVARCHAR" />
+    <result column="BUYER_PHONE_OK" property="buyerPhoneOk" jdbcType="INTEGER" />
+    <result column="BUYER_PHONE_RES" property="buyerPhoneRes" jdbcType="NVARCHAR" />
+    <result column="BUYER_SIGN_SAT" property="buyerSignSat" jdbcType="INTEGER" />
+    <result column="BUYER_SIGN_COM" property="buyerSignCom" jdbcType="NVARCHAR" />
+    <result column="BUYER_COMLOAN_SAT" property="buyerComloanSat" jdbcType="INTEGER" />
+    <result column="BUYER_COMLOAN_COM" property="buyerComloanCom" jdbcType="NVARCHAR" />
+    <result column="BUYER_PSFLOAN_SAT" property="buyerPsfloanSat" jdbcType="INTEGER" />
+    <result column="BUYER_PSFLOAN_COM" property="buyerPsfloanCom" jdbcType="NVARCHAR" />
+    <result column="BUYER_GUOHU_SAT" property="buyerGuohuSat" jdbcType="INTEGER" />
+    <result column="BUYER_GUOHU_COM" property="buyerGuohuCom" jdbcType="NVARCHAR" />
+    <result column="AGENT_PHONE_OK" property="agentPhoneOk" jdbcType="INTEGER" />
+    <result column="AGENT_PHONE_RES" property="agentPhoneRes" jdbcType="NVARCHAR" />
+    <result column="AGENT_SIGN_SAT" property="agentSignSat" jdbcType="INTEGER" />
+    <result column="AGENT_SIGN_COM" property="agentSignCom" jdbcType="NVARCHAR" />
+    <result column="AGENT_COMLOAN_SAT" property="agentComloanSat" jdbcType="INTEGER" />
+    <result column="AGENT_COMLOAN_COM" property="agentComloanCom" jdbcType="NVARCHAR" />
+    <result column="AGENT_PSFLOAN_SAT" property="agentPsfloanSat" jdbcType="INTEGER" />
+    <result column="AGENT_PSFLOAN_COM" property="agentPsfloanCom" jdbcType="NVARCHAR" />
+    <result column="AGENT_GUOHU_SAT" property="agentGuohuSat" jdbcType="INTEGER" />
+    <result column="AGENT_GUOHU_COM" property="agentGuohuCom" jdbcType="NVARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="CALLER_ID" property="callerId" jdbcType="VARCHAR" />
+    <result column="SIGN_TIME" property="signTime" jdbcType="TIMESTAMP" />
+    <result column="GUOHU_TIME" property="guohuTime" jdbcType="TIMESTAMP" />
+    <result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, CASTSAT_CODE, SALER_PHONE_OK, SALER_PHONE_RES, SALER_SIGN_SAT, SALER_SIGN_COM, 
+    SALER_LOANCLOSE_SAT, SALER_LOANCLOSE_COM, SALER_GUOHU_SAT, SALER_GUOHU_COM, BUYER_PHONE_OK, 
+    BUYER_PHONE_RES, BUYER_SIGN_SAT, BUYER_SIGN_COM, BUYER_COMLOAN_SAT, BUYER_COMLOAN_COM, 
+    BUYER_PSFLOAN_SAT, BUYER_PSFLOAN_COM, BUYER_GUOHU_SAT, BUYER_GUOHU_COM, AGENT_PHONE_OK, 
+    AGENT_PHONE_RES, AGENT_SIGN_SAT, AGENT_SIGN_COM, AGENT_COMLOAN_SAT, AGENT_COMLOAN_COM, 
+    AGENT_PSFLOAN_SAT, AGENT_PSFLOAN_COM, AGENT_GUOHU_SAT, AGENT_GUOHU_COM, STATUS, TYPE, CALLER_ID, 
+    SIGN_TIME, GUOHU_TIME, CLOSE_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_CS_CASE_SATISFACTION
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_CS_CASE_SATISFACTION
+    where CASE_CODE = #{caseCode,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_CS_CASE_SATISFACTION
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_CS_CASE_SATISFACTION
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.satisfaction.entity.ToSatisfaction" >
+    insert into sctrans.T_CS_CASE_SATISFACTION (PKID, CASE_CODE, CASTSAT_CODE, 
+      SALER_PHONE_OK, SALER_PHONE_RES, SALER_SIGN_SAT, 
+      SALER_SIGN_COM, SALER_LOANCLOSE_SAT, SALER_LOANCLOSE_COM, 
+      SALER_GUOHU_SAT, SALER_GUOHU_COM, BUYER_PHONE_OK, 
+      BUYER_PHONE_RES, BUYER_SIGN_SAT, BUYER_SIGN_COM, 
+      BUYER_COMLOAN_SAT, BUYER_COMLOAN_COM, BUYER_PSFLOAN_SAT, 
+      BUYER_PSFLOAN_COM, BUYER_GUOHU_SAT, BUYER_GUOHU_COM, 
+      AGENT_PHONE_OK, AGENT_PHONE_RES, AGENT_SIGN_SAT, 
+      AGENT_SIGN_COM, AGENT_COMLOAN_SAT, AGENT_COMLOAN_COM, 
+      AGENT_PSFLOAN_SAT, AGENT_PSFLOAN_COM, AGENT_GUOHU_SAT, 
+      AGENT_GUOHU_COM, STATUS, TYPE, CALLER_ID, 
+      SIGN_TIME, GUOHU_TIME, CLOSE_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+      UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{castsatCode,jdbcType=VARCHAR}, 
+      #{salerPhoneOk,jdbcType=INTEGER}, #{salerPhoneRes,jdbcType=NVARCHAR}, #{salerSignSat,jdbcType=INTEGER}, 
+      #{salerSignCom,jdbcType=NVARCHAR}, #{salerLoancloseSat,jdbcType=INTEGER}, #{salerLoancloseCom,jdbcType=NVARCHAR}, 
+      #{salerGuohuSat,jdbcType=INTEGER}, #{salerGuohuCom,jdbcType=NVARCHAR}, #{buyerPhoneOk,jdbcType=INTEGER}, 
+      #{buyerPhoneRes,jdbcType=NVARCHAR}, #{buyerSignSat,jdbcType=INTEGER}, #{buyerSignCom,jdbcType=NVARCHAR}, 
+      #{buyerComloanSat,jdbcType=INTEGER}, #{buyerComloanCom,jdbcType=NVARCHAR}, #{buyerPsfloanSat,jdbcType=INTEGER}, 
+      #{buyerPsfloanCom,jdbcType=NVARCHAR}, #{buyerGuohuSat,jdbcType=INTEGER}, #{buyerGuohuCom,jdbcType=NVARCHAR}, 
+      #{agentPhoneOk,jdbcType=INTEGER}, #{agentPhoneRes,jdbcType=NVARCHAR}, #{agentSignSat,jdbcType=INTEGER}, 
+      #{agentSignCom,jdbcType=NVARCHAR}, #{agentComloanSat,jdbcType=INTEGER}, #{agentComloanCom,jdbcType=NVARCHAR}, 
+      #{agentPsfloanSat,jdbcType=INTEGER}, #{agentPsfloanCom,jdbcType=NVARCHAR}, #{agentGuohuSat,jdbcType=INTEGER}, 
+      #{agentGuohuCom,jdbcType=NVARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{callerId,jdbcType=VARCHAR}, 
+      #{signTime,jdbcType=TIMESTAMP},#{guohuTime,jdbcType=TIMESTAMP},#{closeTime,jdbcType=TIMESTAMP},
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.satisfaction.entity.ToSatisfaction" useGeneratedKeys="true" keyProperty="pkid" >
+    insert into sctrans.T_CS_CASE_SATISFACTION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="castsatCode != null" >
+        CASTSAT_CODE,
+      </if>
+      <if test="salerPhoneOk != null" >
+        SALER_PHONE_OK,
+      </if>
+      <if test="salerPhoneRes != null" >
+        SALER_PHONE_RES,
+      </if>
+      <if test="salerSignSat != null" >
+        SALER_SIGN_SAT,
+      </if>
+      <if test="salerSignCom != null" >
+        SALER_SIGN_COM,
+      </if>
+      <if test="salerLoancloseSat != null" >
+        SALER_LOANCLOSE_SAT,
+      </if>
+      <if test="salerLoancloseCom != null" >
+        SALER_LOANCLOSE_COM,
+      </if>
+      <if test="salerGuohuSat != null" >
+        SALER_GUOHU_SAT,
+      </if>
+      <if test="salerGuohuCom != null" >
+        SALER_GUOHU_COM,
+      </if>
+      <if test="buyerPhoneOk != null" >
+        BUYER_PHONE_OK,
+      </if>
+      <if test="buyerPhoneRes != null" >
+        BUYER_PHONE_RES,
+      </if>
+      <if test="buyerSignSat != null" >
+        BUYER_SIGN_SAT,
+      </if>
+      <if test="buyerSignCom != null" >
+        BUYER_SIGN_COM,
+      </if>
+      <if test="buyerComloanSat != null" >
+        BUYER_COMLOAN_SAT,
+      </if>
+      <if test="buyerComloanCom != null" >
+        BUYER_COMLOAN_COM,
+      </if>
+      <if test="buyerPsfloanSat != null" >
+        BUYER_PSFLOAN_SAT,
+      </if>
+      <if test="buyerPsfloanCom != null" >
+        BUYER_PSFLOAN_COM,
+      </if>
+      <if test="buyerGuohuSat != null" >
+        BUYER_GUOHU_SAT,
+      </if>
+      <if test="buyerGuohuCom != null" >
+        BUYER_GUOHU_COM,
+      </if>
+      <if test="agentPhoneOk != null" >
+        AGENT_PHONE_OK,
+      </if>
+      <if test="agentPhoneRes != null" >
+        AGENT_PHONE_RES,
+      </if>
+      <if test="agentSignSat != null" >
+        AGENT_SIGN_SAT,
+      </if>
+      <if test="agentSignCom != null" >
+        AGENT_SIGN_COM,
+      </if>
+      <if test="agentComloanSat != null" >
+        AGENT_COMLOAN_SAT,
+      </if>
+      <if test="agentComloanCom != null" >
+        AGENT_COMLOAN_COM,
+      </if>
+      <if test="agentPsfloanSat != null" >
+        AGENT_PSFLOAN_SAT,
+      </if>
+      <if test="agentPsfloanCom != null" >
+        AGENT_PSFLOAN_COM,
+      </if>
+      <if test="agentGuohuSat != null" >
+        AGENT_GUOHU_SAT,
+      </if>
+      <if test="agentGuohuCom != null" >
+        AGENT_GUOHU_COM,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="callerId != null" >
+        CALLER_ID,
+      </if>
+      <if test="signTime != null" >
+        SIGN_TIME,
+      </if>
+      <if test="guohuTime != null" >
+        GUOHU_TIME,
+      </if>
+      <if test="closeTime != null" >
+        CLOSE_TIME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="castsatCode != null" >
+        #{castsatCode,jdbcType=VARCHAR},
+      </if>
+      <if test="salerPhoneOk != null" >
+        #{salerPhoneOk,jdbcType=INTEGER},
+      </if>
+      <if test="salerPhoneRes != null" >
+        #{salerPhoneRes,jdbcType=NVARCHAR},
+      </if>
+      <if test="salerSignSat != null" >
+        #{salerSignSat,jdbcType=INTEGER},
+      </if>
+      <if test="salerSignCom != null" >
+        #{salerSignCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="salerLoancloseSat != null" >
+        #{salerLoancloseSat,jdbcType=INTEGER},
+      </if>
+      <if test="salerLoancloseCom != null" >
+        #{salerLoancloseCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="salerGuohuSat != null" >
+        #{salerGuohuSat,jdbcType=INTEGER},
+      </if>
+      <if test="salerGuohuCom != null" >
+        #{salerGuohuCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="buyerPhoneOk != null" >
+        #{buyerPhoneOk,jdbcType=INTEGER},
+      </if>
+      <if test="buyerPhoneRes != null" >
+        #{buyerPhoneRes,jdbcType=NVARCHAR},
+      </if>
+      <if test="buyerSignSat != null" >
+        #{buyerSignSat,jdbcType=INTEGER},
+      </if>
+      <if test="buyerSignCom != null" >
+        #{buyerSignCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="buyerComloanSat != null" >
+        #{buyerComloanSat,jdbcType=INTEGER},
+      </if>
+      <if test="buyerComloanCom != null" >
+        #{buyerComloanCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="buyerPsfloanSat != null" >
+        #{buyerPsfloanSat,jdbcType=INTEGER},
+      </if>
+      <if test="buyerPsfloanCom != null" >
+        #{buyerPsfloanCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="buyerGuohuSat != null" >
+        #{buyerGuohuSat,jdbcType=INTEGER},
+      </if>
+      <if test="buyerGuohuCom != null" >
+        #{buyerGuohuCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentPhoneOk != null" >
+        #{agentPhoneOk,jdbcType=INTEGER},
+      </if>
+      <if test="agentPhoneRes != null" >
+        #{agentPhoneRes,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentSignSat != null" >
+        #{agentSignSat,jdbcType=INTEGER},
+      </if>
+      <if test="agentSignCom != null" >
+        #{agentSignCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentComloanSat != null" >
+        #{agentComloanSat,jdbcType=INTEGER},
+      </if>
+      <if test="agentComloanCom != null" >
+        #{agentComloanCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentPsfloanSat != null" >
+        #{agentPsfloanSat,jdbcType=INTEGER},
+      </if>
+      <if test="agentPsfloanCom != null" >
+        #{agentPsfloanCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentGuohuSat != null" >
+        #{agentGuohuSat,jdbcType=INTEGER},
+      </if>
+      <if test="agentGuohuCom != null" >
+        #{agentGuohuCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="callerId != null" >
+        #{callerId,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="guohuTime != null" >
+        #{guohuTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeTime != null" >
+        #{closeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.satisfaction.entity.ToSatisfaction" >
+    update sctrans.T_CS_CASE_SATISFACTION
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="castsatCode != null" >
+        CASTSAT_CODE = #{castsatCode,jdbcType=VARCHAR},
+      </if>
+      <if test="salerPhoneOk != null" >
+        SALER_PHONE_OK = #{salerPhoneOk,jdbcType=INTEGER},
+      </if>
+      <if test="salerPhoneRes != null" >
+        SALER_PHONE_RES = #{salerPhoneRes,jdbcType=NVARCHAR},
+      </if>
+      <if test="salerSignSat != null" >
+        SALER_SIGN_SAT = #{salerSignSat,jdbcType=INTEGER},
+      </if>
+      <if test="salerSignCom != null" >
+        SALER_SIGN_COM = #{salerSignCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="salerLoancloseSat != null" >
+        SALER_LOANCLOSE_SAT = #{salerLoancloseSat,jdbcType=INTEGER},
+      </if>
+      <if test="salerLoancloseCom != null" >
+        SALER_LOANCLOSE_COM = #{salerLoancloseCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="salerGuohuSat != null" >
+        SALER_GUOHU_SAT = #{salerGuohuSat,jdbcType=INTEGER},
+      </if>
+      <if test="salerGuohuCom != null" >
+        SALER_GUOHU_COM = #{salerGuohuCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="buyerPhoneOk != null" >
+        BUYER_PHONE_OK = #{buyerPhoneOk,jdbcType=INTEGER},
+      </if>
+      <if test="buyerPhoneRes != null" >
+        BUYER_PHONE_RES = #{buyerPhoneRes,jdbcType=NVARCHAR},
+      </if>
+      <if test="buyerSignSat != null" >
+        BUYER_SIGN_SAT = #{buyerSignSat,jdbcType=INTEGER},
+      </if>
+      <if test="buyerSignCom != null" >
+        BUYER_SIGN_COM = #{buyerSignCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="buyerComloanSat != null" >
+        BUYER_COMLOAN_SAT = #{buyerComloanSat,jdbcType=INTEGER},
+      </if>
+      <if test="buyerComloanCom != null" >
+        BUYER_COMLOAN_COM = #{buyerComloanCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="buyerPsfloanSat != null" >
+        BUYER_PSFLOAN_SAT = #{buyerPsfloanSat,jdbcType=INTEGER},
+      </if>
+      <if test="buyerPsfloanCom != null" >
+        BUYER_PSFLOAN_COM = #{buyerPsfloanCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="buyerGuohuSat != null" >
+        BUYER_GUOHU_SAT = #{buyerGuohuSat,jdbcType=INTEGER},
+      </if>
+      <if test="buyerGuohuCom != null" >
+        BUYER_GUOHU_COM = #{buyerGuohuCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentPhoneOk != null" >
+        AGENT_PHONE_OK = #{agentPhoneOk,jdbcType=INTEGER},
+      </if>
+      <if test="agentPhoneRes != null" >
+        AGENT_PHONE_RES = #{agentPhoneRes,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentSignSat != null" >
+        AGENT_SIGN_SAT = #{agentSignSat,jdbcType=INTEGER},
+      </if>
+      <if test="agentSignCom != null" >
+        AGENT_SIGN_COM = #{agentSignCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentComloanSat != null" >
+        AGENT_COMLOAN_SAT = #{agentComloanSat,jdbcType=INTEGER},
+      </if>
+      <if test="agentComloanCom != null" >
+        AGENT_COMLOAN_COM = #{agentComloanCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentPsfloanSat != null" >
+        AGENT_PSFLOAN_SAT = #{agentPsfloanSat,jdbcType=INTEGER},
+      </if>
+      <if test="agentPsfloanCom != null" >
+        AGENT_PSFLOAN_COM = #{agentPsfloanCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentGuohuSat != null" >
+        AGENT_GUOHU_SAT = #{agentGuohuSat,jdbcType=INTEGER},
+      </if>
+      <if test="agentGuohuCom != null" >
+        AGENT_GUOHU_COM = #{agentGuohuCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="callerId != null" >
+        CALLER_ID = #{callerId,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="guohuTime != null" >
+        GUOHU_TIME = #{guohuTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeTime != null" >
+        CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.satisfaction.entity.ToSatisfaction" >
+    update sctrans.T_CS_CASE_SATISFACTION
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      CASTSAT_CODE = #{castsatCode,jdbcType=VARCHAR},
+      SALER_PHONE_OK = #{salerPhoneOk,jdbcType=INTEGER},
+      SALER_PHONE_RES = #{salerPhoneRes,jdbcType=NVARCHAR},
+      SALER_SIGN_SAT = #{salerSignSat,jdbcType=INTEGER},
+      SALER_SIGN_COM = #{salerSignCom,jdbcType=NVARCHAR},
+      SALER_LOANCLOSE_SAT = #{salerLoancloseSat,jdbcType=INTEGER},
+      SALER_LOANCLOSE_COM = #{salerLoancloseCom,jdbcType=NVARCHAR},
+      SALER_GUOHU_SAT = #{salerGuohuSat,jdbcType=INTEGER},
+      SALER_GUOHU_COM = #{salerGuohuCom,jdbcType=NVARCHAR},
+      BUYER_PHONE_OK = #{buyerPhoneOk,jdbcType=INTEGER},
+      BUYER_PHONE_RES = #{buyerPhoneRes,jdbcType=NVARCHAR},
+      BUYER_SIGN_SAT = #{buyerSignSat,jdbcType=INTEGER},
+      BUYER_SIGN_COM = #{buyerSignCom,jdbcType=NVARCHAR},
+      BUYER_COMLOAN_SAT = #{buyerComloanSat,jdbcType=INTEGER},
+      BUYER_COMLOAN_COM = #{buyerComloanCom,jdbcType=NVARCHAR},
+      BUYER_PSFLOAN_SAT = #{buyerPsfloanSat,jdbcType=INTEGER},
+      BUYER_PSFLOAN_COM = #{buyerPsfloanCom,jdbcType=NVARCHAR},
+      BUYER_GUOHU_SAT = #{buyerGuohuSat,jdbcType=INTEGER},
+      BUYER_GUOHU_COM = #{buyerGuohuCom,jdbcType=NVARCHAR},
+      AGENT_PHONE_OK = #{agentPhoneOk,jdbcType=INTEGER},
+      AGENT_PHONE_RES = #{agentPhoneRes,jdbcType=NVARCHAR},
+      AGENT_SIGN_SAT = #{agentSignSat,jdbcType=INTEGER},
+      AGENT_SIGN_COM = #{agentSignCom,jdbcType=NVARCHAR},
+      AGENT_COMLOAN_SAT = #{agentComloanSat,jdbcType=INTEGER},
+      AGENT_COMLOAN_COM = #{agentComloanCom,jdbcType=NVARCHAR},
+      AGENT_PSFLOAN_SAT = #{agentPsfloanSat,jdbcType=INTEGER},
+      AGENT_PSFLOAN_COM = #{agentPsfloanCom,jdbcType=NVARCHAR},
+      AGENT_GUOHU_SAT = #{agentGuohuSat,jdbcType=INTEGER},
+      AGENT_GUOHU_COM = #{agentGuohuCom,jdbcType=NVARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      CALLER_ID = #{callerId,jdbcType=VARCHAR},
+      SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+      GUOHU_TIME = #{guohuTime,jdbcType=TIMESTAMP},
+      CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -33,7 +33,10 @@ public class TaxReviewController {
     private ToTaxService toTaxService;
     @Autowired
     private TgGuestInfoService tgGuestInfoService;
-
+    @Autowired(required = true)
+    private ToCaseService toCaseService;
+    @Autowired
+    private WorkFlowManager workFlowManager;
 
     @RequestMapping(value = "process")
     @ResponseBody
@@ -50,12 +53,34 @@ public class TaxReviewController {
         return jsonObject;
     }
 
+    @RequestMapping(value="saveTaxReview")
+    @ResponseBody
+    public Object saveTaxReview(HttpServletRequest request, ToTax toTax) {
+        AjaxResponse response = new AjaxResponse<>();
+        try{
+            toTaxService.saveToTax(toTax);
+            response.setSuccess(true);
+            response.setMessage("操作成功！");
+        }catch(Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            response.setSuccess(false);
+            response.setMessage("操作失败！");
+        }
+        return response;
+    }
+
+
     @RequestMapping(value = "submitTaxReview", method = RequestMethod.POST)
     @ResponseBody
     public Object submitTaxReview(ToTax toTax,String taskId, String processInstanceId, String partCode) {
         AjaxResponse response = new AjaxResponse();
         try {
-            response = toTaxService.saveAndSubmitTax(toTax,taskId,processInstanceId,partCode);
+            toTaxService.saveToTax(toTax);
+            List<RestVariable> variables = new ArrayList<RestVariable>();
+            ToCase toCase = toCaseService.findToCaseByCaseCode(toTax.getCaseCode());
+            workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(), toTax.getCaseCode());
+            response.setSuccess(true);
             int result=tgGuestInfoService.sendMsgHistory(toTax.getCaseCode(), partCode);
             if (result >0) {
                 response.setMessage("审税保存成功");

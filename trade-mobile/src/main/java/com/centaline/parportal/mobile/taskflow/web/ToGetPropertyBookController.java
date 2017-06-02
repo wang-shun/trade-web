@@ -34,6 +34,11 @@ public class ToGetPropertyBookController {
     @Autowired
     private TgGuestInfoService tgGuestInfoService;
 
+    @Autowired(required = true)
+    private ToCaseService toCaseService;
+    @Autowired
+    private WorkFlowManager workFlowManager;
+
     @RequestMapping(value = "process")
     @ResponseBody
     public Object toProcess(HttpServletRequest request, String processInstanceId) {
@@ -48,12 +53,35 @@ public class ToGetPropertyBookController {
         return jsonObject;
     }
 
+    @RequestMapping(value = "saveToGetPropertyBook")
+    @ResponseBody
+    public Object saveToGetPropertyBook(ToGetPropertyBook toGetPropertyBook) {
+        AjaxResponse response = new AjaxResponse<>();
+        try{
+            boolean isSuccess = toGetPropertyBookService.saveToGetPropertyBook(toGetPropertyBook);
+            response.setSuccess(isSuccess);
+        }catch(Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            response.setSuccess(false);
+            response.setMessage("操作失败！");
+        }
+        return response;
+    }
+
     @RequestMapping(value = "submitToGetPropertyBook",method = RequestMethod.POST)
     @ResponseBody
     public Object submitToGetPropertyBook(ToGetPropertyBook toGetPropertyBook, String taskId,String processInstanceId) {
         AjaxResponse<?> response = new AjaxResponse<>();
         try {
-            response = toGetPropertyBookService.saveAndSubmitPropertyBook(toGetPropertyBook,taskId,processInstanceId);
+            toGetPropertyBookService.saveToGetPropertyBook(toGetPropertyBook);
+            List<RestVariable> variables = new ArrayList<RestVariable>();
+            ToCase toCase = toCaseService.findToCaseByCaseCode(toGetPropertyBook.getCaseCode());
+            workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(),toGetPropertyBook.getCaseCode());
+            toCase.setStatus("30001005");	/* 修改案件状态 */
+            toCaseService.updateByCaseCodeSelective(toCase);
+            response.setSuccess(true);
+
             int result = tgGuestInfoService.sendMsgHistory(toGetPropertyBook.getCaseCode(),toGetPropertyBook.getPartCode());
             if (result >0) {
                 response.setMessage("领证保存成功");

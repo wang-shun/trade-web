@@ -5,7 +5,7 @@
 	
 	<groupId>com.centaline</groupId>
 	<artifactId>trade-ice</artifactId>
-	<version>1.2.18-SNAPSHOT</version>
+	<version>1.2.16-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>trade-ice</name>
 	<url>http://maven.apache.org</url>
