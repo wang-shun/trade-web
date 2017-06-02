@@ -654,7 +654,9 @@
 
     <!-- 签约贷款模块中签约数据(总表)总计-->
     <bean name="calTotalBySignStatistics" class="com.centaline.trans.common.service.impl.QuickQueryCalTotalBySignStatisticsServiceImpl"></bean>	
-
+	<bean name="qqcdDictPerfGoalStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="PERF_GOAL_STATUS"></property>
+    </bean>
 
 <aop:aspectj-autoproxy expose-proxy="true"/>
 

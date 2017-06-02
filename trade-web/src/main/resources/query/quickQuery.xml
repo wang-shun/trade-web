@@ -223,4 +223,5 @@
 	<!-- 客服回访列表 -->
 	<import resource="query/satis/satisListQuery.xml"/>
 	<!-- 签约贷款报表统计模块结束 -->
+	<import resource="query/performance/perfGoalQuery.xml"></import>
 </queryConfig>
