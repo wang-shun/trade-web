@@ -42,8 +42,9 @@
 		<pattern>/award/baseAwardReport</pattern>
 		
 		<!-- 计件奖金改版 -->
-		<pattern>/newAward/personBonusCollect</pattern>
 		<pattern>/newAward/awardCaseCollect</pattern>
+		<pattern>/newAward/newMethodAwardCollect</pattern>
+		<pattern>/newAward/personBonusCollect</pattern>		
 		<pattern>/newAward/newBonus</pattern>
 		
 		<pattern>/property/processWaitList</pattern>	
@@ -147,6 +148,9 @@
 		<pattern>/report/operate1</pattern>
 		<pattern>/report/operate2</pattern>
 		<pattern>/report/operate3</pattern>
+		
+		
+		<pattern>/newAward/bonusConfiguration</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

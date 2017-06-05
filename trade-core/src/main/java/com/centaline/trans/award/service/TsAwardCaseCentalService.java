@@ -3,6 +3,7 @@ package com.centaline.trans.award.service;
 import javax.servlet.http.HttpServletRequest;
 
 import com.centaline.trans.award.entity.TsAwardCaseCental;
+import com.centaline.trans.award.entity.TsAwardKpiPay;
 
 
 public interface TsAwardCaseCentalService {
@@ -24,4 +25,6 @@ public interface TsAwardCaseCentalService {
 	 * @desc:页面跳转至计件奖金明细
 	 */
 	void jumpToNewBonusJsp(HttpServletRequest request);
+
+	TsAwardKpiPay getInitPage(HttpServletRequest request, TsAwardKpiPay tsAwardKpiPay);
 }

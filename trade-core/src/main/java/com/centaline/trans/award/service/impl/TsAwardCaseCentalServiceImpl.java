@@ -3,6 +3,7 @@ package com.centaline.trans.award.service.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,7 +22,9 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.award.entity.TsAwardCaseCental;
+import com.centaline.trans.award.entity.TsAwardKpiPay;
 import com.centaline.trans.award.repository.TsAwardCaseCentalMapper;
+import com.centaline.trans.award.repository.TsAwardKpiPayMapper;
 import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.AwardStatusEnum;
@@ -41,6 +44,9 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 
 	@Autowired
 	private TsAwardCaseCentalMapper tsAwardCaseCentalMapper;
+	
+	@Autowired
+	TsAwardKpiPayMapper tsAwardKpiPayMapper;
 	
 	@Autowired(required = true)
 	private UamSessionService uamSessionService;	
@@ -325,6 +331,32 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 		request.setAttribute("isAdminFlag", isAdminFlag);	
 		request.setAttribute("userJobCode", userJobCode);
 		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
+	}
+
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-06-05
+	 * 
+	 * @desc:获取初始化页面信息
+	 */
+	@Override
+	public TsAwardKpiPay getInitPage(HttpServletRequest request, TsAwardKpiPay tsAwardKpiPay) {
+		
+		if(null == tsAwardKpiPay){
+			throw new BusinessException("获取初始化页面信息请求参数有误！");
+		}
+		
+		TsAwardKpiPay awardKpiPay = new  TsAwardKpiPay();
+		List<TsAwardKpiPay>  kpiPayList = new ArrayList<TsAwardKpiPay>();
+		kpiPayList = tsAwardKpiPayMapper.getTsAwardKpiPayByProperty(tsAwardKpiPay);
+		
+		if(null != kpiPayList  && kpiPayList.size() > 0){
+			awardKpiPay = kpiPayList.get(0);
+		}
+		
+		return awardKpiPay;
 	}
 
 }

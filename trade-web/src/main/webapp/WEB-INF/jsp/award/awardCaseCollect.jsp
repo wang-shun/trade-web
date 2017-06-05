@@ -120,24 +120,22 @@
 	<input type="hidden" id="serviceDepId" value="${serviceDepId}" /> 
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>        
         <!-- Mainly scripts -->
-        <content tag="local_script"> 
-        <%--  <script src="${ctx}/js/bootstrap.min.js"></script> --%>
-        <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-        <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+        <content tag="local_script">
+        <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
+        <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
          <!-- 日期控件 -->
         <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>     
         <!-- Custom and plugin javascript -->
-        <script src="${ctx}/js/inspinia.js"></script>
-        <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
-       
-	    <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
+        <script src="<c:url value='/js/inspinia.js'/>"></script>
+        <script src="<c:url value='/js/plugins/pace/pace.min.js'/>"></script>       
+	    <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js'/>"></script> 
         <!-- 分页控件  -->
-        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-        <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-        <script src= "${ctx}/transjs/award/awardCaseCollect.js" type="text/javascript" ></script>
+        <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js'/>"></script>
+        <script src= "<c:url value='/js/template.js" type="text/javascript'/>"></script>
+        <script src= "<c:url value='/transjs/award/awardCaseCollect.js'/>"></script>
        	<!-- 必须JS --> 
-		<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script> 
-        <script src="${ctx}/js/plugins/jquery.custom.js"></script>      
+		<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js'/>"></script> 
+        <script src="<c:url value='/js/plugins/jquery.custom.js'/>"></script>      
 		<script id="template_awardCaseCollectList" type= "text/html">
       	{{each rows as item index}}
   				  {{if index%2 == 0}}
