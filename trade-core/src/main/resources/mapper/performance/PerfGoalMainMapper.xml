@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.performance.repository.PerfGoalMainMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.performance.entity.PerfGoalMain" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="DISTRICT" property="district" jdbcType="VARCHAR" />
+    <result column="BELONG_MONTH" property="belongMonth" jdbcType="DATE" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, DISTRICT, BELONG_MONTH, STATUS, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME
+  </sql>
+  
+  <select id="selectByBelongMonthAndDistrict" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_PREF_GOAL_MAIN
+    where datediff(mm,BELONG_MONTH,#{belongMonth})=0 and DISTRICT = #{district}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_PREF_GOAL_MAIN
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_PREF_GOAL_MAIN
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.performance.entity.PerfGoalMain" >
+    insert into sctrans.T_TS_PREF_GOAL_MAIN (PKID, DISTRICT, BELONG_MONTH, 
+      STATUS, CREATE_BY, CREATE_TIME, 
+      UPDATE_BY, UPDATE_TIME)
+    values (#{pkid,jdbcType=BIGINT}, #{district,jdbcType=VARCHAR}, #{belongMonth,jdbcType=DATE}, 
+      #{status,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.performance.entity.PerfGoalMain" >
+    <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="pkid">
+     select @@identity
+   </selectKey>
+    insert into sctrans.T_TS_PREF_GOAL_MAIN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="district != null" >
+        DISTRICT,
+      </if>
+      <if test="belongMonth != null" >
+        BELONG_MONTH,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+       CREATE_BY,
+
+        CREATE_TIME,
+
+        UPDATE_BY,
+
+        UPDATE_TIME,
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="belongMonth != null" >
+        #{belongMonth,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+ 		  @{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},GETDATE(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.performance.entity.PerfGoalMain" >
+    update sctrans.T_TS_PREF_GOAL_MAIN
+    <set>
+      <if test="district != null" >
+        DISTRICT = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="belongMonth != null" >
+        BELONG_MONTH = #{belongMonth,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>     
+        UPDATE_BY = @{SESSION_USER_ID},
+
+        UPDATE_TIME = GETDATE(),
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.performance.entity.PerfGoalMain" >
+    update sctrans.T_TS_PREF_GOAL_MAIN
+    set DISTRICT = #{district,jdbcType=VARCHAR},
+      BELONG_MONTH = #{belongMonth,jdbcType=DATE},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

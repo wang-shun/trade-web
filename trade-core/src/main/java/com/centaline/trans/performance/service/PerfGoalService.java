@@ -22,4 +22,10 @@ public interface PerfGoalService {
 	 * @return
 	 */
 	int getNotSetCount(PerfGoalVo vo);
+/**
+ * 获得主表状态
+ * @param vo
+ * @return
+ */
+	String getMainStatus(PerfGoalVo vo);
 }

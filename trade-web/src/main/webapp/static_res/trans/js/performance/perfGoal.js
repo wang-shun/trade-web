@@ -14,7 +14,7 @@ function initData() {
 						gridClass : 'table table_blue table-striped table-bordered table-hover',
 						data : getParams(),
 						columns : [ {
-							colName : "<input type='checkbox' value='' name='items' id='ckb_checkall'>"
+							colName : "<input type='checkbox' value='' name='checkAll' id='ckb_checkall'>"
 						}, {
 							colName : "组织"
 						}, {

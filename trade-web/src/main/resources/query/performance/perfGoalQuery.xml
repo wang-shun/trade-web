@@ -28,6 +28,7 @@
 			<baseSql>
 				<![CDATA[
 			select pg.pkid,uoj.id uojId,uoj.org_id,j.job_name,u.real_name,pg.belong_month,pg.goal_perf goal_perf,pg.status,pg.create_by ,pg.create_time
+			,pgm.status main_status
 			from sctrans.SYS_USER_ORG_JOB uoj
 			inner join sctrans.SYS_USER u
 			on u.id= uoj.USER_ID
@@ -36,7 +37,9 @@
 			left join sctrans.SYS_JOB j 
 			on uoj.JOB_ID=j.ID
 			left join sctrans.T_TS_PERF_GOAL pg 
-			on pg.team=uoj.ORG_ID and pg.user_id=uoj.USER_ID and pg.job=uoj.JOB_ID and DATEDIFF(mm ,GETDATE(),pg.belong_month)=#currentMonthDiff#
+			on pg.team=uoj.ORG_ID and pg.user_id=uoj.USER_ID and pg.job=uoj.JOB_ID and DATEDIFF(mm ,#belongMonth#,pg.belong_month)=0
+			left join sctrans.T_TS_PREF_GOAL_MAIN pgm
+			on pgm.pkid= pg.main_id
 			where 
 			uoj.IS_DELETED='0' 
 			and u.IS_DELETED='0'
@@ -59,6 +62,7 @@
 				<column type="both" name="org_id" />
 				<column type="both" name="uojId" />
 				<column type="both" name="pkid" />
+				<column type="both" name="main_status" />
 				<column type="virtual" name="orgName"  referencecol="org_id"  customDict="qqcdOrgIdName" />
 				<column type="both" name="real_name" />
 				<column type="both" name="belong_month" beanFormatter="dateFormatterMM"/>

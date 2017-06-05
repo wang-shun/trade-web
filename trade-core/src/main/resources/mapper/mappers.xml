@@ -248,6 +248,7 @@
 		
 		<!-- 业绩目标设定 -->
 		<mapper resource="mapper/performance/PerfGoalMapper.xml" />
+		<mapper resource="mapper/performance/PerfGoalMainMapper.xml" />
 		
 	</mappers>
 </configuration>

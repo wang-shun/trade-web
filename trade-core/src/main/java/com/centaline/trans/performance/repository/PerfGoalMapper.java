@@ -24,14 +24,14 @@ public interface PerfGoalMapper {
 
 	/**
 	 * 批量插入
-	 * 
+	 * @param mainId
 	 * @param uojIds
 	 * @param goalPerf
 	 * @param belongMonth
 	 * @param status
 	 * @return
 	 */
-	int batchInsertByUojId(@Param("uojIds") String[] uojIds, @Param("goalPerf") Double goalPerf,
+	int batchInsertByUojId(@Param("mainId")Long mainId,@Param("uojIds") String[] uojIds, @Param("goalPerf") Double goalPerf,
 			@Param("belongMonth") Date belongMonth, @Param("status") String status);
 
 	/**

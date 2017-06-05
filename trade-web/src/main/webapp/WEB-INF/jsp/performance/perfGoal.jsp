@@ -65,10 +65,10 @@
 					<h2 class="title">
 						业绩目标设定
 						<div class="pull-right">
-							<span id="btnSelected">
+							<!-- <span id="btnSelected">
 								<button type="button" cdata='C' class="btn btn-success selected">本月</button>
 								<button type="button" cdata='N' class="btn btn-grey">下月</button>
-							</span>
+							</span> -->
 							<button type="button" class="btn btn-success sub_achieve ">提交业绩</button>
 						</div>
 					</h2>
@@ -157,11 +157,11 @@
 							<h4 class="modal-title" id="myModalLabel">提交业绩</h4>
 						</div>
 						<div class="modal-body">
-							<span>10</span>人业绩未设定，是否提交
+							<span id="lab_notset">10</span>人业绩未设定，是否提交
 						</div>
 						<div class="modal-footer"
 							style="text-align: center; margin: 20px 0 40px; border: none;">
-							<button type="button" class="btn btn-success">确定</button>
+							<button type="button" class="btn btn-success" id="btn_doCommit">确定</button>
 							<button type="button" class="btn btn-grey" data-dismiss="modal">关闭</button>
 						</div>
 					</div>
@@ -187,7 +187,7 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
 	</script>
-	<script src="${ctx}/static_res/trans/js/performance/perfGoal.js?v=1.0.4" type="text/javascript"></script> 
+	<script src="${ctx}/static_res/trans/js/performance/perfGoal.js?v=1.0.5" type="text/javascript"></script> 
 	<script
 		id="template_successList" type="text/html">
 	{{each rows as item index}}
@@ -206,34 +206,47 @@
 			<td>{{item.create_by}}</td>
 			<td>{{item.create_time}}</td>
 			<td>{{item.status == '' ? '未设定' :item.status}}</td>
-			<td><a href="javascript:void(0);" onclick="setGoal(this);" class="sum_editor">设定</a>
+			<td>{{if item.main_status != '2'}}
+					<a href="javascript:void(0);" onclick="setGoal(this);" class="sum_editor">设定</a>
+				{{/if}}
 			</td>
 		</tr>
 	{{/each}}
      </script> <script>
+     //主表状态
+     var mainStatus='${mainStatus}';
      var belongMonth= "${belongMonth}";
      var pkids=[];
      var uojIds=[];
      $(document).ready(function () {
     	 initData();
          //批量设定
-         $('.set_target').click(batchSetGoal)
-         //点击本月下月
+         $('.set_target').click(batchSetGoal);
+         //组别选择框
+         $("#sel_team").change(reloadGrid);
+         //状态选择框
+         $("#sel_status").change(reloadGrid);
+         //提交业绩目标按钮
+         $('.sub_achieve').click(commitGoal );
+         //提交目业绩 标确定按钮
+         $("#btn_doCommit").click(doCommitGoal);
+     /*     //点击本月下月
          $('#btnSelected .btn').click(function() {
              $(this).addClass("btn-success selected").removeClass("btn-grey ")
                      .siblings().addClass("btn-grey").removeClass("btn-success selected");
              reloadGrid();
-         })
+         }) */
          //设定业绩的提交按钮
          $("#btn_setPerfGoal").click(setPerfGoal);
          $("#ckb_checkall").click(function(){
-        	 if($(this).attr('checked')){
-        		 $("input[name=items]")attr("checked","true");	 
+        	 if($(this).prop('checked')){
+        		 $("input[name=items]").prop("checked","true");	 
         	 }else{
-        		 $("input[name=items]")removeAttr("checked");
+        		 $("input[name=items]").removeProp("checked");
         	 }
          });
      });
+     //设置业绩目标
 	 function setPerfGoal(){
 		 if($('#txt_perfGoal').val()==''){
 			 window.wxc.alert("请输入业绩目标");
@@ -255,9 +268,14 @@
 					belongMonth : belongMonth
 				},
 				success : function(data) {
-					 window.wxc.alert(data);
-					 $('#myModal').modal('hide');
-					 reloadGrid();
+					if(data.success){
+						window.wxc.alert('设置成功');						
+						 $('#myModal').modal('hide');
+						 reloadGrid();	
+					}else{
+						window.wxc.alert(data.message);
+					}
+					 
 				}
 			});
 	 }
@@ -297,17 +315,50 @@
 		 });
 		 showSetModal();
 	 }
+	//提交业绩绑定函数
+	 function commitGoal(){
+		if(mainStatus=='1'){
+			window.wxc.alert('业绩目标已经提交,请不要重复提交');	
+			return false;
+		}
+		 $.ajax({
+				url : ctx + "/perf/getNotSetCount",
+				method : "post",
+				dataType : "json",
+				data : {belongMonth : belongMonth},
+				success :function (data){
+					if(!data.success){
+						window.wxc.alert('请求失败');	
+						return false;
+					}
+					if(!!~~data.content){
+						$("#lab_notset").text(data.content);
+						$('#subAchieve').modal('show');
+					}else{
+						window.wxc.confirm("确定要提交业绩目标?",{"wxcOk":function(){
+			    			doCommitGoal();
+			    		}});
+					}
+				}
+			});
+	 }
+	//提交业绩
+	 function doCommitGoal(){
+		 $.ajax({
+				url : ctx + "/perf/commitPerfGoal",
+				method : "post",
+				dataType : "json",
+				data : {belongMonth : belongMonth},
+				success :function (data){
+					if(!data.success){
+						window.wxc.alert(data.message);	
+						return false;
+					}
+					window.wxc.alert('提交成功');						
+					window.location.reload();
+				}
+			});
+	 }
 
-
-     //提交业绩
-     $(function() {
-         $('.sub_achieve').click(function() {
-             $('#subAchieve').modal('show');
-         })
-     })
-
-
-
-     
      </script> </content>
 </body>
