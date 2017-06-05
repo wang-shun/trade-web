@@ -4,7 +4,7 @@
 
 	<groupId>com.centaline</groupId>
 	<artifactId>trade-mobile</artifactId>
-	<version>1.2.18-SNAPSHOT</version>
+	<version>1.2.18-CURL-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>Trade Mobile </name>
@@ -170,7 +170,7 @@
 	 	<dependency>
 			<groupId>com.centaline</groupId>
 			<artifactId>trade-core</artifactId>
-			<version>1.2.18-SNAPSHOT</version>
+			<version>1.2.18-CURL-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
