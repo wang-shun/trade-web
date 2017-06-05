@@ -65,7 +65,7 @@
 					<h2 class="title">
 						业绩目标设定
 						<div class="pull-right">
-							<!-- <span id="btnSelected">
+						<!-- <span id="btnSelected">
 								<button type="button" cdata='C' class="btn btn-success selected">本月</button>
 								<button type="button" cdata='N' class="btn btn-grey">下月</button>
 							</span> -->

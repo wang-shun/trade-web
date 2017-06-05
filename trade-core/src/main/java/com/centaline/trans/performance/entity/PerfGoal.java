@@ -7,7 +7,7 @@ public class PerfGoal {
 	private Long pkid;
 	
 	private Long mainId;
-	
+
 	private String district;
 
 	private String team;

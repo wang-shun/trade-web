@@ -39,7 +39,7 @@
 			left join sctrans.T_TS_PERF_GOAL pg 
 			on pg.team=uoj.ORG_ID and pg.user_id=uoj.USER_ID and pg.job=uoj.JOB_ID and DATEDIFF(mm ,#belongMonth#,pg.belong_month)=0
 			left join sctrans.T_TS_PREF_GOAL_MAIN pgm
-			on pgm.pkid= pg.main_id
+			on pgm.pkid= pg.main_id 
 			where 
 			uoj.IS_DELETED='0' 
 			and u.IS_DELETED='0'

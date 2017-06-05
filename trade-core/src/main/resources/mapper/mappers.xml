@@ -127,7 +127,7 @@
 		
 		<!-- 短信历史记录 -->
 		<mapper resource="mapper/task/TsMsgSendHistoryMapper.xml" />
-		
+	
 		<!-- 佣金 -->
 		<mapper resource="mapper/income/TsIncomeStatisticsMapper.xml" />
 		<mapper resource="mapper/income/TsMonthlyPerformCheckMapper.xml" />

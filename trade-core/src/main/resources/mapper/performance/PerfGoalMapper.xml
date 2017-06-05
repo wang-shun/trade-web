@@ -165,6 +165,6 @@
 			and u.AVAILABLE='1'
   	 	   and pg.DISTRICT= #{orgId} 
   	       and pg.status = '0';
-  
+ 
   </update>
 </mapper>
