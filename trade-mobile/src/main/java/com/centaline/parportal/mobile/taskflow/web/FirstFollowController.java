@@ -73,6 +73,8 @@ public class FirstFollowController {
     @Autowired
     private TsTeamPropertyService tsTeamPropertyService;/* 组别属性表 */
 
+
+
     @RequestMapping("process")
     @ResponseBody
     public Object toProcess(HttpServletRequest request,String caseCode) {
@@ -87,6 +89,9 @@ public class FirstFollowController {
         BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(caseCode);
         jsonObject.put("bizWarnInfo", bizWarnInfo);
         jsonObject.put("caseCode", caseCode);
+        Dict dict = uamBasedataService.findDictByTypeAndLevel("yu_shanghai_district","2");
+        jsonObject.put("distCode",dict);
+
         return jsonObject;
     }
 
