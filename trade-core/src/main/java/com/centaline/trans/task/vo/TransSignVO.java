@@ -70,7 +70,10 @@ public class TransSignVO {
     private String comment;
     private BigDecimal conPrice;		/*合同价*/
     private BigDecimal realPrice;		/*成交价*/
-    
+	private String houseQuantity;		/*是否首套 0:手套 1：二套 2：多套*/
+
+
+
     /*预估税费*/
     private Long housePkid;
     private BigDecimal houseHodingTax;       /*房产税*/
@@ -402,6 +405,12 @@ public class TransSignVO {
 	public void setIsLoanClose(String isLoanClose) {
 		this.isLoanClose = isLoanClose;
 	}
-	
-	
+
+	public String getHouseQuantity() {
+		return houseQuantity;
+	}
+
+	public void setHouseQuantity(String houseQuantity) {
+		this.houseQuantity = houseQuantity;
+	}
 }

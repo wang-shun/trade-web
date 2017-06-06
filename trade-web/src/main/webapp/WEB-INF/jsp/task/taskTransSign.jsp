@@ -175,6 +175,19 @@
 										</select>
 		                            </div>
 		                        </div>
+
+								<div class="form_content">
+									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>是否首套</label>
+									<div class="controls isnowid" style="margin-left: 0px;">
+										<select class="select_control data_style" readOnlydata='1' name="houseQuantity" id="houseQuantity">
+											<option value="">请选择</option>
+											<option value="0" ${transSign.houseQuantity=="0"?'selected':''}>首套</option>
+											<option value="1" ${transSign.houseQuantity=="1"?'selected':''}>二套</option>
+											<option value="2" ${transSign.houseQuantity=="2"?'selected':''}>多套</option>
+										</select>
+									</div>
+								</div>
+
 		                    </div>
 	                	</div>
 	            	</div>

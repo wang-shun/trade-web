@@ -15,13 +15,14 @@
     <result column="BUSINESS_TAX" property="businessTax" jdbcType="DECIMAL" />
     <result column="CONTRACT_TAX" property="contractTax" jdbcType="DECIMAL" />
     <result column="LAND_INCREMENT_TAX" property="landIncrementTax" jdbcType="DECIMAL" />
+    <result column="HOUSE_QUANTITY" property="houseQuantity" jdbcType="CHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.task.entity.ToSign" extends="BaseResultMap" >
     <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, PART_CODE, CASE_CODE, REAL_CON_TIME, CON_PRICE, REAL_PRICE, IS_HUKOU, IS_CON_CERT,
-    HOUSE_HODING_TAX, PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX
+    HOUSE_HODING_TAX, PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,HOUSE_QUANTITY
   </sql>
   <sql id="Blob_Column_List" >
     COMMENT
@@ -93,6 +94,9 @@
       <if test="landIncrementTax != null" >
         LAND_INCREMENT_TAX,
       </if>
+      <if test="houseQuantity != null" >
+        HOUSE_QUANTITY,
+      </if>
         CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -138,6 +142,10 @@
       <if test="landIncrementTax != null" >
         #{landIncrementTax,jdbcType=DECIMAL},
       </if>
+      <if test="houseQuantity != null" >
+        #{houseQuantity,jdbcType=CHAR},
+      </if>
+
         GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
@@ -182,6 +190,9 @@
       </if>
       <if test="landIncrementTax != null" >
         LAND_INCREMENT_TAX = #{landIncrementTax,jdbcType=DECIMAL},
+      </if>
+      <if test="houseQuantity != null" >
+        HOUSE_QUANTITY = #{houseQuantity,jdbcType=DECIMAL},
       </if>
         UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},
     </set>

@@ -207,11 +207,13 @@ public class SignServiceImpl implements SignService {
 		toSign.setRealPrice(transSignVO.getRealPrice().multiply(new BigDecimal(10000)));  // 成交价
 		/*预估税费*/
 		toSign.setBusinessTax(transSignVO.getBusinessTax()!=null?transSignVO.getBusinessTax().multiply(new BigDecimal(10000)):null);
-		toSign.setContractTax(transSignVO.getContractTax()!=null?transSignVO.getContractTax().multiply(new BigDecimal(10000)):null);
-		toSign.setHouseHodingTax(transSignVO.getHouseHodingTax()!=null?transSignVO.getHouseHodingTax().multiply(new BigDecimal(10000)):null);
-		toSign.setLandIncrementTax(transSignVO.getLandIncrementTax()!=null?transSignVO.getLandIncrementTax().multiply(new BigDecimal(10000)):null);
-		toSign.setPersonalIncomeTax(transSignVO.getPersonalIncomeTax()!=null?transSignVO.getPersonalIncomeTax().multiply(new BigDecimal(10000)):null);
-		
+		toSign.setContractTax(transSignVO.getContractTax() != null ? transSignVO.getContractTax().multiply(new BigDecimal(10000)) : null);
+		toSign.setHouseHodingTax(transSignVO.getHouseHodingTax() != null ? transSignVO.getHouseHodingTax().multiply(new BigDecimal(10000)) : null);
+		toSign.setLandIncrementTax(transSignVO.getLandIncrementTax() != null ? transSignVO.getLandIncrementTax().multiply(new BigDecimal(10000)) : null);
+		toSign.setPersonalIncomeTax(transSignVO.getPersonalIncomeTax() != null ? transSignVO.getPersonalIncomeTax().multiply(new BigDecimal(10000)) : null);
+		toSign.setHouseQuantity(transSignVO.getHouseQuantity());
+
+
 		if(transSignVO.getSignPkid() != null) {
 			toSign.setPkid(transSignVO.getSignPkid());
 			toSignMapper.updateByPrimaryKeySelective(toSign);
@@ -330,6 +332,7 @@ public class SignServiceImpl implements SignService {
 			transSignVO.setConPrice(toSign.getConPrice());  // 合同价 
 			transSignVO.setRealPrice(toSign.getRealPrice());  // 成交价 
 			transSignVO.setRealConTime(toSign.getRealConTime());
+			transSignVO.setHouseQuantity(toSign.getHouseQuantity());
 			/**
 			 * 税费
 			 */
