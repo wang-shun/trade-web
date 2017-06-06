@@ -644,12 +644,13 @@ public class FirstFollowController {
 
 	/**
 	 * 保存审核记录
-	 * 
-	 * @param processInstanceVO
-	 * @param loanlostApproveVO
-	 * @param loanLost
-	 * @param loanLost_response
+	 *
+	 * @param firstFollowVO
+	 * @param operator
+	 * @param approveType
+	 * @return
 	 */
+
 	private ToApproveRecord saveToApproveRecord(FirstFollowVO firstFollowVO,
 			String operator, String approveType) {
 		ToApproveRecord toApproveRecord = new ToApproveRecord();

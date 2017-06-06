@@ -393,6 +393,26 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/getHouseBookResponse"
+
+  /task/firstFollow/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 首次跟进任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew31
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getfirstFollowResponse"
   
   /manage/queryBankListByPcode:
     # binds a127 app logic to a route
@@ -413,33 +433,6 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/getBankResponse"
-              
-  /task/quereyAttachment:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: defult_response
-    get:
-      description: 贷款流失审批查询图片接口
-      # used as the method name of the controller
-      operationId: quereyAttachmentInLoanlostApprove
-      parameters:
-        - name: caseCode
-          in: query
-          description:  案件编号
-          required: true
-          type: string    
-        - name: partCode
-          in: query
-          description:  环节编码
-          required: true
-          type: string  
-      responses:
-         "200":
-            description: Success
-            schema:
-              # a pointer to a definition
-              $ref: "#/definitions/getAttachmentsResponse"
-              
-              
               
   /manage/queryBankListByParentCode:
     # binds a127 app logic to a route
@@ -1000,110 +993,7 @@ paths:
             description: Success
             schema:
               # a pointer to a definition
-              $ref: "#/definitions/subPricingSuccessResponse" 
-  /task/mortgageSelect/process:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: defult_response
-    get:
-      description: 贷款需求选择任务详情接口
-      # used as the method name of the controller
-      operationId: mortgageSelectOperationId
-      parameters:
-        - name: caseCode
-          in: query
-          description:  案件编号
-          required: true
-          type: string
-        - name: processInstanceId
-          in: query
-          description:  流程实例id
-          required: true
-          type: string
-      responses:
-         "200":
-            description: Success
-            schema:
-              # a pointer to a definition
-              $ref: "#/definitions/getMortgageSelectSuccessResponse" 
-  /task/mortgageSelect/submit:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: defult_response
-    post:
-      description: 贷款需求选择任务提交接口
-      # used as the method name of the controller
-      operationId: submitMortgageSelectOperationId
-      parameters:
-        - name: partCode
-          in: query
-          description:  环节code,本接口为'MortgageSelect'
-          required: true
-          type: string
-
-        - name: caseCode
-          in: query
-          description: 案件编号
-          required: true
-          type: string
-
-        - name: taskId
-          in: query
-          description: 任务id
-          required: true
-          type: string
-
-        - name: processInstanceId
-          in: query
-          description: 流程id
-          required: true
-          type: string
-
-        - name: mortageService
-          in: query
-          description: 贷款类型(无贷款：0,商贷／组合贷款（委托中原):1,纯公积金（委托中原）：2,商贷／组合贷款（自办）:3)
-          required: true
-          type: string
-          
-        - name: unCrossPartner
-          in: query
-          description: 值为-1时,说明选择跨区合作;反之,跟partner值相同
-          required: true
-          type: string
-          
-        - name: estPartTime
-          in: query
-          description: 放款时间(仅当mortageService为1,2,3时需要传放款时间参数)
-          required: true
-          type: string
-          
-        - name: coworkService
-          in: query
-          description: 服务编码(仅当mortageService为2时需要传参,这里固定为'3000400201')
-          required: true
-          type: string
-          
-        - name: partner
-          in: query
-          description: 合作顾问id(仅当mortageService为2时需要传参)
-          required: true
-          type: string
-          
-        - name: crossPartner
-          in: query
-          description: 跨区合作顾问id(当unCrossPartner=-1时,需要传参)
-          required: true
-          type: string
-          
-        - name: crossOrg
-          in: query
-          description: 跨区组别id(当unCrossPartner=-1时,需要传参)
-          required: true
-          type: string
-      responses:
-         "200":
-            description: Success
-            schema:
-              # a pointer to a definition
-              $ref: "#/definitions/submitMortgageSelectSuccessResponse"
+              $ref: "#/definitions/subPricingSuccessResponse"               
 # complex objects have schema definitions
 definitions:
   user:
@@ -1391,56 +1281,7 @@ definitions:
       
 #结案审核任务详情接口END
 
-#贷款需求选择详情Start
-  getMortgageSelectSuccessResponse:
-    required:
-      - isSuccess
-    properties:
-      isSuccess:
-        type: boolean
-      msg:
-        type: string
-      empId:
-        type: string
-      token:
-        type: string
-      content:
-        $ref: "#/definitions/getMortgageSelectContent"
-  getMortgageSelectContent:
-    properties:
-      success:
-        type: boolean
-      partCode:
-        type: string
-      taskId:
-        type: string
-      processInstanceId:
-        type: string
-      caseCode:
-        type: string  
-        description: 案件编号
-      caseBaseVO:
-        type: object  
-        description: 案件基础信息 
-      loanReleasePlan:
-        type: object  
-        description: 交易计划信息
-        properties:
-          pkid:
-            type: string
-          caseCode:
-            type: string
-          partCode:
-            type: string
-          partName:
-            type: string
-          lampStatus:
-            type: string
-          redLock:
-            type: string
-          estPartTimeStr:
-            type: string
-#贷款需求选择详情END        
+        
         
         
 #核价详情Start
@@ -1583,29 +1424,7 @@ definitions:
       holdYear:
         type: string
         description: 购房年数（满二：0;满五：1;两年内：2）
-#审税返回值end  
-#贷款需求选择提交返回数据Start        
-  submitMortgageSelectSuccessResponse:
-    required:
-      - isSuccess
-    properties:
-      isSuccess:
-        type: boolean
-      msg:
-        type: string
-      empId:
-        type: string
-      token:
-        type: string
-      content:
-        $ref: "#/definitions/submitMortgageSelectContent"
-  submitMortgageSelectContent:
-    properties:
-      success:
-        type: boolean
-      message:
-        type: string 
-#贷款需求选择提交返回数据END
+#审税返回值end   
 #提交核价Start        
   subPricingSuccessResponse:
     required:
@@ -1830,7 +1649,7 @@ definitions:
 
 ##改期列表接口END
 
-  getAttachmentsResponse:
+  getfirstFollowResponse:
     required:
       - isSuccess
     properties:
@@ -1843,26 +1662,84 @@ definitions:
       token:
         type: string
       content:
-        $ref: "#/definitions/getAttachmentsContent"
-        
-  getAttachmentsContent:
+        $ref: "#/definitions/getfirstFollowContent"
+  getfirstFollowContent:
     properties:
-      caseCode:
+      ctmCode:
         type: string
-        description: 案件编号
-      preFileAdress:
+        description: ctm编码
+      firstFollow:
+       $ref: "#/definitions/getfirstFollowt" 
+       
+      bizWarnInfo:
+       $ref: "#/definitions/getbizWarnInfo" 
+       
+  getbizWarnInfo:
+    properties:
+      content:
         type: string
-        description: 附件存储地址
-      preFileCode:
+        description: 预警内容
+        
+  getfirstFollowt:
+    properties:
+      caseProperty:
         type: string
-        description: 附件编码
-      partCode:
+        description: 案件性质（有效or无效）
+      distCode:
         type: string
-        description: 环节编码
-      fileCat:
+        description: 区域code
+      realPrice:
         type: string
-        description: 文件类型
-      fileName:
+        description: 成交价    
+      conPrice:
         type: string
-        description: 文件名称
-    
+        description: 合同价
+      square:
+        type: string
+        description: 产证面积    
+      chaxiangou:
+        type: string
+        description: 查限购 
+      propertyAddr:
+        type: string
+        description: 物业地址 
+      diya:
+        type: string
+        description: 是否抵押         
+      realConTime:
+        type: string
+        description: 预计签约日期
+      businessLoanWarn:
+        type: string
+        description: 是否有商贷预警
+  
+
+        
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
