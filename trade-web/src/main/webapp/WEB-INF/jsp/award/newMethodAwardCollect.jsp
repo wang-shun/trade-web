@@ -9,37 +9,28 @@
               
     	<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" />	
     	<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet" />
-		<!-- Toastr style -->
-<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
-<!-- Gritter -->
-<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
-<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
-<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
-<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
-<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
-<link href="<c:url value='/css/style.css' />" rel="stylesheet">
-<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
-<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
-<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
-<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
-<link href="<c:url value='/css/common/common.css' />" rel="stylesheet">
-<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet">
-<!-- 分页控件 -->
-<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+		<!-- Data Tables -->
+		<link href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css'/>"  rel="stylesheet" />		
+		<link href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css'/>"  rel="stylesheet" />
+		<link href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css'/>"  rel="stylesheet" />
+		<link href="<c:url value='/css/plugins/datapicker/datepicker3.css'/>"  rel="stylesheet" />		
+		<link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />
+		<link href="<c:url value='/static/css/style.css' />" rel="stylesheet" />	
+		
+		<!-- 分页控件 -->
+		<link href="<c:url value='/css/plugins/pager/centaline.pager.css'/>"  rel="stylesheet" />
+		<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css'/>"  rel="stylesheet" />
+		
+		<!-- index_css -->
+ 		<link href="<c:url value='/static/trans/css/common/base.css' />" rel="stylesheet" />
+		<link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet" />
+		<link href="<c:url value='/static/trans/css/common/input.css' />" rel="stylesheet" />
+		<%-- <link href="<c:url value='/static/css/btn.css' />" rel="stylesheet" /> --%>
+			
+		<link href="<c:url value='/static/trans/css/manager/manager.css' />" rel="stylesheet" />	 
 
-	
- <!-- Data Tables -->
-<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css' />" />
-<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css' />" />
-<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
-<link rel="stylesheet" href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" />
-<link rel="stylesheet" href="<c:url value='/css/iconfont/iconfont.css' />" />
-
-<!-- index_css -->
-<link rel="stylesheet" href="<c:url value='/css/common/base.css' />" />
-<link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
-<link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
-<link rel="stylesheet" href="<c:url value='/css/trans/css/award/baseAward.css' />" /> 
+		<!-- 必须CSS -->
+		<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" /> 
     </head>
     
     <body class="pace-done">
@@ -68,7 +59,7 @@
                 </div>
                 <div class="row box-content">
                     <div class="col-md-12">
-                        <iframe src="" id="UpdateUserItem"  name="" frameborder="0" width="100%"  scrolling="no"></iframe>
+                        <iframe src="./bonusConfiguration" id="UpdateUserItem"  name="" frameborder="0" width="100%"  scrolling="no"></iframe>
                         <!-- <iframe src="./managerStep2.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
                         <!-- <iframe src="./managerStep3.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
                         <!-- <iframe src="./managerStep4.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
