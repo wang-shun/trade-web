@@ -30,7 +30,7 @@ function getInitPage(){
     			 }    			
     		}
             var new_src = ctx+"/newAward/managerPiecework?belongMonth="+belongMonth+'&t='+(new Date().getTime());
-            $("#UpdateUserItem1",parent.document.body).attr("src",new_src);
+            $("#UpdateUserItem",parent.document.body).attr("src",new_src);
     	}
  	}); 
 

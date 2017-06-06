@@ -154,12 +154,12 @@
 	            	var belongMonth = $("#belongMonth").val();
 	                var new_src = "${ctx}/newAward/managerPiecework?belongMonth="+belongMonth;
 
-	            	/* var new_src = "";
+	            	 /* var new_src = "";
 	            	if(sum == 4){
 	            		new_src = "../newAward/newBonus";
 	            	}else if(sum == 5){
 	            		new_src = "../newAward/personBonusCollect";
-	            	}	                
+	            	} */	                
 	                $("#UpdateUserItem",parent.document.body).attr("src",new_src);
 	            }
 	
