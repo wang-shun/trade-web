@@ -5,8 +5,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>计件奖金自动化流程</title>      
-
+        <title>计件奖金自动化流程</title>
+              
+    	<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" />	
+    	<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet" />
 		<!-- Data Tables -->
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css'/>"  rel="stylesheet" />		
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css'/>"  rel="stylesheet" />
@@ -36,7 +38,7 @@
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box">
                     <div class="clearfix"> 
-                        <h2 class="title pull-left ml15">计件奖金案件明细</h2>
+                        <h2 class="title pull-left ml15">计件案件环节明细</h2>
                     </div>
                     <div class="form_list">
                         <div class="line">                           
@@ -48,7 +50,9 @@
                                 <label class="control-label sign_left_small">产证地址</label>
                                 <input class="teamcode input_type" style="width:435px;" placeholder="请输入" value="" id="propertyAddr" name="propertyAddr">
                             </div>
-                            <div class="form_content ml5">
+                           </div>
+                         <div class="line">   
+                            <div class="form_content" style="margin-left:127px;">
                                 <div class="add_btn">
                                     <button class="btn btn-success mr5 btn-icon" id="caseDetailsSearch"><i class="icon iconfont">&#xe635;</i>查询</button>
                                     <button class="btn btn-success" onclick="javascript:exportBonusExcelButton()">案件奖金汇总导出</button>
@@ -95,7 +99,9 @@
 	<input type="hidden" id="serviceDepId" value="${serviceDepId}" /> 
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>        
     <!-- Mainly scripts -->
-    <content tag="local_script">    
+    <content tag="local_script">  
+    <script src="<c:url value='/static/js/jquery-2.1.1.js' />" ></script>
+    <script src="<c:url value='/static/js/bootstrap.min.js' />" ></script>  
     <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
     <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
      <!-- 日期控件 -->
@@ -110,8 +116,9 @@
     <script src= "<c:url value='/transjs/award/newBonus.js' />"></script>
    	<!-- 必须JS --> 
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
-    <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>  
-		<script id="tsAwardBaseList" type= "text/html">
+    <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>      
+
+	<script id="tsAwardBaseList" type= "text/html">
         {{each rows as item index}}
  			<tr>                   
                      <td>{{item.CASE_CODE}}</td>

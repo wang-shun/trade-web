@@ -1,7 +1,8 @@
 var ctx = $("#ctx").val();
 var serviceDepId = $("#serviceDepId").val();
 
-$(document).ready(function() {	
+$(document).ready(function() {		
+	
 	//初始化数据
     reloadGrid();
  	// 查询
@@ -245,7 +246,10 @@ function exportToExcel() {
 //获取计件年月信息
 function getBlongMonth(){
 	var bm = "";	
-    var belongMonth =  $.trim($("#belongMonth").val());    
+	//$('#default', window.parent.document).html());
+    var belongMonth =  $.trim($("#belongMonth",window.parent.document).val());
+	//var belongMonth = parent.document.getElementById("belongMonth").value;   
+    alert("bb==="+belongMonth);
     if(belongMonth =="" || belongMonth == null || belongMonth == undefined){
     	bm == null;
     }else{

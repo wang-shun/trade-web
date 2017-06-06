@@ -43,7 +43,7 @@
 					FROM 
 					  (SELECT detail.* FROM sctrans.T_TS_AWARD_KPI_PAY_DETAIL detail 
 					   <ifNotNull propertyAddr>
-					    INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = detail.CASE_CODE AND INFO.PROPERTY_ADDR = #propertyAddr#
+					    INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = detail.CASE_CODE AND INFO.PROPERTY_ADDR  like '%' + #propertyAddr# + '%'
 					  </ifNotNull>
 					  WHERE 1=1
 					  <ifNotNull belongMonth>

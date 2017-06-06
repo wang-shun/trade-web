@@ -26,12 +26,12 @@ function getInitPage(){
     	data:tsAwardKpiPay,
     	
     	success:function(data){ 
-    		var page = 0;
+/*    		var page = 0;
     		if(data.success == true){	  //未启动派单流程  			
     			var page = 	data.content;
     		}
             var new_src = "../manager/managerStep" + sum + ".html";
-            $("#UpdateUserItem",parent.document.body).attr("src",new_src);
+            $("#UpdateUserItem",parent.document.body).attr("src",new_src);*/
     	}
  	}); 
 

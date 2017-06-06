@@ -6,13 +6,17 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>计件奖金自动化流程</title>      
-
+              
+    	<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" />	
+    	<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet" />
 		<!-- Data Tables -->
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css'/>"  rel="stylesheet" />		
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css'/>"  rel="stylesheet" />
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css'/>"  rel="stylesheet" />
 		<link href="<c:url value='/css/plugins/datapicker/datepicker3.css'/>"  rel="stylesheet" />		
-		
+		<link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />	
+		<link href="<c:url value='/static/css/animate.css'/>"  rel="stylesheet"/> 
+		<link href="<c:url value='/static/css/style.css' />" rel="stylesheet" />
 		<!-- 分页控件 -->
 		<link href="<c:url value='/css/plugins/pager/centaline.pager.css'/>"  rel="stylesheet" />
 		<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css'/>"  rel="stylesheet" />
@@ -21,8 +25,7 @@
  		<link href="<c:url value='/static/trans/css/common/base.css' />" rel="stylesheet" />
 		<link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet" />
 		<link href="<c:url value='/static/trans/css/common/input.css' />" rel="stylesheet" />
-		<link href="<c:url value='/static/css/btn.css' />" rel="stylesheet" />
-		<link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />		
+		<link href="<c:url value='/static/css/btn.css' />" rel="stylesheet" />			
 		<link href="<c:url value='/static/trans/css/manager/managerIframe.css' />" rel="stylesheet" />	 
 
 		<!-- 必须CSS -->
@@ -40,7 +43,7 @@
                 <div class="line">
                     <div class="form_content">
                         <label class="control-label sign_left_small">员工姓名</label>
-                        <input class=" input_type" placeholder="" value="">
+                        <input class=" input_type" placeholder="" value=""  name="" id="" style="width:100px">
                     </div>
                     <div class="form_content">
                         <label class="control-label sign_left_small">组织</label>
@@ -49,9 +52,8 @@
                             <i class="icon iconfont"></i>
                         </div>
                     </div>
-                </div>
-                <div class="line">
-                    <div class="form_content" style="margin-left: 127px;" >
+                
+                    <div class="form_content ml5">
                         <div class="add_btn">
                             <button type="button" class="btn btn-success mr5 btn-icon"><i class="icon iconfont">&#xe635;</i>查询</button>
                             <button class="btn btn-success">导出Excel</button>
@@ -96,7 +98,11 @@
 	<input type="hidden" id="serviceDepId" value="${serviceDepId}" /> 
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>        
     <!-- Mainly scripts -->
-    <content tag="local_script">    
+    <content tag="local_script">   
+    
+    <script src="<c:url value='/static/js/jquery-2.1.1.js' />" ></script>
+    <script src="<c:url value='/static/js/bootstrap.min.js' />" ></script>
+     
     <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
     <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
      <!-- 日期控件 -->
