@@ -147,15 +147,14 @@
 	                step_eq.addClass('step-current');
 	            }
 	            function New_src(sum) {
-	                var new_src = "../manager/managerStep" + sum + ".html";
-	                var new_src = "${ctx}/award/managerPiecework";
-
-	            	var new_src = "";
+	            	var belongMonth = $("#belongMonth").val();
+	                var new_src = "${ctx}/newAward/managerPiecework?belongMonth="+belongMonth;
+	            	/* var new_src = "";
 	            	if(sum == 4){
 	            		new_src = "../newAward/newBonus";
 	            	}else if(sum == 5){
 	            		new_src = "../newAward/personBonusCollect";
-	            	}
+	            	} */
 	                // = "../manager/managerStep" + sum + ".html";
 	                $("#UpdateUserItem",parent.document.body).attr("src",new_src);
 	            }

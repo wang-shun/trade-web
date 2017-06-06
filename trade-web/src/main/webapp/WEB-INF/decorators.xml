@@ -148,8 +148,7 @@
 		<pattern>/newAward/bonusConfiguration</pattern>
 		<pattern>/newAward/newBonus</pattern>
 		<pattern>/newAward/personBonusCollect</pattern>		
-		<pattern>/award/managerRewardList</pattern>
-		<pattern>/award/managerPiecework</pattern>
+		<pattern>/newAward/managerPiecework</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

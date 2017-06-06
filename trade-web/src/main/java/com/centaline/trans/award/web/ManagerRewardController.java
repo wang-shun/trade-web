@@ -40,12 +40,6 @@ public class ManagerRewardController {
 		return "award/managerReward";
 	}
 	
-	@RequestMapping(value = "/managerPiecework")
-	public String managerPiecework(HttpServletRequest request ,Model model){
-		model.addAttribute("belongMonth", request.getParameter("belongMonth"));
-		return "award/managerPiecework";
-	}
-	
 	@RequestMapping(value = "/saveManagerReward")
 	@ResponseBody
 	public AjaxResponse<T> saveManagerReward(TsManagementAwardBaseConfig tsManagementAwardBaseConfig){
