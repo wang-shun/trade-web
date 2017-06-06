@@ -7,13 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
@@ -42,7 +40,7 @@ public class TaskController {
 	
     @Resource
     private UamUserOrgService uamUserOrgService;
-    
+
 	@RequestMapping(value = "list")
 	@ResponseBody
 	public JSONObject list(@RequestParam(required = true) Integer page, 
@@ -144,23 +142,10 @@ public class TaskController {
 			}
 			
 			map.put("zhongjie", json);
-			
 			map.remove("AGENT_NAME");
 			map.remove("EMPLOYEE_CODE");
 			map.remove("AGENT_PHONE");
 		}
 	}
 
-	@RequestMapping(value="/{taskitem}")
-	@ResponseBody
-	public Object taskPageRoute(Model model, HttpServletRequest request,@PathVariable String taskitem,
-								String caseCode, String taskId, String instCode,String source) {
-		JSONObject jsonObject = new JSONObject();
-		if("Pricing".equals(taskitem)||"PurchaseLimit".equals(taskitem)||"TaxReview".equals(taskitem)){
-			jsonObject.put("caseCode", caseCode);
-			jsonObject.put("taskId", taskId);
-			jsonObject.put("processInstanceId", instCode);
-		}
-		return jsonObject;
-	}
 }
