@@ -7,8 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>计件奖金自动化流程</title>
               
-    	<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" />	
-    	<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet" />
+    	<link href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" />	
+    	<link href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet" />
 		<!-- Data Tables -->
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css'/>"  rel="stylesheet" />		
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css'/>"  rel="stylesheet" />
@@ -30,7 +30,10 @@
 		<link href="<c:url value='/static/trans/css/manager/manager.css' />" rel="stylesheet" />	 
 
 		<!-- 必须CSS -->
-		<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" /> 
+		<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" />
+		<script>       
+				document.domain = 'centaline.com';
+		</script> 
     </head>
     
     <body class="pace-done">
@@ -59,7 +62,7 @@
                 </div>
                 <div class="row box-content">
                     <div class="col-md-12">
-                        <iframe src="./bonusConfiguration" id="UpdateUserItem"  name="" frameborder="0" width="100%"  scrolling="no"></iframe>
+                        <iframe src="./managerPiecework" id="UpdateUserItem"  name="" frameborder="0" width="100%"  scrolling="no"></iframe>
                         <!-- <iframe src="./managerStep2.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
                         <!-- <iframe src="./managerStep3.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
                         <!-- <iframe src="./managerStep4.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
@@ -92,6 +95,7 @@
     <script src= "<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
     <script src= "<c:url value='/js/template.js" type="text/javascript' />"></script>
     <script src= "<c:url value='/transjs/award/newMethodAwardCollect.js' />"></script>
+    
    	<!-- 必须JS --> 
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
     <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>  
@@ -100,8 +104,8 @@
 	            var main = $(window.parent.document).find("#UpdateUserItem");
 	            var thisheight = $(document).height() + 30;
 	            main.height(thisheight);
-	        });
-	
+	        });			
+	        
 	        (function() {
 	            var num = 0;
 	            $('#btnNext').click(function() {
@@ -155,8 +159,7 @@
 	            		new_src = "../newAward/newBonus";
 	            	}else if(sum == 5){
 	            		new_src = "../newAward/personBonusCollect";
-	            	} */
-	                // = "../manager/managerStep" + sum + ".html";
+	            	}	                
 	                $("#UpdateUserItem",parent.document.body).attr("src",new_src);
 	            }
 	

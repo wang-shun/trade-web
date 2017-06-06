@@ -138,6 +138,9 @@ public class TsAwardCaseCentalController {
 			if(awardKpiPay != null){
 				response.setSuccess(true);
 				response.setContent(awardKpiPay.getAwardStep());
+			}else{
+				response.setSuccess(false);
+				response.setContent("0");
 			}				
 		}catch (Exception e) {
 			e.printStackTrace();			
@@ -156,9 +159,28 @@ public class TsAwardCaseCentalController {
 	 */
 	@RequestMapping(value = "/managerPiecework")
 	public String managerPiecework(HttpServletRequest request ,Model model){
+		
 		model.addAttribute("belongMonth", request.getParameter("belongMonth"));
 		return "award/newMethodStep/managerStep0";
 	}
 	
-	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-06-05
+	 * 
+	 * @desc:iframe控制计件流程（isActive = 1）
+	 */
+/*	@RequestMapping(value = "/bonusConfiguration")
+	public String bonusConfiguration(HttpServletRequest request) {
+		
+		try{
+			tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new BusinessException("获取基础奖金配置页面异常，请稍后再试！");
+		}		
+		return "award/newMethodStep/managerStep0";
+	}
+	*/
 }

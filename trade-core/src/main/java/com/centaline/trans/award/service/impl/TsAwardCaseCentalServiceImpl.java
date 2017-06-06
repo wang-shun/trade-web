@@ -348,7 +348,7 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			throw new BusinessException("获取初始化页面信息请求参数有误！");
 		}
 		
-		TsAwardKpiPay awardKpiPay = new  TsAwardKpiPay();
+		TsAwardKpiPay awardKpiPay = null;	
 		List<TsAwardKpiPay>  kpiPayList = new ArrayList<TsAwardKpiPay>();
 		kpiPayList = tsAwardKpiPayMapper.getTsAwardKpiPayByProperty(tsAwardKpiPay);
 		

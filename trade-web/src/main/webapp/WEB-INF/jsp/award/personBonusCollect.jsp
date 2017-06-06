@@ -123,9 +123,8 @@
 	    <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
         <!-- 分页控件  -->
         <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-        <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+        <script src= "${ctx}/js/template.js" type="text/javascript" ></script>        
         
-        <script src= "${ctx}/transjs/award/personBonusCollect.js" type="text/javascript" ></script>
        	<!-- 必须JS --> 
 		<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script> 
         <script src="${ctx}/js/plugins/jquery.custom.js"></script>
