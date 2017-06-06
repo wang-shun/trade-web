@@ -183,4 +183,39 @@ public class TsAwardCaseCentalController {
 		return "award/newMethodStep/managerStep0";
 	}
 	*/
+	
+	/***
+	 * 	金融产品
+	 * @author hejf10
+	 * @date 2017年6月6日17:18:52
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/monthKpiImport")
+	public String monthKpiImport(HttpServletRequest request) {		
+		try{
+			//tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new BusinessException("请求页面跳转异常，请稍后再试！");
+		}		
+		return  "award/newMethodStep/managerStep2";
+	}
+	/***
+	 * 	流失率
+	 * @author hejf10
+	 * @date 2017年6月6日17:18:52
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/wastageRate")
+	public String wastageRate(HttpServletRequest request) {		
+		try{
+			//tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new BusinessException("请求页面跳转异常，请稍后再试！");
+		}		
+		return  "award/newMethodStep/managerStep3";
+	}
 }
