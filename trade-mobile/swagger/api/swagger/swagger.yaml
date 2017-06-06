@@ -1001,6 +1001,35 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/subPricingSuccessResponse" 
+  /task/transPlan/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 填写交易计划任务详情接口
+      # used as the method name of the controller
+      operationId: transPlanOperationId
+      parameters:
+        - name: caseCode
+          in: query
+          description:  案件编号
+          required: true
+          type: string
+        - name: taskId
+          in: query
+          description:  任务id
+          required: true
+          type: string
+        - name: processInstanceId
+          in: query
+          description:  流程实例id
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getTransPlanSuccessResponse"
   /task/mortgageSelect/process:
     # binds a127 app logic to a route
     x-swagger-router-controller: defult_response
@@ -1012,6 +1041,11 @@ paths:
         - name: caseCode
           in: query
           description:  案件编号
+          required: true
+          type: string
+        - name: taskId
+          in: query
+          description:  任务id
           required: true
           type: string
         - name: processInstanceId
@@ -1104,6 +1138,179 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/submitMortgageSelectSuccessResponse"
+
+  /task/transPlan/saveTransPlan:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 交易计划信息保存接口
+      # used as the method name of the controller
+      operationId: saveTransPlanOperationId
+      parameters:
+        - name: partCode
+          in: query
+          description:  环节code,本接口为'TransPlanFilling'
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+
+        - name: pkidTr
+          in: query
+          description: 审税pkid
+          required: true
+          type: string
+          
+        - name: pkidGh
+          in: query
+          description: 过户pkid
+          required: true
+          type: string
+          
+        - name: pkidLz
+          in: query
+          description: 领证pkid
+          required: true
+          type: string
+          
+        - name: pkidFk
+          in: query
+          description: 放款pkid
+          required: true
+          type: string
+          
+        - name: estPartTimeHd
+          in: query
+          description: 预计还贷时间
+          required: true
+          type: string
+          
+        - name: estPartTimeTr
+          in: query
+          description: 预计审税时间
+          required: true
+          type: string
+          
+        - name: estPartTimeGh
+          in: query
+          description: 预计过户时间
+          required: true
+          type: string
+          
+        - name: estPartTimeLz
+          in: query
+          description: 预计领证时间
+          required: true
+          type: string
+        
+        - name: estPartTimeFk
+          in: query
+          description: 预计放款时间
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/saveTransPlanSuccessResponse"
+
+  /task/transPlan/submitTransPlan:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    post:
+      description: 交易计划信息提交接口
+      # used as the method name of the controller
+      operationId: submitTransPlanOperationId
+      parameters:
+        - name: partCode
+          in: query
+          description:  环节code,本接口为'TransPlanFilling'
+          required: true
+          type: string
+
+        - name: caseCode
+          in: query
+          description: 案件编号
+          required: true
+          type: string
+        
+        - name: taskId
+          in: query
+          description: 任务id
+          required: true
+          type: string
+        
+        - name: processInstanceId
+          in: query
+          description: 流程实例id
+          required: true
+          type: string
+
+        - name: pkidTr
+          in: query
+          description: 审税pkid
+          required: true
+          type: string
+          
+        - name: pkidGh
+          in: query
+          description: 过户pkid
+          required: true
+          type: string
+          
+        - name: pkidLz
+          in: query
+          description: 领证pkid
+          required: true
+          type: string
+          
+        - name: pkidFk
+          in: query
+          description: 放款pkid
+          required: true
+          type: string
+          
+        - name: estPartTimeHd
+          in: query
+          description: 预计还贷时间
+          required: true
+          type: string
+          
+        - name: estPartTimeTr
+          in: query
+          description: 预计审税时间
+          required: true
+          type: string
+          
+        - name: estPartTimeGh
+          in: query
+          description: 预计过户时间
+          required: true
+          type: string
+          
+        - name: estPartTimeLz
+          in: query
+          description: 预计领证时间
+          required: true
+          type: string
+        
+        - name: estPartTimeFk
+          in: query
+          description: 预计放款时间
+          required: true
+          type: string
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/submitTransPlanSuccessResponse"
+
 # complex objects have schema definitions
 definitions:
   user:
@@ -1391,6 +1598,44 @@ definitions:
       
 #结案审核任务详情接口END
 
+#填写交易计划详情Start
+  getTransPlanSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/getTransPlanContent"
+  getTransPlanContent:
+    properties:
+      taskId:
+        type: object
+        description: 任务id
+      processInstanceId:
+        type: object
+        description: 流程实例id
+      caseBaseVO:
+        type: object
+        description: 案件基础信息
+      dy:
+        type: boolean
+        description: 抵押信息,如果值为true,显示预计还贷时间;值为false,不显示预计还贷时间
+      dk:
+        type: boolean
+        description: 如果值为true,显示预计放款时间;值为false,不显示预计放款时间
+      transPlan:
+        type: object  
+        description: 交易计划信息
+#填写交易计划详情END   
+
+
 #贷款需求选择详情Start
   getMortgageSelectSuccessResponse:
     required:
@@ -1428,18 +1673,25 @@ definitions:
         properties:
           pkid:
             type: string
+            description: 主键id
           caseCode:
             type: string
+            description: 案件编号
           partCode:
             type: string
+            description: 环节编码
           partName:
             type: string
+            description: 环节名称
           lampStatus:
             type: string
+            description: 红灯状态
           redLock:
             type: string
+            description: 红灯锁
           estPartTimeStr:
             type: string
+            description: 预计执行时间
 #贷款需求选择详情END        
         
         
@@ -1583,7 +1835,49 @@ definitions:
       holdYear:
         type: string
         description: 购房年数（满二：0;满五：1;两年内：2）
-#审税返回值end  
+#审税返回值end 
+#填写交易计划提交返回数据Start        
+  submitTransPlanSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/submitTransPlanContent"
+  submitTransPlanContent:
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+#填写交易计划保存返回数据Start        
+  saveTransPlanSuccessResponse:
+    required:
+      - isSuccess
+    properties:
+      isSuccess:
+        type: boolean
+      msg:
+        type: string
+      empId:
+        type: string
+      token:
+        type: string
+      content:
+        $ref: "#/definitions/saveTransPlanContent"
+  saveTransPlanContent:
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
 #贷款需求选择提交返回数据Start        
   submitMortgageSelectSuccessResponse:
     required:

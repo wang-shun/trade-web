@@ -18,6 +18,12 @@ import com.centaline.trans.task.vo.MortgageSelecteVo;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
 
+/**
+ * 贷款需求选择环节controller
+ * 
+ * @author yinjf2
+ *
+ */
 @Controller
 @RequestMapping(value = "/task/mortgageSelect")
 public class MortgageSelectController
@@ -35,8 +41,15 @@ public class MortgageSelectController
     @Autowired
     private ToWorkFlowService toWorkFlowService;
 
-    @ResponseBody
+    /**
+     * 贷款需求选择任务提交
+     * 
+     * @param vo
+     *            贷款需求选择数据
+     * @return Object对象
+     */
     @RequestMapping(value = "submit")
+    @ResponseBody
     public Object submit(MortgageSelecteVo vo)
     {
         AjaxResponse response = new AjaxResponse();
@@ -63,9 +76,18 @@ public class MortgageSelectController
         return response;
     }
 
+    /**
+     * 贷款需求选择任务详情
+     * 
+     * @param caseCode
+     *            案件编号
+     * @param processInstanceId
+     *            流程实例id
+     * @return 贷款需求选择详情数据
+     */
     @RequestMapping(value = "process")
     @ResponseBody
-    public Object toProcess(String caseCode, String processInstanceId)
+    public Object toProcess(String caseCode, String taskId, String processInstanceId)
     {
         JSONObject jsonObject = new JSONObject();
 
@@ -81,6 +103,7 @@ public class MortgageSelectController
         plan.setCaseCode(caseCode);
         plan.setPartCode("LoanRelease");// 放款
 
+        jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
         jsonObject.put("caseCode", caseCode);
         jsonObject.put("caseBaseVO", caseBaseVO);
