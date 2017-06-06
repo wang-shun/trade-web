@@ -118,7 +118,7 @@ function initpage(totalCount, pageSize, currentPage, records) {
 
 /* 查询按钮查询 */
 $('#personBonusCollectSearch').click(function() {
-	 personBonusCollectSearchMethod()
+	 personBonusCollectSearchMethod();
 });
 
 /* 清空查询条件 */

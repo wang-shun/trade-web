@@ -43,7 +43,7 @@
                 <div class="line">
                     <div class="form_content">
                         <label class="control-label sign_left_small">员工姓名</label>
-                        <input class=" input_type" placeholder="" value=""  name="" id="" style="width:100px">
+                        <input class=" input_type" placeholder="" value=""  name="realName" id="realName" style="width:120px">
                     </div>
                     <div class="form_content">
                         <label class="control-label sign_left_small">组织</label>
