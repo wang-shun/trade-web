@@ -5,8 +5,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>计件奖金自动化流程</title>      
-
+        <title>计件奖金自动化流程</title>
+              
+    	<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" />	
+    	<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet" />
 		<!-- Toastr style -->
 <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 <!-- Gritter -->
@@ -45,7 +47,7 @@
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box" style="    padding-top: 30px;">
                     <div class="form_content pull-left">
-                        <label class="control-label label_left">计件年月</label>
+                        <label class="control-label label_left">年月</label>
                         <div class="input-daterange inline_block" data-date-format="yyyy-mm-dd" id="datepicker_0">
                             <input  class="form-control" type="text" value="${belongMonth}" id="belongMonth" name="belongMonth"  placeholder="" style="width: 100px;">
                         </div>
@@ -55,12 +57,13 @@
                         <li><button>2.满意度</button><i class="icon iconfont icontend">&#xe611;</i></li>
                         <li><button>3.金融产品</button><i class="icon iconfont icontend">&#xe611;</i></li>
                         <li><button>4.流失率</button><i class="icon iconfont icontend">&#xe611;</i></li>
-                        <li><button>5.计件案件</button></li>
+                        <li><button>5.明细</button><i class="icon iconfont icontend">&#xe611;</i></li>
+                        <li><button>6.汇总</button></li>
                     </ul>
                     <div class="btn-box">
                         <button id="btnPre" class="btn btn-pre btn-useless">上一步</button>                   
                         <button id="btnNext" class="btn btn-success">下一步</button>
-                        <button id="btnSubmit" class="btn btn-success hide">提交案件</button>
+                        <button id="btnSubmit" class="btn btn-success hide">提交</button>
                     </div>
                 </div>
                 <div class="row box-content">
@@ -83,7 +86,9 @@
 	<input type="hidden" id="serviceDepId" value="${serviceDepId}" /> 
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>        
     <!-- Mainly scripts -->
-    <content tag="local_script">    
+    <content tag="local_script">
+    <script src="<c:url value='/static/js/jquery-2.1.1.js' />" ></script>
+    <script src="<c:url value='/static/js/bootstrap.min.js' />" ></script>      
     <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
     <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
      <!-- 日期控件 -->
@@ -93,7 +98,7 @@
     <script src="<c:url value='/js/plugins/pace/pace.min.js' />"></script>       
  	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
     <!-- 分页控件  -->
-    <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+    <script src= "<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
     <script src= "<c:url value='/js/template.js" type="text/javascript' />"></script>
     <script src= "<c:url value='/transjs/award/newMethodAwardCollect.js' />"></script>
    	<!-- 必须JS --> 
@@ -110,15 +115,15 @@
 	            var num = 0;
 	            $('#btnNext').click(function() {
 	                num ++;
-	                if( num <= 3) {
+	                if( num <= 4) {
 	                    Next_step(num);
 	                    $('#btnPre').addClass('btn-pre-use');
-	                } else if(num == 4) {
+	                } else if(num == 5) {
 	                    Next_step(num);
 	                    $('#btnSubmit').removeClass('hide');
 	                    $('#btnNext').addClass('hide');
 	                } else {
-	                    num = 4;
+	                    num = 5;
 	                }
 	                New_src(num);
 	            });
@@ -128,12 +133,12 @@
 	                    num = 0;
 	                    Prev_step(num);
 	                    $('#btnPre').removeClass('btn-pre-use');
-	                } else if(num < 4) {
+	                } else if(num < 5) {
 	                    Prev_step(num);
 	                    $('#btnSubmit').addClass('hide');
 	                    $('#btnNext').removeClass('hide');
 	                } else {
-	                    num = 4;
+	                    num = 5;
 	                }
 	                New_src(num);
 	            });
@@ -151,7 +156,16 @@
 	                step_eq.addClass('step-current');
 	            }
 	            function New_src(sum) {
+	                var new_src = "../manager/managerStep" + sum + ".html";
 	                var new_src = "${ctx}/award/managerPiecework";
+
+	            	var new_src = "";
+	            	if(sum == 4){
+	            		new_src = "../newAward/newBonus";
+	            	}else if(sum == 5){
+	            		new_src = "../newAward/personBonusCollect";
+	            	}
+	                // = "../manager/managerStep" + sum + ".html";
 	                $("#UpdateUserItem",parent.document.body).attr("src",new_src);
 	            }
 	

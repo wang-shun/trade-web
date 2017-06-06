@@ -44,9 +44,7 @@
 		<!-- 计件奖金改版 -->
 		<pattern>/newAward/awardCaseCollect</pattern>
 		<pattern>/newAward/newMethodAwardCollect</pattern>
-		<pattern>/newAward/personBonusCollect</pattern>		
-		<pattern>/newAward/newBonus</pattern>
-		
+
 		<pattern>/property/processWaitList</pattern>	
 		<pattern>/property/processingList</pattern>
 		<pattern>/property/successList</pattern>
@@ -145,10 +143,11 @@
 		<pattern>/report/OperateData</pattern>
 		<pattern>/report/operate1</pattern>
 		<pattern>/report/operate2</pattern>
-		<pattern>/report/operate3</pattern>
-		
-		
+		<pattern>/report/operate3</pattern>	
+			
 		<pattern>/newAward/bonusConfiguration</pattern>
+		<pattern>/newAward/newBonus</pattern>
+		<pattern>/newAward/personBonusCollect</pattern>		
 		<pattern>/award/managerRewardList</pattern>
 		<pattern>/award/managerPiecework</pattern>
 	</decorator>	 

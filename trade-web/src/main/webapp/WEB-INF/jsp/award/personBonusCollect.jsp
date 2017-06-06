@@ -144,7 +144,6 @@
                  </tr>			
        {{/each}}  
 	    </script>	
-	    </content> 
-        <input type="hidden" id="ctx" value="${ctx}" />      
+	    </content>        
     </body>
 </html>
