@@ -1,18 +1,17 @@
 $(function(){
-	var ctx = $("#ctx").val();
 	//页面初始化
-	reloadGrid();
+	reloadGridList();
 	//条件查询
 	$("#searchButton").click(function(){
-		reloadGrid();
+		reloadGridList();
 	});
 	
 	aist.sortWrapper({
-		reloadGrid : reloadGrid
+		reloadGrid : reloadGridList
 	});
 });
 
-function reloadGrid(){
+function reloadGridList(){
 	var data = getParams();
 	data.pagination = false; 
 	$("#managerRewardList").reloadGrid({
@@ -147,7 +146,6 @@ function getParams() {
 	var belongMonth = $("#belongMonth").val();
 	var realName = $.trim($("#realName").val());
 	var orgName = $.trim($("#organName").val());
-
 	var data = {};
 	data.belongMonth = belongMonth;
 	data.realName = realName;

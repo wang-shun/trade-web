@@ -111,8 +111,6 @@
 		<pattern>/caseMerge/addWdCase</pattern>
 		<pattern>/caseMerge/saveWdCaseInfo/add</pattern>
 		<pattern>/caseMerge/addLiushui</pattern>
-		<pattern>/award/managerRewardList</pattern>
-		<pattern>/award/managerPiecework</pattern>
 		<pattern>/award/monthKpiImport</pattern>
 		<pattern>/award/satisSyncList</pattern>
 	</decorator>
@@ -151,6 +149,8 @@
 		
 		
 		<pattern>/newAward/bonusConfiguration</pattern>
+		<pattern>/award/managerRewardList</pattern>
+		<pattern>/award/managerPiecework</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

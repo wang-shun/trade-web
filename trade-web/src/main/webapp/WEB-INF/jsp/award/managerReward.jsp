@@ -242,6 +242,23 @@
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>	 
 <input type="hidden" id="ctx" value="${ctx}"/>
 <content tag="local_script"> 
+<script src="${ctx}/js/jquery-2.1.1.js"></script>
+<script src="${ctx}/static/js/bootstrap.min.js"></script>
+<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="${ctx}/static/js/inspinia.js"></script>
+<!-- jQuery UI -->
+<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- 引入弹出框js文件 -->
+<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+
+<script type="text/javascript" src="${ctx}/js/jquery.fancybox.js?v=2.1.5"></script> <!-- Add Button helper (this is optional) -->
+<script type="text/javascript" src="${ctx}/js/jquery.fancybox-buttons.js"></script> <!-- Add Thumbnail helper (this is optional) -->
+<script type="text/javascript" src="${ctx}/js/jquery.fancybox-thumbs.js"></script> <!-- Add Media helper (this is optional) -->
+<script type="text/javascript" src="${ctx}/js/jquery.fancybox-media.js"></script>
+<%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%> 
+<script type="text/javascript" src="${ctx}/static/js/INSPINIA_template.js"></script>
 <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
 <script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script>
 <script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
