@@ -251,7 +251,7 @@
 									return false;
 								}
 								
-								userSelect({startOrgId:'2c9280845be6e90c015bf06436fb0021',expandNodeId:'2c9280845be6e90c015bf06436fb0021',
+								userSelect({startOrgId:'${kefuOrgId}',expandNodeId:'${kefuOrgId}',
 									jobCode:'JYUKFZY',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectCallerBack});
 
 							}
