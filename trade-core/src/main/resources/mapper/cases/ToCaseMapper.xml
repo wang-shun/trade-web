@@ -191,6 +191,9 @@
 			select 1 from sctrans.ACT_HI_TASKINST aht with(nolock) where aht.PROC_INST_ID_ = w.INST_CODE and aht.TASK_DEF_KEY_='TransSign'
 		)
 	)
+	and not exists(
+		select 1 from sctrans.T_TS_KPI_SRV_CASE ks where ks.CASE_CODE = c.CASE_CODE)
+	)
 	order by c.CASE_CODE asc
 </select>  
   

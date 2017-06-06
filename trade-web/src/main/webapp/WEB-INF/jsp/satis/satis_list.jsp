@@ -58,7 +58,7 @@
 							<label class="control-label sign_left_small"> 客服 </label> 
 							<input type="hidden" id="userId" value=''> 
 							<input type="text" id="realName" readonly="readonly" class="teamcode input_type"
-								onclick="userSelect({startOrgId:'2c9280845be6e90c015bf06436fb0021',expandNodeId:'2c9280845be6e90c015bf06436fb0021',
+								onclick="userSelect({startOrgId:'${kefuOrgId}',expandNodeId:'${kefuOrgId}',
 									jobCode:'JYUKFZY',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})"
 								placeholder="请输入" value=''>
 							<div class="input-group float_icon organize_icon">
