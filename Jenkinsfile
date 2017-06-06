@@ -17,8 +17,8 @@ node('docker-agent'){
 		}
 		dir('trade-mobile') {
 		    sh "sh Dockermake.sh"
-		    //sh "sh Dockermake_swagger_start.sh"
-		    //sh "sh Dockermake_swagger_edit.sh"
+		    sh "sh Dockermake_swagger_start.sh"
+		    sh "sh Dockermake_swagger_edit.sh"
 		}
 	}
 }
