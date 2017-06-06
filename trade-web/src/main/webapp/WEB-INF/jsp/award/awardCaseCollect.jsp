@@ -75,9 +75,9 @@
                             </div>                            
                             <div class="form_content ml5">
                                 <div class="add_btn">
-                                    <button class="btn btn-success mr5 btn-icon" id="awardCaseCollectSearch"><i class="icon iconfont">&#xe635;</i>查询</button>
-                                    <button type="button" class="btn btn-grey mr5" id="awardCaseCollectClean">清空</button>
+                                    <button class="btn btn-success mr5 btn-icon" id="awardCaseCollectSearch"><i class="icon iconfont">&#xe635;</i>查询</button>                                    
                                     <button type="button" class="btn btn-success"  id="awardCaseCollectToExcel"  onclick="javascript:exportAwardBaseToExcel()">导出Excel</button>
+                                	<button type="button" class="btn btn-grey mr5" id="awardCaseCollectClean">清空</button>
                                 </div>
                             </div>
                         </div>

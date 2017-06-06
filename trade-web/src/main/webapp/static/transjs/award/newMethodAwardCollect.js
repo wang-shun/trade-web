@@ -22,8 +22,7 @@ function getInitPage(){
     	dataType:"json",
     	data:tsAwardKpiPay,
     	
-    	success:function(data){ 
-    		debugger;
+    	success:function(data){     		
     		var page = 0;
     		if(data.success == true){    			 
     			 if(data.content != "" && data.content != null){
@@ -167,6 +166,7 @@ $('#datepicker_0').datepicker({
 	todayBtn : 'linked',
 	language : 'zh-CN',
 });
+
 $('#datepicker_0').datepicker().on('hide', function(e){
 	$('#datepicker_0').datepicker('update');
 	getInitPage();
