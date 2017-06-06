@@ -159,7 +159,6 @@
 			<table-row>
 				<column type="both" name="taskName"   display="任务名"/>
 				<column type="both" name="taskCode"   display="taskCode"/>
-				<column type="both" name="INST_CODE" />
 				<column type="both" name="taskID"   display="TASKID" hide="true"/>
 				<column type="both" name="addr"  display="产证地址" />
 				<column type="both" name="todoTime" />
