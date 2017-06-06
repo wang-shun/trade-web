@@ -90,6 +90,15 @@ function delManagerInfo(pkid){
 		});
 	}});
 }
+
+//修改基础奖金信息
+function modifyBaseInfo(PKID,JOB_NAME,SRV_ITEM_NAME,SRV_FEE){
+	$("#modifyBaseForm #pkid").val(PKID);
+	$("#modifyBaseForm #jobName").html(JOB_NAME);
+	$("#modifyBaseForm #srvFee").val(SRV_FEE);
+	$("#modifyBaseForm #srvItemCode").html(SRV_ITEM_NAME);
+	$('#modifyBaseModal').modal('show');
+}
 //修改高层基础奖金信息
 function modifyManagerInfo(PKID,USER_NAME,SRV_FEE,ORG_NAME,JOB_NAME){
 	$("#pkid").val(PKID);
@@ -115,6 +124,47 @@ $("#modify").click(function(){
 		async : false,//false同步，true异步
 		type : "POST",
 		url : ctx+"/award/modifyManagerReward",
+		dataType : "json",
+		data : {'pkid':pkid,'srvFee':srvFee},
+		beforeSend:function(){  
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+         },
+		success : function(data) {
+			if(data.success){
+				window.wxc.success("更新成功",{"wxcOk": function(){
+					location.reload();
+				}});
+			}else{
+				window.wxc.error(data.message);
+			}
+		},
+		complete: function() { 
+			 $.unblockUI(); 
+		},
+		error : function(errors) {
+			window.wxc.error("数据保存出错");
+			 $.unblockUI();
+		}
+	});
+	
+});
+
+$("#modifyBase").click(function(){
+	var pkid = $("#modifyBaseForm #pkid").val();
+	var srvFee = $.trim($("#modifyBaseForm #srvFee").val());
+	if(srvFee==null || srvFee==''){
+		window.wxc.alert("基础奖金不能为空！");
+		return;
+	}
+	if(!/^[1-9][0-9]*$/.test(srvFee)){  
+		window.wxc.alert("请输入正确的基础奖金!");  
+		return;
+    }  
+	$.ajax({
+		async : false,//false同步，true异步
+		type : "POST",
+		url : ctx+"/award/modifyBaseReward",
 		dataType : "json",
 		data : {'pkid':pkid,'srvFee':srvFee},
 		beforeSend:function(){  

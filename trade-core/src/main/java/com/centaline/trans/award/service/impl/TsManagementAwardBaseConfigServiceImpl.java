@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.award.entity.TsConsultantAwardBaseConfig;
 import com.centaline.trans.award.entity.TsManagementAwardBaseConfig;
 import com.centaline.trans.award.repository.TsManagementAwardBaseConfigMapper;
 import com.centaline.trans.award.service.TsManagementAwardBaseConfigService;
@@ -39,6 +40,11 @@ public class TsManagementAwardBaseConfigServiceImpl implements TsManagementAward
 	@Override
 	public int updateByPrimaryKeySelective(TsManagementAwardBaseConfig tsManagementAwardBaseConfig) {
 		return tsManagementAwardBaseConfigMapper.updateByPrimaryKeySelective(tsManagementAwardBaseConfig);
+	}
+
+	@Override
+	public int updateBaseConfigByPrimaryKey(TsConsultantAwardBaseConfig tsConsultantAwardBaseConfig) {
+		return tsManagementAwardBaseConfigMapper.updateBaseConfigByPrimaryKey(tsConsultantAwardBaseConfig);
 	}
 
 }

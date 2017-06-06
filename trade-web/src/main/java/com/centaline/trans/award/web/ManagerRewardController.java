@@ -3,8 +3,6 @@ package com.centaline.trans.award.web;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
-import com.aist.uam.userorg.remote.UamUserOrgService;
-import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.award.entity.TsConsultantAwardBaseConfig;
 import com.centaline.trans.award.entity.TsManagementAwardBaseConfig;
 import com.centaline.trans.award.service.TsManagementAwardBaseConfigService;
 
@@ -84,6 +81,24 @@ public class ManagerRewardController {
 		AjaxResponse<T> response = new AjaxResponse<T>();
 		try{
 			tsManagementAwardBaseConfigService.updateByPrimaryKeySelective(tsManagementAwardBaseConfig);
+			response.setCode("400");
+			response.setMessage("更新成功！");
+			response.setSuccess(true);
+		}catch(Exception e){
+			logger.error("更新失败:", e);
+			response.setCode("500");
+			response.setMessage("更新失败！");
+			response.setSuccess(false);
+		}
+		return response;
+	}
+	
+	@RequestMapping(value = "/modifyBaseReward")
+	@ResponseBody
+	public AjaxResponse<T> modifyBaseReward(TsConsultantAwardBaseConfig tsConsultantAwardBaseConfig){
+		AjaxResponse<T> response = new AjaxResponse<T>();
+		try{
+			tsManagementAwardBaseConfigService.updateBaseConfigByPrimaryKey(tsConsultantAwardBaseConfig);
 			response.setCode("400");
 			response.setMessage("更新成功！");
 			response.setSuccess(true);

@@ -31,9 +31,24 @@
 		<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" /> 
 		<!--弹出框样式  -->
 		<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
+		
     </head>
     
     <body class="pace-done">
+    <style>
+    .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+    transform: translate(-50%,-50%);
+}
+    
+    </style>
 			<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
            <div class="wrapper wrapper-content animated fadeInRight">
             
@@ -107,7 +122,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="table_content">
+                <div class="table_content" style="overflow:auto;height:690px;">
                     <table class="table table_blue table-hover table-striped table-bordered">
                         <thead>
                                     <tr>
@@ -253,43 +268,85 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div>
+            
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="modifyBaseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" style="width: 720px;">
+                    <div class="modal-content" style="padding-bottom: 30px;">
+                        <div class="modal-header" style="border:0">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">更新基础奖金信息</h4>
+                        </div>
+                        <form id="modifyBaseForm">
+                        <div class="modal-body">
+                            <div class="form_list">
+                                <div class="line">
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            职位
+                                        </label>
+                                        <span id="jobName" style="width:180px;display:inline-block;padding:6px 12px;"></span>
+                                    </div>
+                                    <div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            具体环节
+                                        </label>
+                                        <span id="srvItemCode" style="width:180px;display:inline-block;padding:6px 12px;"></span>
+                                    </div>
+                                </div>
+                                <div class="line">
+                                	
+                                	<div class="form_content">
+                                        <label class="control-label sign_left_small">
+                                            基础奖金
+                                        </label>
+                                        <input id="srvFee" name="srvFee" class="input_type sign_right_one" placeholder="请输入" value="">
+                                        <span class="date_icon">元</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="pkid" name="pkid" value="">
+                        </form>
+                        <div class="modal-footer" style="text-align:center;border:0">
+                            <button id="modifyBase" type="button" class="btn btn-success" >保存</button>
+                            <button type="button" class="btn btn-grey" data-dismiss="modal">取消</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+            
     </div>
 
-	<input type="hidden" id="ctx" value="${ctx}" />
-	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>        
-    <!-- Mainly scripts -->
-    <content tag="local_script">   
-    <script src="${ctx}/js/jquery-2.1.1.js"></script>
-	<script src="${ctx}/static/js/bootstrap.min.js"></script>
-	<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<!-- Custom and plugin javascript -->
-	<script src="${ctx}/static/js/inspinia.js"></script>
-	<!-- jQuery UI -->
-	<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
-	
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox.js?v=2.1.5"></script> <!-- Add Button helper (this is optional) -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-buttons.js"></script> <!-- Add Thumbnail helper (this is optional) -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-thumbs.js"></script> <!-- Add Media helper (this is optional) -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-media.js"></script>
-	<%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%> 
-	<script type="text/javascript" src="${ctx}/static/js/INSPINIA_template.js"></script>
-	<!-- 引入弹出框js文件 -->
-	<script src="<c:url value='/js/common/xcConfirm.js' />"></script> 
-     <!-- 日期控件 -->
-    <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>     
-    <!-- Custom and plugin javascript -->
-    <script src="<c:url value='/js/inspinia.js' />"></script>
-    <script src="<c:url value='/js/plugins/pace/pace.min.js' />"></script>       
- 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
-    <!-- 分页控件  -->
-    <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
-    <script src= "<c:url value='/js/template.js" type="text/javascript' />"></script>
-    <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-   	<!-- 必须JS --> 
-	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
-    <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script> 
-    <script src="${ctx}/transjs/award/managerRewardList.js"> </script>
+	<input type="hidden" id="ctx" value="${ctx}" /> 
+<content tag="local_script">
+<script src="${ctx}/js/jquery-2.1.1.js"></script>
+<script src="${ctx}/static/js/bootstrap.min.js"></script>
+<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="${ctx}/static/js/inspinia.js"></script>
+<!-- jQuery UI -->
+<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- 引入弹出框js文件 -->
+<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+
+<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
+<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script>
+<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
+<script src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
+<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
+<script src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script> 
+<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+
+<!-- 分页控件  -->
+<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"> </script>
+
+<%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%>
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+<script src="<c:url value='/transjs/award/managerRewardList.js' />"> </script>
     <script id="template_managerPieceInfo" type="text/html">
 		{{each rows as item index}}
 		    <tr>
@@ -303,7 +360,7 @@
 			  </td>
               <td>{{item.SRV_ITEM_NAME}}</td>
               <td>{{item.SRV_FEE}}</td>
-			  <td><button class="btn btn-success mr5">修改 </button></td>
+			  <td><button class="btn btn-success mr5" onclick="modifyBaseInfo('{{item.PK_ID}}','{{item.JOB_NAME}}','{{item.SRV_ITEM_NAME}}','{{item.SRV_FEE}}')">修改 </button></td>
              </tr>
 		{{/each}}
 </script>
@@ -371,6 +428,7 @@ $('#datepicker_0').datepicker({
 });
 function chooseManager(startOrgId) {
 	userSelect({
+		frameId:'abcd',
 		startOrgId : 'ff8080814f459a78014f45a73d820006',//非营业部
 		expandNodeId : '',
 		nameType : 'long|short',
@@ -392,6 +450,6 @@ function chooseManagerBack(array){
 	}
 }
 </script>   
-	</content>             
+</content>   
    </body>
 </html>

@@ -149,6 +149,7 @@
 	            function New_src(sum) {
 	            	var belongMonth = $("#belongMonth").val();
 	                var new_src = "${ctx}/newAward/managerPiecework?belongMonth="+belongMonth;
+
 	            	/* var new_src = "";
 	            	if(sum == 4){
 	            		new_src = "../newAward/newBonus";

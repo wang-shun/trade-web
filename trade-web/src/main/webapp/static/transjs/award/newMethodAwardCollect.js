@@ -28,8 +28,8 @@ function getInitPage(){
     		if(data.success == true){	  //未启动派单流程  			
     			var page = 	data.content;
     		}
-            var new_src = ctx+"/newAward/managerPiecework?belongMonth="+belongMonth;
-            $("#UpdateUserItem",parent.document.body).attr("src",new_src);
+            var new_src = ctx+"/newAward/managerPiecework?belongMonth="+belongMonth+'&t='+(new Date().getTime());
+            $("#UpdateUserItem1",parent.document.body).attr("src",new_src);
     	}
  	}); 
 

@@ -1,5 +1,6 @@
 package com.centaline.trans.award.repository;
 
+import com.centaline.trans.award.entity.TsConsultantAwardBaseConfig;
 import com.centaline.trans.award.entity.TsManagementAwardBaseConfig;
 import com.centaline.trans.common.MyBatisRepository;
 
@@ -17,4 +18,6 @@ public interface TsManagementAwardBaseConfigMapper {
     int updateByPrimaryKeySelective(TsManagementAwardBaseConfig record);
 
     int updateByPrimaryKey(TsManagementAwardBaseConfig record);
+
+	int updateBaseConfigByPrimaryKey(TsConsultantAwardBaseConfig tsConsultantAwardBaseConfig);
 }
