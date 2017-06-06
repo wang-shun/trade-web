@@ -43,7 +43,7 @@ public class TsAwardCaseCentalController {
 	 * 
 	 * @date:2017-05-22
 	 * 
-	 * @desc:分批次 个人奖金发放汇总
+	 * @desc:     个人奖金发放汇总
 	 */
 	@RequestMapping(value = "/personBonusCollect")
 	public String personBonusCollect(HttpServletRequest request) {
@@ -54,7 +54,8 @@ public class TsAwardCaseCentalController {
 			e.printStackTrace();
 			throw new BusinessException("请求页面跳转异常，请稍后再试！");
 		}
-		return "award/personBonusCollect";
+		//return "award/personBonusCollect";
+		return  "award/newMethodStep/managerStep5";
 	}
 	
 	/*
@@ -92,7 +93,8 @@ public class TsAwardCaseCentalController {
 			e.printStackTrace();
 			throw new BusinessException("请求页面跳转异常，请稍后再试！");
 		}		
-		return "award/newBonus";
+		//return "award/newBonus";
+		return  "award/newMethodStep/managerStep4";
 	}
 	
 	
@@ -138,7 +140,7 @@ public class TsAwardCaseCentalController {
 			}				
 		}catch (Exception e) {
 			e.printStackTrace();			
-			throw new BusinessException("请求页面跳转异常，请稍后再试！");
+			throw new BusinessException("获取初始化页面信息异常，请稍后再试！");
 		}		
 		return response;
 	}
@@ -158,7 +160,7 @@ public class TsAwardCaseCentalController {
 			tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
 		}catch (Exception e) {
 			e.printStackTrace();
-			throw new BusinessException("请求页面跳转异常，请稍后再试！");
+			throw new BusinessException("获取基础奖金配置页面异常，请稍后再试！");
 		}		
 		return "award/newMethodStep/managerStep0";
 	}

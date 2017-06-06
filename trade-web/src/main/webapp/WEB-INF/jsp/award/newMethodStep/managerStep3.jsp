@@ -23,7 +23,7 @@
 		<link href="<c:url value='/static/trans/css/common/input.css' />" rel="stylesheet" />
 		<link href="<c:url value='/static/css/btn.css' />" rel="stylesheet" />
 		<link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />		
-		<link href="<c:url value='/static/trans/css/manager/manager.css' />" rel="stylesheet" />	 
+		<link href="<c:url value='/static/trans/css/manager/managerIframe.css' />" rel="stylesheet" />	 
 
 		<!-- 必须CSS -->
 		<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" /> 

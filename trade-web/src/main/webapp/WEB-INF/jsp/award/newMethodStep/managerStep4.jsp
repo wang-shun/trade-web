@@ -12,6 +12,9 @@
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css'/>"  rel="stylesheet" />
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css'/>"  rel="stylesheet" />
 		<link href="<c:url value='/css/plugins/datapicker/datepicker3.css'/>"  rel="stylesheet" />		
+		<link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />	
+		<link href="<c:url value='/static/css/animate.css'/>"  rel="stylesheet"/> 
+		<link href="<c:url value='/static/css/style.css' />" rel="stylesheet" />	
 		
 		<!-- 分页控件 -->
 		<link href="<c:url value='/css/plugins/pager/centaline.pager.css'/>"  rel="stylesheet" />
@@ -21,8 +24,7 @@
  		<link href="<c:url value='/static/trans/css/common/base.css' />" rel="stylesheet" />
 		<link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet" />
 		<link href="<c:url value='/static/trans/css/common/input.css' />" rel="stylesheet" />
-		<link href="<c:url value='/static/css/btn.css' />" rel="stylesheet" />
-		<link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />		
+		<link href="<c:url value='/static/trans/css/award/baseAward.css' />" rel="stylesheet" />	 		
 		<link href="<c:url value='/static/trans/css/manager/managerIframe.css' />" rel="stylesheet" />	 
 
 		<!-- 必须CSS -->
@@ -32,36 +34,57 @@
     <body class="pace-done">
 			<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
             <div class="wrapper wrapper-content animated fadeInRight">
-                <div class="ibox-content border-bottom clearfix space_box" style="    padding-top: 30px;">
-                    <div class="form_content pull-left">
-                        <label class="control-label label_left">计件年月</label>
-                        <div class="input-daterange inline_block" data-date-format="yyyy-mm-dd" id="datepicker_0">
-                            <input  class="form-control" type="text" value="${belongMonth}" id="belongMonth" name="belongMonth"  placeholder="" style="width: 100px;">
+                <div class="ibox-content border-bottom clearfix space_box">
+                    <div class="clearfix"> 
+                        <h2 class="title pull-left ml15">计件奖金案件明细</h2>
+                    </div>
+                    <div class="form_list">
+                        <div class="line">                           
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">案件编号</label>
+                                <input class=" input_type" placeholder="请输入" value="" id="caseCode" name="caseCode">
+                            </div>
+                            <div class="form_content">
+                                <label class="control-label sign_left_small">产证地址</label>
+                                <input class="teamcode input_type" style="width:435px;" placeholder="请输入" value="" id="propertyAddr" name="propertyAddr">
+                            </div>
+                            <div class="form_content ml5">
+                                <div class="add_btn">
+                                    <button class="btn btn-success mr5 btn-icon" id="caseDetailsSearch"><i class="icon iconfont">&#xe635;</i>查询</button>
+                                    <button class="btn btn-success" onclick="javascript:exportBonusExcelButton()">案件奖金汇总导出</button>
+                                    <button class="btn btn-success" onclick="javascript:exportToExcel()">案件环节明细导出</button>
+                                    <button class="btn btn-grey" type="button" id="caseDetailsClean">清空</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <ul class="step_ul list-inline">
-                        <li><button class="step-current">1.奖金配置</button><i class="icon iconfont icontend">&#xe611;</i></li>
-                        <li><button>2.满意度</button><i class="icon iconfont icontend">&#xe611;</i></li>
-                        <li><button>3.金融产品</button><i class="icon iconfont icontend">&#xe611;</i></li>
-                        <li><button>4.流失率</button><i class="icon iconfont icontend">&#xe611;</i></li>
-                        <li><button>5.计件案件</button></li>
-                    </ul>
-                    <div class="btn-box">
-                        <button id="btnPre" class="btn btn-pre btn-useless">上一步</button>                   
-                        <button id="btnNext" class="btn btn-success">下一步</button>
-                        <button id="btnSubmit" class="btn btn-success hide">提交案件</button>
-                    </div>
                 </div>
-                <div class="row box-content">
+                
+                <div class="row">
                     <div class="col-md-12">
-                        <iframe src="./bonusConfiguration" id="UpdateUserItem"  name="" frameborder="0" width="100%"  scrolling="no"></iframe>
-                        <!-- <iframe src="./managerStep2.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
-                        <!-- <iframe src="./managerStep3.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
-                        <!-- <iframe src="./managerStep4.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
-                        <!-- <iframe src="./managerStep5.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
-                        <!-- <iframe id="UpdateUserItem" src="./managerStep6.html" name="" frameborder="0" width="100%" scrolling="no"></iframe> -->
+                        <div class="table_content">
+                            <table class="table table_blue table-striped table-bordered table-hover " id="editable" >
+                                <thead>
+                                    <tr>
+                                        <th>案件编号</th>
+                                        <th>案件地址</th>
+                                        <th>过户时间</th>
+                                        <th>结案时间</th>
+                                        <th>绩效奖金（元）</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="TsAwardBaseList">
+                                </tbody>
+                            </table>
+                        </div>  
+                        <div class="text-center page_box">
+							<span id="currentTotalPage"><strong></strong></span> <span class="ml15">共<strong id="totalP"></strong>条
+							</span>&nbsp;
+							<div id="pageBar" class="pagergoto"></div>
+						</div>                     
                     </div>
-                </div>
+                </div>                
             </div>
 
 	<input type="hidden" id="ctx" value="${ctx}" />
@@ -84,72 +107,63 @@
     <!-- 分页控件  -->
     <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
     <script src= "<c:url value='/js/template.js" type="text/javascript' />"></script>
-    <script src= "<c:url value='/transjs/award/newMethodAwardCollect.js' />"></script>
+    <script src= "<c:url value='/transjs/award/newBonus.js' />"></script>
    	<!-- 必须JS --> 
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
     <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>  
-	<script>
-	        $(window.parent.document).find("#UpdateUserItem").load(function () {
-	            var main = $(window.parent.document).find("#UpdateUserItem");
-	            var thisheight = $(document).height() + 30;
-	            main.height(thisheight);
-	        });
-	
-	        (function() {
-	            var num = 0;
-	            $('#btnNext').click(function() {
-	                num ++;
-	                if( num <= 3) {
-	                    Next_step(num);
-	                    $('#btnPre').addClass('btn-pre-use');
-	                } else if(num == 4) {
-	                    Next_step(num);
-	                    $('#btnSubmit').removeClass('hide');
-	                    $('#btnNext').addClass('hide');
-	                } else {
-	                    num = 4;
-	                }
-	                New_src(num);
-	            });
-	            $('#btnPre').click(function() {
-	                num --;
-	                if( num <= 0) {
-	                    num = 0;
-	                    Prev_step(num);
-	                    $('#btnPre').removeClass('btn-pre-use');
-	                } else if(num < 4) {
-	                    Prev_step(num);
-	                    $('#btnSubmit').addClass('hide');
-	                    $('#btnNext').removeClass('hide');
-	                } else {
-	                    num = 4;
-	                }
-	                New_src(num);
-	            });
-	
-	            function Next_step(sum) {
-	                var step_eq = $('.step_ul li').eq(sum).find('button');
-	                var step_pre = $('.step_ul li').eq(sum-1).find('button');
-	                step_pre.removeClass('step-current').addClass('step-down');
-	                step_eq.addClass('step-current');
-	            };
-	            function Prev_step(sum) {
-	                var step_eq = $('.step_ul li').eq(num).find('button');
-	                var step_pre = $('.step_ul li').eq(num+1).find('button');
-	                step_pre.removeClass('step-current').addClass('step-down');
-	                step_eq.addClass('step-current');
-	            }
-	            function New_src(sum) {
-	                var new_src = "../manager/managerStep" + sum + ".html";
-	                $("#UpdateUserItem",parent.document.body).attr("src",new_src);
-	            }
-	
-	            $('#AddBtn').click(function(event) {
-	                alert('ss');
-	            });
-	            
-	        })();
-	    </script>	    
-	  </content>             
+		<script id="tsAwardBaseList" type= "text/html">
+        {{each rows as item index}}
+ 			<tr>                   
+                     <td>{{item.CASE_CODE}}</td>
+                     <td>{{item.PROPERTY_ADDR}}</td>
+                     <td>{{item.GUOHU_TIME}}</td>
+                     <td>{{item.CLOSE_TIME}}</td>
+                     <td>{{item.BASE_CASE_AMOUNT}}</td>
+                     <td><div class="expand"  style="color:#4bccec;cursor:pointer;" id="{{item.CASE_CODE}}">展开</div></td>
+             </tr>
+             <tr class="toogle-show border-e7" id="toggle{{item.CASE_CODE}}" style="display:none;"></tr>
+		{{/each}}
+	    </script>
+	    
+	    <script id="tsAwardSrvList" type= "text/html">
+									 
+             <td colspan="8" class="spread_td">
+                <table class="table spread_tab table-bordered">
+					<thead>
+						<tr>
+							<th>人员</th>
+							<th>组织</th>
+							<th>服务</th>
+							<th>基础奖金</th>
+							<th>满意度</th>
+							<th>满意度占比</th>
+							<th>金融达标</th>
+							<th>贷款流失</th>
+							<th>环节占比</th>
+							<th>最终考核结果</th>
+							<th>绩效奖金</th>
+						</tr>
+					</thead>
+					<tbody>
+					   {{each rows as item index}}
+						<tr> 
+							<td>{{item.PARTICIPANT}}</td>
+							<td>{{item.ORG_NAME}}</td>
+							<td>{{item.SRV_CODE}}</td>
+							<td>{{item.BASE_AMOUNT}}</td>
+							<td>{{item.SATISFACTION}}({{item.SKPI_RATE}})</td>
+							<td>{{item.SRV_PART}}</td>
+							<td>{{item.MKPI}}({{item.MKPIV}})</td>
+							<td>{{item.COM_LS_RATE}}({{item.COM_LS_KPI}})</td>
+							<td>{{item.SRV_PART_IN}}</td>
+							<td>{{item.KPI_RATE_SUM}}</td>
+							<td>{{item.AWARD_KPI_MONEY}}</td>
+						</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</td>
+	    </script>
+	  </content>            
    </body>
 </html>

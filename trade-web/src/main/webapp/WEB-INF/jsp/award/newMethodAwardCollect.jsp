@@ -12,6 +12,8 @@
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css'/>"  rel="stylesheet" />
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css'/>"  rel="stylesheet" />
 		<link href="<c:url value='/css/plugins/datapicker/datepicker3.css'/>"  rel="stylesheet" />		
+		<link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />
+		<link href="<c:url value='/static/css/style.css' />" rel="stylesheet" />	
 		
 		<!-- 分页控件 -->
 		<link href="<c:url value='/css/plugins/pager/centaline.pager.css'/>"  rel="stylesheet" />
@@ -21,9 +23,9 @@
  		<link href="<c:url value='/static/trans/css/common/base.css' />" rel="stylesheet" />
 		<link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet" />
 		<link href="<c:url value='/static/trans/css/common/input.css' />" rel="stylesheet" />
-		<link href="<c:url value='/static/css/btn.css' />" rel="stylesheet" />
-		<link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />		
-		<link href="<c:url value='/static/trans/css/manager/managerIframe.css' />" rel="stylesheet" />	 
+		<%-- <link href="<c:url value='/static/css/btn.css' />" rel="stylesheet" /> --%>
+			
+		<link href="<c:url value='/static/trans/css/manager/manager.css' />" rel="stylesheet" />	 
 
 		<!-- 必须CSS -->
 		<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" /> 
@@ -34,7 +36,7 @@
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="ibox-content border-bottom clearfix space_box" style="    padding-top: 30px;">
                     <div class="form_content pull-left">
-                        <label class="control-label label_left">计件年月</label>
+                        <label class="control-label label_left">年月</label>
                         <div class="input-daterange inline_block" data-date-format="yyyy-mm-dd" id="datepicker_0">
                             <input  class="form-control" type="text" value="${belongMonth}" id="belongMonth" name="belongMonth"  placeholder="" style="width: 100px;">
                         </div>
@@ -44,12 +46,13 @@
                         <li><button>2.满意度</button><i class="icon iconfont icontend">&#xe611;</i></li>
                         <li><button>3.金融产品</button><i class="icon iconfont icontend">&#xe611;</i></li>
                         <li><button>4.流失率</button><i class="icon iconfont icontend">&#xe611;</i></li>
-                        <li><button>5.计件案件</button></li>
+                        <li><button>5.明细</button><i class="icon iconfont icontend">&#xe611;</i></li>
+                        <li><button>6.汇总</button></li>
                     </ul>
                     <div class="btn-box">
                         <button id="btnPre" class="btn btn-pre btn-useless">上一步</button>                   
                         <button id="btnNext" class="btn btn-success">下一步</button>
-                        <button id="btnSubmit" class="btn btn-success hide">提交案件</button>
+                        <button id="btnSubmit" class="btn btn-success hide">提交</button>
                     </div>
                 </div>
                 <div class="row box-content">
@@ -82,7 +85,7 @@
     <script src="<c:url value='/js/plugins/pace/pace.min.js' />"></script>       
  	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
     <!-- 分页控件  -->
-    <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+    <script src= "<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
     <script src= "<c:url value='/js/template.js" type="text/javascript' />"></script>
     <script src= "<c:url value='/transjs/award/newMethodAwardCollect.js' />"></script>
    	<!-- 必须JS --> 
@@ -99,15 +102,15 @@
 	            var num = 0;
 	            $('#btnNext').click(function() {
 	                num ++;
-	                if( num <= 3) {
+	                if( num <= 4) {
 	                    Next_step(num);
 	                    $('#btnPre').addClass('btn-pre-use');
-	                } else if(num == 4) {
+	                } else if(num == 5) {
 	                    Next_step(num);
 	                    $('#btnSubmit').removeClass('hide');
 	                    $('#btnNext').addClass('hide');
 	                } else {
-	                    num = 4;
+	                    num = 5;
 	                }
 	                New_src(num);
 	            });
@@ -117,12 +120,12 @@
 	                    num = 0;
 	                    Prev_step(num);
 	                    $('#btnPre').removeClass('btn-pre-use');
-	                } else if(num < 4) {
+	                } else if(num < 5) {
 	                    Prev_step(num);
 	                    $('#btnSubmit').addClass('hide');
 	                    $('#btnNext').removeClass('hide');
 	                } else {
-	                    num = 4;
+	                    num = 5;
 	                }
 	                New_src(num);
 	            });
@@ -140,7 +143,13 @@
 	                step_eq.addClass('step-current');
 	            }
 	            function New_src(sum) {
-	                var new_src = "../manager/managerStep" + sum + ".html";
+	            	var new_src = "";
+	            	if(sum == 4){
+	            		new_src = "../newAward/newBonus";
+	            	}else if(sum == 5){
+	            		new_src = "../newAward/personBonusCollect";
+	            	}
+	                // = "../manager/managerStep" + sum + ".html";
 	                $("#UpdateUserItem",parent.document.body).attr("src",new_src);
 	            }
 	
