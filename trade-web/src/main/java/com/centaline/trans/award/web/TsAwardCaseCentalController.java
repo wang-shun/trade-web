@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -150,22 +151,17 @@ public class TsAwardCaseCentalController {
 	
 	
 	/*
-	 * @author:zhuody
+	 * @author:zhuojp
 	 * 
-	 * @date:2017-06-05
+	 * @date:2017-06-06
 	 * 
 	 * @desc:iframe控制计件流程（isActive = 1）
 	 */
-	@RequestMapping(value = "/bonusConfiguration")
-	public String bonusConfiguration(HttpServletRequest request) {
-		
-		try{
-			tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
-		}catch (Exception e) {
-			e.printStackTrace();
-			throw new BusinessException("获取基础奖金配置页面异常，请稍后再试！");
-		}		
+	@RequestMapping(value = "/managerPiecework")
+	public String managerPiecework(HttpServletRequest request ,Model model){
+		model.addAttribute("belongMonth", request.getParameter("belongMonth"));
 		return "award/newMethodStep/managerStep0";
 	}
+	
 	
 }

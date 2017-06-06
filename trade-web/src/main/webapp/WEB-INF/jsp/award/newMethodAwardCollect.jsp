@@ -150,10 +150,9 @@
 	                step_eq.addClass('step-current');
 	            }
 	            function New_src(sum) {
-	                var new_src = "../manager/managerStep" + sum + ".html";
-	                var new_src = "${ctx}/award/managerPiecework";
-
-	            	var new_src = "";
+	            	var belongMonth = $("#belongMonth").val();
+	                var new_src = "${ctx}/newAward/managerPiecework?belongMonth="+belongMonth;
+	            	/* var new_src = "";
 	            	if(sum == 0){
 	            		new_src = "./bonusConfiguration"
 	            	}else if(sum == 1){
