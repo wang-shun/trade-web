@@ -3,6 +3,8 @@ package com.centaline.trans.award.web;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +41,8 @@ public class ManagerRewardController {
 	}
 	
 	@RequestMapping(value = "/managerPiecework")
-	public String managerPiecework(Model model){
+	public String managerPiecework(HttpServletRequest request ,Model model){
+		model.addAttribute("belongMonth", request.getParameter("belongMonth"));
 		return "award/managerPiecework";
 	}
 	

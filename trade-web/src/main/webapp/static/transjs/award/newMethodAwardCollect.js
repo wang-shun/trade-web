@@ -3,8 +3,6 @@ var serviceDepId = $("#serviceDepId").val();
 
 $(document).ready(function() {
 	getInitPage();
-	
-
 });
 
 function getInitPage(){			
@@ -17,7 +15,7 @@ function getInitPage(){
 	}
 	tsAwardKpiPay.status = status;
 	tsAwardKpiPay.belongMonth = belongMonth;
-
+	belongMonth = $("#belongMonth").val();
  	$.ajax({
 	    url:ctx+"/newAward/getInitPage",
 	    async:false,
@@ -30,7 +28,7 @@ function getInitPage(){
     		if(data.success == true){	  //未启动派单流程  			
     			var page = 	data.content;
     		}
-            var new_src = "../manager/managerStep" + sum + ".html";
+            var new_src = ctx+"/award/managerPiecework?belongMonth="+belongMonth;
             $("#UpdateUserItem",parent.document.body).attr("src",new_src);*/
     	}
  	}); 
@@ -168,4 +166,8 @@ $('#datepicker_0').datepicker({
     minViewMode:1,
 	todayBtn : 'linked',
 	language : 'zh-CN',
+});
+$('#datepicker_0').datepicker().on('hide', function(e){
+	$('#datepicker_0').datepicker('update');
+	getInitPage();
 });
