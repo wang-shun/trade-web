@@ -90,10 +90,10 @@ public class SatisController {
   @RequestMapping("/list")
   public String list(Model model){
 	SessionUser user = uamSessionService.getSessionUser();
-	Org kefuOrg = uamUserOrgService.getOrgByCode("033P192");
+	//Org kefuOrg = uamUserOrgService.getOrgByCode("033P192");
 	model.addAttribute("sessionUserId", user.getId());
 	model.addAttribute("serviceJobCode", user.getServiceJobCode());
-	model.addAttribute("kefuOrgId", kefuOrg.getId());
+	model.addAttribute("kefuOrgId", user.getServiceDepId());
     return "satis/satis_list";
   }
   
