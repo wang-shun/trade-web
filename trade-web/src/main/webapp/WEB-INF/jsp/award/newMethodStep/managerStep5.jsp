@@ -30,6 +30,9 @@
 
 		<!-- 必须CSS -->
 		<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" /> 
+		<script>       
+				document.domain = 'centaline.com';
+		</script>
     </head>
     
     <body class="pace-done">
@@ -47,17 +50,23 @@
                     </div>
                     <div class="form_content">
                         <label class="control-label sign_left_small">组织</label>
-                        <input class="teamcode input_type" placeholder="请输入" value="">
-                        <div class="input-group float_icon organize_icon">
+                        <input class="teamcode input_type" placeholder="请输入" value="" id="orgName" name="orgName"                         
+						onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}',
+								orgType:'',departmentType:'',departmentHeriarchy:'',expandNodeId:'${serviceDepId}',
+								chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})">
+                        <input type="hidden" id="yuCuiOriGrpId" value="">
+						<input type="hidden" id="orgHierarchy" value="">
+                        <div class="input-group float_icon organize_icon" id="organizeOnclick">
                             <i class="icon iconfont"></i>
                         </div>
+                        
                     </div>
                 
                     <div class="form_content ml5">
                         <div class="add_btn">
-                            <button type="button" class="btn btn-success mr5 btn-icon"><i class="icon iconfont">&#xe635;</i>查询</button>
-                            <button class="btn btn-success">导出Excel</button>
-                            <button type="button" class="btn btn-grey">清空</button>
+                            <button type="button" class="btn btn-success mr5 btn-icon"  id="personBonusCollectSearch"><i class="icon iconfont">&#xe635;</i>查询</button>
+                            <button class="btn btn-success" onclick="javascript:exportPersonBonusToExcel()" >导出Excel</button>
+                            <button type="button" class="btn btn-grey"  id="personBonusCollectClean">清空</button>
                         </div>
                     </div>
                 </div>
@@ -102,7 +111,7 @@
     
     <script src="<c:url value='/static/js/jquery-2.1.1.js' />" ></script>
     <script src="<c:url value='/static/js/bootstrap.min.js' />" ></script>
-     
+    <script	src="<c:url value='/js/jquery.blockui.min.js' />" ></script>
     <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
     <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
      <!-- 日期控件 -->
@@ -118,6 +127,11 @@
    	<!-- 必须JS --> 
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
     <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>  
+    <!-- 选择组织控件 -->
+    <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+    <script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
+  	<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script>
+   
 	<script id="template_personCollectList" type= "text/html">
       	{{each rows as item index}}
   				  {{if index%2 == 0}}
@@ -125,7 +139,7 @@
                   {{else}}
                        <tr class="tr-2">
                    {{/if}} 
-					<td><p class="big">${belongMonth}</p></td>
+					<td><p class="big">{{item.BELONG_MONTH}}</p></td>
 					<td><p class="big">{{item.REAL_NAME}}</p></td>
 					<td><p class="big">{{item.EMPLOYEE_CODE}}</p></td>
 					<td><p class="big">{{item.ORG_NAME}}</p></td>

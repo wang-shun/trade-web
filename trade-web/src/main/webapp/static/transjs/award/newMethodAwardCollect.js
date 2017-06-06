@@ -1,18 +1,17 @@
 var ctx = $("#ctx").val();
 var serviceDepId = $("#serviceDepId").val();
 
-$(document).ready(function() {
+$(document).ready(function() {	
 	getInitPage();
 });
+
 
 function getInitPage(){			
 	
 	var tsAwardKpiPay = {};
 	var status ="0";
-	var belongMonth = $("#belongMonth").val();
-	if(null != belongMonth && "" != belongMonth){
-		belongMonth = belongMonth+"-01";
-	}
+	var belongMonth = getBlongMonth();
+
 	tsAwardKpiPay.status = status;
 	tsAwardKpiPay.belongMonth = belongMonth;
 	belongMonth = $("#belongMonth").val();
@@ -24,17 +23,18 @@ function getInitPage(){
     	data:tsAwardKpiPay,
     	
     	success:function(data){ 
-/*    		var page = 0;
-    		if(data.success == true){	  //未启动派单流程  			
-    			var page = 	data.content;
+    		debugger;
+    		var page = 0;
+    		if(data.success == true){    			 
+    			 if(data.content != "" && data.content != null){
+    				 page = data.content;
+    			 }    			
     		}
-            var new_src = ctx+"/award/managerPiecework?belongMonth="+belongMonth;
-            $("#UpdateUserItem",parent.document.body).attr("src",new_src);*/
+    		parent.New_src(page);
     	}
  	}); 
 
 }
-
 /* 查询按钮查询 */
 $('#awardCaseCollectSearch').click(function() {
 	awardCaseCollectSearchMethod();
@@ -171,3 +171,19 @@ $('#datepicker_0').datepicker().on('hide', function(e){
 	$('#datepicker_0').datepicker('update');
 	getInitPage();
 });
+
+
+//获取计件年月信息
+function getBlongMonth(){
+	var bm = "";	
+	//方式一
+	var belongMonth =  $.trim($("#belongMonth",window.parent.document).val());
+    //方式二
+	//var belongMonth1 = parent.document.getElementById("belongMonth").value;
+    if(belongMonth =="" || belongMonth == null || belongMonth == undefined){
+    	bm == null;
+    }else{
+    	bm = belongMonth + "-01";
+    }
+    return bm;
+}

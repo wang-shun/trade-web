@@ -6,8 +6,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>计件奖金自动化流程</title>     
-    	<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" />	
-    	<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet" />
+    	<link href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" />	
+    	<link href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet" />
 		<!-- Data Tables -->
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css'/>"  rel="stylesheet" />		
 		<link href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css'/>"  rel="stylesheet" />
@@ -29,6 +29,9 @@
 
 		<!-- 必须CSS -->
 		<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" /> 
+		<script>       
+				document.domain = 'centaline.com';
+		</script> 
     </head>
     
     <body class="pace-done">
@@ -404,7 +407,10 @@
 	<input type="hidden" id="serviceDepId" value="${serviceDepId}" /> 
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>        
     <!-- Mainly scripts -->
-    <content tag="local_script">    
+    <content tag="local_script">   
+    <script src="<c:url value='/static/js/jquery-2.1.1.js' />" ></script>
+    <script src="<c:url value='/static/js/bootstrap.min.js' />" ></script>  
+     
     <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
     <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
      <!-- 日期控件 -->

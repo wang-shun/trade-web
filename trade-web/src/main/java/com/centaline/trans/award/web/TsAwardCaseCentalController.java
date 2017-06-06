@@ -137,6 +137,9 @@ public class TsAwardCaseCentalController {
 			if(awardKpiPay != null){
 				response.setSuccess(true);
 				response.setContent(awardKpiPay.getAwardStep());
+			}else{
+				response.setSuccess(false);
+				response.setContent("0");
 			}				
 		}catch (Exception e) {
 			e.printStackTrace();			

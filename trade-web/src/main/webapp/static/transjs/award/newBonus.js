@@ -246,10 +246,10 @@ function exportToExcel() {
 //获取计件年月信息
 function getBlongMonth(){
 	var bm = "";	
-	//$('#default', window.parent.document).html());
-    var belongMonth =  $.trim($("#belongMonth",window.parent.document).val());
-	//var belongMonth = parent.document.getElementById("belongMonth").value;   
-    alert("bb==="+belongMonth);
+	//方式一
+	var belongMonth =  $.trim($("#belongMonth",window.parent.document).val());
+    //方式二
+	//var belongMonth1 = parent.document.getElementById("belongMonth").value;
     if(belongMonth =="" || belongMonth == null || belongMonth == undefined){
     	bm == null;
     }else{
@@ -263,7 +263,6 @@ function getBlongMonth(){
 $('#caseDetailsClean').click(function() {
 	$("input[name='caseCode']").val('');
 	$("input[name='propertyAddr']").val('');	
-	$("input[name='belongMonth']").val('');
 });
 
 //日期控件,只能选择月份

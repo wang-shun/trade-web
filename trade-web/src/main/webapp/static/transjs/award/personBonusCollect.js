@@ -1,14 +1,16 @@
 var ctx = $("#ctx").val();
 var serviceDepId = $("#serviceDepId").val();
+/*var appCtx = $("#appCtx").val();*/
 
 $(document).ready(function() {
 	
 	// 初始化列表
 	var data = {};	
+	var belongMonth = getBlongMonth();
 	data.queryId = "findPersonBonusCollectList";
 	data.rows = 10;
 	data.page = 1;
-	
+	data.belongMonth = belongMonth;
 	reloadGrid(data);
 });
 
@@ -115,7 +117,6 @@ function initpage(totalCount, pageSize, currentPage, records) {
 	});
 }
 
-
 /* 查询按钮查询 */
 $('#personBonusCollectSearch').click(function() {
 	 personBonusCollectSearchMethod();
@@ -124,9 +125,9 @@ $('#personBonusCollectSearch').click(function() {
 /* 清空查询条件 */
 $('#personBonusCollectClean').click(function() {
 	$("input[name='realName']").val('');
-	$("input[name='orgId']").val('');
 	$("input[name='orgName']").val('');	
-	$("input[name='belongMonth']").val('');
+	$("input[name='yuCuiOriGrpId']").val('');	
+	$("input[name='orgHierarchy']").val('');
 
 });
 
@@ -157,14 +158,14 @@ function getParams() {
 	}
 
 	// 员工姓名组织Id
-	var userOrgId = $.trim($("#userOrgId").val());
+	var userOrgId = $.trim($("#yuCuiOriGrpId").val());
 	if (userOrgId == "" || userOrgId == null) {
 		userOrgId = null;
 	}
 	
 	// 计件年月
-	var belongMonth = $("#belongMonth").val();	
-	
+	//var belongMonth = $("#belongMonth").val();	
+	var belongMonth = getBlongMonth();
 	params.realName = realName;
 	params.userOrgId = userOrgId;	
 	params.belongMonth = belongMonth;
@@ -197,4 +198,49 @@ function exportPersonBonusToExcel(){
 
 	$('#excelForm').method = "post";
 	$('#excelForm').submit();
+}
+
+
+//组织图标选择
+$('#organizeOnclick').click(function() {	
+	orgSelect({
+		displayId : 'oriGrpId',
+		displayName : 'radioOrgName',
+		startOrgId : serviceDepId,
+		expandNodeId : serviceDepId, // 添加此属性的作用是展开 组织列表
+		orgType : '',
+		departmentType : '',
+		departmentHeriarchy : '',
+		chkStyle : 'radio',
+		callBack : radioYuCuiOrgSelectCallBack
+	})
+});
+
+// 选业务组织的回调函数
+function radioYuCuiOrgSelectCallBack(array) {
+	if (array && array.length > 0) {
+		$("#orgName").val(array[0].name);
+		$("#orgHierarchy").val(array[0].extendField);
+		$("#yuCuiOriGrpId").val(array[0].id);
+	} else {
+		$("#orgName").val("");
+		$("#yuCuiOriGrpId").val("");
+	}
+}
+
+
+
+//获取计件年月信息
+function getBlongMonth(){
+	var bm = "";	
+	//方式一
+	var belongMonth =  $.trim($("#belongMonth",window.parent.document).val());
+	//方式二
+	//var belongMonth1 = parent.document.getElementById("belongMonth").value;
+  if(belongMonth =="" || belongMonth == null || belongMonth == undefined){
+  	bm == null;
+  }else{
+  	bm = belongMonth + "-01";
+  }
+  return bm;
 }

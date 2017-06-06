@@ -30,7 +30,10 @@
 		<link href="<c:url value='/static/trans/css/manager/manager.css' />" rel="stylesheet" />	 
 
 		<!-- 必须CSS -->
-		<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" /> 
+		<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" />
+		<script>       
+				document.domain = 'centaline.com';
+		</script> 
     </head>
     
     <body class="pace-done">
@@ -100,8 +103,8 @@
 	            var main = $(window.parent.document).find("#UpdateUserItem");
 	            var thisheight = $(document).height() + 30;
 	            main.height(thisheight);
-	        });
-	
+	        });			
+	        
 	        (function() {
 	            var num = 0;
 	            $('#btnNext').click(function() {
@@ -151,12 +154,19 @@
 	                var new_src = "${ctx}/award/managerPiecework";
 
 	            	var new_src = "";
-	            	if(sum == 4){
+	            	if(sum == 0){
+	            		new_src = "./bonusConfiguration"
+	            	}else if(sum == 1){
+	            		
+	            	}else if(sum == 2){
+	            		
+	            	}else if(sum == 3){
+	            		
+	            	}if(sum == 4){
 	            		new_src = "../newAward/newBonus";
 	            	}else if(sum == 5){
 	            		new_src = "../newAward/personBonusCollect";
-	            	}
-	                // = "../manager/managerStep" + sum + ".html";
+	            	}	                
 	                $("#UpdateUserItem",parent.document.body).attr("src",new_src);
 	            }
 	
