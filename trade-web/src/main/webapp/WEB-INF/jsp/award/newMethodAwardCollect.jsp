@@ -100,11 +100,22 @@
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
     <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>  
 	<script>
-	        $(window.parent.document).find(".UpdateUserItem").load(function () {
+	
+			$(document).ready(function() {				
+		        
+		        $('.UpdateUserItem').load(function() { 
+		            var iframeHeight=$(this).contents().height(); 
+		            console.log(iframeHeight);
+		            $(this).height(iframeHeight+'px');   
+		        }); 
+			});
+/* 	        $(window.parent.document).find(".UpdateUserItem").load(function () {
 	            var main = $(window.parent.document).find(".UpdateUserItem");
-	            var thisheight = $(document).height() + 30;
+	            var thisheight = $(document).height() -3;
+	            console.log(thisheight);
 	            main.height(thisheight);
-	        });			
+	        });	 */		
+
 	        
 	        (function() {
 	            var num = 0;
@@ -153,8 +164,9 @@
 	            function New_src(sum) {
 	            	var belongMonth = $("#belongMonth").val();
 	                var new_src = "${ctx}/newAward/managerPiecework?belongMonth="+belongMonth;
-
-	                if(sum == 1){
+					if(sum == 0){
+						new_src = "../newAward/managerPiecework";
+					}else if(sum == 1){
 	                	new_src = "../newAward/satis";
 	                }else  if(sum == 2){
 	            		new_src = "../newAward/monthKpiImport";

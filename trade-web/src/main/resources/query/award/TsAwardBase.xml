@@ -34,8 +34,9 @@
 		<searchSql>
 			<baseSql>
                   <![CDATA[
-					SELECT 
+					SELECT 					  
 					  T_TS_AWARD_DETAIL.CASE_CODE,
+					  (SELECT TOP 1 C.PKID FROM sctrans.T_TO_CASE C WHERE C.CASE_CODE = T_TS_AWARD_DETAIL.CASE_CODE)CASE_PKID,
 					  SUM(T_TS_AWARD_DETAIL.AWARD_KPI_MONEY) BASE_CASE_AMOUNT,
 					  (SELECT TOP 1 GUOHU_TIME FROM sctrans.T_TS_AWARD_BASE WHERE CASE_CODE = T_TS_AWARD_DETAIL.CASE_CODE) AS GUOHU_TIME,
 					  (SELECT TOP 1 CLOSE_TIME FROM sctrans.T_TS_AWARD_BASE WHERE CASE_CODE = T_TS_AWARD_DETAIL.CASE_CODE) AS CLOSE_TIME,
@@ -63,6 +64,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
+				<column type="both" name="CASE_PKID" index="" checkbox="" title="案件主键" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="BASE_CASE_AMOUNT" index="" checkbox="" title="奖金" customDict="" sysDict="" beanFormatter="numberFormater" format="" width="90" isSort="" align="" halign="" resizable=""/>
 				<column type="both" name="GUOHU_TIME" index="" checkbox="" title="过户时间" customDict="" sysDict="" beanFormatter="dateFormatter" format="" width="90" isSort="" align="" halign="" resizable=""/>
