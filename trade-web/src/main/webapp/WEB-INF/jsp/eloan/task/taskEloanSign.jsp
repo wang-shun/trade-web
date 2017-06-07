@@ -30,6 +30,8 @@
     <link href="${ctx}/static/trans/css/common/input.css" rel="stylesheet"/>
     <link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet"/>
     <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" ">
+    <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+    <link href="${ctx}/css/common/details.css" rel="stylesheet">
 
 </head>
 
@@ -184,6 +186,10 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- 跟进信息 -->
+                    <div id="caseCommentList" class="view-content"></div>
+                    </br>
 
                     <div class="ibox-content" id="zj_info">
                         <div class="main_titile">
@@ -303,8 +309,22 @@
     <!-- index_js -->
     <script src="${ctx}/static/trans/js/demo/eloan/eloan.js"></script>
     <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+    <script src= "${ctx}/js/template.js" type="text/javascript"></script>
+    <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+    <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+    <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
     <script>
-        $(document).ready(function () {        	
+        $(document).ready(function () {
+        	var eloanCode = "${eloanCase.eloanCode}";
+        	
+        	//跟进信息
+        	$("#caseCommentList").eloanCaseCommentGrid({
+						eloanCode : eloanCode,
+						source : 'EPLUS'
+						//type : 'TRACK'
+			});
+	   
 			 //驳回原因显示问题
 			 var eSignContent = $("#eSignContent").val();			
 			 if(eSignContent == '' || eSignContent == null){			

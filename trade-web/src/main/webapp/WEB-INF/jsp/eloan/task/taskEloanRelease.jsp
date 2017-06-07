@@ -30,6 +30,8 @@
     <link href="${ctx}/static/trans/css/common/input.css" rel="stylesheet"/>
     <link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet"/>
     <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" >
+    <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+    <link href="${ctx}/css/common/details.css" rel="stylesheet">
 
 </head>
 
@@ -193,7 +195,9 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="main_titile" style="position: relative;">
+                        
+                        <c:if test="${not empty eloanRelList}">  
+                         	<div class="main_titile" style="position: relative;">
 		                           <h5>放款记录</h5>
 		                           
 		                           <div class="case_content">
@@ -232,8 +236,13 @@
 							                           </div>
 												</c:forEach>
 		                           </div>
-		                 </div>
+		                 	</div>
+		               	</c:if>
+		                 
+		                  <!-- 跟进信息 -->
+                    	<div id="caseCommentList" class="view-content"></div>
                     </div>
+                    
 
                     <div class="ibox-content" id="loan_info">
                         <div class="main_titile">
@@ -296,6 +305,10 @@
     <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
     <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+    <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+    <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
+    
    	<script id="addMoneyRelease" type= "text/html">
                            <li id="releaseDiv{{divIndex}}">
                                 <div class="form_content">
@@ -326,8 +339,17 @@
                             </li>
 	</script>
     <script>
-        $(document).ready(function () {	
+        $(document).ready(function () {
+        	var eloanCode = "${eloanCase.eloanCode}";
+        	
         	getBankList();
+        	
+        	//跟进信息
+        	$("#caseCommentList").eloanCaseCommentGrid({
+						eloanCode : eloanCode,
+						source : 'EPLUS'
+						//type : 'TRACK'
+			});
         	
 			 //驳回原因显示问题
 			 var eLoanContent = $("#eLoanContent").val();	
