@@ -58,162 +58,79 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT 
-					  c.PKID,
-					  loanAgent.CASE_CODE,
-					  INFO.PROPERTY_ADDR,
-					  loanAgent.LOAN_SRV_CODE AS LOAN_SRV_CODE_OLD,
-					  loanAgent.EXECUTOR_ID AS EXECUTOR_ID_OLD,
-					  loanAgent.EXECUTOR_TEAM AS EXCUTOR_TEAM,
-					  '' AS EXCUTOR_DISTRICT,
-					  loanAgent.CREATOR_ID AS CREATE_ID_OLD,
-					  isnull(Convert(decimal(18,2),sign.CON_PRICE/10000),0) as 'CON_PRICE',
-					  loanAgent.APPLY_TIME,
-					  loanAgent.SIGN_TIME,
-					  loanAgent.CREATE_TIME,
-					  loanAgent.RELEASE_TIME,
-					  isnull(Convert(decimal(18,2),loanAgent.LOAN_AMOUNT/10000),0) as 'LOAN_AMOUNT',
-					  isnull(Convert(decimal(18,2),loanAgent.SIGN_AMOUNT/10000),0) as 'SIGN_AMOUNT',
-					  isnull(Convert(decimal(18,2),loanAgent.ACTUAL_AMOUNT/10000),0) as 'ACTUAL_AMOUNT',
-					  c.ORG_ID,
-					  c.DISTRICT_ID,
-					  C.LEADING_PROCESS_ID,
-					  caseInfo.GRP_NAME,
-					  caseInfo.QJDS_NAME,
-					  finOrg.FIN_ORG_NAME as 'finOrgName',
-					  loanAgent.cust_name as custName,
-					  caseInfo.AGENT_NAME as AgentName,
-					  '' as zjName,
-				      '' as custCardType,
-					  '' as custPaper
-					FROM
-					   sctrans.T_TO_LOAN_AGENT loanAgent
-					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
-					INNER JOIN sctrans.T_TO_CASE_INFO caseInfo ON caseInfo.CASE_CODE =  loanAgent.CASE_CODE
-					LEFT JOIN  sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
-					INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
-					INNER JOIN sctrans.T_TS_FIN_ORG finOrg ON finOrg.FIN_ORG_CODE = loanAgent.FIN_ORG_CODE
-				    <ifNotNull isJygw>
-						and loanAgent.EXECUTOR_ID = #userId#
-					</ifNotNull>
-					INNER JOIN
-				        sctrans.v_yucui_org_hierarchy orgHierarchy
-				    ON
-				        orgHierarchy.ORG_ID = loanAgent.executor_team
-				    WHERE
-				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !=''
+					SELECT
+						  c.PKID,
+						  loanAgent.CASE_CODE,
+						  INFO.PROPERTY_ADDR,
+						  loanAgent.LOAN_SRV_CODE AS LOAN_SRV_CODE_OLD,
+						  loanAgent.EXCUTOR_ID AS EXECUTOR_ID_OLD,
+						  loanAgent.EXCUTOR_TEAM,
+						  loanAgent.EXCUTOR_DISTRICT,
+						  loanAgent.CREATE_BY AS CREATE_ID_OLD,
+						  --loanAgent.excutor_team as 'PARENT_ORG_NAME_OLD',
+						  isnull(Convert(decimal(18,2),sign.CON_PRICE/10000),0) as 'CON_PRICE',
+						  loanAgent.APPLY_TIME,
+						  loanAgent.SIGN_TIME,
+						  loanAgent.CREATE_TIME,
+						 rel.RELEASE_TIME AS RELEASE_TIME,
+						ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.APPLY_AMOUNT), 0) AS 'LOAN_AMOUNT' ,
+						ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.SIGN_AMOUNT), 0) AS 'SIGN_AMOUNT' ,
+						ISNULL(CONVERT(DECIMAL(18, 2), rel.RELEASE_AMOUNT),0) AS 'ACTUAL_AMOUNT',
+						c.ORG_ID,
+						c.DISTRICT_ID,
+						C.LEADING_PROCESS_ID,
+						caseInfo.GRP_NAME,
+						caseInfo.QJDS_NAME,
+						finOrg.FIN_ORG_NAME as 'finOrgName',
+						loanAgent.cust_name as custName,
+						caseInfo.AGENT_NAME as AgentName,
+						loanAgent.ZJ_NAME,
+						CASE
+							WHEN loanAgent.CUST_CARD_TYPE='SFZ' THEN '身份证'
+							WHEN loanAgent.CUST_CARD_TYPE='HZ' THEN '护照'
+							WHEN loanAgent.CUST_CARD_TYPE='XGSFZ' THEN '香港身份证'
+							WHEN loanAgent.CUST_CARD_TYPE='GATXZ' THEN '港澳通行证'
+							WHEN loanAgent.CUST_CARD_TYPE='TBZ' THEN '台胞证'
+						END as custCardType,
+						loanAgent.CUST_PAPER as custPaper
 
-				     <ifNotNull caseCode>
-						and loanAgent.CASE_CODE= #caseCode#
-					</ifNotNull>
+						FROM
+						   sctrans.T_TO_ELOAN_CASE loanAgent
+						INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
+						INNER JOIN sctrans.T_TO_CASE_INFO caseInfo ON caseInfo.CASE_CODE = loanAgent.CASE_CODE
+						LEFT JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
+						LEFT JOIN sctrans.T_TO_ELOAN_REL rel ON rel.ELOAN_CODE = loanAgent.ELOAN_CODE and rel.CONFIRM_STATUS=1
+						INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
+						INNER JOIN sctrans.T_TS_FIN_ORG finOrg ON finOrg.FIN_ORG_CODE = loanAgent.FIN_ORG_CODE
+						<ifNotNull isJygw>
+							and loanAgent.EXCUTOR_ID = #userId#
+						</ifNotNull>
+						INNER JOIN sctrans.v_yucui_org_hierarchy orgHierarchy ON orgHierarchy.ORG_ID = loanAgent.excutor_team
+						WHERE
+						loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !='' AND (loanAgent.STATUS IS NULL OR loanAgent.STATUS='VALID')
 
-					<ifNotNull propertyAddr>
-						and INFO.PROPERTY_ADDR like  #propertyAddr#
-					</ifNotNull>
+						<ifNotNull applyTimeStart>
+							and loanAgent.APPLY_TIME &gt;= #applyTimeStart#
+						</ifNotNull>
+						<ifNotNull applyTimeEnd>
+							and loanAgent.APPLY_TIME &lt; #applyTimeEnd#
+						</ifNotNull>
+						<ifNotNull signTimeStart>
+							and loanAgent.SIGN_TIME &gt;= #signTimeStart#
+						</ifNotNull>
+						<ifNotNull signTimeEnd>
+							and loanAgent.SIGN_TIME &lt; #signTimeEnd#
+						</ifNotNull>
 
-					<ifNotNull loanSrvCode>
-						and loanAgent.LOAN_SRV_CODE =  #loanSrvCode#
-					</ifNotNull>
-
-
-				    <ifNotNull applyTimeStart>
-						and loanAgent.APPLY_TIME &gt;= #applyTimeStart#
-					</ifNotNull>
-					<ifNotNull applyTimeEnd>
-						and loanAgent.APPLY_TIME &lt; #applyTimeEnd#
-					</ifNotNull>
-					<ifNotNull signTimeStart>
-						and loanAgent.SIGN_TIME &gt;= #signTimeStart#
-					</ifNotNull>
-					<ifNotNull signTimeEnd>
-						and loanAgent.SIGN_TIME &lt; #signTimeEnd#
-					</ifNotNull>
-
-				    <ifNotNull releaseTimeStart>
-						and loanAgent.RELEASE_TIME &gt;= #releaseTimeStart#
-					</ifNotNull>
-					<ifNotNull releaseTimeEnd>
-						and loanAgent.RELEASE_TIME &lt; #releaseTimeEnd#
-					</ifNotNull>
-
-					<if test="yuCuiOriGrpId!=null and yuCuiOriGrpId!=''">
-						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
-					</if>
-
-					UNION ALL
-				SELECT
-					  c.PKID,
-					  loanAgent.CASE_CODE,
-					  INFO.PROPERTY_ADDR,
-					  loanAgent.LOAN_SRV_CODE AS LOAN_SRV_CODE_OLD,
-					  loanAgent.EXCUTOR_ID AS EXECUTOR_ID_OLD,
-					  loanAgent.EXCUTOR_TEAM,
-					  loanAgent.EXCUTOR_DISTRICT,
-					  loanAgent.CREATE_BY AS CREATE_ID_OLD,
-					  --loanAgent.excutor_team as 'PARENT_ORG_NAME_OLD',
-					  isnull(Convert(decimal(18,2),sign.CON_PRICE/10000),0) as 'CON_PRICE',
-					  loanAgent.APPLY_TIME,
-					  loanAgent.SIGN_TIME,
-					  loanAgent.CREATE_TIME,
-					 rel.RELEASE_TIME AS RELEASE_TIME,
-        			ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.APPLY_AMOUNT), 0) AS 'LOAN_AMOUNT' ,
-        			ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.SIGN_AMOUNT), 0) AS 'SIGN_AMOUNT' ,
-					ISNULL(CONVERT(DECIMAL(18, 2), rel.RELEASE_AMOUNT),0) AS 'ACTUAL_AMOUNT',
-					c.ORG_ID,
-					c.DISTRICT_ID,
-					C.LEADING_PROCESS_ID,
-					caseInfo.GRP_NAME,
-					caseInfo.QJDS_NAME,
-					finOrg.FIN_ORG_NAME as 'finOrgName',
-					loanAgent.cust_name as custName,
-					caseInfo.AGENT_NAME as AgentName,
-					loanAgent.ZJ_NAME,
-					CASE
-						WHEN loanAgent.CUST_CARD_TYPE='SFZ' THEN '身份证'
-						WHEN loanAgent.CUST_CARD_TYPE='HZ' THEN '护照'
-						WHEN loanAgent.CUST_CARD_TYPE='XGSFZ' THEN '香港身份证'
-						WHEN loanAgent.CUST_CARD_TYPE='GATXZ' THEN '港澳通行证'
-						WHEN loanAgent.CUST_CARD_TYPE='TBZ' THEN '台胞证'
-					END as custCardType,
-					loanAgent.CUST_PAPER as custPaper
-
-					FROM
-					   sctrans.T_TO_ELOAN_CASE loanAgent
-					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
-					INNER JOIN sctrans.T_TO_CASE_INFO caseInfo ON caseInfo.CASE_CODE = loanAgent.CASE_CODE
-					LEFT JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
-					LEFT JOIN sctrans.T_TO_ELOAN_REL rel ON rel.ELOAN_CODE = loanAgent.ELOAN_CODE and rel.CONFIRM_STATUS=1
-					INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
-					INNER JOIN sctrans.T_TS_FIN_ORG finOrg ON finOrg.FIN_ORG_CODE = loanAgent.FIN_ORG_CODE
-					<ifNotNull isJygw>
-						and loanAgent.EXCUTOR_ID = #userId#
-					</ifNotNull>
-					INNER JOIN sctrans.v_yucui_org_hierarchy orgHierarchy ON orgHierarchy.ORG_ID = loanAgent.excutor_team
-				    WHERE
-				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !='' AND (loanAgent.STATUS IS NULL OR loanAgent.STATUS='VALID')
-
-				    <ifNotNull applyTimeStart>
-						and loanAgent.APPLY_TIME &gt;= #applyTimeStart#
-					</ifNotNull>
-					<ifNotNull applyTimeEnd>
-						and loanAgent.APPLY_TIME &lt; #applyTimeEnd#
-					</ifNotNull>
-					<ifNotNull signTimeStart>
-						and loanAgent.SIGN_TIME &gt;= #signTimeStart#
-					</ifNotNull>
-					<ifNotNull signTimeEnd>
-						and loanAgent.SIGN_TIME &lt; #signTimeEnd#
-					</ifNotNull>
-
-				    <ifNotNull releaseTimeStart>
-						and rel.RELEASE_TIME &gt;= #releaseTimeStart#
-					</ifNotNull>
-					<ifNotNull releaseTimeEnd>
-						and rel.RELEASE_TIME &lt; #releaseTimeEnd#
-					</ifNotNull>
-					<if test="yuCuiOriGrpId!=null and yuCuiOriGrpId!=''">
-						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
-					</if>
+						<ifNotNull releaseTimeStart>
+							and rel.RELEASE_TIME &gt;= #releaseTimeStart#
+						</ifNotNull>
+						<ifNotNull releaseTimeEnd>
+							and rel.RELEASE_TIME &lt; #releaseTimeEnd#
+						</ifNotNull>
+						<if test="yuCuiOriGrpId!=null and yuCuiOriGrpId!=''">
+							and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
+						</if>
 				]]>
 			</baseSql>
 			<orderBySql>

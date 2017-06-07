@@ -120,7 +120,17 @@
 						E.loanlost_apply_reason,
 						E.LOANLOST_CONFIRM_CODE,
 						AC.org_name AS  AGENT_ORG,
-
+						(
+							SELECT
+								(
+									CASE WHEN HOUSE_QUANTITY='0' then '首套'
+									WHEN HOUSE_QUANTITY='1' then '二套'
+									WHEN HOUSE_QUANTITY='2' then '多套'
+									END
+								) as HOUSE_QUANTITY
+							 FROM sctrans.T_TO_SIGN sign with(nolock)
+							 WHERE sign.CASE_CODE = B.CASE_CODE AND sign.IS_ACTIVE = 1
+						 ) AS HOUSE_QUANTITY,
 						(SELECT TOP 1 HOUSE_HODING_TAX  FROM sctrans.T_TO_SIGN TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_HOUSE_HODING_TAX,
 						(SELECT TOP 1 PERSONAL_INCOME_TAX FROM sctrans.T_TO_SIGN TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_PERSONAL_INCOME_TAX,
 						(SELECT TOP 1 BUSINESS_TAX FROM sctrans.T_TO_SIGN TAX with(nolock) WHERE TAX.CASE_CODE = B.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_BUSINESS_TAX,
@@ -430,6 +440,7 @@
 				<column type="both" name="SRV_STR" title="合作类型" hidden="true" />
 				<column  name="PROCESSOR_ID" title="合作对象"	 hidden="true" />
 				<column  name="PROCESSOR_ORG_NAME" title="合作对象组别"	 hidden="true" />
+				<column type="both" name="HOUSE_QUANTITY" title="下家是否首套" customDict="" />
 
 				<column type="both" name="PROPERTY_ADDR" title="产证地址"	customDict="" hidden="true" />
 				<column type="both" name="SELLER" title="上家" hidden="true" />
@@ -890,7 +901,9 @@
 				<column type="both" name="LOAN_REC_LETTER_NO" title="推荐函编号"	customDict="" />
 				<column type="both" name="LOAN_LOST_CONFIRM_CODE" title="贷款流失确认函编号"	customDict="" />
 				<column type="both" name="LOAN_SELF_DEL_REASON" title="贷款流失详情"	customDict="" />
-				<column type="both" name="LOAN_LOST_APPLY_REASON" title="贷款流失主要原因"	customDict="" />				
+				<column type="both" name="LOAN_LOST_APPLY_REASON" title="贷款流失主要原因"	customDict="" />
+				<column type="both" name="HOUSE_QUANTITY" title="下家是否首套" customDict="" />
+
 				<column type="both" name="CASE_REAL_CON_TIME" title="签约时间"		customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="CASE_TAX_TIME" title="审税时间" customDict=""	hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="CASE_PRICING_TIME" title="核价时间"	customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
