@@ -10,9 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.attachment.service.ToAccesoryListService;
-import com.centaline.trans.cases.entity.Result2;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.engine.bean.RestVariable;
@@ -106,9 +106,24 @@ public class LoanReleaseController
      */
     @RequestMapping(value = "submitLoanRelease")
     @ResponseBody
-    public Result2 submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime, String taskId,
+    public Object submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime, String taskId,
             String processInstanceId, String partCode)
     {
-        return toMortgageService.submitLoanRelease(request, toMortgage, taskitem, estPartTime, taskId, processInstanceId, partCode);
+        AjaxResponse response = new AjaxResponse();
+
+        try
+        {
+            toMortgageService.submitLoanRelease(request, toMortgage, taskitem, estPartTime, taskId, processInstanceId, partCode);
+            response.setSuccess(true);
+            response.setMessage("放款信息提交成功！");
+        }
+        catch (Exception e)
+        {
+            response.setSuccess(false);
+            response.setMessage("放款信息提交失败！");
+            e.printStackTrace();
+        }
+
+        return response;
     }
 }
