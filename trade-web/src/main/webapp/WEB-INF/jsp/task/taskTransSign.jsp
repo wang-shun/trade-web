@@ -165,7 +165,7 @@
 		                        </div>
 		                        <div class="form_content">
 		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>查限购 </label>
-		                            <div class="controls isnowid" style="margin-left: 0px;">
+		                            <div class="controls isnowid" style="width: 180px;margin-left: 0px;">
 		                               <select class="select_control data_style" readOnlydata='1' name="isPerchaseReserachNeed" id="chaxiangou">
 												<option value="">请选择</option>
 												<option value="true" ${transSign.isPerchaseReserachNeed=="1"?'selected':''}>是</option>
@@ -176,7 +176,7 @@
 
 								<div class="form_content">
 									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>下家是否首套</label>
-									<div class="controls isnowid" style="margin-left: 0px;">
+									<div class="controls isnowid" style="width: 180px;margin-left: 0px;">
 										<select class="select_control data_style" readOnlydata='1' name="houseQuantity" id="houseQuantity">
 											<option value="">请选择</option>
 											<option value="0" ${transSign.houseQuantity=="0"?'selected':''}>首套</option>
