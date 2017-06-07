@@ -7,9 +7,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-
-
 <link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" />	
     	<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet" />
 		<!-- Data Tables -->
@@ -65,14 +62,14 @@
                    </label>
                    <input type="text" class=" input_type" id="userName" name="userName" placeholder="" >
                </div>
-               <div class="form_content">
+               <%-- <div class="form_content">
                    <label class="control-label sign_left_small">
                        	选择批次
                    </label>
                    <div id="datepicker_0" class=" date-picker input-daterange" style="display:inline-block;" data-date-format="yyyy-mm">
 					<input id="belongMonthf" name="belongMonthf" class="form-control" style="font-size: 13px;" type="text" value="${belongMonthf }" placeholder="选择批次"/>
 				  </div>
-               </div>
+               </div> --%>
            </div>
            <div class="line">
                <div class="form_content" style="margin-left: 127px;">
@@ -173,6 +170,9 @@
 <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 
 <content tag="local_script"> 
+
+<script src="<c:url value='/static/js/jquery-2.1.1.js' />" ></script>
+<script src="<c:url value='/static/js/bootstrap.min.js' />" ></script>
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 <script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
 <script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
@@ -297,6 +297,7 @@
         	  title: '导入月度KPI明细页',
         	  shadeClose: true,
         	  shade: 0.8,
+        	  offset: ['50px'],
         	  area: ['50%', '40%'],	
         	  content: $('#excelImport'), //捕获的元素
         	  btn: ['提交','关闭'],
@@ -341,7 +342,9 @@
         	    layer.close(index);
         	    //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', {time: 5000, icon:6});
         	  }
+        	  
         	});
+    		
     	}) 
     	$('#cleanButton').click(function() {
  			$("input[name='teamCode']").val('');
