@@ -149,6 +149,8 @@
 		<pattern>/newAward/newBonus</pattern>
 		<pattern>/newAward/personBonusCollect</pattern>		
 		<pattern>/newAward/managerPiecework</pattern>
+		<pattern>/newAward/monthKpiImport</pattern>
+		<pattern>/newAward/wastageRate</pattern>
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

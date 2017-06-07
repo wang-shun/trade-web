@@ -154,6 +154,12 @@
 	            	var belongMonth = $("#belongMonth").val();
 	                var new_src = "${ctx}/newAward/managerPiecework?belongMonth="+belongMonth;
 
+	                if(sum == 2){
+	            		new_src = "../newAward/monthKpiImport";
+            		}else if(sum == 3){
+            			new_src = "../newAward/wastageRate";
+            		}
+            		
 	            	 /* var new_src = "";
 	            	if(sum == 4){
 	            		new_src = "../newAward/newBonus";
