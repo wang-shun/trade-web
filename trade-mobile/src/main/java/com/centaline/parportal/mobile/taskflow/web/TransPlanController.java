@@ -3,6 +3,9 @@ package com.centaline.parportal.mobile.taskflow.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +51,8 @@ public class TransPlanController
      */
     @RequestMapping("process")
     @ResponseBody
-    public Object toProcess(String caseCode, String taskId, String processInstanceId)
+    public Object toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source, String taskitem, String taskId,
+            String instCode)
     {
         JSONObject jsonObject = new JSONObject();
 
@@ -59,16 +63,19 @@ public class TransPlanController
             caseBaseVO.setLoanType("30004005");
         }
 
-        RestVariable dy = workFlowManager.getVar(processInstanceId, "LoanCloseNeed");/* 抵押 */
-        RestVariable psf = workFlowManager.getVar(processInstanceId, "PSFLoanNeed");/* 公积金 */
-        RestVariable self = workFlowManager.getVar(processInstanceId, "SelfLoanNeed");/* 自办 */
-        RestVariable com = workFlowManager.getVar(processInstanceId, "ComLoanNeed");/* 贷款 */
+        RestVariable dy = workFlowManager.getVar(instCode, "LoanCloseNeed");/* 抵押 */
+        RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/* 公积金 */
+        RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");/* 自办 */
+        RestVariable com = workFlowManager.getVar(instCode, "ComLoanNeed");/* 贷款 */
         boolean dk = ((boolean) (psf == null ? false : psf.getValue()) || (boolean) (self == null ? false : self.getValue()) || (boolean) (com == null ? false
                 : com.getValue()));
 
+        jsonObject.put("taskitem", taskitem);
+        jsonObject.put("source", source);
         jsonObject.put("taskId", taskId);
-        jsonObject.put("processInstanceId", processInstanceId);
+        jsonObject.put("instCode", instCode);
         jsonObject.put("caseBaseVO", caseBaseVO);
+        jsonObject.put("caseCode", caseCode);
         jsonObject.put("dy", dy == null ? false : dy.getValue());
         jsonObject.put("dk", dk);
         jsonObject.put("transPlan", transplanServiceFacade.findTransPlanByCaseCode(caseCode));

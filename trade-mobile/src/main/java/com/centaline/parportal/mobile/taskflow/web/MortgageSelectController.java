@@ -1,5 +1,8 @@
 package com.centaline.parportal.mobile.taskflow.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,7 +90,8 @@ public class MortgageSelectController
      */
     @RequestMapping(value = "process")
     @ResponseBody
-    public Object toProcess(String caseCode, String taskId, String processInstanceId)
+    public Object toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source, String taskitem, String taskId,
+            String processInstanceId)
     {
         JSONObject jsonObject = new JSONObject();
 
@@ -105,6 +109,8 @@ public class MortgageSelectController
 
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
+        jsonObject.put("taskitem", taskitem);
+        jsonObject.put("source", source);
         jsonObject.put("caseCode", caseCode);
         jsonObject.put("caseBaseVO", caseBaseVO);
         jsonObject.put("loanReleasePlan", transplanServiceFacade.findTransPlan(plan));
