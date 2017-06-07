@@ -24,6 +24,21 @@ function reloadGridList(){
 }
 //新增高层信息
 $("#save").click(function(){
+	var userNm = $("#managerForm #userName").val();
+	var srvFee = $.trim($("#managerForm #srvFee").val());
+	if(userNm==null || userNm==''){
+		window.wxc.alert("姓名不能为空！");
+		return;
+	}
+	if(srvFee==null || srvFee==''){
+		window.wxc.alert("基础奖金不能为空！");
+		return;
+	}
+	if(!/^[1-9][0-9]*$/.test(srvFee)){  
+		window.wxc.alert("请输入正确的基础奖金!");  
+		return;
+    }  
+	
 	var jsonData = $("#managerForm").serializeArray();
 	$.ajax({
 		cache : false,

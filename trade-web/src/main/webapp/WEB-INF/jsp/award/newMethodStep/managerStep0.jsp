@@ -406,12 +406,12 @@ function reloadGrid(){
 
 //新增
 $('#AddBtn').click(function(event) {
-	$("#userId").val("");
-	$("#userName").val("");
-	$("#jobName").val("");
-	$("#orgName").val("");
-	$("#orgId").val("");
-	$("#srvFee").val("");
+	$("#managerForm #userId").val("");
+	$("#managerForm #userName").val("");
+	$("#managerForm #jobName").val("");
+	$("#managerForm #orgName").val("");
+	$("#managerForm #orgId").val("");
+	$("#managerForm #srvFee").val("");
     $('#addModal').modal('show');
     
 });

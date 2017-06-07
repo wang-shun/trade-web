@@ -62,7 +62,7 @@
                 </div>
                 <div class="row box-content">
                     <div class="col-md-12">
-                        <iframe src="./managerPiecework" id="UpdateUserItem"  name="" frameborder="0" width="100%"  scrolling="no"></iframe>
+                        <iframe src="" class="UpdateUserItem"  name="" frameborder="0" width="100%"  scrolling="no"></iframe>
                         <!-- <iframe src="./managerStep2.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
                         <!-- <iframe src="./managerStep3.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
                         <!-- <iframe src="./managerStep4.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
@@ -100,8 +100,8 @@
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
     <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>  
 	<script>
-	        $(window.parent.document).find("#UpdateUserItem").load(function () {
-	            var main = $(window.parent.document).find("#UpdateUserItem");
+	        $(window.parent.document).find(".UpdateUserItem").load(function () {
+	            var main = $(window.parent.document).find(".UpdateUserItem");
 	            var thisheight = $(document).height() + 30;
 	            main.height(thisheight);
 	        });			
@@ -165,7 +165,7 @@
 	            	}else if(sum == 5){
 	            		new_src = "../newAward/personBonusCollect";
 	            	} 	                
-	                $("#UpdateUserItem",parent.document.body).attr("src",new_src);
+	                $(".UpdateUserItem",parent.document.body).attr("src",new_src);
 	            }
 	
 	            $('#AddBtn').click(function(event) {
