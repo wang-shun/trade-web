@@ -15,28 +15,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- jdGrid相关 -->
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">
 <!-- 上传相关 -->
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 <!-- 备件相关结束 -->
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 <!-- bank  select -->
-<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
+<link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 <!-- 新调整页面样式 -->
-<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
-<link href="${ctx}/css/common/details.css" rel="stylesheet">
-<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
-<link href="${ctx}/css/common/btn.css" rel="stylesheet">
-<link href="${ctx}/css/common/input.css" rel="stylesheet">
-<link href="${ctx}/css/common/table.css" rel="stylesheet">
+<link href="<c:url value='/css/common/caseDetail.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
+<link href="<c:url value='/css/iconfont/iconfont.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
 
 
 <script type="text/javascript">
@@ -155,34 +155,34 @@
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	<content tag="local_script"> 
 	<!-- jqGrid -->
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
-	<script src="${ctx}/transjs/task/showAttachment.js"></script> 
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
+	<script src="<c:url value='/transjs/task/loanlostApprove.js' />"></script>
+	<script src="<c:url value='/transjs/task/showAttachment.js' />"></script> 
+	<script src="<c:url value='/transjs/common/caseTaskCheck.js' />"></script> 
 	<!-- Custom and plugin javascript -->
-	<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
+	<script	src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> 
 
 	<!-- Data picker -->
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 
-    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<!-- bank select -->
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
+	<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
 	
-	<script src="${ctx}/transjs/task/follow.pic.list.js"></script>
-	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+	<script src="<c:url value='/transjs/task/follow.pic.list.js' />"></script>
+	<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
 		<!-- Data picker -->
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 	
-	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+	<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<!-- 改版引入的新的js文件 -->
-	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
-	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
+	<script src="<c:url value='/js/common/textarea.js' />"></script>
+	<script src="<c:url value='/js/common/common.js' />"></script>
 	<script>
 		$(document).ready(function(){
 			/*根据贷款服务项，设置默认合作项目*/

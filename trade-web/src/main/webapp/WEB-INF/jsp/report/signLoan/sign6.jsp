@@ -6,19 +6,19 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>后台交易顾问工作量统计</title>
-        <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
-        <link href="${ctx}/static/css/animate.css" rel="stylesheet"/>
-        <link href="${ctx}/static/css/style.css" rel="stylesheet"/>
+        <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
+        <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet"/>
+        <link href="<c:url value='/static/css/animate.css' />" rel="stylesheet"/>
+        <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"/>
 		<!-- 分页控件 -->
-		<link rel="stylesheet" href="${ctx}/static/css/plugins/pager/centaline.pager.css" />
+		<link rel="stylesheet" href="<c:url value='/static/css/plugins/pager/centaline.pager.css' />" />
 
         <!-- index_css -->
-        <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
-        <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-        <link rel="stylesheet" href="${ctx}/static/trans/css/common/btn.css" />
-        <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-        <link rel="stylesheet" href="${ctx}/css/eachartdata/eachartdata.css">
+        <link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
+        <link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
+        <link rel="stylesheet" href="<c:url value='/static/trans/css/common/btn.css' />" />
+        <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+        <link rel="stylesheet" href="<c:url value='/css/eachartdata/eachartdata.css' />">
     </head>
     <body style="background-color:#fff;">
          <!--*********************** HTML_main*********************** -->
@@ -93,14 +93,14 @@
 		</div>
 	</div>
 	<!--*********************** HTML_main*********************** -->
-        <script src="${ctx}/js/jquery-2.1.1.js"></script>
-        <script src="${ctx}/js/bootstrap.min.js"></script>
-        <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	    <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-		<script src= "${ctx}/static/js/template.js" type="text/javascript" ></script>
-		<script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
-		<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>	
-		<script src="${ctx}/js/trunk/report/getTemplateData.js"></script>
+        <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+        <script src="<c:url value='/js/bootstrap.min.js' />"></script>
+        <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	    <script src="<c:url value='/static/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+		<script src= "<c:url value='/static/js/template.js' />" type="text/javascript" ></script>
+		<script src="<c:url value='/static/js/plugins/aist/aist.jquery.custom.js' />"></script>
+		<script src="<c:url value='/static/js/plugins/jquery.custom.js' />"></script>	
+		<script src="<c:url value='/js/trunk/report/getTemplateData.js' />"></script>
 		<script id="template_table" type="text/html">
           {{each rows as item index}}
 		    <tr>

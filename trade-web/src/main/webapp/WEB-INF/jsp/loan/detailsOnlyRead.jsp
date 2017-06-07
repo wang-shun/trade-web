@@ -10,26 +10,26 @@
 <title>知识库列表</title>
 
 <!-- Toastr style -->
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 <!-- Add fancyBox main JS and CSS files -->
 <link rel="stylesheet" type="text/css"
-	href="${ctx}/css/jquery.fancybox.css?v=2.1.5" media="screen" />
+	href="<c:url value='/css/jquery.fancybox.css' />" media="screen" />
 <!-- Add Button helper (this is optional) -->
 <link rel="stylesheet" type="text/css"
-	href="${ctx}/css/jquery.fancybox-buttons.css?v=1.0.5" />
+	href="<c:url value='/css/jquery.fancybox-buttons.css' />" />
 <!-- Add Thumbnail helper (this is optional) -->
 <link rel="stylesheet" type="text/css"
-	href="${ctx}/css/jquery.fancybox-thumbs.css?v=1.0.7" />
+	href="<c:url value='/css/jquery.fancybox-thumbs.css' />" />
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
+<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />"
 	rel="stylesheet">
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 
 <style type="text/css">
 #table_list_2>tbody>tr>td{
@@ -230,10 +230,10 @@ background-color : #ffffff;
 
 	</script>
 	<content tag="local_script"> <!-- jqGrid --> 
-	<script	src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
-	<script	src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
-	<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	<script	src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script> 
+	<script	src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
+	<script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 	<script>
 			var ctx="${ctx}";
 			var postData,caseList;

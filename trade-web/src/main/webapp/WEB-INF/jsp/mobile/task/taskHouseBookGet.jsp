@@ -13,23 +13,23 @@
 
 <meta charset="utf-8">
 <!-- 上传相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">
+<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />" rel="stylesheet">
+<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />" rel="stylesheet">
+<link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />" rel="stylesheet">
 <!-- 展示相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css" rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css" rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css" rel="stylesheet">
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+<link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />" rel="stylesheet">
+<link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />" rel="stylesheet">
+<link href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />" rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 <!-- 备件相关结束 -->
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 <!-- jdGrid相关 -->
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -214,41 +214,41 @@
 
 	<content tag="local_script"> 
 	<!-- Peity --> 
-	<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
+	<script	src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script> 
 	<!-- jqGrid -->
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
 	<!-- Custom and plugin javascript -->
 
-	<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
+	<script	src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> 
 
 	<!-- Data picker -->
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 
 	<!-- 上传附件相关 --> 
-	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-fp.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-ui.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/clockface.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js' />"></script>
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.multi-select.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
-	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
+	<script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script> 
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 -->
-	<script	src="${ctx}/js/trunk/task/attachment.js"></script> 
+	<script	src="<c:url value='/js/trunk/task/attachment.js' />"></script> 
 
-    <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 
 
 	<script>

@@ -12,35 +12,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>保管物品详情页</title>
 
-<link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css" >
-<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" >
+<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css' />" >
+<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />">
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" >
 
-<link rel="stylesheet" href="${ctx}/static/css/animate.css">
-<link rel="stylesheet" href="${ctx}/static/css/style.css">
+<link rel="stylesheet" href="<c:url value='/static/css/animate.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/style.css' />">
 
-<link rel="stylesheet" href="${ctx}/static/css/plugins/aist-steps/steps.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/toastr/toastr.min.css">
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/aist-steps/steps.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />">
  
 <!-- Data Tables -->
-<link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/datapicker/datepicker3.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" />
-<link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.bootstrap.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.responsive.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
 
 <!-- 提示 -->
-<link rel="stylesheet" href="${ctx}/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" />
+<link rel="stylesheet" href="<c:url value='/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css' />" />
 
 <!-- index_css -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/uplodydome.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" /> 
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" /> 
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/uplodydome.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" /> 
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+<link rel="stylesheet" href="<c:url value='/js/viewer/viewer.min.css' />" /> 
 
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"	rel="stylesheet" />
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"	rel="stylesheet" />
+<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />"	rel="stylesheet" />
 </head>
 <body>
 
@@ -193,14 +193,14 @@
   
 <content tag="local_script"> 
 <!-- 必须JS -->
-<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 <!-- stickup plugin -->
-<script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
-<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-<script src="${ctx}/js/template.js" type="text/javascript"></script>
+<script src="<c:url value='/static_res/trans/js/spv/jkresponsivegallery.js' />"></script>
+<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
+<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
  <!-- stickup plugin -->
-<script src="${ctx}/js/viewer/viewer.min.js"></script>
+<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
 <script type="text/javascript">
 var attaPkid = "${attaPkid}";
 var ctx = "${ctx}";

@@ -6,17 +6,17 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>e+放款流水清单</title>
-    <link href="${ctx }/static/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="${ctx }/css/font-awesome.css" rel="stylesheet"/>
-    <link href="${ctx}/css/animate.css" rel="stylesheet">
-    <link href="${ctx}/css/style.css" rel="stylesheet">
+    <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
+    <link href="<c:url value='/css/font-awesome.css' />" rel="stylesheet"/>
+    <link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/style.css' />" rel="stylesheet">
 
     <!-- index_css -->
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
-    <link rel="stylesheet" href="${ctx }/static/trans/css/common/input.css" />
-    <link rel="stylesheet" href="${ctx }/static/trans/css/common/btn.css" />
-    <link rel="stylesheet" href="${ctx }/static/iconfont/iconfont.css"/>
-    <link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css"/>
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/btn.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />"/>
+    <link rel="stylesheet" href="<c:url value='/css/eachartdata/eachartdata.css' />"/>
 </head>
 <body style="background-color:#fff;">
 <!--*********************** HTML_main*********************** -->
@@ -83,12 +83,12 @@
 <!--*********************** HTML_main*********************** -->
 
 <!-- Mainly scripts -->
-<script src="${ctx }/js/jquery-2.1.1.js"></script>
-<script src="${ctx }/js/bootstrap.min.js"></script>
+<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+<script src="<c:url value='/js/bootstrap.min.js' />"></script>
 <!-- ECharts.js -->
-<script src="${ctx }/static/js/echarts-all.js"></script>
-<script src="${ctx }/static/trans/js/common/echartCommon.js"></script>
-<script src="${ctx}/static/trans/js/dataEcharts/FirstGuohuForm.js"></script>
+<script src="<c:url value='/static/js/echarts-all.js' />"></script>
+<script src="<c:url value='/static/trans/js/common/echartCommon.js' />"></script>
+<script src="<c:url value='/static/trans/js/dataEcharts/FirstGuohuForm.js' />"></script>
 <script>
    /*  $(function() {
         window.ECHART_D1_.turnDate();

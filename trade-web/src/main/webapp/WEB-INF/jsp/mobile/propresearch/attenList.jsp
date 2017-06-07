@@ -10,10 +10,10 @@
 <head>
    	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="${ctx}/static/momedia/css/plugins/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link href="${ctx}/static/momedia/css/common/style.css" rel="stylesheet">
-    <link href="${ctx}/static/momedia/css/mobile-yc-style.css" rel="stylesheet">
-    <link href="${ctx}/static/momedia/iconfontmobile/iconfont.css" rel="stylesheet">
+    <link href="<c:url value='/static/momedia/css/plugins/bootstrap/bootstrap.min.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/momedia/css/common/style.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/momedia/css/mobile-yc-style.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/momedia/iconfontmobile/iconfont.css' />" rel="stylesheet">
 </head>
 
 <body style="background-color: #eee;">
@@ -68,7 +68,7 @@
     </div>
 
     <!-- Mainly scripts -->
-    <script src="${ctx}/static/momedia/js/jquery-2.1.1.js"></script>
+    <script src="<c:url value='/static/momedia/js/jquery-2.1.1.js' />"></script>
 
 
 </body>

@@ -14,25 +14,25 @@
 <!-- Toastr style -->
 
 <!-- stickUp fixed css -->
-<link href="${ctx}/static/trans/css/common/hint.css" rel="stylesheet" />
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+<link href="<c:url value='/static/trans/css/common/hint.css' />" rel="stylesheet" />
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 
 <!-- Data Tables -->
 <link rel="stylesheet"
-	href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css">
+	href="<c:url value='/static/css/plugins/dataTables/dataTables.bootstrap.css' />">
 <link rel="stylesheet"
-	href="${ctx}/static/css/plugins/datapicker/datepicker3.css">
+	href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />">
 <link rel="stylesheet"
-	href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" />
+	href="<c:url value='/static/css/plugins/dataTables/dataTables.responsive.css' />" />
 <link rel="stylesheet"
-	href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/input.css" />
+	href="<c:url value='/static/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/input.css' />" />
 <!-- index_css -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/base.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
 <!-- 分页控件 -->
-<link href="${ctx}/static/css/plugins/pager/centaline.pager.css"
+<link href="<c:url value='/static/css/plugins/pager/centaline.pager.css' />"
 	rel="stylesheet" />
 <%
 	response.setHeader("Cache-Control", "no-store,no-cache,must-revalidate");
@@ -201,23 +201,23 @@
 		</div>
 	<content tag="local_script"> <!-- Peity -->
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
-	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>	
-	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> <script
-		src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> <script
-		src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <script
-		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
-		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> <!-- iCheck -->
-	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <script
-		src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script> 
+	<script src="<c:url value='/static/tbsp/js/userorg/userOrgSelect.js' />" type="text/javascript"></script>	
+	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script> <!-- jqGrid -->
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> <!-- Custom and plugin javascript -->
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> <script
+		src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script> <script
+		src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> <script
+		src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> <script
+		src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> <!-- iCheck -->
+	<script src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script> <script
+		src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
 	<!-- 分页控件  --> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script>
-		<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script> 
-		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <!-- 模板 -->
+		src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script> <script
+		src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+		<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
+		<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> <!-- 模板 -->
 	<script id="queryMortgageApproveLost" type="text/html">
          {{each rows as item index}}
 

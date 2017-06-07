@@ -5,17 +5,17 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>评估转化率</title>
-<link href="${ctx }/static/css/bootstrap.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css" />
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link rel="stylesheet" href="${ctx}/static/css/animate.css" />
-<link rel="stylesheet" href="${ctx}/static/css/style.css" />
+<link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet" />
+<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/animate.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/css/style.css' />" />
 <!-- index_css -->
-<link href="${ctx}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
-<link rel="stylesheet" href="${ctx }/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx }/static/trans/css/common/btn.css" />
-<link rel="stylesheet" href="${ctx }/css/eachartdata/eachartdata.css">
+<link href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/btn.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/eachartdata/eachartdata.css' />">
 </head>
 <body style="background-color: #fff;">
 	<!--*********************** HTML_main*********************** -->
@@ -75,10 +75,10 @@
 	<!--*********************** HTML_main*********************** -->
 
 	<!-- Mainly scripts -->
-	<script src="${ctx }/js/jquery-2.1.1.js"></script>
-	<script src="${ctx }/js/bootstrap.min.js"></script>
-	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/trunk/report/calculation_main.js?v=1.0"></script> 
+	<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+	<script src="<c:url value='/js/bootstrap.min.js' />"></script>
+	<script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	<script src="<c:url value='/js/trunk/report/calculation_main.js' />"></script> 
 	<script type="text/javascript">
 		var ctx = $("#ctx").val();
 		function reloadGrid() {

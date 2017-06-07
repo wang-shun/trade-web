@@ -11,21 +11,21 @@
 
     <title>金融贷款申请提交</title>
 
-    <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css' />">
+    <link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />">
 
-    <link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
-    <link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/static/css/animate.css' />" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/static/css/style.css' />" rel="stylesheet">
 
     <!-- stickUp fixed css -->
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/stickmenu.css">
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/stickup/stickup.css' />">
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/stickmenu.css' />">
 
     <!-- index_css  -->
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css">
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css">
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/report.css">
-    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" ">
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />">
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />">
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/report.css' />">
+    <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 </head>
 
 <body>
@@ -1057,19 +1057,19 @@
      
 
     <!-- Mainly scripts -->
-    <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
-    <script src="${ctx}/static/js/bootstrap.min.js"></script>
-    <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="<c:url value='/static/js/jquery-2.1.1.js' />"></script>
+    <script src="<c:url value='/static/js/bootstrap.min.js' />"></script>
+    <script src="<c:url value='/static/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
+    <script src="<c:url value='/static/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
 
     <!-- Custom and plugin javascript -->
-    <script src="${ctx}/static/js/inspinia.js"></script>
-    <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
+    <script src="<c:url value='/static/js/inspinia.js' />"></script>
+    <script src="<c:url value='/static/js/plugins/pace/pace.min.js' />"></script>
 
     <!-- stickup plugin -->
-    <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
-    <script src="${ctx}/static/trans/js/eloan/report.js"></script>
-    <script src="${ctx}/static/trans/js/eloan/submission.js"></script>
+    <script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
+    <script src="<c:url value='/static/trans/js/eloan/report.js' />"></script>
+    <script src="<c:url value='/static/trans/js/eloan/submission.js' />"></script>
 
 </body>
 

@@ -6,12 +6,12 @@
     <meta charset="utf-8">
     <title>过户数据</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
-    <link href="${ctx}/static/css/animate.css" rel="stylesheet"/>
-    <link href="${ctx}/static/css/style.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="${ctx}/css/eachartdata/jquery.fullPage.css" />
-    <link rel="stylesheet" href="${ctx}/css/eachartdata/eachartdata.css" />
+    <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
+    <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet"/>
+    <link href="<c:url value='/static/css/animate.css' />" rel="stylesheet"/>
+    <link href="<c:url value='/static/css/style.css' />" rel="stylesheet"/>
+    <link rel="stylesheet" href="<c:url value='/css/eachartdata/jquery.fullPage.css' />" />
+    <link rel="stylesheet" href="<c:url value='/css/eachartdata/eachartdata.css' />" />
     <script type="text/javascript">
 		//用户动态选择的年月（月份要小1）
 		var yearDisplay,monthDisplay;
@@ -54,11 +54,11 @@
         <iframe id="iframe4" src="${ctx}/report/guohu4" width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>
 </div>
-<script src="${ctx}/js/jquery-2.1.1.js"></script>
-<script src="${ctx}/js/eachartdata/jquery-ui.min.js"></script>
-<script  src="${ctx}/js/eachartdata/scrolloverflow.js"></script>
-<script  src="${ctx}/js/eachartdata/jquery.fullPage.js"></script>
-<script  src="${ctx}/js/eachartdata/fullPage-setting.js"></script>
+<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+<script src="<c:url value='/js/eachartdata/jquery-ui.min.js' />"></script>
+<script  src="<c:url value='/js/eachartdata/scrolloverflow.js' />"></script>
+<script  src="<c:url value='/js/eachartdata/jquery.fullPage.js' />"></script>
+<script  src="<c:url value='/js/eachartdata/fullPage-setting.js' />"></script>
 
 <script type="text/javascript">
 //声明各iframe

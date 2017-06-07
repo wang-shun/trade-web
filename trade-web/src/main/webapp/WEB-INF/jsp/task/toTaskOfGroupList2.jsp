@@ -8,47 +8,47 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>本组待办任务列表</title>
-<%-- <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-<link href="${ctx}/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet"> --%>
+<%-- <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
+<link href="<c:url value='/fonts/font-awesome/css/font-awesome.min.css' />" rel="stylesheet"/>
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet"> --%>
 
 
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet"> 
-<link href="${ctx}/css/style.css" rel="stylesheet"> 
-<link href="${ctx}/css/plugins/dropzone/basic.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/dropzone/dropzone.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/common/common.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
+<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet"> 
+<link href="<c:url value='/css/style.css' />" rel="stylesheet"> 
+<link href="<c:url value='/css/plugins/dropzone/basic.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/dropzone/dropzone.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/iCheck/custom.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/common.css' />" rel="stylesheet">
 
 <!-- IonRangeSlider -->
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/award/bonus.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/task/myTaskList.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/transcss/award/bonus.css' />" rel="stylesheet">
+<link href="<c:url value='/css/transcss/task/myTaskList.css' />" rel="stylesheet">
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 <!-- aist列表样式 -->
-<link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="<c:url value='/css/common/aist.grid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">
 
 <!-- Data Tables -->
-<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css" />
-<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.responsive.css" />
-<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css" />
+<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
 
 <!-- index_css -->
-<link rel="stylesheet" href="${ctx}/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/css/common/table.css" />
-<link rel="stylesheet" href="${ctx}/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
+<link rel="stylesheet" href="<c:url value='/css/common/base.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/iconfont/iconfont.css' />" />
 <!-- 必须CSS -->
-<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" />
 
 <style type="text/css">
 
@@ -152,26 +152,26 @@
 <!-- Mainly scripts -->
 <content tag="local_script"> 
 
-<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-<script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+<script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
+<script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
 <!-- Custom and plugin javascript -->
-<script src="${ctx}/js/inspinia.js"></script>
-<script src="${ctx}/js/plugins/pace/pace.min.js"></script>
+<script src="<c:url value='/js/inspinia.js' />"></script>
+<script src="<c:url value='/js/plugins/pace/pace.min.js' />"></script>
 <!-- iCheck -->
-<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-<script src="${ctx}/js/trunk/task/toTaskOfGroupList2.js?version=1.1.1"></script> 
-<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+<script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
+<script src="<c:url value='/js/trunk/task/toTaskOfGroupList2.js' />"></script> 
+<script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
 
 <!-- 选择组织控件 -->
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 <!-- 分页控件  -->
-<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
 <!-- 必须JS -->
-<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 
 <script id="template_myTaskList" type= "text/html">
                {{each rows as item index}}

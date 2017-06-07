@@ -12,56 +12,56 @@
 
 <title>监管合约</title>
 <!-- 上传相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />"
 	rel="stylesheet">
 <!-- 展示相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 <!-- 备件相关结束 -->
-<link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
-<link href="${ctx}/static/font-awesome/css/font-awesome.css"
+<link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/static/font-awesome/css/font-awesome.css' />"
 	rel="stylesheet">
 
-<link href="${ctx}/static/css/animate.css" rel="stylesheet">
-<link href="${ctx}/static/css/style.css" rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="<c:url value='/static/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/static/css/style.css' />" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 <!-- index_css  -->
-<link href="${ctx}/static/trans/css/eloan/eloan/eloan.css" rel="stylesheet"/>
-<link href="${ctx}/static/trans/css/common/input.css" rel="stylesheet"/>
-<link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet"/> 
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" >
+<link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />" rel="stylesheet"/>
+<link href="<c:url value='/static/trans/css/common/input.css' />" rel="stylesheet"/>
+<link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet"/> 
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" >
 <!-- stickUp fixed css -->
 <link rel="stylesheet"
-	href="${ctx}/static/trans/css/common/stickmenu.css">
-<link href="${ctx}/static/css/plugins/stickup/stickup.css"
+	href="<c:url value='/static/trans/css/common/stickmenu.css' />">
+<link href="<c:url value='/static/css/plugins/stickup/stickup.css' />"
 	rel="stylesheet">
-<link href="${ctx}/static/css/plugins/aist-steps/steps.css"
+<link href="<c:url value='/static/css/plugins/aist-steps/steps.css' />"
 	rel="stylesheet">
-<link href="${ctx}/static/css/plugins/toastr/toastr.min.css"
+<link href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />"
 	rel="stylesheet">
 
 <!-- index_css  -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/input.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-<link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
-<link href="${ctx}/css/font-awesome.css" rel="stylesheet">
-<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
-<link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/table.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/input.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/see.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/spv.css' />" />
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/jquery.editable-select.min.css' />" rel="stylesheet">
+<link href="<c:url value='/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/jquery.editable-select.min.css' />" rel="stylesheet">
 <!--弹出框样式  -->
-<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
+<link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <!-- stickUp fixed css -->
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -877,42 +877,42 @@
 
 	<!-- Mainly scripts -->
 	<content tag="local_script"> 
-	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> <script
-		src="${ctx}/static/js/morris/morris.js"></script> <script
-		src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
-	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+	<script src="<c:url value='/static/js/plugins/toastr/toastr.min.js' />"></script> <script
+		src="<c:url value='/static/js/morris/morris.js' />"></script> <script
+		src="<c:url value='/static/js/morris/raphael-min.js' />"></script> <!-- index_js -->
+	<script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	<!-- 上传附件相关 --> <script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script> <script
+		src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script> <script
+		src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload.js' />"></script> <script
+		src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-fp.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-ui.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/clockface.js' />"></script> <script
+		src="<c:url value='/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js' />"></script>
 	<script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+		src="<c:url value='/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.multi-select.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
+	<script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script> <script
+		src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script> <script
+		src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
-	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
-	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> 
-	<script src="${ctx}/js/jquery.editable-select.min.js"></script>
-	<script src="${ctx}/static/trans/js/spv/spvDetails.js"></script>
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> <script
+		src="<c:url value='/js/template.js' />" type="text/javascript"></script> <!-- stickup plugin -->
+	<script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script> 
+	<script src="<c:url value='/js/jquery.editable-select.min.js' />"></script>
+	<script src="<c:url value='/static/trans/js/spv/spvDetails.js' />"></script>
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
-	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>
+	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script> 
+	<script src="<c:url value='/static/tbsp/js/userorg/userOrgSelect.js' />" type="text/javascript"></script>
 	<!-- 引入弹出框js文件 -->
-    <script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
-	<script src="${ctx}/js/viewer/viewer.min.js"></script>	
+    <script src="<c:url value='/js/common/xcConfirm.js' />"></script>
+	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>	
 
 		<script id="queryCastListItemList2" type= "text/html">
         {{each rows as item index}}

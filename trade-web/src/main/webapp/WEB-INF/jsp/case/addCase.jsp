@@ -9,32 +9,32 @@
 <title>新建自录单</title>
 
 
-<link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
-<link rel="stylesheet" href="${ctx}/static/css/select2.min.css">
-<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
+<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/select2.min.css' />">
+<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />">
 
 <!-- aist列表样式 -->
-<link href="${ctx}/css/common/aist.grid.css" rel="stylesheet">
+<link href="<c:url value='/css/common/aist.grid.css' />" rel="stylesheet">
 
-<link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/css/animate.css' />" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/css/style.css' />" rel="stylesheet">
 
 <!-- stickUp fixed css -->
-<link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/stickmenu.css">
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/stickup/stickup.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/stickmenu.css' />">
 
 <!-- index_css  -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css">
-<link rel="stylesheet" href="${ctx}/static_res/trans/css/common/report.css">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />">
+<link rel="stylesheet" href="<c:url value='/static_res/trans/css/common/report.css' />">
 
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" ">
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-<link href="${ctx}/css/transcss/case/case_filter.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/transcss/case/case_filter.css' />" rel="stylesheet">
 <!-- 必须CSS -->
-<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" />
 </head>
 
 
@@ -211,31 +211,31 @@
 </div>
 
 <content tag="local_script"> 
-<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
-<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-<script src="${ctx}/js/jquery.blockui.min.js"></script> 
-<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
-<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-<script src="${ctx}/js/plugins/jquery.custom.js"></script> 
+<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
+<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
+<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
+<script src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
+<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
+<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script> 
 
 
 		
-<script src="${ctx}/js/plugins/autocomplete/select2.min.js"></script> 
-<script src="${ctx}/js/plugins/autocomplete/i18n/zh-CN.js"></script> 
-<script src="${ctx}/js/trunk/case/addCase.js"></script>
-<script src="${ctx}/js/jquery.json.min.js"></script>
+<script src="<c:url value='/js/plugins/autocomplete/select2.min.js' />"></script> 
+<script src="<c:url value='/js/plugins/autocomplete/i18n/zh-CN.js' />"></script> 
+<script src="<c:url value='/js/trunk/case/addCase.js' />"></script>
+<script src="<c:url value='/js/jquery.json.min.js' />"></script>
 
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
-<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+<script src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script> 
 
 <!-- 分页控件  -->
-<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-<script src="${ctx}/js/plugins/jquery.custom.js"></script> 
+<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script> 
 <!-- 必须JS -->
-<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 
 <script id="template_addCaseList" type="text/html">
 {{each rows as item index}}

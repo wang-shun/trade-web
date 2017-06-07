@@ -7,9 +7,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/aui.2.0.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/style.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/iconfont/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/mobile/signroom/aui.2.0.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/mobile/signroom/style.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/mobile/signroom/iconfont/iconfont.css' />" />
 
 </head>
 <body>
@@ -28,23 +28,23 @@
     </article>
 </body>
 
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-2.1.1.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/api.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/aui-dialog.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/aui-main.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/layer.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/myReservationList.js"></script>
-<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-<script src="${ctx}/js/jquery.blockui.min.js"></script> 
-<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
-<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-<script src="${ctx}/js/plugins/jquery.custom.js"></script> 
-<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
-<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/jquery-2.1.1.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/api.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/aui-dialog.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/aui-main.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/layer.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/myReservationList.js' />"></script>
+<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
+<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
+<script src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
+<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
+<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script> 
+<script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
+<script src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script> 
+<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 </html>
 <script id="template_myReservationList" type="text/html">
 	{{if rows.length > 0}}
