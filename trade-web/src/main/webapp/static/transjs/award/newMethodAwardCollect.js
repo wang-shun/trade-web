@@ -170,7 +170,7 @@ $('#datepicker_0').datepicker({
 
 $('#datepicker_0').datepicker().on('hide', function(e){
 	$('#datepicker_0').datepicker('update');
-	getInitPage();
+	//getInitPage();
 });
 
 

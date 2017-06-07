@@ -128,6 +128,7 @@
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
     <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>  
     <!-- 选择组织控件 -->
+    <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%>
     <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
     <script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
   	<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script>
