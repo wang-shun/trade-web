@@ -87,8 +87,7 @@ public class ToHouseTransferController {
         ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
         toAccesoryListService.getAccesoryListGuoHu(request, taskitem, caseCode);
         ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-        List<ToAttachment> attachments = toAttachmentService
-                .quereyAttachments(toAttachment);
+        List<ToAttachment> attachments = toAttachmentService.quereyAttachments(toAttachment);
         if (CollectionUtils.isNotEmpty(attachments)) {
             for (ToAttachment attachment : attachments) {
                 if (!StringUtils.isEmpty(attachment.getPreFileCode())) {

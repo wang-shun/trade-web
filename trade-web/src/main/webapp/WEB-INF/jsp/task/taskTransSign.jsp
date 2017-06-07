@@ -75,9 +75,7 @@
 		<div class="panel " id="serviceFlow">
 		  <div class="row wrapper white-bg new-heading">
 	            <div class="pl10">
-	                <h2 class="newtitle-big">
-	                       	签约
-	                   </h2>
+	                <h2 class="newtitle-big">签约</h2>
 	               <div class="mt20">
 	                   <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
 	                   	<i class="iconfont icon">&#xe640;</i> 在途单列表
@@ -177,7 +175,7 @@
 		                        </div>
 
 								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>是否首套</label>
+									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>下家是否首套</label>
 									<div class="controls isnowid" style="margin-left: 0px;">
 										<select class="select_control data_style" readOnlydata='1' name="houseQuantity" id="houseQuantity">
 											<option value="">请选择</option>
