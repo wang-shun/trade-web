@@ -440,7 +440,7 @@
 				<column type="both" name="SRV_STR" title="合作类型" hidden="true" />
 				<column  name="PROCESSOR_ID" title="合作对象"	 hidden="true" />
 				<column  name="PROCESSOR_ORG_NAME" title="合作对象组别"	 hidden="true" />
-				<column type="both" name="HOUSE_QUANTITY" title="下家是否首套" customDict="" />
+				<column type="both" name="HOUSE_QUANTITY_CN" title="下家是否首套" customDict="" />
 
 				<column type="both" name="PROPERTY_ADDR" title="产证地址"	customDict="" hidden="true" />
 				<column type="both" name="SELLER" title="上家" hidden="true" />
