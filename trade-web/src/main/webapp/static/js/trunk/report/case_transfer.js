@@ -213,7 +213,7 @@ function newCaseTransferExportToExcel() {
 	displayColomn.push('TRANSFER_TRADE_NAME');
 	displayColomn.push('CASE_HOUSE_UNIT_PRICE');
 	displayColomn.push('HOUSR_DIST_CODE_CN');
-	
+	displayColomn.push('SIGN_HOUSE_QUANTITY_CN');
 	//displayColomn.push('dist_name');
 	displayColomn.push('TRANSFER_REAL_HT_TIME');
 	displayColomn.push('TRANSFER_CREATE_TIME');
@@ -293,6 +293,7 @@ function oldCaseTransferExportToExcel() {
 	displayColomn.push('GUOHU_REAL_NAME');
 	displayColomn.push('GUOHUDJ');
 	displayColomn.push('DISTNAME');
+	displayColomn.push('HOUSE_QUANTITY');
 	
 	//displayColomn.push('dist_name');
 	displayColomn.push('REAL_HT_TIME');

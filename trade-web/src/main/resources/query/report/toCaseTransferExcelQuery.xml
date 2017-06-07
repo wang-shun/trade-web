@@ -80,6 +80,7 @@
 							B.HOUSR_DIST_CODE_CN,
 							B.TRANSFER_REAL_HT_TIME,
 							B.TRANSFER_CREATE_TIME,
+							B.SIGN_HOUSE_QUANTITY_CN,
 							B.CTM_CODE,
 							B.MORT_CUST_NAME,
 							B.MORT_CUST_PHONE,
@@ -223,7 +224,9 @@
 				<column type="both" name="ELOAN_KA_AMOUNT_STR" title="E+卡申请金额"	customDict="" hidden="false" />					
 				<column type="both" name="CASE_USE_CARD_PAY" title="是否刷卡In"	customDict="" hidden="false" />			
 				<column type="both" name="CASE_USE_CARD_PAY_CN" title="是否刷卡"	customDict="" hidden="false" />
-				<column type="both" name="CASE_CARD_PAY_AMOUNT" title="刷卡金额" expType="Double" 	customDict="" hidden="true" />			
+				<column type="both" name="CASE_CARD_PAY_AMOUNT" title="刷卡金额" expType="Double" 	customDict="" hidden="true" />
+				<column type="both" name="SIGN_HOUSE_QUANTITY_CN" title="是否首套"	customDict="" hidden="false" />
+
 			</table-row>
 		</grid>
 	</query>
@@ -257,6 +260,17 @@
 							C.LOAN_REQ,	
 							M.loanlost_apply_reason as loanlost_apply_reason_old, 
 							M.SELF_DEL_REASON,
+							(
+							SELECT
+								(
+									CASE WHEN HOUSE_QUANTITY='0' then '首套'
+									WHEN HOUSE_QUANTITY='1' then '二套'
+									WHEN HOUSE_QUANTITY='2' then '多套'
+									END
+								) as HOUSE_QUANTITY
+							 FROM sctrans.T_TO_SIGN sign with(nolock)
+							 WHERE sign.CASE_CODE = C.CASE_CODE AND sign.IS_ACTIVE = 1
+						 ) AS HOUSE_QUANTITY,
 							(SELECT MIN(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_= W.INST_CODE ) TRANSFERDATE,
 							(SELECT MAX(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'  AND AT.PROC_INST_ID_= W.INST_CODE) CASETRANSFERDATE,
 							V.LONG_ AS status,
@@ -366,7 +380,7 @@
 				<column type="both" name="CUST_CODE" title="主贷人id" customDict="" hidden="false" />
 				<column type="both" name="CUST_NAME" title="主贷人姓名"	customDict="" hidden="false" />
 				<column type="virtual" name="GUEST_PHONE" title="主贷人电话"	referencecol="CUST_CODE"  customDict="custPhoneByCode" isDynamicDict="true"/>
-
+				<column type="both" name="HOUSE_QUANTITY" title="是否首套" customDict="" hidden="false" />
 				<column type="both" name="FIN_ORG_CODE" title="银行code" customDict="" hidden="false" />
 				<column type="virtual" name="FIN_ORG_NAME" title="银行"		customDict="qqFenHang" hidden="false" referencecol="FIN_ORG_CODE"/>
 				<column type="virtual" name="FIN_ORG_NAME_YC" title="支行"	customDict="qqFinOrgNameYC" hidden="false" referencecol="FIN_ORG_CODE"/>

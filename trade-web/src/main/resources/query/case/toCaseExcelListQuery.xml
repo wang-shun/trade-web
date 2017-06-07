@@ -428,8 +428,8 @@
 				<column type="both" name="JQYDS_MGR_CODE" title="区域董事编号" hidden="true" />	
 				
 				<column type="both" name="AGENT_QDORG" title="所在大区" hidden="true" />
-				
-				
+				<column type="both" name="HOUSE_QUANTITY" title="是否首套" hidden="true" />
+
 				<!-- <column type="virtual" name="AGENT_FHJL"  referencecol="AGENT_ORG_ID" customDict="qqJfhjl" title="分行经理"/>
 				<column type="virtual" name="AGENT_QYJL"  referencecol="AGENT_BUSIAR_ID" customDict="qqJqyjl" title="区域经理"/>
 				<column type="virtual" name="AGENT_QYZJ"  referencecol="AGENT_BUSISWZ_ID" customDict="qqJqyzl" title="区域总监"/>
@@ -440,7 +440,6 @@
 				<column type="both" name="SRV_STR" title="合作类型" hidden="true" />
 				<column  name="PROCESSOR_ID" title="合作对象"	 hidden="true" />
 				<column  name="PROCESSOR_ORG_NAME" title="合作对象组别"	 hidden="true" />
-				<column type="both" name="HOUSE_QUANTITY_CN" title="下家是否首套" customDict="" />
 
 				<column type="both" name="PROPERTY_ADDR" title="产证地址"	customDict="" hidden="true" />
 				<column type="both" name="SELLER" title="上家" hidden="true" />
@@ -559,6 +558,7 @@
 							B.CASE_LEADING_PROCESS_ID_B,
 							B.GROUP_ORG_ID, --经纪人orgid
 							B.TRANSFER_APP_TIME,
+							B.SIGN_HOUSE_QUANTITY_CN,
 							
 							B.CASE_DISPATCH_TIME,
 							B.CASE_REAL_NAME_F,
@@ -902,7 +902,7 @@
 				<column type="both" name="LOAN_LOST_CONFIRM_CODE" title="贷款流失确认函编号"	customDict="" />
 				<column type="both" name="LOAN_SELF_DEL_REASON" title="贷款流失详情"	customDict="" />
 				<column type="both" name="LOAN_LOST_APPLY_REASON" title="贷款流失主要原因"	customDict="" />
-				<column type="both" name="HOUSE_QUANTITY" title="下家是否首套" customDict="" />
+				<column type="both" name="SIGN_HOUSE_QUANTITY_CN" title="是否首套" customDict="" />
 
 				<column type="both" name="CASE_REAL_CON_TIME" title="签约时间"		customDict="" hidden="true" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="CASE_TAX_TIME" title="审税时间" customDict=""	hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
