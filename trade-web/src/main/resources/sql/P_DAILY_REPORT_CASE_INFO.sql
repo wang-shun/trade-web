@@ -1,10 +1,13 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/5/27 13:22:43 ******/
+
+/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/6/7 13:31:32 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 -- =============================================
 -- Author:		<zhuody>
@@ -186,7 +189,8 @@ BEGIN
 				TRANSFER_BUSINESS_TAX            , --预估上家营业税
 				TRANSFER_CONTRACT_TAX            , --预估下家契税
 				TRANSFER_LAND_INCREMENT_TAX      , --预估土地增值税
-
+				SIGN_HOUSE_QUANTITY              , --下家是否首套房
+				SIGN_HOUSE_QUANTITY_CN           , --下家是否首套房转译
 				
 				CASE_REAL_PROPERTY_GET_TIME ,
 				CASE_CLOSE_TIME             ,
@@ -471,7 +475,18 @@ BEGIN
 				HT.CONTRACT_TAX as TRANSFER_CONTRACT_TAX                ,  --预估下家契税
 				HT.LAND_INCREMENT_TAX as TRANSFER_LAND_INCREMENT_TAX    ,  --预估土地增值税
 			
+				
 				/* 截止上面 查询不会出现多条记录的情况*/
+				(SELECT HOUSE_QUANTITY from sctrans.T_TO_SIGN sign where sign.CASE_CODE=C.CASE_CODE AND sign.IS_ACTIVE = 1 ) as SIGN_HOUSE_QUANTITY ,
+
+				(SELECT 
+					(
+						CASE WHEN HOUSE_QUANTITY='0' then '首套'
+							 WHEN HOUSE_QUANTITY='1' then '二套'
+							 WHEN HOUSE_QUANTITY='2' then '多套'
+						END
+					) as HOUSE_QUANTITY_CN
+				 from sctrans.T_TO_SIGN sign where sign.CASE_CODE=C.CASE_CODE AND sign.IS_ACTIVE = 1 ) as SIGN_HOUSE_QUANTITY_CN ,
 
 				(SELECT  GB.REAL_PROPERTY_GET_TIME  FROM  sctrans.T_TO_GET_PROPERTY_BOOK GB with(nolock) WHERE GB.CASE_CODE = C.CASE_CODE) CASE_REAL_PROPERTY_GET_TIME, --实际领证时间
 				C.ClOSE_TIME,--结案时间
@@ -668,4 +683,8 @@ BEGIN
 			exec [sctrans].[P_WEEKLY_REPORT_CASE_INFO] @week_start,@week_end
 		end
 END
+
+
+GO
+
 
