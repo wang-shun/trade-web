@@ -152,6 +152,7 @@
 		<pattern>/newAward/monthKpiImport</pattern>
 		<pattern>/newAward/wastageRate</pattern>
 		<pattern>/newAward/satis</pattern>		
+		<pattern>/award/doMonthKpiImportForNew</pattern>		
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>
