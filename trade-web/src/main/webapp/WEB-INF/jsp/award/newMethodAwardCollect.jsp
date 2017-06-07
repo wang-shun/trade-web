@@ -154,18 +154,17 @@
 	            	var belongMonth = $("#belongMonth").val();
 	                var new_src = "${ctx}/newAward/managerPiecework?belongMonth="+belongMonth;
 
-	                if(sum == 2){
+	                if(sum == 1){
+	                	new_src = "../newAward/satis";
+	                }else  if(sum == 2){
 	            		new_src = "../newAward/monthKpiImport";
             		}else if(sum == 3){
             			new_src = "../newAward/wastageRate";
-            		}
-            		
-	            	 /* var new_src = "";
-	            	if(sum == 4){
+            		}else if(sum == 4){
 	            		new_src = "../newAward/newBonus";
 	            	}else if(sum == 5){
 	            		new_src = "../newAward/personBonusCollect";
-	            	} */	                
+	            	} 	                
 	                $("#UpdateUserItem",parent.document.body).attr("src",new_src);
 	            }
 	

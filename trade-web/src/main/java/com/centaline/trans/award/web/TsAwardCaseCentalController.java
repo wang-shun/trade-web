@@ -218,4 +218,25 @@ public class TsAwardCaseCentalController {
 		}		
 		return  "award/newMethodStep/managerStep3";
 	}
+	
+	
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-05-22
+	 * 
+	 * @desc:分批次案件奖金明细统计列表
+	 */
+	@RequestMapping(value = "/satis")
+	public String satis(HttpServletRequest request) {		
+		try{
+			tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new BusinessException("请求页面跳转异常，请稍后再试！");
+		}		
+		//return "award/newBonus";
+		return  "award/newMethodStep/managerStep1";
+	}
 }
