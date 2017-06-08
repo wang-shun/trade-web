@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCase;
@@ -145,7 +146,7 @@ public class TransPlanController
         {
             response.setSuccess(false);
             response.setMessage("交易计划信息提交失败！");
-            e.printStackTrace();
+            throw new BusinessException("交易计划信息提交失败！");
         }
 
         return response;
