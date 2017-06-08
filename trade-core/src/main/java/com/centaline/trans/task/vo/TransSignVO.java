@@ -17,24 +17,24 @@ public class TransSignVO {
 	
 	/**TgGuestInfo 客户信息*/
 	/**上家*/
-    private List<Long> pkidUp;
-	private List<String> guestNameUp;
-    private List<String> guestPhoneUp;
+    private List<Long> pkidUp;         //上家的id
+	private List<String> guestNameUp;  //上家的名字
+    private List<String> guestPhoneUp; //上家的电话
     /**下家*/
-    private List<Long> pkidDown;
-    private List<String> guestNameDown;
-    private List<String> guestPhoneDown;
+    private List<Long> pkidDown;        //下家的id
+    private List<String> guestNameDown;//下家的名字
+    private List<String> guestPhoneDown;//下家的电话
     /*上下家删除的记录id*/
     private List<Long> guestPkid;
     
     /**ToPropertyInfo 物业信息*/
     private Long propertyPkid;
-    private String propertyAddr;
-    private Integer totalFloor;
-    private Integer locateFloor;
-    private Double square;
-    private String finishYear;
-    private String propertyType;
+    private String propertyAddr;      //案件地址
+    private Integer totalFloor;       //总共楼层
+    private Integer locateFloor;      //所在楼层
+    private Double square;            //面积
+    private String finishYear;        //竣工年份
+    private String propertyType;      //房屋类型
     
     /**TO_PAYMENT 付款方式*/
     /**首付款*/
@@ -64,9 +64,9 @@ public class TransSignVO {
     
     /**签约表*/
     private Long signPkid;
-    private Date realConTime;
-    private String isHukou;
-    private String isConCert;
+    private Date realConTime;            //实际签约时间
+    private String isHukou;              //房屋是否有户口
+    private String isConCert;            //是否公正 0:否 1:是
     private String comment;
     private BigDecimal conPrice;		/*合同价*/
     private BigDecimal realPrice;		/*成交价*/
