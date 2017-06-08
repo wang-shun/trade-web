@@ -23,8 +23,8 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="<c:url value='/static/image/favicon.ico' />" type="image/x-icon">  
-    <link rel="shortcut icon" href="<c:url value='/static/image/favicon.ico' />" type="image/x-icon">  
+    <link rel="icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
+    <link rel="shortcut icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
     <title>誉萃交易系统</title>
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
     <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet">
@@ -192,7 +192,7 @@
     <!-- Custom and plugin javascript -->
     <script src="<c:url value='/static/js/inspinia.js' />"></script>
     <%--
-    <script src="<c:url value='/static/js/plugins/pace/pace.min.js' />"></script>
+    <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
      --%>
     <!-- jQuery UI -->
     <script src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script>
@@ -204,7 +204,7 @@
 	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-thumbs.js' />"></script> <!-- Add Media helper (this is optional) -->
 	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-media.js' />"></script>
     <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%> 
-    <script type="text/javascript" src="${ctx}/static/js/INSPINIA_template.js"></script>
+    <script type="text/javascript" src="<c:url value='/static/js/INSPINIA_template.js' />"></script>
     <script type="text/javascript">
     	var ctx = '${ctx}';
     	window.ctx=ctx;
@@ -294,7 +294,7 @@
 
     </script>
     <sitemesh:getProperty property="page.local_script"></sitemesh:getProperty>
-    <script src="<c:url value='/js/plugins/required/main.js" data-main="${ctx}/js/plugins/required/require.js' />"></script>
+    <script src="<c:url value='/js/plugins/required/require.js' />" data-main="${ctx}/js/plugins/required/main.js"></script>
     <sitemesh:getProperty property="page.local_require"></sitemesh:getProperty>
     <script>
     </script>  

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>金融产品转化率-贷款类</title>
-<link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet" />
-<link rel="stylesheet"
-	href="<c:url value='/static/font-awesome/css/font-awesome.css' />" />
-<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" />
 <link rel="stylesheet" href="<c:url value='/static/css/animate.css' />" />
 <link rel="stylesheet" href="<c:url value='/static/css/style.css' />" />
 <!-- index_css -->

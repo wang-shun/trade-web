@@ -219,8 +219,9 @@
 		src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
 	<!-- 分页控件  --> <script
 		src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script> <script
-		src="<c:url value='/js/template.js' />" type="text/javascript"></script> <script
-		src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> <!-- 模板 -->
+		src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+		<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
+		<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> <!-- 模板 -->
 	<!-- ECharts.js --> <script src="<c:url value='/static/js/echarts.min.js' />"></script>
 	<script src="<c:url value='/static/trans/js/eloan/eloan.js' />"></script> <!-- index_js -->
 	<script src="<c:url value='/static/trans/js/eloan/eloanRelCashList.js' />"></script> 

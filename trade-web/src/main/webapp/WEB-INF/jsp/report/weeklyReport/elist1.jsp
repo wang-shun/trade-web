@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>贷款流失率</title>
-<link href="<c:url value='/static/css/bootstrap.min.css" rel="stylesheet" />
+<link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet" />
 <link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" />
 <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 <link rel="stylesheet" href="<c:url value='/static/css/animate.css' />" />
 <link rel="stylesheet" href="<c:url value='/static/css/style.css' />" />
 <!-- index_css -->
-<link href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />"
-	rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />" />
 <link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
 <link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
 <link rel="stylesheet" href="<c:url value='/static/trans/css/common/btn.css' />" />
 <!-- 分页控件 -->
-<link rel="stylesheet"
-	href="<c:url value='/static/css/plugins/pager/centaline.pager.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/pager/centaline.pager.css' />" />
 <link rel="stylesheet" href="<c:url value='/css/eachartdata/eachartdata.css' />">
 <style type="text/css">
 th,td {
