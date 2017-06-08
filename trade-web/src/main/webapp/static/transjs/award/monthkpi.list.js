@@ -31,6 +31,7 @@ function getParams(page) {
 		page = 1;
 	}
 	var belongMonth = $("#belongMonthf").val()
+	//var belongMonth = $.trim($("#belongMonth",window.parent.document).val());alert(belongMonth);
 	if(null != belongMonth && "" != belongMonth){
 		belongMonth=belongMonth+"-01 00:00:00.000";
 	}
@@ -67,7 +68,7 @@ function reloadGrid(data) {
       	      $("#myTaskList").empty();
    			  $("#myTaskList").html(myTaskList);
    			  initpage(data.total,data.pagesize,data.page, data.records);
-              $.unblockUI(); 
+              $.unblockUI();  
         },
         error: function (e, jqxhr, settings, exception) { $.unblockUI();    } 
   });

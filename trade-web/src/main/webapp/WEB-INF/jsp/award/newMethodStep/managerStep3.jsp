@@ -29,6 +29,9 @@
 		<link href="<c:url value='/static/trans/css/manager/managerIframe.css' />" rel="stylesheet" />	 
 		<!-- 必须CSS -->
 		<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" /> 
+		<script>       
+				document.domain = 'centaline.com';
+		</script>
 
 </head>
 <body>
@@ -66,9 +69,10 @@
                         <label class="control-label sign_left_small">
                             	主办
                         </label>
-                        <input class="teamcode input_type" placeholder="请输入" value="">
+                        <input id="userId" name="userId" hidden="true" />
+                        <input id="userName" name="userName" class="input_type sign_right_one" placeholder="请输入" value="" onclick="chooseManager()" readonly="readonly">
                         <div class="input-group float_icon organize_icon">
-                            <i class="icon iconfont"></i>
+                            <i class="icon iconfont" onclick="chooseManager()"></i>
                         </div>
                     </div>
                 </div>
@@ -124,7 +128,8 @@
 <input type="hidden" id="ex_message" value="${ex_message}" />
 <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 
-<content tag="local_script"> 
+<script src="<c:url value='/static/js/jquery-2.1.1.js' />" ></script>
+<script src="<c:url value='/static/js/bootstrap.min.js' />" ></script>
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 <script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
 <script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
@@ -142,11 +147,15 @@
 <!-- 日期控件 -->
 <script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
 
+   <!-- 分页控件  -->
+    <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+    <script src= "<c:url value='/js/template.js" type="text/javascript' />"></script>
+    <script src= "<c:url value='/transjs/award/personBonusCollect.js' />"></script>
 <!-- 分页控件  -->
-<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<%-- <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+<script src="${ctx}/js/plugins/jquery.custom.js"></script> --%>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
@@ -203,7 +212,30 @@
 {{/each}}              
 </script>
 <script>
-    
+
+function chooseManager(startOrgId) {
+	userSelect({
+		frameId:'abcd',
+		startOrgId : 'ff8080814f459a78014f45a73d820006',//非营业部
+		expandNodeId : '',
+		nameType : 'long|short',
+		orgType : '',
+		departmentType : '',
+		departmentHeriarchy : '',
+		chkStyle : 'radio',
+		//jobCode : 'JYUZBJL',
+		callBack : chooseManagerBack
+	});
+}
+function chooseManagerBack(array){
+	if (array && array.length > 0) {
+		$("#userId").val(array[0].userId);
+		$("#userName").val(array[0].username);
+		/* $("#jobName").val(array[0].jobName);
+		$("#orgName").val(array[0].orgName);
+		$("#orgId").val(array[0].orgId); */
+	}
+}
     
 </script>
 </content>
