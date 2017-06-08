@@ -107,7 +107,7 @@
 			    main.height(thisheight);
 			});	 */	
 	
-			 $(document).ready(function() {			
+/* 			 $(document).ready(function() {			
 		        $('.UpdateUserItem').load(function() { 
 		            var iframeHeight=$(this).contents().height(); 		         
 		            $(this).height(iframeHeight+'px');   
@@ -177,7 +177,7 @@
 	            	} 	                
 	                $(".UpdateUserItem",parent.document.body).attr("src",new_src);
 	            }	            
-	        })();
+	        })(); */
 	    </script>	    
 	  </content>             
    </body>

@@ -344,9 +344,48 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 	@Override
 	public TsAwardKpiPay getInitPage(HttpServletRequest request, TsAwardKpiPay tsAwardKpiPay) {
 		
+		 SessionUser user = uamSessionService.getSessionUser();
 		if(null == tsAwardKpiPay){
 			throw new BusinessException("获取初始化页面信息请求参数有误！");
 		}
+		
+		TsAwardKpiPay awardKpiPay = getTsAwardKpiPayInfo(tsAwardKpiPay);
+		//如果查询结果为空，初始化值
+		if(awardKpiPay == null){
+			tsAwardKpiPay.setCreateBy(user.getId());
+			tsAwardKpiPay.setCreateTime(new Date());
+			tsAwardKpiPay.setUpdateBy(user.getId());
+			tsAwardKpiPay.setUpdateTime(new Date());
+			tsAwardKpiPay.setAwardStep("0");
+			tsAwardKpiPayMapper.insertSelective(tsAwardKpiPay);
+		}
+		return awardKpiPay;
+	}
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-06-08
+	 * 
+	 * @desc:更新计件奖金自动化步骤数
+	 */
+	@Override
+	public int updateAwardStep(HttpServletRequest request, TsAwardKpiPay tsAwardKpiPay) {
+			
+		if(null == tsAwardKpiPay){
+			throw new BusinessException("更新计件奖金自动化进行步骤请求参数有误！");
+		}
+		int k = 0;
+		TsAwardKpiPay awardKpiPay = getTsAwardKpiPayInfo(tsAwardKpiPay);
+		if(awardKpiPay != null){
+			tsAwardKpiPay.setPkid(awardKpiPay.getPkid());
+			k = tsAwardKpiPayMapper.updateByPrimaryKeySelective(tsAwardKpiPay);
+		}
+		
+		return k;
+	}
+	
+	
+	private  TsAwardKpiPay  getTsAwardKpiPayInfo(TsAwardKpiPay tsAwardKpiPay){
 		
 		TsAwardKpiPay awardKpiPay = null;	
 		List<TsAwardKpiPay>  kpiPayList = new ArrayList<TsAwardKpiPay>();

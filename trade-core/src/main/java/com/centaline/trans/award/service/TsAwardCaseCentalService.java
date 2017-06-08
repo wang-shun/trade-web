@@ -27,4 +27,6 @@ public interface TsAwardCaseCentalService {
 	void jumpToNewBonusJsp(HttpServletRequest request);
 
 	TsAwardKpiPay getInitPage(HttpServletRequest request, TsAwardKpiPay tsAwardKpiPay);
+	
+	int updateAwardStep(HttpServletRequest request, TsAwardKpiPay tsAwardKpiPay);
 }

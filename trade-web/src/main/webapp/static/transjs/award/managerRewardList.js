@@ -208,7 +208,8 @@ $("#modifyBase").click(function(){
 
 
 function getParams() {
-	var belongMonth = $("#belongMonth").val();
+	//var belongMonth = getBlongMonth();//$("#belongMonth").val();
+	var belongMonth = $.trim($("#belongMonth",window.parent.document).val());	
 	var realName = $.trim($("#realName").val());
 	var orgName = $.trim($("#organName").val());
 	var data = {};
@@ -225,4 +226,21 @@ function changeStyle(){
 		 $("#flag").removeClass('fa fa-sort-asc fa_up');
 		 $("#flag").addClass('fa fa-sort-desc fa_down');
 	  }
+}
+
+
+
+//获取计件年月信息
+function getBlongMonth(){
+	var bm = "";	
+	//方式一
+	var belongMonth =  $.trim($("#belongMonth",window.parent.document).val());
+    //方式二
+	//var belongMonth1 = parent.document.getElementById("belongMonth").value;
+    if(belongMonth =="" || belongMonth == null || belongMonth == undefined){
+    	bm == null;
+    }else{
+    	bm = belongMonth + "-01";
+    }
+    return bm;
 }

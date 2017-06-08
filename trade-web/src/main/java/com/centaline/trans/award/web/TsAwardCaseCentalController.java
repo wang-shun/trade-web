@@ -151,6 +151,36 @@ public class TsAwardCaseCentalController {
 	
 	
 	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-06-05
+	 * 
+	 * @desc:iframe控制计件流程（isActive = 1）
+	 */
+	@RequestMapping(value = "/updateAwardStep")
+	@ResponseBody
+	public AjaxResponse<String>  updateAwardStep(HttpServletRequest request,TsAwardKpiPay tsAwardKpiPay) {
+		
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			int k = tsAwardCaseCentalService.updateAwardStep(request,tsAwardKpiPay);
+			if(k > 0){
+				response.setSuccess(true);
+				response.setContent("当前步骤已更新！");
+			}else{
+				response.setSuccess(false);
+				response.setContent("当前步骤更新失败！");
+			}				
+		}catch (Exception e) {
+			e.printStackTrace();			
+			throw new BusinessException("更新步骤时出现异常，请稍后再试！");
+		}		
+		return response;
+	}
+	
+	
+	
+	/*
 	 * @author:zhuojp
 	 * 
 	 * @date:2017-06-06
