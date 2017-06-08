@@ -36,85 +36,59 @@
     
     <body class="pace-done">
     <style>
-    .modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 1050;
-    display: none;
-    overflow: hidden;
-    -webkit-overflow-scrolling: touch;
-    outline: 0;
-    transform: translate(-50%,-50%);
-}
-    
+		.modal {
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    z-index: 1050;
+		    display: none;
+		    overflow: hidden;
+		    -webkit-overflow-scrolling: touch;
+		    outline: 0;
+		    transform: translate(-50%,-50%);
+		}    
     </style>
-			<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-           <div class="wrapper wrapper-content animated fadeInRight">
-            
+	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+    <div class="wrapper wrapper-content animated fadeInRight">            
         <div class="ibox-content clearfix space_box">
-            <h2 class="title">
-                可计件环节奖金列表
-            </h2>
+            <h2 class="title">可计件环节奖金列表</h2>
         <div class="row">
             <div class="col-md-12">
                 <div class="table_content">
                     <table class="table table_blue table-hover table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>
-                                    职位
-                                </th>
-                                <th>
-                                    对应组别
-                                </th>
-                                <th>
-                                    具体环节
-                                </th>
-                                <th>
-                                    基础奖金（元）
-                                </th>
-                                <th style="width: 135px;">
-                                    操作
-                                </th>
+                                <th>职位</th>
+                                <th>对应组别</th>
+                                <th>具体环节</th>
+                                <th>基础奖金（元）</th>
+                                <th style="width: 135px;">操作</th>
                             </tr>
                         </thead>
                         <tbody id="managerPieceInfoList">
                         </tbody>
-                    </table>
-                    
+                    </table>                    
                 </div>
             </div>
         
             <div class="clearfix"> 
-                <h2 class="title pull-left ml15">
-                    管理人员基础奖金配置
-                </h2>
+                <h2 class="title pull-left ml15">管理人员基础奖金配置</h2>
             </div>
             <div class="form_list">
             	<input type="hidden" id="belongMonth" name="belongMonth" value="${belongMonth }" >
                 <div class="line">
                     <div class="form_content">
-                        <label class="control-label sign_left_small">
-                            姓名
-                        </label>
+                        <label class="control-label sign_left_small">姓名</label>
                         <input class=" input_type" id="realName" placeholder="请输入" value="">
                     </div>
                     <div class="form_content">
-                        <label class="control-label sign_left_small">
-                            所在组别
-                        </label>
-                        <input type="text" id="organName" style="border:1px solid #e5e6e7;height:34px;" />
+                        <label class="control-label sign_left_small">所在组别</label>
+                        <input type="text" id="organName" style="border:1px solid #e5e6e7;height:34px;" placeholder="请输入"/>
                     </div>
                     <div class="form_content ml5" >
                         <div class="add_btn">
-                            <button type="button" id="searchButton" class="btn btn-success mr5 btn-icon">
-                                        <i class="icon iconfont"></i>
-                                        	查询
-                            </button>
-                            <button type="button" class="btn btn-success" id="AddBtn">
-                               	 新增
-                            </button>
+                            <button type="button" id="searchButton" class="btn btn-success mr5 btn-icon"><i class="icon iconfont"></i>查询</button>
+                            <button type="button" class="btn btn-success" id="AddBtn">新增</button>
                         </div>
                     </div>
                 </div>
@@ -126,28 +100,13 @@
                     <table class="table table_blue table-hover table-striped table-bordered">
                         <thead>
                                     <tr>
-                                        <th>
-                                            组织
-                                        </th>
-                                        <th>
-                                            姓名
-                                        </th>
-                                        <th>
-                                            <span class="sort" sortColumn="MA.EMPLOY_CODE" sord="desc" onclick="changeStyle();">员工编号</span><i id="flag" class="fa fa-sort-desc fa_down"></i>
-                                            <!-- <a href="javascript:void(0);"><i class="fa fa-sort-desc fa_down"></i></a> -->
-                                        </th>
-                                        <th>
-                                            职位
-                                        </th>
-                                        <th>
-                                            基础奖金（元）
-                                        </th>
-                                        <th>
-                                            计件年月
-                                        </th>
-                                        <th style="width: 135px;">
-                                            操作
-                                        </th>
+                                        <th>组织</th>
+                                        <th>姓名</th>
+                                        <th><span class="sort" sortColumn="MA.EMPLOY_CODE" sord="desc" onclick="changeStyle();">员工编号</span><i id="flag" class="fa fa-sort-desc fa_down"></i></th>
+                                        <th>职位</th>
+                                        <th>基础奖金（元）</th>
+                                        <th>计件年月</th>
+                                        <th style="width: 135px;">操作</th>
                                     </tr>
                                 </thead>
                         <tbody id="managerRewardList">
@@ -173,33 +132,25 @@
                             <div class="form_list">
                                 <div class="line">
                                     <div class="form_content">
-                                        <label class="control-label sign_left_small">
-                                            姓名
-                                        </label>
+                                        <label class="control-label sign_left_small">姓名</label>
                                         <input id="userName" name="userName" class="input_type sign_right_one" placeholder="请输入" value="" onclick="chooseManager()" readonly="readonly">
                                         <div class="input-group float_icon organize_icon">
                                             <i class="icon iconfont" onclick="chooseManager()"></i>
                                         </div>
                                     </div>
                                     <div class="form_content">
-                                        <label class="control-label sign_left_small">
-                                            基础奖金
-                                        </label>
+                                        <label class="control-label sign_left_small">基础奖金</label>
                                         <input id="srvFee" name="srvFee" class="input_type sign_right_one" placeholder="请输入" value="">
                                         <span class="date_icon">元</span>
                                     </div>
                                 </div>
                                 <div class="line">
                                     <div class="form_content">
-                                        <label class="control-label sign_left_small">
-                                            组织
-                                        </label>
+                                        <label class="control-label sign_left_small">组织</label>
                                         <input id="orgName" name="orgName" class=" input_type sign_right_one" placeholder="请输入" value="" readonly="readonly">
                                     </div>
                                     <div class="form_content">
-                                        <label class="control-label sign_left_small">
-                                            职位
-                                        </label>
+                                        <label class="control-label sign_left_small">职位</label>
                                         <input id="jobName" name="jobName" readonly="readonly" class=" input_type sign_right_one" placeholder="请输入" value="">
                                     </div>
                                 </div>
@@ -230,30 +181,22 @@
                             <div class="form_list">
                                 <div class="line">
                                     <div class="form_content">
-                                        <label class="control-label sign_left_small">
-                                            姓名
-                                        </label>
+                                        <label class="control-label sign_left_small">姓名</label>
                                         <span id="name" style="width:180px;display:inline-block;padding:6px 12px;"></span>
                                     </div>
                                     <div class="form_content">
-                                        <label class="control-label sign_left_small">
-                                            基础奖金
-                                        </label>
+                                        <label class="control-label sign_left_small">基础奖金</label>
                                         <input id="fee" name="fee" class="input_type sign_right_one" placeholder="请输入" value="">
                                         <span class="date_icon">元</span>
                                     </div>
                                 </div>
                                 <div class="line">
                                     <div class="form_content">
-                                        <label class="control-label sign_left_small">
-                                            组织
-                                        </label>
+                                        <label class="control-label sign_left_small">组织</label>
                                         <span style="width:180px;display:inline-block;padding:6px 12px;" id="org"></span>
                                     </div>
                                     <div class="form_content">
-                                        <label class="control-label sign_left_small">
-                                            职位
-                                        </label>
+                                        <label class="control-label sign_left_small">职位</label>
                                         <span style="width:180px;display:inline-block;padding:6px 12px;" id="job"></span>
                                     </div>
                                 </div>
@@ -282,24 +225,18 @@
                             <div class="form_list">
                                 <div class="line">
                                     <div class="form_content">
-                                        <label class="control-label sign_left_small">
-                                            职位
-                                        </label>
+                                        <label class="control-label sign_left_small">职位</label>
                                         <span id="jobName" style="width:180px;display:inline-block;padding:6px 12px;"></span>
                                     </div>
                                     <div class="form_content">
-                                        <label class="control-label sign_left_small">
-                                            具体环节
-                                        </label>
+                                        <label class="control-label sign_left_small">具体环节</label>
                                         <span id="srvItemCode" style="width:180px;display:inline-block;padding:6px 12px;"></span>
                                     </div>
                                 </div>
                                 <div class="line">
                                 	
                                 	<div class="form_content">
-                                        <label class="control-label sign_left_small">
-                                            基础奖金
-                                        </label>
+                                        <label class="control-label sign_left_small">基础奖金 </label>
                                         <input id="srvFee" name="srvFee" class="input_type sign_right_one" placeholder="请输入" value="">
                                         <span class="date_icon">元</span>
                                     </div>
