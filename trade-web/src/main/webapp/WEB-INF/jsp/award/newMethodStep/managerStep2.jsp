@@ -47,6 +47,11 @@
                    <label class="control-label sign_left_small">
                       	 所在组
                    </label>
+                  <!--  
+                   <input id="userName" name="userName" class="input_type sign_right_one" placeholder="请输入" value="" onclick="chooseManager()" readonly="readonly">
+                                        <div class="input-group float_icon organize_icon">
+                                            <i class="icon iconfont" onclick="chooseManager()"></i>
+                                        </div> -->
                    
                    <input type="text" class="teamcode input_type" id="teamCode" name="teamCode" readonly="readonly" 
 					   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
@@ -158,29 +163,38 @@
 <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 
 <content tag="local_script"> 
+<script src="${ctx}/js/jquery-2.1.1.js"></script>
+<script src="${ctx}/static/js/bootstrap.min.js"></script>
+<script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="${ctx}/static/js/inspinia.js"></script>
+<!-- jQuery UI -->
+<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- 引入弹出框js文件 -->
+<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
 
-<script src="<c:url value='/static/js/jquery-2.1.1.js' />" ></script>
-<script src="<c:url value='/static/js/bootstrap.min.js' />" ></script>
-<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
-<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
-<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
-<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>  
-<!-- iCheck --> 
+<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
+<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script>
+<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
+<script src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
+<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
+<script src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script> 
+<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+
+<!-- 分页控件  -->
+<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"> </script>
+
+<%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%>
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+
 <script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
 <script	src="${ctx}/js/plugins/switch/bootstrap-switch.js"></script>
 <script src="${ctx}/js/jquery.blockui.min.js"></script>
-<!-- 组织控件 --> 
-<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-<!-- 弹出框插件 -->
-<script src="${ctx}/js/plugins/layer/layer.js"></script>
-<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
-<!-- 日期控件 -->
-<script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
 
-   <!-- 分页控件  -->
-    <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
-    <script src= "<c:url value='/js/template.js" type="text/javascript' />"></script>
+<script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
     <script src= "<c:url value='/transjs/award/personBonusCollect.js' />"></script>
 <!-- 分页控件  -->
 <%-- <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
@@ -188,7 +202,6 @@
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
 <script src="${ctx}/js/plugins/jquery.custom.js"></script> --%>
 <!-- 必须JS -->
-<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 <!-- 列表 -->
 <script src="${ctx}/transjs/award/monthkpi.list.js"></script>
@@ -243,19 +256,7 @@
 {{/each}}              
 </script>
 <script>
-    /**
-     * 日期控件
-     */
-     $('#datepicker_0').datepicker({
-   		format: 'yyyy-mm',  
-   	    weekStart: 1,  
-   	    autoclose: true,  
-   	    startView: 'year',
-   	    maxViewMode: 1,
-   	    minViewMode:1,
-   		todayBtn : 'linked',
-   		language : 'zh-CN',
-   	});
+    
     
     var ctx = "${ctx}";
     var belongM = "${belongM}";
@@ -282,7 +283,6 @@
     	// 是否显示错误信息
     	if(!!hasError){
     		$('#error-modal-form').modal("show");
-    		alert(2);
     	} 
     	 $("#importButton").click(function(){
     		//iframe层
