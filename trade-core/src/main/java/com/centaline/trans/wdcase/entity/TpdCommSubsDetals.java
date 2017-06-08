@@ -3,12 +3,18 @@ package com.centaline.trans.wdcase.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class TpdCommSubs {
+public class TpdCommSubsDetals {
     private Long pkid;
+
+    private Long commSubsId;
 
     private String caseCode;
 
-    private String remarks;
+    private String bizCode;
+
+    private String commSubject;
+
+    private String srvDesc;
 
     private BigDecimal stdRate;
 
@@ -46,6 +52,14 @@ public class TpdCommSubs {
         this.pkid = pkid;
     }
 
+    public Long getCommSubsId() {
+        return commSubsId;
+    }
+
+    public void setCommSubsId(Long commSubsId) {
+        this.commSubsId = commSubsId;
+    }
+
     public String getCaseCode() {
         return caseCode;
     }
@@ -54,16 +68,31 @@ public class TpdCommSubs {
         this.caseCode = caseCode == null ? null : caseCode.trim();
     }
 
+    public String getBizCode() {
+        return bizCode;
+    }
 
-    public String getRemarks() {
-		return remarks;
-	}
+    public void setBizCode(String bizCode) {
+        this.bizCode = bizCode == null ? null : bizCode.trim();
+    }
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
+    public String getCommSubject() {
+        return commSubject;
+    }
 
-	public BigDecimal getStdRate() {
+    public void setCommSubject(String commSubject) {
+        this.commSubject = commSubject == null ? null : commSubject.trim();
+    }
+
+    public String getSrvDesc() {
+        return srvDesc;
+    }
+
+    public void setSrvDesc(String srvDesc) {
+        this.srvDesc = srvDesc == null ? null : srvDesc.trim();
+    }
+
+    public BigDecimal getStdRate() {
         return stdRate;
     }
 

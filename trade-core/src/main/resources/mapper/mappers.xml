@@ -243,6 +243,7 @@
  		<mapper resource="mapper/wdcase/TpdCommSubsMapper.xml" />
  		<mapper resource="mapper/wdcase/TdmPaidSubsMapper.xml" />
  		<mapper resource="mapper/wdcase/TpdPaymentMapper.xml" />
+ 		<mapper resource="mapper/wdcase/TpdCommSubsDetalsMapper.xml" />
 		<!-- 客服回访表 -->
 		<mapper resource="mapper/satisfaction/ToSatisfactionMapper.xml" />
 	</mappers>
