@@ -225,6 +225,61 @@ public class KpiImportController {
 
 		return "award/monthKpiImport";
 	}
+	@RequestMapping(value = "/doMonthKpiImportForNew")
+	public String doMonthKpiImportForNew(String belongMonth, HttpServletRequest request, HttpServletResponse response)
+			throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
+		MultipartFile file = null;
+		if (request instanceof MultipartHttpServletRequest) {
+			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
+			file = mRequest.getMultiFileMap().getFirst("fileupload");
+		} else {
+			request.setAttribute("belongM", LocalDate.now());
+			request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
+			return "award/newMethodStep/managerStep2";
+		}
+		Date belongM = null;
+		request.setAttribute("belongM", LocalDate.now());
+		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
+		/**
+		 * 根据页面得到是上月还是当月数据
+		 */
+		if ("0".equals(belongMonth)) {
+			belongM = DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1));
+		} else {
+			belongM = DateUtil.getFirstDayOfTheMonth();
+		}
+		TsKpiPsnMonth record = new TsKpiPsnMonth();
+		record.setBelongMonth(belongM);
+		tsKpiPsnMonthService.deleteTsKpiPsnMonthByProperty(record);
+		
+		ImportExcel ie = new ImportExcel(file, 0, 0);
+		List<KpiMonthVO> list = ie.getDataList(KpiMonthVO.class);
+		List<KpiMonthVO> errorList = checkImportData(list);
+		if (errorList != null && errorList.size() > 0) {
+			request.setAttribute("errorList", errorList);
+			return "award/newMethodStep/managerStep2";
+		}
+		String createBy = uamSessionService.getSessionUser().getId();
+		int count = tsKpiPsnMonthService.importExcelTsKpiPsnMonthList(belongM, createBy, list);
+		
+		staticMoneyKpi(belongM);
+		
+		// eg : 四月份月度kpi修改，则需要重新统计五月份所有的未提交的数据
+		TsKpiPsnMonth record2 = new TsKpiPsnMonth();
+		record2.setBelongMonth(DateUtil.plusMonth(belongM, 1));
+		List<TsKpiPsnMonth> mList = tsKpiPsnMonthService.getTsKpiPsnMonthListByPro(record2);
+		
+		TsAwardKpiPay record3 = new TsAwardKpiPay();
+		record3.setStatus("0");
+		record3.setBelongMonth(DateUtil.plusMonth(belongM, 1));
+		List<TsAwardKpiPay> tsAwardKpiPayList = tsAwardKpiPayService.getTsAwardKpiPayByProperty(record3);
+		
+		if (CollectionUtils.isNotEmpty(mList) && CollectionUtils.isNotEmpty(tsAwardKpiPayList)) {
+			staticMoneyKpi(DateUtil.plusMonth(belongM, 1));
+		}
+		
+		return "award/newMethodStep/managerStep2";
+	}
 
 	// 统计该月份的绩效奖金相关数据
 	private void staticMoneyKpi(Date belongM) {

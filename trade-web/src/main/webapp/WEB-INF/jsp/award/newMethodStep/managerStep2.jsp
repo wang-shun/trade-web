@@ -6,34 +6,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" /> 
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />	
+<link href="${ctx}/css/plugins/switch/bootstrap-switch.min.css" rel="stylesheet">	
 
 
-
-
-<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" />	
-    	<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet" />
-		<!-- Data Tables -->
-		<link href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css'/>"  rel="stylesheet" />		
-		<link href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css'/>"  rel="stylesheet" />
-		<link href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css'/>"  rel="stylesheet" />
-		<link href="<c:url value='/css/plugins/datapicker/datepicker3.css'/>"  rel="stylesheet" />		
-		<link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />	
-		<link href="<c:url value='/static/css/animate.css'/>"  rel="stylesheet"/> 
-		<link href="<c:url value='/static/css/style.css' />" rel="stylesheet" />
-		<!-- 分页控件 -->
-		<link href="<c:url value='/css/plugins/pager/centaline.pager.css'/>"  rel="stylesheet" />
-		<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css'/>"  rel="stylesheet" />
-		
-		<!-- index_css -->
- 		<link href="<c:url value='/static/trans/css/common/base.css' />" rel="stylesheet" />
-		<link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet" />
-		<link href="<c:url value='/static/trans/css/common/input.css' />" rel="stylesheet" />
-		<link href="<c:url value='/static/css/btn.css' />" rel="stylesheet" />			
-		<link href="<c:url value='/static/trans/css/manager/managerIframe.css' />" rel="stylesheet" />	 
-
-		<!-- 必须CSS -->
-		<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" /> 
-
+<!-- Data Tables -->
+<link href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css'/>"  rel="stylesheet" />		
+<link href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css'/>"  rel="stylesheet" />
+<link href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css'/>"  rel="stylesheet" />
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css'/>"  rel="stylesheet" />		
+<link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />	
+<link href="<c:url value='/static/css/animate.css'/>"  rel="stylesheet"/> 
+<link href="<c:url value='/static/css/style.css' />" rel="stylesheet" />
+<!-- 分页控件 -->
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css'/>"  rel="stylesheet" />
+<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css'/>"  rel="stylesheet" />
+<!-- index_css -->
+<link href="<c:url value='/static/trans/css/common/base.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/trans/css/common/input.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/css/btn.css' />" rel="stylesheet" />			
+<link href="<c:url value='/static/trans/css/manager/managerIframe.css' />" rel="stylesheet" />	 
+<!-- 必须CSS -->
+<link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" /> 
+<style> .modal-backdrop { z-index: 0; position:relative!important; } </style>
 
 </head>
 <body>
@@ -65,14 +62,6 @@
                    </label>
                    <input type="text" class=" input_type" id="userName" name="userName" placeholder="" >
                </div>
-               <div class="form_content">
-                   <label class="control-label sign_left_small">
-                       	选择批次
-                   </label>
-                   <div id="datepicker_0" class=" date-picker input-daterange" style="display:inline-block;" data-date-format="yyyy-mm">
-					<input id="belongMonthf" name="belongMonthf" class="form-control" style="font-size: 13px;" type="text" value="${belongMonthf }" placeholder="选择批次"/>
-				  </div>
-               </div>
            </div>
            <div class="line">
                <div class="form_content" style="margin-left: 127px;">
@@ -81,9 +70,6 @@
                             <i class="icon iconfont"></i>
                             	查询
                          </button>
-                        <!-- <button id="importButton"class="btn btn-success">
-                            	个人月度KPI导入
-                        </button> -->
                          <a id="importButton" class="btn btn-success">个人月度KPI导入 </a>
                         <button type="reset" class="btn btn-grey" id="cleanButton">
                             	清空
@@ -137,31 +123,30 @@
                 
                 <div class="modal-footer">
 		            <div class="ibox float-e-margins">
-
-                                <div class="ibox-content">
-                                    <table class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>人员</th>
-                                    <th>员工编号</th>
-                                    <th>金融产品数</th>
-                                    <th>错误信息</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach items="${errorList}"  var="item">
-                                <tr>
-                                    <td>${item.userName }</td>
-                                    <td>${item.employeeCode }</td>
-                                    <td>${item.finOrder }</td>
-                                    <td>${item.errorMessage }</td>
-                                </tr>
-                                </c:forEach>
-                                 
-                                </tbody>
-                            </table>
-                                </div>
-                            </div>
+                         <div class="ibox-content">
+                             <table class="table table-bordered">
+                           <thead>
+                           <tr>
+                               <th>人员</th>
+                               <th>员工编号</th>
+                               <th>金融产品数</th>
+                               <th>错误信息</th>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           <c:forEach items="${errorList}"  var="item">
+                           <tr>
+                               <td>${item.userName }</td>
+                               <td>${item.employeeCode }</td>
+                               <td>${item.finOrder }</td>
+                               <td>${item.errorMessage }</td>
+                           </tr>
+                           </c:forEach>
+                            
+                           </tbody>
+                       </table>
+                         </div>
+                     </div>
                 </div>
              </div>
           </div>
@@ -173,6 +158,9 @@
 <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 
 <content tag="local_script"> 
+
+<script src="<c:url value='/static/js/jquery-2.1.1.js' />" ></script>
+<script src="<c:url value='/static/js/bootstrap.min.js' />" ></script>
 <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
 <script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
 <script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
@@ -190,11 +178,15 @@
 <!-- 日期控件 -->
 <script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
 
+   <!-- 分页控件  -->
+    <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+    <script src= "<c:url value='/js/template.js" type="text/javascript' />"></script>
+    <script src= "<c:url value='/transjs/award/personBonusCollect.js' />"></script>
 <!-- 分页控件  -->
-<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<%-- <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+<script src="${ctx}/js/plugins/jquery.custom.js"></script> --%>
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
@@ -277,6 +269,7 @@
 	</c:if>
 	var sw;
     $(document).ready(function(){
+    	 
     	//初始化日期控件
     	var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});
     	
@@ -289,6 +282,7 @@
     	// 是否显示错误信息
     	if(!!hasError){
     		$('#error-modal-form').modal("show");
+    		alert(2);
     	} 
     	 $("#importButton").click(function(){
     		//iframe层
@@ -297,11 +291,12 @@
         	  title: '导入月度KPI明细页',
         	  shadeClose: true,
         	  shade: 0.8,
+        	  offset: ['50px'],
         	  area: ['50%', '40%'],	
         	  content: $('#excelImport'), //捕获的元素
         	  btn: ['提交','关闭'],
         	  yes: function(index){
-        			  layer.close(i);debugger;
+        			  layer.close(i);
         			  var i =sw.bootstrapSwitch('state')?'0':'1';
             		  // 上月
             		  var bm;
@@ -322,9 +317,9 @@
             		  }
             
             		  if(checkFileTypeExcel()){
-            			 $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-           		    	 $(".blockOverlay").css({'z-index':'9998'});
-           		    	 $("#excelInForm").attr("action",ctx+"/award/doMonthKpiImport"); 
+            			
+           		    	 $(".blockOverlay").css({'z-index':'1998'});
+           		    	 $("#excelInForm").attr("action",ctx+"/award/doMonthKpiImportForNew"); 
            		    	 $("#excelInForm").attr("method","POST"); 
            		    	 
            		    	 $("#belongMonth").remove();
@@ -333,14 +328,11 @@
            		    	 inputMonth.val(i);
            		    	 $('#excelInForm').append(inputMonth);
            		    	 $('#excelInForm').submit();
-           		    	 
+           		    	 $.unblockUI();  
             			 layer.close(index);
             		  }
         	  },
-        	  cancel: function(index){
-        	    layer.close(index);
-        	    //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', {time: 5000, icon:6});
-        	  }
+        	  cancel: function(index){  layer.close(index); }
         	});
     	}) 
     	$('#cleanButton').click(function() {
@@ -361,9 +353,7 @@
     		$("#yuCuiOriGrpId").val("");
     	}
     }
-    
- 	// 判断该月份绩效奖金是否已经生成,如果已经生成，则不能导入
- 	
+ 	/**判断该月份绩效奖金是否已经生成,如果已经生成，则不能导入**/
     function isGenerKpiMoney(bm) {
  		 var isKpiMoney = false;
     	 $.ajax({
