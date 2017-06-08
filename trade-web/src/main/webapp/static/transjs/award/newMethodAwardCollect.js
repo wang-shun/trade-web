@@ -3,17 +3,18 @@ var serviceDepId = $("#serviceDepId").val();
 var num = 0;
 $(document).ready(function() {	
 	
- /*   $('.UpdateUserItem').load(function() { 
+     $('.UpdateUserItem').load(function() { 
         var iframeHeight=$(this).contents().height(); 		         
-        $(this).height(iframeHeight+'px');   
-    });*/
-    $(window.parent.document).find(".UpdateUserItem").load(function () {
+        $(this).height(iframeHeight+500+'px');   
+     });
+/*    $(window.parent.document).find(".UpdateUserItem").load(function () {
 	    var main = $(window.parent.document).find(".UpdateUserItem");
 	    var thisheight = $(document).height() -3;
 	    console.log(thisheight);
 	    main.height(thisheight);
-    });
+    });*/
     
+    //获取初始化页面
 	getInitPage();	
 
     $('#btnNext').click(function() {
@@ -45,6 +46,28 @@ $(document).ready(function() {
         }
         New_src(num);
     });
+    $('#btnAwardSubmit').click(function() {
+    	window.wxc.confirm("请确认本批次计件奖金无误，一旦提交将无法更改，同时同步管理层计件奖金至计件下批次！",{"wxcOk":function(){
+    		$.ajax({
+	  			  async: false,
+				  url:ctx+ "/award/updateTsAwardKpiPayStatus" ,
+		          method: "post",
+		          dataType: "json",
+		          data: {belongMonth:getBlongMonth()},	   
+		          success: function(data){
+	    	          $.unblockUI();   	 
+				      if(data.success){	
+				    	  $("#btnAwardSubmit").attr("disabled",true);
+				    	  window.wxc.alert("最终绩效奖金数据提交成功！");
+				      }
+		          },
+		          error: function (e, jqxhr, settings, exception) {
+		        	  $.unblockUI();   	
+		        	  window.wxc.error("最终绩效奖金数据提交失败！");
+		          }  
+    	   })
+    	 }})
+    });    
 });
 
 function Next_step(sum) {

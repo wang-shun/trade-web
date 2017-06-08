@@ -57,7 +57,7 @@
                     <div class="btn-box">
                         <button id="btnPre" class="btn btn-pre btn-useless">上一步</button>                   
                         <button id="btnNext" class="btn btn-success">下一步</button>
-                        <button id="btnSubmit" class="btn btn-success hide">提交</button>
+                        <button id="btnAwardSubmit" class="btn btn-success hide">提交</button>
                     </div>
                 </div>
                 <div class="row box-content">
@@ -98,87 +98,7 @@
     
    	<!-- 必须JS --> 
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
-    <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>  
-	<script>	
-			/* $(window.parent.document).find(".UpdateUserItem").load(function () {
-			    var main = $(window.parent.document).find(".UpdateUserItem");
-			    var thisheight = $(document).height() -3;
-			    console.log(thisheight);
-			    main.height(thisheight);
-			});	 */	
-	
-/* 			 $(document).ready(function() {			
-		        $('.UpdateUserItem').load(function() { 
-		            var iframeHeight=$(this).contents().height(); 		         
-		            $(this).height(iframeHeight+'px');   
-		        });        
-		        
-			});
-			
-	        (function() {
-	            var num = 0;
-	            $('#btnNext').click(function() {
-	                num ++;
-	                if( num <= 4) {
-	                    Next_step(num);
-	                    $('#btnPre').addClass('btn-pre-use');
-	                } else if(num == 5) {
-	                    Next_step(num);
-	                    $('#btnSubmit').removeClass('hide');
-	                    $('#btnNext').addClass('hide');
-	                } else {
-	                    num = 5;
-	                }	                
-	                New_src(num);
-	            });
-	            $('#btnPre').click(function() {
-	                num --;
-	                if( num <= 0) {
-	                    num = 0;
-	                    Prev_step(num);
-	                    $('#btnPre').removeClass('btn-pre-use');
-	                } else if(num < 5) {
-	                    Prev_step(num);
-	                    $('#btnSubmit').addClass('hide');
-	                    $('#btnNext').removeClass('hide');
-	                } else {
-	                    num = 5;
-	                }
-	                New_src(num);
-	            });
-	
-	            function Next_step(sum) {
-	                var step_eq = $('.step_ul li').eq(sum).find('button');
-	                var step_pre = $('.step_ul li').eq(sum-1).find('button');
-	                step_pre.removeClass('step-current').addClass('step-down');
-	                step_eq.addClass('step-current');
-	            };
-	            function Prev_step(sum) {
-	                var step_eq = $('.step_ul li').eq(num).find('button');
-	                var step_pre = $('.step_ul li').eq(num+1).find('button');
-	                step_pre.removeClass('step-current').addClass('step-down');
-	                step_eq.addClass('step-current');
-	            }
-	            function New_src(sum) {
-	            	var belongMonth = $("#belongMonth").val();
-	                var new_src = "${ctx}/newAward/managerPiecework?belongMonth="+belongMonth;
-					if(sum == 0){
-						new_src = "../newAward/managerPiecework";
-					}else if(sum == 1){
-	                	new_src = "../newAward/satis";
-	                }else  if(sum == 2){
-	            		new_src = "../newAward/monthKpiImport";
-            		}else if(sum == 3){
-            			new_src = "../newAward/wastageRate";
-            		}else if(sum == 4){
-	            		new_src = "../newAward/newBonus";
-	            	}else if(sum == 5){
-	            		new_src = "../newAward/personBonusCollect";
-	            	} 	                
-	                $(".UpdateUserItem",parent.document.body).attr("src",new_src);
-	            }	            
-	        })(); */
-	    </script>	    
-	  </content>             
+    <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>    
+	</content>             
    </body>
 </html>

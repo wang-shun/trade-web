@@ -8,7 +8,8 @@ $(document).ready(function() {
 	data.queryId = "findAwardCaseCollectList";
 	data.rows = 10;
 	data.page = 1;
-	
+	var belongMonth = $.trim($("#belongMonth").val());	
+	data.belongMonth = belongMonth;
 	reloadGrid(data);
 	/* 加载排序查询组件 */
 	aist.sortWrapper({
