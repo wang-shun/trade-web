@@ -2,7 +2,45 @@ var ctx = $("#ctx").val();
 var serviceDepId = $("#serviceDepId").val();
 
 $(document).ready(function() {	
+	
+    $('.UpdateUserItem').load(function() { 
+        var iframeHeight=$(this).contents().height(); 		         
+        $(this).height(iframeHeight+'px');   
+    });
+    
+    
 	getInitPage();
+	
+/*
+    $('#btnNext').click(function() {
+        num ++;
+        if( num <= 4) {
+            Next_step(num);
+            $('#btnPre').addClass('btn-pre-use');
+        } else if(num == 5) {
+            Next_step(num);
+            $('#btnSubmit').removeClass('hide');
+            $('#btnNext').addClass('hide');
+        } else {
+            num = 5;
+        }	                
+        New_src(num);
+    });
+    $('#btnPre').click(function() {
+        num --;
+        if( num <= 0) {
+            num = 0;
+            Prev_step(num);
+            $('#btnPre').removeClass('btn-pre-use');
+        } else if(num < 5) {
+            Prev_step(num);
+            $('#btnSubmit').addClass('hide');
+            $('#btnNext').removeClass('hide');
+        } else {
+            num = 5;
+        }
+        New_src(num);
+    });*/
 });
 
 
@@ -29,11 +67,68 @@ function getInitPage(){
     				 page = data.content;
     			 }    			
     		}
-            var new_src = ctx+"/newAward/managerPiecework?belongMonth="+belongMonth+'&t='+(new Date().getTime());
-            $(".UpdateUserItem",parent.document.body).attr("src",new_src);
+    		New_src(page);
+/*            var new_src = ctx+"/newAward/managerPiecework?belongMonth="+belongMonth+'&t='+(new Date().getTime());
+            $(".UpdateUserItem",parent.document.body).attr("src",new_src);*/
     	}
- 	}); 
+ 	});
+}
 
+function initCss(){
+
+ }
+
+function Next_step(sum) {
+    var step_eq = $('.step_ul li').eq(sum).find('button');
+    var step_pre = $('.step_ul li').eq(sum-1).find('button');
+    step_pre.removeClass('step-current').addClass('step-down');
+    step_eq.addClass('step-current');
+};
+function Prev_step(sum) {
+    var step_eq = $('.step_ul li').eq(num).find('button');
+    var step_pre = $('.step_ul li').eq(num+1).find('button');
+    step_pre.removeClass('step-current').addClass('step-down');
+    step_eq.addClass('step-current');
+}
+/*function New_src(sum) {
+	var belongMonth = $("#belongMonth").val();
+    var new_src = "${ctx}/newAward/managerPiecework?belongMonth="+belongMonth;
+	if(sum == 0){
+		new_src = "../newAward/managerPiecework";
+	}else if(sum == 1){
+    	new_src = "../newAward/satis";
+    }else  if(sum == 2){
+		new_src = "../newAward/monthKpiImport";
+	}else if(sum == 3){
+		new_src = "../newAward/wastageRate";
+	}else if(sum == 4){
+		new_src = "../newAward/newBonus";
+	}else if(sum == 5){
+		new_src = "../newAward/personBonusCollect";
+	} 	                
+    $(".UpdateUserItem",parent.document.body).attr("src",new_src);
+}*/
+
+function New_src(sum) {
+	
+	var belongMonth = getBlongMonth();
+    var new_src = "../newAward/managerPiecework";
+   
+    
+    if(sum == 0){
+		new_src = "../newAward/managerPiecework";
+	}else if(sum == 1){
+    	new_src = "../newAward/satis";
+    }else  if(sum == 2){
+		new_src = "../newAward/monthKpiImport";
+	}else if(sum == 3){
+		new_src = "../newAward/wastageRate";
+	}else if(sum == 4){
+		new_src = "../newAward/newBonus";
+	}else if(sum == 5){
+		new_src = "../newAward/personBonusCollect";
+	} 	                
+    $(".UpdateUserItem",parent.document.body).attr("src",new_src);
 }
 /* 查询按钮查询 */
 $('#awardCaseCollectSearch').click(function() {

@@ -12,6 +12,11 @@ $(document).ready(function() {
 	data.page = 1;
 	data.belongMonth = belongMonth;
 	reloadGrid(data);
+	
+	/* 加载排序查询组件 */
+	aist.sortWrapper({
+		reloadGrid : satisSearchMethod
+	});
 });
 
 
@@ -165,17 +170,23 @@ function getParams() {
 
 //导出Excel
 function exportStaisToExcel(){
+
 	var url = "/quickGrid/findPage?xlsx&";
 	var ctx = $("#ctx").val();
 	// excel导出列
 	var displayColomn = new Array;
 	//暂时没有计件月份
-	displayColomn.push('REAL_NAME');
-	displayColomn.push('MOBILE');
-	displayColomn.push('EMPLOYEE_CODE');
-	displayColomn.push('ORG_NAME');
-	displayColomn.push('SUMMONEY');
-	
+	displayColomn.push('CASE_CODE');
+	displayColomn.push('SALER_SIGN_SAT');	
+	displayColomn.push('SALER_LOAN_SAT');	
+	displayColomn.push('SALER_GUOHU_SAT');	
+	displayColomn.push('BUYER_SIGN_SAT');	
+	displayColomn.push('BUYER_COM_SAT');	
+	displayColomn.push('BUYER_PSF_SAT');	
+	displayColomn.push('BUYER_GUOHU_SAT');	
+	displayColomn.push('SALER_CALLBACK');
+	displayColomn.push('BUYER_CALLBACK');
+	displayColomn.push('BELONG_MONTH');
 	
 	var params = getParams();	
 	var queryId = '&queryId=kpiCaseListQuery';
@@ -205,4 +216,48 @@ function getBlongMonth(){
   	bm = belongMonth + "-01";
   }
   return bm;
+}
+
+
+//案件case_code排序图标变化函数
+function caseCodeSort() {
+	if ($("#caseCodeSorti").attr("class") == "fa fa-sort-desc fa_down") {
+		$("#caseCodeSorti").attr("class", 'fa fa-sort-asc fa_up ');
+	} else if ($("#caseCodeSorti").attr("class") == "fa fa-sort-desc fa_down icon-chevron-down") {
+		$("#caseCodeSorti").attr("class", 'fa fa-sort-asc fa_up');
+	} else {
+		$("#caseCodeSorti").attr("class", 'fa fa-sort-desc fa_down');
+	}
+}
+
+
+//同步满意度到KPI表(调用存储过程)
+function syncSatisListToKpi(){
+	window.wxc.confirm("确定现在进行案件各环节满意度数据同步？",{"wxcOk":function(){
+		$.ajax({
+	        url:ctx+ "/award/syncSatisListToKpi" ,
+	        method: "get",
+	        dataType: "json",
+	        data: {},
+	        beforeSend: function () {  
+	        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+	        },  
+	        success: function(data){
+	          $.unblockUI();   	 
+	          if(data.success){
+					 window.wxc.confirm("恭喜,满意度数据同步成功！",{"wxcOk":function(){
+						 //TODO 查询数据应该是当前月份的数据；默认显示上月的快照，时间待定
+						 satisSearchMethod();
+					 }
+				   })
+				 }else{
+					 window.wxc.error("满意度数据同步失败！");
+				 } 
+	        },
+	        error: function (e, jqxhr, settings, exception) {
+	        	$.unblockUI();   	 
+	        }  
+	   })
+	 }})
 }

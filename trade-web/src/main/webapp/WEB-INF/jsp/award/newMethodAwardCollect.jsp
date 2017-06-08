@@ -99,24 +99,22 @@
    	<!-- 必须JS --> 
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
     <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>  
-	<script>
+	<script>	
+			/* $(window.parent.document).find(".UpdateUserItem").load(function () {
+			    var main = $(window.parent.document).find(".UpdateUserItem");
+			    var thisheight = $(document).height() -3;
+			    console.log(thisheight);
+			    main.height(thisheight);
+			});	 */	
 	
-			$(document).ready(function() {				
-		        
+			 $(document).ready(function() {			
 		        $('.UpdateUserItem').load(function() { 
-		            var iframeHeight=$(this).contents().height(); 
-		            console.log(iframeHeight);
+		            var iframeHeight=$(this).contents().height(); 		         
 		            $(this).height(iframeHeight+'px');   
-		        }); 
+		        });        
+		        
 			});
-/* 	        $(window.parent.document).find(".UpdateUserItem").load(function () {
-	            var main = $(window.parent.document).find(".UpdateUserItem");
-	            var thisheight = $(document).height() -3;
-	            console.log(thisheight);
-	            main.height(thisheight);
-	        });	 */		
-
-	        
+			
 	        (function() {
 	            var num = 0;
 	            $('#btnNext').click(function() {
@@ -130,7 +128,7 @@
 	                    $('#btnNext').addClass('hide');
 	                } else {
 	                    num = 5;
-	                }
+	                }	                
 	                New_src(num);
 	            });
 	            $('#btnPre').click(function() {
@@ -178,12 +176,7 @@
 	            		new_src = "../newAward/personBonusCollect";
 	            	} 	                
 	                $(".UpdateUserItem",parent.document.body).attr("src",new_src);
-	            }
-	
-	            $('#AddBtn').click(function(event) {
-	                alert('ss');
-	            });
-	            
+	            }	            
 	        })();
 	    </script>	    
 	  </content>             
