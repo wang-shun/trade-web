@@ -585,7 +585,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	@Override
 	public void callKpiSyncSatis() {
 		Map<String, Date> paramMap = new HashMap<String, Date>();
-		//过户时间：默认上月月底
+		//过户审批通过时间：默认上月月底
 		Date today1 = DateUtil.getFirstDayOfTheMonth();
 		Date guohuTime = DateUtil.plusDay(today1, -1);
 		//计件月份：默认上月月初

@@ -39,6 +39,9 @@ public class KpiSyncSatisController {
 	    return "award/managerSatisfied";
 	  }
 	  
+	  /*
+	   * @desc:根据计件奖金池案件,同步满意度
+	   * */
 	  @RequestMapping("/syncSatisListToKpi")
 	  @ResponseBody
 	  public AjaxResponse<String> syncSatisListToKpi(){

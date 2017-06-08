@@ -16,7 +16,8 @@
 		<link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />	
 		<link href="<c:url value='/static/css/animate.css'/>"  rel="stylesheet"/> 
 		<link href="<c:url value='/static/css/style.css' />" rel="stylesheet" />	
-		
+		<!--弹出框样式  -->
+		<link href="<c:url value='/css/common/xcConfirmForAward.css' />" rel="stylesheet" />
 		<!-- 分页控件 -->
 		<link href="<c:url value='/css/plugins/pager/centaline.pager.css'/>"  rel="stylesheet" />
 		<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css'/>"  rel="stylesheet" />
@@ -49,11 +50,11 @@
 	                        <input class="teamcode input_type" placeholder="请输入" value=""  name="caseCode"  id="caseCode">
 	                    </div>
 	                    <div class="form_content ml5">
-	                        <div class="add_btn">
-	                            <button class="btn btn-success">满意度同步</button>
+	                        <div class="add_btn">	                            
 	                            <button type="button" class="btn btn-success mr5 btn-icon"  id="satisSearch">
 	                                <i class="icon iconfont"></i>查询</button>
 	                            <button class="btn btn-success"  onClick="javascript:exportStaisToExcel();">导出Excel</button>
+	                            <button class="btn btn-success"  onClick="javascript:syncSatisListToKpi();">满意度同步</button>
 	                            <button type="button" class="btn btn-grey" id="satisClean">清空</button>
 	                        </div>
 	                    </div>
@@ -66,7 +67,7 @@
                     <table class="table table_blue table-hover table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th rowspan="2">案件编号<a href="javascript:void(0);"><i class="fa fa-sort-desc fa_down"></i></a></th>
+                                <th rowspan="2"><span class="sort" sortColumn="CASE_CODE" sord="desc" onclick="caseCodeSort();">案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
                                 <th colspan="3" class="text-center">上家</th>
                                 <th colspan="4" class="text-center">下家</th>
                                 <th>上家-下家</th>
@@ -116,20 +117,20 @@
  	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
     <!-- 分页控件  -->
     <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
-    <script src= "<c:url value='/js/template.js" type="text/javascript' />"></script>
+    <script src= "<c:url value='/js/template.js" type="text/javascript' />"></script>    
     <script src= "<c:url value='/transjs/award/satisfied.js' />"></script>
    	<!-- 必须JS --> 
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
     <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>  
+    <!-- 引入弹出框js文件 -->
+    <script src="<c:url value='/js/common/xcConfirm.js' />"></script>
 	<script id="template_satisList" type= "text/html">
       	{{each rows as item index}}
   				  {{if index%2 == 0}}
  				      <tr class="tr-1">
                   {{else}}
                        <tr class="tr-2">
-                  {{/if}} 
-
-                  <tr>
+                  {{/if}}                  
 					<td >
 						{{item.CASE_CODE}}
 					</td>
