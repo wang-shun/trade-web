@@ -189,6 +189,10 @@
 <script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
 <!-- 列表 -->
 <script src="${ctx}/transjs/award/monthkpi.list.js"></script>
+
+<!-- 弹出框插件 -->
+<script src="${ctx}/js/plugins/layer/layer.js"></script>
+<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
 <script id="template_myTaskList" type= "text/html">
 {{each rows as item index}}
 		 {{if index%2 == 0}}
