@@ -62,9 +62,10 @@ function reloadGrid(data) {
 			$(".blockOverlay").css({'z-index':'9998'});
         },
         success: function(data){
-      	      var myTaskList = template('template_myTaskList' , data);
-      	      $("#myTaskList").empty();
-   			  $("#myTaskList").html(myTaskList);
+        	console.log(data);
+      	      var myTaskListf = template('template_myTaskListf' , data);
+      	      $("#myTaskListf").empty();
+   			  $("#myTaskListf").html(myTaskListf);
    			  initpage(data.total,data.pagesize,data.page, data.records);
               $.unblockUI();  
         },
