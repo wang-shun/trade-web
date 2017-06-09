@@ -276,6 +276,7 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 		Date date = new Date();
 		Calendar calendar = Calendar.getInstance();		
 		calendar.setTime(date);//设置当前时间
+		calendar.set(Calendar.DAY_OF_MONTH, -1);
 		//calendar.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
 		
 		request.setAttribute("belongMonth", sdf.format(calendar.getTime()));

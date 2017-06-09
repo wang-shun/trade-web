@@ -5,7 +5,7 @@ $(document).ready(function() {
 	
      $('.UpdateUserItem').load(function() { 
         var iframeHeight=$(this).contents().height(); 		         
-        $(this).height(iframeHeight+500+'px');   
+        $(this).height(iframeHeight+'px');   
      });
 /*    $(window.parent.document).find(".UpdateUserItem").load(function () {
 	    var main = $(window.parent.document).find(".UpdateUserItem");
@@ -31,6 +31,7 @@ $(document).ready(function() {
         }	                
         New_src(num);
     });
+    
     $('#btnPre').click(function() {
         num --;
         if( num <= 0) {
@@ -57,8 +58,7 @@ $(document).ready(function() {
 		          success: function(data){
 	    	          $.unblockUI();   	 
 				      if(data.success){	
-				    	  $("#btnAwardSubmit").attr("disabled",true);
-				    	  window.wxc.alert("最终绩效奖金数据提交成功！");
+				    	 window.wxc.alert("最终绩效奖金数据提交成功！");
 				      }
 		          },
 		          error: function (e, jqxhr, settings, exception) {
@@ -66,7 +66,7 @@ $(document).ready(function() {
 		        	  window.wxc.error("最终绩效奖金数据提交失败！");
 		          }  
     	   })
-    	 }})
+    	}})
     });    
 });
 
@@ -90,8 +90,12 @@ function New_src(sum) {
     if(sum == 0){    	
 		new_src = "../newAward/managerPiecework";
 	}else if(sum == 1){
+		//下一步的之前，需要完成满意度的导入操作
+		if(checkSyncSatis()){
+			return;
+		}
     	new_src = "../newAward/satis";
-    }else  if(sum == 2){
+    }else  if(sum == 2){    	
 		new_src = "../newAward/monthKpiImport";
 	}else if(sum == 3){
 		new_src = "../newAward/wastageRate";
@@ -167,6 +171,9 @@ function updateAwardStep(sum) {
  	});
 }
 
+function  checkSyncSatis(){
+	
+}
 
 /* 查询按钮查询 */
 $('#awardCaseCollectSearch').click(function() {

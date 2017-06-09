@@ -9,6 +9,9 @@ $(document).ready(function() {
 	data.rows = 10;
 	data.page = 1;
 	var belongMonth = $.trim($("#belongMonth").val());	
+	if("" != belongMonth && null != belongMonth ){
+		belongMonth = belongMonth + "-01";
+	}
 	data.belongMonth = belongMonth;
 	reloadGrid(data);
 	/* 加载排序查询组件 */
