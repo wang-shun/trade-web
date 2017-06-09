@@ -77,8 +77,9 @@ public class FirstFollowController {
 
     @RequestMapping("process")
     @ResponseBody
-    public Object toProcess(HttpServletRequest request,String caseCode) {
+    public Object toProcess(HttpServletRequest request,String caseCode,String processInstanceId) {
         JSONObject jsonObject = new JSONObject();
+        String taskId = request.getParameter("taskId");
 
         SessionUser user = uamSessionService.getSessionUser();
         CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
@@ -89,8 +90,11 @@ public class FirstFollowController {
         BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(caseCode);
         jsonObject.put("bizWarnInfo", bizWarnInfo);
         jsonObject.put("caseCode", caseCode);
-        Dict dict = uamBasedataService.findDictByTypeAndLevel("yu_shanghai_district","2");
+        Dict dict = uamBasedataService.findDictByTypeAndLevel("yu_shanghai_district", "2");
         jsonObject.put("distCode",dict);
+        jsonObject.put("taskId", taskId);
+        jsonObject.put("processInstanceId", processInstanceId);
+        jsonObject.put("partCode", "FirstFollow");
 
         return jsonObject;
     }

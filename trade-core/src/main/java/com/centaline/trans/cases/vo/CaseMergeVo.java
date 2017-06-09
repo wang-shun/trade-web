@@ -49,7 +49,7 @@ public class CaseMergeVo {
     /**
      * 外单案件的应收费用项
      */
-	private String commSubject;
+	private String remarks;
 	/**
 	 * 外单案件的应收费用项
 	 */
@@ -135,11 +135,12 @@ public class CaseMergeVo {
 	public void setPaymentAmount(BigDecimal paymentAmount) {
 		this.paymentAmount = paymentAmount;
 	}
-	public String getCommSubject() {
-		return commSubject;
+	
+	public String getRemarks() {
+		return remarks;
 	}
-	public void setCommSubject(String commSubject) {
-		this.commSubject = commSubject;
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 	public BigDecimal getCommCost() {
 		return commCost;

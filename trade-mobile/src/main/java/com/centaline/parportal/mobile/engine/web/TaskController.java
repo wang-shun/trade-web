@@ -80,8 +80,8 @@ public class TaskController {
 				sameSever = true;
 			}
 		} else {
-//			LOGGER.info("result1===task/"+task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters));
-//			return "forward:/task/" + task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters);
+			//LOGGER.info("result1===task/"+task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters));
+			//return "forward:/task/" + task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters);
 			String uri = "/task/"+ OldActivitiFormKey.from(task.getTaskDefinitionKey()).getFormKey()+"/process"+UriUtility.getQueryString(queryParameters);
 			return "forward:"+uri;
 		}
