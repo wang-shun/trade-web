@@ -46,26 +46,7 @@
             </div>
             <div class="form_list">
                 <div class="line">
-                    
                     <div class="form_content">
-                        <label class="control-label sign_left_small">
-                           	 案件编号
-                        </label>
-                        <input class=" input_type" placeholder="请输入" value="">
-                    </div>
-                    <div class="form_content">
-                        <label class="control-label sign_left" style="width:100px;">
-                            	贷款类型
-                        </label>
-                        <select class="select_control sign_right_one">
-	                        <option value=""> 请选择 </option>
-	                        <option value="30016001"> 纯商贷 </option>
-	                        <option value="30016003"> 纯公积金贷款 </option>
-	                        <option value="30016002"> 组合贷款 </option>
-	                        <option value="30016004"> 自办贷款 </option>
-                        </select>
-                    </div>
-                     <div class="form_content">
                         <label class="control-label sign_left_small">
                             	主办
                         </label>
@@ -74,14 +55,6 @@
                         <div class="input-group float_icon organize_icon">
                             <i class="icon iconfont" onclick="chooseManager()"></i>
                         </div>
-                    </div>
-                </div>
-                <div class="line">
-                    <div class="form_content">
-                        <label class="control-label sign_left_small">
-                            	产证地址
-                        </label>
-                        <input class="teamcode input_type" style="width:435px;" placeholder="请输入" value="">
                     </div>
                     <div class="form_content ml5">
                         <div class="add_btn">
@@ -101,12 +74,12 @@
                 <table class="table table_blue table-hover table-striped table-bordered">
                     <thead>
                         <tr>
-                           <th>案件编号</th>
-                            <th>产证地址</th>
-                            <th>主办人</th>
+                           <th>姓名</th>
+                            <th>职位</th>
+                            <th>部门</th>
                             <th>贷款总金额</th>
                             <th>贷款流失金额</th>
-                            <th>贷款类型</th>
+                            <th>流失KPI</th>
                         </tr>
                     </thead>
                     <tbody id="myTaskList">
@@ -160,7 +133,7 @@
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
 <!-- 列表 -->
-<script src="${ctx}/transjs/award/monthkpi.list.js"></script>
+<script src="${ctx}/transjs/award/managerStep3.js"></script>
 <script id="template_myTaskList" type= "text/html">
 {{each rows as item index}}
 		 {{if index%2 == 0}}
@@ -170,45 +143,41 @@
 		   {{/if}}
 			<td >
 				<p class="big">
-					{{item.PARTICIPANT}}
+					{{item.realName}}
 				</p>
 			</td>
 			<td >
 				<p class="big">
-					{{item.TEAM_ID}}
+					{{item.jobName}}
 				</p>
 			</td>
 			<td >
 				<p class="big">
-					{{item.DISTRICT_ID}}
+					{{item.orgName}}
 				</p>
 			</td>
 			<td >
 				<p class="big">
-					{{item.TYPE}}
+					{{item.COM_AMOUNT_TOTAL}}
 				</p>
 			</td>
 			<td >
 				<p class="big">
-					{{item.FIN_ORDER}}
+					{{item.COM_AMOUNT_LS}}
 				</p>
 			</td>
 			<td >
 				<p class="big">
-					{{item.FIN_ORDER_ROLL}}
+					{{item.COM_LS_RATE}}
 				</p>
 			</td>
 			<td >
 				<p class="big">
-					{{item.FIN_ORDER_RATE}}
-				</p>
-			</td>
-			<td >
-				<p class="big">
-					{{item.TOTAL_CASE}}
+					{{item.COM_LS_KPI}}
 				</p>
 			</td>
 		</tr>
+
 {{/each}}              
 </script>
 <script>
