@@ -230,7 +230,8 @@
         UPDATE_BY,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    SELECT
+    <trim prefix="" suffix="" suffixOverrides="," >
       <if test="pkid != null" >
         #{pkid,jdbcType=BIGINT},
       </if>
@@ -355,6 +356,7 @@
         #{updateBy,jdbcType=VARCHAR},
       </if>
     </trim>
+      where not exists(select 1 from sctrans.T_CS_CASE_SATISFACTION where CASE_CODE = #{caseCode,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.satisfaction.entity.ToSatisfaction" >
     update sctrans.T_CS_CASE_SATISFACTION

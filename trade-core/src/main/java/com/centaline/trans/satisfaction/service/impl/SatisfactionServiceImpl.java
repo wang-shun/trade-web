@@ -312,8 +312,24 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 		List<ToCase> toCases = toCaseService.findToCaseByStatus(CaseStatusEnum.YQY.getCode());
 		toCases.forEach(toCase -> {
 			String caseCode = toCase.getCaseCode();
+			String yyyyMM =  new SimpleDateFormat("yyyyMM").format(new Date());
+			if(caseCode.startsWith("ZY-NAJ-")){
+				yyyyMM = caseCode.substring(7,13);
+			}else if(caseCode.startsWith("ZY")){
+				yyyyMM = caseCode.substring(6,12);
+			}else{
+				yyyyMM = caseCode.substring(2,8);
+			}
 	        //签约
-	        handleAfterSign(caseCode, "init", SatisfactionTypeEnum.NEW.getCode());
+			ToSatisfaction toSatisfaction = new ToSatisfaction();
+			toSatisfaction.setType("1");
+			toSatisfaction.setCaseCode(caseCode);
+			String castsatCode = uamBasedataService.nextSeqVal("CASTSAT_CODE",yyyyMM);
+			toSatisfaction.setCastsatCode(castsatCode);
+			toSatisfaction.setStatus(SatisfactionStatusEnum.DEFAULT.getCode());
+			toSatisfaction.setCreateBy("init");
+			toSatisfaction.setCreateTime(new Date());
+			insertSelective(toSatisfaction);
 		});
 	}
 

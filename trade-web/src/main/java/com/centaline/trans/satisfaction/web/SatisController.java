@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.aist.uam.userorg.remote.vo.Org;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -89,8 +90,10 @@ public class SatisController {
   @RequestMapping("/list")
   public String list(Model model){
 	SessionUser user = uamSessionService.getSessionUser();
+	//Org kefuOrg = uamUserOrgService.getOrgByCode("033P192");
 	model.addAttribute("sessionUserId", user.getId());
 	model.addAttribute("serviceJobCode", user.getServiceJobCode());
+	model.addAttribute("kefuOrgId", user.getServiceDepId());
     return "satis/satis_list";
   }
   
