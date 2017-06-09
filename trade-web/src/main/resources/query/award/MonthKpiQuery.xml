@@ -93,8 +93,13 @@
 					from 
 						sctrans.T_TS_AWARD_KPI_RATE  
 					where 
-						BELONG_MONTH = '2016-05-20' 
-						and PARTICIPANT is not null
+						 PARTICIPANT is not null
+						<ifNotNull belongMonth>
+			        		AND DATEDIFF(mm,BELONG_MONTH,#belongMonth#) = 0
+			 			</ifNotNull>
+						<ifNotNull participant>
+			        		AND PARTICIPANT = #participant#
+			 			</ifNotNull>
 					group by 
 							PARTICIPANT, 
 							ORG_ID,

@@ -118,8 +118,6 @@
 <!-- 弹出框插件 -->
 <script src="${ctx}/js/plugins/layer/layer.js"></script>
 <script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
-<!-- 日期控件 -->
-<script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
 
 <!-- 分页控件  -->
  <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
@@ -128,6 +126,14 @@
 <!-- 必须JS -->
 <script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
 
+
+<%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%>
+<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+
+<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+<script	src="${ctx}/js/plugins/switch/bootstrap-switch.js"></script>
+<script src="${ctx}/js/jquery.blockui.min.js"></script>
+<script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
 <!-- 列表 -->
 <script src="${ctx}/transjs/award/managerStep3.js"></script>
 <script id="template_myTaskListf" type= "text/html">
@@ -196,9 +202,6 @@ function chooseManagerBack(array){
 	if (array && array.length > 0) {
 		$("#userId").val(array[0].userId);
 		$("#userName").val(array[0].username);
-		/* $("#jobName").val(array[0].jobName);
-		$("#orgName").val(array[0].orgName);
-		$("#orgId").val(array[0].orgId); */
 	}
 }
     

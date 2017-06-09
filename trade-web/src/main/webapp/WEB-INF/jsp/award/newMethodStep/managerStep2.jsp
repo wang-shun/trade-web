@@ -40,6 +40,7 @@
    <div class="ibox-content border-bottom clearfix space_box">
        <div class="clearfix"> 
            <h2 class="title">月度KPI导入【金融产品】</h2>
+           <a href="../template/call_kpi_temp.xlsx">月度KPI导入【金融产品】导入模板下载</a>
        </div>
        <div class="form_list">
            <div class="line">
@@ -47,12 +48,6 @@
                    <label class="control-label sign_left_small">
                       	 所在组
                    </label>
-                  <!--  
-                   <input id="userName" name="userName" class="input_type sign_right_one" placeholder="请输入" value="" onclick="chooseManager()" readonly="readonly">
-                                        <div class="input-group float_icon organize_icon">
-                                            <i class="icon iconfont" onclick="chooseManager()"></i>
-                                        </div> -->
-                   
                    <input type="text" class="teamcode input_type" id="teamCode" name="teamCode" readonly="readonly" 
 					   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 					   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'',
@@ -67,8 +62,6 @@
                    </label>
                    <input type="text" class=" input_type" id="userName" name="userName" placeholder="" >
                </div>
-           </div>
-           <div class="line">
                <div class="form_content" style="margin-left: 127px;">
                     <div class="add_btn">
                         <button type="button" class="btn btn-success mr5 btn-icon" id="searchButton" >
@@ -81,7 +74,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
+           </div>
         </div>
     </div>
     <div class="row">
@@ -156,7 +149,6 @@
              </div>
           </div>
        </div>
-    
 </div>
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="ex_message" value="${ex_message}" />
@@ -195,16 +187,12 @@
 <script src="${ctx}/js/jquery.blockui.min.js"></script>
 
 <script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
-    <script src= "<c:url value='/transjs/award/personBonusCollect.js' />"></script>
-<!-- 分页控件  -->
-<%-- <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-<script src="${ctx}/js/plugins/jquery.custom.js"></script> --%>
-<!-- 必须JS -->
-
 <!-- 列表 -->
 <script src="${ctx}/transjs/award/monthkpi.list.js"></script>
+
+<!-- 弹出框插件 -->
+<script src="${ctx}/js/plugins/layer/layer.js"></script>
+<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
 <script id="template_myTaskList" type= "text/html">
 {{each rows as item index}}
 		 {{if index%2 == 0}}
