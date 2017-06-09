@@ -44,15 +44,15 @@ public class KpiSyncSatisController {
 	   * */
 	  @RequestMapping("/syncSatisListToKpi")
 	  @ResponseBody
-	  public AjaxResponse<String> syncSatisListToKpi(){
+	  public AjaxResponse<String> syncSatisListToKpi(String belongMonth){
 		  AjaxResponse<String> response = new AjaxResponse<String>();
 		  try {
-			kpiSrvCaseService.callKpiSyncSatis();
-			response.setSuccess(true);
+				kpiSrvCaseService.callKpiSyncSatis(belongMonth);
+				response.setSuccess(true);
 		  } catch (Exception e) {
-			e.printStackTrace();
-			response.setSuccess(false);
-			response.setMessage(e.getMessage());
+				e.printStackTrace();
+				response.setSuccess(false);
+				response.setMessage(e.getMessage());
 		  }
 		  
 		  return response;

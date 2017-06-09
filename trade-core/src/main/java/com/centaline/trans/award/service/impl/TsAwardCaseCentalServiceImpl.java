@@ -154,10 +154,12 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 
 		Org org = uamUserOrgService.getOrgById(tgServItemAndProcessor.getOrgId());// 组织
 		User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(tgServItemAndProcessor.getOrgId(), "Manager");// 主管
-		User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(tgServItemAndProcessor.getOrgId(), "Senior_Manager"); // 高级主管
-		User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(tgServItemAndProcessor.getOrgId(), "director");// 总监
+		User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(tgServItemAndProcessor.getOrgId(), "Senior_Manager"); // 高级主管		
 		User teamAssistant = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(tgServItemAndProcessor.getOrgId(), "TeamAssistant");// 助理
-		User generalManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(tgServItemAndProcessor.getOrgId(), "GeneralManager");// 总经理
+		
+		User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(org.getParentId(), "director");// 总监
+		Org orgParent = uamUserOrgService.getOrgById(org.getParentId());// 组织
+		User generalManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(orgParent.getParentId(), "GeneralManager");// 总经理
 		// 运维经理暂时没有配置
 		// User operationsManager =
 		// uamUserOrgService.getLeaderUserByOrgIdAndJobCode(tgServItemAndProcessor.getOrgId(),
@@ -192,7 +194,7 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			// 总经理
 			if (null != generalManager) {
 				tsAwardCaseCental.setFrontGeneralManager(generalManager.getId());
-				tsAwardCaseCental.setBackGeneralManagerOrgId(generalManager.getOrgId());
+				tsAwardCaseCental.setFrontGeneralManagerOrgId(generalManager.getOrgId());
 			}
 			// 运维经理
 			tsAwardCaseCental.setFrontOperationsManager("8a8493d54ff83966014ffd95ca0901e6");

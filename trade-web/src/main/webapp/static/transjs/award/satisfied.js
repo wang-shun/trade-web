@@ -232,12 +232,14 @@ function caseCodeSort() {
 
 //同步满意度到KPI表(调用存储过程)
 function syncSatisListToKpi(){
+	
+	var  belongMonth = getBlongMonth();
 	window.wxc.confirm("确定现在进行案件各环节满意度数据同步？",{"wxcOk":function(){
 		$.ajax({
 	        url:ctx+ "/award/syncSatisListToKpi" ,
 	        method: "get",
 	        dataType: "json",
-	        data: {},
+	        data: {"belongMonth":belongMonth},
 	        beforeSend: function () {  
 	        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				$(".blockOverlay").css({'z-index':'9998'});

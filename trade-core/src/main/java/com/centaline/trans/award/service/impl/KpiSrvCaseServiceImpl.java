@@ -2,8 +2,8 @@ package com.centaline.trans.award.service.impl;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Month;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aist.common.exception.BusinessException;
 import com.centaline.trans.award.entity.AwardBaseEntity;
 import com.centaline.trans.award.entity.TsKpiSrvCase;
 import com.centaline.trans.award.repository.AwardBaseEntityMapper;
@@ -150,6 +151,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	 * @param listVOs
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private List<KpiSrvCaseVo> checkVo(List<KpiSrvCaseVo> listVOs) {
 		if (listVOs == null || listVOs.isEmpty())
 			return null;
@@ -400,6 +402,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		return null;
 	}
 	
+	@SuppressWarnings("unused")
 	private List<KpiSrvCaseVo> filterNoGuoHuCaseCodeSetMsg(List<KpiSrvCaseVo> listVOs,Collection<String> colls,String msg){
 		
 		if(listVOs!=null){
@@ -583,17 +586,31 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	}
 
 	@Override
-	public void callKpiSyncSatis() {
+	public void callKpiSyncSatis(String belongMonth) {
+		if(null == belongMonth || "".equals(belongMonth)){
+			throw new BusinessException("同步计件奖金满意度请求参数有误！");
+		}
+		
+		
 		Map<String, Date> paramMap = new HashMap<String, Date>();
-		//过户审批通过时间：默认上月月底
+/*		//过户审批通过时间：默认上月月底
 		Date today1 = DateUtil.getFirstDayOfTheMonth();
 		Date guohuTime = DateUtil.plusDay(today1, -1);
 		//计件月份：默认上月月初
 		Date today2 = DateUtil.getFirstDayOfTheMonth();
-		Date countTime = DateUtil.plusMonth(today2, -1);
+		Date countTime = DateUtil.plusMonth(today2, -1);	*/	
+		
+		
+		Date belongMon = DateUtil.strToFullDate(belongMonth);		
+		Calendar calendar = Calendar.getInstance();	
+		calendar.setTime(belongMon);	
+		//calendar.roll(Calendar.DATE, -1);//日期回滚一天，也就是最后一天	
+		calendar.add(Calendar.MONTH, 1);
+		Date guohuTime = calendar.getTime();
+		
 		
 	    paramMap.put("guohu_approve_time", guohuTime);
-	    paramMap.put("belong_month", countTime);
+	    paramMap.put("belong_month", belongMon);
 		kpiSrvCaseMapper.callKpiSyncSatis(paramMap);
 	}
 }

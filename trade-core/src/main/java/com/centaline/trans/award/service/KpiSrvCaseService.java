@@ -8,5 +8,5 @@ public interface KpiSrvCaseService {
 
 	List<KpiSrvCaseVo> importBatch(List<KpiSrvCaseVo> listVOs,Boolean currentMonth);
 	void callKpiStastic(Boolean currentMonth);
-	void callKpiSyncSatis();
+	void callKpiSyncSatis(String belongMonth);
 }
