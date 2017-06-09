@@ -218,4 +218,29 @@
 	
 	
   </update>
+  
+  
+  <update id="updateTsAwardKpiPayStatusAndSyncManager" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >
+    update sctrans.T_TS_AWARD_KPI_PAY
+    set
+      STATUS = #{status,jdbcType=VARCHAR}
+    where DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0;
+    
+    update ab
+		set ab.paid_time=GETDATE()
+		from
+		sctrans.t_ts_award_base ab
+		inner join sctrans.T_TS_AWARD_KPI_PAY_detail payt
+		on ab.pkid=payt.award_base_id
+		left join sctrans.T_TS_AWARD_KPI_PAY pay
+		on pay.pkid = payt.award_kpi_pay_id
+	where DATEDIFF(mm,pay.BELONG_MONTH,#{belongMonth}) = 0;	
+	
+	INSERT  INTO  sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG(BELONG_MONTH,ORG_ID,ORG_NAME,USER_ID,USER_NAME,EMPLOY_CODE,SRV_FEE,IS_COMFIRM,JOB_NAME,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY)
+	SELECT DATEADD(MM,1,@belongMonth),ORG_ID,ORG_NAME,USER_ID,USER_NAME,EMPLOY_CODE,SRV_FEE,'0',JOB_NAME,GETDATE(),'PROCEDURE',GETDATE(),'PROCEDURE'
+	FROM sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG  BC
+	WHERE BC.BELONG_MONTH = @belongMonth;
+	
+	UPDATE  sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG  SET  IS_COMFIRM = '1'  WHERE BELONG_MONTH = @belongMonth;
+  </update>
 </mapper>

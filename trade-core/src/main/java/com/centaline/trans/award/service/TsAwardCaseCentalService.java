@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.centaline.trans.award.entity.TsAwardCaseCental;
 import com.centaline.trans.award.entity.TsAwardKpiPay;
+import com.centaline.trans.award.entity.TsKpiSrvCase;
 
 
 public interface TsAwardCaseCentalService {
@@ -29,4 +30,8 @@ public interface TsAwardCaseCentalService {
 	TsAwardKpiPay getInitPage(HttpServletRequest request, TsAwardKpiPay tsAwardKpiPay);
 	
 	int updateAwardStep(HttpServletRequest request, TsAwardKpiPay tsAwardKpiPay);
+	
+	int isSycnSatis(HttpServletRequest request, TsKpiSrvCase tsKpiSrvCase);
+	
+	int deleteNobonusCase(String caseCode);
 }

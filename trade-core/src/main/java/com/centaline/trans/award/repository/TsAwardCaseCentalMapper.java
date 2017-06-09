@@ -19,6 +19,8 @@ public interface TsAwardCaseCentalMapper {
     int insertSelective(TsAwardCaseCental record);
 
     TsAwardCaseCental selectByPrimaryKey(Long pkid);
+    
+    TsAwardCaseCental selectByCaseCodeAndStatus(TsAwardCaseCental record);
 
     int updateByPrimaryKeySelective(TsAwardCaseCental record);
 
@@ -29,4 +31,7 @@ public interface TsAwardCaseCentalMapper {
      * @param Map
      * */
 	void callCreateAwardBaseInfo(Map<String, Object> map);
+	
+	
+
 }

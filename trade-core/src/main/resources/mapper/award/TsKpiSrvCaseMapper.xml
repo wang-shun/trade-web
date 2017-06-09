@@ -381,5 +381,10 @@ WHERE   C.CASE_CODE NOT IN ( SELECT DISTINCT
     #{item.caseCode,jdbcType=VARCHAR}
     </foreach>)
   </select>
+
+   
+   <select id="countSatis"  resultType="java.lang.Integer"  parameterType="com.centaline.trans.award.entity.TsKpiSrvCase" >
+	   select  count(*)    from  sctrans.T_TS_KPI_SRV_CASE  with(nolock)    where   datediff(mm,BELONG_MONTH,#{belongMonth})=0
+   </select>
    
 </mapper>

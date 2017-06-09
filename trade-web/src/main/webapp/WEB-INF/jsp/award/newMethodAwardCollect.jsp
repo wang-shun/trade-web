@@ -16,7 +16,8 @@
 		<link href="<c:url value='/css/plugins/datapicker/datepicker3.css'/>"  rel="stylesheet" />		
 		<link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />
 		<link href="<c:url value='/static/css/style.css' />" rel="stylesheet" />	
-		
+		<!--弹出框样式  -->
+		<link href="<c:url value='/css/common/xcConfirmForAward.css' />" rel="stylesheet" />
 		<!-- 分页控件 -->
 		<link href="<c:url value='/css/plugins/pager/centaline.pager.css'/>"  rel="stylesheet" />
 		<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css'/>"  rel="stylesheet" />
@@ -57,7 +58,7 @@
                     <div class="btn-box">
                         <button id="btnPre" class="btn btn-pre btn-useless">上一步</button>                   
                         <button id="btnNext" class="btn btn-success">下一步</button>
-                        <button id="btnAwardSubmit" class="btn btn-success hide">提交</button>
+                        <button id="btnSubmit" class="btn btn-success hide">提交</button>
                     </div>
                 </div>
                 <div class="row box-content">
@@ -99,6 +100,9 @@
    	<!-- 必须JS --> 
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
     <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>    
+    
+    <!-- 引入弹出框js文件 -->
+    <script src="<c:url value='/js/common/xcConfirm.js' />"></script>
 	</content>             
    </body>
 </html>

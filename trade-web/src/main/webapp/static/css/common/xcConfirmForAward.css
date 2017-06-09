@@ -19,7 +19,7 @@
 
 .xcConfirm .popTip {
     position: fixed;
-    left: 45%;
+    left: 50%;
     top: 20%;
     overflow:  hidden;
     transform:  translate(-50%,-50%);

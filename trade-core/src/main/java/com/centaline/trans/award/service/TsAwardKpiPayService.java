@@ -9,4 +9,6 @@ public interface TsAwardKpiPayService {
     List<TsAwardKpiPay> getTsAwardKpiPayByProperty(TsAwardKpiPay record);
     
     int updateTsAwardKpiPayStatus(TsAwardKpiPay record);
+    
+    int updateTsAwardKpiPayStatusAndSyncManager(TsAwardKpiPay record);
 }

@@ -529,5 +529,17 @@
   
    <update id="callCreateAwardBaseInfo" parameterMap="InsertFuneralMap" statementType="CALLABLE">   
         {CALL [sctrans].[P_AWARD_BASE](?,?,?)}
-   </update>
+   </update>  
+   
+   
+   <select id="selectByCaseCodeAndStatus" resultMap="BaseResultMap" parameterType="com.centaline.trans.award.entity.TsAwardCaseCental" >
+	    select 
+	    	<include refid="Base_Column_List" />
+	    from sctrans.T_TS_AWARD_CASE_CENTAL
+	    where 
+	    	CASE_CODE = #{caseCode,jdbcType = VARCHAR}	    	
+	 	<if test="awardStatus != null">
+	 	 	AND AWARD_STATUS = #{awardStatus,jdbcType = CHAR}
+	 	</if>
+  </select>
 </mapper>

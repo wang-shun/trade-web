@@ -23,8 +23,10 @@ import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.award.entity.TsAwardCaseCental;
 import com.centaline.trans.award.entity.TsAwardKpiPay;
+import com.centaline.trans.award.entity.TsKpiSrvCase;
 import com.centaline.trans.award.repository.TsAwardCaseCentalMapper;
 import com.centaline.trans.award.repository.TsAwardKpiPayMapper;
+import com.centaline.trans.award.repository.TsKpiSrvCaseMapper;
 import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.AwardStatusEnum;
@@ -47,6 +49,9 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 	
 	@Autowired
 	TsAwardKpiPayMapper tsAwardKpiPayMapper;
+	
+	@Autowired
+	TsKpiSrvCaseMapper tsKpiSrvCaseMapper;
 	
 	@Autowired(required = true)
 	private UamSessionService uamSessionService;	
@@ -398,5 +403,51 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 		
 		return awardKpiPay;
 	}
+
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-06-09
+	 * 
+	 * @desc:判断是否已经同步满意度
+	 */
+	@Override
+	public int isSycnSatis(HttpServletRequest request, TsKpiSrvCase tsKpiSrvCase) {
+		if(null == tsKpiSrvCase){
+			throw new BusinessException("查询是否同步满意度数据请求参数有误！");
+		}
+		int k = 0;
+		k = tsKpiSrvCaseMapper.countSatis(tsKpiSrvCase);		
+		
+		return k;
+	}
+	
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-06-09
+	 * 
+	 * @desc:删除计件奖金池未发奖金的案件信息
+	 */
+	@Override
+	public int deleteNobonusCase(String caseCode) {		
+		
+		if(null == caseCode || "".equals(caseCode)){
+			throw new BusinessException("删除计件奖金池重启案件请求参数有误！");
+		}
+		
+		TsAwardCaseCental tsAwardCaseCental =  new TsAwardCaseCental();
+		tsAwardCaseCental.setCaseCode(caseCode);
+		tsAwardCaseCental.setAwardStatus(AwardStatusEnum.WEIFAFANG.getCode());
+		
+		TsAwardCaseCental  caseInfo = tsAwardCaseCentalMapper.selectByCaseCodeAndStatus(tsAwardCaseCental);
+		int k = 0;
+		if(null != caseInfo){
+			k = tsAwardCaseCentalMapper.deleteByPrimaryKey(caseInfo.getPkid());		
+		}		
+		return k;
+	}	
+	
 
 }

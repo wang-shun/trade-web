@@ -1,6 +1,5 @@
 var ctx = $("#ctx").val();
 var serviceDepId = $("#serviceDepId").val();
-/*var appCtx = $("#appCtx").val();*/
 
 $(document).ready(function() {
 	

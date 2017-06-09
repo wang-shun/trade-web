@@ -47,7 +47,7 @@
 					from sctrans.t_ts_kpi_srv_case
 					where TYPE = 'IMP'
 						<ifNotNull belongMonth>
-							 AND BELONG_MONTH  = #belongMonth#			        		
+							AND DATEDIFF(m, BELONG_MONTH, #belongMonth#) = 0								        		
 			 			</ifNotNull>
 			 			
 				]]>

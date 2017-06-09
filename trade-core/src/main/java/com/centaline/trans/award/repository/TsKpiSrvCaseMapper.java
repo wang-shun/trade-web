@@ -36,5 +36,8 @@ public interface TsKpiSrvCaseMapper {
 	/* 计算过户案件的案件编号  */
 	Set<String> getCaseCodeByCaseCodefromTToAwardBase(List<KpiSrvCaseVo> list);
 	/*同步满意度到KPI表*/
-	void callKpiSyncSatis(Map<String,Date> map);
+	void callKpiSyncSatis(Map<String,Date> map);	
+	
+	//满意度
+	int countSatis(TsKpiSrvCase tsKpiSrvCase);
 }

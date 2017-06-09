@@ -5,7 +5,7 @@ $(document).ready(function() {
 	
      $('.UpdateUserItem').load(function() { 
         var iframeHeight=$(this).contents().height(); 		         
-        $(this).height(iframeHeight+'px');   
+        $(this).height(iframeHeight+300+'px');   
      });
 /*    $(window.parent.document).find(".UpdateUserItem").load(function () {
 	    var main = $(window.parent.document).find(".UpdateUserItem");
@@ -28,7 +28,7 @@ $(document).ready(function() {
             $('#btnNext').addClass('hide');
         } else {
             num = 5;
-        }	                
+        }
         New_src(num);
     });
     
@@ -47,17 +47,18 @@ $(document).ready(function() {
         }
         New_src(num);
     });
-    $('#btnAwardSubmit').click(function() {
-    	window.wxc.confirm("请确认本批次计件奖金无误，一旦提交将无法更改，同时同步管理层计件奖金至计件下批次！",{"wxcOk":function(){
+    
+    $('#btnSubmit').click(function() {    	
+    	window.wxc.confirm("请确认本批次计件奖金无误，一旦提交将无法更改，同时同步管理层基础奖金配置至下个批次！",{"wxcOk":function(){
     		$.ajax({
 	  			  async: false,
-				  url:ctx+ "/award/updateTsAwardKpiPayStatus" ,
+				  url:ctx+ "/newAward/updateTsAwardKpiPayStatusAndSyncManager" ,
 		          method: "post",
 		          dataType: "json",
 		          data: {belongMonth:getBlongMonth()},	   
 		          success: function(data){
 	    	          $.unblockUI();   	 
-				      if(data.success){	
+				      if(data.success == true){	
 				    	 window.wxc.alert("最终绩效奖金数据提交成功！");
 				      }
 		          },
@@ -65,12 +66,13 @@ $(document).ready(function() {
 		        	  $.unblockUI();   	
 		        	  window.wxc.error("最终绩效奖金数据提交失败！");
 		          }  
-    	   })
+    	    })
     	}})
-    });    
+    });  
+    
 });
 
-function Next_step(sum) {
+function Next_step(sum) {	
     var step_eq = $('.step_ul li').eq(sum).find('button');
     var step_pre = $('.step_ul li').eq(sum-1).find('button');
     step_pre.removeClass('step-current').addClass('step-down');
@@ -86,14 +88,16 @@ function Prev_step(sum) {
 
 function New_src(sum) {	
 	var belongMonth = getBlongMonth();
-    var new_src = "../newAward/managerPiecework";    
+    var new_src = "";    //../newAward/managerPiecework
     if(sum == 0){    	
 		new_src = "../newAward/managerPiecework";
 	}else if(sum == 1){
-		//下一步的之前，需要完成满意度的导入操作
-		if(checkSyncSatis()){
-			return;
-		}
+/*        if(num == 1){
+    		if(!checkSyncSatis()){
+    			window.wxc.alert("请先完成当前月份满意度数据同步并确认！");
+    			return;
+    		}
+        }*/
     	new_src = "../newAward/satis";
     }else  if(sum == 2){    	
 		new_src = "../newAward/monthKpiImport";
@@ -130,7 +134,7 @@ function getInitPage(){
     			 if(data.content != "" && data.content != null){
     				 page = data.content;
     			 }    			
-    		}    		
+    		}  
     		New_src(page);
 /*            var new_src = ctx+"/newAward/managerPiecework?belongMonth="+belongMonth+'&t='+(new Date().getTime());
             $(".UpdateUserItem",parent.document.body).attr("src",new_src);*/
@@ -143,12 +147,17 @@ function initButtonClass(page){
 	Next_step(page);
 	Prev_step(page);
 	if(page != 0){		 
-		$('.step_ul li').eq(0).find('button').removeClass('step-current').addClass('step-down');	
+		$('.step_ul li').eq(0).find('button').removeClass('step-current').addClass('step-down');
+		$('.step_ul li').eq(page).find('button').removeClass('step-down').addClass('step-current');
+		if(page == 5){
+            $('#btnSubmit').removeClass('hide');
+            $('#btnNext').addClass('hide');
+		}
 	}
 	num = page;
  }
 
-
+//更新计件奖金步骤
 function updateAwardStep(sum) {	
 	var tsAwardKpiPay = {};
 	var awardStep = sum;
@@ -170,8 +179,28 @@ function updateAwardStep(sum) {
     	}
  	});
 }
-
+//更新计件奖金步骤
 function  checkSyncSatis(){
+	
+	var satisFlag = false ;
+	var belongMonth =  getBlongMonth();
+	var tsKpiSrvCase = {};
+	tsKpiSrvCase.belongMonth = belongMonth;
+	
+	$.ajax({
+	    url:ctx+"/newAward/isSycnSatis",
+	    async:false,
+    	method:"post",
+    	dataType:"json",
+    	data:tsKpiSrvCase,
+    	
+    	success:function(data){     		
+    		if(data.success == true){    			 
+    			satisFlag = true;			
+    		}
+    	}
+ 	});	
+	return satisFlag;
 	
 }
 

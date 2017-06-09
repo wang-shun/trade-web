@@ -13,11 +13,13 @@ import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.award.entity.TsAwardKpiPay;
+import com.centaline.trans.award.entity.TsKpiSrvCase;
 import com.centaline.trans.award.service.KpiSrvCaseService;
 import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.award.service.TsAwardKpiPayDetailService;
 import com.centaline.trans.award.service.TsAwardKpiPayService;
 import com.centaline.trans.award.service.TsKpiPsnMonthService;
+import com.centaline.trans.utils.DateUtil;
 
 
 @Controller
@@ -268,5 +270,65 @@ public class TsAwardCaseCentalController {
 		}		
 		//return "award/newBonus";
 		return  "award/newMethodStep/managerStep1";
+	}
+	
+	
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-06-09
+	 * 
+	 * @desc:分批次案件奖金明细统计列表
+	 */
+	@RequestMapping(value = "/isSycnSatis")
+	@ResponseBody
+	public AjaxResponse<String>  isSycnSatis(HttpServletRequest request,TsKpiSrvCase tsKpiSrvCase) {
+		
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			int k = tsAwardCaseCentalService.isSycnSatis(request,tsKpiSrvCase);
+			if(k > 0){
+				response.setSuccess(true);
+				response.setContent("当前计件月份满意度数据已同步！");
+			}else{
+				response.setSuccess(false);
+				response.setContent("当前计件月份满意度数据未同步！");
+			}				
+		}catch (Exception e) {
+			e.printStackTrace();			
+			throw new BusinessException("请求查询是否同步满意度异常，请稍后再试！");
+		}		
+		return response;
+	}
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-06-09
+	 * 
+	 * @desc:更新最终表的计件状态、同步管理层人员的计件奖金至下批次
+	 */
+	@RequestMapping(value = "/updateTsAwardKpiPayStatusAndSyncManager")
+	@ResponseBody
+	public AjaxResponse<String> updateTsAwardKpiPayStatusAndSyncManager(HttpServletRequest request,	String belongMonth) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try {
+			TsAwardKpiPay record = new TsAwardKpiPay();
+			// 确认状态
+			record.setStatus("1");
+			record.setBelongMonth(DateUtil.strToFullDate(belongMonth));
+			
+			int count = tsAwardKpiPayService.updateTsAwardKpiPayStatusAndSyncManager(record);
+			if (count > 0) {
+				response.setSuccess(true);
+			} else {
+				response.setSuccess(false);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();			
+			throw new BusinessException("数据提交异常，请稍后再试！");
+		}
+		return response;
 	}
 }

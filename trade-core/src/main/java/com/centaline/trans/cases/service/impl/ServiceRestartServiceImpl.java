@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.alibaba.druid.util.StringUtils;
 import com.centaline.trans.task.service.ActRuTaskService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.bizwarn.repository.BizWarnInfoMapper;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ServiceRestartService;
@@ -69,6 +71,10 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private TransplanServiceFacade toTransplanOperateService;// add by zhoujp
 	@Autowired
 	private ActRuTaskService actRuTaskService;
+	
+	@Autowired
+	private TsAwardCaseCentalService tsAwardCaseCentalService;
+	
 
 	@Override
 	@Transactional(readOnly = false)
@@ -265,6 +271,11 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		// 如果流程重启申请审批通过的话，就删除对应的预警信息
 		if (vo.getIsApproved()) {
 			bizWarnInfoMapper.deleteByCaseCode(vo.getCaseCode());
+		}
+		
+		// 如果流程重启申请审批通过的话，删除计件奖金池的、未发奖金的案件
+		if (vo.getIsApproved()) {
+			tsAwardCaseCentalService.deleteNobonusCase(vo.getCaseCode());
 		}
 
 		// 流程重启更改掉案件临时银行的状态
