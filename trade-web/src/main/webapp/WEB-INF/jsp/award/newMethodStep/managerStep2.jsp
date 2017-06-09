@@ -40,6 +40,7 @@
    <div class="ibox-content border-bottom clearfix space_box">
        <div class="clearfix"> 
            <h2 class="title">月度KPI导入【金融产品】</h2>
+           <a href="../template/call_kpi_temp.xlsx">月度KPI导入【金融产品】导入模板下载</a>
        </div>
        <div class="form_list">
            <div class="line">
@@ -61,8 +62,6 @@
                    </label>
                    <input type="text" class=" input_type" id="userName" name="userName" placeholder="" >
                </div>
-           </div>
-           <div class="line">
                <div class="form_content" style="margin-left: 127px;">
                     <div class="add_btn">
                         <button type="button" class="btn btn-success mr5 btn-icon" id="searchButton" >
@@ -75,7 +74,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
+           </div>
         </div>
     </div>
     <div class="row">
@@ -150,7 +149,6 @@
              </div>
           </div>
        </div>
-    
 </div>
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="ex_message" value="${ex_message}" />

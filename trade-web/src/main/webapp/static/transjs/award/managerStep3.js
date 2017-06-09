@@ -72,16 +72,6 @@ function reloadGrid(data) {
 }
 
 
-function test() {
-	 var prCodeArray = new Array();
-	 var pkidList = jQuery("#gridTable").jqGrid('getGridParam', 'selarrrow');
-	 for(var i = 0;i<pkidList.length;i++){
-		 var item=$("#gridTable").jqGrid('getRowData',pkidList[i]);
-		 prCodeArray.push(item.PKID);
-	 }
-	 window.wxc.alert(prCodeArray);
-}
-
 /**
  * 分页功能
  * @param totalCount
