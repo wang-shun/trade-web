@@ -181,23 +181,19 @@
 
 			<div class="ibox-content" id="zj_info">
 				<form method="get" class="form_list" id="eloanApplyForm">
-					<input type="hidden" name="caseCode" id="caseCode"
-						value="${caseCode}" /> <input type="hidden" id="excutorId"
-						name="excutorId" value="${excutorId}" />
-
-					<!-- 流程引擎需要字段 -->
+					<input type="hidden" name="caseCode" id="caseCode" value="${caseCode}" /> 
+					<input type="hidden" id="excutorId" name="excutorId" value="${excutorId}" />
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId"
-						name="processInstanceId" value="${processInstanceId}"> <input
-						type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!--  -->
-					<input type="hidden" id="eloanCode" name="eloanCode"
-						value="${eloanCase.eloanCode}">
-						<input type="hidden" id="createTime" name="createTime"
-						value="<fmt:formatDate value="${eloanCase.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>" >
-						<input type="hidden" id="createBy" name="createBy"
-						value="${eloanCase.createBy}">
+					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}"> 
+					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+					<input type="hidden" id="eloanCode" name="eloanCode" value="${eloanCase.eloanCode}">
+					<input type="hidden" id="createTime" name="createTime" value="<fmt:formatDate value="${eloanCase.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>" >
+					<input type="hidden" id="createBy" name="createBy" value="${eloanCase.createBy}">
+					
 					<ul class="form_lump">
+						<div class="modal_title title-mark">
+                                	产品信息
+                        </div>
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
@@ -219,18 +215,44 @@
 						
 						<li>
 							<div class="form_content">
-								<label class="control-label sign_left_two"> <i
-									style="color:red">* </i>证件类型
-								</label>  							
-									<aist:dict id="custCardType"  name="custCardType" clazz="select_control sign_right_two"
-									display="select" dictType="CERT_TYPE"  tag="forEloanApply"  ligerui='none'  defaultvalue="${eloanCase.custCardType}" >									
-									</aist:dict>												
+								<label class="control-label sign_left_two"><i style="color:red">* </i> 申请金额</label> 
+								<input class="input_type sign_right_two" value="${eloanCase.applyAmount}" name="applyAmount" id="applyAmount">
+								<div class="input-group date_icon">
+									<span class="danwei">万</span>
+								</div>
 							</div>
-							
+							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
+								<label class="control-label sign_left_two"> <i style="color:red">* </i> 申请时间</label> 
+								<input class="input_type sign_right_two" value="<fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" />" name="applyTime" id="applyTime" />
+								<div class="input-group date_icon">
+									<i class="fa fa-calendar"></i>
+								</div>
+							</div>
 							<div class="form_content">
-								<label class="control-label sign_left_two"> <i  style="color:red">* </i> 办卡人证件号
-								</label> <input class="input_type sign_right_two" style="width: 172px;"
-									value="${eloanCase.custPaper}" name="custPaper" id="custPaper">
+								<label class="control-label sign_left_two"><i style="color:red">* </i> 申请期数</label> 
+								<input class="input_type sign_right_two" value="${eloanCase.month}" name="month" id="month">
+								<div class="input-group date_icon">
+									<span class="danwei">月</span>
+								</div>
+							</div>
+						</li>
+						
+						<li>
+							<div class="form_content" style="position: relative;">
+								<label class="control-label sign_left_two"><i style="color:red">* </i> 信贷员</label> 
+								<input type="text" name="loanerName" id="loanerName" onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})"
+									style="background-color: #FFFFFF;" readonly="readonly" class="sign_right_two input_type" id="txt_proOrgId_gb" value='${eloanCase.loanerName}' >
+									<i style=" position: absolute; top: 5px; right: 5px; color:#52cdec; " id="loanerNameImage" name ="loanerNameImage" class="icon iconfont"
+										onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})">&#xe627;</i>
+								 </input>
+								 <input value="${eloanCase.loanerOrgCode}" type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
+								 <input value="${eloanCase.loanerOrgId}" type="hidden" id="loanerOrgId" name ="loanerOrgId" />
+								 <input value="${eloanCase.loanerId}" type="hidden"  id="loanerId" name="loanerId" />
+								 <input value="${eloanCase.loanerUserName}" type="hidden"  id="loanerUserName" name="loanerUserName" />
+							</div>
+							 <div class="form_content">
+								<label class="control-label sign_left_two"> 信贷员电话 </label> 
+								<input class="input_type  sign_right_two" value="${eloanCase.loanerPhone}" name="loanerPhone" id="loanerPhone"></input>
 							</div> 
 						</li>
 						
@@ -244,86 +266,52 @@
 										</c:if>
 									</select>
 								</div>
-								<!-- <input class="input_type sign_right_two" value="" name="custName" id="custName"> -->
 							</div>
 							<div class="form_content">
-								<label class="control-label sign_left_two"> <i
-									style="color:red">* </i> 办卡人电话
-								</label> <input class="input_type sign_right_two"
-									value="${eloanCase.custPhone}" name="custPhone" id="custPhone">
-							</div> <shiro:hasPermission name="TRADE.LOAN.SUBMIT.BELONG">
+								<label class="control-label sign_left_two"><i style="color:red">* </i>办卡人电话</label> 
+								<input class="input_type sign_right_two" value="${eloanCase.custPhone}" name="custPhone" id="custPhone">
+							</div> 
+							<shiro:hasPermission name="TRADE.LOAN.SUBMIT.BELONG">
 								<div class="form_content">
-									<label class="control-label sign_left_two"> <i
-										style="color:red">* </i> 案件归属
-									</label> <input type="text" id="excutorName" name="excutorName"
-										class="form-control tbspuser"
-										style="width: 170px; display: inline-block;"
-										hVal="${excutorId}" value="${excutorName}" readonly="readonly"
-										onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',
-										nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
+									<label class="control-label sign_left_two"><i style="color:red">* </i> 案件归属</label> 
+									<input type="text" id="excutorName" name="excutorName" class="form-control tbspuser" style="width: 170px; display: inline-block;"
+											hVal="${excutorId}" value="${excutorName}" readonly="readonly"
+											onclick="userSelect({startOrgId:'${orgId}',expandNodeId:'${orgId}',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})" />
 								</div>
 							</shiro:hasPermission>
-							
-							
-
-							
 						</li>
+						
 						<li>
 							<div class="form_content">
-								<label class="control-label sign_left_two"> <i
-									style="color:red">* </i> 申请金额
-								</label> <input class="input_type sign_right_two"
-									value="${eloanCase.applyAmount}" name="applyAmount"
-									id="applyAmount">
-								<div class="input-group date_icon">
-									<span class="danwei">万</span>
-								</div>
+								<label class="control-label sign_left_two"><i style="color:red">* </i>证件类型</label>  							
+								<aist:dict id="custCardType"  name="custCardType" clazz="select_control sign_right_two" display="select" dictType="CERT_TYPE"  tag="forEloanApply"  ligerui='none'  defaultvalue="${eloanCase.custCardType}"></aist:dict>												
 							</div>
-							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
-								<label class="control-label sign_left_two"> <i
-									style="color:red">* </i> 申请时间
-								</label> <input class="input_type sign_right_two" value="<fmt:formatDate value="${eloanCase.applyTime}" pattern="yyyy-MM-dd" />"
-									name="applyTime" id="applyTime" />
-								<div class="input-group date_icon">
-									<i class="fa fa-calendar"></i>
-								</div>
-							</div>
+							
 							<div class="form_content">
-								<label class="control-label sign_left_two"> <i
-									style="color:red">* </i> 申请期数
-								</label> <input class="input_type sign_right_two"
-									value="${eloanCase.month}" name="month" id="month">
-								<div class="input-group date_icon">
-									<span class="danwei">月</span>
-								</div>
-							</div>
+								<label class="control-label sign_left_two"> <i  style="color:red">* </i> 办卡人证件号
+								</label> <input class="input_type sign_right_two" style="width: 172px;"
+									value="${eloanCase.custPaper}" name="custPaper" id="custPaper">
+							</div> 
 						</li>
-
+						
 						<li id="liChargeAndRemark" style="display: none;">
 							<div class="form_content" id="divCharge">
-								<label class="control-label sign_left_two"> <i
-									style="color:red">* </i>手续费
-								</label> <input class="input_type sign_right_two" value=""
-									name="chargeAmount" id="chargeAmount">
+								<label class="control-label sign_left_two"> <i style="color:red">* </i>手续费</label> 
+								<input class="input_type sign_right_two" value="" name="chargeAmount" id="chargeAmount">
 							</div>
 							<div class="form_content" id="divRemark">
-								<label class="control-label sign_left_two"> <i
-									class="red"></i>情况说明
-								</label> <input class="input_type sign_right_two" value="" name="remark"
-									id="remark" style="width: 465px;">
+								<label class="control-label sign_left_two"> <i class="red"></i>情况说明</label> 
+								<input class="input_type sign_right_two" value="" name="remark" id="remark" style="width: 465px;">
 							</div>
 						</li>
 
 
 						<li>
 							<div class="form_content">
-								<label class="control-label sign_left_two"> <i
-									style="color:red">* </i> 转介人姓名
-								</label> <input type="text" name="zjName" id="zjName"
-									style="background-color: #FFFFFF;" readonly="readonly"
+								<label class="control-label sign_left_two"><i style="color:red">* </i> 转介人姓名</label> 
+								<input type="text" name="zjName" id="zjName" style="background-color: #FFFFFF;" readonly="readonly"
 									class="sign_right_two input_type" id="txt_proOrgId_gb"
-									onclick="userSelect({startOrgId:'1D29BB468F504774ACE653B946A393EE',expandNodeId:'1D29BB468F504774ACE653B946A393EE',
-												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectZjUser})"
+									onclick="userSelect({startOrgId:'1D29BB468F504774ACE653B946A393EE',expandNodeId:'1D29BB468F504774ACE653B946A393EE',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectZjUser})"
 									value='${eloanCase.zjName}'>
 								<div class="input-group float_icon organize_icon">
 									<i class="icon iconfont">&#xe627;</i>
@@ -335,8 +323,11 @@
 									class="input_type sign_right_two" readonly="readonly"
 									value="${eloanCase.zjCode}" name="zjCode" id="zjCode">
 							</div>
-
 						</li>
+						
+						<div class="modal_title title-mark">
+                                	业绩拆分信息
+                        </div>
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i
@@ -367,17 +358,21 @@
 						</li>
 						<li>
 							<div class="form_content">
-								<label class="control-label sign_left_two"> 合作人姓名 </label> <input
-									class="input_type sign_right_two" value="${eloanCase.coName}"
-									name="coName" id="coName">
+								<label class="control-label sign_left_two"> 合作人姓名 </label> 
+								<input class="input_type sign_right_two" value="${eloanCase.coName}"
+									name="coName" id="coName" readonly="readonly"
+									onclick="chooseAllUsers('ff8080814f459a78014f45a73d820006')" >
+								<div class="input-group float_icon organize_icon">
+									<i class="icon iconfont">&#xe627;</i>
+								</div>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> 合作人员工编号 </label> <input
 									class="input_type sign_right_two" value="${eloanCase.coCode}"
-									name="coCode" id="coCode">
+									name="coCode" id="coCode" readonly="readonly">
 							</div>
 							<div class="form_content">
-								<label class="control-label sign_left_two"> 人员分配比例 </label> <input
+								<label class="control-label sign_left_two"> 合作人分配比例 </label> <input
 									class="input_type sign_right_two" value="${eloanCase.coPart}"
 									name="coPart" id="coPart">
 								<div class="input-group date_icon">
@@ -386,33 +381,29 @@
 							</div>
 						</li>
 						<li>
-							<div class="form_content" style="position: relative;">
-								<label class="control-label sign_left_two"> <i
-									style="color:red">* </i> 信贷员
-								</label> <input type="text" name="loanerName" id="loanerName" 
-								onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})"
-									style="background-color: #FFFFFF;" readonly="readonly"
-									class="sign_right_two input_type" id="txt_proOrgId_gb"
-									value='${eloanCase.loanerName}' >
-									<i style=" position: absolute; top: 5px; right: 5px; color:#52cdec; " id="loanerNameImage" name ="loanerNameImage" class="icon iconfont"
-									onclick="userSelect({startOrgId:'10B1F16BDC5E7F33E0532429030A8872',expandNodeId:'10B1F16BDC5E7F33E0532429030A8872',
-												nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectLoanerUser})" 
-									 >&#xe627;</i>
-								 </input>
-								 <input value="${eloanCase.loanerOrgCode}" type="hidden" id="loanerOrgCode"  name="loanerOrgCode" />
-								 <input value="${eloanCase.loanerOrgId}" type="hidden" id="loanerOrgId" name ="loanerOrgId" />
-								 <input value="${eloanCase.loanerId}" type="hidden"  id="loanerId" name="loanerId" />
-								 <input value="${eloanCase.loanerUserName}" type="hidden"  id="loanerUserName" name="loanerUserName" />
-								 
-							</div>
-							 <div class="form_content">
-								<label class="control-label sign_left_two"> 信贷员电话 </label> <input
-									class="input_type  sign_right_two" value="${eloanCase.loanerPhone}"
-									 name="loanerPhone" id="loanerPhone"></input>
-							</div> 
-						</li>
-
-
+                            <div class="form_content">
+                                <label class="control-label sign_left_two">
+                                   	 归属人
+                                </label>
+                                <input class="input_type form-control sign_right_two" value="${excutorName }" disabled="disabled" readonly="readonly">
+                            </div>
+                            <div class="form_content">
+                                <label class="control-label  sign_left_two">
+                                       	归属人编号
+                                </label>
+                                <input class="input_type form-control sign_right_two" value="${excutorCode }" disabled="disabled" readonly="readonly">
+                            </div>
+                            <div class="form_content">
+                                <label class="control-label sign_left_two">
+                                   	 归属人业绩比例
+                                </label>
+                                <input class="input_type form-control sign_right_two" id="ownerPart" value="50" disabled="disabled" readonly="readonly">
+                                <div class="input-group date_icon">
+                                    <span class="danwei">%</span>
+                                </div>
+                            </div>
+                        </li>
+						
 						<li>
 							<div class="form_content" id="eapplyPassOrRefuseReasonForShow">
 								<label class="control-label sign_left_two pull-left">驳回原因</label>
@@ -528,12 +519,29 @@
 		$(document)
 				.ready(
 						function() {
+							//初始化归属人业绩比例
+							initRate();
+							
 							//驳回原因显示问题
 							var eContent = $("#eContent").val();
 							if (eContent == '' || eContent == null) {
 								$("#eapplyPassOrRefuseReasonForShow").hide();
 							} else {
 								$("#eContent").attr("disabled", true);
+							}
+							
+							//初始化归属人业绩比例
+							function initRate(){
+								//产品部分成比例
+								var pdPart = Number($("#pdPart").val());
+								
+								//合作人分成比例
+								var coPart = Number($("#coPart").val());
+								
+								//计算归属人分成比例
+								var ownerPart = 100 - pdPart - coPart;
+								
+								$("#ownerPart").val(ownerPart);
 							}
 							
 							//显示手续费
@@ -549,6 +557,16 @@
 									$("#divCharge").hide();
 								}
 							}
+							
+							//合作人分配比例市区焦点事件
+							$("#coPart").blur(function(){
+								var coPart = Number(this.value);
+								var pdPart = Number($("#pdPart").val());
+								
+								var ownerPart = 100 - coPart - pdPart;
+								$("#ownerPart").val(ownerPart);
+							});
+							
 							//产品类型 选择
 							$("#loanSrvCode").change(function() {
 										var value = this.value;
@@ -680,6 +698,29 @@
 									return false;
 								}	
 								
+								var date = $("#applyTime").val();
+								if (date == null || date == '') {
+									window.wxc.alert("请选择申请时间");
+									return false;
+								}
+								
+								var month = $('#month').val();
+								if (month == null || month == '') {
+									window.wxc.alert("请填写申请期数");
+									return false;
+								}
+								
+								var loanerName = $('#loanerName').val();
+								if (loanerName == null || loanerName == '') {
+									window.wxc.alert("请填写信贷员");
+									return false;
+								}
+								var loanerPhone = $('#loanerPhone').val();
+								if (loanerPhone == null || loanerPhone == '') {
+									window.wxc.alert("请填写信贷员电话");
+									return false;
+								}
+								
 								var custCardType = $("#custCardType").val();
 								if (custCardType == null || custCardType == '') {
 									window.wxc.alert("请选择办卡人证件类型");
@@ -691,44 +732,9 @@
 									return false;
 								}
 								
-								var date = $("#applyTime").val();
-								if (date == null || date == '') {
-									window.wxc.alert("请选择申请时间");
-									return false;
-								}
-								var month = $('#month').val();
-								if (month == null || month == '') {
-									window.wxc.alert("请填写申请期数");
-									return false;
-								}
-								pdName
-								var pdName = $('#pdName').val();
-								if (pdName == null || pdName == '') {
-									window.wxc.alert("请填写产品部姓名");
-									return false;
-								}
-								var zjName = $('#zjName').val();
-								if (zjName == null || zjName == '') {
-									if($("#caseOrigin").val() == "WD"){}else{
-										window.wxc.alert("请填写转介人");
-										return false;
-										}
-								}
-								var loanerName = $('#loanerName').val();
-								if (loanerName == null || loanerName == '') {
-									window.wxc.alert("请填写信贷员");
-									return false;
-								}
-								var loanerPhone = $('#loanerPhone').val();
-								if (loanerPhone == null || loanerPhone == '') {
-									window.wxc.alert("请填写信贷员电话");
-									return false;
-								}
-								var loanSrvCode = $(
-										"#loanSrvCode option:selected").val();
-								var finOrgCode = $(
-										"#finOrgCode option:selected").val();
-
+								var loanSrvCode = $("#loanSrvCode option:selected").val();
+								var finOrgCode = $("#finOrgCode option:selected").val();
+								
 								var isVerifySuccess = true;
 								if (loanSrvCode == "30004014"
 										&& finOrgCode == "W0003" && month <= 12) {
@@ -738,7 +744,32 @@
 								if (!isVerifySuccess) {
 									return false;
 								}
-
+								
+								var zjName = $('#zjName').val();
+								if (zjName == null || zjName == '') {
+									if($("#caseOrigin").val() == "WD"){}else{
+										window.wxc.alert("请填写转介人");
+										return false;
+										}
+								}
+								
+								pdName
+								var pdName = $('#pdName').val();
+								if (pdName == null || pdName == '') {
+									window.wxc.alert("请填写产品部姓名");
+									return false;
+								}
+								
+								var coName = $("#coName").val();
+								if(coName != ""){
+									var coPart = $("#coPart").val();
+									
+									if(coPart == ""){
+										window.wxc.alert("请填写合作人分配比例！");
+										return false;
+									}
+								}
+								
 								return true;
 							}
 
@@ -838,6 +869,20 @@
 				},
 				data : data
 			})
+		}
+		
+		//选择誉萃投资所有人员
+		function chooseAllUsers(orgId){
+			userSelect({
+				startOrgId : orgId,
+				expandNodeId : orgId,
+				nameType : 'long|short',
+				orgType : '',
+				departmentType : '',
+				departmentHeriarchy : '',
+				chkStyle : 'radio',
+				callBack : selectCoUser
+			});
 		}
 
 		function checkChargeAndRemark(applyAmount) {
@@ -1158,6 +1203,29 @@
 			};
 			openDialog(options);
 		}
+		
+		//选择合作人回调事件,将合作人姓名和合作人编号填充到input
+		function selectCoUser(array) {
+			if (array && array.length > 0) {
+				$("#coName").val(array[0].username);
+				
+				$.ajax({
+					url : ctx + "/eloan/EmployeeCode",
+					method : "post",
+					dataType : "json",
+					data : {
+						"userId" : array[0].userId
+					},
+					success : function(data) {
+						$("#coCode").val(data.user.employeeCode);
+					}
+				})
+			} else {
+				$("#coName").val("");
+				$("#coCode").val("");
+			}
+		}
+		
 		/**
 		 * 更新input的值
 		 */

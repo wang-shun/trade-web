@@ -62,7 +62,7 @@
 				<!-- <div class="ibox"> -->
 				<div class="ibox-content" id="base_info">
 					<div class="main_titile" style="position: relative;">
-						<h5>关联案件</h5>
+						<h5 class="title-mark">关联案件</h5>
 						<div class="case_content">
 							<div class="case_row">
 								<div class="case_lump">
@@ -105,9 +105,9 @@
 				</div>
 
 				<div class="ibox-content" id="zj_info">
-					<div class="main_titile">
-						<h5>e+产品</h5>
-					</div>
+					<div class="modal_title title-mark">
+                                	产品信息
+                    </div>
 					<form method="get" class="form_list" id="eloanApplyConfirmForm">
 						<input type="hidden" name="caseCode" id="caseCode"	value="${caseCode}" /> 
 						<input type="hidden" name="processInstanceId" id="processInstanceId"	value="${processInstanceId}" /> 
@@ -129,42 +129,7 @@
 									</select>
 								</div>
 							</li>	
-							<li>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 证件类型 </label>
-									<aist:dict id="custCardType" name="custCardType"
-										clazz="select_control sign_right_two" display="select"
-										dictType="CERT_TYPE" tag="forEloanApply" ligerui='none'
-										defaultvalue="${eloanCase.custCardType}"></aist:dict>
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 办卡人证件号 </label> <input
-										type="text" id="custPaper" name="custPaper"
-										class="input_type sign_right_two"
-										style="width: 172px; display: inline-block;"
-										value="${eloanCase.custPaper}" />
-								</div>
-								
-							</li>
-							<li>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 办卡人姓名 </label> <input
-										class="input_type sign_right_two" name="custName"
-										id="custName" value="${eloanCase.custName}">
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 办卡人电话 </label> <input
-										class="input_type sign_right_two" name="custPhone"
-										id="custPhone" value="${eloanCase.custPhone}">
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 案件归属 </label> <input
-										type="text" id="excutorName" name="excutorName"
-										class="input_type sign_right_two"
-										style="width: 170px; display: inline-block;"
-										value="${excutorName}" />
-								</div>
-							</li>
+							
 							<li>
 								<div class="form_content">
 									<label class="control-label sign_left_two"> 申请金额 </label> <input
@@ -191,6 +156,57 @@
 										<span class="danwei">月</span>
 									</div>
 								</div>
+							</li>
+							
+							<li>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 信贷员 </label> <input
+										class="input_type sign_right_two" name="loanerName" id="loanerName"
+										value="${eloanCase.loanerName}">
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 信贷员电话 </label> <input
+										class="input_type sign_right_two" name="loanerPhone" id="loanerPhone"
+										value="${eloanCase.loanerPhone}">
+								</div>
+							</li>
+							
+							<li>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 办卡人姓名 </label> <input
+										class="input_type sign_right_two" name="custName"
+										id="custName" value="${eloanCase.custName}">
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 办卡人电话 </label> <input
+										class="input_type sign_right_two" name="custPhone"
+										id="custPhone" value="${eloanCase.custPhone}">
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 案件归属 </label> <input
+										type="text" id="excutorName" name="excutorName"
+										class="input_type sign_right_two"
+										style="width: 170px; display: inline-block;"
+										value="${excutorName}" />
+								</div>
+							</li>
+							
+							<li>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 证件类型 </label>
+									<aist:dict id="custCardType" name="custCardType"
+										clazz="select_control sign_right_two" display="select"
+										dictType="CERT_TYPE" tag="forEloanApply" ligerui='none'
+										defaultvalue="${eloanCase.custCardType}"></aist:dict>
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 办卡人证件号 </label> <input
+										type="text" id="custPaper" name="custPaper"
+										class="input_type sign_right_two"
+										style="width: 172px; display: inline-block;"
+										value="${eloanCase.custPaper}" />
+								</div>
+								
 							</li>
 
 							<c:if test="${!empty eloanCase.chargeAmount }">
@@ -221,6 +237,11 @@
 										value="${eloanCase.zjCode}">
 								</div>
 							</li>
+							
+							<div class="modal_title title-mark">
+                                	业绩拆分信息
+                        	</div>
+							
 							<li>
 								<div class="form_content">
 									<label class="control-label sign_left_two"> 产品部姓名 </label> <input
@@ -261,18 +282,31 @@
 									</div>
 								</div>
 							</li>
+							
 							<li>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 信贷员 </label> <input
-										class="input_type sign_right_two" name="loanerName" id="loanerName"
-										value="${eloanCase.loanerName}">
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 信贷员电话 </label> <input
-										class="input_type sign_right_two" name="loanerPhone" id="loanerPhone"
-										value="${eloanCase.loanerPhone}">
-								</div>
-							</li>
+	                            <div class="form_content">
+	                                <label class="control-label sign_left_two">
+	                                   	 归属人
+	                                </label>
+	                                <input class="input_type form-control sign_right_two" value="${excutorName }" disabled="disabled" readonly="readonly">
+	                            </div>
+	                            <div class="form_content">
+	                                <label class="control-label  sign_left_two">
+	                                       	归属人编号
+	                                </label>
+	                                <input class="input_type form-control sign_right_two" value="${excutorCode }" disabled="disabled" readonly="readonly">
+	                            </div>
+	                            <div class="form_content">
+	                                <label class="control-label sign_left_two">
+	                                   	 归属人业绩比例
+	                                </label>
+	                                <input class="input_type form-control sign_right_two" id="ownerPart" value="50" disabled="disabled" readonly="readonly">
+	                                <div class="input-group date_icon">
+	                                    <span class="danwei">%</span>
+	                                </div>
+	                            </div>
+	                        </li>
+							
 							<li>
 								<c:if test="${ v!=2 }">
 									<div class="form_content">
@@ -336,6 +370,9 @@
 		src="${ctx}/js/template.js" type="text/javascript"></script> <script
 		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script>
 			$(document).ready(function() {
+				//初始化归属人业绩比例
+				initRate();
+				
 				$("#loanSrvCode").attr("disabled", true);
 				$("#finOrgCode").attr("disabled", true);
 				$("#custCardType").attr("disabled", true);
@@ -351,7 +388,26 @@
 				$("input[name='month']").attr("disabled", false);	 */		
 				
 				getBankList($("#finOrgCode").val());
-
+				
+				//初始化归属人业绩比例
+				function initRate(){
+					//产品部分成比例
+					var pdPart = Number($("#pdPart").val());
+					
+					//合作人分成比例
+					var coPart = Number($("#coPart").val());
+					
+					//计算归属人分成比例
+					var ownerPart = 100 - pdPart - coPart;
+					
+					if(coPart != 0){
+						$("#coPart").val(coPart.toFixed(2));
+					}
+					
+					$("#pdPart").val(pdPart.toFixed(2));
+					$("#ownerPart").val(ownerPart.toFixed(2));
+				}
+				
 				$(".submit_From").click(function() {
 					if($("#param").val()!=2){
 						//提交之前先验证 是否驳回

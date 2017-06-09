@@ -177,6 +177,17 @@
                                 </div>
                                 <div class="case_row">
                                    <div class="case_lump">
+                                       <p><em>归属人姓名</em><span class="span_one">${excutorName}</span></p>
+                                   </div>
+                                   <div class="case_lump">
+                                       <p><em>归属人员工编号</em><span class="span_one">${excutorCode}</span></p>
+                                   </div>
+                                   <div class="case_lump">
+                                       <p><em>分成比例贷款</em><span class="span_one">${100-eloanCase.coPart-eloanCase.pdPart}%</span></p>
+                                   </div>
+                                </div>
+                                <div class="case_row">
+                                   <div class="case_lump">
                                        <p><em>信贷员</em><span class="span_one">${eloanCase.loanerName}</span></p>
                                    </div>
                                    <div class="case_lump">
