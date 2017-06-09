@@ -4,7 +4,7 @@
 
 	<groupId>com.centaline</groupId>
 	<artifactId>yc-par-portal</artifactId>
-	<version>1.2.18-SNAPSHOT</version>
+	<version>1.2.18-ORG-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>Yucui Partner Portal</name>
