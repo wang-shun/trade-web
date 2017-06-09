@@ -30,13 +30,11 @@ function getParams(page) {
 	if(!page) {
 		page = 1;
 	}
-	var belongMonth = $("#belongMonthf").val()
-	//var belongMonth = $.trim($("#belongMonth",window.parent.document).val());alert(belongMonth);
-	if(null != belongMonth && "" != belongMonth){
-		belongMonth=belongMonth+"-01 00:00:00.000";
-	}
+	var belongMonth = getBlongMonth();
+	var participant = $("#userId").val();
 	var data = {
 			argu_belongMonth : belongMonth,
+			argu_participant:participant,
 			queryId:"managerStepThree",
 			rows : 10,
 			page : page
@@ -118,4 +116,19 @@ function initpage(totalCount,pageSize,currentPage,records)
 			searchMethod(page);
 	    }
 	});
+}
+
+//获取计件年月信息
+function getBlongMonth(){
+	var bm = "";	
+	//方式一
+	var belongMonth =  $.trim($("#belongMonth",window.parent.document).val());
+	//方式二
+	//var belongMonth1 = parent.document.getElementById("belongMonth").value;
+  if(belongMonth =="" || belongMonth == null || belongMonth == undefined){
+  	bm == null;
+  }else{
+  	bm = belongMonth + "-01";
+  }
+  return bm;
 }

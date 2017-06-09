@@ -47,12 +47,6 @@
                    <label class="control-label sign_left_small">
                       	 所在组
                    </label>
-                  <!--  
-                   <input id="userName" name="userName" class="input_type sign_right_one" placeholder="请输入" value="" onclick="chooseManager()" readonly="readonly">
-                                        <div class="input-group float_icon organize_icon">
-                                            <i class="icon iconfont" onclick="chooseManager()"></i>
-                                        </div> -->
-                   
                    <input type="text" class="teamcode input_type" id="teamCode" name="teamCode" readonly="readonly" 
 					   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName',
 					   startOrgId:'ff8080814f459a78014f45a73d820006', orgType:'',departmentType:'',departmentHeriarchy:'',
@@ -195,14 +189,6 @@
 <script src="${ctx}/js/jquery.blockui.min.js"></script>
 
 <script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
-    <script src= "<c:url value='/transjs/award/personBonusCollect.js' />"></script>
-<!-- 分页控件  -->
-<%-- <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-<script src="${ctx}/js/plugins/jquery.custom.js"></script> --%>
-<!-- 必须JS -->
-
 <!-- 列表 -->
 <script src="${ctx}/transjs/award/monthkpi.list.js"></script>
 <script id="template_myTaskList" type= "text/html">
