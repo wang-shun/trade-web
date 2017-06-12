@@ -6,10 +6,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" /> 
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />	
-<link href="${ctx}/css/plugins/switch/bootstrap-switch.min.css" rel="stylesheet">	
 
+<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css'/>" rel="stylesheet" /> 
+<link href="${ctx}/css/plugins/switch/bootstrap-switch.min.css" rel="stylesheet">	
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
 
 <!-- Data Tables -->
 <link href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css'/>"  rel="stylesheet" />		
@@ -180,9 +180,8 @@
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 
 <!-- 分页控件  -->
-<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
-<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
-<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"> </script>
+<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 
 <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
