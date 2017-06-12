@@ -188,7 +188,7 @@
 
 <script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
 <!-- 列表 -->
-<script src="${ctx}/transjs/award/monthkpi.list.js"></script>
+<script src="${ctx}/transjs/award/managerStep2.js"></script>
 
 <!-- 弹出框插件 -->
 <script src="${ctx}/js/plugins/layer/layer.js"></script>
