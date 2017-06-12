@@ -385,13 +385,13 @@
                                 <label class="control-label sign_left_two">
                                    	 归属人
                                 </label>
-                                <input class="input_type form-control sign_right_two" value="${excutorName }" disabled="disabled" readonly="readonly">
+                                <input class="input_type form-control sign_right_two" id="owerName" value="${excutorName }" disabled="disabled" readonly="readonly">
                             </div>
                             <div class="form_content">
                                 <label class="control-label  sign_left_two">
                                        	归属人编号
                                 </label>
-                                <input class="input_type form-control sign_right_two" value="${excutorCode }" disabled="disabled" readonly="readonly">
+                                <input class="input_type form-control sign_right_two" id="owerCode" value="${excutorCode }" disabled="disabled" readonly="readonly">
                             </div>
                             <div class="form_content">
                                 <label class="control-label sign_left_two">
@@ -1160,9 +1160,16 @@
 			if (array && array.length > 0) {
 				$("#excutorName").val(array[0].username);
 				$("#excutorName").attr('hVal', array[0].userId);
+				$("#owerName").val(array[0].username);
+				
+				//获取员工编号
+				var employeeCode = getEmployeeCode(array[0].userId);
+				$("#owerCode").val(employeeCode);
 			} else {
 				$("#executorName").val("");
 				$("#executorName").attr('hVal', "");
+				$("#owerName").val("");
+				$("#owerCode").val("");
 			}
 		}
 		function caseCodeSort() {
@@ -1174,6 +1181,27 @@
 				$("#caseCodeSorti").attr("class", 'fa fa-sort-desc fa_down');
 			}
 		}
+		
+		function getEmployeeCode(userId){
+			var employeeCode = '';
+			
+			$.ajax({
+				url : ctx + "/eloan/EmployeeCode",
+				method : "post",
+				async: false,
+				dataType : "json",
+				data : {
+					"userId" : userId
+				},
+				success : function(data) {
+					employeeCode = data.user.employeeCode;
+				}
+			});
+			
+			return employeeCode;
+		}
+		
+		
 		/**
 		 * 选择用户
 		 * @param param
