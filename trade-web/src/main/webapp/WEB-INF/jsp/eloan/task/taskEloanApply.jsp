@@ -532,6 +532,26 @@
 							
 							//初始化归属人业绩比例
 							function initRate(){
+								var finOrgCode = $("#finOrgCode option:selected").val();
+								
+								var pdPart = 0;
+								//安家贷、365小贷以外金融产品为20%(产品部),其他均为10%(产品部)
+								//W0001是安家贷编码
+								if(finOrgCode == "W0001"){
+									pdPart = 20;
+								}
+								else {
+									pdPart = 10;
+								}
+								
+								$("#pdPart").val(pdPart);
+								
+								//计算归属人分成比例
+								calOwerPart();
+							}
+							
+							//计算归属人分成比例
+							function calOwerPart(){
 								//产品部分成比例
 								var pdPart = Number($("#pdPart").val());
 								
@@ -598,6 +618,9 @@
 										var month = $("#month").val();
 
 										showAndHide(loanSrvCode, value, month);
+										
+										//更新产品部分成比例
+										changeProPart(value);
 									});
 
 							$("#chargeAmount").blur(function() {
@@ -656,6 +679,21 @@
 											return false;
 										}
 									})
+								
+							//更新产品部分成比例
+							function changeProPart(finOrgCode){
+								var proPart = 0;
+								
+								if(finOrgCode == "W0001"){
+									proPart = 20;
+								}	
+								else {
+									proPart = 10;
+								}
+								
+								$("#pdPart").val(proPart);
+								calOwerPart();
+							}
 
 							function checkChargeAndRemark(applyAmount) {
 								var charge = $("#chargeAmount").val();
