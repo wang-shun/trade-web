@@ -154,6 +154,7 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 
 		Org org = uamUserOrgService.getOrgById(tgServItemAndProcessor.getOrgId());// 组织
 		User manager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(tgServItemAndProcessor.getOrgId(), "Manager");// 主管
+		
 		User seniorManager = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(tgServItemAndProcessor.getOrgId(), "Senior_Manager"); // 高级主管		
 		User teamAssistant = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(tgServItemAndProcessor.getOrgId(), "TeamAssistant");// 助理
 		
@@ -174,17 +175,20 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			// 主管
 			if (null != manager) {
 				tsAwardCaseCental.setFrontManager(manager.getId());
-				tsAwardCaseCental.setFrontManagerOrgId(manager.getOrgId());
+				tsAwardCaseCental.setFrontManagerOrgId(tgServItemAndProcessor.getOrgId());
+				//tsAwardCaseCental.setFrontManagerOrgId(manager.getOrgId());
 			}
 			// 高级主管
 			if (null != seniorManager) {
 				tsAwardCaseCental.setFrontSeniorManager(seniorManager.getId());
-				tsAwardCaseCental.setFrontSeniorManagerOrgId(seniorManager.getOrgId());
+				tsAwardCaseCental.setFrontSeniorManagerOrgId(tgServItemAndProcessor.getOrgId());
+				//tsAwardCaseCental.setFrontSeniorManagerOrgId(seniorManager.getOrgId());
 			}
 			// 总监
 			if (null != director) {
 				tsAwardCaseCental.setFrontDirector(director.getId());
-				tsAwardCaseCental.setFrontDirectorOrgId(director.getOrgId());
+				tsAwardCaseCental.setFrontDirectorOrgId(org.getParentId());
+				//tsAwardCaseCental.setFrontDirectorOrgId(director.getOrgId());
 			}
 			// 助理
 			if (null != teamAssistant) {
@@ -194,7 +198,8 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			// 总经理
 			if (null != generalManager) {
 				tsAwardCaseCental.setFrontGeneralManager(generalManager.getId());
-				tsAwardCaseCental.setFrontGeneralManagerOrgId(generalManager.getOrgId());
+				tsAwardCaseCental.setFrontGeneralManagerOrgId(orgParent.getParentId());
+				//tsAwardCaseCental.setFrontGeneralManagerOrgId(generalManager.getOrgId());
 			}
 			// 运维经理
 			tsAwardCaseCental.setFrontOperationsManager("8a8493d54ff83966014ffd95ca0901e6");
@@ -209,17 +214,20 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			// 主管
 			if (null != manager) {
 				tsAwardCaseCental.setBackManager(manager.getId());
-				tsAwardCaseCental.setBackManagerOrgId(manager.getOrgId());
+				tsAwardCaseCental.setBackManagerOrgId(tgServItemAndProcessor.getOrgId());
+				//tsAwardCaseCental.setBackManagerOrgId(manager.getOrgId());
 			}
 			// 高级主管
 			if (null != seniorManager) {
 				tsAwardCaseCental.setBackSeniorManager(seniorManager.getId());
-				tsAwardCaseCental.setBackSeniorManagerOrgId(seniorManager.getOrgId());
+				tsAwardCaseCental.setBackSeniorManagerOrgId(tgServItemAndProcessor.getOrgId());
+				//tsAwardCaseCental.setBackSeniorManagerOrgId(seniorManager.getOrgId());
 			}
 			// 总监
 			if (null != director) {
 				tsAwardCaseCental.setBackDirector(director.getId());
-				tsAwardCaseCental.setBackDirectorOrgId(director.getOrgId());
+				tsAwardCaseCental.setBackDirectorOrgId(org.getParentId());
+				//tsAwardCaseCental.setBackDirectorOrgId(director.getOrgId());
 			}
 			// 助理
 			if (null != teamAssistant) {
@@ -228,8 +236,9 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			}
 			// 总经理
 			if (null != generalManager) {
-				tsAwardCaseCental.setBackGeneralManager(generalManager.getId());
-				tsAwardCaseCental.setBackGeneralManagerOrgId(generalManager.getOrgId());
+				tsAwardCaseCental.setBackGeneralManager(generalManager.getId());				
+				tsAwardCaseCental.setBackGeneralManagerOrgId(orgParent.getParentId());
+				//tsAwardCaseCental.setBackGeneralManagerOrgId(generalManager.getOrgId());
 			}
 			// 运维经理
 			tsAwardCaseCental.setBackOperationsManager("8a8493d54ff83966014ffd95ca0901e6");
