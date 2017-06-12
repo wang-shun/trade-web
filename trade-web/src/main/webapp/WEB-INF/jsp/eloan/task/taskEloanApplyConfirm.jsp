@@ -40,8 +40,9 @@
 <link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet" />
 <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css"">
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"
-	rel="stylesheet" />
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
 </head>
 
 
@@ -306,6 +307,9 @@
 	                                </div>
 	                            </div>
 	                        </li>
+	                        
+	                        <!-- 跟进信息 -->
+                    		<div id="caseCommentList" class="view-content"></div>
 							
 							<li>
 								<c:if test="${ v!=2 }">
@@ -358,18 +362,24 @@
     <script src="${ctx}/static/trans/js/workbench/stickDash.js"></script> --%>
 
 
-	<!-- Toastr script --> <script
-		src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> <script
-		src="${ctx}/static/js/morris/morris.js"></script> <script
-		src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
-	<script src="${ctx}/static/trans/js/eloan/eloan.js"></script> <script
-		src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<!-- Toastr script --> 
+	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> 
+	<script src="${ctx}/static/js/morris/morris.js"></script> 
+	<script src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
+	<script src="${ctx}/static/trans/js/eloan/eloan.js"></script> 
+	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-	<!-- aist --> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script>
+	<!-- aist --> 
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+    <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
+	<script>
 			$(document).ready(function() {
+				
+				var eloanCode = "${eloanCase.eloanCode}";
+				
 				//初始化归属人业绩比例
 				initRate();
 				
@@ -388,6 +398,13 @@
 				$("input[name='month']").attr("disabled", false);	 */		
 				
 				getBankList($("#finOrgCode").val());
+				
+				//跟进信息
+	        	$("#caseCommentList").eloanCaseCommentGrid({
+							eloanCode : eloanCode,
+							source : 'EPLUS'
+							//type : 'TRACK'
+				});
 				
 				//初始化归属人业绩比例
 				function initRate(){
