@@ -35,7 +35,7 @@
     <result column="AGENT_PSFLOAN_COM" property="agentPsfloanCom" jdbcType="NVARCHAR" />
     <result column="AGENT_GUOHU_SAT" property="agentGuohuSat" jdbcType="INTEGER" />
     <result column="AGENT_GUOHU_COM" property="agentGuohuCom" jdbcType="NVARCHAR" />
-    <result column="AGENT_COM_DICT" property="agentComDict" jdbcType="NVARCHAR" />
+    <result column="AGENT_COM_DICT" property="agentComDict" jdbcType="VARCHAR" />
     <result column="AGENT_COM_ELSE" property="agentComElse" jdbcType="NVARCHAR" />
     <result column="STATUS" property="status" jdbcType="VARCHAR" />
     <result column="TYPE" property="type" jdbcType="VARCHAR" />
@@ -102,7 +102,7 @@
       #{agentPhoneOk,jdbcType=INTEGER}, #{agentPhoneRes,jdbcType=NVARCHAR}, #{agentSignSat,jdbcType=INTEGER}, 
       #{agentSignCom,jdbcType=NVARCHAR}, #{agentLoancloseSat,jdbcType=INTEGER}, #{agentLoancloseCom,jdbcType=NVARCHAR}, #{agentComloanSat,jdbcType=INTEGER}, #{agentComloanCom,jdbcType=NVARCHAR}, 
       #{agentPsfloanSat,jdbcType=INTEGER}, #{agentPsfloanCom,jdbcType=NVARCHAR}, #{agentGuohuSat,jdbcType=INTEGER}, 
-      #{agentGuohuCom,jdbcType=NVARCHAR}, #{agentComDict,jdbcType=NVARCHAR}, #{agentComElse,jdbcType=NVARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{callerId,jdbcType=VARCHAR}, 
+      #{agentGuohuCom,jdbcType=NVARCHAR}, #{agentComDict,jdbcType=VARCHAR}, #{agentComElse,jdbcType=NVARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{callerId,jdbcType=VARCHAR}, 
       #{signTime,jdbcType=TIMESTAMP},#{guohuTime,jdbcType=TIMESTAMP},#{closeTime,jdbcType=TIMESTAMP},
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR})
@@ -348,7 +348,7 @@
         #{agentGuohuCom,jdbcType=NVARCHAR},
       </if>
       <if test="agentComDict != null" >
-        #{agentComDict,jdbcType=NVARCHAR},
+        #{agentComDict,jdbcType=VARCHAR},
       </if>
       <if test="agentComElse != null" >
         #{agentComElse,jdbcType=NVARCHAR},
@@ -486,7 +486,7 @@
         AGENT_GUOHU_COM = #{agentGuohuCom,jdbcType=NVARCHAR},
       </if>
       <if test="agentComDict != null" >
-        AGENT_COM_DICT = #{agentComDict,jdbcType=NVARCHAR},
+        AGENT_COM_DICT = #{agentComDict,jdbcType=VARCHAR},
       </if>
       <if test="agentComElse != null" >
         AGENT_COM_ELSE = #{agentComElse,jdbcType=NVARCHAR},
@@ -558,7 +558,7 @@
       AGENT_PSFLOAN_COM = #{agentPsfloanCom,jdbcType=NVARCHAR},
       AGENT_GUOHU_SAT = #{agentGuohuSat,jdbcType=INTEGER},
       AGENT_GUOHU_COM = #{agentGuohuCom,jdbcType=NVARCHAR},
-      AGENT_COM_DICT = #{agentComDict,jdbcType=NVARCHAR},
+      AGENT_COM_DICT = #{agentComDict,jdbcType=VARCHAR},
       AGENT_COM_ELSE = #{agentComElse,jdbcType=NVARCHAR},
       STATUS = #{status,jdbcType=VARCHAR},
       TYPE = #{type,jdbcType=VARCHAR},
