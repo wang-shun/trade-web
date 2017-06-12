@@ -3,10 +3,10 @@ var serviceDepId = $("#serviceDepId").val();
 var num = 0;
 $(document).ready(function() {	
 	
-     $('.UpdateUserItem').load(function() { 
+/*     $('.UpdateUserItem').load(function() { 
         var iframeHeight=$(this).contents().height(); 		         
-        $(this).height(iframeHeight+300+'px');   
-     });
+        $(this).height(iframeHeight+'px');   
+     });*/
 /*    $(window.parent.document).find(".UpdateUserItem").load(function () {
 	    var main = $(window.parent.document).find(".UpdateUserItem");
 	    var thisheight = $(document).height() -3;
@@ -14,6 +14,7 @@ $(document).ready(function() {
 	    main.height(thisheight);
     });*/
     
+	setHeight(num);
     //获取初始化页面
 	getInitPage();	
 
@@ -30,6 +31,7 @@ $(document).ready(function() {
             num = 5;
         }
         New_src(num);
+        setHeight(num);
     });
     
     $('#btnPre').click(function() {
@@ -60,6 +62,8 @@ $(document).ready(function() {
 	    	          $.unblockUI();   	 
 				      if(data.success == true){	
 				    	 window.wxc.alert("最终绩效奖金数据提交成功！");
+				      }else{	
+				    	 window.wxc.alert("最终绩效奖金数据提交有误，请稍后再试！");
 				      }
 		          },
 		          error: function (e, jqxhr, settings, exception) {
@@ -135,13 +139,23 @@ function getInitPage(){
     				 page = data.content;
     			 }    			
     		}  
+    		setHeight(page);
     		New_src(page);
+    		
 /*            var new_src = ctx+"/newAward/managerPiecework?belongMonth="+belongMonth+'&t='+(new Date().getTime());
             $(".UpdateUserItem",parent.document.body).attr("src",new_src);*/
     	}
  	});
 }
 
+
+function setHeight(page){	
+	if(page == 0 ){
+		$('.UpdateUserItem').attr("height",1200);
+	}else{
+		$('.UpdateUserItem').attr("height",800);
+	}	
+}
 //按上一步的时候  调用initButtonClass里面有更新当前步骤方法
 function initButtonClass(page){	
 	Next_step(page);
