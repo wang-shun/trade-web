@@ -5,13 +5,17 @@ import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.attachment.entity.ToAttachment;
 import com.centaline.trans.attachment.service.ToAccesoryListService;
+import com.centaline.trans.attachment.service.ToAttachmentService;
 import com.centaline.trans.cases.entity.Result2;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.task.service.SignService;
 import com.centaline.trans.task.vo.TransSignVO;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +41,8 @@ public class SignController {
     private UamPermissionService uamPermissionService;
     @Autowired
     private UamBasedataService uamBasedataService;/* 字典 */
+    @Autowired
+    private ToAttachmentService toAttachmentService;
 
     @RequestMapping("process")
     @ResponseBody
@@ -44,7 +50,18 @@ public class SignController {
         JSONObject jsonObject = new JSONObject();
         String caseCode = request.getParameter("caseCode");
         String taskitem = request.getParameter("taskitem");
-        jsonObject.put("source", source);
+        ToAttachment toAttachment = new ToAttachment();
+        toAttachment.setCaseCode(caseCode);
+        toAttachment.setPartCode("TransSign");
+        List<ToAttachment> attachments = toAttachmentService.quereyAttachments(toAttachment);
+        if (CollectionUtils.isNotEmpty(attachments)) {
+            for (ToAttachment attachment : attachments) {
+                if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
+                    attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
+                }
+            }
+        }
+        jsonObject.put("attachments", attachments);
         jsonObject.put("caseCode", caseCode);
         toAccesoryListService.getAccesoryList(request, taskitem);
         jsonObject.put("transSign", signService.qureyGuestInfo(caseCode));
