@@ -135,7 +135,7 @@ public class PerfGoalController {
 		}else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)){//主管，高级主管
 			dataView="T";
 		}else{
-			dataView="P";
+			dataView="P";//人员
 		}
 		model.addAttribute("dataView", dataView);
 		return "performance/perfGoalAttainment";
