@@ -151,9 +151,9 @@ function getInitPage(){
 
 function setHeight(page){	
 	if(page == 0 ){
-		$('.UpdateUserItem').attr("height",1200);
+		$('.UpdateUserItem').attr("height",1800);
 	}else{
-		$('.UpdateUserItem').attr("height",800);
+		$('.UpdateUserItem').attr("height",1000);
 	}	
 }
 //按上一步的时候  调用initButtonClass里面有更新当前步骤方法
