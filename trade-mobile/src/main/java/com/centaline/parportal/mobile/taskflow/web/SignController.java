@@ -46,10 +46,13 @@ public class SignController {
 
     @RequestMapping("process")
     @ResponseBody
-    public Object querySignTask(HttpServletRequest request,String source) {
+    public Object querySignTask(HttpServletRequest request,String source, String processInstanceId) {
         JSONObject jsonObject = new JSONObject();
         String caseCode = request.getParameter("caseCode");
         String taskitem = request.getParameter("taskitem");
+        String taskId = request.getParameter("taskId");
+        jsonObject.put("taskId", taskId);
+        jsonObject.put("processInstanceId", processInstanceId);
         ToAttachment toAttachment = new ToAttachment();
         toAttachment.setCaseCode(caseCode);
         toAttachment.setPartCode("TransSign");

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+    <dicts>
+
+    </dicts>
+    <formatters>
+        <formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+            <properties>
+                <property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+            </properties>
+        </formatter>
+        <formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+
+        <formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+            <properties>
+                <property name="groupingUsed">true</property>
+                <property name="maximumFractionDigits">3</property>
+                <property name="maximumIntegerDigits">40</property>
+                <property name="minimumFractionDigits">0</property>
+                <property name="minimumIntegerDigits">1</property>
+            </properties>
+        </formatter>
+        <formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+            <properties>
+                <property name="maximumFractionDigits">0</property>
+            </properties>
+        </formatter>
+        <formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+    </formatters>
+    <query id="queryConstantDict" cacheResult = "true">
+        <searchCondition>
+        </searchCondition>
+        <searchSql>
+            <baseSql>
+                <![CDATA[
+                    select
+                        CODE
+                        ,PARENT_ID
+                        ,TYPE
+                        ,NAME
+                        from sctrans.SYS_DICT where TYPE in('30014','30015','hukou_remain')
+                        where IS_DELETED='0' and AVAILABLE='1'
+                        order by TYPE
+				]]>
+            </baseSql>
+        </searchSql>
+        <grid>
+            <table-row>
+                <column type="both" name="CODE" index="" checkbox="" title="字典code" customDict="" sysDict="" format="" isSort="" align="" halign="" resizable=""/>
+                <column type="both" name="PARENT_ID" index="" checkbox="" title="父类id" customDict="" sysDict="" format="" isSort="" align="" halign="" resizable=""/>
+                <column type="both" name="TYPE" index="" checkbox="" title="类型" customDict="" sysDict="" format="" isSort="" align="" halign="" resizable=""/>
+                <column type="both" name="NAME" index="" checkbox="" title="字典名" customDict="" sysDict="" format="" isSort="" align="" halign="" resizable=""/>
+            </table-row>
+        </grid>
+    </query>
+</querys>
