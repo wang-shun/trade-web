@@ -546,6 +546,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		tdmPaidSubs.setPaymentCode(tpdPayment.getPkid().toString());
 		tdmPaidSubs.setCreateBy(user.getId());
 		tdmPaidSubs.setCreateTime(new Date());
+		tdmPaidSubs.setIsDeleted(0);
 		return tdmPaidSubs;
 	}
 	/**
@@ -598,9 +599,11 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		if(null != tpdPayments && tpdPayments.size()>0)
 		for(TpdPayment tpdPayment:tpdPayments){
 			TdmPaidSubs tdmPaidSubs = tdmPaidSubsMapper.selectByPaymentCode(tpdPayment.getPkid().toString());
-			TpdPaymentVO tpdPaymentVO = setTpdPaymentVO( tpdPayment, tdmPaidSubs);
-			bigDecimal = bigDecimal.add(tpdPayment.getPaymentAmount());
-			tpdPaymentVOs.add(tpdPaymentVO);
+			if(null != tdmPaidSubs.getIsDeleted() && tdmPaidSubs.getIsDeleted().equals(0) ){
+				TpdPaymentVO tpdPaymentVO = setTpdPaymentVO( tpdPayment, tdmPaidSubs);
+				bigDecimal = bigDecimal.add(tpdPayment.getPaymentAmount());
+				tpdPaymentVOs.add(tpdPaymentVO);
+			}
 		}
 		
 		request.setAttribute("allAmount", bigDecimal);
@@ -617,6 +620,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 */
 	public TpdPaymentVO setTpdPaymentVO(TpdPayment tpdPayment,TdmPaidSubs tdmPaidSubs){
 		TpdPaymentVO tpdPaymentVO = new TpdPaymentVO();
+		tpdPaymentVO.setPkid(tpdPayment.getPkid());
 		tpdPaymentVO.setPayer(tpdPayment.getPayer());
 		tpdPaymentVO.setPaymentAmount(tpdPayment.getPaymentAmount());
 		tpdPaymentVO.setPaymentDate(tpdPayment.getPaymentDate());
