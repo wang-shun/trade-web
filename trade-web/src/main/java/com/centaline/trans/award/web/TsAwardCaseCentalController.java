@@ -28,16 +28,6 @@ public class TsAwardCaseCentalController {
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
 	@Autowired
-	private TsKpiPsnMonthService tsKpiPsnMonthService;
-	@Autowired
-	private UamUserOrgService uamUserOrgService;
-	@Autowired
-	private UamSessionService uamSesstionService;
-	@Autowired
-	private KpiSrvCaseService kpiSrvCaseService;
-	@Autowired
-	private TsAwardKpiPayDetailService tsAwardKpiPayDetailService;
-	@Autowired
 	private TsAwardKpiPayService tsAwardKpiPayService;	
 	@Autowired
 	TsAwardCaseCentalService 	tsAwardCaseCentalService;
@@ -196,25 +186,6 @@ public class TsAwardCaseCentalController {
 		return "award/newMethodStep/managerStep0";
 	}
 	
-	/*
-	 * @author:zhuody
-	 * 
-	 * @date:2017-06-05
-	 * 
-	 * @desc:iframe控制计件流程（isActive = 1）
-	 */
-/*	@RequestMapping(value = "/bonusConfiguration")
-	public String bonusConfiguration(HttpServletRequest request) {
-		
-		try{
-			tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
-		}catch (Exception e) {
-			e.printStackTrace();
-			throw new BusinessException("获取基础奖金配置页面异常，请稍后再试！");
-		}		
-		return "award/newMethodStep/managerStep0";
-	}
-	*/
 	
 	/***
 	 * 	金融产品
@@ -225,12 +196,6 @@ public class TsAwardCaseCentalController {
 	 */
 	@RequestMapping(value = "/monthKpiImport")
 	public String monthKpiImport(HttpServletRequest request) {		
-		try{
-			//tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
-		}catch (Exception e) {
-			e.printStackTrace();
-			throw new BusinessException("请求页面跳转异常，请稍后再试！");
-		}		
 		return  "award/newMethodStep/managerStep2";
 	}
 	/***
@@ -242,12 +207,6 @@ public class TsAwardCaseCentalController {
 	 */
 	@RequestMapping(value = "/wastageRate")
 	public String wastageRate(HttpServletRequest request) {		
-		try{
-			//tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
-		}catch (Exception e) {
-			e.printStackTrace();
-			throw new BusinessException("请求页面跳转异常，请稍后再试！");
-		}		
 		return  "award/newMethodStep/managerStep3";
 	}
 	
