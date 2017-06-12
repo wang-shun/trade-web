@@ -1,5 +1,6 @@
 package com.centaline.parportal.mobile.taskflow.web;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.permission.remote.UamPermissionService;
@@ -72,6 +73,7 @@ public class SignController {
         App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
         jsonObject.put("imgweb", app.genAbsoluteUrl());
         jsonObject.put("guest", queryGuestInfo(caseCode, null));
+        jsonObject.put("partCode", taskitem);
 
         Dict dict = uamBasedataService.findDictByTypeAndLevel("yu_shanghai_district", "2");
         jsonObject.put("distCode",dict);
@@ -82,8 +84,15 @@ public class SignController {
 
     @RequestMapping(value = "submitSign")
     @ResponseBody
-    public Result2 submitSign(TransSignVO transSignVO) {
-        return signService.submitSign(transSignVO);
+    public Object submitSign(TransSignVO transSignVO) {
+        AjaxResponse ajaxResponse = new AjaxResponse();
+        try {
+            signService.submitSign(transSignVO);
+            ajaxResponse.setSuccess(true);
+        }catch (Exception e){
+            ajaxResponse.setSuccess(false);
+        }
+        return ajaxResponse;
     }
 
     @RequestMapping(value = "queryGuestInfo")

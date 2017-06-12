@@ -39,7 +39,7 @@
                         ,TYPE
                         ,NAME
                         from sctrans.SYS_DICT where TYPE in('30014','30015','hukou_remain')
-                        where IS_DELETED='0' and AVAILABLE='1'
+                        and IS_DELETED='0' and AVAILABLE='1'
                         order by TYPE
 				]]>
             </baseSql>
