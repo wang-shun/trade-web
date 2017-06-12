@@ -17,11 +17,11 @@
 <link href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css'/>"  rel="stylesheet" />
 <link href="<c:url value='/css/plugins/datapicker/datepicker3.css'/>"  rel="stylesheet" />		
 <link href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet" />	
+
 <link href="<c:url value='/static/css/animate.css'/>"  rel="stylesheet"/> 
 <link href="<c:url value='/static/css/style.css' />" rel="stylesheet" />
-<!-- 分页控件 -->
-<link href="<c:url value='/css/plugins/pager/centaline.pager.css'/>"  rel="stylesheet" />
-<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css'/>"  rel="stylesheet" />
+
+
 <!-- index_css -->
 <link href="<c:url value='/static/trans/css/common/base.css' />" rel="stylesheet" />
 <link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet" />
@@ -30,6 +30,11 @@
 <link href="<c:url value='/static/trans/css/manager/managerIframe.css' />" rel="stylesheet" />	 
 <!-- 必须CSS -->
 <link href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" rel="stylesheet" /> 
+
+<!-- 分页控件 -->
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css'/>"  rel="stylesheet" />
+<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css'/>"  rel="stylesheet" />
+
 <style> .modal-backdrop { z-index: 0; position:relative!important; } </style>
 
 </head>
@@ -40,7 +45,7 @@
    <div class="ibox-content border-bottom clearfix space_box">
        <div class="clearfix"> 
            <h2 class="title">月度KPI导入【金融产品】</h2>
-           <a href="../template/call_kpi_temp.xlsx">月度KPI导入【金融产品】导入模板下载</a>
+           <a href="../template/call_kpi_temp.xlsx">导入模板下载</a>
        </div>
        <div class="form_list">
            <div class="line">
