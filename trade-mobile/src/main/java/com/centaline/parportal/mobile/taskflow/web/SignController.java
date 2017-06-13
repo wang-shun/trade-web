@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -65,10 +66,14 @@ public class SignController {
                 }
             }
         }
+        TransSignVO transSignVO = signService.qureyGuestInfo(caseCode);
+        transSignVO.setConPrice(transSignVO.getConPrice().divide(new BigDecimal(10000)));
+        transSignVO.setRealPrice(transSignVO.getRealPrice().divide(new BigDecimal(10000)));
+
         jsonObject.put("attachments", attachments);
         jsonObject.put("caseCode", caseCode);
         toAccesoryListService.getAccesoryList(request, taskitem);
-        jsonObject.put("transSign", signService.qureyGuestInfo(caseCode));
+        jsonObject.put("transSign",transSignVO);
         jsonObject.put("accesoryList", request.getAttribute("accesoryList"));
         App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
         jsonObject.put("imgweb", app.genAbsoluteUrl());
