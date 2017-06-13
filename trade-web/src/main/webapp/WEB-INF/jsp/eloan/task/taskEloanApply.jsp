@@ -385,13 +385,13 @@
                                 <label class="control-label sign_left_two">
                                    	 归属人
                                 </label>
-                                <input class="input_type form-control sign_right_two" value="${excutorName }" disabled="disabled" readonly="readonly">
+                                <input class="input_type form-control sign_right_two" id="owerName" value="${excutorName }" disabled="disabled" readonly="readonly">
                             </div>
                             <div class="form_content">
                                 <label class="control-label  sign_left_two">
                                        	归属人编号
                                 </label>
-                                <input class="input_type form-control sign_right_two" value="${excutorCode }" disabled="disabled" readonly="readonly">
+                                <input class="input_type form-control sign_right_two" id="owerCode" value="${excutorCode }" disabled="disabled" readonly="readonly">
                             </div>
                             <div class="form_content">
                                 <label class="control-label sign_left_two">
@@ -532,6 +532,26 @@
 							
 							//初始化归属人业绩比例
 							function initRate(){
+								var finOrgCode = $("#finOrgCode option:selected").val();
+								
+								var pdPart = 0;
+								//安家贷、365小贷以外金融产品为20%(产品部),其他均为10%(产品部)
+								//W0001是安家贷编码
+								if(finOrgCode == "W0001"){
+									pdPart = 20;
+								}
+								else {
+									pdPart = 10;
+								}
+								
+								$("#pdPart").val(pdPart);
+								
+								//计算归属人分成比例
+								calOwerPart();
+							}
+							
+							//计算归属人分成比例
+							function calOwerPart(){
 								//产品部分成比例
 								var pdPart = Number($("#pdPart").val());
 								
@@ -598,6 +618,9 @@
 										var month = $("#month").val();
 
 										showAndHide(loanSrvCode, value, month);
+										
+										//更新产品部分成比例
+										changeProPart(value);
 									});
 
 							$("#chargeAmount").blur(function() {
@@ -656,6 +679,21 @@
 											return false;
 										}
 									})
+								
+							//更新产品部分成比例
+							function changeProPart(finOrgCode){
+								var proPart = 0;
+								
+								if(finOrgCode == "W0001"){
+									proPart = 20;
+								}	
+								else {
+									proPart = 10;
+								}
+								
+								$("#pdPart").val(proPart);
+								calOwerPart();
+							}
 
 							function checkChargeAndRemark(applyAmount) {
 								var charge = $("#chargeAmount").val();
@@ -1160,9 +1198,16 @@
 			if (array && array.length > 0) {
 				$("#excutorName").val(array[0].username);
 				$("#excutorName").attr('hVal', array[0].userId);
+				$("#owerName").val(array[0].username);
+				
+				//获取员工编号
+				var employeeCode = getEmployeeCode(array[0].userId);
+				$("#owerCode").val(employeeCode);
 			} else {
 				$("#executorName").val("");
 				$("#executorName").attr('hVal', "");
+				$("#owerName").val("");
+				$("#owerCode").val("");
 			}
 		}
 		function caseCodeSort() {
@@ -1174,6 +1219,27 @@
 				$("#caseCodeSorti").attr("class", 'fa fa-sort-desc fa_down');
 			}
 		}
+		
+		function getEmployeeCode(userId){
+			var employeeCode = '';
+			
+			$.ajax({
+				url : ctx + "/eloan/EmployeeCode",
+				method : "post",
+				async: false,
+				dataType : "json",
+				data : {
+					"userId" : userId
+				},
+				success : function(data) {
+					employeeCode = data.user.employeeCode;
+				}
+			});
+			
+			return employeeCode;
+		}
+		
+		
 		/**
 		 * 选择用户
 		 * @param param

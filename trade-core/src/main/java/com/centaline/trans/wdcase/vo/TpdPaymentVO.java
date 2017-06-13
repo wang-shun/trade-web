@@ -6,8 +6,17 @@ import java.util.List;
 
 public class TpdPaymentVO {
 
+	private Long pkid;
+	
+    public Long getPkid() {
+		return pkid;
+	}
 
-    private BigDecimal paymentAmount;
+	public void setPkid(Long pkid) {
+		this.pkid = pkid;
+	}
+
+	private BigDecimal paymentAmount;
 
     private String payer;
 

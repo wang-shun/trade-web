@@ -175,7 +175,7 @@ public class CaseCloseApproveController {
 	
 	@RequestMapping(value="caselostApproveThird")
 	@ResponseBody
-	public Boolean caselostApproveThird(HttpServletRequest request, ProcessInstanceVO processInstanceVO, 
+	public Boolean caselostApproveThird(ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String CaseCloseThirdCheck, String CaseCloseThirdCheck_response) {
 		
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, CaseCloseThirdCheck, CaseCloseThirdCheck_response);

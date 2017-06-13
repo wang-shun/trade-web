@@ -90,10 +90,7 @@ public class CaseCloseApproveController {
     public Object caselostApproveFirst(ProcessInstanceVO processInstanceVO,LoanlostApproveVO loanlostApproveVO, String CaseCloseFirstCheck, String CaseCloseFirstCheck_response) {
         AjaxResponse ajaxResponse = new AjaxResponse();
         try {
-            boolean b = CaseCloseFirstCheck.equals("true");
-            String message = (b?"通过":"不通过") + (",审批意见为"+CaseCloseFirstCheck_response);
             ajaxResponse = loanlostApproveService.saveAndSubmitLoanlostApproveFirst(processInstanceVO, loanlostApproveVO, CaseCloseFirstCheck, CaseCloseFirstCheck_response);
-            sendMessage(processInstanceVO, message, loanlostApproveVO.getApproveType());
             ajaxResponse.setMessage("审核成功");
         }catch (Exception e){
             ajaxResponse.setMessage("审核失败");
@@ -106,13 +103,10 @@ public class CaseCloseApproveController {
 
     @RequestMapping(value="caselostApproveSecond")
     @ResponseBody
-    public Object caselostApproveSecond(HttpServletRequest request, ProcessInstanceVO processInstanceVO,LoanlostApproveVO loanlostApproveVO, String CaseCloseSecondCheck, String CaseCloseSecondCheck_response) {
+    public Object caselostApproveSecond(ProcessInstanceVO processInstanceVO,LoanlostApproveVO loanlostApproveVO, String CaseCloseSecondCheck, String CaseCloseSecondCheck_response) {
         AjaxResponse ajaxResponse = new AjaxResponse();
         try {
-            boolean b = CaseCloseSecondCheck.equals("true");
-            String message = (b?"通过":"不通过") + (",审批意见为"+CaseCloseSecondCheck_response);
             ajaxResponse = loanlostApproveService.saveAndSubmitLoanlostApproveSecond(processInstanceVO, loanlostApproveVO, CaseCloseSecondCheck, CaseCloseSecondCheck_response);
-            sendMessage(processInstanceVO, message, loanlostApproveVO.getApproveType());
             ajaxResponse.setMessage("审核成功");
         }catch (Exception e){
             ajaxResponse.setMessage("审核失败");

@@ -80,6 +80,10 @@ import com.centaline.trans.task.service.UnlocatedTaskService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.utils.ConstantsUtil;
+import com.centaline.trans.wdcase.entity.TdmPaidSubs;
+import com.centaline.trans.wdcase.entity.TpdPayment;
+import com.centaline.trans.wdcase.repository.TdmPaidSubsMapper;
+import com.centaline.trans.wdcase.repository.TpdPaymentMapper;
 
 @Service
 @Transactional
@@ -148,6 +152,10 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToCaseCommentMapper toCaseCommentMapper;
 	@Autowired
 	private TgServItemAndProcessorMapper tgservItemAndProcessorMapper;
+	@Autowired
+	private TpdPaymentMapper tpdPaymentMapper;
+	@Autowired
+	private TdmPaidSubsMapper tdmPaidSubsMapper; 
 	
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
@@ -1298,7 +1306,34 @@ public class ToCaseServiceImpl implements ToCaseService {
 		}
 		return "N";
 	}
-	
+	/**
+	 * 删除流水
+	 * @author hejf10
+	 * @date 2017年6月9日18:08:03
+	 * @param pkid
+	 * @return
+	 */
+	@Override
+	public void delLiushui(Long pkid) throws Exception{
+
+		SessionUser user = uamSessionService.getSessionUser();
+		
+		TpdPayment tpdPayment = tpdPaymentMapper.selectByPrimaryKey(pkid);
+		if(null == tpdPayment){new BusinessException("没有查询到相应的流水记录！");}
+		
+		TdmPaidSubs tdmPaidSubs = tdmPaidSubsMapper.selectByPaymentCode(tpdPayment.getPkid().toString());
+		if(null == tdmPaidSubs){new BusinessException("没有查询到相应的流水记录！");}
+		
+		if(!StringUtils.equals(user.getId(), tpdPayment.getCreateBy())){ throw new BusinessException("只有创建人才能删除相应的流水记录！");}
+		if(!StringUtils.equals(user.getId(), tdmPaidSubs.getCreateBy())){ throw new BusinessException("只有创建人才能删除相应的流水记录！");}
+		
+		tpdPayment.setIsDeleted(1);
+		tpdPaymentMapper.updateByPrimaryKeySelective(tpdPayment);
+		
+		tdmPaidSubs.setIsDeleted(1);
+		tdmPaidSubsMapper.updateByPrimaryKeySelective(tdmPaidSubs);
+		
+	}
 
 }
 

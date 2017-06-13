@@ -31,5 +31,7 @@
 	<!--首次跟进 -->
 	<import resource="query/task/followPicListQuery.xml" />
 
+	<!--常量 -->
+	<import resource="query/baseData/dict.xml" />
 
 </queryConfig>

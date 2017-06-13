@@ -1221,6 +1221,7 @@
 		                                        <th>付款人 </th>
 		                                        <th>付款时间</th>
 		                                        <th>付款凭证</th>
+		                                        <th>操作</th>
 		                                    </tr>
 		                                </thead>
 		                                <c:forEach items="${tpdPaymentVOs}" var="item">
@@ -1239,10 +1240,13 @@
 															 <a href="<aist:appCtx appName='aist-filesvr-web'/>/JQeryUpload/getfile?fileId=${rePic}" target="_blank">查看凭证</a>
 														</c:forEach>
 												</td>
+												<td>
+														<a id="delLiushui" onclick="delLiushui(${item.pkid})"> 删除 </a>
+												</td>
 											</tr>
 										</c:forEach>
 												<tr>
-													<td colspan="4">总计:${allAmount}元</td>
+													<td colspan="5">总计:${allAmount}元</td>
 												</tr>
 												  
 		                                <tbody>
