@@ -61,6 +61,7 @@ public class SignController {
         ToAttachment toAttachment = new ToAttachment();
         toAttachment.setCaseCode(caseCode);
         toAttachment.setPartCode("TransSign");
+        toAttachmentService.updateAvaliableAttachmentByProperty(toAttachment);
         List<ToAttachment> attachments = toAttachmentService.quereyAttachments(toAttachment);
         if (CollectionUtils.isNotEmpty(attachments)) {
             for (ToAttachment attachment : attachments) {

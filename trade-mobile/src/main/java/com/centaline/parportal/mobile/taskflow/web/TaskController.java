@@ -54,23 +54,16 @@ public class TaskController {
 		gp.setRows(pageSize);
 		Map<String, Object> paramMap = gp.getParamtMap();
 		paramMap.put("q_text", q_text);
-		
-		
 		List<String> taskTag = new ArrayList<String>();
-		
 		if(pastTask) {
 			taskTag.add("-1");
-
 		}
 		if(todayTask) {
 			taskTag.add("0");
-
 		}
 		if(tmrTask) {
 			taskTag.add("1");
-
 		}
-		
 		if(!taskTag.isEmpty()) {
 			paramMap.put("taskTag",(String[])taskTag.toArray(new String[taskTag.size()]));
 		}
@@ -81,7 +74,38 @@ public class TaskController {
 		buildHoutaiInfo(pages.getContent());
 		return Pages2JSONMoblie.pages2JsonMoblie(pages);
 	}
-	
+
+	@RequestMapping(value = "quantity")
+	@ResponseBody
+	public Object taskQuantity(String q_text,@RequestParam(required = true)Boolean pastTask,@RequestParam(required = true)Boolean todayTask,@RequestParam(required = true)Boolean tmrTask){
+		JSONObject jsonObject = new JSONObject();
+		JQGridParam gp = new JQGridParam();
+		gp.setQueryId("queryTaskListItemListMobile");
+		gp.setPagination(false);
+		gp.setCountOnly(true);
+		Map<String, Object> paramMap = gp.getParamtMap();
+		paramMap.put("q_text", q_text);
+		List<String> taskTag = new ArrayList<String>();
+		if(pastTask) {
+			taskTag.add("-1");
+		}
+		if(todayTask) {
+			taskTag.add("0");
+		}
+		if(tmrTask) {
+			taskTag.add("1");
+		}
+		if(!taskTag.isEmpty()) {
+			paramMap.put("taskTag",(String[])taskTag.toArray(new String[taskTag.size()]));
+		}
+		SessionUser user = sessionService.getSessionUser();
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
+		jsonObject.put("taskCount",pages.getTotalElements());
+		return jsonObject;
+	}
+
+
+
 	private void buildHoutaiInfo(List<Map<String, Object>> list) {
 		if(CollectionUtils.isEmpty(list)) {
 			return ;
