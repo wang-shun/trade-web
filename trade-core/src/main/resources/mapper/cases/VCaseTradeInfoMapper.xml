@@ -101,4 +101,22 @@
 		and w.STATUS IN ('0','4')
 		and w.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectIsLoanLost"  parameterType="java.lang.String" resultType="java.lang.String">
+  		select 
+  			(case when m.IS_DELEGATE_YUCUI = '1' then '0' when m.IS_DELEGATE_YUCUI = '0' then '1' else '' end) isLoanLost
+  		from sctrans.T_TO_CASE c
+  		inner join sctrans.T_TO_MORTGAGE m on c.CASE_CODE = m.CASE_CODE and m.IS_ACTIVE = '1' and m.MORT_TYPE IN ('30016001','30016002') 
+  		where 
+  		c.LOAN_REQ = '1'
+  		and c.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectMortType"  parameterType="java.lang.String" resultType="java.lang.String">
+  		select 
+  			m.MORT_TYPE
+  		from sctrans.T_TO_CASE c
+  		inner join sctrans.T_TO_MORTGAGE m on c.CASE_CODE = m.CASE_CODE and m.IS_ACTIVE = '1' 
+  		where c.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
 </mapper>

@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf" %>
 <html>
 <head>
@@ -20,8 +21,8 @@
     <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.bootstrap.css' />" />
     <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.responsive.css' />" />
     <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
-    <link href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
-    <link href="<c:url value='/static/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/jqGrid/ui.jqgrid.css' />" />
     <!-- index_css -->
     <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" ">
     <link rel="stylesheet" href="<c:url value='/static/trans/css/common/btn.css' />" >
@@ -30,6 +31,8 @@
     <link rel="stylesheet" href="<c:url value='/static/trans/css/workflow/caseDetail.css' />" >
     <link rel="stylesheet" href="<c:url value='/static/trans/css/workflow/details.css' />" >
     <link rel="stylesheet" href="<c:url value='/css/transcss/comment/caseComment.css' />">
+    <link rel="stylesheet" href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" >
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/addOutlist.css' />" >
     <style>
 		.borderClass {border:1px solid red!important;resize: none;}
 		.borderClass:focus {border:1px solid red!important;resize: none;}
@@ -37,6 +40,9 @@
   			background-color: #f8ac59 !important;
   			border-color: #f8ac59 !important;
   			color: #FFFFFF !important;
+		}
+		.input_long	{
+			width: 435px;
 		}
 	</style>
 </head>
@@ -280,7 +286,36 @@
     <input type="hidden" id="readOnly" name="readOnly" value="${readOnly}">
     <input type="hidden" id="pkid" name="pkid" value="${satisfaction.pkid}">
     <div class="ibox-content border-bottom clearfix space_box noborder">
-        <div>
+    	<div>
+        	<h2 class="newtitle title-mark">案件信息</h2>
+        	<div class="form_list">
+                <div class="marinfo">
+                    <div class="line">
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">签约时间</label>
+                            <input class=" input_type yuanwid" placeholder="" value="<fmt:formatDate value='${transSignSubTime}' pattern='yyyy-MM-dd'/>" readonly="readonly">
+                        </div>
+                        <div class="form_content">
+                            <label class="control-label sign_left_small select_style mend_select">贷款流失情况</label>
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" 
+                            value="<c:choose><c:when test='${isLoanLost  eq 1}'>流失</c:when><c:when test='${isLoanLost  eq 0}'>收到</c:when><c:when test='${empty isLoanLost}'></c:when></c:choose>"
+                            readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">过户时间</label>
+                            <input class=" input_type yuanwid" placeholder="" value="<fmt:formatDate value='${guohuPassTime}' pattern='yyyy-MM-dd'/>" readonly="readonly">
+                        </div>
+                        <div id="s" class="form_content">
+                            <label class="control-label sign_left_small select_style mend_select">贷款类型</label>
+                            <aist:dict clazz="input_type yuanwid input_long" id="mortType" name="mortType" display="select" defaultvalue="${mortType}" dictType="30016"/>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+    	</div>
+        <div>       	
             <h2 class="newtitle title-mark">上家回访</h2>
             <div class="form_list">
                 <div class="marinfo">
@@ -454,12 +489,6 @@
                             </select>
                         </div>
                         <div class="form_content">
-                            <label class="control-label sign_left_small">签约意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="agentSignCom" value="${satisfaction.agentSignCom}" >
-                        </div>
-                    </div>
-                    <div class="line">
-                        <div class="form_content">
                             <label class="control-label sign_left_small">贷款评分</label>
                             <select class="select_control yuanwid" name="agentComloanSat" value="${satisfaction.agentComloanSat}">
                             		<option value="">请选择</option>
@@ -468,12 +497,17 @@
                             	</c:forEach>
                             </select>
                         </div>
-                        <div class="form_content">
-                            <label class="control-label sign_left_small">贷款意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="agentComloanCom" value="${satisfaction.agentComloanCom}" >
-                        </div>
                     </div>
                     <div class="line">
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">陪还贷评分</label>
+                            <select class="select_control yuanwid" name="agentLoancloseSat" value="${satisfaction.agentLoancloseSat}">
+                            		<option value="">请选择</option>
+                            	<c:forEach begin="0" end="10" varStatus="stat">
+                            		<option value="${stat.index}" ${satisfaction.agentLoancloseSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
+                            	</c:forEach>
+                            </select>
+                        </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金评分</label>
                             <select class="select_control yuanwid" name="agentPsfloanSat" value="${satisfaction.agentPsfloanSat}">
@@ -483,10 +517,33 @@
                             	</c:forEach>
                             </select>
                         </div>
+                    </div>
+                    <div class="line">
                         <div class="form_content">
-                            <label class="control-label sign_left_small">公积金意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="agentPsfloanCom" value="${satisfaction.agentPsfloanCom}" >
-                        </div>
+                        	<label class="control-label sign_left_small"> 意见选项 </label>
+                        	<c:forEach items="${agentComDicts}" var="item" begin="0" end="8">
+                        		<span class="btn btn-white 
+                        		<c:forEach items="${fn:split(satisfaction.agentComDict ,',')}" var="d" >
+                        			${d eq item.code ? 'out-btn-select':''}
+                        		</c:forEach>" onclick="" name="remarks" value="${item.code}"> ${item.name} </span>
+                        	</c:forEach>
+                    	</div>
+                    </div>
+                    <div class="line">
+                    	<div class="form_content">
+                        	<label class="control-label sign_left_small">  </label>
+                        	<c:forEach items="${agentComDicts}" var="item" begin="9" end="16">
+                        		<span class="btn btn-white <c:forEach items="${fn:split(satisfaction.agentComDict ,',')}" var="d" >
+                        			${d eq item.code ? 'out-btn-select':''}
+                        		</c:forEach>" onclick="" name="remarks" value="${item.code}"> ${item.name} </span>
+                        	</c:forEach>
+                    	</div>
+                    </div>
+                    <div class="line">
+                    	<div class="form_content">
+                        	<label class="control-label sign_left_small">  </label>
+                        	<input id="elseInput" class="select_control sign_right_one remarks" style="width:740px;" placeholder="请输入" name="agentComElse" value="${satisfaction.agentComElse}"  /> 
+                    	</div>
                     </div>
                 </div>
             </div>
@@ -504,8 +561,9 @@
 		        <div class="form-btn">
 		           <div class="text-center">
 		           	   <c:if test="${satisfaction.status eq 2 and !readOnly}">
+		           	   		<a class="btn btn-success btn-space" onclick="javascript:doSaveSatis();" >保存</a>
 		           	   		<a class="btn btn-success btn-space" onclick="javascript:doSignPass();" >通过</a>
-		               		<a class="btn btn-success btn-space" data-toggle="modal" data-target="#myModal" >打回</a>
+		               		<a class="btn btn-success btn-space" data-toggle="modal" data-target="#rejectModal" >打回</a>
 		               		<a class="btn btn-success btn-space" onclick="javascript:goBack();">取消</a>
 		           	   </c:if>
 		               <c:if test="${satisfaction.status ne 2 or readOnly}">
@@ -520,7 +578,7 @@
 </div>
 
         <!--********** 弹窗页面 **********-->
-                <div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="false" >
+                <div class="modal inmodal in" id="rejectModal" tabindex="-1" role="dialog" aria-hidden="false" >
                     <div class="modal-dialog" style="width:760px;">
                         <div class="animated fadeIn popup-box" style="background-color: #fff;padding:30px 30px 60px 30px;">
                             <div class="modal_title">
@@ -549,6 +607,7 @@
         	<script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script>
         	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
         	<script src="<c:url value='/js/common/xcConfirm.js' />"></script>
+        	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>  
 	        <script type="text/javascript">
 	        var caseCode = $("#caseCode").val();
 	        var urlType = $("#urlType").val();
@@ -556,6 +615,10 @@
 	        var readOnly = $("#readOnly").val();
 	        
 	        $(function(){
+	        	var mortType = $("#mortType option:selected").text() == '请选择'?"":$("#mortType option:selected").text();
+	        	$("#mortType").remove();
+	        	$("#s").append("<input class=' input_type yuanwid' style='width: 435px;' readonly='readonly' value="+mortType+" >");
+	        	
 				$("#caseCommentList").caseCommentGrid({
 					caseCode : caseCode,
 					srvCode : "survey_sign"
@@ -584,6 +647,38 @@
  	 			return str;
  	 		}
 	        
+	        /*保存签约*/
+	        function doSaveSatis(){
+	        	var data = $("form").serializeArray();
+	        	
+	        	var extraParam = {};
+	        	var agentComDict = '';
+	        	$(".out-btn-select").each(function(index,item){
+	        		agentComDict += $(item).attr("value")+",";
+	        		if(index == $(".out-btn-select").length - 1) agentComDict = agentComDict.substring(0,agentComDict.length - 1);
+	        	});
+	        	data.push({name:'agentComDict',value:agentComDict});
+
+	        	$.ajax({
+					url:ctx+"/satis/doSaveSatis",
+					method:"post",
+					dataType:"json",
+					data:data,
+					beforeSend:function(){  
+						$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+						$(".blockOverlay").css({'z-index':'9998'});
+			        },
+					success:function(data){
+						 $.unblockUI();
+						 if(data.success){
+							 window.wxc.alert("操作成功！");
+						 }else{
+							 window.wxc.error("操作失败！\n"+data.message);
+						 } 
+					 }
+				})
+	        }
+	        
 	        /*签约通过*/
 	        function doSignPass(){
 	        	if(!checkForSubmit()){
@@ -591,6 +686,14 @@
 	        	}
 	        	
 	        	var data = $("form").serializeArray();
+	        	
+	        	var extraParam = {};
+	        	var agentComDict = '';
+	        	$(".out-btn-select").each(function(index,item){
+	        		agentComDict += $(item).attr("value")+",";
+	        		if(index == $(".out-btn-select").length - 1) agentComDict = agentComDict.substring(0,agentComDict.length - 1);
+	        	});
+	        	data.push({name:'agentComDict',value:agentComDict});
 
 	        	window.wxc.confirm("确定通过吗？",{"wxcOk":function(){
 					$.ajax({
@@ -622,6 +725,14 @@
 	        function doSignReject(){
 	        	var data = $("form").serializeArray();
 	        	
+	        	var extraParam = {};
+	        	var agentComDict = '';
+	        	$(".out-btn-select").each(function(index,item){
+	        		agentComDict += $(item).attr("value")+",";
+	        		if(index == $(".out-btn-select").length - 1) agentComDict = agentComDict.substring(0,agentComDict.length - 1);
+	        	});
+	        	data.push({name:'agentComDict',value:agentComDict});
+
 	        	//先将回访意见添加到案件跟进
 	        	saveCaseComment2();
 	        	
@@ -658,7 +769,7 @@
 	        
 	        /*只读表单*/
 	        function readOnlyForm(){
-	        	$("input:not('#caseComment'),select").prop("disabled",true);
+	        	$("input:not('#caseComment'),select,span[name='remarks']").attr("disabled","disabled");
 	        }
 	        
 	    	function changeClass(object){
@@ -690,6 +801,10 @@
                 
                 return true;
 	        }
+	        
+            $("span[name='remarks']").click(function(){
+            	$(this).hasClass("out-btn-select")?$(this).removeClass("out-btn-select"):$(this).addClass("out-btn-select");
+            });
 	        </script>
         </content>     
         <content tag="local_require">
