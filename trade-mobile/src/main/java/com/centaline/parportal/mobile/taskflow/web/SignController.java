@@ -17,6 +17,7 @@ import com.centaline.trans.task.service.SignService;
 import com.centaline.trans.task.vo.TransSignVO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,8 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/task/sign")
 public class SignController {
+
+    private Logger logger = Logger.getLogger(SignController.class);
 
     @Autowired
     private SignService signService;
@@ -96,6 +99,8 @@ public class SignController {
             ajaxResponse.setSuccess(true);
         }catch (Exception e){
             ajaxResponse.setSuccess(false);
+            logger.error(e.getMessage());
+            e.printStackTrace();
         }
         return ajaxResponse;
     }
