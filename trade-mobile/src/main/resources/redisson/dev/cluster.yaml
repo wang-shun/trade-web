@@ -20,12 +20,12 @@ clusterServersConfig:
   masterConnectionPoolSize: 250
   readMode: "SLAVE"
   nodeAddresses:
-  - "redis://redis.centaline.com:5000"
-  - "redis://redis.centaline.com:5001"
-  - "redis://redis.centaline.com:5002"
-  - "redis://redis.centaline.com:5003"
-  - "redis://redis.centaline.com:5004"
-  - "redis://redis.centaline.com:5005"
+  - "redis://redis01:5000"
+  - "redis://redis02:5001"
+  - "redis://redis03:5002"
+  - "redis://redis04:5003"
+  - "redis://redis05:5004"
+  - "redis://redis06:5005"
   scanInterval: 1000
 threads: 0
 nettyThreads: 0
