@@ -243,5 +243,7 @@
 	
 	
 	UPDATE  sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG  SET  IS_COMFIRM = '1'  WHERE DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0;
+	
+	UPDATE  sctrans.T_TS_AWARD_CASE_CENTAL  SET  AWARD_STATUS = '1' WHERE DATEDIFF(mm,AWARD_MONTH,#{belongMonth}) = 0  AND AWARD_STATUS = '0';
   </update>
 </mapper>
