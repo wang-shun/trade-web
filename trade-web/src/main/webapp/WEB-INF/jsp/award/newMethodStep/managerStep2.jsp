@@ -44,8 +44,7 @@
 <div class="wrapper wrapper-content animated fadeInRight">
    <div class="ibox-content border-bottom clearfix space_box">
        <div class="clearfix"> 
-           <h2 class="title">月度KPI导入【金融产品】</h2>
-           <a href="../template/call_kpi_temp.xlsx">导入模板下载</a>
+           <h2 class="title">月度KPI导入【金融产品】<a style="color:red" href="../template/call_kpi_temp.xlsx">导入模板下载</a></h2>           
        </div>
        <div class="form_list">
            <div class="line">
