@@ -1,7 +1,9 @@
 package com.centaline.trans.taskList.web;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -220,7 +222,9 @@ public class GuohuApproveController {
 		//过户审批通过时  向计件奖金池插入数据   add  by zhuody  in 2017-05-18 
 		TsAwardCaseCental tsAwardCaseCental = new TsAwardCaseCental();
 		tsAwardCaseCental.setCaseCode(processInstanceVO.getCaseCode());		
-		tsAwardCaseCental.setGuohuApproveTime(new Date());
+		tsAwardCaseCental.setGuohuApproveTime(covertDate(new Date())); //TODO  测试完之后时间不减一
+		//tsAwardCaseCental.setGuohuApproveTime(new Date());
+		//covertDate
 		if(null != user){
 			tsAwardCaseCental.setGuohuApproveRecord(user.getId());	
 		}
@@ -432,4 +436,20 @@ public class GuohuApproveController {
 		 return response;
 	 }
 	
+	 
+	 //获取指定时间的上一个月时间
+	 private  Date  covertDate(Date date){		 
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		 //格式化对象
+		 Calendar calendar = Calendar.getInstance();
+		 //日历对象
+		 calendar.setTime(date);
+		 //设置当前日期
+		 calendar.add(Calendar.MONTH, -1);
+		 
+		 return calendar.getTime();
+		 //月份减一
+		// System.out.println(sdf.format(calendar.getTime()));//输出格式化的日期
+
+	 }
 }
