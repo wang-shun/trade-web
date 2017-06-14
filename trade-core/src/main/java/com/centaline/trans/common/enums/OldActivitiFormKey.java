@@ -17,6 +17,8 @@ public enum OldActivitiFormKey {
     LoanlostApproveDirector("LoanlostApproveDirector","loanlostApproveDirector"),
     LoanlostApproveGeneralManager("LoanlostApproveGeneralManager","loanlostApproveGeneralManager"),
     LoanlostApproveSeniorManager("LoanlostApproveSeniorManager","loanlostApproveSeniorManager"),
+    CaseCloseFirstApprove("CaseCloseFirstApprove","caselostApprove/first"),
+    CaseCloseSecondApprove("CaseCloseSecondApprove","caselostApprove/second"),
     PSFApply("PSFApply","PSFApply"),
     PSFApprove("PSFApprove","PSFApprove"),
     PSFSign("PSFSign","PSFSign"),
