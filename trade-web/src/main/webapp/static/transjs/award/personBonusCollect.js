@@ -176,11 +176,15 @@ function getParams() {
 
 //导出Excel
 function exportPersonBonusToExcel(){
+	if(!vaildateSubmitStatus()){
+		window.wxc.alert("请先确认本批次计件奖金信息是否有误并提交案件信息后方可导出！");
+		return false;
+	}		
 	var url = "/quickGrid/findPage?xlsx&";
 	var ctx = $("#ctx").val();
 	// excel导出列
-	var displayColomn = new Array;
-	//暂时没有计件月份
+	var displayColomn = new Array;	
+	displayColomn.push('BELONG_MONTH');
 	displayColomn.push('REAL_NAME');
 	displayColomn.push('MOBILE');
 	displayColomn.push('EMPLOYEE_CODE');
@@ -200,7 +204,28 @@ function exportPersonBonusToExcel(){
 	$('#excelForm').submit();
 }
 
-
+function vaildateSubmitStatus(){	
+	var flag = false;	
+	
+	$.ajax({
+		async: false,
+		url:ctx+ "/newAward/isSubmitAward" ,
+        method: "post",
+        dataType: "json",
+        data: {belongMonth:getBlongMonth()},	   
+        success: function(data){	         
+		      if(data.success == true){	
+		    	  flag = true;
+		      }else{	
+		    	  flag = false;
+		      }
+        },
+        error: function (e, jqxhr, settings, exception) {      	  	
+      	  window.wxc.error("查询绩效奖金数据是否提交失败！");
+        }  
+  })  
+  return flag;
+}
 //组织图标选择
 $('#organizeOnclick').click(function() {	
 	orgSelect({

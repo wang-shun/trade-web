@@ -20,7 +20,8 @@
 		<!-- 分页控件 -->
 		<link href="<c:url value='/css/plugins/pager/centaline.pager.css'/>"  rel="stylesheet" />
 		<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css'/>"  rel="stylesheet" />
-		
+		<!--弹出框样式  -->
+		<link href="<c:url value='/css/common/xcConfirmForAward.css' />" rel="stylesheet" />
 		<!-- index_css -->
  		<link href="<c:url value='/static/trans/css/common/base.css' />" rel="stylesheet" />
 		<link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet" />
@@ -132,7 +133,9 @@
     <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
     <script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
   	<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script>
-   
+       
+    <!-- 引入弹出框js文件 -->
+    <script src="<c:url value='/js/common/xcConfirm.js' />"></script>
 	<script id="template_personCollectList" type= "text/html">
       	{{each rows as item index}}
   				  {{if index%2 == 0}}

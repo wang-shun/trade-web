@@ -308,4 +308,37 @@ public class TsAwardCaseCentalController {
 		}
 		return response;
 	}
+	
+	
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-06-14
+	 * 
+	 * @desc:更新最终表的计件状态、同步管理层人员的计件奖金至下批次
+	 */
+	@RequestMapping(value = "/isSubmitAward")
+	@ResponseBody
+	public AjaxResponse<String> isSubmitAward(HttpServletRequest request,	String belongMonth) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try {
+			
+			TsAwardKpiPay record = new TsAwardKpiPay();			
+			record.setStatus("1");
+			record.setBelongMonth(DateUtil.strToFullDate(belongMonth));		
+			
+			TsAwardKpiPay tsAwardKpiPay = tsAwardKpiPayService.getTsAwardKpiPayByStatus(record);
+			if(tsAwardKpiPay != null){
+				response.setSuccess(true);
+			}else{
+				response.setSuccess(false);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();			
+			throw new BusinessException("查看本批次计件奖金是否提交错误，请稍后再试！");
+		}
+		return response;
+	}
 }

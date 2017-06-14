@@ -11,4 +11,6 @@ public interface TsAwardKpiPayService {
     int updateTsAwardKpiPayStatus(TsAwardKpiPay record);
     
     int updateTsAwardKpiPayStatusAndSyncManager(TsAwardKpiPay record);
+    
+    TsAwardKpiPay  getTsAwardKpiPayByStatus(TsAwardKpiPay record);
 }

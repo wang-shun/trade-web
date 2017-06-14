@@ -32,9 +32,24 @@ public class TsAwardKpiPayServiceImpl implements TsAwardKpiPayService {
 	public int updateTsAwardKpiPayStatusAndSyncManager(TsAwardKpiPay record) {
 		
 		if(null == record){
-			throw new BusinessException("提交基金奖金数据请求参数有误！");
+			throw new BusinessException("提交计件奖金数据请求参数有误！");
 		}
 		return tsAwardKpiPayMapper.updateTsAwardKpiPayStatusAndSyncManager(record);
+	}
+
+	
+	@Override
+	public TsAwardKpiPay getTsAwardKpiPayByStatus(TsAwardKpiPay record) {
+		if(null == record){
+			throw new BusinessException("查询计件奖金数据请求参数有误！");
+		}	
+		
+		List<TsAwardKpiPay> list = tsAwardKpiPayMapper.getTsAwardKpiPayByProperty(record);
+		TsAwardKpiPay tsAwardKpiPay = null;
+		if(null != list && list.size() > 0){
+			tsAwardKpiPay = list.get(0);
+		}
+		return tsAwardKpiPay;
 	}
 
 }

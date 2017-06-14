@@ -37,7 +37,7 @@
                     <div class="clearfix"> 
                         <h2 class="title pull-left ml15">计件奖金案件列表</h2>
                     	<div class="ibox-tools">
-                             <span class="nav-label"  style="color:red";>当前月份绩效奖金总额:<i id="awardAmount">1000</i>元</span>
+                             <span class="nav-label"  style="color:red;font-weight:bold ";>当前月份绩效奖金总额:<i id="awardAmount">1000</i>元</span>
                          </div>
                     </div>
                     <div class="form_list">
