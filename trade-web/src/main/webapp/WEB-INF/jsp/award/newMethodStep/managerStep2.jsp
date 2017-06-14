@@ -220,7 +220,12 @@
 			</td>
 			<td >
 				<p class="big">
-					{{item.TYPE}}
+				{{ if "" != item.TYPE  && null != item.TYPE && item.TYPE == "DKLSL"}}
+					贷款流失率
+				{{/if}}
+				{{ if "" != item.TYPE  && null != item.TYPE && item.TYPE == "JRDBL"}}
+					金融达标率
+				{{/if}}
 				</p>
 			</td>
 			<td >
