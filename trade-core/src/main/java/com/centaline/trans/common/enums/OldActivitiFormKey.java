@@ -25,6 +25,7 @@ public enum OldActivitiFormKey {
     LoanRelease("LoanRelease","loanRelease"),
     TransPlanFilling("TransPlanFilling","transPlan"),
     MortgageSelect("MortgageSelect","mortgageSelect"),
+    FirstFollow("FirstFollow","firstFollow"),
     NOT_FOUND("", "未知的枚举类型");
 
 

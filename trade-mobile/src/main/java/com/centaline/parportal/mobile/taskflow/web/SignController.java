@@ -71,9 +71,14 @@ public class SignController {
             }
         }
         TransSignVO transSignVO = signService.qureyGuestInfo(caseCode);
-        transSignVO.setConPrice(transSignVO.getConPrice().divide(new BigDecimal(10000)));
-        transSignVO.setRealPrice(transSignVO.getRealPrice().divide(new BigDecimal(10000)));
-
+        if(transSignVO!=null){
+            if(transSignVO.getConPrice()!=null){
+                transSignVO.setConPrice(transSignVO.getConPrice().divide(new BigDecimal(10000)));
+            }
+            if(transSignVO.getRealPrice()!=null){
+                transSignVO.setRealPrice(transSignVO.getRealPrice().divide(new BigDecimal(10000)));
+            }
+        }
         jsonObject.put("attachments", attachments);
         jsonObject.put("caseCode", caseCode);
         toAccesoryListService.getAccesoryList(request, taskitem);
