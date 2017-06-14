@@ -20,7 +20,7 @@ import java.util.Map;
 public class QuickQueryWFENameServiceImpl implements CustomDictService{
 	@Autowired
 	private QuickQueryJdbcTemplate jdbcTemplate;
-    private static String sql = "select WFE_NAME as v from sctrans.SYS_WFE_TEMPLATE where WFE_CODE=:code";
+    private static String sql = "select WFE_NAME from sctrans.SYS_WFE_TEMPLATE where WFE_CODE=:code";
       
     @Override
 	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {			   
@@ -33,7 +33,12 @@ public class QuickQueryWFENameServiceImpl implements CustomDictService{
 			if (!StringUtils.isBlank((String)business_key)) {
 				Map paramMap = new HashMap();
 				paramMap.put("code", (String) business_key);
-				key.put("val", jdbcTemplate.queryForObject(sql, paramMap, String.class));
+				List<Map<String, Object>>  list = jdbcTemplate.queryForList(sql,paramMap);
+				if(list.size()!=0){
+					key.put("val", list.get(0).get("WFE_NAME"));
+				}else{
+					key.put("val", null);
+				}
 			}
 		}
 		return keys;

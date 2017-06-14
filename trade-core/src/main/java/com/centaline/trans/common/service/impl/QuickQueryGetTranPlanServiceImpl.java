@@ -32,14 +32,12 @@ public class QuickQueryGetTranPlanServiceImpl implements CustomDictService {
                 paramMap.put("code", (String) case_code);
                 paramMap.put("code2", (String) part_code);
                 List<Map<String, Object>>  transPlan = jdbcTemplate.queryForList(sql,paramMap);
-                for(Map<String, Object> plan:transPlan){
-                    if(case_code.equals(plan.get("CASE_CODE"))){
-                        key.put("RED_LOCK", plan.get("FONT_NAME"));
-                        key.put("EST_PART_TIME", plan.get("EST_PART_TIME"));
-                        key.put("DATELAMP", plan.get("DATELAMP"));
-                        continue;
-                    }
+                if(transPlan.size()!=0){
+                    key.put("RED_LOCK", transPlan.get(0).get("FONT_NAME"));
+                    key.put("EST_PART_TIME", transPlan.get(0).get("EST_PART_TIME"));
+                    key.put("DATELAMP", transPlan.get(0).get("DATELAMP"));
                 }
+
             }
         }
         return keys;
