@@ -943,7 +943,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 }
 
 //获取页面信息的时候设置信贷员信息
-function  setLoanerInfo(finOrgCode,isMainLoanBank){ 	
+function  setLoanerInfo(finOrgCode,isMainLoanBank){ 		
 		var finOrgId='';
 		$.ajax({
 			    url:ctx+"/manage/queryBankOrgIdByOrgCode",
