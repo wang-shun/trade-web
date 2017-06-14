@@ -565,7 +565,7 @@
  	select * from  sctrans.T_TO_MORTGAGE 
  	where CASE_CODE = #{caseCode,jdbcType=VARCHAR}  
  	AND  IS_MAIN_LOAN_BANK = #{isMainLoanBank,jdbcType=VARCHAR}  	
- 	AND  IS_ACTIVE='1'
+ 	<!-- AND  IS_ACTIVE='1' -->
  </select>
  
  <select id="getMortgageByCaseCode" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >

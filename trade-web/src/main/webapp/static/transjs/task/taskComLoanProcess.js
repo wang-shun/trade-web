@@ -794,6 +794,8 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    			f=$('#mortgageForm1');
 	    		}
 	    		
+	    		
+	    		setLoanerInfo(finOrgCode,isMainLoanBank); 
  				 //银行下拉列表
 			
 				getGuestInfo(fStr);
@@ -940,7 +942,28 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	  });
 }
 
-
+//获取页面信息的时候设置信贷员信息
+function  setLoanerInfo(finOrgCode,isMainLoanBank){ 	
+		var finOrgId='';
+		$.ajax({
+			    url:ctx+"/manage/queryBankOrgIdByOrgCode",
+			    method:"post",
+			    dataType:"json",
+				async:false,
+			    data:{finOrgCode:finOrgCode},
+			    
+			    success:function(data){
+		    		if(data != null){
+		    			finOrgId = data.content;
+		    		}
+		    	}
+		 });		
+		if(isMainLoanBank == 1){
+			$("#bankOrgId1").val(finOrgId);    		
+		}else if(isMainLoanBank == 0){
+			$("#bankOrgId0").val(finOrgId);    			
+		}		
+}
 //
 /**
  * @date:2017-04-17
