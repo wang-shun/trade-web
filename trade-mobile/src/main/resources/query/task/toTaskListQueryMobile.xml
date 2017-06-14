@@ -100,7 +100,7 @@
 							'TransPlanFilling','SelfLoanApprove',
 							'PurchaseLimit','Pricing','TaxReview','LoanClose','Guohu','HouseBookGet',
 							'serviceRestartApply','serviceRestartApprove','ManagerAduit','SuperManagerAudit',
-							'DirectorAudit','LoanlostApply','LoanlostApproveManager','LoanlostApproveSeniorManager',
+							'DirectorAudit','LoanlostApproveManager','LoanlostApproveSeniorManager',
 							'LoanlostApproveDirector','InvalidCaseApprove')
 							
 						<ifNotNull taskTag>
