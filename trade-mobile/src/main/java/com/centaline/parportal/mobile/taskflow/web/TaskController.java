@@ -77,7 +77,7 @@ public class TaskController {
 
 	@RequestMapping(value = "quantity")
 	@ResponseBody
-	public Object taskQuantity(String q_text,@RequestParam(required = true)Boolean pastTask,@RequestParam(required = true)Boolean todayTask,@RequestParam(required = true)Boolean tmrTask){
+	public Object taskQuantity(String q_text){
 		JSONObject jsonObject = new JSONObject();
 		JQGridParam gp = new JQGridParam();
 		gp.setQueryId("queryTaskListItemListMobile");
@@ -86,21 +86,30 @@ public class TaskController {
 		Map<String, Object> paramMap = gp.getParamtMap();
 		paramMap.put("q_text", q_text);
 		List<String> taskTag = new ArrayList<String>();
-		if(pastTask) {
-			taskTag.add("-1");
-		}
-		if(todayTask) {
-			taskTag.add("0");
-		}
-		if(tmrTask) {
-			taskTag.add("1");
-		}
-		if(!taskTag.isEmpty()) {
-			paramMap.put("taskTag",(String[])taskTag.toArray(new String[taskTag.size()]));
-		}
+
 		SessionUser user = sessionService.getSessionUser();
+
+		taskTag.add("-1");
+		paramMap.put("taskTag", (String[]) taskTag.toArray(new String[taskTag.size()]));
 		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
-		jsonObject.put("taskCount",pages.getTotalElements());
+		jsonObject.put("pastTaskCount",pages.getTotalElements());
+
+		taskTag.clear();
+		taskTag.add("0");
+		paramMap.put("taskTag", (String[]) taskTag.toArray(new String[taskTag.size()]));
+		pages = quickGridService.findPageForSqlServer(gp, user);
+		jsonObject.put("todayTaskCount", pages.getTotalElements());
+
+		taskTag.clear();
+		taskTag.add("1");
+		paramMap.put("taskTag", (String[]) taskTag.toArray(new String[taskTag.size()]));
+		pages = quickGridService.findPageForSqlServer(gp, user);
+		jsonObject.put("tmrTaskTaskCount", pages.getTotalElements());
+
+		paramMap.remove("taskTag");
+		pages = quickGridService.findPageForSqlServer(gp, user);
+		jsonObject.put("allTaskCount", pages.getTotalElements());
+
 		return jsonObject;
 	}
 
