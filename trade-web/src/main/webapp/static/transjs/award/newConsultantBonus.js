@@ -5,9 +5,11 @@ $(document).ready(function() {
 	
 	//初始化数据
     reloadGrid();
+    getPersonBonusTotal();
  	// 查询
 	$('#caseDetailsSearch').click(function() {
 		reloadGrid();
+		getPersonBonusTotal();
 	});
 	
 	//展开、收起查看详细信息
@@ -17,7 +19,8 @@ $(document).ready(function() {
 				  	$(this).html("收起");
 				  	//发出请求
 				    var data = {};
-		    	    data.queryId = "tsAwardBaseDetailList";
+		    	    // data.queryId = "tsAwardBaseDetailList";//全部
+		    	    data.queryId = "tsMyAwardBaseDetailList";//个人的
 		    	    data.rows = 58;
 		    	    data.page = 1;
 		    	    data.search_caseCode = id;
@@ -52,7 +55,8 @@ function reloadGrid(bm) {
 	}
 	
 	var data1 = {};
-    data1.queryId = "tsAwardBaseList";
+    //data1.queryId = "tsAwardBaseList";
+    data1.queryId = "tsMyAwardBaseList";
     data1.rows = 12;
     data1.page = 1;
     data1.argu_belongMonth = bm;
@@ -63,28 +67,14 @@ function reloadGrid(bm) {
     	belongMonth : bm
     }
     BonusList.init(ctx,data1,data2);
-    
-    // 每次查询的数据，需要判断当前批次的数据是否已经提交，则不能再次提交
-    $.ajax({
-		  async: true,
-          url:ctx+ "/award/getTsAwardKpiPayByStatus" ,
-          method: "post",
-          dataType: "json",
-          data: {belongMonth:bm},
-          success: function(data){
-        	  if(data.success && data.content != null) {
-        		  $("#submitButton").attr("disabled",true);
-        	  } else {
-        		  $("#submitButton").removeAttr("disabled");
-        	  }
-          }
-	});
+
 }
 
 function goPage(page) {
 	var bm = getBlongMonth();		
 	var data1 = {};
-    data1.queryId = "tsAwardBaseList";
+    //data1.queryId = "tsAwardBaseList";
+    data1.queryId = "tsMyAwardBaseList";
     data1.rows = 12;
     data1.page = page;
     data1.argu_caseCode = $("#caseCode").val();
@@ -114,42 +104,8 @@ var BonusList = function () {
 	                 // 显示分页 
 	                 initpage(data.total,data.pagesize,data.page, data.records);
   	          }
-  	     });
-  		
-		 //TODO
-		 //此处顶部的  总人数、案件数、总金额等均可以取消
-		 $.ajax({
-  			  async: true,
-  	          url:ctx + "/award/getTsAwardKpiPayByProperty" ,
-  	          method: "post",
-  	          dataType: "json",
-  	          data: data2,
-  	          success: function(data){
-  	        	  //console.log(data);
-  	        	  var d = data.content;
-  	        	  if(!d || $.trim(d) === "") {
-  	        		  $("#caseCount").html(0);
-	    	        	  $("#userCount").html(0);
-	    	        	  $("#awardAmount").html(0);
-  	        	  } else {
-  	        		  if(!d.caseCount || $.trim(d.caseCount) === ""){
-  	        			  $("#caseCount").html(0);
-  	        		  } else {
-  	        			  $("#caseCount").html(d.caseCount);
-  	        		  }
-						  if(!d.userCount || $.trim(d.userCount) === ""){
-							  $("#userCount").html(0);	    	        			  
-						  } else {
-							  $("#userCount").html(d.userCount);
-						  }
-						  if(!d.awardKpiSum || $.trim(d.awardKpiSum) === ""){
-							  $("#awardAmount").html(0);
-						  } else {
-							  $("#awardAmount").html(d.awardKpiSum);
-						  }
-  	        	  }
-  	          }
-  	      });
+  	     }); 		
+
 		}
 	 };
 }();
@@ -201,7 +157,7 @@ function exportBonusExcelButton() {
 function exportToExcel() {	
 	$.exportExcel({
     	ctx : ctx,
-    	queryId : 'tsAwardBaseDetailList',
+    	queryId : 'tsMyAwardBaseDetailList',
     	colomns : ['CASE_CODE','PROPERTY_ADDR','ORG_NAME','PARTICIPANT','SRV_CODE','BASE_AMOUNT','SATISFACTION','SKPI_RATE','SRV_PART',
     	           'MKPI','MKPIV', 'COM_LS_RATE','COM_LS_KPI','SRV_PART_IN','KPI_RATE_SUM','AWARD_KPI_MONEY'],
     	data : {search_caseCode:$('#caseCode').val(),argu_propertyAddr:$('#propertyAddr').val(),argu_belongMonth : getBlongMonth(),sord:'AWARD_BASE.CASE_CODE'}
@@ -225,10 +181,33 @@ function getBlongMonth(){
 }
 
 
+//查询个人的计件奖金数量
+function getPersonBonusTotal(){
+	var data={belongM:getBlongMonth()};
+	$.ajax({
+			  async: true,
+	          url:ctx+ "/award/getPersonBonusTotal" ,
+	          method: "post",
+	          dataType: "json",
+	          data: data,
+	          success: function(data){
+				  $("#awardAmount").html("0.00");
+				  if(data.success){
+					 if(data.content!=null){
+				  		$("#awardAmount").html(data.content);
+					 }
+				  }else{
+					  window.wxc.error(data.message);
+				  }
+	          }
+	     });
+}
+
 //清空查询条件
 $('#caseDetailsClean').click(function() {
 	$("input[name='caseCode']").val('');
 	$("input[name='propertyAddr']").val('');	
+	$("input[name='belongMonth']").val('');	
 });
 
 //日期控件,只能选择月份

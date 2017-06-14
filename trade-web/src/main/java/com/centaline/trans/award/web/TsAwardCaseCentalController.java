@@ -87,6 +87,27 @@ public class TsAwardCaseCentalController {
 	}
 	
 	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-05-22
+	 * 
+	 * @desc:分批次案件奖金明细统计列表
+	 */
+	@RequestMapping(value = "/newConsultantBonus")
+	public String newConsultBonus(HttpServletRequest request) {		
+		try{
+			tsAwardCaseCentalService.jumpToNewBonusJsp(request);			
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new BusinessException("请求页面跳转异常，请稍后再试！");
+		}	
+		
+		return "award/newBonus";
+		
+	}
+	
+	
 	
 	
 	/*
@@ -269,6 +290,7 @@ public class TsAwardCaseCentalController {
 	public AjaxResponse<String> updateTsAwardKpiPayStatusAndSyncManager(HttpServletRequest request,	String belongMonth) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try {
+			//TODO更新前 先判断上个月的状态是否已经调整
 			TsAwardKpiPay record = new TsAwardKpiPay();
 			// 确认状态
 			record.setStatus("1");

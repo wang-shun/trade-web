@@ -44,7 +44,8 @@
 		<!-- 计件奖金改版 -->
 		<pattern>/newAward/awardCaseCollect</pattern>
 		<pattern>/newAward/newMethodAwardCollect</pattern>
-
+		<pattern>/newAward/newConsultantBonus</pattern>
+		
 		<pattern>/property/processWaitList</pattern>	
 		<pattern>/property/processingList</pattern>
 		<pattern>/property/successList</pattern>
