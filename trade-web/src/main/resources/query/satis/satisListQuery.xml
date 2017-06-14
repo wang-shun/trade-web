@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>
-		<customDict id="qqManagerInfo" beanName="qqManagerInfo" />
-		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName" />
+		<customDict id="getCaseInfo" beanName="getCaseInfo" />
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -23,75 +22,51 @@
 			<baseSql>
 				<![CDATA[
 			       select 
-			       		s.PKID,
-			       		c.PKID CASE_ID,
-			       		s.STATUS,
-						s.CASE_CODE,
-						a.CTM_CODE,
-						p.PROPERTY_ADDR PR_ADDR,
-						SYSUSER.ORG_ID,
-						a.GRP_NAME AS AGENT_ORG_NAME,
-						a.AGENT_NAME,
-						a.agent_phone as MOBILE,
-						s.SIGN_TIME,
-						s.GUOHU_TIME,
-						s.CLOSE_TIME,
-						s.CALLER_ID,
-						c.ORG_ID C_ORG_ID,
-						a.WZ_NAME
+			       		PKID,
+			       		STATUS,
+						CASE_CODE,
+						SIGN_TIME,
+						GUOHU_TIME,
+						CLOSE_TIME,
+						CALLER_ID
 					from 
-						sctrans.T_CS_CASE_SATISFACTION s
-					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
-					LEFT JOIN sctrans.T_TO_CASE_INFO AS a ON s.CASE_CODE = a.CASE_CODE
-					LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
-					LEFT JOIN sctrans.T_TO_CASE c on c.case_code=s.case_code
-					LEFT JOIN sctrans.sys_org org ON s.CALLER_ID=org.ID
+						sctrans.T_CS_CASE_SATISFACTION
 					WHERE 1=1
 					<if test="surveySignTime != null and surveySignTime != ''">
-						and convert(varchar(10),s.SIGN_TIME,120) = #surveySignTime#
+						and convert(varchar(10),SIGN_TIME,120) = #surveySignTime#
 					</if>
 					<if test="surveyGuohuTime != null and surveyGuohuTime != ''">
-						and convert(varchar(10),s.GUOHU_TIME,120) = #surveyGuohuTime#
+						and convert(varchar(10),GUOHU_TIME,120) = #surveyGuohuTime#
 					</if>
 					<if test="status == null or status == ''">
-			           and s.STATUS != '7'
+			           and STATUS != '7'
 			        </if>
                     <if test="serviceJobCode == 'JYUKFZY' ">
-			           and s.CALLER_ID = #sessionUserId#
+			           and CALLER_ID = #sessionUserId#
 			        </if>
                     <if test="serviceJobCode == 'consultant' ">
-			           and CHARINDEX(#sessionUserId#, (select '/'+LEADING_PROCESS_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs where s.CASE_CODE = tgs.CASE_CODE for xml path(''))) > 0
+			           and CHARINDEX(#sessionUserId#, (select '/'+LEADING_PROCESS_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs where CASE_CODE = tgs.CASE_CODE for xml path(''))) > 0
 			        </if>
                     <if test="serviceJobCode == 'Manager' ">
-			           and CHARINDEX(#sessionUserId#, (select '/'+vuoj.USER_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs LEFT JOIN sctrans.V_USER_ORG_JOB vuoj on vuoj.ORG_ID = tgs.ORG_ID where C.CASE_CODE = tgs.CASE_CODE and vuoj.JOB_CODE='Manager' for xml path(''))) > 0
+			           and CHARINDEX(#sessionUserId#, (select '/'+vuoj.USER_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs LEFT JOIN sctrans.V_USER_ORG_JOB vuoj on vuoj.ORG_ID = tgs.ORG_ID where CASE_CODE = tgs.CASE_CODE and vuoj.JOB_CODE='Manager' for xml path(''))) > 0
 			        </if>
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY s.STATUS DESC
+			  ORDER BY STATUS DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>
 				<column type="both" name="PKID" index="" checkbox="" title="主键" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="CASE_ID" index="" checkbox="" title="案件ID" display="CASE_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="STATUS" index="" checkbox="" title="状态" display="STATUS" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" display="CASECODE" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="CTM_CODE" index="" checkbox="" title="CTM编号" display="CTM_CODE" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="PR_ADDR" index="" checkbox="" title="产证地址" display="PR_ADDR" customDict="" sysDict="" format="" width="360" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SIGN_TIME" index="" checkbox="" title="签约回访时间" display="SIGN_TIME" customDict="" sysDict="" format="" width="180" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"  align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="GUOHU_TIME" index="" checkbox="" title="过户回访时间" display="GUOHU_TIME" customDict="" sysDict="" format="" width="180" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"  align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CLOSE_TIME" index="" checkbox="" title="结束回访时间" display="CLOSE_TIME" customDict="" sysDict="" format="" width="180" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"  align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="AGENT_ORG_NAME" index="" checkbox="" title="经纪人组织" display="AGENT_ORG_NAME" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="AGENT_NAME" index="" checkbox="" title="经纪人" display="AGENT_NAME" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="MOBILE" index="" checkbox="" title="经纪人手机" display="MOBILE" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="ORG_ID" index="" checkbox="" title="组ID" display="ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="virtual" name="MANAGER_INFO" referencecol="ORG_ID" title="主管信息" index="" checkbox="" display="" customDict="qqManagerInfo" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="CALLER_ID" index="" checkbox="" title="回访专员ID" display="CALLER_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="virtual" name="CALLER_NAME" referencecol="CALLER_ID" index="" checkbox="" title="回访专员" customDict="qqcdUserIdName" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="C_ORG_ID" index="" checkbox="" title="所属组ID" display="C_ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="virtual" name="C_ORG_NAME" index="" checkbox="" title="所属组"  referencecol="C_ORG_ID"  customDict="qqcdOrgIdName" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="WZ_NAME" index="" checkbox="" display="WZ_NAME" title="所属区"  referencecol=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CALLER_ID" index="" checkbox="" title="客服ID" display="CALLER_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="virtual" name="CALLER_NAME" referencecol="CALLER_ID" index="" checkbox="" title="客服" customDict="qqcdUserIdName" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="CASE_ID,CTM_CODE,AGENT_ORG_NAME,AGENT_NAME,AGENT_PHONE,C_ORG_NAME,WZ_NAME,PROPERTY_ADDR" index="" checkbox="" title="案件ID,CTM编号,经纪人组别,经纪人,经纪人手机,所属组,所属区,产证地址"  referencecol="CASE_CODE"  customDict="getCaseInfo" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>
@@ -107,61 +82,36 @@
 			<baseSql>
 				<![CDATA[
 			       select 
-			       		CASE s.STATUS WHEN 1 THEN '未分单' WHEN 2 THEN '签约回访' WHEN 3 THEN '签约打回' WHEN 4 THEN '待过户'
+			       		CASE STATUS WHEN 1 THEN '未分单' WHEN 2 THEN '签约回访' WHEN 3 THEN '签约打回' WHEN 4 THEN '待过户'
 			       		WHEN 5 THEN '过户回访' WHEN 6 THEN '过户打回' WHEN 7 THEN '已回访' ELSE '' END STATUS_CN,
-						s.CASE_CODE,
-						a.CTM_CODE,
-						p.PROPERTY_ADDR PR_ADDR,
-						s.SIGN_TIME,
-						s.GUOHU_TIME,
-						s.CALLER_ID,
-						c.ORG_ID C_ORG_ID,
-						a.WZ_NAME
+						CASE_CODE,
+						SIGN_TIME,
+						GUOHU_TIME,
+						CALLER_ID
 					from 
-						sctrans.T_CS_CASE_SATISFACTION s
-					LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
-					LEFT JOIN sctrans.T_TO_CASE_INFO AS a ON s.CASE_CODE = a.CASE_CODE
-					LEFT JOIN SCTRANS.SYS_USER SYSUSER ON SYSUSER.ID = A.AGENT_CODE
-					LEFT JOIN sctrans.T_TO_CASE c on c.case_code=s.case_code
-					LEFT JOIN sctrans.sys_org org ON s.CALLER_ID=org.ID
+						sctrans.T_CS_CASE_SATISFACTION 
 					WHERE 1=1
 					<if test="surveySignTime != null and surveySignTime != ''">
-						and convert(varchar(10),s.SIGN_TIME,120) = #surveySignTime#
+						and convert(varchar(10),SIGN_TIME,120) = #surveySignTime#
 					</if>
 					<if test="surveyGuohuTime != null and surveyGuohuTime != ''">
-						and convert(varchar(10),s.GUOHU_TIME,120) = #surveyGuohuTime#
+						and convert(varchar(10),GUOHU_TIME,120) = #surveyGuohuTime#
 					</if>
 					<if test="status == null or status == ''">
-			           and s.STATUS != '7'
-			        </if>
-                    <if test="serviceJobCode == 'JYUKFZY' ">
-			           and s.CALLER_ID = #sessionUserId#
-			        </if>
-                    <if test="serviceJobCode == 'consultant' ">
-			           and CHARINDEX(#sessionUserId#, (select '/'+LEADING_PROCESS_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs where s.CASE_CODE = tgs.CASE_CODE for xml path(''))) > 0
-			        </if>
-                    <if test="serviceJobCode == 'Manager' ">
-			           and CHARINDEX(#sessionUserId#, (select '/'+vuoj.USER_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs LEFT JOIN sctrans.V_USER_ORG_JOB vuoj on vuoj.ORG_ID = tgs.ORG_ID where C.CASE_CODE = tgs.CASE_CODE and vuoj.JOB_CODE='Manager' for xml path(''))) > 0
+			           and STATUS != '7'
 			        </if>
 				]]>
 			</baseSql>
-			<orderBySql>
-			  ORDER BY s.STATUS DESC
-			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>
 				<column type="both" name="STATUS_CN" index="" checkbox="" title="状态" display="STATUS_CN" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" display="CASECODE" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="CTM_CODE" index="" checkbox="" title="CTM编号" display="CTM_CODE" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="PR_ADDR" index="" checkbox="" title="产证地址" display="PR_ADDR" customDict="" sysDict="" format="" width="360" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" display="CASE_CODE" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="SIGN_TIME" index="" checkbox="" title="签约回访时间" display="SIGN_TIME" customDict="" sysDict="" format="" width="180" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"  align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="GUOHU_TIME" index="" checkbox="" title="过户回访时间" display="GUOHU_TIME" customDict="" sysDict="" format="" width="180" isSort="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"  align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="CALLER_ID" index="" checkbox="" title="回访专员ID" display="CALLER_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="virtual" name="CALLER_NAME" referencecol="CALLER_ID" index="" checkbox="" title="回访专员" customDict="qqcdUserIdName" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
-				<column type="both" name="C_ORG_ID" index="" checkbox="" title="所属组ID" display="C_ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="virtual" name="C_ORG_NAME" index="" checkbox="" title="所属组"  referencecol="C_ORG_ID"  customDict="qqcdOrgIdName" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="both" name="WZ_NAME" index="" checkbox="" display="WZ_NAME" title="所属区"  referencecol=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CALLER_ID" index="" checkbox="" title="客服ID" display="CALLER_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="virtual" name="CALLER_NAME" referencecol="CALLER_ID" index="" checkbox="" title="客服" customDict="qqcdUserIdName" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="C_ORG_NAME,WZ_NAME,PROPERTY_ADDR" index="" checkbox="" title="所属组,所属区,产证地址"  referencecol="CASE_CODE"  customDict="getCaseInfo" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

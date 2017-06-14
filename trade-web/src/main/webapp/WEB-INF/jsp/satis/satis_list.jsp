@@ -197,11 +197,11 @@
                    </td>
                    <td>
                       <p class="big">
-                       	{{item.PR_ADDR}}{{item.STATUS}}
+                       	{{item.PROPERTY_ADDR}}
 					  </p>
 					  <span >
 						<i class="salesman-icon"></i>
- 						<a class="hint hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName==null?"":item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} "  >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
+ 						<a class="hint hint-top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_PHONE}}<span class="slash">/</span>{{item.C_ORG_NAME}}</a>						 
 					  </span>
                     </td>
                   	<td>
@@ -287,7 +287,7 @@
 								aist.exportExcel({
 									ctx : '${ctx}',
 									queryId : 'SatisListQueryForExport',
-									colomns : ['STATUS_CN', 'CASE_CODE', 'CTM_CODE', 'PR_ADDR','SIGN_TIME', 'GUOHU_TIME','C_ORG_NAME', 'WZ_NAME','CALLER_NAME'],
+									colomns : ['STATUS_CN', 'CASE_CODE', 'PROPERTY_ADDR','SIGN_TIME', 'GUOHU_TIME','C_ORG_NAME', 'WZ_NAME','CALLER_NAME'],
 									data : params
 								});
 							}
