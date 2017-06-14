@@ -70,7 +70,7 @@ public class LoanReleaseController
         toAccesoryListService.getAccesoryList(request, taskitem);
         ToMortgage mortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
         // 公积金的话无他证送抵时间
-        if ("30016003".equals(mortgage.getMortType()) && "1".equals(mortgage.getIsDelegateYucui()))
+        if (mortgage != null && "30016003".equals(mortgage.getMortType()) && "1".equals(mortgage.getIsDelegateYucui()))
         {
             tz = false;
         }
