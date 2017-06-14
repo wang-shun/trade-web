@@ -1,0 +1,50 @@
+package com.centaline.trans.common.service.impl;
+
+
+import com.aist.common.quickQuery.service.CustomDictService;
+import com.aist.common.quickQuery.utils.QuickQueryJdbcTemplate;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+/**
+ * 根据businessKey查询模版名
+ * @author caoy
+ *
+ */
+public class QuickQueryWFENameServiceImpl implements CustomDictService{
+	@Autowired
+	private QuickQueryJdbcTemplate jdbcTemplate;
+    private static String sql = "select WFE_NAME as v from sctrans.SYS_WFE_TEMPLATE where WFE_CODE=:code";
+      
+    @Override
+	public List<Map<String, Object>> findDicts(List<Map<String, Object>> keys) {			   
+		
+		for (Map<String, Object> key : keys) {
+			if(key==null){
+				continue;
+			}
+			Object business_key = key.get("BUSINESS_KEY");
+			if (!StringUtils.isBlank((String)business_key)) {
+				Map paramMap = new HashMap();
+				paramMap.put("code", (String) business_key);
+				key.put("val", jdbcTemplate.queryForObject(sql, paramMap, String.class));
+			}
+		}
+		return keys;
+	}	
+  
+	@Override
+	public Boolean getIsBatch() {
+		return true;
+	}
+	public Boolean isCacheable(){
+    	return false;
+    }
+
+}
