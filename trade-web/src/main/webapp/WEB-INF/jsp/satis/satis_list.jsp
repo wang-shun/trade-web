@@ -294,7 +294,7 @@
 
 							//清空数据
 							function clearForm() {
-								$(".input_type").val("");
+								$(".input_type,#userId").val("");
 								$(".select_control option:first").prop("selected", true);
 							}
 

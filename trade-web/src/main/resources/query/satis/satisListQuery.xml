@@ -22,33 +22,34 @@
 			<baseSql>
 				<![CDATA[
 			       select 
-			       		PKID,
-			       		STATUS,
-						CASE_CODE,
-						SIGN_TIME,
-						GUOHU_TIME,
-						CLOSE_TIME,
-						CALLER_ID
+			       		s.PKID,
+			       		s.STATUS,
+						s.CASE_CODE,
+						s.SIGN_TIME,
+						s.GUOHU_TIME,
+						s.CLOSE_TIME,
+						s.CALLER_ID
 					from 
-						sctrans.T_CS_CASE_SATISFACTION
+						sctrans.T_CS_CASE_SATISFACTION s
+						LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
 					WHERE 1=1
 					<if test="surveySignTime != null and surveySignTime != ''">
-						and convert(varchar(10),SIGN_TIME,120) = #surveySignTime#
+						and convert(varchar(10),s.SIGN_TIME,120) = #surveySignTime#
 					</if>
 					<if test="surveyGuohuTime != null and surveyGuohuTime != ''">
-						and convert(varchar(10),GUOHU_TIME,120) = #surveyGuohuTime#
+						and convert(varchar(10),s.GUOHU_TIME,120) = #surveyGuohuTime#
 					</if>
 					<if test="status == null or status == ''">
-			           and STATUS != '7'
+			           and s.STATUS != '7'
 			        </if>
                     <if test="serviceJobCode == 'JYUKFZY' ">
-			           and CALLER_ID = #sessionUserId#
+			           and s.CALLER_ID = #sessionUserId#
 			        </if>
                     <if test="serviceJobCode == 'consultant' ">
-			           and CHARINDEX(#sessionUserId#, (select '/'+LEADING_PROCESS_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs where CASE_CODE = tgs.CASE_CODE for xml path(''))) > 0
+			           and CHARINDEX(#sessionUserId#, (select '/'+tgs.LEADING_PROCESS_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs where s.CASE_CODE = tgs.CASE_CODE for xml path(''))) > 0
 			        </if>
                     <if test="serviceJobCode == 'Manager' ">
-			           and CHARINDEX(#sessionUserId#, (select '/'+vuoj.USER_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs LEFT JOIN sctrans.V_USER_ORG_JOB vuoj on vuoj.ORG_ID = tgs.ORG_ID where CASE_CODE = tgs.CASE_CODE and vuoj.JOB_CODE='Manager' for xml path(''))) > 0
+			           and CHARINDEX(#sessionUserId#, (select '/'+vuoj.USER_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs LEFT JOIN sctrans.V_USER_ORG_JOB vuoj on vuoj.ORG_ID = tgs.ORG_ID where s.CASE_CODE = tgs.CASE_CODE and vuoj.JOB_CODE='Manager' for xml path(''))) > 0
 			        </if>
 				]]>
 			</baseSql>
@@ -82,23 +83,24 @@
 			<baseSql>
 				<![CDATA[
 			       select 
-			       		CASE STATUS WHEN 1 THEN '未分单' WHEN 2 THEN '签约回访' WHEN 3 THEN '签约打回' WHEN 4 THEN '待过户'
+			       		CASE s.STATUS WHEN 1 THEN '未分单' WHEN 2 THEN '签约回访' WHEN 3 THEN '签约打回' WHEN 4 THEN '待过户'
 			       		WHEN 5 THEN '过户回访' WHEN 6 THEN '过户打回' WHEN 7 THEN '已回访' ELSE '' END STATUS_CN,
-						CASE_CODE,
-						SIGN_TIME,
-						GUOHU_TIME,
-						CALLER_ID
+						s.CASE_CODE,
+						s.SIGN_TIME,
+						s.GUOHU_TIME,
+						s.CALLER_ID
 					from 
-						sctrans.T_CS_CASE_SATISFACTION 
+						sctrans.T_CS_CASE_SATISFACTION s
+						LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
 					WHERE 1=1
 					<if test="surveySignTime != null and surveySignTime != ''">
-						and convert(varchar(10),SIGN_TIME,120) = #surveySignTime#
+						and convert(varchar(10),s.SIGN_TIME,120) = #surveySignTime#
 					</if>
 					<if test="surveyGuohuTime != null and surveyGuohuTime != ''">
-						and convert(varchar(10),GUOHU_TIME,120) = #surveyGuohuTime#
+						and convert(varchar(10),s.GUOHU_TIME,120) = #surveyGuohuTime#
 					</if>
 					<if test="status == null or status == ''">
-			           and STATUS != '7'
+			           and s.STATUS != '7'
 			        </if>
 				]]>
 			</baseSql>
