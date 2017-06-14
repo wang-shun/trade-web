@@ -20,7 +20,9 @@ public enum OldActivitiFormKey {
     PSFApply("PSFApply","PSFApply"),
     PSFApprove("PSFApprove","PSFApprove"),
     PSFSign("PSFSign","PSFSign"),
-
+    LoanRelease("LoanRelease","loanRelease"),
+    TransPlanFilling("TransPlanFilling","transPlan"),
+    MortgageSelect("MortgageSelect","mortgageSelect"),
     NOT_FOUND("", "未知的枚举类型");
 
 
