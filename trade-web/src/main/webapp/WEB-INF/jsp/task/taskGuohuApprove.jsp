@@ -166,38 +166,6 @@
                 </li>
             </ul>
         </div>
-        <h2 class="newtitle title-mark">经纪人是否陪同</h2>
-        <div class="text_list">
-            <ul class="textinfo">
-                <li>
-                    <em>经纪人是否陪同</em>
-                            <span class="yuanwid">
-                                <c:if test="${houseTransfer.accompany == '1'}">
-                                    是
-                                </c:if>
-                                 <c:if test="${houseTransfer.accompany == '0'}">
-                                     否
-                                 </c:if>
-                 		    </span>
-                </li>
-                <c:if test="${houseTransfer.accompany == '1'}">
-                    <li>
-                        <em>陪同原因</em>
-                            <span class="">
-                                    ${accompanyReasonCn}
-                            </span>
-                    </li>
-                </c:if>
-            </ul>
-            <div class="other_reason_title"> <em>其他原因</em></div>
-            <div class="other_reason"> a速度等等等等等等等等等等等等等等等等等等</div>
-           <%-- <li style="clear:left;">
-                <em>其他原因</em>
-                            <span class="">
-                                ${houseTransfer.accompanyOthersReason}
-                            </span>
-            </li>--%>
-        </div>
     </div>
     <div class="clearfix">
         <c:if test="${!empty toMortgage}">
