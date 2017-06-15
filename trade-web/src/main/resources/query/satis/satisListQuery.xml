@@ -34,11 +34,17 @@
 						sctrans.T_CS_CASE_SATISFACTION s
 						LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
 					WHERE 1=1
-					<if test="surveySignTime != null and surveySignTime != ''">
-						and convert(varchar(10),s.SIGN_TIME,120) = #surveySignTime#
+					<if test="surveySignTimeStart != null and surveySignTimeStart != ''">
+						and datediff(day, #surveySignTimeStart#, s.SIGN_TIME) >= 0
 					</if>
-					<if test="surveyGuohuTime != null and surveyGuohuTime != ''">
-						and convert(varchar(10),s.GUOHU_TIME,120) = #surveyGuohuTime#
+					<if test="surveySignTimeEnd != null and surveySignTimeEnd != ''">
+						and datediff(day, #surveySignTimeEnd#, s.SIGN_TIME) &lt;= 0
+					</if>
+					<if test="surveyGuohuTimeStart != null and surveyGuohuTimeStart != ''">
+						and datediff(day, #surveyGuohuTimeStart#, s.GUOHU_TIME) >= 0
+					</if>
+					<if test="surveyGuohuTimeEnd != null and surveyGuohuTimeEnd != ''">
+						and datediff(day, #surveyGuohuTimeEnd#, s.GUOHU_TIME) &lt;= 0
 					</if>
 					<if test="status == null or status == ''">
 			           and s.STATUS != '7'
@@ -96,11 +102,17 @@
 						sctrans.T_CS_CASE_SATISFACTION s
 						LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
 					WHERE 1=1
-					<if test="surveySignTime != null and surveySignTime != ''">
-						and convert(varchar(10),s.SIGN_TIME,120) = #surveySignTime#
+					<if test="surveySignTimeStart != null and surveySignTimeStart != ''">
+						and datediff(day, #surveySignTimeStart#, s.SIGN_TIME) >= 0
 					</if>
-					<if test="surveyGuohuTime != null and surveyGuohuTime != ''">
-						and convert(varchar(10),s.GUOHU_TIME,120) = #surveyGuohuTime#
+					<if test="surveySignTimeEnd != null and surveySignTimeEnd != ''">
+						and datediff(day, #surveySignTimeEnd#, s.SIGN_TIME) &lt;= 0
+					</if>
+					<if test="surveyGuohuTimeStart != null and surveyGuohuTimeStart != ''">
+						and datediff(day, #surveyGuohuTimeStart#, s.GUOHU_TIME) >= 0
+					</if>
+					<if test="surveyGuohuTimeEnd != null and surveyGuohuTimeEnd != ''">
+						and datediff(day, #surveyGuohuTimeEnd#, s.GUOHU_TIME) &lt;= 0
 					</if>
 					<if test="status == null or status == ''">
 			           and s.STATUS != '7'

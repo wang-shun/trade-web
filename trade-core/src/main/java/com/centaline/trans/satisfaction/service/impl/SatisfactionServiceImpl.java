@@ -177,8 +177,11 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	        variables.add(new RestVariable("consultant1",consultant1.getUsername()));
 	        variables.add(new RestVariable("consultant2",consultant2.getUsername()));
 	        variables.add(new RestVariable("signResult", false));//此处做默认设定，否则workFlowManager.setVariableByProcessInsId会报错
+	        
+	        ToSatisfaction toSatisfaction = queryToSatisfactionByCaseCode(caseCode);
+	        
 	        StartProcessInstanceVo vo = workFlowManager.startWorkFlow(new ProcessInstance(propertyUtilsService.getSatisProcessDfKey(),
-	        		caseCode, variables));
+	        		toSatisfaction.getCastsatCode(), variables));
 	        boolean skipSign = false;
 	        /**过户案件特殊处理---START**/
 	        Date guohuApplyTime = vCaseTradeInfoMapper.selectGuohuSubTime(caseCode);
@@ -196,7 +199,6 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	        }
 	        /**过户案件特殊处理---END**/
 	        //更新满意度表
-	        ToSatisfaction toSatisfaction = queryToSatisfactionByCaseCode(caseCode);
 	        toSatisfaction.setStatus(skipSign?SatisfactionStatusEnum.GUOHU_SURVEY_ING.getCode():SatisfactionStatusEnum.SIGN_SURVEY_ING.getCode());
 	        toSatisfaction.setSignTime(skipSign?new Date():null);
 	        toSatisfaction.setUpdateBy(user.getId());
@@ -205,7 +207,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	        updateSelective(toSatisfaction);
 	        //插入流程表
 	        ToWorkFlow twf = new ToWorkFlow();
-	        twf.setBizCode(toSatisfaction.getPkid().toString());
+	        twf.setBizCode(toSatisfaction.getCastsatCode());
 	        twf.setCaseCode(caseCode);
 	        twf.setBusinessKey(WorkFlowEnum.SATIS_DEFKEY.getCode());
 	        twf.setProcessDefinitionId(propertyUtilsService.getSatisProcessDfKey());
