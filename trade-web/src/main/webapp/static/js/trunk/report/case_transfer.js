@@ -260,6 +260,10 @@ function newCaseTransferExportToExcel() {
 	displayColomn.push('CASE_USE_CARD_PAY_CN');
 	displayColomn.push('CASE_CARD_PAY_AMOUNT');
 
+	displayColomn.push('TRANSFER_ACCOMPANY_CN');
+	displayColomn.push('TRANSFER_ACCOMPANY_REASON_CN');
+	displayColomn.push('TRANSFER_ACCOMPANY_OTHERS_REASON');
+
 	var params = getParamsValue();
 	var queryId = '&queryId=optimizeQueryCastTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;

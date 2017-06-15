@@ -124,7 +124,10 @@
 							B.ELOAN_KA_AMOUNT_STR,
 							B.CASE_USE_CARD_PAY,
 							B.CASE_USE_CARD_PAY_CN,
-							B.CASE_CARD_PAY_AMOUNT							
+							B.CASE_CARD_PAY_AMOUNT,
+							B.TRANSFER_ACCOMPANY_CN,
+							B.TRANSFER_ACCOMPANY_REASON_CN,
+							B.TRANSFER_ACCOMPANY_OTHERS_REASON
 										
 					FROM  sctrans.T_RPT_CASE_BASE_INFO B
 						  INNER JOIN SCTRANS.T_TO_WORKFLOW W  ON B.CASE_CODE = W.CASE_CODE	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4)
@@ -227,6 +230,9 @@
 				<column type="both" name="CASE_CARD_PAY_AMOUNT" title="刷卡金额" expType="Double" 	customDict="" hidden="true" />
 				<column type="both" name="SIGN_HOUSE_QUANTITY_CN" title="是否首套"	customDict="" hidden="false" />
 
+				<column type="both" name="TRANSFER_ACCOMPANY_CN" title="经纪人是否陪同"	customDict="" hidden="false" />
+				<column type="both" name="TRANSFER_ACCOMPANY_REASON_CN" title="陪同原因"	customDict="" hidden="false" />
+				<column type="both" name="TRANSFER_ACCOMPANY_OTHERS_REASON" title="陪同其他原因"	customDict="" hidden="false" />
 			</table-row>
 		</grid>
 	</query>
