@@ -82,11 +82,13 @@
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>        
     <!-- Mainly scripts -->
     <content tag="local_script">
-    <script src="<c:url value='/static/js/jquery-2.1.1.js' />" ></script>
+	<%--
+	<script src="<c:url value='/static/js/jquery-2.1.1.js' />" ></script>
     <script src="<c:url value='/static/js/bootstrap.min.js' />" ></script>      
     <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
     <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
-     <!-- 日期控件 -->
+     --%>
+    <!-- 日期控件 -->
     <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>     
     <!-- Custom and plugin javascript -->
     <script src="<c:url value='/js/inspinia.js' />"></script>
