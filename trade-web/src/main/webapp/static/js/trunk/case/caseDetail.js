@@ -1736,6 +1736,9 @@ function editWdCase(){
  * 2017年6月9日17:56:12
  */
 function delLiushui( pkid){
+	
+	window.wxc.confirm("您是否确认删除？",{"wxcOk":function(){
+
 	var url = "/caseMerge/delLiushui";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
@@ -1761,6 +1764,8 @@ function delLiushui( pkid){
 			
 		}
 	});
+	
+	}});
 }
 
 
