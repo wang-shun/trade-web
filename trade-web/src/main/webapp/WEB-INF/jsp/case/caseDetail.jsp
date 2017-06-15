@@ -1212,7 +1212,9 @@
                                     <div class="table_content">
 	                                <p>
 	                                    <span class="mr10">应收金额:<strong>${commCostAmount}元</strong></span>
-	                                    <a > <button type="button" class="btn btn-success mr5" id="addLiushui"> 新增实收 </button> </a>
+	                                    <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE">
+											<a > <button type="button" class="btn btn-success mr5" id="addLiushui"> 新增实收 </button> </a>
+										</shiro:hasPermission>
 	                                </p>
  		                            <table class="table table_blue table-striped table-bordered table-hover customerinfo" id="editable"> 
 		                                <thead>
@@ -1241,7 +1243,9 @@
 														</c:forEach>
 												</td>
 												<td>
-														<a id="delLiushui" onclick="delLiushui(${item.pkid})"> 删除 </a>
+												 <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE">
+												 	<a id="delLiushui" onclick="delLiushui(${item.pkid})"> 删除 </a>
+												 </shiro:hasPermission>
 												</td>
 											</tr>
 										</c:forEach>
