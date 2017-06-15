@@ -159,7 +159,9 @@ public class GuohuApproveController {
 		String accompanyReasonCN = "";
 		for(int i =0;i<code.length;i++){
 			Dict dict = uamBasedataService.findDictByTypeAndCode("accompany_reason",code[i]);
-			accompanyReasonCN=accompanyReasonCN+dict.getName()+";";
+			if(dict!=null){
+				accompanyReasonCN=accompanyReasonCN+dict.getName()+";";
+			}
 		}
 		return accompanyReasonCN;
 	}

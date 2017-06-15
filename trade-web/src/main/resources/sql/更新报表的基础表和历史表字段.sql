@@ -73,6 +73,18 @@ ALTER TABLE [sctrans].T_TO_HOUSE_TRANSFER ADD ACCOMPANY_REASON  [nvarchar](320);
 ALTER  TABLE sctrans.T_TO_HOUSE_TRANSFER  ADD 	ACCOMPANY_OTHERS_REASON   [varchar](1000);  --陪同选择原因其他手写原因
 
 
+ALTER TABLE [sctrans].[T_RPT_CASE_BASE_INFO]  ADD TRANSFER_ACCOMPANY                 [char](1);  --是否陪同
+ALTER TABLE [sctrans].[T_RPT_CASE_BASE_INFO]  ADD TRANSFER_ACCOMPANY_REASON          [nvarchar](320);  --陪同原因
+ALTER  TABLE sctrans.[T_RPT_CASE_BASE_INFO]   ADD TRANSFER_ACCOMPANY_OTHERS_REASON   [varchar](1000);  --陪同选择原因其他手写原因
+
+
+
+ALTER TABLE [sctrans].[T_RPT_CASE_BASE_INFO]  ADD TRANSFER_ACCOMPANY_CN              [nvarchar](100);  --是否陪同
+ALTER TABLE [sctrans].[T_RPT_CASE_BASE_INFO]  ADD TRANSFER_ACCOMPANY_REASON_CN       [nvarchar](500);  --陪同原因
+
+
+
+
 ALTER TABLE [sctrans].[T_TO_SIGN] ADD [HOUSE_QUANTITY]  [char](1);
 ALTER TABLE [sctrans].[T_RPT_CASE_BASE_INFO] ADD [SIGN_HOUSE_QUANTITY]  [char](1);
 ALTER TABLE [sctrans].[T_RPT_CASE_BASE_INFO] ADD [SIGN_HOUSE_QUANTITY_CN]  [varchar](50);
