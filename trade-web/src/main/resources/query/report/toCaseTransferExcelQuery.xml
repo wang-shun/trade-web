@@ -384,7 +384,7 @@
 				<column type="both" name="FIN_ORG_CODE" title="银行code" customDict="" hidden="false" />
 				<column type="virtual" name="FIN_ORG_NAME" title="银行"		customDict="qqFenHang" hidden="false" referencecol="FIN_ORG_CODE"/>
 				<column type="virtual" name="FIN_ORG_NAME_YC" title="支行"	customDict="qqFinOrgNameYC" hidden="false" referencecol="FIN_ORG_CODE"/>
-				<column type="virtual" name="GUOHUDJ,DISTNAME,PROPERTY_ADDR,CON_PRICE,REAL_HT_TIME,EVAL_FEE" title="过户单价,过户区域,产证地址,合同价（万元）,实际过户时间,评估费" customDict="guoHuPrice" hidden="false" referencecol="CASE_CODE"/>
+				<column type="virtual" name="GUOHUDJ,DISTNAME,PROPERTY_ADDR,CON_PRICE,REAL_HT_TIME,EVAL_FEE,ACCOMPANY,ACCOMPANY_REASON" title="过户单价,过户区域,产证地址,合同价（万元）,实际过户时间,评估费,经纪人是否陪同,陪同原因" customDict="guoHuPrice" hidden="false" referencecol="CASE_CODE"/>
 				<column type="both" name="COM_AMOUNT" title="商贷金额(万元)"	customDict="" hidden="false" expType="Double"/>
 				<column type="both" name="PRF_AMOUNT" title="公积金金额(万元)"	customDict="" hidden="false" expType="Double"/>
 				<column type="both" name="ACCOUNT" title="贷款总额(万元)" customDict=""	hidden="false" expType="Double"/>

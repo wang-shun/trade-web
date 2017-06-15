@@ -339,6 +339,9 @@ function oldCaseTransferExportToExcel() {
 	displayColomn.push('USE_CARD_PAY');
 	displayColomn.push('CARD_PAY_AMOUNT');
 
+	displayColomn.push('ACCOMPANY');
+	displayColomn.push('ACCOMPANY_REASON');
+
 	var params = getParamsValue();
 	var queryId = '&queryId=queryCastTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
