@@ -15,19 +15,20 @@
     <result column="BUSINESS_TAX" property="businessTax" jdbcType="DECIMAL" />
     <result column="CONTRACT_TAX" property="contractTax" jdbcType="DECIMAL" />
     <result column="LAND_INCREMENT_TAX" property="landIncrementTax" jdbcType="DECIMAL" />
+    <result column="HOUSE_QUANTITY" property="houseQuantity" jdbcType="CHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.task.entity.ToSign" extends="BaseResultMap" >
     <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, PART_CODE, CASE_CODE, REAL_CON_TIME, CON_PRICE, REAL_PRICE, IS_HUKOU, IS_CON_CERT,
-    HOUSE_HODING_TAX, PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX
+    HOUSE_HODING_TAX, PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,HOUSE_QUANTITY
   </sql>
   <sql id="Blob_Column_List" >
     COMMENT
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -39,14 +40,14 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.task.entity.ToSign" >
-    insert into sctrans.T_TO_SIGN (PKID, PART_CODE, CASE_CODE, 
-      REAL_CON_TIME, CON_PRICE, REAL_PRICE, 
-      IS_HUKOU, IS_CON_CERT, COMMENT, CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY
-      )
-    values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
-      #{realConTime,jdbcType=TIMESTAMP}, #{conPrice,jdbcType=DECIMAL}, #{realPrice,jdbcType=DECIMAL}, 
-      #{isHukou,jdbcType=CHAR}, #{isConCert,jdbcType=CHAR}, #{comment,jdbcType=LONGVARCHAR},GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID}
-      )
+    insert into sctrans.T_TO_SIGN (PKID, PART_CODE, CASE_CODE,
+    REAL_CON_TIME, CON_PRICE, REAL_PRICE,
+    IS_HUKOU, IS_CON_CERT, COMMENT, CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY
+    )
+    values (#{pkid,jdbcType=BIGINT}, #{partCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR},
+    #{realConTime,jdbcType=TIMESTAMP}, #{conPrice,jdbcType=DECIMAL}, #{realPrice,jdbcType=DECIMAL},
+    #{isHukou,jdbcType=CHAR}, #{isConCert,jdbcType=CHAR}, #{comment,jdbcType=LONGVARCHAR},GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID}
+    )
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToSign" >
     insert into sctrans.T_TO_SIGN
@@ -93,7 +94,10 @@
       <if test="landIncrementTax != null" >
         LAND_INCREMENT_TAX,
       </if>
-        CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
+      <if test="houseQuantity != null" >
+        HOUSE_QUANTITY,
+      </if>
+      CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -138,7 +142,11 @@
       <if test="landIncrementTax != null" >
         #{landIncrementTax,jdbcType=DECIMAL},
       </if>
-        GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
+      <if test="houseQuantity != null" >
+        #{houseQuantity,jdbcType=CHAR},
+      </if>
+
+      GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToSign" >
@@ -168,7 +176,7 @@
       <if test="comment != null and comment != ''" >
         COMMENT = #{comment,jdbcType=LONGVARCHAR},
       </if>
-       <if test="houseHodingTax != null" >
+      <if test="houseHodingTax != null" >
         HOUSE_HODING_TAX = #{houseHodingTax,jdbcType=DECIMAL},
       </if>
       <if test="personalIncomeTax != null" >
@@ -183,7 +191,10 @@
       <if test="landIncrementTax != null" >
         LAND_INCREMENT_TAX = #{landIncrementTax,jdbcType=DECIMAL},
       </if>
-        UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},
+      <if test="houseQuantity != null" >
+        HOUSE_QUANTITY = #{houseQuantity,jdbcType=DECIMAL},
+      </if>
+      UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},
     </set>
     ,IS_ACTIVE='1'
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -191,33 +202,33 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.task.entity.ToSign" >
     update sctrans.T_TO_SIGN
     set PART_CODE = #{partCode,jdbcType=VARCHAR},
-      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
-      REAL_CON_TIME = #{realConTime,jdbcType=TIMESTAMP},
-      CON_PRICE = #{conPrice,jdbcType=DECIMAL},
-      REAL_PRICE = #{realPrice,jdbcType=DECIMAL},
-      IS_HUKOU = #{isHukou,jdbcType=CHAR},
-      IS_CON_CERT = #{isConCert,jdbcType=CHAR},
-      COMMENT = #{comment,jdbcType=LONGVARCHAR},
-      UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
-      ,IS_ACTIVE='1'
+    CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+    REAL_CON_TIME = #{realConTime,jdbcType=TIMESTAMP},
+    CON_PRICE = #{conPrice,jdbcType=DECIMAL},
+    REAL_PRICE = #{realPrice,jdbcType=DECIMAL},
+    IS_HUKOU = #{isHukou,jdbcType=CHAR},
+    IS_CON_CERT = #{isConCert,jdbcType=CHAR},
+    COMMENT = #{comment,jdbcType=LONGVARCHAR},
+    UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
+    ,IS_ACTIVE='1'
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ToSign" >
     update sctrans.T_TO_SIGN
     set PART_CODE = #{partCode,jdbcType=VARCHAR},
-      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
-      REAL_CON_TIME = #{realConTime,jdbcType=TIMESTAMP},
-      CON_PRICE = #{conPrice,jdbcType=DECIMAL},
-      REAL_PRICE = #{realPrice,jdbcType=DECIMAL},
-      IS_HUKOU = #{isHukou,jdbcType=CHAR},
-      IS_CON_CERT = #{isConCert,jdbcType=CHAR}
-      ,IS_ACTIVE='1', UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
+    CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+    REAL_CON_TIME = #{realConTime,jdbcType=TIMESTAMP},
+    CON_PRICE = #{conPrice,jdbcType=DECIMAL},
+    REAL_PRICE = #{realPrice,jdbcType=DECIMAL},
+    IS_HUKOU = #{isHukou,jdbcType=CHAR},
+    IS_CON_CERT = #{isConCert,jdbcType=CHAR}
+    ,IS_ACTIVE='1', UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  
-   <select id="findToSignByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
 
-    select 
+  <select id="findToSignByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select
 
     <include refid="Base_Column_List" />,<include refid="Blob_Column_List"/>
 

@@ -25,7 +25,7 @@ $(document).ready(function() {
 		reloadGrid : searchMethod
 	});
 	reloadGrid(data);
-	
+
 });
 
 // 日期控件
@@ -64,7 +64,7 @@ function searchMethod(page) {
 };
 
 function reloadGrid(data) {
-	
+
 	aist.wrap(data);
 
 	var sortcolumn = $('span.active').attr("sortColumn");
@@ -176,7 +176,7 @@ function getParamsValue() {
 		propertyAddr : propertyAddr,
 		serviceDepId :$("#serviceDepId").val(),
 		jobCode : $("#jobCode").val()
-	};	
+	};
 	return params;
 }
 
@@ -189,7 +189,7 @@ function cleanForm() {
 	$("select").val("");
 	$("input[name='realName']").val("");
 	$("input[name='orgName']").val("");
-	$("input[name='managerName']").val("");	
+	$("input[name='managerName']").val("");
 	$("input[name='caseCode']").val("");
 	$("input[name='propertyAddr']").val("");
 }
@@ -197,7 +197,7 @@ function cleanForm() {
 /*
  * 过户优化后的导出字段信息
  * */
-function newCaseTransferExportToExcel() {	
+function newCaseTransferExportToExcel() {
 
 	var url = "/quickGrid/findPage?xlsx&";
 	var ctx = $("#ctx").val();
@@ -208,64 +208,64 @@ function newCaseTransferExportToExcel() {
 	displayColomn.push('GRP_NAME');
 	displayColomn.push('AGENT_NAME');
 	displayColomn.push('AGENT_PHONE');
-	
+
 	displayColomn.push('CASE_DISTRICT_NAME');
 	displayColomn.push('TRANSFER_TRADE_NAME');
 	displayColomn.push('CASE_HOUSE_UNIT_PRICE');
 	displayColomn.push('HOUSR_DIST_CODE_CN');
-	
+	displayColomn.push('SIGN_HOUSE_QUANTITY_CN');
 	//displayColomn.push('dist_name');
 	displayColomn.push('TRANSFER_REAL_HT_TIME');
 	displayColomn.push('TRANSFER_CREATE_TIME');
-	displayColomn.push('CTM_CODE');	
+	displayColomn.push('CTM_CODE');
 	displayColomn.push('MORT_CUST_NAME');
-	displayColomn.push('MORT_CUST_PHONE');	
-	displayColomn.push('HOUSR_PROPERTY_ADDR');	
-	displayColomn.push('CASE_CON_PRICE');	
+	displayColomn.push('MORT_CUST_PHONE');
+	displayColomn.push('HOUSR_PROPERTY_ADDR');
+	displayColomn.push('CASE_CON_PRICE');
 	displayColomn.push('MORT_FIN_BRANCH_NAME');
 	displayColomn.push('MORT_FIN_SUB_BRANCH_NAME');
-	
+
 	displayColomn.push('MORT_COM_AMOUNT');
 	displayColomn.push('MORT_PRF_AMOUNT');
 	displayColomn.push('MORT_TOTAL_AMOUNT');
 	displayColomn.push('MORT_COM_DISCOUNT');
-	displayColomn.push('CASE_CODE');	
-	
+	displayColomn.push('CASE_CODE');
+
 	displayColomn.push('MORT_TYPE_CN');
 	displayColomn.push('CASE_REAL_NAME_F');
 	displayColomn.push('CASE_REC_STATUS_CN');
 	displayColomn.push('LOAN_LOST_APPLY_REASON');
 	displayColomn.push('LOAN_SELF_DEL_REASON');
-	displayColomn.push('EVA_EVAL_FEE');	
-	
+	displayColomn.push('EVA_EVAL_FEE');
+
 	displayColomn.push('GUEST_NAME_UP');
-	displayColomn.push('GUEST_PHONE_UP');	
+	displayColomn.push('GUEST_PHONE_UP');
 	displayColomn.push('GUEST_NAME_DOWN');
 	displayColomn.push('GUEST_PHONE_DOWN');
-	
+
 	displayColomn.push('TRANSFER_SUB_TIME');
-	displayColomn.push('TRANSFER_APP_TIME');	
+	displayColomn.push('TRANSFER_APP_TIME');
 	displayColomn.push('TRANSFER_ISPASS_CN');
 	displayColomn.push('TRANSFER_APP_OPERATOR_NAME');
 	displayColomn.push('TRANSFER_LAST_CONTENT');
-	displayColomn.push('TRANSFER_NOT_APPROVE');	
+	displayColomn.push('TRANSFER_NOT_APPROVE');
 	displayColomn.push('CASE_MANAGER_REAL_NAME');
 	displayColomn.push('CASE_MANAGER_ORG_NAME');
 	displayColomn.push('AR_NAME');
-	
+
 	displayColomn.push('ELOAN_PRO');
 	displayColomn.push('ELOAN_PRO_AMOUNT');
 	displayColomn.push('ELOAN_KA');
 	displayColomn.push('ELOAN_KA_AMOUNT_STR');
 	displayColomn.push('CASE_USE_CARD_PAY_CN');
 	displayColomn.push('CASE_CARD_PAY_AMOUNT');
-	
-	var params = getParamsValue();	
+
+	var params = getParamsValue();
 	var queryId = '&queryId=optimizeQueryCastTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
 
 	url = ctx + url + jQuery.param(params) + queryId + ""
-			+ "" + colomns;
+		+ "" + colomns;
 
 	$('#excelForm').attr('action', url);
 
@@ -288,19 +288,20 @@ function oldCaseTransferExportToExcel() {
 	displayColomn.push('GRP_NAME');
 	displayColomn.push('AGENT_NAME');
 	displayColomn.push('AGENT_PHONE');
-	
+
 	displayColomn.push('GUOHU_ORG_NAME');
 	displayColomn.push('GUOHU_REAL_NAME');
 	displayColomn.push('GUOHUDJ');
 	displayColomn.push('DISTNAME');
-	
+	displayColomn.push('HOUSE_QUANTITY');
+
 	//displayColomn.push('dist_name');
 	displayColomn.push('REAL_HT_TIME');
 	displayColomn.push('START_TIME');
 	displayColomn.push('CTM_CODE');
 	displayColomn.push('CUST_NAME');
 	displayColomn.push('GUEST_PHONE');
-	displayColomn.push('PROPERTY_ADDR');	
+	displayColomn.push('PROPERTY_ADDR');
 	displayColomn.push('CON_PRICE');
 	displayColomn.push('FIN_ORG_NAME');
 	displayColomn.push('FIN_ORG_NAME_YC');
@@ -308,20 +309,20 @@ function oldCaseTransferExportToExcel() {
 	displayColomn.push('PRF_AMOUNT');
 	displayColomn.push('ACCOUNT');
 	displayColomn.push('COM_DISCOUNT');
-	displayColomn.push('CASE_CODE');	
+	displayColomn.push('CASE_CODE');
 	displayColomn.push('MORT_TYPE_NAME');
 	displayColomn.push('SPONSOR');
 	displayColomn.push('SDSTATUS');
 	displayColomn.push('loanlost_apply_reason');
 	displayColomn.push('SELF_DEL_REASON');
 	displayColomn.push('EVAL_FEE');
-	
+
 	displayColomn.push('SELLER');
-	displayColomn.push('SELLER_MOBILE');	
+	displayColomn.push('SELLER_MOBILE');
 	displayColomn.push('BUYER');
 	displayColomn.push('BUYER_MOBILE');
 	displayColomn.push('TRANSFERDATE');
-	displayColomn.push('CASETRANSFERDATE');	
+	displayColomn.push('CASETRANSFERDATE');
 	displayColomn.push('N_STATUS');
 	displayColomn.push('ASSESSOR');
 	displayColomn.push('LAST_CONTENT');
@@ -330,20 +331,20 @@ function oldCaseTransferExportToExcel() {
 	displayColomn.push('ORG_NAME');
 	displayColomn.push('AR_NAME');
 	displayColomn.push('VORG_NAME');
-	
+
 	displayColomn.push('ELOAN_PRO_TYPE');
 	displayColomn.push('ELOAN_APPLYAMOUNT_COUNT');
 	displayColomn.push('ELOAN_PRO_TYPE_KA');
 	displayColomn.push('ELOAN_APPLYAMOUNT_COUNT_STRING');
 	displayColomn.push('USE_CARD_PAY');
 	displayColomn.push('CARD_PAY_AMOUNT');
-	
-	var params = getParamsValue();	
+
+	var params = getParamsValue();
 	var queryId = '&queryId=queryCastTransferExcelItemList';
 	var colomns = '&colomns=' + displayColomn;
 
 	url = ctx + url + jQuery.param(params) + queryId + ""
-			+ "" + colomns;
+		+ "" + colomns;
 
 	$('#excelForm').attr('action', url);
 

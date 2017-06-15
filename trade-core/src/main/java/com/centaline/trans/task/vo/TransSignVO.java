@@ -6,84 +6,87 @@ import java.util.List;
 
 
 public class TransSignVO {
-	
+
 	/*流程引擎*/
 	private String taskId;
 	private String processInstanceId;
-	
+
 	/**共有属性*/
-    private String caseCode;
-    private String partCode;
-	
+	private String caseCode;
+	private String partCode;
+
 	/**TgGuestInfo 客户信息*/
 	/**上家*/
-    private List<Long> pkidUp;
+	private List<Long> pkidUp;
 	private List<String> guestNameUp;
-    private List<String> guestPhoneUp;
-    /**下家*/
-    private List<Long> pkidDown;
-    private List<String> guestNameDown;
-    private List<String> guestPhoneDown;
-    /*上下家删除的记录id*/
-    private List<Long> guestPkid;
-    
-    /**ToPropertyInfo 物业信息*/
-    private Long propertyPkid;
-    private String propertyAddr;
-    private Integer totalFloor;
-    private Integer locateFloor;
-    private Double square;
-    private String finishYear;
-    private String propertyType;
-    
-    /**TO_PAYMENT 付款方式*/
-    /**首付款*/
-    private Long initPayPkid;
-    private String initPayName;
-    private Date initPayTime;
-    private String initPayType;
-    private BigDecimal initAmount;
-    /**二次付款*/
-    private Long secPayPkid;
-    private String secPayName;
-    private Date secPayTime;
-    private String secPayType;
-    private BigDecimal secAmount;
-    /**尾款付款*/
-    private Long lastPayPkid;
-    private String lastPayName;
-    private Date lastPayTime;
-    private String lastPayType;
-    private BigDecimal lastAmount;
-    /**装修补偿款*/
-    private Long compensatePayPkid;
-    private String compensatePayName;
-    private Date compensatePayTime;
-    private String compensatePayType;
-    private BigDecimal compensateAmount;
-    
-    /**签约表*/
-    private Long signPkid;
-    private Date realConTime;
-    private String isHukou;
-    private String isConCert;
-    private String comment;
-    private BigDecimal conPrice;		/*合同价*/
-    private BigDecimal realPrice;		/*成交价*/
-    
-    /*预估税费*/
-    private Long housePkid;
-    private BigDecimal houseHodingTax;       /*房产税*/
-    private BigDecimal personalIncomeTax;    /*个人所得税*/
-    private BigDecimal businessTax;			 /*上家营业税*/
-    private BigDecimal contractTax;			 /*下家契税*/
-    private BigDecimal landIncrementTax;	 /*土地增值税*/
-    
-    /* 首次跟进表 */
-    private String isPerchaseReserachNeed;  /*是否需要查限购*/
-    private String isLoanClose;  /*抵押情况*/
-    
-    
+	private List<String> guestPhoneUp;
+	/**下家*/
+	private List<Long> pkidDown;
+	private List<String> guestNameDown;
+	private List<String> guestPhoneDown;
+	/*上下家删除的记录id*/
+	private List<Long> guestPkid;
+
+	/**ToPropertyInfo 物业信息*/
+	private Long propertyPkid;
+	private String propertyAddr;
+	private Integer totalFloor;
+	private Integer locateFloor;
+	private Double square;
+	private String finishYear;
+	private String propertyType;
+
+	/**TO_PAYMENT 付款方式*/
+	/**首付款*/
+	private Long initPayPkid;
+	private String initPayName;
+	private Date initPayTime;
+	private String initPayType;
+	private BigDecimal initAmount;
+	/**二次付款*/
+	private Long secPayPkid;
+	private String secPayName;
+	private Date secPayTime;
+	private String secPayType;
+	private BigDecimal secAmount;
+	/**尾款付款*/
+	private Long lastPayPkid;
+	private String lastPayName;
+	private Date lastPayTime;
+	private String lastPayType;
+	private BigDecimal lastAmount;
+	/**装修补偿款*/
+	private Long compensatePayPkid;
+	private String compensatePayName;
+	private Date compensatePayTime;
+	private String compensatePayType;
+	private BigDecimal compensateAmount;
+
+	/**签约表*/
+	private Long signPkid;
+	private Date realConTime;
+	private String isHukou;
+	private String isConCert;
+	private String comment;
+	private BigDecimal conPrice;		/*合同价*/
+	private BigDecimal realPrice;		/*成交价*/
+	private String houseQuantity;		/*是否首套 0:手套 1：二套 2：多套*/
+
+
+
+	/*预估税费*/
+	private Long housePkid;
+	private BigDecimal houseHodingTax;       /*房产税*/
+	private BigDecimal personalIncomeTax;    /*个人所得税*/
+	private BigDecimal businessTax;			 /*上家营业税*/
+	private BigDecimal contractTax;			 /*下家契税*/
+	private BigDecimal landIncrementTax;	 /*土地增值税*/
+
+	/* 首次跟进表 */
+	private String isPerchaseReserachNeed;  /*是否需要查限购*/
+	private String isLoanClose;  /*抵押情况*/
+
+
 	public Long getPropertyPkid() {
 		return propertyPkid;
 	}
@@ -402,6 +405,12 @@ public class TransSignVO {
 	public void setIsLoanClose(String isLoanClose) {
 		this.isLoanClose = isLoanClose;
 	}
-	
-	
+
+	public String getHouseQuantity() {
+		return houseQuantity;
+	}
+
+	public void setHouseQuantity(String houseQuantity) {
+		this.houseQuantity = houseQuantity;
+	}
 }

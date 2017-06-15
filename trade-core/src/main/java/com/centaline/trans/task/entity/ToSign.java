@@ -21,7 +21,7 @@ public class ToSign {
     private String isConCert;
 
     private String comment;
-    
+
     private BigDecimal houseHodingTax;
 
     private BigDecimal personalIncomeTax;
@@ -32,47 +32,49 @@ public class ToSign {
 
     private BigDecimal landIncrementTax;
 
+    private String houseQuantity;		/*是否首套 0:手套 1：二套 2：多套*/
+
     public BigDecimal getHouseHodingTax() {
-		return houseHodingTax;
-	}
+        return houseHodingTax;
+    }
 
-	public void setHouseHodingTax(BigDecimal houseHodingTax) {
-		this.houseHodingTax = houseHodingTax;
-	}
+    public void setHouseHodingTax(BigDecimal houseHodingTax) {
+        this.houseHodingTax = houseHodingTax;
+    }
 
-	public BigDecimal getPersonalIncomeTax() {
-		return personalIncomeTax;
-	}
+    public BigDecimal getPersonalIncomeTax() {
+        return personalIncomeTax;
+    }
 
-	public void setPersonalIncomeTax(BigDecimal personalIncomeTax) {
-		this.personalIncomeTax = personalIncomeTax;
-	}
+    public void setPersonalIncomeTax(BigDecimal personalIncomeTax) {
+        this.personalIncomeTax = personalIncomeTax;
+    }
 
-	public BigDecimal getBusinessTax() {
-		return businessTax;
-	}
+    public BigDecimal getBusinessTax() {
+        return businessTax;
+    }
 
-	public void setBusinessTax(BigDecimal businessTax) {
-		this.businessTax = businessTax;
-	}
+    public void setBusinessTax(BigDecimal businessTax) {
+        this.businessTax = businessTax;
+    }
 
-	public BigDecimal getContractTax() {
-		return contractTax;
-	}
+    public BigDecimal getContractTax() {
+        return contractTax;
+    }
 
-	public void setContractTax(BigDecimal contractTax) {
-		this.contractTax = contractTax;
-	}
+    public void setContractTax(BigDecimal contractTax) {
+        this.contractTax = contractTax;
+    }
 
-	public BigDecimal getLandIncrementTax() {
-		return landIncrementTax;
-	}
+    public BigDecimal getLandIncrementTax() {
+        return landIncrementTax;
+    }
 
-	public void setLandIncrementTax(BigDecimal landIncrementTax) {
-		this.landIncrementTax = landIncrementTax;
-	}
+    public void setLandIncrementTax(BigDecimal landIncrementTax) {
+        this.landIncrementTax = landIncrementTax;
+    }
 
-	public Long getPkid() {
+    public Long getPkid() {
         return pkid;
     }
 
@@ -142,5 +144,13 @@ public class ToSign {
 
     public void setComment(String comment) {
         this.comment = comment == null ? null : comment.trim();
+    }
+
+    public String getHouseQuantity() {
+        return houseQuantity;
+    }
+
+    public void setHouseQuantity(String houseQuantity) {
+        this.houseQuantity = houseQuantity;
     }
 }

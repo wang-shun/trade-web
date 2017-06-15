@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
-	<dicts>	
-	
+	<dicts>
+
 		<customDict id="lastContents" beanName="lastContents" />
 		<customDict id="getCaseInfo" beanName="getCaseInfo" />
 		<customDict id="getPostInfo" beanName="getPostInfo" />
@@ -24,7 +24,7 @@
 		<customDict id="eloanKaAmount" beanName="eloanKaAmount" />
 		<customDict id="eloanKa" beanName="eloanKa" />
 		<customDict id="eloanProduct" beanName="eloanProduct" />
-		<customDict id="qqProaddrByCaseCode" beanName="qqProaddrByCaseCode"></customDict>	
+		<customDict id="qqProaddrByCaseCode" beanName="qqProaddrByCaseCode"></customDict>
 	</dicts>
 	<formatters>
 		<!-- 通过id确定时间格式化的样式 -->
@@ -60,8 +60,8 @@
 		<formatter id="emailFormater" ref=""
 				   class="com.aist.common.quickQuery.formatter.EmailFormatter" />
 	</formatters>
-	
-	
+
+
 	<query id="optimizeQueryCastTransferExcelItemList" cacheCount="true">
 		<searchCondition>
 		</searchCondition>
@@ -80,6 +80,7 @@
 							B.HOUSR_DIST_CODE_CN,
 							B.TRANSFER_REAL_HT_TIME,
 							B.TRANSFER_CREATE_TIME,
+							B.SIGN_HOUSE_QUANTITY_CN,
 							B.CTM_CODE,
 							B.MORT_CUST_NAME,
 							B.MORT_CUST_PHONE,
@@ -190,25 +191,25 @@
 				<column type="both" name="HOUSR_PROPERTY_ADDR" title="产证地址" customDict=""	hidden="false" />
 				<column type="both" name="CASE_CON_PRICE" title="合同价(万元)"	expType="Double"	customDict="" hidden="true" />
 				<column type="both" name="MORT_FIN_BRANCH_NAME" title="银行" customDict=""	hidden="false" />
-				<column type="both" name="MORT_FIN_SUB_BRANCH_NAME" title="支行" customDict=""	hidden="false" />				
+				<column type="both" name="MORT_FIN_SUB_BRANCH_NAME" title="支行" customDict=""	hidden="false" />
 				<column type="both" name="MORT_COM_AMOUNT" title="商贷金额(万元)"	expType="Double"	customDict="" hidden="true" />
-				<column type="both" name="MORT_PRF_AMOUNT" title="公积金金额(万元)"	expType="Double"	customDict="" hidden="true" />		
-				<column type="both" name="MORT_TOTAL_AMOUNT" title="总金额(万元)"	expType="Double"	customDict="" hidden="true" />						
+				<column type="both" name="MORT_PRF_AMOUNT" title="公积金金额(万元)"	expType="Double"	customDict="" hidden="true" />
+				<column type="both" name="MORT_TOTAL_AMOUNT" title="总金额(万元)"	expType="Double"	customDict="" hidden="true" />
 				<column type="both" name="MORT_COM_DISCOUNT" title="利率折扣" expType="Double" 	customDict="" hidden="true" />
-				<column type="both" name="CASE_CODE" title="誉萃编号" customDict=""	hidden="false" />				
-				<column type="both" name="MORT_TYPE" title="贷款类型In" customDict=""	hidden="false" />				
-				<column type="both" name="MORT_TYPE_CN" title="贷款类型" customDict=""	hidden="false" />						
-				<column type="both" name="CASE_REAL_NAME_F" title="案件主办人" customDict=""	hidden="false" />				
-				<column type="both" name="CASE_REC_STATUS_CN" title="收单状态" customDict=""	hidden="false" />				
+				<column type="both" name="CASE_CODE" title="誉萃编号" customDict=""	hidden="false" />
+				<column type="both" name="MORT_TYPE" title="贷款类型In" customDict=""	hidden="false" />
+				<column type="both" name="MORT_TYPE_CN" title="贷款类型" customDict=""	hidden="false" />
+				<column type="both" name="CASE_REAL_NAME_F" title="案件主办人" customDict=""	hidden="false" />
+				<column type="both" name="CASE_REC_STATUS_CN" title="收单状态" customDict=""	hidden="false" />
 				<column type="both" name="LOAN_LOST_APPLY_REASON" title="流失原因" customDict=""	hidden="false" />
 				<column type="both" name="LOAN_SELF_DEL_REASON" title="流失具体原因" customDict=""	hidden="false" />
-				<column type="both" name="EVA_EVAL_FEE" title="评估费" expType="Double" 	customDict="" hidden="true" />				
+				<column type="both" name="EVA_EVAL_FEE" title="评估费" expType="Double" 	customDict="" hidden="true" />
 				<column type="both" name="GUEST_NAME_UP" title="上家姓名" customDict=""	hidden="false" />
 				<column type="both" name="GUEST_PHONE_UP" title="上家电话" customDict=""	hidden="false" />
 				<column type="both" name="GUEST_NAME_DOWN" title="下家姓名" customDict=""	hidden="false" />
 				<column type="both" name="GUEST_PHONE_DOWN" title="下家电话" customDict=""	hidden="false" />
 				<column type="both" name="TRANSFER_SUB_TIME" title="过户提交时间" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" />
-				<column type="both" name="TRANSFER_APP_TIME" title="过户审批时间" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>		
+				<column type="both" name="TRANSFER_APP_TIME" title="过户审批时间" customDict="" hidden="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="TRANSFER_ISPASS" title="是否审批通过In" customDict=""	hidden="false" />
 				<column type="both" name="TRANSFER_ISPASS_CN" title="是否审批通过" customDict=""	hidden="false" />
 				<column type="both" name="TRANSFER_APP_OPERATOR_NAME" title="审批人" customDict=""	hidden="false" />
@@ -220,14 +221,16 @@
 				<column type="both" name="ELOAN_PRO" title="E+产品类别" customDict="" hidden="false" />
 				<column type="both" name="ELOAN_PRO_AMOUNT" title="E+产品申请总金额" expType="Double" 	customDict="" hidden="true" />
 				<column type="both" name="ELOAN_KA" title="E+卡类别" customDict="" hidden="false" />
-				<column type="both" name="ELOAN_KA_AMOUNT_STR" title="E+卡申请金额"	customDict="" hidden="false" />					
-				<column type="both" name="CASE_USE_CARD_PAY" title="是否刷卡In"	customDict="" hidden="false" />			
+				<column type="both" name="ELOAN_KA_AMOUNT_STR" title="E+卡申请金额"	customDict="" hidden="false" />
+				<column type="both" name="CASE_USE_CARD_PAY" title="是否刷卡In"	customDict="" hidden="false" />
 				<column type="both" name="CASE_USE_CARD_PAY_CN" title="是否刷卡"	customDict="" hidden="false" />
-				<column type="both" name="CASE_CARD_PAY_AMOUNT" title="刷卡金额" expType="Double" 	customDict="" hidden="true" />			
+				<column type="both" name="CASE_CARD_PAY_AMOUNT" title="刷卡金额" expType="Double" 	customDict="" hidden="true" />
+				<column type="both" name="SIGN_HOUSE_QUANTITY_CN" title="是否首套"	customDict="" hidden="false" />
+
 			</table-row>
 		</grid>
 	</query>
-	
+
 	<query id="queryCastTransferExcelItemList" cacheCount="true">
 		<searchCondition>
 		</searchCondition>
@@ -257,6 +260,17 @@
 							C.LOAN_REQ,	
 							M.loanlost_apply_reason as loanlost_apply_reason_old, 
 							M.SELF_DEL_REASON,
+							(
+							SELECT
+								(
+									CASE WHEN HOUSE_QUANTITY='0' then '首套'
+									WHEN HOUSE_QUANTITY='1' then '二套'
+									WHEN HOUSE_QUANTITY='2' then '多套'
+									END
+								) as HOUSE_QUANTITY
+							 FROM sctrans.T_TO_SIGN sign with(nolock)
+							 WHERE sign.CASE_CODE = C.CASE_CODE AND sign.IS_ACTIVE = 1
+						 ) AS HOUSE_QUANTITY,
 							(SELECT MIN(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'Guohu'  AND AT.PROC_INST_ID_= W.INST_CODE ) TRANSFERDATE,
 							(SELECT MAX(AT.END_TIME_) FROM SCTRANS.[ACT_HI_TASKINST] AT WHERE AT.TASK_DEF_KEY_=N'GuohuApprove'  AND AT.PROC_INST_ID_= W.INST_CODE) CASETRANSFERDATE,
 							V.LONG_ AS status,
@@ -358,7 +372,7 @@
 				<column type="both" name="CASE_CODE" title="誉萃编号" customDict=""	hidden="false" />
 				<column type="both" name="status" title="是否审批通过" customDict=""	hidden="false" />
 				<column type="virtual" name="GRP_NAME,AR_NAME,WZ_NAME,QJDS_NAME,GRP_CODE,BA_NAME,AGENT_NAME,AGENT_PHONE,N_STATUS" title="分行,片区,区域,区董,分行Code,大区,业务员姓名,业务员电话,是否审批通过" customDict="getCaseInfo" hidden="false" referencecol="CASE_CODE,status"/>
-	
+
 				<column type="both" name="DISTRICT_ID" title="区域id" customDict="" hidden="false" />
 				<column type="virtual" name="GUOHU_ORG_NAME" title="贵宾服务部"	customDict="qqcdOrgIdName" hidden="false" referencecol="DISTRICT_ID"/>
 				<column type="both" name="GUOHU_REAL_NAME" title="过户交易员"	customDict="" hidden="false" />
@@ -366,7 +380,7 @@
 				<column type="both" name="CUST_CODE" title="主贷人id" customDict="" hidden="false" />
 				<column type="both" name="CUST_NAME" title="主贷人姓名"	customDict="" hidden="false" />
 				<column type="virtual" name="GUEST_PHONE" title="主贷人电话"	referencecol="CUST_CODE"  customDict="custPhoneByCode" isDynamicDict="true"/>
-
+				<column type="both" name="HOUSE_QUANTITY" title="是否首套" customDict="" hidden="false" />
 				<column type="both" name="FIN_ORG_CODE" title="银行code" customDict="" hidden="false" />
 				<column type="virtual" name="FIN_ORG_NAME" title="银行"		customDict="qqFenHang" hidden="false" referencecol="FIN_ORG_CODE"/>
 				<column type="virtual" name="FIN_ORG_NAME_YC" title="支行"	customDict="qqFinOrgNameYC" hidden="false" referencecol="FIN_ORG_CODE"/>
@@ -388,7 +402,7 @@
 				<column type="virtual" name="MORT_TYPE_NAME" title="贷款类型" customDict="qqcdMortName" hidden="false"  referencecol="MORT_TYPE"/>
 
 				<column type="both" name="IS_LOANER_ARRIVE" title="是否到场"	customDict="" hidden="false" />
-				
+
 				<column type="virtual" name="SELLER" title="上家姓名"		referencecol="CASE_CODE" index="" checkbox="" display="上家"		customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
 				<column type="virtual" name="SELLER_MOBILE" title="上家电话"		referencecol="CASE_CODE" index="" checkbox="" display="上家电话"	customDict="qqcdSellerPhone" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" title="下家姓名"	referencecol="CASE_CODE" index="" checkbox="" display="下家" 	customDict="qqcdBuyer" sysDict="" format="" width="60" isSort="true"	align="" halign="" order="" resizable="" />
@@ -398,12 +412,12 @@
 				<column type="virtual" name="ASSESSOR,LAST_CONTENT,NOT_APPROVE" title="审核人,审批意见,审核勾选内容"	referencecol="CASE_CODE"  customDict="lastContents" isDynamicDict="true"/>
 				<column type="both" name="CONTENT" title="审核结果" customDict=""		hidden="false" />
 				<column type="both" name="NOT_APPROVE" title="审核勾选内容" customDict=""		hidden="false" />
-			
-				
+
+
 				<column type="both" name="PKID" index="" checkbox="" display="案件ID" customDict="" sysDict="" format="" width="90" isSort="" align=""	halign="" order="" resizable="" />
 
 				<column type="both" name="ORG_ID" index="" checkbox="" display="组织id" customDict="" sysDict="" format="" width="180" isSort="" align="" halign="" order="" resizable="" />
-			
+
 				<column type="virtual" name="REAL_NAME" index="" checkbox="" title="主管" display="主管" customDict="qqManagerByOrgIdAndJobCode" referencecol="ORG_ID"/>
 				<column type="virtual" name="ORG_NAME" index="" checkbox=""  title="组别" display="组别" customDict="qqcdOrgIdName" referencecol="ORG_ID"/>
 
@@ -412,7 +426,7 @@
 
 				<column type="virtual" name="USE_CARD_PAY,CARD_PAY_AMOUNT" title="是否刷卡,刷卡总金额（元）" customDict="getPostInfo" hidden="false" referencecol="CASE_CODE"/>
 				<column type="both" name="SELF_DEL_REASON" title="流失具体原因" customDict=""		hidden="false" />
-				
+
 				<column type="both" name="loanlost_apply_reason_old" title="loanlost_apply_reason_old"  customDict=""		hidden="false" />
 				<column type="virtual" name="loanlost_apply_reason" title="流失原因"	referencecol="loanlost_apply_reason_old" customDict="convertValueForLoanlostReason" />
 				<column type="virtual" name="ELOAN_PRO_TYPE" title="E+金融产品类别"	referencecol="CASE_CODE"  customDict="eloanProduct" isDynamicDict="true"/>
