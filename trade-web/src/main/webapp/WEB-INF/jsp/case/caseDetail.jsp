@@ -1243,7 +1243,9 @@
 														</c:forEach>
 												</td>
 												<td>
-														<a id="delLiushui" onclick="delLiushui(${item.pkid})"> 删除 </a>
+												 <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE">
+												 	<a id="delLiushui" onclick="delLiushui(${item.pkid})"> 删除 </a>
+												 </shiro:hasPermission>
 												</td>
 											</tr>
 										</c:forEach>
