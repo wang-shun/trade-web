@@ -1,6 +1,8 @@
 package com.centaline.trans.taskList.web;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -26,6 +28,8 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.award.entity.TsAwardCaseCental;
+import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
@@ -88,6 +92,10 @@ public class GuohuApproveController {
     TaskService taskService;
 	@Autowired
 	SatisfactionService satisfactionService;
+	
+	@Autowired
+	private TsAwardCaseCentalService tsAwardCaseCentalService;
+	
 	
 	@RequestMapping("process")
 	public String doProcesss(HttpServletRequest request,
@@ -160,6 +168,83 @@ public class GuohuApproveController {
 	@ResponseBody
 	public Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
 			String GuohuApprove, String GuohuApprove_response,String notApprove,String members) {
+		/*流程引擎相关*/
+		List<String> membersList = null;
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		SessionUser user = uamSessionService.getSessionUser(); 
+		
+		if(members != null && members.length() > 0){
+			membersList = Arrays.asList(members.split(","));
+		}
+		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response,notApprove);
+		if(!"true".equals(GuohuApprove)){
+			//没未通过审核，发站内信通知案件负责人
+			String sender = uamSessionService.getSessionUser().getId();
+			String caseCode = processInstanceVO.getCaseCode();
+			String result = toApproveRecord.getContent();
+			ToApproveRecord paramsApproveRecord = new ToApproveRecord();
+			paramsApproveRecord.setPartCode("Guohu");
+			paramsApproveRecord.setCaseCode(caseCode);
+			//查询 上一步操作人
+			ToApproveRecord lastApproveRecord = loanlostApproveService.findLastApproveRecord(paramsApproveRecord);
+			if(lastApproveRecord!=null){
+				String recevier = lastApproveRecord.getOperator();
+				sendMessage(sender,recevier,caseCode,result);
+			}
+			variables.add(new RestVariable("members",membersList));
+		}
+		
+		//过户审批通过
+		RestVariable restVariable = new RestVariable();
+		restVariable.setName("GuohuApprove");
+		restVariable.setValue(GuohuApprove.equals("true"));
+		variables.add(restVariable);
+		if(!StringUtil.isBlank(GuohuApprove_response)) {
+			RestVariable restVariable1 = new RestVariable();
+			restVariable1.setName("GuohuApprove_response");
+			restVariable1.setValue(GuohuApprove_response);
+			variables.add(restVariable1);
+		}
+		
+		//过户审批通过时  向计件奖金池插入数据   add  by zhuody  in 2017-05-18 
+		TsAwardCaseCental tsAwardCaseCental = new TsAwardCaseCental();
+		tsAwardCaseCental.setCaseCode(processInstanceVO.getCaseCode());		
+		tsAwardCaseCental.setGuohuApproveTime(covertDate(new Date())); //TODO  测试完之后时间不减一
+		//tsAwardCaseCental.setGuohuApproveTime(new Date());
+		//covertDate
+		if(null != user){
+			tsAwardCaseCental.setGuohuApproveRecord(user.getId());	
+		}
+		tsAwardCaseCentalService.saveAwardCaseInfo(tsAwardCaseCental);
+		
+		
+		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());	
+		return workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), 
+				toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+	}
+	
+	/**
+	 * 保存审核记录
+	 * @param processInstanceVO
+	 * @param loanlostApproveVO
+	 * @param loanLost
+	 * @param loanLost_response
+	 */
+	private ToApproveRecord saveToApproveRecord(ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
+			String loanLost, String loanLost_response,String notApprove) {
+		ToApproveRecord toApproveRecord = new ToApproveRecord();
+//		toApproveRecord.setPkid(loanlostApproveVO.getLapPkid());
+		toApproveRecord.setProcessInstance(processInstanceVO.getProcessInstanceId());
+		toApproveRecord.setPartCode(processInstanceVO.getPartCode());
+		toApproveRecord.setOperatorTime(new Date());
+		toApproveRecord.setApproveType(loanlostApproveVO.getApproveType());
+		toApproveRecord.setCaseCode(processInstanceVO.getCaseCode());
+		boolean b = "true".equals(loanLost);
+		boolean c = loanLost_response == null || loanLost_response.intern().length() == 0;
+		toApproveRecord.setContent((b?"通过":"不通过") + (c?",没有审批意见。":",审批意见为："+loanLost_response));
+		toApproveRecord.setOperator(loanlostApproveVO.getOperator());
+		//审核不通过原因
+		toApproveRecord.setNotApprove(notApprove);
 		
 		return toHouseTransferService.guohuApprove(request, processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response, notApprove, members);
 	}
@@ -299,4 +384,20 @@ public class GuohuApproveController {
 		 return response;
 	 }
 	
+	 
+	 //获取指定时间的上一个月时间
+	 private  Date  covertDate(Date date){		 
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		 //格式化对象
+		 Calendar calendar = Calendar.getInstance();
+		 //日历对象
+		 calendar.setTime(date);
+		 //设置当前日期
+		 calendar.add(Calendar.MONTH, -1);
+		 
+		 return calendar.getTime();
+		 //月份减一
+		// System.out.println(sdf.format(calendar.getTime()));//输出格式化的日期
+
+	 }
 }

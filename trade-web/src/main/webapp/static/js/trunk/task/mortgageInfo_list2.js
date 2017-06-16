@@ -761,8 +761,7 @@ $('#mortgageInfoToExcel').click(
 			$('#excelForm').submit();
 
 		})
-$('#mortgageInfoToExcelB').click(
-	function() {
+$('#mortgageInfoToExcelB').click(function() {
 		var url = "/quickGrid/findPage?xlsx&";
 		// excel导出列
 		var displayColomn = new Array;

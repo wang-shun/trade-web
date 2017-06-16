@@ -1,6 +1,6 @@
 package com.centaline.trans.award.service.impl;
 
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
-import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.award.entity.TsKpiPsnMonth;
 import com.centaline.trans.award.repository.TsKpiPsnMonthMapper;
 import com.centaline.trans.award.service.TsKpiPsnMonthService;
