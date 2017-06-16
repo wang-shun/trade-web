@@ -15,7 +15,6 @@ $(document).ready(function() {
  */
 function searchMethod(page){
 	var data = getParams(page);
-   // aist.wrap(data);
 	reloadGrid(data);
 }
 $('#searchButton').click(function() {
@@ -60,7 +59,6 @@ function reloadGrid(data) {
 			$(".blockOverlay").css({'z-index':'9998'});
         },
         success: function(data){
-        	console.log(data);
       	      var myTaskListf = template('template_myTaskListf' , data);
       	      $("#myTaskListf").empty();
    			  $("#myTaskListf").html(myTaskListf);
