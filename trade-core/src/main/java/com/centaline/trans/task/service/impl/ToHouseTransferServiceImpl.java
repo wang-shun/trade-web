@@ -1,8 +1,10 @@
 package com.centaline.trans.task.service.impl;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +27,8 @@ import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
+import com.centaline.trans.award.entity.TsAwardCaseCental;
+import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -84,6 +88,10 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 	@Autowired(required=true)
 	@Qualifier("uamMessageServiceClient")
 	private UamMessageService uamMessageService;
+	
+	
+	@Autowired
+	private TsAwardCaseCentalService tsAwardCaseCentalService;
 	
 	@Override
 	public boolean saveToHouseTransfer(ToHouseTransfer toHouseTransfer) {
@@ -343,6 +351,19 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 			restVariable1.setValue(GuohuApprove_response);
 			variables.add(restVariable1);
 		}
+		
+		
+		//过户审批通过时  向计件奖金池插入数据   add  by zhuody  in 2017-05-18 
+		TsAwardCaseCental tsAwardCaseCental = new TsAwardCaseCental();
+		tsAwardCaseCental.setCaseCode(processInstanceVO.getCaseCode());		
+		tsAwardCaseCental.setGuohuApproveTime(covertDate(new Date())); //TODO  测试完之后时间不减一
+		//tsAwardCaseCental.setGuohuApproveTime(new Date());
+		//covertDate
+		if(null != sender){
+			tsAwardCaseCental.setGuohuApproveRecord(sender.getId());	
+		}
+		tsAwardCaseCentalService.saveAwardCaseInfo(tsAwardCaseCental);
+		
 
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
 
@@ -413,4 +434,21 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 		/*接收人*/
 		uamMessageService.sendMessageByDist(message, recevier);
 	}
+	
+	
+	 //获取指定时间的上一个月时间
+	 private  Date  covertDate(Date date){		 
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		 //格式化对象
+		 Calendar calendar = Calendar.getInstance();
+		 //日历对象
+		 calendar.setTime(date);
+		 //设置当前日期
+		 calendar.add(Calendar.MONTH, -1);
+		 
+		 return calendar.getTime();
+		 //月份减一
+		// System.out.println(sdf.format(calendar.getTime()));//输出格式化的日期
+
+	 }
 }
