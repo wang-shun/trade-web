@@ -249,6 +249,8 @@
 		<!-- 业绩目标设定 -->
 		<mapper resource="mapper/performance/PerfGoalMapper.xml" />
 		<mapper resource="mapper/performance/PerfGoalMainMapper.xml" />
+		<!-- 应收科目 -->
+		<mapper resource="mapper/performance/SubjectMapper.xml" />
 		
 	</mappers>
 </configuration>

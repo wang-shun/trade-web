@@ -123,4 +123,40 @@
 			$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 		}
 	}
+	
+$('#exportBtn').click(function(){
+    	var data = getParams();
+    	var queryId=$("#sel_team").val()=='zbjb'? 'queryPerfGoalAttainmentListzbjb':($("#sel_team").val()=='gbfwzx' ? 'queryPerfGoalAttainmentListgbfwzx':($("#sel_team").val()=='ryjb'? 'queryPerfGoalAttainmentListRyjb' :'queryPerfGoalAttainmentList'));
+    	$.exportExcel({
+    		ctx : ctx,
+    		queryId : queryId,
+    		colomns : ['viewObject','belongMonth','goalPerf',
+    		           'shareAmount', 'completionRate'],
+    		data:data
+    		});
+    	
+    });
+
+
+function add(){
+	var belongMonth = monthSel.getDate().format('yyyy-MM-dd');
+	$.ajax({
+		url : ctx + "/perf/verificationTime",
+		method : "post",
+		dataType : "json",
+		traditional:true,
+		data : {
+			belongMonth : belongMonth
+		},
+		success : function(data) {
+			if(data.success){
+				if(data.content){
+					window.wxc.alert('此月业绩已设定!');						
+				}else{
+					window.location.href = ctx + "/perf/perfGoal"; 
+				}
+			}
+		}
+	});
+}
   

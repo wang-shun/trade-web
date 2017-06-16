@@ -89,10 +89,10 @@
                                         <i class="icon iconfont"></i>
                                         查询
                                      </button>
-                                    <button type="button" class="btn btn-success">
+                                    <button type="button" class="btn btn-success" id="exportBtn">
                                         导出为Excel
                                     </button>
-                                    <button type="button" class="btn btn-success">
+                                    <button type="button" class="btn btn-success" onclick="javascript:add()">
                                         新增业绩目标
                                     </button>
                                 </div>
@@ -120,7 +120,8 @@
     <script	src="${ctx}/static_res/js/plugins/dateSelect/dateSelect.js"></script>  
     
     <!-- 自定义扩展jQuery库 -->
-    <script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
+    <script src="${ctx}/static_res/js/plugins/aist/aist.jquery.custom.js"></script>
+    <script src="${ctx}/static_res/js/plugins/jquery.custom.js" ></script>
     <!-- owner -->
     <script src="${ctx}/static/trans/js/award/baseAwardReport.js"></script>
 	<!-- 日期控件 -->
@@ -133,7 +134,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	<script src="${ctx}/static/js/template.js" type="text/javascript"></script>
-	<script src="${ctx}/static_res/js/plugins/aist/aist.jquery.custom.js"></script>
+	
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 
 	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <!-- 分页控件  -->
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
@@ -149,15 +150,24 @@
 			<td>{{item.viewObject}}</td>
 			<td>{{item.belongMonth}}</td>
 			<td>
-				{{if item.goalPerf != null}}{{item.goalPerf/10000}}万
+				{{if item.goalPerf != null}}
+					{{item.goalPerf/10000}}万
 				{{/if}}
 			</td>
 			<td>{{item.shareAmount}}</td>
 			<td>{{item.completionRate}}</td>
-			<td><a href="">业绩明细</a></td>
+			<td>
+				{{if item.ry == null}}
+					<a href="{{ctx}}/trade-web/perf/receivablePerfDetail?viewObjectId={{item.viewObjectId}}&viewObject={{item.viewObject}}">业绩明细</a>
+				{{/if}}
+				{{if item.ry!=null && item.ry == '1'}}
+					<a href="{{ctx}}/trade-web/perf/receivablePerfDetail">业绩明细</a>
+				{{/if}}
+				
+			</td>
 		</tr>
 	{{/each}}
      </script>
-    
+    <!-- <a href=href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}">业绩明细</a> -->
         </content>
 </body>

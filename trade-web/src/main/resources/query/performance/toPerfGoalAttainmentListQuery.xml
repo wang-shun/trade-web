@@ -20,6 +20,7 @@
 				<![CDATA[
 			SELECT
 				pg.DISTRICT as viewObject,
+				pg.DISTRICT as viewObjectId,
 				pg.BELONG_MONTH as belongMonth,
  				pg.GOAL_PERF as goalPerf,
   				rp.SHARE_AMOUNT as shareAmount,
@@ -29,8 +30,8 @@
 			LEFT JOIN sctrans.T_TS_RECEIVABLE_PERF rp
 			ON (pg.PKID = rp.PKID) 
 			LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (pg.TEAM = yoh.ORG_ID)
-			where pg.STATUS=1 
-			and rp.STATUS='GENERATED' and rp.IS_DELETED='0'
+			where pg.STATUS=1 and rp.STATUS='GENERATED' and rp.IS_DELETED='0'
+			
 			AND (
 				yoh.DISTRICT_ID = #orgId#
 				OR yoh.TEAM_ID = #orgId#
@@ -44,11 +45,12 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="viewObject" customDict="qqcdOrgIdName"/>
-				<column type="both" name="belongMonth" beanFormatter="dateFormatterMM" />
-				<column type="both" name="goalPerf" />
-				<column type="both" name="shareAmount" />
-				<column type="both" name="completionRate" />
+				<column type="both" name="viewObject" customDict="qqcdOrgIdName" title="查看对象"/>
+				<column type="both" name="viewObjectId"/>
+				<column type="both" name="belongMonth" beanFormatter="dateFormatterMM" title="考核月份"/>
+				<column type="both" name="goalPerf" title="业绩目标"/>
+				<column type="both" name="shareAmount" title="完成业绩"/>
+				<column type="both" name="completionRate" title="已完率"/>
 			</table-row>
 		</grid>
 	</query>
@@ -59,11 +61,13 @@
 			<baseSql>
 				<![CDATA[
 			SELECT
-				pg.USER_ID viewObject,
-				pg.BELONG_MONTH as belongMonth,
+				pg.USER_ID AS viewObject,
+				pg.USER_ID AS viewObjectId,
+				pg.BELONG_MONTH AS belongMonth,
 				SUM (pg.GOAL_PERF) AS goalPerf,
 				SUM (rp.SHARE_AMOUNT) AS shareAmount,
-				SUM (rp.SHARE_AMOUNT) / SUM (pg.GOAL_PERF) / 100 AS completionRate 
+				SUM (rp.SHARE_AMOUNT) / SUM (pg.GOAL_PERF) / 100 AS completionRate ,
+				'1' as ry
 			FROM
 			sctrans.T_TS_PERF_GOAL pg
 			LEFT JOIN sctrans.T_TS_RECEIVABLE_PERF rp
@@ -95,11 +99,13 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="viewObject" customDict="getRealNameByUserId"/>
-				<column type="both" name="belongMonth" beanFormatter="dateFormatterMM" />
-				<column type="both" name="goalPerf" />
-				<column type="both" name="shareAmount" />
-				<column type="both" name="completionRate" />
+				<column type="both" name="viewObject" customDict="getRealNameByUserId" title="查看对象"/>
+				<column type="both" name="viewObjectId"/>
+				<column type="both" name="ry"/>
+				<column type="both" name="belongMonth" beanFormatter="dateFormatterMM" title="考核月份"/>
+				<column type="both" name="goalPerf" title="业绩目标"/>
+				<column type="both" name="shareAmount" title="完成业绩"/>
+				<column type="both" name="completionRate" title="已完率"/>
 			</table-row>
 		</grid>
 	</query>
@@ -112,6 +118,7 @@
 				<![CDATA[
 			SELECT
 				pg.TEAM AS viewObject,
+				pg.TEAM AS viewObjectId,
 				pg.BELONG_MONTH AS belongMonth,
 				SUM (pg.GOAL_PERF) AS goalPerf,
 				SUM (rp.SHARE_AMOUNT) AS shareAmount,
@@ -143,11 +150,12 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="viewObject" customDict="qqcdOrgIdName"/>
-				<column type="both" name="belongMonth" beanFormatter="dateFormatterMM" />
-				<column type="both" name="goalPerf" />
-				<column type="both" name="shareAmount" />
-				<column type="both" name="completionRate" />
+				<column type="both" name="viewObject" customDict="qqcdOrgIdName" title="查看对象"/>
+				<column type="both" name="viewObjectId"/>
+				<column type="both" name="belongMonth" beanFormatter="dateFormatterMM" title="考核月份"/>
+				<column type="both" name="goalPerf" title="业绩目标"/>
+				<column type="both" name="shareAmount" title="完成业绩"/>
+				<column type="both" name="completionRate" title="已完率"/>
 			</table-row>
 		</grid>
 	</query>
@@ -159,6 +167,7 @@
 				<![CDATA[
 			SELECT
 				pg.DISTRICT as viewObject,
+				pg.DISTRICT as viewObjectId,
 				pg.BELONG_MONTH AS belongMonth,
 				SUM (pg.GOAL_PERF) AS goalPerf,
 				SUM (rp.SHARE_AMOUNT) AS shareAmount,
@@ -189,11 +198,12 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="viewObject" customDict="qqcdOrgIdName"/>
-				<column type="both" name="belongMonth" beanFormatter="dateFormatterMM" />
-				<column type="both" name="goalPerf" />
-				<column type="both" name="shareAmount" />
-				<column type="both" name="completionRate" />
+				<column type="both" name="viewObject" referencecol="viewObject" customDict="qqcdOrgIdName" title="查看对象"/>
+				<column type="both" name="viewObjectId"/>
+				<column type="both" name="belongMonth" beanFormatter="dateFormatterMM" title="考核月份"/>
+				<column type="both" name="goalPerf" title="业绩目标"/>
+				<column type="both" name="shareAmount" title="完成业绩"/>
+				<column type="both" name="completionRate" title="已完率"/>
 			</table-row>
 		</grid>
 	</query>

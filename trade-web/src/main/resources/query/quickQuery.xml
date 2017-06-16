@@ -227,4 +227,6 @@
 	<import resource="query/performance/perfGoalQuery.xml"></import>
 	<!-- 业绩列表 -->
 	<import resource="query/performance/toPerfGoalAttainmentListQuery.xml"></import>
+	<!-- 业绩明细 -->
+	<import resource="query/performance/receivablePerfListQuery.xml"></import>
 </queryConfig>

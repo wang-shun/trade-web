@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,9 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.performance.entity.Subject;
 import com.centaline.trans.performance.service.PerfGoalService;
+import com.centaline.trans.performance.service.SubjectService;
 import com.centaline.trans.performance.vo.PerfGoalVo;
 
 /**
@@ -36,6 +40,8 @@ public class PerfGoalController {
 	private UamSessionService uamSessionService;
 	@Autowired
 	private PerfGoalService perfGoalService;
+	@Autowired
+	private SubjectService subjectService;
 
 	/**
 	 * 获得某月第一天
@@ -48,6 +54,15 @@ public class PerfGoalController {
 		c1.add(Calendar.MONTH, currentMonthDiff);
 		c1.set(Calendar.DAY_OF_MONTH, 1);
 		return c1.getTime();
+	}
+	
+	@RequestMapping("/verificationTime")
+	@ResponseBody
+	private AjaxResponse verificationTime(PerfGoalVo vo) {
+		SessionUser user = uamSessionService.getSessionUser();
+		vo.setOrgId(user.getServiceDepId());
+		return AjaxResponse.successContent(perfGoalService.getMainStatus(vo));
+		  
 	}
 
 	/**
@@ -72,6 +87,20 @@ public class PerfGoalController {
 		model.addAttribute("mainStatus", mainStatus);// 主表状态
 		return "performance/perfGoal";
 	}
+	
+	@RequestMapping(value = "receivablePerfDetail")
+	public String receivablePerfDetail(String caseCode , ServletRequest request,Model model) {
+		SessionUser user =uamSessionService.getSessionUser();
+		String orgId=user.getServiceDepId();
+		String jobCode=user.getServiceJobCode();
+		List<Subject> queryPeceivablePerfList = subjectService.querySubjectList();
+		
+		model.addAttribute("viewObject", request.getParameter("viewObject"));
+		model.addAttribute("viewObjectId", request.getParameter("viewObjectId"));
+		model.addAttribute("subjectList", queryPeceivablePerfList);
+		return "performance/receivablePerf";
+	}
+	
 
 	/**
 	 * 目标设定方法
