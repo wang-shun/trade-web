@@ -57,11 +57,13 @@
 					<div class="line">
 						<div class="form_content">
 							<label class="control-label sign_left_small"> 签约回访时间 </label> 
-							<input name="surveySignTime" class="teamcode input_type date-picker" placeholder="" value="" readonly="readonly" />
+							<input name="surveySignTimeStart" class="teamcode input_type date-picker" style="width: 106px;" placeholder="" value="" readonly="readonly" />到
+							<input name="surveySignTimeEnd" class="teamcode input_type date-picker" style="width: 106px;" placeholder="" value="" readonly="readonly" />
 						</div>
 						<div class="form_content">
 							<label class="control-label sign_left_small"> 过户回访时间 </label> 
-							<input name="surveyGuohuTime" class="teamcode input_type date-picker" placeholder="" value="" readonly="readonly" />
+							<input name="surveyGuohuTimeStart" class="teamcode input_type date-picker" style="width: 106px;" placeholder="" value="" readonly="readonly" />到
+							<input name="surveyGuohuTimeEnd" class="teamcode input_type date-picker" style="width: 106px;" placeholder="" value="" readonly="readonly" />
 						</div>
 					</div>
 					<div class="line">
@@ -254,8 +256,10 @@
 							function dispatch() {
 								var caseCodes = '';
 								
+								var length_ = $("input[name='checkRow']:enabled:checked").length;
 								$("input[name='checkRow']:enabled:checked").each(function(i,e){
 									caseCodes += $(e).val()+",";
+									if(i == (length_-1)) caseCodes = caseCodes.substring(0,length_-1);
 								})
 								
 								$("#caseCodes").val(caseCodes);
@@ -279,8 +283,10 @@
 								}
 								params.caseCode=$("input[name='caseCode']").val().trim();
 								params.prAddress=$("input[name='prAddress']").val().trim();
-								params.surveySignTime = $("input[name='surveySignTime']").val();
-								params.surveyGuohuTime = $("input[name='surveyGuohuTime']").val();
+								params.surveySignTimeStart = $("input[name='surveySignTimeStart']").val();
+								params.surveySignTimeEnd = $("input[name='surveySignTimeEnd']").val();
+								params.surveyGuohuTimeStart = $("input[name='surveyGuohuTimeStart']").val();
+								params.surveyGuohuTimeEnd = $("input[name='surveyGuohuTimeEnd']").val();
 								params.callerId=$("#userId").val();
 								params.status=$("select[name='status']").val();
 								
@@ -310,8 +316,10 @@
 							$("#btn_search").click(function() {
 								params.caseCode = $("input[name='caseCode']").val().trim();
 								params.prAddress = $("input[name='prAddress']").val().trim();
-								params.surveySignTime = $("input[name='surveySignTime']").val();
-								params.surveyGuohuTime = $("input[name='surveyGuohuTime']").val();
+								params.surveySignTimeStart = $("input[name='surveySignTimeStart']").val();
+								params.surveySignTimeEnd = $("input[name='surveySignTimeEnd']").val();
+								params.surveyGuohuTimeStart = $("input[name='surveyGuohuTimeStart']").val();
+								params.surveyGuohuTimeEnd = $("input[name='surveyGuohuTimeEnd']").val();
 								params.callerId = $("#userId").val();
 								params.status = $("select[name='status']").val();
 
