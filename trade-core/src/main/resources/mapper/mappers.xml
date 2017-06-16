@@ -36,6 +36,7 @@
 		<mapper resource="mapper/common/ToServChangeHistrotyMapper.xml" />
 		<mapper resource="mapper/common/ToReminderListMapper.xml" />
 		<mapper resource="mapper/common/OrgMapper.xml" />
+		<mapper resource="mapper/common/TsOrgRelationMapper.xml" />
 		<!-- 任务预计执行时间配置 -->
 		
 		<!-- 附件 -->

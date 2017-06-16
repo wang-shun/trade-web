@@ -19,6 +19,7 @@
 	<import resource="query/eval/toEvalListQuery.xml" />
 	<import resource="query/trans/toTransPlanHistoryListQuery.xml" />
 	<import resource="query/case/CaseBelongAndTransferQuery.xml" />
+	<import resource="query/common/tsTeamOrgRelationListQuery.xml" />
 
 	<!-- 佣金管理 -->
 	<import resource="query/income/toCaseCountAmountListQuery.xml" />

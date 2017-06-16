@@ -78,6 +78,12 @@ public class TsTeamPropertyServiceImpl implements TsTeamPropertyService {
 	public List<TsTeamProperty> findTeamPropertyCooperations(TsTeamProperty record) {
 		return tsTeamPropertyMapper.findTeamPropertyCooperations(record);
 	}
+
+	@Override
+	public List<TsTeamProperty> getTsTeamPropertyList() {
+		// TODO Auto-generated method stub
+		return tsTeamPropertyMapper.getTsTeamPropertyList();
+	}
 	
 
 }

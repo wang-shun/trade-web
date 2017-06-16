@@ -27,4 +27,6 @@ public interface TsTeamPropertyService {
        List<CaseInfoVO> recoveryTeamScope();
        
        public List<TsTeamProperty> findTeamPropertyCooperations(TsTeamProperty record);
+       
+       List<TsTeamProperty> getTsTeamPropertyList();
 }

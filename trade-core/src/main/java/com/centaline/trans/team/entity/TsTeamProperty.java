@@ -12,6 +12,7 @@ public class TsTeamProperty {
 
 	private String teamProperty;
 	private String finTeamCode;
+	private String orgId;
 	
 	// 冗余字段,表中不存在
 	private String isSelect;
@@ -86,6 +87,14 @@ public class TsTeamProperty {
 
 	public void setIsSelect(String isSelect) {
 		this.isSelect = isSelect;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 	
 }

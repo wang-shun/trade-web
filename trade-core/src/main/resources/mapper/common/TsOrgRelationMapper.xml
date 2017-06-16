@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.common.repository.TsOrgRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.common.entity.TsOrgRelation" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="ORIGIN_ORG_ID" property="originOrgId" jdbcType="VARCHAR" />
+    <result column="TARGET_ORG_ID" property="targetOrgId" jdbcType="VARCHAR" />
+    <result column="AVAILABLE" property="available" jdbcType="CHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+	<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	<result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, ORIGIN_ORG_ID, TARGET_ORG_ID
+  </sql>
+  
+  <select id="findTsOrgRelationByOrgRelation" parameterType="com.centaline.trans.common.entity.TsOrgRelation" resultType="java.lang.Integer">
+    select 
+	    count(1)
+	    from sctrans.T_TS_ORG_REALATION 
+    WHERE IS_DELETED = 0 
+    <if test="originOrgId">	
+    	and ORIGIN_ORG_ID = #{originOrgId,jdbcType=VARCHAR}  
+    </if>
+    <if test="targetOrgId!=null">
+   		and TARGET_ORG_ID = #{targetOrgId,jdbcType=VARCHAR}
+    </if>
+    <if test="available!=null">
+   		and AVAILABLE = #{available,jdbcType=CHAR}
+    </if>
+  </select>
+  
+  <insert id="insertOrgRelation" parameterType="com.centaline.trans.common.entity.TsOrgRelation" useGeneratedKeys="true" keyProperty="pkid">
+    insert into sctrans.T_TS_ORG_REALATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="originOrgId != null" >
+        ORIGIN_ORG_ID,
+      </if>
+      <if test="targetOrgId != null" >
+        TARGET_ORG_ID,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="available != null" >
+        AVAILABLE,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      	CREATE_TIME,UPDATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="originOrgId != null" >
+        #{originOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="targetOrgId != null" >
+        #{targetOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=CHAR},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      	GETDATE(),GETDATE()
+    </trim>
+  </insert>
+  
+  <update id="updateOrgRelation" parameterType="com.centaline.trans.common.entity.TsOrgRelation" >
+    update sctrans.T_TS_ORG_REALATION
+    <set >
+      <if test="originOrgId != null" >
+        ORIGIN_ORG_ID = #{originOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="targetOrgId != null" >
+        TARGET_ORG_ID = #{targetOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        AVAILABLE = #{available,jdbcType=CHAR},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      	UPDATE_TIME = GETDATE(),
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <update id="deleteOrgRelation" parameterType="com.centaline.trans.common.entity.TsOrgRelation" >
+	update 
+		sctrans.T_TS_ORG_REALATION
+	set  
+		IS_DELETED = #{isDeleted,jdbcType=CHAR}
+	where 
+		PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+    
+</mapper>
