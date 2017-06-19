@@ -91,6 +91,26 @@ public AjaxResponse<?>  sumbitDate(SpvRecordedsVO spvrevo,HttpServletRequest req
 	return response;
 }
 
+/**
+ * 起草入账页面保存
+ * @param spvrevo
+ * @return
+ */
+@RequestMapping(value = "/saveData")
+@ResponseBody
+public AjaxResponse<?>  saveData(SpvRecordedsVO spvrevo,HttpServletRequest request){
+	AjaxResponse<?> response = new AjaxResponse<>();
+	try{
+		cashFlowInService.saveSpvRecordsVO(spvrevo);
+		response.setSuccess(true);
+	} catch (Exception e) {
+		response.setSuccess(false);
+		response.setMessage(e.getMessage());
+		e.printStackTrace();
+	}
+	return response;
+}
+
    /**
  * @Title: cashFlowOutApprDeal 
  * @Description: 入账
