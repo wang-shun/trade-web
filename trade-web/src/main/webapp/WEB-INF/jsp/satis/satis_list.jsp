@@ -259,7 +259,7 @@
 								var length_ = $("input[name='checkRow']:enabled:checked").length;
 								$("input[name='checkRow']:enabled:checked").each(function(i,e){
 									caseCodes += $(e).val()+",";
-									if(i == (length_-1)) caseCodes = caseCodes.substring(0,$(e).val().length-1);
+									if(i == (length_-1)) caseCodes = caseCodes.substring(0,caseCodes.length-1);
 								})
 								
 								$("#caseCodes").val(caseCodes);
