@@ -23,9 +23,15 @@ public class ToHouseTransfer {
     private BigDecimal landIncrementTax;
 
     private String comment;
-    
+
     private String  useCardPay;
-    
+
+    private  String accompany;
+
+    private  String accompanyReason;
+
+    private  String accompanyOthersReason;
+
     private BigDecimal  cardPayAmount;
 
     public Long getPkid() {
@@ -108,22 +114,44 @@ public class ToHouseTransfer {
         this.comment = comment == null ? null : comment.trim();
     }
 
-	public String getUseCardPay() {
-		return useCardPay;
-	}
+    public String getUseCardPay() {
+        return useCardPay;
+    }
 
-	public void setUseCardPay(String useCardPay) {
-		this.useCardPay = useCardPay;
-	}
+    public void setUseCardPay(String useCardPay) {
+        this.useCardPay = useCardPay;
+    }
 
-	public BigDecimal getCardPayAmount() {
-		return cardPayAmount;
-	}
+    public BigDecimal getCardPayAmount() {
+        return cardPayAmount;
+    }
 
-	public void setCardPayAmount(BigDecimal cardPayAmount) {
-		this.cardPayAmount = cardPayAmount;
-	}
-    
-    
-    
+    public void setCardPayAmount(BigDecimal cardPayAmount) {
+        this.cardPayAmount = cardPayAmount;
+    }
+
+
+    public String getAccompany() {
+        return accompany;
+    }
+
+    public void setAccompany(String accompany) {
+        this.accompany = accompany;
+    }
+
+    public String getAccompanyOthersReason() {
+        return accompanyOthersReason;
+    }
+
+    public void setAccompanyOthersReason(String accompanyOthersReason) {
+        this.accompanyOthersReason = accompanyOthersReason;
+    }
+
+    public String getAccompanyReason() {
+        return accompanyReason;
+    }
+
+    public void setAccompanyReason(String accompanyReason) {
+        this.accompanyReason = accompanyReason;
+    }
 }

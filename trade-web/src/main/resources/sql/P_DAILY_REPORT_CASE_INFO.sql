@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/6/7 14:49:38 ******/
+/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/6/15 19:01:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -190,6 +190,12 @@ BEGIN
 
 				SIGN_HOUSE_QUANTITY              , --下家是否首套房
 				SIGN_HOUSE_QUANTITY_CN           , --下家是否首套房转译
+
+				TRANSFER_ACCOMPANY               ,
+				TRANSFER_ACCOMPANY_REASON        ,
+				TRANSFER_ACCOMPANY_OTHERS_REASON ,
+				
+				TRANSFER_ACCOMPANY_CN            ,  
 
 				CASE_REAL_PROPERTY_GET_TIME ,
 				CASE_CLOSE_TIME             ,
@@ -480,7 +486,16 @@ BEGIN
 						 WHEN S.HOUSE_QUANTITY='2' then '多套'
 					END
 				) as SIGN_HOUSE_QUANTITY_CN ,
-		
+
+				HT.ACCOMPANY AS TRANSFER_ACCOMPANY               ,
+				HT.ACCOMPANY_REASON AS TRANSFER_ACCOMPANY_REASON        ,
+				HT.ACCOMPANY_OTHERS_REASON AS TRANSFER_ACCOMPANY_OTHERS_REASON ,	
+				(
+					CASE WHEN HT.ACCOMPANY='0' then '不陪同'
+						 WHEN HT.ACCOMPANY='1' then '陪同'	
+					END
+				) as TRANSFER_ACCOMPANY_CN,  
+
 				/* 截止上面 查询不会出现多条记录的情况*/
 
 				(SELECT  GB.REAL_PROPERTY_GET_TIME  FROM  sctrans.T_TO_GET_PROPERTY_BOOK GB with(nolock) WHERE GB.CASE_CODE = C.CASE_CODE) CASE_REAL_PROPERTY_GET_TIME, --实际领证时间
@@ -615,6 +630,44 @@ BEGIN
 		print '--closea';
 		
 	END CATCH;  
+
+	--开始得到陪同原因
+	BEGIN TRY
+	declare @TRANSFER_ACCOMPANY_REASON varchar(500)
+
+	--执行游标查询
+	DECLARE AppRecordCursor CURSOR FOR SELECT PKID,TRANSFER_ACCOMPANY_REASON FROM sctrans.[T_RPT_CASE_BASE_INFO] where isnull(TRANSFER_ACCOMPANY_REASON,'')<>''
+	--打开游标
+	OPEN AppRecordCursor
+	--循环游标
+	WHILE 0=0 BEGIN
+		FETCH NEXT FROM AppRecordCursor INTO  @PIKD_APPRECORD,@TRANSFER_ACCOMPANY_REASON
+		IF @@FETCH_STATUS<>0 BEGIN
+			--没有记录，跳出游标循环
+			BREAK
+		END
+		SET @sqlAppRecord ='UPDATE sctrans.T_RPT_CASE_BASE_INFO SET TRANSFER_ACCOMPANY_REASON_CN = STUFF((SELECT '',''+NAME FROM (SELECT NAME FROM sctrans.SYS_DICT WHERE CODE='''+ replace(@TRANSFER_ACCOMPANY_REASON,';',''' UNION ALL SELECT NAME FROM  sctrans.SYS_DICT WHERE TYPE =''accompany_reason''and CODE=''')+''')  temp for xml path('''')),1,1,'''') WHERE PKID = '+CONVERT(varchar(10),@PIKD_APPRECORD)
+		print  @sqlAppRecord
+		EXEC (@sqlAppRecord)
+	END
+	--关闭游标
+	CLOSE AppRecordCursor
+	--销毁游标
+	DEALLOCATE AppRecordCursor
+	END TRY
+	BEGIN CATCH  
+		ROLLBACK TRAN;
+		--SELECT ERROR_MESSAGE() AS ErrorMessage;  
+		SELECT ERROR_NUMBER() AS ErrorNumber  
+		,ERROR_SEVERITY() AS ErrorSeverity  
+		,ERROR_STATE() AS ErrorState  
+		,ERROR_PROCEDURE() AS ErrorProcedure  
+		,ERROR_LINE() AS ErrorLine  
+		,ERROR_MESSAGE() AS ErrorMessage; 
+
+		
+	END CATCH;  
+
 
 	--返回当天是周几
 	declare @weekday int = DATEPART(weekday,getdate())
