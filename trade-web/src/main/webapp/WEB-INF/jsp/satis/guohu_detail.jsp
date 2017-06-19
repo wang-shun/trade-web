@@ -435,7 +435,7 @@
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">贷款评分</label>
-                            <select class="select_control yuanwid" name="buyerComloanSat" value="${satisfaction.buyerComloanSat}">
+                            <select class="select_control yuanwid" name="buyerComloanSat" value="${satisfaction.buyerComloanSat}" ${not empty mortType and mortType ne '30016003'?'':'disabled="disabled"'}>
                             		<option value="">请选择</option>
                             	<c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.buyerComloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
@@ -444,13 +444,13 @@
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">贷款意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="buyerComloanCom" value="${satisfaction.buyerComloanCom}" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="buyerComloanCom" value="${satisfaction.buyerComloanCom}" ${not empty mortType and mortType ne '30016003'?'':'disabled="disabled"'}>
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金评分</label>
-                            <select class="select_control yuanwid" name="buyerPsfloanSat" value="${satisfaction.buyerPsfloanSat}">
+                            <select class="select_control yuanwid" name="buyerPsfloanSat" value="${satisfaction.buyerPsfloanSat}" ${mortType eq '30016003'?'':'disabled="disabled"'}>
                             		<option value="">请选择</option>
                             	<c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.buyerPsfloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
@@ -459,7 +459,7 @@
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="buyerPsfloanCom" value="${satisfaction.buyerPsfloanCom}" >
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="buyerPsfloanCom" value="${satisfaction.buyerPsfloanCom}" ${mortType eq '30016003'?'':'disabled="disabled"'}>
                         </div>
                     </div>
                     <div class="line">
@@ -518,7 +518,7 @@
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">贷款评分</label>
-                            <select class="select_control yuanwid" name="agentComloanSat" value="${satisfaction.agentComloanSat}">
+                            <select class="select_control yuanwid" name="agentComloanSat" value="${satisfaction.agentComloanSat}" ${not empty mortType and mortType ne '30016003'?'':'disabled="disabled"'}>
                             		<option value="">请选择</option>
                                 <c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.agentComloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
@@ -538,7 +538,7 @@
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金评分</label>
-                            <select class="select_control yuanwid" name="agentPsfloanSat" value="${satisfaction.agentPsfloanSat}">
+                            <select class="select_control yuanwid" name="agentPsfloanSat" value="${satisfaction.agentPsfloanSat}" ${mortType eq '30016003'?'':'disabled="disabled"'}>
                             		<option value="">请选择</option>
                                 <c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.agentPsfloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
@@ -847,13 +847,13 @@
                     return false;
                 }
                 var $buyerComloanSat = $("select[name='buyerComloanSat']");
-                if($buyerComloanSat.val() == ''){
+                if('${mortType}' != '' && '${mortType}' != '30016003' && $buyerComloanSat.val() == ''){
                 	window.wxc.alert("请选择下家贷款评分！");
                     changeClass($buyerComloanSat);
                     return false;
                 }
                 var $buyerPsfloanSat = $("select[name='buyerPsfloanSat']");
-                if($buyerPsfloanSat.val() == ''){
+                if('${mortType}' == '30016003' && $buyerPsfloanSat.val() == ''){
                 	window.wxc.alert("请选择下家公积金评分！");
                     changeClass($buyerPsfloanSat);
                     return false;

@@ -37,8 +37,6 @@ import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.repository.ToSatisfactionMapper;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
-import com.centaline.trans.task.repository.ToSignMapper;
-import com.centaline.trans.task.service.ToHouseTransferService;
 
 @Service
 public class SatisfactionServiceImpl implements SatisfactionService {
@@ -48,12 +46,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	
 	@Autowired
 	private VCaseTradeInfoMapper vCaseTradeInfoMapper;
-	
-	@Autowired
-	private ToSignMapper toSignMapper;
-	@Autowired
-	private ToHouseTransferService toHouseTransferService;
-	
+
 	@Autowired
 	MessageService messageService;
 	
@@ -181,7 +174,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	        ToSatisfaction toSatisfaction = queryToSatisfactionByCaseCode(caseCode);
 	        
 	        StartProcessInstanceVo vo = workFlowManager.startWorkFlow(new ProcessInstance(propertyUtilsService.getSatisProcessDfKey(),
-	        		toSatisfaction.getCastsatCode(), variables));
+	        		caseCode, variables));
 	        boolean skipSign = false;
 	        /**过户案件特殊处理---START**/
 	        Date guohuApplyTime = vCaseTradeInfoMapper.selectGuohuSubTime(caseCode);
