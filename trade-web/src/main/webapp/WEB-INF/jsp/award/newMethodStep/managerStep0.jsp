@@ -244,6 +244,7 @@
                             </div>
                         </div>
                         <input type="hidden" id="pkid" name="pkid" value="">
+                        <input type="hidden" id="srvItemCodeByName" name="srvItemCodeByName" value="">
                         </form>
                         <div class="modal-footer" style="text-align:center;border:0">
                             <button id="modifyBase" type="button" class="btn btn-success" >保存</button>
@@ -297,7 +298,7 @@
 			  </td>
               <td>{{item.SRV_ITEM_NAME}}</td>
               <td>{{item.SRV_FEE}}</td>
-			  <td><button class="btn btn-success mr5" onclick="modifyBaseInfo('{{item.PK_ID}}','{{item.JOB_NAME}}','{{item.SRV_ITEM_NAME}}','{{item.SRV_FEE}}')">修改 </button></td>
+			  <td><button class="btn btn-success mr5" onclick="modifyBaseInfo('{{item.PK_ID}}','{{item.JOB_NAME}}','{{item.SRV_ITEM_NAME}}','{{item.SRV_FEE}}','{{item.SRV_ITEM_CODE}}')">修改 </button></td>
              </tr>
 		{{/each}}
 </script>

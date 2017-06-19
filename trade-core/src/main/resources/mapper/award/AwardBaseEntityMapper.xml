@@ -323,6 +323,20 @@
 	<update id="setCloseDateByCaseCode" parameterType="com.centaline.trans.award.entity.AwardBaseEntity">
 		update sctrans.T_TS_AWARD_BASE set CLOSE_TIME = #{closeTime,jdbcType=TIMESTAMP} where CASE_CODE= #{caseCode,jdbcType=VARCHAR} and IS_DELETED='0' 
 	</update>
+	
+	
+	<update id="updateBySrvcodeAndBelongMonth" parameterType="com.centaline.trans.award.entity.AwardBaseEntity">
+		update sctrans.T_TS_AWARD_BASE 
+		set 
+			BASE_AMOUNT = #{baseAmount,jdbcType=DECIMAL}	
+		where 
+		 	DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0			
+			and SRV_CODE = #{srvCode,jdbcType=VARCHAR}
+			and IS_DELETED='0' 
+			and PAID ='0'
+	</update>
+	
+	
 	<select id="selectByCaseCodeAndSrvCode" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
