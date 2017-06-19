@@ -159,7 +159,9 @@
 		<mapper resource="mapper/award/TsKpiSrvCaseMapper.xml"/>
 		<mapper resource="mapper/award/TsAwardKpiPayDetailMapper.xml"/>
 		<mapper resource="mapper/award/AwardBaseEntityMapper.xml"/>
-		<mapper resource="mapper/award/TsAwardKpiPayMapper.xml"/>
+		<mapper resource="mapper/award/TsAwardKpiPayMapper.xml"/>		
+		<mapper resource="mapper/award/TsAwardCaseCentalMapper.xml"/>
+		<mapper resource="mapper/award/TsManagementAwardBaseConfigMapper.xml"/>
 		
 		
 		<!-- 统计报表 -->

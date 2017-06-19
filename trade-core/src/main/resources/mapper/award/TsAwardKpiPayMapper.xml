@@ -8,6 +8,7 @@
     <result column="PARTICIPANT_TYPE" property="participantType" jdbcType="VARCHAR" />
     <result column="AWARD_KPI_SUM" property="awardKpiSum" jdbcType="DECIMAL" />
     <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="AWARD_STEP" property="awardStep" jdbcType="CHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
@@ -16,7 +17,7 @@
     <result column="USER_COUNT" property="userCount" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, BELONG_MONTH, PARTICIPANT, PARTICIPANT_TYPE, AWARD_KPI_SUM, STATUS, CREATE_TIME, 
+    PKID, BELONG_MONTH, PARTICIPANT, PARTICIPANT_TYPE, AWARD_KPI_SUM, STATUS,AWARD_STEP, CREATE_TIME, 
     CREATE_BY, UPDATE_TIME, UPDATE_BY, CASE_COUNT, USER_COUNT
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -31,12 +32,12 @@
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >
     insert into sctrans.T_TS_AWARD_KPI_PAY (PKID, BELONG_MONTH, PARTICIPANT, 
-      PARTICIPANT_TYPE, AWARD_KPI_SUM, STATUS, 
+      PARTICIPANT_TYPE, AWARD_KPI_SUM, STATUS, AWARD_STEP,
       CREATE_TIME, CREATE_BY, UPDATE_TIME, 
       UPDATE_BY, CASE_COUNT, USER_COUNT
       )
     values (#{pkid,jdbcType=BIGINT}, #{belongMonth,jdbcType=TIMESTAMP}, #{participant,jdbcType=VARCHAR}, 
-      #{participantType,jdbcType=VARCHAR}, #{awardKpiSum,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{participantType,jdbcType=VARCHAR}, #{awardKpiSum,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, #{awardStep,jdbcType=CHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR}, #{caseCount,jdbcType=INTEGER}, #{userCount,jdbcType=INTEGER}
       )
@@ -61,6 +62,9 @@
       </if>
       <if test="status != null" >
         STATUS,
+      </if>
+      <if test="awardStep != null" >
+        AWARD_STEP,
       </if>
       <if test="createTime != null" >
         CREATE_TIME,
@@ -100,6 +104,9 @@
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
+      <if test="awardStep != null" >
+        #{awardStep,jdbcType=CHAR},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -138,6 +145,9 @@
       <if test="status != null" >
         STATUS = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="awardStep != null" >
+        AWARD_STEP = #{awardStep,jdbcType=CHAR},
+      </if>      
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -166,6 +176,7 @@
       PARTICIPANT_TYPE = #{participantType,jdbcType=VARCHAR},
       AWARD_KPI_SUM = #{awardKpiSum,jdbcType=DECIMAL},
       STATUS = #{status,jdbcType=VARCHAR},
+      AWARD_STEP = #{awardStep,jdbcType=CHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
@@ -194,6 +205,7 @@
     set
       STATUS = #{status,jdbcType=VARCHAR}
     where DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0;
+    
     update ab
 		set ab.paid_time=GETDATE()
 		from
@@ -203,5 +215,35 @@
 		left join sctrans.T_TS_AWARD_KPI_PAY pay
 		on pay.pkid = payt.award_kpi_pay_id
 	where DATEDIFF(mm,pay.BELONG_MONTH,#{belongMonth}) = 0;
+	
+	
+  </update>
+  
+  
+  <update id="updateTsAwardKpiPayStatusAndSyncManager" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >
+    update sctrans.T_TS_AWARD_KPI_PAY
+    set
+      STATUS = #{status,jdbcType=VARCHAR}
+    where DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0;
+    
+    update ab
+		set ab.paid_time=GETDATE()
+		from
+		sctrans.t_ts_award_base ab
+		inner join sctrans.T_TS_AWARD_KPI_PAY_detail payt
+		on ab.pkid=payt.award_base_id
+		left join sctrans.T_TS_AWARD_KPI_PAY pay
+		on pay.pkid = payt.award_kpi_pay_id
+	where DATEDIFF(mm,pay.BELONG_MONTH,#{belongMonth}) = 0;	
+	
+	INSERT  INTO  sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG(BELONG_MONTH,ORG_ID,ORG_NAME,USER_ID,USER_NAME,EMPLOY_CODE,SRV_FEE,IS_COMFIRM,JOB_NAME,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY)
+	SELECT DATEADD(MM,1,#{belongMonth}),ORG_ID,ORG_NAME,USER_ID,USER_NAME,EMPLOY_CODE,SRV_FEE,'0',JOB_NAME,GETDATE(),'PROCEDURE',GETDATE(),'PROCEDURE'
+	FROM sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG  BC
+	WHERE  DATEDIFF(mm,BC.BELONG_MONTH,#{belongMonth}) = 0;
+	
+	
+	UPDATE  sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG  SET  IS_COMFIRM = '1'  WHERE DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0;
+	
+	UPDATE  sctrans.T_TS_AWARD_CASE_CENTAL  SET  AWARD_STATUS = '1' WHERE DATEDIFF(mm,AWARD_MONTH,#{belongMonth}) = 0  AND AWARD_STATUS = '0';
   </update>
 </mapper>

@@ -64,6 +64,26 @@ public class DateUtil {
 		  }
 		  return null;
 	}
+	/**
+	 * 加上多少天
+	 * @param date
+	 * @return
+	 */
+	public static Date plusDay(Date date ,int day) {
+		  SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");//格式化对象
+		  Calendar calendar = Calendar.getInstance();//日历对象
+		  calendar.setTime(date);//设置当前日期
+		  calendar.add(Calendar.DAY_OF_YEAR, day);//月份减一
+		  
+		  String str =  sdf.format(calendar.getTime());
+		  try {
+			return sdf.parse(str);
+		  } catch (ParseException e) {
+			e.printStackTrace();
+		  }
+		  return null;
+	}
+	
 	public static Date getFirstDayOfTheMonth(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);//设置当前日期
@@ -88,6 +108,7 @@ public class DateUtil {
 		return String.valueOf(calendar.get(Calendar.YEAR));
 	}
 	public static void main(String[] args) {
-		System.out.println(DateUtil.plusMonth(new Date(), -1));
+		//System.out.println(DateUtil.plusMonth(new Date(), -1));
+		System.out.println(DateUtil.plusDay(new Date(), 10));
 	}
 }

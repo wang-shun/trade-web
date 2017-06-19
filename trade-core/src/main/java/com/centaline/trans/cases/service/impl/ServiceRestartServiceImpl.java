@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.bizwarn.repository.BizWarnInfoMapper;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ServiceRestartService;
@@ -76,6 +77,11 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	private ActRuTaskService actRuTaskService;
 	@Autowired
 	private QuickGridService quickGridService;
+	
+	@Autowired
+	private TsAwardCaseCentalService tsAwardCaseCentalService;
+	
+
 	@Override
 	@Transactional(readOnly = false)
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
@@ -302,6 +308,11 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		// 如果流程重启申请审批通过的话，就删除对应的预警信息
 		if (vo.getIsApproved()) {
 			bizWarnInfoMapper.deleteByCaseCode(vo.getCaseCode());
+		}
+		
+		// 如果流程重启申请审批通过的话，删除计件奖金池的、未发奖金的案件
+		if (vo.getIsApproved()) {
+			tsAwardCaseCentalService.deleteNobonusCase(vo.getCaseCode());
 		}
 
 		// 流程重启更改掉案件临时银行的状态

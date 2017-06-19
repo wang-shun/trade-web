@@ -5,7 +5,7 @@ import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.common.quickQuery.utils.QuickQueryJdbcTemplate;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 
 import java.util.HashMap;
 import java.util.List;

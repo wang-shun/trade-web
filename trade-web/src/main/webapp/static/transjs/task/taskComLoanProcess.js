@@ -783,7 +783,8 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    		var finOrgCode = "";
 	    		if(data.content != null && data.content.finOrgCode != null){
 	    			finOrgCode = data.content.finOrgCode;
-	    		}
+	    		}	    		
+	    		
 	    		if(data.content != null && data.content.custCode != null){
 	    			custCode=data.content.custCode;
 	    		}
@@ -793,7 +794,7 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    			fStr='mortgageForm1';
 	    			f=$('#mortgageForm1');
 	    		}
-	    		
+	    	
  				 //银行下拉列表
 			
 				getGuestInfo(fStr);
@@ -939,7 +940,6 @@ function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
 	    	}
 	  });
 }
-
 
 //
 /**
