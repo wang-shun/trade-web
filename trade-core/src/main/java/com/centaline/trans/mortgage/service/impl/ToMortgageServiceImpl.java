@@ -161,32 +161,22 @@ public class ToMortgageServiceImpl implements ToMortgageService
         condition.setCaseCode(toMortgage.getCaseCode());
         condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
         condition.setIsDelegateYucui("1");
-
+        condition.setIsActive("1");
         List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
 
-        Long pkid = toMortgage.getPkid();
-        if (pkid == null)
-        {
-            if (!CollectionUtils.isEmpty(list))
-            {
-                toMortgageMapper.update(toMortgage);
-            }
-            else
-            {
-                toMortgage.setIsDelegateYucui("1");
-                toMortgageMapper.insertSelective(toMortgage);
-            }
-        }
-        else
-        {
-            if (CollectionUtils.isEmpty(list))
-            {
-                throw new BusinessException("贷款信息不存在！");
-            }
-            toMortgage.setPkid(list.get(0).getPkid());
-            toMortgageMapper.update(toMortgage);
-        }
+		if (list != null && !list.isEmpty()) {
+			mortgage = list.get(0);
+		}
+		if (mortgage != null) {
+			toMortgage.setPkid(mortgage.getPkid());
+			toMortgageMapper.update(toMortgage);
+			
+		} else {
+			toMortgage.setIsDelegateYucui("1");
+			toMortgageMapper.insertSelective(toMortgage);		
 
+		}
+		
         if ("1".equals(toMortgage.getFormCommLoan()) && StringUtils.isNotBlank(toMortgage.getLastLoanBank()))
         {
             toMortgageMapper.restSetLastLoanBank(toMortgage);
@@ -486,7 +476,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
     public AjaxResponse<String> startTmpBankWorkFlow(String caseCode, String loanerInstCode)
     {
 
-        User manager = null, seniorManager = null, director = null;
+        @SuppressWarnings("unused")
+		User manager = null, seniorManager = null, director = null;
         AjaxResponse<String> response = new AjaxResponse<String>();
 
         try
@@ -856,7 +847,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
      * 
      * @des: 三级银行审批 总监审批完之后 发送分单信贷员流程消息和设置流程变量 0502:流程变更，不需要发送消息
      */
-    private void setLoanerProcessVariable(String loanerInstCode, boolean approveFlag)
+    @SuppressWarnings("unused")
+	private void setLoanerProcessVariable(String loanerInstCode, boolean approveFlag)
     {
 
         RestVariable restVariable = new RestVariable();
@@ -1028,7 +1020,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
      * @des : 派单结束之后，回写pkid到T_TO_WORKFLOW表的biz_code
      */
 
-    private void writeBackBizCode(String caseCode, long pkid)
+    @SuppressWarnings("unused")
+	private void writeBackBizCode(String caseCode, long pkid)
     {
 
         if ((null == caseCode || "".equals(caseCode)) || pkid < 0)

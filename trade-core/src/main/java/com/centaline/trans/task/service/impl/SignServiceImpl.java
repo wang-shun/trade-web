@@ -40,7 +40,7 @@ import com.centaline.trans.utils.DateUtil;
 
 @Service
 public class SignServiceImpl implements SignService {
-	
+
 	@Autowired(required = true)
 	private ToCaseService toCaseService;
 	@Autowired
@@ -69,7 +69,7 @@ public class SignServiceImpl implements SignService {
 
 	@Autowired
 	private UamSessionService uamSessionService;
-	
+
 	@Override
 	public Boolean insertGuestInfo(TransSignVO transSignVO) {
 		if(transSignVO.getCaseCode() == null || transSignVO.getCaseCode().isEmpty()) {
@@ -92,12 +92,12 @@ public class SignServiceImpl implements SignService {
 				tgGuestInfoUP.setPkid(transSignVO.getPkidUp().get(i));
 				tgGuestInfoMapper.updateByPrimaryKeySelective(tgGuestInfoUP);
 			} else {
-				if(tgGuestInfoMapper.findTgGuestInfosByCaseCode(tgGuestInfoUP).size() == 0) { 
+				if(tgGuestInfoMapper.findTgGuestInfosByCaseCode(tgGuestInfoUP).size() == 0) {
 					tgGuestInfoMapper.insertSelective(tgGuestInfoUP);
 				}
 			}
 		}
-		
+
 		/**下家*/
 		TgGuestInfo tgGuestInfoDown = new TgGuestInfo();
 		tgGuestInfoDown.setCaseCode(transSignVO.getCaseCode());
@@ -115,7 +115,7 @@ public class SignServiceImpl implements SignService {
 				}
 			}
 		}
-		
+
 		/**首付款*/
 		ToPayment toPaymentInit = new ToPayment();
 		toPaymentInit.setAmount(transSignVO.getInitAmount()!=null?transSignVO.getInitAmount().multiply(new BigDecimal(10000)):null);
@@ -176,7 +176,7 @@ public class SignServiceImpl implements SignService {
 				toPaymentMapper.insertSelective(toPaymentCompensate);
 			}
 		}
-		
+
 		/**物业信息*/
 		ToPropertyInfo toPropertyInfo = new ToPropertyInfo();
 		toPropertyInfo.setCaseCode(transSignVO.getCaseCode());
@@ -194,7 +194,7 @@ public class SignServiceImpl implements SignService {
 				toPropertyInfoMapper.insertSelective(toPropertyInfo);
 			}
 		}
-		
+
 		/**签约信息*/
 		ToSign toSign = new ToSign();
 		toSign.setCaseCode(transSignVO.getCaseCode());
@@ -222,7 +222,7 @@ public class SignServiceImpl implements SignService {
 				toSignMapper.insertSelective(toSign);
 			}
 		}
-		
+
 		// 功能：根据 casecode 到T_TO_FIRST_FOLLOW表中去查询，如果存在则做update，否则做insert, 作者：zhangxb16 时间 2016-1-27
 		int isExist=tofirstFollowMapper.isExistCasecode(transSignVO.getCaseCode());
 		ToFirstFollow ff=null;
@@ -233,7 +233,7 @@ public class SignServiceImpl implements SignService {
 			}else{
 				ff.setIsLoanClose("0");
 			}
-			
+
 			if("true".equals(transSignVO.getIsPerchaseReserachNeed())){  // 是否需要查限购
 				ff.setIsPerchaseReserachNeed("1");
 			}else{
@@ -248,7 +248,7 @@ public class SignServiceImpl implements SignService {
 			}else{
 				ff.setIsLoanClose("0");
 			}
-			
+
 			if("true".equals(ff.getIsPerchaseReserachNeed())){  // 是否需要查限购
 				ff.setIsPerchaseReserachNeed("1");
 			}else{
@@ -257,26 +257,26 @@ public class SignServiceImpl implements SignService {
 			ff.setCaseCode(transSignVO.getCaseCode());
 			tofirstFollowMapper.insertSelective(ff);
 		}
-		
-		
-		RestVariable restVariable = new RestVariable(); 
+
+
+		RestVariable restVariable = new RestVariable();
 		restVariable.setName("LoanCloseNeed");
 		//有无抵押要修改 上家贷款结清流程变量  
 		//true: 有抵押需要启上家贷款结清流程
-		if("true".equals(transSignVO.getIsLoanClose())){			
+		if("true".equals(transSignVO.getIsLoanClose())){
 			restVariable.setValue(true);
 		}else{
-		//false: 无抵押不需要启上家贷款结清流程		
+			//false: 无抵押不需要启上家贷款结清流程
 			restVariable.setValue(false);
 		}
 		workFlowManager.setVariableByProcessInsId(transSignVO.getProcessInstanceId(),restVariable.getName(),restVariable);
 		return true;
 	}
-	
+
 	@Override
 	public TransSignVO qureyGuestInfo(String caseCode) {
 		TransSignVO transSignVO = new TransSignVO();
-		
+
 		/**读取打款数据*/
 		List<ToPayment> toPaymentList = toPaymentMapper.findToPaymentByCaseCode(caseCode);
 		for(int i=0; i<toPaymentList.size(); i++) {
@@ -307,7 +307,7 @@ public class SignServiceImpl implements SignService {
 				transSignVO.setCompensatePayType(toPayment.getPayType());
 			}
 		}
-		
+
 		/**读取物业信息*/
 		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(caseCode);
 		if(toPropertyInfo!=null) {
@@ -321,7 +321,7 @@ public class SignServiceImpl implements SignService {
 			}
 			transSignVO.setPropertyType(toPropertyInfo.getPropertyType());
 		}
-		
+
 		/**读取签约信息*/
 		ToSign toSign = toSignMapper.findToSignByCaseCode(caseCode);
 		if(toSign!=null) {
@@ -350,11 +350,11 @@ public class SignServiceImpl implements SignService {
 			transSignVO.setIsLoanClose(tofw.getIsLoanClose()); // 抵押情况
 			transSignVO.setIsPerchaseReserachNeed(tofw.getIsPerchaseReserachNeed()); // 是否需要查限购
 		}
-		
+
 		return transSignVO;
 	}
 
-	
+
 	@Override
 	public ToSign findToSignByCaseCode(String caseCode) {
 		ToSign sign=toSignMapper.findToSignByCaseCode(caseCode);
@@ -365,9 +365,9 @@ public class SignServiceImpl implements SignService {
 
 	@Override
 	public Result2 submitSign(TransSignVO transSignVO) {
-		
+
 		SessionUser sessionUser = uamSessionService.getSessionUser();
-		
+
 		// 签约保存信息先更新 客户信息表
 		insertGuestInfo(transSignVO);
 
@@ -379,16 +379,16 @@ public class SignServiceImpl implements SignService {
 		if (null != transSignVO) {
 			toMortgage.setCaseCode(transSignVO.getCaseCode() == null ? "": transSignVO.getCaseCode());
 			pkidDownList = transSignVO.getPkidDown();
-			for (int i = 0; i < pkidDownList.size(); i++) {				
+			for (int i = 0; i < pkidDownList.size(); i++) {
 				toMortgage.setCustCode(String.valueOf(pkidDownList.get(i)));
 				List<ToMortgage> getMortgageByCodeList = toMortgageService.findToMortgageByCaseCodeAndCustcode(toMortgage);
 				if(null == getMortgageByCodeList || getMortgageByCodeList.size() <= 0){
 					continue;
 				}
-				
+
 				for(int k=0; k < getMortgageByCodeList.size();k++){
 					toMortgageList.add(getMortgageByCodeList.get(k));
-				}				
+				}
 			}
 
 			for (int i = 0; i < toMortgageList.size(); i++) {
@@ -400,7 +400,7 @@ public class SignServiceImpl implements SignService {
 				if(custCode == null){
 					continue;
 				}
-				
+
 				for (Long longPkid : pkidDownList) {
 					String strPkid = longPkid.toString();
 					if (custCode.equals(strPkid)) {
@@ -450,7 +450,7 @@ public class SignServiceImpl implements SignService {
 			workFlowManager.submitTask(variables, transSignVO.getTaskId(),
 					transSignVO.getProcessInstanceId(),
 					toCase.getLeadingProcessId(), transSignVO.getCaseCode());
-			
+
 			/**
 			 * 签约完成之后如果sctrans.T_CS_CASE_SATISFACTION表没有对应casecode的记录则插入一条记录
 			 * @for 满意度评分
@@ -489,5 +489,5 @@ public class SignServiceImpl implements SignService {
 
 		return rs;
 	}
-	
+
 }

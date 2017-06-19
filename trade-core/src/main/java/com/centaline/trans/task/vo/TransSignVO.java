@@ -6,87 +6,87 @@ import java.util.List;
 
 
 public class TransSignVO {
-	
+
 	/*流程引擎*/
 	private String taskId;
 	private String processInstanceId;
-	
+
 	/**共有属性*/
-    private String caseCode;
-    private String partCode;
-	
+	private String caseCode;
+	private String partCode;
+
 	/**TgGuestInfo 客户信息*/
 	/**上家*/
-    private List<Long> pkidUp;         //上家的id
-	private List<String> guestNameUp;  //上家的名字
-    private List<String> guestPhoneUp; //上家的电话
-    /**下家*/
-    private List<Long> pkidDown;        //下家的id
-    private List<String> guestNameDown;//下家的名字
-    private List<String> guestPhoneDown;//下家的电话
-    /*上下家删除的记录id*/
-    private List<Long> guestPkid;
-    
-    /**ToPropertyInfo 物业信息*/
-    private Long propertyPkid;
-    private String propertyAddr;      //案件地址
-    private Integer totalFloor;       //总共楼层
-    private Integer locateFloor;      //所在楼层
-    private Double square;            //面积
-    private String finishYear;        //竣工年份
-    private String propertyType;      //房屋类型
-    
-    /**TO_PAYMENT 付款方式*/
-    /**首付款*/
-    private Long initPayPkid;
-    private String initPayName;
-    private Date initPayTime;
-    private String initPayType;
-    private BigDecimal initAmount;
-    /**二次付款*/
-    private Long secPayPkid;
-    private String secPayName;
-    private Date secPayTime;
-    private String secPayType;
-    private BigDecimal secAmount;
-    /**尾款付款*/
-    private Long lastPayPkid;
-    private String lastPayName;
-    private Date lastPayTime;
-    private String lastPayType;
-    private BigDecimal lastAmount;
-    /**装修补偿款*/
-    private Long compensatePayPkid;
-    private String compensatePayName;
-    private Date compensatePayTime;
-    private String compensatePayType;
-    private BigDecimal compensateAmount;
-    
-    /**签约表*/
-    private Long signPkid;
-    private Date realConTime;            //实际签约时间
-    private String isHukou;              //房屋是否有户口
-    private String isConCert;            //是否公正 0:否 1:是
-    private String comment;
-    private BigDecimal conPrice;		/*合同价*/
-    private BigDecimal realPrice;		/*成交价*/
+	private List<Long> pkidUp;
+	private List<String> guestNameUp;
+	private List<String> guestPhoneUp;
+	/**下家*/
+	private List<Long> pkidDown;
+	private List<String> guestNameDown;
+	private List<String> guestPhoneDown;
+	/*上下家删除的记录id*/
+	private List<Long> guestPkid;
+
+	/**ToPropertyInfo 物业信息*/
+	private Long propertyPkid;
+	private String propertyAddr;
+	private Integer totalFloor;
+	private Integer locateFloor;
+	private Double square;
+	private String finishYear;
+	private String propertyType;
+
+	/**TO_PAYMENT 付款方式*/
+	/**首付款*/
+	private Long initPayPkid;
+	private String initPayName;
+	private Date initPayTime;
+	private String initPayType;
+	private BigDecimal initAmount;
+	/**二次付款*/
+	private Long secPayPkid;
+	private String secPayName;
+	private Date secPayTime;
+	private String secPayType;
+	private BigDecimal secAmount;
+	/**尾款付款*/
+	private Long lastPayPkid;
+	private String lastPayName;
+	private Date lastPayTime;
+	private String lastPayType;
+	private BigDecimal lastAmount;
+	/**装修补偿款*/
+	private Long compensatePayPkid;
+	private String compensatePayName;
+	private Date compensatePayTime;
+	private String compensatePayType;
+	private BigDecimal compensateAmount;
+
+	/**签约表*/
+	private Long signPkid;
+	private Date realConTime;
+	private String isHukou;
+	private String isConCert;
+	private String comment;
+	private BigDecimal conPrice;		/*合同价*/
+	private BigDecimal realPrice;		/*成交价*/
 	private String houseQuantity;		/*是否首套 0:手套 1：二套 2：多套*/
 
 
 
-    /*预估税费*/
-    private Long housePkid;
-    private BigDecimal houseHodingTax;       /*房产税*/
-    private BigDecimal personalIncomeTax;    /*个人所得税*/
-    private BigDecimal businessTax;			 /*上家营业税*/
-    private BigDecimal contractTax;			 /*下家契税*/
-    private BigDecimal landIncrementTax;	 /*土地增值税*/
-    
-    /* 首次跟进表 */
-    private String isPerchaseReserachNeed;  /*是否需要查限购*/
-    private String isLoanClose;  /*抵押情况*/
-    
-    
+	/*预估税费*/
+	private Long housePkid;
+	private BigDecimal houseHodingTax;       /*房产税*/
+	private BigDecimal personalIncomeTax;    /*个人所得税*/
+	private BigDecimal businessTax;			 /*上家营业税*/
+	private BigDecimal contractTax;			 /*下家契税*/
+	private BigDecimal landIncrementTax;	 /*土地增值税*/
+
+	/* 首次跟进表 */
+	private String isPerchaseReserachNeed;  /*是否需要查限购*/
+	private String isLoanClose;  /*抵押情况*/
+
+
 	public Long getPropertyPkid() {
 		return propertyPkid;
 	}
