@@ -12,7 +12,8 @@
 
 
     <description>Redisson Cluster Configuration集群</description>
-    <context:component-scan base-package="com.aist.common.conf.Redisson"/>
+    
+	<cache:annotation-driven cache-manager="redisCacheManager" key-generator="customKeyGenerator" />
     
 	<bean name="mapPropertySource"  class="org.springframework.core.env.MapPropertySource">
 		<constructor-arg name="name" value="redisClusterConfig" />
@@ -30,13 +31,13 @@
 	</bean>
 
 	<bean id="customKeyGenerator" class="com.aist.common.cache.CustomKeyGenerator" />
-	<cache:annotation-driven cache-manager="redisCacheManager" key-generator="customKeyGenerator" />
 
 
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxIdle" value="${redis.maxIdle}" />
 		<property name="maxTotal" value="${redis.maxTotal}" />
 	</bean>
+	
 	<bean id="jedisConnFactory"
 		  class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
 		<constructor-arg ref="redisClusterConfiguration" />

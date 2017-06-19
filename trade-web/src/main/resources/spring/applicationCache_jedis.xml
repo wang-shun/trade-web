@@ -12,7 +12,17 @@
 
 
 	<description>Jedis Cluster Configuration集群</description>
+	<cache:annotation-driven cache-manager="redisCacheManager" key-generator="customKeyGenerator" />
 	
+	<bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+		<constructor-arg name="redisOperations" ref="redisTemplate" />
+		<!-- 默认失效时间5分钟 值的单位为秒 -->
+		<property name="defaultExpiration" value="300"/>
+		<property name="usePrefix" value="true"/>
+	</bean>
+
+	<bean id="customKeyGenerator" class="com.aist.common.cache.CustomKeyGenerator" />
+
 	<bean name="mapPropertySource"  class="org.springframework.core.env.MapPropertySource"> 
 		<constructor-arg name="name" value="redisClusterConfig" />
 		<constructor-arg name="source" >
@@ -23,39 +33,29 @@
 		</constructor-arg>
 	</bean>
 	
-	<bean id="redisClusterConfiguration"
-		class="org.springframework.data.redis.connection.RedisClusterConfiguration">
-		<constructor-arg name="propertySource" ref="mapPropertySource"/>
-	</bean>
-	
-	<bean id="customKeyGenerator" class="com.aist.common.cache.CustomKeyGenerator" />
-	<cache:annotation-driven cache-manager="redisCacheManager" key-generator="customKeyGenerator" />
-	
-	
-	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-		<property name="maxIdle" value="${redis.maxIdle}" />
-		<property name="maxTotal" value="${redis.maxTotal}" />
-	</bean>
-	<bean id="jedisConnFactory"
-		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-		<constructor-arg ref="redisClusterConfiguration" />
-		<constructor-arg ref="jedisPoolConfig" />
-	</bean>
-
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="jedisConnFactory" />
 		<property name="defaultSerializer" >
 			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
 		</property>
 	</bean>
-	
-	<bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
-		<constructor-arg name="redisOperations" ref="redisTemplate" />
-		<!-- 默认失效时间5分钟 值的单位为秒 -->
-		<property name="defaultExpiration" value="300"/>
-		<property name="usePrefix" value="true"/>
+
+	<bean id="redisClusterConfiguration"
+		class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+		<constructor-arg name="propertySource" ref="mapPropertySource"/>
 	</bean>
 	
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${redis.maxIdle}" />
+		<property name="maxTotal" value="${redis.maxTotal}" />
+	</bean>
+
+	<bean id="jedisConnFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<constructor-arg ref="redisClusterConfiguration" />
+		<constructor-arg ref="jedisPoolConfig" />
+	</bean>
+
 	<bean id="shiroSessionRedisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
 		  p:connection-factory-ref="jedisConnFactory" >
 			 <property name="enableTransactionSupport" value="true" />

@@ -70,4 +70,12 @@ mybatis:
   mapperLocations: classpath*:mapper/**/*Mapper.xml
   typeAliasesPackage: com.centaline.parportal.**.repository
   configLocation: classpath:/mapper/mappers.xml
+  
+## redis配置
+redis:
+  cluster:
+    nodes: 'redis01:6379,redis02:6380,redis03:6381,redis04:6379,redis05:6380,redis06:6381'
+    max-redirects: 5
+  maxIdle: 100
+  maxTotal: 600
     
