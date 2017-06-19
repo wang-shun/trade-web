@@ -57,13 +57,13 @@
 					<div class="line">
 						<div class="form_content">
 							<label class="control-label sign_left_small"> 签约回访时间 </label> 
-							<input name="surveySignTimeStart" class="teamcode input_type date-picker" style="width: 106px;" placeholder="" value="" readonly="readonly" />到
-							<input name="surveySignTimeEnd" class="teamcode input_type date-picker" style="width: 106px;" placeholder="" value="" readonly="readonly" />
+							<input name="surveySignTimeStart" class="teamcode input_type date-picker" style="width: 106px;" placeholder="起始时间" value="" readonly="readonly" />到
+							<input name="surveySignTimeEnd" class="teamcode input_type date-picker" style="width: 106px;" placeholder="结束时间" value="" readonly="readonly" />
 						</div>
 						<div class="form_content">
 							<label class="control-label sign_left_small"> 过户回访时间 </label> 
-							<input name="surveyGuohuTimeStart" class="teamcode input_type date-picker" style="width: 106px;" placeholder="" value="" readonly="readonly" />到
-							<input name="surveyGuohuTimeEnd" class="teamcode input_type date-picker" style="width: 106px;" placeholder="" value="" readonly="readonly" />
+							<input name="surveyGuohuTimeStart" class="teamcode input_type date-picker" style="width: 106px;" placeholder="起始时间" value="" readonly="readonly" />到
+							<input name="surveyGuohuTimeEnd" class="teamcode input_type date-picker" style="width: 106px;" placeholder="结束时间" value="" readonly="readonly" />
 						</div>
 					</div>
 					<div class="line">
@@ -259,7 +259,7 @@
 								var length_ = $("input[name='checkRow']:enabled:checked").length;
 								$("input[name='checkRow']:enabled:checked").each(function(i,e){
 									caseCodes += $(e).val()+",";
-									if(i == (length_-1)) caseCodes = caseCodes.substring(0,length_-1);
+									if(i == (length_-1)) caseCodes = caseCodes.substring(0,caseCodes.length-1);
 								})
 								
 								$("#caseCodes").val(caseCodes);

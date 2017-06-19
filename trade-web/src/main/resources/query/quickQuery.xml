@@ -225,6 +225,11 @@
 	
 	<!-- 客服回访列表 -->
 	<import resource="query/satis/satisListQuery.xml"/>
+	<!-- 签约贷款报表统计模块结束 -->
+	
+	<!--  导入案件时效管理列表信息-->
+	<import resource="query/case/caseEfficientListQuery.xml"/>
+	
 	<!-- 满意度列表 -->
 	<import resource="query/award/KpiForCaseQuery.xml"/>
 </queryConfig>
