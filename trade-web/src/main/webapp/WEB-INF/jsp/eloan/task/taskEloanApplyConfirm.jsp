@@ -13,35 +13,36 @@
 
 <title>e+产品</title>
 
-<link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
-<link href="<c:url value='/static/font-awesome/css/font-awesome.css' />"
+<link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="${ctx}/static/font-awesome/css/font-awesome.css"
 	rel="stylesheet">
 
-<link href="<c:url value='/static/css/animate.css' />" rel="stylesheet">
-<link href="<c:url value='/static/css/style.css' />" rel="stylesheet">
+<link href="${ctx}/static/css/animate.css" rel="stylesheet">
+<link href="${ctx}/static/css/style.css" rel="stylesheet">
 
 <!-- stickUp fixed css -->
-<link href="<c:url value='/static/css/plugins/stickup/stickup.css' />"
+<link href="${ctx}/static/css/plugins/stickup/stickup.css"
 	rel="stylesheet">
-<link href="<c:url value='/static/trans/css/common/stickDash.css' />"
+<link href="${ctx}/static/trans/css/common/stickDash.css"
 	rel="stylesheet">
 
-<link href="<c:url value='/static/css/plugins/aist-steps/steps.css' />"
+<link href="${ctx}/static/css/plugins/aist-steps/steps.css"
 	rel="stylesheet">
-<link href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />"
+<link href="${ctx}/static/css/plugins/toastr/toastr.min.css"
 	rel="stylesheet">
-<link href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />"
+<link href="${ctx}/static/css/plugins/datapicker/datepicker3.css"
 	rel="stylesheet">
 <!-- index_css  -->
 
-<link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />"
+<link href="${ctx}/static/trans/css/eloan/eloan/eloan.css"
 	rel="stylesheet" />
-<link href="<c:url value='/static/trans/css/common/input.css' />" rel="stylesheet" />
-<link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet" />
-<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+<link href="${ctx}/static/trans/css/common/input.css" rel="stylesheet" />
+<link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet" />
+<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css"">
 <!-- 分页控件 -->
-<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"
-	rel="stylesheet" />
+<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
 </head>
 
 
@@ -62,7 +63,7 @@
 				<!-- <div class="ibox"> -->
 				<div class="ibox-content" id="base_info">
 					<div class="main_titile" style="position: relative;">
-						<h5>关联案件</h5>
+						<h5 class="title-mark">关联案件</h5>
 						<div class="case_content">
 							<div class="case_row">
 								<div class="case_lump">
@@ -105,9 +106,9 @@
 				</div>
 
 				<div class="ibox-content" id="zj_info">
-					<div class="main_titile">
-						<h5>e+产品</h5>
-					</div>
+					<div class="modal_title title-mark">
+                                	产品信息
+                    </div>
 					<form method="get" class="form_list" id="eloanApplyConfirmForm">
 						<input type="hidden" name="caseCode" id="caseCode"	value="${caseCode}" /> 
 						<input type="hidden" name="processInstanceId" id="processInstanceId"	value="${processInstanceId}" /> 
@@ -129,42 +130,7 @@
 									</select>
 								</div>
 							</li>	
-							<li>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 证件类型 </label>
-									<aist:dict id="custCardType" name="custCardType"
-										clazz="select_control sign_right_two" display="select"
-										dictType="CERT_TYPE" tag="forEloanApply" ligerui='none'
-										defaultvalue="${eloanCase.custCardType}"></aist:dict>
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 办卡人证件号 </label> <input
-										type="text" id="custPaper" name="custPaper"
-										class="input_type sign_right_two"
-										style="width: 172px; display: inline-block;"
-										value="${eloanCase.custPaper}" />
-								</div>
-								
-							</li>
-							<li>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 办卡人姓名 </label> <input
-										class="input_type sign_right_two" name="custName"
-										id="custName" value="${eloanCase.custName}">
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 办卡人电话 </label> <input
-										class="input_type sign_right_two" name="custPhone"
-										id="custPhone" value="${eloanCase.custPhone}">
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 案件归属 </label> <input
-										type="text" id="excutorName" name="excutorName"
-										class="input_type sign_right_two"
-										style="width: 170px; display: inline-block;"
-										value="${excutorName}" />
-								</div>
-							</li>
+							
 							<li>
 								<div class="form_content">
 									<label class="control-label sign_left_two"> 申请金额 </label> <input
@@ -191,6 +157,57 @@
 										<span class="danwei">月</span>
 									</div>
 								</div>
+							</li>
+							
+							<li>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 信贷员 </label> <input
+										class="input_type sign_right_two" name="loanerName" id="loanerName"
+										value="${eloanCase.loanerName}">
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 信贷员电话 </label> <input
+										class="input_type sign_right_two" name="loanerPhone" id="loanerPhone"
+										value="${eloanCase.loanerPhone}">
+								</div>
+							</li>
+							
+							<li>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 办卡人姓名 </label> <input
+										class="input_type sign_right_two" name="custName"
+										id="custName" value="${eloanCase.custName}">
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 办卡人电话 </label> <input
+										class="input_type sign_right_two" name="custPhone"
+										id="custPhone" value="${eloanCase.custPhone}">
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 案件归属 </label> <input
+										type="text" id="excutorName" name="excutorName"
+										class="input_type sign_right_two"
+										style="width: 170px; display: inline-block;"
+										value="${excutorName}" />
+								</div>
+							</li>
+							
+							<li>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 证件类型 </label>
+									<aist:dict id="custCardType" name="custCardType"
+										clazz="select_control sign_right_two" display="select"
+										dictType="CERT_TYPE" tag="forEloanApply" ligerui='none'
+										defaultvalue="${eloanCase.custCardType}"></aist:dict>
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_two"> 办卡人证件号 </label> <input
+										type="text" id="custPaper" name="custPaper"
+										class="input_type sign_right_two"
+										style="width: 172px; display: inline-block;"
+										value="${eloanCase.custPaper}" />
+								</div>
+								
 							</li>
 
 							<c:if test="${!empty eloanCase.chargeAmount }">
@@ -221,6 +238,11 @@
 										value="${eloanCase.zjCode}">
 								</div>
 							</li>
+							
+							<div class="modal_title title-mark">
+                                	业绩拆分信息
+                        	</div>
+							
 							<li>
 								<div class="form_content">
 									<label class="control-label sign_left_two"> 产品部姓名 </label> <input
@@ -261,18 +283,34 @@
 									</div>
 								</div>
 							</li>
+							
 							<li>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 信贷员 </label> <input
-										class="input_type sign_right_two" name="loanerName" id="loanerName"
-										value="${eloanCase.loanerName}">
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_two"> 信贷员电话 </label> <input
-										class="input_type sign_right_two" name="loanerPhone" id="loanerPhone"
-										value="${eloanCase.loanerPhone}">
-								</div>
-							</li>
+	                            <div class="form_content">
+	                                <label class="control-label sign_left_two">
+	                                   	 归属人
+	                                </label>
+	                                <input class="input_type form-control sign_right_two" value="${excutorName }" disabled="disabled" readonly="readonly">
+	                            </div>
+	                            <div class="form_content">
+	                                <label class="control-label  sign_left_two">
+	                                       	归属人编号
+	                                </label>
+	                                <input class="input_type form-control sign_right_two" value="${excutorCode }" disabled="disabled" readonly="readonly">
+	                            </div>
+	                            <div class="form_content">
+	                                <label class="control-label sign_left_two">
+	                                   	 归属人业绩比例
+	                                </label>
+	                                <input class="input_type form-control sign_right_two" id="ownerPart" value="50" disabled="disabled" readonly="readonly">
+	                                <div class="input-group date_icon">
+	                                    <span class="danwei">%</span>
+	                                </div>
+	                            </div>
+	                        </li>
+	                        
+	                        <!-- 跟进信息 -->
+                    		<div id="caseCommentList" class="view-content"></div>
+							
 							<li>
 								<c:if test="${ v!=2 }">
 									<div class="form_content">
@@ -311,31 +349,40 @@
 	</div>
 
 	<!-- Mainly scripts -->
-	<content tag="local_script"> <%--  <script src="<c:url value='/static/js/jquery-2.1.1.js' />"></script>
-    <script src="<c:url value='/static/js/bootstrap.min.js' />"></script>
-    <script src="<c:url value='/static/js/plugins/metisMenu/jquery.metisMenu.js' />"></script> 
-    <script src="<c:url value='/static/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
+	<content tag="local_script"> <%--  <script src="${ctx}/static/js/jquery-2.1.1.js"></script>
+    <script src="${ctx}/static/js/bootstrap.min.js"></script>
+    <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script> 
+    <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
     <!-- Custom and plugin javascript -->
-    <script src="<c:url value='/static/js/inspinia.js' />"></script>
-    <script src="<c:url value='/static/js/plugins/pace/pace.min.js' />"></script>--%>
+    <script src="${ctx}/static/js/inspinia.js"></script>
+    <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>--%>
 
-	<!-- stickup plugin --> <%--     <script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
-    <script src="<c:url value='/static/trans/js/workbench/stickDash.js' />"></script> --%>
+	<!-- stickup plugin --> <%--     <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
+    <script src="${ctx}/static/trans/js/workbench/stickDash.js"></script> --%>
 
 
-	<!-- Toastr script --> <script
-		src="<c:url value='/static/js/plugins/toastr/toastr.min.js' />"></script> <script
-		src="<c:url value='/static/js/morris/morris.js' />"></script> <script
-		src="<c:url value='/static/js/morris/raphael-min.js' />"></script> <!-- index_js -->
-	<script src="<c:url value='/static/trans/js/eloan/eloan.js' />"></script> <script
-		src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	<!-- Toastr script --> 
+	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> 
+	<script src="${ctx}/static/js/morris/morris.js"></script> 
+	<script src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
+	<script src="${ctx}/static/trans/js/eloan/eloan.js"></script> 
+	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-	<!-- aist --> <script
-		src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script> <script
-		src="<c:url value='/js/template.js' />" type="text/javascript"></script> <script
-		src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> <script>
+	<!-- aist --> 
+	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
+	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
+	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+    <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
+	<script>
 			$(document).ready(function() {
+				
+				var eloanCode = "${eloanCase.eloanCode}";
+				
+				//初始化归属人业绩比例
+				initRate();
+				
 				$("#loanSrvCode").attr("disabled", true);
 				$("#finOrgCode").attr("disabled", true);
 				$("#custCardType").attr("disabled", true);
@@ -351,7 +398,33 @@
 				$("input[name='month']").attr("disabled", false);	 */		
 				
 				getBankList($("#finOrgCode").val());
-
+				
+				//跟进信息
+	        	$("#caseCommentList").eloanCaseCommentGrid({
+							eloanCode : eloanCode,
+							source : 'EPLUS'
+							//type : 'TRACK'
+				});
+				
+				//初始化归属人业绩比例
+				function initRate(){
+					//产品部分成比例
+					var pdPart = Number($("#pdPart").val());
+					
+					//合作人分成比例
+					var coPart = Number($("#coPart").val());
+					
+					//计算归属人分成比例
+					var ownerPart = 100 - pdPart - coPart;
+					
+					if(coPart != 0){
+						$("#coPart").val(coPart.toFixed(2));
+					}
+					
+					$("#pdPart").val(pdPart.toFixed(2));
+					$("#ownerPart").val(ownerPart.toFixed(2));
+				}
+				
 				$(".submit_From").click(function() {
 					if($("#param").val()!=2){
 						//提交之前先验证 是否驳回

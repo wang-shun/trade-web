@@ -27,4 +27,11 @@
    	<import resource="query/chat/contactQuery.xml" />
    	
    	<import resource="query/case/activitiQuery.xml" />
+
+	<!--首次跟进 -->
+	<import resource="query/task/followPicListQuery.xml" />
+
+	<!--常量 -->
+	<import resource="query/baseData/dict.xml" />
+
 </queryConfig>

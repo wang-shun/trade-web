@@ -563,9 +563,9 @@
 			
 					//保存数据
 					function save(b) {
-							if (!checkForm()) {
-								return;
-							}
+						if (!checkForm()) {
+							return;
+						}
 						
 						if (!$("#firstFollowform").valid()) {
 							return;

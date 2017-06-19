@@ -52,6 +52,10 @@ public class ToSatisfaction {
     private Integer agentSignSat;
 
     private String agentSignCom;
+    
+    private Integer agentLoancloseSat;
+    
+    private String agentLoancloseCom;
 
     private Integer agentComloanSat;
 
@@ -64,6 +68,10 @@ public class ToSatisfaction {
     private Integer agentGuohuSat;
 
     private String agentGuohuCom;
+    
+    private String agentComDict;
+    
+    private String agentComElse;
 
     private String status;
 
@@ -285,6 +293,22 @@ public class ToSatisfaction {
     public void setAgentSignCom(String agentSignCom) {
         this.agentSignCom = agentSignCom == null ? null : agentSignCom.trim();
     }
+    
+    public Integer getAgentLoancloseSat() {
+		return agentLoancloseSat;
+	}
+
+	public void setAgentLoancloseSat(Integer agentLoancloseSat) {
+		this.agentLoancloseSat = agentLoancloseSat;
+	}
+
+	public String getAgentLoancloseCom() {
+		return agentLoancloseCom;
+	}
+
+	public void setAgentLoancloseCom(String agentLoancloseCom) {
+		this.agentLoancloseCom = agentLoancloseCom == null ? null : agentLoancloseCom.trim();
+	}
 
     public Integer getAgentComloanSat() {
         return agentComloanSat;
@@ -293,8 +317,8 @@ public class ToSatisfaction {
     public void setAgentComloanSat(Integer agentComloanSat) {
         this.agentComloanSat = agentComloanSat;
     }
-
-    public String getAgentComloanCom() {
+ 
+	public String getAgentComloanCom() {
         return agentComloanCom;
     }
 
@@ -334,7 +358,23 @@ public class ToSatisfaction {
         this.agentGuohuCom = agentGuohuCom == null ? null : agentGuohuCom.trim();
     }
 
-    public String getStatus() {
+    public String getAgentComDict() {
+		return agentComDict;
+	}
+
+	public void setAgentComDict(String agentComDict) {
+		this.agentComDict = agentComDict == null ? null : agentComDict.trim();
+	}
+
+	public String getAgentComElse() {
+		return agentComElse;
+	}
+
+	public void setAgentComElse(String agentComElse) {
+		this.agentComElse = agentComElse == null ? null : agentComElse.trim();
+	}
+
+	public String getStatus() {
         return status;
     }
 

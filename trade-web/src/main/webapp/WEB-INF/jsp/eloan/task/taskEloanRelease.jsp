@@ -11,25 +11,27 @@
 
     <title>e+产品</title>
 
-    <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
-    <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+    <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link href="<c:url value='/static/css/animate.css' />" rel="stylesheet">
-    <link href="<c:url value='/static/css/style.css' />" rel="stylesheet">
+    <link href="${ctx}/static/css/animate.css" rel="stylesheet">
+    <link href="${ctx}/static/css/style.css" rel="stylesheet">
 
     <!-- stickUp fixed css -->
-    <link href="<c:url value='/static/css/plugins/stickup/stickup.css' />" rel="stylesheet">
-    <link href="<c:url value='/static/trans/css/common/stickDash.css' />" rel="stylesheet">
+    <link href="${ctx}/static/css/plugins/stickup/stickup.css" rel="stylesheet">
+    <link href="${ctx}/static/trans/css/common/stickDash.css" rel="stylesheet">
 
-    <link href="<c:url value='/static/css/plugins/aist-steps/steps.css' />" rel="stylesheet">
-    <link href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
-    <link href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
+    <link href="${ctx}/static/css/plugins/aist-steps/steps.css" rel="stylesheet">
+    <link href="${ctx}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="${ctx}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
     <!-- index_css  -->
 
-    <link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />" rel="stylesheet"/>
-    <link href="<c:url value='/static/trans/css/common/input.css' />" rel="stylesheet"/>
-    <link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet"/>
-    <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" >
+    <link href="${ctx}/static/trans/css/eloan/eloan/eloan.css" rel="stylesheet"/>
+    <link href="${ctx}/static/trans/css/common/input.css" rel="stylesheet"/>
+    <link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" >
+    <link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+    <link href="${ctx}/css/common/details.css" rel="stylesheet">
 
 </head>
 
@@ -175,6 +177,17 @@
                                 </div>
                                 <div class="case_row">
                                    <div class="case_lump">
+                                       <p><em>归属人姓名</em><span class="span_one">${excutorName}</span></p>
+                                   </div>
+                                   <div class="case_lump">
+                                       <p><em>归属人员工编号</em><span class="span_one">${excutorCode}</span></p>
+                                   </div>
+                                   <div class="case_lump">
+                                       <p><em>分成比例贷款</em><span class="span_one">${100-eloanCase.coPart-eloanCase.pdPart}%</span></p>
+                                   </div>
+                                </div>
+                                <div class="case_row">
+                                   <div class="case_lump">
                                        <p><em>信贷员</em><span class="span_one">${eloanCase.loanerName}</span></p>
                                    </div>
                                    <div class="case_lump">
@@ -193,7 +206,9 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="main_titile" style="position: relative;">
+                        
+                        <c:if test="${not empty eloanRelList}">  
+                         	<div class="main_titile" style="position: relative;">
 		                           <h5>放款记录</h5>
 		                           
 		                           <div class="case_content">
@@ -232,8 +247,13 @@
 							                           </div>
 												</c:forEach>
 		                           </div>
-		                 </div>
+		                 	</div>
+		               	</c:if>
+		                 
+		                  <!-- 跟进信息 -->
+                    	<div id="caseCommentList" class="view-content"></div>
                     </div>
+                    
 
                     <div class="ibox-content" id="loan_info">
                         <div class="main_titile">
@@ -285,17 +305,21 @@
     <!-- Mainly scripts -->
     <content tag="local_script">
     <!-- Custom and plugin javascript -->
-    <script src="<c:url value='/static/js/inspinia.js' />"></script>
-    <script src="<c:url value='/static/js/plugins/pace/pace.min.js' />"></script>
+    <script src="${ctx}/static/js/inspinia.js"></script>
+    <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
     <!-- Toastr script -->
-    <script src="<c:url value='/static/js/plugins/toastr/toastr.min.js' />"></script>
-    <script src="<c:url value='/static/js/morris/morris.js' />"></script>
-    <script src="<c:url value='/static/js/morris/raphael-min.js' />"></script>
+    <script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script>
+    <script src="${ctx}/static/js/morris/morris.js"></script>
+    <script src="${ctx}/static/js/morris/raphael-min.js"></script>
     <!-- index_js -->
-    <script src="<c:url value='/static/trans/js/eloan/eloan.js' />"></script>
-    <script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
-    <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-    <script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+    <script src="${ctx}/static/trans/js/eloan/eloan.js"></script>
+    <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+    <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+    <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+    <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
+    
    	<script id="addMoneyRelease" type= "text/html">
                            <li id="releaseDiv{{divIndex}}">
                                 <div class="form_content">
@@ -326,8 +350,17 @@
                             </li>
 	</script>
     <script>
-        $(document).ready(function () {	
+        $(document).ready(function () {
+        	var eloanCode = "${eloanCase.eloanCode}";
+        	
         	getBankList();
+        	
+        	//跟进信息
+        	$("#caseCommentList").eloanCaseCommentGrid({
+						eloanCode : eloanCode,
+						source : 'EPLUS'
+						//type : 'TRACK'
+			});
         	
 			 //驳回原因显示问题
 			 var eLoanContent = $("#eLoanContent").val();	

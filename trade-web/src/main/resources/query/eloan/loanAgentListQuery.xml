@@ -42,7 +42,6 @@
 	<query id="loanAgentListQuery">
 		<searchCondition>
 			<condition field="loanAgent.CASE_CODE" name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="INFO.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <!-- <condition field="us.REAL_NAME" name="realName" label="人员" searchType="LIKE" showType="" showCallback="" defaultValue=""/> -->
             <condition field="orgHierarchy.DISTRICT_ID" name="districtOrgId" label="所属区域" searchType="IN" showType="" showCallback="" defaultValue=""/>
             <condition field="loanAgent.LOAN_SRV_CODE" name="loanSrvCode" label="税费卡" searchType="EQ" showType="" showCallback="" defaultValue=""/>
@@ -58,162 +57,79 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT 
-					  c.PKID,
-					  loanAgent.CASE_CODE,
-					  INFO.PROPERTY_ADDR,
-					  loanAgent.LOAN_SRV_CODE AS LOAN_SRV_CODE_OLD,
-					  loanAgent.EXECUTOR_ID AS EXECUTOR_ID_OLD,
-					  loanAgent.EXECUTOR_TEAM AS EXCUTOR_TEAM,
-					  '' AS EXCUTOR_DISTRICT,
-					  loanAgent.CREATOR_ID AS CREATE_ID_OLD,
-					  isnull(Convert(decimal(18,2),sign.CON_PRICE/10000),0) as 'CON_PRICE',
-					  loanAgent.APPLY_TIME,
-					  loanAgent.SIGN_TIME,
-					  loanAgent.CREATE_TIME,
-					  loanAgent.RELEASE_TIME,
-					  isnull(Convert(decimal(18,2),loanAgent.LOAN_AMOUNT/10000),0) as 'LOAN_AMOUNT',
-					  isnull(Convert(decimal(18,2),loanAgent.SIGN_AMOUNT/10000),0) as 'SIGN_AMOUNT',
-					  isnull(Convert(decimal(18,2),loanAgent.ACTUAL_AMOUNT/10000),0) as 'ACTUAL_AMOUNT',
-					  c.ORG_ID,
-					  c.DISTRICT_ID,
-					  C.LEADING_PROCESS_ID,
-					  caseInfo.GRP_NAME,
-					  caseInfo.QJDS_NAME,
-					  finOrg.FIN_ORG_NAME as 'finOrgName',
-					  loanAgent.cust_name as custName,
-					  caseInfo.AGENT_NAME as AgentName,
-					  '' as zjName,
-				      '' as custCardType,
-					  '' as custPaper
-					FROM
-					   sctrans.T_TO_LOAN_AGENT loanAgent
-					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
-					INNER JOIN sctrans.T_TO_CASE_INFO caseInfo ON caseInfo.CASE_CODE =  loanAgent.CASE_CODE
-					LEFT JOIN  sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
-					INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
-					INNER JOIN sctrans.T_TS_FIN_ORG finOrg ON finOrg.FIN_ORG_CODE = loanAgent.FIN_ORG_CODE
-				    <ifNotNull isJygw>
-						and loanAgent.EXECUTOR_ID = #userId#
-					</ifNotNull>
-					INNER JOIN
-				        sctrans.v_yucui_org_hierarchy orgHierarchy
-				    ON
-				        orgHierarchy.ORG_ID = loanAgent.executor_team
-				    WHERE
-				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !=''
+					SELECT
+						c.PKID,
+						loanAgent.CASE_CODE,
+						(select top 1 PROPERTY_ADDR from sctrans.T_TO_PROPERTY_INFO INFO where INFO.CASE_CODE=loanAgent.CASE_CODE) as PROPERTY_ADDR,
+						loanAgent.LOAN_SRV_CODE AS LOAN_SRV_CODE_OLD,
+						loanAgent.EXCUTOR_ID AS EXECUTOR_ID_OLD,
+						loanAgent.EXCUTOR_TEAM,
+						loanAgent.EXCUTOR_DISTRICT,
+						loanAgent.CREATE_BY AS CREATE_ID_OLD,
+						isnull((select top 1 CON_PRICE/10000 from sctrans.T_TO_SIGN sign where sign.CASE_CODE=loanAgent.CASE_CODE and  IS_ACTIVE='1' ),0) as CON_PRICE,
+						loanAgent.APPLY_TIME,
+						loanAgent.SIGN_TIME,
+						loanAgent.CREATE_TIME,
+						rel.RELEASE_TIME AS RELEASE_TIME,
+						ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.APPLY_AMOUNT), 0) AS 'LOAN_AMOUNT' ,
+						ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.SIGN_AMOUNT), 0) AS 'SIGN_AMOUNT' ,
+						ISNULL(CONVERT(DECIMAL(18, 2), rel.RELEASE_AMOUNT),0) AS 'ACTUAL_AMOUNT',
+						c.ORG_ID,
+						c.DISTRICT_ID,
+						C.LEADING_PROCESS_ID,
+						(select top 1 GRP_NAME from sctrans.T_TO_CASE_INFO caseInfo where caseInfo.CASE_CODE=loanAgent.CASE_CODE) as GRP_NAME,
+						(select top 1 QJDS_NAME from sctrans.T_TO_CASE_INFO caseInfo where caseInfo.CASE_CODE=loanAgent.CASE_CODE) as QJDS_NAME,
+						(select top 1 AGENT_NAME from sctrans.T_TO_CASE_INFO caseInfo where caseInfo.CASE_CODE=loanAgent.CASE_CODE) as AgentName,
+						(select top 1 FIN_ORG_NAME from sctrans.T_TS_FIN_ORG finOrg where finOrg.FIN_ORG_CODE = loanAgent.FIN_ORG_CODE) as finOrgName,
+						loanAgent.cust_name as custName,
+						loanAgent.ZJ_NAME,
+						CASE
+							WHEN loanAgent.CUST_CARD_TYPE='SFZ' THEN '身份证'
+							WHEN loanAgent.CUST_CARD_TYPE='HZ' THEN '护照'
+							WHEN loanAgent.CUST_CARD_TYPE='XGSFZ' THEN '香港身份证'
+							WHEN loanAgent.CUST_CARD_TYPE='GATXZ' THEN '港澳通行证'
+							WHEN loanAgent.CUST_CARD_TYPE='TBZ' THEN '台胞证'
+						END as custCardType,
+						loanAgent.CUST_PAPER as custPaper
 
-				     <ifNotNull caseCode>
-						and loanAgent.CASE_CODE= #caseCode#
-					</ifNotNull>
+						FROM
+							sctrans.T_TO_ELOAN_CASE loanAgent
+							LEFT JOIN sctrans.T_TO_ELOAN_REL rel ON rel.ELOAN_CODE = loanAgent.ELOAN_CODE and rel.CONFIRM_STATUS=1
+							INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
 
-					<ifNotNull propertyAddr>
-						and INFO.PROPERTY_ADDR like  #propertyAddr#
-					</ifNotNull>
+						<ifNotNull isJygw>
+							and loanAgent.EXCUTOR_ID = #userId#
+						</ifNotNull>
+						INNER JOIN sctrans.v_yucui_org_hierarchy orgHierarchy ON orgHierarchy.ORG_ID = loanAgent.excutor_team
+						WHERE
+						loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !='' AND (loanAgent.STATUS IS NULL OR loanAgent.STATUS='VALID')
 
-					<ifNotNull loanSrvCode>
-						and loanAgent.LOAN_SRV_CODE =  #loanSrvCode#
-					</ifNotNull>
+						<ifNotNull applyTimeStart>
+							and loanAgent.APPLY_TIME &gt;= #applyTimeStart#
+						</ifNotNull>
+						<ifNotNull applyTimeEnd>
+							and loanAgent.APPLY_TIME &lt; #applyTimeEnd#
+						</ifNotNull>
+						<ifNotNull signTimeStart>
+							and loanAgent.SIGN_TIME &gt;= #signTimeStart#
+						</ifNotNull>
+						<ifNotNull signTimeEnd>
+							and loanAgent.SIGN_TIME &lt; #signTimeEnd#
+						</ifNotNull>
 
+						<ifNotNull releaseTimeStart>
+							and rel.RELEASE_TIME &gt;= #releaseTimeStart#
+						</ifNotNull>
+						<ifNotNull releaseTimeEnd>
+							and rel.RELEASE_TIME &lt; #releaseTimeEnd#
+						</ifNotNull>
+						<if test="yuCuiOriGrpId!=null and yuCuiOriGrpId!=''">
+							and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
+						</if>
+						<ifNotNull propertyAddr>
+							and exists (select 1 from sctrans.T_TO_PROPERTY_INFO INFO where INFO.CASE_CODE=loanAgent.CASE_CODE and PROPERTY_ADDR like :propertyAddr)
+						</ifNotNull>
 
-				    <ifNotNull applyTimeStart>
-						and loanAgent.APPLY_TIME &gt;= #applyTimeStart#
-					</ifNotNull>
-					<ifNotNull applyTimeEnd>
-						and loanAgent.APPLY_TIME &lt; #applyTimeEnd#
-					</ifNotNull>
-					<ifNotNull signTimeStart>
-						and loanAgent.SIGN_TIME &gt;= #signTimeStart#
-					</ifNotNull>
-					<ifNotNull signTimeEnd>
-						and loanAgent.SIGN_TIME &lt; #signTimeEnd#
-					</ifNotNull>
-
-				    <ifNotNull releaseTimeStart>
-						and loanAgent.RELEASE_TIME &gt;= #releaseTimeStart#
-					</ifNotNull>
-					<ifNotNull releaseTimeEnd>
-						and loanAgent.RELEASE_TIME &lt; #releaseTimeEnd#
-					</ifNotNull>
-
-					<if test="yuCuiOriGrpId!=null and yuCuiOriGrpId!=''">
-						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
-					</if>
-
-					UNION ALL
-				SELECT
-					  c.PKID,
-					  loanAgent.CASE_CODE,
-					  INFO.PROPERTY_ADDR,
-					  loanAgent.LOAN_SRV_CODE AS LOAN_SRV_CODE_OLD,
-					  loanAgent.EXCUTOR_ID AS EXECUTOR_ID_OLD,
-					  loanAgent.EXCUTOR_TEAM,
-					  loanAgent.EXCUTOR_DISTRICT,
-					  loanAgent.CREATE_BY AS CREATE_ID_OLD,
-					  --loanAgent.excutor_team as 'PARENT_ORG_NAME_OLD',
-					  isnull(Convert(decimal(18,2),sign.CON_PRICE/10000),0) as 'CON_PRICE',
-					  loanAgent.APPLY_TIME,
-					  loanAgent.SIGN_TIME,
-					  loanAgent.CREATE_TIME,
-					 rel.RELEASE_TIME AS RELEASE_TIME,
-        			ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.APPLY_AMOUNT), 0) AS 'LOAN_AMOUNT' ,
-        			ISNULL(CONVERT(DECIMAL(18, 2), loanAgent.SIGN_AMOUNT), 0) AS 'SIGN_AMOUNT' ,
-					ISNULL(CONVERT(DECIMAL(18, 2), rel.RELEASE_AMOUNT),0) AS 'ACTUAL_AMOUNT',
-					c.ORG_ID,
-					c.DISTRICT_ID,
-					C.LEADING_PROCESS_ID,
-					caseInfo.GRP_NAME,
-					caseInfo.QJDS_NAME,
-					finOrg.FIN_ORG_NAME as 'finOrgName',
-					loanAgent.cust_name as custName,
-					caseInfo.AGENT_NAME as AgentName,
-					loanAgent.ZJ_NAME,
-					CASE
-						WHEN loanAgent.CUST_CARD_TYPE='SFZ' THEN '身份证'
-						WHEN loanAgent.CUST_CARD_TYPE='HZ' THEN '护照'
-						WHEN loanAgent.CUST_CARD_TYPE='XGSFZ' THEN '香港身份证'
-						WHEN loanAgent.CUST_CARD_TYPE='GATXZ' THEN '港澳通行证'
-						WHEN loanAgent.CUST_CARD_TYPE='TBZ' THEN '台胞证'
-					END as custCardType,
-					loanAgent.CUST_PAPER as custPaper
-
-					FROM
-					   sctrans.T_TO_ELOAN_CASE loanAgent
-					INNER JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = loanAgent.CASE_CODE
-					INNER JOIN sctrans.T_TO_CASE_INFO caseInfo ON caseInfo.CASE_CODE = loanAgent.CASE_CODE
-					LEFT JOIN sctrans.T_TO_SIGN sign ON loanAgent.CASE_CODE = sign.CASE_CODE
-					LEFT JOIN sctrans.T_TO_ELOAN_REL rel ON rel.ELOAN_CODE = loanAgent.ELOAN_CODE and rel.CONFIRM_STATUS=1
-					INNER JOIN sctrans.T_TO_PROPERTY_INFO INFO ON INFO.CASE_CODE = loanAgent.CASE_CODE
-					INNER JOIN sctrans.T_TS_FIN_ORG finOrg ON finOrg.FIN_ORG_CODE = loanAgent.FIN_ORG_CODE
-					<ifNotNull isJygw>
-						and loanAgent.EXCUTOR_ID = #userId#
-					</ifNotNull>
-					INNER JOIN sctrans.v_yucui_org_hierarchy orgHierarchy ON orgHierarchy.ORG_ID = loanAgent.excutor_team
-				    WHERE
-				    loanAgent.CASE_CODE is not null and loanAgent.CASE_CODE !='' AND (loanAgent.STATUS IS NULL OR loanAgent.STATUS='VALID')
-
-				    <ifNotNull applyTimeStart>
-						and loanAgent.APPLY_TIME &gt;= #applyTimeStart#
-					</ifNotNull>
-					<ifNotNull applyTimeEnd>
-						and loanAgent.APPLY_TIME &lt; #applyTimeEnd#
-					</ifNotNull>
-					<ifNotNull signTimeStart>
-						and loanAgent.SIGN_TIME &gt;= #signTimeStart#
-					</ifNotNull>
-					<ifNotNull signTimeEnd>
-						and loanAgent.SIGN_TIME &lt; #signTimeEnd#
-					</ifNotNull>
-
-				    <ifNotNull releaseTimeStart>
-						and rel.RELEASE_TIME &gt;= #releaseTimeStart#
-					</ifNotNull>
-					<ifNotNull releaseTimeEnd>
-						and rel.RELEASE_TIME &lt; #releaseTimeEnd#
-					</ifNotNull>
-					<if test="yuCuiOriGrpId!=null and yuCuiOriGrpId!=''">
-						and (orgHierarchy.TEAM_ID=#yuCuiOriGrpId# or orgHierarchy.DISTRICT_ID=#yuCuiOriGrpId# or orgHierarchy.hq_id=#yuCuiOriGrpId#)
-					</if>
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -235,7 +151,7 @@
 				<column type="virtual" name="CREATE_ID" customDict="getUserNameByUserId" referencecol="CREATE_ID_OLD"  display="创建人" title="创建人"/>
 				
 				<column type="both" name="EXCUTOR_TEAM" index="" checkbox="" display="所属组织id" title="所属组织id" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="EXCUTOR_TEAM_NAME" customDict="getOrgNameByOrgId" referencecol="EXCUTOR_TEAM"  display="所属组织" title="所属组织"/>
+				<column type="virtual" name="EXCUTOR_TEAM_NAME" customDict="getOrgNameByOrgId" referencecol="EXCUTOR_TEAM"  display="所属组织22" title="所属组织33"/>
 				<column type="both" name="EXCUTOR_DISTRICT" index="" checkbox="" display="贵宾服务部id" title="贵宾服务部id" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="EXCUTOR_DISTRICT_NAME" customDict="getOrgNameByOrgId" referencecol="EXCUTOR_DISTRICT"  display="贵宾服务部" title="贵宾服务部"/>
 							
@@ -244,7 +160,7 @@
 				<column type="both" name="PARENT_ORG_NAME_OLD" index="" checkbox="" display="所属服务部" title="所属服务部" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="virtual" name="PARENT_ORG_NAME" customDict="getParentOrgNameByOrgId" referencecol="PARENT_ORG_NAME_OLD"  display="所属服务部" title="所属服务部"/>
 				 -->
-				<column type="both" name="CON_PRICE" index="" checkbox="" display="合同价(万元)1" title="合同价(万元)"   expType="Double" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CON_PRICE" index="" checkbox="" display="合同价(万元)22" title="合同价(万元)22"   expType="Double" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="APPLY_TIME" index="" checkbox="" display="申请时间" title="申请时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="90" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SIGN_TIME" index="" checkbox="" display="面签时间" title="面签时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="90" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="RELEASE_TIME" index="" checkbox="" display="放款时间" title="放款时间" customDict="" sysDict="" format="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" width="90" isSort="" align="" halign="" order="" resizable=""/>

@@ -40,6 +40,12 @@
 		<pattern>/awards/personalAward</pattern>		
 		<pattern>/awards/allAward</pattern>		
 		<pattern>/award/baseAwardReport</pattern>
+		
+		<!-- 计件奖金改版 -->
+		<pattern>/newAward/awardCaseCollect</pattern>
+		<pattern>/newAward/newMethodAwardCollect</pattern>
+		<pattern>/newAward/newConsultantBonus</pattern>
+		
 		<pattern>/property/processWaitList</pattern>	
 		<pattern>/property/processingList</pattern>
 		<pattern>/property/successList</pattern>
@@ -138,7 +144,16 @@
 		<pattern>/report/OperateData</pattern>
 		<pattern>/report/operate1</pattern>
 		<pattern>/report/operate2</pattern>
-		<pattern>/report/operate3</pattern>
+		<pattern>/report/operate3</pattern>	
+			
+		<pattern>/newAward/bonusConfiguration</pattern>
+		<pattern>/newAward/newBonus</pattern>
+		<pattern>/newAward/personBonusCollect</pattern>		
+		<pattern>/newAward/managerPiecework</pattern>
+		<pattern>/newAward/monthKpiImport</pattern>
+		<pattern>/newAward/wastageRate</pattern>
+		<pattern>/newAward/satis</pattern>		
+		<pattern>/award/doMonthKpiImportForNew</pattern>		
 	</decorator>	 
 	<decorator name="box" page="box_template.jsp">
 		<pattern>/*/box/*</pattern>

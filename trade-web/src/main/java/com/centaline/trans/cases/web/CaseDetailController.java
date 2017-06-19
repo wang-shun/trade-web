@@ -2216,11 +2216,11 @@ public class CaseDetailController {
 		for (String instCode : taskInstCode.keySet()) {
 			if(!com.alibaba.druid.util.StringUtils.isEmpty(instCode)){
 				if(isSus){
-					if(taskInstCode.get(instCode)){//如果是挂起状态
+					if(taskInstCode.get(instCode)){//如果是挂起状态  true变成非挂起状态
 						workFlowManager.activateOrSuspendProcessInstance(instCode, true);
 					}
 				}else{
-					if(!taskInstCode.get(instCode)){//如果不是挂起状态
+					if(!taskInstCode.get(instCode)){//如果不是挂起状态  false变成挂起状态
 						workFlowManager.activateOrSuspendProcessInstance(instCode, false);
 					}
 

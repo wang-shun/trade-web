@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="<c:url value='/css/satis/casevist.css' />" />
 <!-- 分页控件 -->
 <link href="<c:url value='/static/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet" />
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -55,10 +56,22 @@
 					</div>
 					<div class="line">
 						<div class="form_content">
+							<label class="control-label sign_left_small"> 签约回访时间 </label> 
+							<input name="surveySignTimeStart" class="teamcode input_type date-picker" style="width: 106px;" placeholder="" value="" readonly="readonly" />到
+							<input name="surveySignTimeEnd" class="teamcode input_type date-picker" style="width: 106px;" placeholder="" value="" readonly="readonly" />
+						</div>
+						<div class="form_content">
+							<label class="control-label sign_left_small"> 过户回访时间 </label> 
+							<input name="surveyGuohuTimeStart" class="teamcode input_type date-picker" style="width: 106px;" placeholder="" value="" readonly="readonly" />到
+							<input name="surveyGuohuTimeEnd" class="teamcode input_type date-picker" style="width: 106px;" placeholder="" value="" readonly="readonly" />
+						</div>
+					</div>
+					<div class="line">
+						<div class="form_content">
 							<label class="control-label sign_left_small"> 客服 </label> 
 							<input type="hidden" id="userId" value=''> 
 							<input type="text" id="realName" readonly="readonly" class="teamcode input_type"
-								onclick="userSelect({startOrgId:'2c9280845be6e90c015bf06436fb0021',expandNodeId:'2c9280845be6e90c015bf06436fb0021',
+								onclick="userSelect({startOrgId:'${kefuOrgId}',expandNodeId:'${kefuOrgId}',
 									jobCode:'JYUKFZY',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectUserBack})"
 								placeholder="请输入" value=''>
 							<div class="input-group float_icon organize_icon">
@@ -86,6 +99,8 @@
 							<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">
 								<a href="javascript:dispatch();"><button type="button"
 										class="btn btn-success mr5">派单</button></a>
+ 								<a href="javascript:exportToExcel();"><button type="button"
+										class="btn btn-success mr5">导出</button></a>		
 							</shiro:hasPermission>		
 							<button type="button" onclick="clearForm()"
 								class="btn btn-grey mr5">清空</button>
@@ -110,7 +125,8 @@
 	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script> 
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script> 
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
-	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
+	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+	<script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
 	<script id="template_satisList" type="text/html">
          {{each rows as item index}}
                 <tr>
@@ -183,11 +199,11 @@
                    </td>
                    <td>
                       <p class="big">
-                       	{{item.PR_ADDR}}{{item.STATUS}}
+                       	{{item.PROPERTY_ADDR}}
 					  </p>
 					  <span >
 						<i class="salesman-icon"></i>
- 						<a class="hint hint-top" data-hint="直管经理: {{item.MANAGER_INFO.realName==null?"":item.MANAGER_INFO.realName}}  电话: {{item.MANAGER_INFO.mobile}} "  >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.MOBILE}}<span class="slash">/</span>{{item.AGENT_ORG_NAME}}</a>						 
+ 						<a class="hint hint-top" >{{item.AGENT_NAME}}<span class="slash">/</span>{{item.AGENT_PHONE}}<span class="slash">/</span>{{item.C_ORG_NAME}}</a>						 
 					  </span>
                     </td>
                   	<td>
@@ -240,8 +256,10 @@
 							function dispatch() {
 								var caseCodes = '';
 								
+								var length_ = $("input[name='checkRow']:enabled:checked").length;
 								$("input[name='checkRow']:enabled:checked").each(function(i,e){
 									caseCodes += $(e).val()+",";
+									if(i == (length_-1)) caseCodes = caseCodes.substring(0,length_-1);
 								})
 								
 								$("#caseCodes").val(caseCodes);
@@ -251,14 +269,38 @@
 									return false;
 								}
 								
-								userSelect({startOrgId:'2c9280845be6e90c015bf06436fb0021',expandNodeId:'2c9280845be6e90c015bf06436fb0021',
+								userSelect({startOrgId:'${kefuOrgId}',expandNodeId:'${kefuOrgId}',
 									jobCode:'JYUKFZY',nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:selectCallerBack});
 
+							}
+							
+							function exportToExcel(){
+								var params = {
+										page : 1,
+										sessionUserId : $("#sessionUserId").val(),
+										serviceDepId : $("#serviceDepId").val(),
+										serviceJobCode : $("#serviceJobCode").val(),
+								}
+								params.caseCode=$("input[name='caseCode']").val().trim();
+								params.prAddress=$("input[name='prAddress']").val().trim();
+								params.surveySignTimeStart = $("input[name='surveySignTimeStart']").val();
+								params.surveySignTimeEnd = $("input[name='surveySignTimeEnd']").val();
+								params.surveyGuohuTimeStart = $("input[name='surveyGuohuTimeStart']").val();
+								params.surveyGuohuTimeEnd = $("input[name='surveyGuohuTimeEnd']").val();
+								params.callerId=$("#userId").val();
+								params.status=$("select[name='status']").val();
+								
+								aist.exportExcel({
+									ctx : '${ctx}',
+									queryId : 'SatisListQueryForExport',
+									colomns : ['STATUS_CN', 'CASE_CODE', 'PROPERTY_ADDR','SIGN_TIME', 'GUOHU_TIME','C_ORG_NAME', 'WZ_NAME','CALLER_NAME'],
+									data : params
+								});
 							}
 
 							//清空数据
 							function clearForm() {
-								$(".input_type").val("");
+								$(".input_type,#userId").val("");
 								$(".select_control option:first").prop("selected", true);
 							}
 
@@ -272,10 +314,14 @@
 							
 							//查询
 							$("#btn_search").click(function() {
-								params.caseCode=$("input[name='caseCode']").val().trim();
-								params.prAddress=$("input[name='prAddress']").val().trim();
-								params.callerId=$("#userId").val();
-								params.status=$("select[name='status']").val();
+								params.caseCode = $("input[name='caseCode']").val().trim();
+								params.prAddress = $("input[name='prAddress']").val().trim();
+								params.surveySignTimeStart = $("input[name='surveySignTimeStart']").val();
+								params.surveySignTimeEnd = $("input[name='surveySignTimeEnd']").val();
+								params.surveyGuohuTimeStart = $("input[name='surveyGuohuTimeStart']").val();
+								params.surveyGuohuTimeEnd = $("input[name='surveyGuohuTimeEnd']").val();
+								params.callerId = $("#userId").val();
+								params.status = $("select[name='status']").val();
 
 								initData();
 							})
@@ -308,7 +354,7 @@
 								{
 									ctx : "${ctx}",
 									queryId : 'SatisListQuery',
-									rows : '12',
+									rows : '30',
 									templeteId : 'template_satisList',
 									gridClass : 'table table_blue table-striped table-bordered table-hover ',
 									data : params,
@@ -373,6 +419,15 @@
 							function toggleSelectAll(b){
 								$("input[name='checkRow']:enabled").prop("checked", b);
 							}
+							
+							//日期控件
+							$('.date-picker').datepicker({
+					        	format : 'yyyy-mm-dd',
+					        	weekStart : 1,
+					        	autoclose : true,
+					        	todayBtn : 'linked',
+					        	language : 'zh-CN'
+					        })
 						</script> 
 					</content>
 </body>

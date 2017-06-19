@@ -177,13 +177,16 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	        variables.add(new RestVariable("consultant1",consultant1.getUsername()));
 	        variables.add(new RestVariable("consultant2",consultant2.getUsername()));
 	        variables.add(new RestVariable("signResult", false));//此处做默认设定，否则workFlowManager.setVariableByProcessInsId会报错
+	        
+	        ToSatisfaction toSatisfaction = queryToSatisfactionByCaseCode(caseCode);
+	        
 	        StartProcessInstanceVo vo = workFlowManager.startWorkFlow(new ProcessInstance(propertyUtilsService.getSatisProcessDfKey(),
-	        		caseCode, variables));
+	        		toSatisfaction.getCastsatCode(), variables));
+	        boolean skipSign = false;
 	        /**过户案件特殊处理---START**/
-	        String status = SatisfactionStatusEnum.SIGN_SURVEY_ING.getCode();
-	        ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 	        Date guohuApplyTime = vCaseTradeInfoMapper.selectGuohuSubTime(caseCode);
 	        if(guohuApplyTime != null){
+	        	skipSign = true;
 	        	//跳过签约回访并发送消息，直接生成过户回访任务
 	        	workFlowManager.setVariableByProcessInsId(vo.getId(), "signResult", new RestVariable("signResult", true));
 	        	PageableVo pageableVo = taskService.listTasks(vo.getId(), false);
@@ -193,19 +196,18 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 	    		});
 	    		
 		        messageService.sendSatisFinishMsgByIntermi(vo.getId());
-		        status = SatisfactionStatusEnum.GUOHU_SURVEY_ING.getCode();
 	        }
 	        /**过户案件特殊处理---END**/
 	        //更新满意度表
-	        ToSatisfaction toSatisfaction = queryToSatisfactionByCaseCode(caseCode);
-	        toSatisfaction.setStatus(status);
+	        toSatisfaction.setStatus(skipSign?SatisfactionStatusEnum.GUOHU_SURVEY_ING.getCode():SatisfactionStatusEnum.SIGN_SURVEY_ING.getCode());
+	        toSatisfaction.setSignTime(skipSign?new Date():null);
 	        toSatisfaction.setUpdateBy(user.getId());
 	        toSatisfaction.setUpdateTime(new Date());
 	        toSatisfaction.setCallerId(caller.getId());
 	        updateSelective(toSatisfaction);
 	        //插入流程表
 	        ToWorkFlow twf = new ToWorkFlow();
-	        twf.setBizCode(toSatisfaction.getPkid().toString());
+	        twf.setBizCode(toSatisfaction.getCastsatCode());
 	        twf.setCaseCode(caseCode);
 	        twf.setBusinessKey(WorkFlowEnum.SATIS_DEFKEY.getCode());
 	        twf.setProcessDefinitionId(propertyUtilsService.getSatisProcessDfKey());
@@ -312,8 +314,24 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 		List<ToCase> toCases = toCaseService.findToCaseByStatus(CaseStatusEnum.YQY.getCode());
 		toCases.forEach(toCase -> {
 			String caseCode = toCase.getCaseCode();
+			String yyyyMM =  new SimpleDateFormat("yyyyMM").format(new Date());
+			if(caseCode.startsWith("ZY-NAJ-")){
+				yyyyMM = caseCode.substring(7,13);
+			}else if(caseCode.startsWith("ZY")){
+				yyyyMM = caseCode.substring(6,12);
+			}else{
+				yyyyMM = caseCode.substring(2,8);
+			}
 	        //签约
-	        handleAfterSign(caseCode, "init", SatisfactionTypeEnum.NEW.getCode());
+			ToSatisfaction toSatisfaction = new ToSatisfaction();
+			toSatisfaction.setType("1");
+			toSatisfaction.setCaseCode(caseCode);
+			String castsatCode = uamBasedataService.nextSeqVal("CASTSAT_CODE",yyyyMM);
+			toSatisfaction.setCastsatCode(castsatCode);
+			toSatisfaction.setStatus(SatisfactionStatusEnum.DEFAULT.getCode());
+			toSatisfaction.setCreateBy("init");
+			toSatisfaction.setCreateTime(new Date());
+			insertSelective(toSatisfaction);
 		});
 	}
 

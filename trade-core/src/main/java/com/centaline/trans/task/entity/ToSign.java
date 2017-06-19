@@ -32,6 +32,8 @@ public class ToSign {
 
     private BigDecimal landIncrementTax;
 
+    private String houseQuantity;		/*是否首套 0:手套 1：二套 2：多套*/
+
     public BigDecimal getHouseHodingTax() {
 		return houseHodingTax;
 	}
@@ -142,5 +144,13 @@ public class ToSign {
 
     public void setComment(String comment) {
         this.comment = comment == null ? null : comment.trim();
+    }
+
+    public String getHouseQuantity() {
+        return houseQuantity;
+    }
+
+    public void setHouseQuantity(String houseQuantity) {
+        this.houseQuantity = houseQuantity;
     }
 }

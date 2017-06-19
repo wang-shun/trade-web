@@ -30,7 +30,7 @@
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="flag" value="${flag}" />
 <input type="hidden" id="caseCode" value="${caseCode}" />
-<input type="hidden" id="commSubject" value="${caseMergeVo.commSubject}" />
+<input type="hidden" id="remarks" value="${caseMergeVo.remarks}" />
 <input type="hidden" id="type" value="${type}" />
 <input type="hidden" id="sumUp" value="${caseMergeVo.tgGuestInfoUp.size()}" />
 <input type="hidden" id="sumDown" value="${caseMergeVo.tgGuestInfoDown.size()}" />
@@ -188,10 +188,10 @@
                     <div class="form_content">
                         <label class="soutlist-btns-label pull-left"> 服务项目 </label>
                         <div class="pull-left outlist-btns" id="Tnumber">
-                            <span class="btn btn-white" onclick="" name="commSubject" value="签约"> 签约 </span>
-                            <span class="btn btn-white" onclick="" name="commSubject" value="过户"> 过户 </span>
-                            <span class="btn btn-white" onclick="" name="commSubject" value="贷款"> 贷款 </span>
-                            <span class="btn btn-white" onclick="" name="commSubject" value="其他"> 其他  </span> 
+                            <span class="btn btn-white" onclick="" name="remarks" value="签约"> 签约 </span>
+                            <span class="btn btn-white" onclick="" name="remarks" value="过户"> 过户 </span>
+                            <span class="btn btn-white" onclick="" name="remarks" value="贷款"> 贷款 </span>
+                            <span class="btn btn-white" onclick="" name="remarks" value="其他"> 其他  </span> 
                         </div>
                     </div>
                 </div>
@@ -199,8 +199,8 @@
            
             <div class="line hide-style"  id="elseInput" style="margin-left: 127px;">
                 <div class="form_content"> 
-                    <input class="select_control sign_right_one commSubject" placeholder="请输入服务项目" name="commSubjectOther" id="commSubjectOther" value="${caseMergeVo.commSubjectOther}"  /> 
-                    <input type="hidden" name="commSubject" id="commSubject" value=""  /> 
+                    <input class="select_control sign_right_one remarks" placeholder="请输入服务项目" name="commSubjectOther" id="commSubjectOther" value="${caseMergeVo.commSubjectOther}"  /> 
+                    <input type="hidden" name="remarks" id="remarks" value=""  /> 
                 </div>
             </div>
             
@@ -345,8 +345,8 @@ function getDel(k){
   
     
     jQuery(document).ready(function() {
-    	spansClick($("#commSubject").val()); 
-	    $("span[name='commSubject']").click(function(){								
+    	spansClick($("#remarks").val()); 
+	    $("span[name='remarks']").click(function(){								
 			var id = $(this).attr("id");								
 			$("span[id='"+id+"']").changeSelect();
 		});

@@ -1,6 +1,7 @@
 package com.centaline.trans.satisfaction.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,6 +26,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
+import com.centaline.trans.cases.repository.VCaseTradeInfoMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
@@ -46,6 +48,7 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.satisfaction.entity.ToSatisfaction;
 import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -85,12 +88,19 @@ public class SatisController {
   @Autowired
   ToWorkFlowService toWorkFlowService;
   
+  @Autowired
+  VCaseTradeInfoMapper vCaseTradeInfoMapper;
+  @Autowired
+  ToMortgageMapper toMortgageMapper;
+  
   //页面
   @RequestMapping("/list")
   public String list(Model model){
 	SessionUser user = uamSessionService.getSessionUser();
+	//Org kefuOrg = uamUserOrgService.getOrgByCode("033P192");
 	model.addAttribute("sessionUserId", user.getId());
 	model.addAttribute("serviceJobCode", user.getServiceJobCode());
+	model.addAttribute("kefuOrgId", user.getServiceDepId());
     return "satis/satis_list";
   }
   
@@ -138,6 +148,22 @@ public class SatisController {
     }catch(Exception e){
       response.setSuccess(false);
       response.setMessage("操作失败!"+e.getMessage());
+      e.printStackTrace();
+    }
+    return response;
+  }
+  
+  @RequestMapping("/doSaveSatis")
+  @ResponseBody
+  public AjaxResponse<String> saveSign(ToSatisfaction toSatisfaction, String taskId, String instCode){
+    AjaxResponse<String> response = new AjaxResponse<String>();
+    try{
+      satisfactionService.updateSelective(toSatisfaction);
+      response.setSuccess(true);
+      response.setMessage("操作成功！");
+    }catch(Exception e){
+      response.setSuccess(false);
+      response.setMessage("操作失败！"+e.getMessage());
       e.printStackTrace();
     }
     return response;
@@ -435,6 +461,16 @@ public class SatisController {
 	    
 	    model.addAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
 	}
+	
+	/*签约时间、过户时间、贷款流失情况（收到/流失）、贷款类型*/
+	Date transSignSubTime = vCaseTradeInfoMapper.selectTransSignSubTime(caseCode);
+	Date guohuPassTime = vCaseTradeInfoMapper.selectGuohuPassTime(caseCode);
+	String isLoanLost = vCaseTradeInfoMapper.selectIsLoanLost(caseCode);
+	String mortType = vCaseTradeInfoMapper.selectMortType(caseCode);
+	
+	/*查询经纪人意见*/
+	Dict dict = uamBasedataService.findDictByType("AGENT_COM_CODE");
+	List<Dict> agentComDicts = dict.getChildren();
     
 	model.addAttribute("toApproveRecord", toApproveRecord);
 	model.addAttribute("toCase", toCase);
@@ -444,8 +480,13 @@ public class SatisController {
     model.addAttribute("satisfaction", satisfaction);
     model.addAttribute("instCode", tf.getInstCode());
     model.addAttribute("taskId", CollectionUtils.isEmpty(taskList)?null:taskList.get(0).getId());
+    model.addAttribute("transSignSubTime", transSignSubTime);
+    model.addAttribute("guohuPassTime", guohuPassTime);
+    model.addAttribute("mortType", mortType);
+    model.addAttribute("isLoanLost", isLoanLost);
     model.addAttribute("urlType", urlType);
     model.addAttribute("readOnly", readOnly);
+    model.addAttribute("agentComDicts", agentComDicts);
   }
   
 	private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){

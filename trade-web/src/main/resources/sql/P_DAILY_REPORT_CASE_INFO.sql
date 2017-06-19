@@ -1,6 +1,6 @@
 USE [sctrans_dev]
 GO
-/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/5/27 13:22:43 ******/
+/****** Object:  StoredProcedure [sctrans].[P_DAILY_REPORT_CASE_INFO]    Script Date: 2017/6/7 14:49:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -181,13 +181,16 @@ BEGIN
 				TRANSFER_APP_OPERATOR_NAME  ,
 				TRANSFER_CONTENT			,
 				TRANSFER_NOT_APPROVE        ,
+
 				TRANSFER_HOUSE_HODING_TAX        , --预估房产税
 				TRANSFER_PERSONAL_INCOME_TAX     , --预估个人所得税
 				TRANSFER_BUSINESS_TAX            , --预估上家营业税
 				TRANSFER_CONTRACT_TAX            , --预估下家契税
 				TRANSFER_LAND_INCREMENT_TAX      , --预估土地增值税
 
-				
+				SIGN_HOUSE_QUANTITY              , --下家是否首套房
+				SIGN_HOUSE_QUANTITY_CN           , --下家是否首套房转译
+
 				CASE_REAL_PROPERTY_GET_TIME ,
 				CASE_CLOSE_TIME             ,
 				CASE_EVA_COMPANY            ,
@@ -224,9 +227,9 @@ BEGIN
 				TAX_CONTRACT_TAX            , --预估下家契税
 				TAX_LAND_INCREMENT_TAX      , --预估土地增值税
 
+
 				INFO_CREATE_BY              ,
 				INFO_CREATE_TIME            
-				
                                  		   
 		   )
 			SELECT  
@@ -248,13 +251,13 @@ BEGIN
 					WHEN C.CASE_ORIGIN = 'INPUT'  THEN  '自录案件'
 					WHEN C.CASE_ORIGIN = 'MERGE'  THEN  '合流案件'
 					WHEN C.CASE_ORIGIN = 'PROCESS'  THEN  '合流申请中'					
-					ELSE   '待确认' 
+					 
 				END   CASE_ORIGIN_CN,		
 				C.LOAN_REQ,
 				CASE 
 					WHEN C.LOAN_REQ = 1  THEN  '有'--有贷款需求
 					WHEN C.LOAN_REQ = 0  THEN  '无'--无
-					ELSE   '不确定' 
+					
 				END   LOAN_REQ_CN,
 				--前台组人员信息
 				C.LEADING_PROCESS_ID,
@@ -357,7 +360,7 @@ BEGIN
 				(SELECT STUFF((SELECT ','+ GUEST_PHONE FROM sctrans.T_TG_GUEST_INFO PDW with(nolock) WHERE PDW.CASE_CODE = C.CASE_CODE AND TRANS_POSITION = '30006002' for xml path('')),1,1,''))GUEST_PHONE_DOWN,
 
 				M.MORT_TYPE,
-				(SELECT  TOP 1 D4.NAME  FROM sctrans.SYS_DICT D4 with(nolock) WHERE D4.CODE = M.MORT_TYPE AND D4.IS_DELETED = '0') MORT_TYPE_CN,
+				(SELECT  TOP 1 D4.NAME  FROM sctrans.SYS_DICT D4 with(nolock) WHERE D4.TYPE='30016' AND D4.CODE = M.MORT_TYPE AND D4.IS_DELETED = '0') MORT_TYPE_CN,
 				M.MORT_TOTAL_AMOUNT,
 				M.COM_AMOUNT,
 				M.COM_DISCOUNT,
@@ -371,19 +374,19 @@ BEGIN
 				CASE 
 					WHEN M.IS_LOANER_ARRIVE = 1  THEN  '是'--信贷员签约是否到场
 					WHEN M.IS_LOANER_ARRIVE = 0  THEN  '否'--否
-					ELSE   '不确定' 
+				
 				END   IS_LOANER_ARRIVE_CN,
 				M.IS_DELEGATE_YUCUI,
 				CASE 
 					WHEN M.IS_DELEGATE_YUCUI = 1  THEN  '是'--是否中原办理
 					WHEN M.IS_DELEGATE_YUCUI = 0  THEN  '否'--否
-					ELSE   '不确定' 
+				
 				END   IS_DELEGATE_YUCUI_CN,
 				M.IS_TMP_BANK,
 				CASE 
 					WHEN M.IS_TMP_BANK = 1  THEN  '是'--是否临时银行
 					WHEN M.IS_TMP_BANK = 0  THEN  '否'--否
-					ELSE   '不确定' 
+				
 				END   IS_TMP_BANK_CN,
 				(SELECT TOP 1 S.TAGS from sctrans.T_TS_SUP S with(nolock) WHERE S.FIN_ORG_CODE = ISNULL(M.LAST_LOAN_BANK,M.FIN_ORG_CODE)) AS RUWEI_BANK,
 				ISNULL(M.LAST_LOAN_BANK,M.FIN_ORG_CODE) FIN_ORG_CODE,
@@ -400,8 +403,8 @@ BEGIN
 				END   CASE_REC_STATUS,
 				CASE 
 					WHEN C.LOAN_REQ=1 and  M.IS_DELEGATE_YUCUI=1 and M.MORT_TYPE IN ('30016001' ,'30016002' ) THEN  '收单'--没流失
-					WHEN C.LOAN_REQ=1 and  M.IS_DELEGATE_YUCUI=0 and M.MORT_TYPE IN ('30016001' ,'30016002' ) THEN  '流失'--流失	
-					ELSE '不确定'
+					WHEN C.LOAN_REQ=1 and  M.IS_DELEGATE_YUCUI=0 and M.MORT_TYPE IN ('30016001' ,'30016002' ) THEN  '流失'--流失
+				
 				END   CASE_REC_STATUS_CN,
 				CASE 
 					WHEN C.LOAN_REQ=1 and M.IS_DELEGATE_YUCUI=1 and M.MORT_TYPE IN ('30016001' ,'30016002' ) THEN  0 --没流失
@@ -439,7 +442,7 @@ BEGIN
 					WHEN  P.SQUARE = 0	THEN  ROUND(CONVERT(FLOAT,S.REAL_PRICE)/CONVERT(FLOAT,1),2) 	
 					ELSE  ROUND(CONVERT(FLOAT,S.REAL_PRICE)/ISNULL(CONVERT(FLOAT,P.SQUARE),1),2)
 				END  CASE_HOUSE_UNIT_PRICE,	 --过户单价
-				(SELECT  TAX.TAX_TIME  FROM  sctrans.T_TO_TAX TAX  with(nolock) WHERE TAX.CASE_CODE = C.CASE_CODE) CASE_TAX_TIME,
+				(SELECT top 1 TAX.TAX_TIME  FROM  sctrans.T_TO_TAX TAX  with(nolock) WHERE TAX.CASE_CODE = C.CASE_CODE and TAX.IS_ACTIVE=1) CASE_TAX_TIME,
 
 				(SELECT  P1.PRICING_TIME  FROM  sctrans.T_TO_PRICING P1 with(nolock) WHERE P1.CASE_CODE = C.CASE_CODE) CASE_PRICING_TIME, --核价时间
 				(SELECT  P2.TAX_PRICING  FROM  sctrans.T_TO_PRICING P2 with(nolock) WHERE P2.CASE_CODE = C.CASE_CODE) CASE_TAX_PRICING, --税务核定价格
@@ -457,20 +460,27 @@ BEGIN
 				CASE 
 					WHEN (SELECT AV.LONG_ FROM SCTRANS.ACT_HI_VARINST AV with(nolock) WHERE AV.NAME_=N'GuohuApprove'   AND AV.PROC_INST_ID_= W.INST_CODE)=1 THEN  '是'--没流失
 					WHEN (SELECT AV.LONG_ FROM SCTRANS.ACT_HI_VARINST AV with(nolock) WHERE AV.NAME_=N'GuohuApprove'   AND AV.PROC_INST_ID_= W.INST_CODE)=0 THEN  '否'--流失	
-					ELSE '不确定'
+					
 				END   TRANSFER_LONG,
 			  
 				(SELECT  TOP 1 OPERATOR  FROM sctrans.T_TO_APPROVE_RECORD with(nolock)  WHERE  PART_CODE =N'GuohuApprove' AND CASE_CODE = C.CASE_CODE ORDER BY OPERATOR_TIME DESC)TRANSFER_APP_OPERATOR,
 				(SELECT U.REAL_NAME FROM sctrans.SYS_USER U with(nolock) WHERE U.ID = ((SELECT  TOP 1 OPERATOR  FROM sctrans.T_TO_APPROVE_RECORD  with(nolock) WHERE  PART_CODE =N'GuohuApprove' AND CASE_CODE = C.CASE_CODE ORDER BY OPERATOR_TIME DESC)))TRANSFER_APP_NAME,
 				(SELECT  TOP 1 CONTENT  FROM sctrans.T_TO_APPROVE_RECORD  with(nolock) WHERE  PART_CODE =N'GuohuApprove' AND CASE_CODE = C.CASE_CODE  ORDER BY  OPERATOR_TIME  DESC)TRANSFER_CONTENT,
 				(SELECT  TOP 1 NOT_APPROVE  FROM sctrans.T_TO_APPROVE_RECORD  with(nolock) WHERE  PART_CODE =N'GuohuApprove' AND CASE_CODE = C.CASE_CODE  ORDER BY  OPERATOR_TIME  DESC)TRANSFER_NOT_APPROVE,
-		
+				
 				HT.HOUSE_HODING_TAX as TRANSFER_HOUSE_HODING_TAX        ,  --预估房产税
 				HT.PERSONAL_INCOME_TAX as TRANSFER_PERSONAL_INCOME_TAX  ,  --预估个人所得税
 				HT.BUSINESS_TAX as TRANSFER_BUSINESS_TAX                ,  --预估上家营业税
 				HT.CONTRACT_TAX as TRANSFER_CONTRACT_TAX                ,  --预估下家契税
 				HT.LAND_INCREMENT_TAX as TRANSFER_LAND_INCREMENT_TAX    ,  --预估土地增值税
-			
+				S.HOUSE_QUANTITY as SIGN_HOUSE_QUANTITY ,
+				(
+					CASE WHEN S.HOUSE_QUANTITY='0' then '首套'
+						 WHEN S.HOUSE_QUANTITY='1' then '二套'
+						 WHEN S.HOUSE_QUANTITY='2' then '多套'
+					END
+				) as SIGN_HOUSE_QUANTITY_CN ,
+		
 				/* 截止上面 查询不会出现多条记录的情况*/
 
 				(SELECT  GB.REAL_PROPERTY_GET_TIME  FROM  sctrans.T_TO_GET_PROPERTY_BOOK GB with(nolock) WHERE GB.CASE_CODE = C.CASE_CODE) CASE_REAL_PROPERTY_GET_TIME, --实际领证时间
@@ -511,7 +521,7 @@ BEGIN
 				CASE 
 					WHEN  HT.USE_CARD_PAY = 1 THEN  '是'--刷卡
 					WHEN  HT.USE_CARD_PAY = 0 THEN  '否'--不刷卡	
-					ELSE '不确定'
+					
 				END   CASE_USE_CARD_PAY_CN,
 				HT.CARD_PAY_AMOUNT,--刷卡金额
 
@@ -522,7 +532,7 @@ BEGIN
 				--查限购
 				(SELECT U3.ID FROM sctrans.SYS_USER U3  with(nolock) WHERE U3.USERNAME = (SELECT TOP 1 T3.ASSIGNEE_ FROM sctrans.ACT_HI_TASKINST T3  with(nolock) WHERE T3.TASK_DEF_KEY_='PurchaseLimit' AND T3.PROC_INST_ID_=(SELECT TOP 1 W.INST_CODE  FROM  sctrans.T_TO_WORKFLOW W with(nolock)	WHERE  W.CASE_CODE = C.CASE_CODE AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4))))CASE_PLIMIT_USER_ID,				
 				--公积金 取签约环节
-				(SELECT U4.ID FROM sctrans.SYS_USER U4  with(nolock) WHERE U4.USERNAME = (SELECT TOP 1  T4.ASSIGNEE_ FROM sctrans.ACT_HI_TASKINST T4  with(nolock) WHERE T4.TASK_DEF_KEY_='PSFSign' 	AND T4.PROC_INST_ID_=(SELECT TOP 1 W.INST_CODE  FROM  sctrans.T_TO_WORKFLOW W with(nolock)	WHERE  W.CASE_CODE = C.CASE_CODE 	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4))))CASE_PSF_USER_ID,				
+				(SELECT U4.ID FROM sctrans.SYS_USER U4  with(nolock) WHERE U4.USERNAME = (SELECT TOP 1  T4.ASSIGNEE_ FROM sctrans.ACT_HI_TASKINST T4  with(nolock) WHERE T4.TASK_DEF_KEY_='PSFSign' 	AND T4.PROC_INST_ID_=(SELECT TOP 1 W.INST_CODE  FROM  sctrans.T_TO_WORKFLOW W with(nolock)	WHERE  W.CASE_CODE = C.CASE_CODE  AND W.STATUS IN (0, 4))))CASE_PSF_USER_ID,				
 				--过户
 				(SELECT U5.ID FROM sctrans.SYS_USER U5  with(nolock) WHERE U5.USERNAME = (SELECT TOP 1 T5.ASSIGNEE_ FROM sctrans.ACT_HI_TASKINST T5  with(nolock) WHERE T5.TASK_DEF_KEY_='Guohu' 	AND T5.PROC_INST_ID_=(SELECT TOP 1 W.INST_CODE  FROM  sctrans.T_TO_WORKFLOW W with(nolock)	WHERE  W.CASE_CODE = C.CASE_CODE 	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4))))CASE_TRANSFER_USER_ID,				
 				--领证				
@@ -533,7 +543,6 @@ BEGIN
 				(SELECT TOP 1 BUSINESS_TAX FROM sctrans.T_TO_SIGN TAX with(nolock) WHERE TAX.CASE_CODE = C.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_BUSINESS_TAX,
 				(SELECT TOP 1 CONTRACT_TAX FROM sctrans.T_TO_SIGN TAX with(nolock) WHERE TAX.CASE_CODE = C.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_CONTRACT_TAX ,
 				(SELECT TOP 1 LAND_INCREMENT_TAX FROM sctrans.T_TO_SIGN TAX with(nolock) WHERE TAX.CASE_CODE = C.CASE_CODE AND TAX.IS_ACTIVE = 1) AS TAX_LAND_INCREMENT_TAX,
-
 				'CREATEBY_PROCEDURE',
 				GETDATE()
 	
@@ -567,8 +576,8 @@ BEGIN
 				
 					WHERE W.BUSINESS_KEY='operation_process' AND W.STATUS IN (0,4)
 			  )WA ON WA.CASE_CODE = C.CASE_CODE
-			  LEFT JOIN  sctrans.T_TO_SIGN S	with(nolock)			ON S.CASE_CODE = C.CASE_CODE
-			  LEFT JOIN  sctrans.T_TO_HOUSE_TRANSFER HT	with(nolock)	ON HT.CASE_CODE = C.CASE_CODE
+			  LEFT JOIN  sctrans.T_TO_SIGN S	with(nolock)			ON S.CASE_CODE = C.CASE_CODE    AND S.IS_ACTIVE = '1'
+			  LEFT JOIN  sctrans.T_TO_HOUSE_TRANSFER HT	with(nolock)	ON HT.CASE_CODE = C.CASE_CODE   AND  HT.IS_ACTIVE = '1'
 			  LEFT JOIN  sctrans.T_TO_WORKFLOW W with(nolock)			ON C.CASE_CODE = W.CASE_CODE	AND  W.BUSINESS_KEY = 'operation_process' AND W.STATUS IN (0, 4)
 			  LEFT JOIN  sctrans.T_TO_EVA_FEE_RECORD TR	with(nolock)	ON TR.CASE_CODE = C.CASE_CODE
 
@@ -587,48 +596,9 @@ BEGIN
 
 		
 		UPDATE sctrans.T_RPT_CASE_BASE_INFO SET TRANSFER_LAST_CONTENT = TRANSFER_CONTENT WHERE TRANSFER_NOT_APPROVE IS NULL
-		--执行游标查询
-		DECLARE AppRecordCursor CURSOR FOR SELECT PKID,TRANSFER_NOT_APPROVE FROM sctrans.[T_RPT_CASE_BASE_INFO] with(nolock) WHERE TRANSFER_NOT_APPROVE like '%reason%'
-		--打开游标
-		OPEN AppRecordCursor
-		--循环游标
-		WHILE 0=0 BEGIN
-			FETCH NEXT FROM AppRecordCursor INTO  @PIKD_APPRECORD,@TRANSFER_NOT_APPROVE
-			IF @@FETCH_STATUS<>0 BEGIN
-				--没有记录，跳出游标循环
-				BREAK
-			END
-			SET @sqlAppRecord ='UPDATE sctrans.T_RPT_CASE_BASE_INFO SET TRANSFER_LAST_CONTENT = ISNULL(TRANSFER_CONTENT,'''') + STUFF((SELECT '',''+NAME FROM (SELECT NAME FROM sctrans.SYS_DICT WHERE CODE='''+ replace(@TRANSFER_NOT_APPROVE,',',''' UNION ALL SELECT NAME FROM  sctrans.SYS_DICT WHERE CODE=''')+''')  temp for xml path('''')),1,1,'''') WHERE PKID = '+CONVERT(varchar(10),@PIKD_APPRECORD)
-			EXEC (@sqlAppRecord)
-		END
-
-			
-		--执行游标查询
-		DECLARE SpvTypeCursor CURSOR FOR SELECT PKID,SPV_TYPE FROM sctrans.[T_RPT_CASE_BASE_INFO] with(nolock) WHERE SPV_TYPE IS NOT NULL
-		--打开游标
-		OPEN SpvTypeCursor
-		--循环游标
-		WHILE 0=0 BEGIN
-			FETCH NEXT FROM SpvTypeCursor INTO @PIKD_SPVTYPE,@SPV_TYPE_CN
-			IF @@FETCH_STATUS<>0 BEGIN
-				--没有记录，跳出游标循环
-				BREAK
-			END
-			SET @sqlSpvType ='UPDATE sctrans.T_RPT_CASE_BASE_INFO SET SPV_TYPE_CN = ISNULL(SPV_TYPE,'''') + STUFF((SELECT '',''+NAME FROM (SELECT NAME FROM sctrans.SYS_DICT WHERE TAG LIKE ''%Eloan%'' AND TYPE=''yu_serv_cat_code_tree'' AND CODE='''+ replace(@SPV_TYPE_CN,',',''' UNION ALL SELECT NAME FROM  sctrans.SYS_DICT WHERE TAG LIKE ''''%Eloan%'''' AND TYPE=''''yu_serv_cat_code_tree'''' AND CODE=''')+''')  temp for xml path('''')),1,1,'''') WHERE PKID = '+CONVERT(varchar(10),@PIKD_SPVTYPE)
-			PRINT @sqlSpvType
-			EXEC (@sqlSpvType)
-		END
-
-		--关闭游标
-		CLOSE AppRecordCursor
-		--销毁游标
-		DEALLOCATE AppRecordCursor
-
-		--关闭游标
-		CLOSE SpvTypeCursor
-		--销毁游标
-		DEALLOCATE SpvTypeCursor
-
+		print 'xxx';
+		
+	
 	END TRY
 
 	BEGIN CATCH  
@@ -641,31 +611,25 @@ BEGIN
         ,ERROR_LINE() AS ErrorLine  
         ,ERROR_MESSAGE() AS ErrorMessage; 
 
-		--关闭游标
-		CLOSE AppRecordCursor
-		--销毁游标
-		DEALLOCATE AppRecordCursor
-
-				--关闭游标
-		CLOSE SpvTypeCursor
-		--销毁游标
-		DEALLOCATE SpvTypeCursor
+	
+		print '--closea';
+		
 	END CATCH;  
 
-		--返回当天是周几
-		declare @weekday int = DATEPART(weekday,getdate())
-		--今天是周5 (@weekday = 6)，添加上周5到本周4数据到周表
-		if (@weekday = 6) begin
-			print '今天是周5，添加上周5到本周4数据到周表'
-			--周的开始日期，上周5
-			declare @week_start int = cast(convert(char(10),getdate()-7,112) as int)
-			--周的结束日期，本周4
-			declare @week_end int   = cast(convert(char(10),getdate()-1,112) as int)
+	--返回当天是周几
+	declare @weekday int = DATEPART(weekday,getdate())
+	--今天是周5 (@weekday = 6)，添加上周5到本周4数据到周表
+	if (@weekday = 6) begin
+		print '今天是周5，添加上周5到本周4数据到周表'
+		--周的开始日期，上周5
+		declare @week_start int = cast(convert(char(10),getdate()-7,112) as int)
+		--周的结束日期，本周4
+		declare @week_end int   = cast(convert(char(10),getdate()-1,112) as int)
 
-			select @weekday,@week_start,@week_end
+		select @weekday,@week_start,@week_end
 
-			--添加周表数据
-			exec [sctrans].[P_WEEKLY_REPORT_CASE_INFO] @week_start,@week_end
-		end
+		--添加周表数据
+		exec [sctrans].[P_WEEKLY_REPORT_CASE_INFO] @week_start,@week_end
+	end
 END
 

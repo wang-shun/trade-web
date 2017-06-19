@@ -174,8 +174,8 @@
 		<td>{{(rows[rows.length-1].TOTAL_CASE_COM_CON_PRICE/1000).toFixed()}}元</td>
 		<td>{{rows[rows.length-1].TOTAL_EVA_FEE}}元</td>
 
-		<td>{{(rows[rows.length-1].TOTAL_E_COUNT_PERCENT*100).toFixed()}}</td>
-		<td>{{(rows[rows.length-1].TOTAL_E_AMOUNT_PERCENT*100).toFixed()}}</td>
+		<td>{{(rows[rows.length-1].TOTAL_E_COUNT_PERCENT*100).toFixed()}}%</td>
+		<td>{{(rows[rows.length-1].TOTAL_E_AMOUNT_PERCENT*100).toFixed()}}%</td>
 	</tr>
 	{{else}}
 	<tr>

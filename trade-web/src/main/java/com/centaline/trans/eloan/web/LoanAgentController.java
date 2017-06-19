@@ -57,7 +57,12 @@ public class LoanAgentController {
 	public String loanAgentList(Model model, ServletRequest request) {
 	    SessionUser sessionUser = uamSessionService.getSessionUser();
 	    String jobCode = sessionUser.getServiceJobCode();
-		request.setAttribute("serviceDepId",sessionUser.getServiceDepId());
+		if("YCYYZY".equals(sessionUser.getServiceJobCode())||"yucui_product".equals(sessionUser.getServiceJobCode())){//如果是誉萃产品部、誉萃运营专员岗位的话，查询誉翠下所有组织的数据
+			request.setAttribute("serviceDepId","ff8080814f459a78014f45a73d820006");//ff8080814f459a78014f45a73d820006为誉翠投资的orgid
+		}else{
+			request.setAttribute("serviceDepId",sessionUser.getServiceDepId());
+		}
+
 		if(TransJobs.TJYGW.getCode().equals(jobCode)) {
 			request.setAttribute("isJygw",true);
 		}

@@ -8,7 +8,7 @@
 			+ '<div class="view clearfix">'
 			+ '<p><span class="auditor">跟进人：<em>{{item.CREATE_BY}}({{item.jobName}})</em></span><i class="sq_label">{{item.SRV_CODE}}</i>'
 			+ '<span class="time">跟进日期:<em>{{item.CREATE_TIME}}</em></span></p>'
-			+ '<p><span class="auditing">跟进备注</span><em class="view_content">{{item.COMMENT}}</em></p>'
+			+ '<p><span class="auditing">跟进备注</span><em class="view_content" style="padding: 15px 15px">{{item.COMMENT}}</em></p>'
 			+ '</div>'
 	        + '{{/each}}'
 	        + '{{else}}'

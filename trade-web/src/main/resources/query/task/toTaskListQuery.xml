@@ -5,15 +5,14 @@
 		<customDict id="qqcdSeller" beanName="qqcdSeller" />
 		<customDict id="qqManagerInfo" beanName="qqManagerInfo" />
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
-		<customDict id="qqFindCaseInfo" beanName="qqFindCaseInfo" />
-		<customDict id="qqGetCaseId" beanName="qqGetCaseId" />
+		<customDict id="getCaseInfo" beanName="getCaseInfo" />
 		<customDict id="qqGetCasePropertyInfo" beanName="qqGetCasePropertyInfo" />
 		<customDict id="qqFindTranPlan" beanName="qqFindTranPlan" />
-		<customDict id="qqWorkflow" beanName="qqWorkflow" />
+		<customDict id="qqGetWFEName" beanName="qqGetWFEName" />
 		<customDict id="getMegerCuntByCaseCode" beanName="getMegerCuntByCaseCode" />
 		<customDict id="getTaskNameTypeByTaskName" beanName="getTaskNameTypeByTaskName" />
 
-	</dicts>
+			</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
@@ -133,14 +132,18 @@
 				<column type="both" name="NAME" index="" checkbox="" display="任务名" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SUBSCRIBE_COUNT" index="" checkbox="" display="是否关注" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="BUSINESS_KEY" index="" checkbox="" display="" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="PROPERTY_ADDR" referencecol="CASE_CODE" isDynamicDict="true" customDict="qqGetCasePropertyInfo" index="" checkbox="" display="产证地址" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="virtual" name="PKID" index="" referencecol="CASE_CODE" isDynamicDict="true" customDict="qqGetCaseId"  title="caseId"   checkbox="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable=""/>
+
+
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="AGENT_ORG_NAME,AGENT_NAME,CTM_CODE,MOBILE,ORG_ID,MANAGER_INFO" isDynamicDict="true" display="所属分行,经纪人,CTM_CODE,手机,ORG_ID" referencecol="CASE_CODE" index="" checkbox="" customDict="qqFindCaseInfo" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" isDynamicDict="true" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,PART_CODE" index="" checkbox="" customDict="qqFindTranPlan" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="WFE_NAME" isDynamicDict="true" display="流程环节" referencecol="BUSINESS_KEY" index="" checkbox="" customDict="qqWorkflow" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="cu" isDynamicDict="true" display="流程环节" referencecol="propertyCode" index="" checkbox="" customDict="getMegerCuntByCaseCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+
+				<column type="virtual" name="PKID,PROPERTY_ADDR,AGENT_ORG_NAME,AGENT_NAME,CTM_CODE,MOBILE,ORG_ID,MANAGER_INFO" isDynamicDict="true" display="caseId,所属分行,经纪人,CTM_CODE,手机,ORG_ID" referencecol="CASE_CODE" index="" checkbox="" customDict="getCaseInfo" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+
+				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,PART_CODE" index="" checkbox="" customDict="qqFindTranPlan" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+
+				<column type="virtual" name="WFE_NAME" display="流程名" referencecol="BUSINESS_KEY" index="" checkbox="" customDict="qqGetWFEName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+
+				<column type="virtual" name="cu"  display="流程环节" referencecol="propertyCode" index="" checkbox="" customDict="getMegerCuntByCaseCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="taskNameType" isDynamicDict="true" display="流程环节名" referencecol="NAME" index="" checkbox="" customDict="getTaskNameTypeByTaskName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CREATE_TIME" index="" checkbox="" display="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="propertyCode" index="" checkbox="" display="propertyCode" customDict="" sysDict="" />

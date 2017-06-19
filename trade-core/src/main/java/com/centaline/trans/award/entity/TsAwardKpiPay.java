@@ -15,6 +15,8 @@ public class TsAwardKpiPay {
     private BigDecimal awardKpiSum;
 
     private String status;
+    
+    private String awardStep;
 
     private Date createTime;
 
@@ -123,4 +125,14 @@ public class TsAwardKpiPay {
     public void setUserCount(Integer userCount) {
         this.userCount = userCount;
     }
+
+	public String getAwardStep() {
+		return awardStep;
+	}
+
+	public void setAwardStep(String awardStep) {
+		this.awardStep = awardStep;
+	}
+    
+    
 }

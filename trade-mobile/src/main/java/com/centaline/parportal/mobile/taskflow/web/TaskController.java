@@ -7,13 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
@@ -42,7 +40,7 @@ public class TaskController {
 	
     @Resource
     private UamUserOrgService uamUserOrgService;
-    
+
 	@RequestMapping(value = "list")
 	@ResponseBody
 	public JSONObject list(@RequestParam(required = true) Integer page, 
@@ -56,23 +54,16 @@ public class TaskController {
 		gp.setRows(pageSize);
 		Map<String, Object> paramMap = gp.getParamtMap();
 		paramMap.put("q_text", q_text);
-		
-		
 		List<String> taskTag = new ArrayList<String>();
-		
 		if(pastTask) {
 			taskTag.add("-1");
-
 		}
 		if(todayTask) {
 			taskTag.add("0");
-
 		}
 		if(tmrTask) {
 			taskTag.add("1");
-
 		}
-		
 		if(!taskTag.isEmpty()) {
 			paramMap.put("taskTag",(String[])taskTag.toArray(new String[taskTag.size()]));
 		}
@@ -83,7 +74,47 @@ public class TaskController {
 		buildHoutaiInfo(pages.getContent());
 		return Pages2JSONMoblie.pages2JsonMoblie(pages);
 	}
-	
+
+	@RequestMapping(value = "quantity")
+	@ResponseBody
+	public Object taskQuantity(String q_text){
+		JSONObject jsonObject = new JSONObject();
+		JQGridParam gp = new JQGridParam();
+		gp.setQueryId("queryTaskListItemListMobile");
+		gp.setPagination(false);
+		gp.setCountOnly(true);
+		Map<String, Object> paramMap = gp.getParamtMap();
+		paramMap.put("q_text", q_text);
+		List<String> taskTag = new ArrayList<String>();
+
+		SessionUser user = sessionService.getSessionUser();
+
+		taskTag.add("-1");
+		paramMap.put("taskTag", (String[]) taskTag.toArray(new String[taskTag.size()]));
+		Page<Map<String, Object>> pages = quickGridService.findPageForSqlServer(gp, user);
+		jsonObject.put("pastTaskCount",pages.getTotalElements());
+
+		taskTag.clear();
+		taskTag.add("0");
+		paramMap.put("taskTag", (String[]) taskTag.toArray(new String[taskTag.size()]));
+		pages = quickGridService.findPageForSqlServer(gp, user);
+		jsonObject.put("todayTaskCount", pages.getTotalElements());
+
+		taskTag.clear();
+		taskTag.add("1");
+		paramMap.put("taskTag", (String[]) taskTag.toArray(new String[taskTag.size()]));
+		pages = quickGridService.findPageForSqlServer(gp, user);
+		jsonObject.put("tmrTaskTaskCount", pages.getTotalElements());
+
+		paramMap.remove("taskTag");
+		pages = quickGridService.findPageForSqlServer(gp, user);
+		jsonObject.put("allTaskCount", pages.getTotalElements());
+
+		return jsonObject;
+	}
+
+
+
 	private void buildHoutaiInfo(List<Map<String, Object>> list) {
 		if(CollectionUtils.isEmpty(list)) {
 			return ;
@@ -144,23 +175,10 @@ public class TaskController {
 			}
 			
 			map.put("zhongjie", json);
-			
 			map.remove("AGENT_NAME");
 			map.remove("EMPLOYEE_CODE");
 			map.remove("AGENT_PHONE");
 		}
 	}
 
-	@RequestMapping(value="/{taskitem}")
-	@ResponseBody
-	public Object taskPageRoute(Model model, HttpServletRequest request,@PathVariable String taskitem,
-								String caseCode, String taskId, String instCode,String source) {
-		JSONObject jsonObject = new JSONObject();
-		if("Pricing".equals(taskitem)||"PurchaseLimit".equals(taskitem)||"TaxReview".equals(taskitem)){
-			jsonObject.put("caseCode", caseCode);
-			jsonObject.put("taskId", taskId);
-			jsonObject.put("processInstanceId", instCode);
-		}
-		return jsonObject;
-	}
 }

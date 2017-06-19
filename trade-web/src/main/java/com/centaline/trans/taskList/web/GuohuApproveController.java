@@ -88,6 +88,8 @@ public class GuohuApproveController {
     TaskService taskService;
 	@Autowired
 	SatisfactionService satisfactionService;
+
+	
 	
 	@RequestMapping("process")
 	public String doProcesss(HttpServletRequest request,
@@ -156,6 +158,7 @@ public class GuohuApproveController {
 	
 	
 
+	
 	@RequestMapping(value="guohuApprove")
 	@ResponseBody
 	public Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
@@ -163,6 +166,7 @@ public class GuohuApproveController {
 		
 		return toHouseTransferService.guohuApprove(request, processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response, notApprove, members);
 	}
+
 	
 	/**
 	 * 过户信息修改
@@ -223,6 +227,8 @@ public class GuohuApproveController {
 
 		 return "task/taskGuohuInfoModify";
 	}
+	
+	
 	
 	/**
 	 * 过户信息修改提交
@@ -299,4 +305,6 @@ public class GuohuApproveController {
 		 return response;
 	 }
 	
+	 
+
 }

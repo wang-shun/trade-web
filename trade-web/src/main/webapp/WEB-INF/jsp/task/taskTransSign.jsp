@@ -75,9 +75,7 @@
 		<div class="panel " id="serviceFlow">
 		  <div class="row wrapper white-bg new-heading">
 	            <div class="pl10">
-	                <h2 class="newtitle-big">
-	                       	签约
-	                   </h2>
+	                <h2 class="newtitle-big">签约</h2>
 	               <div class="mt20">
 	                   <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
 	                   	<i class="iconfont icon">&#xe640;</i> 在途单列表
@@ -167,7 +165,7 @@
 		                        </div>
 		                        <div class="form_content">
 		                            <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>查限购 </label>
-		                            <div class="controls isnowid" style="margin-left: 0px;">
+		                            <div class="controls isnowid" style="width: 180px;margin-left: 0px;">
 		                               <select class="select_control data_style" readOnlydata='1' name="isPerchaseReserachNeed" id="chaxiangou">
 												<option value="">请选择</option>
 												<option value="true" ${transSign.isPerchaseReserachNeed=="1"?'selected':''}>是</option>
@@ -175,6 +173,19 @@
 										</select>
 		                            </div>
 		                        </div>
+
+								<div class="form_content">
+									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>下家是否首套</label>
+									<div class="controls isnowid" style="width: 180px;margin-left: 0px;">
+										<select class="select_control data_style" readOnlydata='1' name="houseQuantity" id="houseQuantity">
+											<option value="">请选择</option>
+											<option value="0" ${transSign.houseQuantity=="0"?'selected':''}>首套</option>
+											<option value="1" ${transSign.houseQuantity=="1"?'selected':''}>二套</option>
+											<option value="2" ${transSign.houseQuantity=="2"?'selected':''}>多套</option>
+										</select>
+									</div>
+								</div>
+
 		                    </div>
 	                	</div>
 	            	</div>

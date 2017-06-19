@@ -53,7 +53,7 @@ ALTER TABLE [sctrans].[T_RPT_HISTORY_CASE_BASE_INFO] ADD 	[CASE_GETBOOK_USER_ID]
 
 exec [sctrans].[P_ALTER_COLUMN_FOR_MONTH_CASE_INFO] 201703,'CASE_TAX_USER_ID,CASE_PRICING_USER_ID,CASE_PLIMIT_USER_ID,CASE_PSF_USER_ID,CASE_TRANSFER_USER_ID,CASE_GETBOOK_USER_ID',''*/
 
-alter table sctrans.T_RPT_CASE_BASE_INFO  add TAX_HOUSE_HODING_TAX    decimal(18,2)
+/*alter table sctrans.T_RPT_CASE_BASE_INFO  add TAX_HOUSE_HODING_TAX    decimal(18,2)
 alter table sctrans.T_RPT_CASE_BASE_INFO  add TAX_PERSONAL_INCOME_TAX decimal(18,2)
 alter table sctrans.T_RPT_CASE_BASE_INFO  add TAX_BUSINESS_TAX        decimal(18,2)
 alter table sctrans.T_RPT_CASE_BASE_INFO  add TAX_CONTRACT_TAX        decimal(18,2)
@@ -64,5 +64,10 @@ alter table sctrans.T_RPT_CASE_BASE_INFO  add TRANSFER_HOUSE_HODING_TAX    decim
 alter table sctrans.T_RPT_CASE_BASE_INFO  add TRANSFER_PERSONAL_INCOME_TAX decimal(18,2)
 alter table sctrans.T_RPT_CASE_BASE_INFO  add TRANSFER_BUSINESS_TAX        decimal(18,2)
 alter table sctrans.T_RPT_CASE_BASE_INFO  add TRANSFER_CONTRACT_TAX        decimal(18,2)
-alter table sctrans.T_RPT_CASE_BASE_INFO  add TRANSFER_LAND_INCREMENT_TAX  decimal(18,2)
+alter table sctrans.T_RPT_CASE_BASE_INFO  add TRANSFER_LAND_INCREMENT_TAX  decimal(18,2)*/
 
+
+ALTER TABLE [sctrans].[T_TO_SIGN] ADD [HOUSE_QUANTITY]  [char](1);
+
+ALTER TABLE [sctrans].[T_RPT_CASE_BASE_INFO] ADD [SIGN_HOUSE_QUANTITY]  [char](1);
+ALTER TABLE [sctrans].[T_RPT_CASE_BASE_INFO] ADD [SIGN_HOUSE_QUANTITY_CN]  [varchar](50);
