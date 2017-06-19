@@ -957,7 +957,7 @@ $(document).ready(function(){
 			var length = $(e).find("img").length;
 			var attRequireArr = ["shanghai_house_contract","property_right_copy","buyer_idcard_copy","seller_idcard_copy"];
 			var spanName = $(e).find("span").attr("name");
-			if($.inArray(spanName, attRequireArr) != -1 &&　length == 0){
+			if($.inArray(spanName, attRequireArr) != -1 && length == 0){
 				imgIsEmpty = true;
 				return false;
 			}

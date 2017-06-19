@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.task.entity.ToHouseTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -63,7 +64,7 @@ public class GuohuApproveController {
 
 	@Autowired
 	private WorkFlowManager workFlowManager;
-	
+
 	/*发送消息*/
 	@Autowired(required=true)
 	@Qualifier("uamMessageServiceClient")
@@ -85,27 +86,33 @@ public class GuohuApproveController {
 	@Autowired(required = true)
 	TgServItemAndProcessorService tgServItemAndProcessorService;
 	@Autowired
-    TaskService taskService;
+	TaskService taskService;
 	@Autowired
 	SatisfactionService satisfactionService;
-	
+
 	@RequestMapping("process")
 	public String doProcesss(HttpServletRequest request,
-			HttpServletResponse response,String caseCode,String source,String processInstanceId){
-		
+							 HttpServletResponse response,String caseCode,String source,String processInstanceId){
+
 		SessionUser user=uamSessionService.getSessionUser();
 		request.setAttribute("approveType", "2");
 		request.setAttribute("operator", user != null ? user.getId():"");
 		request.setAttribute("source", source);
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		
+
 		//交易信息
 		VCaseTradeInfo caseInfo = vCaseTradeInfoService.queryCaseTradeInfoByCaseCode(caseCode);
-		
+
 		//贷款信息
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(caseCode);
-		CaseDetailShowVO reVo  = toCaseInfoService.getCaseDetailShowVO(caseCode,toMortgage);
+		CaseDetailShowVO reVo  = toCaseInfoService.getCaseDetailShowVO(caseCode, toMortgage);
+		ToHouseTransfer toHouseTransfer =  toHouseTransferService.findToGuoHuByCaseCode(caseCode);
+		if(toHouseTransfer!=null){
+			String accompanyReasonCn = findDictAccompanyReason(toHouseTransfer.getAccompanyReason());
+			request.setAttribute("accompanyReasonCn", accompanyReasonCn);
+		}
+
 		request.setAttribute("toMortgage", toMortgage);
 		request.setAttribute("caseDetailVO", reVo);
 		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
@@ -114,7 +121,7 @@ public class GuohuApproveController {
 		if(dict!=null){
 			request.setAttribute("notApproves", dict.getChildren());
 		}
-		
+
 		ToCase te=toCaseService.findToCaseByCaseCode(caseCode);
 		String orgId = te.getOrgId();
 		List<User> users = new ArrayList<User>();
@@ -130,40 +137,53 @@ public class GuohuApproveController {
 		if(pageableVo.getData() != null && !pageableVo.getData().isEmpty()){
 			guohuUser = uamUserOrgService.getHisUserByUsername(((TaskVo)pageableVo.getData().get(0)).getAssignee());
 		}
-		
+
 		if(guohuUser == null){
 			throw new BusinessException("没有找到过户环节处理人！");
 		}
-		
+
 		users.add(guohuUser);
-		
+
 		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(processInstanceId);
-		if(workF!=null &&"operation_process:40:645454".compareTo(workF.getProcessDefinitionId())<=0){		
-	    	request.setAttribute("users", users);
+		if(workF!=null &&"operation_process:40:645454".compareTo(workF.getProcessDefinitionId())<=0){
+			request.setAttribute("users", users);
 		}
 
-		
+
 		return "task" + UiImproveUtil.getPageType(request) + "/taskGuohuApprove";
 	}
-	
+
+
+	private String findDictAccompanyReason(String accompanyReason){
+		String code[] = accompanyReason.split(";");
+		String accompanyReasonCN = "";
+		for(int i =0;i<code.length;i++){
+			Dict dict = uamBasedataService.findDictByTypeAndCode("accompany_reason",code[i]);
+			if(dict!=null){
+				accompanyReasonCN=accompanyReasonCN+dict.getName()+";";
+			}
+		}
+		return accompanyReasonCN;
+	}
+
 	@RequestMapping("showPic")
-	public String showPic(HttpServletRequest request, 
-			HttpServletResponse response, String picUrl){
+	public String showPic(HttpServletRequest request,
+						  HttpServletResponse response, String picUrl){
 		request.setAttribute("picUrl", picUrl);
 		return "task/showPicture";
 	}
-	
-	
-	
+
+
+
 
 	@RequestMapping(value="guohuApprove")
 	@ResponseBody
 	public Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
-			String GuohuApprove, String GuohuApprove_response,String notApprove,String members) {
-		
+								String GuohuApprove, String GuohuApprove_response,String notApprove,String members) {
+
 		return toHouseTransferService.guohuApprove(request, processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response, notApprove, members);
 	}
-	
+
 	/**
 	 * 过户信息修改
 	 * @param caseId
@@ -187,43 +207,43 @@ public class GuohuApproveController {
 				TaskHistoricQuery tq = new TaskHistoricQuery();
 				tq.setProcessInstanceId(insCode);
 				tq.setFinished(true);
-				
+
 				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
 				tasks.addAll(taskList1);
 			}
 			// 本人做的任务
 			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
 			request.setAttribute("toWorkFlow", toWorkFlow);
-			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;	   
-		    }
-		 request.setAttribute("toCase", toCase);
-		 
-		 ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-		 request.setAttribute("mortage", mortage);
-		 
-			String loanReqType="FullPay";
-			if (mortage != null) {
-				if("1".equals(mortage.getIsDelegateYucui())){
-					if("30016003".equals(mortage.getMortType())){
-						loanReqType="PSFLoan";
-					}else{
-						loanReqType="ComLoan";
-					}
-				}else{
-					loanReqType="SelfLoan";
-				}
-				}
-			request.setAttribute("loanReqType", loanReqType);
-		 
-		 ToCase c = toCaseService.findToCaseByCaseCode(caseCode);
-		 if(c != null) {
-				CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(c.getPkid());
-				request.setAttribute("caseBaseVO", caseBaseVO);
-			}
+			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
+		}
+		request.setAttribute("toCase", toCase);
 
-		 return "task/taskGuohuInfoModify";
+		ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+		request.setAttribute("mortage", mortage);
+
+		String loanReqType="FullPay";
+		if (mortage != null) {
+			if("1".equals(mortage.getIsDelegateYucui())){
+				if("30016003".equals(mortage.getMortType())){
+					loanReqType="PSFLoan";
+				}else{
+					loanReqType="ComLoan";
+				}
+			}else{
+				loanReqType="SelfLoan";
+			}
+		}
+		request.setAttribute("loanReqType", loanReqType);
+
+		ToCase c = toCaseService.findToCaseByCaseCode(caseCode);
+		if(c != null) {
+			CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(c.getPkid());
+			request.setAttribute("caseBaseVO", caseBaseVO);
+		}
+
+		return "task/taskGuohuInfoModify";
 	}
-	
+
 	/**
 	 * 过户信息修改提交
 	 * @param caseId
@@ -236,67 +256,67 @@ public class GuohuApproveController {
 		// 基本信息
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		List<RestVariable> variables = new ArrayList<RestVariable>();
-		return workFlowManager.submitTask(variables, taskId, processInstanceId, 
+		return workFlowManager.submitTask(variables, taskId, processInstanceId,
 				toCase.getLeadingProcessId(), caseCode);
 	}
-	
-		private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){
-			if(tasks==null||mySerivceItems==null||tasks.isEmpty()||mySerivceItems.isEmpty()){return tasks;}
-			Set<String>taskDfKeys=new HashSet<>();
-			mySerivceItems.parallelStream().forEach(item->{
-				Dict d =uamBasedataService.findDictByType(item.getSrvCode());
-				if(d!=null&&d.getChildren()!=null){
-					d.getChildren().parallelStream().forEach(sc->{
-						if(!taskDfKeys.contains(sc.getCode())){
-							taskDfKeys.add(sc.getCode());
-						}
-					});
-				}
-			});
-			Iterator<TaskVo> it=tasks.iterator();
-			while (it.hasNext()) {
-				TaskVo task=it.next();
-				if(!taskDfKeys.contains(task.getTaskDefinitionKey())){
-					it.remove();
-				}
+
+	private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){
+		if(tasks==null||mySerivceItems==null||tasks.isEmpty()||mySerivceItems.isEmpty()){return tasks;}
+		Set<String>taskDfKeys=new HashSet<>();
+		mySerivceItems.parallelStream().forEach(item->{
+			Dict d =uamBasedataService.findDictByType(item.getSrvCode());
+			if(d!=null&&d.getChildren()!=null){
+				d.getChildren().parallelStream().forEach(sc->{
+					if(!taskDfKeys.contains(sc.getCode())){
+						taskDfKeys.add(sc.getCode());
+					}
+				});
 			}
-			return tasks;
+		});
+		Iterator<TaskVo> it=tasks.iterator();
+		while (it.hasNext()) {
+			TaskVo task=it.next();
+			if(!taskDfKeys.contains(task.getTaskDefinitionKey())){
+				it.remove();
+			}
 		}
-		
-		private List<TaskVo> taskDuplicateRemoval(List<TaskVo> oList) {
-			Map<String, TaskVo> hashMap = new HashMap<>();
+		return tasks;
+	}
+
+	private List<TaskVo> taskDuplicateRemoval(List<TaskVo> oList) {
+		Map<String, TaskVo> hashMap = new HashMap<>();
 			/*
 			 * hashMap=oList.stream().collect(Collectors.toMap(TaskVo::
 			 * getTaskDefinitionKey, (p) -> p));
 			 */
-			for (TaskVo taskVo : oList) {
-				hashMap.put(taskVo.getTaskDefinitionKey(), taskVo);
-			}
-			List<TaskVo> result = new ArrayList<>(hashMap.values());
-			return result;
+		for (TaskVo taskVo : oList) {
+			hashMap.put(taskVo.getTaskDefinitionKey(), taskVo);
 		}
+		List<TaskVo> result = new ArrayList<>(hashMap.values());
+		return result;
+	}
 	/**
-	  * @throws Exception 
-	  * @Title:  
-	  * @author: hejf 
-	  * @return caseCode
-	  * @throws
-	  */
-	 @RequestMapping("getAttType")
-	 @ResponseBody
-	 public AjaxResponse<String> cashFlowOutApprDeleteCashFlowAll(HttpServletRequest request,String caseCode) throws Exception {
-		 AjaxResponse<String> response = new AjaxResponse<>();
-		 try{
-			 String type = toCaseService.selectAtt(caseCode);
-			 response.setSuccess(true);
-			 response.setCode(type);
-		 }catch(Exception e){
-			 response.setMessage(e.getMessage());
-			 response.setSuccess(false);
-			 response.setCode("N");
-			 throw e;
-		 }
-		 return response;
-	 }
-	
+	 * @throws Exception
+	 * @Title:
+	 * @author: hejf
+	 * @return caseCode
+	 * @throws
+	 */
+	@RequestMapping("getAttType")
+	@ResponseBody
+	public AjaxResponse<String> cashFlowOutApprDeleteCashFlowAll(HttpServletRequest request,String caseCode) throws Exception {
+		AjaxResponse<String> response = new AjaxResponse<>();
+		try{
+			String type = toCaseService.selectAtt(caseCode);
+			response.setSuccess(true);
+			response.setCode(type);
+		}catch(Exception e){
+			response.setMessage(e.getMessage());
+			response.setSuccess(false);
+			response.setCode("N");
+			throw e;
+		}
+		return response;
+	}
+
 }

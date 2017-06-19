@@ -288,6 +288,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             toMortgage.setIsActive("1");
             toMortgage.setIsDelegateYucui("1");
             toMortgage.setBankLevel(String.valueOf(bankLevel));
+			toMortgage.setLoanAgent(user.getId());
+			toMortgage.setLoanAgentTeam(user.getServiceDepId());
 
             if (null != toMortgageInfo)
             {

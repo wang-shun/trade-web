@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<!-- <customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict> -->
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryCaseEfficientList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						c.PKID as pkid,
+						e.CASE_CODE AS caseCode,
+						(SELECT REAL_NAME FROM sctrans.SYS_USER WHERE ID = c.LEADING_PROCESS_ID) AS leadingProcessName,
+						e.DISPATCH_TIME AS dispatchTime
+					FROM sctrans.T_TS_CASE_EFFICIENT e
+					LEFT JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = e.CASE_CODE
+				]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="pkid" index="" checkbox="" display="案件id" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="caseCode" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="leadingProcessName" index="" checkbox="" display="主办人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" index="" checkbox="" display="派单时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<!-- <column type="virtual" isDynamicDict="true"
+					name="FONT_NAME,SELLER,BUYER,PROCESSOR_ID,CASE_PROPERTY_SHOW,STATUS,RED_COUNT"
+					referencecol="CASE_CODE,CASE_PROPERTY,STATUS_OLD" 
+					title="前台组人员,上家,下家,经办人,上家,案件状态"
+					display="前台组人员,上家,下家,经办人,上家,案件状态"
+					customDict="getCaseOverviewInfo" /> -->
+			</table-row>
+		</grid>
+	</query>
+</querys>

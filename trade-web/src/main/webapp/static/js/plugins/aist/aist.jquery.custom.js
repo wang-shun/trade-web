@@ -267,56 +267,82 @@ function($, window) {
 		var rows =  settings.rows;
 		var templeteId = settings.templeteId;
 		var templeteSource = settings.templeteSource;
-		var columns = settings.columns;
+		var columnsList = settings.columns;
 		var gridClass = settings.gridClass;
 		
 		var data = ($.isBlank(settings.data))?{}:settings.data;
 		data.queryId = queryId;
 		data.page = page;
 		data.rows = rows;
+		var table = $("<table></table");
+		var tbody = $("<tbody></tbody");
+		var thead = $("<thead></thead>");
 
-		if(typeof(columns) == "undefined") {
+		if(typeof(columnsList) == "undefined") {
 		
 		} else {
-			if (typeof(gridClass) == "undefined"){
-				var table = $("<table></table");
-			} else {
-				var table = $("<table class=\""+gridClass+"\"></table");
+			if (typeof(gridClass) != "undefined"){
+				table = $("<table class=\""+gridClass+"\"></table");
 			}
-			
-			var tbody = $("<tbody></tbody");
-			var thead = $("<thead></thead>");
-		    var tr = $("<tr></tr>");
-		    $.each(columns, function(index,callback){
-		    	if (typeof(columns[index].sortColumn) == "undefined")
-		    	{
-		    		if (typeof(columns[index].colName) == "undefined") {
-		    			tr.append($("<th></th>"));
-		    		} else {
-		    			tr.append($("<th>" + columns[index].colName + "</th>"));
-		    		}
-		    	}else{
-		    		var sortActive = 'active';
-		    		if (typeof(columns[index].sortActive) == "undefined" || !columns[index].sortActive==true) {
-		    			tr.append($("<th><span class=\"sort\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
-		    		} else {
-		    			tr.append($("<th><span class=\"sort " +sortActive+"\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
-		    		}
-		    	}
-		    });
 
-		    thead.append(tr);
-		    table.append(thead).append(tbody);
-		    
-		    $(this).empty().append(table);
-		}
-	    
+			var isArray = $.isArray(columnsList[0]);
+			
+			if(isArray){
+				$.each(columnsList,function(idx,element){
+				    var tr = $("<tr></tr>");
+			    	var columns = element;
+			    	$.each(columns, function(index,callback){
+				    	if (typeof(columns[index].sortColumn) == "undefined")
+				    	{
+				    		if (typeof(columns[index].colName) == "undefined") {
+				    			tr.append($("<th colspan=\""+(columns[index].colspan||1)+"\" rowspan=\""+(columns[index].rowspan||1)+"\" class=\""+(columns[index].th_clazz||"")+"\"></th>"));
+				    		} else {
+				    			tr.append($("<th colspan=\""+(columns[index].colspan||1)+"\" rowspan=\""+(columns[index].rowspan||1)+"\" class=\""+(columns[index].th_clazz||"")+"\">" + columns[index].colName + "</th>"));
+				    		}
+				    	}else{
+				    		var sortActive = 'active';
+				    		if (typeof(columns[index].sortActive) == "undefined" || !columns[index].sortActive==true) {
+				    			tr.append($("<th colspan=\""+(columns[index].colspan||1)+"\" rowspan=\""+(columns[index].rowspan||1)+"\" class=\""+(columns[index].th_clazz||"")+"\"><span class=\"sort\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
+				    		} else {
+				    			tr.append($("<th colspan=\""+(columns[index].colspan||1)+"\" rowspan=\""+(columns[index].rowspan||1)+"\" class=\""+(columns[index].th_clazz||"")+"\"><span class=\"sort " +sortActive+"\" sortColumn=\"" + columns[index].sortColumn + "\" sord=\""+columns[index].sord+"\">"+columns[index].colName+"</span></th>"));
+				    		}
+				    	}
+				    });
+			    })
+			}else{
+				var tr = $("<tr></tr>");
+				$.each(columnsList,function(index,ele){
+			    	if (typeof(columnsList[index].sortColumn) == "undefined")
+			    	{
+			    		if (typeof(columnsList[index].colName) == "undefined") {
+			    			tr.append($("<th></th>"));
+			    		} else {
+			    			tr.append($("<th>" + columnsList[index].colName + "</th>"));
+			    		}
+			    	}else{
+			    		var sortActive = 'active';
+			    		if (typeof(columnsList[index].sortActive) == "undefined" || !columnsList[index].sortActive==true) {
+			    			tr.append($("<th><span class=\"sort\" sortColumn=\"" + columnsList[index].sortColumn + "\" sord=\""+columnsList[index].sord+"\">"+columnsList[index].colName+"</span></th>"));
+			    		} else {
+			    			tr.append($("<th><span class=\"sort " +sortActive+"\" sortColumn=\"" + columnsList[index].sortColumn + "\" sord=\""+columnsList[index].sord+"\">"+columnsList[index].colName+"</span></th>"));
+			    		}
+			    	}
+				})
+		    }
+
+		    	thead.append(tr);
+
+			}
+
+			table.append(thead).append(tbody);
+
 		//现在的页面改版是跟进信息列表不需要分页
 		if(queryId != "queryCasePartCommentList" && queryId != "queryEloanCommentList"){
 			 var pageBar = "<div class=\"text-center\"><span id=\"currentTotalPage\"><strong class=\"bold\"></strong></span>&nbsp;&nbsp;&nbsp;&nbsp;<span id=\"currentRecords\"><strong class=\"bold\"></strong></span><span><strong class=\"bold\" id=\"totalP\"></strong></span>&nbsp;<div id=\"pageBar\" class=\"pagination my-pagination text-center m0\"></div></div>";
 			    if($("#pageBar").length == 0) {
 			    	$(this).after(pageBar);
 			    }
+			$(this).empty().append(table);
 		}
 		
 	    var _self = $(this);
@@ -329,7 +355,7 @@ function($, window) {
 	    
 	    _self.reloadGrid(settings);
 		
-	};
+};
 	
 	jQuery.fn.reloadGrid = function(options) {
 		var settings = $.extend({

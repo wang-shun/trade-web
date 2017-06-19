@@ -4,6 +4,8 @@ import com.aist.common.web.validate.AjaxResponse;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.basedata.remote.vo.Dict;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.apilog.service.SalesDealApiService;
 import com.centaline.trans.attachment.entity.ToAttachment;
@@ -64,6 +66,9 @@ public class ToHouseTransferController {
     @Autowired
     private ToAttachmentService toAttachmentService;
 
+    @Autowired
+    private UamBasedataService uamBasedataService;
+
     @RequestMapping(value = "process")
     @ResponseBody
     public Object toProcess(HttpServletRequest request, String processInstanceId) {
@@ -95,6 +100,10 @@ public class ToHouseTransferController {
                     attachment.setPreFileName(toAccesoryListService.findAccesoryNameByCode(attachment.getPreFileCode()));
                 }
             }
+        }
+        Dict dict = uamBasedataService.findDictByType("accompany_reason");
+        if(dict!=null){
+            request.setAttribute("accompanyReason", dict.getChildren());
         }
         jsonObject.put("attachments", attachments);
         jsonObject.put("accesoryList", request.getAttribute("accesoryList"));

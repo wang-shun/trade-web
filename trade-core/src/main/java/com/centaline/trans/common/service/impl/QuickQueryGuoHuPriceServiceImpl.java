@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.basedata.remote.vo.Dict;
+import com.alibaba.druid.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.aist.common.quickQuery.service.CustomDictService;
 import com.centaline.trans.common.entity.ToPropertyInfo;
@@ -36,6 +39,9 @@ public class QuickQueryGuoHuPriceServiceImpl implements CustomDictService{
 	
 	@Autowired
 	private ToEvaFeeRecordService toEvaFeeRecordService;
+
+	@Autowired
+	private UamBasedataService uamBasedataService;/* 字典 */
 	
 /*	private static String toPropertyInfoSQL = "SELECT * FROM SCTRANS.T_TO_PROPERTY_INFO  WHERE CASE_CODE in (:caseCode)";
 	private static String toSignSQL = "SELECT * FROM SCTRANS.T_TO_SIGN  WHERE CASE_CODE in (:caseCode)";
@@ -114,6 +120,7 @@ public class QuickQueryGuoHuPriceServiceImpl implements CustomDictService{
 				ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode.toString());
 				ToSign  toSign = signService.findToSignByCaseCode(caseCode.toString());
 				ToHouseTransfer toHouseTransfer = toHouseTransferService.findToGuoHuByCaseCode(caseCode.toString());
+
 				if(toPropertyInfo != null && toSign != null){
 					double square = toPropertyInfo.getSquare() == null ? 0:toPropertyInfo.getSquare();
 					double realPrice = toSign.getRealPrice() == null ? 0: toSign.getRealPrice().doubleValue();					
@@ -139,8 +146,30 @@ public class QuickQueryGuoHuPriceServiceImpl implements CustomDictService{
 				}
 				
 				if(null != toHouseTransfer){
-					key.put("REAL_HT_TIME", toHouseTransfer.getRealHtTime() == null ? "":formatter.format(toHouseTransfer.getRealHtTime()));
-				}
+					String accompany="";
+					StringBuilder sb = new StringBuilder();
+					key.put("REAL_HT_TIME", toHouseTransfer.getRealHtTime() == null ? "" : formatter.format(toHouseTransfer.getRealHtTime()));
+					if("1".equals(toHouseTransfer.getAccompany())){
+						accompany="陪同";
+					}
+					if("0".equals(toHouseTransfer.getAccompany())){
+						accompany="不陪同";
+					}
+					key.put("ACCOMPANY",accompany);
+					if(!StringUtils.isEmpty(toHouseTransfer.getAccompanyReason())){
+						String reason[]=toHouseTransfer.getAccompanyReason().split(";");
+						for(int i = 0; i<reason.length;i++){
+							Dict dict = uamBasedataService.findDictByTypeAndCode("accompany_reason",reason[i]);
+							if(reason!=null){
+								sb.append(dict.getName()).append(";");
+							}
+						}
+					}
+					if(!StringUtils.isEmpty(toHouseTransfer.getAccompanyOthersReason())){
+						sb.append(toHouseTransfer.getAccompanyOthersReason());
+					}
+					key.put("ACCOMPANY_REASON",sb);
+			}
 				
 				ToEvaFeeRecord toEvaFeeRecord = toEvaFeeRecordService.findToEvaFeeRecordByCaseCode(caseCode.toString());
 				if(toEvaFeeRecord != null){
