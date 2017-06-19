@@ -3,9 +3,9 @@
 <mapper namespace="com.centaline.trans.award.repository.TsManagementAwardBaseConfigMapper" >
   <resultMap id="BaseResultMap" type="com.centaline.trans.award.entity.TsManagementAwardBaseConfig" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
-    <result column="ORG_ID" property="orgId" jdbcType="CHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
     <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
-    <result column="USER_ID" property="userId" jdbcType="CHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
     <result column="ORG_NAME" property="orgName" jdbcType="VARCHAR" />
     <result column="SRV_FEE" property="srvFee" jdbcType="DECIMAL" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
@@ -27,10 +27,31 @@
     from sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
+  
+  <select id="findAwardManagerInfoByUserIdAndOrgId" resultMap="BaseResultMap" parameterType="com.centaline.trans.award.entity.TsManagementAwardBaseConfig" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG
+        
+    where 1=1 	
+ 	<if test="userId != null">
+ 	 	and USER_ID = #{userId,jdbcType=VARCHAR}
+ 	</if>
+ 	 <if test="orgId != null">
+ 	 	and ORG_ID = #{orgId,jdbcType=VARCHAR}
+ 	</if>
+ 	<if test="jobName != null">
+ 		and JOB_NAME = #{jobName,jdbcType=VARCHAR}
+ 	</if>
+
+  </select>
+  
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
+  
   <insert id="insert" parameterType="com.centaline.trans.award.entity.TsManagementAwardBaseConfig" >
     insert into sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG (PKID, ORG_ID, USER_NAME, 
       USER_ID, ORG_NAME, SRV_FEE, 
@@ -43,6 +64,7 @@
       #{updateBy,jdbcType=VARCHAR}, #{belongMonth,jdbcType=TIMESTAMP}, #{employCode,jdbcType=VARCHAR}, 
       #{isComfirm,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR})
   </insert>
+  
   <insert id="insertSelective" parameterType="com.centaline.trans.award.entity.TsManagementAwardBaseConfig" >
     insert into sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -126,6 +148,7 @@
       </if>
     </trim>
   </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.award.entity.TsManagementAwardBaseConfig" >
     update sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG
     <set >
@@ -164,6 +187,7 @@
     </set>
     where PKID = #{pkid,jdbcType=BIGINT} AND IS_COMFIRM = 0
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.award.entity.TsManagementAwardBaseConfig" >
     update sctrans.T_TS_MANAGEMENT_AWARD_BASE_CONFIG
     set ORG_ID = #{orgId,jdbcType=CHAR},

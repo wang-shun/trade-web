@@ -46,7 +46,7 @@
                             </div>
 
                             <div class="form_content">
-                                    <label class="control-label sign_left_small select_style mend_select">过户审核日期</label>
+                                    <label class="control-label sign_left_small select_style mend_select">过户审批日期</label>
                                     <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" id="datepicker_1">
                                         <input  class="form-control data_style" type="text" value="" placeholder="起始日期"  id="dtBegin_0" name="dtBegin">
                                         <span class="input-group-addon">到</span>
@@ -65,6 +65,7 @@
                                     <option value="all">请选择</option>
                                     <option value="0">否</option>
                                     <option value="1">是</option>
+                                    <option value="2">不符合</option>
                                 </select>
                             </div>
                         </div>

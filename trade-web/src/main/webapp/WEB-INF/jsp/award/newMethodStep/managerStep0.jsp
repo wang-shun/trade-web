@@ -289,7 +289,7 @@
 		    <tr>
               <td>{{item.JOB_NAME}}</td>
               <td>
-					{{ if item.SRV_ITEM_CODE == 'TransSign' || item.SRV_ITEM_CODE == 'ComLoanProcess' }}
+					{{ if item.SRV_ITEM_CODE == 'TransSign' || item.SRV_ITEM_CODE == 'ComLoanProcess'|| item.SRV_ITEM_CODE == 'TeamAssistant' }}
 					前台组
 					{{else item.SRV_ITEM_CODE == 'Guohu' || item.SRV_ITEM_CODE == 'PSFSign' || item.SRV_ITEM_CODE == 'LoanClose'}}
 					后台组
@@ -378,12 +378,14 @@ function chooseManager(startOrgId) {
 	});
 }
 function chooseManagerBack(array){
+	
 	if (array && array.length > 0) {
 		$("#userId").val(array[0].userId);
 		$("#userName").val(array[0].username);
 		$("#jobName").val(array[0].jobName);
 		$("#orgName").val(array[0].orgName);
-		$("#orgId").val(array[0].orgId);
+		$("#orgId").val(array[0].orgId);		
+		
 	}
 }
 </script>   

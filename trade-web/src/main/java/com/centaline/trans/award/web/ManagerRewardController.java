@@ -43,10 +43,16 @@ public class ManagerRewardController {
 		AjaxResponse<T> response = new AjaxResponse<T>();
 		try{
 			
-			tsManagementAwardBaseConfigService.insertSelective(tsManagementAwardBaseConfig);
-			response.setCode("400");
-			response.setMessage("保存成功！");
-			response.setSuccess(true);
+			int k = tsManagementAwardBaseConfigService.insertSelective(tsManagementAwardBaseConfig);
+			if(k > 0){
+				response.setCode("400");
+				response.setMessage("保存成功！");
+				response.setSuccess(true);
+			}else{
+				response.setCode("500");
+				response.setMessage("保存失败！");
+				response.setSuccess(false);
+			}
 		}catch(Exception e){
 			logger.error("新增管理人员信息保存失败:", e);
 			response.setCode("500");

@@ -438,7 +438,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 	
 	 //获取指定时间的上一个月时间
 	 private  Date  covertDate(Date date){		 
-		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		 //格式化对象
 		 Calendar calendar = Calendar.getInstance();
 		 //日历对象
