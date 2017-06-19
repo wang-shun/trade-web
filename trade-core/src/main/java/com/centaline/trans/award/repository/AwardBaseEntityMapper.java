@@ -19,6 +19,8 @@ public interface AwardBaseEntityMapper {
 	AwardBaseEntity selectByPrimaryKey(Long pkid);
 
 	int updateByPrimaryKeySelective(AwardBaseEntity record);
+	
+	int updateBySrvcodeAndBelongMonth(AwardBaseEntity record);	
 
 	int updateByPrimaryKey(AwardBaseEntity record);
 

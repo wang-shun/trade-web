@@ -2,6 +2,7 @@ package com.centaline.trans.award.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
@@ -101,10 +102,10 @@ public class ManagerRewardController {
 	
 	@RequestMapping(value = "/modifyBaseReward")
 	@ResponseBody
-	public AjaxResponse<T> modifyBaseReward(TsConsultantAwardBaseConfig tsConsultantAwardBaseConfig){
+	public AjaxResponse<T> modifyBaseReward(TsConsultantAwardBaseConfig tsConsultantAwardBaseConfig,String belongMonth){
 		AjaxResponse<T> response = new AjaxResponse<T>();
 		try{
-			tsManagementAwardBaseConfigService.updateBaseConfigByPrimaryKey(tsConsultantAwardBaseConfig);
+			tsManagementAwardBaseConfigService.updateBaseConfigByPrimaryKey(tsConsultantAwardBaseConfig,belongMonth);
 			response.setCode("400");
 			response.setMessage("更新成功！");
 			response.setSuccess(true);

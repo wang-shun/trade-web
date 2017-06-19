@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.award.entity.AwardBaseEntity;
 import com.centaline.trans.award.entity.TsConsultantAwardBaseConfig;
 import com.centaline.trans.award.entity.TsManagementAwardBaseConfig;
+import com.centaline.trans.award.repository.AwardBaseEntityMapper;
 import com.centaline.trans.award.repository.TsManagementAwardBaseConfigMapper;
 import com.centaline.trans.award.service.TsManagementAwardBaseConfigService;
+import com.centaline.trans.utils.DateUtil;
 
 @Service
 public class TsManagementAwardBaseConfigServiceImpl implements TsManagementAwardBaseConfigService {
@@ -19,6 +22,9 @@ public class TsManagementAwardBaseConfigServiceImpl implements TsManagementAward
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	TsManagementAwardBaseConfigMapper tsManagementAwardBaseConfigMapper;
+	@Autowired
+	AwardBaseEntityMapper awardBaseEntityMapper;
+	
 	
 	@Override
 	public int insertSelective(TsManagementAwardBaseConfig tsManagementAwardBaseConfig) {
@@ -58,7 +64,17 @@ public class TsManagementAwardBaseConfigServiceImpl implements TsManagementAward
 	}
 
 	@Override
-	public int updateBaseConfigByPrimaryKey(TsConsultantAwardBaseConfig tsConsultantAwardBaseConfig) {
+	public int updateBaseConfigByPrimaryKey(TsConsultantAwardBaseConfig tsConsultantAwardBaseConfig,String belongMonth) {
+		if(null == tsConsultantAwardBaseConfig || null == belongMonth || "".equals(belongMonth)){
+			throw new BusinessException("修改基础环节奖金参数有误！");
+		}
+		//保证当前批次计件奖金数据一致
+		AwardBaseEntity awardBase =  new AwardBaseEntity();
+		awardBase.setBelongMonth(DateUtil.strToFullDate(belongMonth));
+		awardBase.setSrvCode(tsConsultantAwardBaseConfig.getSrvItemCode());
+		awardBase.setBaseAmount(tsConsultantAwardBaseConfig.getSrvFee());
+		awardBaseEntityMapper.updateBySrvcodeAndBelongMonth(awardBase);
+		
 		return tsManagementAwardBaseConfigMapper.updateBaseConfigByPrimaryKey(tsConsultantAwardBaseConfig);
 	}
 
