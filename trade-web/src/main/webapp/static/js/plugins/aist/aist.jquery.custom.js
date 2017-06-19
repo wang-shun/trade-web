@@ -274,18 +274,16 @@ function($, window) {
 		data.queryId = queryId;
 		data.page = page;
 		data.rows = rows;
+		var table = $("<table></table");
+		var tbody = $("<tbody></tbody");
+		var thead = $("<thead></thead>");
 
 		if(typeof(columnsList) == "undefined") {
 		
 		} else {
-			if (typeof(gridClass) == "undefined"){
-				var table = $("<table></table");
-			} else {
-				var table = $("<table class=\""+gridClass+"\"></table");
+			if (typeof(gridClass) != "undefined"){
+				table = $("<table class=\""+gridClass+"\"></table");
 			}
-			
-			var tbody = $("<tbody></tbody");
-			var thead = $("<thead></thead>");
 
 			var isArray = $.isArray(columnsList[0]);
 			
