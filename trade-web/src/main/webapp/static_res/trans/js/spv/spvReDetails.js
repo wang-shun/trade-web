@@ -382,6 +382,42 @@ function sumbitRe(){
 		});
 	}});
 }
+
+/**
+ * 页面保存
+ */
+function saveRe(){
+	if(!checkSumbitHtml()){ return; }
+	window.wxc.confirm("是否确定保存流水？",{"wxcOk":function(){
+		var data = $("#teacForm").serialize();
+		var url = ctx+"/spv/task/cashflowIntApply/saveData";
+		$.ajax({
+			cache : false,
+			async : false,/**false同步，true异步**/
+			type : "POST",
+			url : url,
+			dataType : "json",
+			data : data,
+			beforeSend:function(){  
+	         },
+			success : function(data) {
+				if(data.success){
+					window.wxc.success("流水录入成功！",{"wxcOk":function(){
+						rescCallbocak();
+						}
+					});
+				}else{
+					window.wxc.error("流水录入失败！"+data.message); 
+				}
+			},complete: function() { 
+			},
+			error : function(errors) {
+			}
+			
+		});
+	}});
+}
+
 /**
  * 得到页面数据
  */ 
@@ -407,7 +443,7 @@ function changeClass(object){
 	$(object).focus();
 	$(object).addClass("borderClass").blur(function(){
 		$(this).removeClass("borderClass");
-	});	;
+	});
 }
 
 /**

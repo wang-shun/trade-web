@@ -467,4 +467,9 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 		}
 	}
 
+	@Override
+	public void saveSpvRecordsVO(SpvRecordedsVO spvrevo) {
+		toSpvService.saveSpvRecordedsVO(spvrevo); 
+	}
+
 }

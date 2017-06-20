@@ -103,4 +103,6 @@ public interface CashFlowInService {
 	
 	 void cashFlowOutApprDeleteCashFlowAll(HttpServletRequest request, String instCode, String pkid,
 				String handle) throws Exception;
+
+	void saveSpvRecordsVO(SpvRecordedsVO spvrevo);
 }

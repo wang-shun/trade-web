@@ -932,15 +932,6 @@ public class SpvController {
      * @throws Exception  
      * @Title: cashFlowOutApprProcess 
      * @Description: 出款申请页面
-     * @author: gongjd 
-     * @param request
-     * @param source
-     * @param instCode
-     * @param taskId
-     * @param handle
-     * @param businessKey
-     * @return String 
-     * @throws
      */
     @RequestMapping("task/cashFlowOutAppr/process")
 	public String cashFlowOutApprProcess(HttpServletRequest request,String source,String instCode,
@@ -983,17 +974,9 @@ public class SpvController {
     /**
      * @Title: cashFlowOutApprDeal 
      * @Description: 出款申请操作
-     * @author: gongjd 
-     * @param request
-     * @param source
-     * @param instCode
-     * @param taskId
-     * @param handle
-     * @param spvChargeInfoVO
-     * @return response
-     * @throws
      */
     @RequestMapping("cashFlowOutAppr/deal")
+    @ResponseBody
 	public AjaxResponse<?> cashFlowOutApprDeal(HttpServletRequest request,String source,String instCode,String taskitem,
 			String taskId,String handle,SpvChargeInfoVO spvChargeInfoVO,Boolean chargeOutAppr) {
     	AjaxResponse<?> response = new AjaxResponse<>();
@@ -1030,20 +1013,29 @@ public class SpvController {
     	return response;
 	}
     
+    /**
+     * @Title: cashFlowOutApprDeal 
+     * @Description: 出款申请操作
+     */
+    @RequestMapping("cashFlowOutAppr/save")
+    @ResponseBody
+	public AjaxResponse<?> cashFlowOutApprSave(SpvChargeInfoVO spvChargeInfoVO) {
+    	AjaxResponse<?> response = new AjaxResponse<>();
+    	try {	
+    		toSpvService.saveSpvChargeInfoVO4_3parties(spvChargeInfoVO);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			setExMsgForResp(response,e);
+		}
+    	
+    	return response;
+	}
+    
+    
+    
     
     /**
      * spvCloseApplyProcess:合约中止/结束 申请、审批页面. <br/> 
-     * @author gongjd 
-     * @param request
-     * @param source
-     * @param instCode
-     * @param taskId
-     * @param handle
-     * @param businessKey
-     * @param spvCode
-     * @return
-     * @throws Exception 
-     * @since JDK 1.8
      */
     @RequestMapping("task/spvCloseApply/process")
    	public String spvCloseApplyProcess(HttpServletRequest request,String source,String instCode,
@@ -1084,17 +1076,6 @@ public class SpvController {
     
     /**
      * spvCloseApplyDeal:合约中止/结束 申请、审批操作. <br/> 
-     * @author gongjd 
-     * @param request
-     * @param source
-     * @param instCode
-     * @param taskId
-     * @param handle
-     * @param businessKey
-     * @param spvCode
-     * @return response
-     * @throws Exception 
-     * @since JDK 1.8
      */
     @RequestMapping("/spvCloseApply/deal")
     @ResponseBody
@@ -1129,23 +1110,7 @@ public class SpvController {
     }
     
     /**
-     * 
      * checkInOutWorkFlowProcess: 检查是否存在出入账流程正在进行中. <br/> 
-     * 
-     * @author gongjd 
-     * @param request
-     * @param spvCloseInfoVO
-     * @param source
-     * @param instCode
-     * @param taskitem
-     * @param taskId
-     * @param handle
-     * @param businessKey
-     * @param continueApply
-     * @param result
-     * @return
-     * @throws Exception 
-     * @since JDK 1.8
      */
     @RequestMapping("/checkInOutWorkFlowProcess")
     @ResponseBody
@@ -1167,18 +1132,8 @@ public class SpvController {
     } 
 
     /**
-     * @throws Exception  
      * @Title: cashFlowOutApprProcess 
      * @Description: 入账页面
-     * @author: hejf 
-     * @param request
-     * @param source
-     * @param instCode
-     * @param taskId
-     * @param handle
-     * @param businessKey
-     * @return String 
-     * @throws
      */
     @RequestMapping("task/spvCashflowInAppr/process")
    	public String cashFlowInAppprProcess(HttpServletRequest request,String source,String instCode,

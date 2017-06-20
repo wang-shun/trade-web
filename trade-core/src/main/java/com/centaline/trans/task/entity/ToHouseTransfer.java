@@ -26,11 +26,11 @@ public class ToHouseTransfer {
 
     private String  useCardPay;
 
-    private  String accompany;
+    private  String accompany;//是否陪同 0:不陪同 1:陪同
 
-    private  String accompanyReason;
+    private  String accompanyReason;//陪同原因
 
-    private  String accompanyOthersReason;
+    private  String accompanyOthersReason;//陪同其他原因
 
     private BigDecimal  cardPayAmount;
 
