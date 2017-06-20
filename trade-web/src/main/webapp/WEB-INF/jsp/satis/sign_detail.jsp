@@ -772,7 +772,7 @@
 	        
 	        /*只读表单*/
 	        function readOnlyForm(){
-	        	$("input:not('#caseComment'),select,span[name='remarks']").attr("disabled","disabled");
+	        	$("input,select,span[name='remarks']").attr("disabled","disabled");
 	        }
 	        
 	    	function changeClass(object){

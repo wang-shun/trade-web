@@ -691,18 +691,20 @@
 						$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 						$(".blockOverlay").css({'z-index':'9998'});
 			        },
-					success:function(data){
-						 $.unblockUI();
-						 if(data.success){
-                             if(data.success){
-                                 window.wxc.success("操作成功！",{"wxcOk":function(){
-                                     goBack();
-                                 }
-                                 })
-						 }else{
-							 window.wxc.error("操作失败！\n"+data.message);
-						 } 
-					 }
+					success:function(data) {
+                        $.unblockUI();
+                        if (data.success) {
+                            if (data.success) {
+                                window.wxc.success("操作成功！", {
+                                    "wxcOk": function () {
+                                        goBack();
+                                    }
+                                })
+                            } else {
+                                window.wxc.error("操作失败！\n" + data.message);
+                            }
+                        }
+                    }
 				})
 	        }
 	        
@@ -797,7 +799,7 @@
 	        
 	        /*只读表单*/
 	        function readOnlyForm(){
-	        	$("input:not('#caseComment'),select,span[name='remarks']").attr("disabled","disabled");
+	        	$("input,select,span[name='remarks']").attr("disabled","disabled");
 	        }
 	        
 	    	function changeClass(object){
