@@ -181,7 +181,7 @@
         </div>
         <div class="clearfix">
             <h2 class="newtitle title-mark">附件浏览：贷款自办确认函、贷款流失申请书</h2>
-            <div class="ibox-content">
+            <div class="ibox-content" style="border: none;">
 			<div id="imgShow" class="lightBoxGallery"></div>
 		</div>
         </div>

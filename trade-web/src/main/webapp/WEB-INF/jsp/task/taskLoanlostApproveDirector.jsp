@@ -207,8 +207,7 @@
 	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script> 
 	<!-- 图片查看JS -->
-	<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
+	<script src="${ctx}/js/jquery.blockui.min.js"></script>
 	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
 	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
 	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
@@ -289,7 +288,8 @@
 					}
 				});
 			}
-		</script> </content>
+		</script>
+	</content>
 </body>
 
 
