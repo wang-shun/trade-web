@@ -400,10 +400,10 @@
 										function() {
 											params.search_spvCode=$(
 											"input[name='spvCode']")
-											.val();
+											.val().trim();
 											params.search_prAddress=$(
 											"input[name='prAddress']")
-											.val();
+											.val().trim();
 											params.search_status=$(
 											"select[name='status']")
 											.val();
