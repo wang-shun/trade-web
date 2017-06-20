@@ -227,6 +227,8 @@ public interface ToSpvService {
 
 	void saveSpvChargeInfoVO(SpvChargeInfoVO spvChargeInfoVO) throws Exception;
 	
+	void saveSpvChargeInfoVO4_3parties(SpvChargeInfoVO spvChargeInfoVO);
+	
 	void setAttributeSpvCashFlowApply(ServletRequest request, String caseCode);
 	
 	void findSpvBaseInfoVOAndSetAttrinCaseFlowApply(HttpServletRequest request, Long pkid, String caseCode);
@@ -265,4 +267,6 @@ public interface ToSpvService {
 
 
 	List<ToSpv> queryToSpvByCaseCodeAndApplyUser(String caseCode, String userId);
+
+	void saveSpvRecordedsVO(SpvRecordedsVO spvrevo);
 }

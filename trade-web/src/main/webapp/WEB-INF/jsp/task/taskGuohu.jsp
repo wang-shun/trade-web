@@ -360,6 +360,9 @@
 	<!-- 改版引入的新的js文件 -->
 	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
 	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
+
+	<!-- 必须JS -->
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script>
 		var source = "${source}";
 		var accompany_reason = '';//陪同原因
