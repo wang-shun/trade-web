@@ -466,6 +466,7 @@ public class SatisController {
 	Date transSignSubTime = vCaseTradeInfoMapper.selectTransSignSubTime(caseCode);
 	Date guohuPassTime = vCaseTradeInfoMapper.selectGuohuPassTime(caseCode);
 	String isLoanLost = vCaseTradeInfoMapper.selectIsLoanLost(caseCode);
+	String isDelegateYucui = vCaseTradeInfoMapper.selectIsDelegateYucui(caseCode);
 	String mortType = vCaseTradeInfoMapper.selectMortType(caseCode);
 	
 	/*查询经纪人意见*/
@@ -484,6 +485,7 @@ public class SatisController {
     model.addAttribute("guohuPassTime", guohuPassTime);
     model.addAttribute("mortType", mortType);
     model.addAttribute("isLoanLost", isLoanLost);
+    model.addAttribute("isDelegateYucui", isDelegateYucui);
     model.addAttribute("urlType", urlType);
     model.addAttribute("readOnly", readOnly);
     model.addAttribute("agentComDicts", agentComDicts);

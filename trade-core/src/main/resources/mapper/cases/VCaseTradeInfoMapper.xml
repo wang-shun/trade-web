@@ -112,6 +112,15 @@
   		and c.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </select>
   
+  <select id="selectIsDelegateYucui"  parameterType="java.lang.String" resultType="java.lang.String">
+  		select 
+  			isDelegateYucui
+  		from sctrans.T_TO_CASE c
+  		inner join sctrans.T_TO_MORTGAGE m on c.CASE_CODE = m.CASE_CODE and m.IS_ACTIVE = '1' 
+  		where 
+  		and c.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  
   <select id="selectMortType"  parameterType="java.lang.String" resultType="java.lang.String">
   		select 
   			m.MORT_TYPE

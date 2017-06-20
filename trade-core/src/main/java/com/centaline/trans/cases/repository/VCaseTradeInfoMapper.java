@@ -18,5 +18,7 @@ public interface VCaseTradeInfoMapper {
 	
 	String selectIsLoanLost(String caseCode);
 	
+	String selectIsDelegateYucui(String caseCode);
+	
 	String selectMortType(String caseCode);
 }
