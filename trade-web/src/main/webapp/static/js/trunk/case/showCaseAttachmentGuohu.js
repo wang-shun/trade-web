@@ -31,7 +31,12 @@ function getShowAttachment() {
 		{
 			name : 'available',
 			value : 'Y'
-		}],
+		},
+		{
+			name : 'partCode',
+			value : 'LoanlostApply'
+		}
+		],
 		dataType : "json",
 		success : function(data) {
 			dataLength=data.length;
