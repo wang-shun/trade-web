@@ -853,13 +853,13 @@
                     return false;
                 }
                 var $buyerComloanSat = $("select[name='buyerComloanSat']");
-                if(('${mortType}' == '30016001' || '${mortType}' == '30016002') && isDelegateYucui == '1' && $buyerComloanSat.val() == ''){
+                if(('${mortType}' == '30016001' || '${mortType}' == '30016002') && '${isDelegateYucui}' == '1' && $buyerComloanSat.val() == ''){
                 	window.wxc.alert("请选择下家贷款评分！");
                     changeClass($buyerComloanSat);
                     return false;
                 }
                 var $buyerPsfloanSat = $("select[name='buyerPsfloanSat']");
-                if('${mortType}' == '30016003' && isDelegateYucui == '1' && $buyerPsfloanSat.val() == ''){
+                if('${mortType}' == '30016003' && '${isDelegateYucui}' == '1' && $buyerPsfloanSat.val() == ''){
                 	window.wxc.alert("请选择下家公积金评分！");
                     changeClass($buyerPsfloanSat);
                     return false;
