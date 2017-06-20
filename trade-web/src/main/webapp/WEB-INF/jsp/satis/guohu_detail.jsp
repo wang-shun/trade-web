@@ -290,7 +290,7 @@
                 <div class="marinfo">
                     <div class="line">
                         <div class="form_content">
-                            <label class="control-label sign_left_small">签约时间</label>
+                            <label class="control-label sign_left_small">签约提交时间</label>
                             <input class=" input_type yuanwid" placeholder="" value="<fmt:formatDate value='${transSignSubTime}' pattern='yyyy-MM-dd'/>" readonly="readonly">
                         </div>
                         <div class="form_content">
@@ -302,7 +302,7 @@
                     </div>
                     <div class="line">
                         <div class="form_content">
-                            <label class="control-label sign_left_small">过户时间</label>
+                            <label class="control-label sign_left_small">过户通过时间</label>
                             <input class=" input_type yuanwid" placeholder="" value="<fmt:formatDate value='${guohuPassTime}' pattern='yyyy-MM-dd'/>" readonly="readonly">
                         </div>
                         <div id="s" class="form_content">
