@@ -966,6 +966,9 @@
 			
 			$("select[name='toSpv.prdCode']").change(function(){
 				if($(this).val() == 2){
+                    $("input[name='toSpvAccountList[2].name']").val('');
+                    $("input[name='toSpvAccountList[2].account']").val('');
+                    $("input[name='toSpvAccountList[2].branchBank']").val('');
 					$("#spvAccountDiv").hide();
 				}else{
 					$("#spvAccountDiv").show();

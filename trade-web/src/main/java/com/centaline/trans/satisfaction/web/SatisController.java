@@ -426,7 +426,7 @@ public class SatisController {
     
 	//查询任务ID和流程ID
     ToWorkFlow record = new ToWorkFlow();
-    record.setBizCode(satisId.toString());
+    record.setBizCode(satisfaction.getCastsatCode());
     record.setBusinessKey(WorkFlowEnum.SATIS_DEFKEY.getCode());
     ToWorkFlow tf = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(record);
     

@@ -1322,20 +1322,20 @@ public class ToSpvServiceImpl implements ToSpvService {
 	/**
 	 * @Title: saveSpvChargeInfoVObyIn
 	 * @Description: 保存saveSpvChargeInfoVO信息
-	 * @author: hejf 
+	 * @author: hejf
 	 * @param SpvRecordedsVO
 	 * @throws
 	 */
 	@Override
 	public void saveSpvChargeInfoVObyIn(SpvRecordedsVO spvRecordedsVO,String handle,String spvApplyCode) throws Exception{
-		
+
 		if(null == spvRecordedsVO){ throw new BusinessException("申请信息数据为空！"); }
-		
+
 		SessionUser user = uamSessionService.getSessionUser();
 		ToSpvCashFlowApply toSpvCashFlowApply = new ToSpvCashFlowApply();
 		List<SpvRecordedsVOItem> spvRecordedsVOItems = spvRecordedsVO.getItems();
-		
-		/**申请  ToSpvCashFlowApply**/	
+
+		/**申请  ToSpvCashFlowApply**/
 		if("apply".equals(handle)){
 			toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(spvRecordedsVO.getBusinessKey());
 			List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(Long.valueOf(toSpvCashFlowApply.getPkid()));
@@ -2039,6 +2039,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 		if(toSpvCashFlowApply.getPkid() == null){
 			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode());
+			toSpvCashFlowApply.setApplier(user.getId());
 			toSpvCashFlowApply.setCreateBy(user.getId());
 			toSpvCashFlowApply.setCreateTime(new Date());
 			toSpvCashFlowApply.setIsDeleted("0");
@@ -2223,7 +2224,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
 			}
 		}else{
-			User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+			//User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
 			String spvApplyCode = createSpvApplyCode();
 			
 			toSpvCashFlowApply.setSpvCode(spvRecordedsVO.getSpvConCode());/**监管合约内部编号**/
@@ -2232,7 +2233,6 @@ public class ToSpvServiceImpl implements ToSpvService {
 			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());/**状态**/
 			toSpvCashFlowApply.setIsDeleted("0");/**是否删除**/
 			toSpvCashFlowApply.setApplier(user.getId());/**申请人**/
-			toSpvCashFlowApply.setApplyAuditor(riskControlDirector.getId());/**申请复审人**/
 			toSpvCashFlowApply.setCreateTime(new Date());/**创建时间**/
 			toSpvCashFlowApply.setCreateBy(user.getId());/**创建人**/
 			toSpvCashFlowApplyMapper.insertSelective(toSpvCashFlowApply);
