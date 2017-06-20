@@ -2031,6 +2031,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		SessionUser user = uamSessionService.getSessionUser();
 		//获取合约监管账户信息
 		String spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
+		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
 		/**1.申请*/
 		ToSpvCashFlowApply toSpvCashFlowApply = spvChargeInfoVO.getToSpvCashFlowApply();
 		String spvApplyCode = createSpvApplyCode();
@@ -2040,6 +2041,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		if(toSpvCashFlowApply.getPkid() == null){
 			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.OUTTHREEPARTIES.getCode());
 			toSpvCashFlowApply.setApplier(user.getId());
+			toSpvCashFlowApply.setApplyAuditor(riskControlDirector.getId());
 			toSpvCashFlowApply.setCreateBy(user.getId());
 			toSpvCashFlowApply.setCreateTime(new Date());
 			toSpvCashFlowApply.setIsDeleted("0");
@@ -2225,7 +2227,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);
 			}
 		}else{
-			//User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+			User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
 			String spvApplyCode = createSpvApplyCode();
 			
 			toSpvCashFlowApply.setSpvCode(spvRecordedsVO.getSpvConCode());/**监管合约内部编号**/
@@ -2234,6 +2236,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.THREEPARTIES.getCode());/**状态**/
 			toSpvCashFlowApply.setIsDeleted("0");/**是否删除**/
 			toSpvCashFlowApply.setApplier(user.getId());/**申请人**/
+			toSpvCashFlowApply.setApplyAuditor(riskControlDirector.getId());/**审批人**/
 			toSpvCashFlowApply.setCreateTime(new Date());/**创建时间**/
 			toSpvCashFlowApply.setCreateBy(user.getId());/**创建人**/
 			toSpvCashFlowApplyMapper.insertSelective(toSpvCashFlowApply);
