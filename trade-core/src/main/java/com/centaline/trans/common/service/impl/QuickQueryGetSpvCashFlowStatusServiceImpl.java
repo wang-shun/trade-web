@@ -38,6 +38,9 @@ public class QuickQueryGetSpvCashFlowStatusServiceImpl implements CustomDictServ
 			case "03":
 				val = "审核完成";
 				break;
+			case "04":
+				val = "三方监管";
+				break;
 			case "10":
 				val = "出账起草";
 				break;
@@ -52,7 +55,10 @@ public class QuickQueryGetSpvCashFlowStatusServiceImpl implements CustomDictServ
 				break;
 			case "14":
 				val = "审核完成";
-				break;														
+				break;
+			case "15":
+				val = "三方监管";
+				break;
 			default:
 				break;
 			}

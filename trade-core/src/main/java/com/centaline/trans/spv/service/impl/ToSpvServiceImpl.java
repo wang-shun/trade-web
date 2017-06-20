@@ -2038,7 +2038,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);
 		}
 		if(toSpvCashFlowApply.getPkid() == null){
-			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode());
+			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.OUTTHREEPARTIES.getCode());
 			toSpvCashFlowApply.setApplier(user.getId());
 			toSpvCashFlowApply.setCreateBy(user.getId());
 			toSpvCashFlowApply.setCreateTime(new Date());
@@ -2113,6 +2113,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				if(toSpvCashFlow.getPkid() == null){
 					toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());
 					toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());
+					toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.OUTTHREEPARTIES.getCode());
 					toSpvCashFlow.setCreateBy(user.getId());
 					toSpvCashFlow.setCreateTime(new Date());
 					toSpvCashFlow.setIsDeleted("0");
@@ -2230,7 +2231,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			toSpvCashFlowApply.setSpvCode(spvRecordedsVO.getSpvConCode());/**监管合约内部编号**/
 			toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);/**流水申请编号**/
 			toSpvCashFlowApply.setUsage("in");
-			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());/**状态**/
+			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.THREEPARTIES.getCode());/**状态**/
 			toSpvCashFlowApply.setIsDeleted("0");/**是否删除**/
 			toSpvCashFlowApply.setApplier(user.getId());/**申请人**/
 			toSpvCashFlowApply.setCreateTime(new Date());/**创建时间**/
@@ -2265,7 +2266,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}	
 			toSpvCashFlow.setReceiptTime(spvRecordedsVOItems.get(i).getCashFlowCreateTime());/**回单生成时间**/
 			toSpvCashFlow.setInputTime(new Date());/**录入日期**/
-			toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode());
+			toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.THREEPARTIES.getCode());
 			toSpvCashFlow.setIsDeleted("0");/**是否删除**/
 			toSpvCashFlow.setCreateTime(new Date());/**创建时间**/
 			toSpvCashFlow.setCreateBy(user.getId());/**创建人**/
