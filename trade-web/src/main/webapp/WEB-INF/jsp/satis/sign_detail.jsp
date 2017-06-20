@@ -671,7 +671,10 @@
 					success:function(data){
 						 $.unblockUI();
 						 if(data.success){
-							 window.wxc.alert("操作成功！");
+                             window.wxc.success("操作成功！",{"wxcOk":function(){
+                                 goBack();
+                             }
+                             })
 						 }else{
 							 window.wxc.error("操作失败！\n"+data.message);
 						 } 
@@ -708,10 +711,10 @@
 						success:function(data){
 							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.alert("操作成功！",{"wxcOk":function(){
-									 goBack();
-								   }
-						   		 })
+                                 window.wxc.success("操作成功！",{"wxcOk":function(){
+                                     goBack();
+                                 }
+                                 })
 							 }else{
 								 window.wxc.error("操作失败！\n"+data.message);
 							 } 
@@ -748,10 +751,10 @@
 					success:function(data){
 						 $.unblockUI();
 						 if(data.success){
-							 window.wxc.alert("操作成功！",{"wxcOk":function(){
-								 goBack();
-							   }
-					   		 })
+                             window.wxc.success("操作成功！",{"wxcOk":function(){
+                                 goBack();
+                             }
+                             })
 						 }else{
 							 window.wxc.error("操作失败！\n"+data.message);
 						 } 

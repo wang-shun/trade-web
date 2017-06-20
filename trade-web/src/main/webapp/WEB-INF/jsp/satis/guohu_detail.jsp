@@ -694,7 +694,11 @@
 					success:function(data){
 						 $.unblockUI();
 						 if(data.success){
-							 window.wxc.alert("操作成功！");
+                             if(data.success){
+                                 window.wxc.success("操作成功！",{"wxcOk":function(){
+                                     goBack();
+                                 }
+                                 })
 						 }else{
 							 window.wxc.error("操作失败！\n"+data.message);
 						 } 
@@ -732,7 +736,7 @@
 						success:function(data){
 							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.alert("操作成功！",{"wxcOk":function(){
+								 window.wxc.success("操作成功！",{"wxcOk":function(){
 									 goBack();
 								   }
 						   		 })
@@ -772,7 +776,7 @@
 					success:function(data){
 						 $.unblockUI();
 						 if(data.success){
-							 window.wxc.alert("操作成功！",{"wxcOk":function(){
+							 window.wxc.success("操作成功！",{"wxcOk":function(){
 								 goBack();
 							   }
 					   		 })
@@ -847,13 +851,13 @@
                     return false;
                 }
                 var $buyerComloanSat = $("select[name='buyerComloanSat']");
-                if('${mortType}' != '' && '${mortType}' != '30016003' && $buyerComloanSat.val() == ''){
+                if(('${mortType}' == '30016001' || '${mortType}' == '30016002') && isDelegateYucui == '1' && $buyerComloanSat.val() == ''){
                 	window.wxc.alert("请选择下家贷款评分！");
                     changeClass($buyerComloanSat);
                     return false;
                 }
                 var $buyerPsfloanSat = $("select[name='buyerPsfloanSat']");
-                if('${mortType}' == '30016003' && $buyerPsfloanSat.val() == ''){
+                if('${mortType}' == '30016003' && isDelegateYucui == '1' && $buyerPsfloanSat.val() == ''){
                 	window.wxc.alert("请选择下家公积金评分！");
                     changeClass($buyerPsfloanSat);
                     return false;
