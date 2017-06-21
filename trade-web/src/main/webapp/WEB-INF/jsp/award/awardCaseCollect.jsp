@@ -145,9 +145,20 @@
                        <tr class="tr-2">
                    {{/if}} 
                      <td><p class="big"><a href="{{ctx}}/case/caseDetail?caseId={{item.CASE_PKID}}" target="_blank">{{item.CASE_CODE}}</a></p></td>
+					
+
 					<td>
-						<p class = "demo-top">{{item.PROPERTY_ADDR}}</p>
+						{{if item.PROPERTY_ADDR != null && item.PROPERTY_ADDR!="" && item.PROPERTY_ADDR.length>24}}
+							<p class = "demo-top"  title = "{{item.PROPERTY_ADDR}}">
+						{{item.PROPERTY_ADDR.substring(item.PROPERTY_ADDR.length-24,item.PROPERTY_ADDR.length)}}
+						{{else}}
+						</p>
+						<p>
+							{{item.PROPERTY_ADDR}}
+						{{/if}}
+						</p>						
 					</td>
+					
 					<td>							
                         <p class="big">{{item.GUOHU_APPROVE_TIME}}</p>
                     </td>
@@ -162,8 +173,17 @@
                             	<p class="big">{{item.AWARD_MONTH.substring(0,7)}}</p>
 							{{/if}}
                     </td>
-					<td>							
-                            <p class="big">{{item.AWARD_DESC}}</p>
+					<td>	
+						{{if item.AWARD_DESC != null && item.AWARD_DESC!="" && item.AWARD_DESC.length>10}}
+							<p class = "demo-left"  title = "{{item.AWARD_DESC}}">
+						{{item.AWARD_DESC.substring(0,10)}}
+						{{else}}
+						</p>
+						<p>
+							{{item.AWARD_DESC}}
+						{{/if}}
+						</p>					
+                           
                     </td>
                  </tr>			
        {{/each}}  
