@@ -468,10 +468,8 @@
 	        
 	        /*页面返回*/
 	        function goBack(){
-	        	if(urlType == 'list')
-					 window.location.href = ctx+"/satis/list";
-				 else
-					 window.location.href = ctx+"/task/myTaskList";
+		       	 window.opener.location.reload(); //刷新父窗口
+		         window.close(); //关闭子窗口.
 	        }
 	        /*只读表单*/
 	        function readOnlyForm(){
