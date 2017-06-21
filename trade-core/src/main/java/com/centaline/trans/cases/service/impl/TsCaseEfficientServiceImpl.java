@@ -26,4 +26,10 @@ public class TsCaseEfficientServiceImpl implements TsCaseEfficientService
         return tsCaseEfficientMapper.insertSelective(tsCaseEfficient);
     }
 
+    @Override
+    public boolean isExistByCaseCode(String caseCode)
+    {
+        return tsCaseEfficientMapper.getCaseEffCountByCaseCode(caseCode) > 0 ? true : false;
+    }
+
 }

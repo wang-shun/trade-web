@@ -20,4 +20,13 @@ public interface TsCaseEfficientService
      * @return 如果结果大于0,说明保存成功;等于0,说明保存失败。
      */
     public int save(TsCaseEfficient tsCaseEfficient);
+
+    /**
+     * 根据案件编号查询是否存在同样案件的时效信息
+     * 
+     * @param caseCode
+     *            案件编号
+     * @return 返回true,存在记录,返回false,不存在记录。
+     */
+    public boolean isExistByCaseCode(String caseCode);
 }

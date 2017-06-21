@@ -160,8 +160,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
         ToMortgage condition = new ToMortgage();// 用这三个条件确定一条商贷的贷款信息,防止前台重复提交数据或者加载数据出问题时数据重复
         condition.setCaseCode(toMortgage.getCaseCode());
         condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
-        condition.setIsDelegateYucui("1");
-        condition.setIsActive("1");
+        condition.setIsDelegateYucui("1");  
         List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
 
 		if (list != null && !list.isEmpty()) {
@@ -169,6 +168,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
 		}
 		if (mortgage != null) {
 			toMortgage.setPkid(mortgage.getPkid());
+			toMortgage.setIsActive("1");
 			toMortgageMapper.update(toMortgage);
 			
 		} else {
@@ -286,7 +286,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
     @Override
     public ToMortgage findToMortgageByCaseCodeWithCommLoan(ToMortgage toMortgage)
     {
-        toMortgage.setIsDelegateYucui("1");       
+        toMortgage.setIsDelegateYucui("1"); 
+        // toMortgage.setIsActive("1");//此处设置为1，针对流程重启的案件无法显示已经填写的信息
         List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(toMortgage);
         if (CollectionUtils.isNotEmpty(list))
         {
