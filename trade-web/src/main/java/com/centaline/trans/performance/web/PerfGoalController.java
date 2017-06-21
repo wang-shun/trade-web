@@ -1,5 +1,6 @@
 package com.centaline.trans.performance.web;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -94,13 +95,37 @@ public class PerfGoalController {
 		String orgId=user.getServiceDepId();
 		String jobCode=user.getServiceJobCode();
 		List<Subject> queryPeceivablePerfList = subjectService.querySubjectList();
-		
+		String time = request.getParameter("time");
+		if(time!=null){
+			model.addAttribute("startTime",time);
+			model.addAttribute("endTime", lastDay(time));
+		}
 		model.addAttribute("viewObject", request.getParameter("viewObject"));
 		model.addAttribute("viewObjectId", request.getParameter("viewObjectId"));
 		model.addAttribute("subjectList", queryPeceivablePerfList);
 		return "performance/receivablePerf";
 	}
 	
+	/**
+	 * 根据传入的月份，获取当月的最后一天
+	 * @param Str
+	 * @return
+	 */
+	public String lastDay(String Str) {
+		try {
+			Date date = new SimpleDateFormat("yy-MM-dd").parse(Str);
+			Calendar c = Calendar.getInstance();
+			c.setTime(date);  
+	        c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE));  
+	        String dayBefore = new SimpleDateFormat("yyyy-MM-dd").format(c  
+	                .getTime()); 
+			System.out.println(dayBefore);
+			return dayBefore;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	/**
 	 * 目标设定方法

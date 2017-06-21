@@ -9,6 +9,7 @@
  		}
  }
    
+ //点击查询
  function searchButton(){	
 	 reloadGrid();
  };
@@ -16,8 +17,37 @@
  
 //初始化日期控件
  var monthSel=new DateSelect($('.month'),{max:new Date(2999,1,1),moveDone:reloadGrid});
-  
+ 
+//初始化下拉列表
+ function initialization(){
+	 var dataView=$("#dataView").val();
+     if(dataView=='C'){
+    	 $("#sel_team").append("<option value='GeneralManager' selected = 'selected' >整个公司</option>");
+    	 $("#sel_team").append("<option value='director'> 贵宾服务中心级别</option>");
+    	 $("#sel_team").append("<option value='Senior_Manager'>组别级别</option>");
+    	 $("#sel_team").append("<option value='ryjb'>人员级别</option>");
+     }
+     if(dataView=='D'){
+    	 $("#sel_team").append("<option value='director' > 贵宾服务中心级别</option>");
+    	 $("#sel_team").append("<option value='Senior_Manager' selected = 'selected'>组别级别</option>");
+    	 $("#sel_team").append("<option value='ryjb' >人员级别</option>");
+     }
+     if(dataView=='T'){
+    	 $("#sel_team").append("<option value='Senior_Manager' selected = 'selected'>组别级别</option>");
+    	 $("#sel_team").append("<option value='ryjb'>人员级别</option>");
+     }
+     if(dataView=='P'){
+    	 $("#sel_team").append("<option value='ryjb' selected = 'selected'>人员级别</option>");
+     }
+     
+ }  
+ 
+ 
+ 
+ //页面加载时候,初始化日期控件
  $(document).ready(function () {
+	 initialization();
+	 
      $('.input-daterange').datepicker({
      	startDate:new Date(),
          keyboardNavigation: false,
@@ -25,38 +55,42 @@
          autoclose: true
      });
    
-	 
+     
 	 searchMethod();
      $("#sel_team").change(reloadGrid);
-     
+     //根据不同的角色初始化下拉列表的值
+    // initialization();
+    
  });
  
  function searchMethod() {
 		$(".table_content")
 				.aistGrid(
 						{
-							ctx : ctx,
-							url : "/quickGrid/findPage",
-							queryId : $("#sel_team").val()=='zbjb'? 'queryPerfGoalAttainmentListzbjb':($("#sel_team").val()=='gbfwzx' ? 'queryPerfGoalAttainmentListgbfwzx':'queryPerfGoalAttainmentList'),
-							templeteId : 'template_successList',
-							gridClass : 'table table_blue table-striped table-bordered table-hover',
-							data : getParams(),
-							columns : [ {   
-								colName : "查看对象"
-							}, {
-								colName : "考核月份"
-							}, {
-								colName :
-									"<span class='sort' sortColumn='goalPerf' sord='ASC' onclick='caseCodeSort();'>"+"目标业绩"+"</span>"
-							}, {
-								colName : "<span class='sort' sortColumn='shareAmount' sord='ASC' onclick='caseCodeSort();'>"+"完成业绩"+"</span>"
-							}, {
-								colName : "<span class='sort' sortColumn='completionRate' sord='ASC' onclick='caseCodeSort();'>"+"已完率"+"</span>"
-							},{
-								colName : "操作"
-							}]
+						ctx : ctx,
+						url : "/quickGrid/findPage",
+						queryId : $("#sel_team").val()=='Senior_Manager'? 'queryPerfGoalAttainmentListzbjb':($("#sel_team").val()=='director' ? 'queryPerfGoalAttainmentListgbfwzx':'queryPerfGoalAttainmentList'),
+						templeteId : 'template_successList',
+						gridClass : 'table table_blue table-striped table-bordered table-hover',
+						data : getParams(),
+						columns : [ {   
+							colName : "查看对象"
+						}, {
+							colName : "考核月份"
+						}, {
+							colName :
+								"<span class='sort' sortColumn='goalPerf' sord='ASC' onclick='caseCodeSort();'>"+"目标业绩"+"</span>"
+						}, {
+							colName : "<span class='sort' sortColumn='shareAmount' sord='ASC' onclick='caseCodeSort();'>"+"完成业绩"+"</span>"
+						}, {
+							colName : "<span class='sort' sortColumn='completionRate' sord='ASC' onclick='caseCodeSort();'>"+"已完率"+"</span>"
+						},{
+							colName : "<span class='sort' sortColumn='countPerf' sord='ASC' onclick='caseCodeSort();'>"+"业绩单数"+"</span>"
+						},{
+							colName : "操作"
+						}]
 
-						});
+					});
 	}
  
  function reloadGrid() {
@@ -71,7 +105,7 @@
 			    wrapperData : {ctx:ctx}
 		    })
 	 }
-	 if(teamId=='zbjb'){
+	 if(teamId=='Senior_Manager'){
 		 var data = getParams();
 		 $(".table_content").reloadGrid({
 			 ctx : ctx,
@@ -81,7 +115,7 @@
 			 wrapperData : {ctx:ctx}
 		 })
 	 }
-	 if(teamId=='gbfwzx'){
+	 if(teamId=='director'){
 		 var data = getParams();
 		 $(".table_content").reloadGrid({
 			 ctx : ctx,
@@ -92,6 +126,17 @@
 		 })
 		 
 	 }
+	 if(teamId=='GeneralManager'){
+		 var data = getParams();
+		 $(".table_content").reloadGrid({
+			 ctx : ctx,
+			 queryId : 'queryPerfGoalAttainmentList',
+			 templeteId : 'template_successList',
+			 data : data,
+			 wrapperData : {ctx:ctx}
+		 })
+	 }
+	 
 	 if(teamId=='0'){
 		 var data = getParams();
 		 $(".table_content").reloadGrid({
@@ -104,7 +149,7 @@
 	 }
 	}
 
-
+ 	//注入参数
 	function getParams() {
 		var data={};
 		data.teamId=$("#sel_team").val();
@@ -113,7 +158,7 @@
 		return data;
 	}
 	
-	
+	//排序
 	function caseCodeSort(){
 		if($("#caseCodeSorti").attr("class")=="fa fa-sort-desc fa_down"){
 			$("#caseCodeSorti").attr("class",'fa fa-sort-asc fa_up ');
@@ -123,15 +168,15 @@
 			$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 		}
 	}
-	
+//到处excel
 $('#exportBtn').click(function(){
     	var data = getParams();
-    	var queryId=$("#sel_team").val()=='zbjb'? 'queryPerfGoalAttainmentListzbjb':($("#sel_team").val()=='gbfwzx' ? 'queryPerfGoalAttainmentListgbfwzx':($("#sel_team").val()=='ryjb'? 'queryPerfGoalAttainmentListRyjb' :'queryPerfGoalAttainmentList'));
+    	var queryId=$("#sel_team").val()=='Senior_Manager'? 'queryPerfGoalAttainmentListzbjb':($("#sel_team").val()=='director' ? 'queryPerfGoalAttainmentListgbfwzx':($("#sel_team").val()=='ryjb'? 'queryPerfGoalAttainmentListRyjb' :'queryPerfGoalAttainmentList'));
     	$.exportExcel({
     		ctx : ctx,
     		queryId : queryId,
     		colomns : ['viewObject','belongMonth','goalPerf',
-    		           'shareAmount', 'completionRate'],
+    		           'shareAmount', 'completionRate','countPerf'],
     		data:data
     		});
     	

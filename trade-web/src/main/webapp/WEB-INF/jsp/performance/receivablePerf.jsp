@@ -56,22 +56,45 @@
 			                            <i class="icon iconfont">&#xe61b;</i>
 			                        </div>
 			                    </div>
+                                
+                                
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                     	   业绩来源
+                                        业绩状态
                                     </label>
-                                    <select class="select_control sign_right_one" id="originCode">
-                                        <option value="0">
-                                     		   请选择
-                                        </option>
-                                        <option value="1">
-                                    		    内单
-                                        </option>
-                                        <option value="2">
-                                      		  外单
-                                        </option>
-                                    </select>
+                                    <div class="input_type" style="border:0 none;padding-left:0">
+                                        <label class="radio-inline">
+                                          <input type="radio" name="statusOptions"  value="" checked="checked" id="status">全部
+                                        </label> 
+                                        <label class="radio-inline">
+                                          <input type="radio" name="statusOptions"  value="GENERATED" id="status">有效
+                                        </label>
+                                        <label class="radio-inline">
+                                          <input type="radio" name="statusOptions" value="CANCELED" id="status">无效
+                                        </label>
+                                    </div>
                                 </div>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">
+                                        业绩类型
+                                    </label>
+                                    <div class="input_type" style="border:0 none;padding-left:0">
+                                        <label class="radio-inline">
+                                          <input type="radio" name="orderOptions"  value="0" checked="checked" id="originCode">全部
+                                        </label>
+                                        <label class="radio-inline">
+                                          <input type="radio" name="orderOptions"  value="1" id="originCode">内单
+                                        </label>
+                                        <label class="radio-inline">
+                                          <input type="radio" name="orderOptions" value="2" id="originCode">外单
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                                
+                                
                             </div>
                             <div class="line">
                                 
@@ -87,30 +110,15 @@
                                         
                                     </select>
                                 </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small">
-                                 		      业绩状态
-                                    </label>
-                                    <select class="select_control" style="width:90px;" id="status">
-                                        <option value="0">
-                                    		        请选择
-                                        </option>
-                                        <option value="1">
-                                          	        有效
-                                        </option>
-                                        <option value="2">
-                                         	        无效
-                                        </option>
-                                    </select>
-                                </div>
+                               
                                 <div class="form_content">
                                     <label class="control-label sign_left_small select_style mend_select">
                                         提交时间
                                     </label>
                                     <div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
-											<input id="dtBegin_0" name="dtBegin" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
+											<input id="dtBegin_0" name="dtBegin" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="${startTime }" placeholder="起始日期"> 
 										<span class="input-group-addon" style="line-height: 1.0000">到</span> 
-											<input id="dtEnd_0" name="dtEnd" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
+											<input id="dtEnd_0" name="dtEnd" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="${endTime }" placeholder="结束日期">
 									</div>
                                 </div>
                             </div>
@@ -185,7 +193,12 @@
 					{{if item.caseOrigin !=null && item.caseOrigin != 'CTM'}}外单
 					{{/if}}
 				</i></td>
-            <td>{{item.status}}</td>
+            <td>
+				{{if item.status !=null && item.status == 'GENERATED'}}有效
+				{{/if}}
+				{{if item.status !=null && item.status == 'CANCELED'}}无效
+				{{/if}}
+			</td>
             <td>{{item.userId}}<p>{{item.treamId}}</p></td>
             <td><p><a href="javascript:void(0)">{{item.caseCode}}</a></p><p>{{item.treamId}}{{item.district}}</p></td>
             <td>{{item.SELLER}}</td>

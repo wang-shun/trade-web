@@ -18,26 +18,69 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-			SELECT
-				pg.DISTRICT as viewObject,
-				pg.DISTRICT as viewObjectId,
-				pg.BELONG_MONTH as belongMonth,
- 				pg.GOAL_PERF as goalPerf,
-  				rp.SHARE_AMOUNT as shareAmount,
-				rp.SHARES_RATE*rp.SHARE_BASE/pg.GOAL_PERF*100 as completionRate
-			FROM
-			sctrans.T_TS_PERF_GOAL pg
-			LEFT JOIN sctrans.T_TS_RECEIVABLE_PERF rp
-			ON (pg.PKID = rp.PKID) 
-			LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (pg.TEAM = yoh.ORG_ID)
-			where pg.STATUS=1 and rp.STATUS='GENERATED' and rp.IS_DELETED='0'
-			
-			AND (
-				yoh.DISTRICT_ID = #orgId#
-				OR yoh.TEAM_ID = #orgId#
-				OR yoh.HQ_ID = #orgId#
-			)
-			and convert(varchar(7),pg.BELONG_MONTH,120) = #time# 
+						SELECT
+					so.parent_ID AS viewObject,
+					so.parent_ID AS viewObjectId,
+					a.belongMonth AS belongMonth,
+					SUM (a.goalPerf) AS goalPerf,
+					SUM (b.shareAmoun) AS shareAmount,
+					SUM (b.countPerf) AS countPerf,
+					CAST (
+						SUM ((b.shareAmoun / a.goalPerf)) AS DECIMAL (18, 4)
+					) AS completionRate
+				FROM
+					(
+						SELECT
+							pg.TEAM AS viewObject,
+							pg.TEAM AS viewObjectId,
+							TEAM,
+				DISTRICT,
+							pg.BELONG_MONTH AS belongMonth,
+							SUM (pg.GOAL_PERF) AS goalPerf
+						FROM
+							sctrans.T_TS_PERF_GOAL pg
+						WHERE
+							pg.STATUS = 1
+						AND CONVERT (
+							VARCHAR (7),
+							pg.BELONG_MONTH,
+							120
+						) = #time#
+						GROUP BY
+							pg.DISTRICT,
+							pg.TEAM,
+							pg.BELONG_MONTH
+					) a
+				LEFT JOIN (
+					SELECT
+						DISTRICT,
+						SUM (rp.SHARE_AMOUNT) AS shareAmoun,
+						TEAM_ID,
+						rp.SHARE_TIME,
+						COUNT (rp.PKID) AS countPerf
+					FROM
+						sctrans.T_TS_RECEIVABLE_PERF rp
+					WHERE
+						rp.STATUS = 'GENERATED'
+					AND rp.IS_DELETED = '0'
+					AND CONVERT (
+						VARCHAR (7),
+						rp.SHARE_TIME,
+						120
+					) = #time#
+					GROUP BY
+						RP.DISTRICT,
+						rp.TEAM_ID,
+						rp.SHARE_TIME
+				) b ON a.TEAM = b.TEAM_ID
+				AND DATEDIFF(
+					mm,
+					a.belongMonth,
+					b.SHARE_TIME
+				) = 0
+				 LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (a.TEAM = yoh.ORG_ID)
+				 LEFT JOIN sctrans.sys_org so ON (so.id = a.DISTRICT)
+				GROUP BY  so.parent_ID,a.belongMonth
 		]]>
 			</baseSql>
 			<groupSql>
@@ -51,6 +94,7 @@
 				<column type="both" name="goalPerf" title="业绩目标"/>
 				<column type="both" name="shareAmount" title="完成业绩"/>
 				<column type="both" name="completionRate" title="已完率"/>
+				<column type="both" name="countPerf" title="业绩单数"/>
 			</table-row>
 		</grid>
 	</query>
@@ -61,22 +105,70 @@
 			<baseSql>
 				<![CDATA[
 			SELECT
-				pg.USER_ID AS viewObject,
-				pg.USER_ID AS viewObjectId,
-				pg.BELONG_MONTH AS belongMonth,
-				SUM (pg.GOAL_PERF) AS goalPerf,
-				SUM (rp.SHARE_AMOUNT) AS shareAmount,
-				SUM (rp.SHARE_AMOUNT) / SUM (pg.GOAL_PERF) / 100 AS completionRate ,
-				'1' as ry
+				a.viewObject AS viewObject,
+				a.viewObject AS viewObjectId,
+				a.belongMonth AS belongMonth,
+				sum(a.goalPerf) AS goalPerf,
+				sum(b.shareAmoun) AS shareAmount,
+			  sum(b.countPerf )AS countPerf,
+			  '1' as ry,
+				CAST (
+					sum((b.shareAmoun / a.goalPerf)) AS DECIMAL (18, 4)
+				) AS completionRate
 			FROM
-			sctrans.T_TS_PERF_GOAL pg
-			LEFT JOIN sctrans.T_TS_RECEIVABLE_PERF rp
-			ON (pg.USER_ID = rp.USER_ID) 
-			<if test = "USER_JOBCODE !='TJYGW' and TJYGW!='TJYZL' ">
-				LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (pg.TEAM = yoh.ORG_ID)
-			</if>
+				(
+					SELECT
+						pg.USER_ID AS viewObject,
+						pg.USER_ID AS viewObjectId,
+						pg.USER_ID AS UserId,
+						TEAM,
+						pg.BELONG_MONTH AS belongMonth,
+						SUM (pg.GOAL_PERF) AS goalPerf
+					FROM
+						sctrans.T_TS_PERF_GOAL pg
+					WHERE
+						pg.STATUS = 1
+					AND CONVERT (
+						VARCHAR (7),
+						pg.BELONG_MONTH,
+						120
+					) = #time#
+					GROUP BY
+						pg.TEAM,
+						pg.USER_ID,
+						pg.BELONG_MONTH
+				) a
+			LEFT JOIN (
+				SELECT
+					DISTRICT,
+					SUM (rp.SHARE_AMOUNT) AS shareAmoun,
+					USER_ID,
+					rp.SHARE_TIME,
+					COUNT (rp.PKID) AS countPerf
+				FROM
+					sctrans.T_TS_RECEIVABLE_PERF rp
 				WHERE
-					pg.STATUS = 1 and rp.STATUS='GENERATED' and rp.IS_DELETED='0'
+					rp.STATUS = 'GENERATED'
+				AND rp.IS_DELETED = '0'
+				AND CONVERT (
+					VARCHAR (7),
+					rp.SHARE_TIME,
+					120
+				) = #time#
+				GROUP BY 
+					RP.DISTRICT,
+					rp.USER_ID,
+					rp.SHARE_TIME
+			) b ON a.UserId = b.USER_ID
+			AND DATEDIFF(
+				mm,
+				a.belongMonth,
+				b.SHARE_TIME
+			) = 0
+			<if test = "USER_JOBCODE !='TJYGW' and TJYGW!='TJYZL' ">
+				LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (a.TEAM = yoh.ORG_ID)
+				where 1=1
+			</if>
 			<if test = "USER_JOBCODE !='TJYGW' and TJYGW!='TJYZL' ">
 				AND (
 					yoh.DISTRICT_ID = #orgId#
@@ -91,7 +183,9 @@
 				OR yoh.HQ_ID = #yuCuiOriGrpId#
 				)
 			</if>
-			 and convert(varchar(7),pg.BELONG_MONTH,120) = #time# GROUP  BY pg.USER_ID,pg.BELONG_MONTH HAVING 1=1 
+			GROUP BY a.viewObject,a.belongMonth 
+			 
+			 
 		]]>
 			</baseSql>
 			<groupSql>
@@ -106,6 +200,7 @@
 				<column type="both" name="goalPerf" title="业绩目标"/>
 				<column type="both" name="shareAmount" title="完成业绩"/>
 				<column type="both" name="completionRate" title="已完率"/>
+				<column type="both" name="countPerf" title="业绩单数"/>
 			</table-row>
 		</grid>
 	</query>
@@ -116,33 +211,81 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-			SELECT
-				pg.TEAM AS viewObject,
-				pg.TEAM AS viewObjectId,
-				pg.BELONG_MONTH AS belongMonth,
-				SUM (pg.GOAL_PERF) AS goalPerf,
-				SUM (rp.SHARE_AMOUNT) AS shareAmount,
-				SUM (rp.SHARE_AMOUNT) / SUM (pg.GOAL_PERF) / 100 AS completionRate 
-			FROM
-			sctrans.T_TS_PERF_GOAL pg
-			LEFT JOIN sctrans.T_TS_RECEIVABLE_PERF rp
-			ON (pg.TEAM = rp.TEAM_ID) 
-			LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (pg.TEAM = yoh.ORG_ID)
-			where pg.STATUS=1 and rp.STATUS='GENERATED' and rp.IS_DELETED='0'
-			AND (
-				yoh.DISTRICT_ID = #orgId#
-				OR yoh.TEAM_ID = #orgId#
-				OR yoh.HQ_ID = #orgId#
-			)
-			<if test="yuCuiOriGrpId != null and yuCuiOriGrpId != 'null' and yuCuiOriGrpId != '' ">
-			AND (
-				yoh.DISTRICT_ID = #yuCuiOriGrpId#
-				OR yoh.TEAM_ID = #yuCuiOriGrpId#
-				OR yoh.HQ_ID = #yuCuiOriGrpId#
-				)
-			</if>
 			
-			and convert(varchar(7),pg.BELONG_MONTH,120) = #time# GROUP  BY pg.TEAM,pg.BELONG_MONTH HAVING 1=1 
+			
+			SELECT
+					a.viewObject as viewObject,
+					a.viewObjectId as viewObjectId,
+					a.belongMonth as belongMonth,
+				    a.goalPerf as goalPerf,
+					b.shareAmoun as shareAmount,
+				    b.countPerf as countPerf,
+					CAST (
+						(b.shareAmoun / a.goalPerf) AS DECIMAL (18, 4)
+					) AS completionRate
+				FROM
+					(
+						SELECT
+							pg.TEAM AS viewObject,
+							pg.TEAM AS viewObjectId,
+							pg.TEAM AS TEAM,
+							pg.BELONG_MONTH AS belongMonth,
+							SUM (pg.GOAL_PERF) AS goalPerf
+						FROM
+							sctrans.T_TS_PERF_GOAL pg
+						WHERE
+							pg.STATUS = 1
+						AND CONVERT (
+							VARCHAR (7),
+							pg.BELONG_MONTH,
+							120
+						) = #time#
+						GROUP BY
+							pg.DISTRICT,
+							pg.BELONG_MONTH,
+							pg.TEAM
+					) a
+				LEFT JOIN (
+					SELECT
+						SUM (rp.SHARE_AMOUNT) AS shareAmoun,
+						TEAM_ID,
+						rp.SHARE_TIME,
+						COUNT (rp.PKID) AS countPerf
+					FROM
+						sctrans.T_TS_RECEIVABLE_PERF rp
+					WHERE
+						rp.STATUS = 'GENERATED'
+					AND rp.IS_DELETED = '0'
+					AND CONVERT (
+						VARCHAR (7),
+						rp.SHARE_TIME,
+						120
+					) = #time#
+					GROUP BY
+						rp.TEAM_ID,
+						rp.SHARE_AMOUNT,
+						rp.SHARE_TIME
+				) b ON a.team = b.TEAM_ID
+				AND DATEDIFF(
+					mm,
+					a.belongMonth,
+					b.SHARE_TIME
+				) = 0
+				LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (a.TEAM = yoh.ORG_ID)
+				where 1=1
+							AND (
+								yoh.DISTRICT_ID = #orgId#
+								OR yoh.TEAM_ID = #orgId#
+								OR yoh.HQ_ID = #orgId#
+							)
+							<if test="yuCuiOriGrpId != null and yuCuiOriGrpId != 'null' and yuCuiOriGrpId != '' ">
+							AND (
+								yoh.DISTRICT_ID = #yuCuiOriGrpId#
+								OR yoh.TEAM_ID = #yuCuiOriGrpId#
+								OR yoh.HQ_ID = #yuCuiOriGrpId#
+								)
+							</if>
+			
 		]]>
 			</baseSql>
 			<groupSql>
@@ -156,6 +299,7 @@
 				<column type="both" name="goalPerf" title="业绩目标"/>
 				<column type="both" name="shareAmount" title="完成业绩"/>
 				<column type="both" name="completionRate" title="已完率"/>
+				<column type="both" name="countPerf" title="业绩单数"/>
 			</table-row>
 		</grid>
 	</query>
@@ -166,31 +310,79 @@
 			<baseSql>
 				<![CDATA[
 			SELECT
-				pg.DISTRICT as viewObject,
-				pg.DISTRICT as viewObjectId,
-				pg.BELONG_MONTH AS belongMonth,
-				SUM (pg.GOAL_PERF) AS goalPerf,
-				SUM (rp.SHARE_AMOUNT) AS shareAmount,
-				SUM (rp.SHARE_AMOUNT) / SUM (pg.GOAL_PERF) / 100 AS completionRate 
-			FROM
-			sctrans.T_TS_PERF_GOAL pg
-			LEFT JOIN sctrans.T_TS_RECEIVABLE_PERF rp
-			ON (pg.TEAM = rp.TEAM_ID)
-			LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (pg.TEAM = yoh.ORG_ID)
-			where pg.STATUS=1 and rp.STATUS='GENERATED' and rp.IS_DELETED='0'
-			AND (
-				yoh.DISTRICT_ID = #orgId#
-				OR yoh.TEAM_ID = #orgId#
-				OR yoh.HQ_ID = #orgId#
-			)
-			<if test="yuCuiOriGrpId != null and yuCuiOriGrpId != 'null' and yuCuiOriGrpId != '' ">
-			AND (
-				yoh.DISTRICT_ID = #yuCuiOriGrpId#
-				OR yoh.TEAM_ID = #yuCuiOriGrpId#
-				OR yoh.HQ_ID = #yuCuiOriGrpId#
+					a.viewObject AS viewObject,
+					a.viewObject AS viewObjectId,
+					a.belongMonth AS belongMonth,
+					sum(a.goalPerf) AS goalPerf,
+					sum(b.shareAmoun) AS shareAmount,
+				  sum(b.countPerf )AS countPerf,
+					CAST (
+						sum((b.shareAmoun / a.goalPerf)) AS DECIMAL (18, 4)
+					) AS completionRate
+				FROM
+					(
+						SELECT
+							pg.DISTRICT AS viewObject,
+							pg.DISTRICT AS viewObjectId,
+							pg.TEAM AS TEAM,
+							pg.BELONG_MONTH AS belongMonth,
+							SUM (pg.GOAL_PERF) AS goalPerf
+						FROM
+							sctrans.T_TS_PERF_GOAL pg
+						WHERE
+							pg.STATUS = 1
+						AND CONVERT (
+							VARCHAR (7),
+							pg.BELONG_MONTH,
+							120
+						) = #time#
+						GROUP BY
+							pg.DISTRICT,
+							pg.BELONG_MONTH,
+							pg.TEAM
+					) a
+				LEFT JOIN (
+					SELECT
+						DISTRICT,
+						SUM (rp.SHARE_AMOUNT) AS shareAmoun,
+						TEAM_ID,
+						rp.SHARE_TIME,
+						COUNT (rp.PKID) AS countPerf
+					FROM
+						sctrans.T_TS_RECEIVABLE_PERF rp
+					WHERE
+						rp.STATUS = 'GENERATED'
+					AND rp.IS_DELETED = '0'
+					AND CONVERT (
+						VARCHAR (7),
+						rp.SHARE_TIME,
+						120
+					) = #time#
+					GROUP BY 
+						RP.DISTRICT,
+						rp.TEAM_ID,
+						rp.SHARE_TIME
+				) b ON a.TEAM = b.TEAM_ID
+				AND DATEDIFF(
+					mm,
+					a.belongMonth,
+					b.SHARE_TIME
+				) = 0
+				LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (a.TEAM = yoh.ORG_ID)
+				where 1=1
+				AND (
+					yoh.DISTRICT_ID = #orgId#
+					OR yoh.TEAM_ID = #orgId#
+					OR yoh.HQ_ID = #orgId#
 				)
-			</if>
-			and convert(varchar(7),pg.BELONG_MONTH,120) = #time# GROUP  BY pg.DISTRICT,pg.BELONG_MONTH HAVING 1=1 
+				<if test="yuCuiOriGrpId != null and yuCuiOriGrpId != 'null' and yuCuiOriGrpId != '' ">
+				AND (
+					yoh.DISTRICT_ID = #yuCuiOriGrpId#
+					OR yoh.TEAM_ID = #yuCuiOriGrpId#
+					OR yoh.HQ_ID = #yuCuiOriGrpId#
+					)
+			    </if> 
+				GROUP BY a.viewObject,a.belongMonth
 		]]>
 			</baseSql>
 			<groupSql>
@@ -204,6 +396,7 @@
 				<column type="both" name="goalPerf" title="业绩目标"/>
 				<column type="both" name="shareAmount" title="完成业绩"/>
 				<column type="both" name="completionRate" title="已完率"/>
+				<column type="both" name="countPerf" title="业绩单数"/>
 			</table-row>
 		</grid>
 	</query>

@@ -71,10 +71,10 @@
  function getParams() {
 		var data={};
 		data.yuCuiOriGrpId=$("#yuCuiOriGrpId").val();
-		data.status=$("#status").val();
+		data.status=$('input:radio[name="statusOptions"]:checked').val();
 		data.dtBegin=$("#dtBegin_0").val();
 		data.dtEnd=$("#dtEnd_0").val();
-		data.originCode=$("#originCode").val();
+		data.originCode=$('input:radio[name="orderOptions"]:checked').val();
 		data.subjectCode=$("#subjectCode").val();
 		return data;
 	}

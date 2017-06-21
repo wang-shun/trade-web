@@ -80,7 +80,7 @@
 				<column type="both" name="shareAmount" title="业绩金额"/>
 				<column type="both" name="subject" title="业绩名目"/>
 				<column type="both" name="status" title="业绩状态"/>
-				<column type="both" name="userId" title="归属人"/>
+				<column type="both" name="userId" title="归属人" customDict="getRealNameByUserId"/>
 				<column type="both" name="caseCode" title="案件编号"/>
 				<column type="both" name="caseOrigin" title="业绩来源"/>
 				<column type="both" name="district" customDict="qqcdOrgIdName" title="贵宾服务部"/>

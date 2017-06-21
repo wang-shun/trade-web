@@ -68,18 +68,10 @@
                                 <label class="control-label sign_left_small">
                                     查看单位
                                 </label>
+                                <input type="hidden" id="dataView" value="${dataView }">
                                 <select class="select_control sign_right_one" id="sel_team">
-                                	<option value="0">
-                                    	 请选择
-                                    </option>
-                                    <option value="gbfwzx">
-                                    	    贵宾服务中心级别
-                                    </option>
-                                    <option value="zbjb">
-                                    	    组别级别
-                                    </option>
-                                    <option value="ryjb">
-                                    	    人员级别
+                                	<option value="0" id ="0">
+                                    	 请选择  
                                     </option>
                                 </select>
                             </div>
@@ -154,11 +146,20 @@
 					{{item.goalPerf/10000}}万
 				{{/if}}
 			</td>
-			<td>{{item.shareAmount}}</td>
-			<td>{{item.completionRate}}</td>
+			<td>
+				{{if item.shareAmount != null}}
+					{{item.shareAmount/10000}}万
+				{{/if}}
+			</td>
+			<td>
+				{{if item.completionRate != null}}
+					{{item.completionRate*100}}%
+				{{/if}}
+			</td>
+			<td>{{item.countPerf}}</td>
 			<td>
 				{{if item.ry == null}}
-					<a href="{{ctx}}/trade-web/perf/receivablePerfDetail?viewObjectId={{item.viewObjectId}}&viewObject={{item.viewObject}}">业绩明细</a>
+					<a href="{{ctx}}/trade-web/perf/receivablePerfDetail?viewObjectId={{item.viewObjectId}}&viewObject={{item.viewObject}}&time={{item.belongMonth}}">业绩明细</a>
 				{{/if}}
 				{{if item.ry!=null && item.ry == '1'}}
 					<a href="{{ctx}}/trade-web/perf/receivablePerfDetail">业绩明细</a>
@@ -167,6 +168,10 @@
 			</td>
 		</tr>
 	{{/each}}
+     </script>
+     <script>
+    
+    
      </script>
     <!-- <a href=href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}">业绩明细</a> -->
         </content>
