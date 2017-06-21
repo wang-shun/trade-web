@@ -28,8 +28,8 @@
     	 $("#sel_team").append("<option value='ryjb'>人员级别</option>");
      }
      if(dataView=='D'){
-    	 $("#sel_team").append("<option value='director' > 贵宾服务中心级别</option>");
-    	 $("#sel_team").append("<option value='Senior_Manager' selected = 'selected'>组别级别</option>");
+    	 $("#sel_team").append("<option value='director' selected = 'selected'> 贵宾服务中心级别</option>");
+    	 $("#sel_team").append("<option value='Senior_Manager' >组别级别</option>");
     	 $("#sel_team").append("<option value='ryjb' >人员级别</option>");
      }
      if(dataView=='T'){

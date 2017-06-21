@@ -5,6 +5,8 @@
 			<customDict id="getRealNameByUserId" beanName="getRealNameByUserId"></customDict>
 			<customDict id="qqcdSeller" beanName="qqcdSeller" />
 			<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+			<!-- 根据业绩科目Code查询业绩科目名称 -->
+			<customDict id="getSubjectNameBySubjectCode" beanName="getSubjectNameBySubjectCode" />
 		</dicts>
 		<formatters>
 			<formatter id="dateFormatter" ref=""
@@ -78,7 +80,7 @@
 				<column type="both" name="shareTime" beanFormatter="dateFormatter" title="业绩时间"/>
 				<column type="both" name="sharesCode" title="业绩编号"/>
 				<column type="both" name="shareAmount" title="业绩金额"/>
-				<column type="both" name="subject" title="业绩名目"/>
+				<column type="both" name="subject" title="业绩名目" customDict="getSubjectNameBySubjectCode"/>
 				<column type="both" name="status" title="业绩状态"/>
 				<column type="both" name="userId" title="归属人" customDict="getRealNameByUserId"/>
 				<column type="both" name="caseCode" title="案件编号"/>
