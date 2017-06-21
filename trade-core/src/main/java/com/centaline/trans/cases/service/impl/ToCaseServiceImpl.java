@@ -23,6 +23,8 @@ import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.attachment.entity.ToAttachment;
+import com.centaline.trans.attachment.repository.ToAttachmentMapper;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -156,6 +158,9 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private TpdPaymentMapper tpdPaymentMapper;
 	@Autowired
 	private TdmPaidSubsMapper tdmPaidSubsMapper; 
+
+	@Autowired
+	private ToAttachmentMapper toAttachmentMapper; 
 	
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
@@ -1332,6 +1337,16 @@ public class ToCaseServiceImpl implements ToCaseService {
 		
 		tdmPaidSubs.setIsDeleted(1);
 		tdmPaidSubsMapper.updateByPrimaryKeySelective(tdmPaidSubs);
+		
+		if(!StringUtils.isEmpty(tdmPaidSubs.getReceiptPic())){
+			String[] newstr = tdmPaidSubs.getReceiptPic().split(",");
+			for(int i =0;i<newstr.length;i++){
+				ToAttachment record = toAttachmentMapper.findToAttachmentByAdres(newstr[i]);
+				if(null != record){
+				toAttachmentMapper.updateToAttachmentForCaseCodeByAdres("N", newstr[i]);
+				}
+			}
+		}
 		
 	}
 

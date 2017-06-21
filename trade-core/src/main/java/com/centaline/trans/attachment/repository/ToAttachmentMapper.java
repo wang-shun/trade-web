@@ -18,6 +18,14 @@ public interface ToAttachmentMapper {
     int insertSelective(ToAttachment record);
 
     ToAttachment selectByPrimaryKey(ToAttachment record);
+    /**
+     * 根据附件地址查询附件
+     * @author hejf10
+     * @date 2017年6月21日16:21:25
+     * @param record
+     * @return
+     */
+    ToAttachment findToAttachmentByAdres(String adres);
 
     int updateByPrimaryKeySelective(ToAttachment record);
 
@@ -51,6 +59,15 @@ public interface ToAttachmentMapper {
 	 * @return
 	 */
 	int updateToAttachmentForCaseCodeByCaseCode(@Param("caseCode")String caseCode,@Param("newCaseCode")String newCaseCod);
+	
+	/**
+	 * 更新附件为不显示 
+	 * @author hejf10
+	 * @param caseCode
+	 * @param newCaseCod
+	 * @return
+	 */
+	int updateToAttachmentForCaseCodeByAdres(@Param("available")String available,@Param("adres")String adres);
 	
 	
 }

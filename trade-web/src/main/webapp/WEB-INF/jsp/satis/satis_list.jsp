@@ -92,6 +92,17 @@
 								<option value="7">已回访</option>
 							</select>
 						</div>
+					</div>
+					<div class="line">
+						<div class="form_content mr10">
+							<label class="control-label sign_left_small"> 奖金发放状态 </label> 
+							<select name="awardStatus" class="select_control sign_right_one">
+								<option value="">请选择</option>
+								<option value="0">未发放</option>
+								<option value="1">已发放</option>
+								<option value="2">发放失败</option>
+							</select>
+						</div>
 						<div class="add_btn">
 							<button id="btn_search" type="button" class="btn btn-success mr5">
 								<i class="icon iconfont">&#xe635;</i> 查询
@@ -240,6 +251,12 @@
                             <a href="#"><em>{{item.C_ORG_NAME}}</em></a>
                         </span>
                      </td>
+					<td class="center">
+						{{if item.AWARD_STATUS == null}}  {{/if}}
+                        {{if item.AWARD_STATUS == 0}} 未发放 {{/if}}
+                        {{if item.AWARD_STATUS == 1}} 已发放 {{/if}}
+                        {{if item.AWARD_STATUS == 2}} 发放失败 {{/if}}
+                     </td>
 					<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">
                      	<td class="text-center"> 
                         	{{item.CALLER_NAME}}
@@ -289,11 +306,12 @@
 								params.surveyGuohuTimeEnd = $("input[name='surveyGuohuTimeEnd']").val();
 								params.callerId=$("#userId").val();
 								params.status=$("select[name='status']").val();
+								params.awardStatus = $("select[name='awardStatus']").val();
 								
 								aist.exportExcel({
 									ctx : '${ctx}',
 									queryId : 'SatisListQueryForExport',
-									colomns : ['STATUS_CN', 'CASE_CODE', 'PROPERTY_ADDR','SIGN_TIME', 'GUOHU_TIME','C_ORG_NAME', 'WZ_NAME','CALLER_NAME'],
+									colomns : ['STATUS_CN', 'CASE_CODE', 'PROPERTY_ADDR','SIGN_TIME', 'GUOHU_TIME','C_ORG_NAME', 'WZ_NAME','CALLER_NAME','AWARD_STATUS_CN'],
 									data : params
 								});
 							}
@@ -301,7 +319,7 @@
 							//清空数据
 							function clearForm() {
 								$(".input_type,#userId").val("");
-								$(".select_control option:first").prop("selected", true);
+								$(".select_control").find("option:first").prop("selected", true);
 							}
 
 							//初始化数据
@@ -322,7 +340,8 @@
 								params.surveyGuohuTimeEnd = $("input[name='surveyGuohuTimeEnd']").val();
 								params.callerId = $("#userId").val();
 								params.status = $("select[name='status']").val();
-
+								params.awardStatus = $("select[name='awardStatus']").val();
+								
 								initData();
 							})
 
@@ -345,6 +364,8 @@
 													colName : "签建时间"
 												}, {
 													colName : "归属组"
+												}, {
+													colName : "奖金发放状态"
 												}];
 								<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">
 									columns.unshift({colName : "<input type=\"checkbox\" name=\"split\" onclick=\"javascript:toggleSelectAll(this.checked);\">"});

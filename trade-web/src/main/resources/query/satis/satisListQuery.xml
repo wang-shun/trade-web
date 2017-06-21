@@ -17,6 +17,7 @@
             <condition field="p.PROPERTY_ADDR" name="prAddress" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 		    <condition field="s.CALLER_ID" name="callerId" label="客服" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="s.STATUS" name="status" label="回访状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="a.AWARD_STATUS" name="awardStatus" label="奖金发放状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -29,10 +30,12 @@
 						s.GUOHU_TIME,
 						s.CLOSE_TIME,
 						s.CALLER_ID,
-						p.PROPERTY_ADDR
+						p.PROPERTY_ADDR,
+						a.AWARD_STATUS
 					from 
 						sctrans.T_CS_CASE_SATISFACTION s
 						LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
+						LEFT JOIN sctrans.T_TS_AWARD_CASE_CENTAL a on s.CASE_CODE = a.CASE_CODE
 					WHERE 1=1
 					<if test="surveySignTimeStart != null and surveySignTimeStart != ''">
 						and datediff(day, #surveySignTimeStart#, s.SIGN_TIME) >= 0
@@ -76,6 +79,7 @@
 				<column type="virtual" name="CALLER_NAME" referencecol="CALLER_ID" index="" checkbox="" title="客服" customDict="qqcdUserIdName" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="CASE_ID,CTM_CODE,AGENT_ORG_NAME,AGENT_NAME,AGENT_PHONE,C_ORG_NAME,WZ_NAME" index="" checkbox="" title="案件ID,CTM编号,经纪人组别,经纪人,经纪人手机,所属组,所属区"  referencecol="CASE_CODE"  customDict="getCaseInfo" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" display="PROPERTY_ADDR" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="AWARD_STATUS" index="" checkbox="" title="奖金发放状态" display="AWARD_STATUS" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 			</table-row>
 		</grid>
 	</query>
@@ -86,21 +90,25 @@
             <condition field="p.PROPERTY_ADDR" name="prAddress" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 		    <condition field="s.CALLER_ID" name="callerId" label="客服" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="s.STATUS" name="status" label="回访状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <condition field="a.AWARD_STATUS" name="awardStatus" label="奖金发放状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 			       select 
-			       		CASE s.STATUS WHEN 1 THEN '未分单' WHEN 2 THEN '签约回访' WHEN 3 THEN '签约打回' WHEN 4 THEN '待过户'
-			       		WHEN 5 THEN '过户回访' WHEN 6 THEN '过户打回' WHEN 7 THEN '已回访' ELSE '' END STATUS_CN,
+			       		(CASE s.STATUS WHEN 1 THEN '未分单' WHEN 2 THEN '签约回访' WHEN 3 THEN '签约打回' WHEN 4 THEN '待过户'
+			       			WHEN 5 THEN '过户回访' WHEN 6 THEN '过户打回' WHEN 7 THEN '已回访' ELSE '' END
+			       		) STATUS_CN,
 						s.CASE_CODE,
 						s.SIGN_TIME,
 						s.GUOHU_TIME,
 						s.CALLER_ID,
-						p.PROPERTY_ADDR
+						p.PROPERTY_ADDR,
+						(CASE a.AWARD_STATUS WHEN 0 THEN '未发放' WHEN 1 THEN '已发放' WHEN 2 THEN '发放失败' END) AWARD_STATUS_CN
 					from 
 						sctrans.T_CS_CASE_SATISFACTION s
 						LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
+						LEFT JOIN sctrans.T_TS_AWARD_CASE_CENTAL a on s.CASE_CODE = a.CASE_CODE
 					WHERE 1=1
 					<if test="surveySignTimeStart != null and surveySignTimeStart != ''">
 						and datediff(day, #surveySignTimeStart#, s.SIGN_TIME) >= 0
@@ -133,6 +141,7 @@
 				<column type="virtual" name="CALLER_NAME" referencecol="CALLER_ID" index="" checkbox="" title="客服" customDict="qqcdUserIdName" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="C_ORG_NAME,WZ_NAME" index="" checkbox="" title="所属组,所属区"  referencecol="CASE_CODE"  customDict="getCaseInfo" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" display="PROPERTY_ADDR" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="AWARD_STATUS_CN" index="" checkbox="" title="奖金发放状态" display="AWARD_STATUS_CN" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 			</table-row>
 		</grid>
 	</query>
