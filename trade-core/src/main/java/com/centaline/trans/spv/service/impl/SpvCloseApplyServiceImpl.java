@@ -17,6 +17,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -170,7 +171,9 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 		vars.put("applier", user.getUsername());
 		User host = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		vars.put("host", host.getUsername());
-		User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
+		//查询风控部门orgId
+		Org riskControllerOrg = uamUserOrgService.getOrgByCode("112A011");
+		User director = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(riskControllerOrg.getId(), "JYFKZJ");
 		vars.put("director", director.getUsername());
 		String oldStatus = toSpv.getStatus();
 		vars.put("oldStatus", oldStatus);

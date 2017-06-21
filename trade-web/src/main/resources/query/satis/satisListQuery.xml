@@ -56,7 +56,7 @@
 			           and s.CALLER_ID = #sessionUserId#
 			        </if>
                     <if test="serviceJobCode == 'consultant' ">
-			           and CHARINDEX(#sessionUserId#, (select '/'+tgs.LEADING_PROCESS_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs where s.CASE_CODE = tgs.CASE_CODE for xml path(''))) > 0
+			           and CHARINDEX(#sessionUserId#, (select '/'+tgs.PROCESSOR_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs where s.CASE_CODE = tgs.CASE_CODE for xml path(''))) > 0
 			        </if>
                     <if test="serviceJobCode == 'Manager' ">
 			           and CHARINDEX(#sessionUserId#, (select '/'+vuoj.USER_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs LEFT JOIN sctrans.V_USER_ORG_JOB vuoj on vuoj.ORG_ID = tgs.ORG_ID where s.CASE_CODE = tgs.CASE_CODE and vuoj.JOB_CODE='Manager' for xml path(''))) > 0
