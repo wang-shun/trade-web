@@ -60,7 +60,7 @@
                                 <input class=" input_type" placeholder="请输入" value="" id="caseCode" name="caseCode">
                             </div>
                             <div class="form_content" style="margin-left: 49px;">
-                                <label class="control-label sign_left" style="width:100px;">发放状态</label>
+                                <label class="control-label sign_left" style="width:100px;">奖金发放状态</label>
                                 <select class="select_control sign_right_one"  id="awardStatus" name="awardStatus">
                                     <option value="all">请选择</option>
                                     <option value="0">否</option>

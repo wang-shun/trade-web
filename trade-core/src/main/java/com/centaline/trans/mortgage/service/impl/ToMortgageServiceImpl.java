@@ -287,7 +287,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
     public ToMortgage findToMortgageByCaseCodeWithCommLoan(ToMortgage toMortgage)
     {
         toMortgage.setIsDelegateYucui("1"); 
-        toMortgage.setIsActive("1");
+        // toMortgage.setIsActive("1");//此处设置为1，针对流程重启的案件无法显示已经填写的信息
         List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(toMortgage);
         if (CollectionUtils.isNotEmpty(list))
         {
