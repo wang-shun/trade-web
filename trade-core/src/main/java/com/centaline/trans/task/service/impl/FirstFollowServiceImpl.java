@@ -362,6 +362,8 @@ public class FirstFollowServiceImpl implements FirstFollowService {
 			firstFollowVO.setComment(fw.getComment());  // 备注
 			firstFollowVO.setIsPerchaseReserachNeed(fw.getIsPerchaseReserachNeed());  // 查限购情况
 			firstFollowVO.setIsLoanClose(fw.getIsLoanClose());  // 抵押情况
+			firstFollowVO.setChaxiangou("0".equals(fw.getIsPerchaseReserachNeed()) ? "false" : "true");
+			firstFollowVO.setDiya("0".equals(fw.getIsLoanClose()) ? "false" : "true");
 		}
 		
 		/*服务项目和经办人*/
