@@ -3,6 +3,8 @@ package com.centaline.trans.taskList.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.basedata.remote.vo.Dict;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,22 +36,24 @@ public class ToHouseTransferController {
 	private ToHouseTransferService toHouseTransferService;
 	@Autowired(required = true)
 	private ToCaseService toCaseService;
-	
+
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
-	
+
 	@Autowired
 	private SalesDealApiService salesdealApiService;
-	
+
 	@Autowired
 	private ToCaseInfoService tocaseInfoService;
-	
+
 	@Autowired
 	private UamSessionService uamSessionService;
 	@Autowired
 	private ToMortgageService toMortgageService;
 	@Autowired
 	private ToAccesoryListService toAccesoryListService;
+	@Autowired
+	private UamBasedataService uamBasedataService;
 	/**
 	 * 过户
 	 * @param request
@@ -62,19 +66,24 @@ public class ToHouseTransferController {
 	 */
 	@RequestMapping("process")
 	public String toProcess(HttpServletRequest request, HttpServletResponse response,
-			String caseCode, String source, String taskitem, String processInstanceId) {
+							String caseCode, String source, String taskitem, String processInstanceId) {
 		SessionUser user= uamSessionService.getSessionUser();
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("approveType", "2");
 		request.setAttribute("operator", user != null ? user.getId() : "");
-		
+
+		Dict dict = uamBasedataService.findDictByType("accompany_reason");
+
+		if(dict!=null){
+			request.setAttribute("accompanyReason", dict.getChildren());
+		}
 		toAccesoryListService.getAccesoryListGuoHu(request, taskitem, caseCode);
 		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
 		request.setAttribute("toMortgage", toMortgage);
-		
+
 		return "task" + UiImproveUtil.getPageType(request) + "/taskGuohu";
 	}
 	@RequestMapping(value="saveToHouseTransfer")
@@ -88,12 +97,12 @@ public class ToHouseTransferController {
 		}
 		return response;
 	}
-	
+
 
 	@RequestMapping(value="submitToHouseTransfer")
 	@ResponseBody
 	public Result submitToHouseTransfer(HttpServletRequest request, ToHouseTransfer toHouseTransfer,ToMortgage toMortgage,
-			LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId) {
+										LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId) {
 
 		Result rs=new Result();
 		String ctmCode=null;
@@ -102,30 +111,30 @@ public class ToHouseTransferController {
 		if(null!=caseInfo){
 			ctmCode=caseInfo.getCtmCode();
 		}
-		
+
 		if(null==ctmCode){
 			rs.setMessage("ctmCode不可为空");
 			return rs;
 		}
 
 		toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
-		
+
 		// 回写三级市场, 交易过户
 		salesdealApiService.noticeSalesDeal(ctmCode);
-		
+
 		/**
 		 * 功能: 给客户发送短信
 		 * 作者：zhangxb16
 		 */
 		int result=tgGuestInfoService.sendMsgHistory(toHouseTransfer.getCaseCode(), toHouseTransfer.getPartCode());
-		
+
 		if(result<=0){
 			rs.setMessage("短信发送失败, 请您线下手工再次发送！");
 		}
 
-			
+
 		return rs;
 	}
-	
-	
+
+
 }

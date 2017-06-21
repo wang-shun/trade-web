@@ -40,7 +40,7 @@
 						sctrans.T_TS_AWARD_BASE_CONFIG T
 					LEFT JOIN sctrans.sys_job S ON T.JOB_CODE = S.JOB_CODE
 					WHERE
-						T.JOB_CODE = 'consultant'
+						T.JOB_CODE IN ('consultant','TeamAssistant')
 					AND IS_AVAILABLE = 1 
 				]]>
 			</baseSql>

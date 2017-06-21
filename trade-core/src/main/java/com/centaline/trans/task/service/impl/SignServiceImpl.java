@@ -445,6 +445,11 @@ public class SignServiceImpl implements SignService
         // 签约保存信息先更新 客户信息表
         insertGuestInfo(transSignVO);
 
+        // 更新案件时效信息
+        TsCaseEfficient tsCaseEfficient = tsCaseEfficientMapper.getCaseEffInfoByCasecode(transSignVO.getCaseCode());
+        tsCaseEfficient.setSignTime(new Date());
+        tsCaseEfficientMapper.updateTsCaseEffInfo(tsCaseEfficient);
+
         boolean flag = true;
         // 同时需要修改贷款表里面的 主贷人信息
         ToMortgage toMortgage = new ToMortgage();
@@ -516,11 +521,6 @@ public class SignServiceImpl implements SignService
         }
 
         // toMortgageService.updateToMortgage(toMortgage);
-
-        // 更新案件时效信息
-        TsCaseEfficient tsCaseEfficient = tsCaseEfficientMapper.getCaseEffInfoByCasecode(transSignVO.getCaseCode());
-        tsCaseEfficient.setSignTime(new Date());
-        tsCaseEfficientMapper.updateTsCaseEffInfo(tsCaseEfficient);
 
         try
         {

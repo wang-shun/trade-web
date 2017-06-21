@@ -227,8 +227,11 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 		saveToHouseTransferAndMort(toHouseTransfer, toMortgage);
 		/*保存过户申请*/
 		saveToApproveRecord(toHouseTransfer, processInstanceId, loanlostApproveVO);
-		/*佣金分配*/
-		awardBaseService.doAwardCalculate(toHouseTransfer, processInstanceId);
+		/*佣金分配
+		* 绩效奖金自动化,取消原有的数据获取方式
+		* add by  zhuody   in  2017-06-20
+		*/
+		/*awardBaseService.doAwardCalculate(toHouseTransfer, processInstanceId);*/
 		/*流程引擎相关*/
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());	
@@ -257,8 +260,11 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 			saveToHouseTransferAndMort(toHouseTransfer, toMortgage);
 			/*保存过户申请*/
 			saveToApproveRecord(toHouseTransfer, processInstanceId, loanlostApproveVO);
-			/*佣金分配*/
-			awardBaseService.doAwardCalculate(toHouseTransfer, processInstanceId);
+			/*佣金分配
+			* 绩效奖金自动化,取消原有的数据获取方式
+			* add by  zhuody   in  2017-06-20
+			* */
+			/*awardBaseService.doAwardCalculate(toHouseTransfer, processInstanceId);*/
 			ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
 			/*修改案件状态*/
 			toCase.setStatus("30001004");
@@ -438,7 +444,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService {
 	
 	 //获取指定时间的上一个月时间
 	 private  Date  covertDate(Date date){		 
-		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		 //格式化对象
 		 Calendar calendar = Calendar.getInstance();
 		 //日历对象

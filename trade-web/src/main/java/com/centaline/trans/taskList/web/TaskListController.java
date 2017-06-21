@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.permission.remote.UamPermissionService;
+import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.engine.service.WorkFlowManager;
 
@@ -25,6 +28,16 @@ public class TaskListController {
 	
 	@Autowired(required=true)
 	UamSessionService uamSessionService;
+	
+	@Autowired(required=true)
+	UamPermissionService uamPermissionService;
+	
+	@Autowired(required=true)
+	UamBasedataService UamBasedataService;
+	
+	@Autowired(required=true)
+	UamUserOrgService uamUserOrgService;
+	
 	@Autowired(required=true)
 	WorkFlowManager workFlowManager;
 	/**
@@ -35,7 +48,6 @@ public class TaskListController {
 	 */
 	@RequestMapping(value="myTaskList")
 	public String myTaskList(Model model, ServletRequest request){
-		//TODO
 		SessionUser user = uamSessionService.getSessionUser();
 		String[] lamps = LampEnum.getCodes();
 		request.setAttribute("userId", user.getId());

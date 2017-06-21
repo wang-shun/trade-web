@@ -274,18 +274,16 @@ function($, window) {
 		data.queryId = queryId;
 		data.page = page;
 		data.rows = rows;
+		var table = $("<table></table");
+		var tbody = $("<tbody></tbody");
+		var thead = $("<thead></thead>");
 
 		if(typeof(columnsList) == "undefined") {
 		
 		} else {
-			if (typeof(gridClass) == "undefined"){
-				var table = $("<table></table");
-			} else {
-				var table = $("<table class=\""+gridClass+"\"></table");
+			if (typeof(gridClass) != "undefined"){
+				table = $("<table class=\""+gridClass+"\"></table");
 			}
-			
-			var tbody = $("<tbody></tbody");
-			var thead = $("<thead></thead>");
 
 			var isArray = $.isArray(columnsList[0]);
 			
@@ -333,11 +331,10 @@ function($, window) {
 		    }
 
 		    	thead.append(tr);
+
 			}
 
-		    table.append(thead).append(tbody);
-		    
-		    $(this).empty().append(table);
+			table.append(thead).append(tbody);
 
 		//现在的页面改版是跟进信息列表不需要分页
 		if(queryId != "queryCasePartCommentList" && queryId != "queryEloanCommentList"){
@@ -345,6 +342,7 @@ function($, window) {
 			    if($("#pageBar").length == 0) {
 			    	$(this).after(pageBar);
 			    }
+			$(this).empty().append(table);
 		}
 		
 	    var _self = $(this);

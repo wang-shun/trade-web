@@ -11,6 +11,6 @@ public interface TsManagementAwardBaseConfigService {
 
 	int updateByPrimaryKeySelective(TsManagementAwardBaseConfig tsManagementAwardBaseConfig);
 
-	int updateBaseConfigByPrimaryKey(TsConsultantAwardBaseConfig tsConsultantAwardBaseConfig);
+	int updateBaseConfigByPrimaryKey(TsConsultantAwardBaseConfig tsConsultantAwardBaseConfig,String belongMonth);
 
 }

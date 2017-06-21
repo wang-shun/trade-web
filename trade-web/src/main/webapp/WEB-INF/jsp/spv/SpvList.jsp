@@ -329,12 +329,12 @@
                                                     	{{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.IN">{{
-                                                      {{if item.STATUS==4&&item.signTime!=undefined&&item.PRD_CODE==1}}
+                                                      {{if item.STATUS==4&&item.signTime!=undefined}}
                                                         <li><a href="${ctx}/spv/task/cashflowIntApply/spvRecorded?pkid={{item.PKID}}">入账</a></li>
                                                       {{/if}}
                                                     </shiro:hasPermission>
                                                     <shiro:hasPermission name="TRADE.SPV.ACOUNT.OUT">
-													{{if item.ru>0&&item.STATUS==4&&item.PRD_CODE==1}}
+													{{if item.ru>0&&item.STATUS==4}}
                                                         <li><a href="${ctx}/spv/task/cashFlowOutAppr/process?spvCode={{item.SPV_CODE}}">出账</a></li>
                                                      {{/if}}
 													</shiro:hasPermission>
@@ -400,10 +400,10 @@
 										function() {
 											params.search_spvCode=$(
 											"input[name='spvCode']")
-											.val();
+											.val().trim();
 											params.search_prAddress=$(
 											"input[name='prAddress']")
-											.val();
+											.val().trim();
 											params.search_status=$(
 											"select[name='status']")
 											.val();

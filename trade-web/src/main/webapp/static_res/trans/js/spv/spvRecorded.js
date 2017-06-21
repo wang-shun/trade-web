@@ -9,6 +9,7 @@ $(document).ready(function(){
 	    readOnlyRiskForm();
 	}
 	
+	$("#none_save_btn").click(function(){saveBtnClick()});
 	$("#none_submit_btn").click(function(){submitBtnClick(handle,null)});
 	$("#apply_submit_btn").click(function(){submitBtnClick(handle,null)});
 	$("#directorAudit_pass_btn").click(function(){submitBtnClick(handle,true)});
@@ -187,53 +188,43 @@ function saveBtnClick(){
 		return false;
 	}
 
-	  if(!checkFormSave()){
-  		  return false;
-  	  }
+	if(!checkFormSubmit()){
+		return false;
+	}
 
-	  	var totalArr = [];
-      	  $("form").each(function(){
-      		 var obj = $(this).serializeArray();
-      		for(var i in obj){
-           		totalArr.push(obj[i]);
-      		}
-      	  }); 
+	var totalArr = $("form").serializeArray(); 
 
-      	  $.ajax({
-        		url:ctx+"/spv/cashFlowOutAppr/save",
-        		method:"post",
-        		dataType:"json",
-        		data:totalArr,
-        		async:false,
-        		beforeSend:function(){  
- 				//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
- 				$(".blockOverlay").css({'z-index':'9998'});
-             },
- 	        complete: function() {
- 	                // $.unblockUI(); 
- 	                 if(status=='timeout'){ //超时,status还有success,error等值的情况
- 		          	  Modal.alert(
- 					  {
- 					    msg:"抱歉，系统处理超时。"
- 					  }); 
- 			                } 
- 			            } ,   
- 			success : function(data) {   
-	 				if(data.ajaxResponse.success){
-	 					window.wxc.success("数据保存成功！",{"wxcOk":function(){
-                            if($("#urlType").val() == 'myTask'){
-                                window.location.reload(); //刷新父窗口
-                            }else{
-                                window.location.href=ctx+"/spv/task/cashFlowOutAppr/process?businessKey="+data.ajaxResponse.code;
-                            }
-                        }});
-	 				}else{
-	 					window.wxc.error("数据保存出错！");
-	 				}
-
- 					// $.unblockUI();
- 				}	 
-      	  });
+	  $.ajax({
+			url:ctx+"/spv/cashFlowOutAppr/save",
+			method:"post",
+			dataType:"json",
+			data:totalArr,
+			async:false,
+			beforeSend:function(){  
+			//$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			$(".blockOverlay").css({'z-index':'9998'});
+	     },
+	    complete: function() {
+	            // $.unblockUI(); 
+	             if(status=='timeout'){ //超时,status还有success,error等值的情况
+	          	  Modal.alert(
+				  {
+				    msg:"抱歉，系统处理超时。"
+				  }); 
+		                } 
+		            } ,   
+		success : function(data) {   
+				if(data.success){
+					window.wxc.success("流水保存成功！",{"wxcOk":function(){
+						window.location.href = ctx+"/spv/spvList";
+					}});
+				}else{
+					window.wxc.error("流水保存出错！");
+				}
+	
+				// $.unblockUI();
+			}	 
+	  });
 }
 
 //提交、同意、驳回按钮方法
@@ -331,7 +322,7 @@ function cashFlowOutApprDeal(chargeOutAppr){
 		                } 
 		            } ,   
 		success : function(data) {   
-			if(data.ajaxResponse.success){
+			if(data.success){
 				if(!handle){
 					window.wxc.success("流程开启成功！",{"wxcOk":function(){
 						window.location.href = ctx+"/spv/spvList";

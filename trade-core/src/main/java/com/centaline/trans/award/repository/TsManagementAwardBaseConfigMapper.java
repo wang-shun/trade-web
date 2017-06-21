@@ -20,4 +20,7 @@ public interface TsManagementAwardBaseConfigMapper {
     int updateByPrimaryKey(TsManagementAwardBaseConfig record);
 
 	int updateBaseConfigByPrimaryKey(TsConsultantAwardBaseConfig tsConsultantAwardBaseConfig);
+	
+	TsManagementAwardBaseConfig findAwardManagerInfoByUserIdAndOrgId(TsManagementAwardBaseConfig record);
+	
 }

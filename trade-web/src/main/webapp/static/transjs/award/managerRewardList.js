@@ -107,11 +107,12 @@ function delManagerInfo(pkid){
 }
 
 //修改基础奖金信息
-function modifyBaseInfo(PKID,JOB_NAME,SRV_ITEM_NAME,SRV_FEE){
+function modifyBaseInfo(PKID,JOB_NAME,SRV_ITEM_NAME,SRV_FEE,SRV_ITEM_CODE){
 	$("#modifyBaseForm #pkid").val(PKID);
 	$("#modifyBaseForm #jobName").html(JOB_NAME);
 	$("#modifyBaseForm #srvFee").val(SRV_FEE);
 	$("#modifyBaseForm #srvItemCode").html(SRV_ITEM_NAME);
+	$("#modifyBaseForm #srvItemCodeByName").val(SRV_ITEM_CODE);
 	$('#modifyBaseModal').modal('show');
 }
 //修改高层基础奖金信息
@@ -168,6 +169,9 @@ $("#modify").click(function(){
 $("#modifyBase").click(function(){
 	var pkid = $("#modifyBaseForm #pkid").val();
 	var srvFee = $.trim($("#modifyBaseForm #srvFee").val());
+	var srvItemCode = $("#modifyBaseForm #srvItemCodeByName").val();	
+	var belongMonth = getBlongMonth();
+	
 	if(srvFee==null || srvFee==''){
 		window.wxc.alert("基础奖金不能为空！");
 		return;
@@ -181,7 +185,7 @@ $("#modifyBase").click(function(){
 		type : "POST",
 		url : ctx+"/award/modifyBaseReward",
 		dataType : "json",
-		data : {'pkid':pkid,'srvFee':srvFee},
+		data : {'pkid':pkid,'srvFee':srvFee,'srvItemCode':srvItemCode,'belongMonth':belongMonth},
 		beforeSend:function(){  
 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				$(".blockOverlay").css({'z-index':'9998'});

@@ -244,6 +244,7 @@
                             </div>
                         </div>
                         <input type="hidden" id="pkid" name="pkid" value="">
+                        <input type="hidden" id="srvItemCodeByName" name="srvItemCodeByName" value="">
                         </form>
                         <div class="modal-footer" style="text-align:center;border:0">
                             <button id="modifyBase" type="button" class="btn btn-success" >保存</button>
@@ -289,7 +290,7 @@
 		    <tr>
               <td>{{item.JOB_NAME}}</td>
               <td>
-					{{ if item.SRV_ITEM_CODE == 'TransSign' || item.SRV_ITEM_CODE == 'ComLoanProcess' }}
+					{{ if item.SRV_ITEM_CODE == 'TransSign' || item.SRV_ITEM_CODE == 'ComLoanProcess'|| item.SRV_ITEM_CODE == 'TeamAssistant' }}
 					前台组
 					{{else item.SRV_ITEM_CODE == 'Guohu' || item.SRV_ITEM_CODE == 'PSFSign' || item.SRV_ITEM_CODE == 'LoanClose'}}
 					后台组
@@ -297,7 +298,7 @@
 			  </td>
               <td>{{item.SRV_ITEM_NAME}}</td>
               <td>{{item.SRV_FEE}}</td>
-			  <td><button class="btn btn-success mr5" onclick="modifyBaseInfo('{{item.PK_ID}}','{{item.JOB_NAME}}','{{item.SRV_ITEM_NAME}}','{{item.SRV_FEE}}')">修改 </button></td>
+			  <td><button class="btn btn-success mr5" onclick="modifyBaseInfo('{{item.PK_ID}}','{{item.JOB_NAME}}','{{item.SRV_ITEM_NAME}}','{{item.SRV_FEE}}','{{item.SRV_ITEM_CODE}}')">修改 </button></td>
              </tr>
 		{{/each}}
 </script>
@@ -378,12 +379,14 @@ function chooseManager(startOrgId) {
 	});
 }
 function chooseManagerBack(array){
+	
 	if (array && array.length > 0) {
 		$("#userId").val(array[0].userId);
 		$("#userName").val(array[0].username);
 		$("#jobName").val(array[0].jobName);
 		$("#orgName").val(array[0].orgName);
-		$("#orgId").val(array[0].orgId);
+		$("#orgId").val(array[0].orgId);		
+		
 	}
 }
 </script>   

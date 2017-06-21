@@ -226,7 +226,7 @@ public class TradeCaseController {
 			result.put("eplusInfo", new JSONObject());
 			return;
 		}
-		generateWantData(list,"queryEplusInfo");
+		generateWantData(list, "queryEplusInfo");
 		result.put("eplusInfo", list);
 	}
 	
@@ -627,6 +627,7 @@ public class TradeCaseController {
     @RequestMapping(value = "{caseCode}/fileUpload" )
 	@ResponseBody
 	public Object fileUpload(@RequestParam(required = true)String fileList,@PathVariable(required=true,name="caseCode") String caseCode,String partCode) {
+
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		JSONArray fileListArray= JSONArray.parseArray(fileList);
 		List<ToAttachment>toAttachments=new ArrayList<>();
@@ -654,4 +655,5 @@ public class TradeCaseController {
 		}
 		return ajaxResponse;
     }
+
 }

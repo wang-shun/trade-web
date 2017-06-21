@@ -1,25 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
@@ -100,12 +78,6 @@
 <style>
 	.borderClass {border:1px solid red!important;resize: none;}
 	.borderClass:focus {border:1px solid red!important;resize: none;}
-	input.disabled{
-		border:1px solid #DDD;
-		background-color: #eee;
-    	opacity: 1;
-		cursor: not-allowed;
-	}
 </style>
 </head>
 
@@ -698,12 +670,12 @@
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].account }" 
-									class="form-control input-two ${spvBaseInfoVO.toSpvAccountList[3].name eq '搜易贷（北京）金融信息服务有限公司' or spvBaseInfoVO.toSpvAccountList[3].name eq '上海嘉定及时雨小额贷款股份有限公司'?'disabled':''}" placeholder="">
+									class="form-control input-two" ${spvBaseInfoVO.toSpvAccountList[3].name eq '搜易贷（北京）金融信息服务有限公司' or spvBaseInfoVO.toSpvAccountList[3].name eq '上海嘉定及时雨小额贷款股份有限公司'?'disabled="disabled"':''} placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
 							    <label for="" class="lable-one">开户行</label> <input type="text" name="toSpvAccountList[3].branchBank"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].branchBank }"
-									class="form-control input-three ${spvBaseInfoVO.toSpvAccountList[3].name eq '搜易贷（北京）金融信息服务有限公司' or spvBaseInfoVO.toSpvAccountList[3].name eq '上海嘉定及时雨小额贷款股份有限公司'?'disabled':''}" placeholder="">
+									class="form-control input-three" ${spvBaseInfoVO.toSpvAccountList[3].name eq '搜易贷（北京）金融信息服务有限公司' or spvBaseInfoVO.toSpvAccountList[3].name eq '上海嘉定及时雨小额贷款股份有限公司'?'disabled="disabled"':''} placeholder="">
 							</div>
 						</div>
 							
@@ -994,6 +966,9 @@
 			
 			$("select[name='toSpv.prdCode']").change(function(){
 				if($(this).val() == 2){
+                    $("input[name='toSpvAccountList[2].name']").val('');
+                    $("input[name='toSpvAccountList[2].account']").val('');
+                    $("input[name='toSpvAccountList[2].branchBank']").val('');
 					$("#spvAccountDiv").hide();
 				}else{
 					$("#spvAccountDiv").show();
@@ -1051,13 +1026,13 @@
 						var eVal = $(element).attr("value");
  						switch(eVal){
  						case '':
- 							$("input[name='toSpvAccountList[2].account']").val("").removeClass("disabled");
- 							$("input[name='toSpvAccountList[2].branchBank']").val("").removeClass("disabled");
+ 							$("input[name='toSpvAccountList[2].account']").val("").prop("disabled",false);
+ 							$("input[name='toSpvAccountList[2].branchBank']").val("").prop("disabled",false);
  							$("input[name='toSpvAccountList[2].name']").val("");
  							break;
  						case '上海中原物业顾问有限公司':
- 							$("input[name='toSpvAccountList[2].account']").val("76310188000148842").addClass("disabled");
- 							$("input[name='toSpvAccountList[2].branchBank']").val("光大银行市北支行").addClass("disabled");
+ 							$("input[name='toSpvAccountList[2].account']").val("76310188000148842").prop("disabled",true);
+ 							$("input[name='toSpvAccountList[2].branchBank']").val("光大银行市北支行").prop("disabled",true);
  							break;
  						}
 					}
@@ -1070,17 +1045,17 @@
  						var eVal = $(element).attr("value");
  						switch(eVal){
  						case '':
- 							$("input[name='toSpvAccountList[3].account']").val("").removeClass("disabled");
- 							$("input[name='toSpvAccountList[3].branchBank']").val("").removeClass("disabled");
+ 							$("input[name='toSpvAccountList[3].account']").val("").prop("disabled",false);
+ 							$("input[name='toSpvAccountList[3].branchBank']").val("").prop("disabled",false);
  							$("input[name='toSpvAccountList[3].name']").val("");
  							break;
  						case '搜易贷（北京）金融信息服务有限公司':
- 							$("input[name='toSpvAccountList[3].account']").val("137441512010000275").addClass("disabled");
- 							$("input[name='toSpvAccountList[3].branchBank']").val("广发银行股份有限公司北京石景山支行").addClass("disabled");
+ 							$("input[name='toSpvAccountList[3].account']").val("137441512010000275").prop("disabled",true);
+ 							$("input[name='toSpvAccountList[3].branchBank']").val("广发银行股份有限公司北京石景山支行").prop("disabled",true);
  							break;
  						case '上海嘉定及时雨小额贷款股份有限公司':
- 							$("input[name='toSpvAccountList[3].account']").val("457263590104").addClass("disabled");
- 							$("input[name='toSpvAccountList[3].branchBank']").val("中行上海南京西路支行").addClass("disabled");
+ 							$("input[name='toSpvAccountList[3].account']").val("457263590104").prop("disabled",true);
+ 							$("input[name='toSpvAccountList[3].branchBank']").val("中行上海南京西路支行").prop("disabled",true);
  							break;
  						}
  						updateAccTypeOptions();

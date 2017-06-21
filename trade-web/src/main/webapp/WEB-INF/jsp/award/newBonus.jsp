@@ -117,7 +117,7 @@
 		<script id="tsAwardBaseList" type= "text/html">
         {{each rows as item index}}
  			<tr>                   
-                     <td>{{item.CASE_CODE}}</td>
+                     <td><a href="${ctx}/case/caseDetail?caseId={{item.CASE_PKID}}" target="_blank">{{item.CASE_CODE}}</a></td>
                      <td>{{item.PROPERTY_ADDR}}</td>
                      <td>{{item.GUOHU_TIME}}</td>
                      <td>{{item.CLOSE_TIME}}</td>
