@@ -645,6 +645,8 @@
     <!-- 根据businessKey查询模版名字-->
     <bean name="qqGetWFEName" class="com.centaline.trans.common.service.impl.QuickQueryWFENameServiceImpl"></bean>
 
+	<!-- 根据案件编号获取对应的环节的时效信息 -->
+    <bean name="getCaseEfficientInfo" class="com.centaline.trans.common.service.impl.QuickQueryCaseEfficientInfoServiceImpl"></bean>
 
     <aop:aspectj-autoproxy expose-proxy="true"/>
 

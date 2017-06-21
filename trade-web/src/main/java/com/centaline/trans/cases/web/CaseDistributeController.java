@@ -359,25 +359,34 @@ public class CaseDistributeController
                 toCaseService.caseAssign(caseCode, userId, sessionUser);
                 toCaseService.sendcaseAssignMsg(caseCode, userId, sessionUser);
 
-                // 添加案件时效信息
-                TsCaseEfficient tsCaseEfficient = new TsCaseEfficient();
-                tsCaseEfficient.setCaseCode(caseCode);
-                // 时效考核标准：首次跟进1天、签约15天、过户30天、结案30天
-                tsCaseEfficient.setFirstfollowEff(1);
-                tsCaseEfficient.setSignEff(15);
-                tsCaseEfficient.setGuohuEff(30);
-                tsCaseEfficient.setCasecloseEff(30);
-                // 默认保存延期次数都为0
-                tsCaseEfficient.setFirstfollowDly(0);
-                tsCaseEfficient.setSignDly(0);
-                tsCaseEfficient.setGuohuDly(0);
-                tsCaseEfficient.setCasecloseDly(0);
+                boolean isExist = tsCaseEfficientService.isExistByCaseCode(caseCode);
 
-                // 保存案件时效信息
-                int count = tsCaseEfficientService.save(tsCaseEfficient);
+                if (!isExist)
+                {
+                    // 添加案件时效信息
+                    TsCaseEfficient tsCaseEfficient = new TsCaseEfficient();
+                    tsCaseEfficient.setDispatchTime(new Date());
+                    tsCaseEfficient.setCaseCode(caseCode);
+                    // 时效考核标准：首次跟进1天、签约15天、过户30天、结案30天
+                    tsCaseEfficient.setFirstfollowEff(1);
+                    tsCaseEfficient.setSignEff(15);
+                    tsCaseEfficient.setGuohuEff(30);
+                    tsCaseEfficient.setCasecloseEff(30);
+                    // 默认保存延期次数都为0
+                    tsCaseEfficient.setFirstfollowDly(0);
+                    tsCaseEfficient.setSignDly(0);
+                    tsCaseEfficient.setGuohuDly(0);
+                    tsCaseEfficient.setCasecloseDly(0);
+                    tsCaseEfficient.setCurDelayCount(0);
+                    tsCaseEfficient.setHisOverdueCount(0);
 
-                if (count == 0)
-                    return AjaxResponse.fail("案件时效表保存失败！");
+                    // 保存案件时效信息
+                    int count = tsCaseEfficientService.save(tsCaseEfficient);
+
+                    if (count == 0)
+                        return AjaxResponse.fail("案件时效表保存失败！");
+                }
+
             }
             catch (BusinessException | WorkFlowException e)
             {
