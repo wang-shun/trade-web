@@ -497,6 +497,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         /* 审税 */
         ToTax toTax = new ToTax();
         // toTax.setTaxTime(editCaseDetailVO.getTaxTime());
+        toTax.setCaseCode(editCaseDetailVO.getCaseCode());
         toTax.setIsUniqueHome(editCaseDetailVO.getIsUniqueHome());
         toTax.setHoldYear(editCaseDetailVO.getHoldYear());
         if (editCaseDetailVO.getTaxid() != null)
