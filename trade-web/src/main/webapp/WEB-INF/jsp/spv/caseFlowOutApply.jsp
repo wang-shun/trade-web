@@ -272,6 +272,7 @@
                                                  	   审核人：<a href="javascript:void(0)">
                                                     ${cashFlow.applyAuditorName }
                                                     
+                                                    <c:if test="${spvBaseInfoVO.toSpv.prdCode eq 1}">
                                                     <c:if test="${cashFlow.usage eq 'out' }">
 	                                                    <c:if test="${cashFlow.status ge 12 }">
 	                                                    &gt;${cashFlow.ftPreAuditorName }
@@ -290,6 +291,8 @@
                                                     ${cashFlow.ftPostAuditorName }
                                                     </c:if>
                                                     </c:if>
+                                                    </c:if>
+                                                    
                                                     </a>
                                                 </p>
                                             </td>
