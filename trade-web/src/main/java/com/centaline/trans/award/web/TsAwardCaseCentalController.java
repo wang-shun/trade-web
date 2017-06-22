@@ -341,4 +341,29 @@ public class TsAwardCaseCentalController {
 		}
 		return response;
 	}
+	
+	
+	@RequestMapping(value = "/isShowSatButton")
+	@ResponseBody
+	public AjaxResponse<String> isShowSatButton(HttpServletRequest request,	String belongMonth) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try {
+			
+			TsAwardKpiPay record = new TsAwardKpiPay();			
+			record.setStatus("1");
+			record.setBelongMonth(DateUtil.strToFullDate(belongMonth));		
+			
+			TsAwardKpiPay tsAwardKpiPay = tsAwardKpiPayService.getTsAwardKpiPayByStatus(record);
+			if(tsAwardKpiPay != null){
+				response.setSuccess(true);
+			}else{
+				response.setSuccess(false);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();			
+			throw new BusinessException("查看本批次计件奖金是否提交错误，请稍后再试！");
+		}
+		return response;
+	}
 }

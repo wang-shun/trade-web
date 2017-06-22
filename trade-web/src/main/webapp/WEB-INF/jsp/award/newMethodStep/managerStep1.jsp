@@ -54,7 +54,7 @@
 	                            <button type="button" class="btn btn-success mr5 btn-icon"  id="satisSearch">
 	                                <i class="icon iconfont"></i>查询</button>
 	                            <button class="btn btn-success"  onClick="javascript:exportStaisToExcel();">导出Excel</button>
-	                            <button class="btn btn-success"  onClick="javascript:syncSatisListToKpi();">满意度同步</button>
+	                            <button id="SatisButton" class="btn btn-success"  onClick="javascript:syncSatisListToKpi();">满意度同步</button>
 	                            <button type="button" class="btn btn-grey" id="satisClean">清空</button>
 	                        </div>
 	                    </div>

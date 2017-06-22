@@ -16,6 +16,8 @@ $(document).ready(function() {
 	aist.sortWrapper({
 		reloadGrid : satisSearchMethod
 	});
+	
+	isShowSatButton();
 });
 
 
@@ -261,4 +263,24 @@ function syncSatisListToKpi(){
 	        }  
 	   })
 	 }})
+}
+
+
+function isShowSatButton(){
+	var belongMonth = getBlongMonth();
+	$.ajax({
+        url:ctx+ "/newAward/isShowSatButton" ,
+        method: "get",
+        dataType: "json",
+        data: {"belongMonth":belongMonth},
+
+        success: function(data){        
+        	if(data.success == true){			  
+        		$("#SatisButton").hide();
+        	}
+        },
+        error: function (e, jqxhr, settings, exception) {
+        	 
+        }  
+   })
 }

@@ -70,7 +70,7 @@
 							SYSUSER.ORG_ID,
 							c.pkid as caseId,
 							(select SUM(sc.AMOUNT) from   sctrans.T_TO_SPV_CASHFLOW_APPLY sa 
-							LEFT JOIN sctrans.T_TO_SPV_CASHFLOW sc on sa.PKID=sc.CASHFLOW_APPLY_ID and sc.STATUS='03' and sc.IS_DELETED='0' 
+							LEFT JOIN sctrans.T_TO_SPV_CASHFLOW sc on sa.PKID=sc.CASHFLOW_APPLY_ID and sc.STATUS in ('03','04') and sc.IS_DELETED='0' 
 							WHERE spv.SPV_CODE=sa.SPV_CODE  and sa.USAGE='in') as ru,
 							(select SUM(sc.AMOUNT) from   sctrans.T_TO_SPV_CASHFLOW_APPLY sa 
 							LEFT JOIN sctrans.T_TO_SPV_CASHFLOW sc on sa.PKID=sc.CASHFLOW_APPLY_ID and sc.IS_DELETED='0'  and sc.STATUS!='10'

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -16,6 +17,7 @@ import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.bizwarn.repository.BizWarnInfoMapper;
 import com.centaline.trans.cases.entity.ToCase;
@@ -83,6 +85,8 @@ public class FirstFollowServiceImpl implements FirstFollowService
     private TaskService taskService;
     @Autowired
     private TsCaseEfficientMapper tsCaseEfficientMapper;
+	@Autowired
+	private UamUserOrgService uamUserOrgServiceClient;
 
     @Override
     public boolean saveFirstFollow(FirstFollowVO firstFollowVO)
@@ -228,7 +232,7 @@ public class FirstFollowServiceImpl implements FirstFollowService
                 tsiap.setProcessorId(firstFollowVO.getCooperationUser().get(i));
                 tsiap.setSrvCode(firstFollowVO.getCoworkService().get(i));
                 tsiap.setSrvCat(getSrcCat(firstFollowVO.getCoworkService().get(i)));
-                tsiap.setOrgId(getOrgId(firstFollowVO.getCooperationUser().get(i)));
+                tsiap.setOrgId(getServiceDepId(firstFollowVO.getCooperationUser().get(i)));
                 tgServItemAndProcessorMapper.insertSelective(tsiap);
             }
         }
@@ -513,5 +517,29 @@ public class FirstFollowServiceImpl implements FirstFollowService
         }
         return firstFollowVO;
     }
+    /**
+	 * 获得合作人的orgid
+	 * @param userId
+	 * @return
+	 */
+	private String getServiceDepId(String userId) {
+		if(StringUtils.isBlank(userId)) {
+			return null;
+		}
+		
+		List<UserOrgJob> userOrgJobs =uamUserOrgServiceClient.getUserOrgJobByUserIdAndJobCode(userId, "JYUZTGW");
+		if(!CollectionUtils.isEmpty(userOrgJobs)){
+			String deptId = userOrgJobs.get(0).getOrgId();
+			return deptId;
+		}
+		
+		userOrgJobs =uamUserOrgServiceClient.getUserOrgJobByUserIdAndJobCode(userId, "consultant");
+		if(!CollectionUtils.isEmpty(userOrgJobs)){
+			String deptId = userOrgJobs.get(0).getOrgId();
+			return deptId;
+		}
+		
+		return null;
+	}
 
 }

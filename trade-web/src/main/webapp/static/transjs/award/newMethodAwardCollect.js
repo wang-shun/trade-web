@@ -3,6 +3,26 @@ var serviceDepId = $("#serviceDepId").val();
 var num = 0;
 $(document).ready(function() {	
 	
+	$("#belongMonth").change(function(){ 
+		var belongMonth = getBlongMonth();		
+		$.ajax({
+	        url:ctx+ "/newAward/isShowSatButton" ,
+	        method: "get",
+	        dataType: "json",
+	        data: {"belongMonth":belongMonth},
+	        success: function(data){ 	        	
+	        	if(data.success == true){
+	        		
+	        		//$("#SatisButton",document.frames('iframe_name').document).hide();
+	        		
+	        	}
+	        },
+	        error: function (e, jqxhr, settings, exception) {
+	        	 
+	        }  
+	   })
+	});
+	
 /*     $('.UpdateUserItem').load(function() { 
         var iframeHeight=$(this).contents().height(); 		         
         $(this).height(iframeHeight+'px');   
@@ -347,14 +367,15 @@ $('#datepicker_0').datepicker({
     startView: 'year',
     maxViewMode: 1,
     minViewMode:1,
+    endDate:'-1m',
 	todayBtn : 'linked',
 	language : 'zh-CN',
 });
 
-$('#datepicker_0').datepicker().on('hide', function(e){
+/*$('#datepicker_0').datepicker().on('hide', function(e){
 	$('#datepicker_0').datepicker('update');
 	//getInitPage();
-});
+});*/
 
 
 //获取计件年月信息

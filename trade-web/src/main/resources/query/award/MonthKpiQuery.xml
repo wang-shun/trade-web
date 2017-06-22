@@ -81,32 +81,34 @@
 			<baseSql>
                   <![CDATA[
 					select 
-						PARTICIPANT,
-						(select REAL_NAME from sctrans.SYS_USER where id = PARTICIPANT) realName, 
-						( select JOB_NAME from sctrans.sys_job where id =(select top 1 JOB_ID from sctrans.SYS_USER_ORG_JOB where USER_ID= PARTICIPANT )) jobName,
-						(select ORG_NAME from sctrans.SYS_ORG  where ID=ORG_ID) orgName,ORG_ID,
+						f.PARTICIPANT,
+						(select REAL_NAME from sctrans.SYS_USER where id = f.PARTICIPANT) realName, 
+						(select JOB_NAME from sctrans.SYS_JOB j  where j.id=b.JOB_ID) jobName,
+						(select ORG_NAME from sctrans.SYS_ORG  where ID=f.ORG_ID) orgName,f.ORG_ID,
 						COM_AMOUNT_TOTAL,
 						COM_AMOUNT_LS,
 						COM_LS_RATE,
 						COM_LS_KPI
 					
 					from 
-						sctrans.T_TS_AWARD_KPI_RATE  
+						sctrans.T_TS_AWARD_KPI_RATE  f inner join  sctrans.T_TS_AWARD_BASE b on 
+												b.CASE_CODE=f.case_code and b.PARTICIPANT=f.PARTICIPANT
+												and b.ORG_ID=f.ORG_ID and b.SRV_CODE=f.SRV_CODE
 					where 
-						 PARTICIPANT is not null
+						 f.PARTICIPANT is not null
 						<ifNotNull belongMonth>
-			        		AND DATEDIFF(mm,BELONG_MONTH,#belongMonth#) = 0
+			        		AND DATEDIFF(mm,f.BELONG_MONTH,#belongMonth#) = 0
 			 			</ifNotNull>
 						<ifNotNull participant>
-			        		AND PARTICIPANT = #participant#
+			        		AND f.PARTICIPANT = #participant#
 			 			</ifNotNull>
-					group by 
-							PARTICIPANT, 
-							ORG_ID,
+					group by
+					f.PARTICIPANT,
+							f.ORG_ID,
 							COM_AMOUNT_TOTAL,
 							COM_AMOUNT_LS,
 							COM_LS_RATE,
-							COM_LS_KPI
+							COM_LS_KPI,b.JOB_ID
 							
 				]]>
 			</baseSql>
