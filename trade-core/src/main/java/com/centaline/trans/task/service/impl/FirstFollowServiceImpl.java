@@ -344,8 +344,12 @@ public class FirstFollowServiceImpl implements FirstFollowService
 
         // 更新案件时效信息
         TsCaseEfficient tsCaseEfficient = tsCaseEfficientMapper.getCaseEffInfoByCasecode(firstFollowVO.getCaseCode());
-        tsCaseEfficient.setFirstfollowTime(new Date());
-        tsCaseEfficientMapper.updateTsCaseEffInfo(tsCaseEfficient);
+        if (tsCaseEfficient != null)
+        {
+            tsCaseEfficient.setFirstfollowTime(new Date());
+            tsCaseEfficient.setCurDelayCount(0);
+            tsCaseEfficientMapper.updateTsCaseEffInfo(tsCaseEfficient);
+        }
 
         return false;
     }

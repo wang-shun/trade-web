@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.cases.service.TsCaseEfficientService;
+import com.centaline.trans.comment.service.ToCaseCommentService;
 
 /**
  * 案件时效管理控制层
@@ -23,6 +26,12 @@ public class CaseEfficientController
 
     @Autowired
     private UamSessionService uamSessionService;
+
+    @Autowired
+    private ToCaseCommentService toCaseCommentService;
+
+    @Autowired
+    private TsCaseEfficientService tsCaseEfficientService;
 
     /**
      * 进入案件时效管理列表
@@ -47,6 +56,15 @@ public class CaseEfficientController
         request.setAttribute("currentUser", currentUser);
 
         return "case/caseEfficientList";
+    }
+
+    @RequestMapping(value = "delay")
+    @ResponseBody
+    public boolean delay(String caseCode, String partCode, String delayDays, String comment)
+    {
+        SessionUser currentUser = uamSessionService.getSessionUser();
+
+        return tsCaseEfficientService.delay(currentUser, caseCode, partCode, delayDays, comment);
     }
 
 }

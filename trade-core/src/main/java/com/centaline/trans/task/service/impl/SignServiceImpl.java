@@ -447,8 +447,12 @@ public class SignServiceImpl implements SignService
 
         // 更新案件时效信息
         TsCaseEfficient tsCaseEfficient = tsCaseEfficientMapper.getCaseEffInfoByCasecode(transSignVO.getCaseCode());
-        tsCaseEfficient.setSignTime(new Date());
-        tsCaseEfficientMapper.updateTsCaseEffInfo(tsCaseEfficient);
+        if (tsCaseEfficient != null)
+        {
+            tsCaseEfficient.setSignTime(new Date());
+            tsCaseEfficient.setCurDelayCount(0);
+            tsCaseEfficientMapper.updateTsCaseEffInfo(tsCaseEfficient);
+        }
 
         boolean flag = true;
         // 同时需要修改贷款表里面的 主贷人信息
