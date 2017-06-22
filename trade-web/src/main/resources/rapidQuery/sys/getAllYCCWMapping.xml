@@ -39,8 +39,8 @@
 			</where>
 		</searchScript>
 		<grid>
-			 <column name="id" title="id" hidden="true" />
-		     <column name="name" title="name" hidden="true" />
+			 <column name="id" title="id" />
+		     <column name="name" title="name" />
 		</grid>
 	</query>
 	
@@ -66,12 +66,12 @@
 			</where>
 		</searchScript>
 		<grid>
-			 <column name="user_id" title="user_id" hidden="true" />
-		     <column name="org_id" title="org_id" hidden="true" />
-		     <column name="org_name" title="org_name" hidden="true" />
-		     <column name="job_code" title="job_code" hidden="true" />
-		     <column name="job_name" title="job_name" hidden="true" />
-		     <column name="real_name" title="real_name" hidden="true" />
+			 <column name="user_id" title="user_id" />
+		     <column name="org_id" title="org_id" />
+		     <column name="org_name" title="org_name" />
+		     <column name="job_code" title="job_code" />
+		     <column name="job_name" title="job_name" />
+		     <column name="real_name" title="real_name" />
 		</grid>
 	</query>
 
@@ -88,8 +88,8 @@
 			</where>
 		</searchScript>
 		<grid>
-		     <column name="org_id" title="org_id" hidden="true" />
-		     <column name="org_name" title="org_name" hidden="true" />
+		     <column name="org_id" title="org_id" />
+		     <column name="org_name" title="org_name" />
 		</grid>
 	</query>
 </querys>
