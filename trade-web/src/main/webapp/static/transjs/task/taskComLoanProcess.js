@@ -489,7 +489,6 @@ function saveMortgage(form){
 //完成贷款审批
 function completeMortgage(form){	
 	
-
 	 var tmpBankCheckflag = $('#fl_is_tmp_bank').val() == '1';
 /*		if(tmpBankCheckflag && $("#tmpBankStatus").val() != '3'){ 	
 		window.wxc.alert("信贷员接单银行审批未完成或不通过！");
@@ -509,7 +508,7 @@ function completeMortgage(form){
 				window.wxc.alert("临时银行审批未完成或不通过！");
 				return;
 			}
-		}else{
+		}else{			
 			//非临时银行
 			if(!($("#tmpBankStatus").val() == '3'  ||  $("#stateInBank").val() == 'MORT_APPROVED')){ 	
 				window.wxc.alert("信贷员接单银行审批未完成或不通过！");
