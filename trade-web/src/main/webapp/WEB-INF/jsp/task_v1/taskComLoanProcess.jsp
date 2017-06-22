@@ -91,7 +91,6 @@
 </script>
 </head>
 <body>
-
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
@@ -1468,7 +1467,7 @@
 <script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> 
 <script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> 
 
-<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.4。9"></script> 
+<script src="${ctx}/transjs/task/taskComLoanProcess.js?v=1.4。10"></script> 
 <script	src="${ctx}/js/trunk/task/attachment.js"></script> 
 <script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
 

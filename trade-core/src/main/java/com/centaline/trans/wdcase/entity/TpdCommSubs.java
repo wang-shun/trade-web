@@ -7,7 +7,11 @@ public class TpdCommSubs {
     private Long pkid;
 
     private String caseCode;
-
+    /**
+     * 业绩编号
+     */
+    private String bizCode;
+    
     private String commSubject;
 
     private BigDecimal stdRate;
@@ -173,4 +177,12 @@ public class TpdCommSubs {
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
+
+	public String getBizCode() {
+		return bizCode;
+	}
+
+	public void setBizCode(String bizCode) {
+		this.bizCode = bizCode;
+	}
 }

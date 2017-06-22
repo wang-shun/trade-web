@@ -243,12 +243,15 @@
  		<mapper resource="mapper/wdcase/TpdCommSubsMapper.xml" />
  		<mapper resource="mapper/wdcase/TdmPaidSubsMapper.xml" />
  		<mapper resource="mapper/wdcase/TpdPaymentMapper.xml" />
+ 		<mapper resource="mapper/wdcase/TpdCommSubsDetalsMapper.xml" />
 		<!-- 客服回访表 -->
 		<mapper resource="mapper/satisfaction/ToSatisfactionMapper.xml" />
+		<mapper resource="mapper/performance/ReceivablePerfMapper.xml" />
 		
 		<!-- 业绩目标设定 -->
 		<mapper resource="mapper/performance/PerfGoalMapper.xml" />
 		<mapper resource="mapper/performance/PerfGoalMainMapper.xml" />
-		
+		<!--  -->
+		<mapper resource="mapper/eval/ToEvalMapper.xml"/>
 	</mappers>
 </configuration>

@@ -18,6 +18,9 @@
     
   </resultMap>
   <insert id="insert" parameterType="com.centaline.trans.performance.entity.PerfGoal" >
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="pkid">
+     select @@identity
+   </selectKey>
     insert into sctrans.T_TS_PERF_GOAL (PKID, main_Id,DISTRICT, TEAM, 
       JOB, USER_ID, BELONG_MONTH, 
       STATUS, CREATE_BY, CREATE_TIME, 
@@ -29,6 +32,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.performance.entity.PerfGoal" >
+       <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="pkid">
+     select @@identity
+   </selectKey>
     insert into sctrans.T_TS_PERF_GOAL
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >

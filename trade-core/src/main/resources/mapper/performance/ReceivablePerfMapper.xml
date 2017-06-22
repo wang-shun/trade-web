@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.performance.repository.ReceivablePerfMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.performance.entity.ReceivablePerf">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="PERF_ID" jdbcType="BIGINT" property="perfId" />
+    <result column="SHARES_CODE" jdbcType="VARCHAR" property="sharesCode" />
+    <result column="SHARES_RATE" jdbcType="DECIMAL" property="sharesRate" />
+    <result column="CASE_CODE" jdbcType="VARCHAR" property="caseCode" />
+    <result column="BIZ_CODE" jdbcType="VARCHAR" property="bizCode" />
+    <result column="BIZ_PKID" jdbcType="VARCHAR" property="bizPkid" />
+    <result column="SUBJECT" jdbcType="VARCHAR" property="subject" />
+    <result column="ROLE_TYPE" jdbcType="VARCHAR" property="roleType" />
+    <result column="SHARE_BASE" jdbcType="DECIMAL" property="shareBase" />
+    <result column="SHARE_AMOUNT" jdbcType="DECIMAL" property="shareAmount" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="TEAM_ID" jdbcType="VARCHAR" property="teamId" />
+    <result column="ASSISTANT" jdbcType="VARCHAR" property="assistant" />
+    <result column="MANAGER" jdbcType="VARCHAR" property="manager" />
+    <result column="SENIOR_MANAGER" jdbcType="VARCHAR" property="seniorManager" />
+    <result column="DISTRICT" jdbcType="VARCHAR" property="district" />
+    <result column="DIRECTOR" jdbcType="VARCHAR" property="director" />
+    <result column="COMPANY" jdbcType="VARCHAR" property="company" />
+    <result column="GERNERAL_MANAGER" jdbcType="VARCHAR" property="gerneralManager" />
+    <result column="SHARE_TIME" jdbcType="TIMESTAMP" property="shareTime" />
+    <result column="LOAN_RELEASE_TIME" jdbcType="TIMESTAMP" property="loanReleaseTime" />
+    <result column="LOAN_APPROVAL_TIME" jdbcType="TIMESTAMP" property="loanApprovalTime" />
+    <result column="LOAN_RATE" jdbcType="DECIMAL" property="loanRate" />
+    <result column="COST_RATE" jdbcType="DECIMAL" property="costRate" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="CHANGE_REASON" jdbcType="VARCHAR" property="changeReason" />
+    <result column="REMARK" jdbcType="NVARCHAR" property="remark" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="IS_DELETED" jdbcType="INTEGER" property="isDeleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, PERF_ID, SHARES_CODE, SHARES_RATE, CASE_CODE, BIZ_CODE, BIZ_PKID, SUBJECT, 
+    ROLE_TYPE, SHARE_BASE,SHARE_AMOUNT, USER_ID, TEAM_ID, ASSISTANT, MANAGER, SENIOR_MANAGER, DISTRICT, 
+    DIRECTOR, COMPANY, GERNERAL_MANAGER, SHARE_TIME, LOAN_RELEASE_TIME, LOAN_APPROVAL_TIME, 
+    LOAN_RATE, COST_RATE, STATUS, CHANGE_REASON, REMARK, CREATE_BY, CREATE_TIME, UPDATE_BY, 
+    UPDATE_TIME, IS_DELETED
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_RECEIVABLE_PERF
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sctrans.T_TS_RECEIVABLE_PERF
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.performance.entity.ReceivablePerf">
+    insert into sctrans.T_TS_RECEIVABLE_PERF (PKID, PERF_ID, SHARES_CODE, 
+      SHARES_RATE, CASE_CODE, BIZ_CODE, 
+      BIZ_PKID, SUBJECT, ROLE_TYPE, 
+      SHARE_BASE,SHARE_AMOUNT, USER_ID, TEAM_ID, 
+      ASSISTANT, MANAGER, SENIOR_MANAGER, 
+      DISTRICT, DIRECTOR, COMPANY, 
+      GERNERAL_MANAGER, SHARE_TIME, LOAN_RELEASE_TIME, 
+      LOAN_APPROVAL_TIME, LOAN_RATE, COST_RATE, 
+      STATUS, CHANGE_REASON, REMARK, 
+      CREATE_BY, CREATE_TIME, UPDATE_BY, 
+      UPDATE_TIME, IS_DELETED)
+    values (#{pkid,jdbcType=BIGINT}, #{perfId,jdbcType=BIGINT}, #{sharesCode,jdbcType=VARCHAR}, 
+      #{sharesRate,jdbcType=DECIMAL}, #{caseCode,jdbcType=VARCHAR}, #{bizCode,jdbcType=VARCHAR}, 
+      #{bizPkid,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, #{roleType,jdbcType=VARCHAR}, 
+      #{shareBase,jdbcType=DECIMAL},#{shareAmount,jdbcType=DECIMAL},, #{userId,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}, 
+      #{assistant,jdbcType=VARCHAR}, #{manager,jdbcType=VARCHAR}, #{seniorManager,jdbcType=VARCHAR}, 
+      #{district,jdbcType=VARCHAR}, #{director,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
+      #{gerneralManager,jdbcType=VARCHAR}, #{shareTime,jdbcType=TIMESTAMP}, #{loanReleaseTime,jdbcType=TIMESTAMP}, 
+      #{loanApprovalTime,jdbcType=TIMESTAMP}, #{loanRate,jdbcType=DECIMAL}, #{costRate,jdbcType=DECIMAL}, 
+      #{status,jdbcType=VARCHAR}, #{changeReason,jdbcType=VARCHAR}, #{remark,jdbcType=NVARCHAR}, 
+      @{SESSION_USER_ID},GETDATE(), @{SESSION_USER_ID},GETDATE(), #{isDeleted,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.performance.entity.ReceivablePerf">
+    insert into sctrans.T_TS_RECEIVABLE_PERF
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        PKID,
+      </if>
+      <if test="perfId != null">
+        PERF_ID,
+      </if>
+      <if test="sharesCode != null">
+        SHARES_CODE,
+      </if>
+      <if test="sharesRate != null">
+        SHARES_RATE,
+      </if>
+      <if test="shareAmount != null">
+        SHARE_AMOUNT,
+      </if>
+      <if test="caseCode != null">
+        CASE_CODE,
+      </if>
+      <if test="bizCode != null">
+        BIZ_CODE,
+      </if>
+      <if test="bizPkid != null">
+        BIZ_PKID,
+      </if>
+      <if test="subject != null">
+        SUBJECT,
+      </if>
+      <if test="roleType != null">
+        ROLE_TYPE,
+      </if>
+      <if test="shareBase != null">
+        SHARE_BASE,
+      </if>
+
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="teamId != null">
+        TEAM_ID,
+      </if>
+      <if test="assistant != null">
+        ASSISTANT,
+      </if>
+      <if test="manager != null">
+        MANAGER,
+      </if>
+      <if test="seniorManager != null">
+        SENIOR_MANAGER,
+      </if>
+      <if test="district != null">
+        DISTRICT,
+      </if>
+      <if test="director != null">
+        DIRECTOR,
+      </if>
+      <if test="company != null">
+        COMPANY,
+      </if>
+      <if test="gerneralManager != null">
+        GERNERAL_MANAGER,
+      </if>
+      <if test="shareTime != null">
+        SHARE_TIME,
+      </if>
+      <if test="loanReleaseTime != null">
+        LOAN_RELEASE_TIME,
+      </if>
+      <if test="loanApprovalTime != null">
+        LOAN_APPROVAL_TIME,
+      </if>
+      <if test="loanRate != null">
+        LOAN_RATE,
+      </if>
+      <if test="costRate != null">
+        COST_RATE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="changeReason != null">
+        CHANGE_REASON,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+
+        CREATE_BY,
+
+        CREATE_TIME,
+
+        UPDATE_BY,
+
+        UPDATE_TIME,
+
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="perfId != null">
+        #{perfId,jdbcType=BIGINT},
+      </if>
+      <if test="sharesCode != null">
+        #{sharesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sharesRate != null">
+        #{sharesRate,jdbcType=DECIMAL},
+      </if>
+      <if test="shareAmount != null">
+        #{shareAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="caseCode != null">
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bizCode != null">
+        #{bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bizPkid != null">
+        #{bizPkid,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="roleType != null">
+        #{roleType,jdbcType=VARCHAR},
+      </if>
+      <if test="shareBase != null">
+        #{shareBase,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null">
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="assistant != null">
+        #{assistant,jdbcType=VARCHAR},
+      </if>
+      <if test="manager != null">
+        #{manager,jdbcType=VARCHAR},
+      </if>
+      <if test="seniorManager != null">
+        #{seniorManager,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null">
+        #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="gerneralManager != null">
+        #{gerneralManager,jdbcType=VARCHAR},
+      </if>
+      <if test="shareTime != null">
+        #{shareTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanReleaseTime != null">
+        #{loanReleaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanApprovalTime != null">
+        #{loanApprovalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanRate != null">
+        #{loanRate,jdbcType=DECIMAL},
+      </if>
+      <if test="costRate != null">
+        #{costRate,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="changeReason != null">
+        #{changeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+     
+      @{SESSION_USER_ID},GETDATE(),
+      @{SESSION_USER_ID},GETDATE(),
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.performance.entity.ReceivablePerf">
+    update sctrans.T_TS_RECEIVABLE_PERF
+    <set>
+      <if test="perfId != null">
+        PERF_ID = #{perfId,jdbcType=BIGINT},
+      </if>
+      <if test="sharesCode != null">
+        SHARES_CODE = #{sharesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sharesRate != null">
+        SHARES_RATE = #{sharesRate,jdbcType=DECIMAL},
+      </if>
+      <if test="caseCode != null">
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bizCode != null">
+        BIZ_CODE = #{bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bizPkid != null">
+        BIZ_PKID = #{bizPkid,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        SUBJECT = #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="roleType != null">
+        ROLE_TYPE = #{roleType,jdbcType=VARCHAR},
+      </if>
+      <if test="shareBase != null">
+        SHARE_BASE = #{shareBase,jdbcType=DECIMAL},
+      </if>
+      <if test="shareAmount != null">
+        SHARE_AMOUNT = #{shareAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null">
+        TEAM_ID = #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="assistant != null">
+        ASSISTANT = #{assistant,jdbcType=VARCHAR},
+      </if>
+      <if test="manager != null">
+        MANAGER = #{manager,jdbcType=VARCHAR},
+      </if>
+      <if test="seniorManager != null">
+        SENIOR_MANAGER = #{seniorManager,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        DISTRICT = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null">
+        DIRECTOR = #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        COMPANY = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="gerneralManager != null">
+        GERNERAL_MANAGER = #{gerneralManager,jdbcType=VARCHAR},
+      </if>
+      <if test="shareTime != null">
+        SHARE_TIME = #{shareTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanReleaseTime != null">
+        LOAN_RELEASE_TIME = #{loanReleaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanApprovalTime != null">
+        LOAN_APPROVAL_TIME = #{loanApprovalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanRate != null">
+        LOAN_RATE = #{loanRate,jdbcType=DECIMAL},
+      </if>
+      <if test="costRate != null">
+        COST_RATE = #{costRate,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="changeReason != null">
+        CHANGE_REASON = #{changeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=NVARCHAR},
+      </if>
+        UPDATE_BY = @{SESSION_USER_ID},
+     	UPDATE_TIME = GETDATE(),
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.performance.entity.ReceivablePerf">
+    update sctrans.T_TS_RECEIVABLE_PERF
+    set PERF_ID = #{perfId,jdbcType=BIGINT},
+      SHARES_CODE = #{sharesCode,jdbcType=VARCHAR},
+      SHARES_RATE = #{sharesRate,jdbcType=DECIMAL},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      BIZ_CODE = #{bizCode,jdbcType=VARCHAR},
+      BIZ_PKID = #{bizPkid,jdbcType=VARCHAR},
+      SUBJECT = #{subject,jdbcType=VARCHAR},
+      ROLE_TYPE = #{roleType,jdbcType=VARCHAR},
+      SHARE_BASE = #{shareBase,jdbcType=DECIMAL},
+      SHARE_AMOUNT = #{shareAmount,jdbcType=DECIMAL},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      TEAM_ID = #{teamId,jdbcType=VARCHAR},
+      ASSISTANT = #{assistant,jdbcType=VARCHAR},
+      MANAGER = #{manager,jdbcType=VARCHAR},
+      SENIOR_MANAGER = #{seniorManager,jdbcType=VARCHAR},
+      DISTRICT = #{district,jdbcType=VARCHAR},
+      DIRECTOR = #{director,jdbcType=VARCHAR},
+      COMPANY = #{company,jdbcType=VARCHAR},
+      GERNERAL_MANAGER = #{gerneralManager,jdbcType=VARCHAR},
+      SHARE_TIME = #{shareTime,jdbcType=TIMESTAMP},
+      LOAN_RELEASE_TIME = #{loanReleaseTime,jdbcType=TIMESTAMP},
+      LOAN_APPROVAL_TIME = #{loanApprovalTime,jdbcType=TIMESTAMP},
+      LOAN_RATE = #{loanRate,jdbcType=DECIMAL},
+      COST_RATE = #{costRate,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CHANGE_REASON = #{changeReason,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=NVARCHAR},
+      UPDATE_BY = @{SESSION_USER_ID},
+      UPDATE_TIME = GETDATE(),
+      IS_DELETED = #{isDeleted,jdbcType=INTEGER}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

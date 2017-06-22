@@ -74,6 +74,8 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
+import com.centaline.trans.task.entity.ToSign;
+import com.centaline.trans.task.repository.ToSignMapper;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
@@ -148,6 +150,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToCaseCommentMapper toCaseCommentMapper;
 	@Autowired
 	private TgServItemAndProcessorMapper tgservItemAndProcessorMapper;
+	@Autowired
+	private ToSignMapper signMapper;
 	
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
@@ -327,12 +331,16 @@ public class ToCaseServiceImpl implements ToCaseService {
 		}
 		agentManagerInfo.setProList(proList);
 		
+		ToSign sign= signMapper.findToSignByCaseCode(toCase.getCaseCode());
+		
 		CaseBaseVO caseBaseVO = new CaseBaseVO();
+		caseBaseVO.setSign(sign);
 		caseBaseVO.setBuyerSellerInfo(buyerSellerInfo);
 		caseBaseVO.setToCase(toCase);
 		caseBaseVO.setToCaseInfo(toCaseInfo);
 		caseBaseVO.setToPropertyInfo(toPropertyInfo);
 		caseBaseVO.setAgentManagerInfo(agentManagerInfo);
+		
 		return caseBaseVO;
 	}
 	

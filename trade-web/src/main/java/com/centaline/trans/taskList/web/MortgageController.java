@@ -85,6 +85,7 @@ public class MortgageController {
 		if ( cou >0) {
 			caseBaseVO.setLoanType("30004005");
 		}
+		
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 

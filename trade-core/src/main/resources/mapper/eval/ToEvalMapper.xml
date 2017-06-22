@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.eval.repository.ToEvalMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eval.entity.ToEval">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="CASE_CODE" jdbcType="VARCHAR" property="caseCode" />
+    <result column="EVA_CODE" jdbcType="VARCHAR" property="evaCode" />
+    <result column="CON_PRICE" jdbcType="DECIMAL" property="conPrice" />
+    <result column="MORTGAGE_ID" jdbcType="BIGINT" property="mortgageId" />
+    <result column="EVA_FEE" jdbcType="DECIMAL" property="evaFee" />
+    <result column="SERVICE_FEE" jdbcType="DECIMAL" property="serviceFee" />
+    <result column="FEE_TOTAL" jdbcType="DECIMAL" property="feeTotal" />
+    <result column="EVA_FEE_COST" jdbcType="DECIMAL" property="evaFeeCost" />
+    <result column="EVA_FEE_PERF" jdbcType="DECIMAL" property="evaFeePerf" />
+    <result column="SERVICE_FEE_PERF" jdbcType="DECIMAL" property="serviceFeePerf" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, CASE_CODE, EVA_CODE, CON_PRICE, MORTGAGE_ID, EVA_FEE, SERVICE_FEE, FEE_TOTAL, 
+    EVA_FEE_COST, EVA_FEE_PERF, SERVICE_FEE_PERF, CREATE_BY, CREATE_TIME, UPDATE_BY, 
+    UPDATE_TIME
+  </sql>
+   <select id="selectMortgageId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVAL
+    where MORTGAGE_ID = #{mortgageId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVAL
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sctrans.T_TO_EVAL
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.eval.entity.ToEval">
+  <selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER" >
+    	SELECT @@IDENTITY
+  	 </selectKey>
+    insert into sctrans.T_TO_EVAL (PKID, CASE_CODE, EVA_CODE, 
+      CON_PRICE, MORTGAGE_ID, EVA_FEE, 
+      SERVICE_FEE, FEE_TOTAL, EVA_FEE_COST, 
+      EVA_FEE_PERF, SERVICE_FEE_PERF, CREATE_BY, 
+      CREATE_TIME, UPDATE_BY, UPDATE_TIME
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
+      #{conPrice,jdbcType=DECIMAL}, #{mortgageId,jdbcType=BIGINT}, #{evaFee,jdbcType=DECIMAL}, 
+      #{serviceFee,jdbcType=DECIMAL}, #{feeTotal,jdbcType=DECIMAL}, #{evaFeeCost,jdbcType=DECIMAL}, 
+      #{evaFeePerf,jdbcType=DECIMAL}, #{serviceFeePerf,jdbcType=DECIMAL}, @{SESSION_USER_ID}, GETDATE()
+      ,@{SESSION_USER_ID}, GETDATE()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEval">
+  <selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER" >
+    	SELECT @@IDENTITY
+  	 </selectKey>
+    insert into sctrans.T_TO_EVAL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        PKID,
+      </if>
+      <if test="caseCode != null">
+        CASE_CODE,
+      </if>
+      <if test="evaCode != null">
+        EVA_CODE,
+      </if>
+      <if test="conPrice != null">
+        CON_PRICE,
+      </if>
+      <if test="mortgageId != null">
+        MORTGAGE_ID,
+      </if>
+      <if test="evaFee != null">
+        EVA_FEE,
+      </if>
+      <if test="serviceFee != null">
+        SERVICE_FEE,
+      </if>
+      <if test="feeTotal != null">
+        FEE_TOTAL,
+      </if>
+      <if test="evaFeeCost != null">
+        EVA_FEE_COST,
+      </if>
+      <if test="evaFeePerf != null">
+        EVA_FEE_PERF,
+      </if>
+      <if test="serviceFeePerf != null">
+        SERVICE_FEE_PERF,
+      </if>
+        CREATE_BY,
+        CREATE_TIME,
+        UPDATE_BY,
+        UPDATE_TIME,
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null">
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null">
+        #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="conPrice != null">
+        #{conPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="mortgageId != null">
+        #{mortgageId,jdbcType=BIGINT},
+      </if>
+      <if test="evaFee != null">
+        #{evaFee,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceFee != null">
+        #{serviceFee,jdbcType=DECIMAL},
+      </if>
+      <if test="feeTotal != null">
+        #{feeTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="evaFeeCost != null">
+        #{evaFeeCost,jdbcType=DECIMAL},
+      </if>
+      <if test="evaFeePerf != null">
+        #{evaFeePerf,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceFeePerf != null">
+        #{serviceFeePerf,jdbcType=DECIMAL},
+      </if>
+    	@{SESSION_USER_ID}, GETDATE()
+      ,@{SESSION_USER_ID}, GETDATE(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eval.entity.ToEval">
+    update sctrans.T_TO_EVAL
+    <set>
+      <if test="caseCode != null">
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null">
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="conPrice != null">
+        CON_PRICE = #{conPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="mortgageId != null">
+        MORTGAGE_ID = #{mortgageId,jdbcType=BIGINT},
+      </if>
+      <if test="evaFee != null">
+        EVA_FEE = #{evaFee,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceFee != null">
+        SERVICE_FEE = #{serviceFee,jdbcType=DECIMAL},
+      </if>
+      <if test="feeTotal != null">
+        FEE_TOTAL = #{feeTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="evaFeeCost != null">
+        EVA_FEE_COST = #{evaFeeCost,jdbcType=DECIMAL},
+      </if>
+      <if test="evaFeePerf != null">
+        EVA_FEE_PERF = #{evaFeePerf,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceFeePerf != null">
+        SERVICE_FEE_PERF = #{serviceFeePerf,jdbcType=DECIMAL},
+      </if>
+        UPDATE_BY = @{SESSION_USER_ID},
+        UPDATE_TIME = GETDATE(),
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eval.entity.ToEval">
+    update sctrans.T_TO_EVAL
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      CON_PRICE = #{conPrice,jdbcType=DECIMAL},
+      MORTGAGE_ID = #{mortgageId,jdbcType=BIGINT},
+      EVA_FEE = #{evaFee,jdbcType=DECIMAL},
+      SERVICE_FEE = #{serviceFee,jdbcType=DECIMAL},
+      FEE_TOTAL = #{feeTotal,jdbcType=DECIMAL},
+      EVA_FEE_COST = #{evaFeeCost,jdbcType=DECIMAL},
+      EVA_FEE_PERF = #{evaFeePerf,jdbcType=DECIMAL},
+      SERVICE_FEE_PERF = #{serviceFeePerf,jdbcType=DECIMAL},
+      UPDATE_BY = @{SESSION_USER_ID},
+      UPDATE_TIME =  GETDATE()
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

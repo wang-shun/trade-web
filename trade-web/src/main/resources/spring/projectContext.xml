@@ -657,6 +657,9 @@
 	<bean name="qqcdDictPerfGoalStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="PERF_GOAL_STATUS"></property>
     </bean>
+    	<bean name="qqcdDictLoanerStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="LOANER_STATUS"></property>
+    </bean>
 
 <aop:aspectj-autoproxy expose-proxy="true"/>
 

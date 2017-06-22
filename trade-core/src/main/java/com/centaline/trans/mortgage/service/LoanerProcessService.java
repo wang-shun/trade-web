@@ -3,6 +3,7 @@ package com.centaline.trans.mortgage.service;
 import javax.servlet.http.HttpServletRequest;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.centaline.trans.mortgage.entity.ToMortLoaner;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 
 
@@ -60,7 +61,7 @@ public interface LoanerProcessService {
      * @param caseCode
      * @return
      */
-	AjaxResponse<String> isLoanerProcessStart(String caseCode,String isMainLoanBank);
+	boolean isLoanerProcessStart(String caseCode,String isMainLoanBank);
 
 
     /**
@@ -87,5 +88,21 @@ public interface LoanerProcessService {
      * @return
      */
 	void comLoanerChangeProcess(HttpServletRequest request,String caseCode, String taskitem, String processInstanceId);
+
+	
+    /** @author:jimmy
+     * 
+     * @des启动派单流程(将派单任务提前)
+     * @date 17-06-22
+     * @param toMortLoaner
+     */
+	void startLoanerOrderWorkFlow(ToMortLoaner toMortLoaner);
+	/**
+	 * 
+	 * @param caseCode
+	 * @param isMainLoanBankProcess
+	 */
+	void loanerProcessCancle(String caseCode, String isMainLoanBankProcess);
+	
 
 }

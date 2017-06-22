@@ -5,10 +5,11 @@ import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.vo.AgentManagerInfo;
 import com.centaline.trans.common.vo.BuyerSellerInfo;
+import com.centaline.trans.task.entity.ToSign;
 
 public class CaseBaseVO {
 	private ToCase toCase;
-
+	private ToSign sign;
 	private ToCaseInfo toCaseInfo;
 
 	private ToPropertyInfo toPropertyInfo;
@@ -16,6 +17,8 @@ public class CaseBaseVO {
 	private BuyerSellerInfo buyerSellerInfo;
 
 	private AgentManagerInfo agentManagerInfo;
+	
+	
 	//税费卡
 	private String loanType;
 
@@ -66,5 +69,13 @@ public class CaseBaseVO {
 
 	public void setLoanType(String loanType) {
 		this.loanType = loanType;
+	}
+
+	public ToSign getSign() {
+		return sign;
+	}
+
+	public void setSign(ToSign sign) {
+		this.sign = sign;
 	}
 }

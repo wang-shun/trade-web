@@ -33,6 +33,10 @@ public class ToMortLoaner {
 	private String mortPkid;
 
 	private String loanerStatus;
+	/**
+	 * 状态显示
+	 */
+	private String loanerStatusStr;
 
 	private String loanerDesc;
 	
@@ -84,6 +88,10 @@ public class ToMortLoaner {
 	private String loanerOrgId;
 
 	private String loanerOrgCode;
+	/**
+	 * 银行名  (显示用)
+	 */
+	private String loanerOrgCodeStr;
 
 	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
 	private Date createTime;
@@ -94,7 +102,23 @@ public class ToMortLoaner {
 	private Date updateTime;
 
 	private String updateBy;
-
+	/**
+	 * 预定签约地点
+	 */
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+	private Date resSignTime;
+	/**
+	 * 预定签约地点
+	 */
+	private String resSignAddr;
+	/**
+	 * 银行等级(派单表暂时未存此字段，放在贷款表中)
+	 */
+	private String bankLevel;
+	/**
+	 * 银行代码(派单表暂时未存此字段，放在贷款表中)
+	 */
+	private String finOrgCode;
 	public Long getPkid() {
 		return pkid;
 	}
@@ -423,5 +447,53 @@ public class ToMortLoaner {
 
 	public void setUpdateBy(String updateBy) {
 		this.updateBy = updateBy;
+	}
+
+	public String getLoanerStatusStr() {
+		return loanerStatusStr;
+	}
+
+	public void setLoanerStatusStr(String loanerStatusStr) {
+		this.loanerStatusStr = loanerStatusStr;
+	}
+
+	public Date getResSignTime() {
+		return resSignTime;
+	}
+
+	public void setResSignTime(Date resSignTime) {
+		this.resSignTime = resSignTime;
+	}
+
+	public String getResSignAddr() {
+		return resSignAddr;
+	}
+
+	public void setResSignAddr(String resSignAddr) {
+		this.resSignAddr = resSignAddr;
+	}
+
+	public String getBankLevel() {
+		return bankLevel;
+	}
+
+	public void setBankLevel(String bankLevel) {
+		this.bankLevel = bankLevel;
+	}
+
+	public String getFinOrgCode() {
+		return finOrgCode;
+	}
+
+	public void setFinOrgCode(String finOrgCode) {
+		this.finOrgCode = finOrgCode;
+	}
+
+	public String getLoanerOrgCodeStr() {
+		return loanerOrgCodeStr;
+	}
+
+	public void setLoanerOrgCodeStr(String loanerOrgCodeStr) {
+		this.loanerOrgCodeStr = loanerOrgCodeStr;
 	}
 }

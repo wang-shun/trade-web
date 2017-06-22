@@ -66,7 +66,7 @@ public class TmpBankAduitController {
 				ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
 				String status = mortage.getTmpBankStatus();
 				
-				if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status)){
+				if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status) || TmpBankStatusEnum.INAPPROVAL.getCode().equals(status)){
 					throw new BusinessException("启动失败：流程正在运行或已经结束！");
 				}
 			
