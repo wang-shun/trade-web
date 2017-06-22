@@ -13,8 +13,12 @@ $(document).ready(function() {
 	        success: function(data){ 	        	
 	        	if(data.success == true){	        		
 	        		$("#awardCase").contents().find("#SatisButton").hide();	        		        		
+	        		$("#awardCase").contents().find("#importButton").hide();	        		        		
+	        		$("#awardCase").contents().find("#btnSubmit").hide();	        		        		
 	        	}else{
 	        		$("#awardCase").contents().find("#SatisButton").show();
+	        		$("#awardCase").contents().find("#importButton").show();
+	        		$("#awardCase").contents().find("#btnSubmit").show();
 	        	}
 	        },
 	        error: function (e, jqxhr, settings, exception) {

@@ -258,7 +258,7 @@
 	</c:if>
 	var sw;
     $(document).ready(function(){
-    	 
+    	isShowSatButton();
     	//初始化日期控件
     	var monthSel = new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid}); 
     	
@@ -360,6 +360,25 @@
     	return isKpiMoney;
     }
     
+
+    function isShowSatButton(){
+    	var belongMonth = getBlongMonth();
+    	$.ajax({
+            url:ctx+ "/newAward/isShowSatButton" ,
+            method: "get",
+            dataType: "json",
+            data: {"belongMonth":belongMonth},
+
+            success: function(data){        
+            	if(data.success == true){			  
+            		$("#importButton").hide();
+            	}
+            },
+            error: function (e, jqxhr, settings, exception) {
+            	 
+            }  
+       })
+    }
  	
 
 	  //获取计件年月信息
@@ -376,6 +395,8 @@
 	    }
 	    return bm;
 	  }
+	  
+	  
     </script>
  </content>
 </body>
