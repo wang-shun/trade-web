@@ -87,7 +87,12 @@ public class CaseCloseController {
 	@RequestMapping(value="saveCaseClose")
 	@ResponseBody
 	public Boolean saveCaseDetai(HttpServletRequest request, EditCaseDetailVO editCaseDetailVO) {
-		editCaseDetailService.saveCaseDetai(editCaseDetailVO);
+		try{
+			editCaseDetailService.saveCaseDetai(editCaseDetailVO);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
 		return true;
 	}
 	
