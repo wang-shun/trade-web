@@ -548,6 +548,17 @@
                     </div>
                     <div class="line">
                         <div class="form_content">
+                            <label class="control-label sign_left_small">过户评分</label>
+                            <select class="select_control yuanwid" name="agentGuohuSat" value="${satisfaction.agentGuohuSat}">
+                                <option value="">请选择</option>
+                                <c:forEach begin="0" end="10" varStatus="stat">
+                                    <option value="${stat.index}" ${satisfaction.agentGuohuSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="form_content">
                         	<label class="control-label sign_left_small"> 意见选项 </label>
                         	<c:forEach items="${agentComDicts}" var="item" begin="0" end="8">
                         		<span class="btn btn-white <c:forEach items="${fn:split(satisfaction.agentComDict ,',')}" var="d" >

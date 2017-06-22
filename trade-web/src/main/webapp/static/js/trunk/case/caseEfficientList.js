@@ -1,5 +1,7 @@
 $(function(){
 	
+	init();
+	
 	//加载案件时效管理列表
 	reloadGrid();
 	
@@ -10,10 +12,16 @@ $(function(){
 	
 	//确认延期按钮事件
 	$('#btnConfirm').click(function(){
+		var comment = $("#subAchieve textarea[name='comment']").val();
+		
+		if(comment == ""){
+			$("#subAchieve #tip").removeClass("hide");
+			return false;
+		}
+		
 		var caseCode = $("#subAchieve input[name='caseCode']").val();
 		var inProgress = $("#subAchieve input[name='inProgress']").val();
 		var delayDays = $("#subAchieve input[name='delayDays']").val();
-		var comment = $("#subAchieve textarea[name='comment']").val();
 		
 		var partCode = "";
 		var delayDays = "0";
@@ -33,8 +41,6 @@ $(function(){
 			delayDays = "15";
 		}
 		
-		console.log("comment:" + comment);
-		console.log("delayDays:" + delayDays);
 		$.ajax({
     		cache:false,
     		async:true,
@@ -134,5 +140,14 @@ function showDelayPop(caseCode,inProgress){
 	$("#subAchieve input[name='caseCode']").val(caseCode);
 	$("#subAchieve input[name='inProgress']").val(inProgress);
 	
+	$("#subAchieve textarea[name='comment']").val("");
+	$("#subAchieve #tip").addClass("hide");
+	
 	$('#subAchieve').modal('show');
+}
+
+//初始化
+function init(){
+	//页面加载列表默认显示当前逾期列表
+	$("#selOverdue").val("curOverdued");  
 }

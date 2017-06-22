@@ -216,7 +216,7 @@
 				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" index="" checkbox="" display="派单时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				
 				<column type="virtual" isDynamicDict="true"
-					name="firstFollowEffInfo,signEffInfo,guohuEffInfo,caseCloseEffInfo,firstFollowDateTime,signDateTime,guohuDateTime,caseCloseDateTime,totalEff,inProgress,isCaseCloseOverdue,isGuohuOverdue,isSignOverdue,isFirstFollowOverdue"
+					name="caseCloseDelayList,guohuDelayList,signDelayList,firstFollowDelayList,firstFollowTime,firstFollowOverdueTime,firstFollowEff,firstFollowDly,signTime,signOverdueTime,signEff,signDly,guohuTime,guohuOverdueTime,guohuEff,guohuDly,caseCloseTime,caseCloseOverdueTime,caseCloseEff,caseCloseDly,firstFollowDateTime,signDateTime,guohuDateTime,caseCloseDateTime,totalEff,inProgress,isCaseCloseOverdue,isGuohuOverdue,isSignOverdue,isFirstFollowOverdue"
 					referencecol="caseCode" 
 					display="首次跟进时效信息,签约时效信息,过户时效信息,结案时效信息,首次跟进实际操作时间,签约实际操作时间,过户实际操作时间,结案实际操作时间,累计时效,所处环节,结案是否逾期,过户是否逾期,签约是否逾期,首次跟进是否逾期"
 					customDict="getCaseEfficientInfo" /> 

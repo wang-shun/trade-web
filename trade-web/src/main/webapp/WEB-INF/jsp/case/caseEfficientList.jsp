@@ -51,8 +51,26 @@
    .strong-black {
        color:#333;
    }
-   .unDelay {
-   	color:#808080;
+  .over-status span, .over-status em{
+       margin:0 1px;
+       padding: 1px 0 0px;
+       display: inline-block;
+       width: 22px;
+       text-align: center;
+       color:#666;
+       border-radius: 0;
+       border: 1px solid #ccc;
+   }
+   .over-status em.white {
+       border: 1px solid #ccc;
+   }
+   .over-status em.red {
+       border: 1px solid #ed5565;
+       background-color: #ed5565;
+       color:#fff;
+   }
+   .over-status i.red {
+       color: #ed5565;
    }
 </style>
 
@@ -120,7 +138,7 @@
                                 <label for="" class="lable-one">逾期</label>
                                 <select class="form-control input-one inline" id="selOverdue">
                                     <option value="">不限</option>
-                                    <option value="curOverdued" selected>当前逾期</option>
+                                    <option value="curOverdued">当前逾期</option>
                                     <option value="overdued">有逾期</option>
                                     <option value="noOverdued">无逾期</option>
                                 </select>
@@ -169,7 +187,7 @@
                             
                             <div class="text-center">
 								<span id="currentTotalPage"><strong class="bold"></strong></span> <span
-									class="ml15">共<strong class="bold" id="totalP"></strong>
+									class="ml15"><strong class="bold" id="totalP"></strong>
 								</span>&nbsp;
 								<div id="pageBar" class="pagination my-pagination text-center m0"></div>
 							</div>
@@ -192,6 +210,7 @@
                   </div>
                   <div class="modal-body">
                       <textarea style="width: 100%;height:85px;border:1px solid #ccc;resize: none;padding:7px;" name="comment" id=""></textarea>
+                      <p style="color:red;" class="hide" id="tip">内容不能为空！</p>
                   </div>
                   <div class="modal-footer" style="text-align: center;margin: 0 0 40px;border:none;">
                       <button type="button" class="btn btn-success" id="btnConfirm">确定</button>
@@ -246,19 +265,51 @@
                          </td>
 
 						 <td>
-                             <p {{if item.isFirstFollowOverdue }}class="warn-red"{{/if}} ><a class="demo-top" {{if item.inProgress == 'firstFollow'}} title="进行中" {{else}} title="完成时间:{{item.firstFollowDateTime}}" {{/if}} href="#">{{if item.inProgress == 'firstFollow'}}<i class="iconfont">&#xe60b;</i> {{/if}}{{item.firstFollowEffInfo}}</a></p>
+							<p class="over-status">
+								<a class="demo-top" {{if item.inProgress == 'firstFollow'}} title="进行中 <br/>{{each item.firstFollowDelayList as firstFollowDelay index1}}延期原因{{index1 + 1}}：{{firstFollowDelay.comment}}<br/>{{/each}}" {{/if}}{{if item.firstFollowDateTime}} title="完成时间:{{item.firstFollowDateTime}}" {{/if}} href="#">
+                                       <span>{{item.firstFollowTime}}</span>
+									   <em {{if item.firstFollowOverdueTime > 0}} class="red"{{else}}class="white"{{/if}}>{{item.firstFollowOverdueTime}}</em>
+									   <span>{{item.firstFollowEff}}</span>
+									   <em {{if item.firstFollowDly > 0}}class="red"{{else}}class="white"{{/if}}>{{item.firstFollowDly}}</em>
+									   {{if item.inProgress == 'firstFollow'}} <i class="iconfont">&#xe60b;</i>  {{/if}}
+                                </a> 
+                            </p>
                          </td>
 
                          <td>
-                             <p {{if item.isSignOverdue }}class="warn-red"{{/if}}><a class="demo-top" {{if item.inProgress == 'sign'}} title="进行中" {{else}} title="完成时间:{{item.signDateTime}}" {{/if}} href="#">{{if item.inProgress == 'sign'}}<i class="iconfont">&#xe60b;</i> {{/if}}{{item.signEffInfo}}</a> </p>
+							<p class="over-status">
+								<a class="demo-top" {{if item.inProgress == 'sign'}} title="进行中 <br/>{{each item.signDelayList as signDelay index1}}延期原因{{index1 + 1}}：{{signDelay.comment}}<br/>{{/each}}"{{/if}} {{if item.signDateTime}} title="完成时间:{{item.signDateTime}}" {{/if}} href="#">
+                                       <span>{{item.signTime}}</span>
+									   <em {{if item.signOverdueTime > 0}} class="red"{{else}}class="white"{{/if}}>{{item.signOverdueTime}}</em>
+									   <span>{{item.signEff}}</span>
+									   <em {{if item.signDly > 0}}class="red"{{else}}class="white"{{/if}}>{{item.signDly}}</em>
+									   {{if item.inProgress == 'sign'}} <i class="iconfont">&#xe60b;</i>  {{/if}}
+                                </a> 
+                            </p>
                          </td>
 
                          <td>
-                             <p {{if item.isGuohuOverdue }}class="warn-red"{{/if}} ><a class="demo-top"  {{if item.inProgress == 'guohu'}} title="进行中" {{else}} title="完成时间:{{item.guohuDateTime}}" {{/if}}>{{if item.inProgress == 'guohu'}}<i class="iconfont">&#xe60b;</i> {{/if}}<a  href="#">{{item.guohuEffInfo}}</a> </p>
+							<p class="over-status">
+								<a class="demo-top" {{if item.inProgress == 'guohu'}} title="进行中<br/>{{each item.guohuDelayList as guohuDelay index1}}延期原因{{index1 + 1}}：{{guohuDelay.comment}}<br/>{{/each}}" {{/if}}{{if item.guohuDateTime}} title="完成时间:{{item.guohuDateTime}}" {{/if}} href="#">
+                                       <span>{{item.guohuTime}}</span>
+									   <em {{if item.guohuOverdueTime > 0}} class="red"{{else}}class="white"{{/if}}>{{item.guohuOverdueTime}}</em>
+									   <span>{{item.guohuEff}}</span>
+									   <em {{if item.guohuDly > 0}}class="red"{{else}}class="white"{{/if}}>{{item.guohuDly}}</em>
+									   {{if item.inProgress == 'guohu'}} <i class="iconfont">&#xe60b;</i>  {{/if}}
+                                </a> 
+                            </p>
                          </td>
                                         
 						 <td>
-							<p {{if item.isCaseCloseOverdue }}class="warn-red"{{/if}} ><a class="demo-top"  {{if item.inProgress == 'caseClose'}} title="进行中" {{else}} title="完成时间:{{item.caseCloseDateTime}}" {{/if}}>{{if item.inProgress == 'caseClose'}}<i class="iconfont">&#xe60b;</i> {{/if}}<a  href="#">{{item.caseCloseEffInfo}}</a> </p>            
+							<p class="over-status">
+								<a class="demo-top" {{if item.inProgress == 'caseClose'}} title="进行中<br/>{{each item.caseCloseDelayList as caseCloseDelay index1}}延期原因{{index1 + 1}}：{{caseCloseDelay.comment}}<br/>{{/each}}"{{/if}}{{if item.caseCloseDateTime}} title="完成时间:{{item.caseCloseDateTime}}" {{/if}} href="#">
+                                       <span>{{item.caseCloseTime}}</span>
+									   <em {{if item.caseCloseOverdueTime > 0}} class="red"{{else}}class="white"{{/if}}>{{item.caseCloseOverdueTime}}</em>
+									   <span>{{item.caseCloseEff}}</span>
+									   <em {{if item.caseCloseDly > 0}}class="red"{{else}}class="white"{{/if}}>{{item.caseCloseDly}}</em>
+									   {{if item.inProgress == 'caseClose'}} <i class="iconfont">&#xe60b;</i>  {{/if}}
+                                </a> 
+                            </p>
                          </td>
 						 <td>
                              <p>
