@@ -12,7 +12,6 @@
     <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/iconfont/iconfont.css" />
     
     <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/workplace/workplace.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/plugins/layer/layer.css?2.0" />
 </head>
 <body>
     <header class="aui-bar aui-bar-nav">
@@ -180,7 +179,7 @@ function placeInfo(obj,index,name) {
                      }
                     html+= '</ul>'
                     +'</article>'
-                    +'<p class="tel-cancel" name="phonesList'+commentIndex+'" onclick="hideWndow('+commentIndex+')"> 取消</p>'
+                    +'<p class="tel-cancel" name="phonesList'+commentIndex+'"> 取消</p>'
                     +'</div>'
                     +'</div>'
                     +'</div>'
