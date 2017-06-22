@@ -368,9 +368,13 @@ function getParams(qId,type) {
 	var data = {};
 	data.startDate = startDate;
 	data.endDate = endDate;
-	if("false" == "${sessionUser.serviceDepHierarchy == 'yucui_headquarter'}"
-		&& "false" == "${sessionUser.serviceDepHierarchy == 'YC_OPS'}")
+
+
+	//if("false" == "${sessionUser.serviceDepHierarchy == 'yucui_headquarter'}"	&& "false" == "${sessionUser.serviceDepHierarchy == 'YC_OPS'}")
+	if("false" == "${sessionUser.serviceDepHierarchy == 'yucui_headquarter'}" 
+		&& "false" == "${sessionUser.serviceDepHierarchy == 'YC_OPS'}" && "false" == "${sessionUser.serviceDepHierarchy == 'YC_OPS_TEAM'}")
 	{data.serviceDepId = "${sessionUser.serviceDepId}";}
+
 	data.pagination = false;//不分页
 	if(type) {data.queryId=qId};
 	return data;
