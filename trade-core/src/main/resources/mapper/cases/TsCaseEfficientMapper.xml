@@ -227,4 +227,12 @@
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </select>
   
+  <update id="initTsCaseEffInfo" parameterType="com.centaline.trans.cases.entity.TsCaseEfficient">
+  	update sctrans.T_TS_CASE_EFFICIENT
+  	set FIRSTFOLLOW_TIME = null,FIRSTFOLLOW_DLY = 0,SIGN_TIME = null,SIGN_DLY = 0,GUOHU_TIME = null,GUOHU_DLY = 0,
+  	    CASECLOSE_TIME = null,CASECLOSE_DLY = 0,CUR_OVERDUE_TIME = #{initCurOverdueTime,jdbcType=TIMESTAMP},
+  	    CUR_DELAY_COUNT = 0,HIS_OVERDUE_COUNT = 0,UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}
+  	 where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </update>
+  
 </mapper>
