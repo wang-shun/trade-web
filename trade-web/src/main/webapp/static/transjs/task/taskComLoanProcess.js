@@ -1238,7 +1238,7 @@ function getCompleteMortInfo(isMainLoanBank){
     	success:function(data){	
     	if(!data.success){
     		window.wxc.error(data.message);
-    	}else{
+    	}else{    		
     		if(data.content != null){    			
     			if(data.content.tmpBankStatus != null){
 	    			$("#tmpBankStatus").val(data.content.tmpBankStatus);
@@ -1254,10 +1254,15 @@ function getCompleteMortInfo(isMainLoanBank){
 	    		}
     		}
     		
-    		var f=$("#completeForm1");
-    		if(isMainLoanBank == 1)
-            f=$("#completeForm");
-    		if(data != null && data.content != null){
+    		var f=$("#completeForm1");    		
+    		var form = $("#mortgageForm1");
+    		if(isMainLoanBank == 1){
+    			 f=$("#completeForm");
+    			 form=$("#mortgageForm");
+    		}
+           
+    		if(data != null && data.content != null){    			
+    			form.find("input[name='stateInBank']").val(data.content.stateInBank);
 				f.find("[id='sp_bank']").text(data.content.parentBankName);
     			f.find("[id='sp_sub_bank']").text(data.content.bankName);
 
