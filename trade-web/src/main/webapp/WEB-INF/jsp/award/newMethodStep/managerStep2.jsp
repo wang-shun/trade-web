@@ -38,7 +38,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/jsp/common/excelImport.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/excelImport_new.jsp"></jsp:include>
 <div class="wrapper wrapper-content animated fadeInRight">
    <div class="ibox-content border-bottom clearfix space_box">
        <div class="clearfix"> 
@@ -263,11 +263,11 @@
     	var monthSel = new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid}); 
     	
     	// 滑块
-    	sw = $('#moSwitch').bootstrapSwitch({
+    	/* sw = $('#moSwitch').bootstrapSwitch({
     		'onText':"上月",
     		'offText':'当月'
     	     }).on('switchChange.bootstrapSwitch', function(e, data) {
-		});  
+		}); */  
     	// 是否显示错误信息
     	if(!!hasError){
     		$('#error-modal-form').modal("show");
@@ -285,7 +285,7 @@
         	  btn: ['提交','关闭'],
         	  yes: function(index){
         			  layer.close(i);
-        			  var i = sw.bootstrapSwitch('state')?'0':'1';
+        			  var i = 0;//sw.bootstrapSwitch('state')?'0':'1';
             		  // 上月
             		  var bm;
             		  if(i=='0') {

@@ -76,8 +76,8 @@
                            <th>姓名</th>
                             <th>职位</th>
                             <th>部门</th>
-                            <th>贷款总金额</th>
-                            <th>贷款流失金额</th>
+                            <th>贷款总金额(万元)</th>
+                            <th>贷款流失金额(万元)</th>
                             <th>流失率</th>
                             <th>流失KPI</th>
                         </tr>
@@ -159,12 +159,16 @@
 			</td>
 			<td >
 				<p class="big">
+
 					{{item.COM_AMOUNT_LS}}
+
 				</p>
 			</td>
 			<td >
 				<p class="big">
-					{{item.COM_LS_RATE}}
+{{if item.COM_AMOUNT_LS !=null}}
+					{{item.COM_LS_RATE}}%
+{{/if}}
 				</p>
 			</td>
 			<td >

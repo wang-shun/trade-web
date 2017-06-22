@@ -368,7 +368,6 @@ $('#datepicker_0').datepicker({
     maxViewMode: 1,
     minViewMode:1,
     endDate:'-1m',
-	todayBtn : 'linked',
 	language : 'zh-CN',
 });
 
