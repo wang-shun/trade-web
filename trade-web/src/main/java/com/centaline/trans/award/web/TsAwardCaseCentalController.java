@@ -1,5 +1,9 @@
 package com.centaline.trans.award.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,6 +217,16 @@ public class TsAwardCaseCentalController {
 	 */
 	@RequestMapping(value = "/monthKpiImport")
 	public String monthKpiImport(HttpServletRequest request) {		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
+		Calendar cal = Calendar.getInstance();
+        cal.setTime(new java.util.Date());
+        cal.add(Calendar.MONTH, -1);
+        String belongMonth = sdf.format(cal.getTime());
+		TsAwardKpiPay record = new TsAwardKpiPay();
+		record.setStatus("1");
+		record.setBelongMonth(DateUtil.strToFullDate(belongMonth));
+		List<TsAwardKpiPay> tsAwardKpiPayList = tsAwardKpiPayService.getTsAwardKpiPayByProperty(record);
+		
 		return  "award/newMethodStep/managerStep2";
 	}
 	/***
