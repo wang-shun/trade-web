@@ -315,17 +315,39 @@ public class TsCaseEfficient
      */
     public Integer getCalHisOverdueCount()
     {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(curOverdueTime);
-
-        long currentTime = (new Date()).getTime();
-        long curOverdueTime = calendar.getTime().getTime();
-
-        if (currentTime > curOverdueTime)
+        if (curOverdueTime != null)
         {
-            hisOverdueCount++;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(curOverdueTime);
+
+            long currentTime = (new Date()).getTime();
+            long curOverdueTime = calendar.getTime().getTime();
+
+            if (currentTime > curOverdueTime)
+            {
+                hisOverdueCount++;
+            }
         }
 
         return hisOverdueCount;
+    }
+
+    /**
+     * 初始化当前逾期时间
+     * 
+     * @return 当前逾期时间
+     */
+    public Date getInitCurOverdueTime()
+    {
+        if (dispatchTime != null)
+        {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dispatchTime);
+            calendar.add(Calendar.DAY_OF_MONTH, firstfollowEff);
+
+            return calendar.getTime();
+        }
+
+        return null;
     }
 }

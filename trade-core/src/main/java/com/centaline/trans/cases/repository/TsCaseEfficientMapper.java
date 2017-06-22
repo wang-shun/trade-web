@@ -43,4 +43,13 @@ public interface TsCaseEfficientMapper
      * @return 案件时效信息
      */
     public TsCaseEfficient getCaseEffInfoByCasecode(String caseCode);
+
+    /**
+     * 初始化案件时效信息
+     * 
+     * @param tsCaseEfficient
+     *            案件时效
+     * @return 返回1,初始化成功,返回0,初始化失败。
+     */
+    public int initTsCaseEffInfo(TsCaseEfficient tsCaseEfficient);
 }
