@@ -50,30 +50,76 @@ public class TmpBankAduitController {
 	@Autowired(required = true)
 	ToCaseInfoService toCaseInfoService;
 	
+	/**
+	 * 贷款 派单页选择临时银行时 保存填写的相关信息
+	 * @param toMortgage
+	 * @return
+	 */
+	@RequestMapping("saveTmpBank")
+	@ResponseBody
+	public AjaxResponse<String> saveTmpBank(ToMortgage toMortgage) {	
+		
+		//更新贷款表临时银行状态为默认：‘’
+		ToMortgage condition = new ToMortgage();
+		condition.setCaseCode(toMortgage.getCaseCode());
+		condition.setIsMainLoanBank("1");
+		ToMortgage mortage = toMortgageService.findToMortgageByCaseCodeWithCommLoan(condition);
+		
+		mortage.setTmpBankReason(toMortgage.getTmpBankReason());
+		mortage.setFinOrgCode(toMortgage.getFinOrgCode());
+		mortage.setLoanerPhone(toMortgage.getLoanerPhone());
+		mortage.setLoanerName(toMortgage.getLoanerName());
+		mortage.setLoanerId(toMortgage.getLoanerId());
+		mortage.setLoanerOrgCode(toMortgage.getLoanerOrgCode());
+		mortage.setLoanerOrgId(toMortgage.getLoanerOrgId());
+		mortage.setIsTmpBank("1");
+		toMortgageService.saveToMortgage(mortage);
+		return AjaxResponse.success("保存成功");
+	}
 	
 	@RequestMapping("start")
 	@ResponseBody
-	public AjaxResponse<String> startWorkFlow(String caseCode) {	
+	public AjaxResponse<String> startWorkFlow(ToMortgage toMortgage) {	
 		AjaxResponse<String> response = new AjaxResponse<>();
 			try {
 				ToWorkFlow twf = new ToWorkFlow();
 				twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
-				twf.setCaseCode(caseCode);
+				twf.setCaseCode(toMortgage.getCaseCode());
 			
 				ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
 				
 				//更新贷款表临时银行状态为默认：‘’
-				ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-				String status = mortage.getTmpBankStatus();
-				
-				if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status) || TmpBankStatusEnum.INAPPROVAL.getCode().equals(status)){
-					throw new BusinessException("启动失败：流程正在运行或已经结束！");
+				ToMortgage condition = new ToMortgage();
+				condition.setCaseCode(toMortgage.getCaseCode());
+				condition.setIsMainLoanBank("1");
+				ToMortgage mortage = toMortgageService.findToMortgageByCaseCodeWithCommLoan(condition);
+				if(mortage!=null){
+					String status = mortage.getTmpBankStatus();
+					if(record != null || TmpBankStatusEnum.AGREE.getCode().equals(status) || TmpBankStatusEnum.INAPPROVAL.getCode().equals(status)){
+						throw new BusinessException("启动失败：流程正在运行或已经结束！");
+					}
+				}else{
+					mortage=new ToMortgage();
+					mortage.setIsDelegateYucui("1");
+					mortage.setCaseCode(toMortgage.getCaseCode());
+					mortage.setIsActive("0");
+					mortage.setIsMainLoanBank("1");
 				}
-			
-				response = toMortgageService.startTmpBankWorkFlow(caseCode,"");
+				mortage.setTmpBankReason(toMortgage.getTmpBankReason());
+				mortage.setFinOrgCode(toMortgage.getFinOrgCode());
+				mortage.setLoanerPhone(toMortgage.getLoanerPhone());
+				mortage.setLoanerName(toMortgage.getLoanerName());
+				mortage.setLoanerId(toMortgage.getLoanerId());
+				mortage.setLoanerOrgCode(toMortgage.getLoanerOrgCode());
+				mortage.setLoanerOrgId(toMortgage.getLoanerOrgId());
+				mortage.setIsTmpBank("1");
+				toMortgageService.saveToMortgage(mortage);
+	
+				response = toMortgageService.startTmpBankWorkFlow(toMortgage.getCaseCode(),"");
 				response.setSuccess(true);
 				response.setMessage("临时银行审批流程开启成功！");
 			} catch (Exception e) {
+				response.setMessage(e.getMessage());
 				response.setSuccess(false);
 				e.printStackTrace();
 			}

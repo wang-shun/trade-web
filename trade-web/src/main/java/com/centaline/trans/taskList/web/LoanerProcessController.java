@@ -207,9 +207,9 @@ public class LoanerProcessController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "loanerProcessCancle")
 	@ResponseBody
-	public AjaxResponse<String> loanerProcessCancle(HttpServletRequest request, HttpServletResponse response, String caseCode,  String isMainLoanBank) {
+	public AjaxResponse<String> loanerProcessCancle(HttpServletRequest request, HttpServletResponse response, String caseCode,  String isMainLoanBankProcess) {
 		try {
-			loanerProcessService.loanerProcessCancle(caseCode, isMainLoanBank);
+			loanerProcessService.loanerProcessCancle(caseCode, isMainLoanBankProcess);
 			return AjaxResponse.success("恭喜，取消派单流程成功！");
 		} catch (BusinessException e) {
 			logger.error(e.getMessage(), e);

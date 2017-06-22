@@ -229,20 +229,23 @@ public class ToMortgageServiceImpl implements ToMortgageService
             }
         }
         ToEval eval= toEvalMapper.selectMortgageId(toMortgage.getPkid());
+        
         if(eval==null){//不存在才插入  已经存在的 不能修改
         	eval=toMortgage.getToEval();
-        	eval.setMortgageId(toMortgage.getPkid());
-    		// 生产 评估费编号
-    		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
-    		String month = dateStr.substring(0, 6);
-    		String evaCode = uamBasedataService.nextSeqVal("EVAL_CODE", month);
-        	eval.setEvaCode(evaCode);
-        	eval.setPkid(null);//因为与贷款表一起传过来会把贷款表的pkid带过来
-        	toEvalMapper.insertSelective(eval);
-        	//生成应收
-        	generatorCommSubs(eval);
-        	//生成应收业绩
-        	generatorPerf(eval);
+        	if(eval.getServiceFee()!=null&&eval.getEvaFee()!=null){
+	        	eval.setMortgageId(toMortgage.getPkid());
+	    		// 生产 评估费编号
+	    		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
+	    		String month = dateStr.substring(0, 6);
+	    		String evaCode = uamBasedataService.nextSeqVal("EVAL_CODE", month);
+	        	eval.setEvaCode(evaCode);
+	        	eval.setPkid(null);//因为与贷款表一起传过来会把贷款表的pkid带过来
+	        	toEvalMapper.insertSelective(eval);
+	        	//生成应收
+	        	generatorCommSubs(eval);
+	        	//生成应收业绩
+	        	generatorPerf(eval);
+        	}
         }
 
         // 为主流程设置变量

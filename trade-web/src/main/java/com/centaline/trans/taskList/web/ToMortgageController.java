@@ -30,6 +30,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.enums.LoanerStatusEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -44,8 +45,10 @@ import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.mortgage.entity.MortStep;
+import com.centaline.trans.mortgage.entity.ToMortLoaner;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.MortStepService;
+import com.centaline.trans.mortgage.service.ToMortLoanerService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
@@ -82,6 +85,8 @@ public class ToMortgageController {
 	private MessageService messageService;
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private ToMortLoanerService toMortLoanerService;
 	/**
 	 * 查询评估费信息
 	 * @param mid 贷款表ID
@@ -218,11 +223,12 @@ public class ToMortgageController {
 	 * 
 	 * @param toMortgage
 	 * @param request
+	 * @param saveOnly 是否只是保存
 	 * @return
 	 */
 	@RequestMapping(value = "/completeMortgage")
 	@ResponseBody
-	public AjaxResponse<String> completeMortgage(ToMortgage toMortgage, HttpServletRequest request, String check) {
+	public AjaxResponse<String> completeMortgage(ToMortgage toMortgage, HttpServletRequest request, String check,boolean saveOnly) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 
 		try {
@@ -231,10 +237,23 @@ public class ToMortgageController {
 			entity.setFormCommLoan("1");
 			entity.setLastLoanBank(toMortgage.getLastLoanBank());
 			entity.setPartCode(toMortgage.getPartCode());
-			toMortgageService.saveToMortgage(entity);
-			if ("1".equals(entity.getIsTmpBank()) && entity.getTmpBankUpdateBy() == null) {
-				response.setMessage("临时银行未处理，请等待处理！");
+			response.setContent(saveOnly+"");
+			if(!saveOnly){//已经选择为最终银行
+				if ("1".equals(entity.getIsTmpBank()) && entity.getTmpBankUpdateBy() == null) {
+					response.setMessage("临时银行未处理，请等待处理！");
+					response.setSuccess(false);
+					return response;
+				}else if("0".equals(entity.getIsTmpBank())){
+					ToMortLoaner loaner = toMortLoanerService.findActiveToMortLoaner(toMortgage.getCaseCode(), toMortgage.getIsMainLoanBank());
+					if(loaner==null ||!loaner.getLoanerStatus().equals(LoanerStatusEnum.COMPLETED.getCode())){
+						response.setMessage("派单流程尚未审批通过，请等待处理！");
+						response.setSuccess(false);
+						return response;
+					}
+				}
 			}
+
+			toMortgageService.saveToMortgage(entity);
 			/**
 			 * 功能: 给客户发送短信 作者：zhangxb16
 			 */
