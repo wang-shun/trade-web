@@ -124,13 +124,13 @@ function getExplPicByhouseCode() {
 						trStr+="<img src='"+appCtx['shcl-filesvr-web'] +"/JQeryUpload/getfile?fileId="+value.preFileAdress+"' style='padding-bottom: 5px;padding-top: 5px;width:100px;'>";
 						trStr+="</div>";
 						trStr+="<div class=\"delete span2\" style=\"margin-left: 85%; margin-top: -120px;\">";
-						trStr+="<button onclick=\"romoveDiv('picContainers',"+value.pkid+");\" class=\"btn red\""; 
+						trStr+="<button onclick=\"romoveDiv('picContainers',"+value.pkid+");\" class=\"btn red\"";
 						trStr+="style=\"line-height:10px;width:30px;padding:0;height:30px;text-align:center;border-radius:30px!important;\">";
 						trStr+="<i class=\"icon-remove\"></i>";
 						trStr+="</button>";
 						trStr+="</div>";
 						trStr+="</div>";
-						
+
 					}
 				});
 				$("#picContainer"+accValue.pkid).append(trStr);

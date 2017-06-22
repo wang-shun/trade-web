@@ -636,32 +636,26 @@
 		function save(b) {
 			if(b){
 				var caseCode = $("#caseCode").val();
+				var fileIDs ="";
 				if(caseCode != "" && caseCode != null  && caseCode != undefined ){
-
+					$("#guohufileUploadContainer ul.filelist li").each(function(index){
+						var thisFileId = $(this).attr("id");
+						if(thisFileId.length>0){
+							fileIDs=fileIDs+thisFileId+",";
+						}
+					});
 					$.ajax({
-						url: ctx+"/caseMerge/mergeSearch",
+						url: ctx+"/attachment/fileUpload",
 						method:"post",
 						dataType:"json",
-						data:{"caseCode" : caseCode},
+						data:{"caseCode" : caseCode,"fileList" : fileIDs},
 						success: function(data) {
-							//alert("Result=====" +JSON.stringify(data));
-							console.log("Result=====" +JSON.stringify(data));
 							if(data != null ){
 								if(data.success){
-									var ctmCode  = data.content;
-									var caseOrigin  = data.message;
-									if(caseOrigin != null && caseOrigin != "" && caseOrigin == "INPUT"){
-										if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
-											goProcess(b);
-										}else{
-											window.wxc.error("自建案件必须完成案件合流才能提交过户申请");
-											return;
-										}
-									}else{
-										//非自录案件走正常流程
-										goProcess(b);
-									}
+									submitTransfer(caseCode);
 								}
+							}else{
+								window.wxc.error("附件错误！");   //弹出失败提示框
 							}
 						},
 						error: function(errors) {
@@ -672,6 +666,38 @@
 			}else{
 				goProcess(false);
 			}
+		}
+		function submitTransfer(caseCode){
+			$.ajax({
+				url: ctx+"/caseMerge/mergeSearch",
+				method:"post",
+				dataType:"json",
+				data:{"caseCode" : caseCode},
+				success: function(data) {
+					//alert("Result=====" +JSON.stringify(data));
+					console.log("Result=====" +JSON.stringify(data));
+					if(data != null ){
+						if(data.success){
+							var ctmCode  = data.content;
+							var caseOrigin  = data.message;
+							if(caseOrigin != null && caseOrigin != "" && caseOrigin == "INPUT"){
+								if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
+									goProcess(b);
+								}else{
+									window.wxc.error("自建案件必须完成案件合流才能提交过户申请");
+									return;
+								}
+							}else{
+								//非自录案件走正常流程
+								goProcess(b);
+							}
+						}
+					}
+				},
+				error: function(errors) {
+					window.wxc.error("获取案件合流信息出错！");   //弹出失败提示框
+				}
+			});
 		}
 
 		function  goProcess(b){
@@ -918,7 +944,8 @@
 				fileUpload.init({
 					caseCode : $('#caseCode').val(),
 					partCode : "Guohu",
-					fileUploadContainer : "guohufileUploadContainer"
+					fileUploadContainer : "guohufileUploadContainer",
+					isAllUpdateY:false
 				});
 			});
 		});
