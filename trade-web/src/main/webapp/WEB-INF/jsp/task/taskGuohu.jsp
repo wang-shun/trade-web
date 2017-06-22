@@ -652,7 +652,7 @@
 						success: function(data) {
 							if(data != null ){
 								if(data.success){
-									submitTransfer(caseCode);
+									submitTransfer(caseCode,b);
 								}
 							}else{
 								window.wxc.error("附件错误！");   //弹出失败提示框
@@ -667,7 +667,7 @@
 				goProcess(false);
 			}
 		}
-		function submitTransfer(caseCode){
+		function submitTransfer(caseCode,b){
 			$.ajax({
 				url: ctx+"/caseMerge/mergeSearch",
 				method:"post",
