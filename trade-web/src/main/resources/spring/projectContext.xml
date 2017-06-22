@@ -586,6 +586,8 @@
     <bean name="getPropertyCodeByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetPropertyCodeServiceImpl"></bean>	 	
     <!-- 根据用户Id查询用户名-->
     <bean name="getRealNameByUserId" class="com.centaline.trans.common.service.impl.QuickQueryGetRealNameServiceImpl"></bean>	 	
+    <!-- 根据业绩名目Code查询业绩名称-->
+    <bean name="getSubjectNameBySubjectCode" class="com.centaline.trans.common.service.impl.QuickQueryGetSubjectNameServiceImpl"></bean>	 	
     <!-- 根据用户Id查询用户名-->
     <bean name="getMegerCuntByCaseCode" class="com.centaline.trans.common.service.impl.QuickQueryGetMegerCuntServiceImpl"></bean>	 	
     <!-- 根据用户Id查询用户名-->

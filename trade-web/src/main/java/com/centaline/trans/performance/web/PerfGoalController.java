@@ -1,9 +1,12 @@
 package com.centaline.trans.performance.web;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.ServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +20,9 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.performance.entity.Subject;
 import com.centaline.trans.performance.service.PerfGoalService;
+import com.centaline.trans.performance.service.SubjectService;
 import com.centaline.trans.performance.vo.PerfGoalVo;
 
 /**
@@ -36,6 +41,8 @@ public class PerfGoalController {
 	private UamSessionService uamSessionService;
 	@Autowired
 	private PerfGoalService perfGoalService;
+	@Autowired
+	private SubjectService subjectService;
 
 	/**
 	 * 获得某月第一天
@@ -48,6 +55,15 @@ public class PerfGoalController {
 		c1.add(Calendar.MONTH, currentMonthDiff);
 		c1.set(Calendar.DAY_OF_MONTH, 1);
 		return c1.getTime();
+	}
+	
+	@RequestMapping("/verificationTime")
+	@ResponseBody
+	private AjaxResponse verificationTime(PerfGoalVo vo) {
+		SessionUser user = uamSessionService.getSessionUser();
+		vo.setOrgId(user.getServiceDepId());
+		return AjaxResponse.successContent(perfGoalService.getMainStatus(vo));
+		  
 	}
 
 	/**
@@ -71,6 +87,44 @@ public class PerfGoalController {
 		model.addAttribute("belongMonth", sdf.format(vo.getBelongMonth()));
 		model.addAttribute("mainStatus", mainStatus);// 主表状态
 		return "performance/perfGoal";
+	}
+	
+	@RequestMapping(value = "receivablePerfDetail")
+	public String receivablePerfDetail(String caseCode , ServletRequest request,Model model) {
+		SessionUser user =uamSessionService.getSessionUser();
+		String orgId=user.getServiceDepId();
+		String jobCode=user.getServiceJobCode();
+		List<Subject> queryPeceivablePerfList = subjectService.querySubjectList();
+		String time = request.getParameter("time");
+		if(time!=null){
+			model.addAttribute("startTime",time);
+			model.addAttribute("endTime", lastDay(time));
+		}
+		model.addAttribute("viewObject", request.getParameter("viewObject"));
+		model.addAttribute("viewObjectId", request.getParameter("viewObjectId"));
+		model.addAttribute("subjectList", queryPeceivablePerfList);
+		return "performance/receivablePerf";
+	}
+	
+	/**
+	 * 根据传入的月份，获取当月的最后一天
+	 * @param Str
+	 * @return
+	 */
+	public String lastDay(String Str) {
+		try {
+			Date date = new SimpleDateFormat("yy-MM-dd").parse(Str);
+			Calendar c = Calendar.getInstance();
+			c.setTime(date);  
+	        c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE));  
+	        String dayBefore = new SimpleDateFormat("yyyy-MM-dd").format(c  
+	                .getTime()); 
+			System.out.println(dayBefore);
+			return dayBefore;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**
@@ -135,7 +189,7 @@ public class PerfGoalController {
 		}else if (TransJobs.TSJYZG.getCode().equals(jobCode) || TransJobs.TJYZG.getCode().equals(jobCode)){//主管，高级主管
 			dataView="T";
 		}else{
-			dataView="P";
+			dataView="P";//人员
 		}
 		model.addAttribute("dataView", dataView);
 		return "performance/perfGoalAttainment";

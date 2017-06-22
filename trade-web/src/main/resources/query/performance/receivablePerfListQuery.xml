@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+		<dicts>
+			<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+			<customDict id="getRealNameByUserId" beanName="getRealNameByUserId"></customDict>
+			<customDict id="qqcdSeller" beanName="qqcdSeller" />
+			<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+			<!-- 根据业绩科目Code查询业绩科目名称 -->
+			<customDict id="getSubjectNameBySubjectCode" beanName="getSubjectNameBySubjectCode" />
+		</dicts>
+		<formatters>
+			<formatter id="dateFormatter" ref=""
+				class="com.aist.common.quickQuery.formatter.DateFormatter">
+				<properties>
+					<property name="pattern">yyyy-MM-dd</property>
+				</properties>
+			</formatter>
+		</formatters>
+	<query id="queryReceivablePrefList" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			SELECT
+				rp.SHARES_CODE AS sharesCode,
+				rp.SHARE_AMOUNT as shareAmount,
+			  rp.SHARE_TIME as shareTime,
+				rp.SUBJECT AS subject,
+				rp.STATUS AS status,
+				rp.USER_ID AS userId,
+				rp.CASE_CODE AS caseCode,
+				c.CASE_ORIGIN AS caseOrigin,
+				rp.DISTRICT AS district,
+      			rp.TEAM_ID AS treamId
+			FROM
+				sctrans.T_TS_RECEIVABLE_PERF rp
+				LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (rp.TEAM_ID = yoh.ORG_ID)
+				LEFT JOIN sctrans.T_TO_CASE c ON (c.CASE_CODE =rp.CASE_CODE)
+				LEFT JOIN sctrans.T_TS_COM_SUBJECT cs ON(cs.SUBJECT_CODE = rp.SUBJECT)
+			WHERE 1=1
+				AND (
+					yoh.DISTRICT_ID = #orgId#
+					OR yoh.TEAM_ID = #orgId#
+					OR yoh.HQ_ID = #orgId#
+				)
+			<if test = "yuCuiOriGrpId != null and yuCuiOriGrpId != 'null' and yuCuiOriGrpId != '' ">
+				AND (
+					yoh.DISTRICT_ID = #yuCuiOriGrpId#
+					OR yoh.TEAM_ID = #yuCuiOriGrpId#
+					OR yoh.HQ_ID = #yuCuiOriGrpId#
+					)
+			</if>
+			<if test = "status != null and status != 'null' and status != '' ">
+				AND rp.STATUS=#status#
+			</if>
+			<if test="dtBegin != null and dtBegin !='' ">
+				AND rp.SHARE_TIME &gt;= #dtBegin#
+			</if>
+			<if test="dtEnd != null and dtEnd !='' ">
+				AND rp.SHARE_TIME &lt;= #dtEnd#
+			</if>
+			
+			<if test = "originCode!=null and originCode!=''">
+				<choose>
+					 <when test = "originCode == 1"> AND c.CASE_ORIGIN = 'CTM' </when>
+					 <when test = "originCode == 2"> AND c.CASE_ORIGIN != 'CTM' </when>
+				</choose> 				
+			</if>
+			<if test="subjectCode != null and subjectCode != 'null' and subjectCode != '' ">
+				AND cs.SUBJECT_CODE = #subjectCode#
+			</if>
+		]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="shareTime" beanFormatter="dateFormatter" title="业绩时间"/>
+				<column type="both" name="sharesCode" title="业绩编号"/>
+				<column type="both" name="shareAmount" title="业绩金额"/>
+				<column type="both" name="subject" title="业绩名目" customDict="getSubjectNameBySubjectCode"/>
+				<column type="both" name="status" title="业绩状态"/>
+				<column type="both" name="userId" title="归属人" customDict="getRealNameByUserId"/>
+				<column type="both" name="caseCode" title="案件编号"/>
+				<column type="both" name="caseOrigin" title="业绩来源"/>
+				<column type="both" name="district" customDict="qqcdOrgIdName" title="贵宾服务部"/>
+				<column type="both" name="treamId" customDict="qqcdOrgIdName" title="组别"/>
+				<column type="virtual" name="SELLER" referencecol="caseCode" title="上家" display="上家" customDict="qqcdSeller" />
+				<column type="virtual" name="BUYER" referencecol="caseCode" title="下家" display="下家" customDict="qqcdBuyer" />
+				
+				
+			</table-row>
+		</grid>
+	</query>
+</querys>
