@@ -277,15 +277,6 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
         toCase.setStatus("30001004");
         toCaseService.updateByCaseCodeSelective(toCase);
 
-        // 修改案件时效信息
-        TsCaseEfficient tsCaseEfficient = tsCaseEfficientMapper.getCaseEffInfoByCasecode(toHouseTransfer.getCaseCode());
-        if (tsCaseEfficient != null)
-        {
-            tsCaseEfficient.setGuohuTime(new Date());
-            tsCaseEfficient.setCurDelayCount(0);
-            tsCaseEfficientMapper.updateTsCaseEffInfo(tsCaseEfficient);
-        }
-
         /**
          * 过户审批通过后查找该案件对应的sctrans.T_CS_CASE_SATISFACTION表记录，如果没有就找到对应的‘客服回访’流程并发送消息往下走，并更新表记录
          * 
@@ -404,6 +395,17 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
                 sendMessage(sender.getId(), recevier, caseCode, result);
             }
             variables.add(new RestVariable("members", membersList));
+        }
+        else
+        {
+            // 修改案件时效信息
+            TsCaseEfficient tsCaseEfficient = tsCaseEfficientMapper.getCaseEffInfoByCasecode(processInstanceVO.getCaseCode());
+            if (tsCaseEfficient != null)
+            {
+                tsCaseEfficient.setGuohuTime(new Date());
+                tsCaseEfficient.setCurDelayCount(0);
+                tsCaseEfficientMapper.updateTsCaseEffInfo(tsCaseEfficient);
+            }
         }
 
         RestVariable restVariable = new RestVariable();
