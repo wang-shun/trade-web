@@ -715,13 +715,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(workFlow);
 
-		// 首次开启流程时间为申请时间,当前交易顾问为申请人
-		if (spvBaseInfoVO.getToSpv().getApplyTime() == null) {
-			spvBaseInfoVO.getToSpv().setApplyTime(new Date());
-		}
-		if (spvBaseInfoVO.getToSpv().getRiskControlOfficer() == null){
-			spvBaseInfoVO.getToSpv().setRiskControlOfficer(RiskControlOfficer.getId());
-		}
+		// 开启流程时间为申请时间,当前交易顾问为申请人
+		spvBaseInfoVO.getToSpv().setApplyTime(new Date());
+		spvBaseInfoVO.getToSpv().setRiskControlOfficer(RiskControlOfficer.getId());
 		spvBaseInfoVO.getToSpv().setStatus(SpvStatusEnum.AUDIT.getCode());
 		toSpvMapper.updateByPrimaryKeySelective(spvBaseInfoVO.getToSpv());
 
