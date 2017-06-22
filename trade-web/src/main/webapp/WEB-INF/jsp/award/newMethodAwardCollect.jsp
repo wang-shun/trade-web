@@ -63,7 +63,7 @@
                 </div>
                 <div class="row box-content">
                     <div class="col-md-12">
-                        <iframe src="./managerPiecework" class="UpdateUserItem"  name="" frameborder="0" width="100%"  height="1200" scrolling="no"></iframe>
+                        <iframe src="./managerPiecework" class="UpdateUserItem"  name="awardCase" id="awardCase"  frameborder="0" width="100%"  height="1200" scrolling="no"></iframe>
                         <!-- <iframe src="./managerStep2.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
                         <!-- <iframe src="./managerStep3.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
                         <!-- <iframe src="./managerStep4.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->

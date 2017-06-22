@@ -11,10 +11,10 @@ $(document).ready(function() {
 	        dataType: "json",
 	        data: {"belongMonth":belongMonth},
 	        success: function(data){ 	        	
-	        	if(data.success == true){
-	        		
-	        		//$("#SatisButton",document.frames('iframe_name').document).hide();
-	        		
+	        	if(data.success == true){	        		
+	        		$("#awardCase").contents().find("#SatisButton").hide();	        		        		
+	        	}else{
+	        		$("#awardCase").contents().find("#SatisButton").show();
 	        	}
 	        },
 	        error: function (e, jqxhr, settings, exception) {
