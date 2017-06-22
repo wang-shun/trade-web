@@ -1,91 +1,107 @@
 package com.centaline.trans.team.entity;
 
-public class TsTeamProperty {
-	private Long pkid;
+public class TsTeamProperty
+{
+    private Long pkid;
 
-	private String yuTeamName;
-	
-	private String yuTeamCode;
+    private String yuTeamName;
 
-	private String isResponseTeam;
-	private String freeSelect;
+    private String yuTeamCode;
 
-	private String teamProperty;
-	private String finTeamCode;
-	
-	// 冗余字段,表中不存在
-	private String isSelect;
+    private String isResponseTeam;
+    private String freeSelect;
 
-	public Long getPkid() {
-		return pkid;
-	}
+    private String teamProperty;
+    private String finTeamCode;
 
-	public void setPkid(Long pkid) {
-		this.pkid = pkid;
-	}
+    // 冗余字段,表中不存在
+    private String isSelect;
 
-	public String getYuTeamCode() {
-		return yuTeamCode;
-	}
+    public Long getPkid()
+    {
+        return pkid;
+    }
 
-	public void setYuTeamCode(String yuTeamCode) {
-		this.yuTeamCode = yuTeamCode == null ? null : yuTeamCode.trim();
-	}
+    public void setPkid(Long pkid)
+    {
+        this.pkid = pkid;
+    }
 
-	public String getIsResponseTeam() {
-		return isResponseTeam;
-	}
+    public String getYuTeamCode()
+    {
+        return yuTeamCode;
+    }
 
-	public void setIsResponseTeam(String isResponseTeam) {
-		this.isResponseTeam = isResponseTeam == null ? null : isResponseTeam
-				.trim();
-	}
+    public void setYuTeamCode(String yuTeamCode)
+    {
+        this.yuTeamCode = yuTeamCode == null ? null : yuTeamCode.trim();
+    }
 
-	public String getTeamProperty() {
-		return teamProperty;
-	}
+    public String getIsResponseTeam()
+    {
+        return isResponseTeam;
+    }
 
-	public void setTeamProperty(String teamProperty) {
-		this.teamProperty = teamProperty == null ? null : teamProperty.trim();
-	}
+    public void setIsResponseTeam(String isResponseTeam)
+    {
+        this.isResponseTeam = isResponseTeam == null ? null : isResponseTeam.trim();
+    }
 
-	public String getFreeSelect() {
-		return freeSelect;
-	}
+    public String getTeamProperty()
+    {
+        return teamProperty;
+    }
 
-	public void setFreeSelect(String freeSelect) {
-		this.freeSelect = freeSelect;
-	}
+    public void setTeamProperty(String teamProperty)
+    {
+        this.teamProperty = teamProperty == null ? null : teamProperty.trim();
+    }
 
-	/**
-	 * @return the finTeamCode
-	 */
-	public String getFinTeamCode() {
-		return finTeamCode;
-	}
+    public String getFreeSelect()
+    {
+        return freeSelect;
+    }
 
-	/**
-	 * @param finTeamCode
-	 *            the finTeamCode to set
-	 */
-	public void setFinTeamCode(String finTeamCode) {
-		this.finTeamCode = finTeamCode;
-	}
+    public void setFreeSelect(String freeSelect)
+    {
+        this.freeSelect = freeSelect;
+    }
 
-	public String getYuTeamName() {
-		return yuTeamName;
-	}
+    /**
+     * @return the finTeamCode
+     */
+    public String getFinTeamCode()
+    {
+        return finTeamCode;
+    }
 
-	public void setYuTeamName(String yuTeamName) {
-		this.yuTeamName = yuTeamName;
-	}
+    /**
+     * @param finTeamCode
+     *            the finTeamCode to set
+     */
+    public void setFinTeamCode(String finTeamCode)
+    {
+        this.finTeamCode = finTeamCode;
+    }
 
-	public String getIsSelect() {
-		return isSelect;
-	}
+    public String getYuTeamName()
+    {
+        return yuTeamName;
+    }
 
-	public void setIsSelect(String isSelect) {
-		this.isSelect = isSelect;
-	}
-	
+    public void setYuTeamName(String yuTeamName)
+    {
+        this.yuTeamName = yuTeamName;
+    }
+
+    public String getIsSelect()
+    {
+        return isSelect;
+    }
+
+    public void setIsSelect(String isSelect)
+    {
+        this.isSelect = isSelect;
+    }
+
 }

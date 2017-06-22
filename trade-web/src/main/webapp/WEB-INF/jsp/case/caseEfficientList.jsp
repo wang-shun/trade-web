@@ -51,6 +51,9 @@
    .strong-black {
        color:#333;
    }
+   .unDelay {
+   	color:#808080;
+   }
 </style>
 
 </head>
@@ -176,6 +179,27 @@
                 </div>
             </div>
     </div>
+    
+    <div class="modal fade" id="subAchieve" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    	  <input type="hidden" name="caseCode" />
+    	  <input type="hidden" name="inProgress" />
+    	  <input type="hidden" name="delayDays"/>
+          <div class="modal-dialog" style="width: 500px;">
+              <div class="modal-content">
+                  <div class="modal-header" style="border:none;">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                      <h4 class="modal-title" id="myModalLabel">延期原因</h4>
+                  </div>
+                  <div class="modal-body">
+                      <textarea style="width: 100%;height:85px;border:1px solid #ccc;resize: none;padding:7px;" name="comment" id=""></textarea>
+                  </div>
+                  <div class="modal-footer" style="text-align: center;margin: 0 0 40px;border:none;">
+                      <button type="button" class="btn btn-success" id="btnConfirm">确定</button>
+                      <button type="button" class="btn btn-grey" data-dismiss="modal" id="closeBtn">关闭</button>
+                  </div>
+              </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+      </div>
 
         <content tag="local_script"> 
 			<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
@@ -234,8 +258,8 @@
                          </td>
                                         
 						 <td>
+							<p {{if item.isCaseCloseOverdue }}class="warn-red"{{/if}} ><a class="demo-top"  {{if item.inProgress == 'caseClose'}} title="进行中" {{else}} title="完成时间:{{item.caseCloseDateTime}}" {{/if}}>{{if item.inProgress == 'caseClose'}}<i class="iconfont">&#xe60b;</i> {{/if}}<a  href="#">{{item.caseCloseEffInfo}}</a> </p>            
                          </td>
-                            <p {{if item.isCaseCloseOverdue }}class="warn-red"{{/if}} ><a class="demo-top"  {{if item.inProgress == 'caseClose'}} title="进行中" {{else}} title="完成时间:{{item.caseCloseDateTime}}" {{/if}}>{{if item.inProgress == 'caseClose'}}<i class="iconfont">&#xe60b;</i> {{/if}}<a  href="#">{{item.caseCloseEffInfo}}</a> </p>            
 						 <td>
                              <p>
                                 {{item.totalEff}}
@@ -243,7 +267,11 @@
                          </td>
                               
 						 <td class="text-center">
-                             <p><a class="sum_editor" href="javascript:void(0)">延期一次</a> </p>
+							 {{if item.inProgress != 'completed' && item.inProgress != 'firstFollow'}}
+                             	<p><a class="sum_editor" href="javascript:void(0)" onClick="showDelayPop('{{item.caseCode}}','{{item.inProgress}}');">延期一次</a> </p>
+							 {{else}}							 
+								<p>延期一次</p>
+							 {{/if}}
                          </td>
 				  </tr>
        {{/each}}

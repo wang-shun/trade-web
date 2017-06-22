@@ -289,6 +289,17 @@
 			</mvc:resolvers>
 		</mvc:resource-chain>
 	</mvc:resources>
+	
+	<mvc:resources mapping="/anon/static/**" location="/static_res/" >
+		<mvc:cache-control max-age="2592000" cache-public="true"/>
+		 <mvc:resource-chain  resource-cache="true">
+			<mvc:resolvers>
+				<mvc:version-resolver>
+					<mvc:content-version-strategy patterns="/**"/>
+				</mvc:version-resolver>
+			</mvc:resolvers>
+		</mvc:resource-chain>
+	</mvc:resources>
 
 
 	<!-- ========================= VIEW定义 ========================= -->

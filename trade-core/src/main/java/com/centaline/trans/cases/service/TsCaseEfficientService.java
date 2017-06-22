@@ -1,5 +1,6 @@
 package com.centaline.trans.cases.service;
 
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.entity.TsCaseEfficient;
 
 /**
@@ -29,4 +30,19 @@ public interface TsCaseEfficientService
      * @return 返回true,存在记录,返回false,不存在记录。
      */
     public boolean isExistByCaseCode(String caseCode);
+
+    /**
+     * 延期
+     * 
+     * @param currentUser
+     *            当前用户
+     * @param caseCode
+     *            案件编号
+     * @param partCode
+     *            环节编码
+     * @param comment
+     *            延期原因
+     * @return true,延期成功;false,延期失败。
+     */
+    public boolean delay(SessionUser currentUser, String caseCode, String partCode, String delayDays, String comment);
 }

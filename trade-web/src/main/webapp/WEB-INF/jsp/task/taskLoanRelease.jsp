@@ -227,21 +227,23 @@
 			readOnlyForm();
 		}
 		
-		$('#data_1 .input-group.date').datepicker({
-			todayBtn : "linked",
-			keyboardNavigation : false,
-			forceParse : false,		
-			autoclose : true			
-		});
+		if(source != "caseDetails"){
+			$('#data_1 .input-group.date').datepicker({
+				todayBtn : "linked",
+				keyboardNavigation : false,
+				forceParse : false,		
+				autoclose : true			
+			});
+			
+			$('#data_1_forBank .input-group.date').datepicker({
+				todayBtn : "linked",
+				keyboardNavigation : false,
+				forceParse : false,		
+				autoclose : true,
+				endDate : new Date()  //限制选取的结束时间
+			});	
+		}
 
-		$('#data_1_forBank .input-group.date').datepicker({
-			todayBtn : "linked",
-			keyboardNavigation : false,
-			forceParse : false,		
-			autoclose : true,
-			endDate : new Date()  //限制选取的结束时间
-		});		
-		
 		$("#caseCommentList").caseCommentGrid({
 			caseCode : caseCode,
 			srvCode : taskitem
