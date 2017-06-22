@@ -160,22 +160,26 @@ public class ToMortgageServiceImpl implements ToMortgageService
         ToMortgage condition = new ToMortgage();// 用这三个条件确定一条商贷的贷款信息,防止前台重复提交数据或者加载数据出问题时数据重复
         condition.setCaseCode(toMortgage.getCaseCode());
         condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
-        condition.setIsDelegateYucui("1");  
+        condition.setIsDelegateYucui("1");
         List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
 
-		if (list != null && !list.isEmpty()) {
-			mortgage = list.get(0);
-		}
-		if (mortgage != null) {
-			toMortgage.setPkid(mortgage.getPkid());
-			toMortgageMapper.update(toMortgage);
-			
-		} else {
-			toMortgage.setIsDelegateYucui("1");
-			toMortgageMapper.insertSelective(toMortgage);		
+        if (list != null && !list.isEmpty())
+        {
+            mortgage = list.get(0);
+        }
+        if (mortgage != null)
+        {
+            toMortgage.setPkid(mortgage.getPkid());
+            toMortgageMapper.update(toMortgage);
 
-		}
-		
+        }
+        else
+        {
+            toMortgage.setIsDelegateYucui("1");
+            toMortgageMapper.insertSelective(toMortgage);
+
+        }
+
         if ("1".equals(toMortgage.getFormCommLoan()) && StringUtils.isNotBlank(toMortgage.getLastLoanBank()))
         {
             toMortgageMapper.restSetLastLoanBank(toMortgage);
@@ -285,7 +289,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
     @Override
     public ToMortgage findToMortgageByCaseCodeWithCommLoan(ToMortgage toMortgage)
     {
-        toMortgage.setIsDelegateYucui("1");       
+        toMortgage.setIsDelegateYucui("1");
         List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(toMortgage);
         if (CollectionUtils.isNotEmpty(list))
         {
@@ -475,7 +479,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
     {
 
         @SuppressWarnings("unused")
-		User manager = null, seniorManager = null, director = null;
+        User manager = null, seniorManager = null, director = null;
         AjaxResponse<String> response = new AjaxResponse<String>();
 
         try
@@ -846,7 +850,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
      * @des: 三级银行审批 总监审批完之后 发送分单信贷员流程消息和设置流程变量 0502:流程变更，不需要发送消息
      */
     @SuppressWarnings("unused")
-	private void setLoanerProcessVariable(String loanerInstCode, boolean approveFlag)
+    private void setLoanerProcessVariable(String loanerInstCode, boolean approveFlag)
     {
 
         RestVariable restVariable = new RestVariable();
@@ -880,8 +884,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
         if ("true".equals(mortgageVo.getIsPass()))
         {
             // 处理流程,信贷员接单,流程进入银行审核流程
-            loanerProcessService.isLoanerAcceptCase(true, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(),
-                    mortgageVo.getBizCode(), mortgageVo.getStateInBank());
+            loanerProcessService.isLoanerAcceptCase(true, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
+                    mortgageVo.getStateInBank());
 
             // 接单之后自动解除预警信息
             BizWarnInfo bizWarnInfo = new BizWarnInfo();
@@ -895,13 +899,13 @@ public class ToMortgageServiceImpl implements ToMortgageService
         else if ("false".equals(mortgageVo.getIsPass()))
         {
             // 处理流程,信贷员打回,流程进入交易顾问派单
-            loanerProcessService.isLoanerAcceptCase(false, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(),
-                    mortgageVo.getBizCode(), mortgageVo.getStateInBank());
+            loanerProcessService.isLoanerAcceptCase(false, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
+                    mortgageVo.getStateInBank());
         }
 
         // 设置案件跟进信息
-        ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(), mortgageVo.getBizCode(), mortgageVo.getCaseCode(), "TRACK",
-                mortgageVo.getStateInBank(), mortgageVo.getComment());
+        ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(), mortgageVo.getBizCode(), mortgageVo.getCaseCode(), "TRACK", mortgageVo.getStateInBank(),
+                mortgageVo.getComment());
 
         // 保存案件跟进信息
         toCaseCommentService.insertToCaseComment(toCaseComment);
@@ -923,8 +927,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
             if ("MORT_APPROVED".equals(mortgageVo.getStateInBank()))
             {
                 // 处理流程,银行审核通过
-                loanerProcessService.isBankAcceptCase(true, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(),
-                        mortgageVo.getBizCode(), mortgageVo.getStateInBank());
+                loanerProcessService.isBankAcceptCase(true, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
+                        mortgageVo.getStateInBank());
 
                 try
                 {
@@ -962,13 +966,13 @@ public class ToMortgageServiceImpl implements ToMortgageService
         else if ("false".equals(mortgageVo.getIsPass()))
         {
             // 处理流程,银行审核驳回
-            loanerProcessService.isBankAcceptCase(false, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(),
-                    mortgageVo.getBizCode(), mortgageVo.getStateInBank());
+            loanerProcessService.isBankAcceptCase(false, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
+                    mortgageVo.getStateInBank());
         }
 
         // 设置案件跟进信息
-        ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(), mortgageVo.getBizCode(), mortgageVo.getCaseCode(), "TRACK",
-                mortgageVo.getStateInBank(), mortgageVo.getComment());
+        ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(), mortgageVo.getBizCode(), mortgageVo.getCaseCode(), "TRACK", mortgageVo.getStateInBank(),
+                mortgageVo.getComment());
 
         // 保存案件跟进信息
         toCaseCommentService.insertToCaseComment(toCaseComment);
@@ -1019,7 +1023,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
      */
 
     @SuppressWarnings("unused")
-	private void writeBackBizCode(String caseCode, long pkid)
+    private void writeBackBizCode(String caseCode, long pkid)
     {
 
         if ((null == caseCode || "".equals(caseCode)) || pkid < 0)
@@ -1085,8 +1089,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
     }
 
     @Override
-    public Result2 submitLoanlostApply(HttpServletRequest request, ToMortgage toMortgage, ProcessInstanceVO processInstanceVO,
-            LoanlostApproveVO loanlostApproveVO, String partCode, Long lapPkid)
+    public Result2 submitLoanlostApply(HttpServletRequest request, ToMortgage toMortgage, ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
+            String partCode, Long lapPkid)
     {
         if (toMortgage.getMortTotalAmount() != null)
         {
@@ -1174,15 +1178,19 @@ public class ToMortgageServiceImpl implements ToMortgageService
     }
 
     @Override
-    public Result2 submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime, String taskId,
-            String processInstanceId, String partCode)
+    public Result2 submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime, String taskId, String processInstanceId,
+            String partCode)
     {
         toMortgage.setIsMainLoanBank("1");
         ToMortgage mortage = findToMortgageById(toMortgage.getPkid());
-        mortage.setLendDate(toMortgage.getLendDate());
-        mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
-        mortage.setRemark(toMortgage.getRemark());
-        saveToMortgage(mortage);
+
+        if (mortage != null)
+        {
+            mortage.setLendDate(toMortgage.getLendDate());
+            mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
+            mortage.setRemark(toMortgage.getRemark());
+            saveToMortgage(mortage);
+        }
 
         /* 流程引擎相关 */
         List<RestVariable> variables = new ArrayList<RestVariable>();

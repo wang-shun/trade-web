@@ -28,6 +28,8 @@ public class QuickQueryCaseEfficientInfoServiceImpl implements CustomDictService
             + "CASECLOSE_TIME AS caseCloseTime,CASECLOSE_EFF AS caseCloseEff,CASECLOSE_DLY AS caseCloseDly"
             + " FROM sctrans.T_TS_CASE_EFFICIENT WHERE CASE_CODE = :caseCode";
 
+    private static String commentSql = "select COMMENT from sctrans.T_TO_CASE_COMMENT where CASE_CODE = :caseCode and TYPE = 'CASE_EFF' and SRV_CODE = :partCode";
+
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override

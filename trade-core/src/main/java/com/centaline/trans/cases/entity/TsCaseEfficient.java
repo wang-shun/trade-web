@@ -299,7 +299,7 @@ public class TsCaseEfficient
             calendar.setTime(signTime);
             calendar.add(Calendar.DAY_OF_MONTH, guohuEff);
         }
-        else
+        else if (casecloseTime == null)
         {
             calendar.setTime(guohuTime);
             calendar.add(Calendar.DAY_OF_MONTH, casecloseEff);

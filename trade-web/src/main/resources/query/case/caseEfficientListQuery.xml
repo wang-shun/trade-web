@@ -170,7 +170,7 @@
 					<choose>
 						<when test="overdue == 'curOverdued'">
 							--查询当前逾期的案件时效信息
-							and DATEDIFF(day,e.CUR_OVERDUE_TIME,GETDATE()) > 0  
+							and e.CASECLOSE_TIME is null and DATEDIFF(day,e.CUR_OVERDUE_TIME,GETDATE()) > 0  
 						</when>
 						
 						<when test="overdue == 'overdued'">
@@ -203,6 +203,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
+				order by e.PKID DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
