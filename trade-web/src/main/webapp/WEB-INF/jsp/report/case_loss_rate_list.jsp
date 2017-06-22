@@ -80,7 +80,7 @@
 		                                       <a href="#tabGb" id="AtabGb" data-toggle="tab">流失原因统计-贵宾服务部</a>
 		                                   </li>
 									   </c:when> 
-									   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter' || sessionUser.serviceDepHierarchy=='YC_OPS'}">
+									   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter' || sessionUser.serviceDepHierarchy=='YC_OPS'  || sessionUser.serviceDepHierarchy=='YC_OPS_TEAM'}">
 									      <li class="active">
 		                                       <a href="#tabZb" id="AtabZb" data-toggle="tab">流失原因统计-组别</a>
 		                                   </li>
@@ -102,7 +102,7 @@
 								   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_district'}">
 								      <div class="tab-pane active" id="tabZb" style="display: none" >
 								   </c:when> 
-								   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter' || sessionUser.serviceDepHierarchy=='YC_OPS'}">
+								   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter' || sessionUser.serviceDepHierarchy=='YC_OPS' || sessionUser.serviceDepHierarchy=='YC_OPS_TEAM'}">
 								      <div class="tab-pane active" id="tabZb" style="display: block" >
 								   </c:when> 
 								</c:choose>	
@@ -135,7 +135,7 @@
 							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_district'}">
 							      <div class="tab-pane active" id="tabGb" style="display: block" >
 							   </c:when> 
-							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter' || sessionUser.serviceDepHierarchy=='YC_OPS'}">
+							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter' || sessionUser.serviceDepHierarchy=='YC_OPS' || sessionUser.serviceDepHierarchy=='YC_OPS_TEAM'}">
 							      <div class="tab-pane active" id="tabGb" style="display: none" >
 							   </c:when> 
 							</c:choose>	
@@ -379,6 +379,8 @@ function getParams(qId,type) {
 	
 	data.pagination = false;//不分页
 	if(type) {data.queryId=qId};
+	
+	console.log("===Result==="+JSON.stringify(data));
 	return data;
 }
 $('#searchButton').click(function() {// 查询
