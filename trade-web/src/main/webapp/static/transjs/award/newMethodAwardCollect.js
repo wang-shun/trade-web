@@ -12,13 +12,13 @@ $(document).ready(function() {
 	        data: {"belongMonth":belongMonth},
 	        success: function(data){ 	        	
 	        	if(data.success == true){	        		
-	        		$("#awardCase").contents().find("#SatisButton").hide();	        		        		
-	        		$("#awardCase").contents().find("#importButton").hide();	        		        		
-	        		$("#awardCase").contents().find("#btnSubmit").hide();	        		        		
+	        		$(".UpdateUserItem").contents().find("#SatisButton").hide();	        		        		
+	        		$(".UpdateUserItem").contents().find("#importButton").hide();	        		        		
+	        		$(".UpdateUserItem").contents().find("#btnSubmit").hide();	        		        		
 	        	}else{
-	        		$("#awardCase").contents().find("#SatisButton").show();
-	        		$("#awardCase").contents().find("#importButton").show();
-	        		$("#awardCase").contents().find("#btnSubmit").show();
+	        		$(".UpdateUserItem").contents().find("#SatisButton").show();
+	        		$(".UpdateUserItem").contents().find("#importButton").show();
+	        		$(".UpdateUserItem").contents().find("#btnSubmit").show();
 	        	}
 	        },
 	        error: function (e, jqxhr, settings, exception) {
