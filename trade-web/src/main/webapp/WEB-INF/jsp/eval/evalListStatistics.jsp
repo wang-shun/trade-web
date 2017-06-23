@@ -8,23 +8,23 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>首页</title>
-        <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-        <link href="${ctx}/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
-        <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+        <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+        <link href="<c:url value='/fonts/font-awesome/css/font-awesome.min.css' />" rel="stylesheet"/>
+        <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
         <!-- IonRangeSlider -->
-        <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
-        <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
-        <link href="${ctx}/css/animate.css" rel="stylesheet">
-        <%-- <link href="${ctx}/css/style.min.css" rel="stylesheet">  --%>
-        <link href="${ctx}/css/transcss/award/bonus.css" rel="stylesheet">
+        <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
+        <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
+        <link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+        <%-- <link href="<c:url value='/css/style.min.css' />" rel="stylesheet">  --%>
+        <link href="<c:url value='/css/transcss/award/bonus.css' />" rel="stylesheet">
         <!-- Gritter -->
         <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
         <!-- 分页控件 -->
-        <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-        <link href="${ctx}/css/plugins/datapicker/datepicker3.css"
+        <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+        <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
 	rel="stylesheet">
 	<link
-	href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"
+	href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />"
 	rel="stylesheet">
 	<style>
 		.bonus-m-con .bonus-search{margin-left:15px;}
@@ -151,24 +151,24 @@ display: none;}
         <!-- End page wrapper-->
         <!-- Mainly scripts -->
         <content tag="local_script"> 
-        <%--  <script src="${ctx}/js/bootstrap.min.js"></script> --%>
-        <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-        <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+        <%--  <script src="<c:url value='/js/bootstrap.min.js' />"></script> --%>
+        <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
+        <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
          <!-- 日期控件 -->
-    	<script	src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script>
+    	<script	src="<c:url value='/js/plugins/dateSelect/dateSelect.js' />"></script>
         <!-- Custom and plugin javascript -->
-        <script src="${ctx}/js/inspinia.js"></script>
-        <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
+        <script src="<c:url value='/js/inspinia.js' />"></script>
+        <script src="<c:url value='/js/plugins/pace/pace.min.js' />"></script>
         <!-- 弹出框插件 -->
-	    <script src="${ctx}/js/plugins/layer/layer.js"></script>
-	    <script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script>
+	    <script src="<c:url value='/js/plugins/layer/layer.js' />"></script>
+	    <script src="<c:url value='/js/plugins/layer/extend/layer.ext.js' />"></script>
         <!-- 分页控件  -->
-        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-        <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-        <script src="${ctx}/js/plugins/jquery.custom.js"></script>
-        <script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-        <script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-        <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+        <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+        <script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+        <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
+        <script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
+        <script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+        <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
         <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 		<script id="evalListTemp" type= "text/html">
                            {{each rows as item index}}

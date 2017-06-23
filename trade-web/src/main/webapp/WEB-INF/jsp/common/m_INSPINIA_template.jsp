@@ -26,18 +26,18 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    <link rel="icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
-    <link rel="shortcut icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
+    <link rel="icon" href="<c:url value='/static/image/favicon.ico' />" type="image/x-icon">  
+    <link rel="shortcut icon" href="<c:url value='/static/image/favicon.ico' />" type="image/x-icon">  
     <title>誉萃交易系统</title>
-    <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+    <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
 
-    <link href="${ctx}/css/animate.css" rel="stylesheet">
+    <link href="<c:url value='/css/animate.css' />" rel="stylesheet">
     
     <sitemesh:head></sitemesh:head>
     
-    <link href="${ctx}/css/style.css" rel="stylesheet">
-    <link href="${ctx}/css/font-awesome.min.css" rel="stylesheet">
+    <link href="<c:url value='/css/style.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/font-awesome.min.css' />" rel="stylesheet">
 <style type="text/css">
 .m_menu>a>span{
 	 display: block!important;
@@ -149,19 +149,19 @@
     </div>
 
     <!-- Mainly scripts -->
-    <script src="${ctx}/js/jquery-2.1.1.js"></script>
-    <script src="${ctx}/js/bootstrap.js"></script>
+    <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+    <script src="<c:url value='/js/bootstrap.js' />"></script>
     <!-- jQuery UI -->
-    <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script>
+    <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
+    <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
     <!-- 自适应大小 -->
-    <script src="${ctx}/js/inspinia.js"></script>
-    <script src="${ctx}/js/plugins/pace/pace.min.js"></script>
+    <script src="<c:url value='/js/inspinia.js' />"></script>
+    <script src="<c:url value='/js/plugins/pace/pace.min.js' />"></script>
     
     
     
-    <script type="text/javascript" src="${ctx}/transjs/common/INSPINIA_template.js"></script>
+    <script type="text/javascript" src="<c:url value='/transjs/common/INSPINIA_template.js' />"></script>
     <script type="text/javascript">
     var ctx = '${ctx}';
     window.ctx=ctx;

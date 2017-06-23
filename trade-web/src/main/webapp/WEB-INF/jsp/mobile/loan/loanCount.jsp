@@ -7,13 +7,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/common/aui.2.0.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/common/style.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/iconfont/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/css/common/aui.2.0.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/css/common/style.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/iconfont/iconfont.css' />" />
     <!--date css-->
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/plugins/mobiscroll/mobiscroll.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/plugins/mobiscroll/mobiscroll_date.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/autocompleter.css" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/css/plugins/mobiscroll/mobiscroll.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/css/plugins/mobiscroll/mobiscroll_date.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/css/autocompleter.css' />" />
 </head>
 <body>
     <header class="aui-bar aui-bar-nav">
@@ -282,18 +282,18 @@
     </div>
 </body>
 
-<script type="text/javascript" src="${ctx}/static/momedia/js/jquery-2.1.1.js"></script>
-<script type="text/javascript" src="${ctx}/static/momedia/js/api.js"></script>
-<script type="text/javascript" src="${ctx}/static/momedia/js/aui-dialog.js"></script>
-<script type="text/javascript" src="${ctx}/static/momedia/js/aui-main.js"></script>
-<script type="text/javascript" src="${ctx}/static/momedia/js/layer.js"></script>
+<script type="text/javascript" src="<c:url value='/static/momedia/js/jquery-2.1.1.js' />"></script>
+<script type="text/javascript" src="<c:url value='/static/momedia/js/api.js' />"></script>
+<script type="text/javascript" src="<c:url value='/static/momedia/js/aui-dialog.js' />"></script>
+<script type="text/javascript" src="<c:url value='/static/momedia/js/aui-main.js' />"></script>
+<script type="text/javascript" src="<c:url value='/static/momedia/js/layer.js' />"></script>
 
 <!--date-->
-<script type="text/javascript" src="${ctx}/static/momedia/js/plugins/mobiscroll/mobiscroll_date.js"></script>
-<script type="text/javascript" src="${ctx}/static/momedia/js/plugins/mobiscroll/mobiscroll.js"></script>
+<script type="text/javascript" src="<c:url value='/static/momedia/js/plugins/mobiscroll/mobiscroll_date.js' />"></script>
+<script type="text/javascript" src="<c:url value='/static/momedia/js/plugins/mobiscroll/mobiscroll.js' />"></script>
 
-<script type="text/javascript" src="${ctx}/static/momedia/js/jquery.autocompleter.js"></script>
-<script type="text/javascript" src="${ctx}/static/momedia/js/calculation/count-loan.js"></script>
+<script type="text/javascript" src="<c:url value='/static/momedia/js/jquery.autocompleter.js' />"></script>
+<script type="text/javascript" src="<c:url value='/static/momedia/js/calculation/count-loan.js' />"></script>
 
 <script>
 $(function () {

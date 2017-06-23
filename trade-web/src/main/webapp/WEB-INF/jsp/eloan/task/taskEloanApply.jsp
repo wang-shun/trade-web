@@ -12,38 +12,38 @@
 
 <title>e+产品</title>
 
-<link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
-<link href="${ctx}/static/font-awesome/css/font-awesome.css"
+<link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/static/font-awesome/css/font-awesome.css' />"
 	rel="stylesheet">
 
-<link href="${ctx}/static/css/animate.css" rel="stylesheet">
-<link href="${ctx}/static/css/style.css" rel="stylesheet">
+<link href="<c:url value='/static/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/static/css/style.css' />" rel="stylesheet">
 
 <!-- stickUp fixed css -->
-<link href="${ctx}/static/css/plugins/stickup/stickup.css"
+<link href="<c:url value='/static/css/plugins/stickup/stickup.css' />"
 	rel="stylesheet">
-<link href="${ctx}/static/trans/css/common/stickDash.css"
+<link href="<c:url value='/static/trans/css/common/stickDash.css' />"
 	rel="stylesheet">
 
-<link href="${ctx}/static/css/plugins/aist-steps/steps.css"
+<link href="<c:url value='/static/css/plugins/aist-steps/steps.css' />"
 	rel="stylesheet">
-<link href="${ctx}/static/css/plugins/toastr/toastr.min.css"
+<link href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />"
 	rel="stylesheet">
-<link href="${ctx}/static/css/plugins/datapicker/datepicker3.css"
+<link href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />"
 	rel="stylesheet">
 <!-- index_css  -->
 
-<link href="${ctx}/static/trans/css/eloan/eloan/eloan.css"
+<link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />"
 	rel="stylesheet" />
-<link href="${ctx}/static/trans/css/common/input.css" rel="stylesheet" />
-<link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet" />
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+<link href="<c:url value='/static/trans/css/common/input.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet" />
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"
 	rel="stylesheet" />
-<link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
-<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="<c:url value='/css/jquery.editable-select.min.css' />" rel="stylesheet">
+<link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
 </head>
 
 
@@ -448,18 +448,18 @@
 
 	<!-- Mainly scripts -->
 	<content tag="local_script">
-	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> 
-	<script src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
-	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
-	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
-	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-	<script src="${ctx}/js/jquery.editable-select.min.js"></script> 
+	<script src="<c:url value='/static/js/plugins/toastr/toastr.min.js' />"></script> 
+	<script src="<c:url value='/static/js/morris/raphael-min.js' />"></script> <!-- index_js -->
+	<script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script> 
+	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script> 
+	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
+	<script src="<c:url value='/js/jquery.editable-select.min.js' />"></script> 
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
-    <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
+	<script src="<c:url value='/js/common/textarea.js' />"></script> 
+    <script src="<c:url value='/js/eloan/eloancommon.js' />"></script>
 	<script id="queryCastListItemList" type="text/html">
                           {{each rows as item index}}
 	<tr>

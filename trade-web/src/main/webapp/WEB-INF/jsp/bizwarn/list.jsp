@@ -11,13 +11,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- 日期空间样式 -->
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 
 <!-- 分页控件样式 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 
 <!-- 绘制列表表格样式 -->
-<link href="${ctx}/css/common/drawtable.css" rel="stylesheet" />
+<link href="<c:url value='/css/common/drawtable.css' />" rel="stylesheet" />
 <style>
 .copyrightstyle{
 	margin-left: 0px !important;
@@ -114,14 +114,14 @@
 
 	<content tag="local_script">
 	    <!-- 日期控件 -->
-		<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+		<script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 
-		<script src="${ctx}/js/trunk/bizwarn/list.js?v=1.0.3"></script>
+		<script src="<c:url value='/js/trunk/bizwarn/list.js' />"></script>
 
 		<!-- 分页控件  -->
-	    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-		<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	    <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+		<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+		<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 
 		<script id="template_bizwarnList" type="text/html">
          	{{each rows as item index}}

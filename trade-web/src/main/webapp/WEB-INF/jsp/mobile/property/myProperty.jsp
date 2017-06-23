@@ -10,10 +10,10 @@
 		<meta name="apple-touch-fullscreen" content="yes"  />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 		<meta name="format-detection" content="telephone=no">
-	    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/common/aui.css" />
-	    <link href="${ctx}/momedia/css/scrollpagination.css" rel="stylesheet" />
-    	<link rel="stylesheet" href="${ctx}/static/momedia/iconfontmobile/iconfont.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/property/miuustyle.css" />
+	    <link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/css/common/aui.css' />" />
+	    <link href="<c:url value='/momedia/css/scrollpagination.css' />" rel="stylesheet" />
+    	<link rel="stylesheet" href="<c:url value='/static/momedia/iconfontmobile/iconfont.css' />" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/css/property/miuustyle.css' />" />
 	</head>
 	<body>
  	<header class="aui-bar aui-bar-nav">
@@ -103,9 +103,9 @@
 			</div>
     </article>
 		<content tag="local_script">
-		<script type="text/javascript" src="${ctx}/static/momedia/js/jquery-2.1.1.js"></script>
-		<script src="${ctx}/momedia/js/template.js" type="text/javascript"></script>
-		<script src="${ctx}/momedia/js/scrollpagination.js?v=1.1.1"></script>
+		<script type="text/javascript" src="<c:url value='/static/momedia/js/jquery-2.1.1.js' />"></script>
+		<script src="<c:url value='/momedia/js/template.js' />" type="text/javascript"></script>
+		<script src="<c:url value='/momedia/js/scrollpagination.js' />"></script>
 		<script id="myPropertyList" type="text/html">
 			{{if content.length>0}}
 				{{each content as item}}

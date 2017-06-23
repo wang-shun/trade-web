@@ -2,11 +2,11 @@
 	pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<link href="${ctx}/static/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<link href="<c:url value='/static/css/bootstrap-modal.css' />" rel="stylesheet" type="text/css"/>
 
-<script src="${ctx}/static/js/aist-modal.js"  type="text/javascript"></script>
-<script src="${ctx}/static/js/bootstrap-modal.js" type="text/javascript"></script>
-<script src="${ctx}/static/js/bootstrap-modalmanager.js" type="text/javascript"></script>
+<script src="<c:url value='/static/js/aist-modal.js' />"  type="text/javascript"></script>
+<script src="<c:url value='/static/js/bootstrap-modal.js' />" type="text/javascript"></script>
+<script src="<c:url value='/static/js/bootstrap-modalmanager.js' />" type="text/javascript"></script>
 
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="mymodal">

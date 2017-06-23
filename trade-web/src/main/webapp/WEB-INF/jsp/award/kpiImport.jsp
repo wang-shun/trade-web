@@ -13,45 +13,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Toastr style -->
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
+<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
+<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/switch/bootstrap-switch.min.css"
+<link href="<c:url value='/css/plugins/switch/bootstrap-switch.min.css' />"
 	rel="stylesheet">
 <link
-	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
+	href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />"
 	rel="stylesheet">
-<link href="${ctx}/js/plugins/dateSelect/dateSelect.css?v=1.0.2"
+<link href="<c:url value='/js/plugins/dateSelect/dateSelect.css' />"
 	rel="stylesheet">
 	
 <!-- new -->
-    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" ">
-    <link rel="stylesheet" href="${ctx}/static/css/style.css" />
+    <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+    <link rel="stylesheet" href="<c:url value='/static/css/style.css' />" />
 
     <!-- Data Tables -->
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.bootstrap.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.responsive.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
 
     <!-- index_css -->
-    <link rel="stylesheet" href="${ctx}/css/trans/css/common/base.css" />
-    <link rel="stylesheet" href="${ctx}/css/trans/css/common/table.css" />
-    <link rel="stylesheet" href="${ctx}/css/trans/css/common/input.css" />
-    <link rel="stylesheet" href="${ctx}/css/trans/css/award/baseAward.css" ">
- 	<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-	<link href="${ctx}/css/transcss/case/case_filter.css" rel="stylesheet">	
+    <link rel="stylesheet" href="<c:url value='/css/trans/css/common/base.css' />" />
+    <link rel="stylesheet" href="<c:url value='/css/trans/css/common/table.css' />" />
+    <link rel="stylesheet" href="<c:url value='/css/trans/css/common/input.css' />" />
+    <link rel="stylesheet" href="<c:url value='/css/trans/css/award/baseAward.css' />" ">
+ 	<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+	<link href="<c:url value='/css/transcss/case/case_filter.css' />" rel="stylesheet">	
 </head>
 
 <body>
@@ -250,31 +250,31 @@
 	<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 
 	<content tag="local_script"> 
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
-	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
-	<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
-	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- iCheck -->
-	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
+	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script> <!-- jqGrid -->
+	<script src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> 
+	<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script> 
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> <!-- iCheck -->
+	<script src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script> 
 	
-	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
-	<script src="${ctx}/js/plugins/switch/bootstrap-switch.js"></script> 
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
-	<script src="${ctx}/js/plugins/layer/layer.js"></script> 
-	<script src="${ctx}/js/plugins/layer/extend/layer.ext.js"></script> 
+	<script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
+	<script src="<c:url value='/js/plugins/switch/bootstrap-switch.js' />"></script> 
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
+	<script src="<c:url value='/js/plugins/layer/layer.js' />"></script> 
+	<script src="<c:url value='/js/plugins/layer/extend/layer.ext.js' />"></script> 
 	<!-- 分页控件  -->
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+	<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 
 <!-- 必须JS -->
-<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-<script src="${ctx}/js/plugins/dateSelect/dateSelect.js?v=1.0.2"></script> 
-	<script src="${ctx}/js/trunk/award/kpiImport.js?version=1.1.1"></script> 
+<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+<script src="<c:url value='/js/plugins/dateSelect/dateSelect.js' />"></script> 
+	<script src="<c:url value='/js/trunk/award/kpiImport.js' />"></script> 
 	
 	<script id="template_satisfactionDegreeList" type= "text/html">
          {{each rows as item index}}

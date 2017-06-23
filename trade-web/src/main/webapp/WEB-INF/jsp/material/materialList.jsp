@@ -13,27 +13,27 @@
 <title>扣押物品列表</title>
 
 <!-- Data Tables -->
-<link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/datapicker/datepicker3.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" />
-<link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.bootstrap.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.responsive.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
 
 <!-- 提示 -->
-<link rel="stylesheet" href="${ctx}/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" />
+<link rel="stylesheet" href="<c:url value='/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css' />" />
 
 <!-- index_css -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" /> 
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/btn.css" />
-<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" /> 
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/base.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" /> 
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/btn.css' />" />
+<link rel="stylesheet" href="<c:url value='/js/viewer/viewer.min.css' />" /> 
 
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"	rel="stylesheet" />
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"	rel="stylesheet" />
+<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />"	rel="stylesheet" />
 <!-- 必须CSS -->
-<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" />
 </head>
 
 <body>
@@ -263,20 +263,20 @@
   	</form>
 <content tag="local_script"> 
 <!-- 必须JS -->
-<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 <!-- stickup plugin -->
-<script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
-<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-<script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
-<script src="${ctx}/js/viewer/viewer.min.js"></script>
-<script src="${ctx}/js/trunk/material/materialList.js"></script> 
+<script src="<c:url value='/static_res/trans/js/spv/jkresponsivegallery.js' />"></script>
+<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
+<script src="<c:url value='/js/template.js' />" type="text/javascript"></script> <!-- stickup plugin -->
+<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
+<script src="<c:url value='/js/trunk/material/materialList.js' />"></script> 
 
-<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>	
+<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>	
 
 <!-- 选择组织控件 -->
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> 	
-<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+<script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script> 
 <script	id="template_materialInfoList" type="text/html">
       {{each rows as item index}}
   				  {{if index%2 == 0}}

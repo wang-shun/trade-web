@@ -37,25 +37,25 @@ if(pageContext.getSession().getAttribute("ctx")==null){
 	<meta content="" name="author" />
 
 <!-- BEGIN PAGE LEVEL STYLES -->
-<link href="${ctx}/media/css/jquery.gritter.css" rel="stylesheet"
+<link href="<c:url value='/media/css/jquery.gritter.css' />" rel="stylesheet"
 	type="text/css" />
-<link href="${ctx}/media/css/daterangepicker.css" rel="stylesheet"
+<link href="<c:url value='/media/css/daterangepicker.css' />" rel="stylesheet"
 	type="text/css" />
-<link href="${ctx}/media/css/fullcalendar.css" rel="stylesheet" type="text/css" />
-<link href="${ctx}/media/css/jqvmap.css" rel="stylesheet" type="text/css"
+<link href="<c:url value='/media/css/fullcalendar.css' />" rel="stylesheet" type="text/css" />
+<link href="<c:url value='/media/css/jqvmap.css' />" rel="stylesheet" type="text/css"
 	media="screen" />
-<link href="${ctx}/media/css/jquery.easy-pie-chart.css" rel="stylesheet"
+<link href="<c:url value='/media/css/jquery.easy-pie-chart.css' />" rel="stylesheet"
 	type="text/css" media="screen" />
 	
 <!-- START jqGrid STYLES -->
 <link rel="stylesheet" type="text/css" media="screen"
-	href="${ctx}/css/jquery-ui-1.10.3.custom.css" />
+	href="<c:url value='/css/jquery-ui-1.10.3.custom.css' />" />
 <link rel="stylesheet" type="text/css" media="screen"
-	href="${ctx}/css/ui.jqgrid.css" />
+	href="<c:url value='/css/ui.jqgrid.css' />" />
 <!-- END jqGrid STYLES-->
 	
 <!-- END PAGE LEVEL STYLES -->
-<link rel="shortcut icon" href="${ctx}/media/image/favicon.ico" />
+<link rel="shortcut icon" href="<c:url value='/media/image/favicon.ico' />" />
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 	<content tag="local_script">
 <script type="text/javascript">

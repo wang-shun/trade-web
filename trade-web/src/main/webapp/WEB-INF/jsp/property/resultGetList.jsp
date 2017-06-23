@@ -7,27 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Toastr style -->
-    <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 
 	<!-- Add fancyBox main JS and CSS files -->
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.fancybox.css?v=2.1.5" media="screen" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.fancybox.css' />" media="screen" />
 	<!-- Add Button helper (this is optional) -->
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.fancybox-buttons.css?v=1.0.5" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.fancybox-buttons.css' />" />
 	<!-- Add Thumbnail helper (this is optional) -->
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.fancybox-thumbs.css?v=1.0.7" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.fancybox-thumbs.css' />" />
 		
     <!-- Gritter -->
-	<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
-	<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="${ctx}/css/animate.css" rel="stylesheet">
-    <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-    <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-    <link href="${ctx}/css/style.css" rel="stylesheet">
+	<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+    <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/style.css' />" rel="stylesheet">
     
     <!-- 分页控件 -->
-	<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-	<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+	<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet">
     
     <style>
 		*{padding:0;margin:0;box-sizing:border-box;}
@@ -105,32 +105,32 @@
 	    <!-- Mainly scripts -->
 	
 	    <!-- Peity -->
-	    <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
+	    <script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	
 		<!-- Add fancyBox main JS and CSS files -->
-		<script type="text/javascript" src="${ctx}/js/jquery.fancybox.js?v=2.1.5"></script>
+		<script type="text/javascript" src="<c:url value='/js/jquery.fancybox.js' />"></script>
 			
 		<!-- Add Button helper (this is optional) -->
-		<script type="text/javascript" src="${ctx}/js/jquery.fancybox-buttons.js?v=1.0.5"></script>
+		<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-buttons.js' />"></script>
 	
 		<!-- Add Thumbnail helper (this is optional) -->
-		<script type="text/javascript" src="${ctx}/js/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+		<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-thumbs.js' />"></script>
 	
 		<!-- Add Media helper (this is optional) -->
-		<script type="text/javascript" src="${ctx}/js/jquery.fancybox-media.js?v=1.0.6"></script>
+		<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-media.js' />"></script>
 	
 	    <!-- jqGrid -->
-	    <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	    <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+	    <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	    <script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	
-		<script src="${ctx}/js/trunk/property/resultGetList.js?v=1.0.1"></script>
-		<script src="${ctx}/js/trunk/property/resultGetListByaddr.jqgridSearch.js?v=1.0.2"></script>
+		<script src="<c:url value='/js/trunk/property/resultGetList.js' />"></script>
+		<script src="<c:url value='/js/trunk/property/resultGetListByaddr.jqgridSearch.js' />"></script>
 		
 		<!-- 分页控件  -->
-	    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-		<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-		<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-		<script src="${ctx}/js/plugins/jquery.custom.js"></script>
+	    <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+		<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+		<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+		<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
 		
 		<script id="template_resultGetList" type= "text/html">
          	{{each rows as item index}}

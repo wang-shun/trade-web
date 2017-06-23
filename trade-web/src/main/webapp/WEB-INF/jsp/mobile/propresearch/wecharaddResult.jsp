@@ -11,12 +11,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/common/aui.2.0.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/common/style.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/iconfont/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/css/common/aui.2.0.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/css/common/style.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/iconfont/iconfont.css' />" />
     <!--date css-->
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/plugins/mobiscroll/mobiscroll.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/static/momedia/css/plugins/mobiscroll/mobiscroll_date.css" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/css/plugins/mobiscroll/mobiscroll.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/static/momedia/css/plugins/mobiscroll/mobiscroll_date.css' />" />
 </head>
 
 <body>

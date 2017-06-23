@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
 <head>
     <meta charset="utf-8">
     <title>过户数据报表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="${ctx}/css/font-awesome.css" rel="stylesheet"/>
-	<link href="${ctx}/css/animate.css" rel="stylesheet">
-    <link href="${ctx}/css/style.css" rel="stylesheet">
+    <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet"/>
+    <link href="<c:url value='/css/font-awesome.css' />" rel="stylesheet"/>
+	<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/style.css' />" rel="stylesheet">
 
-    <link rel="stylesheet" href="${ctx}/css/eachartdata/jquery.fullPage.css" />
-    <link rel="stylesheet" href="${ctx}/css/eachartdata/eachartdata.css" />
+    <link rel="stylesheet" href="<c:url value='/css/eachartdata/jquery.fullPage.css' />" />
+    <link rel="stylesheet" href="<c:url value='/css/eachartdata/eachartdata.css' />" />
     <!--弹出框样式  -->
-    <link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
+    <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
     <script type="text/javascript">
 		//用户动态选择的年月（月份要小1）
 		var yearDisplay,monthDisplay;
@@ -57,13 +58,13 @@
         <iframe id="iframe4"  src="${ctx}/report/echartsData4"  width="100%" height="100%" frameborder="0" scrolling="no" name=""></iframe>
     </div>   
 </div>
-<script  src="${ctx }/js/jquery-2.1.1.js"></script>
-<script  src="${ctx }/js/eachartdata/jquery-ui.min.js"></script>
-<script  src="${ctx }/js/eachartdata/scrolloverflow.js"></script>
-<script  src="${ctx }/js/eachartdata/jquery.fullPage.js"></script>
-<script  src="${ctx }/js/eachartdata/fullPage-setting.js"></script>
+<script  src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+<script  src="<c:url value='/js/eachartdata/jquery-ui.min.js' />"></script>
+<script  src="<c:url value='/js/eachartdata/scrolloverflow.js' />"></script>
+<script  src="<c:url value='/js/eachartdata/jquery.fullPage.js' />"></script>
+<script  src="<c:url value='/js/eachartdata/fullPage-setting.js' />"></script>
 <!-- 引入弹出框js文件 -->
-<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+<script src="<c:url value='/js/common/xcConfirm.js' />"></script>
 
 <script type="text/javascript">
 //声明各iframe
