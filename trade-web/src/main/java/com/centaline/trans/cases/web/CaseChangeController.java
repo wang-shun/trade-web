@@ -28,7 +28,6 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.aist.uam.userorg.remote.vo.UserOrgJob;
-import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.vo.TgServItemAndProcessorVo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
