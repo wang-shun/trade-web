@@ -634,37 +634,36 @@
 
 		/**保存数据*/
 		function save(b) {
-			if(b){
-				var caseCode = $("#caseCode").val();
-				var fileIDs ="";
-				if(caseCode != "" && caseCode != null  && caseCode != undefined ){
-					$("#guohufileUploadContainer ul.filelist li").each(function(index){
-						var thisFileId = $(this).attr("id");
-						if(thisFileId.length>0){
-							fileIDs=fileIDs+thisFileId+",";
-						}
-					});
-					$.ajax({
-						url: ctx+"/attachment/fileUpload",
-						method:"post",
-						dataType:"json",
-						data:{"caseCode" : caseCode,"fileList" : fileIDs},
-						success: function(data) {
-							if(data != null ){
-								if(data.success){
-									submitTransfer(caseCode,b);
+
+			var caseCode = $("#caseCode").val();
+			var fileIDs = new Array();
+			if(caseCode != "" && caseCode != null  && caseCode != undefined ){
+				$("#guohufileUploadContainer ul.filelist li").each(function(index){
+					var thisFileId = $(this).attr("id");
+					fileIDs.push(thisFileId);
+				});
+				$.ajax({
+					url: ctx+"/attachment/fileUpload",
+					method:"post",
+					dataType:"json",
+					data:{"fileList" : fileIDs.join()},
+					success: function(data) {
+						if(data != null ){
+							if(data.success){
+								if(b) {
+									//submitTransfer(caseCode,b);
+								}else{
+									goProcess(false);
 								}
-							}else{
-								window.wxc.error("附件错误！");   //弹出失败提示框
 							}
-						},
-						error: function(errors) {
-							window.wxc.error("获取案件合流信息出错！");   //弹出失败提示框
+						}else{
+							window.wxc.error("附件错误！");   //弹出失败提示框
 						}
-					});
-				}
-			}else{
-				goProcess(false);
+					},
+					error: function(errors) {
+						window.wxc.error("获取案件合流信息出错！");   //弹出失败提示框
+					}
+				});
 			}
 		}
 		function submitTransfer(caseCode,b){
