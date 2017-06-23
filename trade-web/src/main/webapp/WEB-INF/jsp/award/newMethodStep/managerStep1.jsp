@@ -70,7 +70,7 @@
                                 <th rowspan="2"><span class="sort" sortColumn="CASE_CODE" sord="desc" onclick="caseCodeSort();">案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
                                 <th colspan="3" class="text-center">上家</th>
                                 <th colspan="4" class="text-center">下家</th>
-                                <th>上家-下家</th>
+                                <th>上家-下家</th>                                
                                 <th rowspan="2">计件年月</th>
                             </tr>
                             <tr>
@@ -155,7 +155,7 @@
 					<td>
 						{{item.BUYER_PSF_SAT}}
 					</td>
-					<td>{{item.SALER_CALLBACK == "1"?"是":"否"}}-{{item.BUYER_CALLBACK == "1"?"是":"否"}}</td>
+					<td>{{item.SALER_CALLBACK == "1"?"是":"否"}}-{{item.BUYER_CALLBACK == "1"?"是":"否"}}</td>						
 					<td>{{item.BELONG_MONTH}}</td>			
                  </tr>			
        {{/each}}  
