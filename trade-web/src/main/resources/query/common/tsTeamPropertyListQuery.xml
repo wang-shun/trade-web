@@ -43,6 +43,7 @@
 					   A.PKID,
 					   A.YU_TEAM_CODE,
 					   B.ORG_NAME,
+					   B.ID AS ORG_ID,
 					   A.IS_RESPONSE_TEAM,
 					   A.IS_RESPONSE_TEAM AS IS_RESPONSE_TEAM_NAME,
 					   A.FREE_SELECT,
@@ -52,7 +53,7 @@
 					FROM 
 					  sctrans.T_TS_TEAM_PROPERTY A
 					  LEFT JOIN sctrans.SYS_ORG B ON B.ORG_CODE = A.YU_TEAM_CODE
-					WHERE 1=1
+					WHERE B.IS_DELETED = 0 and B.AVAILABLE = 1
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -66,6 +67,7 @@
 				<column type="both" name="PKID" index="" checkbox="" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="YU_TEAM_CODE" index="" checkbox="" display="组别编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="ORG_NAME" index="" checkbox="" display="组别名称" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="ORG_ID" index="" checkbox="" display="ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="IS_RESPONSE_TEAM" index="" checkbox="" display="主组别" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="IS_RESPONSE_TEAM_NAME" index="" checkbox="" display="主组别" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="FREE_SELECT" index="" checkbox="" display="自行选择" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>

@@ -8,12 +8,13 @@ public class TsTeamProperty
 
     private String yuTeamCode;
 
-    private String isResponseTeam;
-    private String freeSelect;
+
+	private String orgId;
 
     private String teamProperty;
     private String finTeamCode;
-
+    private String isResponseTeam;
+    private String freeSelect;
     // 冗余字段,表中不存在
     private String isSelect;
 
@@ -89,19 +90,25 @@ public class TsTeamProperty
         return yuTeamName;
     }
 
-    public void setYuTeamName(String yuTeamName)
-    {
-        this.yuTeamName = yuTeamName;
-    }
 
-    public String getIsSelect()
-    {
-        return isSelect;
-    }
+	public String getOrgId() {
+		return orgId;
+	}
 
-    public void setIsSelect(String isSelect)
-    {
-        this.isSelect = isSelect;
-    }
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
 
+	public String getIsSelect() {
+		return isSelect;
+	}
+
+	public void setIsSelect(String isSelect) {
+		this.isSelect = isSelect;
+	}
+
+	public void setYuTeamName(String yuTeamName) {
+		this.yuTeamName = yuTeamName;
+	}
+	
 }
