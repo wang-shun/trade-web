@@ -16,23 +16,23 @@
 
 <!-- BEGIN GLOBAL MANDATORY STYLES -->
 
-<%-- <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet"
+<%-- <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet"
 	type="text/css" />
 
-<link href="${ctx}/css/bootstrap-responsive.min.css"
+<link href="<c:url value='/css/bootstrap-responsive.min.css' />"
 	rel="stylesheet" type="text/css" /> --%>
 	
-<link href="${ctx}/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="<c:url value='/css/bootstrap.css' />" rel="stylesheet" type="text/css" />
 
-<link href="${ctx}/css/bootstrap-responsive.css"	rel="stylesheet" type="text/css" />
+<link href="<c:url value='/css/bootstrap-responsive.css' />"	rel="stylesheet" type="text/css" />
 
-<link href="${ctx}/css/font-awesome.min.css" rel="stylesheet"	type="text/css" />
+<link href="<c:url value='/css/font-awesome.min.css' />" rel="stylesheet"	type="text/css" />
 
-<link href="${ctx}/css/style-metro.css" rel="stylesheet"	type="text/css" />
+<link href="<c:url value='/css/style-metro.css' />" rel="stylesheet"	type="text/css" />
 
-<link href="${ctx}/css/style.css" rel="stylesheet" type="text/css" />
+<link href="<c:url value='/css/style.css' />" rel="stylesheet" type="text/css" />
 
-<link href="${ctx}/css/style-responsive.css" rel="stylesheet"	type="text/css" />
+<link href="<c:url value='/css/style-responsive.css' />" rel="stylesheet"	type="text/css" />
 
 
 <!-- END GLOBAL MANDATORY STYLES -->
@@ -97,33 +97,33 @@
 
 	<!-- BEGIN CORE PLUGINS -->
 
-	<script  src="${ctx}/js/jquery-1.8.3.min.js"		type="text/javascript"></script>
+	<script  src="<c:url value='/js/jquery-1.8.3.min.js' />"		type="text/javascript"></script>
 
 	
 	<!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 
-	<script src="${ctx}/js/jquery-ui-1.10.1.custom.min.js"		type="text/javascript"></script>
+	<script src="<c:url value='/js/jquery-ui-1.10.1.custom.min.js' />"		type="text/javascript"></script>
 
-	<script src="${ctx}/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="<c:url value='/js/bootstrap.min.js' />" type="text/javascript"></script>
 
 	<!--[if lt IE 9]>
 
-	<script src="${ctx}/js/excanvas.min.js"></script>
+	<script src="<c:url value='/js/excanvas.min.js' />"></script>
 
-	<script src="${ctx}/js/respond.min.js"></script>  
+	<script src="<c:url value='/js/respond.min.js' />"></script>  
 
 	<![endif]-->
 
-	<script src="${ctx}/js/jquery.slimscroll.min.js"
+	<script src="<c:url value='/js/jquery.slimscroll.min.js' />"
 		type="text/javascript"></script>
 
-	<script src="${ctx}/js/jquery.blockui.min.js"
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"
 		type="text/javascript"></script>
 
-	<script src="${ctx}/js/jquery.cookie.min.js"
+	<script src="<c:url value='/js/jquery.cookie.min.js' />"
 		type="text/javascript"></script>
 
-	<script src="${ctx}/js/jquery.uniform.min.js"
+	<script src="<c:url value='/js/jquery.uniform.min.js' />"
 		type="text/javascript"></script>
 	<script type="text/javascript">
 	try{

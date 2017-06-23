@@ -12,39 +12,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Toastr style -->
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet" />  
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet" />  
 <!-- Toastr style -->
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 
 <!-- Morris -->
-<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/morris/morris-0.4.3.min.css' />" rel="stylesheet">
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">
 
 <!-- Data Tables -->
-<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css" />
-<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.responsive.css" />
-<link rel="stylesheet" href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css" />
-<link rel="stylesheet" href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 
 
 <!-- index_css -->
-<link rel="stylesheet" href="${ctx}/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/css/common/table.css" />
-<link rel="stylesheet" href="${ctx}/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/css/iconfont/iconfont.css" />
+<link rel="stylesheet" href="<c:url value='/css/common/base.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/iconfont/iconfont.css' />" />
 <!-- 必须CSS -->
-<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" />
 
 <style type="text/css">
 
@@ -167,23 +167,23 @@
               
 <content tag="local_script"> 
 
-<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
-<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
-<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
-<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>  
+<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
+<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script>
+<script src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
+<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>  
 <!-- iCheck --> 
-<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> 
+<script src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script> 
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>	
-<script src="${ctx}/js/jquery.blockui.min.js"></script> 
-<script src="${ctx}/js/trunk/case/unlocatedCase2.js"></script>
-<script src="${ctx}/js/template.js" type="text/javascript"></script>
-<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
+<script src="<c:url value='/js/trunk/case/unlocatedCase2.js' />"></script>
+<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+<script type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
 <!-- 必须JS -->
-<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 
 <!-- 分页控件  -->
-<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 
 <script id="yuCuiFontTeamList" type="text/html">
 		 <select class="form-control" name="yuTeamCode">

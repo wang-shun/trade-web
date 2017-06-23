@@ -11,36 +11,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Toastr style -->
-    <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 	
 	
 	<!-- Add fancyBox main JS and CSS files -->
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.fancybox.css?v=2.1.5" media="screen" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.fancybox.css' />" media="screen" />
 	<!-- Add Button helper (this is optional) -->
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.fancybox-buttons.css?v=1.0.5" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.fancybox-buttons.css' />" />
 	<!-- Add Thumbnail helper (this is optional) -->
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.fancybox-thumbs.css?v=1.0.7" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.fancybox-thumbs.css' />" />
 	
     <!-- Gritter -->
-	<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
-	<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="${ctx}/css/animate.css" rel="stylesheet">
-    <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-    <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-    <link href="${ctx}/css/list.css" rel="stylesheet">
+	<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+    <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/list.css' />" rel="stylesheet">
     
     <!-- 上传相关 -->
-	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
-	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
-	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />" rel="stylesheet">
 	
 	<!-- 分页控件 -->
-	<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-	<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+	<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet">
 	
-	<link href="${ctx}/css/processinglist/popmac.css" rel="stylesheet" />
-	<link rel="stylesheet" href="${ctx}/js/viewer/viewer.min.css" />
+	<link href="<c:url value='/css/processinglist/popmac.css' />" rel="stylesheet" />
+	<link rel="stylesheet" href="<c:url value='/js/viewer/viewer.min.css' />" />
 	
 	<script>
 		var optTransferRole=false;
@@ -369,60 +369,60 @@
     <!-- Mainly scripts -->
 
     <!-- Peity -->
-    <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
+    <script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 
     <!-- jqGrid -->
-    <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-    <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+    <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+    <script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
     
 	<!-- Add fancyBox main JS and CSS files -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox.js?v=2.1.5"></script>
+	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox.js' />"></script>
 		
 	<!-- Add Button helper (this is optional) -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-buttons.js?v=1.0.5"></script>
+	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-buttons.js' />"></script>
 
 	<!-- Add Thumbnail helper (this is optional) -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-thumbs.js' />"></script>
 
 	<!-- Add Media helper (this is optional) -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-media.js?v=1.0.6"></script>
+	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-media.js' />"></script>
 	
 	<!-- toJSON -->
-	<script type="text/javascript" src="${ctx}/js/jquery.json.min.js"></script>
+	<script type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
 	
 	<!-- 上传附件相关 -->
-	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-fp.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-ui.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/clockface.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.multi-select.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
-	<script src="${ctx}/js/trunk/task/attachment.js"></script>
+	<script src="<c:url value='/js/trunk/task/attachment.js' />"></script>
 	
-	<script src="${ctx}/js/trunk/property/processingList.js?v=1.2.03"></script>
-	<script src="${ctx}/js/trunk/property/propertyByaddr.jqgridSearch.js?v=1.0.2"></script>
+	<script src="<c:url value='/js/trunk/property/processingList.js' />"></script>
+	<script src="<c:url value='/js/trunk/property/propertyByaddr.jqgridSearch.js' />"></script>
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	
 	<!-- 分页控件  -->
-    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<script src="${ctx}/js/plugins/jquery.custom.js"></script>
-	<script src="${ctx}/js/viewer/viewer.min.js"></script>
+    <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+	<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+	<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
+	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
 	
 <!-- 	<span><i class="invalid-label">完</i></span> -->
 	<script id="template_processingList" type="text/html">

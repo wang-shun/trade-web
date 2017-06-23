@@ -11,26 +11,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Toastr style -->
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
+<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/bootstrap.css" rel="stylesheet">
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
+<link href="<c:url value='/css/bootstrap.css' />" rel="stylesheet">
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/iCheck/custom.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
+<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />"
 	rel="stylesheet">
 <link
-	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
+	href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />"
 	rel="stylesheet">
 <style type="text/css">
 .form-group label {
@@ -177,17 +177,17 @@
 	</div>
 
 	<content tag="local_script">	
-	 <script src="${ctx}/js/bootstrap-typeahead.js"></script>
+	 <script src="<c:url value='/js/bootstrap-typeahead.js' />"></script>
 	
 	 <script
-		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
-		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> <script
-		src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+		src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> <script
+		src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> <script
+		src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 
-	<script src="${ctx}/transjs/task/prResearchMapSet.js"></script> 
+	<script src="<c:url value='/transjs/task/prResearchMapSet.js' />"></script> 
 
     <script>
     var ctx = "${ctx}";

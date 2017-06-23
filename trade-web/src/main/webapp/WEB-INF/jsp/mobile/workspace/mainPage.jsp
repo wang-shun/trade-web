@@ -10,7 +10,7 @@
         <meta content="yes" name="apple-mobile-web-app-capable" />
         <meta content="telephone=no" name="format-detection">
         <title>首页</title>
-        <link href="${ctx}/css/mobile/workspace/mainPage.css" rel="stylesheet">
+        <link href="<c:url value='/css/mobile/workspace/mainPage.css' />" rel="stylesheet">
         <style type="text/css">
         	.lazur-bg {
 			    background: #ed5565;

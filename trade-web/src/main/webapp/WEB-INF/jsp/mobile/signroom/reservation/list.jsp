@@ -7,13 +7,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/aui.2.0.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/style.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/iconfont/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/mobile/signroom/aui.2.0.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/mobile/signroom/style.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/mobile/signroom/iconfont/iconfont.css' />" />
     <!--time css-->
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/mobiscroll.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/mobiscroll_date.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/loaders.css" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/mobile/signroom/mobiscroll.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/mobile/signroom/mobiscroll_date.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/mobile/signroom/loaders.css' />" />
 </head>
 <body>
 
@@ -64,18 +64,18 @@
     </section>
 </body>
 
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery-2.1.1.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/api.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/aui-dialog.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/aui-main.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/aui-toast.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/layer.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/jquery.showLoading.min.js"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/jquery-2.1.1.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/api.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/aui-dialog.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/aui-main.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/aui-toast.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/layer.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/jquery.showLoading.min.js' />"></script>
 
 <!--time-->
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/mobiscroll_date.js" charset="gb2312"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/mobiscroll.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/common/calendar.js"></script>
-<script type="text/javascript" src="${ctx}/mobilejs/signroom/list.js?v=1.0.3"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/mobiscroll_date.js' />" charset="gb2312"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/mobiscroll.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/common/calendar.js' />"></script>
+<script type="text/javascript" src="<c:url value='/mobilejs/signroom/list.js' />"></script>
 
 </html>

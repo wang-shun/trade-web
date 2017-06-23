@@ -9,35 +9,35 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+    <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
     
      <!-- Morris -->
-    <link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/morris/morris-0.4.3.min.css' />" rel="stylesheet">
     
-    <link href="${ctx}/css/animate.css" rel="stylesheet">
-    <link href="${ctx}/css/style.css" rel="stylesheet">
+    <link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/style.css' />" rel="stylesheet">
     
     <!-- Toastr style -->
-    <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 
     <!-- Gritter -->
-    <link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+    <link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
 
-    <link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/iCheck/custom.css' />" rel="stylesheet">
 
-    <link href="${ctx}/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
-    <link href="${ctx}/css/plugins/fullcalendar/fullcalendar.print.css" rel='stylesheet' media='print'>
+    <link href="<c:url value='/css/plugins/fullcalendar/fullcalendar.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/fullcalendar/fullcalendar.print.css' />" rel='stylesheet' media='print'>
     
-    <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
-    <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
     
-    <link href="${ctx}/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/nouslider/jquery.nouislider.css' />" rel="stylesheet">
 	
-	<link href="${ctx}/css/plugins/datapicker/datepicker3.css"rel="stylesheet">
+	<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 	
-	<link href="${ctx}/css/boxtemplate.css" rel="stylesheet">
+	<link href="<c:url value='/css/boxtemplate.css' />" rel="stylesheet">
 
 </head>
 
@@ -125,40 +125,40 @@
 <!-- import pageleve js -->
 <content tag="local_script">
 	<!-- Mainly scripts -->
-	<script src="${ctx}/js/plugins/fullcalendar/moment.min.js"></script>
+	<script src="<c:url value='/js/plugins/fullcalendar/moment.min.js' />"></script>
 	<!-- Morris -->
-	<script src="${ctx}/js/plugins/morris/raphael-2.1.0.min.js"></script>
+	<script src="<c:url value='/js/plugins/morris/raphael-2.1.0.min.js' />"></script>
 	
 	<!-- jQuery UI custom -->
-	<script src="${ctx}/js/jquery-ui.custom.min.js"></script>
+	<script src="<c:url value='/js/jquery-ui.custom.min.js' />"></script>
 	
 	<!-- iCheck -->
-	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
+	<script src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
 	
 	<!-- Full Calendar -->
-	<script src="${ctx}/js/plugins/fullcalendar/fullcalendar.min.js"></script>
+	<script src="<c:url value='/js/plugins/fullcalendar/fullcalendar.min.js' />"></script>
 		
 	<!-- IonRangeSlider -->
-	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+	<script src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
 	<!-- Slider -->
-	<script src="${ctx}/js/plugins/nouslider/jquery.nouislider.min.js"></script>
+	<script src="<c:url value='/js/plugins/nouslider/jquery.nouislider.min.js' />"></script>
 	
-	 <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
-	 <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+	 <script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
+	 <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
 	
-	<script src="${ctx}/js/plugins/morris/morris.js"></script>
-	<%-- <script src="${ctx}/js/demo/morris-demo.js"></script>  --%>
+	<script src="<c:url value='/js/plugins/morris/morris.js' />"></script>
+	<%-- <script src="<c:url value='/js/demo/morris-demo.js' />"></script>  --%>
 	
-	<script src="${ctx}/js/trunk/dashboard/report/headquarter/headquarterList.js"></script>
-	<script src="${ctx}/js/trunk/dashboard/report/headquarter/hRedcountList.js"></script>
+	<script src="<c:url value='/js/trunk/dashboard/report/headquarter/headquarterList.js' />"></script>
+	<script src="<c:url value='/js/trunk/dashboard/report/headquarter/hRedcountList.js' />"></script>
 	
-	<script	src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
+	<script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script>
 
-	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <script>
+	<script src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
+	<script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script> <script>
 		
     </script>
     

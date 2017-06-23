@@ -35,8 +35,8 @@
 	</iframe>
 
  <content tag="local_script">
- 	<link href="${ctx}/js/ligerui/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
- 	<script src="${ctx}/js/ligerui/ligerui.all.js" type="text/javascript"></script>
+ 	<link href="<c:url value='/js/ligerui/skins/Aqua/css/ligerui-all.css' />" rel="stylesheet" type="text/css" />
+ 	<script src="<c:url value='/js/ligerui/ligerui.all.js' />" type="text/javascript"></script>
  <script type="text/javascript">
 	var ctx="${ctx}";
 	 document.domain='${domain}';

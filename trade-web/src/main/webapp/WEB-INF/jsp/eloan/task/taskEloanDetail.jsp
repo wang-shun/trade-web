@@ -12,30 +12,30 @@
 
 <title>e+产品详情</title>
 
-<link href="${ctx}/static/trans/css/eloan/eloan/eloan.css" rel="stylesheet" />
+<link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />" rel="stylesheet" />
 
-<link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css" >
-<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link rel="stylesheet" href="${ctx}/static/css/animate.css">
-<link rel="stylesheet" href="${ctx}/static/css/style.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/aist-steps/steps.css">
-<link rel="stylesheet" href="${ctx}/static/css/plugins/toastr/toastr.min.css">
+<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css' />" >
+<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />">
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/animate.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/style.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/aist-steps/steps.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />">
 <!-- stickUp fixed css -->
-<link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/stickmenu.css">
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/stickup/stickup.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/stickmenu.css' />">
 <!-- index_css  -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/uplodydome.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/eloan/eloan_detail.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/eloan/eloan_guaranty.css">
-<link rel="stylesheet" href="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.css">
-<link rel="stylesheet" href="${ctx}/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css" type="text/css" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/uplodydome.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/eloan/eloan_detail.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/eloan/eloan_guaranty.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css' />" type="text/css" />
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
-<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -468,16 +468,16 @@
 	</div>
 	<!-- main End -->
 	<content tag="local_script"> 
-<%-- 	   <script src="${ctx}/js/inspinia.js"></script> 
-	   <script src="${ctx}/js/plugins/pace/pace.min.js"></script> --%>
+<%-- 	   <script src="<c:url value='/js/inspinia.js' />"></script> 
+	   <script src="<c:url value='/js/plugins/pace/pace.min.js' />"></script> --%>
 	   <!-- 开关按钮js -->
-       <script src="${ctx}/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js"></script>
-       <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-       <script src= "${ctx}/js/template.js" type="text/javascript"></script>
-       <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
-       <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-       <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
-    <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
+       <script src="<c:url value='/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js' />"></script>
+       <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+       <script src= "<c:url value='/js/template.js' />" type="text/javascript"></script>
+       <script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
+       <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+       <script src="<c:url value='/js/common/textarea.js' />"></script> 
+    <script src="<c:url value='/js/eloan/eloancommon.js' />"></script>
        <script id="queryRiskControlList" type= "text/html">
                         {{each rows as item index}}
  				                 <tr>

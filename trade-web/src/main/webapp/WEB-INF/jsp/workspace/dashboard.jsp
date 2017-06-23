@@ -17,50 +17,50 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Toastr style -->
-    <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 
     <!-- Gritter -->
-    <link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+    <link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
 
-    <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+    <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
 
-    <link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/iCheck/custom.css' />" rel="stylesheet">
 
-    <link href="${ctx}/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
-    <link href="${ctx}/css/plugins/fullcalendar/fullcalendar.print.css" rel='stylesheet' media='print'>
+    <link href="<c:url value='/css/plugins/fullcalendar/fullcalendar.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/fullcalendar/fullcalendar.print.css' />" rel='stylesheet' media='print'>
 
-    <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
-    <link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
 
-    <link href="${ctx}/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/nouslider/jquery.nouislider.css' />" rel="stylesheet">
 
-    <link href="${ctx}/css/animate.css" rel="stylesheet">
-    <link href="${ctx}/css/style.css" rel="stylesheet">
+    <link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/style.css' />" rel="stylesheet">
 
- 	<link href="${ctx}/css/boxtemplate.css" rel="stylesheet">
+ 	<link href="<c:url value='/css/boxtemplate.css' />" rel="stylesheet">
 
 
 	<!-- Toastr style -->
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.fancybox.css?v=2.1.5" media="screen" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.fancybox.css' />" media="screen" />
 	<!-- Add Button helper (this is optional) -->
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.fancybox-buttons.css?v=1.0.5" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.fancybox-buttons.css' />" />
 	<!-- Add Thumbnail helper (this is optional) -->
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/jquery.fancybox-thumbs.css?v=1.0.7" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.fancybox-thumbs.css' />" />
 
     <!-- Gritter -->
-	<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"	rel="stylesheet">
-	<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/dropzone/basic.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/dropzone/dropzone.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"		rel="stylesheet">
-	<link href="${ctx}/css/plugins/steps/jquery.steps.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />"	rel="stylesheet">
+	<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/dropzone/basic.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/dropzone/dropzone.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/morris/morris-0.4.3.min.css' />"		rel="stylesheet">
+	<link href="<c:url value='/css/plugins/steps/jquery.steps.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
 
 	<!-- modal -->
-	<link href="${ctx}/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+	<link href="<c:url value='/css/bootstrap-modal.css' />" rel="stylesheet" type="text/css"/>
 
-	<link href="${ctx}/css/bootstrap.css" rel="stylesheet" />
+	<link href="<c:url value='/css/bootstrap.css' />" rel="stylesheet" />
 	<style type="text/css">
 	*{font:14px '\5fae\8f6f\96c5\9ed1'}
 	*{font:14px '\5fae\8f6f\96c5\9ed1'}
@@ -988,71 +988,71 @@ text-decoration: underline !important;
 </div>
 <!-- import pageleve js -->
 <content tag="local_script">
-	<script src="${ctx}/js/plugins/fullcalendar/moment.min.js"></script>
+	<script src="<c:url value='/js/plugins/fullcalendar/moment.min.js' />"></script>
 
-	<script src="${ctx}/js/jquery-migrate-1.2.1.min.js"></script>
+	<script src="<c:url value='/js/jquery-migrate-1.2.1.min.js' />"></script>
 
-	<script src="${ctx}/js/app.js"></script>
-	<script src="${ctx}/js/bootstrap-fileupload.js"></script>
+	<script src="<c:url value='/js/app.js' />"></script>
+	<script src="<c:url value='/js/bootstrap-fileupload.js' />"></script>
 
 
-	<script src="${ctx}/js/jquery.uniform.min.js"></script>
-	<script src="${ctx}/js/jquery.cookie.min.js"></script>
+	<script src="<c:url value='/js/jquery.uniform.min.js' />"></script>
+	<script src="<c:url value='/js/jquery.cookie.min.js' />"></script>
 
 
  	 <!-- jqGrid -->
-    <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-    <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+    <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+    <script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 
-	<script type="text/javascript" src="${ctx}/js/clockface.js"></script>
-	<script type="text/javascript" src="${ctx}/js/jquery.inputmask.bundle.min.js"></script>
-	<script type="text/javascript" src="${ctx}/js/jquery.input-ip-address-control-1.0.min.js"></script>
-	<script src="${ctx}/js/bootstrap-modalmanager.js" type="text/javascript" ></script>
+	<script type="text/javascript" src="<c:url value='/js/clockface.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/js/jquery.inputmask.bundle.min.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/js/jquery.input-ip-address-control-1.0.min.js' />"></script>
+	<script src="<c:url value='/js/bootstrap-modalmanager.js' />" type="text/javascript" ></script>
 
 	<!-- Mainly scripts -->
 
 
 	<!-- jQuery UI custom -->
-	<script src="${ctx}/js/jquery-ui.custom.min.js"></script>
+	<script src="<c:url value='/js/jquery-ui.custom.min.js' />"></script>
 	<!-- iCheck -->
-	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
+	<script src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
 
 
 	<!-- IonRangeSlider -->
-	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+	<script src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
 	<!-- Slider -->
-	<script src="${ctx}/js/plugins/nouslider/jquery.nouislider.min.js"></script>
-	<script src="${ctx}/js/messageGrid.js"></script>
+	<script src="<c:url value='/js/plugins/nouslider/jquery.nouislider.min.js' />"></script>
+	<script src="<c:url value='/js/messageGrid.js' />"></script>
 	<!-- Full Calendar -->
- 	<script src="${ctx}/js/plugins/fullcalendar/fullcalendar.min.js"></script>
-	<script src="${ctx}/js/plugins/fullcalendar/zh-cn.js"></script>
+ 	<script src="<c:url value='/js/plugins/fullcalendar/fullcalendar.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/fullcalendar/zh-cn.js' />"></script>
 
 
     <!-- Peity -->
-    <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
+    <script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 
 	<!-- Add fancyBox main JS and CSS files -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox.js?v=2.1.5"></script>
+	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox.js' />"></script>
 	<!-- Add Button helper (this is optional) -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-buttons.js?v=1.0.5"></script>
+	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-buttons.js' />"></script>
 	<!-- Add Thumbnail helper (this is optional) -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-thumbs.js' />"></script>
 	<!-- Add Media helper (this is optional) -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-media.js?v=1.0.6"></script>
+	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-media.js' />"></script>
 
-	<script src="${ctx}/js/jquery.formatMoney.js"></script>
+	<script src="<c:url value='/js/jquery.formatMoney.js' />"></script>
 	<!-- ChartJS-->
-    <script src="${ctx}/js/plugins/morris/raphael-2.1.0.min.js"></script>
-    <script src="${ctx}/js/plugins/morris/morris.js"></script>
+    <script src="<c:url value='/js/plugins/morris/raphael-2.1.0.min.js' />"></script>
+    <script src="<c:url value='/js/plugins/morris/morris.js' />"></script>
 
-	<script src="${ctx}/js/trunk/dashboard/dashboard.js?v=1.0.1"></script>
-    <script src="${ctx}/js/trunk/case/caseCount.js"></script>
+	<script src="<c:url value='/js/trunk/dashboard/dashboard.js' />"></script>
+    <script src="<c:url value='/js/trunk/case/caseCount.js' />"></script>
     <%-- <jsp:include page="/WEB-INF/jsp/common/modal.jsp"></jsp:include> --%>
-    <script src="${ctx}/js/aist-modal.js"  type="text/javascript"></script>
-	<script src="${ctx}/js/bootstrap-modal.js" type="text/javascript"></script>
-	<script src="${ctx}/js/bootstrap-modalmanager.js" type="text/javascript"></script>
-    <script src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
-	<script src="${ctx}/js/trunk/echarts/dashboard.js" type="text/javascript"></script>
+    <script src="<c:url value='/js/aist-modal.js' />"  type="text/javascript"></script>
+	<script src="<c:url value='/js/bootstrap-modal.js' />" type="text/javascript"></script>
+	<script src="<c:url value='/js/bootstrap-modalmanager.js' />" type="text/javascript"></script>
+    <script src="<c:url value='/js/plugins/chartJs/echarts.js' />" type="text/javascript"></script>
+	<script src="<c:url value='/js/trunk/echarts/dashboard.js' />" type="text/javascript"></script>
     <script>
 
     jQuery(document).ready(function() {
