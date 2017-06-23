@@ -179,7 +179,7 @@ function placeInfo(obj,index,name) {
                      }
                     html+= '</ul>'
                     +'</article>'
-                    +'<p class="tel-cancel" name="phonesList'+commentIndex+'"> 取消</p>'
+                    +'<p class="tel-cancel" name="phonesList'+commentIndex+'" onclick="hideWndow('+commentIndex+')"> 取消</p>'
                     +'</div>'
                     +'</div>'
                     +'</div>'

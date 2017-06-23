@@ -11,7 +11,8 @@ $(document).ready(function() {
 	        dataType: "json",
 	        data: {"belongMonth":belongMonth},
 	        success: function(data){ 	        	
-	        	if(data.success == true){	        		
+	        	if(data.success == true){
+	        		//iframe 父页面找子页面元素
 	        		$(".UpdateUserItem").contents().find("#SatisButton").hide();	        		        		
 	        		$(".UpdateUserItem").contents().find("#importButton").hide();	        		        		
 	        		$(".UpdateUserItem").contents().find("#btnSubmit").hide();	        		        		

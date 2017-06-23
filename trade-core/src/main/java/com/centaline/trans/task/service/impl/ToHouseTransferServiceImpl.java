@@ -423,9 +423,9 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
         // 过户审批通过时 向计件奖金池插入数据 add by zhuody in 2017-05-18
         TsAwardCaseCental tsAwardCaseCental = new TsAwardCaseCental();
         tsAwardCaseCental.setCaseCode(processInstanceVO.getCaseCode());
-        tsAwardCaseCental.setGuohuApproveTime(covertDate(new Date())); // TODO
+        //tsAwardCaseCental.setGuohuApproveTime(covertDate(new Date())); // TODO
                                                                        // 测试完之后时间不减一
-        // tsAwardCaseCental.setGuohuApproveTime(new Date());
+        tsAwardCaseCental.setGuohuApproveTime(new Date());
         // covertDate
         if (null != sender)
         {
