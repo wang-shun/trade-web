@@ -11,23 +11,20 @@ $(document).ready(function() {
 	        dataType: "json",
 	        data: {"belongMonth":belongMonth},
 	        success: function(data){
-				alert(data);
-	        	if(data.success == true){
-					alert(3333);
+				
+	        	if(data.success == true){					
 	        		//iframe 父页面找子页面元素
 	        		$(".UpdateUserItem").contents().find("#SatisButton").hide();	        		        		
 	        		$(".UpdateUserItem").contents().find("#importButton").hide();
-					alert(222);
-					$("#btnSubmit").addClass('hide');
-					alert(111);
+					
+					$("#btnSubmit").addClass('hide');					
 					$('#btnNext').addClass('hide');
-
-	        		//$(".UpdateUserItem").contents().find("#btnSubmit").hide();
+	        	
 	        	}else{
 	        		$(".UpdateUserItem").contents().find("#SatisButton").show();
 	        		$(".UpdateUserItem").contents().find("#importButton").show();
 					$('#btnSubmit').removeClass('hide');
-	        		//$(".UpdateUserItem").contents().find("#btnSubmit").show();
+	        		
 	        	}
 	        },
 	        error: function (e, jqxhr, settings, exception) {
