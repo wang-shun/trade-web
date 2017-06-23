@@ -15,43 +15,43 @@
 <title>申请审批意见</title>
 
  <!-- 上传相关 -->
-	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />"
 		rel="stylesheet">
-	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />"
 		rel="stylesheet">
-	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
+	<link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />"
 		rel="stylesheet">
 	<!-- 展示相关 -->
-	<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />"
 		rel="stylesheet">
-	<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
+	<link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />"
 		rel="stylesheet">
-	<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
+	<link href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />"
 		rel="stylesheet">
-	<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+	<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 	<!-- 备件相关结束 -->
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/bootstrap.min.css">
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/font-awesome.css">
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/animate.css" rel="stylesheet">
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/bootstrap.min.css' />">
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/font-awesome.css' />">
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/animate.css' />" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/style.css' />" rel="stylesheet">
     <!-- stickUp fixed css -->
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/stickup.css">
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/stickmenu.css">
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/steps.css">
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/toastr.min.css">
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/stickup.css' />">
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/stickmenu.css' />">
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/steps.css' />">
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/toastr.min.css' />">
     <!-- index_css  -->
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/iconfont.css" >
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/table.css" />
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/input2.css" />
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/see2.css" />
-    <link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/spv2.css" />
- 	<link rel="stylesheet" href="${ctx}/static_res/trans/css/spv/jkresponsivegallery2.css" />
- 	<link href="${ctx}/static/trans/css/workflow/details.css" rel="stylesheet" />
-	<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/iconfont.css' />" >
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/table.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/input2.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/see2.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/spv2.css' />" />
+ 	<link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/jkresponsivegallery2.css' />" />
+ 	<link href="<c:url value='/static/trans/css/workflow/details.css' />" rel="stylesheet" />
+	<link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
 	<!-- 必须CSS -->
-	<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+	<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" />
  	<!--弹出框样式  -->
-	<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
+	<link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 
 </head>
 
@@ -246,18 +246,18 @@
       </div>
   </div>
 <content tag="local_script">
-<script src="${ctx}/static/trans/js/spv/spvRecordShow.js"></script>
-<script src="${ctx}/static/js/inspinia.js"></script>
-<script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
+<script src="<c:url value='/static/trans/js/spv/spvRecordShow.js' />"></script>
+<script src="<c:url value='/static/js/inspinia.js' />"></script>
+<script src="<c:url value='/static/js/plugins/pace/pace.min.js' />"></script>
 <!-- stickup plugin -->
-<script src="${ctx}/static_res/trans/js/spv/jkresponsivegallery.js"></script>
-<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-<script src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
-<script src="${ctx}/js/viewer/viewer.min.js"></script>
+<script src="<c:url value='/static_res/trans/js/spv/jkresponsivegallery.js' />"></script>
+<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
+<script src="<c:url value='/js/template.js' />" type="text/javascript"></script> <!-- stickup plugin -->
+<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
 <!-- 必须JS -->
-<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 <!-- 引入弹出框js文件 -->
-<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+<script src="<c:url value='/js/common/xcConfirm.js' />"></script>
 
 <script type="text/javascript">
 $(function(){

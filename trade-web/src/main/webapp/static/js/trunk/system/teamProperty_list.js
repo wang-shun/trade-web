@@ -20,15 +20,23 @@ $(document).ready(function() {
 						url : url,
 						mtype : 'POST',
 						datatype : "json",
-						height : 250,
+						height : 430,
 						autowidth : true,
 						shrinkToFit : true,
 						rowNum : 10,
 						/* rowList: [10, 20, 30], */
-						colNames : [ 'PKID','IS_RESPONSE_TEAM','TEAM_PROPERTY','FREE_SELECT','组别编码', '组别名称','主组别','自行选择','组别类型','操作'],
+						colNames : [ 'PKID','ORG_ID','IS_RESPONSE_TEAM','TEAM_PROPERTY','FREE_SELECT','组别编码', '组别名称','主组别','自行选择','组别类型','操作'],
 						colModel : [ {
 							name : 'PKID',
 							index : 'PKID',
+							align : "center",
+							width : 0,
+							key : true,
+							resizable : false,
+							hidden : true
+						},{
+							name : 'ORG_ID',
+							index : 'ORG_ID',
 							align : "center",
 							width : 0,
 							key : true,
@@ -100,9 +108,9 @@ $(document).ready(function() {
 						recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
 						pgtext : " {0} 共 {1} 页",
 
-						onSelectRow : function(rowid, status) {
+						/*onSelectRow : function(rowid, status) {
 							window.wxc.alert(rowid);
-						},
+						},*/
 						postData : {
 							queryId : "queryTsTeamPropertyList"
 						},
@@ -193,6 +201,8 @@ function searchMethod() {
  * @returns {___anonymous6020_7175}
  */
 function getParamsValue() {
+	// 组别ID
+	var orgId = $('#search_orgId').val();
 	// 组别编码
 	var yuTeamCode = $('#search_yuTeamCode').val();
 	// 组别名称
@@ -208,6 +218,7 @@ function getParamsValue() {
 	if(freeSelect == -1)freeSelect=null;
 	//设置查询参数
 	var params = {
+		search_orgId : orgId,
 		search_yuTeamCode : yuTeamCode,
 		search_orgName : orgName,
 		search_isResponseTeam : isResponseTeam,
@@ -249,10 +260,12 @@ function showTeamModal(id,data){
 	inHtml+='</label><div class="col-lg-4 select"  >';
 	inHtml+='<select id="yuTeamCode" class="btn btn-white chosen-select">';
 	$.each(data,function(i, n){
+		/*inHtml+='<span   id="orgId" value="'+n.id+'" />';*/
 		if(n.orgCode == '033F046'){
 			inHtml+='<option value="'+n.orgCode+'" selected>'+n.orgName+'</option>';
 		}else{
-			inHtml+='<option value="'+n.orgCode+'">'+n.orgName+'</option>';
+			
+			inHtml+='<option orgId="'+n.id+'" value="'+n.orgCode+'">'+n.orgName+'</option>';
 		}
 	})
 	inHtml+='</select></div>';
@@ -262,6 +275,7 @@ function showTeamModal(id,data){
 	    var row = $("#table_list_1").getRowData(id);
 
 	    $("#pkId").val(row.PKID);
+	    $("#orgId").val(row.ORG_ID);
 	    $("#yuTeamCode").val(row.YU_TEAM_CODE);
 	    $("#orgName").val(row.ORG_NAME);
 		$("input[name='isResponseTeam'][value='"+row.IS_RESPONSE_TEAM+"']").prop("checked", true);
@@ -280,11 +294,17 @@ function showTeamModal(id,data){
 }
 function saveTeamPropertyItem(){
     var yuTeamCode = trim($("#yuTeamCode").val());
-   
+    
+    $("#orgId").val();
 	var pkId = $("#pkId").val();
+	if(pkId ==''|| pkId == null){
+		var orgId = $('#yuTeamCode').find('option:selected').attr('orgId');
+	}else{
+		var orgId = $("#orgId").val();
+	}
     var ctx = $("#ctx").val();
 	var url='/setting/saveTeamPropertyItem?';
-	var params="pkid="+pkId+"&yuTeamCode="+yuTeamCode;
+	var params="pkid="+pkId+"&orgId="+orgId+"&yuTeamCode="+yuTeamCode;
 	url = ctx+url+params;
 
 	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
@@ -325,12 +345,12 @@ function delRow(id){
 			                }
 			            } ,
 				success : function(data) {
-					window.wxc.alert(data.message);
-					if(data.success){
-						$('#modal-form').modal("hide");
-						//jqGrid reload
-						$("#table_list_1").trigger('reloadGrid');
-					}
+					window.wxc.alert(data.message,{wxcOk:function(){
+						if(data.success){
+							$('#modal-form').modal("hide");
+							$("#table_list_1").setGridParam({datatype:'json', page:1,fromServer:true}).trigger('reloadGrid');
+						}
+					}});
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 				}

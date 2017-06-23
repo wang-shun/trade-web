@@ -28,7 +28,6 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.aist.uam.userorg.remote.vo.UserOrgJob;
-import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.vo.TgServItemAndProcessorVo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
@@ -36,6 +35,7 @@ import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.OrgNameEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
+import com.centaline.trans.common.service.TsOrgRelationService;
 import com.centaline.trans.common.vo.TgCooperVo;
 import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -47,6 +47,7 @@ import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.entity.TsTeamScope;
 import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.team.service.TsTeamScopeService;
+import com.centaline.trans.team.vo.UserOrgRelationVO;
 
 @Controller
 @RequestMapping(value = "/case")
@@ -76,8 +77,9 @@ public class CaseChangeController {
 	@Autowired
 	private ToCaseMapper toCaseMapper;
 	@Autowired
+	private TsOrgRelationService tsOrgRelationService;/* 组别属性表 */
+	@Autowired
 	private UamUserOrgService uamUserOrgServiceClient;
-
 	/**
 	 * 根据字典类型，获得相应字典数据
 	 * 
@@ -211,6 +213,40 @@ public class CaseChangeController {
 
 		map.put("servitemList", servitemList); // 1 查询案件服务项目
 		// map.put("userList", userList); // 3 获取到的合作交易顾问
+		map.put("orgcode", myDistrict.getOrgCode());/* 浦东合作顾问选中台 */
+		return map;
+	}
+	
+	/**
+	 * 功能：变更合作对象[查询出满足变更合作对象条件的服务项和合作顾问]
+	 * 
+	 * @param caseCode[案件编号]
+	 * @param processorId
+	 */
+	@RequestMapping(value = "changeCoopeRelation")
+	@ResponseBody
+	public Map<String, Object> changeCoopeRelation(HttpServletRequest request, HttpServletResponse response, String caseCode) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 1 查询案件服务项目
+		List<TgServItemAndProcessor> servitemList = tgservItemAndProcessorService.selectBycasecodeandProcessorid(caseCode);
+		SessionUser user = uamSessionService.getSessionUser();
+		String orgId = user.getServiceDepId();
+		//查询后台组合作顾问（浦东1组查中台顾问，其他组查交易顾问）
+		List<UserOrgRelationVO> userList = tsOrgRelationService.getUserOrgRelationByOrgId(orgId);
+		List<User> ul = new ArrayList<>();
+		for (UserOrgRelationVO userOrgRelationVO : userList) {
+			User u = new User();
+			u.setId(userOrgRelationVO.getId());
+			u.setRealName(userOrgRelationVO.getRealName());
+			u.setOrgName(userOrgRelationVO.getOrgName());
+			ul.add(u);
+		}
+		for (TgServItemAndProcessor ser : servitemList) {
+				ser.setUsers(ul);
+		}
+		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(),
+				DepTypeEnum.TYCQY.getCode()); // 获取用户的所在的贵宾服务部
+		map.put("servitemList", servitemList); // 1 查询案件服务项目
 		map.put("orgcode", myDistrict.getOrgCode());/* 浦东合作顾问选中台 */
 		return map;
 	}

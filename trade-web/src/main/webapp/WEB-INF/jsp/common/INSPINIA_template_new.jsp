@@ -26,14 +26,14 @@
     <link rel="icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
     <link rel="shortcut icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
     <title>誉萃交易系统</title>
-    <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="${ctx}/static/css/animate.css" rel="stylesheet">
+    <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/css/animate.css' />" rel="stylesheet">
     
-    <link href="${ctx}/static/css/style.css" rel="stylesheet">
-    <link href="${ctx}/css/plugins/jqGrid/aist-jqgird-ui.custom.css" rel="stylesheet">
+    <link href="<c:url value='/static/css/style.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/jqGrid/aist-jqgird-ui.custom.css' />" rel="stylesheet">
     <!--弹出框样式  -->
-	<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
+	<link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
     <sitemesh:head></sitemesh:head>
    <script type="text/javascript">
 	    var ctx = '${ctx}';
@@ -184,27 +184,27 @@
     </div>
 
     <!-- Mainly scripts -->
-    <script src="${ctx}/js/jquery-2.1.1.js"></script>
-    <script src="${ctx}/static/js/bootstrap.min.js"></script>
-    <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+    <script src="<c:url value='/static/js/bootstrap.min.js' />"></script>
+    <script src="<c:url value='/static/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
+    <script src="<c:url value='/static/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
       
     <!-- Custom and plugin javascript -->
-    <script src="${ctx}/static/js/inspinia.js"></script>
+    <script src="<c:url value='/static/js/inspinia.js' />"></script>
     <%--
     <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
      --%>
     <!-- jQuery UI -->
-    <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script>
     <!-- 引入弹出框js文件 -->
-	<script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
+	<script src="<c:url value='/js/common/xcConfirm.js' />"></script>
 	
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox.js?v=2.1.5"></script> <!-- Add Button helper (this is optional) -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-buttons.js"></script> <!-- Add Thumbnail helper (this is optional) -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-thumbs.js"></script> <!-- Add Media helper (this is optional) -->
-	<script type="text/javascript" src="${ctx}/js/jquery.fancybox-media.js"></script>
+	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox.js' />"></script> <!-- Add Button helper (this is optional) -->
+	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-buttons.js' />"></script> <!-- Add Thumbnail helper (this is optional) -->
+	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-thumbs.js' />"></script> <!-- Add Media helper (this is optional) -->
+	<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-media.js' />"></script>
     <%@include file="/WEB-INF/jsp/tbsp/common/scriptBaseOrgDialog_new.jsp"%> 
-    <script type="text/javascript" src="${ctx}/static/js/INSPINIA_template.js"></script>
+    <script type="text/javascript" src="<c:url value='/static/js/INSPINIA_template.js' />"></script>
     <script type="text/javascript">
     	var ctx = '${ctx}';
     	window.ctx=ctx;
@@ -294,7 +294,7 @@
 
     </script>
     <sitemesh:getProperty property="page.local_script"></sitemesh:getProperty>
-    <script src="${ctx}/js/plugins/required/require.js" data-main="${ctx}/js/plugins/required/main.js"></script>
+    <script src="<c:url value='/js/plugins/required/require.js' />" data-main="${ctx}/js/plugins/required/main.js"></script>
     <sitemesh:getProperty property="page.local_require"></sitemesh:getProperty>
     <script>
     </script>  

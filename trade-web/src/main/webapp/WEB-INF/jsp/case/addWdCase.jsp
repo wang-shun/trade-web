@@ -11,19 +11,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>新增外单</title>
-<link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css">
-<link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css">
-<link rel="stylesheet" href="${ctx}/static/css/animate.css" rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/static/css/style.css" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css' />">
+<link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/animate.css' />" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/css/style.css' />" rel="stylesheet">
 <!-- stickUp fixed css -->
-<link rel="stylesheet" href="${ctx}/static/css/plugins/stickup/stickup.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/stickmenu.css">
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/stickup/stickup.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/stickmenu.css' />">
 <!-- index_css  -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css">
-<link rel="stylesheet" href="${ctx}/static_res/trans/css/common/report.css">
-<link rel="stylesheet" href="${ctx}/static/trans/css/addOutlist.css">
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" ">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />">
+<link rel="stylesheet" href="<c:url value='/static_res/trans/css/common/report.css' />">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/addOutlist.css' />">
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 </head>
 
 <body>
@@ -245,8 +245,8 @@
     </div>
 </div>
 <content tag="local_script"> 
-<script src="${ctx}/js/trunk/case/addWdCase.js"></script><%-- 
-<script src="${ctx}/js/trunk/case/jquery.serializejson.js"></script> --%>
+<script src="<c:url value='/js/trunk/case/addWdCase.js' />"></script><%-- 
+<script src="<c:url value='/js/trunk/case/jquery.serializejson.js' />"></script> --%>
 <script>
     var $else = $('#elseInput'); 
     var $btn_spans = $('.outlist-btns span');

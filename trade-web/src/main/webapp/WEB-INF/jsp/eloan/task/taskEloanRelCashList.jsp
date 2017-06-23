@@ -14,28 +14,28 @@
 <!-- Toastr style -->
 
 <!-- stickUp fixed css -->
-<link href="${ctx}/static/trans/css/common/hint.css" rel="stylesheet" />
-<link href="${ctx}/static/css/plugins/stickup/stickup.css"
+<link href="<c:url value='/static/trans/css/common/hint.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/css/plugins/stickup/stickup.css' />"
 	rel="stylesheet">
-<link href="${ctx}/static/trans/css/common/stickDash.css"
+<link href="<c:url value='/static/trans/css/common/stickDash.css' />"
 	rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link href="${ctx}/static/css/plugins/aist-steps/steps.css"
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+<link href="<c:url value='/static/css/plugins/aist-steps/steps.css' />"
 	rel="stylesheet">
-<link href="${ctx}/static/css/plugins/toastr/toastr.min.css"
+<link href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />"
 	rel="stylesheet">
-<link href="${ctx}/static/css/plugins/datapicker/datepicker3.css"
+<link href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />"
 	rel="stylesheet">
 <!-- index_css  -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/btn.css" />
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css"">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/base.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/btn.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 
 
 <!-- 分页控件 -->
-<link href="${ctx}/static/css/plugins/pager/centaline.pager.css"
+<link href="<c:url value='/static/css/plugins/pager/centaline.pager.css' />"
 	rel="stylesheet" />
 <%
 	response.setHeader("Cache-Control", "no-store,no-cache,must-revalidate");
@@ -207,23 +207,24 @@
 
 	<content tag="local_script"> <!-- Peity --> <!-- 组织控件 --> <%@include
 		file="/WEB-INF/jsp/tbsp/common/userorg.jsp"%>
-	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> <!-- jqGrid -->
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> <!-- Custom and plugin javascript -->
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> <script
-		src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> <script
-		src="${ctx}/js/plugins/dropzone/dropzone.js"></script> <script
-		src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> <script
-		src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> <!-- iCheck -->
-	<script src="${ctx}/js/plugins/iCheck/icheck.min.js"></script> <script
-		src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script> <!-- jqGrid -->
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> <!-- Custom and plugin javascript -->
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> <script
+		src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script> <script
+		src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> <script
+		src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> <script
+		src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> <!-- iCheck -->
+	<script src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script> <script
+		src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
 	<!-- 分页控件  --> <script
-		src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <script
-		src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <!-- 模板 -->
-	<!-- ECharts.js --> <script src="${ctx}/static/js/echarts.min.js"></script>
-	<script src="${ctx}/static/trans/js/eloan/eloan.js"></script> <!-- index_js -->
-	<script src="${ctx}/static/trans/js/eloan/eloanRelCashList.js"></script> 
+		src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script> <script
+		src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+		<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> 
+		<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> <!-- 模板 -->
+	<!-- ECharts.js --> <script src="<c:url value='/static/js/echarts.min.js' />"></script>
+	<script src="<c:url value='/static/trans/js/eloan/eloan.js' />"></script> <!-- index_js -->
+	<script src="<c:url value='/static/trans/js/eloan/eloanRelCashList.js' />"></script> 
 	<script id="queryEloanCash" type="text/html">
          {{each rows as item index}}
 			    <tr class="tr-1">

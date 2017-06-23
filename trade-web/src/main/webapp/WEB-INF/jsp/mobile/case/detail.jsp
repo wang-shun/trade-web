@@ -11,20 +11,20 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 	<title>誉萃交易进度查询</title>
-	<%-- <link rel="stylesheet" href="${ctx}/momedia/css/caseDetailsStyle.css"> --%>
-	<link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${ctx}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="${ctx}/static/css/plugins/iCheck/custom.css" rel="stylesheet">
-    <link href="${ctx}/static/css/animate.css" rel="stylesheet">
-    <link href="${ctx}/static/css/style.css" rel="stylesheet">
-    <link href="${ctx}/static/css/mobile-yc-style4.css" rel="stylesheet">
-    <link href="${ctx}/static/iconfontmobile/iconfont.css" rel="stylesheet">
+	<%-- <link rel="stylesheet" href="<c:url value='/momedia/css/caseDetailsStyle.css' />"> --%>
+	<link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/css/plugins/iCheck/custom.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/css/animate.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/css/style.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/css/mobile-yc-style4.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/iconfontmobile/iconfont.css' />" rel="stylesheet">
 </head>
 <body style="background:#F4F4F4;">
     <div id="wrapper">
         <div  class="white-bg">
             <header class="aui-bar aui-bar-nav">
-                <a class="aui-pull-left" href="${ctx}/weixin/case/progressQueryList">
+                <a class="aui-pull-left" href="<c:url value='/weixin/case/progressQueryList' />">
                     <span class="aui-iconfont aui-icon-left"><i class="iconfont font-20">&#xe628;</i></span>
                 </a>
                 <div class="aui-title font-18">进度查看</div>
@@ -187,24 +187,24 @@
     </div>
  
     <!-- Mainly scripts -->
-    <script src="${ctx}/momedia/js/template.js"></script>
-	<script type="text/javascript" src="${ctx}/momedia/js/jquery-2.1.1.js"></script>
-    <script src="${ctx}/static/js/bootstrap.min.js"></script>
-    <script src="${ctx}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="${ctx}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="<c:url value='/momedia/js/template.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/momedia/js/jquery-2.1.1.js' />"></script>
+    <script src="<c:url value='/static/js/bootstrap.min.js' />"></script>
+    <script src="<c:url value='/static/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
+    <script src="<c:url value='/static/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
 
     <!-- Peity -->
-    <script src="${ctx}/static/js/plugins/peity/jquery.peity.min.js"></script>
+    <script src="<c:url value='/static/js/plugins/peity/jquery.peity.min.js' />"></script>
 
     <!-- Custom and plugin javascript -->
-    <script src="${ctx}/static/js/inspinia.js"></script>
-    <script src="${ctx}/static/js/plugins/pace/pace.min.js"></script>
+    <script src="<c:url value='/static/js/inspinia.js' />"></script>
+    <script src="<c:url value='/static/js/plugins/pace/pace.min.js' />"></script>
 
     <!-- Peity -->
-    <script src="${ctx}/static/js/demo/peity-demo.js"></script>
+    <script src="<c:url value='/static/js/demo/peity-demo.js' />"></script>
      <!-- headroom -->
     <script src="https://npmcdn.com/headroom.js@0.9.3"></script>
-    <script src="${ctx}/static/js/plugins/headroom/jQuery.headroom.js"></script>
+    <script src="<c:url value='/static/js/plugins/headroom/jQuery.headroom.js' />"></script>
     <script type="text/html" id="timeLine">
 	{{if rows.length>0}}
 		{{ each rows as item }}

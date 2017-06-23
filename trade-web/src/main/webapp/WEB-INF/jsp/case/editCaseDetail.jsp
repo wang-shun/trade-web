@@ -14,7 +14,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="${ctx}/css/plugins/steps/jquery.steps.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/steps/jquery.steps.css' />" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var finishYear = "${editCaseDetailVO.finishYear}";
@@ -599,7 +599,7 @@
 	</div>
 	<content tag="local_script"> 
     <!-- Steps -->
-    <script src="${ctx}/js/plugins/staps/jquery.steps.min.js"></script>
+    <script src="<c:url value='/js/plugins/staps/jquery.steps.min.js' />"></script>
 
 	<script>
 		$(document).ready(function() {

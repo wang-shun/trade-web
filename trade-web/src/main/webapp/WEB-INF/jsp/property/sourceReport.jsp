@@ -10,46 +10,46 @@
 <title>产调来源报表</title>
 
 <!-- General Style -->
-<link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css" />
+<link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css' />" />
 <link rel="stylesheet"
-	href="${ctx}/static/font-awesome/css/font-awesome.css" />
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link rel="stylesheet" href="${ctx}/static/css/animate.css" />
-<link rel="stylesheet" href="${ctx}/static/css/style.css" />
+	href="<c:url value='/static/font-awesome/css/font-awesome.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+<link rel="stylesheet" href="<c:url value='/static/css/animate.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/css/style.css' />" />
 
 <!-- Data range select -->
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
 
 <!-- Data Tables -->
 <link rel="stylesheet"
-	href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css" />
+	href="<c:url value='/static/css/plugins/dataTables/dataTables.bootstrap.css' />" />
 <link rel="stylesheet"
-	href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" />
+	href="<c:url value='/static/css/plugins/dataTables/dataTables.responsive.css' />" />
 <link rel="stylesheet"
-	href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
+	href="<c:url value='/static/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
 
 <!-- datapicker -->
 <link rel="stylesheet"
-	href="${ctx}/static/css/plugins/datapicker/datepicker3.css" />
+	href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />" />
 
 <!-- index_css -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/base.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
 
 <!-- jQuery UI -->
 <link rel="stylesheet"
-	href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" />
+	href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" />
 
 <!-- 分页控件 -->
 <link rel="stylesheet"
-	href="${ctx}/static/css/plugins/pager/centaline.pager.css" />
+	href="<c:url value='/static/css/plugins/pager/centaline.pager.css' />" />
 <link rel="stylesheet"
-	href="${ctx}/static/trans/css/property/popmac.css" />
+	href="<c:url value='/static/trans/css/property/popmac.css' />" />
 
 <link rel="stylesheet"
-	href="${ctx}/css/trans/css/propertyresearch/successList.css" />
+	href="<c:url value='/css/trans/css/propertyresearch/successList.css' />" />
 
 </head>
 
@@ -135,28 +135,28 @@
 
 	<content tag="local_script"> 
 	
-	<script src="${ctx}/js/plugins/chartJs/echarts.js" type="text/javascript"></script>
+	<script src="<c:url value='/js/plugins/chartJs/echarts.js' />" type="text/javascript"></script>
 
 	<!-- js模板引擎 -->
-	<script src="${ctx}/static/js/template.js"></script>
+	<script src="<c:url value='/static/js/template.js' />"></script>
 	<!-- 分页控件  -->
-	<script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script src="<c:url value='/static/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<!-- 自定义扩展jQuery库 -->
-	<script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
-	<script src="${ctx}/static/trans/js/property/aist.jquery.custom.ps.js"></script>
+	<script src="<c:url value='/static/js/plugins/jquery.custom.js' />"></script>
+	<script src="<c:url value='/static/trans/js/property/aist.jquery.custom.ps.js' />"></script>
 
 	<!-- datapicker -->
-	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 	
 	<!-- 日期拖拽 -->
-	<script src="${ctx}/js/plugins/ionRangeSlider/ion.rangeSlider.js"></script>
-	<!-- <script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script> -->
-	<script src="${ctx}/js/plugins/moment/moment-with-locales.js"></script>
+	<script src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.js' />"></script>
+	<!-- <script src="<c:url value='/js/plugins/moment/moment-with-locales.js' />"></script> -->
+	<script src="<c:url value='/js/plugins/moment/moment-with-locales.js' />"></script>
 
 	<!-- 必须JS -->
-	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<!-- owner -->
-	<script src="${ctx}/js/trunk/property/propertySourceReport.js"></script>
+	<script src="<c:url value='/js/trunk/property/propertySourceReport.js' />"></script>
 	
 	<script id="template_sourceReport" type="text/html">
 	</script>

@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
 </head>
 <body>
 									
@@ -78,16 +78,16 @@
 
 <content tag="local_script">
     <!-- Peity -->
-    <script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
+    <script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 
     <!-- jqGrid -->
-    <script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-    <script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+    <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+    <script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 
-    <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
+    <script src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script>
+    <script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script>
    <!-- Data picker -->
-   <script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+   <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 
 
 
