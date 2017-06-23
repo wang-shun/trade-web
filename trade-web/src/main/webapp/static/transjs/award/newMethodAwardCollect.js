@@ -10,16 +10,24 @@ $(document).ready(function() {
 	        method: "get",
 	        dataType: "json",
 	        data: {"belongMonth":belongMonth},
-	        success: function(data){ 	        	
+	        success: function(data){
+				alert(data);
 	        	if(data.success == true){
+					alert(3333);
 	        		//iframe 父页面找子页面元素
 	        		$(".UpdateUserItem").contents().find("#SatisButton").hide();	        		        		
-	        		$(".UpdateUserItem").contents().find("#importButton").hide();	        		        		
-	        		$(".UpdateUserItem").contents().find("#btnSubmit").hide();	        		        		
+	        		$(".UpdateUserItem").contents().find("#importButton").hide();
+					alert(222);
+					$("#btnSubmit").addClass('hide');
+					alert(111);
+					$('#btnNext').addClass('hide');
+
+	        		//$(".UpdateUserItem").contents().find("#btnSubmit").hide();
 	        	}else{
 	        		$(".UpdateUserItem").contents().find("#SatisButton").show();
 	        		$(".UpdateUserItem").contents().find("#importButton").show();
-	        		$(".UpdateUserItem").contents().find("#btnSubmit").show();
+					$('#btnSubmit').removeClass('hide');
+	        		//$(".UpdateUserItem").contents().find("#btnSubmit").show();
 	        	}
 	        },
 	        error: function (e, jqxhr, settings, exception) {
