@@ -8,4 +8,5 @@ public interface ReceivablePerfService {
 	 * @param vo
 	 */
 	void generatePerf(ReceivablePerfVo vo);
+	
 }

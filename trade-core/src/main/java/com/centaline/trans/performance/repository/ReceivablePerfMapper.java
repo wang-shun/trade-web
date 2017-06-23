@@ -1,5 +1,7 @@
 package com.centaline.trans.performance.repository;
 
+import java.util.List;
+
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.performance.entity.ReceivablePerf;
 
@@ -16,4 +18,5 @@ public interface ReceivablePerfMapper {
 	int updateByPrimaryKeySelective(ReceivablePerf record);
 
 	int updateByPrimaryKey(ReceivablePerf record);
+
 }

@@ -1731,5 +1731,29 @@ function editWdCase(){
 	window.location.href = ctx+"/caseMerge/editWdCase"+'?caseCode=' + caseCode;
 }
 
+$(window).load(function() {  
+	queryPer();  
+});
+
+
+function queryPer() {
+	 var data = getParams();
+		$(".table_content_pre").reloadGrid({
+			ctx : ctx,
+			queryId : 'getReceivablePerfBycaseCode',
+		    templeteId : 'template_successList',
+		    data : data,
+		    wrapperData : {ctx:ctx}
+	    })
+	}
+//注入参数
+function getParams() {
+	var data={};
+	data.caseCode = $("#caseCode").val();
+	return data;
+}
+
+
+
 
 

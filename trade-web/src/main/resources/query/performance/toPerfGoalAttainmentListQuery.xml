@@ -26,7 +26,7 @@
 					SUM (b.shareAmoun) AS shareAmount,
 					SUM (b.countPerf) AS countPerf,
 					CAST (
-						SUM ((b.shareAmoun / a.goalPerf)) AS DECIMAL (18, 4)
+						(SUM (b.shareAmoun)/SUM (a.goalPerf)) AS DECIMAL (18, 4)
 					) AS completionRate
 				FROM
 					(
@@ -113,7 +113,7 @@
 			  sum(b.countPerf )AS countPerf,
 			  '1' as ry,
 				CAST (
-					sum((b.shareAmoun / a.goalPerf)) AS DECIMAL (18, 4)
+					(SUM (b.shareAmoun)/SUM (a.goalPerf)) AS DECIMAL (18, 4)
 				) AS completionRate
 			FROM
 				(
@@ -317,7 +317,7 @@
 					sum(b.shareAmoun) AS shareAmount,
 				  sum(b.countPerf )AS countPerf,
 					CAST (
-						sum((b.shareAmoun / a.goalPerf)) AS DECIMAL (18, 4)
+						(SUM (b.shareAmoun)/SUM (a.goalPerf)) AS DECIMAL (18, 4)
 					) AS completionRate
 				FROM
 					(
