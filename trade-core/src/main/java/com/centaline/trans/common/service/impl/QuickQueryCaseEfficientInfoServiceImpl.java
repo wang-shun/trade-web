@@ -207,6 +207,7 @@ public class QuickQueryCaseEfficientInfoServiceImpl implements CustomDictService
         key.put("caseCloseEff", caseCloseEff);
         key.put("caseCloseDly", caseCloseDly);
         key.put("caseCloseDelayList", caseCloseDelayList);
+        key.put("caseCloseEffInfo", caseCloseTime + "-" + caseCloseOverdueTime + "-" + caseCloseEff + "-" + caseCloseDly);
 
         // 累计操作
         int totalTime = (Integer) resultMap.get("totalTime") + caseCloseTime;
@@ -278,6 +279,7 @@ public class QuickQueryCaseEfficientInfoServiceImpl implements CustomDictService
         key.put("guohuEff", guohuEff);
         key.put("guohuDly", guohuDly);
         key.put("guohuDelayList", guohuDelayList);
+        key.put("guohuEffInfo", guohuTime + "-" + guohuOverdueTime + "-" + guohuEff + "-" + guohuDly);
 
         // 累计操作
         int totalTime = (Integer) resultMap.get("totalTime") + guohuTime;
@@ -348,6 +350,7 @@ public class QuickQueryCaseEfficientInfoServiceImpl implements CustomDictService
         key.put("signEff", signEff);
         key.put("signDly", signDly);
         key.put("signDelayList", signDelayList);
+        key.put("signEffInfo", signTime + "-" + signOverdueTime + "-" + signEff + "-" + signDly);
 
         // 累计操作
         int totalTime = (Integer) resultMap.get("totalTime") + signTime;
@@ -421,6 +424,7 @@ public class QuickQueryCaseEfficientInfoServiceImpl implements CustomDictService
         key.put("firstFollowEff", firstFollowEff);
         key.put("firstFollowDly", firstFollowDly);
         key.put("firstFollowDelayList", firstFollowDelayList);
+        key.put("firstFollowEffInfo", firstFollowTime + "-" + firstFollowOverdueTime + "-" + firstFollowEff + "-" + firstFollowDly);
 
         // 累计操作
         resultMap.put("totalTime", firstFollowTime);

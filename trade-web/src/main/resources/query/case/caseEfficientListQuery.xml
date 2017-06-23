@@ -210,15 +210,17 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="pkid" index="" checkbox="" display="案件id" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="caseCode" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="leadingProcessName" index="" checkbox="" display="主办人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" index="" checkbox="" display="派单时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="pkid" index="" checkbox=""  display="案件id" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="caseCode" index="" checkbox="" title="案件编号" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="leadingProcessName" index="" checkbox="" title="主办人" display="主办人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" title="派单时间" index="" checkbox="" display="派单时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				
 				<column type="virtual" isDynamicDict="true"
-					name="caseCloseDelayList,guohuDelayList,signDelayList,firstFollowDelayList,firstFollowTime,firstFollowOverdueTime,firstFollowEff,firstFollowDly,signTime,signOverdueTime,signEff,signDly,guohuTime,guohuOverdueTime,guohuEff,guohuDly,caseCloseTime,caseCloseOverdueTime,caseCloseEff,caseCloseDly,firstFollowDateTime,signDateTime,guohuDateTime,caseCloseDateTime,totalEff,inProgress,isCaseCloseOverdue,isGuohuOverdue,isSignOverdue,isFirstFollowOverdue"
+					name="firstFollowDateTime,signDateTime,guohuDateTime,caseCloseDateTime,firstFollowEffInfo,signEffInfo,guohuEffInfo,caseCloseEffInfo,totalEff,caseCloseDelayList,guohuDelayList,signDelayList,firstFollowDelayList,firstFollowTime,firstFollowOverdueTime,firstFollowEff,firstFollowDly,signTime,signOverdueTime,signEff,signDly,guohuTime,guohuOverdueTime,guohuEff,guohuDly,caseCloseTime,caseCloseOverdueTime,caseCloseEff,caseCloseDly,inProgress"
 					referencecol="caseCode" 
-					display="首次跟进时效信息,签约时效信息,过户时效信息,结案时效信息,首次跟进实际操作时间,签约实际操作时间,过户实际操作时间,结案实际操作时间,累计时效,所处环节,结案是否逾期,过户是否逾期,签约是否逾期,首次跟进是否逾期"
+					title = "首次跟进完成时间,签约完成时间,过户完成时间,结案完成时间,首次跟进,签约,过户,结案,累计,结案延期原因列表,过户延期原因列表,
+					签约延期原因列表,首次跟进原因列表,首次跟进环节用时,首次跟进逾期时间,首次跟进时效标准,首次跟进延期次数,签约环节用时,签约逾期时间,签约时效标准,签约延期次数,
+					过户环节用时,过户逾期时间,过户时效标准,过户延期次数,结案环节用时,结案逾期时间,结案时效标准,结案延期次数,所处环节"
 					customDict="getCaseEfficientInfo" /> 
 			</table-row>
 		</grid>

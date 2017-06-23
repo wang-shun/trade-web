@@ -155,7 +155,7 @@
                         <div class="form-row form-rowbot clearfix">
                             <div class="btn-left btn-left-space" style="margin-left: 94px;">
                                 <button type="button" class="btn btn-success btn-icon  mr5" id="btnSearch"><i class="icon iconfont">&#xe635;</i> 查询</button>
-                                <button type="submit" class="btn btn-success btn-icon  mr5">导出到Excel</button>
+                                <button type="button" class="btn btn-success btn-icon  mr5" onClick="javascript:exportExcel();">导出到Excel</button>
                                 <button type="reset" class="btn btn-grey mr5">
                                     清空
                                 </button>

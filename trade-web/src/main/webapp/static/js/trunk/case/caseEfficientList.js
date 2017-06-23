@@ -72,7 +72,18 @@ $(function(){
     	});
 	});
 	
-	//加载案件时效管理列表信息
+	//日期控件初始化
+	$('#datepicker_0').datepicker({
+		format : 'yyyy-mm-dd',
+		weekStart : 1,
+		autoclose : true,
+		todayBtn : 'linked',
+		language : 'zh-CN'
+	});
+	
+});
+
+//加载案件时效管理列表信息
 	function reloadGrid(){
 		var data = getParams();
 		
@@ -85,6 +96,18 @@ $(function(){
 		    data : data,
 		    wrapperData : data
 	    });
+	}
+	
+	//导出列表
+	function exportExcel(){
+		var data = getParams();
+		
+		$.exportExcel({
+			ctx : "..",
+			queryId : "queryCaseEfficientList",
+			colomns : ['caseCode','leadingProcessName','dispatchTime','firstFollowDateTime','signDateTime','guohuDateTime','caseCloseDateTime','firstFollowEffInfo','signEffInfo','guohuEffInfo','caseCloseEffInfo','totalEff'],
+			data:data
+		});
 	}
 	
 	function getParams(){
@@ -112,17 +135,6 @@ $(function(){
 		
 		return data;
 	}
-	
-	//日期控件初始化
-	$('#datepicker_0').datepicker({
-		format : 'yyyy-mm-dd',
-		weekStart : 1,
-		autoclose : true,
-		todayBtn : 'linked',
-		language : 'zh-CN'
-	});
-	
-});
 
 //选业务组织的回调函数
 function radioYuCuiOrgSelectCallBackInCaseEff(array) {
@@ -151,3 +163,4 @@ function init(){
 	//页面加载列表默认显示当前逾期列表
 	$("#selOverdue").val("curOverdued");  
 }
+
