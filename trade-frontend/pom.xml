@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.centaline</groupId>
 		<artifactId>trade-parent</artifactId>
-		<version>1.2.18-SNAPSHOT</version>
+		<version>1.2.20-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>trade-frontend</artifactId>
