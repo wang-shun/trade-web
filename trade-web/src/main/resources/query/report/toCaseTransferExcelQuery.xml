@@ -360,7 +360,7 @@
 								AND V.LONG_ = #TransferStatus# 
 							</if>
 							
-							<if test="jobCode != 'consultant' and jobCode != 'YCYYZY'">
+							<if test="jobCode != 'consultant' and jobCode != 'YCYYZY'  and  jobCode != 'YCYYZG'">
 								AND EXISTS(SELECT 1 FROM SCTRANS.V_YUCUI_ORG_HIERARCHY VYOH WHERE VYOH.ORG_ID =C.ORG_ID AND VYOH.TEAM_ID=#orgId# OR VYOH.DISTRICT_ID=#orgId# OR VYOH.hq_id=#orgId#)
 							</if>
 							<if test="jobCode == 'consultant'">
