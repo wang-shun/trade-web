@@ -395,7 +395,7 @@
 			        });
 					
 			        function initMortageService() {
-						var url = "${ctx}/task/firstFollow/queryMortageServiceByServiceCode";
+						var url = "${ctx}/task/firstFollow/queryMortageByServiceCode";
 						$("#hzxm").html("");
 						$.ajax({
 							cache : false,
