@@ -4,45 +4,8 @@ var num = 0;
 $(document).ready(function() {	
 	
 	$("#belongMonth").change(function(){ 
-		var belongMonth = getBlongMonth();		
-		$.ajax({
-	        url:ctx+ "/newAward/isShowSatButton" ,
-	        method: "get",
-	        dataType: "json",
-	        data: {"belongMonth":belongMonth},
-	        success: function(data){
-				
-	        	if(data.success == true){					
-	        		//iframe 父页面找子页面元素
-	        		$(".UpdateUserItem").contents().find("#SatisButton").hide();	        		        		
-	        		$(".UpdateUserItem").contents().find("#importButton").hide();
-					
-					$("#btnSubmit").addClass('hide');					
-					$('#btnNext').addClass('hide');
-	        	
-	        	}else{
-	        		$(".UpdateUserItem").contents().find("#SatisButton").show();
-	        		$(".UpdateUserItem").contents().find("#importButton").show();
-					$('#btnSubmit').removeClass('hide');
-	        		
-	        	}
-	        },
-	        error: function (e, jqxhr, settings, exception) {
-	        	 
-	        }  
-	   })
-	});
-	
-/*     $('.UpdateUserItem').load(function() { 
-        var iframeHeight=$(this).contents().height(); 		         
-        $(this).height(iframeHeight+'px');   
-     });*/
-/*    $(window.parent.document).find(".UpdateUserItem").load(function () {
-	    var main = $(window.parent.document).find(".UpdateUserItem");
-	    var thisheight = $(document).height() -3;
-	    console.log(thisheight);
-	    main.height(thisheight);
-    });*/
+		getInitAwardStaus();
+	});	
     
 	setHeight(num);
     //获取初始化页面
@@ -54,9 +17,10 @@ $(document).ready(function() {
             Next_step(num);
             $('#btnPre').addClass('btn-pre-use');
         } else if(num == 5) {
-            Next_step(num);
+            Next_step(num);           
             $('#btnSubmit').removeClass('hide');
-            $('#btnNext').addClass('hide');
+            $('#btnNext').addClass('hide');           
+            getInitAwardStaus();
         } else {
             num = 5;
         }
@@ -176,6 +140,35 @@ function getInitPage(){
             $(".UpdateUserItem",parent.document.body).attr("src",new_src);*/
     	}
  	});
+}
+
+function getInitAwardStaus(){
+	var belongMonth = getBlongMonth();		
+	$.ajax({
+        url:ctx+ "/newAward/isShowSatButton" ,
+        method: "get",
+        dataType: "json",
+        data: {"belongMonth":belongMonth},
+        success: function(data){
+			
+        	if(data.success == true){					
+        		//iframe 父页面找子页面元素
+        		$(".UpdateUserItem").contents().find("#SatisButton").hide();	        		        		
+        		$(".UpdateUserItem").contents().find("#importButton").hide();					
+				$("#btnSubmit").addClass('hide');					
+				$('#btnNext').addClass('hide');
+        	
+        	}else{
+        		$(".UpdateUserItem").contents().find("#SatisButton").show();
+        		$(".UpdateUserItem").contents().find("#importButton").show();
+				$('#btnSubmit').removeClass('hide');
+        		
+        	}
+        },
+        error: function (e, jqxhr, settings, exception) {
+        	 
+        }  
+   })
 }
 
 
