@@ -123,6 +123,21 @@ function queryBizwarnCaseCount(){
 					});
 				}
 				
+				//时效管理
+				if(data.curOverdueCaseEffCount!=undefined && data.curOverdueCaseEffCount>=0){
+					$("#curOverdueCaseEffCount").html(data.curOverdueCaseEffCount).parent('p').siblings("i").addClass('martop20');
+					$("#curOverdueCaseEffCount").parent('p').addClass('line').parents("li").addClass('light active').hover(function() {
+						$(this).css("background","#52cdec");
+						$(this).find(".icon,.line,span").addClass('white');
+					},function() {
+						$(this).css("background","#edfcfd");
+						$(this).find(".icon,.line,span").removeClass('white');
+					});
+					$("#curOverdueCaseEffCount").parents("li").children().wrapAll(function() {
+						return '<a href="'+ctx+'/caseEfficient/list" target="_blank"></a>';
+					});
+				}
+				
 				//黄灯任务
 				if(data.yeLight!=undefined && data.yeLight>=0){
 					//$('.light_info').prepend($("#yeLightCount").parents("li"));

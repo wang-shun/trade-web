@@ -178,6 +178,12 @@
 									接单逾期<br /> <span id="loanerOverdueAcceptCount"></span>
 								</p>
 							</li>
+							<li>
+                                <i class="icon iconfont icon40 green">&#xe6bb;</i>
+                                <p>
+                                	时效管理<br/><span id="curOverdueCaseEffCount"></span>
+                                </p>
+                            </li> 
 						</ul>
 					</div>
 
