@@ -157,8 +157,10 @@ function getInitAwardStaus(){
         		//iframe 父页面找子页面元素
         		$(".UpdateUserItem").contents().find("#SatisButton").hide();	        		        		
         		$(".UpdateUserItem").contents().find("#importButton").hide();					
-				$("#btnSubmit").addClass('hide');					
-				$('#btnNext').addClass('hide');
+				$("#btnSubmit").addClass('hide');
+				if(num != 0){
+					$('#btnNext').addClass('hide');
+				}			
         	
         	}else{
         		$(".UpdateUserItem").contents().find("#SatisButton").show();
