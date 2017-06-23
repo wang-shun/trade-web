@@ -152,9 +152,20 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 								<p>
 									无主资源<br> <span id="unLocatedResourcesCount"></span>
 								</p></li>
+								
+								<c:choose>
+			                    	<c:when test="${jobCode == 'TeamAssistant' || jobCode == 'YCYYZY' || jobCode == 'YCYYZG' || jobCode == 'GeneralManager'}">
+										<li>
+			                                <i class="icon iconfont icon40 green">&#xe6bb;</i>
+			                                <p>
+			                                	时效管理<br/><span id="curOverdueCaseEffCount"></span>
+			                                </p>
+			                            </li> 
+									</c:when>
+								</c:choose>
+								
 						</ul>
                     	</c:if>
-                    	
                     </div>
             </div>
         </div>

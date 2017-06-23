@@ -87,7 +87,7 @@
                     <form class="form_list">
                     	<input type="hidden" id="jobCode" value="${currentUser.serviceJobCode }"/>
                     	<input type="hidden" id="userId" value="${currentUser.id }"/>
-                    	<input type="hidden" id="orgId" value="${currentUser.serviceCompanyId }" />
+                    	<input type="hidden" id="orgId" value="${serviceDepId }" />
                     	
                         <div class="form-row  clearfix">
                              

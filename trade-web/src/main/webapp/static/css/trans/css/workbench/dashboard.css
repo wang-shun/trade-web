@@ -271,3 +271,7 @@ body {
 .smaller {
   font-weight: normal;
 }
+
+ul.light_info li.pass {
+  background: #edfcfd;
+}
