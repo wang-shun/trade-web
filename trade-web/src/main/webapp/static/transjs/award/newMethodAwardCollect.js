@@ -2,17 +2,14 @@ var ctx = $("#ctx").val();
 var serviceDepId = $("#serviceDepId").val();
 var num = 0;
 $(document).ready(function() {	
-	
-	$("#belongMonth").change(function(){ 
-		getInitAwardStaus();
-	});	
+
     
 	setHeight(num);
     //获取初始化页面
 	getInitPage();	
 
     $('#btnNext').click(function() {
-        num ++;
+        num ++;       
         if( num <= 4) {
             Next_step(num);
             $('#btnPre').addClass('btn-pre-use');
@@ -68,6 +65,10 @@ $(document).ready(function() {
     	}})
     });  
     
+    
+	$("#belongMonth").change(function(){ 
+		getInitAwardStaus();
+	});	
 });
 
 function Next_step(sum) {	
@@ -131,6 +132,7 @@ function getInitPage(){
     		if(data.success == true){    			 
     			 if(data.content != "" && data.content != null){
     				 page = data.content;
+    				 num = page;
     			 }    			
     		}  
     		setHeight(page);
@@ -161,8 +163,9 @@ function getInitAwardStaus(){
         	}else{
         		$(".UpdateUserItem").contents().find("#SatisButton").show();
         		$(".UpdateUserItem").contents().find("#importButton").show();
-				$('#btnSubmit').removeClass('hide');
-        		
+				        	
+        		$('#btnSubmit').removeClass('hide');
+        		    		
         	}
         },
         error: function (e, jqxhr, settings, exception) {
@@ -189,6 +192,7 @@ function initButtonClass(page){
 		if(page == 5){
             $('#btnSubmit').removeClass('hide');
             $('#btnNext').addClass('hide');
+            getInitAwardStaus();
 		}
 	}
 	num = page;
