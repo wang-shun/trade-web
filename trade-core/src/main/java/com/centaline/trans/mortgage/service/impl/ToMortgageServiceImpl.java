@@ -161,30 +161,23 @@ public class ToMortgageServiceImpl implements ToMortgageService
         condition.setCaseCode(toMortgage.getCaseCode());
         condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
         condition.setIsDelegateYucui("1");
-
         List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
 
-        Long pkid = toMortgage.getPkid();
-        if (pkid == null)
+        if (list != null && !list.isEmpty())
         {
-            if (!CollectionUtils.isEmpty(list))
-            {
-                toMortgageMapper.update(toMortgage);
-            }
-            else
-            {
-                toMortgage.setIsDelegateYucui("1");
-                toMortgageMapper.insertSelective(toMortgage);
-            }
+            mortgage = list.get(0);
+        }
+        if (mortgage != null)
+        {
+            toMortgage.setPkid(mortgage.getPkid());
+            toMortgageMapper.update(toMortgage);
+
         }
         else
         {
-            if (CollectionUtils.isEmpty(list))
-            {
-                throw new BusinessException("贷款信息不存在！");
-            }
-            toMortgage.setPkid(list.get(0).getPkid());
-            toMortgageMapper.update(toMortgage);
+            toMortgage.setIsDelegateYucui("1");
+            toMortgageMapper.insertSelective(toMortgage);
+
         }
 
         if ("1".equals(toMortgage.getFormCommLoan()) && StringUtils.isNotBlank(toMortgage.getLastLoanBank()))
@@ -485,6 +478,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
     public AjaxResponse<String> startTmpBankWorkFlow(String caseCode, String loanerInstCode)
     {
 
+        @SuppressWarnings("unused")
         User manager = null, seniorManager = null, director = null;
         AjaxResponse<String> response = new AjaxResponse<String>();
 
@@ -855,6 +849,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
      * 
      * @des: 三级银行审批 总监审批完之后 发送分单信贷员流程消息和设置流程变量 0502:流程变更，不需要发送消息
      */
+    @SuppressWarnings("unused")
     private void setLoanerProcessVariable(String loanerInstCode, boolean approveFlag)
     {
 
@@ -889,8 +884,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
         if ("true".equals(mortgageVo.getIsPass()))
         {
             // 处理流程,信贷员接单,流程进入银行审核流程
-            loanerProcessService.isLoanerAcceptCase(true, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(),
-                    mortgageVo.getBizCode(), mortgageVo.getStateInBank());
+            loanerProcessService.isLoanerAcceptCase(true, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
+                    mortgageVo.getStateInBank());
 
             // 接单之后自动解除预警信息
             BizWarnInfo bizWarnInfo = new BizWarnInfo();
@@ -904,13 +899,13 @@ public class ToMortgageServiceImpl implements ToMortgageService
         else if ("false".equals(mortgageVo.getIsPass()))
         {
             // 处理流程,信贷员打回,流程进入交易顾问派单
-            loanerProcessService.isLoanerAcceptCase(false, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(),
-                    mortgageVo.getBizCode(), mortgageVo.getStateInBank());
+            loanerProcessService.isLoanerAcceptCase(false, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
+                    mortgageVo.getStateInBank());
         }
 
         // 设置案件跟进信息
-        ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(), mortgageVo.getBizCode(), mortgageVo.getCaseCode(), "TRACK",
-                mortgageVo.getStateInBank(), mortgageVo.getComment());
+        ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(), mortgageVo.getBizCode(), mortgageVo.getCaseCode(), "TRACK", mortgageVo.getStateInBank(),
+                mortgageVo.getComment());
 
         // 保存案件跟进信息
         toCaseCommentService.insertToCaseComment(toCaseComment);
@@ -932,8 +927,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
             if ("MORT_APPROVED".equals(mortgageVo.getStateInBank()))
             {
                 // 处理流程,银行审核通过
-                loanerProcessService.isBankAcceptCase(true, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(),
-                        mortgageVo.getBizCode(), mortgageVo.getStateInBank());
+                loanerProcessService.isBankAcceptCase(true, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
+                        mortgageVo.getStateInBank());
 
                 try
                 {
@@ -971,13 +966,13 @@ public class ToMortgageServiceImpl implements ToMortgageService
         else if ("false".equals(mortgageVo.getIsPass()))
         {
             // 处理流程,银行审核驳回
-            loanerProcessService.isBankAcceptCase(false, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(),
-                    mortgageVo.getBizCode(), mortgageVo.getStateInBank());
+            loanerProcessService.isBankAcceptCase(false, mortgageVo.getTaskId(), mortgageVo.getProcInstanceId(), mortgageVo.getCaseCode(), mortgageVo.getBizCode(),
+                    mortgageVo.getStateInBank());
         }
 
         // 设置案件跟进信息
-        ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(), mortgageVo.getBizCode(), mortgageVo.getCaseCode(), "TRACK",
-                mortgageVo.getStateInBank(), mortgageVo.getComment());
+        ToCaseComment toCaseComment = setToCaseComment(mortgageVo.getUser(), mortgageVo.getBizCode(), mortgageVo.getCaseCode(), "TRACK", mortgageVo.getStateInBank(),
+                mortgageVo.getComment());
 
         // 保存案件跟进信息
         toCaseCommentService.insertToCaseComment(toCaseComment);
@@ -1027,6 +1022,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
      * @des : 派单结束之后，回写pkid到T_TO_WORKFLOW表的biz_code
      */
 
+    @SuppressWarnings("unused")
     private void writeBackBizCode(String caseCode, long pkid)
     {
 
@@ -1093,8 +1089,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
     }
 
     @Override
-    public Result2 submitLoanlostApply(HttpServletRequest request, ToMortgage toMortgage, ProcessInstanceVO processInstanceVO,
-            LoanlostApproveVO loanlostApproveVO, String partCode, Long lapPkid)
+    public Result2 submitLoanlostApply(HttpServletRequest request, ToMortgage toMortgage, ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
+            String partCode, Long lapPkid)
     {
         if (toMortgage.getMortTotalAmount() != null)
         {
@@ -1182,8 +1178,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
     }
 
     @Override
-    public Result2 submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime, String taskId,
-            String processInstanceId, String partCode)
+    public Result2 submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime, String taskId, String processInstanceId,
+            String partCode)
     {
         toMortgage.setIsMainLoanBank("1");
         ToMortgage mortage = findToMortgageById(toMortgage.getPkid());

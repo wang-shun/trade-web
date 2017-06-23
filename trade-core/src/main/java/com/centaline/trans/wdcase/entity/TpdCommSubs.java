@@ -8,7 +8,7 @@ public class TpdCommSubs {
 
     private String caseCode;
 
-    private String commSubject;
+    private String remarks;
 
     private BigDecimal stdRate;
 
@@ -54,15 +54,16 @@ public class TpdCommSubs {
         this.caseCode = caseCode == null ? null : caseCode.trim();
     }
 
-    public String getCommSubject() {
-        return commSubject;
-    }
 
-    public void setCommSubject(String commSubject) {
-        this.commSubject = commSubject == null ? null : commSubject.trim();
-    }
+    public String getRemarks() {
+		return remarks;
+	}
 
-    public BigDecimal getStdRate() {
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public BigDecimal getStdRate() {
         return stdRate;
     }
 

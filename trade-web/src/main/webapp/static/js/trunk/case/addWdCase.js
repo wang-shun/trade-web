@@ -7,12 +7,12 @@
 
 
 function getCheckBoxValues(name) {
-	var commSubject = [];
-	$("span[name='commSubject'].out-btn-select").each(function() {
+	var remarks = [];
+	$("span[name='remarks'].out-btn-select").each(function() {
 		var val = $(this).attr('value');
-		commSubject.push(val);
+		remarks.push(val);
 	});							
-	return commSubject;
+	return remarks;
 }
 
 /**
@@ -25,13 +25,13 @@ function sumbitRe(){
 	if(!phoneUpAndphoneDownCheck()){
 		return false;
 	}
-	var commSubject = getCheckBoxValues("commSubject");
+	var remarks = getCheckBoxValues("remarks");
 	var data = [];
 	$("form").each(function(){
 		var obj = $(this).serializeArray();
 		for(var i in obj){
-			if(obj[i].name=="commSubject"){
-				obj[i].value=commSubject.toString();
+			if(obj[i].name=="remarks"){
+				obj[i].value=remarks.toString();
 			}
 			data.push(obj[i]);
 		}
@@ -71,13 +71,13 @@ function saveRe(){
 		return false;
 	}
 	
-	var commSubject = getCheckBoxValues("commSubject");
+	var remarks = getCheckBoxValues("remarks");
 	var data = [];
 	$("form").each(function(){
 		var obj = $(this).serializeArray();
 		for(var i in obj){
-			if(obj[i].name=="commSubject"){
-				obj[i].value=commSubject.toString();
+			if(obj[i].name=="remarks"){
+				obj[i].value=remarks.toString();
 			}
 			data.push(obj[i]);
 		}

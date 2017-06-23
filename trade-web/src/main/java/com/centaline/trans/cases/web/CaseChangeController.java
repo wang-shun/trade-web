@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +27,7 @@ import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.vo.TgServItemAndProcessorVo;
@@ -73,6 +75,8 @@ public class CaseChangeController {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private ToCaseMapper toCaseMapper;
+	@Autowired
+	private UamUserOrgService uamUserOrgServiceClient;
 
 	/**
 	 * 根据字典类型，获得相应字典数据
@@ -261,7 +265,7 @@ public class CaseChangeController {
 			pro.setPreProcessorId(preProcessorId);
 			pro.setPreOrgId(preProcessor.getOrgId());
 			pro.setProcessorId(processorId);
-			pro.setOrgId(processor.getOrgId());
+			pro.setOrgId(getServiceDepId(processor.getId()));
 			pro.setCaseCode(caseCode);
 			pro.setSrvCode(srvCode);
 
@@ -390,7 +394,7 @@ public class CaseChangeController {
 					pro.setProcessorId(processorId);
 					pro.setCaseCode(caseCode);
 					pro.setSrvCode(srvCode);	
-					pro.setOrgId(orgId);
+					pro.setOrgId(getServiceDepId(processorIdList.get(i)));
 					pro.setPreOrgId(preOrgId);
 					pro.setPreProcessorId(oldProcessorId);		
 					
@@ -430,5 +434,29 @@ public class CaseChangeController {
 		}
 	
 		return response;
+	}
+	/**
+	 * 获得合作人的orgid
+	 * @param userId
+	 * @return
+	 */
+	private String getServiceDepId(String userId) {
+		if(StringUtils.isBlank(userId)) {
+			return null;
+		}
+		
+		List<UserOrgJob> userOrgJobs =uamUserOrgServiceClient.getUserOrgJobByUserIdAndJobCode(userId, "JYUZTGW");
+		if(!CollectionUtils.isEmpty(userOrgJobs)){
+			String deptId = userOrgJobs.get(0).getOrgId();
+			return deptId;
+		}
+		
+		userOrgJobs =uamUserOrgServiceClient.getUserOrgJobByUserIdAndJobCode(userId, "consultant");
+		if(!CollectionUtils.isEmpty(userOrgJobs)){
+			String deptId = userOrgJobs.get(0).getOrgId();
+			return deptId;
+		}
+		
+		return null;
 	}
 }

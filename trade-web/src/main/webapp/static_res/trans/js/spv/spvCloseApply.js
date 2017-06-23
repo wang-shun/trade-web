@@ -24,9 +24,9 @@ function submitBtnClick(handle,continueApply,result){
 
 	  if(!handle){
 		  window.wxc.confirm("确定提交并开启流程吗？",{"wxcOk":function(){
-			  if(!checkInOutWorkFlowProcess($("input[name='toSpvCloseApply.spvCode']").val())){
+/*			  if(!checkInOutWorkFlowProcess($("input[name='toSpvCloseApply.spvCode']").val())){
 		   		   return false;
-		   	   }
+		   	   }*/
 			  
 			  dealSpvCloseApply(continueApply,result);
 		  }});

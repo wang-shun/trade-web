@@ -27,12 +27,16 @@
     <result column="AGENT_PHONE_RES" property="agentPhoneRes" jdbcType="NVARCHAR" />
     <result column="AGENT_SIGN_SAT" property="agentSignSat" jdbcType="INTEGER" />
     <result column="AGENT_SIGN_COM" property="agentSignCom" jdbcType="NVARCHAR" />
+    <result column="AGENT_LOANCLOSE_SAT" property="agentLoancloseSat" jdbcType="INTEGER" />
+    <result column="AGENT_LOANCLOSE_COM" property="agentLoancloseCom" jdbcType="NVARCHAR" />
     <result column="AGENT_COMLOAN_SAT" property="agentComloanSat" jdbcType="INTEGER" />
     <result column="AGENT_COMLOAN_COM" property="agentComloanCom" jdbcType="NVARCHAR" />
     <result column="AGENT_PSFLOAN_SAT" property="agentPsfloanSat" jdbcType="INTEGER" />
     <result column="AGENT_PSFLOAN_COM" property="agentPsfloanCom" jdbcType="NVARCHAR" />
     <result column="AGENT_GUOHU_SAT" property="agentGuohuSat" jdbcType="INTEGER" />
     <result column="AGENT_GUOHU_COM" property="agentGuohuCom" jdbcType="NVARCHAR" />
+    <result column="AGENT_COM_DICT" property="agentComDict" jdbcType="VARCHAR" />
+    <result column="AGENT_COM_ELSE" property="agentComElse" jdbcType="NVARCHAR" />
     <result column="STATUS" property="status" jdbcType="VARCHAR" />
     <result column="TYPE" property="type" jdbcType="VARCHAR" />
     <result column="CALLER_ID" property="callerId" jdbcType="VARCHAR" />
@@ -49,8 +53,8 @@
     SALER_LOANCLOSE_SAT, SALER_LOANCLOSE_COM, SALER_GUOHU_SAT, SALER_GUOHU_COM, BUYER_PHONE_OK, 
     BUYER_PHONE_RES, BUYER_SIGN_SAT, BUYER_SIGN_COM, BUYER_COMLOAN_SAT, BUYER_COMLOAN_COM, 
     BUYER_PSFLOAN_SAT, BUYER_PSFLOAN_COM, BUYER_GUOHU_SAT, BUYER_GUOHU_COM, AGENT_PHONE_OK, 
-    AGENT_PHONE_RES, AGENT_SIGN_SAT, AGENT_SIGN_COM, AGENT_COMLOAN_SAT, AGENT_COMLOAN_COM, 
-    AGENT_PSFLOAN_SAT, AGENT_PSFLOAN_COM, AGENT_GUOHU_SAT, AGENT_GUOHU_COM, STATUS, TYPE, CALLER_ID, 
+    AGENT_PHONE_RES, AGENT_SIGN_SAT, AGENT_SIGN_COM, AGENT_LOANCLOSE_SAT, AGENT_LOANCLOSE_COM, AGENT_COMLOAN_SAT, AGENT_COMLOAN_COM, 
+    AGENT_PSFLOAN_SAT, AGENT_PSFLOAN_COM, AGENT_GUOHU_SAT, AGENT_GUOHU_COM, AGENT_COM_DICT, AGENT_COM_ELSE, STATUS, TYPE, CALLER_ID, 
     SIGN_TIME, GUOHU_TIME, CLOSE_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -83,9 +87,9 @@
       BUYER_COMLOAN_SAT, BUYER_COMLOAN_COM, BUYER_PSFLOAN_SAT, 
       BUYER_PSFLOAN_COM, BUYER_GUOHU_SAT, BUYER_GUOHU_COM, 
       AGENT_PHONE_OK, AGENT_PHONE_RES, AGENT_SIGN_SAT, 
-      AGENT_SIGN_COM, AGENT_COMLOAN_SAT, AGENT_COMLOAN_COM, 
+      AGENT_SIGN_COM, AGENT_LOANCLOSE_SAT, AGENT_LOANCLOSE_COM,AGENT_COMLOAN_SAT, AGENT_COMLOAN_COM, 
       AGENT_PSFLOAN_SAT, AGENT_PSFLOAN_COM, AGENT_GUOHU_SAT, 
-      AGENT_GUOHU_COM, STATUS, TYPE, CALLER_ID, 
+      AGENT_GUOHU_COM, AGENT_COM_DICT, AGENT_COM_ELSE, STATUS, TYPE, CALLER_ID, 
       SIGN_TIME, GUOHU_TIME, CLOSE_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, 
       UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{castsatCode,jdbcType=VARCHAR}, 
@@ -96,9 +100,9 @@
       #{buyerComloanSat,jdbcType=INTEGER}, #{buyerComloanCom,jdbcType=NVARCHAR}, #{buyerPsfloanSat,jdbcType=INTEGER}, 
       #{buyerPsfloanCom,jdbcType=NVARCHAR}, #{buyerGuohuSat,jdbcType=INTEGER}, #{buyerGuohuCom,jdbcType=NVARCHAR}, 
       #{agentPhoneOk,jdbcType=INTEGER}, #{agentPhoneRes,jdbcType=NVARCHAR}, #{agentSignSat,jdbcType=INTEGER}, 
-      #{agentSignCom,jdbcType=NVARCHAR}, #{agentComloanSat,jdbcType=INTEGER}, #{agentComloanCom,jdbcType=NVARCHAR}, 
+      #{agentSignCom,jdbcType=NVARCHAR}, #{agentLoancloseSat,jdbcType=INTEGER}, #{agentLoancloseCom,jdbcType=NVARCHAR}, #{agentComloanSat,jdbcType=INTEGER}, #{agentComloanCom,jdbcType=NVARCHAR}, 
       #{agentPsfloanSat,jdbcType=INTEGER}, #{agentPsfloanCom,jdbcType=NVARCHAR}, #{agentGuohuSat,jdbcType=INTEGER}, 
-      #{agentGuohuCom,jdbcType=NVARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{callerId,jdbcType=VARCHAR}, 
+      #{agentGuohuCom,jdbcType=NVARCHAR}, #{agentComDict,jdbcType=VARCHAR}, #{agentComElse,jdbcType=NVARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{callerId,jdbcType=VARCHAR}, 
       #{signTime,jdbcType=TIMESTAMP},#{guohuTime,jdbcType=TIMESTAMP},#{closeTime,jdbcType=TIMESTAMP},
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR})
@@ -181,6 +185,12 @@
       <if test="agentSignCom != null" >
         AGENT_SIGN_COM,
       </if>
+      <if test="agentLoancloseSat != null">
+      	AGENT_LOANCLOSE_SAT,
+      </if>
+      <if test="agentLoancloseCom != null">
+      	AGENT_LOANCLOSE_COM,
+      </if>
       <if test="agentComloanSat != null" >
         AGENT_COMLOAN_SAT,
       </if>
@@ -198,6 +208,12 @@
       </if>
       <if test="agentGuohuCom != null" >
         AGENT_GUOHU_COM,
+      </if>
+      <if test="agentComDict != null" >
+        AGENT_COM_DICT,
+      </if>
+      <if test="agentComElse != null" >
+        AGENT_COM_ELSE,
       </if>
       <if test="status != null" >
         STATUS,
@@ -230,7 +246,8 @@
         UPDATE_BY,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    SELECT
+    <trim prefix="" suffix="" suffixOverrides="," >
       <if test="pkid != null" >
         #{pkid,jdbcType=BIGINT},
       </if>
@@ -306,6 +323,12 @@
       <if test="agentSignCom != null" >
         #{agentSignCom,jdbcType=NVARCHAR},
       </if>
+      <if test="agentLoancloseSat != null" >
+        #{agentLoancloseSat,jdbcType=INTEGER},
+      </if>
+      <if test="agentLoancloseCom != null" >
+        #{agentLoancloseCom,jdbcType=NVARCHAR},
+      </if>
       <if test="agentComloanSat != null" >
         #{agentComloanSat,jdbcType=INTEGER},
       </if>
@@ -323,6 +346,12 @@
       </if>
       <if test="agentGuohuCom != null" >
         #{agentGuohuCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentComDict != null" >
+        #{agentComDict,jdbcType=VARCHAR},
+      </if>
+      <if test="agentComElse != null" >
+        #{agentComElse,jdbcType=NVARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
@@ -355,6 +384,7 @@
         #{updateBy,jdbcType=VARCHAR},
       </if>
     </trim>
+      where not exists(select 1 from sctrans.T_CS_CASE_SATISFACTION where CASE_CODE = #{caseCode,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.satisfaction.entity.ToSatisfaction" >
     update sctrans.T_CS_CASE_SATISFACTION
@@ -431,6 +461,12 @@
       <if test="agentSignCom != null" >
         AGENT_SIGN_COM = #{agentSignCom,jdbcType=NVARCHAR},
       </if>
+      <if test="agentLoancloseSat != null" >
+        AGENT_LOANCLOSE_SAT = #{agentLoancloseSat,jdbcType=INTEGER},
+      </if>
+      <if test="agentLoancloseCom != null" >
+        AGENT_LOANCLOSE_COM = #{agentLoancloseCom,jdbcType=NVARCHAR},
+      </if>
       <if test="agentComloanSat != null" >
         AGENT_COMLOAN_SAT = #{agentComloanSat,jdbcType=INTEGER},
       </if>
@@ -448,6 +484,12 @@
       </if>
       <if test="agentGuohuCom != null" >
         AGENT_GUOHU_COM = #{agentGuohuCom,jdbcType=NVARCHAR},
+      </if>
+      <if test="agentComDict != null" >
+        AGENT_COM_DICT = #{agentComDict,jdbcType=VARCHAR},
+      </if>
+      <if test="agentComElse != null" >
+        AGENT_COM_ELSE = #{agentComElse,jdbcType=NVARCHAR},
       </if>
       <if test="status != null" >
         STATUS = #{status,jdbcType=VARCHAR},
@@ -508,12 +550,16 @@
       AGENT_PHONE_RES = #{agentPhoneRes,jdbcType=NVARCHAR},
       AGENT_SIGN_SAT = #{agentSignSat,jdbcType=INTEGER},
       AGENT_SIGN_COM = #{agentSignCom,jdbcType=NVARCHAR},
+      AGENT_LOANCLOSE_SAT = #{agentLoancloseSat,jdbcType=INTEGER},
+      AGENT_LOANCLOSE_COM = #{agentLoancloseCom,jdbcType=NVARCHAR},
       AGENT_COMLOAN_SAT = #{agentComloanSat,jdbcType=INTEGER},
       AGENT_COMLOAN_COM = #{agentComloanCom,jdbcType=NVARCHAR},
       AGENT_PSFLOAN_SAT = #{agentPsfloanSat,jdbcType=INTEGER},
       AGENT_PSFLOAN_COM = #{agentPsfloanCom,jdbcType=NVARCHAR},
       AGENT_GUOHU_SAT = #{agentGuohuSat,jdbcType=INTEGER},
       AGENT_GUOHU_COM = #{agentGuohuCom,jdbcType=NVARCHAR},
+      AGENT_COM_DICT = #{agentComDict,jdbcType=VARCHAR},
+      AGENT_COM_ELSE = #{agentComElse,jdbcType=NVARCHAR},
       STATUS = #{status,jdbcType=VARCHAR},
       TYPE = #{type,jdbcType=VARCHAR},
       CALLER_ID = #{callerId,jdbcType=VARCHAR},

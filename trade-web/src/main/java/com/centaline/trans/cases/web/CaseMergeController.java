@@ -513,4 +513,31 @@ public class CaseMergeController {
 		String str=sdf.format(date);  
 		return str;
 	}
+	/**
+	 * 删除流水
+	 * @author hejf10
+	 * @param request
+	 * @date 2017年6月9日18:07:01
+	 * @return
+	 */
+	@RequestMapping(value="delLiushui")
+	@ResponseBody
+	public AjaxResponse<?> delLiushui(Long pkid, HttpServletRequest request){
+		AjaxResponse<Boolean> response = new AjaxResponse<>();
+		try{
+			toCaseService.delLiushui(pkid);
+			response.setSuccess(true);
+			response.setMessage("删除成功！");
+		} catch (Exception e) {
+			response.setSuccess(false);
+			String sOut = "";
+			StackTraceElement[] trace = e.getStackTrace();
+			for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
+			/**response.setMessage(e.getMessage()+"异常："+sOut);**/
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return response;
+	}
 }

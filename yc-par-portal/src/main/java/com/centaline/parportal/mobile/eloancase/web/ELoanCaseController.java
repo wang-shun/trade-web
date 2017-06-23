@@ -251,8 +251,8 @@ public class ELoanCaseController
         Map<String, Object> paramter = new HashMap<String, Object>();
 
         SessionUser sessionUser = uamSessionService.getSessionUser();
-        // paramter.put("loanerId", sessionUser.getId());
-        paramter.put("loanerId", "ff80808158bd58c10158bda37f100020");
+        paramter.put("loanerId", sessionUser.getId());
+        // paramter.put("loanerId", "ff80808158bd58c10158bda37f100020");
 
         if (StringUtils.isNotBlank(loanerStatusCode))
         {

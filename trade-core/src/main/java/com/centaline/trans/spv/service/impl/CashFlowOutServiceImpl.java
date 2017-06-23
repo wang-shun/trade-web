@@ -543,7 +543,8 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
     		ToSpvCashFlowApply apply = toSpvCashFlowApplyMapper.selectByPrimaryKey(cashFlow.getCashflowApplyId());
     		//只选取完成的流水记录
     		if("in".equals(apply.getUsage()) 
-    				&& !SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
+    				&& (!SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode().equals(cashFlow.getStatus()) 
+    				&& !SpvCashFlowApplyStatusEnum.THREEPARTIES.getCode().equals(cashFlow.getStatus()))){
     			continue;         
     		}else if("out".equals(apply.getUsage())
     				&& SpvCashFlowApplyStatusEnum.OUTDRAFT.getCode().equals(cashFlow.getStatus())){
@@ -563,11 +564,14 @@ public class CashFlowOutServiceImpl implements CashFlowOutService {
         	
     		cashFlow.setAmount(cashFlow.getAmount() == null?null:cashFlow.getAmount().divide(new BigDecimal(10000)));
         	cashFlow.setCreateByName(cashFlow.getCreateBy() == null?null:uamSessionService.getSessionUserById(cashFlow.getCreateBy()).getRealName());
-        	if("in".equals(apply.getUsage()) && SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
+        	if("in".equals(apply.getUsage()) && (SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode().equals(cashFlow.getStatus()) 
+        			|| SpvCashFlowApplyStatusEnum.THREEPARTIES.getCode().equals(cashFlow.getStatus()))){
         		totalCashFlowInAmount = totalCashFlowInAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
-        	}else if("out".equals(apply.getUsage())  && SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
+        	}else if("out".equals(apply.getUsage())  && (SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())
+        			|| SpvCashFlowApplyStatusEnum.OUTTHREEPARTIES.getCode().equals(cashFlow.getStatus()))){
         		totalCashFlowOutAmount = totalCashFlowOutAmount.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
-        	}else if("out".equals(apply.getUsage())  && !SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())){
+        	}else if("out".equals(apply.getUsage())  && (!SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode().equals(cashFlow.getStatus())
+        			&& !SpvCashFlowApplyStatusEnum.OUTTHREEPARTIES.getCode().equals(cashFlow.getStatus()))){
         		totalProcessCashFlowOutAmout = totalProcessCashFlowOutAmout.add(cashFlow.getAmount() == null?BigDecimal.ZERO:cashFlow.getAmount());
         	}	
       	

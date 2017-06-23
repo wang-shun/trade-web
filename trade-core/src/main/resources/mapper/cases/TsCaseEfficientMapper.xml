@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.cases.repository.TsCaseEfficientMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.cases.entity.TsCaseEfficient" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="DISPATCH_TIME" property="dispatchTime" jdbcType="TIMESTAMP" />
+    <result column="FIRSTFOLLOW_TIME" property="firstfollowTime" jdbcType="TIMESTAMP" />
+    <result column="SIGN_TIME" property="signTime" jdbcType="TIMESTAMP" />
+    <result column="GUOHU_TIME" property="guohuTime" jdbcType="TIMESTAMP" />
+    <result column="CASECLOSE_TIME" property="casecloseTime" jdbcType="TIMESTAMP" />
+    <result column="FIRSTFOLLOW_EFF" property="firstfollowEff" jdbcType="INTEGER" />
+    <result column="FIRSTFOLLOW_DLY" property="firstfollowDly" jdbcType="INTEGER" />
+    <result column="SIGN_EFF" property="signEff" jdbcType="INTEGER" />
+    <result column="SIGN_DLY" property="signDly" jdbcType="INTEGER" />
+    <result column="GUOHU_EFF" property="guohuEff" jdbcType="INTEGER" />
+    <result column="GUOHU_DLY" property="guohuDly" jdbcType="INTEGER" />
+    <result column="CASECLOSE_EFF" property="casecloseEff" jdbcType="INTEGER" />
+    <result column="CASECLOSE_DLY" property="casecloseDly" jdbcType="INTEGER" />
+    <result column="CUR_OVERDUE_TIME" property="curOverdueTime" jdbcType="TIMESTAMP" />
+    <result column="HIS_OVERDUE_COUNT" property="hisOverdueCount" jdbcType="INTEGER" />
+    <result column="CUR_DELAY_COUNT" property="curDelayCount" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+     PKID,CASE_CODE,DISPATCH_TIME,FIRSTFOLLOW_TIME,SIGN_TIME,GUOHU_TIME,CASECLOSE_TIME,FIRSTFOLLOW_EFF,FIRSTFOLLOW_DLY,
+     SIGN_EFF,SIGN_DLY,GUOHU_EFF,GUOHU_DLY,CASECLOSE_EFF,CASECLOSE_DLY,CUR_OVERDUE_TIME,HIS_OVERDUE_COUNT,CUR_DELAY_COUNT,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY
+  </sql>
+  
+  <insert id="insert" parameterType="com.centaline.trans.cases.entity.TsCaseEfficient" >
+    insert into T_TS_CASE_EFFICIENT (PKID, CASE_CODE, DISPATCH_TIME, 
+      FIRSTFOLLOW_TIME, SIGN_TIME, GUOHU_TIME, 
+      CASECLOSE_TIME, FIRSTFOLLOW_EFF, FIRSTFOLLOW_DLY, 
+      SIGN_EFF, SIGN_DLY, GUOHU_EFF, 
+      GUOHU_DLY, CASECLOSE_EFF, CASECLOSE_DLY, 
+      CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+      UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{dispatchTime,jdbcType=TIMESTAMP}, 
+      #{firstfollowTime,jdbcType=TIMESTAMP}, #{signTime,jdbcType=TIMESTAMP}, #{guohuTime,jdbcType=TIMESTAMP}, 
+      #{casecloseTime,jdbcType=TIMESTAMP}, #{firstfollowEff,jdbcType=INTEGER}, #{firstfollowDly,jdbcType=INTEGER}, 
+      #{signEff,jdbcType=INTEGER}, #{signDly,jdbcType=INTEGER}, #{guohuEff,jdbcType=INTEGER}, 
+      #{guohuDly,jdbcType=INTEGER}, #{casecloseEff,jdbcType=INTEGER}, #{casecloseDly,jdbcType=INTEGER}
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.TsCaseEfficient" >
+    insert into sctrans.T_TS_CASE_EFFICIENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="firstfollowTime != null" >
+        FIRSTFOLLOW_TIME,
+      </if>
+      <if test="signTime != null" >
+        SIGN_TIME,
+      </if>
+      <if test="guohuTime != null" >
+        GUOHU_TIME,
+      </if>
+      <if test="casecloseTime != null" >
+        CASECLOSE_TIME,
+      </if>
+      <if test="firstfollowEff != null" >
+        FIRSTFOLLOW_EFF,
+      </if>
+      <if test="firstfollowDly != null" >
+        FIRSTFOLLOW_DLY,
+      </if>
+      <if test="signEff != null" >
+        SIGN_EFF,
+      </if>
+      <if test="signDly != null" >
+        SIGN_DLY,
+      </if>
+      <if test="guohuEff != null" >
+        GUOHU_EFF,
+      </if>
+      <if test="guohuDly != null" >
+        GUOHU_DLY,
+      </if>
+      <if test="casecloseEff != null" >
+        CASECLOSE_EFF,
+      </if>
+      <if test="casecloseDly != null" >
+        CASECLOSE_DLY,
+      </if>
+      <if test="dispatchTime != null" >
+        DISPATCH_TIME,
+      </if>
+      <if test="hisOverdueCount != null" >
+        HIS_OVERDUE_COUNT,
+      </if>
+       <if test="curDelayCount != null" >
+        CUR_DELAY_COUNT,
+      </if>
+      CUR_OVERDUE_TIME,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="firstfollowTime != null" >
+        #{firstfollowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="guohuTime != null" >
+        #{guohuTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="casecloseTime != null" >
+        #{casecloseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="firstfollowEff != null" >
+        #{firstfollowEff,jdbcType=INTEGER},
+      </if>
+      <if test="firstfollowDly != null" >
+        #{firstfollowDly,jdbcType=INTEGER},
+      </if>
+      <if test="signEff != null" >
+        #{signEff,jdbcType=INTEGER},
+      </if>
+      <if test="signDly != null" >
+        #{signDly,jdbcType=INTEGER},
+      </if>
+      <if test="guohuEff != null" >
+        #{guohuEff,jdbcType=INTEGER},
+      </if>
+      <if test="guohuDly != null" >
+        #{guohuDly,jdbcType=INTEGER},
+      </if>
+      <if test="casecloseEff != null" >
+        #{casecloseEff,jdbcType=INTEGER},
+      </if>
+      <if test="casecloseDly != null" >
+        #{casecloseDly,jdbcType=INTEGER},
+      </if>
+      <if test="dispatchTime != null" >
+        #{dispatchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hisOverdueCount != null" >
+        #{hisOverdueCount,jdbcType=INTEGER},
+      </if>
+      <if test="curDelayCount != null" >
+        #{curDelayCount,jdbcType=INTEGER},
+      </if>
+        #{calCurOverdueTime,jdbcType=TIMESTAMP},GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID}
+    </trim>
+  </insert>
+  
+  <select id="getCaseEffCountByCaseCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1)
+    from sctrans.T_TS_CASE_EFFICIENT with(nolock)
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateTsCaseEffInfo" parameterType="com.centaline.trans.cases.entity.TsCaseEfficient">
+  		update sctrans.T_TS_CASE_EFFICIENT
+  		<set>
+		      <if test="caseCode != null" >
+		          CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+		      </if>
+		      <if test="dispatchTime != null" >
+		          DISPATCH_TIME = #{dispatchTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="firstfollowTime != null" >
+		          FIRSTFOLLOW_TIME = #{firstfollowTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="signTime != null" >
+		       	  SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="guohuTime != null" >
+		          GUOHU_TIME = #{guohuTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="casecloseTime != null" >
+		          CASECLOSE_TIME = #{casecloseTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="firstfollowEff != null" >
+		          FIRSTFOLLOW_EFF = #{firstfollowEff,jdbcType=INTEGER},
+		      </if>
+		      <if test="firstfollowDly != null" >
+		          FIRSTFOLLOW_DLY = #{firstfollowDly,jdbcType=INTEGER},
+		      </if>
+		      <if test="signEff != null" >
+		          SIGN_EFF = #{signEff,jdbcType=INTEGER},
+		      </if>
+		      <if test="signDly != null" >
+		          SIGN_DLY = #{signDly,jdbcType=INTEGER},
+		      </if>
+		      <if test="guohuEff != null" >
+		          GUOHU_EFF = #{guohuEff,jdbcType=INTEGER},
+		      </if>
+		      <if test="guohuDly != null" >
+		          GUOHU_DLY = #{guohuDly,jdbcType=INTEGER},
+		      </if>
+		      <if test="casecloseEff != null" >
+		          CASECLOSE_EFF = #{casecloseEff,jdbcType=INTEGER},
+		      </if>
+		      <if test="casecloseDly != null" >
+		          CASECLOSE_DLY = #{casecloseDly,jdbcType=INTEGER},
+		      </if>
+		      <if test="curDelayCount != null" >
+		          CUR_DELAY_COUNT = #{curDelayCount,jdbcType=INTEGER},
+		      </if>
+		       CUR_OVERDUE_TIME = #{calCurOverdueTime,jdbcType=TIMESTAMP},
+		       HIS_OVERDUE_COUNT = #{calHisOverdueCount,jdbcType=INTEGER},
+		       UPDATE_TIME = GETDATE(),
+		       UPDATE_BY = @{SESSION_USER_ID}
+	    </set>
+	    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getCaseEffInfoByCasecode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_CASE_EFFICIENT with(nolock)
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="initTsCaseEffInfo" parameterType="com.centaline.trans.cases.entity.TsCaseEfficient">
+  	update sctrans.T_TS_CASE_EFFICIENT
+  	set FIRSTFOLLOW_TIME = null,FIRSTFOLLOW_DLY = 0,SIGN_TIME = null,SIGN_DLY = 0,GUOHU_TIME = null,GUOHU_DLY = 0,
+  	    CASECLOSE_TIME = null,CASECLOSE_DLY = 0,CUR_OVERDUE_TIME = #{initCurOverdueTime,jdbcType=TIMESTAMP},
+  	    CUR_DELAY_COUNT = 0,HIS_OVERDUE_COUNT = 0,UPDATE_TIME = GETDATE(),UPDATE_BY = @{SESSION_USER_ID}
+  	 where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

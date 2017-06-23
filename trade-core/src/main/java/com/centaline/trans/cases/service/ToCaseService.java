@@ -145,4 +145,12 @@ public interface ToCaseService {
 	 * @return
 	 */
 	public String selectAtt(String caseCode);
+	/**
+	 * 删除流水
+	 * @author hejf10
+	 * @date 2017年6月9日18:09:00
+	 * @param pkid
+	 * @throws Exception
+	 */
+	public void delLiushui(Long pkid) throws Exception;
 }

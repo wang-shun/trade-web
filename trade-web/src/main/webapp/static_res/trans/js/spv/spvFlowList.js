@@ -35,10 +35,10 @@
 						}
 						//查询
 						$("#btn_search").click(function() {
-							          params.search_spvCode=$("input[name='spvCode']").val();
+							          params.search_spvCode=$("input[name='spvCode']").val().trim();
 							          params.search_usage=$("select[name='usage']").val();
 							          params.search_applier=$("input[name='applier']").val();
-							          params.search_prAddress=$("input[name='prAddress']").val();
+							          params.search_prAddress=$("input[name='prAddress']").val().trim();
 											initData();
 											
 						})

@@ -20,6 +20,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						fileUploadContainer : "fileUploadContainer",
 						auto: false,
 						duplicate: true,
+					    isAllUpdateY:true,
 						/*accept: {
 						        title: 'Images',
 						        extensions: 'gif,jpg,jpeg,bmp,png',
@@ -43,8 +44,10 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 				  },options||{});
 				  
 				  container = settings.fileUploadContainer;
-				  
-				  updateAttachmentStatus(settings);
+				  if(settings.isAllUpdateY){
+					  updateAttachmentStatus(settings);
+				  }
+
 				  
 				  if (typeof window.WebUploader == 'undefined') {
 					  use(["/js/viewer/viewer.min.css","/js/viewer/viewer.min.js","/js/template.js","/js/plugins/webuploader/attachment-ui.css","/js/plugins/webuploader/webuploader.css"],settings);

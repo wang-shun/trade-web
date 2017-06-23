@@ -185,13 +185,13 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 									还贷逾期<br /> <span id="repayOverdueCaseCount"></span>
 								</p></li>
 								
-							<li><i class="icon iconfont icon40 pink">&#xe6a9;</i>
+							<li><i class="icon iconfont icon40 yellow">&#xe6a9;</i>
 								<p>
 									过户逾期<br /> <span id="transferOverdueCaseCount"></span>
 								</p>
 							</li>
 
-							<li><i class="icon iconfont icon40 pink">&#xe6a9;</i>
+							<li><i class="icon iconfont icon40 green">&#xe6b7;</i>
 								<p>
 									接单逾期<br /> <span id="loanerOverdueAccept"></span>
 								</p>

@@ -95,7 +95,7 @@ public class LoanlostApproveServiceImpl implements LoanlostApproveService {
 	}
 
 	@Override
-	public AjaxResponse saveAndSubmitLoanlostApproveFirst(ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO, String loanLost, String loanLost_response) {
+	public AjaxResponse saveAndSubmitLoanlostApproveFirst(ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO, String caseClose, String caseClose_response) {
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		ToApproveRecord toApproveRecord = new ToApproveRecord();
 		toApproveRecord.setProcessInstance(processInstanceVO.getProcessInstanceId());
@@ -103,20 +103,20 @@ public class LoanlostApproveServiceImpl implements LoanlostApproveService {
 		toApproveRecord.setOperatorTime(new Date());
 		toApproveRecord.setApproveType(loanlostApproveVO.getApproveType());
 		toApproveRecord.setCaseCode(processInstanceVO.getCaseCode());
-		boolean b = loanLost.equals("true");
-		toApproveRecord.setContent((b?"通过":"不通过") + (",审批意见为"+loanLost_response));
+		boolean b = caseClose.equals("true");
+		toApproveRecord.setContent((b?"通过":"不通过") + (",审批意见为"+caseClose_response));
 		toApproveRecord.setOperator(loanlostApproveVO.getOperator());
 		loanlostApproveService.saveLoanlostApprove(toApproveRecord);
 
 		RestVariable restVariable = new RestVariable();
 		List<RestVariable> variables = new ArrayList<RestVariable>();
-		restVariable.setName("CaseCloseThirdCheck");
-		restVariable.setValue(loanLost.equals("true"));
+		restVariable.setName("CaseCloseFirstCheck");
+		restVariable.setValue(b);
 		variables.add(restVariable);
-		if(!StringUtil.isBlank(loanLost_response)) {
+		if(!StringUtils.isBlank(caseClose_response)) {
 			RestVariable restVariable1 = new RestVariable();
-			restVariable1.setName("CaseCloseThirdCheck_response");
-			restVariable1.setValue(loanLost_response);
+			restVariable1.setName("CaseCloseFirstCheck_response");
+			restVariable1.setValue(caseClose_response);
 			variables.add(restVariable1);
 		}
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
@@ -139,6 +139,7 @@ public class LoanlostApproveServiceImpl implements LoanlostApproveService {
 		toApproveRecord.setOperator(loanlostApproveVO.getOperator());
 		loanlostApproveService.saveLoanlostApprove(toApproveRecord);
 
+	/*流程引擎相关*/
 		RestVariable restVariable = new RestVariable();
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		restVariable.setName("CaseCloseSecondCheck");
@@ -150,6 +151,7 @@ public class LoanlostApproveServiceImpl implements LoanlostApproveService {
 			restVariable1.setValue(caseCloseSecondCheck_response);
 			variables.add(restVariable1);
 		}
+
 
 		ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
 		workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(),toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());

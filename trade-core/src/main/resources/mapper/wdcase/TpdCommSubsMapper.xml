@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.centaline.trans.wdcase.entity.TpdCommSubs" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
-    <result column="COMM_SUBJECT" property="commSubject" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
     <result column="STD_RATE" property="stdRate" jdbcType="DECIMAL" />
     <result column="STD_COST" property="stdCost" jdbcType="DECIMAL" />
     <result column="DISCOUNT" property="discount" jdbcType="DECIMAL" />
@@ -21,7 +21,7 @@
     <result column="IS_DELETED" property="isDeleted" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, COMM_SUBJECT, STD_RATE, STD_COST, DISCOUNT, COMM_COST, BUYER_COST, 
+    PKID, CASE_CODE, REMARKS, STD_RATE, STD_COST, DISCOUNT, COMM_COST, BUYER_COST, 
     BUYER_PAID, SELLER_COST, SELLER_PAID, PAYEE, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, 
     IS_DELETED
   </sql>
@@ -42,13 +42,13 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.wdcase.entity.TpdCommSubs" >
-    insert into sctrans.T_PD_COMM_SUBS (PKID, CASE_CODE, COMM_SUBJECT, 
+    insert into sctrans.T_PD_COMM_SUBS (PKID, CASE_CODE, REMARKS, 
       STD_RATE, STD_COST, DISCOUNT, 
       COMM_COST, BUYER_COST, BUYER_PAID, 
       SELLER_COST, SELLER_PAID, PAYEE, 
       CREATE_BY, CREATE_TIME, UPDATE_BY, 
       UPDATE_TIME, IS_DELETED)
-    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{commSubject,jdbcType=VARCHAR}, 
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
       #{stdRate,jdbcType=DECIMAL}, #{stdCost,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, 
       #{commCost,jdbcType=DECIMAL}, #{buyerCost,jdbcType=DECIMAL}, #{buyerPaid,jdbcType=DECIMAL}, 
       #{sellerCost,jdbcType=DECIMAL}, #{sellerPaid,jdbcType=DECIMAL}, #{payee,jdbcType=NVARCHAR}, 
@@ -64,8 +64,8 @@
       <if test="caseCode != null" >
         CASE_CODE,
       </if>
-      <if test="commSubject != null" >
-        COMM_SUBJECT,
+      <if test="remarks != null" >
+        REMARKS,
       </if>
       <if test="stdRate != null" >
         STD_RATE,
@@ -117,8 +117,8 @@
       <if test="caseCode != null" >
         #{caseCode,jdbcType=VARCHAR},
       </if>
-      <if test="commSubject != null" >
-        #{commSubject,jdbcType=VARCHAR},
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
       </if>
       <if test="stdRate != null" >
         #{stdRate,jdbcType=DECIMAL},
@@ -170,8 +170,8 @@
       <if test="caseCode != null" >
         CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       </if>
-      <if test="commSubject != null" >
-        COMM_SUBJECT = #{commSubject,jdbcType=VARCHAR},
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
       </if>
       <if test="stdRate != null" >
         STD_RATE = #{stdRate,jdbcType=DECIMAL},
@@ -221,7 +221,7 @@
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.wdcase.entity.TpdCommSubs" >
     update sctrans.T_PD_COMM_SUBS
     set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
-      COMM_SUBJECT = #{commSubject,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
       STD_RATE = #{stdRate,jdbcType=DECIMAL},
       STD_COST = #{stdCost,jdbcType=DECIMAL},
       DISCOUNT = #{discount,jdbcType=DECIMAL},

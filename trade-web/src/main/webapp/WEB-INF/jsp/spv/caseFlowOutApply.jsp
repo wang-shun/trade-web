@@ -272,6 +272,7 @@
                                                  	   审核人：<a href="javascript:void(0)">
                                                     ${cashFlow.applyAuditorName }
                                                     
+                                                    <c:if test="${spvBaseInfoVO.toSpv.prdCode eq 1}">
                                                     <c:if test="${cashFlow.usage eq 'out' }">
 	                                                    <c:if test="${cashFlow.status ge 12 }">
 	                                                    &gt;${cashFlow.ftPreAuditorName }
@@ -290,6 +291,8 @@
                                                     ${cashFlow.ftPostAuditorName }
                                                     </c:if>
                                                     </c:if>
+                                                    </c:if>
+                                                    
                                                     </a>
                                                 </p>
                                             </td>
@@ -495,7 +498,12 @@
                     <div class="form-btn">
                             <div class="text-center">
                             <c:if test="${empty handle }">
-                                <button id="none_submit_btn" class="btn btn-success mr15">提交</button>
+                            	<c:if test="${spvBaseInfoVO.toSpv.prdCode eq 1}">
+                            	    <button id="none_submit_btn" class="btn btn-success mr15">提交</button>
+                            	</c:if>
+								<c:if test="${spvBaseInfoVO.toSpv.prdCode eq 2}">
+                            	    <button id="none_save_btn" class="btn btn-success mr15">保存</button>
+                            	</c:if>
                                 <button onclick="rescCallbocak()" class="btn btn-default">关闭</button>
                             </c:if>
                             <c:if test="${handle eq 'apply' }">
@@ -784,12 +792,8 @@ function renderFileUpload(k,a){
 }
 
 function rescCallbocak(){
-	if($("#urlType").val() == 'myTask'){    	 
-		   window.opener.location.reload(); //刷新父窗口
-  	       window.close(); //关闭子窗口.
-	     }else{
-	       window.location.href = ctx+"/spv/spvList";
-	     }
+	 window.opener.location.reload(); //刷新父窗口
+     window.close(); //关闭子窗口.
 }
 
 //渲染图片 

@@ -96,8 +96,13 @@
 						</ifNotNull>
 					) as AB where 1=1
 
-						and taskCode in('PurchaseLimit','Pricing','TaxReview','LoanClose','Guohu','HouseBookGet','serviceRestartApply','serviceRestartApprove','ManagerAduit','SuperManagerAudit','DirectorAudit','LoanlostApply','LoanlostApproveManager','LoanlostApproveSeniorManager','LoanlostApproveDirector','InvalidCaseApprove')
-
+						and taskCode in('CaseCloseSecondApprove','CaseCloseFirstApprove','FirstFollow','TransSign','LoanRelease','MortgageSelect',
+							'TransPlanFilling',
+							'PurchaseLimit','Pricing','TaxReview','LoanClose','Guohu','HouseBookGet',
+							'serviceRestartApply','serviceRestartApprove','ManagerAduit','SuperManagerAudit',
+							'DirectorAudit','LoanlostApproveManager','LoanlostApproveSeniorManager',
+							'LoanlostApproveDirector','InvalidCaseApprove')
+							
 						<ifNotNull taskTag>
 							and AB.taskTag in (#taskTag#)
 						</ifNotNull>
@@ -177,9 +182,9 @@
 				<column type="both" name="wfeName" dataType="String" defaultVal=""/>
 				<column type="both" name="caseStatus" dataType="String" defaultVal="" />
 				
-				<column type="both" name="houtai" referencecol="caseCode" customDict="getQianHouTai" dataType="JSONARRAY"/>
-				<column type="both" name="qiantai" />
-				<column type="both" name="orgId" />
+				<column type="both" name="houtai" referencecol="caseCode" customDict="getQianHouTai" dataType="JSONARRAY" defaultVal="[]"/>
+				<column type="both" name="qiantai" dataType="String" defaultVal=""/>
+				<column type="both" name="orgId" dataType="String" defaultVal=""/>
 			</table-row>
 		</grid>
 	</query>

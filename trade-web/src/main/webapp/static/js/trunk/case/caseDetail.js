@@ -1730,6 +1730,48 @@ function editWdCase(){
 	var caseCode = $("#caseCode").val();
 	window.location.href = ctx+"/caseMerge/editWdCase"+'?caseCode=' + caseCode;
 }
+/**
+ * 删除流水
+ * hejf
+ * 2017年6月9日17:56:12
+ */
+function delLiushui( pkid){
+	
+	window.wxc.confirm("您是否确认删除？",{"wxcOk":function(){
+
+	var url = "/caseMerge/delLiushui";
+	var ctx = $("#ctx").val();
+	url = ctx + url;
+	var params ='&pkid=' + pkid;
+	$.ajax({
+		cache : false,
+		async : true,
+		type : "POST",
+		url : url,
+		dataType : "json",
+		timeout : 10000,
+		data : params,
+		
+		success : function(data) { 
+			if(data.success){
+				window.wxc.alert(data.message);
+				window.location.reload();
+			}else{
+				window.wxc.error("删除失败！"+data.message);
+			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			
+		}
+	});
+	
+	}});
+}
+
+
+
+
+
 
 
 

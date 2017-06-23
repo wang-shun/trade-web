@@ -271,10 +271,10 @@
 							});
 						};
 						$("#btn_searchFrom").click(function() {
-					          params.search_cashFlowApplyCode=$("input[name='cashFlowApplyCode']").val();
+					          params.search_cashFlowApplyCode=$("input[name='cashFlowApplyCode']").val().trim();
 					          params.search_usage=$("select[name='usage']").val();
 					          params.search_applier=$("input[name='applier']").val();
-					          params.search_prAddress=$("input[name='prAddress']").val();
+					          params.search_prAddress=$("input[name='prAddress']").val().trim();
 					          initFlowListData();
 									
 				         })

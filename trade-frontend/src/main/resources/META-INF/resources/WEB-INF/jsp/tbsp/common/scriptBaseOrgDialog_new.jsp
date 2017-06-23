@@ -31,7 +31,7 @@ function openDialog(option){
    	if(!dailogOption.data){dailogOption.data = {};}
    	if (self != top) { query = parent.$; dailogOption.data.frameId = window.frameElement.id; }
    	if(option.callBack){ var callBack = option.callBack; dailogOption.data.callBack = callBack; }
-   	query.ligerDialog.open(dailogOption); 
+   	$.ligerDialog.open(dailogOption); 
 }
 function closeDialog(options){
   	var dialog = frameElement.dialog; 

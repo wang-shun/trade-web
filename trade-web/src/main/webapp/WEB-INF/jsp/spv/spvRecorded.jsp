@@ -79,7 +79,7 @@
                             <div class="line">
                                 <p>
                                     <label> 产品类型  </label>
-                                    <span class="info_one"  id="prdCode" >${spvBaseInfoVO.toSpv.prdCode==1?"光大四方资金监管":"" }</span>
+                                    <span class="info_one"  id="prdCode" ><c:choose><c:when test="${spvBaseInfoVO.toSpv.prdCode eq 1}">光大四方资金监管</c:when><c:when test="${spvBaseInfoVO.toSpv.prdCode eq 2}">光大三方资金监管</c:when></c:choose></span>
                                 </p>
                                 <p>
                                     <label>
@@ -163,7 +163,12 @@
                                 <div class="form-btn">
                             <div class="text-center">
                                 <button type="button" onclick="rescCallbocak()"  class="btn btn-default mr15">关闭</button>
-                                <a onclick="sumbitRe()" class="btn btn-success">提交</a>
+                                <c:if test="${spvBaseInfoVO.toSpv.prdCode eq 1}">
+                                	<a onclick="sumbitRe()" class="btn btn-success">提交</a>
+                                </c:if>
+                                <c:if test="${spvBaseInfoVO.toSpv.prdCode eq 2}">
+                                	<a onclick="saveRe()" class="btn btn-success">保存</a>
+                                </c:if>
                             </div>
                         </div>
                             </div>

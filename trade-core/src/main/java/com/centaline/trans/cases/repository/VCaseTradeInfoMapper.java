@@ -15,4 +15,10 @@ public interface VCaseTradeInfoMapper {
 	Date selectGuohuSubTime(String caseCode);
 	
 	Date selectGuohuPassTime(String caseCode);
+	
+	String selectIsLoanLost(String caseCode);
+	
+	String selectIsDelegateYucui(String caseCode);
+	
+	String selectMortType(String caseCode);
 }

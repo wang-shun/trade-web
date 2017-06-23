@@ -1639,7 +1639,7 @@ $(".nav-tabs").find("a").on('shown.bs.tab', function (e) {
 		  $("#isMainLoanBank").val(0);
 		  $("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(0);
 	  }
-	})
+})
 
 function checknum(obj){
 	obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
@@ -1669,15 +1669,15 @@ function checkInt(obj){
 	obj.value = obj.value.replace(/[^\d]/g,"");  
 }
 
- 	var ctx = "${ctx}";
-	var step = ${step};
-	var step1 = ${step1};
+var ctx = "${ctx}";
+var step = ${step};
+var step1 = ${step1};
 
-	var evaCode = "${evaCode}";
-	if(evaCode != ""){
-		$("#eva_code").val(evaCode);
-	}
- 	var index = 0;
+var evaCode = "${evaCode}";
+if(evaCode != ""){
+	$("#eva_code").val(evaCode);
+}
+var index = 0;
 
  	
  	
@@ -1793,7 +1793,6 @@ function checkInt(obj){
 			/*$("#bank_branch_id").chosen("destroy");*/
     	getBranchBankList($("#bank_branch_id"),$("#addToEguPricingForm").find("select[name='bank_type']").val(),"",null,"egu");
         });
-		
     	
 		//$("#finOrgCode").change(function(){ 
 		$("select[name='finOrgCode']").change(function(){ 		
@@ -1828,24 +1827,24 @@ function checkInt(obj){
 
     	})
 		
-		 document.getElementById('optionsRadios1').checked=true;
-            if($("input[name='optionsRadios']:checked").val()==0){
-                $("#direct_launch_div").hide();
-            }else{
-                $("#direct_launch_div").show();
-                 $("#addToEguPricingForm").find("input").each(function(){
-                     $(this).removeAttr("disabled");
-                     if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
-                         $(this).val("");
-                     }
-                 });
-                 $("#addToEguPricingForm").find("select").each(function(){
-                     $(this).removeAttr("disabled");
-                     if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
-                         $(this).val("");
-                     }
-                 });
-            }
+		document.getElementById('optionsRadios1').checked=true;
+         if($("input[name='optionsRadios']:checked").val()==0){
+              $("#direct_launch_div").hide();
+         }else{
+              $("#direct_launch_div").show();
+              $("#addToEguPricingForm").find("input").each(function(){
+	                $(this).removeAttr("disabled");
+	                if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
+	                    $(this).val("");
+	                }
+             });
+             $("#addToEguPricingForm").find("select").each(function(){
+                 $(this).removeAttr("disabled");
+                 if($(this).attr("id")!="code" && $(this).attr("name")!="optionsRadios" &&$(this).attr("type")!="hidden"){
+                     $(this).val("");
+                 }
+             });
+        }
 		if(popInited)return true;
 		popInited=true;
 		$("input[name='optionsRadios']").click(function(){
@@ -1869,8 +1868,8 @@ function checkInt(obj){
    				 });
 			 }
 		 });
-			
-		if(step1 == 1){
+
+ 		if(step1 == 1){
  			getReminderList("table_list_5","pager_list_5");
 		}else if(step1 == 2||step1==3){
 	 		getMortgageInfo($("#caseCode").val(),0);
@@ -1878,20 +1877,20 @@ function checkInt(obj){
 			getReportList("table_list_6","pager_list_6",0);
 		}else if(step1 == 5){
 			getCompleteMortInfo(0);
-		}
+		} 
 
-			$("#isMainLoanBank").val("1");
-			$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(1);
-			
-			if(step == 1){
-	 			getReminderList("table_list_2","pager_list_2");
-			}else if(step == 2||step==3){
-		 		getMortgageInfo($("#caseCode").val(),1);
-			}else if(step == 4){
-				getReportList("table_list_4","pager_list_4",1);
-			}else if(step == 5){
-				getCompleteMortInfo(1);
-			}
+		$("#isMainLoanBank").val("1");
+		$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(1);
+		
+		if(step == 1){
+ 			getReminderList("table_list_2","pager_list_2");
+		}else if(step == 2||step==3){
+	 		getMortgageInfo($("#caseCode").val(),1);
+		}else if(step == 4){
+			getReportList("table_list_4","pager_list_4",1);
+		}else if(step == 5){
+			getCompleteMortInfo(1);
+		}
 
 	 	$(".myDataToggle").click(function(){
 	 		$("#isMainLoanBank").val($(this).attr('data-m'));
@@ -2016,32 +2015,7 @@ function checkInt(obj){
 				$form.find("input[name='loanerName']").val("");				
 				$form.find("#loanerOrgCode").val("");
 				$form.find("#loanerOrgId").val("");
-			}
-		/* }else if(isTmpBank == 0){
-			if (array && array.length > 0) {
-				$form.find("#loanerName").val(array[0].username);
-				$.ajax({
-					url : ctx + "/eloan/LoanerCode",
-					method : "post",
-					dataType : "json",
-					data : {
-						"userId" : array[0].userId
-					},
-					success : function(data) {
-						$form.find("#loanerNameImage").css("color","#52cdec");
-						$form.find("#loanerPhone").val(data.user.mobile);
-						$form.find("#loanerId").val(data.user.id);
-						$form.find("#loanerOrgCode").val(data.user.orgName);
-						$form.find("#loanerOrgId").val(data.user.orgId);
-					}
-				})
-			} else {
-				$form.find("#loanerName").val("");
-				$form.find("#loanerOrgCode").val("");
-				$form.find("#loanerOrgId").val("");
-			}
-			
-		} */
+			}		
 	}
 	
 	//渲染图片 
@@ -2049,6 +2023,7 @@ function checkInt(obj){
 		$('.wrapper-content').viewer('destroy');
 		$('.wrapper-content').viewer();
 	}
+	
  	</script> 
  </content>
  <content tag="local_require">

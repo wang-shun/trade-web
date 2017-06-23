@@ -14,6 +14,7 @@ public class FirstFollowVO {
 	private String caseCode;
     private String partCode;
 	/*交易单*/
+
     private Long caseId;
 	private String caseProperty; /*案件性质（有效or无效）*/
 	

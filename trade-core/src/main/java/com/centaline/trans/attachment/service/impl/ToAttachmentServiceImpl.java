@@ -44,7 +44,14 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 			}
 		}
 	}
-	
+
+	@Override
+	public void updateToAttachmentForCaseCodeByAdres(ToAttachment attach) {
+		if(attach!=null){
+			toAttachmentMapper.updateToAttachmentForCaseCodeByAdres(attach.getAvailable(),attach.getPreFileAdress());
+		}
+	}
+
 	/**
 	 * 保存附件改变
 	 */

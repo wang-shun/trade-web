@@ -354,5 +354,17 @@
     set case_code = #{newCaseCode,jdbcType=VARCHAR}
 	where case_code=#{caseCode,jdbcType=VARCHAR}
   </update>  
+    <update id="updateToAttachmentForCaseCodeByAdres" parameterType="java.lang.String" >
+    update sctrans.T_TO_ATTACHMENT
+    set available = #{available,jdbcType=VARCHAR}
+	where PRE_FILE_ADRESS=#{adres,jdbcType=VARCHAR}
+  </update>  
+   <select id="findToAttachmentByAdres" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_ATTACHMENT  with(nolock)
+    where PRE_FILE_ADRESS = #{adres,jdbcType=VARCHAR}
+    ORDER BY PKID DESC
+  </select>
   
 </mapper>

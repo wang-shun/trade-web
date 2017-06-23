@@ -249,6 +249,10 @@ public class TaskController {
     		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
     		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
     		request.setAttribute("toMortgage", toMortgage);
+			Dict dict = uamBasedataService.findDictByType("accompany_reason");
+			if(dict!=null){
+				request.setAttribute("accompanyReason", dict.getChildren());
+			}
     	} else if(taskitem.equals("LoanClose")) {/*贷款结清*/
     		request.setAttribute("loanClose", toCloseLoanService.qureyToCloseLoan(caseCode));
     	} else if(taskitem.equals("PSFApply")) {/*纯公积金贷款申请*/
@@ -316,7 +320,7 @@ public class TaskController {
     		ToMortgage mortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
     		request.setAttribute("mortgage", mortgage);
     	
-    	}else if(taskitem.equals("LoanlostApply")){/*贷款流失申请*/
+    	}else if(taskitem.equals("LoanlostApply")){ /*贷款流失申请*/
     		getAccesoryList(request, taskitem);   		
     		
     		/*贷款流失审批 添加流失原因*/

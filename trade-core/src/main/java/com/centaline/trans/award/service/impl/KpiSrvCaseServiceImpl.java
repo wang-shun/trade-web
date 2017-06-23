@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aist.common.exception.BaseException;
+import com.aist.common.exception.BusinessException;
 import com.centaline.trans.award.entity.AwardBaseEntity;
 import com.centaline.trans.award.entity.TsKpiSrvCase;
 import com.centaline.trans.award.repository.AwardBaseEntityMapper;
@@ -27,6 +29,8 @@ import com.centaline.trans.award.service.KpiSrvCaseService;
 import com.centaline.trans.award.vo.KpiSrvCaseVo;
 import com.centaline.trans.utils.DateUtil;
 import com.centaline.trans.utils.NumberUtil;
+
+import sun.util.resources.nl.CalendarData_nl;
 
 @Service(value = "kpiSrvCaseService")
 @Transactional(readOnly = true)
@@ -147,6 +151,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 	 * @param listVOs
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private List<KpiSrvCaseVo> checkVo(List<KpiSrvCaseVo> listVOs) {
 		if (listVOs == null || listVOs.isEmpty())
 			return null;
@@ -397,6 +402,7 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 		return null;
 	}
 	
+	@SuppressWarnings("unused")
 	private List<KpiSrvCaseVo> filterNoGuoHuCaseCodeSetMsg(List<KpiSrvCaseVo> listVOs,Collection<String> colls,String msg){
 		
 		if(listVOs!=null){
@@ -577,5 +583,34 @@ public class KpiSrvCaseServiceImpl implements KpiSrvCaseService {
 			kpiSrvCaseMapper.callKpiStastic(DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1)));
 		}
 		
+	}
+
+	@Override
+	public void callKpiSyncSatis(String belongMonth) {
+		if(null == belongMonth || "".equals(belongMonth)){
+			throw new BusinessException("同步计件奖金满意度请求参数有误！");
+		}
+		
+		
+		Map<String, Date> paramMap = new HashMap<String, Date>();
+/*		//过户审批通过时间：默认上月月底
+		Date today1 = DateUtil.getFirstDayOfTheMonth();
+		Date guohuTime = DateUtil.plusDay(today1, -1);
+		//计件月份：默认上月月初
+		Date today2 = DateUtil.getFirstDayOfTheMonth();
+		Date countTime = DateUtil.plusMonth(today2, -1);	*/	
+		
+		
+		Date belongMon = DateUtil.strToFullDate(belongMonth);		
+		Calendar calendar = Calendar.getInstance();	
+		calendar.setTime(belongMon);	
+		//calendar.roll(Calendar.DATE, -1);//日期回滚一天，也就是最后一天	
+		calendar.add(Calendar.MONTH, 1);
+		Date guohuTime = calendar.getTime();
+		
+		
+	    paramMap.put("guohu_approve_time", guohuTime);
+	    paramMap.put("belong_month", belongMon);
+		kpiSrvCaseMapper.callKpiSyncSatis(paramMap);
 	}
 }

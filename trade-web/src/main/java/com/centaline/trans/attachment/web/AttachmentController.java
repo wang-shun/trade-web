@@ -14,6 +14,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.service.ToMortgageService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
@@ -72,6 +74,9 @@ public class AttachmentController {
 
 	@Autowired
 	private MmIoBatchService mmIoBatchService;
+
+	@Autowired
+	private ToMortgageService toMortgageService;
 
 	private static String url = null;
 
@@ -186,6 +191,9 @@ public class AttachmentController {
 	@ResponseBody
 	public List<ToAttachment> quereyAttachments(HttpServletRequest request, ToAttachment toAttachment) {
 		List<ToAttachment> attachments = toAttachmentService.quereyAttachments(toAttachment);
+
+		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(toAttachment.getCaseCode());
+		List<ToAttachment> removeList = new ArrayList<ToAttachment>();
 		if (attachments != null && attachments.size() > 0) {
 			for (ToAttachment attachment : attachments) {
 				if (!StringUtils.isEmpty(attachment.getPreFileCode())) {
@@ -193,7 +201,20 @@ public class AttachmentController {
 					accesoryList.setAccessoryCode(attachment.getPreFileCode());
 					accesoryList.setPartCode(attachment.getPartCode());
 					attachment.setPreFileName(toAccesoryListService.findAccesoryNameByPartCode(accesoryList).getAccessoryName());
+					if(toMortgage == null || toMortgage.getMortType() == null){//如果无贷款，则删除商贷利率页和抵押登记表
+						if("ComLoan_rate_letter".equals(attachment.getPreFileCode())||"mortage_register_form".equals(attachment.getPreFileCode())){
+							removeList.add(attachment);
+						}
+					}
+					if(toMortgage != null&&"30016003".equals(toMortgage.getMortType())){//如果是公积金贷款
+						if("ComLoan_rate_letter".equals(attachment.getPreFileCode())){
+							removeList.add(attachment);
+						}
+					}
 				}
+			}
+			for(ToAttachment tal:removeList) {
+				attachments.remove(tal);
 			}
 		}
 		/** 读取上传附件备件表 */
@@ -384,6 +405,31 @@ public class AttachmentController {
 
 	}
 
+	@RequestMapping(value = "/fileUpload" )
+	@ResponseBody
+	public Object fileUpload(String fileList,String caseCode,String partCode) {
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		try{
+			String fileId[] =fileList.split(",");
+			for (String id : fileId){
+				if(id.length()>2){
+					ToAttachment attach=new ToAttachment();
+					attach.setAvailable("Y");
+					attach.setPreFileAdress(id);
+					attach.setCaseCode(caseCode);
+					toAttachmentService.updateToAttachmentForCaseCodeByAdres(attach);
+				}
+			}
+			ajaxResponse.setSuccess(true);
+			ajaxResponse.setMessage("保存成功");
+		}catch(Exception e){
+			e.printStackTrace();
+			ajaxResponse.setSuccess(false);
+			ajaxResponse.setMessage("保存失败");
+		}
+		return ajaxResponse;
+	}
+
 	private HttpClient createHttpClient() {
 		// 设置Base Auth验证信息
 		CredentialsProvider provider = new BasicCredentialsProvider();
@@ -404,4 +450,5 @@ public class AttachmentController {
 		get.addHeader("vc-user-key", "11260");
 		return client.execute(get);
 	}
+
 }

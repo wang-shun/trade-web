@@ -393,6 +393,26 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/getHouseBookResponse"
+
+  /task/firstFollow/process:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: defult_response
+    get:
+      description: 首次跟进任务详情接口
+      # used as the method name of the controller
+      operationId: loanlostApproveFirstNew31
+      parameters:
+        - name: taskid
+          in: query
+          description:  任务id
+          required: true
+          type: string          
+      responses:
+         "200":
+            description: Success
+            schema:
+              # a pointer to a definition
+              $ref: "#/definitions/getfirstFollowResponse"
   
   /manage/queryBankListByPcode:
     # binds a127 app logic to a route
@@ -413,33 +433,6 @@ paths:
             schema:
               # a pointer to a definition
               $ref: "#/definitions/getBankResponse"
-              
-  /task/quereyAttachment:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: defult_response
-    get:
-      description: 贷款流失审批查询图片接口
-      # used as the method name of the controller
-      operationId: quereyAttachmentInLoanlostApprove
-      parameters:
-        - name: caseCode
-          in: query
-          description:  案件编号
-          required: true
-          type: string    
-        - name: partCode
-          in: query
-          description:  环节编码
-          required: true
-          type: string  
-      responses:
-         "200":
-            description: Success
-            schema:
-              # a pointer to a definition
-              $ref: "#/definitions/getAttachmentsResponse"
-              
-              
               
   /manage/queryBankListByParentCode:
     # binds a127 app logic to a route
@@ -1655,8 +1648,8 @@ definitions:
          
 
 ##改期列表接口END
-
-  getAttachmentsResponse:
+##首次跟进接口START
+  getfirstFollowResponse:
     required:
       - isSuccess
     properties:
@@ -1669,25 +1662,95 @@ definitions:
       token:
         type: string
       content:
-        $ref: "#/definitions/getAttachmentsContent"
-        
-  getAttachmentsContent:
+        $ref: "#/definitions/getfirstFollowContent"
+  getfirstFollowContent:
     properties:
-      caseCode:
+      ctmCode:
         type: string
-        description: 案件编号
-      preFileAdress:
+        description: ctm编码
+        
+      distCode:
+       $ref: "#/definitions/getdistCode" 
+      
+      firstFollow:
+       $ref: "#/definitions/getfirstFollowt" 
+       
+      bizWarnInfo:
+       $ref: "#/definitions/getbizWarnInfo" 
+  getdistCode:
+    properties:
+      code:
         type: string
-        description: 附件存储地址
-      preFileCode:
+        description: 区域编码
+      name:
         type: string
-        description: 附件编码
-      partCode:
+        description: 区域名称     
+  getbizWarnInfo:
+    properties:
+      content:
         type: string
-        description: 环节编码
-      fileCat:
+        description: 预警内容
+        
+  getfirstFollowt:
+    properties:
+      caseProperty:
         type: string
-        description: 文件类型
-      fileName:
+        description: 案件性质（有效or无效）
+      distCode:
         type: string
-        description: 文件名称
+        description: 区域code
+      realPrice:
+        type: string
+        description: 成交价    
+      conPrice:
+        type: string
+        description: 合同价
+      square:
+        type: string
+        description: 产证面积    
+      chaxiangou:
+        type: string
+        description: 查限购 
+      propertyAddr:
+        type: string
+        description: 物业地址 
+      diya:
+        type: string
+        description: 是否抵押         
+      realConTime:
+        type: string
+        description: 预计签约日期
+      businessLoanWarn:
+        type: string
+        description: 是否有商贷预警
+##首次跟进接口END
+
+        
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        

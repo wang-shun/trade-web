@@ -482,21 +482,8 @@
     	<property name="jobCode" value="Manager"></property>
     </bean>
     <!-- 根据case_code查询case信息 -->
-    <bean name="qqFindCaseInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
-        <property name="dictType" value="caseInfo"></property>
-    </bean>
-    <bean name="qqGetCaseId" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
-        <property name="dictType" value="getCaseId"></property>
-    </bean>
-    <bean name="qqGetCasePropertyInfo" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
-        <property name="dictType" value="getCasePropertyInfo"></property>
-    </bean>
-    <bean name="qqFindTranPlan" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
-        <property name="dictType" value="findTranPlan"></property>
-    </bean>
-    <bean name="qqWorkflow" class="com.centaline.trans.common.service.impl.QuickQueryGetCaseInfoServiceImpl" >
-        <property name="dictType" value="wf"></property>
-    </bean>
+
+    <bean name="qqFindTranPlan" class="com.centaline.trans.common.service.impl.QuickQueryGetTranPlanServiceImpl" ></bean>
 
     <!-- 根据区域ID和月份查询当月的商贷案件数量 -->
     <bean name="qqGetMortComCount" class="com.centaline.trans.common.service.impl.QuickQueryGetMonthReportFormServiceImpl" >
@@ -653,9 +640,14 @@
     </bean>
 
     <!-- 签约贷款模块中签约数据(总表)总计-->
-    <bean name="calTotalBySignStatistics" class="com.centaline.trans.common.service.impl.QuickQueryCalTotalBySignStatisticsServiceImpl"></bean>	
+    <bean name="calTotalBySignStatistics" class="com.centaline.trans.common.service.impl.QuickQueryCalTotalBySignStatisticsServiceImpl"></bean>
 
+    <!-- 根据businessKey查询模版名字-->
+    <bean name="qqGetWFEName" class="com.centaline.trans.common.service.impl.QuickQueryWFENameServiceImpl"></bean>
 
-<aop:aspectj-autoproxy expose-proxy="true"/>
+	<!-- 根据案件编号获取对应的环节的时效信息 -->
+    <bean name="getCaseEfficientInfo" class="com.centaline.trans.common.service.impl.QuickQueryCaseEfficientInfoServiceImpl"></bean>
+
+    <aop:aspectj-autoproxy expose-proxy="true"/>
 
 </beans>

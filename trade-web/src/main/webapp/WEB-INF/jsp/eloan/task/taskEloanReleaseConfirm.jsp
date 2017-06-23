@@ -30,7 +30,8 @@
     <link href="${ctx}/static/trans/css/common/input.css" rel="stylesheet"/>
     <link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet"/>
     <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" ">
-
+	<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
+    <link href="${ctx}/css/common/details.css" rel="stylesheet">
 </head>
 
 <body>
@@ -49,7 +50,7 @@
                     <!-- <div class="ibox"> -->
                     <div class="ibox-content" id="base_info">
                         <div class="main_titile" style="position: relative;">
-		                           <h5>关联案件</h5>
+		                           <h5 class="title-mark">关联案件</h5>
 		                           <div class="case_content">
 		                           <div class="case_row">
 		                               <div class="case_lump">
@@ -78,7 +79,7 @@
 		                           </div>
 		                 </div>
                         <div class="main_titile" style="position: relative;">
-                            <h5>e+产品</h5>
+                            <h5 class="title-mark">e+产品</h5>
                             <div class="case_content">
                                 <div class="case_row">
                                    <div class="case_lump">
@@ -176,6 +177,17 @@
                                 </div>
                                 <div class="case_row">
                                    <div class="case_lump">
+                                       <p><em>归属人姓名</em><span class="span_one">${excutorName}</span></p>
+                                   </div>
+                                   <div class="case_lump">
+                                       <p><em>归属人员工编号</em><span class="span_one">${excutorCode}</span></p>
+                                   </div>
+                                   <div class="case_lump">
+                                       <p><em>分成比例贷款</em><span class="span_one">${100-eloanCase.coPart-eloanCase.pdPart}%</span></p>
+                                   </div>
+                                </div>
+                                <div class="case_row">
+                                   <div class="case_lump">
                                        <p><em>信贷员</em><span class="span_one">${eloanCase.loanerName}</span></p>
                                    </div>
                                    <div class="case_lump">
@@ -195,7 +207,7 @@
                             </div>
                         </div>
                         <div class="main_titile" style="position: relative;">
-		                           <h5>放款记录</h5>
+		                           <h5 class="title-mark">放款记录</h5>
 		                           <div class="case_content">
 		                           		      <c:forEach items="${eloanRelList}" var="item">
 													    <div class="case_row">
@@ -232,11 +244,14 @@
 												</c:forEach>
 		                           </div>
 		                 </div>
+		                 
+		                 <!-- 跟进信息 -->
+                    	<div id="caseCommentList" class="view-content"></div>
                     </div>
-
+                    
                     <div class="ibox-content" id="zj_info">
                         <div class="main_titile">
-                            <h5>主管审批</h5>
+                            <h5 class="title-mark">主管审批</h5>
                         </div>
                         <form method="get" class="form_list" id="eloanReleaseConfirmForm">
                          <input type="hidden" name="caseCode" id="caseCode" value="${eloanCase.caseCode}"/>
@@ -353,9 +368,23 @@
     <!-- index_js -->
     <script src="${ctx}/static/trans/js/demo/eloan/eloan.js"></script>
     <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+    <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
+    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+    <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+    <script src="${ctx}/js/eloan/eloancommon.js?v=1.0.1"></script>
     <script>
         $(document).ready(function () {
+        	var eloanCode = "${eloanCase.eloanCode}";
+        	
         	getBankList();
+        	
+        	//跟进信息
+        	$("#caseCommentList").eloanCaseCommentGrid({
+						eloanCode : eloanCode,
+						source : 'EPLUS'
+						//type : 'TRACK'
+			});
         	
         	$('.input-daterange').datepicker({
               	format : 'yyyy-mm-dd',

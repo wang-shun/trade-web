@@ -17,9 +17,10 @@ public class QuickQueryCustomValueStatusServiceImpl implements CustomDictService
 		for(Map<String, Object> key:keys){
 			String val = "";
 			Object status = key.get("status");
-			if(status!=null){
+			if(status != null){
 				val = "1".equals(status.toString())?"是":"否";
 			}
+			
 			key.put("val", val);
 		}
 		

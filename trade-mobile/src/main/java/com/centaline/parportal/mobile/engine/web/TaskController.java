@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.common.enums.OldActivitiFormKey;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,8 +80,10 @@ public class TaskController {
 				sameSever = true;
 			}
 		} else {
-			LOGGER.info("result1===task/"+task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters));
-			return "forward:/task/" + task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters);
+			//LOGGER.info("result1===task/"+task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters));
+			//return "forward:/task/" + task.getTaskDefinitionKey() + UriUtility.getQueryString(queryParameters);
+			String uri = "/task/"+ OldActivitiFormKey.from(task.getTaskDefinitionKey()).getFormKey()+"/process"+UriUtility.getQueryString(queryParameters);
+			return "forward:"+uri;
 		}
 		if (sameSever) {
 			request.setAttribute("processInstanceId", instCode);
