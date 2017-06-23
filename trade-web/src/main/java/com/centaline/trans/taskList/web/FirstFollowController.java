@@ -35,9 +35,11 @@ import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.common.entity.TsOrgRelation;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.OrgNameEnum;
 import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.common.service.TsOrgRelationService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToApproveRecord;
@@ -49,6 +51,7 @@ import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.entity.TsTeamScope;
 import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.team.service.TsTeamScopeService;
+import com.centaline.trans.team.vo.UserOrgRelationVO;
 import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
@@ -82,6 +85,8 @@ public class FirstFollowController {
 	private List<String> orgcodes = Arrays.asList("033K716");// 浦东交易1组
 	@Autowired
 	private BizWarnInfoService bizWarnInfoService;
+	@Autowired
+	private TsOrgRelationService tsOrgRelationService;/* 组别属性表 */
 
 	@RequestMapping("process")
 	public String toProcess(HttpServletRequest request,
@@ -424,7 +429,26 @@ public class FirstFollowController {
 
 		return result;
 	}
-
+	
+	//统一查询后台组合作顾问
+	@RequestMapping(value = "queryMortageByServiceCode")
+	@ResponseBody
+	public Map<String, Object> queryMortageByServiceCode(HttpServletRequest request, String serviceCode) {
+		Map<String, Object> result = new HashMap<>();
+		Dict dict = uamBasedataService.findDictByTypeAndCode("yu_all",serviceCode);
+		SessionUser us = uamSessionService.getSessionUser();
+		//前台组ID
+		String orgId = us.getServiceDepId();
+		Org myDistrict = uamUserOrgService.getParentOrgByDepHierarchy(orgId, DepTypeEnum.TYCQY.getCode()); // 获取用户的所在的贵宾服务部
+		//查询后台组合作顾问（浦东1组查中台顾问，其他组查交易顾问）
+		List<UserOrgRelationVO> purv = tsOrgRelationService.getUserOrgRelationByOrgId(orgId);
+		result.put("users", purv);
+		result.put("dic", dict);
+		result.put("orgcode", myDistrict.getOrgCode());/* 浦东合作顾问选中台 */
+		return result;
+	}
+	
+	
 	/**
 	 * 根据字典类型，获得相应字典数据
 	 * 

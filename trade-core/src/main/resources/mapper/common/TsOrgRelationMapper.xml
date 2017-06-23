@@ -119,5 +119,15 @@
 	where 
 		PKID = #{pkid,jdbcType=BIGINT}
   </update>
+  
+  <select id="queryUserOrgRelationByOrgId" parameterType="java.lang.String" resultType="com.centaline.trans.team.vo.UserOrgRelationVO">
+  	select 
+		uoj.USER_ID id,uoj.ORG_NAME orgName,uoj.REAL_NAME realName,(select COUNT(1) from sctrans.T_TO_CASE with(nolock) where STATUS in('30001003','30001002') and LEADING_PROCESS_ID = uoj.USER_ID) 'count' 
+	from 
+		sctrans.V_USER_ORG_JOB uoj 
+	where 
+		exists(select 1 from sctrans.T_TS_ORG_REALATION tor where tor.TARGET_ORG_ID = uoj.ORG_ID and tor.ORIGIN_ORG_ID = #{orgId,jdbcType=VARCHAR})
+		and ((uoj.org_id not in( '8a8493d450af62ed0150c32bba961167') and uoj.JOB_CODE = 'consultant') or (uoj.org_id in('8a8493d450af62ed0150c32bba961167') and uoj.JOB_CODE = 'JYUZTGW'))
+  </select>
     
 </mapper>

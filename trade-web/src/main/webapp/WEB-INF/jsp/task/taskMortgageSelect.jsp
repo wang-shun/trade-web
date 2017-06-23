@@ -213,7 +213,7 @@
 			}
 			$("#hzxm").html("");
 			if(value=='2'){
-				var url = "${ctx}/task/firstFollow/queryMortageServiceByServiceCode";
+				var url = "${ctx}/task/firstFollow/queryMortageByServiceCode";
 				$.ajax({
 					cache : false,
 					async : true,//false同步，true异步

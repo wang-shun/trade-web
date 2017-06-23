@@ -22,7 +22,7 @@ public class TsOrgRelation {
 	
 	private Date 		updateTime;
 	
-	private String 		updateBy;
+	private String 		updateBy;	
 	
 	public static final String IS_DELETE  		= "1";
 	public static final String NOT_DELETE 		= "0";
@@ -90,7 +90,6 @@ public class TsOrgRelation {
 	}
 	public void setUpdateBy(String updateBy) {
 		this.updateBy = updateBy;
-	} 
-	
+	}
 	
 }

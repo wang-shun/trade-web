@@ -502,7 +502,7 @@ function mortageService() {
 	}
 	$("#hzxm").html("");
 	if(value=='2'){
-		var url = ctx+"/task/firstFollow/queryMortageServiceByServiceCode";
+		var url = ctx+"/task/firstFollow/queryMortageByServiceCode";
 		$.ajax({
 			cache : false,
 			async : true,//false同步，true异步
@@ -652,7 +652,7 @@ function mortageRemoveCrossAreaCooperation(){
  */
 function showChangeModal() {
 	//查询机构交易顾问
-	var url = "/case/changeCoope";
+	var url = "/case/changeCoopeRelation";
 	var ctx = $("#ctx").val();
 	var caseCode=$("#caseCode").val();
 	url = ctx + url;
