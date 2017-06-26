@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
 
@@ -179,7 +180,9 @@
                                         <th>过户</th>
                                         <th>结案</th>
                                         <th>累计</th>
+                                        <shiro:hasPermission name="TradeMenu.Report.DELAY">
                                         <th>操作</th>
+                                        </shiro:hasPermission>
                                     </tr>
                                 </thead>
                                 <tbody id="caseEfficientList"></tbody>
@@ -316,14 +319,17 @@
                                 {{item.totalEff}}
                              </p>
                          </td>
-                              
+                         
+						<shiro:hasPermission name="TradeMenu.Report.DELAY">     
 						 <td class="text-center">
-							 {{if item.inProgress != 'completed' && item.inProgress != 'firstFollow'}}
-                             	<p><a class="sum_editor" href="javascript:void(0)" onClick="showDelayPop('{{item.caseCode}}','{{item.inProgress}}');">延期一次</a> </p>
-							 {{else}}							 
-								<p>延期一次</p>
-							 {{/if}}
+							
+								{{if item.inProgress != 'completed' && item.inProgress != 'firstFollow'}}
+                             		<p><a class="sum_editor" href="javascript:void(0)" onClick="showDelayPop('{{item.caseCode}}','{{item.inProgress}}');">延期一次</a> </p>
+							 	{{else}}							 
+									<p>延期一次</p>
+							 	{{/if}}
                          </td>
+						</shiro:hasPermission>
 				  </tr>
        {{/each}}
 	</script>
