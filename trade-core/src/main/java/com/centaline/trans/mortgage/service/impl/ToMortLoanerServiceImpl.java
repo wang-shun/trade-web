@@ -38,7 +38,8 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 	@Qualifier("uamMessageServiceClient")
 	@Autowired
 	private UamMessageService uamMessageService;
-	@Resource
+	@Qualifier("qqcdDictLoanerStatus")
+	@Autowired
 	private CustomDictService qqcdDictLoanerStatus;
 
 	/*
