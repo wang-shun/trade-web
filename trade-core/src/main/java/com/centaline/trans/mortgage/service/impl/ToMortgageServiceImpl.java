@@ -264,7 +264,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
     	//评估费
     	if(eval.getEvaFee()!=null){
     		TpdCommSubsDetals csd=new TpdCommSubsDetals();
-    		csd.setCommSubject(CommSubjectEnum.EVAL_FEE.getCode());
+    		csd.setCommSubject(CommSubjectEnum.DK_PGF_02.getCode());
     		if(eval.getEvaFeeCost()!=null){
     			csd.setCommCost(eval.getEvaFee().subtract(eval.getEvaFeeCost()));
     		}else{
@@ -278,14 +278,14 @@ public class ToMortgageServiceImpl implements ToMortgageService
     	//评估费支出
     	if(eval.getEvaFeeCost()!=null){
     		TpdCommSubsDetals csd=new TpdCommSubsDetals();
-    		csd.setCommSubject(CommSubjectEnum.EVAL_FEE_FOR_AGENT.getCode());
+    		csd.setCommSubject(CommSubjectEnum.CB_DSPGF.getCode());
     		csd.setCommCost(eval.getEvaFeeCost());
     		csds.add(csd);
     	}
     	//服务费
     	if(eval.getServiceFee()!=null){
     		TpdCommSubsDetals csd=new TpdCommSubsDetals();
-    		csd.setCommSubject(CommSubjectEnum.SERVICE_FEE.getCode());
+    		csd.setCommSubject(CommSubjectEnum.DK_FWF_02.getCode());
     		csd.setCommCost(eval.getServiceFee());
     		csds.add(csd);
     	}
@@ -295,10 +295,10 @@ public class ToMortgageServiceImpl implements ToMortgageService
     private void generatorPerf(ToEval eval){
 		//////////////////////生成应收业绩////////////////////////////
 		if(eval.getEvaFeePerf()!=null){//评估费业绩
-			generatorPerf(eval,CommSubjectEnum.EVAL_FEE.getCode(),eval.getEvaFeePerf());
+			generatorPerf(eval,CommSubjectEnum.DK_PGF_02.getCode(),eval.getEvaFeePerf());
 		}
 		if(eval.getServiceFeePerf()!=null){
-			generatorPerf(eval,CommSubjectEnum.SERVICE_FEE.getCode(),eval.getServiceFeePerf());
+			generatorPerf(eval,CommSubjectEnum.DK_FWF_02.getCode(),eval.getServiceFeePerf());
 		}
     }
     /**

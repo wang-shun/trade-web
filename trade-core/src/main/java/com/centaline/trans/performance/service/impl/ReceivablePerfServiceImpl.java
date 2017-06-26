@@ -43,10 +43,10 @@ public class ReceivablePerfServiceImpl implements ReceivablePerfService {
 	@Override
 	public void generatePerf(ReceivablePerfVo vo) {
 		ReceivablePerf perf ;
-		if (CommSubjectEnum.EVAL_FEE.getCode().equals(vo.getSubject())) {
+		if (CommSubjectEnum.DK_PGF_02.getCode().equals(vo.getSubject())) {
 			perf= generatePerfWithEva(vo);
 			receivablePerfMapper.insertSelective(perf);
-		}else if(CommSubjectEnum.SERVICE_FEE.getCode().equals(vo.getSubject())){
+		}else if(CommSubjectEnum.DK_FWF_02.getCode().equals(vo.getSubject())){
 			perf=  generatePerfWithServiceFee(vo);
 			receivablePerfMapper.insertSelective(perf);
 		}
