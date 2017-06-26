@@ -30,6 +30,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.enums.LoanerStatusEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -39,12 +40,15 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.eval.entity.ToEval;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.mortgage.entity.MortStep;
+import com.centaline.trans.mortgage.entity.ToMortLoaner;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.MortStepService;
+import com.centaline.trans.mortgage.service.ToMortLoanerService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
@@ -81,6 +85,22 @@ public class ToMortgageController {
 	private MessageService messageService;
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private ToMortLoanerService toMortLoanerService;
+	/**
+	 * 查询评估费信息
+	 * @param mid 贷款表ID
+ 	 * @return
+	 */
+	@RequestMapping(value = "/getEval")
+	@ResponseBody
+	public AjaxResponse<ToEval>getEval(Long mid){
+		AjaxResponse<ToEval> response = new AjaxResponse<ToEval>();
+		ToEval eval= toMortgageService.findEvalByMortgageId(mid);
+		response.setContent(eval);
+		response.setSuccess(true);
+		return response;
+	}
 
 	/**
 	 * 查询贷款信息
@@ -99,26 +119,26 @@ public class ToMortgageController {
 			String finOrgCodeString = "";
 			if (null != mortgage) {
 				finOrgCodeString = mortgage.getFinOrgCode();
-			}
-			if (!StringUtils.isEmpty(finOrgCodeString)) {
-				TsFinOrg bank = tsFinOrgService.findBankByFinOrg(finOrgCodeString);
-				mortgage.setBankName(bank.getFinOrgName());
-				if (!StringUtils.isEmpty(bank.getFaFinOrgCode())) {
-					TsFinOrg faBank = tsFinOrgService.findBankByFinOrg(bank.getFaFinOrgCode());
-					mortgage.setParentBankName(faBank.getFinOrgName());
+			
+				if (!StringUtils.isEmpty(finOrgCodeString)) {
+					TsFinOrg bank = tsFinOrgService.findBankByFinOrg(finOrgCodeString);
+					mortgage.setBankName(bank.getFinOrgName());
+					if (!StringUtils.isEmpty(bank.getFaFinOrgCode())) {
+						TsFinOrg faBank = tsFinOrgService.findBankByFinOrg(bank.getFaFinOrgCode());
+						mortgage.setParentBankName(faBank.getFinOrgName());
+					}
 				}
-			}
-			if (StringUtils.isNotBlank(mortgage.getTmpBankUpdateBy())) {
-				User u = uamUserOrgService.getUserById(mortgage.getTmpBankUpdateBy());
-				if (u != null) {
-					mortgage.setTmpBankUpdateByStr(u.getRealName());
+				if (StringUtils.isNotBlank(mortgage.getTmpBankUpdateBy())) {
+					User u = uamUserOrgService.getUserById(mortgage.getTmpBankUpdateBy());
+					if (u != null) {
+						mortgage.setTmpBankUpdateByStr(u.getRealName());
+					}
 				}
+	
+				mortgage.setComAmount(mortgage.getComAmount() != null ? mortgage.getComAmount().divide(new BigDecimal(10000)) : null);
+				mortgage.setMortTotalAmount(mortgage.getMortTotalAmount() != null ? mortgage.getMortTotalAmount().divide(new BigDecimal(10000)) : null);
+				mortgage.setPrfAmount(mortgage.getPrfAmount() != null ? mortgage.getPrfAmount().divide(new BigDecimal(10000)) : null);
 			}
-
-			mortgage.setComAmount(mortgage.getComAmount() != null ? mortgage.getComAmount().divide(new BigDecimal(10000)) : null);
-			mortgage.setMortTotalAmount(mortgage.getMortTotalAmount() != null ? mortgage.getMortTotalAmount().divide(new BigDecimal(10000)) : null);
-			mortgage.setPrfAmount(mortgage.getPrfAmount() != null ? mortgage.getPrfAmount().divide(new BigDecimal(10000)) : null);
-
 			// 临时银行开启时不允许反选
 			ToWorkFlow twf = new ToWorkFlow();
 
@@ -153,7 +173,7 @@ public class ToMortgageController {
 	 */
 	@RequestMapping(value = "/saveMortgage")
 	@ResponseBody
-	public AjaxResponse<String> saveMortgage(ToMortgage toMortgage, ToSupDocu toSupDocu, HttpServletRequest request) {
+	public AjaxResponse<String> saveMortgage(ToMortgage toMortgage, ToSupDocu toSupDocu, HttpServletRequest request,ToEval toEval) {
 		// 贷款签约 时登录用户即为贷款专员 需保持进数据库
 		SessionUser user = uamSessionService.getSessionUser();
 		AjaxResponse<String> response = new AjaxResponse<String>();
@@ -181,6 +201,9 @@ public class ToMortgageController {
 			toMortgage.setLoanAgent(user.getId());
 			toMortgage.setLoanAgentTeam(user.getServiceDepId());
 			toMortgage.setToSupDocu(toSupDocu);
+			toMortgage.setToEval(toEval);
+			toEval.setOrgId(user.getServiceDepId());
+			toEval.setCreateBy(user.getId());
 			toMortgageService.saveToMortgageAndSupDocu(toMortgage);
 
 		} catch (BusinessException e) {
@@ -200,11 +223,12 @@ public class ToMortgageController {
 	 * 
 	 * @param toMortgage
 	 * @param request
+	 * @param saveOnly 是否只是保存
 	 * @return
 	 */
 	@RequestMapping(value = "/completeMortgage")
 	@ResponseBody
-	public AjaxResponse<String> completeMortgage(ToMortgage toMortgage, HttpServletRequest request, String check) {
+	public AjaxResponse<String> completeMortgage(ToMortgage toMortgage, HttpServletRequest request, String check,boolean saveOnly) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 
 		try {
@@ -213,10 +237,23 @@ public class ToMortgageController {
 			entity.setFormCommLoan("1");
 			entity.setLastLoanBank(toMortgage.getLastLoanBank());
 			entity.setPartCode(toMortgage.getPartCode());
-			toMortgageService.saveToMortgage(entity);
-			if ("1".equals(entity.getIsTmpBank()) && entity.getTmpBankUpdateBy() == null) {
-				response.setMessage("临时银行未处理，请等待处理！");
+			response.setContent(saveOnly+"");
+			if(!saveOnly){//已经选择为最终银行
+				if ("1".equals(entity.getIsTmpBank()) && entity.getTmpBankUpdateBy() == null) {
+					response.setMessage("临时银行未处理，请等待处理！");
+					response.setSuccess(false);
+					return response;
+				}else if("0".equals(entity.getIsTmpBank())){
+					ToMortLoaner loaner = toMortLoanerService.findActiveToMortLoaner(toMortgage.getCaseCode(), toMortgage.getIsMainLoanBank());
+					if(loaner==null ||!loaner.getLoanerStatus().equals(LoanerStatusEnum.COMPLETED.getCode())){
+						response.setMessage("派单流程尚未审批通过，请等待处理！");
+						response.setSuccess(false);
+						return response;
+					}
+				}
 			}
+
+			toMortgageService.saveToMortgage(entity);
 			/**
 			 * 功能: 给客户发送短信 作者：zhangxb16
 			 */

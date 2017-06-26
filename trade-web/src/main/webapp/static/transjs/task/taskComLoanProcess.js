@@ -50,10 +50,6 @@ function checkMortgageForm(formId){
 		window.wxc.alert("主贷人为必填项！");
 		formId.find("select[name='custCode']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='processStart']").val() == "" || formId.find("input[name='processStart']").val() == null){
-		window.wxc.alert("请先完成派单至信贷员任务！");
-		formId.find("input[name='processStart']").css("border-color","red");
-		return false;
 	}else if(formId.find("input[name='mortTotalAmount']").val() == ""){
 		window.wxc.alert("贷款总额为必填项！");
 		formId.find("input[name='mortTotalAmount']").css("border-color","red");
@@ -151,6 +147,30 @@ function checkMortgageForm(formId){
 			return false;
 		}
 	}
+	//填了评估费 就要填全
+	if(formId.find('[name=evaFee]').val()!=''||formId.find('[name=serviceFee]').val()!=''||formId.find('[name=evaFeeCost]').val()!=''){
+		if(formId.find('[name=evaFee]').val()==''){
+			formId.find('[name=evaFee]').css("border-color","red");
+			return false;
+		}
+		if(formId.find('[name=serviceFee]').val()==''){
+			formId.find('[name=serviceFee]').css("border-color","red");
+			return false;
+		}
+		if(formId.find('[name=evaFeeCost]').val()==''){
+			formId.find('[name=evaFeeCost]').css("border-color","red");
+			return false;
+		}
+		var evaFee = parseFloat(formId.find('[name=evaFee]').val()||0);
+		var serviceFee = parseFloat(formId.find('[name=serviceFee]').val()||0);
+		var evaFeeCost = parseFloat(formId.find('[name=evaFeeCost]').val()||0);
+		if(evaFee < evaFeeCost){
+			window.wxc.alert("评估费支出不能超过评估费！");
+			formId.find("select[name='evaFeeCost']").css("border-color","red");
+		}
+	}
+
+	
 	var prfAmoutStr=formId.find("input[name='prfAmount']").val();
 	var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
 	var mortTotalAmount=parseFloat(formId.find("input[name='mortTotalAmount']").val());
@@ -162,12 +182,8 @@ function checkMortgageForm(formId){
 	}
 	return true;
 }
-
-
-//派单流程提交前  校验
-function beforeSendLoanerProcess(formId){	
-	$("input,select").css("border-color","#ccc");
-	
+function checkCompleteMortgage(formId){	
+	$("input,select").css("border-color","#ccc");	
 	if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
 		window.wxc.alert("主贷人为必填项！");
 		formId.find("select[name='custCode']").css("border-color","red");
@@ -212,10 +228,68 @@ function beforeSendLoanerProcess(formId){
 	}else if(formId.find("input[name='loanerName']").val() == ""){
 		window.wxc.alert("信贷员为必填项！");
 		formId.find("input[name='loanerName']").css("border-color","red");
+		return false;		
+	}else if(formId.find("input[name='signDate']").val() == "" ){
+		window.wxc.alert("签约时间为必填项！");
+		formId.find("input[name='signDate']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='isTmpBank'][value='0']").is(":checked") && formId.find("input[name='recLetterNo']").val() == ""){
+		window.wxc.alert("推荐函编号为必填项！");
+		formId.find("input[name='recLetterNo']").css("border-color","red");
+		return false;
+	}
+	
+	if(formId.find("select[name='finOrgCode']").val() == ""){
+		window.wxc.alert("贷款支行为必填项！");
+		formId.find("select[name='finOrgCode']").css("border-color","red");
+		return false;
+    }
+
+	var prfAmoutStr=formId.find("input[name='prfAmount']").val();
+	var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
+	var mortTotalAmount=parseFloat(formId.find("input[name='mortTotalAmount']").val());
+	var comAmount=parseFloat(formId.find("input[name='comAmount']").val());
+	
+	if((mortTotalAmount-prfAmount).toFixed(5)!=comAmount){
+		window.wxc.alert('贷款总额必须等于商贷和公积金之和');
+    	return false;
+	}
+	return true;
+}
+
+
+//派单流程提交前  校验
+function beforeSendLoanerProcess(formId){	
+	$("input,select").css("border-color","#ccc");
+	
+	if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
+		window.wxc.alert("主贷人为必填项！");
+		formId.find("select[name='custCode']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='mortTotalAmount']").val() == ""){
+		window.wxc.alert("贷款总额为必填项！");
+		formId.find("input[name='mortTotalAmount']").css("border-color","red");
+		return false;
+	}else if(formId.find("select[name='mortType']").val() == ""){
+		window.wxc.alert("贷款类型为必填项！");
+		formId.find("select[name='mortType']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='comAmount']").val() == ""){
+		window.wxc.alert("商贷金额为必填项！");
+		formId.find("input[name='comAmount']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='comYear']").val() == ""){
+		window.wxc.alert("商贷年限为必填项！");
+		formId.find("input[name='comYear']").css("border-color","red");
+		return false;
+	}else if(formId.find("input[name='loanerName']").val() == ""){
+		window.wxc.alert("信贷员为必填项！");
+		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;
 		
 	}else if(formId.find("input[name='loanerId']").val() == ""){
 		formId.find("input[name='loanerName']").css("border-color","red");
+		window.wxc.alert("请选择信贷员！");
 		return false;
 		
 	}else if(formId.find("input[name='loanerPhone']").val() == ""){
@@ -230,16 +304,6 @@ function beforeSendLoanerProcess(formId){
 		window.wxc.alert("签约时间为必填项！");
 		formId.find("input[name='signDate']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='isTmpBank'][value='0']").is(":checked") && formId.find("input[name='recLetterNo']").val() == ""){
-		window.wxc.alert("推荐函编号为必填项！");
-		formId.find("input[name='recLetterNo']").css("border-color","red");
-		return false;
-	}else if(formId.find("input[name='remindTime']").val() != "" && formId.find("input[name='supContent']").val()==""){
-		window.wxc.alert("请输入补件名称！");
-		return false;
-	}else if(formId.find("input[name='supContent']").val() != "" && formId.find("input[name='remindTime']").val()==""){
-		window.wxc.alert("请输入补件时间！");
-		return false;
 	}
 	
 	if(formId.find("select[name='finOrgCode']").val() == ""){
@@ -247,30 +311,7 @@ function beforeSendLoanerProcess(formId){
 		formId.find("select[name='finOrgCode']").css("border-color","red");
 		return false;
     }
-	if($("#finOrgCode").find('option:selected').attr('coLevel') == "0"){
-		/*if(formId.find("input[name='loanerId']").val() == ""){
-			alert("入围银行的信贷员请从合作银行中选择！");
-			formId.find("input[name='loanerName']").css("border-color","red");
-			return false;
-		}*/
-	}else{
-		//formId.find("input[name='loanerId']").val("");
-		//formId.find("input[name='loanerOrgCode']").val("");
-		//formId.find("input[name='loanerOrgId']").val("");
-	}
-	if(!formId.find("input[name='isTmpBank'][value='1']").prop('checked')){
-		if(afterTimeFlag){
-			if (formId.find("input[name='recLetterNo']").val()==""){
-				formId.find("input[name='recLetterNo']").css("border-color","red");
-				return false;
-			}
-		}		
-	}else{
-		if(formId.find("input[name='tmpBankReason']").val() == ""){
-			formId.find("input[name='tmpBankReason']").css("border-color","red");
-			return false;
-		}
-	}
+
 	var prfAmoutStr=formId.find("input[name='prfAmount']").val();
 	var prfAmount=prfAmoutStr==''?0:parseFloat(prfAmoutStr);
 	var mortTotalAmount=parseFloat(formId.find("input[name='mortTotalAmount']").val());
@@ -331,10 +372,9 @@ function assess(){
 	        		}
 		
 					if(isMainLoanBank == 1){
-						//searchPricingList("table_list_1");
 		    			getPricingList("table_list_1","pager_list_1",1);
 					}else{
-						//searchPricingList("table_list_3");
+
 		    			getPricingList("table_list_3","pager_list_3",0);
 					}
 	    		}	    		
@@ -373,10 +413,8 @@ function disagree(){
 					window.wxc.alert(data.message);
 					if(data.success){
 		    			if(isMainLoanBank == 0){
-		    				//searchPricingList("table_list_3");
 		        			getPricingList("table_list_3","pager_list_3",0);
 		    			}else{
-		    				//searchPricingList("table_list_1");
 		        			getPricingList("table_list_1","pager_list_1",1);
 		    			}
 						$("#modal-applyForm").modal("hide");
@@ -429,10 +467,8 @@ function acceptPricing(tableId,pkid){
 			if(data.success){
 				$("#"+tableId+"_btn_"+pkid).html("取消");
     			if(isMainLoanBank == 0){
-    				//searchPricingList("table_list_3");
         			getPricingList("table_list_3","pager_list_3",0);
     			}else{
-    				//searchPricingList("table_list_1");
         			getPricingList("table_list_1","pager_list_1",1);
     			}
 			}else{
@@ -455,10 +491,8 @@ function cancelAccept(tableId,pkid){
 			if(data.success){
 				$("#"+tableId+"_btn_"+pkid).html("接受");
     			if(isMainLoanBank == 0){
-    				//searchPricingList("table_list_3");
         			getPricingList("table_list_3","pager_list_3",0);
     			}else{
-    				//searchPricingList("table_list_1");
         			getPricingList("table_list_1","pager_list_1",1);
     			}
 			}else{
@@ -483,38 +517,25 @@ function saveMortgage(form){
 				}
 			}
 		});
-	
 }
 
-//完成贷款审批
+/***
+ * 完成贷款审批
+ */
+        
 function completeMortgage(form){	
-	
-	 var tmpBankCheckflag = $('#fl_is_tmp_bank').val() == '1';
-/*		if(tmpBankCheckflag && $("#tmpBankStatus").val() != '3'){ 	
-		window.wxc.alert("信贷员接单银行审批未完成或不通过！");
-		return;
-	}*/
-	
-	/*
-	 * @author：zhuody
-	 * @Date：2017年3月24日
-	 * @Des：以前临时银行审批未结束之前，不许提交商贷流程，现在取消  即下面的判断取消
-	 * $("#tmpBankStatus").val() != '1'：   = 1 表示临时银行审批通过   3表示分级银行审批通过
-	 * 并且不是信息管理员的情况下需要判断审核状态
-	 */	
-	if($("#adminLoanerProcess").val() != "adminLoanerProcess"){ 
-		if(tmpBankCheckflag){
-			if($("#tmpBankStatus").val() != '1'){
-				window.wxc.alert("临时银行审批未完成或不通过！");
-				return;
-			}
-		}else{			
-			//非临时银行
-			if(!($("#tmpBankStatus").val() == '3'  ||  $("#stateInBank").val() == 'MORT_APPROVED')){ 	
-				window.wxc.alert("信贷员接单银行审批未完成或不通过！");
-				return;
-			}
-		}
+	if(!checkCompleteMortgage(form)){
+		return false;
+	}
+	var isTmpBank= f.find('[name=isTmpBank]:checked').val();
+	var loanerStatus = f.find('[name=loanerStatus]').val();
+	var tmpStatus= f.find('[name=tmpBankStatus]').val();
+	if(!!~~isTmpBank && tmpStatus !='1'){//选择的临时银行 却还没有通过
+		window.wxc.alert('临时银行审批未通过');
+		return false;
+	}else if(!~~isTmpBank &&loanerStatus!='COMPLETED'){
+		window.wxc.alert('信贷员接单银行审批未完成或不通过');
+		return false
 	}
 	
 	var pkid=form.find("input[name='pkid']").val();
@@ -525,7 +546,7 @@ function completeMortgage(form){
 		return;
 	}
 	
-	var finOrgCode = form.find("input[name='finOrgCode']").val();
+	var finOrgCode = form.find("[name='finOrgCode']").val();
 	if(finOrgCode == null || finOrgCode == ""){
 		alert("请先选择贷款银行和支行！");
 		return;
@@ -537,7 +558,7 @@ function completeMortgage(form){
 	}
 	
 	// 审批时间校验
-	var apprDate=form.find("input[name='apprDate']").val();
+	var apprDate=f.find("input[name='apprDate']").val();
 	if($.isBlank(apprDate)) {
 		window.wxc.alert("审批时间为必选项！");
 		return;
@@ -545,17 +566,16 @@ function completeMortgage(form){
 
 	var lastLoanBank = null;
 	if(lastBankSub.val() != undefined){
-		lastLoanBank = form.find("input[name='finOrgCode']").val();
+		f.find("[name=lastLoanBank]").val(f.find("[name='finOrgCode']").val());
 	}
-	//isMainLoanBank
 	$.ajax({
 		url:ctx+"/task/completeMortgage",
 		method:"post",
 		dataType:"json",
-		data:{pkid:pkid,caseCode:$("#caseCode").val(),apprDate:$("#apprDate").val(),lastLoanBank:lastLoanBank,partCode:$("#partCode").val(),check:tmpBankCheckflag},
+		data:form.serialize(),
 		success:function(data){
 			if(data.success){
-				if('caseDetails'==source){
+				if('caseDetails'==source || data.content =='true'){
 					if(data.message){
 						//TODO 如果作为最终银行提交，自动结束候选银行或者主选银行的的派单流程
 						window.close();
@@ -625,6 +645,8 @@ function getParentBank(selector,selectorBranch,finOrgCode,tag,flag){
 //查询支行信息
 function getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag){
 	selectorBranch.find('option').remove();
+	f=selectorBranch.closest('form');
+	
 	selectorBranch[0];
 	selectorBranch.append($("<option value=''>请选择</option>"));
 	var param = {faFinOrgCode:pcode,flag:flag,nowCode:finOrgCode};
@@ -651,14 +673,9 @@ function getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag){
 						selectorBranch.append(option);
 	    			}
 	    		}
+	    		finOrgCodeChange(f);
 	    	}
 	 });
-	//selectorBranch[0].value=finOrgCode;
-	// selector.append($(html));
-	//selector.val(finOrgCode);
-	 
-	// selector.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
-
 	return true;
 }
 
@@ -689,8 +706,10 @@ function subBankChange(){
 }
 
 //信贷员选择
-function selectLoanerByOrgId1(){	
-	var finOrgId = $("#bankOrgId1").val();	
+function selectLoanerByOrgId(){	
+	var f=$(this.event.target).closest('form');
+	operForm=f;
+	var finOrgId = f.find('#bankOrgId').val();
 	if(finOrgId != null  && finOrgId !=""  && finOrgId != undefined){
 		userSelect({
 			startOrgId : finOrgId,//非营业部
@@ -708,261 +727,484 @@ function selectLoanerByOrgId1(){
 	}	
 }
 
-function selectLoanerByOrgId0(){
-	var finOrgId = $("#bankOrgId0").val();
-	if(finOrgId != null  && finOrgId !=""  && finOrgId != undefined){
-		userSelect({
-			startOrgId : finOrgId,//非营业部
-			expandNodeId : finOrgId,
-			nameType : 'long|short',
-			orgType : '',
-			departmentType : '',
-			departmentHeriarchy : '',
-			chkStyle : 'radio',
-			jobCode : '',		
-			callBack : selectLoanerUser_
-		});	
-	}else{	
-		window.wxc.alert('您选择的银行暂时未添加信贷员信息，请联系管理员！');
-		/*
-		 * 默认非营业部所有的信贷员
-		 * userSelect({
-			startOrgId : '10B1F16BDC5E7F33E0532429030A8872',//非营业部
-			expandNodeId : '10B1F16BDC5E7F33E0532429030A8872',
-			nameType : 'long|short',
-			orgType : '',
-			departmentType : '',
-			departmentHeriarchy : '',
-			chkStyle : 'radio',
-			jobCode : '',		
-			callBack : selectLoanerUser_
-		});	*/	
-	}	
-}
+
 
 
 //设置  可输入  信贷员
 function onkeyuploanerName(){
-
-	$("#loanerNameImage").css("color","#676A6C");
-	$("#loanerId").val("");
-	$("#loanerOrgCode").val("");
-	$("#loanerOrgId").val("");
-	
-	//设置信贷员的值
-	var formId = $("#mortgageForm");	
-	$("input[name='loanerName']",formId).val($("#loanerName1").val());	
+	var f=$(this.event.target).closest('form');
+	f.find("#loanerNameImage").css("color","#676A6C");
+	f.find("#loanerId").val("");
+	f.find("#loanerOrgCode").val("");
+	f.find("#loanerOrgId").val("");	
 }
-
-
-
-
-
-var mCustCode='';
-var custCode='';
-//查询贷款信息
-function getMortgageInfo(caseCode,isMainLoanBank,queryCustCodeOnly){
-	 if(isMainLoanBank=='0' && !mCustCode){
-		getMortgageInfo(caseCode,'1',true);
-	 }
-	 $.ajax({
-	    url:ctx+"/task/getMortgageInfo",
+/**
+ * 加载派单信息(最后一条)
+ */
+function loadMortLoaner(caseCode,isMainLoanBank,render){
+	$.ajax({
+	    url:ctx+"/task/loadOrderInfo",
 	    method:"post",
 	    dataType:"json",
 	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
-	    	success:function(data){	
-	    		//获取临时银行审批状态和拒绝原因
-	    		//$("#tmpBankStatus").val(data.content.tmpBankStatus);--放到提交步骤    		 
-	    		if(queryCustCodeOnly){	
-	    			if(data.content != null && data.content.custCode != null){
-	    				mCustCode=data.content.custCode;
-	    			}
-	    			return true;
-	    		}
-	    		var finOrgCode = "";
-	    		if(data.content != null && data.content.finOrgCode != null){
-	    			finOrgCode = data.content.finOrgCode;
-	    		}
-	    		if(data.content != null && data.content.custCode != null){
-	    			custCode=data.content.custCode;
-	    		}
-	    		var fStr='mortgageForm';
-	    		var f=$("#mortgageForm");
-	    		if(isMainLoanBank != 1){
-	    			fStr='mortgageForm1';
-	    			f=$('#mortgageForm1');
-	    		}
-	    		
-	    		
-	    		setLoanerInfo(finOrgCode,isMainLoanBank); 
- 				 //银行下拉列表
-			
-				getGuestInfo(fStr);
-				if(data.content && data.content.isTmpBank=='1'){					
-					 
-					 $("#toLoanerCase").hide();
-					 $("#toLoanerCaseTemp").hide();
-					 $("#processStart").val("processIsStart");
-					//临时银行
-					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode);
-					//alert(f.find("select[name='bank_type']"));
-				}else{
-					 $("#toLoanerCase").show();
-					 $("#toLoanerCaseTemp").show();
-					//非临时银行
-					getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode,'cl');
-				}
-	  				
-	  				
-  				f.find("select[name='bank_type']").change(function(){
-  					/*$("#mortgageForm").find("select[name='finOrgCode']").chosen("destroy");*/
-  					if(data.content && data.content.isTmpBank=='1'){
-  						getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
-  					}else{
-  						getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"",'cl');
-  					}
-			    	
-			    	/*$("#mortgageForm").find("select[name='finOrgCode']").unbind('change');
-			    	$("#mortgageForm").find("select[name='finOrgCode']").bind('change',subBankChange);*/
-			    }); 
-  			
-	  				
-	  			//console.log("===Result==="+JSON.stringify(data.content));
-	    		if(data != null && data.content != null){
-	    				
-		    			f.find("input[name='pkid']").val(data.content.pkid);
-		    			f.find("select[name='mortType']").val(data.content.mortType);
-		    			
-		    			f.find("input[name='prfAmount']").val(data.content.prfAmount);
-		    			f.find("input[name='prfYear']").val(data.content.prfYear);
-		    			if(data.content.mortType=='30016001'){
-		    				f.find("input[name='prfAmount']").val('').prop('disabled',true).css("background-color","#eee");
-			    			f.find("input[name='prfYear']").val('').prop('disabled',true).css("background-color","#eee");
-		    			}else{
-		    				f.find("input[name='prfAmount']").prop('disabled',false).css("background-color","");
-			    			f.find("input[name='prfYear']").prop('disabled',false).css("background-color","");
-		    			}
-		    			f.find("input[name='mortTotalAmount']").val(data.content.mortTotalAmount);
-		    			f.find("input[name='comAmount']").val(data.content.comAmount);
-		    			f.find("input[name='comYear']").val(data.content.comYear);
-		    			f.find("input[name='comDiscount']").val(data.content.comDiscount);
-		    			f.find("select[name='custCode']").val(data.content.custCode);
-		    			f.find("select[name='custName']").val(data.content.custName);
-		    			f.find("input[name='custCompany']").val(data.content.custCompany);
-		    			f.find("select[name='lendWay']").val(data.content.lendWay);
-		    			f.find("input[name='loanerName']").val(data.content.loanerName);
-		    			if(data.content.isMainLoanBank == 1){
-		    				f.find("input[name='loanerName1']").val(data.content.loanerName);
-		    			}
-		    			
-		    			if(data.content.isTmpBank == 1){
-		    				//临时银行 信贷员可以 输入  可以选择
-		    				$("#forLoanerProcessShuru").show();
-		    				$("#forLoanerProcessNoShuru").hide();
-		    				
-		    			}else if(data.content.isTmpBank == 0){		    				
-		    				//临时银行 信贷员只能选择
-		    				$("#forLoanerProcessShuru").hide();
-		    				$("#forLoanerProcessNoShuru").show();		    				
-		    			}		    			
-		    			f.find("input[name='loanerId']").val(data.content.loanerId);
-		    			f.find("input[name='loanerOrgId']").val(data.content.loanerOrgId);
-		    			f.find("input[name='loanerOrgCode']").val(data.content.loanerOrgCode);
-		    			f.find("input[name='loanerPhone']").val(data.content.loanerPhone);
-		    			
-		    			if(undefined != data.content.loanerId && ""!= data.content.loanerId){
-		    				$(".loanerNameImage").css("color","#52cdec");
-		    			}else{$(".loanerNameImage").css("color","#676A6C");}
-		    			
-		    			//设置信贷员审批的值
-		    			f.find("input[name='stateInBank']").val(data.content.stateInBank);		    			
-		    			
-		    			if(data.content.isLoanerArrive == 1){
-		    				f.find("input[name='isLoanerArrive'][value='1']").prop("checked",true);
-		    			}else if(data.content.isLoanerArrive == 0){
-		    				f.find("input[name='isLoanerArrive'][value='0']").prop("checked",true);
-		    			}
-		    			f.find("input[name='houseNum']").val(data.content.houseNum);
-		    			f.find("input[name='signDate']").val(data.content.signDate);
-		    			if(data.content.ifReportBeforeLend == 1){
-		    				f.find("input[name='ifReportBeforeLend'][value='1']").prop("checked",true);
-		    			}else if(data.content.ifReportBeforeLend ==0){
-		    				f.find("input[name='ifReportBeforeLend'][value='0']").prop("checked",true);
-		    			}
+	    success:function(data){	
+	    	if(!data.success){
+	    		window.wxc.error(data.message);
+	    	}else{
+	    		render.render(data);
+	    	}
+	 }});
+}
 
-		    			f.find("select[name='finOrgCode']").val(data.content.finOrgCode);
-		    			f.find("input[name='tazhengArrDate']").val(data.content.tazhengArrDate);
-		    			f.find("input[name='remark']").val(data.content.remark);
-		    			if(data.content.toSupDocu != null){
-		    				f.find("input[name='supContent']").val(data.content.toSupDocu.supContent);
-			    			f.find("input[name='remindTime']").val(data.content.toSupDocu.remindTime);
-		    			}
-		    			f.find("input[name='recLetterNo']").val(data.content.recLetterNo);
-		    			f.find("input[name='isTmpBank']").prop("checked",false);
-		    			f.find("input[name='isTmpBank'][value='"+data.content.isTmpBank+"']").prop("checked",true);
-		    			f.find("input[name='tmpBankReason']").val(data.content.tmpBankReason);
-		    			if(data.content.isTmpBank=='1'){
-		    				f.find("input[name='recLetterNo']").prop('disabled',true).css("background-color","#eee");
-		    				f.find(".tmpBankReasonDiv").show();
-		    			}else{
-		    				f.find("input[name='recLetterNo']").prop('disabled',false).css("background-color","");
-		    				f.find(".tmpBankReasonDiv").hide();
-		    			}
+
+
+/**
+ * 加载贷款信息
+ * @param caseCode
+ * @param isMainLoanBank
+ * @param render
+ */
+function loadMortgageInfo(isMainLoanBank,render){
+	$.ajax({
+	    url:ctx+"/task/getMortgageInfo",
+	    method:"post",
+	    dataType:"json",
+	    data:{caseCode:$("#caseCode").val(),isMainLoanBank:isMainLoanBank},
+	    success:function(data){	
+	     	if(!data.success){
+	    		window.wxc.error(data.message);
+	    	}else{
+	    		render.render(data);
+	    	}
+	    }
+	   });
+}
+/**
+ * 加载评估信息
+ * @param f form表单
+ * @param mid 贷款表id
+ */
+function loadEval(f,mid){
+	 $.ajax({
+		    url:ctx+"/task/getEval",
+		    method:"post",
+		    dataType:"json",
+		    data:{mid:mid},
+		    success:function(data){	
+		    	if(!data.success){
+		    		window.wxc.error(data.message);
+		    	}else{
+		    		var $content=data.content;
+		    		if($content){
+		    			f.find('[name=evaFee]').val($content.evaFee||'').prop('readonly',true);
+		    			f.find('[name=serviceFee]').val($content.serviceFee||'').prop('readonly',true);
+		    			f.find('[name=evaFeeCost]').val($content.evaFeeCost||'').prop('readonly',true);
 		    			
-		    			//新增派单时间   TODO
-		    			if(data.content.dispachTime !=null && data.content.dispachTime !="" && data.content.dispachTime != undefined){	
-		    				f.find("input[name='processStart']").val("processIsStart");
-		    				if(data.content.isMainLoanBank == 1){
-		    					$("#dispachTimeShow1").show();
-		    					f.find("input[name='dispachTime']").val(data.content.dispachTime);
-		    				}else if(data.content.isMainLoanBank == 0){
-		    					$("#dispachTimeShow0").show();
-		    					f.find("input[name='dispachTime']").val(data.content.dispachTime);			    					
-		    				}
-		    				//派单时间不为空，显示 并且设置可以进行下一步提交
-		    				
-		    				
-		    			}
-		    			
-		    			//两种情况下可选：1.流程还未开启 2.申请被驳回 
-		    			if((data.code == '0' && !data.content.tmpBankUpdateBy) 
-		    					|| data.content.tmpBankStatus == '0'){
-		    				f.find("input[name='isTmpBank']").attr('readOnly',false);
-		    				f.find("select[name='bank_type']").attr('disabled',false);
-		    				f.find("select[name='finOrgCode']").attr('disabled',false);
-		    			}else{
-		    				f.find("input[name='isTmpBank']").attr('readOnly',true);
-		    				f.find("select[name='bank_type']").attr('disabled',true);
-		    				f.find("select[name='finOrgCode']").attr('disabled',true);
-		    			}
-		
+		    			f.find('[name=feeTotal]').val($content.feeTotal||'');
+		    			f.find('[name=evaFeePerf]').val($content.evaFeePerf||'');
+		    			f.find('[name=serviceFeePerf]').val($content.serviceFeePerf||'');
+		    		}
+		    		
+		    	}
+	    	}
+		  });
+}
+//临时银行状态及对应的显示样式
+var tempBankStatusList ={};
+tempBankStatusList['0']={str:'拒绝',clasz:'red_visited'};
+tempBankStatusList['1']={str:'同意',clasz:'blue_visited'};
+tempBankStatusList['2']={str:'审批中',clasz:'grey_visited'};
+//派单状态显示样式
+var orderStatusList ={};
+orderStatusList['ACCEPTING']='grey_visited';
+orderStatusList['AUDITING']='grey_visited';
+orderStatusList['COMPLETED']='blue_visited';
+orderStatusList['ACC_REJECTED']='red_visited';
+orderStatusList['AUD_REJECTED']='red_visited';
+orderStatusList['CANCELED']='red_visited';
+orderStatusList['CLOSED']='blue_visited';
+
+var mCustCode='';
+var custCode='';
+/**
+ * 派单信息是否临时银行Change
+ * @param v 是否临时银行
+ */
+function orderTmpBankChange(v,f,finOrgCode){
+	if(!$(f).is('form')){
+		v=$(this).val();
+		f=$(this).closest('form');
+	}
+	var fName=f.attr('id').match(/[a-zA-Z]*/)[0];
+	var isMain = f.find("[name='isMainLoanBank']").val();
+	var tab= fName=='orderform'?'':fName=='mortgageForm'?'SIGN_':'COMPLETE_';
+	var cl;
+	if(v=='1'){//临时银行处理
+		f.find('.tmpBankShow').show();
+		f.find('.tmpBankHide').hide();
+	}else{//非临时银行处理
+		cl='cl';
+		f.find('.nonTmpBankHide').hide();
+		f.find('.nonTmpBankShow').show();
+		loadMortLoaner($('#caseCode').val(),isMain,eval("ORDER_"+tab+isMain));
+	}
+	//加载分支
+	getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode,cl);
+	f.find("select[name='bank_type']").unbind().change(function(){
+		var isTmpBank= $(this).closest('form').find('[name=isTmpBank]:checked').val();
+			if(isTmpBank =='1'){
+				getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
+			}else{
+				getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"cl",'');
+			}
+    }); 
+}
+/**
+ * 选择银行时带出银行的orgId
+ * @param val
+ */
+function finOrgCodeChange(val){
+	var f;
+	if($(val).is("form")){
+		 f= val;   
+	}else{
+		f=$(this).closest('form');
+	}
+	var finOrgCode="";
+	var isTmpBank = f.find("input[name='isTmpBank']:checked").val();
+	finOrgCode =f.find("select[name='finOrgCode']").val(); 
+	var finOrgId='';	
+	if(isTmpBank=='0' && !$(val).is("form")){//如果不是临时银行的话应该将信贷员清空(如果有传form的话说明是代码直接调用的不是选择银行触发的)
+		f.find('[name=loanerId]').val('');
+		f.find('[name=loanerOrgCode]').val('');
+		f.find('[name=loanerOrgId]').val('');
+		f.find("#loanerNameImage").css("color","#676A6C");
+	}else{
+		f.find("#loanerNameImage").css("color","#52cdec");
+	}
+	$.ajax({
+		    url:ctx+"/manage/queryBankOrgIdByOrgCode",
+		    method:"post",
+		    dataType:"json",
+			async:false,
+		    data:{finOrgCode:finOrgCode},
+		    success:function(data){
+	    		if(data != null){
+	    			finOrgId = data.content;
+	    			f.find('#bankOrgId').val(finOrgId);
+	    		}else{
+	    			f.find('#bankOrgId').val('');
 	    		}
 	    	}
-	  });
+	 });
+}
+/**
+ * 派单Table贷款信息渲染
+ * @param f 
+ * @param data 返回的数据
+ */
+function renderMortgageOrder(f,data){
+	
+	var $content = data.content;
+	var finOrgCode = "";
+	var cl='';
+	if($content){
+		f.find('[name=isTmpBank][value='+$content.isTmpBank+']').prop('checked',true);
+		f.find('[name=tmpBankStatus]').val($content.tmpBankStatus); //1 为临时银行审批通过
+		f.find('[name=loanerName]').val($content.loanerName);
+		f.find('[name=loanerPhone]').val($content.loanerPhone);
+		f.find('[name=loanerOrgCode]').val($content.loanerOrgCode);
+		f.find('[name=loanerOrgId]').val($content.loanerOrgId);
+		f.find('[name=loanerId]').val($content.loanerId);
+		f.find('[name=tmpBankReason]').val($content.tmpBankReason);
+		if($content.loanerId){
+			f.find("#loanerNameImage").css("color","#52cdec");
+		}else{
+			f.find("#loanerNameImage").css("color","#676A6C");
+		}
+		if(data.content.mortType=='30016001'){
+			f.find("input[name='prfAmount']").val('').prop('disabled',true).css("background-color","#eee");
+			f.find("input[name='prfYear']").val('').prop('disabled',true).css("background-color","#eee");
+		}else{
+			f.find("input[name='prfAmount']").prop('disabled',false).css("background-color","");
+			f.find("input[name='prfYear']").prop('disabled',false).css("background-color","");
+		}
+		finOrgCode = data.content.finOrgCode;
+		var tempBankStatusShow= tempBankStatusList[$content.tmpBankStatus];
+		if(tempBankStatusShow){
+			f.find('#div_tmpBankStatus').find('i').text(tempBankStatusShow.str).removeClass().addClass('color_visited '+tempBankStatusShow.clasz);
+		}
+		getGuestInfo(f.attr('id'),$content.custCode);
+		orderTmpBankChange($content.isTmpBank,f,($content.finOrgCode||''));
+	}else{
+		getGuestInfo(f.attr('id'),'');
+		orderTmpBankChange(f.find('[name=isTmpBank]:checked').val(),f,null);
+	}
+	f.find("input[name='isTmpBank']").unbind('click').click(orderTmpBankChange);
 }
 
-//获取页面信息的时候设置信贷员信息
-function  setLoanerInfo(finOrgCode,isMainLoanBank){ 		
-		var finOrgId='';
-		$.ajax({
-			    url:ctx+"/manage/queryBankOrgIdByOrgCode",
-			    method:"post",
-			    dataType:"json",
-				async:false,
-			    data:{finOrgCode:finOrgCode},
-			    
-			    success:function(data){
-		    		if(data != null){
-		    			finOrgId = data.content;
-		    		}
-		    	}
-		 });		
-		if(isMainLoanBank == 1){
-			$("#bankOrgId1").val(finOrgId);    		
-		}else if(isMainLoanBank == 0){
-			$("#bankOrgId0").val(finOrgId);    			
-		}		
+/**
+ * 
+ * 签约Table贷款信息渲染
+ * @param f
+ * @param data 返回的数据
+ */
+function renderMortgageSign(f,data){
+	var $content=data.content;
+	if($content){
+		f.find("[name=mortTotalAmount]").val(($content.mortTotalAmount)||'');
+		f.find("[name=mortType]").val($content.mortType);
+		f.find("[name=comAmount]").val(($content.comAmount)||'');
+		f.find("[name=comYear]").val($content.comYear);
+		f.find("[name=prfAmount]").val(($content.prfAmount)||'' );
+		f.find("[name=prfYear]").val($content.prfYear);
+		f.find("[name=loanerStatus]").val($content.loanerStatus);
+		f.find("[name=comDiscount]").val($content.comDiscount);
+		f.find("input[name='pkid']").val($content.pkid);
+		f.find("select[name='mortType']").val($content.mortType);
+	
+		if($content.mortType=='30016001'){
+			f.find("input[name='prfAmount']").val('').prop('disabled',true).css("background-color","#eee");
+			f.find("input[name='prfYear']").val('').prop('disabled',true).css("background-color","#eee");
+		}else{
+			f.find("input[name='prfAmount']").prop('disabled',false).css("background-color","");
+			f.find("input[name='prfYear']").prop('disabled',false).css("background-color","");
+		}
+		f.find("select[name='custCode']").val($content.custCode);
+		f.find("select[name='custName']").val($content.custName);
+		f.find("input[name='custCompany']").val($content.custCompany);
+		f.find("select[name='lendWay']").val($content.lendWay);
+		
+		f.find("input[name='loanerName']").val($content.loanerName);			    			
+		f.find("input[name='loanerId']").val($content.loanerId);
+		f.find("input[name='loanerOrgId']").val($content.loanerOrgId);
+		f.find("input[name='loanerOrgCode']").val($content.loanerOrgCode);
+		f.find("input[name='loanerPhone']").val($content.loanerPhone);
+		
+		if(undefined != $content.loanerId && ""!= $content.loanerId){
+			$(".loanerNameImage").css("color","#52cdec");
+		}else{$(".loanerNameImage").css("color","#676A6C");}
+		
+		//设置信贷员审批的值
+		f.find("input[name='stateInBank']").val($content.stateInBank);		    			
+		f.find("input[name='isLoanerArrive'][value='"+$content.isLoanerArrive+"']").prop("checked",true);
+		
+		f.find("input[name='houseNum']").val($content.houseNum);
+		f.find("input[name='signDate']").val($content.signDate);
+		f.find("input[name='ifReportBeforeLend'][value="+$content.ifReportBeforeLend+"]").prop("checked",true);
+		f.find("input[name='tazhengArrDate']").val($content.tazhengArrDate);
+		f.find("input[name='remark']").val($content.remark);
+		if($content.toSupDocu != null){
+			f.find("input[name='supContent']").val($content.toSupDocu.supContent);
+			f.find("input[name='remindTime']").val($content.toSupDocu.remindTime);
+		}
+		f.find("input[name='recLetterNo']").val($content.recLetterNo);
+		f.find("input[name='isTmpBank'][value='"+$content.isTmpBank+"']").prop("checked",true);
+		
+		if($content.isTmpBank=='1'){
+			f.find('[name=loanerName]').removeProp('readonly');
+			f.find("input[name='recLetterNo'],[name=bank_type],[name=finOrgCode]").prop('disabled',true).css("background-color","#eee");	
+			f.find("#order_info").hide();
+		}else{
+			f.find('[name=loanerName]').prop('readonly',true);
+			f.find("input[name='recLetterNo'],[name=bank_type],[name=finOrgCode]").prop('disabled',false).css("background-color","");
+			f.find("#order_info").show();
+		}
+		getGuestInfo(f.attr('id'),$content.custCode);
+		orderTmpBankChange($content.isTmpBank,f,$content.finOrgCode);
+		loadEval(f,$content.pkid);
+	}else{
+		getGuestInfo(f.attr('id'),'');
+		orderTmpBankChange(f.find('[name=isTmpBank]:checked').val(),f,null);
+	}
+	
+} 
+
+/**
+ * 完成Table贷款信息渲染
+ * @param form jqueryForm对象
+ * @param data 返回的数据
+ */
+function renderMortgageComplete(f,data){
+	var $content=data.content;
+	if($content){
+		f.find("[name=mortTotalAmount]").val(($content.mortTotalAmount)||'');
+		f.find("[name=mortType]").val($content.mortType);
+		f.find("[name=comAmount]").val(($content.comAmount)||'');
+		f.find("[name=comYear]").val($content.comYear);
+		f.find("[name=prfAmount]").val(($content.prfAmount)||'' );
+		f.find("[name=prfYear]").val($content.prfYear);
+		f.find("[name=loanerStatus]").val($content.loanerStatus);
+		f.find("[name=comDiscount]").val($content.comDiscount);
+		f.find("input[name='pkid']").val($content.pkid);
+		f.find("select[name='mortType']").val($content.mortType);
+	
+		if($content.mortType=='30016001'){
+			f.find("input[name='prfAmount']").val('').prop('disabled',true).css("background-color","#eee");
+			f.find("input[name='prfYear']").val('').prop('disabled',true).css("background-color","#eee");
+		}else{
+			f.find("input[name='prfAmount']").prop('disabled',false).css("background-color","");
+			f.find("input[name='prfYear']").prop('disabled',false).css("background-color","");
+		}
+		f.find("select[name='custCode']").val($content.custCode);
+		f.find("select[name='custName']").val($content.custName);
+		f.find("input[name='custCompany']").val($content.custCompany);
+		f.find('[name=lendWay]').val($content.lendWay);
+		
+		f.find("input[name='loanerName']").val($content.loanerName);    			
+		f.find("input[name='loanerId']").val($content.loanerId);
+		f.find("input[name='loanerOrgId']").val($content.loanerOrgId);
+		f.find("input[name='loanerOrgCode']").val($content.loanerOrgCode);
+		f.find("input[name='loanerPhone']").val($content.loanerPhone);
+		
+		if(undefined != $content.loanerId && ""!= $content.loanerId){
+			$(".loanerNameImage").css("color","#52cdec");
+		}else{$(".loanerNameImage").css("color","#676A6C");}
+		if($content.apprDate){
+			f.find("input[name='apprDate']").val($content.apprDate);
+		}else{
+			f.find("input[name='apprDate']").val($content.bankApproveTime);
+		}		    			
+		f.find("input[name='isLoanerArrive'][value='"+$content.isLoanerArrive+"']").prop("checked",true);
+		
+		f.find("input[name='houseNum']").val($content.houseNum);
+		f.find("input[name='signDate']").val($content.signDate);
+		f.find("input[name='ifReportBeforeLend'][value="+$content.ifReportBeforeLend+"]").prop("checked",true);
+		f.find("input[name='recLetterNo']").val($content.recLetterNo);
+
+		f.find("input[name='recLetterNo']").val($content.recLetterNo);
+		f.find("input[name='isTmpBank'][value='"+$content.isTmpBank+"']").prop("checked",true);
+		f.find("input[name='tmpBankStatus']").val($content.tmpBankStatus);
+		
+		if($content.isTmpBank=='1'){
+			f.find('[name=loanerName]').removeProp('readonly');
+			f.find("input[name='recLetterNo']").prop('disabled',true).css("background-color","#eee");	
+		}else{
+			f.find('[name=loanerName]').prop('readonly',true);
+			f.find("input[name='recLetterNo']").prop('disabled',false).css("background-color","");
+		}
+		getGuestInfo(f.attr('id'),$content.custCode);
+		orderTmpBankChange($content.isTmpBank,f,$content.finOrgCode);
+	}else{
+		getGuestInfo(f.attr('id'),'');
+		orderTmpBankChange(f.find('[name=isTmpBank]:checked').val(),f,null);
+	}
+} 
+/**
+ * 派单Table派单信息渲染
+ * @param f
+ * @param data
+ */
+function renderOrder(f,data){
+	var $content=data.content;
+	if($content){
+		if($content.loanerStatus=='ACCEPTING'||$content.loanerStatus=='AUDITING'||$content.loanerStatus=='COMPLETED'){
+			//除了取消派单外其它全部只读
+			f.find('input').prop('readOnly',true);
+			f.find('select,[name=isTmpBank]').prop('disabled',true);
+		}else{
+			f.find('input').removeProp('readOnly');
+			f.find('select,[name=isTmpBank]').removeProp('disabled');
+		}
+		f.find("[name=resSignTime]").val($content.resSignTime);
+		f.find("[name=resSignAddr]").val($content.resSignAddr);
+		//后台金额没有转换这里转成万元
+		f.find("[name=mortTotalAmount]").val(($content.mortTotalAmount/10000)||'');
+		f.find("[name=mortType]").val($content.mortType);
+		f.find("[name=comAmount]").val(($content.comAmount/10000)||'');
+		f.find("[name=comYear]").val($content.comYear);
+		f.find("[name=prfAmount]").val(($content.prfAmount/10000)||'' );
+		f.find("[name=prfYear]").val($content.prfYear);
+		f.find("[name=loanerStatus]").val($content.loanerStatus);
+		f.find('#div_nonTmpBankStatus i').text($content.loanerStatusStr).removeClass().addClass("color_visited "+orderStatusList[$content.loanerStatus]);
+		
+		loadTradeCenterList(f,$content.resSignAddr);
+	}else{
+		loadTradeCenterList(f);
+	}
 }
+/**
+ * 签约Table派单信息渲染
+ * @param f
+ * @param data
+ */
+function renderOrderSign(f,data){
+	var $content=data.content;
+	if($content){
+		f.find("#lab_mortTotalAmount").text(($content.mortTotalAmount/10000)||'');
+		f.find("#lab_mortType").text($content.mortType=='30016001'?'纯商贷':$content.mortType=='30016002'?'组合贷款':'');
+		f.find("#lab_comAmount").text(($content.comAmount/10000)||'');
+		f.find("#lab_comYear").text($content.comYear);
+		f.find("#lab_prfAmount").text(($content.prfAmount/10000)||'' );
+		f.find("#lab_prfYear").text($content.prfYear);
+		f.find("#lab_loanerStatus").text($content.loanerStatus);
+		f.find("#lab_bankName").text($content.loanerOrgCodeStr);
+		if($content.loanerStatus=='ACCEPTING'||$content.loanerStatus=='AUDITING'||$content.loanerStatus=='COMPLETED'){
+			//除了取消派单外其它全部只读
+			f.find('[name=bank_type],[name=finOrgCode],[name=isTmpBank]').prop('disabled',true).unbind('click').click(function(){return false});
+		}else{
+			f.find('[name=bank_type],[name=finOrgCode],[name=isTmpBank]').removeProp('disabled').unbind('click');
+		}
+	}
+}
+/**
+ * 完成Table派单 信息渲染
+ * @param f
+ * @param data
+ */
+function renderOrderComplete(f,data){
+	var $content= data.content;
+	if($content){
+		f.find("[name=loanerStatus]").val($content.loanerStatus);
+	}
+}
+!function($, window) {
+	var _render=function(sel,renderType){
+		this._selector=sel;this.renderType=renderType;
+	}
+	var r=function(data){
+		//渲染类型 O:派单(order) S:签约 C:完成,QC:仅查询客户信息
+		if(this.renderType=='O'){
+			renderMortgageOrder($(this._selector),data);
+		}else if (this.renderType=='S'){
+			renderMortgageSign($(this._selector),data);
+		}else if(this.renderType=='C'){
+			renderMortgageComplete($(this._selector),data);
+		}else if(this.renderType=='QC'){
+			if(data.content != null && data.content.custCode != null){
+				window.mCustCode=data.content.custCode;
+			}
+			return true;
+		}
+	}
+	_render.prototype = {
+		constructor : _render,
+		render:r
+	};
+	window.mortageRender=_render;
+}(jQuery,window);
+!function($, window) {
+	var _render=function(sel,renderType){
+		this._selector=sel;this.renderType=renderType;
+	}
+	var r=function(data){
+		//渲染类型 O:派单(order) S:签约 C:完成,QC:仅查询客户信息
+		if(this.renderType=='O'){
+			renderOrder($(this._selector),data);
+		}else if (this.renderType=='S'){
+			renderOrderSign($(this._selector),data);
+		}else if(this.renderType=='C'){
+			renderOrderComplete($(this._selector),data);
+		}
+	}
+	_render.prototype = {
+		constructor : _render,
+		render:r
+	};
+	window.orderRender=_render;
+}(jQuery,window);
+
+
 //
 /**
  * @date:2017-04-17
@@ -973,7 +1215,7 @@ function isTmpBankChange(){
 		return false;
 	}
 	var f=$(this).closest('form');
-	var checkBtnVal = $("input[name='isTmpBank']:checked").val(); 
+	var checkBtnVal = f.find("input[name='isTmpBank']:checked").val(); 
 	
 	//=1代表选择临时银行
 	if(checkBtnVal == '1'){
@@ -995,7 +1237,7 @@ function isTmpBankChange(){
 
 	}else{
 		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'','cl');
-		f.find("select[name='bank_type']").change(function(){
+		f.find("select[name='bank_type']").unbind().change(function(){
 		getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"",'cl');
     }); 
 		f.find("input[name='recLetterNo']").prop('disabled',false).css("background-color","");
@@ -1054,8 +1296,12 @@ function getAttchInfo(){
 	  });
 }
 
-//查询客户信息
-function getGuestInfo(formId){
+/**
+ * formId 要显示的formID
+ * val :要选中的值
+ * 查询客户信息
+ */
+function getGuestInfo(formId,val){
 	$.ajax({
 		url:ctx+"/task/getGuestInfo",
 		method:"post",
@@ -1064,9 +1310,11 @@ function getGuestInfo(formId){
 		success:function(data){
 			if(data != null && data.length > 0){
 				$("#"+formId).find("select[name='custCode']").html("");
+				
 				for(var i=0;i<data.length;i++){
-					if(custCode == data[i].pkid){
+					if(val == data[i].pkid){
 						$("#"+formId).find("select[name='custCode']").append("<option cName='"+data[i].workUnit+"' value='"+data[i].pkid+"' selected >"+data[i].guestName+"</option>");
+						$("#"+formId).find("select[name='custName']").val(data[i].guestName);
 					}else{
 						$("#"+formId).find("select[name='custCode']").append("<option cName='"+data[i].workUnit+"'value='"+data[i].pkid+"'>"+data[i].guestName+"</option>");
 					}
@@ -1225,98 +1473,7 @@ function getEvaCompany(){
 		}
 	});
 }
-//贷款结果界面信息
-function getCompleteMortInfo(isMainLoanBank){
-	
-	var caseCode = $("#caseCode").val();
-	 $.ajax({
-	    url:ctx+"/task/getMortgageInfo",
-	    async:false,
-	    method:"post",
-	    dataType:"json",
-	    data:{caseCode:caseCode,isMainLoanBank:isMainLoanBank},
-    	success:function(data){	
-    	if(!data.success){
-    		window.wxc.error(data.message);
-    	}else{    		
-    		if(data.content != null){    			
-    			if(data.content.tmpBankStatus != null){
-	    			$("#tmpBankStatus").val(data.content.tmpBankStatus);
-    			}
 
-    			if(data.content.tmpBankStatus == '0'){
-	    			var reason = data.content.tmpBankRejectReason == null?"":data.content.tmpBankRejectReason;
-		    		$("#tmpBankRejectReason").text("已拒绝:("+reason+")");
-	    		}else if(data.content.tmpBankStatus == '1'){
-	    			$("#tmpBankRejectReason").text("已通过！");
-	    		}else if(data.content.tmpBankStatus == '2'){
-	    			$("#tmpBankRejectReason").text("审批中！");
-	    		}
-    		}
-    		
-    		var f=$("#completeForm1");    		
-    		var form = $("#mortgageForm1");
-    		if(isMainLoanBank == 1){
-    			 f=$("#completeForm");
-    			 form=$("#mortgageForm");
-    		}
-           
-    		if(data != null && data.content != null){    			
-    			form.find("input[name='stateInBank']").val(data.content.stateInBank);
-				f.find("[id='sp_bank']").text(data.content.parentBankName);
-    			f.find("[id='sp_sub_bank']").text(data.content.bankName);
-
-    			if(!!~~data.content.isTmpBank){
-    				f.find('#sp_tmp_bank_u').text(data.content.tmpBankUpdateByStr);
-    				f.find('#sp_tmp_bank_t').text(data.content.tmpBankUpdateTime);
-    				f.find('#sp_is_tmp_bank').text("是");
-    				f.find('#fl_is_tmp_bank').val("1");
-    				f.find(".tmpBankDiv").show();
-    			}else{
-    				f.find(".tmpBankDiv").hide();
-    				f.find('#sp_is_tmp_bank').text("否");
-    				f.find('#fl_is_tmp_bank').val("0");
-    			}
-    			
-    			if(isMainLoanBank == 1){
-	    			$("#completeForm").find("input[name='pkid']").val(data.content.pkid);
-	    			$("#completeForm").find("#comAmount").html(data.content.comAmount+"万元");
-	    			$("#completeForm").find("#comDiscount").html(data.content.comDiscount);
-	    			$("#completeForm").find("input[name='finOrgCode']").val(data.content.finOrgCode);
-	    			
-	    			//派单流程银行审批通过有时间即设置，其他保持不变	
-	    			if(data.content.apprDate){
-	    				$("#completeForm").find("input[name='apprDate']").val(data.content.apprDate);
-	    			}else{
-	    				$("#completeForm").find("input[name='apprDate']").val(data.content.bankApproveTime);
-	    			}
-	    			
-	    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
-		    			$("#completeForm").find("input[name='lastBankSub']").attr("checked","checked");
-	    			}
-
-    			}else{
-    				$("#completeForm1").find("input[name='pkid']").val(data.content.pkid);
-	    			$("#completeForm1").find("#comAmount").html(data.content.comAmount+"万元");
-	    			$("#completeForm1").find("#comDiscount").html(data.content.comDiscount+"折");
-	    			$("#completeForm1").find("input[name='finOrgCode']").val(data.content.finOrgCode);	    			
-	    			//派单流程银行审批通过有时间即设置，其他保持不变
-	    			if(data.content.apprDate){
-	    				$("#completeForm1").find("input[name='apprDate']").val(data.content.apprDate);
-	    			}else{
-	    				$("#completeForm1").find("input[name='apprDate']").val(data.content.bankApproveTime);
-	    			}
-	    			
-	    			if(data.content.lastLoanBank != null && data.content.lastLoanBank != ''){
-		    			$("#completeForm1").find("input[name='lastBankSub']").attr("checked","checked");
-	    			}
-
-    			}
-    		}
-    	}
-    }
-	  });
-}
 //提醒清单
 function getReminderList(tableId,pageId){
 	$("#"+tableId).jqGrid("GridUnload");
@@ -1448,17 +1605,6 @@ function getPricingList(tableId,pageId,isMainLoanBank){
     		}
 	    }); 
 }
-//加载询价列表
-function searchPricingList(table_list_id){
-	$("#"+table_list_id).setGridParam({
-		"postData" : {
-			queryId:"queryToEguPricingPage",
-        	search_caseCode:$("#caseCode").val(),
-        	search_isMainLoanBank:isMainLoanBank
-        },
-		"page":1 
-	}).trigger('reloadGrid');
-}
 //绑定评估编号
 function bindEvaCode(){
 	$.ajax({
@@ -1472,10 +1618,9 @@ function bindEvaCode(){
 				$("#modal-form").modal("hide");
 				var isMainLoanBank = $("#isMainLoanBank").val();
 				if(isMainLoanBank == 1){
-					//searchPricingList("table_list_1");
 	    			getPricingList("table_list_1","pager_list_1",1);
 				}else{
-					//searchPricingList("table_list_3");
+
 	    			getPricingList("table_list_3","pager_list_3",0);
 				}
 			}
@@ -1537,7 +1682,28 @@ function saveStep(f,stepIndex){
 		}
 	});
 }
-
+/**
+ * 派单Tab是否可以进行下一步
+**/
+function checkOrderCanNextStep(isMain){
+	var f ;
+	if(isMain=='1'){
+		f=$('#orderform');
+	}else{
+		f=$('#orderform1');
+	}
+	var isTmpBank= f.find('[name=isTmpBank]:checked').val();
+	var loanerStatus = f.find('[name=loanerStatus]').val();
+	var tmpStatus= f.find('[name=tmpBankStatus]').val();
+	if(!!~~isTmpBank && tmpStatus !='1'){//选择的临时银行 却还没有通过
+		window.wxc.alert('临时银行审批未通过');
+		return false;
+	}else if(!~~isTmpBank && loanerStatus!='AUDITING'&&loanerStatus!='COMPLETED' &&loanerStatus!='CLOSED'){
+		window.wxc.alert('信贷员未接单或被打回');
+		return false
+	}
+	return true;
+}
 function checkReportAtt(){
 	var flag = true;
 	for(var i=1;i<4;i++){
@@ -1567,33 +1733,8 @@ $(document).ready(function (){
 		  $("#processStart").val("processIsStart");
 		  $("#adminLoanerProcess").val("adminLoanerProcess");		  
 	  }
-	  
-	  //判断 信贷员流程  修改信息时不需要提交流程
-	  var processFlag = getUrlParams('comFlag');				
-	  if(processFlag == "processButtonHidden"){			
-			 $("#toLoanerCase").hide();
-			 $("#toLoanerCaseTemp").hide();
-			 $("#processStart").val("processIsStart");
-	  }else{			 
-			 $("#toLoanerCaseTemp").show();
-			 $("#toLoanerCase").show();
-	  }  
-	  
-	  var form = $("#mortgageForm");
-	  var form1 = $("#mortgageForm1");
-	 //派单按钮 隐藏
-	  var checkBtnValForm = form.find("input[name='isTmpBank']:checked").val(); 
-	  var checkBtnValForm1 = form1.find("input[name='isTmpBank']:checked").val(); 
 	
-	  //=1代表选择临时银行
-	  if(checkBtnValForm == '1' || checkBtnValForm1 == '1'){
-		  $("#toLoanerCase").hide();
-		  $("#toLoanerCaseTemp").hide();
-	  }
-	  
-	  getProcessStart();
 
-	/*$("#bank_branch_id").change(subBankChange);*/
 	 $(".tmpBankReasonDiv").hide();
 	 $("input[name=optionsRadios]").each(function(){
 		 $(this).click(function(){
@@ -1680,12 +1821,20 @@ $(document).ready(function (){
 	showFinishButtonAlways:false,
  	enableCancelButton:false,
  	onStepChanging: function (event, currentIndex, newIndex){
- 		if(currentIndex == 0){
+ 		if(currentIndex == 1){
+ 			if(checkOrderCanNextStep('1')){
+				if($('#orderform').find('[name=isTmpBank]:checked').val()=='1'){//如果选择了临时银行的话更新更新信息 非临时银行只要派单了信息就不可更改
+					saveTmpBank($('#orderform'));
+				}
+			}else{
+				return false;
+			}
+ 		}else if(currentIndex == 0){
  			if(accPricing){
  				$("#eva_code").val(accPricing['EVA_CODE']);
  			}
 
- 		}else if(currentIndex == 2){ 			
+ 		}else if(currentIndex == 3){ 			
  			var flag = false; 			
  			//TODO  
  			/*第三步点击下一步的时候判断 信贷员是否变更？ 判断是否启流程
@@ -1697,7 +1846,7 @@ $(document).ready(function (){
 	 			flag = true;
  			}
  			return flag;
- 		}else if(currentIndex == 3 ){
+ 		}else if(currentIndex == 4 ){
 
  			if ($("#loan_doc_confirm_letter_first_pic_list li").length == undefined
 					|| $("#loan_doc_confirm_letter_first_pic_list li").length == 0 ) {
@@ -1724,6 +1873,11 @@ $(document).ready(function (){
 			}
  			
  			return true;
+ 		}else if(currentIndex == 6 ){
+ 			if(!checkCompleteMortgage($("#completeForm"))){
+	 			return false;
+ 			}
+ 			saveMortgage($("#completeForm"));
  		}
 
  		return true;
@@ -1733,23 +1887,22 @@ $(document).ready(function (){
  		if(currentIndex > step){
 	 		saveStep(1,stepIndex);
  		}
- 		if(currentIndex == 1){
+ 		if(currentIndex==1){
+ 			loadMortgageInfo(1,MORT_ORDER_1);
+ 		}
+ 		if(currentIndex == 2){
  			getReminderList("table_list_2","pager_list_2");
- 		}else if(currentIndex == 2){
+ 		}else if(currentIndex == 3){
  			//获取页面信息  1 表示主选银行
-	 		getMortgageInfo($("#caseCode").val(),1);
-	 		
- 		}else if(currentIndex == 3 && priorIndex !=2){
+	 		loadMortgageInfo(1,MORT_SIGN_1);
+ 		}else if(currentIndex == 4 && priorIndex !=3){
+ 			loadMortgageInfo(1,MORT_SIGN_1);
  			
- 			getMortgageInfo($("#caseCode").val(),1);
- 			
- 		}else if(currentIndex == 4){
- 			getMortgageInfo($("#caseCode").val(),1);
+ 		}else if(currentIndex == 5){
+ 			loadMortgageInfo(1,MORT_SIGN_1);
  			getReportList("table_list_4","pager_list_4",1);
- 		}else if(currentIndex == 5 && priorIndex == 4){
- 			//离开报告步骤执行临时银行审批流程
- 			startTmpBankWorkFlow();
- 			getCompleteMortInfo(1);
+ 		}else if(currentIndex == 6){
+ 			loadMortgageInfo(1,MORT_COMPLETE_1);
  		}
  	},
  	onFinished: function (event, currentIndex)
@@ -1773,29 +1926,22 @@ transitionEffect: "slide",
 		
 	},
 	onStepChanging: function (event, currentIndex, newIndex){
-		if(currentIndex == 0){
-			/*if(accPricing == null){
-				alert("请先接受询价结果！");
+		if(currentIndex==1){
+			if(!checkOrderCanNextStep('0')){
 				return false;
-			}*/
+			}
+		}else if(currentIndex == 0){
 			if(accPricing){
 				$("#eva_code").val(accPricing['EVA_CODE']);
 			}
-			/*if(accPricingIds.length != 0 && accPricing == null){
-				alert("请先接受询价结果！");
-				return false;
-			}else if(accPricing != null){
-			$("#eva_code").val(accPricing['EVA_CODE']);
-			}*/
-
-		}else if(currentIndex == 2 ){			
+		}else if(currentIndex == 3 ){			
 			var flag = false;
 			if(checkMortgageForm($("#mortgageForm1"))){
  			saveMortgage($("#mortgageForm1"));
  			flag = true;
 			}
 			return flag;
-		}else if(currentIndex == 3 ){
+		}else if(currentIndex == 4 ){
 			/*if(checkAttUp($(".att_second"),$("#mortgageForm1"))){
 				return deleteAndModify();
 			}*/
@@ -1821,6 +1967,11 @@ transitionEffect: "slide",
 				return false;
 			}
 			return true;
+		}else if(currentIndex == 4 ){
+ 			if(!checkCompleteMortgage($("#completeForm"))){
+	 			return false;
+ 			}
+ 			saveMortgage($("#completeForm"));
 		}
 		
 		return true;
@@ -1830,18 +1981,20 @@ transitionEffect: "slide",
 		if(currentIndex > step1){
  		saveStep(0,stepIndex);
 		}
-		if(currentIndex == 1){
+		if(currentIndex==1){
+			loadMortgageInfo(0,MORT_ORDER_0);
+		}
+		if(currentIndex == 2){
 			getReminderList("table_list_5","pager_list_5");
-		}else if(currentIndex == 2){
- 		getMortgageInfo($("#caseCode").val(),0);
-		}else if(currentIndex == 3 && priorIndex != 2){
-			getMortgageInfo($("#caseCode").val(),0);
-		}else if(currentIndex == 4){
-			getMortgageInfo($("#caseCode").val(),0);
+		}else if(currentIndex == 3){
+			loadMortgageInfo(0,MORT_SIGN_0);
+		}else if(currentIndex == 4 && priorIndex != 3){
+			loadMortgageInfo(0,MORT_SIGN_0);
+		}else if(currentIndex == 5){
+			loadMortgageInfo(0,MORT_SIGN_0);
 			getReportList("table_list_6","pager_list_6",0);
-		}else if(currentIndex == 5 && priorIndex == 4){
-			//startTmpBankWorkFlow(); 候选银行禁止选临时银行
-			getCompleteMortInfo(0);
+		}else if(currentIndex == 6){
+			loadMortgageInfo(0,MORT_COMPLETE_0);
 		}
 	},
 	onFinished: function (event, currentIndex)
@@ -1850,11 +2003,7 @@ transitionEffect: "slide",
 		return true;
 }
 });
-//    $("#finOrgCode").change(function(){
-//    	if($("#finOrgCode").val() == "P00021"){
-//    		$("#priceInfo").hide();
-//    	}
-//    });
+
     $("#reportSubBtn").click(function(){
     	if($("#reportType").val()==""){
     		window.wxc.alert("请选择报告类型！");
@@ -1863,19 +2012,7 @@ transitionEffect: "slide",
     	if(getUploadPicInfo()){
     		return;
     	};
-    	/*if(attachmentIds.length==0&&preFileAdress.length==0){
-    		window.wxc.alert("图片数据不能为空！");
-        	return;
-    	}
-    	var picDiv=$("div[name='allPicDiv2']");
-	    var spans =$("input[name='preFileAdress1']");
-	    if(spans.length < picDiv.length) {
-	    	window.wxc.alert("你有未上传的完成的文件，请稍候再试！");
-	    	return;
-	    }
-    	if(!checkReportAtt()){
-    		return;
-    	}*/
+    	
     	if ($("#identification_card_eg_pic_list li").length == undefined
 				|| $("#identification_card_eg_pic_list li").length == 0 ) {
 			window.wxc.alert("身份证未上传!");
@@ -2032,30 +2169,54 @@ transitionEffect: "slide",
     		}});
     	}
     });
-    $("input[name='isTmpBank']").on('click',isTmpBankChange);
-   // getPricingList("table_list_1","pager_list_1");
- 
+     
  });
-
+/**
+ * 取消派单
+ */
+function loanerProcessCancel(){
+	var form = $(this).closest('form');
+	var loanerStatus = form.find('[name=loanerStatus]').val();
+	var isMainLoanBank = form.find('[name=isMainLoanBank]').val();
+	var data = 
+	{
+	   "caseCode":$("#caseCode").val(),
+	   "isMainLoanBankProcess":isMainLoanBank 
+	};
+	if(loanerStatus =='ACCEPTING' || loanerStatus =='AUDITING'|| loanerStatus=='COMPLETED'){
+		window.wxc.confirm("确定要撤消派单吗！",{"wxcOk":function(){
+		 	$.ajax({
+			    url:ctx+"/task/loanerProcessCancle",
+			    async:false,
+		    	method:"post",
+		    	dataType:"json",
+		    	data:data,
+		    	success:function(data){    		
+		    		if(data.success){	
+		    			window.wxc.alert('撤单成功');
+		    			loadMortLoaner($('#caseCode').val(),isMainLoanBank,eval("ORDER_"+isMainLoanBank));
+		    		}else{
+		    			window.wxc.alert(data.message);
+		    		}
+		    	}
+		 	});
+		}});
+		
+	}else{
+		window.wxc.alert('当前派单不允许进行撤单');
+	}
+} 
 /*
  * @author: zhuody
  * @des:启动派单流程
  * 
  * */
 
-function loanerProcessStart(isMainLoanBank){	
-	var bankLevel = $("#finOrgCode").find('option:selected').attr('coLevel');//所选银行分行级别 	
-	//$("#processStart").val("processIsStart"); //点击派单流程设置 标志，作为"下一步"继续的依据
-	
-	var form = '';
-	if(isMainLoanBank == "1"){
-		form = $("#mortgageForm");		
-	}else if(isMainLoanBank == "0"){
-		form = $("#mortgageForm1");
-	}	
-
-	form.find("input[name='processStart']").val("processIsStart");
-
+function loanerProcessStart(){	
+	 	
+	var form = $(this).closest('form');
+	var bankLevel = form.find("#finOrgCode").find('option:selected').attr('coLevel');//所选银行分行级别
+	var isMainLoanBank = form.find('[name=isMainLoanBank]').val();
 	var data = 
 	{
 	   "caseCode":$("#caseCode").val(),
@@ -2067,41 +2228,24 @@ function loanerProcessStart(isMainLoanBank){
     	method:"post",
     	dataType:"json",
     	data:data,
-    	
     	success:function(data){    		
-    		if(data.success == false){	  //未启动派单流程  			
-	    			//if(null != bankLevel &&  bankLevel != undefined  && null != loanerUserId && "" != loanerUserId){
+    		if(data.success){	
+    			if(!data.content){
     				if(beforeSendLoanerProcess(form)){
 	    				window.wxc.confirm("派单前，请再次确认您选择的信贷员是否正确！",{"wxcOk":function(){
 	    					startLoanerOrderWorkFlow(bankLevel,isMainLoanBank);  
 		    			 }
 	   	    		 });  
-	    			} 			    		
+	    			} 			 
+    			}else{
+    				window.wxc.alert('派单信息已存在，请先撤销原派单后再操作!');
+    			}
 	    	}else{
 				window.wxc.alert(data.message);
 				return;
 			} 
     	}
  	}); 
-}
-//启动临时银行审批
-function startTmpBankWorkFlow(){
-	
-	//'我要修改'页面不触发流程 	
-	if(source != null && source !=''){
-		return;
-	}
- 	$.ajax({
-	    url:ctx+"/mortgage/tmpBankAudit/start",
-	    async:false,
-    	method:"post",
-    	dataType:"json",
-    	data:{caseCode:$("#caseCode").val()},
-    	
-    	success:function(data){
-    		window.wxc.success(data.message);
-    	}
- 	});
 }
 
 //启动 信贷员审核流程
@@ -2113,20 +2257,16 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
 	var loanerName = "";
 	var  formId = "";
 	if(isMainLoanBank == 1){
-		formId = $("#mortgageForm");
-		loanerUserId = formId.find("input[name='loanerId']").val();
-		loanerOrgId = formId.find("input[name='loanerOrgId']").val();
-		bankOrgCode = formId.find("select[name='finOrgCode']").val();  
-		loanerOrgCode = formId.find("input[name='loanerOrgCode']").val();
-		loanerName = formId.find("input[name='loanerName']").val();
+		formId = $("#orderform");
 	}else if (isMainLoanBank == 0){
-		formId = $("#mortgageForm1");
-		loanerUserId = formId.find("input[name='loanerId']").val();
-		loanerOrgId = formId.find("input[name='loanerOrgId']").val();
-		bankOrgCode = formId.find("select[name='finOrgCode']").val();  
-		loanerOrgCode = formId.find("input[name='loanerOrgCode']").val();
-		loanerName = formId.find("input[name='loanerName']").val();
+		formId = $("#orderform1");
 	}
+	
+	loanerUserId = formId.find("input[name='loanerId']").val();
+	loanerOrgId = formId.find("input[name='loanerOrgId']").val();
+	bankOrgCode = formId.find("select[name='finOrgCode']").val();  
+	loanerOrgCode = formId.find("input[name='loanerOrgCode']").val();
+	loanerName = formId.find("input[name='loanerName']").val();
 	
 	var mor = getFormParams(formId);
 	mor.loanerName = loanerName;
@@ -2135,7 +2275,7 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
 	mor.loanerOrgId = loanerOrgId;
 	mor.finOrgCode = bankOrgCode;
 	mor.bankLevel = bankLevel;
-	mor.isMainLoanBank = isMainLoanBank;
+	mor.isMainLoanBankProcess = isMainLoanBank;
 	mor.loanerOrgCode = loanerOrgCode;
 	
  	$.ajax({
@@ -2144,31 +2284,13 @@ function  startLoanerOrderWorkFlow(bankLevel,isMainLoanBank){
     	method:"post",
     	dataType:"json",
     	data:mor,
-    	
-    	success:function(data){      		
-    		//alert(data.content);
-    		//回显 派单成功时间
-    		if(isMainLoanBank == 1){
-    			$("#dispachTime1").val(data.content);
-    			$("#dispachTimeShow1").show();
-    			
-    			//派单成功之后 银行信息、信贷员信息不给修改    		
-    			formId.find("select[name='bank_type']").attr("disabled",true);
-    			formId.find("select[name='finOrgCode']").attr("disabled",true);
-    			formId.find("input[name='loanerName1']").attr("disabled",true);
-    			formId.find("#loanerNameImage").attr("disabled",true);
-    			formId.find("#loanerNameImage1").attr("disabled",true);    			
-    			
-    		}else if(isMainLoanBank == 0){
-    			$("#dispachTime0").val(data.content);
-    			$("#dispachTimeShow0").show();    			
-    		
-    			formId.find("select[name='bank_type']").attr("disabled",true);
-    			formId.find("select[name='finOrgCode']").attr("disabled",true);
-    			formId.find("input[name='loanerName']").attr("disabled",true);
-    			formId.find("#loanerNameImage").attr("disabled",true);
+    	success:function(data){
+    		if(data.success){
+    			window.wxc.success('派单成功');
+    			loadMortLoaner($('#caseCode').val(),isMainLoanBank,eval("ORDER_"+isMainLoanBank));
+    		}else{
+    			window.wxc.success(data.message);
     		}
-    		window.wxc.success(data.message);
     	}
  	});
 }
@@ -2198,39 +2320,28 @@ function getFormParams(formId){
 		prfAmount =  formId.find("input[name='prfAmount']").val() * 10000;
 	}	
 	
-	var comDiscount =  formId.find("input[name='comDiscount']").val();
 	var comYear =  formId.find("input[name='comYear']").val();	
-	var lendWay =  formId.find("select[name='lendWay']").val();
 	var loanerPhone =  formId.find("input[name='loanerPhone']").val();
-	
-	var signDate =  formId.find("input[name='signDate']").val();
-	var recLetterNo =  formId.find("input[name='recLetterNo']").val();
 	
 	var prfYear = formId.find("input[name='prfYear']").val();
 	var custCompany = formId.find("input[name='custCompany']").val();
 	var isTmpBank =  formId.find("input[name='isTmpBank']:checked").val();
-	var ifReportBeforeLend =  formId.find("input[name='ifReportBeforeLend']:checked").val();
-	var isLoanerArrive =  formId.find("input[name='isLoanerArrive']:checked").val();
+
 	
 	var mor = {};
 	mor.custCode = custCode;
 	mor.custName = custName;
 	mor.mortTotalAmount = mortTotalAmount;
 	mor.mortType = mortType;
-	mor.comAmount = comAmount;
-	mor.comDiscount = comDiscount;	
+	mor.comAmount = comAmount;	
 	mor.comYear = comYear;
-	mor.lendWay = lendWay;
 	mor.loanerPhone = loanerPhone;
-	mor.recLetterNo = recLetterNo;
 	mor.prfAmount = prfAmount;
 	mor.prfYear = prfYear;	
-	mor.signDate = signDate;
 	mor.custCompany = custCompany;
 	mor.isTmpBank = isTmpBank;
-	mor.ifReportBeforeLend = ifReportBeforeLend;
-	mor.isLoanerArrive = isLoanerArrive;
-	
+	mor.resSignTime= formId.find('[name=resSignTime]').val();
+	mor.resSignAddr= formId.find('[name=resSignAddr]').val();
 	return mor;
 }
 

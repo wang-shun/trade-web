@@ -32,4 +32,9 @@ public interface ProductCategoryMapper {
 	 * @return 产品类别信息列表
 	 */
 	public List<ProductCategory> getAllProductCategoryList();
+	
+	
+	public void insertProCategory(ProductCategory proCategory);
+	
+	public void updateProCategory(ProductCategory record);
 }

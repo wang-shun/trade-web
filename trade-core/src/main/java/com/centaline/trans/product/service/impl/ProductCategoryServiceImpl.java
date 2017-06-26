@@ -34,4 +34,15 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 		return productCategoryMapper.getAllProductCategoryList();
 	}
 
+	@Override
+	public void insertProCategory(ProductCategory proCategory) {
+		// TODO Auto-generated method stub
+		productCategoryMapper.insertProCategory(proCategory);
+	}
+
+	@Override
+	public void updateProCategory(ProductCategory record) {
+		// TODO Auto-generated method stub
+		productCategoryMapper.updateProCategory(record);
+	}
 }

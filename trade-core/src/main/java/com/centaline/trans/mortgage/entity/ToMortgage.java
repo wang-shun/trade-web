@@ -3,6 +3,7 @@ package com.centaline.trans.mortgage.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.centaline.trans.eval.entity.ToEval;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -83,6 +84,10 @@ public class ToMortgage {
     private String     ifRequireReconsider;
 
     private ToSupDocu  toSupDocu;
+    /**
+     * 评估费
+     */
+    private ToEval toEval;
 
     private String     isDelegateYucui;
 
@@ -620,6 +625,14 @@ public class ToMortgage {
 
 	public void setStateInBank(String stateInBank) {
 		this.stateInBank = stateInBank;
+	}
+
+	public ToEval getToEval() {
+		return toEval;
+	}
+
+	public void setToEval(ToEval toEval) {
+		this.toEval = toEval;
 	}  	
 	
 }

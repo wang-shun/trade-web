@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.performance.repository.PerfGoalMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.performance.entity.PerfGoal" >
+    <result column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="main_Id" property="mainId" jdbcType="BIGINT" />
+    <result column="DISTRICT" property="district" jdbcType="VARCHAR" />
+    <result column="TEAM" property="team" jdbcType="VARCHAR" />
+    <result column="JOB" property="job" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="BELONG_MONTH" property="belongMonth" jdbcType="DATE" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="GOAL_PERF" property="goalPerf" jdbcType="DECIMAL" />
+    
+  </resultMap>
+  <insert id="insert" parameterType="com.centaline.trans.performance.entity.PerfGoal" >
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="pkid">
+     select @@identity
+   </selectKey>
+    insert into sctrans.T_TS_PERF_GOAL (PKID, main_Id,DISTRICT, TEAM, 
+      JOB, USER_ID, BELONG_MONTH, 
+      STATUS, CREATE_BY, CREATE_TIME, 
+      UPDATE_BY, UPDATE_TIME, GOAL_PERF
+      )
+    values (#{pkid,jdbcType=BIGINT},#{mainId,jdbcType=BIGINT}, #{district,jdbcType=VARCHAR}, #{team,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{belongMonth,jdbcType=DATE}, 
+      #{status,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, @{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},GETDATE(), #{goalPerf,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.performance.entity.PerfGoal" >
+       <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="pkid">
+     select @@identity
+   </selectKey>
+    insert into sctrans.T_TS_PERF_GOAL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="mainId != null" >
+      	main_Id,
+      </if>
+     
+      <if test="district != null" >
+        DISTRICT,
+      </if>
+      <if test="team != null" >
+        TEAM,
+      </if>
+      <if test="job != null" >
+        JOB,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="belongMonth != null" >
+        BELONG_MONTH,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+
+        CREATE_BY,
+
+        CREATE_TIME,
+
+        UPDATE_BY,
+
+        UPDATE_TIME,
+
+      <if test="goalPerf != null" >
+        GOAL_PERF,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="mainId != null">
+      	 #{mainId,jdbcType=BIGINT}
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="team != null" >
+        #{team,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="belongMonth != null" >
+        #{belongMonth,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+  		@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},GETDATE(),
+      <if test="goalPerf != null" >
+        #{goalPerf,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <insert id="batchInsertByUojId">
+  insert into sctrans.T_TS_PERF_GOAL(main_Id,DISTRICT,TEAM,JOB,USER_ID,BELONG_MONTH,STATUS,CREATE_BY,CREATE_TIME,UPDATE_BY,UPDATE_TIME,GOAL_PERF)
+  select #{mainId},yoh.DISTRICT_ID,uoj.ORG_ID,uoj.JOB_ID,uoj.USER_ID,#{belongMonth},#{status},@{SESSION_USER_ID},getdate(),@{SESSION_USER_ID},getdate(),#{goalPerf}
+		 from sctrans.SYS_USER_ORG_JOB uoj left join sctrans.t_yucui_org_hierarchy yoh
+			on uoj.ORG_ID=yoh.ORG_ID
+ 		where uoj.id in 
+ 			<foreach item="item" index="index" collection="uojIds" open="(" separator="," close=")"> 
+  	        #{item}       
+  	       </foreach>
+
+  </insert>
+  <update id="batchUpdateSetGoal">
+  	update sctrans.T_TS_PERF_GOAL 
+  	  <set >
+      	<if test="goalPerf != null" > 
+      		goal_Perf = #{goalPerf,jdbcType=DECIMAL},
+  		</if>
+      	<if test="status != null" > 
+      		status = #{status,jdbcType=VARCHAR},
+  		</if>
+  	  </set>
+  	where pkid in 
+  	<foreach item="item" index="index" collection="pkids" open="(" separator="," close=")"> 
+  	        #{item}       
+  	</foreach>
+  </update>
+  <select id="getNotSetCount" resultType="java.lang.Integer" >
+  		select count(*)
+			from sctrans.SYS_USER_ORG_JOB uoj
+			inner join sctrans.SYS_USER u
+			on u.id= uoj.USER_ID
+			left join sctrans.t_yucui_org_hierarchy yoh
+			on uoj.ORG_ID=yoh.TEAM_ID
+			left join sctrans.SYS_JOB j 
+			on uoj.JOB_ID=j.ID
+			left join sctrans.T_TS_PERF_GOAL pg 
+			on pg.team=uoj.ORG_ID and pg.user_id=uoj.USER_ID and pg.job=uoj.JOB_ID and DATEDIFF(mm ,pg.belong_month,#{belongMonth})=0
+			where 
+			uoj.IS_DELETED='0' 
+			and u.IS_DELETED='0'
+			and u.AVAILABLE='1'
+			and yoh.DISTRICT_ID=#{orgId}     
+			and j.JOB_CODE='consultant'
+			and pg.belong_month is null
+  </select>
+  <update id="commitPerfGoal">
+    	update pg  set status='1' ,
+    				UPDATE_BY=@{SESSION_USER_ID},
+			        UPDATE_TIME = GETDATE()     
+	from sctrans.T_TS_PERF_GOAL pg
+	inner join 
+	sctrans.SYS_USER_ORG_JOB uoj
+	on pg.team=uoj.ORG_ID and pg.user_id=uoj.USER_ID and pg.job=uoj.JOB_ID
+			inner join sctrans.SYS_USER u
+			on u.id= uoj.USER_ID
+			left join sctrans.t_yucui_org_hierarchy yoh
+			on uoj.ORG_ID=yoh.TEAM_ID
+			left join sctrans.SYS_JOB j 
+			on uoj.JOB_ID=j.ID
+  	 where DATEDIFF(mm ,pg.belong_month,#{belongMonth})=0 
+		   and uoj.IS_DELETED='0' 
+			and u.IS_DELETED='0'
+			and u.AVAILABLE='1'
+  	 	   and pg.DISTRICT= #{orgId} 
+  	       and pg.status = '0';
+ 
+  </update>
+</mapper>

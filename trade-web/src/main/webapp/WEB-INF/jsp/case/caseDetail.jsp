@@ -820,6 +820,9 @@
 							</li>
 							<li class=""><a href="#bizwarn-info" data-toggle="tab" style="padding:10px;">商贷流失预警信息</a>
 							</li>
+							</li>
+							<li class=""><a href="#messages_info1" data-toggle="tab" style="padding:10px;">业绩记录</a>
+							</li>
 							<c:if test="${ toCase.caseOrigin eq 'WD'}">
 								<li class=""><a href="#liushui-info" data-toggle="tab" style="padding:10px;">收款流水</a>
 								</li>
@@ -1150,6 +1153,54 @@
 									</c:forEach>
 								</c:forEach>
 							</div>
+							<div class="tab-pane fade" id="messages_info1">
+                                <div class="table_content">
+                                    <table class="table table_blue table-striped table-bordered table-hover" id="editable" >
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    时间
+                                                </th>
+                                               <!--  <th>
+                                                    业绩节点
+                                                </th> -->
+                                                <th>
+                                                    业绩编号
+                                                </th>
+                                                <th>
+                                                    业务金额（元）
+                                                </th>
+                                                 <!-- 
+                                                <th>
+                                                    期数
+                                                </th>
+                                                <th>
+                                                    应收标准
+                                                </th>
+                                                -->
+                                                <th>
+                                                    拆分比例
+                                                </th>
+                                                <th>
+                                                    归属业绩
+                                                </th>
+                                                <th>
+                                                    归属人
+                                                </th>
+                                                <th>
+                                                    归属组织
+                                                </th>
+                                                <th>
+                                                    业绩状态
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table_content_pre">
+                                      			
+                                        </tbody>
+                                    </table> 
+                                </div>
+                            </div>
 							<div class="tab-pane fade" id="fujian_info">
 								<div class="panel-body">
 									<div id="imgShow" class=""></div>
@@ -1644,6 +1695,44 @@
 
 
 	</script>
+	<script
+		id="template_successList" type="text/html">
+	{{each rows as item index}}
+    	<tr>
+       		 <td>
+                                                {{item.shareTime}}
+                                                    
+                                                </td>
+                                                
+                                                <td>
+                                                    {{item.bizCode}}
+                                                </td>
+                                                <td>
+                                                    {{item.shareBase}}
+                                                </td>
+                                                <td>
+                                                   {{item.sharesRate}}
+                                                </td>
+                                                <td>
+                                                    {{item.shareAmount}}
+                                                </td>
+                                                <td>
+                                                    {{item.createBy}}
+                                                </td>
+                                                <td>
+                                                	{{item.treamId}}
+                                                </td>
+                                                <td>
+				{{if item.status !=null && item.status == 'GENERATED'}}有效
+				{{/if}}
+				{{if item.status !=null && item.status == 'CANCELED'}}
+				无效<a href="#" class="demo-left" title="案件重启<br/>" style="margin-left:2px;"><i class="icon iconfont" style="font-size: 20px;color:#808080;">&#xe609;</i></a>
+				{{/if}}
+                                                </td>
+                                            </tr>                                        
+	{{/each}}
+	</script>
+	
 </content>
 
 </body>

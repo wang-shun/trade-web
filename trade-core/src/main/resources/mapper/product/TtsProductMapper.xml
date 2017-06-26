@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.product.repository.TtsProductMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.product.entity.TtsProduct" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PRDC_CODE" property="prdcCode" jdbcType="VARCHAR" />
+    <result column="PROD_CODE" property="prodCode" jdbcType="VARCHAR" />
+    <result column="VENDOR" property="vendor" jdbcType="VARCHAR" />
+    <result column="REC_RATE" property="recRate" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="SORT" property="sort" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="PROD_NAME" property="prodName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PRDC_CODE, PROD_CODE, VENDOR, REC_RATE, CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+    UPDATE_BY, SORT, STATUS, PROD_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_PRODUCT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_PRODUCT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.product.entity.TtsProduct" >
+    insert into sctrans.T_TS_PRODUCT (PKID, PRDC_CODE, PROD_CODE, 
+      VENDOR, REC_RATE, CREATE_TIME, 
+      CREATE_BY, UPDATE_TIME, UPDATE_BY, 
+      SORT, STATUS, PROD_NAME
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{prdcCode,jdbcType=VARCHAR}, #{prodCode,jdbcType=VARCHAR}, 
+      #{vendor,jdbcType=VARCHAR}, #{recRate,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{prodName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.product.entity.TtsProduct" >
+    insert into sctrans.T_TS_PRODUCT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="prdcCode != null" >
+        PRDC_CODE,
+      </if>
+      <if test="prodCode != null" >
+        PROD_CODE,
+      </if>
+      <if test="vendor != null" >
+        VENDOR,
+      </if>
+      <if test="recRate != null" >
+        REC_RATE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="sort != null" >
+        SORT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="prodName != null" >
+        PROD_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="prdcCode != null" >
+        #{prdcCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prodCode != null" >
+        #{prodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="vendor != null" >
+        #{vendor,jdbcType=VARCHAR},
+      </if>
+      <if test="recRate != null" >
+        #{recRate,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="prodName != null" >
+        #{prodName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.product.entity.TtsProduct" >
+    update sctrans.T_TS_PRODUCT
+    <set >
+      <if test="prdcCode != null" >
+        PRDC_CODE = #{prdcCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prodCode != null" >
+        PROD_CODE = #{prodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="vendor != null" >
+        VENDOR = #{vendor,jdbcType=VARCHAR},
+      </if>
+      <if test="recRate != null" >
+        REC_RATE = #{recRate,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null && sort!=0" >
+        SORT = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null && status!=0" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="prodName != null" >
+        PROD_NAME = #{prodName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.product.entity.TtsProduct" >
+    update sctrans.T_TS_PRODUCT
+    set PRDC_CODE = #{prdcCode,jdbcType=VARCHAR},
+      PROD_CODE = #{prodCode,jdbcType=VARCHAR},
+      VENDOR = #{vendor,jdbcType=VARCHAR},
+      REC_RATE = #{recRate,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      SORT = #{sort,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=INTEGER},
+      PROD_NAME = #{prodName,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -102,4 +102,4 @@ public class TsApiLog {
     public void setCreateBy(String createBy) {
         this.createBy = createBy == null ? null : createBy.trim();
     }
-}
+}   

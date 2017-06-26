@@ -43,6 +43,8 @@
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="res_sign_time" property="resSignTime" jdbcType="TIMESTAMP" />
+    <result column="res_sign_addr" property="resSignAddr" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CUST_NAME, CASE_CODE, RECEIVE_CODE, HOU_ADDRESS,MORT_TYPE,IS_MAIN_LOANBANK_PROCESS,MORT_TOTAL_AMOUNT, COM_AMOUNT, 
@@ -50,7 +52,7 @@
     LOANER_DESC, SEND_ID, SEND_NAME, SEND_TIME, RECEIVE_TIME, RECEIVE_ID, RECEIVE_NAME, 
     REJECT_ID, REJECT_NAME, REJECT_TIME, CANCLE_ID, CANCLE_NAME, CANCLE_TIME, APPROVAL_ID, 
     APPROVAL_NAME, APPROVAL_TIME, LOANER_ID, LOANER_NAME, LOANER_PHONE, LOANER_ORG_ID, 
-    LOANER_ORG_CODE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+    LOANER_ORG_CODE, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY,res_sign_time,res_sign_addr
   </sql>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -123,7 +125,7 @@
       APPROVAL_ID, APPROVAL_NAME, APPROVAL_TIME, 
       LOANER_ID, LOANER_NAME, LOANER_PHONE, 
       LOANER_ORG_ID, LOANER_ORG_CODE, CREATE_TIME, 
-      CREATE_BY, UPDATE_TIME, UPDATE_BY
+      CREATE_BY, UPDATE_TIME, UPDATE_BY,res_sign_time,res_sign_addr
       )
     values ( #{custName,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
       #{receiveCode,jdbcType=VARCHAR}, #{houAddress,jdbcType=VARCHAR}, #{mortType,jdbcType=VARCHAR}, 
@@ -138,7 +140,8 @@
       #{approvalId,jdbcType=VARCHAR}, #{approvalName,jdbcType=VARCHAR}, #{approvalTime,jdbcType=TIMESTAMP}, 
       #{loanerId,jdbcType=VARCHAR}, #{loanerName,jdbcType=VARCHAR}, #{loanerPhone,jdbcType=VARCHAR}, 
       #{loanerOrgId,jdbcType=VARCHAR}, #{loanerOrgCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=TIMESTAMP}
+      #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=TIMESTAMP},#{resSignTime,jdbcType=TIMESTAMP}
+      , #{resSignAddr,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.mortgage.entity.ToMortLoaner" >
@@ -258,6 +261,12 @@
       <if test="loanerOrgCode != null" >
         LOANER_ORG_CODE,
       </if>
+      <if test="resSignTime != null" >
+        res_sign_time,
+      </if>
+      <if test="resSignAddr != null" >
+        res_sign_addr,
+      </if>
 	    CREATE_TIME,
 	    CREATE_BY,
 	    UPDATE_TIME,
@@ -375,6 +384,13 @@
       <if test="loanerOrgCode != null" >
         #{loanerOrgCode,jdbcType=VARCHAR},
       </if>
+      <if test="resSignTime != null" >
+        #{resSignTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resSignAddr != null" >
+        #{resSignAddr,jdbcType=VARCHAR},
+      </if>
+      
  		GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID}
     </trim>
   </insert>
@@ -491,8 +507,13 @@
       <if test="loanerOrgCode != null" >
         LOANER_ORG_CODE = #{loanerOrgCode,jdbcType=VARCHAR},
       </if>
-       CREATE_TIME = GETDATE(),
-       CREATE_BY = @{SESSION_USER_ID},
+      <if test="resSignTime != null" >
+        res_Sign_Time = #{resSignTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resSignAddr != null" >
+        res_Sign_Addr = #{resSignAddr,jdbcType=VARCHAR},
+      </if>
+     
        UPDATE_TIME = GETDATE(),
        UPDATE_BY =@{SESSION_USER_ID}
     </set>
@@ -536,8 +557,6 @@
       LOANER_PHONE = #{loanerPhone,jdbcType=VARCHAR},
       LOANER_ORG_ID = #{loanerOrgId,jdbcType=VARCHAR},
       LOANER_ORG_CODE = #{loanerOrgCode,jdbcType=VARCHAR}, 
-      CREATE_TIME = GETDATE(),
-      CREATE_BY = @{SESSION_USER_ID},
       UPDATE_TIME = GETDATE(),
       UPDATE_BY =@{SESSION_USER_ID}
 
@@ -675,5 +694,20 @@
     </set>
     where MORT_PKID = #{mortPkid,jdbcType=VARCHAR}
   </update>
-  
+  <select id="findActiveToMortLoaner" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND   IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR}
+    AND   LOANER_STATUS IN ('ACCEPTING','AUDITING','COMPLETED');
+  </select>
+  <select id="findLastToMortLoaner" resultMap="BaseResultMap">
+  	select top 1
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_MORT_LOANER
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND   IS_MAIN_LOANBANK_PROCESS = #{isMainLoanBankProcess,jdbcType=VARCHAR}
+    order by create_time desc;
+   </select>
 </mapper>

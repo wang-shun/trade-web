@@ -53,5 +53,19 @@ public interface ToMortLoanerService {
 			String isMainLoanBankProcess);
 
 	List<ToMortLoaner> findToMortLoaner(ToMortLoaner toMortLoaner);
+	/**
+	 * 根据安全编号和主次银行获取有效的派单信息 (ACCEPTING  ，AUDITING ，COMPLETED) 
+	 * @param caseCode
+	 * @param isMainLoanBankProcess
+	 * @return
+	 */
+	ToMortLoaner findActiveToMortLoaner(String caseCode,String isMainLoanBankProcess);
+	/**
+	 * 根据安全编号和主次银行获取派单信息 (主要为了贷款上显示派单状态) 
+	 * @param caseCode
+	 * @param isMainLoanBankProcess
+	 * @return
+	 */
+	ToMortLoaner findLastToMortLoaner(String caseCode, String isMainLoanBankProcess);
 
 }

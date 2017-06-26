@@ -10,6 +10,7 @@ import com.centaline.trans.cases.entity.Result2;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.eval.entity.ToEval;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.vo.MortgageVo;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
@@ -216,4 +217,10 @@ public interface ToMortgageService {
 			String taskId, String processInstanceId);
 
 	void updateByPrimaryKey(ToMortgage toMortgage);
+	/**
+	 * 根据贷款ID查询评估信息
+	 * @param mid
+	 * @return
+	 */
+	ToEval findEvalByMortgageId(Long mid);
 }

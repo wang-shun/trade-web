@@ -250,5 +250,13 @@
  		<mapper resource="mapper/wdcase/TpdCommSubsDetalsMapper.xml" />
 		<!-- 客服回访表 -->
 		<mapper resource="mapper/satisfaction/ToSatisfactionMapper.xml" />
+		<mapper resource="mapper/performance/ReceivablePerfMapper.xml" />
+		
+		<!-- 业绩目标设定 -->
+		<mapper resource="mapper/performance/PerfGoalMapper.xml" />
+		<mapper resource="mapper/performance/PerfGoalMainMapper.xml" />
+		<!-- 应收科目 -->
+		<mapper resource="mapper/performance/SubjectMapper.xml" />
+		<mapper resource="mapper/eval/ToEvalMapper.xml"/>
 	</mappers>
 </configuration>

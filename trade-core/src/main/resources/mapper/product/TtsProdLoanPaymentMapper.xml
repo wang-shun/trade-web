@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.product.repository.TtsProdLoanPaymentMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.product.entity.TtsProdLoanPayment" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PROD_LOAN_ID" property="prodLoanId" jdbcType="BIGINT" />
+    <result column="PAYMENT_METHOD" property="paymentMethod" jdbcType="VARCHAR" />
+    <result column="LOAN_TERM" property="loanTerm" jdbcType="INTEGER" />
+    <result column="MONTH_RATE" property="monthRate" jdbcType="DECIMAL" />
+    <result column="RETURN_RATE" property="returnRate" jdbcType="DECIMAL" />
+    <result column="CHARGE" property="charge" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PROD_LOAN_ID, PAYMENT_METHOD, LOAN_TERM, MONTH_RATE, RETURN_RATE, CHARGE, CREATE_TIME, 
+    CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_PROD_LOAN_PAYMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_PROD_LOAN_PAYMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.product.entity.TtsProdLoanPayment" >
+    insert into sctrans.T_TS_PROD_LOAN_PAYMENT (PKID, PROD_LOAN_ID, PAYMENT_METHOD, 
+      LOAN_TERM, MONTH_RATE, RETURN_RATE, 
+      CHARGE, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{prodLoanId,jdbcType=BIGINT}, #{paymentMethod,jdbcType=VARCHAR}, 
+      #{loanTerm,jdbcType=INTEGER}, #{monthRate,jdbcType=DECIMAL}, #{returnRate,jdbcType=DECIMAL}, 
+      #{charge,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.product.entity.TtsProdLoanPayment" >
+    insert into sctrans.T_TS_PROD_LOAN_PAYMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="prodLoanId != null" >
+        PROD_LOAN_ID,
+      </if>
+      <if test="paymentMethod != null" >
+        PAYMENT_METHOD,
+      </if>
+      <if test="loanTerm != null" >
+        LOAN_TERM,
+      </if>
+      <if test="monthRate != null" >
+        MONTH_RATE,
+      </if>
+      <if test="returnRate != null" >
+        RETURN_RATE,
+      </if>
+      <if test="charge != null" >
+        CHARGE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="prodLoanId != null" >
+        #{prodLoanId,jdbcType=BIGINT},
+      </if>
+      <if test="paymentMethod != null" >
+        #{paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="loanTerm != null" >
+        #{loanTerm,jdbcType=INTEGER},
+      </if>
+      <if test="monthRate != null" >
+        #{monthRate,jdbcType=DECIMAL},
+      </if>
+      <if test="returnRate != null" >
+        #{returnRate,jdbcType=DECIMAL},
+      </if>
+      <if test="charge != null" >
+        #{charge,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.product.entity.TtsProdLoanPayment" >
+    update sctrans.T_TS_PROD_LOAN_PAYMENT
+    <set >
+      <if test="prodLoanId != null" >
+        PROD_LOAN_ID = #{prodLoanId,jdbcType=BIGINT},
+      </if>
+      <if test="paymentMethod != null" >
+        PAYMENT_METHOD = #{paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="loanTerm != null" >
+        LOAN_TERM = #{loanTerm,jdbcType=INTEGER},
+      </if>
+      <if test="monthRate != null" >
+        MONTH_RATE = #{monthRate,jdbcType=DECIMAL},
+      </if>
+      <if test="returnRate != null" >
+        RETURN_RATE = #{returnRate,jdbcType=DECIMAL},
+      </if>
+      <if test="charge != null" >
+        CHARGE = #{charge,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.product.entity.TtsProdLoanPayment" >
+    update sctrans.T_TS_PROD_LOAN_PAYMENT
+    set PROD_LOAN_ID = #{prodLoanId,jdbcType=BIGINT},
+      PAYMENT_METHOD = #{paymentMethod,jdbcType=VARCHAR},
+      LOAN_TERM = #{loanTerm,jdbcType=INTEGER},
+      MONTH_RATE = #{monthRate,jdbcType=DECIMAL},
+      RETURN_RATE = #{returnRate,jdbcType=DECIMAL},
+      CHARGE = #{charge,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

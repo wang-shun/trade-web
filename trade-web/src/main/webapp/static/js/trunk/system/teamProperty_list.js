@@ -25,7 +25,7 @@ $(document).ready(function() {
 						shrinkToFit : true,
 						rowNum : 10,
 						/* rowList: [10, 20, 30], */
-						colNames : [ 'PKID','ORG_ID','IS_RESPONSE_TEAM','TEAM_PROPERTY','FREE_SELECT','组别编码', '组别名称','主组别','自行选择','组别类型','操作'],
+     					colNames : [ 'PKID','ORG_ID','IS_RESPONSE_TEAM','TEAM_PROPERTY','FREE_SELECT','组别编码', '组别名称','主组别','自行选择','组别类型','操作'],
 						colModel : [ {
 							name : 'PKID',
 							index : 'PKID',

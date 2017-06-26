@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.product.repository.TtsProdSpvMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.product.entity.TtsProdSpv" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PROD_ID" property="prodId" jdbcType="BIGINT" />
+    <result column="OFFICE_AFFAIR" property="officeAffair" jdbcType="NVARCHAR" />
+    <result column="MONEY_ARRIVE" property="moneyArrive" jdbcType="NVARCHAR" />
+    <result column="WARN" property="warn" jdbcType="NVARCHAR" />
+    <result column="CHARGE_TYPE" property="chargeType" jdbcType="VARCHAR" />
+    <result column="FIX_PRICE" property="fixPrice" jdbcType="VARCHAR" />
+    <result column="RATE_PRICE" property="ratePrice" jdbcType="VARCHAR" />
+    <result column="RATE_PRICE_LOW" property="ratePriceLow" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PROD_ID, OFFICE_AFFAIR, MONEY_ARRIVE, WARN, CHARGE_TYPE, FIX_PRICE, RATE_PRICE, 
+    RATE_PRICE_LOW, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_PROD_SPV
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_PROD_SPV
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.product.entity.TtsProdSpv" >
+    insert into sctrans.T_TS_PROD_SPV (PKID, PROD_ID, OFFICE_AFFAIR, 
+      MONEY_ARRIVE, WARN, CHARGE_TYPE, 
+      FIX_PRICE, RATE_PRICE, RATE_PRICE_LOW, 
+      CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+      UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{prodId,jdbcType=BIGINT}, #{officeAffair,jdbcType=NVARCHAR}, 
+      #{moneyArrive,jdbcType=NVARCHAR}, #{warn,jdbcType=NVARCHAR}, #{chargeType,jdbcType=VARCHAR}, 
+      #{fixPrice,jdbcType=VARCHAR}, #{ratePrice,jdbcType=VARCHAR}, #{ratePriceLow,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.product.entity.TtsProdSpv" >
+    insert into sctrans.T_TS_PROD_SPV
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="prodId != null" >
+        PROD_ID,
+      </if>
+      <if test="officeAffair != null" >
+        OFFICE_AFFAIR,
+      </if>
+      <if test="moneyArrive != null" >
+        MONEY_ARRIVE,
+      </if>
+      <if test="warn != null" >
+        WARN,
+      </if>
+      <if test="chargeType != null" >
+        CHARGE_TYPE,
+      </if>
+      <if test="fixPrice != null" >
+        FIX_PRICE,
+      </if>
+      <if test="ratePrice != null" >
+        RATE_PRICE,
+      </if>
+      <if test="ratePriceLow != null" >
+        RATE_PRICE_LOW,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="prodId != null" >
+        #{prodId,jdbcType=BIGINT},
+      </if>
+      <if test="officeAffair != null" >
+        #{officeAffair,jdbcType=NVARCHAR},
+      </if>
+      <if test="moneyArrive != null" >
+        #{moneyArrive,jdbcType=NVARCHAR},
+      </if>
+      <if test="warn != null" >
+        #{warn,jdbcType=NVARCHAR},
+      </if>
+      <if test="chargeType != null" >
+        #{chargeType,jdbcType=VARCHAR},
+      </if>
+      <if test="fixPrice != null" >
+        #{fixPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="ratePrice != null" >
+        #{ratePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="ratePriceLow != null" >
+        #{ratePriceLow,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.product.entity.TtsProdSpv" >
+    update sctrans.T_TS_PROD_SPV
+    <set >
+      <if test="prodId != null" >
+        PROD_ID = #{prodId,jdbcType=BIGINT},
+      </if>
+      <if test="officeAffair != null" >
+        OFFICE_AFFAIR = #{officeAffair,jdbcType=NVARCHAR},
+      </if>
+      <if test="moneyArrive != null" >
+        MONEY_ARRIVE = #{moneyArrive,jdbcType=NVARCHAR},
+      </if>
+      <if test="warn != null" >
+        WARN = #{warn,jdbcType=NVARCHAR},
+      </if>
+      <if test="chargeType != null" >
+        CHARGE_TYPE = #{chargeType,jdbcType=VARCHAR},
+      </if>
+      <if test="fixPrice != null" >
+        FIX_PRICE = #{fixPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="ratePrice != null" >
+        RATE_PRICE = #{ratePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="ratePriceLow != null" >
+        RATE_PRICE_LOW = #{ratePriceLow,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.product.entity.TtsProdSpv" >
+    update sctrans.T_TS_PROD_SPV
+    set PROD_ID = #{prodId,jdbcType=BIGINT},
+      OFFICE_AFFAIR = #{officeAffair,jdbcType=NVARCHAR},
+      MONEY_ARRIVE = #{moneyArrive,jdbcType=NVARCHAR},
+      WARN = #{warn,jdbcType=NVARCHAR},
+      CHARGE_TYPE = #{chargeType,jdbcType=VARCHAR},
+      FIX_PRICE = #{fixPrice,jdbcType=VARCHAR},
+      RATE_PRICE = #{ratePrice,jdbcType=VARCHAR},
+      RATE_PRICE_LOW = #{ratePriceLow,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

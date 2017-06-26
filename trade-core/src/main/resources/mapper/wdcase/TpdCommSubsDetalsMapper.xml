@@ -51,8 +51,8 @@
       #{stdRate,jdbcType=DECIMAL}, #{stdCost,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, 
       #{commCost,jdbcType=DECIMAL}, #{buyerCost,jdbcType=DECIMAL}, #{buyerPaid,jdbcType=DECIMAL}, 
       #{sellerCost,jdbcType=DECIMAL}, #{sellerPaid,jdbcType=DECIMAL}, #{payee,jdbcType=NVARCHAR}, 
-      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER})
+      @{SESSION_USER_ID}, GETDATE(), @{SESSION_USER_ID}, 
+      GETDATE(), #{isDeleted,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.wdcase.entity.TpdCommSubsDetals" >
     insert into sctrans.T_PD_COMM_SUBS_DETALS
@@ -102,18 +102,14 @@
       <if test="payee != null" >
         PAYEE,
       </if>
-      <if test="createBy != null" >
         CREATE_BY,
-      </if>
-      <if test="createTime != null" >
+
         CREATE_TIME,
-      </if>
-      <if test="updateBy != null" >
+
         UPDATE_BY,
-      </if>
-      <if test="updateTime != null" >
+
         UPDATE_TIME,
-      </if>
+
       <if test="isDeleted != null" >
         IS_DELETED,
       </if>
@@ -164,18 +160,14 @@
       <if test="payee != null" >
         #{payee,jdbcType=NVARCHAR},
       </if>
-      <if test="createBy != null" >
-        #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null" >
-        #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
+        @{SESSION_USER_ID},
+
+        GETDATE(),
+
+        @{SESSION_USER_ID},
+
+        GETDATE(),
+
       <if test="isDeleted != null" >
         #{isDeleted,jdbcType=INTEGER},
       </if>
@@ -226,18 +218,10 @@
       <if test="payee != null" >
         PAYEE = #{payee,jdbcType=NVARCHAR},
       </if>
-      <if test="createBy != null" >
-        CREATE_BY = #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null" >
-        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null" >
-        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
+        UPDATE_BY = @{SESSION_USER_ID},
+
+        UPDATE_TIME = GETDATE(),
+
       <if test="isDeleted != null" >
         IS_DELETED = #{isDeleted,jdbcType=INTEGER},
       </if>
@@ -260,10 +244,8 @@
       SELLER_COST = #{sellerCost,jdbcType=DECIMAL},
       SELLER_PAID = #{sellerPaid,jdbcType=DECIMAL},
       PAYEE = #{payee,jdbcType=NVARCHAR},
-      CREATE_BY = #{createBy,jdbcType=VARCHAR},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
-      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = @{SESSION_USER_ID},
+      UPDATE_TIME = GETDATE(),
       IS_DELETED = #{isDeleted,jdbcType=INTEGER}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
