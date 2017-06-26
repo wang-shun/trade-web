@@ -258,8 +258,8 @@
 													</div>
 
 												</div>
-														<%--<div id="guestUpDiv" class="clear add-member mb20" onclick="addDateDivUp()">添加上家</div>
-														<div id="guestDownDiv" class="clear add-member mb20" onclick="addDateDivDown();">添加下家</div>--%>
+														<div id="guestUpDiv" class="clear add-member mb20"></div>
+														<div id="guestDownDiv" class="clear add-member mb20"></div>
 												</form>
 												<div class="line">
 													<div class="form_content">
