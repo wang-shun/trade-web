@@ -964,8 +964,7 @@
 		function save(b) {
 			var jsonData = $("#caseCloseform").serializeArray();
 
-			console.log(jsonData);
-			var realPrice = Number($('input[name=realPrice]').val());
+			var conPrice = Number($('input[name=conPrice]').val());
 			var initAmount = Number($('input[name=initAmount]').val());
 			var secAmount = Number($('input[name=secAmount]').val());
 			var lastAmount = Number($('input[name=lastAmount]').val());
@@ -1028,15 +1027,15 @@
 
 			}
 
-			if (realPrice!=initAmount+secAmount+lastAmount+compensateAmount) {
+			if (conPrice!=initAmount+secAmount+lastAmount+compensateAmount) {
 				window.wxc.alert("付款信息项之和必须等于合同价!");
 				$('input[name=conPrice]').focus();
 				return false;
 			}
 
-			if (Number($('input[name=realPrice]').val()) <= 0) {
+			if (Number($('input[name=conPrice]').val()) <= 0) {
 				window.wxc.alert("合同价必须大于0!");
-				$('input[name=realPrice]').focus();
+				$('input[name=conPrice]').focus();
 				return false;
 			}
 
