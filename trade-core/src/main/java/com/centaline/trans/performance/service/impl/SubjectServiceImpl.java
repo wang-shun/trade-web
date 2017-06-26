@@ -20,4 +20,10 @@ public class SubjectServiceImpl implements SubjectService {
 		return subjectMapper.querySubjectList();
 	}
 
+	@Override
+	public List<Subject> querySubjectByCode(String subjectCode) {
+		// TODO Auto-generated method stub
+		return subjectMapper.querySubjectByCode(subjectCode);
+	}
+
 }

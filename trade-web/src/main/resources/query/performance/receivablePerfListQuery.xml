@@ -38,6 +38,7 @@
 				LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (rp.TEAM_ID = yoh.ORG_ID)
 				LEFT JOIN sctrans.T_TO_CASE c ON (c.CASE_CODE =rp.CASE_CODE)
 				LEFT JOIN sctrans.T_TS_COM_SUBJECT cs ON(cs.SUBJECT_CODE = rp.SUBJECT)
+				left join sctrans.T_TS_COM_SUBJECT cs1 on cs.PARENT_ID=cs1.PKID
 			WHERE 1=1
 				AND (
 					yoh.DISTRICT_ID = #orgId#
@@ -67,8 +68,13 @@
 					 <when test = "originCode == 2"> AND c.CASE_ORIGIN != 'CTM' </when>
 				</choose> 				
 			</if>
-			<if test="subjectCode != null and subjectCode != 'null' and subjectCode != '' ">
-				AND cs.SUBJECT_CODE = #subjectCode#
+			<if test="subjectCode1 != null and subjectCode1 != 'null' and subjectCode1 != '' ">
+				AND cs.SUBJECT_CODE = #subjectCode1#	
+			</if>
+			<if test="subjectCode1 == null or subjectCode1 == 'null' or subjectCode1 == '' ">
+				<if test="subjectCode != null and subjectCode != 'null' and subjectCode != '' ">
+					AND cs1.SUBJECT_CODE = #subjectCode#
+				</if>
 			</if>
 		]]>
 			</baseSql>
