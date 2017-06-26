@@ -707,7 +707,7 @@ function subBankChange(){
 
 //信贷员选择
 function selectLoanerByOrgId(){	
-	var f=$(this.event.target).closest('form');
+	var f=$(this).closest('form');
 	operForm=f;
 	var finOrgId = f.find('#bankOrgId').val();
 	if(finOrgId != null  && finOrgId !=""  && finOrgId != undefined){
@@ -842,20 +842,22 @@ function orderTmpBankChange(v,f,finOrgCode){
 	if(v=='1'){//临时银行处理
 		f.find('.tmpBankShow').show();
 		f.find('.tmpBankHide').hide();
+		f.find('[name=loanerName]').unbind('click');
 	}else{//非临时银行处理
 		cl='cl';
 		f.find('.nonTmpBankHide').hide();
 		f.find('.nonTmpBankShow').show();
+		f.find('[name=loanerName]').bind('click',selectLoanerByOrgId);
 		loadMortLoaner($('#caseCode').val(),isMain,eval("ORDER_"+tab+isMain));
 	}
 	//加载分支
 	getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode,cl);
-	f.find("select[name='bank_type']").unbind().change(function(){
+	f.find("select[name='bank_type']").unbind('change').bind('change',function(){
 		var isTmpBank= $(this).closest('form').find('[name=isTmpBank]:checked').val();
 			if(isTmpBank =='1'){
-				getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
+				getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),finOrgCode,'');
 			}else{
-				getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"cl",'');
+				getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),finOrgCode,'cl');
 			}
     }); 
 }
@@ -1078,10 +1080,11 @@ function renderMortgageComplete(f,data){
 		
 		if($content.isTmpBank=='1'){
 			f.find('[name=loanerName]').removeProp('readonly');
-			f.find("input[name='recLetterNo']").prop('disabled',true).css("background-color","#eee");	
+			f.find("input[name='recLetterNo'],[name=bank_type]").prop('disabled',true).css("background-color","#eee");
+			f.find("input[name='bank_type']").prop('disabled',true).css("background-color","#eee");
 		}else{
 			f.find('[name=loanerName]').prop('readonly',true);
-			f.find("input[name='recLetterNo']").prop('disabled',false).css("background-color","");
+			f.find("input[name='recLetterNo'],[name=bank_type]").prop('disabled',false).css("background-color","");
 		}
 		getGuestInfo(f.attr('id'),$content.custCode);
 		orderTmpBankChange($content.isTmpBank,f,$content.finOrgCode);
@@ -1204,55 +1207,6 @@ function renderOrderComplete(f,data){
 	window.orderRender=_render;
 }(jQuery,window);
 
-
-//
-/**
- * @date:2017-04-17
- * @desc:临时银行变更时，隐藏派单按钮、信贷员选择问题设置
- * */
-function isTmpBankChange(){
-	if(!!$(this).attr('readOnly')){
-		return false;
-	}
-	var f=$(this).closest('form');
-	var checkBtnVal = f.find("input[name='isTmpBank']:checked").val(); 
-	
-	//=1代表选择临时银行
-	if(checkBtnVal == '1'){
-		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'');
-		f.find("select[name='bank_type']").change(function(){
-		getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"");
-    }); 
-		f.find("input[name='recLetterNo']").prop('disabled',true).val("").css("background-color","#DDDDDD");
-		f.find(".tmpBankReasonDiv").show();
-		
-		//派单按钮 隐藏
-		$("#toLoanerCase").hide();
-		$("#toLoanerCaseTemp").hide();
-		$("#processStart").val("processIsStart");
-		
-		//临时银行 信贷员可以 输入  可以选择
-		$("#forLoanerProcessShuru").show();
-		$("#forLoanerProcessNoShuru").hide();
-
-	}else{
-		getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),'','cl');
-		f.find("select[name='bank_type']").unbind().change(function(){
-		getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),"",'cl');
-    }); 
-		f.find("input[name='recLetterNo']").prop('disabled',false).css("background-color","");
-		f.find(".tmpBankReasonDiv").hide();
-		// 派单按钮 显示
-		$("#toLoanerCaseTemp").show();
-		$("#toLoanerCase").show();
-		
-		//临时银行 信贷员只能选择
-		$("#forLoanerProcessShuru").hide();
-		$("#forLoanerProcessNoShuru").show();
-	}
-	
-	
-}
 
 //加载已上传的附件信息
 function getAttchInfo(){

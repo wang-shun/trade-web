@@ -841,7 +841,7 @@
 												 				<input type="hidden"  id="loanerId" name="loanerId" />
                                                                 <div class="form_content">
                                                                     <label class="control-label sign_left_small">信贷员</label> <input class="input_type yuanwid" placeholder="" value="" name='loanerName'>
-                                                                    <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage" id="loanerNameImage" name="loanerNameImage" onclick="selectLoanerByOrgId()"></i>
+                                                                    <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage" id="loanerNameImage" name="loanerNameImage" ></i>
                                                                     
                                                                 </div>
                                                                 <div class="form_content">
@@ -1126,7 +1126,7 @@
                                                                 <div class="form_content">
                                                                     <label class="control-label sign_left_small">信贷员</label> 
                                                                     <input class="input_type yuanwid" placeholder="" value="" name="loanerName" style="border-color: rgb(204, 204, 204);" readonly="">
-                                                                    <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage" id="loanerNameImage" name="loanerNameImage" onclick="selectLoanerByOrgId()"></i>
+                                                                    <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage" id="loanerNameImage" name="loanerNameImage" ></i>
                                                                 </div>
                                                                 <div class="form_content">
                                                                     <label class="control-label sign_left_small">电话</label> <input name= 'loanerPhone' class=" input_type yuanwid" placeholder="" value="" readonly>
@@ -1405,7 +1405,7 @@
 												 				<input type="hidden"  id="loanerId" name="loanerId" />
                                                                 <div class="form_content">
                                                                     <label class="control-label sign_left_small">信贷员</label> <input class="input_type yuanwid" placeholder="" value="" name='loanerName'>
-                                                                    <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage" id="loanerNameImage" name="loanerNameImage" onclick="selectLoanerByOrgId()"></i>
+                                                                    <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage" id="loanerNameImage" name="loanerNameImage" ></i>
                                                                 </div>
                                                                  <div class="form_content">
 					                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
@@ -1687,7 +1687,7 @@
                                                                 <div class="form_content">
                                                                     <label class="control-label sign_left_small">信贷员</label> 
                                                                     <input class="input_type yuanwid" placeholder="" value="" name="loanerName" style="border-color: rgb(204, 204, 204);" readonly="">
-                                                                    <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage" id="loanerNameImage" name="loanerNameImage" onclick="selectLoanerByOrgId()"></i>
+                                                                    <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage" id="loanerNameImage" name="loanerNameImage" ></i>
                                                                 </div>
                                                                 <div class="form_content">
                                                                     <label class="control-label sign_left_small">电话</label> <input name= 'loanerPhone' class=" input_type yuanwid" placeholder="" value="" readonly>
@@ -2315,6 +2315,7 @@ function checkInt(obj){
  		$('[name=btn_order]').click(loanerProcessStart);
  		$('[name=btn_order_cancel]').click(loanerProcessCancel);
  		$('[name=btn_reqTmpBank]').click(startTmpBankWorkFlow);
+ 		$('#loanerNameImage').click(selectLoanerByOrgId);
 		$("#mortgageForm1").find("select[name='custCode']").change(guestCompanyReadOnly);
 		$("#mortgageForm1,#mortgageForm").find('[name=evaFee],[name=serviceFee],[name=evaFeeCost]').change(evalFeeChanged);
 		$("select[name='mortType']").change(function(){
