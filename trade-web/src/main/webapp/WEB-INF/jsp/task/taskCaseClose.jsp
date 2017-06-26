@@ -95,29 +95,6 @@
 				</div>
 
 				<div class="ibox-content border-bottom clearfix space_box noborder">
-				<form method="get" class="form-horizontal" id="caseCloseform">
-				<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-					<%-- 原有数据对应id --%>
-					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					<%-- 设置审批类型 --%>
-					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
-					<input type="hidden" id="lapPkid" name="lapPkid" value="${toApproveRecord.pkid }">
-					<input type="hidden" id="operator" name="operator" value="${operator }">
-					<%-- 原有数据对应id --%>
-					<input type="hidden" id="propertyPkid" name="propertyPkid" value="${editCaseDetailVO.propertyPkid }">
-					<input type="hidden" id="initPayPkid" name="initPayPkid" value="${editCaseDetailVO.initPayPkid }">
-					<input type="hidden" id="secPayPkid" name="secPayPkid" value="${editCaseDetailVO.secPayPkid }">
-					<input type="hidden" id="lastPayPkid" name="lastPayPkid" value="${editCaseDetailVO.lastPayPkid }">
-					<input type="hidden" id="compensatePayPkid" name="compensatePayPkid" value="${editCaseDetailVO.compensatePayPkid }">
-					<input type="hidden" id="signPkid" name="signPkid" value="${editCaseDetailVO.signPkid }">
-					<input type="hidden" id="lcid" name="lcid" value="${editCaseDetailVO.lcid }">
-					<input type="hidden" id="ghid" name="ghid" value="${editCaseDetailVO.ghid }">
-					<input type="hidden" id="taxid" name="taxid" value="${editCaseDetailVO.taxid }">
-					<input type="hidden" id="mpkid" name="mpkid" value="${editCaseDetailVO.mpkid }">
 					<div>
 						<h2 class="newtitle title-mark">填写任务信息</h2>
 						<div class="panel blank-panel">
@@ -136,6 +113,23 @@
 									<div id="tab-1" class="tab-pane active">
 										<div>
 											<div class="form_list">
+												<form method="get" class="form-horizontal" id="caseCloseform">
+													<%--环节编码 --%>
+													<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+													<!-- 交易单编号 -->
+													<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+													<%-- 原有数据对应id --%>
+													<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+													<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+													<%-- 设置审批类型 --%>
+													<input type="hidden" id="approveType" name="approveType" value="${approveType }">
+													<input type="hidden" id="operator" name="operator" value="${operator }">
+													<%-- 原有数据对应id --%>
+
+													<input type="hidden" id="initPayPkid" name="initPayPkid" value="${editCaseDetailVO.initPayPkid }">
+													<input type="hidden" id="secPayPkid" name="secPayPkid" value="${editCaseDetailVO.secPayPkid }">
+													<input type="hidden" id="lastPayPkid" name="lastPayPkid" value="${editCaseDetailVO.lastPayPkid }">
+													<input type="hidden" id="compensatePayPkid" name="compensatePayPkid" value="${editCaseDetailVO.compensatePayPkid }">
 												<div class="marinfo">
 													<div class="line">
 														<div class="form_content mt3">
@@ -161,6 +155,7 @@
 															</div>
 														</div>
 													</div>
+
 													<div class="line">
 														<div class="form_content">
 															<label class="control-label sign_left_small">
@@ -186,6 +181,7 @@
 															<aist:dict clazz="select_control data_style" id="initPayType" name="initPayType" display="select" defaultvalue="${editCaseDetailVO.initPayType}" dictType="30015" />
 														</div>
 													</div>
+
 													<div class="line">
 														<div class="form_content">
 															<label class="control-label sign_left_small">二期付款</label>
@@ -260,9 +256,11 @@
 														<aist:dict clazz="select_control data_style" id="compensatePayType" name="compensatePayType" display="select" defaultvalue="${editCaseDetailVO.compensatePayType}" dictType="30015" />															
 														</div>
 													</div>
+
 												</div>
-												<div id="guestUpDiv" class="clear add-member mb20" onclick="addDateDivUp()">添加上家</div>
-											  <div id="guestDownDiv" class="clear add-member mb20" onclick="addDateDivDown();">添加下家</div>
+														<%--<div id="guestUpDiv" class="clear add-member mb20" onclick="addDateDivUp()">添加上家</div>
+														<div id="guestDownDiv" class="clear add-member mb20" onclick="addDateDivDown();">添加下家</div>--%>
+												</form>
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small"> 产证面积
@@ -317,7 +315,7 @@
 														</div>
 													</div>
 													<div class="form_content">
-														<label class="control-label sign_left_small"> 成交价
+														<label class="control-label sign_left_small">  合同价
 														</label> <input class=" input_type yuanwid" readonly="readonly"  id="conPrice" name="conPrice" onkeyup="checkNum(this)"
 													value="<fmt:formatNumber value='${editCaseDetailVO.conPrice}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
@@ -328,7 +326,7 @@
 												</div>
 												<div class="line">
 													<div class="form_content">
-														<label class="control-label sign_left_small"> 合同价
+														<label class="control-label sign_left_small">成交价
 														</label> <input class=" input_type yuanwid" id="realPrice" readonly="readonly"   name="realPrice" onkeyup="checkNum(this)"
 													value="<fmt:formatNumber value='${editCaseDetailVO.realPrice}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
@@ -663,7 +661,7 @@
 						</div>
 					</div>
 				</div>
-				</form>
+
 				<!-- 案件备注信息 -->
 				<div id="caseCommentList" class="view-content"></div>
 				<div class="form-btn">
@@ -966,7 +964,7 @@
 		function save(b) {
 			var jsonData = $("#caseCloseform").serializeArray();
 
-			var realPrice = Number($('input[name=realPrice]').val());
+			var conPrice = Number($('input[name=conPrice]').val());
 			var initAmount = Number($('input[name=initAmount]').val());
 			var secAmount = Number($('input[name=secAmount]').val());
 			var lastAmount = Number($('input[name=lastAmount]').val());
@@ -1029,108 +1027,65 @@
 
 			}
 
-			if (realPrice!=initAmount+secAmount+lastAmount+compensateAmount) {
+			if (conPrice!=initAmount+secAmount+lastAmount+compensateAmount) {
 				window.wxc.alert("付款信息项之和必须等于合同价!");
 				$('input[name=conPrice]').focus();
 				return false;
 			}
 
-			if (Number($('input[name=realPrice]').val()) <= 0) {
+			if (Number($('input[name=conPrice]').val()) <= 0) {
 				window.wxc.alert("合同价必须大于0!");
-				$('input[name=realPrice]').focus();
+				$('input[name=conPrice]').focus();
 				return false;
 			}
 
-
-			deleteAndModify();
-			
-			var flag= true;
-			var _comDiscount = $('#comDiscount').val();
-			var _mortType = $('#mortType').find(':selected').val();
-			
-			if((_mortType=='30016001'&&_comDiscount=='')||(_mortType=='30016002'&&_comDiscount=='')){
-				window.wxc.alert('纯商贷和组合贷款必须填写利率折扣, 不能为空');
-				$('#comDiscount').focus();
-				flag = false;
+			var url = ctx+"/task/CaseClose/saveCaseClose";
+			if(b) {
+				url = ctx+"/task/CaseClose/submitCaseClose";
 			}
-
-			if((_mortType=='30016001'&&_comDiscount=='')||(_mortType=='30016002'&&_comDiscount=='')){
-				window.wxc.alert('纯商贷和组合贷款必须填写利率折扣, 不能为空');
-				$('#comDiscount').focus();
-				flag = false;
-			}
-
-
-			if((_mortType=='30016001'&&_comDiscount!='')||(_mortType=='30016002'&&_comDiscount!='')){
-				if(isNaN(_comDiscount)){
-					window.wxc.alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
-		            $('#comDiscount').focus();
-		            flag = false;
-		        }else if(_comDiscount>1.5 || _comDiscount<0.5){
-		        	window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
-		    		$('#comDiscount').focus();
-		    		flag = false;
-		    	}else if(_comDiscount<=1.5 || _comDiscount>=0.5){
-	        		var reg =/^[01]{1}\.{1}\d{3,}$/;
-	        		if(reg.test(_comDiscount)){
-	        			window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
-	        			$('#comDiscount').focus();
-	        			flag = false;
-	        		}		    		
-		    	}
-			} 
-			
-			if(flag){
-				var url = ctx+"/task/CaseClose/saveCaseClose";
-				if(b) {
-					
-					url = ctx+"/task/CaseClose/submitCaseClose";
-				}
-				$.ajax({
-					cache : true,
-					async : false,//false同步，true异步
-					type : "POST",
-					url : url,
-					dataType : "json",
-					data : jsonData,
-		   		    beforeSend:function(){  
-	    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-	    				$(".blockOverlay").css({'z-index':'9998'});
-	                },
-	                complete: function() {  
-	                	if(!b){
-	                        $.unblockUI();   
-	                	}
-	                     if(status=='timeout'){//超时,status还有success,error等值的情况
-	    	          	  Modal.alert(
-	    				  {
-	    				    msg:"抱歉，系统处理超时。"
-	    				  });
-	    		  		 $(".btn-primary").one("click",function(){
-	    		  				parent.$.fancybox.close();
-	    		  			});	 
-	    		                } 
-	    		            } , 
-	    		            
-	    			success : function(data) {
-								if(data.message){
-									window.wxc.alert(data.message);
-								}
-								if(window.opener)
-							    {
-									 window.close();
-									 window.opener.callback();
-							    } else {
-							    	 window.location.href = "${ctx }/task/myTaskList";
-							    } 
-								//window.location.href = "${ctx }/task/myTaskList";
-					},
-					error : function(errors) {
-						window.wxc.error("数据保存出错");
+			$.ajax({
+				cache : true,
+				async : false,//false同步，true异步
+				type : "POST",
+				url : url,
+				dataType : "json",
+				data : jsonData,
+				beforeSend:function(){
+					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+					$(".blockOverlay").css({'z-index':'9998'});
+				},
+				complete: function() {
+					if(!b){
+						$.unblockUI();
 					}
-				});
-			}
-			
+					 if(status=='timeout'){//超时,status还有success,error等值的情况
+					  Modal.alert(
+					  {
+						msg:"抱歉，系统处理超时。"
+					  });
+					 $(".btn-primary").one("click",function(){
+							parent.$.fancybox.close();
+						});
+							}
+						} ,
+
+				success : function(data) {
+							if(data.message){
+								window.wxc.alert(data.message);
+							}
+							if(window.opener)
+							{
+								 window.close();
+								 window.opener.callback();
+							} else {
+								 window.location.href = "${ctx }/task/myTaskList";
+							}
+							//window.location.href = "${ctx }/task/myTaskList";
+				},
+				error : function(errors) {
+					window.wxc.error("数据保存出错");
+				}
+			});
 		}
 		
 		var divIndexDown = 1;
@@ -1161,7 +1116,7 @@
 			txt += "<div class=\"form_content\">";
 			txt += "<label class=\"control-label sign_left_small\">上家电话</label>";
 			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneUp\" value=''></div>";
-			txt += '<span class="">/span>';
+			txt += '<span class=""></span>';
 			txt += '</div>';
 			// alert(txt);
 			$("#guestUpDiv").before(txt);
