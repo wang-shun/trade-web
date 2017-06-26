@@ -19,7 +19,34 @@
  
  $(document).ready(function () {
 	 searchMethod();
+	 $("#subjectCode").change(subjectCodeChange);
  });
+ 
+ function subjectCodeChange(){
+	 $.ajax({  
+		 url:ctx+ "/perf/subjectQuery",
+		 method: "post",
+         data : {  
+             "subjectCode" : $("#subjectCode").val()
+         },//数据，这里使用的是Json格式进行传输  
+         dataType: "json",
+         success : function(result) {//返回数据根据结果进行相应的处理  
+        	 if(result.content.length!=0){
+        		//清空数组  
+        		 $("#subjectCode1").empty();
+        		 $("#subjectCode1").append("<option value=''>"+"请选择"+"</option>");
+                 for(var i=0;i<result.content.length;i++){ 
+                	 var xValue=result.content[i].subjectCode;    
+                	 var xText=result.content[i].subjectName;    
+                	 $("#subjectCode1").append("<option value='"+xValue+"'>"+xText+"</option>");
+                 } 
+        	 }else{
+        		 $("#subjectCode1").empty();
+        		 $("#subjectCode1").append("<option value=''>"+"请选择"+"</option>");
+        	 }
+         }  
+     });
+ }
  
  function searchButton(){	
 	 reloadGrid();
@@ -76,6 +103,7 @@
 		data.dtEnd=$("#dtEnd_0").val();
 		data.originCode=$('input:radio[name="orderOptions"]:checked').val();
 		data.subjectCode=$("#subjectCode").val();
+		data.subjectCode1=$("#subjectCode1").val();
 		return data;
 	}
  

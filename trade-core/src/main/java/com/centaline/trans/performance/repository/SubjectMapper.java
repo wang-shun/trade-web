@@ -10,4 +10,6 @@ public interface SubjectMapper {
 
 	List<Subject> querySubjectList();
 
+	List<Subject> querySubjectByCode(String subjectCode);
+
 }

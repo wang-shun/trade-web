@@ -757,7 +757,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
         {
             throw new BusinessException("取消交易顾问派单流程异常！");
         }
-
+    }
 	/**
 	 * @author jimmy
 	 * @des:交易顾问派单 流程关闭
