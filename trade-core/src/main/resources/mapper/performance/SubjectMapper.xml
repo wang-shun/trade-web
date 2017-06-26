@@ -12,15 +12,33 @@
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="IS_ACTIVE" property="isActive" jdbcType="VARCHAR" />
     <result column="INACTIVE_TIME" property="inactiveTime" jdbcType="TIMESTAMP" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
     
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, PARENT_ID, SUBJECT_CODE, SUBJECT_NAME,CREATE_BY ,CREATE_TIME , UPDATE_BY,UPDATE_TIME,IS_ACTIVE,INACTIVE_TIME
+    PKID, PARENT_ID, SUBJECT_CODE, SUBJECT_NAME,CREATE_BY ,CREATE_TIME , UPDATE_BY,UPDATE_TIME,IS_ACTIVE,INACTIVE_TIME,tag
   </sql>
   
   <select id="querySubjectList" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TS_COM_SUBJECT
+    from sctrans.T_TS_COM_SUBJECT cs
+    where cs.tag='YJ' and cs.PARENT_ID is NULL;
+  </select>
+  <select id="querySubjectByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+  
+	  SELECT
+		<include refid="Base_Column_List" />
+		FROM
+			sctrans.T_TS_COM_SUBJECT
+		WHERE
+			PARENT_ID IN (
+				SELECT
+					PKID
+				FROM
+					sctrans.T_TS_COM_SUBJECT
+				WHERE
+					SUBJECT_CODE = #{subjectCode,jdbcType=VARCHAR} and tag='YJ' 
+			)
   </select>
 </mapper>

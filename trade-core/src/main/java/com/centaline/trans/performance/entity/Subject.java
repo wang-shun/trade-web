@@ -14,6 +14,14 @@ public class Subject {
 	private String updateBy;
 	private String isActive;
 	private Date inactiveTime;
+	private String tag;
+	
+	public String getTag() {
+		return tag;
+	}
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 	public long getPkId() {
 		return pkId;
 	}

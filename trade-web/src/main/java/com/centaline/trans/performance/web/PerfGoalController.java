@@ -107,6 +107,20 @@ public class PerfGoalController {
 	}
 	
 	/**
+	 * 应收科目二级联动
+	 * 
+	 * @return
+	 */
+	@RequestMapping("subjectQuery")
+	@ResponseBody
+	public AjaxResponse subjectQuery(ServletRequest request) {
+		String subjectCode=request.getParameter("subjectCode");
+		List<Subject> subjectList = subjectService.querySubjectByCode(subjectCode);
+		return AjaxResponse.successContent(subjectList);
+	}
+	
+	
+	/**
 	 * 根据传入的月份，获取当月的最后一天
 	 * @param Str
 	 * @return
