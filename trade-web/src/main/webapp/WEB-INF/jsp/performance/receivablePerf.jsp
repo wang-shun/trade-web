@@ -182,7 +182,7 @@
 		<tr>
             <td><p><a href="javascript:void(0)">{{item.sharesCode}}</a></p></td>
             <td>
-				{{if item.shareAmount != null}}{{item.shareAmount/10000}}万
+				{{if item.shareAmount != null}}{{item.shareAmount/10000}}万元
 				{{/if}}
 			</td>
             <td><p>{{item.shareTime}}</p></td>

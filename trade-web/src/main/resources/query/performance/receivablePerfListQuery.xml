@@ -89,8 +89,57 @@
 				<column type="both" name="treamId" customDict="qqcdOrgIdName" title="组别"/>
 				<column type="virtual" name="SELLER" referencecol="caseCode" title="上家" display="上家" customDict="qqcdSeller" />
 				<column type="virtual" name="BUYER" referencecol="caseCode" title="下家" display="下家" customDict="qqcdBuyer" />
-				
-				
+			</table-row>
+		</grid>
+	</query>
+	<query id="getReceivablePerfBycaseCode" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			SELECT
+				rp.SHARES_CODE AS sharesCode,
+				rp.BIZ_CODE AS bizCode,
+				rp.SHARES_RATE AS sharesRate,
+				rp.CREATE_BY AS createBy,
+				rp.SHARE_BASE AS shareBase,
+				rp.SHARE_AMOUNT as shareAmount,
+			  rp.SHARE_TIME as shareTime,
+				rp.SUBJECT AS subject,
+				rp.STATUS AS status,
+				rp.USER_ID AS userId,
+				rp.CASE_CODE AS caseCode, 
+				rp.DISTRICT AS district,
+      			rp.TEAM_ID AS treamId
+			FROM
+				sctrans.T_TS_RECEIVABLE_PERF rp
+			WHERE 1=1
+			<if test = "caseCode!=null and caseCode!=''">
+				AND rp.CASE_CODE =#caseCode#
+		    </if>
+		]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="shareTime" beanFormatter="dateFormatter" title="业绩时间"/>
+				<column type="both" name="sharesCode" title="业绩编号"/>
+				<column type="both" name="bizCode" />
+				<column type="both" name="sharesRate" />
+				<column type="both" name="createBy" />
+				<column type="both" name="shareBase" />
+				<column type="both" name="shareAmount" title="业绩金额"/>
+				<column type="both" name="subject" title="业绩名目" customDict="getSubjectNameBySubjectCode"/>
+				<column type="both" name="status" title="业绩状态"/>
+				<column type="both" name="userId" title="归属人" customDict="getRealNameByUserId"/>
+				<column type="both" name="caseCode" title="案件编号"/>
+				<column type="both" name="district" customDict="qqcdOrgIdName" title="贵宾服务部"/>
+				<column type="both" name="treamId" customDict="qqcdOrgIdName" title="组别"/>
+				<column type="virtual" name="SELLER" referencecol="caseCode" title="上家" display="上家" customDict="qqcdSeller" />
+				<column type="virtual" name="BUYER" referencecol="caseCode" title="下家" display="下家" customDict="qqcdBuyer" />
 			</table-row>
 		</grid>
 	</query>
