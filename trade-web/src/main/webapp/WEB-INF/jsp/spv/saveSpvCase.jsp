@@ -12,56 +12,56 @@
 
 <title>监管合约</title>
 <!-- 上传相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />"
 	rel="stylesheet">
 <!-- 展示相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 <!-- 备件相关结束 -->
-<link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
-<link href="${ctx}/static/font-awesome/css/font-awesome.css"
+<link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/static/font-awesome/css/font-awesome.css' />"
 	rel="stylesheet">
 
-<link href="${ctx}/static/css/animate.css" rel="stylesheet">
-<link href="${ctx}/static/css/style.css" rel="stylesheet">
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+<link href="<c:url value='/static/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/static/css/style.css' />" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 <!-- index_css  -->
-<link href="${ctx}/static/trans/css/eloan/eloan/eloan.css" rel="stylesheet"/>
-<link href="${ctx}/static/trans/css/common/input.css" rel="stylesheet"/>
-<link href="${ctx}/static/trans/css/common/table.css" rel="stylesheet"/> 
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" >
+<link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />" rel="stylesheet"/>
+<link href="<c:url value='/static/trans/css/common/input.css' />" rel="stylesheet"/>
+<link href="<c:url value='/static/trans/css/common/table.css' />" rel="stylesheet"/> 
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" >
 <!-- stickUp fixed css -->
 <link rel="stylesheet"
-	href="${ctx}/static/trans/css/common/stickmenu.css">
-<link href="${ctx}/static/css/plugins/stickup/stickup.css"
+	href="<c:url value='/static/trans/css/common/stickmenu.css' />">
+<link href="<c:url value='/static/css/plugins/stickup/stickup.css' />"
 	rel="stylesheet">
-<link href="${ctx}/static/css/plugins/aist-steps/steps.css"
+<link href="<c:url value='/static/css/plugins/aist-steps/steps.css' />"
 	rel="stylesheet">
-<link href="${ctx}/static/css/plugins/toastr/toastr.min.css"
+<link href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />"
 	rel="stylesheet">
 
 <!-- index_css  -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/input.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-<link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
-<link href="${ctx}/css/font-awesome.css" rel="stylesheet">
-<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
-<link href="${ctx}/css/jquery.editable-select.min.css" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/table.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/input.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/see.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/spv.css' />" />
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/jquery.editable-select.min.css' />" rel="stylesheet">
+<link href="<c:url value='/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/jquery.editable-select.min.css' />" rel="stylesheet">
 <!--弹出框样式  -->
-<link href="${ctx}/css/common/xcConfirm.css" rel="stylesheet">
+<link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <!-- stickUp fixed css -->
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -490,7 +490,6 @@
 					    <input type="hidden" name="toSpv.pkid" value="${spvBaseInfoVO.toSpv.pkid }"/>
 					    <input type="hidden" name="toSpv.caseCode" value="${caseCode }"/>
 					    <input type="hidden" name="toSpv.spvCode" value="${spvBaseInfoVO.toSpv.spvCode }"/>
-					    <input type="hidden" name="toSpv.applyTime" value="${spvBaseInfoVO.toSpv.applyTime }" />
 						<div class="title">监管资金及账户信息</div>
 						<div class="form-row form-rowbot clear">
 							<div class="form-group form-margin form-space-one left-extent">
@@ -644,12 +643,12 @@
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 账号</label> <input type="text" name="toSpvAccountList[2].account"
 								    value="${spvBaseInfoVO.toSpvAccountList[2].account }"
-									class="form-control input-two ${spvBaseInfoVO.toSpvAccountList[2].name eq '上海中原物业顾问有限公司'?'disabled':''}" placeholder="">
+									class="form-control input-two ${spvBaseInfoVO.toSpvAccountList[2].name eq '上海中原物业顾问有限公司'?'readonly':''}" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
 							    <label for="" class="lable-one"><i style="color:red;">*</i> 开户行</label> <input type="text" name="toSpvAccountList[2].branchBank"
 								    value="${spvBaseInfoVO.toSpvAccountList[2].branchBank }"
-									class="form-control input-three ${spvBaseInfoVO.toSpvAccountList[2].name eq '上海中原物业顾问有限公司'?'disabled':''}" placeholder="">
+									class="form-control input-three ${spvBaseInfoVO.toSpvAccountList[2].name eq '上海中原物业顾问有限公司'?'readonly':''}" placeholder="">
 							</div>
 						</div>
 						</div>
@@ -670,12 +669,12 @@
 							<div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one">账号</label> <input type="text" name="toSpvAccountList[3].account"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].account }" 
-									class="form-control input-two" ${spvBaseInfoVO.toSpvAccountList[3].name eq '搜易贷（北京）金融信息服务有限公司' or spvBaseInfoVO.toSpvAccountList[3].name eq '上海嘉定及时雨小额贷款股份有限公司'?'disabled="disabled"':''} placeholder="">
+									class="form-control input-two" ${spvBaseInfoVO.toSpvAccountList[3].name eq '搜易贷（北京）金融信息服务有限公司' or spvBaseInfoVO.toSpvAccountList[3].name eq '上海嘉定及时雨小额贷款股份有限公司'?'readonly="readonly"':''} placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one">
 							    <label for="" class="lable-one">开户行</label> <input type="text" name="toSpvAccountList[3].branchBank"
 								    value="${spvBaseInfoVO.toSpvAccountList[3].branchBank }"
-									class="form-control input-three" ${spvBaseInfoVO.toSpvAccountList[3].name eq '搜易贷（北京）金融信息服务有限公司' or spvBaseInfoVO.toSpvAccountList[3].name eq '上海嘉定及时雨小额贷款股份有限公司'?'disabled="disabled"':''} placeholder="">
+									class="form-control input-three" ${spvBaseInfoVO.toSpvAccountList[3].name eq '搜易贷（北京）金融信息服务有限公司' or spvBaseInfoVO.toSpvAccountList[3].name eq '上海嘉定及时雨小额贷款股份有限公司'?'readonly="readonly"':''} placeholder="">
 							</div>
 						</div>
 							
@@ -736,7 +735,8 @@
 							</div>
 					    </div> 
 					    
-						<div class="form-row form-rowbot" id="signDiv" style="display:none;">
+				    <c:if test="${handle eq 'SpvSign'}">
+				    	<div class="form-row form-rowbot" id="signDiv">
 						    <div class="form-group form-margin form-space-one">
 								<label for="" class="lable-one"><i style="color:red;">*</i> 监管合同号</label> <input type="text" name="toSpv.spvConCode"
 								    value="${spvBaseInfoVO.toSpv.spvConCode }"
@@ -748,6 +748,7 @@
 								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>" placeholder="">
 							</div>
 						</div>
+				    </c:if>
 									
 					<div class="form-row form-rowbot" id="passOrRefuseReasonForShow" ${handle eq 'SpvApprove' or handle eq 'SpvAudit'?'':'style="display:none;"'}>						
 						<div class="form-group form-margin form-space-one">
@@ -871,42 +872,42 @@
 
 	<!-- Mainly scripts -->
 	<content tag="local_script"> 
-	<script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script> <script
-		src="${ctx}/static/js/morris/morris.js"></script> <script
-		src="${ctx}/static/js/morris/raphael-min.js"></script> <!-- index_js -->
-	<script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+	<script src="<c:url value='/static/js/plugins/toastr/toastr.min.js' />"></script> <script
+		src="<c:url value='/static/js/morris/morris.js' />"></script> <script
+		src="<c:url value='/static/js/morris/raphael-min.js' />"></script> <!-- index_js -->
+	<script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	<!-- 上传附件相关 --> <script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script> <script
+		src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script> <script
+		src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload.js' />"></script> <script
+		src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-fp.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-ui.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/clockface.js' />"></script> <script
+		src="<c:url value='/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js' />"></script>
 	<script
-		src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
+		src="<c:url value='/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.multi-select.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script> <script
-		src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script> <!-- 上传附件 结束 -->
+	<script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script> <script
+		src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script> <script
+		src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script> <!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 --> 
-	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> <script
-		src="${ctx}/js/template.js" type="text/javascript"></script> <!-- stickup plugin -->
-	<script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script> 
-	<script src="${ctx}/js/jquery.editable-select.min.js"></script>
-	<script src="${ctx}/static/trans/js/spv/spvDetails.js"></script>
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> <script
+		src="<c:url value='/js/template.js' />" type="text/javascript"></script> <!-- stickup plugin -->
+	<script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script> 
+	<script src="<c:url value='/js/jquery.editable-select.min.js' />"></script>
+	<script src="<c:url value='/static/trans/js/spv/spvDetails.js' />"></script>
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
-	<script src="${ctx}/static/tbsp/js/userorg/userOrgSelect.js" type="text/javascript"></script>
+	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script> 
+	<script src="<c:url value='/static/tbsp/js/userorg/userOrgSelect.js' />" type="text/javascript"></script>
 	<!-- 引入弹出框js文件 -->
-    <script src="${ctx}/js/common/xcConfirm.js?v=1.0.1"></script>
-	<script src="${ctx}/js/viewer/viewer.min.js"></script>	
+    <script src="<c:url value='/js/common/xcConfirm.js' />"></script>
+	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>	
 
 		<script id="queryCastListItemList2" type= "text/html">
         {{each rows as item index}}
@@ -966,6 +967,9 @@
 			
 			$("select[name='toSpv.prdCode']").change(function(){
 				if($(this).val() == 2){
+                    $("input[name='toSpvAccountList[2].name']").val('');
+                    $("input[name='toSpvAccountList[2].account']").val('');
+                    $("input[name='toSpvAccountList[2].branchBank']").val('');
 					$("#spvAccountDiv").hide();
 				}else{
 					$("#spvAccountDiv").show();
@@ -1011,7 +1015,7 @@
   				$("#bank_1").prop("disabled",false);
   				$("input[name='toSpvAccountList[1].bank']").prop("disabled",false).siblings("label").prepend("<i style='color:red;'>*</i> ");
   				$("input[name='toSpvAccountList[1].branchBank']").prop("disabled",false);
-  				$("#signDiv").show().find("input").prop("disabled",false);
+  				$("#signDiv").find("input").prop("disabled",false);
   				
   				$("select[name='toSpvAccountList[3].name']").prop("disabled",false);
 	         }
@@ -1023,13 +1027,13 @@
 						var eVal = $(element).attr("value");
  						switch(eVal){
  						case '':
- 							$("input[name='toSpvAccountList[2].account']").val("").prop("disabled",false);
- 							$("input[name='toSpvAccountList[2].branchBank']").val("").prop("disabled",false);
+ 							$("input[name='toSpvAccountList[2].account']").val("").prop("readonly",false);
+ 							$("input[name='toSpvAccountList[2].branchBank']").val("").prop("readonly",false);
  							$("input[name='toSpvAccountList[2].name']").val("");
  							break;
  						case '上海中原物业顾问有限公司':
- 							$("input[name='toSpvAccountList[2].account']").val("76310188000148842").prop("disabled",true);
- 							$("input[name='toSpvAccountList[2].branchBank']").val("光大银行市北支行").prop("disabled",true);
+ 							$("input[name='toSpvAccountList[2].account']").val("76310188000148842").prop("readonly",true);
+ 							$("input[name='toSpvAccountList[2].branchBank']").val("光大银行市北支行").prop("readonly",true);
  							break;
  						}
 					}
@@ -1042,17 +1046,17 @@
  						var eVal = $(element).attr("value");
  						switch(eVal){
  						case '':
- 							$("input[name='toSpvAccountList[3].account']").val("").prop("disabled",false);
- 							$("input[name='toSpvAccountList[3].branchBank']").val("").prop("disabled",false);
+ 							$("input[name='toSpvAccountList[3].account']").val("").prop("readonly",false);
+ 							$("input[name='toSpvAccountList[3].branchBank']").val("").prop("readonly",false);
  							$("input[name='toSpvAccountList[3].name']").val("");
  							break;
  						case '搜易贷（北京）金融信息服务有限公司':
- 							$("input[name='toSpvAccountList[3].account']").val("137441512010000275").prop("disabled",true);
- 							$("input[name='toSpvAccountList[3].branchBank']").val("广发银行股份有限公司北京石景山支行").prop("disabled",true);
+ 							$("input[name='toSpvAccountList[3].account']").val("137441512010000275").prop("readonly",true);
+ 							$("input[name='toSpvAccountList[3].branchBank']").val("广发银行股份有限公司北京石景山支行").prop("readonly",true);
  							break;
  						case '上海嘉定及时雨小额贷款股份有限公司':
- 							$("input[name='toSpvAccountList[3].account']").val("457263590104").prop("disabled",true);
- 							$("input[name='toSpvAccountList[3].branchBank']").val("中行上海南京西路支行").prop("disabled",true);
+ 							$("input[name='toSpvAccountList[3].account']").val("457263590104").prop("readonly",true);
+ 							$("input[name='toSpvAccountList[3].branchBank']").val("中行上海南京西路支行").prop("readonly",true);
  							break;
  						}
  						updateAccTypeOptions();

@@ -11,7 +11,9 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.druid.util.StringUtils;
 import com.centaline.trans.task.entity.ToHouseTransfer;
+import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -155,6 +157,9 @@ public class GuohuApproveController {
 
 
 	private String findDictAccompanyReason(String accompanyReason){
+		if(StringUtils.isEmpty(accompanyReason)){
+			return "";
+		}
 		String code[] = accompanyReason.split(";");
 		String accompanyReasonCN = "";
 		for(int i =0;i<code.length;i++){

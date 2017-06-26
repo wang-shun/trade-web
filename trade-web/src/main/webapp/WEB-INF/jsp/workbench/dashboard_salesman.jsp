@@ -16,36 +16,36 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- stickUp fixed css -->
-    <link href="${ctx}/static/css/plugins/stickup/stickup.css" rel="stylesheet">
+    <link href="<c:url value='/static/css/plugins/stickup/stickup.css' />" rel="stylesheet">
 
-    <link href="${ctx}/static/css/plugins/aist-steps/steps.css" rel="stylesheet">
-    <link href="${ctx}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="<c:url value='/static/css/plugins/aist-steps/steps.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 	
 	<!-- ION-RANGESLIDER -->
-	<link href="${ctx}/static/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
-    <link href="${ctx}/static/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+	<link href="<c:url value='/static/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
 	
 	<!-- fullcalendar -->
-	<link href="${ctx}/static/css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
-    <link href="${ctx}/static/css/plugins/fullcalendar/fullcalendar.print.css" rel='stylesheet' media='print'>
+	<link href="<c:url value='/static/css/plugins/fullcalendar/fullcalendar.css' />" rel="stylesheet">
+    <link href="<c:url value='/static/css/plugins/fullcalendar/fullcalendar.print.css' />" rel='stylesheet' media='print'>
 
 	<!-- morris -->
-	<link href="${ctx}/static/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+	<link href="<c:url value='/static/css/plugins/morris/morris-0.4.3.min.css' />" rel="stylesheet">
 	
 	<!-- fancybox -->
-	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/jquery.fancybox.css?v=2.1.5" media="screen" />
-	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/jquery.fancybox-buttons.css?v=1.0.5" />
-	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/jquery.fancybox-thumbs.css?v=1.0.7" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/jquery.fancybox.css' />" media="screen" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/jquery.fancybox-buttons.css' />" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/jquery.fancybox-thumbs.css' />" />
 	
-	<link href="${ctx}/static/trans/css/common/stickDash.css" rel="stylesheet">
+	<link href="<c:url value='/static/trans/css/common/stickDash.css' />" rel="stylesheet">
 	
 	<!-- iCheck -->
-	<link href="${ctx}/static/css/plugins/iCheck/custom.css" rel="stylesheet">
-	<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css"
+	<link href="<c:url value='/static/css/plugins/iCheck/custom.css' />" rel="stylesheet">
+	<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />"
 	rel="stylesheet">
 	
     <!-- index_css  -->
-    <link href="${ctx}/css/trans/css/workbench/dashboard/dashboard.css"
+    <link href="<c:url value='/css/trans/css/workbench/dashboard/dashboard.css' />"
 	rel="stylesheet">
 </head>
 
@@ -152,9 +152,20 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 								<p>
 									无主资源<br> <span id="unLocatedResourcesCount"></span>
 								</p></li>
+								
+								<c:choose>
+			                    	<c:when test="${jobCode == 'TeamAssistant' || jobCode == 'YCYYZY' || jobCode == 'YCYYZG' || jobCode == 'GeneralManager'}">
+										<li>
+			                                <i class="icon iconfont icon40 green">&#xe6bb;</i>
+			                                <p>
+			                                	时效管理<br/><span id="curOverdueCaseEffCount"></span>
+			                                </p>
+			                            </li> 
+									</c:when>
+								</c:choose>
+								
 						</ul>
                     	</c:if>
-                    	
                     </div>
             </div>
         </div>
@@ -231,42 +242,42 @@ request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
     </div>
 <content tag="local_script">
     <!-- stickup plugin -->
-    <script src="${ctx}/static/js/plugins/stickup/stickUp.js"></script>
+    <script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
     <!-- owner -->
-    <script src="${ctx}/static/trans/js/workbench/stickDash.js"></script>
-    <script src="${ctx}/static/trans/js/workbench/caseCount.js"></script>
-    <script src="${ctx}/static/trans/js/workbench/dashboard.js"></script>
+    <script src="<c:url value='/static/trans/js/workbench/stickDash.js' />"></script>
+    <script src="<c:url value='/static/trans/js/workbench/caseCount.js' />"></script>
+    <script src="<c:url value='/static/trans/js/workbench/dashboard.js' />"></script>
 
     <!-- Toastr script -->
-    <script src="${ctx}/static/js/plugins/toastr/toastr.min.js"></script>
-    <script src="${ctx}/static/js/morris/morris.js"></script>
-    <script src="${ctx}/static/js/morris/raphael-min.js"></script>
+    <script src="<c:url value='/static/js/plugins/toastr/toastr.min.js' />"></script>
+    <script src="<c:url value='/static/js/morris/morris.js' />"></script>
+    <script src="<c:url value='/static/js/morris/raphael-min.js' />"></script>
     <!-- messageGrid -->
-    <script src="${ctx}/static/js/messageGrid.js"></script>
+    <script src="<c:url value='/static/js/messageGrid.js' />"></script>
     <!-- jquery.formatMoney -->
-    <script src="${ctx}/static/js/jquery.formatMoney.js"></script>
+    <script src="<c:url value='/static/js/jquery.formatMoney.js' />"></script>
     <!-- fullcalendar -->
-	<script src="${ctx}/static/js/plugins/fullcalendar/moment.min.js"></script>
- 	<script src="${ctx}/static/js/plugins/fullcalendar/fullcalendar.min.js"></script>
-	<script src="${ctx}/static/js/plugins/fullcalendar/zh-cn.js"></script>
+	<script src="<c:url value='/static/js/plugins/fullcalendar/moment.min.js' />"></script>
+ 	<script src="<c:url value='/static/js/plugins/fullcalendar/fullcalendar.min.js' />"></script>
+	<script src="<c:url value='/static/js/plugins/fullcalendar/zh-cn.js' />"></script>
 	<!-- IonRangeSlider -->
-	<script src="${ctx}/static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+	<script src="<c:url value='/static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
     <!-- Add fancyBox main JS and CSS files -->
-	<script src="${ctx}/static/js/jquery.fancybox.js?v=2.1.5"></script>
-	<script src="${ctx}/static/js/jquery.fancybox-buttons.js?v=1.0.5"></script>
-	<script src="${ctx}/static/js/jquery.fancybox-thumbs.js?v=1.0.7"></script>
-	<script src="${ctx}/static/js/jquery.fancybox-media.js?v=1.0.6"></script>
+	<script src="<c:url value='/static/js/jquery.fancybox.js' />"></script>
+	<script src="<c:url value='/static/js/jquery.fancybox-buttons.js' />"></script>
+	<script src="<c:url value='/static/js/jquery.fancybox-thumbs.js' />"></script>
+	<script src="<c:url value='/static/js/jquery.fancybox-media.js' />"></script>
     
     <!-- ChartJS morris -->
-<%--     <script src="${ctx}/static/js/plugins/morris/raphael-2.1.0.min.js"></script>
-    <script src="${ctx}/static/js/plugins/morris/morris.js"></script> --%>
+<%--     <script src="<c:url value='/static/js/plugins/morris/raphael-2.1.0.min.js' />"></script>
+    <script src="<c:url value='/static/js/plugins/morris/morris.js' />"></script> --%>
     
 	<!-- iCheck -->
-	<script src="${ctx}/static/js/plugins/iCheck/icheck.min.js"></script>    
+	<script src="<c:url value='/static/js/plugins/iCheck/icheck.min.js' />"></script>    
     
     <!-- ECharts.js -->
-    <script src="${ctx}/static/js/echarts.min.js"></script>    
-    <script src="${ctx}/static/trans/js/workbench/dashboard_echart.js"></script>
+    <script src="<c:url value='/static/js/echarts.min.js' />"></script>    
+    <script src="<c:url value='/static/trans/js/workbench/dashboard_echart.js' />"></script>
 	
 	<script type="text/javascript">
 	 $(document).ready(function() {

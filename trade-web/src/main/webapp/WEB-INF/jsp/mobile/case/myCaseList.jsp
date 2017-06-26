@@ -8,12 +8,12 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 	<title>经纪人案件列表</title>
-	<link rel="stylesheet" type="text/css" href="${ctx}/momedia/css/common/aui.2.0.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/momedia/css/common/style.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/momedia/iconfont/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/momedia/css/common/aui.2.0.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/momedia/css/common/style.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/momedia/iconfont/iconfont.css' />" />
     <!--date css-->
-    <link rel="stylesheet" type="text/css" href="${ctx}/momedia/css/plugins/mobiscroll/mobiscroll.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/momedia/css/plugins/mobiscroll/mobiscroll_date.css" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/momedia/css/plugins/mobiscroll/mobiscroll.css' />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value='/momedia/css/plugins/mobiscroll/mobiscroll_date.css' />" />
 
 </head>
 <body>
@@ -78,19 +78,19 @@
     </div>
 </body>
 
-<script type="text/javascript" src="${ctx}/momedia/js/jquery-2.1.1.js"></script>
-<script type="text/javascript" src="${ctx}/momedia/js/api.js"></script>
-<script type="text/javascript" src="${ctx}/momedia/js/aui-dialog.js"></script>
-<script type="text/javascript" src="${ctx}/momedia/js/aui-main.js"></script>
-<script type="text/javascript" src="${ctx}/momedia/js/layer.js"></script>
-<script src="${ctx}/momedia/js/template.js"></script>
-<script type="text/javascript" src="${ctx}/momedia/js/iscroll-probe.js"></script>
-<script type="text/javascript" src="${ctx}/momedia/js/iscroll.js?v=1.1.2"></script>
+<script type="text/javascript" src="<c:url value='/momedia/js/jquery-2.1.1.js' />"></script>
+<script type="text/javascript" src="<c:url value='/momedia/js/api.js' />"></script>
+<script type="text/javascript" src="<c:url value='/momedia/js/aui-dialog.js' />"></script>
+<script type="text/javascript" src="<c:url value='/momedia/js/aui-main.js' />"></script>
+<script type="text/javascript" src="<c:url value='/momedia/js/layer.js' />"></script>
+<script src="<c:url value='/momedia/js/template.js' />"></script>
+<script type="text/javascript" src="<c:url value='/momedia/js/iscroll-probe.js' />"></script>
+<script type="text/javascript" src="<c:url value='/momedia/js/iscroll.js' />"></script>
 <!--date-->
-<script type="text/javascript" src="${ctx}/momedia/js/plugins/mobiscroll/mobiscroll_date.js"></script>
-<script type="text/javascript" src="${ctx}/momedia/js/plugins/mobiscroll/mobiscroll.js"></script>
+<script type="text/javascript" src="<c:url value='/momedia/js/plugins/mobiscroll/mobiscroll_date.js' />"></script>
+<script type="text/javascript" src="<c:url value='/momedia/js/plugins/mobiscroll/mobiscroll.js' />"></script>
 
-<script type="text/javascript" src="${ctx}/momedia/js/calendar.js"></script>
+<script type="text/javascript" src="<c:url value='/momedia/js/calendar.js' />"></script>
 <script id="castListTpl" type="text/html">
 	{{if rows.length>0}}
 		{{ each rows as item }}

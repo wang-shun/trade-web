@@ -11,32 +11,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Toastr style -->
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
+<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">
 
 
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/dropzone/basic.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/dropzone/dropzone.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/iCheck/custom.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/common/common.css" rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/dropzone/basic.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/dropzone/dropzone.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/iCheck/custom.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/common.css' />" rel="stylesheet">
 <!-- Morris -->
-<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"
+<link href="<c:url value='/css/plugins/morris/morris-0.4.3.min.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/transcss/task/myTaskList.css" rel="stylesheet">
+<link href="<c:url value='/css/transcss/task/myTaskList.css' />" rel="stylesheet">
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet">
 
 <style type="text/css">
 .text-center{text-align:center;}
@@ -320,25 +320,25 @@ margin-left:15px;}
 
 <content tag="local_script"> 
 	<!-- Peity --> 
-	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
+	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script> 
 	<!-- jqGrid -->
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
 	<!-- Custom and plugin javascript -->
-	<script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script> 
-	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
+	<script src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script> 
+	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> 
+	<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script>
 	<!-- block UI -->
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 	<!-- iCheck -->
-	<script	src="${ctx}/js/plugins/iCheck/icheck.min.js"></script>
-	<script src="${ctx}/js/plugins/autocomplete/jquery.autocomplete.js"></script>
+	<script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
 	<!-- 个人js -->
-	<script src="${ctx}/js/trunk/report/history_task_list.js"></script>
+	<script src="<c:url value='/js/trunk/report/history_task_list.js' />"></script>
 	<!-- 分页控件  -->
-    <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+    <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+	<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<!-- 自定义js -->
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script id="template_myTaskList" type= "text/html">

@@ -17,33 +17,33 @@
 
 <!-- BEGIN GLOBAL MANDATORY STYLES -->
 
-<%-- <link href="${ctx}/media/css/bootstrap.min.css" rel="stylesheet"
+<%-- <link href="<c:url value='/media/css/bootstrap.min.css' />" rel="stylesheet"
 	type="text/css" />
 
-<link href="${ctx}/media/css/bootstrap-responsive.min.css"
+<link href="<c:url value='/media/css/bootstrap-responsive.min.css' />"
 	rel="stylesheet" type="text/css" /> --%>
 	
-<link href="${ctx}/media/css/bootstrap.css" rel="stylesheet"
+<link href="<c:url value='/media/css/bootstrap.css' />" rel="stylesheet"
 	type="text/css" />
 
-<link href="${ctx}/media/css/bootstrap-responsive.css"
+<link href="<c:url value='/media/css/bootstrap-responsive.css' />"
 	rel="stylesheet" type="text/css" />
 
-<link href="${ctx}/media/css/font-awesome.min.css" rel="stylesheet"
+<link href="<c:url value='/media/css/font-awesome.min.css' />" rel="stylesheet"
 	type="text/css" />
 
-<link href="${ctx}/media/css/style-metro.css" rel="stylesheet"
+<link href="<c:url value='/media/css/style-metro.css' />" rel="stylesheet"
 	type="text/css" />
 
-<link href="${ctx}/media/css/style.css" rel="stylesheet" type="text/css" />
+<link href="<c:url value='/media/css/style.css' />" rel="stylesheet" type="text/css" />
 
-<link href="${ctx}/media/css/style-responsive.css" rel="stylesheet"
+<link href="<c:url value='/media/css/style-responsive.css' />" rel="stylesheet"
 	type="text/css" />
 
-<link href="${ctx}/media/css/default.css" rel="stylesheet"
+<link href="<c:url value='/media/css/default.css' />" rel="stylesheet"
 	type="text/css" id="style_color" />
 
-<link href="${ctx}/media/css/uniform.default.css" rel="stylesheet"
+<link href="<c:url value='/media/css/uniform.default.css' />" rel="stylesheet"
 	type="text/css" />
 
 <!-- END GLOBAL MANDATORY STYLES -->
@@ -67,7 +67,7 @@
 %>
 
 <!-- END HEAD -->
-<script src="${ctx}/media/js/jquery-1.10.1.min.js"
+<script src="<c:url value='/media/js/jquery-1.10.1.min.js' />"
 		type="text/javascript"></script>
 
 <%@include file="/WEB-INF//jsp/tbsp/common/taglibs.jspf"%>		
@@ -145,37 +145,37 @@
 
 	<!-- BEGIN CORE PLUGINS -->
 
-	<script src="${ctx}/media/js/jquery-1.10.1.min.js"
+	<script src="<c:url value='/media/js/jquery-1.10.1.min.js' />"
 		type="text/javascript"></script>
 
-	<script src="${ctx}/media/js/jquery-migrate-1.2.1.min.js"
+	<script src="<c:url value='/media/js/jquery-migrate-1.2.1.min.js' />"
 		type="text/javascript"></script>
 
 	<!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 
-	<script src="${ctx}/media/js/jquery-ui-1.10.1.custom.min.js"
+	<script src="<c:url value='/media/js/jquery-ui-1.10.1.custom.min.js' />"
 		type="text/javascript"></script>
 
-	<script src="${ctx}/media/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="<c:url value='/media/js/bootstrap.min.js' />" type="text/javascript"></script>
 
 	<!--[if lt IE 9]>
 
-	<script src="${ctx}/media/js/excanvas.min.js"></script>
+	<script src="<c:url value='/media/js/excanvas.min.js' />"></script>
 
-	<script src="${ctx}/media/js/respond.min.js"></script>  
+	<script src="<c:url value='/media/js/respond.min.js' />"></script>  
 
 	<![endif]-->
 
-	<script src="${ctx}/media/js/jquery.slimscroll.min.js"
+	<script src="<c:url value='/media/js/jquery.slimscroll.min.js' />"
 		type="text/javascript"></script>
 
-	<script src="${ctx}/media/js/jquery.blockui.min.js"
+	<script src="<c:url value='/media/js/jquery.blockui.min.js' />"
 		type="text/javascript"></script>
 
-	<script src="${ctx}/media/js/jquery.cookie.min.js"
+	<script src="<c:url value='/media/js/jquery.cookie.min.js' />"
 		type="text/javascript"></script>
 
-	<script src="${ctx}/media/js/jquery.uniform.min.js"
+	<script src="<c:url value='/media/js/jquery.uniform.min.js' />"
 		type="text/javascript"></script>
 	<!-- END CORE PLUGINS -->
 	<jsp:include

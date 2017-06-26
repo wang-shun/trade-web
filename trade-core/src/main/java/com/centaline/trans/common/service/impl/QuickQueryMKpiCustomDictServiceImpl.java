@@ -11,7 +11,9 @@ public class QuickQueryMKpiCustomDictServiceImpl implements CustomDictService{
 			return "否";
 		} else if("1".equals(key)){
 			return "是";
-		} else {
+		} else if("2".equals(key)){
+			return "不符合";
+		}else {
 			return null;
 		}
 	}

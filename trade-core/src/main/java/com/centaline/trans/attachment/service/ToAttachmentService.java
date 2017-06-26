@@ -58,4 +58,5 @@ public interface ToAttachmentService {
 
 	void saveToAttachment(List<ToAttachment> toAttachment);
 
+	void updateToAttachmentForCaseCodeByAdres(ToAttachment attach);
 }

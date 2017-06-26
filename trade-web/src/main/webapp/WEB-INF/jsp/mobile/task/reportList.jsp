@@ -7,28 +7,28 @@
 <head>
 <meta charset="utf-8">
 
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
+<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/dropzone/basic.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/dropzone/dropzone.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/morris/morris-0.4.3.min.css"
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/dropzone/basic.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/dropzone/dropzone.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/morris/morris-0.4.3.min.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css"
-	rel="stylesheet">
-<link
-	href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css"
+<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />"
 	rel="stylesheet">
 <link
-	href="${ctx}/css/mobile/task/pricingList/style.css"
+	href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />"
+	rel="stylesheet">
+<link
+	href="<c:url value='/css/mobile/task/pricingList/style.css' />"
 	rel="stylesheet">
 <style type="text/css">
 
@@ -145,19 +145,19 @@
 	</div>
 
 <content tag="local_script"> 
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
 
-	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
-   	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script> 
-	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-	<script src="${ctx}/js/template.js" type="text/javascript"></script>
-	<script src="${ctx}/js/jquery.twbsPagination.min.js" type="text/javascript"></script>
-	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script> 
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script> 
+   	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
+	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script>
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
+	<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
+	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+	<script src="<c:url value='/js/jquery.twbsPagination.min.js' />" type="text/javascript"></script>
+	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script> 
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 	
-	<script src="${ctx}/mobilejs/task/reportList.js"></script> 	
+	<script src="<c:url value='/mobilejs/task/reportList.js' />"></script> 	
 	 </content>
 </body>
 

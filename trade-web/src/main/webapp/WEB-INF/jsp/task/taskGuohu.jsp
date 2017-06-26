@@ -16,35 +16,35 @@
 
 
 	<!-- 上传相关 -->
-	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
-	<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
-	<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />" rel="stylesheet">
 	<!-- 展示相关 -->
-	<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css" rel="stylesheet">
-	<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css" rel="stylesheet">
-	<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css" rel="stylesheet">
-	<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 	<!-- 备件相关结束 -->
-	<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 	<!-- jdGrid相关 -->
-	<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-	<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-	<link href="${ctx}/css/animate.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-	<link href="${ctx}/css/common/common.css" rel="stylesheet">
-	<link href="${ctx}/css/style.css" rel="stylesheet">
-	<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
-	<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-	<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+	<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+	<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/common/common.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/style.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+	<link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
 
 	<!-- 新调整页面样式 -->
-	<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
-	<link href="${ctx}/css/common/details.css" rel="stylesheet">
-	<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
-	<link href="${ctx}/css/common/btn.css" rel="stylesheet">
-	<link href="${ctx}/css/common/input.css" rel="stylesheet">
-	<link href="${ctx}/css/common/table.css" rel="stylesheet">
+	<link href="<c:url value='/css/common/caseDetail.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/iconfont/iconfont.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
 	<script type="text/javascript">
 		var ctx = "${ctx}";
 		/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -316,50 +316,50 @@
 
 <content tag="local_script">
 	<!-- Peity -->
-	<script src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script>
+	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<!-- jqGrid -->
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	<!-- Custom and plugin javascript -->
-	<script src="${ctx}/js/plugins/dropzone/dropzone.js"></script>
+	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script>
 	<!-- Data picker -->
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 
 	<!-- 上传附件相关 -->
-	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-fp.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-ui.js' />"></script>
 
-	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script>
-	<script src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script>
-	<script src="${ctx}/js/stickUp.js"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/clockface.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.multi-select.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>
+	<script src="<c:url value='/js/stickUp.js' />"></script>
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 -->
-	<script src="${ctx}/js/trunk/task/attachment3.js?v=1.1.0"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-	<script src="${ctx}/js/plugins/validate/jquery.validate.min.js"></script>
-	<script src="${ctx}/transjs/sms/sms.js"></script>
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script>
+	<script src="<c:url value='/js/trunk/task/attachment3.js' />"></script>
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
+	<script src="<c:url value='/transjs/sms/sms.js' />"></script>
+	<script src="<c:url value='/transjs/common/caseTaskCheck.js' />"></script>
 	<!-- 审批记录 -->
-	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src="${ctx}/js/template.js" type="text/javascript"></script>
-	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-	<script src="${ctx}/js/viewer/viewer.min.js"></script>
+	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
 
 	<!-- 改版引入的新的js文件 -->
-	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
-	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
+	<script src="<c:url value='/js/common/textarea.js' />"></script>
+	<script src="<c:url value='/js/common/common.js' />"></script>
 
 	<!-- 必须JS -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
@@ -634,44 +634,69 @@
 
 		/**保存数据*/
 		function save(b) {
-			if(b){
-				var caseCode = $("#caseCode").val();
-				if(caseCode != "" && caseCode != null  && caseCode != undefined ){
 
-					$.ajax({
-						url: ctx+"/caseMerge/mergeSearch",
-						method:"post",
-						dataType:"json",
-						data:{"caseCode" : caseCode},
-						success: function(data) {
-							//alert("Result=====" +JSON.stringify(data));
-							console.log("Result=====" +JSON.stringify(data));
-							if(data != null ){
-								if(data.success){
-									var ctmCode  = data.content;
-									var caseOrigin  = data.message;
-									if(caseOrigin != null && caseOrigin != "" && caseOrigin == "INPUT"){
-										if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
-											goProcess(b);
-										}else{
-											window.wxc.error("自建案件必须完成案件合流才能提交过户申请");
-											return;
-										}
-									}else{
-										//非自录案件走正常流程
-										goProcess(b);
-									}
+			var caseCode = $("#caseCode").val();
+			var fileIDs = new Array();
+			if(caseCode != "" && caseCode != null  && caseCode != undefined ){
+				$("#guohufileUploadContainer ul.filelist li").each(function(index){
+					var thisFileId = $(this).attr("id");
+					fileIDs.push(thisFileId);
+				});
+				$.ajax({
+					url: ctx+"/attachment/fileUpload",
+					method:"post",
+					dataType:"json",
+					data:{"fileList" : fileIDs.join()},
+					success: function(data) {
+						if(data != null ){
+							if(data.success){
+								if(b) {
+									//submitTransfer(caseCode,b);
+								}else{
+									goProcess(false);
 								}
 							}
-						},
-						error: function(errors) {
-							window.wxc.error("获取案件合流信息出错！");   //弹出失败提示框
+						}else{
+							window.wxc.error("附件错误！");   //弹出失败提示框
 						}
-					});
-				}
-			}else{
-				goProcess(false);
+					},
+					error: function(errors) {
+						window.wxc.error("获取案件合流信息出错！");   //弹出失败提示框
+					}
+				});
 			}
+		}
+		function submitTransfer(caseCode,b){
+			$.ajax({
+				url: ctx+"/caseMerge/mergeSearch",
+				method:"post",
+				dataType:"json",
+				data:{"caseCode" : caseCode},
+				success: function(data) {
+					//alert("Result=====" +JSON.stringify(data));
+					console.log("Result=====" +JSON.stringify(data));
+					if(data != null ){
+						if(data.success){
+							var ctmCode  = data.content;
+							var caseOrigin  = data.message;
+							if(caseOrigin != null && caseOrigin != "" && caseOrigin == "INPUT"){
+								if(ctmCode != null && ctmCode != "" && ctmCode != undefined){
+									goProcess(b);
+								}else{
+									window.wxc.error("自建案件必须完成案件合流才能提交过户申请");
+									return;
+								}
+							}else{
+								//非自录案件走正常流程
+								goProcess(b);
+							}
+						}
+					}
+				},
+				error: function(errors) {
+					window.wxc.error("获取案件合流信息出错！");   //弹出失败提示框
+				}
+			});
 		}
 
 		function  goProcess(b){
@@ -918,7 +943,8 @@
 				fileUpload.init({
 					caseCode : $('#caseCode').val(),
 					partCode : "Guohu",
-					fileUploadContainer : "guohufileUploadContainer"
+					fileUploadContainer : "guohufileUploadContainer",
+					isAllUpdateY:false
 				});
 			});
 		});

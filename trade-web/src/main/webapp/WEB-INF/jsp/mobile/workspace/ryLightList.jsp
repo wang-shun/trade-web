@@ -9,24 +9,24 @@
 
 <meta charset="utf-8">
 <!-- 上传相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css" rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css" rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css" rel="stylesheet">
+<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />" rel="stylesheet">
+<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />" rel="stylesheet">
+<link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />" rel="stylesheet">
 <!-- 展示相关 -->
-<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+<link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />" rel="stylesheet">
 
-<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css" rel="stylesheet">
-<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css" rel="stylesheet">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
+<link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />" rel="stylesheet">
+<link href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/scrollpagination/scrollpagination.css" rel="stylesheet"/>
-<link href="${ctx}/css/list.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/switch/bootstrap-switch.min.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/scrollpagination/scrollpagination.css' />" rel="stylesheet"/>
+<link href="<c:url value='/css/list.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/switch/bootstrap-switch.min.css' />" rel="stylesheet">
 
 <style type="text/css">
 .myicon-person {
@@ -128,11 +128,11 @@ background-color: red;
 
 	<content tag="local_script"> <script
 		 
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/template.js" type="text/javascript"></script>
-	<script	src="${ctx}/js/plugins/scrollpagination/scrollpagination.js"></script>
-	<script	src="${ctx}/js/plugins/switch/bootstrap-switch.js"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+	<script	src="<c:url value='/js/plugins/scrollpagination/scrollpagination.js' />"></script>
+	<script	src="<c:url value='/js/plugins/switch/bootstrap-switch.js' />"></script>
 	<script id="knowledgeListStyle1" type="text/html">
 					{{if rows.length>0}}
 						{{ each rows as item }}

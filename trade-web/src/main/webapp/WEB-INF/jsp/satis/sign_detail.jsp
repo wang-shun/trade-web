@@ -292,7 +292,7 @@
                 <div class="marinfo">
                     <div class="line">
                         <div class="form_content">
-                            <label class="control-label sign_left_small">签约时间</label>
+                            <label class="control-label sign_left_small">签约提交时间</label>
                             <input class=" input_type yuanwid" placeholder="" value="<fmt:formatDate value='${transSignSubTime}' pattern='yyyy-MM-dd'/>" readonly="readonly">
                         </div>
                         <div class="form_content">
@@ -304,7 +304,7 @@
                     </div>
                     <div class="line">
                         <div class="form_content">
-                            <label class="control-label sign_left_small">过户时间</label>
+                            <label class="control-label sign_left_small">过户通过时间</label>
                             <input class=" input_type yuanwid" placeholder="" value="<fmt:formatDate value='${guohuPassTime}' pattern='yyyy-MM-dd'/>" readonly="readonly">
                         </div>
                         <div id="s" class="form_content">
@@ -671,7 +671,10 @@
 					success:function(data){
 						 $.unblockUI();
 						 if(data.success){
-							 window.wxc.alert("操作成功！");
+                             window.wxc.success("操作成功！",{"wxcOk":function(){
+                                 goBack();
+                             }
+                             })
 						 }else{
 							 window.wxc.error("操作失败！\n"+data.message);
 						 } 
@@ -708,10 +711,10 @@
 						success:function(data){
 							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.alert("操作成功！",{"wxcOk":function(){
-									 goBack();
-								   }
-						   		 })
+                                 window.wxc.success("操作成功！",{"wxcOk":function(){
+                                     goBack();
+                                 }
+                                 })
 							 }else{
 								 window.wxc.error("操作失败！\n"+data.message);
 							 } 
@@ -748,10 +751,10 @@
 					success:function(data){
 						 $.unblockUI();
 						 if(data.success){
-							 window.wxc.alert("操作成功！",{"wxcOk":function(){
-								 goBack();
-							   }
-					   		 })
+                             window.wxc.success("操作成功！",{"wxcOk":function(){
+                                 goBack();
+                             }
+                             })
 						 }else{
 							 window.wxc.error("操作失败！\n"+data.message);
 						 } 
@@ -761,15 +764,13 @@
 	        
 	        /*页面返回*/
 	        function goBack(){
-	        	if(urlType == 'list')
-					 window.location.href = ctx+"/satis/list";
-				 else
-					 window.location.href = ctx+"/task/myTaskList";
+		       	 window.opener.location.reload(); //刷新父窗口
+		         window.close(); //关闭子窗口.
 	        }
 	        
 	        /*只读表单*/
 	        function readOnlyForm(){
-	        	$("input:not('#caseComment'),select,span[name='remarks']").attr("disabled","disabled");
+	        	$("input,select,span[name='remarks']").attr("disabled","disabled");
 	        }
 	        
 	    	function changeClass(object){

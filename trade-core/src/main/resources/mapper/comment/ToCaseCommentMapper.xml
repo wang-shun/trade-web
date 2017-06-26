@@ -177,4 +177,10 @@ select @@identity
       PARENT_ID = #{parentId,jdbcType=BIGINT}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
+  
+    <delete id="deleteByCasecodeAndType" parameterType="java.util.Map" >
+    	DELETE FROM sctrans.T_TO_CASE_COMMENT
+		WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND TYPE = #{type,jdbcType=VARCHAR}
+    </delete>
+  
 </mapper>

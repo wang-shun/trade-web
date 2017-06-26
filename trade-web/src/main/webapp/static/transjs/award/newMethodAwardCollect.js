@@ -2,31 +2,22 @@ var ctx = $("#ctx").val();
 var serviceDepId = $("#serviceDepId").val();
 var num = 0;
 $(document).ready(function() {	
-	
-/*     $('.UpdateUserItem').load(function() { 
-        var iframeHeight=$(this).contents().height(); 		         
-        $(this).height(iframeHeight+'px');   
-     });*/
-/*    $(window.parent.document).find(".UpdateUserItem").load(function () {
-	    var main = $(window.parent.document).find(".UpdateUserItem");
-	    var thisheight = $(document).height() -3;
-	    console.log(thisheight);
-	    main.height(thisheight);
-    });*/
+
     
 	setHeight(num);
     //获取初始化页面
 	getInitPage();	
 
     $('#btnNext').click(function() {
-        num ++;
+        num ++;       
         if( num <= 4) {
             Next_step(num);
             $('#btnPre').addClass('btn-pre-use');
         } else if(num == 5) {
-            Next_step(num);
+            Next_step(num);           
             $('#btnSubmit').removeClass('hide');
-            $('#btnNext').addClass('hide');
+            $('#btnNext').addClass('hide');           
+            getInitAwardStaus();
         } else {
             num = 5;
         }
@@ -74,6 +65,10 @@ $(document).ready(function() {
     	}})
     });  
     
+    
+	$("#belongMonth").change(function(){ 
+		getInitAwardStaus();
+	});	
 });
 
 function Next_step(sum) {	
@@ -137,6 +132,7 @@ function getInitPage(){
     		if(data.success == true){    			 
     			 if(data.content != "" && data.content != null){
     				 page = data.content;
+    				 num = page;
     			 }    			
     		}  
     		setHeight(page);
@@ -146,6 +142,38 @@ function getInitPage(){
             $(".UpdateUserItem",parent.document.body).attr("src",new_src);*/
     	}
  	});
+}
+
+function getInitAwardStaus(){
+	var belongMonth = getBlongMonth();		
+	$.ajax({
+        url:ctx+ "/newAward/isShowSatButton" ,
+        method: "get",
+        dataType: "json",
+        data: {"belongMonth":belongMonth},
+        success: function(data){
+			
+        	if(data.success == true){					
+        		//iframe 父页面找子页面元素
+        		$(".UpdateUserItem").contents().find("#SatisButton").hide();	        		        		
+        		$(".UpdateUserItem").contents().find("#importButton").hide();					
+				$("#btnSubmit").addClass('hide');
+				if(num != 0){
+					$('#btnNext').addClass('hide');
+				}			
+        	
+        	}else{
+        		$(".UpdateUserItem").contents().find("#SatisButton").show();
+        		$(".UpdateUserItem").contents().find("#importButton").show();
+				        	
+        		$('#btnSubmit').removeClass('hide');
+        		    		
+        	}
+        },
+        error: function (e, jqxhr, settings, exception) {
+        	 
+        }  
+   })
 }
 
 
@@ -166,6 +194,7 @@ function initButtonClass(page){
 		if(page == 5){
             $('#btnSubmit').removeClass('hide');
             $('#btnNext').addClass('hide');
+            getInitAwardStaus();
 		}
 	}
 	num = page;
@@ -347,14 +376,14 @@ $('#datepicker_0').datepicker({
     startView: 'year',
     maxViewMode: 1,
     minViewMode:1,
-	todayBtn : 'linked',
+    endDate:'-1m',
 	language : 'zh-CN',
 });
 
-$('#datepicker_0').datepicker().on('hide', function(e){
+/*$('#datepicker_0').datepicker().on('hide', function(e){
 	$('#datepicker_0').datepicker('update');
 	//getInitPage();
-});
+});*/
 
 
 //获取计件年月信息

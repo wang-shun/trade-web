@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 <dicts>
-		<!-- <customDict id="getStatusNameByCode" beanName="qqcdDict30001"></customDict> -->
+	<customDict id="getCaseEfficientInfo" beanName="getCaseEfficientInfo"></customDict> 
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
-				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+				<property name="pattern">yyyy-MM-dd</property>
 			</properties>
 		</formatter>
 		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
@@ -36,25 +36,192 @@
 						e.DISPATCH_TIME AS dispatchTime
 					FROM sctrans.T_TS_CASE_EFFICIENT e
 					LEFT JOIN sctrans.T_TO_CASE c ON c.CASE_CODE = e.CASE_CODE
+					where 1=1
+					
+					<choose>
+						<when test="jobCode == 'consultant'">
+							--交易顾问登录
+							and c.LEADING_PROCESS_ID = #uid#
+						</when>
+						<otherwise>
+							--其他角色登录
+						    and ORG_ID IN (SELECT ORG_ID FROM sctrans.v_yucui_org_hierarchy orgHierarchy
+											WHERE (orgHierarchy.TEAM_ID = #oId# or orgHierarchy.DISTRICT_ID = #oId# or orgHierarchy.hq_id = #oId#))
+						</otherwise>
+					</choose>
+					
+					<choose>
+						<when test="inProgress == 'paidan'">
+							 <ifNotNull beginDateTime>
+							 	--派单环节开始时间查询
+							 	and e.DISPATCH_TIME >= #beginDateTime#  
+						     </ifNotNull>
+						  
+						     <ifNotNull endDateTime>
+						     	--派单结束时间查询
+						     	AND e.DISPATCH_TIME &lt;= #endDateTime#  
+						      </ifNotNull> 
+						</when>
+						
+						<when test="inProgress == 'firstFollow'">
+							<ifNotNull beginDateTime>
+								--首次跟进环节开始时间查询
+							 	and e.FIRSTFOLLOW_TIME >= #beginDateTime#  
+						     </ifNotNull>
+						  
+						     <ifNotNull endDateTime>
+						     	--首次跟进环节结束时间查询
+						     	AND e.FIRSTFOLLOW_TIME &lt;= #endDateTime#  
+						     </ifNotNull> 
+						</when>
+						
+						<when test="inProgress == 'sign'">
+							<ifNotNull beginDateTime>
+								--签约环节开始时间查询
+							 	and e.SIGN_TIME >= #beginDateTime#    
+						     </ifNotNull>
+						  
+						     <ifNotNull endDateTime>
+						     	--签约环节结束时间查询
+						     	AND e.SIGN_TIME &lt;= #endDateTime#   
+						      </ifNotNull> 
+						</when>
+						
+						<when test="inProgress == 'guohu'">
+							<ifNotNull beginDateTime>
+								--过户环节开始时间查询
+							 	and e.GUOHU_TIME >= #beginDateTime#    
+						     </ifNotNull>
+						  
+						     <ifNotNull endDateTime>
+						     	--过户环节结束时间查询
+						     	AND e.GUOHU_TIME &lt;= #endDateTime#   
+						     </ifNotNull> 
+						</when>
+						
+						<when test="inProgress == 'caseClose'">
+							<ifNotNull beginDateTime>
+								--结案环节开始时间查询
+							 	and e.CASECLOSE_TIME >= #beginDateTime#   
+						     </ifNotNull>
+						  
+						     <ifNotNull endDateTime>
+						     	--结案环节结束时间查询
+						     	AND e.CASECLOSE_TIME &lt;= #endDateTime#   
+						     </ifNotNull>
+						</when>
+						
+						<when test="inProgress == ''">
+							 <ifNotNull beginDateTime>
+							 	--以下是所有环节时间查询
+							 	and e.DISPATCH_TIME >= #beginDateTime#   
+						     </ifNotNull>
+						  
+						     <ifNotNull endDateTime>
+						     	AND e.DISPATCH_TIME &lt;= #endDateTime#
+						      </ifNotNull> 
+						      
+						      <ifNotNull beginDateTime>
+							 	and e.FIRSTFOLLOW_TIME >= #beginDateTime#
+						     </ifNotNull>
+						  
+						     <ifNotNull endDateTime>
+						     	AND e.FIRSTFOLLOW_TIME &lt;= #endDateTime#
+						     </ifNotNull> 
+						     
+						     <ifNotNull beginDateTime>
+							 	and e.SIGN_TIME >= #beginDateTime#
+						     </ifNotNull>
+						  
+						     <ifNotNull endDateTime>
+						     	AND e.SIGN_TIME &lt;= #endDateTime#
+						      </ifNotNull>
+						      
+						      <ifNotNull beginDateTime>
+							 	and e.GUOHU_TIME >= #beginDateTime#
+						      </ifNotNull>
+						  
+						      <ifNotNull endDateTime>
+						     	AND e.GUOHU_TIME &lt;= #endDateTime#
+						      </ifNotNull>  
+						
+							  <ifNotNull beginDateTime>
+							 	and e.CASECLOSE_TIME >= #beginDateTime#
+						      </ifNotNull>
+						  
+						      <ifNotNull endDateTime>
+						     	AND e.CASECLOSE_TIME &lt;= #endDateTime#
+						      </ifNotNull>
+						</when>
+					</choose>
+					
+					<choose>
+						<when test="status == 'progressing'">
+							--查询进行中的案件时效信息
+							and e.CASECLOSE_TIME is null    
+						</when>
+						
+						<when test="status == 'completed'">
+							 --查询已完成的案件时效信息
+							and e.CASECLOSE_TIME is not null  
+						</when>
+					</choose>
+					
+					<choose>
+						<when test="overdue == 'curOverdued'">
+							--查询当前逾期的案件时效信息
+							and e.CASECLOSE_TIME is null and DATEDIFF(day,e.CUR_OVERDUE_TIME,GETDATE()) > 0  
+						</when>
+						
+						<when test="overdue == 'overdued'">
+							--查询有逾期的案件时效信息
+							and e.HIS_OVERDUE_COUNT > 0   
+						</when>
+						
+						<when test="overdue == 'noOverdued'">
+							--查询无逾期的案件时效信息
+							and e.HIS_OVERDUE_COUNT = 0   
+						</when>
+					</choose>
+					
+					<choose>
+						<when test="delay == 'curDelayed'">
+							--查询当前延期的案件时效信息
+							and e.CUR_DELAY_COUNT > 0   
+						</when>
+						
+						<when test="delay == 'delayed'">
+							--查询有延期的案件时效信息
+							and e.CUR_DELAY_COUNT = 0 and (e.FIRSTFOLLOW_DLY + e.SIGN_DLY + e.GUOHU_DLY + e.CASECLOSE_DLY) > 0   
+						</when>
+						
+						<when test="delay == 'noDelayed'">
+							--查询无延期的案件时效信息
+							and (e.FIRSTFOLLOW_DLY + e.SIGN_DLY + e.GUOHU_DLY + e.CASECLOSE_DLY) = 0   
+						</when>
+					</choose>
 				]]>
 			</baseSql>
 			<orderBySql>
+				order by e.PKID DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="pkid" index="" checkbox="" display="案件id" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="caseCode" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="leadingProcessName" index="" checkbox="" display="主办人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" index="" checkbox="" display="派单时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<!-- <column type="virtual" isDynamicDict="true"
-					name="FONT_NAME,SELLER,BUYER,PROCESSOR_ID,CASE_PROPERTY_SHOW,STATUS,RED_COUNT"
-					referencecol="CASE_CODE,CASE_PROPERTY,STATUS_OLD" 
-					title="前台组人员,上家,下家,经办人,上家,案件状态"
-					display="前台组人员,上家,下家,经办人,上家,案件状态"
-					customDict="getCaseOverviewInfo" /> -->
+				<column type="both" name="pkid" index="" checkbox=""  display="案件id" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="caseCode" index="" checkbox="" title="案件编号" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="leadingProcessName" index="" checkbox="" title="主办人" display="主办人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="dispatchTime" beanFormatter="dateFormatter" title="派单时间" index="" checkbox="" display="派单时间" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				
+				<column type="virtual" isDynamicDict="true"
+					name="firstFollowDateTime,signDateTime,guohuDateTime,caseCloseDateTime,firstFollowEffInfo,signEffInfo,guohuEffInfo,caseCloseEffInfo,totalEff,caseCloseDelayList,guohuDelayList,signDelayList,firstFollowDelayList,firstFollowTime,firstFollowOverdueTime,firstFollowEff,firstFollowDly,signTime,signOverdueTime,signEff,signDly,guohuTime,guohuOverdueTime,guohuEff,guohuDly,caseCloseTime,caseCloseOverdueTime,caseCloseEff,caseCloseDly,inProgress"
+					referencecol="caseCode" 
+					title = "首次跟进完成时间,签约完成时间,过户完成时间,结案完成时间,首次跟进,签约,过户,结案,累计,结案延期原因列表,过户延期原因列表,
+					签约延期原因列表,首次跟进原因列表,首次跟进环节用时,首次跟进逾期时间,首次跟进时效标准,首次跟进延期次数,签约环节用时,签约逾期时间,签约时效标准,签约延期次数,
+					过户环节用时,过户逾期时间,过户时效标准,过户延期次数,结案环节用时,结案逾期时间,结案时效标准,结案延期次数,所处环节"
+					customDict="getCaseEfficientInfo" /> 
 			</table-row>
 		</grid>
 	</query>

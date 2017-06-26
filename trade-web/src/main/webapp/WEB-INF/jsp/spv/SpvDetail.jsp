@@ -12,23 +12,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>监管合约详情</title>
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 
 <!-- stickUp fixed css -->
 <link rel="stylesheet"
-	href="${ctx}/static/trans/css/common/stickmenu.css">
-<link href="${ctx}/static/css/plugins/stickup/stickup.css"
+	href="<c:url value='/static/trans/css/common/stickmenu.css' />">
+<link href="<c:url value='/static/css/plugins/stickup/stickup.css' />"
 	rel="stylesheet">
-<link href="${ctx}/static/css/plugins/aist-steps/steps.css"
+<link href="<c:url value='/static/css/plugins/aist-steps/steps.css' />"
 	rel="stylesheet">
-<link href="${ctx}/static/css/plugins/toastr/toastr.min.css"
+<link href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />"
 	rel="stylesheet">
 
 <!-- index_css  -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/input.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/see.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/spv/spv.css" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/table.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/input.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/see.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/spv/spv.css' />" />
 
 </head>
 <body>

@@ -4,25 +4,25 @@
 <html>
 <head>
 	<!-- 图标 -->
-    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+    <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
     <!-- Toastr style -->
-    <link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
     <!-- Gritter -->
-	<link href="${ctx}/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+	<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
     <!-- Data Tables -->
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.bootstrap.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.responsive.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
     <!-- 分页控件 -->
-    <link href="${ctx}/static/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+    <link href="<c:url value='/static/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 	<!-- aist列表样式 -->
-<%--     <link href="${ctx}/static/css/common/aist.grid.css" rel="stylesheet"> --%>
+<%--     <link href="<c:url value='/static/css/common/aist.grid.css' />" rel="stylesheet"> --%>
     <!-- jQuery UI -->
-    <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
     <!-- index_css -->
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/base.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
 	
 	<script>
 		var optTransferRole=false;
@@ -67,20 +67,20 @@
 <!--*********************** HTML_main*********************** -->
 <content tag="local_script"> 
     <!-- js模板引擎 -->
-    <script src="${ctx}/static/js/template.js"></script>
+    <script src="<c:url value='/static/js/template.js' />"></script>
     <!-- 分页控件  -->
-    <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+    <script src="<c:url value='/static/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
     <!-- jQuery UI -->
-    <script src="${ctx}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script>
     <!-- blockUI -->
-	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
     <!-- 组织 -->
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>    
     <!-- 自定义扩展jQuery库 -->
-    <script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
-    <script src="${ctx}/static/js/plugins/aist/aist.jquery.custom.js"></script>
+    <script src="<c:url value='/static/js/plugins/jquery.custom.js' />"></script>
+    <script src="<c:url value='/static/js/plugins/aist/aist.jquery.custom.js' />"></script>
     <!-- owner -->    
-    <script src="${ctx}/static/trans/js/property/processWaitList.js"></script>
+    <script src="<c:url value='/static/trans/js/property/processWaitList.js' />"></script>
 	<script id="template_processWaitList" type= "text/html">
     	{{each rows as item index}}
  			<tr>

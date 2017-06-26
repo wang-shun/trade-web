@@ -13,18 +13,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
+<link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 
 <!-- 新调整页面样式 -->
-<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
-<link href="${ctx}/css/common/details.css" rel="stylesheet">
-<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
-<link href="${ctx}/css/common/btn.css" rel="stylesheet">
-<link href="${ctx}/css/common/input.css" rel="stylesheet">
-<link href="${ctx}/css/common/table.css" rel="stylesheet">
+<link href="<c:url value='/css/common/caseDetail.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
+<link href="<c:url value='/css/iconfont/iconfont.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
 
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -144,20 +144,20 @@
 		<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 		
 		<content tag="local_script"> 
-			<script	src="${ctx}/js/plugins/peity/jquery.peity.min.js"></script> 
-			<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-			<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-			<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
-			<script	src="${ctx}/js/plugins/dropzone/dropzone.js"></script> 
-			<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-			<script src="${ctx}/js/jquery.blockui.min.js"></script>
-			<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
-			<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-			<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-			<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+			<script	src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script> 
+			<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+			<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
+			<script src="<c:url value='/transjs/common/caseTaskCheck.js' />"></script> 
+			<script	src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> 
+			<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+			<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
+			<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+			<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+			<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+			<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 			<!-- 改版引入的新的js文件 -->
-			<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
-			<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
+			<script src="<c:url value='/js/common/textarea.js' />"></script>
+			<script src="<c:url value='/js/common/common.js' />"></script>
 			
 			<script>
 				$(document).ready(function() {

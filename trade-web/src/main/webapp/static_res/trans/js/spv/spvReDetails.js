@@ -436,7 +436,8 @@ function cleanPkid(){
  * 回调刷新方法
  */
 function rescCallbocak(){
-	window.location.href = ctx+"/spv/spvList";
+	 window.opener.location.reload(); //刷新父窗口
+     window.close(); //关闭子窗口.
 }
 
 function changeClass(object){

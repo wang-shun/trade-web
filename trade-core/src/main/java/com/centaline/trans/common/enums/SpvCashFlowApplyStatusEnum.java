@@ -12,13 +12,16 @@ public enum SpvCashFlowApplyStatusEnum {
 	FINANCEADUIT("02", "财务审核"),
 	/**审核完成**/
 	AUDITCOMPLETED("03", "审核完成"),
+    /**三方监管**/
+    THREEPARTIES("04","三方监管"),
 	
 	/**出账*/
 	OUTDRAFT("10","出账起草"),
 	OUTDIRECTORAUDIT("11","总监审批"),
 	OUTFINANCEAUDIT("12", "财务初审"),
 	OUTFINANCE2AUDIT("13", "财务复审"),
-	OUTAUDITCOMPLETED("14", "审核完成");
+	OUTAUDITCOMPLETED("14", "审核完成"),
+    OUTTHREEPARTIES("15","三方监管");
     
     private String name;
 

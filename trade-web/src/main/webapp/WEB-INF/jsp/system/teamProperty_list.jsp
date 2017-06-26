@@ -11,20 +11,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Toastr style -->
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 
 <!-- Gritter -->
-<link href="${ctx}/js/plugins/gritter/jquery.gritter.css"
+<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />"
 	rel="stylesheet">
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">
 
-<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
 
 <style type="text/css">
 .radio.radio-inline>label {
@@ -51,6 +51,12 @@
 .modal-text{
 margin-left: 15px;
 }
+.ibox-height{
+height:250px;
+}
+.searchForm-height{
+height:160px;
+}
 </style>
 </head>
 
@@ -58,30 +64,29 @@ margin-left: 15px;
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-12 ibox-height">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>誉萃组别配置</h5>
 				</div>
 				<div class="ibox-content">
-					<form id="searchForm" method="get" class="form-horizontal">
+					<form id="searchForm" method="get" class="form-horizontal searchForm-height">
 						<div class="form-group ">
 							<label class="col-sm-2 control-label">组别编码</label>
 							
-							<div class="col-sm-5">
+							<div class="col-sm-2">
 							<input id="search_yuTeamCode" type="text" class="form-control">
 							</div>
-						</div>
-						<div class="form-group ">
+
 							<label class="col-sm-2 control-label">组别名称</label>
 							
-							<div class="col-sm-5">
+							<div class="col-sm-2">
 							<input id="search_orgName" type="text" class="form-control">
 							</div>
 						</div>
 						<div class="form-group ">
 							<label class="col-sm-2 control-label">主组别</label>
-							<div class="radio i-radios radio-inline">
+							<div class="radio i-radios radio-inline col-sm-2">
 								<label> <input type="radio" value="-1" id="search_isResponseTeam0"
 									name="search_isResponseTeam" selected> 全部
 								</label> <label> <input type="radio" value="1" id="search_isResponseTeam1"
@@ -90,10 +95,9 @@ margin-left: 15px;
 									name="search_isResponseTeam"> 否
 								</label>
 							</div>
-						</div>
-						<div class="form-group ">
+						
 							<label class="col-sm-2 control-label">自行选择</label>
-							<div class="radio i-radios radio-inline">
+							<div class="radio i-radios radio-inline col-sm-2">
 								<label> <input type="radio" value="-1" id="search_freeSelect0"
 									name="search_freeSelect" selected> 全部
 								</label> <label> <input type="radio" value="1" id="search_freeSelect1"
@@ -152,7 +156,7 @@ margin-left: 15px;
 				<form method="post" id="editForm" class="form-horizontal" action="saveEvalItem">
 				<div id="modal-data-show" class="modal-body">
 					<input type="hidden" id="pkId" value=""/>
-					
+					<input type="hidden" id="orgId" value=""/>
 						<div id="teamDiv" class="form-group ">
 							
 						</div>
@@ -199,11 +203,11 @@ margin-left: 15px;
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="saveMsg" value="${saveMsg}" />
 <content tag="local_script"> 
-	<script	src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script> 
-	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-    <script src="${ctx}/js/jquery.blockui.min.js"></script>
-	<script	src="${ctx}/js/trunk/system/teamProperty_list.js"></script> 
+	<script	src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
+    <script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
+	<script	src="<c:url value='/js/trunk/system/teamProperty_list.js' />"></script> 
  </content>
 </body>
 </html>

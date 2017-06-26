@@ -8,22 +8,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>修改case info</title>
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet" />
-<link href="${ctx}/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-<link href="${ctx}/css/plugins/toastr/toastr.min.css" rel="stylesheet" />
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet" />
+<link href="<c:url value='/fonts/font-awesome/css/font-awesome.min.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet" />
 <!-- IonRangeSlider -->
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet" />
-<link href="${ctx}/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet" />
-<link href="${ctx}/css/animate.css" rel="stylesheet" />
-<%-- <link href="${ctx}/css/style.min.css" rel="stylesheet">  --%>
-<link href="${ctx}/css/transcss/award/bonus.css" rel="stylesheet" />
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet" />
+<%-- <link href="<c:url value='/css/style.min.css' />" rel="stylesheet">  --%>
+<link href="<c:url value='/css/transcss/award/bonus.css' />" rel="stylesheet" />
 <!-- Gritter -->
 <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet" />
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css">
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />">
 <!-- aist列表样式 -->
-<%-- <link href="${ctx}/css/common/aist.grid.css" rel="stylesheet"> --%>
+<%-- <link href="<c:url value='/css/common/aist.grid.css' />" rel="stylesheet"> --%>
 </head>
 <body class="pace-done">
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -170,10 +170,10 @@
 	<!-- Mainly scripts -->
 	<content tag="local_script">
 	<!-- 分页控件  -->
-        <script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-        <script src= "${ctx}/js/template.js" type="text/javascript" ></script>
-       	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
-       	  <script src="${ctx}/js/plugins/jquery.custom.js"></script>
+        <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+        <script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+       	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+       	  <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
 	 
 	<!-- 组织控件 --> 
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
@@ -193,8 +193,8 @@
 					<td class="center">{{item.TARGET_NAME}} </td>
 				</tr>
        {{/each}}
-	</script> <script src="${ctx}/js/inspinia.js" /> <script
-		src="${ctx}/js/plugins/pace/pace.min.js"></script> <script>
+	</script> <script src="<c:url value='/js/inspinia.js' />" /> <script
+		src="<c:url value='/js/plugins/pace/pace.min.js' />"></script> <script>
 			$(document).ready(function() {
 				$('#modifTagetCode').click(function() {
 					modifTagetCode();

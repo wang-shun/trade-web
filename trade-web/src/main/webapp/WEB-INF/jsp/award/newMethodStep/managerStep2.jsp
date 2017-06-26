@@ -30,12 +30,15 @@
 <link href="<c:url value='/css/plugins/pager/centaline.pager.css'/>"  rel="stylesheet" />
 <link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css'/>"  rel="stylesheet" />
 
-<style> .modal-backdrop { z-index: 0; position:relative!important; } </style>
+<style> 
+.modal-backdrop { z-index: 0; position:relative!important; } 
+.error_td { text-align:left }
+</style>
 
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/jsp/common/excelImport.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/excelImport_new.jsp"></jsp:include>
 <div class="wrapper wrapper-content animated fadeInRight">
    <div class="ibox-content border-bottom clearfix space_box">
        <div class="clearfix"> 
@@ -107,7 +110,7 @@
     
     <!-- 失败数据 -->
         <div id="error-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
-          <div class="modal-dialog" style="width:1200px">
+          <div class="modal-dialog" style="width:800px">
              <div class="modal-content">
                  <div class="modal-header">
 				   <button type="button" class="close" data-dismiss="modal"
@@ -133,10 +136,10 @@
                            <tbody>
                            <c:forEach items="${errorList}"  var="item">
                            <tr>
-                               <td>${item.userName }</td>
-                               <td>${item.employeeCode }</td>
-                               <td>${item.finOrder }</td>
-                               <td>${item.errorMessage }</td>
+                               <td class="error_td">${item.userName }</td>
+                               <td class="error_td">${item.employeeCode }</td>
+                               <td class="error_td">${item.finOrder }</td>
+                               <td class="error_td">${item.errorMessage }</td>
                            </tr>
                            </c:forEach>
                             
@@ -255,23 +258,23 @@
 	</c:if>
 	var sw;
     $(document).ready(function(){
-    	 
+    	isShowSatButton();
     	//初始化日期控件
-    	var monthSel=new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid});
+    	var monthSel = new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid}); 
     	
     	// 滑块
-    	sw=$('#moSwitch').bootstrapSwitch({
+    	/* sw = $('#moSwitch').bootstrapSwitch({
     		'onText':"上月",
     		'offText':'当月'
-    	}).on('switchChange.bootstrapSwitch', function(e, data) {
-		});
+    	     }).on('switchChange.bootstrapSwitch', function(e, data) {
+		}); */  
     	// 是否显示错误信息
     	if(!!hasError){
     		$('#error-modal-form').modal("show");
     	} 
     	 $("#importButton").click(function(){
     		//iframe层
-        	layer.open({
+         layer.open({
         	  type: 1,
         	  title: '导入月度KPI明细页',
         	  shadeClose: true,
@@ -282,7 +285,7 @@
         	  btn: ['提交','关闭'],
         	  yes: function(index){
         			  layer.close(i);
-        			  var i =sw.bootstrapSwitch('state')?'0':'1';
+        			  var i = 0;//sw.bootstrapSwitch('state')?'0':'1';
             		  // 上月
             		  var bm;
             		  if(i=='0') {
@@ -291,8 +294,7 @@
             			  bm = cDate.format('yyyy-MM-dd');
             		  } else {
             			  bm = new Date().format('yyyy-MM-dd');
-            		  }
-            		  
+            		  } 
             		  var isKpiMoney = isGenerKpiMoney(bm);
             		  if(isKpiMoney) {
            		    	layer.alert('绩效奖金已经生成,不能重复导入!', {
@@ -307,9 +309,10 @@
            		    	 $("#excelInForm").attr("action",ctx+"/award/doMonthKpiImportForNew"); 
            		    	 $("#excelInForm").attr("method","POST"); 
            		    	 
+           		    	 
            		    	 $("#belongMonth").remove();
            		    	 var inputMonth = $("<input type=\"hidden\" id=\"belongMonth\" name=\"belongMonth\"/>");
-           		    	 var i =sw.bootstrapSwitch('state')?'0':'1';
+           		    	 var i = 0;//sw.bootstrapSwitch('state')?'0':'1';
            		    	 inputMonth.val(i);
            		    	 $('#excelInForm').append(inputMonth);
            		    	 $('#excelInForm').submit();
@@ -319,7 +322,8 @@
         	  },
         	  cancel: function(index){  layer.close(index); }
         	});
-    	}) 
+    	})
+    	
     	$('#cleanButton').click(function() {
  			$("input[name='teamCode']").val('');
  			$("input[name='yuCuiOriGrpId']").val('');
@@ -356,6 +360,43 @@
     	return isKpiMoney;
     }
     
+
+    function isShowSatButton(){
+    	var belongMonth = getBlongMonth();
+    	$.ajax({
+            url:ctx+ "/newAward/isShowSatButton" ,
+            method: "get",
+            dataType: "json",
+            data: {"belongMonth":belongMonth},
+
+            success: function(data){        
+            	if(data.success == true){			  
+            		$("#importButton").hide();
+            	}
+            },
+            error: function (e, jqxhr, settings, exception) {
+            	 
+            }  
+       })
+    }
+ 	
+
+	  //获取计件年月信息
+	  function getBlongMonth(){
+	  	var bm = "";	
+	  	//方式一
+	  	var belongMonth =  $.trim($("#belongMonth",window.parent.document).val());
+	  	//方式二
+	  	//var belongMonth1 = parent.document.getElementById("belongMonth").value;
+	    if(belongMonth =="" || belongMonth == null || belongMonth == undefined){
+	    	bm == null;
+	    }else{
+	    	bm = belongMonth + "-01";
+	    }
+	    return bm;
+	  }
+	  
+	  
     </script>
  </content>
 </body>

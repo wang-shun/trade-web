@@ -29,6 +29,16 @@ $(document).ready(function() {
 		offsetX: 8,
 		offsetY: 5,
 	});	
+	//left
+	$('.demo-left').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'left',
+		alignY: 'center',
+		offsetX: 8,
+		offsetY: 5,
+	});
 });
 
 
@@ -116,6 +126,17 @@ function initpage(totalCount, pageSize, currentPage, records) {
 			alignY : 'top',
 			offsetX : 8,
 			offsetY : 5,
+		});
+		//right
+		//left
+		$('.demo-left').poshytip({
+			className: 'tip-twitter',
+			showTimeout: 1,
+			alignTo: 'target',
+			alignX: 'left',
+			alignY: 'center',
+			offsetX: 8,
+			offsetY: 5,
 		});
 	});
 

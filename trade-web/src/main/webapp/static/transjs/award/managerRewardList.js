@@ -217,7 +217,10 @@ function getParams() {
 	var realName = $.trim($("#realName").val());
 	var orgName = $.trim($("#organName").val());
 	var data = {};
-	data.belongMonth = belongMonth;
+	
+	var bmTime = getTimeInt(belongMonth);	
+	
+	data.belongMonth = bmTime;
 	data.realName = realName;
 	data.orgName = orgName;
 	return data;
@@ -233,6 +236,18 @@ function changeStyle(){
 }
 
 
+function getTimeInt(belongMonthTime){	
+	var standard = '2017-05';
+	var dateTimeFlag = new Date(standard).getTime();
+
+	var bmDate = new Date(belongMonthTime).getTime();
+
+	if(bmDate < dateTimeFlag){		
+		return standard;
+	}
+	return belongMonthTime;
+	
+}
 
 //获取计件年月信息
 function getBlongMonth(){

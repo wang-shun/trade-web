@@ -715,13 +715,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 		workFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(workFlow);
 
-		// 首次开启流程时间为申请时间,当前交易顾问为申请人
-		if (spvBaseInfoVO.getToSpv().getApplyTime() == null) {
-			spvBaseInfoVO.getToSpv().setApplyTime(new Date());
-		}
-		if (spvBaseInfoVO.getToSpv().getRiskControlOfficer() == null){
-			spvBaseInfoVO.getToSpv().setRiskControlOfficer(RiskControlOfficer.getId());
-		}
+		// 开启流程时间为申请时间,当前交易顾问为申请人
+		spvBaseInfoVO.getToSpv().setApplyTime(new Date());
+		spvBaseInfoVO.getToSpv().setRiskControlOfficer(RiskControlOfficer.getId());
 		spvBaseInfoVO.getToSpv().setStatus(SpvStatusEnum.AUDIT.getCode());
 		toSpvMapper.updateByPrimaryKeySelective(spvBaseInfoVO.getToSpv());
 
@@ -1322,20 +1318,20 @@ public class ToSpvServiceImpl implements ToSpvService {
 	/**
 	 * @Title: saveSpvChargeInfoVObyIn
 	 * @Description: 保存saveSpvChargeInfoVO信息
-	 * @author: hejf 
+	 * @author: hejf
 	 * @param SpvRecordedsVO
 	 * @throws
 	 */
 	@Override
 	public void saveSpvChargeInfoVObyIn(SpvRecordedsVO spvRecordedsVO,String handle,String spvApplyCode) throws Exception{
-		
+
 		if(null == spvRecordedsVO){ throw new BusinessException("申请信息数据为空！"); }
-		
+
 		SessionUser user = uamSessionService.getSessionUser();
 		ToSpvCashFlowApply toSpvCashFlowApply = new ToSpvCashFlowApply();
 		List<SpvRecordedsVOItem> spvRecordedsVOItems = spvRecordedsVO.getItems();
-		
-		/**申请  ToSpvCashFlowApply**/	
+
+		/**申请  ToSpvCashFlowApply**/
 		if("apply".equals(handle)){
 			toSpvCashFlowApply = toSpvCashFlowApplyMapper.selectByCashFlowApplyCode(spvRecordedsVO.getBusinessKey());
 			List<ToSpvCashFlow> toSpvCashFlowList = toSpvCashFlowMapper.selectByCashFlowApplyId(Long.valueOf(toSpvCashFlowApply.getPkid()));
@@ -2031,6 +2027,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		SessionUser user = uamSessionService.getSessionUser();
 		//获取合约监管账户信息
 		String spvCode = spvChargeInfoVO.getToSpvCashFlowApply().getSpvCode();
+		User riskControlDirector = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getServiceDepId(), "JYFKZJ");
 		/**1.申请*/
 		ToSpvCashFlowApply toSpvCashFlowApply = spvChargeInfoVO.getToSpvCashFlowApply();
 		String spvApplyCode = createSpvApplyCode();
@@ -2038,7 +2035,9 @@ public class ToSpvServiceImpl implements ToSpvService {
 			toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);
 		}
 		if(toSpvCashFlowApply.getPkid() == null){
-			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.OUTAUDITCOMPLETED.getCode());
+			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.OUTTHREEPARTIES.getCode());
+			toSpvCashFlowApply.setApplier(user.getId());
+			toSpvCashFlowApply.setApplyAuditor(riskControlDirector.getId());
 			toSpvCashFlowApply.setCreateBy(user.getId());
 			toSpvCashFlowApply.setCreateTime(new Date());
 			toSpvCashFlowApply.setIsDeleted("0");
@@ -2112,6 +2111,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 				if(toSpvCashFlow.getPkid() == null){
 					toSpvCashFlow.setCashflowApplyId(toSpvCashFlowApply.getPkid());
 					toSpvCashFlow.setSpvCode(toSpvCashFlowApply.getSpvCode());
+					toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.OUTTHREEPARTIES.getCode());
 					toSpvCashFlow.setCreateBy(user.getId());
 					toSpvCashFlow.setCreateTime(new Date());
 					toSpvCashFlow.setIsDeleted("0");
@@ -2229,10 +2229,10 @@ public class ToSpvServiceImpl implements ToSpvService {
 			toSpvCashFlowApply.setSpvCode(spvRecordedsVO.getSpvConCode());/**监管合约内部编号**/
 			toSpvCashFlowApply.setCashflowApplyCode(spvApplyCode);/**流水申请编号**/
 			toSpvCashFlowApply.setUsage("in");
-			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.DIRECTORADUIT.getCode());/**状态**/
+			toSpvCashFlowApply.setStatus(SpvCashFlowApplyStatusEnum.THREEPARTIES.getCode());/**状态**/
 			toSpvCashFlowApply.setIsDeleted("0");/**是否删除**/
 			toSpvCashFlowApply.setApplier(user.getId());/**申请人**/
-			toSpvCashFlowApply.setApplyAuditor(riskControlDirector.getId());/**申请复审人**/
+			toSpvCashFlowApply.setApplyAuditor(riskControlDirector.getId());/**审批人**/
 			toSpvCashFlowApply.setCreateTime(new Date());/**创建时间**/
 			toSpvCashFlowApply.setCreateBy(user.getId());/**创建人**/
 			toSpvCashFlowApplyMapper.insertSelective(toSpvCashFlowApply);
@@ -2265,7 +2265,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 			}	
 			toSpvCashFlow.setReceiptTime(spvRecordedsVOItems.get(i).getCashFlowCreateTime());/**回单生成时间**/
 			toSpvCashFlow.setInputTime(new Date());/**录入日期**/
-			toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.AUDITCOMPLETED.getCode());
+			toSpvCashFlow.setStatus(SpvCashFlowApplyStatusEnum.THREEPARTIES.getCode());
 			toSpvCashFlow.setIsDeleted("0");/**是否删除**/
 			toSpvCashFlow.setCreateTime(new Date());/**创建时间**/
 			toSpvCashFlow.setCreateBy(user.getId());/**创建人**/

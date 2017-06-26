@@ -405,6 +405,31 @@ public class AttachmentController {
 
 	}
 
+	@RequestMapping(value = "/fileUpload" )
+	@ResponseBody
+	public Object fileUpload(String fileList,String caseCode,String partCode) {
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		try{
+			String fileId[] =fileList.split(",");
+			for (String id : fileId){
+				if(id.length()>2){
+					ToAttachment attach=new ToAttachment();
+					attach.setAvailable("Y");
+					attach.setPreFileAdress(id);
+					attach.setCaseCode(caseCode);
+					toAttachmentService.updateToAttachmentForCaseCodeByAdres(attach);
+				}
+			}
+			ajaxResponse.setSuccess(true);
+			ajaxResponse.setMessage("保存成功");
+		}catch(Exception e){
+			e.printStackTrace();
+			ajaxResponse.setSuccess(false);
+			ajaxResponse.setMessage("保存失败");
+		}
+		return ajaxResponse;
+	}
+
 	private HttpClient createHttpClient() {
 		// 设置Base Auth验证信息
 		CredentialsProvider provider = new BasicCredentialsProvider();

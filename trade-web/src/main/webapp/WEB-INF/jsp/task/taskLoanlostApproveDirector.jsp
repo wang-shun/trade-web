@@ -15,31 +15,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- jdGrid相关 -->
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="${ctx}/css/animate.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
-<link href="${ctx}/css/style.css" rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">
 
-<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
-<link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
-<link href="${ctx}/css/transcss/comment/caseComment.css"	rel="stylesheet">
-<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/transcss/comment/caseComment.css' />"	rel="stylesheet">
+<link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
 
 <!-- 新调整页面样式 -->
-<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
-<link href="${ctx}/css/common/details.css" rel="stylesheet">
-<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
-<link href="${ctx}/css/common/btn.css" rel="stylesheet">
-<link href="${ctx}/css/common/input.css" rel="stylesheet">
-<link href="${ctx}/css/common/table.css" rel="stylesheet">
+<link href="<c:url value='/css/common/caseDetail.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
+<link href="<c:url value='/css/iconfont/iconfont.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
 <!-- 新调整页面样式 -->
-<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
-<link href="${ctx}/css/common/details.css" rel="stylesheet">
-<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
-<link href="${ctx}/css/common/btn.css" rel="stylesheet">
-<link href="${ctx}/css/common/input.css" rel="stylesheet">
-<link href="${ctx}/css/common/table.css" rel="stylesheet">
+<link href="<c:url value='/css/common/caseDetail.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
+<link href="<c:url value='/css/iconfont/iconfont.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -181,7 +181,7 @@
         </div>
         <div class="clearfix">
             <h2 class="newtitle title-mark">附件浏览：贷款自办确认函、贷款流失申请书</h2>
-            <div class="ibox-content">
+            <div class="ibox-content" style="border: none;">
 			<div id="imgShow" class="lightBoxGallery"></div>
 		</div>
         </div>
@@ -203,22 +203,21 @@
         </div>
 	</div>
 	<content tag="local_script"> <!-- jqGrid --> 
-	<script	src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script> 
-	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
-	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script> 
+	<script	src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
+	<script	src="<c:url value='/transjs/task/loanlostApprove.js' />"></script>
 	<!-- 图片查看JS -->
-	<script src="${ctx}/js/trunk/case/showCaseAttachmentGuohu.js"></script>
-	<script src="${ctx}/js/jquery.blockui.min.js"></script> 
-	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script> 
-	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-	<script	src="${ctx}/js/template.js" type="text/javascript"></script> 
-	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script> 
-	<script	src="${ctx}/js/viewer/viewer.min.js"></script> 
-	<script src="${ctx}/js/stickUp.js"></script>
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
+	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+	<script	src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+	<script	src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+	<script	src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+	<script	src="<c:url value='/js/viewer/viewer.min.js' />"></script>
+	<script src="<c:url value='/js/stickUp.js' />"></script>
 	
 	<!-- 改版引入的新的js文件 -->
-	<script src="${ctx}/js/common/textarea.js?v=1.0.1"></script>
-	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>	 
+	<script src="<c:url value='/js/common/textarea.js' />"></script>
+	<script src="<c:url value='/js/common/common.js' />"></script>
 	<script>
 			$(function() {
 				getShowAttachment();
@@ -289,7 +288,8 @@
 					}
 				});
 			}
-		</script> </content>
+		</script>
+	</content>
 </body>
 
 

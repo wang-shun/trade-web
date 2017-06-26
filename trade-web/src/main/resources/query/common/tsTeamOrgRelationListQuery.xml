@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getPropertyNameByCode" beanName="qqcdDictYucuiTeamCat"></customDict>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+</dicts>
+	
+  	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	
+	<query id="queryTsTeamOrgRelationList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					    A.PKID,
+					    A.ORIGIN_ORG_ID ,
+	   				    A.TARGET_ORG_ID,
+	   				    A.AVAILABLE,
+	   				    A.AVAILABLE AS AVAILABLE_NAME,
+					    (select b.ORG_NAME from  sctrans.SYS_ORG B where A.ORIGIN_ORG_ID = B.ID) as orginName ,
+					    (select b.ORG_NAME from  sctrans.SYS_ORG B where A.TARGET_ORG_ID = B.ID) as backName
+					FROM 
+					  	sctrans.T_TS_ORG_REALATION A
+					WHERE 
+						A.IS_DELETED = 0 
+						and exists(select 1 from sctrans.SYS_ORG ORG where ORG.ID = A.ORIGIN_ORG_ID AND ORG.IS_DELETED = 0 AND ORG.AVAILABLE = 1)
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY orginName DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="ORIGIN_ORG_ID" index="" checkbox="" display="ORIGIN_ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="TARGET_ORG_ID" index="" checkbox="" display="TARGET_ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="orginName" index="" checkbox="" display="前台组" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="backName" index="" checkbox="" display="后台组" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="AVAILABLE" index="" checkbox="" display="状态" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="AVAILABLE_NAME" index="" checkbox="" display="状态" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

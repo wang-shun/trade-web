@@ -9,28 +9,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>过户
     </title>
-    <link rel="stylesheet" href="${ctx}/static/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="${ctx}/static/font-awesome/css/font-awesome.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/animate.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/style.css" />
+    <link rel="stylesheet" href="<c:url value='/static/css/bootstrap.min.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/animate.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/style.css' />" />
     <!-- Data Tables -->
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
-    <link href="${ctx}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.bootstrap.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.responsive.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
+    <link href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 
 
-    <link href="${ctx}/static/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+    <link href="<c:url value='/static/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
     <!-- index_css -->
-    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/btn.css" >
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" >
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" >
+    <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/btn.css' />" >
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" >
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" >
 
 
-    <link rel="stylesheet" href="${ctx}/static/trans/css/workflow/caseDetail.css" >
-    <link rel="stylesheet" href="${ctx}/static/trans/css/workflow/details.css" >
-    <link rel="stylesheet" href="${ctx}/static/trans/css/workflow/guohu.css" >
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/workflow/caseDetail.css' />" >
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/workflow/details.css' />" >
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/workflow/guohu.css' />" >
 
 </head>
 <body class="">

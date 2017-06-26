@@ -11,25 +11,25 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>过户驳回率统计报表</title>
-<link href="${ctx}/css/bootstrap.min.css" rel="stylesheet" />
-<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link href="${ctx}/css/animate.css" rel="stylesheet" />
-<link href="${ctx}/css/style.css" rel="stylesheet" />
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet" />
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet" />
+<link href="<c:url value='/css/style.css' />" rel="stylesheet" />
 <!-- Data Tables -->
-<link href="${ctx}/css/plugins/dataTables/dataTables.bootstrap.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/dataTables/dataTables.responsive.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/dataTables/dataTables.tableTools.min.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/datapicker/datepicker3.css"	rel="stylesheet">
+<link href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css' />"	rel="stylesheet" />
+<link href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css' />"	rel="stylesheet" />
+<link href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css' />"	rel="stylesheet" />
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"	rel="stylesheet">
 <!-- 分页控件 -->
-<link href="${ctx}/css/plugins/pager/centaline.pager.css"	rel="stylesheet" />
-<link href="${ctx}/css/plugins/autocomplete/jquery.autocomplete.css"	rel="stylesheet" />
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"	rel="stylesheet" />
+<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />"	rel="stylesheet" />
 <!-- index_css -->
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
-<link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
-<link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/base.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 <!-- 必须CSS -->
-<link rel="stylesheet" href="${ctx}/js/poshytitle/src/tip-twitter/tip-twitter.css" type="text/css" />
+<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" />
 </head>
 <body class="pace-done">
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -86,7 +86,7 @@
                                                <a href="#tab-4" data-toggle="tab" id="atab-4" >过户驳回率统计-贵宾服务部</a>
                                            </li>
 									   </c:when> 
-									   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter' || sessionUser.serviceDepHierarchy=='YC_OPS' }">
+									   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter' || sessionUser.serviceDepHierarchy=='YC_OPS' || sessionUser.serviceDepHierarchy=='YC_OPS_TEAM'}">
 									      <li class="active">
                                                <a href="#tab-1" data-toggle="tab" id="atab-1" >驳回原因统计-组别</a>
                                            </li>
@@ -114,7 +114,7 @@
 							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_district'}">
 							      <div class="tab-pane active" id="tab-1" style="display: none">
 							   </c:when> 
-							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter' || sessionUser.serviceDepHierarchy=='YC_OPS' }">
+							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter' || sessionUser.serviceDepHierarchy=='YC_OPS' || sessionUser.serviceDepHierarchy=='YC_OPS_TEAM'}">
 							      <div class="tab-pane active" id="tab-1" style="display: block">
 							   </c:when> 
 							</c:choose>
@@ -147,7 +147,7 @@
 							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_district'}">
 							      <div class="tab-pane active" id="tab-2" style="display: block" >
 							   </c:when> 
-							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter' || sessionUser.serviceDepHierarchy=='YC_OPS' }">
+							   <c:when test="${sessionUser.serviceDepHierarchy=='yucui_headquarter' || sessionUser.serviceDepHierarchy=='YC_OPS' || sessionUser.serviceDepHierarchy=='YC_OPS_TEAM'}">
 							      <div class="tab-pane active" id="tab-2" style="display: none" >
 							   </c:when> 
 							</c:choose>
@@ -221,17 +221,17 @@
 		</div>	
 	</div>
 	<content tag="local_script"> 
-	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-	<script src="${ctx}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script src="${ctx}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<script	src="${ctx}/js/inspinia.js"></script> 
-	<script	src="${ctx}/js/plugins/pace/pace.min.js"></script>
-	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
-	<script src="${ctx}/js/template.js" type="text/javascript"></script> 
-	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script> 
-	<script	src="${ctx}/js/plugins/jquery.custom.js"></script> 
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	<script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
+	<script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
+	<script	src="<c:url value='/js/inspinia.js' />"></script> 
+	<script	src="<c:url value='/js/plugins/pace/pace.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script> 
+	<script	src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
+	<script	src="<c:url value='/js/plugins/jquery.custom.js' />"></script> 
 	<!-- 必须JS -->
-	<script src="${ctx}/js/poshytitle/src/jquery.poshytip.js"></script>
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script	id="template_myMortgageApproveLostReasonZbList" type="text/html">
           {{each rows as item index}}
  					{{if index%2 == 0}}
@@ -501,11 +501,14 @@ function getParams(qId,type) {
 	var data = {};
 	data.startDate = startDate;
 	data.endDate = endDate;
-	if("false" == "${sessionUser.serviceDepHierarchy == 'yucui_headquarter'}"
+/* 	if("false" == "${sessionUser.serviceDepHierarchy == 'yucui_headquarter'}"
 			&& "false" == "${sessionUser.serviceDepHierarchy == 'YC_OPS'}")
+	{data.serviceDepId = "${sessionUser.serviceDepId}";} */
+	if(!("${sessionUser.serviceDepHierarchy}" == "yucui_headquarter" || "${sessionUser.serviceDepHierarchy}" == "YC_OPS" || "${sessionUser.serviceDepHierarchy}" == "YC_OPS_TEAM"))
 	{data.serviceDepId = "${sessionUser.serviceDepId}";}
 	data.pagination = false;//不分页
 	if(type) data.queryId=qId;
+	console.log("===Result==="+JSON.stringify(data));
 	return data;
 }
 $('#searchButton').click(function() {// 查询

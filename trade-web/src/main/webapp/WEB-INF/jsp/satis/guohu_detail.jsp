@@ -290,7 +290,7 @@
                 <div class="marinfo">
                     <div class="line">
                         <div class="form_content">
-                            <label class="control-label sign_left_small">签约时间</label>
+                            <label class="control-label sign_left_small">签约提交时间</label>
                             <input class=" input_type yuanwid" placeholder="" value="<fmt:formatDate value='${transSignSubTime}' pattern='yyyy-MM-dd'/>" readonly="readonly">
                         </div>
                         <div class="form_content">
@@ -302,7 +302,7 @@
                     </div>
                     <div class="line">
                         <div class="form_content">
-                            <label class="control-label sign_left_small">过户时间</label>
+                            <label class="control-label sign_left_small">过户通过时间</label>
                             <input class=" input_type yuanwid" placeholder="" value="<fmt:formatDate value='${guohuPassTime}' pattern='yyyy-MM-dd'/>" readonly="readonly">
                         </div>
                         <div id="s" class="form_content">
@@ -435,7 +435,7 @@
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">贷款评分</label>
-                            <select class="select_control yuanwid" name="buyerComloanSat" value="${satisfaction.buyerComloanSat}" ${not empty mortType and mortType ne '30016003'?'':'disabled="disabled"'}>
+                            <select class="select_control yuanwid" name="buyerComloanSat" value="${satisfaction.buyerComloanSat}" ${mortType eq '30016003' or isDelegateYucui eq '0'?'disabled="disabled"':''}>
                             		<option value="">请选择</option>
                             	<c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.buyerComloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
@@ -444,13 +444,13 @@
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">贷款意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="buyerComloanCom" value="${satisfaction.buyerComloanCom}" ${not empty mortType and mortType ne '30016003'?'':'disabled="disabled"'}>
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="buyerComloanCom" value="${satisfaction.buyerComloanCom}" ${mortType eq '30016003' or isDelegateYucui eq '0'?'disabled="disabled"':''}>
                         </div>
                     </div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金评分</label>
-                            <select class="select_control yuanwid" name="buyerPsfloanSat" value="${satisfaction.buyerPsfloanSat}" ${mortType eq '30016003'?'':'disabled="disabled"'}>
+                            <select class="select_control yuanwid" name="buyerPsfloanSat" value="${satisfaction.buyerPsfloanSat}" ${(mortType eq '30016001' or mortType eq '30016002') or isDelegateYucui eq '0'?'disabled="disabled"':''}>
                             		<option value="">请选择</option>
                             	<c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.buyerPsfloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
@@ -459,7 +459,7 @@
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金意见</label>
-                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="buyerPsfloanCom" value="${satisfaction.buyerPsfloanCom}" ${mortType eq '30016003'?'':'disabled="disabled"'}>
+                            <input class=" input_type yuanwid" style="width: 435px;" placeholder="" name="buyerPsfloanCom" value="${satisfaction.buyerPsfloanCom}" ${(mortType eq '30016001' or mortType eq '30016002') or isDelegateYucui eq '0'?'disabled="disabled"':''}>
                         </div>
                     </div>
                     <div class="line">
@@ -518,7 +518,7 @@
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">贷款评分</label>
-                            <select class="select_control yuanwid" name="agentComloanSat" value="${satisfaction.agentComloanSat}" ${not empty mortType and mortType ne '30016003'?'':'disabled="disabled"'}>
+                            <select class="select_control yuanwid" name="agentComloanSat" value="${satisfaction.agentComloanSat}" ${mortType eq '30016003' or isDelegateYucui eq '0'?'disabled="disabled"':''} >
                             		<option value="">请选择</option>
                                 <c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.agentComloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
@@ -538,11 +538,22 @@
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">公积金评分</label>
-                            <select class="select_control yuanwid" name="agentPsfloanSat" value="${satisfaction.agentPsfloanSat}" ${mortType eq '30016003'?'':'disabled="disabled"'}>
+                            <select class="select_control yuanwid" name="agentPsfloanSat" value="${satisfaction.agentPsfloanSat}" ${(mortType eq '30016001' or mortType eq '30016002') or isDelegateYucui eq '0'?'disabled="disabled"':''}>
                             		<option value="">请选择</option>
                                 <c:forEach begin="0" end="10" varStatus="stat">
                             		<option value="${stat.index}" ${satisfaction.agentPsfloanSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
                             	</c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">过户评分</label>
+                            <select class="select_control yuanwid" name="agentGuohuSat" value="${satisfaction.agentGuohuSat}">
+                                <option value="">请选择</option>
+                                <c:forEach begin="0" end="10" varStatus="stat">
+                                    <option value="${stat.index}" ${satisfaction.agentGuohuSat eq stat.index?'selected="selected"':''}>${stat.index}</option>
+                                </c:forEach>
                             </select>
                         </div>
                     </div>
@@ -691,14 +702,20 @@
 						$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 						$(".blockOverlay").css({'z-index':'9998'});
 			        },
-					success:function(data){
-						 $.unblockUI();
-						 if(data.success){
-							 window.wxc.alert("操作成功！");
-						 }else{
-							 window.wxc.error("操作失败！\n"+data.message);
-						 } 
-					 }
+					success:function(data) {
+                        $.unblockUI();
+                        if (data.success) {
+                            if (data.success) {
+                                window.wxc.success("操作成功！", {
+                                    "wxcOk": function () {
+                                        goBack();
+                                    }
+                                })
+                            } else {
+                                window.wxc.error("操作失败！\n" + data.message);
+                            }
+                        }
+                    }
 				})
 	        }
 	        
@@ -732,7 +749,7 @@
 						success:function(data){
 							 $.unblockUI();
 							 if(data.success){
-								 window.wxc.alert("操作成功！",{"wxcOk":function(){
+								 window.wxc.success("操作成功！",{"wxcOk":function(){
 									 goBack();
 								   }
 						   		 })
@@ -772,7 +789,7 @@
 					success:function(data){
 						 $.unblockUI();
 						 if(data.success){
-							 window.wxc.alert("操作成功！",{"wxcOk":function(){
+							 window.wxc.success("操作成功！",{"wxcOk":function(){
 								 goBack();
 							   }
 					   		 })
@@ -785,15 +802,13 @@
 	        
 	        /*页面返回*/
 	        function goBack(){
-	        	if(urlType == 'list')
-					 window.location.href = ctx+"/satis/list";
-				 else
-					 window.location.href = ctx+"/task/myTaskList";
+		       	 window.opener.location.reload(); //刷新父窗口
+		         window.close(); //关闭子窗口.
 	        }
 	        
 	        /*只读表单*/
 	        function readOnlyForm(){
-	        	$("input:not('#caseComment'),select,span[name='remarks']").attr("disabled","disabled");
+	        	$("input,select,span[name='remarks']").attr("disabled","disabled");
 	        }
 	        
 	    	function changeClass(object){
@@ -847,13 +862,13 @@
                     return false;
                 }
                 var $buyerComloanSat = $("select[name='buyerComloanSat']");
-                if('${mortType}' != '' && '${mortType}' != '30016003' && $buyerComloanSat.val() == ''){
+                if(('${mortType}' == '30016001' || '${mortType}' == '30016002') && '${isDelegateYucui}' == '1' && $buyerComloanSat.val() == ''){
                 	window.wxc.alert("请选择下家贷款评分！");
                     changeClass($buyerComloanSat);
                     return false;
                 }
                 var $buyerPsfloanSat = $("select[name='buyerPsfloanSat']");
-                if('${mortType}' == '30016003' && $buyerPsfloanSat.val() == ''){
+                if('${mortType}' == '30016003' && '${isDelegateYucui}' == '1' && $buyerPsfloanSat.val() == ''){
                 	window.wxc.alert("请选择下家公积金评分！");
                     changeClass($buyerPsfloanSat);
                     return false;

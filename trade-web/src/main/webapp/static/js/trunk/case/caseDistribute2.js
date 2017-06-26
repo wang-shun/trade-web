@@ -601,7 +601,7 @@ function changeCaseTeam(){
 		            } , 
 			success : function(data) {
 				if(data.success){
-					window.wxc.success("分配成功",{"":function(){
+					window.wxc.success("分配成功",{"wxcOk":function(){
 						$('#team-modal-form').modal("hide");
 						$("#checkAllNot").attr('checked',false);
 						searchMethod(1);

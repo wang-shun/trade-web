@@ -1,5 +1,6 @@
 package com.centaline.trans.cases.entity;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -39,6 +40,12 @@ public class TsCaseEfficient
     private Integer casecloseEff; // 结案时效
 
     private Integer casecloseDly; // 结案延期次数
+
+    private Date curOverdueTime; // 当前逾期时间
+
+    private Integer hisOverdueCount; // 历史逾期次数
+
+    private Integer curDelayCount; // 当前延期次数
 
     private Date createTime; // 创建时间
 
@@ -198,6 +205,36 @@ public class TsCaseEfficient
         this.casecloseDly = casecloseDly;
     }
 
+    public Date getCurOverdueTime()
+    {
+        return curOverdueTime;
+    }
+
+    public void setCurOverdueTime(Date curOverdueTime)
+    {
+        this.curOverdueTime = curOverdueTime;
+    }
+
+    public Integer getHisOverdueCount()
+    {
+        return hisOverdueCount;
+    }
+
+    public void setHisOverdueCount(Integer hisOverdueCount)
+    {
+        this.hisOverdueCount = hisOverdueCount;
+    }
+
+    public Integer getCurDelayCount()
+    {
+        return curDelayCount;
+    }
+
+    public void setCurDelayCount(Integer curDelayCount)
+    {
+        this.curDelayCount = curDelayCount;
+    }
+
     public Date getCreateTime()
     {
         return createTime;
@@ -236,5 +273,81 @@ public class TsCaseEfficient
     public void setUpdateBy(String updateBy)
     {
         this.updateBy = updateBy == null ? null : updateBy.trim();
+    }
+
+    /**
+     * 计算当前理想逾期时间
+     * 
+     * @return 当前理想逾期时间
+     */
+    public Date getCalCurOverdueTime()
+    {
+        Calendar calendar = Calendar.getInstance();
+
+        if (firstfollowTime == null)
+        {
+            calendar.setTime(dispatchTime);
+            calendar.add(Calendar.DAY_OF_MONTH, firstfollowEff);
+        }
+        else if (signTime == null)
+        {
+            calendar.setTime(firstfollowTime);
+            calendar.add(Calendar.DAY_OF_MONTH, signEff);
+        }
+        else if (guohuTime == null)
+        {
+            calendar.setTime(signTime);
+            calendar.add(Calendar.DAY_OF_MONTH, guohuEff);
+        }
+        else if (casecloseTime == null)
+        {
+            calendar.setTime(guohuTime);
+            calendar.add(Calendar.DAY_OF_MONTH, casecloseEff);
+        }
+
+        return calendar.getTime();
+    }
+
+    /**
+     * 计算历史逾期次数
+     * 
+     * @return 返回历史逾期次数
+     */
+    public Integer getCalHisOverdueCount()
+    {
+        if (curOverdueTime != null)
+        {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(curOverdueTime);
+
+            long currentTime = (new Date()).getTime();
+            long curOverdueTime = calendar.getTime().getTime();
+
+            if (currentTime > curOverdueTime)
+            {
+                hisOverdueCount++;
+            }
+        }
+
+        return hisOverdueCount;
+    }
+
+    /**
+     * 初始化当前逾期时间
+     * 
+     * @return 当前逾期时间
+     */
+    public Date getInitCurOverdueTime()
+    {
+        if (dispatchTime != null)
+        {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dispatchTime);
+            calendar.add(Calendar.DAY_OF_MONTH, firstfollowEff);
+
+            return calendar.getTime();
+        }
+
+        return null;
     }
 }

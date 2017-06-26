@@ -4,23 +4,23 @@
 <html>
 <head>
     <!-- 图标 -->
-    <link rel="stylesheet" href="${ctx}/static/iconfont/iconfont.css" rel="stylesheet">
+    <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" rel="stylesheet">
 
     <!-- Data Tables -->
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.bootstrap.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.responsive.css" />
-    <link rel="stylesheet" href="${ctx}/static/css/plugins/dataTables/dataTables.tableTools.min.css" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.bootstrap.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.responsive.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
     <!-- bootstrap-datapicker3 -->
-    <link href="${ctx}/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="<c:url value='/static/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
     <!-- 分页控件 -->
-    <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+    <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
     <!-- index_css -->
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/base.css" />
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/table.css" />
-    <link rel="stylesheet" href="${ctx}/static/trans/css/common/input.css" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/base.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
     
     <!-- owner css -->
-    <link rel="stylesheet" href="${ctx}/static/trans/css/award/baseAward.css" />
+    <link rel="stylesheet" href="<c:url value='/static/trans/css/award/baseAward.css' />" />
 </head>
 
 <body>
@@ -99,17 +99,17 @@
 </div>
 <content tag="local_script">    
     <!-- datepicker -->
-    <script src="${ctx}/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
     <!-- js模板引擎 -->
-    <script src="${ctx}/static/js/template.js"></script>
+    <script src="<c:url value='/static/js/template.js' />"></script>
     <!-- 分页控件  -->
-    <script src="${ctx}/static/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+    <script src="<c:url value='/static/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
     <!-- dateSelect -->
-    <script	src="${ctx}/static/js/plugins/dateSelect/dateSelect.js"></script>    
+    <script	src="<c:url value='/static/js/plugins/dateSelect/dateSelect.js' />"></script>    
     <!-- 自定义扩展jQuery库 -->
-    <script src="${ctx}/static/js/plugins/jquery.custom.js"></script>
+    <script src="<c:url value='/static/js/plugins/jquery.custom.js' />"></script>
     <!-- owner -->
-    <script src="${ctx}/static/trans/js/award/allAward.js"></script>
+    <script src="<c:url value='/static/trans/js/award/allAward.js' />"></script>
     <script id="template_tsAwardBaseList" type= "text/html">
     	{{each rows as item index}}
  			<tr>

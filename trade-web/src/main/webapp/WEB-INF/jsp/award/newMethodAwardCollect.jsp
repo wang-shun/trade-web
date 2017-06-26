@@ -40,7 +40,7 @@
     <body class="pace-done">
 			<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
             <div class="wrapper wrapper-content animated fadeInRight">
-                <div class="ibox-content border-bottom clearfix space_box" style="    padding-top: 30px;">
+                <div class="ibox-content border-bottom clearfix space_box" style="padding-top: 30px;">
                     <div class="form_content pull-left">
                         <label class="control-label label_left">年月</label>
                         <div class="input-daterange inline_block" data-date-format="yyyy-mm-dd" id="datepicker_0">
@@ -63,7 +63,7 @@
                 </div>
                 <div class="row box-content">
                     <div class="col-md-12">
-                        <iframe src="./managerPiecework" class="UpdateUserItem"  name="" frameborder="0" width="100%"  height="1200" scrolling="no"></iframe>
+                        <iframe src="./managerPiecework" class="UpdateUserItem"   frameborder="0" width="100%"  height="1200" scrolling="no"></iframe>
                         <!-- <iframe src="./managerStep2.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
                         <!-- <iframe src="./managerStep3.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->
                         <!-- <iframe src="./managerStep4.html" name="" frameborder="0" width="100%" height="750" scrolling="no"></iframe> -->

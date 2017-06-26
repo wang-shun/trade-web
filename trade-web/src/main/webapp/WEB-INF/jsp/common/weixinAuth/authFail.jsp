@@ -7,9 +7,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/aui.2.0.css" />
-	<link rel="stylesheet" href="${ctx}/static/css/mobile-yc-style3.css" >
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/mobile/signroom/iconfont/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/mobile/signroom/aui.2.0.css' />" />
+	<link rel="stylesheet" href="<c:url value='/static/css/mobile-yc-style3.css' />" >
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/mobile/signroom/iconfont/iconfont.css' />" />
 </head>
 <body class="">
     <header class="aui-bar aui-bar-nav">

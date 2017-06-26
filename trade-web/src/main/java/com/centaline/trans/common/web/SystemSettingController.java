@@ -1,6 +1,11 @@
 package com.centaline.trans.common.web;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.entity.LampRule;
 import com.centaline.trans.common.entity.ToReminderList;
+import com.centaline.trans.common.entity.TsOrgRelation;
 import com.centaline.trans.common.service.LampRuleService;
 import com.centaline.trans.common.service.ToReminderListService;
+import com.centaline.trans.common.service.TsOrgRelationService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.transplan.entity.TsTaskPlanSet;
@@ -32,6 +41,10 @@ public class SystemSettingController {
 	TransplanServiceFacade transplanServiceFacade;
 	@Autowired
 	LampRuleService lampRuleService;
+	@Autowired(required = true)
+	UamSessionService uamSessionService;
+	@Autowired
+	TsOrgRelationService tsOrgRelationService;
 	/**
 	 * 提醒项 页面初始化
 	 * @param model
@@ -211,6 +224,96 @@ public class SystemSettingController {
 	@ResponseBody
 	public AjaxResponse<?> delTaskPlanSet(Model model, HttpServletRequest request,Long pkid) {
 		int count = transplanServiceFacade.deleteByPrimaryKey(pkid);
+		if(count == 0) {
+			return AjaxResponse.success("删除失败");
+		} else {
+			return AjaxResponse.success("删除成功");
+		}
+	}
+	/**
+	 * 组别配置 页面初始化
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="teamOrgRelation")
+	public String teamOrgRelation(Model model, ServletRequest request){
+		return "system/teamOrgRelation_list";
+	}
+	/**
+	 * 所有组别查询
+	 * @return
+	 * @throws ParseException 
+	 */
+    @RequestMapping(value="/getAllTeamPropertyList")
+    @ResponseBody
+	public List<TsTeamProperty>  getAllTeamPropertyList(HttpServletRequest request) throws ParseException{
+    	List<TsTeamProperty> res= tsTeamPropertyService.getTsTeamPropertyList();
+    	return res;
+    }
+	/****
+	 *   保存前后台组关系配置
+	 *   
+	 *   @param model
+	 *   @param request
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="saveTeamOrgRelation")
+	@ResponseBody
+	public AjaxResponse<String> saveTeamOrgRelation(Model model, HttpServletRequest request,TsOrgRelation orgRelation){
+		SessionUser user = uamSessionService.getSessionUser();
+		TsOrgRelation tsorgRelation = new TsOrgRelation();
+		tsorgRelation.setTargetOrgId(orgRelation.getTargetOrgId());
+		tsorgRelation.setOriginOrgId(orgRelation.getOriginOrgId());
+		tsorgRelation.setAvailable(orgRelation.getAvailable());
+		if(orgRelation.getPkid() == null) {
+			// 新增
+			orgRelation.setIsDeleted(TsOrgRelation.NOT_DELETE);
+			orgRelation.setType(TsOrgRelation.TYPE);
+			orgRelation.setCreateBy(user.getId());
+			orgRelation.setUpdateBy(user.getId());
+			int count = tsOrgRelationService.findTsOrgRelationByOrgRelation(tsorgRelation);
+			if(count>0) {
+				return AjaxResponse.fail("该关系已经存在配置,不能再次新增!");
+			} else {
+				int addCount = tsOrgRelationService.addTsOrgRelation(orgRelation);
+				if(addCount == 0) {
+					return AjaxResponse.fail("新增失败，请刷新后重试!");
+				}
+				return AjaxResponse.success("新增配置成功");
+			}
+		} else {
+			int count = tsOrgRelationService.findTsOrgRelationByOrgRelation(tsorgRelation);
+			if(count>0) {
+				return AjaxResponse.fail("该关系已经存在配置,请重新修改!");
+			}else{
+				// 修改
+				orgRelation.setUpdateBy(user.getId());
+				int updateCount = tsOrgRelationService.updateTsOrgRelation(orgRelation);
+				if(updateCount == 0) {	
+					return AjaxResponse.fail("修改失败，请刷新后重试!");
+				}
+				return AjaxResponse.success("修改配置成功");
+			}
+		}
+	}
+	/**
+	 * 
+	 * 删除组别关系配置
+	 * 
+	 * @param delTeamOrgRelation
+	 * @param request
+	 * @return 描述
+	 * 
+	 */
+	@RequestMapping("/delTeamOrgRelation")
+	@ResponseBody
+	public AjaxResponse<?> delTeamOrgRelation(Model model, HttpServletRequest request,Long pkid) {
+		TsOrgRelation orgRelation = new TsOrgRelation();
+		orgRelation.setIsDeleted(TsOrgRelation.IS_DELETE);
+		orgRelation.setPkid(pkid);
+		int count = tsOrgRelationService.deleteOrgRelationByKey(orgRelation);
 		if(count == 0) {
 			return AjaxResponse.success("删除失败");
 		} else {
