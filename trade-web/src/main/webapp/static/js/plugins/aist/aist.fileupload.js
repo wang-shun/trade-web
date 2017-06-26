@@ -34,7 +34,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						thumbnailWidth : 64,
 						thumbnailHeight : 64,
 						pick : 'filePicker',
-						server : appCtx['aist-filesvr-web']+'/webUploader/uploadPicture',
+						server : appCtx['shcl-filesvr-web']+'/webUploader/uploadPicture',
 						available : null,
 						bizCode : null,
 						readonly:false,    //是否只读,true:只读,false:可以添加图片
@@ -200,7 +200,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 							addAttachment(settings.caseCode,settings.partCode,id,preFileCode,fileName);
 							
 							var img = $('#'+file.id).find("img");
-							img.attr("data",appCtx['aist-filesvr-web']+"/JQeryUpload/getfile?fileId="+id);
+							img.attr("data",appCtx['shcl-filesvr-web']+"/JQeryUpload/getfile?fileId="+id);
 							$('#'+file.id).attr("id",id);
 							
 						});

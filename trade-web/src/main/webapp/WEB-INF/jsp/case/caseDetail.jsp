@@ -1290,7 +1290,7 @@
 												</td>
 												<td>
 														<c:forEach items="${item.receiptPicList}" var="rePic">
-															 <a href="<aist:appCtx appName='aist-filesvr-web'/>/JQeryUpload/getfile?fileId=${rePic}" target="_blank">查看凭证</a>
+															 <a href="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${rePic}" target="_blank">查看凭证</a>
 														</c:forEach>
 												</td>
 												<td>
