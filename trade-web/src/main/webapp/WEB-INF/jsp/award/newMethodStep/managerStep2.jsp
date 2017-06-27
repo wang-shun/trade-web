@@ -261,13 +261,6 @@
     	isShowSatButton();
     	//初始化日期控件
     	var monthSel = new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid}); 
-    	
-    	// 滑块
-    	/* sw = $('#moSwitch').bootstrapSwitch({
-    		'onText':"上月",
-    		'offText':'当月'
-    	     }).on('switchChange.bootstrapSwitch', function(e, data) {
-		}); */  
     	// 是否显示错误信息
     	if(!!hasError){
     		$('#error-modal-form').modal("show");
@@ -285,7 +278,7 @@
         	  btn: ['提交','关闭'],
         	  yes: function(index){
         			  layer.close(i);
-        			  var i = 0;//sw.bootstrapSwitch('state')?'0':'1';
+        			  var i = 0;
             		  // 上月
             		  var bm;
             		  if(i=='0') {
@@ -312,7 +305,7 @@
            		    	 
            		    	 $("#belongMonth").remove();
            		    	 var inputMonth = $("<input type=\"hidden\" id=\"belongMonth\" name=\"belongMonth\"/>");
-           		    	 var i = 0;//sw.bootstrapSwitch('state')?'0':'1';
+           		    	 var i = 0;
            		    	 inputMonth.val(i);
            		    	 $('#excelInForm').append(inputMonth);
            		    	 $('#excelInForm').submit();
@@ -387,7 +380,6 @@
 	  	//方式一
 	  	var belongMonth =  $.trim($("#belongMonth",window.parent.document).val());
 	  	//方式二
-	  	//var belongMonth1 = parent.document.getElementById("belongMonth").value;
 	    if(belongMonth =="" || belongMonth == null || belongMonth == undefined){
 	    	bm == null;
 	    }else{
@@ -395,8 +387,6 @@
 	    }
 	    return bm;
 	  }
-	  
-	  
     </script>
  </content>
 </body>

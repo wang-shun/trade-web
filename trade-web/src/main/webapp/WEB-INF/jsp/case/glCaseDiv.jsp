@@ -295,7 +295,7 @@ function changeTaskAssignee(page,propertyCode){
    	data.rows = 5;
 	$.ajax({
 		cache : false,
-		async : false,//false同步，true异步
+		async : false,
 		type : "POST",
 		url:ctx+ "/quickGrid/findPage" ,
 		dataType : "json",
@@ -371,8 +371,6 @@ function showGlDiv(callback,pkId,caseCode,propertyAddr,agentName,agentPhone,agen
 	$("#propertyCode").val(propertyCode);  
 	$("#caseCode_").val(caseCode); 
 	init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,inputType);
-	//if(distriType_){}else{
-	//$("#myModalsa").modal("show");/**显示 div**/}
 	/**查询方法**/
 	changeTaskAssignee(1,propertyCode); 
 	showButton();

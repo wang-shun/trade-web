@@ -97,7 +97,7 @@
                                     	查询环节
                                 </label>
                                 <select class="form-control input-one pull-left mr5" id="selInProgress">
-                                    <option value="">所有环节</option>
+                                    <option value="">请选择</option>
                                     <option value="paidan">派单</option>
                                     <option value="firstFollow">首次跟进</option>
                                     <option value="sign">签约</option>
@@ -129,7 +129,7 @@
                             <div class="form-group form-margin form-space-one pull-left">
                                 <label for="" class="lable-one">延期</label>
                                 <select class="form-control input-one inline" id="selDelay" style="margin-left:-4px;">
-                                    <option value="">不限</option>
+                                    <option value="">请选择</option>
                                    	<option value="curDelayed">当前延期</option>
                                     <option value="delayed">有延期</option>
                                     <option value="noDelayed">无延期</option>
@@ -138,7 +138,7 @@
                             <div class="form-group form-margin form-space-one pull-left" style="margin-left:38px;">
                                 <label for="" class="lable-one">逾期</label>
                                 <select class="form-control input-one inline" id="selOverdue">
-                                    <option value="">不限</option>
+                                    <option value="">请选择</option>
                                     <option value="curOverdued">当前逾期</option>
                                     <option value="overdued">有逾期</option>
                                     <option value="noOverdued">无逾期</option>
@@ -146,11 +146,7 @@
                             </div>
                             <div class="form-group form-margin form-space-one pull-left">
                                 <label for="" class="lable-one">案件状态</label>
-                                <select class="form-control input-one inline" id="selStatus">
-                                    <option value="">所有状态</option>
-                                    <option value="progressing">进行中</option>
-                                    <option value="completed">已完成</option>
-                                </select>
+                                <aist:dict id="selStatus" name="case_status" display="select" dictType="30001" clazz="form-control input-one inline"/>
                             </div>
                         </div>
                         <div class="form-row form-rowbot clearfix">
@@ -174,7 +170,7 @@
                                     <tr>
                                         <th>案件编码</th>
                                         <th>主办人</th>
-                                        <th>派单</th>
+                                        <th>首次派单</th>
                                         <th>首次跟进</th>
                                         <th>签约</th>
                                         <th>过户</th>
@@ -322,12 +318,17 @@
                          
 						<shiro:hasPermission name="TradeMenu.Report.DELAY">     
 						 <td class="text-center">
-							
-								{{if item.inProgress != 'completed' && item.inProgress != 'firstFollow'}}
-                             		<p><a class="sum_editor" href="javascript:void(0)" onClick="showDelayPop('{{item.caseCode}}','{{item.inProgress}}');">延期一次</a> </p>
-							 	{{else}}							 
-									<p>延期一次</p>
-							 	{{/if}}
+								<div class="btn-group">
+                         			<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">操作
+                             			<span class="caret"></span>
+                         			</button>
+
+                                 	<ul class="dropdown-menu" role="menu" style="left:-95px;">
+                                      	{{if item.inProgress != 'completed' && item.inProgress != 'firstFollow'}}
+											<li><a href="javascript:void(0)" onClick="showDelayPop('{{item.caseCode}}','{{item.inProgress}}');">延期</a></li>
+										{{/if}}
+                                	</ul>
+                      			</div>
                          </td>
 						</shiro:hasPermission>
 				  </tr>

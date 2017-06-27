@@ -95,29 +95,6 @@
 				</div>
 
 				<div class="ibox-content border-bottom clearfix space_box noborder">
-				<form method="get" class="form-horizontal" id="caseCloseform">
-				<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-					<%-- 原有数据对应id --%>
-					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					<%-- 设置审批类型 --%>
-					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
-					<input type="hidden" id="lapPkid" name="lapPkid" value="${toApproveRecord.pkid }">
-					<input type="hidden" id="operator" name="operator" value="${operator }">
-					<%-- 原有数据对应id --%>
-					<input type="hidden" id="propertyPkid" name="propertyPkid" value="${editCaseDetailVO.propertyPkid }">
-					<input type="hidden" id="initPayPkid" name="initPayPkid" value="${editCaseDetailVO.initPayPkid }">
-					<input type="hidden" id="secPayPkid" name="secPayPkid" value="${editCaseDetailVO.secPayPkid }">
-					<input type="hidden" id="lastPayPkid" name="lastPayPkid" value="${editCaseDetailVO.lastPayPkid }">
-					<input type="hidden" id="compensatePayPkid" name="compensatePayPkid" value="${editCaseDetailVO.compensatePayPkid }">
-					<input type="hidden" id="signPkid" name="signPkid" value="${editCaseDetailVO.signPkid }">
-					<input type="hidden" id="lcid" name="lcid" value="${editCaseDetailVO.lcid }">
-					<input type="hidden" id="ghid" name="ghid" value="${editCaseDetailVO.ghid }">
-					<input type="hidden" id="taxid" name="taxid" value="${editCaseDetailVO.taxid }">
-					<input type="hidden" id="mpkid" name="mpkid" value="${editCaseDetailVO.mpkid }">
 					<div>
 						<h2 class="newtitle title-mark">填写任务信息</h2>
 						<div class="panel blank-panel">
@@ -142,10 +119,8 @@
 															<label
 																class="control-label sign_left_small select_style mend_select">
 																业务单创建时间 </label>
-															<div
-																class="input-group sign-right dataleft input-daterange pull-left"
-																data-date-format="yyyy-mm-dd">
-																<input class="input_type yuanwid datatime"id="createTime" name="realConTime" disabled="disabled" readonly="readonly"
+															<div class="input-group sign-right dataleft pull-left">
+																<input class="input_type yuanwid datatime"id="createTime" name="realConTime" readonly="readonly"
 											                        value="<fmt:formatDate  value='${editCaseDetailVO.createTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 															</div>
 														</div>
@@ -154,13 +129,35 @@
 																class="control-label sign_left_small select_style mend_select">
 																分单时间 </label>
 															<div
-																class="input-group sign-right dataleft input-daterange pull-left"
-																data-date-format="yyyy-mm-dd">
-																<input class="input_type yuanwid datatime" id="resDate" name="resDate" disabled="disbled" readonly="readonly"
+																class="input-group sign-right dataleft pull-left">
+																<input class="input_type yuanwid datatime" id="resDate" name="resDate" readonly="readonly"
 											                    value="<fmt:formatDate  value='${editCaseDetailVO.resDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 															</div>
 														</div>
 													</div>
+													<form method="get" class="form-horizontal" id="caseCloseform">
+														<%--环节编码 --%>
+														<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+														<!-- 交易单编号 -->
+														<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+														<%-- 原有数据对应id --%>
+														<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+														<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+														<%-- 设置审批类型 --%>
+														<input type="hidden" id="approveType" name="approveType" value="${approveType }">
+														<input type="hidden" id="lapPkid" name="lapPkid" value="${toApproveRecord.pkid }">
+														<input type="hidden" id="operator" name="operator" value="${operator }">
+														<%-- 原有数据对应id --%>
+														<input type="hidden" id="propertyPkid" name="propertyPkid" value="${editCaseDetailVO.propertyPkid }">
+														<input type="hidden" id="initPayPkid" name="initPayPkid" value="${editCaseDetailVO.initPayPkid }">
+														<input type="hidden" id="secPayPkid" name="secPayPkid" value="${editCaseDetailVO.secPayPkid }">
+														<input type="hidden" id="lastPayPkid" name="lastPayPkid" value="${editCaseDetailVO.lastPayPkid }">
+														<input type="hidden" id="compensatePayPkid" name="compensatePayPkid" value="${editCaseDetailVO.compensatePayPkid }">
+														<input type="hidden" id="signPkid" name="signPkid" value="${editCaseDetailVO.signPkid }">
+														<input type="hidden" id="lcid" name="lcid" value="${editCaseDetailVO.lcid }">
+														<input type="hidden" id="ghid" name="ghid" value="${editCaseDetailVO.ghid }">
+														<input type="hidden" id="taxid" name="taxid" value="${editCaseDetailVO.taxid }">
+														<input type="hidden" id="mpkid" name="mpkid" value="${editCaseDetailVO.mpkid }">
 													<div class="line">
 														<div class="form_content">
 															<label class="control-label sign_left_small">
@@ -226,7 +223,8 @@
 																class="input-group sign-right dataleft input-daterange pull-left"
 																data-date-format="yyyy-mm-dd">
 																<input class="input_type yuanwid datatime"
-																	value="<fmt:formatDate  value='${editCaseDetailVO.lastPayTime }' type='both' pattern='yyyy-MM-dd' />" 
+																${editCaseDetailVO.lastPayTime==null?'selected':''}
+																	value="<fmt:formatDate  value='${editCaseDetailVO.lastPayTime}' type='both' pattern='yyyy-MM-dd' />"
 															        id="lastPayTime" name="lastPayTime" onfocus="this.blur()">
 															</div>
 														</div>
@@ -262,11 +260,15 @@
 													</div>
 												</div>
 												<div id="guestUpDiv" class="clear add-member mb20" onclick="addDateDivUp()">添加上家</div>
-											  <div id="guestDownDiv" class="clear add-member mb20" onclick="addDateDivDown();">添加下家</div>
+											    <div id="guestDownDiv" class="clear add-member mb20" onclick="addDateDivDown();">添加下家</div>
+
+												</form>
+
+
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small"> 产证面积
-														</label> <input class=" input_type yuanwid" id="square"  readonly="readonly" disabled="disabled" name="square" onkeyup="checkNum(this)"
+														</label> <input class=" input_type yuanwid" id="square"  readonly="readonly" name="square" onkeyup="checkNum(this)"
 												                  value="<fmt:formatNumber value='${editCaseDetailVO.square}' type='number' pattern='#0.00' />">  <span class="date_icon">平方米</span>
 													</div>
 													<div class="form_content">
@@ -663,7 +665,6 @@
 						</div>
 					</div>
 				</div>
-				</form>
 				<!-- 案件备注信息 -->
 				<div id="caseCommentList" class="view-content"></div>
 				<div class="form-btn">

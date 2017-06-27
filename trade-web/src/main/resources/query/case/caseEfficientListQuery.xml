@@ -155,17 +155,9 @@
 						</when>
 					</choose>
 					
-					<choose>
-						<when test="status == 'progressing'">
-							--查询进行中的案件时效信息
-							and e.CASECLOSE_TIME is null    
-						</when>
-						
-						<when test="status == 'completed'">
-							 --查询已完成的案件时效信息
-							and e.CASECLOSE_TIME is not null  
-						</when>
-					</choose>
+					<ifNotNull status>
+			    		  AND c.STATUS = #status#
+			    	</ifNotNull>
 					
 					<choose>
 						<when test="overdue == 'curOverdued'">
@@ -175,7 +167,7 @@
 						
 						<when test="overdue == 'overdued'">
 							--查询有逾期的案件时效信息
-							and e.HIS_OVERDUE_COUNT > 0   
+							and (e.HIS_OVERDUE_COUNT > 0 or (e.CASECLOSE_TIME is null and DATEDIFF(day,e.CUR_OVERDUE_TIME,GETDATE()) > 0))  
 						</when>
 						
 						<when test="overdue == 'noOverdued'">
@@ -192,7 +184,7 @@
 						
 						<when test="delay == 'delayed'">
 							--查询有延期的案件时效信息
-							and e.CUR_DELAY_COUNT = 0 and (e.FIRSTFOLLOW_DLY + e.SIGN_DLY + e.GUOHU_DLY + e.CASECLOSE_DLY) > 0   
+							and e.CUR_DELAY_COUNT >= 0 and (e.FIRSTFOLLOW_DLY + e.SIGN_DLY + e.GUOHU_DLY + e.CASECLOSE_DLY) > 0   
 						</when>
 						
 						<when test="delay == 'noDelayed'">

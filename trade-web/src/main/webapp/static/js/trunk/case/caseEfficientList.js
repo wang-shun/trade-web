@@ -87,8 +87,6 @@ $(function(){
 	function reloadGrid(){
 		var data = getParams();
 		
-		console.log(data);
-		
 		$("#caseEfficientList").reloadGrid({
 	    	ctx : ctx,
 			queryId : "queryCaseEfficientList",
