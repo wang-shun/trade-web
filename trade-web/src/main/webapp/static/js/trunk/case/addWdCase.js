@@ -44,8 +44,6 @@ function sumbitRe(){
 		url : url,
 		dataType : "json",
 		data : data,
-		beforeSend:function(){  
-         },
 		success : function(data){
 			if(data.success){
 				window.wxc.success("新建外单成功！",{"wxcOk":function(){
@@ -54,7 +52,6 @@ function sumbitRe(){
 			}else{
 				window.wxc.error("新建外单失败！"+data.message); 
 			}
-			
 		}
 	});
 	
@@ -64,12 +61,8 @@ function sumbitRe(){
  */
 function saveRe(){	
 	
-	if(!checkForm()){
-		return false;		
-	}
-	if(!phoneUpAndphoneDownCheck()){
-		return false;
-	}
+	if(!checkForm()){ return false;	}
+	if(!phoneUpAndphoneDownCheck()){ return false; }
 	
 	var remarks = getCheckBoxValues("remarks");
 	var data = [];
@@ -91,8 +84,6 @@ function saveRe(){
 		url : url,
 		dataType : "json",
 		data : data,
-		beforeSend:function(){  
-		},
 		success : function(data){
 			if(data.success){
 				window.wxc.success("保存外单成功！",{"wxcOk":function(){
@@ -101,7 +92,6 @@ function saveRe(){
 			}else{
 				window.wxc.error("保存外单失败！"+data.message); 
 			}
-			
 		}
 	});
 	
