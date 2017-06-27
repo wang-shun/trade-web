@@ -274,9 +274,9 @@
 				$("#lastLoanBank").val($("#finOrgCode").val());
 				var jsonData = $("#selfLoanForm").serializeArray();
 				
-				var url = "${ctx}/task/mortgage/saveSelfLoanApprove2";
+				var url = "${ctx}/task/mortgage/saveSelfLoanApprove";
 				if(b) {
-					url = "${ctx}/task/mortgage/submitSelfLoanApprove2";
+					url = "${ctx}/task/mortgage/submitSelfLoanApprove";
 				}
 				
 				$.ajax({
@@ -286,9 +286,33 @@
 					url : url,
 					dataType : "json",
 					data : jsonData,
-
+	    		    beforeSend:function(){
+	    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+	    				$(".blockOverlay").css({'z-index':'9998'});
+	                },
+	                complete: function() {
+	                	if(!b){
+	                        $.unblockUI();
+	                	}
+	                	//超时,status还有success,error等值的情况
+	                	if(status=='timeout'){
+	    	          	  Modal.alert(
+	    				  {
+	    				    msg:"抱歉，系统处理超时。"
+	    				  });
+	    		  		 $(".btn-primary").one("click",function(){
+	    		  				parent.$.fancybox.close();
+	    		  			});
+	    		                }
+	    		            } ,
 					success : function(data) {
-
+							window.wxc.success("操作成功！",{"wxcOk":function(){
+								 window.close();
+								 if(window.opener)
+							     {
+									 window.opener.callback();
+							     }
+							}});
 					},
 					error : function(errors) {
 						window.wxc.error("操作失败：" + errors);
