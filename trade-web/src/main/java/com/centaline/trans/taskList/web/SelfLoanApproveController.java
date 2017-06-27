@@ -60,7 +60,6 @@ public class SelfLoanApproveController {
 				request.setAttribute("custName", guest.getGuestName());
 			}
 		}
-		;
 		return "task" + UiImproveUtil.getPageType(request)
 				+ "/taskSelfLoanApprove";
 	}
