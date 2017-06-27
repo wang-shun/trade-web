@@ -2472,7 +2472,7 @@ function checkInt(obj){
    				 });
 			 }
 		 });
-		if(step1==0){
+		if(step1==1){
 			loadMortgageInfo(0,MORT_ORDER_0);
 		}else if(step1 == 2){
  			getReminderList("table_list_5","pager_list_5");
@@ -2486,7 +2486,7 @@ function checkInt(obj){
 
 			$("#isMainLoanBank").val("1");
 			$("#addToEguPricingForm").find("input[name='isMainLoanBank']").val(1);
-			if(step==0){
+			if(step==1){
 				loadMortgageInfo(1,MORT_ORDER_1);
 			}else if(step == 2){
 	 			getReminderList("table_list_2","pager_list_2");
