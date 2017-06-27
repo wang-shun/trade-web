@@ -1542,7 +1542,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		}
 		if(StringUtils.isBlank(spvRecordedsVO.getToSpvCashFlowApplyPkid())){
 			/**1.申请  ToSpvCashFlowApply**/
-			//创建spvApplyCode
+			/**创建spvApplyCode**/
 			String spvApplyCode = createSpvApplyCode();
 	
 			ToSpvCashFlowApply toSpvCashFlowApply = new ToSpvCashFlowApply();
