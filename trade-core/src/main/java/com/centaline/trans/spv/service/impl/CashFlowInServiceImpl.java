@@ -417,15 +417,7 @@ public class CashFlowInServiceImpl implements CashFlowInService {
 				attach.setIsDeleted("0");
 				attach.setCreateBy(user.getId());
 				attach.setCreateTime(new Date());
-				
 				toSpvReceiptMapper.insertSelective(attach);
-				
-			/*	//回单编号	
-				toSpvCashFlow.setReceiptNo(attach.getPkid().toString());
-				//回单生成时间	
-				toSpvCashFlow.setReceiptTime(new Date());
-				toSpvCashFlowMapper.updateByPrimaryKeySelective(toSpvCashFlow);*/
-				
 			}	
 		}
 		
