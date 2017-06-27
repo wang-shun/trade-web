@@ -2,6 +2,7 @@ package com.centaline.trans.award.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -309,6 +310,13 @@ public class TsAwardCaseCentalController {
 			// 确认状态
 			record.setStatus("1");
 			record.setBelongMonth(DateUtil.strToFullDate(belongMonth));
+			
+			Calendar calendar = Calendar.getInstance();	
+			calendar.setTime(DateUtil.strToFullDate(belongMonth));	
+			//calendar.roll(Calendar.DATE, -1);//日期回滚一天，也就是最后一天	
+			calendar.add(Calendar.MONTH, 1);
+			Date guohuTime = calendar.getTime();
+			record.setCreateTime(guohuTime);
 			
 			int count = tsAwardKpiPayService.updateTsAwardKpiPayStatusAndSyncManager(record);
 			if (count > 0) {

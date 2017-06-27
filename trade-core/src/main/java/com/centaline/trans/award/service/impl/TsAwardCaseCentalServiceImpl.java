@@ -97,7 +97,7 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			// 保存计件奖金池数据
 			awardCaseCentalInfo.setAwardStatus(AwardStatusEnum.WEIFAFANG.getCode());
-			awardCaseCentalInfo.setAwardMonth(DateUtil.strToFullDate(format.format(calendar.getTime())));
+			//awardCaseCentalInfo.setAwardMonth(DateUtil.strToFullDate(format.format(calendar.getTime())));
 			tsAwardCaseCentalMapper.insertSelective(awardCaseCentalInfo);
 
 			Map<String, Object> map = new HashMap<String, Object>();
