@@ -84,9 +84,11 @@
                                     <button type="button" class="btn btn-success" id="exportBtn">
                                         导出为Excel
                                     </button>
-                                    <button type="button" class="btn btn-success" onclick="javascript:add()">
-                                        新增业绩目标
-                                    </button>
+                                    <shiro:hasPermission name="TRADE.PERGOALATTAINENT.ADD">
+	                                    <button type="button" class="btn btn-success" onclick="javascript:add()">
+	                                        	新增业绩目标
+	                                    </button>
+                                    </shiro:hasPermission>
                                 </div>
                             </div>
                         </div>

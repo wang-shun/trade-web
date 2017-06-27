@@ -69,7 +69,7 @@
 						{
 						ctx : ctx,
 						url : "/quickGrid/findPage",
-						queryId : $("#sel_team").val()=='Senior_Manager'? 'queryPerfGoalAttainmentListzbjb':($("#sel_team").val()=='director' ? 'queryPerfGoalAttainmentListgbfwzx':'queryPerfGoalAttainmentList'),
+						queryId : $("#sel_team").val()=='Senior_Manager'? 'queryPerfGoalAttainmentListzbjb':($("#sel_team").val()=='director' ? 'queryPerfGoalAttainmentListgbfwzx':$("#sel_team").val()=='ryjb'?'queryPerfGoalAttainmentListRyjb':'queryPerfGoalAttainmentList'),
 						templeteId : 'template_successList',
 						gridClass : 'table table_blue table-striped table-bordered table-hover',
 						data : getParams(),
