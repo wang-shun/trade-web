@@ -200,14 +200,6 @@ function checkForm(){
 		window.wxc.alert("请上传附件信息！");
 		return false;
 	}
-/*	
-	 $('span[.out-btn-select]').each(function(i,e){
-	    	var length = $(e).find("span").length;
-	    	if(length == 0){
-	    		window.wxc.alert("服务项目不能为空!");
-	    		return false;
-	    	}
-	    });*/
 	
 	return formSubmitFlag;
 }
@@ -258,7 +250,6 @@ function phoneUpAndphoneDownCheck() {
 		} else {						
 			checkGuestPhone = checkContactNumber(item.value);						
 			if (!checkGuestPhone) {								
-				//alert("上家电话不符合手机号码或电话号码格式!");
 				selectsPhoneUp[j].focus();
 				return false;
 			}
@@ -276,7 +267,6 @@ function phoneUpAndphoneDownCheck() {
 		} else {
 			checkGuestPhone = checkContactNumber(item.value);
 			if (!checkGuestPhone) {
-				//alert("下家电话不符合手机号码或电话号码格式!");
 				selectsPhoneDown[j].focus();
 				return false;
 			}
