@@ -72,8 +72,6 @@
 			</div>
 		</div>
 	</div>
-	<!--*********************** HTML_main*********************** -->
-
 	<!-- Mainly scripts -->
 	<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
 	<script src="<c:url value='/js/bootstrap.min.js' />"></script>
@@ -159,7 +157,6 @@
 						 		td3Html = "<td>"+numA+"</td>";/*3总计*/
 						 		break;
 						 	}
-						 	
 						 }
 						 tr1Html+= (td1Html=="")?tempTd:td1Html;
 						 tr2Html+= (td2Html=="")?tempTd:td2Html;
@@ -172,12 +169,9 @@
 					tbHtml+=tr2Html;
 					tbHtml+=tr3Html;
 					$("#tableTemplate").append(tbHtml);
-					// 显示分页 
-		},error : function(e, jqxhr, settings, exception) {
-			//$.unblockUI();
 		}
-			})
-		}
+		})
+	}
 	</script>
 </body>
 </html>
