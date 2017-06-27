@@ -319,7 +319,7 @@
 						<shiro:hasPermission name="TradeMenu.Report.DELAY">     
 						 <td class="text-center">
 								<div class="btn-group">
-                         			<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">操作
+                         			<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false" {{if item.inProgress == 'completed' || item.inProgress == 'firstFollow'}}disabled="true"{{/if}}>操作
                              			<span class="caret"></span>
                          			</button>
 
