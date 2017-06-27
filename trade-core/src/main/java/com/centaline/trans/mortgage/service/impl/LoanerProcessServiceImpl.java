@@ -436,6 +436,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
 		toMortgage.setPrfAmount(toMortLoaner.getPrfAmount());
 		toMortgage.setPrfYear(toMortLoaner.getPrfYear());
 		toMortgage.setCustName(toMortLoaner.getCustName());
+		toMortgage.setCustCode(toMortLoaner.getCustCode());
 
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toMortLoaner.getCaseCode());
 		toMortLoaner.setHouAddress(toPropertyInfo.getPropertyAddr());

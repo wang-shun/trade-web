@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ToMortLoaner {
 	private Long pkid;
-
+	private String custCode;
 	private String custName;
 
 	private String caseCode;
@@ -495,5 +495,13 @@ public class ToMortLoaner {
 
 	public void setLoanerOrgCodeStr(String loanerOrgCodeStr) {
 		this.loanerOrgCodeStr = loanerOrgCodeStr;
+	}
+
+	public String getCustCode() {
+		return custCode;
+	}
+
+	public void setCustCode(String custCode) {
+		this.custCode = custCode;
 	}
 }
