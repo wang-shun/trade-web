@@ -92,7 +92,6 @@
 				 {{item.propertyAddr}}
 			</p>
 		</td>
-		   realOrgName
 		<td>
 			<p class="big">
 				{{if item.status != null}}
