@@ -39,6 +39,7 @@ public class PSFApproveController {
     private TgGuestInfoService tgGuestInfoService;
 
     @RequestMapping("process")
+    @ResponseBody
     public Object toPSFApproveProcess(HttpServletRequest request,String processInstanceId) {
 
         String taskId = request.getParameter("taskId");
