@@ -105,4 +105,21 @@ public class MortgageController {
         return response;
     }
 
+
+    @RequestMapping(value="mortgage/submitSelfLoanApprove")
+    @ResponseBody
+    public Object submitSelfLoanApprove(HttpServletRequest request,ToMortgage toMortgage,String taskId, String processInstanceId) {
+        AjaxResponse ajaxResponse = new AjaxResponse();
+        try{
+            toMortgageService.submitSelfLoanApprove(request, toMortgage, taskId, processInstanceId);
+            ajaxResponse.setSuccess(true);
+            ajaxResponse.setMessage("自办贷款补充提交成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            ajaxResponse.setSuccess(false);
+            ajaxResponse.setMessage("自办贷款补充提交失败");
+        }
+        return ajaxResponse;
+    }
 }
