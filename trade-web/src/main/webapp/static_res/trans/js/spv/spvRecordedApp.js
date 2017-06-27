@@ -141,16 +141,10 @@ function getDelHtml(k,pkid){
 		url : url,
 		dataType : "json",
 		data : data,
-		beforeSend:function(){  
-         },
 		success : function(data) {
 			$(k).parents('tr').remove();
 			window.location.reload(); 
-		},complete: function() { 
-		},
-		error : function(errors) {
 		}
-		
 	});
 }
 //提交
@@ -172,8 +166,6 @@ function sumbitRe(){
 			url : url,
 			dataType : "json",
 			data : data,
-			beforeSend:function(){  
-	         },
 			success : function(data) {
 			   	if(data.success){
 			   		window.wxc.success("提交成功！",{"wxcOk":function(){
@@ -184,11 +176,7 @@ function sumbitRe(){
 					window.wxc.error("提交失败！"+data.message); 
 				}
 				
-			},complete: function() { 
-			},
-			error : function(errors) {
 			}
-			
 		});
 	}});
 }
