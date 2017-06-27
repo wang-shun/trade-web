@@ -230,11 +230,7 @@ var fileUpload;
   * 页面提交
   */
  function sumbitRe(){	
-	 
-	if(!checkForm()){
-		return false;		
-	}
-	
+	if(!checkForm()){ return false;	 }
  	var data = [];
  	$("form").each(function(){
  		var obj = $(this).serializeArray();

@@ -286,13 +286,13 @@
 					url : url,
 					dataType : "json",
 					data : jsonData,
-	    		    beforeSend:function(){  
-	    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	    		    beforeSend:function(){
+	    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 	    				$(".blockOverlay").css({'z-index':'9998'});
 	                },
-	                complete: function() {  
+	                complete: function() {
 	                	if(!b){
-	                        $.unblockUI();   
+	                        $.unblockUI();
 	                	}
 	                	//超时,status还有success,error等值的情况
 	                	if(status=='timeout'){
@@ -302,7 +302,7 @@
 	    				  });
 	    		  		 $(".btn-primary").one("click",function(){
 	    		  				parent.$.fancybox.close();
-	    		  			});	 
+	    		  			});
 	    		                }
 	    		            } ,
 					success : function(data) {
@@ -311,7 +311,7 @@
 								 if(window.opener)
 							     {
 									 window.opener.callback();
-							     } 
+							     }
 							}});
 					},
 					error : function(errors) {

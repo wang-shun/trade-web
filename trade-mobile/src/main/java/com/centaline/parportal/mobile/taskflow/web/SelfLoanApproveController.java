@@ -6,6 +6,8 @@ package com.centaline.parportal.mobile.taskflow.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.basedata.remote.vo.Dict;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +37,8 @@ public class SelfLoanApproveController {
     private ToMortgageService toMortgageService;
     @Autowired
     private TgGuestInfoService tgGuestInfoService;
+    @Autowired
+    private UamBasedataService uamBasedataService;/* 字典 */
 
     @RequestMapping(value = "process")
     @ResponseBody
@@ -58,6 +62,8 @@ public class SelfLoanApproveController {
         jsonObject.put("approveType", "1");
         jsonObject.put("operator", user != null ? user.getId() : "");
         jsonObject.put("caseDetail", loanlostApproveService.queryCaseInfo(caseCode, "LoanlostApply", processInstanceId));
+        Dict dict = uamBasedataService.findDictByTypeAndLevel("30016", "2");
+        jsonObject.put("mortTypeCN", dict);
         ToMortgage mortgage = toMortgageService.findToSelfLoanMortgage(caseCode);
         jsonObject.put("SelfLoan", mortgage);
         if (mortgage != null && mortgage.getCustCode() != null) {
