@@ -812,17 +812,14 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMerge.setOperatorTime(new Date());
 		toCaseMerge.setOperator(CaseMergeStatusEnum.OPERATOR1.getCode());
 		toCaseMerge.setApplyStatus(CaseMergeStatusEnum.APPLYSTATUS0.getCode());
-		/**toCaseMerge.setConfirmorId("");**/
-		/**toCaseMerge.setConfirmorOrgId("");**/
-		/**toCaseMerge.setConfirmorTime(new Date);**/
-		if(StringUtils.equals(inputType, "CTM"))
+		if(StringUtils.equals(inputType, "CTM")){
 			toCaseMerge.setApplyDirection(CaseMergeStatusEnum.APPLY_DIRECTION1.getCode());
-		if(StringUtils.equals(inputType, "INPUT"))
+		}
+		if(StringUtils.equals(inputType, "INPUT")){
 			toCaseMerge.setApplyDirection(CaseMergeStatusEnum.APPLY_DIRECTION0.getCode());
+		}
 		toCaseMerge.setCreateBy(user.getId());
 		toCaseMerge.setCreateTime(new Date());
-		/**toCaseMerge.setUpdateBy("");**/
-		/**toCaseMerge.setUpdateTime("");**/
 		return toCaseMerge;
 	}
 	/**
@@ -834,8 +831,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCase.setCaseOrigin(CaseMergeStatusEnum.MERGE.getCode());
 		toCase.setCtmCode(toCaseMerge.getCtmCode());
 		toCase.setCaseProperty(CaseMergeStatusEnum.CASE_PROPERTY3.getCode());
-		/**toCase.setLeadingProcessId(ctmToCase.getLeadingProcessId());
-		toCase.setOrgId(ctmToCase.getOrgId());**/
 		toCase.setUpdateBy(user.getId());
 		toCase.setUpdateTime(new Date());
 		return toCase;
@@ -956,9 +951,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 		for(ToPropertyInfo toPropertyInfo:toPropertyInfos){
 			if(!StringUtils.isBlank(toPropertyInfo.getPropertyCode())){
 				 Map cu = toCaseMergeMapper.getMergeInfoList(toPropertyInfo.getPropertyCode());/** 案件propertyCode **/
-				 /*if(cu.get("cu")>1){
-					 mergeInfoList ="true";
-				 }*/
 				 mergeInfoList ="true";
 			}
 		}
