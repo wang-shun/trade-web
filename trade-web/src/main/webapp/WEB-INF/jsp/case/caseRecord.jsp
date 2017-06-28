@@ -361,9 +361,7 @@ function mergeAndReject(){
 					}});
 				}
 			}
-			
-		},complete: function() {  },
-		error : function(errors) { }
+		}
 	});
 }
 
