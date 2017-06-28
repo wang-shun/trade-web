@@ -15,7 +15,6 @@ $(document).ready(function() {
  */
 function searchMethod(page){
 	var data = getParams(page);
-   // aist.wrap(data);
 	reloadGrid(data);
 }
 $('#searchButton').click(function() {
@@ -31,7 +30,6 @@ function getParams(page) {
 		page = 1;
 	}
 	var belongMonth = getBlongMonth();
-
 	var data = {
 			search_teamId :$.trim( $('#yuCuiOriGrpId').val() ),
 			search_participant :$.trim( $('#userName').val() ), 
@@ -124,11 +122,10 @@ function getBlongMonth(){
 	//方式一
 	var belongMonth =  $.trim($("#belongMonth",window.parent.document).val());
 	//方式二
-	//var belongMonth1 = parent.document.getElementById("belongMonth").value;
-if(belongMonth =="" || belongMonth == null || belongMonth == undefined){
-	bm == null;
-}else{
-	bm = belongMonth + "-01";
-}
-return bm;
+	if(belongMonth =="" || belongMonth == null || belongMonth == undefined){
+		bm == null;
+	}else{
+		bm = belongMonth + "-01";
+	}
+	return bm;
 }

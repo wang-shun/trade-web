@@ -1,17 +1,5 @@
 package com.centaline.trans.spv.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -50,6 +38,16 @@ import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvBaseInfoVO;
 import com.centaline.trans.spv.vo.SpvCloseInfoVO;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
@@ -486,7 +484,7 @@ public class SpvCloseApplyServiceImpl implements SpvCloseApplyService {
 	}
 	
 	private String createSpvCloseCode() {
-		return uamBasedataService.nextSeqVal("SPV_CODE", new SimpleDateFormat("yydd").format(new Date()));
+		return uamBasedataService.nextSeqVal("SPV_CODE", new SimpleDateFormat("yyMMdd").format(new Date()));
 	}
 
 }

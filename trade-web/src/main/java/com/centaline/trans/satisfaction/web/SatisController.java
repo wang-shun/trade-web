@@ -23,6 +23,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -97,10 +98,10 @@ public class SatisController {
   @RequestMapping("/list")
   public String list(Model model){
 	SessionUser user = uamSessionService.getSessionUser();
-	//Org kefuOrg = uamUserOrgService.getOrgByCode("033P192");
+	Org kefuOrg = uamUserOrgService.getOrgByCode("033P192");
 	model.addAttribute("sessionUserId", user.getId());
 	model.addAttribute("serviceJobCode", user.getServiceJobCode());
-	model.addAttribute("kefuOrgId", user.getServiceDepId());
+	model.addAttribute("kefuOrgId", kefuOrg.getId());
     return "satis/satis_list";
   }
   

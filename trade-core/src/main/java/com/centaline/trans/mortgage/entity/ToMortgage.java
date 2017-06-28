@@ -137,6 +137,16 @@ public class ToMortgage {
 
     /*贷款在银行内部的状态--由信贷员填写*/
     private String     stateInBank;
+    
+    /**
+	 * 预定签约地点
+	 */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+	private Date resSignTime;
+	/**
+	 * 预定签约地点
+	 */
+	private String resSignAddr;
 
     public Long getPkid() {
         return pkid;
@@ -633,6 +643,22 @@ public class ToMortgage {
 
 	public void setToEval(ToEval toEval) {
 		this.toEval = toEval;
+	}
+
+	public String getResSignAddr() {
+		return resSignAddr;
+	}
+
+	public void setResSignAddr(String resSignAddr) {
+		this.resSignAddr = resSignAddr;
+	}
+
+	public Date getResSignTime() {
+		return resSignTime;
+	}
+
+	public void setResSignTime(Date resSignTime) {
+		this.resSignTime = resSignTime;
 	}  	
 	
 }

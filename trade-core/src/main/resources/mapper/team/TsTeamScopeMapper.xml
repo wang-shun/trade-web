@@ -142,7 +142,11 @@
   <select id="selectByOrgCode" resultMap="BaseResultMap" parameterType="java.lang.String">
   		SELECT distinct t2.YU_TEAM_NAME, t2.YU_TEAM_CODE FROM sctrans.T_TS_TEAM_SCOPE t1
   			inner join sctrans.T_TS_TEAM_SCOPE t2 on t1.YU_AGENT_TEAM_CODE=t2.YU_AGENT_TEAM_CODE
-		where  t1.YU_TEAM_CODE=#{yuTeamCode,jdbcType=NVARCHAR} 
+		where  t1.YU_TEAM_CODE=#{yuTeamCode,jdbcType=NVARCHAR} and exists(
+				select 1 from sctrans.sys_org where is_deleted = 0 and org_code = t1.YU_TEAM_CODE
+			 ) and exists(
+				select 1 from sctrans.sys_org where is_deleted = 0 and org_code = t2.YU_TEAM_CODE
+			)
   </select>
   
   

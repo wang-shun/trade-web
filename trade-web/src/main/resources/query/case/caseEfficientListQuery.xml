@@ -192,6 +192,11 @@
 							and (e.FIRSTFOLLOW_DLY + e.SIGN_DLY + e.GUOHU_DLY + e.CASECLOSE_DLY) = 0   
 						</when>
 					</choose>
+					
+					<ifNotNull caseCode>
+						  --根据案件编号查询
+			    		  AND c.CASE_CODE = #caseCode#
+			    	</ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>

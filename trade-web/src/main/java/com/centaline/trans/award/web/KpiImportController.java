@@ -225,6 +225,17 @@ public class KpiImportController {
 
 		return "award/monthKpiImport";
 	}
+	/**
+	 * kpi金额产品导入
+	 * @param belongMonth
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws InvalidFormatException
+	 * @throws IOException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
 	@RequestMapping(value = "/doMonthKpiImportForNew")
 	public String doMonthKpiImportForNew(String belongMonth, HttpServletRequest request, HttpServletResponse response)
 			throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
@@ -241,13 +252,10 @@ public class KpiImportController {
 		request.setAttribute("belongM", LocalDate.now());
 		request.setAttribute("belongLastM", LocalDate.now().plus(-1, ChronoUnit.MONTHS));
 		/**
-		 * 根据页面得到是上月还是当月数据
+		 * 只能导入上月数据，不对其他月份数据进行更新
 		 */
-		if ("0".equals(belongMonth)) {
-			belongM = DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1));
-		} else {
-			belongM = DateUtil.getFirstDayOfTheMonth();
-		}
+		belongM = DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1));
+		
 		TsKpiPsnMonth record = new TsKpiPsnMonth();
 		record.setBelongMonth(belongM);
 		tsKpiPsnMonthService.deleteTsKpiPsnMonthByProperty(record);

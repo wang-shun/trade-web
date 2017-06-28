@@ -836,10 +836,10 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             // 派单列表 取消操作
             if (record != null)
             {
-                // record.setStatus(WorkFlowStatus.TERMINATE.getCode());
+                record.setStatus(WorkFlowStatus.TERMINATE.getCode());
                 toMortLoaner.setPkid(Long.parseLong(record.getBizCode()));
             }
-            // toWorkFlowService.updateByPrimaryKeySelective(record);
+            toWorkFlowService.updateByPrimaryKeySelective(record);
 
             // 取消的时候 派单表需要修改 取消人的信息
 
@@ -966,6 +966,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             toMortLoaner.setLoanerPhone(loaner.getMobile());
             toMortLoaner.setLoanerOrgId(loaner.getOrgId());
             toMortLoaner.setLoanerOrgCode(toMortgage.getLoanerOrgCode());
+            toMortLoaner.setResSignAddr(toMortgage.getResSignAddr());
+            toMortLoaner.setResSignTime(toMortgage.getResSignTime());
             toMortLoanerService.insertByToMortLoaner(toMortLoaner);
 
             // 插入工作流表
@@ -1056,10 +1058,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
         {
             throw new BusinessException("信贷员组织代为空");
         }
-        if (toMortgage.getIsLoanerArrive() == null || "".equals(toMortgage.getIsLoanerArrive()))
-        {
-            throw new BusinessException("信贷员是否到场为空");
-        }
+      
         if (toMortgage.getIsTmpBank() == null || "".equals(toMortgage.getIsTmpBank()))
         {
             throw new BusinessException("临时银行选项为空");
@@ -1173,6 +1172,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
         // 根据caseCode去查询相关页面信息，并且设置 页面的流程变量
         request.setAttribute("caseBaseVO", caseBaseVO);
         request.setAttribute("toMortgage", toMortgage);
+        request.setAttribute("toMortLoaner", toMortLoaner);
         // 判断案件是否有效
         if (toMortgage != null)
         {
