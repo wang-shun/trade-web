@@ -120,6 +120,7 @@ $(function(){
 		var jobCode = $("#jobCode").val();
 		var userId = $("#userId").val();
 		var orgId = $("#orgId").val();
+		var caseCode = $.trim($("#caseCode").val());
 		
 		data.overdue = overdue;
 		data.inProgress = inProgress;
@@ -130,6 +131,7 @@ $(function(){
 		data.jobCode = jobCode
 		data.uid = userId;
 		data.oId = orgId;
+		data.caseCode = caseCode;
 		
 		return data;
 	}

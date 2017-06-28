@@ -68,6 +68,18 @@
 					</div>
 					<div class="line">
 						<div class="form_content">
+							<label class="control-label sign_left_small"> 实际签约时间 </label> 
+							<input name="actualSignTimeStart" class="teamcode input_type date-picker" style="width: 106px;" placeholder="起始时间" value="" readonly="readonly" />到
+							<input name="actualSignTimeEnd" class="teamcode input_type date-picker" style="width: 106px;" placeholder="结束时间" value="" readonly="readonly" />
+						</div>
+						<div class="form_content">
+							<label class="control-label sign_left_small"> 实际过户时间 </label> 
+							<input name="actualGuohuTimeStart" class="teamcode input_type date-picker" style="width: 106px;" placeholder="起始时间" value="" readonly="readonly" />到
+							<input name="actualGuohuTimeEnd" class="teamcode input_type date-picker" style="width: 106px;" placeholder="结束时间" value="" readonly="readonly" />
+						</div>
+					</div>
+					<div class="line">
+						<div class="form_content">
 							<label class="control-label sign_left_small"> 客服 </label> 
 							<input type="hidden" id="userId" value=''> 
 							<input type="text" id="realName" readonly="readonly" class="teamcode input_type"
@@ -77,9 +89,27 @@
 							<div class="input-group float_icon organize_icon">
 								<i class="icon iconfont">&#xe627;</i>
 							</div>
-
 						</div>
+						<shiro:hasPermission name="TRADE.SURVEY.LIST.DISPATCH">
 						<div class="form_content mr10">
+							<label class="control-label sign_left_small"> 贵宾服务部 </label> 
+							<select name="district" class="select_control sign_right_one">
+								<option value="">请选择</option>	
+							</select>
+						</div>
+						</shiro:hasPermission>
+					</div>
+					<div class="line">
+						<div class="form_content">
+							<label class="control-label sign_left_small"> 奖金发放状态 </label> 
+							<select name="awardStatus" class="select_control sign_right_one" style="width:230px;">
+								<option value="">请选择</option>
+								<option value="0">未发放</option>
+								<option value="1">已发放</option>
+								<option value="2">发放失败</option>
+							</select>
+						</div>
+						<div class="form_content">
 							<label class="control-label sign_left_small"> 回访状态 </label> 
 							<select name="status" class="select_control sign_right_one">
 								<option value="">请选择</option>
@@ -90,17 +120,6 @@
 								<option value="5">过户回访</option>
 								<option value="6">过户打回</option>
 								<option value="7">已回访</option>
-							</select>
-						</div>
-					</div>
-					<div class="line">
-						<div class="form_content mr10">
-							<label class="control-label sign_left_small"> 奖金发放状态 </label> 
-							<select name="awardStatus" class="select_control sign_right_one">
-								<option value="">请选择</option>
-								<option value="0">未发放</option>
-								<option value="1">已发放</option>
-								<option value="2">发放失败</option>
 							</select>
 						</div>
 						<div class="add_btn">
@@ -304,6 +323,11 @@
 								params.surveySignTimeEnd = $("input[name='surveySignTimeEnd']").val();
 								params.surveyGuohuTimeStart = $("input[name='surveyGuohuTimeStart']").val();
 								params.surveyGuohuTimeEnd = $("input[name='surveyGuohuTimeEnd']").val();
+								params.actualSignTimeStart = $("input[name='actualSignTimeStart']").val();
+								params.actualSignTimeEnd = $("input[name='actualSignTimeEnd']").val();
+								params.actualGuohuTimeStart = $("input[name='actualGuohuTimeStart']").val();
+								params.actualGuohuTimeEnd = $("input[name='actualGuohuTimeEnd']").val();
+								params.district = $("select[name='district']").val();
 								params.callerId=$("#userId").val();
 								params.status=$("select[name='status']").val();
 								params.awardStatus = $("select[name='awardStatus']").val();
@@ -320,6 +344,7 @@
 							function clearForm() {
 								$(".input_type,#userId").val("");
 								$(".select_control").find("option:first").prop("selected", true);
+								$('.date-picker').datepicker('update','');
 							}
 
 							//初始化数据
@@ -338,6 +363,11 @@
 								params.surveySignTimeEnd = $("input[name='surveySignTimeEnd']").val();
 								params.surveyGuohuTimeStart = $("input[name='surveyGuohuTimeStart']").val();
 								params.surveyGuohuTimeEnd = $("input[name='surveyGuohuTimeEnd']").val();
+								params.actualSignTimeStart = $("input[name='actualSignTimeStart']").val();
+								params.actualSignTimeEnd = $("input[name='actualSignTimeEnd']").val();
+								params.actualGuohuTimeStart = $("input[name='actualGuohuTimeStart']").val();
+								params.actualGuohuTimeEnd = $("input[name='actualGuohuTimeEnd']").val();
+								params.district = $("select[name='district']").val();
 								params.callerId = $("#userId").val();
 								params.status = $("select[name='status']").val();
 								params.awardStatus = $("select[name='awardStatus']").val();
@@ -449,7 +479,27 @@
 					        	todayBtn : 'linked',
 					        	language : 'zh-CN'
 					        })
-						</script> 
-					</content>
+					        
+					        //获取所有大区
+				            var data = {
+				                    queryId: "queryDistrict",
+				                    pagination : false
+				                }
+				           $.ajax({
+				               url : ctx+"/quickGrid/findPage",
+				               method : "GET",
+				               data : data,
+				               dataType : "json",
+				               async:false,
+				               success : function(data) {
+				                   $.each(data.rows,function(i,item){
+				                	   var option = "<option value='"+item.DISTRICT_ID+"'>"+item.DISTRICT_NAME+"</option>";
+				                	   $("select[name='district']").append(option);
+				                   })
+				               },
+				               error:function(){}
+				           });
+		</script> 
+	</content>
 </body>
 </html>

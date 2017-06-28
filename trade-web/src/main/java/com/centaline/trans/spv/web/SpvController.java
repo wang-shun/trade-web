@@ -1143,20 +1143,20 @@ public class SpvController {
        	StartProcessInstanceVo  processInstance = processInstanceService.getHistoryInstances(instCode);
 		businessKey = processInstance.getBusinessKey();
        	if(!StringUtils.isBlank(handle)){ 	
-	           	switch (handle) {
-			           	case "apply":
-			       			  cashFlowInService.cashFlowInApplyProcess(request, source, instCode, taskId, handle, businessKey);
-			       			  url="spv/spvRecordedApp";
-			       			  break;
-			           	case "directorAduit":
-			        	      cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
-			        	      url="spv/spvRecordShow";
-			        	      break;
-			           	case "financeAduit":
-			           		  cashFlowInService.cashFlowInFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
-			        	      url="spv/spvRecordShow";
-			           	      break;
-	           	}
+           	switch (handle) {
+	           	case "apply":
+	       			  cashFlowInService.cashFlowInApplyProcess(request, source, instCode, taskId, handle, businessKey);
+	       			  url="spv/spvRecordedApp";
+	       			  break;
+	           	case "directorAduit":
+	        	      cashFlowInService.cashFlowInDirectorAduitProcess(request, source, instCode, taskId, handle, businessKey);
+	        	      url="spv/spvRecordShow";
+	        	      break;
+	           	case "financeAduit":
+	           		  cashFlowInService.cashFlowInFinanceAduitProcess(request, source, instCode, taskId, handle, businessKey);
+	        	      url="spv/spvRecordShow";
+	           	      break;
+           	}
          }
    	    
        	request.setAttribute("taskId", taskId); 

@@ -245,7 +245,6 @@
 </script>
 <script>
     
-    
     var ctx = "${ctx}";
     var belongM = "${belongM}";
     var belongLastM = "${belongLastM}";
@@ -280,14 +279,9 @@
         			  layer.close(i);
         			  var i = 0;
             		  // 上月
-            		  var bm;
-            		  if(i=='0') {
-            			  var cDate = new Date();
-            			  cDate.setMonth(cDate.getMonth()-1);
-            			  bm = cDate.format('yyyy-MM-dd');
-            		  } else {
-            			  bm = new Date().format('yyyy-MM-dd');
-            		  } 
+           			  var cDate = new Date();
+           			  cDate.setMonth(cDate.getMonth()-1);
+           			  var  bm = cDate.format('yyyy-MM-dd');
             		  var isKpiMoney = isGenerKpiMoney(bm);
             		  if(isKpiMoney) {
            		    	layer.alert('绩效奖金已经生成,不能重复导入!', {
@@ -316,20 +310,17 @@
         	  cancel: function(index){  layer.close(index); }
         	});
     	})
-    	
     	$('#cleanButton').click(function() {
  			$("input[name='teamCode']").val('');
  			$("input[name='yuCuiOriGrpId']").val('');
  			$("input[name='userName']").val('');
  		});
     });
-    
     //选业务组织的回调函数
     function radioYuCuiOrgSelectCallBack(array){
         if(array && array.length >0){
             $("#teamCode").val(array[0].name);
     		$("#yuCuiOriGrpId").val(array[0].id);
-    		
     	}else{
     		$("#teamCode").val("");
     		$("#yuCuiOriGrpId").val("");
@@ -353,7 +344,6 @@
     	return isKpiMoney;
     }
     
-
     function isShowSatButton(){
     	var belongMonth = getBlongMonth();
     	$.ajax({
@@ -361,19 +351,13 @@
             method: "get",
             dataType: "json",
             data: {"belongMonth":belongMonth},
-
             success: function(data){        
             	if(data.success == true){			  
             		$("#importButton").hide();
             	}
-            },
-            error: function (e, jqxhr, settings, exception) {
-            	 
-            }  
+            }
        })
     }
- 	
-
 	  //获取计件年月信息
 	  function getBlongMonth(){
 	  	var bm = "";	

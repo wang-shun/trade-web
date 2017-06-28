@@ -326,7 +326,6 @@ function getDel(k){
     require(['main'], function() {
     	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
     		fileUpload = aistFileUpload;
-    		
     		fileUpload.init({
 	    		caseCode : $('#caseCode').val(),
 	    		partCode : "AddWdCase",
@@ -340,12 +339,10 @@ function getDel(k){
 			var id = $(this).attr("id");								
 			$("span[id='"+id+"']").changeSelect();
 		});
-	    
 	    var other = $("#subjectOther").val();
 	    if(null !=other && other.length>0){
 	    	spansShow();
 	    }
-	    
     });
     
     function spansClick(list){

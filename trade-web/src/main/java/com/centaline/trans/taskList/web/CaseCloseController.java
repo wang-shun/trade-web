@@ -88,7 +88,7 @@ public class CaseCloseController {
 	@ResponseBody
 	public Boolean saveCaseDetai(HttpServletRequest request, EditCaseDetailVO editCaseDetailVO) {
 		try{
-			editCaseDetailService.saveCaseDetai(editCaseDetailVO);
+			editCaseDetailService.saveCaseCloseDetai(editCaseDetailVO);
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -100,7 +100,7 @@ public class CaseCloseController {
 	@ResponseBody
 	public boolean submitCaseClose(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO,EditCaseDetailVO editCaseDetailVO) {
-		editCaseDetailService.saveCaseDetai(editCaseDetailVO);
+		editCaseDetailService.saveCaseCloseDetai(editCaseDetailVO);
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, "", "结档归案提交。");
 		/*发送消息*/
 		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
