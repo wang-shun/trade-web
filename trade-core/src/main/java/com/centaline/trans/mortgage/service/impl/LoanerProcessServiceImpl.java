@@ -966,6 +966,8 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             toMortLoaner.setLoanerPhone(loaner.getMobile());
             toMortLoaner.setLoanerOrgId(loaner.getOrgId());
             toMortLoaner.setLoanerOrgCode(toMortgage.getLoanerOrgCode());
+            toMortLoaner.setResSignAddr(toMortgage.getResSignAddr());
+            toMortLoaner.setResSignTime(toMortgage.getResSignTime());
             toMortLoanerService.insertByToMortLoaner(toMortLoaner);
 
             // 插入工作流表
