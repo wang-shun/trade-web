@@ -166,9 +166,9 @@
 			</td>
 			<td >
 				<p class="big">
-{{if item.COM_AMOUNT_LS !=null}}
+				{{if item.COM_AMOUNT_LS !=null}}
 					{{item.COM_LS_RATE}}%
-{{/if}}
+				{{/if}}
 				</p>
 			</td>
 			<td >
@@ -192,7 +192,6 @@ function chooseManager(startOrgId) {
 		departmentType : '',
 		departmentHeriarchy : '',
 		chkStyle : 'radio',
-		//jobCode : 'JYUZBJL',
 		callBack : chooseManagerBack
 	});
 }

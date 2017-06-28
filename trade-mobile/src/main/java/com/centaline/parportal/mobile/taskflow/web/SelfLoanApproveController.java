@@ -50,6 +50,7 @@ public class SelfLoanApproveController {
         jsonObject.put("processInstanceId", processInstanceId);
         jsonObject.put("source", source);
         jsonObject.put("partCode", "SelfLoanApprove");
+        jsonObject.put("caseCode", "caseCode");
 
         SessionUser user = uamSessionService.getSessionUser();
         CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
