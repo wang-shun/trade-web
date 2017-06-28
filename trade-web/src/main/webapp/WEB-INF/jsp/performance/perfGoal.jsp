@@ -126,6 +126,10 @@
 							<h4 class="modal-title" id="myModalLabel">业绩目标</h4>
 						</div>
 						<div class="modal-body">
+							<div class="form-group" id="div_user">
+								<label for="marget" class="control-label pull-left"
+									style="margin: 1px 40px 0 0;">考核人员</label> <span id="lab_user"></span>
+							</div>
 							<div class="form-group">
 								<label for="marget" class="control-label pull-left"
 									style="margin: 7px 15px 0 0;">填写业绩目标</label> <input type="text" id='txt_perfGoal' name="perfGoal"
@@ -207,7 +211,7 @@
 			<td>{{item.create_time}}</td>
 			<td>{{item.status == '' ? '未设定' :item.status}}</td>
 			<td>{{if item.main_status != '2'}}
-					<a href="javascript:void(0);" onclick="setGoal(this);" class="sum_editor">设定</a>
+					<a href="javascript:void(0);" onclick="setGoal(this,'{{item.real_name}}');" class="sum_editor">设定</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -239,11 +243,8 @@
          //设定业绩的提交按钮
          $("#btn_setPerfGoal").click(setPerfGoal);
          $("#ckb_checkall").click(function(){
-        	 if($(this).prop('checked')){
-        		 $("input[name=items]").prop("checked","true");	 
-        	 }else{
-        		 $("input[name=items]").removeProp("checked");
-        	 }
+       		 $("input[name=items]").prop("checked",$(this).prop('checked'));	 
+
          });
      });
      //设置业绩目标
@@ -281,6 +282,7 @@
 	 }
      //弹窗模态框点击触发
      function showSetModal(){
+    	 $('#txt_perfGoal').val('');
     	 $('#myModal').modal('show');
      }
      //置空ID数组
@@ -289,9 +291,11 @@
 		 uojIds=[];
      } 
      //设置目标调用方法
-	 function setGoal(element){
+	 function setGoal(element,userName){
 		 reSetIdArrary();
 		 putId(element);
+		 $('#lab_user').text(userName||'');
+		 $('#div_user').show();//显示人的名字
 		 showSetModal();
 	 }
      ///将要操作的pkid或者orgjobId封装进数组
@@ -313,6 +317,7 @@
 		 $("input[name='items']:checked").each(function(e,i){
 			 putId(this);
 		 });
+		 $('#div_user').hide();
 		 showSetModal();
 	 }
 	//提交业绩绑定函数
