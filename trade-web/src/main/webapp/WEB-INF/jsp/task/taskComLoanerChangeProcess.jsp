@@ -85,6 +85,9 @@
 .wizard > .content > .body input {
     display: inline-block;
 }
+input[readonly], select[disabled] {
+		  background-color: #eee!important;
+	}
 </style>
 <script language="javascript">
 	var taskitem = "${taskitem}";
@@ -161,182 +164,115 @@
 							<div class="step-content" style="margin-top: -30px;">
 								<div class="ibox" style="width:988px;">
 								<div class="ibox-content">
-								<form id="mortgageForm" class="form_list">
-								    <input type="hidden" name="pkid" id="pkid"  value="${toMortgage.pkid}"/>
+								<form id="orderform" >
+                                                	<input type="hidden" name="pkid" id="pkid"  value="${toMortgage.pkid}"/>
 									<input type="hidden" name="caseCode" id="caseCode" value="${caseCode}">	
 									<input type="hidden" id="isMainLoanBank" name="isMainLoanBank" value="${toMortgage.isMainLoanBank}"/>
-																	
-		                            <div class="marinfo">
-		                                    <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small"> 主贷人<span class="star">*</span></label>
-													 <input class=" input_type yuanwid" placeholder="" value="${custName}" readonly="readonly" name="custName" id="custName" style="background-color:#ccc;">
-		                                         </div>
-												<div class="form_content">
-													<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>贷款总额 </label>
-													<input type="text" name="mortTotalAmount" style="background-color:#ccc;" id="mortTotalAmount" class="input_type yuanwid"  readonly="readonly"  onkeyup="checkNum(this)"
-														   value="<fmt:formatNumber value='${toMortgage.mortTotalAmount/10000}' type='number' pattern='#0.00' />">
-													<span class="date_icon">万元</span>
-												</div>
-												<div class="form_content">
-													<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>贷款类型</label>
-													<aist:dict id="mortType" name="mortType"
-															   clazz="select_control data_style" display="select" dictType="30016"
-															   defaultvalue="${toMortgage.mortType }" />
-												</div>
-		                                     </div>    
-		                                     
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">主贷人单位</label>
-													 <input class="input_type mendwidth" placeholder="" style="background-color:#ccc;" value="${custCompany}" readonly="readonly">
-		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">认定套数</label>
-													 <input type="text" name="houseNum" id="houseNum" style="background-color:#ccc;" class="input_type data_style"  readonly="readonly" value="${toMortgage.houseNum}" onkeyup="checkNum2(this)">
-		                                         </div>
-		                                     </div>
-		                                     
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">商贷金额<span class="star">*</span></label>
-													 <input type="text" name="comAmount" style="background-color:#ccc;" id="comAmount" class="input_type yuanwid"  readonly="readonly" onkeyup="checkNum(this)"
-															value="<fmt:formatNumber value='${toMortgage.comAmount/10000}' type='number' pattern='#0.00' />">
-													 <span class="date_icon">万元</span>
-		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">商贷利率折扣<span class="star">*</span></label>
-													 <input type="text" name="comDiscount" style="background-color:#ccc;" id="comDiscount"  readonly="readonly" class="input_type yuanwid" onkeyup="autoCompleteComDiscount(this)" placeholder="0.50~1.50之间"
-															value="<fmt:formatNumber value='${toMortgage.comDiscount}' type='number' pattern='#0.00' />">
-		                                         </div>
-		                                         <div class="form_content">
-													 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>商贷部分年限</label>
-													 <input type="text" name="comYear" style="background-color:#ccc;" id="comYear" class="input_type data_style"  readonly="readonly" value="${toMortgage.comYear}" onkeyup="checkNum2(this)">
-		                                         </div>
-		                                     </div>
-		                                     
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">公积金贷款金额</label>
-													 <input type="text" name="prfAmount" style="background-color:#ccc;" id="prfAmount" class="input_type yuanwid"  readonly="readonly" onkeyup="checkNum(this)"
-															value="<fmt:formatNumber value='${toMortgage.prfAmount/10000}' type='number' pattern='#0.00' />">
-													 <span class="date_icon">万元</span>		
-		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">公积金贷款年限</label>
-													 <input type="text" name="prfYear" style="background-color:#ccc;" readonly="readonly"  id="prfYear"　 class="input_type data_style" value="${toMortgage.prfYear}" onkeyup="checkNum2(this)">
-		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left">放款方式<span class="star">*</span></label>
-													 <aist:dict id="lendWay" name="lendWay" clazz="select_control data_style"
-															display="select" dictType="30017" defaultvalue="${toMortgage.lendWay }" />
-		                                         </div>
-		                                     </div>
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small select_style mend_select">签约时间<span class="star" >*</span>
-		                                             </label>
-		                                             <div class="input-group sign-right dataleft  pull-left" id="date_4">
-														 <input type="text" value="<fmt:formatDate  value='${toMortgage.signDate}' type='both' pattern='yyyy-MM-dd'/>"
-																class="input_type yuanwid" style="background-color:#ccc;" readonly="readonly"   name="signDate" id="signDate" readonly>
-                                                           <%-- <input class="input_type yuanwid" type="text" placeholder=""　value name="signDate" id="signDate" readonly>--%>
-                                                     </div>
-		                                         </div>
-		                                         <div class="form_content radio-seat" style="margin-top:7px;">
-		                                             <label class="control-label sign_left_small">需要放款前报告</label>							             
-										             <div class="controls">
-														 <c:if test="${toMortgage.ifReportBeforeLend =='1'}">
-															 <label class="radio inline"> <input type="radio" value="1"　 checked="checked" name="ifReportBeforeLend">是</label>
+                                                    <div class="form_list" style="margin-top: 0;">
+                                                        <div class="marinfo">
+                                                            <h4>派单信息</h4>
+                                                            <div class="line">
+                                                                <div class="form_content radio-seat">
+                                                                    <label class="control-label sign_left_small">是否临时银行</label>
+                                                                    <div class="controls ">
+                                                                       <label class="radio inline"> <input type="radio" value="1" name="isTmpBank" onclick="return false;" readonly="readonly" >是
+                                                                        </label> <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" onclick="return false;" readonly="readonly" checked="checked">否
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="line">
+                                                                <div class="form_content">
+                                                                    <label class="control-label sign_left_small">银行</label>
+                                                                    <input type="hidden" value="${toMortgage.finOrgCode}" id="caseFinOrgCode" />
+                                                                    <select name="bank_type" id='bank_type' class="select_control  ">
+                                                                    </select>
+                                                                    <select name="finOrgCode" id='finOrgCode' class=" select_control  ">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="line">
+                                                            	                                     
+	                                         	 				<input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" value="${toMortgage.loanerOrgCode}" />
+												 				<input type="hidden" id="loanerOrgId" name ="loanerOrgId" value="${toMortgage.loanerOrgId}"/>
+												 				<input type="hidden"  id="loanerId" name="loanerId" value="${toMortgage.loanerId}"/>
+                                                                <div class="form_content">
+                                                                    <label class="control-label sign_left_small">信贷员</label> <input class="input_type yuanwid" readonly="readonly" placeholder="" value="${toMortgage.loanerName}" name='loanerName' onclick="selectLoanerByOrgId();">
+                                                                    <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage" id="loanerNameImage" name="loanerNameImage" onclick="selectLoanerByOrgId();" ></i>
+                                                                    
+                                                                </div>
+                                                                <div class="form_content">
+					                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
+																 <input type="text" name="loanerPhone" id="loanerPhone" placeholder="联系方式" class="input_type data_style" value="${toMortgage.loanerPhone}">
+		                                         				</div>
+                                                            </div>
 
-														 </c:if>
-														 <c:if test="${toMortgage.ifReportBeforeLend =='0'}">
+                                                            <div class="line tmpBankHide nonTmpBankShow">
+                                                                <div class="form_content">
+                                                                    <label class="control-label sign_left_small select_style mend_select">
+                                                                        预定签约时间
+                                                                    </label>
+                                                                    <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                                                                        <input name="resSignTime" class="input_type yuanwid datatime" type="text" value="<fmt:formatDate value="${toMortLoaner.resSignTime}" pattern="yyyy-MM-dd"/>" placeholder="">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form_content">
+                                                                    <label class="control-label sign_left_small">签约地点</label><select name="resSignAddr"  class=" select_control data_style ">
+                                                                    </select>
+                                                                </div>
 
-															 <label class="radio inline"> <input type="radio" value="0"  checked="checked"　name="ifReportBeforeLend" checked="checked">否</label>
-														 </c:if>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form_list tmpBankHide nonTmpBankShow" style="margin-top: 0;" id='div_order'>
+                                                        <div class="marinfo">
+                                                            <h4>客户信息</h4>
+                                                            <div class="line">
+                                                                <div class="form_content">
+                                                                    <label class="control-label sign_left_small"> 主贷人姓名</label> 
+                                                                    <input name='custName' class='input_type yuanwid'value="${custName}" readonly="readonly">
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            <div class="line">
+                                                                <div class="form_content">
+                                                                    <label class="control-label sign_left_small">贷款总额</label> <input readonly="readonly" name="mortTotalAmount" class=" input_type yuanwid" value="<fmt:formatNumber value='${toMortgage.mortTotalAmount/10000}' type='number' pattern='#0.00' />" >
+                                                                   <span class="date_icon">万元</span>
+                                                                </div>
+                                                                <div class="form_content">
+                                                                    <label class="control-label sign_left_small">贷款类型</label>
+                                                                         <aist:dict id="mortType" name="mortType"
+															clazz="select_control data_style" display="select" dictType="30016"
+															defaultvalue="${toMortgage.mortType }"  />
+                                                                </div>
+                                                            </div>
+                                                            <div class="line">
+                                                                <div class="form_content">
+                                                                    <label class="control-label sign_left_small">商贷部分金额</label> <input readonly="readonly" name="comAmount" value="<fmt:formatNumber value='${toMortgage.comAmount/10000}' type='number' pattern='#0.00' />" class=" input_type yuanwid"  >
+                                                                   <span class="date_icon">万元</span>
+                                                                </div>
+                                                                <div class="form_content">
+                                                                    <label class="control-label sign_left_small">商贷期望年限</label> <input readonly="readonly" name="comYear" value="${toMortgage.comYear}" class=" input_type data_style"  >
+                                                                   <span class="date_icon">年</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="line">
+                                                                <div class="form_content">
+                                                                    <label class="control-label sign_left_small">公积金部分金额</label> <input readonly="readonly" name='prfAmount' value="<fmt:formatNumber value='${toMortgage.prfAmount/10000}' type='number' pattern='#0.00' />" class=" input_type yuanwid"  >
+                                                                   <span class="date_icon">万元</span>
+                                                                </div>
+                                                                <div class="form_content">
+                                                                    <label class="control-label sign_left_small">公积金期望年限</label> <input readonly="readonly" name="prfYear" value="${toMortgage.prfYear}" class=" input_type data_style" >
+                                                                   <span class="date_icon">年</span>
+                                                                </div>
+                                                            </div>
+  
+                                                        </div>
+                                                    </div>
 
-                                                     </div>
-		                                         </div>
-		                                     </div>
-		                                     
-		                                     <div class="line">
-												 <div class="form_content radio-seat" style="margin-top:5px;">
-													 <label class="control-label sign_left_small">是否临时银行</label>
-													 <div class="controls ">
-														 <c:if test="${toMortgage.isMainLoanBank=='0'}">
-															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" readonly } checked="checked">否</label>
-														 </c:if>
-														 <c:if test="${toMortgage.isMainLoanBank!='0'}">
-															 <label class="radio inline"> <input type="radio" value="1" id="isTmpBank" name="isTmpBank" readonly>是</label>
-															 <label class="radio inline"> <input type="radio" value="0" name="isTmpBank" readonly } checked="checked">否</label>
-														 </c:if>
-
-													 </div>
-												 </div>
-												 <div class="form_content">
-													 <label class="control-label sign_left_small select_style mend_select">推荐函编号<span class="star" >*</span>
-													 </label>
-													 <div class="input-group sign-right dataleft  pull-left">
-														 <input type="text" name="recLetterNo" id="recLetterNo" readonly="readonly" style="background-color:#ccc;"  value="${toMortgage.recLetterNo}"  class="input_type yuanwid" />
-													 </div>
-												 </div>
-		                                     </div>
-
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">贷款银行</label>																										
-													 <select  name="bank_type" class="select_control" id="bank_type" ></select>
-													 <input type="hidden" value="${toMortgage.finOrgCode}" id="caseFinOrgCode" />
-		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small" style="width: 204px;">贷款支行<span class="star">*</span></label>
-													 <select  name="finOrgCode" class="select_control" id="finOrgCode" ></select>
-		                                         </div>
-		                                     </div>
-		                                     
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small"> 信贷员 <span class="star">*</span></label>
-													 <input  type="text" readonly='readonly' name="loanerName" id="loanerName" placeholder="" class="input_type yuanwid" value="${toMortgage.loanerName}"  onclick="selectLoanerByOrgId()">
-													 <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage"  id="loanerNameImage" name ="loanerNameImage"  onclick="selectLoanerByOrgId()" >&#xe627;</i>
-													 </input>			
-													 <input type="hidden" id="loanerOrgCode"  name="loanerOrgCode" value="${toMortgage.loanerOrgCode}" />
-													 <input type="hidden" id="loanerOrgId" name ="loanerOrgId" value="${toMortgage.loanerOrgId}" />
-													 <input type="hidden"  id="loanerId" name="loanerId" value="${toMortgage.loanerId}" />
-													 <div class="input-group float_icon organize_icon" ></div>	
-		                                         </div>
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">信贷员电话<span class="star">*</span></label>
-													 <input type="text" name="loanerPhone" id="loanerPhone"  value="${toMortgage.loanerPhone}"
-															placeholder="联系方式" class="input_type data_style">
-		                                         </div>
-		                                         <div class="form_content" style="margin-top:8px;">
-		                                             <label class="control-label sign_left">信贷员到场</label> 
-		                                             <div class="controls" >
-														 <c:if test="${toMortgage.isLoanerArrive=='1'}">
-															 <label class="radio inline"> <input type="radio" value="1" checked="checked" name="isLoanerArrive">是</label>
-															 <label class="radio inline"> <input type="radio" value="0" name="isLoanerArrive" checked="checked">否</label>
-														 </c:if>
-														 <c:if test="${toMortgage.isLoanerArrive=='0'}">
-															 <label class="radio inline"> <input type="radio" value="1"  name="isLoanerArrive">是</label>
-															 <label class="radio inline"> <input type="radio" value="0" checked="checked" name="isLoanerArrive">否</label>
-														 </c:if>
-														 <c:if test="${toMortgage.isLoanerArrive==null}">
-															 <label class="radio inline"> <input type="radio" value="1"  name="isLoanerArrive">是</label>
-															 <label class="radio inline"> <input type="radio" value="0"  name="isLoanerArrive" >否</label>
-														 </c:if>
-
-		                                             </div>
-		                                         </div>
-		                                     </div>
-		                                     
-		                                     <div class="line">
-		                                         <div class="form_content">
-		                                             <label class="control-label sign_left_small">备注</label>
-													 <input type="text" name="remark" id="remark" style="background-color:#ccc;" readonly="readonly"  value="${toMortgage.remark}"  class="input_type optionwid">
-		                                         </div>
-		                                     </div>		                                     
-		                               </div>
-									</form>
+                                                    </form>
+								
+							
 								</div>
 							</div>
 						</div>
@@ -388,8 +324,43 @@
 <script src="<c:url value='/js/common/textarea.js' />"></script>
 <script src="<c:url value='/js/common/common.js' />"></script> 
 <script>
-	var isTmpBank = ${toMortgage.isTmpBank}
-
+	var isTmpBank = '${toMortgage.isTmpBank}';
+	var tradeCenter;
+	var resSignAddr ='${toMortLoaner.resSignAddr}';
+	/**
+	 * 加载签约地点 
+	 *val 选中的ID
+	 */
+	function loadTradeCenterList(val){
+		if(tradeCenter){ //只加载一次
+			return buildTradeCenter(tradeCenter,val);
+		}
+		$.ajax({
+		    url:ctx+"/weixin/signroom/getTradeCenterList",
+		    async:false,
+	    	method:"post",
+	    	dataType:"json",
+	    	success:function(data){
+	    		if(data){
+	    			tradeCenter=data;
+	    			return buildTradeCenter(tradeCenter,val);
+	    		}
+	    }});
+	}
+	/***
+	 * 生成签约地点下拉框
+	 */
+	function buildTradeCenter(tradeCenter,val){
+		var saddr = $('[name=resSignAddr]');
+		saddr.find('option').remove();
+		saddr.append($("<option value=''>请选择</option>"));
+		$(tradeCenter).each(function(i,e){
+			saddr.append($("<option value='"+e.pkid+"'>"+e.centerName+"</option>"));	
+		});
+		if(val){
+			saddr.val(val);
+		}
+	}
 	function checknum(obj){
 		obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
 		obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是.
@@ -418,16 +389,12 @@
 			caseCode : caseCode
 			
 		});
-		//$("#bankOrgId").val(finOrgId);  
-		//银行下拉列表
-		if(isTmpBank=='1'){
-			getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"","equ");
-		}else{
-			getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"cl","equ");
-		}
-		$("#mortType").attr("disabled","disabled").css("background-color", "#ccc");
-		$("#lendWay").attr("disabled","disabled").css("background-color", "#ccc");
-		$("input[name='isTmpBank']").on('click',isTmpBankChange);
+		loadTradeCenterList(resSignAddr);
+		
+		getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"cl","equ");
+		
+		$("[name=mortType]").attr("disabled","disabled");
+	
 		
 		
  		$("select[name='finOrgCode']").change(function(){     	
@@ -557,15 +524,14 @@
 				loanerOrgCode:$("#loanerOrgCode").val(),
 				loanerOrgId:$("#loanerOrgId").val(),
 				loanerId:$("#loanerId").val(),
-				loanerName:$("#loanerName").val(),
+				loanerName:$("[name=loanerName]").val(),
 				loanerPhone:$("#loanerPhone").val(),
-				isLoanerArrive:$("input[name='isLoanerArrive']:checked").val(),
 				isTmpBank:$("input[name='isTmpBank']:checked").val(),
-				finOrgCode:$("#finOrgCode").val(),
+				finOrgCode:$("[name=finOrgCode]").val(),
 				isMainLoanBank:$("#isMainLoanBank").val(),				
-				mortTotalAmount:$("#mortTotalAmount").val(),
-				custName:$("#custName").val(),
-				mortType:$("#mortType option:selected").val(),				
+				mortTotalAmount:$("input[name=mortTotalAmount]").val(),
+				custName:$("input[name=custName]").val(),
+				mortType:$("input[name=mortType]").val(),				
 				comAmount:$("#comAmount").val(),
 				comDiscount:$("#comDiscount").val(),
 				comYear:$("#comYear").val(),
@@ -655,24 +621,7 @@
 
 
 	}
-	function isTmpBankChange(){
-		if(!!$(this).attr('readOnly')){
-			return false;
-		}
-		var f=$(this).closest('form');
-		var checkBtnVal = $("input[name='isTmpBank']:checked").val();
-		if(checkBtnVal == '1'){
-			getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"","equ");
-			$("#bank_type").change(function(){
-				getBranchBankList($("#finOrgCode"),$("#bank_type").val(),"");
-			});
-		}else{
-			getParentBank($("#bank_type"),$("#finOrgCode"),$("#caseFinOrgCode").val(),"cl","equ");
-			$("#bank_type").change(function(){
-				getBranchBankList($("#finOrgCode"),$("#bank_type").val(),"cl");
-			});
-		}
-	}
+	
 	//验证控件checkUI();
 	function checkForm() {
 

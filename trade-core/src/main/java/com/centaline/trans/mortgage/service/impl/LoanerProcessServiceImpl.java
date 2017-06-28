@@ -1056,10 +1056,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
         {
             throw new BusinessException("信贷员组织代为空");
         }
-        if (toMortgage.getIsLoanerArrive() == null || "".equals(toMortgage.getIsLoanerArrive()))
-        {
-            throw new BusinessException("信贷员是否到场为空");
-        }
+      
         if (toMortgage.getIsTmpBank() == null || "".equals(toMortgage.getIsTmpBank()))
         {
             throw new BusinessException("临时银行选项为空");
@@ -1173,6 +1170,7 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
         // 根据caseCode去查询相关页面信息，并且设置 页面的流程变量
         request.setAttribute("caseBaseVO", caseBaseVO);
         request.setAttribute("toMortgage", toMortgage);
+        request.setAttribute("toMortLoaner", toMortLoaner);
         // 判断案件是否有效
         if (toMortgage != null)
         {

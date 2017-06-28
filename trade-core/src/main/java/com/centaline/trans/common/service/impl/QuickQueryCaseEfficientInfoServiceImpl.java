@@ -182,7 +182,7 @@ public class QuickQueryCaseEfficientInfoServiceImpl implements CustomDictService
 			}
 
 			caseCloseDly = (Integer) resultMap.get("caseCloseDly");
-			caseCloseOverdueTime = caseCloseEff - caseCloseTime >= 0 ? 0 : Math.abs(caseCloseOverdueTime);
+			caseCloseOverdueTime = caseCloseEff - caseCloseTime;
 
 			if (caseCloseOverdueTime >= 0) {
 				caseCloseOverdueTime = 0;
@@ -256,7 +256,7 @@ public class QuickQueryCaseEfficientInfoServiceImpl implements CustomDictService
 			}
 
 			guohuDly = (Integer) resultMap.get("guohuDly");
-			guohuOverdueTime = guohuEff - guohuTime >= 0 ? 0 : Math.abs(guohuOverdueTime);
+			guohuOverdueTime = guohuEff - guohuTime;
 
 			if (guohuOverdueTime >= 0) {
 				guohuOverdueTime = 0;
