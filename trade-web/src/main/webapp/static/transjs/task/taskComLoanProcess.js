@@ -1134,14 +1134,16 @@ function renderOrder(f,data){
 function renderOrderSign(f,data){
 	var $content=data.content;
 	if($content){
-		f.find("#lab_mortTotalAmount").text(($content.mortTotalAmount/10000)||'');
+		f.find("#lab_mortTotalAmount").text((($content.mortTotalAmount/10000)||'')+'万元');
 		f.find("#lab_mortType").text($content.mortType=='30016001'?'纯商贷':$content.mortType=='30016002'?'组合贷款':'');
-		f.find("#lab_comAmount").text(($content.comAmount/10000)||'');
-		f.find("#lab_comYear").text($content.comYear);
-		f.find("#lab_prfAmount").text(($content.prfAmount/10000)||'' );
-		f.find("#lab_prfYear").text($content.prfYear);
+		f.find("#lab_comAmount").text((($content.comAmount/10000)||'')+'万元');
+		f.find("#lab_comYear").text($content.comYear + '年');
+		f.find("#lab_prfAmount").text((($content.prfAmount/10000)||'')+'万元' );
+		f.find("#lab_prfYear").text($content.prfYear+'年');
 		f.find("#lab_loanerStatus").text($content.loanerStatus);
 		f.find("#lab_bankName").text($content.loanerOrgCodeStr);
+		f.find("#lab_loanerName").text($content.loanerName);
+		f.find("#lab_custName").text($content.custName);
 		if($content.loanerStatus=='ACCEPTING'||$content.loanerStatus=='AUDITING'||$content.loanerStatus=='COMPLETED'){
 			//除了取消派单外其它全部只读
 			f.find('[name=bank_type],[name=finOrgCode],[name=isTmpBank]').prop('disabled',true).unbind('click').click(function(){return false});
