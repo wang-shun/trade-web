@@ -185,7 +185,6 @@ function merge(){
    			url:ctx+ "/caseMerge/mergeCase",
    			dataType : "json",
    			data : data,
-   			beforeSend:function(){ },
    			success : function(data) {
    				if(data.success){ 
    					if(distriType && undefined != urlType && '' != urlType){
@@ -199,8 +198,6 @@ function merge(){
    						window.location.reload();
    					}
    				}else{ window.wxc.error("合流申请失败！"+data.message);  }
-   			},complete: function() {  },
-   			error : function(errors) {
    			}
    		});
     }});
@@ -240,7 +237,6 @@ function qfMerge(){
     		url:ctx+ "/caseMerge/qfMergeCase",
     		dataType : "json",
     		data : data,
-    		beforeSend:function(){ },
     		success : function(data) {
     			if(data.success){ 
     				if(distriType && undefined != urlType && '' != urlType){
@@ -254,8 +250,6 @@ function qfMerge(){
     					window.location.reload();
     				}
     			}else{ window.wxc.error("拆分失败！"+data.message);  }
-    		},complete: function() {  },
-    		error : function(errors) {
     		}
     	});
     }});
@@ -291,7 +285,6 @@ function changeTaskAssignee(page,propertyCode){
 		url:ctx+ "/quickGrid/findPage" ,
 		dataType : "json",
 		data : data,
-		beforeSend:function(){},
 		success : function(data) {
 			if(data.page>0){
 				data.ctx = ctx;
@@ -311,8 +304,7 @@ function changeTaskAssignee(page,propertyCode){
 				}
 				closef();
 			}
-		},complete: function() { },
-		error : function(errors) { }
+		}
 	});
 }
 /* 查询按钮方法  **/
