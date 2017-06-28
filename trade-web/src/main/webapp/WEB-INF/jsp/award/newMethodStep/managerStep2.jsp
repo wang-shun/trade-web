@@ -321,7 +321,6 @@
         if(array && array.length >0){
             $("#teamCode").val(array[0].name);
     		$("#yuCuiOriGrpId").val(array[0].id);
-    		
     	}else{
     		$("#teamCode").val("");
     		$("#yuCuiOriGrpId").val("");
@@ -352,15 +351,11 @@
             method: "get",
             dataType: "json",
             data: {"belongMonth":belongMonth},
-
             success: function(data){        
             	if(data.success == true){			  
             		$("#importButton").hide();
             	}
-            },
-            error: function (e, jqxhr, settings, exception) {
-            	 
-            }  
+            }
        })
     }
 	  //获取计件年月信息
