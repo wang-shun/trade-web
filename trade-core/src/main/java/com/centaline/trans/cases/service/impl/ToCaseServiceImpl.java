@@ -593,8 +593,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 		if(StringUtils.equals(toCase.getCaseCode(),ctmToCase.getCaseCode())){throw new BusinessException("同一案件不能进行合并!"); }
 		if(StringUtils.equals(ctmToCase.getCaseProperty(),CasePropertyEnum.TPWX.getCode())){throw new BusinessException("无效案件不能进行合并!"); }
 		
-		//List<TgGuestInfo> toCaseTgList = tgGuestInfoMapper.findTgGuestInfoByCaseCode(toCase.getCaseCode());
-		//List<TgGuestInfo> ctmToCaseTgList = tgGuestInfoMapper.findTgGuestInfoByCaseCode(ctmToCase.getCaseCode());
 		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(toCase.getCaseCode());
 		ToCaseInfo ctmtoCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(ctmToCase.getCaseCode());
 		if(null != toCaseInfo){}else{throw new BusinessException("没有查询到自建案件详细信息!"); }
@@ -620,7 +618,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		/**6.ctm合流案件添加无效备注  T_TO_CASE_COMMENT **/
 		if(StringUtils.equals(caseMergerParameter.getInputType(), "CTM")){
 			toCaseCommentMapper.insertSelective(setToCaseComment(user,ctmToCase.getCaseCode()));
-	}
+		}
 	
 	}
 	
