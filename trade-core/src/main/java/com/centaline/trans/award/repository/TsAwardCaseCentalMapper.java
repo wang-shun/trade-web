@@ -8,6 +8,7 @@ import com.centaline.trans.common.MyBatisRepository;
 
 @MyBatisRepository
 public interface TsAwardCaseCentalMapper {
+	
     int deleteByPrimaryKey(Long pkid);
 
     int insert(TsAwardCaseCental record);
@@ -21,6 +22,8 @@ public interface TsAwardCaseCentalMapper {
     TsAwardCaseCental selectByPrimaryKey(Long pkid);
     
     TsAwardCaseCental selectByCaseCodeAndStatus(TsAwardCaseCental record);
+    
+    TsAwardCaseCental selectByCaseCode(TsAwardCaseCental record);
 
     int updateByPrimaryKeySelective(TsAwardCaseCental record);
 
