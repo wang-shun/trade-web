@@ -723,7 +723,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 	}
 
 	private String createSpvCode() {
-		return uamBasedataService.nextSeqVal("SPV_CODE", new SimpleDateFormat("yyyyMM").format(new Date()));
+		return uamBasedataService.nextSeqVal("SPV_CODE", new SimpleDateFormat("yyyyMMdd").format(new Date()));
 	}
 
 	/**
