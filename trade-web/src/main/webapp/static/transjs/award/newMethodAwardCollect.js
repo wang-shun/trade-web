@@ -178,7 +178,7 @@ function getInitAwardStaus(){
 
 
 function setHeight(page){	
-	if(page == 0 ){
+	if(page == 0  || page == 4){
 		$('.UpdateUserItem').attr("height",1800);
 	}else{
 		$('.UpdateUserItem').attr("height",1000);
