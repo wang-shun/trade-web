@@ -63,8 +63,8 @@
                                 <label class="control-label sign_left" style="width:100px;">奖金发放状态</label>
                                 <select class="select_control sign_right_one"  id="awardStatus" name="awardStatus">
                                     <option value="all">请选择</option>
-                                    <option value="0">否</option>
-                                    <option value="1">是</option>
+                                    <option value="0">未发放</option>
+                                    <option value="1">已发放</option>
                                     <option value="2">不符合</option>
                                 </select>
                             </div>
@@ -95,7 +95,7 @@
 								<th>过户审批时间</th>
 								<th>奖金是否发放</th>
 								<th>绩效奖金(元)</th>
-								<th>计件年月</th>
+								<th>奖金发放年月</th>
 								<th>备注信息</th>
 							</tr>
 						</thead>

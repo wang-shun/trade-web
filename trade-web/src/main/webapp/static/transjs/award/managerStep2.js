@@ -15,7 +15,6 @@ $(document).ready(function() {
  */
 function searchMethod(page){
 	var data = getParams(page);
-   // aist.wrap(data);
 	reloadGrid(data);
 }
 $('#searchButton').click(function() {
@@ -31,7 +30,6 @@ function getParams(page) {
 		page = 1;
 	}
 	var belongMonth = getBlongMonth();
-
 	var data = {
 			search_teamId :$.trim( $('#yuCuiOriGrpId').val() ),
 			search_participant :$.trim( $('#userName').val() ), 
