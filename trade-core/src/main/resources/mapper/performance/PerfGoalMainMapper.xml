@@ -19,7 +19,7 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TS_PREF_GOAL_MAIN
-    where datediff(mm,BELONG_MONTH,#{belongMonth})=0 and DISTRICT = #{district}
+    where datediff(mm,BELONG_MONTH,#{belongMonth})=0 and DISTRICT = #{district} and status='1'
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
