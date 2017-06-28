@@ -245,7 +245,6 @@
 </script>
 <script>
     
-    
     var ctx = "${ctx}";
     var belongM = "${belongM}";
     var belongLastM = "${belongLastM}";
@@ -316,14 +315,12 @@
         	  cancel: function(index){  layer.close(index); }
         	});
     	})
-    	
     	$('#cleanButton').click(function() {
  			$("input[name='teamCode']").val('');
  			$("input[name='yuCuiOriGrpId']").val('');
  			$("input[name='userName']").val('');
  		});
     });
-    
     //选业务组织的回调函数
     function radioYuCuiOrgSelectCallBack(array){
         if(array && array.length >0){
@@ -353,7 +350,6 @@
     	return isKpiMoney;
     }
     
-
     function isShowSatButton(){
     	var belongMonth = getBlongMonth();
     	$.ajax({
@@ -372,8 +368,6 @@
             }  
        })
     }
- 	
-
 	  //获取计件年月信息
 	  function getBlongMonth(){
 	  	var bm = "";	
