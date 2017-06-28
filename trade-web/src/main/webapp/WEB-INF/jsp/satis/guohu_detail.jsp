@@ -833,12 +833,12 @@
                     changeClass($salerSignSat);
                     return false;
                 }
-                var $salerLoancloseSat = $("select[name='salerLoancloseSat']");
+/*                 var $salerLoancloseSat = $("select[name='salerLoancloseSat']");
                 if($salerLoancloseSat.val() == ''){
                 	window.wxc.alert("请选择上家陪还贷评分！");
                     changeClass($salerLoancloseSat);
                     return false;
-                }
+                } */
                 /*过户意见*/
                 var $salerGuohuSat = $("select[name='salerGuohuSat']");
                 if($salerGuohuSat.val() == ''){

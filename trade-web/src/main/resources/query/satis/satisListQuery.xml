@@ -34,8 +34,10 @@
 						a.AWARD_STATUS
 					from 
 						sctrans.T_CS_CASE_SATISFACTION s
+						LEFT JOIN sctrans.T_TO_CASE c on s.CASE_CODE = c.CASE_CODE
 						LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
 						LEFT JOIN sctrans.T_TS_AWARD_CASE_CENTAL a on s.CASE_CODE = a.CASE_CODE
+						LEFT JOIN sctrans.V_CASE_TRADE_INFO_VIEW v on s.CASE_CODE = v.CASE_CODE
 					WHERE 1=1
 					<if test="surveySignTimeStart != null and surveySignTimeStart != ''">
 						and datediff(day, #surveySignTimeStart#, s.SIGN_TIME) >= 0
@@ -49,17 +51,32 @@
 					<if test="surveyGuohuTimeEnd != null and surveyGuohuTimeEnd != ''">
 						and datediff(day, #surveyGuohuTimeEnd#, s.GUOHU_TIME) &lt;= 0
 					</if>
+					<if test="actualSignTimeStart != null and actualSignTimeStart != ''">
+						and datediff(day, #actualSignTimeStart#, v.REAL_CON_TIME) >= 0
+					</if>
+					<if test="actualSignTimeEnd != null and actualSignTimeEnd != ''">
+						and datediff(day, #actualSignTimeEnd#, v.REAL_CON_TIME) &lt;= 0
+					</if>
+					<if test="actualGuohuTimeStart != null and actualGuohuTimeStart != ''">
+						and datediff(day, #actualGuohuTimeStart#, v.REAL_HT_TIME) >= 0
+					</if>
+					<if test="actualGuohuTimeEnd != null and actualGuohuTimeEnd != ''">
+						and datediff(day, #actualGuohuTimeEnd#, v.REAL_HT_TIME) &lt;= 0
+					</if>
+					<if test="district != null and district != ''">
+						and c.DISTRICT_ID = #district#
+					</if>
 					<if test="status == null or status == ''">
-			           and s.STATUS != '7'
+			            and s.STATUS != '7'
 			        </if>
                     <if test="serviceJobCode == 'JYUKFZY' ">
-			           and s.CALLER_ID = #sessionUserId#
+			            and s.CALLER_ID = #sessionUserId#
 			        </if>
                     <if test="serviceJobCode == 'consultant' ">
-			           and CHARINDEX(#sessionUserId#, (select '/'+tgs.PROCESSOR_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs where s.CASE_CODE = tgs.CASE_CODE for xml path(''))) > 0
+			            and CHARINDEX(#sessionUserId#, (select '/'+tgs.PROCESSOR_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs where s.CASE_CODE = tgs.CASE_CODE for xml path(''))) > 0
 			        </if>
                     <if test="serviceJobCode == 'Manager' ">
-			           and CHARINDEX(#sessionUserId#, (select '/'+vuoj.USER_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs LEFT JOIN sctrans.V_USER_ORG_JOB vuoj on vuoj.ORG_ID = tgs.ORG_ID where s.CASE_CODE = tgs.CASE_CODE and vuoj.JOB_CODE='Manager' for xml path(''))) > 0
+			            and CHARINDEX(#sessionUserId#, (select '/'+vuoj.USER_ID from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR tgs LEFT JOIN sctrans.V_USER_ORG_JOB vuoj on vuoj.ORG_ID = tgs.ORG_ID where s.CASE_CODE = tgs.CASE_CODE and vuoj.JOB_CODE='Manager' for xml path(''))) > 0
 			        </if>
 				]]>
 			</baseSql>
@@ -109,6 +126,7 @@
 						sctrans.T_CS_CASE_SATISFACTION s
 						LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
 						LEFT JOIN sctrans.T_TS_AWARD_CASE_CENTAL a on s.CASE_CODE = a.CASE_CODE
+						LEFT JOIN sctrans.V_CASE_TRADE_INFO_VIEW v on s.CASE_CODE = v.CASE_CODE
 					WHERE 1=1
 					<if test="surveySignTimeStart != null and surveySignTimeStart != ''">
 						and datediff(day, #surveySignTimeStart#, s.SIGN_TIME) >= 0
@@ -121,6 +139,21 @@
 					</if>
 					<if test="surveyGuohuTimeEnd != null and surveyGuohuTimeEnd != ''">
 						and datediff(day, #surveyGuohuTimeEnd#, s.GUOHU_TIME) &lt;= 0
+					</if>
+					<if test="actualSignTimeStart != null and actualSignTimeStart != ''">
+						and datediff(day, #actualSignTimeStart#, v.REAL_CON_TIME) >= 0
+					</if>
+					<if test="actualSignTimeEnd != null and actualSignTimeEnd != ''">
+						and datediff(day, #actualSignTimeEnd#, v.REAL_CON_TIME) &lt;= 0
+					</if>
+					<if test="actualGuohuTimeStart != null and actualGuohuTimeStart != ''">
+						and datediff(day, #actualGuohuTimeStart#, v.REAL_HT_TIME) >= 0
+					</if>
+					<if test="actualGuohuTimeEnd != null and actualGuohuTimeEnd != ''">
+						and datediff(day, #actualGuohuTimeEnd#, v.REAL_HT_TIME) &lt;= 0
+					</if>
+					<if test="district != null and district != ''">
+						and c.DISTRICT_ID = #district#
 					</if>
 					<if test="status == null or status == ''">
 			           and s.STATUS != '7'

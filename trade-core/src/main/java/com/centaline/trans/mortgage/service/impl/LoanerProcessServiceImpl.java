@@ -836,10 +836,10 @@ public class LoanerProcessServiceImpl implements LoanerProcessService
             // 派单列表 取消操作
             if (record != null)
             {
-                // record.setStatus(WorkFlowStatus.TERMINATE.getCode());
+                record.setStatus(WorkFlowStatus.TERMINATE.getCode());
                 toMortLoaner.setPkid(Long.parseLong(record.getBizCode()));
             }
-            // toWorkFlowService.updateByPrimaryKeySelective(record);
+            toWorkFlowService.updateByPrimaryKeySelective(record);
 
             // 取消的时候 派单表需要修改 取消人的信息
 

@@ -161,7 +161,9 @@ public class QuickQueryGuoHuPriceServiceImpl implements CustomDictService{
 						for(int i = 0; i<reason.length;i++){
 							Dict dict = uamBasedataService.findDictByTypeAndCode("accompany_reason",reason[i]);
 							if(reason!=null){
-								sb.append(dict.getName()).append(";");
+								if(dict!=null){
+									sb.append(dict.getName()).append(";");
+								}
 							}
 						}
 					}

@@ -574,4 +574,150 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
 
     }
 
+    @Override
+    public void saveCaseCloseDetai(EditCaseDetailVO editCaseDetailVO)
+    {
+        /* 执行上下家删除操作 */
+        if (editCaseDetailVO.getGuestPkid() != null && editCaseDetailVO.getGuestPkid().size() > 0)
+        {
+            for (Long pkid : editCaseDetailVO.getGuestPkid())
+            {
+                tgGuestInfoMapper.deleteByPrimaryKey(pkid);
+            }
+        }
+        /** 上家 */
+        TgGuestInfo tgGuestInfoUP = new TgGuestInfo();
+        tgGuestInfoUP.setCaseCode(editCaseDetailVO.getCaseCode());
+        tgGuestInfoUP.setTransPosition("30006001");
+        for (int i = 0; i < editCaseDetailVO.getPkidUp().size(); i++)
+        {
+            tgGuestInfoUP.setPkid(null);
+            tgGuestInfoUP.setGuestName(editCaseDetailVO.getGuestNameUp().get(i));
+            tgGuestInfoUP.setGuestPhone(editCaseDetailVO.getGuestPhoneUp().get(i));
+            if (editCaseDetailVO.getPkidUp().get(i) != null && editCaseDetailVO.getPkidUp().get(i) != 0)
+            {
+                tgGuestInfoUP.setPkid(editCaseDetailVO.getPkidUp().get(i));
+                tgGuestInfoMapper.updateByPrimaryKeySelective(tgGuestInfoUP);
+            }
+            else
+            {
+                if (tgGuestInfoMapper.findTgGuestInfosByCaseCode(tgGuestInfoUP).size() == 0)
+                {
+                    tgGuestInfoMapper.insertSelective(tgGuestInfoUP);
+                }
+            }
+        }
+
+        /** 下家 */
+        TgGuestInfo tgGuestInfoDown = new TgGuestInfo();
+        tgGuestInfoDown.setTransPosition("30006002");
+        tgGuestInfoDown.setCaseCode(editCaseDetailVO.getCaseCode());
+        for (int i = 0; i < editCaseDetailVO.getPkidDown().size(); i++)
+        {
+            tgGuestInfoDown.setPkid(null);
+            tgGuestInfoDown.setGuestName(editCaseDetailVO.getGuestNameDown().get(i));
+            tgGuestInfoDown.setGuestPhone(editCaseDetailVO.getGuestPhoneDown().get(i));
+            if (editCaseDetailVO.getPkidDown().get(i) != null && editCaseDetailVO.getPkidDown().get(i) != 0)
+            {
+                tgGuestInfoDown.setPkid(editCaseDetailVO.getPkidDown().get(i));
+                tgGuestInfoMapper.updateByPrimaryKeySelective(tgGuestInfoDown);
+            }
+            else
+            {
+                if (tgGuestInfoMapper.findTgGuestInfosByCaseCode(tgGuestInfoDown).size() == 0)
+                {
+                    tgGuestInfoMapper.insertSelective(tgGuestInfoDown);
+                }
+            }
+        }
+
+        /** 首付款 */
+        ToPayment toPaymentInit = new ToPayment();
+        toPaymentInit.setAmount(editCaseDetailVO.getInitAmount() != null ? editCaseDetailVO.getInitAmount().multiply(new BigDecimal(10000)) : null);
+        toPaymentInit.setPayTime(editCaseDetailVO.getInitPayTime());
+        toPaymentInit.setPayType(editCaseDetailVO.getInitPayType());
+        if (editCaseDetailVO.getInitPayPkid() != null)
+        {
+            toPaymentInit.setPkid(editCaseDetailVO.getInitPayPkid());
+            toPaymentMapper.updateByPrimaryKeySelective(toPaymentInit);
+        }
+        else
+        {
+            toPaymentInit.setPayName("首付付款");
+            toPaymentInit.setCaseCode(editCaseDetailVO.getCaseCode());
+            if (toPaymentMapper.findToPaymentByPayment(toPaymentInit) == null)
+            {
+                toPaymentMapper.insertSelective(toPaymentInit);
+            }
+        }
+
+        /** 二次付款 */
+        ToPayment toPaymentSec = new ToPayment();
+        toPaymentSec.setAmount(editCaseDetailVO.getSecAmount() != null ? editCaseDetailVO.getSecAmount().multiply(new BigDecimal(10000)) : null);
+        toPaymentSec.setPayTime(editCaseDetailVO.getSecPayTime());
+        toPaymentSec.setPayType(editCaseDetailVO.getSecPayType());
+        if (editCaseDetailVO.getSecPayPkid() != null)
+        {
+            toPaymentSec.setPkid(editCaseDetailVO.getSecPayPkid());
+            toPaymentMapper.updateByPrimaryKeySelective(toPaymentSec);
+        }
+        else
+        {
+            toPaymentSec.setPayName("二期付款");
+            toPaymentSec.setCaseCode(editCaseDetailVO.getCaseCode());
+            if (toPaymentMapper.findToPaymentByPayment(toPaymentSec) == null)
+            {
+                toPaymentMapper.insertSelective(toPaymentSec);
+            }
+        }
+
+        /** 尾款付款 */
+        ToPayment toPaymentLast = new ToPayment();
+        toPaymentLast.setAmount(editCaseDetailVO.getLastAmount() != null ? editCaseDetailVO.getLastAmount().multiply(new BigDecimal(10000)) : null);
+        toPaymentLast.setPayTime(editCaseDetailVO.getLastPayTime());
+        toPaymentLast.setPayType(editCaseDetailVO.getLastPayType());
+        if (editCaseDetailVO.getLastPayPkid() != null)
+        {
+            toPaymentLast.setPkid(editCaseDetailVO.getLastPayPkid());
+            toPaymentMapper.updateByPrimaryKeySelective(toPaymentLast);
+        }
+        else
+        {
+            toPaymentLast.setPayName("尾款付款");
+            toPaymentLast.setCaseCode(editCaseDetailVO.getCaseCode());
+            if (toPaymentMapper.findToPaymentByPayment(toPaymentLast) == null)
+            {
+                toPaymentMapper.insertSelective(toPaymentLast);
+            }
+        }
+
+        /** 装修补偿款 */
+        ToPayment toPaymentCompensate = new ToPayment();
+        toPaymentCompensate.setAmount(editCaseDetailVO.getCompensateAmount() != null ? editCaseDetailVO.getCompensateAmount().multiply(new BigDecimal(10000)) : null);
+        toPaymentCompensate.setPayTime(editCaseDetailVO.getCompensatePayTime());
+        toPaymentCompensate.setPayType(editCaseDetailVO.getCompensatePayType());
+        if (editCaseDetailVO.getCompensatePayPkid() != null)
+        {
+            toPaymentCompensate.setPkid(editCaseDetailVO.getCompensatePayPkid());
+            toPaymentMapper.updateByPrimaryKeySelective(toPaymentCompensate);
+        }
+        else
+        {
+            toPaymentCompensate.setPayName("装修补偿款");
+            toPaymentCompensate.setCaseCode(editCaseDetailVO.getCaseCode());
+            if (toPaymentMapper.findToPaymentByPayment(toPaymentCompensate) == null)
+            {
+                toPaymentMapper.insertSelective(toPaymentCompensate);
+            }
+        }
+        // 修改案件时效信息
+        TsCaseEfficient tsCaseEfficient = tsCaseEfficientMapper.getCaseEffInfoByCasecode(editCaseDetailVO.getCaseCode());
+        if (tsCaseEfficient != null)
+        {
+            tsCaseEfficient.setCasecloseTime(new Date());
+            tsCaseEfficient.setCurDelayCount(0);
+            tsCaseEfficientMapper.updateTsCaseEffInfo(tsCaseEfficient);
+        }
+    }
+
 }

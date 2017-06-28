@@ -13,46 +13,46 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="<c:url value='/css/plugins/steps/jquery.steps.css' />" rel="stylesheet">
+<link href="${ctx}/css/plugins/steps/jquery.steps.css" rel="stylesheet">
 <!-- 上传相关 -->
-<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />"
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
 	rel="stylesheet">
-<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />"
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery.fileupload-ui.css"
 	rel="stylesheet">
-<link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />"
+<link href="${ctx}/css/trunk/JSPFileUpload/select2_metro.css"
 	rel="stylesheet">
 <!-- 展示相关 -->
-<link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />"
+<link href="${ctx}/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css"
 	rel="stylesheet">
-<link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />"
+<link href="${ctx}/css/trunk/JSPFileUpload/bootstrap-tokenfield.css"
 	rel="stylesheet">
-<link href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />"
+<link href="${ctx}/css/trunk/JSPFileUpload/selectize.default.css"
 	rel="stylesheet">
 <!-- 备件相关结束 -->
 <!-- jdGrid相关 -->
-<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
-<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
-<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />"
+<link href="${ctx}/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="${ctx}/css/animate.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css"
 	rel="stylesheet">
-<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
-<link href="<c:url value='/css/style.css' />" rel="stylesheet">
+<link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
+<link href="${ctx}/css/style.css" rel="stylesheet">
 <!-- datepikcer -->
-<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
+<link href="${ctx}/css/plugins/datapicker/datepicker3.css"
 	rel="stylesheet">
 <!-- bank  select -->
-<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
-<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"
+<link href="${ctx}/css/plugins/chosen/chosen.css" rel="stylesheet">
+<link href="${ctx}/css/plugins/pager/centaline.pager.css"
 	rel="stylesheet" />
-<link href="<c:url value='/css/transcss/comment/caseComment.css' />"
+<link href="${ctx}/css/transcss/comment/caseComment.css"
 	rel="stylesheet">
-<link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
+<link href="${ctx}/js/viewer/viewer.min.css" rel="stylesheet" />
 <!-- 新调整页面样式 -->
-<link href="<c:url value='/css/common/caseDetail.css' />" rel="stylesheet">
-<link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
-<link href="<c:url value='/css/iconfont/iconfont.css' />" rel="stylesheet">
-<link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
-<link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
-<link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
+<link href="${ctx}/css/common/caseDetail.css" rel="stylesheet">
+<link href="${ctx}/css/common/details.css" rel="stylesheet">
+<link href="${ctx}/css/iconfont/iconfont.css" rel="stylesheet">
+<link href="${ctx}/css/common/btn.css" rel="stylesheet">
+<link href="${ctx}/css/common/input.css" rel="stylesheet">
+<link href="${ctx}/css/common/table.css" rel="stylesheet">
 
 
 <script type="text/javascript">
@@ -113,14 +113,33 @@
 									<div id="tab-1" class="tab-pane active">
 										<div>
 											<div class="form_list">
+												<form method="get" class="form-horizontal" id="caseCloseform">
+													<%--环节编码 --%>
+													<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+													<!-- 交易单编号 -->
+													<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+													<%-- 原有数据对应id --%>
+													<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+													<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+													<%-- 设置审批类型 --%>
+													<input type="hidden" id="approveType" name="approveType" value="${approveType }">
+													<input type="hidden" id="operator" name="operator" value="${operator }">
+													<%-- 原有数据对应id --%>
+
+													<input type="hidden" id="initPayPkid" name="initPayPkid" value="${editCaseDetailVO.initPayPkid }">
+													<input type="hidden" id="secPayPkid" name="secPayPkid" value="${editCaseDetailVO.secPayPkid }">
+													<input type="hidden" id="lastPayPkid" name="lastPayPkid" value="${editCaseDetailVO.lastPayPkid }">
+													<input type="hidden" id="compensatePayPkid" name="compensatePayPkid" value="${editCaseDetailVO.compensatePayPkid }">
 												<div class="marinfo">
 													<div class="line">
 														<div class="form_content mt3">
 															<label
 																class="control-label sign_left_small select_style mend_select">
 																业务单创建时间 </label>
-															<div class="input-group sign-right dataleft pull-left">
-																<input class="input_type yuanwid datatime"id="createTime" name="realConTime" readonly="readonly"
+															<div
+																class="input-group sign-right dataleft input-daterange pull-left"
+																data-date-format="yyyy-mm-dd">
+																<input class="input_type yuanwid datatime"id="createTime" name="realConTime" disabled="disabled" readonly="readonly"
 											                        value="<fmt:formatDate  value='${editCaseDetailVO.createTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 															</div>
 														</div>
@@ -129,35 +148,14 @@
 																class="control-label sign_left_small select_style mend_select">
 																分单时间 </label>
 															<div
-																class="input-group sign-right dataleft pull-left">
-																<input class="input_type yuanwid datatime" id="resDate" name="resDate" readonly="readonly"
+																class="input-group sign-right dataleft input-daterange pull-left"
+																data-date-format="yyyy-mm-dd">
+																<input class="input_type yuanwid datatime" id="resDate" name="resDate" disabled="disbled" readonly="readonly"
 											                    value="<fmt:formatDate  value='${editCaseDetailVO.resDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 															</div>
 														</div>
 													</div>
-													<form method="get" class="form-horizontal" id="caseCloseform">
-														<%--环节编码 --%>
-														<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-														<!-- 交易单编号 -->
-														<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-														<%-- 原有数据对应id --%>
-														<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-														<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-														<%-- 设置审批类型 --%>
-														<input type="hidden" id="approveType" name="approveType" value="${approveType }">
-														<input type="hidden" id="lapPkid" name="lapPkid" value="${toApproveRecord.pkid }">
-														<input type="hidden" id="operator" name="operator" value="${operator }">
-														<%-- 原有数据对应id --%>
-														<input type="hidden" id="propertyPkid" name="propertyPkid" value="${editCaseDetailVO.propertyPkid }">
-														<input type="hidden" id="initPayPkid" name="initPayPkid" value="${editCaseDetailVO.initPayPkid }">
-														<input type="hidden" id="secPayPkid" name="secPayPkid" value="${editCaseDetailVO.secPayPkid }">
-														<input type="hidden" id="lastPayPkid" name="lastPayPkid" value="${editCaseDetailVO.lastPayPkid }">
-														<input type="hidden" id="compensatePayPkid" name="compensatePayPkid" value="${editCaseDetailVO.compensatePayPkid }">
-														<input type="hidden" id="signPkid" name="signPkid" value="${editCaseDetailVO.signPkid }">
-														<input type="hidden" id="lcid" name="lcid" value="${editCaseDetailVO.lcid }">
-														<input type="hidden" id="ghid" name="ghid" value="${editCaseDetailVO.ghid }">
-														<input type="hidden" id="taxid" name="taxid" value="${editCaseDetailVO.taxid }">
-														<input type="hidden" id="mpkid" name="mpkid" value="${editCaseDetailVO.mpkid }">
+
 													<div class="line">
 														<div class="form_content">
 															<label class="control-label sign_left_small">
@@ -183,6 +181,7 @@
 															<aist:dict clazz="select_control data_style" id="initPayType" name="initPayType" display="select" defaultvalue="${editCaseDetailVO.initPayType}" dictType="30015" />
 														</div>
 													</div>
+
 													<div class="line">
 														<div class="form_content">
 															<label class="control-label sign_left_small">二期付款</label>
@@ -223,8 +222,7 @@
 																class="input-group sign-right dataleft input-daterange pull-left"
 																data-date-format="yyyy-mm-dd">
 																<input class="input_type yuanwid datatime"
-																${editCaseDetailVO.lastPayTime==null?'selected':''}
-																	value="<fmt:formatDate  value='${editCaseDetailVO.lastPayTime}' type='both' pattern='yyyy-MM-dd' />"
+																	value="<fmt:formatDate  value='${editCaseDetailVO.lastPayTime }' type='both' pattern='yyyy-MM-dd' />" 
 															        id="lastPayTime" name="lastPayTime" onfocus="this.blur()">
 															</div>
 														</div>
@@ -258,17 +256,15 @@
 														<aist:dict clazz="select_control data_style" id="compensatePayType" name="compensatePayType" display="select" defaultvalue="${editCaseDetailVO.compensatePayType}" dictType="30015" />															
 														</div>
 													</div>
+
 												</div>
-												<div id="guestUpDiv" class="clear add-member mb20" onclick="addDateDivUp()">添加上家</div>
-											    <div id="guestDownDiv" class="clear add-member mb20" onclick="addDateDivDown();">添加下家</div>
-
+														<div id="guestUpDiv" class="clear add-member mb20"></div>
+														<div id="guestDownDiv" class="clear add-member mb20"></div>
 												</form>
-
-
 												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small"> 产证面积
-														</label> <input class=" input_type yuanwid" id="square"  readonly="readonly" name="square" onkeyup="checkNum(this)"
+														</label> <input class=" input_type yuanwid" id="square"  readonly="readonly" disabled="disabled" name="square" onkeyup="checkNum(this)"
 												                  value="<fmt:formatNumber value='${editCaseDetailVO.square}' type='number' pattern='#0.00' />">  <span class="date_icon">平方米</span>
 													</div>
 													<div class="form_content">
@@ -319,7 +315,7 @@
 														</div>
 													</div>
 													<div class="form_content">
-														<label class="control-label sign_left_small"> 成交价
+														<label class="control-label sign_left_small">  合同价
 														</label> <input class=" input_type yuanwid" readonly="readonly"  id="conPrice" name="conPrice" onkeyup="checkNum(this)"
 													value="<fmt:formatNumber value='${editCaseDetailVO.conPrice}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
@@ -330,7 +326,7 @@
 												</div>
 												<div class="line">
 													<div class="form_content">
-														<label class="control-label sign_left_small"> 合同价
+														<label class="control-label sign_left_small">成交价
 														</label> <input class=" input_type yuanwid" id="realPrice" readonly="readonly"   name="realPrice" onkeyup="checkNum(this)"
 													value="<fmt:formatNumber value='${editCaseDetailVO.realPrice}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
@@ -665,6 +661,7 @@
 						</div>
 					</div>
 				</div>
+
 				<!-- 案件备注信息 -->
 				<div id="caseCommentList" class="view-content"></div>
 				<div class="form-btn">
@@ -679,46 +676,46 @@
 	</div>
 	<content tag="local_script"> 
 	<!-- Steps --> 
-	<script	src="<c:url value='/js/plugins/staps/jquery.steps.min.js' />"></script> 
+	<script	src="${ctx}/js/plugins/staps/jquery.steps.min.js"></script> 
 	<!-- jqGrid -->
-	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
-	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
+	<script src="${ctx}/js/plugins/jqGrid/i18n/grid.locale-en.js"></script>
+	<script src="${ctx}/js/plugins/jqGrid/jquery.jqGrid.min.js"></script> 
 	<!-- 上传附件相关 -->
-	<script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script> 
-	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
-	<script	src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script>
-	<script	src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script>
-	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload.js' />"></script>
-	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-fp.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-ui.js' />"></script>
-	<script src="<c:url value='/js/stickUp.js' />"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/app.js"></script> 
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.ui.widget.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/tmpl.min.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/load-image.min.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-fp.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.fileupload-ui.js"></script>
+	<script src="${ctx}/js/stickUp.js"></script>
 
-	<script src="<c:url value='/js/trunk/JSPFileUpload/clockface.js' />"></script>
-	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js' />"></script>
-	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.multi-select.js' />"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/clockface.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/jquery.multi-select.js"></script>
 
 
-	<script src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script>
-	<script	src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script>
-	<script	src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>
-	<script	src="<c:url value='/transjs/task/loanlostApprove.js' />"></script>
-	<script	src="<c:url value='/transjs/task/showAttachment.js' />"></script>
-	<script	src="<c:url value='/js/trunk/task/caseCloseAttachment.js' />"></script> 
+	<script src="${ctx}/js/trunk/JSPFileUpload/form-fileupload.js"></script>
+	<script src="${ctx}/js/trunk/JSPFileUpload/aist.upload.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.js"></script>
+	<script	src="${ctx}/js/trunk/JSPFileUpload/jssor.slider.js"></script>
+	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script>
+	<script	src="${ctx}/transjs/task/showAttachment.js"></script>
+	<script	src="${ctx}/js/trunk/task/caseCloseAttachment.js"></script> 
 	<!-- bank select -->
-	<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script>
+	<script src="${ctx}/js/plugins/chosen/chosen.jquery.js"></script>
 	<!-- Data picker -->
-	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
-	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
-	<script	src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
-	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
-	<script	src="<c:url value='/js/template.js' />" type="text/javascript"></script>
-	<script	src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-	<script	src="<c:url value='/js/viewer/viewer.min.js' />"></script> 
+	<script src="${ctx}/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="${ctx}/js/jquery.blockui.min.js"></script>
+	<script	src="${ctx}/js/trunk/comment/caseComment.js"></script>
+	<script	src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
+	<script	src="${ctx}/js/template.js" type="text/javascript"></script>
+	<script	src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<script	src="${ctx}/js/viewer/viewer.min.js"></script> 
 	<!-- 改版引入的新的js文件 -->
-    <script src="<c:url value='/js/common/textarea.js' />"></script> 
-	<script src="<c:url value='/js/common/common.js' />"></script>
+    <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
+	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
 		<script>
 		var isAccumulation=false;
 		var loanReq ="${loanReq}";
@@ -967,7 +964,7 @@
 		function save(b) {
 			var jsonData = $("#caseCloseform").serializeArray();
 
-			var realPrice = Number($('input[name=realPrice]').val());
+			var conPrice = Number($('input[name=conPrice]').val());
 			var initAmount = Number($('input[name=initAmount]').val());
 			var secAmount = Number($('input[name=secAmount]').val());
 			var lastAmount = Number($('input[name=lastAmount]').val());
@@ -1030,108 +1027,65 @@
 
 			}
 
-			if (realPrice!=initAmount+secAmount+lastAmount+compensateAmount) {
+			if (conPrice!=initAmount+secAmount+lastAmount+compensateAmount) {
 				window.wxc.alert("付款信息项之和必须等于合同价!");
 				$('input[name=conPrice]').focus();
 				return false;
 			}
 
-			if (Number($('input[name=realPrice]').val()) <= 0) {
+			if (Number($('input[name=conPrice]').val()) <= 0) {
 				window.wxc.alert("合同价必须大于0!");
-				$('input[name=realPrice]').focus();
+				$('input[name=conPrice]').focus();
 				return false;
 			}
 
-
-			deleteAndModify();
-			
-			var flag= true;
-			var _comDiscount = $('#comDiscount').val();
-			var _mortType = $('#mortType').find(':selected').val();
-			
-			if((_mortType=='30016001'&&_comDiscount=='')||(_mortType=='30016002'&&_comDiscount=='')){
-				window.wxc.alert('纯商贷和组合贷款必须填写利率折扣, 不能为空');
-				$('#comDiscount').focus();
-				flag = false;
+			var url = ctx+"/task/CaseClose/saveCaseClose";
+			if(b) {
+				url = ctx+"/task/CaseClose/submitCaseClose";
 			}
-
-			if((_mortType=='30016001'&&_comDiscount=='')||(_mortType=='30016002'&&_comDiscount=='')){
-				window.wxc.alert('纯商贷和组合贷款必须填写利率折扣, 不能为空');
-				$('#comDiscount').focus();
-				flag = false;
-			}
-
-
-			if((_mortType=='30016001'&&_comDiscount!='')||(_mortType=='30016002'&&_comDiscount!='')){
-				if(isNaN(_comDiscount)){
-					window.wxc.alert("请输入0.50~1.50之间的合法数字,小数位不超过两位");
-		            $('#comDiscount').focus();
-		            flag = false;
-		        }else if(_comDiscount>1.5 || _comDiscount<0.5){
-		        	window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
-		    		$('#comDiscount').focus();
-		    		flag = false;
-		    	}else if(_comDiscount<=1.5 || _comDiscount>=0.5){
-	        		var reg =/^[01]{1}\.{1}\d{3,}$/;
-	        		if(reg.test(_comDiscount)){
-	        			window.wxc.alert('商贷利率折扣应该不大于1.50,不小于0.50,小数位不超过两位');
-	        			$('#comDiscount').focus();
-	        			flag = false;
-	        		}		    		
-		    	}
-			} 
-			
-			if(flag){
-				var url = ctx+"/task/CaseClose/saveCaseClose";
-				if(b) {
-					
-					url = ctx+"/task/CaseClose/submitCaseClose";
-				}
-				$.ajax({
-					cache : true,
-					async : false,//false同步，true异步
-					type : "POST",
-					url : url,
-					dataType : "json",
-					data : jsonData,
-		   		    beforeSend:function(){  
-	    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-	    				$(".blockOverlay").css({'z-index':'9998'});
-	                },
-	                complete: function() {  
-	                	if(!b){
-	                        $.unblockUI();   
-	                	}
-	                     if(status=='timeout'){//超时,status还有success,error等值的情况
-	    	          	  Modal.alert(
-	    				  {
-	    				    msg:"抱歉，系统处理超时。"
-	    				  });
-	    		  		 $(".btn-primary").one("click",function(){
-	    		  				parent.$.fancybox.close();
-	    		  			});	 
-	    		                } 
-	    		            } , 
-	    		            
-	    			success : function(data) {
-								if(data.message){
-									window.wxc.alert(data.message);
-								}
-								if(window.opener)
-							    {
-									 window.close();
-									 window.opener.callback();
-							    } else {
-							    	 window.location.href = "${ctx }/task/myTaskList";
-							    } 
-								//window.location.href = "${ctx }/task/myTaskList";
-					},
-					error : function(errors) {
-						window.wxc.error("数据保存出错");
+			$.ajax({
+				cache : true,
+				async : false,//false同步，true异步
+				type : "POST",
+				url : url,
+				dataType : "json",
+				data : jsonData,
+				beforeSend:function(){
+					$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+					$(".blockOverlay").css({'z-index':'9998'});
+				},
+				complete: function() {
+					if(!b){
+						$.unblockUI();
 					}
-				});
-			}
-			
+					 if(status=='timeout'){//超时,status还有success,error等值的情况
+					  Modal.alert(
+					  {
+						msg:"抱歉，系统处理超时。"
+					  });
+					 $(".btn-primary").one("click",function(){
+							parent.$.fancybox.close();
+						});
+							}
+						} ,
+
+				success : function(data) {
+							if(data.message){
+								window.wxc.alert(data.message);
+							}
+							if(window.opener)
+							{
+								 window.close();
+								 window.opener.callback();
+							} else {
+								 window.location.href = "${ctx }/task/myTaskList";
+							}
+							//window.location.href = "${ctx }/task/myTaskList";
+				},
+				error : function(errors) {
+					window.wxc.error("数据保存出错");
+				}
+			});
 		}
 		
 		var divIndexDown = 1;
@@ -1162,7 +1116,7 @@
 			txt += "<div class=\"form_content\">";
 			txt += "<label class=\"control-label sign_left_small\">上家电话</label>";
 			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneUp\" value=''></div>";
-			txt += '<span class="">/span>';
+			txt += '<span class=""></span>';
 			txt += '</div>';
 			// alert(txt);
 			$("#guestUpDiv").before(txt);
