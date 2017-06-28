@@ -279,14 +279,9 @@
         			  layer.close(i);
         			  var i = 0;
             		  // 上月
-            		  var bm;
-            		  if(i=='0') {
-            			  var cDate = new Date();
-            			  cDate.setMonth(cDate.getMonth()-1);
-            			  bm = cDate.format('yyyy-MM-dd');
-            		  } else {
-            			  bm = new Date().format('yyyy-MM-dd');
-            		  } 
+           			  var cDate = new Date();
+           			  cDate.setMonth(cDate.getMonth()-1);
+           			  var  bm = cDate.format('yyyy-MM-dd');
             		  var isKpiMoney = isGenerKpiMoney(bm);
             		  if(isKpiMoney) {
            		    	layer.alert('绩效奖金已经生成,不能重复导入!', {
