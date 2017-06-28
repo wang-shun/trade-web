@@ -225,6 +225,17 @@ public class KpiImportController {
 
 		return "award/monthKpiImport";
 	}
+	/**
+	 * kpi金额产品导入
+	 * @param belongMonth
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws InvalidFormatException
+	 * @throws IOException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
 	@RequestMapping(value = "/doMonthKpiImportForNew")
 	public String doMonthKpiImportForNew(String belongMonth, HttpServletRequest request, HttpServletResponse response)
 			throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
