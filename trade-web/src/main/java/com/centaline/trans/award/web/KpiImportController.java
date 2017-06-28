@@ -243,11 +243,8 @@ public class KpiImportController {
 		/**
 		 * 根据页面得到是上月还是当月数据
 		 */
-		if ("0".equals(belongMonth)) {
-			belongM = DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1));
-		} else {
-			belongM = DateUtil.getFirstDayOfTheMonth();
-		}
+		belongM = DateUtil.getFirstDayOfTheMonth(DateUtil.plusMonth(new Date(), -1));
+		
 		TsKpiPsnMonth record = new TsKpiPsnMonth();
 		record.setBelongMonth(belongM);
 		tsKpiPsnMonthService.deleteTsKpiPsnMonthByProperty(record);
