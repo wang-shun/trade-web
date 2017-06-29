@@ -398,8 +398,6 @@ function saveRe(){
 			url : url,
 			dataType : "json",
 			data : data,
-			beforeSend:function(){  
-	         },
 			success : function(data) {
 				if(data.success){
 					window.wxc.success("流水录入成功！",{"wxcOk":function(){
