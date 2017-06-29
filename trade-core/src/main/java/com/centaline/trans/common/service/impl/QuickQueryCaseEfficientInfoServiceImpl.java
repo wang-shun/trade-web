@@ -182,13 +182,7 @@ public class QuickQueryCaseEfficientInfoServiceImpl implements CustomDictService
 			}
 
 			caseCloseDly = (Integer) resultMap.get("caseCloseDly");
-			caseCloseOverdueTime = caseCloseEff - caseCloseTime;
-
-			if (caseCloseOverdueTime >= 0) {
-				caseCloseOverdueTime = 0;
-			} else {
-				caseCloseOverdueTime = Math.abs(caseCloseOverdueTime);
-			}
+			caseCloseOverdueTime = (caseCloseEff - caseCloseTime) < 0 ? caseCloseTime - caseCloseEff : 0;
 
 			if (caseCloseDly > 0) {
 				caseCloseDelayList = getCaseEffDelayList(key, "CaseClose");
@@ -256,13 +250,7 @@ public class QuickQueryCaseEfficientInfoServiceImpl implements CustomDictService
 			}
 
 			guohuDly = (Integer) resultMap.get("guohuDly");
-			guohuOverdueTime = guohuEff - guohuTime;
-
-			if (guohuOverdueTime >= 0) {
-				guohuOverdueTime = 0;
-			} else {
-				guohuOverdueTime = Math.abs(guohuOverdueTime);
-			}
+			guohuOverdueTime = (guohuEff - guohuTime) < 0 ? guohuTime - guohuEff : 0;
 
 			if (guohuDly > 0) {
 				guohuDelayList = getCaseEffDelayList(key, "Guohu");
@@ -328,13 +316,7 @@ public class QuickQueryCaseEfficientInfoServiceImpl implements CustomDictService
 			}
 
 			signDly = (Integer) resultMap.get("signDly");
-			signOverdueTime = signEff - signTime;
-
-			if (signOverdueTime >= 0) {
-				signOverdueTime = 0;
-			} else {
-				signOverdueTime = Math.abs(signOverdueTime);
-			}
+			signOverdueTime = (signEff - signTime) < 0 ? signTime - signEff : 0;
 
 			if (signDly > 0) {
 				signDelayList = getCaseEffDelayList(key, "TransSign");
@@ -394,13 +376,7 @@ public class QuickQueryCaseEfficientInfoServiceImpl implements CustomDictService
 		int firstFollowDly = (Integer) resultMap.get("firstFollowDly");
 
 		// 首次跟进逾期时间
-		int firstFollowOverdueTime = firstFollowEff - firstFollowTime;
-
-		if (firstFollowOverdueTime < 0) {
-			firstFollowOverdueTime = Math.abs(firstFollowOverdueTime);
-		} else {
-			firstFollowOverdueTime = 0;
-		}
+		int firstFollowOverdueTime = (firstFollowEff - firstFollowTime) < 0 ? firstFollowTime - firstFollowEff : 0;
 
 		// 新建放置首次跟进延期原因的集合容器
 		List<CaseEffDelayVo> firstFollowDelayList = new ArrayList<CaseEffDelayVo>();
