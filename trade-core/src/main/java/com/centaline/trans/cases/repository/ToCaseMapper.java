@@ -163,5 +163,12 @@ public interface ToCaseMapper {
 	 * @return 主管的名称
 	 */
 	public String getManagerByCaseOwner(String caseCode);
+	
+	/**
+	 * 变更交易助理
+	 * @param tocase
+	 * @return
+	 */
+	int updateAssistant(ToCase tocase);
 
 }

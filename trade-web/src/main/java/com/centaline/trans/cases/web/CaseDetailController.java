@@ -788,12 +788,11 @@ public class CaseDetailController {
 			reVo.setCpMobile(consultUser.getMobile());
 		}
 		// 助理
-		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(), TransJobs.TJYZL.getCode());
-		if (asList != null && asList.size() > 0) {
-			User assistUser = asList.get(0);
-			reVo.setAsId(assistUser.getId());
-			reVo.setAsName(assistUser.getRealName());
-			reVo.setAsMobile(assistUser.getMobile());
+		User user = uamUserOrgService.getUserById(toCase.getAssistantId());
+		if (user != null ) {
+			reVo.setAsId(user.getId());
+			reVo.setAsName(user.getRealName());
+			reVo.setAsMobile(user.getMobile());
 		}
 		// 上下家
 		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
@@ -2287,5 +2286,21 @@ public class CaseDetailController {
 			toCaseService.changeTaskAssignee(caseCode.get(i), tasks.get(i)+"", vo.getUserId());
 		}	
 		return AjaxResponse.success("变更成功！");
+	}
+	
+	/**
+	 * 变更交易助理
+	 * @param tocase
+	 * @return
+	 */
+	@RequestMapping(value="/changeAssistant")
+	@ResponseBody
+	public AjaxResponse<?> changeAssitant(ToCase tocase){
+		int num = toCaseService.updateAssistant(tocase);
+		if(num == 0){
+			return AjaxResponse.fail("变更失败");
+		}else{
+			return AjaxResponse.success("变更成功");
+		}
 	}
 }

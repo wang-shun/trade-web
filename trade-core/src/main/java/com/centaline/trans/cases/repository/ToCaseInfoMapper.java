@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
+import com.centaline.trans.cases.vo.CaseAssistantVO;
 import com.centaline.trans.common.MyBatisRepository;
 
 @MyBatisRepository
@@ -80,4 +81,11 @@ public interface ToCaseInfoMapper {
 	 * @return
 	 */
 	Integer exportCTMCase(String ctmCode);
+	
+	/**
+	 * 查询组下所有交易助理
+	 * @param orgId
+	 * @return
+	 */
+	List<CaseAssistantVO> queryAssistantInfo(String orgId);
 }

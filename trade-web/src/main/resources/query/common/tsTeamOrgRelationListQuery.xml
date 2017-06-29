@@ -39,7 +39,9 @@
 	   				    A.AVAILABLE,
 	   				    A.AVAILABLE AS AVAILABLE_NAME,
 					    (select b.ORG_NAME from  sctrans.SYS_ORG B where A.ORIGIN_ORG_ID = B.ID) as orginName ,
-					    (select b.ORG_NAME from  sctrans.SYS_ORG B where A.TARGET_ORG_ID = B.ID) as backName
+					    (select b.ORG_NAME from  sctrans.SYS_ORG B where A.TARGET_ORG_ID = B.ID) as backName,
+						(select b.ORG_CODE from  sctrans.SYS_ORG B where A.ORIGIN_ORG_ID = B.ID) as orginOrgCode ,
+					    (select b.ORG_CODE from  sctrans.SYS_ORG B where A.TARGET_ORG_ID = B.ID) as backOrgCode
 					FROM 
 					  	sctrans.T_TS_ORG_REALATION A
 					WHERE 
@@ -59,7 +61,9 @@
 				<column type="both" name="ORIGIN_ORG_ID" index="" checkbox="" display="ORIGIN_ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="TARGET_ORG_ID" index="" checkbox="" display="TARGET_ORG_ID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="orginName" index="" checkbox="" display="前台组" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="orginOrgCode" index="" checkbox="" display="前台组编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="backName" index="" checkbox="" display="后台组" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="backOrgCode" index="" checkbox="" display="后台组编码" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="AVAILABLE" index="" checkbox="" display="状态" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="AVAILABLE_NAME" index="" checkbox="" display="状态" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 			</table-row>

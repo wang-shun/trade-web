@@ -16,9 +16,10 @@
     <result column="CASE_ORIGIN" jdbcType="VARCHAR" property="caseOrigin" />
     <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="ASSISTANT_ID" jdbcType="VARCHAR" property="assistantId" />
   </resultMap>
   <sql id="Base_Column_List">
-    PKID, CASE_CODE, CTM_CODE, CREATE_TIME, STATUS, CASE_PROPERTY, LEADING_PROCESS_ID, ORG_ID, CLOSE_TIME,loan_Req,CREATE_BY,CASE_ORIGIN,UPDATE_BY,UPDATE_TIME
+    PKID, CASE_CODE, CTM_CODE, CREATE_TIME, STATUS, CASE_PROPERTY, LEADING_PROCESS_ID, ORG_ID, CLOSE_TIME,loan_Req,CREATE_BY,CASE_ORIGIN,UPDATE_BY,UPDATE_TIME,ASSISTANT_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -150,8 +151,11 @@
       </if>
         UPDATE_TIME = GETDATE(),
         UPDATE_BY = @{SESSION_USER_ID},
-        <if test="caseOrigin != null">
+      <if test="caseOrigin != null">
         CASE_ORIGIN  = #{caseOrigin,jdbcType=VARCHAR},
+      </if>
+      <if test="assistantId != null ">
+      	ASSISTANT_ID = #{assistantId,jdbcType=VARCHAR}
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -655,5 +659,15 @@ FROM
 	AND j.IS_DELETED = 0 AND u.IS_DELETED = 0 AND suoj.IS_DELETED = 0;
  </select>
  
-
+  <update id="updateAssistant" parameterType="com.centaline.trans.cases.entity.ToCase">
+    update sctrans.T_TO_CASE
+    <set>
+        UPDATE_TIME = GETDATE(),
+        UPDATE_BY = @{SESSION_USER_ID},
+      <if test="assistantId != null ">
+      	ASSISTANT_ID = #{assistantId,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
 </mapper>

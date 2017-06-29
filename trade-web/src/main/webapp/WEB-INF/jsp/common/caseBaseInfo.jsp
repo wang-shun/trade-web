@@ -305,7 +305,7 @@
 													</dd>
 												</c:forEach>
 											</c:if>
-											<dt>助理</dt>
+											<dt>交易助理</dt>
 											<dd>
 												<a data-toggle="popover" data-placement="right"
 													data-content="${caseBaseVO.agentManagerInfo.asMobile}">

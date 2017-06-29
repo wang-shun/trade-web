@@ -311,15 +311,21 @@ public class ToCaseServiceImpl implements ToCaseService {
 			agentManagerInfo.setCpMobile(consultUser.getMobile());
 		}
 		
-		// 助理
-		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(),
-				TransJobs.TJYZL.getCode());
-		if (asList != null && asList.size() > 0) {
-			User assistUser = asList.get(0);
-			agentManagerInfo.setAsId(assistUser.getId());
-			agentManagerInfo.setAsName(assistUser.getRealName());
-			agentManagerInfo.setAsMobile(assistUser.getMobile());
+		// 交易助理
+		User user = uamUserOrgService.getUserById(toCase.getAssistantId());
+		if(user != null){
+			agentManagerInfo.setAsId(user.getId());
+			agentManagerInfo.setAsName(user.getRealName());
+			agentManagerInfo.setAsMobile(user.getMobile());
 		}
+//		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(),
+//				TransJobs.TJYZL.getCode());
+//		if (asList != null && asList.size() > 0) {
+//			User assistUser = asList.get(0);
+//			agentManagerInfo.setAsId(assistUser.getId());
+//			agentManagerInfo.setAsName(assistUser.getRealName());
+//			agentManagerInfo.setAsMobile(assistUser.getMobile());
+//		}
 		
 		// 合作顾问
 		List<CaseDetailProcessorVO> proList = new ArrayList<CaseDetailProcessorVO>();
@@ -1348,6 +1354,11 @@ public class ToCaseServiceImpl implements ToCaseService {
 			}
 		}
 		
+	}
+
+	@Override
+	public int updateAssistant(ToCase tocase) {
+		return toCaseMapper.updateAssistant(tocase);
 	}
 
 }

@@ -153,4 +153,11 @@ public interface ToCaseService {
 	 * @throws Exception
 	 */
 	public void delLiushui(Long pkid) throws Exception;
+	
+	/**
+	 * 变更交易助理
+	 * @param tocase
+	 * @return
+	 */
+	int updateAssistant(ToCase tocase);
 }
