@@ -32,7 +32,7 @@ function getShowAttachment() {
 			name : 'available',
 			value : 'Y'
 		}
-		],
+    	],
 		dataType : "json",
 		success : function(data) {
 			dataLength=data.length;

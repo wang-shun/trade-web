@@ -115,15 +115,15 @@
                         ];
                         returnBar(ECHART_D3_.xAxisData,yAxis,ECHART_D3_.legend,datas,type,null,myChart1,"各贵宾中心商贷比较");
                         var unit='';
-                        var pie1=ECHART_D3_.accDiv2(accSub(ECHART_D3_.totalLossAmount,ECHART_D3_.totalComMortAmount),10000);
-                        var pie2=ECHART_D3_.accDiv2(ECHART_D3_.totalLossAmount,10000);
+                        var pie1=accSub(ECHART_D3_.totalLossAmount,ECHART_D3_.totalComMortAmount);
+                        var pie2=ECHART_D3_.totalLossAmount;
                         ECHART_D3_.pie_items.push(Number(pie1).toFixed(0));
                         ECHART_D3_.pie_items.push(Number(pie2).toFixed(0));
                         var color=null;
                         var data = [ "收单", "流失" ];
                         returnPie(data, ECHART_D3_.pie_items, myChart2, color,"商贷总金额",unit);
 
-                        $("#list_com_mort").html(ECHART_D3_.totalLossAmount);
+                        $("#list_com_mort").html(ECHART_D3_.totalComMortAmount);
 
                     },
                     error:function(){}

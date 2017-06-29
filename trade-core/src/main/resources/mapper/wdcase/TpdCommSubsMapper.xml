@@ -4,7 +4,8 @@
   <resultMap id="BaseResultMap" type="com.centaline.trans.wdcase.entity.TpdCommSubs" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
-    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="biz_Code" property="bizCode" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="STD_RATE" property="stdRate" jdbcType="DECIMAL" />
     <result column="STD_COST" property="stdCost" jdbcType="DECIMAL" />
     <result column="DISCOUNT" property="discount" jdbcType="DECIMAL" />
@@ -21,7 +22,7 @@
     <result column="IS_DELETED" property="isDeleted" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, REMARKS, STD_RATE, STD_COST, DISCOUNT, COMM_COST, BUYER_COST, 
+    PKID, biz_Code,CASE_CODE, remarks, STD_RATE, STD_COST, DISCOUNT, COMM_COST, BUYER_COST, 
     BUYER_PAID, SELLER_COST, SELLER_PAID, PAYEE, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, 
     IS_DELETED
   </sql>
@@ -42,20 +43,26 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.wdcase.entity.TpdCommSubs" >
-    insert into sctrans.T_PD_COMM_SUBS (PKID, CASE_CODE, REMARKS, 
+  <selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER" >
+    	SELECT @@IDENTITY
+  	 </selectKey>
+    insert into sctrans.T_PD_COMM_SUBS (PKID, CASE_CODE,biz_Code, remarks, 
       STD_RATE, STD_COST, DISCOUNT, 
       COMM_COST, BUYER_COST, BUYER_PAID, 
       SELLER_COST, SELLER_PAID, PAYEE, 
       CREATE_BY, CREATE_TIME, UPDATE_BY, 
       UPDATE_TIME, IS_DELETED)
-    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{bizCode,jdbcType=VARCHAR},#{remarks,jdbcType=VARCHAR}, 
       #{stdRate,jdbcType=DECIMAL}, #{stdCost,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, 
       #{commCost,jdbcType=DECIMAL}, #{buyerCost,jdbcType=DECIMAL}, #{buyerPaid,jdbcType=DECIMAL}, 
       #{sellerCost,jdbcType=DECIMAL}, #{sellerPaid,jdbcType=DECIMAL}, #{payee,jdbcType=NVARCHAR}, 
-      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=INTEGER})
+       @{SESSION_USER_ID}, GETDATE(),  @{SESSION_USER_ID}, 
+      GETDATE(), #{isDeleted,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.wdcase.entity.TpdCommSubs"  useGeneratedKeys="true" keyProperty="pkid">
+  <selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER" >
+    	SELECT @@IDENTITY
+  	 </selectKey>
     insert into sctrans.T_PD_COMM_SUBS
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -64,8 +71,11 @@
       <if test="caseCode != null" >
         CASE_CODE,
       </if>
+      <if test="bizCode != null" >
+        BIZ_CODE,
+      </if>
       <if test="remarks != null" >
-        REMARKS,
+        remarks,
       </if>
       <if test="stdRate != null" >
         STD_RATE,
@@ -94,18 +104,11 @@
       <if test="payee != null" >
         PAYEE,
       </if>
-      <if test="createBy != null" >
+
         CREATE_BY,
-      </if>
-      <if test="createTime != null" >
         CREATE_TIME,
-      </if>
-      <if test="updateBy != null" >
         UPDATE_BY,
-      </if>
-      <if test="updateTime != null" >
         UPDATE_TIME,
-      </if>
       <if test="isDeleted != null" >
         IS_DELETED,
       </if>
@@ -116,6 +119,9 @@
       </if>
       <if test="caseCode != null" >
         #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bizCode != null" >
+        #{bizCode,jdbcType=VARCHAR},
       </if>
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
@@ -147,18 +153,7 @@
       <if test="payee != null" >
         #{payee,jdbcType=NVARCHAR},
       </if>
-      <if test="createBy != null" >
-        #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null" >
-        #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
+      @{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},GETDATE(),
       <if test="isDeleted != null" >
         #{isDeleted,jdbcType=INTEGER},
       </if>
@@ -170,8 +165,11 @@
       <if test="caseCode != null" >
         CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       </if>
+      <if test="bizCode != null" >
+        BIZ_CODE = #{bizCode,jdbcType=VARCHAR},
+      </if>
       <if test="remarks != null" >
-        REMARKS = #{remarks,jdbcType=VARCHAR},
+        remarks = #{remarks,jdbcType=VARCHAR},
       </if>
       <if test="stdRate != null" >
         STD_RATE = #{stdRate,jdbcType=DECIMAL},
@@ -200,18 +198,8 @@
       <if test="payee != null" >
         PAYEE = #{payee,jdbcType=NVARCHAR},
       </if>
-      <if test="createBy != null" >
-        CREATE_BY = #{createBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null" >
-        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null" >
-        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
+        UPDATE_BY = @{SESSION_USER_ID},
+        UPDATE_TIME = GETDATE(),
       <if test="isDeleted != null" >
         IS_DELETED = #{isDeleted,jdbcType=INTEGER},
       </if>
@@ -221,7 +209,8 @@
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.wdcase.entity.TpdCommSubs" >
     update sctrans.T_PD_COMM_SUBS
     set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
-      REMARKS = #{remarks,jdbcType=VARCHAR},
+      BIZ_CODE = #{bizCode,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
       STD_RATE = #{stdRate,jdbcType=DECIMAL},
       STD_COST = #{stdCost,jdbcType=DECIMAL},
       DISCOUNT = #{discount,jdbcType=DECIMAL},
@@ -231,10 +220,8 @@
       SELLER_COST = #{sellerCost,jdbcType=DECIMAL},
       SELLER_PAID = #{sellerPaid,jdbcType=DECIMAL},
       PAYEE = #{payee,jdbcType=NVARCHAR},
-      CREATE_BY = #{createBy,jdbcType=VARCHAR},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
-      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = @{SESSION_USER_ID},
+      UPDATE_TIME = GETDATE(),
       IS_DELETED = #{isDeleted,jdbcType=INTEGER}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>

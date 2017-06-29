@@ -6,9 +6,12 @@ import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.mgr.entity.TsFinOrg;
+import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.task.service.PSFSignService;
 import com.centaline.trans.task.vo.PSFSignVO;
 import org.apache.log4j.Logger;
@@ -33,6 +36,10 @@ public class PSFSignController {
 
     @Autowired
     private PSFSignService psfSignService;
+    @Autowired
+    private TgGuestInfoService tgGuestInfoService;
+    @Autowired
+    private TsFinOrgService tsFinOrgService;
 
     @RequestMapping("process")
     @ResponseBody
@@ -46,6 +53,14 @@ public class PSFSignController {
         jsonObject.put("taskId", taskId);
         jsonObject.put("processInstanceId", processInstanceId);
         jsonObject.put("PSFSign",  psfSignService.queryPSFSignNoBlank(caseCode));
+        TgGuestInfo tgGuestInfo = new TgGuestInfo();
+        tgGuestInfo.setCaseCode(caseCode);
+        tgGuestInfo.setTransPosition("30006002");
+        List<TgGuestInfo> list = tgGuestInfoService.findTgGuestInfosByCaseCode(tgGuestInfo);
+        jsonObject.put("custDown", list);
+
+        List<TsFinOrg> evaCompanyList = tsFinOrgService.findPrfLoanBank();
+        jsonObject.put("TsFinOrg", evaCompanyList);
 
         return jsonObject;
     }

@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Toastr style -->
+<%-- <!-- Toastr style -->
 <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 
 <!-- Gritter -->
@@ -24,15 +24,44 @@
 <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
 <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/common.css' />" rel="stylesheet">
-<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet"><%-- 
-<link href="<c:url value='/css/transcss/case/myCaseList2.css' />" rel="stylesheet"> --%>
+<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet">
+<link href="<c:url value='/css/transcss/case/myCaseList2.css' />" rel="stylesheet">
 <!-- 分页控件 -->
 <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 
 <link rel="stylesheet" href="<c:url value='/css/workflow/newRecordpop.css' />" />
 
 <!-- 必须CSS -->
-<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" />
+<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" /> --%>
+
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
+<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">  
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/common.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<!-- Data Tables -->
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.bootstrap.css'/>" />
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.responsive.css'/>" />
+<link rel="stylesheet" href="<c:url value='/static/css/plugins/dataTables/dataTables.tableTools.min.css'/>" />
+
+<!-- index_css -->
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/base.css'/>" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css'/>" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/workflow/myCaseList.css'/>" />
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css'/>">
+<link rel="stylesheet" href="<c:url value='/css/workflow/newRecordpop.css'/>" />
+<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css'/>" type="text/css" />
+
 	
 <style type="text/css">
    .ibox-button {

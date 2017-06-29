@@ -39,6 +39,7 @@ import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.CaseOriginEnum;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.common.enums.GuestEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
@@ -248,7 +249,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 					tgGuestInfo.setCaseCode(caseCode);
 					tgGuestInfo.setGuestName(nameList.get(i));
 					tgGuestInfo.setGuestPhone(phoneList.get(i));
-					tgGuestInfo.setTransPosition("30006001");
+					tgGuestInfo.setTransPosition(GuestEnum.SELLER.getCode());
 					k = tgGuestInfoService.insertSelective(tgGuestInfo);
 				}
 			}else if(flag==2){
@@ -256,7 +257,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 					tgGuestInfo.setCaseCode(caseCode);
 					tgGuestInfo.setGuestName(nameList.get(i));
 					tgGuestInfo.setGuestPhone(phoneList.get(i));
-					tgGuestInfo.setTransPosition("30006002");
+					tgGuestInfo.setTransPosition(GuestEnum.BUYER.getCode());
 					k = tgGuestInfoService.insertSelective(tgGuestInfo);
 				}
 			}
@@ -328,8 +329,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		/**
 		 * 4.保存案件上下家/推荐人信息
 		 */
-		saveAddWDIntoGuestInfo(caseMergeVo.getTgGuestInfoUp(),caseCode,"30006001");
-		saveAddWDIntoGuestInfo(caseMergeVo.getTgGuestInfoDown(),caseCode,"30006002");
+		saveAddWDIntoGuestInfo(caseMergeVo.getTgGuestInfoUp(),caseCode,GuestEnum.SELLER.getCode());
+		saveAddWDIntoGuestInfo(caseMergeVo.getTgGuestInfoDown(),caseCode,GuestEnum.BUYER.getCode());
 		/**
 		 * 5.保存案件附件信息
 		 */
@@ -769,10 +770,10 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		
 		for(TgGuestInfo tgGuestInfo:tgGuestInfoList){
 			
-			if(StringUtils.equals("30006001", tgGuestInfo.getTransPosition())){
+			if(StringUtils.equals(GuestEnum.SELLER.getCode(), tgGuestInfo.getTransPosition())){
 				tgGuestInfoUp.add(tgGuestInfo);
 			}
-			if(StringUtils.equals("30006002", tgGuestInfo.getTransPosition())){
+			if(StringUtils.equals(GuestEnum.BUYER.getCode(), tgGuestInfo.getTransPosition())){
 				tgGuestInfoDown.add(tgGuestInfo);
 			}
 		}
@@ -824,10 +825,10 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		 */
 		tpdCommSubsMapper.updateByPrimaryKey(tpdCommSubs);
 		/**
-		 * 4.保存案件上下家/推荐人信息
+		 * 4.保存案件上下家
 		 */
-		editWDToGuestInfo(caseMergeVo.getTgGuestInfoUp() ,tgGuestInfoList,caseCode,"30006001");
-		editWDToGuestInfo(caseMergeVo.getTgGuestInfoDown(), tgGuestInfoList ,caseCode,"30006002");
+		editWDToGuestInfo(caseMergeVo.getTgGuestInfoUp() ,tgGuestInfoList,caseCode,GuestEnum.SELLER.getCode());
+		editWDToGuestInfo(caseMergeVo.getTgGuestInfoDown(), tgGuestInfoList ,caseCode,GuestEnum.BUYER.getCode());
 		
 		return caseCode;			
 			
@@ -879,8 +880,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 * 更新上下家/推荐人信息
 	 * 30006001：上家
 	 * 30006002：下家
-	 * 30006003：推荐人
-	 * @param 1:上家 2：下家 3：推荐人
+	 * @param 1:上家 2：下家 
 	 * @author hjf
 	 * @date 2017年4月28日16:36:19
 	 * */

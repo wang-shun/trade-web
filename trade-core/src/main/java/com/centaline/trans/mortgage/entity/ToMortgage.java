@@ -3,6 +3,7 @@ package com.centaline.trans.mortgage.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.centaline.trans.eval.entity.ToEval;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -83,6 +84,10 @@ public class ToMortgage {
     private String     ifRequireReconsider;
 
     private ToSupDocu  toSupDocu;
+    /**
+     * 评估费
+     */
+    private ToEval toEval;
 
     private String     isDelegateYucui;
 
@@ -132,6 +137,16 @@ public class ToMortgage {
 
     /*贷款在银行内部的状态--由信贷员填写*/
     private String     stateInBank;
+    
+    /**
+	 * 预定签约地点
+	 */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+	private Date resSignTime;
+	/**
+	 * 预定签约地点
+	 */
+	private String resSignAddr;
 
     public Long getPkid() {
         return pkid;
@@ -620,6 +635,30 @@ public class ToMortgage {
 
 	public void setStateInBank(String stateInBank) {
 		this.stateInBank = stateInBank;
+	}
+
+	public ToEval getToEval() {
+		return toEval;
+	}
+
+	public void setToEval(ToEval toEval) {
+		this.toEval = toEval;
+	}
+
+	public String getResSignAddr() {
+		return resSignAddr;
+	}
+
+	public void setResSignAddr(String resSignAddr) {
+		this.resSignAddr = resSignAddr;
+	}
+
+	public Date getResSignTime() {
+		return resSignTime;
+	}
+
+	public void setResSignTime(Date resSignTime) {
+		this.resSignTime = resSignTime;
 	}  	
 	
 }

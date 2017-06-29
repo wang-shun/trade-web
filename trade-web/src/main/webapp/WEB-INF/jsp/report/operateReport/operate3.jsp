@@ -19,7 +19,6 @@
         
     </head>
     <body style="background-color:#fff;">
-         <!--*********************** HTML_main*********************** -->
         <div>
             <div class="ibox-content" id="base_info">
                 <div class="row chartwo">
@@ -72,8 +71,6 @@
                 </div>
             </div>
         </div>
-        <!--*********************** HTML_main*********************** -->
-
         <!-- Mainly scripts -->
         <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
         <script src="<c:url value='/js/bootstrap.min.js' />"></script>
@@ -139,16 +136,12 @@
 						var td10Html = "";
 						var td11Html = "";
 						var td12Html = "";
-						
-						
-						
-						 for(var i = 0;i< voListToPdlSize;i++){
+						for(var i = 0;i< voListToPdlSize;i++){
 							 var row = voListToPdl[i];
 							 	if(parseInt(row.month)==(month)){
 							 		td1Html = "<td>"+getNum(row.dispatchSum)+"</td>";		                                        /*1派单量**/ 
 							 		break;   
 							 	}
-							 
 						 }
 						 for(var i = 0;i< voListToCyllistSize;i++){
 							 var row = voListToCyl[i];
@@ -164,7 +157,6 @@
 									 		break; 
 									 	}
 							 		 }
-							 		
 							 		break;   
 							 	}
 							 
@@ -175,7 +167,6 @@
 							 		td3Html = "<td>"+getNum(row.transferAppPassSum)+"</td>";                                        /*3过户量**/      
 							 		break;   
 							 	}
-							 
 						 }
 						 for(var i = 0;i< listSize;i++){
 							 var row = list[i];

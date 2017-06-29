@@ -15,19 +15,13 @@
 
 <title>审批驳回</title>
  <!-- 上传相关 -->
-	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />"
-		rel="stylesheet">
-	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />"
-		rel="stylesheet">
-	<link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />"
-		rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />" rel="stylesheet">
 	<!-- 展示相关 -->
-	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />"
-		rel="stylesheet">
-	<link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />"
-		rel="stylesheet">
-	<link href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />"
-		rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />" rel="stylesheet">
 	<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 	<!-- 备件相关结束 -->
     <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/bootstrap.min.css' />">

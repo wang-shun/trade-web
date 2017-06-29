@@ -15,9 +15,10 @@
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
     <result column="SORT" property="sort" jdbcType="INTEGER" />
     <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="SUBJECT_CODE" property="subjectCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List">
-    PKID, PRDC_CODE, PRDC_NAME, PRDC_DESC, APPLY_COND, PRDC_ICON, PROP_GROUP,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,SORT,STATUS
+    PKID, PRDC_CODE, PRDC_NAME, PRDC_DESC, APPLY_COND, PRDC_ICON, PROP_GROUP,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,SORT,STATUS,SUBJECT_CODE
   </sql>
    <select id="getProductCategoryById" resultMap="BaseResultMap" parameterType="java.lang.String">
 	    select 
@@ -38,5 +39,138 @@
 		<include refid="Base_Column_List" />
 	    from sctrans.T_TS_PRODUCT_CATEGORY
 	    	where STATUS != 2 order by SORT ASC 
-  </select> 
+  </select>
+  
+  <insert id="insertProCategory" parameterType="com.centaline.trans.product.entity.ProductCategory">
+    insert into sctrans.T_TS_PRODUCT_CATEGORY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="prdcCode != null">
+        PRDC_CODE,
+      </if>
+      <if test="prdcName != null">
+        PRDC_NAME,
+      </if>
+      <if test="prdcDesc != null">
+        PRDC_DESC,
+      </if>
+      <if test="applyCond != null">
+        APPLY_COND,
+      </if>
+      <if test="prdcIcon != null">
+        PRDC_ICON,
+      </if>
+      <if test="propGroup != null">
+        PROP_GROUP,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+      <if test="sort != null and sort!=0">
+        SORT,
+      </if>
+      <if test="status != null and status!=0">
+        STATUS,
+      </if>
+      <if test="subjectCode != null">
+        SUBJECT_CODE
+      </if>
+    </trim>
+    
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="prdcCode != null">
+         #{prdcCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prdcName != null">
+         #{prdcName,jdbcType=VARCHAR},
+      </if>
+      <if test="prdcDesc != null">
+         #{prdcDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="applyCond != null">
+         #{applyCond,jdbcType=VARCHAR},
+      </if>
+      <if test="prdcIcon != null">
+         #{prdcIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="propGroup != null">
+         #{propGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+         #{createBy,jdbcType=createTime},
+      </if>
+      <if test="updateTime != null">
+         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+         #{updateBy,jdbcType=createTime},
+      </if>
+      <if test="sort != null and sort!=0">
+         #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null and status!=0">
+         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="subjectCode != null">
+         #{subjectCode,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateProCategory" parameterType="com.centaline.trans.product.entity.ProductCategory">
+    update sctrans.T_TS_PRODUCT_CATEGORY
+    <set>
+      <if test="prdcCode != null">
+        PRDC_CODE = #{prdcCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prdcName != null">
+        PRDC_NAME = #{prdcName,jdbcType=VARCHAR},
+      </if>
+      <if test="prdcDesc != null">
+        PRDC_DESC = #{prdcDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="applyCond != null">
+        APPLY_COND = #{applyCond,jdbcType=VARCHAR},
+      </if>
+      <if test="prdcIcon != null">
+        PRDC_ICON = #{prdcIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="propGroup != null">
+        PROP_GROUP = #{propGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIM = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=createTime},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=createTime},
+      </if>
+      <if test="sort != null and sort!=0">
+        SORT = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null and status!=0">
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="subjectCode != null">
+        SUBJECT_CODE = #{subjectCode,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
 </mapper>

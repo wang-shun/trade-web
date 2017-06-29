@@ -143,6 +143,7 @@ function($, window) {
 			// 自动提交form表单
 		    autoCommit : function(url) {
 		    	var form = $("<form action=\"#\" accept-charset=\"utf-8\" method=\"post\" id=\"excelForm\"></form>");
+		    	$(document.body).append(form);
 		    	if(url) {
 		    		form.attr('action', url);
 		    	}

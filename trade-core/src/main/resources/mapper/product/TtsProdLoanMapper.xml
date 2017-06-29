@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.product.repository.TtsProdLoanMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.product.entity.TtsProdLoan" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="PROD_ID" property="prodId" jdbcType="BIGINT" />
+    <result column="MAX_AMOUT" property="maxAmout" jdbcType="DECIMAL" />
+    <result column="FIRST_INT_CHARGE" property="firstIntCharge" jdbcType="VARCHAR" />
+    <result column="EARLY_PAY" property="earlyPay" jdbcType="VARCHAR" />
+    <result column="EARLY_PAY_LD" property="earlyPayLd" jdbcType="DECIMAL" />
+    <result column="LATE_PAY_LD" property="latePayLd" jdbcType="DECIMAL" />
+    <result column="EXTEND_TERM" property="extendTerm" jdbcType="VARCHAR" />
+    <result column="LOAN_BANK" property="loanBank" jdbcType="NVARCHAR" />
+    <result column="PAYMENT_AND" property="paymentAnd" jdbcType="NVARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, PROD_ID, MAX_AMOUT, FIRST_INT_CHARGE, EARLY_PAY, EARLY_PAY_LD, LATE_PAY_LD, 
+    EXTEND_TERM, LOAN_BANK, PAYMENT_AND, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_PROD_LOAN
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TS_PROD_LOAN
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.product.entity.TtsProdLoan" >
+    insert into sctrans.T_TS_PROD_LOAN (PKID, PROD_ID, MAX_AMOUT, 
+      FIRST_INT_CHARGE, EARLY_PAY, EARLY_PAY_LD, 
+      LATE_PAY_LD, EXTEND_TERM, LOAN_BANK, 
+      PAYMENT_AND, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY)
+    values (#{pkid,jdbcType=BIGINT}, #{prodId,jdbcType=BIGINT}, #{maxAmout,jdbcType=DECIMAL}, 
+      #{firstIntCharge,jdbcType=VARCHAR}, #{earlyPay,jdbcType=VARCHAR}, #{earlyPayLd,jdbcType=DECIMAL}, 
+      #{latePayLd,jdbcType=DECIMAL}, #{extendTerm,jdbcType=VARCHAR}, #{loanBank,jdbcType=NVARCHAR}, 
+      #{paymentAnd,jdbcType=NVARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.product.entity.TtsProdLoan" >
+    insert into sctrans.T_TS_PROD_LOAN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="prodId != null" >
+        PROD_ID,
+      </if>
+      <if test="maxAmout != null" >
+        MAX_AMOUT,
+      </if>
+      <if test="firstIntCharge != null" >
+        FIRST_INT_CHARGE,
+      </if>
+      <if test="earlyPay != null" >
+        EARLY_PAY,
+      </if>
+      <if test="earlyPayLd != null" >
+        EARLY_PAY_LD,
+      </if>
+      <if test="latePayLd != null" >
+        LATE_PAY_LD,
+      </if>
+      <if test="extendTerm != null" >
+        EXTEND_TERM,
+      </if>
+      <if test="loanBank != null" >
+        LOAN_BANK,
+      </if>
+      <if test="paymentAnd != null" >
+        PAYMENT_AND,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="prodId != null" >
+        #{prodId,jdbcType=BIGINT},
+      </if>
+      <if test="maxAmout != null" >
+        #{maxAmout,jdbcType=DECIMAL},
+      </if>
+      <if test="firstIntCharge != null" >
+        #{firstIntCharge,jdbcType=VARCHAR},
+      </if>
+      <if test="earlyPay != null" >
+        #{earlyPay,jdbcType=VARCHAR},
+      </if>
+      <if test="earlyPayLd != null" >
+        #{earlyPayLd,jdbcType=DECIMAL},
+      </if>
+      <if test="latePayLd != null" >
+        #{latePayLd,jdbcType=DECIMAL},
+      </if>
+      <if test="extendTerm != null" >
+        #{extendTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="loanBank != null" >
+        #{loanBank,jdbcType=NVARCHAR},
+      </if>
+      <if test="paymentAnd != null" >
+        #{paymentAnd,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.product.entity.TtsProdLoan" >
+    update sctrans.T_TS_PROD_LOAN
+    <set >
+      <if test="prodId != null" >
+        PROD_ID = #{prodId,jdbcType=BIGINT},
+      </if>
+      <if test="maxAmout != null" >
+        MAX_AMOUT = #{maxAmout,jdbcType=DECIMAL},
+      </if>
+      <if test="firstIntCharge != null" >
+        FIRST_INT_CHARGE = #{firstIntCharge,jdbcType=VARCHAR},
+      </if>
+      <if test="earlyPay != null" >
+        EARLY_PAY = #{earlyPay,jdbcType=VARCHAR},
+      </if>
+      <if test="earlyPayLd != null" >
+        EARLY_PAY_LD = #{earlyPayLd,jdbcType=DECIMAL},
+      </if>
+      <if test="latePayLd != null" >
+        LATE_PAY_LD = #{latePayLd,jdbcType=DECIMAL},
+      </if>
+      <if test="extendTerm != null" >
+        EXTEND_TERM = #{extendTerm,jdbcType=VARCHAR},
+      </if>
+      <if test="loanBank != null" >
+        LOAN_BANK = #{loanBank,jdbcType=NVARCHAR},
+      </if>
+      <if test="paymentAnd != null" >
+        PAYMENT_AND = #{paymentAnd,jdbcType=NVARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.product.entity.TtsProdLoan" >
+    update sctrans.T_TS_PROD_LOAN
+    set PROD_ID = #{prodId,jdbcType=BIGINT},
+      MAX_AMOUT = #{maxAmout,jdbcType=DECIMAL},
+      FIRST_INT_CHARGE = #{firstIntCharge,jdbcType=VARCHAR},
+      EARLY_PAY = #{earlyPay,jdbcType=VARCHAR},
+      EARLY_PAY_LD = #{earlyPayLd,jdbcType=DECIMAL},
+      LATE_PAY_LD = #{latePayLd,jdbcType=DECIMAL},
+      EXTEND_TERM = #{extendTerm,jdbcType=VARCHAR},
+      LOAN_BANK = #{loanBank,jdbcType=NVARCHAR},
+      PAYMENT_AND = #{paymentAnd,jdbcType=NVARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

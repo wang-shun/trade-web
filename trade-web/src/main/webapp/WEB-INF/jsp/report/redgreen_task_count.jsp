@@ -138,9 +138,9 @@ text-decoration: underline !important;
 							   <button id="searchButton" type="button" class="btn btn-warning">查询</button>
 							   <button id="cleanButton" type="button" class="btn btn-primary">清空</button>
 							   <a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:exportTExcel()">导出</a>
-								</div>
 							</div>
 						</div>
+					</div>
 					</div>
 				</form>
 			</div>
@@ -247,8 +247,6 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">
                             <a href="javascript:exportToExcel('{{item.id}}','{{item.orgName1}}','');" target="_blank">导出</a>
                         </td>
-				
-
 				  </tr>
        {{/each}}
 </script>
@@ -269,7 +267,6 @@ text-decoration: underline !important;
 						<td class="t-left pd-l">
                             <a href="javascript:exportToExcel('{{item.id}}','{{item.orgName1}}','{{item.orgName2}}');" target="_blank">导出</a>
                         </td>
-						
 				  </tr>
        {{/each}}
 </script>

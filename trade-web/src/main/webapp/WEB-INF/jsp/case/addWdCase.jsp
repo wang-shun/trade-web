@@ -236,8 +236,6 @@
         	 <c:if test="${type eq 'add'}" >
              <a onclick="sumbitRe()" class="btn btn-success">创建</a>
 			 </c:if>
-             
-           <!--  <button type="reset" id="loanLostCleanButton" class="btn btn-grey">清&nbsp;&nbsp;空</button> -->
         </div>
          </form>
     </div>
@@ -245,8 +243,7 @@
     </div>
 </div>
 <content tag="local_script"> 
-<script src="<c:url value='/js/trunk/case/addWdCase.js' />"></script><%-- 
-<script src="<c:url value='/js/trunk/case/jquery.serializejson.js' />"></script> --%>
+<script src="<c:url value='/js/trunk/case/addWdCase.js' />"></script>
 <script>
     var $else = $('#elseInput'); 
     var $btn_spans = $('.outlist-btns span');
@@ -257,12 +254,10 @@
         $else.toggle();
     });
     
-     
 </script>
 </content>
 <content tag="local_require">
 <script>
-
 
 /**
  * 上家信息  动态添加
@@ -288,7 +283,6 @@ function getAtr(){
         +   '</div>'
         +   '<a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
         +   '</div>';
-    //$("#topHome").after(str);
     $("#upDiv").before(str);
     indexUp++;
 	$("#sumUp").val(sumUp);
@@ -315,7 +309,6 @@ function getNext(){
         +   '</div>'
         +   '<a href="javascript:void(0)" class="add_space" onclick="getDel(this)">删除</a>'
         +   '</div>';
-    //$("#downHome").after(str);
     $("#downDiv").before(str);
     indexDown++;
 	$("#sumDown").val(sumDown);
@@ -333,7 +326,6 @@ function getDel(k){
     require(['main'], function() {
     	requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
     		fileUpload = aistFileUpload;
-    		
     		fileUpload.init({
 	    		caseCode : $('#caseCode').val(),
 	    		partCode : "AddWdCase",
@@ -341,21 +333,16 @@ function getDel(k){
 	    	}); 
 	    });
     });
-    
-  
-    
     jQuery(document).ready(function() {
     	spansClick($("#remarks").val()); 
 	    $("span[name='remarks']").click(function(){								
 			var id = $(this).attr("id");								
 			$("span[id='"+id+"']").changeSelect();
 		});
-	    
 	    var other = $("#subjectOther").val();
 	    if(null !=other && other.length>0){
 	    	spansShow();
 	    }
-	    
     });
     
     function spansClick(list){
@@ -367,9 +354,7 @@ function getDel(k){
     } 
     function spansShow(){
     	var $else = $('#elseInput'); 
-   	    
    	        $else.toggle();
-   	    
     }
 </script>
 </content>

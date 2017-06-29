@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+		<dicts>
+			<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
+			<customDict id="getRealNameByUserId" beanName="getRealNameByUserId"></customDict>
+		</dicts>
+		<formatters>
+			<formatter id="dateFormatter" ref=""
+				class="com.aist.common.quickQuery.formatter.DateFormatter">
+				<properties>
+					<property name="pattern">yyyy-MM-dd</property>
+				</properties>
+			</formatter>
+		</formatters>
+	<query id="queryPerfGoalAttainmentList" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+						SELECT
+					so.parent_ID AS viewObject,
+					so.parent_ID AS viewObjectId,
+					a.belongMonth AS belongMonth,
+					SUM (a.goalPerf) AS goalPerf,
+					SUM (b.shareAmoun) AS shareAmount,
+					SUM (b.countPerf) AS countPerf,
+					CAST (
+						(SUM (b.shareAmoun)/SUM (a.goalPerf)) AS DECIMAL (18, 4)
+					) AS completionRate
+				FROM
+					(
+						SELECT
+							pg.TEAM AS viewObject,
+							pg.TEAM AS viewObjectId,
+							TEAM,
+				DISTRICT,
+							pg.BELONG_MONTH AS belongMonth,
+							SUM (pg.GOAL_PERF) AS goalPerf
+						FROM
+							sctrans.T_TS_PERF_GOAL pg
+						WHERE
+							pg.STATUS = 1
+						AND CONVERT (
+							VARCHAR (7),
+							pg.BELONG_MONTH,
+							120
+						) = #time#
+						GROUP BY
+							pg.DISTRICT,
+							pg.TEAM,
+							pg.BELONG_MONTH
+					) a
+				LEFT JOIN (
+					SELECT
+						DISTRICT,
+						SUM (rp.SHARE_AMOUNT) AS shareAmoun,
+						TEAM_ID,
+						rp.SHARE_TIME,
+						COUNT (rp.PKID) AS countPerf
+					FROM
+						sctrans.T_TS_RECEIVABLE_PERF rp
+					WHERE
+						rp.STATUS = 'GENERATED'
+					AND rp.IS_DELETED = '0'
+					AND CONVERT (
+						VARCHAR (7),
+						rp.SHARE_TIME,
+						120
+					) = #time#
+					GROUP BY
+						RP.DISTRICT,
+						rp.TEAM_ID,
+						rp.SHARE_TIME
+				) b ON a.TEAM = b.TEAM_ID
+				AND DATEDIFF(
+					mm,
+					a.belongMonth,
+					b.SHARE_TIME
+				) = 0
+				 LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (a.TEAM = yoh.ORG_ID)
+				 LEFT JOIN sctrans.sys_org so ON (so.id = a.DISTRICT)
+				GROUP BY  so.parent_ID,a.belongMonth
+		]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="viewObject" customDict="qqcdOrgIdName" title="查看对象"/>
+				<column type="both" name="viewObjectId"/>
+				<column type="both" name="belongMonth" beanFormatter="dateFormatterMM" title="考核月份"/>
+				<column type="both" name="goalPerf" title="业绩目标"/>
+				<column type="both" name="shareAmount" title="完成业绩"/>
+				<column type="both" name="completionRate" title="已完率"/>
+				<column type="both" name="countPerf" title="业绩单数"/>
+			</table-row>
+		</grid>
+	</query>
+	<query id="queryPerfGoalAttainmentListRyjb" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			SELECT
+				a.viewObject AS viewObject,
+				a.viewObject AS viewObjectId,
+				a.belongMonth AS belongMonth,
+				sum(a.goalPerf) AS goalPerf,
+				sum(b.shareAmoun) AS shareAmount,
+			  sum(b.countPerf )AS countPerf,
+			  '1' as ry,
+				CAST (
+					(SUM (b.shareAmoun)/SUM (a.goalPerf)) AS DECIMAL (18, 4)
+				) AS completionRate
+			FROM
+				(
+					SELECT
+						pg.USER_ID AS viewObject,
+						pg.USER_ID AS viewObjectId,
+						pg.USER_ID AS UserId,
+						TEAM,
+						pg.BELONG_MONTH AS belongMonth,
+						SUM (pg.GOAL_PERF) AS goalPerf
+					FROM
+						sctrans.T_TS_PERF_GOAL pg
+					WHERE
+						pg.STATUS = 1
+					AND CONVERT (
+						VARCHAR (7),
+						pg.BELONG_MONTH,
+						120
+					) = #time#
+					GROUP BY
+						pg.TEAM,
+						pg.USER_ID,
+						pg.BELONG_MONTH
+				) a
+			LEFT JOIN (
+				SELECT
+					DISTRICT,
+					SUM (rp.SHARE_AMOUNT) AS shareAmoun,
+					USER_ID,
+					rp.SHARE_TIME,
+					COUNT (rp.PKID) AS countPerf
+				FROM
+					sctrans.T_TS_RECEIVABLE_PERF rp
+				WHERE
+					rp.STATUS = 'GENERATED'
+				AND rp.IS_DELETED = '0'
+				AND CONVERT (
+					VARCHAR (7),
+					rp.SHARE_TIME,
+					120
+				) = #time#
+				GROUP BY 
+					RP.DISTRICT,
+					rp.USER_ID,
+					rp.SHARE_TIME
+			) b ON a.UserId = b.USER_ID
+			AND DATEDIFF(
+				mm,
+				a.belongMonth,
+				b.SHARE_TIME
+			) = 0
+			<if test = "USER_JOBCODE !='TJYGW' and TJYGW!='TJYZL' ">
+				LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (a.TEAM = yoh.ORG_ID)
+				where 1=1
+			</if>
+			<if test = "USER_JOBCODE !='TJYGW' and TJYGW!='TJYZL' ">
+				AND (
+					yoh.DISTRICT_ID = #orgId#
+					OR yoh.TEAM_ID = #orgId#
+					OR yoh.HQ_ID = #orgId#
+				)
+			</if>
+			<if test="USER_JOBCODE !='TJYGW' and TJYGW!='TJYZL' and  yuCuiOriGrpId != null and yuCuiOriGrpId != 'null' and yuCuiOriGrpId != '' ">
+			AND (
+				yoh.DISTRICT_ID = #yuCuiOriGrpId#
+				OR yoh.TEAM_ID = #yuCuiOriGrpId#
+				OR yoh.HQ_ID = #yuCuiOriGrpId#
+				)
+			</if>
+			GROUP BY a.viewObject,a.belongMonth 
+			 
+			 
+		]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="viewObject" customDict="getRealNameByUserId" title="查看对象"/>
+				<column type="both" name="viewObjectId"/>
+				<column type="both" name="ry"/>
+				<column type="both" name="belongMonth" beanFormatter="dateFormatterMM" title="考核月份"/>
+				<column type="both" name="goalPerf" title="业绩目标"/>
+				<column type="both" name="shareAmount" title="完成业绩"/>
+				<column type="both" name="completionRate" title="已完率"/>
+				<column type="both" name="countPerf" title="业绩单数"/>
+			</table-row>
+		</grid>
+	</query>
+	<query id="queryPerfGoalAttainmentListzbjb" cacheCount="true">
+		<searchCondition>
+			<!-- <condition field="pg.DISTRICT" name="yuCuiOriGrpId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/> -->
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			
+			
+			SELECT
+					a.viewObject as viewObject,
+					a.viewObjectId as viewObjectId,
+					a.belongMonth as belongMonth,
+				    a.goalPerf as goalPerf,
+					b.shareAmoun as shareAmount,
+				    b.countPerf as countPerf,
+					CAST (
+						(b.shareAmoun / a.goalPerf) AS DECIMAL (18, 4)
+					) AS completionRate
+				FROM
+					(
+						SELECT
+							pg.TEAM AS viewObject,
+							pg.TEAM AS viewObjectId,
+							pg.TEAM AS TEAM,
+							pg.BELONG_MONTH AS belongMonth,
+							SUM (pg.GOAL_PERF) AS goalPerf
+						FROM
+							sctrans.T_TS_PERF_GOAL pg
+						WHERE
+							pg.STATUS = 1
+						AND CONVERT (
+							VARCHAR (7),
+							pg.BELONG_MONTH,
+							120
+						) = #time#
+						GROUP BY
+							pg.DISTRICT,
+							pg.BELONG_MONTH,
+							pg.TEAM
+					) a
+				LEFT JOIN (
+					SELECT
+						SUM (rp.SHARE_AMOUNT) AS shareAmoun,
+						TEAM_ID,
+						rp.SHARE_TIME,
+						COUNT (rp.PKID) AS countPerf
+					FROM
+						sctrans.T_TS_RECEIVABLE_PERF rp
+					WHERE
+						rp.STATUS = 'GENERATED'
+					AND rp.IS_DELETED = '0'
+					AND CONVERT (
+						VARCHAR (7),
+						rp.SHARE_TIME,
+						120
+					) = #time#
+					GROUP BY
+						rp.TEAM_ID,
+						rp.SHARE_AMOUNT,
+						rp.SHARE_TIME
+				) b ON a.team = b.TEAM_ID
+				AND DATEDIFF(
+					mm,
+					a.belongMonth,
+					b.SHARE_TIME
+				) = 0
+				LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (a.TEAM = yoh.ORG_ID)
+				where 1=1
+							AND (
+								yoh.DISTRICT_ID = #orgId#
+								OR yoh.TEAM_ID = #orgId#
+								OR yoh.HQ_ID = #orgId#
+							)
+							<if test="yuCuiOriGrpId != null and yuCuiOriGrpId != 'null' and yuCuiOriGrpId != '' ">
+							AND (
+								yoh.DISTRICT_ID = #yuCuiOriGrpId#
+								OR yoh.TEAM_ID = #yuCuiOriGrpId#
+								OR yoh.HQ_ID = #yuCuiOriGrpId#
+								)
+							</if>
+			
+		]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="viewObject" customDict="qqcdOrgIdName" title="查看对象"/>
+				<column type="both" name="viewObjectId"/>
+				<column type="both" name="belongMonth" beanFormatter="dateFormatterMM" title="考核月份"/>
+				<column type="both" name="goalPerf" title="业绩目标"/>
+				<column type="both" name="shareAmount" title="完成业绩"/>
+				<column type="both" name="completionRate" title="已完率"/>
+				<column type="both" name="countPerf" title="业绩单数"/>
+			</table-row>
+		</grid>
+	</query>
+	<query id="queryPerfGoalAttainmentListgbfwzx" cacheCount="true">
+		<searchCondition>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			SELECT
+					a.viewObject AS viewObject,
+					a.viewObject AS viewObjectId,
+					a.belongMonth AS belongMonth,
+					sum(a.goalPerf) AS goalPerf,
+					sum(b.shareAmoun) AS shareAmount,
+				  sum(b.countPerf )AS countPerf,
+					CAST (
+						(SUM (b.shareAmoun)/SUM (a.goalPerf)) AS DECIMAL (18, 4)
+					) AS completionRate
+				FROM
+					(
+						SELECT
+							pg.DISTRICT AS viewObject,
+							pg.DISTRICT AS viewObjectId,
+							pg.TEAM AS TEAM,
+							pg.BELONG_MONTH AS belongMonth,
+							SUM (pg.GOAL_PERF) AS goalPerf
+						FROM
+							sctrans.T_TS_PERF_GOAL pg
+						WHERE
+							pg.STATUS = 1
+						AND CONVERT (
+							VARCHAR (7),
+							pg.BELONG_MONTH,
+							120
+						) = #time#
+						GROUP BY
+							pg.DISTRICT,
+							pg.BELONG_MONTH,
+							pg.TEAM
+					) a
+				LEFT JOIN (
+					SELECT
+						DISTRICT,
+						SUM (rp.SHARE_AMOUNT) AS shareAmoun,
+						TEAM_ID,
+						rp.SHARE_TIME,
+						COUNT (rp.PKID) AS countPerf
+					FROM
+						sctrans.T_TS_RECEIVABLE_PERF rp
+					WHERE
+						rp.STATUS = 'GENERATED'
+					AND rp.IS_DELETED = '0'
+					AND CONVERT (
+						VARCHAR (7),
+						rp.SHARE_TIME,
+						120
+					) = #time#
+					GROUP BY 
+						RP.DISTRICT,
+						rp.TEAM_ID,
+						rp.SHARE_TIME
+				) b ON a.TEAM = b.TEAM_ID
+				AND DATEDIFF(
+					mm,
+					a.belongMonth,
+					b.SHARE_TIME
+				) = 0
+				LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (a.TEAM = yoh.ORG_ID)
+				where 1=1
+				AND (
+					yoh.DISTRICT_ID = #orgId#
+					OR yoh.TEAM_ID = #orgId#
+					OR yoh.HQ_ID = #orgId#
+				)
+				<if test="yuCuiOriGrpId != null and yuCuiOriGrpId != 'null' and yuCuiOriGrpId != '' ">
+				AND (
+					yoh.DISTRICT_ID = #yuCuiOriGrpId#
+					OR yoh.TEAM_ID = #yuCuiOriGrpId#
+					OR yoh.HQ_ID = #yuCuiOriGrpId#
+					)
+			    </if> 
+				GROUP BY a.viewObject,a.belongMonth
+		]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="viewObject" referencecol="viewObject" customDict="qqcdOrgIdName" title="查看对象"/>
+				<column type="both" name="viewObjectId"/>
+				<column type="both" name="belongMonth" beanFormatter="dateFormatterMM" title="考核月份"/>
+				<column type="both" name="goalPerf" title="业绩目标"/>
+				<column type="both" name="shareAmount" title="完成业绩"/>
+				<column type="both" name="completionRate" title="已完率"/>
+				<column type="both" name="countPerf" title="业绩单数"/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

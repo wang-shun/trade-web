@@ -61,7 +61,7 @@
                                 <i class="icon iconfont"></i>
                                	 查询
                              </button>
-                            <button type="reset" class="btn btn-grey"> 清空 </button>
+                            <button type="reset" class="btn btn-grey" id="cleanButton"> 清空 </button>
                         </div>
                     </div>
                 </div>
@@ -166,9 +166,9 @@
 			</td>
 			<td >
 				<p class="big">
-{{if item.COM_AMOUNT_LS !=null}}
+				{{if item.COM_AMOUNT_LS !=null}}
 					{{item.COM_LS_RATE}}%
-{{/if}}
+				{{/if}}
 				</p>
 			</td>
 			<td >
@@ -192,7 +192,6 @@ function chooseManager(startOrgId) {
 		departmentType : '',
 		departmentHeriarchy : '',
 		chkStyle : 'radio',
-		//jobCode : 'JYUZBJL',
 		callBack : chooseManagerBack
 	});
 }
@@ -202,7 +201,10 @@ function chooseManagerBack(array){
 		$("#userName").val(array[0].username);
 	}
 }
-    
+$('#cleanButton').click(function() {
+	$("input[name='userName']").val('');
+	$("input[name='userId']").val('');
+}); 
 </script>
 </content>
 </body>

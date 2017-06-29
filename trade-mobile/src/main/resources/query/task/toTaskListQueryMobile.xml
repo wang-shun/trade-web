@@ -101,7 +101,7 @@
 							'PurchaseLimit','Pricing','TaxReview','LoanClose','Guohu','HouseBookGet',
 							'serviceRestartApply','serviceRestartApprove','ManagerAduit','SuperManagerAudit',
 							'DirectorAudit','LoanlostApproveManager','LoanlostApproveSeniorManager',
-							'LoanlostApproveDirector','InvalidCaseApprove')
+							'LoanlostApproveDirector','InvalidCaseApprove','PSFApply','PSFApprove','PSFSign','SelfLoanApprove')
 							
 						<ifNotNull taskTag>
 							and AB.taskTag in (#taskTag#)

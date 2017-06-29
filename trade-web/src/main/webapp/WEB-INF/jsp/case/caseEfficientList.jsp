@@ -96,13 +96,13 @@
                                 <label class="lable-one pull-left" style="margin-top: 6px;" >
                                     	查询环节
                                 </label>
-                                <select class="form-control input-one pull-left mr5" id="selInProgress">
-                                    <option value="">所有环节</option>
+                                <select class="form-control input-one pull-left mr5" id="selInProgress" style="width:200px;">
+                                    <option value="">请选择</option>
                                     <option value="paidan">派单</option>
                                     <option value="firstFollow">首次跟进</option>
                                     <option value="sign">签约</option>
-                                    <option value="guohu">过户</option>
-                                    <option value="caseClose">结案</option>
+                                    <option value="guohu">过户审批</option>
+                                    <option value="caseClose">结案归档</option>
                                 </select>
                                 <div id="datepicker_0" class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
                                     <input id="dtBegin_0" name="dtBegin" class="form-control data_style" type="text" value="" placeholder="起始日期"> <span class="input-group-addon" style="line-height:1;">到</span>
@@ -128,8 +128,8 @@
                         <div class="form-row  clearfix">                                                       
                             <div class="form-group form-margin form-space-one pull-left">
                                 <label for="" class="lable-one">延期</label>
-                                <select class="form-control input-one inline" id="selDelay" style="margin-left:-4px;">
-                                    <option value="">不限</option>
+                                <select class="form-control input-one inline" id="selDelay" style="width:200px;margin-left:-4px;">
+                                    <option value="">请选择</option>
                                    	<option value="curDelayed">当前延期</option>
                                     <option value="delayed">有延期</option>
                                     <option value="noDelayed">无延期</option>
@@ -138,19 +138,21 @@
                             <div class="form-group form-margin form-space-one pull-left" style="margin-left:38px;">
                                 <label for="" class="lable-one">逾期</label>
                                 <select class="form-control input-one inline" id="selOverdue">
-                                    <option value="">不限</option>
+                                    <option value="">请选择</option>
                                     <option value="curOverdued">当前逾期</option>
-                                    <option value="overdued">有逾期</option>
+                                    <option value="overdued">有逾期</opstion>
                                     <option value="noOverdued">无逾期</option>
                                 </select>
                             </div>
                             <div class="form-group form-margin form-space-one pull-left">
                                 <label for="" class="lable-one">案件状态</label>
-                                <select class="form-control input-one inline" id="selStatus">
-                                    <option value="">所有状态</option>
-                                    <option value="progressing">进行中</option>
-                                    <option value="completed">已完成</option>
-                                </select>
+                                <aist:dict id="selStatus" name="case_status" display="select" dictType="30001" clazz="form-control input-one inline"/>
+                            </div>
+                        </div>
+                        <div class="form-row  clearfix"> 
+                        	<div class="form-group form-margin form-space-one pull-left">
+                                <label for="" class="lable-one">案件编号</label>
+                                <input type="text" name="caseCode" id="caseCode" class="form-control data_style inline" style="width:200px;margin-left:-4px;"/>
                             </div>
                         </div>
                         <div class="form-row form-rowbot clearfix">
@@ -174,11 +176,11 @@
                                     <tr>
                                         <th>案件编码</th>
                                         <th>主办人</th>
-                                        <th>派单</th>
+                                        <th>首次派单</th>
                                         <th>首次跟进</th>
                                         <th>签约</th>
-                                        <th>过户</th>
-                                        <th>结案</th>
+                                        <th>过户审批</th>
+                                        <th>结案归档</th>
                                         <th>累计</th>
                                         <shiro:hasPermission name="TradeMenu.Report.DELAY">
                                         <th>操作</th>
@@ -269,7 +271,7 @@
 
 						 <td>
 							<p class="over-status">
-								<a class="demo-top" {{if item.inProgress == 'firstFollow'}} title="进行中 <br/>{{each item.firstFollowDelayList as firstFollowDelay index1}}延期原因{{index1 + 1}}：{{firstFollowDelay.comment}}<br/>{{/each}}" {{/if}}{{if item.firstFollowDateTime}} title="完成时间:{{item.firstFollowDateTime}}" {{/if}} href="#">
+								<a class="demo-top" title="{{if item.inProgress == 'firstFollow'}}进行中<br/>{{/if}}{{if item.firstFollowDateTime}}完成时间:{{item.firstFollowDateTime}}<br/>{{/if}}{{each item.firstFollowDelayList as firstFollowDelay index1}}延期原因{{index1 + 1}}：{{firstFollowDelay.comment}}<br/>{{/each}}" href="#">
                                        <span>{{item.firstFollowTime}}</span>
 									   <em {{if item.firstFollowOverdueTime > 0}} class="red"{{else}}class="white"{{/if}}>{{item.firstFollowOverdueTime}}</em>
 									   <span>{{item.firstFollowEff}}</span>
@@ -281,7 +283,7 @@
 
                          <td>
 							<p class="over-status">
-								<a class="demo-top" {{if item.inProgress == 'sign'}} title="进行中 <br/>{{each item.signDelayList as signDelay index1}}延期原因{{index1 + 1}}：{{signDelay.comment}}<br/>{{/each}}"{{/if}} {{if item.signDateTime}} title="完成时间:{{item.signDateTime}}" {{/if}} href="#">
+								<a class="demo-top" title="{{if item.inProgress == 'sign'}}进行中<br/>{{/if}}{{if item.signDateTime}}完成时间:{{item.signDateTime}}<br/>{{/if}}{{each item.signDelayList as signDelay index1}}延期原因{{index1 + 1}}：{{signDelay.comment}}<br/>{{/each}}" href="#">
                                        <span>{{item.signTime}}</span>
 									   <em {{if item.signOverdueTime > 0}} class="red"{{else}}class="white"{{/if}}>{{item.signOverdueTime}}</em>
 									   <span>{{item.signEff}}</span>
@@ -293,7 +295,7 @@
 
                          <td>
 							<p class="over-status">
-								<a class="demo-top" {{if item.inProgress == 'guohu'}} title="进行中<br/>{{each item.guohuDelayList as guohuDelay index1}}延期原因{{index1 + 1}}：{{guohuDelay.comment}}<br/>{{/each}}" {{/if}}{{if item.guohuDateTime}} title="完成时间:{{item.guohuDateTime}}" {{/if}} href="#">
+								<a class="demo-top" title="{{if item.inProgress == 'guohu'}}进行中<br/>{{/if}}{{if item.guohuDateTime}}完成时间:{{item.guohuDateTime}}<br/>{{/if}}{{each item.guohuDelayList as guohuDelay index1}}延期原因{{index1 + 1}}：{{guohuDelay.comment}}<br/>{{/each}}" href="#">
                                        <span>{{item.guohuTime}}</span>
 									   <em {{if item.guohuOverdueTime > 0}} class="red"{{else}}class="white"{{/if}}>{{item.guohuOverdueTime}}</em>
 									   <span>{{item.guohuEff}}</span>
@@ -305,7 +307,7 @@
                                         
 						 <td>
 							<p class="over-status">
-								<a class="demo-top" {{if item.inProgress == 'caseClose'}} title="进行中<br/>{{each item.caseCloseDelayList as caseCloseDelay index1}}延期原因{{index1 + 1}}：{{caseCloseDelay.comment}}<br/>{{/each}}"{{/if}}{{if item.caseCloseDateTime}} title="完成时间:{{item.caseCloseDateTime}}" {{/if}} href="#">
+								<a class="demo-top" title="{{if item.inProgress == 'caseClose'}}进行中<br/>{{/if}}{{if item.caseCloseDateTime}}完成时间:{{item.caseCloseDateTime}}<br/>{{/if}}{{each item.caseCloseDelayList as caseCloseDelay index1}}延期原因{{index1 + 1}}：{{caseCloseDelay.comment}}<br/>{{/each}}" href="#">
                                        <span>{{item.caseCloseTime}}</span>
 									   <em {{if item.caseCloseOverdueTime > 0}} class="red"{{else}}class="white"{{/if}}>{{item.caseCloseOverdueTime}}</em>
 									   <span>{{item.caseCloseEff}}</span>
@@ -322,12 +324,17 @@
                          
 						<shiro:hasPermission name="TradeMenu.Report.DELAY">     
 						 <td class="text-center">
-							
-								{{if item.inProgress != 'completed' && item.inProgress != 'firstFollow'}}
-                             		<p><a class="sum_editor" href="javascript:void(0)" onClick="showDelayPop('{{item.caseCode}}','{{item.inProgress}}');">延期一次</a> </p>
-							 	{{else}}							 
-									<p>延期一次</p>
-							 	{{/if}}
+								<div class="btn-group">
+                         			<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false" {{if item.inProgress == 'completed' || item.inProgress == 'firstFollow'}}disabled="true"{{/if}}>操作
+                             			<span class="caret"></span>
+                         			</button>
+
+                                 	<ul class="dropdown-menu" role="menu" style="left:-95px;">
+                                      	{{if item.inProgress != 'completed' && item.inProgress != 'firstFollow'}}
+											<li><a href="javascript:void(0)" onClick="showDelayPop('{{item.caseCode}}','{{item.inProgress}}');">延期</a></li>
+										{{/if}}
+                                	</ul>
+                      			</div>
                          </td>
 						</shiro:hasPermission>
 				  </tr>

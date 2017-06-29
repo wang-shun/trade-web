@@ -1,0 +1,38 @@
+{
+    "msg": "处理成功",
+    "empId": "39AB6F35DD96436EAA4B93D8A6B12380",
+    "content": {
+        "mortgageInfo": {
+		  "ServiceFee" : 1600000.00,
+		  "ServiceFee" : 0.4
+		  "data" : {
+		    "goalPerf" : 8000000.00,
+		    "shareAmount" : 4000000.00,
+		    "paidAmount" : 2000000.00
+		  },
+		  "AssessmentFee" : 490000.00,
+		  "AssessmentFeeRate" : 0.12,
+		  "FinanceFee" : 1000000.00,
+		  "FinanceFeeRate" : 0.25,
+		  "CardFee" : 400000.00,
+		  "CardFeeRate" : 0.1,
+		  "MortgageFee" : 520000.00,
+		  "MortgageFeeRate" : 0.13,
+		},
+        "rateInfo": {
+        	"convRate": "0.02",--e+转化率
+            "ComLoanNum": 100,--金融完成单数
+            "loanLostAlert": true,--流失率预警
+            "efConverRt": "0.02",--评估费折扣
+            "convRateAlert": false,--e+转化率预警
+            "loanLostRate": "0.03",--流失率
+            "efConvRate": "0.01"--评估转化率
+        },
+        "lightInfo": {
+            "yeLight": 2,--黄灯数
+            "redLight": 300--红灯数
+        }
+    },
+    "token": "8333bdbc-7f45-42b5-a924-dc62b5cc14d9",
+    "isSuccess": true
+}

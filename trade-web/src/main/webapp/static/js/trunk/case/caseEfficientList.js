@@ -59,7 +59,6 @@ $(function(){
 	        }, 
     		success:function(data){
     			$.unblockUI();  
-    			console.log("data:" + data);
     			if(data){
     				window.wxc.success("延期成功！",{"wxcOk":function(){
 						$("#closeBtn").click();
@@ -86,8 +85,6 @@ $(function(){
 //加载案件时效管理列表信息
 	function reloadGrid(){
 		var data = getParams();
-		
-		console.log(data);
 		
 		$("#caseEfficientList").reloadGrid({
 	    	ctx : ctx,
@@ -122,6 +119,7 @@ $(function(){
 		var jobCode = $("#jobCode").val();
 		var userId = $("#userId").val();
 		var orgId = $("#orgId").val();
+		var caseCode = $.trim($("#caseCode").val());
 		
 		data.overdue = overdue;
 		data.inProgress = inProgress;
@@ -132,6 +130,7 @@ $(function(){
 		data.jobCode = jobCode
 		data.uid = userId;
 		data.oId = orgId;
+		data.caseCode = caseCode;
 		
 		return data;
 	}

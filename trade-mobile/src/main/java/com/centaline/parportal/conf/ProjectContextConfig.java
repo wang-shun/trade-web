@@ -245,4 +245,11 @@ public class ProjectContextConfig {
     		}
 		};
     }
+    @Bean(name="qqcdDictLoanerStatus")
+    public CustomDictService qqcdDictLoanerStatus() {
+    	QuickQueryMultiDictCustomDictServiceImpl dict = new QuickQueryMultiDictCustomDictServiceImpl();
+    	dict.setDictType("LOANER_STATUS");
+    	return dict;
+    }
+
 }

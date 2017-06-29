@@ -15,19 +15,13 @@
 <title>申请审批意见</title>
 
  <!-- 上传相关 -->
-	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />"
-		rel="stylesheet">
-	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />"
-		rel="stylesheet">
-	<link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />"
-		rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />" rel="stylesheet">
 	<!-- 展示相关 -->
-	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />"
-		rel="stylesheet">
-	<link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />"
-		rel="stylesheet">
-	<link href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />"
-		rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />" rel="stylesheet">
 	<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 	<!-- 备件相关结束 -->
     <link rel="stylesheet" href="<c:url value='/static_res/trans/css/spv/bootstrap.min.css' />">
@@ -216,7 +210,6 @@
 	                            </div>
                             </c:forEach>
                             <c:if test="${spvChargeInfoVO.toSpvAduitList.size()<1 }">
-                  				<%-- <p class="text-center"><img src="${ctx}/image/false2.png" height="100" alt="" /></p> --%>
                   				<div style="width:100%;height:100px;background:url(../../../image/false2.png) no-repeat center;background-size:100% 100%;" ></div>
                   			</c:if> 
                      	 </div>
@@ -224,7 +217,6 @@
 
 
                       <div class="submitter">
-                     <%--      提交人：<span>${spvChargeInfoVO.toSpvCashFlowApply.createBy}(业务员)</span> --%>
                       </div>
                       <div class="excuse">
                           <form action="">
@@ -241,8 +233,6 @@
                   </div>
               </div>
           </div>
-          <!-- main End -->
-
       </div>
   </div>
 <content tag="local_script">
@@ -261,47 +251,12 @@
 
 <script type="text/javascript">
 $(function(){
-
-		//left
-		$('.demo-left').poshytip({
-			className: 'tip-twitter',
-			showTimeout: 1,
-			alignTo: 'target',
-			alignX: 'left',
-			alignY: 'center',
-			offsetX: 8,
-			offsetY: 5,
-		});
-
-		//right
-		$('.demo-right').poshytip({
-			className: 'tip-twitter',
-			showTimeout: 1,
-			alignTo: 'target',
-			alignX: 'right',
-			alignY: 'center',
-			offsetX: 8,
-			offsetY: 5,
-		});
-
-		//top
 		$('.demo-top').poshytip({
 			className: 'tip-twitter',
 			showTimeout: 1,
 			alignTo: 'target',
 			alignX: 'center',
 			alignY: 'top',
-			offsetX: 8,
-			offsetY: 5,
-		});
-
-		//bottom
-		$('.demo-bottom').poshytip({
-			className: 'tip-twitter',
-			showTimeout: 1,
-			alignTo: 'target',
-			alignX: 'center',
-			alignY: 'bottom',
 			offsetX: 8,
 			offsetY: 5,
 		});

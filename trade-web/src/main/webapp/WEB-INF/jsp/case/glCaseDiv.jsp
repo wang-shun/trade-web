@@ -28,9 +28,7 @@
                    </div>
                </div>
                <button type="button" class="close close_blue" data-dismiss="modal" onclick="closef()" >
-                   <i class="iconfont icon_rong">
-                       &#xe60a;
-                   </i>
+                   <i class="iconfont icon_rong">  &#xe60a; </i>
                </button>
                <div class="apply_table">
                    <div class="form_list table-capital">
@@ -71,36 +69,29 @@
 		<td>
 			<p class="big">
 				{{ if item.status == "被合流" ||  item.status == "已过户" || item.status == "已领证" }}
-<input type="hidden"  value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" disabled="disabled" qfType="{{item.toQfType}}"  />
-{{else}}
-<input type="radio" value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" />
-{{/if}}
+                <input type="hidden"  value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" disabled="disabled" qfType="{{item.toQfType}}"  />
+                {{else}}
+                <input type="radio" value="{{item.pkId}}" status="{{item.status}}" id="mergePkid" name="mergePkid" />
+                {{/if}}
 			</p>
 		</td>
 		<td>
 			<p class="big">
 			   <a href="{{ctx}}/case/caseDetail?caseId={{item.pkId}}"  target="_blank">{{item.CASE_CODE}}</a>
 			{{if item.caseOrigin == 'INPUT'}}
-			 <i class="sign_blue ml10">
-			自录单
-			</i>
+			   <i class="sign_blue ml10"> 自录单 </i>
 			{{/if}}
 			{{if item.caseOrigin == 'CTM'}}
-			 <i class="sign_blue ml10">
-			导入单
-			</i>
+			 <i class="sign_blue ml10"> 导入单 </i>
 			{{/if}}
 			{{if item.caseOrigin == 'MERGE'}}
-			 <i class="sign_blue ml10">
-			合流单
-			</i>
+			 <i class="sign_blue ml10"> 合流单 </i>
 			{{/if}}
 			</p>
 			<p>
 				 {{item.propertyAddr}}
 			</p>
 		</td>
-		   realOrgName
 		<td>
 			<p class="big">
 				{{if item.status != null}}
@@ -194,7 +185,6 @@ function merge(){
    			url:ctx+ "/caseMerge/mergeCase",
    			dataType : "json",
    			data : data,
-   			beforeSend:function(){ },
    			success : function(data) {
    				if(data.success){ 
    					if(distriType && undefined != urlType && '' != urlType){
@@ -208,8 +198,6 @@ function merge(){
    						window.location.reload();
    					}
    				}else{ window.wxc.error("合流申请失败！"+data.message);  }
-   			},complete: function() {  },
-   			error : function(errors) {
    			}
    		});
     }});
@@ -249,7 +237,6 @@ function qfMerge(){
     		url:ctx+ "/caseMerge/qfMergeCase",
     		dataType : "json",
     		data : data,
-    		beforeSend:function(){ },
     		success : function(data) {
     			if(data.success){ 
     				if(distriType && undefined != urlType && '' != urlType){
@@ -263,8 +250,6 @@ function qfMerge(){
     					window.location.reload();
     				}
     			}else{ window.wxc.error("拆分失败！"+data.message);  }
-    		},complete: function() {  },
-    		error : function(errors) {
     		}
     	});
     }});
@@ -295,12 +280,11 @@ function changeTaskAssignee(page,propertyCode){
    	data.rows = 5;
 	$.ajax({
 		cache : false,
-		async : false,//false同步，true异步
+		async : false,
 		type : "POST",
 		url:ctx+ "/quickGrid/findPage" ,
 		dataType : "json",
 		data : data,
-		beforeSend:function(){},
 		success : function(data) {
 			if(data.page>0){
 				data.ctx = ctx;
@@ -320,8 +304,7 @@ function changeTaskAssignee(page,propertyCode){
 				}
 				closef();
 			}
-		},complete: function() { },
-		error : function(errors) { }
+		}
 	});
 }
 /* 查询按钮方法  **/
@@ -371,8 +354,6 @@ function showGlDiv(callback,pkId,caseCode,propertyAddr,agentName,agentPhone,agen
 	$("#propertyCode").val(propertyCode);  
 	$("#caseCode_").val(caseCode); 
 	init(pkId,caseCode,propertyAddr,agentName,agentPhone,agentOrgName,seller,buyer,inputType);
-	//if(distriType_){}else{
-	//$("#myModalsa").modal("show");/**显示 div**/}
 	/**查询方法**/
 	changeTaskAssignee(1,propertyCode); 
 	showButton();

@@ -5,78 +5,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.common.quickQuery.service.CustomDictService;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.template.remote.UamTemplateService;
-import com.aist.uam.userorg.remote.UamUserOrgService;
-import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.service.MessageService;
-import com.centaline.trans.common.service.TgGuestInfoService;
-import com.centaline.trans.common.service.ToPropertyInfoService;
-import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
-import com.centaline.trans.engine.service.TaskService;
-import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.mgr.service.ToSupDocuService;
 import com.centaline.trans.mortgage.entity.ToMortLoaner;
 import com.centaline.trans.mortgage.repository.ToMortLoanerMapper;
-import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.mortgage.service.ToMortLoanerService;
-import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.task.service.ToApproveRecordService;
-import com.centaline.trans.task.service.UnlocatedTaskService;
+
 
 @Service
 public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 
-	@Autowired
-	private ToMortgageMapper toMortgageMapper;
+
 
 	@Autowired(required = true)
 	private ToMortLoanerMapper toMortLoanerMapper;
 
 	@Autowired
-	private ToSupDocuService toSupDocuService;
-	@Autowired
-	private TgGuestInfoService tgGuestInfoService;
-	@Autowired(required = true)
-	private ToCaseService toCaseService;
-	@Autowired
-	private WorkFlowManager workFlowManager;
-	@Autowired
 	MessageService messageService;
-	@Autowired
-	private ToWorkFlowService toWorkFlowService;
-	@Autowired
-	private UnlocatedTaskService unlocatedTaskService;
-	@Autowired
-	private ToApproveRecordService toApproveRecordService;
-
-	@Autowired(required = true)
-	private UamUserOrgService uamUserOrgService;
-	@Autowired
-	private PropertyUtilsServiceImpl propertyUtilsService;
+	
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
-	@Autowired
-	private UamTemplateService uamTemplateService;
+
 	@Qualifier("uamMessageServiceClient")
 	@Autowired
 	private UamMessageService uamMessageService;
-
+	@Qualifier("qqcdDictLoanerStatus")
 	@Autowired
-	private ToMortgageService toMortgageService;
-
-	@Autowired
-	private TaskService taskService;
-
-	@Autowired
-	private ToPropertyInfoService toPropertyInfoService;
+	private CustomDictService qqcdDictLoanerStatus;
 
 	/*
 	 * @author:zhuody
@@ -221,4 +185,18 @@ public class ToMortLoanerServiceImpl implements ToMortLoanerService {
 		}
 		return toMortLoanerProcessList;
 	}
+
+	@Override
+	public ToMortLoaner findActiveToMortLoaner(String caseCode, String isMainLoanBankProcess) {
+		return toMortLoanerMapper.findActiveToMortLoaner(caseCode,isMainLoanBankProcess);
+	}
+	@Override
+	public ToMortLoaner findLastToMortLoaner(String caseCode, String isMainLoanBankProcess) {
+		ToMortLoaner loaner= toMortLoanerMapper.findLastToMortLoaner(caseCode,isMainLoanBankProcess);
+		if(loaner!=null){
+			loaner.setLoanerStatusStr(qqcdDictLoanerStatus.getValue(loaner.getLoanerStatus()));
+		}
+		return loaner;
+	}
+	
 }

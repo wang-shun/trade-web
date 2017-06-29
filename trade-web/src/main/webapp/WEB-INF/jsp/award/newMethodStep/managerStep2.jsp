@@ -245,7 +245,6 @@
 </script>
 <script>
     
-    
     var ctx = "${ctx}";
     var belongM = "${belongM}";
     var belongLastM = "${belongLastM}";
@@ -261,13 +260,6 @@
     	isShowSatButton();
     	//初始化日期控件
     	var monthSel = new DateSelect($('.bonus-m'),{max:new Date(),moveDone:reloadGrid}); 
-    	
-    	// 滑块
-    	/* sw = $('#moSwitch').bootstrapSwitch({
-    		'onText':"上月",
-    		'offText':'当月'
-    	     }).on('switchChange.bootstrapSwitch', function(e, data) {
-		}); */  
     	// 是否显示错误信息
     	if(!!hasError){
     		$('#error-modal-form').modal("show");
@@ -285,16 +277,11 @@
         	  btn: ['提交','关闭'],
         	  yes: function(index){
         			  layer.close(i);
-        			  var i = 0;//sw.bootstrapSwitch('state')?'0':'1';
+        			  var i = 0;
             		  // 上月
-            		  var bm;
-            		  if(i=='0') {
-            			  var cDate = new Date();
-            			  cDate.setMonth(cDate.getMonth()-1);
-            			  bm = cDate.format('yyyy-MM-dd');
-            		  } else {
-            			  bm = new Date().format('yyyy-MM-dd');
-            		  } 
+           			  var cDate = new Date();
+           			  cDate.setMonth(cDate.getMonth()-1);
+           			  var  bm = cDate.format('yyyy-MM-dd');
             		  var isKpiMoney = isGenerKpiMoney(bm);
             		  if(isKpiMoney) {
            		    	layer.alert('绩效奖金已经生成,不能重复导入!', {
@@ -312,7 +299,7 @@
            		    	 
            		    	 $("#belongMonth").remove();
            		    	 var inputMonth = $("<input type=\"hidden\" id=\"belongMonth\" name=\"belongMonth\"/>");
-           		    	 var i = 0;//sw.bootstrapSwitch('state')?'0':'1';
+           		    	 var i = 0;
            		    	 inputMonth.val(i);
            		    	 $('#excelInForm').append(inputMonth);
            		    	 $('#excelInForm').submit();
@@ -323,20 +310,17 @@
         	  cancel: function(index){  layer.close(index); }
         	});
     	})
-    	
     	$('#cleanButton').click(function() {
  			$("input[name='teamCode']").val('');
  			$("input[name='yuCuiOriGrpId']").val('');
  			$("input[name='userName']").val('');
  		});
     });
-    
     //选业务组织的回调函数
     function radioYuCuiOrgSelectCallBack(array){
         if(array && array.length >0){
             $("#teamCode").val(array[0].name);
     		$("#yuCuiOriGrpId").val(array[0].id);
-    		
     	}else{
     		$("#teamCode").val("");
     		$("#yuCuiOriGrpId").val("");
@@ -360,7 +344,6 @@
     	return isKpiMoney;
     }
     
-
     function isShowSatButton(){
     	var belongMonth = getBlongMonth();
     	$.ajax({
@@ -368,26 +351,19 @@
             method: "get",
             dataType: "json",
             data: {"belongMonth":belongMonth},
-
             success: function(data){        
             	if(data.success == true){			  
             		$("#importButton").hide();
             	}
-            },
-            error: function (e, jqxhr, settings, exception) {
-            	 
-            }  
+            }
        })
     }
- 	
-
 	  //获取计件年月信息
 	  function getBlongMonth(){
 	  	var bm = "";	
 	  	//方式一
 	  	var belongMonth =  $.trim($("#belongMonth",window.parent.document).val());
 	  	//方式二
-	  	//var belongMonth1 = parent.document.getElementById("belongMonth").value;
 	    if(belongMonth =="" || belongMonth == null || belongMonth == undefined){
 	    	bm == null;
 	    }else{
@@ -395,8 +371,6 @@
 	    }
 	    return bm;
 	  }
-	  
-	  
     </script>
  </content>
 </body>

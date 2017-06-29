@@ -3,6 +3,7 @@ package com.centaline.trans.taskList.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,11 +14,11 @@ import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
-import com.centaline.trans.cases.service.ToCaseService;
-import com.centaline.trans.common.service.TgGuestInfoService;
+import com.aist.uam.userorg.remote.vo.Org;
+import com.centaline.trans.mortgage.entity.ToMortLoaner;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.LoanerProcessService;
-import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.mortgage.service.ToMortLoanerService;
 
 @Controller
 @RequestMapping(value = "/task")
@@ -27,22 +28,40 @@ public class LoanerProcessController {
 
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
-
-	@Autowired
-	private ToCaseService toCaseService;
-
-	@Autowired
-	private ToMortgageService toMortgageService;
-
-	@Autowired
-	private TgGuestInfoService tgGuestInfoService;
-
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
-
 	@Autowired(required = true)
 	private LoanerProcessService loanerProcessService;
-
+	@Autowired
+	private ToMortLoanerService toMortLoanerService;
+	/**
+	 * 加载派单信息(找最后一条的派单信息)
+	 */
+	@RequestMapping("/loadOrderInfo")
+	@ResponseBody
+	public AjaxResponse<ToMortLoaner>  loadOrderInfo(String caseCode,String isMainLoanBank){
+		ToMortLoaner tml = toMortLoanerService.findLastToMortLoaner(caseCode, isMainLoanBank);
+		if(tml==null){
+			return new AjaxResponse<ToMortLoaner>(true, "加载成功",tml) ;
+		} 
+		String loanerOrgId = tml.getLoanerOrgId();
+		if (!StringUtils.isEmpty(loanerOrgId)) {
+		    Org org= uamUserOrgService.getOrgById(loanerOrgId);		
+			if (org!=null) {
+				tml.setLoanerOrgCodeStr(org.getOrgName());
+			}
+		}
+		return new AjaxResponse<ToMortLoaner>(true, "加载成功",tml) ;
+	}
+	/**
+	 * 只加载 待接单、 待审批 、完成 状态的派单信息
+	 */
+	@RequestMapping("/findActiveOrder")
+	@ResponseBody
+	public AjaxResponse<ToMortLoaner> findActiveOrder(String caseCode,String isMainLoanBank){
+		return new AjaxResponse<ToMortLoaner>(true, "加载成功", toMortLoanerService.findActiveToMortLoaner(caseCode, isMainLoanBank));
+	}
+	
 	/*
 	 * @author:zhuody
 	 * 
@@ -77,21 +96,16 @@ public class LoanerProcessController {
 	 */
 	@RequestMapping("sendOrderStart")
 	@ResponseBody
-	public AjaxResponse<String> sendOrderStart(ToMortgage toMortgage) {
-
-		AjaxResponse<String> response = new AjaxResponse<String>();
-		if (null == toMortgage) {
-			throw new BusinessException("信贷员流程启动请求参数为空！");
-		}
-
+	public AjaxResponse<String> sendOrderStart(ToMortLoaner toMortgage) {
 		try {
-			response = loanerProcessService.newStartLoanerOrderWorkFlow(toMortgage);
+			loanerProcessService.startLoanerOrderWorkFlow(toMortgage);
 		} catch (BusinessException e) {
 			throw new BusinessException("信贷员流程启动异常！");
 		}
 
-		return response;
+		return AjaxResponse.success("派单成功");
 	}
+	
 
 	/*
 	 * @author:zhuody
@@ -104,18 +118,16 @@ public class LoanerProcessController {
 	@ResponseBody
 	public AjaxResponse<String> isLoanerProcessStart(String caseCode, String isMainLoanBank) {
 
-		AjaxResponse<String> response = new AjaxResponse<String>();
 		if ((null == caseCode || "".equals(caseCode)) || (null == isMainLoanBank || "".equals(isMainLoanBank))) {
 			throw new BusinessException("判断流程是否启动请求参数为空！");
 		}
 
 		try {
-			response = loanerProcessService.isLoanerProcessStart(caseCode, isMainLoanBank);
+			boolean isStarted=loanerProcessService.isLoanerProcessStart(caseCode, isMainLoanBank);
+			return AjaxResponse.successContent(isStarted);
 		} catch (BusinessException e) {
 			throw new BusinessException("判断流程是否启动程序异常！");
 		}
-
-		return response;
 	}
 
 	/*
@@ -193,9 +205,9 @@ public class LoanerProcessController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "loanerProcessCancle")
 	@ResponseBody
-	public AjaxResponse<String> loanerProcessCancle(HttpServletRequest request, HttpServletResponse response, String caseCode, String taskId, String processInstanceId, String isMainLoanBankProcess, String loanerPkid) {
+	public AjaxResponse<String> loanerProcessCancle(HttpServletRequest request, HttpServletResponse response, String caseCode,  String isMainLoanBankProcess) {
 		try {
-			loanerProcessService.loanerProcessCancle(caseCode, taskId, processInstanceId, isMainLoanBankProcess, loanerPkid);
+			loanerProcessService.loanerProcessCancle(caseCode, isMainLoanBankProcess);
 			return AjaxResponse.success("恭喜，取消派单流程成功！");
 		} catch (BusinessException e) {
 			logger.error(e.getMessage(), e);

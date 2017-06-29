@@ -7,4 +7,6 @@ public interface EditCaseDetailService{
 	EditCaseDetailVO queryCaseDetai(String caseCode);
 	
 	void saveCaseDetai(EditCaseDetailVO editCaseDetailVO);
+
+	void saveCaseCloseDetai(EditCaseDetailVO editCaseDetailVO);
 }

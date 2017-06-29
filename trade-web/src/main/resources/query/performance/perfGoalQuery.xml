@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName" />
+		<customDict id="userDict" beanName="qqcdUserIdName" />
+		<customDict id="qqcdDictPerfGoalStatus" beanName="qqcdDictPerfGoalStatus"></customDict>
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatterMM" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM</property>
+			</properties>
+		</formatter>
+				<formatter id="dateFormatter" ref=""
+			class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+	</formatters>
+	<query id="perfGoalQuery">
+		<searchCondition>
+			<condition field="uoj.org_id" name="teamId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+			select pg.pkid,uoj.id uojId,uoj.org_id,j.job_name,u.real_name,pg.belong_month,pg.goal_perf goal_perf,pg.status,pg.create_by ,pg.create_time
+			,pgm.status main_status
+			from sctrans.SYS_USER_ORG_JOB uoj
+			inner join sctrans.SYS_USER u
+			on u.id= uoj.USER_ID
+			left join sctrans.t_yucui_org_hierarchy yoh
+			on uoj.ORG_ID=yoh.TEAM_ID
+			left join sctrans.SYS_JOB j 
+			on uoj.JOB_ID=j.ID
+			left join sctrans.T_TS_PERF_GOAL pg 
+			on pg.team=uoj.ORG_ID and pg.user_id=uoj.USER_ID and pg.job=uoj.JOB_ID and DATEDIFF(mm ,#belongMonth#,pg.belong_month)=0
+			left join sctrans.T_TS_PREF_GOAL_MAIN pgm
+			on pgm.pkid= pg.main_id 
+			where 
+			uoj.IS_DELETED='0' 
+			and u.IS_DELETED='0'
+			and u.AVAILABLE='1'
+			and yoh.DISTRICT_ID=#orgId#
+			and j.JOB_CODE='consultant'
+			<if test="status != null and status == 'null' ">
+			   	and pg.status is null
+			</if>
+			<if test="status != null and status != 'null' and status != '' ">
+				and pg.status = #status#
+			</if>
+		]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="org_id" />
+				<column type="both" name="uojId" />
+				<column type="both" name="pkid" />
+				<column type="both" name="main_status" />
+				<column type="virtual" name="orgName"  referencecol="org_id"  customDict="qqcdOrgIdName" />
+				<column type="both" name="real_name" />
+				<column type="both" name="belong_month" beanFormatter="dateFormatterMM"/>
+				<column type="both" name="goal_perf" />
+				<column type="both" name="create_by" customDict="userDict"/>
+				<column type="both" name="create_time" beanFormatter="dateFormatter"/>
+				<column type="both" name="status" customDict="qqcdDictPerfGoalStatus"/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

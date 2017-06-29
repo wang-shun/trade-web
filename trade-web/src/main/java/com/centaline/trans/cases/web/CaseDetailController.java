@@ -17,7 +17,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.centaline.trans.task.service.ActRuTaskService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -96,13 +95,14 @@ import com.centaline.trans.mortgage.entity.ToEvaReport;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToEvaReportService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.performance.entity.ReceivablePerf;
+import com.centaline.trans.performance.service.ReceivablePerfService;
 import com.centaline.trans.property.service.ToPropertyResearchService;
 import com.centaline.trans.property.service.ToPropertyService;
-import com.centaline.trans.spv.entity.ToCashFlow;
-import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToPropertyResearchVo;
+import com.centaline.trans.task.service.ActRuTaskService;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.ToHouseTransferService;
@@ -112,7 +112,6 @@ import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.entity.TsTransPlanHistory;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
-import com.centaline.trans.wdcase.vo.TpdPaymentVO;
 
 /**
  * 
@@ -1405,7 +1404,6 @@ public class CaseDetailController {
 		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);
 		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);
 		request.setAttribute("isSubscribe", isSubscribe);
-
 		return "case/caseDetail";
 	}
 	

@@ -25,6 +25,7 @@ import com.aist.message.core.remote.vo.Message;
 import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
@@ -37,8 +38,10 @@ import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.comment.repository.ToCaseCommentMapper;
 import com.centaline.trans.comment.service.ToCaseCommentService;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.enums.CommSubjectEnum;
 import com.centaline.trans.common.enums.LoanerStatusEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
+import com.centaline.trans.common.enums.RoleTypeEnum;
 import com.centaline.trans.common.enums.TmpBankStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
@@ -51,6 +54,8 @@ import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.eval.entity.ToEval;
+import com.centaline.trans.eval.repository.ToEvalMapper;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.service.ToSupDocuService;
 import com.centaline.trans.mortgage.entity.ToMortLoaner;
@@ -61,6 +66,8 @@ import com.centaline.trans.mortgage.service.LoanerProcessService;
 import com.centaline.trans.mortgage.service.ToMortLoanerService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.mortgage.vo.MortgageVo;
+import com.centaline.trans.performance.service.ReceivablePerfService;
+import com.centaline.trans.performance.vo.ReceivablePerfVo;
 import com.centaline.trans.stuff.service.StuffService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
@@ -69,6 +76,10 @@ import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.utils.DateUtil;
+import com.centaline.trans.wdcase.entity.TpdCommSubsDetals;
+import com.centaline.trans.wdcase.service.CommSubsService;
+import com.centaline.trans.wdcase.vo.CommSubsVo;
 
 @Service
 @Transactional
@@ -120,6 +131,14 @@ public class ToMortgageServiceImpl implements ToMortgageService
     private ToMortLoanerService toMortLoanerService;
     @Autowired
     private BizWarnInfoService bizWarnInfoService;
+    @Autowired
+    private ToEvalMapper toEvalMapper;
+    @Autowired
+    private UamBasedataService uamBasedataService;
+    @Autowired
+    private CommSubsService commSubsService;
+    @Autowired
+    private ReceivablePerfService receivablePerfService;
 
     @Override
     public ToMortgage saveToMortgage(ToMortgage toMortgage)
@@ -153,31 +172,28 @@ public class ToMortgageServiceImpl implements ToMortgageService
         return toMortgage;
     }
 
-    @Override
+     @Override
     public void saveToMortgageAndSupDocu(ToMortgage toMortgage)
     {
-        ToMortgage mortgage = null;
-        ToMortgage condition = new ToMortgage();// 用这三个条件确定一条商贷的贷款信息,防止前台重复提交数据或者加载数据出问题时数据重复
-        condition.setCaseCode(toMortgage.getCaseCode());
-        condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
-        condition.setIsDelegateYucui("1");
-        List<ToMortgage> list = toMortgageMapper.findToMortgageByCondition(condition);
 
-        if (list != null && !list.isEmpty())
-        {
-            mortgage = list.get(0);
-        }
-        if (mortgage != null)
-        {
-            toMortgage.setPkid(mortgage.getPkid());
-            toMortgageMapper.update(toMortgage);
 
-        }
-        else
-        {
-            toMortgage.setIsDelegateYucui("1");
-            toMortgageMapper.insertSelective(toMortgage);
+        Long pkid = toMortgage.getPkid();
+        if (pkid == null){
+            ToMortgage condition = new ToMortgage();// 用这三个条件确定一条商贷的贷款信息,防止前台重复提交数据或者加载数据出问题时数据重复
+            condition.setCaseCode(toMortgage.getCaseCode());
+            condition.setIsMainLoanBank(toMortgage.getIsMainLoanBank());
+            condition.setIsDelegateYucui("1");
 
+            List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(condition);
+            if (!CollectionUtils.isEmpty(list)){
+            	toMortgage.setPkid(list.get(0).getPkid());
+                toMortgageMapper.update(toMortgage);
+            }else{
+                toMortgage.setIsDelegateYucui("1");
+                toMortgageMapper.insertSelective(toMortgage);
+            }
+        }else{
+                toMortgageMapper.update(toMortgage);
         }
 
         if ("1".equals(toMortgage.getFormCommLoan()) && StringUtils.isNotBlank(toMortgage.getLastLoanBank()))
@@ -212,10 +228,108 @@ public class ToMortgageServiceImpl implements ToMortgageService
                 tgGuestInfoService.updateByPrimaryKeySelective(guest);
             }
         }
+        ToEval eval= toEvalMapper.selectMortgageId(toMortgage.getPkid());
+        
+        if(eval==null){//不存在才插入  已经存在的 不能修改
+        	eval=toMortgage.getToEval();
+        	if(eval.getServiceFee()!=null&&eval.getEvaFee()!=null){
+	        	eval.setMortgageId(toMortgage.getPkid());
+	    		// 生产 评估费编号
+	    		String dateStr = DateUtil.getFormatDate(new Date(), "yyyyMMdd");
+	    		String month = dateStr.substring(0, 6);
+	    		String evaCode = uamBasedataService.nextSeqVal("EVAL_CODE", month);
+	        	eval.setEvaCode(evaCode);
+	        	eval.setPkid(null);//因为与贷款表一起传过来会把贷款表的pkid带过来
+	        	toEvalMapper.insertSelective(eval);
+	        	//生成应收
+	        	generatorCommSubs(eval);
+	        	//生成应收业绩
+	        	generatorPerf(eval);
+        	}
+        }
+
         // 为主流程设置变量
         setEvaReportNeedAtLoanRelease(toMortgage);
     }
-
+    /**
+     * 生成应收和应收业绩 
+     */
+    private void generatorCommSubs(ToEval eval){
+    	////////////// 生成应收和业绩///////////// 
+    	CommSubsVo commSubsVo=new CommSubsVo();
+    	commSubsVo.setBizCode(eval.getEvaCode());
+    	commSubsVo.setCaseCode(eval.getCaseCode());
+    	commSubsVo.setCommCost(eval.getFeeTotal());
+    	List<TpdCommSubsDetals> csds=new ArrayList<>();
+    	//评估费
+    	if(eval.getEvaFee()!=null){
+    		TpdCommSubsDetals csd=new TpdCommSubsDetals();
+    		csd.setCommSubject(CommSubjectEnum.DK_PGF_02.getCode());
+    		if(eval.getEvaFeeCost()!=null){
+    			csd.setCommCost(eval.getEvaFee().subtract(eval.getEvaFeeCost()));
+    		}else{
+    			csd.setCommCost(eval.getEvaFee());
+    		}
+    		if(csd.getCommCost().doubleValue()<0){
+    			throw new BusinessException("评估费不允许有负值");
+    		}
+    		csds.add(csd);
+    	}
+    	//评估费支出
+    	if(eval.getEvaFeeCost()!=null){
+    		TpdCommSubsDetals csd=new TpdCommSubsDetals();
+    		csd.setCommSubject(CommSubjectEnum.CB_DSPGF.getCode());
+    		csd.setCommCost(eval.getEvaFeeCost());
+    		csds.add(csd);
+    	}
+    	//服务费
+    	if(eval.getServiceFee()!=null){
+    		TpdCommSubsDetals csd=new TpdCommSubsDetals();
+    		csd.setCommSubject(CommSubjectEnum.DK_FWF_02.getCode());
+    		csd.setCommCost(eval.getServiceFee());
+    		csds.add(csd);
+    	}
+    	commSubsVo.setCommSubsDetals(csds);
+    	commSubsService.generatorCommSubs(commSubsVo);
+    }
+    private void generatorPerf(ToEval eval){
+		//////////////////////生成应收业绩////////////////////////////
+		if(eval.getEvaFeePerf()!=null){//评估费业绩
+			generatorPerf(eval,CommSubjectEnum.DK_PGF_02.getCode(),eval.getEvaFeePerf());
+		}
+		if(eval.getServiceFeePerf()!=null){
+			generatorPerf(eval,CommSubjectEnum.DK_FWF_02.getCode(),eval.getServiceFeePerf());
+		}
+    }
+    /**
+     * 生成业绩
+     * @param eval
+     * @param subject
+     * @param amount
+     */
+    private void generatorPerf (ToEval eval,String subject,BigDecimal amount){
+    	ReceivablePerfVo receiveablePerfVo = new ReceivablePerfVo();
+		receiveablePerfVo.setBizCode(eval.getEvaCode());
+		receiveablePerfVo.setCaseCode(eval.getCaseCode());
+		receiveablePerfVo.setBizPkid(eval.getPkid()+"");	
+		receiveablePerfVo.setSharesRate(new BigDecimal("1"));
+		receiveablePerfVo.setSubject(subject);
+		receiveablePerfVo.setSalesAmount(amount);
+		receiveablePerfVo.setOrgId(eval.getOrgId());
+		receiveablePerfVo.setUserId(eval.getCreateBy());
+		receiveablePerfVo.setSharesTime(new Date());
+		receiveablePerfVo.setRoleType(RoleTypeEnum.EXECUTOR.getCode());
+		receivablePerfService.generatePerf(receiveablePerfVo);
+    }
+    /**
+     * 
+     * @param mid
+     * @return
+     */
+    @Override
+    public ToEval findEvalByMortgageId(Long mid){
+    	return toEvalMapper.selectMortgageId(mid);
+    }
     @Override
     public ToMortgage findToMortgageById(Long id)
     {
