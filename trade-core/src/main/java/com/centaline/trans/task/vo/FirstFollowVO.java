@@ -62,7 +62,13 @@ public class FirstFollowVO {
     
     private String content;   //商业预警内容
     
-    
+    /*交易助理ID*/
+  	private String assistantId;
+  	/*交易助理名字*/
+  	private String assistantName;
+  	/*交易助理电话*/
+  	private String assistantPhone;
+  	
 	/**
 	 * @return the businessLoanWarn
 	 */
@@ -361,6 +367,30 @@ public class FirstFollowVO {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getAssistantId() {
+		return assistantId;
+	}
+
+	public void setAssistantId(String assistantId) {
+		this.assistantId = assistantId;
+	}
+
+	public String getAssistantName() {
+		return assistantName;
+	}
+
+	public void setAssistantName(String assistantName) {
+		this.assistantName = assistantName;
+	}
+
+	public String getAssistantPhone() {
+		return assistantPhone;
+	}
+
+	public void setAssistantPhone(String assistantPhone) {
+		this.assistantPhone = assistantPhone;
 	}
     
 	

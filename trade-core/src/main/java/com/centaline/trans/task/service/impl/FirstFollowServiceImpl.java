@@ -109,6 +109,7 @@ public class FirstFollowServiceImpl implements FirstFollowService
         {
             toCase.setPkid(firstFollowVO.getCaseId());
             toCase.setCaseProperty(firstFollowVO.getCaseProperty());
+            toCase.setAssistantId(firstFollowVO.getAssistantId());
             toCaseMapper.updateByPrimaryKeySelective(toCase);
         }
         toCase = toCaseMapper.findToCaseByCaseCode(firstFollowVO.getCaseCode());

@@ -319,8 +319,9 @@
 													</dd>
 												</c:forEach>
 											</c:if>
-											<dt>助理</dt>
+											<dt>交易助理</dt>
 											<dd>
+												<input type="hidden" id="assistantUserName" value="${caseDetailVO.asName}" />
 												<a data-toggle="popover" data-placement="right"
 													data-content="${caseDetailVO.asMobile}">
 													${caseDetailVO.asName} </a>
@@ -411,8 +412,14 @@
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 										   href="javascript:managerShowSrvModal()">信息管理员服务项变更</a>
 									</shiro:hasPermission>
-
-
+									
+									<!-- 已经过户或者已经领证的案件限制变更交易助理 -->
+									<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' }">
+									<shiro:hasPermission name="TRADE.CASE.ASSISTANTCHANGE">
+										<a role="button" class="btn btn-primary btn-xm btn-activity"
+											href="javascript:showChangeAssistantModal()">变更交易助理</a>
+									</shiro:hasPermission>
+									</c:if>
 
 									<shiro:hasPermission name="TRADE.CASE.COWORKCHANGE">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
@@ -613,6 +620,38 @@
 											</div>
 										</div>
 									</div>
+								</div>
+								<!-- 变更交易助理 -->
+								<div id="change-assistant-form" class="modal fade" role="dialog" aria-labelledby="leading-modal-title" aria-hidden="true">
+									<form id="changeAssistant" class="form-horizontal">
+										<input type="hidden" name="pkid" value="${toCase.pkid}" id="pkidAssistant"/>
+										<div class="modal-dialog" style="width: 400px">
+											<div class="modal-content" style="width:500px; margin:0 auto" >
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+													<h4 class="modal-title" id="leading-modal-title">请选择交易助理</h4>
+												</div>
+												<div class="modal-body">
+													<div class="row"
+														style="max-height: 400px; overflow-y: auto; overflow-x: hidden">
+														<div class="col-lg-12 ">
+															<div class="wrapper wrapper-content animated fadeInRight">
+																<div id="change-assistant-data-show" class="row"></div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="modal-footer">
+													<input type="button" class="btn btn-primary" value="提交"
+														onclick="changeAssistantInfo()" />
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">关闭</button>
+												</div>
+											</div>
+
+										</div>
+									</form>
 								</div>
 
 								<!-- start 变更合作对象  -->

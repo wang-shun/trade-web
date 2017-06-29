@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
+import com.centaline.trans.cases.vo.CaseAssistantVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 
@@ -104,4 +105,11 @@ public interface ToCaseInfoService {
 	Integer exportCTMCase(String ctmCode);
 	
     int insertSelective(ToCaseInfo record);
+    
+    /**
+     * 获取组下所有交易助理
+     * @param orgId
+     * @return
+     */
+    List<CaseAssistantVO> getAssistantInfo(String orgId);
 }

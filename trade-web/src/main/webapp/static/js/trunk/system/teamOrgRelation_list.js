@@ -17,7 +17,7 @@ $(document).ready(function() {
 						shrinkToFit : true,
 						rowNum : 10,
 						/* rowList: [10, 20, 30], */
-						colNames : [ 'PKID','ORIGIN_ORG_ID','TARGET_ORG_ID','AVAILABLE','前台组','后台组','是否可用','操作'],
+						colNames : [ 'PKID','ORIGIN_ORG_ID','TARGET_ORG_ID','AVAILABLE','前台组','前台组编码','后台组','后台组编码','是否可用','操作'],
 						colModel : [ {
 							name : 'PKID',
 							index : 'PKID',
@@ -56,11 +56,21 @@ $(document).ready(function() {
 							align : "center",
 							width : 50
 						}, {
+							name : 'orginOrgCode',
+							index : 'orginOrgCode',
+							align : "center",
+							width : 50
+						},{
 							name : 'backName',
 							index : 'backName',
 							align : "center",
 							width : 50
 						}, {
+							name : 'backOrgCode',
+							index : 'backOrgCode',
+							align : "center",
+							width : 50
+						},{
 							name : 'AVAILABLE_NAME',
 							index : 'AVAILABLE_NAME',
 							align : "center",
@@ -192,13 +202,13 @@ function showTeamModal(id,data){
 	backHtml+='</label><div class="col-lg-4 select"  >';
 	backHtml+='<select id="yuTeamBackCode" class="btn btn-white chosen-select">';
 	$.each(data,function(i, n){
-		if(n.isResponseTeam == 1){
+		if(n.teamProperty == 'yu_front' || n.teamProperty == 'yu_all'){
 			if(n.orgCode == '033F046'){
 				inHtml+='<option value="'+n.orgId+'" selected>'+n.yuTeamName+'</option>';
 			}else{
 				inHtml+='<option value="'+n.orgId+'">'+n.yuTeamName+'</option>';
 			}
-		}else if(n.isResponseTeam == 0){
+		}else if(n.teamProperty == 'yu_back'){
 			if(n.orgCode == '033K715'){
 				backHtml+='<option value="'+n.orgId+'" selected>'+n.yuTeamName+'</option>';
 			}else{

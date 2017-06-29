@@ -18,6 +18,7 @@ import com.centaline.trans.cases.repository.ToCaseInfoMapper;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseAssistantVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
@@ -349,6 +350,12 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 	public int updateCaseInfoByAngetId(Map<String, Object> param) {
 		// TODO Auto-generated method stub
 		return toCaseInfoMapper.updateCaseInfoByAngetId(param);
+	}
+
+	@Override
+	public List<CaseAssistantVO> getAssistantInfo(String orgId) {
+
+		return toCaseInfoMapper.queryAssistantInfo(orgId);
 	}
 
 }

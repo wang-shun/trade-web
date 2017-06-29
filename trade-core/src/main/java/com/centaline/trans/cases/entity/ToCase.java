@@ -38,6 +38,12 @@ public class ToCase {
 	private String updateBy;
 	
 	private Date updateTime;
+	//交易助理ID
+	private String assistantId;
+	//交易助理名字
+	private String assistantName;
+	//交易助理电话
+	private String assistantPhone;
 	
 	public String getCreateBy() {
 		return createBy;
@@ -180,6 +186,30 @@ public class ToCase {
 
 	public void setLoanReq(String loanReq) {
 		this.loanReq = loanReq;
+	}
+
+	public String getAssistantId() {
+		return assistantId;
+	}
+
+	public void setAssistantId(String assistantId) {
+		this.assistantId = assistantId;
+	}
+
+	public String getAssistantName() {
+		return assistantName;
+	}
+
+	public void setAssistantName(String assistantName) {
+		this.assistantName = assistantName;
+	}
+
+	public String getAssistantPhone() {
+		return assistantPhone;
+	}
+
+	public void setAssistantPhone(String assistantPhone) {
+		this.assistantPhone = assistantPhone;
 	}
     
 }
