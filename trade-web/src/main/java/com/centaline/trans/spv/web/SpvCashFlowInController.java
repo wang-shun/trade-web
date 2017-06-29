@@ -80,7 +80,7 @@ public AjaxResponse<?>  sumbitDate(SpvRecordedsVO spvrevo,HttpServletRequest req
 	AjaxResponse<?> response = new AjaxResponse<>();
 	try{
 		if(StringUtils.equals(spvrevo.getHandle(), "addCashFlow")){
-			cashFlowInService.cashFlowInPageDeal(request, "addCashFlow", spvrevo, "");
+			cashFlowInService.cashFlowInPageDeal(request, "addCashFlow", spvrevo);
 		}
 		response.setSuccess(true);
 	} catch (Exception e) {
