@@ -37,7 +37,9 @@ public class TsKpiPsnMonthServiceImpl implements TsKpiPsnMonthService {
 	public int insertTsKpiPsnMonthList(List<TsKpiPsnMonth> list) {
 		return tsKpiPsnMonthMapper.insertTsKpiPsnMonthList(list);
 	}
-	
+	/**
+	 * 把excel数据更新到数据库中
+	 */
 	@Override
 	public int importExcelTsKpiPsnMonthList(Date belongM, String createBy, List<KpiMonthVO> list) {
 		List<TsKpiPsnMonth> record = new ArrayList<TsKpiPsnMonth>();

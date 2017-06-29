@@ -25,7 +25,6 @@ import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.attachment.entity.ToAttachment;
 import com.centaline.trans.attachment.repository.ToAttachmentMapper;
-import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
@@ -73,7 +72,6 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
-import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.task.entity.ToSign;
@@ -144,14 +142,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToWorkFlowService workflowService;
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
-	@Autowired
-	private ToCaseService caseService;
-	@Autowired
-	private ToCaseInfoService caseInfoservice;
-	@Autowired
-	private BizWarnInfoService bizWarnInfoService;
-	@Autowired
-	private ToMortgageService toMortgageService;
 	@Autowired
 	private ToCaseCommentMapper toCaseCommentMapper;
 	@Autowired
@@ -603,8 +593,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 		if(StringUtils.equals(toCase.getCaseCode(),ctmToCase.getCaseCode())){throw new BusinessException("同一案件不能进行合并!"); }
 		if(StringUtils.equals(ctmToCase.getCaseProperty(),CasePropertyEnum.TPWX.getCode())){throw new BusinessException("无效案件不能进行合并!"); }
 		
-		//List<TgGuestInfo> toCaseTgList = tgGuestInfoMapper.findTgGuestInfoByCaseCode(toCase.getCaseCode());
-		//List<TgGuestInfo> ctmToCaseTgList = tgGuestInfoMapper.findTgGuestInfoByCaseCode(ctmToCase.getCaseCode());
 		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(toCase.getCaseCode());
 		ToCaseInfo ctmtoCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(ctmToCase.getCaseCode());
 		if(null != toCaseInfo){}else{throw new BusinessException("没有查询到自建案件详细信息!"); }
@@ -630,7 +618,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		/**6.ctm合流案件添加无效备注  T_TO_CASE_COMMENT **/
 		if(StringUtils.equals(caseMergerParameter.getInputType(), "CTM")){
 			toCaseCommentMapper.insertSelective(setToCaseComment(user,ctmToCase.getCaseCode()));
-	}
+		}
 	
 	}
 	
@@ -822,17 +810,14 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMerge.setOperatorTime(new Date());
 		toCaseMerge.setOperator(CaseMergeStatusEnum.OPERATOR1.getCode());
 		toCaseMerge.setApplyStatus(CaseMergeStatusEnum.APPLYSTATUS0.getCode());
-		/**toCaseMerge.setConfirmorId("");**/
-		/**toCaseMerge.setConfirmorOrgId("");**/
-		/**toCaseMerge.setConfirmorTime(new Date);**/
-		if(StringUtils.equals(inputType, "CTM"))
+		if(StringUtils.equals(inputType, "CTM")){
 			toCaseMerge.setApplyDirection(CaseMergeStatusEnum.APPLY_DIRECTION1.getCode());
-		if(StringUtils.equals(inputType, "INPUT"))
+		}
+		if(StringUtils.equals(inputType, "INPUT")){
 			toCaseMerge.setApplyDirection(CaseMergeStatusEnum.APPLY_DIRECTION0.getCode());
+		}
 		toCaseMerge.setCreateBy(user.getId());
 		toCaseMerge.setCreateTime(new Date());
-		/**toCaseMerge.setUpdateBy("");**/
-		/**toCaseMerge.setUpdateTime("");**/
 		return toCaseMerge;
 	}
 	/**
@@ -844,8 +829,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCase.setCaseOrigin(CaseMergeStatusEnum.MERGE.getCode());
 		toCase.setCtmCode(toCaseMerge.getCtmCode());
 		toCase.setCaseProperty(CaseMergeStatusEnum.CASE_PROPERTY3.getCode());
-		/**toCase.setLeadingProcessId(ctmToCase.getLeadingProcessId());
-		toCase.setOrgId(ctmToCase.getOrgId());**/
 		toCase.setUpdateBy(user.getId());
 		toCase.setUpdateTime(new Date());
 		return toCase;
@@ -966,9 +949,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 		for(ToPropertyInfo toPropertyInfo:toPropertyInfos){
 			if(!StringUtils.isBlank(toPropertyInfo.getPropertyCode())){
 				 Map cu = toCaseMergeMapper.getMergeInfoList(toPropertyInfo.getPropertyCode());/** 案件propertyCode **/
-				 /*if(cu.get("cu")>1){
-					 mergeInfoList ="true";
-				 }*/
 				 mergeInfoList ="true";
 			}
 		}
@@ -1068,7 +1048,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 		if(null != ctmToCase){}else{throw new BusinessException("没有查询到导入案件信息!"); }
 		
 		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(toCase.getCaseCode());
-		//ToPropertyInfo ctmtoPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(ctmToCase.getCaseCode());
 		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(toCase.getCaseCode());
 		ToCaseInfo ctmtoCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(ctmToCase.getCaseCode());
 		
@@ -1150,13 +1129,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMerge.setOperatorTime(new Date());
 		toCaseMerge.setOperator(CaseMergeStatusEnum.OPERATOR2.getCode());
 		toCaseMerge.setApplyStatus(CaseMergeStatusEnum.APPLYSTATUS1.getCode());
-		/**toCaseMerge.setConfirmorId("");**/
-		/**toCaseMerge.setConfirmorOrgId("");**/
-		/**toCaseMerge.setConfirmorTime(new Date);**/
 		toCaseMerge.setCreateBy(user.getId());
 		toCaseMerge.setCreateTime(new Date());
-		/**toCaseMerge.setUpdateBy("");**/
-		/**toCaseMerge.setUpdateTime("");**/
 		return toCaseMerge;
 	}
 	
@@ -1284,18 +1258,9 @@ public class ToCaseServiceImpl implements ToCaseService {
 		tp.setCaseCode(caseCode);
 		tp.setSrvCode(srvCode);
 		TgServItemAndProcessor tsip = tgservItemAndProcessorMapper.selectServItemandName(tp);
-		//TgServItemAndProcessor tsipF = tgservItemAndProcessorMapper.selectServItemandNameF(tp);
 		if(null != tsip && !StringUtils.isBlank(tsip.getSrvName())){
 			st = tsip.getSrvName();
 		}
-		/*if(null != tsipF && !StringUtils.isBlank(tsipF.getSrvName())){
-			if(null == st){
-				st = tsipF.getSrvName();
-			}else{
-				st = st+","+tsipF.getSrvName();
-			}
-			
-		}*/
 		return st;
 	}
 	/**
@@ -1310,7 +1275,6 @@ public class ToCaseServiceImpl implements ToCaseService {
 	public String selectAtt(String caseCode){
 		
 		int attCu = tgservItemAndProcessorMapper.selectAtt(caseCode);
-		//int taskCu = tgservItemAndProcessorMapper.selectTask(caseCode);
 		int mgCu = tgservItemAndProcessorMapper.selectMg(caseCode);
 		if(mgCu > 0){
 			if(attCu < 1){

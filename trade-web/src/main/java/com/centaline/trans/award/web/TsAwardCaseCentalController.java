@@ -226,6 +226,7 @@ public class TsAwardCaseCentalController {
 		TsAwardKpiPay record = new TsAwardKpiPay();
 		record.setStatus("1");
 		record.setBelongMonth(DateUtil.strToFullDate(belongMonth));
+		@SuppressWarnings("unused")
 		List<TsAwardKpiPay> tsAwardKpiPayList = tsAwardKpiPayService.getTsAwardKpiPayByProperty(record);
 		
 		return  "award/newMethodStep/managerStep2";

@@ -266,27 +266,7 @@ function reloadGrid(data) {
 			$("#myCaseList").html(myCaseList);
 			// 显示分页
 			mycase_initpage(data.total,data.pagesize,data.page, data.records);
-
-			$('.demo-left').poshytip({
-				className: 'tip-twitter',
-				showTimeout: 1,
-				alignTo: 'target',
-				alignX: 'left',
-				alignY: 'center',
-				offsetX: 8,
-				offsetY: 5,
-			});
-
-			//top
-			$('.demo-top').poshytip({
-				className: 'tip-twitter',
-				showTimeout: 1,
-				alignTo: 'target',
-				alignX: 'center',
-				alignY: 'top',
-				offsetX: 8,
-				offsetY: 5,
-			});
+			demoPoshytip();
 			$("#myCaseList").subscribeToggle({
 				moduleType:"1001",
 				subscribeType:"2001"
@@ -298,8 +278,29 @@ function reloadGrid(data) {
 		}
 	});
 }
-
-
+/**
+ * 页面title显示
+ */
+function demoPoshytip(){
+	$('.demo-left').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'left',
+		alignY: 'center',
+		offsetX: 8,
+		offsetY: 5,
+	});
+	$('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});
+}
 
 function mycase_initpage(totalCount,pageSize,currentPage,records)
 {

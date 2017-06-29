@@ -52,10 +52,7 @@
                                            </option>
                                            <option value="2">
                                                	经纪人姓名
-                                           </option><!-- 
-                                           <option value="4">
-                                               	交易顾问
-                                           </option> -->
+                                           </option>
                                        </select>
                                    </div>
                                    <div class="sign_right intextval">
@@ -267,20 +264,16 @@ function getParams(qId,page,orgid,index) {
 	var textType = $('#inTextType').val();
 	if(textType == "1"){ data.propertyAddr = $.trim($('#seachValue').val()); }
 	if(textType == "2"){ data.agentName = $.trim($('#seachValue').val()); }
-	if(textType == "0"){  }
-	if(textType == "4"){ }
 	if (!$.isBlank($("#dtBegin").val())) { data.operatorTime= $("#dtBegin").val() + " 23:59:59"; } 
 	if($('input[name="radio"]:checked').val()=="0"){}else{data.operato=$('input[name="radio"]:checked').val();}
 	data.queryId=qId;/*pageBarf类型为第一次进入页面时候的设置**/
 	if(orgid == "pageBarf"){
 		if(index == 0){data.sqid=$("#userid").val();}
 		if(index == 1){data.orgid=$("#userid").val();data.type=index;}
-		if(index == 2){}
 	}else{
 		if(null == index){}else{
 			if(index == 0){if(null ==orgid ){}else{data.sqid=orgid;}}
 			if(index == 1){if(null ==orgid ){}else{data.orgid=orgid;}}
-			if(index == 2){}
 		}
 	}
 	data.rows = 10;
@@ -361,9 +354,7 @@ function mergeAndReject(){
 					}});
 				}
 			}
-			
-		},complete: function() {  },
-		error : function(errors) { }
+		}
 	});
 }
 

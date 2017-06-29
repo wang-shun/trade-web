@@ -236,7 +236,7 @@ function caseCodeSort() {
 function syncSatisListToKpi(){
 	
 	var  belongMonth = getBlongMonth();
-	window.wxc.confirm("确定现在进行案件各环节满意度数据同步？",{"wxcOk":function(){
+	window.wxc.confirm("确定同步案件各环节满意度数据？",{"wxcOk":function(){
 		$.ajax({
 	        url:ctx+ "/award/syncSatisListToKpi" ,
 	        method: "get",
