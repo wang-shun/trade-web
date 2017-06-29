@@ -4,7 +4,7 @@
 			<customDict id="qqcdOrgIdName" beanName="qqcdOrgIdName"></customDict>
 			<customDict id="getRealNameByUserId" beanName="getRealNameByUserId"></customDict>
 			<customDict id="qqcdSeller" beanName="qqcdSeller" />
-			<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
+			<customDict id="qqcdBuyer" beanName="qqcdBuyer" />	
 			<!-- 根据业绩科目Code查询业绩科目名称 -->
 			<customDict id="getSubjectNameBySubjectCode" beanName="getSubjectNameBySubjectCode" />
 		</dicts>
@@ -29,16 +29,18 @@
 				rp.SUBJECT AS subject,
 				rp.STATUS AS status,
 				rp.USER_ID AS userId,
-				rp.CASE_CODE AS caseCode,
+				rp.CASE_CODE AS CASE_CODE,
 				c.CASE_ORIGIN AS caseOrigin,
 				rp.DISTRICT AS district,
-      			rp.TEAM_ID AS treamId
+      			rp.TEAM_ID AS treamId,
+      			pi.PROPERTY_ADDR as propertyAddr
 			FROM
 				sctrans.T_TS_RECEIVABLE_PERF rp
 				LEFT JOIN sctrans.t_yucui_org_hierarchy yoh ON (rp.TEAM_ID = yoh.ORG_ID)
 				LEFT JOIN sctrans.T_TO_CASE c ON (c.CASE_CODE =rp.CASE_CODE)
 				LEFT JOIN sctrans.T_TS_COM_SUBJECT cs ON(cs.SUBJECT_CODE = rp.SUBJECT)
-				left join sctrans.T_TS_COM_SUBJECT cs1 on cs.PARENT_ID=cs1.PKID
+				left join sctrans.T_TS_COM_SUBJECT cs1 ON (cs.PARENT_ID=cs1.PKID)
+				LEFT JOIN sctrans.T_TO_PROPERTY_INFO pi ON(rp.CASE_CODE = pi.CASE_CODE)
 			WHERE 1=1
 				AND (
 					yoh.DISTRICT_ID = #orgId#
@@ -89,12 +91,12 @@
 				<column type="both" name="subject" title="业绩名目" customDict="getSubjectNameBySubjectCode"/>
 				<column type="both" name="status" title="业绩状态"/>
 				<column type="both" name="userId" title="归属人" customDict="getRealNameByUserId"/>
-				<column type="both" name="caseCode" title="案件编号"/>
+				<column type="both" name="CASE_CODE" title="案件编号"/>
 				<column type="both" name="caseOrigin" title="业绩来源"/>
-				<column type="both" name="district" customDict="qqcdOrgIdName" title="贵宾服务部"/>
+				<column type="both" name="propertyAddr"  title="案件地址"/>
 				<column type="both" name="treamId" customDict="qqcdOrgIdName" title="组别"/>
-				<column type="virtual" name="SELLER" referencecol="caseCode" title="上家" display="上家" customDict="qqcdSeller" />
-				<column type="virtual" name="BUYER" referencecol="caseCode" title="下家" display="下家" customDict="qqcdBuyer" />
+				<column type="virtual" name="SELLER" referencecol="CASE_CODE" display="上家" customDict="qqcdSeller"  />
+				<column type="virtual" name="BUYER" referencecol="CASE_CODE"  display="下家" customDict="qqcdBuyer"  />
 			</table-row>
 		</grid>
 	</query>

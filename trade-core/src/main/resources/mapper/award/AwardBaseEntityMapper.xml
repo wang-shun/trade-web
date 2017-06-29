@@ -355,6 +355,22 @@
 	<select id="countAward" resultType="java.lang.Integer">
 		select count(*) from sctrans.T_TS_AWARD_BASE with(nolock)
 		where case_code = #{caseCode,jdbcType=VARCHAR} and IS_DELETED='0'
-	</select>
+	</select>	
+
+	<delete id="deleteByCaseCodeAndPaid" parameterType="com.centaline.trans.award.entity.AwardBaseEntity">
+    delete from sctrans.T_TS_AWARD_BASE
+    <where>
+      	   1=1
+      	  <if test="caseCode != null" >
+	         AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	      </if>      	 
+	      <if test="paid != null" >
+	         AND PAID = #{paid,jdbcType=CHAR}
+	      </if>
+	      <if test="isDeleted != null" >
+	        AND IS_DELETED = #{isDeleted,jdbcType=CHAR}
+	      </if>
+	</where>
+  </delete>
 	
 </mapper>

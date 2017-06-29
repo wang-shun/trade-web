@@ -217,11 +217,11 @@
 					a.viewObject as viewObject,
 					a.viewObjectId as viewObjectId,
 					a.belongMonth as belongMonth,
-				    a.goalPerf as goalPerf,
-					b.shareAmoun as shareAmount,
-				    b.countPerf as countPerf,
+				    SUM(a.goalPerf) AS goalPerf,
+					SUM(b.shareAmoun) AS shareAmount,
+					SUM(b.countPerf) AS countPerf,
 					CAST (
-						(b.shareAmoun / a.goalPerf) AS DECIMAL (18, 4)
+						SUM((b.shareAmoun / a.goalPerf)) AS DECIMAL (18, 4)
 					) AS completionRate
 				FROM
 					(
@@ -285,6 +285,7 @@
 								OR yoh.HQ_ID = #yuCuiOriGrpId#
 								)
 							</if>
+							GROUP BY viewObject,viewObjectId,belongMonth
 			
 		]]>
 			</baseSql>

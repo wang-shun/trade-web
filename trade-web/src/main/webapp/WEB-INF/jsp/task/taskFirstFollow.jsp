@@ -311,7 +311,7 @@
 						});
 						
 						TaskFirstFollowValidate.init("firstFollowform","");
-						initAssistant();
+						/*initAssistant();*/
 						initMortageService();
 						/*  字典对应表关系
 							合作项目
@@ -747,12 +747,12 @@
 								return false;
 							}
 							
-							if ($('select[name=assistantId]').val() == '') {
+							/* if ($('select[name=assistantId]').val() == '') {
 								window.wxc.alert("交易助理为必选项!");
 								$('select[name=assistantId]').focus();
 								$('select[name=assistantId]').css("border-color","red");
 								return false;
-							}
+							} */
 							
 							if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
 								window.wxc.alert("合作顾问未选择");

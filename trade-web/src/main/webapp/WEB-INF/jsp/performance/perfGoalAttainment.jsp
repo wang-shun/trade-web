@@ -145,12 +145,12 @@
 			<td>{{item.belongMonth}}</td>
 			<td>
 				{{if item.goalPerf != null}}
-					{{item.goalPerf/10000}}万元
+					{{item.goalPerf}}元
 				{{/if}}
 			</td>
 			<td>
 				{{if item.shareAmount != null}}
-					{{item.shareAmount/10000}}万元
+					{{item.shareAmount}}元
 				{{/if}}
 			</td>
 			<td>

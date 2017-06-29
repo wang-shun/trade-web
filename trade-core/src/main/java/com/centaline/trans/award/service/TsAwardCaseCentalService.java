@@ -29,9 +29,33 @@ public interface TsAwardCaseCentalService {
 
 	TsAwardKpiPay getInitPage(HttpServletRequest request, TsAwardKpiPay tsAwardKpiPay);
 	
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-05-25
+	 * 
+	 * @desc:更新计件奖金的步骤
+	 */
 	int updateAwardStep(HttpServletRequest request, TsAwardKpiPay tsAwardKpiPay);
 	
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-05-26
+	 * 
+	 * @desc:判断是否已经同步满意度
+	 */
 	int isSycnSatis(HttpServletRequest request, TsKpiSrvCase tsKpiSrvCase);
 	
+	
+	/*
+	 * @author:zhuody
+	 * 
+	 * @date:2017-06-29
+	 * 
+	 * @desc:案件重启审批通过的话、删除未计件的案件和环节占比等信息
+	 */
 	int deleteNobonusCase(String caseCode);
 }

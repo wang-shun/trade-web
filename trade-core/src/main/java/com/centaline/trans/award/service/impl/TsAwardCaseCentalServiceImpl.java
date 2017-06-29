@@ -21,9 +21,11 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.award.entity.AwardBaseEntity;
 import com.centaline.trans.award.entity.TsAwardCaseCental;
 import com.centaline.trans.award.entity.TsAwardKpiPay;
 import com.centaline.trans.award.entity.TsKpiSrvCase;
+import com.centaline.trans.award.repository.AwardBaseEntityMapper;
 import com.centaline.trans.award.repository.TsAwardCaseCentalMapper;
 import com.centaline.trans.award.repository.TsAwardKpiPayMapper;
 import com.centaline.trans.award.repository.TsKpiSrvCaseMapper;
@@ -49,6 +51,10 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 	
 	@Autowired
 	TsAwardKpiPayMapper tsAwardKpiPayMapper;
+	
+	@Autowired
+	AwardBaseEntityMapper awardBaseEntityMapper;
+	
 	
 	@Autowired
 	TsKpiSrvCaseMapper tsKpiSrvCaseMapper;
@@ -459,6 +465,13 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 		tsAwardCaseCental.setAwardStatus(AwardStatusEnum.WEIFAFANG.getCode());
 		
 		TsAwardCaseCental  caseInfo = tsAwardCaseCentalMapper.selectByCaseCodeAndStatus(tsAwardCaseCental);
+		
+		AwardBaseEntity twardBaseEntity = new AwardBaseEntity();
+		twardBaseEntity.setCaseCode(caseCode);
+		twardBaseEntity.setIsDeleted("0");
+		twardBaseEntity.setPaid("0");
+		//删除计件奖金池的数据外还需要删除环节占比的数据
+		awardBaseEntityMapper.deleteByCaseCodeAndPaid(twardBaseEntity);
 		int k = 0;
 		if(null != caseInfo){
 			k = tsAwardCaseCentalMapper.deleteByPrimaryKey(caseInfo.getPkid());		

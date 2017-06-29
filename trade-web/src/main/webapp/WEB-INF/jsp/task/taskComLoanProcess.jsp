@@ -806,7 +806,7 @@
 							</section>
 							<!-- 派单Tab开始（主) -->
                           <h3>派单信息</h3>
-                                                <section>
+                                                <section style="background-color: #fff">
                                                 	<form id="orderform" >
                                                 	<input type="hidden" name="isMainLoanBank" value="1">
                                                 	<input type="hidden" name="loanerStatus">
@@ -1494,7 +1494,6 @@
                                                      <div class="line">
                                                           <div class="form_content" style="margin-left: 122px;">
                                                                     <button class="btn btn-success ml5 tmpBankHide nonTmpBankShow" type="button" name="btn_order">派单</button>
-                                                                    <!--侯选银行不能申请临时银行 <button class="btn btn-success ml5 tmpBankShow nonTmpBankHide" type="button" name="btn_reqTmpBank">申请</button> -->
                                                                     <button class="btn btn-grey ml5 tmpBankHide nonTmpBankShow" type="button" name="btn_order_cancel">撤销</button>
                                                                     
                                                                 </div>
