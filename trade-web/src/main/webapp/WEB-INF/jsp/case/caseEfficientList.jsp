@@ -101,8 +101,8 @@
                                     <option value="paidan">派单</option>
                                     <option value="firstFollow">首次跟进</option>
                                     <option value="sign">签约</option>
-                                    <option value="guohu">过户</option>
-                                    <option value="caseClose">结案</option>
+                                    <option value="guohu">过户审批</option>
+                                    <option value="caseClose">结案归档</option>
                                 </select>
                                 <div id="datepicker_0" class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
                                     <input id="dtBegin_0" name="dtBegin" class="form-control data_style" type="text" value="" placeholder="起始日期"> <span class="input-group-addon" style="line-height:1;">到</span>
@@ -179,8 +179,8 @@
                                         <th>首次派单</th>
                                         <th>首次跟进</th>
                                         <th>签约</th>
-                                        <th>过户</th>
-                                        <th>结案</th>
+                                        <th>过户审批</th>
+                                        <th>结案归档</th>
                                         <th>累计</th>
                                         <shiro:hasPermission name="TradeMenu.Report.DELAY">
                                         <th>操作</th>
