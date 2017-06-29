@@ -651,7 +651,7 @@
 						if(data != null ){
 							if(data.success){
 								if(b) {
-									//submitTransfer(caseCode,b);
+									submitTransfer(caseCode,b);
 								}else{
 									goProcess(false);
 								}

@@ -38,7 +38,7 @@
 						LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
 						LEFT JOIN sctrans.T_TS_AWARD_CASE_CENTAL a on s.CASE_CODE = a.CASE_CODE
 						LEFT JOIN sctrans.V_CASE_TRADE_INFO_VIEW v on s.CASE_CODE = v.CASE_CODE
-					WHERE 1=1
+					WHERE s.IS_ACTIVE = '1'
 					<if test="surveySignTimeStart != null and surveySignTimeStart != ''">
 						and datediff(day, #surveySignTimeStart#, s.SIGN_TIME) >= 0
 					</if>
@@ -127,7 +127,7 @@
 						LEFT JOIN sctrans.T_TO_PROPERTY_INFO p on s.CASE_CODE = p.CASE_CODE
 						LEFT JOIN sctrans.T_TS_AWARD_CASE_CENTAL a on s.CASE_CODE = a.CASE_CODE
 						LEFT JOIN sctrans.V_CASE_TRADE_INFO_VIEW v on s.CASE_CODE = v.CASE_CODE
-					WHERE 1=1
+					WHERE s.IS_ACTIVE = '1'
 					<if test="surveySignTimeStart != null and surveySignTimeStart != ''">
 						and datediff(day, #surveySignTimeStart#, s.SIGN_TIME) >= 0
 					</if>
