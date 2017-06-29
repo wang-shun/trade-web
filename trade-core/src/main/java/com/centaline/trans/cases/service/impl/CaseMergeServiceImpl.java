@@ -825,7 +825,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		 */
 		tpdCommSubsMapper.updateByPrimaryKey(tpdCommSubs);
 		/**
-		 * 4.保存案件上下家/推荐人信息
+		 * 4.保存案件上下家
 		 */
 		editWDToGuestInfo(caseMergeVo.getTgGuestInfoUp() ,tgGuestInfoList,caseCode,GuestEnum.SELLER.getCode());
 		editWDToGuestInfo(caseMergeVo.getTgGuestInfoDown(), tgGuestInfoList ,caseCode,GuestEnum.BUYER.getCode());
@@ -880,8 +880,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 	 * 更新上下家/推荐人信息
 	 * 30006001：上家
 	 * 30006002：下家
-	 * 30006003：推荐人
-	 * @param 1:上家 2：下家 3：推荐人
+	 * @param 1:上家 2：下家 
 	 * @author hjf
 	 * @date 2017年4月28日16:36:19
 	 * */
