@@ -1218,13 +1218,12 @@
 							<div id="pager_list_4"></div>
 						</div>
 					</section>
-
 					<h3>完成</h3>
 					<section>
 					<form  class="form_list" name="completeForm" id="completeForm" style="margin:0">
 							<input type="hidden" name="pkid" />
 							<input type="hidden" name="lastLoanBank" >
-							<input type="hidden" id="fl_is_tmp_bank"/>
+							<input type="hidden" id="isLoanerArrive"/>
 							<input type="hidden" name="loanerStatus">
 							<input type="hidden" name="caseCode" value="${caseCode }">
 							<input type="hidden" name="custName">
@@ -1237,9 +1236,9 @@
                                                                 <div class="form_content radio-seat">
                                                                     <label class="control-label sign_left_small">临时银行</label>
                                                                     <div class="controls" style="width: 162px;">
-                                                                       <label class="radio inline"> <input type="radio" disabled value="1" name="isTmpBank" checked="checkd">是
+                                                                       <label class="radio inline"> <input type="radio"  value="1" name="isTmpBank" checked="checkd" onclick="return false;">是
                                                                         </label> 
-                                                                        <label class="radio inline"> <input type="radio" disabled value="0" name="isTmpBank">否
+                                                                        <label class="radio inline"> <input type="radio"  value="0" name="isTmpBank" onclick="return false;">否
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -1782,7 +1781,7 @@
 									<form  class="form_list" name="completeForm1" id="completeForm1" style="margin:0">
 							<input type="hidden" name="pkid" />
 							<input type="hidden" name="lastLoanBank" >
-							<input type="hidden" id="fl_is_tmp_bank"/>
+							<input type="hidden" id="isLoanerArrive"/>
 							<input type="hidden" name="loanerStatus">
 							<input type="hidden" name="caseCode" value="${caseCode }">
 							<input type="hidden" name="custName">
@@ -1795,9 +1794,9 @@
                                                                 <div class="form_content radio-seat">
                                                                     <label class="control-label sign_left_small">临时银行</label>
                                                                     <div class="controls" style="width: 162px;">
-                                                                       <label class="radio inline"> <input type="radio" disabled value="1" name="isTmpBank" checked="checkd">是
+                                                                       <label class="radio inline"> <input type="radio"  value="1" name="isTmpBank" checked="checkd" onclick="return false;">是
                                                                         </label> 
-                                                                        <label class="radio inline"> <input type="radio" disabled value="0" name="isTmpBank">否
+                                                                        <label class="radio inline"> <input type="radio"  value="0" name="isTmpBank" onclick="return false;">否
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -2626,7 +2625,7 @@ function checkInt(obj){
 	    	success:function(data){
 	    		if(data.success){
 	    			window.wxc.success(data.message);
-	    			loadMortLoaner($('#caseCode').val(),"1",ORDER_1);
+	    			loadMortgageInfo(1,MORT_ORDER_1);
 	    		}else{
 	    			window.wxc.error(data.message);
 	    		}

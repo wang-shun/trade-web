@@ -1071,7 +1071,7 @@ function renderMortgageComplete(f,data){
 		}else{
 			f.find("input[name='apprDate']").val($content.bankApproveTime);
 		}		    			
-		f.find("input[name='isLoanerArrive'][value='"+$content.isLoanerArrive+"']").prop("checked",true);
+		f.find("input[name='isLoanerArrive']").val($content.isLoanerArrive);
 		
 		f.find("input[name='houseNum']").val($content.houseNum);
 		f.find("input[name='signDate']").val($content.signDate);
