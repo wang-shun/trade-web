@@ -47,12 +47,8 @@
                                <div id="select_div_1" class="form_content">
                                    <div class="sign_left">
                                        <select class="form-control" id="inTextType" >
-                                           <option value="1" selected="selected">
-                                               	案件地址
-                                           </option>
-                                           <option value="2">
-                                               	经纪人姓名
-                                           </option>
+                                           <option value="1" selected="selected"> 案件地址 </option>
+                                           <option value="2"> 经纪人姓名 </option>
                                        </select>
                                    </div>
                                    <div class="sign_right intextval">
