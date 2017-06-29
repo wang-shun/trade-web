@@ -246,7 +246,7 @@
 				SELECT  CASE_CODE  FROM sctrans.T_TS_AWARD_CASE_CENTAL  WHERE AWARD_STATUS = '2'  AND GUOHU_APPROVE_TIME &lt; #{createTime}
 	);
 	
-	
+	<!-- 删除已经计算的奖金信息 T_TS_AWARD_KPI_PAY_DETAIL    TODO-->
   
     update sctrans.T_TS_AWARD_KPI_PAY
     set
