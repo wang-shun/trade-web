@@ -33,6 +33,8 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mortgage.repository.MortStepMapper;
+import com.centaline.trans.satisfaction.entity.ToSatisfaction;
+import com.centaline.trans.satisfaction.repository.ToSatisfactionMapper;
 import com.centaline.trans.task.service.ServiceChangeService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
@@ -68,6 +70,9 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 	
 	@Autowired
 	private MortStepMapper mortstepMapper;
+	
+	@Autowired
+	private ToSatisfactionMapper toSatisfactionMapper;
 	
 	@Override
 	public Integer updateServItemAndProcessor(String caseCode, String content) {
@@ -131,6 +136,25 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 				tsch.setReason(null);
 				toServChangeHistrotyMapper.updateByPrimaryKeySelective(tsch);
 			}
+			/**
+			 * 满意度相关处理：
+			 * 1.更新满意度表is_active为0
+			 * 2.删除满意度流程
+			 */
+			ToSatisfaction toSatisfaction = toSatisfactionMapper.selectByCaseCode(caseCode);
+			if(toSatisfaction != null){
+				toSatisfaction.setIsActive("0");
+				toSatisfactionMapper.updateByPrimaryKeySelective(toSatisfaction);
+			}
+			
+			ToWorkFlow w = new ToWorkFlow();
+			w.setBusinessKey(WorkFlowEnum.SATIS_DEFKEY.getCode());
+			w.setCaseCode(caseCode);
+			ToWorkFlow record  = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(w);
+			if(record != null){
+				workFlowManager.deleteProcess(record.getInstCode());
+			}
+
     		return 11;
 		} else if(shangdai != null || gongjijin != null) {
 			/*业务变更处理*/

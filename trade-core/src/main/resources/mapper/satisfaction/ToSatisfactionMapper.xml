@@ -39,6 +39,7 @@
     <result column="AGENT_COM_ELSE" property="agentComElse" jdbcType="NVARCHAR" />
     <result column="STATUS" property="status" jdbcType="VARCHAR" />
     <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="IS_ACTIVE" property="isActive" jdbcType="CHAR" />
     <result column="CALLER_ID" property="callerId" jdbcType="VARCHAR" />
     <result column="SIGN_TIME" property="signTime" jdbcType="TIMESTAMP" />
     <result column="GUOHU_TIME" property="guohuTime" jdbcType="TIMESTAMP" />
@@ -54,7 +55,7 @@
     BUYER_PHONE_RES, BUYER_SIGN_SAT, BUYER_SIGN_COM, BUYER_COMLOAN_SAT, BUYER_COMLOAN_COM, 
     BUYER_PSFLOAN_SAT, BUYER_PSFLOAN_COM, BUYER_GUOHU_SAT, BUYER_GUOHU_COM, AGENT_PHONE_OK, 
     AGENT_PHONE_RES, AGENT_SIGN_SAT, AGENT_SIGN_COM, AGENT_LOANCLOSE_SAT, AGENT_LOANCLOSE_COM, AGENT_COMLOAN_SAT, AGENT_COMLOAN_COM, 
-    AGENT_PSFLOAN_SAT, AGENT_PSFLOAN_COM, AGENT_GUOHU_SAT, AGENT_GUOHU_COM, AGENT_COM_DICT, AGENT_COM_ELSE, STATUS, TYPE, CALLER_ID, 
+    AGENT_PSFLOAN_SAT, AGENT_PSFLOAN_COM, AGENT_GUOHU_SAT, AGENT_GUOHU_COM, AGENT_COM_DICT, AGENT_COM_ELSE, STATUS, TYPE, IS_ACTIVE, CALLER_ID, 
     SIGN_TIME, GUOHU_TIME, CLOSE_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -89,7 +90,7 @@
       AGENT_PHONE_OK, AGENT_PHONE_RES, AGENT_SIGN_SAT, 
       AGENT_SIGN_COM, AGENT_LOANCLOSE_SAT, AGENT_LOANCLOSE_COM,AGENT_COMLOAN_SAT, AGENT_COMLOAN_COM, 
       AGENT_PSFLOAN_SAT, AGENT_PSFLOAN_COM, AGENT_GUOHU_SAT, 
-      AGENT_GUOHU_COM, AGENT_COM_DICT, AGENT_COM_ELSE, STATUS, TYPE, CALLER_ID, 
+      AGENT_GUOHU_COM, AGENT_COM_DICT, AGENT_COM_ELSE, STATUS, TYPE, IS_ACTIVE, CALLER_ID, 
       SIGN_TIME, GUOHU_TIME, CLOSE_TIME, CREATE_TIME, CREATE_BY, UPDATE_TIME, 
       UPDATE_BY)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{castsatCode,jdbcType=VARCHAR}, 
@@ -102,7 +103,8 @@
       #{agentPhoneOk,jdbcType=INTEGER}, #{agentPhoneRes,jdbcType=NVARCHAR}, #{agentSignSat,jdbcType=INTEGER}, 
       #{agentSignCom,jdbcType=NVARCHAR}, #{agentLoancloseSat,jdbcType=INTEGER}, #{agentLoancloseCom,jdbcType=NVARCHAR}, #{agentComloanSat,jdbcType=INTEGER}, #{agentComloanCom,jdbcType=NVARCHAR}, 
       #{agentPsfloanSat,jdbcType=INTEGER}, #{agentPsfloanCom,jdbcType=NVARCHAR}, #{agentGuohuSat,jdbcType=INTEGER}, 
-      #{agentGuohuCom,jdbcType=NVARCHAR}, #{agentComDict,jdbcType=VARCHAR}, #{agentComElse,jdbcType=NVARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{callerId,jdbcType=VARCHAR}, 
+      #{agentGuohuCom,jdbcType=NVARCHAR}, #{agentComDict,jdbcType=VARCHAR}, #{agentComElse,jdbcType=NVARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{isActive,jdbcType=CHAR}, #{callerId,jdbcType=VARCHAR}, 
       #{signTime,jdbcType=TIMESTAMP},#{guohuTime,jdbcType=TIMESTAMP},#{closeTime,jdbcType=TIMESTAMP},
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR})
@@ -220,6 +222,9 @@
       </if>
       <if test="type != null" >
         TYPE,
+      </if>
+      <if test="isActive != null">
+      	IS_ACTIVE
       </if>
       <if test="callerId != null" >
         CALLER_ID,
@@ -359,6 +364,9 @@
       <if test="type != null" >
         #{type,jdbcType=VARCHAR},
       </if>
+      <if test="isActive != null">
+      	#{isActive,jdbcType=CHAR}
+      </if>
       <if test="callerId != null" >
         #{callerId,jdbcType=VARCHAR},
       </if>
@@ -497,6 +505,9 @@
       <if test="type != null" >
         TYPE = #{type,jdbcType=VARCHAR},
       </if>
+      <if test="isActive != null">
+      	IS_ACTIVE = #{isActive,jdbcType=CHAR}
+      </if>
       <if test="callerId != null" >
         CALLER_ID = #{callerId,jdbcType=VARCHAR},
       </if>
@@ -562,6 +573,7 @@
       AGENT_COM_ELSE = #{agentComElse,jdbcType=NVARCHAR},
       STATUS = #{status,jdbcType=VARCHAR},
       TYPE = #{type,jdbcType=VARCHAR},
+      IS_ACTIVE = #{isActive,jdbcType=CHAR},
       CALLER_ID = #{callerId,jdbcType=VARCHAR},
       SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
       GUOHU_TIME = #{guohuTime,jdbcType=TIMESTAMP},

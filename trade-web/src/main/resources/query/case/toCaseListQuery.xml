@@ -302,12 +302,6 @@
 					title="前台组人员,上家,下家,经办人,上家,案件状态"
 					display="前台组人员,上家,下家,经办人,上家,案件状态"
 					customDict="getCaseOverviewInfo" />
-			
-				<!-- <column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="PROCESSOR_ID" referencecol="CASE_CODE" index="" checkbox="" display="经办人" customDict="qqcdBackProcessorName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="CASE_PROPERTY_SHOW" referencecol="CASE_PROPERTY" index="" checkbox="" display="上家" customDict="qqcdDict30003" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="virtual" name="STATUS" referencecol="STATUS_OLD" index="" checkbox="" display="案件状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" /> -->
 			</table-row>
 		</grid>
 	</query>
