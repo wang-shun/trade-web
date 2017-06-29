@@ -59,7 +59,6 @@ $(function(){
 	        }, 
     		success:function(data){
     			$.unblockUI();  
-    			console.log("data:" + data);
     			if(data){
     				window.wxc.success("延期成功！",{"wxcOk":function(){
 						$("#closeBtn").click();
