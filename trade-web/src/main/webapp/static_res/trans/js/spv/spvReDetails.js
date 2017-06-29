@@ -364,8 +364,6 @@ function sumbitRe(){
 			url : url,
 			dataType : "json",
 			data : data,
-			beforeSend:function(){  
-	         },
 			success : function(data) {
 				if(data.success){
 					window.wxc.success("流程开启成功！",{"wxcOk":function(){
@@ -374,11 +372,7 @@ function sumbitRe(){
 				}else{
 					window.wxc.error("流程开启失败！"+data.message); 
 				}
-			},complete: function() { 
-			},
-			error : function(errors) {
 			}
-			
 		});
 	}});
 }
@@ -398,22 +392,14 @@ function saveRe(){
 			url : url,
 			dataType : "json",
 			data : data,
-			beforeSend:function(){  
-	         },
 			success : function(data) {
 				if(data.success){
-					window.wxc.success("流水录入成功！",{"wxcOk":function(){
-						rescCallbocak();
-						}
+					window.wxc.success("流水录入成功！",{"wxcOk":function(){ rescCallbocak(); }
 					});
 				}else{
 					window.wxc.error("流水录入失败！"+data.message); 
 				}
-			},complete: function() { 
-			},
-			error : function(errors) {
 			}
-			
 		});
 	}});
 }

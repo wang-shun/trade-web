@@ -187,7 +187,7 @@
 		<tr>
             <td><p><a href="javascript:void(0)">{{item.sharesCode}}</a></p></td>
             <td>
-				{{if item.shareAmount != null}}{{item.shareAmount/10000}}万元
+				{{if item.shareAmount != null}}{{item.shareAmount}}元
 				{{/if}}
 			</td>
             <td><p>{{item.shareTime}}</p></td>
@@ -205,7 +205,7 @@
 				{{/if}}
 			</td>
             <td>{{item.userId}}<p>{{item.treamId}}</p></td>
-            <td><p><a href="javascript:void(0)">{{item.caseCode}}</a></p><p>{{item.treamId}}{{item.district}}</p></td>
+            <td><p><a href="javascript:void(0)">{{item.CASE_CODE}}</a></p><p>{{item.propertyAddr}}</p></td>
             <td>{{item.SELLER}}</td>
             <td>{{item.BUYER}}</td>
             </tr>

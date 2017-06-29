@@ -34,5 +34,7 @@ public interface AwardBaseEntityMapper {
 
 	int countManagerTeam(String userId);
 
-	List<User> getUserByJobCodeAndOrgId(String jobCode, String orgId);
+	List<User> getUserByJobCodeAndOrgId(String jobCode, String orgId);	
+	
+	int deleteByCaseCodeAndPaid(AwardBaseEntity record);
 }
