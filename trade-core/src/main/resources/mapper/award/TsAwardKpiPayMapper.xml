@@ -251,7 +251,7 @@
 	SET  AWARD_STATUS = '1', AWARD_MONTH = #{belongMonth}
 	WHERE  
 		AWARD_STATUS != '1'
-	    AND CASE_CODE IN (	SELECT DISTINCT CASE_CODE  FROM sctrans.T_TS_AWARD_BASE WHERE DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0  AND IS_DELETE='0' );
+	    AND CASE_CODE IN (	SELECT DISTINCT CASE_CODE  FROM sctrans.T_TS_AWARD_BASE A WHERE DATEDIFF(mm,A.BELONG_MONTH,#{belongMonth}) = 0  AND A.IS_DELETED='0' );
 	
 	<!--本批次不符合发放计件奖金的案件-->
 	 UPDATE  sctrans.T_TS_AWARD_CASE_CENTAL    SET  AWARD_STATUS='2', AWARD_DESC = SUBSTRING(CONVERT(varchar(20), #{belongMonth}, 23),0,8)+'批次计件时满意度为空或者上下家电话无法接通'
