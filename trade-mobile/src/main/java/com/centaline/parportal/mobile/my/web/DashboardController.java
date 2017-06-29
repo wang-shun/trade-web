@@ -123,8 +123,6 @@ public class DashboardController {
         return jsonList;
     }
     
-/*    @RequestMapping(value="getTrafficLightInfo")
-    @ResponseBody*/
     public Object getTrafficLightInfo(){
         // 红 黄 商贷流失预警案件数灯
     	WorkSpace wk = buildWorkSpaceBean(null, null);
@@ -142,16 +140,21 @@ public class DashboardController {
     	JSONObject json = new JSONObject();
     	JSONObject data = new JSONObject();
     	
-    	data.put("goalPerf", 30000000.00);
-    	data.put("shareAmount", 600000.00);
-    	data.put("paidAmount", 247.00);
+    	data.put("goalPerf", 8000000.00);
+    	data.put("shareAmount", 4000000.00);
+    	data.put("paidAmount", 2000000.00);
     	
     	json.put("data", data);
-    	json.put("ServiceFee",10000);
-    	json.put("AssessmentFee", 1001200.00);
-    	json.put("FinanceFee", 10000);
-    	json.put("CardFee", 10000);
-    	json.put("MortgageFee", 10000);
+    	json.put("ServiceFee",1600000.00);
+    	json.put("ServiceFeeRate",0.4);
+    	json.put("AssessmentFee", 490000.00);
+    	json.put("AssessmentFeeRate", 0.12);
+    	json.put("FinanceFee", 1000000.00);
+    	json.put("FinanceFeeRate", 0.25);
+    	json.put("CardFee", 400000.00);
+    	json.put("CardFeeRate", 0.1);
+    	json.put("MortgageFee", 520000.00);
+    	json.put("MortgageFeeRate", 0.13);
     	
     	return json;
     }

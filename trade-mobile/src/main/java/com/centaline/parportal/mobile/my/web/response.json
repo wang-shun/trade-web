@@ -3,16 +3,21 @@
     "empId": "39AB6F35DD96436EAA4B93D8A6B12380",
     "content": {
         "mortgageInfo": {
-		  "ServiceFee" : 10000,
+		  "ServiceFee" : 1600000.00,
+		  "ServiceFee" : 0.4
 		  "data" : {
-		    "goalPerf" : 30000000.00,
-		    "shareAmount" : 600000.00,
-		    "paidAmount" : 247.00
+		    "goalPerf" : 8000000.00,
+		    "shareAmount" : 4000000.00,
+		    "paidAmount" : 2000000.00
 		  },
-		  "AssessmentFee" : 1001200.00,
-		  "FinanceFee" : 10000,
-		  "CardFee" : 10000,
-		  "MortgageFee" : 10000
+		  "AssessmentFee" : 490000.00,
+		  "AssessmentFeeRate" : 0.12,
+		  "FinanceFee" : 1000000.00,
+		  "FinanceFeeRate" : 0.25,
+		  "CardFee" : 400000.00,
+		  "CardFeeRate" : 0.1,
+		  "MortgageFee" : 520000.00,
+		  "MortgageFeeRate" : 0.13,
 		},
         "rateInfo": {
         	"convRate": "0.02",--e+转化率

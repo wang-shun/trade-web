@@ -645,6 +645,62 @@ function mortageRemoveCrossAreaCooperation(){
 	$("#mortage_corss_area").remove();
 }
 
+/**
+ * 变更交易助理
+ */
+function showChangeAssistantModal() {
+	//查询该组别下所有交易助理
+	var url = "/task/firstFollow/getAssistantInfo";
+	var ctx = $("#ctx").val();
+	url = ctx + url;
+	$.ajax({
+		cache : false,
+		async : true,
+		type : "POST",
+		url : url,
+		dataType : "json",
+		timeout : 10000,
+		success : function(data) {
+			changeAssistant(data);
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		}
+	});
+}
+
+//变更交易助理
+function changeAssistant(data) {
+	var assistantName = $("#assistantUserName").val();
+	var addHtml = '';
+	$.each(data.users, function(index, value){
+		addHtml+='<div class="row">';
+		addHtml += '<div class="col-md-6 wd-50" style="width:100%">';
+		addHtml += "<label class='col-md-3 control-label'>交易助理</label>";
+		addHtml += "<div class=\"col-md-6\">";
+		if(data.users !=""&&data.users != null){
+			addHtml += "<select class='form-control m-b' id='assistantChange' name='assistantId'>";
+			// 让修改后的复选框默认被选中
+			if(assistantName==value.userRealName){
+				addHtml += "<option value='"+value.userId+"' selected='selected'>"+value.userRealName+"</option>";
+			}else{
+				addHtml += "<option value='"+value.userId+"'>"+value.userRealName+"</option>";
+			}
+			addHtml += "</select>";
+			
+		}else{
+			
+		}
+		addHtml += "</div></div>";
+		addHtml += '</div>';
+		addHtml += '</div>';
+		
+	});
+	$("#change-assistant-data-show").html(addHtml);
+	$('.change-box').each(function() {
+		animationHover(this, 'pulse');
+	});
+	$('#change-assistant-form').modal("show");
+}
 
 
 /**
@@ -933,6 +989,40 @@ function submit_change(){
 	if(check()){
 		$('#changeCooprations').submit();
 	}
+}
+
+/**
+ * 变更助理
+ * 
+ */
+function changeAssistantInfo() {
+	window.wxc.confirm("您是否确认进行助理变更？",{"wxcOk":function(){
+		var assistantId = $("#assistantChange").val();
+		var pkid = $("#pkidAssistant").val();
+		var url = "/case/changeAssistant";
+		var ctx = $("#ctx").val();
+		url = ctx + url;
+		var params = '&assistantId=' + assistantId + '&pkid=' + pkid;
+		$.ajax({
+			cache : false,
+			async : true,
+			type : "POST",
+			url : url,
+			dataType : "json",
+			timeout : 10000,
+			data : params,
+			success : function(data) {
+				if(data.success){
+					window.wxc.success("变更成功");
+					location.reload();
+				}else{
+					window.wxc.error(data.message);
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+			}
+		});
+	}});
 }
 
 /**

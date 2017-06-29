@@ -1161,6 +1161,7 @@ public class ToSpvServiceImpl implements ToSpvService {
 		request.setAttribute("sellerMobil", sellerMobil.indexOf("/") == -1?sellerMobil:sellerMobil.substring(0, sellerMobil.indexOf("/")));
 		request.setAttribute("buyerName", buyer.indexOf("/") == -1?buyer:buyer.substring(0, buyer.indexOf("/")));
 		request.setAttribute("buyerMobil", buyerMobil.indexOf("/") == -1?buyerMobil:buyerMobil.substring(0, buyerMobil.indexOf("/")));
+		
 	}
 	
 	

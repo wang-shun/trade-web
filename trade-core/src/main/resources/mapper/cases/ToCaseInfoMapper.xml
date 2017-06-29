@@ -334,4 +334,12 @@
     	exec [sctrans].[P_SYN_NEW_CASE] @ctm_code = #{ctmCode}
     </update>
   
+  <select id="queryAssistantInfo" parameterType="java.lang.String" resultType="com.centaline.trans.cases.vo.CaseAssistantVO">
+  	select 
+  		u.ID userId,u.REAL_NAME userRealName,u.MOBILE userPhone 
+	from 
+		sctrans.SYS_USER_ORG_JOB uoj ,sctrans.SYS_ORG  o ,sctrans.SYS_JOB j,sctrans.SYS_USER u
+	where 
+		uoj.ORG_ID=o.ID and uoj.JOB_ID =j.ID and u.ID = uoj.USER_ID and j.JOB_CODE='TeamAssistant' and u.IS_DELETED = '0' and u.AVAILABLE = '1' and uoj.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+  </select>
 </mapper>

@@ -34,6 +34,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.cases.vo.CaseAssistantVO;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.entity.TsOrgRelation;
 import com.centaline.trans.common.enums.DepTypeEnum;
@@ -639,5 +640,17 @@ public class FirstFollowController {
 		loanlostApproveService.saveLoanlostApprove(toApproveRecord);
 		return toApproveRecord;
 	}
-
+	
+	@RequestMapping(value="getAssistantInfo")
+	@ResponseBody
+	public Map<String, Object> getAssistantInfo(HttpServletRequest request){
+		Map<String, Object> result = new HashMap<String, Object>();
+		SessionUser us = uamSessionService.getSessionUser();
+		String orgId = us.getServiceDepId();
+		List<CaseAssistantVO> userList = toCaseInfoService.getAssistantInfo(orgId);
+		if (userList != null && userList.size() > 0) {
+			result.put("users", userList);
+		}
+		return result;
+	}
 }

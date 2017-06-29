@@ -209,7 +209,7 @@
 	                </div>
 	                
 	                <div class="line alerted">
-	                     <div class="form_content">
+	                     <div class="form_content" style="width:260.16px;">
 	                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>商贷预警 </label>
 	                        <div class="controls">
 	                        	<label class="radio inline"> 
@@ -220,7 +220,12 @@
 								</label>
 	                        </div>
 	                    </div>
+	                    
+	                   
+		                <div class="form_content" id="xzzl" ></div>
+		                
 	                </div>
+	                
                 
 	                <div class="line warncon"  id="divContent" <c:if test="${empty bizWarnInfo }">style="display:none;"</c:if>>
 	                    <div class="form_content clearfix">
@@ -306,8 +311,8 @@
 						});
 						
 						TaskFirstFollowValidate.init("firstFollowform","");
+						initAssistant();
 						initMortageService();
-						
 						/*  字典对应表关系
 							合作项目
 							30004001	商业贷／组合贷
@@ -333,6 +338,7 @@
 						        $("#divContent").hide();
 						        $("#hzxm").hide();
 						        $(".hr").hide();
+						        $("#xzzl").hide();
 						    //有效案件
 							} else {
 								 $(".sourcebox").hide();
@@ -340,6 +346,7 @@
 						         $("#btnSave").show();
 						         $("#hzxm").show();
 						         $(".hr").show();
+						         $("#xzzl").show();
 						         
 						         var businessLoanWarn =  $('input[name=businessLoanWarn]:checked').val(); 
 						         
@@ -359,12 +366,14 @@
 					        $("#divContent").hide();
 					        $("#hzxm").hide();
 					        $(".hr").hide();
+					        $("#xzzl").hide();
 					    //有效案件
 						} else {
 							 $(".sourcebox").hide();
 					         $(".marinfo,.alerted").show();
 					         $("#hzxm").show();
 					         $(".hr").show();
+					         $("#xzzl").show();
 						}
 						
 						FollowPicList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}','${caseCode}');
@@ -393,6 +402,31 @@
 			            calendarWeeks: false,
 			            autoclose: true
 			        });
+					
+			        function initAssistant() {
+						var url = "${ctx}/task/firstFollow/getAssistantInfo";
+						$("#xzzl").html("");
+						$.ajax({
+							cache : false,
+							async : true,//false同步，true异步
+							type : "POST",
+							url : url,
+							dataType : "json",		
+							success : function(data) {
+								txt = "<label class='control-label sign_left_small' style='margin-right: 23px;'><font color='red' class='mr5' >*</font>交易助理 </label>";
+								txt += "<select class='select_control data_style' name='assistantId' style='width:180px;' id='chooseAsisstantUser" + index + "' onchange='resetColor();'>";
+								txt += "<option value=''>请选择</option>";
+								$.each(data.users, function(j, user){
+									txt += "<option value='"+user.userId+"'>"+user.userRealName+"</option>";	
+								});
+								txt += "</select>";
+								$("#xzzl").append(txt);
+							},
+							error : function(errors) {
+								window.wxc.error("数据出错。");
+							}
+						});
+					}
 					
 			        function initMortageService() {
 						var url = "${ctx}/task/firstFollow/queryMortageByServiceCode";
@@ -713,6 +747,12 @@
 								return false;
 							}
 							
+							if ($('select[name=assistantId]').val() == '') {
+								window.wxc.alert("交易助理为必选项!");
+								$('select[name=assistantId]').focus();
+								$('select[name=assistantId]').css("border-color","red");
+								return false;
+							}
 							
 							if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
 								window.wxc.alert("合作顾问未选择");
