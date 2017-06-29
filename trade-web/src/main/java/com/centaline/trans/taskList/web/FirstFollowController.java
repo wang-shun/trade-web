@@ -647,6 +647,7 @@ public class FirstFollowController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		SessionUser us = uamSessionService.getSessionUser();
 		String orgId = us.getServiceDepId();
+		
 		List<CaseAssistantVO> userList = toCaseInfoService.getAssistantInfo(orgId);
 		if (userList != null && userList.size() > 0) {
 			result.put("users", userList);

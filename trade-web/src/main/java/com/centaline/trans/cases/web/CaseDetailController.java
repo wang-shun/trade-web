@@ -787,11 +787,18 @@ public class CaseDetailController {
 			reVo.setCpMobile(consultUser.getMobile());
 		}
 		// 助理
-		User user = uamUserOrgService.getUserById(toCase.getAssistantId());
-		if (user != null ) {
-			reVo.setAsId(user.getId());
-			reVo.setAsName(user.getRealName());
-			reVo.setAsMobile(user.getMobile());
+//		User user = uamUserOrgService.getUserById(toCase.getAssistantId());
+//		if (user != null ) {
+//			reVo.setAsId(user.getId());
+//			reVo.setAsName(user.getRealName());
+//			reVo.setAsMobile(user.getMobile());
+//		}
+		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(), TransJobs.TJYZL.getCode());
+		if (asList != null && asList.size() > 0) {
+			User assistUser = asList.get(0);
+			reVo.setAsId(assistUser.getId());
+			reVo.setAsName(assistUser.getRealName());
+			reVo.setAsMobile(assistUser.getMobile());
 		}
 		// 上下家
 		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
