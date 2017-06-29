@@ -221,7 +221,7 @@
   
   
   <update id="updateTsAwardKpiPayStatusAndSyncManager" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >  
-  
+  	<!--注意sql的执行顺序不能变 前后有业务依赖关系-->
   	<!--本批次不符合发放计件奖金的案件-->
 	 UPDATE  sctrans.T_TS_AWARD_CASE_CENTAL    SET  AWARD_STATUS='2', AWARD_DESC = SUBSTRING(CONVERT(varchar(20), #{belongMonth}, 23),0,8)+'批次计件时满意度为空或者上下家电话无法接通'
 	 WHERE CASE_CODE IN (
