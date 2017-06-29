@@ -114,7 +114,7 @@
  		ctx : ctx,
  		queryId : 'queryReceivablePrefList',
  		colomns : ['sharesCode','shareAmount','subject',
- 		           'status', 'userId', 'caseCode', 'caseOrigin', 'district', 'treamId', 'SELLER', 'BUYER', 'shareTime'
+ 		           'status', 'userId', 'CASE_CODE', 'caseOrigin', 'propertyAddr', 'treamId', 'SELLER', 'BUYER', 'shareTime'
  		           ],
  		data:data
  		});

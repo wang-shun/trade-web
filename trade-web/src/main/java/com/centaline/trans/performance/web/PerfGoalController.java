@@ -22,6 +22,7 @@ import com.aist.uam.userorg.remote.vo.Org;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.performance.entity.Subject;
 import com.centaline.trans.performance.service.PerfGoalService;
+import com.centaline.trans.performance.service.ReceivablePerfService;
 import com.centaline.trans.performance.service.SubjectService;
 import com.centaline.trans.performance.vo.PerfGoalVo;
 
@@ -133,7 +134,6 @@ public class PerfGoalController {
 	        c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE));  
 	        String dayBefore = new SimpleDateFormat("yyyy-MM-dd").format(c  
 	                .getTime()); 
-			System.out.println(dayBefore);
 			return dayBefore;
 		} catch (ParseException e) {
 			e.printStackTrace();
