@@ -237,21 +237,34 @@ public class ToMortgageController {
 			entity.setFormCommLoan("1");
 			entity.setLastLoanBank(toMortgage.getLastLoanBank());
 			entity.setPartCode(toMortgage.getPartCode());
-			response.setContent(saveOnly+"");
-			if(!saveOnly){//已经选择为最终银行
-				if ("1".equals(entity.getIsTmpBank()) && entity.getTmpBankUpdateBy() == null) {
-					response.setMessage("临时银行未处理，请等待处理！");
+			if(toMortgage.getComAmount()!=null){
+				entity.setComAmount(toMortgage.getComAmount().multiply(new BigDecimal(10000d)));
+			}
+			if(toMortgage.getPrfAmount()!=null){
+				entity.setPrfAmount(toMortgage.getPrfAmount().multiply(new BigDecimal(10000d)));
+			}
+			if(toMortgage.getMortTotalAmount()!=null){
+				entity.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000d)));
+			}
+			
+			entity.setComDiscount(toMortgage.getComDiscount());
+			entity.setComYear(toMortgage.getComYear());
+			entity.setMortType(toMortgage.getMortType());
+
+			entity.setPrfYear(toMortgage.getPrfYear());
+			if ("1".equals(entity.getIsTmpBank()) && entity.getTmpBankUpdateBy() == null) {
+				response.setMessage("临时银行未处理，请等待处理！");
+				response.setSuccess(false);
+				return response;
+			}else if("0".equals(entity.getIsTmpBank())){
+				ToMortLoaner loaner = toMortLoanerService.findActiveToMortLoaner(toMortgage.getCaseCode(), toMortgage.getIsMainLoanBank());
+				if(loaner==null ||!loaner.getLoanerStatus().equals(LoanerStatusEnum.COMPLETED.getCode())){
+					response.setMessage("派单流程尚未审批通过，请等待处理！");
 					response.setSuccess(false);
 					return response;
-				}else if("0".equals(entity.getIsTmpBank())){
-					ToMortLoaner loaner = toMortLoanerService.findActiveToMortLoaner(toMortgage.getCaseCode(), toMortgage.getIsMainLoanBank());
-					if(loaner==null ||!loaner.getLoanerStatus().equals(LoanerStatusEnum.COMPLETED.getCode())){
-						response.setMessage("派单流程尚未审批通过，请等待处理！");
-						response.setSuccess(false);
-						return response;
-					}
 				}
 			}
+			
 
 			toMortgageService.saveToMortgage(entity);
 			/**

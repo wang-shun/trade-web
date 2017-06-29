@@ -504,6 +504,10 @@ function cancelAccept(tableId,pkid){
 
 //保存贷款信息
 function saveMortgage(form){
+	var lastBankSub = form.find("input[name='lastBankSub']:checked");
+	if(lastBankSub.val() != undefined){
+		form.find("[name=lastLoanBank]").val(f.find("[name='finOrgCode']").val());
+	}
 	form.find("input[name='custName']").val(form.find("select[name='custCode']").find("option:selected").text());
 		$.ajax({
 			url:ctx+"/task/saveMortgage",
@@ -558,7 +562,7 @@ function completeMortgage(form){
 	}
 	
 	// 审批时间校验
-	var apprDate=f.find("input[name='apprDate']").val();
+	var apprDate=form.find("input[name='apprDate']").val();
 	if($.isBlank(apprDate)) {
 		window.wxc.alert("审批时间为必选项！");
 		return;
@@ -566,7 +570,7 @@ function completeMortgage(form){
 
 	var lastLoanBank = null;
 	if(lastBankSub.val() != undefined){
-		f.find("[name=lastLoanBank]").val(f.find("[name='finOrgCode']").val());
+		form.find("[name=lastLoanBank]").val(form.find("[name='finOrgCode']").val());
 	}
 	$.ajax({
 		url:ctx+"/task/completeMortgage",
@@ -1077,15 +1081,13 @@ function renderMortgageComplete(f,data){
 		f.find("input[name='recLetterNo']").val($content.recLetterNo);
 		f.find("input[name='isTmpBank'][value='"+$content.isTmpBank+"']").prop("checked",true);
 		f.find("input[name='tmpBankStatus']").val($content.tmpBankStatus);
-		
+		f.find('[name=lastBankSub]').attr('checked', !!$content.lastLoanBank);
 		if($content.isTmpBank=='1'){
 			f.find('[name=loanerName]').removeProp('readonly');
-			f.find("input[name='recLetterNo'],[name=bank_type]").prop('disabled',true).css("background-color","#eee");
-			f.find("input[name='bank_type']").prop('disabled',true).css("background-color","#eee");
 		}else{
 			f.find('[name=loanerName]').prop('readonly',true);
-			f.find("input[name='recLetterNo'],[name=bank_type]").prop('disabled',false).css("background-color","");
 		}
+		f.find("input[name='recLetterNo'],[name=bank_type],[name=lendWay],[name=ifReportBeforeLend],[name=apprDate]").prop('disabled',true).css("background-color","#eee");
 		getGuestInfo(f.attr('id'),$content.custCode);
 		orderTmpBankChange($content.isTmpBank,f,$content.finOrgCode);
 	}else{
@@ -1139,7 +1141,7 @@ function renderOrderSign(f,data){
 		f.find("#lab_comAmount").text((($content.comAmount/10000)||'')+'万元');
 		f.find("#lab_comYear").text($content.comYear + '年');
 		f.find("#lab_prfAmount").text((($content.prfAmount/10000)||'')+'万元' );
-		f.find("#lab_prfYear").text($content.prfYear+'年');
+		f.find("#lab_prfYear").text(($content.prfYear||'')+'年');
 		f.find("#lab_loanerStatus").text($content.loanerStatus);
 		f.find("#lab_bankName").text($content.loanerOrgCodeStr);
 		f.find("#lab_loanerName").text($content.loanerName);
