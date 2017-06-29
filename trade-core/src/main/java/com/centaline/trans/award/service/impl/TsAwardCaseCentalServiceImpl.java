@@ -101,24 +101,24 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			
 			TsAwardCaseCental  caseInfo = tsAwardCaseCentalMapper.selectByCaseCode(tsAwardCaseCental);
 			if(null == caseInfo){
+				
 				tsAwardCaseCentalMapper.insertSelective(awardCaseCentalInfo);
-			}else{
-				throw new BusinessException("此案件已经过户审批通过，无法保存至计件奖金池！");
-			}			
+				
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("belongMonth", DateUtil.strToFullDate(format.format(calendar.getTime())));
+				map.put("caseCode", awardCaseCentalInfo.getCaseCode());
 
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("belongMonth", DateUtil.strToFullDate(format.format(calendar.getTime())));
-			map.put("caseCode", awardCaseCentalInfo.getCaseCode());
+				// 判断当前的案子是否是浦东的案件(过户审批时 后台组主办是否是浦东组织)
+				if ("8a8493d450af62ed0150c32bba961167".equals(awardCaseCentalInfo.getBackOrgId()) || "8a8493d5508aecbb0150936d1e3c55d2".equals(awardCaseCentalInfo.getBackOrgId())) {
+					map.put("isPuDongCaseFlag", "isPudongCase");
+				} else {
+					map.put("isPuDongCaseFlag", "notPudongCase");
+				}
 
-			// 判断当前的案子是否是浦东的案件(过户审批时 后台组主办是否是浦东组织)
-			if ("8a8493d450af62ed0150c32bba961167".equals(awardCaseCentalInfo.getBackOrgId()) || "8a8493d5508aecbb0150936d1e3c55d2".equals(awardCaseCentalInfo.getBackOrgId())) {
-				map.put("isPuDongCaseFlag", "isPudongCase");
-			} else {
-				map.put("isPuDongCaseFlag", "notPudongCase");
+				// 按是否浦东案子执行存储过程，计算环节占比
+				tsAwardCaseCentalMapper.callCreateAwardBaseInfo(map);
 			}
 
-			// 按是否浦东案子执行存储过程，计算环节占比
-			tsAwardCaseCentalMapper.callCreateAwardBaseInfo(map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new BusinessException("保存数据至计件奖金池数据异常！");
