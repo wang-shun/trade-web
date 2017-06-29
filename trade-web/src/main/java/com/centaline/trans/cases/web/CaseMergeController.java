@@ -46,7 +46,6 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
-import com.centaline.trans.spv.vo.SpvRecordedsVO;
 import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.utils.DateUtil;
 
@@ -322,7 +321,6 @@ public class CaseMergeController {
 			String sOut = "";
 	        StackTraceElement[] trace = e.getStackTrace();
 	        for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
-			/**response.setMessage(e.getMessage()+"异常："+sOut);**/
 			response.setMessage(e.getMessage());
 			e.printStackTrace();
 		}
@@ -346,7 +344,6 @@ public class CaseMergeController {
 			String sOut = "";
 			StackTraceElement[] trace = e.getStackTrace();
 			for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
-			/**response.setMessage(e.getMessage()+"异常："+sOut);**/
 			response.setMessage(e.getMessage());
 			e.printStackTrace();
 		}
@@ -370,7 +367,6 @@ public class CaseMergeController {
 			String sOut = "";
 			StackTraceElement[] trace = e.getStackTrace();
 			for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
-			/**response.setMessage(e.getMessage()+"异常："+sOut);**/
 			response.setMessage(e.getMessage());
 			e.printStackTrace();
 		}
@@ -533,7 +529,6 @@ public class CaseMergeController {
 			String sOut = "";
 			StackTraceElement[] trace = e.getStackTrace();
 			for (StackTraceElement s : trace) {  sOut += "\tat " + s + "\r\n"; }
-			/**response.setMessage(e.getMessage()+"异常："+sOut);**/
 			response.setMessage(e.getMessage());
 			e.printStackTrace();
 		}
