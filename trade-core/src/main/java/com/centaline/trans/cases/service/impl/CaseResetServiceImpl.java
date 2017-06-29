@@ -32,126 +32,113 @@ import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.utils.ConstantsUtil;
 
 @Service
-public class CaseResetServiceImpl implements CaseResetService
-{
-    @Autowired
-    private ToWorkFlowService workflowService;
-    @Autowired
-    private UnlocatedTaskService unlocatedTaskService;
-    @Autowired
-    private ToCaseService caseService;
-    @Autowired
-    private ToCaseInfoService caseInfoservice;
-    @Autowired
-    private TgServItemAndProcessorService tgServItemAndProcessorService;
-    @Autowired
-    private WorkFlowManager workflowManager;
+public class CaseResetServiceImpl implements CaseResetService {
+	@Autowired
+	private ToWorkFlowService workflowService;
+	@Autowired
+	private UnlocatedTaskService unlocatedTaskService;
+	@Autowired
+	private ToCaseService caseService;
+	@Autowired
+	private ToCaseInfoService caseInfoservice;
+	@Autowired
+	private TgServItemAndProcessorService tgServItemAndProcessorService;
+	@Autowired
+	private WorkFlowManager workflowManager;
 
-    @Autowired
-    private BizWarnInfoService bizWarnInfoService;
+	@Autowired
+	private BizWarnInfoService bizWarnInfoService;
 
-    @Autowired
-    private ToMortgageService toMortgageService;
+	@Autowired
+	private ToMortgageService toMortgageService;
 
-    @Autowired
-    private TransplanServiceFacade transplanServiceFacade;
-    @Autowired
-    private TsCaseEfficientMapper tsCaseEfficientMapper;
-    @Autowired
-    private ToCaseCommentMapper toCaseCommentMapper;
+	@Autowired
+	private TransplanServiceFacade transplanServiceFacade;
+	@Autowired
+	private TsCaseEfficientMapper tsCaseEfficientMapper;
+	@Autowired
+	private ToCaseCommentMapper toCaseCommentMapper;
 
-    @Override
-    public void reset(CaseResetVo vo)
-    {
-        // 更新Workflow表为终止状态
-        ToWorkFlow tf = new ToWorkFlow();
-        tf.setCaseCode(vo.getCaseCode());
-        List<ToWorkFlow> tfs = workflowService.queryActiveToWorkFlowByCaseCode(tf);
-        if (tfs != null)
-        {
-            for (ToWorkFlow toWorkFlow : tfs)
-            {
-                /*
-                 * @author:zhuody
-                 * 
-                 * @date:2017-04-14
-                 * 
-                 * @desc:流程重启、重置时，排除信贷员派单流程
-                 */
-                if (!"Loaner_Process".equals(toWorkFlow.getBusinessKey()))
-                {
-                    toWorkFlow.setStatus(WorkFlowStatus.TERMINATE.getCode());// 流程终止状态
-                    workflowService.updateByPrimaryKeySelective(toWorkFlow);
-                }
-            }
-        }
-        // 操作Case表和Caseinfo表
-        ToCase cas = caseService.findToCaseByCaseCode(vo.getCaseCode());
-        ToCaseInfo casInfo = caseInfoservice.findToCaseInfoByCaseCode(vo.getCaseCode());
+	@Override
+	public void reset(CaseResetVo vo) {
+		// 更新Workflow表为终止状态
+		ToWorkFlow tf = new ToWorkFlow();
+		tf.setCaseCode(vo.getCaseCode());
+		List<ToWorkFlow> tfs = workflowService.queryActiveToWorkFlowByCaseCode(tf);
+		if (tfs != null) {
+			for (ToWorkFlow toWorkFlow : tfs) {
+				/*
+				 * @author:zhuody
+				 * 
+				 * @date:2017-04-14
+				 * 
+				 * @desc:流程重启、重置时，排除信贷员派单流程
+				 */
+				if (!"Loaner_Process".equals(toWorkFlow.getBusinessKey())) {
+					toWorkFlow.setStatus(WorkFlowStatus.TERMINATE.getCode());// 流程终止状态
+					workflowService.updateByPrimaryKeySelective(toWorkFlow);
+				}
+			}
+		}
+		// 操作Case表和Caseinfo表
+		ToCase cas = caseService.findToCaseByCaseCode(vo.getCaseCode());
+		ToCaseInfo casInfo = caseInfoservice.findToCaseInfoByCaseCode(vo.getCaseCode());
 
-        cas.setLeadingProcessId(casInfo.getRequireProcessorId());
-        cas.setStatus(CaseStatusEnum.WFD.getCode());
-        cas.setCaseProperty(CasePropertyEnum.TPZT.getCode());
-        casInfo.setResDate(null);
-        casInfo.setIsResponsed("0");
+		cas.setLeadingProcessId(casInfo.getRequireProcessorId());
+		cas.setStatus(CaseStatusEnum.WFD.getCode());
+		cas.setCaseProperty(CasePropertyEnum.TPZT.getCode());
+		casInfo.setResDate(null);
+		casInfo.setIsResponsed("0");
 
-        caseInfoservice.updateByPrimaryKey(casInfo);
-        caseService.updateByPrimaryKey(cas);
-        // 将交易计划表的数据转移到交易计划历史表并删除交易计划表
-        transplanServiceFacade.processRestartOrResetOperate(vo.getCaseCode(), ConstantsUtil.PROCESS_RESET);
-        // 删除服务表
-        tgServItemAndProcessorService.deleteByPrimaryCaseCode(vo.getCaseCode());
-        // 无效掉表单数据
-        workflowService.inActiveForm(vo.getCaseCode());
-        // 删除流程引擎
-        if (tfs != null)
-        {
-            for (ToWorkFlow toWorkFlow : tfs)
-            {
-                /*
-                 * @author:zhuody
-                 * 
-                 * @date:2017-04-14
-                 * 
-                 * @desc:流程重启、重置时，排除信贷员派单流程
-                 */
-                if (!"Loaner_Process".equals(toWorkFlow.getBusinessKey()))
-                {
-                    try
-                    {
-                        unlocatedTaskService.deleteByInstCode(toWorkFlow.getInstCode());
-                        workflowManager.deleteProcess(toWorkFlow.getInstCode());
-                    }
-                    catch (WorkFlowException e)
-                    {
-                        if (!e.getMessage().contains("statusCode[404]"))
-                            throw e;
-                    }
-                }
-            }
-        }
+		caseInfoservice.updateByPrimaryKey(casInfo);
+		caseService.updateByPrimaryKey(cas);
+		// 将交易计划表的数据转移到交易计划历史表并删除交易计划表
+		transplanServiceFacade.processRestartOrResetOperate(vo.getCaseCode(), ConstantsUtil.PROCESS_RESET);
+		// 删除服务表
+		tgServItemAndProcessorService.deleteByPrimaryCaseCode(vo.getCaseCode());
+		// 无效掉表单数据
+		workflowService.inActiveForm(vo.getCaseCode());
+		// 删除流程引擎
+		if (tfs != null) {
+			for (ToWorkFlow toWorkFlow : tfs) {
+				/*
+				 * @author:zhuody
+				 * 
+				 * @date:2017-04-14
+				 * 
+				 * @desc:流程重启、重置时，排除信贷员派单流程
+				 */
+				if (!"Loaner_Process".equals(toWorkFlow.getBusinessKey())) {
+					try {
+						unlocatedTaskService.deleteByInstCode(toWorkFlow.getInstCode());
+						workflowManager.deleteProcess(toWorkFlow.getInstCode());
+					} catch (WorkFlowException e) {
+						if (!e.getMessage().contains("statusCode[404]"))
+							throw e;
+					}
+				}
+			}
+		}
 
-        bizWarnInfoService.deleteByCaseCode(vo.getCaseCode()); // 删除商贷流失预警信息
+		bizWarnInfoService.deleteByCaseCode(vo.getCaseCode()); // 删除商贷流失预警信息
 
-        // 流程重启更改掉案件临时银行的状态
-        ToMortgage toMortgage = toMortgageService.getMortgageByCaseCode(vo.getCaseCode());
-        if (toMortgage != null)
-        {
-            toMortgageService.updateTmpBankStatus(vo.getCaseCode());
-        }
+		// 流程重启更改掉案件临时银行的状态
+		ToMortgage toMortgage = toMortgageService.getMortgageByCaseCode(vo.getCaseCode());
+		if (toMortgage != null) {
+			toMortgageService.updateTmpBankStatus(vo.getCaseCode());
+		}
 
-        // 更新案件时效信息(更新首次更新、签约、过户审批、结案归档实际操作时间、延期次数初始化为空或0)
-        TsCaseEfficient tsCaseEfficient = tsCaseEfficientMapper.getCaseEffInfoByCasecode(vo.getCaseCode());
+		// 更新案件时效信息(更新首次更新、签约、过户审批、结案归档实际操作时间、延期次数初始化为空或0)
+		TsCaseEfficient tsCaseEfficient = tsCaseEfficientMapper.getCaseEffInfoByCasecode(vo.getCaseCode());
 
-        if (tsCaseEfficient != null)
-        {
-            tsCaseEfficientMapper.initTsCaseEffInfo(tsCaseEfficient);
-            // 同时删除延期原因
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("caseCode", vo.getCaseCode());
-            params.put("type", "CASE_EFF");
-            // 同时删除延期原因
-            toCaseCommentMapper.deleteByCasecodeAndType(params);
-        }
-    }
+		if (tsCaseEfficient != null) {
+			tsCaseEfficientMapper.initTsCaseEffInfo(tsCaseEfficient);
+			// 同时删除延期原因
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("caseCode", vo.getCaseCode());
+			params.put("type", "CASE_EFF");
+			// 同时删除延期原因
+			// toCaseCommentMapper.deleteByCasecodeAndType(params);
+		}
+	}
 }
