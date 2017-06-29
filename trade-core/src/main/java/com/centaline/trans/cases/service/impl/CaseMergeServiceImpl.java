@@ -39,6 +39,7 @@ import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.CaseOriginEnum;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.common.enums.GuestEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
@@ -826,8 +827,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		/**
 		 * 4.保存案件上下家/推荐人信息
 		 */
-		editWDToGuestInfo(caseMergeVo.getTgGuestInfoUp() ,tgGuestInfoList,caseCode,"30006001");
-		editWDToGuestInfo(caseMergeVo.getTgGuestInfoDown(), tgGuestInfoList ,caseCode,"30006002");
+		editWDToGuestInfo(caseMergeVo.getTgGuestInfoUp() ,tgGuestInfoList,caseCode,GuestEnum.SELLER.getCode());
+		editWDToGuestInfo(caseMergeVo.getTgGuestInfoDown(), tgGuestInfoList ,caseCode,GuestEnum.BUYER.getCode());
 		
 		return caseCode;			
 			
