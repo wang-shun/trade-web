@@ -52,6 +52,8 @@ $(document).ready(function() {
 		          success: function(data){
 	    	          $.unblockUI();   	 
 				      if(data.success == true){	
+				    	 //提交成功时，可能剔除不符合条件的案件，故从新加载页面信息
+				    	 New_src(5);
 				    	 window.wxc.alert("最终绩效奖金数据提交成功！");
 				      }else{	
 				    	 window.wxc.alert("最终绩效奖金数据提交有误，请稍后再试！");
