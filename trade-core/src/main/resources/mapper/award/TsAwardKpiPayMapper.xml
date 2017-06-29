@@ -220,7 +220,34 @@
   </update>
   
   
-  <update id="updateTsAwardKpiPayStatusAndSyncManager" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >
+  <update id="updateTsAwardKpiPayStatusAndSyncManager" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >  
+  
+  	<!--本批次不符合发放计件奖金的案件-->
+	 UPDATE  sctrans.T_TS_AWARD_CASE_CENTAL    SET  AWARD_STATUS='2', AWARD_DESC = SUBSTRING(CONVERT(varchar(20), #{belongMonth}, 23),0,8)+'批次计件时满意度为空或者上下家电话无法接通'
+	 WHERE CASE_CODE IN (
+	 		SELECT 
+				DISTINCT C.CASE_CODE
+			FROM sctrans.T_TS_AWARD_CASE_CENTAL as c 
+			left join sctrans.T_CS_CASE_SATISFACTION as s on c.CASE_CODE = s.CASE_CODE
+			left join sctrans.T_TS_AWARD_BASE as a on s.CASE_CODE = a.CASE_CODE
+			where    a.is_deleted='0' 
+			and c.GUOHU_APPROVE_TIME &lt; #{createTime}
+			and s.STATUS != '7' 
+			and a.SRV_CODE IN ('TransSign','Guohu','PSFSign','ComLoanProcess')			
+			AND  C.AWARD_STATUS != '1' 
+			AND DATEDIFF(mm,A.BELONG_MONTH,#{belongMonth})=0				
+	) 	
+	AND AWARD_STATUS != '1' ;
+  
+  	<!--本批次不符合发放计件奖金的案件,在基础表里面自动往后退一个月,下个批次在计算-->
+	 UPDATE  sctrans.T_TS_AWARD_BASE SET BELONG_MONTH = DATEADD(MM,1,#{belongMonth})
+	 WHERE IS_DELETED = '0'  AND DATEDIFF(mm,BELONG_MONTH,#{belongMonth})=0
+	       AND CASE_CODE IN (
+				SELECT  CASE_CODE  FROM sctrans.T_TS_AWARD_CASE_CENTAL  WHERE AWARD_STATUS = '2'  AND GUOHU_APPROVE_TIME &lt; #{createTime}
+	);
+	
+	
+  
     update sctrans.T_TS_AWARD_KPI_PAY
     set
       STATUS = #{status,jdbcType=VARCHAR}
@@ -253,29 +280,9 @@
 		AWARD_STATUS != '1'
 	    AND CASE_CODE IN (	SELECT DISTINCT CASE_CODE  FROM sctrans.T_TS_AWARD_BASE  WHERE DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0  AND IS_DELETED='0' );
 	
-	<!--本批次不符合发放计件奖金的案件-->
-	 UPDATE  sctrans.T_TS_AWARD_CASE_CENTAL    SET  AWARD_STATUS='2', AWARD_DESC = SUBSTRING(CONVERT(varchar(20), #{belongMonth}, 23),0,8)+'批次计件时满意度为空或者上下家电话无法接通'
-	 WHERE CASE_CODE IN (
-	 		SELECT 
-				DISTINCT C.CASE_CODE
-			FROM sctrans.T_TS_AWARD_CASE_CENTAL as c 
-			left join sctrans.T_CS_CASE_SATISFACTION as s on c.CASE_CODE = s.CASE_CODE
-			left join sctrans.T_TS_AWARD_BASE as a on s.CASE_CODE = a.CASE_CODE
-			where    a.is_deleted='0' 
-			and c.GUOHU_APPROVE_TIME &lt; #{createTime}
-			and s.STATUS != '7' 
-			and a.SRV_CODE IN ('TransSign','Guohu','PSFSign','ComLoanProcess')			
-			AND  C.AWARD_STATUS != '1' 
-			AND DATEDIFF(mm,A.BELONG_MONTH,#{belongMonth})=0				
-	) 	
-	AND AWARD_STATUS != '1' ;
+
 	
 	
-	<!--本批次不符合发放计件奖金的案件,在基础表里面自动往后退一个月,下个批次在计算-->
-	 UPDATE  sctrans.T_TS_AWARD_BASE SET BELONG_MONTH = DATEADD(MM,1,#{belongMonth})
-	 WHERE IS_DELETED = '0'  AND DATEDIFF(mm,BELONG_MONTH,#{belongMonth})=0
-	       AND CASE_CODE IN (
-				SELECT  CASE_CODE  FROM sctrans.T_TS_AWARD_CASE_CENTAL  WHERE AWARD_STATUS = '2'  AND GUOHU_APPROVE_TIME &lt; #{createTime}
-	);
+
   </update>
 </mapper>
