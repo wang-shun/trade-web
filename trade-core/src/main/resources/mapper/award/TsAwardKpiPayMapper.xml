@@ -221,7 +221,7 @@
   
   
   <update id="updateTsAwardKpiPayStatusAndSyncManager" parameterType="com.centaline.trans.award.entity.TsAwardKpiPay" >  
-  
+  	<!--注意sql的执行顺序不能变 前后有业务依赖关系-->
   	<!--本批次不符合发放计件奖金的案件-->
 	 UPDATE  sctrans.T_TS_AWARD_CASE_CENTAL    SET  AWARD_STATUS='2', AWARD_DESC = SUBSTRING(CONVERT(varchar(20), #{belongMonth}, 23),0,8)+'批次计件时满意度为空或者上下家电话无法接通'
 	 WHERE CASE_CODE IN (
@@ -246,8 +246,21 @@
 				SELECT  CASE_CODE  FROM sctrans.T_TS_AWARD_CASE_CENTAL  WHERE AWARD_STATUS = '2'  AND GUOHU_APPROVE_TIME &lt; #{createTime}
 	);
 	
-	<!-- 删除已经计算的奖金信息 T_TS_AWARD_KPI_PAY_DETAIL    TODO-->
-  
+	<!-- 删除已经计算的奖金信息 T_TS_AWARD_KPI_PAY_DETAIL   -->
+    DELETE  FROM   sctrans.T_TS_AWARD_KPI_PAY_DETAIL
+    WHERE   DATEDIFF(mm,BELONG_MONTH,#{belongMonth})=0
+    		 AND CASE_CODE IN (
+				SELECT  CASE_CODE  FROM sctrans.T_TS_AWARD_CASE_CENTAL  WHERE AWARD_STATUS = '2'  AND GUOHU_APPROVE_TIME &lt; #{createTime}
+	); 
+    
+    
+    UPDATE  sctrans.T_TS_AWARD_CASE_CENTAL  
+	SET  AWARD_STATUS = '1', AWARD_MONTH = #{belongMonth}
+	WHERE  
+		AWARD_STATUS != '1'
+	    AND CASE_CODE IN (	SELECT DISTINCT CASE_CODE  FROM sctrans.T_TS_AWARD_BASE  WHERE DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0  AND IS_DELETED='0' );
+	
+    
     update sctrans.T_TS_AWARD_KPI_PAY
     set
       STATUS = #{status,jdbcType=VARCHAR}
@@ -274,14 +287,7 @@
 	<!-- 	UPDATE  sctrans.T_TS_AWARD_CASE_CENTAL  SET  AWARD_STATUS = '1' WHERE DATEDIFF(mm,AWARD_MONTH,#{belongMonth}) = 0  AND AWARD_STATUS = '0'; -->	
 	<!-- 	UPDATE  sctrans.T_TS_AWARD_CASE_CENTAL  SET  AWARD_STATUS = '1',AWARD_MONTH = #{belongMonth}  WHERE  AWARD_STATUS != '1'; -->
 	
-	UPDATE  sctrans.T_TS_AWARD_CASE_CENTAL  
-	SET  AWARD_STATUS = '1', AWARD_MONTH = #{belongMonth}
-	WHERE  
-		AWARD_STATUS != '1'
-	    AND CASE_CODE IN (	SELECT DISTINCT CASE_CODE  FROM sctrans.T_TS_AWARD_BASE  WHERE DATEDIFF(mm,BELONG_MONTH,#{belongMonth}) = 0  AND IS_DELETED='0' );
-	
 
-	
 	
 
   </update>
