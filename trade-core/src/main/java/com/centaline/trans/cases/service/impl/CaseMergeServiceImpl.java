@@ -249,7 +249,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 					tgGuestInfo.setCaseCode(caseCode);
 					tgGuestInfo.setGuestName(nameList.get(i));
 					tgGuestInfo.setGuestPhone(phoneList.get(i));
-					tgGuestInfo.setTransPosition("30006001");
+					tgGuestInfo.setTransPosition(GuestEnum.SELLER.getCode());
 					k = tgGuestInfoService.insertSelective(tgGuestInfo);
 				}
 			}else if(flag==2){
@@ -257,7 +257,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 					tgGuestInfo.setCaseCode(caseCode);
 					tgGuestInfo.setGuestName(nameList.get(i));
 					tgGuestInfo.setGuestPhone(phoneList.get(i));
-					tgGuestInfo.setTransPosition("30006002");
+					tgGuestInfo.setTransPosition(GuestEnum.BUYER.getCode());
 					k = tgGuestInfoService.insertSelective(tgGuestInfo);
 				}
 			}
@@ -329,8 +329,8 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		/**
 		 * 4.保存案件上下家/推荐人信息
 		 */
-		saveAddWDIntoGuestInfo(caseMergeVo.getTgGuestInfoUp(),caseCode,"30006001");
-		saveAddWDIntoGuestInfo(caseMergeVo.getTgGuestInfoDown(),caseCode,"30006002");
+		saveAddWDIntoGuestInfo(caseMergeVo.getTgGuestInfoUp(),caseCode,GuestEnum.SELLER.getCode());
+		saveAddWDIntoGuestInfo(caseMergeVo.getTgGuestInfoDown(),caseCode,GuestEnum.BUYER.getCode());
 		/**
 		 * 5.保存案件附件信息
 		 */
@@ -770,10 +770,10 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		
 		for(TgGuestInfo tgGuestInfo:tgGuestInfoList){
 			
-			if(StringUtils.equals("30006001", tgGuestInfo.getTransPosition())){
+			if(StringUtils.equals(GuestEnum.SELLER.getCode(), tgGuestInfo.getTransPosition())){
 				tgGuestInfoUp.add(tgGuestInfo);
 			}
-			if(StringUtils.equals("30006002", tgGuestInfo.getTransPosition())){
+			if(StringUtils.equals(GuestEnum.BUYER.getCode(), tgGuestInfo.getTransPosition())){
 				tgGuestInfoDown.add(tgGuestInfo);
 			}
 		}
