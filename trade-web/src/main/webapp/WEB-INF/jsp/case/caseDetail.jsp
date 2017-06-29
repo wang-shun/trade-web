@@ -415,7 +415,7 @@
 									
 									<!-- 已经过户或者已经领证的案件限制变更交易助理 -->
 									<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' }">
-									<shiro:hasPermission name="TRADE.CASE.COWORKCHANGE">
+									<shiro:hasPermission name="TRADE.CASE.ASSISTANTCHANGE">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="javascript:showChangeAssistantModal()">变更交易助理</a>
 									</shiro:hasPermission>
