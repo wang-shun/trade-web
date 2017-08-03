@@ -2,7 +2,7 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="test-http://www.activiti.org/processdef">
   <message id="StartMortgageSelectMsg" name="StartMortgageSelectMsg"></message>
   <message id="MortgageFinishMsg" name="MortgageFinishMsg"></message>
-  <process id="operation_process" isExecutable="true">
+  <process id="operation_process" name="交易流程" isExecutable="true">
     <startEvent id="sid-4F567B8D-CE60-482E-865B-44304AC514A1"></startEvent>
     <userTask id="FirstFollow" name="首次跟进" activiti:assignee="${caseOwner}" activiti:formKey="/task/firstFollow/process">
       <documentation>进行标记（无效则填写原因）</documentation>

@@ -8,8 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 
-<script type="text/javascript" src="<c:url value='/static/js/jquery-1.8.3.min.js' />"></script>
-<script type="text/javascript" src="<c:url value='/static/js/jquery.json.min.js' />"></script>
+<script type="text/javascript" src="<c:url value='/js/jquery-1.8.3.min.js' />"></script>
+<script type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
 		    
 		 <script type="text/javascript">
 			function submit(){
@@ -45,19 +45,19 @@
 			    		value:'BHL-5-201512-0005'
 			    	},{
 			    		name:'agent_id',
-			    		value:'tangmin6'
+			    		value:'sunsw'
 			    	},{
 			    		name:'agent_name',
-			    		value:'唐敏'
+			    		value:'孙淑巍'
 			    	},{
 			    		name:'guestInfoList',
 			    		value:"[{'guestName':'王志敏','guestPhone':'18051106816','transPosition':'0'},{'guestCode':'','guestName':'马鹤程','guestPhone':'13817562767','transPosition':'1'}]"
 			    	},{
 			    		name:'grp_code',
-			    		value:'033I666'
+			    		value:'015H918'
 			    	},{
 			    		name:'grp_name',
-			    		value:'ACBHLE.地杰国际城二店五组全体'
+			    		value:'润千秋分行B组'
 			    	},{
 			    		name:'property_address',
 			    		value:'上海浦东一区御桥片区御桥路2066弄8号0402室'
@@ -67,10 +67,12 @@
 			    	}],
 			        success: function(data) {
 			        	console.info(data);
-			        	window.wxc.success(data.status);
+			        	alert(data.status);
+			        	//window.wxc.success(data.status);
 			        },
 			        error: function(errors) {
-			        	window.wxc.error("信息修改失败，请刷新后再次尝试！");
+			        	alert("信息修改失败，请刷新后再次尝试！");
+			        	//window.wxc.error("信息修改失败，请刷新后再次尝试！");
 			        }
 				});
 			}
