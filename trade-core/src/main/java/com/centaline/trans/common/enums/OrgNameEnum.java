@@ -7,9 +7,9 @@ package com.centaline.trans.common.enums;
  * @author <a href="zhaoqianjava@foxmail.com">LionCredo</a>
  */
 public enum OrgNameEnum {
-	T_FATHER_ORG("033G970", "誉萃投资"),
+	//TODO 配置投资业务组别编码
+	T_FATHER_ORG("PTEST", "誉萃投资"),
 	T_PUDONGTRADEONE_ORG("033K716", "浦东交易1组");
-    
     private String name;
 
     private String code;

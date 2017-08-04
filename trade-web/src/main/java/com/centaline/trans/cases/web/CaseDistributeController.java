@@ -34,7 +34,6 @@ import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.TsCaseEfficientService;
 import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
-import com.centaline.trans.cases.vo.ViHouseDelBaseVo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.OrgNameEnum;
@@ -239,7 +238,25 @@ public class CaseDistributeController
         res.removeAll(noResponseTeamList);
         return res;
     }
-
+    
+    /**
+     * TODO by: yinchao
+     * 用于组别属性配置
+     * 获取组别信息
+     * 
+     * @return
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/getAllTeamListToConfig")
+    @ResponseBody
+    public List<Org> getAllTeamListtoConfig(HttpServletRequest request) throws ParseException
+    {
+        List<Org> res = new ArrayList<Org>();
+        Org parentOrg = uamUserOrgService.getOrgByCode(OrgNameEnum.T_FATHER_ORG.getCode());
+        res = uamUserOrgService.getOrgByDepHierarchy(parentOrg.getId(), DepTypeEnum.TYCTEAM.getCode());
+        return res;
+    }
+    
     /**
      * 机构查询
      * 
@@ -299,19 +316,20 @@ public class CaseDistributeController
             // 当前案件属于的区域
             boolean isExistNoPatter = true;
             String districtCode = "";
-            ViHouseDelBaseVo housevo = toPropertyInfoService.getHouseBaseByHoudelCode(delCode);
-            if (housevo != null && StringUtils.isNotBlank(housevo.getDISTRICT_CODE()))
-            {
-                districtCode = housevo.getDISTRICT_CODE().trim();
-                for (TsPrResearchMap tsPrResearchMap : tsPrResearchMapList)
-                {
-                    if (districtCode.equalsIgnoreCase(tsPrResearchMap.getDistCode().trim()))
-                    {
-                        isExistNoPatter = false;
-                        continue;
-                    }
-                }
-            }
+            //TODO 需要获取房源信息 判定房源的所属区域 by : yinchao
+//            ViHouseDelBaseVo housevo = toPropertyInfoService.getHouseBaseByHoudelCode(delCode);
+//            if (housevo != null && StringUtils.isNotBlank(housevo.getDISTRICT_CODE()))
+//            {
+//                districtCode = housevo.getDISTRICT_CODE().trim();
+//                for (TsPrResearchMap tsPrResearchMap : tsPrResearchMapList)
+//                {
+//                    if (districtCode.equalsIgnoreCase(tsPrResearchMap.getDistCode().trim()))
+//                    {
+//                        isExistNoPatter = false;
+//                        continue;
+//                    }
+//                }
+//            }
 
             if (isExistNoPatter)
             {
@@ -357,7 +375,9 @@ public class CaseDistributeController
                 }
 
                 toCaseService.caseAssign(caseCode, userId, sessionUser);
-                toCaseService.sendcaseAssignMsg(caseCode, userId, sessionUser);
+                
+                //TODO MQ未配置 获取先注释掉
+//                toCaseService.sendcaseAssignMsg(caseCode, userId, sessionUser);
 
                 boolean isExist = tsCaseEfficientService.isExistByCaseCode(caseCode);
 
