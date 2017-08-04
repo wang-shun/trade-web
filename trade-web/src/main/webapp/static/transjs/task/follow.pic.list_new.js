@@ -1,6 +1,8 @@
 var FollowPicList = (function(){    
     return {    
-       init : function(ctx,url,gridTableId,gridPagerId,ctmCode,caseCode){    
+       init : function(ctx,url,gridTableId,gridPagerId,ctmCode,caseCode){ 
+    	   //TODO 由于附件列表不从CTM获取 所以 该处先注释
+    	   return;
     	 //jqGrid 初始化
     		$("#"+gridTableId).jqGrid({
     			url : ctx+url,
