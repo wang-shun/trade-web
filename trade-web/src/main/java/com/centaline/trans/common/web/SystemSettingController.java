@@ -1,11 +1,8 @@
 package com.centaline.trans.common.web;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -125,8 +122,9 @@ public class SystemSettingController {
 		}else{
 			tsTeamPropertyService.updateByPrimaryKeySelective(tsTeamProperty);
 		}
-		
-		return "system/teamProperty_list";
+		//TODO 修改为重定向 防止刷新提交 by : yinchao 2017-8-4
+		return "redirect:/setting/teamProperty";
+//		return "system/teamProperty_list";
 	}
 	/**
 	 * 

@@ -310,6 +310,10 @@ function saveTeamPropertyItem(){
 
 	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 	$(".blockOverlay").css({'z-index':'9998'});
+	
+	//TODO 添加teamName 防止维护前后台关系显示为null,添加隐藏域 因为在url中提交可能会为乱码 by yinchao 2017-8-4
+	$('#yuTeamName').val($('#yuTeamCode').find('option:selected').text());
+	
 	$('#editForm').attr('action', url);
 	$("#editForm").submit();
 }
