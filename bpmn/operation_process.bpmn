@@ -492,7 +492,7 @@
         <omgdi:waypoint x="81.0" y="177.0"></omgdi:waypoint>
         <omgdi:waypoint x="169.0" y="177.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="16.0" width="64.0" x="81.0" y="177.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="81.0" y="177.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="sid-13B29F98-48C5-4348-A85E-A3ABFA4E2F2B" id="BPMNEdge_sid-13B29F98-48C5-4348-A85E-A3ABFA4E2F2B">
