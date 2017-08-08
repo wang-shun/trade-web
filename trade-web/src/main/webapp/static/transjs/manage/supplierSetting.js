@@ -60,10 +60,30 @@
             
         });
     }
+   $("#finOrgCode").blur(
+		 function(){
+			 $.ajax({
+					url:ctx+"/setting/getFinOrgByFinCode",
+					method:"post",
+					dataType:"json",
+					data:{'finOrgCode':$("#finOrgCode").val()},
+					success:function(data){
+						if(data.success){
+							$("#finOrgName").val(data.content);
+						}else{
+							alert(data.message);
+						}
+						
+					}
+				});  
+			   
+		}
+   ); 
+   
+    
     function saveSup(){
-    	
     	if(checkform()){
-        	$.ajax({
+    		$.ajax({
         		url:ctx+"/setting/saveTsSup",
         		method:"post",
         		dataType:"json",
@@ -78,8 +98,13 @@
         			$("#pkid").val("");
         		}
         	});
+    		
+        	
     	}
     }
+    
+
+    
     function delSup(){
     	$.ajax({
     		url:ctx+"/setting/delTsSup",

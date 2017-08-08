@@ -24,4 +24,6 @@ public interface TsSupMapper {
     List<TsSup> findTsSupByFinOrgCode(@Param("finOrgCode") String finOrgCode);
     
     TsSup findSupByFinOrgCodeAndSupCat(@Param("finOrgCode") String finOrgCode,@Param("supCat") String supCat,@Param("pkid") Long pkid);
+
+	List<String> getFinOrgByFinCode(String finOrgCode);
 }
