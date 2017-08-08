@@ -86,16 +86,24 @@ public class TsAwardCaseCentalServiceImpl implements TsAwardCaseCentalService {
 			// 取前台组交易顾问信息
 			tsp.setSrvCode("3000401001");
 			tgServItemAndProcessor = getTgServItemAndProcessorInfo(tsp);
-			// 设置计件奖金和前台组相关的信息
-			awardCaseCentalInfo = setAwardCaseCentalInfo(tsAwardCaseCental, tgServItemAndProcessor, "Front");
-
+			if(tgServItemAndProcessor!=null){
+				awardCaseCentalInfo=setAwardCaseCentalInfo(tsAwardCaseCental, tgServItemAndProcessor, "Front");
+			}
+			// 设置计件奖金和前台组相关的信息(原代码)
+			//awardCaseCentalInfo = setAwardCaseCentalInfo(tsAwardCaseCental, tgServItemAndProcessor, "Front");
 			// 取后台组交易顾问信息
 			tsp.setSrvCode("3000401002");
 			tgServItemAndProcessor = getTgServItemAndProcessorInfo(tsp);
-			// 设置计件奖金和后台组相关的信息
-			awardCaseCentalInfo = setAwardCaseCentalInfo(awardCaseCentalInfo, tgServItemAndProcessor, "Back");
+			//由于并不一定有交易贷款信息，可能为全款买房
+			if(tgServItemAndProcessor!=null){
+				awardCaseCentalInfo=setAwardCaseCentalInfo(tsAwardCaseCental, tgServItemAndProcessor, "Back");
+			}
+			
+			/*// 设置计件奖金和后台组相关的信息（原代码）
+			awardCaseCentalInfo = setAwardCaseCentalInfo(awardCaseCentalInfo, tgServItemAndProcessor, "Back");*/
 
 			Date date = awardCaseCentalInfo.getGuohuApproveTime();
+			
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(date);// 设置当前时间
 			calendar.set(Calendar.DAY_OF_MONTH, 1);// 设置当月1号
