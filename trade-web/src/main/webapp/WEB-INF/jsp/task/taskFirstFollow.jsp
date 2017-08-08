@@ -312,7 +312,7 @@
 						
 						TaskFirstFollowValidate.init("firstFollowform","");
 						/*initAssistant();*/
-						// TODO 不初始化跨区合作信息 防止无法提交 initMortageService();
+						initMortageService();
 						/*  字典对应表关系
 							合作项目
 							30004001	商业贷／组合贷
