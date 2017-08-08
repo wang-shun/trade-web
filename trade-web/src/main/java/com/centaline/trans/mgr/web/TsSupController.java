@@ -5,6 +5,9 @@
 package com.centaline.trans.mgr.web;
 
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,8 @@ import com.centaline.trans.mgr.entity.TsSup;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.mgr.service.TsSupService;
 import com.centaline.trans.mgr.vo.TsSupVo;
+
+
 
 
 @Controller
@@ -42,6 +47,30 @@ public class TsSupController {
     	return "manage/supplierSetting";
     }
     
+    /**
+     * 根据供应闪编号查出供应商名称
+     * @return
+     */
+    @RequestMapping(value="getFinOrgByFinCode")
+    @ResponseBody
+    public AjaxResponse<String> getFinOrgByFinCode(String finOrgCode){
+    	AjaxResponse<String> response = new AjaxResponse<String>();
+    	if(StringUtils.isBlank(finOrgCode)){
+    		response.setSuccess(false);
+    		response.setMessage("供应商编码不能为空！");
+    		return response;
+    	}
+    	String finOrgName= tsSupService.getFinOrgByFinCode(finOrgCode);
+    	if(StringUtils.isEmpty(finOrgName)){
+    		response.setSuccess(false);
+    		response.setMessage("供应名称不存在！");
+    		return response;
+    	}else{
+    		response.setSuccess(true);
+    		response.setContent(finOrgName);
+    		return response;
+    	}
+    }
     /**
      * 保存供应商信息
      * @param tsSupVo

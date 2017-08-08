@@ -79,14 +79,7 @@
 										</div>
 									</div>
 
-									<div class="form-group">
-										<label class="col-sm-3 control-label">供应商名称<span class="star">*</span>：</label>
-										<div class="col-sm-8">
-											<input type="text" name="finOrgName"
-												id="finOrgName" placeholder=""
-												class="form-control" >
-										</div>
-									</div>
+								 	
 									<div class="form-group">
 										<label class="col-sm-3 control-label">供应商编号<span class="star">*</span>：</label>
 										<div class="col-sm-8" >
@@ -95,6 +88,14 @@
 												class="form-control" >	
 										</div>
 									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">供应商名称<span class="star">*</span>：</label>
+										<div class="col-sm-8">
+											<input type="text" name="finOrgName" readonly="readonly"
+												id="finOrgName" placeholder=""
+												class="form-control" >
+										</div>
+									</div> 
 									<div class="form-group">
 										<label class="col-sm-3 control-label">联系人：</label>
 										<div class="col-sm-8">
