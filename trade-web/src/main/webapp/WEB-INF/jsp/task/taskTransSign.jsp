@@ -874,10 +874,10 @@
 			if (!checkForm()) {
 				return false;
 			}
-
+			/**
 			if (!$("#transSignForm").valid()) {
 				return false;
-			}
+			} */
 			var jsonData = $("#transSignForm").serializeArray();
 
 			deleteAndModify();

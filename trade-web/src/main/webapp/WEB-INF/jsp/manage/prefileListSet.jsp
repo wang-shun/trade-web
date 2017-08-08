@@ -44,7 +44,6 @@
 </style>
 </head>
 <body>
-
 	<div class="row">
 		<div class="ibox-title">
 			<h5>备件列表</h5>
@@ -78,12 +77,6 @@
 		</div>
 	</div>
 	<content tag="local_script"> 
-	<!-- jqGrid -->
-	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
-	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
-	<script src="<c:url value='/transjs/task/loanlostApprove.js' />"></script> 
-	<script src="<c:url value='/transjs/task/showAttachment.js' />"></script> 
-	
 	<script>
 		$(function(){
 			$("#partCode").change(function(){
