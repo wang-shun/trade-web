@@ -4,7 +4,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.centaline.trans.utils.UiImproveUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +24,7 @@ import com.centaline.trans.task.service.MortgageSelectService;
 import com.centaline.trans.task.vo.MortgageSelecteVo;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
+import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping(value = "/task/mortgageSelect")
@@ -66,9 +66,10 @@ public class MortgageSelectController {
 	public AjaxResponse<?> loanRequirementChange(MortgageSelecteVo vo) {	
 		//判断是否完成'贷款需求选择'待办任务
 		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
-		if(workF!=null &&"operation_process:34:620096".compareTo(workF.getProcessDefinitionId())<=0){//在这个版本之前的流程是没有贷款需求选择的 要变更贷款只能做流程重启  之后的版本都可以做，但operation_process:40:645454之前的版本是子流程的方式
+		//TODO 取消版本校验 &&"operation_process:34:620096".compareTo(workF.getProcessDefinitionId())<=0  by:yinchao 2017-8-8
+		if(workF!=null ){//在这个版本之前的流程是没有贷款需求选择的 要变更贷款只能做流程重启  之后的版本都可以做，但operation_process:40:645454之前的版本是子流程的方式
 			vo.setProcessDefinitionId(workF.getProcessDefinitionId());
-			if(!"operation_process:40:645454".equals(workF.getProcessDefinitionId())){//该版本没有贷款需求选择的环节，这个版本不做这个校验
+//			if(!"operation_process:40:645454".equals(workF.getProcessDefinitionId())){//该版本没有贷款需求选择的环节，这个版本不做这个校验
 				TaskHistoricQuery query =new TaskHistoricQuery();
 				query.setFinished(true);
 				query.setTaskDefinitionKey(ToAttachmentEnum.MORTGAGESELECT.getCode());
@@ -78,7 +79,7 @@ public class MortgageSelectController {
 					//请先处理贷款需求选择任务
 					return AjaxResponse.fail("请先处理贷款需求选择任务！");
 				}
-			}
+//			}
 		}else{
 			return AjaxResponse.fail("当前流程版本下不允许变更贷款需求！");
 		}
