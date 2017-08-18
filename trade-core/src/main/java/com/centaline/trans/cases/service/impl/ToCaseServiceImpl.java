@@ -733,7 +733,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseInfo.setAgentCode(ctmtoCaseInfo.getAgentCode());
 		toCaseInfo.setAgentName(ctmtoCaseInfo.getAgentName());
 		toCaseInfo.setAgentPhone(ctmtoCaseInfo.getAgentPhone());
-		toCaseInfo.setAgentUserName(ctmtoCaseInfo.getAgentUserName());
+		toCaseInfo.setAgentUserName(ctmtoCaseInfo.getAgentUsername());
 		toCaseInfo.setGrpCode(ctmtoCaseInfo.getGrpCode());
 		toCaseInfo.setGrpName(ctmtoCaseInfo.getGrpName());
 		toCaseInfo.setArCode(ctmtoCaseInfo.getArCode());
@@ -780,7 +780,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMerge.setcAgentCode(ctmtoCaseInfo.getAgentCode());/**ctm**/
 		toCaseMerge.setcAgentName(ctmtoCaseInfo.getAgentName());
 		toCaseMerge.setcAgentPhone(ctmtoCaseInfo.getAgentPhone());
-		toCaseMerge.setcAgentUsername(ctmtoCaseInfo.getAgentUserName());
+		toCaseMerge.setcAgentUsername(ctmtoCaseInfo.getAgentUsername());
 		toCaseMerge.setcAgentGrpCode(ctmtoCaseInfo.getGrpCode());
 		toCaseMerge.setcAgentGrpName(ctmtoCaseInfo.getGrpName());
 		toCaseMerge.setcAgentQyjlName(ctmtoCaseInfo.getQyjlName());
@@ -797,7 +797,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMerge.setAgentCode(toCaseInfo.getAgentCode());//自建
 		toCaseMerge.setAgentName(toCaseInfo.getAgentName());
 		toCaseMerge.setAgentPhone(toCaseInfo.getAgentPhone());
-		toCaseMerge.setAgentUsername(toCaseInfo.getAgentUserName());
+		toCaseMerge.setAgentUsername(toCaseInfo.getAgentUsername());
 		toCaseMerge.setAgentGrpCode(toCaseInfo.getGrpCode());
 		toCaseMerge.setAgentGrpName(toCaseInfo.getGrpName());
 		toCaseMerge.setAgentQyjlName(toCaseInfo.getQyjlName());

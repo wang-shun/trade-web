@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class ToCaseInfo {
     private Long pkid;
 
-    private String ctmCode;
-
     private String agentCode;
 
     private String caseCode;
@@ -16,8 +14,6 @@ public class ToCaseInfo {
     private String requireProcessorId;
 
     private String isResponsed;
-    
-    private String orgId;
 
     private Date importTime;
     
@@ -58,6 +54,23 @@ public class ToCaseInfo {
     private String updateby;
 
 	private Date updateTime;
+	
+	
+	
+	/********************全国交易金融系统 新增字段 begin******************************************/
+    //CCAI 成交报告编号
+    private String ccaiCode;
+    //交易类型
+    private String tradeType;
+    //付款类型
+    private String payType;
+	/********************全国交易金融系统 新增字段 end******************************************/
+    
+  //查询条件使用
+    private String orgId;
+    
+	/*********************全国交易金融系统   弃用字段 begin***********************/
+	private String ctmCode;
 	/** refer_consultant_id 意向顾问 refer_consultant_realname **/
 	private String referConsultantId;
 	/** refer_consultant_id 意向顾问 refer_consultant_realname **/
@@ -74,6 +87,7 @@ public class ToCaseInfo {
 	 *  外单案件的推荐人电话
 	 */
 	private String recommendPhone;
+	/*********************全国交易金融系统   弃用字段 end***********************/
 	
 	
     public String getRecommendUsername() {
@@ -321,7 +335,7 @@ public class ToCaseInfo {
 		this.grpName = grpName;
 	}
 
-	public String getAgentUserName() {
+	public String getAgentUsername() {
 		return agentUserName;
 	}
 
@@ -352,6 +366,29 @@ public class ToCaseInfo {
 	public void setArName(String arName) {
 		this.arName = arName;
 	}
-	
+
+	public String getCcaiCode() {
+		return ccaiCode;
+	}
+
+	public void setCcaiCode(String ccaiCode) {
+		this.ccaiCode = ccaiCode;
+	}
+
+	public String getTradeType() {
+		return tradeType;
+	}
+
+	public void setTradeType(String tradeType) {
+		this.tradeType = tradeType;
+	}
+
+	public String getPayType() {
+		return payType;
+	}
+
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
 	
 }
