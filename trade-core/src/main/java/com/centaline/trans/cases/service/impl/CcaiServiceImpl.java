@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
@@ -56,11 +57,12 @@ public class CcaiServiceImpl implements CcaiService {
 	private ToCcaiAttachmentMapper toCcaiAttachmentMapper;//CCAI附件信息
 	@Autowired
 	private UamUserOrgService  uamUserOrgService;//用户信息
+	private UamBasedataService uamBasedataService;//基础数据
 	
 	@Override
 	public CcaiServiceResult importCase(CcaiImportCase acase) {
 		CcaiServiceResult result = new CcaiServiceResult();
-		String caseCode=getCaseCode();
+		String caseCode=getCaseCode(acase);
 		//直接将导入的信息插入到对应的数据表中
 		//案件基本信息导入
 		addCaseInfo(caseCode,acase);
@@ -153,8 +155,13 @@ public class CcaiServiceImpl implements CcaiService {
 						//过户权证部门编码修改
 						if(StringUtils.isNotBlank(pa.getGrpCode())){
 							Org org = uamUserOrgService.getOrgByCode(pa.getGrpCode());
-							toCase.setOrgId(org.getId());//TODO 组织编码的父级编码是区域编码
-							toCase.setDistrictId(org.getParentId());//区域编码
+							if(org!=null){
+								toCase.setOrgId(org.getId());//TODO 组织编码的父级编码是区域编码
+								toCase.setDistrictId(org.getParentId());//区域编码
+							}else{
+								throw new BusinessException("过户权证部门编码不存在!");
+							}
+							
 						}
 						if(StringUtils.isNotBlank(pa.getGrpCode())){
 							caseInfo.setArCode(pa.getGrpCode());
@@ -200,9 +207,16 @@ public class CcaiServiceImpl implements CcaiService {
 	 * 获取caseCode方法
 	 * @return
 	 */
-	private String getCaseCode(){
+	private String getCaseCode(CcaiImportCase acase){
+		if(acase.getCity().equals("120000")){
+			//天津
+			return uamBasedataService.nextSeqVal("ZY-TJ", DateUtil.getFormatDate(new Date(), "yyyyMM"));
+		}else{
+			return "CCAICaseCode"+DateUtil.getFormatDate(new Date(), "yyyyMMddHHmmss");
+		}
+		//
 		//TODO 根据实际情况生成CaseCode
-		return "CCAICaseCode"+DateUtil.getFormatDate(new Date(), "yyyyMMddHHmmss");
+		
 	}
 	/**
 	 * TODO 添加case信息
@@ -223,10 +237,17 @@ public class CcaiServiceImpl implements CcaiService {
 				User user = uamUserOrgService.getUserByUsername(pa.getUserName());
 				if(user!=null){
 					tocase.setLeadingProcessId(user.getId());//案件负责人 交易顾问ID
+				}else{
+					throw new BusinessException("权证专员"+pa.getUserName()+"信息不存在");
 				}
 				Org org = uamUserOrgService.getOrgByCode(pa.getGrpCode());
-				tocase.setOrgId(org.getId());//TODO 组织编码的父级编码是区域编码
-				tocase.setDistrictId(org.getParentId());//区域编码
+				if(org!=null){
+					tocase.setOrgId(org.getId());//TODO 组织编码的父级编码是区域编码
+					tocase.setDistrictId(org.getParentId());//区域编码
+				}else{
+					throw new BusinessException("经纪人所在部门编码不存在！");
+				}
+				
 			}
 		}
 		//TODO 业务开始后 进行调整
@@ -256,6 +277,8 @@ public class CcaiServiceImpl implements CcaiService {
 				User agent = uamUserOrgService.getUserByUsername(pa.getUserName());
 				if(agent!=null){
 					caseInfo.setAgentCode(agent.getId());
+				}else{
+					throw new BusinessException("经纪人"+pa.getUserName()+"信息不存在");
 				}
 				caseInfo.setAgentName(pa.getRealName());
 				caseInfo.setAgentUserName(pa.getUserName());
@@ -270,6 +293,8 @@ public class CcaiServiceImpl implements CcaiService {
 				User manager = uamUserOrgService.getUserByUsername(pa.getGrpMgrUserName());
 				if(manager!=null){
 					caseInfo.setRequireProcessorId(manager.getId());//请求处理人即交易主管 进行分单操作
+				}else{
+					throw new BusinessException("权证专员主管"+pa.getGrpMgrUserName()+"信息不存在");
 				}
 				//TODO 带过来权证信息 则直接进行分单？
 				caseInfo.setIsResponsed("1");//是否响应 分单
@@ -395,6 +420,7 @@ public class CcaiServiceImpl implements CcaiService {
 		attachment.setCcaiFileid(a.getId());
 		attachment.setFileCat(a.getType());
 		attachment.setFileName(a.getName());
+		attachment.setUrl(a.getUrl());
 		attachment.setUploadTime(a.getUploadTime());
 		attachment.setAvailable("Y");
 		return attachment;

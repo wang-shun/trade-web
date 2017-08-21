@@ -159,25 +159,27 @@ public class CcaiImportV1Controller {
 			if(ccaiService.isExistCcaiCode(acase.getCcaiCode())){
 				msg.append("成交报告["+acase.getCcaiCode()+"]编号已存在!\r\n");
 			}
+			boolean hasAgent = false,hasWarrant = false;
 			if(acase.getParticipants()==null || acase.getParticipants().size()<2){
 				msg.append("案件参与人信息不完整，请查证!\r\n");
-			}
-			boolean hasAgent = false,hasWarrant = false;
-			//案件参与人校验
-			for(CcaiImportCaseInfo pa : acase.getParticipants()){
-				if(CaseSyncParticipantEnum.AGENT.getCode().equals(pa.getPosition())){
-					//经纪人校验
-					participantCheck(pa,msg,"经纪人");
-					hasAgent = true;
-				}else if(CaseSyncParticipantEnum.WARRANT.getCode().equals(pa.getPosition())){
-					//过户权证校验
-					participantCheck(pa,msg,"过户权证");
-					hasWarrant = true;
+			}else{
+				//案件参与人校验
+				for(CcaiImportCaseInfo pa : acase.getParticipants()){
+					if(CaseSyncParticipantEnum.AGENT.getCode().equals(pa.getPosition())){
+						//经纪人校验
+						participantCheck(pa,msg,"经纪人");
+						hasAgent = true;
+					}else if(CaseSyncParticipantEnum.WARRANT.getCode().equals(pa.getPosition())){
+						//过户权证校验
+						participantCheck(pa,msg,"过户权证");
+						hasWarrant = true;
+					}
+				}
+				if(!hasAgent || !hasWarrant){
+					msg.append("至少要有一个经纪人和过户权证信息!\r\n");
 				}
 			}
-			if(!hasAgent || !hasWarrant){
-				msg.append("至少要有一个经纪人和过户权证信息!\r\n");
-			}
+			
 			//房源信息校验
 			checkBlank(acase.getProperty(),"id","房源ID不能为空",msg);
 			checkBlank(acase.getProperty(),"code","房源编码不能为空",msg);

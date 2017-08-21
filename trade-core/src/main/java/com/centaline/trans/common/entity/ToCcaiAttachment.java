@@ -27,6 +27,8 @@ public class ToCcaiAttachment {
 
     private Date uploadTime;
 
+    private String url;
+
     public Long getPkid() {
         return pkid;
     }
@@ -121,5 +123,13 @@ public class ToCcaiAttachment {
 
     public void setUploadTime(Date uploadTime) {
         this.uploadTime = uploadTime;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
     }
 }

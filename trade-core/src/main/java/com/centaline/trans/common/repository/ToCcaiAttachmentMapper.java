@@ -17,11 +17,11 @@ public interface ToCcaiAttachmentMapper {
     int updateByPrimaryKeySelective(ToCcaiAttachment record);
 
     int updateByPrimaryKey(ToCcaiAttachment record);
+    
     /**
      * 根据CCAI CODE 获取已导入的附件列表
      * @param ccaiCode
      * @return
      */
     List<ToCcaiAttachment> findAttachmentsByCcaiCode(String ccaiCode);
-    
 }

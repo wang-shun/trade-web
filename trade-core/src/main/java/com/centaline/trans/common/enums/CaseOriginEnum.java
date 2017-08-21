@@ -5,7 +5,7 @@ package com.centaline.trans.common.enums;
  * @date 2016-12-13
  */
 public enum CaseOriginEnum {
-	
+	CCAI("CCAI", "CCAI推送案件"),
 	CTM("CTM", "CTM推送案件"),
 	INPUT("INPUT", "自录案件"),
 	/**外单案件**/
