@@ -22,4 +22,10 @@ public interface TsSupService {
 	 * @param id
 	 */
 	void deleteTsSup(Long id);
+	/**
+	 * 根据供应商编码获取供应商名称
+	 * @param finOrgCode
+	 * @return
+	 */
+	String getFinOrgByFinCode(String finOrgCode);
 }

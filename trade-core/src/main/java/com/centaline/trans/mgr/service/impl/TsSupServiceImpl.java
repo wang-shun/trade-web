@@ -1,5 +1,7 @@
 package com.centaline.trans.mgr.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,5 +81,14 @@ public class TsSupServiceImpl implements TsSupService{
 	@Override
 	public void deleteTsSup(Long id) {
 		tsSupMapper.deleteByPrimaryKey(id);	
+	}
+
+	@Override
+	public String getFinOrgByFinCode(String finOrgCode) {
+		List<String> finOrgNames= tsSupMapper.getFinOrgByFinCode(finOrgCode);
+		if(null == finOrgNames || finOrgNames.size() == 0){
+			return null;
+		}
+		return finOrgNames.get(0);
 	}
 }

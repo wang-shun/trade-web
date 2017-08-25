@@ -1,10 +1,7 @@
 package com.centaline.trans.cases.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
@@ -25,7 +24,6 @@ import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.CasenewMessageService;
 import com.centaline.trans.cases.vo.CaseGuwenVo;
 import com.centaline.trans.cases.vo.UserOrgIdVo;
-import com.centaline.trans.cases.vo.ViHouseDelBaseVo;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.CasePropertyEnum;
@@ -37,7 +35,6 @@ import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.repository.ToWorkFlowMapper;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
@@ -80,6 +77,9 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 	
 	@Autowired(required = true)
 	PropertyUtilsService propertyUtilsService;
+	
+	@Autowired(required=true)
+	private UamSessionService sessionService;
 	
 	
 	
@@ -348,25 +348,25 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 		ppyinfo.setCaseCode(caseCode);  // caseCode
 		
 		// 根据propetyCode[房屋编码] 到三级市场的视图中去查询 DISTRICT_CODE, BUILD_END_YEAR, BUILD_SIZE, FLOOR, TOTAL_FLOOR 然后再往T_TO_PROPERTY_INFO 表中写入记录
-		ViHouseDelBaseVo housevo=toPropertyInfoMapper.selectByHoudelCode(property_agent_id); // 根据房屋id 去查询
+//		ViHouseDelBaseVo housevo=toPropertyInfoMapper.selectByHoudelCode(property_agent_id); // 根据房屋id 去查询
 		
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 年月日 时分秒 SDyyyymmddhhmmss
-		if(null!=housevo){
-			ppyinfo.setDistCode(housevo.getDISTRICT_CODE());
-			ppyinfo.setLocateFloor(housevo.getFLOOR());
-			ppyinfo.setTotalFloor(housevo.getTOTAL_FLOOR());
-			ppyinfo.setSquare(housevo.getBUILD_SIZE().doubleValue());
-			
-			try {
-				String fhyear=housevo.getBUILD_END_YEAR();
-			    String fishyear=fhyear+"-01-01 00:00:00";
-				if(null!=housevo.getBUILD_END_YEAR()){
-					ppyinfo.setFinishYear(sdf.parse(fishyear));
-				}
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}
+//		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 年月日 时分秒 SDyyyymmddhhmmss
+//		if(null!=housevo){
+//			ppyinfo.setDistCode(housevo.getDISTRICT_CODE());
+//			ppyinfo.setLocateFloor(housevo.getFLOOR());
+//			ppyinfo.setTotalFloor(housevo.getTOTAL_FLOOR());
+//			ppyinfo.setSquare(housevo.getBUILD_SIZE().doubleValue());
+//			
+//			try {
+//				String fhyear=housevo.getBUILD_END_YEAR();
+//			    String fishyear=fhyear+"-01-01 00:00:00";
+//				if(null!=housevo.getBUILD_END_YEAR()){
+//					ppyinfo.setFinishYear(sdf.parse(fishyear));
+//				}
+//			} catch (ParseException e) {
+//				e.printStackTrace();
+//			}
+//		}
 		int property=toPropertyInfoMapper.insertSelective(ppyinfo);
 		if(property>0){
 		}else{
@@ -380,26 +380,31 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 		ToCaseInfo tceinfo=new ToCaseInfo(); 
 		tceinfo.setCtmCode(ctmCode);  // 案件编号
 		tceinfo.setAgentUserName(agentCode); // ctm 传过来的用户名称
+		SessionUser current = sessionService.getSessionUser();
 		if(null!=username){
 			tceinfo.setAgentCode(username.getId());  // 成交经纪人编号
 			tceinfo.setAgentPhone(username.getMobile());  // 手机号
-			if(null!=username.getOrgId()){
-				List<HashMap<String, Object>> map=toCaseInfoMapper.selectBusiarbyGroupid(username.getOrgId());
-				for(int j=0; j<map.size(); j++) {
-		        	String areaId=String.valueOf(map.get(j).get("BUSIAR_ID"));
-		        	if(null!=areaId){
-		        		Org org=uamUserOrgService.getOrgById(areaId);
-		        		tceinfo.setArCode(org.getOrgCode());
-		        		tceinfo.setArName(org.getOrgName());
-		        	}
-				}
-			}
+			//TODO 将新生成的案件分配到当前登录人的服务组织下去 by : yinchao
+			tceinfo.setArCode(current.getServiceDepCode());
+			tceinfo.setArName(current.getServiceDepName());
+//			if(null!=username.getOrgId()){
+//				List<HashMap<String, Object>> map=toCaseInfoMapper.selectBusiarbyGroupid(username.getOrgId());
+//				for(int j=0; j<map.size(); j++) {
+//		        	String areaId=String.valueOf(map.get(j).get("BUSIAR_ID"));
+//		        	if(null!=areaId){
+//		        		Org org=uamUserOrgService.getOrgById(areaId);
+//		        		tceinfo.setArCode(org.getOrgCode());
+//		        		tceinfo.setArName(org.getOrgName());
+//		        	}
+//				}
+//			}
 		}
 		tceinfo.setAgentName(agentName);  // 成交经纪人姓名
 		tceinfo.setCaseCode(caseCode);  // caseCode
 		tceinfo.setImportTime(dt);  // 导入时间
 		tceinfo.setGrpCode(grpCode);  // 组别编号
 		tceinfo.setGrpName(grpName);  // 组别名称
+		
 		
 		// 处理 T_TO_CASE 表
 		ToCase tocase=new ToCase();
@@ -415,86 +420,103 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 		 */
 		int caseinfo=0;
 		int toce=0;
-		int workflow=0;
-		if("".equals(requireProcessorId) || null==requireProcessorId){
-			// 通过分行-誉萃组别映射关系，找到誉萃组别经理的id放进去。
-			if(null != agentCode){
-				
-				// 1 处理 T_TO_CASE_INFO 表 
-				UserOrgIdVo userOrgIdVo=selectByAgentCode(agentCode, TransJobs.TJYZG.getCode());
-				if(null!=userOrgIdVo && userOrgIdVo.getUserList().size()==1){  // 无论是否找到誉萃组别经理的id, 都需要往T_TO_CASE_INFO 表中插入记录
-					if(null!=userOrgIdVo.getUserList() && userOrgIdVo.getUserList().size()>0){
-						tceinfo.setRequireProcessorId(userOrgIdVo.getUserList().get(0).getId());  // 誉萃组别经理的id
-						tceinfo.setDispatchTime(dt);  // 分单时间
-						tocase.setLeadingProcessId(userOrgIdVo.getUserList().get(0).getId());  // 案件负责人[如果交易顾问id 为空时则为誉萃组别经理的id, 如果交易顾问id 不为空则为交易顾问id]
-						tocase.setOrgId(userOrgIdVo.getOrgId());  // 案件负责人所在的组织id
-						
-						tceinfo.setAgentName(username.getRealName());  // 交易顾问姓名[请求处理人姓名]
-						tceinfo.setIsResponsed("0");  // 是否响应, 1 代表响应, 0 代表 未响应
-						caseinfo=toCaseInfoMapper.insertSelective(tceinfo);
-						
-						// 2 处理 T_TO_CASE 表
-						tocase.setStatus(CaseStatusEnum.WFD.getCode());  // 状态[如果交易顾问id 为空时则为未分单, 如果交易顾问id 不为空则为已分单] 
-						toce=tocaseMapper.insertSelective(tocase);
-					}
-					
-					if(toce>0){
-					}else{
-						throw new BusinessException("抱歉,案件表没有新增成功,请刷新后再次尝试！");
-					}
-				}else{
-					caseinfo=toCaseInfoMapper.insertSelective(tceinfo);
-				}
-			}
+		//TODO 用于测试的修改内容 将相关信息修改为当前登录人负责的组织下 by:yinchao
+		tceinfo.setRequireProcessorId(current.getId());
+		tceinfo.setDispatchTime(dt);
+		tocase.setLeadingProcessId(current.getId());
+		tocase.setOrgId(current.getServiceDepId());
+		tceinfo.setAgentName(username.getRealName());
+		tceinfo.setIsResponsed("0");  // 是否响应, 1 代表响应, 0 代表 未响应
+		tceinfo.setTargetCode(grpCode);//SQL语句中比较了该字段 所以设置上
+		caseinfo=toCaseInfoMapper.insertSelective(tceinfo);
+		// 2 处理 T_TO_CASE 表
+		tocase.setStatus(CaseStatusEnum.WFD.getCode());  // 状态[如果交易顾问id 为空时则为未分单, 如果交易顾问id 不为空则为已分单] 
+		toce=tocaseMapper.insertSelective(tocase);
+		if(toce>0){
 		}else{
-			ToWorkFlow wf=new ToWorkFlow();
-			StartProcessInstanceVo pIVo=this.startWorkFlow(requireProcessorId,tceinfo.getCaseCode());
-        	if(null==pIVo || null==pIVo.getId()){
-        		// throw new BusinessException("抱歉,流程启动失败,请刷新后再次尝试！");
-        		tceinfo.setRequireProcessorId("");  // 交易顾问id[请求处理人编号]
-        		tceinfo.setIsResponsed("0");  // 是否响应, 1 代表响应, 0 代表 未响应
-        		tceinfo.setResDate(null);  // 响应时间
-        		tceinfo.setAgentName("");  // 交易顾问姓名[请求处理人姓名]
-        		
-        		// 1 处理 T_TO_CASE_INFO 表
-        		caseinfo=toCaseInfoMapper.insertSelective(tceinfo);
-        	}else{
-        		User uuu=uamUserOrgService.getUserByUsername(requireProcessorId);
-        		tceinfo.setRequireProcessorId(uuu.getId());  // 交易顾问id[请求处理人编号]
-        		tceinfo.setIsResponsed("1");  // 是否响应, 1 代表响应, 0 代表 未响应
-        		tceinfo.setResDate(dt);  // 响应时间
-        		tceinfo.setAgentName(username.getRealName());  // 交易顾问姓名[请求处理人姓名]
-        		
-        		// 1 处理 T_TO_CASE_INFO 表
-        		caseinfo=toCaseInfoMapper.insertSelective(tceinfo);
-				
-        		// 2 处理 T_TO_CASE 表
-        		User urq=uamUserOrgService.getUserByUsername(requireProcessorId);  // 根据交易顾问username 去查询orgid
-        		tocase.setStatus(CaseStatusEnum.YFD.getCode());  // 状态[如果交易顾问id 为空时则为未分单, 如果交易顾问id 不为空则为已分单] 
-        		tocase.setLeadingProcessId(urq.getId());  // 案件负责人[如果交易顾问id 为空时则为誉萃组别经理的id, 如果交易顾问id 不为空则为交易顾问id]
-        		tocase.setOrgId(urq.getOrgId());  // 案件负责人所在的组织id
-				toce=tocaseMapper.insertSelective(tocase);
-				
-				if(toce>0){
-				}else{
-					throw new BusinessException("抱歉,案件表没有新增成功,请刷新后再次尝试！");
-				}
-				
-				// 3 处理 T_TO_WORKFLOW 表 
-				wf.setProcessOwner(agentCode);  // 目前交易顾问 username
-				wf.setInstCode(pIVo.getId());
-				wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
-				wf.setProcessDefinitionId(pIVo.getProcessDefinitionId());
-				wf.setCaseCode(caseCode);  // caseCode
-				workflow=toworkFlowMapper.insertSelective(wf);
-				
-				if(workflow>0){
-				}else{
-					throw new BusinessException("抱歉,工作流表没有新增成功,请刷新后再次尝试！");
-				}
-        	}
-			// end 工作流
+			throw new BusinessException("抱歉,案件表没有新增成功,请刷新后再次尝试！");
 		}
+		//TODO 目前未测试环境 等正式导入后 再完善  by: yinchao
+//		int workflow=0;
+//		if("".equals(requireProcessorId) || null==requireProcessorId){
+//			// 通过分行-誉萃组别映射关系，找到誉萃组别经理的id放进去。
+//			if(null != agentCode){
+//				
+//				// 1 处理 T_TO_CASE_INFO 表 
+//				UserOrgIdVo userOrgIdVo=selectByAgentCode(agentCode, TransJobs.TJYZG.getCode());
+//				if(null!=userOrgIdVo && userOrgIdVo.getUserList().size()==1){  // 无论是否找到誉萃组别经理的id, 都需要往T_TO_CASE_INFO 表中插入记录
+//					if(null!=userOrgIdVo.getUserList() && userOrgIdVo.getUserList().size()>0){
+//						tceinfo.setRequireProcessorId(userOrgIdVo.getUserList().get(0).getId());  // 誉萃组别经理的id
+//						tceinfo.setDispatchTime(dt);  // 分单时间
+//						tocase.setLeadingProcessId(userOrgIdVo.getUserList().get(0).getId());  // 案件负责人[如果交易顾问id 为空时则为誉萃组别经理的id, 如果交易顾问id 不为空则为交易顾问id]
+//						tocase.setOrgId(userOrgIdVo.getOrgId());  // 案件负责人所在的组织id
+//						
+//						tceinfo.setAgentName(username.getRealName());  // 交易顾问姓名[请求处理人姓名]
+//						tceinfo.setIsResponsed("0");  // 是否响应, 1 代表响应, 0 代表 未响应
+//						caseinfo=toCaseInfoMapper.insertSelective(tceinfo);
+//						
+//						// 2 处理 T_TO_CASE 表
+//						tocase.setStatus(CaseStatusEnum.WFD.getCode());  // 状态[如果交易顾问id 为空时则为未分单, 如果交易顾问id 不为空则为已分单] 
+//						toce=tocaseMapper.insertSelective(tocase);
+//					}
+//					
+//					if(toce>0){
+//					}else{
+//						throw new BusinessException("抱歉,案件表没有新增成功,请刷新后再次尝试！");
+//					}
+//				}else{
+//					caseinfo=toCaseInfoMapper.insertSelective(tceinfo);
+//				}
+//			}
+//		} else{
+//			ToWorkFlow wf=new ToWorkFlow();
+//			StartProcessInstanceVo pIVo=this.startWorkFlow(requireProcessorId,tceinfo.getCaseCode());
+//        	if(null==pIVo || null==pIVo.getId()){
+//        		// throw new BusinessException("抱歉,流程启动失败,请刷新后再次尝试！");
+//        		tceinfo.setRequireProcessorId("");  // 交易顾问id[请求处理人编号]
+//        		tceinfo.setIsResponsed("0");  // 是否响应, 1 代表响应, 0 代表 未响应
+//        		tceinfo.setResDate(null);  // 响应时间
+//        		tceinfo.setAgentName("");  // 交易顾问姓名[请求处理人姓名]
+//        		
+//        		// 1 处理 T_TO_CASE_INFO 表
+//        		caseinfo=toCaseInfoMapper.insertSelective(tceinfo);
+//        	}else{
+//        		User uuu=uamUserOrgService.getUserByUsername(requireProcessorId);
+//        		tceinfo.setRequireProcessorId(uuu.getId());  // 交易顾问id[请求处理人编号]
+//        		tceinfo.setIsResponsed("1");  // 是否响应, 1 代表响应, 0 代表 未响应
+//        		tceinfo.setResDate(dt);  // 响应时间
+//        		tceinfo.setAgentName(username.getRealName());  // 交易顾问姓名[请求处理人姓名]
+//        		
+//        		// 1 处理 T_TO_CASE_INFO 表
+//        		caseinfo=toCaseInfoMapper.insertSelective(tceinfo);
+//				
+//        		// 2 处理 T_TO_CASE 表
+//        		User urq=uamUserOrgService.getUserByUsername(requireProcessorId);  // 根据交易顾问username 去查询orgid
+//        		tocase.setStatus(CaseStatusEnum.YFD.getCode());  // 状态[如果交易顾问id 为空时则为未分单, 如果交易顾问id 不为空则为已分单] 
+//        		tocase.setLeadingProcessId(urq.getId());  // 案件负责人[如果交易顾问id 为空时则为誉萃组别经理的id, 如果交易顾问id 不为空则为交易顾问id]
+//        		tocase.setOrgId(urq.getOrgId());  // 案件负责人所在的组织id
+//				toce=tocaseMapper.insertSelective(tocase);
+//				
+//				if(toce>0){
+//				}else{
+//					throw new BusinessException("抱歉,案件表没有新增成功,请刷新后再次尝试！");
+//				}
+//				
+//				// 3 处理 T_TO_WORKFLOW 表 
+//				wf.setProcessOwner(agentCode);  // 目前交易顾问 username
+//				wf.setInstCode(pIVo.getId());
+//				wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+//				wf.setProcessDefinitionId(pIVo.getProcessDefinitionId());
+//				wf.setCaseCode(caseCode);  // caseCode
+//				workflow=toworkFlowMapper.insertSelective(wf);
+//				
+//				if(workflow>0){
+//				}else{
+//					throw new BusinessException("抱歉,工作流表没有新增成功,请刷新后再次尝试！");
+//				}
+//        	}
+//			// end 工作流
+//		}
 		
 		if(caseinfo>0){
 		}else{

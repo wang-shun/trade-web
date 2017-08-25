@@ -157,6 +157,7 @@ height:160px;
 				<div id="modal-data-show" class="modal-body">
 					<input type="hidden" id="pkId" value=""/>
 					<input type="hidden" id="orgId" value=""/>
+					<input type="hidden" id="yuTeamName" name="yuTeamName" value=""/>
 						<div id="teamDiv" class="form-group ">
 							
 						</div>

@@ -18,6 +18,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,19 +37,15 @@ import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.service.CasenewMessageService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
-import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseGuwenVo;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.spv.entity.ToCashFlow;
 import com.centaline.trans.spv.service.ToCashFlowService;
 import com.centaline.trans.utils.DateUtil;
-
-import org.json.JSONException;
-
-import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -202,17 +199,20 @@ public class CasenewMessageController {
 		}
 
 		// 判断ctm 推送过来的编号数据是否已经存在
-		int existcasecode=tocaseInfoService.isExistCaseCode(ctm_case_code);
-		if(existcasecode>0){
-			rs.setStatus("-1");
-			rs.setMessage("该ctm_case_code已经存在！");
-			return JSONObject.toJSONString(rs);
-		}else{
+//		int existcasecode=tocaseInfoService.isExistCaseCode(ctm_case_code);
+//		if(existcasecode>0){
+//			rs.setStatus("-1");
+//			rs.setMessage("该ctm_case_code已经存在！");
+//			return JSONObject.toJSONString(rs);
+//		}else{
 			try{
-				String caseCode=apiCaseCode();  // 调用caseCode 的接口方法
-				if(null==caseCode || "".equals(caseCode)){ // 如果调用apiCaseCode()方式返回的是空, 则调用本地的 generateCode() 方法
-					caseCode=generateCode();  // 调用我们自己的生成规则
-				}
+				//TODO 重写ctm Code 用于测试
+				ctm_case_code = "test"+System.currentTimeMillis();
+				String caseCode = "CaseCode"+System.currentTimeMillis();
+//				String caseCode=apiCaseCode();  // 调用caseCode 的接口方法
+//				if(null==caseCode || "".equals(caseCode)){ // 如果调用apiCaseCode()方式返回的是空, 则调用本地的 generateCode() 方法
+//				String caseCode=generateCode();  // 调用我们自己的生成规则
+//				}
 				String status = casenewmessageService.insertCasenewMsg(ctm_case_code, agent_id, agent_name, guestList, property_address, property_code, property_agent_id, consult_id, grp_code, grp_name, caseCode);
 				if("0".equals(status)){  // -1：接收异常，0：接收正常
 					rs.setStatus(status);
@@ -229,7 +229,7 @@ public class CasenewMessageController {
 				rs.setMessage(ex.getMessage());
 				return JSONObject.toJSONString(rs);
 			}
-		}
+//		}
 		
 		return JSONObject.toJSONString(rs);
 	}

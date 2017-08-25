@@ -233,7 +233,8 @@ function rowEdit(id){
 	getAllTeam(id);
 }
 function getAllTeam(id){
-	var url = "/case/getAllTeamList";
+	//TODO 原有获取组别信息地址getAllTeamList逻辑不对 无法添加新的组别信息 且案件转组用到了同样的接口，所以重新添加个新的
+	var url = "/case/getAllTeamListToConfig";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
 	
@@ -309,6 +310,10 @@ function saveTeamPropertyItem(){
 
 	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 	$(".blockOverlay").css({'z-index':'9998'});
+	
+	//TODO 添加teamName 防止维护前后台关系显示为null,添加隐藏域 因为在url中提交可能会为乱码 by yinchao 2017-8-4
+	$('#yuTeamName').val($('#yuTeamCode').find('option:selected').text());
+	
 	$('#editForm').attr('action', url);
 	$("#editForm").submit();
 }

@@ -14,8 +14,10 @@
 <%@ taglib prefix="sitemesh" uri="http://www.opensymphony.com/sitemesh/decorator"%>
 <%
 	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
-	Menu menu = MenuConstants.getMenu();	
-	request.setAttribute("menuVO", menu.getChildren());
+	Menu menu = MenuConstants.getMenu();
+	if(menu != null){
+		request.setAttribute("menuVO", menu.getChildren());
+	}
 %>
 <html>
 

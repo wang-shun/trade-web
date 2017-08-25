@@ -97,7 +97,7 @@ margin-left: 15px;
 							<label class="col-sm-2 control-label">是否可用</label>
 							<div class="radio i-radios radio-inline">
 								<label> <input type="radio" value="1" id="isAvailable"
-									name="available"> 是
+									name="available" checked> 是
 								</label> <label> <input type="radio" value="0" id="notAvailable"
 									name="available"> 否
 								</label>

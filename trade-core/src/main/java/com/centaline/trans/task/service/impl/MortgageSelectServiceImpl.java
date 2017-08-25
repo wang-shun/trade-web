@@ -180,7 +180,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		
 		// 如果是新流程图
 		boolean isNewFlow = false;
-		if(vo.getProcessDefinitionId()!=null &&"operation_process:40:645454".compareTo(vo.getProcessDefinitionId())<=0){
+		//TODO  取消版本校验 &&"operation_process:40:645454".compareTo(vo.getProcessDefinitionId())<=0 by:yinchao 2017-8-8  
+		if(vo.getProcessDefinitionId()!=null ){
 			isNewFlow=true;
 		}
 
