@@ -6,31 +6,27 @@
     <result column="PROPERTY_CODE" property="propertyCode" jdbcType="VARCHAR" />
     <result column="PROPERTY_AGENT_ID" property="propertyAgentId" jdbcType="VARCHAR" />
     <result column="PROPERTY_ADDR" property="propertyAddr" jdbcType="NVARCHAR" />
-    <result column="CTM_ADDR" property="ctmAddr" jdbcType="NVARCHAR" />
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
     <result column="TOTAL_FLOOR" property="totalFloor" jdbcType="INTEGER" />
     <result column="PROPERTY_TYPE" property="propertyType" jdbcType="NVARCHAR" />
     <result column="LOCATE_FLOOR" property="locateFloor" jdbcType="INTEGER" />
     <result column="SQUARE" property="square" jdbcType="DOUBLE" />
     <result column="FINISH_YEAR" property="finishYear" jdbcType="TIMESTAMP" />
+    <result column="COMMENT" property="comment" jdbcType="NVARCHAR" />
     <result column="CTM_CODE" property="ctmCode" jdbcType="VARCHAR" />
     <result column="DIST_CODE" property="distCode" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.common.entity.ToPropertyInfo" extends="BaseResultMap" >
-    <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
+    <result column="CTM_ADDR" property="ctmAddr" jdbcType="NVARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="CCAI_CODE" property="ccaiCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, PROPERTY_CODE, PROPERTY_AGENT_ID, PROPERTY_ADDR,CTM_ADDR, CASE_CODE, TOTAL_FLOOR, PROPERTY_TYPE, LOCATE_FLOOR, 
-    SQUARE, FINISH_YEAR, CTM_CODE, DIST_CODE
+    PKID, PROPERTY_CODE, PROPERTY_AGENT_ID, PROPERTY_ADDR, CASE_CODE, TOTAL_FLOOR, PROPERTY_TYPE, 
+    LOCATE_FLOOR, SQUARE, FINISH_YEAR, COMMENT, CTM_CODE, DIST_CODE, CTM_ADDR,UPDATE_TIME, UPDATE_BY, CCAI_CODE
   </sql>
-  <sql id="Blob_Column_List" >
-    COMMENT
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from sctrans.T_TO_PROPERTY_INFO
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
@@ -39,17 +35,25 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.common.entity.ToPropertyInfo" >
-    insert into sctrans.T_TO_PROPERTY_INFO (PKID, PROPERTY_CODE, PROPERTY_AGENT_ID, PROPERTY_ADDR, CTM_ADDR,
-      CASE_CODE, TOTAL_FLOOR, PROPERTY_TYPE, LOCATE_FLOOR, SQUARE, FINISH_YEAR, DIST_CODE,
-      CTM_CODE, COMMENT, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY)
-    values (#{pkid,jdbcType=BIGINT}, #{propertyCode,jdbcType=VARCHAR}, #{propertyAgentId,jdbcType=VARCHAR}, #{propertyAddr,jdbcType=NVARCHAR}, 
-      #{ctmAddr,jdbcType=NVARCHAR}, #{caseCode,jdbcType=VARCHAR}, #{totalFloor,jdbcType=INTEGER}, #{propertyType,jdbcType=NVARCHAR}, 
-      #{locateFloor,jdbcType=INTEGER}, #{square,jdbcType=DOUBLE}, #{finishYear,jdbcType=TIMESTAMP}, #{distCode,jdbcType=VARCHAR},
-      #{ctmCode,jdbcType=VARCHAR}, #{comment,jdbcType=LONGVARCHAR}, GETDATE(), @{SESSION_USER_ID}, GETDATE(), @{SESSION_USER_ID})
+    insert into sctrans.T_TO_PROPERTY_INFO (PKID, PROPERTY_CODE, PROPERTY_AGENT_ID, 
+      PROPERTY_ADDR, CASE_CODE, TOTAL_FLOOR, 
+      PROPERTY_TYPE, LOCATE_FLOOR, SQUARE, 
+      FINISH_YEAR, COMMENT, CTM_CODE, 
+      DIST_CODE, CTM_ADDR, CREATE_TIME, 
+      CREATE_BY, UPDATE_TIME, UPDATE_BY, 
+      CCAI_CODE)
+    values (#{pkid,jdbcType=BIGINT}, #{propertyCode,jdbcType=VARCHAR}, #{propertyAgentId,jdbcType=VARCHAR}, 
+      #{propertyAddr,jdbcType=NVARCHAR}, #{caseCode,jdbcType=VARCHAR}, #{totalFloor,jdbcType=INTEGER}, 
+      #{propertyType,jdbcType=NVARCHAR}, #{locateFloor,jdbcType=INTEGER}, #{square,jdbcType=DOUBLE}, 
+      #{finishYear,jdbcType=TIMESTAMP}, #{comment,jdbcType=NVARCHAR}, #{ctmCode,jdbcType=VARCHAR}, 
+      #{distCode,jdbcType=VARCHAR}, #{ctmAddr,jdbcType=NVARCHAR}, GETDATE(), 
+      @{SESSION_USER_ID}, GETDATE(), @{SESSION_USER_ID}, 
+      #{ccaiCode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.ToPropertyInfo" >
     insert into sctrans.T_TO_PROPERTY_INFO
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY,
       <if test="pkid != null" >
         PKID,
       </if>
@@ -61,9 +65,6 @@
       </if>
       <if test="propertyAddr != null" >
         PROPERTY_ADDR,
-      </if>
-      <if test="ctmAddr != null" >
-        CTM_ADDR,
       </if>
       <if test="caseCode != null" >
         CASE_CODE,
@@ -83,21 +84,24 @@
       <if test="finishYear != null" >
         FINISH_YEAR,
       </if>
-      <if test="ctmCode != null" >
-        CTM_CODE,
-      </if>
       <if test="comment != null" >
         COMMENT,
+      </if>
+      <if test="ctmCode != null" >
+        CTM_CODE,
       </if>
       <if test="distCode != null" >
         DIST_CODE,
       </if>
-      CREATE_TIME,
-      CREATE_BY,
-      UPDATE_TIME,
-      UPDATE_BY
+      <if test="ctmAddr != null" >
+        CTM_ADDR,
+      </if>
+      <if test="ccaiCode != null" >
+        CCAI_CODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},
       <if test="pkid != null" >
         #{pkid,jdbcType=BIGINT},
       </if>
@@ -109,9 +113,6 @@
       </if>
       <if test="propertyAddr != null" >
         #{propertyAddr,jdbcType=NVARCHAR},
-      </if>
-       <if test="ctmAddr != null" >
-         #{ctmAddr,jdbcType=NVARCHAR},
       </if>
       <if test="caseCode != null" >
         #{caseCode,jdbcType=VARCHAR},
@@ -131,21 +132,27 @@
       <if test="finishYear != null" >
         #{finishYear,jdbcType=TIMESTAMP},
       </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=NVARCHAR},
+      </if>
       <if test="ctmCode != null" >
         #{ctmCode,jdbcType=VARCHAR},
-      </if>
-      <if test="comment != null" >
-        #{comment,jdbcType=LONGVARCHAR},
       </if>
       <if test="distCode != null" >
         #{distCode,jdbcType=VARCHAR},
       </if>
-      GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID}
+      <if test="ctmAddr != null" >
+        #{ctmAddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="ccaiCode != null" >
+        #{ccaiCode,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.ToPropertyInfo" >
     update sctrans.T_TO_PROPERTY_INFO
     <set >
+      UPDATE_TIME = GETDATE(), UPDATE_BY =@{SESSION_USER_ID},
       <if test="propertyCode != null" >
         PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
       </if>
@@ -154,9 +161,6 @@
       </if>
       <if test="propertyAddr != null" >
         PROPERTY_ADDR = #{propertyAddr,jdbcType=NVARCHAR},
-      </if>
-      <if test="ctmAddr">
-        CTM_ADDR = #{ctmAddr,jdbcType=NVARCHAR},
       </if>
       <if test="caseCode != null" >
         CASE_CODE = #{caseCode,jdbcType=VARCHAR},
@@ -176,37 +180,22 @@
       <if test="finishYear != null" >
         FINISH_YEAR = #{finishYear,jdbcType=TIMESTAMP},
       </if>
+      <if test="comment != null" >
+        COMMENT = #{comment,jdbcType=NVARCHAR},
+      </if>
       <if test="ctmCode != null" >
         CTM_CODE = #{ctmCode,jdbcType=VARCHAR},
-      </if>
-      <if test="comment != null" >
-        COMMENT = #{comment,jdbcType=LONGVARCHAR},
       </if>
       <if test="distCode != null" >
         DIST_CODE = #{distCode,jdbcType=VARCHAR},
       </if>
-       UPDATE_TIME = GETDATE(),
-       UPDATE_BY =@{SESSION_USER_ID}
+      <if test="ctmAddr != null" >
+        CTM_ADDR = #{ctmAddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="ccaiCode != null" >
+        CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      </if>
     </set>
-    where PKID = #{pkid,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.centaline.trans.common.entity.ToPropertyInfo" >
-    update sctrans.T_TO_PROPERTY_INFO
-    set PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
-      PROPERTY_AGENT_ID = #{propertyAgentId,jdbcType=VARCHAR},
-      PROPERTY_ADDR = #{propertyAddr,jdbcType=NVARCHAR},
-      CTM_ADDR = #{ctmAddr,jdbcType=NVARCHAR},
-      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
-      TOTAL_FLOOR = #{totalFloor,jdbcType=INTEGER},
-      PROPERTY_TYPE = #{propertyType,jdbcType=NVARCHAR},
-      LOCATE_FLOOR = #{locateFloor,jdbcType=INTEGER},
-      SQUARE = #{square,jdbcType=DOUBLE},
-      FINISH_YEAR = #{finishYear,jdbcType=TIMESTAMP},
-      CTM_CODE = #{ctmCode,jdbcType=VARCHAR},
-      DIST_CODE = #{distCode,jdbcType=VARCHAR},
-      COMMENT = #{comment,jdbcType=LONGVARCHAR},
-       UPDATE_TIM = GETDATE(),
-       UPDATE_BY =@{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.ToPropertyInfo" >
@@ -214,17 +203,19 @@
     set PROPERTY_CODE = #{propertyCode,jdbcType=VARCHAR},
       PROPERTY_AGENT_ID = #{propertyAgentId,jdbcType=VARCHAR},
       PROPERTY_ADDR = #{propertyAddr,jdbcType=NVARCHAR},
-      CTM_ADDR = #{ctmAddr,jdbcType=NVARCHAR},
       CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       TOTAL_FLOOR = #{totalFloor,jdbcType=INTEGER},
       PROPERTY_TYPE = #{propertyType,jdbcType=NVARCHAR},
       LOCATE_FLOOR = #{locateFloor,jdbcType=INTEGER},
       SQUARE = #{square,jdbcType=DOUBLE},
       FINISH_YEAR = #{finishYear,jdbcType=TIMESTAMP},
-      DIST_CODE = #{distCode,jdbcType=VARCHAR},
+      COMMENT = #{comment,jdbcType=NVARCHAR},
       CTM_CODE = #{ctmCode,jdbcType=VARCHAR},
+      DIST_CODE = #{distCode,jdbcType=VARCHAR},
+      CTM_ADDR = #{ctmAddr,jdbcType=NVARCHAR},
       UPDATE_TIME = GETDATE(),
-      UPDATE_BY =@{SESSION_USER_ID}
+      UPDATE_BY = @{SESSION_USER_ID},
+      CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
    <select id="findToPropertyInfoByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -308,5 +299,10 @@ WHERE ci.AGENT_CODE = #{agentCode,jdbcType=VARCHAR} AND b.CASE_PROPERTY != '3000
 	ORDER BY pi.CREATE_TIME DESC
 	OFFSET 0 ROWS FETCH  next 1 ROWS ONLY;
   </select>
-  
+  <select id="findPropertyByCcaiCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_PROPERTY_INFO
+    where CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR}
+  </select>
 </mapper>

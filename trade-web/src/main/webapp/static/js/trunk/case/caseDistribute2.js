@@ -289,7 +289,7 @@ function caseDistributeType(){
 		type : "POST",
 		url : url,
 		dataType : "json",
-		timeout: 10000,
+		timeout: 20000,
 	    data : data, 
 		success : function(data) {
 			showModal(data);

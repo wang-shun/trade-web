@@ -21,6 +21,8 @@ public interface ToCaseInfoMapper {
 
 	int updateByPrimaryKey(ToCaseInfo record);
 	
+	int updateByPrimaryKeySelective(ToCaseInfo record); 
+	
 	int updateCaseInfoByOrgId(Map<String, Object> param);
 	
 	int updateCaseInfoByAngetId(Map<String, Object> param);		
@@ -46,6 +48,7 @@ public interface ToCaseInfoMapper {
 	 * 
 	 * @author zhangxb16
 	 */
+	@Deprecated
 	public String findcaseCodeByctmCode(String ctmCode);
 
 	/**
@@ -62,7 +65,7 @@ public interface ToCaseInfoMapper {
 	 * @return
 	 */
 	ToCaseInfoCountVo countToCaseInfoByOrgId(String orgId);
-
+	@Deprecated
 	int isExistCaseCode(String caseCode);
 
 	List<HashMap<String, Object>> selectBusiarbyGroupid(String groupId);
@@ -88,4 +91,21 @@ public interface ToCaseInfoMapper {
 	 * @return
 	 */
 	List<CaseAssistantVO> queryAssistantInfo(String orgId);
+	
+	/**
+	 * 功能：根据成交报告编号 获取案件编号
+	 * 
+	 * @author yinchao
+	 * @since 2017-8-16
+	 */
+	public String findcaseCodeByCcaiCode(String ccaiCode);
+	/**
+	 * 统计CCAICODE 是否已存在
+	 * @param caseCode
+	 * @return
+	 * @author yinchao
+	 * @since 2017-8-16
+	 */
+	int isExistCcaiCode(String ccaiCode);
+	
 }

@@ -9,15 +9,17 @@
     	<param-value>trade-web</param-value>
     </context-param>
 	
-	<!-- Spring ApplicationContext配置文件的路径,可使用通配符，用于后面的Spring Context Loader -->
+	<!-- Spring ApplicationContext配置文件的路径,可使用通配符，用于后面的Spring Context Loader 
+	classpath*:com/aist/uam/auth/META-INF/shiro-beans.xml,
+	-->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:spring/applicationContext.xml,
+			classpath:spring/shiro-beans.xml,
             classpath*:com/aist/common/**/META-INF/beans.xml,
             classpath*:com/aist/uam/**/META-INF/httpInvoke-beans.xml,
 			classpath*:com/aist/uam/**/META-INF/beans.xml,
-            classpath*:com/aist/uam/auth/META-INF/shiro-beans.xml,
             classpath*:com/centaline/trans/**/META-INF/core-beans.xml,
             classpath*:com/centaline/trans/**/META-INF/web-beans.xml,
             classpath*:com/aist/message/**/META-INF/beans.xml

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.common.repository.ToCcaiAttachmentMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.common.entity.ToCcaiAttachment">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="CASE_CODE" jdbcType="VARCHAR" property="caseCode" />
+    <result column="CCAI_FILEID" jdbcType="VARCHAR" property="ccaiFileid" />
+    <result column="CCAI_CODE" jdbcType="VARCHAR" property="ccaiCode" />
+    <result column="FILE_CAT" jdbcType="NVARCHAR" property="fileCat" />
+    <result column="FILE_NAME" jdbcType="NVARCHAR" property="fileName" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="AVAILABLE" jdbcType="NVARCHAR" property="available" />
+    <result column="UPLOAD_TIME" jdbcType="TIMESTAMP" property="uploadTime" />
+    <result column="URL" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, CASE_CODE, CCAI_FILEID, CCAI_CODE, FILE_CAT, FILE_NAME, CREATE_BY, UPDATE_TIME, 
+    UPDATE_BY, CREATE_TIME, AVAILABLE, UPLOAD_TIME, URL
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CCAI_ATTACHMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sctrans.T_TO_CCAI_ATTACHMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.common.entity.ToCcaiAttachment">
+    insert into sctrans.T_TO_CCAI_ATTACHMENT (PKID, CASE_CODE, CCAI_FILEID, 
+      CCAI_CODE, FILE_CAT, FILE_NAME, 
+      CREATE_BY, UPDATE_TIME, UPDATE_BY, 
+      CREATE_TIME, AVAILABLE, UPLOAD_TIME, 
+      URL)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{ccaiFileid,jdbcType=VARCHAR}, 
+      #{ccaiCode,jdbcType=VARCHAR}, #{fileCat,jdbcType=NVARCHAR}, #{fileName,jdbcType=NVARCHAR}, 
+      @{SESSION_USER_ID}, GETDATE(), @{SESSION_USER_ID}, 
+      GETDATE(), #{available,jdbcType=NVARCHAR}, #{uploadTime,jdbcType=TIMESTAMP}, 
+      #{url,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.ToCcaiAttachment">
+    insert into sctrans.T_TO_CCAI_ATTACHMENT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
+      <if test="pkid != null">
+        PKID,
+      </if>
+      <if test="caseCode != null">
+        CASE_CODE,
+      </if>
+      <if test="ccaiFileid != null">
+        CCAI_FILEID,
+      </if>
+      <if test="ccaiCode != null">
+        CCAI_CODE,
+      </if>
+      <if test="fileCat != null">
+        FILE_CAT,
+      </if>
+      <if test="fileName != null">
+        FILE_NAME,
+      </if>
+      <if test="available != null">
+        AVAILABLE,
+      </if>
+      <if test="uploadTime != null">
+        UPLOAD_TIME,
+      </if>
+      <if test="url != null">
+        URL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
+      <if test="pkid != null">
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null">
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ccaiFileid != null">
+        #{ccaiFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="ccaiCode != null">
+        #{ccaiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileCat != null">
+        #{fileCat,jdbcType=NVARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=NVARCHAR},
+      </if>
+      <if test="available != null">
+        #{available,jdbcType=NVARCHAR},
+      </if>
+      <if test="uploadTime != null">
+        #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.ToCcaiAttachment">
+    update sctrans.T_TO_CCAI_ATTACHMENT
+    <set>
+      <if test="caseCode != null">
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ccaiFileid != null">
+        CCAI_FILEID = #{ccaiFileid,jdbcType=VARCHAR},
+      </if>
+      <if test="ccaiCode != null">
+        CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileCat != null">
+        FILE_CAT = #{fileCat,jdbcType=NVARCHAR},
+      </if>
+      <if test="fileName != null">
+        FILE_NAME = #{fileName,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null">
+        AVAILABLE = #{available,jdbcType=NVARCHAR},
+      </if>
+      <if test="uploadTime != null">
+        UPLOAD_TIME = #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null">
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.ToCcaiAttachment">
+    update sctrans.T_TO_CCAI_ATTACHMENT
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      CCAI_FILEID = #{ccaiFileid,jdbcType=VARCHAR},
+      CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      FILE_CAT = #{fileCat,jdbcType=NVARCHAR},
+      FILE_NAME = #{fileName,jdbcType=NVARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      AVAILABLE = #{available,jdbcType=NVARCHAR},
+      UPLOAD_TIME = #{uploadTime,jdbcType=TIMESTAMP},
+      URL = #{url,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <select id="findAttachmentsByCcaiCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CCAI_ATTACHMENT
+    where CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>
