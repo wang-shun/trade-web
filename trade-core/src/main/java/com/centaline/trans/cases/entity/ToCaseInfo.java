@@ -64,9 +64,11 @@ public class ToCaseInfo {
     private String tradeType;
     //付款类型
     private String payType;
+    //CCAI系统流程ID
+    private String applyid;
 	/********************全国交易金融系统 新增字段 end******************************************/
     
-  //查询条件使用
+    //查询条件使用
     private String orgId;
     
 	/*********************全国交易金融系统   弃用字段 begin***********************/
@@ -389,6 +391,13 @@ public class ToCaseInfo {
 
 	public void setPayType(String payType) {
 		this.payType = payType;
+	}
+	public String getApplyid() {
+		return applyid;
+	}
+
+	public void setApplyid(String applyid) {
+		this.applyid = applyid;
 	}
 	
 }

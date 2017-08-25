@@ -1,15 +1,19 @@
-package com.centaline.trans.cases.web;
+package com.centaline.api.ccai.cases.web.v1;
 
 import java.io.IOException;
 
+import javax.validation.Valid;
+
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpException;
 import org.apache.shiro.SecurityUtils;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,19 +22,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aist.common.exception.BusinessException;
+import com.centaline.api.ccai.cases.service.CcaiService;
+import com.centaline.api.ccai.cases.vo.CcaiImportCase;
+import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
+import com.centaline.api.ccai.cases.vo.CcaiImportCaseInfo;
+import com.centaline.api.ccai.cases.vo.CcaiServiceResult;
+import com.centaline.api.enums.CaseSyncParticipantEnum;
 import com.centaline.trans.apilog.service.ApiLogService;
-import com.centaline.trans.cases.entity.CcaiImportCase;
-import com.centaline.trans.cases.entity.CcaiImportCaseGuest;
-import com.centaline.trans.cases.entity.CcaiImportCaseInfo;
-import com.centaline.trans.cases.entity.CcaiServiceResult;
-import com.centaline.trans.cases.service.CcaiService;
-import com.centaline.trans.common.enums.CaseSyncParticipantEnum;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
+ * 案件同步相关Controller
+ * 
  * 返回json的数据接口 请求路径结尾需要加json
  * 否则会不转换JSON，返回406错误
  * @author yinchao
@@ -38,8 +44,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @RestController
 @RequestMapping(value="/api/ccai/v1")
-public class CcaiImportV1Controller {
-	private Logger logger = LoggerFactory.getLogger(CcaiImportV1Controller.class);
+public class CaseSynctController {
+	private Logger logger = LoggerFactory.getLogger(CaseSynctController.class);
 	//记录日志 模块类型
 	private static final String SYNC_MODULE = "CASESYNC";//案件新增同步
 	private static final String UPDATE_MODULE = "CASEUPDATE";//案件修改同步
@@ -63,19 +69,31 @@ public class CcaiImportV1Controller {
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	@RequestMapping(value="/caseSync",method=RequestMethod.POST)
-	public CcaiServiceResult caseImport(@RequestBody CcaiImportCase acase) {
+	@RequestMapping(value="/caseSync.json",method=RequestMethod.POST)
+	public CcaiServiceResult caseImport(@Valid @RequestBody CcaiImportCase acase,Errors errors) {
 		CcaiServiceResult result = new CcaiServiceResult();
 		ObjectMapper mapper = new ObjectMapper();
-		result = validateData(acase);
-		//校验通过 进行数据同步
-		if(result.isSuccess()){
-			try {
-				result = ccaiService.importCase(acase);//数据同步
-			} catch (BusinessException e) {
-				result.setSuccess(false);
-				result.setCode("99");
-				result.setMessage(e.getMessage());
+		StringBuilder msg = new StringBuilder();
+		if(errors.hasErrors()){
+			for(ObjectError err:errors.getAllErrors()){
+				msg.append(err.getDefaultMessage());
+				msg.append("\r\n");
+			}
+			result.setSuccess(false);
+			result.setMessage(msg.toString());
+			result.setCode("99");
+		}else{
+			//做其他的校验
+			result = validateData(acase);
+			//校验通过 进行数据同步
+			if(result.isSuccess()){
+				try {
+					result = ccaiService.importCase(acase);//数据同步
+				} catch (BusinessException e) {
+					result.setSuccess(false);
+					result.setCode("99");
+					result.setMessage(e.getMessage());
+				}
 			}
 		}
 		try {
@@ -99,7 +117,7 @@ public class CcaiImportV1Controller {
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	@RequestMapping(value="/caseUpdate/{type}",method=RequestMethod.POST)
+	@RequestMapping(value="/caseUpdate/{type}.json",method=RequestMethod.POST)
 	@ResponseBody
 	public CcaiServiceResult caseUpdate(@PathVariable String type,@RequestBody CcaiImportCase acase) {
 		CcaiServiceResult result = new CcaiServiceResult();
@@ -129,9 +147,9 @@ public class CcaiImportV1Controller {
 		}
 		try {
 			String data = mapper.writeValueAsString(acase);
-			logger.debug("update type:"+type+"  get data:"+data);
+			logger.debug("sync get data:"+data);
 			apiLogService.apiLog(UPDATE_MODULE, "/api/ccai/v1/caseUpdate/"+type+".json", data, mapper.writeValueAsString(result)
-					, "1", SecurityUtils.getSubject().getSession().getHost());
+					, result.isSuccess()?"0":"1", SecurityUtils.getSubject().getSession().getHost());
 		} catch (JsonProcessingException e) {}
 		return result;
 	}
@@ -150,16 +168,11 @@ public class CcaiImportV1Controller {
 		}else{
 			StringBuilder msg = new StringBuilder();//拼接错误信息
 			//基本信息校验
-			checkBlank(acase,"ccaiId","成交报告ID不能为空",msg);
-			checkBlank(acase,"ccaiCode","成交报告编号不能为空",msg);
-			checkBlank(acase,"tradeType","交易类型不能为空",msg);
-			checkBlank(acase,"payType","付款类型不能为空",msg);
-			checkBlank(acase,"city","城市信息不能为空",msg);
 			cityCodeCheck(acase.getCity(),msg,"城市编码不正确");
 			if(ccaiService.isExistCcaiCode(acase.getCcaiCode())){
 				msg.append("成交报告["+acase.getCcaiCode()+"]编号已存在!\r\n");
 			}
-			boolean hasAgent = false,hasWarrant = false;
+			boolean hasAgent = false,hasWarrant = false,hasSecretary=false;
 			if(acase.getParticipants()==null || acase.getParticipants().size()<2){
 				msg.append("案件参与人信息不完整，请查证!\r\n");
 			}else{
@@ -173,10 +186,14 @@ public class CcaiImportV1Controller {
 						//过户权证校验
 						participantCheck(pa,msg,"过户权证");
 						hasWarrant = true;
+					}else if(CaseSyncParticipantEnum.SECRETARY.getCode().equals(pa.getPosition())){
+						//秘书校验
+						participantCheck(pa,msg,"秘书");
+						hasSecretary = true;
 					}
 				}
-				if(!hasAgent || !hasWarrant){
-					msg.append("至少要有一个经纪人和过户权证信息!\r\n");
+				if(!hasAgent || !hasWarrant || !hasSecretary){
+					msg.append("至少要有一个经纪人和过户权证和秘书信息!\r\n");
 				}
 			}
 			
@@ -189,7 +206,6 @@ public class CcaiImportV1Controller {
 			hasWarrant = false;//买家
 			//客户信息校验
 			for(CcaiImportCaseGuest guest : acase.getGuests()){
-				checkBlank(guest,"position","客户类型不能为空",msg);
 				if("30006001".equals(guest.getPosition())){
 					//业主
 					hasAgent = true;
@@ -251,11 +267,16 @@ public class CcaiImportV1Controller {
 	private void participantCheck(CcaiImportCaseInfo pa,StringBuilder msg,String position){
 		checkBlank(pa,"userName",position+"域账号不能为空",msg);
 		checkBlank(pa,"realName",position+"名称不能为空",msg);
-		checkBlank(pa,"mobile",position+"手机号不能为空",msg);
-		mobileCheck(pa.getMobile(),msg,position+"手机号不正确，请检查!");
-		checkBlank(pa,"grpCode",position+"部门HROC不能为空",msg);
-		checkBlank(pa,"grpName",position+"部门名称不能为空",msg);
-		checkBlank(pa,"grpMgrUserName",position+"部门主管域账号不能为空",msg);
+//		checkBlank(pa,"mobile",position+"手机号不能为空",msg); 取消手机号必填选项
+		if(StringUtils.isNotBlank(pa.getMobile())){
+			mobileCheck(pa.getMobile(),msg,position+"手机号不正确，请检查!");
+		}
+		//秘书部检查部门及主管信息
+		if(!CaseSyncParticipantEnum.SECRETARY.getCode().equals(pa.getPosition())){
+			checkBlank(pa,"grpCode",position+"部门HROC不能为空",msg);
+			checkBlank(pa,"grpName",position+"部门名称不能为空",msg);
+			checkBlank(pa,"grpMgrUserName",position+"部门主管域账号不能为空",msg);
+		}
 	}
 	/**
 	 * 手机号码检查

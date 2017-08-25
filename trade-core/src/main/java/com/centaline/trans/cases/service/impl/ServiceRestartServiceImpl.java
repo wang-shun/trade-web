@@ -393,7 +393,7 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		// 启动新的主流程并记录流程表
 		ToCase cas = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
 		cas.setCaseProperty(CasePropertyEnum.TPZT.getCode());
-		cas.setStatus(CaseStatusEnum.YFD.getCode());
+		cas.setStatus(CaseStatusEnum.YJD.getCode());
 		// 更新Case表
 		toCaseService.updateByCaseCodeSelective(cas);
 		User u = uamUserOrgService.getUserById(cas.getLeadingProcessId());

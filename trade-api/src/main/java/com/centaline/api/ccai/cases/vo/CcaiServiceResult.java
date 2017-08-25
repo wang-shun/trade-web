@@ -1,4 +1,4 @@
-package com.centaline.trans.cases.entity;
+package com.centaline.api.ccai.cases.vo;
 /**
  * ccai服务使用返回相关服务的操作结果
  * @author yinchao

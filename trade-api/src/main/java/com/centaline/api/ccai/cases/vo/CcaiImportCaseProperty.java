@@ -1,4 +1,7 @@
-package com.centaline.trans.cases.entity;
+package com.centaline.api.ccai.cases.vo;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * CCAI导入案件信息房源信息
  * @author yinchao
@@ -25,19 +28,21 @@ public class CcaiImportCaseProperty {
 	private String finishYear;
 	/**物业描述*/
 	private String comment;
-	
+	@NotBlank(message="房源ID不能为空")
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
+	@NotBlank(message="房源编码不能为空")
 	public String getCode() {
 		return code;
 	}
 	public void setCode(String code) {
 		this.code = code;
 	}
+	@NotBlank(message="房源地址不能为空")
 	public String getAddress() {
 		return address;
 	}
@@ -80,6 +85,7 @@ public class CcaiImportCaseProperty {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	@NotBlank(message="所属区域不能为空")
 	public String getDistrict() {
 		return district;
 	}

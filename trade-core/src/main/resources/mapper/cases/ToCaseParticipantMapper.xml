@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.cases.repository.ToCaseParticipantMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.cases.entity.ToCaseParticipant" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CCAI_CODE" property="ccaiCode" jdbcType="VARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="POSITION" property="position" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="GRP_CODE" property="grpCode" jdbcType="VARCHAR" />
+    <result column="GRP_NAME" property="grpName" jdbcType="VARCHAR" />
+    <result column="GRP_MGR_USERNAME" property="grpMgrUsername" jdbcType="VARCHAR" />
+    <result column="GRP_MGR_REALNAME" property="grpMgrRealname" jdbcType="VARCHAR" />
+    <result column="GRP_MGR_MOBILE" property="grpMgrMobile" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CCAI_CODE, CASE_CODE, POSITION, USER_NAME, REAL_NAME, MOBILE, GRP_CODE, GRP_NAME, 
+    GRP_MGR_USERNAME, GRP_MGR_REALNAME, GRP_MGR_MOBILE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE_PARTICIPANT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_CASE_PARTICIPANT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.cases.entity.ToCaseParticipant" >
+    insert into sctrans.T_TO_CASE_PARTICIPANT (PKID, CCAI_CODE, CASE_CODE, 
+      POSITION, USER_NAME, REAL_NAME, 
+      MOBILE, GRP_CODE, GRP_NAME, 
+      GRP_MGR_USERNAME, GRP_MGR_REALNAME, GRP_MGR_MOBILE
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{ccaiCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{grpCode,jdbcType=VARCHAR}, #{grpName,jdbcType=VARCHAR}, 
+      #{grpMgrUsername,jdbcType=VARCHAR}, #{grpMgrRealname,jdbcType=VARCHAR}, #{grpMgrMobile,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToCaseParticipant" >
+    insert into sctrans.T_TO_CASE_PARTICIPANT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="ccaiCode != null" >
+        CCAI_CODE,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="position != null" >
+        POSITION,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="realName != null" >
+        REAL_NAME,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="grpCode != null" >
+        GRP_CODE,
+      </if>
+      <if test="grpName != null" >
+        GRP_NAME,
+      </if>
+      <if test="grpMgrUsername != null" >
+        GRP_MGR_USERNAME,
+      </if>
+      <if test="grpMgrRealname != null" >
+        GRP_MGR_REALNAME,
+      </if>
+      <if test="grpMgrMobile != null" >
+        GRP_MGR_MOBILE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="ccaiCode != null" >
+        #{ccaiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="grpCode != null" >
+        #{grpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="grpName != null" >
+        #{grpName,jdbcType=VARCHAR},
+      </if>
+      <if test="grpMgrUsername != null" >
+        #{grpMgrUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="grpMgrRealname != null" >
+        #{grpMgrRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="grpMgrMobile != null" >
+        #{grpMgrMobile,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.cases.entity.ToCaseParticipant" >
+    update sctrans.T_TO_CASE_PARTICIPANT
+    <set >
+      <if test="ccaiCode != null" >
+        CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        POSITION = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        REAL_NAME = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="grpCode != null" >
+        GRP_CODE = #{grpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="grpName != null" >
+        GRP_NAME = #{grpName,jdbcType=VARCHAR},
+      </if>
+      <if test="grpMgrUsername != null" >
+        GRP_MGR_USERNAME = #{grpMgrUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="grpMgrRealname != null" >
+        GRP_MGR_REALNAME = #{grpMgrRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="grpMgrMobile != null" >
+        GRP_MGR_MOBILE = #{grpMgrMobile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.cases.entity.ToCaseParticipant" >
+    update sctrans.T_TO_CASE_PARTICIPANT
+    set CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      POSITION = #{position,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      REAL_NAME = #{realName,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      GRP_CODE = #{grpCode,jdbcType=VARCHAR},
+      GRP_NAME = #{grpName,jdbcType=VARCHAR},
+      GRP_MGR_USERNAME = #{grpMgrUsername,jdbcType=VARCHAR},
+      GRP_MGR_REALNAME = #{grpMgrRealname,jdbcType=VARCHAR},
+      GRP_MGR_MOBILE = #{grpMgrMobile,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <select id="selectByCcaiCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE_PARTICIPANT
+    where CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE_PARTICIPANT
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+</mapper>

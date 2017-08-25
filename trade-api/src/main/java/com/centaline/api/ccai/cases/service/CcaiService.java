@@ -1,12 +1,6 @@
-package com.centaline.trans.cases.service;
-/**
- * 提供CCAI与案件相关的服务
- * @author yinchao
- *
- */
-
-import com.centaline.trans.cases.entity.CcaiImportCase;
-import com.centaline.trans.cases.entity.CcaiServiceResult;
+package com.centaline.api.ccai.cases.service;
+import com.centaline.api.ccai.cases.vo.CcaiImportCase;
+import com.centaline.api.ccai.cases.vo.CcaiServiceResult;
 
 public interface CcaiService {
 	/**
@@ -37,5 +31,4 @@ public interface CcaiService {
 	 * @return
 	 */
 	public boolean isExistCcaiCode(String ccaiCode);
-	
 }

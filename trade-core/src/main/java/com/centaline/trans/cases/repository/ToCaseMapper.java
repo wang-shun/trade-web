@@ -170,5 +170,12 @@ public interface ToCaseMapper {
 	 * @return
 	 */
 	int updateAssistant(ToCase tocase);
+	/**
+	 * TODO 增加定时任务 每月1号00:00:00 将序列重置为1开始
+	 * 获取sctrans.seq_case_code的下一个序列号，仅仅是序列号
+	 * @return
+	 * @author yinchao
+	 */
+	String nextCaseCodeNumber();
 
 }

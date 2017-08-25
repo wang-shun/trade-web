@@ -1,4 +1,4 @@
-package com.centaline.trans.common.enums;
+package com.centaline.api.enums;
 /**
  * 案件同步时，参与者类型信息枚举
  * @author yinchao
@@ -6,9 +6,8 @@ package com.centaline.trans.common.enums;
  */
 public enum CaseSyncParticipantEnum {
 	
-	AGENT("agent", "经纪人"), WARRANT("warrant", "过户权证"),
-	LOAN("loan", "贷款权证"), FINANCIAL("financial", "金融权证"),
-	WARZONE ("warzone", "战区管理人员");
+	AGENT("agent", "经纪人"),SECRETARY("secretary","秘书"), WARRANT("warrant", "过户权证"),
+	LOAN("loan", "贷款权证"), FINANCIAL("financial", "金融权证");
 
 	private String code;
 

@@ -1,6 +1,8 @@
-package com.centaline.trans.cases.entity;
+package com.centaline.api.ccai.cases.vo;
 
 import java.util.Date;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * CCAI案件导入附件信息
@@ -13,24 +15,28 @@ public class CcaiImportAttachment {
 	private String type;
 	private String url;
 	private Date uploadTime;
+	@NotBlank(message="附件ID不能为空")
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
+	@NotBlank(message="附件名称不能为空")
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
+	@NotBlank(message="附件类型不能为空")
 	public String getType() {
 		return type;
 	}
 	public void setType(String type) {
 		this.type = type;
 	}
+	@NotBlank(message="附件地址不能为空")
 	public String getUrl() {
 		return url;
 	}

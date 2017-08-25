@@ -1,4 +1,9 @@
-package com.centaline.trans.cases.entity;
+package com.centaline.api.ccai.cases.vo;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+import com.centaline.api.enums.CaseSyncParticipantEnum;
+
 /**
  * 需要导入的CCAI案件基本信息
  * 主要包含
@@ -14,7 +19,9 @@ package com.centaline.trans.cases.entity;
  *
  */
 public class CcaiImportCaseInfo {
-	/** 案件基本信息 类型 agent warrant loan financial warzone*/
+	/** 案件基本信息 类型 
+	 * 	@see CaseSyncParticipantEnum
+	 * */
 	private String position;
 	/**办理人域账号*/
 	private String userName;
@@ -32,7 +39,7 @@ public class CcaiImportCaseInfo {
 	private String grpMgrRealName;
 	/**部门管理人手机号*/
 	private String grpMgrMobile;
-	
+	@NotBlank(message="参与人类型不能为空")
 	public String getPosition() {
 		return position;
 	}

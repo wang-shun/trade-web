@@ -1,0 +1,6 @@
+---
+defaultMap:
+  #10 hour
+  ttl: 36000000
+  maxIdleTime: 36000000
+  

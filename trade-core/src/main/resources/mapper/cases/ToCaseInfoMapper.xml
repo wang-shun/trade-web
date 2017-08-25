@@ -36,13 +36,14 @@
 	<result column="CCAI_CODE" property="ccaiCode" jdbcType="VARCHAR" />
     <result column="TRADE_TYPE" property="tradeType" jdbcType="VARCHAR" />
     <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" />
+     <result column="APPLYID" property="applyid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List">
      PKID, CTM_CODE, AGENT_CODE, CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
     AGENT_NAME,DISPATCH_TIME,IMPORT_TIME, GRP_CODE, GRP_NAME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE,TARGET_CODE, 
     QJDS_NAME,QYJL_NAME,QYZJ_NAME,SWZ_CODE,SWZ_NAME,WZ_CODE,WZ_NAME,BA_CODE,BA_NAME,
     refer_consultant_id,refer_consultant_realname,SOURCE_OF_COOPERATION,RECOMMEND_USERNAME,RECOMMEND_PHONE,
-    CCAI_CODE, TRADE_TYPE, PAY_TYPE
+    CCAI_CODE, TRADE_TYPE, PAY_TYPE, APPLYID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -68,7 +69,7 @@
       refer_consultant_id, refer_consultant_realname, 
       SOURCE_OF_COOPERATION, RECOMMEND_USERNAME, 
       RECOMMEND_PHONE, CCAI_CODE, TRADE_TYPE, 
-      PAY_TYPE)
+      PAY_TYPE, APPLYID)
     values (#{pkid,jdbcType=BIGINT}, #{ctmCode,jdbcType=VARCHAR}, #{agentCode,jdbcType=VARCHAR}, 
       #{caseCode,jdbcType=VARCHAR}, #{requireProcessorId,jdbcType=VARCHAR}, #{isResponsed,jdbcType=CHAR}, 
       #{resDate,jdbcType=TIMESTAMP}, #{agentName,jdbcType=VARCHAR}, #{agentUsername,jdbcType=VARCHAR}, 
@@ -82,7 +83,7 @@
       #{referConsultantId,jdbcType=VARCHAR}, #{referConsultantRealname,jdbcType=NVARCHAR}, 
       #{sourceOfCooperation,jdbcType=VARCHAR}, #{recommendUsername,jdbcType=VARCHAR}, 
       #{recommendPhone,jdbcType=VARCHAR}, #{ccaiCode,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR}, 
-      #{payType,jdbcType=VARCHAR})
+      #{payType,jdbcType=VARCHAR}, #{applyid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
     insert into sctrans.T_TO_CASE_INFO
@@ -190,6 +191,9 @@
       <if test="payType != null" >
         PAY_TYPE,
       </if>
+      <if test="applyid != null" >
+        APPLYID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
     	GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
@@ -295,6 +299,9 @@
       <if test="payType != null" >
         #{payType,jdbcType=VARCHAR},
       </if>
+      <if test="applyid != null" >
+        #{applyid,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
@@ -333,12 +340,15 @@
       RECOMMEND_PHONE = #{recommendPhone,jdbcType=VARCHAR},
       CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
       TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
-      PAY_TYPE = #{payType,jdbcType=VARCHAR}
+      PAY_TYPE = #{payType,jdbcType=VARCHAR},
+      APPLYID = #{applyid,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.cases.entity.ToCaseInfo" >
     update sctrans.T_TO_CASE_INFO
     <set >
+     UPDATE_BY = @{SESSION_USER_ID},
+     UPDATE_TIME = GETDATE(),
       <if test="ctmCode != null" >
         CTM_CODE = #{ctmCode,jdbcType=VARCHAR},
       </if>
@@ -386,12 +396,6 @@
       </if>
       <if test="targetCode != null" >
         TARGET_CODE = #{targetCode,jdbcType=VARCHAR},
-      </if>
-      <if test="updateBy != null" >
-        UPDATE_BY = @{SESSION_USER_ID},
-      </if>
-      <if test="updateTime != null" >
-        UPDATE_TIME = GETDATE(),
       </if>
       <if test="qyjlName != null" >
         QYJL_NAME = #{qyjlName,jdbcType=NVARCHAR},
@@ -443,6 +447,9 @@
       </if>
       <if test="payType != null" >
         PAY_TYPE = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="applyid != null" >
+        APPLYID = #{applyid,jdbcType=VARCHAR},
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}

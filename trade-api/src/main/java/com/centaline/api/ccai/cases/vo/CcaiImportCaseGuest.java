@@ -1,4 +1,7 @@
-package com.centaline.trans.cases.entity;
+package com.centaline.api.ccai.cases.vo;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * CCAI导入案件客户信息
  * @author yinchao
@@ -17,24 +20,28 @@ public class CcaiImportCaseGuest {
 	private String certType;
 	/**客户身份证件编码*/
 	private String certCode;
+	@NotBlank(message="客户ID不能为空")
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
+	@NotBlank(message="客户类型不能为空")
 	public String getPosition() {
 		return position;
 	}
 	public void setPosition(String position) {
 		this.position = position;
 	}
+	@NotBlank(message="客户名称不能为空")
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
+	@NotBlank(message="客户手机号不正确")
 	public String getMobile() {
 		return mobile;
 	}

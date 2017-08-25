@@ -50,9 +50,9 @@ import com.centaline.trans.team.entity.TsTeamScopeTarget;
 import com.centaline.trans.team.service.TsTeamScopeTargetService;
 import com.centaline.trans.utils.DateUtil;
 import com.centaline.trans.wdcase.entity.TdmPaidSubs;
-import com.centaline.trans.wdcase.entity.TpdPayment;
 import com.centaline.trans.wdcase.entity.TpdCommSubs;
 import com.centaline.trans.wdcase.entity.TpdCommSubsDetals;
+import com.centaline.trans.wdcase.entity.TpdPayment;
 import com.centaline.trans.wdcase.repository.TdmPaidSubsMapper;
 import com.centaline.trans.wdcase.repository.TpdCommSubsDetalsMapper;
 import com.centaline.trans.wdcase.repository.TpdCommSubsMapper;
@@ -157,7 +157,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 			//插入案件信息
 			toCase.setCaseCode(caseCode);
 			toCase.setCaseProperty(CasePropertyEnum.TPZJ.getCode());//自建案件
-			toCase.setStatus(CaseStatusEnum.WFD.getCode());//未分单
+			toCase.setStatus(CaseStatusEnum.WJD.getCode());//未分单
 			toCase.setCaseOrigin(CaseOriginEnum.INPUT.getCode());					
 			insertCase = toCaseService.insertSelective(toCase);
 			
@@ -369,7 +369,7 @@ public class CaseMergeServiceImpl implements CaseMergeService {
 		ToCase toCase = new ToCase();
 		toCase.setCaseCode(caseCode);
 		toCase.setCaseProperty(CasePropertyEnum.TPWD.getCode());
-		toCase.setStatus(CaseStatusEnum.YFD.getCode());
+		toCase.setStatus(CaseStatusEnum.YJD.getCode());
 		toCase.setCaseOrigin(CaseOriginEnum.WD.getCode());
 		toCase.setLeadingProcessId(user.getId());
 		toCase.setOrgId(user.getServiceDepId());

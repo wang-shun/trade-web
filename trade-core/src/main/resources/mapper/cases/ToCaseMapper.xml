@@ -730,4 +730,9 @@ FROM
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
+  <!-- 获取下一个caseCode序列号 -->
+  <select id="nextCaseCodeNumber" resultType="java.lang.String">
+  	select  right('0000'+ CONVERT(varchar(4),NEXT VALUE FOR [sctrans].[seq_case_code]),4)
+ </select>
+  
 </mapper>
