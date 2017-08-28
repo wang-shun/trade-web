@@ -84,7 +84,7 @@ public class ToHouseTransferController {
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
 		request.setAttribute("toMortgage", toMortgage);
 
-		return "task" + UiImproveUtil.getPageType(request) + "/taskGuohu";
+		return "task" + UiImproveUtil.getPageType(request) + "/taskGuohu1";
 	}
 	@RequestMapping(value="saveToHouseTransfer")
 	@ResponseBody

@@ -258,5 +258,7 @@
 		<!-- 应收科目 -->
 		<mapper resource="mapper/performance/SubjectMapper.xml" />
 		<mapper resource="mapper/eval/ToEvalMapper.xml"/>
+		<!--缴税 -->
+		<mapper resource="mapper/task/ToRatePaymentMapper.xml"/>
 	</mappers>
 </configuration>

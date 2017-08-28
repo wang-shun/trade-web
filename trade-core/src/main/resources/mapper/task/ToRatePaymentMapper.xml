@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.task.repository.ToRatePaymentMapper">
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.ToRatePayment">
+    <id column="PKID" jdbcType="BIGINT" property="pkid" />
+    <result column="CASE_CODE" jdbcType="VARCHAR" property="caseCode" />
+    <result column="PERSONAL_INCOME_TAX" jdbcType="DECIMAL" property="personalIncomeTax" />
+    <result column="BUSINESS_TAX" jdbcType="DECIMAL" property="businessTax" />
+    <result column="CONTRACT_TAX" jdbcType="DECIMAL" property="contractTax" />
+    <result column="LAND_INCREMENT_TAX" jdbcType="DECIMAL" property="landIncrementTax" />
+    <result column="COMMENT" jdbcType="VARCHAR" property="comment" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="PAYMENT_TIME" jdbcType="TIMESTAMP" property="paymentTime" />
+    <result column="PART_CODE" jdbcType="VARCHAR" property="partCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PKID, PAYMENT_TIME,CASE_CODE, PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX, 
+    COMMENT, PART_CODE,CREATE_BY, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_RATE_PAYMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sctrans.T_TO_RATE_PAYMENT
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.task.entity.ToRatePayment">
+	insert into sctrans.T_TO_RATE_PAYMENT (PKID, CASE_CODE,
+	PERSONAL_INCOME_TAX,
+	BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,
+	COMMENT, CREATE_BY, CREATE_TIME,
+	PAYMENT_TIME, PART_CODE)
+	values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR},
+	#{personalIncomeTax,jdbcType=DECIMAL},
+	#{businessTax,jdbcType=DECIMAL}, #{contractTax,jdbcType=DECIMAL}, #{landIncrementTax,jdbcType=DECIMAL},
+	#{comment,jdbcType=VARCHAR}, @{SESSION_USER_ID},
+	GETDATE(),
+	#{paymentTime,jdbcType=TIMESTAMP}, #{partCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToRatePayment">
+    insert into sctrans.T_TO_RATE_PAYMENT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        PKID,
+      </if>
+      <if test="caseCode != null">
+        CASE_CODE,
+      </if>
+      <if test="personalIncomeTax != null">
+        PERSONAL_INCOME_TAX,
+      </if>
+      <if test="businessTax != null">
+        BUSINESS_TAX,
+      </if>
+      <if test="contractTax != null">
+        CONTRACT_TAX,
+      </if>
+      <if test="landIncrementTax != null">
+        LAND_INCREMENT_TAX,
+      </if>
+      <if test="comment != null">
+        COMMENT,
+      </if>
+        CREATE_BY,
+        CREATE_TIME,
+      <if test="paymentTime != null">
+        PAYMENT_TIME,
+      </if>
+      <if test="partCode != null">
+        PART_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkid != null">
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null">
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="personalIncomeTax != null">
+        #{personalIncomeTax,jdbcType=DECIMAL},
+      </if>
+      <if test="businessTax != null">
+        #{businessTax,jdbcType=DECIMAL},
+      </if>
+      <if test="contractTax != null">
+        #{contractTax,jdbcType=DECIMAL},
+      </if>
+      <if test="landIncrementTax != null">
+        #{landIncrementTax,jdbcType=DECIMAL},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+       @{SESSION_USER_ID},
+     	GETDATE(),
+      <if test="paymentTime != null">
+        #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partCode != null">
+        #{partCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.task.entity.ToRatePayment">
+    update sctrans.T_TO_RATE_PAYMENT
+    <set>
+      <if test="caseCode != null">
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="personalIncomeTax != null">
+        PERSONAL_INCOME_TAX = #{personalIncomeTax,jdbcType=DECIMAL},
+      </if>
+      <if test="businessTax != null">
+        BUSINESS_TAX = #{businessTax,jdbcType=DECIMAL},
+      </if>
+      <if test="contractTax != null">
+        CONTRACT_TAX = #{contractTax,jdbcType=DECIMAL},
+      </if>
+      <if test="landIncrementTax != null">
+        LAND_INCREMENT_TAX = #{landIncrementTax,jdbcType=DECIMAL},
+      </if>
+      <if test="comment != null">
+        COMMENT = #{comment,jdbcType=VARCHAR},
+      </if>
+        CREATE_BY = @{SESSION_USER_ID},
+        CREATE_TIME =GETDATE(),
+      <if test="paymentTime != null">
+        PAYMENT_TIME = #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partCode != null">
+        PART_CODE = #{partCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.task.entity.ToRatePayment">
+    update sctrans.T_TO_RATE_PAYMENT
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      PERSONAL_INCOME_TAX = #{personalIncomeTax,jdbcType=DECIMAL},
+      BUSINESS_TAX = #{businessTax,jdbcType=DECIMAL},
+      CONTRACT_TAX = #{contractTax,jdbcType=DECIMAL},
+      LAND_INCREMENT_TAX = #{landIncrementTax,jdbcType=DECIMAL},
+      COMMENT = #{comment,jdbcType=VARCHAR},
+      CREATE_BY = @{SESSION_USER_ID},
+      CREATE_TIME = GETDATE(),
+      PAYMENT_TIME = #{paymentTime,jdbcType=TIMESTAMP},
+      PART_CODE = #{partCode,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findToRatePaymentByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select 
+  <include refid="Base_Column_List" />
+  from sctrans.T_TO_RATE_PAYMENT
+  where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+</mapper>
