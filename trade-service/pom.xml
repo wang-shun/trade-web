@@ -14,7 +14,7 @@
 	<repositories>
         <repository>
             <id>nexus</id>
-            <url>http://nexus.aist.io/nexus/repository/maven-public/</url>
+            <url>http://nexus.centaline.com.cn/nexus/repository/maven-public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -27,7 +27,7 @@
     <pluginRepositories>
         <pluginRepository>
             <id>nexus</id>
-            <url>http://nexus.aist.io/nexus/repository/maven-public/</url>
+            <url>http://nexus.centaline.com.cn/nexus/repository/maven-public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -38,14 +38,14 @@
     </pluginRepositories>
     <distributionManagement>
         <repository>
-            <id>releases.nexus.aist.io</id>
+            <id>releases.nexus.centaline.com.cn</id>
             <name>AIST Nexus Releases Repository</name>
-            <url>http://nexus.aist.io/nexus/repository/maven-releases/</url>
+            <url>http://nexus.centaline.com.cn/nexus/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>snapshots.nexus.aist.io</id>
+            <id>snapshots.nexus.centaline.com.cn</id>
             <name>AIST Nexus Releases Repository</name>
-            <url>http://nexus.aist.io/nexus/repository/maven-snapshots/</url>
+            <url>http://nexus.centaline.com.cn/nexus/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     
