@@ -21,8 +21,6 @@ public interface ToPropertyInfoMapper {
 
 	int updateByPrimaryKeySelective(ToPropertyInfo record);
 
-	int updateByPrimaryKeyWithBLOBs(ToPropertyInfo record);
-
 	int updateByPrimaryKey(ToPropertyInfo record);
 
 	ToPropertyInfo findToPropertyInfoByCaseCode(String caseCode);
@@ -37,6 +35,7 @@ public interface ToPropertyInfoMapper {
 	List<ToPropertyInfo> getPropertyInfoByPropertyCode(String propertyCode);
 
 	// 根据房屋id 去查询同义词
+	@Deprecated
 	ViHouseDelBaseVo selectByHoudelCode(String property_agent_id);
 
 	OrgVO getPropertyDepInfoByuserDepId(String depid);
@@ -73,5 +72,12 @@ public interface ToPropertyInfoMapper {
 	 */
 	public String getServiceSpecialistByPropertyAddr(
 			PropertyAddrSearchVo propertyAddrSearchVo);
+	/**
+	 * 根据CCAI成交报告编码获取物业信息
+	 * @return
+	 * @author yinchao 
+	 */
+	public ToPropertyInfo findPropertyByCcaiCode(String ccaiCode);
+	
 
 }

@@ -307,15 +307,26 @@ public class CaseDistributeController
         {
 
             ToPropertyInfo propertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
-            // 房源编号
-            String delCode = propertyInfo.getPropertyAgentId();
-            if (StringUtils.isBlank(delCode))
-            {
-                continue;
-            }
-            // 当前案件属于的区域
+            //房屋信息为空 或者所属区域为空 则无法进行校验
+            if(propertyInfo==null || StringUtils.isBlank(propertyInfo.getDistCode())) continue;
             boolean isExistNoPatter = true;
-            String districtCode = "";
+            //TODO 改写案件所属区域校验规则
+            for (TsPrResearchMap tsPrResearchMap : tsPrResearchMapList){
+                if (propertyInfo.getDistCode().equalsIgnoreCase(tsPrResearchMap.getDistCode().trim())){
+                    isExistNoPatter = false;
+                    break;
+                }
+            }
+            
+            // 房源编号
+//            String delCode = propertyInfo.getPropertyAgentId();
+//            if (StringUtils.isBlank(delCode))
+//            {
+//                continue;
+//            }
+            // 当前案件属于的区域
+//            boolean isExistNoPatter = true;
+//            String districtCode = "";
             //TODO 需要获取房源信息 判定房源的所属区域 by : yinchao
 //            ViHouseDelBaseVo housevo = toPropertyInfoService.getHouseBaseByHoudelCode(delCode);
 //            if (housevo != null && StringUtils.isNotBlank(housevo.getDISTRICT_CODE()))

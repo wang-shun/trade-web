@@ -39,11 +39,13 @@
             <pattern>%date %level [%thread] %logger [%file : %line] %msg%n</pattern>
         </encoder>
     </appender>
-
+	<logger name="com.centaline.trans.cases.web.CcaiImportV1Controller" additivity="false" level="DEBUG">
+    	<appender-ref ref="APILOG_FILE"></appender-ref>
+    </logger>
     <logger name="com.centaline" additivity="false" level="DEBUG">
     	<appender-ref ref="STDOUT"></appender-ref>
     </logger>
-    <logger name="org.springframework" additivity="false" level="ERROR">
+    <logger name="org.springframework" additivity="false" level="INFO">
     </logger>
     <logger name="aist-access" additivity="false" level="INFO">
         <appender-ref ref="ACCESS_LOG" />

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+   	<!-- 该文件由于在uam-client包中，现在需要增加CCAI接口相关的路径权限，所以先放在此处，后期对uam-client包中配置文件进行更新 -->
+	<!-- 缓存管理器 -->
+    <bean id="tbspShiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" >
+        <property name="cacheManagerConfigFile" value="classpath:com/aist/uam/auth/META-INF/ehcache.xml"/>
+    </bean>
+    
+    <!-- 凭证匹配器 -->
+    <bean id="credentialsMatcher" class="com.aist.uam.auth.realm.RetryLimitHashedCredentialsMatcher">
+        <constructor-arg ref="tbspShiroCacheManager"/>
+        <property name="hashAlgorithmName" value="md5"/>
+        <property name="hashIterations" value="2"/>
+        <property name="storedCredentialsHexEncoded" value="true"/>
+    </bean>
+
+    <!-- Realm实现 -->
+    <bean id="casRealm" class="com.aist.uam.auth.realm.CasAppRealm">
+        <property name="cachingEnabled" value="false"/>
+        <!-- <property name="uamSessionService" ref="${client.remote.uamSessionService}"></property> -->
+        <property name="casServerUrlPrefix" value="${cas.server.url.prefix}"/>
+        <property name="casService" value="${cas.service.url}"/>
+    </bean>
+    
+    <!-- 微信端Realm实现 -->
+    <bean id="weixinRealm" class="com.aist.uam.auth.realm.WeiXinRealm">
+        <property name="cachingEnabled" value="false"/>
+<!--         <property name="uamUserOrgService" ref="${client.remote.uamUserOrgService:uamUserOrgServiceClient}" />
+        <property name="uamPermissionService" ref="${client.remote.uamPermissionService:uamPermissionServiceClient}" />
+        <property name="uamSessionService" ref="${client.remote.uamSessionService}"/> -->
+    </bean>
+    
+    <!-- sessionToken -->
+    <bean id="mobileSessionTokenRepository" class="com.aist.common.shiro.mobile.token.impl.MobileSessionTokenRepositoryImpl">
+     	<property name="redisCacheManager" ref="shiroSessionRedisManager"></property>
+    </bean>
+    
+    <!-- 手机接口端Realm实现 -->
+    <bean id="restfulRealm" class="com.aist.uam.auth.realm.RestfulRealm">
+    	<property name="jdbcTemplate" ref="jdbcTemplate" />
+    	<property name="timeout" value="${session.timeout:3600000}"/>
+        <property name="cachingEnabled" value="false"/>
+        <property name="casServerUrl" value="${cas.server.url.resful:http://sso.centaline.com:8080/aist-sso-web}" />
+        <property name="appName" value="${uam.permission.currentAppName}"/>
+        <!-- <property name="mobileSessionTokenRepository" ref="mobileSessionTokenRepository"/>
+        <property name="uamSessionService" ref="${client.remote.uamSessionService}"/>
+        <property name="userOrgService" ref="${client.remote.uamUserOrgService:uamUserOrgServiceClient}"/>
+        <property name="uamPermissionService" ref="${client.remote.uamPermissionService:uamPermissionServiceClient}"/> -->
+    </bean>
+    
+    <bean id="restfulRefreshRealm" class="com.aist.uam.auth.realm.RestfulRefreshRealm">
+    	<property name="timeout" value="${session.timeout:3600000}"/>
+        <property name="cachingEnabled" value="false"/>
+		<property name="redisSessionDao" ref="redisSessionDao"/>
+		<!-- <property name="refreshTokenService" ref="refreshTokenService"/> -->
+		<!-- <property name="mobileSessionTokenRepository" ref="mobileSessionTokenRepository"/> -->
+        <!-- <property name="uamSessionService" ref="${client.remote.uamSessionService}"/> -->
+    </bean>
+
+    <!-- 会话ID生成器 -->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+
+    <bean id="redisSessionDao" class="com.aist.uam.auth.repository.RedisSessionRepository">
+    	<property name="sessionIdGenerator" ref="sessionIdGenerator"></property>
+    	<property name="redisCacheManager" ref="shiroSessionRedisManager"></property>
+    	<property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+    	<property name="cacheManager" ref="tbspShiroCacheManager"/>
+    </bean>
+    
+    <!-- 会话Cookie模板 -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="${shiro.session.cookieId:sid}"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="-1"/>
+        <property name="domain" value="${shiro.session.cookieDomain}"/>
+        <property name="path" value="${shiro.session.cookiePath:/}"></property>
+    </bean>
+    
+    <bean id="sessionUserCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="${shiro.sessionUser.cookieId:suid}"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="-1"/>
+        <property name="domain" value="${shiro.sessionUser.cookieDomain}"/>
+        <property name="path" value="${shiro.sessionUser.cookiePath:/}"></property>
+    </bean>
+
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="rememberMe"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="2592000"/><!-- 30天 -->
+    </bean>
+    
+    <!-- rememberMe管理器 -->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <!-- rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位）-->
+        <property name="cipherKey"
+                  value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean>
+    
+    <!-- 会话验证调度器-->
+    <bean id="sessionValidationScheduler" class="com.aist.uam.auth.repository.SessionAppValidationSchedulerImpl">
+        <property name="interval" value="1800000"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean> 
+    
+    <!-- 会话管理器 -->
+   <!--<bean id="sessionManager" class="com.aist.common.shiro.mobile.SessionManager">
+        <property name="deleteInvalidSessions" value="true"/>
+        <property name="sessionValidationSchedulerEnabled" value="false"/>
+        <property name="sessionDAO" ref="redisSessionDao"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean> -->
+    <bean id="sessionManager" class="com.aist.common.shiro.mobile.SessionManager">
+        <property name="deleteInvalidSessions" value="true"/>
+        <property name="sessionValidationSchedulerEnabled" value="false"/>
+        <property name="sessionDAO" ref="redisSessionDao"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="mobileSessionTokenRepository" ref="mobileSessionTokenRepository"></property>
+    </bean>
+    
+    <bean id="sessionFactory" class="com.aist.common.shiro.redis.session.ShiroSessionFactory"/>
+    
+	<bean id="uamCasSubjectFactory" class="com.aist.common.shiro.subject.UamCasSubjectFactory">
+		<property name="sessionUserCookie" ref="sessionUserCookie"/>
+		<property name="sessionUserDao" ref="shiroSessionRedisManager"></property>
+		<property name="sessionUserCacheName" value="activeSessionUser"></property>
+	</bean>
+    
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realms">  
+	        <list>  
+	            <ref bean="casRealm" />  
+	        	<ref bean="restfulRealm" />
+	        	<ref bean="restfulRefreshRealm" /> 
+	            <ref bean="weixinRealm" />  
+	        </list>  
+       	</property>
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+        <property name="subjectFactory" ref="uamCasSubjectFactory"/>  
+    </bean>
+
+    <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="securityManager"/>
+    </bean>
+    
+     <!-- 基于Form表单的身份验证过滤器 -->
+    <!-- <bean id="formAuthenticationFilter" class="com.aist.uam.auth.filter.ServerFormAuthenticationFilter">
+        <property name="usernameParam" value="username"/>
+        <property name="passwordParam" value="password"/>
+        <property name="rememberMeParam" value="rememberMe"/>
+    </bean> -->
+    
+    <!-- 获取Service Ticket -->
+    <bean id="casFilter" class="com.aist.uam.auth.filter.CustomCasAppFilter">
+        <property name="failureUrl" value="/"/>
+    </bean>
+    
+    <!-- 验证用户是否登录,记录业务的URL,如果没有登录,跳转到微信的授权页面 -->
+    <bean id="weiXinUserFilter" class="com.aist.uam.auth.filter.WeiXinUserFilter">
+    	<property name="corpId" value="${weixin.corpId}"/>
+    	<property name="corpsecret" value="${weixin.corpsecret}"/>
+    	<property name="weixinAuthUrl" value="${weixin.WEI_XIN_AUTH_URL}"></property>
+    </bean>
+    <bean id="weixinAuthFilter" class="com.aist.uam.auth.filter.WeixinAuthFilter">
+    	<property name="failureUrl" value="${weixin.WEI_XIN_AUTH_FAIL_URL}"/>
+    </bean>
+    
+   <!-- 验证无状态登录 -->
+   <bean id="restfulAuthFilter" class="com.aist.uam.auth.filter.RestfulAuthFilter">
+    	<property name="agentImgUrl" value="${agent.img.url:http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/{0}}"/>
+    	<property name="uamUserOrgService" ref="${client.remote.uamUserOrgService:uamUserOrgServiceClient}" />
+    	<property name="uamBasedataService" ref="${client.remote.uamBasedataService:uamBasedataServiceClient}"></property>
+   </bean>
+   
+   <!-- 自定义userFilter -->
+   <bean id="customUserFilter" class="com.aist.uam.auth.filter.CustomUserFilter"/>
+    
+    <!-- Shiro的Web过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="${cas.login.url}"/>
+        <property name="successUrl" value="${cas.success.url}"/>
+        <property name="unauthorizedUrl" value="${cas.unauthorized.url}"/>
+        <property name="filters">
+            <util:map>
+           		<entry key="weiXinUser" value-ref="weiXinUserFilter"/>
+           		<entry key="weixinAuth" value-ref="weixinAuthFilter"/>
+           		<entry key="restfulAuth" value-ref="restfulAuthFilter"/>
+            	<entry key="cas" value-ref="casFilter"/>
+            	<entry key="customUser" value-ref="customUserFilter"/>
+            </util:map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+            	/casFailure.jsp = anon
+            	/cas = cas
+            	/api/ccai/v1/** = anon
+                /remote/** = anon
+                /mobile/** = anon
+                /media/js/** = anon
+                /media/css/** = anon
+                /momedia/** = anon
+                /static/momedia/** = anon
+                /webservices/** = anon
+                /userorg/org/findOrgZTreeListByAdminOrg.json = anon
+                /anon/** = anon
+                /login = authc
+                /logout = logout
+                /api/** = anon
+                /rest/** = anon
+                /appcross/usersession/**=anon
+                /authenticated = authc
+                /weixin/** = weiXinUser
+                /tweixin/** = weiXinUser
+                /weixinAuth = weixinAuth
+                /restful/login = restfulAuth
+                /restful/refreshToken = restfulAuth
+                /** = customUser
+            </value>
+        </property>
+    </bean>
+    
+    <bean id="logout" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+	    <property name="redirectUrl" value="${cas.logout.redirectUrl}"/>
+	</bean>
+    
+    <!-- Shiro生命周期处理器-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+</beans>

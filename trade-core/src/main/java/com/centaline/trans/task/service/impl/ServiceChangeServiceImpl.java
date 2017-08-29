@@ -187,7 +187,7 @@ public class ServiceChangeServiceImpl implements ServiceChangeService {
 			toWorkFlowService.updateByPrimaryKeySelective(wFlow);
             //重新启动
     		ToCase toCase = toCaseMapper.findToCaseByCaseCode(caseCode);
-    		toCase.setStatus(CaseStatusEnum.YFD.getCode());
+    		toCase.setStatus(CaseStatusEnum.YJD.getCode());
     		int reUp = toCaseMapper.updateByPrimaryKey(toCase);
     		if(reUp == 0) {
     			return 2;

@@ -430,7 +430,7 @@ public class CasenewMessageServiceImpl implements CasenewMessageService{
 		tceinfo.setTargetCode(grpCode);//SQL语句中比较了该字段 所以设置上
 		caseinfo=toCaseInfoMapper.insertSelective(tceinfo);
 		// 2 处理 T_TO_CASE 表
-		tocase.setStatus(CaseStatusEnum.WFD.getCode());  // 状态[如果交易顾问id 为空时则为未分单, 如果交易顾问id 不为空则为已分单] 
+		tocase.setStatus(CaseStatusEnum.WJD.getCode());  // 状态[如果交易顾问id 为空时则为未分单, 如果交易顾问id 不为空则为已分单] 
 		toce=tocaseMapper.insertSelective(tocase);
 		if(toce>0){
 		}else{

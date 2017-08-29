@@ -304,7 +304,7 @@ public class SatisfactionServiceImpl implements SatisfactionService {
 
 	@Override
 	public void initSatisList() {
-		List<ToCase> toCases = toCaseService.findToCaseByStatus(CaseStatusEnum.YQY.getCode());
+		List<ToCase> toCases = toCaseService.findToCaseByStatus(CaseStatusEnum.YWY.getCode());
 		toCases.forEach(toCase -> {
 			String caseCode = toCase.getCaseCode();
 			String yyyyMM =  new SimpleDateFormat("yyyyMM").format(new Date());

@@ -414,7 +414,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 			toCase.setCaseCode(caseCode);
 			toCase.setCtmCode(toCaseInfo.getCtmCode());
 			toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
-			toCase.setStatus(CaseStatusEnum.YFD.getCode());
+			toCase.setStatus(CaseStatusEnum.YJD.getCode());
 			toCase.setCreateTime(new Date());
 			toCase.setLeadingProcessId(userId);
 			//填写誉翠组
@@ -429,10 +429,10 @@ public class ToCaseServiceImpl implements ToCaseService {
     		toCase.setOrgId(orgId);
     		//填写贵宾服务部
 			toCase.setDistrictId(org==null?null:org.getParentId());
-    		if(!CaseStatusEnum.WFD.getCode().equals(toCase.getStatus())){
+    		if(!CaseStatusEnum.WJD.getCode().equals(toCase.getStatus())){
     			throw new BusinessException( "数据已经被修改！");
     		}
-    		toCase.setStatus(CaseStatusEnum.YFD.getCode());
+    		toCase.setStatus(CaseStatusEnum.YJD.getCode());
     		int reToCase = updateByPrimaryKey(toCase);
     		if(reToCase == 0)throw new BusinessException( "案件基本表更新失败！");
     		if(null !=caseCode_){
@@ -702,7 +702,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		/**3.更新表T_TO_CASE_INFO**/
 		ToCaseMerge toCaseMerge = setToCaseMerges(user,toCase,ctmToCase,toCaseInfo,ctmtoCaseInfo,toPropertyInfo,ctmtoPropertyInfo,caseMergerParameter.getInputType());
 		if(null != toCaseMerge){toCaseMergeMapper.insertSelective(toCaseMerge);}
-		if(StringUtils.equals(ctmToCase.getStatus(),CaseStatusEnum.WFD.getCode())||StringUtils.equals(caseMergerParameter.getInputType(), "CTM")){
+		if(StringUtils.equals(ctmToCase.getStatus(),CaseStatusEnum.WJD.getCode())||StringUtils.equals(caseMergerParameter.getInputType(), "CTM")){
 			caseMergerParameter.setId(toCaseMerge.getPkid().toString());
 			agreeMergeCase(user,caseMergerParameter);
 		}
@@ -733,7 +733,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseInfo.setAgentCode(ctmtoCaseInfo.getAgentCode());
 		toCaseInfo.setAgentName(ctmtoCaseInfo.getAgentName());
 		toCaseInfo.setAgentPhone(ctmtoCaseInfo.getAgentPhone());
-		toCaseInfo.setAgentUserName(ctmtoCaseInfo.getAgentUserName());
+		toCaseInfo.setAgentUserName(ctmtoCaseInfo.getAgentUsername());
 		toCaseInfo.setGrpCode(ctmtoCaseInfo.getGrpCode());
 		toCaseInfo.setGrpName(ctmtoCaseInfo.getGrpName());
 		toCaseInfo.setArCode(ctmtoCaseInfo.getArCode());
@@ -780,7 +780,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMerge.setcAgentCode(ctmtoCaseInfo.getAgentCode());/**ctm**/
 		toCaseMerge.setcAgentName(ctmtoCaseInfo.getAgentName());
 		toCaseMerge.setcAgentPhone(ctmtoCaseInfo.getAgentPhone());
-		toCaseMerge.setcAgentUsername(ctmtoCaseInfo.getAgentUserName());
+		toCaseMerge.setcAgentUsername(ctmtoCaseInfo.getAgentUsername());
 		toCaseMerge.setcAgentGrpCode(ctmtoCaseInfo.getGrpCode());
 		toCaseMerge.setcAgentGrpName(ctmtoCaseInfo.getGrpName());
 		toCaseMerge.setcAgentQyjlName(ctmtoCaseInfo.getQyjlName());
@@ -797,7 +797,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 		toCaseMerge.setAgentCode(toCaseInfo.getAgentCode());//自建
 		toCaseMerge.setAgentName(toCaseInfo.getAgentName());
 		toCaseMerge.setAgentPhone(toCaseInfo.getAgentPhone());
-		toCaseMerge.setAgentUsername(toCaseInfo.getAgentUserName());
+		toCaseMerge.setAgentUsername(toCaseInfo.getAgentUsername());
 		toCaseMerge.setAgentGrpCode(toCaseInfo.getGrpCode());
 		toCaseMerge.setAgentGrpName(toCaseInfo.getGrpName());
 		toCaseMerge.setAgentQyjlName(toCaseInfo.getQyjlName());
@@ -1165,7 +1165,7 @@ public class ToCaseServiceImpl implements ToCaseService {
 	 */
 	public ToCase setCToCasestoQf(SessionUser user,ToCase ctmtoCase){
 		ctmtoCase.setCaseOrigin(CaseMergeStatusEnum.CTM.getCode());
-		ctmtoCase.setStatus(CaseStatusEnum.WFD.getCode());
+		ctmtoCase.setStatus(CaseStatusEnum.WJD.getCode());
 		ctmtoCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 		ctmtoCase.setUpdateBy(user.getId());
 		ctmtoCase.setUpdateTime(new Date());
@@ -1334,10 +1334,3 @@ public class ToCaseServiceImpl implements ToCaseService {
 	}
 
 }
-
-
-
-
-
-
-

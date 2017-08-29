@@ -2,7 +2,7 @@ package com.centaline.trans.common.entity;
 
 public class TgGuestInfo {
     private Long pkid;
-
+    //保存CCAI系统中客户唯一ID
     private String guestCode;
 
     private String caseCode;
@@ -19,7 +19,14 @@ public class TgGuestInfo {
 
     private String transPosition;
 
-    private String ctmCode;
+    /********************全国交易金融系统 新增字段 begin******************************************/
+    //CCAI 成交报告编号
+    private String ccaiCode;
+	/********************全国交易金融系统 新增字段 end******************************************/
+    
+	/*********************全国交易金融系统   弃用字段 begin***********************/
+	private String ctmCode;
+	/*********************全国交易金融系统   弃用字段 end***********************/
 
     public Long getPkid() {
         return pkid;
@@ -100,4 +107,12 @@ public class TgGuestInfo {
     public void setCtmCode(String ctmCode) {
         this.ctmCode = ctmCode == null ? null : ctmCode.trim();
     }
+
+	public String getCcaiCode() {
+		return ccaiCode;
+	}
+
+	public void setCcaiCode(String ccaiCode) {
+		this.ccaiCode = ccaiCode;
+	}
 }

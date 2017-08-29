@@ -10,9 +10,9 @@ public class ToPropertyInfo {
 	private String propertyCode;
 
 	private String propertyAddr;
-
-	private String ctmAddr;
-
+	
+	private String ctmAddr;//用于保存CCAI同步过来的房屋地址
+	
 	private String caseCode;
 
 	private Integer totalFloor;
@@ -28,8 +28,6 @@ public class ToPropertyInfo {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", locale = "zh", timezone = "GMT+8")
 	private Date finishYear;
 
-	private String ctmCode;
-
 	private String comment;
 
 	private String propertyAgentId;
@@ -37,6 +35,15 @@ public class ToPropertyInfo {
 	private Date updateTime;
 	/**  UPDATE_BY,UPDATE_TIME**/
 	private String updateBy;
+	
+	/********************全国交易金融系统 新增字段 begin******************************************/
+    //CCAI 成交报告编号
+    private String ccaiCode;
+	/********************全国交易金融系统 新增字段 end******************************************/
+    
+	/*********************全国交易金融系统   弃用字段 begin***********************/
+	private String ctmCode;
+	/*********************全国交易金融系统   弃用字段 end***********************/
 
 	public Date getUpdateTime() {
 		return updateTime;
@@ -166,4 +173,11 @@ public class ToPropertyInfo {
 		this.propertyAgentId = propertyAgentId;
 	}
 
+	public String getCcaiCode() {
+		return ccaiCode;
+	}
+
+	public void setCcaiCode(String ccaiCode) {
+		this.ccaiCode = ccaiCode;
+	}
 }

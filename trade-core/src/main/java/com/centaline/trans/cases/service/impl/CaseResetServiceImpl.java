@@ -85,7 +85,7 @@ public class CaseResetServiceImpl implements CaseResetService {
 		ToCaseInfo casInfo = caseInfoservice.findToCaseInfoByCaseCode(vo.getCaseCode());
 
 		cas.setLeadingProcessId(casInfo.getRequireProcessorId());
-		cas.setStatus(CaseStatusEnum.WFD.getCode());
+		cas.setStatus(CaseStatusEnum.WJD.getCode());
 		cas.setCaseProperty(CasePropertyEnum.TPZT.getCode());
 		casInfo.setResDate(null);
 		casInfo.setIsResponsed("0");

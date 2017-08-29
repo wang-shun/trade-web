@@ -207,8 +207,8 @@ public class CasenewMessageController {
 //		}else{
 			try{
 				//TODO 重写ctm Code 用于测试
-				ctm_case_code = "test"+System.currentTimeMillis();
-				String caseCode = "CaseCode"+System.currentTimeMillis();
+				ctm_case_code = "test"+DateUtil.getFormatDate(new Date(), "yyyyMMddHHmmss");
+				String caseCode = "CaseCode"+DateUtil.getFormatDate(new Date(), "yyyyMMddHHmmss");
 //				String caseCode=apiCaseCode();  // 调用caseCode 的接口方法
 //				if(null==caseCode || "".equals(caseCode)){ // 如果调用apiCaseCode()方式返回的是空, 则调用本地的 generateCode() 方法
 //				String caseCode=generateCode();  // 调用我们自己的生成规则

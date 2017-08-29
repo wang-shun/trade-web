@@ -33,12 +33,17 @@
 	<result column="SOURCE_OF_COOPERATION" jdbcType="VARCHAR" property="sourceOfCooperation" />
 	<result column="recommend_Username" jdbcType="VARCHAR" property="recommendUsername" />
 	<result column="recommend_Phone" jdbcType="VARCHAR" property="recommendPhone" />
+	<result column="CCAI_CODE" property="ccaiCode" jdbcType="VARCHAR" />
+    <result column="TRADE_TYPE" property="tradeType" jdbcType="VARCHAR" />
+    <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" />
+     <result column="APPLYID" property="applyid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List">
      PKID, CTM_CODE, AGENT_CODE, CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
     AGENT_NAME,DISPATCH_TIME,IMPORT_TIME, GRP_CODE, GRP_NAME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE,TARGET_CODE, 
     QJDS_NAME,QYJL_NAME,QYZJ_NAME,SWZ_CODE,SWZ_NAME,WZ_CODE,WZ_NAME,BA_CODE,BA_NAME,
-    refer_consultant_id,refer_consultant_realname,SOURCE_OF_COOPERATION,RECOMMEND_USERNAME,RECOMMEND_PHONE
+    refer_consultant_id,refer_consultant_realname,SOURCE_OF_COOPERATION,RECOMMEND_USERNAME,RECOMMEND_PHONE,
+    CCAI_CODE, TRADE_TYPE, PAY_TYPE, APPLYID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -51,34 +56,55 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
-    insert into sctrans.T_TO_CASE_INFO (PKID, CTM_CODE, AGENT_CODE, 
-      CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED,RES_DATE, 
-    AGENT_NAME,DISPATCH_TIME, AGENT_USERNAME, AR_CODE, AR_NAME, AGENT_PHONE ,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY
-      )
+  	insert into sctrans.T_TO_CASE_INFO (PKID, CTM_CODE, AGENT_CODE, 
+      CASE_CODE, REQUIRE_PROCESSOR_ID, IS_RESPONSED, 
+      RES_DATE, AGENT_NAME, AGENT_USERNAME, 
+      AGENT_PHONE, IMPORT_TIME, DISPATCH_TIME, 
+      GRP_CODE, GRP_NAME, AR_CODE, 
+      AR_NAME, TARGET_CODE, UPDATE_BY, 
+      UPDATE_TIME, CREATE_TIME, CREATE_BY, 
+      QYJL_NAME, SWZ_CODE, SWZ_NAME, 
+      QYZJ_NAME, WZ_CODE, WZ_NAME, 
+      QJDS_NAME, BA_CODE, BA_NAME, 
+      refer_consultant_id, refer_consultant_realname, 
+      SOURCE_OF_COOPERATION, RECOMMEND_USERNAME, 
+      RECOMMEND_PHONE, CCAI_CODE, TRADE_TYPE, 
+      PAY_TYPE, APPLYID)
     values (#{pkid,jdbcType=BIGINT}, #{ctmCode,jdbcType=VARCHAR}, #{agentCode,jdbcType=VARCHAR}, 
       #{caseCode,jdbcType=VARCHAR}, #{requireProcessorId,jdbcType=VARCHAR}, #{isResponsed,jdbcType=CHAR}, 
-      #{resDate,jdbcType=TIMESTAMP}, #{agentName,jdbcType=VARCHAR}, #{dispatchTime,jdbcType=TIMESTAMP},
-      #{agentUserName,jdbcType=VARCHAR}, #{arCode,jdbcType=VARCHAR}, #{arName,jdbcType=VARCHAR}, #{agentPhone,jdbcType=VARCHAR},GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID})
+      #{resDate,jdbcType=TIMESTAMP}, #{agentName,jdbcType=VARCHAR}, #{agentUsername,jdbcType=VARCHAR}, 
+      #{agentPhone,jdbcType=NVARCHAR}, #{importTime,jdbcType=TIMESTAMP}, #{dispatchTime,jdbcType=TIMESTAMP}, 
+      #{grpCode,jdbcType=VARCHAR}, #{grpName,jdbcType=NVARCHAR}, #{arCode,jdbcType=VARCHAR}, 
+      #{arName,jdbcType=NVARCHAR}, #{targetCode,jdbcType=VARCHAR}, @{SESSION_USER_ID}, 
+      GETDATE(),GETDATE(),@{SESSION_USER_ID}, 
+      #{qyjlName,jdbcType=NVARCHAR}, #{swzCode,jdbcType=VARCHAR}, #{swzName,jdbcType=VARCHAR}, 
+      #{qyzjName,jdbcType=NVARCHAR}, #{wzCode,jdbcType=VARCHAR}, #{wzName,jdbcType=NVARCHAR}, 
+      #{qjdsName,jdbcType=NVARCHAR}, #{baCode,jdbcType=VARCHAR}, #{baName,jdbcType=NVARCHAR}, 
+      #{referConsultantId,jdbcType=VARCHAR}, #{referConsultantRealname,jdbcType=NVARCHAR}, 
+      #{sourceOfCooperation,jdbcType=VARCHAR}, #{recommendUsername,jdbcType=VARCHAR}, 
+      #{recommendPhone,jdbcType=VARCHAR}, #{ccaiCode,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR}, 
+      #{payType,jdbcType=VARCHAR}, #{applyid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
     insert into sctrans.T_TO_CASE_INFO
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="pkid != null">
+    	CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
+      <if test="pkid != null" >
         PKID,
       </if>
-      <if test="ctmCode != null">
+      <if test="ctmCode != null" >
         CTM_CODE,
       </if>
-      <if test="agentCode != null">
+      <if test="agentCode != null" >
         AGENT_CODE,
       </if>
-      <if test="caseCode != null">
+      <if test="caseCode != null" >
         CASE_CODE,
       </if>
-      <if test="requireProcessorId != null">
+      <if test="requireProcessorId != null" >
         REQUIRE_PROCESSOR_ID,
       </if>
-      <if test="isResponsed != null">
+      <if test="isResponsed != null" >
         IS_RESPONSED,
       </if>
       <if test="resDate != null" >
@@ -87,11 +113,17 @@
       <if test="agentName != null" >
         AGENT_NAME,
       </if>
-      <if test="dispatchTime != null" >
-        DISPATCH_TIME,
+      <if test="agentUsername != null" >
+        AGENT_USERNAME,
+      </if>
+      <if test="agentPhone != null" >
+        AGENT_PHONE,
       </if>
       <if test="importTime != null" >
         IMPORT_TIME,
+      </if>
+      <if test="dispatchTime != null" >
+        DISPATCH_TIME,
       </if>
       <if test="grpCode != null" >
         GRP_CODE,
@@ -99,20 +131,47 @@
       <if test="grpName != null" >
         GRP_NAME,
       </if>
-      <if test="agentUserName != null" >
-        AGENT_USERNAME,
-      </if>
       <if test="arCode != null" >
         AR_CODE,
       </if>
       <if test="arName != null" >
         AR_NAME,
       </if>
-      <if test="agentPhone != null" >
-        AGENT_PHONE,
-      </if>
       <if test="targetCode != null" >
         TARGET_CODE,
+      </if>
+      <if test="qyjlName != null" >
+        QYJL_NAME,
+      </if>
+      <if test="swzCode != null" >
+        SWZ_CODE,
+      </if>
+      <if test="swzName != null" >
+        SWZ_NAME,
+      </if>
+      <if test="qyzjName != null" >
+        QYZJ_NAME,
+      </if>
+      <if test="wzCode != null" >
+        WZ_CODE,
+      </if>
+      <if test="wzName != null" >
+        WZ_NAME,
+      </if>
+      <if test="qjdsName != null" >
+        QJDS_NAME,
+      </if>
+      <if test="baCode != null" >
+        BA_CODE,
+      </if>
+      <if test="baName != null" >
+        BA_NAME,
+      </if>
+      <if test="referConsultantId != null" >
+        refer_consultant_id,
+      </if>
+      <if test="referConsultantRealname != null" >
+        refer_consultant_realname,
       </if>
       <if test="sourceOfCooperation != null" >
         SOURCE_OF_COOPERATION,
@@ -121,27 +180,39 @@
         RECOMMEND_USERNAME,
       </if>
       <if test="recommendPhone != null" >
-         RECOMMEND_PHONE,
+        RECOMMEND_PHONE,
       </if>
-       CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
+      <if test="ccaiCode != null" >
+        CCAI_CODE,
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE,
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE,
+      </if>
+      <if test="applyid != null" >
+        APPLYID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="pkid != null">
+    	GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
+      <if test="pkid != null" >
         #{pkid,jdbcType=BIGINT},
       </if>
-      <if test="ctmCode != null">
+      <if test="ctmCode != null" >
         #{ctmCode,jdbcType=VARCHAR},
       </if>
-      <if test="agentCode != null">
+      <if test="agentCode != null" >
         #{agentCode,jdbcType=VARCHAR},
       </if>
-      <if test="caseCode != null">
+      <if test="caseCode != null" >
         #{caseCode,jdbcType=VARCHAR},
       </if>
-      <if test="requireProcessorId != null">
+      <if test="requireProcessorId != null" >
         #{requireProcessorId,jdbcType=VARCHAR},
       </if>
-      <if test="isResponsed != null">
+      <if test="isResponsed != null" >
         #{isResponsed,jdbcType=CHAR},
       </if>
       <if test="resDate != null" >
@@ -150,32 +221,65 @@
       <if test="agentName != null" >
         #{agentName,jdbcType=VARCHAR},
       </if>
-      <if test="dispatchTime != null" >
-        #{dispatchTime,jdbcType=TIMESTAMP},
+      <if test="agentUsername != null" >
+        #{agentUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPhone != null" >
+        #{agentPhone,jdbcType=NVARCHAR},
       </if>
       <if test="importTime != null" >
         #{importTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dispatchTime != null" >
+        #{dispatchTime,jdbcType=TIMESTAMP},
       </if>
       <if test="grpCode != null" >
         #{grpCode,jdbcType=VARCHAR},
       </if>
       <if test="grpName != null" >
-        #{grpName,jdbcType=VARCHAR},
-      </if>
-      <if test="agentUserName != null" >
-        #{agentUserName,jdbcType=VARCHAR},
+        #{grpName,jdbcType=NVARCHAR},
       </if>
       <if test="arCode != null" >
         #{arCode,jdbcType=VARCHAR},
       </if>
       <if test="arName != null" >
-        #{arName,jdbcType=VARCHAR},
-      </if>
-      <if test="agentPhone != null" >
-        #{agentPhone,jdbcType=VARCHAR},
+        #{arName,jdbcType=NVARCHAR},
       </if>
       <if test="targetCode != null" >
         #{targetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="qyjlName != null" >
+        #{qyjlName,jdbcType=NVARCHAR},
+      </if>
+      <if test="swzCode != null" >
+        #{swzCode,jdbcType=VARCHAR},
+      </if>
+      <if test="swzName != null" >
+        #{swzName,jdbcType=VARCHAR},
+      </if>
+      <if test="qyzjName != null" >
+        #{qyzjName,jdbcType=NVARCHAR},
+      </if>
+      <if test="wzCode != null" >
+        #{wzCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wzName != null" >
+        #{wzName,jdbcType=NVARCHAR},
+      </if>
+      <if test="qjdsName != null" >
+        #{qjdsName,jdbcType=NVARCHAR},
+      </if>
+      <if test="baCode != null" >
+        #{baCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baName != null" >
+        #{baName,jdbcType=NVARCHAR},
+      </if>
+      <if test="referConsultantId != null" >
+        #{referConsultantId,jdbcType=VARCHAR},
+      </if>
+      <if test="referConsultantRealname != null" >
+        #{referConsultantRealname,jdbcType=NVARCHAR},
       </if>
       <if test="sourceOfCooperation != null" >
         #{sourceOfCooperation,jdbcType=VARCHAR},
@@ -186,7 +290,18 @@
       <if test="recommendPhone != null" >
         #{recommendPhone,jdbcType=VARCHAR},
       </if>
-       GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
+      <if test="ccaiCode != null" >
+        #{ccaiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null" >
+        #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="applyid != null" >
+        #{applyid,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.cases.entity.ToCaseInfo">
@@ -198,34 +313,147 @@
       IS_RESPONSED = #{isResponsed,jdbcType=CHAR},
       RES_DATE = #{resDate,jdbcType=TIMESTAMP},
       AGENT_NAME = #{agentName,jdbcType=VARCHAR},
-      DISPATCH_TIME = #{dispatchTime,jdbcType=TIMESTAMP},
-      AGENT_USERNAME = #{agentUserName,jdbcType=VARCHAR},
+      AGENT_USERNAME = #{agentUsername,jdbcType=VARCHAR},
+      AGENT_PHONE = #{agentPhone,jdbcType=NVARCHAR},
       IMPORT_TIME = #{importTime,jdbcType=TIMESTAMP},
+      DISPATCH_TIME = #{dispatchTime,jdbcType=TIMESTAMP},
       GRP_CODE = #{grpCode,jdbcType=VARCHAR},
-      GRP_NAME = #{grpName,jdbcType=VARCHAR},
-      QJDS_NAME = #{qjdsName,jdbcType=VARCHAR},
-      QYJL_NAME = #{qyjlName,jdbcType=VARCHAR},
-      QYZJ_NAME = #{qyzjName,jdbcType=VARCHAR},
+      GRP_NAME = #{grpName,jdbcType=NVARCHAR},
+      AR_CODE = #{arCode,jdbcType=VARCHAR},
+      AR_NAME = #{arName,jdbcType=NVARCHAR},
+      TARGET_CODE = #{targetCode,jdbcType=VARCHAR},
+      UPDATE_BY = @{SESSION_USER_ID},
+      UPDATE_TIME = GETDATE(),
+      QYJL_NAME = #{qyjlName,jdbcType=NVARCHAR},
       SWZ_CODE = #{swzCode,jdbcType=VARCHAR},
       SWZ_NAME = #{swzName,jdbcType=VARCHAR},
+      QYZJ_NAME = #{qyzjName,jdbcType=NVARCHAR},
       WZ_CODE = #{wzCode,jdbcType=VARCHAR},
-      WZ_NAME = #{wzName,jdbcType=VARCHAR},
+      WZ_NAME = #{wzName,jdbcType=NVARCHAR},
+      QJDS_NAME = #{qjdsName,jdbcType=NVARCHAR},
       BA_CODE = #{baCode,jdbcType=VARCHAR},
-      BA_NAME = #{baName,jdbcType=VARCHAR},
-      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      UPDATE_BY = #{updateby,jdbcType=VARCHAR},
-      AR_CODE = #{arCode,jdbcType=VARCHAR},
-      AR_NAME = #{arName,jdbcType=VARCHAR},
-      TARGET_CODE = #{targetCode,jdbcType=VARCHAR},
+      BA_NAME = #{baName,jdbcType=NVARCHAR},
       refer_consultant_id = #{referConsultantId,jdbcType=VARCHAR},
-      refer_consultant_realname = #{referConsultantRealname,jdbcType=VARCHAR},
-      AGENT_PHONE = #{agentPhone,jdbcType=VARCHAR},
+      refer_consultant_realname = #{referConsultantRealname,jdbcType=NVARCHAR},
       SOURCE_OF_COOPERATION = #{sourceOfCooperation,jdbcType=VARCHAR},
-      recommend_Username = #{recommendUsername,jdbcType=VARCHAR},
-      recommend_Phone = #{recommendPhone,jdbcType=VARCHAR}
+      RECOMMEND_USERNAME = #{recommendUsername,jdbcType=VARCHAR},
+      RECOMMEND_PHONE = #{recommendPhone,jdbcType=VARCHAR},
+      CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+      PAY_TYPE = #{payType,jdbcType=VARCHAR},
+      APPLYID = #{applyid,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.cases.entity.ToCaseInfo" >
+    update sctrans.T_TO_CASE_INFO
+    <set >
+     UPDATE_BY = @{SESSION_USER_ID},
+     UPDATE_TIME = GETDATE(),
+      <if test="ctmCode != null" >
+        CTM_CODE = #{ctmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="agentCode != null" >
+        AGENT_CODE = #{agentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requireProcessorId != null" >
+        REQUIRE_PROCESSOR_ID = #{requireProcessorId,jdbcType=VARCHAR},
+      </if>
+      <if test="isResponsed != null" >
+        IS_RESPONSED = #{isResponsed,jdbcType=CHAR},
+      </if>
+      <if test="resDate != null" >
+        RES_DATE = #{resDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agentName != null" >
+        AGENT_NAME = #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentUsername != null" >
+        AGENT_USERNAME = #{agentUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPhone != null" >
+        AGENT_PHONE = #{agentPhone,jdbcType=NVARCHAR},
+      </if>
+      <if test="importTime != null" >
+        IMPORT_TIME = #{importTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dispatchTime != null" >
+        DISPATCH_TIME = #{dispatchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="grpCode != null" >
+        GRP_CODE = #{grpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="grpName != null" >
+        GRP_NAME = #{grpName,jdbcType=NVARCHAR},
+      </if>
+      <if test="arCode != null" >
+        AR_CODE = #{arCode,jdbcType=VARCHAR},
+      </if>
+      <if test="arName != null" >
+        AR_NAME = #{arName,jdbcType=NVARCHAR},
+      </if>
+      <if test="targetCode != null" >
+        TARGET_CODE = #{targetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="qyjlName != null" >
+        QYJL_NAME = #{qyjlName,jdbcType=NVARCHAR},
+      </if>
+      <if test="swzCode != null" >
+        SWZ_CODE = #{swzCode,jdbcType=VARCHAR},
+      </if>
+      <if test="swzName != null" >
+        SWZ_NAME = #{swzName,jdbcType=VARCHAR},
+      </if>
+      <if test="qyzjName != null" >
+        QYZJ_NAME = #{qyzjName,jdbcType=NVARCHAR},
+      </if>
+      <if test="wzCode != null" >
+        WZ_CODE = #{wzCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wzName != null" >
+        WZ_NAME = #{wzName,jdbcType=NVARCHAR},
+      </if>
+      <if test="qjdsName != null" >
+        QJDS_NAME = #{qjdsName,jdbcType=NVARCHAR},
+      </if>
+      <if test="baCode != null" >
+        BA_CODE = #{baCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baName != null" >
+        BA_NAME = #{baName,jdbcType=NVARCHAR},
+      </if>
+      <if test="referConsultantId != null" >
+        refer_consultant_id = #{referConsultantId,jdbcType=VARCHAR},
+      </if>
+      <if test="referConsultantRealname != null" >
+        refer_consultant_realname = #{referConsultantRealname,jdbcType=NVARCHAR},
+      </if>
+      <if test="sourceOfCooperation != null" >
+        SOURCE_OF_COOPERATION = #{sourceOfCooperation,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendUsername != null" >
+        RECOMMEND_USERNAME = #{recommendUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendPhone != null" >
+        RECOMMEND_PHONE = #{recommendPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="ccaiCode != null" >
+        CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="applyid != null" >
+        APPLYID = #{applyid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
    <update id="updateCaseInfoByOrgId" parameterType="java.util.HashMap">
 	UPDATE  TC	
 	SET 
@@ -307,17 +535,26 @@
 		)
   </select>
   
-  <!-- 功能：交易单编号查询  -->
+  <!-- 功能：交易单编号查询 废弃 -->
   <select id="findcaseCodeByctmCode" parameterType="java.lang.String" resultType="java.lang.String">
   		select CASE_CODE from sctrans.T_TO_CASE_INFO where CTM_CODE=#{ctmCode,jdbcType=VARCHAR} 
   </select>
-  
+  <!-- 功能：根据CCAI成交报告编号 获取 案件编号  -->
+  <select id="findcaseCodeByCcaiCode" parameterType="java.lang.String" resultType="java.lang.String">
+  		select CASE_CODE from sctrans.T_TO_CASE_INFO where CCAI_CODE=#{ccaiCode,jdbcType=VARCHAR} 
+  </select>
  
  
-  <!-- 根据ctm 推送过来的编号来判断是否已经存在   -->
+  <!-- 根据ctm 推送过来的编号来判断是否已经存在   废弃-->
   <select id="isExistCaseCode" resultType="java.lang.Integer" parameterType="java.lang.String">
   		select count(1) from sctrans.T_TO_CASE_INFO where CTM_CODE=#{ctmCode,jdbcType=VARCHAR} 
   </select>
+  
+  <!-- 根据CCAI 推送过来的成交报告来判断是否已经存在   -->
+  <select id="isExistCcaiCode" resultType="java.lang.Integer" parameterType="java.lang.String">
+  		select count(1) from sctrans.T_TO_CASE_INFO where CCAI_CODE=#{ccaiCode,jdbcType=VARCHAR} 
+  </select>
+  
   
   <!-- 根据店组id查询出所属分行的名称和code -->
   <select id="selectBusiarbyGroupid" parameterType="java.util.HashMap" resultType="java.util.HashMap">

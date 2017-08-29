@@ -2,13 +2,16 @@ package com.centaline.trans.cases.web;
 
 
 import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.cases.entity.ToCase;
@@ -106,19 +109,19 @@ public class TradOrderNoController {
 				
 				if(null != status){
 					// 根据 status 的值来处理不同的业务逻辑
-					if(CaseStatusEnum.WFD.getCode().equals(status.trim())){  // 1 未分单 -> 操作 T_TO_CASE 表  -> 取 CreateTime 字段
+					if(CaseStatusEnum.WJD.getCode().equals(status.trim())){  // 1 未分单 -> 操作 T_TO_CASE 表  -> 取 CreateTime 字段
 						ToCase casewfd=tocaseService.findToCaseByCaseCode(caseCode);
 						createtime=formatDate.format(casewfd.getCreateTime());  // 将日期转为字符串
-					}else if(CaseStatusEnum.YFD.getCode().equals(status.trim())){  // 2 已分单 -> 操作T_TO_CASE_INFO 表 -> 取ResDate 字段
+					}else if(CaseStatusEnum.YJD.getCode().equals(status.trim())){  // 2 已分单 -> 操作T_TO_CASE_INFO 表 -> 取ResDate 字段
 						ToCaseInfo caseinfoyfd=tocaseInfoService.findToCaseInfoByCaseCode(caseCode);
 						createtime=formatDate.format(caseinfoyfd.getResDate());
-					}else if(CaseStatusEnum.YQY.getCode().equals(status.trim())){  // 3 已签约 -> 操作T_TO_SIGN 表 -> 取RealConTime 字段
+					}else if(CaseStatusEnum.YWY.getCode().equals(status.trim())){  // 3 已签约 -> 操作T_TO_SIGN 表 -> 取RealConTime 字段
 						ToSign signyqy=signservice.findToSignByCaseCode(caseCode);
 						createtime=formatDate.format(signyqy.getRealConTime());
 					}else if(CaseStatusEnum.YGH.getCode().equals(status.trim())){  // 4 过户 -> 操作T_TO_HOUSE_TRANSFER 表 -> 取RealHtTime 字段
 						ToHouseTransfer houseferygh=tohouseTransferService.findToGuoHuByCaseCode(caseCode);
 						createtime=formatDate.format(houseferygh.getRealHtTime());
-					}else if(CaseStatusEnum.YLZ.getCode().equals(status.trim())){  // 5 已领证 -> 操作 T_TO_GET_PROPERTY_BOOK 表 -> 取 RealPropertyGetTime字段
+					}else if(CaseStatusEnum.YLTZ.getCode().equals(status.trim())){  // 5 已领证 -> 操作 T_TO_GET_PROPERTY_BOOK 表 -> 取 RealPropertyGetTime字段
 						ToGetPropertyBook bookylz=togetPropertyBookService.findGetPropertyBookByCaseCode(caseCode);
 						createtime=formatDate.format(bookylz.getRealPropertyGetTime());
 					}else{  // 不存在该状态

@@ -37,6 +37,7 @@
 		<mapper resource="mapper/common/ToReminderListMapper.xml" />
 		<mapper resource="mapper/common/OrgMapper.xml" />
 		<mapper resource="mapper/common/TsOrgRelationMapper.xml" />
+		<mapper resource="mapper/common/ToCcaiAttachmentMapper.xml" />
 		<!-- 任务预计执行时间配置 -->
 		
 		<!-- 附件 -->
@@ -92,6 +93,7 @@
 		<mapper resource="mapper/cases/VCaseTradeInfoMapper.xml" />
 		<mapper resource="mapper/cases/ToCloseMapper.xml" />
 		<mapper resource="mapper/cases/TsCaseEfficientMapper.xml" />
+		<mapper resource="mapper/cases/ToCaseParticipantMapper.xml" />
 <!-- 		<mapper resource="mapper/cases/ToLoanAgentMapper.xml" /> -->
 		<!-- 组别 -->
 		<mapper resource="mapper/team/TsTeamPropertyMapper.xml" />
