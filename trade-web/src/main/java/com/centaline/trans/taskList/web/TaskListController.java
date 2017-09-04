@@ -54,7 +54,7 @@ public class TaskListController {
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
-		return "task/mytask_list2";
+		return "task/mytask_list_new";
 	}
 	/**
 	 * 初始化
