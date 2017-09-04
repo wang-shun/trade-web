@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.aist.uam.auth.remote.UamSessionService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,9 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	private AwardBaseConfigMapper awardBaseConfigMapper;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
+
+	@Autowired
+	private UamSessionService uamSessionService;
 
 	@Autowired
 	private ToCaseService toCaseService;
@@ -178,9 +182,11 @@ public class AwardBaseServiceImpl implements AwardBaseService {
 	 */
 	private void setAwardBaseCommInfo(List<AwardBase> awardList, String caseCode) {
 		Iterator<AwardBase> abs = awardList.iterator();
+		//岗位编码获取岗位 增加城市 by:yinchao 2017/9/4
+		String cityCode = uamSessionService.getSessionUser().getCityCode();
 		while (abs.hasNext()) {
 			AwardBase ab = abs.next();
-			Job j = uamUserOrgService.getJobByCode(ab.getJobCode());
+			Job j = uamUserOrgService.getJobByCode(ab.getJobCode(),cityCode);
 			ab.setJobId(j.getId());
 			ab.setCreateTime(new Date());
 			ab.setCaseCode(caseCode);

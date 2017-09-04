@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.aist.uam.auth.remote.UamSessionService;
+import com.centaline.trans.common.service.CityUtilService;
 import org.hibernate.annotations.SQLUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,6 +45,10 @@ public class UnlocateGRPServiceImpl implements UnlocateGRPService {
 	private App app;
 	@Autowired
 	private UnlocateGRPMapper unlocateGRPMapper;
+	@Autowired
+	private UamSessionService uamSessionService;
+	@Autowired
+	private CityUtilService cityUtilService;
 
 	@Override
 	public void execute() {
@@ -83,8 +89,9 @@ public class UnlocateGRPServiceImpl implements UnlocateGRPService {
 	}
 
 	private void sendMsgToManager(String msg) {
+		//根据岗位编码获取岗位 增加城市字段 通过环境配置中获取 by:yinchao 2017/9/4
 		List<User> managerList = uamUserOrgService
-				.getUserByJobId(uamUserOrgService.getJobByCode(TransJobs.YCADM.getCode()).getId());
+				.getUserByJobId(uamUserOrgService.getJobByCode(TransJobs.YCADM.getCode(),cityUtilService.getCityCode()).getId());
 		Dict d = uamBasedataService.findDictByTypeAndCode(MsgCatagoryEnum.WORK.getCode(), "3");
 		List<String> userIds = new ArrayList<>();
 		for (User user : managerList) {

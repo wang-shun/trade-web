@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 
+import com.aist.uam.auth.remote.UamSessionService;
+import com.centaline.trans.common.service.CityUtilService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,13 +55,19 @@ public class ProfitServiceImpl implements ProfitService {
 	private TsTeamPropertyService teamPropertyService;
 	@Autowired
 	private UamUserOrgService uamUserOrgSerivce;
+	@Autowired
+	private UamSessionService uamSessionService;
+
+	@Autowired
+	private CityUtilService cityUtilService;
 
 	/**
 	 * 功能：根据jobCode 得到jobid
 	 */
 	public String SelectJobByJobCode(String jobCode) {
 		String jobid = null;
-		Job jb = uamUserOrgService.getJobByCode(jobCode);
+		//该处是一个公用的方法 所以使用项目城市环境来进行设置岗位编码对应城市 by:yinchao 2017/9/4
+		Job jb = uamUserOrgService.getJobByCode(jobCode,cityUtilService.getCityCode());
 		if (null != jb) {
 			jobid = jb.getId();
 		}

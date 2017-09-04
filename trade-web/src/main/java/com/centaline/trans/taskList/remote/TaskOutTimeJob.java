@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.aist.uam.auth.remote.UamSessionService;
+import com.centaline.trans.common.service.CityUtilService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +51,10 @@ public class TaskOutTimeJob implements Job {
 	TransplanServiceFacade transplanServiceFacade;
 	@Autowired
 	UamPermissionService  uamPermissionService;
+	@Autowired
+	UamSessionService uamSessionService;
+	@Autowired
+	CityUtilService cityUtilService;
 
 	@Override
 	public synchronized void execute(JobExecutionContext context) {
@@ -111,8 +117,8 @@ public class TaskOutTimeJob implements Job {
 					
 				}
 			}
-			;
-			List<User> managerList = uamUserOrgService.getUserByJobId(uamUserOrgService.getJobByCode(TransJobs.TJYZG.getCode()).getId());
+			//岗位获取增加城市编码 城市编码从配置中获取 by:yinchao 2017/9/4
+			List<User> managerList = uamUserOrgService.getUserByJobId(uamUserOrgService.getJobByCode(TransJobs.TJYZG.getCode(),cityUtilService.getCityCode()).getId());
 
 			//经理 红灯提醒
 			for(User manager:managerList){
