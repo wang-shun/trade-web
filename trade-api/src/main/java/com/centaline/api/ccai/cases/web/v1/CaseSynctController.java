@@ -1,38 +1,26 @@
 package com.centaline.api.ccai.cases.web.v1;
 
-import java.io.IOException;
-
-import javax.validation.Valid;
-
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpException;
-import org.apache.shiro.SecurityUtils;
-import org.json.JSONException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.aist.common.exception.BusinessException;
 import com.centaline.api.ccai.cases.service.CcaiService;
 import com.centaline.api.ccai.cases.vo.CcaiImportCase;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseInfo;
-import com.centaline.api.ccai.cases.vo.CcaiServiceResult;
 import com.centaline.api.enums.CaseSyncParticipantEnum;
 import com.centaline.trans.apilog.service.ApiLogService;
-import com.fasterxml.jackson.core.JsonParseException;
+import com.centaline.api.common.vo.CcaiServiceResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * 案件同步相关Controller
@@ -61,16 +49,11 @@ public class CaseSynctController {
 	
 	/**
 	 * ccai导入案件接口
-	 * @param data json格式案件信息
+	 * @param acase json格式案件信息(由Spring MVC 自动转换成对象)
 	 * @return
-	 * @throws JsonMappingException 
-	 * @throws JsonParseException 
-	 * @throws HttpException
-	 * @throws IOException
-	 * @throws JSONException
 	 */
 	@RequestMapping(value="/caseSync.json",method=RequestMethod.POST)
-	public CcaiServiceResult caseImport(@Valid @RequestBody CcaiImportCase acase,Errors errors) {
+	public CcaiServiceResult caseImport(@Valid @RequestBody CcaiImportCase acase, Errors errors) {
 		CcaiServiceResult result = new CcaiServiceResult();
 		ObjectMapper mapper = new ObjectMapper();
 		StringBuilder msg = new StringBuilder();
@@ -109,13 +92,8 @@ public class CaseSynctController {
 	 * ccai修改案件信息接口
 	 * type 为normal 则为普通的修改
 	 * type 为flow 则触发流程到权证审批
-	 * @param data json格式案件信息
+	 * @param acase json格式案件信息(由Spring MVC 自动转换成对象)
 	 * @return
-	 * @throws JsonMappingException 
-	 * @throws JsonParseException 
-	 * @throws HttpException
-	 * @throws IOException
-	 * @throws JSONException
 	 */
 	@RequestMapping(value="/caseUpdate/{type}.json",method=RequestMethod.POST)
 	@ResponseBody
@@ -170,7 +148,9 @@ public class CaseSynctController {
 			//基本信息校验
 			cityCodeCheck(acase.getCity(),msg,"城市编码不正确");
 			if(ccaiService.isExistCcaiCode(acase.getCcaiCode())){
-				msg.append("成交报告["+acase.getCcaiCode()+"]编号已存在!\r\n");
+				msg.append("成交报告[")
+						.append(acase.getCcaiCode())
+						.append("]编号已存在!\r\n");
 			}
 			boolean hasAgent = false,hasWarrant = false,hasSecretary=false;
 			if(acase.getParticipants()==null || acase.getParticipants().size()<2){
@@ -261,7 +241,7 @@ public class CaseSynctController {
 	/**
 	 * 参与人校验
 	 * @param pa
-	 * @param builder
+	 * @param msg
 	 * @param position
 	 */
 	private void participantCheck(CcaiImportCaseInfo pa,StringBuilder msg,String position){

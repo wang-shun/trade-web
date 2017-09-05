@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.task.repository.AuditCaseMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.AuditCase" >
+    <!-- <id column="PKID" property="pkid" jdbcType="BIGINT" /> -->
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="PROPERTY_ADDR" property="propertyAddress" jdbcType="VARCHAR" />
+    <result column="daiKuanQuanZhenName" property="daiKuanQuanZhenName" jdbcType="VARCHAR" />
+    <result column="guoHuQuanZhenName" property="guoHuQuanZhenName" jdbcType="VARCHAR" />
+    <result column="yeWuYuanName" property="yeWuYuanName" jdbcType="VARCHAR" />
+    <result column="IMPORT_TIME" property="importTime" jdbcType="TIMESTAMP" />
+    <result column="REAL_PRICE" property="realPrice" jdbcType="DECIMAL" />
+    <result column="VALIDCOUNT" property="VALIDCOUNT" jdbcType="INTEGER"/>
+    <result column="INVALIDCOUNT" property="INVALIDCOUNT" jdbcType="INTEGER"/>
+  </resultMap>
+  
+<!--   <resultMap id="validCountMap" type="">
+  	<result column="VALIDCOUNT" property="" jdbcType="INTEGER"/>
+  </resultMap> -->
+  
+  <!-- 按月份统计未接单的案件    审核通过的案件要被消除，这里的STATUS需为未接单案件-->
+  <select id="getAuditCaseList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+     SELECT [sctrans].[T_TO_CASE].CASE_CODE,[sctrans].[T_TO_CASE_INFO].IMPORT_TIME,[sctrans].[T_TO_PROPERTY_INFO].PROPERTY_ADDR
+        FROM [sctrans].[T_TO_CASE]  
+		LEFT JOIN [sctrans].[T_TO_CASE_INFO] 								
+				ON [sctrans].[T_TO_CASE].CASE_CODE=[sctrans].[T_TO_CASE_INFO].CASE_CODE
+		LEFT JOIN [sctrans].[T_TO_PROPERTY_INFO]
+				ON [sctrans].[T_TO_CASE].CASE_CODE=[sctrans].[T_TO_PROPERTY_INFO].CASE_CODE
+		WHERE [sctrans].[T_TO_CASE].STATUS='30001001'
+				AND MONTH([sctrans].[T_TO_CASE_INFO].IMPORT_TIME)=#{month,jdbcType=INTEGER}
+  </select>
+  
+    <select id="getValidCaseCount" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+     SELECT * 
+	 FROM (SELECT count(D1.STATUS) AS VALIDCOUNT FROM [sctrans].[T_TO_CASE]  AS D1 
+	 		LEFT JOIN [sctrans].[T_TO_CASE_INFO] AS D2 ON D1.CASE_CODE=D2.CASE_CODE
+	 WHERE MONTH(IMPORT_TIME)=#{month,jdbcType=INTEGER}
+		AND STATUS='30001002') AS A,
+		  (SELECT count(D1.STATUS) AS INVALIDCOUNT FROM [sctrans].[T_TO_CASE]  AS D1 
+		    LEFT JOIN [sctrans].[T_TO_CASE_INFO] AS D2 ON D1.CASE_CODE=D2.CASE_CODE
+				WHERE MONTH(IMPORT_TIME)=#{month,jdbcType=INTEGER}
+				AND STATUS='30001001') AS B;
+
+  </select>
+
+  
+</mapper>

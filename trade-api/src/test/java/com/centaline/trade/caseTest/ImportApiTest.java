@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.centaline.api.common.vo.CcaiServiceResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,6 @@ import com.centaline.api.ccai.cases.vo.CcaiImportCase;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseInfo;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseProperty;
-import com.centaline.api.ccai.cases.vo.CcaiServiceResult;
 import com.centaline.trans.utils.DateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

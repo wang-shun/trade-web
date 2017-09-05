@@ -22,6 +22,17 @@ public interface ToCaseCommentMapper
     int updateByPrimaryKey(ToCaseComment record);
 
     List<ToCaseComment> getToCaseCommentList(ToCaseComment record);
+    
+
+    /**
+     * 
+     * @since:2017年9月4日 下午7:38:20
+     * @description:修复原来方法没有过滤条件的问题
+     * @author:xiefei1
+     * @param caseCode
+     * @return List<ToCaseComment>
+     */
+    List<ToCaseComment> getToCaseCommentListByCaseCode(String caseCode);
 
     ToCaseComment getCommentParentByBizCode(String bizCode);
 

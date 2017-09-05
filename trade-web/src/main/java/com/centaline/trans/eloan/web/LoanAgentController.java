@@ -132,7 +132,8 @@ public class LoanAgentController {
 
 	@RequestMapping("box/details")
 	public String details(Long pkid,Long isOnlyRead, Model model) {
-		Job j = uamUserOrgService.getJobByCode(TransJobs.YCPRODUCT.getCode());
+		//根据JOBCODE 获取JOB 增加城市参数 by:yinchao 2017/9/4
+		Job j = uamUserOrgService.getJobByCode(TransJobs.YCPRODUCT.getCode(),uamSessionService.getSessionUser().getCityCode());
 		List<User> users = uamUserOrgService.getUserByJobId(j.getId());
 		if(SecurityUtils.getSubject().isPermitted("TRADE.LOAN.SUBMIT.BELONG")){
 			SessionUser user = uamSessionService.getSessionUser();

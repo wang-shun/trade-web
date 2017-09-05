@@ -3,6 +3,7 @@ package com.centaline.trade.caseTest;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.centaline.api.common.vo.CcaiServiceResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,6 @@ import org.springframework.web.context.WebApplicationContext;
 import com.centaline.api.ApiApplication;
 import com.centaline.api.ccai.cases.vo.CcaiImportCase;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseInfo;
-import com.centaline.api.ccai.cases.vo.CcaiServiceResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -161,5 +161,10 @@
     from sctrans.T_TO_CCAI_ATTACHMENT
     where CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR}
   </select>
-  
+    <select id="findAttachmentsByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CCAI_ATTACHMENT
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
 </mapper>

@@ -24,4 +24,11 @@ public interface ToCcaiAttachmentMapper {
      * @return
      */
     List<ToCcaiAttachment> findAttachmentsByCcaiCode(String ccaiCode);
+    
+    /**
+     * 根据CASE CODE 获取已导入的附件列表
+     * @param caseCode
+     * @return
+     */
+    List<ToCcaiAttachment> findAttachmentsByCaseCode(String caseCode);
 }

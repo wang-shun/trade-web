@@ -38,6 +38,13 @@
     from sctrans.T_TO_CASE_COMMENT
   </select>
   
+  <select id="getToCaseCommentListByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE_COMMENT
+    where CASE_CODE =#{caseCode,jdbcType=VARCHAR}
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
