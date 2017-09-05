@@ -42,6 +42,10 @@ public class ToRatePaymentServiceImpl implements ToRatePaymentService {
 				.setLandIncrementTax(toRatePayment.getLandIncrementTax() != null ? toRatePayment
 						.getLandIncrementTax().multiply(new BigDecimal(10000))
 						: null);
+		toRatePayment
+				.setPricingTax(toRatePayment.getPricingTax() != null ? toRatePayment
+						.getPricingTax().multiply(new BigDecimal(10000))
+						: null);
 		ToRatePayment toRatePayment2=toRatePaymentMapper.findToRatePaymentByCaseCode(toRatePayment
 				.getCaseCode());
 		if (toRatePayment2!= null) {
@@ -82,6 +86,10 @@ public class ToRatePaymentServiceImpl implements ToRatePaymentService {
 					.setLandIncrementTax(toRatePayment.getLandIncrementTax() != null ? toRatePayment
 							.getLandIncrementTax()
 							.divide(new BigDecimal(10000)) : null);
+			toRatePayment
+					.setPricingTax(toRatePayment.getPricingTax()!=null?toRatePayment
+							.getPricingTax()
+							.divide(new BigDecimal(10000)):null);
 		}
 		return toRatePayment;
 	}

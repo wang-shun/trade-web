@@ -7,7 +7,7 @@ public class ToRatePayment {
     private Long pkid;
 
     private String caseCode;
-    
+
     private BigDecimal personalIncomeTax;
 
     private BigDecimal businessTax;
@@ -15,6 +15,8 @@ public class ToRatePayment {
     private BigDecimal contractTax;
 
     private BigDecimal landIncrementTax;
+
+    private BigDecimal pricingTax;
 
     private String comment;
 
@@ -41,8 +43,15 @@ public class ToRatePayment {
     public void setCaseCode(String caseCode) {
         this.caseCode = caseCode == null ? null : caseCode.trim();
     }
-    
-    
+
+    public BigDecimal getPricingTax() {
+        return pricingTax;
+    }
+
+    public void setPricingTax(BigDecimal pricingTax) {
+        this.pricingTax = pricingTax;
+    }
+
     public BigDecimal getPersonalIncomeTax() {
         return personalIncomeTax;
     }

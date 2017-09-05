@@ -8,6 +8,7 @@
     <result column="BUSINESS_TAX" jdbcType="DECIMAL" property="businessTax" />
     <result column="CONTRACT_TAX" jdbcType="DECIMAL" property="contractTax" />
     <result column="LAND_INCREMENT_TAX" jdbcType="DECIMAL" property="landIncrementTax" />
+    <result column="PRICING_TAX" jdbcType="DECIMAL" property="pricingTax" />
     <result column="COMMENT" jdbcType="VARCHAR" property="comment" />
     <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
@@ -15,7 +16,7 @@
     <result column="PART_CODE" jdbcType="VARCHAR" property="partCode" />
   </resultMap>
   <sql id="Base_Column_List">
-    PKID, PAYMENT_TIME,CASE_CODE, PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX, 
+    PKID, PAYMENT_TIME,CASE_CODE, PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,PRICING_TAX,
     COMMENT, PART_CODE,CREATE_BY, CREATE_TIME
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -31,12 +32,12 @@
   <insert id="insert" parameterType="com.centaline.trans.task.entity.ToRatePayment">
 	insert into sctrans.T_TO_RATE_PAYMENT (PKID, CASE_CODE,
 	PERSONAL_INCOME_TAX,
-	BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,
+	BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,PRICING_TAX
 	COMMENT, CREATE_BY, CREATE_TIME,
 	PAYMENT_TIME, PART_CODE)
 	values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR},
 	#{personalIncomeTax,jdbcType=DECIMAL},
-	#{businessTax,jdbcType=DECIMAL}, #{contractTax,jdbcType=DECIMAL}, #{landIncrementTax,jdbcType=DECIMAL},
+	#{businessTax,jdbcType=DECIMAL}, #{contractTax,jdbcType=DECIMAL}, #{landIncrementTax,jdbcType=DECIMAL},#{pricingTax,jdbcType=DECIMAL},
 	#{comment,jdbcType=VARCHAR}, @{SESSION_USER_ID},
 	GETDATE(),
 	#{paymentTime,jdbcType=TIMESTAMP}, #{partCode,jdbcType=VARCHAR})
@@ -61,6 +62,9 @@
       </if>
       <if test="landIncrementTax != null">
         LAND_INCREMENT_TAX,
+      </if>
+      <if test="pricingTax != null">
+        PRICING_TAX,
       </if>
       <if test="comment != null">
         COMMENT,
@@ -93,6 +97,9 @@
       <if test="landIncrementTax != null">
         #{landIncrementTax,jdbcType=DECIMAL},
       </if>
+      <if test="pricingTax != null">
+        #{pricingTax,jdbcType=DECIMAL},
+      </if>
       <if test="comment != null">
         #{comment,jdbcType=VARCHAR},
       </if>
@@ -124,6 +131,9 @@
       <if test="landIncrementTax != null">
         LAND_INCREMENT_TAX = #{landIncrementTax,jdbcType=DECIMAL},
       </if>
+      <if test="pricingTax != null">
+        PRICING_TAX = #{pricingTax,jdbcType=DECIMAL},
+      </if>
       <if test="comment != null">
         COMMENT = #{comment,jdbcType=VARCHAR},
       </if>
@@ -145,6 +155,7 @@
       BUSINESS_TAX = #{businessTax,jdbcType=DECIMAL},
       CONTRACT_TAX = #{contractTax,jdbcType=DECIMAL},
       LAND_INCREMENT_TAX = #{landIncrementTax,jdbcType=DECIMAL},
+      PRICING_TAX = #{pricingTax,jdbcType=DECIMAL},
       COMMENT = #{comment,jdbcType=VARCHAR},
       CREATE_BY = @{SESSION_USER_ID},
       CREATE_TIME = GETDATE(),

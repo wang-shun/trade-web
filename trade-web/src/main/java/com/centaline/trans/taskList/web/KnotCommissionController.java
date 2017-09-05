@@ -23,6 +23,10 @@ import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.utils.UiImproveUtil;
 
+
+/**
+ * 允许结佣
+ */
 @Controller
 @RequestMapping(value="/task/KnotCommission")
 public class KnotCommissionController {
@@ -40,14 +44,13 @@ public class KnotCommissionController {
 			HttpServletResponse response, String caseCode, String source,
 			String taskitem, String processInstanceId){
 		System.out.println("================进来了！=================");
+		//根据交易单编号，查询案件相关信息
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
-
+		//获取流程变量
 		RestVariable psf = workFlowManager.getVar(processInstanceId,
-				"PSFLoanNeed"); 
-
-		// add zhangxb16 2016-2-22
+				"PSFLoanNeed");
 		RestVariable self = workFlowManager.getVar(processInstanceId,
 				"SelfLoanNeed"); 
 		RestVariable com = workFlowManager.getVar(processInstanceId,

@@ -392,7 +392,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
             if (lastApproveRecord != null)
             {
                 String recevier = lastApproveRecord.getOperator();
-                sendMessage(sender.getId(), recevier, caseCode, result);
+                //sendMessage(sender.getId(), recevier, caseCode, result);
             }
             variables.add(new RestVariable("members", membersList));
         }

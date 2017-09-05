@@ -6,6 +6,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/scriptBase.jsp"></jsp:include>
 <html>
@@ -109,7 +110,7 @@
 								<label class="control-label sign_left_small select_style mend_select">
 									缴税时间<font color=" red" class="mr5" >*</font>
 								</label>
-								<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+								<div class="input-group sign-right dataleft input-daterange pull-left" id="data_1" data-date-format="yyyy-mm-dd">
 									<input type="text" class="input_type yuanwid datatime" id="paymentTime"
 										   name="paymentTime"
 										   value="<fmt:formatDate  value='${ratePayment.paymentTime}' type='both' pattern='yyyy-MM-dd'/>"
@@ -133,7 +134,7 @@
 								<span class="date_icon">万元</span>
 							</div> --%>
 							<div class="form_content">
-								<label class="control-label sign_left_small">卖方增值税<font color=" red" class="mr5" >*</font></label>
+								<label class="control-label sign_left">卖方增值税及附加<font color=" red" class="mr5" >*</font></label>
 								<input type="text" class=" input_type yuanwid" id="businessTax"
 									   name="businessTax" onkeyup="checkNum(this)"
 									   value="<fmt:formatNumber value='${ ratePayment.businessTax}' type='number' pattern='#0.00' />">
@@ -149,15 +150,31 @@
 									   value="<fmt:formatNumber value='${ ratePayment.contractTax}' type='number' pattern='#0.00' />">
 								<span class="date_icon">万元</span>
 							</div>
+								<div class="form_content">
+									<label class="control-label sign_left_small">核税价<font color=" red" class="mr5" >*</font></label>
+									<input type="text" class=" input_type yuanwid" id="pricingTax"
+										   name="pricingTax" onkeyup="checkNum(this)"
+										   value="<fmt:formatNumber value='${ ratePayment.landIncrementTax}' type='number' pattern='#0.00' />">
+									<span class="date_icon">万元</span>
+								</div>
 							<div class="form_content">
-								<label class="control-label sign_left_small">土地增值税<font color=" red" class="mr5" >*</font></label>
+								<label class="control-label sign_left">土地增值税及附加<font color=" red" class="mr5" >*</font></label>
 								<input type="text" class=" input_type yuanwid" id="landIncrementTax"
 									   name="landIncrementTax" onkeyup="checkNum(this)"
 									   value="<fmt:formatNumber value='${ ratePayment.landIncrementTax}' type='number' pattern='#0.00' />">
 								<span class="date_icon">万元</span>
 							</div>
-							
+
 							</div>
+						<div class="line">
+							<div class="form_content">
+								<label class="control-label sign_left_small">实际操作人</label>
+								<select class="input_type yuanwid" >
+										<option value="">--请选择--</option>
+										<option></option>
+								</select>
+							</div>
+						</div>
 							<div class="line">
 							<div class="form_content">
 									<label class="control-label sign_left_small">备注</label>
@@ -171,6 +188,21 @@
 		
 		<!-- 案件跟进 -->
 		<div class="view-content" id="caseCommentList"> </div>
+		<div class="mt30 clearfix" id="aboutInfo">
+			<c:choose>
+				<c:when test="${accesoryList!=null}">
+					<h5 class="newtitle title-mark">上传备件</h5><br>
+
+						<div class="table-box" id="RatePaymentfileUploadContainer"></div>
+
+				</c:when>
+				<c:otherwise>
+					<h5>
+						上传备件<br>无需上传备件
+					</h5>
+				</c:otherwise>
+			</c:choose>
+		</div>
 
 		<div class="form-btn">
 			<div class="text-center">
@@ -242,7 +274,15 @@
 		$("#caseCommentList").caseCommentGrid({
 			caseCode : caseCode,
 			srvCode : taskitem
-		});		
+		});
+        //日期组件
+        $('#data_1 .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: false,
+            autoclose: true
+        });
 });
 	
 	//提交数据
@@ -258,6 +298,7 @@
 			return;
 		}
 		var jsonData = $("#ratePaymentForm").serializeArray();
+
 		deleteAndModify();
 		
 		var url = "${ctx}/task/ratePayment/saveRatePayment";
@@ -352,7 +393,7 @@
 				return false;
 			}
 			if ($('input[name=businessTax]').val() == '') {
-				window.wxc.alert("卖方增值税为必填项!");
+				window.wxc.alert("卖方增值税及附加为必填项!");
 				$('input[name=businessTax]').focus();
 				$('input[name=businessTax]').css("border-color","red");
 				return false;
@@ -365,11 +406,31 @@
 				return false;
 			}
 			if ($('input[name=landIncrementTax]').val() == '') {
-				window.wxc.alert("土地增值税为必填项!");
+				window.wxc.alert("土地增值税及附加为必填项!");
 				$('input[name=landIncrementTax]').focus();
 				$('input[name=landIncrementTax]').css("border-color","red");
 				return false;
 			}
+			if ($('input[name=pricingTax]').val() == '') {
+				window.wxc.alert("核税价为必填项!");
+				$('input[name=pricingTax]').focus();
+				$('input[name=pricingTax]').css("border-color","red");
+				return false;
+			}
+			if ($("#RatePaymentfileUploadContainer li").length == undefined
+				|| $("#RatePaymentfileUploadContainer li").length == 0 ) {
+				window.wxc.alert("增值税发票未上传!");
+
+				return false;
+			}
+
+        //验证上传文件是否全部上传
+        var isCompletedUpload = fileUpload.isCompletedUpload();
+
+        if(!isCompletedUpload){
+            window.wxc.alert("增值税发票还未全部上传!");
+            return false;
+        }
 			return true;
 		}
 	
@@ -389,6 +450,26 @@
 		//设置提交按钮隐藏
 		$("#btnSubmit").hide();
 	}
+
+
+	</script>
+</content>
+
+<content tag="local_require">
+	<script>
+        var fileUpload;
+
+        require(['main'], function() {
+            requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+                fileUpload = aistFileUpload;
+
+                fileUpload.init({
+                    caseCode : $('#caseCode').val(),
+                    partCode : "RatePayment",
+                    fileUploadContainer : "RatePaymentfileUploadContainer"
+                });
+            });
+        });
 	</script>
 </content>
 

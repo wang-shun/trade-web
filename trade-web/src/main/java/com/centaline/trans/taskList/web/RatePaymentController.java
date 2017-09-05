@@ -34,6 +34,9 @@ import com.centaline.trans.task.entity.ToRatePayment;
 import com.centaline.trans.task.service.ToRatePaymentService;
 import com.centaline.trans.utils.UiImproveUtil;
 
+/**
+ * 缴税
+ */
 @Controller
 @RequestMapping(value="/task/ratePayment")
 public class RatePaymentController {
@@ -52,6 +55,7 @@ public class RatePaymentController {
 			HttpServletResponse response, String caseCode, String source,
 			String taskitem, String processInstanceId) {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+		//根据交易编号查询不加锁状态下sctrans.T_TO_LOAN_AGENT表下面的数据数量
 		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
 		if (cou > 0) {
 			caseBaseVO.setLoanType("30004005");
@@ -63,7 +67,13 @@ public class RatePaymentController {
 		request.setAttribute("ratePayment", ratePaymentService.qureyToRatePayment(caseCode));
 		return "task" + UiImproveUtil.getPageType(request) + "/taskRatePayment";
 	}
-	
+
+	/**
+	 * 保存缴税信息
+	 * @param request
+	 * @param toRatePayment
+	 * @return
+	 */
 	@RequestMapping(value="saveRatePayment")
 	public String saveRatePayment(HttpServletRequest request,ToRatePayment toRatePayment){
 		boolean boo=ratePaymentService.saveRatePayment(toRatePayment);
@@ -72,6 +82,15 @@ public class RatePaymentController {
 		}
 		return "task/task"+toRatePayment.getPartCode();
 	}
+
+	/**
+	 * 提交缴税信息
+	 * @param request
+	 * @param toRatePayment
+	 * @param taskId
+	 * @param processInstanceId
+	 * @return
+	 */
 	@RequestMapping(value="submitRatePayment")
 	@ResponseBody
 	public Result submitRatePayment(HttpServletRequest request,
