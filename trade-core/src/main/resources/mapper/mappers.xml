@@ -260,5 +260,8 @@
 		<!-- 应收科目 -->
 		<mapper resource="mapper/performance/SubjectMapper.xml" />
 		<mapper resource="mapper/eval/ToEvalMapper.xml"/>
+		<!-- 案件审核接单 -->
+		<mapper resource="mapper/task/AuditCase.xml"/>
+		<mapper resource="mapper/cases/ToCaseRecvMapper.xml"/>
 	</mappers>
 </configuration>
