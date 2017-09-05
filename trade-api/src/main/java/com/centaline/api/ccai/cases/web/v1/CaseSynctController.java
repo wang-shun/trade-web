@@ -7,7 +7,7 @@ import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseInfo;
 import com.centaline.api.enums.CaseSyncParticipantEnum;
 import com.centaline.trans.apilog.service.ApiLogService;
-import com.centaline.trans.common.vo.CcaiServiceResult;
+import com.centaline.api.common.vo.CcaiServiceResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;

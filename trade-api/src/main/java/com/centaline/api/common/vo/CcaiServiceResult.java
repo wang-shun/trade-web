@@ -1,4 +1,4 @@
-package com.centaline.trans.common.vo;
+package com.centaline.api.common.vo;
 /**
  * ccai服务使用返回相关服务的操作结果
  * @author yinchao

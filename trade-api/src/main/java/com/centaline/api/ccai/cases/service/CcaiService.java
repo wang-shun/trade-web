@@ -1,6 +1,6 @@
 package com.centaline.api.ccai.cases.service;
 import com.centaline.api.ccai.cases.vo.CcaiImportCase;
-import com.centaline.trans.common.vo.CcaiServiceResult;
+import com.centaline.api.common.vo.CcaiServiceResult;
 
 public interface CcaiService {
 	/**
