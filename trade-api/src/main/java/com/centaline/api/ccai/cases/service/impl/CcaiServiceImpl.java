@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.centaline.trans.common.vo.CcaiServiceResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,6 @@ import com.centaline.api.ccai.cases.vo.CcaiImportCase;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseInfo;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseProperty;
-import com.centaline.api.ccai.cases.vo.CcaiServiceResult;
 import com.centaline.api.enums.CaseSyncParticipantEnum;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -85,7 +85,7 @@ public class CcaiServiceImpl implements CcaiService {
 	@Override
 	public boolean isExistCcaiCode(String ccaiCode) {
 		int count = toCaseInfoMapper.isExistCcaiCode(ccaiCode);
-		return count>0?true:false;
+		return count>0;
 	}
 
 	@Override
@@ -95,12 +95,14 @@ public class CcaiServiceImpl implements CcaiService {
 		boolean success = false;
 		String caseCode = toCaseInfoMapper.findcaseCodeByCcaiCode(acase.getCcaiCode());
 		if(StringUtils.isBlank(caseCode)){
-			msg.append("未获取到成交报告["+acase.getCcaiCode()+"]对应的案件信息!");
+			msg.append("未获取到成交报告[")
+					.append(acase.getCcaiCode())
+					.append("]对应的案件信息!");
 		}else{
 			boolean hasupdate = false;
 			ToCase ca = tocaseMapper.findToCaseByCaseCode(caseCode);
 			//TODO 修改物业信息
-			if(acase!=null&&acase.getProperty()!=null){
+			if(acase.getProperty()!=null){
 				// 只有案件处于未审核状态 才可以修改物业信息
 				if(CaseStatusEnum.WJD.getCode().equals(ca.getStatus())){
 					success = updateProperty(caseCode,acase.getCcaiCode(),acase.getProperty(),msg);
@@ -110,7 +112,7 @@ public class CcaiServiceImpl implements CcaiService {
 				}
 			}
 			//修改附件信息 不存在失败的情况
-			if(acase!=null&&acase.getAttachments()!=null&&acase.getAttachments().size()>0){
+			if(acase.getAttachments()!=null&&acase.getAttachments().size()>0){
 				//TODO 已领证状态不再进行更改附件
 				if(!CaseStatusEnum.YLTZ.getCode().equals(ca.getStatus())){
 					updateAttachments(caseCode,acase.getCcaiCode(),acase.getAttachments(),msg);
@@ -138,19 +140,21 @@ public class CcaiServiceImpl implements CcaiService {
 		boolean success = false;
 		String caseCode = toCaseInfoMapper.findcaseCodeByCcaiCode(acase.getCcaiCode());
 		if(StringUtils.isBlank(caseCode)){
-			msg.append("未获取到成交报告["+acase.getCcaiCode()+"]对应的案件信息!");
+			msg.append("未获取到成交报告[")
+					.append(acase.getCcaiCode())
+					.append("]对应的案件信息!");
 		}else{
 			ToCase toCase = tocaseMapper.findToCaseByCaseCode(caseCode);
 			//TODO 只有当案件信息为审核未通过才能进行修改
 			if(CaseStatusEnum.BHCCAI.getCode().equals(toCase.getStatus())){
 				boolean hasupdate = false;
 				//修改贷款 过户权证信息
-				if(acase!=null&&acase.getParticipants()!=null&&acase.getParticipants().size()>0){
+				if(acase.getParticipants()!=null&&acase.getParticipants().size()>0){
 					hasupdate = updateParticipant(caseCode,acase.getParticipants(),toCase);
 					success = true;
 				}
 				//修改附件信息 不存在失败的情况
-				if(acase!=null&&acase.getAttachments()!=null&&acase.getAttachments().size()>0){
+				if(acase.getAttachments()!=null&&acase.getAttachments().size()>0){
 					updateAttachments(caseCode,acase.getCcaiCode(),acase.getAttachments(),msg);
 					hasupdate = true;
 					success = true;
@@ -179,14 +183,10 @@ public class CcaiServiceImpl implements CcaiService {
 	private String getCaseCode(CcaiImportCase acase){
 		StringBuilder s = new StringBuilder();
 		//TODO 各个城市的案件头
-		if(acase.getCity().equals("120000")){
-			//天津
-			s.append("ZY-TJ-");
-		}else if(acase.getCity().equals("110000")){
-			//北京
-			s.append("ZY-BJ-");
-		}else{
-			return "CCAICaseCode"+DateUtil.getFormatDate(new Date(), "yyyyMMddHHmmss");
+		switch (acase.getCity()){
+			case "120000": s.append("ZY-TJ-");//天津
+			case "110000":s.append("ZY-BJ-");//北京
+			default:s.append("CCAICaseCode");
 		}
 		s.append(DateUtil.getFormatDate(new Date(), "yyyyMM"));
 		s.append(tocaseMapper.nextCaseCodeNumber());
@@ -230,11 +230,13 @@ public class CcaiServiceImpl implements CcaiService {
 		//TODO 交易类型 付款类型的处理
 		//TODO 发起首次跟进流程
 	}
+
 	/**
 	 * 修改成交报告 过户、贷款权证相关信息
 	 * @param caseCode
-	 * @param acase
-	 * @return 是否有修改 true为修改
+	 * @param participants
+	 * @param toCase
+	 * @return 是否有修改
 	 */
 	private boolean updateParticipant(String caseCode,List<CcaiImportCaseInfo> participants,ToCase toCase){
 		ToCaseInfo caseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
@@ -305,11 +307,12 @@ public class CcaiServiceImpl implements CcaiService {
 		}
 		return hasupdate;
 	}
-	
+
 	/**
 	 * TODO 添加caseInfo信息
 	 * T_TO_CASE_INFO
-	 * @param info
+	 * @param caseCode
+	 * @param acase
 	 */
 	private void addCaseInfo(String caseCode,CcaiImportCase acase){
 		ToCaseInfo caseInfo = new ToCaseInfo();
@@ -414,11 +417,13 @@ public class CcaiServiceImpl implements CcaiService {
 			tgGuestInfoMapper.insertSelective(guest);
 		}
 	}
+
 	/**
 	 * TODO 添加案件物业信息
 	 * T_TO_PROPERTY_INFO
 	 * @param caseCode
-	 * @param property
+	 * @param ccaiCode
+	 * @param imp
 	 */
 	private void addProperty(String caseCode,String ccaiCode,CcaiImportCaseProperty imp){
 		toPropertyInfoMapper.insertSelective(buildProperty(caseCode,ccaiCode,imp));
@@ -460,7 +465,9 @@ public class CcaiServiceImpl implements CcaiService {
 	private boolean updateProperty(String caseCode,String ccaiCode,CcaiImportCaseProperty property,StringBuilder msg){
 		ToPropertyInfo info = toPropertyInfoMapper.findPropertyByCcaiCode(ccaiCode);
 		if(info==null){
-			msg.append("未获取到成交报告["+ccaiCode+"]对应的物业信息!\r\n");
+			msg.append("未获取到成交报告[")
+					.append(ccaiCode)
+					.append("]对应的物业信息!\r\n");
 			return false;
 		}else{
 			ToPropertyInfo update = buildProperty(caseCode, ccaiCode, property);
@@ -526,7 +533,7 @@ public class CcaiServiceImpl implements CcaiService {
 				if(temp.containsKey(a.getId())){
 					Long pkid = temp.get(a.getId()).getPkid();
 					//附件类型为-1 则删除 直接将数据删除 不进行保存
-					if(a.getType()=="-1"){
+					if(a.getType().equals("-1")){
 						toCcaiAttachmentMapper.deleteByPrimaryKey(pkid);
 					}else{
 						attachment.setPkid(pkid);

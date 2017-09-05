@@ -34,19 +34,6 @@ public enum CaseSyncParticipantEnum {
 	}
 
 	/**
-	 * 根据code获取Name
-	 * 
-	 * @param code
-	 * @return
-	 */
-	/*
-	 * public static String getName(String code) { for (CustdelTradeTypeEnum sde
-	 * : CustdelTradeTypeEnum.values()) { if
-	 * (code.equalsIgnoreCase(sde.getCode())){ return sde.getName(); } } return
-	 * null; }
-	 */
-
-	/**
 	 * Getter method for property <tt>name</tt>.
 	 * 
 	 * @return property value of name
@@ -72,16 +59,6 @@ public enum CaseSyncParticipantEnum {
 	 */
 	public String getCode() {
 		return code;
-	}
-
-	/**
-	 * Setter method for property <tt>code</tt>.
-	 * 
-	 * @param code
-	 *            value to be assigned to property code
-	 */
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 }
