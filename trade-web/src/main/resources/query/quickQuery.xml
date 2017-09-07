@@ -238,6 +238,5 @@
 	<import resource="query/performance/toPerfGoalAttainmentListQuery.xml"></import>
 	<!-- 业绩明细 -->
 	<import resource="query/performance/receivablePerfListQuery.xml"></import>
-	<!--接单统计，列表--请注销这一行，还没提交这个文件-xiefei1>
-	<!-- <import resource="query/case/CaseReceiveList.xml"/> -->
+
 </queryConfig>
