@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="getValidCaseCount">
+
+		<searchSql>
+			<baseSql>
+				SELECT * 
+	 			FROM (
+	 					SELECT count(D1.STATUS) AS VALIDCOUNT 
+	 						FROM [sctrans].[T_TO_CASE]  AS D1 
+	 						LEFT JOIN [sctrans].[T_TO_CASE_INFO] AS D2 
+	 							ON D1.CASE_CODE=D2.CASE_CODE
+	 						WHERE MONTH(IMPORT_TIME)=#month#
+								AND STATUS='30001002'
+								) AS A,
+					  (
+					    SELECT count(D1.STATUS) AS INVALIDCOUNT 
+					    	FROM [sctrans].[T_TO_CASE]  AS D1 
+					    	LEFT JOIN [sctrans].[T_TO_CASE_INFO] AS D2 
+					    		ON D1.CASE_CODE=D2.CASE_CODE
+							WHERE MONTH(IMPORT_TIME)=#month#
+							AND STATUS='30001001'
+							) AS B;
+			</baseSql>
+
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="VALIDCOUNT" index="" checkbox="" title="已接单" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="INVALIDCOUNT" index="" checkbox="" title="未接单" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+	  <!-- 按月份统计未接单的案件    审核通过的案件要被消除，这里的STATUS需为未接单案件;[sctrans].[T_TO_CASE].STATUS='30001001'表示未接单-->
+	<query id="getAuditCaseList">
+
+		<searchSql>
+			<baseSql>
+		SELECT [sctrans].[T_TO_CASE].CASE_CODE,[sctrans].[T_TO_CASE_INFO].IMPORT_TIME,[sctrans].[T_TO_PROPERTY_INFO].PROPERTY_ADDR
+        FROM [sctrans].[T_TO_CASE]  
+			LEFT JOIN [sctrans].[T_TO_CASE_INFO] 								
+				ON [sctrans].[T_TO_CASE].CASE_CODE=[sctrans].[T_TO_CASE_INFO].CASE_CODE
+			LEFT JOIN [sctrans].[T_TO_PROPERTY_INFO]
+				ON [sctrans].[T_TO_CASE].CASE_CODE=[sctrans].[T_TO_PROPERTY_INFO].CASE_CODE
+		WHERE [sctrans].[T_TO_CASE].STATUS='30001001'
+				AND MONTH([sctrans].[T_TO_CASE_INFO].IMPORT_TIME)=#month#
+			</baseSql>
+
+			<orderBySql>
+				order by [sctrans].[T_TO_CASE_INFO].IMPORT_TIME DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="CASE_CODE" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="IMPORT_TIME" index="" checkbox="" title="导入时间" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+	<query id="getParticipantsByCaseCode">
+
+		<searchSql>
+			<baseSql>
+		SELECT  POSITION,REAL_NAME,CASE_CODE
+		FROM [sctrans].[T_TO_CASE_PARTICIPANT]
+		where CASE_CODE= #caseCode#;
+			</baseSql>
+
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="CASE_CODE" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="REAL_NAME" index="" checkbox="" title="姓名" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="POSITION" index="" checkbox="" title="职位" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+	<!-- 通用查询附件方法 -->
+	<query id="getCcaiAttachmentListByCaseCode">
+		<searchSql>
+			<baseSql>
+		    select CASE_CODE,FILE_NAME,FILE_CAT,UPLOAD_TIME,URL
+    			from sctrans.T_TO_CCAI_ATTACHMENT
+   			 	where CASE_CODE= #caseCode#
+			</baseSql>
+
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="CASE_CODE" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="FILE_NAME" index="" checkbox="" title="文件名" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="FILE_CAT" index="" checkbox="" title="文件类型" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="UPLOAD_TIME" index="" checkbox="" title="上传时间" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+				<column type="both" name="URL" index="" checkbox="" title="资源位置" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>
