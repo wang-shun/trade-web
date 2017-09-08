@@ -10,19 +10,27 @@
     <result column="REAL_PRICE" property="realPrice" jdbcType="DECIMAL" />
     <result column="IS_HUKOU" property="isHukou" jdbcType="CHAR" />
     <result column="IS_CON_CERT" property="isConCert" jdbcType="CHAR" />
-    <result column="HOUSE_HODING_TAX" property="houseHodingTax" jdbcType="DECIMAL" />
     <result column="PERSONAL_INCOME_TAX" property="personalIncomeTax" jdbcType="DECIMAL" />
+    <!-- 天津废弃
+    <result column="HOUSE_HODING_TAX" property="houseHodingTax" jdbcType="DECIMAL" />
     <result column="BUSINESS_TAX" property="businessTax" jdbcType="DECIMAL" />
-    <result column="CONTRACT_TAX" property="contractTax" jdbcType="DECIMAL" />
+    <result column="CONTRACT_TAX" property="contractTax" jdbcType="DECIMAL" /> -->
     <result column="LAND_INCREMENT_TAX" property="landIncrementTax" jdbcType="DECIMAL" />
     <result column="HOUSE_QUANTITY" property="houseQuantity" jdbcType="CHAR" />
+    <result column="ESTIMATE_TRANSFER_TIME" property="estimateTransferTime" jdbcType="TIMESTAMP" />
+    <result column="FUND_SUPERVISIONME" property="fundSupervisionme" jdbcType="CHAR" />
+    <result column="NET_PLACE" property="netPlace" jdbcType="CHAR" />
+    <result column="SELLER_TAX" property="sellerTax" jdbcType="DECIMAL" />
+    <result column="BUYER_TAX" property="buyerTax" jdbcType="DECIMAL" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.task.entity.ToSign" extends="BaseResultMap" >
     <result column="COMMENT" property="comment" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, PART_CODE, CASE_CODE, REAL_CON_TIME, CON_PRICE, REAL_PRICE, IS_HUKOU, IS_CON_CERT,
-    HOUSE_HODING_TAX, PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,HOUSE_QUANTITY
+    HOUSE_HODING_TAX, PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,HOUSE_QUANTITY,
+    ESTIMATE_TRANSFER_TIME,FUND_SUPERVISIONME,NET_PLACE,SELLER_TAX,BUYER_TAX
+    
   </sql>
   <sql id="Blob_Column_List" >
     COMMENT
@@ -76,21 +84,37 @@
       <if test="isConCert != null" >
         IS_CON_CERT,
       </if>
-      <if test="comment != null and comment != ''" >
-        COMMENT,
+      <if test="estimateTransferTime != null" >
+        ESTIMATE_TRANSFER_TIME,
       </if>
-      <if test="houseHodingTax != null" >
-        HOUSE_HODING_TAX,
+       <if test="fundSupervisionme != null" >
+        FUND_SUPERVISIONME,
+      </if>
+       <if test="netPlace != null" >
+        NET_PLACE,
+      </if>
+       <if test="sellerTax != null" >
+        SELLER_TAX,
+      </if>
+       <if test="buyerTax != null" >
+        BUYER_TAX,
+      </if>
+       <if test="comment != null and comment != ''" >
+        COMMENT,
       </if>
       <if test="personalIncomeTax != null" >
         PERSONAL_INCOME_TAX,
+      </if>
+      <!-- 
+      <if test="houseHodingTax != null" >
+        HOUSE_HODING_TAX,
       </if>
       <if test="businessTax != null" >
         BUSINESS_TAX,
       </if>
       <if test="contractTax != null" >
         CONTRACT_TAX,
-      </if>
+      </if> -->
       <if test="landIncrementTax != null" >
         LAND_INCREMENT_TAX,
       </if>
@@ -124,21 +148,37 @@
       <if test="isConCert != null" >
         #{isConCert,jdbcType=CHAR},
       </if>
+       <if test="estimateTransferTime != null" >
+        #{estimateTransferTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="fundSupervisionme != null" >
+        #{fundSupervisionme,jdbcType=CHAR},
+      </if>
+       <if test="netPlace != null" >
+        #{netPlace,jdbcType=CHAR},
+      </if>
+       <if test="sellerTax != null" >
+        #{sellerTax,jdbcType=DECIMAL},
+      </if>
+       <if test="buyerTax != null" >
+        #{buyerTax,jdbcType=DECIMAL},
+      </if>
       <if test="comment != null and comment != ''" >
         #{comment,jdbcType=LONGVARCHAR},
       </if>
-      <if test="houseHodingTax != null" >
-        #{houseHodingTax,jdbcType=DECIMAL},
-      </if>
       <if test="personalIncomeTax != null" >
         #{personalIncomeTax,jdbcType=DECIMAL},
+      </if>
+      <!-- 
+       <if test="houseHodingTax != null" >
+        #{houseHodingTax,jdbcType=DECIMAL},
       </if>
       <if test="businessTax != null" >
         #{businessTax,jdbcType=DECIMAL},
       </if>
       <if test="contractTax != null" >
         #{contractTax,jdbcType=DECIMAL},
-      </if>
+      </if>-->
       <if test="landIncrementTax != null" >
         #{landIncrementTax,jdbcType=DECIMAL},
       </if>
@@ -164,29 +204,45 @@
       <if test="conPrice != null" >
         CON_PRICE = #{conPrice,jdbcType=DECIMAL},
       </if>
-      <if test="realPrice != null" >
+      <if test="estimateTransferTime != null" >
+        ESTIMATE_TRANSFER_TIME = #{estimateTransferTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fundSupervisionme != null" >
+        FUND_SUPERVISIONME = #{fundSupervisionme,jdbcType=CHAR},
+      </if>
+      <if test="netPlace != null" >
+        NET_PLACE = #{netPlace,jdbcType=CHAR},
+      </if>
+      <if test="sellerTax != null" >
+        SELLER_TAX = #{sellerTax,jdbcType=DECIMAL},
+      </if>
+      <if test="buyerTax != null" >
+        BUYER_TAX = #{buyerTax,jdbcType=DECIMAL},
+      </if>
+      <if test="comment != null and comment != ''" >
+        COMMENT = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+      <!-- 
+       <if test="realPrice != null" >
         REAL_PRICE = #{realPrice,jdbcType=DECIMAL},
       </if>
-      <if test="isHukou != null and isHukou != ''" >
+       <if test="isHukou != null and isHukou != ''" >
         IS_HUKOU = #{isHukou,jdbcType=CHAR},
       </if>
       <if test="isConCert != null and isConCert != ''" >
         IS_CON_CERT = #{isConCert,jdbcType=CHAR},
       </if>
-      <if test="comment != null and comment != ''" >
-        COMMENT = #{comment,jdbcType=LONGVARCHAR},
-      </if>
       <if test="houseHodingTax != null" >
         HOUSE_HODING_TAX = #{houseHodingTax,jdbcType=DECIMAL},
       </if>
-      <if test="personalIncomeTax != null" >
-        PERSONAL_INCOME_TAX = #{personalIncomeTax,jdbcType=DECIMAL},
-      </if>
-      <if test="businessTax != null" >
+       <if test="businessTax != null" >
         BUSINESS_TAX = #{businessTax,jdbcType=DECIMAL},
       </if>
       <if test="contractTax != null" >
         CONTRACT_TAX = #{contractTax,jdbcType=DECIMAL},
+      </if>> -->
+      <if test="personalIncomeTax != null" >
+        PERSONAL_INCOME_TAX = #{personalIncomeTax,jdbcType=DECIMAL},
       </if>
       <if test="landIncrementTax != null" >
         LAND_INCREMENT_TAX = #{landIncrementTax,jdbcType=DECIMAL},

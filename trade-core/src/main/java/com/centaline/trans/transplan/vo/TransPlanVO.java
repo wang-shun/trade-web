@@ -9,10 +9,11 @@ public class TransPlanVO {
 
 	private String caseCode;
 	private String partCode;
-    /**审税*/
+    /**审税天津废弃
 	private Long pkidTr;
     private String partCodeTr;
     private Date estPartTimeTr;
+    */
     /**还贷*/
 	private Long pkidHd;
     private String partCodeHd;
@@ -25,6 +26,41 @@ public class TransPlanVO {
 	private Long pkidLz;
     private String partCodeLz;
     private Date estPartTimeLz;
+    
+    /**缴税Pt*/
+    private Long pkidPt;
+    private String partCodePt;
+    private Date estPartTimePt;
+    
+    /**商贷面签Cs*/
+    private Long pkidCs;
+    private String partCodeCs;
+    private Date estPartTimeCs;
+    
+    /**商贷出评估报告Br*/
+    private Long pkidBr;
+    private String partCodeBr;
+    private Date estPartTimeBr;
+    
+    /**商贷批贷完成Cc*/
+    private Long pkidCc;
+    private String partCodeCc;
+    private Date estPartTimeCc;
+    
+    /**公积金贷款预约申请Pa*/
+    private Long pkidPa;
+    private String partCodePa;
+    private Date estPartTimePa;
+    
+    /**公积金面签Pfs*/
+	private Long pkidPfs;
+	private String partCodePfs;
+	private Date estPartTimePfs;
+	
+	 /**公积金批贷完成Pfc*/
+	private Long pkidPfc;
+	private String partCodePfc;
+	private Date estPartTimePfc;
     
     /**放款*/
 	private Long pkidFk;
@@ -69,6 +105,7 @@ public class TransPlanVO {
 	public void setPartCode(String partCode) {
 		this.partCode = partCode;
 	}
+	/**天津废弃
 	public Long getPkidTr() {
 		return pkidTr;
 	}
@@ -86,7 +123,7 @@ public class TransPlanVO {
 	}
 	public void setEstPartTimeTr(Date estPartTimeTr) {
 		this.estPartTimeTr = estPartTimeTr;
-	}
+	}*/
 	public Long getPkidHd() {
 		return pkidHd;
 	}
@@ -134,6 +171,133 @@ public class TransPlanVO {
 	}
 	public void setEstPartTimeLz(Date estPartTimeLz) {
 		this.estPartTimeLz = estPartTimeLz;
+	}
+	
+	public Long getPkidPt() {
+		return pkidPt;
+	}
+	public void setPkidPt(Long pkidPt) {
+		this.pkidPt = pkidPt;
+	}
+	public String getPartCodePt() {
+		return partCodePt;
+	}
+	public void setPartCodePt(String partCodePt) {
+		this.partCodePt = partCodePt;
+	}
+	public Date getEstPartTimePt() {
+		return estPartTimePt;
+	}
+	public void setEstPartTimePt(Date estPartTimePt) {
+		this.estPartTimePt = estPartTimePt;
+	}
+	public Long getPkidCs() {
+		return pkidCs;
+	}
+	public void setPkidCs(Long pkidCs) {
+		this.pkidCs = pkidCs;
+	}
+	public String getPartCodeCs() {
+		return partCodeCs;
+	}
+	public void setPartCodeCs(String partCodeCs) {
+		this.partCodeCs = partCodeCs;
+	}
+	public Date getEstPartTimeCs() {
+		return estPartTimeCs;
+	}
+	public void setEstPartTimeCs(Date estPartTimeCs) {
+		this.estPartTimeCs = estPartTimeCs;
+	}
+	public Long getPkidBr() {
+		return pkidBr;
+	}
+	public void setPkidBr(Long pkidBr) {
+		this.pkidBr = pkidBr;
+	}
+	public String getPartCodeBr() {
+		return partCodeBr;
+	}
+	public void setPartCodeBr(String partCodeBr) {
+		this.partCodeBr = partCodeBr;
+	}
+	public Date getEstPartTimeBr() {
+		return estPartTimeBr;
+	}
+	public void setEstPartTimeBr(Date estPartTimeBr) {
+		this.estPartTimeBr = estPartTimeBr;
+	}
+	public Long getPkidCc() {
+		return pkidCc;
+	}
+	public void setPkidCc(Long pkidCc) {
+		this.pkidCc = pkidCc;
+	}
+	public String getPartCodeCc() {
+		return partCodeCc;
+	}
+	public void setPartCodeCc(String partCodeCc) {
+		this.partCodeCc = partCodeCc;
+	}
+	public Date getEstPartTimeCc() {
+		return estPartTimeCc;
+	}
+	public void setEstPartTimeCc(Date estPartTimeCc) {
+		this.estPartTimeCc = estPartTimeCc;
+	}
+	public Long getPkidPa() {
+		return pkidPa;
+	}
+	public void setPkidPa(Long pkidPa) {
+		this.pkidPa = pkidPa;
+	}
+	public String getPartCodePa() {
+		return partCodePa;
+	}
+	public void setPartCodePa(String partCodePa) {
+		this.partCodePa = partCodePa;
+	}
+	public Date getEstPartTimePa() {
+		return estPartTimePa;
+	}
+	public void setEstPartTimePa(Date estPartTimePa) {
+		this.estPartTimePa = estPartTimePa;
+	}
+	public Long getPkidPfs() {
+		return pkidPfs;
+	}
+	public void setPkidPfs(Long pkidPfs) {
+		this.pkidPfs = pkidPfs;
+	}
+	public String getPartCodePfs() {
+		return partCodePfs;
+	}
+	public void setPartCodePfs(String partCodePfs) {
+		this.partCodePfs = partCodePfs;
+	}
+	public Date getEstPartTimePfs() {
+		return estPartTimePfs;
+	}
+	public void setEstPartTimePfs(Date estPartTimePfs) {
+		this.estPartTimePfs = estPartTimePfs;
+	}
+	public Long getPkidPfc() {
+		return pkidPfc;
+	}
+	public void setPkidPfc(Long pkidPfc) {
+		this.pkidPfc = pkidPfc;
+	}
+	public String getPartCodePfc() {
+		return partCodePfc;
+	}
+	public void setPartCodePfc(String partCodePfc) {
+		this.partCodePfc = partCodePfc;
+	}
+	public Date getEstPartTimePfc() {
+		return estPartTimePfc;
+	}
+	public void setEstPartTimePfc(Date estPartTimePfc) {
+		this.estPartTimePfc = estPartTimePfc;
 	}
 	public Long getPkidFk() {
 		return pkidFk;

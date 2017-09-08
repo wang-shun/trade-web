@@ -192,18 +192,41 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 			if (toTransPlan.getPartCode().equals("LoanClose")) {/* 还贷，贷款结清 */
 				transPlanVO.setEstPartTimeHd(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidHd(toTransPlan.getPkid());
-			} else if (toTransPlan.getPartCode().equals("HouseBookGet")) {/* 领证 */
-				transPlanVO.setEstPartTimeLz(toTransPlan.getEstPartTime());
-				transPlanVO.setPkidLz(toTransPlan.getPkid());
-			} else if (toTransPlan.getPartCode().equals("TaxReview")) {/* 审税 */
+			} /** 审税 天津废弃
+			else if (toTransPlan.getPartCode().equals("TaxReview")) {
 				transPlanVO.setEstPartTimeTr(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidTr(toTransPlan.getPkid());
-			} else if (toTransPlan.getPartCode().equals("LoanRelease")) {/* 放款 */
+			} */
+			else if (toTransPlan.getPartCode().equals("LoanRelease")) {/* 放款 */
 				transPlanVO.setEstPartTimeFk(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidFk(toTransPlan.getPkid());
-			} else if (toTransPlan.getPartCode().equals("Guohu")) {/* 过户 */
+			} else if (toTransPlan.getPartCode().equals("PayTax")) { /*缴税Pt*/
 				transPlanVO.setEstPartTimeGh(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidGh(toTransPlan.getPkid());
+			}else if (toTransPlan.getPartCode().equals("Guohu")) {/* 过户 */
+				transPlanVO.setEstPartTimeGh(toTransPlan.getEstPartTime());
+				transPlanVO.setPkidGh(toTransPlan.getPkid());
+			}else if (toTransPlan.getPartCode().equals("HouseBookGet")) {/* 领证 */
+				transPlanVO.setEstPartTimePfs(toTransPlan.getEstPartTime());
+				transPlanVO.setPkidPfs(toTransPlan.getPkid());
+			}else if (toTransPlan.getPartCode().equals("CommercialLoansSigned")) { /*商贷面签Cs*/
+				transPlanVO.setEstPartTimeCs(toTransPlan.getEstPartTime());
+				transPlanVO.setPkidCs(toTransPlan.getPkid());
+			}else if (toTransPlan.getPartCode().equals("BusinessLoanAssessmentReport")) { /*商贷出评估报告Br*/
+				transPlanVO.setEstPartTimeBr(toTransPlan.getEstPartTime());
+				transPlanVO.setPkidBr(toTransPlan.getPkid());
+			}else if (toTransPlan.getPartCode().equals("CommercialLendingCompleted")) {/*商贷批贷完成Cc*/
+				transPlanVO.setEstPartTimeCc(toTransPlan.getEstPartTime());
+				transPlanVO.setPkidCc(toTransPlan.getPkid());
+			}else if (toTransPlan.getPartCode().equals("ProvidentFundLoanBookApplication")) { /*公积金贷款预约申请Pa*/
+				transPlanVO.setEstPartTimePa(toTransPlan.getEstPartTime());
+				transPlanVO.setPkidPa(toTransPlan.getPkid());
+			}else if (toTransPlan.getPartCode().equals("ProvidentFundSigned")) { /*公积金面签Pfs*/
+				transPlanVO.setEstPartTimePfs(toTransPlan.getEstPartTime());
+				transPlanVO.setPkidPfs(toTransPlan.getPkid());
+			}else if (toTransPlan.getPartCode().equals("ProvidentFundLoanCompletion")) { /*公积金批贷完成Pfc*/
+				transPlanVO.setEstPartTimePfc(toTransPlan.getEstPartTime());
+				transPlanVO.setPkidPfc(toTransPlan.getPkid());
 			}
 		}
 		return transPlanVO;
@@ -238,7 +261,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 					}
 				}
 			}
-			/** 审税 */
+			/** 审税 天津废弃
 			ToTransPlan toTransPlanTr = new ToTransPlan();
 			toTransPlanTr.setEstPartTime(transPlanVO.getEstPartTimeTr());
 			toTransPlanTr.setCaseCode(transPlanVO.getCaseCode());
@@ -250,6 +273,20 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				toTransPlanTr.setPartCode("TaxReview");
 				if (toTransPlanMapper.findTransPlan(toTransPlanTr) == null) {
 					toTransPlanMapper.insertSelective(toTransPlanTr);
+				}
+			}*/
+			/**缴税Pt*/
+			ToTransPlan toTransPlanPt = new ToTransPlan();
+			toTransPlanPt.setEstPartTime(transPlanVO.getEstPartTimePt());
+			toTransPlanPt.setCaseCode(transPlanVO.getCaseCode());
+			if (transPlanVO.getPkidPt() != null) {
+				toTransPlanPt.setPkid(transPlanVO.getPkidPt());
+				toTransPlanPt.setCaseCode(transPlanVO.getCaseCode());
+				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanPt);
+			} else {
+				toTransPlanPt.setPartCode("PayTax");
+				if (toTransPlanMapper.findTransPlan(toTransPlanPt) == null) {
+					toTransPlanMapper.insertSelective(toTransPlanPt);
 				}
 			}
 			/** 过户 */
@@ -278,6 +315,91 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				toTransPlanLz.setPartCode("HouseBookGet");
 				if (toTransPlanMapper.findTransPlan(toTransPlanLz) == null) {
 					toTransPlanMapper.insertSelective(toTransPlanLz);
+				}
+			}
+			
+			/**商贷面签Cs*/
+			ToTransPlan toTransPlanCs = new ToTransPlan();
+			toTransPlanCs.setEstPartTime(transPlanVO.getEstPartTimeCs());
+			toTransPlanCs.setCaseCode(transPlanVO.getCaseCode());
+			if (transPlanVO.getPkidCs() != null) {
+				toTransPlanCs.setPkid(transPlanVO.getPkidCs());
+				toTransPlanCs.setCaseCode(transPlanVO.getCaseCode());
+				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanCs);
+			} else {
+				toTransPlanCs.setPartCode("CommercialLoansSigned");
+				if (toTransPlanMapper.findTransPlan(toTransPlanCs) == null) {
+					toTransPlanMapper.insertSelective(toTransPlanCs);
+				}
+			}
+			/**商贷出评估报告Br*/
+			ToTransPlan toTransPlanBr = new ToTransPlan();
+			toTransPlanBr.setEstPartTime(transPlanVO.getEstPartTimeBr());
+			toTransPlanBr.setCaseCode(transPlanVO.getCaseCode());
+			if (transPlanVO.getPkidBr() != null) {
+				toTransPlanBr.setPkid(transPlanVO.getPkidBr());
+				toTransPlanBr.setCaseCode(transPlanVO.getCaseCode());
+				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanBr);
+			} else {
+				toTransPlanBr.setPartCode("BusinessLoanAssessmentReport");
+				if (toTransPlanMapper.findTransPlan(toTransPlanBr) == null) {
+					toTransPlanMapper.insertSelective(toTransPlanBr);
+				}
+			}
+			/**商贷批贷完成Cc*/
+			ToTransPlan toTransPlanCc = new ToTransPlan();
+			toTransPlanCc.setEstPartTime(transPlanVO.getEstPartTimeCc());
+			toTransPlanCc.setCaseCode(transPlanVO.getCaseCode());
+			if (transPlanVO.getPkidCc() != null) {
+				toTransPlanCc.setPkid(transPlanVO.getPkidCc());
+				toTransPlanCc.setCaseCode(transPlanVO.getCaseCode());
+				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanCc);
+			} else {
+				toTransPlanCc.setPartCode("CommercialLendingCompleted");
+				if (toTransPlanMapper.findTransPlan(toTransPlanCc) == null) {
+					toTransPlanMapper.insertSelective(toTransPlanCc);
+				}
+			}
+			 /**公积金贷款预约申请Pa*/
+			ToTransPlan toTransPlanPa = new ToTransPlan();
+			toTransPlanPa.setEstPartTime(transPlanVO.getEstPartTimePa());
+			toTransPlanPa.setCaseCode(transPlanVO.getCaseCode());
+			if (transPlanVO.getPkidPa() != null) {
+				toTransPlanPa.setPkid(transPlanVO.getPkidPa());
+				toTransPlanPa.setCaseCode(transPlanVO.getCaseCode());
+				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanPa);
+			} else {
+				toTransPlanPa.setPartCode("ProvidentFundLoanBookApplication");
+				if (toTransPlanMapper.findTransPlan(toTransPlanPa) == null) {
+					toTransPlanMapper.insertSelective(toTransPlanPa);
+				}
+			}
+			/**公积金面签Pfs*/
+			ToTransPlan toTransPlanPfs = new ToTransPlan();
+			toTransPlanPfs.setEstPartTime(transPlanVO.getEstPartTimePfs());
+			toTransPlanPfs.setCaseCode(transPlanVO.getCaseCode());
+			if (transPlanVO.getPkidPfs() != null) {
+				toTransPlanPfs.setPkid(transPlanVO.getPkidPfs());
+				toTransPlanPfs.setCaseCode(transPlanVO.getCaseCode());
+				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanPfs);
+			} else {
+				toTransPlanPfs.setPartCode("ProvidentFundSigned");
+				if (toTransPlanMapper.findTransPlan(toTransPlanPfs) == null) {
+					toTransPlanMapper.insertSelective(toTransPlanPfs);
+				}
+			}
+			/**公积金批贷完成Pfc*/
+			ToTransPlan toTransPlanPfc = new ToTransPlan();
+			toTransPlanPfc.setEstPartTime(transPlanVO.getEstPartTimePfc());
+			toTransPlanPfc.setCaseCode(transPlanVO.getCaseCode());
+			if (transPlanVO.getPkidPfc() != null) {
+				toTransPlanPfc.setPkid(transPlanVO.getPkidPfc());
+				toTransPlanPfc.setCaseCode(transPlanVO.getCaseCode());
+				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanPfc);
+			} else {
+				toTransPlanPfc.setPartCode("ProvidentFundLoanCompletion");
+				if (toTransPlanMapper.findTransPlan(toTransPlanPfc) == null) {
+					toTransPlanMapper.insertSelective(toTransPlanPfc);
 				}
 			}
 

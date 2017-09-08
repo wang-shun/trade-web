@@ -15,6 +15,7 @@ public class ToPayment {
     private String caseCode;
 
     private BigDecimal amount;
+    private BigDecimal supervisionAmount;//天津新增监管金额
 
     public Long getPkid() {
         return pkid;
@@ -63,4 +64,13 @@ public class ToPayment {
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
+
+	public BigDecimal getSupervisionAmount() {
+		return supervisionAmount;
+	}
+
+	public void setSupervisionAmount(BigDecimal supervisionAmount) {
+		this.supervisionAmount = supervisionAmount;
+	}
+    
 }

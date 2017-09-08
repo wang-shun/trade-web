@@ -22,26 +22,26 @@ public class ToSign {
 
     private String comment;
 
+    private BigDecimal personalIncomeTax;//个人所得税
+    
+    /**天津废弃
     private BigDecimal houseHodingTax;
-
-    private BigDecimal personalIncomeTax;
 
     private BigDecimal businessTax;
 
     private BigDecimal contractTax;
-
-    private BigDecimal landIncrementTax;
+	*/
+    private BigDecimal landIncrementTax;//土地增值税
+    /*天津新增*/
+	private BigDecimal sellerTax;	 /*卖方增值税*/
+	private BigDecimal buyerTax;	 /*买方契税*/
+	private Date estimateTransferTime;//预计过户时间
+	private String fundSupervisionme;//资金监管
+	private String netPlace;//网签地点
 
     private String houseQuantity;		/*是否首套 0:首套 1：二套 2：多套*/
 
-    public BigDecimal getHouseHodingTax() {
-        return houseHodingTax;
-    }
-
-    public void setHouseHodingTax(BigDecimal houseHodingTax) {
-        this.houseHodingTax = houseHodingTax;
-    }
-
+  
     public BigDecimal getPersonalIncomeTax() {
         return personalIncomeTax;
     }
@@ -50,21 +50,6 @@ public class ToSign {
         this.personalIncomeTax = personalIncomeTax;
     }
 
-    public BigDecimal getBusinessTax() {
-        return businessTax;
-    }
-
-    public void setBusinessTax(BigDecimal businessTax) {
-        this.businessTax = businessTax;
-    }
-
-    public BigDecimal getContractTax() {
-        return contractTax;
-    }
-
-    public void setContractTax(BigDecimal contractTax) {
-        this.contractTax = contractTax;
-    }
 
     public BigDecimal getLandIncrementTax() {
         return landIncrementTax;
@@ -153,4 +138,46 @@ public class ToSign {
     public void setHouseQuantity(String houseQuantity) {
         this.houseQuantity = houseQuantity;
     }
+
+	public BigDecimal getSellerTax() {
+		return sellerTax;
+	}
+
+	public void setSellerTax(BigDecimal sellerTax) {
+		this.sellerTax = sellerTax;
+	}
+
+	public BigDecimal getBuyerTax() {
+		return buyerTax;
+	}
+
+	public void setBuyerTax(BigDecimal buyerTax) {
+		this.buyerTax = buyerTax;
+	}
+
+	public Date getEstimateTransferTime() {
+		return estimateTransferTime;
+	}
+
+	public void setEstimateTransferTime(Date estimateTransferTime) {
+		this.estimateTransferTime = estimateTransferTime;
+	}
+
+	public String getFundSupervisionme() {
+		return fundSupervisionme;
+	}
+
+	public void setFundSupervisionme(String fundSupervisionme) {
+		this.fundSupervisionme = fundSupervisionme;
+	}
+
+	public String getNetPlace() {
+		return netPlace;
+	}
+
+	public void setNetPlace(String netPlace) {
+		this.netPlace = netPlace;
+	}
+
+
 }

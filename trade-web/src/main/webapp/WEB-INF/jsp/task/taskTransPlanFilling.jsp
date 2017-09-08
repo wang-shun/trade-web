@@ -54,7 +54,7 @@
 
     <div class="ibox-content border-bottom clearfix space_box noborder marginbot">
         <div>
-            <h2 class="newtitle title-mark">填写任务信息</h2>
+            <h2 class="newtitle title-mark">填写计划信息</h2>
             <div class="form_list">
             	<form method="POST" class="form-horizontal" id="transPlanForm">
             	<%--环节编码 --%>
@@ -67,12 +67,78 @@
 				<%-- 原有数据对应id --%>
 				<%-- <input type="hidden" id="pkidTp" name="pkidTp" value="${transPlan.pkidTp}"> --%>
 				<input type="hidden" id="pkidPc" name="pkidPc" value="${transPlan.pkidHd}">
-				<input type="hidden" id="pkidTr" name="pkidTr" value="${transPlan.pkidTr}">
+				<%--天津废弃<input type="hidden" id="pkidTr" name="pkidTr" value="${transPlan.pkidTr}"> --%>
 				<input type="hidden" id="pkidGh" name="pkidGh" value="${transPlan.pkidGh}">
-				<input type="hidden" id="pkidPl" name="pkidLz" value="${transPlan.pkidLz}">
-				<input type="hidden" id="pkidPl" name="pkidFk" value="${transPlan.pkidFk}">
+				<input type="hidden" id="pkidLz" name="pkidLz" value="${transPlan.pkidLz}">
+				<input type="hidden" id="pkidFk" name="pkidFk" value="${transPlan.pkidFk}">
+				<%-- 天津新增 --%>
+				<input type="hidden" id="pkidPt" name="pkidPt" value="${transPlan.pkidPt}">
+				<input type="hidden" id="pkidCs" name="pkidCs" value="${transPlan.pkidCs}">
+				<input type="hidden" id="pkidBr" name="pkidBr" value="${transPlan.pkidBr}">
+				<input type="hidden" id="pkidCc" name="pkidCc" value="${transPlan.pkidCc}">
+				<input type="hidden" id="pkidPa" name="pkidPa" value="${transPlan.pkidPa}">
+				<input type="hidden" id="pkidPfs" name="pkidPfs" value="${transPlan.pkidPfs}">
+				<input type="hidden" id="pkidPfc" name="pkidPfc" value="${transPlan.pkidPfc}">
 		
                  <div class="marinfo">
+                 	 <div class="line">
+                 	 	<div class="form_content mt3">
+                             <label class="control-label sign_left_small select_style mend_select">
+                               	<font color=" red" class="mr5" >*</font> 预计缴税时间
+                             </label>
+                             <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                             	<input type="text" class="input_type yuanwid datatime" name="estPartTimePt" id="estPartTimePt"
+				 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimePt}' type='both' pattern='yyyy-MM-dd'/>">
+                             </div>
+                         </div>
+                         <div class="form_content mt3">
+                             <label class="control-label sign_left_small select_style mend_select">
+                                	<font color=" red" class="mr5" >*</font>预计过户时间
+                             </label>
+                             <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                             	<input type="text" class="input_type yuanwid datatime" name="estPartTimeGh" id="estPartTimeGh"
+				 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeGh}' type='both' pattern='yyyy-MM-dd'/>">
+                             </div>
+                         </div>
+                         <div class="form_content mt3">
+                             <label class="control-label sign_left_small select_style mend_select">
+                                	<font color=" red" class="mr5" >*</font>预计领他证时间
+                             </label>
+                             <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                             	<input type="text" class="input_type yuanwid datatime" name="estPartTimeLz" id="estPartTimeLz"
+							onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeLz}' type='both' pattern='yyyy-MM-dd'/>">
+                             </div>
+                         </div>
+                 	 </div>
+                 	 <div class="line">
+                 	 	<div class="form_content mt3">
+                             <label class="control-label sign_left_small select_style mend_select">
+                                	<font color=" red" class="mr5" >*</font>预计商贷面签时间
+                             </label>
+                             <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                             	<input type="text" class="input_type yuanwid datatime" name="estPartTimeCs" id="estPartTimeCs"
+				 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeCs}' type='both' pattern='yyyy-MM-dd'/>">
+                             </div>
+                         </div>
+                         <div class="form_content mt3">
+                             <label class="control-label sign_left_small select_style mend_select">
+                                	<font color=" red" class="mr5" >*</font>预计商贷出评估报告时间
+                             </label>
+                             <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                             	<input type="text" class="input_type yuanwid datatime" name="estPartTimeBr" id="estPartTimeBr"
+							onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeBr}' type='both' pattern='yyyy-MM-dd'/>">
+                             </div>
+                         </div>
+                         <div class="form_content mt3">
+                             <label class="control-label sign_left_small select_style mend_select">
+                                	<font color=" red" class="mr5" >*</font>预计商贷批贷完成时间
+                             </label>
+                             <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                             	<input type="text" class="input_type yuanwid datatime" name="estPartTimeCc" id="estPartTimeCc"
+				 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeCc}' type='both' pattern='yyyy-MM-dd'/>">
+                             </div>
+                         </div>
+                 	 </div>
                      <div class="line">
                      	<c:if test="${dy}">
                           <div class="form_content mt3">
@@ -87,32 +153,32 @@
                          </c:if>
                          <div class="form_content mt3">
                              <label class="control-label sign_left_small select_style mend_select">
-                               	<font color=" red" class="mr5" >*</font> 预计审税时间
+                               	<font color=" red" class="mr5" >*</font> 预计公积金贷款预约申请时间
                              </label>
                              <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                             	<input type="text" class="input_type yuanwid datatime" name="estPartTimeTr" id="estPartTimeTr"
-				 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeTr}' type='both' pattern='yyyy-MM-dd'/>">
+                             	<input type="text" class="input_type yuanwid datatime" name="estPartTimePa" id="estPartTimePa"
+				 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimePa}' type='both' pattern='yyyy-MM-dd'/>">
+                             </div>
+                         </div>
+                         <div class="form_content mt3">
+                             <label class="control-label sign_left_small select_style mend_select">
+                               	<font color=" red" class="mr5" >*</font> 预计公积金面签时间
+                             </label>
+                             <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                             	<input type="text" class="input_type yuanwid datatime" name="estPartTimePfs" id="estPartTimePfs"
+				 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimePfs}' type='both' pattern='yyyy-MM-dd'/>">
+                             </div>
+                         </div>
+                         <div class="form_content mt3">
+                             <label class="control-label sign_left_small select_style mend_select">
+                               	<font color=" red" class="mr5" >*</font> 预计公积金批贷完成时间
+                             </label>
+                             <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                             	<input type="text" class="input_type yuanwid datatime" name="estPartTimePfc" id="estPartTimePfc"
+				 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimePfc}' type='both' pattern='yyyy-MM-dd'/>">
                              </div>
                          </div>
                      
-                         <div class="form_content mt3">
-                             <label class="control-label sign_left_small select_style mend_select">
-                                	<font color=" red" class="mr5" >*</font>预计过户时间
-                             </label>
-                             <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                             	<input type="text" class="input_type yuanwid datatime" name="estPartTimeGh" id="estPartTimeGh"
-				 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeGh}' type='both' pattern='yyyy-MM-dd'/>">
-                             </div>
-                         </div>
-                         <div class="form_content mt3">
-                             <label class="control-label sign_left_small select_style mend_select">
-                                	<font color=" red" class="mr5" >*</font>预计领证时间
-                             </label>
-                             <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                             	<input type="text" class="input_type yuanwid datatime" name="estPartTimeLz" id="estPartTimeLz"
-							onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeLz}' type='both' pattern='yyyy-MM-dd'/>">
-                             </div>
-                         </div>
 	                     <c:if test="${dk}">
 	                          <div class="form_content mt3">
 	                              <label class="control-label sign_left_small select_style mend_select">
@@ -251,9 +317,15 @@
 			                return false;
 			           }
 					}
+					/*
 					if($('input[name=estPartTimeTr]').val()=='') {
 						window.wxc.alert("预计审税时间为必填项!");
 		                $('input[name=estPartTimeTr]').focus();
+		                return false;
+		           }*/
+		           if($('input[name=estPartTimePt]').val()=='') {
+						window.wxc.alert("预计缴税时间为必填项!");
+		                $('input[name=estPartTimePt]').focus();
 		                return false;
 		           }
 					if($('input[name=estPartTimeGh]').val()=='') {
@@ -262,8 +334,38 @@
 		                return false;
 		           }
 					if($('input[name=estPartTimeLz]').val()=='') {
-						window.wxc.alert("预计领证时间为必填项!");
+						window.wxc.alert("预计领他证时间为必填项!");
 		                $('input[name=estPartTimeLz]').focus();
+		                return false;
+		           }
+					if($('input[name=estPartTimeCS]').val()=='') {
+						window.wxc.alert("预计商贷面签时间为必填项!");
+		                $('input[name=estPartTimeCS]').focus();
+		                return false;
+		           }
+					if($('input[name=estPartTimeBr]').val()=='') {
+						window.wxc.alert("预计商贷出评估报告时间为必填项!");
+		                $('input[name=estPartTimeBr]').focus();
+		                return false;
+		           }
+					if($('input[name=estPartTimeCc]').val()=='') {
+						window.wxc.alert("预计商贷批贷完成时间为必填项!");
+		                $('input[name=estPartTimeCc]').focus();
+		                return false;
+		           }
+					if($('input[name=estPartTimePa]').val()=='') {
+						window.wxc.alert("预计公积金贷款预约申请时间为必填项!");
+		                $('input[name=estPartTimePa]').focus();
+		                return false;
+		           }
+					if($('input[name=estPartTimePfs]').val()=='') {
+						window.wxc.alert("预计公积金面签时间为必填项!");
+		                $('input[name=estPartTimePfs]').focus();
+		                return false;
+		           }
+					if($('input[name=estPartTimePfc]').val()=='') {
+						window.wxc.alert("预计公积金批贷完成时间为必填项!");
+		                $('input[name=estPartTimePfc]').focus();
 		                return false;
 		           }
 					if(dk) {

@@ -13,7 +13,7 @@
 <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>
-            	签约室预约
+            	新增预约网签列表
         </title>
         
         <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet"/>
@@ -42,7 +42,7 @@
 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="ibox-content border-bottom clearfix space_box">
                         <h2 class="title">
-                            签约室13
+                            新增预约网签列表
                         </h2>
                         <form class="form_list" id="searchForm">
                         	<input type="hidden" id="ctx" value="${ctx}"/>
@@ -54,29 +54,37 @@
                             <div class="line">
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        预约人：
+                                      案件编号：
                                     </label>
                                     <input class="pop-name input_type" name="resPersonId" id="resPersonId" hVal="${resPeopleId }" placeholder=""  readonly="readonly" placeholder="" value="${resPersonId }" onclick="chooseManager('${serviceDepId}')">
                                 	
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        预约号
+                                       成交报告编号
                                     </label>
                                     <input class="pop-name input_type" placeholder="" value="${resNo }" name="resNo">
                                 </div>
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                        手机号码
+                                       楼盘
+                                    </label>
+                                    <input class="input_type width165" placeholder="" value="${mobile }" name="mobile">
+                                    <label class="control-label sign_left_small">
+                                    栋座
+                                    </label>
+                                    <input class="input_type width165" placeholder="" value="${mobile }" name="mobile">
+                                    <label class="control-label sign_left_small">
+                                     房号
                                     </label>
                                     <input class="input_type width165" placeholder="" value="${mobile }" name="mobile">
                                 </div>
                             </div>
                             <div class="line">
+                           		 <div class="form_content">
+                            		业绩上报日期
+                                 </div>
                                 <div class="form_content">
-                                    <label class="control-label sign_left_small select_style mend_select">
-                                        预约日期
-                                    </label>
                                     <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
                                         <input name="startDateTime" class="form-control data_style" type="text" value="${startDateTime }" placeholder="起始日期"> <span class="input-group-addon">到</span>
                                         <input name="endDateTime" class="form-control data_style" type="text" value="${endDateTime }" placeholder="结束日期">
@@ -86,32 +94,16 @@
                                         <span id="tommrow" class="tommrow date-time">明</span>
                                     </div>
                                 </div>
-                                <div class="form_content">
-                                    <label class="control-label sign_left_small width89">
-                                        预约时间
-                                    </label>
-                                    
-                                    <select class="select_control sign_right_one" id="selResTime">
-                                       
-                                    </select>
-                                </div>
 
                             </div>
                             <div class="line">
 
                                 <div class="form_content">
                                     <label class="control-label sign_left_small">
-                                       	 状态
+                                       	房源编号
                                     </label>
                                     
-                                    <select class="select_control sign_right_one" id="selResStatus">
-                                        <option value=""  <c:if test="${resStatus == '' }">selected="selected"</c:if> >请选择</option>
-                                        <option value="0" <c:if test="${resStatus == '0' }">selected="selected"</c:if> >预约中</option>
-                                        <option value="1" <c:if test="${resStatus == '1' }">selected="selected"</c:if> >使用中</option>
-                                        <option value="2" <c:if test="${resStatus == '2' }">selected="selected"</c:if> >已使用</option>
-                                        <option value="3" <c:if test="${resStatus == '3' }">selected="selected"</c:if> >已过期</option>
-                                        <option value="4" <c:if test="${resStatus == '4' }">selected="selected"</c:if> >已取消</option>
-                                    </select>
+                                    <input class="pop-name input_type" placeholder="" value="${resNo }" name="resNo">
                                 </div>
                                 <div class="add_btn" style="float:left;margin-left:26px;">
                                     <button type="button" class="btn btn-success" id="searchButton">
@@ -128,39 +120,26 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table_content">
-                            	<h3><span style="color: red">今日值班经理：</span>&nbsp;
-                            		<c:if test="${!empty tcs}">
-                            		<c:forEach items="${tcs }" var="tc">
-                            		   ${tc.officerName }&nbsp;(${tc.dutyType==0?'白班':'夜班'})&nbsp;&nbsp;&nbsp;
-                            		</c:forEach>
-                            		</c:if>
-                            		</h3>
                                 <table class="table table_blue table-striped table-bordered table-hover " id="editable" >
                                     <thead>
                                     <tr>
                                         <th style="background-color:#52cdec;">
-                                            	预约号
+                                            	案件编号
                                         </th>
                                         <th style="background-color:#52cdec;">
-                                            	房号
+                                            	成交报告编号
                                         </th>
                                         <th style="background-color:#52cdec;">
-                                           	 	预约时间
+                                           	 	业绩上报日期
                                         </th>
                                         <th style="background-color:#52cdec;">
-                                            	实际时间
+                                            	城区
                                         </th>
                                         <th style="background-color:#52cdec;">
-                                            	预约状态
+                                            	产权地址
                                         </th>
                                         <th style="background-color:#52cdec;">
-                                           	 	经办人
-                                        </th>
-                                        <th style="background-color:#52cdec;">
-                                            	特殊要求
-                                        </th>
-                                        <th style="background-color:#52cdec;">
-                                            	最新跟进
+                                            	房源编号
                                         </th>
                                         <th style="background-color:#52cdec;">
                                             	操作
