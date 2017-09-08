@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.centaline.api.ccai.cases.vo.*;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,11 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.centaline.api.ApiApplication;
-import com.centaline.api.ccai.cases.vo.CcaiImportAttachment;
-import com.centaline.api.ccai.cases.vo.CcaiImportCase;
-import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
-import com.centaline.api.ccai.cases.vo.CcaiImportCaseInfo;
-import com.centaline.api.ccai.cases.vo.CcaiImportCaseProperty;
+import com.centaline.api.ccai.cases.vo.CcaiImportParticipant;
 import com.centaline.trans.utils.DateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -78,9 +75,9 @@ public class ImportApiTest {
 		
 		CcaiImportCase acase = new CcaiImportCase();
 		//案件基本信息
-		List<CcaiImportCaseInfo> participants = new ArrayList<>();
+		List<CcaiImportParticipant> participants = new ArrayList<>();
 		//经纪人信息
-		CcaiImportCaseInfo agent = new CcaiImportCaseInfo();
+		CcaiImportParticipant agent = new CcaiImportParticipant();
 		agent.setPosition("agent");
 		agent.setUserName("zenglong");
 		agent.setRealName("曾龙");
@@ -91,7 +88,7 @@ public class ImportApiTest {
 		participants.add(agent);
 		
 		//分行秘书信息
-		CcaiImportCaseInfo secretary = new CcaiImportCaseInfo();
+		CcaiImportParticipant secretary = new CcaiImportParticipant();
 		secretary.setPosition("secretary");
 		secretary.setUserName("ahk-zhaoxu01");
 		secretary.setRealName("赵旭");
@@ -99,7 +96,7 @@ public class ImportApiTest {
 		participants.add(secretary);
 		
 //		//权证专员信息
-		CcaiImportCaseInfo warrant = new CcaiImportCaseInfo();
+		CcaiImportParticipant warrant = new CcaiImportParticipant();
 		warrant.setPosition("warrant");
 		warrant.setUserName("shangfei");
 		warrant.setRealName("尚飞");

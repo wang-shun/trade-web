@@ -4,12 +4,13 @@ import com.aist.common.exception.BusinessException;
 import com.centaline.api.ccai.cases.service.CcaiService;
 import com.centaline.api.ccai.cases.vo.CcaiImportCase;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
-import com.centaline.api.ccai.cases.vo.CcaiImportCaseInfo;
+import com.centaline.api.ccai.cases.vo.CcaiImportParticipant;
+import com.centaline.api.common.vo.CcaiServiceResult;
 import com.centaline.api.enums.CaseSyncParticipantEnum;
 import com.centaline.trans.apilog.service.ApiLogService;
-import com.centaline.api.common.vo.CcaiServiceResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.*;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -30,10 +31,12 @@ import javax.validation.Valid;
  * @author yinchao
  *
  */
+//tags不要起中文名 否则可能会导致展开接口方法失效
+@Api(description = "案件同步相关接口",tags = {"caseSync"})
 @RestController
 @RequestMapping(value="/api/ccai/v1")
-public class CaseSynctController {
-	private Logger logger = LoggerFactory.getLogger(CaseSynctController.class);
+public class CaseSyncController {
+	private Logger logger = LoggerFactory.getLogger(CaseSyncController.class);
 	//记录日志 模块类型
 	private static final String SYNC_MODULE = "CASESYNC";//案件新增同步
 	private static final String UPDATE_MODULE = "CASEUPDATE";//案件修改同步
@@ -46,30 +49,35 @@ public class CaseSynctController {
 	
 	@Autowired
 	private ApiLogService apiLogService;
-	
+
 	/**
 	 * ccai导入案件接口
+	 *
 	 * @param acase json格式案件信息(由Spring MVC 自动转换成对象)
 	 * @return
 	 */
-	@RequestMapping(value="/caseSync.json",method=RequestMethod.POST)
-	public CcaiServiceResult caseImport(@Valid @RequestBody CcaiImportCase acase, Errors errors) {
+	@ApiOperation(value = "案件同步API", notes = "提供给CCAI将成交报告同步到交易系统", produces = "application/json,application/json;charset=UTF-8")
+	@RequestMapping(value = "/caseSync.json", method = RequestMethod.POST,produces = {"application/json","application/json;charset=UTF-8"})
+	public CcaiServiceResult caseImport(
+			@ApiParam(name = "案件信息", value = "需要同步的案件信息", required = true)
+			@Valid @RequestBody CcaiImportCase acase, Errors errors) {
+
 		CcaiServiceResult result = new CcaiServiceResult();
 		ObjectMapper mapper = new ObjectMapper();
 		StringBuilder msg = new StringBuilder();
-		if(errors.hasErrors()){
-			for(ObjectError err:errors.getAllErrors()){
+		if (errors.hasErrors()) {
+			for (ObjectError err : errors.getAllErrors()) {
 				msg.append(err.getDefaultMessage());
 				msg.append("\r\n");
 			}
 			result.setSuccess(false);
 			result.setMessage(msg.toString());
 			result.setCode("99");
-		}else{
+		} else {
 			//做其他的校验
 			result = validateData(acase);
 			//校验通过 进行数据同步
-			if(result.isSuccess()){
+			if (result.isSuccess()) {
 				try {
 					result = ccaiService.importCase(acase);//数据同步
 				} catch (BusinessException e) {
@@ -81,38 +89,48 @@ public class CaseSynctController {
 		}
 		try {
 			String data = mapper.writeValueAsString(acase);
-			logger.debug("sync get data:"+data);
+			logger.debug("sync get data:" + data);
 			apiLogService.apiLog(SYNC_MODULE, "/api/ccai/v1/caseSync.json", data, mapper.writeValueAsString(result)
-					, result.isSuccess()?"0":"1", SecurityUtils.getSubject().getSession().getHost());
-		} catch (JsonProcessingException e) {}
+					, result.isSuccess() ? "0" : "1", SecurityUtils.getSubject().getSession().getHost());
+		} catch (JsonProcessingException e) {
+		}
 		return result;
 	}
-	
+
 	/**
 	 * ccai修改案件信息接口
 	 * type 为normal 则为普通的修改
 	 * type 为flow 则触发流程到权证审批
+	 *
 	 * @param acase json格式案件信息(由Spring MVC 自动转换成对象)
 	 * @return
 	 */
-	@RequestMapping(value="/caseUpdate/{type}.json",method=RequestMethod.POST)
+	@ApiOperation(value = "案件修改API", notes = "提供给CCAI将被驳回的成交报告和修改的成交报告进行再次同步,type为normal-普通修改不影响流程,为flow则触发流程到权证审批", produces = "application/json")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "type", value = "本次修改的类型",
+					allowableValues = "normal,flow", paramType = "path", dataType = "string", required = true),
+	})
+	@RequestMapping(value = "/caseUpdate/{type}.json", method = RequestMethod.POST)
 	@ResponseBody
-	public CcaiServiceResult caseUpdate(@PathVariable String type,@RequestBody CcaiImportCase acase) {
+	public CcaiServiceResult caseUpdate(@PathVariable String type,
+			@ApiParam(name = "案件信息", value = "本次修改的案件信息", required = true)
+			@RequestBody CcaiImportCase ucase) {
+
 		CcaiServiceResult result = new CcaiServiceResult();
 		ObjectMapper mapper = new ObjectMapper();
-		if(acase==null||StringUtils.isBlank(acase.getCcaiCode())){
+		if (ucase == null || StringUtils.isBlank(ucase.getCcaiCode())) {
 			result.setSuccess(false);
 			result.setCode("99");
 			result.setMessage("未获取到要修改的案件信息或成交报告编号!");
-		}else{
+		} else {
 			try {
-				if(UPDATE_TYPE_NORMAL.equals(type)){
+				if (UPDATE_TYPE_NORMAL.equals(type)) {
 					//普通修改同步案件信息
-					result = ccaiService.updateCase(acase);
-				}else if(UPDATE_TYPE_FLOW.equals(type)){
+					result = ccaiService.updateCase(ucase);
+				} else if (UPDATE_TYPE_FLOW.equals(type)) {
 					//修改案件信息 同时触发流程到权证经理审核环节
-					result = ccaiService.updateCaseAndFlow(acase);
-				}else{
+					result = ccaiService.updateCaseAndFlow(ucase);
+				} else {
 					result.setSuccess(false);
 					result.setCode("99");
 					result.setMessage("无法识别的修改类型!");
@@ -124,11 +142,12 @@ public class CaseSynctController {
 			}
 		}
 		try {
-			String data = mapper.writeValueAsString(acase);
-			logger.debug("sync get data:"+data);
-			apiLogService.apiLog(UPDATE_MODULE, "/api/ccai/v1/caseUpdate/"+type+".json", data, mapper.writeValueAsString(result)
-					, result.isSuccess()?"0":"1", SecurityUtils.getSubject().getSession().getHost());
-		} catch (JsonProcessingException e) {}
+			String data = mapper.writeValueAsString(ucase);
+			logger.debug("sync get data:" + data);
+			apiLogService.apiLog(UPDATE_MODULE, "/api/ccai/v1/caseUpdate/" + type + ".json", data, mapper.writeValueAsString(result)
+					, result.isSuccess() ? "0" : "1", SecurityUtils.getSubject().getSession().getHost());
+		} catch (JsonProcessingException e) {
+		}
 		return result;
 	}
 	
@@ -157,7 +176,7 @@ public class CaseSynctController {
 				msg.append("案件参与人信息不完整，请查证!\r\n");
 			}else{
 				//案件参与人校验
-				for(CcaiImportCaseInfo pa : acase.getParticipants()){
+				for(CcaiImportParticipant pa : acase.getParticipants()){
 					if(CaseSyncParticipantEnum.AGENT.getCode().equals(pa.getPosition())){
 						//经纪人校验
 						participantCheck(pa,msg,"经纪人");
@@ -244,7 +263,7 @@ public class CaseSynctController {
 	 * @param msg
 	 * @param position
 	 */
-	private void participantCheck(CcaiImportCaseInfo pa,StringBuilder msg,String position){
+	private void participantCheck(CcaiImportParticipant pa, StringBuilder msg, String position){
 		checkBlank(pa,"userName",position+"域账号不能为空",msg);
 		checkBlank(pa,"realName",position+"名称不能为空",msg);
 //		checkBlank(pa,"mobile",position+"手机号不能为空",msg); 取消手机号必填选项
