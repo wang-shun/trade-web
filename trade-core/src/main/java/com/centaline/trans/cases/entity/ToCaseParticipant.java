@@ -36,6 +36,8 @@ public class ToCaseParticipant {
 
 	private String available;
 
+	private String assignId;
+
 	public Long getPkid() {
 		return pkid;
 	}
@@ -147,5 +149,13 @@ public class ToCaseParticipant {
 
 	public void setAvailable(String available) {
 		this.available = available;
+	}
+
+	public String getAssignId() {
+		return assignId;
+	}
+
+	public void setAssignId(String assignId) {
+		this.assignId = assignId;
 	}
 }

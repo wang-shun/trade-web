@@ -16,10 +16,11 @@
     <result column="GRP_MGR_MOBILE" property="grpMgrMobile" jdbcType="VARCHAR" />
     <result column="ORIGIN" property="origin" jdbcType="VARCHAR" />
     <result column="AVAILABLE" property="available" jdbcType="VARCHAR" />
+    <result column="ASSIGN_ID" property="assignId" jdbcType="NVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CCAI_CODE, CASE_CODE, POSITION, USER_NAME, REAL_NAME, MOBILE, GRP_CODE, GRP_NAME, 
-    GRP_MGR_USERNAME, GRP_MGR_REALNAME, GRP_MGR_MOBILE ,ORIGIN, AVAILABLE
+    GRP_MGR_USERNAME, GRP_MGR_REALNAME, GRP_MGR_MOBILE ,ORIGIN, AVAILABLE, ASSIGN_ID
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -36,13 +37,14 @@
       POSITION, USER_NAME, REAL_NAME, 
       MOBILE, GRP_CODE, GRP_NAME, 
       GRP_MGR_USERNAME, GRP_MGR_REALNAME, GRP_MGR_MOBILE,ORIGIN,AVAILABLE,
-      CREATE_BY, CREATE_TIME,UPDATE_BY, UPDATE_TIME, AVAILABLE
+      CREATE_BY, CREATE_TIME,UPDATE_BY, UPDATE_TIME, ASSIGN_ID
       )
     values (#{pkid,jdbcType=BIGINT}, #{ccaiCode,jdbcType=VARCHAR}, #{caseCode,jdbcType=VARCHAR}, 
       #{position,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{grpCode,jdbcType=VARCHAR}, #{grpName,jdbcType=VARCHAR}, 
       #{grpMgrUsername,jdbcType=VARCHAR}, #{grpMgrRealname,jdbcType=VARCHAR}, #{grpMgrMobile,jdbcType=VARCHAR},
-      #{origin,jdbcType=VARCHAR},#{available,jdbcType=VARCHAR},@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},GETDATE(), #{available,jdbcType=VARCHAR}
+      #{origin,jdbcType=VARCHAR},#{available,jdbcType=VARCHAR},@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},GETDATE(),
+      #{assignId,jdbcType=NVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToCaseParticipant" >
@@ -91,6 +93,9 @@
       <if test="available != null" >
         AVAILABLE,
       </if>
+      <if test="assignId != null" >
+        ASSIGN_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
@@ -135,6 +140,9 @@
       </if>
       <if test="available != null" >
         #{available,jdbcType=VARCHAR},
+      </if>
+      <if test="assignId != null" >
+        #{assignId,jdbcType=NVARCHAR},
       </if>
     </trim>
   </insert>
@@ -182,6 +190,9 @@
       <if test="available != null" >
         AVAILABLE = #{available,jdbcType=VARCHAR},
       </if>
+      <if test="assignId != null" >
+        ASSIGN_ID = #{assignId,jdbcType=NVARCHAR},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -201,7 +212,8 @@
       ORIGIN = #{origin,jdbcType=VARCHAR},
       UPDATE_BY = @{SESSION_USER_ID},
       UPDATE_TIME = GETDATE(),
-      AVAILABLE = #{available,jdbcType=VARCHAR}
+      AVAILABLE = #{available,jdbcType=VARCHAR},
+      ASSIGN_ID = #{assignId,jdbcType=NVARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   <select id="selectByCcaiCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -254,6 +266,15 @@
         </if>
         <if test="grpMgrMobile != null" >
           AND GRP_MGR_MOBILE = #{grpMgrMobile,jdbcType=VARCHAR}
+        </if>
+        <if test="origin != null" >
+          AND ORIGIN = #{origin,jdbcType=VARCHAR}
+        </if>
+        <if test="available != null" >
+          AND AVAILABLE = #{available,jdbcType=VARCHAR}
+        </if>
+        <if test="assignId != null" >
+          AND ASSIGN_ID = #{assignId,jdbcType=NVARCHAR}
         </if>
       </where>
     </trim>
