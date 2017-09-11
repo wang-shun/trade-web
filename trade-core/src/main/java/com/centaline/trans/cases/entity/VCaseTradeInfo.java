@@ -54,7 +54,7 @@ public class VCaseTradeInfo {
 
     private Date loanCloseCode;
 
-    private BigDecimal houseHodingTax;
+    private BigDecimal pricingTax;
 
     private BigDecimal personalIncomeTax;
 
@@ -64,21 +64,9 @@ public class VCaseTradeInfo {
 
     private BigDecimal landIncrementTax;
 
+    private Date paymentTime;
+
     private Date realHtTime;
-
-    private String holdYear;
-
-    private String isUniqueHome;
-
-    private Date taxTime;
-
-    private String houseProperty;
-
-    private Date pricingTime;
-
-    private BigDecimal taxPricing;
-
-    private Date realPlsTime;
 
     private Date realPropertyGetTime;
 
@@ -359,12 +347,12 @@ public class VCaseTradeInfo {
         this.loanCloseCode = loanCloseCode;
     }
 
-    public BigDecimal getHouseHodingTax() {
-        return houseHodingTax;
+    public BigDecimal getPricingTax() {
+        return pricingTax;
     }
 
-    public void setHouseHodingTax(BigDecimal houseHodingTax) {
-        this.houseHodingTax = houseHodingTax;
+    public void setPricingTax(BigDecimal pricingTax) {
+        this.pricingTax = pricingTax;
     }
 
     public BigDecimal getPersonalIncomeTax() {
@@ -399,68 +387,20 @@ public class VCaseTradeInfo {
         this.landIncrementTax = landIncrementTax;
     }
 
+    public Date getPaymentTime() {
+        return paymentTime;
+    }
+
+    public void setPaymentTime(Date paymentTime) {
+        this.paymentTime = paymentTime;
+    }
+
     public Date getRealHtTime() {
         return realHtTime;
     }
 
     public void setRealHtTime(Date realHtTime) {
         this.realHtTime = realHtTime;
-    }
-
-    public String getHoldYear() {
-        return holdYear;
-    }
-
-    public void setHoldYear(String holdYear) {
-        this.holdYear = holdYear == null ? null : holdYear.trim();
-    }
-
-    public String getIsUniqueHome() {
-        return isUniqueHome;
-    }
-
-    public void setIsUniqueHome(String isUniqueHome) {
-        this.isUniqueHome = isUniqueHome == null ? null : isUniqueHome.trim();
-    }
-
-    public Date getTaxTime() {
-        return taxTime;
-    }
-
-    public void setTaxTime(Date taxTime) {
-        this.taxTime = taxTime;
-    }
-
-    public String getHouseProperty() {
-        return houseProperty;
-    }
-
-    public void setHouseProperty(String houseProperty) {
-        this.houseProperty = houseProperty == null ? null : houseProperty.trim();
-    }
-
-    public Date getPricingTime() {
-        return pricingTime;
-    }
-
-    public void setPricingTime(Date pricingTime) {
-        this.pricingTime = pricingTime;
-    }
-
-    public BigDecimal getTaxPricing() {
-        return taxPricing;
-    }
-
-    public void setTaxPricing(BigDecimal taxPricing) {
-        this.taxPricing = taxPricing;
-    }
-
-    public Date getRealPlsTime() {
-        return realPlsTime;
-    }
-
-    public void setRealPlsTime(Date realPlsTime) {
-        this.realPlsTime = realPlsTime;
     }
 
     public Date getRealPropertyGetTime() {
