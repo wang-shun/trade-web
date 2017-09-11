@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.cases.repository.ToCaseRecvMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.cases.entity.ToCaseRecv" >
+    <id column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="EST_EVL_APPLY_TIME" property="estEvlApplyTime" jdbcType="TIMESTAMP" />
+    <result column="EST_SIGN_TIME" property="estSignTime" jdbcType="TIMESTAMP" />
+    <result column="EST_F2F_SIGN_TIME" property="estF2fSignTime" jdbcType="TIMESTAMP" />
+    <result column="PURCHASE_HOUSE_NO" property="purchaseHouseNo" jdbcType="NVARCHAR" />
+    <result column="LOAN_HOUSE_NO" property="loanHouseNo" jdbcType="NVARCHAR" />
+    <result column="MARRIAGE_STATUS" property="marriageStatus" jdbcType="NVARCHAR" />
+    <result column="FAMILY_STATUS" property="familyStatus" jdbcType="NVARCHAR" />
+    <result column="EVAL_BY_WHO" property="evalByWho" jdbcType="NVARCHAR" />
+    <result column="HUJI" property="huji" jdbcType="NVARCHAR" />
+    <result column="SOCIETY_SECURETY_YEARS" property="societySecuretyYears" jdbcType="NVARCHAR" />
+    <result column="TAX_SECURETY_YEARS" property="taxSecuretyYears" jdbcType="NVARCHAR" />
+    <result column="HOUSE_SUBSIDY" property="houseSubsidy" jdbcType="NVARCHAR" />
+    <result column="LOAN_WARN" property="loanWarn" jdbcType="NVARCHAR" />
+    <result column="HOUSE_FROM" property="houseFrom" jdbcType="NVARCHAR" />
+    <result column="MORT_INFO" property="mortInfo" jdbcType="NVARCHAR" />
+    <result column="ORI_PRICE" property="oriPrice" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CASE_CODE, EST_EVL_APPLY_TIME, EST_SIGN_TIME, EST_F2F_SIGN_TIME, PURCHASE_HOUSE_NO, 
+    LOAN_HOUSE_NO, MARRIAGE_STATUS, FAMILY_STATUS, EVAL_BY_WHO, HUJI, SOCIETY_SECURETY_YEARS, 
+    TAX_SECURETY_YEARS, HOUSE_SUBSIDY, LOAN_WARN, HOUSE_FROM, MORT_INFO, ORI_PRICE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_CASE_RECV
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sctrans.T_TO_CASE_RECV
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.cases.entity.ToCaseRecv" >
+    insert into sctrans.T_TO_CASE_RECV (CASE_CODE, EST_EVL_APPLY_TIME, EST_SIGN_TIME, 
+      EST_F2F_SIGN_TIME, PURCHASE_HOUSE_NO, LOAN_HOUSE_NO, 
+      MARRIAGE_STATUS, FAMILY_STATUS, EVAL_BY_WHO, 
+      HUJI, SOCIETY_SECURETY_YEARS, TAX_SECURETY_YEARS, 
+      HOUSE_SUBSIDY, LOAN_WARN, HOUSE_FROM, 
+      MORT_INFO, ORI_PRICE)
+    values (#{caseCode,jdbcType=VARCHAR}, #{estEvlApplyTime,jdbcType=TIMESTAMP}, #{estSignTime,jdbcType=TIMESTAMP}, 
+      #{estF2fSignTime,jdbcType=TIMESTAMP}, #{purchaseHouseNo,jdbcType=NVARCHAR}, #{loanHouseNo,jdbcType=NVARCHAR}, 
+      #{marriageStatus,jdbcType=NVARCHAR}, #{familyStatus,jdbcType=NVARCHAR}, #{evalByWho,jdbcType=NVARCHAR}, 
+      #{huji,jdbcType=NVARCHAR}, #{societySecuretyYears,jdbcType=NVARCHAR}, #{taxSecuretyYears,jdbcType=NVARCHAR}, 
+      #{houseSubsidy,jdbcType=NVARCHAR}, #{loanWarn,jdbcType=NVARCHAR}, #{houseFrom,jdbcType=NVARCHAR}, 
+      #{mortInfo,jdbcType=NVARCHAR}, #{oriPrice,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.cases.entity.ToCaseRecv" >
+    insert into sctrans.T_TO_CASE_RECV
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="estEvlApplyTime != null" >
+        EST_EVL_APPLY_TIME,
+      </if>
+      <if test="estSignTime != null" >
+        EST_SIGN_TIME,
+      </if>
+      <if test="estF2fSignTime != null" >
+        EST_F2F_SIGN_TIME,
+      </if>
+      <if test="purchaseHouseNo != null" >
+        PURCHASE_HOUSE_NO,
+      </if>
+      <if test="loanHouseNo != null" >
+        LOAN_HOUSE_NO,
+      </if>
+      <if test="marriageStatus != null" >
+        MARRIAGE_STATUS,
+      </if>
+      <if test="familyStatus != null" >
+        FAMILY_STATUS,
+      </if>
+      <if test="evalByWho != null" >
+        EVAL_BY_WHO,
+      </if>
+      <if test="huji != null" >
+        HUJI,
+      </if>
+      <if test="societySecuretyYears != null" >
+        SOCIETY_SECURETY_YEARS,
+      </if>
+      <if test="taxSecuretyYears != null" >
+        TAX_SECURETY_YEARS,
+      </if>
+      <if test="houseSubsidy != null" >
+        HOUSE_SUBSIDY,
+      </if>
+      <if test="loanWarn != null" >
+        LOAN_WARN,
+      </if>
+      <if test="houseFrom != null" >
+        HOUSE_FROM,
+      </if>
+      <if test="mortInfo != null" >
+        MORT_INFO,
+      </if>
+      <if test="oriPrice != null" >
+        ORI_PRICE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="estEvlApplyTime != null" >
+        #{estEvlApplyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estSignTime != null" >
+        #{estSignTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estF2fSignTime != null" >
+        #{estF2fSignTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseHouseNo != null" >
+        #{purchaseHouseNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="loanHouseNo != null" >
+        #{loanHouseNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="marriageStatus != null" >
+        #{marriageStatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="familyStatus != null" >
+        #{familyStatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="evalByWho != null" >
+        #{evalByWho,jdbcType=NVARCHAR},
+      </if>
+      <if test="huji != null" >
+        #{huji,jdbcType=NVARCHAR},
+      </if>
+      <if test="societySecuretyYears != null" >
+        #{societySecuretyYears,jdbcType=NVARCHAR},
+      </if>
+      <if test="taxSecuretyYears != null" >
+        #{taxSecuretyYears,jdbcType=NVARCHAR},
+      </if>
+      <if test="houseSubsidy != null" >
+        #{houseSubsidy,jdbcType=NVARCHAR},
+      </if>
+      <if test="loanWarn != null" >
+        #{loanWarn,jdbcType=NVARCHAR},
+      </if>
+      <if test="houseFrom != null" >
+        #{houseFrom,jdbcType=NVARCHAR},
+      </if>
+      <if test="mortInfo != null" >
+        #{mortInfo,jdbcType=NVARCHAR},
+      </if>
+      <if test="oriPrice != null" >
+        #{oriPrice,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.cases.entity.ToCaseRecv" >
+    update sctrans.T_TO_CASE_RECV
+    <set >
+      <if test="estEvlApplyTime != null" >
+        EST_EVL_APPLY_TIME = #{estEvlApplyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estSignTime != null" >
+        EST_SIGN_TIME = #{estSignTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estF2fSignTime != null" >
+        EST_F2F_SIGN_TIME = #{estF2fSignTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseHouseNo != null" >
+        PURCHASE_HOUSE_NO = #{purchaseHouseNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="loanHouseNo != null" >
+        LOAN_HOUSE_NO = #{loanHouseNo,jdbcType=NVARCHAR},
+      </if>
+      <if test="marriageStatus != null" >
+        MARRIAGE_STATUS = #{marriageStatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="familyStatus != null" >
+        FAMILY_STATUS = #{familyStatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="evalByWho != null" >
+        EVAL_BY_WHO = #{evalByWho,jdbcType=NVARCHAR},
+      </if>
+      <if test="huji != null" >
+        HUJI = #{huji,jdbcType=NVARCHAR},
+      </if>
+      <if test="societySecuretyYears != null" >
+        SOCIETY_SECURETY_YEARS = #{societySecuretyYears,jdbcType=NVARCHAR},
+      </if>
+      <if test="taxSecuretyYears != null" >
+        TAX_SECURETY_YEARS = #{taxSecuretyYears,jdbcType=NVARCHAR},
+      </if>
+      <if test="houseSubsidy != null" >
+        HOUSE_SUBSIDY = #{houseSubsidy,jdbcType=NVARCHAR},
+      </if>
+      <if test="loanWarn != null" >
+        LOAN_WARN = #{loanWarn,jdbcType=NVARCHAR},
+      </if>
+      <if test="houseFrom != null" >
+        HOUSE_FROM = #{houseFrom,jdbcType=NVARCHAR},
+      </if>
+      <if test="mortInfo != null" >
+        MORT_INFO = #{mortInfo,jdbcType=NVARCHAR},
+      </if>
+      <if test="oriPrice != null" >
+        ORI_PRICE = #{oriPrice,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.cases.entity.ToCaseRecv" >
+    update sctrans.T_TO_CASE_RECV
+    set EST_EVL_APPLY_TIME = #{estEvlApplyTime,jdbcType=TIMESTAMP},
+      EST_SIGN_TIME = #{estSignTime,jdbcType=TIMESTAMP},
+      EST_F2F_SIGN_TIME = #{estF2fSignTime,jdbcType=TIMESTAMP},
+      PURCHASE_HOUSE_NO = #{purchaseHouseNo,jdbcType=NVARCHAR},
+      LOAN_HOUSE_NO = #{loanHouseNo,jdbcType=NVARCHAR},
+      MARRIAGE_STATUS = #{marriageStatus,jdbcType=NVARCHAR},
+      FAMILY_STATUS = #{familyStatus,jdbcType=NVARCHAR},
+      EVAL_BY_WHO = #{evalByWho,jdbcType=NVARCHAR},
+      HUJI = #{huji,jdbcType=NVARCHAR},
+      SOCIETY_SECURETY_YEARS = #{societySecuretyYears,jdbcType=NVARCHAR},
+      TAX_SECURETY_YEARS = #{taxSecuretyYears,jdbcType=NVARCHAR},
+      HOUSE_SUBSIDY = #{houseSubsidy,jdbcType=NVARCHAR},
+      LOAN_WARN = #{loanWarn,jdbcType=NVARCHAR},
+      HOUSE_FROM = #{houseFrom,jdbcType=NVARCHAR},
+      MORT_INFO = #{mortInfo,jdbcType=NVARCHAR},
+      ORI_PRICE = #{oriPrice,jdbcType=NVARCHAR}
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </update>
+</mapper>
