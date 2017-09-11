@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.web.validate.AjaxResponse;
@@ -82,15 +83,12 @@ public class AuditImportCaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "addLoanProcessor")
-	@ResponseBody
-	public AjaxResponse<String> addLoanProcessor(HttpServletRequest request, FileUploadVO fileUploadVO) {
-		AjaxResponse<String> response = new AjaxResponse<String>();
-		try {
-			//toAttachmentService.saveAttachment(fileUploadVO);
-		} catch (Exception e) {
-			response.setMessage("保存失败！");
+	public String addLoanProcessor(HttpServletRequest request, String caseCode,String loanProcessor) {
+		int addLoanProcessor = auditCaseService.addLoanProcessor(loanProcessor, caseCode);
+		if(addLoanProcessor==0){
+			throw new BusinessException("请求页面跳转异常啦，请稍后再试！");
 		}
-		return response;
+		return "forward:"+"/AuditImportCase/list";
 	}
 
 	
@@ -162,13 +160,13 @@ public class AuditImportCaseController {
 		model.addAttribute("caseCode", caseCode);
 		model.addAttribute("loanUserList", loanUserList);
 		
-		return "case/auditCaseDetails2";
+		return "case/auditCaseDetails";
 		
 	}
 	/**
 	 * 
 	 * @since:2017年8月29日 下午7:54:24
-	 * @description:
+	 * @description: 审核案件列表页面
 	 * @author:xiefei1
 	 * @param model
 	 * @return
@@ -204,7 +202,6 @@ public class AuditImportCaseController {
 			App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
 			String ctx = app.genAbsoluteUrl();
 			request.setAttribute("ctx", ctx);
-//		return "case/userList";
 		return "case/auditCaseList";
 	}
 

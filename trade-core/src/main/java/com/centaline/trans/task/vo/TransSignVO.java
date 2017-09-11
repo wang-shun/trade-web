@@ -43,44 +43,60 @@ public class TransSignVO {
 	private Date initPayTime;
 	private String initPayType;
 	private BigDecimal initAmount;
+	private BigDecimal initSupervisionAmount;//天津新增监管金额
+	
 	/**二次付款*/
 	private Long secPayPkid;
 	private String secPayName;
 	private Date secPayTime;
 	private String secPayType;
 	private BigDecimal secAmount;
+	private BigDecimal secSupervisionAmount;//天津新增监管金额
+	
 	/**尾款付款*/
 	private Long lastPayPkid;
 	private String lastPayName;
 	private Date lastPayTime;
 	private String lastPayType;
 	private BigDecimal lastAmount;
-	/**装修补偿款*/
+	private BigDecimal lastSupervisionAmount;//天津新增监管金额
+	
+	/**装修补偿款天津废弃
 	private Long compensatePayPkid;
 	private String compensatePayName;
 	private Date compensatePayTime;
 	private String compensatePayType;
-	private BigDecimal compensateAmount;
+	private BigDecimal compensateAmount;*/
 
 	/**签约表*/
 	private Long signPkid;
 	private Date realConTime;
 	private String isHukou;
-	private String isConCert;
+	private String isConCert;			//合同公证
 	private String comment;
 	private BigDecimal conPrice;		/*合同价*/
 	private BigDecimal realPrice;		/*成交价*/
 	private String houseQuantity;		/*是否首套 0:手套 1：二套 2：多套*/
+	/**天津新增*/
+	private Date estimateTransferTime;//预计过户时间
+	private String fundSupervisionme;//资金监管
+	private String netPlace;//网签地点
+	
 
 
 
 	/*预估税费*/
 	private Long housePkid;
-	private BigDecimal houseHodingTax;       /*房产税*/
+	/*天津废弃
+	private BigDecimal houseHodingTax;       //房产税
+	private BigDecimal businessTax;			 //上家营业税
+	private BigDecimal contractTax;			 //下家契税
+	*/
 	private BigDecimal personalIncomeTax;    /*个人所得税*/
-	private BigDecimal businessTax;			 /*上家营业税*/
-	private BigDecimal contractTax;			 /*下家契税*/
 	private BigDecimal landIncrementTax;	 /*土地增值税*/
+	/*天津新增*/
+	private BigDecimal sellerTax;	 /*卖方增值税*/
+	private BigDecimal buyerTax;	 /*买方契税*/
 
 	/* 首次跟进表 */
 	private String isPerchaseReserachNeed;  /*是否需要查限购*/
@@ -111,12 +127,13 @@ public class TransSignVO {
 	public void setLastPayPkid(Long lastPayPkid) {
 		this.lastPayPkid = lastPayPkid;
 	}
+	/**天津废弃
 	public Long getCompensatePayPkid() {
 		return compensatePayPkid;
 	}
 	public void setCompensatePayPkid(Long compensatePayPkid) {
 		this.compensatePayPkid = compensatePayPkid;
-	}
+	}*/
 	public Long getSignPkid() {
 		return signPkid;
 	}
@@ -195,6 +212,7 @@ public class TransSignVO {
 	public void setLastAmount(BigDecimal lastAmount) {
 		this.lastAmount = lastAmount;
 	}
+	/**天津废弃
 	public String getCompensatePayName() {
 		return compensatePayName;
 	}
@@ -218,7 +236,7 @@ public class TransSignVO {
 	}
 	public void setCompensateAmount(BigDecimal compensateAmount) {
 		this.compensateAmount = compensateAmount;
-	}
+	}*/
 	public String getPropertyAddr() {
 		return propertyAddr;
 	}
@@ -345,17 +363,18 @@ public class TransSignVO {
 	public void setGuestPkid(List<Long> guestPkid) {
 		this.guestPkid = guestPkid;
 	}
-	public BigDecimal getHouseHodingTax() {
-		return houseHodingTax;
-	}
-	public void setHouseHodingTax(BigDecimal houseHodingTax) {
-		this.houseHodingTax = houseHodingTax;
-	}
 	public BigDecimal getPersonalIncomeTax() {
 		return personalIncomeTax;
 	}
 	public void setPersonalIncomeTax(BigDecimal personalIncomeTax) {
 		this.personalIncomeTax = personalIncomeTax;
+	}
+	/**天津废弃
+	public BigDecimal getHouseHodingTax() {
+		return houseHodingTax;
+	}
+	public void setHouseHodingTax(BigDecimal houseHodingTax) {
+		this.houseHodingTax = houseHodingTax;
 	}
 	public BigDecimal getBusinessTax() {
 		return businessTax;
@@ -368,7 +387,7 @@ public class TransSignVO {
 	}
 	public void setContractTax(BigDecimal contractTax) {
 		this.contractTax = contractTax;
-	}
+	}*/
 	public BigDecimal getLandIncrementTax() {
 		return landIncrementTax;
 	}
@@ -413,4 +432,55 @@ public class TransSignVO {
 	public void setHouseQuantity(String houseQuantity) {
 		this.houseQuantity = houseQuantity;
 	}
+	
+	public BigDecimal getInitSupervisionAmount() {
+		return initSupervisionAmount;
+	}
+	public void setInitSupervisionAmount(BigDecimal initSupervisionAmount) {
+		this.initSupervisionAmount = initSupervisionAmount;
+	}
+	public BigDecimal getSecSupervisionAmount() {
+		return secSupervisionAmount;
+	}
+	public void setSecSupervisionAmount(BigDecimal secSupervisionAmount) {
+		this.secSupervisionAmount = secSupervisionAmount;
+	}
+	public BigDecimal getLastSupervisionAmount() {
+		return lastSupervisionAmount;
+	}
+	public void setLastSupervisionAmount(BigDecimal lastSupervisionAmount) {
+		this.lastSupervisionAmount = lastSupervisionAmount;
+	}
+	public Date getEstimateTransferTime() {
+		return estimateTransferTime;
+	}
+	public void setEstimateTransferTime(Date estimateTransferTime) {
+		this.estimateTransferTime = estimateTransferTime;
+	}
+	public String getFundSupervisionme() {
+		return fundSupervisionme;
+	}
+	public void setFundSupervisionme(String fundSupervisionme) {
+		this.fundSupervisionme = fundSupervisionme;
+	}
+	public String getNetPlace() {
+		return netPlace;
+	}
+	public void setNetPlace(String netPlace) {
+		this.netPlace = netPlace;
+	}
+	public BigDecimal getSellerTax() {
+		return sellerTax;
+	}
+	public void setSellerTax(BigDecimal sellerTax) {
+		this.sellerTax = sellerTax;
+	}
+	public BigDecimal getBuyerTax() {
+		return buyerTax;
+	}
+	public void setBuyerTax(BigDecimal buyerTax) {
+		this.buyerTax = buyerTax;
+	}
+	
+	
 }

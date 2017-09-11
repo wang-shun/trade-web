@@ -136,13 +136,14 @@ public class SignServiceImpl implements SignService
             }
         }
 
-        /** 首付款 */
+        /** 一期款 */
         ToPayment toPaymentInit = new ToPayment();
         toPaymentInit.setAmount(transSignVO.getInitAmount() != null ? transSignVO.getInitAmount().multiply(new BigDecimal(10000)) : null);
         toPaymentInit.setCaseCode(transSignVO.getCaseCode());
         toPaymentInit.setPayName(transSignVO.getInitPayName());
         toPaymentInit.setPayTime(transSignVO.getInitPayTime());
         toPaymentInit.setPayType(transSignVO.getInitPayType());
+        toPaymentInit.setSupervisionAmount(transSignVO.getInitSupervisionAmount() != null ? transSignVO.getInitSupervisionAmount().multiply(new BigDecimal(10000)) : null);
         if (transSignVO.getInitPayPkid() != null)
         {
             toPaymentInit.setPkid(transSignVO.getInitPayPkid());
@@ -155,13 +156,14 @@ public class SignServiceImpl implements SignService
                 toPaymentMapper.insertSelective(toPaymentInit);
             }
         }
-        /** 二次付款 */
+        /** 二期款 */
         ToPayment toPaymentSec = new ToPayment();
         toPaymentSec.setAmount(transSignVO.getSecAmount() != null ? transSignVO.getSecAmount().multiply(new BigDecimal(10000)) : null);
         toPaymentSec.setCaseCode(transSignVO.getCaseCode());
         toPaymentSec.setPayName(transSignVO.getSecPayName());
         toPaymentSec.setPayTime(transSignVO.getSecPayTime());
         toPaymentSec.setPayType(transSignVO.getSecPayType());
+        toPaymentSec.setSupervisionAmount(transSignVO.getSecSupervisionAmount() != null ? transSignVO.getSecSupervisionAmount().multiply(new BigDecimal(10000)) : null);
         if (transSignVO.getSecPayPkid() != null)
         {
             toPaymentSec.setPkid(transSignVO.getSecPayPkid());
@@ -174,13 +176,14 @@ public class SignServiceImpl implements SignService
                 toPaymentMapper.insertSelective(toPaymentSec);
             }
         }
-        /** 尾款付款 */
+        /** 三期款*/
         ToPayment toPaymentLast = new ToPayment();
         toPaymentLast.setAmount(transSignVO.getLastAmount() != null ? transSignVO.getLastAmount().multiply(new BigDecimal(10000)) : null);
         toPaymentLast.setCaseCode(transSignVO.getCaseCode());
         toPaymentLast.setPayName(transSignVO.getLastPayName());
         toPaymentLast.setPayTime(transSignVO.getLastPayTime());
         toPaymentLast.setPayType(transSignVO.getLastPayType());
+        toPaymentLast.setSupervisionAmount(transSignVO.getLastSupervisionAmount() != null ? transSignVO.getLastSupervisionAmount().multiply(new BigDecimal(10000)) : null);
         if (transSignVO.getLastPayPkid() != null)
         {
             toPaymentLast.setPkid(transSignVO.getLastPayPkid());
@@ -193,7 +196,7 @@ public class SignServiceImpl implements SignService
                 toPaymentMapper.insertSelective(toPaymentLast);
             }
         }
-        /** 装修补偿款 */
+        /** 装修补偿款天津废弃
         ToPayment toPaymentCompensate = new ToPayment();
         toPaymentCompensate.setAmount(transSignVO.getCompensateAmount() != null ? transSignVO.getCompensateAmount().multiply(new BigDecimal(10000)) : null);
         toPaymentCompensate.setCaseCode(transSignVO.getCaseCode());
@@ -211,7 +214,7 @@ public class SignServiceImpl implements SignService
             {
                 toPaymentMapper.insertSelective(toPaymentCompensate);
             }
-        }
+        } */
 
         /** 物业信息 */
         ToPropertyInfo toPropertyInfo = new ToPropertyInfo();
@@ -239,19 +242,28 @@ public class SignServiceImpl implements SignService
         ToSign toSign = new ToSign();
         toSign.setCaseCode(transSignVO.getCaseCode());
         toSign.setPartCode(transSignVO.getPartCode());
+        toSign.setComment(transSignVO.getComment());
+        toSign.setRealConTime(transSignVO.getRealConTime());//实际网签时间
+        toSign.setConPrice(transSignVO.getConPrice().multiply(new BigDecimal(10000))); // 合同价
+        toSign.setNetPlace(transSignVO.getNetPlace());//网签地点
+        toSign.setFundSupervisionme(transSignVO.getFundSupervisionme());//资金监管
+        toSign.setEstimateTransferTime(transSignVO.getEstimateTransferTime());//预计过户时间
+        /**天津废弃
         toSign.setIsConCert(transSignVO.getIsConCert());
         toSign.setIsHukou(transSignVO.getIsHukou());
-        toSign.setComment(transSignVO.getComment());
-        toSign.setRealConTime(transSignVO.getRealConTime());
-        toSign.setConPrice(transSignVO.getConPrice().multiply(new BigDecimal(10000))); // 合同价
         toSign.setRealPrice(transSignVO.getRealPrice().multiply(new BigDecimal(10000))); // 成交价
+        */
         /* 预估税费 */
+        /**天津废弃
         toSign.setBusinessTax(transSignVO.getBusinessTax() != null ? transSignVO.getBusinessTax().multiply(new BigDecimal(10000)) : null);
         toSign.setContractTax(transSignVO.getContractTax() != null ? transSignVO.getContractTax().multiply(new BigDecimal(10000)) : null);
         toSign.setHouseHodingTax(transSignVO.getHouseHodingTax() != null ? transSignVO.getHouseHodingTax().multiply(new BigDecimal(10000)) : null);
+        */
+        toSign.setBuyerTax(transSignVO.getBuyerTax() != null ? transSignVO.getBuyerTax().multiply(new BigDecimal(10000)) : null);
+        toSign.setSellerTax(transSignVO.getSellerTax() != null ? transSignVO.getSellerTax().multiply(new BigDecimal(10000)) : null);
         toSign.setLandIncrementTax(transSignVO.getLandIncrementTax() != null ? transSignVO.getLandIncrementTax().multiply(new BigDecimal(10000)) : null);
         toSign.setPersonalIncomeTax(transSignVO.getPersonalIncomeTax() != null ? transSignVO.getPersonalIncomeTax().multiply(new BigDecimal(10000)) : null);
-        toSign.setHouseQuantity(transSignVO.getHouseQuantity());
+        toSign.setHouseQuantity(transSignVO.getHouseQuantity());//是否首套
 
         if (transSignVO.getSignPkid() != null)
         {
@@ -344,30 +356,34 @@ public class SignServiceImpl implements SignService
         for (int i = 0; i < toPaymentList.size(); i++)
         {
             ToPayment toPayment = toPaymentList.get(i);
-            if (toPayment.getPayName().equals("首付付款"))
+            if (toPayment.getPayName().equals("一期款"))
             {
                 transSignVO.setInitPayPkid(toPayment.getPkid());
                 transSignVO.setInitAmount(toPayment.getAmount() != null ? toPayment.getAmount().divide(new BigDecimal(10000)) : null);
                 transSignVO.setInitPayName(toPayment.getPayName());
                 transSignVO.setInitPayTime(toPayment.getPayTime());
                 transSignVO.setInitPayType(toPayment.getPayType());
+                transSignVO.setInitSupervisionAmount(toPayment.getSupervisionAmount() != null ? toPayment.getSupervisionAmount().divide(new BigDecimal(10000)) : null);
             }
-            else if (toPayment.getPayName().equals("二期付款"))
+            else if (toPayment.getPayName().equals("二期款"))
             {
                 transSignVO.setSecPayPkid(toPayment.getPkid());
                 transSignVO.setSecAmount(toPayment.getAmount() != null ? toPayment.getAmount().divide(new BigDecimal(10000)) : null);
                 transSignVO.setSecPayName(toPayment.getPayName());
                 transSignVO.setSecPayTime(toPayment.getPayTime());
                 transSignVO.setSecPayType(toPayment.getPayType());
+                transSignVO.setSecSupervisionAmount(toPayment.getSupervisionAmount() != null ? toPayment.getSupervisionAmount().divide(new BigDecimal(10000)) : null);
             }
-            else if (toPayment.getPayName().equals("尾款付款"))
+            else if (toPayment.getPayName().equals("三期款"))
             {
                 transSignVO.setLastPayPkid(toPayment.getPkid());
                 transSignVO.setLastAmount(toPayment.getAmount() != null ? toPayment.getAmount().divide(new BigDecimal(10000)) : null);
                 transSignVO.setLastPayName(toPayment.getPayName());
                 transSignVO.setLastPayTime(toPayment.getPayTime());
                 transSignVO.setLastPayType(toPayment.getPayType());
+                transSignVO.setLastSupervisionAmount(toPayment.getSupervisionAmount() != null ? toPayment.getSupervisionAmount().divide(new BigDecimal(10000)) : null);
             }
+            /**天津废弃
             else if (toPayment.getPayName().equals("装修补偿款"))
             {
                 transSignVO.setCompensatePayPkid(toPayment.getPkid());
@@ -375,7 +391,7 @@ public class SignServiceImpl implements SignService
                 transSignVO.setCompensatePayName(toPayment.getPayName());
                 transSignVO.setCompensatePayTime(toPayment.getPayTime());
                 transSignVO.setCompensatePayType(toPayment.getPayType());
-            }
+            }*/
         }
 
         /** 读取物业信息 */
@@ -406,12 +422,19 @@ public class SignServiceImpl implements SignService
             transSignVO.setRealPrice(toSign.getRealPrice()); // 成交价
             transSignVO.setRealConTime(toSign.getRealConTime());
             transSignVO.setHouseQuantity(toSign.getHouseQuantity());
+            transSignVO.setNetPlace(toSign.getNetPlace());
+            transSignVO.setFundSupervisionme(toSign.getFundSupervisionme());
+            transSignVO.setEstimateTransferTime(toSign.getEstimateTransferTime());
             /**
              * 税费
              */
+            /**天津废弃
             transSignVO.setBusinessTax(toSign.getBusinessTax() != null ? toSign.getBusinessTax().divide(new BigDecimal(10000)) : null);
             transSignVO.setContractTax(toSign.getContractTax() != null ? toSign.getContractTax().divide(new BigDecimal(10000)) : null);
             transSignVO.setHouseHodingTax(toSign.getHouseHodingTax() != null ? toSign.getHouseHodingTax().divide(new BigDecimal(10000)) : null);
+            */
+            transSignVO.setSellerTax(toSign.getSellerTax() != null ? toSign.getSellerTax().divide(new BigDecimal(10000)) : null);
+            transSignVO.setBuyerTax(toSign.getBuyerTax() != null ? toSign.getBuyerTax().divide(new BigDecimal(10000)) : null);
             transSignVO.setLandIncrementTax(toSign.getLandIncrementTax() != null ? toSign.getLandIncrementTax().divide(new BigDecimal(10000)) : null);
             transSignVO.setPersonalIncomeTax(toSign.getPersonalIncomeTax() != null ? toSign.getPersonalIncomeTax().divide(new BigDecimal(10000)) : null);
         }
@@ -529,22 +552,23 @@ public class SignServiceImpl implements SignService
         try
         {
             /* 流程引擎相关 */
-            List<RestVariable> variables = new ArrayList<RestVariable>();
-
             /* start 查限购和有抵押工作流 作者：zhangxb16 时间：2016-1-27 */
-            RestVariable restVariable3 = new RestVariable();/* 限购 */
+             List<RestVariable> variables = new ArrayList<RestVariable>();
+             /**天津废弃
+            RestVariable restVariable3 = new RestVariable();// 限购 
             restVariable3.setName("PurLimitCheckNeed");
-            RestVariable restVariable4 = new RestVariable();/* 抵押 */
+            RestVariable restVariable4 = new RestVariable();// 抵押 
             restVariable4.setName("LoanCloseNeed");
             restVariable3.setValue(transSignVO.getIsPerchaseReserachNeed().equals("true"));
             restVariable4.setValue(transSignVO.getIsLoanClose().equals("true"));
             variables.add(restVariable3);
             variables.add(restVariable4);
+            */
             /* end 查限购和有抵押工作流 作者：zhangxb16 时间：2016-1-27 */
-
-            ToCase toCase = toCaseService.findToCaseByCaseCode(transSignVO.getCaseCode());
+        	 ToCase toCase = toCaseService.findToCaseByCaseCode(transSignVO.getCaseCode());
+        	
             workFlowManager.submitTask(variables, transSignVO.getTaskId(), transSignVO.getProcessInstanceId(), toCase.getLeadingProcessId(), transSignVO.getCaseCode());
-
+			
             /**
              * 签约完成之后如果sctrans.T_CS_CASE_SATISFACTION表没有对应casecode的记录则插入一条记录
              * 
