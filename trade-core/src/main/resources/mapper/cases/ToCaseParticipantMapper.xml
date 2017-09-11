@@ -220,13 +220,13 @@
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_CASE_PARTICIPANT
-    where CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR}
+    where CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR}  and AVAILABLE='Y'
   </select>
   <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_CASE_PARTICIPANT
-    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} and AVAILABLE='Y'
   </select>
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.centaline.trans.cases.entity.ToCaseParticipant" >
     select

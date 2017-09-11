@@ -14,7 +14,7 @@ public class CcaiImportCaseGuest {
 	@ApiModelProperty(value = "唯一确认客户ID", required = true, position = 0)
 	private String id;
 	@ApiModelProperty(value = "客户类型", required = true, example = "30006001",
-			allowableValues = "30006001-上家,30006002-下家", position = 1)
+			allowableValues = "30006001-卖家,30006002-买家", position = 1)
 	private String position;
 	@ApiModelProperty(value = "客户名称", required = true, position = 2)
 	private String name;
@@ -27,7 +27,7 @@ public class CcaiImportCaseGuest {
 	@ApiModelProperty(value = "证件编码", position = 5)
 	private String certCode;
 
-	@NotBlank(message = "客户ID不能为空")
+	@NotBlank(message = "ID不能为空")
 	public String getId() {
 		return id;
 	}
@@ -36,7 +36,7 @@ public class CcaiImportCaseGuest {
 		this.id = id;
 	}
 
-	@NotBlank(message = "客户类型不能为空")
+	@NotBlank(message = "类型不能为空")
 	public String getPosition() {
 		return position;
 	}
@@ -45,7 +45,7 @@ public class CcaiImportCaseGuest {
 		this.position = position;
 	}
 
-	@NotBlank(message = "客户名称不能为空")
+	@NotBlank(message = "名称不能为空")
 	public String getName() {
 		return name;
 	}
@@ -54,7 +54,7 @@ public class CcaiImportCaseGuest {
 		this.name = name;
 	}
 
-	@NotBlank(message = "客户手机号不正确")
+	@NotBlank(message = "手机号不能为空")
 	public String getMobile() {
 		return mobile;
 	}

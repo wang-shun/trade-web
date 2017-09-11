@@ -94,7 +94,7 @@ public class CcaiImportCase {
 	public void setApplyId(String applyId) {
 		this.applyId = applyId;
 	}
-	@NotBlank(message = "业绩上报时间不能为空")
+	@NotNull(message = "业绩上报时间不能为空")
 	public Date getReportTime() {
 		return reportTime;
 	}
@@ -102,7 +102,7 @@ public class CcaiImportCase {
 	public void setReportTime(Date reportTime) {
 		this.reportTime = reportTime;
 	}
-
+	@NotNull(message = "创建时间不能为空")
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -110,7 +110,7 @@ public class CcaiImportCase {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-
+	@NotNull(message = "修改时间不能为空")
 	public Date getUpdateTime() {
 		return updateTime;
 	}

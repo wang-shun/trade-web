@@ -79,9 +79,10 @@ public class ImportApiTest {
 		//经纪人信息
 		CcaiImportParticipant agent = new CcaiImportParticipant();
 		agent.setPosition("agent");
+		agent.setAssignId("agentAssignId");
 		agent.setUserName("zenglong");
 		agent.setRealName("曾龙");
-		agent.setMobile("17720100958");
+		// agent.setMobile("17720100958");
 		agent.setGrpCode("022C527");
 		agent.setGrpName("昆明路分行1组");
 		agent.setGrpMgrUserName("daikang");
@@ -92,20 +93,21 @@ public class ImportApiTest {
 		secretary.setPosition("secretary");
 		secretary.setUserName("ahk-zhaoxu01");
 		secretary.setRealName("赵旭");
-		secretary.setMobile("17720100958");
+		// secretary.setMobile("17720100958");
 		participants.add(secretary);
 		
 //		//权证专员信息
 		CcaiImportParticipant warrant = new CcaiImportParticipant();
 		warrant.setPosition("warrant");
+		warrant.setAssignId("warrantAssignId");
 		warrant.setUserName("shangfei");
 		warrant.setRealName("尚飞");
-		warrant.setMobile("17720100958");
+		// warrant.setMobile("17720100958");
 		warrant.setGrpCode("022A458");
 		warrant.setGrpName("交易按揭1组");
 		warrant.setGrpMgrUserName("wangchx");
-		warrant.setGrpMgrRealName("王姝予");
-		warrant.setGrpMgrMobile("18622064168");
+		// warrant.setGrpMgrRealName("王姝予");
+		// warrant.setGrpMgrMobile("18622064168");
 		participants.add(warrant);
 		acase.setParticipants(participants);
 //		//案件物业信息
@@ -113,12 +115,12 @@ public class ImportApiTest {
 		property.setAddress("天津**区*******小区*号楼*单元***室");
 		property.setId("CCAI_HOUSE_ID");
 		property.setCode("CCAI_HOUSE_CODE");
-		property.setFinishYear("2012");
-		property.setTotalFloor(20);
-		property.setLocateFloor(5);
-		property.setSquare(123.04);
-		property.setPropertyType("HOUSE_TYPE");//房屋类型
-		property.setComment("房屋描述...");
+		// property.setFinishYear("2012");
+		// property.setTotalFloor(20);
+		// property.setLocateFloor(5);
+		// property.setSquare(123.04);
+		// property.setPropertyType("HOUSE_TYPE");//房屋类型
+		// property.setComment("房屋描述...");
 		property.setDistrict("120101");
 		acase.setProperty(property);
 //		//客户信息 上家
@@ -126,15 +128,15 @@ public class ImportApiTest {
 		guest1.setId("001");
 		guest1.setName("业主");
 		guest1.setPosition("30006001");//上家  业主
-		guest1.setCertType("certype");//证件类型编码
-		guest1.setCertCode("111111111");//证件类型编号
+		// guest1.setCertType("certype");//证件类型编码
+		// guest1.setCertCode("111111111");//证件类型编号
 		guest1.setMobile("13888888888");//业主手机号
 		CcaiImportCaseGuest guest2 = new CcaiImportCaseGuest();
 		guest2.setId("002");
 		guest2.setName("买家");
 		guest2.setPosition("30006002");//上家  业主
-		guest2.setCertType("certype");//证件类型编码
-		guest2.setCertCode("22222222");//证件类型编号
+		// guest2.setCertType("certype");//证件类型编码
+		// guest2.setCertCode("22222222");//证件类型编号
 		guest2.setMobile("13666666666");//业主手机号
 		List<CcaiImportCaseGuest> guests = new ArrayList<>();
 		guests.add(guest1);guests.add(guest2);
@@ -156,6 +158,7 @@ public class ImportApiTest {
 		acase.setCcaiId("CCAIID"+sign);
 		acase.setCreateTime(new Date());
 		acase.setUpdateTime(new Date());
+		acase.setReportTime(new Date());
 		acase.setTradeType("11");//交易类型
 		acase.setPayType("11");//付款类型
 		acase.setCity("120000");

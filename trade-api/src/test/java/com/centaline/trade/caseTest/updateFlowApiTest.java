@@ -44,7 +44,7 @@ public class updateFlowApiTest {
 	@Test
 //	@WithMockUser(username="zhangsan",password="222")
 	public void testUpdateNormal() throws Exception{
-		String uri = "/api/ccai/v1/caseUpdate/flow";
+		String uri = "/api/ccai/v1/caseUpdate/flow.json";
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -86,9 +86,10 @@ public class updateFlowApiTest {
 		acase.setParticipants(participants);
 		//案件基本信息
 		//模拟CCAI案件信息
-		String sign = "20170822155919";
+		String sign = "20170911160143";
 		acase.setCcaiCode("CCAICODE"+sign);
 		acase.setCcaiId("CCAIID"+sign);
+		acase.setCity("123456");
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			String str = mapper.writeValueAsString(acase);

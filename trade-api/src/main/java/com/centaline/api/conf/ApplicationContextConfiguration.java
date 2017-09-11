@@ -31,7 +31,7 @@ public class ApplicationContextConfiguration {
 	@Bean
 	public FilterRegistrationBean loggingFilterRegistration() {
 		FilterRegistrationBean registration = new FilterRegistrationBean(new com.github.isrsal.logging.LoggingFilter());
-		registration.addUrlPatterns("/*");
+		registration.addUrlPatterns("*.json");//只记录json结尾的接口信息 否则日志太多
 		return registration;
 	}
 }
