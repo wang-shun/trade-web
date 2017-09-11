@@ -1,15 +1,21 @@
 package com.centaline.api.common.vo;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * ccai服务使用返回相关服务的操作结果
  * @author yinchao
  * @since 2017-8-9
  */
+@ApiModel("接口响应结果")
 public class CcaiServiceResult {
-	/** 操作结果编码*/
+	@ApiModelProperty(value="操作结果编码",required = true,example = "00",
+			allowableValues = "00-成功,99-失败",position = 1)
 	private String code;
-	/** 操作结果 true成功 false失败*/
+	@ApiModelProperty(value="操作结果true成功 false失败",required = true,position = 0)
 	private boolean success;
-	/** 操作消息 */
+	@ApiModelProperty(value="响应消息",position = 2)
 	private String message;
 	public String getCode() {
 		return code;

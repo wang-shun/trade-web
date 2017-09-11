@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.centaline.api.ccai.cases.vo.*;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.api.ccai.cases.service.CcaiService;
-import com.centaline.api.ccai.cases.vo.CcaiImportAttachment;
-import com.centaline.api.ccai.cases.vo.CcaiImportCase;
-import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
-import com.centaline.api.ccai.cases.vo.CcaiImportCaseInfo;
-import com.centaline.api.ccai.cases.vo.CcaiImportCaseProperty;
+import com.centaline.api.ccai.cases.vo.CcaiImportParticipant;
 import com.centaline.api.enums.CaseSyncParticipantEnum;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -205,7 +202,7 @@ public class CcaiServiceImpl implements CcaiService {
 		tocase.setCity(acase.getCity());
 		tocase.setCreateTime(acase.getCreateTime());//该信息还是要根据传入来设置
 		tocase.setCaseProperty(CasePropertyEnum.TPZT.getCode());  // 指定为在途单
-		for(CcaiImportCaseInfo pa : acase.getParticipants()){
+		for(CcaiImportParticipant pa : acase.getParticipants()){
 			if(CaseSyncParticipantEnum.WARRANT.getCode().equals(pa.getPosition())){
 				//获取交易顾问信息
 				User user = getUserByUserNameOrEmployeeCode(pa.getUserName());
@@ -238,7 +235,7 @@ public class CcaiServiceImpl implements CcaiService {
 	 * @param toCase
 	 * @return 是否有修改
 	 */
-	private boolean updateParticipant(String caseCode,List<CcaiImportCaseInfo> participants,ToCase toCase){
+	private boolean updateParticipant(String caseCode, List<CcaiImportParticipant> participants, ToCase toCase){
 		ToCaseInfo caseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
 		List<ToCaseParticipant> nowpa = toCaseParticipantMapper.selectByCaseCode(caseCode);
 		//TODO BUG 当一个案件有多个贷款权证或过户权证时，修改会出现问题 by :yinchao 2017-8-22
@@ -247,7 +244,7 @@ public class CcaiServiceImpl implements CcaiService {
 			temp.put(to.getPosition(), to);
 		}
 		boolean hasupdate = false;
-		for(CcaiImportCaseInfo pa : participants){
+		for(CcaiImportParticipant pa : participants){
 			if(CaseSyncParticipantEnum.WARRANT.getCode().equals(pa.getPosition())){
 				//过户权证处理
 				//部门主管信息更改
@@ -322,8 +319,11 @@ public class CcaiServiceImpl implements CcaiService {
 		caseInfo.setTradeType(acase.getTradeType());
 		caseInfo.setPayType(acase.getPayType());
 		caseInfo.setApplyid(acase.getApplyId());
+		caseInfo.setReportTime(acase.getReportTime());
+		caseInfo.setCcaiCreateTime(acase.getCreateTime());
+		caseInfo.setCcaiUpdateTime(acase.getUpdateTime());
 		//同步案件相关人员信息
-		for(CcaiImportCaseInfo pa : acase.getParticipants()){
+		for(CcaiImportParticipant pa : acase.getParticipants()){
 			if(CaseSyncParticipantEnum.AGENT.getCode().equals(pa.getPosition())){
 				caseInfoAgentSet(caseInfo,pa);
 			}else if(CaseSyncParticipantEnum.WARRANT.getCode().equals(pa.getPosition())){
@@ -341,7 +341,7 @@ public class CcaiServiceImpl implements CcaiService {
 	 * @param pa
 	 * @return
 	 */
-	private ToCaseParticipant buildParticipant(String caseCode,String ccaiCode,CcaiImportCaseInfo pa){
+	private ToCaseParticipant buildParticipant(String caseCode,String ccaiCode,CcaiImportParticipant pa){
 		ToCaseParticipant casepa = new ToCaseParticipant();
 		casepa.setCaseCode(caseCode);
 		casepa.setCcaiCode(ccaiCode);
@@ -354,12 +354,13 @@ public class CcaiServiceImpl implements CcaiService {
 		casepa.setGrpMgrRealname(pa.getGrpMgrRealName());
 		casepa.setGrpMgrMobile(pa.getGrpMgrMobile());
 		casepa.setPosition(pa.getPosition());
+		casepa.setAvailable("Y");
 		return casepa;
 	}
 	/**
 	 * 设置案件基本信息 经纪人相关信息
 	 */
-	private void caseInfoAgentSet(ToCaseInfo caseInfo,CcaiImportCaseInfo pa){
+	private void caseInfoAgentSet(ToCaseInfo caseInfo,CcaiImportParticipant pa){
 		//经纪人处理
 		User agent = getUserByUserNameOrEmployeeCode(pa.getUserName());
 		if(agent!=null){
@@ -378,7 +379,7 @@ public class CcaiServiceImpl implements CcaiService {
 	/**
 	 * 设置案件基本信息 过户权证相关 信息
 	 */
-	private void caseInfoWarrantSet(ToCaseInfo caseInfo,CcaiImportCaseInfo pa){
+	private void caseInfoWarrantSet(ToCaseInfo caseInfo,CcaiImportParticipant pa){
 		User manager = getUserByUserNameOrEmployeeCode(pa.getGrpMgrUserName());
 		if(manager!=null){
 			caseInfo.setRequireProcessorId(manager.getId());//请求处理人即交易主管 进行分单操作

@@ -4,127 +4,158 @@ import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 案件参与人信息
- * @author yinchao
  *
+ * @author yinchao
  */
 public class ToCaseParticipant {
-    private Long pkid;
+	private Long pkid;
 
-    private String ccaiCode;
+	private String ccaiCode;
 
-    private String caseCode;
+	private String caseCode;
 
-    private String position;
+	private String position;
 
-    private String userName;
+	private String userName;
 
-    private String realName;
+	private String realName;
 
-    private String mobile;
+	private String mobile;
 
-    private String grpCode;
+	private String grpCode;
 
-    private String grpName;
+	private String grpName;
 
-    private String grpMgrUsername;
+	private String grpMgrUsername;
 
-    private String grpMgrRealname;
+	private String grpMgrRealname;
 
-    private String grpMgrMobile;
+	private String grpMgrMobile;
 
-    public Long getPkid() {
-        return pkid;
-    }
+	private String origin;
 
-    public void setPkid(Long pkid) {
-        this.pkid = pkid;
-    }
+	private String available;
 
-    public String getCcaiCode() {
-        return ccaiCode;
-    }
+	private String assignId;
 
-    public void setCcaiCode(String ccaiCode) {
-        this.ccaiCode = ccaiCode == null ? null : ccaiCode.trim();
-    }
+	public Long getPkid() {
+		return pkid;
+	}
 
-    public String getCaseCode() {
-        return caseCode;
-    }
+	public void setPkid(Long pkid) {
+		this.pkid = pkid;
+	}
 
-    public void setCaseCode(String caseCode) {
-        this.caseCode = caseCode == null ? null : caseCode.trim();
-    }
+	public String getCcaiCode() {
+		return ccaiCode;
+	}
 
-    public String getPosition() {
-        return position;
-    }
+	public void setCcaiCode(String ccaiCode) {
+		this.ccaiCode = ccaiCode == null ? null : ccaiCode.trim();
+	}
 
-    public void setPosition(String position) {
-        this.position = position == null ? null : position.trim();
-    }
-    @NotBlank(message="")
-    public String getUserName() {
-        return userName;
-    }
+	public String getCaseCode() {
+		return caseCode;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
+	public void setCaseCode(String caseCode) {
+		this.caseCode = caseCode == null ? null : caseCode.trim();
+	}
 
-    public String getRealName() {
-        return realName;
-    }
+	public String getPosition() {
+		return position;
+	}
 
-    public void setRealName(String realName) {
-        this.realName = realName == null ? null : realName.trim();
-    }
+	public void setPosition(String position) {
+		this.position = position == null ? null : position.trim();
+	}
 
-    public String getMobile() {
-        return mobile;
-    }
+	@NotBlank(message = "")
+	public String getUserName() {
+		return userName;
+	}
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
-    }
+	public void setUserName(String userName) {
+		this.userName = userName == null ? null : userName.trim();
+	}
 
-    public String getGrpCode() {
-        return grpCode;
-    }
+	public String getRealName() {
+		return realName;
+	}
 
-    public void setGrpCode(String grpCode) {
-        this.grpCode = grpCode == null ? null : grpCode.trim();
-    }
+	public void setRealName(String realName) {
+		this.realName = realName == null ? null : realName.trim();
+	}
 
-    public String getGrpName() {
-        return grpName;
-    }
+	public String getMobile() {
+		return mobile;
+	}
 
-    public void setGrpName(String grpName) {
-        this.grpName = grpName == null ? null : grpName.trim();
-    }
+	public void setMobile(String mobile) {
+		this.mobile = mobile == null ? null : mobile.trim();
+	}
 
-    public String getGrpMgrUsername() {
-        return grpMgrUsername;
-    }
+	public String getGrpCode() {
+		return grpCode;
+	}
 
-    public void setGrpMgrUsername(String grpMgrUsername) {
-        this.grpMgrUsername = grpMgrUsername == null ? null : grpMgrUsername.trim();
-    }
+	public void setGrpCode(String grpCode) {
+		this.grpCode = grpCode == null ? null : grpCode.trim();
+	}
 
-    public String getGrpMgrRealname() {
-        return grpMgrRealname;
-    }
+	public String getGrpName() {
+		return grpName;
+	}
 
-    public void setGrpMgrRealname(String grpMgrRealname) {
-        this.grpMgrRealname = grpMgrRealname == null ? null : grpMgrRealname.trim();
-    }
+	public void setGrpName(String grpName) {
+		this.grpName = grpName == null ? null : grpName.trim();
+	}
 
-    public String getGrpMgrMobile() {
-        return grpMgrMobile;
-    }
+	public String getGrpMgrUsername() {
+		return grpMgrUsername;
+	}
 
-    public void setGrpMgrMobile(String grpMgrMobile) {
-        this.grpMgrMobile = grpMgrMobile == null ? null : grpMgrMobile.trim();
-    }
+	public void setGrpMgrUsername(String grpMgrUsername) {
+		this.grpMgrUsername = grpMgrUsername == null ? null : grpMgrUsername.trim();
+	}
+
+	public String getGrpMgrRealname() {
+		return grpMgrRealname;
+	}
+
+	public void setGrpMgrRealname(String grpMgrRealname) {
+		this.grpMgrRealname = grpMgrRealname == null ? null : grpMgrRealname.trim();
+	}
+
+	public String getGrpMgrMobile() {
+		return grpMgrMobile;
+	}
+
+	public void setGrpMgrMobile(String grpMgrMobile) {
+		this.grpMgrMobile = grpMgrMobile == null ? null : grpMgrMobile.trim();
+	}
+
+	public String getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
+
+	public String getAvailable() {
+		return available;
+	}
+
+	public void setAvailable(String available) {
+		this.available = available;
+	}
+
+	public String getAssignId() {
+		return assignId;
+	}
+
+	public void setAssignId(String assignId) {
+		this.assignId = assignId;
+	}
 }

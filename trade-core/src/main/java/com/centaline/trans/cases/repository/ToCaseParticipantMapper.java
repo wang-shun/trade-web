@@ -29,4 +29,13 @@ public interface ToCaseParticipantMapper {
      * @return
      */
     List<ToCaseParticipant> selectByCaseCode(String caseCode);
+    /**
+     * 
+     * @since:2017年9月8日 下午7:27:47
+     * @description:增加条件查询ToCaseParticipant
+     * @author:xiefei1
+     * @param record
+     * @return
+     */
+    List<ToCaseParticipant> selectByCondition(ToCaseParticipant record);
 }

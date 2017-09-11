@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.web.validate.AjaxResponse;
@@ -26,6 +28,8 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
@@ -34,6 +38,7 @@ import com.centaline.trans.cases.service.CaseMergeService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.ToCcaiAttachment;
 import com.centaline.trans.common.enums.AppTypeEnum;
+import com.centaline.trans.common.vo.FileUploadVO;
 import com.centaline.trans.workspace.entity.CacheGridParam;
 
 /**
@@ -62,10 +67,54 @@ public class AuditImportCaseController {
 	
 	@Autowired
 	private UamPermissionService uamPermissionService;
+	
+	@Autowired
+	private UamUserOrgService uamUserOrgServiceClient;
+	
+	/**
+	 * 
+	 * @since:2017年9月8日 下午5:37:48
+	 * @description:
+	 * @author:xiefei1
+	 * @param caseCode
+	 * @param model
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@RequestMapping(value = "addLoanProcessor")
+	public String addLoanProcessor(HttpServletRequest request, String caseCode,String loanProcessor) {
+		int addLoanProcessor = auditCaseService.addLoanProcessor(loanProcessor, caseCode);
+		if(addLoanProcessor==0){
+			throw new BusinessException("请求页面跳转异常啦，请稍后再试！");
+		}
+		return "forward:"+"/AuditImportCase/list";
+	}
+
+	
+	/**
+	 * 
+	 * @since:2017年9月1日 下午3:58:30
+	 * @description:接单审核通过后 修改状态，返回接单列表页面；
+	 * @author:xiefei1
+	 * @return	
+	 * WJD("30001001", "未接单"),
+	 * YJD("30001002", "已接单"),
+	 * 
+	 */
+	@RequestMapping(value = "auditSuccess")
+	public String AuditSuccess(String caseCode){
+		ToCase toCase = new ToCase();
+		toCase.setStatus("30001002");
+		toCase.setCaseCode(caseCode);
+		toCaseService.updateByCaseCodeSelective(toCase);		
+		return "forward:"+"/AuditImportCase/list";
+		
+	}
 	/**
 	 * 
 	 * @since:2017年8月31日 上午11:43:32
-	 * @description:
+	 * @description:手写异步查询附件的方法
 	 * @author:xiefei1
 	 * @param caseCode
 	 * @param model
@@ -99,22 +148,25 @@ public class AuditImportCaseController {
 	/**
 	 * 
 	 * @since:2017年8月31日 上午10:52:56
-	 * @description:
+	 * @description:跳转到审核附件详情页面
 	 * @author:xiefei1
 	 * @return
 	 */
 	@RequestMapping(value = "details")
 	public String auditCaseDetails(String caseCode,Model model){
+		List<User> loanUserList = uamUserOrgServiceClient.getUserByBelongOrgId("A05D3E9C1ED343118F2286EC7E3D2637");
 		String payType = auditCaseService.getPayType(caseCode);
 		model.addAttribute("payType", payType);
 		model.addAttribute("caseCode", caseCode);
+		model.addAttribute("loanUserList", loanUserList);
+		
 		return "case/auditCaseDetails";
 		
 	}
 	/**
 	 * 
 	 * @since:2017年8月29日 下午7:54:24
-	 * @description:
+	 * @description: 审核案件列表页面
 	 * @author:xiefei1
 	 * @param model
 	 * @return
@@ -150,7 +202,6 @@ public class AuditImportCaseController {
 			App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
 			String ctx = app.genAbsoluteUrl();
 			request.setAttribute("ctx", ctx);
-//		return "case/userList";
 		return "case/auditCaseList";
 	}
 
@@ -221,25 +272,7 @@ public class AuditImportCaseController {
 		return resultMap;
 	}
 	
-	/**
-	 * 
-	 * @since:2017年9月1日 下午3:58:30
-	 * @description:接单审核通过后 修改状态，返回接单列表页面；
-	 * @author:xiefei1
-	 * @return	
-	 * WJD("30001001", "未接单"),
-	 * YJD("30001002", "已接单"),
-	 * 
-	 */
-	@RequestMapping(value = "auditSuccess")
-	public String AuditSuccess(String caseCode){
-		ToCase toCase = new ToCase();
-		toCase.setStatus("30001002");
-		toCase.setCaseCode(caseCode);
-		toCaseService.updateByCaseCodeSelective(toCase);		
-		return "forward:"+"/AuditImportCase/list";
-		
-	}
+	
 	
 	
 }

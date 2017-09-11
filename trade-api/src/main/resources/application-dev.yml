@@ -24,15 +24,18 @@ shiroConfig.shiroFilter:
     /anon/**: anon
     /login: authc
     /logout: logout
+    #TODO 后面加入自定义的过滤器 进行权限校验
     /api/**: anon
+    /api-docs: anon
     /rest/**: anon
+    /**: anon
     /authenticated: authc
     /weixin/**: weiXinUser
     /tweixin/**: weiXinUser
     /weixinAuth: weixinAuth
     /restful/login**: restfulAuth
     /restful/refreshToken**: restfulAuth
-    /**: customUser
+    #/**: customUser
   filters:
     weiXinUser:
       corpId: wx7b47806a86fe27db
@@ -77,4 +80,9 @@ redis:
     nodes: '10.1.30.104:1000,10.1.30.104:2010,10.1.30.104:1010,10.1.30.104:3000,10.1.30.104:2000,10.1.30.104:3010'
     max-redirects: 5
   maxIdle: 100
-  maxTotal: 600    
+  maxTotal: 600
+
+#swagger
+swagger:
+  #不配置的话 会导致部署到服务器上 自动生成本机的host无法进行代理,配置需要加上端口
+  host: localhost:8083

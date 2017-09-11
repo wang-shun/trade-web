@@ -18,4 +18,6 @@ public interface AuditCaseService {
     
     public List<ToCcaiAttachment> getCcaiAttachment(String caseCode);
     
+    public int addLoanProcessor(String userName,String caseCode);
+    
 }
