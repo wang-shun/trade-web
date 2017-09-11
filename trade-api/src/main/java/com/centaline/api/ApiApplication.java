@@ -10,6 +10,8 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 /**
  * 启动类
+ * 继承 SpringBootServletInitializer 并重写 configure 方法
+ * 否则最终package 的war包，无法在tomcat中进行部署
  * @author yinchao
  *
  */
@@ -20,7 +22,8 @@ public class ApiApplication extends SpringBootServletInitializer
 {
 	@Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(ApiApplication.class);
+        //指向原有@SpringBootApplication的启动类
+		return application.sources(ApiApplication.class);
     }
 
     public static void main(String[] args) {
