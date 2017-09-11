@@ -31,7 +31,7 @@ function taskUserSelectBack(array){
 	if(array && array.length >0&&optTaskId!=''){
 		var selectUserId=array[0].userId;
 		var selectUserRName=array[0].username;
-		
+
 		window.wxc.confirm('是否确定将任务分配给"'+selectUserRName+'"?',{"wxcOk":function(){
 			var sendData={'taskIds[0]':optTaskId,userId:selectUserId,'caseCodes[0]':$("#caseCode").val()};
 			changeTaskAssignee(sendData);
@@ -46,8 +46,8 @@ function changeTaskAssignee(sendData){
 		url : ctx+"/case/changeTaskAssignee",
 		dataType : "json",
 		data : sendData,
-		beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+		beforeSend:function(){
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 				$(".blockOverlay").css({'z-index':'9998'});
          },
 		success : function(data) {
@@ -57,8 +57,8 @@ function changeTaskAssignee(sendData){
 			}else{
 				window.wxc.error(data.message);
 			}
-		},complete: function() { 
-			 $.unblockUI(); 
+		},complete: function() {
+			 $.unblockUI();
 			 optTaskId='';
 		},
 		error : function(errors) {
@@ -75,7 +75,7 @@ $(document).ready(function() {
 				moduleType:"1001",
 				subscribeType:"2001"
 			});
-			
+
 			$("#sel_changeFrom option").each(function(){
 				var _this=$(this);
 				var taskDfKey=_this.val();
@@ -83,18 +83,18 @@ $(document).ready(function() {
 					_this.remove();
 				}
 			});
-			$("#sel_changeFrom").change(function(){		
+			$("#sel_changeFrom").change(function(){
 					//添加判断是为了  修改商贷环节时不能派单
-/*					if($("#sel_changeFrom").val() == "ComLoanProcess"){			
-						
-						$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val()+'?comFlag=processButtonHidden');	
+/*					if($("#sel_changeFrom").val() == "ComLoanProcess"){
+
+						$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val()+'?comFlag=processButtonHidden');
 					}else{
 						$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
-					}*/					
+					}*/
 					$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
-					
+
 			});
-			
+
 			$("#sel_changeFrom").change();
 			$("#changeForm-form").submit(function(){
 				$('#changeForm-modal-form').modal("hide");
@@ -103,20 +103,20 @@ $(document).ready(function() {
 				if($("#sel_changeFrom").val()==null||$("#sel_changeFrom").val()==''){
 					window.wxc.alert('请选择要修改的项目！');
 					return false;
-				}	
+				}
 			});
 			$("#mortageService").change(function(){
 				mortageService();
 			});
 			$("#btn_loan_reqment_chg").click(chgLoanReqment);
-			
+
 			//案件挂起
 			buttonActivity();
-			
+
 			//基本信息等高
 			var cpDivHeight = $("#cpDiv").height();
 			$('#infoDiv .panel-body').css("height", cpDivHeight + 20);
-		
+
 			//jqGrid初始化
 			var url = "/quickGrid/findPage";
 			var ctx = $("#ctx").val();
@@ -245,7 +245,7 @@ $(document).ready(function() {
 			//FollowPicList.init(ctx,'/quickGrid/findPage','gridTable','gridPager',ctm,caseCode);
 			caseflowListitem.init(ctx,'/quickGrid/findPage','gridTable1','gridPager1',caseCode);  // 显示房款监管信息列表
 			caseremarkList.init(ctx,'/quickGrid/findPage','caseCommenTable','caseCommenPager',caseCode);  // 显示各个流程的备注信息列表
-			
+
 			var width = $('.jqGrid_wrapper').width();
 			$('#operation_history_table').setGridWidth(width);
 			$('#caseCommenTable').setGridWidth(width);
@@ -260,18 +260,18 @@ $(document).ready(function() {
 				$('#gridTable1').setGridWidth(width1);
 
 			});
-			
+
 			// 房款监督信息
 			/*$(window).bind('resize', function() {
 				// var width = $('.jqGrid_wrapper').width();
 				$('#gridTable1').setGridWidth($(window).width()*0.6);
 			});*/
-			
-			
+
+
 			$("input:checkbox[name='srvCode']").change(function(){
 				changeSrvs();
 			});
-			
+
 			getShowAttachment();
 
 		});
@@ -319,7 +319,7 @@ function showOrgCp() {
 	var url = "/case/getUserOrgCpUserList";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
-
+	var data={operation:""};
 	$.ajax({
 		cache : false,
 		async : true,
@@ -327,7 +327,7 @@ function showOrgCp() {
 		url : url,
 		dataType : "json",
 		timeout : 10000,
-		data : "",
+		data : data,
 		success : function(data) {
 			console.info(data);
 			showLeadingModal(data);
@@ -382,7 +382,7 @@ function chgLoanReqment(){
 	if(!chgLoanReqmentCheck()){
 		return false;
 	}
-	
+
 	var jsonData = $("#loan_reqment_chg_form").serializeArray();
 	for(var i=0;i<jsonData.length;i++)
 	{
@@ -391,8 +391,8 @@ function chgLoanReqment(){
 			delete jsonData[parseInt(i)];
 		}
 	}
-	
-	
+
+
 	$.ajax({
 		cache : false,
 		async : false,//false同步，true异步
@@ -400,8 +400,8 @@ function chgLoanReqment(){
 		url : ctx+"/task/mortgageSelect/loanRequirementChange",
 		dataType : "json",
 		data : jsonData,
-		beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+		beforeSend:function(){
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 				$(".blockOverlay").css({'z-index':'9998'});
          },
 		success : function(data) {
@@ -412,8 +412,8 @@ function chgLoanReqment(){
 			}else{
 				window.wxc.error(data.message);
 			}
-		},complete: function() { 
-			 $.unblockUI(); 
+		},complete: function() {
+			 $.unblockUI();
 		},
 		error : function(errors) {
 			window.wxc.error("数据保存出错");
@@ -484,7 +484,7 @@ function showLoanReqmentChgModal(){
 			}
 		}
 	});
-	
+
 }	*/
 
 
@@ -528,7 +528,7 @@ function mortageService() {
 				txt += "<select class='form-control m-b' name='partner' id='cooperationUser0'>";
 				txt += "<option value='0'>----未选择----</option>";
 				$.each(data.users, function(j, user){
-					txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
+					txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";
 				});
 				if($.trim(data.orgcode)!='033F045'){/*浦东合作顾问选中台 */
 					txt += "<option value='-1'>---跨区选择---</option>";
@@ -550,10 +550,10 @@ function mortageService() {
 						if($('#mortage_corss_area').length>0){
 							mortageRemoveCrossAreaCooperation();
 						}
-					}					
+					}
 				});
 				},
-			
+
 			error : function(errors) {
 				window.wxc.error("数据出错。");
 			}
@@ -570,12 +570,12 @@ function mortageCrossAreaCooperation(){
 	corsstxt += '</select>';
 	corsstxt += "<select id='cross_org0'>";
 	corsstxt += "<option value='0'>----组别----</option>";
-	corsstxt += '</select>';				
+	corsstxt += '</select>';
 	corsstxt += "<select id='cross_district0'>";
 	corsstxt += "<option value='0'>----部门----</option>";
 	corsstxt += '</select></div>';
 	$("#hzxm").append(corsstxt);
-	
+
 	var ctx = $("#ctx").val();
 	var url = ctx+"/task/firstFollow/getCrossAeraCooperationItems";
 	$.ajax({
@@ -585,18 +585,18 @@ function mortageCrossAreaCooperation(){
 		url : url,
 		dataType : "json",
 		success : function(data) {
-			
+
 			/*三级联动*/
 			var district = $('#cross_district0');
 			var org = $('#cross_org0');
 			var consult = $("#partner0");
 			var districtStr="";
-			
+
 			$.each(data.cross,function(j,items){
 				districtStr += "<option value='"+ items.districtId+"'>" + items.districtName+"</option>";
 			});
 			district.empty().append("<option value='0'>----部门----</option>"+districtStr);
-			
+
 			district.bind("change", function(){
 				var orgStr="";
 				var myIndex = district.find(":selected").index()-1;
@@ -611,10 +611,10 @@ function mortageCrossAreaCooperation(){
 					}
 				}else{
 					org.empty().append("<option value='0'>----组别----</option>");
-					consult.empty().append("<option value='0'>----人员----</option>");							
+					consult.empty().append("<option value='0'>----人员----</option>");
 				}
 			});
-			
+
 			org.bind("change", changeConsult);
 			function changeConsult(){
 				var consultStr="";
@@ -743,7 +743,7 @@ function ChangeModal(data) {
 			addHtml += "<label class='col-md-3 control-label wd87'>合作项目</label>";
 			addHtml += "<div class='col-md-9 wd-64'><p class='form-control-static'>"+value.srvName+"</p></div>"
 		addHtml += '</div></div>';
-		
+
 		addHtml += '<div class="col-md-6 wd-50">';
 			if(value.users !=""&&value.users.length!=0){
 				addHtml += "<label class='col-md-3 control-label'>合作顾问</label>";
@@ -775,28 +775,28 @@ function ChangeModal(data) {
 			addHtml += "<input type='hidden' name='otherOrgId' id='otherOrgId"+index+"' value=''/>";
 			addHtml += "<input type='hidden' name='preProcessorId' value='"+data.servitemList[index].processorId+"' />";
 		}else{
-			
+
 		}
 		addHtml += "</div></div>";
 		addHtml += '</div>';
 		addHtml += '</div>';
-		
+
 	});
-	
+
 	$("#change-modal-data-show").html(addHtml);
 
 	$.each(data.servitemList, function(index, value){
-		
+
 		if(value.users !=""&&value.users.length!=0){
 			$('#processorId'+index).val(data.servitemList[index].processorId); //赋值processorId的值
-			
+
 			var isNeedDefualt = true;
 			$.each(value.users, function(j, value){
 				if(data.servitemList[index].processorId==value.id){
 					isNeedDefualt = false;
 				}
 			});
-			
+
 			if(isNeedDefualt) {
 				var url = "/user/getUserInfo";
 				var ctx = $("#ctx").val();
@@ -853,7 +853,7 @@ $(document).on("change",'select[name="myProcessorId"]',function(){
 				corsstxt += '</select>';
 				corsstxt += "<select name='crossOrgId' id='crossOrg"+i+"'>";
 				corsstxt += "<option value='0'>----组别----</option>";
-				corsstxt += '</select>';				
+				corsstxt += '</select>';
 				corsstxt += "<select id='crossDistrict"+i+"'>";
 				corsstxt += "<option value='0'>----部门----</option>";
 				corsstxt += '</select></div>';
@@ -865,23 +865,23 @@ $(document).on("change",'select[name="myProcessorId"]',function(){
 			consult.val(otherConsult.val());
 			if($("#corss_area"+i).length>0){
 				removeCrossAreaCooperation(i);
-			}				
+			}
 		}else{
 			org.val(oldOrg.val());
 			consult.val($('select[name="myProcessorId"]:eq('+i+')').find(":selected").val());
 			if($("#corss_area"+i).length>0){
 				removeCrossAreaCooperation(i);
-			}					
-		}	
+			}
+		}
 	});
 });
 
 /*生成跨区合作选项框*/
 function crossAreaCooperation(i){
-	
+
 	var ctx = $("#ctx").val();
 	var url = ctx +"/task/firstFollow/getCrossAeraCooperationItems";
-	
+
 	$.ajax({
 		cache : true,
 		async : false,//false同步，true异步
@@ -889,18 +889,18 @@ function crossAreaCooperation(i){
 		url : url,
 		dataType : "json",
 		success : function(data) {
-			
+
 			/*三级联动*/
 			var district = $('#crossDistrict'+i);
 			var org = $('#crossOrg'+i);
 			var consult = $("#crossConsult"+i);
 			var districtStr="";
-			
+
 			$.each(data.cross,function(j,items){
 				districtStr += "<option value='"+ items.districtId+"'>" + items.districtName+"</option>";
 			});
 			district.empty().append("<option value='0'>----部门----</option>"+districtStr);
-			
+
 			district.bind("change", function(){
 				var orgStr="";
 				var myIndex = district.find(":selected").index()-1;
@@ -915,10 +915,10 @@ function crossAreaCooperation(i){
 					}
 				}else{
 					org.empty().append("<option value='0'>----组别----</option>");
-					consult.empty().append("<option value='0'>----人员----</option>");					
+					consult.empty().append("<option value='0'>----人员----</option>");
 				}
 			});
-			
+
 			org.bind("change", changeConsult);
 			function changeConsult(){
 				var consultStr="";
@@ -938,19 +938,19 @@ function crossAreaCooperation(i){
 					consult.empty().append("<option value='0'>----人员----</option>");
 				}
 			}
-			
+
 			consult.bind("change", getVals);
 			/*改变隐藏框的值*/
 			function getVals(){
 				var guwen=consult.find(':selected').val();
 				var zuzhi=org.find(':selected').val();
-				
+
 				if(guwen!='0'){
 					 $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-9').children(':hidden:eq(0)').val(zuzhi);
 					 $('select[name="myProcessorId"]:eq('+i+')').parent('.col-md-9').children(':hidden:eq(1)').val(guwen);
 				}
 			}
-			
+
 		},
 		error : function(errors) {
 			window.wxc.error("数据出错。");
@@ -989,7 +989,7 @@ function submit_change(){
 
 /**
  * 变更助理
- * 
+ *
  */
 function changeAssistantInfo() {
 	window.wxc.confirm("您是否确认进行助理变更？",{"wxcOk":function(){
@@ -1044,7 +1044,7 @@ function changeLeadingUser(index) {
 			dataType : "json",
 			timeout : 10000,
 			data : params,
-			
+
 			success : function(data) {
 				if(data.success){
 					window.wxc.success("变更成功");
@@ -1052,7 +1052,7 @@ function changeLeadingUser(index) {
 				}else{
 					window.wxc.error(data.message);
 				}
-				
+
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 			}
@@ -1061,7 +1061,7 @@ function changeLeadingUser(index) {
 }
 /**
  * 产调发起
- * 
+ *
  */
 function startCasePrairses() {
 	window.wxc.confirm("您是否确认进行产调发起？",{"wxcOk":function(){
@@ -1087,12 +1087,12 @@ function startCasePrairses() {
 			dataType : "json",
 			timeout : 10000,
 			data : params,
-			beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+			beforeSend:function(){
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 				$(".blockOverlay").css({'z-index':'9998'});
-            },  
-            complete: function() {  
-                $.unblockUI();   
+            },
+            complete: function() {
+                $.unblockUI();
                 if(status=='timeout'){//超时,status还有success,error等值的情况
 	          	  Modal.alert(
 				  {
@@ -1100,9 +1100,9 @@ function startCasePrairses() {
 				  });
 		  		 $(".btn-primary").one("click",function(){
 		  				parent.$.fancybox.close();
-		  			});	 
+		  			});
 		                }
-		            } , 
+		            } ,
 			success : function(data) {
 				if(data.success){
 					window.wxc.success("提交成功",{"wxcOk":function(){
@@ -1120,8 +1120,8 @@ function startCasePrairses() {
 function managerShowSrvModal(){
 	resetSrvModal();
 	$('#srv-modal-form').modal("show");
-}	
-	
+}
+
 //初始化服务项
 function showSrvModal(){
 	resetSrvModal();
@@ -1170,7 +1170,7 @@ function saveSrvItems(){
 		var isDel = false;
 		var delSrvCheck = $("input[name='srvCode'][value="+delSrv+"]").prop('checked');
 		//srvs 根据caseCode查询的有哪些服务项
-		if(srvs.indexOf(delSrv)>-1 && !delSrvCheck){  //查询返回下标，从0开始， 
+		if(srvs.indexOf(delSrv)>-1 && !delSrvCheck){  //查询返回下标，从0开始，
 			//原先有商贷、现在没有勾选
 			isDel=true;
 		}else if(delSrvCheck && srvs.indexOf(delSrv)==-1){
@@ -1198,14 +1198,14 @@ function saveSrvItems(){
 		url = ctx + url;
 		var caseCode = $("#caseCode").val();
 		var prItems = new Array;
-	
+
 		$("input[name='srvCode']:checked").each(function() {
 			prItems.push(this.value);
 		});
 		var params ='&caseCode=' + caseCode+ '&prItems=' + prItems+ '&isDel=' + isDel+ '&isRes=' + isRes+"&srvs="+srvs;
 		var confirmStr = "您的选择会进行流程重启，是否继续？";
 		if(isDel)confirmStr = "您的选择会进行案件爆单操作，是否继续？";
-		
+
 		if(!isRes && !isDel){
 			serviceChangeApply(params,url);
 		}
@@ -1226,12 +1226,12 @@ function serviceChangeApply(params,url){
 		dataType : "json",
 		timeout : 10000,
 		data : params,
-		beforeSend:function(){  
-			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+		beforeSend:function(){
+			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 			$(".blockOverlay").css({'z-index':'9998'});
-        },  
-        complete: function() {  
-            $.unblockUI();   
+        },
+        complete: function() {
+            $.unblockUI();
             if(status=='timeout'){//超时,status还有success,error等值的情况
           	  Modal.alert(
 			  {
@@ -1239,9 +1239,9 @@ function serviceChangeApply(params,url){
 			  });
 	  		 $(".btn-primary").one("click",function(){
 	  				parent.$.fancybox.close();
-	  			});	 
+	  			});
 	                }
-	            } , 
+	            } ,
 		success : function(data) {
 			if(data.success){
 
@@ -1282,7 +1282,7 @@ function saveSrvItemsForManager(){
 		});
 		var params ='&caseCode=' + caseCode+ '&prItems=' + prItems+"&srvs="+srvs;
 		var confirmStr = "您目前在更新服务状态,，是否继续？";
-		
+
 		window.wxc.confirm(confirmStr,{"wxcOk":function(){
 			$.ajax({
 				async : true,
@@ -1338,7 +1338,7 @@ function changeSrvsHidden(){
 		dataType : "json",
 		timeout : 10000,
 		data : params,
-		
+
 		success : function(data) {
 			if(data.success){
 				$("#srvCodes").val(data.message);
@@ -1403,7 +1403,7 @@ function resetPlanModal(){
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 		}
 	});
-	
+
 }
 
 function changeEstTime(index){
@@ -1438,30 +1438,30 @@ function savePlanItems(){
 		}
 		isChanges.push($(this).val());
 	});
-	
+
 	var isChange = false;
 	$("#plan-form input[name='estPartTime']").each(function(index){
 		var newEstPartTime = this.value;
 		var oldEstPartTime = $(this).attr("lang");
-		
+
 		if(newEstPartTime != oldEstPartTime){
 			var reason = $("#whyChange_" + index).val();
-			
+
 			if(reason == ""){
 				$("#whyChange_" + index).css("border-color","red");
 				isChange = true;
 				return false;
 			}
 		}
-		
+
 	});
-	
-	
+
+
 	if(isChange){
 		window.wxc.alert("变更理由为必填项！");
 		return false;
 	}
-	
+
 	$("#plan-form").find("input:text[name='estPartTime']").each(function(k) {
 		if($(this).val()==""||$(this).val().trim==""){
 			msg = "交易计划不允许为空";
@@ -1480,7 +1480,7 @@ function savePlanItems(){
 		return false;
 	}
 	params+="&isChanges="+isChanges+"&estIds="+estIds+"&estDates="+estTimes+"&whyChanges="+whyChanges;
-	
+
 	$.ajax({
 		cache : false,
 		async : true,
@@ -1489,12 +1489,12 @@ function savePlanItems(){
 		dataType : "json",
 		timeout : 10000,
 		data : params,
-		beforeSend:function(){  
-			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+		beforeSend:function(){
+			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 			$(".blockOverlay").css({'z-index':'9998'});
-        },  
-        complete: function() {  
-            $.unblockUI();   
+        },
+        complete: function() {
+            $.unblockUI();
             if(status=='timeout'){//超时,status还有success,error等值的情况
           	  Modal.alert(
 			  {
@@ -1502,9 +1502,9 @@ function savePlanItems(){
 			  });
 	  		 $(".btn-primary").one("click",function(){
 	  				parent.$.fancybox.close();
-	  			});	 
+	  			});
 	                }
-	            } , 
+	            } ,
 		success : function(data) {
 			if(data.success){
 				window.wxc.success("提交成功",{"wxcOk":function(){
@@ -1536,7 +1536,7 @@ function casePause(){
 	}else if(activityFlag == "30003004"){
 		showStr = "您是否确认进行案件恢复操作？";
 	}
-	
+
 	window.wxc.confirm(showStr,{"wxcOk":function(){
 		var url = "/case/casePause";
 		var ctx = $("#ctx").val();
@@ -1612,11 +1612,11 @@ function startSpvOutApplyProcess(caseCode){
 			method:"post",
 			dataType:"json",
 			data:{caseCode:caseCode},
-		    beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+		    beforeSend:function(){
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 				$(".blockOverlay").css({'z-index':'9998'});
             },
-            complete: function() {  
+            complete: function() {
                 if(status=='timeout'){//超时,status还有success,error等值的情况
 	          	  Modal.alert(
 				  {
@@ -1624,11 +1624,11 @@ function startSpvOutApplyProcess(caseCode){
 				  });
 		  		 $(".btn-primary").one("click",function(){
 		  				parent.$.fancybox.close();
-		  			});	 
+		  			});
 		                }
-		            } , 
+		            } ,
 			success:function(data){
-                $.unblockUI();   
+                $.unblockUI();
 				if(!data.success){
 					window.wxc.error(data.message);
 				}else{
@@ -1640,12 +1640,12 @@ function startSpvOutApplyProcess(caseCode){
 }
 /**
  * 案件转组初始化
- 
+
 function caseChangeTeam(){
 	var url = "/case/getOrgTeamList";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
-	
+
 	$.ajax({
 		cache : false,
 		async:true,
@@ -1653,13 +1653,13 @@ function caseChangeTeam(){
 		url : url,
 		dataType : "json",
 		timeout: 10000,
-	    data : "", 
+	    data : "",
 		success : function(data) {
 			showTeamModal(data);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 		}
-	}); 
+	});
 }
 /**
  * 选择组别modal
@@ -1688,15 +1688,15 @@ function showChangeFormModal(){
  */
 function changeCaseTeam(){
 	var orgName =$('input[name="teamRadio"]:checked').parent().text();
-	
+
 	window.wxc.confirm("您是否确认分配给"+orgName+"?",{"wxcOk":function(){
     	var orgId =$('input[name="teamRadio"]:checked').val();
 		var url = "/case/orgChange";
 		var ctx = $("#ctx").val();
 		url = ctx + url;
-		
+
 		var params='&orgId='+orgId+'&caseCode='+$("#caseCode").val();
-		
+
 		$.ajax({
 			cache : false,
 			async:true,
@@ -1704,13 +1704,13 @@ function changeCaseTeam(){
 			url : url,
 			dataType : "json",
 			timeout: 10000,
-		    data : params, 
-		    beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+		    data : params,
+		    beforeSend:function(){
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 				$(".blockOverlay").css({'z-index':'9998'});
-            },  
-            complete: function() {  
-                $.unblockUI();   
+            },
+            complete: function() {
+                $.unblockUI();
                 if(status=='timeout'){//超时,status还有success,error等值的情况
 	          	  Modal.alert(
 				  {
@@ -1718,9 +1718,9 @@ function changeCaseTeam(){
 				  });
 		  		 $(".btn-primary").one("click",function(){
 		  				parent.$.fancybox.close();
-		  			});	 
+		  			});
 		                }
-		            } , 
+		            } ,
 			success : function(data) {
 				if(data.success){
 					window.wxc.success("转组成功");
@@ -1730,9 +1730,9 @@ function changeCaseTeam(){
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				
+
 			}
-		}); 
+		});
 	}});
 }
 function serviceRestart(){
@@ -1740,8 +1740,8 @@ function serviceRestart(){
 	if(!isNewFlow){
 		info="点击该按钮将会启动流程重启审批流程，您确定要启动该流程吗？";
 	}
-	
-	
+
+
 	window.wxc.confirm(info,{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		$.ajax({
@@ -1749,11 +1749,11 @@ function serviceRestart(){
 			method:"post",
 			dataType:"json",
 			data:{caseCode:caseCode},
-		    beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+		    beforeSend:function(){
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 				$(".blockOverlay").css({'z-index':'9998'});
             },
-            complete: function() {  
+            complete: function() {
                 if(status=='timeout'){//超时,status还有success,error等值的情况
 	          	  Modal.alert(
 				  {
@@ -1763,9 +1763,9 @@ function serviceRestart(){
 		   } , success:function(data){
 			   console.log("===Result==="+JSON.stringify(data));
 				if(!data.success){
-					$.unblockUI();   
+					$.unblockUI();
 					window.wxc.error(data.message);
-				
+
 				}else{
 					window.location.href=ctx+"/task/serviceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
 				}
@@ -1783,11 +1783,11 @@ function caseReset(){
 			method:"post",
 			dataType:"json",
 			data:{caseCode:caseCode},
-		    beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+		    beforeSend:function(){
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
 				$(".blockOverlay").css({'z-index':'9998'});
             },
-            complete: function() {  
+            complete: function() {
                 if(status=='timeout'){//超时,status还有success,error等值的情况
 	          	  Modal.alert(
 				  {
@@ -1796,7 +1796,7 @@ function caseReset(){
 		        }
 		   } , success:function(data){
 				if(!data.success){
-					$.unblockUI();   
+					$.unblockUI();
 					window.wxc.error(data.message);
 				}else{
 					window.wxc.success("案件重置成功.");
@@ -1822,7 +1822,7 @@ function editWdCase(){
  * 2017年6月9日17:56:12
  */
 function delLiushui( pkid){
-	
+
 	window.wxc.confirm("您是否确认删除？",{"wxcOk":function(){
 
 	var url = "/caseMerge/delLiushui";
@@ -1837,8 +1837,8 @@ function delLiushui( pkid){
 		dataType : "json",
 		timeout : 10000,
 		data : params,
-		
-		success : function(data) { 
+
+		success : function(data) {
 			if(data.success){
 				window.wxc.alert(data.message);
 				window.location.reload();
@@ -1847,10 +1847,10 @@ function delLiushui( pkid){
 			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			
+
 		}
 	});
-	
+
 	}});
 }
 
@@ -1859,8 +1859,8 @@ function delLiushui( pkid){
 
 
 
-$(window).load(function() {  
-	queryPer();  
+$(window).load(function() {
+	queryPer();
 });
 
 

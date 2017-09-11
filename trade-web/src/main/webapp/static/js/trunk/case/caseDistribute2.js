@@ -277,7 +277,7 @@ function caseDistribute(){
  */
 function caseDistributeType(){
 	
-	var data = {};
+	var data = {operation:""};
 	if($('input[name="my_checkbox"]:checked').length==1){data.caseCode=$('input[name="my_checkbox"]:checked').val();};
 	var url = "/case/getUserOrgCpUserList";
 	var ctx = $("#ctx").val();

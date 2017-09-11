@@ -28,6 +28,26 @@ public class ToRatePayment {
 
     private String partCode;
 
+    private String autualOperatorId;
+
+    private String autualOperatorName;
+
+    public String getAutualOperatorName() {
+        return autualOperatorName;
+    }
+
+    public void setAutualOperatorName(String autualOperatorName) {
+        this.autualOperatorName = autualOperatorName;
+    }
+
+    public String getAutualOperatorId() {
+        return autualOperatorId;
+    }
+
+    public void setAutualOperatorId(String autualOperatorId) {
+        this.autualOperatorId = autualOperatorId;
+    }
+
     public Long getPkid() {
         return pkid;
     }

@@ -21,10 +21,20 @@
 <link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />" rel="stylesheet">
 <link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />" rel="stylesheet">
 <!-- 展示相关 -->
+	<%--<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
+	<!-- Gritter -->
+	<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
+
+	<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/transcss/case/myCaseList.css' />" rel="stylesheet">--%>
+
 <link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />" rel="stylesheet">
 <link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />" rel="stylesheet">
 <link href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />" rel="stylesheet">
-<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<%--<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">--%>
 <!-- 备件相关结束 -->
 <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 <!-- jdGrid相关 -->
@@ -38,7 +48,6 @@
 <link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
 <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 <link rel="stylesheet" href="<c:url value='/js/viewer/viewer.min.css' />" />
-
 <!-- 新调整页面样式 -->
 <link href="<c:url value='/css/common/caseDetail.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
@@ -46,6 +55,18 @@
 <link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
+	<style type="text/css">
+		.userHead{
+			width: 80px;
+			height: 80px;
+			display: inline-block;
+			border-radius: 50%;
+			background-size: 80px 108px;
+			vertical-align: middle;
+			background-image:url(../static/img/a5.png);
+
+		}
+	</style>
 	<script type="text/javascript">
 		var ctx = "${ctx}";
 		/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -169,10 +190,8 @@
 						<div class="line">
 							<div class="form_content">
 								<label class="control-label sign_left_small">实际操作人</label>
-								<select class="input_type yuanwid" >
-										<option value="">--请选择--</option>
-										<option></option>
-								</select>
+								<input type="hidden" id="userId" name="autualOperatorId" value="${ratePayment.autualOperatorId}">
+								<input class=" input_type yuanwid" name="autualOperatorName" id="ActualOperator" placeholder=""   type="text" value="${ratePayment.autualOperatorName}"/>
 							</div>
 						</div>
 							<div class="line">
@@ -184,8 +203,6 @@
 				</form>
 			</div>
 		</div>
-		
-		
 		<!-- 案件跟进 -->
 		<div class="view-content" id="caseCommentList"> </div>
 		<div class="mt30 clearfix" id="aboutInfo">
@@ -213,7 +230,34 @@
 
 	</div>
 </div>
+
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+	<div id="modal-form" class="modal fade" aria-labelledby="modal-title"
+		 aria-hidden="true">
+		<div class="modal-dialog" style="width: 1200px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+					<h4 class="modal-title" id="modal-title">请选择过户权证</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row" style="height: 450px;overflow:auto; ">
+						<div class="col-lg-12 ">
+							<h3 class="m-t-none m-b"></h3>
+							<div class="wrapper wrapper-content animated fadeInRight">
+								<div id="modal-data-show" class="row"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <content tag="local_script">
+
 	<!-- Peity -->
 	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<!-- jqGrid -->
@@ -242,6 +286,7 @@
 	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script>
 	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>
 	<script src="<c:url value='/js/stickUp.js' />"></script>
+
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 -->
 	<script src="<c:url value='/js/trunk/task/attachment3.js' />"></script>
@@ -266,6 +311,9 @@
 	var source = "${source}";
 
 	$(document).ready(function() {
+        $("#ActualOperator").click(function () {
+            caseDistribute();
+        })
 		if('caseDetails'==source){
 			readOnlyForm();
 		}
@@ -290,6 +338,7 @@
 		if(checkAttachment()) {
 			save(true);
 		}
+        save(true);
 	}
 
 	//保存数据
@@ -297,6 +346,10 @@
 		if(!checkForm()) {
 			return;
 		}
+        //alert(id);
+		$("#userId").val(id);
+
+		$("#ActualOperator").val(userName);
 		var jsonData = $("#ratePaymentForm").serializeArray();
 
 		deleteAndModify();
@@ -450,8 +503,73 @@
 		//设置提交按钮隐藏
 		$("#btnSubmit").hide();
 	}
+    function caseDistribute(){
+        var url = "/case/getUserOrgCpUserList";
+        var ctx = $("#ctx").val();
+        url = ctx + url;
+        var data={operation:"ratePayment"};
+        $.ajax({
+            cache : false,
+            async:true,
+            type : "POST",
+            url : url,
+            dataType : "json",
+            timeout: 10000,
+            data :data,
+            success : function(data) {
+                showModal(data);
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+            }
+        });
+    }
+    function showModal(data){
+        var addHtml = '';
+        var ctx = $("#ctx").val();
+        $.each(data,function(i, n){
+            addHtml += '<div class="col-lg-4"><div class="contact-box">';
+            addHtml += '<a href="javascript:distributeCase('+i+')">';
+            addHtml += '<div class="col-sm-4"><div class="text-center">';
 
+            addHtml+='<span class="userHead">';
+            if(n.imgUrl!=null){
+                //addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'">';
+                addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="../img/a5.png">';
+            }
+            addHtml+='</span>';
 
+            addHtml += '<div class="m-t-xs font-bold">过户权证</div></div></div>';
+            addHtml += '<div class="col-sm-8">';
+            addHtml += '<input id="user_'+i+'" type="hidden" value="'+n.id+'">';
+            addHtml += '<input id="userName_'+i+'" type="hidden" value="'+n.realName+'">';
+            addHtml += '<h3><strong>'+n.realName+'</strong></h3>';
+            addHtml += '<input id="mobile_'+i+'" type="hidden" value="联系电话：'+n.mobile+'">'+'联系电话：'+n.mobile;
+            addHtml += '<p>当前单数：'+n.userCaseCount+'</p>';
+            addHtml += '<p>本月接单：'+n.userCaseMonthCount+'</p>';
+            addHtml += '<p>未过户单：'+n.userCaseUnTransCount+'</p>';
+            addHtml += '</div><div class="clearfix"></div></a>';
+            addHtml += '</div></div>';
+        })
+        $("#modal-data-show").html(addHtml);
+
+        $('.contact-box').each(function() {
+            animationHover(this, 'pulse');
+        });
+        $('#modal-form').modal("show");
+    }
+
+    function imgLoad(img){
+        img.parentNode.style.backgroundImage="url("+img.src+")";
+    }
+    var userName;
+    var id;
+    function distributeCase(index) {
+       	id=$("#user_"+index).val();
+		userName=$("#userName_"+index).val();
+		$("#userId").val(id);
+		$("#ActualOperator").val(userName);
+        $('#modal-form').modal("hide");
+    }
 	</script>
 </content>
 

@@ -161,13 +161,19 @@ public class CaseDistributeController
      */
     @RequestMapping(value = "/getUserOrgCpUserList")
     @ResponseBody
-    public List<VCaseDistributeUserVO> getUserOrgCpUserList(HttpServletRequest request, String caseCode) throws ParseException
+    public List<VCaseDistributeUserVO> getUserOrgCpUserList(HttpServletRequest request, String caseCode,String operation) throws ParseException
     {
         List<VCaseDistributeUserVO> res = new ArrayList<VCaseDistributeUserVO>();
         // 获取当前用户
         SessionUser sessionUser = uamSessionService.getSessionUser();
+        List<User>userList=new ArrayList<User>();
         // 获取机构交易顾问列表
-        List<User> userList = uamUserOrgService.getUserByOrgIdAndJobCode(sessionUser.getServiceDepId(), TransJobs.TJYGW.getCode());
+        if(operation!=null&&operation!=""){
+            userList=  uamUserOrgService.getUserByOrgIdAndJobCode(sessionUser.getServiceDepId(),TransJobs.GHQZ.getCode());
+        }else {
+            userList = uamUserOrgService.getUserByOrgIdAndJobCode(sessionUser.getServiceDepId(),TransJobs.TJYGW.getCode());
+        }
+
         if (!StringUtils.isBlank(caseCode))
         {
             VCaseDistributeUserVO vd = toCaseService.getVCaseDistributeUserVO(caseCode);
@@ -175,7 +181,7 @@ public class CaseDistributeController
             {
                 res.add(vd);
             }
-            ;
+
         }
         for (int i = 0; i < userList.size(); i++)
         {

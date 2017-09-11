@@ -16,6 +16,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +52,8 @@ public class RatePaymentController {
 	private ToAccesoryListService toAccesoryListService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
+	@Autowired(required = true)
+	UamUserOrgService uamUserOrgService;
 	@RequestMapping(value="process")
 	public String toProcess(HttpServletRequest request,
 			HttpServletResponse response, String caseCode, String source,
@@ -64,7 +68,12 @@ public class RatePaymentController {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 
 		toAccesoryListService.getAccesoryList(request, taskitem);
-		request.setAttribute("ratePayment", ratePaymentService.qureyToRatePayment(caseCode));
+		ToRatePayment ratePayment=ratePaymentService.qureyToRatePayment(caseCode);
+		User user=uamUserOrgService.getUserById(ratePayment.getAutualOperatorId());
+		if (user!=null){
+			ratePayment.setAutualOperatorName(user.getRealName());
+		}
+		request.setAttribute("ratePayment",ratePayment);
 		return "task" + UiImproveUtil.getPageType(request) + "/taskRatePayment";
 	}
 

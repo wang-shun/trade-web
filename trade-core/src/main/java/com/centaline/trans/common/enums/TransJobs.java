@@ -4,7 +4,12 @@ public enum TransJobs {
 	/**
 	 * 交易顾问
 	 */
-	TJYGW("consultant", "交易顾问"), 
+	TJYGW("consultant", "交易顾问"),
+
+	/**
+	 * 过户权证
+	 */
+	GHQZ("GHQZ", "过户权证"),
 	/**
 	 * 交易助理
 	 */
@@ -45,6 +50,8 @@ public enum TransJobs {
 	 * 中台顾问
 	 */
 	JYUZTGW("JYUZTGW","中台顾问");
+
+
 
 	private String name;
 

@@ -158,7 +158,7 @@ function caseDistribute(){
 	var url = "/case/getUserOrgCpUserList";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
-	
+	var data={operation:""};
 	$.ajax({
 		cache : false,
 		async:true,
@@ -166,7 +166,7 @@ function caseDistribute(){
 		url : url,
 		dataType : "json",
 		timeout: 10000,
-	    data : "", 
+	    data :data,
 		success : function(data) {
 			showModal(data);
 		},

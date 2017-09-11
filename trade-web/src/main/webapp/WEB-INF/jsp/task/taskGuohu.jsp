@@ -6,6 +6,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/scriptBase.jsp"></jsp:include>
 <html>
@@ -119,15 +120,13 @@
 								<label class="control-label sign_left_small select_style mend_select">
 									实际过户时间<font color=" red" class="mr5" >*</font>
 								</label>
-								<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-									<input type="text" class="input_type yuanwid datatime" id="realHtTime"
-										   name="realHtTime"
-										   value="<fmt:formatDate  value='${houseTransfer.realHtTime}' type='both' pattern='yyyy-MM-dd'/>"
-										   onfocus="this.blur()">
+								<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd" id="data_1">
+									<input type="text" class="input_type yuanwid datatime" id="realHtTime" name="realHtTime" onfocus="this.blur()"
+										   value="<fmt:formatDate  value='${houseTransfer.realHtTime}' type='both' pattern='yyyy-MM-dd'/>">
 								</div>
 							</div>
 						</div>
-						<h2 class="newtitle title-mark">实收税费</h2>
+						<%-- <h2 class="newtitle title-mark">实收税费</h2>
 						<div class="line">
 							<div class="form_content">
 								<label class="control-label sign_left_small">房产税<font color=" red" class="mr5" >*</font></label>
@@ -167,8 +166,8 @@
 								<span class="date_icon">万元</span>
 							</div>
 
-						</div>
-						<div class="line">
+						</div> --%>
+						<%-- <div class="line">
 							<div class="form_content">
 								<label class="control-label sign_left_small">是否刷卡<font color=" red" class="mr5" >*</font></label>
 								<select  class="select_control yuanwid" name="useCardPay" id="useCardPay" onchange="showcardPayAmount()">
@@ -184,60 +183,42 @@
 								<span class="date_icon">元</span>
 							</div>
 
-						</div>
+						</div> --%>
+						<!--貸款流失情況下顯示，需要商贷那边提供字段-->
 						<c:if test="${toMortgage != null }">
 							<div class="line">
 								<div class="form_content">
-									<label class="control-label sign_left_small">贷款类型</label>
-									<aist:dict id="mortType" name="mortType"
-											   clazz=" select_control yuanwid " display="select" dictType="30016"
-											   defaultvalue="${toMortgage.mortType }" />
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_small">贷款总额</label>
+									<label class="control-label sign_left_small">贷款流失金额</label>
 									<input type="text" name="mortTotalAmount"
 										   value="${toMortgage.mortTotalAmount }" id="mortTotalAmount"
 										   class=" input_type yuanwid" onkeyup="checknum(this)" placeholder="万元">
-									<span class="date_icon">万元</span>
 								</div>
-							</div>
-							<div class="line">
+
 								<div class="form_content">
-									<label class="control-label sign_left_small">商贷金额</label>
-									<input type="text" name="comAmount" id="comAmount"
-										   value="${toMortgage.comAmount }" class=" input_type yuanwid"
-										   onkeyup="checknum(this)" placeholder="万元">
-									<span class="date_icon">万元</span>
+									<label class="control-label sign_left_small">贷款流失银行</label>
+									<input type="text" name="loansDrainBank"
+										   value="${toMortgage.mortTotalAmount }" id="loansDrainBank"
+										   class=" input_type yuanwid" onkeyup="checknum(this)" >
 								</div>
 								<div class="form_content">
-									<label class="control-label sign_left_small">商贷年限</label>
-									<input type="text" name="comYear" id="comYear"
-										   value="${toMortgage.comYear }" class=" input_type yuanwid"
-										   onkeyup="checknum(this)">
-									<span class="date_icon">年</span>
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_small">商贷利率折扣</label>
+									<label class="control-label sign_left_small">贷款利率</label>
 									<input type="text" name="comDiscount" id="comDiscount"
 										   value="${toMortgage.comDiscount }" placeholder="0.50~1.50之间"
 										   class=" input_type yuanwid" onkeyup="autoCompleteComDiscount(this)">
 								</div>
-
 							</div>
 							<div class="line">
 								<div class="form_content">
-									<label class="control-label sign_left_small">公积金贷款金额</label>
-									<input type="text" name="prfAmount" id="prfAmount"
-										   value="${toMortgage.prfAmount }" class=" input_type yuanwid"
+									<label class="control-label sign_left_small">商贷成数</label>
+									<input type="text" name="comAmount" id="comAmount"
+										   value="${toMortgage.comAmount }" class=" input_type yuanwid"
 										   onkeyup="checknum(this)" placeholder="万元">
-									<span class="date_icon">万元</span>
 								</div>
 								<div class="form_content">
-									<label class="control-label sign_left_small">公积金贷款年限</label>
-									<input type="text" name="prfYear" id="prfYear"
-										   value="${toMortgage.prfYear }" class=" input_type yuanwid"
+									<label class="control-label sign_left_small">商贷套数</label>
+									<input type="text" name="comYear" id="comYear"
+										   value="${toMortgage.comYear }" class=" input_type yuanwid"
 										   onkeyup="checknum(this)">
-									<span class="date_icon">年</span>
 								</div>
 							</div>
 						</c:if>
@@ -273,6 +254,13 @@
 								<textarea class="input_type yuanwid" style="width:820px;height:75px;resize:none;" name="otherReason" value="">${houseTransfer.accompanyOthersReason}</textarea>
 							</div>
 						</div>
+						<h2 class="newtitle title-mark">备注</h2>
+						<div class="line">
+							<div class="form_content">
+								<!-- 	<label class="control-label sign_left_small">备注</label> -->
+									<input class=" input_type yuanwid" name="comment" id="comment" placeholder="" value="${houseTransfer.comment }"  type="text" style="width:800px;"/></div>
+										   </div>
+						
 					</div>
 				</form>
 			</div>

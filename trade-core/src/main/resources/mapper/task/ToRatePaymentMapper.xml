@@ -14,10 +14,11 @@
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="PAYMENT_TIME" jdbcType="TIMESTAMP" property="paymentTime" />
     <result column="PART_CODE" jdbcType="VARCHAR" property="partCode" />
+    <result column="ACTUAL_OPERATOR_ID" property="autualOperatorId" jdbcType="VARCHAR"/>
   </resultMap>
   <sql id="Base_Column_List">
     PKID, PAYMENT_TIME,CASE_CODE, PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,PRICING_TAX,
-    COMMENT, PART_CODE,CREATE_BY, CREATE_TIME
+    COMMENT, PART_CODE,CREATE_BY, CREATE_TIME,ACTUAL_OPERATOR_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -34,13 +35,13 @@
 	PERSONAL_INCOME_TAX,
 	BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,PRICING_TAX
 	COMMENT, CREATE_BY, CREATE_TIME,
-	PAYMENT_TIME, PART_CODE)
+	PAYMENT_TIME, PART_CODE,ACTUAL_OPERATOR_ID)
 	values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR},
 	#{personalIncomeTax,jdbcType=DECIMAL},
 	#{businessTax,jdbcType=DECIMAL}, #{contractTax,jdbcType=DECIMAL}, #{landIncrementTax,jdbcType=DECIMAL},#{pricingTax,jdbcType=DECIMAL},
 	#{comment,jdbcType=VARCHAR}, @{SESSION_USER_ID},
 	GETDATE(),
-	#{paymentTime,jdbcType=TIMESTAMP}, #{partCode,jdbcType=VARCHAR})
+	#{paymentTime,jdbcType=TIMESTAMP}, #{partCode,jdbcType=VARCHAR},#{autualOperatorId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.task.entity.ToRatePayment">
     insert into sctrans.T_TO_RATE_PAYMENT
@@ -77,6 +78,9 @@
       <if test="partCode != null">
         PART_CODE,
       </if>
+      <if test="autualOperatorId != null">
+        ACTUAL_OPERATOR_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pkid != null">
@@ -110,6 +114,9 @@
       </if>
       <if test="partCode != null">
         #{partCode,jdbcType=VARCHAR},
+      </if>
+      <if test="autualOperatorId != null">
+        #{autualOperatorId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -145,6 +152,9 @@
       <if test="partCode != null">
         PART_CODE = #{partCode,jdbcType=VARCHAR},
       </if>
+      <if test="autualOperatorId != null">
+        ACTUAL_OPERATOR_ID=#{autualOperatorId,jdbcType=VARCHAR},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -160,7 +170,8 @@
       CREATE_BY = @{SESSION_USER_ID},
       CREATE_TIME = GETDATE(),
       PAYMENT_TIME = #{paymentTime,jdbcType=TIMESTAMP},
-      PART_CODE = #{partCode,jdbcType=VARCHAR}
+      PART_CODE = #{partCode,jdbcType=VARCHAR},
+      ACTUAL_OPERATOR_ID=#{autualOperatorId,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   
