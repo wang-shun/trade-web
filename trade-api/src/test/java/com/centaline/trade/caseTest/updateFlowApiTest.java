@@ -3,6 +3,7 @@ package com.centaline.trade.caseTest;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.centaline.api.ccai.cases.vo.CcaiImportParticipant;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.centaline.api.ApiApplication;
 import com.centaline.api.ccai.cases.vo.CcaiImportCase;
-import com.centaline.api.ccai.cases.vo.CcaiImportCaseInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -62,9 +62,9 @@ public class updateFlowApiTest {
 		
 		CcaiImportCase acase = new CcaiImportCase();
 		//案件基本信息
-		List<CcaiImportCaseInfo> participants = new ArrayList<>();
+		List<CcaiImportParticipant> participants = new ArrayList<>();
 		//金融权证
-		CcaiImportCaseInfo warrant = new CcaiImportCaseInfo();
+		CcaiImportParticipant warrant = new CcaiImportParticipant();
 		warrant.setPosition("warrant");
 		warrant.setUserName("zhanglei01");
 		warrant.setRealName("张磊");
@@ -77,7 +77,7 @@ public class updateFlowApiTest {
 		participants.add(warrant);
 		
 		//贷款权证专员信息
-		CcaiImportCaseInfo loan = new CcaiImportCaseInfo();
+		CcaiImportParticipant loan = new CcaiImportParticipant();
 		loan.setPosition("loan");
 		loan.setUserName("shangfei");
 		loan.setRealName("尚飞");

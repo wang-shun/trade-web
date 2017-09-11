@@ -66,6 +66,12 @@ public class ToCaseInfo {
     private String payType;
     //CCAI系统流程ID
     private String applyid;
+    //业绩上报时间
+	private Date reportTime;
+	//CCAI创建时间
+	private Date ccaiCreateTime;
+	// CCAI修改时间
+	private Date ccaiUpdateTime;
 	/********************全国交易金融系统 新增字段 end******************************************/
     
     //查询条件使用
@@ -399,5 +405,28 @@ public class ToCaseInfo {
 	public void setApplyid(String applyid) {
 		this.applyid = applyid;
 	}
-	
+
+	public Date getReportTime() {
+		return reportTime;
+	}
+
+	public void setReportTime(Date reportTime) {
+		this.reportTime = reportTime;
+	}
+
+	public Date getCcaiCreateTime() {
+		return ccaiCreateTime;
+	}
+
+	public void setCcaiCreateTime(Date ccaiCreateTime) {
+		this.ccaiCreateTime = ccaiCreateTime;
+	}
+
+	public Date getCcaiUpdateTime() {
+		return ccaiUpdateTime;
+	}
+
+	public void setCcaiUpdateTime(Date ccaiUpdateTime) {
+		this.ccaiUpdateTime = ccaiUpdateTime;
+	}
 }

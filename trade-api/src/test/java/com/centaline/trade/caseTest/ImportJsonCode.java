@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.centaline.api.ccai.cases.vo.*;
 import org.junit.Test;
 
-import com.centaline.api.ccai.cases.vo.CcaiImportAttachment;
-import com.centaline.api.ccai.cases.vo.CcaiImportCase;
-import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
-import com.centaline.api.ccai.cases.vo.CcaiImportCaseInfo;
-import com.centaline.api.ccai.cases.vo.CcaiImportCaseProperty;
+import com.centaline.api.ccai.cases.vo.CcaiImportParticipant;
 import com.centaline.trans.utils.DateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,9 +21,10 @@ public class ImportJsonCode {
 	public void getTestJsonData(){
 		CcaiImportCase acase = new CcaiImportCase();
 		//案件基本信息
-		List<CcaiImportCaseInfo> participants = new ArrayList<>();
+		List<CcaiImportParticipant> participants = new ArrayList<>();
 		//经纪人信息
-		CcaiImportCaseInfo agent = new CcaiImportCaseInfo();
+		CcaiImportParticipant agent = new CcaiImportParticipant();
+		agent.setAssignId("agentAssignId");
 		agent.setPosition("agent");
 		agent.setUserName("zenglong");
 		agent.setRealName("曾龙");
@@ -36,14 +34,16 @@ public class ImportJsonCode {
 		agent.setGrpMgrUserName("ahk-zhaoxu01");
 		participants.add(agent);
 		//分行秘书信息
-		CcaiImportCaseInfo secretary = new CcaiImportCaseInfo();
+		CcaiImportParticipant secretary = new CcaiImportParticipant();
+		secretary.setAssignId("");
 		secretary.setPosition("secretary");
 		secretary.setUserName("ahk-zhaoxu01");
 		secretary.setRealName("赵旭");
 		secretary.setMobile("17720100958");
 		participants.add(secretary);
 		//权证专员信息
-		CcaiImportCaseInfo warrant = new CcaiImportCaseInfo();
+		CcaiImportParticipant warrant = new CcaiImportParticipant();
+		warrant.setAssignId("warrantAssignId");
 		warrant.setPosition("warrant");
 		warrant.setUserName("shangfei");
 		warrant.setRealName("尚飞");
@@ -55,7 +55,7 @@ public class ImportJsonCode {
 		warrant.setGrpMgrMobile("18622064168");
 		participants.add(warrant);
 		//贷款专员信息
-		CcaiImportCaseInfo loan = new CcaiImportCaseInfo();
+		CcaiImportParticipant loan = new CcaiImportParticipant();
 		loan.setPosition("loan");
 		loan.setUserName("shangfei");
 		loan.setRealName("尚飞");
@@ -76,7 +76,7 @@ public class ImportJsonCode {
 		property.setTotalFloor(20);
 		property.setLocateFloor(5);
 		property.setSquare(123.04);
-		property.setPropertyType("HOUSE_TYPE");//房屋类型
+		property.setPropertyType("普通住宅（私产）");//房屋类型
 		property.setComment("房屋描述...");
 		property.setDistrict("120101");
 		acase.setProperty(property);
@@ -116,8 +116,9 @@ public class ImportJsonCode {
 		acase.setApplyId("CCAIFLOW"+sign);
 		acase.setCreateTime(new Date());
 		acase.setUpdateTime(new Date());
-		acase.setTradeType("11");//交易类型
-		acase.setPayType("11");//付款类型
+		acase.setReportTime(new Date());
+		acase.setTradeType("0");//交易类型
+		acase.setPayType("按揭贷款");//付款类型
 		acase.setCity("120000");
 		ObjectMapper mapper = new ObjectMapper();
 		try {
