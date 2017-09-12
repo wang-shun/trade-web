@@ -66,12 +66,14 @@ public class RatePaymentController {
 		}
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
-
+		//查询是否有附件
 		toAccesoryListService.getAccesoryList(request, taskitem);
 		ToRatePayment ratePayment=ratePaymentService.qureyToRatePayment(caseCode);
-		User user=uamUserOrgService.getUserById(ratePayment.getAutualOperatorId());
-		if (user!=null){
-			ratePayment.setAutualOperatorName(user.getRealName());
+		if(ratePayment!=null){
+			User user=uamUserOrgService.getUserById(ratePayment.getAutualOperatorId());
+			if (user!=null){
+				ratePayment.setAutualOperatorName(user.getRealName());
+			}
 		}
 		request.setAttribute("ratePayment",ratePayment);
 		return "task" + UiImproveUtil.getPageType(request) + "/taskRatePayment";

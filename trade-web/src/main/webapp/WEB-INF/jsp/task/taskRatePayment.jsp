@@ -335,10 +335,7 @@
 	
 	//提交数据
 	function submit() {
-		if(checkAttachment()) {
 			save(true);
-		}
-        save(true);
 	}
 
 	//保存数据

@@ -59,17 +59,17 @@ public class CaseDetailShowVO {
     private String loanCloseCode;      //还款时间
     private String paymentTime;       //缴税时间
 	private String realHtTime;         //过户时间
-   /* private String taxTime;         //审税时间
+    private String taxTime;         //审税时间
     private String pricingTime;        //核价时间
-    private String realPlsTime;   //查限购时间*/
+    private String realPlsTime;   //查限购时间
     private String realPropertyGetTime; //领证时间
     private String closeTime;  //结案时间
 
     private String closeType;    //还款方式
     private String lendWay;    //放款方式
-   /* private String holdYear;      //购房年数
+    private String holdYear;      //购房年数
     private String houseProperty;  //房屋性质
-    private String isUniqueHome;   //唯一住房*/
+    private String isUniqueHome;   //唯一住房
     private String isHukou;   //户口情况
     private String isConCert;   //合同公证
     
@@ -498,5 +498,53 @@ public class CaseDetailShowVO {
 
 	public void setTazhengArrDate(String tazhengArrDate) {
 		this.tazhengArrDate = tazhengArrDate;
+	}
+
+	public String getTaxTime() {
+		return taxTime;
+	}
+
+	public void setTaxTime(String taxTime) {
+		this.taxTime = taxTime;
+	}
+
+	public String getPricingTime() {
+		return pricingTime;
+	}
+
+	public void setPricingTime(String pricingTime) {
+		this.pricingTime = pricingTime;
+	}
+
+	public String getRealPlsTime() {
+		return realPlsTime;
+	}
+
+	public void setRealPlsTime(String realPlsTime) {
+		this.realPlsTime = realPlsTime;
+	}
+
+	public String getHoldYear() {
+		return holdYear;
+	}
+
+	public void setHoldYear(String holdYear) {
+		this.holdYear = holdYear;
+	}
+
+	public String getHouseProperty() {
+		return houseProperty;
+	}
+
+	public void setHouseProperty(String houseProperty) {
+		this.houseProperty = houseProperty;
+	}
+
+	public String getIsUniqueHome() {
+		return isUniqueHome;
+	}
+
+	public void setIsUniqueHome(String isUniqueHome) {
+		this.isUniqueHome = isUniqueHome;
 	}
 }

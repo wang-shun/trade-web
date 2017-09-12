@@ -47,31 +47,47 @@ public class VCaseTradeInfo {
     private BigDecimal amount3;
     private BigDecimal amount4;
     private BigDecimal uncloseMoney;
-    
+
     private String upBank;
 
     private String closeType;
 
     private Date loanCloseCode;
 
-    private BigDecimal pricingTax;
+    private BigDecimal pricingTax;//新增缴税表中核税价
 
-    private BigDecimal personalIncomeTax;
+    private BigDecimal houseHodingTax;//原过户表中的房产税，现天津的没有房产税，顾可舍弃
 
-    private BigDecimal businessTax;
+    private BigDecimal personalIncomeTax;//新增缴税表中个人所得税
 
-    private BigDecimal contractTax;
+    private BigDecimal businessTax;//新增缴税表中增值税及附加税
 
-    private BigDecimal landIncrementTax;
+    private BigDecimal contractTax;//新增缴税表中买方契税
 
-    private Date paymentTime;
+    private BigDecimal landIncrementTax;//新增缴税表中土地增值税
 
-    private Date realHtTime;
+    private Date realHtTime;//实际过户时间
+
+    private String holdYear;//审税表中购房年数，现天津没有审税环节，顾可以废弃
+
+    private String isUniqueHome;//审税表中是否唯一住房，现天津没有审税环节，顾可以废弃
+
+    private Date taxTime;//审税表中实际审税时间，现天津没有审税环节，顾可以废弃
+
+    private String houseProperty;//核价表中房屋性质，现天津没有核价环节，顾可以废弃
+
+    private Date pricingTime;//合脚表中核价时间，现天津没有核价环节，顾可以废弃
+
+    private BigDecimal taxPricing;//原核价表中的税务核定价，现天津没有核价环节，顾可以废弃
+
+    private Date paymentTime;//新增缴税时间
+
+    private Date realPlsTime;//实际查限购时间，天津因没有查限购环节，顾可废弃
 
     private Date realPropertyGetTime;
 
     private Date closeTime;
-    
+
     //过户流程提交时间
     private Date guohuSubTime;
     //签约流程提交时间
@@ -80,56 +96,56 @@ public class VCaseTradeInfo {
     private long guohuSubAndRealTimeDiff;
     //签约流程提交时间 和实际签约时间相差的天数
     private long transSignSubAndRealTimeDiff;
-    
+
     private BigDecimal houseHodingTaxSign;
-    
+
     private BigDecimal personalIncomeTaxSign;
-    
+
     private BigDecimal businessTaxSign;
-    
+
     private BigDecimal contractTaxSign;
-    
+
     private BigDecimal landIncrementTaxSign;
-    
+
     public BigDecimal getHouseHodingTaxSign() {
-		return houseHodingTaxSign;
-	}
+        return houseHodingTaxSign;
+    }
 
-	public void setHouseHodingTaxSign(BigDecimal houseHodingTaxSign) {
-		this.houseHodingTaxSign = houseHodingTaxSign;
-	}
+    public void setHouseHodingTaxSign(BigDecimal houseHodingTaxSign) {
+        this.houseHodingTaxSign = houseHodingTaxSign;
+    }
 
-	public BigDecimal getPersonalIncomeTaxSign() {
-		return personalIncomeTaxSign;
-	}
+    public BigDecimal getPersonalIncomeTaxSign() {
+        return personalIncomeTaxSign;
+    }
 
-	public void setPersonalIncomeTaxSign(BigDecimal personalIncomeTaxSign) {
-		this.personalIncomeTaxSign = personalIncomeTaxSign;
-	}
+    public void setPersonalIncomeTaxSign(BigDecimal personalIncomeTaxSign) {
+        this.personalIncomeTaxSign = personalIncomeTaxSign;
+    }
 
-	public BigDecimal getBusinessTaxSign() {
-		return businessTaxSign;
-	}
+    public BigDecimal getBusinessTaxSign() {
+        return businessTaxSign;
+    }
 
-	public void setBusinessTaxSign(BigDecimal businessTaxSign) {
-		this.businessTaxSign = businessTaxSign;
-	}
+    public void setBusinessTaxSign(BigDecimal businessTaxSign) {
+        this.businessTaxSign = businessTaxSign;
+    }
 
-	public BigDecimal getContractTaxSign() {
-		return contractTaxSign;
-	}
+    public BigDecimal getContractTaxSign() {
+        return contractTaxSign;
+    }
 
-	public void setContractTaxSign(BigDecimal contractTaxSign) {
-		this.contractTaxSign = contractTaxSign;
-	}
+    public void setContractTaxSign(BigDecimal contractTaxSign) {
+        this.contractTaxSign = contractTaxSign;
+    }
 
-	public BigDecimal getLandIncrementTaxSign() {
-		return landIncrementTaxSign;
-	}
+    public BigDecimal getLandIncrementTaxSign() {
+        return landIncrementTaxSign;
+    }
 
-	public void setLandIncrementTaxSign(BigDecimal landIncrementTaxSign) {
-		this.landIncrementTaxSign = landIncrementTaxSign;
-	}
+    public void setLandIncrementTaxSign(BigDecimal landIncrementTaxSign) {
+        this.landIncrementTaxSign = landIncrementTaxSign;
+    }
 
     public String getCaseCode() {
         return caseCode;
@@ -280,54 +296,54 @@ public class VCaseTradeInfo {
     }
 
     public BigDecimal getConPrice() {
-		return conPrice;
-	}
+        return conPrice;
+    }
 
-	public BigDecimal getRealPrice() {
-		return realPrice;
-	}
+    public BigDecimal getRealPrice() {
+        return realPrice;
+    }
 
-	public BigDecimal getAmount1() {
-		return amount1;
-	}
+    public BigDecimal getAmount1() {
+        return amount1;
+    }
 
-	public BigDecimal getAmount2() {
-		return amount2;
-	}
+    public BigDecimal getAmount2() {
+        return amount2;
+    }
 
-	public BigDecimal getAmount3() {
-		return amount3;
-	}
+    public BigDecimal getAmount3() {
+        return amount3;
+    }
 
-	public BigDecimal getAmount4() {
-		return amount4;
-	}
+    public BigDecimal getAmount4() {
+        return amount4;
+    }
 
-	public void setConPrice(BigDecimal conPrice) {
-		this.conPrice = conPrice;
-	}
+    public void setConPrice(BigDecimal conPrice) {
+        this.conPrice = conPrice;
+    }
 
-	public void setRealPrice(BigDecimal realPrice) {
-		this.realPrice = realPrice;
-	}
+    public void setRealPrice(BigDecimal realPrice) {
+        this.realPrice = realPrice;
+    }
 
-	public void setAmount1(BigDecimal amount1) {
-		this.amount1 = amount1;
-	}
+    public void setAmount1(BigDecimal amount1) {
+        this.amount1 = amount1;
+    }
 
-	public void setAmount2(BigDecimal amount2) {
-		this.amount2 = amount2;
-	}
+    public void setAmount2(BigDecimal amount2) {
+        this.amount2 = amount2;
+    }
 
-	public void setAmount3(BigDecimal amount3) {
-		this.amount3 = amount3;
-	}
+    public void setAmount3(BigDecimal amount3) {
+        this.amount3 = amount3;
+    }
 
-	public void setAmount4(BigDecimal amount4) {
-		this.amount4 = amount4;
-	}
+    public void setAmount4(BigDecimal amount4) {
+        this.amount4 = amount4;
+    }
 
-	public void setUncloseMoney(BigDecimal uncloseMoney) {
+    public void setUncloseMoney(BigDecimal uncloseMoney) {
         this.uncloseMoney = uncloseMoney;
     }
 
@@ -347,12 +363,12 @@ public class VCaseTradeInfo {
         this.loanCloseCode = loanCloseCode;
     }
 
-    public BigDecimal getPricingTax() {
-        return pricingTax;
+    public BigDecimal getHouseHodingTax() {
+        return houseHodingTax;
     }
 
-    public void setPricingTax(BigDecimal pricingTax) {
-        this.pricingTax = pricingTax;
+    public void setHouseHodingTax(BigDecimal houseHodingTax) {
+        this.houseHodingTax = houseHodingTax;
     }
 
     public BigDecimal getPersonalIncomeTax() {
@@ -387,20 +403,68 @@ public class VCaseTradeInfo {
         this.landIncrementTax = landIncrementTax;
     }
 
-    public Date getPaymentTime() {
-        return paymentTime;
-    }
-
-    public void setPaymentTime(Date paymentTime) {
-        this.paymentTime = paymentTime;
-    }
-
     public Date getRealHtTime() {
         return realHtTime;
     }
 
     public void setRealHtTime(Date realHtTime) {
         this.realHtTime = realHtTime;
+    }
+
+    public String getHoldYear() {
+        return holdYear;
+    }
+
+    public void setHoldYear(String holdYear) {
+        this.holdYear = holdYear == null ? null : holdYear.trim();
+    }
+
+    public String getIsUniqueHome() {
+        return isUniqueHome;
+    }
+
+    public void setIsUniqueHome(String isUniqueHome) {
+        this.isUniqueHome = isUniqueHome == null ? null : isUniqueHome.trim();
+    }
+
+    public Date getTaxTime() {
+        return taxTime;
+    }
+
+    public void setTaxTime(Date taxTime) {
+        this.taxTime = taxTime;
+    }
+
+    public String getHouseProperty() {
+        return houseProperty;
+    }
+
+    public void setHouseProperty(String houseProperty) {
+        this.houseProperty = houseProperty == null ? null : houseProperty.trim();
+    }
+
+    public Date getPricingTime() {
+        return pricingTime;
+    }
+
+    public void setPricingTime(Date pricingTime) {
+        this.pricingTime = pricingTime;
+    }
+
+    public BigDecimal getTaxPricing() {
+        return taxPricing;
+    }
+
+    public void setTaxPricing(BigDecimal taxPricing) {
+        this.taxPricing = taxPricing;
+    }
+
+    public Date getRealPlsTime() {
+        return realPlsTime;
+    }
+
+    public void setRealPlsTime(Date realPlsTime) {
+        this.realPlsTime = realPlsTime;
     }
 
     public Date getRealPropertyGetTime() {
@@ -419,45 +483,59 @@ public class VCaseTradeInfo {
         this.closeTime = closeTime;
     }
 
-	public String getUpBank() {
-		return upBank;
-	}
+    public String getUpBank() {
+        return upBank;
+    }
 
-	public void setUpBank(String upBank) {
-		this.upBank = upBank;
-	}
+    public void setUpBank(String upBank) {
+        this.upBank = upBank;
+    }
 
-	public Date getGuohuSubTime() {
-		return guohuSubTime;
-	}
+    public Date getGuohuSubTime() {
+        return guohuSubTime;
+    }
 
-	public void setGuohuSubTime(Date guohuSubTime) {
-		this.guohuSubTime = guohuSubTime;
-	}
+    public void setGuohuSubTime(Date guohuSubTime) {
+        this.guohuSubTime = guohuSubTime;
+    }
 
-	public Date getTransSignSubTime() {
-		return transSignSubTime;
-	}
+    public Date getTransSignSubTime() {
+        return transSignSubTime;
+    }
 
-	public void setTransSignSubTime(Date transSignSubTime) {
-		this.transSignSubTime = transSignSubTime;
-	}
+    public void setTransSignSubTime(Date transSignSubTime) {
+        this.transSignSubTime = transSignSubTime;
+    }
 
-	public long getGuohuSubAndRealTimeDiff() {
-		return guohuSubAndRealTimeDiff;
-	}
+    public long getGuohuSubAndRealTimeDiff() {
+        return guohuSubAndRealTimeDiff;
+    }
 
-	public void setGuohuSubAndRealTimeDiff(long guohuSubAndRealTimeDiff) {
-		this.guohuSubAndRealTimeDiff = guohuSubAndRealTimeDiff;
-	}
+    public void setGuohuSubAndRealTimeDiff(long guohuSubAndRealTimeDiff) {
+        this.guohuSubAndRealTimeDiff = guohuSubAndRealTimeDiff;
+    }
 
-	public long getTransSignSubAndRealTimeDiff() {
-		return transSignSubAndRealTimeDiff;
-	}
+    public long getTransSignSubAndRealTimeDiff() {
+        return transSignSubAndRealTimeDiff;
+    }
 
-	public void setTransSignSubAndRealTimeDiff(long transSignSubAndRealTimeDiff) {
-		this.transSignSubAndRealTimeDiff = transSignSubAndRealTimeDiff;
-	}
-	
-	
+    public void setTransSignSubAndRealTimeDiff(long transSignSubAndRealTimeDiff) {
+        this.transSignSubAndRealTimeDiff = transSignSubAndRealTimeDiff;
+    }
+
+    public BigDecimal getPricingTax() {
+        return pricingTax;
+    }
+
+    public void setPricingTax(BigDecimal pricingTax) {
+        this.pricingTax = pricingTax;
+    }
+
+    public Date getPaymentTime() {
+        return paymentTime;
+    }
+
+    public void setPaymentTime(Date paymentTime) {
+        this.paymentTime = paymentTime;
+    }
 }

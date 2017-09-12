@@ -159,8 +159,8 @@
                 <li>
                     <em>核定价格</em>
                             <span class="yuanwid">
-                            <c:if test="${!empty caseInfo.taxPricing}">
-                                ${caseInfo.taxPricing/10000}&nbsp&nbsp万元
+                            <c:if test="${!empty caseInfo.pricingTax}">
+                                ${caseInfo.pricingTax/10000}&nbsp&nbsp万元
                             </c:if>
                  		    </span>
                 </li>

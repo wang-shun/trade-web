@@ -37,16 +37,20 @@
     <result column="LAND_INCREMENT_TAX" property="landIncrementTax" jdbcType="DECIMAL" />
       <result column="PAYMENT_TIME" property="paymentTime" jdbcType="TIMESTAMP"/>
     <result column="REAL_HT_TIME" property="realHtTime" jdbcType="TIMESTAMP" />
-    <!--<result column="HOLD_YEAR" property="holdYear" jdbcType="NVARCHAR" />
+      <!--因天津没有审税核价环节，顾可废弃start-->
+    <result column="HOLD_YEAR" property="holdYear" jdbcType="NVARCHAR" />
     <result column="IS_UNIQUE_HOME" property="isUniqueHome" jdbcType="CHAR" />
     <result column="TAX_TIME" property="taxTime" jdbcType="TIMESTAMP" />
     <result column="HOUSE_PROPERTY" property="houseProperty" jdbcType="NVARCHAR" />
     <result column="PRICING_TIME" property="pricingTime" jdbcType="TIMESTAMP" />
     <result column="TAX_PRICING" property="taxPricing" jdbcType="DECIMAL" />
-    <result column="REAL_PLS_TIME" property="realPlsTime" jdbcType="TIMESTAMP" />-->
+    <result column="REAL_PLS_TIME" property="realPlsTime" jdbcType="TIMESTAMP" />
+      <!--end-->
     <result column="REAL_PROPERTY_GET_TIME" property="realPropertyGetTime" jdbcType="TIMESTAMP" />
     <result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
-    <!--<result column="HOUSE_HODING_TAX_SIGN" property="houseHodingTaxSign" jdbcType="DECIMAL" />-->
+      <!--因天津没有房产税，顾可废弃-->
+    <result column="HOUSE_HODING_TAX_SIGN" property="houseHodingTaxSign" jdbcType="DECIMAL" />
+      <!--end-->
     <result column="PERSONAL_INCOME_TAX_SIGN" property="personalIncomeTaxSign" jdbcType="DECIMAL" />
     <result column="BUSINESS_TAX_SIGN" property="businessTaxSign" jdbcType="DECIMAL" />
     <result column="CONTRACT_TAX_SIGN" property="contractTaxSign" jdbcType="DECIMAL" />
@@ -55,8 +59,9 @@
   <sql id="Base_Column_List" >
     CASE_CODE, CREATE_TIME, RES_DATE, IS_HUKOU, IS_CON_CERT, REAL_CON_TIME, PAY_NAME1, 
     PAY_TYPE1, PAY_TIME1, PAY_NAME2, PAY_TYPE2, PAY_TIME2, PAY_NAME3, PAY_TYPE3, PAY_TIME3, 
-    PAY_NAME4, PAY_TYPE4, PAY_TIME4, UNCLOSE_MONEY, CLOSE_TYPE, LOAN_CLOSE_CODE, PRICING_TAX,
+    PAY_NAME4, PAY_TYPE4, PAY_TIME4, UNCLOSE_MONEY, CLOSE_TYPE, LOAN_CLOSE_CODE, PRICING_TAX,HOUSE_HODING_TAX_SIGN,
     PERSONAL_INCOME_TAX, BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX, PAYMENT_TIME,REAL_HT_TIME,
+    HOLD_YEAR, IS_UNIQUE_HOME, TAX_TIME, HOUSE_PROPERTY, PRICING_TIME, TAX_PRICING,REAL_PLS_TIME,
     REAL_PROPERTY_GET_TIME, CLOSE_TIME,CON_PRICE,REAL_PRICE,AMOUNT1,AMOUNT3,AMOUNT2,AMOUNT4,UPBANK,
     PERSONAL_INCOME_TAX_SIGN, BUSINESS_TAX_SIGN, CONTRACT_TAX_SIGN, LAND_INCREMENT_TAX_SIGN
   </sql>

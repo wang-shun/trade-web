@@ -900,9 +900,9 @@
 										</label>
 									</shiro:hasPermission>
 									<label class="col-sm-3 control-label">核定价格：
-									 <c:if test="${!empty caseInfo.pricingTax}">  ${caseInfo.pricingTax/10000}&nbsp&nbsp万元 </c:if>
-									</label> 
-
+									 <c:if test="${!empty caseInfo.taxPricing}">  ${caseInfo.taxPricing/10000}&nbsp&nbsp万元 </c:if>
+									</label>
+									<label class="col-sm-3 control-label">房屋性质：${caseDetailVO.houseProperty}</label>
 								</div>
 								<h4><span style="font-size:12px;color:#b0b0b0;">● </span>付款相关</h4>
 								<div class="row ">
@@ -937,14 +937,18 @@
 									<label class="col-sm-3 control-label">付款时间(尾款)：${caseDetailVO.payTime3}</label>
 									<label class="col-sm-3 control-label">付款时间(装修)：${caseDetailVO.payTime4}</label>
 								</div>
-								<%--<h4><span style="font-size:12px;color:#b0b0b0;">● </span>房屋相关</h4>
+								<h4><span style="font-size:12px;color:#b0b0b0;">● </span>房屋相关</h4>
 								<div class="row ">
 									<label class="col-sm-3 control-label">购房年数：${caseDetailVO.holdYear}</label>
 									<label class="col-sm-3 control-label">唯一住房： ${caseDetailVO.isUniqueHome}</label> 
-								</div>--%>
+								</div>
 								<h4><span style="font-size:12px;color:#b0b0b0;">● </span>预估税费</h4>
 								<div class="row ">
-
+									<!--因天津没有房产税，顾可废弃-->
+									<label class="col-sm-3 control-label">房产税：
+										<c:if test="${!empty caseInfo.houseHodingTax}"> ${caseInfo.houseHodingTax/10000}&nbsp&nbsp万元 </c:if>
+									</label>
+									<!--end-->
 									<label class="col-sm-3 control-label">个人所得税： 
 										<c:if test="${!empty caseInfo.personalIncomeTaxSign}"> ${caseInfo.personalIncomeTaxSign/10000}&nbsp&nbsp万元 </c:if>
 									</label> 

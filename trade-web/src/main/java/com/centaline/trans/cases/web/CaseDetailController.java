@@ -1034,8 +1034,11 @@ public class CaseDetailController {
 		if (caseInfo.getRealHtTime() != null) {
 			String realHtTime = format.format(caseInfo.getRealHtTime());
 			reVo.setRealHtTime(realHtTime);
-		} // 审税时间
-		/*if (caseInfo.getTaxTime() != null) {
+		}
+		/*
+		* 因天津没有审税核价和查限购这个环节，因此该段代码可废弃，但如果其他城市有该环节，可使用		* */
+		// 审税时间
+		if (caseInfo.getTaxTime() != null) {
 			String taxTime = format.format(caseInfo.getTaxTime());
 			reVo.setTaxTime(taxTime);
 		} // 核价时间
@@ -1046,7 +1049,8 @@ public class CaseDetailController {
 		if (caseInfo.getRealPlsTime() != null) {
 			String realPlsTime = format.format(caseInfo.getRealPlsTime());
 			reVo.setRealPlsTime(realPlsTime);
-		} */// 领证时间
+		}
+		// 领证时间
 		if (caseInfo.getRealPropertyGetTime() != null) {
 			String realPropertyGetTime = format.format(caseInfo.getRealPropertyGetTime());
 			reVo.setRealPropertyGetTime(realPropertyGetTime);
@@ -1056,18 +1060,18 @@ public class CaseDetailController {
 			reVo.setCloseTime(closeTime);
 		}
 		// 房屋性质
-		/*if (caseInfo.getHouseProperty() != null) {
+		if (caseInfo.getHouseProperty() != null) {
 			String houseProperty = uamBasedataService.getDictValue(TransDictEnum.TFWXZ.getCode(),
 					caseInfo.getHouseProperty());
 			reVo.setHouseProperty(houseProperty);
-		}*/
+		}
 		// 还款方式
 		if (caseInfo.getCloseType() != null) {
 			String closeType = uamBasedataService.getDictValue(TransDictEnum.THKFS.getCode(), caseInfo.getCloseType());
 			reVo.setCloseType(closeType);
 		}
 		// 购房年数
-		/*if (caseInfo.getHoldYear() != null) {
+		if (caseInfo.getHoldYear() != null) {
 			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), caseInfo.getHoldYear());
 			reVo.setHoldYear(holdYear);
 		} // 房屋性质
@@ -1080,7 +1084,8 @@ public class CaseDetailController {
 			String isUniqueHome = uamBasedataService.getDictValue(TransDictEnum.TWYZF.getCode(),
 					caseInfo.getIsUniqueHome());
 			reVo.setIsUniqueHome(isUniqueHome);
-		} */// 户口情况
+		}
+		// 户口情况
 		if (caseInfo.getIsHukou() != null) {
 			String isHukou = uamBasedataService.getDictValue(TransDictEnum.THKQK.getCode(), caseInfo.getIsHukou());
 			reVo.setIsHukou(isHukou);
