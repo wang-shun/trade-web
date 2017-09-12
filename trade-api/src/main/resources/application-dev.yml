@@ -77,7 +77,7 @@ mybatis:
 ## redis配置
 redis:
   cluster:
-    nodes: '10.1.30.104:1000,10.1.30.104:2010,10.1.30.104:1010,10.1.30.104:3000,10.1.30.104:2000,10.1.30.104:3010'
+    nodes: 'redis01:5000,redis02:5001,redis03:5002,redis04:5003,redis05:5004,redis06:5005'
     max-redirects: 5
   maxIdle: 100
   maxTotal: 600
@@ -85,4 +85,4 @@ redis:
 #swagger
 swagger:
   #不配置的话 会导致部署到服务器上 自动生成本机的host无法进行代理,配置需要加上端口
-  host: localhost:8083
+  host: 10.1.30.104
