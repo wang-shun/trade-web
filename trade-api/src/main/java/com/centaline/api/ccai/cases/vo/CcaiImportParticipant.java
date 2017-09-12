@@ -1,5 +1,6 @@
 package com.centaline.api.ccai.cases.vo;
 
+import com.centaline.api.validate.group.NormalGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotBlank;
@@ -48,7 +49,7 @@ public class CcaiImportParticipant {
 	private String grpMgrRealName;
 	@ApiModelProperty(value = "部门主管手机号", required = true, position = 8)
 	private String grpMgrMobile;
-
+	@NotBlank(message = "指派ID不能为空",groups = {NormalGroup.class})
 	public String getAssignId() {
 		return assignId;
 	}
@@ -57,7 +58,7 @@ public class CcaiImportParticipant {
 		this.assignId = assignId;
 	}
 
-	@NotBlank(message = "参与人类型不能为空")
+	@NotBlank(message = "类型不能为空")
 	public String getPosition() {
 		return position;
 	}
@@ -65,7 +66,7 @@ public class CcaiImportParticipant {
 	public void setPosition(String position) {
 		this.position = position;
 	}
-
+	@NotBlank(message = "域账号/工号不能为空")
 	public String getUserName() {
 		return userName;
 	}
@@ -73,7 +74,7 @@ public class CcaiImportParticipant {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
+	@NotBlank(message = "名称不能为空")
 	public String getRealName() {
 		return realName;
 	}
@@ -89,7 +90,7 @@ public class CcaiImportParticipant {
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
-
+	@NotBlank(message = "部门HROC不能为空",groups = {NormalGroup.class})
 	public String getGrpCode() {
 		return grpCode;
 	}
@@ -97,7 +98,7 @@ public class CcaiImportParticipant {
 	public void setGrpCode(String grpCode) {
 		this.grpCode = grpCode;
 	}
-
+	@NotBlank(message = "部门名称不能为空",groups = {NormalGroup.class})
 	public String getGrpName() {
 		return grpName;
 	}
@@ -105,7 +106,7 @@ public class CcaiImportParticipant {
 	public void setGrpName(String grpName) {
 		this.grpName = grpName;
 	}
-
+	@NotBlank(message = "部门主管域账号/工号不能为空",groups = {NormalGroup.class})
 	public String getGrpMgrUserName() {
 		return grpMgrUserName;
 	}

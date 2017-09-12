@@ -27,6 +27,7 @@
         <jsoup.version>1.7.3</jsoup.version>
         <tomcat.warFile>trade-api</tomcat.warFile>
         <springfox-version>2.6.1</springfox-version>
+        <servlet.version>3.0.1</servlet.version>
         <skipTests>true</skipTests>
     </properties>
 
@@ -201,12 +202,12 @@
             <version>${springfox-version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- swagger 校验  -->
+        <!-- swagger 校验
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-bean-validators</artifactId>
             <version>${springfox-version}</version>
-        </dependency>
+        </dependency>-->
         <!-- swagger ui  -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -218,6 +219,13 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>18.0</version>
+        </dependency>
+        <!--打包用-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>

@@ -2,11 +2,13 @@ package com.centaline.api.ccai.cases.web.v1;
 
 import com.aist.common.exception.BusinessException;
 import com.centaline.api.ccai.cases.service.CcaiService;
+import com.centaline.api.ccai.cases.vo.CcaiImportAttachment;
 import com.centaline.api.ccai.cases.vo.CcaiImportCase;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
 import com.centaline.api.ccai.cases.vo.CcaiImportParticipant;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import com.centaline.api.enums.CaseSyncParticipantEnum;
+import com.centaline.api.validate.group.NormalGroup;
 import com.centaline.trans.apilog.service.ApiLogService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +23,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.groups.Default;
+import java.util.Set;
 
 /**
  * 案件同步相关Controller
@@ -60,15 +68,14 @@ public class CaseSyncController {
 	@RequestMapping(value = "/caseSync.json", method = RequestMethod.POST,produces = {"application/json","application/json;charset=UTF-8"})
 	public CcaiServiceResult caseImport(
 			@ApiParam(name = "案件信息", value = "需要同步的案件信息", required = true)
-			@Valid @RequestBody CcaiImportCase acase, Errors errors) {
+			@Valid @RequestBody CcaiImportCase acase, Errors errors, HttpServletRequest request) {
 
 		CcaiServiceResult result = new CcaiServiceResult();
 		ObjectMapper mapper = new ObjectMapper();
 		StringBuilder msg = new StringBuilder();
 		if (errors.hasErrors()) {
 			for (ObjectError err : errors.getAllErrors()) {
-				msg.append(err.getDefaultMessage());
-				msg.append("\r\n");
+				msg.append(err.getDefaultMessage()).append("\r\n");
 			}
 			result.setSuccess(false);
 			result.setMessage(msg.toString());
@@ -91,7 +98,7 @@ public class CaseSyncController {
 			String data = mapper.writeValueAsString(acase);
 			logger.debug("sync get data:" + data);
 			apiLogService.apiLog(SYNC_MODULE, "/api/ccai/v1/caseSync.json", data, mapper.writeValueAsString(result)
-					, result.isSuccess() ? "0" : "1", SecurityUtils.getSubject().getSession().getHost());
+					, result.isSuccess() ? "0" : "1", getHost(request));
 		} catch (JsonProcessingException e) {
 		}
 		return result;
@@ -114,14 +121,14 @@ public class CaseSyncController {
 	@ResponseBody
 	public CcaiServiceResult caseUpdate(@PathVariable String type,
 			@ApiParam(name = "案件信息", value = "本次修改的案件信息", required = true)
-			@RequestBody CcaiImportCase ucase) {
-
+			@RequestBody CcaiImportCase ucase,HttpServletRequest request) {
 		CcaiServiceResult result = new CcaiServiceResult();
 		ObjectMapper mapper = new ObjectMapper();
-		if (ucase == null || StringUtils.isBlank(ucase.getCcaiCode())) {
+		if (ucase == null || StringUtils.isBlank(ucase.getCcaiCode())
+				|| StringUtils.isBlank(ucase.getCity())) {
 			result.setSuccess(false);
 			result.setCode("99");
-			result.setMessage("未获取到要修改的案件信息或成交报告编号!");
+			result.setMessage("未获取到要修改的案件信息或成交报告编号或城市!");
 		} else {
 			try {
 				if (UPDATE_TYPE_NORMAL.equals(type)) {
@@ -145,7 +152,7 @@ public class CaseSyncController {
 			String data = mapper.writeValueAsString(ucase);
 			logger.debug("sync get data:" + data);
 			apiLogService.apiLog(UPDATE_MODULE, "/api/ccai/v1/caseUpdate/" + type + ".json", data, mapper.writeValueAsString(result)
-					, result.isSuccess() ? "0" : "1", SecurityUtils.getSubject().getSession().getHost());
+					, result.isSuccess() ? "0" : "1", getHost(request));
 		} catch (JsonProcessingException e) {
 		}
 		return result;
@@ -163,43 +170,47 @@ public class CaseSyncController {
 			result.setCode("99");
 			result.setMessage("数据格式不正确");
 		}else{
+			//Hibernate Validator 注解校验
+			Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 			StringBuilder msg = new StringBuilder();//拼接错误信息
 			//基本信息校验
 			cityCodeCheck(acase.getCity(),msg,"城市编码不正确");
 			if(ccaiService.isExistCcaiCode(acase.getCcaiCode())){
-				msg.append("成交报告[")
-						.append(acase.getCcaiCode())
-						.append("]编号已存在!\r\n");
+				msg.append("成交报告[").append(acase.getCcaiCode()).append("]编号已存在!\r\n");
 			}
 			boolean hasAgent = false,hasWarrant = false,hasSecretary=false;
-			if(acase.getParticipants()==null || acase.getParticipants().size()<2){
+			if(acase.getParticipants()==null || acase.getParticipants().size()<3){
 				msg.append("案件参与人信息不完整，请查证!\r\n");
 			}else{
 				//案件参与人校验
 				for(CcaiImportParticipant pa : acase.getParticipants()){
 					if(CaseSyncParticipantEnum.AGENT.getCode().equals(pa.getPosition())){
 						//经纪人校验
-						participantCheck(pa,msg,"经纪人");
+						buildErrorMessage(validator.validate(pa, NormalGroup.class, Default.class),msg,"经纪人");
+						// participantCheck(pa,msg,"经纪人");
 						hasAgent = true;
 					}else if(CaseSyncParticipantEnum.WARRANT.getCode().equals(pa.getPosition())){
 						//过户权证校验
-						participantCheck(pa,msg,"过户权证");
+						buildErrorMessage(validator.validate(pa, NormalGroup.class, Default.class),msg,"过户权证");
+						// participantCheck(pa,msg,"过户权证");
 						hasWarrant = true;
+					}else if(CaseSyncParticipantEnum.LOAN.getCode().equals(pa.getPosition())){
+						//贷款权证
+						buildErrorMessage(validator.validate(pa, NormalGroup.class, Default.class),msg,"贷款权证");
 					}else if(CaseSyncParticipantEnum.SECRETARY.getCode().equals(pa.getPosition())){
 						//秘书校验
-						participantCheck(pa,msg,"秘书");
+						buildErrorMessage(validator.validate(pa, Default.class),msg,"秘书");
+						// participantCheck(pa,msg,"秘书");
 						hasSecretary = true;
 					}
 				}
 				if(!hasAgent || !hasWarrant || !hasSecretary){
-					msg.append("至少要有一个经纪人和过户权证和秘书信息!\r\n");
+					msg.append("至少要有经纪人、过户权证和秘书信息!\r\n");
 				}
 			}
 			
 			//房源信息校验
-			checkBlank(acase.getProperty(),"id","房源ID不能为空",msg);
-			checkBlank(acase.getProperty(),"code","房源编码不能为空",msg);
-			checkBlank(acase.getProperty(),"district","所属区域不能为空",msg);
+			buildErrorMessage(validator.validate(acase.getProperty()),msg,"");
 			cityCodeCheck(acase.getProperty().getDistrict(),msg,"房源所属区域编码不正确");
 			hasAgent = false;//业主
 			hasWarrant = false;//买家
@@ -208,17 +219,15 @@ public class CaseSyncController {
 				if("30006001".equals(guest.getPosition())){
 					//业主
 					hasAgent = true;
+					buildErrorMessage(validator.validate(guest),msg,"卖家");
 				}else if("30006002".equals(guest.getPosition())){
 					//买家
 					hasWarrant = true;
+					buildErrorMessage(validator.validate(guest),msg,"买家");
 				}
-				checkBlank(guest,"id","客户ID不能为空",msg);
-				checkBlank(guest,"name","客户名称不能为空",msg);
-				checkBlank(guest,"mobile","客户手机不能为空",msg);
-				mobileCheck(guest.getMobile(),msg,"客户手机号不正确，请检查!");
 			}
 			if(!hasAgent || !hasWarrant){
-				msg.append("至少要有一个买家和业主信息!\r\n");
+				msg.append("至少要有一个买家和卖家信息!\r\n");
 			}
 			if(msg.length()>0){
 				result.setSuccess(false);
@@ -232,64 +241,6 @@ public class CaseSyncController {
 		return result;
 	}
 	/**
-	 * 检查对象指定属性是否为空
-	 * @param bean 检查的对象
-	 * @param property 属性
-	 * @param message 为空拼接信息
-	 * @param builder 信息构造器
-	 * @return
-	 */
-	private void checkBlank(Object bean,String property,String message,StringBuilder builder){
-		try {
-			if(bean == null ) {
-				builder.append(message);
-				builder.append("\r\n");
-				logger.debug("property:"+property+"--empty-"+message);
-			}else{
-				String value = BeanUtils.getProperty(bean, property);
-				if(StringUtils.isBlank(value)){
-					builder.append(message);
-					builder.append("\r\n");
-					logger.debug("property:"+property+"--empty-"+message);
-				}
-			}
-		} catch (Exception e) {
-			logger.error("bean util get property error",e);
-		}
-	}
-	/**
-	 * 参与人校验
-	 * @param pa
-	 * @param msg
-	 * @param position
-	 */
-	private void participantCheck(CcaiImportParticipant pa, StringBuilder msg, String position){
-		checkBlank(pa,"userName",position+"域账号不能为空",msg);
-		checkBlank(pa,"realName",position+"名称不能为空",msg);
-//		checkBlank(pa,"mobile",position+"手机号不能为空",msg); 取消手机号必填选项
-		if(StringUtils.isNotBlank(pa.getMobile())){
-			mobileCheck(pa.getMobile(),msg,position+"手机号不正确，请检查!");
-		}
-		//秘书部检查部门及主管信息
-		if(!CaseSyncParticipantEnum.SECRETARY.getCode().equals(pa.getPosition())){
-			checkBlank(pa,"grpCode",position+"部门HROC不能为空",msg);
-			checkBlank(pa,"grpName",position+"部门名称不能为空",msg);
-			checkBlank(pa,"grpMgrUserName",position+"部门主管域账号不能为空",msg);
-		}
-	}
-	/**
-	 * 手机号码检查
-	 * @param mobile
-	 * @param msg
-	 * @param message
-	 */
-	private void mobileCheck(String mobile,StringBuilder msg,String message){
-		if(StringUtils.isBlank(mobile) || mobile.length()!=11 || !StringUtils.isNumeric(mobile)){
-			msg.append(message);
-			msg.append("\r\n");
-		}
-	}
-	/**
 	 * 城市编码 行政区划校验规则
 	 * @param code
 	 * @param msg
@@ -301,5 +252,39 @@ public class CaseSyncController {
 			msg.append("\r\n");
 		}
 	}
-	
+
+	/**
+	 * 根据将校验信息的结果拼接到传入的msgBuilder中，
+	 * 如果appendBefore不为null，则拼接到每个错误消息前
+	 * @param validate
+	 * @param msgBuilder
+	 * @param appendBefore
+	 * @param <T>
+	 */
+	private <T> void buildErrorMessage(Set<ConstraintViolation<T>> validates,StringBuilder msgBuilder,String appendBefore){
+		for (ConstraintViolation constraintViolation : validates) {
+			msgBuilder.append(appendBefore).append(constraintViolation.getMessage()).append("\r\n");
+		}
+	}
+
+	/**
+	 * 根据请求 获取正确的客户端地址
+	 * 有
+	 * @param request
+	 * @return
+	 */
+	private String getHost(HttpServletRequest request){
+		String ip = request.getHeader("X-Forwarded-For");
+		if(StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)){
+			//多次反向代理后会有多个ip值，第一个ip才是真实ip
+			int index = ip.indexOf(",");
+			if(index != -1){
+				return ip.substring(0,index);
+			}else{
+				return ip;
+			}
+		}
+		return SecurityUtils.getSubject().getSession().getHost();
+	}
+
 }

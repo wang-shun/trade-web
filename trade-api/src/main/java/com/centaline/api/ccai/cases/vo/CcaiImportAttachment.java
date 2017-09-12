@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * CCAI案件导入附件信息
  *
@@ -25,7 +27,6 @@ public class CcaiImportAttachment {
 	@ApiModelProperty(value = "上传时间", required = true, example = "1503460440000", dataType = "integer", position = 4)
 	private Date uploadTime;
 
-	@NotBlank(message = "附件ID不能为空")
 	public String getId() {
 		return id;
 	}
@@ -34,7 +35,6 @@ public class CcaiImportAttachment {
 		this.id = id;
 	}
 
-	@NotBlank(message = "附件名称不能为空")
 	public String getName() {
 		return name;
 	}
@@ -43,7 +43,6 @@ public class CcaiImportAttachment {
 		this.name = name;
 	}
 
-	@NotBlank(message = "附件类型不能为空")
 	public String getType() {
 		return type;
 	}
@@ -52,7 +51,6 @@ public class CcaiImportAttachment {
 		this.type = type;
 	}
 
-	@NotBlank(message = "附件地址不能为空")
 	public String getUrl() {
 		return url;
 	}
@@ -60,7 +58,6 @@ public class CcaiImportAttachment {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
 	public Date getUploadTime() {
 		return uploadTime;
 	}

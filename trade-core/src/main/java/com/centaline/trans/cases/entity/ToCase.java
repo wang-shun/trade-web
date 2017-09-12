@@ -198,4 +198,34 @@ public class ToCase {
 	public void setDistrictId(String districtId) {
 		this.districtId = districtId;
 	}
+
+	@Override
+	public String toString() {
+		return "ToCase{" +
+				"pkid=" + pkid +
+				", caseCode='" + caseCode + '\'' +
+				", createTime=" + createTime +
+				", status='" + status + '\'' +
+				", caseProperty='" + caseProperty + '\'' +
+				", leadingProcessId='" + leadingProcessId + '\'' +
+				", time='" + time + '\'' +
+				", orgId='" + orgId + '\'' +
+				", loanReq='" + loanReq + '\'' +
+				", closeTime=" + closeTime +
+				", caseOrigin='" + caseOrigin + '\'' +
+				", createBy='" + createBy + '\'' +
+				", updateBy='" + updateBy + '\'' +
+				", updateTime=" + updateTime +
+				", assistantId='" + assistantId + '\'' +
+				", assistantName='" + assistantName + '\'' +
+				", assistantPhone='" + assistantPhone + '\'' +
+				", ccaiId='" + ccaiId + '\'' +
+				", ccaiCode='" + ccaiCode + '\'' +
+				", city='" + city + '\'' +
+				", startDate='" + startDate + '\'' +
+				", endDate='" + endDate + '\'' +
+				", ctmCode='" + ctmCode + '\'' +
+				", districtId='" + districtId + '\'' +
+				'}';
+	}
 }
