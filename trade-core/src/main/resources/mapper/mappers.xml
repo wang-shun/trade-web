@@ -262,5 +262,8 @@
 		<mapper resource="mapper/eval/ToEvalMapper.xml"/>
 		<!--缴税 -->
 		<mapper resource="mapper/task/ToRatePaymentMapper.xml"/>
+		<!--缴税 -->
+		<mapper resource="mapper/cases/ToCaseRecvMapper.xml"/>
+		<mapper resource="mapper/task/AuditCase.xml"/>
 	</mappers>
 </configuration>

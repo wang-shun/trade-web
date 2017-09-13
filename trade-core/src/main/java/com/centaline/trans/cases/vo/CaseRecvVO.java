@@ -3,6 +3,7 @@ package com.centaline.trans.cases.vo;
 import java.util.Date;
 import java.util.List;
 
+import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.cases.entity.ToCaseRecv;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.common.entity.ToCcaiAttachment;
@@ -34,7 +35,8 @@ public class CaseRecvVO {
 //	案件跟进  主要使用的字段
 	/*private String followHistory;
 	private String follow;*/
-	
+//	商代预警
+	private BizWarnInfo bizWarnInfo;
 //	用于修改接收前台的comment
 	private ToCaseComment toCaseComment;
 	
@@ -62,6 +64,7 @@ public class CaseRecvVO {
 		this.toCaseRecv.setCaseCode(caseCode);
 		this.toTax.setCaseCode(caseCode);
 		this.toCaseComment.setCaseCode(caseCode);
+		this.bizWarnInfo.setCaseCode(caseCode);
 				
 	}
 	public ToPropertyInfo getToPropertyInfo() {
@@ -115,6 +118,14 @@ public class CaseRecvVO {
 
 	public void setToCcaiAttachmentsList(List<ToCcaiAttachment> toCcaiAttachmentsList) {
 		this.toCcaiAttachmentsList = toCcaiAttachmentsList;
+	}
+
+	public BizWarnInfo getBizWarnInfo() {
+		return bizWarnInfo;
+	}
+
+	public void setBizWarnInfo(BizWarnInfo bizWarnInfo) {
+		this.bizWarnInfo = bizWarnInfo;
 	}
 
 

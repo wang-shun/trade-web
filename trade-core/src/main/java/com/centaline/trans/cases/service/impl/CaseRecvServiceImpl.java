@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.centaline.trans.bizwarn.entity.BizWarnInfo;
+import com.centaline.trans.bizwarn.repository.BizWarnInfoMapper;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseRecv;
 import com.centaline.trans.cases.repository.ToCaseInfoMapper;
@@ -24,6 +26,7 @@ import com.centaline.trans.task.entity.ToTax;
 import com.centaline.trans.task.repository.ToSignMapper;
 import com.centaline.trans.task.repository.ToTaxMapper;
 
+
 @Service
 public class CaseRecvServiceImpl implements CaseRecvService {
 	@Autowired
@@ -40,12 +43,19 @@ public class CaseRecvServiceImpl implements CaseRecvService {
     private ToCaseCommentMapper toCaseCommentMapper;
     @Autowired
     private ToCcaiAttachmentMapper toCcaiAttachmentMapper;
+    @Autowired
+    private BizWarnInfoMapper bizWarnInfoMapper;
 	@Override
 	public int deleteByPrimaryKey(String caseCode) {
 		return toCaseRecvMapper.deleteByPrimaryKey(caseCode);
 	}
 
-
+	/**
+	 * @author xiefei1
+	 * @since 2017年9月11日 下午1:49:11 
+	 * @description 会先根据caseCode查询CaseRecvVO的每个成员在数据库中是否存在来
+	 * 				判断是用insert or update;
+	 */
 	@Override
 	public void insertSelective(CaseRecvVO caseRecvVO) {	
 		String primaryCaseCode=caseRecvVO.getCaseCode();
@@ -109,6 +119,22 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 			toCaseComment.setCaseCode(primaryCaseCode);
 			toCaseCommentMapper.insertSelective(toCaseComment);			
 		}
+		
+		BizWarnInfo bizWarnInfo = caseRecvVO.getBizWarnInfo();
+		if(null!=bizWarnInfo){
+			BizWarnInfo selectByCaseCode = bizWarnInfoMapper.selectByCaseCode(primaryCaseCode);
+			if(null!=selectByCaseCode){
+				selectByCaseCode.setStatus(bizWarnInfo.getStatus());
+				selectByCaseCode.setContent(bizWarnInfo.getContent());
+				bizWarnInfoMapper.updateByCaseCode(selectByCaseCode);
+				bizWarnInfoMapper.updateStatusByCaseCode(selectByCaseCode);
+			}else{
+				bizWarnInfoMapper.insertSelective(bizWarnInfo);
+			}
+		}
+		
+		
+		
 //		业务没有insert attachment 需要
 //		ToCcaiAttachment toCcaiAttachment = caseRecvVO.getToCcaiAttachment();
 //		if(null!=toCcaiAttachment){
@@ -121,7 +147,13 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 	public ToCaseRecv selectByPrimaryKey(String caseCode) {	
 		return toCaseRecvMapper.selectByPrimaryKey(caseCode);
 	}
-
+	
+	/**
+	 * @author xiefei1
+	 * @since 2017年9月11日 下午1:49:11 
+	 * @description 会先根据caseCode查询CaseRecvVO的每个成员在数据库中是否存在来
+	 * 				判断是用insert or update;
+	 */
 	@Override
 	public void updateByPrimaryKeySelective(CaseRecvVO caseRecvVO) {
 		String primaryCaseCode=caseRecvVO.getCaseCode();
@@ -185,6 +217,19 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 			toCaseComment.setCaseCode(primaryCaseCode);
 			toCaseCommentMapper.insertSelective(toCaseComment);			
 		}
+		
+		BizWarnInfo bizWarnInfo = caseRecvVO.getBizWarnInfo();
+		if(null!=bizWarnInfo){
+			BizWarnInfo selectByCaseCode = bizWarnInfoMapper.selectByCaseCode(primaryCaseCode);
+			if(null!=selectByCaseCode){
+				selectByCaseCode.setStatus(bizWarnInfo.getStatus());
+				selectByCaseCode.setContent(bizWarnInfo.getContent());
+				bizWarnInfoMapper.updateByCaseCode(selectByCaseCode);
+				bizWarnInfoMapper.updateStatusByCaseCode(selectByCaseCode);
+			}else{
+				bizWarnInfoMapper.insertSelective(bizWarnInfo);
+			}
+		}
 
 	}
 
@@ -198,6 +243,7 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(caseCode);
 		//解决payType
 		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
+		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(caseCode);
 		
 		ToTax toTax = toTaxMapper.findToTaxByCaseCode(caseCode);
 		List<ToCaseComment> toCaseCommentsList = toCaseCommentMapper.getToCaseCommentListByCaseCode(caseCode);
@@ -206,6 +252,7 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 		caseRecvVO.setToCaseRecv(toCaseRecv);
 		caseRecvVO.setToSign(toSign);
 		caseRecvVO.setToPropertyInfo(toPropertyInfo);
+		caseRecvVO.setBizWarnInfo(bizWarnInfo);
 		//解决payType
 		if(null!=toCaseInfo.getPayType()){
 			caseRecvVO.setPayType(toCaseInfo.getPayType());			

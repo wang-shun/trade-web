@@ -38,7 +38,7 @@
 <link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
 <!--弹出框样式  -->
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
-
+<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var coworkService = "${firstFollow.coworkService }";
@@ -50,7 +50,7 @@
 	var taskitem = "${taskitem}";
 	
 	//var caseCode = "${caseCode}";
-	var caseCode = "ZY-TJ-2017080038";
+	
 	
 	var processInstanceId = "${processInstanceId}";
 	var approveType = "${approveType }";
@@ -142,6 +142,228 @@ var AttachmentList = (function(){
     };    
 })(); 
 </script>
+<script type="text/javascript">
+//显示附件图片
+function showAttachment(url){
+	window.open(url);
+	
+}
+//提交数据
+function submit() {					
+	save(true);
+}
+
+//保存数据
+function save(b) {
+	if(b){
+		if (!checkForm()) {
+			return;
+		}													
+	}
+	
+	var jsonData = $("#firstFollowform").serializeArray();
+	
+	var result = ''
+	$("span.selected[name='srvCode']").each(function() {
+		result += $(this).attr('value') + ',';
+	});
+	var obj = {
+		name : 'srvCode',
+		value : result.substring(0, result.length - 1)
+	};
+	jsonData.push(obj);
+
+	for (var i = 0; i < jsonData.length; i++) {
+		var item = jsonData[i];
+		if (item["name"] == 'cooperationUser'
+				&& (item["value"] == 0 || item["value"] == -1)) {
+			delete jsonData[parseInt(i)];
+		}
+	}
+
+	var url = "${ctx}/task/caseRecvFollow/save";
+	if (b) {
+		url = "${ctx}/task/caseRecvFollow/submit";
+	}
+	
+	$.ajax({
+        cache : true,
+        async : false,
+        type : "POST",
+        url : url,
+        dataType : "json",
+        data : jsonData,
+        beforeSend : function() {
+            $.blockUI({
+                message : $("#salesLoading"),
+                css : {
+                    'border' : 'none',
+                    'z-index' : '9999'
+                }
+            });
+            $(".blockOverlay").css({
+                'z-index' : '9998'
+            });
+        },
+        success: function(data){
+            $.unblockUI();
+            console.log(data);
+            if (b) {
+                if (data.message) {
+                    window.wxc.alert(data.message);
+                }
+            }else{
+            	if (data.message) {
+                    window.wxc.alert(data.message);
+                }
+            }
+        }
+    });
+}
+
+//double验证
+function checkNum(obj) {
+	//先把非数字的都替换掉，除了数字和.
+	obj.value = obj.value.replace(/[^\d.]/g, "");
+	//必须保证第一个为数字而不是.
+	obj.value = obj.value.replace(/^\./g, "");
+	//保证只有出现一个.而没有多个.
+	obj.value = obj.value.replace(/\.{2,}/g, ".");
+	//保证.只出现一次，而不能出现两次以上
+	obj.value = obj.value.replace(".", "$#$").replace(/\./g, "")
+			.replace("$#$", ".");
+}
+
+//验证控件checkUI();
+function checkForm() {
+	if($("#distCode").val()==0){
+		window.wxc.alert("区域为必选项!");
+		$("#distCode").focus();
+		$("#distCode").css("border-color","red");
+		return false;
+	}
+	
+	if(!$("#square").val()){
+		window.wxc.alert("产证面积为必选项!");
+		$("#square").focus();
+		$("#square").css("border-color","red");
+		return false;
+	}
+	
+	
+	if (!$("#propertyAddr").val()) {
+			window.wxc.alert("产证地址为必填项!");
+			$("#propertyAddr").focus();
+			$("#propertyAddr").css("border-color", "red");
+			return false;
+		}
+
+	if ($('input[name=realPrice]').val() == '') {
+		window.wxc.alert("成交价为必填项!");
+		$('input[name=realPrice]').focus();
+		$('input[name=realPrice]').css("border-color", "red");
+		return false;
+	}
+
+	if ($('input[name=conPrice]').val() == '') {
+		window.wxc.alert("合同价为必填项!");
+		$('input[name=conPrice]').focus();
+		$('input[name=conPrice]').css("border-color", "red");
+		return false;
+	}
+	
+	if($("#estEvlApplyTime").val()==0){
+		window.wxc.alert("评估申请时间为必选项!");
+		$("#estEvlApplyTime").focus();
+		$("#estEvlApplyTime").css("border-color","red");
+		return false;
+	}
+	
+	if($("#estSignTime").val()==0){
+		window.wxc.alert("网签时间为必选项!");
+		$("#estSignTime").focus();
+		$("#estSignTime").css("border-color","red");
+		return false;
+	}
+	
+	if($("#purchaseHouseNo").val()==0){
+		window.wxc.alert("购房套数为必选项!");
+		$("#purchaseHouseNo").focus();
+		$("#purchaseHouseNo").css("border-color","red");
+		return false;
+	}
+	
+	if($("#marriageStatus").val()==0){
+		window.wxc.alert("婚姻情况为必选项!");
+		$("#marriageStatus").focus();
+		$("#marriageStatus").css("border-color","red");
+		return false;
+	}
+	
+	if($("#familyStatus").val()==0){
+		window.wxc.alert("家庭情况为必选项!");
+		$("#familyStatus").focus();
+		$("#familyStatus").css("border-color","red");
+		return false;
+	}
+	
+	if($("#payType").val()==0){
+		window.wxc.alert("付款方式为必选项!");
+		$("#payType").focus();
+		$("#payType").css("border-color","red");
+		return false;
+	}
+	
+	if($("#huji").val()==0){
+		window.wxc.alert("户籍为必选项!");
+		$("#huji").focus();
+		$("#huji").css("border-color","red");
+		return false;
+	}
+	
+	if($("#houseSubsidy").val()==0){
+		window.wxc.alert("住房补贴为必选项!");
+		$("#houseSubsidy").focus();
+		$("#houseSubsidy").css("border-color","red");
+		return false;
+	}
+	
+	if($("#houseFrom").val()==0){
+		window.wxc.alert("房屋来源为必选项!");
+		$("#houseFrom").focus();
+		$("#houseFrom").css("border-color","red");
+		return false;
+	}
+	
+	if($("#mortInfo").val()==0){
+		window.wxc.alert("抵押信息为必选项!");
+		$("#mortInfo").focus();
+		$("#mortInfo").css("border-color","red");
+		return false;
+	}
+	
+	if($("#evalApplyTime").val()==0){
+		window.wxc.alert("预计清尾完成时间为必选项!");
+		$("#evalApplyTime").focus();
+		$("#evalApplyTime").css("border-color","red");
+		return false;
+	}
+	
+	if($("#isUniqueHome").val()==0){
+		window.wxc.alert("房屋套数为必选项!");
+		$("#isUniqueHome").focus();
+		$("#isUniqueHome").css("border-color","red");
+		return false;
+	}
+	
+		return true;
+	}
+
+	$("input[type='text'],select").focus(function() {
+		$(this).css("border-color", "rgb(229, 230, 231)");
+	});
+
+</script>
 <style type="text/css">
 .radio.radio-inline > label{margin-left:10px;}
 .radio.radio-inline > input{margin-left:10px;}
@@ -161,7 +383,7 @@ var AttachmentList = (function(){
 		<div class="row wrapper white-bg new-heading" id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
-                        	首次跟进
+                        	接单跟进
                  </h2>
                 <div class="mt20">
                     <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
@@ -182,7 +404,7 @@ var AttachmentList = (function(){
             		<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+					<input type="hidden" id="caseCode" name="caseCode" value="${caseRecvVO.caseCode}">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
@@ -203,20 +425,20 @@ var AttachmentList = (function(){
 		                <div class="line">
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>所在区域 </label>
-                                <aist:dict clazz="select_control data_style" id="distCode" name="distCode" display="select" defaultvalue="${firstFollow.distCode}" dictType="yu_shanghai_district" />
+                                <aist:dict clazz="select_control data_style" id="distCode" name="distCode" display="select" defaultvalue="${caseRecvVO.toPropertyInfo.distCode}" dictType="yu_shanghai_district" />
 		                     </div>
 		                     
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>成交价 </label>
 		                        <input type="text" placeholder="成交价" class="input_type yuanwid" id="realPrice" name="realPrice" onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value='${ firstFollow.realPrice}' type='number' pattern='#0.00'/>"> 
+										value="<fmt:formatNumber value='${caseRecvVO.toSign.realPrice}' type='number' pattern='#0.00'/>"> 
 		                       	<span class="date_icon">万元</span>
 		                    </div>
 		                    
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>合同价 </label> 
 		                        <input type="text" placeholder="合同价" class="input_type yuanwid" id="conPrice" name="conPrice" onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value='${ firstFollow.conPrice}' type='number' pattern='#0.00'/>">
+										value="<fmt:formatNumber value='${caseRecvVO.toSign.conPrice}' type='number' pattern='#0.00'/>">
 		                        <span class="date_icon">万元</span>
 		                    </div>		                     
 		                </div>
@@ -224,13 +446,13 @@ var AttachmentList = (function(){
 		                <div class="line">
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>产证面积 </label> 
-		                        <input type="text" class="input_type data_style" id="square" name="square" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${firstFollow.square}' type='number' pattern='#0.0#' />">
+		                        <input type="number" class="input_type data_style" id="square" name="square" onkeyup="checkNum(this)"
+								value="<fmt:formatNumber value='${caseRecvVO.toPropertyInfo.square}' type='number' pattern='#0.0#' />">
 		                        <span class="date_icon">平方米</span>
 		                    </div>
                             <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>产证地址 </label> 
-                                <input type="text" class="input_type mendwidth" id="propertyAddr" name="propertyAddr" value="${firstFollow.propertyAddr}">
+                                <input type="text" class="input_type mendwidth" id="propertyAddr" name="propertyAddr" value="${caseRecvVO.toPropertyInfo.propertyAddr}">
                             </div>
 		                </div>
 
@@ -247,8 +469,8 @@ var AttachmentList = (function(){
 		                           	<font color=" red" class="mr5" >*</font>评估申请时间
 		                        </label>
 		                        <div class="input-group sign-right dataleft input-daterange pull-left" id="data_1" data-date-format="yyyy-mm-dd">
-		                        	<input type="text" class="input_type yuanwid datatime" id="evalApplyTime" name="realConTime" onfocus="this.blur()"
-												value="<fmt:formatDate  value='${firstFollow}' type='both' pattern='yyyy-MM-dd'/>">
+		                        	<input type="text" class="input_type yuanwid datatime" id="evalApplyTime" name="estEvlApplyTime" onfocus="this.blur()"
+												value="<fmt:formatDate  value='${caseRecvVO.toCaseRecv.estEvlApplyTime}' type='both' pattern='yyyy-MM-dd'/>">
 		                        </div> 
 		                    </div>
 		                    
@@ -257,8 +479,8 @@ var AttachmentList = (function(){
 		                           	<font color=" red" class="mr5" >*</font>网签时间
 		                        </label>
 		                        <div class="input-group sign-right dataleft input-daterange pull-left" id="data_1" data-date-format="yyyy-mm-dd">
-		                        	<input type="text" class="input_type yuanwid datatime" id="signTime" name="realConTime" onfocus="this.blur()"
-												value="<fmt:formatDate  value='${firstFollow}' type='both' pattern='yyyy-MM-dd'/>">
+		                        	<input type="text" class="input_type yuanwid datatime" id="estSignTime" name="estSignTime" onfocus="this.blur()"
+												value="<fmt:formatDate  value='${caseRecvVO.toCaseRecv.estSignTime}' type='both' pattern='yyyy-MM-dd'/>">
 		                        </div> 
 		                    </div>
 		                    
@@ -267,8 +489,8 @@ var AttachmentList = (function(){
 		                           	面签时间
 		                        </label>
 		                        <div class="input-group sign-right dataleft input-daterange pull-left" id="data_1" data-date-format="yyyy-mm-dd">
-		                        	<input type="text" class="input_type yuanwid datatime" id="f2fSignTime" name="realConTime" onfocus="this.blur()"
-												value="<fmt:formatDate  value='${firstFollow}' type='both' pattern='yyyy-MM-dd'/>">
+		                        	<input type="text" class="input_type yuanwid datatime" id="estF2fSignTime" name="estF2fSignTime" onfocus="this.blur()"
+												value="<fmt:formatDate  value='${caseRecvVO.toCaseRecv.estF2fSignTime}' type='both' pattern='yyyy-MM-dd'/>">
 		                        </div> 
 		                    </div>
 		                </div>
@@ -281,51 +503,51 @@ var AttachmentList = (function(){
 					<div class="line">
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>购房套数</label>
-                                <aist:dict clazz="select_control data_style" id="numberOfBuyHouse" name="numberOfBuyHouse" display="select" defaultvalue="${firstFollow.distCode}" dictType="61000" />
+                                <aist:dict clazz="select_control data_style" id="purchaseHouseNo" name="purchaseHouseNo" display="select" defaultvalue="${caseRecvVO.toPropertyInfo.distCode}" dictType="61000" />
 		                     </div>
 		                     
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>贷款套数 </label>
-                                <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select"  dictType="61000" />
+                                <aist:dict clazz="select_control data_style" id="loanHouseNo" name="loanHouseNo" display="select" defaultvalue="${caseRecvVO.toCaseRecv.loanHouseNo}" dictType="61000" />
 		                     </div>
 		                     
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>婚姻情况 </label>
-                                <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select"  dictType="61001" />
+                                <aist:dict clazz="select_control data_style" id="marriageStatus" name="marriageStatus" defaultvalue="${caseRecvVO.toCaseRecv.marriageStatus}" display="select"  dictType="61001" />
 		                     </div>      
 		                </div>
 					
 					<div class="line">
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>家庭情况</label>
-                                <aist:dict clazz="select_control data_style" id="numberOfBuyHouse" name="numberOfBuyHouse" display="select" defaultvalue="${firstFollow.distCode}" dictType="61002" />
+                                <aist:dict clazz="select_control data_style" id="familyStatus" name="familyStatus" display="select" defaultvalue="${caseRecvVO.toCaseRecv.familyStatus}" dictType="61002" />
 		                     </div>
 		                     
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>付款方式 </label>
-                                <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select"  dictType="61003" />
+                                <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select" defaultvalue="${caseRecvVO.payType}" dictType="61003" />
 		                     </div>
 		                     
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>评估</label>
-                                <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select"  dictType="61005" />
+                                <aist:dict clazz="select_control data_style" id="evalByWho" name="evalByWho" defaultvalue="${caseRecvVO.toCaseRecv.evalByWho}" display="select"  dictType="61005" />
 		                     </div>      
 		                </div>
 		                
 		           <div class="line">
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>户籍</label>
-                                <aist:dict clazz="select_control data_style" id="numberOfBuyHouse" name="numberOfBuyHouse" display="select" defaultvalue="${firstFollow.distCode}" dictType="61006" />
+                                <aist:dict clazz="select_control data_style" id="huji" name="huji" display="select" defaultvalue="${caseRecvVO.toCaseRecv.huji}" dictType="61006" />
 		                     </div>
 		                     
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>社保 </label>
-                                <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select"  dictType="61007" />
+                                <aist:dict clazz="select_control data_style" id="societySecuretyYears" name="societySecuretyYears" defaultvalue="${caseRecvVO.toCaseRecv.societySecuretyYears}" display="select"  dictType="61007" />
 		                     </div>
 		                     
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>税单</label>
-                                <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select"  dictType="61008" />
+                                <aist:dict clazz="select_control data_style" id="taxSecuretyYears" name="taxSecuretyYears" defaultvalue="${caseRecvVO.toCaseRecv.taxSecuretyYears}" display="select"  dictType="61008" />
 		                     </div>      
 		                </div>
 
@@ -334,40 +556,31 @@ var AttachmentList = (function(){
 							<label class="control-label sign_left_small"><font
 								color=" red" class="mr5">*</font>住房补贴</label>
 							<aist:dict clazz="select_control data_style"
-								id="numberOfBuyHouse" name="numberOfBuyHouse" display="select"
-								defaultvalue="${firstFollow.distCode}" dictType="61009" />
+								id="houseSubsidy" name="houseSubsidy" display="select"
+								defaultvalue="${caseRecvVO.toCaseRecv.houseSubsidy}" dictType="61009" />
 						</div>
 
-						<div class="form_content">
-							<label class="control-label sign_left_small"><font
-								color=" red" class="mr5">*</font>商贷预警 </label>
-							<aist:dict clazz="select_control data_style" id="payType"
-								name="payType" display="select" dictType="61000" />
-						</div>
 					</div>
 					
 					 <div class="line alerted">
 	                     <div class="form_content" style="width:260.16px;">
-	                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>商贷预警 </label>
+	                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>贷款预警 </label>
 	                        <div class="controls">
 	                        	<label class="radio inline"> 
-	                        		<input type="radio" value="true" id="optionsRadios1" name="businessLoanWarn" <c:if test="${!empty bizWarnInfo }">checked="checked"</c:if>>是
+	                        		<input type="radio" value="1" id="optionsRadios1" name="businessLoanWarn" <c:if test="${!empty caseRecvVO.bizWarnInfo.content}">checked="checked"</c:if>>是
 								</label>
 								<label class="radio inline"> 
-									<input type="radio" <c:if test="${empty bizWarnInfo }">checked="checked"</c:if> value="false" id="optionsRadios2" name="businessLoanWarn">否
+									<input type="radio" <c:if test="${empty caseRecvVO.bizWarnInfo.content }">checked="checked"</c:if> value="0" id="optionsRadios2" name="businessLoanWarn">否
 								</label>
 	                        </div>
 	                    </div>
-	                    
-	                   
-		                <div class="form_content" id="xzzl" ></div>
-		                
+                
 	                </div>
 	                               
-	                <div class="line warncon"  id="divContent" <c:if test="${empty bizWarnInfo }">style="display:none;"</c:if>>
+	                <div class="line warncon"  id="divContent" <c:if test="${empty caseRecvVO.bizWarnInfo.content}">style="display:none;"</c:if>>
 	                    <div class="form_content clearfix">
 	                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>预警内容 </label> 
-	                        <input type="text" class="mendwidth input_type" id="content" name="content" value="${bizWarnInfo.content }" style="width:500px;">
+	                        <input type="text" class="mendwidth input_type" id="loanWarn" name="loanWarn" value="${caseRecvVO.bizWarnInfo.content}" style="width:500px;">
 	                    </div>
 	                </div>
 
@@ -381,17 +594,17 @@ var AttachmentList = (function(){
 					<div class="line">
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房屋来源</label>
-                                <aist:dict clazz="select_control data_style" id="numberOfBuyHouse" name="numberOfBuyHouse" display="select" defaultvalue="${firstFollow.distCode}" dictType="61010" />
+                                <aist:dict clazz="select_control data_style" id="houseFrom" name="houseFrom" display="select" defaultvalue="${caseRecvVO.toCaseRecv.houseFrom}" dictType="61010" />
 		                     </div>
 		                     
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>抵押信息</label>
-                                <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select"  dictType="61011" />
+                                <aist:dict clazz="select_control data_style" id="mortInfo" name="mortInfo" defaultvalue="${caseRecvVO.toCaseRecv.houseFrom}" display="select"  dictType="61011" />
 		                     </div>
 		                     
 		                     <div class="form_content mt3">
 		                        <label class="control-label sign_left_small select_style mend_select">
-		                           	<font color=" red" class="mr5" >*</font>预计清尾完成时间
+		                           	<font color=" red" class="mr5" >*</font>预计清尾时间
 		                        </label>
 		                        <div class="input-group sign-right dataleft input-daterange pull-left" id="estFinishTime" data-date-format="yyyy-mm-dd">
 		                        	<input type="text" class="input_type yuanwid datatime" id="evalApplyTime" name="estFinishTime" onfocus="this.blur()"
@@ -403,12 +616,14 @@ var AttachmentList = (function(){
 					<div class="line">
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房屋套数</label>
-                                <aist:dict clazz="select_control data_style" id="numberOfBuyHouse" name="numberOfBuyHouse" display="select" defaultvalue="${firstFollow.distCode}" dictType="61012" />
+                                <aist:dict clazz="select_control data_style" id="isUniqueHome" name="isUniqueHome" defaultvalue="${caseRecvVO.toTax.isUniqueHome}" display="select"  dictType="61012" />
 		                     </div>
 		                     
 		                     <div class="form_content">
-                                <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>原购入价格 </label>
-                                <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select"  dictType="61000" />
+                                <label class="control-label sign_left_small">原购入价格 </label>
+                                <input type="text" placeholder="成交价" class="input_type yuanwid" id="oriPrice" name="oriPrice" onkeyup="checkNum(this)"
+										value="<fmt:formatNumber value='${caseRecvVO.toCaseRecv.oriPrice}' type='number' pattern='#0.00'/>"> 
+		                       	<span class="date_icon">万元</span>
 		                     </div>
 		                     
 		                      
@@ -417,17 +632,7 @@ var AttachmentList = (function(){
 		          
 
 				</div>
-		            
-	                <div class="line sourcebox">
-	                    <div class="form_content clearfix">
-	                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>无效原因 </label> 
-	                        <input type="text" class="mendwidth input_type" id="invalid_reason" name="invalid_reason" 
-									value="${houseTransfer.invalid_reason}">
-	                    </div>
-	                </div>
-	                
-	               
-                
+              
 	                <div class="hr"></div>
 	                
 	                <!-- <div class="line clearfix" id="hzxm" style="overflow:visible;"></div> -->
@@ -457,8 +662,8 @@ var AttachmentList = (function(){
 			<content tag="local_script"> 
 				<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
 				<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
-				<script src="<c:url value='/transjs/task/loanlostApprove.js' />"></script>
-				<script src="<c:url value='/transjs/task/showAttachment.js' />"></script> 
+				<%-- <script src="<c:url value='/transjs/task/loanlostApprove.js' />"></script> --%>
+				<%-- <script src="<c:url value='/transjs/task/showAttachment.js' />"></script>  --%>
 				<script src="<c:url value='/transjs/common/caseTaskCheck.js' />"></script> 
 				<script	src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> 
 				<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
@@ -484,7 +689,15 @@ var AttachmentList = (function(){
 				<script>
 					$(document).ready(function(){
 						var ctx = $("#ctx").val();
-						
+						if(!$("#caseCode").val()){
+							$("#caseCode").val("ZY-TJ-2017080038");						
+						}
+						var caseCode=$("#caseCode").val();
+						AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}',caseCode);
+						$("#caseCommentList").caseCommentGrid({
+							caseCode : caseCode,
+							srvCode : null
+						});
 						//日历控件
 					    $('.input-daterange').datepicker({
 					        keyboardNavigation: false,
@@ -492,98 +705,6 @@ var AttachmentList = (function(){
 					        autoclose: true
 					    });
 						
-						//选择商贷预警事件
-						$("input[name=businessLoanWarn]").change(function(){
-							var value = this.value;
-							
-							if(value == "true"){
-								$("#divContent").show();
-							}
-							else {
-								$("#divContent").hide();
-							}
-						});
-						
-						TaskFirstFollowValidate.init("firstFollowform","");
-						/*initAssistant();*/
-						initMortageService();
-						/*  字典对应表关系
-							合作项目
-							30004001	商业贷／组合贷
-							30004002	纯公积金贷
-							30004010	交易过户服务（包括审税／核价／查限购／过户／领证）
-							合作项
-							0	无贷款
-							1	商贷／组合贷款（委托中原）
-							2	纯公积金（委托中原）
-							3	商贷／组合贷款（自办）
-							4	纯公积金贷款（自办）
-						 */
-						
-						//监听案件是否有效
-						$("input:radio[name='caseProperty']").change(function (){ 
-							var optionsRadios =  $('input[name=caseProperty]:checked').val(); 
-							
-							//无效案件
-							if(optionsRadios=='30003001') {
-								$(".sourcebox").show();
-						        $(".marinfo,.alerted").hide();
-						        $("#btnSave").hide();
-						        $("#divContent").hide();
-						        $("#hzxm").hide();
-						        $(".hr").hide();
-						        $("#xzzl").hide();
-						    //有效案件
-							} else {
-								 $(".sourcebox").hide();
-						         $(".marinfo,.alerted").show();
-						         $("#btnSave").show();
-						         $("#hzxm").show();
-						         $(".hr").show();
-						         $("#xzzl").show();
-						         
-						         var businessLoanWarn =  $('input[name=businessLoanWarn]:checked').val(); 
-						         
-						         if(businessLoanWarn == "true"){
-						        	 $("#divContent").show();
-						         }
-						         else {
-						        	 $("#divContent").hide();
-						         }
-							}
-						});
-						
-						//无效案件
-						if(caseProperty == '30003001') {
-							$(".sourcebox").show();
-					        $(".marinfo,.alerted").hide();
-					        $("#divContent").hide();
-					        $("#hzxm").hide();
-					        $(".hr").hide();
-					        $("#xzzl").hide();
-					    //有效案件
-						} else {
-							 $(".sourcebox").hide();
-					         $(".marinfo,.alerted").show();
-					         $("#hzxm").show();
-					         $(".hr").show();
-					         $("#xzzl").show();
-						}
-						
-						//FollowPicList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}','${caseCode}');
-						AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}',caseCode);
-						
-						$("span[name='srvCode']").click(function(){
-							var id = $(this).attr("id");
-							$("span[id='"+id+"']").changeSelect();
-						});
-				
-					});
-					//显示附件图片
-					function showAttachment(url){
-						window.open(url);
-						
-					}
 					//设置div显示或隐藏
 					function isShow(divName, stats) {
 					    var div_array = document.getElementsByName(divName);   
@@ -636,484 +757,16 @@ var AttachmentList = (function(){
 			            calendarWeeks: false,
 			            autoclose: true
 			        });
-					
-			        function initAssistant() {
-						var url = "${ctx}/task/firstFollow/getAssistantInfo";
-						$("#xzzl").html("");
-						$.ajax({
-							cache : false,
-							async : true,//false同步，true异步
-							type : "POST",
-							url : url,
-							dataType : "json",		
-							success : function(data) {
-								txt = "<label class='control-label sign_left_small' style='margin-right: 23px;'><font color='red' class='mr5' >*</font>交易助理 </label>";
-								txt += "<select class='select_control data_style' name='assistantId' style='width:180px;' id='chooseAsisstantUser" + index + "' onchange='resetColor();'>";
-								txt += "<option value=''>请选择</option>";
-								$.each(data.users, function(j, user){
-									txt += "<option value='"+user.userId+"'>"+user.userRealName+"</option>";	
-								});
-								txt += "</select>";
-								$("#xzzl").append(txt);
-							},
-							error : function(errors) {
-								window.wxc.error("数据出错。");
-							}
-						});
-					}
-					
-			        function initMortageService() {
-						var url = "${ctx}/task/firstFollow/queryMortageByServiceCode";
-						$("#hzxm").html("");
-						$.ajax({
-							cache : false,
-							async : true,//false同步，true异步
-							type : "POST",
-							url : url,
-							dataType : "json",
-							data : {"serviceCode":'3000401002'},
-							success : function(data) {
-										txt = "<div class='form_content line34'><label class='control-label sign_left_small'> 合作项目 </label>";
-										txt += "<input type='hidden' name='coworkService' value='"+data.dic.code+"'/><span class='' placeholder='' value=''>" + data.dic.name + "</span></div>"
-										txt += "<div class='form_content'><label class='control-label sign_left_small'><font color='red' class='mr5' >*</font>合作顾问 </label>";
-										txt += "<select class='select_control mendwidth' name='unCrossCooperationUser' id='cooperationUser" + index + "' onchange='resetColor();'>";
-										txt += "<option value='0'>----未选择----</option>";
-										
-										$.each(data.users, function(j, user){
-											txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
-										
-										});
-										txt += "<option value='-1'>----跨区选择----</option>";
-										
-										txt += "</select>";
-										txt += "<input type='hidden' id='coUser"+index+"' name='cooperationUser' value=''/>";
-								
-										$("#hzxm").append(txt);
-										
-										$('#coUser'+index).val($("#cooperationUser" + index).find(':selected').val());
-										
-										var chaxiangou = $("#cooperationUser" + index);
-										chaxiangou.chosen({no_results_text:"未找到该选项",width:"500px",search_contains:true,disable_search_threshold:10});
-			
-							},
-							error : function(errors) {
-								window.wxc.error("数据出错。");
-							}
-						});
-					}
-			
-					//点击生成或清除合作顾问下拉框
-					$(document).on("click","#cooperationUser0_chosen",function(){
-						$(".chosen-single>span").each(function(){
-							if($(this).text()=="----跨区选择----"){
-								$('#coUser'+index).val('');
-								if($("#corss_area").length==0){
-									crossAreaCooperation();
-								}
-							}else{
-								$('#coUser'+index).val($("#cooperationUser" + index).find(':selected').val());
-								if($("#corss_area").length>0){
-									removeCrossAreaCooperation();
-								}
-							}	
-						});
-					});
-					
-					//删除跨区合作的DOM节点
-					function removeCrossAreaCooperation(){
-						$("#corss_area").remove();
-					}        
-			        
-					//点击下拉框跨区合作的选项触发跨区合作的选项
-					function crossAreaCooperation(){
-							var url = "${ctx}/task/firstFollow/getCrossAeraCooperationItems";
-							var corsstxt = "";
-							corsstxt += "<div class='col-md-12' id='corss_area'>";
-							corsstxt += "<select id='crossDistrict"+index+"' name='dept'>";
-							corsstxt += "<option value='0'>----部门----</option>";
-							corsstxt += '</select>';
-							corsstxt += "<select name='crossOrg' id='corssOrg"+index+"'>";
-							corsstxt += "<option value='0'>----组别----</option>";
-							corsstxt += '</select>';
-							corsstxt += "<select name='crossCooperationUser' id='crossConsult"+index+"'>";
-							corsstxt += "<option value='0'>----人员----</option>";
-							corsstxt += '</select></div>';
-							$("#hzxm").append(corsstxt);
-							
-							$.ajax({
-								cache : true,
-								async : false,
-								type : "POST",
-								url : url,
-								dataType : "json",
-								success : function(data) {
-									//三级联动
-									var district = $('#crossDistrict'+index);
-									var org = $('#corssOrg'+index);
-									var consult = $("#crossConsult"+index);
-									var districtStr="";
-									
-									$.each(data.cross,function(j,items){
-										districtStr += "<option value='"+ items.districtId+"'>" + items.districtName+"</option>";
-									});
-									
-									district.empty().append("<option value='0'>----部门----</option>"+districtStr);
-									
-									district.bind("change", function(){
-										var orgStr="";
-										var myIndex = district.find(":selected").index()-1;							
-										if(myIndex>=0){
-											//有选择部门   index()取下标  0开始， 0对应部门
-											$.each(data.cross[myIndex].orgs, function(i, items){
-												orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
-											})
-											//显示部门下面的所有组别
-											org.empty().append("<option value='0'>----组别----</option>"+orgStr);
-											var val1 = org.find(":selected").val();
-											if(val1!='0'){
-												changeConsult();
-											}
-										}else{
-											//没有选择部门
-											org.empty().append("<option value='0'>----组别----</option>");
-											consult.empty().append("<option value='0'>----人员----</option>");
-										}
-									});
-									
-									org.bind("change", changeConsult);
-									function changeConsult(){
-										var consultStr="";
-										var index1 = district.find(":selected").index()-1;
-										var index2 = org.find(":selected").index()-1;
-										if(index2>=0){
-											$.each(data.cross[index1].orgs[index2].userItems, function(k,items) {
-												consultStr += "<option value='"+items.id+"'>"+items.realName+"("+items.count+"件)</option>";
-											});
-											consult.empty().append("<option value='0'>----人员----</option>"+consultStr);
-											if(consultStr == ""){
-												consult.empty();
-												consult.append("<option value='0'>----人员----</option>");
-											}
-											getVals();
-										}else{
-											consult.empty().append("<option value='0'>----人员----</option>");
-										}
-									}
-									
-									consult.bind("change", getVals);
-									//改变隐藏框的值
-									function getVals(){
-										var guwen=consult.find(':selected').val();
-										
-										if(guwen!='0'){
-											$('#coUser'+index).val(guwen);
-										}
-									}						
-								},
-								error : function(errors) {
-									window.wxc.error("数据出错。");
-								}
-							});
-					 }
-					
-					//提交数据
-					function submit() {
-					if ($('#optionsRadios2:checked').val() == "30003001") {
-							if ($('input[name=invalid_reason]').val() == '') {
-								window.wxc.alert("无效案件必须填写无效原因!");
-								$('input[name=invalid_reason]').focus();
-								return;
-							}
-						}
-					
-						save(true);
-					}
-			
-					//保存数据
-					function save(b) {
-						if (!checkForm()) {
-							return;
-						}
-						
-						if (!$("#firstFollowform").valid()) {
-							return;
-						}
-			
-						var jsonData = $("#firstFollowform").serializeArray();
-						
-						var result = ''
-						$("span.selected[name='srvCode']").each(function() {
-							result += $(this).attr('value') + ',';
-						});
-						var obj = {
-							name : 'srvCode',
-							value : result.substring(0, result.length - 1)
-						};
-						jsonData.push(obj);
-			
-						for (var i = 0; i < jsonData.length; i++) {
-							var item = jsonData[i];
-							if (item["name"] == 'cooperationUser'
-									&& (item["value"] == 0 || item["value"] == -1)) {
-								delete jsonData[parseInt(i)];
-							}
-						}
-			
-						var url = "${ctx}/task/caseRecvFollow/save";
-						if (b) {
-							url = "${ctx}/task/caseRecvFollow/submit";
-						}
-						
-						$.ajax({
-							cache : true,
-							async : false,
-							type : "POST",
-							url : url,
-							dataType : "json",
-							data : jsonData,
-							beforeSend : function() {
-								$.blockUI({
-									message : $("#salesLoading"),
-									css : {
-										'border' : 'none',
-										'z-index' : '9999'
-									}
-								});
-								$(".blockOverlay").css({
-									'z-index' : '9998'
-								});
-							},
-							/*
-							complete : function() {
-								$.unblockUI();
-								 if (b) {
-									$.blockUI({
-										message : $("#salesLoading"),
-										css : {
-											'border' : 'none',
-											'z-index' : '1900'
-										}
-									});
-									$(".blockOverlay").css({
-										'z-index' : '1900'
-									});
-								} */
-								//超时,status还有success,error等值的情况
-								/* if (status == 'timeout') {
-									Modal.alert({
-										msg : "抱歉，系统处理超时。"
-									});
-									$(".btn-primary").one("click", function() {
-										parent.$.fancybox.close();
-									});
-								} 
-							},*/
-							success : function(data) {
-								$.unblockUI();
-								console.log(data);
-								/* if (b) {
-									if(data.message){
-										window.wxc.alert(data.message);
-									}
-									setTimeout('caseTaskCheck()', 1000);
-								} else {
-									if (data.firstFollowVO.isrepeat == true) {
-										window.wxc.alert("请不要重复保存数据");
-									} else {
-										window.wxc.success("保存成功.",{"wxcOk":function(){
-											window.close();
-											window.opener.callback();
-										}});
-									}
-								} */
-							},
-							/* error : function(errors) {
-								window.wxc.error("数据保存出错");
-							} */
-						});
-					}
-			
-					//double验证
-					function checkNum(obj) {
-						//先把非数字的都替换掉，除了数字和.
-						obj.value = obj.value.replace(/[^\d.]/g, "");
-						//必须保证第一个为数字而不是.
-						obj.value = obj.value.replace(/^\./g, "");
-						//保证只有出现一个.而没有多个.
-						obj.value = obj.value.replace(/\.{2,}/g, ".");
-						//保证.只出现一次，而不能出现两次以上
-						obj.value = obj.value.replace(".", "$#$").replace(/\./g, "")
-								.replace("$#$", ".");
-					}
-			
-					//验证控件checkUI();
-					function checkForm() {
-						var optionsRadios = $('input[name=caseProperty]:checked').val();
-						var params = {};
-						$("input,select").css("border-color","#e5e6e7");
-						
-						if(optionsRadios == "30003003"){
-							if ($('input[name=realPrice]').val() == '') {
-								//alert("成交价为必填项!");
-								window.wxc.alert("成交价为必填项!");
-								
-								$('input[name=realPrice]').focus();
-								$('input[name=realPrice]').css("border-color","red");
-								return false;
-							}
-							
-							if ($('input[name=conPrice]').val() == '') {
-								window.wxc.alert("合同价为必填项!");
-								$('input[name=conPrice]').focus();
-								$('input[name=conPrice]').css("border-color","red");
-								return false;
-							}
-							
-							if ($('input[name=square]').val() == '') {
-								window.wxc.alert("产证面积为必填项!");
-								$('input[name=square]').focus();
-								$('input[name=square]').css("border-color","red");
-								return false;
-							}
-							
-							if ($('input[name=propertyAddr]').val() == '') {
-								window.wxc.alert("产证地址为必填项!");
-								$('input[name=propertyAddr]').focus();
-								$('input[name=propertyAddr]').css("border-color","red");
-								return false;
-							}
-							
-							/* if ($('select[name=assistantId]').val() == '') {
-								window.wxc.alert("交易助理为必选项!");
-								$('select[name=assistantId]').focus();
-								$('select[name=assistantId]').css("border-color","red");
-								return false;
-							} */
-							
-							if ($("#cooperationUser0").val() == 0 && $("#optionsRadios2").checked == false) {
-								window.wxc.alert("合作顾问未选择");
-								$('#cooperationUser0').focus();
-								$('#cooperationUser0').css("border-color","red");
-								return false;
-							}
-							// 如果选择了跨区合作并且人员为空
-							if ($("#cooperationUser0").val() == -1 && $("#consult0").val() == 0) {
-								window.wxc.alert("跨区合作顾问未选择");
-								$('#cooperationUser0').focus();
-								$('#cooperationUser0').css("border-color","red");
-								return false;
-							}
-							
-							if ($('select[name=chaxiangou]').val() == '') {
-								window.wxc.alert("查限购为必选项!");
-								$('select[name=chaxiangou]').focus();
-								$('select[name=chaxiangou]').css("border-color","red");
-								return false;
-							}
-							
-							if ($('select[name=diya]').val() == '') {
-								window.wxc.alert("抵押情况为必选项!");
-								$('select[name=diya]').focus();
-								$('select[name=diya]').css("border-color","red");
-								return false;
-							}
-							
-							/* if ($('input[name=realConTime]').val() == '') {
-								window.wxc.alert("预计签约日期为必填项!");
-								$('input[name=realConTime]').focus();
-								$('input[name=realConTime]').css("border-color","red");
-								return false;
-							} */
-			
-			
-							if (optionsRadios == '有效案件'
-									|| (optionsRadios != '30003001' && optionsRadios != undefined)) {
-								//有效案件
-								if ($('#distCode').val() == "") {
-									window.wxc.alert("所在区域为必选项!");
-									$('#distCode').focus();
-									$('#distCode').css("border-color","red");
-									return false;
-								}
-								
-								var flag = true;
-								
-								 var cooperationUser = $('select[name="unCrossCooperationUser"] option:selected').val();
-								 if(cooperationUser == "0"){
-									 window.wxc.alert("合作顾问为必选项!");
-									 $('.chosen-single').focus();
-									 $('.chosen-single').css("border-color","red");
-									 return false;
-								 }
-								 else if(cooperationUser == "-1"){
-									 $("select[name='dept']").each(function(){
-										 var dept = this.value;
-										 
-										 if(dept == "0"){
-											 flag = false;
-											 return;
-										 }
-									 });
-									 
-									 $("select[name='crossOrg']").each(function(){
-										 var crossOrg = this.value;
-										 
-										 if(crossOrg == "0"){
-											 flag = false;
-											 return;
-										 }
-									 });
-									 
-									 $("select[name='crossCooperationUser']").each(function(){
-										 var crossCooperationUser = this.value;
-										 
-										 if(crossCooperationUser == "0"){
-											 flag = false;
-											 return;
-										 }
-									 });
-								 }
-							}
-							
-							if(!flag){
-								 window.wxc.alert("跨区合作顾问未选择!"); 
-								 $('#cooperationUser0').focus();
-								 $('#cooperationUser0').css("border-color","red");
-								 return false;
-							}
-							
-							if($("input[name=businessLoanWarn]:checked").val() == "true"){
-								var content = $("input[name=content]").val();
-								
-								if(content == ""){
-									window.wxc.alert("请填写预警内容！");
-									$('input[name=content]').focus();
-									$('input[name=content]').css("border-color","red");
-									return false;
-								}
-							}
-						}
-						else if(optionsRadios == "30003001"){
-							var invalid_reason = $("#invalid_reason").val();
-							
-							if(invalid_reason == ""){
-								window.wxc.alert("无效案件必须填写失效原因!");
-								$('input[name=invalid_reason]').focus();
-								$('input[name=invalid_reason]').css("border-color","red");
-								return;
-							}
-						}
-						
-						return true;
-					}
-					
-					$("input[type='text'],select").focus(function(){
-						$(this).css("border-color","rgb(229, 230, 231)");
-					});
-					
-					function resetColor(){
-						$(".chosen-single").css("border-color","#CBD5DD");
-					}
+			      
+		            $("[name=businessLoanWarn]").click(function(){
+		                if($(this).val()=='1'){
+		                    $("#divContent").css("display","inherit");
+		                }else{
+		                    $("#divContent").css("display","none");
+		                }
+		            });
+				
+					})//end ready function
 					
 				</script> 
 			</content>

@@ -239,5 +239,5 @@
 	<!-- 业绩明细 -->
 	<import resource="query/performance/receivablePerfListQuery.xml"></import>
 	<!--接单统计，列表-->
-	<!--<import resource="query/case/CaseReceiveList.xml"/>-->
+	<import resource="query/case/CaseReceiveList.xml"/>
 </queryConfig>
