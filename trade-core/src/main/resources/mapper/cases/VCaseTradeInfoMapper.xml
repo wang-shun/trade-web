@@ -30,14 +30,12 @@
     <result column="UPBANK" property="upBank" jdbcType="VARCHAR" />
     <result column="CLOSE_TYPE" property="closeType" jdbcType="VARCHAR" />
     <result column="LOAN_CLOSE_CODE" property="loanCloseCode" jdbcType="TIMESTAMP" />
-    <result column="PRICING_TAX" property="pricingTax" jdbcType="DECIMAL" />
+    <result column="HOUSE_HODING_TAX" property="houseHodingTax" jdbcType="DECIMAL" />
     <result column="PERSONAL_INCOME_TAX" property="personalIncomeTax" jdbcType="DECIMAL" />
     <result column="BUSINESS_TAX" property="businessTax" jdbcType="DECIMAL" />
     <result column="CONTRACT_TAX" property="contractTax" jdbcType="DECIMAL" />
     <result column="LAND_INCREMENT_TAX" property="landIncrementTax" jdbcType="DECIMAL" />
-      <result column="PAYMENT_TIME" property="paymentTime" jdbcType="TIMESTAMP"/>
     <result column="REAL_HT_TIME" property="realHtTime" jdbcType="TIMESTAMP" />
-      <!--因天津没有审税核价环节，顾可废弃start-->
     <result column="HOLD_YEAR" property="holdYear" jdbcType="NVARCHAR" />
     <result column="IS_UNIQUE_HOME" property="isUniqueHome" jdbcType="CHAR" />
     <result column="TAX_TIME" property="taxTime" jdbcType="TIMESTAMP" />
@@ -45,12 +43,9 @@
     <result column="PRICING_TIME" property="pricingTime" jdbcType="TIMESTAMP" />
     <result column="TAX_PRICING" property="taxPricing" jdbcType="DECIMAL" />
     <result column="REAL_PLS_TIME" property="realPlsTime" jdbcType="TIMESTAMP" />
-      <!--end-->
     <result column="REAL_PROPERTY_GET_TIME" property="realPropertyGetTime" jdbcType="TIMESTAMP" />
     <result column="CLOSE_TIME" property="closeTime" jdbcType="TIMESTAMP" />
-      <!--因天津没有房产税，顾可废弃-->
     <result column="HOUSE_HODING_TAX_SIGN" property="houseHodingTaxSign" jdbcType="DECIMAL" />
-      <!--end-->
     <result column="PERSONAL_INCOME_TAX_SIGN" property="personalIncomeTaxSign" jdbcType="DECIMAL" />
     <result column="BUSINESS_TAX_SIGN" property="businessTaxSign" jdbcType="DECIMAL" />
     <result column="CONTRACT_TAX_SIGN" property="contractTaxSign" jdbcType="DECIMAL" />

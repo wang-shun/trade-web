@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>	
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"/>
+		<customDict id="qqcdDictEvaType" beanName="qqcdDictEvaType"/>
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+	</formatters>
+	<query id="queryEvaluateItemList">
+		<searchCondition>
+			<condition field="eva.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="eva.ARISER_ID" name="applicant" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="eva.FIN_ORG_ID" name="finOrgId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="eva.EVA_TYPE" name="evaType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="eva.CREATE_TIME" name="createStartTime" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+			<condition field="eva.CREATE_TIME" name="createEndTime" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+			<condition field="eva.COMPLETE_TIME" name="compStartTime" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
+			<condition field="eva.COMPLETE_TIME" name="compEndTime" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						eva.PKID,
+						eva.CASE_CODE,
+						pro.RESIDENCE_NAME,
+						eva.FIN_ORG_ID,
+						'temp' EVA_COMPANY,
+						<!-- evaC.NAME, -->
+						eva.ARISER_ID,
+						eva.CREATE_TIME,
+						eva.COMPLETE_TIME,
+						eva.EVA_TYPE,
+						eva.TOTAL_PRICE,
+						pro.HOUSE_AGE,
+						eva.STATUS
+					FROM
+						sctrans.T_TO_EVA_PRICING eva
+						INNER JOIN  sctrans.T_TO_EGU_PROPERTY_INFO pro ON eva.EVA_CODE = pro.EVA_CODE
+						<!-- LEFT JOIN  evaC  评估公司-->
+					where 1=1
+						AND eva.STATUS = 0
+					<ifNotNull propertyAddr>
+						AND pro.RESIDENCE_NAME like '%'+#propertyAddr#+'%'
+					</ifNotNull>
+
+		]]>
+			</baseSql>
+			<orderBySql>
+				ORDER BY eva.CREATE_TIME  DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" display="询价ID" hide="true"/>
+				<column type="both" name="CASE_CODE" display="案件编号" width="90" isSort="true" />
+				<column type="both" name="RESIDENCE_NAME" display="产证地址" width="180" isSort="true"/>
+				<column type="both" name="EVA_COMPANY" display="评估公司" width="90" isSort="true"/>
+				<column type="both" name="ARISER_ID" display="ARISERID"/>
+				<column type="both" name="EVA_TYPE" display="EVATYPE"/>
+				<column type="virtual" name="ARISER_NAME" display="申请人" referencecol="ARISER_ID" customDict="qqcdUserIdName"  width="60" isSort="true"/>
+				<column type="both" name="CREATE_TIME" display="创建时间" width="60" isSort="true" beanFormatter="dateFormatter1" />
+				<column type="both" name="COMPLETE_TIME" display="完成时间" width="60" isSort="true" beanFormatter="dateFormatter1" />
+				<column type="virtual" name="EVA_TYPE_NAME" display="询价类型" referencecol="EVA_TYPE" customDict="qqcdDictEvaType" width="60" isSort="true"/>
+				<column type="both" name="TOTAL_PRICE" display="询价值" hide="true"/>
+				<column type="both" name="HOUSE_AGE" display="房龄" />
+				<column type="both" name="STATUS" display="状态" hide="true"/>
+			</table-row>
+		</grid>
+	</query>
+</querys>

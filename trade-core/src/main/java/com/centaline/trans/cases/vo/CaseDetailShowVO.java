@@ -84,13 +84,51 @@ public class CaseDetailShowVO {
     
     private String loanType;//税费卡类型
     
-
+    private String msId;//分行秘书
+    private String msName;//分行秘书姓名
+    private String msMobile;//分行秘书电话
+    
+    private String loanId;//贷款权证id
+    private String loanName;//贷款权证姓名
+    private String loanMobile;//贷款权证电话
+    private String warId;//过户权证id
+    private String warName;//过户权证姓名
+    private String warMobile;//过户权证电话
+    
 	public String getLoanLostType() {
 		return loanLostType;
 	}
 
 	public void setLoanLostType(String loanLostType) {
 		this.loanLostType = loanLostType;
+	}
+
+	public String getHoldYear() {
+		return holdYear;
+	}
+
+	public String getHouseProperty() {
+		return houseProperty;
+	}
+
+	public String getIsUniqueHome() {
+		return isUniqueHome;
+	}
+
+	public void setTazhengArrDate(String tazhengArrDate) {
+		this.tazhengArrDate = tazhengArrDate;
+	}
+
+	public void setHoldYear(String holdYear) {
+		this.holdYear = holdYear;
+	}
+
+	public void setHouseProperty(String houseProperty) {
+		this.houseProperty = houseProperty;
+	}
+
+	public void setIsUniqueHome(String isUniqueHome) {
+		this.isUniqueHome = isUniqueHome;
 	}
 
 	public void setTradeDate(VCaseTradeInfo info){
@@ -301,7 +339,15 @@ public class CaseDetailShowVO {
 	public String getRealHtTime() {
 		return realHtTime;
 	}
-
+	public String getTaxTime() {
+		return taxTime;
+	}
+	public String getPricingTime() {
+		return pricingTime;
+	}
+	public String getRealPlsTime() {
+		return realPlsTime;
+	}
 	public String getRealPropertyGetTime() {
 		return realPropertyGetTime;
 	}
@@ -344,7 +390,15 @@ public class CaseDetailShowVO {
 	public void setRealHtTime(String realHtTime) {
 		this.realHtTime = realHtTime;
 	}
-
+	public void setTaxTime(String taxTime) {
+		this.taxTime = taxTime;
+	}
+	public void setPricingTime(String pricingTime) {
+		this.pricingTime = pricingTime;
+	}
+	public void setRealPlsTime(String realPlsTime) {
+		this.realPlsTime = realPlsTime;
+	}
 	public void setRealPropertyGetTime(String realPropertyGetTime) {
 		this.realPropertyGetTime = realPropertyGetTime;
 	}
@@ -496,55 +550,77 @@ public class CaseDetailShowVO {
 		this.loanType = loanType;
 	}
 
-	public void setTazhengArrDate(String tazhengArrDate) {
-		this.tazhengArrDate = tazhengArrDate;
+	public String getMsId() {
+		return msId;
 	}
 
-	public String getTaxTime() {
-		return taxTime;
+	public void setMsId(String msId) {
+		this.msId = msId;
 	}
 
-	public void setTaxTime(String taxTime) {
-		this.taxTime = taxTime;
+	public String getMsName() {
+		return msName;
 	}
 
-	public String getPricingTime() {
-		return pricingTime;
+	public void setMsName(String msName) {
+		this.msName = msName;
 	}
 
-	public void setPricingTime(String pricingTime) {
-		this.pricingTime = pricingTime;
+	public String getMsMobile() {
+		return msMobile;
 	}
 
-	public String getRealPlsTime() {
-		return realPlsTime;
+	public void setMsMobile(String msMobile) {
+		this.msMobile = msMobile;
 	}
 
-	public void setRealPlsTime(String realPlsTime) {
-		this.realPlsTime = realPlsTime;
+	public String getLoanId() {
+		return loanId;
 	}
 
-	public String getHoldYear() {
-		return holdYear;
+	public void setLoanId(String loanId) {
+		this.loanId = loanId;
 	}
 
-	public void setHoldYear(String holdYear) {
-		this.holdYear = holdYear;
+	public String getLoanName() {
+		return loanName;
 	}
 
-	public String getHouseProperty() {
-		return houseProperty;
+	public void setLoanName(String loanName) {
+		this.loanName = loanName;
 	}
 
-	public void setHouseProperty(String houseProperty) {
-		this.houseProperty = houseProperty;
+	public String getLoanMobile() {
+		return loanMobile;
 	}
 
-	public String getIsUniqueHome() {
-		return isUniqueHome;
+	public void setLoanMobile(String loanMobile) {
+		this.loanMobile = loanMobile;
 	}
 
-	public void setIsUniqueHome(String isUniqueHome) {
-		this.isUniqueHome = isUniqueHome;
+	public String getWarId() {
+		return warId;
 	}
+
+	public void setWarId(String warId) {
+		this.warId = warId;
+	}
+
+	public String getWarName() {
+		return warName;
+	}
+
+	public void setWarName(String warName) {
+		this.warName = warName;
+	}
+
+	public String getWarMobile() {
+		return warMobile;
+	}
+
+	public void setWarMobile(String warMobile) {
+		this.warMobile = warMobile;
+	}
+
+
 }

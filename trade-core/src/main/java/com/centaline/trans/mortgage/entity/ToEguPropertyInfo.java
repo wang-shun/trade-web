@@ -40,6 +40,10 @@ public class ToEguPropertyInfo {
     private String nearStreet;
 
     private String remark;
+    
+    private String completeYear;
+    
+    private Integer houseAge;
 
     public Long getPkid() {
         return pkid;
@@ -192,4 +196,21 @@ public class ToEguPropertyInfo {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public String getCompleteYear() {
+		return completeYear;
+	}
+
+	public void setCompleteYear(String completeYear) {
+		this.completeYear = completeYear;
+	}
+
+	public Integer getHouseAge() {
+		return houseAge;
+	}
+
+	public void setHouseAge(Integer houseAge) {
+		this.houseAge = houseAge;
+	}
+    
 }

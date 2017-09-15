@@ -655,6 +655,11 @@
     	<bean name="qqcdDictLoanerStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="LOANER_STATUS"></property>
     </bean>
+    <!-- 询价类型 -->
+    <bean name="qqcdDictEvaType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="EVA_TYPE"></property>
+    </bean>
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 
 </beans>

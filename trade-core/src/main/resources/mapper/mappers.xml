@@ -265,5 +265,8 @@
 		<!--缴税 -->
 		<mapper resource="mapper/cases/ToCaseRecvMapper.xml"/>
 		<mapper resource="mapper/task/AuditCase.xml"/>
+		
+		<!-- 询价 -->
+		<mapper resource="mapper/evaPricing/ToEvaPricingMapper.xml"/>
 	</mappers>
 </configuration>

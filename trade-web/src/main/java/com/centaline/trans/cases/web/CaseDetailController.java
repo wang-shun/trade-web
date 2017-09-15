@@ -1,6 +1,5 @@
 package com.centaline.trans.cases.web;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,17 +34,21 @@ import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
-import com.centaline.trans.bizwarn.entity.BizWarnInfo;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
+import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
+import com.centaline.trans.cases.repository.ToCaseMapper;
+import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
 import com.centaline.trans.cases.service.CaseMergeService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
+import com.centaline.trans.cases.vo.CaseAssistantVO;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.cases.vo.ChangeTaskAssigneeVO;
@@ -63,6 +66,7 @@ import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.TransPositionEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
@@ -70,8 +74,6 @@ import com.centaline.trans.common.service.ToModuleSubscribeService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.common.service.ToServChangeHistrotyService;
 import com.centaline.trans.eloan.entity.LoanAgent;
-import com.centaline.trans.eloan.entity.ToEloanCase;
-import com.centaline.trans.eloan.entity.ToEloanRel;
 import com.centaline.trans.eloan.service.LoanAgentService;
 import com.centaline.trans.eloan.service.ToEloanCaseService;
 import com.centaline.trans.eloan.service.ToEloanRelService;
@@ -95,8 +97,6 @@ import com.centaline.trans.mortgage.entity.ToEvaReport;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToEvaReportService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.performance.entity.ReceivablePerf;
-import com.centaline.trans.performance.service.ReceivablePerfService;
 import com.centaline.trans.property.service.ToPropertyResearchService;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
@@ -106,6 +106,7 @@ import com.centaline.trans.task.service.ActRuTaskService;
 import com.centaline.trans.task.service.TlTaskReassigntLogService;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.ToHouseTransferService;
+import com.centaline.trans.task.service.UnlocatedTaskService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
@@ -210,10 +211,13 @@ public class CaseDetailController {
 	ToApproveRecordService toApproveRecordService;
 	@Autowired
 	CaseMergeService caseMergeService;
-
+	@Autowired
+	ToCaseParticipantMapper toCaseParticipantMapper;
 
 	@Autowired
 	private ActRuTaskService actRuTaskService;
+	@Autowired
+	private UnlocatedTaskService unlocatedTaskService;
 
 	/**
 	 * 页面初始化
@@ -467,18 +471,12 @@ public class CaseDetailController {
 		if (caseInfo.getLoanCloseCode() != null) {
 			String loanCloseCode = format.format(caseInfo.getLoanCloseCode());
 			reVo.setLoanCloseCode(loanCloseCode);
-		}
-		//缴税时间
-		if(caseInfo.getPaymentTime()!=null){
-			String paymentTime=format.format(caseInfo.getPaymentTime());
-			reVo.setPaymentTime(paymentTime);
-		}
-		// 过户时间
+		} // 过户时间
 		if (caseInfo.getRealHtTime() != null) {
 			String realHtTime = format.format(caseInfo.getRealHtTime());
 			reVo.setRealHtTime(realHtTime);
 		} // 审税时间
-		/*if (caseInfo.getTaxTime() != null) {
+		if (caseInfo.getTaxTime() != null) {
 			String taxTime = format.format(caseInfo.getTaxTime());
 			reVo.setTaxTime(taxTime);
 		} // 核价时间
@@ -489,8 +487,7 @@ public class CaseDetailController {
 		if (caseInfo.getRealPlsTime() != null) {
 			String realPlsTime = format.format(caseInfo.getRealPlsTime());
 			reVo.setRealPlsTime(realPlsTime);
-		} */
-		// 领证时间
+		} // 领证时间
 		if (caseInfo.getRealPropertyGetTime() != null) {
 			String realPropertyGetTime = format.format(caseInfo.getRealPropertyGetTime());
 			reVo.setRealPropertyGetTime(realPropertyGetTime);
@@ -500,18 +497,18 @@ public class CaseDetailController {
 			reVo.setCloseTime(closeTime);
 		}
 		// 房屋性质
-		/*if (caseInfo.getHouseProperty() != null) {
+		if (caseInfo.getHouseProperty() != null) {
 			String houseProperty = uamBasedataService.getDictValue(TransDictEnum.TFWXZ.getCode(),
 					caseInfo.getHouseProperty());
 			reVo.setHouseProperty(houseProperty);
-		}*/
+		}
 		// 还款方式
 		if (caseInfo.getCloseType() != null) {
 			String closeType = uamBasedataService.getDictValue(TransDictEnum.THKFS.getCode(), caseInfo.getCloseType());
 			reVo.setCloseType(closeType);
 		}
 		// 购房年数
-		/*if (caseInfo.getHoldYear() != null) {
+		if (caseInfo.getHoldYear() != null) {
 			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), caseInfo.getHoldYear());
 			reVo.setHoldYear(holdYear);
 		} // 房屋性质
@@ -524,7 +521,7 @@ public class CaseDetailController {
 			String isUniqueHome = uamBasedataService.getDictValue(TransDictEnum.TWYZF.getCode(),
 					caseInfo.getIsUniqueHome());
 			reVo.setIsUniqueHome(isUniqueHome);
-		}*/ // 户口情况
+		} // 户口情况
 		if (caseInfo.getIsHukou() != null) {
 			String isHukou = uamBasedataService.getDictValue(TransDictEnum.THKQK.getCode(), caseInfo.getIsHukou());
 			reVo.setIsHukou(isHukou);
@@ -739,29 +736,29 @@ public class CaseDetailController {
 	 */
 	@RequestMapping(value = "caseDetail")
 	public String caseDetail(Long caseId,ServletRequest request) {
-		if (caseId == null)
+		if (caseId == null){
 			return "case/caseList";
-
+		}
+		
+		/** 基本信息 **/ 
 		CaseDetailShowVO reVo = new CaseDetailShowVO();
-		// 基本信息
 		ToCase toCase = toCaseService.selectByPrimaryKey(caseId);
 		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
-
 		// add zhangxb16 2016-2-22 功能
 		ToCase te = toCaseService.findToCaseByCaseCode(toCase.getCaseCode());
 		if (null != te) {
 			reVo.setCaseProperty(te.getCaseProperty());
 		}
 		
-		int cou = toCaseService.findToLoanAgentByCaseCode(toCase.getCaseCode());
-		if ( cou >0) {
-			reVo.setLoanType("30004005");
-		}
-
-		// 物业信息
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+		//是否关注
+		boolean isSubscribe = toModuleSubscribeService.checkIsSubscribe(toCase.getCaseCode(), uamSessionService.getSessionUser().getId(), SubscribeModuleType.CASE.getValue(),SubscribeType.COLLECTION.getValue());
+		
+		/**物业信息**/ 
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+		
+		/** 经纪人 **/ 		
 		User agentUser = null;
-		// 经纪人
 		if (!StringUtils.isBlank(toCaseInfo.getAgentCode())) {
 			agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
 		}
@@ -772,42 +769,51 @@ public class CaseDetailController {
 			reVo.setAgentOrgId(agentUser.getOrgId());
 			reVo.setAgentOrgName(agentUser.getOrgName());
 			// 分行经理
-			List<User> mcList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(agentUser.getOrgId(),
-					TransJobs.TFHJL.getCode());
+			List<User> mcList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(agentUser.getOrgId(),TransJobs.TFHJL.getCode());
 			if (mcList != null && mcList.size() > 0) {
-
 				User mcUser = mcList.get(0);
 				reVo.setMcId(mcUser.getId());
 				reVo.setMcName(mcUser.getRealName());
 				reVo.setMcMobile(mcUser.getMobile());
 			}
+			//分行秘书
+			List<User> msList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(agentUser.getOrgId(), TransJobs.TFHMS.getCode());
+			if(msList !=null && msList.size()>0){
+				User msUser = msList.get(0);
+				reVo.setMsId(msUser.getId());
+				reVo.setMsName(msUser.getRealName());
+				reVo.setMsMobile(msUser.getMobile());
+			}
 		}
-
-		// 交易顾问
-		User consultUser = null;
-		if(null != toCase.getLeadingProcessId()){
-			consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
-		}
-		if (consultUser != null) {
-			reVo.setCpId(consultUser.getId());
-			reVo.setCpName(consultUser.getRealName());
-			reVo.setCpMobile(consultUser.getMobile());
+		
+		/** 权证 **/
+		List<ToCaseParticipant> caseParticipants = toCaseParticipantMapper.selectByCaseCode(toCase.getCaseCode());
+		for(ToCaseParticipant pant :caseParticipants){
+			if("warrant".equals(pant.getPosition())){
+				reVo.setWarName(pant.getRealName());
+				reVo.setWarMobile(pant.getMobile());
+			}else if("loan".equals(pant.getPosition())){
+				reVo.setLoanName(pant.getRealName());
+				reVo.setLoanMobile(pant.getMobile());
+			}
 		}
 		// 助理
-//		User user = uamUserOrgService.getUserById(toCase.getAssistantId());
-//		if (user != null ) {
-//			reVo.setAsId(user.getId());
-//			reVo.setAsName(user.getRealName());
-//			reVo.setAsMobile(user.getMobile());
-//		}
-		List<User> asList = uamUserOrgService.getUserByOrgIdAndJobCode(toCase.getOrgId(), TransJobs.TJYZL.getCode());
-		if (asList != null && asList.size() > 0) {
-			User assistUser = asList.get(0);
-			reVo.setAsId(assistUser.getId());
-			reVo.setAsName(assistUser.getRealName());
-			reVo.setAsMobile(assistUser.getMobile());
+		User assistant = uamUserOrgService.getUserById(toCase.getAssistantId());
+		if(assistant != null){
+			reVo.setAsId(assistant.getId());
+			reVo.setAsName(assistant.getRealName());
+			reVo.setAsMobile(assistant.getMobile());
 		}
-		// 上下家
+		/** 内勤 **/ 
+		/*List<User> nqList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(toCase.getOrgId(), TransJobs.TNQZL.getCode());
+		if(nqList != null && nqList.size() > 0){
+			User nqUser = nqList.get(0);
+			reVo.setAsId(nqUser.getId());
+			reVo.setAsName(nqUser.getRealName());
+			reVo.setAsMobile(nqUser.getMobile());
+		}*/
+		
+		/** 买卖家 **/
 		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
 		StringBuffer seller = new StringBuffer();
 		StringBuffer sellerMobil = new StringBuffer();
@@ -826,91 +832,152 @@ public class CaseDetailController {
 				buyerMobil.append("/");
 			}
 		}
-
 		if (guestList.size() > 0) {
 			if (seller.length() > 1) {
 				seller.deleteCharAt(seller.length() - 1);
 				sellerMobil.deleteCharAt(sellerMobil.length() - 1);
 			}
-
 			if (buyer.length() > 1) {
 				buyer.deleteCharAt(buyer.length() - 1);
 				buyerMobil.deleteCharAt(buyerMobil.length() - 1);
 			}
 		}
-
 		reVo.setSellerName(seller.toString());
 		reVo.setSellerMobile(sellerMobil.toString());
 		reVo.setBuyerMobile(buyerMobil.toString());
 		reVo.setBuyerName(buyer.toString());
-		// 合作顾问
-		List<CaseDetailProcessorVO> proList = new ArrayList<CaseDetailProcessorVO>();
-		TgServItemAndProcessor inProcessor = new TgServItemAndProcessor();
-		inProcessor.setCaseCode(toCase.getCaseCode());
-		inProcessor.setProcessorId(toCase.getLeadingProcessId());
-		List<String> tgproList = tgServItemAndProcessorService.findProcessorsByCaseCode(inProcessor);
-		for (String sp : tgproList) {
-			if (StringUtils.isEmpty(sp) || "-1".equals(sp))
-				continue;
-			CaseDetailProcessorVO proVo = new CaseDetailProcessorVO();
-			User processor = uamUserOrgService.getUserById(sp);
-			proVo.setProcessorId(processor.getId());
-			proVo.setProcessorName(processor.getRealName());
-			proVo.setProcessorMobile(processor.getMobile());
-			proList.add(proVo);
-		}
-		reVo.setProList(proList);
+			
 
-		// 服务项
-		StringBuffer srvCodes = new StringBuffer();
-		List<String> tgSrvList = tgServItemAndProcessorService.findSrvCatsByCaseCode(toCase.getCaseCode());
-
-		for (String sp : tgSrvList) {
-			if (!StringUtils.isEmpty(sp)) {
-				srvCodes.append(sp);
-				srvCodes.append(",");
-			}
-
-		}
-		if (srvCodes.length() > 0)
-			srvCodes.deleteCharAt(srvCodes.length() - 1);
-		reVo.setSrvCodes(srvCodes.toString());
-		
-		
-		SessionUser sessionUser = uamSessionService.getSessionUser();
-		// 工作流
+		/** 工作流 **/ 
 		ToWorkFlow inWorkFlow = new ToWorkFlow();
 		inWorkFlow.setBusinessKey("operation_process");
 		inWorkFlow.setCaseCode(toCase.getCaseCode());
 		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
-        //爆单和无效原因
+		
+        /** 爆单和无效原因 **/
 		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();	
-        if(toCase.getCaseProperty().equals("30003001") || toCase.getCaseProperty().equals("30003005") ){
+		if("30003001".equals(toCase.getCaseProperty()) || "30003005".equals(toCase.getCaseProperty())){
         	ToWorkFlow workFlow = new ToWorkFlow();
         	workFlow.setCaseCode(toCase.getCaseCode());
         	workFlow.setBusinessKey("operation_process");
         	workFlow.setStatus("4");
         	ToWorkFlow toWorkFlow1= toWorkFlowService.queryToWorkFlowByCaseCodeAndBusinessKey(workFlow);				
     		if(toWorkFlow1!=null){
-        	toApproveRecordForItem.setProcessInstance(toWorkFlow1.getInstCode());
-    		toApproveRecordForItem.setCaseCode(toCase.getCaseCode());
-			ToApproveRecord toApproveRecord2 = toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);
+	        	toApproveRecordForItem.setProcessInstance(toWorkFlow1.getInstCode());
+	    		toApproveRecordForItem.setCaseCode(toCase.getCaseCode());
+				ToApproveRecord toApproveRecord2 = toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);
 				if(toApproveRecord2 != null){
 					request.setAttribute("toApproveRecord", toApproveRecord2.getContent());
 				}else{
 					request.setAttribute("toApproveRecord","");
 				}
-    	}else{
-    		request.setAttribute("toApproveRecord","");
-    	}
+	    	}else{
+	    		request.setAttribute("toApproveRecord","");
+	    	}
         }else{
         	request.setAttribute("toApproveRecord","");
         	
         }
 		
-		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		// 贷款信息
+		
+		/** 交易信息 **/
+		VCaseTradeInfo caseInfo = vCaseTradeInfoService.queryCaseTradeInfoByCaseCode(toCase.getCaseCode());
+
+		// 业务单创建时间
+		if (caseInfo.getCreateTime() != null) {
+			String createTime = format.format(caseInfo.getCreateTime());
+			reVo.setCreateTime(createTime);
+		}
+		// 接单时间
+		if (caseInfo.getResDate() != null) {
+			String resDate = format.format(caseInfo.getResDate());
+			reVo.setResDate(resDate);
+		} 
+		// 房屋性质
+		if (caseInfo.getHouseProperty() != null) {
+			String houseProperty = uamBasedataService.getDictValue(TransDictEnum.TFWXZ.getCode(),
+					caseInfo.getHouseProperty());
+			reVo.setHouseProperty(houseProperty);
+		}
+		// 购房年数
+		if (caseInfo.getHoldYear() != null) {
+			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), caseInfo.getHoldYear());
+			reVo.setHoldYear(holdYear);
+		}
+		// 唯一住房
+		if (caseInfo.getIsUniqueHome() != null) {
+			String isUniqueHome = uamBasedataService.getDictValue(TransDictEnum.TWYZF.getCode(),
+					caseInfo.getIsUniqueHome());
+			reVo.setIsUniqueHome(isUniqueHome);
+		}
+		//网签时间
+		if (caseInfo.getRealConTime() != null) {
+			String realConTime = format.format(caseInfo.getRealConTime());
+			reVo.setRealConTime(realConTime);
+		}
+		// 付款方式(一期)
+		if (caseInfo.getPayType1() != null) {
+			String payType1 = uamBasedataService.getDictValue(TransDictEnum.TFKFS.getCode(), caseInfo.getPayType1());
+			reVo.setPayType1(payType1);
+		} 
+		// 付款方式(二期)
+		if (caseInfo.getPayType2() != null) {
+			String payType2 = uamBasedataService.getDictValue(TransDictEnum.TFKFS.getCode(), caseInfo.getPayType2());
+			reVo.setPayType2(payType2);
+		} 
+		// 付款方式(三期)
+		if (caseInfo.getPayType3() != null) {
+			String payType3 = uamBasedataService.getDictValue(TransDictEnum.TFKFS.getCode(), caseInfo.getPayType3());
+			reVo.setPayType3(payType3);
+		} 
+		// 付款时间(一期)
+		if (caseInfo.getPayTime1() != null) {
+			String payTime1 = format.format(caseInfo.getPayTime1());
+			reVo.setPayTime1(payTime1);
+		} 
+		// 付款时间(二期)
+		if (caseInfo.getPayTime2() != null) {
+			String payTime2 = format.format(caseInfo.getPayTime2());
+			reVo.setPayTime2(payTime2);
+		} 
+		// 付款时间(三期)
+		if (caseInfo.getPayTime3() != null) {
+			String payTime3 = format.format(caseInfo.getPayTime3());
+			reVo.setPayTime3(payTime3);
+		} 
+		// 审税时间
+		if (caseInfo.getTaxTime() != null) {
+			String taxTime = format.format(caseInfo.getTaxTime());
+			reVo.setTaxTime(taxTime);
+		}
+		// 过户时间
+		if (caseInfo.getRealHtTime() != null) {
+			String realHtTime = format.format(caseInfo.getRealHtTime());
+			reVo.setRealHtTime(realHtTime);
+		}
+		// 领证时间
+		if (caseInfo.getRealPropertyGetTime() != null) {
+			String realPropertyGetTime = format.format(caseInfo.getRealPropertyGetTime());
+			reVo.setRealPropertyGetTime(realPropertyGetTime);
+		}
+		// 还款方式
+		if (caseInfo.getCloseType() != null) {
+			String closeType = uamBasedataService.getDictValue(TransDictEnum.THKFS.getCode(), caseInfo.getCloseType());
+			reVo.setCloseType(closeType);
+		}
+		// 还款时间
+		if (caseInfo.getLoanCloseCode() != null) {
+			String loanCloseCode = format.format(caseInfo.getLoanCloseCode());
+			reVo.setLoanCloseCode(loanCloseCode);
+		}   
+		// 结案时间
+		if (caseInfo.getCloseTime() != null) {
+			String closeTime = format.format(caseInfo.getCloseTime());
+			reVo.setCloseTime(closeTime);
+		}
+		
+		/** 贷款信息 **/
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(toCase.getCaseCode());
 		String loanReqType="FullPay";
 		if (toMortgage != null) {
@@ -923,11 +990,24 @@ public class CaseDetailController {
 			}else{
 				loanReqType="SelfLoan";
 			}
-			// 贷款类型
-			if (!StringUtils.isEmpty(toMortgage.getMortType())) {
-				String mortTypeString = uamBasedataService.getDictValue(TransDictEnum.TDKLX.getCode(),
-						toMortgage.getMortType());
-				reVo.setMortTypeName(mortTypeString);
+			
+			// 网签时间
+			if (toMortgage.getSignDate() != null) {
+				String signDate = format.format(toMortgage.getSignDate());
+				reVo.setSignDate(signDate);
+			}
+			// 批贷时间
+			if (toMortgage.getApprDate() != null) {
+				String apprDate = format.format(toMortgage.getApprDate());
+				reVo.setApprDate(apprDate);
+			}
+			// 主贷人
+			if (null != toMortgage.getCustCode()) {
+				TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
+				if (null != guest) {
+					reVo.setBuyerWork(guest.getWorkUnit());
+					reVo.setMortBuyer(guest.getGuestName());
+				}
 			}
 			// 放款方式
 			if (toMortgage.getLendWay() != null) {
@@ -935,15 +1015,15 @@ public class CaseDetailController {
 						toMortgage.getLendWay());
 				reVo.setLendWay(lendWay);
 			}
-			// 分行支行
-			String finOrgCodeString = toMortgage.getFinOrgCode();
-			if (!StringUtils.isEmpty(finOrgCodeString)) {
-				TsFinOrg bank = tsFinOrgService.findBankByFinOrg(finOrgCodeString);
-				reVo.setBankName(bank.getFinOrgName());
-				if (!StringUtils.isEmpty(bank.getFaFinOrgCode())) {
-					TsFinOrg faBank = tsFinOrgService.findBankByFinOrg(bank.getFaFinOrgCode());
-					reVo.setParentBankName(faBank.getFinOrgName());
-				}
+			// 他证送达时间
+			if (toMortgage.getTazhengArrDate() != null) {
+				String tazhengArrDate = format.format(toMortgage.getTazhengArrDate());
+				reVo.setTazhengArrString(tazhengArrDate);
+			} 
+			// 放款时间
+			if (toMortgage.getLendDate() != null) {
+				String lendDate = format.format(toMortgage.getLendDate());
+				reVo.setLendDate(lendDate);
 			}
 			// 评估公司
 			ToEvaReport evaReport = toEvaReportService.findFinalComByCaseCode(toCase.getCaseCode());
@@ -956,210 +1036,20 @@ public class CaseDetailController {
 			if (evaFeeReport != null && evaFeeReport.getEvalFee() != null) {
 				reVo.setEvaFee(evaFeeReport.getEvalFee());
 			}
-			// 主贷人
-			if (null != toMortgage.getCustCode()) {
-				// update zhangxb16 2016-2-16
-				TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
-				if (null != guest) {
-					reVo.setBuyerWork(guest.getWorkUnit());
-					reVo.setMortBuyer(guest.getGuestName());
+			// 分行支行
+			String finOrgCodeString = toMortgage.getFinOrgCode();
+			if (!StringUtils.isEmpty(finOrgCodeString)) {
+				TsFinOrg bank = tsFinOrgService.findBankByFinOrg(finOrgCodeString);
+				reVo.setBankName(bank.getFinOrgName());
+				if (!StringUtils.isEmpty(bank.getFaFinOrgCode())) {
+					TsFinOrg faBank = tsFinOrgService.findBankByFinOrg(bank.getFaFinOrgCode());
+					reVo.setParentBankName(faBank.getFinOrgName());
 				}
 			}
-
-			// 签约时间
-			if (toMortgage.getSignDate() != null) {
-				String signDate = format.format(toMortgage.getSignDate());
-				reVo.setSignDate(signDate);
-			} // 批贷时间
-			if (toMortgage.getApprDate() != null) {
-				String apprDate = format.format(toMortgage.getApprDate());
-				reVo.setApprDate(apprDate);
-			} // 他证送达时间
-			if (toMortgage.getTazhengArrDate() != null) {
-				String tazhengArrDate = format.format(toMortgage.getTazhengArrDate());
-				reVo.setTazhengArrString(tazhengArrDate);
-			} // 放款时间
-			if (toMortgage.getLendDate() != null) {
-				String lendDate = format.format(toMortgage.getLendDate());
-				reVo.setLendDate(lendDate);
-			} // 申请时间
-			if (toMortgage.getPrfApplyDate() != null) {
-				String applyDate = format.format(toMortgage.getPrfApplyDate());
-				reVo.setPrfApplyDate(applyDate);
-			}
 		}
-		// 交易信息
-		VCaseTradeInfo caseInfo = vCaseTradeInfoService.queryCaseTradeInfoByCaseCode(toCase.getCaseCode());
-
-		// 派单时间
-		if (caseInfo.getCreateTime() != null) {
-			String createTime = format.format(caseInfo.getCreateTime());
-			reVo.setCreateTime(createTime);
-		}
-		// 分单时间
-		if (caseInfo.getResDate() != null) {
-			String resDate = format.format(caseInfo.getResDate());
-			reVo.setResDate(resDate);
-		} // 签约时间
-		if (caseInfo.getRealConTime() != null) {
-			String realConTime = format.format(caseInfo.getRealConTime());
-			reVo.setRealConTime(realConTime);
-		} // 付款时间(首付)
-		if (caseInfo.getPayTime1() != null) {
-			String payTime1 = format.format(caseInfo.getPayTime1());
-			reVo.setPayTime1(payTime1);
-		} // 付款时间(二期)
-		if (caseInfo.getPayTime2() != null) {
-			String payTime2 = format.format(caseInfo.getPayTime2());
-			reVo.setPayTime2(payTime2);
-		} // 付款时间(尾款)
-		if (caseInfo.getPayTime3() != null) {
-			String payTime3 = format.format(caseInfo.getPayTime3());
-			reVo.setPayTime3(payTime3);
-		} // 付款时间(装修补偿)
-		if (caseInfo.getPayTime4() != null) {
-			String payTime4 = format.format(caseInfo.getPayTime4());
-			reVo.setPayTime4(payTime4);
-		} // 还款时间
-		if (caseInfo.getLoanCloseCode() != null) {
-			String loanCloseCode = format.format(caseInfo.getLoanCloseCode());
-			reVo.setLoanCloseCode(loanCloseCode);
-		}
-		//缴税时间
-		if(caseInfo.getPaymentTime()!=null){
-			String paymentTime=format.format(caseInfo.getPaymentTime());
-			reVo.setPaymentTime(paymentTime);
-		}
-		// 过户时间
-		if (caseInfo.getRealHtTime() != null) {
-			String realHtTime = format.format(caseInfo.getRealHtTime());
-			reVo.setRealHtTime(realHtTime);
-		}
-		/*
-		* 因天津没有审税核价和查限购这个环节，因此该段代码可废弃，但如果其他城市有该环节，可使用		* */
-		// 审税时间
-		if (caseInfo.getTaxTime() != null) {
-			String taxTime = format.format(caseInfo.getTaxTime());
-			reVo.setTaxTime(taxTime);
-		} // 核价时间
-		if (caseInfo.getPricingTime() != null) {
-			String pricingTime = format.format(caseInfo.getPricingTime());
-			reVo.setPricingTime(pricingTime);
-		} // 查限购时间
-		if (caseInfo.getRealPlsTime() != null) {
-			String realPlsTime = format.format(caseInfo.getRealPlsTime());
-			reVo.setRealPlsTime(realPlsTime);
-		}
-		// 领证时间
-		if (caseInfo.getRealPropertyGetTime() != null) {
-			String realPropertyGetTime = format.format(caseInfo.getRealPropertyGetTime());
-			reVo.setRealPropertyGetTime(realPropertyGetTime);
-		} // 结案时间
-		if (caseInfo.getCloseTime() != null) {
-			String closeTime = format.format(caseInfo.getCloseTime());
-			reVo.setCloseTime(closeTime);
-		}
-		// 房屋性质
-		if (caseInfo.getHouseProperty() != null) {
-			String houseProperty = uamBasedataService.getDictValue(TransDictEnum.TFWXZ.getCode(),
-					caseInfo.getHouseProperty());
-			reVo.setHouseProperty(houseProperty);
-		}
-		// 还款方式
-		if (caseInfo.getCloseType() != null) {
-			String closeType = uamBasedataService.getDictValue(TransDictEnum.THKFS.getCode(), caseInfo.getCloseType());
-			reVo.setCloseType(closeType);
-		}
-		// 购房年数
-		if (caseInfo.getHoldYear() != null) {
-			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), caseInfo.getHoldYear());
-			reVo.setHoldYear(holdYear);
-		} // 房屋性质
-		if (caseInfo.getHouseProperty() != null) {
-			String houseProperty = uamBasedataService.getDictValue(TransDictEnum.TFWXZ.getCode(),
-					caseInfo.getHouseProperty());
-			reVo.setHouseProperty(houseProperty);
-		} // 唯一住房
-		if (caseInfo.getIsUniqueHome() != null) {
-			String isUniqueHome = uamBasedataService.getDictValue(TransDictEnum.TWYZF.getCode(),
-					caseInfo.getIsUniqueHome());
-			reVo.setIsUniqueHome(isUniqueHome);
-		}
-		// 户口情况
-		if (caseInfo.getIsHukou() != null) {
-			String isHukou = uamBasedataService.getDictValue(TransDictEnum.THKQK.getCode(), caseInfo.getIsHukou());
-			reVo.setIsHukou(isHukou);
-		} // 合同公证
-		if (caseInfo.getIsConCert() != null) {
-			String isConCert = uamBasedataService.getDictValue(TransDictEnum.THTGZ.getCode(), caseInfo.getIsConCert());
-			reVo.setIsConCert(isConCert);
-		} // 付款方式(首付)
-		if (caseInfo.getPayType1() != null) {
-			String payType1 = uamBasedataService.getDictValue(TransDictEnum.TFKFS.getCode(), caseInfo.getPayType1());
-			reVo.setPayType1(payType1);
-		} // 付款方式(二期)
-		if (caseInfo.getPayType2() != null) {
-			String payType2 = uamBasedataService.getDictValue(TransDictEnum.TFKFS.getCode(), caseInfo.getPayType2());
-			reVo.setPayType2(payType2);
-		} // 付款方式(尾款)
-		if (caseInfo.getPayType3() != null) {
-			String payType3 = uamBasedataService.getDictValue(TransDictEnum.TFKFS.getCode(), caseInfo.getPayType3());
-			reVo.setPayType3(payType3);
-		} // 付款方式(装修补偿)
-		if (caseInfo.getPayType4() != null) {
-			String payType4 = uamBasedataService.getDictValue(TransDictEnum.TFKFS.getCode(), caseInfo.getPayType4());
-			reVo.setPayType4(payType4);
-		}
-
-		/*// 房款监管信息
-		ToSpv toSpv = toSpvService.queryToSpvByCaseCode(toCase.getCaseCode());
-		// 房款进出账
-		List<ToCashFlow> cashFlows = toSpvService.queryCashFlowsByCaseCode(toCase.getCaseCode());
-		if (toSpv != null) {
-			// 监管方式
-			if (!StringUtils.isEmpty(toSpv.getSpvType())) {
-				String spvType = uamBasedataService.getDictValue(TransDictEnum.TFWBM.getCode(), toSpv.getSpvType());
-				reVo.setSpvType(spvType);
-			}
-			// 监管签约时间
-			if (toSpv.getSignTime() != null) {
-				String signTime = format.format(toSpv.getSignTime());
-				reVo.setSignTime(signTime);
-			}
-			// 监管机构
-			if (toSpv.getSpvInsti() != null) {
-				TsFinOrg tsFinOrg = tsFinOrgService.findBankByFinOrg(toSpv.getSpvInsti());
-				if (tsFinOrg != null && !StringUtils.isEmpty(tsFinOrg.getFinOrgName())) {
-					reVo.setSpvInsti(tsFinOrg.getFinOrgName());
-				}
-			}
-			// 进出账
-			if (cashFlows != null && cashFlows.size() != 0) {
-				for (ToCashFlow toCashFlow : cashFlows) {
-					// 类型
-					String flowTypeCode = toCashFlow.getCashFlowType();
-					if (!StringUtils.isEmpty(flowTypeCode)) {
-						String flowTypeValue = uamBasedataService.getDictValue(TransDictEnum.TFWBM.getCode(),
-								flowTypeCode);
-						toCashFlow.setCashFlowTypeName(flowTypeValue);
-					}
-					// 时间
-					if (toCashFlow.getFlowTime() != null) {
-						String flowTimeString = format.format(toCashFlow.getFlowTime());
-						toCashFlow.setFlowTimeStr(flowTimeString);
-					}
-					// 流水方向
-					if (toCashFlow.getFlowDirection() != null) {
-						String flowDirection = uamBasedataService.getDictValue(TransDictEnum.TLSFX.getCode(),
-								toCashFlow.getFlowDirection());
-						toCashFlow.setFlowDirection(flowDirection);
-					}
-				}
-			}
-		}*/
 
 		// 金融服务信息
-		List<LoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
+		/*List<LoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
 		List<ToLoanAgentVO> toLoanAgentVOs = new ArrayList<ToLoanAgentVO>();
 		List<ToLoanAgentVO> toEloanCaseVOs = new ArrayList<ToLoanAgentVO>();
 		// E+金融
@@ -1301,108 +1191,44 @@ public class CaseDetailController {
 				}
 				toLoanAgentVOs.add(toLoanAgentVO);
 			}
-		}
+		}*/
 	
-		List<TaskVo> tasks = new ArrayList<TaskVo>();
-		if (toWorkFlow != null) {
-			//查询caseCode所有的流程instCode
-			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCode(toCase.getCaseCode());
-			for(String insCode : insCodeList) {
-				TaskHistoricQuery tq = new TaskHistoricQuery();				
-				tq.setProcessInstanceId(insCode);
-				tq.setFinished(true);
-
-				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());		
-				tasks.addAll(taskList1);
-			}
-			// 本人做的任务
-			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
-			
-			/*
-			 * @author: zhuody
-			 * @date:2017-04-12
-			 * @desc:信息管理员 权限放大
-			 * */
-/*			if(null != sessionUser.getServiceJobCode() && !"".equals(sessionUser.getServiceJobCode())){
-				if("COXXGLY".equals(sessionUser.getServiceJobCode())){
-					request.setAttribute("myTasks",filterMyTask(null,tasks)) ;
-				}else{
-					
-				}		
-			}*/
-			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
-			
-		}
-		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser.getServiceDepCode());
-		boolean isBackTeam = false;
+//		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser.getServiceDepCode());
+//		boolean isBackTeam = false;
 		boolean isCaseOwner=false;
 		boolean isNewFlow=false;
 		boolean isCaseManager=false;
-		
-		if (tp != null) {
-			isBackTeam = "yu_back".equals(tp.getTeamProperty());
-		}
-		
+		//查询登录人的工作组，前台or后台
+//		if (tp != null) {
+//			isBackTeam = "yu_back".equals(tp.getTeamProperty());
+//		}
+		//判断是否为自己的案件
 		if(sessionUser.getId().equals(toCase.getLeadingProcessId())){
 			isCaseOwner=true;
 		}
+		
 		if(toWorkFlow!=null &&"operation_process:34:620096".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
 			isNewFlow=true;
 		}
+	
 		if(isCaseOwner&&TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())){
 			isCaseManager=true;
 		}
 		
-		boolean isMortgageSelect = false;   //是否贷款选择操作已完成，如果为true，说明该操作已完成;返回false,该操作未完成。
-		if(toWorkFlow != null){
-			TaskHistoricQuery query =new TaskHistoricQuery();
-			query.setFinished(true);
-			query.setTaskDefinitionKey(ToAttachmentEnum.MORTGAGESELECT.getCode());
-			query.setProcessInstanceId(toWorkFlow.getInstCode());
-			PageableVo pageableVo=workFlowManager.listHistTasks(query);
-			
-			if(pageableVo.getSize() > 0){
-				isMortgageSelect = true;    
-			}
-		}
-		else {
-			String isReponsed = toCaseInfo.getIsResponsed();   //isReponsed:未分单:0,已分单:1
-			
-			if("0".equals(isReponsed)){       //如果是未分单，可以添加商贷流失预警信息
-				isMortgageSelect = false;
-			}
-			else if("1".equals(isReponsed)){   //如果是已分单并且流程已经全部结束，是不能添加商贷流失预警信息
-				isMortgageSelect = true;
-			}
-		}
 		String jobId = uamSessionService.getSessionUser().getServiceJobId();
 		List<Resource> resourcelist = uamPermissionService.getResourceByJobId(jobId);
 		request.setAttribute("resourcelist", resourcelist);
 
-		//商贷预警信息
-		BizWarnInfo bizWarnInfo = bizWarnInfoService.getBizWarnInfoByCaseCode(toCase.getCaseCode());
 
-		//是否关注
-		boolean isSubscribe = toModuleSubscribeService.checkIsSubscribe(toCase.getCaseCode(), uamSessionService.getSessionUser().getId(), SubscribeModuleType.CASE.getValue(),SubscribeType.COLLECTION.getValue());
-		
-		/**
-		 * 外单收款流水
-		 */
-		caseMergeService.getTpdPaymentVO(toCase.getCaseCode(),request);
-		/*String guohuApproveType = tgServItemAndProcessorService.findGuohuApproveTypeByCaseCode(toCase.getCaseCode());
-		
-		if(null != guohuApproveType)
-			if(StringUtils.equals(guohuApproveType, "1")){
-				request.setAttribute("guohuApproveType", "Y");
-			}else{request.setAttribute("guohuApproveType", "N");}
-		*/
 		/** 案件重启中对信息管理员开放 ff80808158af2e600158b98c82340049 ***/
-		if(null != sessionUser)
-		if(StringUtils.equals(sessionUser.getServiceJobCode(), "COXXGLY")){
-			request.setAttribute("serviceJobType", "Y");
-		}else{request.setAttribute("serviceJobType", "N");}
-		request.setAttribute("isMortgageSelect", isMortgageSelect);
-		request.setAttribute("bizWarnInfo", bizWarnInfo);
+//		if(null != sessionUser){
+//			if(StringUtils.equals(sessionUser.getServiceJobCode(), "COXXGLY")){
+//				request.setAttribute("serviceJobType", "Y");
+//			}else{
+//				request.setAttribute("serviceJobType", "N");
+//			}
+//		}
+
 		request.setAttribute("isCaseManager", isCaseManager);
 		request.setAttribute("serivceDefId", sessionUser.getServiceDepId());
 		request.setAttribute("loanReqType", loanReqType);
@@ -1412,7 +1238,7 @@ public class CaseDetailController {
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
 		
-		request.setAttribute("isBackTeam", isBackTeam);
+//		request.setAttribute("isBackTeam", isBackTeam);
 		request.setAttribute("isCaseOwner", isCaseOwner);
 		request.setAttribute("toCase", toCase);
 		request.setAttribute("toCaseInfo", toCaseInfo);
@@ -1421,15 +1247,20 @@ public class CaseDetailController {
 		request.setAttribute("toMortgage", toMortgage);
 		request.setAttribute("caseDetailVO", reVo);
 		request.setAttribute("caseInfo", caseInfo);
+		//收费情况，接口提出
+		JSONObject chargeInfo = new JSONObject();
+		request.setAttribute("chargeInfo", chargeInfo);
+
+		
 /*		request.setAttribute("toSpv", toSpv);
 		request.setAttribute("cashFlows", cashFlows);*/
-		request.setAttribute("toLoanAgents", toLoanAgents);
+		/*request.setAttribute("toLoanAgents", toLoanAgents);
 		request.setAttribute("toEloanCases", toEloanCases);
 		request.setAttribute("toLoanAgentVOs", toLoanAgentVOs);
 		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);
-		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);
+		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);cyx*/
 		request.setAttribute("isSubscribe", isSubscribe);
-		return "case/caseDetail";
+		return "case/caseDetail_new";
 	}
 	
 	private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){
@@ -2142,7 +1973,7 @@ public class CaseDetailController {
 	}
 
 	/**
-	 * 变更交易计划
+	 * 变更交易计划保存
 	 * 
 	 * @return
 	 * @throws Exception
@@ -2237,7 +2068,7 @@ public class CaseDetailController {
 		}
 		for (String instCode : taskInstCode.keySet()) {
 			if(!com.alibaba.druid.util.StringUtils.isEmpty(instCode)){
-				if(isSus){
+				if(isSus){//恢复状态
 					if(taskInstCode.get(instCode)){//如果是挂起状态  true变成非挂起状态
 						workFlowManager.activateOrSuspendProcessInstance(instCode, true);
 					}
@@ -2245,9 +2076,7 @@ public class CaseDetailController {
 					if(!taskInstCode.get(instCode)){//如果不是挂起状态  false变成挂起状态
 						workFlowManager.activateOrSuspendProcessInstance(instCode, false);
 					}
-
 				}
-
 			}
 		}
 		// 案件表更新
@@ -2311,6 +2140,59 @@ public class CaseDetailController {
 		return AjaxResponse.success("变更成功！");
 	}
 	
+	
+	@RequestMapping(value="caseBaodan")
+	@ResponseBody
+	public AjaxResponse<?> caseBaodan(String caseCode){
+		ToWorkFlow record = new ToWorkFlow();
+		record.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+		record.setCaseCode(caseCode);
+		List<ToWorkFlow> wfls = toWorkFlowService.queryActiveToWorkFlowByCaseCode(record);
+		//工作流数据更新：爆单
+		if(wfls != null && wfls.size() > 0){
+			for(ToWorkFlow toWorkFlow : wfls){
+				toWorkFlow.setStatus(WorkFlowStatus.BAODAN.getCode());
+				toWorkFlowService.updateByPrimaryKey(toWorkFlow);
+			}
+			for(ToWorkFlow toWorkFlow : wfls){
+    			try {
+    				unlocatedTaskService.deleteByInstCode(toWorkFlow.getInstCode());
+            		workFlowManager.deleteProcess(toWorkFlow.getInstCode());
+				} catch (WorkFlowException e) {
+					if(!e.getMessage().contains("statusCode[404]"))throw e;
+					return AjaxResponse.fail(e.getMessage());
+				}
+    		}
+		}
+		/** 案件性质更新 **/
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+		toCase.setCaseProperty(CasePropertyEnum.TPBD.getCode());
+		int res = toCaseService.updateByPrimaryKey(toCase);
+		if(res == 0){
+			return AjaxResponse.fail("更新案件失败!");
+		}
+		
+		return AjaxResponse.success();
+	}
+	
+	/**
+	 * 获取同组织下的所有交易助理
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="getAssistantInfo")
+	@ResponseBody
+	public Map<String, Object> getAssistantInfo(HttpServletRequest request){
+		Map<String, Object> result = new HashMap<String, Object>();
+		SessionUser us = uamSessionService.getSessionUser();
+		String orgId = us.getServiceDepId();
+		
+		List<CaseAssistantVO> userList = toCaseInfoService.getAssistantInfo(orgId);
+		if (userList != null && userList.size() > 0) {
+			result.put("users", userList);
+		}
+		return result;
+	}
 	/**
 	 * 变更交易助理
 	 * @param tocase

@@ -94,6 +94,7 @@ public class CaseListController {
 		request.setAttribute("userId", user.getId());
 		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		request.setAttribute("serviceDepName", user.getServiceDepName());
+//		return "case/mycase_list_new";
 		return "case/mycase_list2";
 	}
 	

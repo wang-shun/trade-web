@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.evaPricing.repository.ToEvaPricingMapper">
+	<resultMap id="BaseResultMap" type="com.centaline.trans.evaPricing.entity.ToEvaPricingVo" >
+		<id column="PKID" property="pkid" jdbcType="BIGINT" />
+		<result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR"/>
+		<result column="ARISER_ID" property="ariserId" jdbcType="VARCHAR"/>
+		<result column="EVA_TYPE" property="evaType" jdbcType="NVARCHAR"/>
+		<result column="LOAN_BANK" property="loanBank" jdbcType="VARCHAR"/>
+		<result column="ORIGIN_PRICE" property="originPrice" jdbcType="DECIMAL"/>
+		<result column="TOTAL_PRICE" property="totalPrice" jdbcType="DECIMAL"/>
+		<result column="EVAL_TIME" property="evalTime" jdbcType="TIMESTAMP"/>
+		<result column="RESIDENCE_NAME" property="residenceName" jdbcType="VARCHAR"/>
+		<result column="FLOOR" property="floor" jdbcType="INTEGER"/>
+		<result column="TOTAL_FLOOR" property="totalFloor" jdbcType="INTEGER"/>
+		<result column="AREA" property="area" jdbcType="DECIMAL"/>
+		<result column="COMPLETE_YEAR" property="completeYear" jdbcType="VARCHAR"/>
+		<result column="PROP_TYPE" property="propType" jdbcType="VARCHAR"/>
+		<result column="ROOM" property="room" jdbcType="INTEGER"/>
+		<result column="HALL" property="hall" jdbcType="INTEGER"/>
+		<result column="TOILET" property="toilet" jdbcType="INTEGER"/>
+		<result column="HOUSE_AGE" property="houseAge" jdbcType="INTEGER"/>
+		<result column="EVA_COMPANY" property="evaCompany" jdbcType="VARCHAR"/>
+		<result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR"/>
+		<result column="CTM_CODE" property="ctmCode" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 查询询价明细 -->
+	<select id="findEvaPricingDetailByPKID" resultMap="BaseResultMap" >
+		SELECT
+			pri.PKID,
+			pri.EVA_CODE,
+			pri.ARISER_ID,
+			pri.EVA_TYPE,
+			pri.LOAN_BANK,
+			pri.ORIGIN_PRICE,
+			pri.TOTAL_PRICE,
+			pri.EVAL_TIME,
+			pro.RESIDENCE_NAME,
+			pro.FLOOR,
+			pro.TOTAL_FLOOR,
+			pro.AREA,
+			pro.COMPLETE_YEAR,
+			pro.PROP_TYPE,
+			pro.ROOM,
+			pro.HALL,
+			pro.TOILET,
+			pro.HOUSE_AGE,
+			'temp' EVA_COMPANY,
+			cas.CASE_CODE,
+			cas.CTM_CODE
+		FROM
+			sctrans.T_TO_EVA_PRICING pri
+			INNER JOIN sctrans.T_TO_EGU_PROPERTY_INFO pro ON pri.EVA_CODE = pro.EVA_CODE
+			LEFT JOIN sctrans.T_TO_CASE cas ON pri.CASE_CODE = cas.CASE_CODE
+		WHERE
+			pri.PKID = #{pkid,jdbcType=BIGINT}
+	</select>
+	
+	<!-- 新增询价数据 -->
+	<insert id="insertSelective" parameterType="com.centaline.trans.evaPricing.entity.ToEvaPricingVo">
+		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">
+			SELECT @@IDENTITY
+		</selectKey>
+			insert into sctrans.T_TO_EVA_PRICING
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+			
+				<if test="evaCode != null">
+					EVA_CODE,
+				</if>
+				<if test="evaType != null">
+					EVA_TYPE,
+				</if>
+				<if test="originPrice != null">
+					ORIGIN_PRICE,
+				</if>
+				<if test="loanBank != null">
+					LOAN_BANK,
+				</if>
+				<if test="finorgId != null">
+					FIN_ORG_ID,
+				</if>
+				<if test="totalPrice != null">
+					TOTAL_PRICE,
+				</if>
+				<if test="evalTime != null">
+					EVAL_TIME,
+				</if>
+				<if test="ariserId != null">
+					ARISER_ID,
+				</if>
+				<if test="createTime != null">
+					CREATE_TIME,
+				</if>			
+			</trim>
+			<trim prefix="values (" suffix=")" suffixOverrides=",">
+				<if test="evaCode != null">
+					#{evaCode,jdbcType=VARCHAR},
+				</if>
+				<if test="evaType != null">
+					#{evaType,jdbcType=NVARCHAR},
+				</if>
+				<if test="originPrice != null">
+					#{originPrice,jdbcType=DECIMAL},
+				</if>
+				<if test="loanBank != null">
+					#{loanBank,jdbcType=VARCHAR},
+				</if>
+				<if test="finorgId != null">
+					#{finorgId,jdbcType=NVARCHAR},
+				</if>
+				<if test="totalPrice != null">
+					#{totalPrice,jdbcType=DECIMAL},
+				</if>
+				<if test="evalTime != null">
+					#{evalTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="ariserId != null">
+					#{ariserId,jdbcType=VARCHAR},
+				</if>
+				<if test="createTime != null">
+					#{createTime,jdbcType=TIMESTAMP},
+				</if>	
+			</trim>	
+	</insert>
+
+	<insert id="insertEguPropertyInfoSelective" parameterType="com.centaline.trans.mortgage.entity.ToEguPropertyInfo">
+		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">
+			SELECT @@IDENTITY
+		</selectKey>
+			insert into sctrans.T_TO_EGU_PROPERTY_INFO
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="evaCode != null">
+					EVA_CODE,
+				</if>
+				<if test="residenceName != null">
+					RESIDENCE_NAME,
+				</if>
+				<if test="floor != null">
+					FLOOR,
+				</if>
+				<if test="totalFloor != null">
+					TOTAL_FLOOR,
+				</if>
+				<if test="area != null">
+					AREA,
+				</if>
+				<if test="completeYear != null">
+					COMPLETE_YEAR,
+				</if>
+				<if test="houseAge != null">
+					HOUSE_AGE,
+				</if>
+				<if test="propType != null">
+					PROP_TYPE,
+				</if>
+				<if test="room != null">
+					ROOM,
+				</if>
+				<if test="hall != null">
+					HALL,
+				</if>
+				<if test="toilet != null">
+					TOILET,
+				</if>
+			</trim>
+			<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="evaCode != null">
+					#{evaCode,jdbcType=VARCHAR},
+				</if>
+				<if test="residenceName != null">
+					#{residenceName,jdbcType=VARCHAR},
+				</if>
+				<if test="floor != null">
+					#{floor,jdbcType=INTEGER},
+				</if>
+				<if test="totalFloor != null">
+					#{totalFloor,jdbcType=INTEGER},
+				</if>
+				<if test="area != null">
+					#{area,jdbcType=DECIMAL},
+				</if>
+				<if test="completeYear != null">
+					#{completeYear,jdbcType=VARCHAR},
+				</if>
+				<if test="houseAge != null">
+					#{houseAge,jdbcType=INTEGER},
+				</if>
+				<if test="propType != null">
+					#{propType,jdbcType=VARCHAR},
+				</if>
+				<if test="room != null">
+					#{room,jdbcType=INTEGER},
+				</if>
+				<if test="hall != null">
+					#{hall,jdbcType=INTEGER},
+				</if>
+				<if test="toilet != null">
+					#{toilet,jdbcType=INTEGER},
+				</if>
+			</trim>
+	</insert>
+	
+	<update id="updateEvaPricing" parameterType="com.centaline.trans.evaPricing.entity.ToEvaPricingVo">
+		UPDATE 
+			sctrans.T_TO_EVA_PRICING
+		<set>
+			<if test="isSubmit != null and isSubmit == 1">
+				STATUS = '1',
+			</if>
+			<if test="finorgId != null">
+				FIN_ORG_ID = #{finorgId,jdbcType=NVARCHAR},
+			</if>
+			<if test="evalTime != null">
+				EVAL_TIME = #{evalTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalPrice != null">
+				TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+			</if>
+				COMPLETE_TIME = CURRENT_TIMESTAMP
+		</set>
+		WHERE
+			PKID = #{pkid,jdbcType=BIGINT}	
+	</update>
+	
+	<update id="updateEguPropertyInfo">
+		UPDATE 
+			sctrans.T_TO_EGU_PROPERTY_INFO
+		SET 
+			HOUSE_AGE = #{houseAge,jdbcType=INTEGER}
+		where 
+			EVA_CODE = #{evaCode,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 取消询价 -->
+	<update id="cancelEvaPricingByPKID">
+		UPDATE 
+			sctrans.T_TO_EVA_PRICING
+		SET STATUS = '2'
+		WHERE 
+			PKID = #{pkid,jdbcType=BIGINT}
+	</update>
+</mapper>

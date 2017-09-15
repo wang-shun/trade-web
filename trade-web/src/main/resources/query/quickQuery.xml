@@ -240,4 +240,7 @@
 	<import resource="query/performance/receivablePerfListQuery.xml"></import>
 	<!--接单统计，列表-->
 	<import resource="query/case/CaseReceiveList.xml"/>
+	
+	<!-- 询价列表 -->
+	<import resource="query/evaPricing/toEvaPricingListQuery.xml"/>
 </queryConfig>
