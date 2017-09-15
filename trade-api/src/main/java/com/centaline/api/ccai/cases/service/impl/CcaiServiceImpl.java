@@ -34,6 +34,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -210,7 +211,6 @@ public class CcaiServiceImpl implements CcaiService {
 		//业务开始后 进行调整
 		tocase.setStatus(CaseStatusEnum.WJD.getCode());//设置状态为未接单
 		tocase.setCaseOrigin(CaseOriginEnum.CCAI.getCode());//设置信息来源
-		System.out.println("insert :" + tocase);
 		tocaseMapper.insertSelective(tocase);
 		//TODO 发送消息队列，发起交易流程
 	}

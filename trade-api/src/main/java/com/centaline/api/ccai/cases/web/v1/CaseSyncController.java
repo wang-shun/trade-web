@@ -65,7 +65,7 @@ public class CaseSyncController {
 	 * @return
 	 */
 	@ApiOperation(value = "案件同步API", notes = "提供给CCAI将成交报告同步到交易系统", produces = "application/json,application/json;charset=UTF-8")
-	@RequestMapping(value = "/caseSync.json", method = RequestMethod.POST,produces = {"application/json","application/json;charset=UTF-8"})
+	@RequestMapping(value = "/case/sync", method = RequestMethod.POST,produces = {"application/json","application/json;charset=UTF-8"})
 	public CcaiServiceResult caseImport(
 			@ApiParam(name = "案件信息", value = "需要同步的案件信息", required = true)
 			@Valid @RequestBody CcaiImportCase acase, Errors errors, HttpServletRequest request) {
@@ -117,7 +117,7 @@ public class CaseSyncController {
 			@ApiImplicitParam(name = "type", value = "本次修改的类型",
 					allowableValues = "normal,flow", paramType = "path", dataType = "string", required = true),
 	})
-	@RequestMapping(value = "/caseUpdate/{type}.json", method = RequestMethod.POST)
+	@RequestMapping(value = "/case/{type}", method = RequestMethod.PUT)
 	@ResponseBody
 	public CcaiServiceResult caseUpdate(@PathVariable String type,
 			@ApiParam(name = "案件信息", value = "本次修改的案件信息", required = true)
