@@ -53,19 +53,31 @@ public class CaseRecvVO {
 	/**
 	 * 
 	 * @since:2017年9月5日 上午10:18:32
-	 * @description:统一设置caseCode,建议设置完field之后再调用该方法来避免空指针异常
+	 * @description:统一设置caseCode,建议设置完field之后再调用该方法来避免空指针异常;
+	 * 				建议先判断该属性是否为空；
 	 * @author:xiefei1
 	 * @param caseCode
 	 */
 	public void setCaseCode(String caseCode) {
 		this.caseCode = caseCode;
-		this.toPropertyInfo.setCaseCode(caseCode);
-		this.toSign.setCaseCode(caseCode);
-		this.toCaseRecv.setCaseCode(caseCode);
-		this.toTax.setCaseCode(caseCode);
-		this.toCaseComment.setCaseCode(caseCode);
-		this.bizWarnInfo.setCaseCode(caseCode);
-				
+		if (null != this.toPropertyInfo) {
+			this.toPropertyInfo.setCaseCode(caseCode);
+		}
+		if (null != this.toSign) {
+			this.toSign.setCaseCode(caseCode);
+		}
+		if (null != this.toCaseRecv) {
+			this.toCaseRecv.setCaseCode(caseCode);
+		}
+		if (null != this.toTax) {
+			this.toTax.setCaseCode(caseCode);
+		}
+		if (null != this.toCaseComment) {
+			this.toCaseComment.setCaseCode(caseCode);
+		}
+		if (null != this.bizWarnInfo) {
+			this.bizWarnInfo.setCaseCode(caseCode);
+		}				
 	}
 	public ToPropertyInfo getToPropertyInfo() {
 		return toPropertyInfo;

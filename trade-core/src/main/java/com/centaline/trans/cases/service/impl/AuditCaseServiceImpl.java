@@ -91,5 +91,20 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 		
 		return 0;
 	}
+	/**
+	 * 根据当前贷款或者过户权证账号和caseCode查出贷款或者过户权证的上级账号
+	 */
+	@Override
+	public String getLeaderUserName(ToCaseParticipant toCaseParticipant) {
+		// TODO Auto-generated method stub
+		if(null!=toCaseParticipant.getCaseCode()&&null!=toCaseParticipant.getUserName()){			
+		List<ToCaseParticipant> userList = toCaseParticipantMapper.selectByCondition(toCaseParticipant);
+		if(userList.size()==1){
+			ToCaseParticipant toCaseParticipant2 = userList.get(0);
+			return toCaseParticipant2.getGrpMgrUsername();
+		}					
+		}
+		return null;
+	}
 	
 }

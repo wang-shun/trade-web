@@ -40,7 +40,6 @@
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
 <script type="text/javascript">
-	var ctx = "${ctx}";
 	var coworkService = "${firstFollow.coworkService }";
 	var teamProperty = "${teamProperty}";
 	var caseProperty = "${firstFollow.caseProperty}";
@@ -48,10 +47,7 @@
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
 	var index=0;
 	var taskitem = "${taskitem}";
-	
-	//var caseCode = "${caseCode}";
-	
-	
+
 	var processInstanceId = "${processInstanceId}";
 	var approveType = "${approveType }";
 	if("${idList}" != "") {
@@ -124,11 +120,7 @@ var AttachmentList = (function(){
 	    				var id = ids[i];
 	    				var rowDatas = jQuery("#"+gridTableId).jqGrid('getRowData', ids[i]); // 获取当前行
 	    				
-	    				var link = "<button  class='btn red' onclick='showAttachment(\""+rowDatas['URL']+"\")'>查看附件</a>";
-	    				//var link = "<button  class='btn red' onclick='showAttachment(\""+ctx+"\",\""+ctmCode+"\",\""+caseCode+"\",\""+rowDatas['ATT_NAME']+"\",\""+rowDatas['URL']+"\")'>查看附件</a>";
-	    				
-	    				//var detailBtn = "<button  class='btn red' id='alertOper' onclick='openLoan(\""+ctx+"\",\""+rowDatas['pkId']+"\")' style='width:90px;'>详细</button>";
-	    				
+	    				var link = "<button  class='btn red' onclick='showAttachment(\""+rowDatas['URL']+"\")'>查看附件</a>";	    				
 	    				jQuery("#"+gridTableId).jqGrid('setRowData', ids[i], { READ: link});
     				}
     			},
@@ -210,13 +202,18 @@ function save(b) {
             console.log(data);
             if (b) {
                 if (data.message) {
-                    window.wxc.alert(data.message);
+                    window.wxc.alert("提交成功"+data.message);
                 }
+                var ctx = $("#ctx").val();
+                window.location.href=ctx+ "/task/myTaskList";
             }else{
             	if (data.message) {
-                    window.wxc.alert(data.message);
+                    window.wxc.alert("提交成功"+data.message);
                 }
             }
+        },
+        error:function(){
+        	window.wxc.alert("提交信息出错。。");
         }
     });
 }
@@ -349,7 +346,7 @@ function checkForm() {
 		return false;
 	}
 	
-	if($("#isUniqueHome").val()==0){
+	if($("#isUniqueHome").val()==10){
 		window.wxc.alert("房屋套数为必选项!");
 		$("#isUniqueHome").focus();
 		$("#isUniqueHome").css("border-color","red");
@@ -689,9 +686,9 @@ function checkForm() {
 				<script>
 					$(document).ready(function(){
 						var ctx = $("#ctx").val();
-						if(!$("#caseCode").val()){
+/* 						if(!$("#caseCode").val()){
 							$("#caseCode").val("ZY-TJ-2017080038");						
-						}
+						} */
 						var caseCode=$("#caseCode").val();
 						AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}',caseCode);
 						$("#caseCommentList").caseCommentGrid({

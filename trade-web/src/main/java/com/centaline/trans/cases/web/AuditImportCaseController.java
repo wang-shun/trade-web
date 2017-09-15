@@ -39,6 +39,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.ToCcaiAttachment;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.vo.FileUploadVO;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.workspace.entity.CacheGridParam;
 
 /**
@@ -70,6 +71,9 @@ public class AuditImportCaseController {
 	
 	@Autowired
 	private UamUserOrgService uamUserOrgServiceClient;
+	
+	@Autowired
+	private WorkFlowManager workFlowManager;
 	
 	/**
 	 * 
@@ -159,6 +163,8 @@ public class AuditImportCaseController {
 		model.addAttribute("payType", payType);
 		model.addAttribute("caseCode", caseCode);
 		model.addAttribute("loanUserList", loanUserList);
+		ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
+		auditCaseService.getLeaderUserName(toCaseParticipant);
 		
 		return "case/auditCaseDetails";
 		

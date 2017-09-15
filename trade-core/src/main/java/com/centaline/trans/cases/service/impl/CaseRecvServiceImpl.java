@@ -260,7 +260,7 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 		caseRecvVO.setToTax(toTax);
 		caseRecvVO.setToCaseCommentsList(toCaseCommentsList);
 		caseRecvVO.setToCcaiAttachmentsList(toCcaiAttachmentsList);
-		
+		caseRecvVO.setCaseCode(caseCode);
 		return caseRecvVO;
 	}
 

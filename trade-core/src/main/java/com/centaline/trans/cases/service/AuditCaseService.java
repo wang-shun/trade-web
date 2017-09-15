@@ -2,6 +2,7 @@ package com.centaline.trans.cases.service;
 
 import java.util.List;
 
+import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.common.entity.ToCcaiAttachment;
 
 
@@ -19,5 +20,7 @@ public interface AuditCaseService {
     public List<ToCcaiAttachment> getCcaiAttachment(String caseCode);
     
     public int addLoanProcessor(String userName,String caseCode);
+    
+    public String getLeaderUserName(ToCaseParticipant toCaseParticipant);
     
 }
