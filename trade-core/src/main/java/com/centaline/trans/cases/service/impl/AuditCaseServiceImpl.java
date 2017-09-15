@@ -85,6 +85,13 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 				toCaseParticipant.setGrpName(userByUsername.getOrgName());
 				toCaseParticipant.setPosition("loan");
 				return toCaseParticipantMapper.insertSelective(toCaseParticipant);
+			}else{
+				toCaseParticipant.setCcaiCode(caseCode);
+				toCaseParticipant.setUserName(userByUsername.getUsername());
+				toCaseParticipant.setRealName(userByUsername.getRealName());
+				toCaseParticipant.setMobile(userByUsername.getMobile());
+				toCaseParticipant.setGrpName(userByUsername.getOrgName());
+				toCaseParticipant.setPosition("loan");
 			}
 		}
 		

@@ -39,6 +39,7 @@
 <!--弹出框样式  -->
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 <script type="text/javascript">
 	var coworkService = "${firstFollow.coworkService }";
 	var teamProperty = "${teamProperty}";

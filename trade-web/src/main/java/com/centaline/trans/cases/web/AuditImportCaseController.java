@@ -152,20 +152,25 @@ public class AuditImportCaseController {
 	/**
 	 * 
 	 * @since:2017年8月31日 上午10:52:56
-	 * @description:跳转到审核附件详情页面
+	 * @description:跳转到案件审核详情页面,查询出当前权证经理下面的所有用户供其选择贷款专员
 	 * @author:xiefei1
 	 * @return
 	 */
 	@RequestMapping(value = "details")
 	public String auditCaseDetails(String caseCode,Model model){
-		List<User> loanUserList = uamUserOrgServiceClient.getUserByBelongOrgId("A05D3E9C1ED343118F2286EC7E3D2637");
+//		测试时用这个
+//		List<User> loanUserList = uamUserOrgServiceClient.getUserByBelongOrgId("A05D3E9C1ED343118F2286EC7E3D2637");
+//		查询出当前权证经理下面的所有用户供其选择贷款专员
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+		String username = sessionUser.getUsername();
+		User userByUsername = uamUserOrgServiceClient.getUserByUsername(username);
+		List<User> loanUserList = uamUserOrgServiceClient.getUserByBelongOrgId(userByUsername.getOrgId());
 		String payType = auditCaseService.getPayType(caseCode);
 		model.addAttribute("payType", payType);
 		model.addAttribute("caseCode", caseCode);
 		model.addAttribute("loanUserList", loanUserList);
 		ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
-		auditCaseService.getLeaderUserName(toCaseParticipant);
-		
+		auditCaseService.getLeaderUserName(toCaseParticipant);		
 		return "case/auditCaseDetails";
 		
 	}
