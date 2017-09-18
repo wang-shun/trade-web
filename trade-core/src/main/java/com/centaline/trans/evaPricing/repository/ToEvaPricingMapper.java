@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Param;
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.mortgage.entity.ToEguPropertyInfo;
-import com.sun.org.glassfish.gmbal.ParameterNames;
 
 @MyBatisRepository
 public interface ToEvaPricingMapper {
