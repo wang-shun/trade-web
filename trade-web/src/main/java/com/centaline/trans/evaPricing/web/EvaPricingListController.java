@@ -49,8 +49,8 @@ public class EvaPricingListController {
 	 * @return
 	 */
 	@RequestMapping(value="addNewEvaPricing")
-	public String addEvaluate(Model model, ServletRequest request){	
-				
+	public String addEvaluate(@RequestParam(value="caseCode",required=false)String caseCode, ServletRequest request){	
+		request.setAttribute("caseCode", caseCode);
 		return "evaPricing/evaPricingAdd";
 	}
 	

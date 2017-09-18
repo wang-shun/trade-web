@@ -97,6 +97,7 @@
 				询价新增
         	</h1>
 			<form method="get" id="evaluateForm" class="form_list">
+				<input type="hidden" name="caseCode" value="${caseCode }">
 				<div class="row clearfix">
 					<div class="form_content">
 						<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>询价类型</label>

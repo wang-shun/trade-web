@@ -6,6 +6,11 @@ import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.mortgage.entity.ToEguPropertyInfo;
 
+/**
+ * 询价Mapper
+ * @author wbcaiyx
+ *
+ */
 @MyBatisRepository
 public interface ToEvaPricingMapper {
 	

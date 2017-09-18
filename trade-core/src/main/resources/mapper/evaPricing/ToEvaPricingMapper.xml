@@ -64,7 +64,9 @@
 		</selectKey>
 			insert into sctrans.T_TO_EVA_PRICING
 			<trim prefix="(" suffix=")" suffixOverrides=",">
-			
+				<if test="caseCode != null">
+					CASE_CODE,
+				</if>
 				<if test="evaCode != null">
 					EVA_CODE,
 				</if>
@@ -94,6 +96,9 @@
 				</if>			
 			</trim>
 			<trim prefix="values (" suffix=")" suffixOverrides=",">
+				<if test="caseCode != null">
+					#{caseCode,jdbcType=VARCHAR},
+				</if>
 				<if test="evaCode != null">
 					#{evaCode,jdbcType=VARCHAR},
 				</if>
