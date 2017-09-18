@@ -72,15 +72,24 @@ public class SystemSettingController {
 	 * 
 	 */
 	@RequestMapping("/saveReminderItem")
-	public String saveReminderItem(ToReminderList toReminderList, HttpServletRequest request) {
-		
+	@ResponseBody
+	public AjaxResponse<?> saveReminderItem(ToReminderList toReminderList, HttpServletRequest request) {
+		//优化了一下提醒清单列表刷新的问题，只刷新数据，不刷新页面
 		if(toReminderList.getPkid()==null){
-			toReminderListService.insertSelective(toReminderList);
+			int n=toReminderListService.insertSelective(toReminderList);
+			if (n!=1){
+				return AjaxResponse.fail("添加失败");
+			}else{
+				return AjaxResponse.success("添加成功");
+			}
 		}else{
-			toReminderListService.updateByPrimaryKeySelective(toReminderList);
+			int n=toReminderListService.updateByPrimaryKeySelective(toReminderList);
+			if (n!=1){
+				return AjaxResponse.fail("修改失败");
+			}else{
+				return AjaxResponse.success("修改成功");
+			}
 		}
-		
-		return "system/reminder_list";
 	}
 	/**
 	 * 

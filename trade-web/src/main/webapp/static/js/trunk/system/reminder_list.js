@@ -151,7 +151,7 @@ function searchMethod() {
 function getParamsValue() {
 	// 环节编码
 	var partCode = $('#partCode').val();
-	
+	//alert(partCode)
 	//设置查询参数
 	var params = {
 		search_partCode : partCode
@@ -170,7 +170,7 @@ function rowEdit(id){
     
 	$('#modal-form').modal("show");
 }
-
+//优化了一下提醒清单列表刷新的问题，只刷新数据，不刷新页面
 function saveReminderItem(){
     var remindItem = trim($("#remindItem").val());
 	if(remindItem ==""){
@@ -178,17 +178,49 @@ function saveReminderItem(){
 		return;
 	}
 	var pkId = $("#pkId").val();
-    var comment = $("#comment").val();
     var ctx = $("#ctx").val();
-	var url='/setting/saveReminderItem?';
-	var partCode = $("#partCode").val();
-	var params="pkid="+pkId+"&partCode="+partCode;
-	url = ctx+url+params;
-
-	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-	$(".blockOverlay").css({'z-index':'9998'});
+    var partCode1= $("#partCode").val();
+    var partCode=$("#partCode1").val(partCode1);
+	var url=ctx+'/setting/saveReminderItem';
+    var jsonData = $("#editForm").serializeArray();
+	$.ajax({
+        cache : true,
+        async : false,//false同步，true异步
+        type : "POST",
+        url : url,
+        dataType : "json",
+        data : jsonData,
+        beforeSend:function(){
+            $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+            $(".blockOverlay").css({'z-index':'9998'});
+        },
+        complete: function() {
+            $.unblockUI();
+            if(status=='timeout'){//超时,status还有success,error等值的情况
+                Modal.alert(
+                    {
+                        msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
+                    });
+                $(".btn-primary").one("click",function(){
+                    parent.$.fancybox.close();
+                });
+            }
+        } ,
+        success : function(data) {
+            if(data.success){
+                window.wxc.success(data.message,{"wxcOk":function(){
+                    $('#modal-form').modal("hide");
+                    //jqGrid reload
+                    $("#table_list_1").trigger('reloadGrid');
+                }});
+            }
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });
+	/*
 	$('#editForm').attr('action', url);
-	$("#editForm").submit();
+	$("#editForm").submit();*/
 }
 
 function delRow(id){

@@ -163,7 +163,8 @@ public class ToAccesoryListServiceImpl implements ToAccesoryListService {
 				toAccesoryList.setAccessoryName(
 						uamBasedataService.getDictValue("yu_file_code", accsoryListVO.getAccessoryCodeList().get(i)));
 				if (accsoryListVO.getPkidList().get(i) != 0) {
-					toAccesoryList.setPkid(accsoryListVO.getAccesoryPkid().get(i));
+					//System.out.println("ToAccesoryListServiceImpl.saveAccesoryList"+accsoryListVO.getPkidList().get(i));
+					toAccesoryList.setPkid(accsoryListVO.getPkidList().get(i));//修复修改备件修改不了的bug
 					toAccesoryListMapper.updateByPrimaryKeySelective(toAccesoryList);
 					index++;
 				} else {
