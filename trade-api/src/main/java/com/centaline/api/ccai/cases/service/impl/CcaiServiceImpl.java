@@ -7,7 +7,7 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.api.ccai.cases.service.CcaiService;
 import com.centaline.api.ccai.cases.vo.*;
 import com.centaline.api.common.vo.CcaiServiceResult;
-import com.centaline.api.enums.CaseSyncParticipantEnum;
+import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.api.validate.group.NormalGroup;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -34,7 +34,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
-import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -187,7 +186,7 @@ public class CcaiServiceImpl implements CcaiService {
 		tocase.setCreateTime(new Date());
 		tocase.setCaseProperty(CasePropertyEnum.TPZT.getCode());  // 指定为在途单
 		for (CcaiImportParticipant pa : acase.getParticipants()) {
-			if (CaseSyncParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
+			if (CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
 				//获取交易顾问信息
 				User user = getUserByUserNameOrEmployeeCode(pa.getUserName());
 				if (user != null) {
@@ -242,7 +241,7 @@ public class CcaiServiceImpl implements CcaiService {
 				} else {
 					//未匹配到的信息进行校验和新增
 					StringBuilder msg = new StringBuilder();
-					if (CaseSyncParticipantEnum.SECRETARY.getCode().equals(pa.getPosition())) {
+					if (CaseParticipantEnum.SECRETARY.getCode().equals(pa.getPosition())) {
 						buildErrorMessage(validator.validate(pa, Default.class), msg, "秘书");
 					} else {
 						buildErrorMessage(validator.validate(pa, NormalGroup.class, Default.class), msg, "参与人");
@@ -256,10 +255,10 @@ public class CcaiServiceImpl implements CcaiService {
 			} else {
 				throw new BusinessException("未获取到对应的AssignId[" + pa.getAssignId() + "]信息");
 			}
-			if (CaseSyncParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
+			if (CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
 				warrant = pa;
 			}
-			if (CaseSyncParticipantEnum.AGENT.getCode().equals(pa.getPosition())) {
+			if (CaseParticipantEnum.AGENT.getCode().equals(pa.getPosition())) {
 				agent = pa;
 			}
 		}
@@ -291,9 +290,9 @@ public class CcaiServiceImpl implements CcaiService {
 		caseInfo.setCcaiUpdateTime(acase.getUpdateTime());
 		//同步案件相关人员信息
 		for (CcaiImportParticipant pa : acase.getParticipants()) {
-			if (CaseSyncParticipantEnum.AGENT.getCode().equals(pa.getPosition())) {
+			if (CaseParticipantEnum.AGENT.getCode().equals(pa.getPosition())) {
 				caseInfoAgentSet(caseInfo, pa);
-			} else if (CaseSyncParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
+			} else if (CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
 				caseInfoWarrantSet(caseInfo, pa);
 			}
 			ToCaseParticipant participant = buildParticipant(caseCode, acase.getCcaiCode(), pa);
@@ -622,7 +621,7 @@ public class CcaiServiceImpl implements CcaiService {
 	private void updateCaseWorker(CcaiImportParticipant warrant, CcaiImportParticipant agent, ToCase toCase) {
 		ToCaseInfo caseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(toCase.getCaseCode());
 		//过户权证相关信息处理
-		if (warrant != null && CaseSyncParticipantEnum.WARRANT.getCode().equals(warrant.getPosition())) {
+		if (warrant != null && CaseParticipantEnum.WARRANT.getCode().equals(warrant.getPosition())) {
 			//部门主管信息更改
 			if (StringUtils.isNotBlank(warrant.getGrpMgrUserName())) {
 				User manager = getUserByUserNameOrEmployeeCode(warrant.getGrpMgrUserName());
@@ -655,7 +654,7 @@ public class CcaiServiceImpl implements CcaiService {
 			}
 		}
 		//经纪人相关信息处理
-		if (agent != null && CaseSyncParticipantEnum.AGENT.getCode().equals(agent.getPosition())) {
+		if (agent != null && CaseParticipantEnum.AGENT.getCode().equals(agent.getPosition())) {
 			//经纪人信息修改
 			if (StringUtils.isNotBlank(agent.getUserName())) {
 				User update = getUserByUserNameOrEmployeeCode(agent.getUserName());

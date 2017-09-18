@@ -2,18 +2,16 @@ package com.centaline.api.ccai.cases.web.v1;
 
 import com.aist.common.exception.BusinessException;
 import com.centaline.api.ccai.cases.service.CcaiService;
-import com.centaline.api.ccai.cases.vo.CcaiImportAttachment;
 import com.centaline.api.ccai.cases.vo.CcaiImportCase;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
 import com.centaline.api.ccai.cases.vo.CcaiImportParticipant;
 import com.centaline.api.common.vo.CcaiServiceResult;
-import com.centaline.api.enums.CaseSyncParticipantEnum;
+import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.api.validate.group.NormalGroup;
 import com.centaline.trans.apilog.service.ApiLogService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
@@ -184,20 +182,20 @@ public class CaseSyncController {
 			} else {
 				//案件参与人校验
 				for (CcaiImportParticipant pa : acase.getParticipants()) {
-					if (CaseSyncParticipantEnum.AGENT.getCode().equals(pa.getPosition())) {
+					if (CaseParticipantEnum.AGENT.getCode().equals(pa.getPosition())) {
 						//经纪人校验
 						buildErrorMessage(validator.validate(pa, NormalGroup.class, Default.class), msg, "经纪人");
 						// participantCheck(pa,msg,"经纪人");
 						hasAgent = true;
-					} else if (CaseSyncParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
+					} else if (CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
 						//过户权证校验
 						buildErrorMessage(validator.validate(pa, NormalGroup.class, Default.class), msg, "过户权证");
 						// participantCheck(pa,msg,"过户权证");
 						hasWarrant = true;
-					} else if (CaseSyncParticipantEnum.LOAN.getCode().equals(pa.getPosition())) {
+					} else if (CaseParticipantEnum.LOAN.getCode().equals(pa.getPosition())) {
 						//贷款权证
 						buildErrorMessage(validator.validate(pa, NormalGroup.class, Default.class), msg, "贷款权证");
-					} else if (CaseSyncParticipantEnum.SECRETARY.getCode().equals(pa.getPosition())) {
+					} else if (CaseParticipantEnum.SECRETARY.getCode().equals(pa.getPosition())) {
 						//秘书校验
 						buildErrorMessage(validator.validate(pa, Default.class), msg, "秘书");
 						// participantCheck(pa,msg,"秘书");

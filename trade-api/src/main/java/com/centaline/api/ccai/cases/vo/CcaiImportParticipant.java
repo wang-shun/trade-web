@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.centaline.api.enums.CaseSyncParticipantEnum;
+import com.centaline.trans.common.enums.CaseParticipantEnum;
 
 /**
  * 需要导入的CCAI案件基本信息
@@ -25,7 +25,7 @@ public class CcaiImportParticipant {
 	/**
 	 * 案件基本信息 类型
 	 *
-	 * @see CaseSyncParticipantEnum
+	 * @see CaseParticipantEnum
 	 */
 	@ApiModelProperty(value = "指派ID,修改时唯一匹配人员,秘书可为空", required = true, position = 0)
 	private String assignId;
