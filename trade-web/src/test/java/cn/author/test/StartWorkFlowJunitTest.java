@@ -39,7 +39,6 @@ import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToCcaiAttachment;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.CasePropertyEnum;
-import com.centaline.trans.common.enums.PurchaseHouseNoEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;

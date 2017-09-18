@@ -35,7 +35,6 @@ import com.centaline.trans.cases.vo.CaseRecvVO;
 import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.common.entity.ToCcaiAttachment;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.enums.PurchaseHouseNoEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.repository.ToCcaiAttachmentMapper;
 import com.centaline.trans.common.service.PropertyUtilsService;
