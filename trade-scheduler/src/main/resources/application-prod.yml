@@ -1,0 +1,15 @@
+# Server settings (ServerProperties)
+server:
+  port: 8083
+  #address: 127.0.0.1
+  sessionTimeout: 30
+  contextPath: /trade-scheduler
+#数据源
+dataSource:
+  driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  url: jdbc:sqlserver://10.1.30.100:1433;databaseName=scpf_dev
+  username: dev
+  password: dev@123
+  maxActive: 10
+  initialSize: 5
+  filters: stat
