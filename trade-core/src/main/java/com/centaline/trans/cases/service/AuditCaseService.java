@@ -23,4 +23,6 @@ public interface AuditCaseService {
     
     public String getLeaderUserName(ToCaseParticipant toCaseParticipant);
     
+    public int updateAuditCaseSuccess(String caseCode);
+    
 }
