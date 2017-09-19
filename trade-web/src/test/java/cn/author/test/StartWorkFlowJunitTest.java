@@ -111,79 +111,83 @@ public class StartWorkFlowJunitTest {
     private ToCaseService toCaseService;
     @Test
 	public void startWorkFlowJunitTest() throws Exception {
+    	for(int i=0;i<6;i++){
+    		
 //    	导入测试案件
-    	String caseOwner=null;
-    	TestCase testCase = new TestCase();
-	    ToWorkFlow toWorkFlow = new ToWorkFlow();
-    	ToCase toCase = new ToCase();
-    	toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
-    	toCase.setCaseCode(testCase.getCaseCode());
-    	toCase.setCtmCode(testCase.getCcaiCode());
-    	toCase.setStatus("30001001");
-    	toCase.setCreateTime(new Date());
-    	toCase.setOrgId("A05D3E9C1ED343118F2286EC7E3D2637");
-    	toCase.setCity(testCase.getCity());
-    	toCase.setCaseOrigin("CCAI");
-    	toCase.setDistrictId("3FE5DB2417344D87B6C9FC002BD7D4CC");
-    	
+    		String caseOwner=null;
+    		TestCase testCase = new TestCase();
+    		ToWorkFlow toWorkFlow = new ToWorkFlow();
+    		ToCase toCase = new ToCase();
+    		toCase.setCaseProperty(CasePropertyEnum.TPZT.getCode());
+    		toCase.setCaseCode(testCase.getCaseCode());
+    		toCase.setCtmCode(testCase.getCcaiCode());
+    		toCase.setStatus("30001001");
+    		toCase.setCreateTime(new Date());
+    		toCase.setOrgId("A05D3E9C1ED343118F2286EC7E3D2637");
+    		toCase.setCity(testCase.getCity());
+    		toCase.setCaseOrigin("CCAI");
+    		toCase.setDistrictId("3FE5DB2417344D87B6C9FC002BD7D4CC");
+    		
 //    	caseInfo
-    	ToCaseInfo toCaseInfo = new ToCaseInfo();
-    	toCaseInfo.setCaseCode(testCase.getCaseCode());
-    	toCaseInfo.setAgentCode("004E54563A484C27B19B85354D1D1DE5");
-    	toCaseInfo.setRequireProcessorId("0EEE36FF103841A882F2AFAF9CE2BC24");
-    	toCaseInfo.setPayType(testCase.getPayType());
+    		ToCaseInfo toCaseInfo = new ToCaseInfo();
+    		toCaseInfo.setCaseCode(testCase.getCaseCode());
+    		toCaseInfo.setAgentCode("004E54563A484C27B19B85354D1D1DE5");
+    		toCaseInfo.setRequireProcessorId("0EEE36FF103841A882F2AFAF9CE2BC24");
+    		toCaseInfo.setPayType(testCase.getPayType());
+    		toCaseInfo.setImportTime(new Date());
 //    	participants
-    	List<ToCaseParticipant> participants = testCase.getParticipants();
-    	for (ToCaseParticipant toCaseParticipant : participants) {
-    		toCaseParticipantMapper.insertSelective(toCaseParticipant);
-    		if(toCaseParticipant.getPosition().contains("warrant")){
-    			toCase.setLeadingProcessId(toCaseParticipant.getUserName());
-    			toCaseInfo.setRequireProcessorId(toCaseParticipant.getGrpMgrUsername());
-    			toWorkFlow.setProcessOwner(toCaseParticipant.getGrpMgrUsername());
-    			caseOwner=toCaseParticipant.getUserName();
+    		List<ToCaseParticipant> participants = testCase.getParticipants();
+    		for (ToCaseParticipant toCaseParticipant : participants) {
+    			toCaseParticipantMapper.insertSelective(toCaseParticipant);
+    			if(toCaseParticipant.getPosition().contains("warrant")){
+    				toCase.setLeadingProcessId(toCaseParticipant.getUserName());
+    				toCaseInfo.setRequireProcessorId(toCaseParticipant.getGrpMgrUsername());
+    				toWorkFlow.setProcessOwner(toCaseParticipant.getGrpMgrUsername());
+    				caseOwner=toCaseParticipant.getUserName();
+    			}
+    			if(toCaseParticipant.getPosition().contains("agent")){
+    				toCaseInfo.setAgentName(toCaseParticipant.getRealName());
+    				toCaseInfo.setAgentUserName(toCaseParticipant.getUserName());
+    				toCaseInfo.setAgentPhone(toCaseParticipant.getMobile());
+    			}
     		}
-    		if(toCaseParticipant.getPosition().contains("agent")){
-    			toCaseInfo.setAgentName(toCaseParticipant.getRealName());
-    			toCaseInfo.setAgentUserName(toCaseParticipant.getUserName());
-    			toCaseInfo.setAgentPhone(toCaseParticipant.getMobile());
+    		//guests
+    		List<TgGuestInfo> guests = testCase.getGuests();
+    		for (TgGuestInfo tgGuestInfo : guests) {
+    			tgGuestInfoMapper.insertSelective(tgGuestInfo);
     		}
-		}
-    	//guests
-    	List<TgGuestInfo> guests = testCase.getGuests();
-    	for (TgGuestInfo tgGuestInfo : guests) {
-    		tgGuestInfoMapper.insertSelective(tgGuestInfo);
-		}
 //    	attachments
-    	List<ToCcaiAttachment> attachments = testCase.getAttachments();
-    	for (ToCcaiAttachment toCcaiAttachment : attachments) {
-    		toCcaiAttachmentMapper.insertSelective(toCcaiAttachment);
-		}
-    	
-    	toPropertyInfoMapper.insertSelective(testCase.getToPropertyInfo());
-    	toCaseMapper.insertSelective(toCase);
-    	toCaseInfoService.insertSelective(toCaseInfo);
-    	Thread.sleep(1000);
+    		List<ToCcaiAttachment> attachments = testCase.getAttachments();
+    		for (ToCcaiAttachment toCcaiAttachment : attachments) {
+    			toCcaiAttachmentMapper.insertSelective(toCcaiAttachment);
+    		}
+    		
+    		toPropertyInfoMapper.insertSelective(testCase.getToPropertyInfo());
+    		toCaseMapper.insertSelective(toCase);
+    		toCaseInfoService.insertSelective(toCaseInfo);
+    		Thread.sleep(100);
 //    	开启工作流
-    	
-    	String caseCode=testCase.getCaseCode();
-		Map<String,Object>vars=new HashMap<>();
-//		设置变量
-	    vars.put("caseOwner", caseOwner);
-		System.out.println(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
-	    StartProcessInstanceVo pIVo =processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum
-				  .WBUSSKEY.getCode()), caseCode, vars);
-	    System.out.println("开启的流程定义ID:"+pIVo.getId());
-	    System.out.println("CASE_CODE:"+testCase.getCaseCode());
-
-	    toWorkFlow.setInstCode(pIVo.getId());
-    	toWorkFlow.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
-    	toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
-    	toWorkFlow.setCaseCode(toCase.getCaseCode());
-    	toWorkFlow.setBizCode(toCase.getCaseCode());
-    	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
-    	
-    	toWorkFlowService.insertSelective(toWorkFlow);
-    	
+    		
+    		String caseCode=testCase.getCaseCode();
+    		Map<String,Object>vars=new HashMap<>();
+//		设置变量，有贷款业务需要贷款权证接单跟进，无贷款业务及自办贷款需要过户权证接单跟进，这里先由过户跟进
+    		vars.put("caseOwner", caseOwner);
+    		System.out.println(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()));
+    		StartProcessInstanceVo pIVo =processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum
+    				.WBUSSKEY.getCode()), caseCode, vars);
+    		System.out.println("开启的流程定义ID:"+pIVo.getId());
+    		System.out.println("CASE_CODE:"+testCase.getCaseCode());
+    		
+    		toWorkFlow.setInstCode(pIVo.getId());
+    		toWorkFlow.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+    		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
+    		toWorkFlow.setCaseCode(toCase.getCaseCode());
+    		toWorkFlow.setBizCode(toCase.getCaseCode());
+    		toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
+    		
+    		toWorkFlowService.insertSelective(toWorkFlow);
+    		
+    	}
     	
     }
     

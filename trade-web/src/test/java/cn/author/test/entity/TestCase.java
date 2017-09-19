@@ -32,7 +32,7 @@ public class TestCase {
 		attachments=new ArrayList<ToCcaiAttachment>();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMddHHmmssSSS");	
 		String strDate = simpleDateFormat.format(new Date());
-		String primaryCaseCode="testCase"+strDate;
+		String primaryCaseCode="xiefeiCase"+strDate;
 		this.caseCode = primaryCaseCode;
 		this.ccaiId = "testCcaiId"+strDate;
 		this.ccaiCode = "testccaiCode"+strDate;
@@ -52,6 +52,7 @@ public class TestCase {
 		toCaseParticipant.setGrpMgrUsername(null);
 		toCaseParticipant.setGrpMgrRealname(null);
 		toCaseParticipant.setGrpMgrRealname(null);
+		toCaseParticipant.setAvailable("Y");
 		participants.add(toCaseParticipant);
 		
 		ToCaseParticipant toCaseParticipant1 = new ToCaseParticipant();
@@ -66,20 +67,22 @@ public class TestCase {
 		toCaseParticipant1.setGrpMgrUsername("xiefeifei");
 		toCaseParticipant1.setGrpMgrRealname("谢飞飞");
 		toCaseParticipant1.setGrpMgrMobile("18622064168");
+		toCaseParticipant.setAvailable("Y");
 		participants.add(toCaseParticipant1);
 		
 		ToCaseParticipant toCaseParticipant2 = new ToCaseParticipant();
 		toCaseParticipant2.setCaseCode(primaryCaseCode);
 		toCaseParticipant2.setCcaiCode(this.ccaiId);
 		toCaseParticipant2.setPosition("loan");
-		toCaseParticipant2.setUserName("shangfei");
-		toCaseParticipant2.setRealName("尚飞");
+		toCaseParticipant2.setUserName("xiefei2");
+		toCaseParticipant2.setRealName("谢飞");
 		toCaseParticipant2.setMobile("17720100958");
 		toCaseParticipant2.setGrpCode("022A458");
 		toCaseParticipant2.setGrpName("交易按揭1组");
-		toCaseParticipant2.setGrpMgrUsername("wangchx");
-		toCaseParticipant2.setGrpMgrRealname("王姝予");
+		toCaseParticipant2.setGrpMgrUsername("xiefeifei");
+		toCaseParticipant2.setGrpMgrRealname("谢飞飞");
 		toCaseParticipant2.setGrpMgrMobile("18622064168");
+		toCaseParticipant.setAvailable("Y");
 		participants.add(toCaseParticipant2);
 		this.participants = participants;
 		ToPropertyInfo toPropertyInfo2 = new ToPropertyInfo();

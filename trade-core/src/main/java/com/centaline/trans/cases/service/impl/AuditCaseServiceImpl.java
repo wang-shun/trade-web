@@ -151,22 +151,51 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 		if (listTasks.getData().size() > 0) {
 			TaskVo taskVo = (TaskVo) listTasks.getData().get(0);
 			List<RestVariable> variables = new ArrayList<RestVariable>();
-			RestVariable restVariable = new RestVariable();
-			restVariable.setName("warrant");
+//			如果有贷款权证便添加到流程变量
+			ToCaseParticipant loantoCaseParticipant = new ToCaseParticipant();
+			loantoCaseParticipant.setCaseCode(caseCode);
+			loantoCaseParticipant.setPosition("loan");
+			List<ToCaseParticipant> loanparticipantList = toCaseParticipantMapper.selectByCondition(loantoCaseParticipant);			
+			if(loanparticipantList.size()==1){
+				RestVariable loan = new RestVariable();
+				loan.setName("loan");
+				ToCaseParticipant toCaseParticipant2 = loanparticipantList.get(0);			
+				loan.setValue(toCaseParticipant2.getUserName());
+				variables.add(loan);
+				
+				RestVariable selfDoLoan = new RestVariable();
+				selfDoLoan.setName("selfDoLoan");
+				selfDoLoan.setValue("false");
+				variables.add(selfDoLoan);
+			}else{//贷款的变量在这里设置
+				RestVariable selfDoLoan = new RestVariable();
+				selfDoLoan.setName("selfDoLoan");
+				selfDoLoan.setValue("true");
+				variables.add(selfDoLoan);
+			}
+						
+//			如果有过户权证便添加到流程变量
 			ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
 			toCaseParticipant.setCaseCode(caseCode);
 			toCaseParticipant.setPosition("warrant");
 			List<ToCaseParticipant> participantList = toCaseParticipantMapper.selectByCondition(toCaseParticipant);
 			if(participantList.size()==1){
+				RestVariable warrant = new RestVariable();
+				warrant.setName("warrant");
 				ToCaseParticipant toCaseParticipant2 = participantList.get(0);			
-				restVariable.setValue(toCaseParticipant2.getUserName());
+				warrant.setValue(toCaseParticipant2.getUserName());
+				variables.add(warrant);
 			}else{
 				return 0;
 			}					
-			variables.add(restVariable);
 			ToCase toCase2 = toCaseService.findToCaseByCaseCode(caseCode);
-			Boolean flag = workFlowManager.submitTask(variables, String.valueOf(taskVo.getId()), taskVo.getProcessInstanceId(),
-					toCase2.getLeadingProcessId(), caseCode);			
+			if(workFlowManager.submitTask(variables, String.valueOf(taskVo.getId()), taskVo.getProcessInstanceId(),
+					toCase2.getLeadingProcessId(), caseCode)
+					){
+				return 1;
+			}else{
+				return 0;
+			}
 		}
 		return result;
 	}
