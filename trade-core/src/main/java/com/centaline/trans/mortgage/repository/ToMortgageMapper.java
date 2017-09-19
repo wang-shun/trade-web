@@ -81,4 +81,6 @@ public interface ToMortgageMapper {
      */
 
 	ToMortgage findToMortgageByCaseCodeAndDisTime(Map<String,Object> map);
+
+	void updateIsPatch(ToMortgage toMortgage);
 }
