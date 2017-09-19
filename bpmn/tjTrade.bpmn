@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://trade.centaline.com" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.centaline.com" id="m1505094711612" name="">
-  <message id="FollowUpMsg" name="FollowUpMsg"></message>
+  <message id="CCAIUpdatedMsg" name="CCAIUpdatedMsg"></message>
   <message id="MortgageFinishMsg" name="MortgageFinishMsg"></message>
   <process id="operation_process" name="天津交易主流程" isExecutable="true" isClosed="false" processType="None">
     <userTask id="usertask1" name="权证经理审核" activiti:assignee="${manager}"></userTask>
@@ -40,7 +40,7 @@
     <userTask id="usertask6" name="填写交易计划" activiti:assignee="过户权证"></userTask>
     <sequenceFlow id="flow11" sourceRef="usertask6" targetRef="RatePayment"></sequenceFlow>
     <sequenceFlow id="flow72" sourceRef="usertask1" targetRef="inclusivegateway1"></sequenceFlow>
-    <sequenceFlow id="flow73" sourceRef="inclusivegateway1" targetRef="usertask2"></sequenceFlow>
+    <sequenceFlow id="flow73" name="审批通过" sourceRef="inclusivegateway1" targetRef="usertask2"></sequenceFlow>
     <sequenceFlow id="flow74" name="中原代办贷款" sourceRef="inclusivegateway1" targetRef="usertask3"></sequenceFlow>
     <sequenceFlow id="flow75" name="自办贷款" sourceRef="inclusivegateway1" targetRef="usertask4">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${自办贷款==true}]]></conditionExpression>
@@ -75,6 +75,14 @@
     <sequenceFlow id="flow112" sourceRef="CaseRecv" targetRef="usertask1"></sequenceFlow>
     <sequenceFlow id="flow113" name="挽回成功" sourceRef="exclusivegateway1" targetRef="MortgageFinishMsgEventCatch"></sequenceFlow>
     <sequenceFlow id="flow115" name="挽回失败" sourceRef="exclusivegateway1" targetRef="inclusivegateway5"></sequenceFlow>
+    <intermediateCatchEvent id="CCAIUpdatedMsgEventCatch" name="CCAIUpdatedMsgEventCatch" activiti:async="true">
+      <messageEventDefinition messageRef="CCAIUpdatedMsg"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow116" name="驳回CCAI" sourceRef="inclusivegateway1" targetRef="CCAIUpdatedMsgEventCatch"></sequenceFlow>
+    <sequenceFlow id="flow117" name="再次跟进" sourceRef="CCAIUpdatedMsgEventCatch" targetRef="CaseRecv"></sequenceFlow>
+    <textAnnotation id="textannotation1">
+      <text>分行秘书调整案件信息</text>
+    </textAnnotation>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_operation_process">
     <bpmndi:BPMNPlane bpmnElement="operation_process" id="BPMNPlane_operation_process">
@@ -159,6 +167,12 @@
       <bpmndi:BPMNShape bpmnElement="exclusivegateway5" id="BPMNShape_exclusivegateway5">
         <omgdc:Bounds height="40.0" width="40.0" x="1097.0" y="537.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="CCAIUpdatedMsgEventCatch" id="BPMNShape_CCAIUpdatedMsgEventCatch">
+        <omgdc:Bounds height="35.0" width="35.0" x="200.0" y="398.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="textannotation1" id="BPMNShape_textannotation1">
+        <omgdc:Bounds height="50.0" width="135.0" x="170.0" y="432.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow47" id="BPMNEdge_flow47">
         <omgdi:waypoint x="890.0" y="226.0"></omgdi:waypoint>
         <omgdi:waypoint x="940.0" y="226.0"></omgdi:waypoint>
@@ -178,6 +192,9 @@
       <bpmndi:BPMNEdge bpmnElement="flow73" id="BPMNEdge_flow73">
         <omgdi:waypoint x="380.0" y="310.0"></omgdi:waypoint>
         <omgdi:waypoint x="460.0" y="310.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="389.0" y="317.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow74" id="BPMNEdge_flow74">
         <omgdi:waypoint x="360.0" y="290.0"></omgdi:waypoint>
@@ -342,6 +359,21 @@
         <omgdi:waypoint x="870.0" y="206.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="14.0" width="48.0" x="739.0" y="131.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow116" id="BPMNEdge_flow116">
+        <omgdi:waypoint x="360.0" y="330.0"></omgdi:waypoint>
+        <omgdi:waypoint x="359.0" y="415.0"></omgdi:waypoint>
+        <omgdi:waypoint x="235.0" y="415.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="305.0" y="344.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow117" id="BPMNEdge_flow117">
+        <omgdi:waypoint x="217.0" y="398.0"></omgdi:waypoint>
+        <omgdi:waypoint x="122.0" y="338.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="151.0" y="373.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
