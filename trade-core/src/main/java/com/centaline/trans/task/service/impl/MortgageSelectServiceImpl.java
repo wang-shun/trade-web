@@ -164,7 +164,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		if(workF!=null){
 			vo.setProcessDefinitionId(workF.getProcessDefinitionId());
 		}
-		//loanRequirementChange(vo);
+		loanRequirementChange(vo);
 
 		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(vo.getCaseCode());
 		if(bizWarnInfo != null){
@@ -444,17 +444,17 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		RestVariable restVariable2 = new RestVariable();
 		restVariable2.setName("PSFLoanNeed");
 		RestVariable restVariable5 = new RestVariable();
-		restVariable5.setName("ComLoanAndPSFLoanNeed");
+		restVariable5.setName("SelfLoanNeed");
 
-		if ("1".equals(loanTyby)) {/*  组合贷 */
+		if ("1".equals(loanTyby)) {/* 中原 组合贷 */
 			restVariable1.setValue(true);
 			restVariable2.setValue(false);
 			restVariable5.setValue(false);
-		} else if ("2".equals(loanTyby)) {/*公积金 */
+		} else if ("2".equals(loanTyby)) {/* 中原 公积金 */
 			restVariable1.setValue(false);
 			restVariable2.setValue(true);
 			restVariable5.setValue(false);
-		} else if ("3".equals(loanTyby)) {/*组合贷 */
+		} else if ("3".equals(loanTyby)) {/* 自办 组合贷 */
 			restVariable1.setValue(false);
 			restVariable2.setValue(false);
 			restVariable5.setValue(true);

@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -141,22 +140,19 @@ public class ToMortgageController {
 				mortgage.setPrfAmount(mortgage.getPrfAmount() != null ? mortgage.getPrfAmount().divide(new BigDecimal(10000)) : null);
 			}
 			// 临时银行开启时不允许反选
-			/**
-			 * 没有临时银行
-			 */
-			//ToWorkFlow twf = new ToWorkFlow();
+			ToWorkFlow twf = new ToWorkFlow();
 
-			//twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
+			twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
 
-			//twf.setCaseCode(toMortgage.getCaseCode());
-			//ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-			/*if (record != null) {
+			twf.setCaseCode(toMortgage.getCaseCode());
+			ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
+			if (record != null) {
 				// 流程已开启
 				response.setCode("1");
 			} else {
 				// 流程未开启
 				response.setCode("0");
-			}*/
+			}
 
 			response.setContent(mortgage);
 		} catch (Exception e) {
@@ -192,15 +188,15 @@ public class ToMortgageController {
 			if (toMortgage.getPrfAmount() != null) {
 				toMortgage.setPrfAmount(toMortgage.getPrfAmount().multiply(new BigDecimal(10000)));
 			}
-			/*if (toMortgage.getIfReportBeforeLend() == null) {
+			if (toMortgage.getIfReportBeforeLend() == null) {
 				toMortgage.setIfReportBeforeLend("0");
-			}*/
-			/*if (toMortgage.getIsLoanerArrive() == null) {
+			}
+			if (toMortgage.getIsLoanerArrive() == null) {
 				toMortgage.setIsLoanerArrive("0");
 			}
 			if (toMortgage.getIsTmpBank() == null) {
 				toMortgage.setIsTmpBank("0");
-			}*/
+			}
 			// 贷款专员的id和组织id
 			toMortgage.setLoanAgent(user.getId());
 			toMortgage.setLoanAgentTeam(user.getServiceDepId());
@@ -237,37 +233,26 @@ public class ToMortgageController {
 
 		try {
 			ToMortgage entity = toMortgageService.findToMortgageById(toMortgage.getPkid());
-			//entity.setApprDate(toMortgage.getApprDate());
-			//entity.setFormCommLoan("1");
-			//entity.setLastLoanBank(toMortgage.getLastLoanBank());
+			entity.setApprDate(toMortgage.getApprDate());
+			entity.setFormCommLoan("1");
+			entity.setLastLoanBank(toMortgage.getLastLoanBank());
 			entity.setPartCode(toMortgage.getPartCode());
-			if(toMortgage.getComAmount() != null){
+			if(toMortgage.getComAmount()!=null){
 				entity.setComAmount(toMortgage.getComAmount().multiply(new BigDecimal(10000d)));
 			}
-			if(toMortgage.getPrfAmount() != null){
+			if(toMortgage.getPrfAmount()!=null){
 				entity.setPrfAmount(toMortgage.getPrfAmount().multiply(new BigDecimal(10000d)));
 			}
-			if(toMortgage.getMortTotalAmount() != null){
+			if(toMortgage.getMortTotalAmount()!=null){
 				entity.setMortTotalAmount(toMortgage.getMortTotalAmount().multiply(new BigDecimal(10000d)));
 			}
-			if(toMortgage.getComDiscount() != null){
-				entity.setComDiscount(toMortgage.getComDiscount());
-			}
-			if(toMortgage.getComYear() != null){
-				entity.setComYear(toMortgage.getComYear());
-			}
-			if(toMortgage.getMortType() != null){
-				entity.setMortType(toMortgage.getMortType());
-			}
-			if(toMortgage.getApprCompleTime() != null){
-				entity.setApprCompleTime(toMortgage.getApprCompleTime());
-			}
-			if(toMortgage.getLoanContraTime() != null){
-				entity.setLoanContraTime(toMortgage.getLoanContraTime());
-			}
+			
+			entity.setComDiscount(toMortgage.getComDiscount());
+			entity.setComYear(toMortgage.getComYear());
+			entity.setMortType(toMortgage.getMortType());
 
 			entity.setPrfYear(toMortgage.getPrfYear());
-			/*if ("1".equals(entity.getIsTmpBank()) && entity.getTmpBankUpdateBy() == null) {
+			if ("1".equals(entity.getIsTmpBank()) && entity.getTmpBankUpdateBy() == null) {
 				response.setMessage("临时银行未处理，请等待处理！");
 				response.setSuccess(false);
 				return response;
@@ -278,18 +263,18 @@ public class ToMortgageController {
 					response.setSuccess(false);
 					return response;
 				}
-			}*/
+			}
 			
 
 			toMortgageService.saveToMortgage(entity);
 			/**
 			 * 功能: 给客户发送短信 作者：zhangxb16
 			 */
-			/*int result = tgGuestInfoService.sendMsgHistory(toMortgage.getCaseCode(), toMortgage.getPartCode());
+			int result = tgGuestInfoService.sendMsgHistory(toMortgage.getCaseCode(), toMortgage.getPartCode());
 			if (result > 0) {
 			} else {
 				response.setMessage("短信发送失败, 请您线下手工再次发送！");
-			}*/
+			}
 		} catch (Exception e) {
 			response.setSuccess(false);
 			response.setMessage("操作失败！" + e.getMessage());
@@ -333,29 +318,29 @@ public class ToMortgageController {
 			if (toMortgage == null) {
 				response.setMessage("未找到该案件的按揭贷款信息，请先保存按揭贷款信息！");
 				return response;
-			/*} else if (StringUtils.isEmpty(toMortgage.getLastLoanBank())) {
+			} else if (StringUtils.isEmpty(toMortgage.getLastLoanBank())) {
 				response.setMessage("该案件还未确定最终贷款银行，不能提交流程！");
-				return response;*/
-			/*} else if ("1".equals(toMortgage.getIsTmpBank()) && toMortgage.getTmpBankUpdateBy() == null) {
+				return response;
+			} else if ("1".equals(toMortgage.getIsTmpBank()) && toMortgage.getTmpBankUpdateBy() == null) {
 				response.setMessage("临时银行未处理，请等待处理！");
-				return response;*/
+				return response;
 			}
 
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			// 不需要放款前报告
-			/*if (toMortgage.getIfReportBeforeLend().equals("0")) {
+			if (toMortgage.getIfReportBeforeLend().equals("0")) {
 				RestVariable variable = new RestVariable();
 				variable.setName("EvaReportNeedAtLoanRelease");
 				variable.setValue(false);
 				variables.add(variable);
-			}*/
+			}
 			// 需要放款前报告
-			/*if (toMortgage.getIfReportBeforeLend().equals("1")) {
+			if (toMortgage.getIfReportBeforeLend().equals("1")) {
 				RestVariable variable = new RestVariable();
 				variable.setName("EvaReportNeedAtLoanRelease");
 				variable.setValue(true);
 				variables.add(variable);
-			}*/
+			}
 			ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
 			workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
 
@@ -366,7 +351,7 @@ public class ToMortgageController {
 			toMortgageService.updateToMortgage(toMortgage);
 
 			// 发送消息
-			/*ToWorkFlow wf = new ToWorkFlow();
+			ToWorkFlow wf = new ToWorkFlow();
 			wf.setCaseCode(processInstanceVO.getCaseCode());
 			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
@@ -380,7 +365,7 @@ public class ToMortgageController {
 				workFlowOld.setStatus("4");
 				workFlowOld.setInstCode(processInstanceVO.getProcessInstanceId());
 				toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
-			}*/
+			}
 
 		} catch (Exception e) {
 			response.setSuccess(false);

@@ -29,14 +29,14 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.CallableStatementCallback;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Transactional //增加事务防止删除和同步数据不一致
 public abstract class SyncHrService {
 	@Autowired
 	@Qualifier("jdbcTemplate")
-	private JdbcTemplate tradeTemplate;
+	JdbcTemplate tradeTemplate;
 	private Logger logger = LoggerFactory.getLogger(SyncHrService.class);
 	/**
 	 * 同步部门信息
@@ -48,12 +48,13 @@ public abstract class SyncHrService {
 		SyncResult result = syncOrgUnit(getSyncOrgUnit(), city);
 		Map<String,String> exec = initResult();
 		if(result.getResult() == SyncResultType.SUCCESS){
-			exec.put("code","0");
-			exec.put("msg", "");
+			//TODO 调用存储过程 同步到SYS_ORG表中 可以所有城市的信息都同步完成后，一起执行
+			exec = doProcExec("{call sync.proc_sync_dept(?,?)}");
 		}else{
+			//插入同步日志 并抛出异常
 			exec.put("msg", result.getMessage());
 		}
-		writeLog(city.getName()+"-同步部门信息到中间表",exec,user,(System.currentTimeMillis()-start));
+		writeLog(city.getName()+"-同步部门信息",exec,user,(System.currentTimeMillis()-start));
 	}
 	
 	/**
@@ -66,12 +67,13 @@ public abstract class SyncHrService {
 		SyncResult result = syncEmployee(getSyncEmployee(),city);
 		Map<String,String> exec = initResult();
 		if(result.getResult() == SyncResultType.SUCCESS){
-			exec.put("code","0");
-			exec.put("msg", "");
+			//TODO 调用存储过程 同步到SYS_USER表中
+			exec = doProcExec("{call sync.proc_sync_emp(?,?)}");
 		}else{
+			//TODO 插入同步日志 并抛出异常 
 			exec.put("msg", result.getMessage());
 		}
-		writeLog(city.getName()+"-同步员工信息到中间表",exec,user,(System.currentTimeMillis()-start));
+		writeLog(city.getName()+"-同步员工信息",exec,user,(System.currentTimeMillis()-start));
 	}
 	
 	/**
@@ -84,12 +86,13 @@ public abstract class SyncHrService {
 		SyncResult result = syncPosition(getSyncPosition(),city);
 		Map<String,String> exec = initResult();
 		if(result.getResult() == SyncResultType.SUCCESS){
-			exec.put("code","0");
-			exec.put("msg", "");
+			//TODO 调用存储过程 同步到SYNC_JobPosition表中
+			exec = doProcExec("{call sync.proc_sync_position(?,?)}");
 		}else{
+			//TODO 插入同步日志 并抛出异常 
 			exec.put("msg", result.getMessage());
 		}
-		writeLog(city.getName()+"-同步岗位信息到中间表",exec,user,(System.currentTimeMillis()-start));
+		writeLog(city.getName()+"-同步岗位信息",exec,user,(System.currentTimeMillis()-start));
 	}
 	
 	/**
@@ -102,14 +105,16 @@ public abstract class SyncHrService {
 		Map<String,String> exec = initResult();
 		SyncResult result = syncEmpOrgPos(getSyncEmpOrgPos(),city);
 		if(result.getResult() == SyncResultType.SUCCESS){
-			exec.put("code","0");
-			exec.put("msg", "");
+			//TODO 调用存储过程 同步到SYS_USER表中
+			exec = doProcExec("{call sync.proc_sync_eop(?,?)}");
 		}else{
+			//TODO 插入同步日志 并抛出异常 
 			exec.put("msg", result.getMessage());
 		}
-		writeLog(city.getName()+"-同步员工部门岗位信息到中间表",exec,user,(System.currentTimeMillis()-start));
+		writeLog(city.getName()+"-同步员工部门岗位信息",exec,user,(System.currentTimeMillis()-start));
 	}
-
+	
+	
 	/**
 	 * 获取相应系统中需要同步的所有有效的机构信息
 	 * @return
@@ -144,8 +149,10 @@ public abstract class SyncHrService {
 		SyncResult result;
 		try {
 			if(list!=null && list.size()>0){
-				//先对应城市的数据再同步
-				tradeTemplate.update("delete from sync.SYNC_TMPORG where city=?",new Object[]{city.getCode()},new int[]{Types.VARCHAR});
+				//TODO 由于每次同步完数据 都要执行存储过程 所以中间表不保留数据 否则会引起城市数据混乱
+				//后面进行调整为多个城市数据全部都同步完成了 再执行存储过程
+				//删除同步中间表全部数据 然后再进行同步和执行存储过程
+				tradeTemplate.update("delete from sync.SYNC_TMPORG");
 				StringBuilder batchinsert = new StringBuilder();
 				List<Object[]> args = new ArrayList<>();
 				batchinsert.append("insert into sync.SYNC_TMPORG(ID,ORG_NAME,ORG_TYPE");
@@ -183,8 +190,10 @@ public abstract class SyncHrService {
 		try {
 			//同步
 			if(list!=null && list.size()>0){
-				//先清除对应城市的数据再同步
-				tradeTemplate.update("delete from sync.SYNC_TMPEMPLOYEE where city=?",new Object[]{city.getCode()},new int[]{Types.VARCHAR});
+				//TODO 由于每次同步完数据 都要执行存储过程 所以中间表不保留数据 否则会引起城市数据混乱
+				//后面进行调整为多个城市数据全部都同步完成了 再执行存储过程
+				//先清除数据再同步
+				tradeTemplate.update("delete from sync.SYNC_TMPEMPLOYEE");
 				StringBuilder batchinsert = new StringBuilder();
 				List<Object[]> args = new ArrayList<>();
 				batchinsert.append("insert into sync.SYNC_TMPEMPLOYEE(ID,NAME,SEX,BIRTHDAY,");
@@ -224,8 +233,10 @@ public abstract class SyncHrService {
 		try {
 			//同步
 			if(list!=null && list.size()>0){
-				//先清除对应城市的数据再同步
-				tradeTemplate.update("delete from sync.SYNC_TMPPOSITION where city=?",new Object[]{city.getCode()},new int[]{Types.VARCHAR});
+				//TODO 由于每次同步完数据 都要执行存储过程 所以中间表不保留数据 否则会引起城市数据混乱
+				//后面进行调整为多个城市数据全部都同步完成了 再执行存储过程
+				//先清除数据再同步
+				tradeTemplate.update("delete from sync.SYNC_TMPPOSITION");
 				StringBuilder batchinsert = new StringBuilder();
 				List<Object[]> args = new ArrayList<>();
 				batchinsert.append("insert into sync.SYNC_TMPPOSITION(ID,NAME,DEPT_ID,DEPT_CODE,DEPT_NAME,CITY)");
@@ -260,8 +271,10 @@ public abstract class SyncHrService {
 		try {
 			//同步
 			if(list!=null && list.size()>0){
-				//先清除对应城市的数据再同步
-				tradeTemplate.update("delete from sync.SYNC_TMPEMP_ORG_POS where city=?",new Object[]{city.getCode()},new int[]{Types.VARCHAR});
+				//TODO 由于每次同步完数据 都要执行存储过程 所以中间表不保留数据 否则会引起城市数据混乱
+				//后面进行调整为多个城市数据全部都同步完成了 再执行存储过程
+				//先清除数据再同步
+				tradeTemplate.update("delete from sync.SYNC_TMPEMP_ORG_POS");
 				StringBuilder batchinsert = new StringBuilder();
 				List<Object[]> args = new ArrayList<>();
 				batchinsert.append("insert into sync.SYNC_TMPEMP_ORG_POS(ID,EMP_ID,EMP_NAME,DEPT_ID,DEPT_NAME");
@@ -297,13 +310,11 @@ public abstract class SyncHrService {
 	}
 	/**
 	 * 执行存储过程
-	 * 不能定义为final 否则tradetemplate无法注入
 	 * @param cmd 存储过程命令
 	 * @return
 	 */
-	public Map<String,String> doProcExec(final String cmd){
+	private Map<String,String> doProcExec(final String cmd){
 		//TODO 添加cmd的校验 未校验 因为存储过程的入参 和 出参 是动态 该处只注册了2个出参
-		long start = System.currentTimeMillis();
 		Map<String,String> map = tradeTemplate.execute(new CallableStatementCreator() {
 			/**
 			 * 定义执行存储过程的名称 注册 输入 输出参数
@@ -332,10 +343,9 @@ public abstract class SyncHrService {
 				Map<String,String> result = new HashMap<>();
 				result.put("code", Integer.toString(code));
 				result.put("msg", msg);
-				writeLog(cmd,result,"",(System.currentTimeMillis()-start));
 				return result;
 			}
-		});
+		}); 
 		return map;
 	}
 	

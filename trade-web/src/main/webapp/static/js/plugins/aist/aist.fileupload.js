@@ -380,7 +380,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			        	  +'{{item2.fileName}}'
 			        	  +'</p>'
 			        	  +'<p class="imgWrap">'
-			        	  +'<img src=\"'+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" data=\"'+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" width=\"'+settings.thumbnailWidth+'\" height=\"'+settings.thumbnailHeight+'\"/>'
+			        	  +'<img src=\"'+appCtx['shcl-image-web'] +'/image/{{item2.preFileAdress}}/400_300_f.jpg\" data=\"'+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" width=\"'+settings.thumbnailWidth+'\" height=\"'+settings.thumbnailHeight+'\"/>'
 			        	  +'</p>';
 		        	  
 		        	  //如果readonly为false时，可以删除图片操作

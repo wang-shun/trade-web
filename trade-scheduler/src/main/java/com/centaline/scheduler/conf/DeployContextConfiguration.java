@@ -44,8 +44,6 @@ public class DeployContextConfiguration {
             ds.setUsername(dataSourceSettings.getUsername());
             ds.setPassword(dataSourceSettings.getPassword());
             ds.setFilters(dataSourceSettings.getFilters());
-            ds.setMaxActive(dataSourceSettings.getMaxActive());
-            ds.setInitialSize(dataSourceSettings.getInitialSize());
         } catch (SQLException e) {
             logger.error("Error creating data source",e);
         }

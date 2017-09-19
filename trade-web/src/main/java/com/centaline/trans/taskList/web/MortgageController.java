@@ -75,73 +75,7 @@ public class MortgageController {
 		    
 		    return "";
 	}
-	/**
-	 * 组合贷款
-	 * @param request
-	 * @param response
-	 * @param caseCode
-	 * @param source
-	 * @param taskitem
-	 * @param processInstanceId
-	 * @return
-	 */
-	@RequestMapping(value="comLoanAndPSFLoanProcess/process")
-	public String toComLoanAndPSFLoanProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
-			String taskitem, String processInstanceId){
-		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
-		if ( cou >0) {
-			caseBaseVO.setLoanType("30004005");
-		}
-		request.setAttribute("source", source);
-		request.setAttribute("caseBaseVO", caseBaseVO);
-		toAccesoryListService.getAccesoryLists(request, taskitem);
-		MortStep mortStep = new MortStep();
-		mortStep.setCaseCode(caseCode);
-		Integer[] step = mortStepService.getMortStep(caseCode);
-		request.setAttribute("step", step[0]);	
-		return "task/taskComAndPSFLoanProcess";
-	}
-	
-	/**
-	 * 公积金贷款
-	 * @param request
-	 * @param response
-	 * @param caseCode
-	 * @param source
-	 * @param taskitem
-	 * @param processInstanceId
-	 * @return
-	 */
-	@RequestMapping(value = "PSFLoanProcess/process")
-	public String toPSFProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
-			String taskitem, String processInstanceId) {	
-		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
-		if ( cou >0) {
-			caseBaseVO.setLoanType("30004005");
-		}
-		request.setAttribute("source", source);
-		request.setAttribute("caseBaseVO", caseBaseVO);
-		toAccesoryListService.getAccesoryLists(request, taskitem);
-		MortStep mortStep = new MortStep();
-		mortStep.setCaseCode(caseCode);
-		Integer[] step = mortStepService.getMortStep(caseCode);
-		request.setAttribute("step", step[0]);	
-		return "task/taskPSFLoanProcess";
-	}
-	
-	
-	/**
-	 * 按揭贷款
-	 * @param request
-	 * @param response
-	 * @param caseCode
-	 * @param source
-	 * @param taskitem
-	 * @param processInstanceId
-	 * @return
-	 */
+
 	@RequestMapping(value = "comLoanProcess/process")
 	public String toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
 			String taskitem, String processInstanceId) {	
@@ -162,10 +96,10 @@ public class MortgageController {
 		request.setAttribute("step", step[0]);
 		request.setAttribute("step1", step[1]);
 
-		/*request.setAttribute("afterTimeFlag", false);
+		request.setAttribute("afterTimeFlag", false);
 		if(caseBaseVO.getToCase()!=null&&caseBaseVO.getToCase().getCreateTime()!=null){
 			request.setAttribute("afterTimeFlag", caseBaseVO.getToCase().getCreateTime().after(new Date(1467302399999l)));
-		}*/
+		}
 
 		ToEguPricing toEguPricing = toEguPricingService.findIsFinalEguPricing(caseCode);
 		if(toEguPricing != null){

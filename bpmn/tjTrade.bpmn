@@ -2,8 +2,8 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://trade.centaline.com" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.centaline.com" id="m1505094711612" name="">
   <message id="CCAIUpdatedMsg" name="CCAIUpdatedMsg"></message>
   <message id="MortgageFinishMsg" name="MortgageFinishMsg"></message>
-  <process id="operation_process" name="天津交易主流程" isExecutable="true" isClosed="false" processType="None">
-    <userTask id="usertask1" name="权证经理审核" activiti:assignee="${manager}"></userTask>
+  <process id="TjTrade" name="天津交易主流程" isExecutable="true" isClosed="false" processType="None">
+    <userTask id="usertask1" name="权证经理审核" activiti:assignee="权证经理"></userTask>
     <inclusiveGateway id="inclusivegateway1" name="Inclusive Gateway"></inclusiveGateway>
     <userTask id="usertask3" name="贷款需求选择" activiti:assignee="贷款权证"></userTask>
     <userTask id="usertask4" name="自办贷款挽回" activiti:assignee="表单指定贷款权证"></userTask>
@@ -26,7 +26,7 @@
     <endEvent id="endevent1" name="End"></endEvent>
     <inclusiveGateway id="inclusivegateway5" name="Inclusive Gateway"></inclusiveGateway>
     <sequenceFlow id="flow47" sourceRef="inclusivegateway5" targetRef="Guohu"></sequenceFlow>
-    <userTask id="CaseRecv" name="接单跟进" activiti:assignee="${receiver}"></userTask>
+    <userTask id="usertask17" name="接单跟进" activiti:assignee="过户or 贷款权证"></userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
@@ -71,8 +71,8 @@
     <sequenceFlow id="flow108" name="审批通过" sourceRef="exclusivegateway2" targetRef="inclusivegateway4"></sequenceFlow>
     <sequenceFlow id="flow109" name="审核不通过" sourceRef="exclusivegateway3" targetRef="CaseClose"></sequenceFlow>
     <sequenceFlow id="flow110" name="经理审核未通过" sourceRef="exclusivegateway5" targetRef="CaseClose"></sequenceFlow>
-    <sequenceFlow id="flow111" sourceRef="startevent1" targetRef="CaseRecv"></sequenceFlow>
-    <sequenceFlow id="flow112" sourceRef="CaseRecv" targetRef="usertask1"></sequenceFlow>
+    <sequenceFlow id="flow111" sourceRef="startevent1" targetRef="usertask17"></sequenceFlow>
+    <sequenceFlow id="flow112" sourceRef="usertask17" targetRef="usertask1"></sequenceFlow>
     <sequenceFlow id="flow113" name="挽回成功" sourceRef="exclusivegateway1" targetRef="MortgageFinishMsgEventCatch"></sequenceFlow>
     <sequenceFlow id="flow115" name="挽回失败" sourceRef="exclusivegateway1" targetRef="inclusivegateway5"></sequenceFlow>
     <intermediateCatchEvent id="CCAIUpdatedMsgEventCatch" name="CCAIUpdatedMsgEventCatch" activiti:async="true">
@@ -84,8 +84,8 @@
       <text>分行秘书调整案件信息</text>
     </textAnnotation>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_operation_process">
-    <bpmndi:BPMNPlane bpmnElement="operation_process" id="BPMNPlane_operation_process">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_TjTrade">
+    <bpmndi:BPMNPlane bpmnElement="TjTrade" id="BPMNPlane_TjTrade">
       <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
         <omgdc:Bounds height="55.0" width="105.0" x="200.0" y="283.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
@@ -137,7 +137,7 @@
       <bpmndi:BPMNShape bpmnElement="inclusivegateway5" id="BPMNShape_inclusivegateway5">
         <omgdc:Bounds height="40.0" width="40.0" x="850.0" y="206.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="CaseRecv" id="BPMNShape_CaseRecv">
+      <bpmndi:BPMNShape bpmnElement="usertask17" id="BPMNShape_usertask17">
         <omgdc:Bounds height="55.0" width="105.0" x="70.0" y="283.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
@@ -358,7 +358,7 @@
         <omgdi:waypoint x="870.0" y="148.0"></omgdi:waypoint>
         <omgdi:waypoint x="870.0" y="206.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="48.0" x="739.0" y="131.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="739.0" y="131.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow116" id="BPMNEdge_flow116">

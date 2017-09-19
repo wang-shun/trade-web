@@ -30,18 +30,7 @@
     <result column="BANK_APPROVE_TIME" property="bankApproveTime" jdbcType="TIMESTAMP" />
     <result column="LOANER_PROCESS_INSTCODE" property="loanerProcessInstCode" jdbcType="VARCHAR" />
     <result column="BANK_LEVEL" property="bankLevel" jdbcType="VARCHAR" />
-    <result column="PRI_CREDIT_UNIT" property="priCreditUnit" jdbcType="VARCHAR" />
-    <result column="IS_PATCH" property="isPatch" jdbcType="VARCHAR"/>
-    <result column="BUY_PATCH_STR" property="buyPatchStr" jdbcType="VARCHAR"/>
-    <result column="SELL_PATCH_STR" property="sellPatchStr" jdbcType="VARCHAR"/>
-    <result column="PATCH_TIME_BUY" property="patchTimeBuy" jdbcType="TIMESTAMP"/>
-    <result column="PATCH_TIME_SELL" property="patchTimeSell" jdbcType="TIMESTAMP"/>
-    <result column="APPR_COMPLE_TIME" property="apprCompleTime" jdbcType="TIMESTAMP"/>
-    <result column="LOAN_CONTRA_TIME" property="loanContraTime" jdbcType="TIMESTAMP"/>
-    <result column="BANK_TYPE" property="bank_type" jdbcType="VARCHAR"/>
-    <result column="BOOK_RESULT" property="bookResult" jdbcType="VARCHAR" />
-    <result column="BOOK_PERSON" property="bookPerson" jdbcType="VARCHAR" />
-	<result column="COLENDER" property="coLender" jdbcType="VARCHAR"/>
+    
     
     <result column="LOANER_ORG_CODE" property="loanerOrgCode" jdbcType="VARCHAR" />
     <result column="LOANER_ORG_ID" property="loanerOrgId" jdbcType="VARCHAR" />
@@ -70,7 +59,6 @@
     <result column="IS_ACTIVE" property="isActive" jdbcType="CHAR"/>
     <result column="STATE_IN_BANK" property="stateInBank" jdbcType="VARCHAR"/>
     
-    
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.mortgage.entity.ToMortgage" extends="BaseResultMap" >
     <result column="REMARK" property="remark" jdbcType="LONGVARCHAR" />
@@ -83,7 +71,7 @@
     LOANER_NAME, LOANER_PHONE,LAST_LOAN_BANK,PRF_APPLY_DATE,IF_REQUIRE_RECONSIDER,IS_DELEGATE_YUCUI,
     IS_MAIN_LOAN_BANK,CUST_NAME,self_Del_Reason,rec_Letter_No,is_Tmp_Bank,TMP_BANK_UPDATE_TIME,
     TMP_BANK_UPDATE_BY,TMP_BANK_REASON,LOANLOST_APPLY_REASON,LOANLOST_CONFIRM_CODE,
-    IS_ACTIVE,STATE_IN_BANK,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,PRI_CREDIT_UNIT,IS_PATCH,BUY_PATCH_STR,SELL_PATCH_STR,PATCH_TIME_BUY,PATCH_TIME_SELL,APPR_COMPLE_TIME,LOAN_CONTRA_TIME,BANK_TYPE,BOOK_RESULT,BOOK_PERSON,COLENDER
+    IS_ACTIVE,STATE_IN_BANK,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY
   </sql>
   <sql id="Blob_Column_List" >
     REMARK
@@ -252,21 +240,6 @@
       <if test="loanAgentTeam !=null">
       	LOAN_AGENT_TEAM,
       </if>
-      <if test="priCreditUnit !=null">
-      	PRI_CREDIT_UNIT,
-      </if>
-      <if test="bank_type != null">
-      	BANK_TYPE,
-      </if>
-      <if test="bookResult != null">
-      	BOOK_RESULT,
-      </if>
-      <if test="bookPerson != null">
-      	BOOK_PERSON,
-      </if>
-      <if test="coLender != null">
-      	COLENDER,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},
@@ -413,35 +386,11 @@
       <if test="loanAgentTeam != null">
       	#{loanAgentTeam,jdbcType=VARCHAR},
       </if>
-      <if test="priCreditUnit !=null">
-      	#{priCreditUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="bank_type != null">
-      	#{bank_type,jdbcType=VARCHAR},
-      </if>
-      <if test="bookResult != null">
-      	#{bookResult,jdbcType=VARCHAR},
-      </if>
-      <if test="bookPerson != null">
-      	#{bookPerson,jdbcType=VARCHAR},
-      </if>
-      <if test="coLender != null">
-      	#{coLender,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
   
   <update id="updateTmpBankStatus" parameterType="java.lang.String" >
   		 update sctrans.T_TO_MORTGAGE set is_Tmp_Bank = '0' where case_code=#{caseCode,jdbcType=VARCHAR};
-  </update>
-  
-  <update id="updateIsPatch" parameterType="com.centaline.trans.mortgage.entity.ToMortgage">
-  	update sctrans.T_TO_MORTGAGE
-  	<set>
-  		IS_PATCH = '0',BUY_PATCH_STR = null,SELL_PATCH_STR=null,PATCH_TIME_BUY = null,PATCH_TIME_SELL=null
-  		
-  	</set>
-  	where PKID = #{pkid,jdbcType=BIGINT}; 
   </update>
   
   <update id="update" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" >
@@ -462,22 +411,21 @@
       <if test="custCode != null" >
         CUST_CODE = #{custCode,jdbcType=VARCHAR},
       </if>
-      <if test="comAmount != null">
+      
         COM_AMOUNT = #{comAmount,jdbcType=DECIMAL},
-    	</if>
-	<if test="comYear !=null">
-     	COM_YEAR = #{comYear,jdbcType=INTEGER},
-  	</if>
-  	<if test="comDiscount != null" > 
+    
+   
+        COM_YEAR = #{comYear,jdbcType=INTEGER},
+     
+ <!--      <if test="comDiscount != null" > -->
         COM_DISCOUNT = #{comDiscount,jdbcType=DECIMAL},
-     </if>
-      <if test="prfAmount != null">
-      	PRF_AMOUNT = #{prfAmount,jdbcType=DECIMAL},
-      </if>
-        
-       <if test="prfYear != null">
-       	PRF_YEAR = #{prfYear,jdbcType=INTEGER},
-       </if> 
+     <!--  </if> -->
+      
+        PRF_AMOUNT = #{prfAmount,jdbcType=DECIMAL},
+     
+      
+        PRF_YEAR = #{prfYear,jdbcType=INTEGER},
+     
       <if test="lendWay != null" >
         LEND_WAY = #{lendWay,jdbcType=VARCHAR},
       </if>
@@ -598,42 +546,6 @@
       <if test="stateInBank != null">
       	STATE_IN_BANK = #{stateInBank,jdbcType=VARCHAR},
       </if>
-      <if test="priCreditUnit !=null">
-      	PRI_CREDIT_UNIT =#{priCreditUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="isPatch != null">
-      	IS_PATCH = #{isPatch,jdbcType=VARCHAR},
-      </if>
-      <if test="buyPatchStr != null">
-      	BUY_PATCH_STR = #{buyPatchStr,jdbcType=VARCHAR},
-      </if>
-      <if test="sellPatchStr != null">
-      	SELL_PATCH_STR =#{sellPatchStr,jdbcType=VARCHAR},
-      </if>
-      <if test="patchTimeBuy != null">
-      	PATCH_TIME_BUY = #{patchTimeBuy,jdbcType=TIMESTAMP},
-      </if>
-      <if test="patchTimeSell != null">
-      	PATCH_TIME_SELL = #{patchTimeSell,jdbcType=TIMESTAMP},
-      </if>
-      <if test="apprCompleTime != null">
-      	APPR_COMPLE_TIME = #{apprCompleTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="loanContraTime != null">
-      	LOAN_CONTRA_TIME = #{loanContraTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="bank_type != null">
-    	BANK_TYPE = #{bank_type,jdbcType=VARCHAR},
-      </if>
-      <if test="bookResult !=null">
-      	BOOK_RESULT = #{bookResult,jdbcType=VARCHAR},
-      </if>
-      <if test="bookPerson != null">
-      	BOOK_PERSON = #{bookPerson,jdbcType=VARCHAR},
-      </if>
-      <if test="coLender != null">
-      	COLENDER = #{coLender,jdbcType=VARCHAR},
-      </if>
     </set>
     ,IS_ACTIVE='1'
     ,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
@@ -699,7 +611,7 @@
  </select>
    <select id="findToMortgageByConditionWithCommLoan" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" resultMap="ResultMapWithBLOBs"  >
  	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} 
- 		
+ 		and mort_type in('30016001' ,'30016002')
  	<if test="mortType != null">
  	 	and mort_Type=#{mortType,jdbcType=VARCHAR}
  	</if>
@@ -1090,9 +1002,6 @@
       </if>
       <if test="stateInBank != null">
       	STATE_IN_BANK = #{stateInBank,jdbcType=VARCHAR},
-      </if>
-      <if test="bank_type != null">
-      	BANK_TYPE = #{bank_type,jdbcType=VARCHAR},
       </if>
        UPDATE_TIME = GETDATE(),
        UPDATE_BY =@{SESSION_USER_ID}

@@ -153,62 +153,25 @@ public class ToMortgageServiceImpl implements ToMortgageService
             toMortgageMapper.insertSelective(toMortgage);
         }
         // formCommLoan 是否商贷
-      /*  if ("1".equals(toMortgage.getFormCommLoan()) && StringUtils.isNotBlank(toMortgage.getLastLoanBank()))
+        if ("1".equals(toMortgage.getFormCommLoan()) && StringUtils.isNotBlank(toMortgage.getLastLoanBank()))
         {
             // 重新设定最终贷款银行（商贷）
             toMortgageMapper.restSetLastLoanBank(toMortgage);
-        }*/
+        }
 
         if (null != toMortgage.getCustCode())
         {
             TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
             if (guest != null)
             {
-                //guest.setWorkUnit(toMortgage.getCustCompany());
+                guest.setWorkUnit(toMortgage.getCustCompany());
                 guest.setGuestName(toMortgage.getCustName());
                 tgGuestInfoService.updateByPrimaryKeySelective(guest);
             }
         }
         return toMortgage;
     }
-    /**
-     * 数组转换成字符串
-     * lujian
-     * @return
-     */
-    private ToMortgage transformationStr(ToMortgage toMortgage){
-    	//是否补件 1是0否
-    	if("1".equals(toMortgage.getIsPatch())){
-    		String []  buyPatch = toMortgage.getBuyPatch();
-    		String [] sellPatch = toMortgage.getSellPatch();
-    		StringBuffer buyPatchSb = new StringBuffer("");
-    		StringBuffer sellPatchSb = new StringBuffer("");
-    		if(buyPatch != null && buyPatch.length > 0){
-    			for (int i = 0; i < buyPatch.length; i++) {
-					if(i == buyPatch.length -1){
-						buyPatchSb.append(buyPatch[i]);
-						break;
-					}
-					buyPatchSb.append(buyPatch[i]+",");
-				}
-    			toMortgage.setBuyPatchStr(buyPatchSb.toString());
-    		}
-    		
-    		if(sellPatch != null && sellPatch.length > 0){
-    			for (int i = 0; i < sellPatch.length; i++) {
-					if(i == sellPatch.length -1){
-						sellPatchSb.append(sellPatch[i]);
-						break;
-					}
-					sellPatchSb.append(sellPatch[i]+",");
-				}
-    			toMortgage.setSellPatchStr(sellPatchSb.toString());
-    		}
-    		return toMortgage;
-    	}
-    	return toMortgage;
-    }
-    
+
      @Override
     public void saveToMortgageAndSupDocu(ToMortgage toMortgage)
     {
@@ -224,28 +187,20 @@ public class ToMortgageServiceImpl implements ToMortgageService
             List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(condition);
             if (!CollectionUtils.isEmpty(list)){
             	toMortgage.setPkid(list.get(0).getPkid());
-            	//数组转换成字符串
-            	toMortgage = transformationStr(toMortgage);
                 toMortgageMapper.update(toMortgage);
             }else{
                 toMortgage.setIsDelegateYucui("1");
                 toMortgageMapper.insertSelective(toMortgage);
             }
         }else{
-        		if("0".equals(toMortgage.getIsPatch())){
-        			toMortgageMapper.updateIsPatch(toMortgage);
-        		}else{
-        			toMortgage = transformationStr(toMortgage);
-                    toMortgageMapper.update(toMortgage);
-        		}
-        		
+                toMortgageMapper.update(toMortgage);
         }
 
         if ("1".equals(toMortgage.getFormCommLoan()) && StringUtils.isNotBlank(toMortgage.getLastLoanBank()))
         {
             toMortgageMapper.restSetLastLoanBank(toMortgage);
         }
-     /*   ToSupDocu toSupDocu = toMortgage.getToSupDocu();
+        ToSupDocu toSupDocu = toMortgage.getToSupDocu();
         ToSupDocu supDocu = toSupDocuService.findByCaseCode(toMortgage.getCaseCode());
 
         if (supDocu != null)
@@ -292,9 +247,9 @@ public class ToMortgageServiceImpl implements ToMortgageService
 	        	generatorPerf(eval);
         	}
         }
-*/
+
         // 为主流程设置变量
-        //setEvaReportNeedAtLoanRelease(toMortgage);
+        setEvaReportNeedAtLoanRelease(toMortgage);
     }
     /**
      * 生成应收和应收业绩 
@@ -448,7 +403,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
     @Override
     public ToMortgage findToMortgageByCaseCodeWithCommLoan(ToMortgage toMortgage)
     {
-        //toMortgage.setIsDelegateYucui("1");
+        toMortgage.setIsDelegateYucui("1");
         List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(toMortgage);
         if (CollectionUtils.isNotEmpty(list))
         {
