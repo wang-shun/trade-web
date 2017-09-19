@@ -86,10 +86,6 @@
 						<label class="control-label sign_left_two margin_left">评估公司</label>
 						<div class="float_left big_pad">
 							<select  id="finOrgId" class="form-control select_control">
-								<option value="" selected>请选择</option>
-								<option value="1">A</option>
-								<option value="2">B</option>
-								<option value="3">C</option>
 							</select>
 						</div>
 					</div>

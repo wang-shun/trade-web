@@ -93,9 +93,9 @@
 	
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox-content border-bottom clearfix space_box">
-			<h1 class="title">
+			<h3 class="title">
 				询价新增
-        	</h1>
+        	</h3>
 			<form method="get" id="evaluateForm" class="form_list">
 				<input type="hidden" name="caseCode" value="${caseCode }">
 				<div class="row clearfix">
@@ -178,10 +178,6 @@
 						<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>评估公司</label>
 						<div class="float_left big_pad">
 							<select id="finorgId_0" class="from-control select_control width_evaCommpany">
-								<option value="" selected>请选择</option>
-								<option value="1">A</option>
-								<option value="2">B</option>
-								<option value="3">C</option>
 							</select>
 						</div>
 						<a href="javascript:addEvaCompany();"  class="btn btn_blue float_left_two">
@@ -222,7 +218,35 @@
 <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
 	
 	<script>
-	
+	$(document).ready(function() {
+		getEvaFinOrg('finorgId_0');
+	});
+		/**
+		 * 获取评估公司 格式化
+		 * @param finOrgId
+		 */
+		function getEvaFinOrg(finOrgId){
+			var url = "/evaPricing/getEvaFinOrg";
+			$.ajax({
+				async: true,
+				type:'POST',
+				url:ctx+url,
+				dataType:'json',
+				success:function(data){
+					console.log(data.content);
+					var html = '<option value="" selected>请选择</option>';
+					if(data.content && data.content.length >0){
+						$.each(data.content,function(i,item){
+							html += '<option value="'+item.id+'">'+item.name+'</option>';
+						});
+					}
+					$('#'+finOrgId).empty();
+					$('#'+finOrgId).append(html);
+				},
+				error : function(errors) {
+				}
+			});
+		}
 		// 日期控件
 		$('#datepicker').datepicker({
 			format : 'yyyy-mm-dd',

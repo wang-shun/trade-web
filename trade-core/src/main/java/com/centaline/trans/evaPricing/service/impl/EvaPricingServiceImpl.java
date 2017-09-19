@@ -2,6 +2,8 @@ package com.centaline.trans.evaPricing.service.impl;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +108,21 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 		}
 		return count;
 	}
+
+	@Override
+	public boolean queryInfoByCase(String caseCode) {
+		Integer count = toEvaPricingMapper.queryInfoByCaseCode(caseCode);
+		if(count !=null && count > 0){
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public List<Map<String, String>> queryEvaFinOrg() {
+		
+		return toEvaPricingMapper.queryEvaFinOrg();
+	}
 	
 	/**
 	 * 自生成询价编号:EvaCodeyyyyMMddHHmmss
@@ -115,6 +132,7 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 		String dateString = DateUtil.getFormatDate(new Date(), DATE_FORMAT);
 		return EVA_CODE_PRE+dateString;
 	}
+
 
 
 }

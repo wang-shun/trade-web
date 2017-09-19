@@ -46,12 +46,13 @@
 			pro.HALL,
 			pro.TOILET,
 			pro.HOUSE_AGE,
-			'temp' EVA_COMPANY,
+			fin.FIN_ORG_NAME EVA_COMPANY,
 			cas.CASE_CODE,
 			cas.CTM_CODE
 		FROM
 			sctrans.T_TO_EVA_PRICING pri
 			INNER JOIN sctrans.T_TO_EGU_PROPERTY_INFO pro ON pri.EVA_CODE = pro.EVA_CODE
+			INNER JOIN sctrans.T_TS_FIN_ORG fin ON pri.FIN_ORG_ID = fin.PKID
 			LEFT JOIN sctrans.T_TO_CASE cas ON pri.CASE_CODE = cas.CASE_CODE
 		WHERE
 			pri.PKID = #{pkid,jdbcType=BIGINT}
@@ -245,4 +246,24 @@
 		WHERE 
 			PKID = #{pkid,jdbcType=BIGINT}
 	</update>
+	
+	<select id="queryInfoByCaseCode" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			sctrans.T_TO_EVA_PRICING eva
+			INNER JOIN  sctrans.T_TO_EGU_PROPERTY_INFO pro ON eva.EVA_CODE = pro.EVA_CODE
+			INNER JOIN sctrans.T_TS_FIN_ORG fin ON eva.FIN_ORG_ID = fin.PKID
+		WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryEvaFinOrg" resultType="java.util.Map">
+		SELECT
+			PKID id,
+			FIN_ORG_NAME name
+		FROM
+			sctrans.T_TS_FIN_ORG
+		WHERE
+			FA_FIN_ORG_CODE = 'P00'
+	</select>
 </mapper>

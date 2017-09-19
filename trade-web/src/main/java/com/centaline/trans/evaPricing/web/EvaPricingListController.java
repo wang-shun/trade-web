@@ -1,5 +1,8 @@
 package com.centaline.trans.evaPricing.web;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.ServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
@@ -140,4 +144,17 @@ public class EvaPricingListController {
 		return result;
 	}
 
+	/**
+	 * 获取评估公司
+	 * @return
+	 */
+	@RequestMapping(value="getEvaFinOrg")
+	@ResponseBody
+	public AjaxResponse<List<Map<String,String>>> getEvaFinOrg(){
+		AjaxResponse<List<Map<String,String>>> result = new AjaxResponse<List<Map<String,String>>>();
+		
+		List<Map<String,String>> lis = evaPricingService.queryEvaFinOrg();
+		result.setContent(lis);
+		return result;
+	}
 }

@@ -1,5 +1,8 @@
 package com.centaline.trans.evaPricing.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 
 /**
@@ -31,5 +34,18 @@ public interface EvaPricingService {
 	 * @param PKID
 	 */
 	int cancelByPKID(Long PKID); 
+	
+	/**
+	 * 检查是否存在与案件关联的询价单
+	 * @param caseCode
+	 * @return
+	 */
+	boolean queryInfoByCase(String caseCode);
+	
+	/**
+	 * 获取评估 公司数据
+	 * @return
+	 */
+	List<Map<String,String>>queryEvaFinOrg();
 
 }

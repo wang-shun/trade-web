@@ -1,5 +1,8 @@
 package com.centaline.trans.evaPricing.repository;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.centaline.trans.common.MyBatisRepository;
@@ -53,4 +56,17 @@ public interface ToEvaPricingMapper {
 	 * @return 
 	 */
 	int cancelEvaPricingByPKID(Long PKID);
+	
+	/**
+	 * 根据案件编号查询是否存在关联询价 
+	 * @param caseCode
+	 * @return
+	 */
+	int queryInfoByCaseCode(String caseCode);
+	
+	/**
+	 * 获取评估公司数据
+	 * @return
+	 */
+	List<Map<String,String>> queryEvaFinOrg();
 }

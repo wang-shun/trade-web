@@ -7,6 +7,8 @@ $(document).ready(function() {
 	var url = "/rapidQuery/findPage";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
+	//获取评估公司
+	getEvaFinOrg('finOrgId');
 	
 	// 初始化列表
 	var data = {};
@@ -19,6 +21,32 @@ $(document).ready(function() {
 	
 });
 
+/**
+ * 获取评估公司 格式化
+ * @param finOrgId
+ */
+function getEvaFinOrg(finOrgId){
+	var url = "/evaPricing/getEvaFinOrg";
+	$.ajax({
+		async: true,
+		type:'POST',
+		url:ctx+url,
+		dataType:'json',
+		success:function(data){
+			console.log(data.content);
+			var html = '<option value="" selected>请选择</option>';
+			if(data.content && data.content.length >0){
+				$.each(data.content,function(i,item){
+					html += '<option value="'+item.id+'">'+item.name+'</option>';
+				});
+			}
+			$('#'+finOrgId).empty();
+			$('#'+finOrgId).append(html);
+		},
+		error : function(errors) {
+		}
+	});
+}
 var ctx = $("#ctx").val();
 
 //查询
@@ -261,7 +289,5 @@ function gotoPage(obj){
 	}else{
 		return;
 	}
-	
-
 }
 

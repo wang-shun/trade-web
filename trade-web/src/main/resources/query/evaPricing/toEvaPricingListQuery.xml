@@ -26,8 +26,7 @@
 						eva.CASE_CODE,
 						pro.RESIDENCE_NAME,
 						eva.FIN_ORG_ID,
-						'temp' EVA_COMPANY,
-						<!-- evaC.NAME, -->
+						fin.FIN_ORG_NAME EVA_COMPANY,
 						eva.ARISER_ID,
 						eva.CREATE_TIME,
 						eva.COMPLETE_TIME,
@@ -38,7 +37,7 @@
 					FROM
 						sctrans.T_TO_EVA_PRICING eva
 						INNER JOIN  sctrans.T_TO_EGU_PROPERTY_INFO pro ON eva.EVA_CODE = pro.EVA_CODE
-						<!-- LEFT JOIN  evaC  评估公司-->
+						INNER JOIN sctrans.T_TS_FIN_ORG fin ON eva.FIN_ORG_ID = fin.PKID
 					where 1=1
 						AND eva.STATUS = 0
 					<ifNotNull propertyAddr>

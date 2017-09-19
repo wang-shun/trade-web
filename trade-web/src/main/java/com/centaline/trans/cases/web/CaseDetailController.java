@@ -41,7 +41,6 @@ import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
-import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
 import com.centaline.trans.cases.service.CaseMergeService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
@@ -56,12 +55,12 @@ import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToServChangeHistroty;
+import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.SubscribeModuleType;
 import com.centaline.trans.common.enums.SubscribeType;
-import com.centaline.trans.common.enums.ToAttachmentEnum;
 import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.TransPositionEnum;
@@ -89,6 +88,7 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import com.centaline.trans.evaPricing.service.EvaPricingService;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
 import com.centaline.trans.eval.service.ToEvaFeeRecordService;
 import com.centaline.trans.mgr.entity.TsFinOrg;
@@ -218,6 +218,9 @@ public class CaseDetailController {
 	private ActRuTaskService actRuTaskService;
 	@Autowired
 	private UnlocatedTaskService unlocatedTaskService;
+	
+	@Autowired
+	private EvaPricingService evaPricingService;
 
 	/**
 	 * 页面初始化
@@ -789,10 +792,10 @@ public class CaseDetailController {
 		/** 权证 **/
 		List<ToCaseParticipant> caseParticipants = toCaseParticipantMapper.selectByCaseCode(toCase.getCaseCode());
 		for(ToCaseParticipant pant :caseParticipants){
-			if("warrant".equals(pant.getPosition())){
+			if(CaseParticipantEnum.WARRANT.getCode().equals(pant.getPosition())){
 				reVo.setWarName(pant.getRealName());
 				reVo.setWarMobile(pant.getMobile());
-			}else if("loan".equals(pant.getPosition())){
+			}else if(CaseParticipantEnum.LOAN.getCode().equals(pant.getPosition())){
 				reVo.setLoanName(pant.getRealName());
 				reVo.setLoanMobile(pant.getMobile());
 			}
@@ -1193,22 +1196,12 @@ public class CaseDetailController {
 			}
 		}*/
 	
-//		TsTeamProperty tp = teamPropertyService.findTeamPropertyByTeamCode(sessionUser.getServiceDepCode());
-//		boolean isBackTeam = false;
 		boolean isCaseOwner=false;
-		boolean isNewFlow=false;
 		boolean isCaseManager=false;
-		//查询登录人的工作组，前台or后台
-//		if (tp != null) {
-//			isBackTeam = "yu_back".equals(tp.getTeamProperty());
-//		}
+
 		//判断是否为自己的案件
 		if(sessionUser.getId().equals(toCase.getLeadingProcessId())){
 			isCaseOwner=true;
-		}
-		
-		if(toWorkFlow!=null &&"operation_process:34:620096".compareTo(toWorkFlow.getProcessDefinitionId())<=0){
-			isNewFlow=true;
 		}
 	
 		if(isCaseOwner&&TransJobs.TJYZG.getCode().equals(sessionUser.getServiceJobCode())){
@@ -1221,24 +1214,22 @@ public class CaseDetailController {
 
 
 		/** 案件重启中对信息管理员开放 ff80808158af2e600158b98c82340049 ***/
-//		if(null != sessionUser){
-//			if(StringUtils.equals(sessionUser.getServiceJobCode(), "COXXGLY")){
-//				request.setAttribute("serviceJobType", "Y");
-//			}else{
-//				request.setAttribute("serviceJobType", "N");
-//			}
-//		}
+		/*if(null != sessionUser){
+			if(StringUtils.equals(sessionUser.getServiceJobCode(), "COXXGLY")){
+				request.setAttribute("serviceJobType", "Y");
+			}else{
+				request.setAttribute("serviceJobType", "N");
+			}
+		}*/
 
 		request.setAttribute("isCaseManager", isCaseManager);
 		request.setAttribute("serivceDefId", sessionUser.getServiceDepId());
 		request.setAttribute("loanReqType", loanReqType);
-		request.setAttribute("isNewFlow", isNewFlow);
 		String[] lamps = LampEnum.getCodes();
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
 		
-//		request.setAttribute("isBackTeam", isBackTeam);
 		request.setAttribute("isCaseOwner", isCaseOwner);
 		request.setAttribute("toCase", toCase);
 		request.setAttribute("toCaseInfo", toCaseInfo);
@@ -1251,14 +1242,6 @@ public class CaseDetailController {
 		JSONObject chargeInfo = new JSONObject();
 		request.setAttribute("chargeInfo", chargeInfo);
 
-		
-/*		request.setAttribute("toSpv", toSpv);
-		request.setAttribute("cashFlows", cashFlows);*/
-		/*request.setAttribute("toLoanAgents", toLoanAgents);
-		request.setAttribute("toEloanCases", toEloanCases);
-		request.setAttribute("toLoanAgentVOs", toLoanAgentVOs);
-		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);
-		request.setAttribute("toEloanCaseVOs", toEloanCaseVOs);cyx*/
 		request.setAttribute("isSubscribe", isSubscribe);
 		return "case/caseDetail_new";
 	}
@@ -2141,6 +2124,11 @@ public class CaseDetailController {
 	}
 	
 	
+	/**
+	 * 爆单处理
+	 * @param caseCode
+	 * @return
+	 */
 	@RequestMapping(value="caseBaodan")
 	@ResponseBody
 	public AjaxResponse<?> caseBaodan(String caseCode){
@@ -2153,16 +2141,9 @@ public class CaseDetailController {
 			for(ToWorkFlow toWorkFlow : wfls){
 				toWorkFlow.setStatus(WorkFlowStatus.BAODAN.getCode());
 				toWorkFlowService.updateByPrimaryKey(toWorkFlow);
+				unlocatedTaskService.deleteByInstCode(toWorkFlow.getInstCode());
+        		workFlowManager.deleteProcess(toWorkFlow.getInstCode());
 			}
-			for(ToWorkFlow toWorkFlow : wfls){
-    			try {
-    				unlocatedTaskService.deleteByInstCode(toWorkFlow.getInstCode());
-            		workFlowManager.deleteProcess(toWorkFlow.getInstCode());
-				} catch (WorkFlowException e) {
-					if(!e.getMessage().contains("statusCode[404]"))throw e;
-					return AjaxResponse.fail(e.getMessage());
-				}
-    		}
 		}
 		/** 案件性质更新 **/
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
@@ -2207,5 +2188,19 @@ public class CaseDetailController {
 		}else{
 			return AjaxResponse.success("变更成功");
 		}
+	}
+	
+	/**
+	 * 
+	 * @param caseCode
+	 * @return
+	 */
+	@RequestMapping(value="/checkEvaPricing")
+	@ResponseBody
+	public AjaxResponse<?> checkEvaPricing(String caseCode){
+		AjaxResponse result = new AjaxResponse();
+		boolean isExist = evaPricingService.queryInfoByCase(caseCode);
+		result.setContent(isExist);
+		return result;
 	}
 }

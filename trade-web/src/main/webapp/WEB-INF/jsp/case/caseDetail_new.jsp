@@ -338,189 +338,184 @@
 				</div>
 				<!-- 服务流程 -->
 				<div class="panel" style="min-height:100px" id="serviceFlow">
-					<span>案件基本操作</span>
-					<div class="row">
-						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUSPEND">
-							<a role="button" id="casePause" class="btn btn-primary btn-xm"
-											href="javascript:casePause()">案件挂起 </a>
-						</shiro:hasPermission>
-						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PLANCHANGE">
-							<a role="button" class="btn btn-primary btn-xm btn-activity"
-											href="javascript:showPlanModal()">交易计划变更</a>
-						</shiro:hasPermission>
-						<a role="button" class="btn btn-primary btn-xm btn-activity"
-											href="javascript:caseBaodan()">爆单</a>
-						<!-- 已过户&&已领他证 不可变更 -->
-						<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' }">
-							<shiro:hasPermission name="TRADE.CASE.ASSISTANTCHANGE">
-								<a role="button" class="btn btn-primary btn-xm btn-activity"
-									href="javascript:showChangeAssistantModal()">变更交易助理</a>
+					<div class="panel-body">
+						<h5>案件基本操作</h5>
+						<div class="row">
+							<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUSPEND">
+								<a role="button" id="casePause" class="btn btn-primary btn-xm"
+												href="javascript:casePause()">案件挂起 </a>
 							</shiro:hasPermission>
-						</c:if>
-						
-						<c:if test="${toCase.caseProperty != 30003002}">
-							<!-- 已经结案审批通过限制流程重启 -->
-							<!-- 已经过户或者已经领证的案件限制流程重启 -->
-							<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' and toCase.caseProperty!='30003009'  || serviceJobType=='Y' }">
-							<shiro:hasPermission name="TRADE.CASE.RESTART">
-								<a role="button" id="processRestart"
-									class="btn btn-primary btn-xm btn-activity"
-									href="javascript:serviceRestart()">流程重启</a>
-						    </shiro:hasPermission>
-							</c:if>
-						</c:if>	
-						<c:if test="${isCaseOwner && isNewFlow}">
-							<!-- 主办 &10:445004或者之后的流程-->
+							<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PLANCHANGE">
+								<a role="button" class="btn btn-primary btn-xm btn-activity"
+												href="javascript:showPlanModal()">交易计划变更</a>
+							</shiro:hasPermission>
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
-								href="javascript:showLoanReqmentChgModal()">贷款需求选择</a>
-						</c:if>				
-						<a role="button" class="btn btn-primary btn-xm btn-activity"
-							href="">询价申请</a>
-						<a role="button" class="btn btn-primary btn-xm btn-activity"
-							href="">评估申请</a>
-					</div>
-					
-
-					<!-- 交易计划变更 -->
-					<div id="plan-modal-form" class="modal fade" role="dialog"
-						aria-labelledby="plan-modal-title" aria-hidden="true">
-						<div class="modal-dialog" style="width: 1000px">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal"
-										aria-hidden="true">×</button>
-									<h4 class="modal-title" id="plan-modal-title">交易计划变更</h4>
-								</div>
-								<div class="modal-body">
-									<div class="row">
-										<form id="plan-form" class="form-horizontal"></form>
+												href="javascript:caseBaodan()">爆单</a>
+							<!-- 已过户&&已领他证 不可变更 -->
+							<c:if test="${ !isBackTeam}">
+								<c:if test="${not empty toWorkFlow.processDefinitionId}">
+									<c:if test="${not empty toWorkFlow.instCode}">
+										<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">
+											<a role="button"
+												class="btn btn-primary btn-xm btn-activity"
+												href="javascript:showOrgCp()">责任人变更</a>
+										</shiro:hasPermission>
+									</c:if>
+								</c:if>
+							</c:if>
+							
+							<c:if test="${toCase.caseProperty != 30003002}">
+								<!-- 已经结案审批通过限制流程重启 -->
+								<!-- 已经过户或者已经领证的案件限制流程重启 -->
+								<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' and toCase.caseProperty!='30003009'  || serviceJobType=='Y' }">
+								<shiro:hasPermission name="TRADE.CASE.RESTART">
+									<a role="button" id="processRestart"
+										class="btn btn-primary btn-xm btn-activity"
+										href="javascript:serviceRestart()">流程重启</a>
+							    </shiro:hasPermission>
+								</c:if>
+							</c:if>	
+							<c:if test="${isCaseOwner}">
+								<a role="button" class="btn btn-primary btn-xm btn-activity"
+									href="javascript:void(0)">贷款需求选择</a>
+							</c:if>				
+							<a role="button" class="btn btn-primary btn-xm btn-activity"
+								href="javascript:evaPricingApply()">询价申请</a>
+							<a role="button" class="btn btn-primary btn-xm btn-activity"
+								href="javascript:void(0)">评估申请</a>
+						</div>
+						
+	
+						<!-- 交易计划变更 -->
+						<div id="plan-modal-form" class="modal fade" role="dialog"
+							aria-labelledby="plan-modal-title" aria-hidden="true">
+							<div class="modal-dialog" style="width: 1000px">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">×</button>
+										<h4 class="modal-title" id="plan-modal-title">交易计划变更</h4>
 									</div>
-								</div>
-								<div class="modal-footer">
-
-									<button type="button" class="btn btn-primary"
-										onclick="javascript:openTransHistory()">变更记录</button>
-									<button type="button" class="btn btn-primary"
-										onclick="javascript:resetPlanModal()">重置</button>
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">关闭</button>
-									<button type="button" class="btn btn-primary"
-										onclick="return savePlanItems();">提交</button>
+									<div class="modal-body">
+										<div class="row">
+											<form id="plan-form" class="form-horizontal"></form>
+										</div>
+									</div>
+									<div class="modal-footer">
+	
+										<button type="button" class="btn btn-primary"
+											onclick="javascript:openTransHistory()">变更记录</button>
+										<button type="button" class="btn btn-primary"
+											onclick="javascript:resetPlanModal()">重置</button>
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">关闭</button>
+										<button type="button" class="btn btn-primary"
+											onclick="return savePlanItems();">提交</button>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-								
-					<!-- 变更交易助理 -->
-					<div id="change-assistant-form" class="modal fade" role="dialog" aria-labelledby="leading-modal-title" aria-hidden="true">
-						<form id="changeAssistant" class="form-horizontal">
-							<input type="hidden" name="pkid" value="${toCase.pkid}" id="pkidAssistant"/>
-							<div class="modal-dialog" style="width: 400px">
-								<div class="modal-content" style="width:500px; margin:0 auto" >
+									
+						<!-- 责任人变更 -->
+						<div id="leading-modal-form" class="modal fade" role="dialog"
+							aria-labelledby="leading-modal-title" aria-hidden="true">
+							<div class="modal-dialog" style="width: 1200px">
+								<div class="modal-content">
 									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-										<h4 class="modal-title" id="leading-modal-title">请选择交易助理</h4>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">×</button>
+										<h4 class="modal-title" id="leading-modal-title">
+											请选择责任人</h4>
 									</div>
 									<div class="modal-body">
-										<div class="row"
-											style="max-height: 400px; overflow-y: auto; overflow-x: hidden">
+										<div class="row" style="height: 450px; overflow: auto;">
 											<div class="col-lg-12 ">
+												<h3 class="m-t-none m-b"></h3>
 												<div class="wrapper wrapper-content animated fadeInRight">
-													<div id="change-assistant-data-show" class="row"></div>
+													<div id="leading-modal-data-show" class="row"></div>
 												</div>
 											</div>
 										</div>
 									</div>
-
-									<div class="modal-footer">
-										<input type="button" class="btn btn-primary" value="提交"
-											onclick="changeAssistantInfo()" />
-										<button type="button" class="btn btn-primary"
-											data-dismiss="modal">关闭</button>
-									</div>
 								</div>
-
 							</div>
-						</form>
-					</div>			
-
-								<!-- loanRequirementChange -->
-								<div id="loanReqmentChg-modal-form" class="modal fade"
-									role="dialog" aria-labelledby="plan-modal-title"
-									aria-hidden="true">
-									<div class="modal-dialog" style="width: 1000px">
-										<form method="get" class="form-horizontal"
-											id="loan_reqment_chg_form">
-											<div class="modal-content">
-												<div class="modal-header">
-													<button type="button" class="close" data-dismiss="modal"
-														aria-hidden="true">×</button>
-													<h4 class="modal-title" id="plan-modal-title">贷款需求选择</h4>
-												</div>
-
-												<!-- 交易单编号 -->
-												<input type="hidden" name="caseCode"
-													value="${toCase.caseCode}">
-												<!-- 流程引擎需要字段 -->
-												<input type="hidden" name="processInstanceId"
-													value="${toWorkFlow.instCode}">
-												<div class="modal-body">
-
-													<div style="padding-left: 20px; padding-right: 20px;">
-														<div class="row">
+						</div>		
+						<!-- loanRequirementChange -->
+						<div id="loanReqmentChg-modal-form" class="modal fade"
+							role="dialog" aria-labelledby="plan-modal-title"
+							aria-hidden="true">
+							<div class="modal-dialog" style="width: 1000px">
+								<form method="get" class="form-horizontal"
+									id="loan_reqment_chg_form">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">×</button>
+											<h4 class="modal-title" id="plan-modal-title">贷款需求选择</h4>
+										</div>
+	
+										<!-- 交易单编号 -->
+										<input type="hidden" name="caseCode"
+											value="${toCase.caseCode}">
+										<!-- 流程引擎需要字段 -->
+										<input type="hidden" name="processInstanceId"
+											value="${toWorkFlow.instCode}">
+										<div class="modal-body">
+											<div style="padding-left: 20px; padding-right: 20px;">
+												<div class="row">
+													<div class="col-md-7">
+														<div class="form-group" id="data_1" name="isYouXiao">
+															<label class="col-md-5 control-label"
+																style='padding-left: 0px; text-align: left;'><font
+																color="red">*</font>请选择客户贷款需求</label>
 															<div class="col-md-7">
-																<div class="form-group" id="data_1" name="isYouXiao">
-																	<label class="col-md-5 control-label"
-																		style='padding-left: 0px; text-align: left;'><font
-																		color="red">*</font>请选择客户贷款需求</label>
-																	<div class="col-md-7">
-																		<aist:dict clazz="form-control" id="mortageService"
-																			name="mortageService" display="select"
-																			defaultvalue="0" dictType="mortage_service" />
-																	</div>
-																</div>
+																<aist:dict clazz="form-control" id="mortageService"
+																	name="mortageService" display="select"
+																	defaultvalue="0" dictType="mortage_service" />
 															</div>
 														</div>
-														<div class="row" id='div_releasePlan'>
-															<div class="col-md-7">
-																<div class="form-group">
-																	<label class="col-md-5 control-label"
-																		style='padding-left: 0px; text-align: left;'><font
-																		color="red">*</font>预计放款时间</label>
-																	<div class="col-md-7">
-																		<div class=" input-group date">
-																			<span class="input-group-addon"><i
-																				class="fa fa-calendar"></i></span> <input type="text"
-																				class="form-control" name="estPartTime"
-																				id="estPartTime" disabled="disabled" value="">
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="row">
-															*请注意：当您选择纯公积金贷款时，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。</div>
-														<div class="divider">
-															<hr>
-														</div>
-														<div id="hzxm"></div>
 													</div>
 												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-default"
-														data-dismiss="modal">关闭</button>
-													<button type="button" id="btn_loan_reqment_chg"
-														class="btn btn-primary">变更</button>
+												<div class="row" id='div_releasePlan'>
+													<div class="col-md-7">
+														<div class="form-group">
+															<label class="col-md-5 control-label"
+																style='padding-left: 0px; text-align: left;'><font
+																color="red">*</font>预计放款时间</label>
+															<div class="col-md-7">
+																<div class=" input-group date">
+																	<span class="input-group-addon"><i
+																		class="fa fa-calendar"></i></span> <input type="text"
+																		class="form-control" name="estPartTime"
+																		id="estPartTime" disabled="disabled" value="">
+																</div>
+															</div>
+														</div>
+													</div>
 												</div>
+												<div class="row">
+													*请注意：当您选择纯公积金贷款时，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。</div>
+												<div class="divider">
+													<hr>
+												</div>
+												<div id="hzxm"></div>
 											</div>
-										</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default"
+												data-dismiss="modal">关闭</button>
+											<button type="button" id="btn_loan_reqment_chg"
+												class="btn btn-primary">变更</button>
+										</div>
 									</div>
-								</div>
+								</form>
 							</div>
-							
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
 
 
 				<!-- 相关信息 -->
@@ -535,7 +530,7 @@
 							</li>
 							<li class=""><a href="#fujian_info" data-toggle="tab">附件信息</a>
 							</li>
-							<li class=""><a href="#ctm_info" data-toggle="tab">CCAI附件</a>
+							<li class=""><a href="#ccai_info" data-toggle="tab">CCAI附件</a>
 							</li>
 							<li class=""><a href="#caseComment-info" data-toggle="tab">备注</a>
 							</li>
@@ -742,7 +737,7 @@
 								</div>
 							</div>
 							
-							<div class="tab-pane fade" id="ctm_info">
+							<div class="tab-pane fade" id="ccai_info">
 								<table id="gridTable"></table>
 								<div id="gridPager"></div>
 							</div>
@@ -877,7 +872,7 @@
 			changeTaskRole=true;
 		</shiro:hasPermission>
 		
-		var isNewFlow =${isNewFlow};
+		
 		var isCaseManager=${isCaseManager};
 	      $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
  	      $('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));

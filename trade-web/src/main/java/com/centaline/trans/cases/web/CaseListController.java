@@ -1,35 +1,22 @@
 package com.centaline.trans.cases.web;
 
-import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
-import com.aist.uam.userorg.remote.vo.User;
-import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.MyCaseListService;
-import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.DepTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
-import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.bean.TaskQuery;
-import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.exception.WorkFlowException;
-import com.centaline.trans.engine.vo.TaskVo;
 
 /**
  * 
@@ -94,8 +81,7 @@ public class CaseListController {
 		request.setAttribute("userId", user.getId());
 		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
 		request.setAttribute("serviceDepName", user.getServiceDepName());
-//		return "case/mycase_list_new";
-		return "case/mycase_list2";
+		return "case/mycase_list_new";
 	}
 	
 	

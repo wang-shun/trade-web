@@ -219,10 +219,6 @@
 								<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>评估公司</label>
 								
 									<select id="finorgId" name ="finorgId" class="from-control select_control width_evaCommpany">
-										<option value="" selected>请选择</option>
-										<option value="1">A</option>
-										<option value="2">B</option>
-										<option value="3">C</option>
 									</select>
 							</div>
 							<div class="form_content">
@@ -260,7 +256,35 @@
 	<content tag="local_script"> 
 <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
 	<script>
-	
+	$(document).ready(function() {
+		getEvaFinOrg('finorgId');
+	});
+		/**
+		 * 获取评估公司 格式化
+		 * @param finOrgId
+		 */
+		function getEvaFinOrg(finOrgId){
+			var url = "/evaPricing/getEvaFinOrg";
+			$.ajax({
+				async: true,
+				type:'POST',
+				url:ctx+url,
+				dataType:'json',
+				success:function(data){
+					console.log(data.content);
+					var html = '<option value="" selected>请选择</option>';
+					if(data.content && data.content.length >0){
+						$.each(data.content,function(i,item){
+							html += '<option value="'+item.id+'">'+item.name+'</option>';
+						});
+					}
+					$('#'+finOrgId).empty();
+					$('#'+finOrgId).append(html);
+				},
+				error : function(errors) {
+				}
+			});
+		}
 		// 日期控件
 		$('#datepicker').datepicker({
 			format : 'yyyy-mm-dd',
