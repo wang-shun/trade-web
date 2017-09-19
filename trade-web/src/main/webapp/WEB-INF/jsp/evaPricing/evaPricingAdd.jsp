@@ -131,6 +131,7 @@
 					<div class="form_content">
 						<label class="sign_left_two control-label">产证面积</label>
 						<input type="text" class="select_control" name="area" >
+						<span class="date_icon">平方 </span>
 					</div>
 					<div class="form_content">
 						<label class="sign_left_two control-label">竣工年限</label>
