@@ -59,6 +59,10 @@
     
     <logger name="org.apache.shiro" level="ERROR">
     </logger>
+    <!--activemq listener 消息 -->
+    <logger name="org.apache.activemq" level="ERROR">
+    </logger>
+
     <logger name="net.sf.ehcache" level="warn"></logger>
 
     <logger name="com.github.isrsal.logging" level="DEBUG">
