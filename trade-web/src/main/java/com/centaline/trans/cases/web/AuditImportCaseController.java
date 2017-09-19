@@ -108,11 +108,12 @@ public class AuditImportCaseController {
 	 */
 	@RequestMapping(value = "auditSuccess")
 	public String AuditSuccess(String caseCode){
-		if(auditCaseService.updateAuditCaseSuccess(caseCode)==1){
-			return "forward:"+"/AuditImportCase/list";			
-		}else{
-			throw new BusinessException("审核案件通过失败！");
-		}		
+		ToCase toCase = new ToCase();
+		toCase.setStatus("30001002");
+		toCase.setCaseCode(caseCode);
+		toCaseService.updateByCaseCodeSelective(toCase);		
+		return "forward:"+"/AuditImportCase/list";
+		
 	}
 	/**
 	 * 

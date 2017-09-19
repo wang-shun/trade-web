@@ -90,16 +90,26 @@ public class CaseRecvFollowController {
 			ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 			/* 流程引擎相关 */
 			List<RestVariable> variables = new ArrayList<RestVariable>();
+//			接单跟进中的payType决定流程是走贷款选择还是贷款挽回
+			RestVariable selfDoLoan = new RestVariable();
+			if(payType.contains("自办贷款")){
+				selfDoLoan.setName("selfDoLoan");
+				selfDoLoan.setValue("true");				
+			}else{
+				selfDoLoan.setName("selfDoLoan");
+				selfDoLoan.setValue("false");
+			}
+//			为权证经理审核添加assignee
 			RestVariable restVariable = new RestVariable();
 			restVariable.setName("auditManagerAssignee");
 			ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
 			toCaseParticipant.setCaseCode(caseCode);
 			toCaseParticipant.setUserName(user.getUsername());
+			toCaseParticipant.setPosition("warrant");
 			String leaderUserName = auditCaseService.getLeaderUserName(toCaseParticipant);				
 			restVariable.setValue(leaderUserName);
 			variables.add(restVariable);
-			Boolean flag = workFlowManager.submitTask(variables, String.valueOf(taskVo.getId()), taskVo.getProcessInstanceId(),
-					toCase.getLeadingProcessId(), caseCode);
+			Boolean flag = workFlowManager.submitTask(variables, String.valueOf(taskVo.getId()), taskVo.getProcessInstanceId(),toCase.getLeadingProcessId(), caseCode);
 			if(!flag){
 				hashMap.put("message", "提交任务失败！");
 			}

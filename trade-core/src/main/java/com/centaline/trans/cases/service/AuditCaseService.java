@@ -22,7 +22,7 @@ public interface AuditCaseService {
     public int addLoanProcessor(String userName,String caseCode);
     
     public String getLeaderUserName(ToCaseParticipant toCaseParticipant);
-    
-    public int updateAuditCaseSuccess(String caseCode);
+
+	int updateAuditCaseSuccess(String caseCode);
     
 }
