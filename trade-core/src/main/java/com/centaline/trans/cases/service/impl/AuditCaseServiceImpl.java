@@ -28,6 +28,8 @@ import com.centaline.trans.engine.vo.TaskVo;
 @Service
 public class AuditCaseServiceImpl implements AuditCaseService {
 	@Autowired
+	private WorkFlowManager workFlowManager;
+	@Autowired
 	private ToCaseService toCaseService;
 	@Autowired
 	private ToCcaiAttachmentMapper toCcaiAttachmentMapper;
@@ -40,9 +42,6 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 	
 	@Autowired
 	private UamUserOrgService uamUserOrgServiceClient;
-	
-	@Autowired
-	private WorkFlowManager workFlowManager;
 
 	@Override
 	public String getPayType(String caseCode) {
@@ -199,5 +198,6 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 		}
 		return result;
 	}
+
 	
 }
