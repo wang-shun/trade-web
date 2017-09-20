@@ -14,8 +14,11 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
- * Created by linjiarong on 2016/10/11.
- *
+ * 该类中配置了交易系统的
+ * 权限管理平台 和 交易系统 2个数据库
+ * 用动态切换的形式 来进行切换和使用
+ * @see DataSourceContextHolder
+ * @see MultipleDataSource
  */
 @Configuration
 public class DeployContextConfiguration {
@@ -23,21 +26,45 @@ public class DeployContextConfiguration {
     private final Logger logger = LoggerFactory.getLogger(DeployContextConfiguration.class);
     
     //////////////数据库连接配置////////////////
-    
-    @Bean(name="dataSourceSettings")
-    @ConfigurationProperties(prefix = "dataSource")
-    public DataSourceSettings dataSourceSettings(){
+    /** 权限管理平台 数据库连接配置 *******************************************/
+    @Bean(name="scpfDataSourceSettings")
+    @ConfigurationProperties(prefix = "dataSource.scpf")
+    public DataSourceSettings scpfDataSourceSettings(){
     	return new DataSourceSettings();
     }
-    @Bean(name="dataSourceProxy")
-    public TransactionAwareDataSourceProxy dataSourceProxy(@Qualifier(value="dataSource")DataSource dataSource){
+    @Bean(name="scpfDataSourceProxy")
+    public TransactionAwareDataSourceProxy scpfDataSourceProxy(@Qualifier(value="scpfDataSource")DataSource dataSource){
     	return new TransactionAwareDataSourceProxy(dataSource);
     }
     @Primary
-    @Bean(name="dataSource")
-    public DataSource dataSource(@Qualifier(value="dataSourceSettings")DataSourceSettings dataSourceSettings){
+    @Bean(name="scpfDataSource")
+    public DataSource scpfDataSource(@Qualifier(value="scpfDataSourceSettings")DataSourceSettings dataSourceSettings){
         DruidDataSource ds = new DruidDataSource();
-        
+        try {
+            ds.setDriverClassName(dataSourceSettings.getDriverClassName());
+            ds.setUrl(dataSourceSettings.getUrl());
+            ds.setUsername(dataSourceSettings.getUsername());
+            ds.setPassword(dataSourceSettings.getPassword());
+            ds.setFilters(dataSourceSettings.getFilters());
+        } catch (SQLException e) {
+            logger.error("Error creating scpf data source",e);
+        }
+        return ds;
+    }
+
+    /** 交易系统 数据库连接配置 *******************************************/
+    @Bean(name="sctransDataSourceSettings")
+    @ConfigurationProperties(prefix = "dataSource.sctrans")
+    public DataSourceSettings sctransDataSourceSettings(){
+        return new DataSourceSettings();
+    }
+    @Bean(name="sctransDataSourceProxy")
+    public TransactionAwareDataSourceProxy sctransDataSourceProxy(@Qualifier(value="sctransDataSource")DataSource dataSource){
+        return new TransactionAwareDataSourceProxy(dataSource);
+    }
+    @Bean(name="sctransDataSource")
+    public DataSource sctransDataSource(@Qualifier(value="sctransDataSourceSettings")DataSourceSettings dataSourceSettings){
+        DruidDataSource ds = new DruidDataSource();
         try {
             ds.setDriverClassName(dataSourceSettings.getDriverClassName());
             ds.setUrl(dataSourceSettings.getUrl());
@@ -47,8 +74,9 @@ public class DeployContextConfiguration {
             ds.setMaxActive(dataSourceSettings.getMaxActive());
             ds.setInitialSize(dataSourceSettings.getInitialSize());
         } catch (SQLException e) {
-            logger.error("Error creating data source",e);
+            logger.error("Error creating sctrans data source",e);
         }
         return ds;
     }
+
 }

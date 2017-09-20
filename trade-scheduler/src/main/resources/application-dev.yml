@@ -6,10 +6,19 @@ server:
   contextPath: /trade-scheduler
 #数据源
 dataSource:
-  driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://10.1.30.100:1433;databaseName=scpf_dev
-  username: dev
-  password: dev@123
-  maxActive: 5
-  initialSize: 1
-  filters: stat
+  scpf:
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://10.1.30.100:1433;databaseName=scpf_dev
+    username: dev
+    password: dev@123
+    maxActive: 5
+    initialSize: 1
+    filters: stat
+  sctrans:
+      driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      url: jdbc:sqlserver://10.1.30.100:1433;databaseName=sctrans_dev
+      username: dev
+      password: dev@123
+      maxActive: 5
+      initialSize: 1
+      filters: stat

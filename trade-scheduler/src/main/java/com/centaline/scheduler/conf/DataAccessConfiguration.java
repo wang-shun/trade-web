@@ -21,14 +21,12 @@ import javax.sql.DataSource;
 @EnableTransactionManagement(proxyTargetClass = true)
 @ConditionalOnBean(value = DeployContextConfiguration.class)
 public class DataAccessConfiguration {
-    @Bean
-    public PlatformTransactionManager transactionManager(@Qualifier(value = "dataSource") DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
-
-    @Bean("jdbcTemplate")
-    public JdbcTemplate jdbcTemplate(@Qualifier(value = "dataSourceProxy") TransactionAwareDataSourceProxy dataSourceProxy) {
+    @Bean("scpfJdbcTemplate")
+    public JdbcTemplate scpfJdbcTemplate(@Qualifier(value = "scpfDataSourceProxy") TransactionAwareDataSourceProxy dataSourceProxy) {
         return new JdbcTemplate(dataSourceProxy);
     }
-
+    @Bean("sctransJdbcTemplate")
+    public JdbcTemplate jdbcTemplate(@Qualifier(value = "sctransDataSourceProxy") TransactionAwareDataSourceProxy dataSourceProxy) {
+        return new JdbcTemplate(dataSourceProxy);
+    }
 }

@@ -2,6 +2,7 @@ package com.centaline.scheduler.conf;
 
 import com.aist.scheduler.execution.remote.Job;
 import com.centaline.scheduler.sync.remoteJob.K3SyncJob;
+import com.centaline.scheduler.sysconfig.SequencesResetJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +21,21 @@ public class RemoteJobConfiguration {
 	@Autowired
 	K3SyncJob syncJob;
 
+	@Autowired
+	SequencesResetJob sequencesResetJob;
+
 	@Bean("/remote/K3SyncJob")
-	public HttpInvokerServiceExporter k3SyncService(){
+	public HttpInvokerServiceExporter K3SyncJob(){
 		HttpInvokerServiceExporter exporter = new HttpInvokerServiceExporter();
 		exporter.setService(syncJob);
+		exporter.setServiceInterface(Job.class);
+		return exporter;
+	}
+
+	@Bean("/remote/SequencesResetJob")
+	public HttpInvokerServiceExporter SequencesResetJob(){
+		HttpInvokerServiceExporter exporter = new HttpInvokerServiceExporter();
+		exporter.setService(sequencesResetJob);
 		exporter.setServiceInterface(Job.class);
 		return exporter;
 	}

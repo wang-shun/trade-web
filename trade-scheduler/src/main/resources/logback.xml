@@ -20,14 +20,15 @@
         </encoder>
     </appender>
 
+
+    <logger name="com.centaline.scheduler.sync" additivity="false" level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="JOB_FILE" />
+    </logger>
     <logger name="com.centaline" additivity="false" level="DEBUG">
     	<appender-ref ref="STDOUT"></appender-ref>
     </logger>
-    <logger name="org.springframework" additivity="false" level="DEBUG">
-    </logger>
-    <logger name="com.centaline.scheduler.sync" additivity="false" level="INFO">
-        <appender-ref ref="JOB_FILE" />
-        <appender-ref ref="STDOUT"/>
+    <logger name="org.springframework" additivity="false" level="ERROR">
     </logger>
 
     <root level="DEBUG">

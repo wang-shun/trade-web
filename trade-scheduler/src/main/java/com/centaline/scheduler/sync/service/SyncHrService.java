@@ -6,15 +6,6 @@ package com.centaline.scheduler.sync.service;
  *
  */
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.centaline.scheduler.sync.bean.SyncEmpOrgPos;
 import com.centaline.scheduler.sync.bean.SyncEmployee;
 import com.centaline.scheduler.sync.bean.SyncOrgUnit;
@@ -29,14 +20,22 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.CallableStatementCallback;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Transactional //增加事务防止删除和同步数据不一致
 public abstract class SyncHrService {
 	@Autowired
-	@Qualifier("jdbcTemplate")
-	private JdbcTemplate tradeTemplate;
+	@Qualifier("scpfJdbcTemplate")
+	private JdbcTemplate scpfTemplate;
 	private Logger logger = LoggerFactory.getLogger(SyncHrService.class);
 	/**
 	 * 同步部门信息
@@ -145,7 +144,7 @@ public abstract class SyncHrService {
 		try {
 			if(list!=null && list.size()>0){
 				//先对应城市的数据再同步
-				tradeTemplate.update("delete from sync.SYNC_TMPORG where city=?",new Object[]{city.getCode()},new int[]{Types.VARCHAR});
+				scpfTemplate.update("delete from sync.SYNC_TMPORG where city=?",new Object[]{city.getCode()},new int[]{Types.VARCHAR});
 				StringBuilder batchinsert = new StringBuilder();
 				List<Object[]> args = new ArrayList<>();
 				batchinsert.append("insert into sync.SYNC_TMPORG(ID,ORG_NAME,ORG_TYPE");
@@ -157,7 +156,7 @@ public abstract class SyncHrService {
 							o.getCreateTime(),o.getEndTime(),o.getTel(),o.getCity(),o.getHroc(),o.getCcaiDepId()};
 					args.add(obj);
 				}
-				tradeTemplate.batchUpdate(batchinsert.toString(),args,
+				scpfTemplate.batchUpdate(batchinsert.toString(),args,
 						new int[]{Types.VARCHAR,Types.VARCHAR,Types.VARCHAR
 								,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR
 								,Types.DATE,Types.DATE,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR});
@@ -184,7 +183,7 @@ public abstract class SyncHrService {
 			//同步
 			if(list!=null && list.size()>0){
 				//先清除对应城市的数据再同步
-				tradeTemplate.update("delete from sync.SYNC_TMPEMPLOYEE where city=?",new Object[]{city.getCode()},new int[]{Types.VARCHAR});
+				scpfTemplate.update("delete from sync.SYNC_TMPEMPLOYEE where city=?",new Object[]{city.getCode()},new int[]{Types.VARCHAR});
 				StringBuilder batchinsert = new StringBuilder();
 				List<Object[]> args = new ArrayList<>();
 				batchinsert.append("insert into sync.SYNC_TMPEMPLOYEE(ID,NAME,SEX,BIRTHDAY,");
@@ -197,7 +196,7 @@ public abstract class SyncHrService {
 							e.getDeptCode(),e.getPositionId(),e.getPositionName(),e.getCity()};
 					args.add(obj);
 				}
-				tradeTemplate.batchUpdate(batchinsert.toString(),args,
+				scpfTemplate.batchUpdate(batchinsert.toString(),args,
 						new int[]{Types.VARCHAR,Types.VARCHAR,Types.TINYINT
 								,Types.DATE,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR
 								,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR
@@ -225,7 +224,7 @@ public abstract class SyncHrService {
 			//同步
 			if(list!=null && list.size()>0){
 				//先清除对应城市的数据再同步
-				tradeTemplate.update("delete from sync.SYNC_TMPPOSITION where city=?",new Object[]{city.getCode()},new int[]{Types.VARCHAR});
+				scpfTemplate.update("delete from sync.SYNC_TMPPOSITION where city=?",new Object[]{city.getCode()},new int[]{Types.VARCHAR});
 				StringBuilder batchinsert = new StringBuilder();
 				List<Object[]> args = new ArrayList<>();
 				batchinsert.append("insert into sync.SYNC_TMPPOSITION(ID,NAME,DEPT_ID,DEPT_CODE,DEPT_NAME,CITY)");
@@ -235,7 +234,7 @@ public abstract class SyncHrService {
 							p.getDeptCode(),p.getDeptName(),p.getCity()};
 					args.add(obj);
 				}
-				tradeTemplate.batchUpdate(batchinsert.toString(),args,
+				scpfTemplate.batchUpdate(batchinsert.toString(),args,
 						new int[]{Types.VARCHAR,Types.VARCHAR,Types.VARCHAR
 								,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR});
 				result = new SyncResult(SyncResultType.SUCCESS, null);
@@ -261,7 +260,7 @@ public abstract class SyncHrService {
 			//同步
 			if(list!=null && list.size()>0){
 				//先清除对应城市的数据再同步
-				tradeTemplate.update("delete from sync.SYNC_TMPEMP_ORG_POS where city=?",new Object[]{city.getCode()},new int[]{Types.VARCHAR});
+				scpfTemplate.update("delete from sync.SYNC_TMPEMP_ORG_POS where city=?",new Object[]{city.getCode()},new int[]{Types.VARCHAR});
 				StringBuilder batchinsert = new StringBuilder();
 				List<Object[]> args = new ArrayList<>();
 				batchinsert.append("insert into sync.SYNC_TMPEMP_ORG_POS(ID,EMP_ID,EMP_NAME,DEPT_ID,DEPT_NAME");
@@ -273,7 +272,7 @@ public abstract class SyncHrService {
 							,eop.getPrimary(),eop.getCity(),eop.getLeader()};
 					args.add(obj);
 				}
-				tradeTemplate.batchUpdate(batchinsert.toString(),args,
+				scpfTemplate.batchUpdate(batchinsert.toString(),args,
 						new int[]{Types.VARCHAR,Types.VARCHAR,Types.VARCHAR
 								,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.TINYINT,Types.VARCHAR,Types.VARCHAR});
 				result = new SyncResult(SyncResultType.SUCCESS, null);
@@ -304,7 +303,7 @@ public abstract class SyncHrService {
 	public Map<String,String> doProcExec(final String cmd){
 		//TODO 添加cmd的校验 未校验 因为存储过程的入参 和 出参 是动态 该处只注册了2个出参
 		long start = System.currentTimeMillis();
-		Map<String,String> map = tradeTemplate.execute(new CallableStatementCreator() {
+		Map<String,String> map = scpfTemplate.execute(new CallableStatementCreator() {
 			/**
 			 * 定义执行存储过程的名称 注册 输入 输出参数
 			 * 并返回定义
@@ -318,7 +317,7 @@ public abstract class SyncHrService {
 				cs.registerOutParameter(2, Types.VARCHAR);//当结果代码为-1时，返回的错误信息
 				return cs;
 			}
-		},new CallableStatementCallback<Map<String,String>>() {
+		}, new CallableStatementCallback<Map<String,String>>() {
 			/**
 			 * 执行存储过程 并返回结果
 			 * cs 为上面定义的返回值
@@ -353,9 +352,9 @@ public abstract class SyncHrService {
 		String code = result.get("code");
 		String msg = result.get("msg");
 		//写入数据库表日志表中
-		tradeTemplate.update(buffer.toString(),new Object[]{name,code,msg,user,usetime},
+		scpfTemplate.update(buffer.toString(),new Object[]{name,code,msg,user,usetime},
 				new int[]{Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.BIGINT});
-		logger.debug(String.format("%s 触发同步 %s 结果：%s 用时:%d ms\r\n", user,name,result,usetime));
+		logger.info(String.format("%s 触发同步 %s 结果：%s 用时:%d ms\r\n", user,name,result,usetime));
 		
 	}
 	
