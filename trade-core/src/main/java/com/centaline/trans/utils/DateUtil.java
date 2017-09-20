@@ -17,6 +17,8 @@ public class DateUtil {
 		if(format == null) {
 			format = "yyyy-MM-dd";
 		}
+		//特殊处理 这种情况一般不会需要返回格式化的数据
+		if(date==null || date.getTime()==0L) return "";
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		return sdf.format(date);
 	}

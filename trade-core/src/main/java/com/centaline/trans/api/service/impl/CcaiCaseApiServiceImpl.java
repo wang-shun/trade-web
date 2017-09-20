@@ -1,17 +1,17 @@
 package com.centaline.trans.api.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.api.service.CaseApiService;
 import com.centaline.trans.api.vo.ApiCaseInfo;
 import com.centaline.trans.api.vo.ApiResultData;
 import com.centaline.trans.task.entity.ToSign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.remoting.httpinvoker.SimpleHttpInvokerRequestExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import sun.net.www.http.HttpClient;
 
-import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 对CCAI案件相关的接口实现
@@ -26,17 +26,27 @@ public class CcaiCaseApiServiceImpl implements CaseApiService {
 	private RestTemplate restTemplate;
 
 	@Override
-	public ApiResultData<ApiCaseInfo> getApiCaseInfo(String ccaiCode) {
-		//TODO 先提供默认的数据进行使用
-		String result = restTemplate.getForObject("http://www.baidu.com",String.class);
-		// restTemplate.getForObject(ccaiaddress+"/caseinfo/"+ccaiCode,String.class);
-		System.out.println("in service imple ");
-		System.out.println(result);
-		return null;
+	public ApiCaseInfo getApiCaseInfo(String ccaiCode) {
+		Map<String,String> param = new HashMap<>();
+		param.put("ccaiCode",ccaiCode);
+		String url =ccaiaddress+"/CCAIData/GetContract"+"?ccaiCode="+ccaiCode;
+		ApiCaseInfo result;
+		try {
+			String json = restTemplate.getForObject(url,String.class);
+			return JSONObject.parseObject(json,ApiCaseInfo.class);
+			// return mapper.readValue(json,ApiCaseInfo.class); jackjson 无法转换分成信息和合作信息 原因暂时未知
+			// return restTemplate.getForObject(url,ApiCaseInfo.class); 自带的也无法进行转换分成信息和合作信息 而且会报错
+		}catch (Exception e){
+			e.printStackTrace();
+			result = new ApiCaseInfo();
+			result.setSuccess(false);
+			result.setMessage(e.getMessage());
+		}
+		return result;
 	}
 
 	@Override
-	public ApiResultData<String> SyncNetSign(ToSign info) {
+	public ApiResultData SyncNetSign(ToSign info) {
 		return null;
 	}
 }

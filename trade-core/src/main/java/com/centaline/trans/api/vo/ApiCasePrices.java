@@ -1,5 +1,7 @@
 package com.centaline.trans.api.vo;
 
+import com.centaline.trans.utils.DateUtil;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -118,5 +120,22 @@ public class ApiCasePrices {
 
 	public void setReceiptsAssessmentFee(BigDecimal receiptsAssessmentFee) {
 		this.receiptsAssessmentFee = receiptsAssessmentFee;
+	}
+
+	@Override
+	public String toString() {
+		return "ApiCasePrices{" +
+				"业主应收=" + ownerReceivableCommission +
+				", 客户应收=" + guestReceivableCommission +
+				", 收佣日期(业主)=" + DateUtil.getFormatDate(ownerCommissionTime,"yyyy-MM-dd HH:mmss") +
+				", 收佣日期(客户)=" + DateUtil.getFormatDate(guestCommissionTime,"yyyy-MM-dd HH:mmss") +
+				", 业主折佣=" + ownerCommissionDis +
+				", 客户折佣=" + guestCommissionDis +
+				", 业主佣金到期日=" + DateUtil.getFormatDate(ownerCommissionMature,"yyyy-MM-dd HH:mmss") +
+				", 客户佣金到期日=" + DateUtil.getFormatDate(guestCommissionMature,"yyyy-MM-dd HH:mmss") +
+				", 评估费=" + assessmentFee +
+				", 应收评估费=" + receivableAssessmentFee +
+				", 实收评估费=" + receiptsAssessmentFee +
+				'}';
 	}
 }

@@ -1,6 +1,9 @@
 package com.centaline.trans.api.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,9 +19,49 @@ public class ApiCaseFees {
 	//单数合计
 	private Integer totalTurnoverNum;
 	//分成信息
-	private List<SharingInfo> sharingInfos;
+	private List<SharingInfo> sharingInfo = new ArrayList<>();
 	//合作信息
-	private List<CooperateFeeInfo> cooperateFeeInfo;
+	private List<CooperateFeeInfo> cooperateFeeInfo ;
+
+	public BigDecimal getTotalFee() {
+		return totalFee;
+	}
+
+	public void setTotalFee(BigDecimal totalFee) {
+		this.totalFee = totalFee;
+	}
+
+	public BigDecimal getTotalPerformance() {
+		return totalPerformance;
+	}
+
+	public void setTotalPerformance(BigDecimal totalPerformance) {
+		this.totalPerformance = totalPerformance;
+	}
+
+	public Integer getTotalTurnoverNum() {
+		return totalTurnoverNum;
+	}
+
+	public void setTotalTurnoverNum(Integer totalTurnoverNum) {
+		this.totalTurnoverNum = totalTurnoverNum;
+	}
+
+	public List<SharingInfo> getSharingInfo() {
+		return sharingInfo;
+	}
+
+	public void setSharingInfo(List<SharingInfo> sharingInfo) {
+		this.sharingInfo = sharingInfo;
+	}
+
+	public List<CooperateFeeInfo> getCooperateFeeInfo() {
+		return cooperateFeeInfo;
+	}
+
+	public void setCooperateFeeInfo(List<CooperateFeeInfo> cooperateFeeInfo) {
+		this.cooperateFeeInfo = cooperateFeeInfo;
+	}
 
 	/**
 	 * 分成信息
@@ -94,6 +137,19 @@ public class ApiCaseFees {
 		public void setTurnoverNum(BigDecimal turnoverNum) {
 			this.turnoverNum = turnoverNum;
 		}
+
+		@Override
+		public String toString() {
+			return "\r\nSharingInfo{" +
+					"type=" + type +
+					", 部门='" + department + '\'' +
+					", 员工='" + employee + '\'' +
+					", 分成金额=" + sharingAmount +
+					", 分成比例=" + sharingProportion +
+					", 分成说明='" + sharingInstruction + '\'' +
+					", 成交单数=" + turnoverNum +
+					'}';
+		}
 	}
 
 	/**
@@ -160,6 +216,28 @@ public class ApiCaseFees {
 		public void setCooperateManager(String cooperateManager) {
 			this.cooperateManager = cooperateManager;
 		}
+
+		@Override
+		public String toString() {
+			return "CooperateFeeInfo{" +
+					"合作费类型='" + cooperateFeeType + '\'' +
+					", 分成金额=" + sharingAmount +
+					", 分成比例=" + sharingProportion +
+					", 合作人='" + partner + '\'' +
+					", 合作部门='" + cooperateDepartment + '\'' +
+					", 合作经理='" + cooperateManager + '\'' +
+					'}';
+		}
 	}
 
+	@Override
+	public String toString() {
+		return "ApiCaseFees{" +
+				"合计=" + totalFee +
+				", 总业绩=" + totalPerformance +
+				", 单数合计=" + totalTurnoverNum +
+				"\r\nsharingInfo=" + sharingInfo +
+				"\r\ncooperateFeeInfo=" + cooperateFeeInfo +
+				'}';
+	}
 }

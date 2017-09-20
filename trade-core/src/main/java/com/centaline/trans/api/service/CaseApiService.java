@@ -16,13 +16,13 @@ public interface CaseApiService {
 	 * @param ccaiCode
 	 * @return
 	 */
-	ApiResultData<ApiCaseInfo> getApiCaseInfo(String ccaiCode);
+	ApiCaseInfo getApiCaseInfo(String ccaiCode);
 
 	/**
 	 * 将网签信息 同步到CCAI中
 	 * @param info 需要同步的网签信息
 	 * @return data返回错误信息
 	 */
-	ApiResultData<String> SyncNetSign(ToSign info);
+	ApiResultData SyncNetSign(ToSign info);
 
 }

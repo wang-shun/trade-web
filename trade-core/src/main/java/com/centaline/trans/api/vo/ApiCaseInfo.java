@@ -8,11 +8,11 @@ package com.centaline.trans.api.vo;
  * @author yinchao
  * @date 2017/9/14
  */
-public class ApiCaseInfo {
+public class ApiCaseInfo extends ApiResultData {
 	//业绩记录
-	ApiCasePrices prices;
+	private ApiCasePrices prices;
 	//收费情况
-	ApiCaseFees fees;
+	private ApiCaseFees fees;
 
 	public ApiCasePrices getPrices() {
 		return prices;
@@ -29,4 +29,12 @@ public class ApiCaseInfo {
 	public void setFees(ApiCaseFees fees) {
 		this.fees = fees;
 	}
+
+	@Override
+	public String toString() {
+		return super.toString()+"\r\nApiCaseInfo:" +
+				"\r\n业绩记录=" + prices +
+				"\r\n收费情况=" + fees;
+	}
+
 }
