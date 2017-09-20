@@ -8,6 +8,9 @@
 	<import resource="query/common/tsTaskPlanSetQuery.xml" />
 	<import resource="query/common/lampRuleQuery.xml" />
 	<import resource="query/common/tsTeamPropertyListQuery.xml" />
+	<!--备件列表-->
+	<import resource="query/common/toAccesoryListQuery.xml" />
+
 	<import resource="query/case/toCaseListQuery.xml" />
 	<import resource="query/case/toCaseListUnDistributeQuery.xml" />
 	<import resource="query/case/toCaseListUnLocatedQuery.xml" />

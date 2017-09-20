@@ -3,6 +3,10 @@ package com.centaline.trans.task.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * @author wbzhouht
+ * 缴税
+ */
 public class ToRatePayment {
     private Long pkid;
 

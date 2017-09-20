@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<query id="queryToAccesoryList">
+		<searchCondition>
+            <condition field="TR.PART_CODE" name="partCode" label="环节选择" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					TR.PKID, 
+					TR.PART_CODE, 
+					TR.PART_CODE AS PART_NAME, 
+					TR.ACCESSORY_NAME,
+					TR.ACCESSORY_CODE
+					FROM sctrans.T_TO_ACCESORY_LIST TR
+					where 1 = 1
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="ACCESSORY_NAME" index="" checkbox="" display="备件名称" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="ACCESSORY_CODE" index="" checkbox="" display="备件编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PART_CODE" index="" checkbox="" display="环节编码" customDict="" sysDict="" format="" width="150" isSort="true" align="" halign="" order="desc" resizable=""/>
+			</table-row>
+		</grid>
+	</query>
+	
+</querys>

@@ -14,10 +14,13 @@ public interface ToAccesoryListService {
 	public String findAccesoryNameByCode(String accessoryCode);
 	public ToAccesoryList findAccesory(ToAttachment toAttachment);
 	public ToAccesoryList findAccesoryNameByPartCode(ToAccesoryList toAccesoryList);
+	public boolean saveAccesoryList1(AccsoryListVO accsoryListVO);
 	public boolean saveAccesoryList(AccsoryListVO accsoryListVO);
 	void getAccesoryListCaseClose(HttpServletRequest request, String caseCode);
 	void getAccesoryList(HttpServletRequest request, String taskitem);
 	void getAccesoryListLingZheng(HttpServletRequest request, String taskitem, boolean psf, boolean self, boolean com);
 	void getAccesoryListGuoHu(HttpServletRequest request, String taskitem, String caseCode);
 	void getAccesoryLists(HttpServletRequest request, String taskitem);
+
+	boolean deleteAccesoryLists(Long pkid);
 }

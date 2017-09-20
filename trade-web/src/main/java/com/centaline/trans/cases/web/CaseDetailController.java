@@ -224,7 +224,7 @@ public class CaseDetailController {
 
 	/**
 	 * 页面初始化
-	 * 
+	 * @author wbzhouht
 	 * @param caseId
 	 * @param request
 	 * @return
@@ -474,7 +474,13 @@ public class CaseDetailController {
 		if (caseInfo.getLoanCloseCode() != null) {
 			String loanCloseCode = format.format(caseInfo.getLoanCloseCode());
 			reVo.setLoanCloseCode(loanCloseCode);
-		} // 过户时间
+		}
+		//缴税时间
+		if(caseInfo.getPaymentTime()!=null){
+			String paymentTime=format.format(caseInfo.getPaymentTime());
+			reVo.setPaymentTime(paymentTime);
+		}
+		// 过户时间
 		if (caseInfo.getRealHtTime() != null) {
 			String realHtTime = format.format(caseInfo.getRealHtTime());
 			reVo.setRealHtTime(realHtTime);
@@ -948,7 +954,12 @@ public class CaseDetailController {
 		if (caseInfo.getPayTime3() != null) {
 			String payTime3 = format.format(caseInfo.getPayTime3());
 			reVo.setPayTime3(payTime3);
-		} 
+		}
+		//缴税时间
+		if(caseInfo.getPaymentTime()!=null){
+			String paymentTime=format.format(caseInfo.getPaymentTime());
+			reVo.setPaymentTime(paymentTime);
+		}
 		// 审税时间
 		if (caseInfo.getTaxTime() != null) {
 			String taxTime = format.format(caseInfo.getTaxTime());

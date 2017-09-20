@@ -25,6 +25,7 @@ import com.centaline.trans.utils.UiImproveUtil;
 
 
 /**
+ * @author wbzhouht
  * 允许结佣
  */
 @Controller

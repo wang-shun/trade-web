@@ -1,5 +1,9 @@
 package com.centaline.trans.cases.vo;
 
+/**
+ * @author wbzhouht
+ * 结佣
+ */
 public class KnotCommissionVO {
 	private String caseCode;
 	private String partCode;

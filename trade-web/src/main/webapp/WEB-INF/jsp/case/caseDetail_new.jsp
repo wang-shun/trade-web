@@ -599,22 +599,22 @@
 									<label class="col-sm-3 control-label">付款时间（三期）：${caseDetailVO.payTime3}</label>
 								</div>
 								<div class="row">
-									<label class="col-sm-3 control-label">缴税时间：${caseDetailVO.taxTime }</label>
+									<label class="col-sm-3 control-label">缴税时间：${caseDetailVO.paymentTime }</label>
 									<label class="col-sm-3 control-label">过户时间：${caseDetailVO.realHtTime }</label>
 									<label class="col-sm-3 control-label">领证时间：${caseDetailVO.realPropertyGetTime}</label>
 								</div>
 								<div class="row">
 									<label class="col-sm-3 control-label">个人所得税：
-										<c:if test="${!empty caseInfo.personalIncomeTaxSign}"> ${caseInfo.personalIncomeTaxSign/10000}&nbsp&nbsp万元 </c:if>
+										<c:if test="${!empty caseInfo.personalIncomeTax}"> ${caseInfo.personalIncomeTax/10000}&nbsp&nbsp万元 </c:if>
 									</label>
 									<label class="col-sm-3 control-label">增值税及附加税：
-										
+										<c:if test="${!empty caseInfo.businessTax}"> ${caseInfo.businessTax/10000}&nbsp&nbsp万元 </c:if>
 									</label>
 									<label class="col-sm-3 control-label">契税：
-										<c:if test="${!empty caseInfo.contractTaxSign}">  ${caseInfo.contractTaxSign/10000}&nbsp&nbsp万元 </c:if>
+										<c:if test="${!empty caseInfo.contractTax}">  ${caseInfo.contractTax/10000}&nbsp&nbsp万元 </c:if>
 									</label>
 									<label class="col-sm-3 control-label">土地增值税：
-										<c:if test="${!empty caseInfo.landIncrementTaxSign}"> ${caseInfo.landIncrementTaxSign/10000}&nbsp&nbsp万元 </c:if>
+										<c:if test="${!empty caseInfo.landIncrementTax}"> ${caseInfo.landIncrementTax/10000}&nbsp&nbsp万元 </c:if>
 									</label>
 								</div>
 								<div class="row">

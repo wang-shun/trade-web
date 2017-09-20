@@ -3,6 +3,10 @@ package com.centaline.trans.cases.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * @author wbzhouht
+ * 新增了缴税字段
+ */
 public class VCaseTradeInfo {
     private String caseCode;
 

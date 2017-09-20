@@ -5,6 +5,10 @@ import java.util.List;
 
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
 
+/**
+ * @author wbzhouht
+ * 增加了缴税字段
+ */
 public class CaseDetailShowVO {
 
 	private String agentId;                       //经纪人

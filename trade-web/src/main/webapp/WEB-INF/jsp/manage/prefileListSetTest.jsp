@@ -31,18 +31,19 @@
 </head>
 
 <body>
+<!--@Author wbzhouht 新增备件管理-->
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
-					<h5>提醒清单配置</h5>
+					<h5>备件列表</h5>
 				</div>
 				<div class="ibox-content">
 					<form method="get" class="form-horizontal">
 						<div class="form-group ">
-							<label class="col-sm-2 control-label">环节编码</label>
+							<label class="col-sm-2 control-label">环节选择</label>
 							<div class="input-group-btn">
 								<aist:dict id="partCode" name="partCode"
 									clazz="btn btn-white chosen-select" display="select" defaultvalue="FirstFollow" dictType="part_code" />
@@ -58,7 +59,7 @@
 			<div class="col-lg-12">
 				<div class="ibox ">
 					<div class="ibox-title">
-						<h5>提醒清单列表 </h5>
+						<h5>备件清单列表 </h5>
 					</div>						
 			
 					<div class="ibox-content">
@@ -81,25 +82,19 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">×</button>
-					<h4 class="modal-title" id="modal-title">提醒清单配置</h4>
+					<h4 class="modal-title" id="modal-title">备件配置</h4>
 				</div>
 				<form method="post" id="editForm" class="form-horizontal" action="saveEvalItem">
 				<div id="modal-data-show" class="modal-body">
-					<!--@Author wbzhouht 修改了原有的备件管理-->
-					<input type="hidden" id="pkId" value="" name="pkid"/>
-					<input type="hidden" id="partCode1" value="" name="partCode"/>
+					<input type="hidden" id="pkidList" name="pkidList" value="">
+					<input type="hidden" id="partCode1" name="partCode" value="">
 					<div class="form-group">
-					    <label class="col-sm-3 control-label"><font color='red'>*</font>提醒事项：</label>
-					    <div class="col-sm-8">
-					        <input id="remindItem" name="remindItem" type="text" class="form-control" value=""/>
-					    </div>
+					    <label class="col-sm-3 control-label"><font color='red'>*</font>备件名称：</label>
+						<div id="divAccessory" class="col-sm-8">
+							<aist:dict clazz="form-control m-b" id="accessoryCodeList" name="accessoryCodeList" display="select" defaultvalue="" dictType="yu_file_code" />
+						</div>
 					</div>
-					<div class="form-group">
-					    <label class="col-sm-3 control-label">备注：</label>
-					    <div class="col-sm-8">
-					        <textarea rows="5" class="form-control" id="comment" name="comment" type="textArea" class="form-control"></textarea>
-					    </div>
-					</div>
+
 				</div>
 				</form>
 				<div class="modal-footer">
@@ -118,7 +113,7 @@
 	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
     <script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
-	<script	src="<c:url value='/js/trunk/system/reminder_list.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/system/prefileListSetTest.js' />"></script>
  </content>
 </body>
 </html>

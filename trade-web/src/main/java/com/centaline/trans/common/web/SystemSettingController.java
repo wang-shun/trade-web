@@ -65,7 +65,7 @@ public class SystemSettingController {
 	/**
 	 * 
 	 * 更新提醒项
-	 * 
+	 * @author wbzhouht
 	 * @param toReminderList
 	 * @param request
 	 * @return 描述

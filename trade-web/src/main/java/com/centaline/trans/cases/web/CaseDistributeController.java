@@ -155,7 +155,7 @@ public class CaseDistributeController
 
     /**
      * 用户机构交易顾问查询
-     * 
+     * @author wbzhouht
      * @return
      * @throws ParseException
      */

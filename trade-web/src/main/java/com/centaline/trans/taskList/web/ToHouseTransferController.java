@@ -105,22 +105,22 @@ public class ToHouseTransferController {
 										LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId) {
 
 		Result rs=new Result();
-		String ctmCode=null;
+		String ccaiCode=null;
 
 		ToCaseInfo caseInfo=tocaseInfoService.findToCaseInfoByCaseCode(toHouseTransfer.getCaseCode());
 		if(null!=caseInfo){
-			ctmCode=caseInfo.getCtmCode();
+			ccaiCode=caseInfo.getCcaiCode();
 		}
 
-		if(null==ctmCode){
-			rs.setMessage("ctmCode不可为空");
+		if(null==ccaiCode){
+			rs.setMessage("ccaiCode不可为空");
 			return rs;
 		}
 
 		toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
 
 		// 回写三级市场, 交易过户
-		salesdealApiService.noticeSalesDeal(ctmCode);
+		salesdealApiService.noticeSalesDeal(ccaiCode);
 
 		/**
 		 * 功能: 给客户发送短信

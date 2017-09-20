@@ -141,8 +141,50 @@ public class ToAccesoryListServiceImpl implements ToAccesoryListService {
 
 	}
 
+	/**
+	 * 新增备件保存
+	 * @Author wbzhouht
+	 * @param accsoryListVO
+	 * @return
+	 */
 	@Override
 	public boolean saveAccesoryList(AccsoryListVO accsoryListVO) {
+		int index=0;//记录变化的数据
+		if(accsoryListVO.getPartCode()!=null&&accsoryListVO.getPartCode()!=""){
+			ToAccesoryList toAccesoryList=new ToAccesoryList();
+			toAccesoryList.setPartCode(accsoryListVO.getPartCode());
+			for (int i=0;i<accsoryListVO.getAccessoryCodeList().size();i++){
+				if (StringUtil.isBlank(accsoryListVO.getAccessoryCodeList().get(i))){
+					continue;
+				}
+				toAccesoryList.setAccessoryCode(accsoryListVO.getAccessoryCodeList().get(i));
+				toAccesoryList.setAccessoryName(
+						uamBasedataService.getDictValue("yu_file_code", accsoryListVO.getAccessoryCodeList().get(i)));
+				if(accsoryListVO.getPkidList()!=null&&accsoryListVO.getPkidList().size()>0){
+					toAccesoryList.setPkid(accsoryListVO.getPkidList().get(i));
+					index=toAccesoryListMapper.updateByPrimaryKeySelective(toAccesoryList);
+				}else {
+					toAccesoryList.setPkid(null);
+					index=toAccesoryListMapper.insertSelective(toAccesoryList);
+				}
+			}
+			if (index>0){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 原有的备件保存，可废弃
+	 * @Author wbzhouht
+	 * @param accsoryListVO
+	 * @return
+	 */
+	@Override
+	public boolean saveAccesoryList1(AccsoryListVO accsoryListVO) {
 		int index = 0;/* 记录变化的数据 */
 		if (accsoryListVO.getAccesoryPkid() != null && accsoryListVO.getAccesoryPkid().size() > 0) {
 			for (Long pkid : accsoryListVO.getAccesoryPkid()) {
@@ -240,6 +282,26 @@ public class ToAccesoryListServiceImpl implements ToAccesoryListService {
 		request.setAttribute("idList", idList);
     }
 
+	/**
+	 * @Author wbzhouht
+	 * 新增删除备件信息
+	 * @param pkid
+	 * @return
+	 */
+	@Override
+	public boolean deleteAccesoryLists(Long pkid) {
+		int index=0;
+		if (pkid!=0){
+			index=toAccesoryListMapper.deleteByPrimaryKey(pkid);
+		}
+		if (index>0){
+			return true;
+		}else {
+			return false;
+		}
+
+	}
+
 	@Override
 	public ToAccesoryList findAccesory(ToAttachment toAttachment) {
 		// TODO Auto-generated method stub
@@ -251,5 +313,7 @@ public class ToAccesoryListServiceImpl implements ToAccesoryListService {
 		// TODO Auto-generated method stub
 		return toAccesoryListMapper.findAccesoryNameByPartCode(toAccesoryList);
 	}
+
+
 
 }

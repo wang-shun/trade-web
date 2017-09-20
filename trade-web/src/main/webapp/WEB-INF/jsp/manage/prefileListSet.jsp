@@ -44,6 +44,7 @@
 </style>
 </head>
 <body>
+<!--@Author wbzhouht 原有备件管理-->
 	<div class="row">
 		<div class="ibox-title">
 			<h5>备件列表</h5>
@@ -54,7 +55,7 @@
 					<div class="form-group">
 						<label class="col-sm-3 control-label">环节选择</label>
 						<div class="col-sm-7">
-							<aist:dict clazz="form-control m-b" id="partCode" name="partCode" display="select" 
+							<aist:dict clazz="form-control m-b" id="partCode" name="partCode" display="select"
 								defaultvalue="" dictType="part_code" />
 						</div>
 					</div>

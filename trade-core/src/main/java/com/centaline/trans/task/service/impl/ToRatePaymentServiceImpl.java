@@ -10,7 +10,7 @@ import com.centaline.trans.task.repository.ToRatePaymentMapper;
 import com.centaline.trans.task.service.ToRatePaymentService;
 /**
  * 缴税实现类
- * @author Administrator
+ * @author wbzhouht
  *
  */
 @Service

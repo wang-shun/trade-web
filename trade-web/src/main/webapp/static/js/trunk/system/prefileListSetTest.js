@@ -1,7 +1,10 @@
 /**
  * 提醒清单配置 wanggh
  */
-
+/**
+ * @Author wbzhouht
+ * 新增备件管理
+ */
 $(document).ready(function() {
 					// Examle data for jqGrid
 					// Configuration for jqGrid Example 1
@@ -22,7 +25,7 @@ $(document).ready(function() {
 						shrinkToFit : true,
 						rowNum : 10,
 						/* rowList: [10, 20, 30], */
-						colNames : [ 'PKID','PART_CODE', 'PART_NAME','提醒事项','备注','操作'],
+						colNames : [ 'PKID','PART_CODE','ACCESSORY_CODE', '备件名称','操作'],
 						colModel : [ {
 							name : 'PKID',
 							index : 'PKID',
@@ -40,22 +43,18 @@ $(document).ready(function() {
 							resizable : false,
 							hidden : true
 						}, {
-							name : 'PART_NAME',
-							index : 'PART_NAME',
+							name : 'ACCESSORY_CODE',
+							index : 'ACCESSORY_CODE',
 							align : "center",
 							width : 0,
 							key : true,
 							resizable : false,
 							hidden : true
 						}, {
-							name : 'REMIND_ITEM',
-							index : 'REMIND_ITEM',
+							name : 'ACCESSORY_NAME',
+							index : 'ACCESSORY_NAME',
 							width : 180
-						}, {
-							name : 'COMMENT',
-							index : 'COMMENT',
-							width : 260
-						}, {
+						},  {
 							name : 'EDIT',
 							index : 'EDIT',
 							align : "center",
@@ -76,7 +75,7 @@ $(document).ready(function() {
 							window.wxc.alert(rowid);
 						},
 						postData : {
-							queryId : "queryToReminderList",
+							queryId : "queryToAccesoryList",
 							search_partCode:partCode
 						},
 						gridComplete: function(){
@@ -102,7 +101,7 @@ $(document).ready(function() {
 					$("#table_list_1").navGrid('#pager_list_1',{add: false, del:false,edit:false,search:false,refresh:false}).navButtonAdd(
 							"#pager_list_1",
 							{
-								caption:"新增提醒",
+								caption:"新增备件",
 								onClickButton: function (){ 
 									cleanForm();
 									$('#modal-form').modal("show");
@@ -161,31 +160,28 @@ function getParamsValue() {
 
 function rowEdit(id){
 	if(id!=null){
-	    var row = $("#table_list_1").getRowData(id);
 
-	    $("#pkId").val(row.PKID);
-	    $("#remindItem").val(row.REMIND_ITEM);
-	    $("#comment").val(row.COMMENT);
-	}
-    
+        $("#accessoryCodeList").find("option:selected").attr("selected",false);
+        $("#accessoryCodeList").attr("autocomplete","off");
+	    var row = $("#table_list_1").getRowData(id);
+	    $("#pkidList").val(row.PKID);
+	    $("#accessoryCodeList").val(row.ACCESSORY_CODE);
+        $("#accessoryCodeList").find("option[value='"+row.ACCESSORY_CODE+"']").prop("selected",true);
+}
 	$('#modal-form').modal("show");
 }
-/**
- * 优化了一下提醒清单列表刷新的问题，只刷新数据，不刷新页面
- * @Author wbzhouht
- */
-
+//优化了一下提醒清单列表刷新的问题，只刷新数据，不刷新页面
 function saveReminderItem(){
-    var remindItem = trim($("#remindItem").val());
-	if(remindItem ==""){
-		window.wxc.alert("提醒事项为必输项！");
-		return;
+	if($("#accessoryCodeList").val()==""){
+        window.wxc.alert("备件信息为必输项！");
+        return;
 	}
-	var pkId = $("#pkId").val();
+	$("#pkidList").val();
     var ctx = $("#ctx").val();
     var partCode1= $("#partCode").val();
-    var partCode=$("#partCode1").val(partCode1);
-	var url=ctx+'/setting/saveReminderItem';
+    $("#partCode1").val(partCode1);
+    $("#accessoryCodeList").val();
+	var url=ctx+'/setting/saveToAccsoryList';
     var jsonData = $("#editForm").serializeArray();
 	$.ajax({
         cache : true,
@@ -222,16 +218,13 @@ function saveReminderItem(){
         error : function(XMLHttpRequest, textStatus, errorThrown) {
         }
     });
-	/*
-	$('#editForm').attr('action', url);
-	$("#editForm").submit();*/
 }
 
 function delRow(id){
 	if(id!=null){
-		window.wxc.confirm("谨慎操作提示,确认删除载货单?",{"wxcOk":function(){
+		window.wxc.confirm("谨慎操作提示,确认删除备件单?",{"wxcOk":function(){
 	    	var ctx = $("#ctx").val();
-	    	var url='/setting/delReminderItem?';
+	    	var url='/setting/deleteToAccsoryList?';
 	    	var params="pkid="+id;
 	    	url = ctx+url+params;
 	    	$.ajax({
@@ -274,13 +267,8 @@ function delRow(id){
 	}
    
 }
-
-function trim(str){ //删除左右两端的空格
-	return str.replace(/(^\s*)|(\s*$)/g, "");
-}
 // 清空表单
 function cleanForm() {
-	$("#pkId").val("");
-    $("#remindItem").val("");
-    $("#comment").val("");
+	$("#pkidList").val("");
+    $("#accessoryCodeList").val("");
 }
