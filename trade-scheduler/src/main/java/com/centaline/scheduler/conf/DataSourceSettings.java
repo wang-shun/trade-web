@@ -45,12 +45,12 @@ public class DataSourceSettings {
         this.password = password;
     }
 
-    public int getMaxActivie() {
+    public int getMaxActive() {
         return maxActive;
     }
 
-    public void setMaxActivie(int maxActivie) {
-        this.maxActive = maxActivie;
+    public void setMaxActive(int maxActive) {
+        this.maxActive = maxActive;
     }
 
     public int getInitialSize() {

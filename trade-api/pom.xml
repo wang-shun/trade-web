@@ -28,6 +28,7 @@
         <tomcat.warFile>trade-api</tomcat.warFile>
         <springfox-version>2.6.1</springfox-version>
         <servlet.version>3.0.1</servlet.version>
+        <trade.version>1.2.20-SNAPSHOT</trade.version>
         <skipTests>true</skipTests>
     </properties>
 
@@ -142,7 +143,7 @@
         <dependency>
             <groupId>com.centaline</groupId>
             <artifactId>trade-core</artifactId>
-            <version>1.2.20-SNAPSHOT</version>
+            <version>${trade.version}</version>
         </dependency>
 
         <dependency>

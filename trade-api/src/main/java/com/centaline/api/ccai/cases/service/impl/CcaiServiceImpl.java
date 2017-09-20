@@ -4,10 +4,10 @@ import com.aist.common.exception.BusinessException;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.api.ccai.cases.listener.FlowWorkListener;
 import com.centaline.api.ccai.cases.service.CcaiService;
 import com.centaline.api.ccai.cases.vo.*;
 import com.centaline.api.common.vo.CcaiServiceResult;
-import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.api.validate.group.NormalGroup;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -19,6 +19,7 @@ import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToCcaiAttachment;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.CaseOriginEnum;
+import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
@@ -27,6 +28,7 @@ import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,6 +61,9 @@ public class CcaiServiceImpl implements CcaiService {
 	@Autowired
 	private ToCaseParticipantMapper toCaseParticipantMapper;//案件参与人信息
 
+	@Autowired
+	private JmsMessagingTemplate jmsTemplate; //activemq 消息队列
+
 	private Validator validator =  Validation.buildDefaultValidatorFactory().getValidator();;//Hibernate校验工具
 
 	@Override
@@ -79,6 +84,8 @@ public class CcaiServiceImpl implements CcaiService {
 		result.setSuccess(true);
 		result.setMessage("同步成功!");
 		result.setCode("00");
+		//将案件编号 放入消息队列中
+		jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(),caseCode);
 		return result;
 	}
 
@@ -211,7 +218,6 @@ public class CcaiServiceImpl implements CcaiService {
 		tocase.setStatus(CaseStatusEnum.WJD.getCode());//设置状态为未接单
 		tocase.setCaseOrigin(CaseOriginEnum.CCAI.getCode());//设置信息来源
 		tocaseMapper.insertSelective(tocase);
-		//TODO 发送消息队列，发起交易流程
 	}
 
 	/**

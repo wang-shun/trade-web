@@ -6,9 +6,9 @@ import com.centaline.api.ccai.cases.vo.CcaiImportCase;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
 import com.centaline.api.ccai.cases.vo.CcaiImportParticipant;
 import com.centaline.api.common.vo.CcaiServiceResult;
-import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.api.validate.group.NormalGroup;
 import com.centaline.trans.apilog.service.ApiLogService;
+import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
@@ -54,7 +54,6 @@ public class CaseSyncController {
 
 	@Autowired
 	private ApiLogService apiLogService;
-
 	/**
 	 * ccai导入案件接口
 	 *
@@ -66,7 +65,6 @@ public class CaseSyncController {
 	public CcaiServiceResult caseImport(
 			@ApiParam(name = "案件信息", value = "需要同步的案件信息", required = true)
 			@Valid @RequestBody CcaiImportCase acase, Errors errors, HttpServletRequest request) {
-
 		CcaiServiceResult result = new CcaiServiceResult();
 		ObjectMapper mapper = new ObjectMapper();
 		StringBuilder msg = new StringBuilder();
