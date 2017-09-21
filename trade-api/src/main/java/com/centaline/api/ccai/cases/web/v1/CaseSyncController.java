@@ -6,6 +6,7 @@ import com.centaline.api.ccai.cases.vo.CcaiImportCase;
 import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
 import com.centaline.api.ccai.cases.vo.CcaiImportParticipant;
 import com.centaline.api.common.vo.CcaiServiceResult;
+import com.centaline.api.common.web.AbstractBaseController;
 import com.centaline.api.validate.group.NormalGroup;
 import com.centaline.trans.apilog.service.ApiLogService;
 import com.centaline.trans.common.enums.CaseParticipantEnum;
@@ -40,7 +41,7 @@ import java.util.Set;
 @Api(description = "案件同步相关接口", tags = {"caseSync"})
 @RestController
 @RequestMapping(value = "/api/ccai/v1")
-public class CaseSyncController {
+public class CaseSyncController extends AbstractBaseController{
 	private Logger logger = LoggerFactory.getLogger(CaseSyncController.class);
 	//记录日志 模块类型
 	private static final String SYNC_MODULE = "CASESYNC";//案件新增同步
@@ -92,7 +93,7 @@ public class CaseSyncController {
 		try {
 			String data = mapper.writeValueAsString(acase);
 			logger.debug("sync get data:" + data);
-			apiLogService.apiLog(SYNC_MODULE, "/api/ccai/v1/caseSync.json", data, mapper.writeValueAsString(result)
+			apiLogService.apiLog(SYNC_MODULE, "/api/ccai/v1/case/sync", data, mapper.writeValueAsString(result)
 					, result.isSuccess() ? "0" : "1", getHost(request));
 		} catch (JsonProcessingException e) {
 		}
@@ -146,7 +147,7 @@ public class CaseSyncController {
 		try {
 			String data = mapper.writeValueAsString(ucase);
 			logger.debug("sync get data:" + data);
-			apiLogService.apiLog(UPDATE_MODULE, "/api/ccai/v1/caseUpdate/" + type + ".json", data, mapper.writeValueAsString(result)
+			apiLogService.apiLog(UPDATE_MODULE, "/api/ccai/v1/case/" + type, data, mapper.writeValueAsString(result)
 					, result.isSuccess() ? "0" : "1", getHost(request));
 		} catch (JsonProcessingException e) {
 		}
@@ -265,26 +266,4 @@ public class CaseSyncController {
 			msgBuilder.append(appendBefore).append(constraintViolation.getMessage()).append("\r\n");
 		}
 	}
-
-	/**
-	 * 根据请求 获取正确的客户端地址
-	 * 有
-	 *
-	 * @param request
-	 * @return
-	 */
-	private String getHost(HttpServletRequest request) {
-		String ip = request.getHeader("X-Forwarded-For");
-		if (StringUtils.isNotEmpty(ip) && !"unKnown".equalsIgnoreCase(ip)) {
-			//多次反向代理后会有多个ip值，第一个ip才是真实ip
-			int index = ip.indexOf(",");
-			if (index != -1) {
-				return ip.substring(0, index);
-			} else {
-				return ip;
-			}
-		}
-		return SecurityUtils.getSubject().getSession().getHost();
-	}
-
 }
