@@ -20,16 +20,6 @@
 <link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />" rel="stylesheet">
 <link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />" rel="stylesheet">
 <link href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />" rel="stylesheet">
-<!-- 展示相关 -->
-	<%--<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
-	<!-- Gritter -->
-	<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
-	<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
-
-	<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
-	<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
-	<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet">
-	<link href="<c:url value='/css/transcss/case/myCaseList.css' />" rel="stylesheet">--%>
 
 <link href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />" rel="stylesheet">
 <link href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />" rel="stylesheet">
@@ -56,14 +46,14 @@
 <link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
 	<style type="text/css">
-		.userHead{
+		.userHead1{
 			width: 80px;
 			height: 80px;
 			display: inline-block;
 			border-radius: 50%;
 			background-size: 80px 108px;
 			vertical-align: middle;
-			background-image:url(../static/img/a5.png);
+			background-image:url(../../../img/a5.png);
 
 		}
 	</style>
@@ -128,16 +118,14 @@
 					<div class="marinfo">
 						<div class="line">
 							<div class="form_content">
-								<label class="control-label sign_left_small select_style mend_select">
-									缴税时间<font color=" red" class="mr5" >*</font>
-								</label>
-								<div class="input-group sign-right dataleft input-daterange pull-left" id="data_1" data-date-format="yyyy-mm-dd">
-									<input type="text" class="input_type yuanwid datatime" id="paymentTime"
-										   name="paymentTime"
-										   value="<fmt:formatDate  value='${ratePayment.paymentTime}' type='both' pattern='yyyy-MM-dd'/>"
-										   onfocus="this.blur()">
-								</div>
+							<label class="control-label sign_left_small select_style mend_select">
+								缴税时间<font color=" red" class="mr5" >*</font>
+							</label>
+							<div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" id="data_1">
+								<input type="text" class="form-control data_style" name="paymentTime" id="paymentTime"
+									   onfocus="this.blur()" value="<fmt:formatDate  value='${ratePayment.paymentTime}' type='both' pattern='yyyy-MM-dd'/>">
 							</div>
+						</div>
 							<div class="form_content">
 								<label class="control-label sign_left_small">个人所得税<font color=" red" class="mr5" >*</font></label>
 								<input type="text" class=" input_type yuanwid" id="personalIncomeTax"
@@ -257,7 +245,8 @@
 	</div>
 </div>
 <content tag="local_script">
-
+	<!-- Data picker -->
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 	<!-- Peity -->
 	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<!-- jqGrid -->
@@ -265,8 +254,7 @@
 	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	<!-- Custom and plugin javascript -->
 	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script>
-	<!-- Data picker -->
-	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+
 	
 	<!-- 上传附件相关 -->
 	<script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script>
@@ -295,11 +283,11 @@
 	<script src="<c:url value='/transjs/sms/sms.js' />"></script>
 	<script src="<c:url value='/transjs/common/caseTaskCheck.js' />"></script>
 	<!-- 审批记录 -->
-	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+	<%--<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
+	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>--%>
 
 	<!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
@@ -309,11 +297,19 @@
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script>
 	var source = "${source}";
+    $('#data_1').datepicker({
+        format : 'yyyy-mm-dd',
+        weekStart : 1,
+        autoclose : true,
+        todayBtn : 'linked',
+        language : 'zh-CN'
+    });
 
-	$(document).ready(function() {
+    $(document).ready(function() {
+
         $("#ActualOperator").click(function () {
             caseDistribute();
-        })
+        });
 		if('caseDetails'==source){
 			readOnlyForm();
 		}
@@ -323,14 +319,6 @@
 			caseCode : caseCode,
 			srvCode : taskitem
 		});
-        //日期组件
-        $('#data_1 .input-group.date').datepicker({
-            todayBtn: "linked",
-            keyboardNavigation: false,
-            forceParse: false,
-            calendarWeeks: false,
-            autoclose: true
-        });
 });
 	
 	//提交数据
@@ -526,17 +514,16 @@
         $.each(data,function(i, n){
             addHtml += '<div class="col-lg-4"><div class="contact-box">';
             addHtml += '<a href="javascript:distributeCase('+i+')">';
-            addHtml += '<div class="col-sm-4"><div class="text-center">';
+            addHtml += '<div class="col-sm-5"><div class="text-center">';
 
-            addHtml+='<span class="userHead">';
+            addHtml+='<span class="userHead1">';
             if(n.imgUrl!=null){
-                //addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'">';
-                addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="../img/a5.png">';
+                addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'"/>';
             }
             addHtml+='</span>';
 
             addHtml += '<div class="m-t-xs font-bold">过户权证</div></div></div>';
-            addHtml += '<div class="col-sm-8">';
+            addHtml += '<div class="col-sm-7">';
             addHtml += '<input id="user_'+i+'" type="hidden" value="'+n.id+'">';
             addHtml += '<input id="userName_'+i+'" type="hidden" value="'+n.realName+'">';
             addHtml += '<h3><strong>'+n.realName+'</strong></h3>';
@@ -557,6 +544,7 @@
 
     function imgLoad(img){
         img.parentNode.style.backgroundImage="url("+img.src+")";
+        alert(img.src)
     }
     var userName;
     var id;

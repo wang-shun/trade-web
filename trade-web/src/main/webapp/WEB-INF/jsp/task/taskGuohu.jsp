@@ -284,13 +284,13 @@
 			</c:choose>
 		</div>
 
-		<div class="">
+	<%--	<div class="">
 			<h2 class="newtitle title-mark">审批记录</h2>
 			<div class="jqGrid_wrapper">
 				<table id="reminder_list"></table>
 				<div id="pager_list_1"></div>
 			</div>
-		</div>
+		</div>--%>
 
 		<div class="form-btn">
 			<div class="text-center">
@@ -303,6 +303,8 @@
 </div>
 
 <content tag="local_script">
+	<!-- Data picker -->
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 	<!-- Peity -->
 	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<!-- jqGrid -->
@@ -310,8 +312,7 @@
 	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	<!-- Custom and plugin javascript -->
 	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script>
-	<!-- Data picker -->
-	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+
 
 	<!-- 上传附件相关 -->
 	<script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script>
@@ -339,11 +340,11 @@
 	<script src="<c:url value='/transjs/sms/sms.js' />"></script>
 	<script src="<c:url value='/transjs/common/caseTaskCheck.js' />"></script>
 	<!-- 审批记录 -->
-	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+	<%--<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
+	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>--%>
 
 	<!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
@@ -376,6 +377,14 @@
 
 		}
 		$(document).ready(function() {
+            /**日期组件*/
+            $('#data_1').datepicker({
+                todayBtn : "linked",
+                keyboardNavigation : false,
+                forceParse : false,
+                calendarWeeks : false,
+                autoclose : true
+            });
 
 			//过户环节贷款信息不能修改
 			$('#mortType').attr("readonly","readonly");
@@ -454,14 +463,7 @@
 				},
 
 			});
-			/**日期组件*/
-			$('#data_1 .input-group.date').datepicker({
-				todayBtn : "linked",
-				keyboardNavigation : false,
-				forceParse : false,
-				calendarWeeks : false,
-				autoclose : true
-			});
+
 
 			//GuoHuApproveList.init('${ctx}','/quickGrid/findPage','approve_list','approve_pager');
 			var ctx = "${ctx}";
