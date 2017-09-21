@@ -6,7 +6,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf" %>
 
 <html>
@@ -143,13 +143,13 @@
 		            <div class="marinfo">
 		                <div class="line">
 		                     <div class="form_content">
-                                <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>所在区域 </label>
-                                <aist:dict clazz="select_control data_style" id="distCode" name="distCode" display="select" defaultvalue="${firstFollow.distCode}" dictType="yu_shanghai_district" />
+                                <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>所在区域</label>
+                                <aist:dict clazz="select_control data_style" id="distCode" name="distCode" display="select" tag="${sessionScope.SESSION_USER.cityCode}" defaultvalue="${firstFollow.distCode}" parentCode="${sessionScope.SESSION_USER.cityCode}" dictType="UAM_CITY" />
 		                     </div>
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>成交价 </label>
 		                        <input type="text" placeholder="成交价" class="input_type yuanwid" id="realPrice" name="realPrice" onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value='${ firstFollow.realPrice}' type='number' pattern='#0.00'/>"> 
+										value="<fmt:formatNumber value='${firstFollow.realPrice}' type='number' pattern='#0.00'/>">
 		                       	<span class="date_icon">万元</span>
 		                    </div>
 		                    <div class="form_content">
