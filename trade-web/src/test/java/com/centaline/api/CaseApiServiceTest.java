@@ -2,29 +2,12 @@ package com.centaline.api;
 
 import com.centaline.trans.api.service.CaseApiService;
 import com.centaline.trans.api.vo.ApiCaseInfo;
-import com.centaline.trans.api.vo.ApiResultData;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring/applicationContext-test.xml",
-		"classpath*:com/aist/common/**/META-INF/beans.xml",
-		"classpath*:com/aist/uam/**/META-INF/httpInvoke-beans.xml",
-		"classpath*:com/aist/uam/**/META-INF/beans.xml",
-		"classpath*:com/aist/uam/auth/META-INF/shiro-beans.xml",
-		"classpath*:com/centaline/trans/**/META-INF/core-beans.xml",
-		"classpath*:com/centaline/trans/**/META-INF/web-beans.xml",
-		"classpath*:com/aist/message/**/META-INF/beans.xml"})
-@ActiveProfiles({"development","jedis"})
-public class CaseApiServiceTest {
+public class CaseApiServiceTest extends AbstractServiceTest {
 	@Autowired
 	CaseApiService caseApiService;
 

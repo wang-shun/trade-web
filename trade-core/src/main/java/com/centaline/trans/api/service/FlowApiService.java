@@ -1,6 +1,8 @@
 package com.centaline.trans.api.service;
 
 import com.centaline.trans.api.vo.ApiResultData;
+import com.centaline.trans.api.vo.FlowFeedBack;
+import com.centaline.trans.common.enums.CcaiTaskEnum;
 
 /**
  * 流程审批相关接口
@@ -8,5 +10,12 @@ import com.centaline.trans.api.vo.ApiResultData;
  * @date 2017/9/14
  */
 public interface FlowApiService {
-
+	/**
+	 * 交易主流程结果反馈
+	 * @param caseCode 案件caseCode
+	 * @param task 流程环节
+	 * @param info 审批结果
+	 * @return
+	 */
+	ApiResultData tradeFeedBackCcai(String caseCode, CcaiTaskEnum task, FlowFeedBack info);
 }

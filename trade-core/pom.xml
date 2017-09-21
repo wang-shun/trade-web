@@ -33,6 +33,6 @@
 			<artifactId>trade-service</artifactId>
 			<version>${version}</version>
 		</dependency>
-        
+
 	</dependencies>
 </project>
