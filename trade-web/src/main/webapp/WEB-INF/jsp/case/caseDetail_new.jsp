@@ -54,7 +54,7 @@
 </style>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
-	<input type="hidden" id="ctm" value="${toCaseInfo.ctmCode}" />
+	<input type="hidden" id="ctm" value="${toCaseInfo.ccaiCode}" />
 	<input type="hidden" id="Lamp1" value="${Lamp1}" />
 	<input type="hidden" id="Lamp2" value="${Lamp2}" />
 	<input type="hidden" id="Lamp3" value="${Lamp3}" />
@@ -749,35 +749,11 @@
 							<div class="tab-pane fade" id="messages_info1">
                                 <div class="table_content">
                                     <table class="table table_blue table-striped table-bordered table-hover" id="editable" >
-                                        <thead>
-                                            <tr>
-                                            	<th></th>
-                                            	<th>部门</th>
-                                            	<th>员工</th>
-                                            	<th>分成金额</th>
-                                            	<th>分成比例</th>
-                                            	<th>分成说明</th>
-                                            	<th>成交单数</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="table_content_pre">
-                                      			
+                                        <tbody id="table_content_pre">                        			
                                         </tbody>
                                     </table> 
                                     <table class="table table_blue table-striped table-bordered table-hover" >
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>合作费类型</th>
-                                                <th>分成金额</th>
-                                                <th>分成比例 </th>
-                                                <th>合作人</th>
-                                                <th>合作部门</th>
-                                                <th>合作经理</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="table_content_pre_partner">
-                                      			
+                                        <tbody id="table_content_pre_partner">            			
                                         </tbody>
                                     </table>
                                     <div>
@@ -796,21 +772,21 @@
 
 							<div class="tab-pane fade" id="charge_info">
 								<div class="row">
-									<label class="col-sm-3 control-label">业主应收：${chargeInfo.ownerReceivableCommission }</label>
-									<label class="col-sm-3 control-label">客户应收：${chargeInfo.guestReceivableCommission }</label>
-									<label class="col-sm-3 control-label">收佣日期（业主）：${chargeInfo.ownerCommissionTime }</label>
-									<label class="col-sm-3 control-label">收佣日期（客户）：${chargeInfo.guestCommissionTime }</label>
+									<label class="col-sm-3 control-label">业主应收：<label id="ownerReceivableCommission"></label></label>
+									<label class="col-sm-3 control-label">客户应收：<label id="guestReceivableCommission"></label></label>
+									<label class="col-sm-3 control-label">收佣日期（业主）：<label id="ownerCommissionTime"></label></label>
+									<label class="col-sm-3 control-label">收佣日期（客户）：<label id="guestCommissionTime"></label></label>
 								</div>
 								<div class="row">
-									<label class="col-sm-3 control-label">业主折佣：${chargeInfo.ownerCommissionDis }</label>
-									<label class="col-sm-3 control-label">客户折佣：${chargeInfo.guestCommissionDis }</label>
-									<label class="col-sm-3 control-label">业主佣金到期日：${chargeInfo.ownerCommissionMature }</label>
-									<label class="col-sm-3 control-label">客户佣金到期日：${chargeInfo.guestCommissionMature }</label>
+									<label class="col-sm-3 control-label">业主折佣：<label id="ownerCommissionDis"></label></label>
+									<label class="col-sm-3 control-label">客户折佣：<label id="guestCommissionDis"></label></label>
+									<label class="col-sm-3 control-label">业主佣金到期日：<label id="ownerCommissionMature"></label></label>
+									<label class="col-sm-3 control-label">客户佣金到期日：<label id="guestCommissionMature"></label></label>
 								</div>
 								<div class="row">
-									<label class="col-sm-3 control-label">评估值：${chargeInfo.assessmentFee }</label>
-									<label class="col-sm-3 control-label">应收评估值：${chargeInfo.receivableAssessmentFee }</label>
-									<label class="col-sm-3 control-label">实收评估值：${chargeInfo.receiptsAssessmentFee }</label>
+									<label class="col-sm-3 control-label">评估值：<label id="assessmentFee"></label></label>
+									<label class="col-sm-3 control-label">应收评估值：<label id="receivableAssessmentFee"></label></label>
+									<label class="col-sm-3 control-label">实收评估值：<label id="receiptsAssessmentFee"></label></label>
 								</div>
 							</div>
 						</div>
@@ -886,85 +862,6 @@
  	    	var str = vYear + "-" + (vMon<10 ? "0" + vMon : vMon) + "-" + (vDay<10 ? "0"+ vDay : vDay);
 	    	return str;
     	  }
-
- 	    
-		//jqGrid 初始化
-		/* $("#gridTable").jqGrid({
-			url : ctx+url,
-			mtype : 'GET',
-			datatype : "json",
-			height : 250,
-			autowidth : true,
-			shrinkToFit : true,
-			rowNum : 50,
-			/*   rowList: [10, 20, 30], */
-			/*colNames : [ '附件类型','附件名称','附件路径','上传时间','操作'],
-			colModel : [ {
-				name : 'ATT_TYPE',
-				index : 'ATT_TYPE',
-				align : "center",
-				width : 20,
-				resizable : false
-			},{
-				name : 'ATT_NAME',
-				index : 'ATT_NAME',
-				align : "center",
-				width : 20,
-				resizable : false
-			}, {
-				name : 'ATT_PATH',
-				index : 'ATT_PATH',
-				align : "center",
-				width : 20,
-				resizable : false
-				//formatter : linkhouseInfo
-			}, {
-				name : 'UPLOAD_DATE',
-				index : 'UPLOAD_DATE',
-				align : "center",
-				width : 20,
-				resizable : false
-			},{
-				name : 'READ',
-				index : 'READ',
-				align : "center",
-				width : 20,
-				resizable : false
-			}],
-			multiselect: true,
-			pager : "#gridPager",
-			//sortname:'UPLOAD_DATE',
-	        //sortorder:'desc',
-			viewrecords : true,
-			pagebuttions : true,
-			multiselect:false,
-			hidegrid : false,
-			recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-			pgtext : " {0} 共 {1} 页",
-			gridComplete:function(){
-				var ids = jQuery("#gridTable").jqGrid('getDataIDs');
-				for (var i = 0; i < ids.length; i++) {
-    				var id = ids[i];
-    				var rowDatas = jQuery("#gridTable").jqGrid('getRowData', ids[i]); // 获取当前行
-
-    				var link = "<button  class='btn red' onclick='addAttachmentReadLog(\""+ctx+"\",\""+ctmCode+"\",\""+caseCode+"\",\""+rowDatas['ATT_NAME']+"\",\""+rowDatas['ATT_PATH']+"\")'>查看附件</a>";
-
-    				//var detailBtn = "<button  class='btn red' id='alertOper' onclick='openLoan(\""+ctx+"\",\""+rowDatas['pkId']+"\")' style='width:90px;'>详细</button>";
-
-    				jQuery("#gridTable").jqGrid('setRowData', ids[i], { READ: link});
-
-    				var attType = rowDatas["ATT_TYPE"];
-    				if(!r1 && attType =='买卖居间协议') {
-   					   $("#gridTable").jqGrid("delRowData", id);
-    				}
-				}
-			},
-			postData : {
-				queryId : "followPicListQuery",
-				argu_ctmCode : ctmCode
-			}
-
-		}); */
 
 		//附件连接
 		function linkhouseInfo(cellvalue, options, rowObject){
@@ -1070,6 +967,17 @@
 	</script>
 	<script
 		id="template_successList" type="text/html">
+		<thead>
+			<tr>
+				<th></th>
+				<th>部门</th>
+				<th>员工</th>
+				<th>分成金额</th>
+				<th>分成比例</th>
+				<th>分成说明</th>
+				<th>成交单数</th>
+			</tr>
+		</thead>
 	{{each sharingInfo as item index}}
     	<tr>
        		<td class="td_width">
@@ -1102,6 +1010,17 @@
 	</script>
 	<script
 		id="template_successList2" type="text/html">
+		<thead>
+			<tr>
+				<th></th>
+				<th>合作费类型</th>
+				<th>分成金额</th>
+				<th>分成比例 </th>
+				<th>合作人</th>
+				<th>合作部门</th>
+				<th>合作经理</th>
+			</tr>
+		</thead>
 	{{each cooperateFeeInfo as item index}}
     	<tr>
        		<td class="td_width">

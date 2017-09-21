@@ -25,8 +25,8 @@ $(document).ready(function() {
 	getShowCCAIAttachment();
 	//附件
 	getShowAttachment();
-	//业绩记录
-//	queryPer();
+	//业绩记录/收费情况查询
+	queryPer();
 
 });
 
@@ -48,31 +48,31 @@ function getShowCCAIAttachment(){
 			name : 'FILE_CAT',
 			index : 'FILE_CAT',
 			align : "center",
-			width : 20,
+			width : 120,
 			resizable : false
 		},{
 			name : 'FILE_NAME',
 			index : 'FILE_NAME',
 			align : "center",
-			width : 20,
+			width : 240,
 			resizable : false
 		}, {
 			name : 'URL',
 			index : 'URL',
 			align : "center",
-			width : 20,
+			width : 300,
 			resizable : false
 		}, {
 			name : 'UPLOAD_TIME',
 			index : 'UPLOAD_TIME',
 			align : "center",
-			width : 20,
+			width : 180,
 			resizable : false
 		},{
 			name : 'READ',
 			index : 'READ',
 			align : "center",
-			width : 20,
+			width : 180,
 			resizable : false
 		}],
 		multiselect: true,
@@ -159,108 +159,80 @@ function getShowAttachment() {
 }
 
 /**
- * 业绩记录
+ * 业绩记录/收费情况
  */
 function queryPer(){
-	var data={};
 	var ccaiCode = $("#ctm").val();
 	if(ccaiCode == null || ccaiCode == '' || ccaiCode == undefined){
 		return;
 	}
-	data.ccaiCode = ccaiCode;
-//	var url =  "/quickGrid/findPage";
+	var url =  "/case/getPricingAndFee?ccaiCode=" + ccaiCode;
 	
 	var templeteId1 = 'template_successList';
 	var templeteId2 = 'template_successList2';
 	var part1 = $("#table_content_pre");
 	var part2 = $("#table_content_pre_partner");
 	
-	/*var data = {};
-	var sharingInfo = new Array();
-	var obj1 = {};
-	obj1.type = 1;
-	obj1.department="部门1";
-	obj1.employee="员工1";
-	obj1.sharingAmount=50000;
-	obj1.sharingProportion=0.1;
-	obj1.sharingInstruction="说明1";
-	obj1.turnoverNum=2;
-	var obj2 = {};
-	obj2.type=2;
-	obj2.department="部门1";
-	obj2.employee="员工1";
-	obj2.sharingAmount=50000;
-	obj2.sharingProportion=0.1;
-	obj2.sharingInstruction="说明1";
-	obj2.turnoverNum=2;
-	sharingInfo.push(obj1);
-	sharingInfo.push(obj2);
-	data.sharingInfo=sharingInfo;
-	
-	var cooperateFeeInfo = new Array();
-	var obj3 = {};
-	obj3.cooperateFeeType="合作费类型";
-	obj3.sharingAmount=2000;
-	obj3.sharingProportion=0.02;
-	obj3.partner="part";
-	obj3.cooperateDepartment="部门";
-	obj3.cooperateManager="我是经理";
-	var obj4 = {};
-	obj4.cooperateFeeType="合作费类型";
-	obj4.sharingAmount=2000;
-	obj4.sharingProportion=0.02;
-	obj4.partner="part";
-	obj4.cooperateDepartment="部门";
-	obj4.cooperateManager="我是经理";
-	cooperateFeeInfo.push(obj3);
-	cooperateFeeInfo.push(obj4);
-	data.cooperateFeeInfo=cooperateFeeInfo;
-	data.totalFee=1000000;
-	data.totalPerformance=100000;
-	data.totalTurnoverNum= 10;*/
 	$.ajax({
 		async: true,
 		url:ctx+url ,
 		method: "post",
 		dataType: "json",
-		data: data, 
-		success: function(data){
-      	  var execData = new Array();
-      	  var partner = new Array();
-      	  var exec,partn,fc=false;
-      	  if(data.sharingInfo != null && data.sharingInfo.length > 0){
-      		templateHtmlExec = template(templeteId1,data);
-      	  }else {
-      		  var temp1 = {};
-      		  var temp2 = {};
-      		  temp1.type=1;
-      		  temp2.type=2;
-      		  if(data.sharingInfo == null || data.sharingInfo == undefined){
-      			data.sharingInfo = new Array();
-      		  }
-      		  data.sharingInfo.push(temp1);
-      		  data.sharingInfo.push(temp2);
-      		  templateHtmlExec = template(templeteId1,data);
-      	  }
-      	  if(data.cooperateFeeInfo !=null&&  data.cooperateFeeInfo.length >0){
-      		 templateHtmlPart = template(templeteId2,data);
-      	  }else{
-      		  var temp3 = {};
-      		if(data.cooperateFeeInfo == null || data.cooperateFeeInfo == undefined){
-      			data.cooperateFeeInfo = new Array();
-      		  }
-      		  data.cooperateFeeInfo.push(temp3);
-      		  templateHtmlPart = template(templeteId2,data);
-      	  }
-      	  
-      	  part1.empty();
-      	  part1.html(templateHtmlExec);
-      	  part2.empty();
-    	  part2.html(templateHtmlPart);
-    	  $('#totalFee').html(data.totalFee);
-    	  $('#totalPerformance').html(data.totalPerformance);
-    	  $('#totalTurnoverNum').html(data.totalTurnoverNum);
-		}
+		success: function(da){
+			var data = da.content;
+			//业绩记录
+			if(data.fees != null){
+				var templateHtmlExec = "";
+				var templateHtmlPart = "";
+	      	  	if(data.fees.sharingInfo != null && data.fees.sharingInfo.length > 0){
+	      	  		templateHtmlExec = template(templeteId1,data.fees);
+	      	  	}else {
+	      	  		var temp1 = {};
+	      	  		var temp2 = {};
+	      	  		temp1.type=1;
+					temp2.type=2;
+					if(data.fees.sharingInfo == null || data.fees.sharingInfo == undefined){
+						data.fees.sharingInfo = new Array();
+					}
+	      		  	data.fees.sharingInfo.push(temp1);
+	      		  	data.fees.sharingInfo.push(temp2);
+	      		  	templateHtmlExec = template(templeteId1,data.fees);
+	      	  	}
+  	  			if(data.fees.cooperateFeeInfo !=null&&  data.fees.cooperateFeeInfo.length >0){
+  	  				templateHtmlPart = template(templeteId2,data.fees);
+  	  			}else{
+  	  				var temp3 = {};
+		      		if(data.fees.cooperateFeeInfo == null || data.fees.cooperateFeeInfo == undefined){
+		      			data.fees.cooperateFeeInfo = new Array();
+		      		}
+		      		data.fees.cooperateFeeInfo.push(temp3);
+		      		templateHtmlPart = template(templeteId2,data.fees);
+  				}
+	      	  
+  	  			part1.empty();
+  	  			part1.html(templateHtmlExec);
+				part2.empty();
+				part2.html(templateHtmlPart);
+				$('#totalFee').html(data.fees.totalFee);
+				$('#totalPerformance').html(data.fees.totalPerformance);
+				$('#totalTurnoverNum').html(data.fees.totalTurnoverNum);
+			}
+			if(data.prices !=null){
+				var prices = data.prices;
+				$('#ownerReceivableCommission').html(prices.ownerReceivableCommission);
+				$('#guestReceivableCommission').html(prices.guestReceivableCommission);
+				$('#ownerCommissionTime').html(dateFormat(prices.ownerCommissionTime));
+				$('#guestCommissionTime').html(dateFormat(prices.guestCommissionTime));
+				$('#ownerCommissionDis').html(prices.ownerCommissionDis);
+				$('#guestCommissionDis').html(prices.guestCommissionDis);
+				$('#ownerCommissionMature').html(dateFormat(prices.ownerCommissionMature));
+				$('#guestCommissionMature').html(dateFormat(prices.guestCommissionMature));
+				$('#assessmentFee').html(prices.assessmentFee);
+				$('#receivableAssessmentFee').html(prices.receivableAssessmentFee);
+				$('#receiptsAssessmentFee').html(prices.receiptsAssessmentFee);
+			}
+		}		
+      	 
 	});
 }
 
@@ -790,4 +762,10 @@ function evaPricingApply(){
 		}
 	});
 	
+}
+
+function dateFormat(dateTime){
+	
+	var date = new Date(dateTime);
+	return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
 }

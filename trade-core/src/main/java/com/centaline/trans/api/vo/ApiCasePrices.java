@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 案件业绩记录信息
+ * 案件收费信息
  * @author yinchao
  * @date 2017/9/14
  */

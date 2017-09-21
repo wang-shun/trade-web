@@ -34,7 +34,8 @@ import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
-import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.api.service.CaseApiService;
+import com.centaline.trans.api.vo.ApiCaseInfo;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -221,6 +222,9 @@ public class CaseDetailController {
 	
 	@Autowired
 	private EvaPricingService evaPricingService;
+	
+	@Autowired
+	CaseApiService caseApiService;
 
 	/**
 	 * 页面初始化
@@ -1249,9 +1253,6 @@ public class CaseDetailController {
 		request.setAttribute("toMortgage", toMortgage);
 		request.setAttribute("caseDetailVO", reVo);
 		request.setAttribute("caseInfo", caseInfo);
-		//收费情况，接口提出
-		JSONObject chargeInfo = new JSONObject();
-		request.setAttribute("chargeInfo", chargeInfo);
 
 		request.setAttribute("isSubscribe", isSubscribe);
 		return "case/caseDetail_new";
@@ -2202,7 +2203,7 @@ public class CaseDetailController {
 	}
 	
 	/**
-	 * 
+	 * 检查案件是否已存在询价单
 	 * @param caseCode
 	 * @return
 	 */
@@ -2213,5 +2214,20 @@ public class CaseDetailController {
 		boolean isExist = evaPricingService.queryInfoByCase(caseCode);
 		result.setContent(isExist);
 		return result;
+	}
+	
+	/**
+	 * 业绩记录/收费情况CCAI查询
+	 */
+	@RequestMapping(value="/getPricingAndFee")
+	@ResponseBody /** 直接给或者json解析给js **/
+	public AjaxResponse<ApiCaseInfo> getPricingAndFee(String ccaiCode){
+		AjaxResponse<ApiCaseInfo> result = new AjaxResponse<ApiCaseInfo>();
+		if(ccaiCode == null){
+			return result;
+		}
+		ApiCaseInfo info = caseApiService.getApiCaseInfo(ccaiCode);
+		result.setContent(info);
+		return result; 
 	}
 }

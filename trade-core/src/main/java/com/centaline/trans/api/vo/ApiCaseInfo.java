@@ -9,9 +9,9 @@ package com.centaline.trans.api.vo;
  * @date 2017/9/14
  */
 public class ApiCaseInfo extends ApiResultData {
-	//业绩记录
-	private ApiCasePrices prices;
 	//收费情况
+	private ApiCasePrices prices;
+	//业绩记录
 	private ApiCaseFees fees;
 
 	public ApiCasePrices getPrices() {

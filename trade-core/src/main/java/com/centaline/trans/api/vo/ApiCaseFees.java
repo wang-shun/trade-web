@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 收费情况
+ * 业绩记录
  * @author yinchao
  * @date 2017/9/14
  */
