@@ -866,8 +866,12 @@ function renderMortgagePatch(f,data){
 			}
 		}else if(isPatch && isPatch == "0"){
 			f.find("input[name=isPatch]").eq(1).prop('checked',true);
-			$("#form_check").hide();
-			$("#form_check").next("div.marinfo").hide();
+			
+			f.find(".row").hide();
+			f.find(".row").next("div.marinfo").hide();
+			
+		
+			
 		}
 		
 	}
@@ -882,6 +886,8 @@ function renderMortgagePatch(f,data){
 function renderMortgageSign(f,data){
 	var $content=data.content;
 	if($content){
+		getGuestInfo(f.attr('id'),$content.custCode);
+		orderTmpBankChange($content.isTmpBank,f,$content.finOrgCode);
 		f.find('input[name=pkid]').val($content.pkid);
 		f.find('input[name=caseCode]').val($content.caseCode);
 		f.find('input[name=isMainLoanBank]').val($content.isMainLoanBank);
@@ -981,60 +987,7 @@ function renderMortgageComplete(f,data){
 		f.find('select[name=bank_type]').prop("disabled",false).prop("disabled",true);
 		f.find('select[name=finOrgCode]').prop("disabled",false).prop("disabled",true);
 		f.find('select[name=lendWay]').prop("disabled",false).prop("disabled",true);
-		/*f.find("[name=mortTotalAmount]").val(($content.mortTotalAmount)||'');
-		f.find("[name=mortType]").val($content.mortType);
-		f.find("[name=comAmount]").val(($content.comAmount)||'');
-		f.find("[name=comYear]").val($content.comYear);
-		f.find("[name=prfAmount]").val(($content.prfAmount)||'' );
-		f.find("[name=prfYear]").val($content.prfYear);
-		f.find("[name=loanerStatus]").val($content.loanerStatus);
-		f.find("[name=comDiscount]").val($content.comDiscount);
-		f.find("input[name='pkid']").val($content.pkid);
-		f.find("select[name='mortType']").val($content.mortType);
-	
-		if($content.mortType=='30016001'){
-			f.find("input[name='prfAmount']").val('').prop('disabled',true).css("background-color","#eee");
-			f.find("input[name='prfYear']").val('').prop('disabled',true).css("background-color","#eee");
-		}else{
-			f.find("input[name='prfAmount']").prop('disabled',false).css("background-color","");
-			f.find("input[name='prfYear']").prop('disabled',false).css("background-color","");
-		}
-		f.find("select[name='custCode']").val($content.custCode);
-		f.find("select[name='custName']").val($content.custName);
-		f.find("input[name='custCompany']").val($content.custCompany);
-		f.find('[name=lendWay]').val($content.lendWay);
 		
-		f.find("input[name='loanerName']").val($content.loanerName);    			
-		f.find("input[name='loanerId']").val($content.loanerId);
-		f.find("input[name='loanerOrgId']").val($content.loanerOrgId);
-		f.find("input[name='loanerOrgCode']").val($content.loanerOrgCode);
-		f.find("input[name='loanerPhone']").val($content.loanerPhone);
-		
-		if(undefined != $content.loanerId && ""!= $content.loanerId){
-			$(".loanerNameImage").css("color","#52cdec");
-		}else{$(".loanerNameImage").css("color","#676A6C");}
-		if($content.apprDate){
-			f.find("input[name='apprDate']").val($content.apprDate);
-		}else{
-			f.find("input[name='apprDate']").val($content.bankApproveTime);
-		}		    			
-		f.find("input[name='isLoanerArrive']").val($content.isLoanerArrive);
-		
-		f.find("input[name='houseNum']").val($content.houseNum);
-		f.find("input[name='signDate']").val($content.signDate);
-		f.find("input[name='ifReportBeforeLend'][value="+$content.ifReportBeforeLend+"]").prop("checked",true);
-		f.find("input[name='recLetterNo']").val($content.recLetterNo);
-
-		f.find("input[name='recLetterNo']").val($content.recLetterNo);
-		f.find("input[name='isTmpBank'][value='"+$content.isTmpBank+"']").prop("checked",true);
-		f.find("input[name='tmpBankStatus']").val($content.tmpBankStatus);
-		f.find('[name=lastBankSub]').attr('checked', !!$content.lastLoanBank);
-		if($content.isTmpBank=='1'){
-			f.find('[name=loanerName]').removeProp('readonly');
-		}else{
-			f.find('[name=loanerName]').prop('readonly',true);
-		}
-		f.find("input[name='recLetterNo'],[name=bank_type],[name=lendWay],[name=ifReportBeforeLend],[name=apprDate]").prop('disabled',true).css("background-color","#eee");*/
 		
 	}else{
 		getGuestInfo(f.attr('id'),'');
@@ -1797,13 +1750,14 @@ $(document).ready(function (){
 				    }
 				   });
  			}
+ 			
  			return flag;
  		}else if(currentIndex == 3 ){
 
  			if ($("#loan_doc_confirm_letter_first_pic_list li").length == undefined
 					|| $("#loan_doc_confirm_letter_first_pic_list li").length == 0 ) {
-				window.wxc.alert("贷款材料确认书未上传!");
-				return true;
+				window.wxc.alert("贷款材料未上传!");
+				return false;
 			}
  			/*if($("#mortgageForm").find("input[name='isTmpBank']:checked").val() == '0'){
  				//非临时银行需要判断上传推荐函
@@ -1937,14 +1891,15 @@ transitionEffect: "slide",
 				    	}
 				    }
 				   });
+ 			
  			}
  			return flag;
  		}else if(currentIndex == 3 ){
 
  			if ($("#loan_doc_confirm_letter_sec_pic_list li").length == undefined
 					|| $("#loan_doc_confirm_letter_sec_pic_list li").length == 0 ) {
-				window.wxc.alert("贷款材料确认书未上传!");
-				return true;
+				window.wxc.alert("贷款材料未上传!");
+				return false;
 			}
  			/*if($("#mortgageForm").find("input[name='isTmpBank']:checked").val() == '0'){
  				//非临时银行需要判断上传推荐函

@@ -240,6 +240,33 @@
        input[readonly], select[disabled] {
 		  background-color: #eee!important;
 	}
+	#table_list_1 tr th{
+		height:30px;
+		background-color: #52cdec;
+		border:1px solid white;
+		text-align: center;
+	}
+	
+	#table_list_1 tr td{
+		height:30px;
+		background-color: white;
+		border:1px solid white;
+		text-align: center;
+	}
+	
+	#table_list_0 tr th{
+		height:30px;
+		background-color: #52cdec;
+		border:1px solid white;
+		text-align: center;
+	}
+	
+	#table_list_0 tr td{
+		height:30px;
+		background-color: white;
+		border:1px solid white;
+		text-align: center;
+	}
 </style>
 <%
 	response.setHeader("Cache-Control", "no-store,no-cache,must-revalidate");
@@ -331,10 +358,19 @@
 							<h3>评估结果页签</h3>
 							<section>
 							<h4>评估结果查看</h4>
-								 <!-- <div class="jqGrid_wrapper">
-	                                <table id="table_list_1"></table>
-	                                <div id="pager_list_1"></div>
-	                             </div> -->
+								 <div class="jqGrid_wrapper">
+	                                <div class="jqGrid_wrapper">
+	                                <table id="table_list_0"  width="800" border="1" cellspacing="0" cellpadding="0" >
+	                                <tr>
+	                                	<th>评估公司</th>
+	                                	<th>出具评估报告时间</th>
+	                                	<th>评估值</th>
+	                                	<th>房龄</th>
+	                                </tr>
+	                                </table>
+	                                	
+	                             </div> 
+	                             </div> 
 							</section>
 							<!-- 派单Tab开始（主) -->
                           <h3>按揭贷款申请页签</h3>
@@ -640,10 +676,17 @@
                             	<h3>评估结果页签</h3>
 							<section>
 							<h4>评估结果查看</h4>
-								 <!-- <div class="jqGrid_wrapper">
-	                                <table id="table_list_1"></table>
-	                                <div id="pager_list_1"></div>
-	                             </div> -->
+								 <div class="jqGrid_wrapper">
+	                                <table id="table_list_1"  width="800" border="1" cellspacing="0" cellpadding="0" >
+	                                <tr>
+	                                	<th>评估公司</th>
+	                                	<th>出具评估报告时间</th>
+	                                	<th>评估值</th>
+	                                	<th>房龄</th>
+	                                </tr>
+	                                </table>
+	                                	
+	                             </div> 
 							</section>
 							<!-- 派单Tab开始（主) -->
                           <h3>按揭贷款申请页签</h3>
@@ -1227,6 +1270,27 @@ var MORT_COMPLETE_0 = new mortageRender('#completeForm1','C');
 var tradeCenter;
 
 
+function  listtable(formId){
+	if(formId){
+	var caseCode =  $("#caseCode").val();
+	formId.find("tr").eq(0).siblings("tr").remove();
+	$.ajax({
+	    url:ctx+"/task/queryEguProInfo",
+	    method:"post",
+	    dataType:"json",
+	    data:{caseCode:caseCode},
+	    success:function(data){
+    		if(data != null){
+    			var list = data.content;
+    			for (var i = 0; i < list.length; i++) {
+    				formId.find("tr").eq(0).after("<tr><td>"+list[i].finOrgName+"</td><td>"+list[i].reportTime+"</td><td>"+111+"</td><td>"+list[i].houseAge+"</td></tr>")
+				}
+    		}
+    	}
+ });
+	}
+}
+
 //点击tab页面触发函数   -----From Bootstrap 标签页（Tab）插件
 $(".nav-tabs").find("a").on('shown.bs.tab', function (e) {
 	  var id = e.target.id;
@@ -1236,7 +1300,7 @@ $(".nav-tabs").find("a").on('shown.bs.tab', function (e) {
 		  var step = ${step};
 		  var step1 = ${step1};
 		  $("#isMainLoanBank").val(1);
-		  
+		  		listtable($("#table_list_0"));
 		 
 			
 				$("#isMainLoanBank").val("1");
@@ -1256,6 +1320,7 @@ $(".nav-tabs").find("a").on('shown.bs.tab', function (e) {
 		  var step = ${step};
 		  var step1 = ${step1};
 		  $("#isMainLoanBank").val(0);
+		  listtable($("#table_list_1"));
 		  if(step1==1){
 				loadMortgageInfo(0,MORT_SIGN_3);
 			}else if(step1 == 2){
@@ -1336,6 +1401,8 @@ function checkInt(obj){
  		/**
  		*	点击是否补件让内容显示或隐藏
  		*/
+ 		listtable($("#table_list_0"));
+ 		
  		$($("#combujian").find("input")[0]).change(function(){
  			if($($("#combujian").find("input")[0]).is(':checked')){
  				$("#form_check").show();
@@ -1518,6 +1585,8 @@ function checkInt(obj){
 
 		$("select[name='finOrgCode']").change(finOrgCodeChange);
 	
+		
+		
 		if(step1==1){
 			loadMortgageInfo(0,MORT_SIGN_3);
 		}else if(step1 == 2){

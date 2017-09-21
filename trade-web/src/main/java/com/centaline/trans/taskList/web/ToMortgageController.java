@@ -88,6 +88,19 @@ public class ToMortgageController {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private ToMortLoanerService toMortLoanerService;
+	
+	/**
+	 * 评估物业信息
+	 */
+	@RequestMapping(value = "/queryEguProInfo")
+	@ResponseBody
+	public AjaxResponse<List>queryEguProInfo(String caseCode){
+		AjaxResponse<List> response = new AjaxResponse<List>();
+		List<Map<String,String>> list= toMortgageService.queryEguProInfo(caseCode);
+		response.setContent(list);
+		response.setSuccess(true);
+		return response;
+	} 
 	/**
 	 * 查询评估费信息
 	 * @param mid 贷款表ID

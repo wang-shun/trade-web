@@ -190,16 +190,16 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			event.setEventType(MessageEnum.START_MORTGAGE_SELECT_MSG.getEventType());
 			event.setEventName(MessageEnum.START_MORTGAGE_SELECT_MSG.getName());
 			event.setProcInstId(vo.getProcessInstanceId());
-			event.setActivityId(EventTypeEnum.TRADEBOUNDARYMSG.getName());
+			//event.setActivityId(EventTypeEnum.TRADEBOUNDARYMSG.getName());
 			List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
 			
 			event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
 			event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
 			event.setProcInstId(vo.getProcessInstanceId());
-			event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+			//event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
 			List<ActRuEventSubScr> mortSubScrsList= actRuEventSubScrMapper.listBySelective(event);
 			if (CollectionUtils.isEmpty(subScrsList)&&CollectionUtils.isEmpty(mortSubScrsList)) {
-				throw new BusinessException("当前流程下不允许变更贷款需求！");
+				//throw new BusinessException("当前流程下不允许变更贷款需求！");
 			}
 			String mortType = vo.getMortageService();
 			if(mortType==null) {
@@ -255,7 +255,9 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				// 重新启动一个新的流程
 				User u=uamUserOrgService.getUserById(vo.getPartner());//合作顾问
 				Map<String, Object> vars=new HashMap<>();
-				vars.put("partner", u.getUsername());
+				//vars.put("partner", u.getUsername());
+				
+				vars.put("caseOwner", u.getUsername());
 				StartProcessInstanceVo p=processInstanceService.startWorkFlowByDfId(processDfId, vo.getCaseCode(), vars);
 				// 设置当前任务的执行人
 				ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
@@ -356,15 +358,17 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	 */
 	private void doBusiness(MortgageSelecteVo vo) {
 		String serivceCode = null;
-		if ("1".equals(vo.getMortageService()) || "3".equals(vo.getMortageService())) {
+		if ("1".equals(vo.getMortageService()) ) {  //按揭
 			serivceCode = "3000400101";
-		} else if ("2".equals(vo.getMortageService())) {
+		} else if ("2".equals(vo.getMortageService())) { //公积金
 			serivceCode = "3000400201";
+		}else if("3".equals(vo.getMortageService())){ //组合
+			serivceCode = "3000400301";
 		}
 		
 		ToCase record=new ToCase();
 		record.setCaseCode(vo.getCaseCode());
-		record.setLoanReq(getLoanReq(vo.getMortageService()));
+		record.setLoanReq(vo.getMortageService()); //贷款需求
 		caseMapper.updateByCaseCodeSelective(record);
 
 		tgServItemAndProcessorMapper.deleteMortageServItem(vo.getCaseCode());
@@ -372,7 +376,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		if (!"0".equals(vo.getMortageService())) {// 有贷款
 			ToTransPlan queryPlan = new ToTransPlan();
 			queryPlan.setCaseCode(vo.getCaseCode());
-			queryPlan.setPartCode("LoanRelease");
+			queryPlan.setPartCode("LoanRelease"); //不明白
 			queryPlan = transplanServiceFacade.findTransPlan(queryPlan);
 			ToTransPlan plan = new ToTransPlan();
 			plan.setEstPartTime(vo.getEstPartTime());

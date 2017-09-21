@@ -1399,4 +1399,12 @@ public class ToMortgageServiceImpl implements ToMortgageService
         ToCase toCase = toCaseService.findToCaseByCaseCode(toMortgage.getCaseCode());
         return workFlowManager.submitTask(variables, taskId, processInstanceId, toCase.getLeadingProcessId(), toMortgage.getCaseCode());
     }
+    /**
+     * lujian
+     */
+	@Override
+	public List<Map<String, String>> queryEguProInfo(String caseCode) {
+		// TODO Auto-generated method stub
+		return toEvalMapper.queryEguProInfo(caseCode);
+	}
 }
