@@ -1,7 +1,9 @@
 package com.centaline.trans.cases.repository;
 
 import com.centaline.trans.cases.entity.ToWorkFlowStartLog;
+import com.centaline.trans.common.MyBatisRepository;
 
+@MyBatisRepository
 public interface ToWorkFlowStartLogMapper {
     int deleteByPrimaryKey(Long pkid);
 
