@@ -271,7 +271,8 @@
 
 		<!--交易案件启动日志-->
 		<mapper resource="mapper/cases/ToWorkFlowStartLogMapper.xml"/>
-
+		<!--交易案件启动日志-->
+		<mapper resource="mapper/eval/ToEvaCommissionChangeMapper.xml"/>
 
 	</mappers>
 </configuration>
