@@ -1,5 +1,6 @@
 package com.centaline.api.swagger;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,14 +28,14 @@ public class Swagger2Configuration {
 				.host(host)
 				.select()
 				//指定了 Swagger 的扫描包名， 假如不指定此项， 在 Spring Boot 项目中， 会生成 base-err-controller 的 api 接口项。
-				.apis(RequestHandlerSelectors.basePackage("com.centaline.api.ccai.cases.web.v1"))
+				.apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
 				.build()
 				.apiInfo(apiInfo());
 	}
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("中原集团金融交易系统API文档")
+				.title("中原集团金融交易系统API在线文档")
 				.description("主要用于提供给其他系统与交易系统进行通讯使用")
 				.license("")
 				.licenseUrl("http://unlicense.org")

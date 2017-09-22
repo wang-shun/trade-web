@@ -1,9 +1,17 @@
 package com.centaline.trans.eval.repository;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eval.entity.ToEval;
+/**
+ * 
+ * @author wblujian
+ *
+ */
 @MyBatisRepository
 public interface ToEvalMapper {
 	int deleteByPrimaryKey(Long pkid);
@@ -23,4 +31,13 @@ public interface ToEvalMapper {
 	int updateByPrimaryKeySelective(ToEval record);
 
 	int updateByPrimaryKey(ToEval record);
+	
+	
+	/**
+	 * 获取Egu物业信息
+	 * lujian
+	 */
+	List<Map<String,String>> queryEguProInfo(String caseCode);
+	
+
 }

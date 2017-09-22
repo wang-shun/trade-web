@@ -13,8 +13,11 @@ import org.springframework.stereotype.Component;
 public abstract class ApiService {
 	@Value("${api.ccai.enable:false}")
 	private boolean enable;
+	@Value("${api.ccai.url}")
+	private String serviceAddress;
 
-	public boolean serviceIsEnable(){
+	public final boolean serviceIsEnable(){
 		return enable;
 	}
+	public final String getServiceAddress(){return serviceAddress;};
 }

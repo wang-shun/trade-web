@@ -3,7 +3,8 @@ package com.centaline.trade.caseTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.centaline.api.ccai.cases.vo.CcaiImportParticipant;
+import com.centaline.api.ccai.vo.CaseImport;
+import com.centaline.api.ccai.vo.CaseParticipantImport;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.centaline.api.ApiApplication;
-import com.centaline.api.ccai.cases.vo.CcaiImportCase;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -60,11 +60,11 @@ public class updateFlowApiTest {
 	
 	public String getTestNormalJsonData(){
 		
-		CcaiImportCase acase = new CcaiImportCase();
+		CaseImport acase = new CaseImport();
 		//案件基本信息
-		List<CcaiImportParticipant> participants = new ArrayList<>();
+		List<CaseParticipantImport> participants = new ArrayList<>();
 		//金融权证
-		CcaiImportParticipant warrant = new CcaiImportParticipant();
+		CaseParticipantImport warrant = new CaseParticipantImport();
 		warrant.setPosition("warrant");
 		warrant.setUserName("zhanglei01");
 		warrant.setRealName("张磊");
@@ -77,7 +77,7 @@ public class updateFlowApiTest {
 		participants.add(warrant);
 		
 		//贷款权证专员信息
-		CcaiImportParticipant loan = new CcaiImportParticipant();
+		CaseParticipantImport loan = new CaseParticipantImport();
 		loan.setPosition("loan");
 		loan.setUserName("shangfei");
 		loan.setRealName("尚飞");

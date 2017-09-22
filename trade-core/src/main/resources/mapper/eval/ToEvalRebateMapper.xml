@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.eval.repository.ToEvalRebateMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eval.entity.ToEvalRebate" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR" />
+    <result column="EVAL_RECEPT" property="evalRecept" jdbcType="VARCHAR" />
+    <result column="PRICING_TIME" property="pricingTime" jdbcType="TIMESTAMP" />
+    <result column="ORINGIN_CASE_CODE" property="oringinCaseCode" jdbcType="VARCHAR" />
+    <result column="EVAL_REAL_CHARGES" property="evalRealCharges" jdbcType="DECIMAL" />
+    <result column="EVAL_DUE_CHARGES" property="evalDueCharges" jdbcType="DECIMAL" />
+    <result column="CENTA_COM_AMOUNT" property="centaComAmount" jdbcType="DECIMAL" />
+    <result column="EVA_COM_AMOUNT" property="evaComAmount" jdbcType="DECIMAL" />
+    <result column="INPUT_TIME" property="inputTime" jdbcType="TIMESTAMP" />
+    <result column="EVA_RPOCESS_ID" property="evaRpocessId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, EVA_CODE, EVAL_RECEPT, PRICING_TIME, ORINGIN_CASE_CODE, EVAL_REAL_CHARGES, 
+    EVAL_DUE_CHARGES, CENTA_COM_AMOUNT, EVA_COM_AMOUNT, INPUT_TIME, EVA_RPOCESS_ID, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_REBATE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findToEvalRebateByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_REBATE
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_EVA_REBATE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.eval.entity.ToEvalRebate" >
+    insert into sctrans.T_TO_EVA_REBATE (PKID, CASE_CODE, EVA_CODE, 
+      EVAL_RECEPT, PRICING_TIME, ORINGIN_CASE_CODE, 
+      EVAL_REAL_CHARGES, EVAL_DUE_CHARGES, CENTA_COM_AMOUNT, 
+      EVA_COM_AMOUNT, INPUT_TIME, EVA_RPOCESS_ID, 
+      STATUS)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
+      #{evalRecept,jdbcType=VARCHAR}, #{pricingTime,jdbcType=TIMESTAMP}, #{oringinCaseCode,jdbcType=VARCHAR}, 
+      #{evalRealCharges,jdbcType=DECIMAL}, #{evalDueCharges,jdbcType=DECIMAL}, #{centaComAmount,jdbcType=DECIMAL}, 
+      #{evaComAmount,jdbcType=DECIMAL}, #{inputTime,jdbcType=TIMESTAMP}, #{evaRpocessId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvalRebate" >
+    insert into sctrans.T_TO_EVA_REBATE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE,
+      </if>
+      <if test="evalRecept != null" >
+        EVAL_RECEPT,
+      </if>
+      <if test="pricingTime != null" >
+        PRICING_TIME,
+      </if>
+      <if test="oringinCaseCode != null" >
+        ORINGIN_CASE_CODE,
+      </if>
+      <if test="evalRealCharges != null" >
+        EVAL_REAL_CHARGES,
+      </if>
+      <if test="evalDueCharges != null" >
+        EVAL_DUE_CHARGES,
+      </if>
+      <if test="centaComAmount != null" >
+        CENTA_COM_AMOUNT,
+      </if>
+      <if test="evaComAmount != null" >
+        EVA_COM_AMOUNT,
+      </if>
+      <if test="inputTime != null" >
+        INPUT_TIME,
+      </if>
+      <if test="evaRpocessId != null" >
+        EVA_RPOCESS_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evalRecept != null" >
+        #{evalRecept,jdbcType=VARCHAR},
+      </if>
+      <if test="pricingTime != null" >
+        #{pricingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oringinCaseCode != null" >
+        #{oringinCaseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evalRealCharges != null" >
+        #{evalRealCharges,jdbcType=DECIMAL},
+      </if>
+      <if test="evalDueCharges != null" >
+        #{evalDueCharges,jdbcType=DECIMAL},
+      </if>
+      <if test="centaComAmount != null" >
+        #{centaComAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="evaComAmount != null" >
+        #{evaComAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="inputTime != null" >
+        #{inputTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evaRpocessId != null" >
+        #{evaRpocessId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eval.entity.ToEvalRebate" >
+    update sctrans.T_TO_EVA_REBATE
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evalRecept != null" >
+        EVAL_RECEPT = #{evalRecept,jdbcType=VARCHAR},
+      </if>
+      <if test="pricingTime != null" >
+        PRICING_TIME = #{pricingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oringinCaseCode != null" >
+        ORINGIN_CASE_CODE = #{oringinCaseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evalRealCharges != null" >
+        EVAL_REAL_CHARGES = #{evalRealCharges,jdbcType=DECIMAL},
+      </if>
+      <if test="evalDueCharges != null" >
+        EVAL_DUE_CHARGES = #{evalDueCharges,jdbcType=DECIMAL},
+      </if>
+      <if test="centaComAmount != null" >
+        CENTA_COM_AMOUNT = #{centaComAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="evaComAmount != null" >
+        EVA_COM_AMOUNT = #{evaComAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="inputTime != null" >
+        INPUT_TIME = #{inputTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evaRpocessId != null" >
+        EVA_RPOCESS_ID = #{evaRpocessId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eval.entity.ToEvalRebate" >
+    update sctrans.T_TO_EVA_REBATE
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      EVAL_RECEPT = #{evalRecept,jdbcType=VARCHAR},
+      PRICING_TIME = #{pricingTime,jdbcType=TIMESTAMP},
+      ORINGIN_CASE_CODE = #{oringinCaseCode,jdbcType=VARCHAR},
+      EVAL_REAL_CHARGES = #{evalRealCharges,jdbcType=DECIMAL},
+      EVAL_DUE_CHARGES = #{evalDueCharges,jdbcType=DECIMAL},
+      CENTA_COM_AMOUNT = #{centaComAmount,jdbcType=DECIMAL},
+      EVA_COM_AMOUNT = #{evaComAmount,jdbcType=DECIMAL},
+      INPUT_TIME = #{inputTime,jdbcType=TIMESTAMP},
+      EVA_RPOCESS_ID = #{evaRpocessId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=NVARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

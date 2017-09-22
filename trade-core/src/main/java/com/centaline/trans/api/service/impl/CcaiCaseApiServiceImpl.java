@@ -21,8 +21,7 @@ import java.util.Map;
  */
 @Service
 public class CcaiCaseApiServiceImpl extends ApiService implements CaseApiService {
-	@Value("${api.ccai.url}")
-	private String ccaiaddress;
+
 	@Autowired
 	private RestTemplate restTemplate;
 
@@ -52,7 +51,7 @@ public class CcaiCaseApiServiceImpl extends ApiService implements CaseApiService
 	private ApiCaseInfo toCcaiGetInfo(String ccaiCode){
 		Map<String,String> param = new HashMap<>();
 		param.put("ccaiCode",ccaiCode);
-		String url =ccaiaddress+"/CCAIData/GetContract"+"?ccaiCode="+ccaiCode;
+		String url =getServiceAddress()+"/CCAIData/GetContract"+"?ccaiCode="+ccaiCode;
 		ApiCaseInfo result;
 		try {
 			String json = restTemplate.getForObject(url,String.class);

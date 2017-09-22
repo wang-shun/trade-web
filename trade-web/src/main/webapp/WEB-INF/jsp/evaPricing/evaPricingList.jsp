@@ -110,7 +110,7 @@
 					<div class="form_content ">
 						<label class="sign_left_two control-label margin_left">询价类型</label>
 						<div class="float_left big_pad">
-							<aist:dict id="evaType" name="evaType"  display="select" dictType="eva_type"  clazz="select_control form-control"/>
+							<aist:dict id="evaType" name="evaType"  display="select" dictType="evapricing_type"  clazz="select_control form-control"/>
 						</div>
 					</div>
 				</div>

@@ -2,6 +2,7 @@ package com.centaline.trans.mortgage.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -223,4 +224,6 @@ public interface ToMortgageService {
 	 * @return
 	 */
 	ToEval findEvalByMortgageId(Long mid);
+	
+	List<Map<String,String>> queryEguProInfo(String caseCode);
 }

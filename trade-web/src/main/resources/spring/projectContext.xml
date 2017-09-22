@@ -656,8 +656,16 @@
     	<property name="dictType" value="LOANER_STATUS"></property>
     </bean>
     <!-- 询价类型 -->
-    <bean name="qqcdDictEvaType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
-    	<property name="dictType" value="EVA_TYPE"></property>
+    <bean name="qqcdDictEvaPricingType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="EVAPRICING_TYPE"></property>
+    </bean>
+    <!-- 赎楼_尾款类型 -->
+    <bean name="qqcdDictRetaType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="RETAINAGE_TYPE"></property>
+    </bean>
+    <!-- 赎楼_抵押类型 -->
+    <bean name="qqcdDictDiyaType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="DIYA_TYPE"></property>
     </bean>
     
     <aop:aspectj-autoproxy expose-proxy="true"/>

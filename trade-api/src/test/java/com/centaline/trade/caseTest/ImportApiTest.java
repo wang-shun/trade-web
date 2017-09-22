@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.centaline.api.ccai.cases.vo.*;
+import com.centaline.api.ccai.vo.*;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.centaline.api.ApiApplication;
-import com.centaline.api.ccai.cases.vo.CcaiImportParticipant;
 import com.centaline.trans.utils.DateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -73,11 +72,11 @@ public class ImportApiTest {
 	
 	public String getTestJsonData(){
 		
-		CcaiImportCase acase = new CcaiImportCase();
+		CaseImport acase = new CaseImport();
 		//案件基本信息
-		List<CcaiImportParticipant> participants = new ArrayList<>();
+		List<CaseParticipantImport> participants = new ArrayList<>();
 		//经纪人信息
-		CcaiImportParticipant agent = new CcaiImportParticipant();
+		CaseParticipantImport agent = new CaseParticipantImport();
 		agent.setPosition("agent");
 		agent.setAssignId("agentAssignId");
 		agent.setUserName("zenglong");
@@ -89,7 +88,7 @@ public class ImportApiTest {
 		participants.add(agent);
 		
 		//分行秘书信息
-		CcaiImportParticipant secretary = new CcaiImportParticipant();
+		CaseParticipantImport secretary = new CaseParticipantImport();
 		secretary.setPosition("secretary");
 		secretary.setUserName("ahk-zhaoxu01");
 		secretary.setRealName("赵旭");
@@ -97,7 +96,7 @@ public class ImportApiTest {
 		participants.add(secretary);
 		
 //		//权证专员信息
-		CcaiImportParticipant warrant = new CcaiImportParticipant();
+		CaseParticipantImport warrant = new CaseParticipantImport();
 		warrant.setPosition("warrant");
 		warrant.setAssignId("warrantAssignId");
 		warrant.setUserName("shangfei");
@@ -111,7 +110,7 @@ public class ImportApiTest {
 		participants.add(warrant);
 		acase.setParticipants(participants);
 //		//案件物业信息
-		CcaiImportCaseProperty property = new CcaiImportCaseProperty();
+		CasePropertyImport property = new CasePropertyImport();
 		property.setAddress("天津**区*******小区*号楼*单元***室");
 		property.setId("CCAI_HOUSE_ID");
 		property.setCode("CCAI_HOUSE_CODE");
@@ -124,31 +123,31 @@ public class ImportApiTest {
 		property.setDistrict("120101");
 		acase.setProperty(property);
 //		//客户信息 上家
-		CcaiImportCaseGuest guest1 = new CcaiImportCaseGuest();
+		CaseGuestImport guest1 = new CaseGuestImport();
 		guest1.setId("001");
 		guest1.setName("业主");
 		guest1.setPosition("30006001");//上家  业主
 		// guest1.setCertType("certype");//证件类型编码
 		// guest1.setCertCode("111111111");//证件类型编号
 		guest1.setMobile("13888888888");//业主手机号
-		CcaiImportCaseGuest guest2 = new CcaiImportCaseGuest();
+		CaseGuestImport guest2 = new CaseGuestImport();
 		guest2.setId("002");
 		guest2.setName("买家");
 		guest2.setPosition("30006002");//上家  业主
 		// guest2.setCertType("certype");//证件类型编码
 		// guest2.setCertCode("22222222");//证件类型编号
 		guest2.setMobile("13666666666");//业主手机号
-		List<CcaiImportCaseGuest> guests = new ArrayList<>();
+		List<CaseGuestImport> guests = new ArrayList<>();
 		guests.add(guest1);guests.add(guest2);
 		acase.setGuests(guests);
 		//案件附件信息
-		CcaiImportAttachment attachment = new CcaiImportAttachment();
+		CaseAttachmentImport attachment = new CaseAttachmentImport();
 		attachment.setId("1");
 		attachment.setName("合同");
 		attachment.setUrl("http://........");
 		attachment.setType("jpg");
 		attachment.setUploadTime(new Date());
-		List<CcaiImportAttachment> attachments = new ArrayList<>();
+		List<CaseAttachmentImport> attachments = new ArrayList<>();
 		attachments.add(attachment);
 		acase.setAttachments(attachments);
 		//案件基本信息

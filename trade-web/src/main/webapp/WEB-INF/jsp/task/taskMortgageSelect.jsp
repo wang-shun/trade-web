@@ -133,15 +133,13 @@
 
 					</div>
 
-					<div class="line">
-						<p class="ml20">请注意：当您选择纯公积金贷款人，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。</p>
-					</div>
+
 				</div>
 			</div>
 			</form>
-
+			<div id="aboutInfo">
 			<div class="view-content" id="caseCommentList"> </div>
-
+			</div>
 			<div class="form-btn">
 				<div class="text-center">
 					<%--<button  class="btn btn-success btn-space">保存</button>--%>
@@ -155,6 +153,7 @@
 <jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 	<content tag="local_script"> 
 	<!-- jqGrid -->
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
 	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script> 
 	<script src="<c:url value='/transjs/task/loanlostApprove.js' />"></script>
@@ -180,6 +179,7 @@
 	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+	
 	<!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
 	<script src="<c:url value='/js/common/common.js' />"></script>
@@ -203,7 +203,7 @@
 		
         function mortageService() {
 			var value = $("#mortageService").val();
-			if(value!='0'){
+			if(value!='0' && value !='4'){
 				$("#estPartTime").removeProp('disabled');
 				$("#estPartTime").removeAttr('disabled');
 				 $('#div_releasePlan').show();
@@ -212,9 +212,10 @@
 				$('#div_releasePlan').hide();
 			}
 			$("#hzxm").html("");
-			if(value=='2'){
+        }
+			/*if(value=='2'){
 				var url = "${ctx}/task/firstFollow/queryMortageByServiceCode";
-				$.ajax({
+				 $.ajax({
 					cache : false,
 					async : true,//false同步，true异步
 					type : "POST",
@@ -243,7 +244,7 @@
 							}
 						});
 						if($.trim(data.orgcode)!='033F045'){/* 浦东合作顾问选中台*/
-							txt += "<option value='-1'>----跨区选择----</option>";
+						/* 	txt += "<option value='-1'>----跨区选择----</option>";
 						}
 						txt += '</select>';
 						txt += "<input type='hidden'  id='partner"+index+"' name='partner' value=''/>";
@@ -251,10 +252,10 @@
 						txt += "</div>";
 						txt += "</div>";
 						$("#hzxm").append(txt);
-						$('#partner'+index).val($('#cooperationUser'+index).find(':selected').val());
+						$('#partner'+index).val($('#cooperationUser'+index).find(':selected').val()); */
 						
 						/*点击跨区合作选项*/
-			        	var partner = $('select[name="unCrossPartner"]');
+			        	/* var partner = $('select[name="unCrossPartner"]');
 			        	partner.bind("change", function(){
 			        		if(partner.find(":selected").val()=="-1"){
 			        			$('#partner'+index).val('');
@@ -269,19 +270,19 @@
 			        				removeCrossAreaCooperation();
 			        			}
 							}	
-			        	});
+			        	}); 
 						
 					},
 					
 					error : function(errors) {
 						window.wxc.error("数据出错。");
 					}
-				});
+				}); 
 			}
-		}
+		}*/
 
 		/*生成跨区合作选项框*/
-        function crossAreaCooperation(){
+        /* function crossAreaCooperation(){
 			
 			var url = "${ctx}/task/firstFollow/getCrossAeraCooperationItems";
 			var corsstxt = "";
@@ -305,7 +306,7 @@
 				dataType : "json",
 				success : function(data) {
 					
-					/*三级联动*/
+					/*三级联动
 					var district = $('#crossDistrict'+index);
 					var org = $('#crossOrg'+index);
 					var consult = $("#crossConsult"+index);
@@ -355,7 +356,7 @@
 					}
 					
 					consult.bind("change", getVals);
-					/*改变隐藏框的值*/
+					/*改变隐藏框的值
 					function getVals(){
 						var guwen=consult.find(':selected').val();
 						
@@ -369,7 +370,7 @@
 					window.wxc.error("数据出错。");
 				}
 			});
-        }
+        } */
 		
 		/*删除跨区合作的DOM节点*/
 		function removeCrossAreaCooperation(){
@@ -384,9 +385,9 @@
 
 		/**保存数据*/
 		function save(b) {
-			if(!checkForm()) {
+			/* if(!checkForm()) {
 				return;
-			}
+			} */
 			var jsonData = $("#firstFollowform").serializeArray();
 			var 
 				url = "${ctx}/task/mortgageSelect/submit";
@@ -435,7 +436,7 @@
 		}
 		
 		/*double 验证*/
-	    function checkNum(obj) { 
+	 /*    function checkNum(obj) { 
 	        //先把非数字的都替换掉，除了数字和.
 	        obj.value = obj.value.replace(/[^\d.]/g,"");
 	        //必须保证第一个为数字而不是.
@@ -444,10 +445,10 @@
 	        obj.value = obj.value.replace(/\.{2,}/g,".");
 	        //保证.只出现一次，而不能出现两次以上
 	        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-	     }  
+	     }   */
 
 		//验证控件checkUI();
-		function checkForm() {
+	/* 	function checkForm() {
 			
 				if($('select[id="mortageService"] option:selected').val()=='2'&&$('select[name="unCrossPartner"]').size()==0){
 					 window.wxc.alert("正在加载合作项目!");
@@ -479,7 +480,7 @@
 				if(flag)return false;
 				
 			return true;
-		}
+		} */
 	</script> 
 	</content>
 </body>

@@ -1,5 +1,6 @@
 package com.centaline.trade.caseTest;
 
+import com.centaline.api.ccai.vo.CaseImport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.centaline.api.ApiApplication;
-import com.centaline.api.ccai.cases.service.CcaiService;
-import com.centaline.api.ccai.cases.service.impl.CcaiServiceImpl;
-import com.centaline.api.ccai.cases.vo.CcaiImportCase;
+import com.centaline.api.ccai.service.CcaiService;
+import com.centaline.api.ccai.service.impl.CcaiServiceImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes=ApiApplication.class)
@@ -23,8 +23,8 @@ public class SequenceTest {
 //		System.out.println(c.getCaseCode(getTestDate()));
 	}
 	
-	private CcaiImportCase getTestDate(){
-		CcaiImportCase ca = new CcaiImportCase();
+	private CaseImport getTestDate(){
+		CaseImport ca = new CaseImport();
 		ca.setCity("120000");
 		return ca;
 	}
