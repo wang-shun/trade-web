@@ -1,4 +1,4 @@
-package com.centaline.api.ccai.flow.vo;
+package com.centaline.api.ccai.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -39,6 +39,10 @@ public class FlowFeedBack {
 	private String comment;
 	@ApiModelProperty(value = "审批时间", required = true, position = 9,example = "1505990444260")
 	private Timestamp approveTime;
+	@ApiModelProperty(value = "信息对应的城市行政区划编码", required = true, example = "120000",
+			allowableValues = "110000-北京,120000-天津", position = 10)
+	private String city;
+
 	@NotBlank(message = "成交报告编号不能为空")
 	public String getCcaiCode() {
 		return ccaiCode;
@@ -119,6 +123,14 @@ public class FlowFeedBack {
 	public void setApproveTime(Timestamp approveTime) {
 		this.approveTime = approveTime;
 	}
+	@NotBlank(message = "城市不能为空")
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
 
 	@Override
 	public String toString() {
@@ -133,6 +145,7 @@ public class FlowFeedBack {
 				", result=" + result +
 				", comment='" + comment + '\'' +
 				", approveTime=" + approveTime +
+				", city='" + city + '\'' +
 				'}';
 	}
 }

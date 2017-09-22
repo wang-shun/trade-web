@@ -1,4 +1,4 @@
-package com.centaline.api.ccai.cases.vo;
+package com.centaline.api.ccai.vo;
 
 import com.centaline.api.validate.group.NormalGroup;
 import io.swagger.annotations.ApiModel;
@@ -21,7 +21,7 @@ import com.centaline.trans.common.enums.CaseParticipantEnum;
  * @author yinchao
  */
 @ApiModel("案件参与人信息")
-public class CcaiImportParticipant {
+public class CaseParticipantImport {
 	/**
 	 * 案件基本信息 类型
 	 *
@@ -133,7 +133,7 @@ public class CcaiImportParticipant {
 
 	@Override
 	public String toString() {
-		return "CcaiImportParticipant [position=" + position + ", userName=" + userName + ", realName=" + realName
+		return "CaseParticipantImport [position=" + position + ", userName=" + userName + ", realName=" + realName
 				+ ", mobile=" + mobile + ", grpCode=" + grpCode + ", grpName=" + grpName + ", grpMgrUserName="
 				+ grpMgrUserName + ", grpMgrRealName=" + grpMgrRealName + ", grpMgrMobile=" + grpMgrMobile + "]";
 	}

@@ -1,10 +1,10 @@
-package com.centaline.api.ccai.cases.web.v1;
+package com.centaline.api.ccai.web.v1;
 
 import com.aist.common.exception.BusinessException;
-import com.centaline.api.ccai.cases.service.CcaiService;
-import com.centaline.api.ccai.cases.vo.CcaiImportCase;
-import com.centaline.api.ccai.cases.vo.CcaiImportCaseGuest;
-import com.centaline.api.ccai.cases.vo.CcaiImportParticipant;
+import com.centaline.api.ccai.service.CcaiService;
+import com.centaline.api.ccai.vo.CaseGuestImport;
+import com.centaline.api.ccai.vo.CaseImport;
+import com.centaline.api.ccai.vo.CaseParticipantImport;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import com.centaline.api.common.web.AbstractBaseController;
 import com.centaline.api.validate.group.NormalGroup;
@@ -14,7 +14,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +64,7 @@ public class CaseSyncController extends AbstractBaseController{
 	@RequestMapping(value = "/case/sync", method = RequestMethod.POST, produces = {"application/json", "application/json;charset=UTF-8"})
 	public CcaiServiceResult caseImport(
 			@ApiParam(name = "案件信息", value = "需要同步的案件信息", required = true)
-			@Valid @RequestBody CcaiImportCase acase, Errors errors, HttpServletRequest request) {
+			@Valid @RequestBody CaseImport acase, Errors errors, HttpServletRequest request) {
 		CcaiServiceResult result = new CcaiServiceResult();
 		ObjectMapper mapper = new ObjectMapper();
 		StringBuilder msg = new StringBuilder();
@@ -117,7 +116,7 @@ public class CaseSyncController extends AbstractBaseController{
 	@ResponseBody
 	public CcaiServiceResult caseUpdate(@PathVariable String type,
 										@ApiParam(name = "案件信息", value = "本次修改的案件信息", required = true)
-										@RequestBody CcaiImportCase ucase, HttpServletRequest request) {
+										@RequestBody CaseImport ucase, HttpServletRequest request) {
 		CcaiServiceResult result = new CcaiServiceResult();
 		ObjectMapper mapper = new ObjectMapper();
 		if (ucase == null || StringUtils.isBlank(ucase.getCcaiCode())
@@ -160,7 +159,7 @@ public class CaseSyncController extends AbstractBaseController{
 	 * @param acase
 	 * @return
 	 */
-	private CcaiServiceResult validateData(CcaiImportCase acase) {
+	private CcaiServiceResult validateData(CaseImport acase) {
 		CcaiServiceResult result = new CcaiServiceResult();
 		if (acase == null) {
 			result.setSuccess(false);
@@ -180,7 +179,7 @@ public class CaseSyncController extends AbstractBaseController{
 				msg.append("案件参与人信息不完整，请查证!\r\n");
 			} else {
 				//案件参与人校验
-				for (CcaiImportParticipant pa : acase.getParticipants()) {
+				for (CaseParticipantImport pa : acase.getParticipants()) {
 					if (CaseParticipantEnum.AGENT.getCode().equals(pa.getPosition())) {
 						//经纪人校验
 						buildErrorMessage(validator.validate(pa, NormalGroup.class, Default.class), msg, "经纪人");
@@ -212,7 +211,7 @@ public class CaseSyncController extends AbstractBaseController{
 			hasAgent = false;//业主
 			hasWarrant = false;//买家
 			//客户信息校验
-			for (CcaiImportCaseGuest guest : acase.getGuests()) {
+			for (CaseGuestImport guest : acase.getGuests()) {
 				if ("30006001".equals(guest.getPosition())) {
 					//业主
 					hasAgent = true;

@@ -1,10 +1,9 @@
-package com.centaline.api.ccai.flow.web.v1;
+package com.centaline.api.ccai.web.v1;
 
-import com.centaline.api.ccai.flow.vo.FlowFeedBack;
+import com.centaline.api.ccai.vo.FlowFeedBack;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import com.centaline.api.common.web.AbstractBaseController;
 import com.centaline.trans.apilog.service.ApiLogService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

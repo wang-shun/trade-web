@@ -1,4 +1,4 @@
-package com.centaline.api.ccai.cases.listener;
+package com.centaline.api.ccai.listener;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.userorg.remote.UamUserOrgService;
