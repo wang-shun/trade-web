@@ -2,7 +2,7 @@
 <querys>
 	<dicts>	
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"/>
-		<customDict id="qqcdDictEvaType" beanName="qqcdDictEvaType"/>
+		<customDict id="qqcdDictEvaPricingType" beanName="qqcdDictEvaPricingType"/>
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
@@ -63,7 +63,7 @@
 				<column type="virtual" name="ARISER_NAME" display="申请人" referencecol="ARISER_ID" customDict="qqcdUserIdName"  width="60" isSort="true"/>
 				<column type="both" name="CREATE_TIME" display="创建时间" width="60" isSort="true" beanFormatter="dateFormatter1" />
 				<column type="both" name="COMPLETE_TIME" display="完成时间" width="60" isSort="true" beanFormatter="dateFormatter1" />
-				<column type="virtual" name="EVA_TYPE_NAME" display="询价类型" referencecol="EVA_TYPE" customDict="qqcdDictEvaType" width="60" isSort="true"/>
+				<column type="virtual" name="EVA_TYPE_NAME" display="询价类型" referencecol="EVA_TYPE" customDict="qqcdDictEvaPricingType" width="60" isSort="true"/>
 				<column type="both" name="TOTAL_PRICE" display="询价值" hide="true"/>
 				<column type="both" name="HOUSE_AGE" display="房龄" />
 				<column type="both" name="STATUS" display="状态" hide="true"/>

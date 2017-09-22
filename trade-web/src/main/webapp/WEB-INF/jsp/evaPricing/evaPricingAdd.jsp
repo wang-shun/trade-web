@@ -102,7 +102,7 @@
 					<div class="form_content">
 						<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>询价类型</label>
 						<div class="float_left big_pad">
-							<aist:dict id="evaType" name="evaType"  display="select" dictType="eva_type"  clazz="select_control width_house" onchange="evaTypeChange()"/>	
+							<aist:dict id="evaType" name="evaType"  display="select" dictType="evapricing_type"  clazz="select_control width_house" onchange="evaTypeChange()"/>	
 						</div>		
 					</div>		
 				</div>
@@ -119,27 +119,27 @@
 				<div class="row clearfix">
 					<div class="form_content">
 						<label class="sign_left_two control-label">总层高</label>
-						<input type="text" class="select_control" name="totalFloor">	                
+						<input type="text" class="select_control" name="totalFloor" onkeyup="checkInteger(this)">	                
 					</div>
 					<div class="form_content">
 						<label class="sign_left_two control-label">所在楼层</label>
-						<input type="text" class="select_control" name="floor" >
+						<input type="text" class="select_control" name="floor" onkeyup="checkInteger(this)">
 					</div>
 				</div>
 				
 				<div class="row cleaarfix">
 					<div class="form_content">
 						<label class="sign_left_two control-label">产证面积</label>
-						<input type="text" class="select_control" name="area" >
+						<input type="text" class="select_control" name="area" onkeyup="checkNum(this)">
 						<span class="date_icon">平方 </span>
 					</div>
 					<div class="form_content">
 						<label class="sign_left_two control-label">竣工年限</label>
-						<input type="text" class="select_control" name="completeYear" >
+						<input type="text" class="select_control" name="completeYear" onkeyup="checkInteger(this)">
 					</div>
 					<div class="form_content">
 						<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>房龄</label>
-						<input type="text" id="houseAge" class="select_control" name="houseAge" onkeyup="checkNum(this)">
+						<input type="text" id="houseAge" class="select_control" name="houseAge" onkeyup="checkInteger(this)">
 					</div>
 				</div>
 				
@@ -269,6 +269,10 @@
 					.replace("$#$", ".");
 		}
 	
+		function checkInteger(obj) {
+			//先把非数字的都替换掉，除了数字和.
+			obj.value = obj.value.replace(/[^\d]/g, "");
+		}	
 		//关闭
 		$('#closeButton').click(function() {
 			window.close();

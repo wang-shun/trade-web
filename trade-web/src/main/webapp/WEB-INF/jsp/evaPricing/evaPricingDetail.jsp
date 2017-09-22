@@ -108,7 +108,7 @@ font-family:Microsoft Yahei;
 				  		<div class="row font-family" >
 							<label class="col-sm-12 control-label">询价类型 ：
 																<aist:dict id="evaType" name="evaType"
-																display="label" dictType="eva_type"
+																display="label" dictType="evapricing_type"
 																dictCode="${toEvaPricingVo.evaType}" />
 							</label>
 						</div>
