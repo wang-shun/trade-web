@@ -28,7 +28,7 @@ public class EvaRebeatReportImport extends EvaRebeatImport {
 	@ApiModelProperty(value = "中原分成金额", required = true, position = 9)
 	private BigDecimal centaComAmount;
 	@ApiModelProperty(value = "评估公司分成金额", required = true, position = 10)
-	private BigDecimal EvaComAmount;
+	private BigDecimal evaComAmount;
 	@ApiModelProperty(value = "评估报告生成时间", example = "1503460440000", required = true, position = 12)
 	private Date createTime;
 
@@ -79,11 +79,11 @@ public class EvaRebeatReportImport extends EvaRebeatImport {
 
 	@NotNull(message = "评估公司分成金额不能为空")
 	public BigDecimal getEvaComAmount() {
-		return EvaComAmount;
+		return evaComAmount;
 	}
 
 	public void setEvaComAmount(BigDecimal evaComAmount) {
-		EvaComAmount = evaComAmount;
+		evaComAmount = evaComAmount;
 	}
 
 	@NotNull(message = "报告生成时间不能为空")
@@ -103,7 +103,7 @@ public class EvaRebeatReportImport extends EvaRebeatImport {
 				", evalPrice=" + evalPrice +
 				", evalRecept='" + evalRecept + '\'' +
 				", centaComAmount=" + centaComAmount +
-				", EvaComAmount=" + EvaComAmount +
+				", EvaComAmount=" + evaComAmount +
 				", createTime=" + createTime +
 				'}';
 	}

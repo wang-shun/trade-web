@@ -17,11 +17,9 @@ import java.util.List;
  * @date 2017-9-22
  */
 @ApiModel("评估费返利申请信息")
-public class EvaRebeatImport {
+public class EvaRebeatImport extends AbstractBaseImport {
 	@ApiModelProperty(value = "CCAI评估返利报告编号", required = true, position = 1)
 	private String ccaiCode;
-	@ApiModelProperty(value = "CCAI评估返利流程实例ID", required = true, position = 2)
-	private String applyId;
 	@ApiModelProperty(value = "对应成交单编号", required = true, position = 6)
 	private String oringinCcaiCode;
 	@ApiModelProperty(value = "评估费实收", required = true, dataType = "number", position = 7)
@@ -30,9 +28,6 @@ public class EvaRebeatImport {
 	private BigDecimal evalDueCharges;
 	@ApiModelProperty(value = "申请时间", required = true, example = "1503460440000", dataType = "integer", position = 11)
 	private Date inputTime;
-	@ApiModelProperty(value = "信息对应的城市行政区划编码", required = true, example = "120000",
-			allowableValues = "110000-北京,120000-天津", position = 13)
-	private String city;
 
 	@NotBlank(message = "评估返利报告编号不能为空")
 	public String getCcaiCode() {
@@ -41,15 +36,6 @@ public class EvaRebeatImport {
 
 	public void setCcaiCode(String ccaiCode) {
 		this.ccaiCode = ccaiCode;
-	}
-
-	@NotBlank(message = "CCAI评估返利流程实例ID不能为空")
-	public String getApplyId() {
-		return applyId;
-	}
-
-	public void setApplyId(String applyId) {
-		this.applyId = applyId;
 	}
 
 	@NotBlank(message = "成交单编号不能为空")
@@ -88,25 +74,14 @@ public class EvaRebeatImport {
 		this.inputTime = inputTime;
 	}
 
-	@NotBlank(message = "城市不能为空")
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
 	@Override
 	public String toString() {
 		return "EvaRebeatImport{" +
 				"ccaiCode='" + ccaiCode + '\'' +
-				", applyId='" + applyId + '\'' +
 				", oringinCcaiCode='" + oringinCcaiCode + '\'' +
 				", evalRealCharges=" + evalRealCharges +
 				", evalDueCharges=" + evalDueCharges +
 				", inputTime=" + inputTime +
-				", city='" + city + '\'' +
 				'}';
 	}
 }

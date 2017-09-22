@@ -5,29 +5,23 @@ import com.centaline.api.ccai.service.CcaiService;
 import com.centaline.api.ccai.vo.CaseGuestImport;
 import com.centaline.api.ccai.vo.CaseImport;
 import com.centaline.api.ccai.vo.CaseParticipantImport;
+import com.centaline.api.common.enums.ApiLogModuleEnum;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import com.centaline.api.common.web.AbstractBaseController;
 import com.centaline.api.validate.group.NormalGroup;
-import com.centaline.trans.apilog.service.ApiLogService;
 import com.centaline.trans.common.enums.CaseParticipantEnum;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
-import java.util.Set;
 
 /**
  * 案件同步相关Controller
@@ -41,10 +35,6 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = "/api/ccai/v1")
 public class CaseSyncController extends AbstractBaseController{
-	private Logger logger = LoggerFactory.getLogger(CaseSyncController.class);
-	//记录日志 模块类型
-	private static final String SYNC_MODULE = "CASESYNC";//案件新增同步
-	private static final String UPDATE_MODULE = "CASEUPDATE";//案件修改同步
 	//修改案件信息类型
 	private static final String UPDATE_TYPE_NORMAL = "normal";//普通类型 只修改可修改的信息 不做其他处理
 	private static final String UPDATE_TYPE_FLOW = "flow";//流程相关修改 修改信息后，会触发流程的变动
@@ -52,8 +42,6 @@ public class CaseSyncController extends AbstractBaseController{
 	@Autowired
 	private CcaiService ccaiService;
 
-	@Autowired
-	private ApiLogService apiLogService;
 	/**
 	 * ccai导入案件接口
 	 *
@@ -65,17 +53,8 @@ public class CaseSyncController extends AbstractBaseController{
 	public CcaiServiceResult caseImport(
 			@ApiParam(name = "案件信息", value = "需要同步的案件信息", required = true)
 			@Valid @RequestBody CaseImport acase, Errors errors, HttpServletRequest request) {
-		CcaiServiceResult result = new CcaiServiceResult();
-		ObjectMapper mapper = new ObjectMapper();
-		StringBuilder msg = new StringBuilder();
-		if (errors.hasErrors()) {
-			for (ObjectError err : errors.getAllErrors()) {
-				msg.append(err.getDefaultMessage()).append("\r\n");
-			}
-			result.setSuccess(false);
-			result.setMessage(msg.toString());
-			result.setCode("99");
-		} else {
+		CcaiServiceResult result = buildErrorResult(errors);
+		if(result.isSuccess()){
 			//做其他的校验
 			result = validateData(acase);
 			//校验通过 进行数据同步
@@ -89,13 +68,7 @@ public class CaseSyncController extends AbstractBaseController{
 				}
 			}
 		}
-		try {
-			String data = mapper.writeValueAsString(acase);
-			logger.debug("sync get data:" + data);
-			apiLogService.apiLog(SYNC_MODULE, "/api/ccai/v1/case/sync", data, mapper.writeValueAsString(result)
-					, result.isSuccess() ? "0" : "1", getHost(request));
-		} catch (JsonProcessingException e) {
-		}
+		writeLog(ApiLogModuleEnum.CASE_SYNC,"/api/ccai/v1/case/sync",acase,result,request);
 		return result;
 	}
 
@@ -143,13 +116,7 @@ public class CaseSyncController extends AbstractBaseController{
 				result.setMessage(e.getMessage());
 			}
 		}
-		try {
-			String data = mapper.writeValueAsString(ucase);
-			logger.debug("sync get data:" + data);
-			apiLogService.apiLog(UPDATE_MODULE, "/api/ccai/v1/case/" + type, data, mapper.writeValueAsString(result)
-					, result.isSuccess() ? "0" : "1", getHost(request));
-		} catch (JsonProcessingException e) {
-		}
+		writeLog(ApiLogModuleEnum.CASE_UPDATE,"/api/ccai/v1/case/" + type,ucase,result,request);
 		return result;
 	}
 
@@ -251,18 +218,4 @@ public class CaseSyncController extends AbstractBaseController{
 		}
 	}
 
-	/**
-	 * 根据将校验信息的结果拼接到传入的msgBuilder中，
-	 * 如果appendBefore不为null，则拼接到每个错误消息前
-	 *
-	 * @param validate
-	 * @param msgBuilder
-	 * @param appendBefore
-	 * @param <T>
-	 */
-	private <T> void buildErrorMessage(Set<ConstraintViolation<T>> validates, StringBuilder msgBuilder, String appendBefore) {
-		for (ConstraintViolation constraintViolation : validates) {
-			msgBuilder.append(appendBefore).append(constraintViolation.getMessage()).append("\r\n");
-		}
-	}
 }

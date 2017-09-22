@@ -35,7 +35,7 @@ public class Swagger2Configuration {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("中原集团金融交易系统API文档")
+				.title("中原集团金融交易系统API在线文档")
 				.description("主要用于提供给其他系统与交易系统进行通讯使用")
 				.license("")
 				.licenseUrl("http://unlicense.org")

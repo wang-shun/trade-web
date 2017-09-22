@@ -17,7 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author yinchao
  */
 @ApiModel("案件信息")
-public class CaseImport {
+public class CaseImport extends AbstractBaseImport {
 	@ApiModelProperty(value = "CCAI成交报告ID", required = true, position = 0)
 	private String ccaiId;
 	@ApiModelProperty(value = "CCAI成交报告编号", required = true, position = 1)
@@ -30,8 +30,6 @@ public class CaseImport {
 			allowableValues = "自办贷款,公积金贷款,一次性,按揭贷款,公积金（组合）贷款,抵押贷款",
 			position = 3)
 	private String payType;
-	@ApiModelProperty(value = "CCAI成交报告审批流程实例ID", required = true, position = 4)
-	private String applyId;
 	@ApiModelProperty(value = "业绩上报时间", required = true, example = "1503460440000", dataType = "integer", position = 5)
 	private Date reportTime;
 	@ApiModelProperty(value = "成交报告创建时间", required = true, example = "1503460440000", dataType = "integer", position = 6)
@@ -46,9 +44,6 @@ public class CaseImport {
 	private List<CaseGuestImport> guests;
 	@ApiModelProperty(value = "成交报告附件信息", required = true, position = 11)
 	private List<CaseAttachmentImport> attachments;
-	@ApiModelProperty(value = "成交报告对应的城市行政区划编码", required = true, example = "120000",
-			allowableValues = "110000-北京,120000-天津", position = 12)
-	private String city;
 
 	@NotBlank(message = "成交报告ID不能为空")
 	public String getCcaiId() {
@@ -86,14 +81,6 @@ public class CaseImport {
 		this.payType = payType;
 	}
 
-	@NotBlank(message = "流程ID不能为空")
-	public String getApplyId() {
-		return applyId;
-	}
-
-	public void setApplyId(String applyId) {
-		this.applyId = applyId;
-	}
 	@NotNull(message = "业绩上报时间不能为空")
 	public Date getReportTime() {
 		return reportTime;
@@ -154,15 +141,6 @@ public class CaseImport {
 		this.attachments = attachments;
 	}
 
-	@NotBlank(message = "城市信息不能为空")
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
 	@Override
 	public String toString() {
 		return "CaseImport{" +
@@ -170,7 +148,6 @@ public class CaseImport {
 				", ccaiCode='" + ccaiCode + '\'' +
 				", tradeType='" + tradeType + '\'' +
 				", payType='" + payType + '\'' +
-				", applyId='" + applyId + '\'' +
 				", reportTime=" + reportTime +
 				", createTime=" + createTime +
 				", updateTime=" + updateTime +
@@ -178,7 +155,6 @@ public class CaseImport {
 				", property=" + property +
 				", guests=" + guests +
 				", attachments=" + attachments +
-				", city='" + city + '\'' +
 				'}';
 	}
 }
