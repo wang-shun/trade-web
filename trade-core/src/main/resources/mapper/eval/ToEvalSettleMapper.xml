@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.eval.repository.ToEvalSettleMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eval.entity.ToEvalSettle" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR" />
+    <result column="FEE_CHANGE_REASON" property="feeChangeReason" jdbcType="VARCHAR" />
+    <result column="FIN_ORG_ID" property="finOrgId" jdbcType="VARCHAR" />
+    <result column="SETTLE_FEE" property="settleFee" jdbcType="DECIMAL" />
+    <result column="SETTLE_ADD_REASON" property="settleAddReason" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="NVARCHAR" />
+    <result column="REJECT_CAUSE" property="rejectCause" jdbcType="VARCHAR" />
+    <result column="SETTLE_TIME" property="settleTime" jdbcType="TIMESTAMP" />
+    <result column="SETTLE_NOT_REASON" property="settleNotReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, EVA_CODE, FEE_CHANGE_REASON, FIN_ORG_ID, SETTLE_FEE, SETTLE_ADD_REASON, 
+    STATUS, REJECT_CAUSE, SETTLE_TIME, SETTLE_NOT_REASON
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_SETTLE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findToCaseByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_SETTLE 
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_EVA_SETTLE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.eval.entity.ToEvalSettle" >
+    insert into sctrans.T_TO_EVA_SETTLE (PKID, CASE_CODE, EVA_CODE, 
+      FEE_CHANGE_REASON, FIN_ORG_ID, SETTLE_FEE, 
+      SETTLE_ADD_REASON, STATUS, REJECT_CAUSE, 
+      SETTLE_TIME, SETTLE_NOT_REASON)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
+      #{feeChangeReason,jdbcType=VARCHAR}, #{finOrgId,jdbcType=VARCHAR}, #{settleFee,jdbcType=DECIMAL}, 
+      #{settleAddReason,jdbcType=VARCHAR}, #{status,jdbcType=NVARCHAR}, #{rejectCause,jdbcType=VARCHAR}, 
+      #{settleTime,jdbcType=TIMESTAMP}, #{settleNotReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvalSettle" >
+    insert into sctrans.T_TO_EVA_SETTLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE,
+      </if>
+      <if test="feeChangeReason != null" >
+        FEE_CHANGE_REASON,
+      </if>
+      <if test="finOrgId != null" >
+        FIN_ORG_ID,
+      </if>
+      <if test="settleFee != null" >
+        SETTLE_FEE,
+      </if>
+      <if test="settleAddReason != null" >
+        SETTLE_ADD_REASON,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="rejectCause != null" >
+        REJECT_CAUSE,
+      </if>
+      <if test="settleTime != null" >
+        SETTLE_TIME,
+      </if>
+      <if test="settleNotReason != null" >
+        SETTLE_NOT_REASON,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="feeChangeReason != null" >
+        #{feeChangeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgId != null" >
+        #{finOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="settleFee != null" >
+        #{settleFee,jdbcType=DECIMAL},
+      </if>
+      <if test="settleAddReason != null" >
+        #{settleAddReason,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="rejectCause != null" >
+        #{rejectCause,jdbcType=VARCHAR},
+      </if>
+      <if test="settleTime != null" >
+        #{settleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="settleNotReason != null" >
+        #{settleNotReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eval.entity.ToEvalSettle" >
+    update sctrans.T_TO_EVA_SETTLE
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="feeChangeReason != null" >
+        FEE_CHANGE_REASON = #{feeChangeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgId != null" >
+        FIN_ORG_ID = #{finOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="settleFee != null" >
+        SETTLE_FEE = #{settleFee,jdbcType=DECIMAL},
+      </if>
+      <if test="settleAddReason != null" >
+        SETTLE_ADD_REASON = #{settleAddReason,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="rejectCause != null" >
+        REJECT_CAUSE = #{rejectCause,jdbcType=VARCHAR},
+      </if>
+      <if test="settleTime != null" >
+        SETTLE_TIME = #{settleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="settleNotReason != null" >
+        SETTLE_NOT_REASON = #{settleNotReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eval.entity.ToEvalSettle" >
+    update sctrans.T_TO_EVA_SETTLE
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      FEE_CHANGE_REASON = #{feeChangeReason,jdbcType=VARCHAR},
+      FIN_ORG_ID = #{finOrgId,jdbcType=VARCHAR},
+      SETTLE_FEE = #{settleFee,jdbcType=DECIMAL},
+      SETTLE_ADD_REASON = #{settleAddReason,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=NVARCHAR},
+      REJECT_CAUSE = #{rejectCause,jdbcType=VARCHAR},
+      SETTLE_TIME = #{settleTime,jdbcType=TIMESTAMP},
+      SETTLE_NOT_REASON = #{settleNotReason,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByCaseCode" parameterType="com.centaline.trans.eval.entity.ToEvalSettle" >
+  	 update sctrans.T_TO_EVA_SETTLE
+  	<set >
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="settleTime != null" >
+        SETTLE_TIME = #{settleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="settleNotReason != null" >
+        SETTLE_NOT_REASON = #{settleNotReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateSettleFeeByCaseCode" parameterType="com.centaline.trans.eval.entity.ToEvalSettle" >
+    update sctrans.T_TO_EVA_SETTLE
+     set SETTLE_FEE = #{settleFee,jdbcType=DECIMAL}
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="newSettleFeeByCaseCode" parameterType="com.centaline.trans.eval.entity.ToEvalSettle" >
+    update sctrans.T_TO_EVA_SETTLE
+     set SETTLE_FEE = #{settleFee,jdbcType=DECIMAL},
+     SETTLE_ADD_REASON = #{settleAddReason,jdbcType=VARCHAR}
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

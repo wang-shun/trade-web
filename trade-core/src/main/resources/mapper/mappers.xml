@@ -87,6 +87,9 @@
 		
 		<!-- 评估费-->
 		<mapper resource="mapper/eval/ToEvaFeeRecordMapper.xml" />
+		<mapper resource="mapper/eval/ToEvalSettleMapper.xml" />
+		<mapper resource="mapper/eval/ToEvalReportProcessMapper.xml" />
+		<mapper resource="mapper/eval/ToEvalRebateMapper.xml" />
 		<!-- 案件 -->
 		<mapper resource="mapper/cases/ToCaseMapper.xml" />
 		<mapper resource="mapper/cases/ToCaseInfoMapper.xml" />
