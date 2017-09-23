@@ -38,7 +38,7 @@ public class EvalRebateController extends AbstractBaseController {
 			System.out.println(info);
 			result.setSuccess(true);
 			result.setMessage("do noting.");
-			result.setCode("00");
+			result.setCode(SUCCESS_CODE);
 		}
 		// writeLog(ApiLogModuleEnum.EVA_REBATE_SYNC,"/api/ccai/v1/eva/rebate/sync",info,result,request);
 		return result;
@@ -55,7 +55,7 @@ public class EvalRebateController extends AbstractBaseController {
 			System.out.println(info);
 			result.setSuccess(true);
 			result.setMessage("update do noting.");
-			result.setCode("00");
+			result.setCode(SUCCESS_CODE);
 		}
 		// writeLog(ApiLogModuleEnum.EVA_REBATE_SYNC_UPDATE,"/api/ccai/v1/eva/rebate/sync",info,result,request);
 		return result;
@@ -74,7 +74,7 @@ public class EvalRebateController extends AbstractBaseController {
 			System.out.println(info);
 			result.setSuccess(true);
 			result.setMessage("do noting.");
-			result.setCode("00");
+			result.setCode(SUCCESS_CODE);
 		}
 		// writeLog(ApiLogModuleEnum.EVA_REBATE_REPORT,"/api/ccai/v1/eva/rebate/report",info,result,request);
 		return result;
