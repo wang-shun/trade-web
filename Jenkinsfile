@@ -6,7 +6,7 @@ node('docker-agent'){
 		sh "mvn clean install deploy"	
 	}
 	stage('ship'){
-		sh "sudo docker login -u admin -p admin123 docker.aist.io"
+		sh "sudo docker login -u admin -p admin123 docker.centaline.com.cn"
 		dir('trade-web') {
 		    sh "sh Dockermake.sh"
 		}
@@ -19,6 +19,9 @@ node('docker-agent'){
 		    sh "sh Dockermake.sh"
 		    sh "sh Dockermake_swagger_start.sh"
 		    sh "sh Dockermake_swagger_edit.sh"
+		}
+		dir('trade-api') {
+		    sh "sh Dockermake.sh"
 		}
 	}
 }
