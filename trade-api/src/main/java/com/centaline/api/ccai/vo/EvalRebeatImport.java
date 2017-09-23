@@ -22,11 +22,13 @@ public class EvalRebeatImport extends AbstractBaseImport {
 	private String ccaiCode;
 	@ApiModelProperty(value = "对应成交单编号", required = true, position = 6)
 	private String oringinCcaiCode;
-	@ApiModelProperty(value = "评估费实收", required = true, dataType = "number", position = 7)
+	@ApiModelProperty(value = "评估价",required = true,position =7)
+	private BigDecimal evalPrice;
+	@ApiModelProperty(value = "评估费实收", required = true, dataType = "number", position = 8)
 	private BigDecimal evalRealCharges;
-	@ApiModelProperty(value = "评估费应收", required = true, dataType = "number", position = 8)
+	@ApiModelProperty(value = "评估费应收", required = true, dataType = "number", position = 9)
 	private BigDecimal evalDueCharges;
-	@ApiModelProperty(value = "申请时间", required = true, example = "1503460440000", dataType = "integer", position = 11)
+	@ApiModelProperty(value = "申请时间", required = true, example = "1503460440000", dataType = "integer", position = 10)
 	private Date inputTime;
 
 	@NotBlank(message = "评估返利报告编号不能为空")
@@ -73,15 +75,12 @@ public class EvalRebeatImport extends AbstractBaseImport {
 	public void setInputTime(Date inputTime) {
 		this.inputTime = inputTime;
 	}
+	@NotNull(message = "评估价不能为空")
+	public BigDecimal getEvalPrice() {
+		return evalPrice;
+	}
 
-	@Override
-	public String toString() {
-		return "EvalRebeatImport{" +
-				"ccaiCode='" + ccaiCode + '\'' +
-				", oringinCcaiCode='" + oringinCcaiCode + '\'' +
-				", evalRealCharges=" + evalRealCharges +
-				", evalDueCharges=" + evalDueCharges +
-				", inputTime=" + inputTime +
-				'}';
+	public void setEvalPrice(BigDecimal evalPrice) {
+		this.evalPrice = evalPrice;
 	}
 }

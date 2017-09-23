@@ -39,7 +39,7 @@ public class EvalRefundController extends AbstractBaseController {
 			System.out.println(info);
 			result.setSuccess(true);
 			result.setMessage("do noting.");
-			result.setCode("00");
+			result.setCode(SUCCESS_CODE);
 		}
 		//写入日志
 		// writeLog(ApiLogModuleEnum.EVAL_REFUND_SYNC,"/api/ccai/v1/eva/refund/sync",info,result,request);

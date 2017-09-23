@@ -36,7 +36,7 @@ public class FlowFeedBackController extends AbstractBaseController {
 			System.out.println(info);
 			result.setSuccess(true);
 			result.setMessage("do noting.");
-			result.setCode("00");
+			result.setCode(SUCCESS_CODE);
 		}
 		// writeLog(ApiLogModuleEnum.FLOW_FEEDBACK,"/api/ccai/v1/flow/feedback",info,result,request);
 		return result;

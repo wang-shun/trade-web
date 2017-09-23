@@ -63,7 +63,7 @@ public class CaseSyncController extends AbstractBaseController{
 					result = ccaiService.importCase(acase);//数据同步
 				} catch (BusinessException e) {
 					result.setSuccess(false);
-					result.setCode("99");
+					result.setCode(FAILURE_CODE);
 					result.setMessage(e.getMessage());
 				}
 			}
@@ -95,7 +95,7 @@ public class CaseSyncController extends AbstractBaseController{
 		if (ucase == null || StringUtils.isBlank(ucase.getCcaiCode())
 				|| StringUtils.isBlank(ucase.getCity())) {
 			result.setSuccess(false);
-			result.setCode("99");
+			result.setCode(FAILURE_CODE);
 			result.setMessage("未获取到要修改的案件信息或成交报告编号或城市!");
 		} else {
 			try {
@@ -107,12 +107,12 @@ public class CaseSyncController extends AbstractBaseController{
 					result = ccaiService.updateCaseAndFlow(ucase);
 				} else {
 					result.setSuccess(false);
-					result.setCode("99");
+					result.setCode(FAILURE_CODE);
 					result.setMessage("无法识别的修改类型!");
 				}
 			} catch (BusinessException e) {
 				result.setSuccess(false);
-				result.setCode("99");
+				result.setCode(FAILURE_CODE);
 				result.setMessage(e.getMessage());
 			}
 		}
@@ -130,7 +130,7 @@ public class CaseSyncController extends AbstractBaseController{
 		CcaiServiceResult result = new CcaiServiceResult();
 		if (acase == null) {
 			result.setSuccess(false);
-			result.setCode("99");
+			result.setCode(FAILURE_CODE);
 			result.setMessage("数据格式不正确");
 		} else {
 			//Hibernate Validator 注解校验
@@ -194,11 +194,11 @@ public class CaseSyncController extends AbstractBaseController{
 			}
 			if (msg.length() > 0) {
 				result.setSuccess(false);
-				result.setCode("99");
+				result.setCode(FAILURE_CODE);
 				result.setMessage(msg.toString());
 			} else {
 				result.setSuccess(true);
-				result.setCode("00");
+				result.setCode(SUCCESS_CODE);
 			}
 		}
 		return result;

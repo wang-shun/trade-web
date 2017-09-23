@@ -27,6 +27,11 @@ import java.util.Set;
 @Component
 public abstract class AbstractBaseController {
 	private Logger logger = LoggerFactory.getLogger(AbstractBaseController.class);
+
+	protected static final String SUCCESS_CODE = "00";
+
+	protected static final String FAILURE_CODE = "99";
+
 	@Autowired
 	private ApiLogService apiLogService;
 
@@ -65,7 +70,7 @@ public abstract class AbstractBaseController {
 			}
 			result.setSuccess(false);
 			result.setMessage(msg.toString());
-			result.setCode("99");
+			result.setCode(FAILURE_CODE);
 		} else {
 			result.setSuccess(true);
 			result.setMessage("no errors");
