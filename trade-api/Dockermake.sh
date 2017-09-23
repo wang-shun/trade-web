@@ -6,11 +6,11 @@ version=$pomver
 commit=`git rev-parse --verify --short=8 HEAD`
 branch=`git branch | grep "^\*" | sed -e "s/^\*\ //"`
 #sudo
-sudo docker build -t docker.centaline.com.cn/trade-api:$version . \
+sudo docker build -t docker.aist.io/trade-api:$version . \
      --label commit=$commit \
 	 --label branch=$branch \
 	 --label version=$version \
 	 --label vendor=CENTALINE \
 	 --label name=trade-api
-sudo docker push docker.centaline.com.cn/trade-api:$version
-sudo docker rmi docker.centaline.com.cn/trade-api:$version
+sudo docker push docker.aist.io/trade-api:$version
+sudo docker rmi docker.aist.io/trade-api:$version
