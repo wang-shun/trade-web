@@ -17,7 +17,7 @@ import java.util.List;
  * @date 2017-9-22
  */
 @ApiModel("评估费返利申请信息")
-public class EvaRebeatImport extends AbstractBaseImport {
+public class EvalRebeatImport extends AbstractBaseImport {
 	@ApiModelProperty(value = "CCAI评估返利报告编号", required = true, position = 1)
 	private String ccaiCode;
 	@ApiModelProperty(value = "对应成交单编号", required = true, position = 6)
@@ -76,7 +76,7 @@ public class EvaRebeatImport extends AbstractBaseImport {
 
 	@Override
 	public String toString() {
-		return "EvaRebeatImport{" +
+		return "EvalRebeatImport{" +
 				"ccaiCode='" + ccaiCode + '\'' +
 				", oringinCcaiCode='" + oringinCcaiCode + '\'' +
 				", evalRealCharges=" + evalRealCharges +

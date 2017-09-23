@@ -8,12 +8,12 @@ package com.centaline.trans.common.enums;
  */
 public enum CcaiFlowEnum {
 	TRADE("成交报告审批",0),
-	EVA_REBATE("评估返利",1),
-	EVA_REFUND("评估退费",2),
+	EVAL_REBATE("评估返利",1),
+	EVAL_REFUND("评估退费",2),
 	BANK_REBATE("银行返利",3),
 	MANAGER_COMMISSION_CHANGE("调佣流程",4),
 	CHANGETO_CUSTOMER_MORTGAGE("变更自办贷款",5),
-	CHANGETO_CUSTOMER_EVA("变更自办评估",6);
+	CHANGETO_CUSTOMER_EVAL("变更自办评估",6);
 	private String name;
 	private int code;
 

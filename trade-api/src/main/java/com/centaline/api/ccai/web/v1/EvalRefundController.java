@@ -1,6 +1,7 @@
 package com.centaline.api.ccai.web.v1;
 
-import com.centaline.api.ccai.vo.EvaRefundImport;
+import com.centaline.api.ccai.vo.EvalRefundImport;
+import com.centaline.api.common.enums.ApiLogModuleEnum;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import com.centaline.api.common.web.AbstractBaseController;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,16 +22,16 @@ import javax.validation.Valid;
  * @author yinchao
  * @date 2017/9/22
  */
-@Api(description = "评估退费流程接口", tags = {"evaRefund"})
+@Api(description = "评估退费流程接口", tags = {"evalRefund"})
 @RestController
 @RequestMapping(value = "/api/ccai/v1")
-public class EvaRefundController extends AbstractBaseController {
+public class EvalRefundController extends AbstractBaseController {
 
 	@ApiOperation(value = "评估退费申请同步", notes = "CCAI发起的评估费退费流程，经过部门逐级审批同意后，调用该接口将信息同步至交易系统，由权证进行后续处理", produces = "application/json,application/json;charset=UTF-8")
-	@RequestMapping(value="/eva/refund/sync",method = RequestMethod.POST,produces = {"application/json", "application/json;charset=UTF-8"})
+	@RequestMapping(value="/eval/refund/sync",method = RequestMethod.POST,produces = {"application/json", "application/json;charset=UTF-8"})
 	public CcaiServiceResult rebateSync(
 			@ApiParam(name = "评估退费申请信息", value = "评估退费申请信息", required = true)
-			@Valid @RequestBody EvaRefundImport info, Errors errors, HttpServletRequest request){
+			@Valid @RequestBody EvalRefundImport info, Errors errors, HttpServletRequest request){
 		CcaiServiceResult result = buildErrorResult(errors);
 		ObjectMapper mapper = new ObjectMapper();
 		if(result.isSuccess()) {
@@ -41,7 +42,7 @@ public class EvaRefundController extends AbstractBaseController {
 			result.setCode("00");
 		}
 		//写入日志
-		// writeLog(ApiLogModuleEnum.EVA_REFUND_SYNC,"/api/ccai/v1/eva/refund/sync",info,result,request);
+		// writeLog(ApiLogModuleEnum.EVAL_REFUND_SYNC,"/api/ccai/v1/eva/refund/sync",info,result,request);
 		return result;
 	}
 }

@@ -7,11 +7,11 @@ package com.centaline.api.common.enums;
 public enum ApiLogModuleEnum {
 	CASE_SYNC("成交报告同步","CASESYNC"),
 	CASE_UPDATE("成交报告修改","CASEUPDATE"),
-	FLOW_FEEDBACK("审批反馈","EVA_REFUND_SYNC"),
-	EVA_REBATE_SYNC("评估返利报告申请同步","EVA_REBATE_SYNC"),
-	EVA_REBATE_SYNC_UPDATE("评估返利报告驳回修改同步","EVA_REBATE_SYNC_UPDATE"),
-	EVA_REBATE_REPORT("评估返利报告同步","EVA_REBATE_REPORT"),
-	EVA_REFUND_SYNC("评估退费申请同步","EVA_REFUND_SYNC");
+	FLOW_FEEDBACK("审批反馈","FLOW_FEEDBACK"),
+	EVAL_REBATE_SYNC("评估返利报告申请同步","EVAL_REBATE_SYNC"),
+	EVAL_REBATE_SYNC_UPDATE("评估返利报告驳回修改同步","EVAL_REBATE_SYNC_UPDATE"),
+	EVAL_REBATE_REPORT("评估返利报告同步","EVAL_REBATE_REPORT"),
+	EVAL_REFUND_SYNC("评估退费申请同步","EVAL_REFUND_SYNC");
 
 	private String name;
 	private String code;

@@ -12,7 +12,7 @@ import java.util.Date;
  * @date 2017/9/22
  */
 @ApiModel("评估费退费申请信息")
-public class EvaRefundImport extends AbstractBaseImport {
+public class EvalRefundImport extends AbstractBaseImport {
 	@ApiModelProperty(value = "CCAI成交报告编号", required = true, position = 1)
 	private String ccaiCode;
 	@ApiModelProperty(value = "退费类别", required = true, position = 2)
