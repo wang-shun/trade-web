@@ -20,9 +20,6 @@ node('docker-agent'){
 		    sh "sh Dockermake_swagger_start.sh"
 		    sh "sh Dockermake_swagger_edit.sh"
 		}
-		dir('trade-api') {
-		    sh "sh Dockermake.sh"
-		}
 	}
 }
 
