@@ -61,6 +61,40 @@
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" id="userId" value="${userId}" />
+
+	<!-- 评估申请modal -->
+	<div id="eval-modal-form" class="modal fade" role="dialog" aria-labelledby="plan-modal-title" aria-hidden="true">
+		<div class="modal-dialog" style="width: 1000px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="plan-modal-title">评估申请关联</h4>
+				</div>
+				<input id="evaPricingId" type="hidden">
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						onclick="javascript:evalApply()">关联</button>
+					<button type="button" class="btn btn-default"
+						data-dismiss="modal">关闭</button>
+				</div>
+				<table class="table table_blue table-striped  table-hover  " >
+					<thead>
+						<tr>
+							<th></th>
+							<th>案件编号</th>
+							<th>案件状态</th>
+							<th>物业地址</th>
+							<th>询价产证地址</th>
+						</tr>
+					</thead>
+					<tbody id="eval-modal-body">
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 	
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox-content border-bottom clearfix space_box">
@@ -258,6 +292,38 @@
 				
 	{{/each}}
 </script> 
+
+<script id="template_evalApply" type="text/html">
+
+	{{each rows as item index}}
+		<tr onclick="chooseTr({{index}})" id="tr_{{index}}">
+			<td>
+				
+			</td>
+			<td>
+				<p id="p_{{index}}">
+					{{item.caseCode}}
+				</p>
+			</td>
+			<td>
+				<p>
+					{{item.caseStatus}}
+				</p>
+			</td>
+			<td>
+				<p>
+					{{item.addr}}
+				</p>
+			</td>
+			<td>
+				<p>
+					{{item.residenceName}}
+				</p>
+			</td>
+		</tr>
+	{{/each}}
+
+</script>
  <script>
  	//排序用,aist.jquery.custom.js
  	aist.sortWrapper({
@@ -265,7 +331,11 @@
 	}); 
  
  </script>
-
+	<script>
+	$(document).ready(function(){
+		$('.abc').find('p.cas').text();
+	})
+	</script>
 </content>
 </body>
 </html>

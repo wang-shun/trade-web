@@ -69,4 +69,12 @@ public interface ToEvaPricingMapper {
 	 * @return
 	 */
 	List<Map<String,String>> queryEvaFinOrg();
+	
+	/**
+	 * 询价关联案件
+	 * @param pkid
+	 * @param caseCode
+	 * @return
+	 */
+	int updateEvalPricingRela(@Param("pkid")long pkid, @Param("caseCode")String caseCode);
 }

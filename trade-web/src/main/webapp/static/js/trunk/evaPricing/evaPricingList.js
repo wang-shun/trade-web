@@ -285,9 +285,84 @@ function gotoPage(obj){
 		);
 		
 	}else if(sVal == '3'){//发起评估申请
-		url += "";
+		
+		var data = {};
+	    data.queryId = "queryEvalApplyList";
+	    data.rows = 10;
+	    data.page = 1;
+	    data.argu_pkid = pVal;
+	    aist.wrap(data);
+		
+		$.ajax({
+			cache:true,
+			async:false,
+			type:"POST",
+			url:ctx + "/quickGrid/findPage",
+			data:data,
+			dataType:'json',
+			success:function(data){
+				$('#evaPricingId').val(pVal);
+				
+				var html = template('template_evalApply',data);
+				$('#eval-modal-body').empty();
+				$('#eval-modal-body').html(html);
+				$('#eval-modal-form').modal('show');
+			},
+			error:function(){
+				window.wxc.error("查询失败!");
+			}
+		});
+		
+		
 	}else{
 		return;
 	}
 }
 
+var preIndex = -1;
+var caseCode = '';
+function chooseTr(index){
+	if(preIndex == index){
+		$('#tr_'+preIndex).css('background','#ffffff');
+		preIndex = -1;
+		caseCode = '';
+	}else{
+		$('#tr_'+preIndex).css('background','#ffffff');
+		preIndex = index;
+		$('#tr_'+index).css('background','#aaaaaa');
+		caseCode = $('#p_'+index).text().trim();
+	}
+}
+
+/**
+ * 案件关联
+ * @returns
+ */ 
+function evalApply(){
+	if(caseCode != ''){
+		//关联案件
+		var pkid = $('#evaPricingId').val();
+		var data = "&pkid=" + pkid +"&caseCode=" + caseCode;
+		$.ajax({
+			cache:true,
+			async:false,
+			type:"POST",
+			url:ctx+"/evaPricing/evaPricingRelation",
+			data:data,
+			dataType:'json',
+			success:function(data){
+				if(data.content){
+					window.location.href="";
+				}else{
+					window.wxc.error('关联失败!');
+				}
+			},
+			error:function(){
+				window.wxc.error('关联失败!');
+			}
+		});
+	}else{
+		window.wxc.info('请选择一条数据!');
+	}
+	
+}

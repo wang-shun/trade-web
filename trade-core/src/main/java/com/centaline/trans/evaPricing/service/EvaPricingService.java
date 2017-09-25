@@ -47,5 +47,13 @@ public interface EvaPricingService {
 	 * @return
 	 */
 	List<Map<String,String>>queryEvaFinOrg();
+	
+	/***
+	 * 询价关联案件
+	 * @param pkid
+	 * @param caseCode
+	 * @return
+	 */
+	boolean evalRelation(long pkid,String caseCode);
 
 }
