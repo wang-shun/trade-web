@@ -161,7 +161,7 @@ var AttachmentList = (function(){
 		<div class="row wrapper white-bg new-heading" id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
-                        	首次跟进
+                        	接单审核
                  </h2>
                 <div class="mt20">
                     <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
@@ -191,7 +191,7 @@ var AttachmentList = (function(){
 	            </div>
 	            
 	            <div class="view-content">
-	              	<table id="gridTable" class="table table_blue  table-striped table-bordered table-hover customerinfo nomargin"></table>
+	              	<table id="gridTable" class=""></table>
 	   				<div id="gridPager"></div>
 	            </div>
 

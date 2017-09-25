@@ -246,7 +246,7 @@
 	            </div>
 	            
 	            <div class="view-content">
-	              	<table id="gridTable" class="table table_blue  table-striped table-bordered table-hover customerinfo nomargin"></table>
+	              	<table id="gridTable" class=""></table>
 	   				<div id="gridPager"></div>
 	            </div>
 	

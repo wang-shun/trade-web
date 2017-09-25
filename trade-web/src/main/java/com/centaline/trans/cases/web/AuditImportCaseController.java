@@ -88,11 +88,17 @@ public class AuditImportCaseController {
 	 */
 	@RequestMapping(value = "addLoanProcessor")
 	public String addLoanProcessor(HttpServletRequest request, String caseCode,String loanProcessor) {
+//		添加贷款专员
 		int addLoanProcessor = auditCaseService.addLoanProcessor(loanProcessor, caseCode);
 		if(addLoanProcessor==0){
 			throw new BusinessException("请求页面跳转异常啦，请稍后再试！");
 		}
-		return "forward:"+"/AuditImportCase/list";
+//		审核案件通过
+		if(auditCaseService.updateAuditCaseSuccess(caseCode)==1){
+			return "forward:"+"/AuditImportCase/list";			
+		}else{
+			throw new BusinessException("审核案件通过失败！");
+		}
 	}
 
 	
@@ -108,11 +114,11 @@ public class AuditImportCaseController {
 	 */
 	@RequestMapping(value = "auditSuccess")
 	public String AuditSuccess(String caseCode){
-		ToCase toCase = new ToCase();
-		toCase.setStatus("30001002");
-		toCase.setCaseCode(caseCode);
-		toCaseService.updateByCaseCodeSelective(toCase);		
-		return "forward:"+"/AuditImportCase/list";
+		if(auditCaseService.updateAuditCaseSuccess(caseCode)==1){
+			return "forward:"+"/AuditImportCase/list";			
+		}else{
+			throw new BusinessException("审核案件通过失败！");
+		}
 		
 	}
 	/**

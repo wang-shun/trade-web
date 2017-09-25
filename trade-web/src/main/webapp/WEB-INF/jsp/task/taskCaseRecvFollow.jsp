@@ -142,12 +142,23 @@ function showAttachment(url){
 	
 }
 //提交数据
-function submit() {					
+function submit() {	
+	var caseCode=$("#caseCode").val();
+	if(!caseCode){
+	 window.wxc.alert("请以正确的方式进入该页面！");
+	return;		
+	}
 	save(true);
 }
 
 //保存数据
 function save(b) {
+	var caseCode=$("#caseCode").val();
+	if(!caseCode){
+	 window.wxc.alert("请以正确的方式进入该页面！");
+	return;		
+	}
+	
 	if(b){
 		if (!checkForm()) {
 			return;
@@ -347,7 +358,7 @@ function checkForm() {
 		return false;
 	}
 	
-	if($("#isUniqueHome").val()==10){
+	if($("#isUniqueHome").val()==0){
 		window.wxc.alert("房屋套数为必选项!");
 		$("#isUniqueHome").focus();
 		$("#isUniqueHome").css("border-color","red");
@@ -643,7 +654,7 @@ function checkForm() {
 	            </div>
 	            
 	            <div class="view-content">
-	              	<table id="gridTable" class="table table_blue  table-striped table-bordered table-hover customerinfo nomargin"></table>
+	              	<table id="gridTable" class=""></table>
 	   				<div id="gridPager"></div>
 	            </div>
 	
@@ -694,7 +705,7 @@ function checkForm() {
 						AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}',caseCode);
 						$("#caseCommentList").caseCommentGrid({
 							caseCode : caseCode,
-							srvCode : null
+							srvCode : 'caseRecvFlow'
 						});
 						//日历控件
 					    $('.input-daterange').datepicker({
