@@ -45,10 +45,10 @@ public class MortgageSelectController {
 	@ResponseBody
 	@RequestMapping(value = "submit")
 	public boolean submit(MortgageSelecteVo vo){
-		if (!"2".equals(vo.getMortageService())) {//只有纯公积金才需要选择合作人否则都是取当前用户
+		//if (!"2".equals(vo.getMortageService())) {//只有纯公积金才需要选择合作人否则都是取当前用户
 			SessionUser u = uamSessionService.getSessionUser();
 			vo.setPartner(u.getId());
-		}
+		//}
 		return mortgageSelectService.submit2(vo);
 	}
 	@ResponseBody
@@ -115,5 +115,11 @@ public class MortgageSelectController {
 		request.setAttribute("loanReleasePlan", transplanServiceFacade.findTransPlan(plan));
 		return "task" + UiImproveUtil.getPageType(request) + "/taskMortgageSelect";
 
+	}
+	
+	@RequestMapping(value="test")
+	@ResponseBody
+	public String test(){
+		return "test";
 	}
 }

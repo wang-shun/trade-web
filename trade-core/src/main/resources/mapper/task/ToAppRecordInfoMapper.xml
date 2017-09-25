@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.eloan.repository.ToAppRecordInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eloan.entity.ToAppRecordInfo" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="APPLY_USER_NAME" property="applyUserName" jdbcType="VARCHAR" />
+    <result column="APPLY_REAL_NAME" property="applyRealName" jdbcType="VARCHAR" />
+    <result column="LEVEL" property="level" jdbcType="VARCHAR" />
+    <result column="DEAL_TIME" property="dealTime" jdbcType="TIMESTAMP" />
+    <result column="RESULT" property="result" jdbcType="INTEGER" />
+    <result column="COMMENT" property="comment" jdbcType="VARCHAR" />
+    <result column="SELF_APP_INFO_ID" property="selfAppInfoId" jdbcType="VARCHAR" />
+  </resultMap>
+	
+	
+	<insert id="insertAppRecordInfo" useGeneratedKeys="true" parameterType="java.util.List">
+		insert into sctrans.T_TO_APP_RECORD_INFO (APPLY_USER_NAME,APPLY_REAL_NAME,LEVEL,DEAL_TIME,RESULT,COMMENT,SELF_APP_INFO_ID)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >  
+       (#{item.applyUserName,jdbcType=VARCHAR},#{item.applyRealName,jdbcType=VARCHAR},#{item.level,jdbcType=VARCHAR},#{item.dealTime,jdbcType=TIMESTAMP},#{item.result,jdbcType=INTEGER},#{item.comment,jdbcType=VARCHAR},#{item.selfAppInfoId,jdbcType=VARCHAR})
+    	</foreach>  
+	</insert>
+	
+
+
+</mapper>

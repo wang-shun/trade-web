@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.eloan.repository.ToSelfAppInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eloan.entity.ToSelfAppInfo" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CCAI_CODE" property="ccaiCode" jdbcType="VARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="GRP_CODE" property="grpCode" jdbcType="VARCHAR" />
+    <result column="GRP_NAME" property="grpName" jdbcType="VARCHAR" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+  </resultMap>
+	
+	
+	<insert id="insertSelfAppInfo" useGeneratedKeys="true" keyProperty="pkid" parameterType="com.centaline.trans.eloan.entity.ToSelfAppInfo">
+		insert into sctrans.T_TO_SELF_APP_INFO (CCAI_CODE,CASE_CODE,TYPE,USER_NAME,REAL_NAME,GRP_CODE,GRP_NAME,APPLY_TIME,STATUS,CITY)
+		values(#{ccaiCode,jdbcType=VARCHAR},#{caseCode,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{realName,jdbcType=VARCHAR},#{grpCode,jdbcType=VARCHAR},#{grpName,jdbcType=VARCHAR},#{applyTime,jdbcType=TIMESTAMP},#{status,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR})
+	</insert>
+	
+
+
+</mapper>

@@ -498,8 +498,8 @@ function completeMortgage(form){
 		success:function(data){
 			if(data.success){
 						//TODO 如果作为最终银行提交，自动结束候选银行或者主选银行的的派单流程
-						window.close();
-						window.opener.callback();
+						//window.close();
+						//window.opener.callback();
 						submitMortgage();
 			}else{
 				window.wxc.error(data.message);
@@ -1500,7 +1500,7 @@ function submitMortgage(){
 		success:function(data){
 			window.wxc.success(data.message,{"wxcOk" : function(){
 				if(data.success){
-					//window.location.href=ctx+"/task/myTaskList?"+new Date().getTime();
+					window.location.href=ctx+"/task/myTaskList?"+new Date().getTime();
 					caseTaskCheck();
 				}
 			}});
@@ -1808,6 +1808,7 @@ $(document).ready(function (){
  	onFinished: function (event, currentIndex)
 	{
  		completeMortgage($("#completeForm"));	
+ 		return true;
     }
 });
 
