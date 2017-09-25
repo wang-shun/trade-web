@@ -27,7 +27,7 @@ public class ToSelfAppInfoServiceImp implements ToSelfAppInfoService {
 	private ToAppRecordInfoMapper toAppRecordInfoMapper;
 
 	@Override
-	public void insertSelfAppInfo(ToSelfAppInfo toSelfAppInfo) {
+	public void addSelfAppInfo(ToSelfAppInfo toSelfAppInfo) {
 		Long count = toSelfAppInfoMapper.insertSelfAppInfo(toSelfAppInfo);
 		List<ToAppRecordInfo> list = toSelfAppInfo.getTasks();
 		for (ToAppRecordInfo toAppRecordInfo : list) {
