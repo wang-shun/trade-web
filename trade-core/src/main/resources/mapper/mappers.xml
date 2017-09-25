@@ -79,6 +79,7 @@
 		<mapper resource="mapper/task/ToApproveRecordMapper.xml" />
 		<mapper resource="mapper/task/TsPrResearchMapMapper.xml" />
 		<mapper resource="mapper/transplan/TsTransPlanHistoryMapper.xml" />
+		<mapper resource="mapper/task/ToMortgageTosaveMapper.xml"/>
 
 		<mapper resource="mapper/task/ActRuTaskMapper.xml" />
 		<!-- 任务授权 -->
@@ -273,6 +274,9 @@
 		<mapper resource="mapper/cases/ToWorkFlowStartLogMapper.xml"/>
 		<!--交易案件启动日志-->
 		<mapper resource="mapper/eval/ToEvaCommissionChangeMapper.xml"/>
-
+		<!-- 自办评估/自办贷款申请信息新增接口 -->
+		<mapper resource="mapper/task/ToAppRecordInfoMapper.xml"/>
+		
+		<mapper resource="mapper/task/ToSelfAppInfoMapper.xml"/>
 	</mappers>
 </configuration>
