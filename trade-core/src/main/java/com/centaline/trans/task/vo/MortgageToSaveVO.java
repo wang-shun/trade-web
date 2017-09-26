@@ -21,6 +21,10 @@ public class MortgageToSaveVO {
 	 */
 	private Date createTime;
 	
+	
+	private String bank_type;
+	
+	private String finOrgCode;
 	/**
 	 * 贷款方式
 	 * @return
@@ -133,6 +137,22 @@ public class MortgageToSaveVO {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getBank_type() {
+		return bank_type;
+	}
+
+	public void setBank_type(String bank_type) {
+		this.bank_type = bank_type;
+	}
+
+	public String getFinOrgCode() {
+		return finOrgCode;
+	}
+
+	public void setFinOrgCode(String finOrgCode) {
+		this.finOrgCode = finOrgCode;
 	}
 	
 	
