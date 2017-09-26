@@ -8,8 +8,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.api.service.FlowApiService;
+import com.centaline.trans.api.vo.ApiResultData;
+import com.centaline.trans.api.vo.FlowFeedBack;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
@@ -18,6 +23,9 @@ import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
 import com.centaline.trans.cases.service.AuditCaseService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.ToCcaiAttachment;
+import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.common.enums.CcaiFlowResultEnum;
+import com.centaline.trans.common.enums.CcaiTaskEnum;
 import com.centaline.trans.common.repository.ToCcaiAttachmentMapper;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.bean.TaskQuery;
@@ -27,6 +35,8 @@ import com.centaline.trans.engine.vo.TaskVo;
 
 @Service
 public class AuditCaseServiceImpl implements AuditCaseService {
+	@Autowired(required = true)
+	UamSessionService uamSessionService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
 	@Autowired
@@ -42,6 +52,9 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 	
 	@Autowired
 	private UamUserOrgService uamUserOrgServiceClient;
+	//CCAI交互服务
+	@Autowired
+	private FlowApiService flowApiService;
 
 	@Override
 	public String getPayType(String caseCode) {
@@ -138,66 +151,180 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 	@Override
 	public int updateAuditCaseSuccess(String caseCode) {
 		// TODO Auto-generated method stub
-		ToCase toCase = new ToCase();
-		toCase.setStatus("30001002");
-		toCase.setCaseCode(caseCode);
-		int result = toCaseService.updateByCaseCodeSelective(toCase);
-		/* 流程引擎相关  生成网签任务*/
-		//根据caseCode查出taskVo和ProcessInstanceId,因为设置案件审核的assignee(auditManagerAssignee)需要ProcessInstanceId；
-		TaskQuery taskQuery = new TaskQuery();
-		taskQuery.setProcessInstanceBusinessKey(caseCode);
-		PageableVo listTasks = workFlowManager.listTasks(taskQuery);
-		if (listTasks.getData().size() > 0) {
-			TaskVo taskVo = (TaskVo) listTasks.getData().get(0);
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-//			如果有贷款权证便添加到流程变量
-			ToCaseParticipant loantoCaseParticipant = new ToCaseParticipant();
-			loantoCaseParticipant.setCaseCode(caseCode);
-			loantoCaseParticipant.setPosition("loan");
-			List<ToCaseParticipant> loanparticipantList = toCaseParticipantMapper.selectByCondition(loantoCaseParticipant);			
-			if(loanparticipantList.size()==1){
-				RestVariable loan = new RestVariable();
-				loan.setName("loan");
-				ToCaseParticipant toCaseParticipant2 = loanparticipantList.get(0);			
-				loan.setValue(toCaseParticipant2.getUserName());
-				variables.add(loan);
-				
-				RestVariable selfDoLoan = new RestVariable();
-				selfDoLoan.setName("selfDoLoan");
-				selfDoLoan.setValue("false");
-				variables.add(selfDoLoan);
-			}else{//贷款的变量在这里设置
-				RestVariable selfDoLoan = new RestVariable();
-				selfDoLoan.setName("selfDoLoan");
-				selfDoLoan.setValue("true");
-				variables.add(selfDoLoan);
+		SessionUser user = uamSessionService.getSessionUser();
+		FlowFeedBack info = new FlowFeedBack(user, CcaiFlowResultEnum.SUCCESS,user.getRealName());
+		//先通知CCAI 返回结果为true再更新案件状态
+		ApiResultData apiResult = flowApiService.tradeFeedBackCcai(caseCode, CcaiTaskEnum.TRADE_WARRANT_MANAGER,info);
+		if(apiResult.isSuccess()){
+			ToCase toCase = new ToCase();
+			toCase.setStatus(CaseStatusEnum.YJD.getCode());
+			toCase.setCaseCode(caseCode);
+			int result = toCaseService.updateByCaseCodeSelective(toCase);
+			/* 流程引擎相关  生成网签任务*/
+			//根据caseCode查出taskVo和ProcessInstanceId,因为设置案件审核的assignee(auditManagerAssignee)需要ProcessInstanceId；
+			TaskQuery taskQuery = new TaskQuery();
+			taskQuery.setProcessInstanceBusinessKey(caseCode);
+			taskQuery.setTaskDefinitionKey("warrantManagerAudit");
+			PageableVo listTasks = workFlowManager.listTasks(taskQuery);
+			if (listTasks.getData().size() > 0) {
+				TaskVo taskVo = (TaskVo) listTasks.getData().get(0);
+				List<RestVariable> variables = new ArrayList<RestVariable>();
+//				把审核通过添加到流程变量
+				RestVariable caseApprove = new RestVariable();
+				caseApprove.setName("caseApprove");
+				caseApprove.setValue(true);
+				variables.add(caseApprove);
+//				如果有贷款权证便添加到流程变量
+				ToCaseParticipant loantoCaseParticipant = new ToCaseParticipant();
+				loantoCaseParticipant.setCaseCode(caseCode);
+				loantoCaseParticipant.setPosition("loan");
+				List<ToCaseParticipant> loanparticipantList = toCaseParticipantMapper.selectByCondition(loantoCaseParticipant);			
+				if(loanparticipantList.size()==1){
+					RestVariable loan = new RestVariable();
+					loan.setName("loan");
+					ToCaseParticipant toCaseParticipant2 = loanparticipantList.get(0);			
+					loan.setValue(toCaseParticipant2.getUserName());
+					variables.add(loan);
+					
+					RestVariable selfDoLoan = new RestVariable();
+					selfDoLoan.setName("selfDoLoan");
+					selfDoLoan.setValue("false");
+					variables.add(selfDoLoan);
+				}else{//贷款的变量在这里设置
+					RestVariable selfDoLoan = new RestVariable();
+					selfDoLoan.setName("selfDoLoan");
+					selfDoLoan.setValue("true");
+					variables.add(selfDoLoan);
+				}							
+//				如果有过户权证便添加到流程变量
+				ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
+				toCaseParticipant.setCaseCode(caseCode);
+				toCaseParticipant.setPosition("warrant");
+				List<ToCaseParticipant> participantList = toCaseParticipantMapper.selectByCondition(toCaseParticipant);
+				if(participantList.size()==1){
+					RestVariable warrant = new RestVariable();
+					warrant.setName("warrant");
+					ToCaseParticipant toCaseParticipant2 = participantList.get(0);			
+					warrant.setValue(toCaseParticipant2.getUserName());
+					variables.add(warrant);
+				}else{
+					return 0;
+				}					
+				ToCase toCase2 = toCaseService.findToCaseByCaseCode(caseCode);
+				if(workFlowManager.submitTask(variables, String.valueOf(taskVo.getId()), taskVo.getProcessInstanceId(),
+						toCase2.getLeadingProcessId(), caseCode)
+						){
+					return 1;
+				}else{
+					return 0;
+				}
 			}
-						
-//			如果有过户权证便添加到流程变量
-			ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
-			toCaseParticipant.setCaseCode(caseCode);
-			toCaseParticipant.setPosition("warrant");
-			List<ToCaseParticipant> participantList = toCaseParticipantMapper.selectByCondition(toCaseParticipant);
-			if(participantList.size()==1){
-				RestVariable warrant = new RestVariable();
-				warrant.setName("warrant");
-				ToCaseParticipant toCaseParticipant2 = participantList.get(0);			
-				warrant.setValue(toCaseParticipant2.getUserName());
-				variables.add(warrant);
-			}else{
-				return 0;
-			}					
-			ToCase toCase2 = toCaseService.findToCaseByCaseCode(caseCode);
-			if(workFlowManager.submitTask(variables, String.valueOf(taskVo.getId()), taskVo.getProcessInstanceId(),
-					toCase2.getLeadingProcessId(), caseCode)
-					){
-				return 1;
-			}else{
-				return 0;
-			}
-		}
-		return result;
+			return result;
+			//调用流程引擎 设置网关判断参数 完成环节 by:yinchao 2017-9-26
+			// List<RestVariable> variables = new ArrayList<>();
+			// variables.add(new RestVariable("caseApprove",true));
+			// //驳回使用下面的设置参数
+			// variables.add(new RestVariable("caseApprove",false));
+		}else{
+			return 0;
+		}				
 	}
-
-	
+	/**
+	 * 
+	 * @since:2017年9月26日 下午3:58:30
+	 * @description:接单审核通过后 修改状态，返回接单列表页面；
+	 * @author:xiefei1
+	 * @return	
+	 * WJD("30001001", "未接单"),
+	 * YJD("30001002", "已接单"),
+	 * 
+	 */
+	@Override
+	public int returnCaseToCCAI(String caseCode,String returnReason,String returnComment) {
+		// TODO Auto-generated method stub
+		SessionUser user = uamSessionService.getSessionUser();
+		//先通知CCAI 返回结果为true再更新案件状态
+//		<option value="1">权证专员错误</option>
+//		<option value="2">附件错误</option>
+		FlowFeedBack info;
+		if(returnReason.contains("2")){
+			 info = new FlowFeedBack(user, CcaiFlowResultEnum.SUPPLEMENT,user.getRealName());			
+		}else{
+			 info = new FlowFeedBack(user, CcaiFlowResultEnum.BACK,user.getRealName());
+		}
+		ApiResultData apiResult = flowApiService.tradeFeedBackCcai(caseCode, CcaiTaskEnum.TRADE_WARRANT_MANAGER,info);
+		if(apiResult.isSuccess()){
+			ToCase toCase = new ToCase();
+			toCase.setStatus(CaseStatusEnum.YJD.getCode());
+			toCase.setCaseCode(caseCode);
+			int result = toCaseService.updateByCaseCodeSelective(toCase);
+			/* 流程引擎相关  生成网签任务*/
+			//根据caseCode查出taskVo和ProcessInstanceId,因为设置案件审核的assignee(auditManagerAssignee)需要ProcessInstanceId；
+			TaskQuery taskQuery = new TaskQuery();
+			taskQuery.setProcessInstanceBusinessKey(caseCode);
+			taskQuery.setTaskDefinitionKey("warrantManagerAudit");
+			PageableVo listTasks = workFlowManager.listTasks(taskQuery);
+			if (listTasks.getData().size() > 0) {
+				TaskVo taskVo = (TaskVo) listTasks.getData().get(0);
+				List<RestVariable> variables = new ArrayList<RestVariable>();
+//				把审核通过添加到流程变量
+				RestVariable caseApprove = new RestVariable();
+				caseApprove.setName("caseApprove");
+				caseApprove.setValue(true);
+				variables.add(caseApprove);
+//				如果有贷款权证便添加到流程变量
+				ToCaseParticipant loantoCaseParticipant = new ToCaseParticipant();
+				loantoCaseParticipant.setCaseCode(caseCode);
+				loantoCaseParticipant.setPosition("loan");
+				List<ToCaseParticipant> loanparticipantList = toCaseParticipantMapper.selectByCondition(loantoCaseParticipant);			
+				if(loanparticipantList.size()==1){
+					RestVariable loan = new RestVariable();
+					loan.setName("loan");
+					ToCaseParticipant toCaseParticipant2 = loanparticipantList.get(0);			
+					loan.setValue(toCaseParticipant2.getUserName());
+					variables.add(loan);
+					
+					RestVariable selfDoLoan = new RestVariable();
+					selfDoLoan.setName("selfDoLoan");
+					selfDoLoan.setValue("false");
+					variables.add(selfDoLoan);
+				}else{//贷款的变量在这里设置
+					RestVariable selfDoLoan = new RestVariable();
+					selfDoLoan.setName("selfDoLoan");
+					selfDoLoan.setValue("true");
+					variables.add(selfDoLoan);
+				}							
+//				如果有过户权证便添加到流程变量
+				ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
+				toCaseParticipant.setCaseCode(caseCode);
+				toCaseParticipant.setPosition("warrant");
+				List<ToCaseParticipant> participantList = toCaseParticipantMapper.selectByCondition(toCaseParticipant);
+				if(participantList.size()==1){
+					RestVariable warrant = new RestVariable();
+					warrant.setName("warrant");
+					ToCaseParticipant toCaseParticipant2 = participantList.get(0);			
+					warrant.setValue(toCaseParticipant2.getUserName());
+					variables.add(warrant);
+				}else{
+					return 0;
+				}					
+				ToCase toCase2 = toCaseService.findToCaseByCaseCode(caseCode);
+				if(workFlowManager.submitTask(variables, String.valueOf(taskVo.getId()), taskVo.getProcessInstanceId(),
+						toCase2.getLeadingProcessId(), caseCode)
+						){
+					return 1;
+				}else{
+					return 0;
+				}
+			}
+			return result;
+			//调用流程引擎 设置网关判断参数 完成环节 by:yinchao 2017-9-26
+			// List<RestVariable> variables = new ArrayList<>();
+			// variables.add(new RestVariable("caseApprove",true));
+			// //驳回使用下面的设置参数
+			// variables.add(new RestVariable("caseApprove",false));
+		}else{
+			return 0;
+		}
+	}	
 }

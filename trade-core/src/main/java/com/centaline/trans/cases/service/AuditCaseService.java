@@ -24,5 +24,7 @@ public interface AuditCaseService {
     public String getLeaderUserName(ToCaseParticipant toCaseParticipant);
 
 	int updateAuditCaseSuccess(String caseCode);
+//	驳回到CCAI,返回成功与否
+	public int returnCaseToCCAI(String caseCode,String returnReason,String returnComment);
     
 }

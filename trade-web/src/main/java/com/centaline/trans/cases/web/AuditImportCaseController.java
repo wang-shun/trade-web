@@ -112,10 +112,10 @@ public class AuditImportCaseController {
 	 * YJD("30001002", "已接单"),
 	 * 
 	 */
-	@RequestMapping(value = "auditSuccess")
+	/*@RequestMapping(value = "auditSuccess")
 	public String AuditSuccess(String caseCode){
 		SessionUser user = uamSessionService.getSessionUser();
-		FlowFeedBack info = new FlowFeedBack(user, CcaiFlowResultEnum.SUCCESS,"");
+		FlowFeedBack info = new FlowFeedBack(user, CcaiFlowResultEnum.SUCCESS,user.getRealName());
 		//先通知CCAI 返回结果为true再更新案件状态
 		ApiResultData result = flowApiService.tradeFeedBackCcai(caseCode, CcaiTaskEnum.TRADE_WARRANT_MANAGER,info);
 		if(result.isSuccess()){
@@ -125,15 +125,22 @@ public class AuditImportCaseController {
 			// toCase.setStatus(CaseStatusEnum.BHCCAI.getCode());
 			toCase.setCaseCode(caseCode);
 			toCaseService.updateByCaseCodeSelective(toCase);
+			//auditCaseService.
 			//调用流程引擎 设置网关判断参数 完成环节 by:yinchao 2017-9-26
 			// List<RestVariable> variables = new ArrayList<>();
 			// variables.add(new RestVariable("caseApprove",true));
 			// //驳回使用下面的设置参数
 			// variables.add(new RestVariable("caseApprove",false));
 		}
-
-		return "forward:"+"/AuditImportCase/list";
-		
+		return "forward:"+"/AuditImportCase/list";		
+	}*/
+	@RequestMapping(value = "auditSuccess")
+	public String AuditSuccess(String caseCode){
+		if(auditCaseService.updateAuditCaseSuccess(caseCode)==1){
+			return "forward:"+"/AuditImportCase/list";			
+		}else{
+			throw new BusinessException("审核案件通过失败！");
+		}
 	}
 	/**
 	 * 

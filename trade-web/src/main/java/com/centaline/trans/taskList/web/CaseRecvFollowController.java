@@ -83,6 +83,7 @@ public class CaseRecvFollowController {
 		}else{
 			variables.add(new RestVariable("selfDoLoan",false));
 		}
+		//设置权证经理审核assignee
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		Boolean flag = workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(), caseCode);
 		if(!flag){
