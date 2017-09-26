@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.centaline.trans.cases.repository.ToCaseInfoMapper;
 import com.centaline.trans.eloan.entity.ToAppRecordInfo;
 import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 import com.centaline.trans.eloan.repository.ToAppRecordInfoMapper;
@@ -25,9 +26,14 @@ public class ToSelfAppInfoServiceImp implements ToSelfAppInfoService {
 	
 	@Autowired
 	private ToAppRecordInfoMapper toAppRecordInfoMapper;
-
+	
+	@Autowired
+	private ToCaseInfoMapper toCaseInfoMapper;
+	
 	@Override
 	public void addSelfAppInfo(ToSelfAppInfo toSelfAppInfo) {
+		String caseCode = toCaseInfoMapper.findcaseCodeByCcaiCode(toSelfAppInfo.getCcaiCode());
+		toSelfAppInfo.setCaseCode(caseCode);
 		Long count = toSelfAppInfoMapper.insertSelfAppInfo(toSelfAppInfo);
 		List<ToAppRecordInfo> list = toSelfAppInfo.getTasks();
 		for (ToAppRecordInfo toAppRecordInfo : list) {
