@@ -15,7 +15,7 @@
 		<result column="credit" property="credit" jdbcType="VARCHAR"/>
 		<result column="agentName" property="agentName" jdbcType="VARCHAR"/>
 		<result column="agentPhone" property="agentPhone" jdbcType="VARCHAR"/>
-		<result column="leadingProcessId" property="leadingProcessId"jdbcType="VARCHAR"/>
+		<result column="leadingProcessId" property="leadingProcessId" jdbcType="VARCHAR"/>
 		<result column="interViewMoney" property="interViewMoney" jdbcType="DECIMAL"/>
 		<result column="repayLoanMoney" property="repayLoanMoney" jdbcType="DECIMAL"/>
 		<result column="interest" property="interest" jdbcType="DECIMAL"/>
