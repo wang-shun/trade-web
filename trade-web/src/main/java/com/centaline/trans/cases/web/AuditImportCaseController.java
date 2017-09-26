@@ -3,16 +3,18 @@ package com.centaline.trans.cases.web;
 
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import com.centaline.trans.api.service.FlowApiService;
+import com.centaline.trans.api.vo.ApiResultData;
+import com.centaline.trans.api.vo.FlowFeedBack;
+import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.common.enums.CcaiFlowResultEnum;
+import com.centaline.trans.common.enums.CcaiTaskEnum;
+import com.centaline.trans.engine.bean.RestVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -71,9 +73,13 @@ public class AuditImportCaseController {
 	
 	@Autowired
 	private UamUserOrgService uamUserOrgServiceClient;
-	
+
 	@Autowired
 	private WorkFlowManager workFlowManager;
+	//CCAI交互服务
+	@Autowired
+	private FlowApiService flowApiService;
+
 	
 	/**
 	 * 
@@ -88,17 +94,11 @@ public class AuditImportCaseController {
 	 */
 	@RequestMapping(value = "addLoanProcessor")
 	public String addLoanProcessor(HttpServletRequest request, String caseCode,String loanProcessor) {
-//		添加贷款专员
 		int addLoanProcessor = auditCaseService.addLoanProcessor(loanProcessor, caseCode);
 		if(addLoanProcessor==0){
 			throw new BusinessException("请求页面跳转异常啦，请稍后再试！");
 		}
-//		审核案件通过
-		if(auditCaseService.updateAuditCaseSuccess(caseCode)==1){
-			return "forward:"+"/AuditImportCase/list";			
-		}else{
-			throw new BusinessException("审核案件通过失败！");
-		}
+		return "forward:"+"/AuditImportCase/list";
 	}
 
 	
@@ -114,11 +114,25 @@ public class AuditImportCaseController {
 	 */
 	@RequestMapping(value = "auditSuccess")
 	public String AuditSuccess(String caseCode){
-		if(auditCaseService.updateAuditCaseSuccess(caseCode)==1){
-			return "forward:"+"/AuditImportCase/list";			
-		}else{
-			throw new BusinessException("审核案件通过失败！");
+		SessionUser user = uamSessionService.getSessionUser();
+		FlowFeedBack info = new FlowFeedBack(user, CcaiFlowResultEnum.SUCCESS,"");
+		//先通知CCAI 返回结果为true再更新案件状态
+		ApiResultData result = flowApiService.tradeFeedBackCcai(caseCode, CcaiTaskEnum.TRADE_WARRANT_MANAGER,info);
+		if(result.isSuccess()){
+			ToCase toCase = new ToCase();
+			toCase.setStatus(CaseStatusEnum.YJD.getCode());
+			//驳回状态 驳回使用
+			// toCase.setStatus(CaseStatusEnum.BHCCAI.getCode());
+			toCase.setCaseCode(caseCode);
+			toCaseService.updateByCaseCodeSelective(toCase);
+			//调用流程引擎 设置网关判断参数 完成环节 by:yinchao 2017-9-26
+			// List<RestVariable> variables = new ArrayList<>();
+			// variables.add(new RestVariable("caseApprove",true));
+			// //驳回使用下面的设置参数
+			// variables.add(new RestVariable("caseApprove",false));
 		}
+
+		return "forward:"+"/AuditImportCase/list";
 		
 	}
 	/**

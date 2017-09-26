@@ -1,23 +1,11 @@
 package com.centaline.trans.taskList.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.cases.entity.ToCase;
-import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.entity.ToCaseRecv;
 import com.centaline.trans.cases.service.AuditCaseService;
 import com.centaline.trans.cases.service.CaseRecvService;
@@ -27,12 +15,19 @@ import com.centaline.trans.comment.entity.ToCaseComment;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.PageableVo;
-import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.task.entity.ToSign;
 import com.centaline.trans.task.entity.ToTax;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/task/caseRecvFollow")
@@ -54,7 +49,7 @@ public class CaseRecvFollowController {
 	@ResponseBody
 	public HashMap<String, String> submit(HttpServletRequest request, String caseCode, ToPropertyInfo toPropertyInfo, ToSign toSign,
 			ToCaseRecv toCaseRecv, String payType, ToTax toTax, ToCaseComment toCaseComment, String content,
-			String businessLoanWarn) {
+			String businessLoanWarn,String taskId,String processInstanceId) {
 		SessionUser user = uamSessionService.getSessionUser();
 //		提交保存
 		HashMap<String, String> hashMap = new HashMap<String,String>();
@@ -79,42 +74,59 @@ public class CaseRecvFollowController {
 		caseRecvService.insertSelective(caseRecvVO);
 		
 		hashMap.put("message", "success");
-		
-		//根据caseCode查出taskVo和ProcessInstanceId,因为设置案件审核的assignee(auditManagerAssignee)需要ProcessInstanceId；
-		TaskQuery taskQuery = new TaskQuery();
-		taskQuery.setProcessInstanceBusinessKey(caseCode);
-		PageableVo listTasks = workFlowManager.listTasks(taskQuery);
-		if (listTasks.getData().size() > 0) {
-			TaskVo taskVo = (TaskVo) listTasks.getData().get(0);
-			System.out.println("getProcessInstanceId:" + taskVo.getProcessInstanceId());
-			ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
-			/* 流程引擎相关 */
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-//			接单跟进中的payType决定流程是走贷款选择还是贷款挽回
-			RestVariable selfDoLoan = new RestVariable();
-			if(payType.contains("自办贷款")){
-				selfDoLoan.setName("selfDoLoan");
-				selfDoLoan.setValue("true");				
-			}else{
-				selfDoLoan.setName("selfDoLoan");
-				selfDoLoan.setValue("false");
-			}
-//			为权证经理审核添加assignee
-			RestVariable restVariable = new RestVariable();
-			restVariable.setName("auditManagerAssignee");
-			ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
-			toCaseParticipant.setCaseCode(caseCode);
-			toCaseParticipant.setUserName(user.getUsername());
-			toCaseParticipant.setPosition("warrant");
-			String leaderUserName = auditCaseService.getLeaderUserName(toCaseParticipant);				
-			restVariable.setValue(leaderUserName);
-			variables.add(restVariable);
-			Boolean flag = workFlowManager.submitTask(variables, String.valueOf(taskVo.getId()), taskVo.getProcessInstanceId(),toCase.getLeadingProcessId(), caseCode);
-			if(!flag){
-				hashMap.put("message", "提交任务失败！");
-			}
+
+		//案件启动已设置好流程相应办理人信息，该处不用再进行设置,任务ID及实例ID页面隐藏域有传入 by:yinchao 2017-9-26
+		List<RestVariable> variables = new ArrayList<>();
+		//设置参数 自办贷款
+		if(payType.contains("自办贷款")){
+			variables.add(new RestVariable("selfDoLoan",true));
+		}else{
+			variables.add(new RestVariable("selfDoLoan",false));
+		}
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+		Boolean flag = workFlowManager.submitTask(variables, taskId, processInstanceId,toCase.getLeadingProcessId(), caseCode);
+		if(!flag){
+			hashMap.put("message", "提交任务失败！");
 		}
 		return hashMap;
+
+		//注释by:yinchao 案件启动已设置好流程相应办理人信息，该处不用再进行设置 by:yinchao 2017-9-26
+
+		//根据caseCode查出taskVo和ProcessInstanceId,因为设置案件审核的assignee(auditManagerAssignee)需要ProcessInstanceId；
+// 		TaskQuery taskQuery = new TaskQuery();
+// 		taskQuery.setProcessInstanceBusinessKey(caseCode);
+// 		PageableVo listTasks = workFlowManager.listTasks(taskQuery);
+// 		if (listTasks.getData().size() > 0) {
+// 			TaskVo taskVo = (TaskVo) listTasks.getData().get(0);
+// 			System.out.println("getProcessInstanceId:" + taskVo.getProcessInstanceId());
+// 			ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+// 			/* 流程引擎相关 */
+// 			List<RestVariable> variables = new ArrayList<RestVariable>();
+// //			接单跟进中的payType决定流程是走贷款选择还是贷款挽回
+// 			RestVariable selfDoLoan = new RestVariable();
+// 			if(payType.contains("自办贷款")){
+// 				selfDoLoan.setName("selfDoLoan");
+// 				selfDoLoan.setValue("true");
+// 			}else{
+// 				selfDoLoan.setName("selfDoLoan");
+// 				selfDoLoan.setValue("false");
+// 			}
+// //			为权证经理审核添加assignee
+// 			RestVariable restVariable = new RestVariable();
+// 			restVariable.setName("auditManagerAssignee");
+// 			ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
+// 			toCaseParticipant.setCaseCode(caseCode);
+// 			toCaseParticipant.setUserName(user.getUsername());
+// 			toCaseParticipant.setPosition("warrant");
+// 			String leaderUserName = auditCaseService.getLeaderUserName(toCaseParticipant);
+// 			restVariable.setValue(leaderUserName);
+// 			variables.add(restVariable);
+// 			Boolean flag = workFlowManager.submitTask(variables, String.valueOf(taskVo.getId()), taskVo.getProcessInstanceId(),toCase.getLeadingProcessId(), caseCode);
+// 			if(!flag){
+// 				hashMap.put("message", "提交任务失败！");
+// 			}
+// 		}
+// 		return hashMap;
 	}
 	
 	@RequestMapping(value="process")

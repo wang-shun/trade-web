@@ -8,8 +8,9 @@ package com.centaline.trans.common.enums;
 public enum CcaiFlowResultEnum {
 	SUCCESS("通过",1),
 	//回到前一环节
-	BACK("驳回",0),
-	//终止流程?
+	BACK("驳回修改",2),
+	SUPPLEMENT("补充资料",3),
+	//终止流程
 	FAILURE("拒绝",-1);
 
 	private String name;

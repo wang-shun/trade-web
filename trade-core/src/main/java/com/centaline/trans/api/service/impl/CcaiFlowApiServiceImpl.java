@@ -1,6 +1,7 @@
 package com.centaline.trans.api.service.impl;
 
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.api.service.ApiService;
 import com.centaline.trans.api.service.FlowApiService;
 import com.centaline.trans.api.vo.ApiResultData;
@@ -53,7 +54,7 @@ public class CcaiFlowApiServiceImpl extends ApiService implements FlowApiService
 	private ApiResultData toCcai(String applyId,CcaiTaskEnum task, FlowFeedBack info){
 		if(serviceIsEnable()){
 			//TODO 校验信息 等待天津测试地址
-			String url = getServiceAddress()+"";
+			String url = getServiceAddress()+"/CCAIData/PostFlowInfo";
 			SessionUser user = info.getUser();
 			CcaiFeedBack post = new CcaiFeedBack();
 			post.setApplyId(applyId);
