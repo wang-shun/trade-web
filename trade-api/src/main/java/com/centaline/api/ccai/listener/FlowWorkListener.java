@@ -72,7 +72,6 @@ public class FlowWorkListener {
 
 	@JmsListener(destination = caseQueueName)
 	public void mqCaseOpertation(Message msg){
-		System.out.println("-------------------in mq ----------------------");
 		if(msg==null) return;
 		try {
 			if(msg instanceof ObjectMessage){

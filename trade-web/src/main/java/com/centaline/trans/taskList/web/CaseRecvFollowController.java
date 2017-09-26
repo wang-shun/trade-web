@@ -77,11 +77,16 @@ public class CaseRecvFollowController {
 
 		//案件启动已设置好流程相应办理人信息，该处不用再进行设置,任务ID及实例ID页面隐藏域有传入 by:yinchao 2017-9-26
 		List<RestVariable> variables = new ArrayList<>();
-		//设置参数 自办贷款
+		//设置参数 自办贷款 添加是否需要贷款
 		if(payType.contains("自办贷款")){
 			variables.add(new RestVariable("selfDoLoan",true));
+			variables.add(new RestVariable("hasLoan",true));
+		}else if(payType.contains("一次性付款")){
+			variables.add(new RestVariable("selfDoLoan",false));
+			variables.add(new RestVariable("hasLoan",false));
 		}else{
 			variables.add(new RestVariable("selfDoLoan",false));
+			variables.add(new RestVariable("hasLoan",true));
 		}
 		//设置权证经理审核assignee
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);

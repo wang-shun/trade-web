@@ -434,7 +434,7 @@ function checkForm() {
 		                <div class="line">
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>所在区域 </label>
-                                <aist:dict clazz="select_control data_style" id="distCode" name="distCode" display="select" defaultvalue="${caseRecvVO.toPropertyInfo.distCode}" dictType="yu_shanghai_district" />
+								 <aist:dict clazz="select_control data_style" id="distCode" name="distCode" display="select" defaultvalue="${caseRecvVO.toPropertyInfo.distCode}" parentCode="${sessionScope.SESSION_USER.cityCode}" dictType="UAM_CITY" />
 		                     </div>
 		                     
 		                    <div class="form_content">
