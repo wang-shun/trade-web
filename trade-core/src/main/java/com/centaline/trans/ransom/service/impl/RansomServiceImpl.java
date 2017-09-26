@@ -1,4 +1,4 @@
-package com.centaline.trans.ransom.serviceImpl;
+package com.centaline.trans.ransom.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
@@ -29,6 +30,7 @@ import com.centaline.trans.ransom.service.RansomService;
  *
  */
 @Service
+@Transactional
 public class RansomServiceImpl implements RansomService{
 
 	@Autowired
