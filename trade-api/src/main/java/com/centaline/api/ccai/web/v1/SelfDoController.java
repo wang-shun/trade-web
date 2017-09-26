@@ -4,11 +4,13 @@ import com.centaline.api.ccai.vo.EvalRefundImport;
 import com.centaline.api.ccai.vo.SelfDoImport;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import com.centaline.api.common.web.AbstractBaseController;
+import com.centaline.trans.eloan.service.ToSelfAppInfoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,8 @@ import javax.validation.Validator;
 @RestController
 @RequestMapping(value = "/api/ccai/v1")
 public class SelfDoController extends AbstractBaseController {
+	@Autowired
+	ToSelfAppInfoService toSelfAppInfoService;
 
 	@ApiOperation(value = "变更为自办申请同步", notes = "CCAI发起的自办贷款/自办评估流程，经过部门逐级审批同意后，调用该接口将信息同步至交易系统，由权证进行后续处理", produces = "application/json,application/json;charset=UTF-8")
 	@RequestMapping(value="/selfdo/sync",method = RequestMethod.POST,produces = {"application/json", "application/json;charset=UTF-8"})

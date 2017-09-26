@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.common.repository.MqOpertationLogMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.common.entity.MqOpertationLog" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="QUEUE_NAME" property="queueName" jdbcType="VARCHAR" />
+    <result column="MESSAGE" property="message" jdbcType="VARCHAR" />
+    <result column="OPERTATION" property="opertation" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ERRMSG" property="errmsg" jdbcType="VARCHAR" />
+    <result column="OPERTATION_TIME" property="opertationTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, QUEUE_NAME, MESSAGE, OPERTATION, STATUS, ERRMSG, OPERTATION_TIME, CREATE_TIME, 
+    CREATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_MQ_OPERTATION_LOG
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_MQ_OPERTATION_LOG
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.common.entity.MqOpertationLog" >
+    insert into sctrans.T_MQ_OPERTATION_LOG (PKID, QUEUE_NAME, MESSAGE, 
+      OPERTATION, STATUS, ERRMSG, 
+      OPERTATION_TIME, CREATE_TIME, CREATE_BY
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{queueName,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, 
+      #{opertation,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{errmsg,jdbcType=VARCHAR}, 
+      #{opertationTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.common.entity.MqOpertationLog" >
+    insert into sctrans.T_MQ_OPERTATION_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="queueName != null" >
+        QUEUE_NAME,
+      </if>
+      <if test="message != null" >
+        MESSAGE,
+      </if>
+      <if test="opertation != null" >
+        OPERTATION,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="errmsg != null" >
+        ERRMSG,
+      </if>
+      <if test="opertationTime != null" >
+        OPERTATION_TIME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="queueName != null" >
+        #{queueName,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="opertation != null" >
+        #{opertation,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="errmsg != null" >
+        #{errmsg,jdbcType=VARCHAR},
+      </if>
+      <if test="opertationTime != null" >
+        #{opertationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.common.entity.MqOpertationLog" >
+    update sctrans.T_MQ_OPERTATION_LOG
+    <set >
+      <if test="queueName != null" >
+        QUEUE_NAME = #{queueName,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        MESSAGE = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="opertation != null" >
+        OPERTATION = #{opertation,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="errmsg != null" >
+        ERRMSG = #{errmsg,jdbcType=VARCHAR},
+      </if>
+      <if test="opertationTime != null" >
+        OPERTATION_TIME = #{opertationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.common.entity.MqOpertationLog" >
+    update sctrans.T_MQ_OPERTATION_LOG
+    set QUEUE_NAME = #{queueName,jdbcType=VARCHAR},
+      MESSAGE = #{message,jdbcType=VARCHAR},
+      OPERTATION = #{opertation,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ERRMSG = #{errmsg,jdbcType=VARCHAR},
+      OPERTATION_TIME = #{opertationTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>
