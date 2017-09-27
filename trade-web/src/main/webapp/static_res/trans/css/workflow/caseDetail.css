@@ -267,6 +267,10 @@ p.title {
   height: 214px;
 }
 
+.ibox-text-two {
+  height: 160px;
+}
+
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
   color: #555 !important;
   cursor: default !important;

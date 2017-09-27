@@ -259,6 +259,9 @@ p.title {
 .ibox-text {
   height: 214px;
 }
+.ibox-text-two {
+   height: 150px;
+}
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
   color: #555 !important;
