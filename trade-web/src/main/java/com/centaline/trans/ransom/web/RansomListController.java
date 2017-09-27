@@ -85,7 +85,7 @@ public class RansomListController {
 	@RequestMapping(value="addRansom1")
 	@ResponseBody
 	public String addRansom1(Model model,
-			@RequestBody AddRansomForm[] jsonStr,
+			@RequestParam("jsonStr") String jsonStr,
 			ServletRequest request,HttpServletResponse response){
 		
 		String result = "-1";

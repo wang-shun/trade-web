@@ -121,38 +121,30 @@ table tbody select, input {
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	
 	<div id="wrapper">
 		<form id="extraInfo">
 			<%-- 流程相关 --%>
-			<input type="hidden" id="caseCode" name="caseCode"
-				value="${caseCode}"> <input type="hidden" id="taskId"
-				name="taskId" value="${taskId }"> <input type="hidden"
-				id="taskitem" name="taskitem" value="${taskitem }"> <input
-				type="hidden" id="instCode" name="instCode" value="${instCode}">
+			<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}"> 
+			<input type="hidden" id="taskId" name="taskId" value="${taskId }"> 
+			<input type="hidden" id="taskitem" name="taskitem" value="${taskitem }"> 
+			<input type="hidden" id="instCode" name="instCode" value="${instCode}">
 			<input type="hidden" id="source" name="source" value="${source}">
 			<input type="hidden" id="urlType" name="urlType" value="${urlType}">
-			<input type="hidden" name="spvCode"
-				value="${spvBaseInfoVO.toSpv.spvCode }" />
+			<input type="hidden" name="spvCode" value="${spvBaseInfoVO.toSpv.spvCode }" />
 		</form>
 
 		<!-- main Start -->
 		<div class="row">
 			<div class="wrapper wrapper-content animated fadeInUp">
 				<!-- <div class="ibox"> -->
-				<c:if
-					test="${empty handle or handle eq 'SpvApply' or handle eq 'SpvAudit'}">
+				<c:if test="${empty handle or handle eq 'SpvApply' or handle eq 'SpvAudit'}">
 					<div class="ibox-content" id="case_info">
 						<div class="main_titile" style="position: relative;">
-
-							<h5>
-								关联案件
-								<button type="button" id="link_btn"
-									class="btn btn-success btn-blue" data-toggle="modal"
-									data-target="#myModal" onClick="showPop();">关联案件</button>
+							<h5>关联案件
+								<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal" onClick="showPop();">关联案件</button>
 							</h5>
-							<div class="case_content"
-								${empty caseCode?'style="display:none;"':''}>
-
+							<div class="case_content" ${empty caseCode?'style="display:none;"':''}>
 								<div class="case_row">
 									<div class="case_lump">
 										<p>
@@ -200,26 +192,22 @@ table tbody select, input {
 										<div class="modal_title">监管合约关联案件</div>
 										<div class="line">
 											<div class="form_content">
-												<label class="control-label mr10"> 案件编码 </label> <input
-													class="teamcode input_type" value="" placeholder="请输入"
-													id="caseCodet" name="caseCodet">
+												<label class="control-label mr10"> 案件编码 </label> 
+												<input class="teamcode input_type" value="" placeholder="请输入" id="caseCodet" name="caseCodet">
 											</div>
 											<div class="form_content">
-												<label class="control-label sign_left"> 产证地址 </label> <input
-													class="input_type" value="" placeholder="请输入"
-													style="width: 435px;" id="propertyAddr" name="propertyAddr">
+												<label class="control-label sign_left"> 产证地址 </label> 
+												<input class="input_type" value="" placeholder="请输入" style="width: 435px;" id="propertyAddr" name="propertyAddr">
 											</div>
 										</div>
 										<div class="line">
 											<div class="form_content">
-												<label class="control-label mr10"> 上家姓名 </label> <input
-													class="teamcode input_type" value="" placeholder="请输入"
-													id="caseNamet" name="caseNamet">
+												<label class="control-label mr10"> 上家姓名 </label> 
+												<input class="teamcode input_type" value="" placeholder="请输入" id="caseNamet" name="caseNamet">
 											</div>
 											<div class="form_content space">
 												<div class="add_btn">
-													<button type="button" class="btn btn-success"
-														id="searchButton">
+													<button type="button" class="btn btn-success" id="searchButton">
 														<i class="icon iconfont"></i> 查询
 													</button>
 
@@ -243,7 +231,7 @@ table tbody select, input {
 				<!-- <div class="ibox"> -->
 				<!-- value待修改  此处只是copy   saveSpvCase.jsp  样式 -->
 				<div class="ibox-content" id="base_info">
-					<form class="form-inline">
+					<form class="form-inline" id="guestInfo">
 						<input type="hidden" id="handle" name="handle" value="${handle }">
 						<div class="title">客户信息</div>
 						<div class="form-row form-rowbot clear">
@@ -252,29 +240,27 @@ table tbody select, input {
 									value="${spvBaseInfoVO.spvCustList[0].pkid }" /> <input
 									type="hidden" name="spvCustList[0].tradePosition" value="BUYER" />
 								<label for="" class="lable-one"><i style="color: red;">*</i>主贷人姓名</label>
-								<input name="spvCustList[1].name"
+								<input name="spvCustList[1].name" id="custName" disabled
 									value="${not empty spvBaseInfoVO.spvCustList[1].name?spvBaseInfoVO.spvCustList[1].name:caseInfoMap['sellerName'] }"
 									type="text" class="form-control input-one" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color: red;">*</i>
-									手机号码</label> <input name="spvCustList[1].phone"
+									手机号码</label> <input name="spvCustList[1].phone"  id="phone" disabled
 									value="${not empty spvBaseInfoVO.spvCustList[1].phone?spvBaseInfoVO.spvCustList[1].phone:caseInfoMap['sellerMobil'] }"
-									type="text" class="form-control input-one" placeholder="">
+									type="text" class="form-control input-one"placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color: red;">*</i>
-									受理时间</label> <input id="date-picker2" name="toSpv.signTime"
-									class="form-control input-one date-picker"
-									style="font-size: 13px;" type="text"
+								<label for="" class="lable-one"><i style="color: red;">*</i>受理时间</label> 
+								<input id="date-picker2" name="toSpv.signTime" class="form-control input-one date-picker"
+									style="font-size: 13px;" type="text" 
 									value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>"
 									placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color: red;">*</i>
-									计划申请时间</label> <input id="date-picker1" name="toSpv.signTime"
-									class="form-control input-one date-picker"
-									style="font-size: 13px;" type="text"
+								<label for="" class="lable-one"><i style="color: red;">*</i>计划申请时间</label> 
+								<input id="date-picker1" name="toSpv.signTime" class="form-control input-one date-picker"
+									style="font-size: 13px;" type="text" 
 									value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>"
 									placeholder="">
 							</div>
@@ -290,25 +276,28 @@ table tbody select, input {
 										<td>剩余金额</td>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td><select name="loanLostFinOrgName"
-											id="loanLostFinOrgName" class="teamcode select_control "></select>
+								<tbody id="tableInfo">
+									<tr id="trId0">
+										<td>
+											<aist:dict clazz="select_control yuanwid" id="finalOrg" name="finalOrg" display="select" 
+												defaultvalue="${toMortgage.mortType }" dictType="FINAL_ORG" />
 										</td>
-										<td><aist:dict id="mortType" name="mortType"
-												clazz=" select_control yuanwid " display="select"
-												dictType="30016" defaultvalue="${toMortgage.mortType }" />
+										<td>
+											<aist:dict id="finalType" name="finalType" clazz=" select_control yuanwid " display="select"
+												dictType="RETAINAGE_TYPE" defaultvalue="${toMortgage.mortType }" />
 										</td>
-										<td><aist:dict id="mortType" name="mortType"
-												clazz=" select_control yuanwid " display="select"
-												dictType="30016" defaultvalue="${toMortgage.mortType }" />
+										<td>
+											<aist:dict id="diyaType" name="diyaType" clazz=" select_control yuanwid " display="select"
+												dictType="DIYA_TYPE" defaultvalue="${toMortgage.mortType }" />
 										</td>
-										<td><input name="" value="" type="text"
-											class="form-control input-one" placeholder=""></td>
-										<td><input name="" value="" type="text"
-											class="form-control input-one" placeholder=""></td>
+										<td>
+											<input name="loanMoney" value="" type="text" class="form-control input-one" placeholder="贷款金额(单位：万元)" id="loanMoney">
+										</td>
+										<td>
+											<input name="restMoney" value="" onchange="changeRestMoney()" type="text" class="form-control input-one" placeholder="剩余金额(单位：万元)" id="restMoney">
+										</td>
 									</tr>
-								</tbody>
+								
 								<input type="hidden" id="addInput" />
 							</table>
 							<div id="addMoneyLine" class="input-group" style="">
@@ -318,27 +307,22 @@ table tbody select, input {
 							<div class="hr-line-dashed"></div>
 
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color: red;">*</i>
-									借款总金额</label> <input name="" value="" type="text"
-									class="form-control input-one" placeholder=""> <span>万</span>
+								<label for="" class="lable-one"><i style="color: red;">*</i>借款总金额</label> 
+								<input name="" value="" type="text" readOnly="readonly" class="form-control input-one" placeholder="" id="allLoanMoney" > 
+								<span>万</span>
 							</div>
 						</div>
 					</form>
 				</div>
-				<div class="ibox-content" id="spvthree_info">
-					<form class="form-inline">
-						<div class="title">案件跟进</div>
-						<div class="view-content">
-							<div id="caseCommentList"></div>
-						</div>
-					</form>
+				<div class="ibox-content">
+					<div class="view-content" id="caseCommentList"> </div>
 				</div>
 
 				<div class="ibox-content" id="spvfour_info">
 					<div class="form-btn">
 						<div>
-							<a id="submitBtn" class="btn btn-success">提交</a> <a
-								onclick="rescCallback()" class="btn btn-default">关闭</a>
+							<a id="submitBtn" class="btn btn-success">提交</a>
+							<a onclick="rescCallback()" class="btn btn-default">关闭</a>
 						</div>
 					</div>
 				</div>
@@ -347,56 +331,44 @@ table tbody select, input {
 		<!-- main End -->
 	</div>
 	<!-- Mainly scripts -->
-	<content tag="local_script"> <script
-		src="<c:url value='/static/js/plugins/toastr/toastr.min.js' />"></script>
-	<script src="<c:url value='/static/js/morris/morris.js' />"></script> <script
-		src="<c:url value='/static/js/morris/raphael-min.js' />"></script> <!-- index_js -->
-	<script
-		src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
-	<!-- 上传附件相关 --> <script
-		src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script> <script
-		src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
+	<content tag="local_script"> 
+	<script src="<c:url value='/static/js/plugins/toastr/toastr.min.js' />"></script>
+	<script src="<c:url value='/static/js/morris/morris.js' />"></script> 
+	<script src="<c:url value='/static/js/morris/raphael-min.js' />"></script> 
+	<!-- index_js -->
+	<script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	<!-- 上传附件相关 --> 
+	<script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script> 
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
 	<script src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script>
-	<script
-		src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script>
-	<script
-		src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload.js' />"></script>
-	<script
-		src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-fp.js' />"></script>
-	<script
-		src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-ui.js' />"></script>
-
+	<script src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-fp.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-ui.js' />"></script>
 	<script src="<c:url value='/js/trunk/JSPFileUpload/clockface.js' />"></script>
-	<script
-		src="<c:url value='/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js' />"></script>
-	<script
-		src="<c:url value='/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js' />"></script>
-	<script
-		src="<c:url value='/js/trunk/JSPFileUpload/jquery.multi-select.js' />"></script>
-
-	<script
-		src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
-	<script src="<c:url value='/js/trunk/ransom/addRansom.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.multi-select.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
+	<script src="<c:url value='/js/ransom/addRansom.js' />"></script>
 	<script src="<c:url value='/js/trunk/task/loanerProcessList.js' />"></script>
 	<script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script>
 	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script>
 	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>
-	<!-- 上传附件 结束 --> <!-- 附件保存修改相关 --> <script
-		src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+	<!-- 上传附件 结束 --> <!-- 附件保存修改相关 --> 
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
-	<!-- stickup plugin --> <script
-		src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
+	<!-- stickup plugin --> 
+	<script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
 	<script src="<c:url value='/js/jquery.editable-select.min.js' />"></script>
 	<%-- <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include> --%>
-	<script
-		src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
-	<script
-		src="<c:url value='/static/tbsp/js/userorg/userOrgSelect.js' />"
-		type="text/javascript"></script> <!-- 引入弹出框js文件 --> <script
-		src="<c:url value='/js/common/xcConfirm.js' />"></script> <script
-		src="<c:url value='/js/viewer/viewer.min.js' />"></script> <script
-		id="queryCastListItemList2" type="text/html">
+	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+	<script src="<c:url value='/static/tbsp/js/userorg/userOrgSelect.js' />" type="text/javascript"></script> 
+	<!-- 引入弹出框js文件 --> 
+	<script src="<c:url value='/js/common/xcConfirm.js' />"></script> 
+	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> 
+	<script id="queryCastListItemList2" type="text/html">
         {{each rows as item index}}
     	<tr>
         <td>
@@ -426,7 +398,6 @@ table tbody select, input {
             <p class="name">
                 <span>交易顾问：</span><a href="#" class="a_blue" id="modal_processorId{{index}}">{{item.FONT_NAME}}</a>
             </p>
-            
         </td>
         <td class="center">
             <p class="big">
@@ -447,257 +418,151 @@ table tbody select, input {
     {{/each}}		
 		</script> <script>
 			/**取最大索引 */
+			
 			var accTypeSum;//账户类型 
 
-			$(document)
-					.ready(
-							function() {
+			
+			$(document).ready(function() {
+				
+				$(".eloanApply-table").aistGrid({
+					ctx : "${ctx}",
+					queryId : 'queryCastListItemList',
+					templeteId : 'queryCastListItemList2',
+					rows : '6',
+					gridClass : 'table table_blue table-striped table-bordered table-hover',
+					data : '',
+					wrapperData : {
+						ctx : ctx
+					},
+					columns : [{
+						colName : "案件编号",
+						sortColumn : "CASE_CODE",
+						sord : "desc",
+						sortActive : true
+						},
+						{
+							colName : "产证地址"
+						},
+						{
+							colName : "工作人员"
+						}, {
+							colName : "上家"
+						}, {
+							colName : "下家"
+						}, {
+							colName : "操作"
+						} ]
 
-								$(".eloanApply-table")
-										.aistGrid(
-												{
-													ctx : "${ctx}",
-													queryId : 'queryCastListItemList',
-													templeteId : 'queryCastListItemList2',
-													rows : '6',
-													gridClass : 'table table_blue table-striped table-bordered table-hover',
-													data : '',
-													wrapperData : {
-														ctx : ctx
-													},
-													columns : [
-															{
-																colName : "案件编号",
-																sortColumn : "CASE_CODE",
-																sord : "desc",
-																sortActive : true
-															},
-															{
-																colName : "产证地址"
-															},
-															{
-																colName : "工作人员"
-															}, {
-																colName : "上家"
-															}, {
-																colName : "下家"
-															}, {
-																colName : "操作"
-															} ]
+				});
 
-												});
+			// 查询
+			$('#searchButton').click(function() {
+				reloadGrid();
+			});
 
-								// 查询
-								$('#searchButton').click(function() {
-									reloadGrid();
-								});
-
-								// 添加
-								$('#addNewCase').click(
-										function() {
-											window.location.href = ctx
-													+ "/caseMerge/addCase/spv";
-										});
-								// 提交新建赎楼单
-								$('#submitBtn')
-										.click(
-												function() {
-													window.location.href = ctx
-															+ "/ransomList/newRansom/myRansom_list";
-												});
-								// 关联案件
-								$('.eloanApply-table')
-										.on(
-												"click",
-												'.linkCase',
-												function() {
-													var index = $(this).attr(
-															"id");
-													$
-															.ajax({
-																url : ctx
-																		+ "/spv/queryByCaseCode",
-																method : "post",
-																dataType : "json",
-																data : {
-																	caseCode : $(
-																			"#modal_caseCode"
-																					+ index)
-																			.html()
-																},
-																beforeSend : function() {
-																	$
-																			.blockUI({
-																				message : $("#salesLoading"),
-																				css : {
-																					'border' : 'none',
-																					'z-index' : '9999'
-																				}
-																			});
-																	$(
-																			".blockOverlay")
-																			.css(
-																					{
-																						'z-index' : '9998'
-																					});
-																},
-																complete : function() {
-																	$
-																			.unblockUI();
-																	if (status == 'timeout') { //超时,status还有success,error等值的情况
-																		Modal
-																				.alert({
-																					msg : "抱歉，系统处理超时。"
-																				});
-																	}
-																},
-																success : function(
-																		data) {
-																	if (data.success) {
-																		var caseInfoMap = eval('('
-																				+ data.content
-																				+ ')');
-																		$(
-																				"#caseCode")
-																				.val(
-																						caseInfoMap['caseCode']);
-																		fileUpload
-																				.init({
-																					caseCode : $(
-																							'#caseCode')
-																							.val(),
-																					partCode : "SpvApplyApprove",
-																					fileUploadContainer : "fileUploadContainer",
-																					exclude : [ 'spv_contract' ]
-																				});
-
-																		$(
-																				"#content_caseCode")
-																				.html(
-																						caseInfoMap['caseCode']);
-																		$(
-																				"#content_propertyAddr")
-																				.html(
-																						caseInfoMap['propertyAddr']);
-																		$(
-																				"#content_processorId")
-																				.html(
-																						caseInfoMap['processorName']);
-																		$(
-																				"#content_seller")
-																				.html(
-																						caseInfoMap['sellerName']);
-																		$(
-																				"#content_agentName")
-																				.html(
-																						caseInfoMap['agentName']);
-																		$(
-																				"#content_buyer")
-																				.html(
-																						caseInfoMap['buyerName']);
-																		$(
-																				"input[name='toSpv.caseCode']")
-																				.val(
-																						caseInfoMap['caseCode']);
-
-																		if ($(
-																				"input[name='spvCustList[0].name']")
-																				.val() == '')
-																			$(
-																					"input[name='spvCustList[0].name']")
-																					.val(
-																							caseInfoMap['buyerName']
-																									.substr(
-																											0,
-																											caseInfoMap['buyerName']
-																													.indexOf("/") == -1 ? caseInfoMap['buyerName'].length
-																													: caseInfoMap['buyerName']
-																															.indexOf("/")));
-																		if ($(
-																				"input[name='spvCustList[0].phone']")
-																				.val() == '')
-																			$(
-																					"input[name='spvCustList[0].phone']")
-																					.val(
-																							caseInfoMap['buyerMobil']);
-																		if ($(
-																				"input[name='spvCustList[1].name']")
-																				.val() == '')
-																			$(
-																					"input[name='spvCustList[1].name']")
-																					.val(
-																							caseInfoMap['sellerName']
-																									.substr(
-																											0,
-																											caseInfoMap['sellerName']
-																													.indexOf("/") == -1 ? caseInfoMap['sellerName'].length
-																													: caseInfoMap['sellerName']
-																															.indexOf("/")));
-																		if ($(
-																				"input[name='spvCustList[1].phone']")
-																				.val() == '')
-																			$(
-																					"input[name='spvCustList[1].phone']")
-																					.val(
-																							caseInfoMap['sellerMobil']);
-																		if ($(
-																				"input[name='toSpvProperty.prOwnerName']")
-																				.val() == '')
-																			$(
-																					"input[name='toSpvProperty.prOwnerName']")
-																					.val(
-																							caseInfoMap['sellerName']
-																									.substr(
-																											0,
-																											caseInfoMap['sellerName']
-																													.indexOf("/") == -1 ? caseInfoMap['sellerName'].length
-																													: caseInfoMap['sellerName']
-																															.indexOf("/")));
-																		if ($(
-																				"input[name='toSpvProperty.prSize']")
-																				.val() == '')
-																			$(
-																					"input[name='toSpvProperty.prSize']")
-																					.val(
-																							caseInfoMap['propertySquare']);
-																		if ($(
-																				"input[name='toSpvProperty.prAddr']")
-																				.val() == '')
-																			$(
-																					"input[name='toSpvProperty.prAddr']")
-																					.val(
-																							caseInfoMap['propertyAddr']);
-
-																		$(
-																				'.case_content')
-																				.show();
-																		$(
-																				".close")
-																				.click();
-																		$(
-																				".modal-backdrop")
-																				.hide();
-
-																		//$('#myModal').modal('hide');
-																	} else {
-																		window.wxc
-																				.error("案件关联失败！");
-																	}
-
-																	$
-																			.unblockUI();
-																},
-																error : function(
-																		errors) {
-																	$
-																			.unblockUI();
-																	window.wxc
-																			.error("数据保存出错！");
-																}
-															});
-												});
+			// 添加
+			$('#addNewCase').click(function() {
+				window.location.href = ctx + "/caseMerge/addCase/spv";
+			});
+			
+			// 关联案件
+			$('.eloanApply-table').on("click",'.linkCase',function() {
+				var index = $(this).attr("id");
+				$.ajax({url : ctx + "/spv/queryByCaseCode",
+					method : "post",
+					dataType : "json",
+					data : {
+						caseCode : $("#modal_caseCode"+ index).html()
+					},
+					beforeSend : function() {
+						$.blockUI({message : $("#salesLoading"),
+							css : {
+								'border' : 'none',
+								'z-index' : '9999'
+							}
+						});
+						$(".blockOverlay").css({
+							'z-index' : '9998'
+						});
+					},
+					complete : function() {
+						$.unblockUI();
+						if (status == 'timeout') { //超时,status还有success,error等值的情况
+							Modal.alert({
+								msg : "抱歉，系统处理超时。"
+							});
+						}
+					},
+					success : function(data) {
+						if (data.success) {
+							var caseInfoMap = eval('('+ data.content + ')');
+							$("#caseCode").val(caseInfoMap['caseCode']);
+							fileUpload.init({
+								caseCode : $('#caseCode').val(),
+								partCode : "SpvApplyApprove",
+								fileUploadContainer : "fileUploadContainer",
+								exclude : [ 'spv_contract' ]
 							});
 
+							$("#content_caseCode").html(caseInfoMap['caseCode']);
+							$("#content_propertyAddr").html(
+								caseInfoMap['propertyAddr']);
+							$("#content_processorId").html(
+								caseInfoMap['processorName']);
+							$("#content_seller").html(
+								caseInfoMap['sellerName']);
+							$("#content_agentName").html(
+								caseInfoMap['agentName']);
+							$("#content_buyer").html(
+								caseInfoMap['buyerName']);
+							$("input[name='toSpv.caseCode']").val(
+								caseInfoMap['caseCode']);
+
+							if ($("input[name='spvCustList[0].name']").val() == '')
+								$("input[name='spvCustList[0].name']").val(
+												caseInfoMap['buyerName']
+												.substr(0,caseInfoMap['buyerName']
+												.indexOf("/") == -1 ? caseInfoMap['buyerName']
+												.length : caseInfoMap['buyerName']
+												.indexOf("/")));
+							if ($("input[name='spvCustList[0].phone']").val() == '')
+								$("input[name='spvCustList[0].phone']").val(caseInfoMap['buyerMobil']);
+							if ($("input[name='spvCustList[1].name']").val() == '')
+								$("input[name='spvCustList[1].name']").val(caseInfoMap['sellerName']
+												.substr(0,caseInfoMap['sellerName']
+												.indexOf("/") == -1 ? caseInfoMap['sellerName']
+												.length : caseInfoMap['sellerName']
+												.indexOf("/")));
+							if ($("input[name='spvCustList[1].phone']").val() == '')
+								$("input[name='spvCustList[1].phone']").val(caseInfoMap['sellerMobil']);
+							if ($("input[name='toSpvProperty.prOwnerName']").val() == '')
+								$("input[name='toSpvProperty.prOwnerName']").val(caseInfoMap['sellerName']
+												.substr(0,caseInfoMap['sellerName']
+												.indexOf("/") == -1 ? caseInfoMap['sellerName']
+												.length : caseInfoMap['sellerName']
+												.indexOf("/")));
+							if ($("input[name='toSpvProperty.prSize']").val() == '')
+								$("input[name='toSpvProperty.prSize']").val(caseInfoMap['propertySquare']);
+							if ($("input[name='toSpvProperty.prAddr']").val() == '')
+								$("input[name='toSpvProperty.prAddr']").val(caseInfoMap['propertyAddr']);
+							$('.case_content').show();
+							$(".close").click();
+							$(".modal-backdrop").hide();
+
+							//$('#myModal').modal('hide');
+						} else {
+							window.wxc.error("案件关联失败！");
+						}
+
+						$.unblockUI();
+					},
+					error : function(errors) {
+						$.unblockUI();
+						window.wxc.error("数据保存出错！");
+					}
+				});
+			});
+		});
 			function showPop() {
 				$("#myModal").show();
 				$(".modal-backdrop").show();
@@ -723,6 +588,7 @@ table tbody select, input {
 					data : data
 				})
 			}
+			
 
 			/*******************************************************控件相关*********************************************************************/
 			// 日期控件
@@ -742,44 +608,11 @@ table tbody select, input {
 			});
 
 			//跟进信息
-			$("#caseCommentList").caseCommentGrid({
-				caseCode : caseCode,
-				srvCode : taskitem
-			});
+			//$("#caseCommentList").caseCommentGrid({
+			//	caseCode : $('#caseCode').val()
+				//srvCode : srvCode
+			//});
 
-			//可变下拉选选择li时回调函数 
-			function editSelectFunc(element, index) {
-				var $nextUL = $(element).parent().next();
-				var $input = $("input[name='toSpvAccountList[" + index
-						+ "].branchBank']");
-				$nextUL.empty();
-				$input.val('');
-				$
-						.ajax({
-							cache : true,
-							url : ctx + "/manage/queryBankListByParentCode",
-							method : "post",
-							dataType : "json",
-							async : false,
-							data : {
-								faFinOrgCode : $(element).val()
-							},
-							success : function(data) {
-								for (var i = 0; i < data.length; i++) {
-									var $li = $("<li coLevel='"+data[i].coLevel+"' value='"+data[i].finOrgCode+"'>"
-											+ data[i].finOrgNameYc + "</li>");
-									$li.mouseover(function() {
-										$(this).addClass("selected");
-									}).mouseleave(function() {
-										$(this).removeClass("selected");
-									}).click(function() {
-										$input.val($(this).text());
-									});
-									$nextUL.append($li);
-								}
-							}
-						});
-			}
 		</script> </content>
 
 	<content tag="local_require"> <script>

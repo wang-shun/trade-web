@@ -268,7 +268,7 @@
 				
 				//提交
 				$("#submit").click(function(){
-					//window.location.href = ctx + "/ransomList/discontinue/ransomExamine";
+					window.location.href = ctx + "/ransomList/ransomCase/myRansom_list";
 				});
 				//取消
 				$("#cancel").click(function(){
