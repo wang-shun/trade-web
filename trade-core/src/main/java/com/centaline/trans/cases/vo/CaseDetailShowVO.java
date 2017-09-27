@@ -99,6 +99,8 @@ public class CaseDetailShowVO {
     private String warName;//过户权证姓名
     private String warMobile;//过户权证电话
     
+    private String agentGrpName;//所属分行
+    
 	public String getLoanLostType() {
 		return loanLostType;
 	}
@@ -624,6 +626,14 @@ public class CaseDetailShowVO {
 
 	public void setWarMobile(String warMobile) {
 		this.warMobile = warMobile;
+	}
+
+	public String getAgentGrpName() {
+		return agentGrpName;
+	}
+
+	public void setAgentGrpName(String agentGrpName) {
+		this.agentGrpName = agentGrpName;
 	}
 
 

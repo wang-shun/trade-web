@@ -748,7 +748,7 @@ public class CaseDetailController {
 	 * @return
 	 */
 	@RequestMapping(value = "caseDetail")
-	public String caseDetail(Long caseId,ServletRequest request) {
+	public String caseDetail(Long caseId,HttpServletRequest request) {
 		if (caseId == null){
 			return "case/caseList";
 		}
@@ -764,102 +764,7 @@ public class CaseDetailController {
 		}
 		
 		SessionUser sessionUser = uamSessionService.getSessionUser();
-		//是否关注
-		boolean isSubscribe = toModuleSubscribeService.checkIsSubscribe(toCase.getCaseCode(), uamSessionService.getSessionUser().getId(), SubscribeModuleType.CASE.getValue(),SubscribeType.COLLECTION.getValue());
 		
-		/**物业信息**/ 
-		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
-		
-		/** 经纪人 **/ 		
-		User agentUser = null;
-		if (!StringUtils.isBlank(toCaseInfo.getAgentCode())) {
-			agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
-		}
-		if (agentUser != null) {
-			reVo.setAgentId(agentUser.getId());
-			reVo.setAgentName(agentUser.getRealName());
-			reVo.setAgentMobile(agentUser.getMobile());
-			reVo.setAgentOrgId(agentUser.getOrgId());
-			reVo.setAgentOrgName(agentUser.getOrgName());
-			// 分行经理
-			List<User> mcList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(agentUser.getOrgId(),TransJobs.TFHJL.getCode());
-			if (mcList != null && mcList.size() > 0) {
-				User mcUser = mcList.get(0);
-				reVo.setMcId(mcUser.getId());
-				reVo.setMcName(mcUser.getRealName());
-				reVo.setMcMobile(mcUser.getMobile());
-			}
-			//分行秘书
-			List<User> msList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(agentUser.getOrgId(), TransJobs.TFHMS.getCode());
-			if(msList !=null && msList.size()>0){
-				User msUser = msList.get(0);
-				reVo.setMsId(msUser.getId());
-				reVo.setMsName(msUser.getRealName());
-				reVo.setMsMobile(msUser.getMobile());
-			}
-		}
-		
-		/** 权证 **/
-		List<ToCaseParticipant> caseParticipants = toCaseParticipantMapper.selectByCaseCode(toCase.getCaseCode());
-		for(ToCaseParticipant pant :caseParticipants){
-			if(CaseParticipantEnum.WARRANT.getCode().equals(pant.getPosition())){
-				reVo.setWarName(pant.getRealName());
-				reVo.setWarMobile(pant.getMobile());
-			}else if(CaseParticipantEnum.LOAN.getCode().equals(pant.getPosition())){
-				reVo.setLoanName(pant.getRealName());
-				reVo.setLoanMobile(pant.getMobile());
-			}
-		}
-		// 助理
-		User assistant = uamUserOrgService.getUserById(toCase.getAssistantId());
-		if(assistant != null){
-			reVo.setAsId(assistant.getId());
-			reVo.setAsName(assistant.getRealName());
-			reVo.setAsMobile(assistant.getMobile());
-		}
-		/** 内勤 **/ 
-		/*List<User> nqList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(toCase.getOrgId(), TransJobs.TNQZL.getCode());
-		if(nqList != null && nqList.size() > 0){
-			User nqUser = nqList.get(0);
-			reVo.setAsId(nqUser.getId());
-			reVo.setAsName(nqUser.getRealName());
-			reVo.setAsMobile(nqUser.getMobile());
-		}*/
-		
-		/** 买卖家 **/
-		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
-		StringBuffer seller = new StringBuffer();
-		StringBuffer sellerMobil = new StringBuffer();
-		StringBuffer buyer = new StringBuffer();
-		StringBuffer buyerMobil = new StringBuffer();
-		for (TgGuestInfo guest : guestList) {
-			if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
-				seller.append(guest.getGuestName());
-				sellerMobil.append(guest.getGuestPhone());
-				seller.append("/");
-				sellerMobil.append("/");
-			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
-				buyer.append(guest.getGuestName());
-				buyerMobil.append(guest.getGuestPhone());
-				buyer.append("/");
-				buyerMobil.append("/");
-			}
-		}
-		if (guestList.size() > 0) {
-			if (seller.length() > 1) {
-				seller.deleteCharAt(seller.length() - 1);
-				sellerMobil.deleteCharAt(sellerMobil.length() - 1);
-			}
-			if (buyer.length() > 1) {
-				buyer.deleteCharAt(buyer.length() - 1);
-				buyerMobil.deleteCharAt(buyerMobil.length() - 1);
-			}
-		}
-		reVo.setSellerName(seller.toString());
-		reVo.setSellerMobile(sellerMobil.toString());
-		reVo.setBuyerMobile(buyerMobil.toString());
-		reVo.setBuyerName(buyer.toString());
-			
 
 		/** 工作流 **/ 
 		ToWorkFlow inWorkFlow = new ToWorkFlow();
@@ -867,30 +772,7 @@ public class CaseDetailController {
 		inWorkFlow.setCaseCode(toCase.getCaseCode());
 		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
 		
-        /** 爆单和无效原因 **/
-		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();	
-		if("30003001".equals(toCase.getCaseProperty()) || "30003005".equals(toCase.getCaseProperty())){
-        	ToWorkFlow workFlow = new ToWorkFlow();
-        	workFlow.setCaseCode(toCase.getCaseCode());
-        	workFlow.setBusinessKey("operation_process");
-        	workFlow.setStatus("4");
-        	ToWorkFlow toWorkFlow1= toWorkFlowService.queryToWorkFlowByCaseCodeAndBusinessKey(workFlow);				
-    		if(toWorkFlow1!=null){
-	        	toApproveRecordForItem.setProcessInstance(toWorkFlow1.getInstCode());
-	    		toApproveRecordForItem.setCaseCode(toCase.getCaseCode());
-				ToApproveRecord toApproveRecord2 = toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);
-				if(toApproveRecord2 != null){
-					request.setAttribute("toApproveRecord", toApproveRecord2.getContent());
-				}else{
-					request.setAttribute("toApproveRecord","");
-				}
-	    	}else{
-	    		request.setAttribute("toApproveRecord","");
-	    	}
-        }else{
-        	request.setAttribute("toApproveRecord","");
-        	
-        }
+        
 		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -1236,7 +1118,10 @@ public class CaseDetailController {
 				request.setAttribute("serviceJobType", "N");
 			}
 		}*/
-
+		/** 公共信息 start **/
+		getCaseBaseInfo(request, toCase.getCaseCode(), reVo);
+		/** 公共信息 end **/
+		
 		request.setAttribute("isCaseManager", isCaseManager);
 		request.setAttribute("serivceDefId", sessionUser.getServiceDepId());
 		request.setAttribute("loanReqType", loanReqType);
@@ -1246,15 +1131,12 @@ public class CaseDetailController {
 		request.setAttribute("Lamp3", lamps[2]);
 		
 		request.setAttribute("isCaseOwner", isCaseOwner);
-		request.setAttribute("toCase", toCase);
 		request.setAttribute("toCaseInfo", toCaseInfo);
-		request.setAttribute("toPropertyInfo", toPropertyInfo);
 		request.setAttribute("toWorkFlow", toWorkFlow);
 		request.setAttribute("toMortgage", toMortgage);
 		request.setAttribute("caseDetailVO", reVo);
 		request.setAttribute("caseInfo", caseInfo);
 
-		request.setAttribute("isSubscribe", isSubscribe);
 		return "case/caseDetail_new";
 	}
 	
@@ -2229,5 +2111,112 @@ public class CaseDetailController {
 		ApiCaseInfo info = caseApiService.getApiCaseInfo(ccaiCode);
 		result.setContent(info);
 		return result; 
+	}
+	
+	/**
+	 * 获取案件公共部分
+	 * @param request
+	 * @param caseCode
+	 */
+	void getCaseBaseInfo(HttpServletRequest request, String caseCode, CaseDetailShowVO reVo){
+		
+		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+		
+		/** 爆单和无效原因 **/
+		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();	
+		if("30003001".equals(toCase.getCaseProperty()) || "30003005".equals(toCase.getCaseProperty())){
+        	ToWorkFlow workFlow = new ToWorkFlow();
+        	workFlow.setCaseCode(toCase.getCaseCode());
+        	workFlow.setBusinessKey("operation_process");
+        	workFlow.setStatus("4");
+        	ToWorkFlow toWorkFlow1= toWorkFlowService.queryToWorkFlowByCaseCodeAndBusinessKey(workFlow);				
+    		if(toWorkFlow1!=null){
+	        	toApproveRecordForItem.setProcessInstance(toWorkFlow1.getInstCode());
+	    		toApproveRecordForItem.setCaseCode(toCase.getCaseCode());
+				ToApproveRecord toApproveRecord2 = toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);
+				if(toApproveRecord2 != null){
+					request.setAttribute("toApproveRecord", toApproveRecord2.getContent());
+				}else{
+					request.setAttribute("toApproveRecord","");
+				}
+	    	}else{
+	    		request.setAttribute("toApproveRecord","");
+	    	}
+        }else{
+        	request.setAttribute("toApproveRecord","");
+        	
+        }
+		boolean isSubscribe = toModuleSubscribeService.checkIsSubscribe(toCase.getCaseCode(), uamSessionService.getSessionUser().getId(), SubscribeModuleType.CASE.getValue(),SubscribeType.COLLECTION.getValue());
+		
+		//物业信息
+		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+		
+		/** 买卖家 **/
+		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
+		StringBuffer seller = new StringBuffer();
+		StringBuffer sellerMobil = new StringBuffer();
+		StringBuffer buyer = new StringBuffer();
+		StringBuffer buyerMobil = new StringBuffer();
+		for (TgGuestInfo guest : guestList) {
+			if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
+				seller.append(guest.getGuestName());
+				sellerMobil.append(guest.getGuestPhone());
+				seller.append("/");
+				sellerMobil.append("/");
+			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
+				buyer.append(guest.getGuestName());
+				buyerMobil.append(guest.getGuestPhone());
+				buyer.append("/");
+				buyerMobil.append("/");
+			}
+		}
+		if (guestList.size() > 0) {
+			if (seller.length() > 1) {
+				seller.deleteCharAt(seller.length() - 1);
+				sellerMobil.deleteCharAt(sellerMobil.length() - 1);
+			}
+			if (buyer.length() > 1) {
+				buyer.deleteCharAt(buyer.length() - 1);
+				buyerMobil.deleteCharAt(buyerMobil.length() - 1);
+			}
+		}
+		reVo.setSellerName(seller.toString());
+		reVo.setSellerMobile(sellerMobil.toString());
+		reVo.setBuyerMobile(buyerMobil.toString());
+		reVo.setBuyerName(buyer.toString());
+		
+		//案件参与人信息
+		List<ToCaseParticipant> caseParticipants = toCaseParticipantMapper.selectByCaseCode(toCase.getCaseCode());
+		
+		for(ToCaseParticipant part :caseParticipants){
+			/** 经纪人/经理 **/
+			if(CaseParticipantEnum.AGENT.getCode().equals(part.getPosition())){
+				reVo.setAgentName(part.getRealName());
+				reVo.setAgentMobile(part.getMobile());
+				reVo.setAgentGrpName(part.getGrpName());
+				reVo.setMcName(part.getGrpMgrRealname());
+				reVo.setMcMobile(part.getGrpMgrMobile());
+			}
+			/** 权证 **/
+			else if(CaseParticipantEnum.WARRANT.getCode().equals(part.getPosition())){
+				reVo.setWarName(part.getRealName());
+				reVo.setWarMobile(part.getMobile());
+			}else if(CaseParticipantEnum.LOAN.getCode().equals(part.getPosition())){
+				reVo.setLoanName(part.getRealName());
+				reVo.setLoanMobile(part.getMobile());
+			}
+			/** 秘书 **/
+			else if(CaseParticipantEnum.SECRETARY.getCode().equals(part.getPosition())){
+				reVo.setMsName(part.getRealName());
+				reVo.setMsMobile(part.getMobile());
+			}
+		}
+		/** 内勤？？ **/
+		
+		
+		request.setAttribute("casePart", reVo);
+		request.setAttribute("toCase", toCase);
+		request.setAttribute("isSubscribe", isSubscribe);
+		request.setAttribute("toPropertyInfo", toPropertyInfo);
 	}
 }

@@ -27,10 +27,6 @@ public enum TransJobs {
 	 */
 	TFHJL("JFHJL", "分行经理"), 
 	/**
-	 * 分行秘书
-	 */
-	TFHMS("JFHMS","分行秘书"),
-	/**
 	 * 内勤助理
 	 */
 	TNQZL("QZNQ","内勤助理"),
