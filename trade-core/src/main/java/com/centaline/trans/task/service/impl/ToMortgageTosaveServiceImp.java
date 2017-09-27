@@ -38,6 +38,7 @@ import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
@@ -419,6 +420,12 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 		if (dictF == null)
 			return null;
 		return dictF.getCode();
+	}
+
+	@Override
+	public MortgageToSaveVO getTosave(ToMortgage mort) {
+		
+		return toMortgageTosaveMapper.getTosave(mort);
 	}
 
 }

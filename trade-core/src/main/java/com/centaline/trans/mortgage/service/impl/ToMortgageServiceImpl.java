@@ -48,6 +48,8 @@ import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
+import com.centaline.trans.eloan.entity.ToSelfAppInfo;
+import com.centaline.trans.eloan.service.ToSelfAppInfoService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -71,8 +73,10 @@ import com.centaline.trans.performance.vo.ReceivablePerfVo;
 import com.centaline.trans.stuff.service.StuffService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
+import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
+import com.centaline.trans.task.vo.MortgageToSaveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
@@ -139,7 +143,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
     private CommSubsService commSubsService;
     @Autowired
     private ReceivablePerfService receivablePerfService;
-
+    @Autowired
+    private ToMortgageTosaveService toMortgageTosaveService;
     @Override
     public ToMortgage saveToMortgage(ToMortgage toMortgage)
     {
@@ -470,6 +475,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
                     }
                 }
             }
+           
             /*
              * mort.setComAmount(mort.getComAmount() != null ?
              * mort.getComAmount() .divide(new BigDecimal(10000)) : null);
@@ -481,6 +487,13 @@ public class ToMortgageServiceImpl implements ToMortgageService
             mort.setToSupDocu(toSupDocu);
 
             return mort;
+        }
+        if(StringUtils.isBlank(toMortgage.getBank_type()) && StringUtils.isBlank(toMortgage.getBank_type())){
+        	MortgageToSaveVO mortgageToSaveVO = toMortgageTosaveService.getTosave(toMortgage);
+        	if(mortgageToSaveVO != null){
+        		toMortgage.setBank_type(mortgageToSaveVO.getBank_type());
+        		toMortgage.setFinOrgCode(mortgageToSaveVO.getFinOrgCode());
+        	}
         }
         return null;
     }

@@ -9,14 +9,19 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="BANK_TYPE" property="bank_type" jdbcType="VARCHAR" />
     <result column="FIN_ORG_CODE" property="finOrgCode" jdbcType="VARCHAR"/>
+    <result column="SELF_MORT" property="selfMort" jdbcType="VARCHAR"/>
   </resultMap>
 
   
 <insert id="saveMortgageTosave" parameterType="com.centaline.trans.task.vo.MortgageToSaveVO" >
-    insert into sctrans.T_TO_MORTGAGE_TOSAVE ( CASE_CODE, BANK_NAME, CONTENT ,CREATE_TIME,BANK_TYPE,FIN_ORG_CODE)
+    insert into sctrans.T_TO_MORTGAGE_TOSAVE ( CASE_CODE, BANK_NAME, CONTENT ,CREATE_TIME,BANK_TYPE,FIN_ORG_CODE,SELF_MORT)
     values ( #{caseCode,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, 
-    #{content,jdbcType=VARCHAR} , #{createTime,jdbcType=TIMESTAMP},#{bank_type,jdbcType=VARCHAR},#{finOrgCode,jdbcType=VARCHAR})
+    #{content,jdbcType=VARCHAR} , #{createTime,jdbcType=TIMESTAMP},#{bank_type,jdbcType=VARCHAR},#{finOrgCode,jdbcType=VARCHAR},#{selfMort,jdbcType=VARCHAR})
   </insert>
+  
+  <select id="getTosave" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" resultMap="BaseResultMap">
+  	select BANK_TYPE, FIN_ORG_CODE from sctrans.T_TO_MORTGAGE_TOSAVE with(nolock) where CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  </select>
 
 
  
