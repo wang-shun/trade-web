@@ -8,9 +8,6 @@
 	<import resource="query/common/tsTaskPlanSetQuery.xml" />
 	<import resource="query/common/lampRuleQuery.xml" />
 	<import resource="query/common/tsTeamPropertyListQuery.xml" />
-	<!--备件列表-->
-	<import resource="query/common/toAccesoryListQuery.xml" />
-
 	<import resource="query/case/toCaseListQuery.xml" />
 	<import resource="query/case/toCaseListUnDistributeQuery.xml" />
 	<import resource="query/case/toCaseListUnLocatedQuery.xml" />
@@ -246,8 +243,7 @@
 	
 	<!-- 询价列表 -->
 	<import resource="query/evaPricing/toEvaPricingListQuery.xml"/>
-	<!-- 评估待结算列表 -->
-	<import resource="query/eval/settle/evalWaitAccountList.xml"></import>
-	<import resource="query/eval/settle/evalNoAccount.xml"></import>
-	<import resource="query/eval/settle/evalAccount.xml"></import>
+	
+	<!-- 赎楼列表 -->
+	<import resource="query/ransom/toRansomList.xml"/>
 </queryConfig>
