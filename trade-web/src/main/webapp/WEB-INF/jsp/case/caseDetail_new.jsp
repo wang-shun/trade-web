@@ -22,23 +22,19 @@
 <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
 <link href="<c:url value='/css/animate.css' />" rel="stylesheet">
 <link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
-<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
-<link href="<c:url value='/css/plugins/iCheck/custom.css' />" rel="stylesheet">
 
 <link href="<c:url value='/css/plugins/jasny/jasny-bootstrap.min.css' />"	rel="stylesheet">
-<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"	rel="stylesheet">
+
 <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />"	rel="stylesheet">
 <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />"	rel="stylesheet">
 <link href="<c:url value='/css/transcss/comment/caseComment.css' />"	rel="stylesheet">
 <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"	rel="stylesheet" />
-<link href="<c:url value='/static/trans/css/workflow/caseDetail.css' />" rel="stylesheet" />
-<link href="<c:url value='/static/trans/css/workflow/details.css' />" rel="stylesheet" />
+
 <link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
 <link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
-<link href="<c:url value='/css/common/subscribe.css' />" rel="stylesheet">
+
 <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" />
-<link href="<c:url value='/static/trans/css/workflow/details.css' />" rel="stylesheet" />
-<link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
+
 </head>
 <body>
 <style>
@@ -544,7 +540,7 @@
 	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
-	<script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+
 	<script	src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/jasny/jasny-bootstrap.min.js' />"></script>
 	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
