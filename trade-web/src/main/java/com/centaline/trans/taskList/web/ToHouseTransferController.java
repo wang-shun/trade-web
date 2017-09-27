@@ -37,6 +37,8 @@ import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.utils.UiImproveUtil;
 
+import java.math.BigDecimal;
+
 @Controller
 @RequestMapping(value="/task/ToHouseTransfer")
 public class ToHouseTransferController {
@@ -99,6 +101,8 @@ public class ToHouseTransferController {
 		request.setAttribute("toMortgage", toMortgage);
 		/*确认是否已经是贷款流失*/
 		MortgageToSaveVO mortgageToSaveVO=toMortgageTosaveService.selectByCaseCode(caseCode);
+		mortgageToSaveVO.setLoanLossAmount(mortgageToSaveVO.getLoanLossAmount()!=null?mortgageToSaveVO
+				.getLoanLossAmount().divide(new BigDecimal(10000)):null);
 		request.setAttribute("mortgageToSaveVO",mortgageToSaveVO);
 		return "task" + UiImproveUtil.getPageType(request) + "/taskGuohu";
 	}

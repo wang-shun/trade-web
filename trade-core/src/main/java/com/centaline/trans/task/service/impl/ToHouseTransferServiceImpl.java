@@ -187,11 +187,13 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
         }
         MortgageToSaveVO mort=toMortgageTosaveService.selectByCaseCode(toHouseTransfer.getCaseCode());
         if(mort!=null){
-            mort.setLoanloanLossAmount(mortgageToSaveVO.getLoanloanLossAmount());
+            mort.setLoanLossAmount(mortgageToSaveVO.getLoanLossAmount()!=null?mortgageToSaveVO
+                    .getLoanLossAmount().multiply(new BigDecimal(10000)):null);
             mort.setLoanRate(mortgageToSaveVO.getLoanRate());
             mort.setLoanValue(mortgageToSaveVO.getLoanValue());
             mort.setLoanSum(mortgageToSaveVO.getLoanSum());
-            toMortgageTosaveService.updateByPrimary(mort);
+           int n= toMortgageTosaveService.updateByPrimary(mort);
+            System.out.println(n);
         }
     }
 

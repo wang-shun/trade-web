@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class MortgageToSaveVO {
 	
-	private String pkid;
+	private Long pkid;
 	
 	private String caseCode;
 	/**
@@ -35,7 +35,7 @@ public class MortgageToSaveVO {
 	/**
 	 * 自办贷款信息，新增(wbzhouht)
 	 */
-	private BigDecimal loanloanLossAmount;//贷款总金额
+	private BigDecimal loanLossAmount;//贷款总金额
 
 	private BigDecimal loanRate;//贷款利率
 
@@ -51,12 +51,12 @@ public class MortgageToSaveVO {
 	
 	private Date estPartTime;
 
-	public BigDecimal getLoanloanLossAmount() {
-		return loanloanLossAmount;
+	public BigDecimal getLoanLossAmount() {
+		return loanLossAmount;
 	}
 
-	public void setLoanloanLossAmount(BigDecimal loanloanLossAmount) {
-		this.loanloanLossAmount = loanloanLossAmount;
+	public void setLoanLossAmount(BigDecimal loanLossAmount) {
+		this.loanLossAmount = loanLossAmount;
 	}
 
 	public BigDecimal getLoanRate() {
@@ -91,11 +91,11 @@ public class MortgageToSaveVO {
 		this.selfMort = selfMort;
 	}
 
-	public String getPkid() {
+	public Long getPkid() {
 		return pkid;
 	}
 
-	public void setPkid(String pkid) {
+	public void setPkid(Long pkid) {
 		this.pkid = pkid;
 	}
 

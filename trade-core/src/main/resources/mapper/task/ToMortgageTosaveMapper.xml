@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.centaline.trans.task.repository.ToMortgageTosaveMapper" >
   <resultMap id="BaseResultMap" type="com.centaline.trans.task.vo.MortgageToSaveVO" >
-    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+      <id column="PKID" jdbcType="BIGINT" property="pkid" />
     <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
     <result column="CONTENT" property="content" jdbcType="VARCHAR" />
@@ -32,12 +32,12 @@
     select PKID,SELF_MORT,BANK_NAME,CONTENT,BANK_TYPE,LOAN_LOSS_AMOUNT,LOAN_RATE,LOAN_VALUE,LOAN_SUM,FIN_ORG_CODE from  sctrans.T_TO_MORTGAGE_TOSAVE with(nolock) where CASE_CODE=#{caseCode,jdbcType=VARCHAR}
  </select>
     <!--根据PKID修改自办贷款信息-->
-    <select id="updateByPrimary" parameterType="com.centaline.trans.task.vo.MortgageToSaveVO">
+    <update id="updateByPrimary" parameterType="com.centaline.trans.task.vo.MortgageToSaveVO">
         update sctrans.T_TO_MORTGAGE_TOSAVE
-        set LOAN_LOSS_AMOUNT={#loanLossAmount,jdbcType=DECIMAL},LOAN_RATE={#loanRate,jdbcType=DECIMAL},
-        LOAN_VALUE={#loanValue,jdbcType=VARCHAR},LOAN_SUM={#loanSum,jdbcType=VARCHAR}
-        where PKID={#pkid,jdbcType=BIGINT}
-    </select>
+        set LOAN_LOSS_AMOUNT=#{loanLossAmount,jdbcType=DECIMAL},LOAN_RATE=#{loanRate,jdbcType=DECIMAL},
+        LOAN_VALUE=#{loanValue,jdbcType=VARCHAR},LOAN_SUM=#{loanSum,jdbcType=VARCHAR}
+        where PKID=#{pkid,jdbcType=BIGINT}
+    </update>
 
  
 

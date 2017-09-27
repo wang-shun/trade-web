@@ -189,8 +189,8 @@
 							<div class="line">
 								<div class="form_content">
 									<label class="control-label sign_left_small">贷款流失金额</label>
-									<input type="text" name="loanloanLossAmount"
-										   value="${MortgageToSaveVO.loanloanLossAmount }" id="mortTotalAmount"
+									<input type="text" name="loanLossAmount"
+										   value="${mortgageToSaveVO.loanLossAmount }" id="mortTotalAmount"
 										   class=" input_type yuanwid" onkeyup="checknum(this)" placeholder="万元">
 								</div>
 
@@ -204,20 +204,20 @@
 								<div class="form_content">
 									<label class="control-label sign_left_small">贷款利率</label>
 									<input type="text" name="loanRate" id="comDiscount"
-										   value="${MortgageToSaveVO.loanRate }" placeholder="0.50~1.50之间"
+										   value="${mortgageToSaveVO.loanRate }" placeholder="0.50~1.50之间"
 										   class=" input_type yuanwid" onkeyup="autoCompleteComDiscount(this)">
 								</div>
 							</div>
 								<div class="form_content">
 									<label class="control-label sign_left_small">贷款成数</label>
 									<input type="text" name="loanValue" id="comAmount"
-										   value="${MortgageToSaveVO.loanValue }" class=" input_type yuanwid"
+										   value="${mortgageToSaveVO.loanValue }" class=" input_type yuanwid"
 										   onkeyup="checknum(this)">
 								</div>
 								<div class="form_content">
 									<label class="control-label sign_left_small">贷款套数</label>
 									<input type="text" name="loanSum" id="comYear"
-										   value="${MortgageToSaveVO.loanSum }" class=" input_type yuanwid"
+										   value="${mortgageToSaveVO.loanSum }" class=" input_type yuanwid"
 										   onkeyup="checknum(this)">
 								</div>
 							</div>
