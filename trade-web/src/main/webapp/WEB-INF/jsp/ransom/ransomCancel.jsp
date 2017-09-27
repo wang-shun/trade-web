@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 
-<title>赎楼面签</title>
+<title>赎楼注销抵押</title>
 <script
 	src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 <link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />"
@@ -59,49 +59,42 @@
 </head>
 <body>
 	<jsp:include page="/ransom/ransomBaseInfo.jsp"></jsp:include>
+	<input type="hidden" id="caseCode" value="${detailVo.caseCode }">
+	<input type="hidden" id="ransomCode" value="${detailVo.ransomCode }">
+	<input type="hidden" id="diyaType" value="${diyaType }">
+	<input type="hidden" id="processInstanceId" value="${processInstanceId }">
+	<input type="hidden" id="taskId" value="${taskId }">
 	<div id="wrapper">
-		<!-- main Start -->
-		
+
 		<div class="row">
 			<div class="wrapper wrapper-content animated fadeInUp">
 				<div class="ibox-content" id="base_info">
 					<form class="form-inline" >
 						<div class="title">信息录入</div>
-
 						<div class="form-row form-rowbot clear">
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 注销抵押时间</label> 
-								<input id="date-picker" name="toSpv.signTime" class="form-control input-one date-picker" 
-								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>" placeholder="">
-							</div>
-							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color:red;">*</i> 计划赎回产证时间</label> 
-								<input id="date-picker1" name="toSpv.signTime" class="form-control input-one date-picker" 
-								style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>" placeholder="">
+								<label for="" class="lable-one"><font color=" red" class="mr5" >*</font>注销抵押时间</label> 
+								<input id="cancelDiyaTime" name="cancelDiyaTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 178px; border-radius: 2px;" type="text"  placeholder="注销抵押时间">
 							</div>
 						</div>
 					</form>
 				</div>
 				
-
-
-				<div class="ibox-content">
-					<!-- 跟进信息 -->
-					<div id="caseCommentList" class="view-content"></div>
-				</div>
-				<div class="ibox-content" id="reportThree" style="display: none;">
-				</div>
-				<div class="ibox-content" id="reportFour" style="display: none;">
-				</div>
-				<div class="ibox-content" id="reportFive" style="display: none;">
-				</div>
+			</div>
+		</div>
+		<div id="caseCommentList" class="add_form"></div>
+		
+		<div class="add_btn text-center mt20">
+		   	<div class="more_btn">
+			    <button id="submitButton" type="button" class="btn btn_blue">提交</button>
+	   	    	<button id="closeButton" type="button" class="btn btn_blue">关闭</button>
 			</div>
 		</div>
 	</div>
-	<!-- main End -->
-	<content tag="local_script"> <%-- 	   <script src="<c:url value='/js/inspinia.js' />"></script> 
-	   <script src="<c:url value='/js/plugins/pace/pace.min.js' />"></script> --%>
-	<!-- 开关按钮js --> <script
+
+	<content tag="local_script"> 
+	<!-- 开关按钮js --> 
+	<script
 		src="<c:url value='/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js' />"></script>
 	<script
 		src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
@@ -110,21 +103,67 @@
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
 	<script >
-	$('#date-picker').datepicker({
-		format : 'yyyy-mm-dd',
-		weekStart : 1,
-		autoclose : true,
-		todayBtn : 'linked',
-		language : 'zh-CN'
-	});
-	$('#date-picker1').datepicker({
-		format : 'yyyy-mm-dd',
-		weekStart : 1,
-		autoclose : true,
-		todayBtn : 'linked',
-		language : 'zh-CN'
-	});
 	
+		$(document).ready(function(){
+			
+			//案件跟进,common.js 
+			var caseCode = $('#caseCode').val();
+			$("#caseCommentList").caseCommentGrid({
+				caseCode : caseCode,
+				srvCode : null
+			});
+		})
+	
+		//日期初始化
+		$('#cancelDiyaTime').datepicker({
+			format : 'yyyy-mm-dd',
+			weekStart : 1,
+			autoclose : true,
+			todayBtn : 'linked',
+			language : 'zh-CN'
+		});
+	
+		
+		//关闭
+		$('#closeButton').click(function() {
+			window.close();
+		});
+		
+		//提交
+		$('#submitButton').click(function(){
+			if($('#cancelDiyaTime').val() == ''){
+				window.wxc.alert("注销抵押时间为必填项!");
+				$('#cancelDiyaTime').focus();
+				$('#cancelDiyaTime').css('border-color',"red");
+				return;
+			}
+
+			var ransomCode = $('#ransomCode').val();
+			var diyaType = $('#diyaType').val();
+			var cancelDiyaTime = $('#cancelDiyaTime').val();
+			var processInstanceId = $('#processInstanceId').val();
+			var taskId = $('#taskId').val();
+			
+			var url = "${ctx}/ransomList/submitCancelDiya";
+			var data = "&ransomCode=" + ransomCode + "&diyaType=" + diyaType 
+						+ "&cancelDiyaTime=" + cancelDiyaTime + "&processInstanceId=" + processInstanceId + "&taskId=" + taskId;
+			$.ajax({
+				cache:true,
+				async:false,
+				type:"POST",
+				url:url,
+				data:data,
+				dataType:"json",
+				success:function(data){
+					window.wxc.success("提交成功!",{"wxcOk":function(){
+						window.close();
+					}});
+				},
+				error : function(errors) {
+					window.wxc.error("提交失败!");
+				}
+			});
+		});
 	</script>
 	</content> 
 </body>

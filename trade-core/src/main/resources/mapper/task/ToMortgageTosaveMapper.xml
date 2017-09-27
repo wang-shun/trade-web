@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.task.repository.ToMortgageTosaveMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.vo.MortgageToSaveVO" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="BANK_TYPE" property="bank_type" jdbcType="VARCHAR" />
+    <result column="FIN_ORG_CODE" property="finOrgCode" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  
+<insert id="saveMortgageTosave" parameterType="com.centaline.trans.task.vo.MortgageToSaveVO" >
+    insert into sctrans.T_TO_MORTGAGE_TOSAVE ( CASE_CODE, BANK_NAME, CONTENT ,CREATE_TIME,BANK_TYPE,FIN_ORG_CODE)
+    values ( #{caseCode,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, 
+    #{content,jdbcType=VARCHAR} , #{createTime,jdbcType=TIMESTAMP},#{bank_type,jdbcType=VARCHAR},#{finOrgCode,jdbcType=VARCHAR})
+  </insert>
+
+
+ 
+
+  
+ 
+
+
+</mapper>

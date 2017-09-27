@@ -266,4 +266,13 @@
 		WHERE
 			FA_FIN_ORG_CODE = 'P00'
 	</select>
+	
+	<update id="updateEvalPricingRela">
+		UPDATE
+			sctrans.T_TO_EVA_PRICING
+		SET 
+			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+		WHERE
+			PKID = #{pkid,jdbcType=BIGINT}
+	</update>
 </mapper>

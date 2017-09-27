@@ -62,20 +62,6 @@
 	rel="stylesheet" />
 
 
-<script type="text/javascript">
-	var ctx = "${ctx}";
-	/**记录附件div变化，%2=0时执行自动上传并清零*/
-	var index = 0;
-	var taskitem = "${taskitem}";
-	var caseCode = "${caseCode}";
-	var processInstanceId = "${processInstanceId}";
-	var approveType = "${approveType }";
-	if ("${idList}" != "") {
-		var idList = eval("(" + "${idList}" + ")");
-	} else {
-		var idList = [];
-	}
-</script>
 <style type="text/css">
 .radio.radio-inline>label {
 	margin-left: 10px;
@@ -146,15 +132,21 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/ransom/ransomBaseInfo.jsp"></jsp:include>
 	<div class="ibox-content border-bottom clearfix space_box noborder">
+	
+	<input type="hidden" id="caseCode" value="${detailVo.caseCode }">
+	<input type="hidden" id="ransomCode" value="${detailVo.ransomCode }">
+	<input type="hidden" id="processInstanceId" value="${processInstanceId }">
+	<input type="hidden" id="taskId" value="${taskId }">
+	
 	 	<form method="get" class="form_list text-center">
              <div class="line">
              	<h2 class="other_reason_title">信息录入</h2>
              	<div class="col-lg-12 underline"><hr></div>
              	<div class="col-lg-12">
 	                <div class="col-lg-6 form_content ">
-	                    <label class="control-label select_style mend_select trim"><font color=" red" class="mr5" >*</font>领取产证时间(一抵)</label>
+	                    <label class="control-label select_style mend_select trim"><font color=" red" class="mr5" >*</font>回款结清时间</label>
 	                    <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-	                        <input name="changeTimeStart" id="changeTimeStart" class="form-control data_style" type="text" value="${curMonthStart }" placeholder="">
+	                        <input id="paymentTime" name="paymentTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 178px; border-radius: 2px;" type="text"  placeholder="回款结清时间">
 	                    </div>
 	                </div>
                 </div>
@@ -186,23 +178,64 @@
 	<script src="<c:url value='/js/common/textarea.js' />"></script> 
 	<script src="<c:url value='/js/common/common.js' />"></script> 
 	<script>
-		$(document).ready(function() {
-		 	$('.input-daterange').datepicker({
-                   keyboardNavigation: false,
-                   forceParse: false,
-                   autoclose: true
-               });
-		 	var caseCode = $('#caseCode').val();
-			var srvCode = 'TransSign';
-			$("#caseCommentList").caseCommentGrid({
-				caseCode : caseCode,
-				srvCode : srvCode
-			});
-			$("#submit").click(function(){
-				window.location.href = ctx + "/ransomList/ransom/ransomCheckout";
-			});
-			
+	$(document).ready(function(){
+		
+		//案件跟进,common.js 
+		var caseCode = $('#caseCode').val();
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode,
+			srvCode : null
 		});
+	})
+
+	//日期初始化
+	$('#paymentTime').datepicker({
+		format : 'yyyy-mm-dd',
+		weekStart : 1,
+		autoclose : true,
+		todayBtn : 'linked',
+		language : 'zh-CN'
+	});
+
+	
+	//关闭
+	$('#closeButton').click(function() {
+		window.close();
+	});
+	
+	//提交
+	$('#submitButton').click(function(){
+		if($('#paymentTime').val() == ''){
+			window.wxc.alert("注销抵押时间为必填项!");
+			$('#paymentTime').focus();
+			$('#paymentTime').css('border-color',"red");
+			return;
+		}
+
+		var ransomCode = $('#ransomCode').val();
+		var paymentTime = $('#paymentTime').val();
+		var processInstanceId = $('#processInstanceId').val();
+		var taskId = $('#taskId').val();
+		
+		var url = "${ctx}/ransomList/submitPayment";
+		var data = "&ransomCode=" + ransomCode + "&paymentTime=" + paymentTime + "&processInstanceId=" + processInstanceId + "&taskId=" + taskId;
+		$.ajax({
+			cache:true,
+			async:false,
+			type:"POST",
+			url:url,
+			data:data,
+			dataType:"json",
+			success:function(data){
+				window.wxc.success("提交成功!",{"wxcOk":function(){
+					window.close();
+				}});
+			},
+			error : function(errors) {
+				window.wxc.error("提交失败!");
+			}
+		});
+	});
 	</script> 
 </content>
 </body>

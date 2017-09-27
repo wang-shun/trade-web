@@ -34,7 +34,7 @@ public class QuickQueryGetCaseInfoReportServiceImpl implements CustomDictService
 			Map<String,Object> paramMap = new HashMap<String,Object>();
 			StringBuilder[] joins = CollectionUtils.join(rs, new String[]{"','"}, new String[]{"CASE_CODE"});
 			//分行,片区,区域,区董,分行Code,大区,业务员姓名,业务员电话
-			String sql = "SELECT  CASE_CODE,CTM_CODE,GRP_NAME,GRP_CODE,AR_NAME,WZ_NAME,QJDS_NAME,BA_NAME,(SELECT o.ORG_NAME FROM sctrans.SYS_USER u LEFT JOIN sctrans.SYS_ORG o on u.ORG_ID = o.ID WHERE u.ID = AGENT_CODE) AS AGENT_ORG_NAME,AGENT_NAME,AGENT_PHONE FROM sctrans.T_TO_CASE_INFO WHERE CASE_CODE  IN ('"+joins[0].toString()+"')";
+			String sql = "SELECT  CASE_CODE,CCAI_CODE,GRP_NAME,GRP_CODE,AR_NAME,WZ_NAME,QJDS_NAME,BA_NAME,(SELECT o.ORG_NAME FROM sctrans.SYS_USER u LEFT JOIN sctrans.SYS_ORG o on u.ORG_ID = o.ID WHERE u.ID = AGENT_CODE) AS AGENT_ORG_NAME,AGENT_NAME,AGENT_PHONE FROM sctrans.T_TO_CASE_INFO WHERE CASE_CODE  IN ('"+joins[0].toString()+"')";
 			List<Map<String, Object>> caseInfos = jdbcTemplate.queryForList(sql, paramMap);
 			CollectionUtils.merge(caseInfos, rs, new String[]{"CASE_CODE"});
 			sql = "SELECT CASE_CODE,PROPERTY_ADDR FROM sctrans.T_TO_PROPERTY_INFO WHERE CASE_CODE in ('"+joins[0].toString()+"')";

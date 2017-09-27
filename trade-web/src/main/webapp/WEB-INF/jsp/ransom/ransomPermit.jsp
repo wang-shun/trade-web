@@ -61,21 +61,6 @@
 <link href="<c:url value='/js/viewer/viewer.min.css' />"
 	rel="stylesheet" />
 
-
-<script type="text/javascript">
-	var ctx = "${ctx}";
-	/**记录附件div变化，%2=0时执行自动上传并清零*/
-	var index = 0;
-	var taskitem = "${taskitem}";
-	var caseCode = "${caseCode}";
-	var processInstanceId = "${processInstanceId}";
-	var approveType = "${approveType }";
-	if ("${idList}" != "") {
-		var idList = eval("(" + "${idList}" + ")");
-	} else {
-		var idList = [];
-	}
-</script>
 <style type="text/css">
 .radio.radio-inline>label {
 	margin-left: 10px;
@@ -145,6 +130,13 @@
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/ransom/ransomBaseInfo.jsp"></jsp:include>
+	
+	<input type="hidden" id="caseCode" value="${detailVo.caseCode }">
+	<input type="hidden" id="ransomCode" value="${detailVo.ransomCode }">
+	<input type="hidden" id="diyaType" value="${diyaType }">
+	<input type="hidden" id="processInstanceId" value="${processInstanceId }">
+	<input type="hidden" id="taskId" value="${taskId }">
+	
 	<div class="ibox-content border-bottom clearfix space_box noborder">
 	 	<form method="get" class="form_list text-center">
              <div class="line">
@@ -152,19 +144,20 @@
              	<div class="col-lg-12 underline"><hr></div>
              	<div class="col-lg-12">
 	                <div class="col-lg-6 form_content ">
-	                    <label class="control-label select_style mend_select trim"><font color=" red" class="mr5" >*</font>回款结清时间</label>
-	                    <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-	                        <input name="changeTimeStart" id="changeTimeStart" class="form-control data_style" type="text" value="${curMonthStart }" placeholder="">
-	                    </div>
+	                    <div class="form-group form-margin form-space-one left-extent">
+								<label for="" class="lable-one"><font color=" red" class="mr5" >*</font>领取产证时间</label> 
+								<input id="permitTime" name="permitTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 178px; border-radius: 2px;" type="text"  placeholder="领取产证时间">
+						</div>
 	                </div>
                 </div>
              </div>
          </form>
-		<div id="caseCommentList" class="view-content"></div>
-		<div class="form-btn">
-			<div class="text-center">
-				<button class="btn btn-success btn-space" id="submit">提交</button>
-				<button class="btn btn-grey btn-space" id="close">关闭</button>
+		<div id="caseCommentList" class="add_form"></div>
+		
+		<div class="add_btn text-center mt20">
+		   	<div class="more_btn">
+			    <button id="submitButton" type="button" class="btn btn_blue">提交</button>
+	   	    	<button id="closeButton" type="button" class="btn btn_blue">关闭</button>
 			</div>
 		</div>
 	</div>
@@ -186,23 +179,66 @@
 	<script src="<c:url value='/js/common/textarea.js' />"></script> 
 	<script src="<c:url value='/js/common/common.js' />"></script> 
 	<script>
-		$(document).ready(function() {
-		 	$('.input-daterange').datepicker({
-                   keyboardNavigation: false,
-                   forceParse: false,
-                   autoclose: true
-               });
-		 	var caseCode = $('#caseCode').val();
-			var srvCode = 'TransSign';
-			$("#caseCommentList").caseCommentGrid({
-				caseCode : caseCode,
-				srvCode : srvCode
-			});
-			$("#submit").click(function(){
-				window.location.href = ctx + "/ransomList/ransom/myRansom_list";
-			});
-			
+	$(document).ready(function(){
+		
+		//案件跟进,common.js 
+		var caseCode = $('#caseCode').val();
+		$("#caseCommentList").caseCommentGrid({
+			caseCode : caseCode,
+			srvCode : null
 		});
+	})
+
+	//日期初始化
+	$('#permitTime').datepicker({
+		format : 'yyyy-mm-dd',
+		weekStart : 1,
+		autoclose : true,
+		todayBtn : 'linked',
+		language : 'zh-CN'
+	});
+
+	
+	//关闭
+	$('#closeButton').click(function() {
+		window.close();
+	});
+	
+	//提交
+	$('#submitButton').click(function(){
+		if($('#permitTime').val() == ''){
+			window.wxc.alert("注销抵押时间为必填项!");
+			$('#permitTime').focus();
+			$('#permitTime').css('border-color',"red");
+			return;
+		}
+
+		var ransomCode = $('#ransomCode').val();
+		var diyaType = $('#diyaType').val();
+		var permitTime = $('#permitTime').val();
+		var processInstanceId = $('#processInstanceId').val();
+		var taskId = $('#taskId').val();
+		
+		var url = "${ctx}/ransomList/submitPermit";
+		var data = "&ransomCode=" + ransomCode + "&diyaType=" + diyaType 
+					+ "&permitTime=" + permitTime + "&processInstanceId=" + processInstanceId + "&taskId=" + taskId;
+		$.ajax({
+			cache:true,
+			async:false,
+			type:"POST",
+			url:url,
+			data:data,
+			dataType:"json",
+			success:function(data){
+				window.wxc.success("提交成功!",{"wxcOk":function(){
+					window.close();
+				}});
+			},
+			error : function(errors) {
+				window.wxc.error("提交失败!");
+			}
+		});
+	});
 	</script> 
 </content>
 </body>

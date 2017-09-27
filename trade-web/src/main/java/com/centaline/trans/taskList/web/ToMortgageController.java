@@ -378,12 +378,13 @@ public class ToMortgageController {
 			toMortgage.setLoanAgentTeam(user.getServiceDepId());
 			toMortgageService.updateToMortgage(toMortgage);
 
-			// 发送消息
-			/*ToWorkFlow wf = new ToWorkFlow();
+			//发送消息
+			ToWorkFlow wf = new ToWorkFlow();
 			wf.setCaseCode(processInstanceVO.getCaseCode());
 			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
-			if (wordkFlowDB != null && "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId()) <= 0) {
+			//&& "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId()) <= 0
+			if (wordkFlowDB != null ) {
 				messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
 				// 设置主流程任务的assignee
 				workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), toCase.getCaseCode());
@@ -393,7 +394,7 @@ public class ToMortgageController {
 				workFlowOld.setStatus("4");
 				workFlowOld.setInstCode(processInstanceVO.getProcessInstanceId());
 				toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
-			}*/
+			}
 
 		} catch (Exception e) {
 			response.setSuccess(false);

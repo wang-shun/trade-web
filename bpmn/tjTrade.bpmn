@@ -3,30 +3,29 @@
   <message id="CCAIUpdatedMsg" name="CCAIUpdatedMsg"></message>
   <message id="MortgageFinishMsg" name="MortgageFinishMsg"></message>
   <process id="TjTrade" name="天津交易主流程" isExecutable="true" isClosed="false" processType="None">
-    <userTask id="usertask1" name="权证经理审核" activiti:assignee="权证经理"></userTask>
+    <userTask id="warrantManagerAudit" name="权证经理审核" activiti:assignee="${manager}" activiti:formKey="/AuditImportCase/details"></userTask>
     <inclusiveGateway id="inclusivegateway1" name="Inclusive Gateway"></inclusiveGateway>
-    <userTask id="usertask3" name="贷款需求选择" activiti:assignee="贷款权证"></userTask>
-    <userTask id="usertask4" name="自办贷款挽回" activiti:assignee="表单指定贷款权证"></userTask>
-    <userTask id="Guohu" name="过户" activiti:assignee="${caseOwner}" activiti:formKey="/task/ToHouseTransfer/process"></userTask>
-    <userTask id="GuohuApprove" name="过户审批" activiti:assignee="${caseOwner}" activiti:formKey="/task/guohuApprove/process"></userTask>
-    <userTask id="GuohuInfoModify" name="过户信息修改" activiti:assignee="${member}" activiti:candidateGroups="consultant" activiti:formKey="/task/guohuApprove/guohuInfoModify">
-      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="${候选人}" activiti:elementVariable="候选人变量名称">
-        <loopCardinality>${勾选人数}</loopCardinality>
-        <completionCondition>${勾选人都完成任务条件判断}</completionCondition>
+    <userTask id="MortgageSelect" name="贷款需求选择" activiti:assignee="${loan}" activiti:formKey="/task/mortgageSelect/process"></userTask>
+    <userTask id="MortgageLossTosave" name="自办贷款挽回" activiti:assignee="${loan}" activiti:formKey="/task/mortgageTosave/process"></userTask>
+    <userTask id="Guohu" name="过户" activiti:assignee="${warrant}" activiti:formKey="/task/ToHouseTransfer/process"></userTask>
+    <userTask id="GuohuApprove" name="过户审批" activiti:assignee="${assistant}" activiti:formKey="/task/guohuApprove/process"></userTask>
+    <userTask id="GuohuInfoModify" name="过户信息修改" activiti:assignee="${member}" activiti:formKey="/task/guohuApprove/guohuInfoModify">
+      <multiInstanceLoopCharacteristics isSequential="false" activiti:collection="${members}" activiti:elementVariable="member">
+        <completionCondition>${nrOfCompletedInstances == nrOfInstances}</completionCondition>
       </multiInstanceLoopCharacteristics>
     </userTask>
     <inclusiveGateway id="inclusivegateway3" name="Inclusive Gateway"></inclusiveGateway>
-    <userTask id="KnotCommission" name="允许结佣" activiti:assignee="${caseOwner}" activiti:formKey="/task/KnotCommission/process"></userTask>
-    <userTask id="HouseBookGet" name="领他证" activiti:assignee="过户权证" activiti:formKey="/task/houseBookGet/process"></userTask>
-    <userTask id="LoanRelease" name="放款" activiti:assignee="贷款权证" activiti:formKey="/task/loanRelease/process"></userTask>
+    <userTask id="KnotCommission" name="允许结佣" activiti:assignee="${warrant}" activiti:formKey="/task/KnotCommission/process"></userTask>
+    <userTask id="HouseBookGet" name="领他证" activiti:assignee="${warrant}" activiti:formKey="/task/houseBookGet/process"></userTask>
+    <userTask id="LoanRelease" name="放款" activiti:assignee="${loan}" activiti:formKey="/task/loanRelease/process"></userTask>
     <inclusiveGateway id="inclusivegateway4" name="Inclusive Gateway"></inclusiveGateway>
-    <userTask id="CaseClose" name="结案归档" activiti:assignee="过户权证" activiti:formKey="/task/CaseClose/process"></userTask>
-    <userTask id="CaseCloseFirstApprove" name="内勤审核" activiti:assignee="内勤" activiti:formKey="/task/caselostApprove/first/process"></userTask>
-    <userTask id="CaseCloseSecondApprove" name="经理审核" activiti:assignee="权证经理" activiti:formKey="/task/caselostApprove/second/process"></userTask>
+    <userTask id="CaseClose" name="结案归档" activiti:assignee="${warrant}" activiti:formKey="/task/CaseClose/process"></userTask>
+    <userTask id="CaseCloseFirstApprove" name="内勤审核" activiti:assignee="${assistant}" activiti:formKey="/task/caselostApprove/first/process"></userTask>
+    <userTask id="CaseCloseSecondApprove" name="经理审核" activiti:assignee="${manager}" activiti:formKey="/task/caselostApprove/second/process"></userTask>
     <endEvent id="endevent1" name="End"></endEvent>
     <inclusiveGateway id="inclusivegateway5" name="Inclusive Gateway"></inclusiveGateway>
     <sequenceFlow id="flow47" sourceRef="inclusivegateway5" targetRef="Guohu"></sequenceFlow>
-    <userTask id="usertask17" name="接单跟进" activiti:assignee="过户or 贷款权证"></userTask>
+    <userTask id="caseRecvFlow" name="接单跟进" activiti:assignee="${receiver}" activiti:formKey="/task/caseRecvFollow/process"></userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
@@ -34,23 +33,29 @@
     <intermediateCatchEvent id="MortgageFinishMsgEventCatch" name="MortgageFinishMsgEventCatch">
       <messageEventDefinition messageRef="MortgageFinishMsg"></messageEventDefinition>
     </intermediateCatchEvent>
-    <userTask id="usertask2" name="网签" activiti:assignee="过户权证"></userTask>
-    <sequenceFlow id="flow10" sourceRef="usertask2" targetRef="usertask6"></sequenceFlow>
-    <userTask id="RatePayment" name="缴税" activiti:assignee="${caseOwner}" activiti:formKey="/task/ratePayment/process"></userTask>
-    <userTask id="usertask6" name="填写交易计划" activiti:assignee="过户权证"></userTask>
-    <sequenceFlow id="flow11" sourceRef="usertask6" targetRef="RatePayment"></sequenceFlow>
-    <sequenceFlow id="flow72" sourceRef="usertask1" targetRef="inclusivegateway1"></sequenceFlow>
-    <sequenceFlow id="flow73" name="审批通过" sourceRef="inclusivegateway1" targetRef="usertask2"></sequenceFlow>
-    <sequenceFlow id="flow74" name="中原代办贷款" sourceRef="inclusivegateway1" targetRef="usertask3"></sequenceFlow>
-    <sequenceFlow id="flow75" name="自办贷款" sourceRef="inclusivegateway1" targetRef="usertask4">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${自办贷款==true}]]></conditionExpression>
+    <userTask id="TransSign" name="网签" activiti:assignee="${warrant}" activiti:formKey="/task/sign/process "></userTask>
+    <sequenceFlow id="flow10" sourceRef="TransSign" targetRef="TransPlanFilling"></sequenceFlow>
+    <userTask id="RatePayment" name="缴税" activiti:assignee="${warrant}" activiti:formKey="/task/ratePayment/process"></userTask>
+    <userTask id="TransPlanFilling" name="填写交易计划" activiti:assignee="${warrant}" activiti:formKey="/task/transPlan/process"></userTask>
+    <sequenceFlow id="flow11" sourceRef="TransPlanFilling" targetRef="RatePayment"></sequenceFlow>
+    <sequenceFlow id="flow72" sourceRef="warrantManagerAudit" targetRef="inclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow73" name="审批通过" sourceRef="inclusivegateway1" targetRef="TransSign">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${caseApprove}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow76" sourceRef="usertask4" targetRef="exclusivegateway1"></sequenceFlow>
-    <sequenceFlow id="flow78" sourceRef="usertask3" targetRef="MortgageFinishMsgEventCatch"></sequenceFlow>
+    <sequenceFlow id="flow74" name="中原代办贷款" sourceRef="inclusivegateway1" targetRef="MortgageSelect">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hasLoan && selfDoLoan==false && caseApprove}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow75" name="自办贷款" sourceRef="inclusivegateway1" targetRef="MortgageLossTosave">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hasLoan && selfDoLoan==true && caseApprove}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow76" sourceRef="MortgageLossTosave" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow78" sourceRef="MortgageSelect" targetRef="MortgageFinishMsgEventCatch"></sequenceFlow>
     <sequenceFlow id="flow82" name="贷款完成" sourceRef="MortgageFinishMsgEventCatch" targetRef="inclusivegateway5"></sequenceFlow>
     <sequenceFlow id="flow84" sourceRef="RatePayment" targetRef="inclusivegateway5"></sequenceFlow>
     <sequenceFlow id="flow86" sourceRef="Guohu" targetRef="inclusivegateway3"></sequenceFlow>
-    <sequenceFlow id="flow88" name="有贷款" sourceRef="inclusivegateway3" targetRef="HouseBookGet"></sequenceFlow>
+    <sequenceFlow id="flow88" name="有贷款" sourceRef="inclusivegateway3" targetRef="HouseBookGet">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hasLoan}]]></conditionExpression>
+    </sequenceFlow>
     <sequenceFlow id="flow90" sourceRef="HouseBookGet" targetRef="LoanRelease"></sequenceFlow>
     <sequenceFlow id="flow92" sourceRef="LoanRelease" targetRef="inclusivegateway4"></sequenceFlow>
     <sequenceFlow id="flow93" sourceRef="GuohuApprove" targetRef="exclusivegateway2"></sequenceFlow>
@@ -61,41 +66,57 @@
     <sequenceFlow id="flow97" sourceRef="inclusivegateway4" targetRef="CaseClose"></sequenceFlow>
     <sequenceFlow id="flow98" sourceRef="CaseClose" targetRef="CaseCloseFirstApprove"></sequenceFlow>
     <sequenceFlow id="flow99" sourceRef="CaseCloseFirstApprove" targetRef="exclusivegateway3"></sequenceFlow>
-    <sequenceFlow id="flow101" name="审核通过" sourceRef="exclusivegateway3" targetRef="CaseCloseSecondApprove"></sequenceFlow>
+    <sequenceFlow id="flow101" name="审核通过" sourceRef="exclusivegateway3" targetRef="CaseCloseSecondApprove">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${CaseCloseFirstCheck}]]></conditionExpression>
+    </sequenceFlow>
     <exclusiveGateway id="exclusivegateway5" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow102" sourceRef="CaseCloseSecondApprove" targetRef="exclusivegateway5"></sequenceFlow>
-    <sequenceFlow id="flow103" name="经理审核通过" sourceRef="exclusivegateway5" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow103" name="经理审核通过" sourceRef="exclusivegateway5" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${CaseCloseSecondCheck}]]></conditionExpression>
+    </sequenceFlow>
     <sequenceFlow id="flow105" sourceRef="inclusivegateway3" targetRef="GuohuApprove"></sequenceFlow>
     <sequenceFlow id="flow106" sourceRef="inclusivegateway3" targetRef="KnotCommission"></sequenceFlow>
     <sequenceFlow id="flow107" sourceRef="KnotCommission" targetRef="inclusivegateway4"></sequenceFlow>
-    <sequenceFlow id="flow108" name="审批通过" sourceRef="exclusivegateway2" targetRef="inclusivegateway4"></sequenceFlow>
-    <sequenceFlow id="flow109" name="审核不通过" sourceRef="exclusivegateway3" targetRef="CaseClose"></sequenceFlow>
-    <sequenceFlow id="flow110" name="经理审核未通过" sourceRef="exclusivegateway5" targetRef="CaseClose"></sequenceFlow>
-    <sequenceFlow id="flow111" sourceRef="startevent1" targetRef="usertask17"></sequenceFlow>
-    <sequenceFlow id="flow112" sourceRef="usertask17" targetRef="usertask1"></sequenceFlow>
-    <sequenceFlow id="flow113" name="挽回成功" sourceRef="exclusivegateway1" targetRef="MortgageFinishMsgEventCatch"></sequenceFlow>
-    <sequenceFlow id="flow115" name="挽回失败" sourceRef="exclusivegateway1" targetRef="inclusivegateway5"></sequenceFlow>
-    <intermediateCatchEvent id="CCAIUpdatedMsgEventCatch" name="CCAIUpdatedMsgEventCatch" activiti:async="true">
+    <sequenceFlow id="flow108" name="审批通过" sourceRef="exclusivegateway2" targetRef="inclusivegateway4">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${GuohuApprove}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow109" name="审核不通过" sourceRef="exclusivegateway3" targetRef="CaseClose">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${CaseCloseFirstCheck == false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow110" name="经理审核未通过" sourceRef="exclusivegateway5" targetRef="CaseClose">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${CaseCloseSecondCheck == false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow111" sourceRef="startevent1" targetRef="caseRecvFlow"></sequenceFlow>
+    <sequenceFlow id="flow112" sourceRef="caseRecvFlow" targetRef="warrantManagerAudit"></sequenceFlow>
+    <sequenceFlow id="flow113" name="挽回成功" sourceRef="exclusivegateway1" targetRef="MortgageFinishMsgEventCatch">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${redeemSuccess}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow115" name="挽回失败" sourceRef="exclusivegateway1" targetRef="inclusivegateway5">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${redeemSuccess == false}]]></conditionExpression>
+    </sequenceFlow>
+    <intermediateCatchEvent id="CCAIUpdatedMsgEventCatch" name="CCAIUpdatedMsgEventCatch">
       <messageEventDefinition messageRef="CCAIUpdatedMsg"></messageEventDefinition>
     </intermediateCatchEvent>
-    <sequenceFlow id="flow116" name="驳回CCAI" sourceRef="inclusivegateway1" targetRef="CCAIUpdatedMsgEventCatch"></sequenceFlow>
-    <sequenceFlow id="flow117" name="再次跟进" sourceRef="CCAIUpdatedMsgEventCatch" targetRef="CaseRecv"></sequenceFlow>
+    <sequenceFlow id="flow116" name="驳回CCAI" sourceRef="inclusivegateway1" targetRef="CCAIUpdatedMsgEventCatch">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${caseApprove == false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow117" sourceRef="CCAIUpdatedMsgEventCatch" targetRef="caseRecvFlow"></sequenceFlow>
     <textAnnotation id="textannotation1">
       <text>分行秘书调整案件信息</text>
     </textAnnotation>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_TjTrade">
     <bpmndi:BPMNPlane bpmnElement="TjTrade" id="BPMNPlane_TjTrade">
-      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+      <bpmndi:BPMNShape bpmnElement="warrantManagerAudit" id="BPMNShape_warrantManagerAudit">
         <omgdc:Bounds height="55.0" width="105.0" x="200.0" y="283.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="inclusivegateway1" id="BPMNShape_inclusivegateway1">
         <omgdc:Bounds height="40.0" width="40.0" x="340.0" y="290.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
+      <bpmndi:BPMNShape bpmnElement="MortgageSelect" id="BPMNShape_MortgageSelect">
         <omgdc:Bounds height="55.0" width="105.0" x="460.0" y="197.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask4" id="BPMNShape_usertask4">
+      <bpmndi:BPMNShape bpmnElement="MortgageLossTosave" id="BPMNShape_MortgageLossTosave">
         <omgdc:Bounds height="55.0" width="105.0" x="460.0" y="121.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="Guohu" id="BPMNShape_Guohu">
@@ -137,7 +158,7 @@
       <bpmndi:BPMNShape bpmnElement="inclusivegateway5" id="BPMNShape_inclusivegateway5">
         <omgdc:Bounds height="40.0" width="40.0" x="850.0" y="206.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask17" id="BPMNShape_usertask17">
+      <bpmndi:BPMNShape bpmnElement="caseRecvFlow" id="BPMNShape_caseRecvFlow">
         <omgdc:Bounds height="55.0" width="105.0" x="70.0" y="283.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
@@ -155,13 +176,13 @@
       <bpmndi:BPMNShape bpmnElement="MortgageFinishMsgEventCatch" id="BPMNShape_MortgageFinishMsgEventCatch">
         <omgdc:Bounds height="35.0" width="35.0" x="633.0" y="207.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+      <bpmndi:BPMNShape bpmnElement="TransSign" id="BPMNShape_TransSign">
         <omgdc:Bounds height="55.0" width="105.0" x="460.0" y="283.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="RatePayment" id="BPMNShape_RatePayment">
         <omgdc:Bounds height="55.0" width="105.0" x="720.0" y="283.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask6" id="BPMNShape_usertask6">
+      <bpmndi:BPMNShape bpmnElement="TransPlanFilling" id="BPMNShape_TransPlanFilling">
         <omgdc:Bounds height="55.0" width="105.0" x="598.0" y="283.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway5" id="BPMNShape_exclusivegateway5">
@@ -193,7 +214,7 @@
         <omgdi:waypoint x="380.0" y="310.0"></omgdi:waypoint>
         <omgdi:waypoint x="460.0" y="310.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="389.0" y="317.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="389.0" y="317.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow74" id="BPMNEdge_flow74">
@@ -201,7 +222,7 @@
         <omgdi:waypoint x="360.0" y="224.0"></omgdi:waypoint>
         <omgdi:waypoint x="460.0" y="224.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="72.0" x="370.0" y="234.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="370.0" y="234.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow75" id="BPMNEdge_flow75">
@@ -209,7 +230,7 @@
         <omgdi:waypoint x="360.0" y="149.0"></omgdi:waypoint>
         <omgdi:waypoint x="460.0" y="148.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="48.0" x="380.0" y="132.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="380.0" y="132.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow76" id="BPMNEdge_flow76">
@@ -240,7 +261,7 @@
         <omgdi:waypoint x="1105.0" y="224.0"></omgdi:waypoint>
         <omgdi:waypoint x="1192.0" y="224.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="36.0" x="1129.0" y="207.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="1129.0" y="207.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow90" id="BPMNEdge_flow90">
@@ -358,7 +379,7 @@
         <omgdi:waypoint x="870.0" y="148.0"></omgdi:waypoint>
         <omgdi:waypoint x="870.0" y="206.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="739.0" y="131.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="739.0" y="131.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow116" id="BPMNEdge_flow116">
@@ -366,15 +387,12 @@
         <omgdi:waypoint x="359.0" y="415.0"></omgdi:waypoint>
         <omgdi:waypoint x="235.0" y="415.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="305.0" y="344.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="305.0" y="344.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow117" id="BPMNEdge_flow117">
         <omgdi:waypoint x="217.0" y="398.0"></omgdi:waypoint>
         <omgdi:waypoint x="122.0" y="338.0"></omgdi:waypoint>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="151.0" y="373.0"></omgdc:Bounds>
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

@@ -28,6 +28,7 @@ import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQProperties;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,8 +85,14 @@ public class CcaiServiceImpl implements CcaiService {
 		result.setSuccess(true);
 		result.setMessage("同步成功!");
 		result.setCode("00");
-		//将案件编号 放入消息队列中
-		jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(),caseCode);
+		try {
+			//将案件编号 放入消息队列中
+			MQCaseMessage message = new MQCaseMessage(caseCode,MQCaseMessage.STARTFLOW_TYPE);
+			jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(),message);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
 		return result;
 	}
 
@@ -147,7 +154,14 @@ public class CcaiServiceImpl implements CcaiService {
 			ToCase toCase = tocaseMapper.findToCaseByCaseCode(caseCode);
 			//只有当案件信息为审核未通过才能进行修改
 			if (CaseStatusEnum.BHCCAI.getCode().equals(toCase.getStatus())) {
-				return updateCase(acase);
+				CcaiServiceResult result = updateCase(acase);
+				//操作成功，将案件放入消息队列
+				if(result.isSuccess()){
+					//将案件编号 放入消息队列中
+					MQCaseMessage message = new MQCaseMessage(caseCode,MQCaseMessage.UPDATEFLOW_TYPE);
+					jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(),message);
+				}
+				return result;
 			} else {
 				throw new BusinessException("案件状态不是驳回状态，不能进行调整!");
 			}
@@ -236,6 +250,8 @@ public class CcaiServiceImpl implements CcaiService {
 		param.setCcaiCode(toCase.getCcaiCode());
 		//获取并更新原有的参与人信息表
 		for (CaseParticipantImport pa : participants) {
+			//秘书信息不进行修改
+			if(CaseParticipantEnum.SECRETARY.getCode().equals(pa.getPosition())) continue;
 			//Assignid 不为空才进行修改或新增
 			if (StringUtils.isNotBlank(pa.getAssignId())) {
 				param.setAssignId(pa.getAssignId());

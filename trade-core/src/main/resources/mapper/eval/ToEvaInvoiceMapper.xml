@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.eval.repository.ToEvaInvoiceMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eval.entity.ToEvaInvoice" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR" />
+    <result column="INVOICE_TYPE" property="invoiceType" jdbcType="NVARCHAR" />
+    <result column="INVOICE_HEADER" property="invoiceHeader" jdbcType="VARCHAR" />
+    <result column="INVOICE_AMOUNT" property="invoiceAmount" jdbcType="DECIMAL" />
+    <result column="INVOICE_ADDRESS" property="invoiceAddress" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="NVARCHAR" />
+    <result column="TAX_NUM" property="taxNum" jdbcType="VARCHAR" />
+    <result column="APPLY_DATE" property="applyDate" jdbcType="TIMESTAMP" />
+    <result column="TO_FINSH_DATE" property="toFinshDate" jdbcType="TIMESTAMP" />
+    <result column="BANK_OPENED_DATE" property="bankOpenedDate" jdbcType="TIMESTAMP" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="BILL_TIME" property="billTime" jdbcType="TIMESTAMP" />
+    <result column="EVA_PROCESS_ID" property="evaProcessId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, EVA_CODE, INVOICE_TYPE, INVOICE_HEADER, INVOICE_AMOUNT, INVOICE_ADDRESS, 
+    STATUS, TAX_NUM, APPLY_DATE, TO_FINSH_DATE, BANK_OPENED_DATE, BANK_ACCOUNT, BILL_TIME, 
+    EVA_PROCESS_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_INVOICE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_EVA_INVOICE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.eval.entity.ToEvaInvoice" >
+    insert into sctrans.T_TO_EVA_INVOICE (PKID, CASE_CODE, EVA_CODE, 
+      INVOICE_TYPE, INVOICE_HEADER, INVOICE_AMOUNT, 
+      INVOICE_ADDRESS, STATUS, TAX_NUM, 
+      APPLY_DATE, TO_FINSH_DATE, BANK_OPENED_DATE, 
+      BANK_ACCOUNT, BILL_TIME, EVA_PROCESS_ID
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
+      #{invoiceType,jdbcType=NVARCHAR}, #{invoiceHeader,jdbcType=VARCHAR}, #{invoiceAmount,jdbcType=DECIMAL}, 
+      #{invoiceAddress,jdbcType=VARCHAR}, #{status,jdbcType=NVARCHAR}, #{taxNum,jdbcType=VARCHAR}, 
+      #{applyDate,jdbcType=TIMESTAMP}, #{toFinshDate,jdbcType=TIMESTAMP}, #{bankOpenedDate,jdbcType=TIMESTAMP}, 
+      #{bankAccount,jdbcType=VARCHAR}, #{billTime,jdbcType=TIMESTAMP}, #{evaProcessId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvaInvoice" >
+    insert into sctrans.T_TO_EVA_INVOICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE,
+      </if>
+      <if test="invoiceType != null" >
+        INVOICE_TYPE,
+      </if>
+      <if test="invoiceHeader != null" >
+        INVOICE_HEADER,
+      </if>
+      <if test="invoiceAmount != null" >
+        INVOICE_AMOUNT,
+      </if>
+      <if test="invoiceAddress != null" >
+        INVOICE_ADDRESS,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="taxNum != null" >
+        TAX_NUM,
+      </if>
+      <if test="applyDate != null" >
+        APPLY_DATE,
+      </if>
+      <if test="toFinshDate != null" >
+        TO_FINSH_DATE,
+      </if>
+      <if test="bankOpenedDate != null" >
+        BANK_OPENED_DATE,
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT,
+      </if>
+      <if test="billTime != null" >
+        BILL_TIME,
+      </if>
+      <if test="evaProcessId != null" >
+        EVA_PROCESS_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceType != null" >
+        #{invoiceType,jdbcType=NVARCHAR},
+      </if>
+      <if test="invoiceHeader != null" >
+        #{invoiceHeader,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceAmount != null" >
+        #{invoiceAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceAddress != null" >
+        #{invoiceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="taxNum != null" >
+        #{taxNum,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDate != null" >
+        #{applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toFinshDate != null" >
+        #{toFinshDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bankOpenedDate != null" >
+        #{bankOpenedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bankAccount != null" >
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="billTime != null" >
+        #{billTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evaProcessId != null" >
+        #{evaProcessId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eval.entity.ToEvaInvoice" >
+    update sctrans.T_TO_EVA_INVOICE
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceType != null" >
+        INVOICE_TYPE = #{invoiceType,jdbcType=NVARCHAR},
+      </if>
+      <if test="invoiceHeader != null" >
+        INVOICE_HEADER = #{invoiceHeader,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceAmount != null" >
+        INVOICE_AMOUNT = #{invoiceAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceAddress != null" >
+        INVOICE_ADDRESS = #{invoiceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="taxNum != null" >
+        TAX_NUM = #{taxNum,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDate != null" >
+        APPLY_DATE = #{applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toFinshDate != null" >
+        TO_FINSH_DATE = #{toFinshDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bankOpenedDate != null" >
+        BANK_OPENED_DATE = #{bankOpenedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="billTime != null" >
+        BILL_TIME = #{billTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evaProcessId != null" >
+        EVA_PROCESS_ID = #{evaProcessId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eval.entity.ToEvaInvoice" >
+    update sctrans.T_TO_EVA_INVOICE
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      INVOICE_TYPE = #{invoiceType,jdbcType=NVARCHAR},
+      INVOICE_HEADER = #{invoiceHeader,jdbcType=VARCHAR},
+      INVOICE_AMOUNT = #{invoiceAmount,jdbcType=DECIMAL},
+      INVOICE_ADDRESS = #{invoiceAddress,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=NVARCHAR},
+      TAX_NUM = #{taxNum,jdbcType=VARCHAR},
+      APPLY_DATE = #{applyDate,jdbcType=TIMESTAMP},
+      TO_FINSH_DATE = #{toFinshDate,jdbcType=TIMESTAMP},
+      BANK_OPENED_DATE = #{bankOpenedDate,jdbcType=TIMESTAMP},
+      BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      BILL_TIME = #{billTime,jdbcType=TIMESTAMP},
+      EVA_PROCESS_ID = #{evaProcessId,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

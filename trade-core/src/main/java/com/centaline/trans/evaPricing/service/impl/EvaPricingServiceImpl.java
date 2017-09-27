@@ -124,6 +124,15 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 		return toEvaPricingMapper.queryEvaFinOrg();
 	}
 	
+	@Override
+	public boolean evalRelation(long pkid, String caseCode) {
+		int count = toEvaPricingMapper.updateEvalPricingRela(pkid, caseCode);
+		if(count >0){
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * 自生成询价编号:EvaCodeyyyyMMddHHmmss
 	 * @return
@@ -132,6 +141,8 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 		String dateString = DateUtil.getFormatDate(new Date(), DATE_FORMAT);
 		return EVA_CODE_PRE+dateString;
 	}
+
+
 
 
 

@@ -8,7 +8,9 @@ public enum EventTypeEnum {
 	SPVFINISHEVENTCATCH(ConstantsUtil.MESSAGE_EVENT,"SpvFinishMsgEventCatch","SpvFinishMsgEventCatch"),
 	GUOHUFINISHEVENTCATCH(ConstantsUtil.MESSAGE_EVENT,"GuohuFinishMsgEventCatch","GuohuFinishMsgEventCatch"),
 	TRADEBOUNDARYMSG(ConstantsUtil.MESSAGE_EVENT,"TradeBoundaryMsg", "TradeBoundaryMsg"),
-	BANKLEVELAPPROVEEVENTCATCH(ConstantsUtil.MESSAGE_EVENT,"BankLevelApproveMsgEventCatch","BankLevelApproveMsgEventCatch");
+	BANKLEVELAPPROVEEVENTCATCH(ConstantsUtil.MESSAGE_EVENT,"BankLevelApproveMsgEventCatch","BankLevelApproveMsgEventCatch"),
+	//CCAI修改完成 消息事件捕获
+	CCAI_UPDATED_MSG_EVENT_CATCH(ConstantsUtil.MESSAGE_EVENT,"CCAIUpdatedMsgEventCatch","CCAIUpdatedMsgEventCatch");
 
 	private String eventType;
 

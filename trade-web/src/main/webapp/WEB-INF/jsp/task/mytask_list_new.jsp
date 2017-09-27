@@ -301,7 +301,7 @@ text-decoration: underline !important;
 					{{/if}}
 				</p>
 				<p>
-					<i class="tag_sign">c</i>{{item.CTM_CODE}}
+					<i class="tag_sign">c</i>{{item.CCAI_CODE}}
 				</p>
 			</td>
 

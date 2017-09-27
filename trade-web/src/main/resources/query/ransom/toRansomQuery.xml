@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>	
+		<customDict id="qqcdDictRetaType" beanName="qqcdDictRetaType"/>
+		<customDict id="qqcdDictDiyaType" beanName="qqcdDictDiyaType"/>	
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+	</formatters>
+	<query id="queryRansomDetail">
+		<searchCondition>
+			<condition field="RANSOM_CODE" name="ransomCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+						FIN_ORG_CODE finOrgCode,
+						MORTGAGE_TYPE retaType,
+						DIYA_TYPE diyaType,
+						LOAN_MONEY loanMoney,
+						REST_MONEY restMoney
+					FROM
+						sctrans.T_RA_TAILINS
+				]]>
+			</baseSql>
+			<orderBySql>
+				ORDER BY diyaType  DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="finOrgCode" display="尾款机构Code" hide="true"/>
+				<column type="virtual" name="tailOrgName" display="尾款机构名" referencecol="finOrgCode" customDict=""/>
+				<column type="both" name="retaType" display="尾款类型"   />
+				<column type="virtual" name="retaTypeName" display="尾款类型名" referencecol="mortgageType" customDict="qqcdDictRetaType"/>
+				<column type="both" name="diyaType" display="抵押类型"  />
+				<column type="virtual" name="diyaTypeName" display="抵押类型名" referencecol="diyaType" customDict="qqcdDictDiyaType"/>				
+				<column type="both" name="loanMoney" display="贷款金额" />
+				<column type="both" name="restMoney" display="剩余金额"/>
+				<column type="both" name="actualMoney" display="实际还款金额"/>			
+			</table-row>
+		</grid>
+	</query>
+</querys>

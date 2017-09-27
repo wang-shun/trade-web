@@ -164,7 +164,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		if(workF!=null){
 			vo.setProcessDefinitionId(workF.getProcessDefinitionId());
 		}
-		//loanRequirementChange(vo);
+		loanRequirementChange(vo);
 
 		BizWarnInfo bizWarnInfo = bizWarnInfoMapper.selectByCaseCode(vo.getCaseCode());
 		if(bizWarnInfo != null){
@@ -191,15 +191,16 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			event.setEventName(MessageEnum.START_MORTGAGE_SELECT_MSG.getName());
 			event.setProcInstId(vo.getProcessInstanceId());
 			//event.setActivityId(EventTypeEnum.TRADEBOUNDARYMSG.getName());
+			event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
 			List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
 			
 			event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
 			event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
 			event.setProcInstId(vo.getProcessInstanceId());
-			//event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+			event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
 			List<ActRuEventSubScr> mortSubScrsList= actRuEventSubScrMapper.listBySelective(event);
 			if (CollectionUtils.isEmpty(subScrsList)&&CollectionUtils.isEmpty(mortSubScrsList)) {
-				//throw new BusinessException("当前流程下不允许变更贷款需求！");
+				throw new BusinessException("当前流程下不允许变更贷款需求！");
 			}
 			String mortType = vo.getMortageService();
 			if(mortType==null) {
@@ -212,14 +213,14 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			wf.setCaseCode(vo.getCaseCode());
 			if(mortType.equals(ConstantsUtil.NO_LOAN)) {
 				// 发送边界消息
-				List<RestVariable> variables = new ArrayList<RestVariable>();
+				/*List<RestVariable> variables = new ArrayList<RestVariable>();
 				editRestVariables(variables, vo.getMortageService());
 
-				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId(), variables);
+				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId(), variables);*/
 				//修改流程变量
-				for(RestVariable var:variables){
+			/*	for(RestVariable var:variables){
 					workFlowManager.setVariableByProcessInsId(vo.getProcessInstanceId(),var.getName(),var);
-				}
+				}*/
 				// 删除所有的贷款流程
 				deleteMortFlowByCaseCode(vo.getCaseCode());
 				// 发送消息
@@ -236,7 +237,10 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			} else if(mortType.equals(ConstantsUtil.PSF_LOAN)) {
 				wf.setBusinessKey(WorkFlowEnum.PSFLOAN_PROCESS.getName());
 				processDfId=propertyUtilsService.getProcessDfId("PSFLoan_Process");
-			} else {
+			}else if(mortType.equals(ConstantsUtil.COM_PSF_LOAN)){ 
+				wf.setBusinessKey(WorkFlowEnum.COMANDPSFLOAN_PROCESS.getName());
+				processDfId=propertyUtilsService.getProcessDfId("ComLoanAndPSFLoan_Process");
+			}else {
 				
 				wf.setBusinessKey(WorkFlowEnum.LOANLOST_PROCESS.getName());
 				processDfId=propertyUtilsService.getProcessDfId("LoanLost_Process");
@@ -246,9 +250,9 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
 			if(wordkFlowDB == null) {
 				// 发送边界消息
-				List<RestVariable> variables = new ArrayList<RestVariable>();
+				/*List<RestVariable> variables = new ArrayList<RestVariable>();
 				editRestVariables(variables, vo.getMortageService());
-				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId(),variables);
+				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId(),variables);*/
 				
 				// 删除所有的贷款流程
 				deleteMortFlowByCaseCode(vo.getCaseCode());
@@ -450,7 +454,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		RestVariable restVariable5 = new RestVariable();
 		restVariable5.setName("ComLoanAndPSFLoanNeed");
 
-		if ("1".equals(loanTyby)) {/*  组合贷 */
+		if ("1".equals(loanTyby)) {/*  按揭贷 */
 			restVariable1.setValue(true);
 			restVariable2.setValue(false);
 			restVariable5.setValue(false);

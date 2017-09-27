@@ -68,7 +68,9 @@
 		<div class="col-lg-4 case-info">
 			<dl class="dl-horizontal ">
 				<dt><h2 class="title">编号</h2></dt>
-				<dd>TJ-SL-201707-0001</dd>
+				<dd>
+					<a href="${ctx }/ransomList/ransomDetail?ransomCode=${detailVo.ransomCode}" target="_blank">${detailVo.ransomCode}</a>
+				</dd>
 			</dl>
 		</div>
 		<div class="col-lg-12"><hr></div>
@@ -76,25 +78,33 @@
 			<div class="col-lg-5" id="cluster_info">
 				<dl class="dl-horizontal">
 					<dt>借款人</dt>
-					<dd>张三</dd>
+					<dd>
+						<a data-toggle="popover" data-placement="right" data-content="${detailVo.borrowTel }"> ${detailVo.borrowName }</a>
+					</dd>
 					<dt>房屋地址</dt>
-					<dd>${info.finOrgName}</dd>
+					<dd>${detailVo.addr }</dd>
 				</dl>
 			</div>
 			<div class="col-lg-4" id="cluster_info">
 				<dl class="dl-horizontal">
 					<dt>合作机构</dt>
-					<dd>${info.finOrgName}</dd>
+					<dd>${detailVo.comOrgName }</dd>
 					<dt>信贷员</dt>
-					<dd>${info.finOrgName}</dd>
+					<dd>
+						<a data-toggle="popover" data-placement="right" data-content="${detailVo.creditTel }"> ${detailVo.credit }</a>
+					</dd>
 				</dl>
 			</div>
 			<div class="col-lg-3">
 				<dl class="dl-horizontal">
 					<dt>金融权证</dt>
-					<dd>${info.finOrgName}</dd>
+					<dd>
+						<a data-toggle="popover" data-placement="right" data-content="${detailVo.financialTel }">${detailVo.financial }</a>	
+					</dd>
 					<dt>经纪人</dt>
-					<dd>${info.finOrgName}</dd>
+					<dd>
+						<a data-toggle="popover" data-placement="right" data-content="${detailVo.agentPhone }">${detailVo.agentName }</a>
+					</dd>
 				</dl>
 			</div>
 		</div>

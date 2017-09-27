@@ -3,6 +3,7 @@
 	<dicts>	
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"/>
 		<customDict id="qqcdDictEvaPricingType" beanName="qqcdDictEvaPricingType"/>
+		<customDict id="qqcdDict30001" beanName="qqcdDict30001"></customDict>
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
@@ -67,6 +68,42 @@
 				<column type="both" name="TOTAL_PRICE" display="询价值" hide="true"/>
 				<column type="both" name="HOUSE_AGE" display="房龄" />
 				<column type="both" name="STATUS" display="状态" hide="true"/>
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryEvalApplyList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+						cas.CASE_CODE caseCode,
+						cas.STATUS status,
+						info.PROPERTY_ADDR addr,
+						pro.RESIDENCE_NAME residenceName
+					FROM
+						sctrans.T_TO_EVA_PRICING pri
+						INNER JOIN sctrans.T_TO_EGU_PROPERTY_INFO pro ON pri.EVA_CODE = pro.EVA_CODE,
+						sctrans.T_TO_CASE cas 
+						INNER JOIN sctrans.T_TO_PROPERTY_INFO info ON cas.CASE_CODE = info.CASE_CODE
+					WHERE
+						pri.PKID = #pkid#
+						AND cas.CASE_PROPERTY IN('30003003','30003007','30003008','30003009')
+						AND info.PROPERTY_ADDR LIKE '%'+pro.RESIDENCE_NAME+'%'
+				]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="caseCode" display="案件编号"/>
+				<column type="both" name="status" display="案件状态" />
+				<column type="both" name="addr" display="物业地址" />
+				<column type="both" name="residenceName" display="询价产业地址"/>				
+				<column type="virtual" name="caseStatus" display="申请人" referencecol="status" customDict="qqcdDict30001"  />
 			</table-row>
 		</grid>
 	</query>

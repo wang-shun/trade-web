@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.ransom.repository.RansomMapper">
+	<resultMap id="BaseResultMap" type="com.centaline.trans.ransom.entity.ToRansomDetailVo" >
+		<result column="ransomCode" property="ransomCode" jdbcType="VARCHAR"/>
+		<result column="caseCode" property="caseCode" jdbcType="VARCHAR"/>
+		<result column="financial" property="financial" jdbcType="VARCHAR"/>
+		<result column="financialTel" property="financialTel" jdbcType="VARCHAR"/>
+		<result column="borrowMoney" property="borrowMoney" jdbcType="DECIMAL"/>
+		<result column="borrowName" property="borrowName" jdbcType="VARCHAR"/>
+		<result column="borrowTel" property="borrowTel" jdbcType="VARCHAR"/>
+		<result column="addr" property="addr" jdbcType="VARCHAR"/>
+		<result column="comOrgCode" property="comOrgCode" jdbcType="VARCHAR"/>
+		<result column="comOrgName" property="comOrgName" jdbcType="VARCHAR"/>
+		<result column="credit" property="credit" jdbcType="VARCHAR"/>
+		<result column="agentName" property="agentName" jdbcType="VARCHAR"/>
+		<result column="agentPhone" property="agentPhone" jdbcType="VARCHAR"/>
+		<result column="leadingProcessId" property="leadingProcessId" jdbcType="VARCHAR"/>
+		<result column="interViewMoney" property="interViewMoney" jdbcType="DECIMAL"/>
+		<result column="repayLoanMoney" property="repayLoanMoney" jdbcType="DECIMAL"/>
+		<result column="interest" property="interest" jdbcType="DECIMAL"/>
+		<result column="isEntrust" property="isEntrust" jdbcType="VARCHAR"/>
+		<!-- <collection property="tails" ofType="com.centaline.trans.ransom.entity.ToRansomTailVo">
+			<result column="finOrgCode" property="finOrgCode" jdbcType="VARCHAR"/>
+			<result column="tailOrgName" property="tailOrgName" jdbcType="VARCHAR"/>
+			<result column="mortgageType" property="mortgageType" jdbcType="VARCHAR"/>
+			<result column="diyaType" property="diyaType" jdbcType="VARCHAR"/>
+			<result column="loanMoney" property="loanMoney" jdbcType="DECIMAL"/>
+			<result column="restMoney" property="restMoney" jdbcType="DECIMAL"/>
+			<result column="actualMoney" property="actualMoney" jdbcType="DECIMAL"/>
+		</collection> -->
+	</resultMap>
+	
+	<select id="getRansomDetailInfoByCode" resultMap="BaseResultMap">
+		SELECT
+			ra.RANSOM_CODE ransomCode,
+			ra.CASE_CODE caseCode,
+			part.REAL_NAME financial,
+			part.MOBILE financialTel,
+			ra.BORRO_MONEY borrowMoney,
+			ra.BORROWER_NAME borrowName,
+			ra.BORROWER_TEL borrowTel,
+			pro.PROPERTY_ADDR addr,
+			ra.COM_ORG_CODE comOrgCode,
+			(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = ra.COM_ORG_CODE) comOrgName,
+			app.LOANOFFICER credit,
+			cai.AGENT_NAME agentName,
+			cai.AGENT_PHONE agentPhone,
+			cas.LEADING_PROCESS_ID leadingProcessId,
+			<!-- tai.FIN_ORG_CODE finOrgCode,
+			(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = tai.FIN_ORG_CODE) tailOrgName,
+			tai.MORTGAGE__TYPE mortgageType,
+			tai.DIYA_TYPE diyaType,
+			tai.LOAN_MONEY loanMoney,
+			tai.REST_MONEY restMoney, -->
+			vie.INTERVIEW_MONEY interViewMoney,
+			vie.INTEREST interest,
+			vie.IS_ENTRUST isEntrust
+			<!-- 还贷金额 -->
+		FROM
+			sctrans.T_RA_CASE ra
+			INNER JOIN sctrans.T_TO_CASE cas ON ra.CASE_CODE = cas.CASE_CODE
+			INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON ra.CASE_CODE = pro.CASE_CODE
+			INNER JOIN sctrans.T_TO_CASE_INFO cai ON ra.CASE_CODE = cai.CASE_CODE
+			<!-- LEFT JOIN sctrans.T_RA_TAILINS tai ON ra.RANSOM_CODE = tai.RANSOM_CODE -->
+			LEFT JOIN sctrans.T_RA_INTERVIEW vie ON ra.RANSOM_CODE = vie.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_APPLY app ON ra.RANSOM_CODE = app.RANSOM_CODE
+			INNER JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
+		WHERE 
+			ra.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+			AND part.POSITION = 'financial' <!-- 金融权证 -->
+			AND part.AVAILABLE = 'Y'
+	</select>
+
+
+	<select id="getRansomPlanByCode" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
+		SELECT
+			rap.PART_CODE partCode,
+			rap.EST_PART_TIME estPartTime,
+			cas.CREATE_TIME createTime
+		FROM
+			sctrans.T_RA_PLAN rap
+			INNER JOIN sctrans.T_RA_CASE cas ON rap.RANSOM_CODE = cas.RANSOM_CODE
+	</select>
+	
+	<select id="getCompleteTimeByCode" resultType="java.util.HashMap">
+		SELECT
+			${cloumn} completeTime
+		FROM
+			${table}
+		WHERE 
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="insertRansomCancel" parameterType="com.centaline.trans.ransom.entity.ToRansomCancelVo">
+		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">
+			SELECT @@IDENTITY
+		</selectKey>
+			insert into sctrans.T_RA_CANCEL
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				RANSOM_CODE,
+			</if>
+			<if test="partCode != null">
+				PART_CODE,
+			</if>
+			<if test="cancelTime != null">
+				CANCEL_TIME,
+			</if>
+			<if test="diyaType != null">
+				DIYA_TYPE,
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER,
+			</if>
+				UPDATE_TIME
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				#{ransomCode,jdbcType=VARCHAR},
+			</if>
+			<if test="partCode != null">
+				#{partCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cancelTime != null">
+				#{cancelTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="diyaType != null">
+				#{diyaType,jdbcType=VARCHAR},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+				CURRENT_TIMESTAMP
+		</trim>
+		
+	</insert>
+	
+	<insert id="insertRansomPermit" parameterType="com.centaline.trans.ransom.entity.ToRansomPermitVo">
+		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">
+			SELECT @@IDENTITY
+		</selectKey>
+			insert into sctrans.T_RA_REDEEM
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				RANSOM_CODE,
+			</if>
+			<if test="partCode != null">
+				PART_CODE,
+			</if>
+			<if test="redeemTime != null">
+				REDEEM_TIME,
+			</if>
+			<if test="diyaType != null">
+				DIYA_TYPE,
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER,
+			</if>
+				UPDATE_TIME
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				#{ransomCode,jdbcType=VARCHAR},
+			</if>
+			<if test="partCode != null">
+				#{partCode,jdbcType=VARCHAR},
+			</if>
+			<if test="redeemTime != null">
+				#{redeemTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="diyaType != null">
+				#{diyaType,jdbcType=VARCHAR},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+				CURRENT_TIMESTAMP
+		</trim>
+	</insert>
+	
+	<insert id="insertRansomPayment" parameterType="com.centaline.trans.ransom.entity.ToRansomPaymentVo">
+		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">
+			SELECT @@IDENTITY
+		</selectKey>
+			insert into sctrans.T_RA_PAYMENT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				RANSOM_CODE,
+			</if>
+			<if test="partCode != null">
+				PART_CODE,
+			</if>
+			<if test="paymentTime != null">
+				PAYMENT_TIME,
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER,
+			</if>
+				UPDATE_TIME
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				#{ransomCode,jdbcType=VARCHAR},
+			</if>
+			<if test="partCode != null">
+				#{partCode,jdbcType=VARCHAR},
+			</if>
+			<if test="paymentTime != null">
+				#{paymentTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+				CURRENT_TIMESTAMP
+		</trim>
+	</insert>
+</mapper>

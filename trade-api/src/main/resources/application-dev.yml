@@ -86,5 +86,5 @@ redis:
 swagger:
   #不配置的话 会导致部署到服务器上 自动生成本机的host无法进行代理,配置需要加上端口
   host: 10.1.30.104
-# 消息队列 自动启动流程开关 true自动启动 false忽略不自动启动
-trade.flowAutoStart: true
+# 案件消息队列开关 自动启动流程或发送发送CCAI秘书调整案件完成消息开关 true启动 false忽略消息队列信息
+trade.casemq.enable: true

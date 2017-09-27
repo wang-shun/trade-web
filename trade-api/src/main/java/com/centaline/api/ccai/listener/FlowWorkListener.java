@@ -3,21 +3,28 @@ package com.centaline.api.ccai.listener;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.alibaba.fastjson.JSONObject;
+import com.centaline.api.ccai.vo.MQCaseMessage;
+import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
-import com.centaline.trans.cases.entity.ToWorkFlowStartLog;
+import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
-import com.centaline.trans.cases.repository.ToWorkFlowStartLogMapper;
-import com.centaline.trans.common.enums.CaseParticipantEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.entity.MqOpertationLog;
+import com.centaline.trans.common.enums.*;
+import com.centaline.trans.common.repository.MqOpertationLogMapper;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.engine.WorkFlowConstant;
+import com.centaline.trans.engine.bean.ExecuteAction;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.core.WorkFlowEngine;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.utils.WorkFlowUtils;
+import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.task.entity.ActRuEventSubScr;
+import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +32,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.ObjectMessage;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -49,39 +59,77 @@ public class FlowWorkListener {
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
-	private ToWorkFlowStartLogMapper logMapper;
+	private MqOpertationLogMapper logMapper;
+	@Autowired
+	private ActRuEventSubScrMapper actRuEventSubScrMapper;
+	@Autowired
+	private ToCaseMapper caseMapper;
+
 	@Autowired
 	private WorkFlowEngine engine;//该处使用engine 否则无法进行访问流程引擎平台
-	@Value("${trade.flowAutoStart:true}")
-	private boolean autoStart;//是否自动启动流程
+	@Value("${trade.casemq.enable:true}")
+	private boolean enable;//是否自动启动流程
 
 	@JmsListener(destination = caseQueueName)
-	public void startTradeFlow(String caseCode){
-		if(!autoStart){
-			logger.info("get a caseCode"+caseCode+" but not auto start flow");
-			return;
-		}
-		ToWorkFlowStartLog startLog = new ToWorkFlowStartLog();
-		startLog.setCaseCode(caseCode);
-		startLog.setCreateBy("SYSTEM");
-		startLog.setCreateDate(new Date());
-		startLog.setStartTime(new Date());
+	public void mqCaseOpertation(Message msg){
+		if(msg==null) return;
 		try {
-			startProcess(caseCode);
-			startLog.setStatus("0");
-		}catch (Exception e){
-			startLog.setStatus("-1");
-			startLog.setErrMsg(e.getMessage());
+			if(msg instanceof ObjectMessage){
+				ObjectMessage objectMessage = (ObjectMessage) msg;
+				//具体操作
+				caseOpertation((MQCaseMessage) objectMessage.getObject());
+			}
+		} catch (JMSException e) {
+			logger.error("change Message to Object error.",e);
 		}
-		logMapper.insertSelective(startLog);
 	}
 
 	public static String getCaseQueueName() {
 		return caseQueueName;
 	}
 
+	/**
+	 * 具体的操作
+	 * @param message
+	 */
+	private void caseOpertation(MQCaseMessage message){
+		if(!enable){
+			logger.info("get a opertation:"+message+" but service is not enable.ignore");
+			return;
+		}
+		MqOpertationLog mqlog = new MqOpertationLog();
+		mqlog.setQueueName(caseQueueName);
+		mqlog.setMessage(JSONObject.toJSONString(message));
+		mqlog.setOpertation(message.getType());
+		mqlog.setCreateBy("SYSTEM");
+		mqlog.setCreateTime(new Date());
+		mqlog.setOpertationTime(new Date());
+		try {
+			if(MQCaseMessage.STARTFLOW_TYPE.equals(message.getType())){
+				startProcess(message.getCaseCode());
+				mqlog.setStatus("0");
+			}else if(MQCaseMessage.UPDATEFLOW_TYPE.equals(message.getType())){
+				updateProcess(message.getCaseCode());
+				mqlog.setStatus("0");
+			}else{
+				mqlog.setOpertation(message.getType());
+				mqlog.setStatus("-1");
+				mqlog.setErrmsg("未识别的操作.");
+			}
+		}catch (Exception e){
+			mqlog.setStatus("-1");
+			mqlog.setErrmsg(e.getMessage());
+		}
+		logMapper.insertSelective(mqlog);
+	}
+
+
+	/**
+	 * 开启案件交易流程
+	 * @param caseCode
+	 * @throws BusinessException
+	 */
 	private void startProcess(String caseCode) throws BusinessException{
-		//TODO  后面的更多启动流程 在该处添加处理
 		List<ToCaseParticipant> participants = participantMapper.selectByCaseCode(caseCode);
 		//流程引擎相关
 		Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
@@ -96,7 +144,6 @@ public class FlowWorkListener {
 				owner = pa;
 			}
 		}
-
 		if(owner!=null){
 			//设置流程引擎平台登录用户 否则无法创建httpclient
 			engine.setAuthUserName(owner.getUserName());
@@ -106,6 +153,8 @@ public class FlowWorkListener {
 			defValsMap.put("manager",owner.getGrpMgrUsername());
 			//TODO 兼容原有流程 否则会无法启动 后面正式流程删除
 			defValsMap.put("caseOwner",owner.getGrpMgrUsername());
+			//TODO 获取内勤信息 并设置
+			defValsMap.put("assistant",owner.getGrpMgrUsername());
 		}else{
 			throw new BusinessException("交易案件 编号["+caseCode+"] 未获取到案件贷款或过户权证信息 启动流程失败.");
 		}
@@ -145,5 +194,43 @@ public class FlowWorkListener {
 				.RESTfulWorkFlow(WorkFlowConstant.START_PROCESS_INSTANCE_KEY, StartProcessInstanceVo.class, process);
 		return obj;
 	}
+
+	/**
+	 * 向流程发送CCAI修改完成消息
+	 * 并更改案件状态
+	 * @param caseCode
+	 */
+	private void updateProcess(String caseCode){
+		//获取流程信息
+		ToWorkFlow wf = new ToWorkFlow();
+		wf.setCaseCode(caseCode);
+		wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+		ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+		if(wordkFlowDB!=null){
+			// 发送消息
+			ActRuEventSubScr event = new ActRuEventSubScr();
+			event.setEventType(MessageEnum.CCAI_UPDATED_MSG.getEventType());
+			event.setEventName(MessageEnum.CCAI_UPDATED_MSG.getName());
+			event.setProcInstId(wordkFlowDB.getInstCode());
+			event.setActivityId(EventTypeEnum.CCAI_UPDATED_MSG_EVENT_CATCH.getName());
+			ExecuteAction action = new ExecuteAction();
+			action.setAction(EventTypeEnum.CCAI_UPDATED_MSG_EVENT_CATCH.getEventType());
+			action.setMessageName(MessageEnum.CCAI_UPDATED_MSG.getName());
+			List<ActRuEventSubScr> subScrs= actRuEventSubScrMapper.listBySelective(event);
+			if(CollectionUtils.isNotEmpty(subScrs)) {
+				//设置流程引擎登录用户 否则无法访问REST接口
+				User user = uamUserOrgService.getUserById(wordkFlowDB.getProcessOwner());
+				engine.setAuthUserName(user.getUsername());
+				//调用REST接口发送消息
+				action.setExecutionId(subScrs.get(0).getExecutionId());
+				engine.RESTfulWorkFlow(WorkFlowConstant.PUT_EXECUTE_KEY, ExecutionVo.class, action);
+			}
+			//修改案件状态为未接单
+			ToCase acase = caseMapper.findToCaseByCaseCode(caseCode);
+			acase.setStatus(CaseStatusEnum.WJD.getCode());//将案件重置为未接单
+			caseMapper.updateByCaseCodeSelective(acase);
+		}
+	}
+
 
 }

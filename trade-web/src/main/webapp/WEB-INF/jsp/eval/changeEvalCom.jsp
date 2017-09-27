@@ -553,7 +553,7 @@ function checkForm() {
 							<label class="control-label sign_left_small"><font
 								color=" red" class="mr5">*</font>调佣事项 :</label> <input type="text"
 								class="input_type yuanwid" id="" name="changeChargesItem"
-								onkeyup="checkNum(this)"  value="评估公司变更" maxlength="32">
+								readonly="readonly"  value="评估公司变更" maxlength="32">
 						</div>
 
 						<div class="form_content">
@@ -567,7 +567,7 @@ function checkForm() {
 					<div class="line">
 						<div class="form_content">
 							<label class="control-label sign_left_small"><font
-								color=" red" class="mr5">*</font>调佣事由 </label> <input type="text"
+								color=" red" class="mr5">*</font>调佣事由 </label> <input type="text" id="changeChargesCause"
 								class="input_type mendwidth" maxlength="150" name="changeChargesCause">
 						</div>
 					</div>

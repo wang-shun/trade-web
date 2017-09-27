@@ -157,4 +157,19 @@ public class EvaPricingListController {
 		result.setContent(lis);
 		return result;
 	}
+	
+	/**
+	 * 询价关联案件
+	 * @param pkid
+	 * @param caseCode
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("evaPricingRelation")
+	@ResponseBody
+	public AjaxResponse<Boolean> evaPricingRelation(long pkid,String caseCode){
+		
+		boolean result = evaPricingService.evalRelation(pkid, caseCode);
+		return AjaxResponse.successContent(result);
+	}
 }

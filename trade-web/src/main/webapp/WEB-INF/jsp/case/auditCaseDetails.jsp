@@ -58,10 +58,28 @@
 		})
 	}
 	
+	function openReturnModal(){
+		$('#returnReasonModal').modal({
+			keyboard:false,
+			show:true,
+			backdrop:true
+		})
+	}
+	
 	function formSubmit(){
 		var url=ctx+"/AuditImportCase/addLoanProcessor";
 		$("#jvForm").attr("action",url);
 		document.getElementById("jvForm").submit();
+	}
+	
+	function formReturnReasonSubmit(){
+		if($("#returnReason").val()==0){
+			window.wxc.alert("请选择驳回原因!");
+			return;
+		}
+		var url=ctx+"/AuditImportCase/returnReason";
+		$("#returnReasonModalForm").attr("action",url);
+		document.getElementById("returnReasonModalForm").submit();
 	}
 </script>
 
@@ -161,7 +179,7 @@ var AttachmentList = (function(){
 		<div class="row wrapper white-bg new-heading" id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
-                        	首次跟进
+                        	接单审核
                  </h2>
                 <div class="mt20">
                     <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
@@ -191,7 +209,7 @@ var AttachmentList = (function(){
 	            </div>
 	            
 	            <div class="view-content">
-	              	<table id="gridTable" class="table table_blue  table-striped table-bordered table-hover customerinfo nomargin"></table>
+	              	<table id="gridTable" class=""></table>
 	   				<div id="gridPager"></div>
 	            </div>
 
@@ -200,11 +218,11 @@ var AttachmentList = (function(){
 				<button type="button" class="btn btn-success"
 					onclick="auditSuccess()">审核通过</button>
 				&nbsp&nbsp&nbsp&nbsp
-				<button type="button" class="btn btn-success">驳回</button>
+				<button type="button" class="btn btn-success" onclick="openReturnModal()">驳回</button>
 				&nbsp&nbsp&nbsp&nbsp
 				<button type="button" class="btn btn-success" onclick="openModal()">新增贷款专员</button>
 
-				<!-- 模态框（Modal） -->
+				<!-- 新增贷款专员 - 模态框（Modal） -->
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 					aria-labelledby="myModalLabel">
 					<div class="modal-dialog">
@@ -233,8 +251,44 @@ var AttachmentList = (function(){
 						</div>
 						<!-- /.modal-content -->
 					</div>
-					<!-- /.modal -->
 				</div>
+					<!--模态框结束 -->
+				
+				<!-- 驳回 原因 - 模态框（Modal） -->
+				<div class="modal fade" id="returnReasonModal" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="myModalLabel">请选择：</h4>
+							</div>
+							<div class="modal-body">
+							<form id="returnReasonModalForm" action="#" method="post">
+							<input type="hidden" value="${caseCode}" name="caseCode" id="caseCode">
+												
+								驳回原因： <select id="returnReason" name="returnReason">									
+										<option value="0">请选择</option>
+										<option value="1">权证专员错误</option>
+										<option value="2">附件错误</option>								
+								</select>
+								驳回备注：<input type="text" name="returnComment" id="returnComment" maxlength="50" style="width:520px;">
+								
+						
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-success"
+									data-dismiss="modal">关闭</button>
+								<button type="button" class="btn btn-success" id="submit1" onclick="formReturnReasonSubmit()">
+									提交</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+				</div>
+					<!--模态框结束 -->
 			</div>
 			
 		</div>
