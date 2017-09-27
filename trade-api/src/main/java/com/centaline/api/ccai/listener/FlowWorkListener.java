@@ -138,7 +138,7 @@ public class FlowWorkListener {
 			//将所有的参与人 以参与人类型放入到流程引擎参数中
 			defValsMap.put(pa.getPosition(), pa.getUserName());
 			//有贷款权证 则贷款权证是案件拥有者 否则为过户权证
-			if(pa==null && CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())){
+			if(owner == null && CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())){
 				owner = pa;
 			}else if(CaseParticipantEnum.LOAN.getCode().equals(pa.getPosition())){
 				owner = pa;
