@@ -455,16 +455,17 @@ public class ToMortgageServiceImpl implements ToMortgageService
     {
         //toMortgage.setIsDelegateYucui("1");
         List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(toMortgage);
+        MortgageToSaveVO mortgageToSaveVO = toMortgageTosaveService.getTosave(toMortgage);
         if (CollectionUtils.isNotEmpty(list))
         {
             ToMortgage mort = null;
             ToSupDocu toSupDocu = toSupDocuService.findByCaseCode(toMortgage.getCaseCode());
 
-            if (list.size() == 1)
+            if (list.size() > 0)
             {
                 mort = list.get(0);
             }
-            else
+/*            else
             {
                 for (ToMortgage mortgage : list)
                 {
@@ -474,8 +475,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
                         break;
                     }
                 }
-            }
-           
+            }*/         
             /*
              * mort.setComAmount(mort.getComAmount() != null ?
              * mort.getComAmount() .divide(new BigDecimal(10000)) : null);
@@ -485,17 +485,32 @@ public class ToMortgageServiceImpl implements ToMortgageService
              * mort.getPrfAmount() .divide(new BigDecimal(10000)) : null);
              */
             mort.setToSupDocu(toSupDocu);
+            if(StringUtils.isBlank(mort.getBank_type()) && StringUtils.isBlank(mort.getBank_type())){
+            	if(mortgageToSaveVO != null){
+            		mort = getToMortgage(mort,mortgageToSaveVO);
+            		return mort;
+            	}else{
+            		return mort;
+            	}
+            }
 
-            return mort;
+            
         }
-        if(StringUtils.isBlank(toMortgage.getBank_type()) && StringUtils.isBlank(toMortgage.getBank_type())){
-        	MortgageToSaveVO mortgageToSaveVO = toMortgageTosaveService.getTosave(toMortgage);
-        	if(mortgageToSaveVO != null){
-        		toMortgage.setBank_type(mortgageToSaveVO.getBank_type());
-        		toMortgage.setFinOrgCode(mortgageToSaveVO.getFinOrgCode());
-        	}
+       
+        ToMortgage mort = new ToMortgage();
+        if(mortgageToSaveVO!=null){
+        	mort = getToMortgage(mort,mortgageToSaveVO);
+        	return mort;
+        }else{
+        	return null;
         }
-        return null;
+        
+    }
+    
+    private ToMortgage getToMortgage(ToMortgage mort,MortgageToSaveVO mortgageToSaveVO){
+    	mort.setBank_type(mortgageToSaveVO.getBank_type());
+		mort.setFinOrgCode(mortgageToSaveVO.getFinOrgCode());
+		return mort;
     }
 
     @Override
