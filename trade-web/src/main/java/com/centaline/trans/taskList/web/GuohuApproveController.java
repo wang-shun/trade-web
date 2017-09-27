@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.druid.util.StringUtils;
 import com.centaline.trans.task.entity.ToHouseTransfer;
+import com.centaline.trans.task.entity.ToRatePayment;
+import com.centaline.trans.task.service.ToRatePaymentService;
 import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -80,6 +82,8 @@ public class GuohuApproveController {
 	@Autowired
 	private ToHouseTransferService toHouseTransferService;
 	@Autowired
+	private ToRatePaymentService toRatePaymentService;/*缴税信息*/
+	@Autowired
 	private UamBasedataService uamBasedataService;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
@@ -110,11 +114,13 @@ public class GuohuApproveController {
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(caseCode);
 		CaseDetailShowVO reVo  = toCaseInfoService.getCaseDetailShowVO(caseCode, toMortgage);
 		ToHouseTransfer toHouseTransfer =  toHouseTransferService.findToGuoHuByCaseCode(caseCode);
+		//缴税信息
+		ToRatePayment toRatePayment=toRatePaymentService.qureyToRatePayment(caseCode);
 		if(toHouseTransfer!=null){
 			String accompanyReasonCn = findDictAccompanyReason(toHouseTransfer.getAccompanyReason());
 			request.setAttribute("accompanyReasonCn", accompanyReasonCn);
 		}
-
+		request.setAttribute("toRatePayment",toRatePayment);
 		request.setAttribute("toMortgage", toMortgage);
 		request.setAttribute("caseDetailVO", reVo);
 		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));

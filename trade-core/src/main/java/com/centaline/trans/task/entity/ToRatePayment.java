@@ -10,31 +10,31 @@ import java.util.Date;
 public class ToRatePayment {
     private Long pkid;
 
-    private String caseCode;
+    private String caseCode;//交易编号
 
-    private BigDecimal personalIncomeTax;
+    private BigDecimal personalIncomeTax;//个人所得税
 
-    private BigDecimal businessTax;
+    private BigDecimal businessTax;//增值税及附加税
 
-    private BigDecimal contractTax;
+    private BigDecimal contractTax;//买方契税
 
-    private BigDecimal landIncrementTax;
+    private BigDecimal landIncrementTax;//土地增值税
 
-    private BigDecimal pricingTax;
+    private BigDecimal pricingTax;//核税价
 
-    private String comment;
+    private String comment;//备注
 
-    private String createBy;
+    private String createBy;//创建人
 
-    private Date createTime;
+    private Date createTime;//创建时间
 
-    private Date paymentTime;
+    private Date paymentTime;//缴税时间
 
-    private String partCode;
+    private String partCode;//环节编码
 
-    private String autualOperatorId;
+    private String autualOperatorId;//实际操作者id
 
-    private String autualOperatorName;
+    private String autualOperatorName;//实际操作者姓名
 
     public String getAutualOperatorName() {
         return autualOperatorName;

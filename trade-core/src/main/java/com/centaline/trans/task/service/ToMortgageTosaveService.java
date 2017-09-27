@@ -11,5 +11,7 @@ public interface ToMortgageTosaveService {
 
 	MortgageToSaveVO getTosave(ToMortgage mort);
 
-	
+	MortgageToSaveVO selectByCaseCode(String code);
+
+	int updateByPrimary(MortgageToSaveVO mortgageToSaveVO);
 }

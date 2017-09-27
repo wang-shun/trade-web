@@ -8,6 +8,7 @@ import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
+import com.centaline.trans.task.vo.MortgageToSaveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 public interface ToHouseTransferService {
@@ -17,6 +18,13 @@ public interface ToHouseTransferService {
 	ToHouseTransfer findToGuoHuByCaseCode(String caseCode);
 	
 	void saveToHouseTransferAndMort(ToHouseTransfer toHouseTransfer,ToMortgage toMortgage);
+
+	/**
+	 * 保存过户信息和贷款流失信息
+	 * @param toHouseTransfer
+	 * @param mortgageToSaveVO
+	 */
+	void savaToHouseTransferAndMortageToVO(ToHouseTransfer toHouseTransfer, MortgageToSaveVO mortgageToSaveVO);
 
 	/**
 	 * 统计过户
@@ -101,7 +109,7 @@ public interface ToHouseTransferService {
 	 * @param taskId
 	 * @param processInstanceId
 	 */
-	String submitToHouseTransfer(ToHouseTransfer toHouseTransfer,ToMortgage toMortgage,LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId);
+	String submitToHouseTransfer(ToHouseTransfer toHouseTransfer,MortgageToSaveVO toMortgage,LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId);
 
 	/**
 	 * 过户保存数据,提供给APP使得保存数据和提交流程分开的需求

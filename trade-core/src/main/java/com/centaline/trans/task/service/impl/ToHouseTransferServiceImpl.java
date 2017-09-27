@@ -12,6 +12,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.centaline.trans.task.service.ToMortgageTosaveService;
+import com.centaline.trans.task.vo.MortgageToSaveVO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.helper.StringUtil;
@@ -65,6 +67,9 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
     private ToHouseTransferMapper toHouseTransferMapper;
     @Autowired
     private ToMortgageService toMortgageService;
+
+    @Autowired
+    private ToMortgageTosaveService toMortgageTosaveService;
 
     @Autowired(required = true)
     private ToCaseService toCaseService;
@@ -163,6 +168,33 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
         }
     }
 
+    /**
+     * 保存贷款流失和过户信息
+     * @author wbzhouht
+     * @param toHouseTransfer
+     * @param mortgageToSaveVO
+     */
+    @Override
+    public void savaToHouseTransferAndMortageToVO(ToHouseTransfer toHouseTransfer, MortgageToSaveVO mortgageToSaveVO) {
+        if(toHouseTransfer.getPkid()!=null){
+            toHouseTransferMapper.updateByPrimaryKeySelective(toHouseTransfer);
+        } else
+        {
+            if (toHouseTransferMapper.findToGuoHuByCaseCode(toHouseTransfer.getCaseCode()) == null)
+            {
+                toHouseTransferMapper.insertSelective(toHouseTransfer);
+            }
+        }
+        MortgageToSaveVO mort=toMortgageTosaveService.selectByCaseCode(toHouseTransfer.getCaseCode());
+        if(mort!=null){
+            mort.setLoanloanLossAmount(mortgageToSaveVO.getLoanloanLossAmount());
+            mort.setLoanRate(mortgageToSaveVO.getLoanRate());
+            mort.setLoanValue(mortgageToSaveVO.getLoanValue());
+            mort.setLoanSum(mortgageToSaveVO.getLoanSum());
+            toMortgageTosaveService.updateByPrimary(mort);
+        }
+    }
+
     @Override
     public ToHouseTransfer findToGuoHuByCaseCode(String caseCode)
     {
@@ -253,12 +285,12 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
     }
 
     @Override
-    public String submitToHouseTransfer(ToHouseTransfer toHouseTransfer, ToMortgage toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId,
+    public String submitToHouseTransfer(ToHouseTransfer toHouseTransfer, MortgageToSaveVO toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId,
             String processInstanceId)
     {
         SessionUser sender = uamSessionService.getSessionUser();
         // 2 执行交易系统代码
-        saveToHouseTransferAndMort(toHouseTransfer, toMortgage);
+        savaToHouseTransferAndMortageToVO(toHouseTransfer, toMortgage);
         /* 保存过户申请 */
         saveToApproveRecord(toHouseTransfer, processInstanceId, loanlostApproveVO);
         /*
@@ -379,6 +411,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
         {
             membersList = Arrays.asList(members.split(","));
         }
+        //保存审批记录
         ToApproveRecord toApproveRecord = saveToApproveRecordForGuohu(processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response, notApprove);
         if (!"true".equals(GuohuApprove))
         {
@@ -392,6 +425,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
             if (lastApproveRecord != null)
             {
                 String recevier = lastApproveRecord.getOperator();
+                //因暂时没有短信服务，顾先注释掉
                 //sendMessage(sender.getId(), recevier, caseCode, result);
             }
             variables.add(new RestVariable("members", membersList));
@@ -421,7 +455,10 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
         }
 
         // 过户审批通过时 向计件奖金池插入数据 add by zhuody in 2017-05-18
-        TsAwardCaseCental tsAwardCaseCental = new TsAwardCaseCental();
+        /**
+         * 天津不需要计件奖金池，顾可废弃
+         */
+       /* TsAwardCaseCental tsAwardCaseCental = new TsAwardCaseCental();
         tsAwardCaseCental.setCaseCode(processInstanceVO.getCaseCode());
         tsAwardCaseCental.setGuohuApproveTime(covertDate(new Date())); // TODO
                                                                        // 测试完之后时间不减一
@@ -432,7 +469,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
             tsAwardCaseCental.setGuohuApproveRecord(sender.getId());
         }
         tsAwardCaseCentalService.saveAwardCaseInfo(tsAwardCaseCental);
-
+*/
         ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
 
         return workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), toCase.getLeadingProcessId(),

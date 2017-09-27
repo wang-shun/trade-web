@@ -420,17 +420,23 @@
                  }
              },
              success : function(data) {
-            	 if(data){
+			    /*alert(aaaa)
+                     caseTaskCheck();
+                     if (null != data.message) {
+                         window.wxc.alert(data.message);
+                     }else{
+                         window.location.href = "${ctx }/task/myTaskList";
+                     }*/
                  	 window.wxc.success("提交成功！",{"wxcOk":function(){
-                     if (window.opener) {
+                     /*if (window.opener) {
                          window.close();
                          window.opener.callback();
                      } else {
-                    	 window.location.href = "${ctx }/task/myTaskList";
-                     } 
+
+                     }*/
+                         window.location.href = "${ctx }/task/myTaskList";
                  	 }
                  });
-            	 }
              },
              error : function(errors) {
                  window.wxc.error("提交失败");

@@ -428,4 +428,27 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 		return toMortgageTosaveMapper.getTosave(mort);
 	}
 
+	/**
+	 * 新增自办贷款信息查询
+	 * @author wbzhouht
+	 * @param code
+	 * @return
+	 */
+	@Override
+	public MortgageToSaveVO selectByCaseCode(String code) {
+		return toMortgageTosaveMapper.selectByCaseCode(code);
+	}
+
+	/**
+	 * @author wbzhouht
+	 * 新增自办贷款修改
+	 * @param mortgageToSaveVO
+	 * @return
+	 */
+	@Override
+	public int updateByPrimary(MortgageToSaveVO mortgageToSaveVO) {
+		return toMortgageTosaveMapper.updateByPrimary(mortgageToSaveVO);
+	}
+
+
 }
