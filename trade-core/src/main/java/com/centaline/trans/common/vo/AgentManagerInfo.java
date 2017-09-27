@@ -20,12 +20,14 @@ public class AgentManagerInfo {
 
 	private String mcMobile;
 
-	// 交易顾问
+	// 交易顾问 ,天津称权证
 	private String cpId;
 
 	private String cpName;
 
 	private String cpMobile;
+	
+	private String cpOrgName;//权证所在组别 added by jinwl for tj
 
 	// 助理
 	private String asId;
@@ -149,4 +151,12 @@ public class AgentManagerInfo {
 		this.proList = proList;
 	}
 
+	public String getCpOrgName() {
+		return cpOrgName;
+	}
+
+	public void setCpOrgName(String cpOrgName) {
+		this.cpOrgName = cpOrgName;
+	}
+    
 }
