@@ -26,7 +26,9 @@ public enum WorkFlowEnum {
 	//随便写的
 	COMANDPSFLOAN_PROCESS("PSFLoan_Process:1:645460","ComLoanAndPSFLoan_Process"),
 	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId"),
-	REQ_STUFF("reqStuffProcess","reqStuffProcess");
+	REQ_STUFF("reqStuffProcess","reqStuffProcess"),
+	EVAL_PROCESS("EvalProcess","businessKey");
+	
 	private String name;
 	private String code;
 

@@ -77,4 +77,12 @@ public interface ToEvaPricingMapper {
 	 * @return
 	 */
 	int updateEvalPricingRela(@Param("pkid")long pkid, @Param("caseCode")String caseCode);
+	
+	/**
+	 * 根据案件编号查询成交信息
+	 * @param caseCode
+	 * @return
+	 * @author jinwl6 
+	 */
+	ToEvaPricingVo findEvaPricingDetailByCaseCode(@Param("caseCode")String caseCode);
 }

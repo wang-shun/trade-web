@@ -29,11 +29,13 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToCaseMerge;
+import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.cases.repository.ToCaseInfoMapper;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.repository.ToCaseMergeMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
+import com.centaline.trans.cases.service.ToCaseParticipantService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
@@ -155,6 +157,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToAttachmentMapper toAttachmentMapper; 
 	@Autowired
 	private ToSignMapper signMapper;
+	@Autowired
+	private ToCaseParticipantService toCaseParticipantService;
 	
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
@@ -270,6 +274,10 @@ public class ToCaseServiceImpl implements ToCaseService {
 
 	private CaseBaseVO getCaseBaseVO(ToCase toCase){
 		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
+		ToCaseParticipant tcpVo = new  ToCaseParticipant();
+		tcpVo.setCaseCode(toCase.getCaseCode());
+		tcpVo.setPosition("agent");
+		List<ToCaseParticipant> toCaseParticipantList = toCaseParticipantService.findToCaseParticipantByCondition(tcpVo);//获取参与人信息  added by jinwl6 for tj
         // 物业地址
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
 		// 买卖双方信息
@@ -277,9 +285,16 @@ public class ToCaseServiceImpl implements ToCaseService {
 		
 		// 经纪人信息,分行经理信息,交易顾问信息
 		AgentManagerInfo agentManagerInfo = new AgentManagerInfo();
-		agentManagerInfo.setAgentName(toCaseInfo.getAgentName());
-		agentManagerInfo.setAgentPhone(toCaseInfo.getAgentPhone());
-		agentManagerInfo.setGrpName(toCaseInfo.getGrpName());
+		if(toCaseParticipantList!=null && toCaseParticipantList.size()>0){
+			agentManagerInfo.setAgentName(toCaseParticipantList.get(0).getRealName());
+			agentManagerInfo.setAgentPhone(toCaseParticipantList.get(0).getMobile());
+			agentManagerInfo.setGrpName(toCaseParticipantList.get(0).getGrpName());
+		}else{
+			agentManagerInfo.setAgentName(toCaseInfo.getAgentName());
+			agentManagerInfo.setAgentPhone(toCaseInfo.getAgentPhone());
+			agentManagerInfo.setGrpName(toCaseInfo.getGrpName());
+		}
+		
 		User agentUser = null;
 		if (!StringUtils.isBlank(toCaseInfo.getAgentCode())) {
 			agentUser = uamUserOrgService.getUserById(toCaseInfo.getAgentCode());
@@ -297,12 +312,13 @@ public class ToCaseServiceImpl implements ToCaseService {
 			}
 		}
 		
-		// 交易顾问
+		// 交易顾问 ，天津称权证
 		User consultUser = uamUserOrgService.getUserById(toCase.getLeadingProcessId());
 		if (consultUser != null) {
 			agentManagerInfo.setCpId(consultUser.getId());
 			agentManagerInfo.setCpName(consultUser.getRealName());
 			agentManagerInfo.setCpMobile(consultUser.getMobile());
+			agentManagerInfo.setCpOrgName(consultUser.getOrgName());
 		}
 		
 		// 交易助理

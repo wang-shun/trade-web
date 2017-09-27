@@ -55,5 +55,13 @@ public interface EvaPricingService {
 	 * @return
 	 */
 	boolean evalRelation(long pkid,String caseCode);
+	
+	/**
+	 * 根据案件编号查询成交信息
+	 * @param caseCode
+	 * @return
+	 * @author jinwl6 
+	 */
+	ToEvaPricingVo findEvaPricingDetailByCaseCode(String caseCode);
 
 }

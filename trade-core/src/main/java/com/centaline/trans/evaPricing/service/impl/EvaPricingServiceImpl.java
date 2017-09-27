@@ -141,6 +141,11 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 		String dateString = DateUtil.getFormatDate(new Date(), DATE_FORMAT);
 		return EVA_CODE_PRE+dateString;
 	}
+	
+	@Override
+	public ToEvaPricingVo findEvaPricingDetailByCaseCode(String caseCode) {
+		return toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);
+	}
 
 
 
