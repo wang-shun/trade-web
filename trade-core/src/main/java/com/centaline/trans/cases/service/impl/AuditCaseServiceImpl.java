@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
@@ -69,59 +70,83 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 	}
 
 	@Override
-	public int addLoanProcessor(String userName,String caseCode) {
-		if(null==userName||null==caseCode){
-			return 0;
-		}
-		ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
-		toCaseParticipant.setCaseCode(caseCode);
-		toCaseParticipant.setPosition("loan");
-//		先查出user
-		User userByUsername = uamUserOrgServiceClient.getUserByUsername(userName);
-		if(null==userByUsername){
-			return 0;
-		}
-//		再先原来有没有贷款权证
-		List<ToCaseParticipant> listParticipant = toCaseParticipantMapper.selectByCondition(toCaseParticipant);
-		if(listParticipant.size()==1){
-			ToCaseParticipant toCaseParticipant2 = listParticipant.get(0);
-			toCaseParticipant.setCcaiCode(toCaseParticipant2.getCcaiCode());
-			Long pkid=toCaseParticipant2.getPkid();
-//			先清空，再赋值，避免污染
-			if(userByUsername!=null){
-				toCaseParticipant.setPkid(toCaseParticipant2.getPkid());
-				toCaseParticipant.setUserName(userByUsername.getUsername());
-				toCaseParticipant.setRealName(userByUsername.getRealName());
-				toCaseParticipant.setMobile(userByUsername.getMobile());
-				toCaseParticipant.setGrpName(userByUsername.getOrgName());
-				return toCaseParticipantMapper.updateByPrimaryKeySelective(toCaseParticipant);
+	public int addLoanProcessor(String userName, String caseCode) {
+		SessionUser user = uamSessionService.getSessionUser();
+		FlowFeedBack info = new FlowFeedBack(user, CcaiFlowResultEnum.SUCCESS, user.getRealName());
+		// 先通知CCAI 返回结果为true再更新案件状态
+		ApiResultData apiResult = flowApiService.tradeFeedBackCcai(caseCode, CcaiTaskEnum.TRADE_WARRANT_MANAGER, info);
+		if (apiResult.isSuccess()) {
+			/* 流程引擎相关 生成网签任务 */
+			// 根据caseCode查出taskVo和ProcessInstanceId,因为设置案件审核的assignee(auditManagerAssignee)需要ProcessInstanceId；
+			TaskQuery taskQuery = new TaskQuery();
+			taskQuery.setProcessInstanceBusinessKey(caseCode);
+			taskQuery.setTaskDefinitionKey("warrantManagerAudit");
+			taskQuery.setAssignee(user.getUsername());
+			PageableVo listTasks = workFlowManager.listTasks(taskQuery);
+			if (listTasks.getData().size() > 0) {
+				TaskVo taskVo = (TaskVo) listTasks.getData().get(0);
+				List<RestVariable> variables = new ArrayList<RestVariable>();
+				// 把审核通过添加到流程变量
+				RestVariable caseApprove = new RestVariable();
+				caseApprove.setName("caseApprove");
+				caseApprove.setValue(true);
+				variables.add(caseApprove);
+				ToCase toCase2 = toCaseService.findToCaseByCaseCode(caseCode);
+				if (workFlowManager.submitTask(variables, String.valueOf(taskVo.getId()), taskVo.getProcessInstanceId(),
+						toCase2.getLeadingProcessId(), caseCode)) {
+					// 再更改案件状为已接单
+					ToCase toCase = new ToCase();
+					toCase.setStatus(CaseStatusEnum.YJD.getCode());
+					toCase.setCaseCode(caseCode);
+					int updateCaseStatus = toCaseService.updateByCaseCodeSelective(toCase);
+
+					// 先查出user
+					User userByUsername = uamUserOrgServiceClient.getUserByUsername(userName);
+					if (null == userByUsername) {
+						throw new BusinessException("货款权证无效！");
+					}
+
+					// 再看原来有没有贷款权证
+					ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
+					toCaseParticipant.setCaseCode(caseCode);
+					toCaseParticipant.setPosition("loan");
+					List<ToCaseParticipant> listParticipant = toCaseParticipantMapper
+							.selectByCondition(toCaseParticipant);
+					// 如果有就修改
+					if (listParticipant.size() == 1) {
+						ToCaseParticipant toCaseParticipant2 = listParticipant.get(0);
+						toCaseParticipant.setCcaiCode(toCaseParticipant2.getCcaiCode());
+						Long pkid = toCaseParticipant2.getPkid();
+						// 先清空，再赋值，避免污染
+						if (userByUsername != null) {
+							toCaseParticipant.setPkid(toCaseParticipant2.getPkid());
+							toCaseParticipant.setUserName(userByUsername.getUsername());
+							toCaseParticipant.setRealName(userByUsername.getRealName());
+							toCaseParticipant.setMobile(userByUsername.getMobile());
+							toCaseParticipant.setGrpName(userByUsername.getOrgName());
+							return toCaseParticipantMapper.updateByPrimaryKeySelective(toCaseParticipant);
+						}
+					} else {
+						// 如果没有就插入
+						toCaseParticipant.setPosition(null);
+						// ToCaseParticipant这张表的ccaiCode不能为空，先从里面查出来
+						List<ToCaseParticipant> selectByCaseCode = toCaseParticipantMapper.selectByCaseCode(caseCode);
+						if (selectByCaseCode.size() > 0) {
+							ToCaseParticipant toCaseParticipant2 = selectByCaseCode.get(0);
+							toCaseParticipant.setCcaiCode(toCaseParticipant2.getCcaiCode());
+							toCaseParticipant.setUserName(userByUsername.getUsername());
+							toCaseParticipant.setRealName(userByUsername.getRealName());
+							toCaseParticipant.setMobile(userByUsername.getMobile());
+							toCaseParticipant.setGrpName(userByUsername.getOrgName());
+							toCaseParticipant.setPosition("loan");
+							return toCaseParticipantMapper.insertSelective(toCaseParticipant);
+						}
+					}
+				}
 			}
-			
-			
-		}else{
-			toCaseParticipant.setPosition(null);
-			List<ToCaseParticipant> selectByCaseCode = toCaseParticipantMapper.selectByCaseCode(caseCode);
-			if(selectByCaseCode.size()>0){
-				ToCaseParticipant toCaseParticipant2 = selectByCaseCode.get(0);				
-				toCaseParticipant.setCcaiCode(toCaseParticipant2.getCcaiCode());
-				toCaseParticipant.setUserName(userByUsername.getUsername());
-				toCaseParticipant.setRealName(userByUsername.getRealName());
-				toCaseParticipant.setMobile(userByUsername.getMobile());
-				toCaseParticipant.setGrpName(userByUsername.getOrgName());
-				toCaseParticipant.setPosition("loan");
-				return toCaseParticipantMapper.insertSelective(toCaseParticipant);
-			}else{
-				toCaseParticipant.setCcaiCode(caseCode);
-				toCaseParticipant.setUserName(userByUsername.getUsername());
-				toCaseParticipant.setRealName(userByUsername.getRealName());
-				toCaseParticipant.setMobile(userByUsername.getMobile());
-				toCaseParticipant.setGrpName(userByUsername.getOrgName());
-				toCaseParticipant.setPosition("loan");
-			}
+			throw new BusinessException("更改贷款权证出错！");
 		}
-		
-		
-		return 0;
+		throw new BusinessException("案件状态回写ccai出错！");
 	}
 	/**
 	 * 根据当前贷款或者过户权证账号和caseCode查出贷款或者过户权证的上级账号
@@ -165,6 +190,7 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 			TaskQuery taskQuery = new TaskQuery();
 			taskQuery.setProcessInstanceBusinessKey(caseCode);
 			taskQuery.setTaskDefinitionKey("warrantManagerAudit");
+			taskQuery.setAssignee(user.getUsername());
 			PageableVo listTasks = workFlowManager.listTasks(taskQuery);
 			if (listTasks.getData().size() > 0) {
 				TaskVo taskVo = (TaskVo) listTasks.getData().get(0);
