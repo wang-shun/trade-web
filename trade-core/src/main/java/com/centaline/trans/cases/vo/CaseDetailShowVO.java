@@ -3,7 +3,9 @@ package com.centaline.trans.cases.vo;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
+import com.centaline.trans.common.entity.ToPropertyInfo;
 
 /**
  * @author wbzhouht
@@ -100,6 +102,14 @@ public class CaseDetailShowVO {
     private String warMobile;//过户权证电话
     
     private String agentGrpName;//所属分行
+    
+    private String toApproveRecord;//审批意见
+    
+    private boolean isSubscribe;//是否关注
+    
+    private ToCase toCase;//案件信息
+    
+    private ToPropertyInfo toPropertyInfo;//物业信息
     
 	public String getLoanLostType() {
 		return loanLostType;
@@ -634,6 +644,40 @@ public class CaseDetailShowVO {
 
 	public void setAgentGrpName(String agentGrpName) {
 		this.agentGrpName = agentGrpName;
+	}
+
+	public String getToApproveRecord() {
+		return toApproveRecord;
+	}
+
+	public void setToApproveRecord(String toApproveRecord) {
+		this.toApproveRecord = toApproveRecord;
+	}
+
+	public boolean isSubscribe() {
+		return isSubscribe;
+	}
+
+	public void setSubscribe(boolean isSubscribe) {
+		this.isSubscribe = isSubscribe;
+	}
+
+	
+
+	public ToCase getToCase() {
+		return toCase;
+	}
+
+	public void setToCase(ToCase toCase) {
+		this.toCase = toCase;
+	}
+
+	public ToPropertyInfo getToPropertyInfo() {
+		return toPropertyInfo;
+	}
+
+	public void setToPropertyInfo(ToPropertyInfo toPropertyInfo) {
+		this.toPropertyInfo = toPropertyInfo;
 	}
 
 
