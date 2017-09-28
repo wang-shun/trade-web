@@ -51,6 +51,8 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.MortStepService;
 import com.centaline.trans.mortgage.service.ToMortLoanerService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.task.service.ToMortgageTosaveService;
+import com.centaline.trans.task.vo.MortgageToSaveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 @Controller
@@ -88,6 +90,8 @@ public class ToMortgageController {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private ToMortLoanerService toMortLoanerService;
+	@Autowired
+	private ToMortgageTosaveService toMortgageTosaveService;
 	
 	/**
 	 * 评估物业信息
@@ -141,13 +145,19 @@ public class ToMortgageController {
 						TsFinOrg faBank = tsFinOrgService.findBankByFinOrg(bank.getFaFinOrgCode());
 						mortgage.setParentBankName(faBank.getFinOrgName());
 					}
+				}else{
+					MortgageToSaveVO mortgageToSaveVO = toMortgageTosaveService.getTosave(toMortgage);
+					if(null != mortgageToSaveVO){
+						mortgage.setBank_type(mortgageToSaveVO.getBank_type());
+						mortgage.setFinOrgCode(mortgageToSaveVO.getFinOrgCode());
+					}
 				}
-				if (StringUtils.isNotBlank(mortgage.getTmpBankUpdateBy())) {
+				/*if (StringUtils.isNotBlank(mortgage.getTmpBankUpdateBy())) {
 					User u = uamUserOrgService.getUserById(mortgage.getTmpBankUpdateBy());
 					if (u != null) {
 						mortgage.setTmpBankUpdateByStr(u.getRealName());
 					}
-				}
+				}*/
 	
 				mortgage.setComAmount(mortgage.getComAmount() != null ? mortgage.getComAmount().divide(new BigDecimal(10000)) : null);
 				mortgage.setMortTotalAmount(mortgage.getMortTotalAmount() != null ? mortgage.getMortTotalAmount().divide(new BigDecimal(10000)) : null);
