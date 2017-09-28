@@ -15,6 +15,9 @@ import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.CcaiFlowResultEnum;
 import com.centaline.trans.common.enums.CcaiTaskEnum;
 import com.centaline.trans.engine.bean.RestVariable;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,8 @@ import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.basedata.remote.vo.Dict;
 import com.aist.uam.permission.remote.UamPermissionService;
 import com.aist.uam.permission.remote.vo.App;
 import com.aist.uam.userorg.remote.UamUserOrgService;
@@ -42,6 +47,8 @@ import com.centaline.trans.common.entity.ToCcaiAttachment;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.vo.FileUploadVO;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.task.entity.TsPrResearchMap;
+import com.centaline.trans.taskList.web.TsPrResearchMapController;
 import com.centaline.trans.workspace.entity.CacheGridParam;
 
 /**
@@ -52,7 +59,7 @@ import com.centaline.trans.workspace.entity.CacheGridParam;
 @Controller
 @RequestMapping(value = "/AuditImportCase")
 public class AuditImportCaseController {
-	
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private ToCaseService toCaseService;
 	
@@ -79,6 +86,9 @@ public class AuditImportCaseController {
 	//CCAI交互服务
 	@Autowired
 	private FlowApiService flowApiService;
+	@Autowired
+	private UamBasedataService dictService;
+	
 
 	
 	/**
@@ -92,13 +102,37 @@ public class AuditImportCaseController {
 	 * @param rows
 	 * @return
 	 */
+//	@RequestMapping(value = "addLoanProcessor")
+//	public String addLoanProcessor(HttpServletRequest request, String caseCode,String loanProcessor) {
+//		int addLoanProcessor = auditCaseService.addLoanProcessor(loanProcessor, caseCode);
+//		if(addLoanProcessor==0){
+//			throw new BusinessException("请求页面跳转异常啦，请稍后再试！");
+//		}
+//		return "forward:"+"/AuditImportCase/list";
+//	}
+	
 	@RequestMapping(value = "addLoanProcessor")
-	public String addLoanProcessor(HttpServletRequest request, String caseCode,String loanProcessor) {
-		int addLoanProcessor = auditCaseService.addLoanProcessor(loanProcessor, caseCode);
-		if(addLoanProcessor==0){
-			throw new BusinessException("请求页面跳转异常啦，请稍后再试！");
-		}
-		return "forward:"+"/AuditImportCase/list";
+	@ResponseBody
+	/**
+	 * 
+	 * @since:2017年9月28日 上午11:03:47
+	 * @description:增加货款专员
+	 * @author:xiefei1
+	 * @param request
+	 * @param caseCode
+	 * @param loanProcessor
+	 * @return
+	 */
+	public AjaxResponse<String> addLoanProcessor(HttpServletRequest request, String caseCode,String loanProcessor) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			auditCaseService.addLoanProcessor(loanProcessor, caseCode);
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage(e.getMessage());
+    		logger.error("保存失败！"+e.getCause());
+    	}
+    	return response;
 	}
 
 	
@@ -134,21 +168,42 @@ public class AuditImportCaseController {
 		}
 		return "forward:"+"/AuditImportCase/list";		
 	}*/
+//	@RequestMapping(value = "auditSuccess")
+//	@ResponseBody
+//	public String AuditSuccess(String caseCode){
+//		if(auditCaseService.updateAuditCaseSuccess(caseCode)==1){
+//			return "forward:"+"/AuditImportCase/list";			
+//		}else{
+//			throw new BusinessException("审核案件通过失败！");
+//		}
+//	}
+	
 	@RequestMapping(value = "auditSuccess")
-	public String AuditSuccess(String caseCode){
-		if(auditCaseService.updateAuditCaseSuccess(caseCode)==1){
-			return "forward:"+"/AuditImportCase/list";			
-		}else{
-			throw new BusinessException("审核案件通过失败！");
-		}
+	@ResponseBody
+	public AjaxResponse<String> AuditSuccess(String caseCode){
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			auditCaseService.updateAuditCaseSuccess(caseCode);
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage(e.getMessage());
+    		logger.error("保存失败！"+e.getCause());
+    	}
+    	return response;
 	}
+    
 	@RequestMapping(value = "returnReason")
-	public String returnReason(String caseCode,String returnReason,String returnComment){
-		if(auditCaseService.returnCaseToCCAI(caseCode, returnReason, returnComment)==1){
-			return "forward:"+"/AuditImportCase/list";			
-		}else{
-			throw new BusinessException("审核案件通过失败！");
-		}
+	@ResponseBody
+	public AjaxResponse<String> returnReason(String caseCode,String returnReason,String returnComment){
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
+			auditCaseService.returnCaseToCCAI(caseCode, returnReason, returnComment);
+    	}catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage(e.getMessage());
+    		logger.error("保存失败！"+e.getCause());
+    	}
+    	return response;
 	}
 	/**
 	 * 
@@ -201,7 +256,9 @@ public class AuditImportCaseController {
 		User userByUsername = uamUserOrgServiceClient.getUserByUsername(username);
 		List<User> loanUserList = uamUserOrgServiceClient.getUserByBelongOrgId(userByUsername.getOrgId());
 		String payType = auditCaseService.getPayType(caseCode);
-		model.addAttribute("payType", payType);
+		Dict dict = dictService.findDictByTypeAndCode("61003", payType);
+		String dictPayTypeName = dict.getName();
+		model.addAttribute("payType", dictPayTypeName);
 		model.addAttribute("caseCode", caseCode);
 		model.addAttribute("loanUserList", loanUserList);
 		ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
