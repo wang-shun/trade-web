@@ -2,10 +2,13 @@ package com.centaline.trans.eval.web;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.centaline.trans.eval.entity.ToEvaSettleUpdateLog;
 import com.centaline.trans.eval.entity.ToEvalRebate;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
 import com.centaline.trans.eval.entity.ToEvalSettle;
+import com.centaline.trans.eval.service.ToEvaSettleUpdateLogService;
 import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.eval.service.ToEvalSettleService;
@@ -36,7 +41,7 @@ import com.centaline.trans.eval.vo.EvalAccountShowVO;
  * Copyright (c) 2015
  * </p>
  * 
- * @author wanggh</a>
+ * @author wangxj</a>
  */
 @Controller
 @RequestMapping(value = "eval/settle")
@@ -48,8 +53,9 @@ public class EvalWaitAccountListController {
 	ToEvalSettleService toEvalSettleService;
 	@Autowired(required = true)
 	ToEvalRebateService toEvalRebateService;
-
-
+	@Autowired(required = true)
+	ToEvaSettleUpdateLogService toEvaSettleUpdateLogService;
+	
 	/**
 	 * 页面初始化
 	 * 
@@ -62,7 +68,8 @@ public class EvalWaitAccountListController {
 
 		return "eval/settle/evalWaitEndList";
 	}
-
+	
+	
 	/**
 	 * 
 	 * 批量审批
@@ -88,51 +95,14 @@ public class EvalWaitAccountListController {
 	 * 
 	 */
 	@RequestMapping("/newEndForm")
-	public String newEndForm(String[] caseCodes,  Model model, HttpServletRequest request) {
+	public String newEndForm(String[] caseCodes, Model model, HttpServletRequest request) {
 		for (String caseCode : caseCodes) {
-			System.out.println(caseCode);
+			//System.out.println(caseCode);
 			model.addAttribute("caseCode", caseCode);
 		}
 		return  "eval/settle/newEndForm";
 	}
 	
-	@RequestMapping("/newEndForm2")
-	public String newEndForm2(String caseCode,Model model) {
-		model.addAttribute("caseCode", caseCode);
-		try {
-			//AjaxResponse<EvalAccountShowVO> result = new AjaxResponse<>();
-			if(caseCode != null) {
-				EvalAccountShowVO evalAccountShowVO  = new EvalAccountShowVO();
-				ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				evalAccountShowVO.setEvaPrice(toEvalReportProcess.getEvaPrice());
-				//System.out.println(format.format(toEvalReportProcess.getApplyDate()));
-				evalAccountShowVO.setApplyDate(format.format(toEvalReportProcess.getApplyDate()));
-				evalAccountShowVO.setFinOrgId(toEvalReportProcess.getFinOrgId());
-				evalAccountShowVO.setIssueDate(format.format(toEvalReportProcess.getIssueDate()));
-				evalAccountShowVO.setCaseCode(toEvalReportProcess.getCaseCode());
-				evalAccountShowVO.setEvaCode(toEvalReportProcess.getEvaCode());
-				//评估值
-				evalAccountShowVO.setEvaPrice(toEvalReportProcess.getEvaPrice());
-				
-				//结算费用
-				ToEvalSettle toEvalSettle =  toEvalSettleService.findToCaseByCaseCode(caseCode);
-				evalAccountShowVO.setSettleFee(toEvalSettle.getSettleFee());
-				
-				//贷款权证
-				//评估费实收金额
-				ToEvalRebate toEvalRebate = toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
-				evalAccountShowVO.setEvalRealCharges(toEvalRebate.getEvalRealCharges());
-				model.addAttribute("evalVO", evalAccountShowVO);
-			}
-//			result.setSuccess(true);
-//			result.setMessage("关联成功!");
-		} catch (Exception e) {
-//			result.setSuccess(true);
-//			result.setMessage("关联失败!");
-		}
-		return  "eval/settle/newEndForm";
-	}
 	
 	/**新增结算费用*/
 	@RequestMapping(value = "newEndFee")
@@ -151,32 +121,43 @@ public class EvalWaitAccountListController {
 			}else {
 				return AjaxResponse.fail("新增结算费用失败！");
 			}
-			//return  AjaxResponse.success("新增结算费用成功！");
 		} 
-//		else {
-//			return AjaxResponse.fail("新增结算费用失败！");
-//		}
 		return AjaxResponse.fail("新增结算费用失败！");
 	}
 	
 	/**新增结算关联案件表单显示页*/
 	@RequestMapping("/associatedShowForm")
-	public ModelAndView associatedShowForm(String caseCode,  Model model, HttpServletRequest request) {
-		/*try {
-			//AjaxResponse<EvalAccountShowVO> result = new AjaxResponse<>();
+	public AjaxResponse<EvalAccountShowVO> associatedShowForm(String caseCode,  Model model, HttpServletRequest request) {
+			AjaxResponse<EvalAccountShowVO> result = new AjaxResponse<>();
+			//int count = toEvalSettleService.findCaseCountByCaseCode(caseCode);
+			try {
 			if(caseCode != null) {
 				EvalAccountShowVO evalAccountShowVO  = new EvalAccountShowVO();
 				ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				evalAccountShowVO.setEvaPrice(toEvalReportProcess.getEvaPrice());
+				//evalAccountShowVO.setEvaPrice(toEvalReportProcess.getEvaPrice());
 				//System.out.println(format.format(toEvalReportProcess.getApplyDate()));
 				evalAccountShowVO.setApplyDate(format.format(toEvalReportProcess.getApplyDate()));
 				evalAccountShowVO.setFinOrgId(toEvalReportProcess.getFinOrgId());
-				evalAccountShowVO.setIssueDate(format.format(toEvalReportProcess.getIssueDate()));
+				if(toEvalReportProcess.getIssueDate() != null) {
+					evalAccountShowVO.setIssueDate(format.format(toEvalReportProcess.getIssueDate()));
+				}else {
+					evalAccountShowVO.setIssueDate(String.valueOf(' '));
+				}
+				//evalAccountShowVO.setIssueDate(format.format(toEvalReportProcess.getIssueDate()));
 				evalAccountShowVO.setCaseCode(toEvalReportProcess.getCaseCode());
-				evalAccountShowVO.setEvaCode(toEvalReportProcess.getEvaCode());
+				if(toEvalReportProcess.getEvaCode() != null) {
+					evalAccountShowVO.setEvaCode(toEvalReportProcess.getEvaCode());
+				}else {
+					evalAccountShowVO.setEvaCode(String.valueOf(' '));
+				}
+				
 				//评估值
-				evalAccountShowVO.setEvaPrice(toEvalReportProcess.getEvaPrice());
+				if(toEvalReportProcess.getEvaPrice()!= null) {
+					evalAccountShowVO.setEvaPrice(toEvalReportProcess.getEvaPrice());
+				}else {
+					evalAccountShowVO.setEvaPrice(new BigDecimal("0.00"));
+				}
 				
 				//结算费用
 				ToEvalSettle toEvalSettle =  toEvalSettleService.findToCaseByCaseCode(caseCode);
@@ -188,15 +169,17 @@ public class EvalWaitAccountListController {
 				evalAccountShowVO.setEvalRealCharges(toEvalRebate.getEvalRealCharges());
 				model.addAttribute("evalVO", evalAccountShowVO);
 			}
-//			result.setSuccess(true);
-//			result.setMessage("关联成功!");
+			//result.setContent((EvalAccountShowVO) model);
+			result.setSuccess(true);
+			result.setMessage("关联成功!");
 		} catch (Exception e) {
-//			result.setSuccess(true);
-//			result.setMessage("关联失败!");
-		}*/
-
-		return new ModelAndView("redirect:newEndForm2?caseCode="+caseCode);
+			result.setSuccess(false);
+			result.setMessage("关联失败!");
+		}
+		return result;
 	}
+	
+	
 	
 	/**评估结算修改显示页*/
 	@RequestMapping(value = "evalEndUpdate")
@@ -206,14 +189,32 @@ public class EvalWaitAccountListController {
 			ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			evalAccountShowVO.setEvaPrice(toEvalReportProcess.getEvaPrice());
+			evalAccountShowVO.setCaseCode(caseCode);
 			//System.out.println(format.format(toEvalReportProcess.getApplyDate()));
 			evalAccountShowVO.setApplyDate(format.format(toEvalReportProcess.getApplyDate()));
 			evalAccountShowVO.setFinOrgId(toEvalReportProcess.getFinOrgId());
-			evalAccountShowVO.setIssueDate(format.format(toEvalReportProcess.getIssueDate()));
+			if(toEvalReportProcess.getIssueDate() != null) {
+				evalAccountShowVO.setIssueDate(format.format(toEvalReportProcess.getIssueDate()));
+			}else {
+				evalAccountShowVO.setIssueDate(String.valueOf(' '));
+			}
 			
 			ToEvalRebate toEvalRebate = toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
 			evalAccountShowVO.setEvalRealCharges(toEvalRebate.getEvalRealCharges());
+			
+			//List<ToEvaSettleUpdateLog> updateLogList = new ArrayList<>();
+			//查询修改记录列表
+			List<ToEvaSettleUpdateLog> toEvaSettleUpdateLogList = toEvaSettleUpdateLogService.selectUpdateLogByCaseCode(caseCode);
+			/*if(CollectionUtils.isNotEmpty(toEvaSettleUpdateLogList)) {
+				for (ToEvaSettleUpdateLog toEvaSettleUpdateLog : toEvaSettleUpdateLogList) {
+					ToEvaSettleUpdateLog record = new ToEvaSettleUpdateLog();
+					record.setUpdateReason(toEvaSettleUpdateLog.getUpdateReason());
+					record.setUpdateTime(toEvaSettleUpdateLog.getUpdateTime());
+					updateLogList.add(record);
+				}
+			}*/
 			model.addAttribute("evalVO", evalAccountShowVO);
+			model.addAttribute("updateLogList",toEvaSettleUpdateLogList);
 		}
 		
 		return  "eval/settle/evalEndUpdate";
@@ -229,16 +230,42 @@ public class EvalWaitAccountListController {
 	 * 
 	 */
 	@RequestMapping(value = "evalEndUpdateFee")
-	public AjaxResponse<?> evalEndUpdateFee(HttpServletRequest request,String caseCode,BigDecimal settleFee) {
-		if(caseCode != null) {
-			ToEvalSettle toEvalSettle = new ToEvalSettle();
-			toEvalSettle.setCaseCode(caseCode);
-			toEvalSettle.setSettleFee(settleFee);
-			toEvalSettleService.updateSettleFeeByCaseCode(toEvalSettle);
-		}
+	@ResponseBody
+	public AjaxResponse<?> evalEndUpdateFee(HttpServletRequest request,@RequestBody EvalAccountShowVO evalAccountShowVO) {
 		
-		return  AjaxResponse.success("案件信息修改成功！");
+		
+		ToEvalSettle toEvalSettle = new ToEvalSettle();
+		toEvalSettle.setCaseCode(evalAccountShowVO.getCaseCode());
+		toEvalSettle.setSettleFee(evalAccountShowVO.getSettleFee());
+		int count = toEvalSettleService.updateSettleFeeByCaseCode(toEvalSettle);
+	    
+		if(count>0) {
+			//插入案件到记录表
+			ToEvaSettleUpdateLog record = new ToEvaSettleUpdateLog();
+			record.setCaseCode(evalAccountShowVO.getCaseCode());
+			record.setUpdateTime(new Date());
+			record.setUpdateReason(evalAccountShowVO.getUpdateReason());//修改原因
+			//查询记录表是否有此案件
+			/*List<ToEvaSettleUpdateLog> toEvaSettleUpdateLogList = toEvaSettleUpdateLogService.selectUpdateNumByCaseCode(evalAccountShowVO.getCaseCode());
+			if(CollectionUtils.isNotEmpty(toEvaSettleUpdateLogList)) {
+				ToEvaSettleUpdateLog log =  toEvaSettleUpdateLogList.get(0);
+				if(log != null) {
+					int x = log.getUpdateNum();
+					int a = x+1;
+					record.setUpdateNum(a);
+				}
+			}else{
+				record.setUpdateNum(1);
+			}*/
+			
+		    toEvaSettleUpdateLogService.insertSelective(record);
+			
+			return  AjaxResponse.success("结算费用修改成功！");
+		}
+		return  AjaxResponse.fail("结算费用修改失败！");
 	}
+	
+	
 	/**
 	 * 无需结算列表
 	 * @param 
@@ -309,44 +336,49 @@ public class EvalWaitAccountListController {
 		return  "redirect:evalEndList";
 	}
 	
+	/**转向关联评估列表*/
 	@RequestMapping("/associatedEvalList")
 	public String associatedEvalList(HttpServletRequest request) {
 		
 
 		return  "eval/settle/associatedEvalList";
 	}
-
-	@RequestMapping(value = "/reNewAccount")
-	public AjaxResponse<?> reNewAccount(String [] caseCodes, HttpServletRequest request) {
-		System.out.println(caseCodes);
-		for(String caseC : caseCodes) {
-			ToEvalSettle toEvalSettle = new ToEvalSettle();
-			toEvalSettle.setStatus(String.valueOf(3));
-			toEvalSettle.setCaseCode(caseC);
-			toEvalSettleService.updateByCaseCode(toEvalSettle);
-		}
-		
-		return AjaxResponse.success("案件信息重新结算成功！");
-	}
 	
-	/*@RequestMapping(value="updateWarnListTime")
+	/**重新结算*/
+	@RequestMapping(value = "/reNewAccount")
 	@ResponseBody
-	public AjaxResponse<LoanAgent> batchUpdateExportTime(Model model, ServletRequest request,String idStr){
-		AjaxResponse<LoanAgent> result = new AjaxResponse<>();
+	public AjaxResponse<?> reNewAccount(String [] caseCodes, HttpServletRequest request) {
+		AjaxResponse<?> result = new AjaxResponse<>();
+		//System.out.println(caseCodes);
 		try {
-			String[] pkidArr = idStr.split(",");
-			for(String pkId : pkidArr) {
-				LoanAgent loanAgent = new LoanAgent();
-				loanAgent.setPkid(Long.parseLong(pkId));
-				loanAgent.setLastExceedExportTime(new Date());
-			    loanAgentService.updateLoanAgent(loanAgent);
+			for(String caseC : caseCodes) {
+				ToEvalSettle toEvalSettle = new ToEvalSettle();
+				toEvalSettle.setStatus(String.valueOf(3));
+				toEvalSettle.setCaseCode(caseC);
+				toEvalSettleService.updateByCaseCode(toEvalSettle);
 			}
 			result.setSuccess(true);
-			result.setMessage("处理成功!");
+			result.setMessage("重新结算成功!");
 		} catch (Exception e) {
 			result.setSuccess(false);
 			result.setMessage("处理失败!");
 		}
+		
 		return result;
+	}
+	
+	/*@RequestMapping("/newEndForm2")
+	public String newEndForm2(String caseCode,Model model) {
+		
+		return  "eval/settle/newEndForm";
 	}*/
+	
+	/*@RequestMapping("/associatedShowForm")
+	public ModelAndView associatedShowForm(String caseCode,  Model model, HttpServletRequest request) {
+		
+
+		return new ModelAndView("redirect:newEndForm2?caseCode="+caseCode);
+	}*/
+	
+	
 }

@@ -1222,6 +1222,7 @@ function readOnlyForm(){
 <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
 <script src="<c:url value='/js/plugins/staps/jquery.steps.min.js' />"></script> 
 <script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
+<script src="<c:url value='/js/trunk/case/caseBaseInfo.js'/>"></script>
 <!-- 上传附件相关 --> 
 <script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script> 
 <script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script> 
@@ -1254,7 +1255,9 @@ function readOnlyForm(){
 <script src="<c:url value='/js/common/textarea.js' />"></script>
 <script src="<c:url value='/js/common/common.js' />"></script>
 <script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
+
 <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+
 <script>
 //var afterTimeFlag=${afterTimeFlag};
 var popInited=false;

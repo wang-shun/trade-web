@@ -9,6 +9,7 @@
 <%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf" %>
 
+
 <html>
 <head>
 
@@ -56,7 +57,7 @@
 </script>
 
 <script type="text/javascript">
-var AttachmentList = (function(){
+var AttachmentList = (function(){    
     return {    
        init : function(ctx,url,gridTableId,gridPagerId,ctmCode,caseCode){    
     	 //jqGrid 初始化
@@ -163,24 +164,6 @@ function save(b) {
 	}
 	
 	var jsonData = $("#firstFollowform").serializeArray();
-	
-	var result = ''
-	$("span.selected[name='srvCode']").each(function() {
-		result += $(this).attr('value') + ',';
-	});
-	var obj = {
-		name : 'srvCode',
-		value : result.substring(0, result.length - 1)
-	};
-	jsonData.push(obj);
-
-	for (var i = 0; i < jsonData.length; i++) {
-		var item = jsonData[i];
-		if (item["name"] == 'cooperationUser'
-				&& (item["value"] == 0 || item["value"] == -1)) {
-			delete jsonData[parseInt(i)];
-		}
-	}
 
 	var url = "${ctx}/task/caseRecvFollow/save";
 	if (b) {
@@ -208,6 +191,7 @@ function save(b) {
         },
         success: function(data){
             $.unblockUI();
+            console.log(data);
             if (b) {
                 if (data.message) {
                     window.wxc.alert("提交成功"+data.message);
@@ -413,11 +397,11 @@ function checkForm() {
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					<%-- 原有数据对应id
+					<%-- 原有数据对应id --%>
 					<input type="hidden" id="caseId" name="caseId" value="${firstFollow.caseId }">
 					<input type="hidden" id="tTLId" name="tTLId" value="${firstFollow.tTLId }">
 					<input type="hidden" id="signId" name="signId" value="${firstFollow.signId}">
-					<input type="hidden" id="propertyInfoId" name="propertyInfoId" value="${firstFollow.propertyInfoId}"> --%>
+					<input type="hidden" id="propertyInfoId" name="propertyInfoId" value="${firstFollow.propertyInfoId}">
 					<%-- 设置审批类型 --%>
 					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
 					<input type="hidden" id="operator" name="operator" value="${operator }">
@@ -474,7 +458,7 @@ function checkForm() {
 		                           	<font color=" red" class="mr5" >*</font>评估申请时间
 		                        </label>
 		                        <div class="input-group sign-right dataleft input-daterange pull-left" id="data_1" data-date-format="yyyy-mm-dd">
-		                        	<input type="text" class="input_type yuanwid datatime" id="evalApplyTime" name="estEvlApplyTime" onfocus="this.blur()"
+		                        	<input type="text" class="input_type yuanwid datatime" id="estEvlApplyTime" name="estEvlApplyTime" onfocus="this.blur()"
 												value="<fmt:formatDate  value='${caseRecvVO.toCaseRecv.estEvlApplyTime}' type='both' pattern='yyyy-MM-dd'/>">
 		                        </div> 
 		                    </div>
@@ -508,51 +492,51 @@ function checkForm() {
 					<div class="line">
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>购房套数</label>
-                                <aist:dict clazz="select_control data_style" id="purchaseHouseNo" name="purchaseHouseNo" display="select" defaultvalue="${caseRecvVO.toPropertyInfo.distCode}" dictType="61000" hasEmpty="true" />
+                                <aist:dict clazz="select_control data_style" id="purchaseHouseNo" name="purchaseHouseNo" display="select" defaultvalue="${caseRecvVO.toPropertyInfo.distCode}" dictType="61000" hasEmpty="true"/>
 		                     </div>
 		                     
 		                     <div class="form_content">
-                                <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>贷款套数 </label>
-                                <aist:dict clazz="select_control data_style" id="loanHouseNo" name="loanHouseNo" display="select" defaultvalue="${caseRecvVO.toCaseRecv.loanHouseNo}" dictType="61004" hasEmpty="true" />
+                                <label class="control-label sign_left_small">贷款套数 </label>
+                                <aist:dict clazz="select_control data_style" id="loanHouseNo" name="loanHouseNo" display="select" defaultvalue="${caseRecvVO.toCaseRecv.loanHouseNo}" dictType="61000" hasEmpty="true"/>
 		                     </div>
 		                     
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>婚姻情况 </label>
-                                <aist:dict clazz="select_control data_style" id="marriageStatus" name="marriageStatus" defaultvalue="${caseRecvVO.toCaseRecv.marriageStatus}" display="select"  dictType="61001" hasEmpty="true" />
+                                <aist:dict clazz="select_control data_style" id="marriageStatus" name="marriageStatus" defaultvalue="${caseRecvVO.toCaseRecv.marriageStatus}" display="select"  dictType="61001" hasEmpty="true"/>
 		                     </div>      
 		                </div>
 					
 					<div class="line">
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>家庭情况</label>
-                                <aist:dict clazz="select_control data_style" id="familyStatus" name="familyStatus" display="select" defaultvalue="${caseRecvVO.toCaseRecv.familyStatus}" dictType="61002" hasEmpty="true"  />
+                                <aist:dict clazz="select_control data_style" id="familyStatus" name="familyStatus" display="select" defaultvalue="${caseRecvVO.toCaseRecv.familyStatus}" dictType="61002" hasEmpty="true"/>
 		                     </div>
 		                     
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>付款方式 </label>
-                                <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select" defaultvalue="${caseRecvVO.payType}" dictType="61003" hasEmpty="true" />
+                                <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select" defaultvalue="${caseRecvVO.payType}" dictType="61003" hasEmpty="true"/>
 		                     </div>
 		                     
 		                     <div class="form_content">
-                                <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>评估</label>
-                                <aist:dict clazz="select_control data_style" id="evalByWho" name="evalByWho" defaultvalue="${caseRecvVO.toCaseRecv.evalByWho}" display="select"  dictType="61005" hasEmpty="true" />
+                                <label class="control-label sign_left_small">评估</label>
+                                <aist:dict clazz="select_control data_style" id="evalByWho" name="evalByWho" defaultvalue="${caseRecvVO.toCaseRecv.evalByWho}" display="select"  dictType="61005" hasEmpty="true"/>
 		                     </div>      
 		                </div>
 		                
 		           <div class="line">
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>户籍</label>
-                                <aist:dict clazz="select_control data_style" id="huji" name="huji" display="select" defaultvalue="${caseRecvVO.toCaseRecv.huji}" dictType="61006" hasEmpty="true" />
+                                <aist:dict clazz="select_control data_style" id="huji" name="huji" display="select" defaultvalue="${caseRecvVO.toCaseRecv.huji}" dictType="61006" hasEmpty="true"/>
 		                     </div>
 		                     
 		                     <div class="form_content">
-                                <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>社保 </label>
-                                <aist:dict clazz="select_control data_style" id="societySecuretyYears" name="societySecuretyYears" defaultvalue="${caseRecvVO.toCaseRecv.societySecuretyYears}" display="select"  dictType="61007" hasEmpty="true" />
+                                <label class="control-label sign_left_small">社保 </label>
+                                <aist:dict clazz="select_control data_style" id="societySecuretyYears" name="societySecuretyYears" defaultvalue="${caseRecvVO.toCaseRecv.societySecuretyYears}" display="select"  dictType="61007" hasEmpty="true"/>
 		                     </div>
 		                     
 		                     <div class="form_content">
-                                <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>税单</label>
-                                <aist:dict clazz="select_control data_style" id="taxSecuretyYears" name="taxSecuretyYears" defaultvalue="${caseRecvVO.toCaseRecv.taxSecuretyYears}" display="select"  dictType="61008" hasEmpty="true" />
+                                <label class="control-label sign_left_small">税单</label>
+                                <aist:dict clazz="select_control data_style" id="taxSecuretyYears" name="taxSecuretyYears" defaultvalue="${caseRecvVO.toCaseRecv.taxSecuretyYears}" display="select"  dictType="61008" hasEmpty="true"/>
 		                     </div>      
 		                </div>
 
@@ -562,7 +546,7 @@ function checkForm() {
 								color=" red" class="mr5">*</font>住房补贴</label>
 							<aist:dict clazz="select_control data_style"
 								id="houseSubsidy" name="houseSubsidy" display="select"
-								defaultvalue="${caseRecvVO.toCaseRecv.houseSubsidy}" dictType="61009" hasEmpty="true" />
+								defaultvalue="${caseRecvVO.toCaseRecv.houseSubsidy}" dictType="61009" hasEmpty="true"/>
 						</div>
 
 					</div>
@@ -604,7 +588,7 @@ function checkForm() {
 		                     
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>抵押信息</label>
-                                <aist:dict clazz="select_control data_style" id="mortInfo" name="mortInfo" defaultvalue="${caseRecvVO.toCaseRecv.houseFrom}" display="select"  dictType="61011" hasEmpty="true" />
+                                <aist:dict clazz="select_control data_style" id="mortInfo" name="mortInfo" defaultvalue="${caseRecvVO.toCaseRecv.houseFrom}" display="select"  dictType="61011" hasEmpty="true"/>
 		                     </div>
 		                     
 		                     <div class="form_content mt3">
@@ -621,7 +605,7 @@ function checkForm() {
 					<div class="line">
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>房屋套数</label>
-                                <aist:dict clazz="select_control data_style" id="isUniqueHome" name="isUniqueHome" defaultvalue="${caseRecvVO.toTax.isUniqueHome}" display="select"  dictType="61012" hasEmpty="true" />
+                                <aist:dict clazz="select_control data_style" id="isUniqueHome" name="isUniqueHome" defaultvalue="${caseRecvVO.toTax.isUniqueHome}" display="select"  dictType="61012" hasEmpty="true"/>
 		                     </div>
 		                     
 		                     <div class="form_content">
@@ -705,11 +689,9 @@ function checkForm() {
 						});
 						//日历控件
 					    $('.input-daterange').datepicker({
-                            todayBtn: "linked",
-                            keyboardNavigation: false,
-                            forceParse: false,
-                            calendarWeeks: false,
-                            autoclose: true
+					        keyboardNavigation: false,
+					        forceParse: false,
+					        autoclose: true
 					    });
 						
 					//设置div显示或隐藏
@@ -720,7 +702,51 @@ function checkForm() {
 						    div_array[i].style.display = stats; 
 					    }  
 					}
+					
+					//日期组件
+			        $('#data_1 .input-group.date').datepicker({
+			            todayBtn: "linked",
+			            keyboardNavigation: false,
+			            forceParse: false,
+			            calendarWeeks: false,
+			            autoclose: true
+			        });
 
+					//日期组件
+			        $('#evalApplyTime').datepicker({
+			            todayBtn: "linked",
+			            keyboardNavigation: false,
+			            forceParse: false,
+			            calendarWeeks: false,
+			            autoclose: true
+			        });
+			      //日期组件
+			        $('#signTime').datepicker({
+			            todayBtn: "linked",
+			            keyboardNavigation: false,
+			            forceParse: false,
+			            calendarWeeks: false,
+			            autoclose: true
+			        });
+			      
+			      //日期组件
+			        $('#f2fSignTime').datepicker({
+			            todayBtn: "linked",
+			            keyboardNavigation: false,
+			            forceParse: false,
+			            calendarWeeks: false,
+			            autoclose: true
+			        });
+			      
+			      //日期组件
+			        $('#estFinishTime').datepicker({
+			            todayBtn: "linked",
+			            keyboardNavigation: false,
+			            forceParse: false,
+			            calendarWeeks: false,
+			            autoclose: true
+			        });
+			      
 		            $("[name=businessLoanWarn]").click(function(){
 		                if($(this).val()=='1'){
 		                    $("#divContent").css("display","inherit");

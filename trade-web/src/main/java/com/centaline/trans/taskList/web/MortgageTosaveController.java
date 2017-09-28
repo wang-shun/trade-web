@@ -14,6 +14,7 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.task.service.MortgageSelectService;
 import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.vo.MortgageToSaveVO;
@@ -70,7 +71,16 @@ public class MortgageTosaveController {
 		 return b;
 	}
 	
+	@RequestMapping(value="getSaveInfo")
+	@ResponseBody
+	public MortgageToSaveVO getSaveInfo(ToMortgage toMortgage){
+		MortgageToSaveVO mortgageToSaveVO = toMortgageTosaveService.getTosave(toMortgage);
+		if(null != mortgageToSaveVO){
+			return mortgageToSaveVO;
+		}
+		return new MortgageToSaveVO();
 	
+	}
 	
 
 }

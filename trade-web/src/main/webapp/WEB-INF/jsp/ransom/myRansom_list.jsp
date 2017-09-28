@@ -318,8 +318,8 @@ text-decoration: underline !important;
 		{{item.BORRO_MONEY}}万元
 	</td>
 	<td class="center"> 
-		<a href="${ctx}/ransomList/ransom/ransomApply" target="_blank">申请</a>
-		<a href="${ctx}/engine/ransom/{{item.PKID}}/process" target="_blank">申请1</a>
+		<a href="${ctx}/task/ransom/ransomApply?caseCode={{item.CASE_CODE}}" target="_blank">申请</a>
+		<a href="${ctx}/engine/task/{{item.PKID}}/process" target="_blank">申请1</a>
 		<a href="${ctx}/ransomList/ransom/ransomDiscontinue" target="_blank">中止</a>
 	</td>
   </tr>

@@ -32,7 +32,57 @@ public class ToHouseTransfer {
 
     private  String accompanyOthersReason;//陪同其他原因
 
-    private BigDecimal  cardPayAmount;
+    private BigDecimal  cardPayAmount;//刷卡金额(已废弃)
+
+    private BigDecimal ownerMatAmount;//业主垫资金额
+
+    private Date matAmountTime;//垫资日期
+
+    private String pawnCompanies;//典当公司
+
+    private BigDecimal matCharges;//垫资费用
+
+    private BigDecimal guaranteeFeeAmount;//担保费金额
+
+    public BigDecimal getOwnerMatAmount() {
+        return ownerMatAmount;
+    }
+
+    public void setOwnerMatAmount(BigDecimal ownerMatAmount) {
+        this.ownerMatAmount = ownerMatAmount;
+    }
+
+    public Date getMatAmountTime() {
+        return matAmountTime;
+    }
+
+    public void setMatAmountTime(Date matAmountTime) {
+        this.matAmountTime = matAmountTime;
+    }
+
+    public String getPawnCompanies() {
+        return pawnCompanies;
+    }
+
+    public void setPawnCompanies(String pawnCompanies) {
+        this.pawnCompanies = pawnCompanies;
+    }
+
+    public BigDecimal getMatCharges() {
+        return matCharges;
+    }
+
+    public void setMatCharges(BigDecimal matCharges) {
+        this.matCharges = matCharges;
+    }
+
+    public BigDecimal getGuaranteeFeeAmount() {
+        return guaranteeFeeAmount;
+    }
+
+    public void setGuaranteeFeeAmount(BigDecimal guaranteeFeeAmount) {
+        this.guaranteeFeeAmount = guaranteeFeeAmount;
+    }
 
     public Long getPkid() {
         return pkid;

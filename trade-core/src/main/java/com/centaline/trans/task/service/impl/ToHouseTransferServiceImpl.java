@@ -176,6 +176,15 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
      */
     @Override
     public void savaToHouseTransferAndMortageToVO(ToHouseTransfer toHouseTransfer, MortgageToSaveVO mortgageToSaveVO) {
+        //业主垫资金额(万元)转换为(元)
+        toHouseTransfer.setOwnerMatAmount(toHouseTransfer.getOwnerMatAmount()!=null?toHouseTransfer
+                .getOwnerMatAmount().multiply(new BigDecimal(10000)):null);
+        //垫资费用
+        toHouseTransfer.setMatCharges(toHouseTransfer.getMatCharges()!=null?toHouseTransfer
+                .getMatCharges().multiply(new BigDecimal(10000)):null);
+        //担保费金额
+        toHouseTransfer.setGuaranteeFeeAmount(toHouseTransfer.getGuaranteeFeeAmount()!=null?toHouseTransfer
+                .getGuaranteeFeeAmount().multiply(new BigDecimal(10000)):null);
         if(toHouseTransfer.getPkid()!=null){
             toHouseTransferMapper.updateByPrimaryKeySelective(toHouseTransfer);
         } else
@@ -203,6 +212,9 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
         ToHouseTransfer toHouseTransfer = toHouseTransferMapper.findToGuoHuByCaseCode(caseCode);
         if (null != toHouseTransfer)
         {
+            toHouseTransfer.setOwnerMatAmount(toHouseTransfer.getOwnerMatAmount()!=null?toHouseTransfer.getOwnerMatAmount().divide(new BigDecimal(10000)):null);
+            toHouseTransfer.setMatCharges(toHouseTransfer.getMatCharges()!=null?toHouseTransfer.getMatCharges().divide(new BigDecimal(10000)):null);
+            toHouseTransfer.setGuaranteeFeeAmount(toHouseTransfer.getGuaranteeFeeAmount()!=null?toHouseTransfer.getGuaranteeFeeAmount().divide(new BigDecimal(10000)):null);
             toHouseTransfer.setBusinessTax(toHouseTransfer.getBusinessTax() != null ? toHouseTransfer.getBusinessTax().divide(new BigDecimal(10000)) : null);
             toHouseTransfer.setContractTax(toHouseTransfer.getContractTax() != null ? toHouseTransfer.getContractTax().divide(new BigDecimal(10000)) : null);
             toHouseTransfer.setHouseHodingTax(toHouseTransfer.getHouseHodingTax() != null ? toHouseTransfer.getHouseHodingTax().divide(new BigDecimal(10000)) : null);

@@ -153,8 +153,6 @@ public class FlowWorkListener {
 			defValsMap.put("manager",owner.getGrpMgrUsername());
 			//TODO 兼容原有流程 否则会无法启动 后面正式流程删除
 			defValsMap.put("caseOwner",owner.getGrpMgrUsername());
-			//TODO 获取内勤信息 并设置
-			defValsMap.put("assistant",owner.getGrpMgrUsername());
 		}else{
 			throw new BusinessException("交易案件 编号["+caseCode+"] 未获取到案件贷款或过户权证信息 启动流程失败.");
 		}
