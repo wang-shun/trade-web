@@ -93,6 +93,7 @@
 		<mapper resource="mapper/eval/ToEvalSettleMapper.xml" />
 		<mapper resource="mapper/eval/ToEvalReportProcessMapper.xml" />
 		<mapper resource="mapper/eval/ToEvalRebateMapper.xml" />
+		<mapper resource="mapper/eval/ToEvaSettleUpdateLogMapper.xml" />
 		<!-- 案件 -->
 		<mapper resource="mapper/cases/ToCaseMapper.xml" />
 		<mapper resource="mapper/cases/ToCaseInfoMapper.xml" />

@@ -51,17 +51,18 @@
 </style>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
-	<input type="hidden" id="ctm" value="${toCaseInfo.ctmCode}" />
+	<input type="hidden" id="caseCode" value="${evalVO.caseCode}" />
+	<%-- <input type="hidden" id="ctm" value="${toCaseInfo.ctmCode}" />
 	<input type="hidden" id="Lamp1" value="${Lamp1}" />
 	<input type="hidden" id="Lamp2" value="${Lamp2}" />
 	<input type="hidden" id="Lamp3" value="${Lamp3}" />
 	<input type="hidden" id="Lamp3" value="${Lamp3}" />
 	<input type="hidden" id="activityFlag" value="${toCase.caseProperty}" />
-	<input type="hidden" id="caseCode" value="${toCase.caseCode}" />
+	
 	<input type="hidden" id="instCode" value="${toWorkFlow.instCode}" />
 	<input type="hidden" id="srvCodes" value="${caseDetailVO.srvCodes}" />
 	<input type="hidden" id="processDefinitionId"
-		value="${toWorkFlow.processDefinitionId}" />
+		value="${toWorkFlow.processDefinitionId}" /> --%>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 
 	<script>
@@ -331,83 +332,65 @@
 										</dl>
 									</div>
 								</div>
-
 							</div>
+						</div>	
 							<!-- 结算信息 -->
-							<div class="ibox white_bg" >
-									<span class="table table_blue table-striped table-bordered table-hover ">结算信息</span>
-									<div class="ibox-conn else_conn" >
-										<dl class="col-sm-3 control-label" >
-											<dt>评估公司：${evalVO.finOrgId}</dt>
-											<dd>
-												<div id="seller"></div>
-											</dd>
-										</dl>
-										<dl class="col-sm-3 control-label">
-											<dt>评估费实收金额:${evalVO.evalRealCharges}</dt>
-											<dd>
-												<div id="buyer"></div>
-											</dd>
-										</dl>
-										<dl class="col-sm-3 control-label">
-											<dt>评估申请日期:${evalVO.applyDate}</dt>
-											<dd>
-												<div id="buyer"></div>
-											</dd>
-										</dl>
-									
-										<dl class="col-sm-3 control-label" >
-											<dt>出具评估报告的日期:${evalVO.issueDate}</dt>
-											<dd>
-												<div id="seller"></div>
-											</dd>
-										</dl>
-										<dl class="col-sm-3 control-label">
-											<dt>评估值：${evalVO.evaPrice}</dt>
-											<dd>
-												<div id="buyer"></div>
-											</dd>
-										</dl>
-									</div>
+						<div class="panel-body ibox-content">
+							<div class="ibox white_bg" id="content">
+								<div class="info_box info_box_one col-sm-12 ">
+							  		<span>结算信息</span>
+										
+										<div class="height_line"></div>
+										<div class="row font-family" style=" margin-top:10px;">
+											<label class="col-sm-4 control-label">评估公司：${evalVO.finOrgId}</label>
+											<label class="col-sm-3 control-label">评估费实收金额:${evalVO.evalRealCharges}&nbsp;&nbsp;元</label>
+											<label class="col-sm-3 control-label">评估申请日期:${evalVO.applyDate}</label>
+										</div>
+										<div class="height_line1"></div>
+										<div class="row font-family"  style=" margin-top:50px;">
+											<label class="col-sm-4 control-label">出具评估报告的日期:${evalVO.issueDate}</label>
+											<label class="col-sm-3 control-label">评估值：${evalVO.evaPrice}</label>
+										</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<!-- 填写结算任务-->
 				<div class="panel " id="serviceFlow">
-					<div class="panel-body">
+					<div class="panel-body ibox-content">
 						<ul class="nav nav-tabs">
 							<li class="active"><a href="#settings" data-toggle="tab">填写结算任务</a>
 							</li>
 						</ul>
 
 						<div class="tab-content">
-							 <form  action="${ctx}/caseMerge/saveCaseInfo/${flag}"  method="post"  id="saveCaseInfo">
-					<div class="tab-pane active fade in" id="settings">
-						<div class="jqGrid_wrapper row">
-										<div class="form_content">
-									
-											<label class="control-label sign_left_small">原结算费用 </label> <input
-												class="teamcode input_type" 
-												placeholder="" value="" id="endCost" name="endCost" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										
-										
-											<label >修改结算费用为</label> <input 
-												class="teamcode input_type" 
-												placeholder="" value="" id="editEndCost" name="editEndCost" />
+								 <form  action="${ctx}/caseMerge/saveCaseInfo/${flag}"  method="post"  id="saveCaseInfo">
+									<div class="tab-pane active fade in" id="settings">
+										<div class="jqGrid_wrapper row">
+														<div class="form_content">
+													
+															<label class="control-label sign_left_small">* 原结算费用 </label> <input
+																class="teamcode input_type" 
+																placeholder="" value="" id="endCost" name="endCost" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+														
+														
+															<label >* 修改结算费用为</label> <input 
+																class="teamcode input_type" 
+																placeholder="" value="" id="editEndCost" name="editEndCost" />
+														</div>
+													</div>
+										<div class="jqGrid_wrapper row">
+											<div class="form_content" style=" margin-top:30px;">
+												<label class="control-label sign_left_small">* 修改原因 </label>
+													<!-- <textarea class="teamcode input_type" rows="5" cols="150"></textarea> -->
+												 <input
+													class="teamcode input_type"  style="width: 435px;"
+													placeholder="" value="" id="updateCause" name="updateCause" />
+											</div>
 										</div>
 									</div>
-						<div class="jqGrid_wrapper row">
-							<div class="form_content">
-								<label class="control-label sign_left_small">修改原因 </label>
-									<!-- <textarea class="teamcode input_type" rows="5" cols="150"></textarea> -->
-								 <input
-									class="teamcode input_type"  style="width: 435px;"
-									placeholder="" value="" id="updateCause" name="updateCause" />
-							</div>
-						</div>
-					</div>
-				</form>
+								</form>
 							
 							<div class="tab-pane fade" id="messages">
 								<c:if test="${not empty toWorkFlow.processDefinitionId}">
@@ -432,7 +415,7 @@
 				<!-- 修改记录 -->
 				<div class="panel " id="aboutInfo" style="min-height: 800px;">
 					
-					<div class="panel-body">
+					<div class="panel-body ibox-content">
 						<ul class="nav nav-tabs">
 							<li>修改记录</li>
 						</ul>
@@ -466,15 +449,29 @@
                                             </tr>
                                         </thead>
                                         <tbody class="table_content_pre">
-                                      			
+                                      		<c:forEach items="${updateLogList}" var="item" varStatus="status">  
+											  <tr >  
+											    <td class="center"><span class="center">${status.index+1}</span></td>  
+											    <td><fmt:formatDate value="${item.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>  
+											    <td>${item.updateReason}</td>  
+											    <td>审批人</td>  
+											    <td>审批时间</td>
+											    <td>审批意见</td>
+											  </tr>  
+											</c:forEach> 
                                         </tbody>
                                     </table> 
                                 </div>
 				                <div class="modal-footer">
-									<button type="button" class="btn btn-primary" id="newCaseInfoSave"
-										>保存</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<button class="btn btn-primary" id="btnSave">提交</button>
+									<button type="button" class="btn btn-primary" id="newCaseInfoSave" onclick="javascript:closeEval()"
+										>关闭</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<button class="btn btn-primary" id="submit" >提交</button>
 								</div>
+								<!-- <div class="add_btn text-center mt20">
+								   	<div class="more_btn">
+							   	    	<button id="closeButton" type="button" class="btn btn_blue">关闭</button>
+									</div>
+								</div> -->
                             </div> 
 						</div>
 					</div>
@@ -496,8 +493,6 @@
 	<script src="<c:url value='/js/plugins/jasny/jasny-bootstrap.min.js' />"></script>
 	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 	<%-- <script src="<c:url value='/transjs/task/follow.pic.list.js' />"></script> --%>
-	<script src="<c:url value='/js/trunk/case/moduleSubscribe.js' />"></script>
-	<script src="<c:url value='/js/trunk/case/caseDetail.js' />"></script> 
 	<%-- <script src="<c:url value='js/trunk/case/showCaseAttachment.js' />"></script> --%>
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
 	<script src="<c:url value='/js/trunk/case/showCaseAttachmentByJagd.js' />"></script>
@@ -518,7 +513,40 @@
 	<script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script>
 	<jsp:include	page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script>
-	$("#newCaseInfoSave").click(function(){	
+	/**关闭页面*/
+	function closeEval(){
+		window.close();
+		//window.location.href = ctx+"/eval/settle/evalWaitEndList";
+	}
+	//提交按钮
+	$("#submit").click(function(){
+		var evalAccountShowVO = {
+				caseCode : $("#caseCode").val(),
+				settleFee : $("#editEndCost").val(),
+				updateReason:$("#updateCause").val()
+			};
+		evalAccountShowVO = $.toJSON(evalAccountShowVO);
+	   	  $.ajax({
+					cache:false,
+					async:true,
+					type:"POST",
+					dataType:"json",
+					contentType: "application/json; charset=utf-8" ,
+					url:ctx+"/eval/settle/evalEndUpdateFee",
+					data:evalAccountShowVO,
+					success:function(data){
+						if(data.success){
+							location.href = "../settle/evalWaitEndList"
+						}else{
+							window.wxc.error(data.message);
+						}
+					},
+					
+			}); 
+   	  	
+     });
+	
+	/* $("#newCaseInfoSave").click(function(){	
 		
 		$("#saveCaseInfo").submit();
 	});
@@ -650,10 +678,10 @@
   					}
   				});
  	    	}});
- 	      });
+ 	      }); */
 
 		//jqGrid 初始化
-		$("#gridTable").jqGrid({
+		/* $("#gridTable").jqGrid({
 			url : ctx+url,
 			mtype : 'GET',
 			datatype : "json",
@@ -661,7 +689,6 @@
 			autowidth : true,
 			shrinkToFit : true,
 			rowNum : 50,
-			/*   rowList: [10, 20, 30], */
 			colNames : [ '附件类型','附件名称','附件路径','上传时间','操作'],
 			colModel : [ {
 				name : 'ATT_TYPE',
@@ -728,7 +755,7 @@
 				argu_ctmCode : ctmCode
 			}
 
-		});
+		}); */
 
 		//附件连接
 		function linkhouseInfo(cellvalue, options, rowObject){

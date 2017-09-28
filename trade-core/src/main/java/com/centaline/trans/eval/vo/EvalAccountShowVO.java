@@ -5,7 +5,7 @@ import java.util.List;
 
 
 public class EvalAccountShowVO {
-
+	
 	private String caseCode;                       //
 	private String evaCode;                   
 	private String finOrgId;           
@@ -25,6 +25,8 @@ public class EvalAccountShowVO {
 	private List<Integer>taskIds;
 	private List<String>caseCodes;
 	private String userId;
+	
+	private String updateReason;       //修改原因
 	
 	public List<Integer> getTaskIds() {
 		return taskIds;
@@ -110,27 +112,13 @@ public class EvalAccountShowVO {
 	public void setRejectCause(String rejectCause) {
 		this.rejectCause = rejectCause;
 	}
+	public String getUpdateReason() {
+		return updateReason;
+	}
+	public void setUpdateReason(String updateReason) {
+		this.updateReason = updateReason;
+	}
 	
-
-//    private String closeType;    //还款方式
-//    private String lendWay;    //放款方式
-//    private String holdYear;      //购房年数
-//    private String houseProperty;  //房屋性质
-//    private String isUniqueHome;   //唯一住房
-//    private String isHukou;   //户口情况
-//    private String isConCert;   //合同公证
-//    
-//    private String spvType;   //监管方式
-//    private String spvInsti;  // 监管机构
-//    private String signTime;   //监管签约时间
-//    
-//    private String caseProperty; // 案件属性
-//    
-//    private String propertyAddress;//物业地址
-//    private String loanLostType;//贷款流失类型
-//    
-//    private String loanType;//税费卡类型
-    
-
+	
 	
 }
