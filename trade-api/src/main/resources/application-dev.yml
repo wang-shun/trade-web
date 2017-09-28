@@ -24,7 +24,7 @@ shiroConfig.shiroFilter:
     /anon/**: anon
     /login: authc
     /logout: logout
-    #TODO 后面加入自定义的过滤器 进行权限校验
+    #TODO 权限验证FilterName 密钥验证secretKeyAuth，白名单参考secretKeyAuth
     /api/**: anon
     /api-docs: anon
     /rest/**: anon
@@ -70,7 +70,7 @@ readOnlyDataSource:
   initialSize: 6
   filters: stat
 #Mybatis
-mybatis: 
+mybatis:
   mapperLocations: classpath*:mapper/**/*Mapper.xml
   typeAliasesPackage: com.centaline.trans.**.repository
   configLocation: classpath:/mapper/mappers.xml
@@ -88,3 +88,5 @@ swagger:
   host: 10.1.30.104
 # 案件消息队列开关 自动启动流程或发送发送CCAI秘书调整案件完成消息开关 true启动 false忽略消息队列信息
 trade.casemq.enable: true
+#定义获取密钥的header name
+trade.apikey.headerName: secretKey
