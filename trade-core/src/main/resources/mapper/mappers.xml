@@ -286,5 +286,8 @@
 		<mapper resource="mapper/task/ToSelfAppInfoMapper.xml"/>
 		
 		<mapper resource="mapper/ransom/AddRansomFormMapper.xml"/>
+		
+		<!-- 赎楼流程数据更新 -->
+		<mapper resource="mapper/ransom/RansomMapper.xml"/>
 	</mappers>
 </configuration>
