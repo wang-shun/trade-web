@@ -918,10 +918,29 @@ function renderMortgageSign(f,data){
 	}else{
 		getGuestInfo(f.attr('id'),'');
 		$(".loanerNameImage").css("color","#676A6C");
-		orderTmpBankChange(f.find('[name=isTmpBank]:checked').val(),f,null);
+		getsaveInfo(f);
 	}
 
 } 
+
+function getsaveInfo(form){
+	var caseCode = $("#caseCode").val();
+	 $.ajax({
+	    url:ctx+"/task/mortgageTosave/getSaveInfo",
+	    method:"post",
+	    dataType:"json",
+	    data:{caseCode:caseCode},
+	    success:function(data){
+	    	if(data){
+	    		console.info(data);
+	    		form.find('select[name=bank_type]').val(data.bank_type);
+	    		orderTmpBankChange(data.isTmpBank,form,data.finOrgCode);
+	    		//form.find('select[name=finOrgCode]').val(data.finOrgCode);
+	    	}
+	    }
+	 });
+	    
+}
 
 /**
  * 完成Table贷款信息渲染

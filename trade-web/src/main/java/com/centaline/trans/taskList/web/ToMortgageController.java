@@ -152,36 +152,11 @@ public class ToMortgageController {
 						mortgage.setFinOrgCode(mortgageToSaveVO.getFinOrgCode());
 					}
 				}
-				/*if (StringUtils.isNotBlank(mortgage.getTmpBankUpdateBy())) {
-					User u = uamUserOrgService.getUserById(mortgage.getTmpBankUpdateBy());
-					if (u != null) {
-						mortgage.setTmpBankUpdateByStr(u.getRealName());
-					}
-				}*/
-	
 				mortgage.setComAmount(mortgage.getComAmount() != null ? mortgage.getComAmount().divide(new BigDecimal(10000)) : null);
 				mortgage.setMortTotalAmount(mortgage.getMortTotalAmount() != null ? mortgage.getMortTotalAmount().divide(new BigDecimal(10000)) : null);
 				mortgage.setPrfAmount(mortgage.getPrfAmount() != null ? mortgage.getPrfAmount().divide(new BigDecimal(10000)) : null);
+				response.setContent(mortgage);
 			}
-			// 临时银行开启时不允许反选
-			/**
-			 * 没有临时银行
-			 */
-			//ToWorkFlow twf = new ToWorkFlow();
-
-			//twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
-
-			//twf.setCaseCode(toMortgage.getCaseCode());
-			//ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-			/*if (record != null) {
-				// 流程已开启
-				response.setCode("1");
-			} else {
-				// 流程未开启
-				response.setCode("0");
-			}*/
-
-			response.setContent(mortgage);
 		} catch (Exception e) {
 			response.setSuccess(false);
 			response.setMessage("查询出错！");
