@@ -1348,6 +1348,10 @@ public class ToMortgageServiceImpl implements ToMortgageService
         return workFlowManager.submitTask(variables, taskId, processInstanceId, toCase.getLeadingProcessId(), toMortgage.getCaseCode());
     }
 
+    /**
+     * update by wbshume
+     * 放款环节业务改动
+     */
     @Override
     public Result2 submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime, String taskId, String processInstanceId,
             String partCode)
@@ -1355,7 +1359,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
         toMortgage.setIsMainLoanBank("1");
         ToMortgage mortage = findToMortgageById(toMortgage.getPkid());
         mortage.setLendDate(toMortgage.getLendDate());
-        mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
+//        mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
         mortage.setRemark(toMortgage.getRemark());
         saveToMortgage(mortage);
 

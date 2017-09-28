@@ -639,6 +639,26 @@
 					method:"post",
 					dataType:"json",
 					data:{"fileList" : fileIDs.join()},
+                    beforeSend : function() {
+                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+                        $(".blockOverlay").css({'z-index':'9998'});
+                    },
+                    complete : function() {
+                        $.unblockUI();
+                        if(b){
+                            $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}});
+                            $(".blockOverlay").css({'z-index':'1900'});
+                        }
+                        if(status=='timeout'){//超时,status还有success,error等值的情况
+                            Modal.alert(
+                                {
+                                    msg:"抱歉，系统处理超时。"
+                                });
+                            $(".btn-primary").one("click",function(){
+                                parent.$.fancybox.close();
+                            });
+                        }
+                    } ,
 					success: function(data) {
 						if(data != null ){
 							if(data.success){

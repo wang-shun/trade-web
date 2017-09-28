@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.eval.repository.ToEvaSettleUpdateLogMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eval.entity.ToEvaSettleUpdateLog" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_REASON" property="updateReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, EVA_CODE, UPDATE_BY, UPDATE_TIME, UPDATE_REASON
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectUpdateLogByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    	<include refid="Base_Column_List" />
+    from "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    ORDER BY UPDATE_TIME
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.eval.entity.ToEvaSettleUpdateLog" >
+    insert into "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG" (PKID, CASE_CODE, EVA_CODE, 
+      UPDATE_BY, UPDATE_TIME, UPDATE_REASON
+      )
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateReason,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvaSettleUpdateLog" >
+    insert into "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateReason != null" >
+        UPDATE_REASON,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateReason != null" >
+        #{updateReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eval.entity.ToEvaSettleUpdateLog" >
+    update "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateReason != null" >
+        UPDATE_REASON = #{updateReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eval.entity.ToEvaSettleUpdateLog" >
+    update "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_REASON = #{updateReason,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateEvaLogByCaseCode" parameterType="com.centaline.trans.eval.entity.ToEvaSettleUpdateLog" >
+    update "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    set 
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_REASON = #{updateReason,jdbcType=VARCHAR}
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>
