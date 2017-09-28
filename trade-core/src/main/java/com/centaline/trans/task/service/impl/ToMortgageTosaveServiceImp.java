@@ -188,11 +188,11 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 
 		if(isNewFlow) {
 			ActRuEventSubScr event = new ActRuEventSubScr();
-			event.setEventType(MessageEnum.START_MORTGAGE_SELECT_MSG.getEventType());
-			event.setEventName(MessageEnum.START_MORTGAGE_SELECT_MSG.getName());
+			event.setEventType(MessageEnum.CCAI_UPDATED_MSG.getEventType());
+			event.setEventName(MessageEnum.CCAI_UPDATED_MSG.getName());
 			event.setProcInstId(vo.getProcessInstanceId());
 			//event.setActivityId(EventTypeEnum.TRADEBOUNDARYMSG.getName());
-			event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+			event.setActivityId(EventTypeEnum.CCAI_UPDATED_MSG_EVENT_CATCH.getName());
 			List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
 			
 			event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
@@ -261,8 +261,8 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 				User u=uamUserOrgService.getUserById(vo.getPartner());//合作顾问
 				Map<String, Object> vars=new HashMap<>();
 				//vars.put("partner", u.getUsername());
-				
-				vars.put("caseOwner", u.getUsername());
+				//vars.put("caseOwner", u.getUsername());
+				vars.put("loan",u.getUsername());
 				StartProcessInstanceVo p=processInstanceService.startWorkFlowByDfId(processDfId, vo.getCaseCode(), vars);
 				// 设置当前任务的执行人
 				ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
@@ -291,7 +291,7 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 			ExecuteAction action = new ExecuteAction();
 			action.setAction("messageEventReceived");
 			action.setExecutionId(subScr.getExecutionId());
-			action.setMessageName("StartMortgageSelectMsg");
+			action.setMessageName(MessageEnum.CCAI_UPDATED_MSG.getName());
 			action.setVariables(variables);
 			workFlowManager.executeAction(action);
 			workFlowManager.claimByInstCode(vo.getProcessInstanceId(), vo.getCaseCode(), null);
