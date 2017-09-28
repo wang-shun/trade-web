@@ -215,6 +215,7 @@
 	<!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
 	<script src="<c:url value='/js/common/common.js' />"></script>
+	<script src="<c:url value='/js/trunk/case/caseBaseInfo.js'/>"></script>
 	<script>
 		$(document).ready(function(){
 			$("#mortageService").find("option").eq(0).remove();
@@ -255,11 +256,12 @@
 				}
 			}
 			);
+			mortageService();
 			/*根据贷款服务项，设置默认合作项目*/
 			$("#mortageService").change(function(){
 				mortageService();
 			});
-			$('#div_releasePlan').hide();
+			//$('#div_releasePlan').hide();
 
 			$('#div_releasePlan .input-group.date').datepicker({
 				todayBtn : "linked",

@@ -74,10 +74,13 @@ public class MortgageTosaveController {
 	@RequestMapping(value="getSaveInfo")
 	@ResponseBody
 	public MortgageToSaveVO getSaveInfo(ToMortgage toMortgage){
-		return toMortgageTosaveService.getTosave(toMortgage);
+		MortgageToSaveVO mortgageToSaveVO = toMortgageTosaveService.getTosave(toMortgage);
+		if(null != mortgageToSaveVO){
+			return mortgageToSaveVO;
+		}
+		return new MortgageToSaveVO();
+	
 	}
-	
-	
 	
 
 }

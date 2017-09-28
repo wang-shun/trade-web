@@ -914,7 +914,8 @@ function readOnlyForm(){
 <script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script>
 <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
 <script src="<c:url value='/js/plugins/staps/jquery.steps.min.js' />"></script> 
-<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
+<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script>
+<script src="<c:url value='/js/trunk/case/caseBaseInfo.js'/>"></script> 
 <!-- 上传附件相关 --> 
 <script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script> 
 <script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script> 

@@ -931,11 +931,10 @@ function getsaveInfo(form){
 	    dataType:"json",
 	    data:{caseCode:caseCode},
 	    success:function(data){
-	    	if(data){
-	    		console.info(data);
+	    	console.info(data);
+	    	if( data != null && data != undefined && data != ""){
 	    		form.find('select[name=bank_type]').val(data.bank_type);
 	    		orderTmpBankChange(data.isTmpBank,form,data.finOrgCode);
-	    		//form.find('select[name=finOrgCode]').val(data.finOrgCode);
 	    	}
 	    }
 	 });
