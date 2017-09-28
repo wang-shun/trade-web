@@ -148,6 +148,12 @@
                 <li>
                     <em>案件地址</em><span>${caseDetailVO.propertyAddress }</span>
                 </li>
+            </ul>
+            <ul class="textinfo">
+                <li>
+                    <em>所属区域</em><span>${caseDetailVO.propertyAddress }</span>
+                </li>
+
                 <li>
                     <em>合同价</em>
                             <span>
@@ -198,7 +204,7 @@
                 </li>
 
                 <li>
-                    <em>签约时间</em><span class="yuanwid">${caseDetailVO.signDate}</span>
+                    <em>实际面签时间</em><span class="yuanwid">${caseDetailVO.signDate}</span>
                 </li>
                 <li>
                     <em>批贷时间</em><span class="yuanwid">${caseDetailVO.apprDate}</span>
@@ -210,22 +216,8 @@
                     <em>贷款类型</em><span class="yuanwid">${caseDetailVO.mortTypeName}</span>
                 </li>
                 <li>
-                    <em>商贷金额</em>
-                            <span class="yuanwid">
-                            <c:if test="${!empty toMortgage.comAmount}">
-                                ${toMortgage.comAmount}&nbsp&nbsp万元
-                            </c:if>
-			                </span>
-                </li>
-                <li>
-                    <em>商贷年限</em><span class="yuanwid">${toMortgage.comYear}</span>
-                </li>
-                <li>
-                    <em>商贷利率</em><span class="yuanwid">${toMortgage.comDiscount}</span>
-                </li>
-                <li>
-                    <em>是否自办</em>
-                            <span class="yuanwid">
+                    <em>是否自办贷款</em>
+                    <span class="yuanwid">
                             <c:choose>
                                 <c:when test="${toMortgage.isDelegateYucui=='0'}">是</c:when>
                                 <c:when test="${toMortgage.isDelegateYucui=='1'}">否</c:when>
@@ -234,50 +226,6 @@
                                 </c:otherwise>
                             </c:choose>
                             </span>
-                </li>
-                <li>
-                    <em>公积金贷款金额</em>
-                            <span class="yuanwid">
-                            	<c:if test="${!empty toMortgage.prfAmount}">
-                                    ${toMortgage.prfAmount}&nbsp&nbsp万元
-                                </c:if>
-                            </span>
-                </li>
-                <li>
-                    <em>公积金贷款年限</em><span class="yuanwid">${toMortgage.prfYear}</span>
-                </li>
-                <li>
-                    <em>放款方式</em><span class="yuanwid">${caseDetailVO.lendWay}</span>
-                </li>
-                <li>
-                    <em>主贷人</em><span class="yuanwid">${caseDetailVO.mortBuyer}</span>
-                </li>
-
-                <li>
-                    <em>房贷套数</em><span class="yuanwid">${toMortgage.houseNum}</span>
-                </li>
-                <li>
-                    <em>申请时间</em><span class="yuanwid">${caseDetailVO.prfApplyDate}</span>
-                </li>
-                <li>
-                    <em class="pull-left">主贷人单位</em><span class="infolong pull-left">${caseDetailVO.buyerWork}</span>
-                </li>
-                <li>
-                    <em>信贷员</em><span class="yuanwid">${toMortgage.loanerName}</span>
-                </li>
-                <li>
-                    <em>信贷员电话</em><span class="yuanwid">${toMortgage.loanerPhone}</span>
-                </li>
-                <li>
-                    <em>评估金额</em>
-                            <span class="yuanwid"> 
-                            <c:if test="${!empty caseDetailVO.evaFee}">
-                                ${caseDetailVO.evaFee}&nbsp&nbsp元
-                            </c:if>
-                			</span>
-                </li>
-                <li>
-                    <em class="pull-left">评估公司</em><span class="infolong pull-left">${caseDetailVO.evaName}</span>
                 </li>
                 <c:choose>
                     <c:when test="${toMortgage.isDelegateYucui=='1' && (toMortgage.mortType=='30016001' or toMortgage.mortType=='30016002')}">
@@ -310,11 +258,118 @@
                         </li>
                     </c:otherwise>
                 </c:choose>
+                <!--新加-->
                 <li>
+                    <em>贷款总金额</em><span class="yuanwid">${caseDetailVO.mortTypeName}</span>
+                </li>
+                <!--end-->
+                <li>
+                    <em>商贷金额</em>
+                            <span class="yuanwid">
+                            <c:if test="${!empty toMortgage.comAmount}">
+                                ${toMortgage.comAmount}&nbsp&nbsp万元
+                            </c:if>
+			                </span>
+                </li>
+
+                <li>
+                    <em>商贷利率</em><span class="yuanwid">${toMortgage.comDiscount}</span>
+                </li>
+                <li>
+                    <em>商贷年限</em><span class="yuanwid">${toMortgage.comYear}</span>
+                </li>
+
+                <li>
+                    <em>房贷套数</em><span class="yuanwid">${toMortgage.houseNum}</span>
+                </li>
+                <li>
+                    <em>信贷员</em><span class="yuanwid">${toMortgage.loanerName}</span>
+                </li>
+                <li>
+                    <em>信贷员电话</em><span class="yuanwid">${toMortgage.loanerPhone}</span>
+                </li>
+                <li>
+                    <em>公积金贷款金额</em>
+                            <span class="yuanwid">
+                            	<c:if test="${!empty toMortgage.prfAmount}">
+                                    ${toMortgage.prfAmount}&nbsp&nbsp万元
+                                </c:if>
+                            </span>
+                </li>
+                <li>
+                    <em>公积金贷款年限</em><span class="yuanwid">${toMortgage.prfYear}</span>
+                </li>
+                <li>
+                    <em>申请时间</em><span class="yuanwid">${caseDetailVO.prfApplyDate}</span>
+                </li>
+                <li>
+                    <em>主贷人</em><span class="yuanwid">${caseDetailVO.mortBuyer}</span>
+                </li>
+
+                <li>
+                    <em >主贷人单位</em><span class="yuanwid">${caseDetailVO.buyerWork}</span>
+                </li>
+                <li>
+                    <em>放款方式</em><span class="yuanwid">${caseDetailVO.lendWay}</span>
+                </li>
+                </ul>
+            <ul class="textinfo">
+                <li>
+                    <em >评估公司</em><span class="yuanwid">${caseDetailVO.evaName}</span>
+                </li>
+                <!--新加-->
+                <li>
+                    <em class="pull-left">是否自办评估</em>
+                    <span class="infolong pull-left">
+                        <input type="radio" value="1"/>是
+                        <input type="radio" value="0" checked="checked"/>否
+                   </span>
+                </li>
+                <!--end-->
+
+                <li>
+                    <em>评估金额</em>
+                            <span class="yuanwid"> 
+                            <c:if test="${!empty caseDetailVO.evaFee}">
+                                ${caseDetailVO.evaFee}&nbsp&nbsp元
+                            </c:if>
+                			</span>
+                </li>
+                <!--新加-->
+                <li>
+                    <em class="pull-left">评估均价</em><span class="infolong pull-left">${caseDetailVO.evaName}</span>
+                </li>
+                <!--end-->
+               <%-- <li>
                     <em class="pull-left">备注</em><span class="infolong pull-left">${toMortgage.remark}</span>
                 </li>
                 <li>
                     <em class="pull-left">贷款流失类型</em><span class="infolong pull-left">${caseDetailVO.loanLostType}</span>
+                </li>--%>
+                <!--新加-->
+                <li>
+                    <em >典当公司</em><span class="yuanwid">${caseDetailVO.evaName}</span>
+                </li>
+                <li>
+                    <em >业主垫资金额</em><span class="yuanwid">${caseDetailVO.evaName}</span>
+                </li>
+                <li>
+                    <em >垫资日期</em><span class="yuanwid">${caseDetailVO.evaName}</span>
+                </li>
+                <li>
+                    <em class="pull-left">垫资费用</em><span class="infolong pull-left">${caseDetailVO.evaName}</span>
+                </li>
+                <li>
+                    <em >担保费金额</em><span class="yuanwid">${caseDetailVO.evaName}</span>
+                </li>
+                <li>
+                    <em >契税</em><span class="yuanwid">${toRatePayment.contractTax}</span>
+                </li>
+                <li>
+                    <em >个人所得税</em><span class="yuanwid">${toRatePayment.personalIncomeTax}</span>
+                </li>
+                <li>
+                    <em >土地增值税</em><span class="yuanwid">${toRatePayment.landIncrementTax}</span>
                 </li>
             </ul>
         </div>
@@ -325,16 +380,22 @@
             <div id="imgShow" class="lightBoxGallery"></div>
         </div>
     </div>
-    <div class="clearfix">
+   <%-- <div class="clearfix">
         <h2 class="newtitle title-mark">CTM附件</h2>
         <div class="jqGrid_wrapper">
             <table id="gridTable"></table>
             <div id="gridPager"></div>
         </div>
-    </div>
+    </div>--%>
     <div class="clearfix">
         <h2 class="newtitle title-mark">备注信息</h2>
-        <div class="">${houseTransfer.comment}</div>
+        <div class="text_list">
+            <ul class="textinfo">
+                <li>
+                    <em ><span class="yuanwid">${houseTransfer.comment}<span></em>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div>
@@ -489,7 +550,8 @@
         }
         var url = "/quickGrid/findPage";
         var ctx = "${ctx}";
-        var ctmCode = "${caseBaseVO.toCaseInfo.ctmCode}";
+        var ctmCode = "${caseBaseVO.toCaseInfo.ccaiCode}";
+        //alert(ctmCode);
         var r1 = false;
         var changeTaskRole = false;
         var guoHuApprove = false;
@@ -535,7 +597,7 @@
              window.open(encodeURI(encodeURI(url)));*/
         }
 
-        $("#gridTable")
+       /* $("#gridTable")
                 .jqGrid(
                 {
                     url : ctx + url,
@@ -545,7 +607,7 @@
                     autowidth : true,
                     shrinkToFit : true,
                     rowNum : 20,
-                    /*   rowList: [10, 20, 30], */
+                    /!*   rowList: [10, 20, 30], *!/
                     colNames : [ '附件类型', '附件名称', '附件路径', '上传时间',
                         '操作' ],
                     colModel : [ {
@@ -629,7 +691,7 @@
                         argu_ctmCode : ctmCode
                     }
 
-                });
+                });*/
 
         $(function() {
             getShowAttachment();
@@ -704,13 +766,26 @@
                 },
                 success : function(data) {
                     //	alert("数据已保存。");
+                       /* caseTaskCheck();
+                        if (null != data.message) {
+                            window.wxc.alert(data.message);
+                        }else {
+                            window.location.href = "${ctx }/task/myTaskList";
+                        }*/
                     window.wxc.success("提交成功！",{"wxcOk":function(){
-                        if (window.opener) {
+                       /* if (window.opener) {
+                            alert("aaa");
                             window.close();
                             window.opener.callback();
                         } else {
-                            window.location.href = "${ctx }/task/myTaskList";
-                        }
+                            alert("bbb")
+                            //
+                            caseTaskCheck();
+                            if (null != data.message) {
+                                window.wxc.alert(data.message);
+                            }
+                        }*/
+                        window.location.href = "${ctx }/task/myTaskList";
                     }});
                 },
                 error : function(errors) {

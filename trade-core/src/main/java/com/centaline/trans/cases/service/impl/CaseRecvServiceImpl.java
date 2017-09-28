@@ -2,6 +2,7 @@ package com.centaline.trans.cases.service.impl;
 
 
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,8 +71,22 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 			}
 		}
 		
+//		ToSign toSign = caseRecvVO.getToSign();
+//		if(null!=toSign){
+//			ToSign findToSignByCaseCode = toSignMapper.findToSignByCaseCode(primaryCaseCode);
+//			if(null!=findToSignByCaseCode){
+//				toSignMapper.updateByPrimaryKeySelective(toSign);
+//			}else{
+//				toSignMapper.insertSelective(toSign);
+//			}
+//		}
+//		数据库中的合同价和成交价都是以元为单位， 而前台的是万元单位，插入和更新在这里转换
 		ToSign toSign = caseRecvVO.getToSign();
+		double doubleRealPrice = toSign.getRealPrice().multiply(new BigDecimal("10000")).doubleValue();
+		double doubleConPrice = toSign.getConPrice().multiply(new BigDecimal("10000")).doubleValue();
 		if(null!=toSign){
+			toSign.setRealPrice(new BigDecimal(Double.toString(doubleRealPrice)));
+			toSign.setConPrice(new BigDecimal(Double.toString(doubleConPrice)));
 			ToSign findToSignByCaseCode = toSignMapper.findToSignByCaseCode(primaryCaseCode);
 			if(null!=findToSignByCaseCode){
 				toSignMapper.updateByPrimaryKeySelective(toSign);
@@ -168,8 +183,13 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 			}
 		}
 		
+//		数据库中的合同价和成交价都是以元为单位， 而前台的是万元单位，插入和更新在这里转换
 		ToSign toSign = caseRecvVO.getToSign();
+		double doubleRealPrice = toSign.getRealPrice().multiply(new BigDecimal("10000")).doubleValue();
+		double doubleConPrice = toSign.getConPrice().multiply(new BigDecimal("10000")).doubleValue();
 		if(null!=toSign){
+			toSign.setRealPrice(new BigDecimal(Double.toString(doubleRealPrice)));
+			toSign.setConPrice(new BigDecimal(Double.toString(doubleConPrice)));
 			ToSign findToSignByCaseCode = toSignMapper.findToSignByCaseCode(primaryCaseCode);
 			if(null!=findToSignByCaseCode){
 				toSignMapper.updateByPrimaryKeySelective(toSign);
@@ -178,7 +198,18 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 			}
 		}
 		
-		ToCaseRecv toCaseRecv = caseRecvVO.getToCaseRecv();
+//		ToSign toSign = caseRecvVO.getToSign();
+//		if(null!=toSign){
+//			ToSign findToSignByCaseCode = toSignMapper.findToSignByCaseCode(primaryCaseCode);
+//			if(null!=findToSignByCaseCode){
+//				toSignMapper.updateByPrimaryKeySelective(toSign);
+//			}else{
+//				toSignMapper.insertSelective(toSign);
+//			}
+//		}
+
+	
+		ToCaseRecv toCaseRecv = caseRecvVO.getToCaseRecv();		
 		if(null!=toCaseRecv){
 			ToCaseRecv findToCaseRecvByCaseCode = toCaseRecvMapper.selectByPrimaryKey(primaryCaseCode);
 			if(null!=findToCaseRecvByCaseCode){
@@ -239,7 +270,34 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 	public CaseRecvVO selectFullCaseRecvVO(String caseCode) {
 		CaseRecvVO caseRecvVO = new CaseRecvVO();
 		ToCaseRecv toCaseRecv = toCaseRecvMapper.selectByPrimaryKey(caseCode);
+//		数据库中的合同价和成交价都是以元为单位， 而前台的是万元单位，查询出的数据在这里转换
 		ToSign toSign = toSignMapper.findToSignByCaseCode(caseCode);
+		BigDecimal realPrice=null;
+		BigDecimal conPrice=null;
+		if(null!=toSign){
+			if(null!=toSign.getRealPrice()){
+				realPrice = toSign.getRealPrice().divide(new BigDecimal("10000"));				
+				toSign.setRealPrice(realPrice);
+			}
+			if(null!=toSign.getConPrice()){
+				conPrice = toSign.getConPrice().divide(new BigDecimal("10000"));							
+				toSign.setConPrice(conPrice);
+			}
+		}
+//		数据库中的合同价和成交价都是以元为单位， 而前台的是万元单位，插入和更新在这里转换
+//		ToSign toSign = caseRecvVO.getToSign();
+//		double doubleRealPrice = toSign.getRealPrice().multiply(new BigDecimal("10000")).doubleValue();
+//		double doubleConPrice = toSign.getConPrice().multiply(new BigDecimal("10000")).doubleValue();
+//		if(null!=toSign){
+//			toSign.setRealPrice(new BigDecimal(Double.toString(doubleRealPrice)));
+//			toSign.setConPrice(new BigDecimal(Double.toString(doubleConPrice)));
+//			ToSign findToSignByCaseCode = toSignMapper.findToSignByCaseCode(primaryCaseCode);
+//			if(null!=findToSignByCaseCode){
+//				toSignMapper.updateByPrimaryKeySelective(toSign);
+//			}else{
+//				toSignMapper.insertSelective(toSign);
+//			}
+//		}
 		ToPropertyInfo toPropertyInfo = toPropertyInfoMapper.findToPropertyInfoByCaseCode(caseCode);
 		//解决payType
 		ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);

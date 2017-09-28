@@ -97,7 +97,7 @@
 		<div>
 			<h2 class="newtitle title-mark">填写任务信息</h2>
 			<div class="form_list">
-				<form method="get" class="form-horizontal" id="ratePaymentForm">
+				<form method="post" class="form-horizontal" id="ratePaymentForm">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode"
 						   value="${taskitem}">
@@ -113,16 +113,16 @@
 						   value="${houseTransfer.pkid}">
 					<%-- 设置审批类型 --%>
 					<input type="hidden" id="approveType" name="approveType"
-						   value="${approveType }"> <input type="hidden"
-														   id="operator" name="operator" value="${operator }">
+						   value="${approveType }">
+					<input type="hidden" id="operator" name="operator" value="${operator }">
 					<div class="marinfo">
 						<div class="line">
 							<div class="form_content">
 							<label class="control-label sign_left_small select_style mend_select">
 								缴税时间<font color=" red" class="mr5" >*</font>
 							</label>
-							<div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" id="data_1">
-								<input type="text" class="form-control data_style" name="paymentTime" id="paymentTime"
+							<div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" id="data_RatePayment">
+								<input type="text" class="input_type yuanwid datatime" name="paymentTime" id="paymentTime"
 									   onfocus="this.blur()" value="<fmt:formatDate  value='${ratePayment.paymentTime}' type='both' pattern='yyyy-MM-dd'/>">
 							</div>
 						</div>
@@ -133,15 +133,6 @@
 									   value="<fmt:formatNumber value='${ ratePayment.personalIncomeTax}' type='number' pattern='#0.00' />">
 								<span class="date_icon">万元</span>
 							</div>
-						
-						<%-- 
-							<div class="form_content">
-								<label class="control-label sign_left_small">核税价<font color=" red" class="mr5" >*</font></label>
-								<input type="text" class=" input_type yuanwid" id="taxPricing"
-									   name="taxPricing" onkeyup="checkNum(this)"
-									   value="<fmt:formatNumber value='${ ratePayment.taxPricing}' type='number' pattern='#0.00' />">
-								<span class="date_icon">万元</span>
-							</div> --%>
 							<div class="form_content">
 								<label class="control-label sign_left">卖方增值税及附加<font color=" red" class="mr5" >*</font></label>
 								<input type="text" class=" input_type yuanwid" id="businessTax"
@@ -149,7 +140,7 @@
 									   value="<fmt:formatNumber value='${ ratePayment.businessTax}' type='number' pattern='#0.00' />">
 								<span class="date_icon">万元</span>
 							</div>
-							
+
 							</div>
 							<div class="line">
 							<div class="form_content">
@@ -167,7 +158,7 @@
 									<span class="date_icon">万元</span>
 								</div>
 							<div class="form_content">
-								<label class="control-label sign_left">土地增值税及附加<font color=" red" class="mr5" >*</font></label>
+								<label class="control-label sign_left">土地增值税及附加</label>
 								<input type="text" class=" input_type yuanwid" id="landIncrementTax"
 									   name="landIncrementTax" onkeyup="checkNum(this)"
 									   value="<fmt:formatNumber value='${ ratePayment.landIncrementTax}' type='number' pattern='#0.00' />">
@@ -198,7 +189,7 @@
 				<c:when test="${accesoryList!=null}">
 					<h5 class="newtitle title-mark">上传备件</h5><br>
 
-						<div class="table-box" id="RatePaymentfileUploadContainer"></div>
+						<div class="table-box" id="ratePaymentfileUploadContainer"></div>
 
 				</c:when>
 				<c:otherwise>
@@ -245,8 +236,6 @@
 	</div>
 </div>
 <content tag="local_script">
-	<!-- Data picker -->
-	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 	<!-- Peity -->
 	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<!-- jqGrid -->
@@ -254,6 +243,8 @@
 	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	<!-- Custom and plugin javascript -->
 	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script>
+	<!-- Data picker -->
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 
 	
 	<!-- 上传附件相关 -->
@@ -283,44 +274,51 @@
 	<script src="<c:url value='/transjs/sms/sms.js' />"></script>
 	<script src="<c:url value='/transjs/common/caseTaskCheck.js' />"></script>
 	<!-- 审批记录 -->
-	<%--<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>--%>
+
 
 	<!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
 	<script src="<c:url value='/js/common/common.js' />"></script>
 
+
 	<!-- 必须JS -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+
 	<script>
 	var source = "${source}";
-    $('#data_1').datepicker({
-        format : 'yyyy-mm-dd',
-        weekStart : 1,
-        autoclose : true,
-        todayBtn : 'linked',
-        language : 'zh-CN'
-    });
+
 
     $(document).ready(function() {
-
-        $("#ActualOperator").click(function () {
-            caseDistribute();
+        var picker = $('#data_RatePayment').datepicker({
+            format : 'yyyy-mm-dd',
+            weekStart : 1,
+            autoclose : true,
+            todayBtn : 'linked',
+            language : 'zh-CN'
         });
-		if('caseDetails'==source){
-			readOnlyForm();
-		}
-		
+       // alert(taskitem)
 		//渲染案件备注信息
 		$("#caseCommentList").caseCommentGrid({
 			caseCode : caseCode,
 			srvCode : taskitem
 		});
+        $("#ActualOperator").click(function () {
+            caseDistribute();
+        });
+
+      /*  if('caseDetails'==source){
+            readOnlyForm();
+        }*/
+     /*   setTimeout(function(){
+//            $('.blockUI').hide();
+        },2000);*/
 });
-	
+
 	//提交数据
 	function submit() {
 			save(true);
@@ -455,8 +453,8 @@
 				$('input[name=pricingTax]').css("border-color","red");
 				return false;
 			}
-			if ($("#RatePaymentfileUploadContainer li").length == undefined
-				|| $("#RatePaymentfileUploadContainer li").length == 0 ) {
+			if ($("#ratePaymentfileUploadContainer li").length == undefined
+				|| $("#ratePaymentfileUploadContainer li").length == 0 ) {
 				window.wxc.alert("增值税发票未上传!");
 
 				return false;
@@ -478,7 +476,7 @@
 		$('.wrapper-content').viewer();
 	}
 	
-	function readOnlyForm(){
+	/*function readOnlyForm(){
 		//设置核价时间不可修改
 		$("#pricingTime").parent().removeClass("input-daterange");
 		$("#pricingTime").removeClass("datatime");
@@ -487,7 +485,7 @@
 		
 		//设置提交按钮隐藏
 		$("#btnSubmit").hide();
-	}
+	}*/
     function caseDistribute(){
         var url = "/case/getUserOrgCpUserList";
         var ctx = $("#ctx").val();
@@ -561,15 +559,14 @@
 <content tag="local_require">
 	<script>
         var fileUpload;
-
         require(['main'], function() {
-            requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+            requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
                 fileUpload = aistFileUpload;
 
                 fileUpload.init({
                     caseCode : $('#caseCode').val(),
                     partCode : "RatePayment",
-                    fileUploadContainer : "RatePaymentfileUploadContainer"
+                    fileUploadContainer : "ratePaymentfileUploadContainer"
                 });
             });
         });

@@ -55,19 +55,19 @@ public class CaseRecvFollowController {
 		HashMap<String, String> hashMap = new HashMap<String,String>();
 		CaseRecvVO caseRecvVO = new CaseRecvVO();
 		if(null!=caseCode&&caseCode!=""){
-		caseRecvVO.setPayType(payType);
-		caseRecvVO.setToCaseComment(toCaseComment);
-		caseRecvVO.setToCaseRecv(toCaseRecv);
-		caseRecvVO.setToPropertyInfo(toPropertyInfo);
-		caseRecvVO.setToSign(toSign);
-		caseRecvVO.setToTax(toTax);
-		BizWarnInfo bizWarnInfo = new BizWarnInfo();
-		bizWarnInfo.setContent(content);
-		bizWarnInfo.setStatus(businessLoanWarn);
-		caseRecvVO.setBizWarnInfo(bizWarnInfo);
-		
-		//统一设置caseCode,建议设置完field之后再调用该方法来避免空指针异常,因为刚new出来时他的field都是null;
-		caseRecvVO.setCaseCode(caseCode);
+			caseRecvVO.setPayType(payType);
+			caseRecvVO.setToCaseComment(toCaseComment);
+			caseRecvVO.setToCaseRecv(toCaseRecv);
+			caseRecvVO.setToPropertyInfo(toPropertyInfo);
+			caseRecvVO.setToSign(toSign);
+			caseRecvVO.setToTax(toTax);
+			BizWarnInfo bizWarnInfo = new BizWarnInfo();
+			bizWarnInfo.setContent(content);
+			bizWarnInfo.setStatus(businessLoanWarn);
+			caseRecvVO.setBizWarnInfo(bizWarnInfo);
+
+			//统一设置caseCode,建议设置完field之后再调用该方法来避免空指针异常,因为刚new出来时他的field都是null;
+			caseRecvVO.setCaseCode(caseCode);
 		}else{
 			hashMap.put("message", "lackCaseCode");
 		}
@@ -78,10 +78,10 @@ public class CaseRecvFollowController {
 		//案件启动已设置好流程相应办理人信息，该处不用再进行设置,任务ID及实例ID页面隐藏域有传入 by:yinchao 2017-9-26
 		List<RestVariable> variables = new ArrayList<>();
 		//设置参数 自办贷款 添加是否需要贷款
-		if(payType.contains("自办贷款")){
+		if(payType.equals("自办贷款")){
 			variables.add(new RestVariable("selfDoLoan",true));
 			variables.add(new RestVariable("hasLoan",true));
-		}else if(payType.contains("一次性付款")){
+		}else if(payType.equals("一次性")){
 			variables.add(new RestVariable("selfDoLoan",false));
 			variables.add(new RestVariable("hasLoan",false));
 		}else{

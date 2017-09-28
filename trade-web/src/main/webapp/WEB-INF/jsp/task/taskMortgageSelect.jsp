@@ -185,6 +185,8 @@
 	<script src="<c:url value='/js/common/common.js' />"></script>
 	<script>
 		$(document).ready(function(){
+			
+			$("#mortageService").find("option").eq(0).remove();
 			/*根据贷款服务项，设置默认合作项目*/
 			$("#mortageService").change(function(){
 				mortageService();

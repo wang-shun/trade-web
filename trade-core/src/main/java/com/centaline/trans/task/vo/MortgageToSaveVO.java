@@ -1,10 +1,11 @@
 package com.centaline.trans.task.vo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class MortgageToSaveVO {
 	
-	private String pkid;
+	private Long pkid;
 	
 	private String caseCode;
 	/**
@@ -31,7 +32,16 @@ public class MortgageToSaveVO {
 	 */
 	private String selfMort;//1自办0代办
 
-	
+	/**
+	 * 自办贷款信息，新增(wbzhouht)
+	 */
+	private BigDecimal loanLossAmount;//贷款总金额
+
+	private BigDecimal loanRate;//贷款利率
+
+	private String loanValue;//贷款成数
+
+	private String loanSum;//贷款套数
 	
 	private String mortageService;
 	private String partner ;
@@ -40,9 +50,39 @@ public class MortgageToSaveVO {
 	private String processDefinitionId;
 	
 	private Date estPartTime;
-	
-	
-	
+
+	public BigDecimal getLoanLossAmount() {
+		return loanLossAmount;
+	}
+
+	public void setLoanLossAmount(BigDecimal loanLossAmount) {
+		this.loanLossAmount = loanLossAmount;
+	}
+
+	public BigDecimal getLoanRate() {
+		return loanRate;
+	}
+
+	public void setLoanRate(BigDecimal loanRate) {
+		this.loanRate = loanRate;
+	}
+
+	public String getLoanValue() {
+		return loanValue;
+	}
+
+	public void setLoanValue(String loanValue) {
+		this.loanValue = loanValue;
+	}
+
+	public String getLoanSum() {
+		return loanSum;
+	}
+
+	public void setLoanSum(String loanSum) {
+		this.loanSum = loanSum;
+	}
+
 	public String getSelfMort() {
 		return selfMort;
 	}
@@ -51,11 +91,11 @@ public class MortgageToSaveVO {
 		this.selfMort = selfMort;
 	}
 
-	public String getPkid() {
+	public Long getPkid() {
 		return pkid;
 	}
 
-	public void setPkid(String pkid) {
+	public void setPkid(Long pkid) {
 		this.pkid = pkid;
 	}
 

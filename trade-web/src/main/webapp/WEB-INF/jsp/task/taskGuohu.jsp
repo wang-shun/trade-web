@@ -185,39 +185,39 @@
 
 						</div> --%>
 						<!--貸款流失情況下顯示，需要商贷那边提供字段-->
-						<c:if test="${toMortgage != null }">
+						<c:if test="${mortgageToSaveVO.selfMort==1}">
 							<div class="line">
 								<div class="form_content">
 									<label class="control-label sign_left_small">贷款流失金额</label>
-									<input type="text" name="mortTotalAmount"
-										   value="${toMortgage.mortTotalAmount }" id="mortTotalAmount"
+									<input type="text" name="loanLossAmount"
+										   value="${mortgageToSaveVO.loanLossAmount }" id="mortTotalAmount"
 										   class=" input_type yuanwid" onkeyup="checknum(this)" placeholder="万元">
 								</div>
 
 								<div class="form_content">
 									<label class="control-label sign_left_small">贷款流失银行</label>
-									<input type="text" name="loansDrainBank"
-										   value="${toMortgage.mortTotalAmount }" id="loansDrainBank"
+									<input type="text" name="bankName"
+										   value="${mortgageToSaveVO.bankName }" id="loansDrainBank"
 										   class=" input_type yuanwid" onkeyup="checknum(this)" >
 								</div>
+							<div class="line">
 								<div class="form_content">
 									<label class="control-label sign_left_small">贷款利率</label>
-									<input type="text" name="comDiscount" id="comDiscount"
-										   value="${toMortgage.comDiscount }" placeholder="0.50~1.50之间"
+									<input type="text" name="loanRate" id="comDiscount"
+										   value="${mortgageToSaveVO.loanRate }" placeholder="0.50~1.50之间"
 										   class=" input_type yuanwid" onkeyup="autoCompleteComDiscount(this)">
 								</div>
 							</div>
-							<div class="line">
 								<div class="form_content">
-									<label class="control-label sign_left_small">商贷成数</label>
-									<input type="text" name="comAmount" id="comAmount"
-										   value="${toMortgage.comAmount }" class=" input_type yuanwid"
-										   onkeyup="checknum(this)" placeholder="万元">
+									<label class="control-label sign_left_small">贷款成数</label>
+									<input type="text" name="loanValue" id="comAmount"
+										   value="${mortgageToSaveVO.loanValue }" class=" input_type yuanwid"
+										   onkeyup="checknum(this)">
 								</div>
 								<div class="form_content">
-									<label class="control-label sign_left_small">商贷套数</label>
-									<input type="text" name="comYear" id="comYear"
-										   value="${toMortgage.comYear }" class=" input_type yuanwid"
+									<label class="control-label sign_left_small">贷款套数</label>
+									<input type="text" name="loanSum" id="comYear"
+										   value="${mortgageToSaveVO.loanSum }" class=" input_type yuanwid"
 										   onkeyup="checknum(this)">
 								</div>
 							</div>
@@ -272,7 +272,7 @@
 			<c:choose>
 				<c:when test="${accesoryList!=null}">
 					<h2 class="newtitle title-mark">上传备件</h2>
-					<div class="ibox-content" style="height: 410px; overflow-y: scroll;">
+					<div class="ibox-content" style="overflow-y: scroll;">
 						<div class="table-box" id="guohufileUploadContainer"></div>
 					</div>
 				</c:when>
@@ -283,8 +283,8 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-
-	<%--	<div class="">
+		<!--天津过户环节无审批记录-->
+		<%--<div class="">
 			<h2 class="newtitle title-mark">审批记录</h2>
 			<div class="jqGrid_wrapper">
 				<table id="reminder_list"></table>
@@ -303,8 +303,7 @@
 </div>
 
 <content tag="local_script">
-	<!-- Data picker -->
-	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+
 	<!-- Peity -->
 	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<!-- jqGrid -->
@@ -312,6 +311,8 @@
 	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	<!-- Custom and plugin javascript -->
 	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script>
+	<!-- Data picker -->
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 
 
 	<!-- 上传附件相关 -->
@@ -340,11 +341,11 @@
 	<script src="<c:url value='/transjs/sms/sms.js' />"></script>
 	<script src="<c:url value='/transjs/common/caseTaskCheck.js' />"></script>
 	<!-- 审批记录 -->
-	<%--<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>--%>
+	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
 
 	<!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
@@ -378,7 +379,7 @@
 		}
 		$(document).ready(function() {
             /**日期组件*/
-            $('#data_1').datepicker({
+            var picker = $('#data_1').datepicker({
                 todayBtn : "linked",
                 keyboardNavigation : false,
                 forceParse : false,
@@ -386,14 +387,15 @@
                 autoclose : true
             });
 
+
 			//过户环节贷款信息不能修改
-			$('#mortType').attr("readonly","readonly");
+			/*$('#mortType').attr("readonly","readonly");
 			$('#mortTotalAmount').attr("readonly","readonly");
 			$('#comAmount').attr("readonly","readonly");
 			$('#comYear').attr("readonly","readonly");
 			$('#comDiscount').attr("readonly","readonly");
 			$('#prfAmount').attr("readonly","readonly");
-			$('#prfYear').attr("readonly","readonly");
+			$('#prfYear').attr("readonly","readonly");*/
 
 
 			var isDelegateYucui = '${toMortgage.isDelegateYucui}';
@@ -474,7 +476,7 @@
 			var approveType = "${approveType }";
 			var accompanyReason = "${houseTransfer.accompanyReason}";
 
-			$("#reminder_list").jqGrid({
+			/*$("#reminder_list").jqGrid({
 				//data : reminderdata,
 				url : "${ctx}/quickGrid/findPage",
 				datatype : "json",
@@ -518,7 +520,7 @@
 					search_approveType : approveType,
 					search_processInstanceId : processInstanceId
 				}
-			});
+			});*/
 
 			$("#caseCommentList").caseCommentGrid({
 				caseCode : caseCode,
@@ -550,7 +552,7 @@
 					$(this).prop("checked", true);
 				}
 			});
-
+			/*由于时间显示不出来，暂时先用setTimeout清除blockUI导致时间显示不出来的问题，后期在做更进*/
 		});
 
 		function otherReasonDisplay(v){
@@ -637,6 +639,26 @@
 					method:"post",
 					dataType:"json",
 					data:{"fileList" : fileIDs.join()},
+                    beforeSend : function() {
+                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+                        $(".blockOverlay").css({'z-index':'9998'});
+                    },
+                    complete : function() {
+                        $.unblockUI();
+                        if(b){
+                            $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}});
+                            $(".blockOverlay").css({'z-index':'1900'});
+                        }
+                        if(status=='timeout'){//超时,status还有success,error等值的情况
+                            Modal.alert(
+                                {
+                                    msg:"抱歉，系统处理超时。"
+                                });
+                            $(".btn-primary").one("click",function(){
+                                parent.$.fancybox.close();
+                            });
+                        }
+                    } ,
 					success: function(data) {
 						if(data != null ){
 							if(data.success){
@@ -723,43 +745,26 @@
 				dataType : "json",
 				data : jsonData,
 				beforeSend : function() {
-					$.blockUI({
-						message : $("#salesLoading"),
-						css : {
-							'border' : 'none',
-							'z-index' : '9999'
-						}
-					});
-					$(".blockOverlay").css({
-						'z-index' : '9998'
-					});
+                    $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+                    $(".blockOverlay").css({'z-index':'9998'});
 				},
 				complete : function() {
-
-					$.unblockUI();
-					if (b) {
-						$.blockUI({
-							message : $("#salesLoading"),
-							css : {
-								'border' : 'none',
-								'z-index' : '1900'
-							}
-						});
-						$(".blockOverlay").css({
-							'z-index' : '1900'
-						});
-					}
-
-					if (status == 'timeout') {//超时,status还有success,error等值的情况
-						Modal.alert({
-							msg : "抱歉，系统处理超时。"
-						});
-						$(".btn-primary").one("click", function() {
-							parent.$.fancybox.close();
-						});
-					}
-				},
-				success : function(data) {
+                    $.unblockUI();
+                    if(b){
+                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}});
+                        $(".blockOverlay").css({'z-index':'1900'});
+                    }
+                    if(status=='timeout'){//超时,status还有success,error等值的情况
+                        Modal.alert(
+                            {
+                                msg:"抱歉，系统处理超时。"
+                            });
+                        $(".btn-primary").one("click",function(){
+                            parent.$.fancybox.close();
+                        });
+                    }
+                } ,
+                success : function(data) {
 					$.unblockUI();
 					if (b) {
 						caseTaskCheck();
@@ -769,10 +774,8 @@
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
 						window.wxc.success("保存成功。",{"wxcOk":function(){
-							if (window.opener != null) {
 								window.close();
 								window.opener.callback();
-							}
 						}});
 					}
 				},
@@ -924,20 +927,22 @@
 		}
 	</script>
 </content>
+
 <content tag="local_require">
 	<script>
-		var fileUpload;
-		require(['main'], function() {
-			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
-				fileUpload = aistFileUpload;
-				fileUpload.init({
-					caseCode : $('#caseCode').val(),
-					partCode : "Guohu",
-					fileUploadContainer : "guohufileUploadContainer",
-					isAllUpdateY:false
-				});
-			});
-		});
+        var fileUpload;
+        require(['main'], function() {
+            requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+                console.log('in require init.')
+                fileUpload = aistFileUpload;
+                fileUpload.init({
+                    caseCode : $('#caseCode').val(),
+                    partCode : "Guohu",
+                    fileUploadContainer : "guohufileUploadContainer",
+                    isAllUpdateY:false
+                });
+            });
+        });
 	</script>
 </content>
 

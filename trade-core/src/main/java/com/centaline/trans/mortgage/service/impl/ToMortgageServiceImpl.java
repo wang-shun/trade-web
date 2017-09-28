@@ -48,6 +48,8 @@ import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
+import com.centaline.trans.eloan.entity.ToSelfAppInfo;
+import com.centaline.trans.eloan.service.ToSelfAppInfoService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -71,8 +73,10 @@ import com.centaline.trans.performance.vo.ReceivablePerfVo;
 import com.centaline.trans.stuff.service.StuffService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
+import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
+import com.centaline.trans.task.vo.MortgageToSaveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
@@ -139,7 +143,8 @@ public class ToMortgageServiceImpl implements ToMortgageService
     private CommSubsService commSubsService;
     @Autowired
     private ReceivablePerfService receivablePerfService;
-
+    @Autowired
+    private ToMortgageTosaveService toMortgageTosaveService;
     @Override
     public ToMortgage saveToMortgage(ToMortgage toMortgage)
     {
@@ -450,16 +455,17 @@ public class ToMortgageServiceImpl implements ToMortgageService
     {
         //toMortgage.setIsDelegateYucui("1");
         List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(toMortgage);
+        MortgageToSaveVO mortgageToSaveVO = toMortgageTosaveService.getTosave(toMortgage);
         if (CollectionUtils.isNotEmpty(list))
         {
             ToMortgage mort = null;
             ToSupDocu toSupDocu = toSupDocuService.findByCaseCode(toMortgage.getCaseCode());
 
-            if (list.size() == 1)
+            if (list.size() > 0)
             {
                 mort = list.get(0);
             }
-            else
+/*            else
             {
                 for (ToMortgage mortgage : list)
                 {
@@ -469,7 +475,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
                         break;
                     }
                 }
-            }
+            }*/         
             /*
              * mort.setComAmount(mort.getComAmount() != null ?
              * mort.getComAmount() .divide(new BigDecimal(10000)) : null);
@@ -479,10 +485,32 @@ public class ToMortgageServiceImpl implements ToMortgageService
              * mort.getPrfAmount() .divide(new BigDecimal(10000)) : null);
              */
             mort.setToSupDocu(toSupDocu);
+            if(StringUtils.isBlank(mort.getBank_type()) && StringUtils.isBlank(mort.getBank_type())){
+            	if(mortgageToSaveVO != null){
+            		mort = getToMortgage(mort,mortgageToSaveVO);
+            		return mort;
+            	}else{
+            		return mort;
+            	}
+            }
 
-            return mort;
+            
         }
-        return null;
+       
+        ToMortgage mort = new ToMortgage();
+        if(mortgageToSaveVO!=null){
+        	mort = getToMortgage(mort,mortgageToSaveVO);
+        	return mort;
+        }else{
+        	return null;
+        }
+        
+    }
+    
+    private ToMortgage getToMortgage(ToMortgage mort,MortgageToSaveVO mortgageToSaveVO){
+    	mort.setBank_type(mortgageToSaveVO.getBank_type());
+		mort.setFinOrgCode(mortgageToSaveVO.getFinOrgCode());
+		return mort;
     }
 
     @Override
@@ -1336,6 +1364,10 @@ public class ToMortgageServiceImpl implements ToMortgageService
         return workFlowManager.submitTask(variables, taskId, processInstanceId, toCase.getLeadingProcessId(), toMortgage.getCaseCode());
     }
 
+    /**
+     * update by wbshume
+     * 放款环节业务改动
+     */
     @Override
     public Result2 submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime, String taskId, String processInstanceId,
             String partCode)
@@ -1343,7 +1375,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
         toMortgage.setIsMainLoanBank("1");
         ToMortgage mortage = findToMortgageById(toMortgage.getPkid());
         mortage.setLendDate(toMortgage.getLendDate());
-        mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
+//        mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
         mortage.setRemark(toMortgage.getRemark());
         saveToMortgage(mortage);
 

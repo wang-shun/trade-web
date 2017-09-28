@@ -38,6 +38,7 @@ import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
@@ -420,5 +421,34 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 			return null;
 		return dictF.getCode();
 	}
+
+	@Override
+	public MortgageToSaveVO getTosave(ToMortgage mort) {
+		
+		return toMortgageTosaveMapper.getTosave(mort);
+	}
+
+	/**
+	 * 新增自办贷款信息查询
+	 * @author wbzhouht
+	 * @param code
+	 * @return
+	 */
+	@Override
+	public MortgageToSaveVO selectByCaseCode(String code) {
+		return toMortgageTosaveMapper.selectByCaseCode(code);
+	}
+
+	/**
+	 * @author wbzhouht
+	 * 新增自办贷款修改
+	 * @param mortgageToSaveVO
+	 * @return
+	 */
+	@Override
+	public int updateByPrimary(MortgageToSaveVO mortgageToSaveVO) {
+		return toMortgageTosaveMapper.updateByPrimary(mortgageToSaveVO);
+	}
+
 
 }

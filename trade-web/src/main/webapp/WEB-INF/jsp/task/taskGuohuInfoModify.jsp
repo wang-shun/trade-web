@@ -256,13 +256,14 @@
     		                } 
     		            } ,   
 			success : function(data) {   
-					 if(window.opener)
+					/* if(window.opener)
 				     {
 						 window.close();
 						 window.opener.callback();
 				     } else {
-				    	 window.location.href = "${ctx }/task/myTaskList";
-				     }
+
+				     }*/
+                	window.location.href = "${ctx }/task/myTaskList";
 					 $.unblockUI();
 				},
 				

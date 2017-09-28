@@ -142,6 +142,14 @@ public class AuditImportCaseController {
 			throw new BusinessException("审核案件通过失败！");
 		}
 	}
+	@RequestMapping(value = "returnReason")
+	public String returnReason(String caseCode,String returnReason,String returnComment){
+		if(auditCaseService.returnCaseToCCAI(caseCode, returnReason, returnComment)==1){
+			return "forward:"+"/AuditImportCase/list";			
+		}else{
+			throw new BusinessException("审核案件通过失败！");
+		}
+	}
 	/**
 	 * 
 	 * @since:2017年8月31日 上午11:43:32

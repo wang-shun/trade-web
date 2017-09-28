@@ -143,70 +143,57 @@ text-decoration: underline !important;
                   <div class="form_content">
 						<label class="sign_left_one control-label">赎楼状态</label>
 						<div class="sign_right big_pad">
-							<!-- <aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one_case"/> -->
-							<aist:dict id="ransomStatus" name="ransom_Status" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one_case"/>
-						</div>
+                               <aist:dict id="ransomStatus" name="ransom_Status" display="select" dictType="RANSOM_STATUS" clazz="select_control sign_right_one_case"/>
+                         </div>
 					</div>
 					<div class="form_content">
-                        <label class="sign_left_one control-label">
-                                                                             当前环节
-                        </label>
+                        <label class="sign_left_one control-label">当前环节</label>
                         <div class="sign_right big_pad">
-                                <!-- <aist:dict id="status" name="case_status" display="select" dictType="30001" clazz="select_control sign_right_one_case"/> -->
-                                <aist:dict id="ransomProperty" name="ransom_Property" display="select" dictType="30001" clazz="select_control sign_right_one_case"/>
+                               <aist:dict id="ransomProperty" name="ransom_Property" display="select" dictType="RANSOM_PART_CODE" clazz="select_control sign_right_one_case"/>
                          </div>
                     </div>
                     <div class="form_content">
-                          <label class="sign_left_two control-label">
-                                                                              案件归属
-                          </label>
+                          <label class="sign_left_two control-label">案件归属</label>
                           <div class="sign_right teamcode" style="position:relative;">
-                                <input type="text" class="teamcode form-control" id="teamCode" name="teamCode" readonly="readonly"
-										   onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"
-										   value="${serviceDepName}"></input>
-								<input class="teamcode form-control" type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">
-								<div class="input-group float_icon organize_icon" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-										   chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})"
-										   value="${serviceDepName}">
-                                        <i class="icon iconfont"></i>
-                                </div>
-                            </div>
+	                    	<input type="text" style="width:300px;" class=" form-control" id="teamCode" name="teamCode" readonly="readonly"
+		   						onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+		   						chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value="${serviceDepName}"></input>
+							<input class="teamcode form-control" type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">
+							<div class="input-group float_icon organize_icon" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+		   						chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value="${serviceDepName}">
+	                        	<i class="icon iconfont"></i>
+	                   		</div>
+	                   	</div>
                       </div>
              </div>
 			
              <div class="row clearfix">
              		 <div id="select_div_1" class="form_content">
-             		 <label class="sign_left_one control-label">
-                                	信息搜索
-                        </label>
+             		 <label class="sign_left_one control-label">信息搜索</label>
 		           			<div class="sign_left">
-		           			
-                                 <select id="inTextType"  class="form-control" onchange="intextTypeChange()">
-										<option value="1" selected>房屋地址</option>
-										<option value="0">归属人姓名</option>
+                                 <select id="inTextType"  class="form-control" name="searchInfo" onchange="intextTypeChange()">
+                                 		<option selected>请选择</option>
+										<option value="0" >房屋地址</option>
+										<option value="1">归属人姓名</option>
 										<option value="2">客户姓名</option>
-										<option value="4">合作机构</option>
 								 </select>
 		                     </div>
 		                     <div id="select_div_1" class="sign_right intextval">
-									<input id="inTextVal" type="text" class="form-control pull-left" placeholder="请输入搜索内容">
+									<input id="inTextVal" type="text" name="inTextVal" class="form-control pull-left" placeholder="请输入搜索内容">
 							 </div>
 					 </div>
 			</div>
 			<div class="row date-info clearfix">
                     <div class="form_content">
 						<div id="dateDiv_0">
-						<label class="sign_left_one control-label">
-                                	时间搜索
-                        </label>
+						<label class="sign_left_one control-label">时间搜索</label>
 							<div id="select_div_0" class="sign_left">
-								<aist:dict id="case_date_0" name="case_date" clazz="form-control" display="select" defaultvalue="30005001" dictType="30005" />
+								<aist:dict id="ransomSearchTime" name="ransomSearchTime" clazz="form-control" display="select"  dictType="RANSOM_SEARCH_TIME" />
 							</div>
 							<div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="dtBegin" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
+								<input id="dtBegin_0" name="startTime" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
 									<span class="input-group-addon">到</span> 
-								<input id="dtEnd_0" name="dtEnd" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
+								<input id="dtEnd_0" name="endTime" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
 							</div>
 							<div id="addLine" class="pull-left m-l"></div>
 						</div>
@@ -256,6 +243,11 @@ text-decoration: underline !important;
 	</div>
 </div>
 <input type="hidden" id="ctx" value="${ctx}" />
+<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
+<input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
+<input type="hidden" id="queryOrgs" value="${queryOrgs}" />
+<input type="hidden" id="serviceDepId" value="${serviceDepId}" />
+<input type="hidden" id="userId" value="${userId}" />
 
 <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
 <content tag="local_script"> 
@@ -283,6 +275,7 @@ text-decoration: underline !important;
 
 <script id="template_myCaseList" type="text/html">
 {{each rows as item index}}
+	
   {{if index%2 == 0}}
       <tr class="tr-1">
   {{else}}
@@ -290,39 +283,44 @@ text-decoration: underline !important;
    {{/if}}
 	<td class="center">
 			<p>
-			<a href = "${ctx}/ransomList/ransom/ransomDetail">TJ_SL_201701-1091</a>
+			<a href = "${ctx}/ransomList/ransom/ransomDetail">{{item.RANSOM_CODE}}</a>
 		</p>
 			<p>
-			<i class="sign_gray">中止</i>
+			{{if item.RANSOM_STATUS == "中止"}}
+				<i class="demo-top sign_blue" title = "{{item.STOP_REASON}}">{{item.RANSOM_STATUS}}</i>
+			{{else}}
+				<i class="sign_gray">{{item.RANSOM_STATUS}}</i>
+			{{/if}}
 		</p>
 	</td>
 	<td class="center">
-		天津河西区和平街12号
+		{{item.PROPERTY_ADDR}}
 	</td>
 	
 	<td class="center">
       <p>
-		小王
+		{{item.AGENT_NAME}}
 	  </p>
 	  <p>
-		金融权证1组
+		{{item.GRP_NAME}}
 	  </p>
    </td>
    <td class="center">
-     	张三
+     	{{item.BORROWER_NAME}}
     </td>
 	<td class="center">
-		天津xx典当行
+		{{item.COM_ORG_CODE}}
 	</td>
 	<td class="center"> 
-		受理   2017-10-01
+		  {{item.RANSOM_STATUS}} &nbsp;&nbsp;{{item.UPDATE_TIME}}
 	</td>
 	<td class="center"> 
-		400万元
+		{{item.BORRO_MONEY}}万元
 	</td>
 	<td class="center"> 
-		<a href="${ctx}/ransomList/ransom/ransomApply">申请</a>
-		<a href="${ctx}/ransomList/ransom/ransomDiscontinue">中止</a>
+		<a href="${ctx}/ransomList/ransom/ransomApply" target="_blank">申请</a>
+		<a href="${ctx}/engine/ransom/{{item.PKID}}/process" target="_blank">申请1</a>
+		<a href="${ctx}/ransomList/ransom/ransomDiscontinue" target="_blank">中止</a>
 	</td>
   </tr>
 {{/each}}

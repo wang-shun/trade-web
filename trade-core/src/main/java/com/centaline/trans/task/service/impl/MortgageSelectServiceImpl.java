@@ -187,11 +187,11 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 
 		if(isNewFlow) {
 			ActRuEventSubScr event = new ActRuEventSubScr();
-			event.setEventType(MessageEnum.START_MORTGAGE_SELECT_MSG.getEventType());
-			event.setEventName(MessageEnum.START_MORTGAGE_SELECT_MSG.getName());
+			event.setEventType(MessageEnum.CCAI_UPDATED_MSG.getEventType());
+			event.setEventName(MessageEnum.CCAI_UPDATED_MSG.getName());
 			event.setProcInstId(vo.getProcessInstanceId());
 			//event.setActivityId(EventTypeEnum.TRADEBOUNDARYMSG.getName());
-			event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
+			event.setActivityId(EventTypeEnum.CCAI_UPDATED_MSG_EVENT_CATCH.getName());
 			List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
 			
 			event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
@@ -224,7 +224,6 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				// 删除所有的贷款流程
 				deleteMortFlowByCaseCode(vo.getCaseCode());
 				// 发送消息
-
 				messageService.sendMortgageFinishMsgByIntermi(vo.getProcessInstanceId());
 				// 设置主流程任务的assignee
 				ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());
@@ -241,7 +240,6 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				wf.setBusinessKey(WorkFlowEnum.COMANDPSFLOAN_PROCESS.getName());
 				processDfId=propertyUtilsService.getProcessDfId("ComLoanAndPSFLoan_Process");
 			}else {
-				
 				wf.setBusinessKey(WorkFlowEnum.LOANLOST_PROCESS.getName());
 				processDfId=propertyUtilsService.getProcessDfId("LoanLost_Process");
 /*				wf.setBusinessKey(WorkFlowEnum.NEWLOANLOST_PROCESS.getName());
@@ -290,7 +288,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			ExecuteAction action = new ExecuteAction();
 			action.setAction("messageEventReceived");
 			action.setExecutionId(subScr.getExecutionId());
-			action.setMessageName("StartMortgageSelectMsg");
+			action.setMessageName(MessageEnum.CCAI_UPDATED_MSG.getName());
 			action.setVariables(variables);
 			workFlowManager.executeAction(action);
 			workFlowManager.claimByInstCode(vo.getProcessInstanceId(), vo.getCaseCode(), null);
@@ -362,11 +360,11 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	 */
 	private void doBusiness(MortgageSelecteVo vo) {
 		String serivceCode = null;
-		if ("1".equals(vo.getMortageService()) ) {  //按揭
+		if (ConstantsUtil.COM_LOAN.equals(vo.getMortageService()) ) {  //按揭
 			serivceCode = "3000400101";
-		} else if ("2".equals(vo.getMortageService())) { //公积金
+		} else if (ConstantsUtil.PSF_LOAN.equals(vo.getMortageService())) { //公积金
 			serivceCode = "3000400201";
-		}else if("3".equals(vo.getMortageService())){ //组合
+		}else if(ConstantsUtil.COM_PSF_LOAN.equals(vo.getMortageService())){ //组合
 			serivceCode = "3000400301";
 		}
 		
@@ -377,10 +375,10 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 
 		tgServItemAndProcessorMapper.deleteMortageServItem(vo.getCaseCode());
 		
-		if (!"0".equals(vo.getMortageService())) {// 有贷款
+		if (!ConstantsUtil.NO_LOAN.equals(vo.getMortageService())) {// 有贷款
 			ToTransPlan queryPlan = new ToTransPlan();
 			queryPlan.setCaseCode(vo.getCaseCode());
-			queryPlan.setPartCode("LoanRelease"); //不明白
+			queryPlan.setPartCode("MortgageSelect"); 
 			queryPlan = transplanServiceFacade.findTransPlan(queryPlan);
 			ToTransPlan plan = new ToTransPlan();
 			plan.setEstPartTime(vo.getEstPartTime());

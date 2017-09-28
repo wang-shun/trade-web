@@ -217,6 +217,8 @@
 	<script src="<c:url value='/js/common/common.js' />"></script>
 	<script>
 		$(document).ready(function(){
+			$("#mortageService").find("option").eq(0).remove();
+			
 			f = $("#mortgageTosave");
 			var cl;
 			var finOrgCode = null;
@@ -368,7 +370,16 @@
 		
 		/**提交数据*/
 		function submit() {
-
+			if($("input[type=radio]").eq(1).is(":checked")){
+				var f = $("#mortgageTosave");
+				f.find(".line").eq(3).empty();
+				f.find(".line").eq(4).empty();
+			}
+			if($("input[type=radio]").eq(0).is(":checked")){
+				var f = $("#mortgageTosave");
+				f.find(".line").eq(1).empty();
+				f.find(".line").eq(2).empty();
+			}
 			save(true);
 		}
 		//查询分行信息

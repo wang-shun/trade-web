@@ -5,6 +5,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
+import com.centaline.trans.api.service.FlowApiService;
+import com.centaline.trans.api.vo.ApiResultData;
+import com.centaline.trans.api.vo.FlowFeedBack;
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.common.enums.CcaiFlowResultEnum;
+import com.centaline.trans.common.enums.CcaiTaskEnum;
+import com.centaline.trans.task.service.ToMortgageTosaveService;
+import com.centaline.trans.task.vo.MortgageToSaveVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +37,8 @@ import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.utils.UiImproveUtil;
 
+import java.math.BigDecimal;
+
 @Controller
 @RequestMapping(value="/task/ToHouseTransfer")
 public class ToHouseTransferController {
@@ -39,13 +50,15 @@ public class ToHouseTransferController {
 
 	@Autowired
 	private TgGuestInfoService tgGuestInfoService;
-
+	/*原ccai回写接口，现已废弃*/
 	@Autowired
 	private SalesDealApiService salesdealApiService;
+	//现与ccai交互接口
+	@Autowired
+	private FlowApiService flowApiService;
 
 	@Autowired
 	private ToCaseInfoService tocaseInfoService;
-
 	@Autowired
 	private UamSessionService uamSessionService;
 	@Autowired
@@ -54,6 +67,9 @@ public class ToHouseTransferController {
 	private ToAccesoryListService toAccesoryListService;
 	@Autowired
 	private UamBasedataService uamBasedataService;
+
+	@Autowired
+	private ToMortgageTosaveService toMortgageTosaveService;
 	/**
 	 * 过户
 	 * @param request
@@ -83,15 +99,19 @@ public class ToHouseTransferController {
 		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
 		request.setAttribute("toMortgage", toMortgage);
-
+		/*确认是否已经是贷款流失*/
+		MortgageToSaveVO mortgageToSaveVO=toMortgageTosaveService.selectByCaseCode(caseCode);
+		mortgageToSaveVO.setLoanLossAmount(mortgageToSaveVO.getLoanLossAmount()!=null?mortgageToSaveVO
+				.getLoanLossAmount().divide(new BigDecimal(10000)):null);
+		request.setAttribute("mortgageToSaveVO",mortgageToSaveVO);
 		return "task" + UiImproveUtil.getPageType(request) + "/taskGuohu";
 	}
 	@RequestMapping(value="saveToHouseTransfer")
 	@ResponseBody
-	public AjaxResponse<String> saveToHouseTransfer(HttpServletRequest request, ToHouseTransfer toHouseTransfer,ToMortgage toMortgage) {
+	public AjaxResponse<String> saveToHouseTransfer(HttpServletRequest request, ToHouseTransfer toHouseTransfer,MortgageToSaveVO toMortgage) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try{
-			toHouseTransferService.saveToHouseTransferAndMort(toHouseTransfer, toMortgage);
+			toHouseTransferService.savaToHouseTransferAndMortageToVO(toHouseTransfer, toMortgage);
 		}catch(Exception e){
 			response.setMessage("操作失败！");
 		}
@@ -101,7 +121,7 @@ public class ToHouseTransferController {
 
 	@RequestMapping(value="submitToHouseTransfer")
 	@ResponseBody
-	public Result submitToHouseTransfer(HttpServletRequest request, ToHouseTransfer toHouseTransfer,ToMortgage toMortgage,
+	public Result submitToHouseTransfer(HttpServletRequest request, ToHouseTransfer toHouseTransfer,MortgageToSaveVO toMortgage,
 										LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId) {
 
 		Result rs=new Result();
@@ -109,7 +129,11 @@ public class ToHouseTransferController {
 
 		ToCaseInfo caseInfo=tocaseInfoService.findToCaseInfoByCaseCode(toHouseTransfer.getCaseCode());
 		if(null!=caseInfo){
-			ccaiCode=caseInfo.getCcaiCode();
+			if(caseInfo.getCtmCode()!=null){
+				ccaiCode=caseInfo.getCtmCode();
+			}else {
+				ccaiCode=caseInfo.getCcaiCode();
+			}
 		}
 
 		if(null==ccaiCode){
@@ -118,9 +142,28 @@ public class ToHouseTransferController {
 		}
 
 		toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
-
+		/*原ccai回写接口，现已废弃*/
 		// 回写三级市场, 交易过户
-		salesdealApiService.noticeSalesDeal(ccaiCode);
+		//salesdealApiService.noticeSalesDeal(ccaiCode);
+
+		/**
+		 * 与ccai交互
+		 */
+		//获取用户登录信息
+		SessionUser sessionUser=uamSessionService.getSessionUser();
+		//获取审批结果信息
+		FlowFeedBack info=new FlowFeedBack(sessionUser, CcaiFlowResultEnum.SUCCESS,"进入过户审批环节");
+		//获取审批状态
+		ApiResultData apiResultData=flowApiService.tradeFeedBackCcai(toHouseTransfer.getCaseCode(), CcaiTaskEnum.TRADE_WARRANT_TRANSFER,info);
+		if(apiResultData.isSuccess()){
+			//修改案件状态为已过户
+			ToCase ca  = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
+			ca.setStartDate(CaseStatusEnum.YGH.getCode());
+			toCaseService.updateByCaseCodeSelective(ca);
+			rs.setMessage("交互成功！");
+		}else {
+			rs.setMessage("交互失败！请联系过户权证！"+apiResultData.toString());
+		}
 
 		/**
 		 * 功能: 给客户发送短信

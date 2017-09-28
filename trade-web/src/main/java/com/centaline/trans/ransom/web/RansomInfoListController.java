@@ -23,18 +23,11 @@ import com.centaline.trans.common.enums.TransJobs;
 @RequestMapping(value="ransomInfo")
 public class RansomInfoListController {
 
-
-	
 	@Autowired(required = true)
 	private UamSessionService uamSessionService;	
 	
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;
-	
-
-	
-
-	
 	
 	@RequestMapping(value = "/list")
 	public String list(ServletRequest request) {
@@ -94,20 +87,20 @@ public class RansomInfoListController {
 		
 		
 		//默认显示上周一至周日的时间
-		Calendar c1 = Calendar.getInstance();
-		Calendar c2 = Calendar.getInstance();	
-		/*获取当前月份的上月第一天和最后一天
-		c1.add(Calendar.MONTH, -1);
-		c1.set(Calendar.DAY_OF_MONTH,1);
-		c2.set(Calendar.DAY_OF_MONTH,0);*/
-		/*获取当前月份的第一天和最后一天*/
-		c1.add(Calendar.MONTH, 0);
-		c1.set(Calendar.DAY_OF_MONTH,1);//
-		c2.set(Calendar.DAY_OF_MONTH, c2.getActualMaximum(Calendar.DAY_OF_MONTH));  
-		String start = new SimpleDateFormat("yyyy-MM-dd").format(c1.getTime());//last Monday
-		String end = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Sunday
-		request.setAttribute("startTime", start);
-		request.setAttribute("endTime", end);
+//		Calendar c1 = Calendar.getInstance();
+//		Calendar c2 = Calendar.getInstance();	
+//		/*获取当前月份的上月第一天和最后一天
+//		c1.add(Calendar.MONTH, -1);
+//		c1.set(Calendar.DAY_OF_MONTH,1);
+//		c2.set(Calendar.DAY_OF_MONTH,0);*/
+//		/*获取当前月份的第一天和最后一天*/
+//		c1.add(Calendar.MONTH, 0);
+//		c1.set(Calendar.DAY_OF_MONTH,1);//
+//		c2.set(Calendar.DAY_OF_MONTH, c2.getActualMaximum(Calendar.DAY_OF_MONTH));  
+//		String start = new SimpleDateFormat("yyyy-MM-dd").format(c1.getTime());//last Monday
+//		String end = new SimpleDateFormat("yyyy-MM-dd").format(c2.getTime());//last Sunday
+//		request.setAttribute("startTime", start);
+//		request.setAttribute("endTime", end);
 		
 		return "ransom/myRansom_list";		
 	}
