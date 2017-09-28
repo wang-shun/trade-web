@@ -561,6 +561,8 @@
 	<script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script	src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+	<script	src="<c:url value='/js/vue.min.js' />" type="text/javascript"></script>
+	<script src="<c:url value='/js/handlebars-2.0.0.js' />" type="text/javascript"></script>
 	<script	src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<script	src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<!-- 各个环节的备注信息  -->
@@ -665,28 +667,12 @@
 
 		});
 		
- 		$('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
-      	$('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}')); 
-		/*动态生成上下家*/
-		function generateSellerAndBuyer(name, phone){
- 			var nameArr = name.split('/');
- 			var phoneArr = phone.split('/');
- 			var str='';
- 			for (var i=0; i<nameArr.length; i++) {
- 				if(i%2==0){
- 					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a>&nbsp;';
- 				}else{
- 					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a><br/>';
- 				}
- 			}
- 			return str;
- 		}
+ 		
 		
         jQuery(function($) {
             $(document).ready( function() {
                //固定导航头
             	$('.stickup-nav-bar').stickUp({
-                // $('.col-lg-9').stickUp({
                                     parts: {
                                       0:'basicInfo',
                                       1:'serviceFlow',
@@ -696,6 +682,50 @@
                                     itemHover: 'active',
                                     marginTop: 'auto'
                                   });
+                
+                /** 获取公共信息 **/
+                var caseCode = $('#caseCode').val();
+                $.ajax({
+                	type : 'post',
+    				cache : false,
+    				url : ctx+'/case/getCaseBaseInfo',
+    				data : "&caseCode="+caseCode,
+    				dataType : "json",
+    				success : function(data) {
+						$('#agent').attr('data-content',data.agentMobile);
+    					$('#manager').attr('data-content',data.mcMobile);
+    					$('#ms').attr('data-content',data.msMobile);
+    					$('#loan').attr('data-content',data.loanMobile);
+    					$('#warr').attr('data-content',data.warMobile);
+    					$('#as').attr('data-content',data.asMobile);
+    					$('#buyer').attr('data-content',data.buyerMobile);
+    					$('#seller').attr('data-content',data.sellerMobile);
+    					new Vue({
+    						el:'#basicInfo',
+    						data:{
+    							caseProperty:data.toCase.caseProperty,
+    							status:data.toCase.status,
+    							isSubscribe:data.isSubscribe,
+    							caseCode:data.toCase.caseCode,
+    							ccaiCode:data.toCase.ccaiCode,
+    							toPropertyInfo:data.toPropertyInfo,
+    							agentName:data.agentName,
+    							agentGrpName:data.agentGrpName,
+    							mcName:data.mcName,
+    							msName:data.msName,
+    							loanName:data.loanName,
+    							warName:data.warName,
+    							asName:data.asName,
+    							buyerName:data.buyerName,
+    							sellerName:data.sellerName
+    						}
+    					})
+    					$("[data-toggle='popover']").popover();
+    				},
+    				error : function(errors) { 					
+    					return false;
+    				}               	               	
+                });
             });
         });
 

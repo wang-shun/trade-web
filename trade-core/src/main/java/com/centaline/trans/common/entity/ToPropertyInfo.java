@@ -18,6 +18,8 @@ public class ToPropertyInfo {
 	private Integer totalFloor;
 
 	private String propertyType;
+	
+	private String propertyTypeName;
 
 	private Integer locateFloor;
 
@@ -180,4 +182,13 @@ public class ToPropertyInfo {
 	public void setCcaiCode(String ccaiCode) {
 		this.ccaiCode = ccaiCode;
 	}
+
+	public String getPropertyTypeName() {
+		return propertyTypeName;
+	}
+
+	public void setPropertyTypeName(String propertyTypeName) {
+		this.propertyTypeName = propertyTypeName;
+	}
+	
 }
