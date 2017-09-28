@@ -73,7 +73,7 @@
 		 resourceDistributionBtn = true;
 		</shiro:hasPermission>
 	</script>
-
+	<%-- <%@include file="/WEB-INF/jsp/common/caseBaseInfo.jsp"%> --%>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 
 				<!-- 服务流程 -->
@@ -561,8 +561,9 @@
 	<script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script	src="<c:url value='/js/template.js' />" type="text/javascript"></script>
-	<script	src="<c:url value='/js/vue.min.js' />" type="text/javascript"></script>
-	<script src="<c:url value='/js/handlebars-2.0.0.js' />" type="text/javascript"></script>
+	<!-- 公共信息js -->	
+	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
+	
 	<script	src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<script	src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<!-- 各个环节的备注信息  -->
@@ -669,7 +670,7 @@
 		
  		
 		
-        jQuery(function($) {
+        /* jQuery(function($) {
             $(document).ready( function() {
                //固定导航头
             	$('.stickup-nav-bar').stickUp({
@@ -684,7 +685,7 @@
                                   });
                 
                 /** 获取公共信息 **/
-                var caseCode = $('#caseCode').val();
+               /* var caseCode = $('#caseCode').val();
                 $.ajax({
                 	type : 'post',
     				cache : false,
@@ -727,7 +728,7 @@
     				}               	               	
                 });
             });
-        });
+        }); */
 
 
 
