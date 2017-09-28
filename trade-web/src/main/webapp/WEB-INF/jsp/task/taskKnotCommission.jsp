@@ -427,7 +427,7 @@
                      }else{
                          window.location.href = "${ctx }/task/myTaskList";
                      }*/
-                 	 window.wxc.success("提交成功！",{"wxcOk":function(){
+                 	 window.wxc.success(data.message,{"wxcOk":function(){
                      /*if (window.opener) {
                          window.close();
                          window.opener.callback();

@@ -44,8 +44,8 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	@Value("${process.df.key.ComLoan_Process}")
 	private String processComLoanDfKey;
 	//组合贷款
-	@Value("${process.df.key.ComLoanAndPSFLoan_Process}")
-	private String processComAndPSFLoanDfKey;
+	/*@Value("${process.df.key.ComLoanAndPSFLoan_Process}")
+	private String processComAndPSFLoanDfKey;*/
 
 	@Value("${process.df.key.LoanLost_Process}")
 	private String processLoanLostDfKey;	
