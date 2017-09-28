@@ -357,6 +357,8 @@
     <!-- 改版引入的新的js文件 -->
     <script src="<c:url value='/js/common/textarea.js' />"></script>
    <%--  <script src="<c:url value='/js/common/common.js' />"></script> --%>
+    <!--公共信息-->
+    <script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
     <script>
     var source = "${source}";
 	function readOnlyForm(){
