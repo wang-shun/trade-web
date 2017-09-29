@@ -67,6 +67,7 @@
 			<h5>填写任务信息</h5>
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalUsedForm">
+				    <input type="hidden" id="pkid" name="pkid" value="${pkid }">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode"
 						value="${taskitem}">
@@ -175,14 +176,8 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					window.wxc.success(data.message,{"wxcOk":function(){
-						var bohui = $("#processInstanceId").val();
-						if (bohui != null && bohui != '') {
-							window.close();
-							window.opener.callback();
-						} else {
+					window.wxc.success("评估使用提交成功",{"wxcOk":function(){
 							window.location.href = ctx + "/task/eval/evalTaskList";
-						}
 					}});
 				},
 				error : function(errors) {
