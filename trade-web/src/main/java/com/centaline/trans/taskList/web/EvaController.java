@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -64,6 +65,7 @@ public class EvaController {
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
+		request.setAttribute("processDfId", propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()));
 		return "task/evalTaskList";
 	}
 	
@@ -81,7 +83,7 @@ public class EvaController {
 	@RequestMapping(value = "apply")
 	public String apply(HttpServletRequest request, HttpServletResponse response, String caseCode){
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		ToEvaPricingVo toEvaPricingVo = evaPricingService.findEvaPricingDetailByCaseCode(caseCode);
+		ToEvaPricingVo toEvaPricingVo = evaPricingService.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvaPricingVo", toEvaPricingVo);
 		request.setAttribute("caseCode", caseCode);
@@ -99,7 +101,8 @@ public class EvaController {
 	 * @return
 	 */
 	@RequestMapping(value="submitApply")
-	public String submitEvalApply(HttpServletRequest request,HttpServletResponse response,ToEvaReportProcess toEvaReportProcess){
+	@ResponseBody
+	public Integer submitEvalApply(HttpServletRequest request,HttpServletResponse response,ToEvaReportProcess toEvaReportProcess){
 		
 		//保存申请信息
 		toEvaReportProcessService.insertEvaApply(toEvaReportProcess);
@@ -124,8 +127,7 @@ public class EvaController {
     	toWorkFlow.setCaseCode(toEvaReportProcess.getCaseCode());
     	toWorkFlow.setBizCode(toEvaReportProcess.getCaseCode());
     	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
-    	toWorkFlowService.insertSelective(toWorkFlow);
-    	return null;
+    	return toWorkFlowService.insertSelective(toWorkFlow);
 	}
 	
 	/**
@@ -143,7 +145,7 @@ public class EvaController {
 			String taskitem, String processInstanceId){
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		//查询评估申请信息
-		ToEvaReportProcess toEvaReportProcess = toEvaReportProcessService.selectToEvaReportProcessByCaseCode(caseCode);
+		ToEvaReportProcess toEvaReportProcess = toEvaReportProcessService.selectToEvaReportProcessByCaseCodeAndStatus(caseCode,EvalStatusEnum.YSQ.getCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvaReportProcess", toEvaReportProcess);
 	    return "eval/evalReport";
@@ -160,7 +162,8 @@ public class EvaController {
 	 * @return
 	 */
 	@RequestMapping(value = "submitReport")
-	public String submitReport(HttpServletRequest request, HttpServletResponse response, ToEvaReportProcess toEvaReportProcess,String taskId){
+	@ResponseBody
+	public Boolean submitReport(HttpServletRequest request, HttpServletResponse response, ToEvaReportProcess toEvaReportProcess,String taskId){
 		//评估上报保存
 		toEvaReportProcess.setStatus(EvalStatusEnum.YSB.getCode());
 		toEvaReportProcessService.updateEvaReport(toEvaReportProcess);
@@ -169,7 +172,7 @@ public class EvaController {
 		SessionUser user = uamSessionService.getSessionUser();
 		variables.put("assistant", user.getUsername());
 		taskService.submitTask(taskId,variables);
-	    return null;
+		return true;
 	}
 	
 	/**
@@ -187,7 +190,7 @@ public class EvaController {
 			String taskitem, String processInstanceId){
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		//查询评估申请信息
-		ToEvaReportProcess toEvaReportProcess = toEvaReportProcessService.selectToEvaReportProcessByCaseCode(caseCode);
+		ToEvaReportProcess toEvaReportProcess = toEvaReportProcessService.selectToEvaReportProcessByCaseCodeAndStatus(caseCode,EvalStatusEnum.YSB.getCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvaReportProcess", toEvaReportProcess);
 	    return "eval/evalIssue";
@@ -204,7 +207,8 @@ public class EvaController {
 	 * @return
 	 */
 	@RequestMapping(value = "submitIssue")
-	public String submitIssue(HttpServletRequest request, HttpServletResponse response, ToEvaReportProcess toEvaReportProcess,String taskId){
+	@ResponseBody
+	public Boolean submitIssue(HttpServletRequest request, HttpServletResponse response, ToEvaReportProcess toEvaReportProcess,String taskId){
 		//评估出具信息保存
 		toEvaReportProcess.setStatus(EvalStatusEnum.YCNBG.getCode());
 		toEvaReportProcessService.updateEvaReport(toEvaReportProcess);
@@ -214,7 +218,7 @@ public class EvaController {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("assistant", user.getUsername());
 		taskService.submitTask(taskId,variables);
-	    return null;
+	    return true;
 	}
 	
 	/**
@@ -232,7 +236,7 @@ public class EvaController {
 			String taskitem, String processInstanceId){
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		//查询评估申请
-		ToEvaReportProcess toEvaReportProcess = toEvaReportProcessService.selectToEvaReportProcessByCaseCode(caseCode);
+		ToEvaReportProcess toEvaReportProcess = toEvaReportProcessService.selectToEvaReportProcessByCaseCodeAndStatus(caseCode,EvalStatusEnum.YCNBG.getCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvaReportProcess", toEvaReportProcess);
 	    return "eval/evalUsed";
@@ -249,12 +253,13 @@ public class EvaController {
 	 * @return
 	 */
 	@RequestMapping(value = "submitUsed")
-	public String submitUsed(HttpServletRequest request, HttpServletResponse response,ToEvaReportProcess toEvaReportProcess,String taskId){
+	@ResponseBody
+	public Boolean submitUsed(HttpServletRequest request, HttpServletResponse response,ToEvaReportProcess toEvaReportProcess,String taskId){
 		
         //评估使用信息保存
 		toEvaReportProcess.setStatus(EvalStatusEnum.YSYBG.getCode());
 		toEvaReportProcessService.updateEvaReport(toEvaReportProcess);
 		taskService.submitTask(taskId,null);
-	    return null;
+	    return true;
 	}
 }
