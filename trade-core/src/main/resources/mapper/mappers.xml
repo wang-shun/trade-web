@@ -280,5 +280,6 @@
 		<mapper resource="mapper/task/ToSelfAppInfoMapper.xml"/>
 		
 		<mapper resource="mapper/ransom/AddRansomFormMapper.xml"/>
+		<mapper resource="mapper/ransom/RansomListFormMapper.xml"/>
 	</mappers>
 </configuration>
