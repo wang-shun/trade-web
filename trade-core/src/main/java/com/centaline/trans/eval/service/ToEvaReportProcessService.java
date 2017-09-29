@@ -18,11 +18,11 @@ public interface ToEvaReportProcessService {
 	 int insertEvaApply(ToEvaReportProcess toEvaReportProcess);
 	 
 	 /**
-	  * 根据案件编号查询评估申请信息
+	  * 根据案件编号和和评估状态查询评估申请信息
 	  * @param caseCode
 	  * @return
 	  */
-	 ToEvaReportProcess selectToEvaReportProcessByCaseCode(String caseCode);
+	 ToEvaReportProcess selectToEvaReportProcessByCaseCodeAndStatus(String caseCode,String status);
 	 
 	 /**
 	  * 保存评估上报信息

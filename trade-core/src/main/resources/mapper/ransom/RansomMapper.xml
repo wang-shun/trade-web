@@ -67,7 +67,7 @@
 			LEFT JOIN sctrans.T_RA_APPLY app ON ra.RANSOM_CODE = app.RANSOM_CODE
 			INNER JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
 		WHERE 
-			ra.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+			ra.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 			AND part.POSITION = 'financial' <!-- 金融权证 -->
 			AND part.AVAILABLE = 'Y'
 	</select>
@@ -91,6 +91,232 @@
 		WHERE 
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
+	
+	<insert id="insertRansomApply" parameterType="com.centaline.trans.ransom.entity.ToRansomApplyVo">
+		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">
+			SELECT @@IDENTITY
+		</selectKey>
+			insert into sctrans.T_RA_APPLY
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				RANSOM_CODE,
+			</if>
+			<if test="partCode != null">
+				PART_CODE,
+			</if>
+			<if test="applyUser != null">
+				APPLY_USER,
+			</if>
+			<if test="applyTime != null">
+				APPLY_TIME,
+			</if>
+			<if test="applyOrgCode != null">
+				APPLY_ORG_CODE,
+			</if>
+			<if test="loanOfficer != null">
+				LOANOFFICER,
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER,
+			</if>
+				UPDATE_TIME
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				#{ransomCode,jdbcType=VARCHAR},
+			</if>
+			<if test="partCode != null">
+				#{partCode,jdbcType=VARCHAR},
+			</if>
+			<if test="applyUser != null">
+				#{applyUser,jdbcType=VARCHAR},
+			</if>
+			<if test="applyTime != null">
+				#{applyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="applyOrgCode != null">
+				#{applyOrgCode,jdbcType=VARCHAR},
+			</if>
+			<if test="loanOfficer != null">
+				#{loanOfficer,jdbcType=VARCHAR},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+				CURRENT_TIMESTAMP
+		</trim>
+	</insert>
+	
+	<update id="updateRansomInfo" parameterType="com.centaline.trans.ransom.entity.ToRansomSubmitVo">
+		UPDATE sctrans.T_RA_CASE
+		SET 
+			COM_ORG_CODE = #{applyOrgCode,jdbcType=VARCHAR},
+			RANSOM_STATUS = 3,
+			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			UPDATE_TIME = CURRENT_TIMESTAMP
+		WHERE
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="queryErdi" resultType="java.lang.Integer">
+		SELECT
+			COUNT(*)
+		FROM
+			sctrans.T_RA_TAILINS
+		WHERE
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+			AND DIYA_TYPE = '2'
+	</select>
+	
+	<insert id="insertRansomSign" parameterType="com.centaline.trans.ransom.entity.ToRansomSignVo">
+		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">
+			SELECT @@IDENTITY
+		</selectKey>
+			insert into sctrans.T_RA_INTERVIEW
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				RANSOM_CODE,
+			</if>
+			<if test="partCode != null">
+				PART_CODE,
+			</if>
+			<if test="signTime != null">
+				INTERVIEW_TIME,
+			</if>
+			<if test="signMoney != null">
+				INTERVIEW_MONEY,
+			</if>
+			<if test="interest != null">
+				INTEREST,
+			</if>
+			<if test="isEntrust != null">
+				IS_ENTRUST,
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER,
+			</if>
+				UPDATE_TIME
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				#{ransomCode,jdbcType=VARCHAR},
+			</if>
+			<if test="partCode != null">
+				#{partCode,jdbcType=VARCHAR},
+			</if>
+			<if test="signTime != null">
+				#{signTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="signMoney != null">
+				#{signMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="interest != null">
+				#{interest,jdbcType=DECIMAL},
+			</if>
+			<if test="isEntrust != null">
+				#{isEntrust,jdbcType=VARCHAR},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+				CURRENT_TIMESTAMP
+		</trim>
+	</insert>
+	
+	<insert id="insertRansomMortgage" parameterType="com.centaline.trans.ransom.entity.ToRansomMortgageVo">
+		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">
+			SELECT @@IDENTITY
+		</selectKey>
+			insert into sctrans.T_RA_REPAY
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				RANSOM_CODE,
+			</if>
+			<if test="partCode != null">
+				PART_CODE,
+			</if>
+			<if test="mortgageTime != null">
+				REPAY_TIME,
+			</if>
+			<if test="repayLoanMoney != null">
+				REPAY_MONEY,
+			</if>
+			<if test="diyaType != null">
+				DIYA_TYPE,
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER,
+			</if>
+				UPDATE_TIME
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				#{ransomCode,jdbcType=VARCHAR},
+			</if>
+			<if test="partCode != null">
+				#{partCode,jdbcType=VARCHAR},
+			</if>
+			<if test="mortgageTime != null">
+				#{mortgageTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="repayLoanMoney != null">
+				#{repayLoanMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="diyaType != null">
+				#{diyaType,jdbcType=VARCHAR},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+				CURRENT_TIMESTAMP
+		</trim>
+	</insert>
+	
+	<insert id="insertRansomPlanTime" parameterType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
+		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">
+			SELECT @@IDENTITY
+		</selectKey>
+			insert into sctrans.T_RA_PLAN
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				RANSOM_CODE,
+			</if>
+			<if test="partCode != null">
+				PART_CODE,
+			</if>
+			<if test="estPartTime != null">
+				EST_PART_TIME,
+			</if>
+			<if test="createUser != null">
+				CREATE_USER,
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER,
+			</if>
+				CREATE_TIME,
+				UPDATE_TIME
+		</trim>	
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ransomCode != null">
+				#{ransomCode,jdbcType=VARCHAR},
+			</if>
+			<if test="partCode != null">
+				#{partCode,jdbcType=VARCHAR},
+			</if>
+			<if test="estPartTime != null">
+				#{estPartTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+				CURRENT_TIMESTAMP,
+				CURRENT_TIMESTAMP
+		</trim>
+	
+	</insert>
 	
 	<insert id="insertRansomCancel" parameterType="com.centaline.trans.ransom.entity.ToRansomCancelVo">
 		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">
@@ -215,4 +441,12 @@
 				CURRENT_TIMESTAMP
 		</trim>
 	</insert>
+	
+	<update id="updateCaseStatusComplete">
+		UPDATE sctrans.T_RA_CASE
+		SET 
+			RANSOM_STATUS = 4
+		WHERE
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</update>
 </mapper>

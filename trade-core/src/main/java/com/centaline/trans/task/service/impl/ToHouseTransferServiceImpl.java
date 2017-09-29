@@ -176,6 +176,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
      */
     @Override
     public void savaToHouseTransferAndMortageToVO(ToHouseTransfer toHouseTransfer, MortgageToSaveVO mortgageToSaveVO) {
+<<<<<<< Upstream, based on origin/develop
         //业主垫资金额(万元)转换为(元)
         toHouseTransfer.setOwnerMatAmount(toHouseTransfer.getOwnerMatAmount()!=null?toHouseTransfer
                 .getOwnerMatAmount().multiply(new BigDecimal(10000)):null);
@@ -185,6 +186,8 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
         //担保费金额
         toHouseTransfer.setGuaranteeFeeAmount(toHouseTransfer.getGuaranteeFeeAmount()!=null?toHouseTransfer
                 .getGuaranteeFeeAmount().multiply(new BigDecimal(10000)):null);
+=======
+>>>>>>> 119371f 解决冲突
         if(toHouseTransfer.getPkid()!=null){
             toHouseTransferMapper.updateByPrimaryKeySelective(toHouseTransfer);
         } else

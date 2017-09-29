@@ -67,6 +67,7 @@
 			<h5>填写任务信息</h5>
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalIssueForm">
+				<input type="hidden" id="pkid" name="pkid" value="${pkid }">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode"
 						value="${taskitem}">
@@ -101,19 +102,36 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i> 评估价</label> 
-								<input class="input_type sign_right_two" name="evaPrice" id="evaPrice"></select>
+								<input class="input_type sign_right_two" name="evaPrice" id="evaPrice"></input>
+								<div class="input-group date_icon">
+									<span class="danwei">万</span>
+								</div>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i> 房龄</label> 
-								<input class="input_type sign_right_two" name="houseAgeIssue" id="houseAgeIssue"></select>
+								<input class="input_type sign_right_two" name="houseAgeIssue" id="houseAgeIssue"></input>
+								<div class="input-group date_icon">
+									<span class="danwei">年</span>
+								</div>
 							</div>
 						</li>
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i>评估报告份数</label> 
-								<input class="input_type sign_right_two" name="reportNumIssue" id="reportNumIssue"></select>
+								<input class="input_type sign_right_two" name="reportNumIssue" id="reportNumIssue"></input>
 							</div>
 						</li>
+						<li>
+						  
+                      </li>
+                      <div class="modal_title title-mark">
+                                	上传附件
+                        </div>
+                        <li>
+				                     <div class="ibox-content" id="aboutInfo">
+										<div class="table-box" id="evalReportsFileUploadContainer"></div>
+				 					</div>
+                        </li>
 					</ul>
 					<p class="text-center">
 							<input type="button" class="btn btn-success submit_From" value="提交"> 
@@ -122,7 +140,7 @@
 				</form>
 			</div>
 		</div>
-	</div>
+    </div>
 
 	<!-- Mainly scripts -->
 	<content tag="local_script">
@@ -131,6 +149,23 @@
 	<script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+	<!-- 上传附件相关 --> 
+	<script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-fp.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-ui.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/clockface.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js' />"></script>
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.multi-select.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
+	<script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script> 
+	<script	src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script> 
+    <!-- 上传附件结束 -->
 	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script> 
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script> 
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
@@ -186,14 +221,8 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					window.wxc.success(data.message,{"wxcOk":function(){
-						var bohui = $("#processInstanceId").val();
-						if (bohui != null && bohui != '') {
-							window.close();
-							window.opener.callback();
-						} else {
+					window.wxc.success("评估出具提交成功",{"wxcOk":function(){
 							window.location.href = ctx + "/task/eval/evalTaskList";
-						}
 					}});
 				},
 				error : function(errors) {
@@ -224,8 +253,42 @@
 				window.wxc.alert("请填写评估报告份数");
 				return false;
 			}
+			
+			if ($("#eval_report_letter_pic_list li").length == undefined
+					|| $("#eval_report_letter_pic_list li").length == 0 ) {
+				window.wxc.alert("评估报告未上传!");
+				return false;
+			}
+			
+			var option = [];
+ 			option.container = "evalReportsFileUploadContainer";
+ 			
+ 			//验证上传文件是否全部上传
+			var isCompletedUpload = fileUpload.isCompletedUploadById(option);
+			
+			if(!isCompletedUpload){
+				window.wxc.alert("附件还未全部上传!");
+				return false;
+			}
 			return true;
 		}
+		</script>
+	</content>
+	<content tag="local_require">
+	    <script>
+	    	var fileUpload;
+		    require(['main'], function() {
+				requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+					fileUpload = aistFileUpload; 
+					
+					fileUpload.init({
+			    		caseCode : $('#caseCode').val(),
+			    		partCode : "eval_issue",
+			    		preFileCode : "eval_report_letter",
+			    		fileUploadContainer : "evalReportsFileUploadContainer"
+			    	});
+			    });
+		    });
 		</script>
 	</content>
 </body>

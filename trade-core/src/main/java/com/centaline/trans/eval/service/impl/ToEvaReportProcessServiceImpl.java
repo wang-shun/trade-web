@@ -32,8 +32,8 @@ public class ToEvaReportProcessServiceImpl implements ToEvaReportProcessService 
 	}
 
 	@Override
-	public ToEvaReportProcess selectToEvaReportProcessByCaseCode(String caseCode) {
-		return toEvaReportProcessMapper.selectToEvaReportProcessByCaseCode(caseCode);
+	public ToEvaReportProcess selectToEvaReportProcessByCaseCodeAndStatus(String caseCode,String status) {
+		return toEvaReportProcessMapper.selectToEvaReportProcessByCaseCodeAndStatus(caseCode);
 	}
 
 }

@@ -131,7 +131,7 @@
 												    <dl class="dl-horizontal col-sm-5"><dt class="col-sm-6">产证地址</dt><dd>${caseBaseVO.toPropertyInfo.propertyAddr}</dd></dl>
 												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">层高</dt><dd>${caseBaseVO.toPropertyInfo.locateFloor}／${caseBaseVO.toPropertyInfo.totalFloor}</dd></dl>
 												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">产证面积</dt><dd>${caseBaseVO.toPropertyInfo.square}平方</dd></dl>
-												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">竣工年限</dt> <dd>${caseBaseVO.toPropertyInfo.finishYear}</dd></dl>
+												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">竣工年限</dt> <dd><fmt:formatDate value="${caseBaseVO.toPropertyInfo.finishYear}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
 												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">房屋类型</dt><dd><aist:dict id="propertyType" name="propertyType" display="label" dictType="30014" dictCode="${caseBaseVO.toPropertyInfo.propertyType}" /></dd></dl>
 												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">房型</dt><dd></dd></dl>
 												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6" >卖方</dt><dd>${caseBaseVO.buyerSellerInfo.sellerName}</dd></dl>

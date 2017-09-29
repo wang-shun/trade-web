@@ -18,6 +18,7 @@ $(document).ready(function() {
     	    data.rows = 10;
     	    data.page = 1;
 			data.argu_sessionUserId = $("#userId").val();
+			data.argu_processDfId=$("#processDfId").val();
     	    aist.wrap(data);
     		reloadGrid(data);
     		
@@ -148,6 +149,7 @@ function initData(page){
 	var params = {
 			argu_sessionUserId : $("#userId").val(),
 			argu_isSubscribeFilter : isSubscribeFilter,
+			argu_processDfId : $("#processDfId").val(),
 			search_caseCode : caseCode,
 			search_ctmCode : ctmCode,
 			search_minDateLamp : minDateLamp,

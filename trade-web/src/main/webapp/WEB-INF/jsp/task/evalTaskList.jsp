@@ -93,6 +93,8 @@ text-decoration: underline !important;
 <input type="hidden" id="Lamp1" value="${Lamp1}" />
 <input type="hidden" id="Lamp2" value="${Lamp2}" />
 <input type="hidden" id="Lamp3" value="${Lamp3}" />
+<input type="hidden" id="processDfId" value="${processDfId}" />
+<input type="hidden" id="userLoginName" value="${userLoginName}" />
 	
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox-content border-bottom clearfix space_box">
@@ -100,6 +102,7 @@ text-decoration: underline !important;
 				待办任务
         	</h1>
 				<form method="get" class="form_list">
+				 <div class="clearfix">
 					<div class="form_content">
 						<label class="control-label sign_left">红绿灯</label>
 						<div class="checkbox i-checks radio-inline sign sign_right">
@@ -132,7 +135,8 @@ text-decoration: underline !important;
 							</label>
 						</div>
 					</div>
-						
+				</div>
+				<div class="clearfix">
 					<div class="form_content">
 					      <select id="inTextType"   class="form-control select_control sign_left"  onchange="intextTypeChange()">
 							<option value="1" selected>产权地址</option>
@@ -147,18 +151,19 @@ text-decoration: underline !important;
 						
 					<div class="form_content">
 						<label class="control-label sign_left">任务名</label>
-						<aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="part_code" defaultvalue="" />
+						<aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="eval_part_code" defaultvalue="" />
 					</div>
-					
+				</div>
+             <div class="row clearfix">	
 					<div class="form_content">
 						<label class="control-label sign_left">评估公司</label>
 						<input id="evalCompany" name="" type="evalCompany" class="sign_right input_type"   placeholder="请输入">
 					</div>
-					
 					<div class="form_content">
 						<label class="control-label sign_left">贷款权证</label>
 						<input id="loan" name="loan" type="loan" class="sign_right input_type"   placeholder="请输入">
 					</div>
+			  </div>
 					
 					<div class="form_content">
 						<label class="control-label sign_left">是否关注</label>
@@ -176,7 +181,6 @@ text-decoration: underline !important;
                              </button>
                          </div>
                    	</div>
-                     
 				</form>
 	  </div>
 	  

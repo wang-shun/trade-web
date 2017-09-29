@@ -328,10 +328,15 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   
-  <select id="selectToEvaReportProcessByCaseCode" resultMap="BaseResultMap">
-        select
+  <select id="selectToEvaReportProcessByCaseCodeAndStatus" resultMap="BaseResultMap">
+        SELECT
             <include refid="Base_Column_List"/>
-         from sctrans.T_TO_EVA_REPORT_PROCESS
-    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+         FROM 
+            sctrans.T_TO_EVA_REPORT_PROCESS
+        WHERE 
+          CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
+        AND NOT EXISTS(
+               SELECT 1 from sctrans.T_TO_EVA_REPORT_PROCESS WHERE  CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND STATUS='5'
+        )
   </select>
 </mapper>

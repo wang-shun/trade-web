@@ -52,6 +52,7 @@
 						ART.TASK_DEF_KEY_ AS PART_CODE,
 						ART.PROC_INST_ID_ AS INST_CODE,
 						ART.DELEGATION_ AS DELEGATION,
+						ART.PROC_DEF_ID_,
 						tcp.REAL_NAME,
 						tw.CASE_CODE,
 						tw.BUSINESS_KEY,
@@ -63,7 +64,7 @@
 						sctrans.ACT_RU_TASK ART
 						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
 						LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT tcp ON tcp.CASE_CODE= tw.CASE_CODE
-						  WHERE  ART.ASSIGNEE_ = #userLoginName# AND tcp.POSITION= 'loan'
+						  WHERE  ART.ASSIGNEE_ = #userLoginName# AND ART.PROC_DEF_ID_= #processDfId# AND tcp.POSITION= 'loan'
 					    AND ART.SUSPENSION_STATE_ = '1'
 					    and exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=tw.CASE_CODE)
 						<ifNotNull allType>

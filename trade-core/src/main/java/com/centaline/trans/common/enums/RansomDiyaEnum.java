@@ -6,6 +6,7 @@ package com.centaline.trans.common.enums;
  */
 public enum RansomDiyaEnum {
 	
+	SING("1","SIGN"),
 	/**
 	 * 陪同还贷_一抵
 	 */
@@ -29,7 +30,11 @@ public enum RansomDiyaEnum {
 	/**
 	 * 领取产证_二抵
 	 */
-	RECEIVE_TWO("2","RECEIVE_TWO");
+	RECEIVE_TWO("2","RECEIVE_TWO"),
+	/**
+	 * 回款结清
+	 */
+	PAY_CLEAR("1","PAYCLEAR");
 
 	private String code;
 

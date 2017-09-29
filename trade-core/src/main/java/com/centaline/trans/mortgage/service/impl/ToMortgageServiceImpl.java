@@ -455,6 +455,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
     {
         //toMortgage.setIsDelegateYucui("1");
         List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(toMortgage);
+        MortgageToSaveVO mortgageToSaveVO = toMortgageTosaveService.getTosave(toMortgage);
         if (CollectionUtils.isNotEmpty(list))
         {
             ToMortgage mort = null;
@@ -464,7 +465,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
             {
                 mort = list.get(0);
             }
-            else
+/*            else
             {
                 for (ToMortgage mortgage : list)
                 {
@@ -474,7 +475,11 @@ public class ToMortgageServiceImpl implements ToMortgageService
                         break;
                     }
                 }
+<<<<<<< Upstream, based on origin/develop
             }         
+=======
+            }*/         
+>>>>>>> 119371f 解决冲突
             /*
              * mort.setComAmount(mort.getComAmount() != null ?
              * mort.getComAmount() .divide(new BigDecimal(10000)) : null);
@@ -483,11 +488,35 @@ public class ToMortgageServiceImpl implements ToMortgageService
              * mort.setPrfAmount(mort.getPrfAmount() != null ?
              * mort.getPrfAmount() .divide(new BigDecimal(10000)) : null);
              */
+<<<<<<< Upstream, based on origin/develop
             mort.setToSupDocu(toSupDocu);  
             return mort;
+=======
+            mort.setToSupDocu(toSupDocu);
+            if(StringUtils.isBlank(mort.getBank_type()) && StringUtils.isBlank(mort.getBank_type())){
+            	if(mortgageToSaveVO != null){
+            		mort = getToMortgage(mort,mortgageToSaveVO);
+            		return mort;
+            	}else{
+            		return mort;
+            	}
+            }
+
+            
+>>>>>>> 119371f 解决冲突
         }
        
+<<<<<<< Upstream, based on origin/develop
         return null;
+=======
+        ToMortgage mort = new ToMortgage();
+        if(mortgageToSaveVO!=null){
+        	mort = getToMortgage(mort,mortgageToSaveVO);
+        	return mort;
+        }else{
+        	return null;
+        }
+>>>>>>> 119371f 解决冲突
         
     }
     
