@@ -106,10 +106,16 @@
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 房龄</label>
 								<input class="input_type sign_right_two"  name="houseAgeApply" id="houseAgeApply">
+								<div class="input-group date_icon">
+									<span class="danwei">年</span>
+								</div>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i>询价值</label> 
 								<input class="input_type sign_right_two"  name="inquiryResult" id="inquiryResult">
+								<div class="input-group date_icon">
+									<span class="danwei">万</span>
+								</div>
 							</div> 
 						</li>
 						
@@ -225,14 +231,8 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					window.wxc.success(data.message,{"wxcOk":function(){
-						var bohui = $("#processInstanceId").val();
-						if (bohui != null && bohui != '') {
-							window.close();
-							window.opener.callback();
-						} else {
+					window.wxc.success("评估申请提交成功",{"wxcOk":function(){
 							window.location.href = ctx + "/task/eval/evalTaskList";
-						}
 					}});
 				},
 				error : function(errors) {
@@ -243,7 +243,7 @@
 		
 		//询价类型非贷款时，显示原购入价
 		function evaTypeChange(){
-			var evaVal = $('#reportEval').val();
+			var evaVal = $('#reportType').val();
 			if(evaVal == '2' || evaVal == '3'){
 				$('#originPrice').css('visibility','visible');
 			}else{
