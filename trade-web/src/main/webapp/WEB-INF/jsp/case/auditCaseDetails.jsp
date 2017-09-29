@@ -43,6 +43,50 @@
 
 
 <script type="text/javascript">
+	var ctx = "${ctx}";	
+	var caseCode = $("#caseCode").val();
+	
+	function auditSuccess(){
+		var caseCode = $("#caseCode").val();
+		window.wxc.confirm("请确认审核接单通过？",{"wxcOk":function(){
+			window.location.href=ctx+"/AuditImportCase/auditSuccess?caseCode="+caseCode;
+		}});
+	}
+	
+	function openModal(){
+		$('#myModal').modal({
+			keyboard:false,
+			show:true,
+			backdrop:true
+		})
+	}
+	
+	function openReturnModal(){
+		$('#returnReasonModal').modal({
+			keyboard:false,
+			show:true,
+			backdrop:true
+		})
+	}
+	
+	function formSubmit(){
+		var url=ctx+"/AuditImportCase/addLoanProcessor";
+		$("#jvForm").attr("action",url);
+		document.getElementById("jvForm").submit();
+	}
+	
+	function formReturnReasonSubmit(){
+		if($("#returnReason").val()==0){
+			window.wxc.alert("请选择驳回原因!");
+			return;
+		}
+		var url=ctx+"/AuditImportCase/returnReason";
+		$("#returnReasonModalForm").attr("action",url);
+		document.getElementById("returnReasonModalForm").submit();
+	}
+</script>
+
+<script type="text/javascript">
 var AttachmentList = (function(){    
     return {    
        init : function(ctx,url,gridTableId,gridPagerId,ctmCode,caseCode){    
@@ -157,9 +201,12 @@ var AttachmentList = (function(){
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>付款方式:</label>
                                 <span><b>${payType}</b></span>
-                                 <%-- <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select" defaultvalue="${payType}" dictType="61003" /> --%>
 		                     </div> 
 		                </div>
+            	
+            	
+            	<div class="view-content" id="caseCommentList"> </div>
+
 	            <div class="title title-mark" id="aboutInfo">
 	               <strong style="font-weight:bold;">CCAI附件信息</strong>
 	            </div>
@@ -277,148 +324,10 @@ var AttachmentList = (function(){
 				<!-- 改版引入的新的js文件 -->
 				<script src="<c:url value='/js/common/textarea.js' />"></script>
 				<script src="<c:url value='/js/common/common.js' />"></script>
-	<script type="text/javascript">
-	var ctx = "${ctx}";	
-	var caseCode = $("#caseCode").val();
-	
-	function auditSuccess(){
-		var caseCode = $("#caseCode").val();
-		console.log(caseCode);
-		window.wxc.confirm("请确认审核接单通过？",{"wxcOk":function(){
-			var url=ctx+"/AuditImportCase/auditSuccess";
-			$.ajax({
-				cache : false,
-				async : true,//false同步，true异步
-				type : "POST",
-				url : url,
-				data: $("#jvForm").serialize(),
-				dataType : "json",		
-				beforeSend : function() {
-		            $.blockUI({
-		                message : $("#salesLoading"),
-		                css : {
-		                    'border' : 'none',
-		                    'z-index' : '9999'
-		                }
-		            });
-		            $(".blockOverlay").css({
-		                'z-index' : '9998'
-		            });
-		        },
-				success : function(data) {
-					 $.unblockUI();
-					 console.log(data);
-					 window.wxc.alert(data.message);
-				
-					window.location.href=ctx+"/task/myTaskList";
-					
-				},
-				error : function(errors) {
-					window.wxc.error("数据出错."+errors.message);
-				}
-			});
-		}
-		});
-	}
-	
-	function openModal(){
-		$('#myModal').modal({
-			keyboard:false,
-			show:true,
-			backdrop:true
-		})
-	}
-	
-	function openReturnModal(){
-		$('#returnReasonModal').modal({
-			keyboard:false,
-			show:true,
-			backdrop:true
-		})
-	}
-	//增加贷款权证
-	function formSubmit(){
-		//var url=ctx+"/AuditImportCase/addLoanProcessor";
-		//$("#jvForm").attr("action",url);
-		//document.getElementById("jvForm").submit();
-		
-		var url=ctx+"/AuditImportCase/addLoanProcessor";
-		$.ajax({
-			cache : false,
-			async : true,//false同步，true异步
-			type : "POST",
-			url : url,
-			data: $("#jvForm").serialize(),
-			dataType : "json",		
-			beforeSend : function() {
-	            $.blockUI({
-	                message : $("#salesLoading"),
-	                css : {
-	                    'border' : 'none',
-	                    'z-index' : '9999'
-	                }
-	            });
-	            $(".blockOverlay").css({
-	                'z-index' : '9998'
-	            });
-	        },
-			success : function(data) {
-				 $.unblockUI();
-				 console.log(data);
-				 window.wxc.alert(data.message);
-				window.location.href=ctx+"/task/myTaskList";
-			},
-			error : function(errors) {
-				window.wxc.error("数据出错。");
-			}
-		});
-	}
-	
-	function formReturnReasonSubmit(){
-		if($("#returnReason").val()==0){
-			window.wxc.alert("请选择驳回原因!");
-			return;
-		}
-		//var url=ctx+"/AuditImportCase/returnReason";
-		//$("#returnReasonModalForm").attr("action",url);
-		//document.getElementById("returnReasonModalForm").submit();
-		var url=ctx+"/AuditImportCase/returnReason";
-		$.ajax({
-			cache : false,
-			async : true,//false同步，true异步
-			type : "POST",
-			url : url,
-			data: $("#returnReasonModalForm").serialize(),
-			dataType : "json",		
-			beforeSend : function() {
-	            $.blockUI({
-	                message : $("#salesLoading"),
-	                css : {
-	                    'border' : 'none',
-	                    'z-index' : '9999'
-	                }
-	            });
-	            $(".blockOverlay").css({
-	                'z-index' : '9998'
-	            });
-	        },
-			success : function(data) {
-				 $.unblockUI();
-				 console.log(data);
-				 window.wxc.alert(data.message);
-				window.location.href=ctx+"/task/myTaskList";
-			},
-			error : function(errors) {
-				window.wxc.error("数据出错。");
-			}
-		});
-	}
-</script>
 				<script>
 					$(document).ready(function(){
 						var ctx = $("#ctx").val();
-						var caseCode = $("#caseCode").val();						
-						console.log(caseCode);
+						var caseCode = $("#caseCode").val();
 						AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}',caseCode);
 					});
 					//显示附件图片
@@ -546,9 +455,50 @@ var AttachmentList = (function(){
 								$(".blockOverlay").css({
 									'z-index' : '9998'
 								});
-							},							
+							},
+							/*
+							complete : function() {
+								$.unblockUI();
+								 if (b) {
+									$.blockUI({
+										message : $("#salesLoading"),
+										css : {
+											'border' : 'none',
+											'z-index' : '1900'
+										}
+									});
+									$(".blockOverlay").css({
+										'z-index' : '1900'
+									});
+								} */
+								//超时,status还有success,error等值的情况
+								/* if (status == 'timeout') {
+									Modal.alert({
+										msg : "抱歉，系统处理超时。"
+									});
+									$(".btn-primary").one("click", function() {
+										parent.$.fancybox.close();
+									});
+								} 
+							},*/
 							success : function(data) {
-								$.unblockUI();						
+								$.unblockUI();
+								console.log(data);
+								/* if (b) {
+									if(data.message){
+										window.wxc.alert(data.message);
+									}
+									setTimeout('caseTaskCheck()', 1000);
+								} else {
+									if (data.firstFollowVO.isrepeat == true) {
+										window.wxc.alert("请不要重复保存数据");
+									} else {
+										window.wxc.success("保存成功.",{"wxcOk":function(){
+											window.close();
+											window.opener.callback();
+										}});
+									}
+								} */
 							},
 							/* error : function(errors) {
 								window.wxc.error("数据保存出错");
