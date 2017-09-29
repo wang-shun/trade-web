@@ -29,6 +29,12 @@ $(document).ready(function() {
 		var id = $(this).attr("id");
 		$("span[id='"+id+"']").changeSelect();
 	});
+	
+	$("#exportCase").click(function(){
+		debugger;
+		checkAllItem();
+		$('#modal-form').modal("show");
+	});
 });
 
 jQuery.fn.changeSelect = function(params){
@@ -209,21 +215,35 @@ function removeDateDiv(index) {
 	$("#dateDiv_" + index).parent().remove();
 }
 
+function checkDate(id){
+	var start = new Date($("#dtBegin_0").val());
+	var end =  new Date($("#dtEnd_0").val());
+	if(end < start){
+//		window.wxc.alert("结束日期不能早于起始日期！");
+		$("#"+id).val(null);
+	}
+}
+
 //查询
 function searchMethod(page) {
 	debugger;
 	if(!page) {
 		page = 1;
 	}
-	if (getSearchDateValues()) {
-		var params = getParamsValue();
-		params.page = page;
-		params.rows = 10;
-		params.queryId = "ransomListItemList";
-		reloadGrid(params);
-	} else {
-		window.wxc.alert("请不要选择同样的日期类型！");
-	}
+	var params = getParamsValue();
+	var start = $('#dtBegin_0').val();
+	var end = $('#dtEnd_0').val();
+	getSearchDateValues(params);
+	params.start = start;
+	params.end = end;
+	params.page = page;
+	params.rows = 10;
+	params.queryId = "ransomListItemList";
+	console.log(params);
+	reloadGrid(params);
+ 
+//	window.wxc.alert("请不要选择同样的日期类型！");
+	
 
 };
 
@@ -346,7 +366,7 @@ function mycase_initpage(totalCount,pageSize,currentPage,records)
 
 //获取查询参数
 function getParamsValue() {
-	debugger;
+//	debugger;
 	//赎楼状态
 	var ransomStatus = $('#ransomStatus').val();
 	//当前赎楼环节
@@ -354,7 +374,7 @@ function getParamsValue() {
 	//案件归属
 	var agentName = $('#agentName').val().trim();
 	//信息搜索
-	var searchInfo = $('#searchInfo option:selected').val();
+	var searchInfo = $('#inTextType option:selected').val() == '请选择' ? null : $('#inTextType option:selected').val();
 	// 客户姓名 归属人姓名 房屋地址
 	var inTextVal = "";
 	if(searchInfo != ""){
@@ -375,7 +395,74 @@ function getParamsValue() {
 	return params;
 }
 
+//产品类型
+var srvCode;
+var srvCode1;
+var srvCode2;
+var srvCode3;
+var srvCode4;
+var srvCode5;
+var srvCode6;
+var srvCode7;
+var srvCode8;
+var srvCode9;
+var srvCode11;
+var srvCode12;
+var srvCode13;
+var srvCode14;
+var srvCode15;
+function getCheckBoxValues(name) {
+	srvCode = "";
+	srvCode1 = "";
+	srvCode2 = "";
+	srvCode3 = "";
+	srvCode4 = "";
+	srvCode5 = "";
+	srvCode6 = "";
+	srvCode7 = "";
+	srvCode8 = "";
+	srvCode9 = "";
+	srvCode11 = "";
+	srvCode12 = "";
+	srvCode13 = "";
+	srvCode14 = "";
+	srvCode15 = "";
+	//$("input[name=" + name + "].selected").each(function() {
+	$("span[name='srvCode'].selected").each(function() {
+		var val = $(this).attr('value');
+		srvCode += val + ",";
 
+		if (val == '30004001') {
+			srvCode1 = val;
+		} else if (val == '30004002') {
+			srvCode2 = val;
+		} else if (val == '30004003') {
+			srvCode3 = val;
+		} else if (val == '30004004') {
+			srvCode4 = val;
+		} else if (val == '30004005') {
+			srvCode5 = val;
+		} else if (val == '30004006') {
+			srvCode6 = val;
+		} else if (val == '30004007') {
+			srvCode7 = val;
+		} else if (val == '30004008') {
+			srvCode8 = val;
+		} else if (val == '30004009') {
+			srvCode9 = val;
+		} else if (val == '30004011') {
+			srvCode11 = val;
+		} else if (val == '30004012') {
+			srvCode12 = val;
+		} else if (val == '30004013') {
+			srvCode13 = val;
+		} else if (val == '30004014') {
+			srvCode14 = val;
+		} else if (val == '30004015') {
+			srvCode15 = val;
+		}
+	});
+}
 
 
 // 日期类型
@@ -463,8 +550,8 @@ function oldGetSearchDateValues() {
 
 
 // 日期控件取值
-function getSearchDateValues() {
-
+function getSearchDateValues(params) {
+	
 	createTimeStart = null;
 	createTimeEnd = null;
 
@@ -480,68 +567,57 @@ function getSearchDateValues() {
 	realConTimeStart = null;
 	realConTimeEnd = null;
 
-	lendDateStart = null;
-	lendDateEnd = null;
-
 	signDateStart = null;
 	signDateEnd = null;
 
-	approveTimeStart = null;
-	approveTimeEnd = null;
 
-	guohuApproveTimeStart = null;
-	guohuApproveTimeEnd = null;
-
-	var codeStr = "";
-	for (var r = 0; r < divIndex; r++) {
-		var val = $('#case_date_' + r + ' option:selected').val();
-		if (val == undefined)
-			continue;
-		var start = $('#dtBegin_' + r).val();
-		var end = $('#dtEnd_' + r).val();
-		if(end&&end!=''){
-			end=end+' 23:59:59';
-		}
-		if (codeStr.indexOf(val) != -1)
-			return false;
-		codeStr += val;
-		if (start != "") {
-			if (val == 'RANSOMAPPLY') {
-				//申请  
-				createTimeStart = start;
-			} else if (val == 'RANSOMINTERVIEW') {
-				//面签
-				resDateStart = start;
-			} else if (val == 'RANSOMREPAYMENT') {
-				//陪同还贷
-				realConTimeStart = start;
-			} else if (val == 'RANSOMDIYA') {
-				//注销抵押
-				realHtTimeStart = start;
-			} else if (val == 'RANSOMPERMIT') {
-				//领取产证
-				realPropertyGetTimeStart = start;
-			} else if (val == 'RANSOMPAYMENT') {
-				//回款结清
-				signDateStart = start;
-			} 
-		}
-		if (end != "") {
-			if (val == 'RANSOMAPPLY') {
-				createTimeEnd = end;
-			} else if (val == 'RANSOMINTERVIEW') {
-				resDateEnd = end;
-			} else if (val == 'RANSOMREPAYMENT') {
-				realConTimeEnd = end;
-			} else if (val == 'RANSOMDIYA') {
-				realHtTimeEnd = end;
-			} else if (val == 'RANSOMPERMIT') {
-				realPropertyGetTimeEnd = end;
-			} else if (val == 'RANSOMPAYMENT') {
-				signDateEnd = end;
-			} 
-		}
+	var val = $('#ransomSearchTime option:selected').val();
+	if (val == undefined)
+		return;
+	var start = $('#dtBegin_0').val();
+	var end = $('#dtEnd_0').val();
+	
+	if(end&&end!=''){
+		end=end+' 23:59:59';
 	}
+	params.ransomSearchTime = val;
+	if (start != "") {
+		if (val == 'RANSOMAPPLY') {
+			//申请  
+			params.createTimeStart = start;
+		} else if (val == 'RANSOMINTERVIEW') {
+			//面签
+			params.resDateStart = start;
+		} else if (val == 'RANSOMREPAYMENT') {
+			//陪同还贷
+			params.realConTimeStart = start;
+		} else if (val == 'RANSOMDIYA') {
+			//注销抵押
+			params.realHtTimeStart = start;
+		} else if (val == 'RANSOMPERMIT') {
+			//领取产证
+			params.realPropertyGetTimeStart = start;
+		} else if (val == 'RANSOMPAYMENT') {
+			//回款结清
+			params.signDateStart = start;
+		} 
+	}
+	if (end != "") {
+		if (val == 'RANSOMAPPLY') {
+			params.createTimeEnd = end;
+		} else if (val == 'RANSOMINTERVIEW') {
+			params.resDateEnd = end;
+		} else if (val == 'RANSOMREPAYMENT') {
+			params.realConTimeEnd = end;
+		} else if (val == 'RANSOMDIYA') {
+			params.realHtTimeEnd = end;
+		} else if (val == 'RANSOMPERMIT') {
+			params.realPropertyGetTimeEnd = end;
+		} else if (val == 'RANSOMPAYMENT') {
+			params.signDateEnd = end;
+		} 
+	}
+	
 	return true;
 }
 
@@ -568,11 +644,15 @@ function unCheckAllItem() {
 	$("#checkAll").show();
 
 }
+
+
+
+
 //show modal
-function showExcelIn() {
-	checkAllItem();
-	$('#modal-form').modal("show");
-}
+//function showExcelIn() {
+//	checkAllItem();
+//	$('#modal-form').modal("show");
+//}
 
 //show modal
 function realShowExcelIn() {
@@ -669,11 +749,13 @@ function exportToExcel() {
 		if(argu_queryorgs==null)argu_queryorgs='&argu_queryorgs=';
 		var queryId = '&queryId=queryCaseExcelItemList';
 		var colomns = '&colomns=' + displayColomn;
-
-
+		var params = oldGetParamsValue();
+		debugger;
 		url = ctx + url + jQuery.param(params) + queryId +argu_idflag+argu_queryorgs + colomns;
+		console.log(url);
 		//url+= "&_s(earch=true";
 		//url= decodeURI(url);
+		
 //		alert(url);
 		$('#excelForm').attr('action', url);
 
@@ -788,7 +870,135 @@ function newExportToExcel() {
 		window.wxc.alert("请不要选择同样的日期类型！");
 	}
 }
+function oldGetParamsValue() {
+	var isSubscribeFilter = $('#isSubscribeFilter option:selected').val();
+	if(isSubscribeFilter==null || isSubscribeFilter=='') {
+		isSubscribeFilter = -1;
+	}
+	var caseOriginType = $('#caseOriginType option:selected').val();
+	if(caseOriginType==null || caseOriginType=='') {
+		caseOriginType = null;
+	}
 
+	// 贷款需求选择
+	var mortageType = $('#mortageService option:selected').val();
+	if(mortageType==null || mortageType=='') {
+		mortageType = -1;
+	}
+	// 案件类型
+	var caseProperty = $('#caseProperty option:selected').val();
+	// 服务阶段选择
+	var status = $('#status option:selected').val();
+	var yuCuiOriGrpId =  $('#yuCuiOriGrpId').val();
+	// 全选情况
+	if (caseProperty == '30003006')
+		caseProperty = null;
+	// 如果不是选择结案
+	var isNotResearchCloseCase;
+	if(caseProperty != '30003002') {
+		isNotResearchCloseCase = "true";
+	}
+	if (status == '30001006')
+		status = null;
+
+	// 产品类型
+	getCheckBoxValues("srvCode");
+
+	// 客户姓名 物业地址 经纪人
+	var inTextVal = $('#inTextVal').val();
+	var hVal = $('#inTextVal').attr('hVal');
+	var guestName = "";
+	var agentName = "";
+	var proName = "";
+	var propertyAddr = "";
+	var agentOrgName = "";
+	// caseCode与ctmCode
+	var caseCode =  "";
+	var ctmCode = "";
+	if (inTextVal != null && inTextVal.trim() != "") {
+		var inTextType = $('#inTextType').val();
+		if (inTextType == '0') {
+			guestName = inTextVal.trim();
+		} else if (inTextType == '1') {
+			propertyAddr = inTextVal.trim();
+		} else if (inTextType == '2') {
+			agentName = inTextVal.trim();
+		}else if (inTextType == '3') {
+			agentOrgName = hVal.trim();
+		}else if (inTextType == '4') {
+			proName = hVal.trim();
+		}else if (inTextType == '5') {
+			caseCode = inTextVal.trim();
+		}else if (inTextType == '6') {
+			ctmCode = inTextVal.trim();
+		}
+	}
+
+	//设置查询参数
+	var params = {
+		argu_sessionUserId : $("#userId").val(),
+		argu_isSubscribeFilter : isSubscribeFilter,
+		caseOriginType : caseOriginType,
+		argu_mortageType : mortageType,
+		search_caseCode : caseCode,
+		search_ctmCode : ctmCode,
+		search_caseProperty : caseProperty,
+		search_status : status,
+		argu_guestname : guestName,
+		search_agentName :agentName,
+		argu_proName : proName,
+		argu_agentOrgName : agentOrgName,
+		search_propertyAddr : propertyAddr,
+		argu_srvCode : srvCode,
+		argu_srvCode1 : srvCode1,
+		argu_srvCode2 : srvCode2,
+		argu_srvCode3 : srvCode3,
+		argu_srvCode4 : srvCode4,
+		argu_srvCode5 : srvCode5,
+		argu_srvCode6 : srvCode6,
+		argu_srvCode7 : srvCode7,
+		argu_srvCode8 : srvCode8,
+		argu_srvCode9 : srvCode9,
+		argu_srvCode11 : srvCode11,
+		argu_srvCode12 : srvCode12,
+		argu_srvCode13 : srvCode13,
+		argu_srvCode14 : srvCode14,
+		argu_srvCode15 : srvCode15,
+		search_createTimeStart : createTimeStart,
+		search_resDateStart : resDateStart,
+		search_approveTimeStart : approveTimeStart,
+		search_createTimeEnd : createTimeEnd,
+		search_resDateEnd : resDateEnd,
+		search_approveTimeEnd : approveTimeEnd,
+
+		argu_realConTimeStart : realConTimeStart,
+		argu_realConTimeEnd : realConTimeEnd,
+		argu_realConTime : (realConTimeStart == null && realConTimeEnd == null ? null : true),
+
+		argu_realHtTimeStart : realHtTimeStart,
+		argu_realHtTimeEnd : realHtTimeEnd,
+		argu_realHtTime : (realHtTimeStart == null && realHtTimeEnd == null ? null : true),
+
+		argu_realPropertyGetTimeStart : realPropertyGetTimeStart,
+		argu_realPropertyGetTimeEnd : realPropertyGetTimeEnd,
+		argu_realPropertyGetTime : (realPropertyGetTimeStart == null && realPropertyGetTimeEnd == null ? null : true),
+
+		argu_signDateStart : signDateStart,
+		argu_signDateEnd : signDateEnd,
+		argu_lendDateStart : lendDateStart,
+		argu_lendDateEnd : lendDateEnd,
+		argu_signlendDate : (signDateStart == null && signDateEnd == null && lendDateStart == null && lendDateEnd == null ? null : true),
+
+		argu_guohuApproveTimeStart : guohuApproveTimeStart,
+		argu_guohuApproveTimeEnd : guohuApproveTimeEnd,
+		argu_guohuApproveTime : (guohuApproveTimeStart == null && guohuApproveTimeEnd == null ? null : true),
+
+		argu_yuCuiOriGrpId : yuCuiOriGrpId,
+		argu_isNotResearchCloseCase : isNotResearchCloseCase
+
+	};
+	return params;
+}
 
 function intextTypeChange(){
 	var inTextType = $('#inTextType').val();
