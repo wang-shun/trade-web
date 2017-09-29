@@ -275,7 +275,8 @@
 		
 		<!-- 询价 -->
 		<mapper resource="mapper/evaPricing/ToEvaPricingMapper.xml"/>
-
+        <!-- 评估申请 -->
+		<mapper resource="mapper/eval/ToEvaReportProcessMapper.xml"/>
 		<!--消息队列操作 日志-->
 		<mapper resource="mapper/common/MqOpertationLogMapper.xml"/>
 		<!--交易案件启动日志-->
@@ -286,10 +287,7 @@
 		<mapper resource="mapper/task/ToSelfAppInfoMapper.xml"/>
 		
 		<mapper resource="mapper/ransom/AddRansomFormMapper.xml"/>
-<<<<<<< Upstream, based on origin/develop
-=======
 		<mapper resource="mapper/ransom/RansomListFormMapper.xml"/>
->>>>>>> 119371f 解决冲突
 		
 		<!-- 赎楼流程数据更新 -->
 		<mapper resource="mapper/ransom/RansomMapper.xml"/>
