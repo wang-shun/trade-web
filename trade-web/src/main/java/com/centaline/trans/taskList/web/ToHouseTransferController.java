@@ -144,16 +144,15 @@ public class ToHouseTransferController {
 			return rs;
 		}
 
-		toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
-		/*原ccai回写接口，现已废弃*/
+				/*原ccai回写接口，现已废弃*/
 		// 回写三级市场, 交易过户
 		//salesdealApiService.noticeSalesDeal(ccaiCode);
-
+		boolean boo=toHouseTransferService.submitToHouseTransfer(toHouseTransfer, toMortgage, loanlostApproveVO, taskId, processInstanceId);
 		/**
 		 * 与ccai交互
 		 */
 		//获取用户登录信息
-		SessionUser sessionUser=uamSessionService.getSessionUser();
+	/*	SessionUser sessionUser=uamSessionService.getSessionUser();
 		//获取审批结果信息
 		FlowFeedBack info=new FlowFeedBack(sessionUser, CcaiFlowResultEnum.SUCCESS,"进入过户审批环节");
 		//获取审批状态
@@ -163,22 +162,25 @@ public class ToHouseTransferController {
 			ToCase ca  = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
 			ca.setStartDate(CaseStatusEnum.YGH.getCode());
 			toCaseService.updateByCaseCodeSelective(ca);
-			rs.setMessage("交互成功！");
+
+			rs.setMessage("提交成功！");
 		}else {
-			rs.setMessage("交互失败！请联系过户权证！"+apiResultData.toString());
+			rs.setMessage("提交失败！请联系过户权证！"+apiResultData.toString());
+		}*/
+		if(boo){
+			/**
+			 * 功能: 给客户发送短信
+			 * 作者：zhangxb16
+			 */
+			int result=tgGuestInfoService.sendMsgHistory(toHouseTransfer.getCaseCode(), toHouseTransfer.getPartCode());
+
+			if(result<=0){
+				rs.setMessage("短信发送失败, 请您线下手工再次发送！");
+			}
+			rs.setMessage("提交成功");
+		}else {
+			rs.setMessage("提交失败！");
 		}
-
-		/**
-		 * 功能: 给客户发送短信
-		 * 作者：zhangxb16
-		 */
-		int result=tgGuestInfoService.sendMsgHistory(toHouseTransfer.getCaseCode(), toHouseTransfer.getPartCode());
-
-		if(result<=0){
-			rs.setMessage("短信发送失败, 请您线下手工再次发送！");
-		}
-
-
 		return rs;
 	}
 

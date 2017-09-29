@@ -78,14 +78,7 @@ public class KnotCommissionController {
 	@RequestMapping(value="submitKnotCommission")
 	@ResponseBody
 	public Result sumbitKnotCommission(HttpServletRequest request,KnotCommissionVO knotCommissionVO){
-		/* 流程引擎相关 */
 		Result rs=new Result();
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-		ToCase toCase = toCaseService
-				.findToCaseByCaseCode(knotCommissionVO.getCaseCode());
-		 workFlowManager.submitTask(variables, knotCommissionVO.getTaskId(), knotCommissionVO.getProcessInstanceId(),
-				toCase.getLeadingProcessId(),
-				knotCommissionVO.getCaseCode());
 		/**
 		 * 与ccai交互
 		 */
@@ -93,13 +86,25 @@ public class KnotCommissionController {
 		FlowFeedBack info=new FlowFeedBack(sessionUser, CcaiFlowResultEnum.SUCCESS,"进入结案归档环节");
 		ApiResultData apiResultData=flowApiService.tradeFeedBackCcai(knotCommissionVO.getCaseCode(), CcaiTaskEnum.TRADE_ACCESS_BROKERAGE,info);
 		if(apiResultData.isSuccess()){
-			//修改案件状态为驳回CCAI
-			ToCase ca  = toCaseService.findToCaseByCaseCode(knotCommissionVO.getCaseCode());
-			ca.setStartDate(CaseStatusEnum.YJY.getCode());
-			toCaseService.updateByCaseCodeSelective(ca);
-			rs.setMessage("交互成功！");
+
+			/* 流程引擎相关 */
+
+			List<RestVariable> variables = new ArrayList<RestVariable>();
+			ToCase toCase = toCaseService
+					.findToCaseByCaseCode(knotCommissionVO.getCaseCode());
+			if(workFlowManager.submitTask(variables, knotCommissionVO.getTaskId(), knotCommissionVO.getProcessInstanceId(),
+					toCase.getLeadingProcessId(),
+					knotCommissionVO.getCaseCode())){
+				//修改案件状态为允许结佣
+				ToCase ca  = toCaseService.findToCaseByCaseCode(knotCommissionVO.getCaseCode());
+				ca.setStartDate(CaseStatusEnum.YJY.getCode());
+				toCaseService.updateByCaseCodeSelective(ca);
+				rs.setMessage("提交成功！");
+				System.out.println(apiResultData.toString());
+			}
 		}else {
-			rs.setMessage("交互失败！请联系过户权证！"+apiResultData.toString());
+			rs.setMessage("提交失败！");
+			System.out.println(apiResultData.toString());
 		}
 		return rs;
 	}
