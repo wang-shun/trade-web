@@ -153,7 +153,8 @@ public class GuohuApproveController {
 		users.add(guohuUser);
 
 		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(processInstanceId);
-		if(workF!=null &&"operation_process:40:645454".compareTo(workF.getProcessDefinitionId())<=0){
+		//"operation_process:40:645454"修改了流程图需在这改为最新流程图的流程id
+		if(workF!=null &&"TjTrade:9:1235105".compareTo(workF.getProcessDefinitionId())<=0){
 			request.setAttribute("users", users);
 		}
 
