@@ -67,6 +67,7 @@
 			<h5>填写上报任务</h5>
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalReportForm">
+				    <input type="hidden" id="pkid" name="pkid" value="${pkid }">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode"
 						value="${taskitem}">
@@ -82,7 +83,7 @@
                         </div>
 						<li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
-								<label class="control-label sign_left_two"> <i style="color:red">* </i> 评估上报日期</label> 
+								<label class="control-label sign_left"> <i style="color:red">* </i> 评估上报日期</label> 
 								<input class="input_type sign_right_two"  value='' name="forwardDate" id="forwardDate" />
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
@@ -91,7 +92,7 @@
 						</li>
 						<li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
-								<label class="control-label sign_left_two"> <i style="color:red">* </i> 预计出评估报告日期</label> 
+								<label class="control-label sign_left"> <i style="color:red">* </i> 预计出评估报告日期</label> 
 								<input class="input_type sign_right_two"  value='' name="toIssueDate" id="toIssueDate" />
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
@@ -169,14 +170,8 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					window.wxc.success(data.message,{"wxcOk":function(){
-						var bohui = $("#processInstanceId").val();
-						if (bohui != null && bohui != '') {
-							window.close();
-							window.opener.callback();
-						} else {
+					window.wxc.success("评估上报提交成功",{"wxcOk":function(){
 							window.location.href = ctx + "/task/eval/evalTaskList";
-						}
 					}});
 				},
 				error : function(errors) {
