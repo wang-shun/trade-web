@@ -179,7 +179,8 @@ function save(b) {
         dataType : "json",
         data : jsonData,
         beforeSend : function() {
-            $.blockUI({
+        	//$.blockUI();
+             $.blockUI({
                 message : $("#salesLoading"),
                 css : {
                     'border' : 'none',
@@ -188,7 +189,7 @@ function save(b) {
             });
             $(".blockOverlay").css({
                 'z-index' : '9998'
-            });
+            }); 
         },
         success: function(data){
             $.unblockUI();
