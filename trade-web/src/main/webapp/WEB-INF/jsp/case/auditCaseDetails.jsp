@@ -307,10 +307,13 @@ var AttachmentList = (function(){
 				success : function(data) {
 					 $.unblockUI();
 					 console.log(data);
+					 window.wxc.alert(data.message);
+				
 					window.location.href=ctx+"/task/myTaskList";
+					
 				},
 				error : function(errors) {
-					window.wxc.error("数据出错。");
+					window.wxc.error("数据出错."+errors.message);
 				}
 			});
 		}
@@ -361,6 +364,7 @@ var AttachmentList = (function(){
 			success : function(data) {
 				 $.unblockUI();
 				 console.log(data);
+				 window.wxc.alert(data.message);
 				window.location.href=ctx+"/task/myTaskList";
 			},
 			error : function(errors) {
@@ -400,6 +404,7 @@ var AttachmentList = (function(){
 			success : function(data) {
 				 $.unblockUI();
 				 console.log(data);
+				 window.wxc.alert(data.message);
 				window.location.href=ctx+"/task/myTaskList";
 			},
 			error : function(errors) {
@@ -540,50 +545,9 @@ var AttachmentList = (function(){
 								$(".blockOverlay").css({
 									'z-index' : '9998'
 								});
-							},
-							/*
-							complete : function() {
-								$.unblockUI();
-								 if (b) {
-									$.blockUI({
-										message : $("#salesLoading"),
-										css : {
-											'border' : 'none',
-											'z-index' : '1900'
-										}
-									});
-									$(".blockOverlay").css({
-										'z-index' : '1900'
-									});
-								} */
-								//超时,status还有success,error等值的情况
-								/* if (status == 'timeout') {
-									Modal.alert({
-										msg : "抱歉，系统处理超时。"
-									});
-									$(".btn-primary").one("click", function() {
-										parent.$.fancybox.close();
-									});
-								} 
-							},*/
+							},							
 							success : function(data) {
-								$.unblockUI();
-								console.log(data);
-								/* if (b) {
-									if(data.message){
-										window.wxc.alert(data.message);
-									}
-									setTimeout('caseTaskCheck()', 1000);
-								} else {
-									if (data.firstFollowVO.isrepeat == true) {
-										window.wxc.alert("请不要重复保存数据");
-									} else {
-										window.wxc.success("保存成功.",{"wxcOk":function(){
-											window.close();
-											window.opener.callback();
-										}});
-									}
-								} */
+								$.unblockUI();						
 							},
 							/* error : function(errors) {
 								window.wxc.error("数据保存出错");
