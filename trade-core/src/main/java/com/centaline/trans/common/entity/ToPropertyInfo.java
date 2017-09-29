@@ -45,6 +45,8 @@ public class ToPropertyInfo {
 	private String ctmCode;
 	/*********************全国交易金融系统   弃用字段 end***********************/
 
+	private String propertyTypeName;
+	
 	public Date getUpdateTime() {
 		return updateTime;
 	}
@@ -180,4 +182,14 @@ public class ToPropertyInfo {
 	public void setCcaiCode(String ccaiCode) {
 		this.ccaiCode = ccaiCode;
 	}
+
+	public String getPropertyTypeName() {
+		return propertyTypeName;
+	}
+
+	public void setPropertyTypeName(String propertyTypeName) {
+		this.propertyTypeName = propertyTypeName;
+	}
+	
+	
 }

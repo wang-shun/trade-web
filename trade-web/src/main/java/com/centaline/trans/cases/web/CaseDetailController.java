@@ -757,6 +757,8 @@ public class CaseDetailController {
 		CaseDetailShowVO reVo = new CaseDetailShowVO();
 		ToCase toCase = toCaseService.selectByPrimaryKey(caseId);
 		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
+		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+		
 		// add zhangxb16 2016-2-22 功能
 		ToCase te = toCaseService.findToCaseByCaseCode(toCase.getCaseCode());
 		if (null != te) {
@@ -1119,7 +1121,7 @@ public class CaseDetailController {
 			}
 		}*/
 		/** 公共信息 start **/
-		getCaseBaseInfo(request, toCase.getCaseCode(), reVo);
+		getCaseBaseInfo(request, toCase.getCaseCode());
 		/** 公共信息 end **/
 		
 		request.setAttribute("isCaseManager", isCaseManager);
@@ -1137,6 +1139,10 @@ public class CaseDetailController {
 		request.setAttribute("caseDetailVO", reVo);
 		request.setAttribute("caseInfo", caseInfo);
 
+		request.setAttribute("toCase", toCase);
+
+		request.setAttribute("toPropertyInfo", toPropertyInfo);
+		
 		return "case/caseDetail_new";
 	}
 	
@@ -2118,9 +2124,12 @@ public class CaseDetailController {
 	 * @param request
 	 * @param caseCode
 	 */
-	void getCaseBaseInfo(HttpServletRequest request, String caseCode, CaseDetailShowVO reVo){
-		
+	@RequestMapping(value="getCaseBaseInfo")
+	@ResponseBody
+	public CaseDetailShowVO getCaseBaseInfo(HttpServletRequest request, String caseCode){
+		CaseDetailShowVO reVo = new CaseDetailShowVO();
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+		reVo.setToCase(toCase);
 		
 		/** 爆单和无效原因 **/
 		ToApproveRecord toApproveRecordForItem=new ToApproveRecord();	
@@ -2135,55 +2144,30 @@ public class CaseDetailController {
 	    		toApproveRecordForItem.setCaseCode(toCase.getCaseCode());
 				ToApproveRecord toApproveRecord2 = toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);
 				if(toApproveRecord2 != null){
-					request.setAttribute("toApproveRecord", toApproveRecord2.getContent());
-				}else{
-					request.setAttribute("toApproveRecord","");
+					reVo.setToApproveRecord(toApproveRecord2.getContent());
 				}
-	    	}else{
-	    		request.setAttribute("toApproveRecord","");
 	    	}
-        }else{
-        	request.setAttribute("toApproveRecord","");
-        	
         }
+
 		boolean isSubscribe = toModuleSubscribeService.checkIsSubscribe(toCase.getCaseCode(), uamSessionService.getSessionUser().getId(), SubscribeModuleType.CASE.getValue(),SubscribeType.COLLECTION.getValue());
-		
+		reVo.setSubscribe(isSubscribe);
 		//物业信息
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
+		String propettyName = uamBasedataService.getDictValue("30014", toPropertyInfo.getPropertyType());
+		toPropertyInfo.setPropertyTypeName(propettyName);
+		reVo.setToPropertyInfo(toPropertyInfo);
 		
 		/** 买卖家 **/
 		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
-		StringBuffer seller = new StringBuffer();
-		StringBuffer sellerMobil = new StringBuffer();
-		StringBuffer buyer = new StringBuffer();
-		StringBuffer buyerMobil = new StringBuffer();
 		for (TgGuestInfo guest : guestList) {
 			if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
-				seller.append(guest.getGuestName());
-				sellerMobil.append(guest.getGuestPhone());
-				seller.append("/");
-				sellerMobil.append("/");
+				reVo.setSellerName(guest.getGuestName());
+				reVo.setSellerMobile(guest.getGuestPhone());
 			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
-				buyer.append(guest.getGuestName());
-				buyerMobil.append(guest.getGuestPhone());
-				buyer.append("/");
-				buyerMobil.append("/");
+				reVo.setBuyerName(guest.getGuestName());
+				reVo.setBuyerMobile(guest.getGuestPhone());
 			}
 		}
-		if (guestList.size() > 0) {
-			if (seller.length() > 1) {
-				seller.deleteCharAt(seller.length() - 1);
-				sellerMobil.deleteCharAt(sellerMobil.length() - 1);
-			}
-			if (buyer.length() > 1) {
-				buyer.deleteCharAt(buyer.length() - 1);
-				buyerMobil.deleteCharAt(buyerMobil.length() - 1);
-			}
-		}
-		reVo.setSellerName(seller.toString());
-		reVo.setSellerMobile(sellerMobil.toString());
-		reVo.setBuyerMobile(buyerMobil.toString());
-		reVo.setBuyerName(buyer.toString());
 		
 		//案件参与人信息
 		List<ToCaseParticipant> caseParticipants = toCaseParticipantMapper.selectByCaseCode(toCase.getCaseCode());
@@ -2210,13 +2194,15 @@ public class CaseDetailController {
 				reVo.setMsName(part.getRealName());
 				reVo.setMsMobile(part.getMobile());
 			}
+			/** 内勤 **/
+			else if(CaseParticipantEnum.ASSISTANT.getCode().equals(part.getPosition())){
+				reVo.setAsName(part.getRealName());
+				reVo.setAsMobile(part.getMobile());
+			}
 		}
-		/** 内勤？？ **/
 		
 		
-		request.setAttribute("casePart", reVo);
-		request.setAttribute("toCase", toCase);
-		request.setAttribute("isSubscribe", isSubscribe);
-		request.setAttribute("toPropertyInfo", toPropertyInfo);
+		return reVo;
+
 	}
 }

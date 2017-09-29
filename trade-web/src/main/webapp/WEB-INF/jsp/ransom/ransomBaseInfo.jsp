@@ -55,57 +55,53 @@
 	rel="stylesheet">
 <link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
 <style type="text/css">
-	.case-info{height: 25px}
-	.dl-horizontal dd{color:blue;}
+.font_base{
+    font-family: "Microsoft Yahei";
+    font-size: 14px;
+    font-weight: normal;
+}
+.margin-left{
+	margin-left:20px;
+}
+.base-height{
+	height:30px;
+}
 </style>
+
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="ibox-content border-bottom clearfix space_box">
-		<div class="col-lg-8 case-info">
-			<h2 class="title">案件基本信息</h2>
-		</div>
-		<div class="col-lg-4 case-info">
-			<dl class="dl-horizontal ">
-				<dt><h2 class="title">编号</h2></dt>
-				<dd>
-					<a href="${ctx }/ransomList/ransomDetail?ransomCode=${detailVo.ransomCode}" target="_blank">${detailVo.ransomCode}</a>
-				</dd>
-			</dl>
-		</div>
-		<div class="col-lg-12"><hr></div>
-		<div class="row" id="">
-			<div class="col-lg-5" id="cluster_info">
-				<dl class="dl-horizontal">
-					<dt>借款人</dt>
-					<dd>
-						<a data-toggle="popover" data-placement="right" data-content="${detailVo.borrowTel }"> ${detailVo.borrowName }</a>
-					</dd>
-					<dt>房屋地址</dt>
-					<dd>${detailVo.addr }</dd>
-				</dl>
+		<div class="row base-height">
+			<div class="col-sm-8 ">
+				<div class="title">案件基本信息</div>
 			</div>
-			<div class="col-lg-4" id="cluster_info">
-				<dl class="dl-horizontal">
-					<dt>合作机构</dt>
-					<dd>${detailVo.comOrgName }</dd>
-					<dt>信贷员</dt>
-					<dd>
-						<a data-toggle="popover" data-placement="right" data-content="${detailVo.creditTel }"> ${detailVo.credit }</a>
-					</dd>
-				</dl>
+			<div class="col-sm-4">
+				<label class="title ">编号&nbsp;&nbsp;
+					<a href="${ctx }/ransomList/ransomDetail?ransomCode=${detailVo.ransomCode}" target="_blank">${detailVo.ransomCode}</a>	
+				</label>
 			</div>
-			<div class="col-lg-3">
-				<dl class="dl-horizontal">
-					<dt>金融权证</dt>
-					<dd>
-						<a data-toggle="popover" data-placement="right" data-content="${detailVo.financialTel }">${detailVo.financial }</a>	
-					</dd>
-					<dt>经纪人</dt>
-					<dd>
-						<a data-toggle="popover" data-placement="right" data-content="${detailVo.agentPhone }">${detailVo.agentName }</a>
-					</dd>
-				</dl>
+		</div>
+		<hr>
+		<div class="row" >
+			<div class="row margin-left">
+				<label class="font_base col-sm-4 ">借款人：
+					<a id="borrowName" data-toggle="popover" data-placement="right" data-content="${detailVo.borrowTel }" style="margin-left:18px;"> ${detailVo.borrowName }</a>
+				</label>
+				<label class="font_base col-sm-4 ">合作机构：&nbsp;&nbsp;${detailVo.comOrgName }</label>
+				<label class="font_base col-sm-4 ">金融权证：&nbsp;&nbsp;
+					<a data-toggle="popover" data-placement="right" data-content="${detailVo.financialTel }">${detailVo.financial }</a>						
+				</label>
+			</div>
+			
+			<div class="row margin-left">
+				<label class="font_base col-sm-4 ">房屋地址：&nbsp;&nbsp;${detailVo.addr }</label>
+				<label class="font_base col-sm-4 ">信贷员：
+					<a data-toggle="popover" data-placement="right" data-content="${detailVo.creditTel }" style="margin-left:18px;"> ${detailVo.credit }</a>
+				</label>
+				<label class="font_base col-sm-4">经纪人：
+					<a data-toggle="popover" data-placement="right" data-content="${detailVo.agentPhone }" style="margin-left:22px;">${detailVo.agentName }</a>
+				</label>
 			</div>
 		</div>
 	</div>

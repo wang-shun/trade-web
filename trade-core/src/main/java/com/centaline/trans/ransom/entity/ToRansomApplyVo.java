@@ -1,13 +1,14 @@
 package com.centaline.trans.ransom.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 回款结清产证VO
+ * 赎楼陪同还贷VO
  * @author wbcaiyx
  *
  */
-public class ToRansomPaymentVo {
+public class ToRansomApplyVo {
 	
 	private Long pkid;
 	/**
@@ -19,57 +20,107 @@ public class ToRansomPaymentVo {
 	 */
 	private String partCode;
 	/**
-	 * 回款结清时间
+	 * 申请人/主贷人
 	 */
-	private Date paymentTime;
+	private String applyUser;
+	/**
+	 * 申请时间
+	 */
+	private Date applyTime;
+	/**
+	 * 申请机构code
+	 */
+	private String applyOrgCode;
 	/**
 	 * 备注
 	 */
 	private String remark;
 	/**
+	 * 信贷员
+	 */
+	private String loanOfficer;
+
+	/**
 	 * 更新人员
 	 */
 	private String updateUser;
+
 	public String getRansomCode() {
 		return ransomCode;
 	}
+
 	public void setRansomCode(String ransomCode) {
 		this.ransomCode = ransomCode;
 	}
+
 	public String getPartCode() {
 		return partCode;
 	}
+
 	public void setPartCode(String partCode) {
 		this.partCode = partCode;
 	}
-	public Date getPaymentTime() {
-		return paymentTime;
+
+	public String getApplyUser() {
+		return applyUser;
 	}
-	public void setPaymentTime(Date paymentTime) {
-		this.paymentTime = paymentTime;
+
+	public void setApplyUser(String applyUser) {
+		this.applyUser = applyUser;
 	}
+
+	public Date getApplyTime() {
+		return applyTime;
+	}
+
+	public void setApplyTime(Date applyTime) {
+		this.applyTime = applyTime;
+	}
+
+	public String getApplyOrgCode() {
+		return applyOrgCode;
+	}
+
+	public void setApplyOrgCode(String applyOrgCode) {
+		this.applyOrgCode = applyOrgCode;
+	}
+
 	public String getRemark() {
 		return remark;
 	}
+
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
+	public String getLoanOfficer() {
+		return loanOfficer;
+	}
+
+	public void setLoanOfficer(String loanOfficer) {
+		this.loanOfficer = loanOfficer;
+	}
+
 	public String getUpdateUser() {
 		return updateUser;
 	}
+
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
+
 	public Long getPkid() {
 		return pkid;
 	}
+
 	public void setPkid(Long pkid) {
 		this.pkid = pkid;
 	}
+
+	
 	
 	
 
-	
 	
 	
 }

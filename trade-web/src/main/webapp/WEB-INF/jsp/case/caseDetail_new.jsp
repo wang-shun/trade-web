@@ -73,7 +73,7 @@
 		 resourceDistributionBtn = true;
 		</shiro:hasPermission>
 	</script>
-
+	<%-- <%@include file="/WEB-INF/jsp/common/caseBaseInfo.jsp"%> --%>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 
 				<!-- 服务流程 -->
@@ -561,6 +561,9 @@
 	<script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script	src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+	<!-- 公共信息js -->	
+	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
+	
 	<script	src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<script	src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<!-- 各个环节的备注信息  -->
@@ -610,7 +613,7 @@
 				 	'attachmentName':attachName,
 				 	'attachmentAddress':attachPath
 			};
-			//tsAttachmentReadLog=$.toJSON(tsAttachmentReadLog);
+		
 
 			$.ajax({
 				type : 'post',
@@ -629,8 +632,7 @@
 			});
 
 			window.open(attachPath);
-			/*var url=ctx+"/api/imageshow/imgShow?img="+attachPath;
-			window.open(encodeURI(encodeURI(url)));*/
+
 		}
 
 		//加载页面获取屏幕高度
@@ -642,8 +644,7 @@
 				caseCode : caseCode,
 				srvCode : null
 			});
-/* 	        var h= window.screen.availHeight;
-			$("#scroll").css("height",h-h*0.32); */
+
 			  //点击浏览器任何位置隐藏提示信息
 		      $("body").bind("click",function(evt){
 	              if($(evt.target).attr("data-toggle")!='popover'){
@@ -665,41 +666,7 @@
 
 		});
 		
- 		$('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
-      	$('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}')); 
-		/*动态生成上下家*/
-		function generateSellerAndBuyer(name, phone){
- 			var nameArr = name.split('/');
- 			var phoneArr = phone.split('/');
- 			var str='';
- 			for (var i=0; i<nameArr.length; i++) {
- 				if(i%2==0){
- 					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a>&nbsp;';
- 				}else{
- 					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a><br/>';
- 				}
- 			}
- 			return str;
- 		}
-		
-        jQuery(function($) {
-            $(document).ready( function() {
-               //固定导航头
-            	$('.stickup-nav-bar').stickUp({
-                // $('.col-lg-9').stickUp({
-                                    parts: {
-                                      0:'basicInfo',
-                                      1:'serviceFlow',
-                                      2:'aboutInfo'
-                                    },
-                                    itemClass: 'menuItem',
-                                    itemHover: 'active',
-                                    marginTop: 'auto'
-                                  });
-            });
-        });
-
-
+ 
 
 	</script>
 	<script
@@ -731,10 +698,14 @@
 				{{item.employee}}
 			</td>
 			<td class="td_width">
-				{{item.sharingAmount}}
+				{{if item.type == 1}}
+					{{item.sharingAmount}}
+				{{/if}}
 			</td>
 			<td class="td_width">
-				{{item.sharingProportion}}
+				{{if item.type == 1}}
+					{{item.sharingProportion}}
+				{{/if}}
 			</td>
 			<td class="td_width">
 				{{item.sharingInstruction}}

@@ -1,13 +1,14 @@
 package com.centaline.trans.ransom.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 回款结清产证VO
+ * 赎楼陪同还贷VO
  * @author wbcaiyx
  *
  */
-public class ToRansomPaymentVo {
+public class ToRansomSignVo {
 	
 	private Long pkid;
 	/**
@@ -19,13 +20,25 @@ public class ToRansomPaymentVo {
 	 */
 	private String partCode;
 	/**
-	 * 回款结清时间
+	 * 面签时间
 	 */
-	private Date paymentTime;
+	private Date signTime;
+	/**
+	 * 面签金额
+	 */
+	private BigDecimal signMoney;
 	/**
 	 * 备注
 	 */
 	private String remark;
+	/**
+	 * 价格(利息)
+	 */
+	private BigDecimal interest;
+	/**
+	 * 是否委托公证
+	 */
+	private String isEntrust;
 	/**
 	 * 更新人员
 	 */
@@ -42,17 +55,35 @@ public class ToRansomPaymentVo {
 	public void setPartCode(String partCode) {
 		this.partCode = partCode;
 	}
-	public Date getPaymentTime() {
-		return paymentTime;
+	public Date getSignTime() {
+		return signTime;
 	}
-	public void setPaymentTime(Date paymentTime) {
-		this.paymentTime = paymentTime;
+	public void setSignTime(Date signTime) {
+		this.signTime = signTime;
+	}
+	public BigDecimal getSignMoney() {
+		return signMoney;
+	}
+	public void setSignMoney(BigDecimal signMoney) {
+		this.signMoney = signMoney;
 	}
 	public String getRemark() {
 		return remark;
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public BigDecimal getInterest() {
+		return interest;
+	}
+	public void setInterest(BigDecimal interest) {
+		this.interest = interest;
+	}
+	public String getIsEntrust() {
+		return isEntrust;
+	}
+	public void setIsEntrust(String isEntrust) {
+		this.isEntrust = isEntrust;
 	}
 	public String getUpdateUser() {
 		return updateUser;
@@ -67,9 +98,9 @@ public class ToRansomPaymentVo {
 		this.pkid = pkid;
 	}
 	
-	
 
 	
+
 	
 	
 }

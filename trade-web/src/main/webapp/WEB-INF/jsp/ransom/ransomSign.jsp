@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 
-<title>赎楼注销抵押</title>
+<title>赎楼面签</title>
 
 <link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />"
 	rel="stylesheet" />
@@ -58,8 +58,6 @@
 
 <style type="text/css">
 
-<style type="text/css">
-
 
 .fo{width:100%;}
 .matching{float: left;margin:0 40px;padding-top: 5px;}
@@ -70,31 +68,52 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/ransom/ransomBaseInfo.jsp"></jsp:include>
-	
-	<form method="get" id="ransomCancel" class="form_list">
+
+	<form method="get" id="ransomSign" class="form_list">
 		<input type="hidden" id="caseCode" name="caseCode" value="${detailVo.caseCode }">
 		<input type="hidden" id="ransomCode" name="ransomCode" value="${detailVo.ransomCode }">
 		<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId }">
 		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-		<input type="hidden" id="diyaType" name="diyaType" value="${diyaType }">
-		<div id="wrapper">
-	
-			<div class="row">
-				<div class="wrapper wrapper-content animated fadeInUp">
-					<div class="ibox-content" id="base_info">
-						<form class="form-inline" >
-							<div class="title">信息录入</div>
 
-								<div class="form_content">
-									<label class="control-label matching"><font color=" red" class="mr5" >*</font>注销抵押时间(
-										<c:if test="${diyaType == 1 }">一</c:if>
-										<c:if test="${diyaType == 2 }">二</c:if>抵)</label> 
-									<input id="cancelDiyaTime" name="cancelDiyaTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 200px; border-radius: 2px;" type="text"  placeholder="注销抵押时间">
+		<div class="row">
+			<div class="wrapper wrapper-content animated fadeInUp">
+				<div class="ibox-content" id="base_info">
+					<div class="title">信息录入</div>
+
+						<div class="row clearfix line">
+			    			<div class="form_content">
+								<label  class="control-label matching"><font color=" red" class="mr5" >*</font>实际面签时间</label>
+								<div  class="input-group sign-right  input-daterange"  data-date-format="yyyy-mm-dd"> 
+									<input id="signTime" name="signTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 200px; border-radius: 2px;" type="text" >
 								</div>
-							
-						</form>
-					</div>
-					
+							</div>
+							<div class="form_content">
+								<label  class="control-label matching"><font color=" red" class="mr5" >*</font>计划陪同还贷时间</label> 
+								<div  class="input-group sign-right  input-daterange"  data-date-format="yyyy-mm-dd">
+									<input id="planMortgageTime" name="planMortgageTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 200px; border-radius: 2px;" type="text"  >
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix line">
+							<div class="form_content">
+								<label class=" control-label" style="margin-left:40px;"><font color=" red" class="mr5" >*</font>面签金额</label>
+								<input type="text" id="signMoney" name="signMoney" class="select_control yuanwid" style="width:200px;margin-left:63px;" onkeyup="checkNum(this)">
+								<span class="date_icon">万元</span>
+							</div>
+							<div class="form_content">
+								<label class=" control-label" style="margin-left:42px;"><font color=" red" class="mr5" >*</font>价格</label>
+								<input type="text" id="interest" name="interest" class="select_control yuanwid" style="width:130px;margin-left:120px;" onkeyup="checkNum(this)">&nbsp; ‰。每天
+							</div>
+						</div>
+						<div class="row clearfix">
+							<div class="form_content">
+								<label class=" control-label" style="margin-left:50px;">是否需要委托公证</label>
+								<div class="controls ">
+                                	<input type="radio" checked="checked" value="1"  name="isEntrust">是
+                                	<input type="radio" value="0"  name="isEntrust" style="margin-left:40px;">否
+                            </div>
+							</div>
+						</div>
 				</div>
 			</div>
 		</div>
@@ -108,26 +127,19 @@
    	    	<button id="closeButton" type="button" class="btn btn_blue">关闭</button>
 		</div>
 	</div>
-		
-
-	<content tag="local_script"> 
-	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
-	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
-
-	<script src="<c:url value='/transjs/task/showAttachment.js' />"></script>
- 	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> <!-- Data picker -->
-	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
-
-	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
+	
+	
+	<!-- main End -->
+<content tag="local_script"> 
+	<script src="<c:url value='/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js' />"></script>
 	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+	<script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+	<script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> <!-- 改版引入的新的js文件 -->
-	<script src="<c:url value='/js/common/textarea.js' />"></script> 
-	<script src="<c:url value='/js/common/common.js' />"></script> 
+	<script src="<c:url value='/js/common/textarea.js' />"></script>
 	<script >
-	
 		$(document).ready(function(){
 			
 			//案件跟进,common.js 
@@ -139,14 +151,33 @@
 		})
 	
 		//日期初始化
-		$('#cancelDiyaTime').datepicker({
+		$('#signTime').datepicker({
 			format : 'yyyy-mm-dd',
 			weekStart : 1,
 			autoclose : true,
 			todayBtn : 'linked',
 			language : 'zh-CN'
 		});
-	
+		$('#planMortgageTime').datepicker({
+			format : 'yyyy-mm-dd',
+			weekStart : 1,
+			autoclose : true,
+			todayBtn : 'linked',
+			language : 'zh-CN'
+		});
+		
+		//double验证
+		function checkNum(obj) {
+			//先把非数字的都替换掉，除了数字和.
+			obj.value = obj.value.replace(/[^\d.]/g, "");
+			//必须保证第一个为数字而不是.
+			obj.value = obj.value.replace(/^\./g, "");
+			//保证只有出现一个.而没有多个.
+			obj.value = obj.value.replace(/\.{2,}/g, ".");
+			//保证.只出现一次，而不能出现两次以上
+			obj.value = obj.value.replace(".", "$#$").replace(/\./g, "")
+					.replace("$#$", ".");
+		}
 		
 		//关闭
 		$('#closeButton').click(function() {
@@ -155,16 +186,36 @@
 		
 		//提交
 		$('#submitButton').click(function(){
-			if($('#cancelDiyaTime').val() == ''){
-				window.wxc.alert("注销抵押时间为必填项!");
-				$('#cancelDiyaTime').focus();
-				$('#cancelDiyaTime').css('border-color',"red");
+			if($('#signTime').val() == ''){
+				window.wxc.alert("实际面签时间为必填项!");
+				$('#signTime').focus();
+				$('#signTime').css('border-color',"red");
 				return;
 			}
-			var jsonData = $('#ransomCancel').serializeArray();
+			if($('#planMortgageTime').val() == ''){
+				window.wxc.alert("计划陪同还贷时间为必填项!");
+				$('#planMortgageTime').focus();
+				$('#planMortgageTime').css('border-color',"red");
+				return;
+			}
 			
-			var url = "${ctx}/task/ransom/submitCancelDiya";
-
+			if($('#signMoney').val() == ''){
+				window.wxc.alert("面签金额为必填项!");
+				$('#signMoney').focus();
+				$('#signMoney').css('border-color',"red");
+				return;
+			}
+			if($('#interest').val() == ''){	
+				window.wxc.alert("价格为必填项!");
+				$('#interest').focus();
+				$('#interest').css('border-color',"red");
+				return;
+			}
+			
+			var jsonData = $('#ransomSign').serializeArray();
+			
+			var url = "${ctx}/task/ransom/submiSign";
+	
 			$.ajax({
 				cache:true,
 				async:false,
@@ -173,15 +224,20 @@
 				data:jsonData,
 				dataType:"json",
 				success:function(data){
-					window.wxc.success("提交成功!",{"wxcOk":function(){
-						window.open("","_self").close();
-					}});
+					if(data){
+						window.wxc.success("提交成功!",{"wxcOk":function(){
+							window.open("","_self").close();
+						}});
+					}else{
+						window.wxc.error("提交失败!");
+					}
 				},
 				error : function(errors) {
 					window.wxc.error("提交失败!");
 				}
 			});
 		});
+	
 	</script>
 	</content> 
 </body>
