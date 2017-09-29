@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.centaline.trans.ransom.repository.AddRansomFormMapper">
-	<resultMap id="BaseResultMap" type="com.centaline.trans.ransom.entity.AddRansomForm">
+	<resultMap id="BaseResultMap" type="com.centaline.trans.ransom.entity.ToRansomFormVo">
 		<id column="PKID" property="pkid" jdbcType="BIGINT" />
 		<result column="RANSOM_CODE" property="ransomCode" jdbcType="VARCHAR" />
 		<result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
@@ -11,49 +11,16 @@
 		<result column="MORTGAGE_TYPE" property="mortgageType" jdbcType="VARCHAR" />
 		<result column="DIYA_TYPE" property="diyaType" jdbcType="VARCHAR" />
 		<result column="LOAN_MONEY" property="loanMoney" jdbcType="DECIMAL" />
+		<result column="BORROWER_NAME" property="borrowerName" jdbcType="VARCHAR" />
+		<result column="BORRO_MONEY" property="borroMoney" jdbcType="DECIMAL" />
 		<result column="REST_MONEY" property="restMoney" jdbcType="DECIMAL" />
 	</resultMap>
-	
-	<insert id="insert" parameterType="com.centaline.trans.ransom.entity.AddRansomForm">
-		INSERT INTO [sctrans].[T_RA_TAILINS](
-			[CASE_CODE],
-            [RANSOM_CODE],
-            [SIGN_TIME],
-            [PLAN_TIME],
-            [FIN_ORG_CODE],
-            [MORTGAGE_TYPE],
-            [DIYA_TYPE],
-            [LOAN_MONEY],
-            [REST_MONEY],
-            [CREATE_USER],
-            [CREATE_TIME],
-            [UPDATE_TIME],
-            [UPDATE_USER]
-        )
-        VALUES
-        (	#{caseCode,jdbcType=VARCHAR},
-            #{ransomCode,jdbcType=VARCHAR},
-            #{signTime,jdbcType=TIMESTAMP},
-            #{planTime,jdbcType=TIMESTAMP},
-    
-            #{finOrgCode,jdbcType=VARCHAR},
-            #{mortgageType,jdbcType=VARCHAR},
-    
-            #{diyaType,jdbcType=VARCHAR},
-            #{loanMoney,jdbcType=DECIMAL},
-            #{restMoney,jdbcType=DECIMAL},
-            
-            #{createUser,jdbcType=VARCHAR},
-            #{createTime,jdbcType=TIMESTAMP},
-            #{updateTime,jdbcType=TIMESTAMP},
-            #{updateUser,jdbcType=VARCHAR}
-        );
-	</insert>
 	
 	<insert id="addRansomForm" useGeneratedKeys="true" parameterType="java.util.List">
 		INSERT INTO [sctrans].[T_RA_TAILINS](
 			[CASE_CODE],
             [RANSOM_CODE],
+            [BORROWER_NAME],
             [SIGN_TIME],
             [PLAN_TIME],
             [FIN_ORG_CODE],
@@ -61,6 +28,7 @@
             [DIYA_TYPE],
             [LOAN_MONEY],
             [REST_MONEY],
+            [BORRO_MONEY],
             [CREATE_USER],
             [CREATE_TIME],
             [UPDATE_USER],
@@ -71,17 +39,20 @@
         (
         	#{item.caseCode,jdbcType=VARCHAR},
             #{item.ransomCode,jdbcType=VARCHAR},
+            #{item.borrowerName,jdbcType=VARCHAR},
+            
             #{item.signTime,jdbcType=TIMESTAMP},
             #{item.planTime,jdbcType=TIMESTAMP},
-    
             #{item.finOrgCode,jdbcType=VARCHAR},
+            
             #{item.mortgageType,jdbcType=VARCHAR},
-    
             #{item.diyaType,jdbcType=VARCHAR},
             #{item.loanMoney,jdbcType=DECIMAL},
+
             #{item.restMoney,jdbcType=DECIMAL},
-            
+            #{item.borroMoney,jdbcType=DECIMAL},
             #{item.createUser,jdbcType=VARCHAR},
+            
             #{item.createTime,jdbcType=TIMESTAMP},
             #{item.updateUser,jdbcType=VARCHAR},
             #{item.updateTime,jdbcType=TIMESTAMP}
