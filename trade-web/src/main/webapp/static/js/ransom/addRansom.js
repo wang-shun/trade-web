@@ -174,21 +174,16 @@ $(document).ready( function() {
  function changeRestMoney(){
 	 var allLoanMoney = 0.0;
 	 var sumMoney;
-//	 for(var i = 0; i < $("select[name='finalOrg']").length;i++){
-//		 allLoanMoney += parseInt($("#trId" + i + " td input[name='restMoney']").val() * 1000000);
-//	 }
-	 
-	 if(addOrg()){
-		 allLoanMoney += parseInt($("#trId1 td input[name='restMoney']").val() * 1000000);
+	 for(var i = 0; i < $("select[name='finalOrg']").length;i++){
+		 allLoanMoney += parseInt($("#trId" + i + " td input[name='restMoney']").val() * 1000000);
+//		 if(addOrg()){
+//			 allLoanMoney += parseInt($("#trId" + i + " td input[name='restMoney']").val() * 1000000);
+//		 }
 	 }
-	 
 	 if(removeTr(1)){
 		 allLoanMoney -= parseInt($("#trId1 td input[name='restMoney']").val() * 1000000);
 	 }
-	 
-	 sumMoney = $("#allLoanMoney").val(allLoanMoney / 1000000);
-	 
-	 return sumMoney;
+	$("#allLoanMoney").val(allLoanMoney / 1000000);
  }
  
  

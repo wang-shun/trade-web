@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>	
-		<customDict id="qqcdDictRansomStatus" beanName="qqcdDictRansomStatus"/>
-		<customDict id="qqcdDictFinalOrg" beanName="qqcdDictFinalOrg"/>
-		<customDict id="qqcdDictRansomPart" beanName="qqcdDictRansomPart"/>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"/>
+		<customDict id="qqcdDictEvaType" beanName="qqcdDictEvaType"/>
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -19,28 +18,22 @@
 				<![CDATA[
 						SELECT 
 							A.PKID PKID,
-							B.CASE_CODE,
-							A.RANSOM_CODE,
-							C.PROPERTY_ADDR,
-							D.AGENT_NAME,
-							D.GRP_NAME,
-							B.BORROWER_NAME,
-							B.COM_ORG_CODE,
-							B.RANSOM_STATUS,
-							B.STOP_REASON,
-							B.BORRO_MONEY,
-							B.UPDATE_TIME
-						FROM sctrans.T_RA_TAILINS A
-						LEFT JOIN sctrans.T_RA_CASE B ON A.RANSOM_CODE = B.RANSOM_CODE
-						LEFT JOIN sctrans.T_TO_PROPERTY_INFO C ON C.CASE_CODE = B.CASE_CODE
-						LEFT JOIN sctrans.T_TO_CASE_INFO D ON D.CASE_CODE = C.CASE_CODE
-						LEFT JOIN sctrans.T_RA_APPLY E ON A.RANSOM_CODE = E.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_INTERVIEW F ON A.RANSOM_CODE = F.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_REPAY G ON A.RANSOM_CODE = G.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_CANCEL H ON A.RANSOM_CODE = H.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_REDEEM I ON A.RANSOM_CODE = I.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_PAYMENT J ON A.RANSOM_CODE = J.RANSOM_CODE
-						WHERE 1 = 1  
+							A.CASE_CODE,
+							RANSOM_CODE,
+							PROPERTY_ADDR,
+							AGENT_NAME,
+							GRP_NAME,
+							BORROWER_NAME,
+							COM_ORG_CODE,
+							RANSOM_STATUS,
+							STOP_REASON,
+							BORRO_MONEY,
+							A.UPDATE_TIME
+						FROM 
+							sctrans.T_RA_CASE A
+							INNER JOIN sctrans.T_TO_PROPERTY_INFO B ON A.CASE_CODE = B.CASE_CODE
+							INNER JOIN sctrans.T_TO_CASE_INFO C ON A.CASE_CODE = C.CASE_CODE
+						WHERE 1 = 1
 						<ifNotNull ransomStatus>
 							AND RANSOM_STATUS = #ransomStatus#
 						</ifNotNull>
@@ -48,36 +41,16 @@
 							AND RANSOM_PROPERTY = #ransomProperty#
 						</ifNotNull>
 						<ifNotNull teamCode>
-							AND AGENT_NAME = #AGENT_NAME# 
+							AND AGENT_NAME = #AGENT_NAME#
 						</ifNotNull>
-						<if test="searchInfo==0 and inTextVal != null and inTextVal != '' ">
+						<if test	="searchInfo==0">
 							AND PROPERTY_ADDR like '%'+#inTextVal#+'%'
 						</if>
-						<if test="searchInfo==1 and inTextVal != null and inTextVal != ''">
+						<if test	="searchInfo==1">
 							AND AGENT_NAME like '%'+#inTextVal#+'%'
 						</if>
-						<if test="searchInfo==2 and inTextVal != null and inTextVal != ''">
+						<if test	="searchInfo==2">
 							AND BORROWER_NAME like '%'+#inTextVal#+'%'
-						</if>
-						
-						<if test="ransomSearchTime=='RANSOMAPPLY'">
-							AND D.CREATE_TIME = #start# AND D.UPDATE_TIME = #end#
-						</if>
-						<if test="ransomSearchTime=='RANSOMINTERVIEW'">
-							AND E.CREATE_TIME = #start# AND E.UPDATE_TIME = #end#
-						</if>
-						<if test="ransomSearchTime=='RANSOMREPAYMENT'">
-							AND F.CREATE_TIME = #start# AND F.UPDATE_TIME = #end#
-						</if>
-						
-						<if test="ransomSearchTime=='RANSOMDIYA'">
-							AND G.CREATE_TIME = #start# AND G.UPDATE_TIME = #end#
-						</if>
-						<if test="ransomSearchTime=='RANSOMPERMIT'">
-							AND H.CREATE_TIME = #start# AND H.UPDATE_TIME = #end#
-						</if>
-						<if test="ransomSearchTime=='RANSOMPAYMENT'">
-							AND I.CREATE_TIME = #start# AND I.UPDATE_TIME = #end#
 						</if>
 				]]>
 			</baseSql>
