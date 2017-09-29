@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aist.common.exception.BusinessException;
-import com.centaline.trans.ransom.entity.AddRansomForm;
+import com.centaline.trans.ransom.entity.ToRansomFormVo;
 import com.centaline.trans.ransom.repository.AddRansomFormMapper;
 import com.centaline.trans.ransom.service.AddRansomFormService;
 
@@ -19,19 +19,7 @@ public class AddRansomFormServiceImpl implements AddRansomFormService {
 	private AddRansomFormMapper arm;
 	
 	@Override
-	public int insert(AddRansomForm ar) {
-		int status = -1; // -1：接收异常  0：接收正常 
-		int res = arm.insert(ar);
-		if(res > 0){
-		}else{
-			throw new BusinessException("抱歉,案件表没有新增成功,请刷新后再次尝试!");
-		}
-		status = 0;
-		return status;
-	}
-
-	@Override
-	public void addRansomForm(List<AddRansomForm> ar) {
+	public void addRansomForm(List<ToRansomFormVo> ar) {
 		arm.addRansomForm(ar);
 	}
 

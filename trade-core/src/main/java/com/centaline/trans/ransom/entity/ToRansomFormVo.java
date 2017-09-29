@@ -2,7 +2,11 @@ package com.centaline.trans.ransom.entity;
 
 import java.util.Date;
 
-public class AddRansomForm {
+/**
+ * @author wbwumf
+ *
+ */
+public class ToRansomFormVo {
 	
 	private Long pkid;
 	
@@ -20,6 +24,11 @@ public class AddRansomForm {
 	 * 尾款机构编号
 	 */
 	private String finOrgCode;
+	
+	/**
+	 * 主贷人
+	 */
+	private String borrowerName;
 
 	/**
 	 * 受理时间
@@ -50,6 +59,11 @@ public class AddRansomForm {
 	 * 剩余金额
 	 */
 	private double restMoney;
+	
+	/**
+	 * 借款总金额
+	 */
+	private double borroMoney;
 	
 	private Date createTime;
 	
@@ -184,14 +198,30 @@ public class AddRansomForm {
 		this.updateUser = updateUser;
 	}
 
-	@Override
-	public String toString() {
-		return "AddRansomForm [pkid=" + pkid + ", ransomCode=" + ransomCode + ", caseCode=" + caseCode + ", finOrgCode="
-				+ finOrgCode + ", signTime=" + signTime + ", planTime=" + planTime + ", mortgageType=" + mortgageType
-				+ ", diyaType=" + diyaType + ", loanMoney=" + loanMoney + ", restMoney=" + restMoney + ", createTime="
-				+ createTime + ", createUser=" + createUser + ", remark=" + remark + ", updateTime=" + updateTime
-				+ ", updateUser=" + updateUser + "]";
+	public String getBorrowerName() {
+		return borrowerName;
 	}
 
+	public void setBorrowerName(String borrowerName) {
+		this.borrowerName = borrowerName;
+	}
+
+	public double getBorroMoney() {
+		return borroMoney;
+	}
+
+	public void setBorroMoney(double borroMoney) {
+		this.borroMoney = borroMoney;
+	}
+
+	@Override
+	public String toString() {
+		return "ToRansomFormVo [pkid=" + pkid + ", ransomCode=" + ransomCode + ", caseCode=" + caseCode
+				+ ", finOrgCode=" + finOrgCode + ", borrowerName=" + borrowerName + ", signTime=" + signTime
+				+ ", planTime=" + planTime + ", mortgageType=" + mortgageType + ", diyaType=" + diyaType
+				+ ", loanMoney=" + loanMoney + ", restMoney=" + restMoney + ", borroMoney=" + borroMoney
+				+ ", createTime=" + createTime + ", createUser=" + createUser + ", remark=" + remark + ", updateTime="
+				+ updateTime + ", updateUser=" + updateUser + "]";
+	}
 
 }
