@@ -121,7 +121,7 @@
 							<label class="control-label sign_left_small select_style mend_select">
 								缴税时间<font color=" red" class="mr5" >*</font>
 							</label>
-							<div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" id="data_RatePayment">
+							<div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
 								<input type="text" class="input_type yuanwid datatime" name="paymentTime" id="paymentTime"
 									   onfocus="this.blur()" value="<fmt:formatDate  value='${ratePayment.paymentTime}' type='both' pattern='yyyy-MM-dd'/>">
 							</div>
@@ -129,14 +129,14 @@
 							<div class="form_content">
 								<label class="control-label sign_left_small">个人所得税<font color=" red" class="mr5" >*</font></label>
 								<input type="text" class=" input_type yuanwid" id="personalIncomeTax"
-									   name="personalIncomeTax" onkeyup="checkNum(this)"
+									   name="personalIncomeTax" <%--onkeyup="this.value=this.value.replace(/[^\d+(.0-9{2})]/g,'')"--%> onkeyup="checkNoNum(this)"
 									   value="<fmt:formatNumber value='${ ratePayment.personalIncomeTax}' type='number' pattern='#0.00' />">
 								<span class="date_icon">万元</span>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left">卖方增值税及附加<font color=" red" class="mr5" >*</font></label>
 								<input type="text" class=" input_type yuanwid" id="businessTax"
-									   name="businessTax" onkeyup="checkNum(this)"
+									   name="businessTax" onkeyup="checkNoNum(this)"
 									   value="<fmt:formatNumber value='${ ratePayment.businessTax}' type='number' pattern='#0.00' />">
 								<span class="date_icon">万元</span>
 							</div>
@@ -146,21 +146,21 @@
 							<div class="form_content">
 								<label class="control-label sign_left_small">买方契税<font color=" red" class="mr5" >*</font></label>
 								<input type="text" class=" input_type yuanwid" id="contractTax"
-									   name="contractTax" onkeyup="checkNum(this)"
+									   name="contractTax" onkeyup="checkNoNum(this)"
 									   value="<fmt:formatNumber value='${ ratePayment.contractTax}' type='number' pattern='#0.00' />">
 								<span class="date_icon">万元</span>
 							</div>
 								<div class="form_content">
 									<label class="control-label sign_left_small">核税价<font color=" red" class="mr5" >*</font></label>
 									<input type="text" class=" input_type yuanwid" id="pricingTax"
-										   name="pricingTax" onkeyup="checkNum(this)"
+										   name="pricingTax" onkeyup="checkNoNum(this)"
 										   value="<fmt:formatNumber value='${ ratePayment.landIncrementTax}' type='number' pattern='#0.00' />">
 									<span class="date_icon">万元</span>
 								</div>
 							<div class="form_content">
 								<label class="control-label sign_left">土地增值税及附加</label>
 								<input type="text" class=" input_type yuanwid" id="landIncrementTax"
-									   name="landIncrementTax" onkeyup="checkNum(this)"
+									   name="landIncrementTax" <%--onkeyup="checkNoNum(this)"--%>
 									   value="<fmt:formatNumber value='${ ratePayment.landIncrementTax}' type='number' pattern='#0.00' />">
 								<span class="date_icon">万元</span>
 							</div>
@@ -246,7 +246,7 @@
 	<!-- Data picker -->
 	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 
-	
+
 	<!-- 上传附件相关 -->
 	<script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script>
 	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
@@ -265,7 +265,6 @@
 	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script>
 	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>
 	<script src="<c:url value='/js/stickUp.js' />"></script>
-
 	<!-- 上传附件 结束 -->
 	<!-- 附件保存修改相关 -->
 	<script src="<c:url value='/js/trunk/task/attachment3.js' />"></script>
@@ -277,29 +276,30 @@
 	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
-	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-
+	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
 
 	<!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
 	<script src="<c:url value='/js/common/common.js' />"></script>
 
-
 	<!-- 必须JS -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+	<!--公共信息-->
+	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 
 	<script>
 	var source = "${source}";
 
 
     $(document).ready(function() {
-        var picker = $('#data_RatePayment').datepicker({
-            format : 'yyyy-mm-dd',
-            weekStart : 1,
-            autoclose : true,
-            todayBtn : 'linked',
-            language : 'zh-CN'
+        /**日期组件*/
+        var picker = $('#data_1 .input-group.date').datepicker({
+            todayBtn : "linked",
+            keyboardNavigation : false,
+            forceParse : false,
+            calendarWeeks : false,
+            autoclose : true
         });
        // alert(taskitem)
 		//渲染案件备注信息
@@ -308,6 +308,7 @@
 			srvCode : taskitem
 		});
         $("#ActualOperator").click(function () {
+            console.log("aaaaaaaaaaaaaaaa")
             caseDistribute();
         });
 
@@ -389,8 +390,9 @@
 	}
 	
 	//double 验证
-    function checkNum(obj) { 
-        //先把非数字的都替换掉，除了数字和.
+    function checkNoNum(obj) {
+
+		//先把非数字的都替换掉，除了数字和.
         obj.value = obj.value.replace(/[^\d.]/g,"");
         //必须保证第一个为数字而不是.
         obj.value = obj.value.replace(/^\./g,"");
@@ -398,8 +400,8 @@
         obj.value = obj.value.replace(/\.{2,}/g,".");
         //保证.只出现一次，而不能出现两次以上
         obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-     }  
-	
+	}
+
 	//验证控件checkUI();
 	function checkForm() {
 			$("input").css("border-color","#ccc");
@@ -441,12 +443,12 @@
 
 				return false;
 			}
-			if ($('input[name=landIncrementTax]').val() == '') {
+			/*if ($('input[name=landIncrementTax]').val() == '') {
 				window.wxc.alert("土地增值税及附加为必填项!");
 				$('input[name=landIncrementTax]').focus();
 				$('input[name=landIncrementTax]').css("border-color","red");
 				return false;
-			}
+			}*/
 			if ($('input[name=pricingTax]').val() == '') {
 				window.wxc.alert("核税价为必填项!");
 				$('input[name=pricingTax]').focus();
@@ -487,6 +489,7 @@
 		$("#btnSubmit").hide();
 	}*/
     function caseDistribute(){
+        console.log("=======================")
         var url = "/case/getUserOrgCpUserList";
         var ctx = $("#ctx").val();
         url = ctx + url;
@@ -592,6 +595,6 @@
         });
 	</script>
 </content>
-	<script  src="<c:url value='/js/trunk/case/caseBaseInfo.js'/>"/>
+
 </body>
 </html>

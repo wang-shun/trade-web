@@ -134,7 +134,7 @@
 									<label class="control-label sign_left_small">贷款流失金额<font color=" red" class="mr5" >*</font></label>
 									<input type="text" name="loanLossAmount"
 										   value="${mortgageToSaveVO.loanLossAmount }" id="loanLossAmount"
-										   class=" input_type yuanwid" onkeyup="checknum(this)" placeholder="万元">
+										   class=" input_type yuanwid" onkeyup="checkNonum(this)" placeholder="万元">
 								</div>
 
 								<div class="form_content">
@@ -154,8 +154,7 @@
 								<div class="form_content">
 									<label class="control-label sign_left_small">贷款成数<font color=" red" class="mr5" >*</font></label>
 									<input type="text" name="loanValue" id="loanValue" placeholder="请输入百分数(%)"
-										   value="${mortgageToSaveVO.loanValue }" class=" input_type yuanwid"
-										   onkeyup="checknum(this)">
+										   value="${mortgageToSaveVO.loanValue }" class=" input_type yuanwid">
 								</div>
 								<div class="form_content">
 									<label class="control-label sign_left_small">贷款套数<font color=" red" class="mr5" >*</font></label>
@@ -171,7 +170,7 @@
 								<label class="control-label sign_left_small">业主垫资金额<font color=" red" class="mr5" >*</font></label>
 								<input type="text" name="ownerMatAmount"
 									   value="${houseTransfer.ownerMatAmount }" id="ownerMatAmount"
-									   class=" input_type yuanwid" onkeyup="checknum(this)" placeholder="万元">
+									   class=" input_type yuanwid" onkeyup="checkNonum(this)" placeholder="万元">
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_small select_style mend_select">
@@ -194,13 +193,13 @@
 								<label class="control-label sign_left_small">垫资费用<font color=" red" class="mr5" >*</font></label>
 								<input type="text" name="matCharges"
 									   value="${houseTransfer.matCharges }" id="matCharges"
-									   class=" input_type yuanwid" onkeyup="checknum(this)" placeholder="万元">
+									   class=" input_type yuanwid" onkeyup="checkNonum(this)" placeholder="万元">
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_small">担保费金额<font color=" red" class="mr5" >*</font></label>
 								<input type="text" name="guaranteeFeeAmount"
 									   value="${houseTransfer.guaranteeFeeAmount }" id="guaranteeFeeAmount"
-									   class=" input_type yuanwid" onkeyup="checknum(this)" placeholder="万元">
+									   class=" input_type yuanwid" onkeyup="checkNonum(this)" placeholder="万元">
 							</div>
 
 						</div>
@@ -771,7 +770,7 @@
 			});
 		}
 		/*double 验证*/
-		function checkNum(obj) {
+		function checkNonum(obj) {
 			//先把非数字的都替换掉，除了数字和.
 			obj.value = obj.value.replace(/[^\d.]/g, "");
 			//必须保证第一个为数字而不是.
