@@ -172,7 +172,7 @@ text-decoration: underline !important;
              		 <label class="sign_left_one control-label">信息搜索</label>
 		           			<div class="sign_left">
                                  <select id="inTextType"  class="form-control" name="searchInfo" onchange="intextTypeChange()">
-                                 		<option selected>请选择</option>
+                                 		<option >请选择</option>
 										<option value="0" >房屋地址</option>
 										<option value="1">归属人姓名</option>
 										<option value="2">客户姓名</option>
@@ -191,9 +191,9 @@ text-decoration: underline !important;
 								<aist:dict id="ransomSearchTime" name="ransomSearchTime" clazz="form-control" display="select"  dictType="RANSOM_SEARCH_TIME" />
 							</div>
 							<div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="startTime" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
+								<input id="dtBegin_0" name="startTime" class="form-control data_style" onchange="checkDate('dtBegin_0')" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
 									<span class="input-group-addon">到</span> 
-								<input id="dtEnd_0" name="endTime" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
+								<input id="dtEnd_0" name="endTime" class="form-control data_style" onchange="checkDate('dtEnd_0')" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
 							</div>
 							<div id="addLine" class="pull-left m-l"></div>
 						</div>
@@ -204,7 +204,8 @@ text-decoration: underline !important;
 						<div class="more_btn">
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
 							<button id="addNewRansomCase"  type="button" class="btn btn-success">新增案件</button>
-							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:realShowExcelIn()">实时导出</a>
+							<button id="exportCase"  type="button" class="btn btn-success" onclick="realShowExcelIn()">实时导出</button>
+							<!-- <a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:realShowExcelIn()">实时导出</a> -->
 						</div>
 					</div>
 				</div>
@@ -216,7 +217,7 @@ text-decoration: underline !important;
 					<table class="table table_blue table-striped table-bordered table-hover " >
 						<thead>
 							<tr>
-								<!-- <th></th> -->
+								<th></th>
 								<th ><span class="sort" sortColumn="B.CASE_CODE" sord="desc" onclick="caseCodeSort();" >合约编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 								<th >房屋地址</th>
 								<th >案件归属</th>
@@ -240,6 +241,60 @@ text-decoration: underline !important;
 				<div id="pageBar" class="pagergoto">
 				</div>  
 		    </div> 	
+	</div>
+</div>
+<div id="realModal-form" class="modal fade" aria-hidden="true">
+	<div class="modal-dialog" style="width: 1200px">
+		<div class="modal-content ">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+				<h4 class="modal-title" id="leading-modal-title">请选择导出项</h4>
+			</div>
+			<div class="modal-body ">
+				<form class="form-horizontal">
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">案件基本信息</label>
+						<div class="col-sm-9 checkbox i-checks checkbox-inline">
+							<aist:dict id="basic_info_item" name="basic_info_item"
+								display="checkbox" clazz="excel_in" defaultvalue=""
+								dictType="71012" />
+						</div>
+					</div>
+
+					<div class="hr-line-dashed"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">案件状态信息</label>
+						<div class="col-sm-9 checkbox i-checks checkbox-inline">
+							<aist:dict id="mortage_info_item" name="mortage_info_item"
+								display="checkbox" clazz="excel_in"
+								defaultvalue="710130000,710130001" dictType="71013" />
+						</div>
+					</div>
+					<div class="hr-line-dashed"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">资金服务信息</label>
+						<div class="checkbox i-checks checkbox-inline">
+							<aist:dict id="trade_info_item" name="trade_info_item"
+								display="checkbox" clazz="excel_in" defaultvalue=""
+								dictType="71014" />
+						</div>
+					</div>
+					<div class="hr-line-dashed"></div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button id="checkAll" type="button" class="btn btn-default"
+					onclick="javascript:checkAllItem()">全选</button>
+				<button id="unCheckAll" type="button" class="btn btn-default"
+					onclick="javascript:unCheckAllItem()">全不选</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-success"
+					onclick="javascript:exportToExcel()">实时导出至Excel</button>
+			</div>
+		</div>
 	</div>
 </div>
 <input type="hidden" id="ctx" value="${ctx}" />
@@ -281,17 +336,18 @@ text-decoration: underline !important;
   {{else}}
        <tr class="tr-2">
    {{/if}}
+	<td class="center"></td>
 	<td class="center">
 			<p>
-			<a href = "${ctx}/ransomList/ransom/ransomDetail">{{item.RANSOM_CODE}}</a>
-		</p>
+				<a href = "${ctx}/ransomList/ransom/ransomDetail">{{item.RANSOM_CODE}}</a>
+			</p>
 			<p>
-			{{if item.RANSOM_STATUS == "中止"}}
-				<i class="demo-top sign_blue" title = "{{item.STOP_REASON}}">{{item.RANSOM_STATUS}}</i>
-			{{else}}
-				<i class="sign_gray">{{item.RANSOM_STATUS}}</i>
-			{{/if}}
-		</p>
+				{{if item.RANSOM_STATUS == "RANSOMCENCLE"}}
+					<i class="demo-top sign_blue" title = "{{item.STOP_REASON}}">{{item.RANSOM_STATUS}}</i>
+				{{else}}
+					<i class="sign_gray" style="display:none;">{{item.RANSOM_STATUS}}</i>
+				{{/if}}
+			</p>
 	</td>
 	<td class="center">
 		{{item.PROPERTY_ADDR}}
@@ -319,7 +375,6 @@ text-decoration: underline !important;
 	</td>
 	<td class="center"> 
 		<a href="${ctx}/ransomList/ransom/ransomApply" target="_blank">申请</a>
-		<a href="${ctx}/engine/ransom/{{item.PKID}}/process" target="_blank">申请1</a>
 		<a href="${ctx}/ransomList/ransom/ransomDiscontinue" target="_blank">中止</a>
 	</td>
   </tr>
