@@ -84,8 +84,6 @@ $(document).ready( function() {
 //	  var path = ctx + "/ransomList/ransomCase/ransomDetail";
 	  var path = ctx + "/ransomList/addRansom1";
 	  var caseCode = $('#caseCode').val();
-	  
-	  var borrowerName = $("#custName").val();//主贷人姓名
 	  var signTime = $("#date-picker2").val();
 	  var planTime = $("#date-picker1").val();
 	  
@@ -95,7 +93,7 @@ $(document).ready( function() {
 	  var loanMoney = "";
 	  var restMoney = "";
 	  var length = $("select[name='finalOrg']").length;
-	  var borroMoney = $("#allLoanMoney").val();
+	  console.log(length);
 	  var jsonStr = new Array();
 	  for(var i = 0; i < length;i++){
 		  finOrgCode=$("#trId" + i + " td select[name='finalOrg']" ).val();
@@ -104,16 +102,14 @@ $(document).ready( function() {
 		  loanMoney=$("#trId" + i + " td input[name='loanMoney']" ).val();
 		  restMoney=$("#trId" + i + " td input[name='restMoney']" ).val();
 		  var resJson = {
-			  caseCode:caseCode, //案件编号
-			  signTime:signTime, //受理时间
-			  planTime:planTime, //计划申请时间
-			  finOrgCode:finOrgCode, //尾款机构
-			  mortgageType:mortgageType, //尾款类型
-			  diyaType:diyaType, //抵押类型
-			  loanMoney:loanMoney, //贷款金额
-			  restMoney:restMoney, //剩余金额
-			  borroMoney:borroMoney, //总金额
-			  borrowerName:borrowerName
+			  signTime:signTime,
+			  planTime:planTime,
+			  finOrgCode:finOrgCode,
+			  mortgageType:mortgageType,
+			  diyaType:diyaType,
+			  loanMoney:loanMoney,
+			  caseCode:caseCode,
+			  restMoney:restMoney
 		  };
 		  jsonStr.push(resJson);
 	  }
@@ -122,9 +118,8 @@ $(document).ready( function() {
    		url:path,
    		method:"post",
    		dataType:"json",
-   		data:{
-   			jsonStr:JSON.stringify(jsonStr)
-   		},
+   		data:JSON.stringify(jsonStr),
+   		contentType:'application/json;charset=UTF-8',
 //   		data:jsonStr,
 		beforeSend:function(){  
 			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
@@ -143,8 +138,9 @@ $(document).ready( function() {
 		success : function(data) {
 			
 			if(data.status == "0"){
+				console.log(data);
 				window.wxc.success("任务提交成功，赎楼详情单已生成",{"wxcOk":function(){
-					window.location.href = ctx+"/ransomList/ransomCase/myRansom_list";
+//					window.location.href = ctx+"/ransomList/ransomCase/ransomDetail";
 				}});  	 
 			}else{
 				console.log(data);
@@ -170,20 +166,20 @@ $(document).ready( function() {
 	}
  }
 
- debugger;
+ 
  function changeRestMoney(){
 	 var allLoanMoney = 0.0;
 	 var sumMoney;
 	 for(var i = 0; i < $("select[name='finalOrg']").length;i++){
 		 allLoanMoney += parseInt($("#trId" + i + " td input[name='restMoney']").val() * 1000000);
-//		 if(addOrg()){
-//			 allLoanMoney += parseInt($("#trId" + i + " td input[name='restMoney']").val() * 1000000);
+		 
+//		 if(removeTr(i)){
+//			 sumMoney = sumMoney - parseInt($("#trId" + i + " td input[name='restMoney']").val() * 1000000);
 //		 }
 	 }
-	 if(removeTr(1)){
-		 allLoanMoney -= parseInt($("#trId1 td input[name='restMoney']").val() * 1000000);
-	 }
-	$("#allLoanMoney").val(allLoanMoney / 1000000);
+	 sumMoney = $("#allLoanMoney").val(allLoanMoney / 1000000);
+	 
+	 return sumMoney;
  }
  
  
@@ -207,11 +203,10 @@ function addOrg() {
 	txt +='<td><span><a href="javascript:removeTr('+ index + ');"><font>删除</font></a></span></td></tr></tbody>';
 
 	$("#addInput").before(txt);
-	$("#addMoneyLine").css("display","none");
-//	index++;
+	index++;
+	return false;
 }
 
 function removeTr(index) {
 	$("#trId" + index).remove();
-	$("#addMoneyLine").css("display","block");
 }

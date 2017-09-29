@@ -3,7 +3,6 @@ package com.centaline.trans.cases.web;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -91,6 +90,5 @@ public class CaseListController {
 
 		return "case/caseForChange";
 	}		
-
 
 }

@@ -128,12 +128,18 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 				toTaxMapper.insertSelective(toTax);
 			}
 		}
-		
-		ToCaseComment toCaseComment = caseRecvVO.getToCaseComment();
-		if(null!=toCaseComment){
-			toCaseComment.setCaseCode(primaryCaseCode);
-			toCaseCommentMapper.insertSelective(toCaseComment);			
-		}
+		/**
+		 * 
+		 * @author xiefei1
+		 * @since 2017年9月28日 上午10:29:29 
+		 * @description 用于修改接收前台的comment-->现在前台的comment是通过comment组件来实现，现在不用这个字段了。
+		 * 				如果不没注这段代码则会在ToCaseComment这张表插入一条空数据，comment组件会显示这条空数据；
+		 */
+//		ToCaseComment toCaseComment = caseRecvVO.getToCaseComment();
+//		if(null!=toCaseComment){
+//			toCaseComment.setCaseCode(primaryCaseCode);
+//			toCaseCommentMapper.insertSelective(toCaseComment);			
+//		}
 		
 		BizWarnInfo bizWarnInfo = caseRecvVO.getBizWarnInfo();
 		if(null!=bizWarnInfo){

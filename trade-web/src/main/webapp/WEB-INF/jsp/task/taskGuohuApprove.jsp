@@ -348,19 +348,20 @@
                 </li>--%>
                 <!--新加-->
                 <li>
-                    <em >典当公司</em><span class="yuanwid">${caseDetailVO.evaName}</span>
+                    <em >典当公司</em><span class="yuanwid">${houseTransfer.pawnCompanies}</span>
                 </li>
                 <li>
-                    <em >业主垫资金额</em><span class="yuanwid">${caseDetailVO.evaName}</span>
+                    <em >业主垫资金额</em><span class="yuanwid">${houseTransfer.ownerMatAmount}</span>
                 </li>
                 <li>
-                    <em >垫资日期</em><span class="yuanwid">${caseDetailVO.evaName}</span>
+                    <em >垫资日期</em><span class="yuanwid">
+                    <fmt:formatDate value="${houseTransfer.matAmountTime}" pattern="yyyy-MM-dd" /></span>
                 </li>
                 <li>
-                    <em class="pull-left">垫资费用</em><span class="infolong pull-left">${caseDetailVO.evaName}</span>
+                    <em class="pull-left">垫资费用</em><span class="infolong pull-left">${houseTransfer.matCharges}</span>
                 </li>
                 <li>
-                    <em >担保费金额</em><span class="yuanwid">${caseDetailVO.evaName}</span>
+                    <em >担保费金额</em><span class="yuanwid">${houseTransfer.guaranteeFeeAmount}</span>
                 </li>
                 <li>
                     <em >契税</em><span class="yuanwid">${toRatePayment.contractTax}</span>
@@ -538,6 +539,9 @@
     <!-- 改版引入的新的js文件 -->
     <script src="<c:url value='/js/common/textarea.js' />"></script>
     <script src="<c:url value='/js/common/common.js' />"></script>
+
+    <!--公共信息-->
+    <script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
     <script>
         function appendNotApprove(isAppend, content) {
             if (isAppend) {

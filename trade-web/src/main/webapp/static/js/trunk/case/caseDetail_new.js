@@ -765,9 +765,7 @@ function evaPricingApply(){
 }
 
 function dateFormat(dateTime){
-	if(dateTime ==null || dateTime == '' || dateTime == undefined){
-		return '';
-	}
+	
 	var date = new Date(dateTime);
 	return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
 }

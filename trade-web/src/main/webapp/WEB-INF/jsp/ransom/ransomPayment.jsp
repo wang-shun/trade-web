@@ -15,61 +15,116 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-<link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />"
-	rel="stylesheet" />
+<!-- 展示相关 -->
+<link
+	href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />"
+	rel="stylesheet">
+<link
+	href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />"
+	rel="stylesheet">
+<link
+	href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />"
+	rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<!-- 备件相关结束 -->
 <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
 	rel="stylesheet">
-<link rel="stylesheet"
-	href="<c:url value='/static/css/bootstrap.min.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/font-awesome/css/font-awesome.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/iconfont/iconfont.css' />">
-<link rel="stylesheet" href="<c:url value='/static/css/animate.css' />">
-<link rel="stylesheet" href="<c:url value='/static/css/style.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/css/plugins/aist-steps/steps.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />">
-<!-- stickUp fixed css -->
-<link rel="stylesheet"
-	href="<c:url value='/static/css/plugins/stickup/stickup.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/common/stickmenu.css' />">
-<!-- index_css  -->
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/common/input.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/common/table.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/common/uplodydome.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/eloan/eloan_detail.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/eloan/eloan_guaranty.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css' />"
-	type="text/css" />
-<!-- 分页控件 -->
-<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"
-	rel="stylesheet" />
+
+<!-- jdGrid相关 -->
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<link
+	href="<c:url value='/font-awesshenpiyijianome/css/font-awesome.css' />"
+	rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link
+	href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />"
+	rel="stylesheet">
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />"
+	rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">
+
 <link href="<c:url value='/css/transcss/comment/caseComment.css' />"
 	rel="stylesheet">
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"
+	rel="stylesheet" />
+<!-- 新调整页面样式 -->
+<link href="<c:url value='/css/common/caseDetail.css' />"
+	rel="stylesheet">
 <link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
+<link href="<c:url value='/css/iconfont/iconfont.css' />"
+	rel="stylesheet">
+<link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
+<link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
+
+<!-- 图片查看CSS -->
+<link href="<c:url value='/js/viewer/viewer.min.css' />"
+	rel="stylesheet" />
+
 
 <style type="text/css">
+.radio.radio-inline>label {
+	margin-left: 10px;
+}
 
-<style type="text/css">
+.radio.radio-inline>input {
+	margin-left: 10px;
+}
 
+.checkbox.checkbox-inline>div {
+	margin-left: 25px;
+}
 
+.checkbox.checkbox-inline>input {
+	margin-left: 20px;
+}
+
+#notApproves label {
+	font-weight: normal;
+	margin: 0;
+}
+
+#notApproves {
+	padding: 20px 0px;
+}
+
+#notApproves .col-sm-4 {
+	margin: 5px 0px;
+}
+
+#notApproves input[type=checkbox], input[type=radio] {
+	margin: 0px 0 0;
+	line-height: normal;
+}
+
+.form_sign .sign {
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.other_reason_title {
+	float: left;
+	width: 76px;
+	margin-left: 24px;
+	text-align: right;
+	color: #808080;
+	font-size: 14px;
+	font-family: "Microsoft Yahei";
+    font-weight: 700;
+}
+
+.other_reason {
+	float: left;
+	padding-left: 15px;
+	color: #333;
+	width: 725px;
+}
+.form-group{margin-top: 15px;}
 .fo{width:100%;}
 .matching{float: left;margin:0 40px;padding-top: 5px;}
 .form_list .sign_left_small{text-align: left;margin-right: -10px;}
-.underline{margin-top: -30px;}
+.underline{margin-top: -15px;}
+.trim{margin-right: 15px;}
 
 </style>
 </head>
@@ -77,43 +132,43 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/ransom/ransomBaseInfo.jsp"></jsp:include>
 	<div class="ibox-content border-bottom clearfix space_box noborder">
-		<form method="get" id="ransomPayment" class="form_list">
-			<input type="hidden" id="caseCode" name="caseCode" value="${detailVo.caseCode }">
-			<input type="hidden" id="ransomCode" name="ransomCode" value="${detailVo.ransomCode }">
-			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId }">
-			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-		
-			<div class="line">
-				<div class="title">信息录入</div>
-			    <div class="form_content ">
-			        <label class="control-label matching"><font color=" red" class="mr5" >*</font>回款结清时间</label>
-			        <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-			            <input id="paymentTime" name="paymentTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 178px; border-radius: 2px;" type="text"  placeholder="回款结清时间">
-			        </div>
-			    </div>
-			</div>
-		</form>
-	</div>
-
 	
+	<input type="hidden" id="caseCode" value="${detailVo.caseCode }">
+	<input type="hidden" id="ransomCode" value="${detailVo.ransomCode }">
+	<input type="hidden" id="processInstanceId" value="${processInstanceId }">
+	<input type="hidden" id="taskId" value="${taskId }">
+	
+	 	<form method="get" class="form_list text-center">
+             <div class="line">
+             	<h2 class="other_reason_title">信息录入</h2>
+             	<div class="col-lg-12 underline"><hr></div>
+             	<div class="col-lg-12">
+	                <div class="col-lg-6 form_content ">
+	                    <label class="control-label select_style mend_select trim"><font color=" red" class="mr5" >*</font>回款结清时间</label>
+	                    <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
+	                        <input id="paymentTime" name="paymentTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 178px; border-radius: 2px;" type="text"  placeholder="回款结清时间">
+	                    </div>
+	                </div>
+                </div>
+             </div>
+         </form>
 		<div id="caseCommentList" class="view-content"></div>
-		
-		<div class="add_btn text-center mt20">
-	   	<div class="more_btn">
-		    <button id="submitButton" type="button" class="btn btn_blue">提交</button>
-   	    	<button id="closeButton" type="button" class="btn btn_blue">关闭</button>
+		<div class="form-btn">
+			<div class="text-center">
+				<button class="btn btn-success btn-space" id="submit">提交</button>
+				<button class="btn btn-grey btn-space" id="close">关闭</button>
+			</div>
 		</div>
 	</div>
-	
-<content tag="local_script">
-	
+	<content tag="local_script"> <!-- Peity --> 
 	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
-	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
-
+	<!-- jqGrid --> 
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	<script src="<c:url value='/transjs/task/showAttachment.js' />"></script>
- 	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> <!-- Data picker -->
+	<%-- --%> <!-- Custom and plugin javascript --> 
+	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> <!-- Data picker -->
 	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
-
 	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
@@ -122,7 +177,6 @@
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> <!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script> 
 	<script src="<c:url value='/js/common/common.js' />"></script> 
-	
 	<script>
 	$(document).ready(function(){
 		
@@ -146,7 +200,7 @@
 	
 	//关闭
 	$('#closeButton').click(function() {
-		window.open("","_self").close();
+		window.close();
 	});
 	
 	//提交
@@ -158,28 +212,27 @@
 			return;
 		}
 
-		var jsonData = $('#ransomPayment').serializeArray();
+		var ransomCode = $('#ransomCode').val();
+		var paymentTime = $('#paymentTime').val();
+		var processInstanceId = $('#processInstanceId').val();
+		var taskId = $('#taskId').val();
 		
-		var url = "${ctx}/task/ransom/submitPayment";
-		
+		var url = "${ctx}/ransomList/submitPayment";
+		var data = "&ransomCode=" + ransomCode + "&paymentTime=" + paymentTime + "&processInstanceId=" + processInstanceId + "&taskId=" + taskId;
 		$.ajax({
 			cache:true,
 			async:false,
 			type:"POST",
 			url:url,
-			data:jsonData,
+			data:data,
 			dataType:"json",
 			success:function(data){
-				if(data){
-					window.wxc.success("提交成功!",{"wxcOk":function(){
-						window.open("","_self").close();
-					}});
-				}else{
-					window.wxc.error("提交失败!");
-				}
+				window.wxc.success("提交成功!",{"wxcOk":function(){
+					window.close();
+				}});
 			},
 			error : function(errors) {
-				
+				window.wxc.error("提交失败!");
 			}
 		});
 	});

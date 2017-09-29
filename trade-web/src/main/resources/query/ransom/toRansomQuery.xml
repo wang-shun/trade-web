@@ -44,39 +44,4 @@
 			</table-row>
 		</grid>
 	</query>
-	
-	<query id="getApplyRecord">
-	
-		<searchSql>
-			<baseSql>
-				<![CDATA[
-					SELECT
-						cas.BORROWER_NAME borrName,
-						app.APPLY_TIME applyTime, 
-						cas.BORRO_MONEY borrMoney,
-						(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = cas.COM_ORG_CODE) comOrgName,
-						cas.STOP_REASON stopReason
-					FROM
-						sctrans.T_RA_CASE cas
-						INNER JOIN sctrans.T_RA_APPLY app ON cas.RANSOM_CODE = app.RANSOM_CODE
-					WHERE
-						cas.RANSOM_CODE = #ransomCode#
-				]]>
-			</baseSql>
-			<orderBySql>
-				ORDER BY app.APPLY_TIME 
-			</orderBySql>
-			<groupSql>
-			</groupSql>
-		</searchSql>
-		<grid>
-			<table-row>
-				<column type="both" name="borrName" display="借款人" hide="true"/>
-				<column type="both" name="applyTime" display="申请时间" beanFormatter="dateFormatter1"/>
-				<column type="both" name="borrMoney" display="借款金额"   />
-				<column type="both" name="comOrgName" display="申请机构"   />
-				<column type="both" name="stopReason" display="中止原因"   />
-			</table-row>
-		</grid>
-	</query>
 </querys>

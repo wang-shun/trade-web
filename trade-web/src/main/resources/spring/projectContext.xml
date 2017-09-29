@@ -668,21 +668,6 @@
     	<property name="dictType" value="DIYA_TYPE"></property>
     </bean>
     
-    <!-- 赎楼_状态 -->
-    <bean name="qqcdDictRansomStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
-    	<property name="dictType" value="RANSOM_STATUS"></property>
-    </bean>
-    
-    <!-- 赎楼_尾款机构 -->
-    <bean name="qqcdDictFinalOrg" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
-    	<property name="dictType" value="FINAL_ORG"></property>
-    </bean>
-    
-    <!-- 赎楼_环节 -->
-    <bean name="qqcdDictRansomPart" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
-    	<property name="dictType" value="RANSOM_PART_CODE"></property>
-    </bean>
-    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 
 </beans>

@@ -2144,11 +2144,21 @@ public class CaseDetailController {
 	    		toApproveRecordForItem.setCaseCode(toCase.getCaseCode());
 				ToApproveRecord toApproveRecord2 = toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);
 				if(toApproveRecord2 != null){
+//					request.setAttribute("toApproveRecord", toApproveRecord2.getContent());
 					reVo.setToApproveRecord(toApproveRecord2.getContent());
 				}
+//				else{
+//					request.setAttribute("toApproveRecord","");
+//				}
 	    	}
+//    		else{
+//	    		request.setAttribute("toApproveRecord","");
+//	    	}
         }
-
+//		else{
+//        	request.setAttribute("toApproveRecord","");
+        	
+//        }
 		boolean isSubscribe = toModuleSubscribeService.checkIsSubscribe(toCase.getCaseCode(), uamSessionService.getSessionUser().getId(), SubscribeModuleType.CASE.getValue(),SubscribeType.COLLECTION.getValue());
 		reVo.setSubscribe(isSubscribe);
 		//物业信息
@@ -2166,6 +2176,7 @@ public class CaseDetailController {
 			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
 				reVo.setBuyerName(guest.getGuestName());
 				reVo.setBuyerMobile(guest.getGuestPhone());
+
 			}
 		}
 		
@@ -2194,15 +2205,13 @@ public class CaseDetailController {
 				reVo.setMsName(part.getRealName());
 				reVo.setMsMobile(part.getMobile());
 			}
-			/** 内勤 **/
-			else if(CaseParticipantEnum.ASSISTANT.getCode().equals(part.getPosition())){
-				reVo.setAsName(part.getRealName());
-				reVo.setAsMobile(part.getMobile());
-			}
 		}
-		
+		/** 内勤？？ **/
 		
 		return reVo;
-
+		/*request.setAttribute("casePart", reVo);
+		request.setAttribute("toCase", toCase);
+		request.setAttribute("isSubscribe", isSubscribe);
+		request.setAttribute("toPropertyInfo", toPropertyInfo);*/
 	}
 }

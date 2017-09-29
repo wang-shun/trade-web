@@ -258,8 +258,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				User u=uamUserOrgService.getUserById(vo.getPartner());//合作顾问
 				Map<String, Object> vars=new HashMap<>();
 				//vars.put("partner", u.getUsername());
-				
-				vars.put("caseOwner", u.getUsername());
+				//vars.put("caseOwner", u.getUsername());
+				vars.put("loan",u.getUsername());
 				StartProcessInstanceVo p=processInstanceService.startWorkFlowByDfId(processDfId, vo.getCaseCode(), vars);
 				// 设置当前任务的执行人
 				ToCase toCase = toCaseService.findToCaseByCaseCode(vo.getCaseCode());

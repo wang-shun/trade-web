@@ -110,7 +110,6 @@ public class CaseDetailShowVO {
     private ToCase toCase;//案件信息
     
     private ToPropertyInfo toPropertyInfo;//物业信息
-
     
 	public String getLoanLostType() {
 		return loanLostType;
@@ -662,6 +661,8 @@ public class CaseDetailShowVO {
 	public void setSubscribe(boolean isSubscribe) {
 		this.isSubscribe = isSubscribe;
 	}
+
+	
 
 	public ToCase getToCase() {
 		return toCase;

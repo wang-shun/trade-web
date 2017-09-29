@@ -16,6 +16,11 @@
     <result column="ACCOMPANY" property="accompany" jdbcType="CHAR" />
     <result column="ACCOMPANY_REASON" property="accompanyReason" jdbcType="VARCHAR" />
     <result column="ACCOMPANY_OTHERS_REASON" property="accompanyOthersReason" jdbcType="VARCHAR" />
+    <result column="OWNER_MAT_AMOUNT" property="ownerMatAmount" jdbcType="DECIMAL"/>
+    <result column="MAT_AMOUNT_TIME" property="matAmountTime" jdbcType="TIMESTAMP"/>
+    <result column="PAWN_COMPANIES" property="pawnCompanies" jdbcType="VARCHAR"/>
+    <result column="MAT_CHARGES" property="matCharges" jdbcType="DECIMAL"/>
+    <result column="GUARANTEE_FEE_AMOUNT" property="guaranteeFeeAmount" jdbcType="DECIMAL"/>
 
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.centaline.trans.task.entity.ToHouseTransfer" extends="BaseResultMap" >
@@ -23,7 +28,8 @@
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, PART_CODE, CASE_CODE, REAL_HT_TIME, HOUSE_HODING_TAX, PERSONAL_INCOME_TAX,
-    BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,USE_CARD_PAY,CARD_PAY_AMOUNT,ACCOMPANY,ACCOMPANY_REASON,ACCOMPANY_OTHERS_REASON
+    BUSINESS_TAX, CONTRACT_TAX, LAND_INCREMENT_TAX,USE_CARD_PAY,CARD_PAY_AMOUNT,ACCOMPANY,ACCOMPANY_REASON,ACCOMPANY_OTHERS_REASON,
+    OWNER_MAT_AMOUNT,MAT_AMOUNT_TIME,PAWN_COMPANIES,MAT_CHARGES,GUARANTEE_FEE_AMOUNT
   </sql>
   <sql id="Blob_Column_List" >
     COMMENT
@@ -98,6 +104,21 @@
       <if test="accompanyOthersReason != null" >
         ACCOMPANY_OTHERS_REASON,
       </if>
+      <if test="ownerMatAmount!=null">
+        OWNER_MAT_AMOUNT,
+      </if>
+      <if test="matAmountTime!=null">
+        MAT_AMOUNT_TIME,
+      </if>
+      <if test="pawnCompanies!=null">
+        PAWN_COMPANIES,
+      </if>
+      <if test="matCharges!=null">
+        MAT_CHARGES,
+      </if>
+      <if test="guaranteeFeeAmount!=null">
+        GUARANTEE_FEE_AMOUNT,
+      </if>
       CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -145,6 +166,21 @@
       </if>
       <if test="accompanyOthersReason != null" >
         #{accompanyOthersReason,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerMatAmount!=null">
+        #{ownerMatAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="matAmountTime!=null">
+        #{matAmountTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pawnCompanies!=null">
+        #{pawnCompanies,jdbcType=VARCHAR},
+      </if>
+      <if test="matCharges!=null">
+        #{matCharges,jdbcType=DECIMAL},
+      </if>
+      <if test="guaranteeFeeAmount!=null">
+        #{guaranteeFeeAmount,jdbcType=DECIMAL},
       </if>
       GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
@@ -196,6 +232,21 @@
 
       <if test="accompanyOthersReason != null" >
         ACCOMPANY_OTHERS_REASON=#{accompanyOthersReason,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerMatAmount!=null">
+        OWNER_MAT_AMOUNT=#{ownerMatAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="matAmountTime!=null">
+        MAT_AMOUNT_TIME=#{matAmountTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pawnCompanies!=null">
+        PAWN_COMPANIES=#{pawnCompanies,jdbcType=VARCHAR},
+      </if>
+      <if test="matCharges!=null">
+        MAT_CHARGES=#{matCharges,jdbcType=DECIMAL},
+      </if>
+      <if test="guaranteeFeeAmount!=null">
+        GUARANTEE_FEE_AMOUNT=#{guaranteeFeeAmount,jdbcType=DECIMAL},
       </if>
 
       UPDATE_TIME=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},

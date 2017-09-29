@@ -18,6 +18,8 @@ public class ToPropertyInfo {
 	private Integer totalFloor;
 
 	private String propertyType;
+	
+	private String propertyTypeName;
 
 	private Integer locateFloor;
 
@@ -45,8 +47,6 @@ public class ToPropertyInfo {
 	private String ctmCode;
 	/*********************全国交易金融系统   弃用字段 end***********************/
 
-	private String propertyTypeName;
-	
 	public Date getUpdateTime() {
 		return updateTime;
 	}
@@ -190,6 +190,5 @@ public class ToPropertyInfo {
 	public void setPropertyTypeName(String propertyTypeName) {
 		this.propertyTypeName = propertyTypeName;
 	}
-	
 	
 }

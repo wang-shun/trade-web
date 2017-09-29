@@ -101,9 +101,12 @@ public class ToHouseTransferController {
 		request.setAttribute("toMortgage", toMortgage);
 		/*确认是否已经是贷款流失*/
 		MortgageToSaveVO mortgageToSaveVO=toMortgageTosaveService.selectByCaseCode(caseCode);
-		mortgageToSaveVO.setLoanLossAmount(mortgageToSaveVO.getLoanLossAmount()!=null?mortgageToSaveVO
-				.getLoanLossAmount().divide(new BigDecimal(10000)):null);
-		request.setAttribute("mortgageToSaveVO",mortgageToSaveVO);
+		//修复无贷款流失 点击过户页面报错问题 by:yinchao 2017-9-28
+		if(mortgageToSaveVO!=null){
+			mortgageToSaveVO.setLoanLossAmount(mortgageToSaveVO.getLoanLossAmount()!=null?mortgageToSaveVO
+					.getLoanLossAmount().divide(new BigDecimal(10000)):null);
+			request.setAttribute("mortgageToSaveVO",mortgageToSaveVO);
+		}
 		return "task" + UiImproveUtil.getPageType(request) + "/taskGuohu";
 	}
 	@RequestMapping(value="saveToHouseTransfer")

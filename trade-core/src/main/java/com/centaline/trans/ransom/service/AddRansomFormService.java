@@ -2,9 +2,11 @@ package com.centaline.trans.ransom.service;
 
 import java.util.List;
 
-import com.centaline.trans.ransom.entity.ToRansomFormVo;
+import com.centaline.trans.ransom.entity.AddRansomForm;
 
 public interface AddRansomFormService {
 	
-	void addRansomForm(List<ToRansomFormVo> list);
+	int insert(AddRansomForm ar);
+	
+	void addRansomForm(List<AddRansomForm> list);
 }

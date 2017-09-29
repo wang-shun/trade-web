@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
-import com.centaline.trans.ransom.entity.ToRansomSubmitVo;
 
 /**
  * 赎楼service
@@ -16,10 +15,10 @@ public interface RansomService {
 	
 	/**
 	 * 赎楼详情查询
-	 * @param caseCode
+	 * @param ransomCode
 	 * @return
 	 */
-	public ToRansomDetailVo getRansomDetail(String caseCode);
+	public ToRansomDetailVo getRansomDetail(String ransomCode);
 	
 	/**
 	 * 赎楼计划Vo
@@ -27,34 +26,6 @@ public interface RansomService {
 	 * @return
 	 */
 	public List<ToRansomPlanVo> getPartPlanTime(String ransomCode);
-	
-	/**
-	 * 申请数据更新
-	 * @param submitVo
-	 * @return
-	 */
-	public int updateRansomApply(ToRansomSubmitVo submitVo);
-	
-	/**
-	 * 查询是否存在二抵
-	 * @param ransomCode
-	 * @return
-	 */
-	public int queryErdiByRansomCode(String ransomCode);
-	
-	/**
-	 * 面签数据更新
-	 * @param submitVo
-	 * @return
-	 */
-	public int updateRansomSign(ToRansomSubmitVo submitVo,int count);
-	
-	/**
-	 * 陪同还贷数据更新
-	 * @param submitVo
-	 * @return
-	 */
-	public int updateRansomMortgage(ToRansomSubmitVo submitVo);
 	
 	/**
 	 * 注销抵押实际时间更新

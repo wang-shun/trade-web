@@ -14,7 +14,7 @@ public enum RansomPartEnum {
 	CANCELDIYA_TWO( "CANCELDIYA_TWO",	"注销抵押(二抵)",	"sctrans.T_RA_CANCEL",		"CANCEL_TIME"),
 	RECEIVE_ONE(    "RECEIVE_ONE",		"领取产证(一抵)",	"sctrans.T_RA_REDEEM",		"REDEEM_TIME"),
 	RECEIVE_TWO(    "RECEIVE_TWO",		"领取产证(二抵)",	"sctrans.T_RA_REDEEM",		"REDEEM_TIME"),
-	PAYCLEAR(      	"PAYCLEAR",			"回款结清",		"sctrans.T_RA_PAYMENT",		"PAYMENT_TIME");
+	PLAYCLEAR(      "PLAYCLEAR",		"回款结清",		"sctrans.T_RA_PAYMENT",		"PAYMENT_TIME");
 
 	private String code;
 

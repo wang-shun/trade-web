@@ -33,6 +33,13 @@
 <link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
 <link href="<c:url value='/css/plugins/iCheck/custom.css' />" rel="stylesheet">
 
+<!-- Data Tables -->
+<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
+
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
 <link href="<c:url value='/css/plugins/jasny/jasny-bootstrap.min.css' />"	rel="stylesheet">
 <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"	rel="stylesheet">
 <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />"	rel="stylesheet">
@@ -49,7 +56,28 @@
 <link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
 </head>
 <body>
+
 <style>
+
+.table thead tr th{
+    color: #1d1b1b;
+}
+.table_content .big a{
+	min-width: 140px;
+	display: inline-block;
+}
+.bonus-m-con .bonus-search{margin-left:15px;}
+		.case-num{
+text-decoration: underline !important;
+}
+.case-num:HOVER{
+text-decoration: underline !important;
+}
+.case-num:visited{
+ text-decoration: underline !important;
+}
+.hideDiv{
+display: none;}
 .table thead tr th {
     background-color: #4bccec;
     font-size: 14px;
@@ -59,6 +87,7 @@
 </style>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="caseCode" value="${caseCode}" />
+	<input type="hidden" id="flag" value="${flag}" />
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<%--<input type="hidden" id="ctm" value="${toCaseInfo.ctmCode}" />
 	<input type="hidden" id="Lamp1" value="${Lamp1}" />
@@ -97,78 +126,43 @@
 							<div class="tab-content">
 								<div class="tab-pane active fade in" id="settings">
 									<div class="jqGrid_wrapper row">
-										<button id="associEval" onclick="javascript:associEval()"><span>关联评估单列表</span></button>
+										<button type="button" class="btn btn-primary" onclick="javascript:associEval()" >关联评估单列表</button>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="panel-body">
-						<ul class="nav nav-tabs">
-							<li class="active"><a href="#settings" data-toggle="tab">结算信息</a>
-							</li>
-						</ul>
-						<div class="form_content"">
-										<dl class="col-sm-3 control-label" >
-													<dt>案件编号：${evalVO.caseCode}</dt>
-													<dd>
-														<div id="seller"></div>
-													</dd>
-										</dl>
-										<dl class="col-sm-3 control-label">
-											<dt>评估单编号：${evalVO.evaCode}</dt>
-											<dd>
-												<div id="buyer"></div>
-											</dd>
-										</dl>
-										<dl class="col-sm-3 control-label">
-											<dt>评估公司：${evalVO.finOrgId}</dt>
-											<dd>
-												<div id="buyer"></div>
-											</dd>
-										</dl>
-									
-										<dl class="col-sm-3 control-label" >
-											<dt>评估费实收金额：${evalVO.evalRealCharges}元</dt>
-											<dd>
-											
-												<div id="seller"></div>
-											</dd>
-										</dl>
-										<dl class="col-sm-3 control-label">
-											<dt>出具评估报告的日期：${evalVO.issueDate}</dt>
-											<dd>
-												<div id="buyer"></div>
-											</dd>
-										</dl>
-										<%-- <dl class="col-sm-3 control-label">
-											<dt>返利金额：${evalVO.caseCode}元</dt>
-											<dd>
-												<div id="buyer"></div>
-											</dd>
-										</dl> --%>
-										<dl class="col-sm-3 control-label">
-											<dt>结算费用：${evalVO.settleFee}元</dt>
-											<dd>
-												<div id="buyer"></div>
-											</dd>
-										</dl>
-									
-										<dl class="col-sm-3 control-label" >
-											<dt>评估值：${evalVO.evaPrice}万元</dt>
-											<dd>
-											
-												<div id="seller"></div>
-											</dd>
-										</dl>
-										<dl class="col-sm-3 control-label">
-											<dt>贷款权证：</dt>
-											<dd>
-												<div id="buyer"></div>
-											</dd>
-										</dl>
+						
+						<div class="panel-body ibox-content">
+							<div class="ibox white_bg" id="content">
+									<div class="info_box info_box_one col-sm-12 "  >
+								  		<span>结算信息</span>
+								  			<div class="height_line1" style=" margin-top:10px;"></div>
+									  		<div class="row font-family" >
+												<label class="col-sm-4 control-label">案件编号：<span id="content_caseCode"></span></label>
+												<label class="col-sm-3 control-label">评估单编号：<span id="content_evalCode"></span></label>
+											</div>
+											<div class="height_line1" ></div>
+											<div class="row font-family" style=" margin-top:20px;">
+												<label class="col-sm-4 control-label">评估公司：<span id="content_company"></span></label>
+												<label class="col-sm-3 control-label">评估费实收金额：<span id="content_evalRealCharges"></span></label>
+												<label class="col-sm-3 control-label">评估申请日期：<span id="content_applyDate"></span></label>
+											</div>
+											<div class="height_line1"></div>
+											<div class="row font-family" style=" margin-top:20px;">
+												<label class="col-sm-4 control-label">出具评估报告的日期：<span id="content_issueDate"></span></label>
+												<!-- <label class="col-sm-3 control-label">返利金额：0元&nbsp;&nbsp;</label> -->
+												<label class="col-sm-3 control-label">结算费用：<span id="content_settleFee"></span></label>
+											</div>
+											<div class="height_line1"></div>
+											<div class="row font-family" style=" margin-top:20px;">
+												<label class="col-sm-4 control-label">评估值：<span id="content_evaPrice"></span></label>
+												<label class="col-sm-3 control-label">贷款权证：校长</label>
+											</div>
+									</div>
+							</div>
 						</div>
-					</div>
-					</div>
+						
+				</div>
 			</div>
 				<!-- 新增结算任务-->
 					<div class="panel " id="serviceFlow">
@@ -192,7 +186,7 @@
 									<div class="jqGrid_wrapper row">
 											<div class="form_content">
 											
-												<label class="control-label sign_left_small">* 新增事由 </label>
+												<label class="control-label sign_left_small" style=" margin-top:30px;">* 新增事由 </label>
 													<!-- <textarea class="teamcode input_type" rows="5" cols="150"></textarea> -->
 												 <input
 													class="teamcode input_type"  style="width: 435px;"
@@ -225,104 +219,142 @@
 					</div>
 		</div>
 	</div>
-	<div class="portlet-body" style="display: block;">
-			<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
-	</div>
-	<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
-		<span>关联评估单列表</span>
-        <div id="wrapper" class="Index">
-       			<!-- Main view -->
-                <div class="main-bonus">
-                
-                    <div class="bonus-wrap">
-                        <div class="ibox-content bonus-m-con">
-                            <div class="row">
-                                <div class="col-lg-5 col-md-5">
-                                        <label class="col-lg-3 col-md-3 control-label font_w">评估公司</label>
-                                        <div class="col-lg-9 col-md-9">
-                                            <input type="text" class="form-control" id="evalCompany" name="evalCompany">
-                                        </div>
-                                </div>
-                                <div class="col-lg-5 col-md-5">
-                                    <div class="form-group">
-                                        <label class="col-lg-3 col-md-3 control-label font_w">评估申请时间</label>
-                                         <div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
-											<input id="dtBegin_0" name="dtBegin" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value=""> 
-											
-										</div>
-                                    </div>
-                                </div>
-                                 <div class="col-lg-5 col-md-5"> 
-                                        <label class="col-lg-3 col-md-3 control-label font_w">案件状态</label>
-                                        <div class="col-lg-9 col-md-9">
-												<select name="" class="form-control" id="caseStatus">
-													<option value="" selected="selected">请选择</option>
-													<option value="0">已结算</option>
-													<option value="1">未结算</option>
-													<option value="2">已核对</option>
-													<option value="3">未核对</option>
-													<option value="4">已审批</option>
-													<option value="5">未审批</option>
-													  <option value="6">已驳回</option>
-												</select>
-                                        </div>
-                                </div>
-                            </div>
-                            <div >
-	             		 		<div id="select_div_1" >
-				           			<div >
-		                                 <select id="inTextType" data-placeholder="搜索条件设定" onchange="intextTypeChange()">
-												<option value="1" selected>产证地址</option>
-												<option value="0">案件编号</option>
-												<option value="2">评估单编号</option>
-												
-										 </select>
-										 <input id="inTextVal" type="text"  style="width:320px;overflow-x:visible;overflow-y:visible;">
-										 <button id="searchButton" type="button" class="btn btn-success">查询</button>
-				                     </div>
-								 </div>
+	
+	<div class="wrapper wrapper-content  animated fadeInRight">
+		<div id="modal-form" class="modal fade" aria-labelledby="modal-title"
+			aria-hidden="true">
+			<div class="modal-dialog" style="width: 280px; margin-right:10px; ">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title" id="modal-title">关联评估单列表</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row" style="height: 450px;overflow-y: auto; overflow-x: hidden; ">
+							<div class="col-lg-12 ">
+								<div class="wrapper wrapper-content animated fadeInRight" style="padding-top: 0;">
+							       			<!-- Main view -->
+							                <div class="main-bonus">
+							                
+							                    <div class="row">
+							                        <div class="ibox-content bonus-m-con">
+							                            <div class="row">
+							                                <div class="col-lg-5 col-md-5">
+							                                        <label class="col-lg-3 col-md-3 control-label font_w">评估公司</label>
+							                                        <div class="col-lg-9 col-md-9">
+							                                            <input type="text" class="form-control" id="evalCompany" name="evalCompany">
+							                                        </div>
+							                                </div>
+							                                <div class="col-lg-5 col-md-5">
+							                                    <div class="form-group">
+							                                        <label class="col-lg-3 col-md-3 control-label font_w">评估申请时间</label>
+							                                         <div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
+																		<input id="dtBegin_0" name="dtBegin" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value=""> 
+																		
+																	</div>
+							                                    </div>
+							                                </div>
+							                                 <div class="col-lg-5 col-md-5"> 
+							                                        <label class="col-lg-3 col-md-3 control-label font_w">案件状态</label>
+							                                        <div class="col-lg-9 col-md-9">
+																			<select name="" class="form-control" id="caseStatus">
+																				<option value="" selected="selected">请选择</option>
+																				<option value="0">已结算</option>
+																				<option value="1">未结算</option>
+																				<option value="2">已核对</option>
+																				<option value="3">未核对</option>
+																				<option value="4">已审批</option>
+																				<option value="5">未审批</option>
+																				  <option value="6">已驳回</option>
+																			</select>
+							                                        </div>
+							                                </div>
+							                            </div>
+							                            <div >
+								             		 		<div id="select_div_1" >
+											           			<div >
+									                                 <select id="inTextType" data-placeholder="搜索条件设定" onchange="intextTypeChange()">
+																			<option value="1" selected>产证地址</option>
+																			<option value="0">案件编号</option>
+																			<option value="2">评估单编号</option>
+																			
+																	 </select>
+																	 <input id="inTextVal" type="text"  style="width:320px;overflow-x:visible;overflow-y:visible;">
+																	 <button id="searchButton" type="button" class="btn btn-success">查询</button>
+											                     </div>
+															 </div>
+														</div>
+							                        </div>
+							                    </div>
+							                </div>
+							                <!--  <table id="table_evalCase_list"></table>
+							                 <div id="pager_evalCase_list"></div> -->
+							<!-- <span>关联评估单列表</span> -->
+					        <div class="portlet-body" style="display: block;">
+									<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
 							</div>
-                        </div>
-                    </div>
-                </div>
-                 
-                    <div class="bonus-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>
-                                    	
-                                    <p>案件编号</p>
-                                    	<p>评估单编号</p>
-                                    
-                                    </th>
-                                    <th>产证地址</th>
-                                    <th>评估公司</th>
-                                    <th>贷款权证</th>
-                                      <th>经纪人</th>
-                                    <th>评估申请日期
-                                    </th> 
-                                   
-                                    <th>结算费用</th>
-                                    
-                                    <th>操作</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody id="t_body_data_contents">
-                                                              
-                            </tbody>
-                        </table>                     
-                    </div>
-                    
-                	<div class="text-center">
-						<span id="currentTotalPage"><strong class="bold"></strong></span>
-						<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-						<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-				    </div>
-        </div>
+										  <div class="row">
+							                    <div class="table_content">
+							                        <table class="table table_blue table-striped table-bordered table-hover ">
+							                            <thead>
+							                                <tr>
+							                                    <th>
+							                                    	
+							                                    <p>案件编号</p>
+							                                    	<p>评估单编号</p>
+							                                    
+							                                    </th>
+							                                    <th>产证地址</th>
+							                                    <th>评估公司</th>
+							                                    <th>贷款权证</th>
+							                                      <th>经纪人</th>
+							                                    <th>评估申请日期
+							                                    </th> 
+							                                   
+							                                    <th>结算费用</th>
+							                                    
+							                                    <th>操作</th>
+							                                    
+							                                </tr>
+							                            </thead>
+							                            <tbody id="t_body_data_contents">
+							                                                              
+							                            </tbody>
+							                        </table>                     
+							                    </div>
+							                </div>
+							                    
+							                	<div class="text-center">
+													<span id="currentTotalPage"><strong class="bold"></strong></span>
+													<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
+													<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
+											    </div>
+								<!-- <button type="button" class="btn btn-primary" onclick="javascript:closeEval()">关闭</button> -->
+									
+							     
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+	<!-- <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true"> -->
+		<a onclick=""></a>
+	<!-- </div> -->
 	<content tag="local_script"> <!-- Peity -->
+         <!-- 日期控件 -->
+    	<script	src="<c:url value='/js/plugins/dateSelect/dateSelect.js' />"></script>
+        <!-- Custom and plugin javascript -->
+        <script src="<c:url value='/js/inspinia.js' />"></script>
+        <script src="<c:url value='/js/plugins/pace/pace.min.js' />"></script>
+        <!-- 弹出框插件 -->
+	    <script src="<c:url value='/js/plugins/layer/layer.js' />"></script>
+	    <script src="<c:url value='/js/plugins/layer/extend/layer.ext.js' />"></script>
+        <!-- 分页控件  -->
+        <script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
 	<!-- Add fancyBox main JS and CSS files -->
 		<script type="text/javascript" src="<c:url value='/js/jquery.fancybox.js' />"></script>
 			
@@ -335,6 +367,9 @@
 		<!-- Add Media helper (this is optional) -->
 		<script type="text/javascript" src="<c:url value='/js/jquery.fancybox-media.js' />"></script>
 	<script	src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
+	 <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
+	 <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
+     <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
 	<!-- jqGrid -->
 	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
 	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
@@ -344,29 +379,102 @@
 	<script	src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/jasny/jasny-bootstrap.min.js' />"></script>
 	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
-	<%-- <script src="<c:url value='/transjs/task/follow.pic.list.js' />"></script> --%>
-	<%-- <script src="<c:url value='/js/trunk/case/moduleSubscribe.js' />"></script> --%>
-	<%-- <script src="<c:url value='/js/trunk/case/caseDetail.js' />"></script>  --%>
-	<%-- <script src="<c:url value='js/trunk/case/showCaseAttachment.js' />"></script> --%>
+	
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
-	<%-- <script src="<c:url value='/js/trunk/case/showCaseAttachmentByJagd.js' />"></script> --%>
 	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/additional-methods.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
-	<%-- <script src="<c:url value='/js/stickUp.js' />"></script> --%>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
 	<!-- 放款监管信息  -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
-	<script	src="<c:url value='/transjs/task/caseflowlist.js' />"></script>
+	<%-- <script	src="<c:url value='/transjs/task/caseflowlist.js' />"></script> --%>
 	<script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script	src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<script	src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-	<%-- <script	src="<c:url value='/js/trunk/comment/caseComment.js' />"></script> --%>
+	<!-- 关联评估案件 -->
+	<%-- <script	src="<c:url value='/js/trunk/eval/settle/associatedEvalCase.js' />"></script> --%>
 	<!-- 各个环节的备注信息  -->
 	<%-- <script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script> --%>
 	<jsp:include	page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+	<script id="evalListTemp" type= "text/html">
+                           {{each rows as item index}}
+ 							  <tr class="border-e7">
+                                     <td>
+										<p>案：{{item.caseCode}}</p>
+										<p>评：{{item.evalCode}}</p>
+									</td>
+                                    <td>{{item.PROPERTY_ADDR}}</td>
+                                    <td>{{item.FIN_ORG_ID}}</td>
+									<td>贷款权证</td>
+									<td>经纪人</td>
+									<td>
+										{{item.APPLY_DATE}}
+									</td>
+                                    <td>{{item.SETTLE_FEE}}</td>
+									<td class="center">
+										<a type="button" class="btn btn-success linkCase" name="linkCase" id="{{item.caseCode}}" target="_blank">关联案件</a>
+                        			</td>
+                                </tr>
+						{{/each}}
+	
+    </script>
+    <script>
+  	//关联信息
+    $('.table_content')
+	.on(
+			"click",
+			'.linkCase',
+			function() {
+				var caseCode = $(this).attr(
+						"id"); 
+				$('.modal-dialog').on("click",'.close');
+				//$(".close").click();
+				
+				$('#modal-form').modal("hide");
+					$.ajax({
+						cache:false,
+						async:false,
+						type:"POST",
+						url :ctx+"/eval/settle/associatedShowForm",
+						dataType:"json",
+						data : [{
+								name :"caseCode",  
+								value:caseCode
+						}],
+						success:function(data){
+								var caseCode = data.evalVO.caseCode;
+								var evaCode = data.evalVO.evaCode;
+								var finOrgId = data.evalVO.finOrgId;
+								var evalRealCharges = data.evalVO.evalRealCharges;
+								var applyDate = data.evalVO.applyDate;
+								var issueDate = data.evalVO.issueDate;
+								var settleFee = data.evalVO.settleFee;
+								var evaPrice = data.evalVO.evaPrice;
+								//var applyDate = data.evalVO.applyDate;
+								$("#content_caseCode").append('<p>'+caseCode+'</p>');
+								$("#content_evalCode").append('<p>'+evaCode+'</p>');
+								$("#content_company").append('<p>'+finOrgId+'</p>');
+								$("#content_evalRealCharges").append('<p>'+evalRealCharges+'元'+'</p>');
+								$("#content_applyDate").append('<p>'+applyDate+'</p>');
+								$("#content_issueDate").append('<p>'+issueDate+'</p>');
+								$("#content_settleFee").append('<p>'+settleFee+'元'+'</p>');
+								$("#content_evaPrice").append('<p>'+evaPrice+'万元'+'</p>');
+								//$("#content_caseCode").append('<p>'+caseCode+'</p>');
+								
+						},
+						error:function(data){
+							window.wxc.error(data.message);
+						}
+					});
+			});
+ 	
+    </script>
 	<script>
+	//<a type="button" class="btn btn-success linkCase" name="linkCase" id="{{index}}" target="_blank">关联案件</a>
+	//<a onclick="associatedShow({{item.caseCode}})" target="_blank">关联案件</a>
+	//<a href="${ctx}/eval/settle/associatedShowForm?caseCode={{item.caseCode}}" target="_blank">关联案件</a>
+	var ctx = $("#ctx").val();
 	jQuery(document).ready(function() {
 		 $(".fancybox").fancybox({
 				maxWidth	: 650,
@@ -403,16 +511,288 @@
 					//jQuery("#table_knowledge_list").trigger("reloadGrid");//刷新列表
 				}
 			});
+		
 
 	});
+	
+	//关联
 	function associEval(){
+		$('#modal-form').modal("show");
+		$('#datepicker_0').datepicker({
+				format : 'yyyy-mm-dd',
+				weekStart : 1,
+				autoclose : true,
+				todayBtn : 'linked',
+				language : 'zh-CN'
+			});
+			
+			aist.sortWrapper({
+			reloadGrid : reloadGrid
+		});
+
+		//初始化数据
+	    reloadGrid();
+		 // 查询
+			$('#searchButton').click(function() {
+				reloadGrid();
+			});
+	}
+	
+	
+	
+	
+	function packgeData(page){
+		var data1 = {};
+	    
+	    data1.rows = 12;
+	    data1.page = 1;
+	    if(page){
+	    	data1.page=page;
+	    }
+	    
+	    var propertyAddr = "";
+		var caseCode =  "";
+		var evalCode =  "";
+		//产证地址,案件编号,评估单编号
+		var inTextVal = $("#inTextVal").val();
+		if (inTextVal != null && inTextVal.trim() != "") {
+			var inTextType = $('#inTextType').val();
+			if (inTextType == '0') {
+				caseCode = inTextVal.trim();
+			} else if (inTextType == '1') {
+				//产证地址
+				propertyAddr = inTextVal.trim();
+			} else if (inTextType == '2') {
+				//评估单编号
+				evalCode = inTextVal.trim();
+			}
+		}
+		 data1.search_propertyAddr = propertyAddr;
+		 data1.search_caseCode = caseCode;
+		 data1.search_evalCode = evalCode;
+	    data1.search_finOrgID = $("#evalCompany").val();
+		data1.search_applyDate=$('#dtBegin_0').val();
+		return data1;
+	}
+	function reloadGrid(page) {
+		var data1=packgeData(page);
+		data1.queryId = "queryEvalWaitEndList";
+		aist.wrap(data1);
+	    fetchData(data1);
+	}
+	function fetchData(p){
+		  $.ajax({
+  			  async: true,
+  	          url:ctx+ "/quickGrid/findPage" ,
+  	          method: "post",
+  	          dataType: "json",
+  	          data: p,
+  	          beforeSend : function() {
+				$.blockUI({
+					message : $("#salesLoading"),
+					css : {
+						'border' : 'none',
+						'z-index' : '9999'
+					}
+				});
+				$(".blockOverlay").css({
+					'z-index' : '9998'
+				});
+			},
+  	          success: function(data){
+  	        	  $.unblockUI();
+  	        	  data.ctx = ctx;
+  	        	  var tsAwardBaseList= template('evalListTemp' , data);
+	                  $("#t_body_data_contents").empty();
+	                  $("#t_body_data_contents").html(tsAwardBaseList);
+	                  
+	                 initpage(data.total,data.pagesize,data.page, data.records);
+  	          }
+  	     });
+	} 
+	function initpage(totalCount,pageSize,currentPage,records)
+	{
+		if(totalCount>1500){
+			totalCount = 1500;
+		}
+		var currentTotalstrong=$('#currentTotalPage').find('strong');
+		if (totalCount<1 || pageSize<1 || currentPage<1)
+		{
+			$(currentTotalstrong).empty();
+			$('#totalP').text(0);
+			$("#pageBar").empty();
+			return;
+		}
+		$(currentTotalstrong).empty();
+		$(currentTotalstrong).text(currentPage+'/'+totalCount);
+		$('#totalP').text(records);
+		
+		$("#pageBar").twbsPagination({
+			totalPages:totalCount,
+			visiblePages:9,
+			startPage:currentPage,
+			first:'<i class="icon-step-backward"></i>',
+			prev:'<i class="icon-chevron-left"></i>',
+			next:'<i class="icon-chevron-right"></i>',
+			last:'<i class="icon-step-forward"></i>',
+			showGoto:true,
+			onPageClick: function (event, page) {
+				 //console.log(page);
+				reloadGrid(page);
+		    }
+		});
+	}
+	
+	
+	/* function associEval(){
+		$('#modal-form').modal("show");
+		var url = "/quickGrid/findPage";
+		url = ctx + url;
+		
+		//jqGrid 初始化
+		$("#table_evalCase_list").jqGrid({
+			url : url,
+			mtype : 'POST',
+			datatype : "json",
+			height : 250,
+			autowidth : true,
+			shrinkToFit : true,
+			rowNum : 8,
+			colNames : [ '案件编号','评估单编号','产证地址', '评估公司', '贷款权证','经纪人', '评估申请时间','结算费用', '操作' ],
+			colModel : [{
+				name : 'caseCode',
+				index : 'caseCode',
+				align:'center',
+				resizable : true,
+				width : 20
+			},{
+				name : 'evalCode',
+				index : 'evalCode',
+				align:'center',
+				resizable : true,
+				width : 20
+			}, {
+				name : 'PROPERTY_ADDR',
+				index : 'PROPERTY_ADDR',
+				sortable : false,
+				resizable : true,
+				width : 30
+			}, {
+				name : 'FIN_ORG_ID',
+				index : 'FIN_ORG_ID',
+				align:'center',
+				resizable : true,
+				width : 20
+			}, {
+				name : '贷款权证',
+				index : '贷款权证',
+				align:'center',
+				resizable : true,
+				width : 20
+			},{
+				name : '经纪人',
+				index : '经纪人',
+				align:'center',
+				resizable : true,
+				width : 20
+			},{
+				name : 'APPLY_DATE',
+				index : 'APPLY_DATE',
+				//align:'center',
+				resizable : true,
+				width : 10
+			},{
+				name : 'SETTLE_FEE',
+				index : 'SETTLE_FEE',
+				//align:'center',
+				resizable : true,
+				width : 10
+			},{
+				name : 'act',
+				index : 'act',
+				align : "center",
+				width : 20,
+				resizable : false,
+				sortable : false,
+				title : false
+			}],
+			multiselect: true,
+			pager : "#pager_evalCase_list",
+		
+			viewrecords : true,
+			pagebuttions : true,
+			multiselect:false,
+			hidegrid : false,
+			recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+			pgtext : " {0} 共 {1} 页",
+
+			gridComplete:function(){
+				var ids = jQuery("#table_evalCase_list").jqGrid('getDataIDs');
+				for ( var i = 0; i < ids.length; i++) { 
+					var rowDatas = jQuery("#table_evalCase_list").jqGrid('getRowData',ids[i] ); //获取当前行
+					var caseCode = rowDatas.caseCode;
+
+					btn3="<button onclick='associatedCase(\""+ctx+"\","+ids[i]+",\""+caseCode+"\")' class='btn red' >关联案件</button>&nbsp;";
+
+					jQuery("#table_evalCase_list").jqGrid('setRowData', ids[i], { act :  btn3 }); 
+				} 
+			},
+			postData : {
+				queryId : "queryEvalWaitEndList"
+			}
+
+		});
+		$(".ui-jqgrid-bdiv").attr("style","height: 350px;");
+
+		// Add responsive to jqGrid
+		$(window).bind('resize', function() {
+			var width = $('.jqGrid_wrapper').width();
+			$('#table_evalCase_list').setGridWidth(width);
+		});
+		 $('.contact-box').each(function() {
+	         animationHover(this, 'pulse');
+	     }); */
 		/* $('#alertOper').attr("href",ctx+"/eval/settle/associatedEvalList");
 		$("#alertOper").trigger('click'); */
-		window.location.href = ctx+"/eval/settle/associatedEvalList";
+		//window.location.href = ctx+"/eval/settle/associatedEvalList";
+	//}
+	
+	/**
+	 * 关联按钮事件
+	 * @param ctx  
+	 * @param rowid  主键pkid
+	 * @param caseCode 案件编码
+	 */
+	function associatedCase(ctx,rowid,caseCode){
+		window.wxc.confirm("确定要关联吗？",{"wxcOk":function(){
+			$.ajax({
+				cache:false,
+				async:false,
+				type:"POST",
+				url :ctx+"/eval/settle/associatedShowForm",
+				dataType:"json",
+				data : [{
+						name : "Pkid",
+						value: rowid
+					},{
+						name :"caseCode",  
+						value:caseCode
+				}],
+				success:function(data){
+					window.wxc.success(data.message);
+					window.location.href = ctx+"/eval/settle/newEndForm2&caseCode="+caseCode;
+					//jQuery("#table_evalCase_list").trigger("reloadGrid");//刷新列表
+				},
+				error:function(data){
+					window.wxc.error(data.message);
+				}
+			});
+		}});
 	}
 	
 	function closeEval(){
-		window.location.href = ctx+"/eval/settle/evalWaitEndList";
+		window.close();
+		//window.location.href = ctx+"/eval/settle/evalWaitEndList";
 	}
 	
 	$("#submit").click(function(){
@@ -443,357 +823,8 @@
      });
 	
 	</script>
-	<script>
-
-	/* var caseCode = $("#caseCode").val();
-		var ctmCode = $("#ctm").val();
-		var url = "/quickGrid/findPage";
-		var ctx = $("#ctx").val();
-	    var r1 =false;
-	    var changeTaskRole=false;
-	    var serivceDepId='${serivceDefId}';
-	    var loanReqType="${loanReqType}";
-	    <shiro:hasPermission name="TRADE.CASE.DEALPRICE:SHOW">
-			r1 = true;
-		</shiro:hasPermission>
-		<shiro:hasPermission name="TRADE.CASE.TASK:ASSIGN">
-			changeTaskRole=true;
-		</shiro:hasPermission>
-		var isNewFlow =${isNewFlow};
-		var isCaseManager=${isCaseManager};
-	      $('#seller').append(generateSellerAndBuyer('${caseDetailVO.sellerName}', '${caseDetailVO.sellerMobile}'));
- 	      $('#buyer').append(generateSellerAndBuyer('${caseDetailVO.buyerName}', '${caseDetailVO.buyerMobile}'));
-
- 	     function getCurrentDate(){
- 	    	var d = new Date()
- 	    	var vYear = d.getFullYear();
- 	    	var vMon = d.getMonth() + 1;
- 	    	var vDay = d.getDate();
-
- 	    	var str = vYear + "-" + (vMon<10 ? "0" + vMon : vMon) + "-" + (vDay<10 ? "0"+ vDay : vDay);
-	    	return str;
-    	  }
-
- 	      $("#btnSave").click(function(){
- 	    	  var content = $("#bizwarnForm-modal-form input[name=content]").val();
- 	    	  var caseCode = $("#bizwarnForm-modal-form input[name=caseCode]").val();
- 	    	  var caseId = $("#bizwarnForm-modal-form input[name=caseId]").val();
-
- 	    	 $.ajax({
-					cache:false,
-					async:true,
-					type:"POST",
-					dataType:"json",
-					url:ctx+"/bizwarn/addBizWarnInfo",
-					data:{caseCode:caseCode,content:content},
-					success:function(data){
-						if(data.success){
-							location.href = "../case/caseDetail?caseId=" + caseId;
-						}else{
-							window.wxc.error('添加失败');
-						}
-					}
-				});
-
- 	      });
-
- 	      $("#add").click(function(){
- 	    	  $("#bizwarnForm-modal-form").modal("show");
- 	      });
-
- 	     $("#edit").click(function(){
- 	    	 var caseCode = $("#editBizwarnForm-modal-form input[name=caseCode]").val();
-
-
- 	    	 var status;
- 	    	 var content;
- 	    	 $.ajax({
-					cache:false,
-					async:false,
-					type:"POST",
-					dataType:"json",
-					url:ctx+"/bizwarn/getBizWarnInfo",
-					data:{caseCode:caseCode},
-					success:function(data){
-						status = data.status;
-						content = data.content
-					}
-				});
-
- 	    	 	if(status == "1"){
- 	    	 		window.wxc.alert("解除状态不能修改商贷预警信息！");
- 	    	 		return false;
- 	    	 	}
-
- 	    	  $("#editBizwarnForm-modal-form input[name=content]").val(content);
-	    	  $("#editBizwarnForm-modal-form").modal("show");
-	      });
-
- 	     $("#btnEdit").click(function(){
- 	    	 var content = $("#editBizwarnForm-modal-form input[name=content]").val();
-	    	 var caseCode = $("#editBizwarnForm-modal-form input[name=caseCode]").val();
-	    	 var caseId = $("#editBizwarnForm-modal-form input[name=caseId]").val();
-
-	    	 $.ajax({
-					cache:false,
-					async:true,
-					type:"POST",
-					dataType:"json",
-					url:ctx+"/bizwarn/editBizWarnInfo",
-					data:{caseCode:caseCode,content:content},
-					success:function(data){
-						if(data.success){
-							location.href = "../case/caseDetail?caseId=" + caseId;
-						}else{
-							window.wxc.error('修改失败');
-						}
-					}
-				});
- 	     });
-
- 	      $("#relieve").click(function(){
- 	    	  var status = $("input[name=status]").val();
-
- 	    	 window.wxc.confirm("是否确定解除？",{"wxcOk":function(){
-  				$.ajax({
-  					cache:false,
-  					async:true,
-  					type:"POST",
-  					dataType:"json",
-  					url:ctx+"/bizwarn/relieve",
-  					data:{caseCode:caseCode},
-  					success:function(data){
-  						if(data.success){
-  							$("#spnStatus").html("解除");
-  							$("#spnRelieveTime").html(getCurrentDate());
-  							$("#relieve").hide();
-  						}else{
-  							window.wxc.error('解除失败');
-  						}
-  					}
-  				});
- 	    	}});
- 	      });
-
-		//jqGrid 初始化
-		$("#gridTable").jqGrid({
-			url : ctx+url,
-			mtype : 'GET',
-			datatype : "json",
-			height : 250,
-			autowidth : true,
-			shrinkToFit : true,
-			rowNum : 50,
-			/*   rowList: [10, 20, 30], 
-			colNames : [ '附件类型','附件名称','附件路径','上传时间','操作'],
-			colModel : [ {
-				name : 'ATT_TYPE',
-				index : 'ATT_TYPE',
-				align : "center",
-				width : 20,
-				resizable : false
-			},{
-				name : 'ATT_NAME',
-				index : 'ATT_NAME',
-				align : "center",
-				width : 20,
-				resizable : false
-			}, {
-				name : 'ATT_PATH',
-				index : 'ATT_PATH',
-				align : "center",
-				width : 20,
-				resizable : false
-				//formatter : linkhouseInfo
-			}, {
-				name : 'UPLOAD_DATE',
-				index : 'UPLOAD_DATE',
-				align : "center",
-				width : 20,
-				resizable : false
-			},{
-				name : 'READ',
-				index : 'READ',
-				align : "center",
-				width : 20,
-				resizable : false
-			}],
-			multiselect: true,
-			pager : "#gridPager",
-			viewrecords : true,
-			pagebuttions : true,
-			multiselect:false,
-			hidegrid : false,
-			recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-			pgtext : " {0} 共 {1} 页",
-			gridComplete:function(){
-				var ids = jQuery("#gridTable").jqGrid('getDataIDs');
-				for (var i = 0; i < ids.length; i++) {
-    				var id = ids[i];
-    				var rowDatas = jQuery("#gridTable").jqGrid('getRowData', ids[i]); // 获取当前行
-
-    				var link = "<button  class='btn red' onclick='addAttachmentReadLog(\""+ctx+"\",\""+ctmCode+"\",\""+caseCode+"\",\""+rowDatas['ATT_NAME']+"\",\""+rowDatas['ATT_PATH']+"\")'>查看附件</a>";
-
-    				//var detailBtn = "<button  class='btn red' id='alertOper' onclick='openLoan(\""+ctx+"\",\""+rowDatas['pkId']+"\")' style='width:90px;'>详细</button>";
-
-    				jQuery("#gridTable").jqGrid('setRowData', ids[i], { READ: link});
-
-    				var attType = rowDatas["ATT_TYPE"];
-    				if(!r1 && attType =='买卖居间协议') {
-   					   $("#gridTable").jqGrid("delRowData", id);
-    				}
-				}
-			},
-			postData : {
-				queryId : "followPicListQuery",
-				argu_ctmCode : ctmCode
-			}
-
-		});
-
-		//附件连接
-		function linkhouseInfo(cellvalue, options, rowObject){
-			 var link = '<a href="" target="_black" onclick="addAttachmentReadLog('+cellvalue+')">'+cellvalue+'</a>';
-			 return link;
-		}
-
-		function addAttachmentReadLog(ctx,ctmCode,caseCode,attachName,attachPath) {
-			var tsAttachmentReadLog = {
-				 	'caseCode':caseCode,
-				 	'ctmCode':ctmCode,
-				 	'attachmentName':attachName,
-				 	'attachmentAddress':attachPath
-			};
-			//tsAttachmentReadLog=$.toJSON(tsAttachmentReadLog);
-
-			$.ajax({
-				type : 'post',
-				cache : false,
-				async : true,
-				url : ctx+'/log/addAttachmentReadLog',
-				data : tsAttachmentReadLog,
-				dataType : "json",
-				success : function(data) {
-					//alert("记录日志成功");
-				},
-				error : function(errors) {
-					//alert("记录日志失败");
-					return false;
-				}
-			});
-
-			window.open(attachPath);
-		}
-
-		//加载页面获取屏幕高度
- 		$(function(){
-
-			var caseCode = $('#caseCode').val();
-
-			$("#caseCommentList").caseCommentGrid({
-				caseCode : caseCode,
-				srvCode : null
-			});
-
-			  //点击浏览器任何位置隐藏提示信息
-		      $("body").bind("click",function(evt){
-	              if($(evt.target).attr("data-toggle")!='popover'){
-	             	$('a[data-toggle="popover"]').popover('hide');
-	              }
-	          });
-	    	//隐藏头部信息
- 	        window.onscroll = function(){
-	        	if(document.body.scrollTop>62){
-	        		$("#isFixed").css("position","fixed");
-	        		$("#isFixed").addClass("istauk");
-	        	 
-	        	}else{
-	        		$("#isFixed").css("position","relative");
-	        		$("#isFixed").removeClass("istauk");
-
-	        	}
-	        }
-
-		});*/
-
-		/*动态生成上下家*/
-		/* function generateSellerAndBuyer(name, phone){
- 			var nameArr = name.split('/');
- 			var phoneArr = phone.split('/');
- 			var str='';
- 			for (var i=0; i<nameArr.length; i++) {
- 				if(i%2==0){
- 					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a>&nbsp;';
- 				}else{
- 					str += '<a data-toggle="popover" data-placement="right" data-content="'+phoneArr[i]+'">'+nameArr[i]+'</a><br/>';
- 				}
- 			}
- 			return str;
- 		}
-        jQuery(function($) {
-            $(document).ready( function() {
-               $('.stickup-nav-bar').stickUp({
-                // $('.col-lg-9').stickUp({
-                                    parts: {
-                                      0:'basicInfo',
-                                      1:'serviceFlow',
-                                      2:'aboutInfo'
-                                    },
-                                    itemClass: 'menuItem',
-                                    itemHover: 'active',
-                                    marginTop: 'active'
-                                  });
-            });
-        }); */
-        /**
-         * 新建外单案件
-         */
-       /*  $('#addLiushui').click(function() {	
-        	window.location.href = ctx+"/caseMerge/addLiushui?caseCode="+$('#caseCode').val();
-        });  */
-
-
-
-	</script>*/
-	<script
-		id="template_successList" type="text/html">
-	{{each rows as item index}}
-    	<tr>
-       		 <td>
-                                                {{item.shareTime}}
-                                                    
-                                                </td>
-                                                
-                                                <td>
-                                                    {{item.bizCode}}
-                                                </td>
-                                                <td>
-                                                    {{item.shareBase}}
-                                                </td>
-                                                <td>
-                                                   {{item.sharesRate}}
-                                                </td>
-                                                <td>
-                                                    {{item.shareAmount}}
-                                                </td>
-                                                <td>
-                                                    {{item.createBy}}
-                                                </td>
-                                                <td>
-                                                	{{item.treamId}}
-                                                </td>
-                                                <td>
-				{{if item.status !=null && item.status == 'GENERATED'}}有效
-				{{/if}}
-				{{if item.status !=null && item.status == 'CANCELED'}}
-				无效<a href="#" class="demo-left" title="案件重启<br/>" style="margin-left:2px;"><i class="icon iconfont" style="font-size: 20px;color:#808080;">&#xe609;</i></a>
-				{{/if}}
-                                                </td>
-                                            </tr>                                        
-	{{/each}}
-	</script>
 	
-</content>
+	</content>
 
 </body>
 </html>

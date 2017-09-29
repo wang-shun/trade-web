@@ -37,7 +37,10 @@ public class CaseRecvVO {
 	private String follow;*/
 //	商代预警
 	private BizWarnInfo bizWarnInfo;
-//	用于修改接收前台的comment
+	/**
+	 * 用于修改接收前台的comment-->现在前台的comment是通过comment组件来实现，现在不用这个字段了。
+	 * xiefei1 2017-09-28
+	 */
 	private ToCaseComment toCaseComment;
 	
 //	用于展示commentList

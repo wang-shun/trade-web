@@ -9,7 +9,6 @@ import java.util.Date;
  */
 public class ToRansomCancelVo {
 	
-	private Long pkid;
 	/**
 	 * 赎楼编号 
 	 */
@@ -82,16 +81,6 @@ public class ToRansomCancelVo {
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
-
-	public Long getPkid() {
-		return pkid;
-	}
-
-	public void setPkid(Long pkid) {
-		this.pkid = pkid;
-	}
-
-	
 	
 	
 }

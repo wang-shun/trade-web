@@ -51,6 +51,8 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.MortStepService;
 import com.centaline.trans.mortgage.service.ToMortLoanerService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.task.service.ToMortgageTosaveService;
+import com.centaline.trans.task.vo.MortgageToSaveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 @Controller
@@ -88,6 +90,8 @@ public class ToMortgageController {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private ToMortLoanerService toMortLoanerService;
+	@Autowired
+	private ToMortgageTosaveService toMortgageTosaveService;
 	
 	/**
 	 * 评估物业信息
@@ -141,37 +145,18 @@ public class ToMortgageController {
 						TsFinOrg faBank = tsFinOrgService.findBankByFinOrg(bank.getFaFinOrgCode());
 						mortgage.setParentBankName(faBank.getFinOrgName());
 					}
-				}
-				if (StringUtils.isNotBlank(mortgage.getTmpBankUpdateBy())) {
-					User u = uamUserOrgService.getUserById(mortgage.getTmpBankUpdateBy());
-					if (u != null) {
-						mortgage.setTmpBankUpdateByStr(u.getRealName());
+				}else{
+					MortgageToSaveVO mortgageToSaveVO = toMortgageTosaveService.getTosave(toMortgage);
+					if(null != mortgageToSaveVO){
+						mortgage.setBank_type(mortgageToSaveVO.getBank_type());
+						mortgage.setFinOrgCode(mortgageToSaveVO.getFinOrgCode());
 					}
 				}
-	
 				mortgage.setComAmount(mortgage.getComAmount() != null ? mortgage.getComAmount().divide(new BigDecimal(10000)) : null);
 				mortgage.setMortTotalAmount(mortgage.getMortTotalAmount() != null ? mortgage.getMortTotalAmount().divide(new BigDecimal(10000)) : null);
 				mortgage.setPrfAmount(mortgage.getPrfAmount() != null ? mortgage.getPrfAmount().divide(new BigDecimal(10000)) : null);
+				response.setContent(mortgage);
 			}
-			// 临时银行开启时不允许反选
-			/**
-			 * 没有临时银行
-			 */
-			//ToWorkFlow twf = new ToWorkFlow();
-
-			//twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
-
-			//twf.setCaseCode(toMortgage.getCaseCode());
-			//ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(twf);
-			/*if (record != null) {
-				// 流程已开启
-				response.setCode("1");
-			} else {
-				// 流程未开启
-				response.setCode("0");
-			}*/
-
-			response.setContent(mortgage);
 		} catch (Exception e) {
 			response.setSuccess(false);
 			response.setMessage("查询出错！");

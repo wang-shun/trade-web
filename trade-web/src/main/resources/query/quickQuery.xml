@@ -244,17 +244,13 @@
 	<!-- 询价列表 -->
 	<import resource="query/evaPricing/toEvaPricingListQuery.xml"/>
 	
+	<!-- 赎楼列表 -->
+	<import resource="query/ransom/toRansomList.xml"/>
+	<!--备件列表-->
+	<import resource="query/common/toAccesoryListQuery.xml"/>
+
 	<!-- 评估待结算列表 -->
 	<import resource="query/eval/settle/evalWaitAccountList.xml"></import>
 	<import resource="query/eval/settle/evalNoAccount.xml"></import>
 	<import resource="query/eval/settle/evalAccount.xml"></import>
-	
-	<!-- 赎楼列表 -->
-	<import resource="query/ransom/toRansomList.xml"/>
-	<!-- 赎楼其他 -->
-	<import resource="query/ransom/toRansomQuery.xml"/>
-	
-	<!--备件列表-->
-	<import resource="query/common/toAccesoryListQuery.xml"/>
-
 </queryConfig>

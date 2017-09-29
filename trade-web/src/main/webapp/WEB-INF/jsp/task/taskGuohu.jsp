@@ -126,102 +126,85 @@
 								</div>
 							</div>
 						</div>
-						<%-- <h2 class="newtitle title-mark">实收税费</h2>
-						<div class="line">
-							<div class="form_content">
-								<label class="control-label sign_left_small">房产税<font color=" red" class="mr5" >*</font></label>
-								<input type="text" class=" input_type yuanwid" id="houseHodingTax"
-									   name="houseHodingTax" onkeyup="checkNum(this)"
-									   value="<fmt:formatNumber value='${ houseTransfer.houseHodingTax}' type='number' pattern='#0.00' />">
-								<span class="date_icon">万元</span>
-							</div>
-							<div class="form_content">
-								<label class="control-label sign_left_small">个人所得税<font color=" red" class="mr5" >*</font></label>
-								<input type="text" class=" input_type yuanwid" id="personalIncomeTax"
-									   name="personalIncomeTax" onkeyup="checkNum(this)"
-									   value="<fmt:formatNumber value='${ houseTransfer.personalIncomeTax}' type='number' pattern='#0.00' />">
-								<span class="date_icon">万元</span>
-							</div>
-							<div class="form_content">
-								<label class="control-label sign_left_small">土地增值税<font color=" red" class="mr5" >*</font></label>
-								<input type="text" class=" input_type yuanwid" id="landIncrementTax"
-									   name="landIncrementTax" onkeyup="checkNum(this)"
-									   value="<fmt:formatNumber value='${ houseTransfer.landIncrementTax}' type='number' pattern='#0.00' />">
-								<span class="date_icon">万元</span>
-							</div>
-						</div>
-						<div class="line">
-							<div class="form_content">
-								<label class="control-label sign_left_small">上家营业税<font color=" red" class="mr5" >*</font></label>
-								<input type="text" class=" input_type yuanwid" id="businessTax"
-									   name="businessTax" onkeyup="checkNum(this)"
-									   value="<fmt:formatNumber value='${ houseTransfer.businessTax}' type='number' pattern='#0.00' />">
-								<span class="date_icon">万元</span>
-							</div>
-							<div class="form_content">
-								<label class="control-label sign_left_small">下家契税<font color=" red" class="mr5" >*</font></label>
-								<input type="text" class=" input_type yuanwid" id="contractTax"
-									   name="contractTax" onkeyup="checkNum(this)"
-									   value="<fmt:formatNumber value='${ houseTransfer.contractTax}' type='number' pattern='#0.00' />">
-								<span class="date_icon">万元</span>
-							</div>
 
-						</div> --%>
-						<%-- <div class="line">
-							<div class="form_content">
-								<label class="control-label sign_left_small">是否刷卡<font color=" red" class="mr5" >*</font></label>
-								<select  class="select_control yuanwid" name="useCardPay" id="useCardPay" onchange="showcardPayAmount()">
-									<option value="0" ${houseTransfer.useCardPay eq '0'?'selected="selected"':'' } >否</option>
-									<option value="1" ${houseTransfer.useCardPay eq '1'?'selected="selected"':'' }>是（佣金卡/税费卡）</option>
-								</select>
-							</div>
-							<div class="form_content" id="showcardPayAmount" style="display:${houseTransfer.useCardPay eq '1'?'block':'none' }">
-								<label class="control-label sign_left_small">刷卡金额<font color=" red" class="mr5" >*</font></label>
-								<input type="text" class=" input_type yuanwid" id="cardPayAmount"
-									   name=cardPayAmount onkeyup="checkNum(this)"
-									   value="<fmt:formatNumber value='${ houseTransfer.cardPayAmount}' type='number' pattern='#0.00' />">
-								<span class="date_icon">元</span>
-							</div>
-
-						</div> --%>
 						<!--貸款流失情況下顯示，需要商贷那边提供字段-->
 						<c:if test="${mortgageToSaveVO.selfMort==1}">
 							<div class="line">
 								<div class="form_content">
-									<label class="control-label sign_left_small">贷款流失金额</label>
+									<label class="control-label sign_left_small">贷款流失金额<font color=" red" class="mr5" >*</font></label>
 									<input type="text" name="loanLossAmount"
-										   value="${mortgageToSaveVO.loanLossAmount }" id="mortTotalAmount"
+										   value="${mortgageToSaveVO.loanLossAmount }" id="loanLossAmount"
 										   class=" input_type yuanwid" onkeyup="checknum(this)" placeholder="万元">
 								</div>
 
 								<div class="form_content">
-									<label class="control-label sign_left_small">贷款流失银行</label>
+									<label class="control-label sign_left_small">贷款流失银行<font color=" red" class="mr5" >*</font></label>
 									<input type="text" name="bankName"
-										   value="${mortgageToSaveVO.bankName }" id="loansDrainBank"
-										   class=" input_type yuanwid" onkeyup="checknum(this)" >
+										   value="${mortgageToSaveVO.bankName }" id="bankName"
+										   class=" input_type yuanwid" >
 								</div>
-							<div class="line">
 								<div class="form_content">
-									<label class="control-label sign_left_small">贷款利率</label>
-									<input type="text" name="loanRate" id="comDiscount"
-										   value="${mortgageToSaveVO.loanRate }" placeholder="0.50~1.50之间"
+									<label class="control-label sign_left_small">贷款利率<font color=" red" class="mr5" >*</font></label>
+									<input type="text" name="loanRate" id="loanRate"
+										   value="${mortgageToSaveVO.loanRate }" placeholder="0.10~1.50之间"
 										   class=" input_type yuanwid" onkeyup="autoCompleteComDiscount(this)">
 								</div>
 							</div>
+							<div class="line">
 								<div class="form_content">
-									<label class="control-label sign_left_small">贷款成数</label>
-									<input type="text" name="loanValue" id="comAmount"
+									<label class="control-label sign_left_small">贷款成数<font color=" red" class="mr5" >*</font></label>
+									<input type="text" name="loanValue" id="loanValue" placeholder="请输入百分数(%)"
 										   value="${mortgageToSaveVO.loanValue }" class=" input_type yuanwid"
 										   onkeyup="checknum(this)">
 								</div>
 								<div class="form_content">
-									<label class="control-label sign_left_small">贷款套数</label>
-									<input type="text" name="loanSum" id="comYear"
+									<label class="control-label sign_left_small">贷款套数<font color=" red" class="mr5" >*</font></label>
+									<input type="text" name="loanSum" id="loanSum" placeholder="1~999之间"
 										   value="${mortgageToSaveVO.loanSum }" class=" input_type yuanwid"
-										   onkeyup="checknum(this)">
+										   onkeyup="this.value=this.value.replace(/[^\d]/g,'') "
+										   onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " >
 								</div>
 							</div>
 						</c:if>
+						<div class="line">
+							<div class="form_content">
+								<label class="control-label sign_left_small">业主垫资金额<font color=" red" class="mr5" >*</font></label>
+								<input type="text" name="ownerMatAmount"
+									   value="${houseTransfer.ownerMatAmount }" id="ownerMatAmount"
+									   class=" input_type yuanwid" onkeyup="checknum(this)" placeholder="万元">
+							</div>
+							<div class="form_content">
+								<label class="control-label sign_left_small select_style mend_select">
+									垫资日期<font color=" red" class="mr5" >*</font>
+								</label>
+								<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+									<input type="text" class="input_type yuanwid datatime" id="matAmountTime" name="matAmountTime" onfocus="this.blur()"
+										   value="<fmt:formatDate  value='${houseTransfer.matAmountTime}' type='both' pattern='yyyy-MM-dd'/>">
+								</div>
+							</div>
+							<div class="form_content">
+								<label class="control-label sign_left_small">典当公司<font color=" red" class="mr5" >*</font></label>
+								<input type="text" name="pawnCompanies"
+									   value="${houseTransfer.pawnCompanies }" id="pawnCompanies"
+									   class=" input_type yuanwid" >
+							</div>
+						</div>
+						<div class="line">
+							<div class="form_content">
+								<label class="control-label sign_left_small">垫资费用<font color=" red" class="mr5" >*</font></label>
+								<input type="text" name="matCharges"
+									   value="${houseTransfer.matCharges }" id="matCharges"
+									   class=" input_type yuanwid" onkeyup="checknum(this)" placeholder="万元">
+							</div>
+							<div class="form_content">
+								<label class="control-label sign_left_small">担保费金额<font color=" red" class="mr5" >*</font></label>
+								<input type="text" name="guaranteeFeeAmount"
+									   value="${houseTransfer.guaranteeFeeAmount }" id="guaranteeFeeAmount"
+									   class=" input_type yuanwid" onkeyup="checknum(this)" placeholder="万元">
+							</div>
+
+						</div>
+
 						<h2 class="newtitle title-mark">经纪人陪同</h2>
 						<div class="line">
 							<div class="form_content">
@@ -353,6 +336,8 @@
 
 	<!-- 必须JS -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+	<!--公共信息-->
+	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 	<script>
 		var source = "${source}";
 		var accompany_reason = '';//陪同原因
@@ -379,7 +364,7 @@
 		}
 		$(document).ready(function() {
             /**日期组件*/
-            var picker = $('#data_1').datepicker({
+            var picker = $('#data_1 .input-group.date').datepicker({
                 todayBtn : "linked",
                 keyboardNavigation : false,
                 forceParse : false,
@@ -388,9 +373,9 @@
             });
 
 
-			//过户环节贷款信息不能修改
-			/*$('#mortType').attr("readonly","readonly");
-			$('#mortTotalAmount').attr("readonly","readonly");
+			//过户环节贷款流失银行不能修改
+			$('#bankName').attr("readonly","readonly");
+			/*$('#mortTotalAmount').attr("readonly","readonly");
 			$('#comAmount').attr("readonly","readonly");
 			$('#comYear').attr("readonly","readonly");
 			$('#comDiscount').attr("readonly","readonly");
@@ -639,6 +624,26 @@
 					method:"post",
 					dataType:"json",
 					data:{"fileList" : fileIDs.join()},
+                    beforeSend : function() {
+                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+                        $(".blockOverlay").css({'z-index':'9998'});
+                    },
+                    complete : function() {
+                        $.unblockUI();
+                        if(b){
+                            $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}});
+                            $(".blockOverlay").css({'z-index':'1900'});
+                        }
+                        if(status=='timeout'){//超时,status还有success,error等值的情况
+                            Modal.alert(
+                                {
+                                    msg:"抱歉，系统处理超时。"
+                                });
+                            $(".btn-primary").one("click",function(){
+                                parent.$.fancybox.close();
+                            });
+                        }
+                    } ,
 					success: function(data) {
 						if(data != null ){
 							if(data.success){
@@ -754,8 +759,9 @@
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
 						window.wxc.success("保存成功。",{"wxcOk":function(){
-								window.close();
-								window.opener.callback();
+								/*window.close();
+								window.opener.callback();*/
+                            window.location.href = "${ctx }/task/myTaskList";
 						}});
 					}
 				},
@@ -787,47 +793,30 @@
 				$('input[name=realHtTime]').css("border-color","red");
 				return false;
 			}
-			if ($('input[name=houseHodingTax]').val() == '') {
-				window.wxc.alert("房产税为必填项!");
-				$('input[name=houseHodingTax]').focus();
-				$('input[name=houseHodingTax]').css("border-color","red");
+			if ($('input[name=loanLossAmount]').val() == '') {
+				window.wxc.alert("流失金额为必填项!");
+				$('input[name=loanLossAmount]').focus();
+				$('input[name=loanLossAmount]').css("border-color","red");
 				return false;
 			}
-			/* if($('input[name=commet]').val()=='') {
-			 alert("备注为必填项!");
-			 $('input[name=commet]').focus();
-			 return false;
-			 } */
-			if ($('input[name=personalIncomeTax]').val() == '') {
-				window.wxc.alert("个人所得税为必填项!");
-				$('input[name=personalIncomeTax]').focus();
-				$('input[name=personalIncomeTax]').css("border-color","red");
+			if ($('input[name=loanRate]').val() == '') {
+				window.wxc.alert("贷款利率为必填项!");
+				$('input[name=loanRate]').focus();
+				$('input[name=loanRate]').css("border-color","red");
 
 				return false;
 			}
-			if ($('input[name=businessTax]').val() == '') {
-				window.wxc.alert("上家营业税为必填项!");
-				$('input[name=businessTax]').focus();
-				$('input[name=businessTax]').css("border-color","red");
+			if ($('input[name=loanValue]').val() == '') {
+				window.wxc.alert("贷款成数为必填项!");
+				$('input[name=loanValue]').focus();
+				$('input[name=loanValue]').css("border-color","red");
 				return false;
 			}
-			if ($('input[name=contractTax]').val() == '') {
-				window.wxc.alert("下家契税为必填项!");
-				$('input[name=contractTax]').focus();
-				$('input[name=contractTax]').css("border-color","red");
+			if ($('input[name=loanSum]').val() == '') {
+				window.wxc.alert("贷款套数为必填项!");
+				$('input[name=loanSum]').focus();
+				$('input[name=loanSum]').css("border-color","red");
 
-				return false;
-			}
-			if ($('input[name=landIncrementTax]').val() == '') {
-				window.wxc.alert("土地增值税为必填项!");
-				$('input[name=landIncrementTax]').focus();
-				$('input[name=landIncrementTax]').css("border-color","red");
-				return false;
-			}
-			if ($('select[name=useCardPay]').val() ==1&& $('input[name=cardPayAmount]').val() == '') {
-				window.wxc.alert("刷卡总金额为必填项!");
-				$('input[name=cardPayAmount]').focus();
-				$('input[name=cardPayAmount]').css("border-color","red");
 				return false;
 			}
 			if($("#isAccompany").val()==1){
@@ -925,7 +914,6 @@
         });
 	</script>
 </content>
-
 </body>
 
 

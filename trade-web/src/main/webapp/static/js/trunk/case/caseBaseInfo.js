@@ -21,24 +21,23 @@ $(document).ready( function() {
 			new Vue({
 				el:'#basicInfo',
 				data:{
-					caseProperty:   data.toCase.caseProperty,
-					status:         data.toCase.status,
-					isSubscribe:    data.isSubscribe,
-					caseCode:       data.toCase.caseCode,
-					ccaiCode:       data.toCase.ccaiCode,
-					toPropertyInfo: data.toPropertyInfo,
-					agentName:      data.agentName,
-					agentGrpName:   data.agentGrpName,
-					mcName:         data.mcName,
-					msName:         data.msName,
-					loanName:       data.loanName,
-					warName:        data.warName,
-					asName:         data.asName,
-					buyerName:      data.buyerName,
-					sellerName:     data.sellerName
+					caseProperty:data.toCase.caseProperty,
+					status:data.toCase.status,
+					isSubscribe:data.isSubscribe,
+					caseCode:data.toCase.caseCode,
+					ccaiCode:data.toCase.ccaiCode,
+					toPropertyInfo:data.toPropertyInfo,
+					agentName:data.agentName,
+					agentGrpName:data.agentGrpName,
+					mcName:data.mcName,
+					msName:data.msName,
+					loanName:data.loanName,
+					warName:data.warName,
+					asName:data.asName,
+					buyerName:data.buyerName,
+					sellerName:data.sellerName
 				}
 			})
-			//popover重新初始化
 			$("[data-toggle='popover']").popover();
 		},
 		error : function(errors) { 					

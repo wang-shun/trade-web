@@ -55,7 +55,10 @@ display: none;}
                                 <div class="col-lg-5 col-md-5">
                                         <label class="col-lg-3 col-md-3 control-label font_w">评估公司</label>
                                         <div class="col-lg-9 col-md-9">
-                                            <input type="text" class="form-control" id="evalCompany" name="evalCompany">
+                                        	<select  id="evalCompany" class="form-control select_control">
+                                        	
+                                        	</select>
+                                            <!-- <input type="text" class="form-control" id="evalCompany" name="evalCompany"> -->
                                             <!-- <aist:dict id="evalCompany" name="evalCompany" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one_case"/> -->
                                         </div>
                                 </div>
@@ -174,18 +177,22 @@ display: none;}
                                  	<%-- <input type="hidden" value="${caseCode}" id="caseCode" /> --%>
                                      <form action="" class="form_list clearfix" style="margin-bottom: 20px;">
                                          <div class="form_tan">
+                                         	<button type="button" class="close" data-dismiss="modal"
+													aria-hidden="true">×</button>
                                              <label class="control-label">
                                             		     请输入无需结算原因：
                                              </label>
-                                             <input class="input_type input_extent" placeholder="请输入" value="" id="noEndCause">
+                                             <input class="input_type input_extent" placeholder="请输入" value="" style="width:320px" id="noEndCause"/>
                                          </div>
                                          <div class="form_tan tan_space">
                                              <button type="button" class="btn btn-success" id="noEnd2" onclick="">
                                                  <i class="icon iconfont"></i>&nbsp;确认
                                              </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                             <button type="button" class="btn btn-success" id="cancel" onclick="">
+                                             <!-- <button type="button" class="btn btn-success" id="cancel" onclick="">
                                                  <i class="icon iconfont"></i>&nbsp;取消
-                                             </button>
+                                             </button> -->
+                                             <button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
                  						</div>
                                      </form>
                                     <!--  <button type="button" class="close close_blue" data-dismiss="modal"><i class="iconfont icon_rong"> &#xe60a; </i></button> -->
@@ -274,14 +281,14 @@ display: none;}
 	 			window.location.href = ctx+"/eval/settle/noEndEvalList?pkid="+pkid+"&settleNotReason="+noReason;
 	 	    })
 	 	    
-	 	    $("#cancel").click(function(){
+	 	   /*  $("#cancel").click(function(){
 	 	    	//$("#myModal").css("display","none");
 	 			window.location.href = ctx+"/eval/settle/evalWaitEndList";
-	 	    })
+	 	    }) */
 	    }
 	  	
 	   
-	    function ckbChange(){
+	    /* function ckbChange(){
 	    	
 	    	$("#batchappro").attr("disabled", false);
 	    	var parE=$(event.target).closest('td');
@@ -305,13 +312,13 @@ display: none;}
 	    			window.wxc.alert('请至少选择一个任务');
 	    			return ;
 	    		}
-	    	}
+	    	} */
 	    
 	    /*	if(serviceJobCode == "YCYYZG"){
 	    		sDepId = "ff8080814f459a78014f45a73d820006";
 	    	}*/
 	    	
-	    	userSelect({startOrgId:sDepId,expandNodeId:sDepId,
+	    	/* userSelect({startOrgId:sDepId,expandNodeId:sDepId,
 	    		nameType:'long|short',orgType:'',departmentType:'',departmentHeriarchy:'',chkStyle:'radio',callBack:taskUserSelectBack});
 	    }
 	    
@@ -331,7 +338,7 @@ display: none;}
 	    			}
 	    		}});
 	    	}
-	    }
+	    } */
 	    
 	    function changeTaskAssignee(sendData){
 	    	if(!sendData){
@@ -383,7 +390,6 @@ display: none;}
 	    
 	    </script>
 	    </content> 
-	     <!-- <input type="hidden" value="" id="caseCode" /> -->
           </body>
          
 </html>

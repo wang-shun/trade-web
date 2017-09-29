@@ -38,6 +38,9 @@
 <link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
 <!--弹出框样式  -->
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
+<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
+
 
 <script type="text/javascript">
 	var ctx = "${ctx}";	

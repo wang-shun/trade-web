@@ -170,7 +170,7 @@
 							<div class="form_content">
 								<label class="control-label sign_left_small">实际操作人</label>
 								<input type="hidden" id="userId" name="autualOperatorId" value="${ratePayment.autualOperatorId}">
-								<input class=" input_type yuanwid" name="autualOperatorName" id="ActualOperator" placeholder=""   type="text" value="${ratePayment.autualOperatorName}"/>
+								<input class=" input_type yuanwid" name="autualOperatorName" id="ActualOperator" placeholder="请点击选择"   type="text" value="${ratePayment.autualOperatorName}"/>
 							</div>
 						</div>
 							<div class="line">
@@ -499,6 +499,26 @@
             dataType : "json",
             timeout: 10000,
             data :data,
+            beforeSend:function(){
+                $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+                $(".blockOverlay").css({'z-index':'9998'});
+            },
+            complete: function() {
+                $.unblockUI();
+                if(b){
+                    $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}});
+                    $(".blockOverlay").css({'z-index':'1900'});
+                }
+                if(status=='timeout'){//超时,status还有success,error等值的情况
+                    Modal.alert(
+                        {
+                            msg:"抱歉，系统处理超时。"
+                        });
+                    $(".btn-primary").one("click",function(){
+                        parent.$.fancybox.close();
+                    });
+                }
+            } ,
             success : function(data) {
                 showModal(data);
             },
@@ -572,6 +592,6 @@
         });
 	</script>
 </content>
-
+	<script  src="<c:url value='/js/trunk/case/caseBaseInfo.js'/>"/>
 </body>
 </html>

@@ -39,7 +39,7 @@
            		<div v-cloak v-if="caseProperty==30003003 || caseProperty==30003007 || caseProperty==30003008" class="sign sign-red">在途</div>
            		<div v-cloak class="sign sign-blue">
              		<p v-if="status == '30001001' ">未分单</p>
-             		<p v-if="status == '30001002' ">已接单</p>
+             		<p v-if="status == '30001002' ">已分单</p>
              		<p v-if="status == '30001003' ">已签约</p>
              		<p v-if="status == '30001004' ">已过户</p>
              		<p v-if="status == '30001005' ">已领证</p>
@@ -50,7 +50,7 @@
            		<div v-cloak v-if="caseProperty=='30003004'" class="sign sign-red">挂起</div>
            		<div v-cloak class="sign sign-blue">
              		<p v-if="status == '30001001' ">未分单</p>
-             		<p v-if="status == '30001002' ">已接单</p>
+             		<p v-if="status == '30001002' ">已分单</p>
              		<p v-if="status == '30001003' ">已签约</p>
              		<p v-if="status == '30001004' ">已过户</p>
              		<p v-if="status == '30001005' ">已领证</p>
@@ -61,7 +61,7 @@
           		<div v-cloak v-if="caseProperty=='30003006'" class="sign sign-red">全部</div>
            		<div v-cloak class="sign sign-blue">
             		<p v-if="status == '30001001' ">未分单</p>
-            		<p v-if="status == '30001002' ">已接单</p>
+            		<p v-if="status == '30001002' ">已分单</p>
             		<p v-if="status == '30001003' ">已签约</p>
             		<p v-if="status == '30001004' ">已过户</p>
             		<p v-if="status == '30001005' ">已领证</p>
@@ -86,9 +86,9 @@
 										<dt>层高</dt>
 										<dd v-cloak>{{toPropertyInfo.locateFloor}}／{{toPropertyInfo.totalFloor}}</dd>
 										<dt>产证面积</dt>
-										<dd v-cloak>{{toPropertyInfo.square}}<label v-if="toPropertyInfo.square !='' && toPropertyInfo.square !=null">平方</label></dd>
+										<dd v-cloak>{{toPropertyInfo.square}}平方</dd>
 										<dt>竣工年限</dt>
-										<dd v-cloak>{{toPropertyInfo.finishYear}}<label v-if="toPropertyInfo.finishYear !='' && toPropertyInfo.finishYear !=null">年</label></dd>
+										<dd v-cloak>{{toPropertyInfo.finishYear}}年</dd>
 										<dt>房屋类型</dt>
 										<dd v-cloak>{{toPropertyInfo.propertyTypeName}}</dd>
 									</dl>

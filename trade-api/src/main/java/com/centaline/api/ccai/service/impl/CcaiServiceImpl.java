@@ -18,17 +18,13 @@ import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToCcaiAttachment;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.enums.CaseOriginEnum;
-import com.centaline.trans.common.enums.CaseParticipantEnum;
-import com.centaline.trans.common.enums.CasePropertyEnum;
-import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.common.enums.*;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToCcaiAttachmentMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQProperties;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +61,8 @@ public class CcaiServiceImpl implements CcaiService {
 	@Autowired
 	private JmsMessagingTemplate jmsTemplate; //activemq 消息队列
 
-	private Validator validator =  Validation.buildDefaultValidatorFactory().getValidator();;//Hibernate校验工具
+	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+	;//Hibernate校验工具
 
 	@Override
 	public CcaiServiceResult importCase(CaseImport acase) {
@@ -80,6 +77,8 @@ public class CcaiServiceImpl implements CcaiService {
 		addProperty(caseCode, acase.getCcaiCode(), acase.getProperty());
 		//案件客户信息导入
 		addGuestsInfo(caseCode, acase.getCcaiCode(), acase.getGuests());
+		//案件秘书信息天津
+		addAssistant(caseCode,acase);
 		//案件附件信息导入
 		addAttachments(caseCode, acase.getCcaiCode(), acase.getAttachments());
 		result.setSuccess(true);
@@ -87,9 +86,9 @@ public class CcaiServiceImpl implements CcaiService {
 		result.setCode("00");
 		try {
 			//将案件编号 放入消息队列中
-			MQCaseMessage message = new MQCaseMessage(caseCode,MQCaseMessage.STARTFLOW_TYPE);
-			jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(),message);
-		}catch (Exception e){
+			MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.STARTFLOW_TYPE);
+			jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -122,7 +121,7 @@ public class CcaiServiceImpl implements CcaiService {
 			}
 			//修改客户信息
 			if (acase.getGuests() != null && acase.getGuests().size() > 0) {
-				updateGuest(ca.getCaseCode(),ca.getCcaiCode(),acase.getGuests());
+				updateGuest(ca.getCaseCode(), ca.getCcaiCode(), acase.getGuests());
 				msg.append("客户信息更新成功!\r\n");
 			}
 			//修改附件信息 不存在失败的情况
@@ -131,11 +130,11 @@ public class CcaiServiceImpl implements CcaiService {
 				msg.append("附件信息更新成功!\r\n");
 			}
 			CcaiServiceResult result = new CcaiServiceResult();
-			if(msg.length()>0){
+			if (msg.length() > 0) {
 				result.setSuccess(true);
 				result.setCode("00");
 				result.setMessage(msg.toString());
-			}else{
+			} else {
 				result.setSuccess(false);
 				result.setCode("99");
 				result.setMessage("没有信息被修改了!仅支持物业、客户、参与人及附件信息的修改");
@@ -156,10 +155,10 @@ public class CcaiServiceImpl implements CcaiService {
 			if (CaseStatusEnum.BHCCAI.getCode().equals(toCase.getStatus())) {
 				CcaiServiceResult result = updateCase(acase);
 				//操作成功，将案件放入消息队列
-				if(result.isSuccess()){
+				if (result.isSuccess()) {
 					//将案件编号 放入消息队列中
-					MQCaseMessage message = new MQCaseMessage(caseCode,MQCaseMessage.UPDATEFLOW_TYPE);
-					jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(),message);
+					MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.UPDATEFLOW_TYPE);
+					jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
 				}
 				return result;
 			} else {
@@ -206,31 +205,36 @@ public class CcaiServiceImpl implements CcaiService {
 		tocase.setCity(acase.getCity());
 		tocase.setCreateTime(new Date());
 		tocase.setCaseProperty(CasePropertyEnum.TPZT.getCode());  // 指定为在途单
-		for (CaseParticipantImport pa : acase.getParticipants()) {
-			if (CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
-				//获取交易顾问信息
-				User user = getUserByUserNameOrEmployeeCode(pa.getUserName());
-				if (user != null) {
-					tocase.setLeadingProcessId(user.getId());//案件负责人 交易顾问ID
-					//补全交易顾问手机号
-					if (StringUtils.isBlank(pa.getMobile())) {
-						pa.setMobile(user.getMobile());
-					}
-				} else {
-					throw new BusinessException("权证专员" + pa.getUserName() + "信息不存在");
-				}
-				Org org = uamUserOrgService.getOrgByCode(pa.getGrpCode());
-				if (org != null) {
-					tocase.setOrgId(org.getId());//组别ID 上海原有逻辑为：组织编码的父级编码是区域部门编码
-					tocase.setDistrictId(org.getParentId());//分行ID （CCAI中到权证部门或者誉萃）上海原有逻辑为：区域部门编码
-				} else {
-					throw new BusinessException("权证专员所在部门编码不存在！");
-				}
-			}
-		}
-		//业务开始后 进行调整
 		tocase.setStatus(CaseStatusEnum.WJD.getCode());//设置状态为未接单
 		tocase.setCaseOrigin(CaseOriginEnum.CCAI.getCode());//设置信息来源
+		//选择出案件主办 有贷款权证则优先贷款权证，否则为过户权证
+		CaseParticipantImport owner = null;
+		for (CaseParticipantImport pa : acase.getParticipants()) {
+			if (owner == null && CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
+				owner = pa;
+			} else if (CaseParticipantEnum.LOAN.getCode().equals(pa.getPosition())) {
+				owner = pa;
+				break;
+			}
+		}
+		if (owner != null) {
+			//获取交易顾问信息
+			User user = getUserByUserNameOrEmployeeCode(owner.getUserName());
+			if (user != null) {
+				tocase.setLeadingProcessId(user.getId());//案件负责人 交易顾问ID
+			} else {
+				throw new BusinessException("权证[" + owner.getUserName() + "]信息不存在");
+			}
+			Org org = uamUserOrgService.getOrgByCode(owner.getGrpCode());
+			if (org != null) {
+				tocase.setOrgId(org.getId());//组别ID 上海原有逻辑为：组织编码的父级编码是区域部门编码
+				tocase.setDistrictId(org.getParentId());//分行ID （CCAI中到权证部门或者誉萃）上海原有逻辑为：区域部门编码
+			} else {
+				throw new BusinessException("权证所在部门编码不存在！");
+			}
+		}else{
+			throw new BusinessException("权证信息不存在！");
+		}
 		tocaseMapper.insertSelective(tocase);
 	}
 
@@ -242,16 +246,13 @@ public class CcaiServiceImpl implements CcaiService {
 	 * @return 是否成功
 	 */
 	private boolean updateParticipant(List<CaseParticipantImport> participants, ToCase toCase) {
-		//缓存主要人员信息，用于同步更改案件的人员配置信息
-		CaseParticipantImport warrant = null;//缓存过户权证
-		CaseParticipantImport agent = null;//缓存经纪人信息
 		ToCaseParticipant param = new ToCaseParticipant();
 		param.setAvailable("Y");
 		param.setCcaiCode(toCase.getCcaiCode());
 		//获取并更新原有的参与人信息表
 		for (CaseParticipantImport pa : participants) {
 			//秘书信息不进行修改
-			if(CaseParticipantEnum.SECRETARY.getCode().equals(pa.getPosition())) continue;
+			if (CaseParticipantEnum.SECRETARY.getCode().equals(pa.getPosition())) continue;
 			//Assignid 不为空才进行修改或新增
 			if (StringUtils.isNotBlank(pa.getAssignId())) {
 				param.setAssignId(pa.getAssignId());
@@ -263,11 +264,7 @@ public class CcaiServiceImpl implements CcaiService {
 				} else {
 					//未匹配到的信息进行校验和新增
 					StringBuilder msg = new StringBuilder();
-					if (CaseParticipantEnum.SECRETARY.getCode().equals(pa.getPosition())) {
-						buildErrorMessage(validator.validate(pa, Default.class), msg, "秘书");
-					} else {
-						buildErrorMessage(validator.validate(pa, NormalGroup.class, Default.class), msg, "参与人");
-					}
+					buildErrorMessage(validator.validate(pa, NormalGroup.class, Default.class), msg, "参与人");
 					if (msg.length() > 0) {
 						throw new BusinessException(msg.toString());
 					} else {
@@ -277,17 +274,11 @@ public class CcaiServiceImpl implements CcaiService {
 			} else {
 				throw new BusinessException("未获取到对应的AssignId[" + pa.getAssignId() + "]信息");
 			}
-			if (CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
-				warrant = pa;
-			}
-			if (CaseParticipantEnum.AGENT.getCode().equals(pa.getPosition())) {
-				agent = pa;
-			}
 		}
 		//未接单 或 驳回CCAI的成交报告 需要修改 相应的 案件人员配置信息
 		if (CaseStatusEnum.WJD.getCode().equals(toCase.getStatus())
 				|| CaseStatusEnum.BHCCAI.getCode().equals(toCase.getStatus())) {
-			updateCaseWorker(warrant, agent, toCase);
+			updateCaseWorker(toCase);
 		}
 		return true;
 	}
@@ -310,13 +301,17 @@ public class CcaiServiceImpl implements CcaiService {
 		caseInfo.setReportTime(acase.getReportTime());
 		caseInfo.setCcaiCreateTime(acase.getCreateTime());
 		caseInfo.setCcaiUpdateTime(acase.getUpdateTime());
-		//同步案件相关人员信息
+		//同步案件相关人员信息 同时选出案件主办 优先贷款 后过户
+		CaseParticipantImport owner = null;
 		for (CaseParticipantImport pa : acase.getParticipants()) {
 			if (CaseParticipantEnum.AGENT.getCode().equals(pa.getPosition())) {
 				caseInfoAgentSet(caseInfo, pa);
-			} else if (CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
-				caseInfoWarrantSet(caseInfo, pa);
+			} else if (owner == null && CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
+				owner = pa;
+			} else if(CaseParticipantEnum.LOAN.getCode().equals(pa.getPosition())){
+				owner = pa;
 			}
+			//参与人保存处理
 			ToCaseParticipant participant = buildParticipant(caseCode, acase.getCcaiCode(), pa);
 			//补全参与人的手机号
 			if (StringUtils.isBlank(participant.getMobile())) {
@@ -326,7 +321,7 @@ public class CcaiServiceImpl implements CcaiService {
 			//补全主管信息
 			if (StringUtils.isNotBlank(participant.getGrpMgrUsername())
 					&& (StringUtils.isBlank(participant.getGrpMgrRealname()) || StringUtils.isBlank(participant.getGrpMgrMobile()))) {
-				User user = getUserByUserNameOrEmployeeCode(pa.getUserName());
+				User user = getUserByUserNameOrEmployeeCode(pa.getGrpMgrUserName());
 				if (user != null) {
 					participant.setGrpMgrMobile(user.getMobile());
 					participant.setGrpMgrRealname(user.getRealName());
@@ -335,8 +330,48 @@ public class CcaiServiceImpl implements CcaiService {
 			//新增参与人信息
 			toCaseParticipantMapper.insertSelective(participant);
 		}
+		caseInfoOwnerSet(caseInfo, owner);
 		toCaseInfoMapper.insertSelective(caseInfo);
 	}
+
+	/**
+	 * 匹配案件对应的权证组别秘书
+	 * 并保存到T_TO_CASE_PARTICIPANT表
+	 * @param caseCode
+	 * @param acase
+	 */
+	private void addAssistant(String caseCode,CaseImport acase){
+		CaseParticipantImport owner = null;
+		for (CaseParticipantImport pa : acase.getParticipants()) {
+			if (owner == null && CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
+				owner = pa;
+			} else if (CaseParticipantEnum.LOAN.getCode().equals(pa.getPosition())) {
+				owner = pa;
+				break;
+			}
+		}
+		Org org = uamUserOrgService.getOrgByCode(owner.getGrpCode());
+		List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),TradeJobCodeEnum.ASSISTANT.getCode());
+		if(users!=null && users.size()>0){
+			User assistant = users.get(0);
+			ToCaseParticipant casepa = new ToCaseParticipant();
+			casepa.setAssignId(null);
+			casepa.setCaseCode(caseCode);
+			casepa.setCcaiCode(acase.getCcaiCode());
+			casepa.setUserName(assistant.getUsername());
+			casepa.setRealName(assistant.getRealName());
+			casepa.setMobile(assistant.getMobile());
+			casepa.setGrpCode(owner.getGrpCode());
+			casepa.setGrpName(owner.getGrpName());
+			casepa.setPosition(CaseParticipantEnum.ASSISTANT.getCode());
+			casepa.setAvailable("Y");
+			casepa.setOrigin("SYSTEM");//标记系统新增
+			toCaseParticipantMapper.insertSelective(casepa);
+		}else{
+			throw new BusinessException("未获取到组别["+owner.getGrpCode()+"]对应的权证内勤信息");
+		}
+	}
+
 
 	/**
 	 * 将CcaiImportCaseInfo导入对象转换成系统用参与人对象
@@ -399,18 +434,15 @@ public class CcaiServiceImpl implements CcaiService {
 	/**
 	 * 设置案件基本信息 过户权证相关 信息
 	 */
-	private void caseInfoWarrantSet(ToCaseInfo caseInfo, CaseParticipantImport pa) {
+	private void caseInfoOwnerSet(ToCaseInfo caseInfo, CaseParticipantImport pa) {
+		if(pa == null){
+			throw new BusinessException("权证信息不存在！");
+		}
 		User manager = getUserByUserNameOrEmployeeCode(pa.getGrpMgrUserName());
 		if (manager != null) {
 			caseInfo.setRequireProcessorId(manager.getId());//请求处理人即交易主管
-			if (StringUtils.isBlank(pa.getGrpMgrMobile())) {
-				pa.setGrpMgrMobile(manager.getMobile());
-			}
-			if (StringUtils.isBlank(pa.getGrpMgrRealName())) {
-				pa.setGrpMgrRealName(manager.getRealName());
-			}
 		} else {
-			throw new BusinessException("过户权证主管[" + pa.getGrpMgrUserName() + "]信息不存在");
+			throw new BusinessException("权证主管[" + pa.getGrpMgrUserName() + "]信息不存在");
 		}
 		//CCAI导入直接进行分单
 		caseInfo.setIsResponsed("1");//是否响应 分单
@@ -418,7 +450,7 @@ public class CcaiServiceImpl implements CcaiService {
 		caseInfo.setDispatchTime(new Date());//分单时间
 		caseInfo.setArCode(pa.getGrpCode());
 		caseInfo.setArName(pa.getGrpName());
-		caseInfo.setTargetCode(pa.getGrpCode());//目标组别设置为权证组别 因为项目中不再需要手动分单
+		caseInfo.setTargetCode(pa.getGrpCode());//目标组别设置为权证组别
 	}
 
 	/**
@@ -634,69 +666,78 @@ public class CcaiServiceImpl implements CcaiService {
 
 	/**
 	 * 修改案件参与人后
-	 * 同步修改案件信息及案件表中设置的经纪人及过户权证信息
-	 *
-	 * @param warrant 过户权证信息 可为null
-	 * @param agent   经纪人信息 可为null
+	 * 同步修改案件信息及案件表中设置的经纪人及案件主办信息
+	 * 由于要优先贷款再过户权证 所以重新查询并处理
 	 * @param toCase  案件信息
 	 */
-	private void updateCaseWorker(CaseParticipantImport warrant, CaseParticipantImport agent, ToCase toCase) {
+	private void updateCaseWorker(ToCase toCase) {
 		ToCaseInfo caseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(toCase.getCaseCode());
-		//过户权证相关信息处理
-		if (warrant != null && CaseParticipantEnum.WARRANT.getCode().equals(warrant.getPosition())) {
-			//部门主管信息更改
-			if (StringUtils.isNotBlank(warrant.getGrpMgrUserName())) {
-				User manager = getUserByUserNameOrEmployeeCode(warrant.getGrpMgrUserName());
-				if (manager != null) {
-					caseInfo.setRequireProcessorId(manager.getId());//请求处理人即交易主管 进行分单操作
-				}
-			}
-			//过户权证信息更改
-			if (StringUtils.isNotBlank(warrant.getUserName())) {
-				User user = getUserByUserNameOrEmployeeCode(warrant.getUserName());
-				if (user != null) {
-					toCase.setLeadingProcessId(user.getId());//案件负责人
-				}
-				caseInfo.setDispatchTime(new Date());//更新 分单时间
-			}
-			//过户权证部门编码修改
-			if (StringUtils.isNotBlank(warrant.getGrpCode())) {
-				Org org = uamUserOrgService.getOrgByCode(warrant.getGrpCode());
-				if (org != null) {
-					toCase.setOrgId(org.getId());//更新组别信息
-					toCase.setDistrictId(org.getParentId());//区域编码
-				} else {
-					throw new BusinessException("过户权证部门编码不存在!");
-				}
-				caseInfo.setArCode(warrant.getGrpCode());
-				caseInfo.setTargetCode(warrant.getGrpCode());//更换目标部门
-			}
-			if (StringUtils.isNotBlank(warrant.getGrpName())) {
-				caseInfo.setArName(warrant.getGrpName());
+		List<ToCaseParticipant> participants = toCaseParticipantMapper.selectByCaseCode(toCase.getCaseCode());
+		ToCaseParticipant owner = null;
+		ToCaseParticipant agent = null;
+		for(ToCaseParticipant participant : participants){
+			if(owner == null && CaseParticipantEnum.WARRANT.getCode().equals(participant.getPosition())){
+				owner = participant;
+			}else if(CaseParticipantEnum.LOAN.getCode().equals(participant.getPosition())){
+				owner = participant;
+			}else if(CaseParticipantEnum.AGENT.getCode().equals(participant.getPosition())){
+				agent = participant;
 			}
 		}
+		//案件负责人信息比对和修改
+		User user = getUserByUserNameOrEmployeeCode(owner.getUserName());
+		if(user!=null){
+			//判断案件负责人是否与参与人一致
+			if(!(user.getId().equals(toCase.getLeadingProcessId()))){
+				toCase.setLeadingProcessId(user.getId());//案件负责人
+				caseInfo.setDispatchTime(new Date());//更新 分单时间
+			}
+		}else{
+			throw new BusinessException("未获取到新权证["+owner.getUserName()+"]的信息");
+		}
+		//案件对应部门 信息比对和修改
+		Org org = uamUserOrgService.getOrgByCode(owner.getGrpCode());
+		if (org != null) {
+			if(!toCase.getOrgId().equals(org.getId())){
+				toCase.setOrgId(org.getId());//更新组别信息
+				toCase.setDistrictId(org.getParentId());//区域编码
+				caseInfo.setArCode(owner.getGrpCode());
+				caseInfo.setTargetCode(owner.getGrpCode());//更换目标部门
+				caseInfo.setArName(owner.getGrpName());
+			}
+		} else {
+			throw new BusinessException("过户权证部门编码不存在!");
+		}
+		//过户权证主管信息比对和修改
+		User manager = getUserByUserNameOrEmployeeCode(owner.getGrpMgrUsername());
+		if(manager!=null){
+			if(!manager.getId().equals(caseInfo.getRequireProcessorId())){
+				caseInfo.setRequireProcessorId(manager.getId());
+			}
+		}else {
+			throw new BusinessException("过户权证部门主管["+owner.getGrpMgrUsername()+"]的信息不存在!");
+		}
 		//经纪人相关信息处理
-		if (agent != null && CaseParticipantEnum.AGENT.getCode().equals(agent.getPosition())) {
-			//经纪人信息修改
-			if (StringUtils.isNotBlank(agent.getUserName())) {
-				User update = getUserByUserNameOrEmployeeCode(agent.getUserName());
-				if (update != null) {
-					caseInfo.setAgentCode(update.getId());
-					caseInfo.setAgentPhone(update.getMobile());
-				} else {
-					throw new BusinessException("经纪人[" + agent.getUserName() + "]信息不存在");
-				}
-				caseInfo.setAgentName(StringUtils.isBlank(agent.getRealName()) ? update.getRealName() : agent.getRealName());
+		User agentUser = getUserByUserNameOrEmployeeCode(agent.getUserName());
+		if(agentUser!=null){
+			if(!caseInfo.getAgentCode().equals(agentUser.getId())){
+				caseInfo.setAgentCode(agentUser.getId());
+				caseInfo.setAgentPhone(agentUser.getMobile());
+				caseInfo.setAgentName(agentUser.getRealName());
 				caseInfo.setAgentUserName(agent.getUserName());
 			}
-			//部门编码
-			if (StringUtils.isNotBlank(agent.getGrpCode())) {
+		}else{
+			throw new BusinessException("经纪人["+agent.getUserName()+"]的信息不存在!");
+		}
+		//经纪人部门信息 比对修改
+		Org agentOrg = uamUserOrgService.getOrgByCode(agent.getGrpCode());
+		if (agentOrg != null) {
+			if(!caseInfo.getGrpCode().equals(agentOrg.getOrgCode())){
 				caseInfo.setGrpCode(agent.getGrpCode());
+				caseInfo.setGrpName(agentOrg.getOrgName());
 			}
-			//经纪人部门名称
-			if (StringUtils.isNotBlank(agent.getGrpName())) {
-				caseInfo.setGrpName(agent.getGrpName());
-			}
+		} else {
+			throw new BusinessException("经纪人部门编码不存在!");
 		}
 		toCaseInfoMapper.updateByPrimaryKeySelective(caseInfo);
 		tocaseMapper.updateByPrimaryKeySelective(toCase);
@@ -704,32 +745,33 @@ public class CcaiServiceImpl implements CcaiService {
 
 	/**
 	 * 更新客户信息
+	 *
 	 * @param caseCode 案件编号
-	 * @param guests 被修改的客户信息
+	 * @param guests   被修改的客户信息
 	 */
-	private void updateGuest(String caseCode,String ccaiCode,List<CaseGuestImport> guests){
+	private void updateGuest(String caseCode, String ccaiCode, List<CaseGuestImport> guests) {
 		List<TgGuestInfo> olds = tgGuestInfoMapper.findTgGuestInfoByCaseCode(caseCode);
-		if(olds==null || olds.size() ==0) throw new BusinessException("未获取到客户信息，无法修改");
-		Map<String,TgGuestInfo> temp = new HashMap<>();
+		if (olds == null || olds.size() == 0) throw new BusinessException("未获取到客户信息，无法修改");
+		Map<String, TgGuestInfo> temp = new HashMap<>();
 		//从数组 转换成map,以唯一识别code 为key方便修改
-		olds.stream().forEach((guest)->temp.put(guest.getGuestCode(),guest));
-		for(CaseGuestImport guest : guests){
-			if(StringUtils.isBlank(guest.getId())) throw new BusinessException("未获取到客户唯一标识，无法进行修改!");
-			if(temp.containsKey(guest.getId())){
+		olds.stream().forEach((guest) -> temp.put(guest.getGuestCode(), guest));
+		for (CaseGuestImport guest : guests) {
+			if (StringUtils.isBlank(guest.getId())) throw new BusinessException("未获取到客户唯一标识，无法进行修改!");
+			if (temp.containsKey(guest.getId())) {
 				TgGuestInfo update = temp.get(guest.getId());
 				//先不进行类型修改 否则会导致没有上下家的情况
 				// update.setTransPosition(StringUtils.isNotBlank(guest.getPosition())?guest.getPosition():null);
-				update.setGuestName(StringUtils.isNotBlank(guest.getName())?guest.getName():null);
-				update.setGuestPhone(StringUtils.isNotBlank(guest.getMobile())?guest.getMobile():null);
-				update.setIdentifyType(StringUtils.isNotBlank(guest.getCertType())?guest.getCertType():null);
-				update.setIdentifyNumber(StringUtils.isNotBlank(guest.getCertCode())?guest.getCertCode():null);
+				update.setGuestName(StringUtils.isNotBlank(guest.getName()) ? guest.getName() : null);
+				update.setGuestPhone(StringUtils.isNotBlank(guest.getMobile()) ? guest.getMobile() : null);
+				update.setIdentifyType(StringUtils.isNotBlank(guest.getCertType()) ? guest.getCertType() : null);
+				update.setIdentifyNumber(StringUtils.isNotBlank(guest.getCertCode()) ? guest.getCertCode() : null);
 				tgGuestInfoMapper.updateByPrimaryKeySelective(update);
-			}else{
+			} else {
 				StringBuilder msg = new StringBuilder();
-				buildErrorMessage(validator.validate(guest),msg,"客户");
-				if(msg.length()>0){
+				buildErrorMessage(validator.validate(guest), msg, "客户");
+				if (msg.length() > 0) {
 					throw new BusinessException(msg.toString());
-				}else{
+				} else {
 					TgGuestInfo add = new TgGuestInfo();
 					add.setGuestCode(guest.getId());
 					add.setCaseCode(caseCode);

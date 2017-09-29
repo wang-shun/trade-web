@@ -54,7 +54,7 @@ display: none;}
                                 <div class="col-lg-5 col-md-5">
                                         <label class="col-lg-3 col-md-3 control-label font_w">评估公司</label>
                                         <div class="col-lg-9 col-md-9">
-                                            <input type="text" class="form-control" id="caseCode" name="caseCode">
+                                            <input type="text" class="form-control" id="evalCompany" name="evalCompany">
                                         </div>
                                 </div>
                                 <div class="col-lg-5 col-md-5">
@@ -186,8 +186,8 @@ display: none;}
                                     <td>{{item.PROPERTY_ADDR}}</td>
 									<td>{{item.FIN_ORG_ID}}</td>
 									<td>
-										<p>{{item.APPLY_DATE}}</p>
-										<p>{{item.ISSUE_DATE}}</p>
+										<p>评：{{item.APPLY_DATE}}</p>
+										<p>出：{{item.ISSUE_DATE}}</p>
 									</td>
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
 									 <td>{{item.EVA_PRICE}}</td>
@@ -206,164 +206,7 @@ display: none;}
 						{{/each}}
 	    </script>
 	    
-	    <script>
-	      /*   var ctx = "${ctx}";
-	  		
-    		
-        	jQuery(document).ready(function() {
-        		aist.sortWrapper({
-        			reloadGrid : reloadGrid
-        		});
-        		
-        		$('#checkAllNot').click(function(){
-        			var my_checkboxes = $('input[name="my_checkbox"]');
-        			if($(this).prop('checked')){
-        				for(var i=0; i<my_checkboxes.length; i++){
-        					$('input[name="my_checkbox"]:eq('+i+')').prop('checked',true);
-        				}
-        				$("#caseDistributeButton").attr("disabled", false);
-        				$("#caseChangeTeamButton").attr("disabled", false);
-        			}else{
-        				for(var i=0; i<my_checkboxes.length; i++){
-        					$('input[name="my_checkbox"]:eq('+i+')').prop('checked',false);
-        				}
-        				$("#caseDistributeButton").attr("disabled", true);
-        				$("#caseChangeTeamButton").attr("disabled", true);
-        			}
-        		});
-
-        		//初始化数据
-        	    reloadGrid();
-        	 	// 查询
-     			$('#searchButton').click(function() {
-     				reloadGrid();
-     			});
-     			$('#datepicker_0').datepicker({
-     				format : 'yyyy-mm-dd',
-     				weekStart : 1,
-     				autoclose : true,
-     				todayBtn : 'linked',
-     				language : 'zh-CN'
-     			});
-        	});
-	    	function exportExcel(){
-	    		var data1=packgeData();
-	    		$.exportExcel({ctx : "${ctx}",
-		    	queryId : 'queryEvalItemListForStatistics',
-		    	colomns : ['CASE_CODE','PROPERTY_ADDR','CON_PRICE','EVAL_FEE','RECORD_TIME','PROCESSOR_ID'],
-		    	data:data1});
-	    	}
-        	function packgeData(page){
-        		var data1 = {};
-        	    
-        	    data1.rows = 12;
-        	    data1.page = 1;
-        	    if(page){
-        	    	data1.page=page;
-        	    }
-        	    var sTime,eTime;
-        	    sTime=$('#dtBegin_0').val();
-        	    eTime=$('#dtEnd_0').val();
-        	    
-        	    data1.search_caseCode = $("#caseCode").val();
-        	    data1.search_propertyAddr = $("#propertyAddr").val();
-        	    data1.argu_proOrgId =$("#h_proOrgId").val();
-        	    data1.search_pUserId  =$('#inTextVal').attr('hVal');
-				data1.search_startTime=sTime;
-				data1.search_endTime = (eTime!=''?eTime+ " 23:59:59":eTime);
-				return data1;
-        	}
-			function reloadGrid(page) {
-				var data1=packgeData(page);
-				data1.queryId = "queryEvalItemListForStatistics";
-				aist.wrap(data1);
-        	    fetchData(data1);
-	    	}
-			function fetchData(p){
-				  $.ajax({
-		  			  async: true,
-		  	          url:ctx+ "/quickGrid/findPage" ,
-		  	          method: "post",
-		  	          dataType: "json",
-		  	          data: p,
-		  	          beforeSend : function() {
-						$.blockUI({
-							message : $("#salesLoading"),
-							css : {
-								'border' : 'none',
-								'z-index' : '9999'
-							}
-						});
-						$(".blockOverlay").css({
-							'z-index' : '9998'
-						});
-					},
-		  	          success: function(data){
-		  	        	  $.unblockUI();
-		  	        	  data.ctx = ctx;
-		  	        	  var tsAwardBaseList= template('evalListTemp' , data);
-			                  $("#t_body_data_contents").empty();
-			                  $("#t_body_data_contents").html(tsAwardBaseList);
-			                  
-			                 initpage(data.total,data.pagesize,data.page, data.records);
-		  	          }
-		  	     });
-			} 
-			function initpage(totalCount,pageSize,currentPage,records)
-			{
-				if(totalCount>1500){
-					totalCount = 1500;
-				}
-				var currentTotalstrong=$('#currentTotalPage').find('strong');
-				if (totalCount<1 || pageSize<1 || currentPage<1)
-				{
-					$(currentTotalstrong).empty();
-					$('#totalP').text(0);
-					$("#pageBar").empty();
-					return;
-				}
-				$(currentTotalstrong).empty();
-				$(currentTotalstrong).text(currentPage+'/'+totalCount);
-				$('#totalP').text(records);
-				
-				$("#pageBar").twbsPagination({
-					totalPages:totalCount,
-					visiblePages:9,
-					startPage:currentPage,
-					first:'<i class="icon-step-backward"></i>',
-					prev:'<i class="icon-chevron-left"></i>',
-					next:'<i class="icon-chevron-right"></i>',
-					last:'<i class="icon-step-forward"></i>',
-					showGoto:true,
-					onPageClick: function (event, page) {
-						 //console.log(page);
-						reloadGrid(page);
-				    }
-				});
-			}
-		
-			function radioYuCuiOrgSelectCallBack(array){
-			    if(array && array.length >0){
-			        $("#txt_proOrgId").val(array[0].name);
-					$("#h_proOrgId").val(array[0].id);
-
-				}else{
-					$("#txt_proOrgId").val("");
-					$("#h_proOrgId").val("");
-				}
-			}
-			function selectUserBack(array){
-				if(array && array.length >0){
-			        $("#inTextVal").val(array[0].username);
-					$("#inTextVal").attr('hVal',array[0].userId);
-
-				}else{
-					$("#inTextVal").val("");
-					$("#inTextVal").attr('hVal',"");
-				}
-			} */
-
-	    </script>
+	    
 	    </content> 
           </body>
 </html>

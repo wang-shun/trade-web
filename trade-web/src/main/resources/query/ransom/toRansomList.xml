@@ -62,26 +62,16 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				
-				<column type="both" name="PKID" display="ID" />
-				<column type="both" name="RANSOM_CODE"  display="合约编号" customDict="" />
-				
-				<column type="both" name="RANSOM_STATUS" display="赎楼状态"  />
-				<column type="virtual" name="RANSOM_STATUS_NAME" display="赎楼状态名" referencecol="RANSOM_STATUS" customDict="qqcdDictRansomStatus"/>				
-				
-				<column type="both" name="STOP_REASON"  display="中止原因" customDict="" />
-				<column type="both" name="PROPERTY_ADDR" display="房屋地址" customDict="" />
-				<column type="both" name="AGENT_NAME,GRP_NAME" display="案件归属" customDict="" />
-				<column type="both" name="BORROWER_NAME" display="客户" customDict="" />
-				
-				<column type="both" name="COM_ORG_CODE" display="合作机构" customDict="" sysDict=""  />
-				<column type="virtual" name="COM_ORG_CODE_NAME" display="合作机构名" referencecol="COM_ORG_CODE" customDict="qqcdDictFinalOrg"/>				
-				
-				<column type="both" name="RANSOM_PROPERTY,UPDATE_TIME" display="最新状态" customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"  />
-				<column type="virtual" name="RANSOM_PROPERTY_NAME" display="赎楼环节名" referencecol="RANSOM_PROPERTY" customDict="qqcdDictRansomPart"/>				
-				
-				<column type="both" name="BORRO_MONEY" index="" checkbox="" display="借款金额" customDict="" sysDict="" />
-			
+			<column type="both" name="PKID" index="" checkbox="" display="ID" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign=""  resizable=""/>
+				<column type="both" name="CASE_CODE" display="案件编号"/>
+				<column type="both" name="RANSOM_CODE" index="" checkbox="" display="合约编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="STOP_REASON" index="" checkbox="" display="" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="房屋地址" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT_NAME,GRP_NAME" index="" checkbox="" display="案件归属" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="BORROWER_NAME" index="" checkbox="" display="客户" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="COM_ORG_CODE" index="" checkbox="" display="合作机构" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="RANSOM_STATUS,UPDATE_TIME"  index="" checkbox="" display="最新状态" customDict="" sysDict="" format="yyyy-MM-dd"  width="120" isSort="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"  align="" halign="" order="" resizable="" />
+				<column type="both" name="BORRO_MONEY" index="" checkbox="" display="借款金额" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 			</table-row>
 		</grid>
 	</query>

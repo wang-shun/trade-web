@@ -455,7 +455,6 @@ public class ToMortgageServiceImpl implements ToMortgageService
     {
         //toMortgage.setIsDelegateYucui("1");
         List<ToMortgage> list = toMortgageMapper.findToMortgageByConditionWithCommLoan(toMortgage);
-        MortgageToSaveVO mortgageToSaveVO = toMortgageTosaveService.getTosave(toMortgage);
         if (CollectionUtils.isNotEmpty(list))
         {
             ToMortgage mort = null;
@@ -465,7 +464,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
             {
                 mort = list.get(0);
             }
-/*            else
+            else
             {
                 for (ToMortgage mortgage : list)
                 {
@@ -475,7 +474,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
                         break;
                     }
                 }
-            }*/         
+            }         
             /*
              * mort.setComAmount(mort.getComAmount() != null ?
              * mort.getComAmount() .divide(new BigDecimal(10000)) : null);
@@ -484,26 +483,11 @@ public class ToMortgageServiceImpl implements ToMortgageService
              * mort.setPrfAmount(mort.getPrfAmount() != null ?
              * mort.getPrfAmount() .divide(new BigDecimal(10000)) : null);
              */
-            mort.setToSupDocu(toSupDocu);
-            if(StringUtils.isBlank(mort.getBank_type()) && StringUtils.isBlank(mort.getBank_type())){
-            	if(mortgageToSaveVO != null){
-            		mort = getToMortgage(mort,mortgageToSaveVO);
-            		return mort;
-            	}else{
-            		return mort;
-            	}
-            }
-
-            
+            mort.setToSupDocu(toSupDocu);  
+            return mort;
         }
        
-        ToMortgage mort = new ToMortgage();
-        if(mortgageToSaveVO!=null){
-        	mort = getToMortgage(mort,mortgageToSaveVO);
-        	return mort;
-        }else{
-        	return null;
-        }
+        return null;
         
     }
     
@@ -1364,6 +1348,10 @@ public class ToMortgageServiceImpl implements ToMortgageService
         return workFlowManager.submitTask(variables, taskId, processInstanceId, toCase.getLeadingProcessId(), toMortgage.getCaseCode());
     }
 
+    /**
+     * update by wbshume
+     * 放款环节业务改动
+     */
     @Override
     public Result2 submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime, String taskId, String processInstanceId,
             String partCode)
@@ -1371,7 +1359,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
         toMortgage.setIsMainLoanBank("1");
         ToMortgage mortage = findToMortgageById(toMortgage.getPkid());
         mortage.setLendDate(toMortgage.getLendDate());
-        mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
+//        mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
         mortage.setRemark(toMortgage.getRemark());
         saveToMortgage(mortage);
 

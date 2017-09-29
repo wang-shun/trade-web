@@ -11,7 +11,8 @@
 <meta charset="utf-8">
 
 <title>赎楼注销抵押</title>
-
+<script
+	src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 <link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />"
 	rel="stylesheet" />
 <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
@@ -55,77 +56,52 @@
 <link href="<c:url value='/css/transcss/comment/caseComment.css' />"
 	rel="stylesheet">
 <link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
-
-<style type="text/css">
-
-<style type="text/css">
-
-
-.fo{width:100%;}
-.matching{float: left;margin:0 40px;padding-top: 5px;}
-.form_list .sign_left_small{text-align: left;margin-right: -10px;}
-.underline{margin-top: -30px;}
-
-</style>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/ransom/ransomBaseInfo.jsp"></jsp:include>
-	
-	<form method="get" id="ransomCancel" class="form_list">
-		<input type="hidden" id="caseCode" name="caseCode" value="${detailVo.caseCode }">
-		<input type="hidden" id="ransomCode" name="ransomCode" value="${detailVo.ransomCode }">
-		<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId }">
-		<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-		<input type="hidden" id="diyaType" name="diyaType" value="${diyaType }">
-		<div id="wrapper">
-	
-			<div class="row">
-				<div class="wrapper wrapper-content animated fadeInUp">
-					<div class="ibox-content" id="base_info">
-						<form class="form-inline" >
-							<div class="title">信息录入</div>
+	<jsp:include page="/ransom/ransomBaseInfo.jsp"></jsp:include>
+	<input type="hidden" id="caseCode" value="${detailVo.caseCode }">
+	<input type="hidden" id="ransomCode" value="${detailVo.ransomCode }">
+	<input type="hidden" id="diyaType" value="${diyaType }">
+	<input type="hidden" id="processInstanceId" value="${processInstanceId }">
+	<input type="hidden" id="taskId" value="${taskId }">
+	<div id="wrapper">
 
-								<div class="form_content">
-									<label class="control-label matching"><font color=" red" class="mr5" >*</font>注销抵押时间(
-										<c:if test="${diyaType == 1 }">一</c:if>
-										<c:if test="${diyaType == 2 }">二</c:if>抵)</label> 
-									<input id="cancelDiyaTime" name="cancelDiyaTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 200px; border-radius: 2px;" type="text"  placeholder="注销抵押时间">
-								</div>
-							
-						</form>
-					</div>
-					
+		<div class="row">
+			<div class="wrapper wrapper-content animated fadeInUp">
+				<div class="ibox-content" id="base_info">
+					<form class="form-inline" >
+						<div class="title">信息录入</div>
+						<div class="form-row form-rowbot clear">
+							<div class="form-group form-margin form-space-one left-extent">
+								<label for="" class="lable-one"><font color=" red" class="mr5" >*</font>注销抵押时间</label> 
+								<input id="cancelDiyaTime" name="cancelDiyaTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 178px; border-radius: 2px;" type="text"  placeholder="注销抵押时间">
+							</div>
+						</div>
+					</form>
 				</div>
+				
 			</div>
 		</div>
-	</form>
-	
-	<div id="caseCommentList" class="add_form"></div>
-	
-	<div class="add_btn text-center mt20">
-	   	<div class="more_btn">
-		    <button id="submitButton" type="button" class="btn btn_blue">提交</button>
-   	    	<button id="closeButton" type="button" class="btn btn_blue">关闭</button>
+		<div id="caseCommentList" class="add_form"></div>
+		
+		<div class="add_btn text-center mt20">
+		   	<div class="more_btn">
+			    <button id="submitButton" type="button" class="btn btn_blue">提交</button>
+	   	    	<button id="closeButton" type="button" class="btn btn_blue">关闭</button>
+			</div>
 		</div>
 	</div>
-		
 
 	<content tag="local_script"> 
-	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
-	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
-
-	<script src="<c:url value='/transjs/task/showAttachment.js' />"></script>
- 	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> <!-- Data picker -->
-	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
-
-	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
-	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+	<!-- 开关按钮js --> 
+	<script
+		src="<c:url value='/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js' />"></script>
+	<script
+		src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
+	<script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> <!-- 改版引入的新的js文件 -->
-	<script src="<c:url value='/js/common/textarea.js' />"></script> 
-	<script src="<c:url value='/js/common/common.js' />"></script> 
+	<script src="<c:url value='/js/common/textarea.js' />"></script>
 	<script >
 	
 		$(document).ready(function(){
@@ -150,7 +126,7 @@
 		
 		//关闭
 		$('#closeButton').click(function() {
-			window.open("","_self").close();
+			window.close();
 		});
 		
 		//提交
@@ -161,20 +137,26 @@
 				$('#cancelDiyaTime').css('border-color',"red");
 				return;
 			}
-			var jsonData = $('#ransomCancel').serializeArray();
-			
-			var url = "${ctx}/task/ransom/submitCancelDiya";
 
+			var ransomCode = $('#ransomCode').val();
+			var diyaType = $('#diyaType').val();
+			var cancelDiyaTime = $('#cancelDiyaTime').val();
+			var processInstanceId = $('#processInstanceId').val();
+			var taskId = $('#taskId').val();
+			
+			var url = "${ctx}/ransomList/submitCancelDiya";
+			var data = "&ransomCode=" + ransomCode + "&diyaType=" + diyaType 
+						+ "&cancelDiyaTime=" + cancelDiyaTime + "&processInstanceId=" + processInstanceId + "&taskId=" + taskId;
 			$.ajax({
 				cache:true,
 				async:false,
 				type:"POST",
 				url:url,
-				data:jsonData,
+				data:data,
 				dataType:"json",
 				success:function(data){
 					window.wxc.success("提交成功!",{"wxcOk":function(){
-						window.open("","_self").close();
+						window.close();
 					}});
 				},
 				error : function(errors) {
