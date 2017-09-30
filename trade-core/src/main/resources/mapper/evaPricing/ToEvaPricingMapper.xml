@@ -305,6 +305,6 @@
 			INNER JOIN sctrans.T_TS_FIN_ORG fin ON pri.FIN_ORG_ID = fin.PKID
 			LEFT JOIN sctrans.T_TO_CASE cas ON pri.CASE_CODE = cas.CASE_CODE
 		WHERE
-			pri.caseCode = #{caseCode,jdbcType=VARCHAR}
+			pri.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	</select>
 </mapper>
