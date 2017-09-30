@@ -281,7 +281,9 @@
             	<div class="float_left big_pad">
 					<select pval="{{item.PKID}}" class="form-control select_control" style="width:120px">
 						<option value="0">查看</option>
-						<option value="1">记录</option>
+						{{if item.STATUS != 1}}
+							<option value="1">记录</option>
+						{{/if}}
 						<option value="2">无效</option>
 						<option value="3">发起评估申请</option>
 					</select>

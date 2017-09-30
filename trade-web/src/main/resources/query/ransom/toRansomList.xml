@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 	<dicts>	
-		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"/>
-		<customDict id="qqcdDictEvaType" beanName="qqcdDictEvaType"/>
+		<customDict id="qqcdDictRansomStatus" beanName="qqcdDictRansomStatus"/>
+		<customDict id="qqcdDictFinalOrg" beanName="qqcdDictFinalOrg"/>
+		<customDict id="qqcdDictRansomPart" beanName="qqcdDictRansomPart"/>
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -18,22 +19,28 @@
 				<![CDATA[
 						SELECT 
 							A.PKID PKID,
-							A.CASE_CODE,
-							RANSOM_CODE,
-							PROPERTY_ADDR,
-							AGENT_NAME,
-							GRP_NAME,
-							BORROWER_NAME,
-							COM_ORG_CODE,
-							RANSOM_STATUS,
-							STOP_REASON,
-							BORRO_MONEY,
-							A.UPDATE_TIME
-						FROM 
-							sctrans.T_RA_CASE A
-							INNER JOIN sctrans.T_TO_PROPERTY_INFO B ON A.CASE_CODE = B.CASE_CODE
-							INNER JOIN sctrans.T_TO_CASE_INFO C ON A.CASE_CODE = C.CASE_CODE
-						WHERE 1 = 1
+							B.CASE_CODE,
+							A.RANSOM_CODE,
+							C.PROPERTY_ADDR,
+							D.AGENT_NAME,
+							D.GRP_NAME,
+							B.BORROWER_NAME,
+							B.COM_ORG_CODE,
+							B.RANSOM_STATUS,
+							B.STOP_REASON,
+							B.BORRO_MONEY,
+							B.UPDATE_TIME
+						FROM sctrans.T_RA_TAILINS A
+						LEFT JOIN sctrans.T_RA_CASE B ON A.RANSOM_CODE = B.RANSOM_CODE
+						LEFT JOIN sctrans.T_TO_PROPERTY_INFO C ON C.CASE_CODE = B.CASE_CODE
+						LEFT JOIN sctrans.T_TO_CASE_INFO D ON D.CASE_CODE = C.CASE_CODE
+						LEFT JOIN sctrans.T_RA_APPLY E ON A.RANSOM_CODE = E.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_INTERVIEW F ON A.RANSOM_CODE = F.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_REPAY G ON A.RANSOM_CODE = G.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_CANCEL H ON A.RANSOM_CODE = H.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_REDEEM I ON A.RANSOM_CODE = I.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_PAYMENT J ON A.RANSOM_CODE = J.RANSOM_CODE
+						WHERE 1 = 1  
 						<ifNotNull ransomStatus>
 							AND RANSOM_STATUS = #ransomStatus#
 						</ifNotNull>
@@ -41,16 +48,36 @@
 							AND RANSOM_PROPERTY = #ransomProperty#
 						</ifNotNull>
 						<ifNotNull teamCode>
-							AND AGENT_NAME = #AGENT_NAME#
+							AND AGENT_NAME = #AGENT_NAME# 
 						</ifNotNull>
-						<if test	="searchInfo==0">
+						<if test="searchInfo==0 and inTextVal != null and inTextVal != '' ">
 							AND PROPERTY_ADDR like '%'+#inTextVal#+'%'
 						</if>
-						<if test	="searchInfo==1">
+						<if test="searchInfo==1 and inTextVal != null and inTextVal != ''">
 							AND AGENT_NAME like '%'+#inTextVal#+'%'
 						</if>
-						<if test	="searchInfo==2">
+						<if test="searchInfo==2 and inTextVal != null and inTextVal != ''">
 							AND BORROWER_NAME like '%'+#inTextVal#+'%'
+						</if>
+						
+						<if test="ransomSearchTime=='RANSOMAPPLY'">
+							AND D.CREATE_TIME = #start# AND D.UPDATE_TIME = #end#
+						</if>
+						<if test="ransomSearchTime=='RANSOMINTERVIEW'">
+							AND E.CREATE_TIME = #start# AND E.UPDATE_TIME = #end#
+						</if>
+						<if test="ransomSearchTime=='RANSOMREPAYMENT'">
+							AND F.CREATE_TIME = #start# AND F.UPDATE_TIME = #end#
+						</if>
+						
+						<if test="ransomSearchTime=='RANSOMDIYA'">
+							AND G.CREATE_TIME = #start# AND G.UPDATE_TIME = #end#
+						</if>
+						<if test="ransomSearchTime=='RANSOMPERMIT'">
+							AND H.CREATE_TIME = #start# AND H.UPDATE_TIME = #end#
+						</if>
+						<if test="ransomSearchTime=='RANSOMPAYMENT'">
+							AND I.CREATE_TIME = #start# AND I.UPDATE_TIME = #end#
 						</if>
 				]]>
 			</baseSql>
@@ -62,17 +89,47 @@
 		</searchSql>
 		<grid>
 			<table-row>
-			<column type="both" name="PKID" index="" checkbox="" display="ID" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign=""  resizable=""/>
-				<column type="both" name="CASE_CODE" display="案件编号"/>
-				<column type="both" name="RANSOM_CODE" index="" checkbox="" display="合约编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="STOP_REASON" index="" checkbox="" display="" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" resizable=""/>
-				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="房屋地址" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="AGENT_NAME,GRP_NAME" index="" checkbox="" display="案件归属" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="BORROWER_NAME" index="" checkbox="" display="客户" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="COM_ORG_CODE" index="" checkbox="" display="合作机构" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="RANSOM_STATUS,UPDATE_TIME"  index="" checkbox="" display="最新状态" customDict="" sysDict="" format="yyyy-MM-dd"  width="120" isSort="true" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"  align="" halign="" order="" resizable="" />
-				<column type="both" name="BORRO_MONEY" index="" checkbox="" display="借款金额" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+
+				
+				<column type="both" name="PKID" display="ID" />
+				<column type="both" name="CASE_CODE" display="案件编号" />
+				<column type="both" name="RANSOM_CODE"  display="合约编号" customDict="" />
+				
+				<column type="both" name="RANSOM_STATUS" display="赎楼状态"  />
+				<column type="virtual" name="RANSOM_STATUS_NAME" display="赎楼状态名" referencecol="RANSOM_STATUS" customDict="qqcdDictRansomStatus"/>				
+				
+				<column type="both" name="STOP_REASON"  display="中止原因" customDict="" />
+				<column type="both" name="PROPERTY_ADDR" display="房屋地址" customDict="" />
+				<column type="both" name="AGENT_NAME,GRP_NAME" display="案件归属" customDict="" />
+				<column type="both" name="BORROWER_NAME" display="客户" customDict="" />
+				
+				<column type="both" name="COM_ORG_CODE" display="合作机构" customDict="" sysDict=""  />
+				<column type="virtual" name="COM_ORG_CODE_NAME" display="合作机构名" referencecol="COM_ORG_CODE" customDict="qqcdDictFinalOrg"/>				
+				
+				<column type="both" name="RANSOM_PROPERTY" display="赎楼环节" customDict=""  />
+				
+				<column type="both" name="UPDATE_TIME" display="最新状态" customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"  />
+				<column type="virtual" name="RANSOM_PROPERTY_NAME" display="赎楼环节名" referencecol="RANSOM_PROPERTY" customDict="qqcdDictRansomPart"/>				
+				
+				<column type="both" name="BORRO_MONEY" index="" checkbox="" display="借款金额" customDict="" sysDict="" />
+			
 			</table-row>
 		</grid>
+	</query>
+	
+	<query id="queryRansomByCaseCode" cacheCount="true">
+		<searchCondition></searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						* 
+					FROM 
+						sctrans.T_RA_CASE 
+					WHERE 
+						 CASE_CODE = #caseCode#
+				]]>
+			</baseSql>
+		</searchSql>
 	</query>
 </querys>

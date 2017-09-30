@@ -41,101 +41,34 @@
 	rel="stylesheet">
 <link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />"
 	rel="stylesheet">
-<link href="<c:url value='/css/style.css' />" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/css/style.css' />">
 
-<link href="<c:url value='/css/transcss/comment/caseComment.css' />"
-	rel="stylesheet">
 <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"
 	rel="stylesheet" />
-<!-- 新调整页面样式 -->
-<link href="<c:url value='/css/common/caseDetail.css' />"
-	rel="stylesheet">
+
 <link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
 <link href="<c:url value='/css/iconfont/iconfont.css' />"
 	rel="stylesheet">
 <link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
-<link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
+<link rel="stylesheet"
+	href="<c:url value='/static/trans/css/common/input.css' />">
 <link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
+<link href="<c:url value='/css/transcss/comment/caseComment.css' />"	rel="stylesheet">
 
 <!-- 图片查看CSS -->
 <link href="<c:url value='/js/viewer/viewer.min.css' />"
 	rel="stylesheet" />
 
 
-<script type="text/javascript">
-	var ctx = "${ctx}";
-	/**记录附件div变化，%2=0时执行自动上传并清零*/
-	var index = 0;
-	var taskitem = "${taskitem}";
-	var caseCode = "${caseCode}";
-	var processInstanceId = "${processInstanceId}";
-	var approveType = "${approveType }";
-	if ("${idList}" != "") {
-		var idList = eval("(" + "${idList}" + ")");
-	} else {
-		var idList = [];
-	}
-</script>
+
 <style type="text/css">
-.radio.radio-inline>label {
-	margin-left: 10px;
-}
 
-.radio.radio-inline>input {
-	margin-left: 10px;
-}
 
-.checkbox.checkbox-inline>div {
-	margin-left: 25px;
-}
-
-.checkbox.checkbox-inline>input {
-	margin-left: 20px;
-}
-
-#notApproves label {
-	font-weight: normal;
-	margin: 0;
-}
-
-#notApproves {
-	padding: 20px 0px;
-}
-
-#notApproves .col-sm-4 {
-	margin: 5px 0px;
-}
-
-#notApproves input[type=checkbox], input[type=radio] {
-	margin: 0px 0 0;
-	line-height: normal;
-}
-
-.form_sign .sign {
-	margin-top: 3px;
-	margin-bottom: 3px;
-}
-
-.other_reason_title {
-	float: left;
-	width: 76px;
-	margin-left: 24px;
-	text-align: right;
-	color: #808080;
-	font-size: 14px;
-}
-
-.other_reason {
-	float: left;
-	padding-left: 15px;
-	color: #333;
-	width: 725px;
-}
-.form-group{margin-top: 15px;}
 .fo{width:100%;}
-.matching{float: left;margin:0 40px;padding-top: 5px;}
+.matching{float: left;margin:0 20px;padding-top: 5px;}
 .form_list .sign_left_small{text-align: left;margin-right: -10px;}
 .underline{margin-top: -30px;}
+
 </style>
 </head>
 
@@ -145,55 +78,51 @@
 
 	<div class="ibox-content border-bottom clearfix space_box noborder">
 		
-		 <form method="get" class="form_list text-center">
-			 <div class="line">
-			 	 <h2 class="title" style="margin-left: 15px;">信息录入</h2>
-			 	 <div class="col-lg-12 underline"><hr></div>
-                 <div class="form_content fo">
-                     <label class="control-label matching">匹配资方</label>
-					 <div class="control-div ">
-				       <select id="inTextType" data-placeholder= "搜索条件设定"
-                          	class= "btn btn-white chosen-select " style="float :left;margin-right:40px;" 
-                          	onchange="">
-							<option value="1" selected>产证地址</option>
-							<option value="0" >客户姓名</option>
-							<option value="2">经纪人姓名</option>
-							<option value="3">所属分行</option>
-							<option value="4">案件编号</option>
-							<option value="5">CTM编号</option>
+ 		<form method="get" id="ransomApply" class="form_list">
+			<input type="hidden" id="caseCode" name="caseCode" value="${detailVo.caseCode }">
+			<input type="hidden" id="ransomCode" name="ransomCode" value="${detailVo.ransomCode }">
+			<input type="hidden" id="borrowName" name="${detailVo.borrowName }">
+			<div class="line">
+				<div class="title">信息录入</div>
+             	<div class="form_content fo">
+          			<label class="control-label matching"><font color=" red" class="mr5" >*</font>匹配资方</label>
+					<div class="control-div ">
+				   		<select id="applyOrgCode" name="applyOrgCode" class= "btn btn-white chosen-select " style="float :left;margin-right:40px;width:200px;">							
+							<option value="W0001" selected>合作机构1</option>
+							<option value="W0002">合作机构2</option>
+							<option value="W0003">合作机构3</option>
+
 						</select>
-						<select id="inTextType" data-placeholder= "搜索条件设定"
-                          	class= "btn btn-white chosen-select" style="float :left;" 
-                          	onchange="">
-							<option value="1" selected>产证地址</option>
-							<option value="0" >客户姓名</option>
-							<option value="2">经纪人姓名</option>
-							<option value="3">所属分行</option>
-							<option value="4">案件编号</option>
-							<option value="5">CTM编号</option>
+						<select id="loanOfficer" name="loanOfficer" class= "btn btn-white chosen-select" style="float :left;width:200px;margin-left:95px;" >
+							<option value="信贷员1" selected>信贷员1</option>
+							<option value="信贷员2">信贷员2</option>
+							<option value="信贷员3">信贷员3</option>
 						</select>
 					</div>
                  </div>
-              </div>
-              <div class="line">
-                 <div class="form_content">
-                     <label class="control-label sign_left_small select_style mend_select">申请时间</label>
-                     <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                         <input name="changeTimeStart" id="changeTimeStart" class="form-control data_style" type="text" value="${curMonthStart }" placeholder="">
-                     </div>
-                 </div>
-                 <div class="form_content">
-                     <label class="control-label sign_left_small select_style mend_select">计划面签时间</label>
-                     <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                         <input name="changeTimeStart" id="changeTimeStart" class="form-control data_style" type="text" value="${curMonthStart }" placeholder="">
-                     </div>
-                 </div>
-              </div>
-           </form>
+			</div>
+			<div class="form_content fo">
+			    <div class="form_content">
+					<label  class="control-label matching"><font color=" red" class="mr5" >*</font>申请时间</label> 
+					<div  class="input-group sign-right  input-daterange"  data-date-format="yyyy-mm-dd">
+						<input id="applyTime" name="applyTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 200px; border-radius: 2px;" type="text"  placeholder="申请时间">
+					</div>
+				</div>
+				<div class="form_content">
+					<label  class="control-label matching"><font color=" red" class="mr5" >*</font>计划面签时间</label> 
+					<div  class="input-group sign-right  input-daterange"  data-date-format="yyyy-mm-dd">
+						<input id="planSignTime" name="planSignTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 200px; border-radius: 2px;" type="text">
+					</div>
+				</div>
+			</div>
+		</form>
+				
+	</div>
+		<div class="ibox-content border-bottom clearfix space_box noborder">
 			<div class="line">
-              <div class="form_content">
-                  <h2 class="title">历史申请记录</h2>
-                  <div class="table_content">
+	             <div class="form_content">
+	                 <h2 class="title">历史申请记录</h2>
+	                 <div class="table_content">
 					  <table class="table table_blue table-striped table-bordered table-hover " >
 						<thead>
 							<tr>
@@ -204,65 +133,170 @@
 								<th>中止原因</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td>小王</td>
-								<td>2017-08-10</td>
-								<td>300万元</td>
-								<td>天津xxx典当公司</td>
-								<td>客户征信差</td>
-							</tr>
+						<tbody id="applyRecord">
 						</tbody>
 					</table>
 		 		</div>
-              </div>
-          </div>
-		<div id="caseCommentList" class="view-content"></div>
-		<div class="form-btn">
-			<div class="text-center">
-				<button class="btn btn-success btn-space" id="submit">提交</button>
-				<button class="btn btn-grey btn-space" id="close">关闭</button>
+	             </div>
+	         </div>
+         </div>
+         
+		<div class="ibox-content border-bottom clearfix space_box noborder">
+			<div id="caseCommentList" class="add_form"></div>
+		</div>
+		<div class="add_btn text-center mt20">
+	   		<div class="more_btn">
+			    <button id="submitButton" type="button" class="btn btn_blue">提交</button>
+	   	    	<button id="closeButton" type="button" class="btn btn_blue">关闭</button>
 			</div>
 		</div>
-	</div>
-	<content tag="local_script"> <!-- Peity --> <script
-		src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
-	<!-- jqGrid --> <script
-		src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+
+	
+<content tag="local_script"> 
+	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
 	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	<script src="<c:url value='/transjs/task/showAttachment.js' />"></script>
-	<%-- --%> <!-- Custom and plugin javascript --> <script
-		src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> <!-- Data picker -->
-	<script
-		src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
-
-	<script
-		src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script>
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
-	<script
-		src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> <!-- 改版引入的新的js文件 -->
-	<script src="<c:url value='/js/common/textarea.js' />"></script> <script
-		src="<c:url value='/js/common/common.js' />"></script> <script>
-			$(document).ready(function() {
-			 	$('.input-daterange').datepicker({
-                    keyboardNavigation: false,
-                    forceParse: false,
-                    autoclose: true
-                });
-			 	var caseCode = $('#caseCode').val();
-				var srvCode = 'TransSign';
-				$("#caseCommentList").caseCommentGrid({
-					caseCode : caseCode,
-					srvCode : srvCode
-				});
-				$("#submit").click(function(){
-					window.location.href = ctx + "/ransomList/ransomUp/ransomInterview";
-				});
-				
+	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> 
+	<script src="<c:url value='/js/common/textarea.js' />"></script>
+	<script src="<c:url value='/js/common/common.js' />"></script> 
+	
+	<script id="template_applyRecord" type="text/html">
+		{{each rows as item inddex}}
+			<tr>
+				<td>
+					{{item.borrName}}
+				</td>
+				<td>
+					{{item.applyTime}}
+				</td>
+				<td>
+					{{if item.borrMoney != null}}
+						{{item.borrMoney / 10000}}&nbsp;万元
+					{{/if}}	
+				</td>
+				<td>
+					{{item.comOrgName}}
+				</td>
+				<td>
+					{{item.stopReason}}
+				</td>
+			</tr>
+		{{/each}}
+	</script>
+	<script>
+		$(document).ready(function(){
+			
+			//案件跟进,common.js 
+			var caseCode = $('#caseCode').val();
+			$("#caseCommentList").caseCommentGrid({
+				caseCode : caseCode,
+				srvCode : null
 			});
-		</script> </content>
+			//获取历史申请记录
+			var data = {};
+			data.queryId = "getApplyRecord";
+			data.ransomCode = $('#ransomCode').val();
+			queryApplyRecord();
+		})
+	
+		//日期初始化
+		$('#applyTime').datepicker({
+			format : 'yyyy-mm-dd',
+			weekStart : 1,
+			autoclose : true,
+			todayBtn : 'linked',
+			language : 'zh-CN'
+		});
+		
+		$('#planSignTime').datepicker({
+			format : 'yyyy-mm-dd',
+			weekStart : 1,
+			autoclose : true,
+			todayBtn : 'linked',
+			language : 'zh-CN'
+		});
+		
+		function queryApplyRecord(data){
+			$.ajax({
+				async: true,
+		        url:ctx+ "/quickGrid/findPage" ,
+		        method: "post",
+		        dataType: "json",
+		        data: data,
+		        beforeSend: function () {  
+		        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+					$(".blockOverlay").css({'z-index':'9998'});
+		        },  
+		        success: function(data){
+		          $.unblockUI();
+		      	  var myTaskList = template('template_applyRecord' , data);
+					  $("#applyRecord").empty();
+					  $("#applyRecord").html(myTaskList);
+
+		        }
+		  });
+			
+		}
+	
+		//关闭
+		$('#closeButton').click(function() {
+			   window.close();	
+		});
+		
+		//提交
+		$('#submitButton').click(function(){
+			if($('#applyTime').val() == ''){
+				window.wxc.alert("申请时间为必填项!");
+				$('#applyTime').focus();
+				$('#applyTime').css('border-color',"red");
+				return;
+			}
+			if($('#planSignTime').val() == ''){
+				window.wxc.alert("计划 面签时间为必填项!");
+				$('#planSignTime').focus();
+				$('#planSignTime').css('border-color',"red");
+				return;
+			}
+			
+			var jsonData = $('#ransomApply').serializeArray();
+			var object = {
+					name:'borrowName',
+					value:$('#borrowName').text()
+			}
+			jsonData.push(object);
+			var url = "${ctx}/task/ransom/submitApply";
+	
+			$.ajax({
+				cache:true,
+				async:false,
+				type:"POST",
+				url:url,
+				data:jsonData,
+				dataType:"json",
+				success:function(data){
+					if(data){
+						window.wxc.success("提交成功!",{"wxcOk":function(){
+							 window.close();	
+						}});
+					}else{
+						window.wxc.error("提交失败!");
+					}
+					
+				},
+				error : function(errors) {
+					window.wxc.error("提交失败!");
+				}
+			});
+		});
+	</script> 
+</content>
 </body>
 </html>

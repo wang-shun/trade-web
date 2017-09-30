@@ -93,6 +93,7 @@ public class RansomServiceImpl implements RansomService{
 		applyVo.setApplyOrgCode(submitVo.getApplyOrgCode());
 		applyVo.setLoanOfficer(submitVo.getLoanOfficer());
 		applyVo.setUpdateUser(user.getId());
+		applyVo.setCreateUser(user.getId());
 		//申请数据插入
 		int applyCount = ransomMapper.insertRansomApply(applyVo);
 
@@ -137,6 +138,7 @@ public class RansomServiceImpl implements RansomService{
 		signVo.setInterest(submitVo.getInterest());
 		signVo.setIsEntrust(submitVo.getIsEntrust());
 		signVo.setUpdateUser(user.getId());
+		signVo.setCreateUser(user.getId());
 		int result = ransomMapper.insertRansomSign(signVo);
 		
 		if(result ==0){
@@ -174,6 +176,7 @@ public class RansomServiceImpl implements RansomService{
 		mortVo.setRepayLoanMoney(submitVo.getRepayLoanMoney()==null?null:submitVo.getRepayLoanMoney().multiply(new BigDecimal(10000)));
 		mortVo.setDiyaType(submitVo.getDiyaType().toString());
 		mortVo.setUpdateUser(user.getId());
+		mortVo.setCreateUser(user.getId());
 		if(RansomDiyaEnum.PAYLOAN_ONE.getCode().equals(submitVo.getDiyaType().toString())){
 			mortVo.setPartCode(RansomDiyaEnum.PAYLOAN_ONE.getPart());
 		}else if(RansomDiyaEnum.PAYLOAN_TWO.getCode().equals(submitVo.getDiyaType().toString())){
@@ -234,7 +237,7 @@ public class RansomServiceImpl implements RansomService{
 		cancelVo.setCancelTime(cancelTime);
 		cancelVo.setDiyaType(diyaType.toString());
 		cancelVo.setUpdateUser(user.getId());
-		
+		cancelVo.setCreateUser(user.getId());
 		//判断一抵/二抵
 		if(RansomDiyaEnum.CANCELDIYA_ONE.getCode().equals(diyaType.toString())){
 			cancelVo.setPartCode(RansomDiyaEnum.CANCELDIYA_ONE.getPart());	
@@ -258,7 +261,7 @@ public class RansomServiceImpl implements RansomService{
 		permitVo.setRedeemTime(permitTime);
 		permitVo.setDiyaType(diyaType.toString());
 		permitVo.setUpdateUser(user.getId());
-		
+		permitVo.setCreateUser(user.getId());
 		//判断一抵/二抵
 		if(RansomDiyaEnum.RECEIVE_ONE.getCode().equals(diyaType.toString())){
 			permitVo.setPartCode(RansomDiyaEnum.RECEIVE_ONE.getPart());	
@@ -281,7 +284,7 @@ public class RansomServiceImpl implements RansomService{
 		paymentVo.setPaymentTime(paymentTime);
 		paymentVo.setUpdateUser(user.getId());
 		paymentVo.setPartCode(RansomPartEnum.PAYCLEAR.getCode());
-		
+		paymentVo.setCreateUser(user.getId());
 		int result = ransomMapper.insertRansomPayment(paymentVo);
 		if(result ==0){
 			throw new BusinessException("回款结清数据插入失败!");

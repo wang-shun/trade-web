@@ -613,7 +613,7 @@
 				 	'attachmentName':attachName,
 				 	'attachmentAddress':attachPath
 			};
-			//tsAttachmentReadLog=$.toJSON(tsAttachmentReadLog);
+		
 
 			$.ajax({
 				type : 'post',
@@ -632,8 +632,7 @@
 			});
 
 			window.open(attachPath);
-			/*var url=ctx+"/api/imageshow/imgShow?img="+attachPath;
-			window.open(encodeURI(encodeURI(url)));*/
+
 		}
 
 		//加载页面获取屏幕高度
@@ -645,8 +644,7 @@
 				caseCode : caseCode,
 				srvCode : null
 			});
-/* 	        var h= window.screen.availHeight;
-			$("#scroll").css("height",h-h*0.32); */
+
 			  //点击浏览器任何位置隐藏提示信息
 		      $("body").bind("click",function(evt){
 	              if($(evt.target).attr("data-toggle")!='popover'){
@@ -668,69 +666,7 @@
 
 		});
 		
- 		
-		
-        /* jQuery(function($) {
-            $(document).ready( function() {
-               //固定导航头
-            	$('.stickup-nav-bar').stickUp({
-                                    parts: {
-                                      0:'basicInfo',
-                                      1:'serviceFlow',
-                                      2:'aboutInfo'
-                                    },
-                                    itemClass: 'menuItem',
-                                    itemHover: 'active',
-                                    marginTop: 'auto'
-                                  });
-                
-                /** 获取公共信息 **/
-               /* var caseCode = $('#caseCode').val();
-                $.ajax({
-                	type : 'post',
-    				cache : false,
-    				url : ctx+'/case/getCaseBaseInfo',
-    				data : "&caseCode="+caseCode,
-    				dataType : "json",
-    				success : function(data) {
-						$('#agent').attr('data-content',data.agentMobile);
-    					$('#manager').attr('data-content',data.mcMobile);
-    					$('#ms').attr('data-content',data.msMobile);
-    					$('#loan').attr('data-content',data.loanMobile);
-    					$('#warr').attr('data-content',data.warMobile);
-    					$('#as').attr('data-content',data.asMobile);
-    					$('#buyer').attr('data-content',data.buyerMobile);
-    					$('#seller').attr('data-content',data.sellerMobile);
-    					new Vue({
-    						el:'#basicInfo',
-    						data:{
-    							caseProperty:data.toCase.caseProperty,
-    							status:data.toCase.status,
-    							isSubscribe:data.isSubscribe,
-    							caseCode:data.toCase.caseCode,
-    							ccaiCode:data.toCase.ccaiCode,
-    							toPropertyInfo:data.toPropertyInfo,
-    							agentName:data.agentName,
-    							agentGrpName:data.agentGrpName,
-    							mcName:data.mcName,
-    							msName:data.msName,
-    							loanName:data.loanName,
-    							warName:data.warName,
-    							asName:data.asName,
-    							buyerName:data.buyerName,
-    							sellerName:data.sellerName
-    						}
-    					})
-    					$("[data-toggle='popover']").popover();
-    				},
-    				error : function(errors) { 					
-    					return false;
-    				}               	               	
-                });
-            });
-        }); */
-
-
+ 
 
 	</script>
 	<script
@@ -762,10 +698,14 @@
 				{{item.employee}}
 			</td>
 			<td class="td_width">
-				{{item.sharingAmount}}
+				{{if item.type == 1}}
+					{{item.sharingAmount}}
+				{{/if}}
 			</td>
 			<td class="td_width">
-				{{item.sharingProportion}}
+				{{if item.type == 1}}
+					{{item.sharingProportion}}
+				{{/if}}
 			</td>
 			<td class="td_width">
 				{{item.sharingInstruction}}

@@ -2144,21 +2144,11 @@ public class CaseDetailController {
 	    		toApproveRecordForItem.setCaseCode(toCase.getCaseCode());
 				ToApproveRecord toApproveRecord2 = toApproveRecordService.queryToApproveRecordForSpvApply(toApproveRecordForItem);
 				if(toApproveRecord2 != null){
-//					request.setAttribute("toApproveRecord", toApproveRecord2.getContent());
 					reVo.setToApproveRecord(toApproveRecord2.getContent());
 				}
-//				else{
-//					request.setAttribute("toApproveRecord","");
-//				}
 	    	}
-//    		else{
-//	    		request.setAttribute("toApproveRecord","");
-//	    	}
         }
-//		else{
-//        	request.setAttribute("toApproveRecord","");
-        	
-//        }
+
 
 		boolean isSubscribe = toModuleSubscribeService.checkIsSubscribe(toCase.getCaseCode(), uamSessionService.getSessionUser().getId(), SubscribeModuleType.CASE.getValue(),SubscribeType.COLLECTION.getValue());
 		reVo.setSubscribe(isSubscribe);

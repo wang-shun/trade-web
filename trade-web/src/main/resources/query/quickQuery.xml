@@ -246,6 +246,8 @@
 	
 	<!-- 赎楼列表 -->
 	<import resource="query/ransom/toRansomList.xml"/>
+	<!-- 赎楼其他 -->
+	<import resource="query/ransom/toRansomQuery.xml"/>
 	<!--备件列表-->
 	<import resource="query/common/toAccesoryListQuery.xml"/>
 

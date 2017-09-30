@@ -34,6 +34,9 @@ public class ToRansomPermitVo {
 	 * 更新人员
 	 */
 	private String updateUser;
+	
+	private String createUser;
+	
 	public String getRansomCode() {
 		return ransomCode;
 	}
@@ -75,6 +78,12 @@ public class ToRansomPermitVo {
 	}
 	public void setPkid(Long pkid) {
 		this.pkid = pkid;
+	}
+	public String getCreateUser() {
+		return createUser;
+	}
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
 	}
 	
 	

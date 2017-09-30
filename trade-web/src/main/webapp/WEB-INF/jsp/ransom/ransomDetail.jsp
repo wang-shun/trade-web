@@ -58,34 +58,45 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	<input type="hidden" id="ctx" value="${ctx}" />
+	<input type="hidden id="ransomCode" value="${detailVo.ransomCode}">
 	<div class="wrapper wrapper-content animated fadeInUp">
 		<div class="ibox-content" id="reportOne">
-			<h2 class="title">赎楼清尾</h2>
+			<h2 class="title">赎楼清尾</h2>  
+			<small class="pull-right">编号：${detailVo.ransomCode}</small>
 			<div class="row">
 				<div class="col-lg-9">
 					<div class="row" id="">
 						<div class="col-lg-5" id="cluster_info">
 							<dl class="dl-horizontal">
 								<dt>借款人</dt>
-								<dd>${info.finOrgName}</dd>
+								<dd>
+									<a data-toggle="popover" data-placement="right" data-content="${detailVo.borrowTel }"> ${detailVo.borrowName }</a>
+								</dd>
 								<dt>房屋地址</dt>
-								<dd>${info.finOrgName}</dd>
+								<dd>${detailVo.addr }</dd>
 							</dl>
 						</div>
 						<div class="col-lg-4" id="cluster_info">
 							<dl class="dl-horizontal">
 								<dt>合作机构</dt>
-								<dd>${info.finOrgName}</dd>
+								<dd>${detailVo.comOrgName }</dd>
 								<dt>信贷员</dt>
-								<dd>${info.finOrgName}</dd>
+								<dd>
+									<a data-toggle="popover" data-placement="right" data-content="${detailVo.creditTel }"> ${detailVo.credit }</a>
+								</dd>
 							</dl>
 						</div>
 						<div class="col-lg-3">
 							<dl class="dl-horizontal">
 								<dt>金融权证</dt>
-								<dd>${info.finOrgName}</dd>
+								<dd>
+									<a data-toggle="popover" data-placement="right" data-content="${detailVo.financialTel }">${detailVo.financial }</a>
+								</dd>
 								<dt>经纪人</dt>
-								<dd>${info.finOrgName}</dd>
+								<dd>
+									<a data-toggle="popover" data-placement="right" data-content="${detailVo.agentPhone }">${detailVo.agentName }</a>
+								</dd>
 							</dl>
 						</div>
 					</div>
@@ -258,9 +269,8 @@
 								<div class="icon icon_blue iconfont">&#xe607;</div>
 							</div>
 							<div class="media-body">
-								<strong><a>${eloanCase.caseCode }</a></strong><br />经办人 <strong>${info.jingbanName }</strong>
+								<strong><a>${detailVo.caseCode }</a></strong><br />经办人 <strong>${detailVo.leadingProcessName }</strong>
 								<br />
-								<!-- <small class="text-muted">2016-06-14 15:30 网签</small> -->
 							</div>
 						</div>
 					</div>
@@ -273,13 +283,12 @@
 					<div class="panel blank-panel">
 						<h2 class="title">赎楼单详情</h2>
 						<div class="details-update">
-							<a href="javascript:void(0)">变更金融权证</a> <a
-								href="${ctx }/ransomList/ransom/ransomDetailUpdate">修改赎楼单详情</a>
+							<a href="javascript:void(0)">变更金融权证</a> 
+							<a href="${ctx }/ransomList/ransom/ransomDetailUpdate">修改赎楼单详情</a>
 							<a href="${ctx }/ransomList/ransom/planTime">修改时间计划</a>
 						</div>
 						<hr>
-						<table
-							class="table table_blue table-striped table-bordered table-hover ">
+						<table class="table table_blue table-striped table-bordered table-hover ">
 							<thead>
 								<tr>
 									<th>尾款机构</th>
@@ -290,69 +299,43 @@
 									<th>实际还款金额</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td>建设银行河西支行</td>
-									<td>商业贷款</td>
-									<td>一抵</td>
-									<td>240万元</td>
-									<td>40万元</td>
-									<td>40万元</td>
-								</tr>
-							</tbody>
+							<tbody id="tails"></tbody>
 						</table>
 						<div class="form_list">
 							<div class="marinfo">
 								<div class="line">
 									<div class="form_content">
-										<label class="control-label sign_left_small"><font
-											color=" red" class="mr5">*</font> 借款金额 </label> <input type="hidden"
-											value="借款金额 " id="" name=""> <input type="text"
-											value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
-											class="input_type yuanwid" id="initAmount" name="initAmount"
-											onkeyup="checkNum(this)"> <span class="date_icon">元</span>
+										<label class="control-label sign_left_small">
+											<font color=" red" class="mr5">*</font> 借款金额
+								 			&nbsp;<c:if test="${!empty detailVo.borrowMoney }">${detailVo.borrowMoney/10000 }&nbsp;&nbsp;万</c:if>
+							 			</label>
 									</div>
 									<div class="form_content">
 										<label class="control-label sign_left_small"><font
-											color=" red" class="mr5">*</font> 面签金额 </label> <input type="hidden"
-											value="面签金额 " id="initPayName" name="initPayName"> <input
-											type="text"
-											value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
-											class="input_type yuanwid" id="initAmount" name="initAmount"
-											onkeyup="checkNum(this)"> <span class="date_icon">元</span>
+											color=" red" class="mr5">*</font> 面签金额 
+											&nbsp;<c:if test="${!empty detailVo.interViewMoney }">${detailVo.interViewMoney/10000 }&nbsp;&nbsp;万</c:if>
+										</label> 
 									</div>
 									<div class="form_content">
 										<label class="control-label sign_left_small"><font
-											color=" red" class="mr5">*</font> 还贷金额</label> <input type="hidden"
-											value="还贷金额" id="initPayName" name="initPayName"> <input
-											type="text"
-											value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
-											class="input_type yuanwid" id="initAmount" name="initAmount"
-											onkeyup="checkNum(this)"> <span class="date_icon">元</span>
+											color=" red" class="mr5">*</font> 还贷金额
+											&nbsp;<c:if test="${!empty detailVo.repayLoanMoney }">${detailVo.repayLoanMoney/10000 }&nbsp;&nbsp;万</c:if>	
+										</label> 
 									</div>
 								</div>
 								<div class="line">
 									<div class="form_content">
 										<label class="control-label sign_left_small"><font
-											color=" red" class="mr5">*</font> 贷款费用 </label> <input type="hidden"
-											value="贷款费用" id="initPayName" name="initPayName"> <input
-											type="text"
-											value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
-											class="input_type yuanwid" id="initAmount" name="initAmount"
-											onkeyup="checkNum(this)"> <span class="date_icon">元</span>
+											color=" red" class="mr5">*</font> 贷款费用&nbsp;  ${detailVo.interest}&nbsp;‰。每天
+										
+										</label>
 									</div>
 									<div class="form_content">
 										<label class="control-label sign_left_small"><font
-											color=" red" class="mr5">*</font>是否委托公正 </label>
-										<div class="controls isnowid"
-											style="width: 180px; margin-left: 0px;">
-											<select class="select_control data_style" readOnlydata='1'
-												name="netPlace" id="netPlace">
-												<option value="">请选择</option>
-												<option value="1" ${transSign.netPlace=="1"?'selected':''}>是</option>
-												<option value="0" ${transSign.netPlace=="0"?'selected':''}>否</option>
-											</select>
-										</div>
+											color=" red" class="mr5">*</font>是否委托公正&nbsp;&nbsp; 
+												<c:if test="${detailVo.isEntrust == 1 }">是</c:if>
+												<c:if test="${detailVo.isEntrust == 0 }">否</c:if>
+										</label>
 									</div>
 								</div>
 								<div class="ibox-content">
@@ -491,174 +474,56 @@
 	</div>
 
 	<!-- main End -->
-	<content tag="local_script"> <%-- 	   <script src="<c:url value='/js/inspinia.js' />"></script> 
-	   <script src="<c:url value='/js/plugins/pace/pace.min.js' />"></script> --%>
-	<!-- 开关按钮js --> <script
-		src="<c:url value='/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js' />"></script>
-	<script
-		src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+	<content tag="local_script"> 
+	<script src="<c:url value='/js/trunk/ransom/ransomDetail.js'/>" type="text/javascript"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-	<script src="<c:url value='/js/common/textarea.js' />"></script> <script
-		src="<c:url value='/js/eloan/eloancommon.js' />"></script> <script>
-			jQuery(document).ready(function() {
-								var eloanCode = "${eloanCase.eloanCode }";
-								var pkId = "${pkId}";
-								var userName = "${userName}";
-								/* $(".riskControl-table").aistGrid({
-									ctx : "${ctx}",
-									queryId : 'riskControlListQuery',
-								    templeteId : 'queryRiskControlList',
-								    gridClass : 'table table-striped',
-								    data : {eloanCode : eloanCode},
-								    wrapperData : {pkId : pkId,userName:userName,eloanCode:eloanCode},
-								    columns : [{
-								    	           colName :"风控项目"
-								    	      },{
-								    	           colName :"执行时间"
-								    	      },{
-								    	           colName :"执行人"
-								 	          },{
-								    	           colName :"备注"
-								    	      },{
-								    	           colName :"操作"
-								    	      }]
-								
-								});  */
 
-								$(".cardButton")
-										.click(
-												function() {
-													var type = "card";
-													if (isExistsType(type,
-															eloanCode)) {
-														window.wxc
-																.alert('已经存在该风控类型，你只能修改!');
-													} else {
-														window.location.href = "${ctx}/riskControl/guarantycards?pkid=${pkId}";
-													}
-												});
+	<script id="template_ransomDetail" type= "text/html">	
+		{{each tails as item index}}
+			<tr>
+				<td>
+					<p>
+						{{item.tailOrgName}}
+					</p>
+				</td>
+				<td>
+					<p>
+						{{item.retaTypeName}}
+					</p>
+				</td>
+				<td>
+					<p>
+						{{item.diyaTypeName}}
+					</p>
+				</td>
+				<td>
+					<p>
+						{{if item.loanMoney !=null}}
+							{{item.loanMoney/10000}}万元
+						{{/if}}
+					</p>
+				</td>
+				<td>
+					<p>
+						{{if item.restMoney !=null}}
+							{{item.restMoney/10000}}万元
+						{{/if}}
+					</p>
+				</td>
+				<td>
+					<p>
+						{{if item.actualMoney !=null}}
+							{{item.actualMoney/10000}}万元
+						{{/if}}
+					</p>
+				</td>
+			</tr>
+		{{/each}}
+	</script>
 
-								$(".mortgageButton")
-										.click(
-												function() {
-													var type = "mortgage";
-													if (isExistsType(type,
-															eloanCode)) {
-														window.wxc
-																.alert('已经存在该风控类型，你只能修改!');
-													} else {
-														window.location.href = "${ctx}/riskControl/guarantymortgage?pkid=${pkId}";
-													}
-												});
-
-								$(".forceFairButton")
-										.click(
-												function() {
-													var type = "forceRegister";
-													if (isExistsType(type,
-															eloanCode)) {
-														window.wxc
-																.alert('已经存在该风控类型，你只能修改!');
-													} else {
-														window.location.href = "${ctx}/riskControl/guarantyfair?pkid=${pkId}";
-													}
-												});
-
-								//跟进信息
-								$("#caseCommentList").eloanCaseCommentGrid({
-									eloanCode : eloanCode,
-									source : 'EPLUS'
-								//type : 'TRACK'
-								});
-							})
-
-			//点击浏览器任何位置隐藏提示信息
-			$("body").bind("click", function(evt) {
-				if ($(evt.target).attr("data-toggle") != 'popover') {
-					$('a[data-toggle="popover"]').popover('hide');
-				}
-			});
-			// 验证押卡是否已经存在
-			function isExistsType(type, eloanCode) {
-				var isExist = false;
-				var url = "${ctx}/riskControl/validateRiskControlType";
-				$.ajax({
-					cache : false,
-					async : false,//false同步，true异步
-					type : "POST",
-					url : url,
-					dataType : "json",
-					//contentType:"application/json",  
-					data : {
-						'type' : type,
-						'eloanCode' : eloanCode
-					},
-					beforeSend : function() {
-						$.blockUI({
-							message : $("#salesLoading"),
-							css : {
-								'border' : 'none',
-								'z-index' : '1900'
-							}
-						});
-						$(".blockOverlay").css({
-							'z-index' : '1900'
-						});
-					},
-					complete : function() {
-						$.unblockUI();
-					},
-					success : function(data) {
-						isExist = data.ajaxResponse.success;
-					},
-					error : function(errors) {
-						window.wxc.error("数据保存出错");
-					}
-				});
-				return isExist;
-			}
-
-			function deleteRiskControl(pkid, riskType, eloanPkId, eloanCode) {
-				var url = "${ctx}/riskControl/deleteRiskControl?pkid=" + pkid
-						+ "&riskType=" + riskType + "&eloanPkId=" + eloanPkId
-						+ "&eloanCode=" + eloanCode;
-				$.ajax({
-					cache : false,
-					async : false,//false同步，true异步
-					type : "POST",
-					url : url,
-					dataType : "json",
-					//contentType:"application/json",  
-					beforeSend : function() {
-						$.blockUI({
-							message : $("#salesLoading"),
-							css : {
-								'border' : 'none',
-								'z-index' : '1900'
-							}
-						});
-						$(".blockOverlay").css({
-							'z-index' : '1900'
-						});
-					},
-					complete : function() {
-						$.unblockUI();
-					},
-					success : function(data) {
-						setTimeout('refresh()', 1000);
-					},
-					error : function(errors) {
-						window.wxc.error("数据保存出错");
-					}
-				});
-			}
-
-			function refresh() {
-				window.location.reload();
-			}
-		</script> </content>
+</content>
 </body>
 </html>
 
