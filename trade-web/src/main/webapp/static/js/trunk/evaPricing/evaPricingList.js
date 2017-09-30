@@ -352,7 +352,7 @@ function evalApply(){
 			dataType:'json',
 			success:function(data){
 				if(data.content){
-					window.location.href="";
+					window.location.href= ctx+"/task/eval/apply?caseCode="+caseCode;
 				}else{
 					window.wxc.error('关联失败!');
 				}
