@@ -331,29 +331,10 @@ public class ToMortgageController {
 			if (toMortgage == null) {
 				response.setMessage("未找到该案件的按揭贷款信息，请先保存按揭贷款信息！");
 				return response;
-			/*} else if (StringUtils.isEmpty(toMortgage.getLastLoanBank())) {
-				response.setMessage("该案件还未确定最终贷款银行，不能提交流程！");
-				return response;*/
-			/*} else if ("1".equals(toMortgage.getIsTmpBank()) && toMortgage.getTmpBankUpdateBy() == null) {
-				response.setMessage("临时银行未处理，请等待处理！");
-				return response;*/
 			}
 
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			// 不需要放款前报告
-			/*if (toMortgage.getIfReportBeforeLend().equals("0")) {
-				RestVariable variable = new RestVariable();
-				variable.setName("EvaReportNeedAtLoanRelease");
-				variable.setValue(false);
-				variables.add(variable);
-			}*/
-			// 需要放款前报告
-			/*if (toMortgage.getIfReportBeforeLend().equals("1")) {
-				RestVariable variable = new RestVariable();
-				variable.setName("EvaReportNeedAtLoanRelease");
-				variable.setValue(true);
-				variables.add(variable);
-			}*/
 			ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
 			workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
 
@@ -394,9 +375,7 @@ public class ToMortgageController {
 	public AjaxResponse<String> taskReturnMort(ProcessInstanceVO processInstanceVO, HttpServletRequest request) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		try {
-
 			List<RestVariable> variables = new ArrayList<RestVariable>();
-
 			ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
 			workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
 		} catch (Exception e) {
