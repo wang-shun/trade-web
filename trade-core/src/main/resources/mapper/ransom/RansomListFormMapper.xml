@@ -22,6 +22,11 @@
 	    <result column="FIN_ORG_ID" property="finOrgId" jdbcType="NVARCHAR" />
 	</resultMap>
 	
+	<select id="getRansomCase" resultMap="BaseResultMap">
+		SELECT * FROM sctrans.T_RA_CASE WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</select>
+	
+	
 	<insert id="addRansomDetail" parameterType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
 		insert into sctrans.T_RA_CASE (
 			RANSOM_CODE, 
@@ -46,7 +51,7 @@
     values (
 		#{ransomCode,jdbcType=VARCHAR}, 
 		#{caseCode,jdbcType=VARCHAR}, 
-		'受理', 
+		'ACCEPTANCE', 	
 		#{ransomProperty,jdbcType=NVARCHAR}, 
 		#{comOrgCode,jdbcType=VARCHAR}, 
 		#{borroMoney,jdbcType=DECIMAL}, 

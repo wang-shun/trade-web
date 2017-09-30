@@ -12,4 +12,11 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	int addRansomDetail(ToRansomCaseVo trco);
+	
+	/**
+	 * 查询赎楼单列表信息数据by caseCode
+	 * @param caseCode
+	 * @return
+	 */
+	ToRansomCaseVo getRansomCase(String caseCode);
 }

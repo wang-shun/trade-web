@@ -9,4 +9,11 @@ public interface RansomListFormService {
 	 * @return
 	 */
 	int addRansomDetail(ToRansomCaseVo trco);
+	
+	/**
+	 * 查询赎楼单列表
+	 * @param caseCode
+	 * @return
+	 */
+	ToRansomCaseVo getRansomCase(String caseCode);
 }
