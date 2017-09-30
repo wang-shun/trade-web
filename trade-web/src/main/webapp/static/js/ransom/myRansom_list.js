@@ -657,32 +657,41 @@ function unCheckAllItem() {
 //show modal
 function realShowExcelIn() {
 	debugger;
-	checkAllItem();
-	$('#realModal-form').modal("show");
+//	checkAllItem();
+//	$('#realModal-form').modal("show");
 	
-//	var data = getParams();
-//	aist.exportExcel({
-//		ctx : "${ctx}",
-//		queryId : '',
-//		colomns : [  ],
-//		data : data
-//	})
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	var data = getParamsValue();
+	var start = $('#dtBegin_0').val();
+	var end = $('#dtEnd_0').val();
+	data.start = start;
+	data.end = end;
+	//data.queryId = "exportToExcel";
+	aist.exportExcel({
+//		url:ctx+ "/quickGrid/findPage" ,
+//		method: "post",
+//		dataType: "json",
+		
+		ctx : ctx,
+        queryId : 'exportToExcel',
+		colomns : [
+			'RANSOM_CODE',
+			'BORROWER_NAME',
+			'BORROWER_TEL',
+			'PROPERTY_ADDR',
+			'AGENT_NAME',
+			'RANSOM_STATUS',
+			'SIGN_TIME',
+			'PLAN_TIME',
+			'INTERVIEW_TIME',
+			'REPAY_TIME',
+			'CANCEL_TIME',
+			'REDEEM_TIME',
+			'PAYMENT_TIME',
+			'REST_MONEY',
+			'LOAN_MONEY'
+			],
+		data : data
+	})
 }
 
 //Excel显示列
