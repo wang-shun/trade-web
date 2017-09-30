@@ -645,7 +645,7 @@
     </update>
  
  <select id="findToMortgageByCaseCode" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs"  >
- 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR} and last_loan_bank is not null and IS_ACTIVE='1'
+ 	select * from sctrans.T_TO_MORTGAGE where case_code=#{caseCode,jdbcType=VARCHAR}  and IS_ACTIVE='1'
  </select>
  
   

@@ -6,6 +6,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <jsp:include page="/WEB-INF/jsp/tbsp/common/scriptBase.jsp"></jsp:include>
 
@@ -207,7 +208,7 @@
                     <em>实际面签时间</em><span class="yuanwid">${caseDetailVO.signDate}</span>
                 </li>
                 <li>
-                    <em>批贷时间</em><span class="yuanwid">${caseDetailVO.apprDate}</span>
+                    <em>批贷时间</em><span class="yuanwid"><fmt:formatDate value="${toMortgage.apprCompleTime}" pattern="yyyy-MM-dd"/> </span>
                 </li>
                 <li>
                     <em>放款时间</em><span class="yuanwid">${caseDetailVO.lendDate}</span>
@@ -307,7 +308,7 @@
                 </li>
 
                 <li>
-                    <em >主贷人单位</em><span class="yuanwid">${caseDetailVO.buyerWork}</span>
+                    <em >主贷人单位</em><span class="yuanwid">${toMortgage.priCreditUnit}</span>
                 </li>
                 <li>
                     <em>放款方式</em><span class="yuanwid">${caseDetailVO.lendWay}</span>

@@ -40,12 +40,14 @@ public class CaseDetailShowVO {
 	private BigDecimal evaFee;            //评估费金额
 	private String bankName;            //分行
 	private String parentBankName;            //支行
-	private String buyerWork;            //主贷人单位
+	private String priCreditUnit;//现主贷人单位
+	private String buyerWork;            //原主贷人单位(废弃)
 	private String mortBuyer;            //主贷人
 	private String mortTypeName;            //贷款类型
 	
     private String signDate;
-    private String apprDate;
+    private String apprDate;//批贷时间，现不用这个字段(废弃)
+	private String apprCompleTime;//批贷时间，现用这个字段
     private String tazhengArrDate;
     private String lendDate;
     private String prfApplyDate;
@@ -110,7 +112,23 @@ public class CaseDetailShowVO {
     private ToCase toCase;//案件信息
     
     private ToPropertyInfo toPropertyInfo;//物业信息
-    
+
+	public String getPriCreditUnit() {
+		return priCreditUnit;
+	}
+
+	public void setPriCreditUnit(String priCreditUnit) {
+		this.priCreditUnit = priCreditUnit;
+	}
+
+	public String getApprCompleTime() {
+		return apprCompleTime;
+	}
+
+	public void setApprCompleTime(String apprCompleTime) {
+		this.apprCompleTime = apprCompleTime;
+	}
+
 	public String getLoanLostType() {
 		return loanLostType;
 	}
