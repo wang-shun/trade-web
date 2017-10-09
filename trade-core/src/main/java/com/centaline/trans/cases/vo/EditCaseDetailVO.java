@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * update by wbshume
+ *
+ */
 public class EditCaseDetailVO {
 	/**共有属性*/
     private String caseCode;
@@ -12,6 +16,7 @@ public class EditCaseDetailVO {
 	private Date createTime;  	/*业务单创建时间 to_case*/
 	private Date resDate;		/*分单日期 TO_CASE_INFO*/
 	private Date approveTime;	/*结案时间T_TO_CLOSE*/
+	private String payType;		/*付款方式TO_CASE_INFO*/
 	
 	/**TgGuestInfo 客户信息*/
 	/**上家*/
@@ -71,13 +76,24 @@ public class EditCaseDetailVO {
     private BigDecimal uncloseMoney;		/*抵押金额*/
     
     /*过户*/
-    private Long ghid;
+    /*private Long ghid;
     private Date realHtTime;
     private BigDecimal houseHodingTax;
     private BigDecimal personalIncomeTax;
     private BigDecimal businessTax;
     private BigDecimal contractTax;
-    private BigDecimal landIncrementTax;
+    private BigDecimal landIncrementTax;*/
+    private Long ghid;
+    private Date realHtTime;
+    private BigDecimal houseHodingTax;
+    
+    /*税收	天津版本需修改税收部分字段T_TO_RATE_PAYMENT*/
+    private Long rpid;						//主键
+    private Date paymentTime;				//缴税时间
+    private BigDecimal personalIncomeTax;	//个人所得税
+    private BigDecimal businessTax;			//卖方增值税
+    private BigDecimal contractTax;			//买方契税
+    private BigDecimal landIncrementTax;	//土地增值税
     
     /*审税*/
     private Long taxid;
@@ -119,11 +135,28 @@ public class EditCaseDetailVO {
     private Integer houseNum;				/*认定套数*/
     private String loanerPhone;				/*信贷员电话*/
     private String finOrgName;				/*评估公司*/
+    
+    private BigDecimal evaPrice;			/*评估价格*/
+    
+    /*赎楼*/
+    private BigDecimal restMoney;			/*剩余贷款金额*/
+    private String restFinOrgCode;			/*还款银行*/
+    private String restPayType;				/*还款方式*/
+    private Date restPayTime;				/*还款时间*/
+    
+    
+    /**
+     * 天津需求
+     * 此处需注意，如果买卖双方都无补件时间，那么取网签时间，如果有时间，那么取最晚的时间
+     */
+    private Date patchTime;				/*递件时间(补件时间)*/
 
     private String lastLoanBank;			/*最终贷款银行*/
     private String finOrgCode;				/*贷款机构*/
     
     private String loanReq;
+    
+    
     
 	public Long getMpkid() {
 		return mpkid;
@@ -589,36 +622,28 @@ public class EditCaseDetailVO {
 		this.uncloseMoney = uncloseMoney;
 	}
 
-	public Long getGhid() {
-		return ghid;
-	}
-
-	public void setGhid(Long ghid) {
-		this.ghid = ghid;
-	}
-
-	public Date getRealHtTime() {
-		return realHtTime;
-	}
-
-	public void setRealHtTime(Date realHtTime) {
-		this.realHtTime = realHtTime;
-	}
-
-	public BigDecimal getHouseHodingTax() {
-		return houseHodingTax;
-	}
-
-	public void setHouseHodingTax(BigDecimal houseHodingTax) {
-		this.houseHodingTax = houseHodingTax;
-	}
-
 	public BigDecimal getPersonalIncomeTax() {
 		return personalIncomeTax;
 	}
 
 	public void setPersonalIncomeTax(BigDecimal personalIncomeTax) {
 		this.personalIncomeTax = personalIncomeTax;
+	}
+
+	public Long getGhid() {
+		return ghid;
+	}
+
+	public void setGhid(Long pkid) {
+		this.ghid = pkid;
+	}
+
+	public Date getPaymentTime() {
+		return paymentTime;
+	}
+
+	public void setPaymentTime(Date paymentTime) {
+		this.paymentTime = paymentTime;
 	}
 
 	public BigDecimal getBusinessTax() {
@@ -780,6 +805,85 @@ public class EditCaseDetailVO {
 	public void setLoanReq(String loanReq) {
 		this.loanReq = loanReq;
 	}
-    
+
+	public Date getRealHtTime() {
+		return realHtTime;
+	}
+
+	public void setRealHtTime(Date realHtTime) {
+		this.realHtTime = realHtTime;
+	}
+
+	public BigDecimal getHouseHodingTax() {
+		return houseHodingTax;
+	}
+
+	public void setHouseHodingTax(BigDecimal houseHodingTax) {
+		this.houseHodingTax = houseHodingTax;
+	}
+
+	public Long getRpid() {
+		return rpid;
+	}
+
+	public void setRpid(Long rpid) {
+		this.rpid = rpid;
+	}
+
+	public String getPayType() {
+		return payType;
+	}
+
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
+
+	public Date getPatchTime() {
+		return patchTime;
+	}
+
+	public void setPatchTime(Date patchTime) {
+		this.patchTime = patchTime;
+	}
+
+	public BigDecimal getEvaPrice() {
+		return evaPrice;
+	}
+
+	public void setEvaPrice(BigDecimal evaPrice) {
+		this.evaPrice = evaPrice;
+	}
+
+	public BigDecimal getRestMoney() {
+		return restMoney;
+	}
+
+	public void setRestMoney(BigDecimal restMoney) {
+		this.restMoney = restMoney;
+	}
+
+	public String getRestFinOrgCode() {
+		return restFinOrgCode;
+	}
+
+	public void setRestFinOrgCode(String restFinOrgCode) {
+		this.restFinOrgCode = restFinOrgCode;
+	}
+
+	public String getRestPayType() {
+		return restPayType;
+	}
+
+	public void setRestPayType(String restPayType) {
+		this.restPayType = restPayType;
+	}
+
+	public Date getRestPayTime() {
+		return restPayTime;
+	}
+
+	public void setRestPayTime(Date restPayTime) {
+		this.restPayTime = restPayTime;
+	}
     
 }

@@ -108,7 +108,7 @@ public class CaseCloseApproveController {
 		
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, CaseCloseFirstCheck, CaseCloseFirstCheck_response);
 		/*发送提醒*/
-		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
+//		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		
 		/*流程引擎相关*/
 		RestVariable restVariable = new RestVariable();
@@ -135,7 +135,7 @@ public class CaseCloseApproveController {
 		
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, CaseCloseSecondCheck, CaseCloseSecondCheck_response);
 		/*发送提醒*/
-		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
+//		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		
 		/*流程引擎相关*/
 		RestVariable restVariable = new RestVariable();

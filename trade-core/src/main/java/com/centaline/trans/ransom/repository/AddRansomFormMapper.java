@@ -11,4 +11,6 @@ public interface AddRansomFormMapper {
 	int insert(AddRansomForm ar);
 
 	void addRansomForm(List<ToRansomFormVo> list);
+	
+	ToRansomFormVo selectByCaseCode(String caseCode);
 }

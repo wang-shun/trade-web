@@ -146,7 +146,7 @@
 														<div class="form_content mt3">
 															<label
 																class="control-label sign_left_small select_style mend_select">
-																分单时间 </label>
+																接单时间 </label>
 															<div
 																class="input-group sign-right dataleft input-daterange pull-left"
 																data-date-format="yyyy-mm-dd">
@@ -155,18 +155,21 @@
 															</div>
 														</div>
 													</div>
+													
+													<div id="guestUpDiv" class="clear add-member mb20"></div>
+													<div id="guestDownDiv" class="clear add-member mb20"></div>
 
 													<div class="line">
 														<div class="form_content">
 															<label class="control-label sign_left_small">
-																首付付款 </label> <input class="input_type yuanwid"  
+																付款金额(一期) </label> <input class="input_type yuanwid"  
 																value="<fmt:formatNumber value='${ editCaseDetailVO.initAmount}' type='number' pattern='#0.00' />" 
 															    id="initAmount" name="initAmount" onkeyup="checkNum(this)"> <span class="date_icon">万元</span>
 														</div>
 														<div class="form_content mt3">
 															<label
 																class="control-label sign_left_small select_style mend_select">
-																时间 </label>
+																付款时间(一期) </label>
 															<div
 																class="input-group sign-right dataleft input-daterange pull-left"
 																data-date-format="yyyy-mm-dd">
@@ -176,7 +179,7 @@
 															</div>
 														</div>
 														<div class="form_content">
-															<label class="control-label sign_left_small"> 方式
+															<label class="control-label sign_left_small"> 付款方式(一期)
 															</label>
 															<aist:dict clazz="select_control data_style" id="initPayType" name="initPayType" display="select" defaultvalue="${editCaseDetailVO.initPayType}" dictType="30015" />
 														</div>
@@ -184,7 +187,7 @@
 
 													<div class="line">
 														<div class="form_content">
-															<label class="control-label sign_left_small">二期付款</label>
+															<label class="control-label sign_left_small">付款金额(二期)</label>
 															<input class=" input_type yuanwid" 
 															value="<fmt:formatNumber value='${editCaseDetailVO.secAmount }' type='number' pattern='#0.00' />" 
 															id="secAmount" name="secAmount" onkeyup="checkNum(this)"> 
@@ -193,7 +196,7 @@
 														<div class="form_content mt3">
 															<label
 																class="control-label sign_left_small select_style mend_select">
-																时间 </label>
+																付款时间(二期) </label>
 															<div
 																class="input-group sign-right dataleft input-daterange pull-left"
 																data-date-format="yyyy-mm-dd">
@@ -203,21 +206,21 @@
 															</div>
 														</div>
 														<div class="form_content">
-															<label class="control-label sign_left_small"> 方式
+															<label class="control-label sign_left_small"> 付款方式(二期)
 															</label> 
 														<aist:dict clazz="select_control data_style" id="secPayType" name="secPayType" display="select" defaultvalue="${editCaseDetailVO.secPayType}" dictType="30015" />
 														</div>
 													</div>
 													<div class="line">
 														<div class="form_content">
-															<label class="control-label sign_left_small">尾款付款</label>
+															<label class="control-label sign_left_small">付款金额(三期)</label>
 															<input class=" input_type yuanwid" value="<fmt:formatNumber value='${editCaseDetailVO.lastAmount}' type='number' pattern='#0.00' />" 
 															       id="lastAmount" name="lastAmount" onkeyup="checkNum(this)"> <span class="date_icon">万元</span>
 														</div>
 														<div class="form_content mt3">
 															<label
 																class="control-label sign_left_small select_style mend_select">
-																时间 </label>
+																付款时间(三期) </label>
 															<div
 																class="input-group sign-right dataleft input-daterange pull-left"
 																data-date-format="yyyy-mm-dd">
@@ -227,39 +230,12 @@
 															</div>
 														</div>
 														<div class="form_content">
-															<label class="control-label sign_left_small"> 方式
+															<label class="control-label sign_left_small"> 付款方式(三期)
 															</label>
 														<aist:dict clazz="select_control data_style" id="lastPayType" name="lastPayType" display="select" defaultvalue="${editCaseDetailVO.lastPayType}" dictType="30015" />
 														</div>
 													</div>
-													<div class="line">
-														<div class="form_content">
-															<label class="control-label sign_left_small">装修补偿款</label>
-															<input class=" input_type yuanwid" value="<fmt:formatNumber value='${editCaseDetailVO.compensateAmount}' type='number' pattern='#0.00' />" 
-															id="compensateAmount" name="compensateAmount" onkeyup="checkNum(this)"><span class="date_icon">万元</span>
-														</div>
-														<div class="form_content mt3">
-															<label
-																class="control-label sign_left_small select_style mend_select">
-																时间 </label>
-															<div
-																class="input-group sign-right dataleft input-daterange pull-left"
-																data-date-format="yyyy-mm-dd">
-																<input  class="input_type yuanwid datatime"
-																	value="<fmt:formatDate  value='${editCaseDetailVO.compensatePayTime }' type='both' pattern='yyyy-MM-dd' />" 
-															        id="compensatePayTime" name="compensatePayTime" onfocus="this.blur()">
-															</div>
-														</div>
-														<div class="form_content">
-															<label class="control-label sign_left_small"> 方式
-															</label>
-														<aist:dict clazz="select_control data_style" id="compensatePayType" name="compensatePayType" display="select" defaultvalue="${editCaseDetailVO.compensatePayType}" dictType="30015" />															
-														</div>
-													</div>
-
 												</div>
-														<div id="guestUpDiv" class="clear add-member mb20"></div>
-														<div id="guestDownDiv" class="clear add-member mb20"></div>
 												</form>
 												<div class="line">
 													<div class="form_content">
@@ -274,39 +250,32 @@
 
 												</div>
 												<div class="line">
-													<div class="form_content">
+													<div class="form_content mt3">
 														<label class="control-label sign_left_small"> 竣工年份
 														</label>
 														<input class=" select_control yuanwid" readonly="readonly" name="finishYear" id="finishYear" value="${editCaseDetailVO.finishYear}"></input>
 													</div>
-													<div class="form_content">
+													<div class="form_content mt3">
 														<label class="control-label sign_left_small"> 所在楼层
-														</label> <input class=" input_type data_style" readonly="readonly"  placeholder="所在楼层"  onkeyup="checkNum2(this)"
+														</label> <input class=" input_type yuanwid" readonly="readonly"  placeholder="所在楼层"  onkeyup="checkNum2(this)"
 												      id="locateFloor" name="locateFloor" value="${editCaseDetailVO.locateFloor}">
 														<span class="date_icon">层</span>
 													</div>
-													<div class="form_content">
+													<div class="form_content mt3">
 														<label class="control-label sign_left_small">总层高</label> <input
-															class=" input_type data_style" readonly="readonly"  placeholder="总层高" onkeyup="checkNum2(this)"
+															class=" input_type yuanwid" readonly="readonly"  placeholder="总层高" onkeyup="checkNum2(this)"
 												            id="totalFloor" name="totalFloor" value="${editCaseDetailVO.totalFloor}"> <span
 															class="date_icon">层</span>
 													</div>
 
 												</div>
 												<div class="line">
-													<div class="form_content">
-														<label class="control-label sign_left_small"> 房屋类型
-														</label>
-														<aist:dict clazz="select_control yuanwid" id="propertyType" name="propertyType" display="label" dictCode="${editCaseDetailVO.propertyType}" dictType="30014" />
-														
-													</div>
-
 												</div>
 												<div class="line">
 													<div class="form_content mt3">
 														<label
 															class="control-label sign_left_small select_style mend_select">
-															实际签约时间 </label>
+															网签时间 </label>
 														<div
 															class="input-group sign-right dataleft pull-left">
 															<input  class="input_type yuanwid datatime"
@@ -320,52 +289,27 @@
 													value="<fmt:formatNumber value='${editCaseDetailVO.conPrice}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
 													<div class="form_content">
-														<label class="control-label sign_left_small">房屋户口</label>
-														<aist:dict clazz="select_control data_style" id="isConCert" name="isConCert" display="label" dictCode="${editCaseDetailVO.isHukou}" dictType="hukou_remain" />
-													</div>
-												</div>
-												<div class="line">
-													<div class="form_content">
 														<label class="control-label sign_left_small">成交价
 														</label> <input class=" input_type yuanwid" id="realPrice" readonly="readonly"   name="realPrice" onkeyup="checkNum(this)"
 													value="<fmt:formatNumber value='${editCaseDetailVO.realPrice}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
-													<div class="form_content">
-														<label class="control-label sign_left_small"> 合同公证
-														</label>
-													<aist:dict clazz="select_control data_style" id="isHukou" name="isHukou" display="label" dictCode="${editCaseDetailVO.isConCert}" dictType="gongzheng_need" />
-													</div>
-
 												</div>
 												<div class="line">
-													<div class="form_content mt3">
+													<div class="form_content">
 														<label
 															class="control-label sign_left_small select_style mend_select">
-															还款时间 </label>
+															缴税时间 </label>
 														<div
 															class="input-group sign-right dataleft pull-left">
-															<input class="input_type yuanwid datatime"
-																 id="loanCloseCode" name="loanCloseCode" readonly="readonly"
-												                 value="<fmt:formatDate  value='${editCaseDetailVO.loanCloseCode}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
+															<input  class="input_type yuanwid datatime"
+																id="realHtTime" readonly="readonly"
+												                name="realHtTime" value="<fmt:formatDate  value='${editCaseDetailVO.paymentTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
 													<div class="form_content">
-														<label class="control-label sign_left_small"> 抵押金额
-														</label> <input class=" input_type yuanwid" id="uncloseMoney" readonly="readonly"  name="uncloseMoney" onkeyup="checkNum(this)" <c:if test="${empty editCaseDetailVO.lcid}">readOnly</c:if>
-													value="<fmt:formatNumber value='${editCaseDetailVO.uncloseMoney}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
-													</div>
-													<div class="form_content">
-														<label class="control-label sign_left_small"> 金额来源
-														</label>
-														<aist:dict clazz="select_control data_style" id="closeType" name="closeType" display="label" dictCode="${editCaseDetailVO.closeType}" dictType="LoanCloseMethod" />
-													</div>
-
-												</div>
-												<div class="line">
-													<div class="form_content">
 														<label
 															class="control-label sign_left_small select_style mend_select">
-															实际过户时间 </label>
+															过户时间 </label>
 														<div
 															class="input-group sign-right dataleft pull-left">
 															<input  class="input_type yuanwid datatime"
@@ -374,25 +318,30 @@
 														</div>
 													</div>
 													<div class="form_content">
-														<label class="control-label sign_left_small"> 房产税
-														</label> <input class=" input_type yuanwid" id="houseHodingTax"  readonly="readonly"  name="houseHodingTax" onkeyup="checkNum(this)"
-													value="<fmt:formatNumber value='${ editCaseDetailVO.houseHodingTax}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
+														<label
+															class="control-label sign_left_small select_style mend_select">
+															领证时间 </label>
+														<div
+															class="input-group sign-right dataleft pull-left">
+															<input  class="input_type yuanwid datatime"
+																id="realHtTime" readonly="readonly"
+												                name="realHtTime" value="<fmt:formatDate  value='${editCaseDetailVO.realPropertyGetTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
+														</div>
 													</div>
+												</div>
+												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">
 															个人所得税 </label> <input class=" input_type yuanwid" pid="personalIncomeTax"  readonly="readonly"  name="personalIncomeTax" onkeyup="checkNum(this)"
 													value="<fmt:formatNumber value='${ editCaseDetailVO.personalIncomeTax}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
-
-												</div>
-												<div class="line">
 													<div class="form_content">
 														<label class="control-label sign_left_small">
-															上家营业税 </label> <input class=" input_type yuanwid"  readonly="readonly"   id="businessTax" name="businessTax" onkeyup="checkNum(this)"
+															增值税及附加 </label> <input class=" input_type yuanwid"  readonly="readonly"   id="businessTax" name="businessTax" onkeyup="checkNum(this)"
 												value="<fmt:formatNumber value='${ editCaseDetailVO.businessTax}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
 													<div class="form_content">
-														<label class="control-label sign_left_small"> 下家契税
+														<label class="control-label sign_left_small"> 契税
 														</label> <input class=" input_type yuanwid" id="contractTax"  readonly="readonly"  name="contractTax" onkeyup="checkNum(this)"
 												value="<fmt:formatNumber value='${ editCaseDetailVO.contractTax}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
@@ -402,48 +351,36 @@
 												value="<fmt:formatNumber value='${ editCaseDetailVO.landIncrementTax}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
 												</div>
+												
 												<div class="line">
-													<div class="form_content mt3">
+													<div class="form_content">
+														<label class="control-label sign_left_small">
+															卖方剩余贷款 </label> <input class=" input_type yuanwid" pid="personalIncomeTax"  readonly="readonly"  name="personalIncomeTax" onkeyup="checkNum(this)"
+													value="<fmt:formatNumber value='${ editCaseDetailVO.restMoney}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
+													</div>
+													<div class="form_content">
+														<label class="control-label sign_left_small">
+															还款方式 </label> <input class=" input_type yuanwid"  readonly="readonly"   id="businessTax" name="businessTax" onkeyup="checkNum(this)"
+												value="<fmt:formatNumber value='${ editCaseDetailVO.restPayType}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
+													</div>
+													<div class="form_content">
 														<label
 															class="control-label sign_left_small select_style mend_select">
-															实际审税时间 </label>
-														<div class="input-group sign-right dataleft pull-left">
+															还款时间 </label>
+														<div
+															class="input-group sign-right dataleft pull-left">
 															<input  class="input_type yuanwid datatime"
-																id="taxTime" readonly="readonly"
-												                name="taxTime" value="<fmt:formatDate  value='${editCaseDetailVO.taxTime}' type='both' pattern='yyyy-MM-dd'/>">
+																id="realHtTime" readonly="readonly"
+												                name="realHtTime" value="<fmt:formatDate  value='${editCaseDetailVO.restPayTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
 													<div class="form_content">
-														<label class="control-label sign_left_small">是否唯一住房</label>
-														<aist:dict clazz="select_control data_style" id="isUniqueHome" name="isUniqueHome" display="label" dictCode="${editCaseDetailVO.isUniqueHome}" dictType="is_unique_home" />
-													</div>
-													<div class="form_content">
-														<label class="control-label sign_left_small">购房年数</label>
-														<aist:dict clazz="select_control data_style" id="holdYear" name="holdYear" display="label" dictCode="${editCaseDetailVO.holdYear}" dictType="hold_year" />
+														<label class="control-label sign_left_small">
+															还款银行 </label> <input class=" input_type yuanwid"  readonly="readonly"  id="landIncrementTax" name="landIncrementTax" onkeyup="checkNum(this)"
+												value="<fmt:formatNumber value='${ editCaseDetailVO.restFinOrgCode}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
 												</div>
 												<div class="line">
-													<div class="form_content mt3">
-														<label
-															class="control-label sign_left_small select_style mend_select">
-															查限购时间 </label>
-														<div class="input-group sign-right dataleft  pull-left">
-															<input class="input_type yuanwid datatime"
-																id="realPlsTime" readonly="readonly"
-												name="realPlsTime" value="<fmt:formatDate  value='${editCaseDetailVO.realPlsTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
-														</div>
-													</div>
-													<div class="form_content mt3">
-														<label
-															class="control-label sign_left_small select_style mend_select">
-															领证时间 </label>
-														<div
-															class="input-group sign-right dataleft pull-left">
-															<input class="input_type yuanwid datatime"
-																id="realPropertyGetTime" name="realPropertyGetTime" readonly="readonly"
-												               value="<fmt:formatDate  value='${editCaseDetailVO.realPropertyGetTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
-														</div>
-													</div>
 													<div class="form_content mt3">
 														<label
 															class="control-label sign_left_small select_style mend_select">
@@ -455,6 +392,19 @@
 												name="approveTime" value="<fmt:formatDate  value='${editCaseDetailVO.approveTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
+													<div class="form_content mt3">
+														<label class="control-label sign_left_small"> 房屋性质
+														</label>
+														<aist:dict clazz="select_control data_style" id="propertyType" name="propertyType" display="label" dictCode="${editCaseDetailVO.propertyType}" dictType="30014" />
+													</div>
+													<div class="form_content mt3">
+														<label class="control-label sign_left_small">是否唯一住房</label>
+														<aist:dict clazz="select_control data_style" id="isUniqueHome" name="isUniqueHome" display="label" dictCode="${editCaseDetailVO.isUniqueHome}" dictType="is_unique_home" />
+													</div>
+													<div class="form_content mt3">
+														<label class="control-label sign_left_small">购房年数</label>
+														<aist:dict clazz="select_control data_style" id="holdYear" name="holdYear" display="label" dictCode="${editCaseDetailVO.holdYear}" dictType="hold_year" />
+													</div>
 												</div>
 											</div>
 										</div>
@@ -462,11 +412,41 @@
 									<div id="tab-2" class="tab-pane">
 										<div class="form_list">
 											<div class="marinfo">
+											<div class="line">
+													<div class="form_content">
+														<label
+															class="control-label sign_left_small">
+															付款方式</label>
+														<aist:dict clazz="select_control yuanwid" id="payType" name="payType" display="select" defaultvalue="${editCaseDetailVO.payType}" dictType="30015" />
+													</div>
+													<div class="form_content">
+														<label
+															class="control-label sign_left_small">
+															贷款金额 </label>
+														<input class=" input_type yuanwid" id="mortTotalAmount"  name="mortTotalAmount" onkeyup="checkNum(this)" 
+												value="<fmt:formatNumber value='${ editCaseDetailVO.mortTotalAmount}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
+													</div>
+													<div class="form_content">
+														<label class="control-label sign_left_small">是否自办</label>
+														<select class="select_control yuanwid" id="isDelegateYucui"  name="isDelegateYucui">
+														<c:choose>
+															<c:when test="${editCaseDetailVO.isDelegateYucui == '1'}">
+																<option value="0" >是</option>
+																<option value="1" selected="selected">否</option>
+															</c:when>
+															<c:otherwise>
+																<option value="0" selected="selected">是</option>
+																<option value="1" >否</option>
+															</c:otherwise>
+														</c:choose>
+														</select>
+													</div>
+												</div>
 												<div class="line">
-													<div class="form_content mt3">
+													<div class="form_content">
 														<label
 															class="control-label sign_left_small select_style mend_select">
-															签约时间 </label>
+															面签时间 </label>
 														<div
 															class="input-group sign-right dataleft pull-left">
 															<input class="input_type yuanwid datatime"
@@ -474,7 +454,19 @@
 											                    value="<fmt:formatDate  value='${editCaseDetailVO.signDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
-													<div class="form_content mt3">
+													<div class="form_content">
+														<label
+															class="control-label sign_left_small select_style mend_select">
+															递件时间 </label>
+														<div
+															class="input-group sign-right dataleft pull-left"
+															data-date-format="yyyy-mm-dd">
+															<input  class="input_type yuanwid datatime"
+																id="apprDate" name="apprDate" readonly="readonly"
+											                    value="<fmt:formatDate  value='${editCaseDetailVO.apprDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
+														</div>
+													</div>
+													<div class="form_content">
 														<label
 															class="control-label sign_left_small select_style mend_select">
 															批贷时间 </label>
@@ -486,17 +478,8 @@
 											                    value="<fmt:formatDate  value='${editCaseDetailVO.apprDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
-													<div class="form_content">
-														<label class="control-label sign_left_small">贷款类型</label>
-														<aist:dict clazz="select_control yuanwid" id="mortType" name="mortType" display="select" defaultvalue="${editCaseDetailVO.mortType}" dictType="30016" />
-													</div>
 												</div>
 												<div class="line">
-													<div class="form_content">
-														<label class="control-label sign_left_small">贷款金额</label>
-														<input class=" input_type yuanwid" id="mortTotalAmount"  name="mortTotalAmount" onkeyup="checkNum(this)" 
-												value="<fmt:formatNumber value='${ editCaseDetailVO.mortTotalAmount}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
-													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">公积金贷款金额</label>
 														<input class=" input_type yuanwid" id="prfAmount" name="prfAmount" onkeyup="checkNum(this)" 
@@ -506,16 +489,22 @@
 														<label class="control-label sign_left_small">公积金贷款年限</label>
 														<input class=" input_type yuanwid" id="prfYear" name="prfYear" value="${ editCaseDetailVO.prfYear}" onkeyup="checkNum2(this)"> <span class="date_icon">年</span>
 													</div>
+													<div class="form_content">
+														<label class="control-label sign_left_small">主贷人</label> <select
+														 class="select_control yuanwid"
+															name="custCode" id="custCode" >
+											        </select>
+													</div>
 
 												</div>
 												<div class="line">
 													<div class="form_content">
-														<label class="control-label sign_left_small">商贷金额</label>
+														<label class="control-label sign_left_small">商贷贷款金额</label>
 														<input class=" input_type yuanwid" id="comAmount" name="comAmount" onkeyup="checkNum(this)"
 													value="<fmt:formatNumber value='${ editCaseDetailVO.comAmount}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
 													<div class="form_content">
-														<label class="control-label sign_left_small">商贷年限</label>
+														<label class="control-label sign_left_small">商贷贷款年限</label>
 														<input class=" input_type yuanwid" id="comYear" name="comYear" value="${ editCaseDetailVO.comYear}"><span class="date_icon">年</span>
 													</div>
 													<div class="form_content">
@@ -532,7 +521,7 @@
 													<div class="form_content mt3">
 														<label
 															class="control-label sign_left_small select_style mend_select">
-															他证送达时间 </label>
+															领他项证时间 </label>
 														<div
 															class="input-group sign-right dataleft input-daterange pull-left"
 															data-date-format="yyyy-mm-dd">
@@ -541,48 +530,12 @@
 												value="<fmt:formatDate  value='${editCaseDetailVO.tazhengArrDate}' type='both' pattern='yyyy-MM-dd'/>">
 														</div>
 													</div>
-													<div class="form_content">
-														<label class="control-label sign_left_small">是否自办</label>
-														<select class="select_control data_style" id="isDelegateYucui"  name="isDelegateYucui">
-														<c:choose>
-															<c:when test="${editCaseDetailVO.isDelegateYucui == '1'}">
-																<option value="0" >是</option>
-																<option value="1" selected="selected">否</option>
-															</c:when>
-															<c:otherwise>
-																<option value="0" selected="selected">是</option>
-																<option value="1" >否</option>
-															</c:otherwise>
-														</c:choose>
-														</select>
-													</div>
-
 												</div>
 												<div class="line">
-													<div class="form_content">
-														<label class="control-label sign_left_small">主贷人</label> <select
-														 class="select_control yuanwid"
-															name="custCode" id="custCode" >
-											        </select>
-													</div>
-													<div class="form_content">
-														<label class="control-label sign_left_small">主贷人单位</label>
-														<input class=" input_type yuanwid" style="width: 491px;"
-															id="custCompany" name="custCompany" value="${ editCaseDetailVO.custCompany}">
-													</div>
 													<div class="form_content mt3">
-														<label
-															class="control-label sign_left_small select_style mend_select">
-															申请时间 </label>
-														<div
-															class="input-group sign-right dataleft input-daterange pull-left"
-															data-date-format="yyyy-mm-dd">
-															<input  class="input_type yuanwid datatime" disabled="disabled"
-																id="prfApplyDate" name="prfApplyDate" readonly="readonly"  onfocus="this.blur()"
-												value="<fmt:formatDate  value='${editCaseDetailVO.prfApplyDate}' type='both' pattern='yyyy-MM-dd'/>">
-														</div>
+														<label class="control-label sign_left_small">房贷套数</label>
+														<input class=" input_type yuanwid" id="houseNum" name="houseNum" value="${editCaseDetailVO.houseNum}" onkeyup="checkNum2(this)">
 													</div>
-
 													<div class="form_content mt3">
 														<label
 															class="control-label sign_left_small select_style mend_select">
@@ -594,10 +547,6 @@
 													          id="lendDate" name="lendDate" readonly="readonly"  onfocus="this.blur()">
 														</div>
 													</div>
-													<div class="form_content">
-														<label class="control-label sign_left_small">房贷套数</label>
-														<input class=" input_type yuanwid" id="houseNum" name="houseNum" value="${editCaseDetailVO.houseNum}" onkeyup="checkNum2(this)">
-													</div>
 												</div>
 
 												<div class="line">
@@ -606,7 +555,7 @@
 															class=" input_type yuanwid" id="loanerName" readonly="readonly"  name="loanerName" value="${ editCaseDetailVO.loanerName}">
 													</div>
 													<div class="form_content">
-														<label class="control-label sign_left_small">信贷员电话</label>
+														<label class="control-label sign_left_small">信贷员联系电话</label>
 														<input class=" input_type yuanwid" readonly="readonly"  id="loanerPhone" name="loanerPhone" value="${ editCaseDetailVO.loanerPhone}">
 													</div>
 												</div>
@@ -614,6 +563,11 @@
 													<div class="form_content">
 														<label class="control-label sign_left_small">评估公司</label>
 														<input class=" input_type yuanwid" readonly="readonly"  id="finOrgName" name="finOrgName" value="${editCaseDetailVO.finOrgName}">
+													</div>
+													<div class="form_content">
+														<label class="control-label sign_left_small">评估价格</label>
+														<input class=" input_type yuanwid" id="comAmount" name="comAmount" onkeyup="checkNum(this)"
+													value="<fmt:formatNumber value='${ editCaseDetailVO.comAmount}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
 												</div>
 												<div class="line">
@@ -650,7 +604,6 @@
 									  </div>
 									</div>
 								</div>
-
 							</div>
 
 					<div class="clearfix" id="aboutInfo">
@@ -716,6 +669,9 @@
 	<!-- 改版引入的新的js文件 -->
     <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
 	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
+	
+	<!--公共信息-->
+	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 		<script>
 		var isAccumulation=false;
 		var loanReq ="${loanReq}";
@@ -968,7 +924,7 @@
 			var initAmount = Number($('input[name=initAmount]').val());
 			var secAmount = Number($('input[name=secAmount]').val());
 			var lastAmount = Number($('input[name=lastAmount]').val());
-			var compensateAmount = Number($('input[name=compensateAmount]').val());
+//			var compensateAmount = Number($('input[name=compensateAmount]').val());
 
 			if(initAmount>0){
 				if(null == $('input[name=initPayTime]').val() || '' == $('input[name=initPayTime]').val()){
@@ -1012,7 +968,7 @@
 				}
 
 			}
-			if(compensateAmount>0){
+			/* if(compensateAmount>0){
 				if(null == $('input[name=compensatePayTime]').val() || '' == $('input[name=compensatePayTime]').val()){
 					window.wxc.alert("装修补偿款时间不能为空!");
 					$('input[name=compensatePayTime]').focus();
@@ -1025,9 +981,9 @@
 					return false;
 				}
 
-			}
+			} */
 
-			if (conPrice!=initAmount+secAmount+lastAmount+compensateAmount) {
+			if (conPrice!=initAmount+secAmount+lastAmount) {//天津版本无装修补偿款  compensateAmount
 				window.wxc.alert("付款信息项之和必须等于合同价!");
 				$('input[name=conPrice]').focus();
 				return false;
@@ -1094,10 +1050,10 @@
 			var txt = '<div id="dateDivD_' + divIndexDown + '" class="line">';
 			txt += "<input type='hidden' name='pkidDown' value='0'/>";
 			txt += "<div class='form_content'>";
-			txt += "<label class='control-label sign_left_small'>下家姓名</label>";
+			txt += "<label class='control-label sign_left_small'>买家姓名</label>";
 			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestNameDown\" value=''></div>";
 			txt += "<div class=\"form_content\">";
-			txt += "<label class=\"control-label sign_left_small\">下家电话</label>";
+			txt += "<label class=\"control-label sign_left_small\">买家电话</label>";
 			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneDown\" value=''></div>";
 			txt += '<span class=""></span>';
 			txt += '</div>';
@@ -1111,10 +1067,10 @@
 			var txt = '<div id="dateDivU_' + divIndexUp + '" class="line">';
 			txt += "<input type='hidden' name='pkidUp' value='0'/>";
 			txt += "<div class='form_content'>";
-			txt += "<label class='control-label sign_left_small'>上家姓名</label>";
+			txt += "<label class='control-label sign_left_small'>卖家姓名</label>";
 			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestNameUp\" value=''></div>";
 			txt += "<div class=\"form_content\">";
-			txt += "<label class=\"control-label sign_left_small\">上家电话</label>";
+			txt += "<label class=\"control-label sign_left_small\">卖家电话</label>";
 			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneUp\" value=''></div>";
 			txt += '<span class=""></span>';
 			txt += '</div>';
@@ -1155,10 +1111,10 @@
 							var txt = '<div id="dateDivD_' + divIndexDown + '" class="line">';
 							txt += "<input type='hidden' name='pkidDown' value='"+value.pkid+"'/>";
 							txt += "<div class='form_content'>";
-							txt += "<label class='control-label sign_left_small'>下家姓名</label>";
+							txt += "<label class='control-label sign_left_small'>买家姓名</label>";
 							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestNameDown\" value='"+value.guestName+"'></div>";
 							txt += "<div class='form_content'>";
-							txt += "<label class=\"control-label sign_left_small\">下家电话</label>";
+							txt += "<label class=\"control-label sign_left_small\">买家电话</label>";
 							txt += "<input type=\"text\"  style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneDown\" value='"+value.guestPhone+"'></div>";
 							txt += '<span class=""></span>';
 							txt += '</div>';
@@ -1168,10 +1124,10 @@
 							var txt = '<div id="dateDivU_' + divIndexUp + '" class="line">';
 							txt += "<input type='hidden' name='pkidUp' value='"+value.pkid+"'/>";
 							txt += "<div class='form_content'>";
-							txt += "<label class='control-label sign_left_small'>上家姓名</label>";
+							txt += "<label class='control-label sign_left_small'>卖家姓名</label>";
 							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestNameUp\" value='"+value.guestName+"'></div>";
 							txt += "<div class='form_content'>";
-							txt += "<label class=\"control-label sign_left_small\">上家电话</label>";
+							txt += "<label class=\"control-label sign_left_small\">卖家电话</label>";
 							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneUp\" value='"+value.guestPhone+"'></div>";
 							txt += '<span class=""></span>';
 							txt += '</div>';		
@@ -1184,10 +1140,10 @@
 							var txt = '<div id="dateDivD_' + divIndexDown + '" class="line">';
 							txt += "<input type='hidden' name='pkidDown' value='0'/>";
 							txt += "<div class='form_content'>";
-							txt += "<label class='control-label sign_left_small'>下家姓名</label>";
+							txt += "<label class='control-label sign_left_small'>买家姓名</label>";
 							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestNameDown\" value=''></div>";
 							txt += "<div class='form_content'>";
-							txt += "<label class=\"control-label sign_left_small\">下家电话</label>";
+							txt += "<label class=\"control-label sign_left_small\">买家电话</label>";
 							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneDown\" value=''></div>";
 							txt += '<span class=""><span>';
 							txt += '</div>';
@@ -1198,10 +1154,10 @@
 							var txt = '<div id="dateDivU_' + divIndexUp + '" class="line">';
 							txt += "<input type='hidden' name='pkidUp' value='0'/>";
 							txt += "<div class='form_content'>";
-							txt += "<label class='control-label sign_left_small'>上家姓名</label>";
+							txt += "<label class='control-label sign_left_small'>卖家姓名</label>";
 							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestNameUp\" value=''></div>";
 							txt += "<div class=\"form_content\">";
-							txt += "<label class=\"control-label sign_left_small\">上家电话</label>";
+							txt += "<label class=\"control-label sign_left_small\">卖家电话</label>";
 							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneUp\" value=''></div>";
 							txt += '<span class=""></span>';
 							txt += '</div>';
@@ -1212,7 +1168,7 @@
 					}
 				},
 				error : function(errors) {
-					window.wxc.error("上下家加载失败！");
+					window.wxc.error("买卖双方信息加载失败！");
 				}
 			});
 		}
