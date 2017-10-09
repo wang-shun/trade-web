@@ -1,5 +1,6 @@
 package com.centaline.trans.ransom.web;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -77,7 +78,7 @@ public class RansomListController {
 			for (ToRansomFormVo arf : list) {
 				arf.setRansomCode("TJ-ZH-" + month + day + minute + hour + second); //赎楼单编号
 				arf.setLoanMoney(arf.getLoanMoney() * 10000);
-				arf.setRestMoney(arf.getRestMoney() * 10000);
+				arf.setRestMoney(new BigDecimal(arf.getRestMoney().doubleValue() * 1000));
 				arf.setCreateTime(new Date());
 				arf.setCreateUser(user.getRealName());
 				arf.setUpdateTime(new Date());
