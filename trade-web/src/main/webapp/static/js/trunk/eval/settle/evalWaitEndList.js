@@ -205,7 +205,7 @@ $('#checkAllNot').click(function(){
 });
 
 /*单选框*/
-function _checkbox(){
+/*function _checkbox(){
 	var my_checkboxes = $('input[name="my_checkbox"]');
 	var flag =false;
 	var count=0;
@@ -229,7 +229,7 @@ function _checkbox(){
 		$("#caseAdd").attr("disabled", true);
 		$('#checkAllNot').prop('checked', false);
 	}
-}
+}*/
 
 /*单选框*/
 function _checkbox(){
@@ -299,11 +299,18 @@ function caseAdd(){
  * 批量审批
  */
 $('#batchappro').click(function() {
-	var data = {};
-	if($('input[name="my_checkbox"]:checked').length==1){
-		data.caseCode=$('input[name="my_checkbox"]:checked').val();
-		};
-		window.location.href = ctx+"/eval/settle/majorAppro";
+	var ids = new Array();
+	var checkeds=$('input[name="my_checkbox"]:checked');
+	$.each(checkeds, function(i, items){
+		var $td = $(items).parent();
+		var id = $('input[name="case_code"]',$td).val();
+		ids.push(id);
+	});
+	var ctx = $("#ctx").val();
+	
+	//window.wxc.success("确定批量审批吗？",{"wxcOk":function(){
+		window.location.href = ctx + "/eval/settle/majorAppro?caseCodes="+ids;
+	//}});
 });
 
 /**

@@ -262,6 +262,9 @@ display: none;}
 									{{if item.STATUS=='1'}}
 						 				<span class="yes_color">未核对</span>
 					    			{{/if}}
+									{{if item.STATUS=='6'}}
+						 				<span class="yes_color">已提交财务审批中</span>
+					    			{{/if}}
 									</td>
 									<td class="center">
 									<a href="${ctx}/eval/settle/evalEndUpdate?pkid={{item.pkId}}&&caseCode={{item.caseCode}}" target="_blank">修改</a>

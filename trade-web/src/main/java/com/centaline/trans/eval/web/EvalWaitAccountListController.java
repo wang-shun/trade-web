@@ -64,8 +64,12 @@ public class EvalWaitAccountListController {
 	 * @return
 	 */
 	@RequestMapping(value = "/evalWaitEndList")
-	public String evalWaitEndList() {
-
+	public String evalWaitEndList(String caseCode) {
+		if(caseCode != null) {
+			ToEvalSettle toEvalSettle = new ToEvalSettle();
+			toEvalSettle.setCaseCode(caseCode);
+			toEvalSettleService.insertSelective(toEvalSettle);
+		}
 		return "eval/settle/evalWaitEndList";
 	}
 	
@@ -80,11 +84,64 @@ public class EvalWaitAccountListController {
 	 * 
 	 */
 	@RequestMapping("/majorAppro")
-	public String majorAppro( HttpServletRequest request) {
+	public String majorAppro( HttpServletRequest request,String[] caseCodes) {
+		if(caseCodes != null) {
+			for (String caseCode : caseCodes) {
+				//System.out.println(caseCode);
+				ToEvalSettle toEvalSettle = new ToEvalSettle();
+				toEvalSettle.setStatus(String.valueOf(5));//5:进入总监审批页状态
+				toEvalSettle.setCaseCode(caseCode);
+				toEvalSettleService.updateByCaseCode(toEvalSettle);
+			}
+		}
 		
-
 		return  "eval/settle/majorAppro";
 	}
+	
+	/**
+	 * 
+	 * 审批不通过
+	 * @param 
+	 * @param caseCodes
+	 * @param request
+	 * @return 描述
+	 * 
+	 */
+	@RequestMapping("/majorNoAppro")
+	public String majorNoAppro( HttpServletRequest request,String[] caseCodes,String rejectCause) {
+		for (String caseCode : caseCodes) {
+			//System.out.println(rejectCause);
+			ToEvalSettle toEvalSettle = new ToEvalSettle();
+			toEvalSettle.setStatus(String.valueOf(0));//0:修改状态，未提交
+			toEvalSettle.setCaseCode(caseCode);
+			toEvalSettleService.updateByCaseCode(toEvalSettle);
+		}
+
+		return  "redirect:evalWaitEndList";
+	}
+	
+	/**
+	 * 
+	 * 审批通过
+	 * @param 
+	 * @param caseCodes
+	 * @param request
+	 * @return 描述
+	 * 
+	 */
+	@RequestMapping("/majorIsAppro")
+	public String majorIsAppro( HttpServletRequest request,String[] caseCodes) {
+		for (String caseCode : caseCodes) {
+			//System.out.println(caseCode);
+			ToEvalSettle toEvalSettle = new ToEvalSettle();
+			toEvalSettle.setStatus(String.valueOf(6));//6:修改状态，已提交财务审批中
+			toEvalSettle.setCaseCode(caseCode);
+			toEvalSettleService.updateByCaseCode(toEvalSettle);
+		}
+
+		return  "redirect:evalWaitEndList";
+	}
+	
 	/**
 	 * 
 	 * 转向新增结算单
@@ -159,13 +216,15 @@ public class EvalWaitAccountListController {
 					evalAccountShowVO.setEvaPrice(new BigDecimal("0.00"));
 				}
 				
-				//结算费用
-				ToEvalSettle toEvalSettle =  toEvalSettleService.findToCaseByCaseCode(caseCode);
-				evalAccountShowVO.setSettleFee(toEvalSettle.getSettleFee());
-				
 				//贷款权证
 				//评估费实收金额
 				ToEvalRebate toEvalRebate = toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
+				//结算费用
+				if(toEvalRebate.getEvaComAmount()!= null) {
+					evalAccountShowVO.setEvalComAmount(toEvalRebate.getEvaComAmount());
+				}else {
+					evalAccountShowVO.setEvalComAmount(new BigDecimal("0.00"));
+				}
 				evalAccountShowVO.setEvalRealCharges(toEvalRebate.getEvalRealCharges());
 				model.addAttribute("evalVO", evalAccountShowVO);
 			}
@@ -201,7 +260,8 @@ public class EvalWaitAccountListController {
 			
 			ToEvalRebate toEvalRebate = toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
 			evalAccountShowVO.setEvalRealCharges(toEvalRebate.getEvalRealCharges());
-			
+			//结算费用
+			evalAccountShowVO.setEvalComAmount(toEvalRebate.getEvaComAmount());
 			//List<ToEvaSettleUpdateLog> updateLogList = new ArrayList<>();
 			//查询修改记录列表
 			List<ToEvaSettleUpdateLog> toEvaSettleUpdateLogList = toEvaSettleUpdateLogService.selectUpdateLogByCaseCode(caseCode);
@@ -325,7 +385,7 @@ public class EvalWaitAccountListController {
 		for (String caseCode : caseCodes) {
 			//System.out.println(caseCode);
 			ToEvalSettle toEvalSettle = new ToEvalSettle();
-			toEvalSettle.setStatus(String.valueOf(4));//3:未结算状态
+			toEvalSettle.setStatus(String.valueOf(4));//4:已结算状态
 			toEvalSettle.setCaseCode(caseCode);
 			toEvalSettle.setSettleTime(new Date());
 			//System.out.println(new Date());
@@ -353,7 +413,7 @@ public class EvalWaitAccountListController {
 		try {
 			for(String caseC : caseCodes) {
 				ToEvalSettle toEvalSettle = new ToEvalSettle();
-				toEvalSettle.setStatus(String.valueOf(3));
+				toEvalSettle.setStatus(String.valueOf(3));//3:未结算状态
 				toEvalSettle.setCaseCode(caseC);
 				toEvalSettleService.updateByCaseCode(toEvalSettle);
 			}
