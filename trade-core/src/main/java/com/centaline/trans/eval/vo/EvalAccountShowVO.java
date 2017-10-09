@@ -25,9 +25,17 @@ public class EvalAccountShowVO {
 	private List<Integer>taskIds;
 	private List<String>caseCodes;
 	private String userId;
-	
+	private BigDecimal evalComAmount;//结算费用  wbzhouht添加
 	private String updateReason;       //修改原因
-	
+
+	public BigDecimal getEvalComAmount() {
+		return evalComAmount;
+	}
+
+	public void setEvalComAmount(BigDecimal evalComAmount) {
+		this.evalComAmount = evalComAmount;
+	}
+
 	public List<Integer> getTaskIds() {
 		return taskIds;
 	}
