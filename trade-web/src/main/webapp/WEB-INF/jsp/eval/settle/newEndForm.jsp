@@ -59,6 +59,10 @@
 
 <style>
 
+[v-cloak] {
+  display: none;
+}
+
 .table thead tr th{
     color: #1d1b1b;
 }
@@ -127,6 +131,7 @@ display: none;}
 								<div class="tab-pane active fade in" id="settings">
 									<div class="jqGrid_wrapper row">
 										<button type="button" class="btn btn-primary" onclick="javascript:associEval()" >关联评估单列表</button>
+										<button type="button" class="btn btn-primary" onclick="javascript:associEval2()" style="padding-right::100px;" >关联失误</button>
 									</div>
 								</div>
 							</div>
@@ -138,24 +143,24 @@ display: none;}
 								  		<span>结算信息</span>
 								  			<div class="height_line1" style=" margin-top:10px;"></div>
 									  		<div class="row font-family" >
-												<label class="col-sm-4 control-label">案件编号：<span id="content_caseCode"></span></label>
-												<label class="col-sm-3 control-label">评估单编号：<span id="content_evalCode"></span></label>
+												<label v-cloak  class="col-sm-4 control-label">案件编号：<span  style="background-color:#87CEFA" v-html="evalVO.caseCode"></span><span id="content_caseCode"></span></label>
+												<label v-cloak  class="col-sm-3 control-label">评估单编号：<span  style="background-color:#87CEFA" v-html="evalVO.evaCode"></span></label>
 											</div>
 											<div class="height_line1" ></div>
 											<div class="row font-family" style=" margin-top:20px;">
-												<label class="col-sm-4 control-label">评估公司：<span id="content_company"></span></label>
-												<label class="col-sm-3 control-label">评估费实收金额：<span id="content_evalRealCharges"></span></label>
-												<label class="col-sm-3 control-label">评估申请日期：<span id="content_applyDate"></span></label>
+												<label class="col-sm-4 control-label">评估公司：<span  style="background-color:#87CEFA" v-html="evalVO.finOrgId"></span></label>
+												<label class="col-sm-3 control-label">评估费实收金额：<span  style="background-color:#87CEFA" v-html="evalVO.evalRealCharges+'元'"></span></label>
+												<label class="col-sm-3 control-label">评估申请日期：<span  style="background-color:#87CEFA" v-html="evalVO.applyDate"></span></label>
 											</div>
 											<div class="height_line1"></div>
 											<div class="row font-family" style=" margin-top:20px;">
-												<label class="col-sm-4 control-label">出具评估报告的日期：<span id="content_issueDate"></span></label>
+												<label class="col-sm-4 control-label">出具评估报告的日期：<span  style="background-color:#87CEFA" v-html="evalVO.issueDate"></span></label>
 												<!-- <label class="col-sm-3 control-label">返利金额：0元&nbsp;&nbsp;</label> -->
-												<label class="col-sm-3 control-label">结算费用：<span id="content_settleFee"></span></label>
+												<label class="col-sm-3 control-label">结算费用：<span  style="background-color:#87CEFA" v-html="evalVO.evalComAmount+'元'"></span></label>
 											</div>
 											<div class="height_line1"></div>
 											<div class="row font-family" style=" margin-top:20px;">
-												<label class="col-sm-4 control-label">评估值：<span id="content_evaPrice"></span></label>
+												<label class="col-sm-4 control-label">评估值：<span  style="background-color:#87CEFA" v-html="evalVO.evaPrice+'元'"></span></label>
 												<label class="col-sm-3 control-label">贷款权证：校长</label>
 											</div>
 									</div>
@@ -220,23 +225,20 @@ display: none;}
 		</div>
 	</div>
 	
-	<div class="wrapper wrapper-content  animated fadeInRight">
-		<div id="modal-form" class="modal fade" aria-labelledby="modal-title"
-			aria-hidden="true">
-			<div class="modal-dialog" style="width: 280px; margin-right:10px; ">
-				<div class="modal-content">
-					<div class="modal-header">
+		<div id="modal-form" class="modal inmodal in"  tabindex="-1"
+						role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width: 1070px; margin-right:10px; ">
+				<div class="modal-content animated fadeIn apply_box info_box">
+					<form action="" class="form_list clearfix">
+					<div >
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">×</button>
-						<h4 class="modal-title" id="modal-title">关联评估单列表</h4>
+						<p class="modal-title" id="modal-title" style="font-size:16px;">关联评估单列表</p>
 					</div>
-					<div class="modal-body">
+					<!-- <div > -->
 						<div class="row" style="height: 450px;overflow-y: auto; overflow-x: hidden; ">
-							<div class="col-lg-12 ">
 								<div class="wrapper wrapper-content animated fadeInRight" style="padding-top: 0;">
-							       			<!-- Main view -->
 							                <div class="main-bonus">
-							                
 							                    <div class="row">
 							                        <div class="ibox-content bonus-m-con">
 							                            <div class="row">
@@ -271,9 +273,8 @@ display: none;}
 							                                        </div>
 							                                </div>
 							                            </div>
-							                            <div >
-								             		 		<div id="select_div_1" >
-											           			<div >
+							                            <div id="select_div_1" class="form_content" >
+								             		 		<div  class="sign_left_two">
 									                                 <select id="inTextType" data-placeholder="搜索条件设定" onchange="intextTypeChange()">
 																			<option value="1" selected>产证地址</option>
 																			<option value="0">案件编号</option>
@@ -282,18 +283,17 @@ display: none;}
 																	 </select>
 																	 <input id="inTextVal" type="text"  style="width:320px;overflow-x:visible;overflow-y:visible;">
 																	 <button id="searchButton" type="button" class="btn btn-success">查询</button>
-											                     </div>
 															 </div>
 														</div>
 							                        </div>
 							                    </div>
 							                </div>
-							                <!--  <table id="table_evalCase_list"></table>
-							                 <div id="pager_evalCase_list"></div> -->
-							<!-- <span>关联评估单列表</span> -->
+						                <!--  <table id="table_evalCase_list"></table>
+						                 <div id="pager_evalCase_list"></div> -->
+							<!-- <span>关联评估单列表</span>
 					        <div class="portlet-body" style="display: block;">
 									<a id="alertOper" class="fancybox-thumb" rel="fancybox-thumb"></a>
-							</div>
+							</div>  -->
 										  <div class="row">
 							                    <div class="table_content">
 							                        <table class="table table_blue table-striped table-bordered table-hover ">
@@ -335,16 +335,15 @@ display: none;}
 							     
 							</div>
 							
-						</div>
 					</div>
-				</div>
+				<!-- </div> -->
 			</div>
 		</div>
 	</div>
 	<!-- <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true"> -->
-		<a onclick=""></a>
-	<!-- </div> -->
 	<content tag="local_script"> <!-- Peity -->
+		<!-- vue.js-->
+		<script	src="<c:url value='/js/vue.min.js' />" type="text/javascript"></script>
          <!-- 日期控件 -->
     	<script	src="<c:url value='/js/plugins/dateSelect/dateSelect.js' />"></script>
         <!-- Custom and plugin javascript -->
@@ -428,38 +427,49 @@ display: none;}
 			function() {
 				var caseCode = $(this).attr(
 						"id"); 
-				$('.modal-dialog').on("click",'.close');
+				//$('.modal-dialog').on("click",'.close');
 				//$(".close").click();
 				
 				$('#modal-form').modal("hide");
+				//window.wxc.confirm("确定关联吗？",{"wxcOk":function(){
 					$.ajax({
 						cache:false,
-						async:false,
-						type:"POST",
+						async:true,
+						type:"GET",
 						url :ctx+"/eval/settle/associatedShowForm",
 						dataType:"json",
 						data : [{
 								name :"caseCode",  
 								value:caseCode
 						}],
+						
+						
 						success:function(data){
-								var caseCode = data.evalVO.caseCode;
+							
+							/* var caseCode = data.evalVO.caseCode;
 								var evaCode = data.evalVO.evaCode;
 								var finOrgId = data.evalVO.finOrgId;
 								var evalRealCharges = data.evalVO.evalRealCharges;
 								var applyDate = data.evalVO.applyDate;
 								var issueDate = data.evalVO.issueDate;
 								var settleFee = data.evalVO.settleFee;
-								var evaPrice = data.evalVO.evaPrice;
+								var evaPrice = data.evalVO.evaPrice; */
+								
+								new Vue({
+									el:'#content',
+									data:{
+										evalVO:data.evalVO
+									}
+								}) 
 								//var applyDate = data.evalVO.applyDate;
-								$("#content_caseCode").append('<p>'+caseCode+'</p>');
-								$("#content_evalCode").append('<p>'+evaCode+'</p>');
+								/* $("#content_caseCode").append('<p>'+caseCode+'</p>');
+								 $("#content_evalCode").append('<p>'+evaCode+'</p>');
 								$("#content_company").append('<p>'+finOrgId+'</p>');
 								$("#content_evalRealCharges").append('<p>'+evalRealCharges+'元'+'</p>');
 								$("#content_applyDate").append('<p>'+applyDate+'</p>');
 								$("#content_issueDate").append('<p>'+issueDate+'</p>');
 								$("#content_settleFee").append('<p>'+settleFee+'元'+'</p>');
-								$("#content_evaPrice").append('<p>'+evaPrice+'万元'+'</p>');
+								$("#content_evaPrice").append('<p>'+evaPrice+'万元'+'</p>'); */
 								//$("#content_caseCode").append('<p>'+caseCode+'</p>');
 								
 						},
@@ -467,6 +477,8 @@ display: none;}
 							window.wxc.error(data.message);
 						}
 					});
+				//}};
+					
 			});
  	
     </script>
@@ -536,6 +548,11 @@ display: none;}
 			$('#searchButton').click(function() {
 				reloadGrid();
 			});
+	}
+	
+	//关联错误
+	function associEval2(){
+		window.location.reload();
 	}
 	
 	
