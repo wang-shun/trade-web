@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.centaline.trans.task.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,18 +70,6 @@ import com.centaline.trans.spv.entity.ToSpv;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.spv.vo.SpvDeRecVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.service.FirstFollowService;
-import com.centaline.trans.task.service.LoanlostApproveService;
-import com.centaline.trans.task.service.OfflineEvaService;
-import com.centaline.trans.task.service.PSFSignService;
-import com.centaline.trans.task.service.ServiceChangeService;
-import com.centaline.trans.task.service.SignService;
-import com.centaline.trans.task.service.ToApproveRecordService;
-import com.centaline.trans.task.service.ToGetPropertyBookService;
-import com.centaline.trans.task.service.ToHouseTransferService;
-import com.centaline.trans.task.service.ToPricingService;
-import com.centaline.trans.task.service.ToPurchaseLimitSearchService;
-import com.centaline.trans.task.service.ToTaxService;
 import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
@@ -126,6 +115,8 @@ public class TaskController {
 	private PSFSignService psfSignService;/*纯公积金贷款签约*/
 	@Autowired
 	private ToGetPropertyBookService toGetPropertyBookService;/*领证*/
+	@Autowired
+	private ToRatePaymentService ratePaymentService;/*缴税*/
 	@Autowired
 	private ToCaseService toCaseService;
 	@Autowired
@@ -242,7 +233,10 @@ public class TaskController {
     	} else if(taskitem.equals("TaxReview")){/*审税*/
     		getAccesoryList(request, taskitem);
     		request.setAttribute("taxReview", toTaxService.findToTaxByCaseCode(caseCode));
-    	} else if(taskitem.equals("Guohu")){/*过户*/
+    	} else if (taskitem.equals("RatePayment")){/*缴税*/
+			getAccesoryList(request,taskitem);
+			request.setAttribute("ratePayment",ratePaymentService.qureyToRatePayment(caseCode));
+		} else if(taskitem.equals("Guohu")){/*过户*/
         	/*过户申请信息*/
         	initApproveRecord(request, caseCode, "2");
     		getAccesoryListGuoHu(request, taskitem, caseCode);
@@ -601,7 +595,10 @@ public class TaskController {
     	} else if(taskitem.equals("TaxReview")){/*审税*/
     		getAccesoryList(request, taskitem);
     		request.setAttribute("taxReview", toTaxService.findToTaxByCaseCode(caseCode));
-    	} else if(taskitem.equals("Guohu")){/*过户*/
+    	}else if (taskitem.equals("RatePayment")){
+    		getAccesoryList(request,taskitem);
+    		request.setAttribute("ratePayment",ratePaymentService.qureyToRatePayment(caseCode));
+		} else if(taskitem.equals("Guohu")){/*过户*/
         	/*过户申请信息*/
         	initApproveRecord(request, caseCode, "2");
     		getAccesoryListGuoHu(request, taskitem, caseCode);
