@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
+  <process id="RansomSuspendProcess" name="RansomSuspendProcess" isExecutable="true">
+    <endEvent id="endevent1" name="End"></endEvent>
+    <userTask id="RansomExamine" name="赎楼中止审批" activiti:assignee="${manager}" activiti:formKey="/task/ransom/ransomExamine"></userTask>
+    <startEvent id="RansomStopStart" name="赎楼中止开始"></startEvent>
+    <sequenceFlow id="flow7" sourceRef="RansomExamine" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="RansomStopStart" targetRef="RansomExamine"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_RansomSuspendProcess">
+    <bpmndi:BPMNPlane bpmnElement="RansomSuspendProcess" id="BPMNPlane_RansomSuspendProcess">
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="490.0" y="221.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="RansomExamine" id="BPMNShape_RansomExamine">
+        <omgdc:Bounds height="55.0" width="105.0" x="250.0" y="210.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="RansomStopStart" id="BPMNShape_RansomStopStart">
+        <omgdc:Bounds height="35.0" width="35.0" x="100.0" y="220.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="355.0" y="237.0"></omgdi:waypoint>
+        <omgdi:waypoint x="490.0" y="238.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="135.0" y="237.0"></omgdi:waypoint>
+        <omgdi:waypoint x="250.0" y="237.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
