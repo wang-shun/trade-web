@@ -182,7 +182,9 @@ function reNewAccount(){
 		ids.push(id);
 	});
 	var ctx = $("#ctx").val();
-	window.location.href = ctx + "/eval/settle/reEvalEndList?caseCodes="+ids;
+	 window.wxc.confirm('确定要重新结算？',{"wxcOk":function(){
+		 window.location.href = ctx + "/eval/settle/reEvalEndList?caseCodes="+ids;
+	 }});
 	
 }
 /*function reNewAccount(){

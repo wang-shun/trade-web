@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.cxf.common.i18n.Exception;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,10 +48,12 @@ public class RansomServiceImpl implements RansomService{
 	
 	@Override
 	public ToRansomDetailVo getRansomDetail(String caseCode) {
-		ToRansomDetailVo detailVo = ransomMapper.getRansomDetailInfoByCode(caseCode);
-		User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
-		detailVo.setLeadingProcessName(user.getRealName()); //经办人
-
+		ToRansomDetailVo detailVo = new ToRansomDetailVo();
+		detailVo = ransomMapper.getRansomDetailInfoByCode(caseCode);
+		if(detailVo != null){
+			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+			detailVo.setLeadingProcessName(user.getRealName()); //经办人
+		}
 		return detailVo;
 	}
 

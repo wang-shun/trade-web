@@ -202,8 +202,10 @@ text-decoration: underline !important;
 				 <div class="row m-t-sm">
 					<div class="form_content">
 						<div class="more_btn">
-							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
-							<button id="addNewRansomCase"  type="button" class="btn btn-success">新增案件</button>
+							<button id="searchButton"  type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
+							<shiro:hasPermission name="TRADE.CASE.RANSOMINFOLIST.ADDCASE">
+								<button id="addNewRansomCase"   type="button" class="btn btn-success">新增案件</button>
+							</shiro:hasPermission>
 							<!-- <button id="exportCase"  type="button" class="btn btn-success" onclick="realShowExcelIn()">实时导出</button> -->
 							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:realShowExcelIn()">实时导出</a>
 						</div>
@@ -314,7 +316,7 @@ text-decoration: underline !important;
 		{{item.COM_ORG_CODE}}
 	</td>
 	<td class="center"> 
-		{{if item.RANSOM_STATUS == "ACCEPTANCE"}}
+		{{if item.RANSOM_STATUS == "RANSOMDEAL"}}
 		 	受理 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
 		{{if item.RANSOM_STATUS == "RANSOMLOADING"}}
