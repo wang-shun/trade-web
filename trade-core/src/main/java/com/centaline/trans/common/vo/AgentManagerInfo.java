@@ -6,6 +6,20 @@ import java.util.List;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 
 public class AgentManagerInfo {
+	/**
+	 * @return the cpOrgName
+	 */
+	public String getCpOrgName() {
+		return cpOrgName;
+	}
+
+	/**
+	 * @param cpOrgName the cpOrgName to set
+	 */
+	public void setCpOrgName(String cpOrgName) {
+		this.cpOrgName = cpOrgName;
+	}
+
 	private String agentId;
 
 	private String agentName;
@@ -26,6 +40,8 @@ public class AgentManagerInfo {
 	private String cpName;
 
 	private String cpMobile;
+	
+	private String cpOrgName;//组别
 
 	// 助理
 	private String asId;
