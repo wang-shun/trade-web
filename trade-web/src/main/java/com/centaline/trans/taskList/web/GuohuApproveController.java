@@ -224,9 +224,10 @@ public class GuohuApproveController {
 				tasks.addAll(taskList1);
 			}
 			// 本人做的任务
-			List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			//List<TgServItemAndProcessor>myServiceCase= tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
 			request.setAttribute("toWorkFlow", toWorkFlow);
-			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
+			//List<TaskVo>list=filterMyTask(myServiceCase,tasks);
+			request.setAttribute("myTasks",tasks) ;
 		}
 		request.setAttribute("toCase", toCase);
 
@@ -276,7 +277,9 @@ public class GuohuApproveController {
 		if(tasks==null||mySerivceItems==null||tasks.isEmpty()||mySerivceItems.isEmpty()){return tasks;}
 		Set<String>taskDfKeys=new HashSet<>();
 		mySerivceItems.parallelStream().forEach(item->{
+
 			Dict d =uamBasedataService.findDictByType(item.getSrvCode());
+			System.out.println("================"+item.getSrvCode()+"----"+d.getCode()+"---"+d.getName());
 			if(d!=null&&d.getChildren()!=null){
 				d.getChildren().parallelStream().forEach(sc->{
 					if(!taskDfKeys.contains(sc.getCode())){
@@ -285,9 +288,11 @@ public class GuohuApproveController {
 				});
 			}
 		});
+		System.out.println("================"+taskDfKeys.toString());
 		Iterator<TaskVo> it=tasks.iterator();
 		while (it.hasNext()) {
 			TaskVo task=it.next();
+			System.out.println("================"+task.getTaskDefinitionKey());
 			if(!taskDfKeys.contains(task.getTaskDefinitionKey())){
 				it.remove();
 			}
