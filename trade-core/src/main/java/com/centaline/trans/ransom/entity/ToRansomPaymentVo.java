@@ -9,6 +9,7 @@ import java.util.Date;
  */
 public class ToRansomPaymentVo {
 	
+	private Long pkid;
 	/**
 	 * 赎楼编号 
 	 */
@@ -29,6 +30,9 @@ public class ToRansomPaymentVo {
 	 * 更新人员
 	 */
 	private String updateUser;
+	
+	private String createUser;
+	
 	public String getRansomCode() {
 		return ransomCode;
 	}
@@ -59,6 +63,19 @@ public class ToRansomPaymentVo {
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
+	public Long getPkid() {
+		return pkid;
+	}
+	public void setPkid(Long pkid) {
+		this.pkid = pkid;
+	}
+	public String getCreateUser() {
+		return createUser;
+	}
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+	
 	
 
 	

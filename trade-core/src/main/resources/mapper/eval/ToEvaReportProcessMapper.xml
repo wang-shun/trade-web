@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.eval.repository.ToEvaReportProcessMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eval.entity.ToEvaReportProcess" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR" />
+    <result column="REPORT_TYPE" property="reportType" jdbcType="NVARCHAR" />
+    <result column="STATUS" property="status" jdbcType="NVARCHAR" />
+    <result column="PROPOSEER" property="proposeer" jdbcType="VARCHAR" />
+    <result column="TRANSACTOR" property="transactor" jdbcType="VARCHAR" />
+    <result column="ORNGIN_PRICE" property="ornginPrice" jdbcType="DECIMAL" />
+    <result column="FIN_ORG_ID" property="finOrgId" jdbcType="VARCHAR" />
+    <result column="EVA_COM_CONTACT" property="evaComContact" jdbcType="VARCHAR" />
+    <result column="CONTACT_WAY" property="contactWay" jdbcType="VARCHAR" />
+    <result column="HOUSE_AGE_APPLY" property="houseAgeApply" jdbcType="INTEGER" />
+    <result column="INQUIRY_RESULT" property="inquiryResult" jdbcType="DECIMAL" />
+    <result column="REPORT_NUM" property="reportNum" jdbcType="INTEGER" />
+    <result column="APPLY_DATE" property="applyDate" jdbcType="TIMESTAMP" />
+    <result column="FORWARD_DATE" property="forwardDate" jdbcType="TIMESTAMP" />
+    <result column="TO_ISSUE_DATE" property="toIssueDate" jdbcType="TIMESTAMP" />
+    <result column="ISSUE_DATE" property="issueDate" jdbcType="TIMESTAMP" />
+    <result column="EVA_PRICE" property="evaPrice" jdbcType="DECIMAL" />
+    <result column="REPORT_GET_DATE" property="reportGetDate" jdbcType="TIMESTAMP" />
+    <result column="HOUSE_AGE_ISSUE" property="houseAgeIssue" jdbcType="INTEGER" />
+    <result column="REPORT_NUM_ISSUE" property="reportNumIssue" jdbcType="INTEGER" />
+    <result column="REPORT_REV_DATE" property="reportRevDate" jdbcType="TIMESTAMP" />
+    <result column="RECEIVER" property="receiver" jdbcType="VARCHAR" />
+    <result column="RECEIVE_NUM" property="receiveNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, EVA_CODE, REPORT_TYPE, STATUS, PROPOSEER, TRANSACTOR, ORNGIN_PRICE, 
+    FIN_ORG_ID, EVA_COM_CONTACT, CONTACT_WAY, HOUSE_AGE_APPLY, INQUIRY_RESULT, REPORT_NUM, 
+    APPLY_DATE, FORWARD_DATE, TO_ISSUE_DATE, ISSUE_DATE, EVA_PRICE, REPORT_GET_DATE, 
+    HOUSE_AGE_ISSUE, REPORT_NUM_ISSUE, REPORT_REV_DATE, RECEIVER, RECEIVE_NUM
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_REPORT_PROCESS
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_EVA_REPORT_PROCESS
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.eval.entity.ToEvaReportProcess" >
+    insert into sctrans.T_TO_EVA_REPORT_PROCESS (PKID, CASE_CODE, EVA_CODE, 
+      REPORT_TYPE, STATUS, PROPOSEER, 
+      TRANSACTOR, ORNGIN_PRICE, FIN_ORG_ID, 
+      EVA_COM_CONTACT, CONTACT_WAY, HOUSE_AGE_APPLY, 
+      INQUIRY_RESULT, REPORT_NUM, APPLY_DATE, 
+      FORWARD_DATE, TO_ISSUE_DATE, ISSUE_DATE, 
+      EVA_PRICE, REPORT_GET_DATE, HOUSE_AGE_ISSUE, 
+      REPORT_NUM_ISSUE, REPORT_REV_DATE, RECEIVER, 
+      RECEIVE_NUM)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
+      #{reportType,jdbcType=NVARCHAR}, #{status,jdbcType=NVARCHAR}, #{proposeer,jdbcType=VARCHAR}, 
+      #{transactor,jdbcType=VARCHAR}, #{ornginPrice,jdbcType=DECIMAL}, #{finOrgId,jdbcType=VARCHAR}, 
+      #{evaComContact,jdbcType=VARCHAR}, #{contactWay,jdbcType=VARCHAR}, #{houseAgeApply,jdbcType=INTEGER}, 
+      #{inquiryResult,jdbcType=DECIMAL}, #{reportNum,jdbcType=INTEGER}, #{applyDate,jdbcType=TIMESTAMP}, 
+      #{forwardDate,jdbcType=TIMESTAMP}, #{toIssueDate,jdbcType=TIMESTAMP}, #{issueDate,jdbcType=TIMESTAMP}, 
+      #{evaPrice,jdbcType=DECIMAL}, #{reportGetDate,jdbcType=TIMESTAMP}, #{houseAgeIssue,jdbcType=INTEGER}, 
+      #{reportNumIssue,jdbcType=INTEGER}, #{reportRevDate,jdbcType=TIMESTAMP}, #{receiver,jdbcType=VARCHAR}, 
+      #{receiveNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvaReportProcess" >
+    insert into sctrans.T_TO_EVA_REPORT_PROCESS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE,
+      </if>
+      <if test="reportType != null" >
+        REPORT_TYPE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="proposeer != null" >
+        PROPOSEER,
+      </if>
+      <if test="transactor != null" >
+        TRANSACTOR,
+      </if>
+      <if test="ornginPrice != null" >
+        ORNGIN_PRICE,
+      </if>
+      <if test="finOrgId != null" >
+        FIN_ORG_ID,
+      </if>
+      <if test="evaComContact != null" >
+        EVA_COM_CONTACT,
+      </if>
+      <if test="contactWay != null" >
+        CONTACT_WAY,
+      </if>
+      <if test="houseAgeApply != null" >
+        HOUSE_AGE_APPLY,
+      </if>
+      <if test="inquiryResult != null" >
+        INQUIRY_RESULT,
+      </if>
+      <if test="reportNum != null" >
+        REPORT_NUM,
+      </if>
+      <if test="applyDate != null" >
+        APPLY_DATE,
+      </if>
+      <if test="forwardDate != null" >
+        FORWARD_DATE,
+      </if>
+      <if test="toIssueDate != null" >
+        TO_ISSUE_DATE,
+      </if>
+      <if test="issueDate != null" >
+        ISSUE_DATE,
+      </if>
+      <if test="evaPrice != null" >
+        EVA_PRICE,
+      </if>
+      <if test="reportGetDate != null" >
+        REPORT_GET_DATE,
+      </if>
+      <if test="houseAgeIssue != null" >
+        HOUSE_AGE_ISSUE,
+      </if>
+      <if test="reportNumIssue != null" >
+        REPORT_NUM_ISSUE,
+      </if>
+      <if test="reportRevDate != null" >
+        REPORT_REV_DATE,
+      </if>
+      <if test="receiver != null" >
+        RECEIVER,
+      </if>
+      <if test="receiveNum != null" >
+        RECEIVE_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reportType != null" >
+        #{reportType,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="proposeer != null" >
+        #{proposeer,jdbcType=VARCHAR},
+      </if>
+      <if test="transactor != null" >
+        #{transactor,jdbcType=VARCHAR},
+      </if>
+      <if test="ornginPrice != null" >
+        #{ornginPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="finOrgId != null" >
+        #{finOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="evaComContact != null" >
+        #{evaComContact,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null" >
+        #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAgeApply != null" >
+        #{houseAgeApply,jdbcType=INTEGER},
+      </if>
+      <if test="inquiryResult != null" >
+        #{inquiryResult,jdbcType=DECIMAL},
+      </if>
+      <if test="reportNum != null" >
+        #{reportNum,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null" >
+        #{applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="forwardDate != null" >
+        #{forwardDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toIssueDate != null" >
+        #{toIssueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issueDate != null" >
+        #{issueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evaPrice != null" >
+        #{evaPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="reportGetDate != null" >
+        #{reportGetDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="houseAgeIssue != null" >
+        #{houseAgeIssue,jdbcType=INTEGER},
+      </if>
+      <if test="reportNumIssue != null" >
+        #{reportNumIssue,jdbcType=INTEGER},
+      </if>
+      <if test="reportRevDate != null" >
+        #{reportRevDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiver != null" >
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveNum != null" >
+        #{receiveNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eval.entity.ToEvaReportProcess" >
+    update sctrans.T_TO_EVA_REPORT_PROCESS
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reportType != null" >
+        REPORT_TYPE = #{reportType,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="proposeer != null" >
+        PROPOSEER = #{proposeer,jdbcType=VARCHAR},
+      </if>
+      <if test="transactor != null" >
+        TRANSACTOR = #{transactor,jdbcType=VARCHAR},
+      </if>
+      <if test="ornginPrice != null" >
+        ORNGIN_PRICE = #{ornginPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="finOrgId != null" >
+        FIN_ORG_ID = #{finOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="evaComContact != null" >
+        EVA_COM_CONTACT = #{evaComContact,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null" >
+        CONTACT_WAY = #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAgeApply != null" >
+        HOUSE_AGE_APPLY = #{houseAgeApply,jdbcType=INTEGER},
+      </if>
+      <if test="inquiryResult != null" >
+        INQUIRY_RESULT = #{inquiryResult,jdbcType=DECIMAL},
+      </if>
+      <if test="reportNum != null" >
+        REPORT_NUM = #{reportNum,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null" >
+        APPLY_DATE = #{applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="forwardDate != null" >
+        FORWARD_DATE = #{forwardDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toIssueDate != null" >
+        TO_ISSUE_DATE = #{toIssueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issueDate != null" >
+        ISSUE_DATE = #{issueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evaPrice != null" >
+        EVA_PRICE = #{evaPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="reportGetDate != null" >
+        REPORT_GET_DATE = #{reportGetDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="houseAgeIssue != null" >
+        HOUSE_AGE_ISSUE = #{houseAgeIssue,jdbcType=INTEGER},
+      </if>
+      <if test="reportNumIssue != null" >
+        REPORT_NUM_ISSUE = #{reportNumIssue,jdbcType=INTEGER},
+      </if>
+      <if test="reportRevDate != null" >
+        REPORT_REV_DATE = #{reportRevDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiver != null" >
+        RECEIVER = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveNum != null" >
+        RECEIVE_NUM = #{receiveNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eval.entity.ToEvaReportProcess" >
+    update sctrans.T_TO_EVA_REPORT_PROCESS
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      REPORT_TYPE = #{reportType,jdbcType=NVARCHAR},
+      STATUS = #{status,jdbcType=NVARCHAR},
+      PROPOSEER = #{proposeer,jdbcType=VARCHAR},
+      TRANSACTOR = #{transactor,jdbcType=VARCHAR},
+      ORNGIN_PRICE = #{ornginPrice,jdbcType=DECIMAL},
+      FIN_ORG_ID = #{finOrgId,jdbcType=VARCHAR},
+      EVA_COM_CONTACT = #{evaComContact,jdbcType=VARCHAR},
+      CONTACT_WAY = #{contactWay,jdbcType=VARCHAR},
+      HOUSE_AGE_APPLY = #{houseAgeApply,jdbcType=INTEGER},
+      INQUIRY_RESULT = #{inquiryResult,jdbcType=DECIMAL},
+      REPORT_NUM = #{reportNum,jdbcType=INTEGER},
+      APPLY_DATE = #{applyDate,jdbcType=TIMESTAMP},
+      FORWARD_DATE = #{forwardDate,jdbcType=TIMESTAMP},
+      TO_ISSUE_DATE = #{toIssueDate,jdbcType=TIMESTAMP},
+      ISSUE_DATE = #{issueDate,jdbcType=TIMESTAMP},
+      EVA_PRICE = #{evaPrice,jdbcType=DECIMAL},
+      REPORT_GET_DATE = #{reportGetDate,jdbcType=TIMESTAMP},
+      HOUSE_AGE_ISSUE = #{houseAgeIssue,jdbcType=INTEGER},
+      REPORT_NUM_ISSUE = #{reportNumIssue,jdbcType=INTEGER},
+      REPORT_REV_DATE = #{reportRevDate,jdbcType=TIMESTAMP},
+      RECEIVER = #{receiver,jdbcType=VARCHAR},
+      RECEIVE_NUM = #{receiveNum,jdbcType=INTEGER}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectToEvaReportProcessByCaseCodeAndStatus" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List"/>
+         FROM 
+            sctrans.T_TO_EVA_REPORT_PROCESS
+        WHERE 
+          CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
+        AND NOT EXISTS(
+               SELECT 1 from sctrans.T_TO_EVA_REPORT_PROCESS WHERE  CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND STATUS='5'
+        )
+  </select>
+</mapper>

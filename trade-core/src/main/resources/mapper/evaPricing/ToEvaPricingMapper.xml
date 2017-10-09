@@ -275,4 +275,36 @@
 		WHERE
 			PKID = #{pkid,jdbcType=BIGINT}
 	</update>
+	
+	<select id="findEvaPricingDetailByCaseCode" resultMap="BaseResultMap">
+		SELECT
+			pri.PKID,
+			pri.EVA_CODE,
+			pri.ARISER_ID,
+			pri.EVA_TYPE,
+			pri.LOAN_BANK,
+			pri.ORIGIN_PRICE,
+			pri.TOTAL_PRICE,
+			pri.EVAL_TIME,
+			pro.RESIDENCE_NAME,
+			pro.FLOOR,
+			pro.TOTAL_FLOOR,
+			pro.AREA,
+			pro.COMPLETE_YEAR,
+			pro.PROP_TYPE,
+			pro.ROOM,
+			pro.HALL,
+			pro.TOILET,
+			pro.HOUSE_AGE,
+			fin.FIN_ORG_NAME EVA_COMPANY,
+			cas.CASE_CODE,
+			cas.CTM_CODE
+		FROM
+			sctrans.T_TO_EVA_PRICING pri
+			INNER JOIN sctrans.T_TO_EGU_PROPERTY_INFO pro ON pri.EVA_CODE = pro.EVA_CODE
+			INNER JOIN sctrans.T_TS_FIN_ORG fin ON pri.FIN_ORG_ID = fin.PKID
+			LEFT JOIN sctrans.T_TO_CASE cas ON pri.CASE_CODE = cas.CASE_CODE
+		WHERE
+			pri.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</select>
 </mapper>

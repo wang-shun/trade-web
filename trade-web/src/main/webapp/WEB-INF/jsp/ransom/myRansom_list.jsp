@@ -136,7 +136,7 @@ text-decoration: underline !important;
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox-content border-bottom clearfix space_box">
         <h2 class="title">
-                        赎楼单总览
+                        赎楼单总览 
         </h2>
 	    <form method="get" class="form-horizontal form_box">
 			<div class="row clearfix">
@@ -172,7 +172,7 @@ text-decoration: underline !important;
              		 <label class="sign_left_one control-label">信息搜索</label>
 		           			<div class="sign_left">
                                  <select id="inTextType"  class="form-control" name="searchInfo" onchange="intextTypeChange()">
-                                 		<option selected>请选择</option>
+                                 		<option >请选择</option>
 										<option value="0" >房屋地址</option>
 										<option value="1">归属人姓名</option>
 										<option value="2">客户姓名</option>
@@ -191,9 +191,9 @@ text-decoration: underline !important;
 								<aist:dict id="ransomSearchTime" name="ransomSearchTime" clazz="form-control" display="select"  dictType="RANSOM_SEARCH_TIME" />
 							</div>
 							<div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="startTime" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
+								<input id="dtBegin_0" name="startTime" class="form-control data_style" onchange="checkDate('dtBegin_0')" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
 									<span class="input-group-addon">到</span> 
-								<input id="dtEnd_0" name="endTime" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
+								<input id="dtEnd_0" name="endTime" class="form-control data_style" onchange="checkDate('dtEnd_0')" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
 							</div>
 							<div id="addLine" class="pull-left m-l"></div>
 						</div>
@@ -204,6 +204,7 @@ text-decoration: underline !important;
 						<div class="more_btn">
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
 							<button id="addNewRansomCase"  type="button" class="btn btn-success">新增案件</button>
+							<!-- <button id="exportCase"  type="button" class="btn btn-success" onclick="realShowExcelIn()">实时导出</button> -->
 							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:realShowExcelIn()">实时导出</a>
 						</div>
 					</div>
@@ -216,7 +217,7 @@ text-decoration: underline !important;
 					<table class="table table_blue table-striped table-bordered table-hover " >
 						<thead>
 							<tr>
-								<!-- <th></th> -->
+								<th></th>
 								<th ><span class="sort" sortColumn="B.CASE_CODE" sord="desc" onclick="caseCodeSort();" >合约编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 								<th >房屋地址</th>
 								<th >案件归属</th>
@@ -281,17 +282,18 @@ text-decoration: underline !important;
   {{else}}
        <tr class="tr-2">
    {{/if}}
+	<td class="center"></td>
 	<td class="center">
 			<p>
-			<a href = "${ctx}/ransomList/ransom/ransomDetail">{{item.RANSOM_CODE}}</a>
-		</p>
+				<a href = "${ctx}/ransomList/ransom/ransomDetail">{{item.RANSOM_CODE}}</a>
+			</p>
 			<p>
-			{{if item.RANSOM_STATUS == "中止"}}
-				<i class="demo-top sign_blue" title = "{{item.STOP_REASON}}">{{item.RANSOM_STATUS}}</i>
-			{{else}}
-				<i class="sign_gray">{{item.RANSOM_STATUS}}</i>
-			{{/if}}
-		</p>
+				{{if item.RANSOM_STATUS == "RANSOMCENCLE"}}
+					<i class="demo-top sign_blue" title = "{{item.STOP_REASON}}">中止</i>
+				{{else}}
+					<i class="sign_gray" style="display:none;">{{item.RANSOM_STATUS}}</i>
+				{{/if}}
+			</p>
 	</td>
 	<td class="center">
 		{{item.PROPERTY_ADDR}}
@@ -312,14 +314,24 @@ text-decoration: underline !important;
 		{{item.COM_ORG_CODE}}
 	</td>
 	<td class="center"> 
-		  {{item.RANSOM_STATUS}} &nbsp;&nbsp;{{item.UPDATE_TIME}}
+		{{if item.RANSOM_STATUS == "ACCEPTANCE"}}
+		 	受理 &nbsp;&nbsp;{{item.UPDATE_TIME}}
+		{{/if}}
+		{{if item.RANSOM_STATUS == "RANSOMLOADING"}}
+		 	在途 &nbsp;&nbsp;{{item.UPDATE_TIME}}
+		{{/if}}
+		{{if item.RANSOM_STATUS == "RANSOMCENCLE"}}
+		 	中止 &nbsp;&nbsp;{{item.UPDATE_TIME}}
+		{{/if}}
+		{{if item.RANSOM_STATUS == "RANSOMEND"}}
+		 	结束 &nbsp;&nbsp;{{item.UPDATE_TIME}}
+		{{/if}}
 	</td>
 	<td class="center"> 
 		{{item.BORRO_MONEY}}万元
 	</td>
 	<td class="center"> 
 		<a href="${ctx}/task/ransom/ransomApply?caseCode={{item.CASE_CODE}}" target="_blank">申请</a>
-		<a href="${ctx}/engine/task/{{item.PKID}}/process" target="_blank">申请1</a>
 		<a href="${ctx}/ransomList/ransom/ransomDiscontinue" target="_blank">中止</a>
 	</td>
   </tr>

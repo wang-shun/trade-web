@@ -168,7 +168,7 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 				// update zhangxb16 2016-2-16
 				TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
 				if (null != guest) {
-					reVo.setBuyerWork(guest.getWorkUnit());
+					reVo.setPriCreditUnit(toMortgage.getPriCreditUnit());
 					reVo.setMortBuyer(guest.getGuestName());
 				}
 			}
@@ -180,8 +180,8 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 				reVo.setSignDate(signDate);
 			} // 批贷时间
 			if (toMortgage.getApprDate() != null) {
-				String apprDate = format.format(toMortgage.getApprDate());
-				reVo.setApprDate(apprDate);
+				String apprDate = format.format(toMortgage.getApprCompleTime());
+				reVo.setApprCompleTime(apprDate);
 			} // 他证送达时间
 			if (toMortgage.getTazhengArrDate() != null) {
 				String tazhengArrDate = format.format(toMortgage.getTazhengArrDate());

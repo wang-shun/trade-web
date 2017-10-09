@@ -425,19 +425,19 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	public ActRuEventSubScr getHightPriorityExecution(String instId) {
 		ExecuteGet exGet = new ExecuteGet();
 		exGet.setProcessInstanceId(instId);
-		exGet.setMessageEventSubscriptionName("StartMortgageSelectMsg");
+		exGet.setMessageEventSubscriptionName(MessageEnum.CCAI_UPDATED_MSG.getName());
 		ActRuEventSubScr condition =new ActRuEventSubScr();
-		condition.setEventType("message");
-		condition.setEventName("StartMortgageSelectMsg");
+		condition.setEventType(MessageEnum.CCAI_UPDATED_MSG.getEventType());
+		condition.setEventName(MessageEnum.CCAI_UPDATED_MSG.getName());
 		condition.setProcInstId(instId);
 		List<ActRuEventSubScr>subScrs= actRuEventSubScrMapper.listBySelective(condition);
 		if(subScrs != null && !subScrs.isEmpty()){
-			for (ActRuEventSubScr actRuEventSubScr : subScrs) {
+			/*for (ActRuEventSubScr actRuEventSubScr : subScrs) {
 				if(!"TradeBoundaryMsg".equals(actRuEventSubScr.getActivityId())){
 					return actRuEventSubScr;
 				}
 				
-			}
+			}*/
 			return subScrs.get(0);// 只剩下交易流程了
 		}
 		return null;

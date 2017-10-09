@@ -40,7 +40,7 @@
 						INNER JOIN  sctrans.T_TO_EGU_PROPERTY_INFO pro ON eva.EVA_CODE = pro.EVA_CODE
 						INNER JOIN sctrans.T_TS_FIN_ORG fin ON eva.FIN_ORG_ID = fin.PKID
 					where 1=1
-						AND eva.STATUS = 0
+						AND eva.STATUS != 2
 					<ifNotNull propertyAddr>
 						AND pro.RESIDENCE_NAME like '%'+#propertyAddr#+'%'
 					</ifNotNull>

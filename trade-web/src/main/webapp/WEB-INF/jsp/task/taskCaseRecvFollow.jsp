@@ -40,6 +40,7 @@
 <!--弹出框样式  -->
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 <script type="text/javascript">
 	var teamProperty = "${teamProperty}";
@@ -178,7 +179,8 @@ function save(b) {
         dataType : "json",
         data : jsonData,
         beforeSend : function() {
-            $.blockUI({
+        	//$.blockUI();
+             $.blockUI({
                 message : $("#salesLoading"),
                 css : {
                     'border' : 'none',
@@ -187,7 +189,7 @@ function save(b) {
             });
             $(".blockOverlay").css({
                 'z-index' : '9998'
-            });
+            }); 
         },
         success: function(data){
             $.unblockUI();

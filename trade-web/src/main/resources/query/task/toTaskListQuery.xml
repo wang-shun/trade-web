@@ -95,7 +95,7 @@
 						</ifNotNull>
 
 						<ifNotNull ctmCode>
-							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and CTM_CODE like '%'+#ctmCode#+'%')
+							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and CCAI_CODE like '%'+#ctmCode#+'%')
 						</ifNotNull>
 						<if test="minDateLamp!=null or maxDateLamp!=null " >
 							<if test="minDateLamp!='' or maxDateLamp!='' " >

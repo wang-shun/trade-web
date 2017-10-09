@@ -8,6 +8,8 @@ import java.util.Date;
  *
  */
 public class ToRansomPlanVo {
+	
+	private Long pkid;
 	/**
 	 * 赎楼编号
 	 */
@@ -34,6 +36,14 @@ public class ToRansomPlanVo {
     private String completeTimeStr;
     
     private Date createTime;
+    /**
+     * 创建人
+     */
+    private String createUser;
+    /**
+     * 更新人
+     */
+    private String updateUser;
     
 	public String getRansomCode() {
 		return ransomCode;
@@ -83,7 +93,25 @@ public class ToRansomPlanVo {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-
+	public String getUpdateUser() {
+		return updateUser;
+	}
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
+	}
+	public String getCreateUser() {
+		return createUser;
+	}
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+	public Long getPkid() {
+		return pkid;
+	}
+	public void setPkid(Long pkid) {
+		this.pkid = pkid;
+	}
+	
     
 
 }

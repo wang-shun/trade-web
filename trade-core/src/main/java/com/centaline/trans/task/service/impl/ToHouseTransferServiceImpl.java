@@ -12,6 +12,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.centaline.trans.api.service.FlowApiService;
+import com.centaline.trans.api.vo.ApiResultData;
+import com.centaline.trans.api.vo.FlowFeedBack;
+import com.centaline.trans.common.enums.*;
+import com.centaline.trans.engine.bean.TaskQuery;
+import com.centaline.trans.engine.vo.PageableVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.vo.MortgageToSaveVO;
 import org.apache.commons.lang3.StringUtils;
@@ -37,9 +44,6 @@ import com.centaline.trans.cases.entity.TsCaseEfficient;
 import com.centaline.trans.cases.repository.TsCaseEfficientMapper;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.enums.MsgCatagoryEnum;
-import com.centaline.trans.common.enums.MsgLampEnum;
-import com.centaline.trans.common.enums.SatisfactionTypeEnum;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
@@ -102,6 +106,10 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
 
     @Autowired
     private TsCaseEfficientMapper tsCaseEfficientMapper;
+
+    //现与ccai交互接口
+    @Autowired
+    private FlowApiService flowApiService;
 
     @Override
     public boolean saveToHouseTransfer(ToHouseTransfer toHouseTransfer)
@@ -299,14 +307,54 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
     }
 
     @Override
-    public String submitToHouseTransfer(ToHouseTransfer toHouseTransfer, MortgageToSaveVO toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId,
-            String processInstanceId)
-    {
+    public boolean submitToHouseTransfer(ToHouseTransfer toHouseTransfer, MortgageToSaveVO toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId,
+            String processInstanceId) {
+        boolean boo = false;
         SessionUser sender = uamSessionService.getSessionUser();
-        // 2 执行交易系统代码
-        savaToHouseTransferAndMortageToVO(toHouseTransfer, toMortgage);
-        /* 保存过户申请 */
-        saveToApproveRecord(toHouseTransfer, processInstanceId, loanlostApproveVO);
+        //获取审批结果信息
+        FlowFeedBack info = new FlowFeedBack(sender, CcaiFlowResultEnum.SUCCESS, "进入过户审批环节");
+        //获取审批状态
+        ApiResultData apiResultData = flowApiService.tradeFeedBackCcai(toHouseTransfer.getCaseCode(), CcaiTaskEnum.TRADE_WARRANT_TRANSFER, info);
+        if (apiResultData.isSuccess()) {
+
+            // 2 执行交易系统代码
+            savaToHouseTransferAndMortageToVO(toHouseTransfer, toMortgage);
+            /* 保存过户申请 */
+            saveToApproveRecord(toHouseTransfer, processInstanceId, loanlostApproveVO);
+
+     /*       TaskQuery taskQuery=new TaskQuery();
+            taskQuery.setProcessInstanceBusinessKey(toHouseTransfer.getCaseCode());
+            taskQuery.setTaskDefinitionKey("Guohu");
+            taskQuery.setAssignee(sender.getUsername());
+            PageableVo listTasks = workFlowManager.listTasks(taskQuery);
+                TaskVo taskVo = (TaskVo) listTasks.getData().get(0);
+                //把审核通过添加到流程变量
+                RestVariable caseApprove = new RestVariable();
+                caseApprove.setName("GuohuApprove");
+                caseApprove.setValue(true);*/
+                 /* 流程引擎相关 */
+            List<RestVariable> variables = new ArrayList<RestVariable>();
+            //variables.add(caseApprove);
+            ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
+            if (workFlowManager.submitTask(variables, taskId, processInstanceId, toCase.getLeadingProcessId(), toHouseTransfer.getCaseCode())) {
+                /**
+                 * 过户审批通过后查找该案件对应的sctrans.T_CS_CASE_SATISFACTION表记录，如果没有就找到对应的‘客服回访’流程并发送消息往下走，并更新表记录
+                 *
+                 * @for 满意度评分
+                 */
+                ToCase ca = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
+                ca.setStatus(CaseStatusEnum.YGH.getCode());
+                toCaseService.updateByCaseCodeSelective(ca);
+                ToSatisfaction satis = satisfactionService.queryToSatisfactionByCaseCode(toCase.getCaseCode());
+                if (satis != null && SatisfactionTypeEnum.NEW.getCode().equals(satis.getType())) {
+                    satisfactionService.handleAfterGuohu(toCase.getCaseCode(), sender.getId(), null);
+                }
+                System.out.println("交互成功！" + apiResultData.toString());
+                boo = true;
+            }
+        } else {
+            System.out.println("交互失败！" + apiResultData.toString());
+        }
         /*
          * 佣金分配 绩效奖金自动化,取消原有的数据获取方式 add by zhuody in 2017-06-20
          */
@@ -314,27 +362,12 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
          * awardBaseService.doAwardCalculate(toHouseTransfer,
          * processInstanceId);
          */
-        /* 流程引擎相关 */
-        List<RestVariable> variables = new ArrayList<RestVariable>();
-        ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
-        workFlowManager.submitTask(variables, taskId, processInstanceId, toCase.getLeadingProcessId(), toHouseTransfer.getCaseCode());
+
 
         /* 修改案件状态 */
-        toCase.setStatus("30001004");
-        toCaseService.updateByCaseCodeSelective(toCase);
-
-        /**
-         * 过户审批通过后查找该案件对应的sctrans.T_CS_CASE_SATISFACTION表记录，如果没有就找到对应的‘客服回访’流程并发送消息往下走，并更新表记录
-         * 
-         * @for 满意度评分
-         */
-        ToSatisfaction satis = satisfactionService.queryToSatisfactionByCaseCode(toCase.getCaseCode());
-        if (satis != null && SatisfactionTypeEnum.NEW.getCode().equals(satis.getType()))
-        {
-            satisfactionService.handleAfterGuohu(toCase.getCaseCode(), sender.getId(), null);
-        }
-
-        return null;
+        //toCase.setStatus("30001004");
+        //toCaseService.updateByCaseCodeSelective(toCase);
+        return boo;
     }
 
     public AjaxResponse saveToHouseTransfer(ToHouseTransfer toHouseTransfer, ToMortgage toMortgage, LoanlostApproveVO loanlostApproveVO, String processInstanceId)
@@ -574,3 +607,4 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
 
     }
 }
+

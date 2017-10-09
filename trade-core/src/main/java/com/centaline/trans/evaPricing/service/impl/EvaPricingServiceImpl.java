@@ -142,8 +142,10 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 		return EVA_CODE_PRE+dateString;
 	}
 
-
-
+	@Override
+	public ToEvaPricingVo findEvaPricingDetailByCaseCode(String caseCode) {
+		return toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);
+	}
 
 
 }
