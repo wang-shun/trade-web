@@ -374,8 +374,10 @@
 
 			//过户环节贷款流失银行不能修改
 			$('#bankName').attr("readonly","readonly");
-			/*$('#mortTotalAmount').attr("readonly","readonly");
-			$('#comAmount').attr("readonly","readonly");
+			if($('#realHtTime').val()!=''){
+			$('#realHtTime').attr("disabled","false");
+            }
+			/*$('#comAmount').attr("readonly","readonly");
 			$('#comYear').attr("readonly","readonly");
 			$('#comDiscount').attr("readonly","readonly");
 			$('#prfAmount').attr("readonly","readonly");

@@ -308,10 +308,12 @@
 			srvCode : taskitem
 		});
         $("#ActualOperator").click(function () {
-            console.log("aaaaaaaaaaaaaaaa")
+            //console.log("aaaaaaaaaaaaaaaa")
             caseDistribute();
         });
-
+		if($("#paymentTime").val()!=''){
+            $("#paymentTime").attr("disabled","false");
+		}
       /*  if('caseDetails'==source){
             readOnlyForm();
         }*/

@@ -76,282 +76,26 @@
 		</shiro:hasPermission>
 	</script>
 
-	<%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
+	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<!-- 主要内容页面 -->
-	<nav id="navbar-example" class="navbar navbar-default navbar-static"
-		role="navigation">
-		<div id="isFixed" style="position: relative; top: 0px;"
-			class="collapse navbar-collapse bs-js-navbar-scrollspy stuckMenu stickup-nav-bar scroll_nav">
-			<ul class="nav navbar-nav scroll_content">
-				<li class="menuItem active"><a href="#basicInfo"> 基本信息 </a></li>
-				<li class="menuItem"><a href="#serviceFlow"> 服务流程 </a></li>
-				<li class="menuItem"><a href="#aboutInfo"> 相关信息 </a></li>
-
-			</ul>
-		</div>
-	</nav>
-	<div class="wrapper wrapper-content">
-		<div class="row animated fadeInDown">
-			<div class="scroll_box fadeInDown animated">
-				<div class="top12 panel" id="basicInfo">
-                 	<c:if test="${toCase.caseProperty=='30003001'}">
-                   		<div class="sign sign-red" ><span
-                   		<c:if test="${toApproveRecord!=''}">
-                  		class="hint hint-top" data-hint="${toApproveRecord}"
-                  		</c:if> >无效</span></div>
-
-                  	</c:if>
-                   	<c:if test="${toCase.caseProperty=='30003002'}">
-                   			<div class="sign sign-red">结案</div>
-                    </c:if>
-                   	<c:if test="${toCase.caseProperty=='30003009'}">
-                   			<div class="sign sign-out"> 外单 </div>
-                    </c:if>
-                 	<c:if test="${toCase.caseProperty=='30003005'}">
-                  		<div class="sign sign-red ">
-                  		<span
-                   		<c:if test="${toApproveRecord!=''}">
-                  		class="hint hint-top" data-hint="${toApproveRecord}"
-                  		</c:if> >爆单</span>
-
-                  		</div>
-                  	</c:if>
-                   	<c:if test="${toCase.caseProperty=='30003003' || toCase.caseProperty=='30003007' || toCase.caseProperty=='30003008'}">
-                   		<div class="sign sign-red">在途</div>
-	                   <div class="sign sign-blue">
-	                   	<c:if test="${toCase.status=='30001001'}">
-	                   		未分单
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001002'}">
-	                   		已分单
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001003'}">
-	                   		已签约
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001004'}">
-	                   		已过户
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001005'}">
-	                   		已领证
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001006'}">
-	                   		未指定
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001007'}">
-	                   		被合流
-	                   	</c:if>
-	                   </div>
-                    </c:if>
-                   	<c:if test="${toCase.caseProperty=='30003004'}">
-                   		<div class="sign sign-red">挂起</div>
-	                   <div class="sign sign-blue">
-	                   	<c:if test="${toCase.status=='30001001'}">
-	                   		未分单
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001002'}">
-	                   		已分单
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001003'}">
-	                   		已签约
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001004'}">
-	                   		已过户
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001005'}">
-	                   		已领证
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001006'}">
-	                   		未指定
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001007'}">
-	                   		被合流
-	                   	</c:if>
-	                   </div>
-                    </c:if>
-                  	<c:if test="${toCase.caseProperty=='30003006'}">
-                  		<div class="sign sign-red">全部</div>
-	                   <div class="sign sign-blue">
-	                   	<c:if test="${toCase.status=='30001001'}">
-	                   		未分单
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001002'}">
-	                   		已分单
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001003'}">
-	                   		已签约
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001004'}">
-	                   		已过户
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001005'}">
-	                   		已领证
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001006'}">
-	                   		未指定
-	                   	</c:if>
-	                   	<c:if test="${toCase.status=='30001007'}">
-	                   		被合流
-	                   	</c:if>
-	                   </div>
-                   	</c:if>
-                   	<c:if test="${caseDetailVO.loanType=='30004005'}">
-                  		<div class="sign sign-yellow">税费卡</div>
-                  	</c:if>
-					<div class="panel-body">
-						<div class="ibox-content-head lh24">
-							<h5>案件基本信息</h5>
-							<p class="star-position" id="subscribe">
-
-								<c:if test="${isSubscribe}">
-									<span style="cursor: pointer;" class="starmack subscribe subscribe_detail active"  moduleCode="${toCase.caseCode}" isSubscribe="false">
-										<i class="iconfont_s  markstar star_subscribe" status="1">&#xe63e;</i>
-										<span class="star_text_1">未关注</span>
-										<span class="star_text_2">已关注</span>
-									</span>
-								</c:if>
-								<c:if test="${isSubscribe==false}">
-									<span style="cursor: pointer;" class="starmack subscribe subscribe_detail"  moduleCode="${toCase.caseCode}" isSubscribe="true">
-									<i class="iconfont_s  markstar star_subscribe" status="1">&#xe644;</i>
-									<span class="star_text_1">未关注</span>
-									<span class="star_text_2">已关注</span>
-									</span>
-								</c:if>
-
-							</p>
-							<small class="pull-right">誉萃编号：${toCase.caseCode}｜中原编号：${toCase.ctmCode}</small>
-						</div>
-						<div id="infoDiv infos" class="row">
-							<div class="ibox white_bg">
-								<div class="info_box info_box_one col-sm-4 ">
-									<span>物业信息</span>
-									<div class="ibox-conn ibox-text">
-										<dl class="dl-horizontal">
-											<dt>CTM地址</dt>
-											<dd>${toPropertyInfo.ctmAddr}</dd>
-											<dt>产证地址</dt>
-											<dd>${toPropertyInfo.propertyAddr}</dd>
-											<dt>层高</dt>
-											<dd>${toPropertyInfo.locateFloor}／${toPropertyInfo.totalFloor}</dd>
-											<dt>产证面积</dt>
-											<dd>${toPropertyInfo.square}平方</dd>
-											<dt>房屋类型</dt>
-											<dd>
-												<aist:dict id="propertyType" name="propertyType"
-													display="label" dictType="30014"
-													dictCode="${toPropertyInfo.propertyType}" />
-											</dd>
-										</dl>
+				<div class="panel-body">
+					<!-- 结算信息 -->
+					<div class="panel-body ibox-content">
+						<div class="ibox white_bg" id="content">
+							<div class="info_box info_box_one col-sm-12 ">
+						  		<span>结算信息</span>
+									
+									<div class="height_line"></div>
+									<div class="row font-family" style=" margin-top:10px;">
+										<label class="col-sm-4 control-label">评估公司：${evalVO.finOrgId}</label>
+										<label class="col-sm-3 control-label">评估费实收金额:${evalVO.evalRealCharges}&nbsp;&nbsp;元</label>
+										<label class="col-sm-3 control-label">评估申请日期:${evalVO.applyDate}</label>
 									</div>
-								</div>
-								<div class="info_box info_box_two col-sm-5">
-									<span>买卖双方</span>
-									<div class="ibox-conn else_conn">
-										<dl class="dl-horizontal col-sm-6">
-											<dt>买方姓名</dt>
-											<dd>
-												<div id="seller"></div>
-											</dd>
-										</dl>
-										<dl class="dl-horizontal col-sm-6">
-											<dt>卖方姓名</dt>
-											<dd>
-												<div id="buyer"></div>
-											</dd>
-										</dl>
+									<div class="height_line1"></div>
+									<div class="row font-family"  style=" margin-top:50px;">
+										<label class="col-sm-4 control-label">出具评估报告的日期:${evalVO.issueDate}</label>
+										<label class="col-sm-3 control-label">评估值：${evalVO.evaPrice}</label>
 									</div>
-									<c:choose>  
-										    <c:when test="${toCase.caseProperty=='30003009'}">
-										        <span>推荐人信息</span>
-												<div class="ibox-conn else_conn_two ">
-													<dl class="dl-horizontal">
-														<dt>姓名</dt>
-														<dd>
-															<a data-toggle="popover" data-placement="right" data-content="${toCaseInfo.recommendPhone}"> ${toCaseInfo.recommendUsername}</a>
-														</dd>
-														<dt>手机号</dt>
-														<dd>${toCaseInfo.recommendPhone }</dd>
-													</dl>
-												</div>
-										   </c:when>  
-										   <c:otherwise> 
-											    <span>经纪人信息</span>
-												<div class="ibox-conn else_conn_two ">
-													<dl class="dl-horizontal">
-														<dt>姓名</dt>
-														<dd>
-															<a data-toggle="popover" data-placement="right"
-																data-content="${toCaseInfo.agentPhone}">
-																${caseDetailVO.agentName}</a>
-														</dd>
-														<dt>所属分行</dt>
-														<dd>${toCaseInfo.grpName }</dd>
-														<dt>直管经理</dt>
-														<dd>
-															<a data-toggle="popover" data-placement="right"
-																data-content="${caseDetailVO.mcMobile}">
-																${caseDetailVO.mcName} </a>
-														</dd>
-														<dt>分行秘书</dt>
-														<dd>${toCaseInfo.grpName }</dd>
-													</dl>
-												</div>
-									       </c:otherwise> 
-										</c:choose>	
-								</div>
-								<div class="info_box info_box_three col-sm-3">
-									<span>经办人信息</span>
-									<div class="ibox-conn  ibox-text">
-										<dl class="dl-horizontal">
-											<dt>贷款权证</dt>
-											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseDetailVO.cpMobile}">
-													${caseDetailVO.cpName} </a>
-											</dd>
-											<%-- <c:if test="${empty caseDetailVO.proList}">
-												<dt>合作顾问</dt>
-												<dd></dd>
-											</c:if>
-											<c:if test="${!empty caseDetailVO.proList}">
-												<c:forEach items="${caseDetailVO.proList}" var="pro">
-													<dt>合作顾问</dt>
-													<dd>
-														<a data-toggle="popover" data-placement="right"
-															data-content="${pro.processorMobile}">
-															${pro.processorName} </a>
-													</dd>
-												</c:forEach>
-											</c:if> --%>
-											<dt>评估内勤</dt>
-											<dd>
-												<input type="hidden" id="assistantUserName" value="${caseDetailVO.asName}" />
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseDetailVO.asMobile}">
-													${caseDetailVO.asName} </a>
-											</dd>
-										</dl>
-									</div>
-								</div>
-							</div>
-						</div>	
-							<!-- 结算信息 -->
-						<div class="panel-body ibox-content">
-							<div class="ibox white_bg" id="content">
-								<div class="info_box info_box_one col-sm-12 ">
-							  		<span>结算信息</span>
-										
-										<div class="height_line"></div>
-										<div class="row font-family" style=" margin-top:10px;">
-											<label class="col-sm-4 control-label">评估公司：${evalVO.finOrgId}</label>
-											<label class="col-sm-3 control-label">评估费实收金额:${evalVO.evalRealCharges}&nbsp;&nbsp;元</label>
-											<label class="col-sm-3 control-label">评估申请日期:${evalVO.applyDate}</label>
-										</div>
-										<div class="height_line1"></div>
-										<div class="row font-family"  style=" margin-top:50px;">
-											<label class="col-sm-4 control-label">出具评估报告的日期:${evalVO.issueDate}</label>
-											<label class="col-sm-3 control-label">评估值：${evalVO.evaPrice}</label>
-										</div>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -372,7 +116,7 @@
 													
 															<label class="control-label sign_left_small">* 原结算费用 </label> <input
 																class="teamcode input_type" 
-																placeholder="" value="" id="endCost" name="endCost" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																placeholder="" value="${evalVO.evalComAmount}　元" id="endCost" name="endCost" readonly="readonly" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 														
 														
 															<label >* 修改结算费用为</label> <input 
@@ -381,7 +125,7 @@
 														</div>
 													</div>
 										<div class="jqGrid_wrapper row">
-											<div class="form_content" style=" margin-top:30px;">
+											<div class="form_content" style=" margin-top:40px;">
 												<label class="control-label sign_left_small">* 修改原因 </label>
 													<!-- <textarea class="teamcode input_type" rows="5" cols="150"></textarea> -->
 												 <input
@@ -477,11 +221,11 @@
 					</div>
 				</div>
 				
-			</div>
-		</div>
-	</div>
+			
 	
 	<content tag="local_script"> <!-- Peity -->
+	<!-- 公共页面caseBaseInfo.js引用 -->
+	<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
 	<script	src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<!-- jqGrid -->
 	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
@@ -510,7 +254,7 @@
 	<script	src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<script	src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<!-- 各个环节的备注信息  -->
-	<script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script>
+	
 	<jsp:include	page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script>
 	/**关闭页面*/

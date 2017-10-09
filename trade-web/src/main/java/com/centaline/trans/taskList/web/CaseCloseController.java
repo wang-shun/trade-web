@@ -103,7 +103,7 @@ public class CaseCloseController {
 		editCaseDetailService.saveCaseCloseDetai(editCaseDetailVO);
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, "", "结档归案提交。");
 		/*发送消息*/
-		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
+//		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		
 		/*流程引擎相关*/
 		List<RestVariable> variables = new ArrayList<RestVariable>();
