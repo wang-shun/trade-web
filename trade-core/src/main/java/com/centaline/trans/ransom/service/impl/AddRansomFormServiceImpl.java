@@ -2,6 +2,7 @@ package com.centaline.trans.ransom.service.impl;
 
 import java.util.List;
 
+import com.centaline.trans.ransom.entity.AddRansomForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,11 @@ public class AddRansomFormServiceImpl implements AddRansomFormService {
 	@Override
 	public void addRansomForm(List<ToRansomFormVo> ar) {
 		arm.addRansomForm(ar);
+	}
+
+	@Override
+	public int insert(AddRansomForm ar) {
+		return arm.insert(ar);
 	}
 
 }

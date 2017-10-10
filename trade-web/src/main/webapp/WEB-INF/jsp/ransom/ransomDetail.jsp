@@ -59,7 +59,7 @@
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
-	<input type="hidden id="ransomCode" value="${detailVo.ransomCode}">
+	<input type="hidden" id="ransomCode" value="${detailVo.ransomCode}">
 	<div class="wrapper wrapper-content animated fadeInUp">
 		<div class="ibox-content" id="reportOne">
 			<h2 class="title">赎楼清尾</h2>  

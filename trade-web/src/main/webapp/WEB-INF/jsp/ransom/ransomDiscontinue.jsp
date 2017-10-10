@@ -140,23 +140,20 @@
 	<jsp:include page="/WEB-INF/jsp/ransom/ransomBaseInfo.jsp"></jsp:include>
 
 	<div class="ibox-content border-bottom clearfix space_box noborder">
-		<div class="form_content">
-			<label class="control-label sign_left_small">中止类型 </label>
-			<div class="controls isnowid" style="width: 1000px;margin-left: 40px;">
-				<select class="select_control data_style" readOnlydata='1' name="netPlace" id="netPlace">
-					<option value="0" ${transSign.netPlace=="0"?'selected':''}>客户放弃赎楼</option>
-					<option value="1" ${transSign.netPlace=="1"?'selected':''}>资方审批不通过</option>
-					<option value="2" ${transSign.netPlace=="2"?'selected':''}>其他</option>
-				</select>
+		<form method="post" id="submitDiscontinue" >
+			<div class="form_content">
+				<label class="control-label sign_left_small">中止类型 </label>
+				<div class="controls isnowid" style="width: 1000px;margin-left: 40px;">
+					<aist:dict id="stopType" name="ransom_discountinue" display="select" dictType="71016" clazz="select_control data_style"/>
+				</div>
 			</div>
-		</div>
-		<div class="form_content">
-			<div class="form-group">
-			    <label for="name" style="float: left;">详情描述</label>
-			    <textarea class="form-control" rows="8" style="resize:none;width:960px;margin-left:95px;" ></textarea>
-		  	</div>
-		</div>
-		
+			<div class="form_content">
+				<div class="form-group">
+				    <label for="name" style="float: left;">详情描述</label>
+				    <textarea class="form-control" rows="8" style="resize:none;width:960px;margin-left:95px;" id="stopReason" ></textarea>
+			  	</div>
+			</div>
+		</form>
 		<div class="mt20" id="aboutInfo">
 			<h2 class="newtitle title-mark">审批记录</h2>
 			<div class="jqGrid_wrapper">
@@ -246,7 +243,45 @@
 				});
 				
 				$("#discontinue").click(function(){
-					window.location.href = ctx + "/ransomList/discontinue/ransomExamine";
+					//window.location.href = ctx + "/ransomList/discontinue/ransomExamine";
+					debugger;
+					if($('#stopType').val() == ''){
+						window.wxc.alert("中止类型为必填项!");
+						return;
+					}
+					
+					if($('#stopReason').val() == ''){
+						window.wxc.alert("详情描述为必填项!");
+						$('#stopReason').focus();
+						$('#stopReason').css('border-color',"red");
+						return;
+					}
+					
+					var jsonData = $('#submitDiscontinue').serializeArray();
+					var url = "${ctx}/task/ransomDiscontinue/submitDiscontinue";
+					
+					$.ajax({
+						cache:true,
+						async:false,
+						type:"POST",
+						url:url,
+						data:jsonData,
+						dataType:"json",
+						success:function(data){
+							if(data){
+								window.wxc.success("提交成功!",{"wxcOk":function(){
+									 window.close();	
+								}});
+							}else{
+								window.wxc.error("提交失败!");
+							}
+							
+						},
+						error : function(errors) {
+							window.wxc.error("提交失败!");
+						}
+					});
+					
 				});
 				
 				

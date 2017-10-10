@@ -51,7 +51,7 @@
     values (
 		#{ransomCode,jdbcType=VARCHAR}, 
 		#{caseCode,jdbcType=VARCHAR}, 
-		'ACCEPTANCE', 	
+		'RANSOMDEAL', 	
 		#{ransomProperty,jdbcType=NVARCHAR}, 
 		#{comOrgCode,jdbcType=VARCHAR}, 
 		#{borroMoney,jdbcType=DECIMAL}, 
@@ -69,4 +69,14 @@
 		#{remark,jdbcType=LONGVARCHAR}
       )
 	</insert>
+	
+	<update id="updateRansomDiscountinue" parameterType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
+		UPDATE 
+			sctrans.T_RA_CASE
+		SET
+			STOP_TYPE = #{stopType,jdbcType=VARCHAR},
+			STOP_REASON = #{stopReason,jdbcType=VARCHAR}
+		WHERE
+			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</update>
 </mapper>

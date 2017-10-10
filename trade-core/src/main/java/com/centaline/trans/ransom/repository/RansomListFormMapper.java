@@ -19,4 +19,11 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	ToRansomCaseVo getRansomCase(String caseCode);
+	
+	/**
+	 * 根据caseCode保存赎楼中止信息
+	 * @param caseCode
+	 * @return
+	 */
+	int updateRansomDiscountinue(String caseCode);
 }
