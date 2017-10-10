@@ -61,8 +61,9 @@ public class RansomListController {
 		ResultNew rs=new ResultNew();
 		
 		try{
-			
-			String status = ars.insert(ransom) + "";
+			//git冲突mark
+			String status = "";
+			//String status = ars.insert(ransom) + "";
 			if("0".equals(status)){
 				rs.setStatus(status);
 				rs.setCode(status);
