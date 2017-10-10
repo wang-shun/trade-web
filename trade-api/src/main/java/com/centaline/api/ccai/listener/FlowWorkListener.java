@@ -1,6 +1,8 @@
 package com.centaline.api.ccai.listener;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.message.core.remote.UamMessageService;
+import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
@@ -10,8 +12,11 @@ import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
 import com.centaline.trans.common.entity.MqOpertationLog;
+import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.*;
 import com.centaline.trans.common.repository.MqOpertationLogMapper;
+import com.centaline.trans.common.repository.ToPropertyInfoMapper;
+import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.engine.WorkFlowConstant;
 import com.centaline.trans.engine.bean.ExecuteAction;
@@ -29,6 +34,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -36,10 +42,7 @@ import org.springframework.stereotype.Component;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 导入成功的成交报告信息消费者
@@ -67,6 +70,11 @@ public class FlowWorkListener {
 	private ActRuEventSubScrMapper actRuEventSubScrMapper;
 	@Autowired
 	private ToCaseMapper caseMapper;
+	@Autowired
+	private ToPropertyInfoMapper casePropertyInfoMapper;
+	@Autowired(required=true)
+	@Qualifier("uamMessageServiceClient")
+	UamMessageService uamMessageService;
 
 	@Autowired
 	private WorkFlowEngine engine;//该处使用engine 否则无法进行访问流程引擎平台
@@ -114,6 +122,9 @@ public class FlowWorkListener {
 				mqlog.setStatus("0");
 			} else if (MQCaseMessage.UPDATEFLOW_TYPE.equals(message.getType())) {
 				updateProcess(message.getCaseCode());
+				mqlog.setStatus("0");
+			} else if (MQCaseMessage.REPEAL_TYPE.equals(message.getType())) {
+				repealProcess(message.getCaseCode());
 				mqlog.setStatus("0");
 			} else {
 				mqlog.setOpertation(message.getType());
@@ -268,6 +279,34 @@ public class FlowWorkListener {
 		toWorkFlow.setProcessOwner(user.getId());
 		toWorkFlowService.updateByPrimaryKeySelective(toWorkFlow);
 		return variables;
+	}
+
+	/**
+	 * 成交报告撤单处理
+	 * @param caseCode 案件编号
+	 */
+	private void repealProcess(String caseCode) {
+		ToPropertyInfo info = casePropertyInfoMapper.findToPropertyInfoByCaseCode(caseCode);
+		List<ToCaseParticipant> participants = participantMapper.selectByCaseCode(caseCode);
+		Set<String> users = new HashSet<>();
+		//给贷款和过户权证 以及 部门主管发送信息
+		for(ToCaseParticipant pa : participants){
+			if(CaseParticipantEnum.LOAN.getCode().equals(pa.getPosition())
+					|| CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())){
+				User user = uamUserOrgService.getUserByUsername(pa.getUserName());
+				if(user!=null){
+					users.add(user.getId());
+				}
+			}
+		}
+		//TODO 后面使用模板等 将更多的信息展示给用户
+		com.aist.message.core.remote.vo.Message message= new com.aist.message.core.remote.vo.Message();
+		message.setTitle("成交报告撤单");//消息标题
+		message.setType(MessageType.SITE);//消息类型
+		message.setMsgCatagory(MsgCatagoryEnum.LOSS.getCode());
+		message.setContent("案件["+caseCode+"]，物业地址："+info.getPropertyAddr()+"。\r\n在CCAI中进行了撤单!");
+		message.setSenderId(uamUserOrgService.getUserByUsername("admin").getId());
+		uamMessageService.sendMessageByDist(message,new ArrayList<>(users));
 	}
 
 }
