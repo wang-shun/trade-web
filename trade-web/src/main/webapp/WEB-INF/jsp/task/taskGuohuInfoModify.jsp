@@ -182,6 +182,8 @@
 	<!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
 	<script src="<c:url value='/js/common/common.js' />"></script>
+	<!-- 必须JS -->
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<!--公共信息-->
 	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 	<script>   
@@ -198,11 +200,11 @@
 	     }
 	     return false;
 	};
-	var changeTaskList=['TransSign','PurchaseLimit','Pricing','TaxReview','LoanClose','ComLoanProcess','PSFApply','PSFSign', 'PSFApprove',
+	var changeTaskList=['TransSign','RatePayment','ComLoanProcess','PSFApply','PSFSign', 'PSFApprove',
 	                    'LoanlostApply','SelfLoanApprove','Guohu','HouseBookGet','LoanRelease'];
 	var comLoanTasks=['ComLoanProcess'];
 	var psfLoanTasks=["PSFApply","PSFSign","PSFApprove"];
-	var loanLostTasks=['LoanlostApply','LoanlostApproveManager','LoanlostApproveDirector','SelfLoanApprove'];
+	var loanLostTasks=['LoanlostApply','LoanlostApproveManager','LoanlostApproveDirector','SelfLoanApprove','LoanlostApproveGeneralManager','EvaReportArise'];
 	var fullPay=[];
 	var loanTasks={'PSFLoan':psfLoanTasks,'ComLoan':comLoanTasks,SelfLoan:loanLostTasks,"FullPay":fullPay};
 	var loanTaskArry= new Array();

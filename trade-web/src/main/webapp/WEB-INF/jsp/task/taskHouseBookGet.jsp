@@ -121,8 +121,8 @@
 	                <div class="marinfo">
 	                    <div class="line">
 	                        <div class="form_content">
-	                            <label class="control-label mr15 select_style mend_select">
-	                                	<font color=" red" class="mr5" >*</font>实际领证时间
+	                            <label class="control-label sign_left select_style mend_select">
+	                                	领他项证时间<font color=" red" class="mr5" >*</font><!-- 实际领证时间 -->
 	                            </label>
 	                            <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
 	                            	<input type="text" class="input_type yuanwid datatime" id="realPropertyGetTime" name="realPropertyGetTime" onfocus="this.blur()"
@@ -130,6 +130,16 @@
 	                            </div>
 	                        </div>
 	                    </div>
+	                    
+	                    <!-- 天津需求添加	"备注"	输入框-->
+		                <div class="line">
+							<div class="form_content">
+								<label class="control-label sign_left select_style mend_select">备注</label> 
+								<input class="input_type optionwid" id="commet"
+									name="commet" placeholder="" value="${tgpb.commet}">
+							</div>
+						</div>
+	                    
 	                </div>
 	            </div>
             </form>
@@ -170,7 +180,7 @@
 					url:"${ctx}/quickGrid/findPage",
 					datatype : "json",
 					height:210,
-					multiselect : true,
+					//multiselect : true,
 					autowidth : true,
 					shrinkToFit : true,
 			        viewrecords:true,
@@ -190,7 +200,8 @@
 					hidegrid : false,
 					postData:{
 			        	queryId:"queryToReminderList",
-			        	search_partCode: taskitem
+			        	//search_partCode: taskitem
+			        	search_partCode: "HouseBookGet"
 			        },
 				});
 
@@ -226,16 +237,17 @@
 					return;
 				}
 				var jsonData = $("#tgpbForm").serializeArray();
-				if($('#h_need_upLoad_file').val()){
+			//	console.log($("#realPropertyGetTime").val()+"====="+$("#commet").val());
+
+			if($('#h_need_upLoad_file').val()){
 					deleteAndModify();	
 				}
-				
 				var url = "${ctx}/task/houseBookGet/saveToGetPropertyBook";
 				if(b) {
 					url = "${ctx}/task/houseBookGet/submitToGetPropertyBook";
 				}
 				
-				$.ajax({
+				  $.ajax({
 					cache : true,
 					async : false,
 					type : "POST",
@@ -279,13 +291,13 @@
 					error : function(errors) {
 						window.wxc.error("数据保存出错");
 					}
-				});
+				});  
 			}
 		
 			//验证控件checkUI();
 			function checkForm() {
 				if($('input[name=realPropertyGetTime]').val()=='') {
-					window.wxc.alert("实际领证时间为必填项!");
+					window.wxc.alert("领他项证时间为必填项!");
 	                $('input[name=realPropertyGetTime]').focus();
 	                return false;
 	           }
@@ -330,6 +342,8 @@
 		<!-- 改版引入的新的js文件 -->
 		<script src="<c:url value='/js/common/textarea.js' />"></script>
 		<script src="<c:url value='/js/common/common.js' />"></script>
+		<!--公共信息-->
+		<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 	</content>
 </body>
 </html>

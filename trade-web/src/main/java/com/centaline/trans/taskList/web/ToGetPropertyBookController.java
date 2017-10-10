@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.attachment.service.ToAccesoryListService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
@@ -57,25 +58,24 @@ public class ToGetPropertyBookController {
 	public String toProcess(HttpServletRequest request,
 			HttpServletResponse response, String caseCode, String source,
 			String taskitem, String processInstanceId) {
+		request.setAttribute("tgpb", toGetPropertyBookService.queryToGetPropertyBook(caseCode));
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 
-		RestVariable psf = workFlowManager.getVar(processInstanceId,
-				"PSFLoanNeed");/* 公积金 */
-
-		// add zhangxb16 2016-2-22
-		RestVariable self = workFlowManager.getVar(processInstanceId,
-				"SelfLoanNeed");/* 自办 */
-		RestVariable com = workFlowManager.getVar(processInstanceId,
-				"ComLoanNeed");/* 贷款 */
-
-		toAccesoryListService.getAccesoryListLingZheng(request, taskitem,
-				(boolean) (psf == null ? false : psf.getValue()),
-				(boolean) (self == null ? false : self.getValue()),
-				(boolean) (com == null ? false : com.getValue()));
-		request.setAttribute("tgpb",
-				toGetPropertyBookService.queryToGetPropertyBook(caseCode));
+//		//天津需求领证环节无需附件
+//		RestVariable psf = workFlowManager.getVar(processInstanceId,
+//				"PSFLoanNeed");/* 公积金 */
+//		// add zhangxb16 2016-2-22
+//		RestVariable self = workFlowManager.getVar(processInstanceId,
+//				"SelfLoanNeed");/* 自办 */
+//		RestVariable com = workFlowManager.getVar(processInstanceId,
+//				"ComLoanNeed");/* 贷款 */
+//		toAccesoryListService.getAccesoryListLingZheng(request, taskitem,
+//				(boolean) (psf == null ? false : psf.getValue()),
+//				(boolean) (self == null ? false : self.getValue()),
+//				(boolean) (com == null ? false : com.getValue()));
+		
 		return "task" + UiImproveUtil.getPageType(request)
 				+ "/taskHouseBookGet";
 	}
@@ -97,11 +97,9 @@ public class ToGetPropertyBookController {
 			String processInstanceId) {
 		try {
 			toGetPropertyBookService.saveToGetPropertyBook(toGetPropertyBook);
-
 			/* 流程引擎相关 */
 			List<RestVariable> variables = new ArrayList<RestVariable>();
-			ToCase toCase = toCaseService
-					.findToCaseByCaseCode(toGetPropertyBook.getCaseCode());
+			ToCase toCase = toCaseService.findToCaseByCaseCode(toGetPropertyBook.getCaseCode());
 			workFlowManager.submitTask(variables, taskId, processInstanceId,
 					toCase.getLeadingProcessId(),
 					toGetPropertyBook.getCaseCode());
@@ -113,6 +111,7 @@ public class ToGetPropertyBookController {
 			e.printStackTrace();
 			// return false;
 		}
+		
 
 		/**
 		 * 功能: 给客户发送短信 作者：zhangxb16

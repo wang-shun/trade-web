@@ -1,6 +1,8 @@
+
 package com.centaline.trans.ransom.web;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,11 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.web.ResultNew;
-import com.centaline.trans.ransom.entity.AddRansomForm;
+import com.centaline.trans.ransom.entity.ToRansomCaseVo;
+import com.centaline.trans.ransom.entity.ToRansomFormVo;
 import com.centaline.trans.ransom.service.AddRansomFormService;
+import com.centaline.trans.ransom.service.RansomListFormService;
 
 /**
  * 赎楼单列表控制器
@@ -35,7 +37,10 @@ import com.centaline.trans.ransom.service.AddRansomFormService;
 public class RansomListController {
 	
 	@Autowired(required = true)
-	private AddRansomFormService ars;
+	private AddRansomFormService addRansomFormService;
+	@Autowired(required = true)
+	private RansomListFormService ransomListFormService;
+	
 	
 	@Autowired
 	private UamSessionService uamSessionService;
@@ -50,96 +55,57 @@ public class RansomListController {
 		return "ransom/" + keyFlag;
 	}
 
-	/**
-	 * 新建案件
-	 * @param model
-	 * @param request
-	 * @return
-	 */
 	@RequestMapping(value="addRansom")
-	public String addRansom(Model model, AddRansomForm ransom,ServletRequest request,HttpServletResponse response){
-		ResultNew rs=new ResultNew();
-		
-		try{
-			//git冲突mark
-			String status = "";
-			//String status = ars.insert(ransom) + "";
-			if("0".equals(status)){
-				rs.setStatus(status);
-				rs.setCode(status);
-				rs.setMessage(status);
-			}else{
-				String message = "新增案件失败，请刷新后再次尝试！";
-				rs.setStatus(status);
-				rs.setCode(status);
-				rs.setMessage(message);
-			}
-		}catch(BusinessException ex){
-			rs.setStatus("-1");
-			rs.setMessage(ex.getMessage());
-			return JSONObject.toJSONString(rs);
-		}
-		
-		return JSONObject.toJSONString(rs);
-	}
-	
-	@RequestMapping(value="addRansom1")
 	@ResponseBody
-	public String addRansom1(Model model,
-			@RequestParam("jsonStr") String jsonStr,
+	public String addRansom(Model model,
+			@RequestParam String jsonStr,
 			ServletRequest request,HttpServletResponse response){
 		
 		String result = "-1";
 		ResultNew rs=new ResultNew();
 		SessionUser user= uamSessionService.getSessionUser();
-		Double num = (Math.random()*10000);
+//		Double num = (Math.random()*10000);
 		
 		try {
-			int month = new Date().getMonth()+1;
-			String mon = null;
-			if(month < 10){
-				mon = "0" + month;
-			}else{
-				mon = month + "";
-			}
+			Calendar ca = Calendar.getInstance();
+			int month = ca.get(Calendar.MONTH);// 获取月份
+			int day = ca.get(Calendar.DATE);// 获取日
+			int minute = ca.get(Calendar.MINUTE);// 分
+			int hour = ca.get(Calendar.HOUR);// 小时
+			int second=ca.get(Calendar.SECOND);//秒
+		      
+			List<ToRansomFormVo> list = JSONObject.parseArray(jsonStr, ToRansomFormVo.class);
 			
-			List list = new ArrayList();
-
-			/*if(jsonStr != null && jsonStr.length > 1 && jsonStr instanceof String[]){
-				String[] str = (String[])jsonStr;
-				for (int i = 0 ; i < jsonStr.length ; i++) {
-					
-					AddRansomForm arf = new AddRansomForm();
-					arf = JSON.parseObject(jsonStr[i], AddRansomForm.class);
-					arf.setRansomCode("TJ-ZH-" + mon + num.intValue()); //赎楼单编号
-					arf.setCreateTime(new Date());
-					arf.setCreateUser(user.getRealName());
-					arf.setUpdateTime(new Date());
-					arf.setUpdateUser(user.getRealName());
-					list.add(arf);
-				}
-			}else if(jsonStr != null  && jsonStr.length == 1){
-				AddRansomForm arf = new AddRansomForm();
-				arf = JSON.parseObject(jsonStr[0], AddRansomForm.class);
-				arf.setRansomCode("TJ-ZH-" + mon + num.intValue()); //赎楼单编号
+			for (ToRansomFormVo arf : list) {
+				arf.setRansomCode("TJ-ZH-" + month + day + minute + hour + second); //赎楼单编号
+				arf.setLoanMoney(arf.getLoanMoney() * 10000);
+				arf.setRestMoney(new BigDecimal(arf.getRestMoney().doubleValue() * 1000));
 				arf.setCreateTime(new Date());
 				arf.setCreateUser(user.getRealName());
 				arf.setUpdateTime(new Date());
 				arf.setUpdateUser(user.getRealName());
-				list.add(arf);
-			}else{
-				String message = "新增案件失败，请刷新后再次尝试！";
-				rs.setStatus(result);
-				rs.setCode(result);
-				rs.setMessage(message);
-			}*/
-//			
-			ars.addRansomForm(list);
+			}
+			
+			addRansomFormService.addRansomForm(list);
 			result = "0";
 			if("0".equals(result)){
 				rs.setStatus(result);
 				rs.setCode(result);
 				rs.setMessage(result);
+
+				ToRansomCaseVo trco = new ToRansomCaseVo();
+				//赎楼列表单插入数据
+				trco.setRansomCode(list.get(0).getRansomCode());
+				trco.setCaseCode(list.get(0).getCaseCode());
+				trco.setBorrowerName(list.get(0).getBorrowerName());
+				trco.setBorroMoney(list.get(0).getBorroMoney());
+				trco.setAcceptTime(list.get(0).getPlanTime());
+				trco.setCreateTime(new Date());
+				trco.setCreateUser(user.getRealName());
+				trco.setUpdateTime(new Date());
+				trco.setUpdateUser(user.getRealName());
+				
+				ransomListFormService.addRansomDetail(trco);
 			}else{
 				String message = "新增案件失败，请刷新后再次尝试！";
 				rs.setStatus(result);
@@ -156,26 +122,35 @@ public class RansomListController {
 		}
 	}
 	
-//	
-//	/**
-//	 * 跳转修改赎楼单详情 
-//	 * @param model
-//	 * @param request
-//	 * @return
-//	 */
-//	@RequestMapping(value="ransomDetailUpdate")
-//	public String ransomDetailUpdate(Model model, ServletRequest request){
-//		return "/ransom/ransomDetailUpdate";
-//	}
-//	
-//	/**
-//	 * 赎楼单详情修改跳转赎楼详情页
-//	 * @param model
-//	 * @param request
-//	 * @return
-//	 */
-//	@RequestMapping(value="detailUpdate")
-//	public String detailUpdate(Model model, ServletRequest request){
-//		return "/ransom/ransomDetail";
-//	}
+	@RequestMapping(value="queryRansomCode")
+	@ResponseBody
+	public String queryRansomByCasecode(String caseCode) {
+		
+		ResultNew rs=new ResultNew();
+		try {
+			ToRansomCaseVo trco = new ToRansomCaseVo();
+			trco = ransomListFormService.getRansomCase(caseCode);
+			String result = "-1";
+			//如果赎楼信息不为空说明已有案件编号与赎楼编号相关联
+			if(trco != null) {
+				String message = "案件关联已被关联，请重新选择！";
+				rs.setStatus(result);
+				rs.setCode(result);
+				rs.setMessage(message);
+			}else {
+				result = "0";
+				rs.setStatus(result);
+				rs.setCode(result);
+				rs.setMessage(result);
+			}
+			return JSONObject.toJSONString(rs);
+//			return "true";
+		} catch (BusinessException ex) {
+			ex.printStackTrace();
+			rs.setStatus("0");
+			rs.setMessage(ex.getMessage());
+			return JSONObject.toJSONString(rs);
+		}
+	}
 }
+

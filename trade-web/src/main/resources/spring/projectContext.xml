@@ -667,6 +667,20 @@
     <bean name="qqcdDictDiyaType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="DIYA_TYPE"></property>
     </bean>
+      <!-- 赎楼_状态类型 -->
+    <bean name="qqcdDictRansomStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="RANSOM_STATUS"></property>
+    </bean>
+    
+    <!-- 赎楼_环节类型 -->
+    <bean name="qqcdDictRansomPart" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="RANSOM_PART_CODE"></property>
+    </bean>
+    
+    <!-- 赎楼——合作机构类型 -->
+    <bean name="qqcdDictFinalOrg" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="FINAL_ORG"></property>
+    </bean>
     <!-- 评估类型 -->
     <bean name="qqcdDictEvalType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="EVAL_TYPE"></property>

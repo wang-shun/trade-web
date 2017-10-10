@@ -67,7 +67,7 @@
 
 				<div class="row wrapper white-bg new-heading ">
 					<div class="pl10">
-						<h2 class="newtitle-big">归档确认和结案审核</h2>
+						<h2 class="newtitle-big">结案归档审核</h2>
 						<div class="mt20">
 							<button type="button" class="btn btn-icon btn-blue mr5">
 								<i class="iconfont icon">&#xe600;</i> <a
@@ -165,6 +165,8 @@
 		<!-- 改版引入的新的js文件 -->
 	    <script src="<c:url value='/js/common/textarea.js' />"></script> 
 		<script src="<c:url value='/js/common/common.js' />"></script>
+		<!--公共信息-->
+		<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 	<script>
 		/**提交数据*/
 		function submit() {

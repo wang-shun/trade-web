@@ -136,7 +136,7 @@ text-decoration: underline !important;
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox-content border-bottom clearfix space_box">
         <h2 class="title">
-                        赎楼单总览
+                        赎楼单总览 
         </h2>
 	    <form method="get" class="form-horizontal form_box">
 			<div class="row clearfix">
@@ -202,8 +202,10 @@ text-decoration: underline !important;
 				 <div class="row m-t-sm">
 					<div class="form_content">
 						<div class="more_btn">
-							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
-							<button id="addNewRansomCase"  type="button" class="btn btn-success">新增案件</button>
+							<button id="searchButton"  type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
+							<shiro:hasPermission name="TRADE.CASE.RANSOMINFOLIST.ADDCASE">
+								<button id="addNewRansomCase"   type="button" class="btn btn-success">新增案件</button>
+							</shiro:hasPermission>
 							<!-- <button id="exportCase"  type="button" class="btn btn-success" onclick="realShowExcelIn()">实时导出</button> -->
 							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:realShowExcelIn()">实时导出</a>
 						</div>
@@ -241,60 +243,6 @@ text-decoration: underline !important;
 				<div id="pageBar" class="pagergoto">
 				</div>  
 		    </div> 	
-	</div>
-</div>
-<div id="realModal-form" class="modal fade" aria-hidden="true">
-	<div class="modal-dialog" style="width: 1200px">
-		<div class="modal-content ">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">×</button>
-				<h4 class="modal-title" id="leading-modal-title">请选择导出项</h4>
-			</div>
-			<div class="modal-body ">
-				<form class="form-horizontal">
-
-					<div class="form-group">
-						<label class="col-sm-2 control-label">案件基本信息</label>
-						<div class="col-sm-9 checkbox i-checks checkbox-inline">
-							<aist:dict id="basic_info_item" name="basic_info_item"
-								display="checkbox" clazz="excel_in" defaultvalue=""
-								dictType="71012" />
-						</div>
-					</div>
-
-					<div class="hr-line-dashed"></div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">案件状态信息</label>
-						<div class="col-sm-9 checkbox i-checks checkbox-inline">
-							<aist:dict id="mortage_info_item" name="mortage_info_item"
-								display="checkbox" clazz="excel_in"
-								defaultvalue="710130000,710130001" dictType="71013" />
-						</div>
-					</div>
-					<div class="hr-line-dashed"></div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">资金服务信息</label>
-						<div class="checkbox i-checks checkbox-inline">
-							<aist:dict id="trade_info_item" name="trade_info_item"
-								display="checkbox" clazz="excel_in" defaultvalue=""
-								dictType="71014" />
-						</div>
-					</div>
-					<div class="hr-line-dashed"></div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button id="checkAll" type="button" class="btn btn-default"
-					onclick="javascript:checkAllItem()">全选</button>
-				<button id="unCheckAll" type="button" class="btn btn-default"
-					onclick="javascript:unCheckAllItem()">全不选</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-				</button>
-				<button type="button" class="btn btn-success"
-					onclick="javascript:exportToExcel()">实时导出至Excel</button>
-			</div>
-		</div>
 	</div>
 </div>
 <input type="hidden" id="ctx" value="${ctx}" />
@@ -368,7 +316,7 @@ text-decoration: underline !important;
 		{{item.COM_ORG_CODE}}
 	</td>
 	<td class="center"> 
-		{{if item.RANSOM_STATUS == "ACCEPTANCE"}}
+		{{if item.RANSOM_STATUS == "RANSOMDEAL"}}
 		 	受理 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
 		{{if item.RANSOM_STATUS == "RANSOMLOADING"}}

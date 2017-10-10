@@ -132,4 +132,68 @@
 			</baseSql>
 		</searchSql>
 	</query>
+	<query id="exportToExcel" >
+		<searchCondition></searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+						rc.RANSOM_CODE,
+						rc.BORROWER_NAME,
+						rc.BORROWER_TEL,
+						(SELECT PROPERTY_ADDR from sctrans.T_TO_PROPERTY_INFO pro WHERE pro.CASE_CODE = rc.CASE_CODE) PROPERTY_ADDR, 
+						(SELECT AGENT_NAME FROM sctrans.T_TO_CASE_INFO ci WHERE ci.CASE_CODE = rc.CASE_CODE) AGENT_NAME,
+						rc.RANSOM_STATUS,
+						rt.SIGN_TIME,
+						rt.PLAN_TIME,
+						ri.INTERVIEW_TIME,
+						rr.REPAY_TIME,
+						rca.CANCEL_TIME,
+						rre.REDEEM_TIME,
+						rp.PAYMENT_TIME,
+						rt.REST_MONEY,
+						rt.LOAN_MONEY,
+						ri.INTERVIEW_MONEY,
+						rr.REPAY_MONEY
+					FROM
+						sctrans.T_RA_CASE rc
+					LEFT JOIN sctrans.T_RA_TAILINS rt ON rc.RANSOM_CODE = rt.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_INTERVIEW ri ON ri.RANSOM_CODE = rt.CASE_CODE
+					LEFT JOIN sctrans.T_RA_REPAY rr ON rr.RANSOM_CODE = ri.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_CANCEL rca ON rca.RANSOM_CODE = rr.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_REDEEM rre ON rre.RANSOM_CODE = rca.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_PAYMENT rp ON rp.RANSOM_CODE = rre.RANSOM_CODE
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY rc.CREATE_TIME DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="RANSOM_CODE" display="赎楼单编号" />
+				<column type="both" name="BORROWER_NAME" display="借款人姓名" />
+				<column type="both" name="BORROWER_TEL" display="借款人电话" />
+				
+				<column type="both" name="PROPERTY_ADDR" display="房屋地址" />
+				<column type="both" name="AGENT_NAME" display="转介经纪人" />
+				<column type="both" name="RANSOM_STATUS" display="案件当前状态" />
+				
+				<column type="both" name="SIGN_TIME" display="受理时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="PLAN_TIME" display="申请时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="INTERVIEW_TIME" display="面签时间 " beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				
+				<column type="both" name="REPAY_TIME" display="陪同还贷时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="CANCEL_TIME" display="注销抵押时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="REDEEM_TIME" display="领取产证时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				
+				<column type="both" name="PAYMENT_TIME" display="回款结清时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="REST_MONEY" display="贷款金额" />
+				<column type="both" name="LOAN_MONEY" display="剩余未还部分" />
+				
+				<column type="both" name="INTERVIEW_MONEY" display="面签金额" />
+				<column type="both" name="REPAY_MONEY" display="还贷金额" />
+			</table-row>
+		</grid>
+	</query>
 </querys>

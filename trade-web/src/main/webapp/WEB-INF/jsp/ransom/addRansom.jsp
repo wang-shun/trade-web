@@ -287,8 +287,9 @@ table tbody select, input {
 												dictType="RETAINAGE_TYPE" defaultvalue="${toMortgage.mortType }" />
 										</td>
 										<td>
-											<aist:dict id="diyaType" name="diyaType" clazz=" select_control yuanwid " display="select"
-												dictType="DIYA_TYPE" defaultvalue="${toMortgage.mortType }" />
+											<select id="diyaType" name="diyaType" class=" select_control yuanwid ">
+												<option>请选择</option><option value="710150001">一抵</option></select></td>
+											</select>
 										</td>
 										<td>
 											<input name="loanMoney" value="" type="text" class="form-control input-one" placeholder="贷款金额(单位：万元)" id="loanMoney">
@@ -505,20 +506,14 @@ table tbody select, input {
 							});
 
 							$("#content_caseCode").html(caseInfoMap['caseCode']);
-							$("#content_propertyAddr").html(
-								caseInfoMap['propertyAddr']);
-							$("#content_processorId").html(
-								caseInfoMap['processorName']);
-							$("#content_seller").html(
-								caseInfoMap['sellerName']);
-							$("#content_agentName").html(
-								caseInfoMap['agentName']);
-							$("#content_buyer").html(
-								caseInfoMap['buyerName']);
-							$("input[name='toSpv.caseCode']").val(
-								caseInfoMap['caseCode']);
+							$("#content_propertyAddr").html(caseInfoMap['propertyAddr']);
+							$("#content_processorId").html(caseInfoMap['processorName']);
+							$("#content_seller").html(caseInfoMap['sellerName']);
+							$("#content_agentName").html(caseInfoMap['agentName']);
+							$("#content_buyer").html(caseInfoMap['buyerName']);
+							$("input[name='toSpv.caseCode']").val(caseInfoMap['caseCode']);
 
-							if ($("input[name='spvCustList[0].name']").val() == '')
+							/* if ($("input[name='spvCustList[0].name']").val() == '')
 								$("input[name='spvCustList[0].name']").val(
 												caseInfoMap['buyerName']
 												.substr(0,caseInfoMap['buyerName']
@@ -526,7 +521,7 @@ table tbody select, input {
 												.length : caseInfoMap['buyerName']
 												.indexOf("/")));
 							if ($("input[name='spvCustList[0].phone']").val() == '')
-								$("input[name='spvCustList[0].phone']").val(caseInfoMap['buyerMobil']);
+								$("input[name='spvCustList[0].phone']").val(caseInfoMap['buyerMobil']); */
 							if ($("input[name='spvCustList[1].name']").val() == '')
 								$("input[name='spvCustList[1].name']").val(caseInfoMap['sellerName']
 												.substr(0,caseInfoMap['sellerName']

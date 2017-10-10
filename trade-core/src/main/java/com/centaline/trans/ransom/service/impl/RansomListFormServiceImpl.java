@@ -18,12 +18,23 @@ import com.centaline.trans.ransom.service.RansomListFormService;
 public class RansomListFormServiceImpl implements RansomListFormService {
 
 	@Autowired
-	private RansomListFormMapper rfm;
+	private RansomListFormMapper ransomListFormMapper;
 	
 	@Override
 	public int addRansomDetail(ToRansomCaseVo trco) {
 		
-		return rfm.addRansomDetail(trco);
+		return ransomListFormMapper.addRansomDetail(trco);
+	}
+
+	@Override
+	public ToRansomCaseVo getRansomCase(String caseCode) {
+		return ransomListFormMapper.getRansomCase(caseCode);
+	}
+
+	@Override
+	public int updateRansomDiscountinue(String caseCode) {
+		
+		return ransomListFormMapper.updateRansomDiscountinue(caseCode);
 	}
 
 }

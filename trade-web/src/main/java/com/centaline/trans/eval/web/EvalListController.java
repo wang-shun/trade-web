@@ -161,4 +161,38 @@ public class EvalListController {
 		}
 		return null;
 	}
+	
+	/**
+	 * 评估单列表 for tj
+	 * @param request
+	 * @return
+	 * @author jinwl6
+	 */
+	@RequestMapping(value = "list")
+	public String list(HttpServletRequest request) {
+		// TODO
+		SessionUser user = uamSessionService.getSessionUser();
+		String userOrgId = user.getServiceDepId();
+
+		request.setAttribute("queryOrg", userOrgId);
+		return "eval/evalList";
+	}
+	
+	/**
+	 * 评估单详情for tj
+	 * @param request
+	 * @return
+	 * @author jinwl6
+	 */
+	@RequestMapping(value = "detail")
+	public String detail(HttpServletRequest request) {
+		// TODO
+		SessionUser user = uamSessionService.getSessionUser();
+		String userOrgId = user.getServiceDepId();
+
+		request.setAttribute("queryOrg", userOrgId);
+		return "eval/evalDetail";
+	}
+	
+	
 }

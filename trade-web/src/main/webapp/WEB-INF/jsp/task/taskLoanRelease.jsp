@@ -13,8 +13,6 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
 <!-- 上传相关 -->
 <link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />" rel="stylesheet">
 <link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />" rel="stylesheet">
@@ -35,6 +33,7 @@
 <link href="<c:url value='/css/style.css' />" rel="stylesheet">
 <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 <link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/js/viewer/viewer.min.css' />" />
 <!-- 新调整页面样式 -->
 <link href="<c:url value='/css/common/caseDetail.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
@@ -42,8 +41,6 @@
 <link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
-
-<link rel="stylesheet" href="<c:url value='/js/viewer/viewer.min.css' />" />
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -96,6 +93,7 @@
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="pkid" name="pkid" value="${loanRelease.pkid}">
 					
+					<!-- 天津需求将此输入框去掉
 					<c:if test="${tz}">
 					<div class="marinfo">
                     <div class="line">
@@ -111,19 +109,30 @@
                     </div>
                 </div>
 					</c:if>
-					
+					 -->
+					 
                 <div class="marinfo">
                     <div class="line">
                         <div class="form_content" id="data_1_forBank">
                             <label class="control-label sign_left select_style mend_select">
-                                	银行真实放款时间<font color=" red" class="mr5" >*</font>
-                            </label>
+                                	放款时间<font color=" red" class="mr5" >*</font>
+                            </label><!-- 在谷歌浏览器中可能出现日期选择插件无法显示的问题，但是火狐和360浏览器都正常显示，可能是不兼容或者浏览器设置导致的问题 -->
                             <div class="input-group sign-right dataleft input-daterange pull-left date" data-date-format="yyyy-mm-dd">
                                 <input type="text" class="input_type yuanwid datatime" id="lendDate" name="lendDate" onfocus="this.blur()"
 								value="<fmt:formatDate  value='${loanRelease.lendDate}' type='both' pattern='yyyy-MM-dd'/>" >
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- 天津需求添加	"备注"	输入框-->
+	                <div class="line">
+						<div class="form_content">
+							<label class="control-label sign_left select_style mend_select">备注</label> 
+							<input class="input_type optionwid" id="remark"
+								name="remark" placeholder="" value="${loanRelease.remark}">
+						</div>
+					</div>
+						
                 </div>
                 </form>
             </div>
@@ -133,6 +142,32 @@
 		<div id="aboutInfo">
 		<!-- 案件跟进 -->
         <div class="view-content" id="caseCommentList"> </div>
+        
+        
+        
+       
+       
+        <!-- 天津地区添加了上传附件 -->
+        <div class="mt30 clearfix" id="aboutInfo">
+			<c:choose>
+				<c:when test="${accesoryList!=null}">
+					<h2 class="newtitle title-mark">上传备件</h2>
+					<div class="ibox-content" style="height: 410px; overflow-y: scroll;">
+						<div class="table-box" id="loanRelease"></div>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<h5>
+						上传备件<br>无需上传备件
+					</h5>
+				</c:otherwise>
+			</c:choose>
+		</div>
+		
+		
+        
+        
+        
 
         <div class="form-btn">
             <div class="text-center">
@@ -194,6 +229,9 @@
     
     <!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
+	<script src="<c:url value='/js/common/common.js' />"></script>
+	<!--公共信息-->
+	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 	<script>
 	var source = "${source}";
 	function readOnlyForm(){
@@ -228,14 +266,14 @@
 		}
 		
 		if(source != "caseDetails"){
-			$('#data_1 .input-group.date').datepicker({
+			$('.input-group.date').datepicker({
 				todayBtn : "linked",
 				keyboardNavigation : false,
 				forceParse : false,		
 				autoclose : true			
 			});
 			
-			$('#data_1_forBank .input-group.date').datepicker({
+			$('#.input-group.date').datepicker({
 				todayBtn : "linked",
 				keyboardNavigation : false,
 				forceParse : false,		
@@ -252,9 +290,15 @@
 		
 		/**提交数据*/
 		function submit() {
+			var isCompletedUpload = fileUpload.isCompletedUpload();
+
+			if(!isCompletedUpload){
+				window.wxc.alert("附件还未全部上传!");
+				return false;
+			}
 			if(checkAttachment()) {
 				save(true);
-			}
+			} 
 		}
 		
 		/**保存数据*/
@@ -262,17 +306,14 @@
 				if(!checkForm()) {
 					return;
 				}
-
 				window.wxc.confirm("请确认银行是否已真实放款",{"wxcOk":function(){
 					var jsonData = $("#loanReleaseForm").serializeArray();
-					deleteAndModify();
-					
 					var url = "${ctx}/task/mortgage/saveMortgage";
 					if(b) {
 						url = "${ctx}/task/mortgage/submitLoanRelease";
 					}
 					
-					$.ajax({
+					 $.ajax({
 						cache : true,
 						async : false,//false同步，true异步
 						type : "POST",
@@ -325,26 +366,26 @@
 		//验证控件checkUI();
 		function checkForm() {
 			$("input").css("border-color","#ccc");
-			
-			if(tz && $('input[name=tazhengArrDate]').val()=='' && isSelfCom=='1') {
-				window.wxc.alert("他证送抵时间为必填项!");
-                $('input[name=tazhengArrDate]').focus();
-                $('input[name=tazhengArrDate]').css("border-color","red");
-                return false;
-           }
-			
 			if($('input[name=lendDate]').val()=='') {
 				window.wxc.alert("银行真实放款时间为必填项!");
                 $('input[name=lendDate]').focus();
                 $('input[name=lendDate]').css("border-color","red");
                 return false;
-           }
-			/* if($('input[name=commet]').val()=='') {
-                alert("备注为必填项!");
-                $('input[name=commet]').focus();
-                return false;
-           } */
+            }
 			return true;
+		}
+		
+		function checkAttachment() {
+			var b = false;
+			$.each($("#loanRelease ul"), function(index, value){
+				var length = $(this).find("li").length;
+				if(length == 0) {
+					window.wxc.alert("请上传备件！");
+				} else {
+					b = true;
+				}
+			});
+			return b;
 		}
 		
 		$("input[type='text']").focus(function(){
@@ -357,8 +398,23 @@
 			$('.wrapper-content').viewer();
 		}
 	</script> 
-	<script src="<c:url value='/js/common/common.js' />"></script>
 	</content>
+<content tag="local_require">
+	<script>
+		var fileUpload;
+		require(['main'], function() {
+			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+				fileUpload = aistFileUpload;
+				fileUpload.init({
+					caseCode : $('#caseCode').val(),
+					partCode : "LoanRelease",//这里需要填写正确的partCODE，本处应为FangKuan，如果没有，需要注意T_TO_ACCESORY_LIST表中是否有此数据
+					fileUploadContainer : "loanRelease",
+					isAllUpdateY:false
+				});
+			});
+		});
+	</script>
+</content>
 </body>
 
 

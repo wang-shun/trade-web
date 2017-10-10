@@ -33,6 +33,9 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	@Value("${process.df.key.spv_out}")
 	private String spvOut;
 
+	@Value("${process.df.key.Ransom_Process}")
+	private String processRansomKey;
+	
 	@Value("${process.df.key.operation_process}")
 	private String processOperationDfKey;
 	@Value("${process.def.vals.operation_process}")
@@ -75,9 +78,9 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	
 	@Value("${process.df.key.SatisProcess}")
 	private String satisProcessDfKey;
-	
-	@Value("${process.df.key.ransom_process}")
-	private String RansomProcessDfKey;
+
+	@Value("${process.df.key.ransom_suspend}")
+	private String RansomSuspendProcessDfKey;
 
 	public String getSpvCashflowInProcess() {
 		return spvCashflowInProcess;
