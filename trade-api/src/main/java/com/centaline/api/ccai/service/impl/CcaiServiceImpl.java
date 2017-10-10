@@ -342,14 +342,20 @@ public class CcaiServiceImpl implements CcaiService {
 	 */
 	private void addAssistant(String caseCode,CaseImport acase){
 		CaseParticipantImport owner = null;
+		boolean hasAssistant = false;//导入信息是否包含权证秘书
 		for (CaseParticipantImport pa : acase.getParticipants()) {
+
 			if (owner == null && CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
 				owner = pa;
 			} else if (CaseParticipantEnum.LOAN.getCode().equals(pa.getPosition())) {
 				owner = pa;
-				break;
+			} else if(CaseParticipantEnum.ASSISTANT.getCode().equals(pa.getPosition())){
+				hasAssistant = true;
 			}
 		}
+		//导入信息包含权证秘书 则不进行添加
+		if(hasAssistant) return;
+		//自动添加内勤助理
 		Org org = uamUserOrgService.getOrgByCode(owner.getGrpCode());
 		List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),TradeJobCodeEnum.ASSISTANT.getCode());
 		if(users!=null && users.size()>0){
