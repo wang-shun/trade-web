@@ -28,10 +28,10 @@ public interface ToEvaCommissionChangeService {
 
     int updateByPrimaryKey(ToEvaCommissionChange record);
     
-    int deleteByCaseCode(String caseCode);
+//    int deleteByCaseCode(String caseCode);
     
-    int updateByCaseCodeSelective(ToEvaCommissionChange record);
-    
-    ToEvaCommissionChange selectByCaseCode(String caseCode);
+//    int updateByCaseCodeSelective(ToEvaCommissionChange record);
+//    
+//    ToEvaCommissionChange selectByCaseCode(String caseCode);
     
 }
