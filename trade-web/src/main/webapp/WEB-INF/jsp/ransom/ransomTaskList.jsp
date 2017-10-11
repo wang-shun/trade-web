@@ -136,7 +136,7 @@ text-decoration: underline !important;
 					<div class="form_content">
 					      <select id="inTextType"   class="form-control select_control sign_left"  onchange="intextTypeChange()">
 							<option value="1" selected>产权地址</option>
-							<option value="0" >借款人</option>
+							<option value="0" >主贷人</option>
 							<!-- <option value="2">经纪人姓名</option> -->
 							<!-- <option value="3">所属分行</option> -->
 							<option value="4">赎楼单编号</option>
@@ -184,7 +184,7 @@ text-decoration: underline !important;
 					<th >流程环节</th>
 					<th >产证地址</th>
 					<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc" onclick="createTimeSort();" >创建时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
-					<th >借款人</th>
+					<th >主贷人</th>
 					<th >操作</th>
 				</tr>
 			</thead>
@@ -234,6 +234,7 @@ text-decoration: underline !important;
 		{{else}}
 			<tr class="tr-2">
 		{{/if}}
+
 			{{if item.DATELAMP < lamp1|| item.DATELAMP==null}}
 				<td></td>
 			{{else if item.DATELAMP < lamp2}}
@@ -325,25 +326,12 @@ text-decoration: underline !important;
 			<td>
 				<p>
                 	<i class="sign_blue">
-						<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >
-							{{if item.NAME == "RANSOMDEAL"}}
-		 						受理
-							{{/if}}
-							{{if item.NAME == "RANSOMLOADING"}}
-		 						在途
-							{{/if}}
-							{{if item.NAME == "RANSOMCENCLE"}}
-		 						中止
-							{{/if}}
-							{{if item.NAME == "RANSOMEND"}}
-		 						结束
-							{{/if}}
-						</a>									
+						<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>									
 					</i>
 				</p>
-				<!--<p>
+				<p>
                 	{{item.WFE_NAME}}
-                </p>  -->              
+                </p>                
 			</td>
 
 			<td class="t-left">
@@ -365,7 +353,7 @@ text-decoration: underline !important;
                 	</p>
 				{{/if}}
 
-					<!--{{if item.EST_PART_TIME!=null}}
+					{{if item.EST_PART_TIME!=null}}
 						<p>  
                         	<i class="sign_normal">预</i>
                         	{{item.EST_PART_TIME}}          
@@ -375,15 +363,29 @@ text-decoration: underline !important;
                         	<i class="sign_grey">预</i>
                         	{{item.EST_PART_TIME}}          
                     	</p>
-					{{/if}}-->
+					{{/if}}
 			</td>
 
 			<td class="center">
             	<p>
-					{{ if item.BORROWER_NAME != null && item.BORROWER_NAME != "" }}
-						{{item.BORROWER_NAME}}
+					{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
+						{{if item.SELLER.split("/").length-1 >1}}
+							{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+							{{
+								(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
+							}}</br>...
+						{{else}}
+							{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+							{{
+								(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
+							}}</br>
+						{{/if}}
 					{{else}}
-						无借款人
+						{{ if item.SELLER.length>5}}
+							{{item.SELLER.substring(0,5)}}...
+						{{else}}
+							{{item.SELLER}}
+						{{/if}}
 					{{/if}}
 				</p>
 			</td>

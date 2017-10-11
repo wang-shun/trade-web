@@ -31,6 +31,7 @@ public class CcaiCaseApiServiceImpl extends ApiService implements CaseApiService
 		if(serviceIsEnable()){
 			return toCcaiGetInfo(ccaiCode);
 		}else{
+			System.out.println("service is not enable");
 			//生成模拟数据 防止报错
 			return demoApiCaseInfo();
 		}

@@ -394,5 +394,6 @@ import com.centaline.trans.ransom.service.RansomService;
 			ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode);
 			request.setAttribute("detailVo", detailVo);
 		}
+
 	}
 
