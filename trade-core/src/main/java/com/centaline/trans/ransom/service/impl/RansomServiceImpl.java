@@ -48,9 +48,15 @@ public class RansomServiceImpl implements RansomService{
 	
 	@Override
 	public ToRansomDetailVo getRansomDetail(String caseCode) {
-		ToRansomDetailVo detailVo = new ToRansomDetailVo();
-		detailVo = ransomMapper.getRansomDetailInfoByCode(caseCode);
+		ToRansomDetailVo detailVo = ransomMapper.getRansomDetailInfoByCode(caseCode);
 		if(detailVo != null){
+			User financ = uamUserOrgService.getUserById(detailVo.getFinancial());
+			if(financ !=null){
+				detailVo.setFinancial(financ.getRealName());
+				detailVo.setFinancialTel(financ.getMobile());
+			}else{
+				detailVo.setFinancial(null);
+			}
 			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
 			detailVo.setLeadingProcessName(user.getRealName()); //经办人
 		}

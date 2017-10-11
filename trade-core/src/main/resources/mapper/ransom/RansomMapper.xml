@@ -35,8 +35,7 @@
 		SELECT
 			ra.RANSOM_CODE ransomCode,
 			ra.CASE_CODE caseCode,
-			part.REAL_NAME financial,
-			part.MOBILE financialTel,
+			ra.CREATE_USER financial,
 			ra.BORRO_MONEY borrowMoney,
 			ra.BORROWER_NAME borrowName,
 			ra.BORROWER_TEL borrowTel,
@@ -65,11 +64,11 @@
 			<!-- LEFT JOIN sctrans.T_RA_TAILINS tai ON ra.RANSOM_CODE = tai.RANSOM_CODE -->
 			LEFT JOIN sctrans.T_RA_INTERVIEW vie ON ra.RANSOM_CODE = vie.RANSOM_CODE
 			LEFT JOIN sctrans.T_RA_APPLY app ON ra.RANSOM_CODE = app.RANSOM_CODE
-			INNER JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
+			<!-- INNER JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE -->
 		WHERE 
 			ra.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-			AND part.POSITION = 'financial' <!-- 金融权证 -->
-			AND part.AVAILABLE = 'Y'
+			<!-- AND part.POSITION = 'financial' 金融权证
+			AND part.AVAILABLE = 'Y' -->
 	</select>
 
 

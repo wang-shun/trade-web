@@ -42,23 +42,6 @@
 <script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 <script type="text/javascript">
-	var coworkService = "${firstFollow.coworkService }";
-	var teamProperty = "${teamProperty}";
-	var caseProperty = "${firstFollow.caseProperty}";
-	var cooperationUser = "${firstFollow.cooperationUser}";
-	/**记录附件div变化，%2=0时执行自动上传并清零*/
-	var index=0;
-	var taskitem = "${taskitem}";
-
-	var processInstanceId = "${processInstanceId}";
-	var approveType = "${approveType }";
-	if("${idList}" != "") {
-		var idList = eval("("+"${idList}"+")");
-	} else {
-		var idList = [];
-	}
-</script>
-<script type="text/javascript">
 var AttachmentList = (function(){    
     return {    
        init : function(ctx,url,gridTableId,gridPagerId,ctmCode,caseCode){    
@@ -251,10 +234,7 @@ function checkForm() {
 		$("#distCode").focus();
 		$("#distCode").css("border-color","red");
 		return false;
-	}
-	
-	
-	
+	}	
 		return true;
 	}
 
@@ -279,10 +259,10 @@ function checkForm() {
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
-		<div class="row wrapper white-bg new-heading" id="serviceFlow">
+		<div class="wrapper white-bg new-heading" id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
-                        	接单跟进
+                        	开票申请
                  </h2>
                 <div class="mt20">
                     <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
@@ -296,7 +276,25 @@ function checkForm() {
         </div>
 
         <div class="ibox-content border-bottom clearfix space_box noborder marginbot">
-            <h2 class="newtitle title-mark">开票信息</h2>
+        <h2 class="newtitle title-mark">评估单编号</h2>
+        	<div style="padding-left: 10px">
+        		<table  width="100%">
+        			<tr style="height: 40px;">
+        				<td> <label class="control-label sign_left_small">产证地址：</label></td><td></td>
+        				<td><label class="control-label sign_left_small">评估公司：</label></td><td></td>
+        				<td><label class="control-label sign_left_small">评估值：</label></td><td></td>
+        				<td><label class="control-label sign_left_small">评估费实收金额：</label></td><td></td>        				
+        			</tr>
+        			<tr style="height: 40px;">
+        				<td><label class="control-label sign_left_small">买方：</label></td><td></td>
+        				<td><label class="control-label sign_left_small">贷款权证：</label></td><td></td>
+        				<td><label class="control-label sign_left_small">经纪人：</label></td><td></td>
+        				<td><label class="control-label sign_left_small"></label></td><td></td>        				
+        			</tr>
+        		</table>
+        	</div>
+        
+            <h2 class="newtitle title-mark">业务部申请的开票信息</h2>
             	<form method="get" class="form_list" id="firstFollowform" style="overflow: visible;">
             		<input type="hidden" id="ctx" value="${ctx }" />
             	
@@ -306,30 +304,20 @@ function checkForm() {
 					<input type="hidden" id="caseCode" name="caseCode" value="${caseRecvVO.caseCode}">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					<%-- 原有数据对应id --%>
-					<input type="hidden" id="caseId" name="caseId" value="${firstFollow.caseId }">
-					<input type="hidden" id="tTLId" name="tTLId" value="${firstFollow.tTLId }">
-					<input type="hidden" id="signId" name="signId" value="${firstFollow.signId}">
-					<input type="hidden" id="propertyInfoId" name="propertyInfoId" value="${firstFollow.propertyInfoId}">
+					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">				
 					<%-- 设置审批类型 --%>
 					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
-					<input type="hidden" id="operator" name="operator" value="${operator }">
-					<%-- T_TO_FIRST_FOLLOW 表  --%>
-					<input type="hidden" id="firstfollowId" name="firstfollowId" value="${firstFollow.firstfollowId}" />
-					<%--自办服务 --%>
-					<input type="hidden" id="zbkServices" name="zbkServices" value="3000401001" />
-	            
+					<input type="hidden" id="operator" name="operator" value="${operator }">	            
 		            <div class="marinfo">
 		                <div class="line">		                 
 		                    <div class="form_content">
-		                        <label class="control-label sign_left_small">评估公司：</label>
+		                        <label class="control-label sign_left_small">发票类型：</label>
 		                        <input type="text" class="input_type yuanwid" id="realPrice" name="realPrice" onkeyup="checkNum(this)"
 										value=""> 
 		                    </div>
 		                    
 		                    <div class="form_content">
-		                        <label class="control-label sign_left_small">申请日期：</label> 
+		                        <label class="control-label sign_left_small">开票抬头：</label> 
 		                        <input type="text" class="input_type yuanwid" id="conPrice" name="conPrice" onkeyup="checkNum(this)"
 										value="">
 		                    </div>	
@@ -344,66 +332,57 @@ function checkForm() {
 		                
 		                <div class="line">		                 
 		                    <div class="form_content">
-		                        <label class="control-label sign_left_small">发票种类：</label>
+		                        <label class="control-label sign_left_small">开票地址：</label>
 		                        <input type="text"  class="input_type yuanwid" id="realPrice" name="realPrice" onkeyup="checkNum(this)"
 										value="<fmt:formatNumber value='${caseRecvVO.toSign.realPrice}' type='number' pattern='#0.00'/>"> 
 		                    </div>
 		                    
 		                    <div class="form_content">
-		                        <label class="control-label sign_left_small">开票抬头：</label> 
+		                        <label class="control-label sign_left_small">税号：</label> 
 		                        <input type="text"  class="input_type yuanwid" id="conPrice" name="conPrice" onkeyup="checkNum(this)"
 										value="<fmt:formatNumber value='${caseRecvVO.toSign.conPrice}' type='number' pattern='#0.00'/>">
 		                    </div>			                  	                     
 		                </div>
-
-
 					<hr>
-					
-
-		                
-		          
-
 				</div>
-              
-
-	                
 	                <!-- <div class="line clearfix" id="hzxm" style="overflow:visible;"></div> -->
-            	</form>
             	
-
-
+            	
+            <h2 class="newtitle title-mark">填写开票任务信息</h2>
+        	<div style="padding-left: 10px">
+        		<div class="line">		                 
+		                    
+		                    <div class="form_content mt3">
+		                        <label class="control-label sign_left_small select_style mend_select">
+		                           	<font color=" red" class="mr5" >*</font>申请日期：
+		                        </label>
+		                        <div class="input-group sign-right dataleft input-daterange pull-left" id="estFinishTime" data-date-format="yyyy-mm-dd">
+		                        	<input type="text" class="input_type yuanwid datatime" id="invoiceApplyTime" name="invoiceApplyTime" onfocus="this.blur()"
+												value="<fmt:formatDate  value='${firstFollow}' type='both' pattern='yyyy-MM-dd'/>">
+		                        </div> 
+		                    </div>
+		                    
+		                    <div class="form_content mt3">
+		                        <label class="control-label sign_left_small select_style mend_select">
+		                           	<font color=" red" class="mr5" >*</font>预计开票完成时间：
+		                        </label>
+		                        <div class="input-group sign-right dataleft input-daterange pull-left" id="estFinishTime" data-date-format="yyyy-mm-dd">
+		                        	<input type="text" class="input_type yuanwid datatime" id="invoiceFinishTime" name="invoiceFinishTime" onfocus="this.blur()"
+												value="<fmt:formatDate  value='${firstFollow}' type='both' pattern='yyyy-MM-dd'/>">
+		                        </div> 
+		                    </div>		                  	                     
+		                </div>
+        	</div>
+        		</form>
+        	<hr>
+        	
 	            <div class="title title-mark" id="aboutInfo">
 	               <strong style="font-weight:bold;">开票审批记录</strong>
-	            </div>
-	            
+	            </div>	            
 	            <div class="view-content">
 	              	<table id="gridTable" class=""></table>
 	   				<div id="gridPager"></div>
-	            </div>
-	            <br><hr>
-	            <div class="line">	
-		            <div class="title title-mark" id="aboutInfo">
-		               <strong style="font-weight:bold;">填写审批任务</strong>
-		            </div>
-	            </div>
-	            <form method="get" class="form_list" id="firstFollowform" style="overflow: visible;">
-	            <div class="line">		                 
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批结果：</label>
-		                        <input type="radio" name="name" value="1"><span>通过</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-    							<input type="radio" name="name" value="2"><span>驳回</span>
-		                    </div>
-			                  	                     
-		                </div>
-		        
-		        <div class="line">		                 		                    
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批意见：</label> 
-		                        <input type="text"  class="input_type mendwidth" id="conPrice" name="conPrice" 
-										value="" maxlength="64">
-		                    </div>			                  	                     
-		                </div>        	          	            
-			</form>
+	            </div>	            
 	            <div class="form-btn">
 	                    <div class="text-center">
 	                        <button  class="btn btn-success btn-space" onclick="javascript:window.close()" id="btnSave">关闭</button>
@@ -476,6 +455,24 @@ function checkForm() {
 		                    $("#divContent").css("display","none");
 		                }
 		            });
+		            
+					//日期组件
+			        $('#invoiceApplyTime').datepicker({
+			            todayBtn: "linked",
+			            keyboardNavigation: false,
+			            forceParse: false,
+			            calendarWeeks: false,
+			            autoclose: true
+			        });
+					
+			      //日期组件
+			        $('#invoiceFinishTime').datepicker({
+			            todayBtn: "linked",
+			            keyboardNavigation: false,
+			            forceParse: false,
+			            calendarWeeks: false,
+			            autoclose: true
+			        });
 		            
 					})//end ready function
 					

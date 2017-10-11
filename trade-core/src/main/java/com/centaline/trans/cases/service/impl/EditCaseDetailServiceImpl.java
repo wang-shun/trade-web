@@ -234,15 +234,15 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         ToHouseTransfer toHouseTransfer = toHouseTransferMapper.findToGuoHuByCaseCode(caseCode);
         editCaseDetailVO.setGhid(toHouseTransfer.getPkid());
         editCaseDetailVO.setRealHtTime(toHouseTransfer.getRealHtTime());
-        editCaseDetailVO.setHouseHodingTax(toHouseTransfer.getHouseHodingTax() != null ? toHouseTransfer.getHouseHodingTax().divide(new BigDecimal(10000)) : null);
+        editCaseDetailVO.setHouseHodingTax(toHouseTransfer.getHouseHodingTax() != null ? toHouseTransfer.getHouseHodingTax() : null);
         ToRatePayment toRatePayment = toRatePaymentService.qureyToRatePayment(caseCode);
         if(toRatePayment != null) {
 	        editCaseDetailVO.setRpid(toRatePayment.getPkid());
 	        editCaseDetailVO.setPaymentTime(toRatePayment.getPaymentTime() != null ? toRatePayment.getPaymentTime() : null);
-	        editCaseDetailVO.setPersonalIncomeTax(toRatePayment.getPersonalIncomeTax() != null ? toRatePayment.getPersonalIncomeTax().divide(new BigDecimal(10000)) : null);
-	        editCaseDetailVO.setBusinessTax(toRatePayment.getBusinessTax() != null ? toRatePayment.getBusinessTax().divide(new BigDecimal(10000)) : null);
-	        editCaseDetailVO.setContractTax(toRatePayment.getContractTax() != null ? toRatePayment.getContractTax().divide(new BigDecimal(10000)) : null);
-	        editCaseDetailVO.setLandIncrementTax(toRatePayment.getLandIncrementTax() != null ? toRatePayment.getLandIncrementTax().divide(new BigDecimal(10000)) : null);
+	        editCaseDetailVO.setPersonalIncomeTax(toRatePayment.getPersonalIncomeTax() != null ? toRatePayment.getPersonalIncomeTax() : null);
+	        editCaseDetailVO.setBusinessTax(toRatePayment.getBusinessTax() != null ? toRatePayment.getBusinessTax() : null);
+	        editCaseDetailVO.setContractTax(toRatePayment.getContractTax() != null ? toRatePayment.getContractTax() : null);
+	        editCaseDetailVO.setLandIncrementTax(toRatePayment.getLandIncrementTax() != null ? toRatePayment.getLandIncrementTax() : null);
         }
         
         /* 审税 */

@@ -12,6 +12,7 @@ public class MQCaseMessage  implements Serializable {
 
 	public static final String STARTFLOW_TYPE = "START";
 	public static final String UPDATEFLOW_TYPE = "UPDATE";
+	public static final String REPEAL_TYPE = "REPEAL";
 
 	private String caseCode;
 	private String type;

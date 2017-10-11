@@ -60,27 +60,15 @@ public class ToEvaCommissionChangeServiceImpl implements ToEvaCommissionChangeSe
 		return updateByPrimaryKey;
 	}
 
-	@Override
-	public int deleteByCaseCode(String caseCode) {
-		// TODO Auto-generated method stub
-		int deleteByCaseCode = toEvaCommissionChangeMapper.deleteByCaseCode(caseCode);
-		return deleteByCaseCode;
-	}
+//	@Override
+//	public int deleteByCaseCode(String caseCode) {
+//		// TODO Auto-generated method stub
+//		int deleteByCaseCode = toEvaCommissionChangeMapper.deleteByCaseCode(caseCode);
+//		return deleteByCaseCode;
+//	}
 
 
-	@Override
-	public int updateByCaseCodeSelective(ToEvaCommissionChange record) {
-		// TODO Auto-generated method stub
-		int updateByCaseCodeSelective = toEvaCommissionChangeMapper.updateByCaseCodeSelective(record);
-		return updateByCaseCodeSelective;
-	}
 
-	@Override
-	public ToEvaCommissionChange selectByCaseCode(String caseCode) {
-		// TODO Auto-generated method stub
-		ToEvaCommissionChange selectByCaseCode = toEvaCommissionChangeMapper.selectByCaseCode(caseCode);
-		return selectByCaseCode;
-	}
 	
 	
 

@@ -2,35 +2,28 @@ package com.centaline.trans.eval.entity;
 
 import java.math.BigDecimal;
 
-/**
- * @author xiefei1
- * @since 2017年9月22日 下午2:57:02 
- * @description 评估公司变更
- */
 public class ToEvaCommissionChange {
     private Long pkid;
 
     private String caseCode;
 
     private String evaCode;
-//    调佣事项
+
     private String changeChargesItem;
-//    调佣事由
+
     private String changeChargesCause;
-    //中介费折评估费总金额
+
     private BigDecimal agEvalAmount;
-//    调佣对象
-    private String changeChargesTargat;
-//    调佣金额
-    private BigDecimal changeChargesAmount;
 
     private String status;
 
     private String evaProcessId;
-//    预留字段
+
     private String type;
-//    调佣类型
+
     private String changeChargesType;
+
+    private BigDecimal commisionTtlAmount;
 
     public Long getPkid() {
         return pkid;
@@ -80,22 +73,6 @@ public class ToEvaCommissionChange {
         this.agEvalAmount = agEvalAmount;
     }
 
-    public String getChangeChargesTargat() {
-        return changeChargesTargat;
-    }
-
-    public void setChangeChargesTargat(String changeChargesTargat) {
-        this.changeChargesTargat = changeChargesTargat == null ? null : changeChargesTargat.trim();
-    }
-
-    public BigDecimal getChangeChargesAmount() {
-        return changeChargesAmount;
-    }
-
-    public void setChangeChargesAmount(BigDecimal changeChargesAmount) {
-        this.changeChargesAmount = changeChargesAmount;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -126,5 +103,13 @@ public class ToEvaCommissionChange {
 
     public void setChangeChargesType(String changeChargesType) {
         this.changeChargesType = changeChargesType == null ? null : changeChargesType.trim();
+    }
+
+    public BigDecimal getCommisionTtlAmount() {
+        return commisionTtlAmount;
+    }
+
+    public void setCommisionTtlAmount(BigDecimal commisionTtlAmount) {
+        this.commisionTtlAmount = commisionTtlAmount;
     }
 }
