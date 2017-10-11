@@ -1,7 +1,8 @@
 package com.centaline.trans.eval.repository;
 
+import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eval.entity.ToEvaCommPersonAmount;
-
+@MyBatisRepository
 public interface ToEvaCommPersonAmountMapper {
     int deleteByPrimaryKey(Long pkid);
 

@@ -197,7 +197,7 @@ text-decoration: underline !important;
 				<div class="form_content">
 						<div id="dateDiv_0" >
 							<div id="select_div_0" class="sign_left">
-								<aist:dict id="case_date_0" name="case_date" clazz="form-control" display="select" defaultvalue="30005001" dictType="30005" />
+								<aist:dict id="case_date_0" name="case_date" clazz="form-control" display="select" defaultvalue="30007001" dictType="30007" />
 							</div>
 							<div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
 								<input id="dtBegin_0" name="dtBegin" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
@@ -229,12 +229,12 @@ text-decoration: underline !important;
 					<div class="more_btn">
 						<button id="more" type="button" class="btn  btn-default btn_more">更多搜索条件<i class="fa fa-caret-up"></i> </button>
 						<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
-						<button id="addNewCase"  type="button" class="btn btn-success">新增案件</button>				
-						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE">
-							<button id="addNewWdCase"  type="button" class="btn btn-info mr5 btn-icon">新增外单</button> 
-						</shiro:hasPermission>
+						<!-- <button id="addNewCase"  type="button" class="btn btn-success">新增案件</button> -->									
+						<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
 						
-							<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
+						<div id="exportExcel">   
+							<a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:showExcelIn()">案件导出</a>							
+						</div>
 					</div>
 				</div>
 			</div>
@@ -269,6 +269,70 @@ text-decoration: underline !important;
 				<div id="pageBar" class="pagergoto">
 				</div>  
 		    </div> 	
+	</div>
+	
+	<div id="modal-form" class="modal fade" aria-hidden="true">
+		<div class="modal-dialog" style="width: 1200px">
+			<div class="modal-content ">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="leading-modal-title">请选择导出项</h4>
+				</div>
+				<div class="modal-body ">
+					<form class="form-horizontal">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">案件基本信息</label>
+							<div class="col-sm-9 checkbox i-checks checkbox-inline">
+								<aist:dict id="basic_info_item" name="basic_info_item"
+									display="checkbox" clazz="excel_in" defaultvalue=""
+									dictType="30010" />
+							</div>
+						</div>
+
+						<div class="hr-line-dashed"></div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">贷款服务信息</label>
+							<div class="col-sm-9 checkbox i-checks checkbox-inline">
+								<aist:dict id="mortage_info_item" name="mortage_info_item"
+									display="checkbox" clazz="excel_in"
+									defaultvalue="30010006,30010007" dictType="30011" />
+							</div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">交易服务信息</label>
+							<div class="checkbox i-checks checkbox-inline">
+								<aist:dict id="trade_info_item" name="trade_info_item"
+									display="checkbox" clazz="excel_in" defaultvalue=""
+									dictType="30012" />
+							</div>
+						</div>
+						<div class="hr-line-dashed"></div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">资金监管信息</label>
+							<div class="checkbox i-checks checkbox-inline">
+								<aist:dict id="fund_info_item" name="fund_info_item"
+									display="checkbox" clazz="excel_in" defaultvalue=""
+									dictType="30013" />
+							</div>
+						</div>
+						<div class="hr-line-dashed"></div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="checkAll" type="button" class="btn btn-default"
+						onclick="javascript:checkAllItem()">全选</button>
+					<button id="unCheckAll" type="button" class="btn btn-default"
+						onclick="javascript:unCheckAllItem()">全不选</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary"
+						onclick="javascript:exportToExcel()">导出至Excel</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 		

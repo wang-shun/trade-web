@@ -65,6 +65,24 @@ public class EvalInvoiceController {
 		return "eval/invoiceAudit";
 	}
 	
+	@RequestMapping(value = "invoiceApply")
+	public String toInvoiceApply(HttpServletRequest request,Model model,String caseCode) {
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		model.addAttribute("caseCode", caseCode);
+		return "eval/invoiceApply";
+	}
+	
+	@RequestMapping(value = "issueInvoice")
+	public String toIssueInvoice(HttpServletRequest request,Model model,String caseCode) {
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		model.addAttribute("caseCode", caseCode);
+		return "eval/issueInvoice";
+	}
+	
 	@RequestMapping(value = "save")
 	@ResponseBody
 	public HashMap<String, Object> saveEval(HttpServletRequest request,ToEvaCommissionChange toEvaCommissionChange) {

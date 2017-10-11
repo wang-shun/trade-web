@@ -1,4 +1,3 @@
-
 package com.centaline.trans.ransom.web;
 
 import java.util.ArrayList;
@@ -396,3 +395,5 @@ import com.centaline.trans.ransom.service.RansomService;
 			request.setAttribute("detailVo", detailVo);
 		}
 	}
+
+>>>>>>> branch 'develop' of http://gitlab.centaline.com.cn/centaline-trade/trade-web.git
