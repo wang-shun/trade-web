@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.ServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,9 +36,6 @@ import com.centaline.trans.ransom.service.RansomService;
 	@Controller
 	@RequestMapping(value = "task/ransom")
 	public class RansomController {
-		
-		@Value("${process.df.key.ransom_process}")
-		private String PROCESS_DEFINITION_ID;
 		
 		@Autowired(required=true)
 		private RansomService ransomService;
@@ -73,7 +69,7 @@ import com.centaline.trans.ransom.service.RansomService;
 			request.setAttribute("Lamp1", lamps[0]);
 			request.setAttribute("Lamp2", lamps[1]);
 			request.setAttribute("Lamp3", lamps[2]);
-			request.setAttribute("PROCESS_DEFINITION_ID", PROCESS_DEFINITION_ID);
+			request.setAttribute("PROCESS_DEFINITION_ID", propertyUtilsService.getProcessDfId("ransom_process"));
 			return "ransom/ransomTaskList";
 		}
 		
