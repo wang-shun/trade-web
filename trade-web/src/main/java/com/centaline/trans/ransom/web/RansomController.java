@@ -396,4 +396,4 @@ import com.centaline.trans.ransom.service.RansomService;
 		}
 	}
 
->>>>>>> branch 'develop' of http://gitlab.centaline.com.cn/centaline-trade/trade-web.git
+
