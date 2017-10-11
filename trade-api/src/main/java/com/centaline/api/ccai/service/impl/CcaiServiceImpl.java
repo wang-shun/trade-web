@@ -84,13 +84,9 @@ public class CcaiServiceImpl implements CcaiService {
 		result.setSuccess(true);
 		result.setMessage("同步成功!");
 		result.setCode("00");
-		try {
-			//将案件编号 放入消息队列中
-			MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.STARTFLOW_TYPE);
-			jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//将案件编号 放入消息队列中
+		MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.STARTFLOW_TYPE);
+		jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
 
 		return result;
 	}
@@ -99,6 +95,20 @@ public class CcaiServiceImpl implements CcaiService {
 	public boolean isExistCcaiCode(String ccaiCode) {
 		int count = toCaseInfoMapper.isExistCcaiCode(ccaiCode);
 		return count > 0;
+	}
+
+	@Override
+	public CcaiServiceResult repealCase(CaseRepealImport repealInfo) {
+		//TODO 更多的业务逻辑后续根据需要添加
+		CcaiServiceResult result = new CcaiServiceResult();
+		String caseCode = toCaseInfoMapper.findcaseCodeByCcaiCode(repealInfo.getCcaiCode());
+		//将案件编号 放入消息队列中
+		MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.REPEAL_TYPE);
+		jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
+		result.setSuccess(true);
+		result.setMessage("");
+		result.setCode("00");
+		return result;
 	}
 
 	@Override
@@ -342,14 +352,20 @@ public class CcaiServiceImpl implements CcaiService {
 	 */
 	private void addAssistant(String caseCode,CaseImport acase){
 		CaseParticipantImport owner = null;
+		boolean hasAssistant = false;//导入信息是否包含权证秘书
 		for (CaseParticipantImport pa : acase.getParticipants()) {
+
 			if (owner == null && CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
 				owner = pa;
 			} else if (CaseParticipantEnum.LOAN.getCode().equals(pa.getPosition())) {
 				owner = pa;
-				break;
+			} else if(CaseParticipantEnum.ASSISTANT.getCode().equals(pa.getPosition())){
+				hasAssistant = true;
 			}
 		}
+		//导入信息包含权证秘书 则不进行添加
+		if(hasAssistant) return;
+		//自动添加内勤助理
 		Org org = uamUserOrgService.getOrgByCode(owner.getGrpCode());
 		List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),TradeJobCodeEnum.ASSISTANT.getCode());
 		if(users!=null && users.size()>0){
@@ -786,5 +802,4 @@ public class CcaiServiceImpl implements CcaiService {
 			}
 		}
 	}
-
 }

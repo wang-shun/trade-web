@@ -35,8 +35,7 @@
 		SELECT
 			ra.RANSOM_CODE ransomCode,
 			ra.CASE_CODE caseCode,
-			part.REAL_NAME financial,
-			part.MOBILE financialTel,
+			ra.CREATE_USER financial,
 			ra.BORRO_MONEY borrowMoney,
 			ra.BORROWER_NAME borrowName,
 			ra.BORROWER_TEL borrowTel,
@@ -85,6 +84,7 @@
 			INNER JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
 		WHERE 
 			ra.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+
 	</select>
 
 

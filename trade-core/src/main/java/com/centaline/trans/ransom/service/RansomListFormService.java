@@ -3,6 +3,7 @@ package com.centaline.trans.ransom.service;
 import java.util.List;
 
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
+import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 
 public interface RansomListFormService {
 	/**
@@ -27,4 +28,18 @@ public interface RansomListFormService {
 	int updateRansomDiscountinue(String caseCode);
 	
 	List getUpdateRansomInfo(String caseCode);
+	
+	/**
+	 * 修改赎楼列表信息
+	 * @param ransomCode
+	 * @return
+	 */
+	boolean updateRansomCaseInfo(ToRansomCaseVo caseVo);
+	
+	/**
+	 * 修改尾款信息
+	 * @param ransomCode
+	 * @return
+	 */
+	boolean updateRansomTailinsInfo(ToRansomTailinsVo tailinsVo);
 }

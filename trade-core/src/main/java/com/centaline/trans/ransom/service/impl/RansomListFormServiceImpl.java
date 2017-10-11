@@ -75,5 +75,17 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		}
 	}
 
+	@Override
+	public boolean updateRansomCaseInfo(ToRansomCaseVo caseVo) {
+		
+		return ransomListFormMapper.updateRansomCaseByRansomCode(caseVo);
+	}
+
+	@Override
+	public boolean updateRansomTailinsInfo(ToRansomTailinsVo tailinsVo) {
+		
+		return ransomListFormMapper.updateRansomTailinsByRansomCode(tailinsVo);
+	}
+
 	
 }
