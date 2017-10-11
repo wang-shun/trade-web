@@ -279,8 +279,9 @@
 		<mapper resource="mapper/eval/ToEvaReportProcessMapper.xml"/>
 		<!--消息队列操作 日志-->
 		<mapper resource="mapper/common/MqOpertationLogMapper.xml"/>
-		<!--交易案件启动日志-->
+		<!--评估费变更调整-->
 		<mapper resource="mapper/eval/ToEvaCommissionChangeMapper.xml"/>
+		<mapper resource="mapper/eval/ToEvaCommPersonAmountMapper.xml"/>
 		<!-- 自办评估/自办贷款申请信息新增接口 -->
 		<mapper resource="mapper/task/ToAppRecordInfoMapper.xml"/>
 		

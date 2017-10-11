@@ -530,7 +530,7 @@ function checkForm() {
     </div>
 </div>
 	<div class="">
-		<div class="row wrapper white-bg new-heading" id="serviceFlow">
+		<div class="wrapper white-bg new-heading" id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
                         	评估公司变更
@@ -538,7 +538,7 @@ function checkForm() {
              </div>
         </div>
 
-        <div class="ibox-content border-bottom clearfix space_box noborder marginbot">
+        <div class="ibox-content border-bottom clearfix space_box noborder marginbot" id="serviceFlow">
             <h2 class="newtitle title-mark">填写房产信息</h2>
 			<form method="get" class="form_list" id="evalForm"
 				style="overflow: visible;">
@@ -592,7 +592,7 @@ function checkForm() {
 						</div>
 					</div>
 
-					<div class="line">
+					<div class="line" id="aboutInfo">
 						<div class="form_content mt3">
 							<label class="control-label sign_left_small"> 调佣金额 </label> 
 								<input type="text" placeholder="成交价" class="input_type yuanwid" id="changeChargesAmount" name="changeChargesAmount" onkeyup="checkNum(this)"
