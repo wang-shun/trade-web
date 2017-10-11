@@ -677,6 +677,9 @@
     	<property name="dictType" value="RANSOM_PART_CODE"></property>
     </bean>
     
+    <!-- 赎楼红绿灯 by wbshume -->
+    <bean name="qqFindRAPlan" class="com.centaline.trans.common.service.impl.QuickQueryGetRAPlanServiceImpl" ></bean>
+    
     <!-- 赎楼——合作机构类型 -->
     <bean name="qqcdDictFinalOrg" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="FINAL_ORG"></property>
