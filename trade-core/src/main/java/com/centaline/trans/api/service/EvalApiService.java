@@ -1,6 +1,7 @@
 package com.centaline.trans.api.service;
 
 import com.centaline.trans.api.vo.ApiResultData;
+import com.centaline.trans.api.vo.CcaiAssessCompanyResultData;
 import com.centaline.trans.api.vo.CcaiEvalRebateVo;
 import com.centaline.trans.api.vo.FlowFeedBack;
 
@@ -17,6 +18,13 @@ public interface EvalApiService {
 	 * @return
 	 */
 	ApiResultData evalRebateFeedBack(FlowFeedBack result, CcaiEvalRebateVo info);
+
+	/**
+	 * 获取CCAI评估公司信息
+	 * @return
+	 */
+	CcaiAssessCompanyResultData getAllAssessCompany();
+
 	//TODO 银行返利审批 同步到CCAI 财务进行审批
 	//TODO 评估费结算/出账 待确认 同步到CCAI 还是在交易系统做
 }

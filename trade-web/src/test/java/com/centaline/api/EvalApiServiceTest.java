@@ -4,10 +4,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.api.service.CaseApiService;
 import com.centaline.trans.api.service.EvalApiService;
-import com.centaline.trans.api.vo.ApiCaseInfo;
-import com.centaline.trans.api.vo.ApiResultData;
-import com.centaline.trans.api.vo.CcaiEvalRebateVo;
-import com.centaline.trans.api.vo.FlowFeedBack;
+import com.centaline.trans.api.vo.*;
 import com.centaline.trans.common.enums.CcaiFlowResultEnum;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -32,6 +29,14 @@ public class EvalApiServiceTest extends AbstractServiceTest {
 		vo.setCode("123456");
 		ApiResultData result = evalApiService.evalRebateFeedBack(info,vo);
 		System.out.println(result);
+	}
+	@Test
+	public void getAllAssessCompany(){
+		CcaiAssessCompanyResultData result = evalApiService.getAllAssessCompany();
+		System.out.println(result);
+		for(AssessCompanyVo c : result.getAssessCompanyList()){
+			System.out.println(c);
+		}
 	}
 
 }
