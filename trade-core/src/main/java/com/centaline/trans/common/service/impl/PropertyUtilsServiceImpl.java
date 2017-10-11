@@ -33,8 +33,8 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	@Value("${process.df.key.spv_out}")
 	private String spvOut;
 
-//	@Value("${process.df.key.Ransom_Process}")
-//	private String processRansomKey;
+	@Value("${process.df.key.ransom_process}")/*by wbzhouht 解决启动报错*/
+	private String processRansomKey;
 	
 	@Value("${process.df.key.operation_process}")
 	private String processOperationDfKey;

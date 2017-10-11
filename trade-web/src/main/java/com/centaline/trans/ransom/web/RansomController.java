@@ -1,4 +1,3 @@
-
 package com.centaline.trans.ransom.web;
 
 import java.util.ArrayList;
@@ -38,8 +37,8 @@ import com.centaline.trans.ransom.service.RansomService;
 	@RequestMapping(value = "task/ransom")
 	public class RansomController {
 		
-//		@Value("${process.df.key.Ransom_Process}")
-//		private String PROCESS_DEFINITION_ID;
+		@Value("${process.df.key.ransom_process}")
+		private String PROCESS_DEFINITION_ID;
 		
 		@Autowired(required=true)
 		private RansomService ransomService;
@@ -73,7 +72,7 @@ import com.centaline.trans.ransom.service.RansomService;
 			request.setAttribute("Lamp1", lamps[0]);
 			request.setAttribute("Lamp2", lamps[1]);
 			request.setAttribute("Lamp3", lamps[2]);
-//			request.setAttribute("PROCESS_DEFINITION_ID", PROCESS_DEFINITION_ID);
+			request.setAttribute("PROCESS_DEFINITION_ID", PROCESS_DEFINITION_ID);
 			return "ransom/ransomTaskList";
 		}
 		
@@ -400,3 +399,4 @@ import com.centaline.trans.ransom.service.RansomService;
 			request.setAttribute("detailVo", detailVo);
 		}
 	}
+
