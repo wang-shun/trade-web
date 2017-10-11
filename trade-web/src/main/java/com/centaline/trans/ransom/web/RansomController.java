@@ -38,7 +38,7 @@ import com.centaline.trans.ransom.service.RansomService;
 	@RequestMapping(value = "task/ransom")
 	public class RansomController {
 		
-		@Value("${process.df.key.Ransom_Process}")
+		@Value("${process.df.key.ransom_process}")
 		private String PROCESS_DEFINITION_ID;
 		
 		@Autowired(required=true)
