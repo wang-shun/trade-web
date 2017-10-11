@@ -1,17 +1,14 @@
 package com.centaline.trans.ransom.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-
-import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.mgr.entity.TsFinOrg;
 
 /**
+ * 尾款信息
  * @author wbwumf
  *
+ *2017年10月10日
  */
-public class ToRansomFormVo {
+public class ToRansomTailinsVo {
 	
 	private Long pkid;
 	
@@ -29,11 +26,6 @@ public class ToRansomFormVo {
 	 * 尾款机构编号
 	 */
 	private String finOrgCode;
-	
-	/**
-	 * 主贷人
-	 */
-	private String borrowerName;
 
 	/**
 	 * 受理时间
@@ -63,12 +55,7 @@ public class ToRansomFormVo {
 	/**
 	 * 剩余金额
 	 */
-	private BigDecimal restMoney;
-	
-	/**
-	 * 借款总金额
-	 */
-	private double borroMoney;
+	private double restMoney;
 	
 	private Date createTime;
 	
@@ -82,7 +69,6 @@ public class ToRansomFormVo {
 	private Date updateTime;
 	
 	private String updateUser;
-	
 
 	public Long getPkid() {
 		return pkid;
@@ -156,11 +142,11 @@ public class ToRansomFormVo {
 		this.loanMoney = loanMoney;
 	}
 
-	public BigDecimal getRestMoney() {
+	public double getRestMoney() {
 		return restMoney;
 	}
 
-	public void setRestMoney(BigDecimal restMoney) {
+	public void setRestMoney(double restMoney) {
 		this.restMoney = restMoney;
 	}
 
@@ -204,30 +190,14 @@ public class ToRansomFormVo {
 		this.updateUser = updateUser;
 	}
 
-	public String getBorrowerName() {
-		return borrowerName;
-	}
-
-	public void setBorrowerName(String borrowerName) {
-		this.borrowerName = borrowerName;
-	}
-
-	public double getBorroMoney() {
-		return borroMoney;
-	}
-
-	public void setBorroMoney(double borroMoney) {
-		this.borroMoney = borroMoney;
-	}
-
 	@Override
 	public String toString() {
-		return "ToRansomFormVo [pkid=" + pkid + ", ransomCode=" + ransomCode + ", caseCode=" + caseCode
-				+ ", finOrgCode=" + finOrgCode + ", borrowerName=" + borrowerName + ", signTime=" + signTime
-				+ ", planTime=" + planTime + ", mortgageType=" + mortgageType + ", diyaType=" + diyaType
-				+ ", loanMoney=" + loanMoney + ", restMoney=" + restMoney + ", borroMoney=" + borroMoney
-				+ ", createTime=" + createTime + ", createUser=" + createUser + ", remark=" + remark + ", updateTime="
-				+ updateTime + ", updateUser=" + updateUser + "]";
+		return "AddRansomForm [pkid=" + pkid + ", ransomCode=" + ransomCode + ", caseCode=" + caseCode + ", finOrgCode="
+				+ finOrgCode + ", signTime=" + signTime + ", planTime=" + planTime + ", mortgageType=" + mortgageType
+				+ ", diyaType=" + diyaType + ", loanMoney=" + loanMoney + ", restMoney=" + restMoney + ", createTime="
+				+ createTime + ", createUser=" + createUser + ", remark=" + remark + ", updateTime=" + updateTime
+				+ ", updateUser=" + updateUser + "]";
 	}
+
 
 }

@@ -16,7 +16,15 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.ransom.entity.ToRansomApplyVo;
+import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
+import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
+import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
+import com.centaline.trans.ransom.entity.ToRansomPermitVo;
+import com.centaline.trans.ransom.entity.ToRansomPlanVo;
+import com.centaline.trans.ransom.entity.ToRansomSignVo;
+import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.service.RansomService;
 
 /**
@@ -57,21 +65,7 @@ public class RansomController {
 		return "ransom/ransomTaskList";
 	}
 	
-	/**
-	 * 赎楼详情画面 
-	 * @param ransomCode 赎楼编号
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value="ransomDetail")
-	public String ransomDetail(String ransomCode, ServletRequest request){
-		
-		ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
-		
-		request.setAttribute("detailVo", detailVo);
-
-		return "ransom/ransomDetail";
-	}
+	
 	
 	/**
 	 * 注销抵押

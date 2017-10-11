@@ -1,5 +1,7 @@
 package com.centaline.trans.ransom.service;
 
+import java.util.List;
+
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 
 public interface RansomListFormService {
@@ -23,4 +25,6 @@ public interface RansomListFormService {
 	 * @return
 	 */
 	int updateRansomDiscountinue(String caseCode);
+	
+	List getUpdateRansomInfo(String caseCode);
 }

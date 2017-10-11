@@ -1,6 +1,10 @@
 package com.centaline.trans.ransom.entity;
 
 import java.util.Date;
+import java.util.List;
+
+import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.mgr.entity.TsFinOrg;
 
 /**
  * 赎楼列表
@@ -101,7 +105,7 @@ public class ToRansomCaseVo {
      * 备注
      */
     private String remark;
-
+    
     public Long getPkid() {
         return pkid;
     }
@@ -253,4 +257,5 @@ public class ToRansomCaseVo {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
 }
