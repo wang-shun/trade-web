@@ -62,7 +62,7 @@
 	var approveType = "${approveType }";
 	var processInstanceId = "${processInstanceId}";
 	var finishYear = "${editCaseDetailVO.finishYear}";
-	var finOrgCode = "${editCaseDetailVO.lastLoanBank}";
+	var finOrgCode = "${editCaseDetailVO.finOrgCode}";
 	var custCode = "${ editCaseDetailVO.custCode}";
 	if("${idList}" != "") {
 		var idList = eval("("+"${idList}"+")");
@@ -164,18 +164,18 @@
 															<label class="control-label sign_left_small">
 																付款金额(一期) </label> <input class="input_type yuanwid"  
 																value="<fmt:formatNumber value='${ editCaseDetailVO.initAmount}' type='number' pattern='#0.00' />" 
-															    id="initAmount" name="initAmount" onkeyup="checkNum(this)"> <span class="date_icon">万元</span>
+															    id="initAmount" readonly="readonly" name="initAmount" onkeyup="checkNum(this)"> <span class="date_icon">万元</span>
 														</div>
 														<div class="form_content mt3">
 															<label
 																class="control-label sign_left_small select_style mend_select">
 																付款时间(一期) </label>
 															<div
-																class="input-group sign-right dataleft input-daterange pull-left"
-																data-date-format="yyyy-mm-dd">
-																<input  class="input_type yuanwid datatime"
+																class="input-group sign-right dataleft pull-left"
+																data-date-format="yyyy-mm-dd"> <!-- input-daterange -->
+																<input  class="input_type yuanwid datatime" readonly="readonly"
 																	value="<fmt:formatDate  value='${editCaseDetailVO.initPayTime }' type='both' pattern='yyyy-MM-dd' />" 
-															       id="initPayTime" name="initPayTime" onfocus="this.blur()">
+															       id="initPayTime" name="initPayTime">
 															</div>
 														</div>
 														<div class="form_content">
@@ -188,7 +188,7 @@
 													<div class="line">
 														<div class="form_content">
 															<label class="control-label sign_left_small">付款金额(二期)</label>
-															<input class=" input_type yuanwid" 
+															<input class=" input_type yuanwid" readonly="readonly"
 															value="<fmt:formatNumber value='${editCaseDetailVO.secAmount }' type='number' pattern='#0.00' />" 
 															id="secAmount" name="secAmount" onkeyup="checkNum(this)"> 
 															<span class="date_icon">万元</span>
@@ -198,11 +198,11 @@
 																class="control-label sign_left_small select_style mend_select">
 																付款时间(二期) </label>
 															<div
-																class="input-group sign-right dataleft input-daterange pull-left"
-																data-date-format="yyyy-mm-dd">
-																<input  class="input_type yuanwid datatime"
+																class="input-group sign-right dataleft pull-left"
+																data-date-format="yyyy-mm-dd"> <!-- input-daterange -->
+																<input  class="input_type yuanwid datatime" readonly="readonly"
 																	value="<fmt:formatDate  value='${editCaseDetailVO.secPayTime }' type='both' pattern='yyyy-MM-dd' />" 
-															       id="secPayTime" name="secPayTime" onfocus="this.blur()">
+															       id="secPayTime" name="secPayTime"">
 															</div>
 														</div>
 														<div class="form_content">
@@ -215,18 +215,18 @@
 														<div class="form_content">
 															<label class="control-label sign_left_small">付款金额(三期)</label>
 															<input class=" input_type yuanwid" value="<fmt:formatNumber value='${editCaseDetailVO.lastAmount}' type='number' pattern='#0.00' />" 
-															       id="lastAmount" name="lastAmount" onkeyup="checkNum(this)"> <span class="date_icon">万元</span>
+															      readonly="readonly" id="lastAmount" name="lastAmount" onkeyup="checkNum(this)"> <span class="date_icon">万元</span>
 														</div>
 														<div class="form_content mt3">
 															<label
 																class="control-label sign_left_small select_style mend_select">
 																付款时间(三期) </label>
 															<div
-																class="input-group sign-right dataleft input-daterange pull-left"
-																data-date-format="yyyy-mm-dd">
-																<input class="input_type yuanwid datatime"
+																class="input-group sign-right dataleft pull-left"
+																data-date-format="yyyy-mm-dd"> <!-- input-daterange -->
+																<input class="input_type yuanwid datatime" readonly="readonly"
 																	value="<fmt:formatDate  value='${editCaseDetailVO.lastPayTime }' type='both' pattern='yyyy-MM-dd' />" 
-															        id="lastPayTime" name="lastPayTime" onfocus="this.blur()">
+															        id="lastPayTime" name="lastPayTime"">
 															</div>
 														</div>
 														<div class="form_content">
@@ -399,7 +399,7 @@
 													</div>
 													<div class="form_content mt3">
 														<label class="control-label sign_left_small">是否唯一住房</label>
-														<aist:dict clazz="select_control data_style" id="isUniqueHome" name="isUniqueHome" display="label" dictCode="${editCaseDetailVO.isUniqueHome}" dictType="is_unique_home" />
+														<aist:dict clazz="select_control data_style" id="isUniqueHome" name="isUniqueHome" display="label" dictCode="${editCaseDetailVO.isUniqueHome}" dictType="61012" />
 													</div>
 													<div class="form_content mt3">
 														<label class="control-label sign_left_small">购房年数</label>
@@ -462,8 +462,8 @@
 															class="input-group sign-right dataleft pull-left"
 															data-date-format="yyyy-mm-dd">
 															<input  class="input_type yuanwid datatime"
-																id="apprDate" name="apprDate" readonly="readonly"
-											                    value="<fmt:formatDate  value='${editCaseDetailVO.apprDate}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
+																id="patchTime" name="patchTime" readonly="readonly"
+											                    value="<fmt:formatDate  value='${editCaseDetailVO.patchTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
 													<div class="form_content">
@@ -534,7 +534,7 @@
 												<div class="line">
 													<div class="form_content mt3">
 														<label class="control-label sign_left_small">房贷套数</label>
-														<input class=" input_type yuanwid" id="houseNum" name="houseNum" value="${editCaseDetailVO.houseNum}" onkeyup="checkNum2(this)">
+														<input class=" input_type yuanwid" readonly="readonly" id="houseNum" name="houseNum" value="${editCaseDetailVO.houseNum}" onkeyup="checkNum2(this)">
 													</div>
 													<div class="form_content mt3">
 														<label
@@ -566,8 +566,8 @@
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">评估价格</label>
-														<input class=" input_type yuanwid" id="comAmount" name="comAmount" onkeyup="checkNum(this)"
-													value="<fmt:formatNumber value='${ editCaseDetailVO.comAmount}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
+														<input class=" input_type yuanwid" readonly="readonly" id="comAmount" name="comAmount" onkeyup="checkNum(this)"
+													value="<fmt:formatNumber value='${ editCaseDetailVO.evaPrice}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
 												</div>
 												<div class="line">
@@ -582,7 +582,7 @@
 														<label class="control-label sign_left_small">支行名称</label>
 															<select class="select_control data_style"  style="width: 491px" id="lastLoanBank" >
 											                </select>
-											               <input name="lastLoanBank" type="hidden" value="${editCaseDetailVO.lastLoanBank }"/>
+											               <input name="lastLoanBank" type="hidden" value="${editCaseDetailVO.finOrgCode }"/>
 													</div>
 												</div>
 											</div>
@@ -595,7 +595,8 @@
 													 <p>${accesory.preFileName}</p></br>
 													<div class="mb20 mt20" style="text-align:left">
 														<a href="#"  data-gallery="">
-															<img src="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/_f.jpg" style="padding-bottom: 5px;padding-top: 5px;width:100px;" class="viewer-toggle">
+															<!-- <img src="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/_f.jpg" style="padding-bottom: 5px;padding-top: 5px;width:100px;" class="viewer-toggle"> -->
+															<img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${accesory.preFileAdress}" data-type="GET" style="padding-bottom: 5px;padding-top: 5px;width:100px;" class="viewer-toggle">
 														</a>
 													</div>
 												</div>
@@ -673,6 +674,7 @@
 	<!--公共信息-->
 	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 		<script>
+		
 		var isAccumulation=false;
 		var loanReq ="${loanReq}";
 		
@@ -720,14 +722,17 @@
 			// showTask();
 			/**年份选择初始化*/
 			initSelectYear("finishYear", finishYear);
-			
-			$("#bank").change(function(){
+			if(finOrgCode != null && finOrgCode != ""){
+				getBankList(finOrgCode);
+			}
+			/* $("#bank").change(function(){
 				 var selectValue = $("#bank").val(); 
 				 getBranchBankList(selectValue)
 			 });
 			if(finOrgCode!=''){
 		 		getBankList(finOrgCode);	
-			}
+			} */
+			
 		 	/*主贷人*/
 		 	initSelectCustCode(custCode);
 		 	
@@ -796,7 +801,6 @@
 		    			for(var i = 0;i<data.bankList.length;i++){
 		    				if(selectBank == data.bankList[i].finOrgCode) {
 		    					friend.append("<option value='"+data.bankList[i].finOrgCode+"' selected='selected'>"+data.bankList[i].finOrgName+"</option>");
-		    					$("#bank").val(data.bankList[i].finOrgName);
 		    				} else {
 		    					friend.append("<option value='"+data.bankList[i].finOrgCode+"'>"+data.bankList[i].finOrgName+"</option>");
 		    				}

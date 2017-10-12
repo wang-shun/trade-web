@@ -3,13 +3,12 @@ package com.centaline.trans.eval.repository;
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eval.entity.ToEvaCommissionChange;
 
-/**
- * @author xiefei1
- * @since 2017年9月22日 下午2:11:07 
- * @description 评估公司变更模块
- */
-@MyBatisRepository
+@MyBatisRepository  /*by wbzhouht 未添加mybatis注解导致sevice注入失败*/
 public interface ToEvaCommissionChangeMapper {
+	int updateByCaseCodeSelective(ToEvaCommissionChange record);
+	
+	ToEvaCommissionChange selectByCaseCode(String caseCode);
+	
     int deleteByPrimaryKey(Long pkid);
 
     int insert(ToEvaCommissionChange record);
@@ -21,10 +20,4 @@ public interface ToEvaCommissionChangeMapper {
     int updateByPrimaryKeySelective(ToEvaCommissionChange record);
 
     int updateByPrimaryKey(ToEvaCommissionChange record);
-    
-    int deleteByCaseCode(String caseCode);
-    
-    int updateByCaseCodeSelective(ToEvaCommissionChange record);
-    
-    ToEvaCommissionChange selectByCaseCode(String caseCode);
 }

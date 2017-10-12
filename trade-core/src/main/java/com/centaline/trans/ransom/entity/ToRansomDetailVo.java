@@ -89,11 +89,7 @@ public class ToRansomDetailVo {
 	 * 是否委托公证
 	 */
 	private String      isEntrust;
-	/**
-	 * 尾款信息
-	 */
-//	private List<ToRansomTailVo> tails;
-
+	
 	public String getRansomCode() {
 		return ransomCode;
 	}
@@ -253,6 +249,5 @@ public class ToRansomDetailVo {
 	public void setLeadingProcessName(String leadingProcessName) {
 		this.leadingProcessName = leadingProcessName;
 	}
-
 
 }

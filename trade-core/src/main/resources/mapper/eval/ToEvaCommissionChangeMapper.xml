@@ -8,74 +8,28 @@
     <result column="CHANGE_CHARGES_ITEM" property="changeChargesItem" jdbcType="VARCHAR" />
     <result column="CHANGE_CHARGES_CAUSE" property="changeChargesCause" jdbcType="VARCHAR" />
     <result column="AG_EVAL_AMOUNT" property="agEvalAmount" jdbcType="DECIMAL" />
-    <result column="CHANGE_CHARGES_TARGAT" property="changeChargesTargat" jdbcType="VARCHAR" />
-    <result column="CHANGE_CHARGES_AMOUNT" property="changeChargesAmount" jdbcType="DECIMAL" />
     <result column="STATUS" property="status" jdbcType="NVARCHAR" />
     <result column="EVA_PROCESS_ID" property="evaProcessId" jdbcType="VARCHAR" />
     <result column="TYPE" property="type" jdbcType="NVARCHAR" />
-    <result column="CHANGE_CHARGES _TYPE" property="changeChargesType" jdbcType="VARCHAR" />
+    <result column="CHANGE_CHARGES_TYPE" property="changeChargesType" jdbcType="VARCHAR" />
+    <result column="COMMISION_TTL_AMOUNT" property="commisionTtlAmount" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, EVA_CODE, CHANGE_CHARGES_ITEM, CHANGE_CHARGES_CAUSE, AG_EVAL_AMOUNT, 
-    CHANGE_CHARGES_TARGAT, CHANGE_CHARGES_AMOUNT, STATUS, EVA_PROCESS_ID, TYPE, "CHANGE_CHARGES _TYPE"
+    STATUS, EVA_PROCESS_ID, TYPE, CHANGE_CHARGES_TYPE, COMMISION_TTL_AMOUNT
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from sctrans.T_TO_EVA_COMMISSION_CHANGE
-    where PKID = #{pkid,jdbcType=BIGINT}
-  </select>
-  
     <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_EVA_COMMISSION_CHANGE
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </select>
-    <delete id="deleteByCaseCode" parameterType="java.lang.String" >
-    delete from sctrans.T_TO_EVA_COMMISSION_CHANGE
-     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-  </delete>
-  <update id="updateByCaseCodeSelective" parameterType="com.centaline.trans.eval.entity.ToEvaCommissionChange" >
-    update sctrans.T_TO_EVA_COMMISSION_CHANGE
-    <set >
-      <if test="caseCode != null" >
-        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
-      </if>
-      <if test="evaCode != null" >
-        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
-      </if>
-      <if test="changeChargesItem != null" >
-        CHANGE_CHARGES_ITEM = #{changeChargesItem,jdbcType=VARCHAR},
-      </if>
-      <if test="changeChargesCause != null" >
-        CHANGE_CHARGES_CAUSE = #{changeChargesCause,jdbcType=VARCHAR},
-      </if>
-      <if test="agEvalAmount != null" >
-        AG_EVAL_AMOUNT = #{agEvalAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="changeChargesTargat != null" >
-        CHANGE_CHARGES_TARGAT = #{changeChargesTargat,jdbcType=VARCHAR},
-      </if>
-      <if test="changeChargesAmount != null" >
-        CHANGE_CHARGES_AMOUNT = #{changeChargesAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="status != null" >
-        STATUS = #{status,jdbcType=NVARCHAR},
-      </if>
-      <if test="evaProcessId != null" >
-        EVA_PROCESS_ID = #{evaProcessId,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        TYPE = #{type,jdbcType=NVARCHAR},
-      </if>
-      <if test="changeChargesType != null" >
-        "CHANGE_CHARGES _TYPE" = #{changeChargesType,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-  </update>
-  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_COMMISSION_CHANGE
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_EVA_COMMISSION_CHANGE
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -83,14 +37,14 @@
   <insert id="insert" parameterType="com.centaline.trans.eval.entity.ToEvaCommissionChange" >
     insert into sctrans.T_TO_EVA_COMMISSION_CHANGE (PKID, CASE_CODE, EVA_CODE, 
       CHANGE_CHARGES_ITEM, CHANGE_CHARGES_CAUSE, 
-      AG_EVAL_AMOUNT, CHANGE_CHARGES_TARGAT, CHANGE_CHARGES_AMOUNT, 
-      STATUS, EVA_PROCESS_ID, TYPE, 
-      "CHANGE_CHARGES _TYPE")
+      AG_EVAL_AMOUNT, STATUS, EVA_PROCESS_ID, 
+      TYPE, CHANGE_CHARGES_TYPE, COMMISION_TTL_AMOUNT
+      )
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
       #{changeChargesItem,jdbcType=VARCHAR}, #{changeChargesCause,jdbcType=VARCHAR}, 
-      #{agEvalAmount,jdbcType=DECIMAL}, #{changeChargesTargat,jdbcType=VARCHAR}, #{changeChargesAmount,jdbcType=DECIMAL}, 
-      #{status,jdbcType=NVARCHAR}, #{evaProcessId,jdbcType=VARCHAR}, #{type,jdbcType=NVARCHAR}, 
-      #{changeChargesType,jdbcType=VARCHAR})
+      #{agEvalAmount,jdbcType=DECIMAL}, #{status,jdbcType=NVARCHAR}, #{evaProcessId,jdbcType=VARCHAR}, 
+      #{type,jdbcType=NVARCHAR}, #{changeChargesType,jdbcType=VARCHAR}, #{commisionTtlAmount,jdbcType=DECIMAL}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvaCommissionChange" >
     insert into sctrans.T_TO_EVA_COMMISSION_CHANGE
@@ -113,12 +67,6 @@
       <if test="agEvalAmount != null" >
         AG_EVAL_AMOUNT,
       </if>
-      <if test="changeChargesTargat != null" >
-        CHANGE_CHARGES_TARGAT,
-      </if>
-      <if test="changeChargesAmount != null" >
-        CHANGE_CHARGES_AMOUNT,
-      </if>
       <if test="status != null" >
         STATUS,
       </if>
@@ -129,7 +77,10 @@
         TYPE,
       </if>
       <if test="changeChargesType != null" >
-        "CHANGE_CHARGES _TYPE",
+        CHANGE_CHARGES_TYPE,
+      </if>
+      <if test="commisionTtlAmount != null" >
+        COMMISION_TTL_AMOUNT,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -151,12 +102,6 @@
       <if test="agEvalAmount != null" >
         #{agEvalAmount,jdbcType=DECIMAL},
       </if>
-      <if test="changeChargesTargat != null" >
-        #{changeChargesTargat,jdbcType=VARCHAR},
-      </if>
-      <if test="changeChargesAmount != null" >
-        #{changeChargesAmount,jdbcType=DECIMAL},
-      </if>
       <if test="status != null" >
         #{status,jdbcType=NVARCHAR},
       </if>
@@ -168,6 +113,9 @@
       </if>
       <if test="changeChargesType != null" >
         #{changeChargesType,jdbcType=VARCHAR},
+      </if>
+      <if test="commisionTtlAmount != null" >
+        #{commisionTtlAmount,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -189,11 +137,41 @@
       <if test="agEvalAmount != null" >
         AG_EVAL_AMOUNT = #{agEvalAmount,jdbcType=DECIMAL},
       </if>
-      <if test="changeChargesTargat != null" >
-        CHANGE_CHARGES_TARGAT = #{changeChargesTargat,jdbcType=VARCHAR},
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=NVARCHAR},
       </if>
-      <if test="changeChargesAmount != null" >
-        CHANGE_CHARGES_AMOUNT = #{changeChargesAmount,jdbcType=DECIMAL},
+      <if test="evaProcessId != null" >
+        EVA_PROCESS_ID = #{evaProcessId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=NVARCHAR},
+      </if>
+      <if test="changeChargesType != null" >
+        CHANGE_CHARGES_TYPE = #{changeChargesType,jdbcType=VARCHAR},
+      </if>
+      <if test="commisionTtlAmount != null" >
+        COMMISION_TTL_AMOUNT = #{commisionTtlAmount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByCaseCodeSelective" parameterType="com.centaline.trans.eval.entity.ToEvaCommissionChange" >
+    update sctrans.T_TO_EVA_COMMISSION_CHANGE
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="changeChargesItem != null" >
+        CHANGE_CHARGES_ITEM = #{changeChargesItem,jdbcType=VARCHAR},
+      </if>
+      <if test="changeChargesCause != null" >
+        CHANGE_CHARGES_CAUSE = #{changeChargesCause,jdbcType=VARCHAR},
+      </if>
+      <if test="agEvalAmount != null" >
+        AG_EVAL_AMOUNT = #{agEvalAmount,jdbcType=DECIMAL},
       </if>
       <if test="status != null" >
         STATUS = #{status,jdbcType=NVARCHAR},
@@ -205,10 +183,13 @@
         TYPE = #{type,jdbcType=NVARCHAR},
       </if>
       <if test="changeChargesType != null" >
-        "CHANGE_CHARGES _TYPE" = #{changeChargesType,jdbcType=VARCHAR},
+        CHANGE_CHARGES_TYPE = #{changeChargesType,jdbcType=VARCHAR},
+      </if>
+      <if test="commisionTtlAmount != null" >
+        COMMISION_TTL_AMOUNT = #{commisionTtlAmount,jdbcType=DECIMAL},
       </if>
     </set>
-    where PKID = #{pkid,jdbcType=BIGINT}
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eval.entity.ToEvaCommissionChange" >
     update sctrans.T_TO_EVA_COMMISSION_CHANGE
@@ -217,12 +198,11 @@
       CHANGE_CHARGES_ITEM = #{changeChargesItem,jdbcType=VARCHAR},
       CHANGE_CHARGES_CAUSE = #{changeChargesCause,jdbcType=VARCHAR},
       AG_EVAL_AMOUNT = #{agEvalAmount,jdbcType=DECIMAL},
-      CHANGE_CHARGES_TARGAT = #{changeChargesTargat,jdbcType=VARCHAR},
-      CHANGE_CHARGES_AMOUNT = #{changeChargesAmount,jdbcType=DECIMAL},
       STATUS = #{status,jdbcType=NVARCHAR},
       EVA_PROCESS_ID = #{evaProcessId,jdbcType=VARCHAR},
       TYPE = #{type,jdbcType=NVARCHAR},
-      "CHANGE_CHARGES _TYPE" = #{changeChargesType,jdbcType=VARCHAR}
+      CHANGE_CHARGES_TYPE = #{changeChargesType,jdbcType=VARCHAR},
+      COMMISION_TTL_AMOUNT = #{commisionTtlAmount,jdbcType=DECIMAL}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
 </mapper>

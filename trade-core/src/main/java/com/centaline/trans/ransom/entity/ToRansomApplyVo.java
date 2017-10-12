@@ -3,7 +3,7 @@ package com.centaline.trans.ransom.entity;
 import java.util.Date;
 
 /**
- * 赎楼陪同还贷VO
+ * 赎楼申请VO
  * @author wbcaiyx
  *
  */

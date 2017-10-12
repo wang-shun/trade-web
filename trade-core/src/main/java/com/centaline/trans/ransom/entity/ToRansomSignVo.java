@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 赎楼陪同还贷VO
+ * 赎楼面签VO
  * @author wbcaiyx
  *
  */

@@ -93,13 +93,9 @@ public class CcaiServiceImpl implements CcaiService {
 		result.setSuccess(true);
 		result.setMessage("同步成功!");
 		result.setCode("00");
-		try {
-			//将案件编号 放入消息队列中
-			MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.STARTFLOW_TYPE);
-			jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//将案件编号 放入消息队列中
+		MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.STARTFLOW_TYPE);
+		jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
 
 		return result;
 	}
@@ -108,6 +104,20 @@ public class CcaiServiceImpl implements CcaiService {
 	public boolean isExistCcaiCode(String ccaiCode) {
 		int count = toCaseInfoMapper.isExistCcaiCode(ccaiCode);
 		return count > 0;
+	}
+
+	@Override
+	public CcaiServiceResult repealCase(CaseRepealImport repealInfo) {
+		//TODO 更多的业务逻辑后续根据需要添加
+		CcaiServiceResult result = new CcaiServiceResult();
+		String caseCode = toCaseInfoMapper.findcaseCodeByCcaiCode(repealInfo.getCcaiCode());
+		//将案件编号 放入消息队列中
+		MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.REPEAL_TYPE);
+		jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
+		result.setSuccess(true);
+		result.setMessage("");
+		result.setCode("00");
+		return result;
 	}
 
 	@Override
@@ -801,7 +811,6 @@ public class CcaiServiceImpl implements CcaiService {
 			}
 		}
 	}
-
 	@Override
 	public CcaiServiceResult importSelfDo(SelfDoImport info) {
 		CcaiServiceResult result = new CcaiServiceResult();
