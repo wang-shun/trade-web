@@ -183,7 +183,7 @@ function getParamsValue() {
 	}
 	//评估状态
 	var status = $('#eval_status option:selected').val();
-	var finOrgCode = $("#finOrgId").val();
+	var finOrgCode = $("#finOrgId option:selected").val();
 	
 	// 客户姓名 物业地址 经纪人
 	var inTextVal = $('#inTextVal').val();
@@ -220,6 +220,7 @@ function getParamsValue() {
 		argu_isSubscribeFilter : isSubscribeFilter,
 		argu_caseCode : caseCode,
 		argu_evalStatus : status,
+		argu_finOrgId:finOrgCode,
 		argu_propertyAddr:propertyAddr,
 		argu_buyer:buyer,
 		argu_seller:seller,
@@ -335,6 +336,7 @@ function caseCodeSort(){
 function getEvaCompanyList(pcode){
 	var friend = $("#finOrgId");
 	friend.empty();
+	friend.append("<option>请选择</option>");
 	 $.ajax({
 	    url:ctx+"/manage/queryEvaCompany",
 	    method:"post",

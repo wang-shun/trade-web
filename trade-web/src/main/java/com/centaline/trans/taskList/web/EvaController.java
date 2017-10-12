@@ -26,6 +26,7 @@ import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
 import com.centaline.trans.eval.entity.ToEvaReportProcess;
@@ -57,6 +58,12 @@ public class EvaController {
 	@Autowired
 	private TaskService taskService;
 	
+	/**
+	 * 评估代办任务
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "evalTaskList")
 	public String evalTaskList(HttpServletRequest request, HttpServletResponse response){
 		SessionUser user = uamSessionService.getSessionUser();
@@ -102,7 +109,7 @@ public class EvaController {
 	 */
 	@RequestMapping(value="submitApply")
 	@ResponseBody
-	public Integer submitEvalApply(HttpServletRequest request,HttpServletResponse response,ToEvaReportProcess toEvaReportProcess){
+	public Boolean submitEvalApply(HttpServletRequest request,HttpServletResponse response,ToEvaReportProcess toEvaReportProcess){
 		
 		//保存申请信息
 		toEvaReportProcessService.insertEvaApply(toEvaReportProcess);
@@ -112,11 +119,9 @@ public class EvaController {
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()));
 		//流程引擎相关
     	//Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.EVAL_PROCESS.getCode());
-    	Map<String, Object> defValsMap = new HashMap<String,Object>();
     	SessionUser user = uamSessionService.getSessionUser();
-    	defValsMap.put("assistant", user.getUsername());
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()), 
-    			toEvaReportProcess.getCaseCode(), defValsMap);
+    			toEvaReportProcess.getCaseCode());
     	
     	//入交易系统工作流表
     	ToWorkFlow toWorkFlow = new ToWorkFlow();
@@ -125,9 +130,15 @@ public class EvaController {
     	toWorkFlow.setProcessDefinitionId(processInstance.getProcessDefinitionId());
     	toWorkFlow.setProcessOwner(user.getId());
     	toWorkFlow.setCaseCode(toEvaReportProcess.getCaseCode());
-    	toWorkFlow.setBizCode(toEvaReportProcess.getCaseCode());
+    	toWorkFlow.setBizCode(toEvaReportProcess.getEvaCode());
     	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
-    	return toWorkFlowService.insertSelective(toWorkFlow);
+    	toWorkFlowService.insertSelective(toWorkFlow);
+    	
+    	Map<String, Object> defValsMap = new HashMap<String,Object>();
+    	defValsMap.put("assistant", user.getUsername());
+    	TaskVo taskvo = (TaskVo) taskService.listTasks(processInstance.getId()).getData().get(0);
+    	taskService.submitTask(String.valueOf(taskvo.getId()),defValsMap);
+    	return true;
 	}
 	
 	/**
