@@ -16,9 +16,6 @@ import com.centaline.trans.api.service.FlowApiService;
 import com.centaline.trans.api.vo.ApiResultData;
 import com.centaline.trans.api.vo.FlowFeedBack;
 import com.centaline.trans.common.enums.*;
-import com.centaline.trans.engine.bean.TaskQuery;
-import com.centaline.trans.engine.vo.PageableVo;
-import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.vo.MortgageToSaveVO;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +33,6 @@ import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
-import com.centaline.trans.award.entity.TsAwardCaseCental;
 import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
@@ -54,8 +50,6 @@ import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.repository.ToHouseTransferMapper;
-import com.centaline.trans.task.repository.ToTaxMapper;
-import com.centaline.trans.task.service.AwardBaseService;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
@@ -82,8 +76,6 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
     private WorkFlowManager workFlowManager;
 
     @Autowired
-    private AwardBaseService awardBaseService;
-    @Autowired
     SatisfactionService satisfactionService;
     @Autowired(required = true)
     private UamTemplateService uamTemplateService;
@@ -91,8 +83,6 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
     private ToPropertyInfoService toPropertyInfoService;
     @Autowired
     private LoanlostApproveService loanlostApproveService;
-    @Autowired
-    private ToTaxMapper toTaxMapper;
 
     @Autowired(required = true)
     private UamSessionService uamSessionService;/* 用户信息 */
@@ -100,9 +90,6 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
     @Autowired(required = true)
     @Qualifier("uamMessageServiceClient")
     private UamMessageService uamMessageService;
-
-    @Autowired
-    private TsAwardCaseCentalService tsAwardCaseCentalService;
 
     @Autowired
     private TsCaseEfficientMapper tsCaseEfficientMapper;
@@ -307,9 +294,12 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
     }
 
     @Override
-    public boolean submitToHouseTransfer(ToHouseTransfer toHouseTransfer, MortgageToSaveVO toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId,
+    public ApiResultData submitToHouseTransfer(ToHouseTransfer toHouseTransfer, MortgageToSaveVO toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId,
             String processInstanceId) {
-        boolean boo = false;
+        // 2 执行交易系统代码
+        savaToHouseTransferAndMortageToVO(toHouseTransfer, toMortgage);
+            /* 保存过户申请 */
+        saveToApproveRecord(toHouseTransfer, processInstanceId, loanlostApproveVO);
         SessionUser sender = uamSessionService.getSessionUser();
         //获取审批结果信息
         FlowFeedBack info = new FlowFeedBack(sender, CcaiFlowResultEnum.SUCCESS, "进入过户审批环节");
@@ -317,10 +307,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
         ApiResultData apiResultData = flowApiService.tradeFeedBackCcai(toHouseTransfer.getCaseCode(), CcaiTaskEnum.TRADE_WARRANT_TRANSFER, info);
         if (apiResultData.isSuccess()) {
 
-            // 2 执行交易系统代码
-            savaToHouseTransferAndMortageToVO(toHouseTransfer, toMortgage);
-            /* 保存过户申请 */
-            saveToApproveRecord(toHouseTransfer, processInstanceId, loanlostApproveVO);
+
 
      /*       TaskQuery taskQuery=new TaskQuery();
             taskQuery.setProcessInstanceBusinessKey(toHouseTransfer.getCaseCode());
@@ -350,10 +337,10 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
                     satisfactionService.handleAfterGuohu(toCase.getCaseCode(), sender.getId(), null);
                 }
                 System.out.println("交互成功！" + apiResultData.toString());
-                boo = true;
             }
         } else {
-            System.out.println("交互失败！" + apiResultData.toString());
+            throw new BusinessException(apiResultData.getMessage());
+            //System.out.println("交互失败！" + apiResultData.toString());
         }
         /*
          * 佣金分配 绩效奖金自动化,取消原有的数据获取方式 add by zhuody in 2017-06-20
@@ -367,7 +354,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
         /* 修改案件状态 */
         //toCase.setStatus("30001004");
         //toCaseService.updateByCaseCodeSelective(toCase);
-        return boo;
+        return apiResultData;
     }
 
     public AjaxResponse saveToHouseTransfer(ToHouseTransfer toHouseTransfer, ToMortgage toMortgage, LoanlostApproveVO loanlostApproveVO, String processInstanceId)

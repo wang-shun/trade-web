@@ -1,19 +1,17 @@
-package com.centaline.trans.eval.repository;
+package com.centaline.trans.eval.service;
 
-import java.util.List;
-
-import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eval.entity.ToEvaCommPersonAmount;
+import com.centaline.trans.eval.vo.EvalChangeCommVO;
 /**
- * @author  xiefei1
+ * @author xiefei1
  * @since 2017年10月11日 下午3:14:04 
  * @description 调佣对象与调佣金额
  */
-@MyBatisRepository
-public interface ToEvaCommPersonAmountMapper {
-	int updateByCaseCodeSelective(ToEvaCommPersonAmount toEvaCommPersonAmount);
-	
-	List<ToEvaCommPersonAmount> selectByCasecode(String caseCode);
+public interface ToEvaCommPersonAmountService {
+//	获取完整的调佣对象与调佣金额VO
+	EvalChangeCommVO getFullEvalChangeCommVO(String caseCode);
+//	保存调佣对象与调佣金额VO
+	void saveEvalChangeCommVO(EvalChangeCommVO EvalChangeCommVO);
 	
     int deleteByPrimaryKey(Long pkid);
 

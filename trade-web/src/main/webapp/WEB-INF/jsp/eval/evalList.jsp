@@ -186,7 +186,7 @@ text-decoration: underline !important;
 			
 	 		<div class="row m-t-sm">
 				<div class="form_content">
-					<div class="more_btn">
+				    <div class="more_btn">
 						<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
 						<button id="myEvalListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
 					</div>
@@ -230,11 +230,11 @@ text-decoration: underline !important;
 </div>
 		
 <input type="hidden" id="ctx" value="${ctx}" />
-<input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
+<%-- <input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
 <input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
 <input type="hidden" id="queryOrgs" value="${queryOrgs}" />
 <input type="hidden" id="serviceDepId" value="${serviceDepId}" />
-<input type="hidden" id="userId" value="${userId}" />
+<input type="hidden" id="userId" value="${userId}" /> --%>
 
 
 <!-- <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form> cyx-->
@@ -258,7 +258,6 @@ text-decoration: underline !important;
 <script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 <script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
-<!--<script src="<c:url value='/js/workflow/myCaseList.js' />"></script>2016.1021 注释人:caoy 原因:与mycase_list2.js方法冲突--%>
 <!-- 必须JS -->
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 
@@ -279,7 +278,7 @@ text-decoration: underline !important;
 
 						<td >
  							<p class="big">
-								<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}"  target="_blank">{{item.CASE_CODE}}</a>
+								<a href="{{ctx}}/eval/detail?caseCode={{item.CASE_CODE}}"  target="_blank">{{item.CASE_CODE}}</a>
 								{{if item.SUBSCRIBE_COUNT == 0}}
 									<span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.CASE_CODE}}" isSubscribe="true">
 										<i class="iconfont_s  markstar star_subscribe" status="1">&#xe644;</i>

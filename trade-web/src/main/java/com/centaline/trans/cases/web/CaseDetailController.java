@@ -16,6 +16,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.task.entity.*;
+import com.centaline.trans.task.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -101,13 +103,6 @@ import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.property.service.ToPropertyResearchService;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.spv.service.ToSpvService;
-import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.entity.ToPropertyResearchVo;
-import com.centaline.trans.task.service.ActRuTaskService;
-import com.centaline.trans.task.service.TlTaskReassigntLogService;
-import com.centaline.trans.task.service.ToApproveRecordService;
-import com.centaline.trans.task.service.ToHouseTransferService;
-import com.centaline.trans.task.service.UnlocatedTaskService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
@@ -225,6 +220,16 @@ public class CaseDetailController {
 	
 	@Autowired
 	CaseApiService caseApiService;
+
+	/**
+	 * 判断交易计划时间 by wbzhouht
+	 */
+	//缴税
+	@Autowired
+	private ToRatePaymentService toRatePaymentService;
+	//领证
+	@Autowired
+	private ToGetPropertyBookService toGetPropertyBookService;
 
 	/**
 	 * 页面初始化
@@ -1283,22 +1288,51 @@ public class CaseDetailController {
 	@ResponseBody
 	public List<ToTransPlan> getTransPlanByCaseCode(String caseCode, ServletRequest request) {
 		List<ToTransPlan> plans = transplanServiceFacade.queryPlansByCaseCode(caseCode);
-
+		ToRatePayment toRatePayment=toRatePaymentService.qureyToRatePayment(caseCode);
+		ToGetPropertyBook toGetPropertyBook=toGetPropertyBookService.findGetPropertyBookByCaseCode(caseCode);
+		ToHouseTransfer toHouseTransfer=toHouseTransferService.findToGuoHuByCaseCode(caseCode);
+		ToMortgage toMortgage=toMortgageService.findToMortgageByCaseCode2(caseCode);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
+		List<ToTransPlan>transPlan=new ArrayList<ToTransPlan>();
 		if (plans != null && plans.size() > 0) {
 			for (ToTransPlan plan : plans) {
 				if (!StringUtils.isEmpty(plan.getPartCode())) {
-					String partNameString = uamBasedataService.getDictValue(TransDictEnum.TPARTCODE.getCode(),
+					String partNameString = uamBasedataService.getDictValue(TransDictEnum.TRANSPLANDATE.getCode(),
 							plan.getPartCode());
 					plan.setPartName(partNameString);
 				}
-				if (plan.getEstPartTime() != null)
+				if (plan.getEstPartTime() != null) {
 					plan.setEstPartTimeStr(format.format(plan.getEstPartTime()));
+				}
+				/**判断是否有已经走了的环节，走过的环节则不能修改时间*/
+				if(toRatePayment!=null){
+					if("RatePayment".equals(plan.getPartCode())){
+						plan.setEdit(false);
+					}
+				}
+				if(toHouseTransfer!=null){
+					if("Guohu".equals(plan.getPartCode())){
+						plan.setEdit(false);
+					}
+				}
+				if(toMortgage!=null){
+					if("CommercialLoansSigned".equals(plan.getPartCode())||"BusinessLoanAssessmentReport".equals(plan.getPartCode())||
+							"CommercialLendingCompleted".equals(plan.getPartCode())||"ProvidentFundLoanBookApplication".equals(plan.getPartCode())||
+							"ProvidentFundSigned".equals(plan.getPartCode())||"ProvidentFundLoanCompletion".equals(plan.getPartCode())){
+						plan.setEdit(false);
+					}
+				}
+				if(toGetPropertyBook!=null){
+					if("HouseBookGet".equals(plan.getPartCode())){
+						plan.setEdit(false);
+					}
+				}
+
+				transPlan.add(plan);
 			}
 		}
 
-		return plans;
+		return transPlan;
 	}
 
 	/**

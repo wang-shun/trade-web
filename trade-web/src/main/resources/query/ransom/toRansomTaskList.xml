@@ -7,7 +7,8 @@
 		<customDict id="qqcdBuyer" beanName="qqcdBuyer" />
 		<customDict id="getCaseInfo" beanName="getCaseInfo" />
 		<customDict id="qqGetCasePropertyInfo" beanName="qqGetCasePropertyInfo" />
-		<customDict id="qqFindTranPlan" beanName="qqFindTranPlan" />
+		<!-- <customDict id="qqFindTranPlan" beanName="qqFindTranPlan" /> -->
+		<customDict id="qqFindRAPlan" beanName="qqFindRAPlan" />
 		<customDict id="qqGetWFEName" beanName="qqGetWFEName" />
 		<customDict id="getMegerCuntByCaseCode" beanName="getMegerCuntByCaseCode" />
 		<customDict id="getTaskNameTypeByTaskName" beanName="getTaskNameTypeByTaskName" />
@@ -52,6 +53,7 @@
 						/*ART.NAME_ AS NAME,*/
 						tr.RANSOM_STATUS AS NAME,
 						tr.RANSOM_CODE ,
+						tr.BORROWER_NAME,
 						ART.TASK_DEF_KEY_ AS PART_CODE,
 						ART.PROC_INST_ID_ AS INST_CODE,
 						ART.DELEGATION_ AS DELEGATION,
@@ -92,7 +94,7 @@
 						</ifNotNull>
 						
 						<ifNotNull ransomCode>
-							AND exists (Select 1 from sctrans.T_RA_CASE where RANSOM_CODE like '%'+#ransomCode#+'%')
+							AND exists (Select 1 from sctrans.T_RA_CASE tr1 where tr1.CASE_CODE = AB.CASE_CODE and tr1.RANSOM_CODE like '%'+#ransomCode#+'%')
 						</ifNotNull>
 
 						<ifNotNull agentOrgName>
@@ -113,7 +115,7 @@
 									and DATEDIFF(DAY, trp.EST_PART_TIME, GETDATE())> #minDateLamp#
 									</ifNotNull>
 									<ifNotNull maxDateLamp>
-									and DATEDIFF(DAY, trp.EST_PART_TIME, GETDATE()) &lt; #maxDateLamp#
+									and DATEDIFF(DAY, trp.EST_PART_TIME, GETDATE()) &lt;= #maxDateLamp#
 									</ifNotNull>
 
 								)
@@ -132,6 +134,7 @@
 			<table-row>
 				<column type="both" name="ID" index="" checkbox="" display="TASKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASECODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="BORROWER_NAME" index="" checkbox="" display="BORROWERNAME" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="RANSOM_CODE" index="" checkbox="" display="RANSOMCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="PART_CODE" index="" checkbox="" display="PARTCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="INST_CODE" index="" checkbox="" display="INSTCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
@@ -145,7 +148,8 @@
 
 				<column type="virtual" name="PKID,PROPERTY_ADDR,AGENT_ORG_NAME,AGENT_NAME,CCAI_CODE,MOBILE,ORG_ID,MANAGER_INFO" isDynamicDict="true" display="caseId,所属分行,经纪人,CTM_CODE,手机,ORG_ID" referencecol="CASE_CODE" index="" checkbox="" customDict="getCaseInfo" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 
-				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,PART_CODE" index="" checkbox="" customDict="qqFindTranPlan" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<!-- <column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,PART_CODE" index="" checkbox="" customDict="qqFindTranPlan" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" /> -->
+				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" display="红灯记录,预计执行时间,红绿灯" referencecol="RANSOM_CODE,PART_CODE" index="" checkbox="" customDict="qqFindRAPlan" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 
 				<column type="virtual" name="WFE_NAME" display="流程名" referencecol="BUSINESS_KEY" index="" checkbox="" customDict="qqGetWFEName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 

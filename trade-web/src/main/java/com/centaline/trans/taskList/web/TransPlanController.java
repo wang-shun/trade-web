@@ -7,6 +7,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.cases.entity.ToCaseInfo;
+import com.centaline.trans.cases.service.ToCaseInfoService;
+import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.mortgage.service.ToMortgageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +36,8 @@ public class TransPlanController {
 	private ToCaseService toCaseService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
+	@Autowired
+	private ToCaseInfoService toCaseInfoService;
 
 	@RequestMapping("process")
 	public String toProcess(HttpServletRequest request,
@@ -44,17 +50,11 @@ public class TransPlanController {
 		}
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
-
-		RestVariable dy = workFlowManager.getVar(instCode, "LoanCloseNeed");/* 抵押 */
-
-		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/* 公积金 */
-		RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");/* 自办 */
-		RestVariable com = workFlowManager.getVar(instCode, "ComLoanNeed");/* 贷款 */
-		boolean dk = ((boolean) (psf == null ? false : psf.getValue())
-				|| (boolean) (self == null ? false : self.getValue()) || (boolean) (com == null ? false
-				: com.getValue()));
-		request.setAttribute("dy", dy == null ? false : dy.getValue());
-		request.setAttribute("dk", dk);
+		/*获取案件信息，用以判断贷款类型*/
+		ToCaseInfo toCaseInfo=toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+		if(null!=toCaseInfo){
+			request.setAttribute("toCaseInfo",toCaseInfo);
+		}
 		request.setAttribute("transPlan",
 				transplanServiceFacade.findTransPlanByCaseCode(caseCode));
 		return "task" + UiImproveUtil.getPageType(request)

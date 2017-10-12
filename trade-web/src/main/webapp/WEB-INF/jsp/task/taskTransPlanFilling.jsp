@@ -100,6 +100,8 @@
 				 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeGh}' type='both' pattern='yyyy-MM-dd'/>">
                              </div>
                          </div>
+						 <%--只在商贷（30016001）、纯公积金（30016003）、组合贷情形下出现（30016002）--%>
+						 <c:if test="${toCaseInfo.payType=='公积金（组合）贷款' or toCaseInfo.payType=='公积金贷款' or toCaseInfo.payType=='按揭贷款'}">
                          <div class="form_content mt3">
                              <label class="control-label sign_left_small select_style mend_select">
                                 	<font color=" red" class="mr5" >*</font>预计领他证时间
@@ -109,11 +111,13 @@
 							onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeLz}' type='both' pattern='yyyy-MM-dd'/>">
                              </div>
                          </div>
+						 </c:if>
                  	 </div>
+					 <c:if test="${toCaseInfo.payType=='按揭贷款' or toCaseInfo.payType=='公积金（组合）贷款'}">
                  	 <div class="line">
                  	 	<div class="form_content mt3">
                              <label class="control-label sign_left_small select_style mend_select">
-                                	<font color=" red" class="mr5" >*</font>预计商贷面签时间
+                                	<font color=" red" class="mr5" >*</font>预计按揭贷款面签时间
                              </label>
                              <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
                              	<input type="text" class="input_type yuanwid datatime" name="estPartTimeCs" id="estPartTimeCs"
@@ -122,7 +126,7 @@
                          </div>
                          <div class="form_content mt3">
                              <label class="control-label sign_left_small select_style mend_select">
-                                	<font color=" red" class="mr5" >*</font>预计商贷出评估报告时间
+                                	<font color=" red" class="mr5" >*</font>预计按揭贷款出评估报告时间
                              </label>
                              <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
                              	<input type="text" class="input_type yuanwid datatime" name="estPartTimeBr" id="estPartTimeBr"
@@ -139,18 +143,9 @@
                              </div>
                          </div>
                  	 </div>
+					 </c:if>
+					 <c:if test="${toCaseInfo.payType=='公积金（组合）贷款' or toCaseInfo.payType=='公积金贷款'}">
                      <div class="line">
-                     	<c:if test="${dy}">
-                          <div class="form_content mt3">
-                              <label class="control-label sign_left_small select_style mend_select">
-                                 	<font color="red" class="mr5" >*</font>预计还贷时间
-                              </label>
-                              <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-                              	<input type="text" class="input_type yuanwid datatime" name="estPartTimeHd" id="estPartTimeHd"
-				 	 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimeHd}' type='both' pattern='yyyy-MM-dd'/>">
-                              </div>
-                          </div>
-                         </c:if>
                          <div class="form_content mt3">
                              <label class="control-label sign_left_small select_style mend_select">
                                	<font color=" red" class="mr5" >*</font> 预计公积金贷款预约申请时间
@@ -178,8 +173,8 @@
 				 			onfocus="this.blur()" value="<fmt:formatDate  value='${transPlan.estPartTimePfc}' type='both' pattern='yyyy-MM-dd'/>">
                              </div>
                          </div>
-                     
-	                     <c:if test="${dk}">
+						 </c:if>
+	                     <c:if test="${toCaseInfo.payType=='公积金（组合）贷款' or toCaseInfo.payType=='公积金贷款' or toCaseInfo.payType=='按揭贷款'}">
 	                          <div class="form_content mt3">
 	                              <label class="control-label sign_left_small select_style mend_select">
 	                                 	<font color=" red" class="mr5" >*</font>预计放款时间
@@ -224,7 +219,9 @@
 			<!-- 改版引入的新的js文件 -->
 			<script src="<c:url value='/js/common/textarea.js' />"></script>
 			<script src="<c:url value='/js/common/common.js' />"></script>
-			
+
+			<!--公共信息-->
+			<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 			<script>
 				$(document).ready(function() {
 

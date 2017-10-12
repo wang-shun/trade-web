@@ -21,6 +21,12 @@ $(document).ready(function() {
 	$("#mortageService").change(function(){
 		mortageService();
 	});
+	var caseCode = $("#caseCode").val();
+	//评估操作记录
+	getOperateLogList(caseCode);
+	//流程备注
+	caseremarkList.init(ctx,'/quickGrid/findPage','evalCommenTable','evalCommenPager',caseCode);  // 显示各个流程的备注信息列表
+	
 	//CCAI附件
 	getShowCCAIAttachment();
 	//附件
@@ -29,6 +35,117 @@ $(document).ready(function() {
 	queryPer();
 
 });
+
+function getOperateLogList(caseCode){
+	var url = "/quickGrid/findPage";
+	var ctx = $("#ctx").val();
+	url = ctx + url;
+	// Configuration for jqGrid Example 1
+	var dispCols=[ 'TASKID', 'CASECODE', 'PARTCODE',
+					'INSTCODE', '红绿灯', '红灯记录', '所属流程信息','任务名', '执行人', '预计执行时间',
+					'执行时间','任务状态' ];
+	var colModels=
+	[ {
+		name : 'ID',
+		index : 'ID',
+		align : "center",
+		width : 0,
+		key : true,
+		resizable : false,
+		hidden : true
+	}, {
+		name : 'CASE_CODE',
+		index : 'CASE_CODE',
+		align : "center",
+		width : 0,
+		key : true,
+		resizable : false,
+		hidden : true
+	}, {
+		name : 'PART_CODE',
+		index : 'PART_CODE',
+		align : "center",
+		width : 0,
+		key : true,
+		resizable : false,
+		hidden : true
+	}, {
+		name : 'INST_CODE',
+		index : 'INST_CODE',
+		align : "center",
+		width : 0,
+		key : true,
+		resizable : false,
+		hidden : true
+	}, {
+		name : 'DATELAMP',
+		index : 'DATELAMP',
+		width : 40,
+		editable : true,
+		formatter : dateLampFormatter
+	}, {
+		name : 'RED_LOCK',
+		index : 'RED_LOCK',
+		width : 30,
+		editable : true,
+		formatter : isRedFormatter
+	}, {
+		name : 'WFE_NAME',
+		index : 'WFE_NAME',
+		width : 30
+	}, {
+		name : 'NAME',
+		index : 'NAME',
+		width : 75
+	}, {
+		name : 'ASSIGNEE',
+		index : 'ASSIGNEE',
+		width : 75
+	}, {
+		name : 'EST_PART_TIME',
+		index : 'EST_PART_TIME',
+		width : 90
+	}, {
+		name : 'END_TIME',
+		index : 'END_TIME',
+		width : 90
+	},{
+		name : 'status',
+		index : 'status',
+		width : 90
+	}
+	];
+	$("#operation_history_table").jqGrid(
+			{
+				url : url,
+				datatype : "json",
+				mtype : "POST",
+				height : 300,
+				autowidth : true,
+				shrinkToFit : true,
+				rowNum : 10,
+				/* rowList: [10, 20, 30], */
+				colNames : dispCols,
+				colModel : colModels,
+				pager : "#operation_history_pager",
+				sortname:'A.create_time',
+    	        sortorder:'desc',
+				viewrecords : true,
+				pagebuttions : true,
+				hidegrid : false,
+				recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+				pgtext : " {0} 共 {1} 页",
+
+				// rowid为grid中的行顺序
+				onSelectRow : function(rowid) {
+				},
+				postData : {
+					queryId : "queryTaskHistoryItemList",
+					argu_casecode : caseCode
+				}
+
+	});
+}
 
 /**
  * CCAI附件
@@ -322,8 +439,6 @@ function resetPlanModal(){
 		success : function(data) {
 
 			var inHtml = "";
-            $("#plan-form").html(inHtml);
-            console.log(data);
 			$.each(data, function(k, v){
 				inHtml+='<div class="form-group"><div class="col-lg-2 control-label">';
 				inHtml+= '预计'+v.partName+'时间';
@@ -344,12 +459,6 @@ function resetPlanModal(){
 
 			});
 			$("#plan-form").html(inHtml);
-			$.each(data,function (k1,v1) {
-                if(!v1.edit){
-                    $("#estPartTime_"+k1).prop("disabled","disabled");
-                    $("#whyChange_"+k1).attr("disabled","disabled");
-                }
-            })
 			 $('.input-group.date').datepicker({
 				  todayBtn: "linked",
 	                keyboardNavigation: false,
@@ -596,10 +705,10 @@ function changeAssistantInfo() {
 }
 
 /**
- * 流程重启
+ * 评估流程重启
  */
-function serviceRestart(){
-	window.wxc.confirm("确定重启流程？",{"wxcOk":function(){
+function evalProcessRestart(){
+	window.wxc.confirm("确定重启评估流程？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		$.ajax({
 			url:ctx+"/service/restart",
@@ -619,7 +728,6 @@ function serviceRestart(){
 		        }
 		   } , 
 		   success:function(data){
-			   console.log("===Result==="+JSON.stringify(data));
 				if(!data.success){
 					$.unblockUI();   
 					window.wxc.error(data.message);
@@ -632,145 +740,45 @@ function serviceRestart(){
 	}});
 }
 
-
-/**
- * 权证变更
- */
-function showOrgCp() {
-
-	var url = "/case/getUserOrgCpUserList";
-	var ctx = $("#ctx").val();
-	url = ctx + url;
-	var data={operation:""};
-	$.ajax({
-		cache : false,
-		async : true,
-		type : "POST",
-		url : url,
-		dataType : "json",
-		timeout : 10000,
-		data : data,
-		success : function(data) {
-			console.info(data);
-			showLeadingModal(data);
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-		}
-	});
-}
-
-/**
- * 选择权证modal
- * @param data
- */
-function showLeadingModal(data) {
-	var addHtml = '';
-	var ctx = $("#ctx").val();
-	$.each(data,function(i, n) {
-						addHtml += '<div class="col-lg-4"><div class="contact-box">';
-						addHtml += '<a href="javascript:changeLeadingUser(' + i
-								+ ')">';
-						addHtml += '<div class="col-sm-4"><div class="text-center">';
-						addHtml+='<span class="userHead">';
-						if(n.imgUrl!=null){
-							addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'">';
-						}
-						addHtml+='</span>';
-						addHtml += '<div class="m-t-xs font-bold">交易顾问</div></div></div>';
-						addHtml += '<div class="col-sm-8">';
-						addHtml += '<input id="user_' + i
-								+ '" type="hidden" value="' + n.id + '">';
-						addHtml += '<h3><strong>' + n.realName
-								+ '</strong></h3>';
-						addHtml += '<p>联系电话：' + n.mobile + '</p>';
-						addHtml += '<p>当前单数：' + n.userCaseCount + '</p>';
-						addHtml += '<p>本月接单：' + n.userCaseMonthCount + '</p>';
-						addHtml += '<p>未过户单：' + n.userCaseUnTransCount + '</p>';
-						addHtml += '</div><div class="clearfix"></div></a>';
-						addHtml += '</div></div>';
-					})
-	$("#leading-modal-data-show").html(addHtml);
-
-	$('.contact-box').each(function() {
-		animationHover(this, 'pulse');
-	});
-	$('#leading-modal-form').modal("show");
-}
-/**
- * 变更权证
- * @param index
- */
-function changeLeadingUser(index) {
-	window.wxc.confirm("您是否确认进行责任人变更？",{"wxcOk":function(){
+//爆单
+function evalBaodan(){
+	window.wxc.confirm("确定评估爆单？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
-		var instCode = $("#instCode").val();
-		var userId = $("#user_" + index).val();
-
-		var url = "/case/changeLeadingUser";
-		var ctx = $("#ctx").val();
-		url = ctx + url;
-		var params = '&userId=' + userId + '&caseCode=' + caseCode+"&instCode="+instCode;
-
 		$.ajax({
-			cache : false,
-			async : true,
-			type : "POST",
-			url : url,
-			dataType : "json",
-			timeout : 10000,
-			data : params,
-			
-			success : function(data) {
-				if(data.success){
-					window.wxc.success("变更成功");
-					location.reload();
-				}else{
+			url:ctx+"/service/restart",
+			method:"post",
+			dataType:"json",
+			data:{caseCode:caseCode},
+		    beforeSend:function(){  
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+            },
+            complete: function() {  
+                if(status=='timeout'){//超时,status还有success,error等值的情况
+	          	  Modal.alert(
+				  {
+				    msg:"抱歉，系统处理超时。"
+				  });
+		        }
+		   } , 
+		   success:function(data){
+				if(!data.success){
+					$.unblockUI();   
 					window.wxc.error(data.message);
-				}
 				
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				}else{
+					window.location.href=ctx+"/task/serviceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
+				}
 			}
 		});
 	}});
 }
 
-/**
- * 询价申请
- */
-function evaPricingApply(){
-	var info = "系统已存在与此案件相关的询价记录，是否关联？";
-	var caseCode = $('#caseCode').val();
-	var url = ctx+'/case/checkEvaPricing?caseCode='+caseCode;
-	$.ajax({
-		cache : false,
-		async : true,
-		url:url,
-		type:'POST',
-		dataType:'json',
-		success : function(data) {
-			if(data.success){
-				if(data.content){
-					window.wxc.confirm(info,{'wxcOk':function(){
-						
-					},'wxcCancel':function(){
-						//新增询价
-						var ctx = $("#ctx").val();
-						window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
-					}});
-				}else{
-					var ctx = $("#ctx").val();
-					window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
-				}
-			}else{
-				window.wxc.error(data.message);
-			}	
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-		}
-	});
+//驳回
+function evalReject(caseCode){
 	
 }
+
 
 function dateFormat(dateTime){
 	if(dateTime ==null || dateTime == '' || dateTime == undefined){
@@ -778,4 +786,38 @@ function dateFormat(dateTime){
 	}
 	var date = new Date(dateTime);
 	return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+}
+var lamp1 = $("#Lamp1").val();
+var lamp2 = $("#Lamp2").val();
+var lamp3 = $("#Lamp3").val();
+/**
+ * 红绿灯Formate
+ * @param cellvalue
+ * @returns {String}
+ */
+function dateLampFormatter(cellvalue) {
+
+	var color='';
+	if (cellvalue < lamp1||cellvalue==null)
+		return "";
+	if (cellvalue < lamp2) {
+		color='green';
+	} else if (cellvalue < lamp3) {
+		color='yellow';
+	} else {
+		color='red';
+	}
+	var outDiv = '<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">';
+	outDiv+='<div class="sk-double-bounce1" style="background-color:'+color+'"></div>';
+	outDiv+='<div class="sk-double-bounce2" style="background-color:'+color+'"></div>';
+	outDiv+='</div>';
+	return outDiv;
+}
+
+function isRedFormatter(cellvalue) {
+
+	var reStr='无';
+	if (cellvalue =='1')
+		reStr='有';
+	return reStr;
 }

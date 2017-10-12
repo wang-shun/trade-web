@@ -751,12 +751,19 @@
                     }
                 } ,
                 success : function(data) {
-					$.unblockUI();
+					//$.unblockUI();
 					if (b) {
-						caseTaskCheck();
-						if (null != data.message) {
-							window.wxc.alert(data.message);
+					    if(data.data){
+                            caseTaskCheck();
+                            if (null != data.message) {
+                                window.wxc.alert(data.message);
+                            }
+						}else {
+					        window.wxc.error(data.message,{"wxcOk":function () {
+                                window.location.href = "${ctx }/task/myTaskList";
+                            }})
 						}
+
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
 						window.wxc.success("保存成功。",{"wxcOk":function(){
