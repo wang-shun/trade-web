@@ -112,10 +112,14 @@ text-decoration: underline !important;
 	min-width: 140px;
 	display: inline-block;
 }
-
+#exportExcel{
+	width:84px;
+	float:right;
+}
 .sign_right_one_case{
 	width:130px;
 }
+
 </style>
 </head>
 <body>
@@ -195,8 +199,8 @@ text-decoration: underline !important;
              
 			 <div class="row date-info clearfix">
 				<div class="form_content">
-						<div id="dateDiv_0" >
-							<div id="select_div_0" class="sign_left">
+						<div id="dateDiv_0" style="padding-left:45px;">
+							<div id="select_div_0" class="sign_left_one " >
 								<aist:dict id="case_date_0" name="case_date" clazz="form-control" display="select" defaultvalue="30007001" dictType="30007" />
 							</div>
 							<div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
@@ -227,10 +231,10 @@ text-decoration: underline !important;
 	 		<div class="row m-t-sm">
 				<div class="form_content">
 					<div class="more_btn">
-						<button id="more" type="button" class="btn  btn-default btn_more">更多搜索条件<i class="fa fa-caret-up"></i> </button>
-						<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
+						<button id="more" type="button" class="btn  btn-default btn_more">更多搜索条件<i class="fa fa-caret-up"></i> </button>&nbsp;&nbsp;&nbsp;&nbsp;
+						<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;&nbsp;&nbsp;
 						<!-- <button id="addNewCase"  type="button" class="btn btn-success">新增案件</button> -->									
-						<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
+						<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						
 						<div id="exportExcel">   
 							<a data-toggle="modal" class="btn btn-primary" href="javascript:void(0)" onclick="javascript:showExcelIn()">案件导出</a>							
@@ -287,35 +291,26 @@ text-decoration: underline !important;
 							<div class="col-sm-9 checkbox i-checks checkbox-inline">
 								<aist:dict id="basic_info_item" name="basic_info_item"
 									display="checkbox" clazz="excel_in" defaultvalue=""
-									dictType="30010" />
+									dictType="60001" />
 							</div>
 						</div>
 
 						<div class="hr-line-dashed"></div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">贷款服务信息</label>
+							<label class="col-sm-2 control-label">贷款基本信息</label>
 							<div class="col-sm-9 checkbox i-checks checkbox-inline">
 								<aist:dict id="mortage_info_item" name="mortage_info_item"
 									display="checkbox" clazz="excel_in"
-									defaultvalue="30010006,30010007" dictType="30011" />
+									defaultvalue="" dictType="60002" />
 							</div>
 						</div>
 						<div class="hr-line-dashed"></div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label">交易服务信息</label>
+							<label class="col-sm-2 control-label">交易基本信息</label>
 							<div class="checkbox i-checks checkbox-inline">
 								<aist:dict id="trade_info_item" name="trade_info_item"
 									display="checkbox" clazz="excel_in" defaultvalue=""
-									dictType="30012" />
-							</div>
-						</div>
-						<div class="hr-line-dashed"></div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">资金监管信息</label>
-							<div class="checkbox i-checks checkbox-inline">
-								<aist:dict id="fund_info_item" name="fund_info_item"
-									display="checkbox" clazz="excel_in" defaultvalue=""
-									dictType="30013" />
+									dictType="60003" />
 							</div>
 						</div>
 						<div class="hr-line-dashed"></div>
@@ -344,7 +339,8 @@ text-decoration: underline !important;
 <input type="hidden" id="userId" value="${userId}" />
 
 
-<!-- <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form> cyx-->
+<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
+
 <content tag="local_script"> 
 <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
 <script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
@@ -416,30 +412,6 @@ text-decoration: underline !important;
 						
 						<td class="center">
                         	<p>
-							{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
-								{{if item.SELLER.split("/").length-1 >1}}
-									{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
-									{{
-									(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
-									}}</br>...
-								{{else}}
-									{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
-									{{
-									(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
-									}}</br>
-								{{/if}}
-							{{else}}
-								{{ if item.SELLER.length>5}}
-									{{item.SELLER.substring(0,5)}}...
-								{{else}}
-									{{item.SELLER}}
-								{{/if}}
-							{{/if}}
-							</p>
-                       	</td>
-
-                       	<td class="center">
-                        	<p>
 							{{ if item.BUYER !="" && item.BUYER !=null && item.BUYER.indexOf("/") >-1}}
 								{{if item.BUYER.split("/").length-1 >1}}
 									{{item.BUYER.substring(0,item.BUYER.indexOf("/"))}}<br>
@@ -461,6 +433,30 @@ text-decoration: underline !important;
 							{{/if}}
                          	</p>
                         </td>
+
+						<td class="center">
+                        	<p>
+							{{ if item.SELLER !="" && item.SELLER !=null && item.SELLER.indexOf("/") >-1}}
+								{{if item.SELLER.split("/").length-1 >1}}
+									{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+									{{
+									(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).indexOf("/"))+1)
+									}}</br>...
+								{{else}}
+									{{item.SELLER.substring(0,item.SELLER.indexOf("/"))}}<br>
+									{{
+									(item.SELLER.substring(item.SELLER.indexOf("/"),item.SELLER.length)).substring(1,((item.SELLER.substring(item.SELLER.indexOf("/")+1,item.SELLER.length)).length)+1)
+									}}</br>
+								{{/if}}
+							{{else}}
+								{{ if item.SELLER.length>5}}
+									{{item.SELLER.substring(0,5)}}...
+								{{else}}
+									{{item.SELLER}}
+								{{/if}}
+							{{/if}}
+							</p>
+                       	</td>
 
 						<td class="center">
 							<p >{{item.FONT_NAME}}</p>
