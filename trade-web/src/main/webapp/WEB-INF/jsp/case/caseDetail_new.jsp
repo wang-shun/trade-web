@@ -540,6 +540,7 @@
 	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
+	<script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script><%--by wbzhouht 添加时间组件js，解决时间显示撑破布局--%>
 
 	<script	src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/jasny/jasny-bootstrap.min.js' />"></script>
@@ -553,7 +554,7 @@
 	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/additional-methods.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
-	<script src="<c:url value='/js/stickUp.js' />"></script>
+	<%--<script src="<c:url value='/js/stickUp.js' />"></script>--%> <%--by wbzhouht 解决点击交易变化变更js报错--%>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
 	<!-- 放款监管信息  -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>

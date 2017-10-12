@@ -96,7 +96,7 @@ function initGrid() {
 
 			});
 
-	 
+
 		 var width = $('.test').width();
 	     $('#table_list_case_task').setGridWidth(width);
 		//$('#table_list_case_task').setGridWidth('650px');
