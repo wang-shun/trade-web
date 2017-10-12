@@ -325,22 +325,22 @@ function resetPlanModal(){
             $("#plan-form").html(inHtml);
             console.log(data);
 			$.each(data, function(k, v){
-				inHtml+='<div class="form-group"><div class="col-lg-2 control-label">';
-				inHtml+= '预计'+v.partName+'时间';
-				inHtml+='</div><div class="col-lg-4 control-label" style="text-align:left; margin-top:-10px;" >';
-				inHtml+='<input type="hidden" id="pkId_'+k+'" name="estId" value="'+v.pkid+'" >';
-				inHtml+='<input type="hidden" id="isChange_'+k+'" name="estFlag" value="false" >';
-				inHtml+='<span style="position: relative; z-index: 9999;">';
-				inHtml+='<div class="input-group date"><span class="input-group-addon">';
-				inHtml+='<i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>';
-				inHtml+='<input class="form-control" type="text" id="estPartTime_'+k+'" name="estPartTime" value="'+v.estPartTimeStr+'" lang="' + v.estPartTimeStr + '" onchange="javascript:changeEstTime('+k+')">';
-				inHtml+='</div>	</span></div>';
-				inHtml+='<div class="col-lg-1 control-label">';
-				inHtml+= '变更理由';
-				inHtml+='</div><div class="col-lg-3 control-label" style="text-align:left; margin-top:-10px;" >';
-				inHtml+='<input class="form-control" type="text" id="whyChange_'+k+'" name="whyChange" value="" onfocus="javascript:initBorderColor(this);">';
-				inHtml+='</div>';
-				inHtml+='</div>';
+                inHtml+='<div class="form-group"><div class="col-lg-2 control-label">';
+                inHtml+= '预计'+v.partName+'时间';
+                inHtml+='</div><div class="col-lg-4 control-label" style="text-align:left; margin-top:-10px;" >';
+                inHtml+='<input type="hidden" id="pkId_'+k+'" name="estId" value="'+v.pkid+'" >';
+                inHtml+='<input type="hidden" id="isChange_'+k+'" name="estFlag" value="false" >';
+                inHtml+='<span style="position: relative; z-index: 9999;">';
+                inHtml+='<div class="input-group date"><span class="input-group-addon">';
+                inHtml+='<i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>';
+                inHtml+='<input class="form-control" type="text" id="estPartTime_'+k+'" name="estPartTime" value="'+v.estPartTimeStr+'" lang="' + v.estPartTimeStr + '" onchange="javascript:changeEstTime('+k+')">';
+                inHtml+='</div>	</span></div>';
+                inHtml+='<div class="col-lg-1 control-label">';
+                inHtml+= '变更理由';
+                inHtml+='</div><div class="col-lg-3 control-label" style="text-align:left; margin-top:-10px;" >';
+                inHtml+='<input class="form-control" type="text" id="whyChange_'+k+'" name="whyChange" value="" onfocus="javascript:initBorderColor(this);">';
+                inHtml+='</div>';
+                inHtml+='</div>';
 
 			});
 			$("#plan-form").html(inHtml);

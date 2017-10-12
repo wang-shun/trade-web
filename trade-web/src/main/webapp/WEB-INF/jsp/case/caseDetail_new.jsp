@@ -24,7 +24,7 @@
 <link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
 
 <link href="<c:url value='/css/plugins/jasny/jasny-bootstrap.min.css' />"	rel="stylesheet">
-
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"	rel="stylesheet">
 <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />"	rel="stylesheet">
 <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />"	rel="stylesheet">
 <link href="<c:url value='/css/transcss/comment/caseComment.css' />"	rel="stylesheet">
