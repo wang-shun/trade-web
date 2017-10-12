@@ -2,6 +2,10 @@ package com.centaline.trans.ransom.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
+import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.mgr.entity.TsFinOrg;
 
 /**
  * @author wbwumf
@@ -78,6 +82,7 @@ public class ToRansomFormVo {
 	private Date updateTime;
 	
 	private String updateUser;
+	
 
 	public Long getPkid() {
 		return pkid;

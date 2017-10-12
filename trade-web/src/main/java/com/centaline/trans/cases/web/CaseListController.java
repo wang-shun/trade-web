@@ -46,7 +46,7 @@ public class CaseListController {
 	 */
 	@RequestMapping(value="myCaseList")
 	public String myCaseList(Model model, ServletRequest request){
-		//TODO
+
 		SessionUser user = uamSessionService.getSessionUser();
 		String userJob=user.getServiceJobCode();
 		boolean queryOrgFlag = false;
@@ -54,6 +54,7 @@ public class CaseListController {
 
         StringBuffer reBuffer = new StringBuffer();
         //如果登录用户不是交易顾问
+        //TODO 如果非交易顾问(过户/贷款权证),查组织内案件
 		if(!userJob.equals(TransJobs.TJYGW.getCode())){
 			queryOrgFlag=true;
 			String depString = user.getServiceDepHierarchy();
@@ -71,7 +72,7 @@ public class CaseListController {
 				reBuffer.deleteCharAt(reBuffer.length()-1);
 				
 			}else{
-				isAdminFlag=true;
+				isAdminFlag=true;//总部flag
 			}
 		}
 		request.setAttribute("queryOrgs", reBuffer.toString());

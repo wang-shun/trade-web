@@ -30,15 +30,17 @@ import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.eval.entity.ToEvaCommissionChange;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
+import com.centaline.trans.eval.service.ToEvaCommPersonAmountService;
 import com.centaline.trans.eval.service.ToEvaCommissionChangeService;
 import com.centaline.trans.eval.service.ToEvaFeeRecordService;
+import com.centaline.trans.eval.vo.EvalChangeCommVO;
 
 
 
 /**
  * @author xiefei1
  * @since 2017年9月25日 上午11:19:52 
- * @description 评估费发票管理
+ * @description 评估费发票管理及调佣对象，金额
  */
 @Controller
 @RequestMapping(value = "/eval")
@@ -54,8 +56,14 @@ public class EvalInvoiceController {
 	private ToEvaCommissionChangeService toEvaCommissionChangeService;
 	@Autowired
 	private UamPermissionService uamPermissionService;
+	@Autowired
+	private ToEvaCommPersonAmountService toEvaCommPersonAmountService;
 
-
+	/**
+	 * @since:2017年10月11日 上午11:04:28
+	 * @description: 跳转页面
+	 * @author:xiefei1
+	 */
 	@RequestMapping(value = "invoiceAudit")
 	public String toInvoiceAudit(HttpServletRequest request,Model model,String caseCode) {
 		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
@@ -64,7 +72,48 @@ public class EvalInvoiceController {
 		model.addAttribute("caseCode", caseCode);
 		return "eval/invoiceAudit";
 	}
-	
+	/**
+	 * @since:2017年10月11日 上午11:04:28
+	 * @description: 跳转页面
+	 * @author:xiefei1
+	 */
+	@RequestMapping(value = "invoiceApply")
+	public String toInvoiceApply(HttpServletRequest request,Model model,String caseCode) {
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		model.addAttribute("caseCode", caseCode);
+		return "eval/invoiceApply";
+	}
+	/**
+	 * @since:2017年10月11日 上午11:04:28
+	 * @description: 跳转页面
+	 * @author:xiefei1
+	 */
+	@RequestMapping(value = "issueInvoice")
+	public String toIssueInvoice(HttpServletRequest request,Model model,String caseCode) {
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		request.setAttribute("ctx", ctx);
+		model.addAttribute("caseCode", caseCode);
+		return "eval/issueInvoice";
+	}
+	/**
+	 * @since:2017年10月11日 上午11:04:28
+	 * @description: 跳转页面
+	 * @author:xiefei1
+	 */
+	@RequestMapping(value = "issueInvoiceChangeComm")
+	public String toIssueInvoiceChangeComm(HttpServletRequest request,Model model,String caseCode) {
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		
+		EvalChangeCommVO fullEvalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
+		request.setAttribute("ctx", ctx);
+		model.addAttribute("caseCode", caseCode);
+		model.addAttribute("fullEvalChangeCommVO", fullEvalChangeCommVO);
+		return "eval/issueInvoiceChangeComm";
+	}
 	@RequestMapping(value = "save")
 	@ResponseBody
 	public HashMap<String, Object> saveEval(HttpServletRequest request,ToEvaCommissionChange toEvaCommissionChange) {

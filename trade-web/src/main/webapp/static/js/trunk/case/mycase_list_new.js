@@ -76,14 +76,14 @@ $('#searchButton').click(function() {
 });
 
 //新增案件
-$('#addNewCase').click(function() {
+/*$('#addNewCase').click(function() {
 	window.location.href = ctx+"/caseMerge/addCase/case";
-});
+});*/
 
 //新建外单案件
-$('#addNewWdCase').click(function() {
+/*$('#addNewWdCase').click(function() {
 	window.location.href = ctx+"/caseMerge/addWdCase";
-});
+});*/
 
 // 添加日期查询条件
 var divIndex = 1;
@@ -314,18 +314,18 @@ function getParamsValue() {
 	if (caseProperty == '30003006'){
 		caseProperty = null;
 	}
-	// 如果不是结案结案
+	// 如果不是结案结案,默认查询不显示已结案案件
 	var isNotResearchCloseCase;
 	if(caseProperty != '30003002') {
 		isNotResearchCloseCase = "true";
 	}
-	//状态为未指定，条件无
-	if (status == '30001006'){
+	//状态为空，条件无
+	if (status == ''){
 		status = null;
 	}
 	// 产品类型
-	getCheckBoxValues("srvCode");
-	// 客户姓名 物业地址 经纪人
+	getCheckBoxValues();
+	// 客户姓名/产权地址/经纪人/案件编号/成交报告编号
 	var inTextVal = $('#inTextVal').val();
 	//条件为权证专员及所属分行时，AutoComplete自动查询补全数据,intextTypeChange()
 	var hVal = $('#inTextVal').attr('hVal');
@@ -337,7 +337,7 @@ function getParamsValue() {
 	var agentOrgName = "";
 	// caseCode与ctmCode
 	var caseCode =  "";
-	var ctmCode = "";
+	var ccaiCode = "";
 	if (inTextVal != null && inTextVal.trim() != "") {
 		var inTextType = $('#inTextType').val();
 		if (inTextType == '0') {
@@ -353,7 +353,7 @@ function getParamsValue() {
 		}else if (inTextType == '5') {
 			caseCode = inTextVal.trim();//案件编号
 		}else if (inTextType == '6') {
-			ctmCode = inTextVal.trim();//成交报告编号
+			ccaiCode = inTextVal.trim();//成交报告编号
 		}
 	}
 
@@ -362,21 +362,20 @@ function getParamsValue() {
 	var params = {
 		argu_sessionUserId : $("#userId").val(),
 		argu_isSubscribeFilter : isSubscribeFilter,
-		/*argu_caseOriginType : caseOriginType,*/
 		argu_mortageType : mortageType,
-
-		argu_caseCode : caseCode,
-		argu_ctmCode : ctmCode,
 		argu_caseProperty : caseProperty,
 		argu_status : status,
-
+		
+		argu_yuCuiOriGrpId : yuCuiOriGrpId,
+		
+		argu_caseCode : caseCode,
+		argu_ccaiCode : ccaiCode,
 		argu_guestname : guestName, //客户姓名
 		argu_agentName :agentName, //经纪人姓名  直接姓名，不是id
-
 		argu_proName : proName,  //交易顾问的userid
 		argu_agentOrgName : agentOrgName, //所属分行  orgid
-
 		argu_propertyAddr : propertyAddr,
+		
 		argu_srvCode : srvCode,
 		argu_srvCode1 : srvCode1,
 		argu_srvCode2 : srvCode2,
@@ -393,148 +392,97 @@ function getParamsValue() {
 		argu_srvCode14 : srvCode14,
 		argu_srvCode15 : srvCode15,
 
-		argu_createTimeStart : createTimeStart,
-		argu_resDateStart : resDateStart,
-		argu_approveTimeStart : approveTimeStart,
-		argu_createTimeEnd : createTimeEnd,
-		argu_resDateEnd : resDateEnd,
-		argu_approveTimeEnd : approveTimeEnd,
+		argu_recTimeStart : recTimeStart,
+		argu_netSignTimeStart : netSignTimeStart,
+		argu_guohuTimeStart : guohuTimeStart,
+		argu_recTimeEnd : recTimeEnd,
+		argu_netSignTimeEnd : netSignTimeEnd,
+		argu_guohuTimeEnd : guohuTimeEnd,
 
-		argu_realConTimeStart : realConTimeStart,
-		argu_realConTimeEnd : realConTimeEnd,
-		argu_realConTime : (realConTimeStart == null && realConTimeEnd == null ? null : true),
+		argu_lzTimeStart : lzTimeStart,
+		argu_lzTimeEnd : lzTimeEnd,
 
-		argu_realHtTimeStart : realHtTimeStart,
-		argu_realHtTimeEnd : realHtTimeEnd,
-		argu_realHtTime : (realHtTimeStart == null && realHtTimeEnd == null ? null : true),
-
-		argu_realPropertyGetTimeStart : realPropertyGetTimeStart,
-		argu_realPropertyGetTimeEnd : realPropertyGetTimeEnd,
-		argu_realPropertyGetTime : (realPropertyGetTimeStart == null && realPropertyGetTimeEnd == null ? null : true),
-
-		argu_signDateStart : signDateStart,
-		argu_signDateEnd : signDateEnd,
-		argu_lendDateStart : lendDateStart,
-		argu_lendDateEnd : lendDateEnd,
+		argu_signTimeStart : signTimeStart,
+		argu_signTimeEnd : signTimeEnd,
+		argu_lendTimeStart : lendTimeStart,
+		argu_lendTimeEnd : lendTimeEnd,
 		argu_signlendDate : (signDateStart == null && signDateEnd == null && lendDateStart == null && lendDateEnd == null ? null : true),
 
-		argu_guohuApproveTimeStart : guohuApproveTimeStart,
-		argu_guohuApproveTimeEnd : guohuApproveTimeEnd,
-		argu_guohuApproveTime : (guohuApproveTimeStart == null && guohuApproveTimeEnd == null ? null : true),
+		argu_closeTimeStart : closeTimeStart,
+		argu_closeTimeEnd : closeTimeEnd,
 
-
-		argu_yuCuiOriGrpId : yuCuiOriGrpId,
 		argu_isNotResearchCloseCase : isNotResearchCloseCase
 
 	};
 	return params;
 }
 
-//待dict确认再算
-// 日期类型
-var createTimeStart, resDateStart, realHtTimeStart, realPropertyGetTimeStart, realConTimeStart, signDateStart, lendDateStart, approveTimeStart,guohuApproveTimeStart;
-var createTimeEnd, resDateEnd, realHtTimeEnd, realPropertyGetTimeEnd, realConTimeEnd, signDateEnd, lendDateEnd, approveTimeEnd,guohuApproveTimeEnd;
+/**
+ * 案件日期条件：接单，网签，过户，领他证，放款，结案归档，面签
+ */
+var recTimeStart=null; var netSignTimeStart=null; var guohuTimeStart=null; var lzTimeStart=null; var lendTimeStart=null; var closeTimeStart=null; var signTimeStart=null;
+var recTimeEnd=null;   var netSignTimeEnd=null;   var guohuTimeEnd=null;   var lzTimeEnd=null;   var lendTimeEnd=null;   var closeTimeEnd=null;   var signTimeEnd=null;
 
-// 日期控件取值
 function getSearchDateValues() {
-
-	createTimeStart = null;
-	createTimeEnd = null;
-
-	resDateStart = null;
-	resDateEnd = null;
-
-	realHtTimeStart = null;
-	realHtTimeEnd = null;
-
-	realPropertyGetTimeStart = null;
-	realPropertyGetTimeEnd = null;
-
-	realConTimeStart = null;
-	realConTimeEnd = null;
-
-	lendDateStart = null;
-	lendDateEnd = null;
-
-	signDateStart = null;
-	signDateEnd = null;
-
-	approveTimeStart = null;
-	approveTimeEnd = null;
-
-	guohuApproveTimeStart = null;
-	guohuApproveTimeEnd = null;
-
 	var codeStr = "";
 	for (var r = 0; r < divIndex; r++) {
 		var val = $('#case_date_' + r + ' option:selected').val();
-		if (val == undefined)
-			continue;
+		if (val == undefined) continue;
 		var start = $('#dtBegin_' + r).val();
 		var end = $('#dtEnd_' + r).val();
 		if(end&&end!=''){
 			end=end+' 23:59:59';
 		}
-		if (codeStr.indexOf(val) != -1)
-			return false;
+		if (codeStr.indexOf(val) != -1) return false;
+		
 		codeStr += val;
 		if (start != "") {
-			if (val == '30005001') {
-				//派单日期  CASE_CREATE_TIME
-				createTimeStart = start;
-			} else if (val == '30005002') {
-				//分单日期  CASE_DISPATCH_TIME
-				resDateStart = start;
-			} else if (val == '30005003') {
-				//签约日期  CASE_REAL_CON_TIME
-				realConTimeStart = start;
-			} else if (val == '30005004') {
-				//过户日期  TRANSFER_REAL_HT_TIME
-				realHtTimeStart = start;
-			} else if (val == '30005005') {
-				//领证日期  CASE_REAL_PROPERTY_GET_TIME
-				realPropertyGetTimeStart = start;
-			} else if (val == '30005006') {
-				//签约日期（贷款）  MORT_SIGN_DATE
-				signDateStart = start;
-			} else if (val == '30005007') {
-				//放款日期（贷款）  MORT_LEND_DATE
-				lendDateStart = start;
-			} else if (val == '30005008') {
-				//结案日期  CASE_CLOSE_TIME
-				approveTimeStart = start;
-			} else if (val == '30005009') {
-				//过户审批日期 TRANSFER_APP_TIME
-				guohuApproveTimeStart = start;
+			if (val == '30007001') {
+				//接单日期
+				recTimeStart = start;
+			} else if (val == '30007002') {
+				//网签日期
+				netSignTimeStart = start;
+			} else if (val == '30007003'){
+				//过户日期
+				guohuTimeStart = start;
+			} else if (val == '30007004'){
+				//领他证日期
+				lzTimeStart = start;
+			} else if (val == '30007005'){
+				//放款日期
+				lendTimeStart = start;
+			} else if (val == '30007006'){
+				//结案归档日期
+				closeTimeStart = start;
+			} else if (val == '30007007'){
+				//面签日期
+				signTimeStart = start;
 			}
 		}
 		if (end != "") {
-			if (val == '30005001') {
-				createTimeEnd = end;
-			} else if (val == '30005002') {
-				resDateEnd = end;
-			} else if (val == '30005003') {
-				realConTimeEnd = end;
-			} else if (val == '30005004') {
-				realHtTimeEnd = end;
-			} else if (val == '30005005') {
-				realPropertyGetTimeEnd = end;
-			} else if (val == '30005006') {
-				signDateEnd = end;
-			} else if (val == '30005007') {
-				lendDateEnd = end;
-			} else if (val == '30005008') {
-				approveTimeEnd = end;
-			} else if (val == '30005009') {
-				guohuApproveTimeEnd = end;
-			}
-		}
+			if (val == '30007001') {
+				recTimeEnd = end;
+			} else if (val == '30007002') {
+				netSignTimeEnd = end;
+			} else if (val == '30007003') {
+				guohuTimeEnd = end;
+			} else if (val == '30007004') {
+				lzTimeEnd = end;
+			} else if (val == '30007005') {
+				lendTimeEnd = end;
+			} else if (val == '30007006') {
+				closeTimeEnd = end;
+			} else if (val == '30007007') {
+				signTimeEnd = end;
+			} 
+		}	
 	}
 	return true;
 }
 
+//TODO e+去除，预保留6个，后续待定
 // 产品类型
-var srvCode;
 var srvCode1;
 var srvCode2;
 var srvCode3;
@@ -549,8 +497,7 @@ var srvCode12;
 var srvCode13;
 var srvCode14;
 var srvCode15;
-function getCheckBoxValues(name) {
-	srvCode = "";
+function getCheckBoxValues() {
 	srvCode1 = "";
 	srvCode2 = "";
 	srvCode3 = "";
@@ -565,10 +512,9 @@ function getCheckBoxValues(name) {
 	srvCode13 = "";
 	srvCode14 = "";
 	srvCode15 = "";
-	//$("input[name=" + name + "].selected").each(function() {
+
 	$("span[name='srvCode'].selected").each(function() {
 		var val = $(this).attr('value');
-		srvCode += val + ",";
 
 		if (val == '30004001') {
 			srvCode1 = val;
@@ -578,7 +524,8 @@ function getCheckBoxValues(name) {
 			srvCode3 = val;
 		} else if (val == '30004004') {
 			srvCode4 = val;
-		} else if (val == '30004005') {
+		}
+		/*else if (val == '30004005') {
 			srvCode5 = val;
 		} else if (val == '30004006') {
 			srvCode6 = val;
@@ -586,9 +533,14 @@ function getCheckBoxValues(name) {
 			srvCode7 = val;
 		} else if (val == '30004008') {
 			srvCode8 = val;
-		} else if (val == '30004009') {
+		}*/
+		else if (val == '30004009') {
 			srvCode9 = val;
-		} else if (val == '30004011') {
+		}
+		else if (val == '30004010') {
+			srvCode10 = val;
+		}
+		/*else if (val == '30004011') {
 			srvCode11 = val;
 		} else if (val == '30004012') {
 			srvCode12 = val;
@@ -598,7 +550,7 @@ function getCheckBoxValues(name) {
 			srvCode14 = val;
 		} else if (val == '30004015') {
 			srvCode15 = val;
-		}
+		}*/
 	});
 }
 
@@ -678,4 +630,9 @@ function caseCodeSort(){
 	}else{
 		$("#caseCodeSorti").attr("class",'fa fa-sort-desc fa_down');
 	}
+}
+
+function showExcelIn() {
+	checkAllItem();
+	$('#modal-form').modal("show");
 }
