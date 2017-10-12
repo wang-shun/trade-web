@@ -246,11 +246,14 @@
 					         GROUP BY TG1.CASE_CODE,TG1.GUEST_NAME
 					 ) F ON A.CASE_CODE = F.CASE_CODE
 					 where 1=1
+					 <ifNotNull evalStatus>
+					     AND ERP.STATUS = #evalStatus#
+					</ifNotNull>
 					 <ifNotNull finOrgId>
-					AND ERP.FIN_ORG_ID = #finOrgId#
+					     AND ERP.FIN_ORG_ID = #finOrgId#
 					</ifNotNull>
 					<ifNotNull caseCode>
-					AND D.CASE_CODE like '%'+#caseCode#+'%'
+					     AND D.CASE_CODE like '%'+#caseCode#+'%'
 					</ifNotNull>
 					<ifNotNull  createTimeStart>
 							AND ERP.SYS_CREATE_TIME >= #createTimeStart#  

@@ -1,7 +1,7 @@
 package com.centaline.trans.eval.entity;
 
 import java.math.BigDecimal;
-/**
+/** 
  * @author xiefei1
  * @since 2017年10月11日 下午3:14:04 
  * @description 调佣

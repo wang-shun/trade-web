@@ -25,7 +25,7 @@ public enum WorkFlowEnum {
 	LOANLOST_PROCESS("LoanLost_Process:10:950004","LoanLost_Process"),	
 	LOANER_PROCESS("Loaner_Process:5:1030036","Loaner_Process"),	
 	PSFLOAN_PROCESS("PSFLoan_Process:1:645460","PSFLoan_Process"),
-	EVAL_PROCESS("EvalProcess:1:1235087","processDefinitionKey"),
+	EVAL_PROCESS("EvalProcess","processDefinitionKey"),
 	//随便写的
 	COMANDPSFLOAN_PROCESS("PSFLoan_Process:1:645460","ComLoanAndPSFLoan_Process"),
 	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId"),
