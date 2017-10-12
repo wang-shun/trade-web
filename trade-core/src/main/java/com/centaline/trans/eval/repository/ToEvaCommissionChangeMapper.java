@@ -5,6 +5,10 @@ import com.centaline.trans.eval.entity.ToEvaCommissionChange;
 
 @MyBatisRepository  /*by wbzhouht 未添加mybatis注解导致sevice注入失败*/
 public interface ToEvaCommissionChangeMapper {
+	int updateByCaseCodeSelective(ToEvaCommissionChange record);
+	
+	ToEvaCommissionChange selectByCaseCode(String caseCode);
+	
     int deleteByPrimaryKey(Long pkid);
 
     int insert(ToEvaCommissionChange record);

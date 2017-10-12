@@ -23,7 +23,9 @@ public enum TransDictEnum {
 	TLENDWAY("30017", "放款方式"),
 	TSQZT("yu_eplus_status","申请状态"),
 	TSYLB("yu_income_cat","收益类别"),
+    TRANSPLANDATE("trans_plan_code","交易计划时间"),/*by wbzhouht*/
 	THKFS("LoanCloseMethod", "还款方式");
+
     private String name;
 
     private String code;

@@ -99,12 +99,13 @@ public class KnotCommissionController {
 				ToCase ca  = toCaseService.findToCaseByCaseCode(knotCommissionVO.getCaseCode());
 				ca.setStartDate(CaseStatusEnum.YJY.getCode());
 				toCaseService.updateByCaseCodeSelective(ca);
+				rs.setData(true);
 				rs.setMessage("提交成功！");
 				System.out.println(apiResultData.toString());
 			}
 		}else {
-			rs.setMessage("提交失败！");
-			System.out.println(apiResultData.toString());
+			rs.setData(false);
+			throw new BusinessException(apiResultData.getMessage());
 		}
 		return rs;
 	}

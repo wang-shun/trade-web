@@ -322,6 +322,8 @@ function resetPlanModal(){
 		success : function(data) {
 
 			var inHtml = "";
+            $("#plan-form").html(inHtml);
+            console.log(data);
 			$.each(data, function(k, v){
 				inHtml+='<div class="form-group"><div class="col-lg-2 control-label">';
 				inHtml+= '预计'+v.partName+'时间';
@@ -342,6 +344,12 @@ function resetPlanModal(){
 
 			});
 			$("#plan-form").html(inHtml);
+			$.each(data,function (k1,v1) {
+                if(!v1.edit){
+                    $("#estPartTime_"+k1).prop("disabled","disabled");
+                    $("#whyChange_"+k1).attr("disabled","disabled");
+                }
+            })
 			 $('.input-group.date').datepicker({
 				  todayBtn: "linked",
 	                keyboardNavigation: false,
