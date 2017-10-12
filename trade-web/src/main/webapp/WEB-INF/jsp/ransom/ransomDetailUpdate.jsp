@@ -133,20 +133,7 @@
 						<td>操作</td>
 					</tr>
 				</thead>
-				<tbody id="work-info">
-<!-- 					<tr>
-						<td>申请</td>
-						<td>2017-01-01</td>
-						<td>小王</td>
-						<td><a href="javascript:void(0)">前往修改</a></td>
-					</tr>
-					<tr>
-						<td>面签</td>
-						<td>2017-01-01</td>
-						<td>小王</td>
-						<td><a href="javascript:void(0)">前往修改</a></td>
-					</tr>
- -->				</tbody>
+				<tbody id="work-info"></tbody>
 			</table>
 			<div>
 				<div class="text-center">
