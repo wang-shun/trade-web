@@ -16,9 +16,6 @@ import com.centaline.trans.api.service.FlowApiService;
 import com.centaline.trans.api.vo.ApiResultData;
 import com.centaline.trans.api.vo.FlowFeedBack;
 import com.centaline.trans.common.enums.*;
-import com.centaline.trans.engine.bean.TaskQuery;
-import com.centaline.trans.engine.vo.PageableVo;
-import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.vo.MortgageToSaveVO;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +33,6 @@ import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
-import com.centaline.trans.award.entity.TsAwardCaseCental;
 import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
@@ -54,8 +50,6 @@ import com.centaline.trans.satisfaction.service.SatisfactionService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.repository.ToHouseTransferMapper;
-import com.centaline.trans.task.repository.ToTaxMapper;
-import com.centaline.trans.task.service.AwardBaseService;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.service.ToHouseTransferService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
@@ -82,8 +76,6 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
     private WorkFlowManager workFlowManager;
 
     @Autowired
-    private AwardBaseService awardBaseService;
-    @Autowired
     SatisfactionService satisfactionService;
     @Autowired(required = true)
     private UamTemplateService uamTemplateService;
@@ -91,8 +83,6 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
     private ToPropertyInfoService toPropertyInfoService;
     @Autowired
     private LoanlostApproveService loanlostApproveService;
-    @Autowired
-    private ToTaxMapper toTaxMapper;
 
     @Autowired(required = true)
     private UamSessionService uamSessionService;/* 用户信息 */
@@ -100,9 +90,6 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
     @Autowired(required = true)
     @Qualifier("uamMessageServiceClient")
     private UamMessageService uamMessageService;
-
-    @Autowired
-    private TsAwardCaseCentalService tsAwardCaseCentalService;
 
     @Autowired
     private TsCaseEfficientMapper tsCaseEfficientMapper;
