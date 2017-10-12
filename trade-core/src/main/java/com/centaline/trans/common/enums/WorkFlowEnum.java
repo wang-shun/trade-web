@@ -16,6 +16,8 @@ public enum WorkFlowEnum {
 	SPV_CLOSE_DEFKEY("SpvCloseApplyProcess","processDefinitionKey"),
 	TMP_BANK_DEFKEY("TempBankAudit_Process","processDefinitionKey"),
 	SATIS_DEFKEY("SatisProcess","processDefinitionKey"),
+	//自办贷款/评估审批流程
+	LOANANDASSE_PROCESS("loanAndAsse_Process","loanAndAsse_Process"),
 	
 	SPV_OUT("spv_out","businessKey"),
 	SERVICE_RESTART("serviceRestart","serviceRestartBusinesskey"),

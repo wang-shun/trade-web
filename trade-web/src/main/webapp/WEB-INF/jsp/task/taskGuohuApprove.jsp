@@ -123,6 +123,7 @@
 
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 <!-- 服务流程 -->
 <div class="row wrapper white-bg new-heading " id="serviceFlow">
@@ -528,6 +529,7 @@
     <!-- 附件保存修改相关 -->
     <script src="<c:url value='/js/trunk/task/attachment.js' />"></script><%--  --%>
     <script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
+    <script src="<c:url value='/transjs/common/caseTaskCheck.js' />"></script>
     <!-- 图片查看JS -->
     <script src="<c:url value='/js/trunk/case/showCaseAttachmentGuohu.js' />"></script>
 
@@ -541,6 +543,8 @@
     <script src="<c:url value='/js/common/textarea.js' />"></script>
     <script src="<c:url value='/js/common/common.js' />"></script>
 
+    <!-- 必须JS -->
+    <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
     <!--公共信息-->
     <script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
     <script>
@@ -747,6 +751,7 @@
                 dataType : "json",
                 data : jsonData,
                 beforeSend : function() {
+                    console.log(11111)
                     $.blockUI({
                         message : $("#salesLoading"),
                         css : {
@@ -759,7 +764,7 @@
                     });
                 },
                 complete : function() {
-
+                    $.unblockUI();
                     if (status == 'timeout') {//超时,status还有success,error等值的情况
                         Modal.alert({
                             msg : "抱歉，系统处理超时。"
@@ -770,28 +775,14 @@
                     }
                 },
                 success : function(data) {
-                    //	alert("数据已保存。");
-                       /* caseTaskCheck();
-                        if (null != data.message) {
-                            window.wxc.alert(data.message);
-                        }else {
+                    if(data){
+                        caseTaskCheck();
+                        window.wxc.alert("提交成功！");
+                    }else {
+                        window.wxc.error("提交失败！",{"wxcOk":function () {
                             window.location.href = "${ctx }/task/myTaskList";
-                        }*/
-                    window.wxc.success("提交成功！",{"wxcOk":function(){
-                       /* if (window.opener) {
-                            alert("aaa");
-                            window.close();
-                            window.opener.callback();
-                        } else {
-                            alert("bbb")
-                            //
-                            caseTaskCheck();
-                            if (null != data.message) {
-                                window.wxc.alert(data.message);
-                            }
-                        }*/
-                        window.location.href = "${ctx }/task/myTaskList";
-                    }});
+                        }})
+                    }
                 },
                 error : function(errors) {
                     window.wxc.error("提交失败");
@@ -817,11 +808,11 @@
                 }
             });
         }
-        //渲染图片
+        /*//渲染图片
         function renderImg(){
             $('.wrapper-content').viewer('destroy');
             $('.wrapper-content').viewer();
-        }
+        }*/
     </script> </content>
 </body>
 </html>
