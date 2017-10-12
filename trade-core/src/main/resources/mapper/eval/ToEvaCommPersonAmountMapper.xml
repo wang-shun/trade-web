@@ -14,10 +14,15 @@
     <result column="COOPERATE_PERSON" property="cooperatePerson" jdbcType="VARCHAR" />
     <result column="COOPERATE_DEPT" property="cooperateDept" jdbcType="VARCHAR" />
     <result column="COOPERATE_MANAGER" property="cooperateManager" jdbcType="VARCHAR" />
+    <result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR" />
+    <result column="EMPLOYEE_CODE" property="employeeCode" jdbcType="VARCHAR" />
+    <result column="DEPART_CODE" property="departCode" jdbcType="VARCHAR" />
+    <result column="PROCESS_TIME" property="processTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, POSITION, DEPARTMENT, EMPLOYEE_NAME, SHARE_AMOUNT, SHARE_REASON, 
-    DEAL_COUNT, COOPERATE_TYPE, COOPERATE_PERSON, COOPERATE_DEPT, COOPERATE_MANAGER
+    DEAL_COUNT, COOPERATE_TYPE, COOPERATE_PERSON, COOPERATE_DEPT, COOPERATE_MANAGER, 
+    EVA_CODE, EMPLOYEE_CODE, DEPART_CODE, PROCESS_TIME
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -25,8 +30,8 @@
     from sctrans.T_TO_EVA_COMM_PERSON_AMOUNT
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
-    <select id="selectByCasecode" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+      <select id="selectByCasecode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select  
     <include refid="Base_Column_List" />
     from sctrans.T_TO_EVA_COMM_PERSON_AMOUNT
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
@@ -39,13 +44,15 @@
     insert into sctrans.T_TO_EVA_COMM_PERSON_AMOUNT (PKID, CASE_CODE, POSITION, 
       DEPARTMENT, EMPLOYEE_NAME, SHARE_AMOUNT, 
       SHARE_REASON, DEAL_COUNT, COOPERATE_TYPE, 
-      COOPERATE_PERSON, COOPERATE_DEPT, COOPERATE_MANAGER
-      )
+      COOPERATE_PERSON, COOPERATE_DEPT, COOPERATE_MANAGER, 
+      EVA_CODE, EMPLOYEE_CODE, DEPART_CODE, 
+      PROCESS_TIME)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{position,jdbcType=NVARCHAR}, 
       #{department,jdbcType=VARCHAR}, #{employeeName,jdbcType=VARCHAR}, #{shareAmount,jdbcType=DECIMAL}, 
       #{shareReason,jdbcType=VARCHAR}, #{dealCount,jdbcType=INTEGER}, #{cooperateType,jdbcType=VARCHAR}, 
-      #{cooperatePerson,jdbcType=VARCHAR}, #{cooperateDept,jdbcType=VARCHAR}, #{cooperateManager,jdbcType=VARCHAR}
-      )
+      #{cooperatePerson,jdbcType=VARCHAR}, #{cooperateDept,jdbcType=VARCHAR}, #{cooperateManager,jdbcType=VARCHAR}, 
+      #{evaCode,jdbcType=VARCHAR}, #{employeeCode,jdbcType=VARCHAR}, #{departCode,jdbcType=VARCHAR}, 
+      #{processTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvaCommPersonAmount" >
     insert into sctrans.T_TO_EVA_COMM_PERSON_AMOUNT
@@ -86,6 +93,18 @@
       <if test="cooperateManager != null" >
         COOPERATE_MANAGER,
       </if>
+      <if test="evaCode != null" >
+        EVA_CODE,
+      </if>
+      <if test="employeeCode != null" >
+        EMPLOYEE_CODE,
+      </if>
+      <if test="departCode != null" >
+        DEPART_CODE,
+      </if>
+      <if test="processTime != null" >
+        PROCESS_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -124,6 +143,18 @@
       <if test="cooperateManager != null" >
         #{cooperateManager,jdbcType=VARCHAR},
       </if>
+      <if test="evaCode != null" >
+        #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeCode != null" >
+        #{employeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="departCode != null" >
+        #{departCode,jdbcType=VARCHAR},
+      </if>
+      <if test="processTime != null" >
+        #{processTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eval.entity.ToEvaCommPersonAmount" >
@@ -161,6 +192,18 @@
       </if>
       <if test="cooperateManager != null" >
         COOPERATE_MANAGER = #{cooperateManager,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeCode != null" >
+        EMPLOYEE_CODE = #{employeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="departCode != null" >
+        DEPART_CODE = #{departCode,jdbcType=VARCHAR},
+      </if>
+      <if test="processTime != null" >
+        PROCESS_TIME = #{processTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -201,6 +244,18 @@
       <if test="cooperateManager != null" >
         COOPERATE_MANAGER = #{cooperateManager,jdbcType=VARCHAR},
       </if>
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeCode != null" >
+        EMPLOYEE_CODE = #{employeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="departCode != null" >
+        DEPART_CODE = #{departCode,jdbcType=VARCHAR},
+      </if>
+      <if test="processTime != null" >
+        PROCESS_TIME = #{processTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </update>
@@ -216,7 +271,11 @@
       COOPERATE_TYPE = #{cooperateType,jdbcType=VARCHAR},
       COOPERATE_PERSON = #{cooperatePerson,jdbcType=VARCHAR},
       COOPERATE_DEPT = #{cooperateDept,jdbcType=VARCHAR},
-      COOPERATE_MANAGER = #{cooperateManager,jdbcType=VARCHAR}
+      COOPERATE_MANAGER = #{cooperateManager,jdbcType=VARCHAR},
+      EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      EMPLOYEE_CODE = #{employeeCode,jdbcType=VARCHAR},
+      DEPART_CODE = #{departCode,jdbcType=VARCHAR},
+      PROCESS_TIME = #{processTime,jdbcType=TIMESTAMP}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
 </mapper>

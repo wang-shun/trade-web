@@ -46,7 +46,7 @@
 	   		<condition field="A.CASE_CODE"  	name="caseCode" 		label="案件编号" 		searchType="EQ" 	showType="" showCallback="" defaultValue=""/>
    			<condition field="A.CCAI_CODE"  	name="ccaiCode" 		label="CCAI编号" 		searchType="EQ" 	showType="" showCallback="" defaultValue=""/>
         	<condition field="A.CASE_PROPERTY"  name="caseProperty" 	label="案件类型" 		searchType="EQ" 	showType="" showCallback="" defaultValue=""/>
-       		<condition field="A.STATUS"         name="status" 			label="服务阶段选择"	searchType="EQ" 	showType="" showCallback="" defaultValue=""/>
+       		<condition field="A.STATUS"         name="status" 			label="状态"			searchType="EQ" 	showType="" showCallback="" defaultValue=""/>
         	<condition field="A.ClOSE_TIME"  	name="closeTimeStart" 	label="" 			searchType="GTE"	showType="" showCallback="" defaultValue=""/>
       		<condition field="A.ClOSE_TIME"  	name="closeTimeEnd"		label="" 			searchType="LTE" 	showType="" showCallback="" defaultValue=""/>
         	<condition field="B.AGENT_NAME"     name="agentName" 		label="经纪人" 		searchType="LIKE" 	showType="" showCallback="" defaultValue=""/>
@@ -145,17 +145,17 @@
 						 	</when>
 					    	<when test	="mortageType==1">
 						      	AND EXISTS (
-						     		SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE IN ('30016001','30016002') AND IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 1 AND CASE_CODE = A.CASE_CODE
+						     		SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE IN ('30016001','30016002') AND IS_ACTIVE = 1  AND CASE_CODE = A.CASE_CODE
 								)
 					     	</when>
 					     	<when test	="mortageType==2">
 					       		AND EXISTS (
-					     			SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE = '30016003' AND IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 1 AND CASE_CODE = A.CASE_CODE
+					     			SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE = '30016003' AND IS_ACTIVE = 1  AND CASE_CODE = A.CASE_CODE
 							 	)
 					     	</when>
 					     	<when test	="mortageType==3">
 					       		AND EXISTS (
-					     			SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE IN ('30016001','30016002') AND IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0 AND CASE_CODE = A.CASE_CODE
+					     			SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE IN ('30016001','30016002') AND IS_ACTIVE = 1  AND CASE_CODE = A.CASE_CODE
 							 	)
 					     	</when>
 					     	<when test	="mortageType==4">
@@ -226,10 +226,10 @@
 						</ifNotNull>
 						
 						<ifNotNull recTimeStart>
-							AND EXISTS(SELECT 1 FROM sctrans.T_TO_CASE_INFO D WHERE A.CASE_CODE = D.CASE_CODE AND D.DISPATCH_TIME >= #recTimeStart#)
+							AND EXISTS(SELECT 1 FROM sctrans.T_TO_CASE_RECV R WHERE A.CASE_CODE = R.CASE_CODE AND R.PROCESS_TIME >= #recTimeStart#)
 						</ifNotNull>
 						<ifNotNull recTimeEnd>
-							AND EXISTS(SELECT 1 FROM sctrans.T_TO_CASE_INFO D WHERE A.CASE_CODE = D.CASE_CODE AND D.DISPATCH_TIME &lt;= #recTimeEnd#)
+							AND EXISTS(SELECT 1 FROM sctrans.T_TO_CASE_RECV R WHERE A.CASE_CODE = R.CASE_CODE AND R.PROCESS_TIME &lt;= #recTimeEnd#)
 						</ifNotNull>
 						<ifNotNull netSignTimeStart>
 							AND EXISTS(select 1 from sctrans.T_TO_SIGN G where A.CASE_CODE = G.CASE_CODE AND G.REAL_CON_TIME >= #netSignTimeStart#)
@@ -250,7 +250,7 @@
 							AND EXISTS(select 1 from sctrans.T_TO_GET_PROPERTY_BOOK I where A.CASE_CODE = I.CASE_CODE AND I.REAL_PROPERTY_GET_TIME &lt;= #lzTimeEnd#)
 						</ifNotNull>								
 						<ifNotNull signlendDate>
-						  	AND EXISTS ( select 1 from sctrans.T_TO_MORTGAGE J where A.CASE_CODE = J.CASE_CODE and is_active='1'
+						  	AND EXISTS ( select 1 from sctrans.T_TO_MORTGAGE J where A.CASE_CODE = J.CASE_CODE 
 						</ifNotNull>
 							<ifNotNull signTimeStart>
 							  	AND J.SIGN_DATE >= #signTimeStart#
