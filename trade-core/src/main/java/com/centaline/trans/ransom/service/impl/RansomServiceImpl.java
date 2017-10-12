@@ -27,6 +27,7 @@ import com.centaline.trans.ransom.entity.ToRansomPermitVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomSubmitVo;
+import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.repository.RansomMapper;
 import com.centaline.trans.ransom.service.RansomService;
 
@@ -305,6 +306,57 @@ public class RansomServiceImpl implements RansomService{
 		}	
 		return result;
 	}
+
+	@Override
+	public ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode) {
+		ToRansomTailinsVo tailinsVo = new ToRansomTailinsVo();
+		tailinsVo = ransomMapper.getTailinsInfoByCaseCode(caseCode);
+		return tailinsVo;
+	}
+
+	@Override
+	public ToRansomSignVo getInterviewInfo(String ransomCode) {
+		ToRansomSignVo signVo = new ToRansomSignVo();
+		signVo = ransomMapper.getInterviewInfoByRansomCode(ransomCode);
+		return signVo;
+	}
+
+	@Override
+	public ToRansomApplyVo getApplyInfo(String ransomCode) {
+		ToRansomApplyVo applyVo = new ToRansomApplyVo();
+		applyVo = ransomMapper.getApplyInfoByRansomCode(ransomCode);
+		return applyVo;
+	}
+
+	@Override
+	public ToRansomMortgageVo getMortgageInfo(String ransomCode) {
+		ToRansomMortgageVo mortgageVo = new ToRansomMortgageVo();
+		mortgageVo = ransomMapper.getMortgageInfoByRansomCode(ransomCode);
+		return mortgageVo;
+	}
+
+	@Override
+	public ToRansomCancelVo getCancelInfo(String ransomCode) {
+		ToRansomCancelVo cancelVo = new ToRansomCancelVo();
+		cancelVo = ransomMapper.getCancelInfoByRansomCode(ransomCode);
+		return cancelVo;
+	}
+
+	@Override
+	public ToRansomPermitVo getPermitInfo(String ransomCode) {
+		ToRansomPermitVo permitVo = new ToRansomPermitVo();
+		permitVo = ransomMapper.getPermitInfoByRansomCode(ransomCode);
+		return permitVo;
+	}
+
+	@Override
+	public ToRansomPaymentVo getPaymentInfo(String ransomCode) {
+		ToRansomPaymentVo paymentVo = new ToRansomPaymentVo();
+		paymentVo = ransomMapper.getPaymentInfoByRansomCode(ransomCode);
+		return paymentVo;
+	}
+
+
 
 
 }

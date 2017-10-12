@@ -40,18 +40,8 @@ public class ToCaseRecv {
     private String mortInfo;
 
     private String oriPrice;
-    //增加处理时间，做好记录
-    private Date processTime;
 
-    public Date getProcessTime() {
-		return processTime;
-	}
-
-	public void setProcessTime(Date processTime) {
-		this.processTime = processTime;
-	}
-
-	public String getCaseCode() {
+    public String getCaseCode() {
         return caseCode;
     }
 

@@ -19,12 +19,11 @@
     <result column="HOUSE_FROM" property="houseFrom" jdbcType="NVARCHAR" />
     <result column="MORT_INFO" property="mortInfo" jdbcType="NVARCHAR" />
     <result column="ORI_PRICE" property="oriPrice" jdbcType="NVARCHAR" />
-    <result column="PROCESS_TIME" property="processTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     CASE_CODE, EST_EVL_APPLY_TIME, EST_SIGN_TIME, EST_F2F_SIGN_TIME, PURCHASE_HOUSE_NO, 
     LOAN_HOUSE_NO, MARRIAGE_STATUS, FAMILY_STATUS, EVAL_BY_WHO, HUJI, SOCIETY_SECURETY_YEARS, 
-    TAX_SECURETY_YEARS, HOUSE_SUBSIDY, LOAN_WARN, HOUSE_FROM, MORT_INFO, ORI_PRICE,PROCESS_TIME
+    TAX_SECURETY_YEARS, HOUSE_SUBSIDY, LOAN_WARN, HOUSE_FROM, MORT_INFO, ORI_PRICE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -104,9 +103,6 @@
       <if test="oriPrice != null" >
         ORI_PRICE,
       </if>
-      <if test="processTime != null" >
-        PROCESS_TIME,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="caseCode != null" >
@@ -159,9 +155,6 @@
       </if>
       <if test="oriPrice != null" >
         #{oriPrice,jdbcType=NVARCHAR},
-      </if>
-      <if test="processTime != null" >
-        #{processTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -216,9 +209,6 @@
       <if test="oriPrice != null" >
         ORI_PRICE = #{oriPrice,jdbcType=NVARCHAR},
       </if>
-      <if test="processTime != null" >
-        PROCESS_TIME = #{processTime,jdbcType=TIMESTAMP},
-      </if>
     </set>
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </update>
@@ -239,8 +229,7 @@
       LOAN_WARN = #{loanWarn,jdbcType=NVARCHAR},
       HOUSE_FROM = #{houseFrom,jdbcType=NVARCHAR},
       MORT_INFO = #{mortInfo,jdbcType=NVARCHAR},
-      ORI_PRICE = #{oriPrice,jdbcType=NVARCHAR},
-      PROCESS_TIME = #{processTime,jdbcType=TIMESTAMP}
+      ORI_PRICE = #{oriPrice,jdbcType=NVARCHAR}
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </update>
 </mapper>

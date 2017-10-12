@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,7 +57,6 @@ public class CaseRecvFollowController {
 		if(null!=caseCode&&caseCode!=""){
 			caseRecvVO.setPayType(payType);
 			caseRecvVO.setToCaseComment(toCaseComment);
-			toCaseRecv.setProcessTime(new Date());
 			caseRecvVO.setToCaseRecv(toCaseRecv);
 			caseRecvVO.setToPropertyInfo(toPropertyInfo);
 			caseRecvVO.setToSign(toSign);

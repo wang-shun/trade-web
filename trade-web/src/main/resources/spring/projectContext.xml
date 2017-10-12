@@ -665,7 +665,7 @@
     </bean>
     <!-- 赎楼_抵押类型 -->
     <bean name="qqcdDictDiyaType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
-    	<property name="dictType" value="DIYA_TYPE"></property>
+    	<property name="dictType" value="71015"></property>
     </bean>
       <!-- 赎楼_状态类型 -->
     <bean name="qqcdDictRansomStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">

@@ -25,6 +25,12 @@
     from sctrans.T_TO_EVA_COMM_PERSON_AMOUNT
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
+    <select id="selectByCasecode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_COMM_PERSON_AMOUNT
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_EVA_COMM_PERSON_AMOUNT
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -158,6 +164,45 @@
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByCaseCodeSelective" parameterType="com.centaline.trans.eval.entity.ToEvaCommPersonAmount" >
+    update sctrans.T_TO_EVA_COMM_PERSON_AMOUNT
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        POSITION = #{position,jdbcType=NVARCHAR},
+      </if>
+      <if test="department != null" >
+        DEPARTMENT = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeName != null" >
+        EMPLOYEE_NAME = #{employeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="shareAmount != null" >
+        SHARE_AMOUNT = #{shareAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="shareReason != null" >
+        SHARE_REASON = #{shareReason,jdbcType=VARCHAR},
+      </if>
+      <if test="dealCount != null" >
+        DEAL_COUNT = #{dealCount,jdbcType=INTEGER},
+      </if>
+      <if test="cooperateType != null" >
+        COOPERATE_TYPE = #{cooperateType,jdbcType=VARCHAR},
+      </if>
+      <if test="cooperatePerson != null" >
+        COOPERATE_PERSON = #{cooperatePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="cooperateDept != null" >
+        COOPERATE_DEPT = #{cooperateDept,jdbcType=VARCHAR},
+      </if>
+      <if test="cooperateManager != null" >
+        COOPERATE_MANAGER = #{cooperateManager,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eval.entity.ToEvaCommPersonAmount" >
     update sctrans.T_TO_EVA_COMM_PERSON_AMOUNT

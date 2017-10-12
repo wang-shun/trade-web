@@ -20,10 +20,63 @@
 	    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
 	    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
 	    <result column="FIN_ORG_ID" property="finOrgId" jdbcType="NVARCHAR" />
+	    <!-- <association property="guestInfo" javaType="com.centaline.trans.common.entity.TgGuestInfo">
+	    	<id column="PKID" property="pkid"/>
+	    	<result column="guest_code" property="guestCode"/>
+	    	<result column="case_code" property="caseCode"/>
+	    	<result column="guest_name" property="guestName"/>
+	    	<result column="guest_phone" property="guestPhone"/>
+	    </association>
+	    <association property="finOrg" javaType="com.centaline.trans.mgr.entity.TsFinOrg">
+	    	<id column="PKID" property="pkid"/>
+	    	<result column="FIN_ORG_NAME" property="finOrgName"/>
+	    </association>
+	    <association property="tailinsVo" javaType="com.centaline.trans.ransom.entity.ToRansomTailinsVo">
+	    	<id column="PKID" property="pkid"/>
+	    	<result column="sign_time" property="signName"/>
+	    	<result column="fin_org_code" property="finOrgCode"/>
+	    	<result column="MORTGAGE_TYPE" property="mortgageType"/>
+	    	<result column="DIYA_TYPE" property="diyaType"/>
+	    	<result column="LOAN_MONEY" property="loanMoney"/>
+	    	<result column="REST_MONEY" property="restMoney"/>
+	    </association> -->
 	</resultMap>
+	<resultMap type="com.centaline.trans.common.entity.TgGuestInfo" id="guestMap">
+		<id column="PKID" property="pkid" jdbcType="BIGINT"/>
+    	<result column="guest_code" property="guestCode" jdbcType="VARCHAR"/>
+    	<result column="case_code" property="caseCode" jdbcType="VARCHAR"/>
+    	<result column="guest_name" property="guestName" jdbcType="VARCHAR"/>
+    	<result column="guest_phone" property="guestPhone" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	
 	
 	<select id="getRansomCase" resultMap="BaseResultMap">
 		SELECT * FROM sctrans.T_RA_CASE WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getGuestInfo" resultMap="guestMap">
+		SELECT 
+			GUEST_CODE guestCode,
+			CASE_CODE caseCode,
+			GUEST_NAME guestName,
+			GUEST_PHONE guestPhone
+		FROM 
+			sctrans.T_TG_GUEST_INFO
+		 WHERE 
+		 	CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getTsFinOrgIinfo" resultType="com.centaline.trans.mgr.entity.TsFinOrg">
+		SELECT 
+			FIN_ORG_NAME finOrgName,
+			FIN_ORG_CODE finOrgCode,
+			FA_FIN_ORG_CODE faFinOrgCode,
+			FIN_ORG_NAME_YC finOrgNameYc
+		FROM 
+			sctrans.T_TS_FIN_ORG 
+		 WHERE 
+		 	FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR}
 	</select>
 	
 	
@@ -78,5 +131,30 @@
 			STOP_REASON = #{stopReason,jdbcType=VARCHAR}
 		WHERE
 			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateRansomCaseByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
+		UPDATE sctrans.T_RA_CASE SET 
+			BORROWER_NAME = #{borrowerName,jdbcType=VARCHAR},
+			BORROWER_TEL = #{borrowerTel,jdbcType=VARCHAR},
+			BORRO_MONEY = #{borroMoney,jdbcType=DECIMAL},
+			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		WHERE
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateRansomTailinsByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomTailinsVo">
+		UPDATE sctrans.T_RA_TAILINS SET 
+		SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+		FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+		MORTGAGE_TYPE = #{mortgageType,jdbcType=VARCHAR},
+		DIYA_TYPE = #{diyaType,jdbcType=VARCHAR},
+		LOAN_MONEY = #{loanMoney,jdbcType=DECIMAL},
+		REST_MONEY = #{restMoney,jdbcType=DECIMAL},
+		UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		WHERE
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</update>
 </mapper>

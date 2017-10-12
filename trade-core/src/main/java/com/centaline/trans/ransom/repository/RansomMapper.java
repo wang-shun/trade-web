@@ -16,6 +16,7 @@ import com.centaline.trans.ransom.entity.ToRansomPermitVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomSubmitVo;
+import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 
 /**
  * 赎楼Mapper
@@ -119,4 +120,53 @@ public interface RansomMapper {
 	 * @return
 	 */
 	int updateCaseStatusComplete(String ransomCode);
+	
+	/**
+	 * 根据caseCode查询尾款信息
+	 * @param caseCode
+	 * @return 
+	 */
+	ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode);
+	
+	/**
+	 * 根据ransomCode查询尾款信息
+	 * @param ransomCode 赎楼编号
+	 * @return
+	 */
+	ToRansomApplyVo getApplyInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 根据ransomCode查询面签信息
+	 * @param ransomCode 赎楼编号
+	 * @return
+	 */
+	ToRansomSignVo getInterviewInfoByRansomCode(String ransomCode);
+
+	/**
+	 * 根据ransomCode查询陪同还贷信息
+	 * @param ransomCode 赎楼编号
+	 * @return
+	 */
+	ToRansomMortgageVo getMortgageInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 根据ransomCode查询注销抵押信息
+	 * @param ransomCode
+	 * @return
+	 */
+	ToRansomCancelVo getCancelInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 根据ransomCode查询领取产证信息
+	 * @param ransomCode
+	 * @return
+	 */
+	ToRansomPermitVo getPermitInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 根据ransomCode查询回款结清信息
+	 * @param ransomCode
+	 * @return
+	 */
+	ToRansomPaymentVo getPaymentInfoByRansomCode(String ransomCode);
 }

@@ -2,7 +2,9 @@
  *  
  *    上传组件
  *    
- *    @author : Astar
+ *    @author : Astar;
+ *    @modify : wblujian;//修改图片回显的路径直
+ *    @modify : xiefei1;//添加点击图片放大功能
  * 
  */
 
@@ -380,7 +382,16 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			        	  +'{{item2.fileName}}'
 			        	  +'</p>'
 			        	  +'<p class="imgWrap">'
-			        	  +'<img src=\"'+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" data=\"'+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" width=\"'+settings.thumbnailWidth+'\" height=\"'+settings.thumbnailHeight+'\"/>'
+		//	        	  +'<img src=\"'+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" data=\"'+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" width=\"'+settings.thumbnailWidth+'\" height=\"'+settings.thumbnailHeight+'\"/>'
+			        	  +'<img src=\"'+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" data=\"'
+			        	  +appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" width=\"'
+			        	  +settings.thumbnailWidth+'\" height=\"'+settings.thumbnailHeight
+			        	  +'\"'
+			        	  +'onclick=\"javascript:window.open(\''+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\')\"'
+			        	  +'/>'
+			        	  
+			        	  
+			        	  
 			        	  +'</p>';
 		        	  
 		        	  //如果readonly为false时，可以删除图片操作

@@ -2,7 +2,13 @@ package com.centaline.trans.ransom.entity;
 
 import java.util.Date;
 
-public class AddRansomForm {
+/**
+ * 尾款信息
+ * @author wbwumf
+ *
+ *2017年10月10日
+ */
+public class ToRansomTailinsVo {
 	
 	private Long pkid;
 	
