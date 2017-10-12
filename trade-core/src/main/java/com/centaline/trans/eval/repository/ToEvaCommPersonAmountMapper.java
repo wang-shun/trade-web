@@ -5,7 +5,7 @@ import java.util.List;
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eval.entity.ToEvaCommPersonAmount;
 /**
- * @author xiefei1
+ * @author  xiefei1
  * @since 2017年10月11日 下午3:14:04 
  * @description 调佣对象与调佣金额
  */
