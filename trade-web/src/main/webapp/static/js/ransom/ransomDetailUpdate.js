@@ -93,7 +93,7 @@ function reloadWorkInfo(){
 			data:ransomVo,
 			type:"POST",
 			success: function(data){
-				window.wxc.href = "../../jsp/ransom/ransomDetail";
+				window.location.href = ctx + "/ransomList/ransom/ransomDetail";
 			},
 			error: function(data){
 				window.wxc.error(data.message);
