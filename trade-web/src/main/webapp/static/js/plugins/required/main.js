@@ -12,6 +12,7 @@ require.config({
     		"viewer" : "js/viewer/viewer.min",
     		"aistWebuploader" : "js/plugins/webuploader/webuploader.min",
     		"aistFileUpload" : "js/plugins/aist/aist.fileupload",
+    		"aistFileUpload1" : "js/plugins/aist/aist.fileupload1",
     		"validate" : "js/plugins/validate/jquery.validate.min",
     		"additional" : "js/plugins/validate/common/additional-methods",
     		"valid" : "js/trunk/task/taskTransSign.validate",

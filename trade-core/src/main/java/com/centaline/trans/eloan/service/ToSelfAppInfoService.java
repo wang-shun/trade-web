@@ -11,5 +11,5 @@ import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 public interface ToSelfAppInfoService {
 
 	
-	public void addSelfAppInfo(ToSelfAppInfo toSelfAppInfo);
+	public String addSelfAppInfo(ToSelfAppInfo toSelfAppInfo);
 }
