@@ -19,6 +19,16 @@ public class ToTransPlan {
     private Date estPartTime;
     private String estPartTimeStr;
 
+    private boolean isEdit=true;
+
+    public boolean isEdit() {
+        return isEdit;
+    }
+
+    public void setEdit(boolean edit) {
+        isEdit = edit;
+    }
+
     public Long getPkid() {
         return pkid;
     }

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="myProcess1" name="My process1" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <userTask id="generalAppro" name="事总审批" activiti:assignee="${caseOwner}" activiti:formKey="/task/generalAppro/process"></userTask>
+    <userTask id="warrantManagerAppro" name="权证经理审批" activiti:assignee="${caseOwner}" activiti:formKey="/task/warrantManagerAppro/process"></userTask>
+    <userTask id="chiefInspectorAppro" name="交易部总监审批" activiti:assignee="${caseOwner}" activiti:formKey="/task/chiefInspectorAppro/process"></userTask>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow2" name="审批通过" sourceRef="generalAppro" targetRef="warrantManagerAppro">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approval}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow3" name="审批通过" sourceRef="warrantManagerAppro" targetRef="chiefInspectorAppro">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approval}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow4" name="审批通过" sourceRef="chiefInspectorAppro" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approval}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="selfAssessLoanAppl" name="自办评估/贷款申请" activiti:assignee="${caseOwner}" activiti:formKey="/task/selfAssessLoanAppl/process"></userTask>
+    <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="selfAssessLoanAppl"></sequenceFlow>
+    <sequenceFlow id="flow6" sourceRef="selfAssessLoanAppl" targetRef="generalAppro"></sequenceFlow>
+    <sequenceFlow id="flow7" name="审批驳回" sourceRef="generalAppro" targetRef="selfAssessLoanAppl">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approval == false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="warrantManagerAppro" targetRef="selfAssessLoanAppl">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approval == false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow9" name="审批驳回" sourceRef="chiefInspectorAppro" targetRef="warrantManagerAppro">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approval == false}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_myProcess1">
+    <bpmndi:BPMNPlane bpmnElement="myProcess1" id="BPMNPlane_myProcess1">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="0.0" y="160.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="generalAppro" id="BPMNShape_generalAppro">
+        <omgdc:Bounds height="55.0" width="105.0" x="259.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="warrantManagerAppro" id="BPMNShape_warrantManagerAppro">
+        <omgdc:Bounds height="55.0" width="105.0" x="410.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="chiefInspectorAppro" id="BPMNShape_chiefInspectorAppro">
+        <omgdc:Bounds height="55.0" width="105.0" x="565.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="736.0" y="160.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="selfAssessLoanAppl" id="BPMNShape_selfAssessLoanAppl">
+        <omgdc:Bounds height="55.0" width="105.0" x="70.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="364.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="410.0" y="177.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="364.0" y="177.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="515.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="565.0" y="177.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="515.0" y="177.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="670.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="736.0" y="177.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="670.0" y="177.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="35.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="70.0" y="177.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="175.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="259.0" y="177.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="311.0" y="205.0"></omgdi:waypoint>
+        <omgdi:waypoint x="311.0" y="290.0"></omgdi:waypoint>
+        <omgdi:waypoint x="122.0" y="290.0"></omgdi:waypoint>
+        <omgdi:waypoint x="122.0" y="205.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="311.0" y="205.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="462.0" y="150.0"></omgdi:waypoint>
+        <omgdi:waypoint x="462.0" y="51.0"></omgdi:waypoint>
+        <omgdi:waypoint x="302.0" y="51.0"></omgdi:waypoint>
+        <omgdi:waypoint x="122.0" y="51.0"></omgdi:waypoint>
+        <omgdi:waypoint x="122.0" y="150.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="617.0" y="205.0"></omgdi:waypoint>
+        <omgdi:waypoint x="617.0" y="313.0"></omgdi:waypoint>
+        <omgdi:waypoint x="462.0" y="313.0"></omgdi:waypoint>
+        <omgdi:waypoint x="462.0" y="205.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="617.0" y="205.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

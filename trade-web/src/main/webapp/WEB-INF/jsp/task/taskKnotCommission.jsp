@@ -122,6 +122,7 @@
 
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 <!-- 服务流程 -->
 <div class="row wrapper white-bg new-heading " id="serviceFlow">
@@ -313,14 +314,14 @@
     <!-- jqGrid -->
     <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
     <script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
-    <script src="<c:url value='/transjs/task/loanlostApprove.js' />"></script>
-    <script src="<c:url value='/transjs/task/showAttachment.js' />"></script>  <%-- --%>
     <!-- Custom and plugin javascript -->
     <script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script>
     <!-- Data picker -->
     <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 
-    <!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js' />"></script>
+
+    <!-- 上传附件相关 -->
+   <%-- <script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script>
@@ -332,65 +333,34 @@
     <script src="<c:url value='/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/jquery.multi-select.js' />"></script>
-
     <script src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
-
     <script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>
-    <script src="<c:url value='/js/stickUp.js' />"></script>
+    <script src="<c:url value='/js/stickUp.js' />"></script>--%>
     <!-- 上传附件 结束 -->
     <!-- 附件保存修改相关 -->
-   <script src="<c:url value='/js/trunk/task/attachment3.js' />"></script>
-	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
-	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
-	<%-- <script src="<c:url value='/transjs/sms/sms.js' />"></script> --%>
-    <!-- 图片查看JS -->
-    <script src="<c:url value='/js/trunk/case/showCaseAttachmentGuohu.js' />"></script>
-
+    <script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
     <script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
-    <script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
-    <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
-    <script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
-    <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-    <script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
+    <script src="<c:url value='/transjs/common/caseTaskCheck.js' />"></script>
+
     <!-- 改版引入的新的js文件 -->
     <script src="<c:url value='/js/common/textarea.js' />"></script>
-   <%--  <script src="<c:url value='/js/common/common.js' />"></script> --%>
+
+    <!-- 必须JS -->
+    <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
     <!--公共信息-->
     <script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
     <script>
-    var source = "${source}";
-	function readOnlyForm(){
-		//设置实际签约时间不可修改
-		$("#realPropertyGetTime").parent().removeClass("input-daterange");
-		$("#realPropertyGetTime").removeClass("datatime");
-		$("#realPropertyGetTime").attr("readonly",true);
-		$("#realPropertyGetTime").css("background-color","#ccc");
-		
-		//设置提交按钮隐藏
-		$("#btnSubmit").hide();
-	}
-
-	$(document).ready(function() {
-		if('caseDetails'==source){
-			readOnlyForm();
-		}
-	});
-
-
 	//提交数据
 	function submit() {
-		if(checkAttachment()) {
-				save();
-			}
+        save();
 	} 
 
 	//保存数据
 	function save() {
 		var jsonData = $("#KnotCommissionForm").serializeArray();
-			deleteAndModify();	
-			url = "${ctx}/task/KnotCommission/submitKnotCommission";
+        url = "${ctx}/task/KnotCommission/submitKnotCommission";
 		$.ajax({
 			cache : true,
 			async : false,
@@ -398,7 +368,8 @@
 			url : url,
 			dataType : "json",
 			data : jsonData,
-			 beforeSend : function() {
+            beforeSend : function() {
+			    console.log(111111111111)
                  $.blockUI({
                      message : $("#salesLoading"),
                      css : {
@@ -411,7 +382,7 @@
                  });
              },
              complete : function() {
-
+                 $.unblockUI();
                  if (status == 'timeout') {//超时,status还有success,error等值的情况
                      Modal.alert({
                          msg : "抱歉，系统处理超时。"
@@ -422,34 +393,26 @@
                  }
              },
              success : function(data) {
-			    /*alert(aaaa)
+                 if(data.data){
                      caseTaskCheck();
                      if (null != data.message) {
                          window.wxc.alert(data.message);
-                     }else{
+                     }
+                    /* window.wxc.success(data.message,{"wxcOk":function () {
                          window.location.href = "${ctx }/task/myTaskList";
-                     }*/
-                 	 window.wxc.success(data.message,{"wxcOk":function(){
-                     /*if (window.opener) {
-                         window.close();
-                         window.opener.callback();
-                     } else {
-
-                     }*/
+                     }
+                     })*/
+                 }else {
+                     window.wxc.error(data.message,{"wxcOk":function () {
                          window.location.href = "${ctx }/task/myTaskList";
-                 	 }
-                 });
+                     }
+                     })
+                 }
              },
              error : function(errors) {
                  window.wxc.error("提交失败");
              }
 		});
-	}
-
-	//渲染图片 
-	function renderImg(){
-		$('.wrapper-content').viewer('destroy');
-		$('.wrapper-content').viewer();
 	}
     </script> </content>
 </body>
