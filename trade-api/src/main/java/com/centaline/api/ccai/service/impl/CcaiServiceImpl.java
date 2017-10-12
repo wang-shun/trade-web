@@ -827,13 +827,6 @@ public class CcaiServiceImpl implements CcaiService {
 			result.setCode("99");
 			return result;
 		}
-		try {
-			//将案件编号 放入消息队列中
-			MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.STARTFLOW_LOANANDASSE_TYPE);
-			jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		result.setSuccess(true);
 		result.setMessage("同步成功!");
 		result.setCode("00");

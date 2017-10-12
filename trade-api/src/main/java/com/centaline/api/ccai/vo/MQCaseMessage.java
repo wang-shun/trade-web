@@ -13,10 +13,6 @@ public class MQCaseMessage  implements Serializable {
 	public static final String STARTFLOW_TYPE = "START";
 	public static final String UPDATEFLOW_TYPE = "UPDATE";
 	
-	/**
-	 * 自办贷款/评估审批
-	 */
-	public static final String STARTFLOW_LOANANDASSE_TYPE = "START_LOANANDASSE";
 	public static final String REPEAL_TYPE = "REPEAL";
 
 	private String caseCode;
