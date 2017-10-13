@@ -1,6 +1,7 @@
 package com.centaline.trans.eval.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 /**
  * @author xiefei1
  * @since 2017年10月11日 下午3:14:04 
@@ -11,7 +12,7 @@ public class ToEvaCommPersonAmount {
     private Long pkid;
 
     private String caseCode;
-//    四个选项：1.贷款权证；2.过户权证；3.合作人；4.分成人
+
     private String position;
 
     private String department;
@@ -31,6 +32,14 @@ public class ToEvaCommPersonAmount {
     private String cooperateDept;
 
     private String cooperateManager;
+
+    private String evaCode;
+
+    private String employeeCode;
+
+    private String departCode;
+
+    private Date processTime;
 
     public Long getPkid() {
         return pkid;
@@ -126,5 +135,37 @@ public class ToEvaCommPersonAmount {
 
     public void setCooperateManager(String cooperateManager) {
         this.cooperateManager = cooperateManager == null ? null : cooperateManager.trim();
+    }
+
+    public String getEvaCode() {
+        return evaCode;
+    }
+
+    public void setEvaCode(String evaCode) {
+        this.evaCode = evaCode == null ? null : evaCode.trim();
+    }
+
+    public String getEmployeeCode() {
+        return employeeCode;
+    }
+
+    public void setEmployeeCode(String employeeCode) {
+        this.employeeCode = employeeCode == null ? null : employeeCode.trim();
+    }
+
+    public String getDepartCode() {
+        return departCode;
+    }
+
+    public void setDepartCode(String departCode) {
+        this.departCode = departCode == null ? null : departCode.trim();
+    }
+
+    public Date getProcessTime() {
+        return processTime;
+    }
+
+    public void setProcessTime(Date processTime) {
+        this.processTime = processTime;
     }
 }
