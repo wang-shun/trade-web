@@ -5,8 +5,15 @@ import java.util.List;
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.mgr.entity.TsFinOrg;
+import com.centaline.trans.ransom.entity.ToRansomApplyVo;
+import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
+import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
+import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
+import com.centaline.trans.ransom.entity.ToRansomPermitVo;
+import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
+import com.centaline.trans.ransom.vo.ToRansomVo;
 
 @MyBatisRepository
 public interface RansomListFormMapper {
@@ -59,4 +66,54 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	boolean updateRansomTailinsByRansomCode(ToRansomTailinsVo tailinsVo);
+	
+	/**
+	 * 获取计划时间信息
+	 * @param caseCode
+	 * @return
+	 */
+	ToRansomVo getRansomInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 赎楼申请信息更新
+	 * @param ransomCode
+	 * @return
+	 */
+	int updateRansomApplyInfoByRansomCode(ToRansomApplyVo applyVo);
+	
+	/**
+	 * 赎楼面签信息更新
+	 * @param ransomCode
+	 * @return
+	 */
+	int updateRansomInterviewInfoByRansomCode(ToRansomSignVo signVo);
+	
+	/**
+	 * 赎楼陪同还贷信息更新
+	 * @param ransomCode
+	 * @return
+	 */
+	int updateRansomRepayInfoByRansomCode(ToRansomMortgageVo mortgageVo);
+	
+	/**
+	 * 赎楼注销抵押信息更新
+	 * @param ransomCode
+	 * @return
+	 */
+	int updateRansomCancelInfoByRansomCode(ToRansomCancelVo cancelVo);
+	
+	/**
+	 * 领取产证信息更新
+	 * @param ransomCode
+	 * @return
+	 */
+	int updateRansomRedeemInfoByRansomCode(ToRansomPermitVo permitVo);
+	
+	/**
+	 * 赎楼回款结清信息更新
+	 * @param ransomCode
+	 * @return
+	 */
+	int updateRansomPaymentInfoByRansomCode(ToRansomPaymentVo paymentVo);
+	
 }

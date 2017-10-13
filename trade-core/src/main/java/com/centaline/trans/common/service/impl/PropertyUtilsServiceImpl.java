@@ -82,6 +82,9 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	@Value("${process.df.key.ransom_suspend}")
 	private String RansomSuspendProcessDfKey;
 	
+	@Value("${process.df.key.evaPricing_process}")
+	private String processEvaPricingKey;
+	
 	@Value("${process.df.key.loanAndAsse_Process}")
 	private String LoanAndAsseProcessKey;
 	

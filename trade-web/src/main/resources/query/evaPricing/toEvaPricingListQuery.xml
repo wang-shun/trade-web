@@ -3,10 +3,20 @@
 	<dicts>	
 		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName"/>
 		<customDict id="qqcdDictEvaPricingType" beanName="qqcdDictEvaPricingType"/>
-		<customDict id="qqcdDict30001" beanName="qqcdDict30001"></customDict>
+		<customDict id="qqcdDict30001" beanName="qqcdDict30001"/>
+		<customDict id="qqEvaPricingStatus" beanName="qqEvaPricingStatus"/>
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
 	</formatters>
 	<query id="queryEvaluateItemList">
 		<searchCondition>
@@ -34,13 +44,15 @@
 						eva.EVA_TYPE,
 						eva.TOTAL_PRICE,
 						pro.HOUSE_AGE,
-						eva.STATUS
+						eva.STATUS,
+						tw.INST_CODE,
+						eva.EVA_CODE
 					FROM
 						sctrans.T_TO_EVA_PRICING eva
 						INNER JOIN  sctrans.T_TO_EGU_PROPERTY_INFO pro ON eva.EVA_CODE = pro.EVA_CODE
 						INNER JOIN sctrans.T_TS_FIN_ORG fin ON eva.FIN_ORG_ID = fin.PKID
+						INNER JOIN sctrans.T_TO_WORKFLOW tw ON tw.BIZ_CODE = eva.EVA_CODE
 					where 1=1
-						AND eva.STATUS != 2
 					<ifNotNull propertyAddr>
 						AND pro.RESIDENCE_NAME like '%'+#propertyAddr#+'%'
 					</ifNotNull>
@@ -57,6 +69,7 @@
 			<table-row>
 				<column type="both" name="PKID" display="询价ID" hide="true"/>
 				<column type="both" name="CASE_CODE" display="案件编号" width="90" isSort="true" />
+				<column type="both" name="EVA_CODE" display="询价编号"/>
 				<column type="both" name="RESIDENCE_NAME" display="产证地址" width="180" isSort="true"/>
 				<column type="both" name="EVA_COMPANY" display="评估公司" width="90" isSort="true"/>
 				<column type="both" name="ARISER_ID" display="ARISERID"/>
@@ -68,6 +81,8 @@
 				<column type="both" name="TOTAL_PRICE" display="询价值" hide="true"/>
 				<column type="both" name="HOUSE_AGE" display="房龄" />
 				<column type="both" name="STATUS" display="状态" hide="true"/>
+				<column type="both" name="INST_CODE" display="流程实例id" hide="true"/>
+				<column type="virtual" name="STATUS_NAME" display="状态名" referencecol="STATUS" customDict="qqEvaPricingStatus"/>
 			</table-row>
 		</grid>
 	</query>
@@ -86,8 +101,10 @@
 						INNER JOIN sctrans.T_TO_EGU_PROPERTY_INFO pro ON pri.EVA_CODE = pro.EVA_CODE,
 						sctrans.T_TO_CASE cas 
 						INNER JOIN sctrans.T_TO_PROPERTY_INFO info ON cas.CASE_CODE = info.CASE_CODE
+						LEFT JOIN sctrans.T_TO_EVA_PRICING ep ON ep.CASE_CODE = cas.CASE_CODE
 					WHERE
 						pri.PKID = #pkid#
+						AND (ep.STATUS IS NULL OR ep.STATUS ='2')
 						AND cas.CASE_PROPERTY IN('30003003','30003007','30003008','30003009')
 						AND info.PROPERTY_ADDR LIKE '%'+pro.RESIDENCE_NAME+'%'
 				]]>
@@ -104,6 +121,73 @@
 				<column type="both" name="addr" display="物业地址" />
 				<column type="both" name="residenceName" display="询价产业地址"/>				
 				<column type="virtual" name="caseStatus" display="申请人" referencecol="status" customDict="qqcdDict30001"  />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryEvaPricingTaskList">
+		<searchCondition>
+			<condition field="AB.EVA_CODE" name="evaCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="AB.FIN_ORG_ID" name="finOrgId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="AB.EVA_TYPE" name="evaType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="AB.DELEGATION" name="ownerType" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					select * from ( SELECT
+						ART.ID_ AS ID,
+						ART.NAME_ AS NAME,
+						ART.TASK_DEF_KEY_ AS PART_CODE,
+						ART.PROC_INST_ID_ AS INST_CODE,
+						ART.DELEGATION_ AS DELEGATION,
+						tw.BIZ_CODE EVA_CODE,
+						tw.BUSINESS_KEY,
+						(select RESIDENCE_NAME  from sctrans.T_TO_EGU_PROPERTY_INFO where EVA_CODE=tw.BIZ_CODE) PROPERTY_ADDR,
+						ep.FIN_ORG_ID,
+						ep.EVA_TYPE,
+						(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE PKID = ep.FIN_ORG_ID AND FA_FIN_ORG_CODE = 'P00') EVA_COMPANY,
+						ep.EVAL_TIME EVA_TIME,
+						ep.TOTAL_PRICE EVA_PRICE,
+						ep.CREATE_TIME
+					FROM
+						sctrans.ACT_RU_TASK ART
+						INNER JOIN sctrans.T_TO_WORKFLOW tw ON ART.PROC_INST_ID_  =tw.INST_CODE
+						INNER JOIN sctrans.T_TO_EVA_PRICING ep ON tw.BIZ_CODE =ep.EVA_CODE
+				  	WHERE  ART.ASSIGNEE_ = #userLoginName#
+				  		AND ep.STATUS = '0'
+					    AND ART.SUSPENSION_STATE_ = '1'
+						<ifNotNull allType>
+   						AND ART.DELEGATION_ IS NULL
+						</ifNotNull>
+					) as AB where 1=1
+						
+						<ifNotNull propertyAddr>
+							AND exists (select 1 from sctrans.T_TO_EGU_PROPERTY_INFO TP  where TP.EVA_CODE=AB.EVA_CODE AND TP.RESIDENCE_NAME like '%'+#propertyAddr#+'%')
+						</ifNotNull>
+
+
+		]]>
+			</baseSql>
+			<orderBySql>
+				ORDER BY AB.CREATE_TIME
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" 	name="ID"  				display="TASKID"/>
+				<column type="both" 	name="NAME" 			display="任务名" 		width="90" />
+				<column type="both" 	name="EVA_CODE" 		display="询价编号"  	width="90"/>
+				<column type="both" 	name="PROPERTY_ADDR"  	display="产证地址" 	width="90"/>
+				<column type="both" 	name="EVA_COMPANY"  	display="评估公司" 	width="90"/>
+				<column type="both"     name="EVA_TYPE"   		display="询价类型"/>
+				<column type="virtual" 	name="EVA_TYPE_NAME" 	display="询价类型" 	referencecol="EVA_TYPE" customDict="qqcdDictEvaPricingType" width="60" isSort="true"/>
+				<column type="both" 	name="EVA_TIME" 		display="询价时间" 	width="60" beanFormatter="dateFormatter1"  />
+				<column type="both" 	name="EVA_PRICE" 		display="询价值" 		width="60" />	
+				<column type="both" 	name="BUSINESS_KEY"  	display="询价businessKey" 	width="90" hide="true"/>		
+				<column type="virtual" 	name="WFE_NAME" 		display="流程名" 		referencecol="BUSINESS_KEY"  customDict="qqGetWFEName"   width="60" />
 			</table-row>
 		</grid>
 	</query>
