@@ -53,6 +53,8 @@ public class ToEvalReportProcess {
     private String receiver;
 
     private Integer receiveNum;
+    
+    private String evalProperty;
 
     public Long getPkid() {
         return pkid;
@@ -253,4 +255,13 @@ public class ToEvalReportProcess {
     public void setReceiveNum(Integer receiveNum) {
         this.receiveNum = receiveNum;
     }
+
+	public String getEvalProperty() {
+		return evalProperty;
+	}
+
+	public void setEvalProperty(String evalProperty) {
+		this.evalProperty = evalProperty;
+	}
+    
 }

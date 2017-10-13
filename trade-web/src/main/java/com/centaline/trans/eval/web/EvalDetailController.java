@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.centaline.trans.cases.entity.ToCase;
-import com.centaline.trans.common.enums.CasePropertyEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -21,7 +19,6 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
-import com.centaline.trans.eval.service.ToEvaReportProcessService;
 
 /**
  * @Description:评估单详情-天津
@@ -41,9 +38,6 @@ public class EvalDetailController {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
-	@Autowired
-	private ToEvaReportProcessService toEvaReportProcessService;
-	
 	/**
 	 * 评估单详情for tj
 	 * @param request
@@ -58,9 +52,25 @@ public class EvalDetailController {
 		ToEvaPricingVo toEvaPricingVo = evaPricingService.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
 		// 工作流
 		ToWorkFlow inWorkFlow = new ToWorkFlow();
-		inWorkFlow.setBusinessKey("operation_process");
+		inWorkFlow.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
 		inWorkFlow.setCaseCode(caseCode);
 		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
+		
+		//评估发票信息
+		
+		//评估返利报告审批信息
+		
+		//评估爆单信息
+		
+		//评估公司变更信息
+		
+		//评估结算信息
+		
+		//调佣审批信息
+		
+		//附件
+		
+		//备注
 		
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("queryOrg", userOrgId);

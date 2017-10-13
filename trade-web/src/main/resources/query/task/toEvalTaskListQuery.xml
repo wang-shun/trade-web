@@ -66,7 +66,7 @@
 						LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT tcp ON tcp.CASE_CODE= tw.CASE_CODE
 						  WHERE  ART.ASSIGNEE_ = #userLoginName# AND ART.PROC_DEF_ID_= #processDfId# AND tcp.POSITION= 'loan'
 					    AND ART.SUSPENSION_STATE_ = '1'
-					    and exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=tw.CASE_CODE)
+					    and exists (Select 1 from sctrans.T_TO_EVA_REPORT_PROCESS  where EVA_CODE=tw.BIZ_CODE)
 						<ifNotNull allType>
    						AND ART.DELEGATION_ IS NULL
 						</ifNotNull>
@@ -88,17 +88,10 @@
 							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and AGENT_NAME like '%'+#agentName#+'%')
 						</ifNotNull>
 
-						<ifNotNull agentName>
-							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and AGENT_NAME like '%'+#agentName#+'%')
-						</ifNotNull>
-
 						<ifNotNull agentOrgName>
 							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and GRP_NAME like '%'+#agentOrgName#+'%')
 						</ifNotNull>
 
-						<ifNotNull ctmCode>
-							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and CTM_CODE like '%'+#ctmCode#+'%')
-						</ifNotNull>
 						<ifNotNull evalCompany>
 							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and CTM_CODE like '%'+#ctmCode#+'%')
 						</ifNotNull>

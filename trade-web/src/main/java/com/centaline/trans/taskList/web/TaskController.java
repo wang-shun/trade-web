@@ -437,6 +437,15 @@ public class TaskController {
     		plan.setCaseCode(caseCode);
     		plan.setPartCode("LoanRelease");//放款
     		request.setAttribute("loanReleasePlan", transplanServiceFacade.findTransPlan(plan));
+    	}else if("evalServiceRestartApply".equals(taskitem) || "evalServiceRestartApprove".equals(taskitem)){ //天津评估流程
+    		initApproveRecord(request, caseCode, "10");
+     		if(instCode == null && caseCode != null) {
+        		ToWorkFlow toWorkFlow = new ToWorkFlow();
+        		toWorkFlow.setBizCode(request.getParameter("evalCode"));
+        		toWorkFlow.setBusinessKey(WorkFlowEnum.SRV_BUSSKEY.getCode());
+        		instCode = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlow).getInstCode();
+        		request.setAttribute("processInstanceId", instCode);
+        	}
     	}
         return "task"+UiImproveUtil.getPageType(request)+"/task"+taskitem;
   
