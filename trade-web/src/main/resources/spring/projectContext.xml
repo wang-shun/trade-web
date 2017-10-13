@@ -689,6 +689,11 @@
     <bean name="qqcdDictMortType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="30016"></property>
     </bean>
+    <!-- 询价状态 -->
+    <bean name="qqEvaPricingStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="EVA_STATUS"></property>
+    </bean>
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 
 </beans>

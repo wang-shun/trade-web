@@ -248,72 +248,48 @@ $('#addNewEvaluate').click(function(){
 
 //操作跳转
 function gotoPage(obj){
-	var pVal = $(obj).prev().find('select').attr('pval');
+	var pVal = $(obj).prev().find('select').attr('pval');//明细id
+	var instCode = $(obj).prev().find('select').attr('instCode');//流程实例id
 	var sVal = $(obj).prev().find('select').val();
+	var caseCode = $(obj).prev().find('select').attr('caseCode');
+	
 	var url = ctx+"/evaPricing/";
 	if(sVal == '0'){//查看明细
-		url += "evaPricingDetail?PKID="+pVal;
+		url += "evaPricingDetail?PKID=" + pVal + "&instCode=" + instCode;
 		window.open(url);
-	}else if(sVal == '1'){//记录
-		url += "evaPricingEnter?PKID="+pVal;
-		window.location.href = url;
-	}else if(sVal == '2'){//取消
-		url += "evaPricingCancel?PKID="+pVal;
-		window.wxc.confirm(
-				'确认询价取消?',
-				{
-					onOk:function(){
-						console.log(url);
-						$.ajax({
-							cache:true,
-							async:false,
-							type:"POST",
-							url:url,
-//							data:jsonData,
-							dataType:"json",
-							success:function(data){
-								window.wxc.success("取消成功!",{"wxcOk":function(){
-									searchMethod();
-								}});
-							},
-							error : function(errors) {
-								window.wxc.error("取消失败!");
-							}
-						});	
-					}
+	}else  if(sVal == '1'){
+		if(caseCode != null && caseCode !="" && caseCode != undefined){//已关联交易案件
+			window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+		}else{
+			var data = {};
+		    data.queryId = "queryEvalApplyList";
+		    data.rows = 10;
+		    data.page = 1;
+		    data.argu_pkid = pVal;
+		    aist.wrap(data);
+			
+			$.ajax({
+				cache:true,
+				async:false,
+				type:"POST",
+				url:ctx + "/quickGrid/findPage",
+				data:data,
+				dataType:'json',
+				success:function(data){
+					$('#evaPricingId').val(pVal);
+					
+					var html = template('template_evalApply',data);
+					$('#eval-modal-body').empty();
+					$('#eval-modal-body').html(html);
+					$('#eval-modal-form').modal('show');
+				},
+				error:function(){
+					window.wxc.error("查询失败!");
 				}
-		);
-		
-	}else if(sVal == '3'){//发起评估申请
-		
-		var data = {};
-	    data.queryId = "queryEvalApplyList";
-	    data.rows = 10;
-	    data.page = 1;
-	    data.argu_pkid = pVal;
-	    aist.wrap(data);
-		
-		$.ajax({
-			cache:true,
-			async:false,
-			type:"POST",
-			url:ctx + "/quickGrid/findPage",
-			data:data,
-			dataType:'json',
-			success:function(data){
-				$('#evaPricingId').val(pVal);
-				
-				var html = template('template_evalApply',data);
-				$('#eval-modal-body').empty();
-				$('#eval-modal-body').html(html);
-				$('#eval-modal-form').modal('show');
-			},
-			error:function(){
-				window.wxc.error("查询失败!");
-			}
-		});
-		
-		
+			});
+		}
+	}else if(sVal == '2'){//重新发起
+		window.open(ctx+"/evaPricing/addNewEvaPricing");
 	}else{
 		return;
 	}
