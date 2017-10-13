@@ -22,6 +22,7 @@ import com.centaline.trans.common.enums.*;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToCcaiAttachmentMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
+import com.centaline.trans.eloan.entity.ToAppRecordInfo;
 import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 import com.centaline.trans.eloan.service.ToSelfAppInfoService;
 import com.centaline.trans.utils.DateUtil;
@@ -817,6 +818,7 @@ public class CcaiServiceImpl implements CcaiService {
 		ToSelfAppInfo toSelfAppInfo = new ToSelfAppInfo();
 		try {
 			BeanUtils.copyProperties(toSelfAppInfo, info);
+			toSelfAppInfo = copyProperties(info);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -827,10 +829,40 @@ public class CcaiServiceImpl implements CcaiService {
 			result.setCode("99");
 			return result;
 		}
+		//将案件编号 放入消息队列中
+		MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.LOAN_TYPE);
+		jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
 		result.setSuccess(true);
 		result.setMessage("同步成功!");
 		result.setCode("00");
 		return result;
+	}
+
+	private ToSelfAppInfo copyProperties(SelfDoImport info) {
+		ToSelfAppInfo toSelfAppInfo = new ToSelfAppInfo();
+		toSelfAppInfo.setApplyTime(info.getApplyTime());
+		toSelfAppInfo.setCcaiCode(info.getCcaiCode());
+		toSelfAppInfo.setCity(info.getCity());
+		toSelfAppInfo.setGrpCode(info.getGrpCode());
+		toSelfAppInfo.setGrpName(info.getGrpName());
+		toSelfAppInfo.setRealName(info.getRealName());
+		toSelfAppInfo.setStatus(info.getStatus());
+		toSelfAppInfo.setType(info.getType());
+		toSelfAppInfo.setUserName(info.getUserName());
+		List<TaskInfo> listTask = info.getTasks();
+		List<ToAppRecordInfo> tasks = new ArrayList<ToAppRecordInfo>();
+		for (TaskInfo taskInfo : listTask) {
+			ToAppRecordInfo toAppRecordInfo = new ToAppRecordInfo();
+			toAppRecordInfo.setApplyRealName(taskInfo.getApplyRealName());
+			toAppRecordInfo.setApplyUserName(taskInfo.getApplyUserName());
+			toAppRecordInfo.setComment(taskInfo.getComment());
+			toAppRecordInfo.setDealTime(taskInfo.getDealTime());
+			toAppRecordInfo.setLevel(taskInfo.getLevel());
+			toAppRecordInfo.setResult(taskInfo.getResult());
+			tasks.add(toAppRecordInfo);
+		}
+		toSelfAppInfo.setTasks(tasks);
+		return toSelfAppInfo;
 	}
 
 }

@@ -14,4 +14,6 @@ import com.centaline.trans.eloan.entity.ToAppRecordInfo;
 public interface ToAppRecordInfoMapper {
 
 	void insertAppRecordInfo(List<ToAppRecordInfo> list);
+
+	List<ToAppRecordInfo> getAppRecordInfo(String appInfoId);
 }

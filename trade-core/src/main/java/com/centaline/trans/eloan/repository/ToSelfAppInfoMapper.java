@@ -13,4 +13,6 @@ public interface ToSelfAppInfoMapper {
 
 	Long insertSelfAppInfo(ToSelfAppInfo toSelfAppInfo);
 
+	ToSelfAppInfo getAppInfoByCaseCode(String caseCode);
+
 }
