@@ -19,7 +19,7 @@
     STATUS, EVA_PROCESS_ID, TYPE, CHANGE_CHARGES_TYPE, COMMISION_TTL_AMOUNT
   </sql>
     <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_EVA_COMMISSION_CHANGE
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
