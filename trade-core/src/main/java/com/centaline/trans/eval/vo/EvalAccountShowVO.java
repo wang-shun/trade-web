@@ -20,7 +20,9 @@ public class EvalAccountShowVO {
 	
 	private String feeChangeReason;				//费用调整类型
 	private BigDecimal settleFee;                          //
-	private String rejectCause;
+	private String rejectCause;			//驳回意见
+	private String rejectPerson;       //驳回人
+    private String approTime;			//驳回时间
 	
 	private List<Integer>taskIds;
 	private List<String>caseCodes;
@@ -125,6 +127,22 @@ public class EvalAccountShowVO {
 	}
 	public void setUpdateReason(String updateReason) {
 		this.updateReason = updateReason;
+	}
+
+	public String getRejectPerson() {
+		return rejectPerson;
+	}
+
+	public void setRejectPerson(String rejectPerson) {
+		this.rejectPerson = rejectPerson;
+	}
+
+	public String getApproTime() {
+		return approTime;
+	}
+
+	public void setApproTime(String approTime) {
+		this.approTime = approTime;
 	}
 	
 	

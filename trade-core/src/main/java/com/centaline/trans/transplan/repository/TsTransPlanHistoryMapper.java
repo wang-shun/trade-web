@@ -24,4 +24,8 @@ public interface TsTransPlanHistoryMapper {
     List<TransPlanVO> getTransPlanVOList(TransPlanVO transPlanVO);
 
 	List<TsTransPlanHistoryVO> queryTtsTransPlanHistorys(TsTransPlanHistoryVO tsTransPlanHistoryVO);
+    //by wbzhouht 通过交易编号查询变更历史信息
+    List<TsTransPlanHistory> findTransPlanHistoryByCaseCode(TsTransPlanHistory tsTransPlanHistory);
+
+
 }

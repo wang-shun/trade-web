@@ -175,6 +175,7 @@
 					<th>询价类型</th>
 					<th>询价结果</th>
 					<th>操作</th>
+					<th>状态</th>
 				</tr>
 			</thead>
 			<tbody id="evaluateList">
@@ -205,7 +206,13 @@
 <script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 
-
+<!-- 原操作
+{{if item.STATUS != 1}}
+	<option value="1">记录</option>
+{{/if}}
+<option value="2">无效</option>
+<option value="3">发起评估申请</option>
+ -->
 <script id="template_evaluateList" type= "text/html">
 	{{each rows as item index}}
 		{{if index%2 == 0}}
@@ -219,6 +226,9 @@
 			<td class="t-left">
 				<p class="big">
 					{{item.CASE_CODE}}				
+				</p>
+				<p>
+					e:{{item.EVA_CODE}}
 				</p>
 			</td>
 
@@ -275,21 +285,30 @@
 				<p>
 					{{item.HOUSE_AGE}}&nbsp;年
 				</p>
-			</td>                      	
-					
+			</td> 
+                     	
+			<td>
+				<p>
+					{{item.STATUS_NAME}}
+				</p>
+			</td>
+	
 			<td class="text-center">
             	<div class="float_left big_pad">
-					<select pval="{{item.PKID}}" class="form-control select_control" style="width:120px">
+					<select pval="{{item.PKID}}" caseCode="{{item.CASE_CODE}}" instCode="{{item.INST_CODE}}" class="form-control select_control" style="width:120px">
 						<option value="0">查看</option>
-						{{if item.STATUS != 1}}
-							<option value="1">记录</option>
+						{{if item.STATUS != 2}}
+							<option value="1">评估申请</option>
 						{{/if}}
-						<option value="2">无效</option>
-						<option value="3">发起评估申请</option>
+						{{if item.STATUS == 2}}
+							<option value="2">重新发起</option>
+						{{/if}}
 					</select>
 				</div>
 				<a  href="#" onclick="gotoPage(this)" class="float_left_three"><i class="iconfont icon_revise">&#xe603;</i></a>						
 			</td>
+
+			
 		</tr>
 				
 	{{/each}}

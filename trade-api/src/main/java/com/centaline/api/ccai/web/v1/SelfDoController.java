@@ -1,10 +1,14 @@
 package com.centaline.api.ccai.web.v1;
 
+import com.centaline.api.ccai.service.CcaiService;
 import com.centaline.api.ccai.vo.EvalRefundImport;
 import com.centaline.api.ccai.vo.SelfDoImport;
+import com.centaline.api.common.enums.ApiLogModuleEnum;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import com.centaline.api.common.web.AbstractBaseController;
+import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 import com.centaline.trans.eloan.service.ToSelfAppInfoService;
+import com.centaline.trans.utils.BeanUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +38,9 @@ import javax.validation.Validator;
 public class SelfDoController extends AbstractBaseController {
 	@Autowired
 	ToSelfAppInfoService toSelfAppInfoService;
+	
+	@Autowired
+	private CcaiService ccaiService;
 
 	@ApiOperation(value = "变更为自办申请同步", notes = "CCAI发起的自办贷款/自办评估流程，经过部门逐级审批同意后，调用该接口将信息同步至交易系统，由权证进行后续处理", produces = "application/json,application/json;charset=UTF-8")
 	@RequestMapping(value="/selfdo/sync",method = RequestMethod.POST,produces = {"application/json", "application/json;charset=UTF-8"})
@@ -42,8 +49,10 @@ public class SelfDoController extends AbstractBaseController {
 			@Valid @RequestBody SelfDoImport info, Errors errors, HttpServletRequest request){
 		CcaiServiceResult result = buildErrorResult(errors);
 		ObjectMapper mapper = new ObjectMapper();
+		System.out.println("11111111111111111111111111111111");
 		if(result.isSuccess()) {
 			//Hibernate Validator 注解校验
+			
 			Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 			StringBuilder msg = new StringBuilder();
 			//校验审批环节信息是否正确
@@ -54,14 +63,18 @@ public class SelfDoController extends AbstractBaseController {
 				result.setCode(FAILURE_CODE);
 			}else{
 				//TODO 联调时增加业务代码
-				System.out.println(info);
-				result.setSuccess(true);
-				result.setMessage("do noting.");
-				result.setCode(SUCCESS_CODE);
+				try {
+					result = ccaiService.importSelfDo(info);
+				} catch (Exception e) {
+					result.setSuccess(false);
+					result.setCode(FAILURE_CODE);
+					result.setMessage(e.getMessage());
+				}
 			}
 		}
 		//写入日志
-		// writeLog(ApiLogModuleEnum.EVAL_REFUND_SYNC,"/api/ccai/v1/eva/refund/sync",info,result,request);
+		System.out.println("2222222222222222222222222222222222222");
+		 writeLog(ApiLogModuleEnum.SELF_DO_DYNC,"/api/ccai/v1/eva/selfdo/sync",info,result,request);
 		return result;
 	}
 }

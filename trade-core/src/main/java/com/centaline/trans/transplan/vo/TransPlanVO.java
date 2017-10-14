@@ -14,14 +14,17 @@ public class TransPlanVO {
     private String partCodeTr;
     private Date estPartTimeTr;
     */
-    /**还贷*/
+    /**还贷 天津已废弃 by wbzhouht*/
 	private Long pkidHd;
     private String partCodeHd;
     private Date estPartTimeHd;
+
+
     /**过户*/
 	private Long pkidGh;
     private String partCodeGh;
     private Date estPartTimeGh;
+
     /**领证*/
 	private Long pkidLz;
     private String partCodeLz;
@@ -62,7 +65,7 @@ public class TransPlanVO {
 	private String partCodePfc;
 	private Date estPartTimePfc;
     
-    /**放款*/
+    /**放款 */
 	private Long pkidFk;
     private String partCodeFk;
     private Date estPartTimeFk;
@@ -80,7 +83,8 @@ public class TransPlanVO {
     /**estPartTime */
     private Date estPartTime;
     private String partCodeStr;
-    
+
+
 	public String getTaskId() {
 		return taskId;
 	}
