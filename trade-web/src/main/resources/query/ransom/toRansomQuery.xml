@@ -3,14 +3,13 @@
 	<dicts>	
 		<customDict id="qqcdDictRetaType" beanName="qqcdDictRetaType"/>
 		<customDict id="qqcdDictDiyaType" beanName="qqcdDictDiyaType"/>	
+		<customDict id="qqcdDictFinalOrg" beanName="qqcdDictFinalOrg"/>	
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
 	</formatters>
 	<query id="queryRansomDetail">
-		<searchCondition>
-			<condition field="RANSOM_CODE" name="ransomCode" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-		</searchCondition>
+
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -22,6 +21,8 @@
 						REST_MONEY restMoney
 					FROM
 						sctrans.T_RA_TAILINS
+					WHERE
+						RANSOM_CODE = #ransomCode#
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -33,9 +34,9 @@
 		<grid>
 			<table-row>
 				<column type="both" name="finOrgCode" display="尾款机构Code" hide="true"/>
-				<column type="virtual" name="tailOrgName" display="尾款机构名" referencecol="finOrgCode" customDict=""/>
+				<column type="virtual" name="tailOrgName" display="尾款机构名" referencecol="finOrgCode" customDict="qqcdDictFinalOrg"/>
 				<column type="both" name="retaType" display="尾款类型"   />
-				<column type="virtual" name="retaTypeName" display="尾款类型名" referencecol="mortgageType" customDict="qqcdDictRetaType"/>
+				<column type="virtual" name="retaTypeName" display="尾款类型名" referencecol="retaType" customDict="qqcdDictRetaType"/>
 				<column type="both" name="diyaType" display="抵押类型"  />
 				<column type="virtual" name="diyaTypeName" display="抵押类型名" referencecol="diyaType" customDict="qqcdDictDiyaType"/>				
 				<column type="both" name="loanMoney" display="贷款金额" />
@@ -46,7 +47,6 @@
 	</query>
 	
 	<query id="getApplyRecord">
-	
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -76,6 +76,144 @@
 				<column type="both" name="borrMoney" display="借款金额"   />
 				<column type="both" name="comOrgName" display="申请机构"   />
 				<column type="both" name="stopReason" display="中止原因"   />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryRansomHistoryRecord">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						rap.APPLY_USER,
+						rap.APPLY_TIME,
+						tai.LOAN_MONEY,
+						rap.APPLY_ORG_CODE,
+						cas.STOP_REASON,
+						org.FIN_ORG_NAME
+					FROM 
+						sctrans.T_RA_APPLY  rap
+						LEFT JOIN sctrans.T_RA_CASE  cas ON  cas.RANSOM_CODE = rap.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_TAILINS tai ON tai.CASE_CODE = cas.CASE_CODE
+						LEFT JOIN sctrans.T_TS_FIN_ORG org ON rap.APPLY_ORG_CODE = org.FIN_ORG_CODE
+					WHERE 
+						rap.APPLY_USER = #borrowerUser#
+				]]>
+			</baseSql>
+			<orderBySql>
+				ORDER BY rap.PKID 
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="APPLY_USER" display="申请人" />
+				<column type="both" name="APPLY_TIME" display="申请时间" beanFormatter="dateFormatter1"/>
+				<column type="both" name="LOAN_MONEY" display="申请金额" />
+				<column type="both" name="FIN_ORG_NAME" display="申请机构" />
+				<column type="both" name="STOP_REASON" display="中止原因" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryRansomTimeRecord" >
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						cas.RANSOM_CODE ransomCode,
+						cas.CASE_CODE caseCode,
+						tai.SIGN_TIME signTime,
+						tai.PLAN_TIME planTime,
+						app.APPLY_TIME applyTime,
+						inter.INTERVIEW_TIME interTime,
+						rep.REPAY_TIME repayTime,
+						can.CANCEL_TIME cancelTime,
+						red.REDEEM_TIME redeemTime,
+						pay.PAYMENT_TIME paymentTime
+					FROM sctrans.T_RA_CASE cas
+					INNER JOIN sctrans.T_RA_TAILINS tai ON tai.CASE_CODE = cas.CASE_CODE
+					LEFT JOIN sctrans.T_RA_APPLY app ON app.RANSOM_CODE = tai.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_INTERVIEW inter ON inter.RANSOM_CODE = app.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_REPAY rep ON rep.RANSOM_CODE = inter.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_CANCEL can ON can.RANSOM_CODE = rep.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_REDEEM red ON red.RANSOM_CODE = can.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE 
+					WHERE 
+						cas.RANSOM_CODE = #ransomCode#
+				]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="signTime" display="受理实际办理时间" />
+				<column type="both" name="planTime" display="受理预计完成时间"/>
+				
+				<column type="both" name="applyTime" display="申请时间" />
+				<column type="both" name="interTime" display="面签时间" />
+				
+				<column type="both" name="repayTime" display="陪同还贷时间(一抵)" />
+				<column type="both" name="cancelTime" display="注销抵押时间(一抵)" />
+				<column type="both" name="redeemTime" display="领取产证时间(一抵)" />
+				<column type="both" name="paymentTime" display="回款结清时间" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryRansomCaseLink">
+
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						ca.PKID pkid,
+						ca.CASE_CODE caseCode,
+						pro.PROPERTY_ADDR propertyAddr,
+						cai.AGENT_NAME agentName,
+						cai.GRP_NAME grpName,
+						guest.GUEST_NAME seller,
+						guest1.GUEST_NAME buyer,
+						par.USER_NAME userName,
+						par.REAL_NAME realName
+					FROM sctrans.T_TO_CASE_INFO ca
+					INNER JOIN sctrans.T_TO_PROPERTY_INFO  pro ON ca.CASE_CODE = pro.CASE_CODE
+					INNER JOIN sctrans.T_TO_CASE_INFO cai ON pro.CASE_CODE = cai.CASE_CODE
+					INNER  JOIN sctrans.T_TG_GUEST_INFO guest ON cai.CASE_CODE = guest.CASE_CODE and guest.TRANS_POSITION='30006001'
+					INNER JOIN sctrans.T_TG_GUEST_INFO guest1 ON cai.CASE_CODE = guest1.CASE_CODE and guest1.TRANS_POSITION='30006002'
+					INNER JOIN sctrans.T_TO_CASE_PARTICIPANT par ON guest.CASE_CODE = par.CASE_CODE
+					WHERE  par.POSITION = 'warrant' 
+					<ifNotNull caseCode>
+						AND ca.CASE_CODE = #caseCode#
+					</ifNotNull>
+					<ifNotNull propertyAddr>
+						AND pro.PROPERTY_ADDR = #propertyAddr#
+					</ifNotNull>
+					<ifNotNull sellerName>
+						AND guest.GUEST_NAME = #sellerName#
+					</ifNotNull>
+				]]>
+			</baseSql>
+			<orderBySql>
+				ORDER BY ca.PKID  DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="pkid" display="PKID"/>
+				<column type="both" name="caseCode" display="案件编号"/>
+				<column type="virtual" name="propertyAddr" display="产证地址" />
+				<column type="both" name="agentName" display="经纪人姓名"/>
+				<column type="virtual" name="grpName" display="经纪人部门" />
+				<column type="both" name="seller" display="卖家"/>
+				<column type="both" name="buyer" display="买家"/>
+				<column type="both" name="realName" display="交易顾问姓名"/>
 			</table-row>
 		</grid>
 	</query>

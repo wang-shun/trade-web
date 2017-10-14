@@ -204,7 +204,9 @@
 			var data = {};
 			data.queryId = "getApplyRecord";
 			data.ransomCode = $('#ransomCode').val();
-			queryApplyRecord();
+			data.rows = 10;
+		    data.page = 1;
+			queryApplyRecord(data);
 		})
 	
 		//日期初始化

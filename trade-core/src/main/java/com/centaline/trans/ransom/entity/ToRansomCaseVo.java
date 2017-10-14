@@ -1,46 +1,111 @@
 package com.centaline.trans.ransom.entity;
 
 import java.util.Date;
+import java.util.List;
 
+import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.mgr.entity.TsFinOrg;
+
+/**
+ * 赎楼列表
+ * @author wbwumf
+ *
+ *2017年10月9日
+ */
 public class ToRansomCaseVo {
+	
     private Long pkid;
 
+    /**
+     * 赎楼单编号
+     */
     private String ransomCode;
 
+    /**
+     * 案件编号
+     */
     private String caseCode;
 
+    /**
+     * 案件状态
+     */
     private String ransomStatus;
 
+    /**
+     * 赎楼环节
+     */
     private String ransomProperty;
 
+    /**
+     * 合作机构编码
+     */
     private String comOrgCode;
 
+    /**
+     * 借款总金额
+     */
     private double borroMoney;
 
+    /**
+     * 主贷人姓名
+     */
     private String borrowerName;
 
+    /**
+     * 主贷人电话
+     */
     private String borrowerTel;
 
+    /**
+     * 是否中止
+     */
     private String isstop;
 
+    /**
+     * 中止类型
+     */
     private String stopType;
 
+    /**
+     * 中止原因
+     */
     private String stopReason;
 
+    /**
+     * 受理时间
+     */
     private Date acceptTime;
 
+    /**
+     * 创建时间
+     */
     private Date createTime;
 
+    /**
+     * 创建人 
+     */
     private String createUser;
 
+    /**
+     * 更新时间
+     */
     private Date updateTime;
 
+    /**
+     * 更新人
+     */
     private String updateUser;
 
+    /**
+     * 尾款机构ID
+     */
     private String finOrgId;
 
+    /**
+     * 备注
+     */
     private String remark;
-
+    
     public Long getPkid() {
         return pkid;
     }
@@ -192,4 +257,5 @@ public class ToRansomCaseVo {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
 }

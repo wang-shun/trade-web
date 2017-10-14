@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eval.entity.ToEvaSettleUpdateLog;
+
 /**
  * 
  * @author wbwangxj
@@ -11,7 +12,9 @@ import com.centaline.trans.eval.entity.ToEvaSettleUpdateLog;
  */
 @MyBatisRepository
 public interface ToEvaSettleUpdateLogMapper {
-    int deleteByPrimaryKey(Long pkid);
+	int deleteByPrimaryKey(Long pkid);
+	
+	int deleteByCaseCode(String caseCode);
 
     int insert(ToEvaSettleUpdateLog record);
 
@@ -27,4 +30,7 @@ public interface ToEvaSettleUpdateLogMapper {
     
     List<ToEvaSettleUpdateLog> selectUpdateLogByCaseCode(String caseCode);
     
+    List<ToEvaSettleUpdateLog> selectUpdateLog();
+    
+    List<ToEvaSettleUpdateLog> selectUpdateLogByCaseCodeAndDesc(String caseCode);
 }

@@ -22,7 +22,11 @@ import com.centaline.trans.common.enums.*;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToCcaiAttachmentMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
+import com.centaline.trans.eloan.entity.ToSelfAppInfo;
+import com.centaline.trans.eloan.service.ToSelfAppInfoService;
 import com.centaline.trans.utils.DateUtil;
+
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
@@ -33,6 +37,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -57,7 +63,10 @@ public class CcaiServiceImpl implements CcaiService {
 	private UamUserOrgService uamUserOrgService;//用户信息
 	@Autowired
 	private ToCaseParticipantMapper toCaseParticipantMapper;//案件参与人信息
-
+	
+	@Autowired
+	private ToSelfAppInfoService toSelfAppInfoService; //自办贷款评估信息
+	
 	@Autowired
 	private JmsMessagingTemplate jmsTemplate; //activemq 消息队列
 
@@ -84,13 +93,9 @@ public class CcaiServiceImpl implements CcaiService {
 		result.setSuccess(true);
 		result.setMessage("同步成功!");
 		result.setCode("00");
-		try {
-			//将案件编号 放入消息队列中
-			MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.STARTFLOW_TYPE);
-			jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//将案件编号 放入消息队列中
+		MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.STARTFLOW_TYPE);
+		jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
 
 		return result;
 	}
@@ -99,6 +104,20 @@ public class CcaiServiceImpl implements CcaiService {
 	public boolean isExistCcaiCode(String ccaiCode) {
 		int count = toCaseInfoMapper.isExistCcaiCode(ccaiCode);
 		return count > 0;
+	}
+
+	@Override
+	public CcaiServiceResult repealCase(CaseRepealImport repealInfo) {
+		//TODO 更多的业务逻辑后续根据需要添加
+		CcaiServiceResult result = new CcaiServiceResult();
+		String caseCode = toCaseInfoMapper.findcaseCodeByCcaiCode(repealInfo.getCcaiCode());
+		//将案件编号 放入消息队列中
+		MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.REPEAL_TYPE);
+		jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
+		result.setSuccess(true);
+		result.setMessage("");
+		result.setCode("00");
+		return result;
 	}
 
 	@Override
@@ -342,14 +361,20 @@ public class CcaiServiceImpl implements CcaiService {
 	 */
 	private void addAssistant(String caseCode,CaseImport acase){
 		CaseParticipantImport owner = null;
+		boolean hasAssistant = false;//导入信息是否包含权证秘书
 		for (CaseParticipantImport pa : acase.getParticipants()) {
+
 			if (owner == null && CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())) {
 				owner = pa;
 			} else if (CaseParticipantEnum.LOAN.getCode().equals(pa.getPosition())) {
 				owner = pa;
-				break;
+			} else if(CaseParticipantEnum.ASSISTANT.getCode().equals(pa.getPosition())){
+				hasAssistant = true;
 			}
 		}
+		//导入信息包含权证秘书 则不进行添加
+		if(hasAssistant) return;
+		//自动添加内勤助理
 		Org org = uamUserOrgService.getOrgByCode(owner.getGrpCode());
 		List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),TradeJobCodeEnum.ASSISTANT.getCode());
 		if(users!=null && users.size()>0){
@@ -785,6 +810,27 @@ public class CcaiServiceImpl implements CcaiService {
 				}
 			}
 		}
+	}
+	@Override
+	public CcaiServiceResult importSelfDo(SelfDoImport info) {
+		CcaiServiceResult result = new CcaiServiceResult();
+		ToSelfAppInfo toSelfAppInfo = new ToSelfAppInfo();
+		try {
+			BeanUtils.copyProperties(toSelfAppInfo, info);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		String caseCode = toSelfAppInfoService.addSelfAppInfo(toSelfAppInfo);
+		if(StringUtils.isBlank(caseCode)){
+			result.setSuccess(false);
+			result.setMessage("同步失败!caceCode没查到!");
+			result.setCode("99");
+			return result;
+		}
+		result.setSuccess(true);
+		result.setMessage("同步成功!");
+		result.setCode("00");
+		return result;
 	}
 
 }

@@ -1,6 +1,11 @@
 package com.centaline.trans.ransom.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
+import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.mgr.entity.TsFinOrg;
 
 /**
  * @author wbwumf
@@ -58,7 +63,7 @@ public class ToRansomFormVo {
 	/**
 	 * 剩余金额
 	 */
-	private double restMoney;
+	private BigDecimal restMoney;
 	
 	/**
 	 * 借款总金额
@@ -77,6 +82,7 @@ public class ToRansomFormVo {
 	private Date updateTime;
 	
 	private String updateUser;
+	
 
 	public Long getPkid() {
 		return pkid;
@@ -150,11 +156,11 @@ public class ToRansomFormVo {
 		this.loanMoney = loanMoney;
 	}
 
-	public double getRestMoney() {
+	public BigDecimal getRestMoney() {
 		return restMoney;
 	}
 
-	public void setRestMoney(double restMoney) {
+	public void setRestMoney(BigDecimal restMoney) {
 		this.restMoney = restMoney;
 	}
 

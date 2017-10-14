@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +24,8 @@ import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.eloan.entity.ToCloseLoan;
 import com.centaline.trans.eloan.repository.ToCloseLoanMapper;
+import com.centaline.trans.eval.entity.ToEvalReportProcess;
+import com.centaline.trans.eval.repository.ToEvalReportProcessMapper;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.repository.TsFinOrgMapper;
 import com.centaline.trans.mortgage.entity.ToEvaReport;
@@ -32,18 +33,23 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.repository.ToEvaReportMapper;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.ransom.entity.ToRansomFormVo;
+import com.centaline.trans.ransom.repository.AddRansomFormMapper;
 import com.centaline.trans.task.entity.ToGetPropertyBook;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.entity.ToPayment;
 import com.centaline.trans.task.entity.ToPurchaseLimitSearch;
+import com.centaline.trans.task.entity.ToRatePayment;
 import com.centaline.trans.task.entity.ToSign;
 import com.centaline.trans.task.entity.ToTax;
 import com.centaline.trans.task.repository.ToGetPropertyBookMapper;
 import com.centaline.trans.task.repository.ToHouseTransferMapper;
 import com.centaline.trans.task.repository.ToPaymentMapper;
 import com.centaline.trans.task.repository.ToPurchaseLimitSearchMapper;
+import com.centaline.trans.task.repository.ToRatePaymentMapper;
 import com.centaline.trans.task.repository.ToSignMapper;
 import com.centaline.trans.task.repository.ToTaxMapper;
+import com.centaline.trans.task.service.ToRatePaymentService;
 import com.centaline.trans.utils.DateUtil;
 
 @Service
@@ -84,7 +90,19 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
     private ToMortgageService toMortgageService;
     @Autowired
     private TsCaseEfficientMapper tsCaseEfficientMapper;
+    @Autowired
+    private ToRatePaymentService	toRatePaymentService;
+    @Autowired
+    private ToRatePaymentMapper	toRatePaymentMapper;
+    @Autowired
+    private ToEvalReportProcessMapper toEvaReportProcessMapper;
+    @Autowired
+    private AddRansomFormMapper addRansomFormMapper;
 
+    
+    /**
+     * update by wbshume
+     */
     @Override
     public EditCaseDetailVO queryCaseDetai(String caseCode)
     {
@@ -94,6 +112,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         ToCaseInfo toCaseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
         ToClose toClose = toCloseMapper.findToCloseByCaseCode(caseCode);
         editCaseDetailVO.setCaseCode(caseCode);
+        editCaseDetailVO.setPayType(toCaseInfo.getPayType());
         editCaseDetailVO.setLoanReq(toCase.getLoanReq());
         if (toCase != null)
         {
@@ -129,34 +148,34 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         for (int i = 0; i < toPaymentList.size(); i++)
         {
             ToPayment toPayment = toPaymentList.get(i);
-            if (toPayment.getPayName().equals("首付付款"))
+            if (toPayment.getPayName().equals("一期款"))
             {
                 editCaseDetailVO.setInitPayPkid(toPayment.getPkid());
                 editCaseDetailVO.setInitAmount(toPayment.getAmount() != null ? toPayment.getAmount().divide(new BigDecimal(10000)) : null);
                 editCaseDetailVO.setInitPayTime(toPayment.getPayTime());
                 editCaseDetailVO.setInitPayType(toPayment.getPayType());
             }
-            else if (toPayment.getPayName().equals("二期付款"))
+            else if (toPayment.getPayName().equals("二期款"))
             {
                 editCaseDetailVO.setSecPayPkid(toPayment.getPkid());
                 editCaseDetailVO.setSecAmount(toPayment.getAmount() != null ? toPayment.getAmount().divide(new BigDecimal(10000)) : null);
                 editCaseDetailVO.setSecPayTime(toPayment.getPayTime());
                 editCaseDetailVO.setSecPayType(toPayment.getPayType());
             }
-            else if (toPayment.getPayName().equals("尾款付款"))
+            else if (toPayment.getPayName().equals("三期款"))
             {
                 editCaseDetailVO.setLastPayPkid(toPayment.getPkid());
                 editCaseDetailVO.setLastAmount(toPayment.getAmount() != null ? toPayment.getAmount().divide(new BigDecimal(10000)) : null);
                 editCaseDetailVO.setLastPayTime(toPayment.getPayTime());
                 editCaseDetailVO.setLastPayType(toPayment.getPayType());
             }
-            else if (toPayment.getPayName().equals("装修补偿款"))
+            /*else if (toPayment.getPayName().equals("装修补偿款"))
             {
                 editCaseDetailVO.setCompensatePayPkid(toPayment.getPkid());
                 editCaseDetailVO.setCompensateAmount(toPayment.getAmount() != null ? toPayment.getAmount().divide(new BigDecimal(10000)) : null);
                 editCaseDetailVO.setCompensatePayTime(toPayment.getPayTime());
                 editCaseDetailVO.setCompensatePayType(toPayment.getPayType());
-            }
+            }*/
         }
 
         /** 读取物业信息 */
@@ -197,8 +216,8 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             editCaseDetailVO.setUncloseMoney(toCloseLoan.getUncloseMoney() != null ? toCloseLoan.getUncloseMoney().divide(new BigDecimal(10000)) : null);
         }
 
-        /* 过户 */
-        ToHouseTransfer toHouseTransfer = toHouseTransferMapper.findToGuoHuByCaseCode(caseCode);
+        /* 过户  (天津版本需修改税收部分字段)*/
+        /*ToHouseTransfer toHouseTransfer = toHouseTransferMapper.findToGuoHuByCaseCode(caseCode);
         if (toHouseTransfer != null)
         {
             editCaseDetailVO.setGhid(toHouseTransfer.getPkid());
@@ -210,8 +229,22 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             editCaseDetailVO.setContractTax(toHouseTransfer.getContractTax() != null ? toHouseTransfer.getContractTax().divide(new BigDecimal(10000)) : null);
             editCaseDetailVO
                     .setLandIncrementTax(toHouseTransfer.getLandIncrementTax() != null ? toHouseTransfer.getLandIncrementTax().divide(new BigDecimal(10000)) : null);
+        }*/
+        /*过户和缴税相关信息 T_TO_RATE_PAYMENT表及TO_HOUSETRANSFER表*/
+        ToHouseTransfer toHouseTransfer = toHouseTransferMapper.findToGuoHuByCaseCode(caseCode);
+        editCaseDetailVO.setGhid(toHouseTransfer.getPkid());
+        editCaseDetailVO.setRealHtTime(toHouseTransfer.getRealHtTime());
+        editCaseDetailVO.setHouseHodingTax(toHouseTransfer.getHouseHodingTax() != null ? toHouseTransfer.getHouseHodingTax() : null);
+        ToRatePayment toRatePayment = toRatePaymentService.qureyToRatePayment(caseCode);
+        if(toRatePayment != null) {
+	        editCaseDetailVO.setRpid(toRatePayment.getPkid());
+	        editCaseDetailVO.setPaymentTime(toRatePayment.getPaymentTime() != null ? toRatePayment.getPaymentTime() : null);
+	        editCaseDetailVO.setPersonalIncomeTax(toRatePayment.getPersonalIncomeTax() != null ? toRatePayment.getPersonalIncomeTax() : null);
+	        editCaseDetailVO.setBusinessTax(toRatePayment.getBusinessTax() != null ? toRatePayment.getBusinessTax() : null);
+	        editCaseDetailVO.setContractTax(toRatePayment.getContractTax() != null ? toRatePayment.getContractTax() : null);
+	        editCaseDetailVO.setLandIncrementTax(toRatePayment.getLandIncrementTax() != null ? toRatePayment.getLandIncrementTax() : null);
         }
-
+        
         /* 审税 */
         ToTax toTax = toTaxMapper.findToTaxByCaseCode(caseCode);
         if (toTax != null)
@@ -269,11 +302,21 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             editCaseDetailVO.setLastLoanBank(toMortgage.getLastLoanBank());
             editCaseDetailVO.setFinOrgCode(toMortgage.getFinOrgCode());
             editCaseDetailVO.setCustCode(toMortgage.getCustCode());
-            /* 主贷人 */
-            if (!StringUtil.isBlank(toMortgage.getCustCode()))
-            {
-                // editCaseDetailVO.setCustName(editCaseDetailVO.getGuestNameDown());
+            
+            /*如果贷款环节无补件（即递件时间为空），则为面签时间，否则为补件最后时间,买卖双方补件时间必须同为空或同不为空*/
+            if(toMortgage.getPatchTimeBuy() != null) {
+            	editCaseDetailVO.setPatchTime(toMortgage.getPatchTimeBuy().before(toMortgage.getPatchTimeSell()) == true ? toMortgage.getPatchTimeSell() : toMortgage.getPatchTimeBuy());
+            }else {
+            	if (toSign != null) {
+            		editCaseDetailVO.setPatchTime(toSign.getRealConTime());
+            	}
             }
+            
+            /* 主贷人 		放在前台实现*/
+            /*if (!StringUtil.isBlank(toMortgage.getCustCode()))
+            {
+                editCaseDetailVO.setCustName(editCaseDetailVO.getGuestNameDown());
+            }*/
         }
 
         /* 评估公司 */
@@ -283,10 +326,26 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             TsFinOrg reportCom = tsFinOrgMapper.findBankByFinOrg(evaReport.getFinOrgCode());
             editCaseDetailVO.setFinOrgName(reportCom.getFinOrgName());
         }
+        
+        /*评估价格 by wbshume*/
+        ToEvalReportProcess toEvaReportProcess = toEvaReportProcessMapper.selectToEvaReportProcessByCaseCodeAndStatus(caseCode);
+        if(toEvaReportProcess != null) {
+        	editCaseDetailVO.setEvaPrice(toEvaReportProcess.getEvaPrice() != null ? toEvaReportProcess.getEvaPrice().divide(new BigDecimal(10000)) : null);
+        }
+        /*赎楼信息 by wbshume*/
+        ToRansomFormVo toRansomFormVo = addRansomFormMapper.selectByCaseCode(caseCode);
+        if(toRansomFormVo != null) {
+        	editCaseDetailVO.setRestFinOrgCode(toRansomFormVo.getFinOrgCode());
+        	editCaseDetailVO.setRestMoney(toRansomFormVo.getRestMoney() != null ? toRansomFormVo.getRestMoney().divide(new BigDecimal(10000)) : null);
+        	//待定
+        	editCaseDetailVO.setRestPayTime(null);
+        	editCaseDetailVO.setRestPayType(null);
+        }
 
         return editCaseDetailVO;
     }
 
+    
     @Override
     public void saveCaseDetai(EditCaseDetailVO editCaseDetailVO)
     {
@@ -345,7 +404,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             }
         }
 
-        /** 首付款 */
+        /** 首付款 (一期)*/
         ToPayment toPaymentInit = new ToPayment();
         toPaymentInit.setAmount(editCaseDetailVO.getInitAmount() != null ? editCaseDetailVO.getInitAmount().multiply(new BigDecimal(10000)) : null);
         toPaymentInit.setPayTime(editCaseDetailVO.getInitPayTime());
@@ -365,7 +424,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             }
         }
 
-        /** 二次付款 */
+        /** 二次付款 (二期)*/
         ToPayment toPaymentSec = new ToPayment();
         toPaymentSec.setAmount(editCaseDetailVO.getSecAmount() != null ? editCaseDetailVO.getSecAmount().multiply(new BigDecimal(10000)) : null);
         toPaymentSec.setPayTime(editCaseDetailVO.getSecPayTime());
@@ -385,7 +444,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             }
         }
 
-        /** 尾款付款 */
+        /** 尾款付款(三期)*/
         ToPayment toPaymentLast = new ToPayment();
         toPaymentLast.setAmount(editCaseDetailVO.getLastAmount() != null ? editCaseDetailVO.getLastAmount().multiply(new BigDecimal(10000)) : null);
         toPaymentLast.setPayTime(editCaseDetailVO.getLastPayTime());
@@ -405,7 +464,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             }
         }
 
-        /** 装修补偿款 */
+        /** 装修补偿款*/
         ToPayment toPaymentCompensate = new ToPayment();
         toPaymentCompensate.setAmount(editCaseDetailVO.getCompensateAmount() != null ? editCaseDetailVO.getCompensateAmount().multiply(new BigDecimal(10000)) : null);
         toPaymentCompensate.setPayTime(editCaseDetailVO.getCompensatePayTime());
@@ -473,16 +532,16 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             toCloseLoanMapper.updateByPrimaryKeySelective(toCloseLoan);
         }
 
-        /* 过户 */
+        /* 过户信息修改	天津有改动*/
         ToHouseTransfer toHouseTransfer = new ToHouseTransfer();
-        // toHouseTransfer.setRealHtTime(editCaseDetailVO.getRealHtTime());
-        toHouseTransfer.setHouseHodingTax(editCaseDetailVO.getHouseHodingTax() != null ? editCaseDetailVO.getHouseHodingTax().multiply(new BigDecimal(10000)) : null);
+        toHouseTransfer.setRealHtTime(editCaseDetailVO.getRealHtTime());
+        /*toHouseTransfer.setHouseHodingTax(editCaseDetailVO.getHouseHodingTax() != null ? editCaseDetailVO.getHouseHodingTax().multiply(new BigDecimal(10000)) : null);
         toHouseTransfer
                 .setPersonalIncomeTax(editCaseDetailVO.getPersonalIncomeTax() != null ? editCaseDetailVO.getPersonalIncomeTax().multiply(new BigDecimal(10000)) : null);
         toHouseTransfer.setBusinessTax(editCaseDetailVO.getBusinessTax() != null ? editCaseDetailVO.getBusinessTax().multiply(new BigDecimal(10000)) : null);
         toHouseTransfer.setContractTax(editCaseDetailVO.getContractTax() != null ? editCaseDetailVO.getContractTax().multiply(new BigDecimal(10000)) : null);
         toHouseTransfer
-                .setLandIncrementTax(editCaseDetailVO.getLandIncrementTax() != null ? editCaseDetailVO.getLandIncrementTax().multiply(new BigDecimal(10000)) : null);
+                .setLandIncrementTax(editCaseDetailVO.getLandIncrementTax() != null ? editCaseDetailVO.getLandIncrementTax().multiply(new BigDecimal(10000)) : null);*/
         if (editCaseDetailVO.getGhid() != null)
         {
             toHouseTransfer.setPkid(editCaseDetailVO.getGhid());
@@ -493,7 +552,22 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             toHouseTransfer.setCaseCode(editCaseDetailVO.getCaseCode());
             toHouseTransferMapper.insertSelective(toHouseTransfer);
         }
-
+        /* 缴税  天津版本加了一个缴税表  */
+        ToRatePayment toRatePayment = toRatePaymentMapper.findToRatePaymentByCaseCode(editCaseDetailVO.getCaseCode());
+        toRatePayment.setCaseCode(editCaseDetailVO.getCaseCode());
+        toRatePayment.setPaymentTime(editCaseDetailVO.getPaymentTime());
+        toRatePayment.setPersonalIncomeTax(editCaseDetailVO.getPersonalIncomeTax());
+        toRatePayment.setBusinessTax(editCaseDetailVO.getBusinessTax());
+        toRatePayment.setContractTax(editCaseDetailVO.getContractTax());
+        toRatePayment.setLandIncrementTax(editCaseDetailVO.getLandIncrementTax());
+        if(toRatePayment != null && toRatePayment.getPkid() != null ) {
+        	toRatePaymentMapper.updateByPrimaryKeySelective(toRatePayment);
+        }else {
+        	toRatePayment.setCaseCode(editCaseDetailVO.getCaseCode());
+        	toRatePaymentMapper.insertSelective(toRatePayment);
+        }
+        
+        
         /* 审税 */
         ToTax toTax = new ToTax();
         // toTax.setTaxTime(editCaseDetailVO.getTaxTime());
@@ -574,6 +648,10 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
 
     }
 
+    
+    /**
+     * update by wbshume
+     */
     @Override
     public void saveCaseCloseDetai(EditCaseDetailVO editCaseDetailVO)
     {
@@ -643,7 +721,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         }
         else
         {
-            toPaymentInit.setPayName("首付付款");
+            toPaymentInit.setPayName("一期款");
             toPaymentInit.setCaseCode(editCaseDetailVO.getCaseCode());
             if (toPaymentMapper.findToPaymentByPayment(toPaymentInit) == null)
             {
@@ -663,7 +741,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         }
         else
         {
-            toPaymentSec.setPayName("二期付款");
+            toPaymentSec.setPayName("二期款");
             toPaymentSec.setCaseCode(editCaseDetailVO.getCaseCode());
             if (toPaymentMapper.findToPaymentByPayment(toPaymentSec) == null)
             {
@@ -683,7 +761,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         }
         else
         {
-            toPaymentLast.setPayName("尾款付款");
+            toPaymentLast.setPayName("三期款");
             toPaymentLast.setCaseCode(editCaseDetailVO.getCaseCode());
             if (toPaymentMapper.findToPaymentByPayment(toPaymentLast) == null)
             {
@@ -691,8 +769,8 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             }
         }
 
-        /** 装修补偿款 */
-        ToPayment toPaymentCompensate = new ToPayment();
+        /** 装修补偿款 */ //天津版本无此项
+        /*ToPayment toPaymentCompensate = new ToPayment();
         toPaymentCompensate.setAmount(editCaseDetailVO.getCompensateAmount() != null ? editCaseDetailVO.getCompensateAmount().multiply(new BigDecimal(10000)) : null);
         toPaymentCompensate.setPayTime(editCaseDetailVO.getCompensatePayTime());
         toPaymentCompensate.setPayType(editCaseDetailVO.getCompensatePayType());
@@ -709,7 +787,8 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             {
                 toPaymentMapper.insertSelective(toPaymentCompensate);
             }
-        }
+        }*/
+        
         // 修改案件时效信息
         TsCaseEfficient tsCaseEfficient = tsCaseEfficientMapper.getCaseEffInfoByCasecode(editCaseDetailVO.getCaseCode());
         if (tsCaseEfficient != null)

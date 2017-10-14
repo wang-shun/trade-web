@@ -16,6 +16,18 @@
 		<result column="REST_MONEY" property="restMoney" jdbcType="DECIMAL" />
 	</resultMap>
 	
+	<sql id="Base_Column_List" >
+	PKID, RANSOM_CODE, CASE_CODE, SIGN_TIME, PLAN_TIME, FIN_ORG_CODE, MORTGAGE_TYPE,
+	DIYA_TYPE, LOAN_MONEY, BORROWER_NAME, BORRO_MONEY, REST_MONEY
+	</sql>
+	
+	<select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_RA_TAILINS
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  	</select>
+	
 	<insert id="addRansomForm" useGeneratedKeys="true" parameterType="java.util.List">
 		INSERT INTO [sctrans].[T_RA_TAILINS](
 			[CASE_CODE],

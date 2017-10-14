@@ -23,7 +23,7 @@ public class MyBatisGeneratorTest {
         List<String> warnings = new ArrayList<String>();
         final boolean overwrite = true;
         File configFile = new File("src/main/resources/generatorConfig.xml");
-        //System.out.println("config fiel is in : " + configFile.getAbsoluteFile());
+        System.out.println("config fiel is in : " + configFile.getAbsoluteFile());
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration configuration;
         try {

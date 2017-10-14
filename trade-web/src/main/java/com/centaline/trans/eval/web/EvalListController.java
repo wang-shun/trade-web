@@ -38,6 +38,7 @@ import com.centaline.trans.eval.service.ToEvaFeeRecordService;
  * </p>
  * 
  * @author wanggh</a>
+ * modified by jinwl6 原因 :天津评估单列表
  */
 @Controller
 @RequestMapping(value = "/eval")
@@ -161,4 +162,21 @@ public class EvalListController {
 		}
 		return null;
 	}
+	
+	/**
+	 * 评估单列表 for tj
+	 * @param request
+	 * @return
+	 * @author jinwl6
+	 */
+	@RequestMapping(value = "list")
+	public String list(HttpServletRequest request) {
+		// TODO
+		SessionUser user = uamSessionService.getSessionUser();
+		String userOrgId = user.getServiceDepId();
+
+		request.setAttribute("queryOrg", userOrgId);
+		return "eval/evalList";
+	}
+	
 }

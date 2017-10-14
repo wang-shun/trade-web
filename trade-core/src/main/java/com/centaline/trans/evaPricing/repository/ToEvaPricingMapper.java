@@ -21,7 +21,7 @@ public interface ToEvaPricingMapper {
 	 * 查询询价明细	
 	 * @return
 	 */
-	ToEvaPricingVo findEvaPricingDetailByPKID(Long PKID);
+	ToEvaPricingVo findEvaPricingDetailByPKID(@Param("PKID")Long PKID,@Param("evaCode")String evaCode);
 	
 	/**
 	 * 新增询价数据
@@ -85,4 +85,15 @@ public interface ToEvaPricingMapper {
 	 * @author jinwl6
 	 */
 	ToEvaPricingVo findEvaPricingDetailByCaseCode(@Param("caseCode")String caseCode);
+	
+	/**
+	 * 询价详情页更新
+	 * @param pkid
+	 * @param taskId
+	 * @param instCode
+	 * @param isValid
+	 * @param reason
+	 * @return
+	 */
+	int updateEvaPricingDetail(@Param("pkid")Long pkid, @Param("isValid")String isValid, @Param("reason")String reason);
 }

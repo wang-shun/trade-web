@@ -3,6 +3,7 @@ package com.centaline.api.ccai.vo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -99,7 +100,7 @@ public class SelfDoImport extends AbstractBaseImport{
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	@NotNull(message = "审批环节不能为空")
+	@NotEmpty(message = "审批环节不能为空")
 	public List<TaskInfo> getTasks() {
 		return tasks;
 	}

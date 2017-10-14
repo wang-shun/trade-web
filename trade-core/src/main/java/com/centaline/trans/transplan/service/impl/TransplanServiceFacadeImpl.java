@@ -244,52 +244,25 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 	public boolean saveToTransPlan(TransPlanVO transPlanVO) {
 		if (transPlanVO.getCaseCode() != null
 				&& transPlanVO.getCaseCode().intern().length() != 0) {
-			/** 还贷 贷款结清 */
-			ToTransPlan toTransPlanHd = new ToTransPlan();
-			if (transPlanVO.getEstPartTimeHd() != null) {
-				toTransPlanHd.setEstPartTime(transPlanVO.getEstPartTimeHd());
-				toTransPlanHd.setCaseCode(transPlanVO.getCaseCode());
-				if (transPlanVO.getPkidHd() != null) {
-					toTransPlanHd.setPkid(transPlanVO.getPkidHd());
-					toTransPlanHd.setCaseCode(transPlanVO.getCaseCode());
-					toTransPlanMapper
-							.updateByPrimaryKeySelective(toTransPlanHd);
+
+			/**缴税Pt*/
+			if(transPlanVO.getEstPartTimePt()!=null) {
+				ToTransPlan toTransPlanPt = new ToTransPlan();
+				toTransPlanPt.setEstPartTime(transPlanVO.getEstPartTimePt());
+				toTransPlanPt.setCaseCode(transPlanVO.getCaseCode());
+				if (transPlanVO.getPkidPt() != null) {
+					toTransPlanPt.setPkid(transPlanVO.getPkidPt());
+					toTransPlanPt.setCaseCode(transPlanVO.getCaseCode());
+					toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanPt);
 				} else {
-					toTransPlanHd.setPartCode("LoanClose");
-					if (toTransPlanMapper.findTransPlan(toTransPlanHd) == null) {
-						toTransPlanMapper.insertSelective(toTransPlanHd);
+					toTransPlanPt.setPartCode("RatePayment");
+					if (toTransPlanMapper.findTransPlan(toTransPlanPt) == null) {
+						toTransPlanMapper.insertSelective(toTransPlanPt);
 					}
 				}
 			}
-			/** 审税 天津废弃
-			ToTransPlan toTransPlanTr = new ToTransPlan();
-			toTransPlanTr.setEstPartTime(transPlanVO.getEstPartTimeTr());
-			toTransPlanTr.setCaseCode(transPlanVO.getCaseCode());
-			if (transPlanVO.getPkidTr() != null) {
-				toTransPlanTr.setPkid(transPlanVO.getPkidTr());
-				toTransPlanTr.setCaseCode(transPlanVO.getCaseCode());
-				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanTr);
-			} else {
-				toTransPlanTr.setPartCode("TaxReview");
-				if (toTransPlanMapper.findTransPlan(toTransPlanTr) == null) {
-					toTransPlanMapper.insertSelective(toTransPlanTr);
-				}
-			}*/
-			/**缴税Pt*/
-			ToTransPlan toTransPlanPt = new ToTransPlan();
-			toTransPlanPt.setEstPartTime(transPlanVO.getEstPartTimePt());
-			toTransPlanPt.setCaseCode(transPlanVO.getCaseCode());
-			if (transPlanVO.getPkidPt() != null) {
-				toTransPlanPt.setPkid(transPlanVO.getPkidPt());
-				toTransPlanPt.setCaseCode(transPlanVO.getCaseCode());
-				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanPt);
-			} else {
-				toTransPlanPt.setPartCode("PayTax");
-				if (toTransPlanMapper.findTransPlan(toTransPlanPt) == null) {
-					toTransPlanMapper.insertSelective(toTransPlanPt);
-				}
-			}
 			/** 过户 */
+			if(transPlanVO.getEstPartTimeGh()!=null){
 			ToTransPlan toTransPlanGh = new ToTransPlan();
 			toTransPlanGh.setEstPartTime(transPlanVO.getEstPartTimeGh());
 			toTransPlanGh.setCaseCode(transPlanVO.getCaseCode());
@@ -303,7 +276,9 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 					toTransPlanMapper.insertSelective(toTransPlanGh);
 				}
 			}
+			}
 			/** 领证 */
+			if(transPlanVO.getEstPartTimeLz()!=null){
 			ToTransPlan toTransPlanLz = new ToTransPlan();
 			toTransPlanLz.setEstPartTime(transPlanVO.getEstPartTimeLz());
 			toTransPlanLz.setCaseCode(transPlanVO.getCaseCode());
@@ -317,8 +292,9 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 					toTransPlanMapper.insertSelective(toTransPlanLz);
 				}
 			}
-			
+			}
 			/**商贷面签Cs*/
+			if (transPlanVO.getEstPartTimeCs()!=null){
 			ToTransPlan toTransPlanCs = new ToTransPlan();
 			toTransPlanCs.setEstPartTime(transPlanVO.getEstPartTimeCs());
 			toTransPlanCs.setCaseCode(transPlanVO.getCaseCode());
@@ -332,7 +308,9 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 					toTransPlanMapper.insertSelective(toTransPlanCs);
 				}
 			}
+			}
 			/**商贷出评估报告Br*/
+			if(transPlanVO.getEstPartTimeBr()!=null){
 			ToTransPlan toTransPlanBr = new ToTransPlan();
 			toTransPlanBr.setEstPartTime(transPlanVO.getEstPartTimeBr());
 			toTransPlanBr.setCaseCode(transPlanVO.getCaseCode());
@@ -346,7 +324,9 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 					toTransPlanMapper.insertSelective(toTransPlanBr);
 				}
 			}
+			}
 			/**商贷批贷完成Cc*/
+			if(transPlanVO.getEstPartTimeCc()!=null){
 			ToTransPlan toTransPlanCc = new ToTransPlan();
 			toTransPlanCc.setEstPartTime(transPlanVO.getEstPartTimeCc());
 			toTransPlanCc.setCaseCode(transPlanVO.getCaseCode());
@@ -360,7 +340,9 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 					toTransPlanMapper.insertSelective(toTransPlanCc);
 				}
 			}
+			}
 			 /**公积金贷款预约申请Pa*/
+			 if(transPlanVO.getEstPartTimePa()!=null){
 			ToTransPlan toTransPlanPa = new ToTransPlan();
 			toTransPlanPa.setEstPartTime(transPlanVO.getEstPartTimePa());
 			toTransPlanPa.setCaseCode(transPlanVO.getCaseCode());
@@ -374,7 +356,9 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 					toTransPlanMapper.insertSelective(toTransPlanPa);
 				}
 			}
+			 }
 			/**公积金面签Pfs*/
+			if(transPlanVO.getEstPartTimePfc()!=null){
 			ToTransPlan toTransPlanPfs = new ToTransPlan();
 			toTransPlanPfs.setEstPartTime(transPlanVO.getEstPartTimePfs());
 			toTransPlanPfs.setCaseCode(transPlanVO.getCaseCode());
@@ -388,7 +372,9 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 					toTransPlanMapper.insertSelective(toTransPlanPfs);
 				}
 			}
+			}
 			/**公积金批贷完成Pfc*/
+			if(transPlanVO.getEstPartTimePfc()!=null){
 			ToTransPlan toTransPlanPfc = new ToTransPlan();
 			toTransPlanPfc.setEstPartTime(transPlanVO.getEstPartTimePfc());
 			toTransPlanPfc.setCaseCode(transPlanVO.getCaseCode());
@@ -402,9 +388,12 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 					toTransPlanMapper.insertSelective(toTransPlanPfc);
 				}
 			}
-
+			}
 			/** 放款 */
+			if(transPlanVO.getEstPartTimeFk()!=null){
 			ToTransPlan toTransPlanFk = new ToTransPlan();
+			toTransPlanFk.setEstPartTime(transPlanVO.getEstPartTimeFk());
+			toTransPlanFk.setCaseCode(transPlanVO.getCaseCode());
 			if (transPlanVO.getEstPartTimeFk() != null) {
 				toTransPlanFk.setEstPartTime(transPlanVO.getEstPartTimeFk());
 				toTransPlanFk.setCaseCode(transPlanVO.getCaseCode());
@@ -419,6 +408,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 						toTransPlanMapper.insertSelective(toTransPlanFk);
 					}
 				}
+			}
 			}
 
 			return true;
@@ -460,6 +450,30 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 	@Override
 	public int deleteByPrimaryKey(Long pkid) {
 		return tsTaskPlanSetMapper.deleteByPrimaryKey(pkid);
+	}
+
+	/***
+	 * @author wbzhouht
+	 * @param tsTransPlanHistory
+	 * @return
+	 */
+	@Override
+	public TsTransPlanHistory findTransPlanHistoryByCaseCode(TsTransPlanHistory tsTransPlanHistory) {
+		List<TsTransPlanHistory>list=tsTransPlanHistoryMapper.findTransPlanHistoryByCaseCode(tsTransPlanHistory);
+		if(list!=null&&list.size()!=0){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	public ToTransPlan findTransPlanPKIDBycasecodeAndPartCode(TsTransPlanHistory tsTransPlanHistory) {
+		return toTransPlanMapper.findTransPlanPKIDBycasecodeAndPartCode(tsTransPlanHistory);
+	}
+
+	@Override
+	public int updateTransPlanHistoryByPKID(TsTransPlanHistory tsTransPlanHistory) {
+		return tsTransPlanHistoryMapper.updateByPrimaryKeySelective(tsTransPlanHistory);
 	}
 
 }

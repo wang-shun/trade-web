@@ -1,6 +1,7 @@
 package com.centaline.trans.evaPricing.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -39,8 +40,8 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 	UamUserOrgService uamUserOrgService;
 
 	@Override
-	public ToEvaPricingVo findEvaPricingDetailByPKID(Long PKID) {
-		ToEvaPricingVo vo = toEvaPricingMapper.findEvaPricingDetailByPKID(PKID);
+	public ToEvaPricingVo findEvaPricingDetailByPKID(Long PKID,String evaCode) {
+		ToEvaPricingVo vo = toEvaPricingMapper.findEvaPricingDetailByPKID(PKID,evaCode);
 		if(StringUtils.isNotBlank(vo.getAriserId())){
 			User user = uamUserOrgService.getUserById(vo.getAriserId());
 			vo.setAriserName(user.getRealName());
@@ -51,9 +52,11 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 	}
 
 	@Override
-	public void insertEvaPricing(ToEvaPricingVo vo) {
+	public List<String> insertEvaPricing(ToEvaPricingVo vo) {
 		BigDecimal evaPrice = vo.getTotalPrice();
 		BigDecimal originPrice = vo.getOriginPrice();
+		
+		List<String> evaCodes = new ArrayList<String>();
 		for(String finorgId :vo.getFinorgIds()){
 			String evaCode = generateEvaCode();
 			
@@ -68,7 +71,7 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 			propertyVo.setResidenceName(vo.getResidenceName());//产证地址
 			propertyVo.setTotalFloor(vo.getTotalFloor());//总楼层
 			propertyVo.setFloor(vo.getFloor());//所在楼层
-			propertyVo.setArea(vo.getArea().doubleValue());//面积
+			propertyVo.setArea(vo.getArea()==null?null:vo.getArea().doubleValue());//面积
 			propertyVo.setCompleteYear(vo.getCompleteYear());//竣工年限
 			propertyVo.setHouseAge(vo.getHouseAge());//房龄
 			propertyVo.setRoom(vo.getRoom());//房型
@@ -84,20 +87,28 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 			if(eguCount ==0 || eguCount == null){
 				throw new BusinessException("新增询价物业失败!");
 			}
+			
+			evaCodes.add(evaCode);
 		}
+		return evaCodes;
 	}
 
 	@Override
 	public void updateEvaPricing(ToEvaPricingVo vo) {
-		vo.setTotalPrice(vo.getTotalPrice().multiply(new BigDecimal(10000)));
+		vo.setTotalPrice(vo.getTotalPrice()==null?vo.getTotalPrice():vo.getTotalPrice().multiply(new BigDecimal(10000)));
 		Integer count = toEvaPricingMapper.updateEvaPricing(vo);
-		Integer propCount = toEvaPricingMapper.updateEguPropertyInfo(vo.getEvaCode(), vo.getHouseAge());
 		if(count ==0 || count == null){
 			throw new BusinessException("记录询价失败!");
 		}
-		if(propCount ==0 || propCount == null){
-			throw new BusinessException("记录询价物业失败!");
+		Integer propCount = null;
+		if("1".equals(vo.getIsValid())){
+			propCount = toEvaPricingMapper.updateEguPropertyInfo(vo.getEvaCode(), vo.getHouseAge());
+			if(propCount ==0 || propCount == null){
+				throw new BusinessException("记录询价物业失败!");
+			}
 		}
+		
+		
 	}
 	
 	@Override
@@ -145,6 +156,12 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 	@Override
 	public ToEvaPricingVo findEvaPricingDetailByCaseCode(String caseCode) {
 		return toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);
+	}
+
+	@Override
+	public int updateEvaPricingDetail(Long pkid, String isValid, String reason) {
+		int count = toEvaPricingMapper.updateEvaPricingDetail(pkid, isValid, reason.length()>255?reason.substring(0, 255):reason);
+		return count;
 	}
 
 

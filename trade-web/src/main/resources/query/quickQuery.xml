@@ -18,6 +18,9 @@
 	<import resource="query/task/taskDelegateQuery.xml"></import>
 	<import resource="query/eval/toEvalListQuery.xml" />
 	<import resource="query/trans/toTransPlanHistoryListQuery.xml" />
+	<!--交易变更审批 by wbzhouht-->
+	<import resource="query/trans/toTransPlanAppverHistoryListQuery.xml"/>
+
 	<import resource="query/case/CaseBelongAndTransferQuery.xml" />
 	<import resource="query/common/tsTeamOrgRelationListQuery.xml" />
 
@@ -248,6 +251,8 @@
 	<import resource="query/ransom/toRansomList.xml"/>
 	<!-- 赎楼其他 -->
 	<import resource="query/ransom/toRansomQuery.xml"/>
+	<!-- 赎楼待办 -->
+	<import resource="query/ransom/toRansomTaskList.xml"/>
 	<!--备件列表-->
 	<import resource="query/common/toAccesoryListQuery.xml"/>
 

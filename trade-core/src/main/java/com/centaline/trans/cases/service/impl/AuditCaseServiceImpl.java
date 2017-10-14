@@ -1,13 +1,6 @@
 package com.centaline.trans.cases.service.impl;
 
 
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -33,6 +26,12 @@ import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.TaskVo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AuditCaseServiceImpl implements AuditCaseService {
@@ -154,9 +153,9 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 	@Override
 	public String getLeaderUserName(ToCaseParticipant toCaseParticipant) {
 		// TODO Auto-generated method stub
-		if(null!=toCaseParticipant.getCaseCode()&&null!=toCaseParticipant.getUserName()){			
+		if(null!=toCaseParticipant.getCaseCode()&&null!=toCaseParticipant.getUserName()){
 		List<ToCaseParticipant> userList = toCaseParticipantMapper.selectByCondition(toCaseParticipant);
-		if(userList.size()==1){
+		if(userList.size()!=0&&userList!=null){
 			ToCaseParticipant toCaseParticipant2 = userList.get(0);
 			return toCaseParticipant2.getGrpMgrUsername();
 		}					
@@ -221,16 +220,18 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 	 */
 	@Override
 	public int returnCaseToCCAI(String caseCode,String returnReason,String returnComment) {
-		// TODO Auto-generated method stub
 		SessionUser user = uamSessionService.getSessionUser();
 		//先通知CCAI 返回结果为true再更新案件状态
 //		<option value="1">权证专员错误</option>
 //		<option value="2">附件错误</option>
 		FlowFeedBack info;
+		//CCAI中权证审核不支持驳回修改 所以统一修改为补充材料 且通过审批意见进行区分 by:yinchao 2017-10-10
 		if(returnReason.contains("2")){
+			returnComment = StringUtils.isBlank(returnComment)?CcaiFlowResultEnum.SUPPLEMENT.getName():returnComment;
 			 info = new FlowFeedBack(user, CcaiFlowResultEnum.SUPPLEMENT,returnComment);			
 		}else{
-			 info = new FlowFeedBack(user, CcaiFlowResultEnum.BACK,returnComment);
+			returnComment = StringUtils.isBlank(returnComment)?CcaiFlowResultEnum.BACK.getName():returnComment;
+			 info = new FlowFeedBack(user, CcaiFlowResultEnum.SUPPLEMENT,returnComment);
 		}
 		ApiResultData apiResult = flowApiService.tradeFeedBackCcai(caseCode, CcaiTaskEnum.TRADE_WARRANT_MANAGER,info);
 		if(apiResult.isSuccess()){

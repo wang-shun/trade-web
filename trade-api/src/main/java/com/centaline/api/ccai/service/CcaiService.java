@@ -1,5 +1,7 @@
 package com.centaline.api.ccai.service;
 import com.centaline.api.ccai.vo.CaseImport;
+import com.centaline.api.ccai.vo.CaseRepealImport;
+import com.centaline.api.ccai.vo.SelfDoImport;
 import com.centaline.api.common.vo.CcaiServiceResult;
 
 public interface CcaiService {
@@ -24,11 +26,23 @@ public interface CcaiService {
 	 */
 	CcaiServiceResult updateCaseAndFlow(CaseImport acase);
 	
-	//TODO 后续根据需要进行完善
 	/**
 	 * 判断指定CCAI成交案件编号是否存在
 	 * @param ccaiCode
 	 * @return
 	 */
 	boolean isExistCcaiCode(String ccaiCode);
+	/**
+	 * 导入自办评估/自办贷款信息
+	 * @param info
+	 * @return
+	 */
+	CcaiServiceResult importSelfDo(SelfDoImport info);
+
+	/**
+	 * 成交报告撤单
+	 * @param repealInfo 撤单审批信息
+	 * @return
+	 */
+	CcaiServiceResult repealCase(CaseRepealImport repealInfo);
 }

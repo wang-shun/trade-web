@@ -3,6 +3,7 @@ package com.centaline.trans.eloan.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,15 +32,19 @@ public class ToSelfAppInfoServiceImp implements ToSelfAppInfoService {
 	private ToCaseInfoMapper toCaseInfoMapper;
 	
 	@Override
-	public void addSelfAppInfo(ToSelfAppInfo toSelfAppInfo) {
+	public String addSelfAppInfo(ToSelfAppInfo toSelfAppInfo) {
 		String caseCode = toCaseInfoMapper.findcaseCodeByCcaiCode(toSelfAppInfo.getCcaiCode());
-		toSelfAppInfo.setCaseCode(caseCode);
-		Long count = toSelfAppInfoMapper.insertSelfAppInfo(toSelfAppInfo);
-		List<ToAppRecordInfo> list = toSelfAppInfo.getTasks();
-		for (ToAppRecordInfo toAppRecordInfo : list) {
-			toAppRecordInfo.setSelfAppInfoId(toSelfAppInfo.getPkid());
+		if(StringUtils.isNotBlank(caseCode)){
+			toSelfAppInfo.setCaseCode(caseCode);
+			Long count = toSelfAppInfoMapper.insertSelfAppInfo(toSelfAppInfo);
+			List<ToAppRecordInfo> list = toSelfAppInfo.getTasks();
+			for (ToAppRecordInfo toAppRecordInfo : list) {
+				toAppRecordInfo.setSelfAppInfoId(toSelfAppInfo.getPkid());
+			}
+			toAppRecordInfoMapper.insertAppRecordInfo(list);
+			return caseCode;
 		}
-		toAppRecordInfoMapper.insertAppRecordInfo(list);
+		return null;
 	}
 
 }

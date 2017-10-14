@@ -3,7 +3,7 @@ package com.centaline.trans.ransom.entity;
 import java.util.Date;
 
 /**
- * 赎楼陪同还贷VO
+ * 赎楼申请VO
  * @author wbcaiyx
  *
  */
@@ -44,7 +44,11 @@ public class ToRansomApplyVo {
 	 */
 	private String updateUser;
 	
+	private Date updateTime;
+	
 	private String createUser;
+	
+	private Date createTime;
 
 	public String getRansomCode() {
 		return ransomCode;
@@ -126,10 +130,20 @@ public class ToRansomApplyVo {
 		this.createUser = createUser;
 	}
 
-	
-	
-	
+	public Date getUpdateTime() {
+		return updateTime;
+	}
 
-	
-	
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
 }

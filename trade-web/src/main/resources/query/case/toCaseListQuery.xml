@@ -43,20 +43,14 @@
 	</formatters>
 	<query id="queryCastListItemList" cacheCount="true">
 		<searchCondition>
-
-		   <condition field="A.CASE_CODE"  name="caseCode" label="案件编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-		   <condition field="A.CTM_CODE"  name="ctmCode" label="CTM编号" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-           <condition field="A.CASE_PROPERTY"  name="caseProperty" label="案件类型" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-           <condition field="A.STATUS"         name="status" label="服务阶段选择" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-           <condition field="A.ClOSE_TIME"  name="approveTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="A.ClOSE_TIME"  name="approveTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="A.CREATE_TIME"    name="createTimeStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="A.CREATE_TIME"    name="createTimeEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.RES_DATE"       name="resDateStart" label="" searchType="GTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.RES_DATE"       name="resDateEnd" label="" searchType="LTE" showType="" showCallback="" defaultValue=""/>
-           <condition field="B.AGENT_NAME"     name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-           <!-- <condition field="A.PROPERTY_ADDR"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/> -->
-          </searchCondition>
+	   		<condition field="A.CASE_CODE"  	name="caseCode" 		label="案件编号" 		searchType="EQ" 	showType="" showCallback="" defaultValue=""/>
+   			<condition field="A.CCAI_CODE"  	name="ccaiCode" 		label="CCAI编号" 		searchType="EQ" 	showType="" showCallback="" defaultValue=""/>
+        	<condition field="A.CASE_PROPERTY"  name="caseProperty" 	label="案件类型" 		searchType="EQ" 	showType="" showCallback="" defaultValue=""/>
+       		<condition field="A.STATUS"         name="status" 			label="状态"			searchType="EQ" 	showType="" showCallback="" defaultValue=""/>
+        	<condition field="A.ClOSE_TIME"  	name="closeTimeStart" 	label="" 			searchType="GTE"	showType="" showCallback="" defaultValue=""/>
+      		<condition field="A.ClOSE_TIME"  	name="closeTimeEnd"		label="" 			searchType="LTE" 	showType="" showCallback="" defaultValue=""/>
+        	<condition field="B.AGENT_NAME"     name="agentName" 		label="经纪人" 		searchType="LIKE" 	showType="" showCallback="" defaultValue=""/>
+        </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -73,201 +67,211 @@
 						B.AGENT_CODE,
 						B.AGENT_NAME,
 						B.RES_DATE,
-					    B.GRP_NAME AGENT_ORG_NAME,
-						CASE WHEN A.CREATE_TIME > '2016-12-28 00:00:00' then 1 else 0 end createType ,						
+					    B.GRP_NAME AGENT_ORG_NAME,					
 					   (select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=A.CASE_CODE ) as SUBSCRIBE_COUNT
 					FROM
 					    sctrans.T_TO_CASE  A
 					    INNER JOIN sctrans.T_TO_CASE_INFO  B ON A.CASE_CODE = B.CASE_CODE
 					WHERE 
-						(EXISTS ( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = A.CASE_CODE
-					  	    <ifNotNull idflag> and C.LEADING_PROCESS_ID = #userId# 	</ifNotNull>
-					  	    <ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)     </ifNotNull>)
-			    	  	OR EXISTS ( SELECT 1 FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR C WHERE C.CASE_CODE = A.CASE_CODE
-			    	  		<ifNotNull idflag> and C.PROCESSOR_ID = #userId# 	</ifNotNull>
-			    	  		<ifNotNull queryorgs> AND C.ORG_ID in (#queryorgs#)    </ifNotNull>)
-			    	  	OR EXISTS (SELECT 1 FROM  SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR G
-							INNER JOIN ( SELECT T.CASE_CODE,T.NEW_ASSIGNEE,S.id
-							FROM SCTRANS.T_TL_TASK_REASSIGNT_LOG T
-							LEFT JOIN sctrans.SYS_USER S ON t.ORI_ASSIGNEE = S.username
-                            ) L ON L.id = G.PROCESSOR_ID and L.case_code = G.case_code
-							<ifNotNull userLoginName> AND L.NEW_ASSIGNEE = #userLoginName#</ifNotNull>
-                      		WHERE     A.CASE_CODE = G.CASE_CODE
-							AND G.SRV_CODE IN ( '3000400201', '3000401002' ) )
-			    	  )
-			    	  
-			    	
-			    		AND EXISTS(SELECT 1 FROM sctrans.T_TO_PROPERTY_INFO WHERE CASE_CODE = A.CASE_CODE 
-			    		<ifNotNull propertyAddr>
-			    		         AND PROPERTY_ADDR like '%' + #propertyAddr# + '%'
-			    		</ifNotNull>
-			    		         ) 
-			    	
-					<ifNotNull realConTimeStart>
-						AND EXISTS(select 1 from sctrans.T_TO_SIGN G where A.CASE_CODE = G.CASE_CODE AND G.REAL_CON_TIME >= #realConTimeStart#)
-					</ifNotNull>
-					<ifNotNull realConTimeEnd>
-						AND EXISTS(select 1 from sctrans.T_TO_SIGN G where A.CASE_CODE = G.CASE_CODE AND G.REAL_CON_TIME &lt;= #realConTimeEnd#)
-					</ifNotNull>
-					<ifNotNull realHtTimeStart>
-						AND EXISTS(select 1 from sctrans.T_TO_HOUSE_TRANSFER H where A.CASE_CODE = H.CASE_CODE and H.REAL_HT_TIME >= #realHtTimeStart#)
-					</ifNotNull>
-					<ifNotNull realHtTimeEnd>
-						AND EXISTS(select 1 from sctrans.T_TO_HOUSE_TRANSFER H where A.CASE_CODE = H.CASE_CODE AND H.REAL_HT_TIME &lt;= #realHtTimeEnd#)
-					</ifNotNull>
-					<ifNotNull realPropertyGetTimeStart>
-						AND EXISTS(select 1 from sctrans.T_TO_GET_PROPERTY_BOOK I where A.CASE_CODE = I.CASE_CODE AND I.REAL_PROPERTY_GET_TIME >= #realPropertyGetTimeStart#)
-					</ifNotNull>
-					<ifNotNull realPropertyGetTimeEnd>
-						AND EXISTS(select 1 from sctrans.T_TO_GET_PROPERTY_BOOK I where A.CASE_CODE = I.CASE_CODE AND I.REAL_PROPERTY_GET_TIME &lt;= #realPropertyGetTimeEnd#)
-					</ifNotNull>
-     				<ifNotNull guestname>
-						AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = A.CASE_CODE and GUEST_NAME LIKE '%'+#guestname#+'%' )
-					</ifNotNull>
-					<ifNotNull proName>
-						AND (EXISTS (SELECT 1 FROM sctrans.T_TO_CASE c where c.CASE_CODE = A.CASE_CODE and c.LEADING_PROCESS_ID = #proName#)
-						    OR
-						    EXISTS (SELECT 1 FROM sctrans.T_TG_SERV_ITEM_AND_PROCESSOR p where p.CASE_CODE = A.CASE_CODE and p.PROCESSOR_ID = #proName#))
-					</ifNotNull>
-					<ifNotNull agentOrgName>
-						AND  EXISTS(SELECT 1 FROM sctrans.V_USER_ORG_JOB uoj where uoj.user_id = B.AGENT_CODE  AND uoj.org_id = #agentOrgName# )
-					</ifNotNull>
-					<ifNotNull srvCode1>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode1#)
-					</ifNotNull>
-					<ifNotNull srvCode2>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode2#)
-					</ifNotNull>
-					<ifNotNull srvCode3>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode3#)
-					</ifNotNull>
-					<ifNotNull srvCode4>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode4#)
-					</ifNotNull>
-					<ifNotNull srvCode5>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode5#)
-					</ifNotNull>
-					<ifNotNull srvCode6>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode6#)
-					</ifNotNull>
-					<ifNotNull srvCode7>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode7#)
-					</ifNotNull>
-					<ifNotNull srvCode8>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode8#)
-					</ifNotNull>
-					<ifNotNull srvCode9>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode9#)
-					</ifNotNull>
-					<ifNotNull srvCode10>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode10#)
-					</ifNotNull>
-					<ifNotNull srvCode11>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode11#)
-					</ifNotNull>
-					<ifNotNull srvCode12>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode12#)
-					</ifNotNull>
-					<ifNotNull srvCode13>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode13#)
-					</ifNotNull>
-					<ifNotNull srvCode14>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode14#)
-					</ifNotNull>
-					<ifNotNull srvCode15>
-						AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode15#)
-					</ifNotNull>
-					<ifNotNull signlendDate>
-					  AND EXISTS ( select 1 from sctrans.T_TO_MORTGAGE J where A.CASE_CODE = J.CASE_CODE and is_active='1'
-					</ifNotNull>
-					<ifNotNull signDateStart>
-					  AND J.SIGN_DATE >= #signDateStart#
-					</ifNotNull>
-					<ifNotNull signDateEnd>
-					  and J.SIGN_DATE &lt;= #signDateEnd#
-					</ifNotNull>
-					<ifNotNull lendDateStart>
-					  and J.LEND_DATE >= #lendDateStart#
-					</ifNotNull>
-					<ifNotNull lendDateEnd>
-					  and J.LEND_DATE &lt;= #lendDateEnd#
-					</ifNotNull>
-					<ifNotNull signlendDate>
-					  )
-					</ifNotNull>
+						(
+						EXISTS 
+							( SELECT 1 FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = A.CASE_CODE
+					  	    	<ifNotNull idflag>
+					  	    		and C.LEADING_PROCESS_ID = #userId# 	
+				  	    	 	</ifNotNull>
+					  	   		<ifNotNull queryorgs>
+					  	   			AND C.ORG_ID in (#queryorgs#)
+			  	   		      	</ifNotNull>
+		  	   		      	)
+			    	  	OR EXISTS 
+			    	  		( SELECT 1 FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR C WHERE C.CASE_CODE = A.CASE_CODE
+			    	  			<ifNotNull idflag> 
+			    	  				and C.PROCESSOR_ID = #userId# 	
+		    	  				</ifNotNull>
+			    	  			<ifNotNull queryorgs> 
+			    	  				AND C.ORG_ID in (#queryorgs#)    
+		    	  				</ifNotNull>
+	    	  				)
+			    	  	OR EXISTS 
+			    	  		( SELECT 1 FROM  SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR G
+								INNER JOIN 
+									( SELECT T.CASE_CODE,T.NEW_ASSIGNEE,S.id
+										FROM SCTRANS.T_TL_TASK_REASSIGNT_LOG T
+										LEFT JOIN sctrans.SYS_USER S ON t.ORI_ASSIGNEE = S.username
+                            		) L ON L.id = G.PROCESSOR_ID and L.case_code = G.case_code
+									<ifNotNull userLoginName> 
+										AND L.NEW_ASSIGNEE = #userLoginName#
+									</ifNotNull>
+                     			WHERE 	A.CASE_CODE = G.CASE_CODE 
+                     					AND G.SRV_CODE IN ( '3000400201', '3000401002' ) 
+							)
+			    	  	)
+				    	<ifNotNull isNotResearchCloseCase>
+							AND A.CASE_PROPERTY != '30003002'
+						</ifNotNull>
+						<ifNotNull yuCuiOriGrpId>
+							AND EXISTS 
+							(
+								SELECT 
+									F.CASE_CODE,F.ORG_ID 
+								FROM 
+									(	SELECT C.CASE_CODE,C.ORG_ID FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = A.CASE_CODE
+										UNION
+										SELECT P.CASE_CODE,P.ORG_ID FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR P WHERE P.CASE_CODE = A.CASE_CODE 
+									) F
+									INNER JOIN SCTRANS.SYS_ORG AS YCORG ON F.ORG_ID = YCORG.ID
+								WHERE 
+									(YCORG.ID = #yuCuiOriGrpId# OR YCORG.PARENT_ID = #yuCuiOriGrpId#) 
+							)
+						</ifNotNull>
+						<choose>
+							<when test	="isSubscribeFilter==0">
+								AND EXISTS (
+									SELECT 1 FROM SCTRANS.T_TO_MODULE_SUBSCRIBE ttms WHERE ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=A.CASE_CODE
+								)
+						     </when>
+						     <when test	="isSubscribeFilter==1">
+								AND NOT EXISTS (
+									SELECT 1 FROM SCTRANS.T_TO_MODULE_SUBSCRIBE ttms WHERE ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=A.CASE_CODE
+								)
+						     </when>
+						</choose>
+						<choose>
+							<when test	="mortageType==0">
+							 	AND A.STATUS != '30001001'
+						      	AND NOT EXISTS (
+						     		SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND CASE_CODE = A.CASE_CODE
+								 )
+						 	</when>
+					    	<when test	="mortageType==1">
+						      	AND EXISTS (
+						     		SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE IN ('30016001','30016002') AND IS_ACTIVE = 1  AND CASE_CODE = A.CASE_CODE
+								)
+					     	</when>
+					     	<when test	="mortageType==2">
+					       		AND EXISTS (
+					     			SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE = '30016003' AND IS_ACTIVE = 1  AND CASE_CODE = A.CASE_CODE
+							 	)
+					     	</when>
+					     	<when test	="mortageType==3">
+					       		AND EXISTS (
+					     			SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE IN ('30016001','30016002') AND IS_ACTIVE = 1  AND CASE_CODE = A.CASE_CODE
+							 	)
+					     	</when>
+					     	<when test	="mortageType==4">
+					       		AND EXISTS (
+						     		SELECT 1 FROM sctrans.T_TO_MORTGAGE_TOSAVE WHERE SELF_MORT = 1 AND CASE_CODE =  A.CASE_CODE
+							 	)
+					     	</when>
+						</choose>
+						AND EXISTS
+			    			( SELECT 1 FROM sctrans.T_TO_PROPERTY_INFO WHERE CASE_CODE = A.CASE_CODE 
+				    			<ifNotNull propertyAddr>
+				    		         AND PROPERTY_ADDR like '%' + #propertyAddr# + '%'
+				    			</ifNotNull>
+		    		         ) 
+						<ifNotNull guestname>
+							AND EXISTS (SELECT 1 FROM sctrans.T_TG_GUEST_INFO WHERE CASE_CODE = A.CASE_CODE and GUEST_NAME LIKE '%'+#guestname#+'%' )
+						</ifNotNull>
+						<ifNotNull proName>
+							AND EXISTS (SELECT 1 FROM sctrans.T_TO_CASE_PARTICIPANT WHERE CASE_CODE = A.CASE_CODE AND POSITION IN('warrant','loan') AND USER_NAME = #proName#)	
+						</ifNotNull>
+						<ifNotNull agentOrgName>
+							AND  EXISTS(SELECT 1 FROM sctrans.V_USER_ORG_JOB uoj where uoj.user_id = B.AGENT_CODE  AND uoj.org_id = #agentOrgName# )
+						</ifNotNull>
+						<ifNotNull srvCode1>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode1#)
+						</ifNotNull>
+						<ifNotNull srvCode2>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode2#)
+						</ifNotNull>
+						<ifNotNull srvCode3>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode3#)
+						</ifNotNull>
+						<ifNotNull srvCode4>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode4#)
+						</ifNotNull>
+						<ifNotNull srvCode5>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode5#)
+						</ifNotNull>
+						<ifNotNull srvCode6>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode6#)
+						</ifNotNull>
+						<ifNotNull srvCode7>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode7#)
+						</ifNotNull>
+						<ifNotNull srvCode8>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode8#)
+						</ifNotNull>
+						<ifNotNull srvCode9>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode9#)
+						</ifNotNull>
+						<ifNotNull srvCode10>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode10#)
+						</ifNotNull>
+						<ifNotNull srvCode11>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode11#)
+						</ifNotNull>
+						<ifNotNull srvCode12>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode12#)
+						</ifNotNull>
+						<ifNotNull srvCode13>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode13#)
+						</ifNotNull>
+						<ifNotNull srvCode14>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode14#)
+						</ifNotNull>
+						<ifNotNull srvCode15>
+							AND EXISTS( select 1 from sctrans.T_TG_SERV_ITEM_AND_PROCESSOR where CASE_CODE = A.CASE_CODE AND SRV_CAT = #srvCode15#)
+						</ifNotNull>
+						
+						<ifNotNull recTimeStart>
+							AND EXISTS(SELECT 1 FROM sctrans.T_TO_CASE_RECV R WHERE A.CASE_CODE = R.CASE_CODE AND R.PROCESS_TIME >= #recTimeStart#)
+						</ifNotNull>
+						<ifNotNull recTimeEnd>
+							AND EXISTS(SELECT 1 FROM sctrans.T_TO_CASE_RECV R WHERE A.CASE_CODE = R.CASE_CODE AND R.PROCESS_TIME &lt;= #recTimeEnd#)
+						</ifNotNull>
+						<ifNotNull netSignTimeStart>
+							AND EXISTS(select 1 from sctrans.T_TO_SIGN G where A.CASE_CODE = G.CASE_CODE AND G.REAL_CON_TIME >= #netSignTimeStart#)
+						</ifNotNull>
+						<ifNotNull netSignTimeEnd>
+							AND EXISTS(select 1 from sctrans.T_TO_SIGN G where A.CASE_CODE = G.CASE_CODE AND G.REAL_CON_TIME &lt;= #netSignTimeEnd#)
+						</ifNotNull>
+						<ifNotNull guohuTimeStart>
+							AND EXISTS(select 1 from sctrans.T_TO_HOUSE_TRANSFER H where A.CASE_CODE = H.CASE_CODE and H.REAL_HT_TIME >= #guohuTimeStart#)
+						</ifNotNull>
+						<ifNotNull guohuTimeEnd>
+							AND EXISTS(select 1 from sctrans.T_TO_HOUSE_TRANSFER H where A.CASE_CODE = H.CASE_CODE AND H.REAL_HT_TIME &lt;= #guohuTimeEnd#)
+						</ifNotNull>
+						<ifNotNull lzTimeStart>
+							AND EXISTS(select 1 from sctrans.T_TO_GET_PROPERTY_BOOK I where A.CASE_CODE = I.CASE_CODE AND I.REAL_PROPERTY_GET_TIME >= #lzTimeStart#)
+						</ifNotNull>
+						<ifNotNull lzTimeEnd>
+							AND EXISTS(select 1 from sctrans.T_TO_GET_PROPERTY_BOOK I where A.CASE_CODE = I.CASE_CODE AND I.REAL_PROPERTY_GET_TIME &lt;= #lzTimeEnd#)
+						</ifNotNull>								
+						<ifNotNull signlendDate>
+						  	AND EXISTS ( select 1 from sctrans.T_TO_MORTGAGE J where A.CASE_CODE = J.CASE_CODE 
+						</ifNotNull>
+							<ifNotNull signTimeStart>
+							  	AND J.SIGN_DATE >= #signTimeStart#
+							</ifNotNull>
+							<ifNotNull signTimeEnd>
+							  	and J.SIGN_DATE &lt;= #signTimeEnd#
+							</ifNotNull>
+							<ifNotNull lendTimeStart>
+							  	and J.LEND_DATE >= #lendTimeStart#
+							</ifNotNull>
+							<ifNotNull lendTimeEnd>
+							  	and J.LEND_DATE &lt;= #lendTimeEnd#
+							</ifNotNull>
+						<ifNotNull signlendDate>
+					  		)
+						</ifNotNull>
 
-					<ifNotNull yuCuiOriGrpId>
-						AND EXISTS (
-							SELECT F.CASE_CODE,F.ORG_ID FROM (SELECT C.CASE_CODE,C.ORG_ID FROM SCTRANS.T_TO_CASE C WHERE C.CASE_CODE = A.CASE_CODE
-							UNION
-							SELECT P.CASE_CODE,P.ORG_ID FROM SCTRANS.T_TG_SERV_ITEM_AND_PROCESSOR P WHERE P.CASE_CODE = A.CASE_CODE ) F
-							INNER JOIN SCTRANS.SYS_ORG AS YCORG
-							ON F.ORG_ID = YCORG.ID
-							WHERE (YCORG.ID = #yuCuiOriGrpId# OR YCORG.PARENT_ID = #yuCuiOriGrpId#) )
-					</ifNotNull>
-					<ifNotNull isNotResearchCloseCase>
-						AND A.CASE_PROPERTY != '30003002'
-					</ifNotNull>
-					<ifNotNull caseOriginType>
-						AND A.CASE_ORIGIN = #caseOriginType#
-					</ifNotNull>
-					<ifNotNull guohuApproveTime>
-					   AND EXISTS (
-						SELECT 1 FROM
-					sctrans.T_HI_WORKFLOW w 
-						LEFT JOIN sctrans.act_hi_varinst v ON v.PROC_INST_ID_ = w.INST_CODE AND v.name_ = 'GuohuApprove' AND v.long_ = 1
-						LEFT JOIN (
-							select proc_inst_id_,end_time_ from (
-							 select proc_inst_id_,assignee_,end_time_,row_number() over(partition by proc_inst_id_ order by end_time_ desc) rn
-							 from sctrans.act_hi_taskinst WHERE task_def_key_ = 'GuohuApprove'
-							) taskInst where taskInst.rn &lt;= 1
-						) t ON t.proc_inst_id_ = w.inst_code
-						WHERE A.CASE_CODE = w.CASE_CODE AND w.BUSINESS_KEY = 'operation_process' AND w.STATUS IN ('0', '4') AND w.PKID = (select max(PKID) from sctrans.T_HI_WORKFLOW WHERE CASE_CODE = w.CASE_CODE AND BUSINESS_KEY = 'operation_process' AND STATUS IN ('0', '4'))
-					</ifNotNull>
-					<ifNotNull guohuApproveTimeStart>
-						AND t.end_time_ >= #guohuApproveTimeStart#
-					</ifNotNull>
-					<ifNotNull guohuApproveTimeEnd>
-							AND t.end_time_ &lt;= #guohuApproveTimeEnd#
-					</ifNotNull>
-					<ifNotNull guohuApproveTime>
-						)
-					</ifNotNull>
-					<choose>
-						<when test	="mortageType==0">
-						  AND A.STATUS != '30001001'
-					      AND NOT EXISTS (
-					     SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE IS_ACTIVE = 1 AND CASE_CODE = A.CASE_CODE
-							 )
-					     </when>
-					     <when test	="mortageType==1">
-					      AND EXISTS (
-					     SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE IN ('30016001','30016002') AND IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 1 AND CASE_CODE = A.CASE_CODE
-							 )
-					     </when>
-					     <when test	="mortageType==2">
-					       AND EXISTS (
-					     SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE = '30016003' AND IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 1 AND CASE_CODE = A.CASE_CODE
-							 )
-					     </when>
-					     <when test	="mortageType==3">
-					       AND EXISTS (
-					     SELECT 1 FROM sctrans.T_TO_MORTGAGE WHERE MORT_TYPE IN ('30016001','30016002') AND IS_ACTIVE = 1 AND IS_DELEGATE_YUCUI = 0 AND CASE_CODE = A.CASE_CODE
-							 )
-					     </when>
-					</choose>
-					<choose>
-						<when test	="isSubscribeFilter==0">
-							AND EXISTS (
-								SELECT 1 FROM SCTRANS.T_TO_MODULE_SUBSCRIBE ttms WHERE ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=A.CASE_CODE
-							)
-					     </when>
-					     <when test	="isSubscribeFilter==1">
-							AND NOT EXISTS (
-								SELECT 1 FROM SCTRANS.T_TO_MODULE_SUBSCRIBE ttms WHERE ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=A.CASE_CODE
-							)
-					     </when>
-					</choose>
+
+					
+					
+					
 				
 				]]>
 			</baseSql>
@@ -294,7 +298,7 @@
 				<column type="both" name="FONT_NAME" index="" checkbox="" display="前台组人员" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CASE_ORIGIN" index="" checkbox="" display="CASE_ORIGIN" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<!-- <column type="both" name="PROPERTY_CODE" index="" checkbox="" display="PROPERTY_CODE" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/> -->
-				<column type="both" name="createType" index="" checkbox="" display="createType" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<!-- <column type="both" name="createType" index="" checkbox="" display="createType" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/> -->
 				<column type="virtual" isDynamicDict="true" name="PROPERTY_ADDR,PROPERTY_CODE,glCount" display="产证地址,PROPERTY_CODE,glCount" referencecol="CASE_CODE,CASE_ORIGIN"  customDict="getGlCaseCount" />
 				<column type="virtual" isDynamicDict="true"
 					name="FONT_NAME,SELLER,BUYER,PROCESSOR_ID,CASE_PROPERTY_SHOW,STATUS,RED_COUNT"

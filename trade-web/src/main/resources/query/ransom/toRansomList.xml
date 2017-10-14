@@ -18,29 +18,30 @@
 			<baseSql>
 				<![CDATA[
 						SELECT 
-							A.PKID PKID,
-							B.CASE_CODE,
-							A.RANSOM_CODE,
-							C.PROPERTY_ADDR,
-							D.AGENT_NAME,
-							D.GRP_NAME,
-							B.BORROWER_NAME,
-							B.COM_ORG_CODE,
-							B.RANSOM_STATUS,
-							B.STOP_REASON,
-							B.BORRO_MONEY,
-							B.UPDATE_TIME
-						FROM sctrans.T_RA_TAILINS A
-						LEFT JOIN sctrans.T_RA_CASE B ON A.RANSOM_CODE = B.RANSOM_CODE
-						LEFT JOIN sctrans.T_TO_PROPERTY_INFO C ON C.CASE_CODE = B.CASE_CODE
-						LEFT JOIN sctrans.T_TO_CASE_INFO D ON D.CASE_CODE = C.CASE_CODE
-						LEFT JOIN sctrans.T_RA_APPLY E ON A.RANSOM_CODE = E.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_INTERVIEW F ON A.RANSOM_CODE = F.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_REPAY G ON A.RANSOM_CODE = G.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_CANCEL H ON A.RANSOM_CODE = H.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_REDEEM I ON A.RANSOM_CODE = I.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_PAYMENT J ON A.RANSOM_CODE = J.RANSOM_CODE
-						WHERE 1 = 1  
+							rac.PKID PKID,
+							rac.CASE_CODE,
+							rac.RANSOM_CODE,
+							pro.PROPERTY_ADDR,
+							toc.AGENT_NAME,
+							toc.GRP_NAME,
+							rac.BORROWER_NAME,
+							rac.COM_ORG_CODE,
+							rac.RANSOM_STATUS,
+							rac.STOP_REASON,
+							rac.BORRO_MONEY,
+							rac.UPDATE_TIME
+						FROM sctrans.T_RA_CASE rac
+						INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON pro.CASE_CODE = rac.CASE_CODE
+						INNER JOIN sctrans.T_TO_CASE_INFO toc ON toc.CASE_CODE = pro.CASE_CODE
+						INNER JOIN sctrans.T_RA_TAILINS tai ON tai.RANSOM_CODE = rac.RANSOM_CODE
+						LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT part ON rac.CASE_CODE = part.CASE_CODE
+						LEFT JOIN sctrans.T_RA_APPLY app ON app.RANSOM_CODE = rac.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_INTERVIEW inter ON inter.RANSOM_CODE = app.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_REPAY rep ON rep.RANSOM_CODE = inter.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_CANCEL can ON can.RANSOM_CODE = rep.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_REDEEM red ON red.RANSOM_CODE = can.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
+						WHERE 1 = 1 
 						<ifNotNull ransomStatus>
 							AND RANSOM_STATUS = #ransomStatus#
 						</ifNotNull>
@@ -61,30 +62,43 @@
 						</if>
 						
 						<if test="ransomSearchTime=='RANSOMAPPLY'">
-							AND D.CREATE_TIME = #start# AND D.UPDATE_TIME = #end#
+							AND app.CREATE_TIME = #start# AND app.UPDATE_TIME = #end#
 						</if>
 						<if test="ransomSearchTime=='RANSOMINTERVIEW'">
-							AND E.CREATE_TIME = #start# AND E.UPDATE_TIME = #end#
+							AND inter.CREATE_TIME = #start# AND inter.UPDATE_TIME = #end#
 						</if>
 						<if test="ransomSearchTime=='RANSOMREPAYMENT'">
-							AND F.CREATE_TIME = #start# AND F.UPDATE_TIME = #end#
+							AND rep.CREATE_TIME = #start# AND rep.UPDATE_TIME = #end#
 						</if>
 						
 						<if test="ransomSearchTime=='RANSOMDIYA'">
-							AND G.CREATE_TIME = #start# AND G.UPDATE_TIME = #end#
+							AND can.CREATE_TIME = #start# AND can.UPDATE_TIME = #end#
 						</if>
 						<if test="ransomSearchTime=='RANSOMPERMIT'">
-							AND H.CREATE_TIME = #start# AND H.UPDATE_TIME = #end#
+							AND rep.CREATE_TIME = #start# AND rep.UPDATE_TIME = #end#
 						</if>
 						<if test="ransomSearchTime=='RANSOMPAYMENT'">
-							AND I.CREATE_TIME = #start# AND I.UPDATE_TIME = #end#
+							AND pay.CREATE_TIME = #start# AND pay.UPDATE_TIME = #end#
 						</if>
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY A.PKID DESC
+			  ORDER BY rac.PKID DESC
 			</orderBySql>
 			<groupSql>
+				GROUP BY 
+					rac.PKID,
+					rac.CASE_CODE,
+					rac.RANSOM_CODE,
+					pro.PROPERTY_ADDR,
+					toc.AGENT_NAME,
+					toc.GRP_NAME,
+					rac.BORROWER_NAME,
+					rac.COM_ORG_CODE,
+					rac.RANSOM_STATUS,
+					rac.STOP_REASON,
+					rac.BORRO_MONEY,
+					rac.UPDATE_TIME
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -107,9 +121,9 @@
 				<column type="virtual" name="COM_ORG_CODE_NAME" display="合作机构名" referencecol="COM_ORG_CODE" customDict="qqcdDictFinalOrg"/>				
 				
 				<column type="both" name="RANSOM_PROPERTY" display="赎楼环节" customDict=""  />
+				<column type="virtual" name="RANSOM_PROPERTY_NAME" display="赎楼环节名" referencecol="RANSOM_PROPERTY" customDict="qqcdDictRansomPart"/>				
 				
 				<column type="both" name="UPDATE_TIME" display="最新状态" customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"  />
-				<column type="virtual" name="RANSOM_PROPERTY_NAME" display="赎楼环节名" referencecol="RANSOM_PROPERTY" customDict="qqcdDictRansomPart"/>				
 				
 				<column type="both" name="BORRO_MONEY" index="" checkbox="" display="借款金额" customDict="" sysDict="" />
 			
@@ -193,6 +207,118 @@
 				
 				<column type="both" name="INTERVIEW_MONEY" display="面签金额" />
 				<column type="both" name="REPAY_MONEY" display="还贷金额" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="queryRansomLink" >
+		<searchCondition></searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+						rc.CASE_CODE,
+						rc.RANSOM_CODE,
+						rc.RANSOM_PROPERTY,
+				
+						CASE app.PART_CODE WHEN 'APPLY' THEN app.APPLY_TIME END applyTime,
+						CASE ri.PART_CODE WHEN 'SIGN' THEN ri.INTERVIEW_TIME END signTime,
+						CASE rr.PART_CODE WHEN 'PAYLOAN_ONE' THEN rr.REPAY_TIME END paylonOne,
+				
+						CASE rr.PART_CODE WHEN 'PAYLOAN_TWO' THEN rr.REPAY_TIME END paylonTwo,
+						CASE rca.PART_CODE WHEN 'CANCELDIYA_ONE' THEN rca.CANCEL_TIME END cancelOne,
+						CASE rca.PART_CODE WHEN 'CANCELDIYA_TWO' THEN rca.CANCEL_TIME END cancelTwo,
+				 
+						CASE rre.PART_CODE WHEN 'RECEIVE_ONE' THEN rre.REDEEM_TIME END receiveOne,
+						CASE rre.PART_CODE WHEN 'RECEIVE_TWO' THEN rre.REDEEM_TIME END receiveTwo,
+						CASE rp.PART_CODE WHEN 'PAYCLEAR' THEN rp.PAYMENT_TIME END payclear,
+					
+						rc.UPDATE_USER 
+					FROM sctrans.T_RA_CASE rc
+						LEFT JOIN sctrans.T_RA_TAILINS rt ON rc.RANSOM_CODE = rt.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_INTERVIEW ri ON ri.RANSOM_CODE = rt.CASE_CODE
+						LEFT JOIN sctrans.T_RA_REPAY rr ON rr.RANSOM_CODE = ri.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_CANCEL rca ON rca.RANSOM_CODE = rr.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_REDEEM rre ON rre.RANSOM_CODE = rca.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_PAYMENT rp ON rp.RANSOM_CODE = rre.RANSOM_CODE
+						LEFT JOIN sctrans.T_RA_APPLY app ON app.RANSOM_CODE = rp.RANSOM_CODE
+						WHERE rc.RANSOM_CODE = #ransomCode#
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY rc.CASE_CODE DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				
+				<column type="both" name="RANSOM_PROPERTY" display="赎楼环节" customDict=""  />
+				<column type="virtual" name="RANSOM_PROPERTY_NAME" display="赎楼环节名" referencecol="RANSOM_PROPERTY" customDict="qqcdDictRansomPart"/>	
+
+				<column type="both" name="APPLY_TIME" display="申请完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="INTERVIEW_TIME" display="面签完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="REPAY_TIME" display="陪同还贷完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="CANCEL_TIME" display="注销抵押完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="REDEEM_TIME" display="领取产证完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="PAYMENT_TIME" display="回款结清完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				
+				<column type="both" name="UPDATE_USER" display="执行人" />
+			</table-row>
+		</grid>
+	</query>
+	<query id="queryRansomTimeRecord" cacheCount="true">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						app.PKID pkid,
+						app.APPLY_TIME applyTime,
+						app.REMAKE applyRemake,
+						inter.INTERVIEW_TIME interviewTime,
+						inter.REMAKE interviewRemake,
+						rep.REPAY_TIME repayTime,
+						rep.REMAKE repayRemake,
+						can.CANCEL_TIME cancelTime,
+						can.REMAKE cancelRemake,
+						red.REDEEM_TIME redeemTime,
+						red.REMAKE redeemRemake,
+						pay.PAYMENT_TIME paymentTime,
+						pay.REMAKE paymentRemake
+					FROM	sctrans.T_RA_APPLY app 
+					LEFT JOIN sctrans.T_RA_INTERVIEW inter ON inter.RANSOM_CODE = app.RANSOM_CODE
+					LEFT JOIN	sctrans.T_RA_REPAY rep ON rep.RANSOM_CODE = inter.RANSOM_CODE
+					LEFT JOIN	sctrans.T_RA_CANCEL can ON can.RANSOM_CODE = rep.RANSOM_CODE
+					LEFT JOIN	sctrans.T_RA_REDEEM red ON red.RANSOM_CODE = can.RANSOM_CODE
+					LEFT JOIN	sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
+					WHERE
+						app.RANSOM_CODE = #ransomCode#
+				]]>
+			</baseSql>
+			<orderBySql>
+			  ORDER BY app.PKID DESC
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				
+				<column type="both" name="applyTime" display="申请时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="applyRemake" display="申请变更理由"/>
+				
+				<column type="both" name="interviewTime" display="面签时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="interviewRemake" display="面签变更理由"/>
+				
+				<column type="both" name="repayTime" display="陪同还贷时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="repayRemake" display="陪同还贷变更理由"/>
+				
+				<column type="both" name="cancelTime" display="注销抵押时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="cancelRemake" display="注销抵押变更理由"/>
+				
+				<column type="both" name="redeemTime" display="领取产证时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="redeemRemake" display="领取产证变更理由"/>
+				
+				<column type="both" name="paymentTime" display="回款结清时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="paymentRemake" display="回款结清理由"/>
+				
 			</table-row>
 		</grid>
 	</query>

@@ -107,7 +107,19 @@ public interface TransplanServiceFacade {
 	int addTsTaskPlanSet(TsTaskPlanSet tsTaskPlanSet);
 	int updateByPrimaryKeySelective(TsTaskPlanSet tsTaskPlanSet);
 	int deleteByPrimaryKey(Long pkid);
-    
-	
-	
+
+	/**
+	 * 获取交易计划变更历史记录的审核状态 by wbzhouht
+	 */
+	TsTransPlanHistory findTransPlanHistoryByCaseCode(TsTransPlanHistory tsTransPlanHistory);
+
+	/**
+	 * 通过交易历史的环节编码和案件编号查询交易计划的PKID
+	 */
+	ToTransPlan findTransPlanPKIDBycasecodeAndPartCode(TsTransPlanHistory tsTransPlanHistory);
+
+	/**
+	 * 修改交易计划变更历史记录状态
+	 */
+	int updateTransPlanHistoryByPKID(TsTransPlanHistory tsTransPlanHistory);
 }

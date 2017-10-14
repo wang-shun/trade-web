@@ -33,10 +33,9 @@
 	
 	<select id="getRansomDetailInfoByCode" resultMap="BaseResultMap">
 		SELECT
-			ra.RANSOM_CODE ransomCode,
+			distinct(ra.RANSOM_CODE) ransomCode,
 			ra.CASE_CODE caseCode,
-			part.REAL_NAME financial,
-			part.MOBILE financialTel,
+			ra.CREATE_USER financial,
 			ra.BORRO_MONEY borrowMoney,
 			ra.BORROWER_NAME borrowName,
 			ra.BORROWER_TEL borrowTel,
@@ -55,24 +54,38 @@
 			tai.REST_MONEY restMoney, -->
 			vie.INTERVIEW_MONEY interViewMoney,
 			vie.INTEREST interest,
-			vie.IS_ENTRUST isEntrust
+			vie.IS_ENTRUST isEntrust,
+			tai.SIGN_TIME signTime, 
+			tai.PLAN_TIME planTime, 
+			app.APPLY_TIME applyTime, 
+			vie.INTERVIEW_TIME intervalTime,
+			rep.REPAY_TIME repayTime,
+			can.CANCEL_TIME  cancleTime,
+			red.REDEEM_TIME redeemTime,
+			pay.PAYMENT_TIME paymentTime
 			<!-- 还贷金额 -->
 		FROM
 			sctrans.T_RA_CASE ra
 			INNER JOIN sctrans.T_TO_CASE cas ON ra.CASE_CODE = cas.CASE_CODE
 			INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON ra.CASE_CODE = pro.CASE_CODE
 			INNER JOIN sctrans.T_TO_CASE_INFO cai ON ra.CASE_CODE = cai.CASE_CODE
-			<!-- LEFT JOIN sctrans.T_RA_TAILINS tai ON ra.RANSOM_CODE = tai.RANSOM_CODE -->
+			LEFT JOIN sctrans.T_RA_TAILINS tai ON ra.RANSOM_CODE = tai.RANSOM_CODE 
 			LEFT JOIN sctrans.T_RA_INTERVIEW vie ON ra.RANSOM_CODE = vie.RANSOM_CODE
 			LEFT JOIN sctrans.T_RA_APPLY app ON ra.RANSOM_CODE = app.RANSOM_CODE
-			INNER JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
+			LEFT JOIN sctrans.T_RA_REPAY rep ON rep.RANSOM_CODE = app.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_CANCEL can ON rep.RANSOM_CODE = can.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_REDEEM red ON can.RANSOM_CODE = red.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
+			LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
 		WHERE 
 			ra.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-			AND part.POSITION = 'financial' <!-- 金融权证 -->
-			AND part.AVAILABLE = 'Y'
+
 	</select>
 
-
+	<select id="getRansomCaseInfoByCaseCode" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
+		SELECT * FROM sctrans.T_RA_CASE WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</select>
+	
 	<select id="getRansomPlanByCode" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
 		SELECT
 			rap.PART_CODE partCode,
@@ -91,6 +104,50 @@
 		WHERE 
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
+	
+	<select id="getTailinsInfoByCaseCode" resultType="com.centaline.trans.ransom.entity.ToRansomTailinsVo">
+		SELECT 
+			RANSOM_CODE ransomCode,
+			FIN_ORG_CODE finOrgCode,
+			MORTGAGE_TYPE mortgageType,
+			DIYA_TYPE diyaType,
+			LOAN_MONEY loanMoney,
+			REST_MONEY restMoney,
+			SIGN_TIME signTime,
+			PLAN_TIME planTime
+		FROM 
+			sctrans.T_RA_TAILINS 
+		WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getApplyInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomApplyVo">
+		SELECT APPLY_TIME applyTime FROM sctrans.T_RA_APPLY WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getInterviewInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomSignVo">
+		SELECT INTERVIEW_TIME signTime FROM sctrans.T_RA_INTERVIEW WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getMortgageInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomMortgageVo">
+		SELECT REPAY_TIME mortgageTime FROM sctrans.T_RA_REPAY WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getCancelInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomCancelVo">
+		SELECT CANCEL_TIME  cancelTime FROM sctrans.T_RA_CANCEL WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getPermitInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomPermitVo">
+		SELECT REDEEM_TIME redeemTime FROM sctrans.T_RA_REDEEM WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getPaymentInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomPaymentVo">
+		SELECT 
+			PAYMENT_TIME paymentTime
+		 FROM 
+		 	sctrans.T_RA_PAYMENT 
+		 WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+	
 	
 	<insert id="insertRansomApply" parameterType="com.centaline.trans.ransom.entity.ToRansomApplyVo">
 		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">

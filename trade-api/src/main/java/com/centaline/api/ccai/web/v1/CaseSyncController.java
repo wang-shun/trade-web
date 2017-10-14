@@ -5,6 +5,7 @@ import com.centaline.api.ccai.service.CcaiService;
 import com.centaline.api.ccai.vo.CaseGuestImport;
 import com.centaline.api.ccai.vo.CaseImport;
 import com.centaline.api.ccai.vo.CaseParticipantImport;
+import com.centaline.api.ccai.vo.CaseRepealImport;
 import com.centaline.api.common.enums.ApiLogModuleEnum;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import com.centaline.api.common.web.AbstractBaseController;
@@ -119,6 +120,35 @@ public class CaseSyncController extends AbstractBaseController{
 		writeLog(ApiLogModuleEnum.CASE_UPDATE,"/api/ccai/v1/case/" + type,ucase,result,request);
 		return result;
 	}
+
+	/**
+	 * ccai导入案件接口
+	 *
+	 * @param acase json格式案件信息(由Spring MVC 自动转换成对象)
+	 * @return
+	 */
+	@ApiOperation(value = "成交报告撤单API", notes = "提供给CCAI在成交报告撤单时通知CCAI", produces = "application/json,application/json;charset=UTF-8")
+	@RequestMapping(value = "/case/repeal", method = RequestMethod.POST, produces = {"application/json", "application/json;charset=UTF-8"})
+	public CcaiServiceResult caseRepeal(
+			@ApiParam(name = "撤单审批信息", value = "CCAI中撤单的审批信息", required = true)
+			@Valid @RequestBody CaseRepealImport repealInfo, Errors errors, HttpServletRequest request) {
+		CcaiServiceResult result = buildErrorResult(errors);
+		if(result.isSuccess()){
+			//审批记录校验
+			Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+			StringBuilder msg = new StringBuilder();
+			buildErrorMessage(validator.validate(repealInfo.getTasks()),msg,"");
+			if(StringUtils.isBlank(msg)){
+				result = ccaiService.repealCase(repealInfo);
+			}else{
+				result.setSuccess(false);
+				result.setMessage(msg.toString());
+			}
+		}
+		writeLog(ApiLogModuleEnum.CASE_REPEAL,"/api/ccai/v1/case/repeal",repealInfo,result,request);
+		return result;
+	}
+
 
 	/**
 	 * 校验导入的案件信息是否准

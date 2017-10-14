@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="TJEvalInvoiceProcess" name="TJEvalInvoiceProcess" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <userTask id="auditInvoiceApplication" name="权证经理审批发票申请" activiti:assignee="${warantManager}"></userTask>
+    <userTask id="invoiceApply" name="发票申请" activiti:assignee="${assistant}"></userTask>
+    <userTask id="issueInvoice" name="开具发票" activiti:assignee="${assistant}"></userTask>
+    <userTask id="collectInvoice" name="领取发票"></userTask>
+    <sequenceFlow id="flow3" sourceRef="invoiceApply" targetRef="issueInvoice"></sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="issueInvoice" targetRef="collectInvoice"></sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="collectInvoice" targetRef="endevent1"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow7" sourceRef="auditInvoiceApplication" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="exclusivegateway1" targetRef="invoiceApply">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approve==true}]]></conditionExpression>
+    </sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent1" name="MessageCatchEvent">
+      <messageEventDefinition></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow10" sourceRef="exclusivegateway1" targetRef="messageintermediatecatchevent1"></sequenceFlow>
+    <sequenceFlow id="flow11" sourceRef="messageintermediatecatchevent1" targetRef="auditInvoiceApplication"></sequenceFlow>
+    <sequenceFlow id="flow12" sourceRef="startevent1" targetRef="auditInvoiceApplication"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_TJEvalInvoiceProcess">
+    <bpmndi:BPMNPlane bpmnElement="TJEvalInvoiceProcess" id="BPMNPlane_TJEvalInvoiceProcess">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="30.0" y="54.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="885.0" y="220.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="auditInvoiceApplication" id="BPMNShape_auditInvoiceApplication">
+        <omgdc:Bounds height="83.0" width="105.0" x="168.0" y="30.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="invoiceApply" id="BPMNShape_invoiceApply">
+        <omgdc:Bounds height="55.0" width="105.0" x="480.0" y="44.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="issueInvoice" id="BPMNShape_issueInvoice">
+        <omgdc:Bounds height="55.0" width="105.0" x="670.0" y="44.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="collectInvoice" id="BPMNShape_collectInvoice">
+        <omgdc:Bounds height="55.0" width="105.0" x="850.0" y="44.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="367.0" y="51.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent1" id="BPMNShape_messageintermediatecatchevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="203.0" y="158.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="585.0" y="71.0"></omgdi:waypoint>
+        <omgdi:waypoint x="670.0" y="71.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="775.0" y="71.0"></omgdi:waypoint>
+        <omgdi:waypoint x="850.0" y="71.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="902.0" y="99.0"></omgdi:waypoint>
+        <omgdi:waypoint x="902.0" y="220.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="273.0" y="71.0"></omgdi:waypoint>
+        <omgdi:waypoint x="367.0" y="71.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="407.0" y="71.0"></omgdi:waypoint>
+        <omgdi:waypoint x="480.0" y="71.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="387.0" y="91.0"></omgdi:waypoint>
+        <omgdi:waypoint x="386.0" y="176.0"></omgdi:waypoint>
+        <omgdi:waypoint x="238.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+        <omgdi:waypoint x="220.0" y="158.0"></omgdi:waypoint>
+        <omgdi:waypoint x="220.0" y="113.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="65.0" y="71.0"></omgdi:waypoint>
+        <omgdi:waypoint x="168.0" y="71.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

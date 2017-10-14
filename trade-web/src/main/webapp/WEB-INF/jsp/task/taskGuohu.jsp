@@ -374,8 +374,10 @@
 
 			//过户环节贷款流失银行不能修改
 			$('#bankName').attr("readonly","readonly");
-			/*$('#mortTotalAmount').attr("readonly","readonly");
-			$('#comAmount').attr("readonly","readonly");
+			if($('#realHtTime').val()!=''){
+			$('#realHtTime').attr("disabled","false");
+            }
+			/*$('#comAmount').attr("readonly","readonly");
 			$('#comYear').attr("readonly","readonly");
 			$('#comDiscount').attr("readonly","readonly");
 			$('#prfAmount').attr("readonly","readonly");
@@ -749,12 +751,19 @@
                     }
                 } ,
                 success : function(data) {
-					$.unblockUI();
+					//$.unblockUI();
 					if (b) {
-						caseTaskCheck();
-						if (null != data.message) {
-							window.wxc.alert(data.message);
+					    if(data.data){
+                            caseTaskCheck();
+                            if (null != data.message) {
+                                window.wxc.alert(data.message);
+                            }
+						}else {
+					        window.wxc.error(data.message,{"wxcOk":function () {
+                                window.location.href = "${ctx }/task/myTaskList";
+                            }})
 						}
+
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
 						window.wxc.success("保存成功。",{"wxcOk":function(){

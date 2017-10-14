@@ -273,7 +273,10 @@ function batEnd(){
 		ids.push(id);
 	});
 	var ctx = $("#ctx").val();
-	window.location.href = ctx + "/eval/settle/batEnd?caseCodes="+ids;
+	
+	window.wxc.confirm("确定批量结算吗？",{"wxcOk":function(){
+		window.location.href = ctx + "/eval/settle/batEnd?caseCodes="+ids;
+	}});
 	
 }
 

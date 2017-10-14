@@ -123,7 +123,6 @@ function getShowAttachment() {
 			value : 'Y'
 		}
     	],
-		dataType : "json",
 		success : function(data) {
 			dataLength=data.length;
 			//将返回的数据进行包装
@@ -303,7 +302,7 @@ function showPlanModal(){
 	resetPlanModal();
 	$('#plan-modal-form').modal("show");
 }
-//重置交易计划
+//重置交易计划 by wbzhouht
 function resetPlanModal(){
 	$("input[name='estPartTime']").val("");
 	var url = "/case/getTransPlanByCaseCode";
@@ -322,26 +321,34 @@ function resetPlanModal(){
 		success : function(data) {
 
 			var inHtml = "";
+            $("#plan-form").html(inHtml);
+            console.log(data);
 			$.each(data, function(k, v){
-				inHtml+='<div class="form-group"><div class="col-lg-2 control-label">';
-				inHtml+= '预计'+v.partName+'时间';
-				inHtml+='</div><div class="col-lg-4 control-label" style="text-align:left; margin-top:-10px;" >';
-				inHtml+='<input type="hidden" id="pkId_'+k+'" name="estId" value="'+v.pkid+'" >';
-				inHtml+='<input type="hidden" id="isChange_'+k+'" name="estFlag" value="false" >';
-				inHtml+='<span style="position: relative; z-index: 9999;">';
-				inHtml+='<div class="input-group date"><span class="input-group-addon">';
-				inHtml+='<i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>';
-				inHtml+='<input class="form-control" type="text" id="estPartTime_'+k+'" name="estPartTime" value="'+v.estPartTimeStr+'" lang="' + v.estPartTimeStr + '" onchange="javascript:changeEstTime('+k+')">';
-				inHtml+='</div>	</span></div>';
-				inHtml+='<div class="col-lg-1 control-label">';
-				inHtml+= '变更理由';
-				inHtml+='</div><div class="col-lg-3 control-label" style="text-align:left; margin-top:-10px;" >';
-				inHtml+='<input class="form-control" type="text" id="whyChange_'+k+'" name="whyChange" value="" onfocus="javascript:initBorderColor(this);">';
-				inHtml+='</div>';
-				inHtml+='</div>';
+                inHtml+='<div class="form-group"><div class="col-lg-2 control-label">';
+                inHtml+= '预计'+v.partName+'时间';
+                inHtml+='</div><div class="col-lg-4 control-label" style="text-align:left; margin-top:-10px;" >';
+                inHtml+='<input type="hidden" id="pkId_'+k+'" name="estId" value="'+v.pkid+'" >';
+                inHtml+='<input type="hidden" id="isChange_'+k+'" name="estFlag" value="false" >';
+                inHtml+='<span style="position: relative; z-index: 9999;">';
+                inHtml+='<div class="input-group date"><span class="input-group-addon">';
+                inHtml+='<i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>';
+                inHtml+='<input class="form-control" type="text" id="estPartTime_'+k+'" name="estPartTime" value="'+v.estPartTimeStr+'" lang="' + v.estPartTimeStr + '" onchange="javascript:changeEstTime('+k+')">';
+                inHtml+='</div>	</span></div>';
+                inHtml+='<div class="col-lg-1 control-label">';
+                inHtml+= '变更理由';
+                inHtml+='</div><div class="col-lg-3 control-label" style="text-align:left; margin-top:-10px;" >';
+                inHtml+='<input class="form-control" type="text" id="whyChange_'+k+'" name="whyChange" value="" onfocus="javascript:initBorderColor(this);">';
+                inHtml+='</div>';
+                inHtml+='</div>';
 
 			});
 			$("#plan-form").html(inHtml);
+			$.each(data,function (k1,v1) {
+                if(!v1.edit){
+                    $("#estPartTime_"+k1).prop("disabled","disabled");
+                    $("#whyChange_"+k1).attr("disabled","disabled");
+                }
+            })
 			 $('.input-group.date').datepicker({
 				  todayBtn: "linked",
 	                keyboardNavigation: false,
@@ -369,13 +376,20 @@ function openTransHistory(){
 	url = ctx + url + params;
 	window.location.href= url;
 }
-//交易计划变更 - 保存
+//交易计划变更 - 保存 by wbzhouht
 function savePlanItems(){
-	var url = "/case/savePlanItems";
+	var isAudit=auditResult;
+	if(isAudit){
+		window.wxc.error("你已提交过变更，请等待审核！",function () {
+            window.location.reload();
+        })
+		return;
+	}
+	var url = "/case/startTransPlan";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
 	var caseCode = $("#caseCode").val();
-	var params ='&caseCode=' + caseCode;
+	var params ='&caseCode=' + caseCode+"&partCode="+partCode;
 	var isChanges = new Array;
 	var estIds = new Array;
 	var estTimes = new Array;
@@ -462,7 +476,8 @@ function savePlanItems(){
 		success : function(data) {
 			if(data.success){
 				window.wxc.success("提交成功",{"wxcOk":function(){
-					window.location.reload();
+                    window.location.href = ctx+"/task/myTaskList";
+					//window.location.reload();
 				}});
 			}else{
 				window.wxc.error(data.message);

@@ -31,7 +31,6 @@ public class CcaiCaseApiServiceImpl extends ApiService implements CaseApiService
 		if(serviceIsEnable()){
 			return toCcaiGetInfo(ccaiCode);
 		}else{
-			System.out.println("service is not enable");
 			//生成模拟数据 防止报错
 			return demoApiCaseInfo();
 		}
@@ -55,7 +54,6 @@ public class CcaiCaseApiServiceImpl extends ApiService implements CaseApiService
 		ApiCaseInfo result;
 		try {
 			String json = restTemplate.getForObject(url,String.class);
-			System.out.println(json);
 			return JSONObject.parseObject(json,ApiCaseInfo.class);
 			// return mapper.readValue(json,ApiCaseInfo.class); jackjson 无法转换分成信息和合作信息 原因暂时未知
 			// return restTemplate.getForObject(url,ApiCaseInfo.class); 自带的也无法进行转换分成信息和合作信息 而且会报错

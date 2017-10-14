@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="<c:url value='/static/trans/css/workflow/caseDetail.css' />" >
     <link rel="stylesheet" href="<c:url value='/static/trans/css/workflow/details.css' />" >
     <link rel="stylesheet" href="<c:url value='/static/trans/css/workflow/guohu.css' />" >
-
+	<script src="<c:url value='/js/plugins/required/require.js' />" data-main="${ctx}/js/plugins/required/main.js"></script>
 </head>
 <body class="">
 
@@ -49,26 +49,31 @@
     </div>
 
 
-    <%--  <script src="http://trade.centaline.com:8083/trade-web/static/js/jquery-2.1.1.js"></script> --%>
+     <!-- <script src="http://trade.centaline.com:8083/trade-web/static/js/jquery-2.1.1.js"></script> -->
     <script>
-   /*  require(['jquery','aistFileUpload','aistMath'], function($,aistFileUpload) {
+      require(['jquery','aistFileUpload'], function($,aistFileUpload) {
         console.log($().jquery);
-        console.log(aistMath.add(3,5));
+        //console.log(aistMath.add(3,5));
         aistFileUpload.init({
     		caseCode : "ZY-SH-201609-0035",
     		partCode : "SpvApplyApprove",
     		fileUploadContainer : "fileUploadContainer"
-    	}); 
-    }); */
-    require(['main'], function() {
+    	});
+    });
+      /* 
+      require(['main'], function() {
     	requirejs(['aistFileUpload'],function(aistFileUpload){
 		    aistFileUpload.init({
-	    		caseCode : "ZY-SH-201609-0035",
-	    		partCode : "SpvApplyApprove",
+	    		caseCode : "ZY-TJ-2017090083",
+	    		//partCode : "AddLiushui",
+	    		//partCode : "ComLoanProcess",
+	    		//partCode : "SpvApplyApprove",
+	    		partCode : "eval_invoice_manage",
 	    		fileUploadContainer : "fileUploadContainer"
 	    	}); 
 	    });
-    });
+    });  
+      */ 
     </script>
 
 </body>

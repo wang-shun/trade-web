@@ -19,6 +19,7 @@ import com.centaline.trans.common.enums.RansomDiyaEnum;
 import com.centaline.trans.common.enums.RansomPartEnum;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
+import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
@@ -26,8 +27,11 @@ import com.centaline.trans.ransom.entity.ToRansomPermitVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomSubmitVo;
+import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
+import com.centaline.trans.ransom.repository.RansomListFormMapper;
 import com.centaline.trans.ransom.repository.RansomMapper;
 import com.centaline.trans.ransom.service.RansomService;
+import com.centaline.trans.ransom.vo.ToRansomLinkVo;
 
 /**
  * 赎楼service实现
@@ -41,6 +45,8 @@ public class RansomServiceImpl implements RansomService{
 	@Autowired
 	private RansomMapper ransomMapper;
 	@Autowired
+	private RansomListFormMapper ransomListFormMapper;
+	@Autowired
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private UamSessionService uamSessionService;
@@ -48,9 +54,17 @@ public class RansomServiceImpl implements RansomService{
 	@Override
 	public ToRansomDetailVo getRansomDetail(String caseCode) {
 		ToRansomDetailVo detailVo = ransomMapper.getRansomDetailInfoByCode(caseCode);
-		User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
-		detailVo.setLeadingProcessName(user.getRealName()); //经办人
-
+		if(detailVo != null){
+			User financ = uamUserOrgService.getUserById(detailVo.getFinancial());
+			if(financ !=null){
+				detailVo.setFinancial(financ.getRealName());
+				detailVo.setFinancialTel(financ.getMobile());
+			}else{
+				detailVo.setFinancial(null);
+			}
+			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+			detailVo.setLeadingProcessName(user.getRealName()); //经办人
+		}
 		return detailVo;
 	}
 
@@ -296,6 +310,71 @@ public class RansomServiceImpl implements RansomService{
 		}	
 		return result;
 	}
+
+	@Override
+	public ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode) {
+		ToRansomTailinsVo tailinsVo = new ToRansomTailinsVo();
+		tailinsVo = ransomMapper.getTailinsInfoByCaseCode(caseCode);
+		return tailinsVo;
+	}
+
+	@Override
+	public ToRansomSignVo getInterviewInfo(String ransomCode) {
+		ToRansomSignVo signVo = new ToRansomSignVo();
+		signVo = ransomMapper.getInterviewInfoByRansomCode(ransomCode);
+		return signVo;
+	}
+
+	@Override
+	public ToRansomApplyVo getApplyInfo(String ransomCode) {
+		ToRansomApplyVo applyVo = new ToRansomApplyVo();
+		applyVo = ransomMapper.getApplyInfoByRansomCode(ransomCode);
+		return applyVo;
+	}
+
+	@Override
+	public ToRansomMortgageVo getMortgageInfo(String ransomCode) {
+		ToRansomMortgageVo mortgageVo = new ToRansomMortgageVo();
+		mortgageVo = ransomMapper.getMortgageInfoByRansomCode(ransomCode);
+		return mortgageVo;
+	}
+
+	@Override
+	public ToRansomCancelVo getCancelInfo(String ransomCode) {
+		ToRansomCancelVo cancelVo = new ToRansomCancelVo();
+		cancelVo = ransomMapper.getCancelInfoByRansomCode(ransomCode);
+		return cancelVo;
+	}
+
+	@Override
+	public ToRansomPermitVo getPermitInfo(String ransomCode) {
+		ToRansomPermitVo permitVo = new ToRansomPermitVo();
+		permitVo = ransomMapper.getPermitInfoByRansomCode(ransomCode);
+		return permitVo;
+	}
+
+	@Override
+	public ToRansomPaymentVo getPaymentInfo(String ransomCode) {
+		ToRansomPaymentVo paymentVo = new ToRansomPaymentVo();
+		paymentVo = ransomMapper.getPaymentInfoByRansomCode(ransomCode);
+		return paymentVo;
+	}
+
+	@Override
+	public ToRansomCaseVo getRansomCaseInfo(String caseCode) {
+		ToRansomCaseVo caseVo = new ToRansomCaseVo();
+		caseVo = ransomMapper.getRansomCaseInfoByCaseCode(caseCode);
+		return caseVo;
+	}
+
+	@Override
+	public ToRansomLinkVo getRansomLinkInfo(String caseCode) {
+		ToRansomLinkVo ransomLinkVo = new ToRansomLinkVo();
+		ransomLinkVo = ransomListFormMapper.getRansomLinkInfoByCaseCode(caseCode);
+		return ransomLinkVo;
+	}
+
+
 
 
 }

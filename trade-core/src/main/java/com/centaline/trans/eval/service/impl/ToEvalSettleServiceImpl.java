@@ -1,5 +1,7 @@
 package com.centaline.trans.eval.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ public class ToEvalSettleServiceImpl implements ToEvalSettleService {
 	
 	@Autowired
 	private ToEvalSettleMapper toEvalSettleMapper; 
+	
+	@Autowired(required = true)
+	ToEvalSettleService toEvalSettleService;
 	
 	@Override
 	public int deleteByPrimaryKey(Long pkid) {
@@ -67,5 +72,22 @@ public class ToEvalSettleServiceImpl implements ToEvalSettleService {
 	public int newSettleFeeByCaseCode(ToEvalSettle record) {
 		return toEvalSettleMapper.newSettleFeeByCaseCode(record);
 	}
+
+	@Override
+	public List<ToEvalSettle> findCaseCodesByStauts() {
+		// TODO Auto-generated method stub
+		return toEvalSettleMapper.findCaseCodesByStauts();
+	}
+
+	@Override
+	public List<String> waitApproCaseCodes() {
+		List<String> recordList = new ArrayList<>();
+		List<ToEvalSettle> settleList =  toEvalSettleService.findCaseCodesByStauts();
+		for (ToEvalSettle toEvalSettle : settleList) {
+			recordList.add(toEvalSettle.getCaseCode());
+		}
+		return recordList;
+	}
+
 
 }
