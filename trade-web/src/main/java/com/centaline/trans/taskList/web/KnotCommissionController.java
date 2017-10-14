@@ -61,18 +61,6 @@ public class KnotCommissionController {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		//获取流程变量
-		RestVariable psf = workFlowManager.getVar(processInstanceId,
-				"PSFLoanNeed");
-		RestVariable self = workFlowManager.getVar(processInstanceId,
-				"SelfLoanNeed"); 
-		RestVariable com = workFlowManager.getVar(processInstanceId,
-				"ComLoanNeed"); 
-
-		toAccesoryListService.getAccesoryListLingZheng(request, taskitem,
-				(boolean) (psf == null ? false : psf.getValue()),
-				(boolean) (self == null ? false : self.getValue()),
-				(boolean) (com == null ? false : com.getValue()));
 		return "task" + UiImproveUtil.getPageType(request) + "/taskKnotCommission";
 	}
 	@RequestMapping(value="submitKnotCommission")
