@@ -115,12 +115,31 @@
                		<div>
 						<div class="text-center">
 							<a class='btn btn-primary ' href="javascript:void(0)" id="save" style="width: 110px;">保存</a>
-							<a class='btn btn-primary ' href="javascript:void(0)" id="close">变更记录查看</a>
+							<a class='btn btn-primary ' onclick = "reloadTimeRecord()" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">变更记录查看</a>
 						</div>
 					</div>
                 </form>
             </div>
         </div>
+        
+        <div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+        	<div class="modal-dialog" style="width: 1070px;height: 500px;top: 88px;background: #ccc;">
+				<div class="modal-header"><button class="close" type="button" data-dismiss="modal">×</button>
+					<h2 class="title">变更明细记录查看</h2>
+				</div>
+				<div class="modal-body">
+					<table class="table table_blue table-striped table-bordered table-hover ">
+						<thead>
+							<tr>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="record-detail"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
         <content tag="local_script">
         <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
         <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
@@ -140,5 +159,69 @@
         <script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
         <script src="<c:url value='/js/ransom/ransomPlanTime.js'/>" type="text/javascript"></script>
 		</content>
+		<script id="template_timeRecord" type= "text/html">
+			{{each rows as item index}}
+				{{if item.applyTime != null }}
+					<tr>
+						<td>申请时间</td>
+						<td>变更理由</td>
+					</tr>
+					<tr>
+						<td>{{item.applyTime}}</td>
+						<td>{{item.applyRemake}}</td>
+					</tr>
+				{{/if}}
+				{{if item.interviewTime != null }}
+					<tr>
+						<td>面签时间</td>
+						<td>变更理由</td>
+					</tr>
+					<tr>
+						<td>{{item.interviewTime}}</td>
+						<td>{{item.interviewRemake}}</td>
+					</tr>
+				{{/if}}
+				{{if item.repayTime != null }}
+					<tr>
+						<td>陪同还贷时间</td>
+						<td>变更理由</td>
+					</tr>
+					<tr>
+						<td>{{item.repayTime}}</td>
+						<td>{{item.repayRemake}}</td>
+					</tr>
+				{{/if}}
+				{{if item.cancelTime != null }}
+					<tr>
+						<td>注销抵押时间</td>
+						<td>变更理由</td>
+					</tr>
+					<tr>
+						<td>{{item.cancelTime}}</td>
+						<td>{{item.cancelRemake}}</td>
+					</tr>
+				{{/if}}
+				{{if item.redeemTime != null }}
+					<tr>
+						<td>领取产证时间</td>
+						<td>变更理由</td>
+					</tr>
+					<tr>
+						<td>{{item.redeemTime}}</td>
+						<td>{{item.redeemRemake}}</td>
+					</tr>
+				{{/if}}
+				{{if item.paymentTime != null }}
+					<tr>
+						<td>回款结清时间</td>
+						<td>变更理由</td>
+					</tr>
+					<tr>
+						<td>{{item.paymentTime}}</td>
+						<td>{{item.paymentRemake}}</td>
+					</tr>
+				{{/if}}
+			{{/each}}
+		</script>
     </body>
 </html>

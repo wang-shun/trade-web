@@ -11,8 +11,9 @@ $(document).ready( function() {
    
    
    function submitNewRansom(){
+	   debugger;
 	  var totalArr = [];
-	  var caseCode = $('#caseCode').val();
+	  var caseCode = $('#content_caseCode').text();
 	  
 	  var borrowerName = $("#custName").val();//主贷人姓名
 	  var signTime = $("#date-picker2").val();
@@ -170,8 +171,8 @@ $(document).ready( function() {
   * 检查案件编号和赎楼编号是否唯一
   * @returns
   */
- function checkLink(){
-	 var caseCode = $("#modal_caseCode0").html();
+ function checkLink(caseCode){
+	 debugger;
 	 
 	 $.ajax({
 			url:ctx+ "/ransomList/queryRansomCode" ,
@@ -183,7 +184,8 @@ $(document).ready( function() {
 				debugger;
 				if(data.status == "0"){
 					window.wxc.success("案件关联成功！"); 
-					$('.case_content').show();
+					window.location.href = ctx+"/ransomList/ransomLinkInfo?caseCode=" + caseCode;
+					$('.case_content').css("displsy","block");
 					$("#custName").val();
 					$("#phone").val();
 				}else{
@@ -201,6 +203,84 @@ $(document).ready( function() {
 			} 
 		});
  }
+ 
+	function showPop() {
+		debugger;
+		$("#myModal").show();
+		$(".modal-backdrop").show();
+		reloadDetail();
+	} 
+ 
+	 /**
+	  * 关联案件信息查询
+	  */
+	 function reloadDetail(){
+	 	debugger;
+	 	var url = ctx + '/quickGrid/findPage';
+	 	var caseCode = $('#caseCodet').val().trim();
+	 	var propertyAddr = $('#propertyAddr').val().trim();
+	 	var sellerName = $('#sellerName').val().trim();
+	 	var data = {};
+	 	data.page = 1;
+	 	data.rows = 10;
+	 	data.queryId = "queryRansomCaseLink";
+	 	data.argu_caseCode = caseCode;
+	 	data.argu_propertyAddr = propertyAddr;
+	 	data.argu_sellerName = sellerName;
+	 	$.ajax({
+	 		async: true,
+	 		type:'POST',
+	 		url:url,
+	 		dataType:'json',
+	 		data:data,
+	 		beforeSend: function () {  
+	         	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	         },  
+	         success: function(data){
+	         	$.unblockUI();
+	         	var html = template('template_ransomCaseLink',data);
+	       		$('#case-link').html(html);
+	         }
+	 	});	
+	 }
+	//查询
+	$('#searchButton').click(function() {
+		debugger;
+		reloadDetail();
+	});
+	
+	// 添加
+	$('#addNewCase').click(function() {
+		window.location.href = ctx + "/caseMerge/addCase/spv";
+	});
+	
+	/**
+	 * 主贷人电话
+	 * @returns
+	 */
+	function choseRoleChange(){
+		debugger; 
+		var custName = $("#custName").val();
+		var sellTel = $("#sellTel").val();
+		var buyTel = $("#buyTel").val();
+		
+		var sellName = $("#sellName").val();
+		var buyName = $("#buyName").val();
+		
+		if(custName != "" && custName != null){
+			if(custName == sellName){
+				$("#phone").val(sellTel);
+			}
+			
+			if(custName == buyName){
+				$("#phone").val(buyTel);
+			}
+		}else{
+			$("#phone").val("");
+		}
+	}
+	
+	
 //添加机构
 var index = 1;
 var count = $('#loanLostFinOrgName option:last').index();
