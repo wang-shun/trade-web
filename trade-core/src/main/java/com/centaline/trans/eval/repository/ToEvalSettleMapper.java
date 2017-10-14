@@ -1,5 +1,8 @@
 package com.centaline.trans.eval.repository;
 
+import java.util.List;
+import java.util.Map;
+
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eval.entity.ToEvalSettle;
 
@@ -29,4 +32,6 @@ public interface ToEvalSettleMapper {
 	int updateSettleFeeByCaseCode(ToEvalSettle record);
 	
 	int newSettleFeeByCaseCode(ToEvalSettle record);
+	
+	List<ToEvalSettle> findCaseCodesByStauts();
 }

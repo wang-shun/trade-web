@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cxf.common.i18n.Exception;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +19,7 @@ import com.centaline.trans.common.enums.RansomDiyaEnum;
 import com.centaline.trans.common.enums.RansomPartEnum;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
+import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
@@ -28,8 +28,10 @@ import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomSubmitVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
+import com.centaline.trans.ransom.repository.RansomListFormMapper;
 import com.centaline.trans.ransom.repository.RansomMapper;
 import com.centaline.trans.ransom.service.RansomService;
+import com.centaline.trans.ransom.vo.ToRansomLinkVo;
 
 /**
  * 赎楼service实现
@@ -42,6 +44,8 @@ public class RansomServiceImpl implements RansomService{
 
 	@Autowired
 	private RansomMapper ransomMapper;
+	@Autowired
+	private RansomListFormMapper ransomListFormMapper;
 	@Autowired
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
@@ -354,6 +358,20 @@ public class RansomServiceImpl implements RansomService{
 		ToRansomPaymentVo paymentVo = new ToRansomPaymentVo();
 		paymentVo = ransomMapper.getPaymentInfoByRansomCode(ransomCode);
 		return paymentVo;
+	}
+
+	@Override
+	public ToRansomCaseVo getRansomCaseInfo(String caseCode) {
+		ToRansomCaseVo caseVo = new ToRansomCaseVo();
+		caseVo = ransomMapper.getRansomCaseInfoByCaseCode(caseCode);
+		return caseVo;
+	}
+
+	@Override
+	public ToRansomLinkVo getRansomLinkInfo(String caseCode) {
+		ToRansomLinkVo ransomLinkVo = new ToRansomLinkVo();
+		ransomLinkVo = ransomListFormMapper.getRansomLinkInfoByCaseCode(caseCode);
+		return ransomLinkVo;
 	}
 
 

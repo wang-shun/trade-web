@@ -181,7 +181,7 @@
                                                 </th>
                                               
                                                 <th>
-                                                   审批人
+                                                   驳回人
                                                 </th>
                                                 <th>
                                                   审批时间
@@ -198,9 +198,9 @@
 											    <td class="center"><span class="center">${status.index+1}</span></td>  
 											    <td><fmt:formatDate value="${item.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>  
 											    <td>${item.updateReason}</td>  
-											    <td>审批人</td>  
-											    <td>审批时间</td>
-											    <td>审批意见</td>
+											    <td>${item.rejectPerson}</td>  
+											    <td><fmt:formatDate value="${item.approTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+											    <td>${item.rejectCause}</td>
 											  </tr>  
 											</c:forEach> 
                                         </tbody>
@@ -247,7 +247,6 @@
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
 	<!-- 放款监管信息  -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
-	<script	src="<c:url value='/transjs/task/caseflowlist.js' />"></script>
 	<script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script	src="<c:url value='/js/template.js' />" type="text/javascript"></script>

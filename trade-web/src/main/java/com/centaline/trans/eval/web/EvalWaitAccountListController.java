@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.TaskService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
+import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.PageableVo;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.eval.entity.ToEvaSettleUpdateLog;
 import com.centaline.trans.eval.entity.ToEvalRebate;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
@@ -28,6 +42,8 @@ import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.eval.service.ToEvalSettleService;
 import com.centaline.trans.eval.vo.EvalAccountShowVO;
+import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.service.PropertyUtilsService;
 
 /**
  * 
@@ -46,7 +62,9 @@ import com.centaline.trans.eval.vo.EvalAccountShowVO;
 @Controller
 @RequestMapping(value = "eval/settle")
 public class EvalWaitAccountListController {
-
+	
+	/*@Value("${process.df.key.EvalAccountAppro}")
+	private String processEvalAccountKey;*/
 	@Autowired(required = true)
 	ToEvalReportProcessService toEvalReportProcessService;
 	@Autowired(required = true)
@@ -55,6 +73,24 @@ public class EvalWaitAccountListController {
 	ToEvalRebateService toEvalRebateService;
 	@Autowired(required = true)
 	ToEvaSettleUpdateLogService toEvaSettleUpdateLogService;
+	
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
+	
+	@Autowired(required=true)
+	private WorkFlowManager workFlowManager;
+	
+	@Autowired
+	private UamSessionService uamSessionService;
+	
+	@Autowired
+	private PropertyUtilsService propertyUtilsService;
+	
+	@Autowired
+	private ProcessInstanceService processInstanceService;
+	
+	@Autowired
+	private TaskService taskService;
 	
 	/**
 	 * 页面初始化
@@ -92,15 +128,86 @@ public class EvalWaitAccountListController {
 				toEvalSettle.setStatus(String.valueOf(5));//5:进入总监审批页状态
 				toEvalSettle.setCaseCode(caseCode);
 				toEvalSettleService.updateByCaseCode(toEvalSettle);
+				
+				/*SessionUser user = uamSessionService.getSessionUser();
+				//总监审批流程启动
+				Map<String,Object> defValsMap = new HashMap<String,Object>();
+				defValsMap.put("sessionUser", user.getUsername());
+				String processDfId = propertyUtilsService.getProcessDfId("EvalAccountApproProcess");
+				
+				/** businsessKey还是用caseCode，因为在engineTask中caseCode兼容老程序,用的businessKey赋值 **/
+				/*StartProcessInstanceVo pVo = processInstanceService.startWorkFlowByDfId(processDfId, caseCode, defValsMap);
+
+				ToWorkFlow wf = new ToWorkFlow();
+				wf.setBusinessKey("EvalAccountApproProcess");
+				wf.setCaseCode(caseCode);
+				wf.setProcessOwner(user.getId());
+				wf.setProcessDefinitionId(processDfId);
+				wf.setInstCode(pVo.getId());
+				wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
+				toWorkFlowService.insertSelective(wf);
+				
+				//完成评估出账申请任务节点
+				List<RestVariable> variables = new ArrayList<RestVariable>();
+				@SuppressWarnings("unchecked")
+				PageableVo<TaskVo> bo = taskService.listHistTasks(pVo.getId());
+				String taskId = String.valueOf(bo.getData().get(0).getId());
+				System.out.println(taskId);
+				workFlowManager.submitTask(variables, taskId, pVo.getId(), user.getId(), caseCode);*/
 			}
 		}
 		
+		return  "redirect:evalWaitEndList";
+	}
+	
+	/**
+	 * 
+	 * 跳转总监审批通过页面
+	 * @param 
+	 * @param caseCodes
+	 * @param request
+	 * @return 描述
+	 * 
+	 */
+	@RequestMapping(value = "majorAppro2")
+	public String majorAppro2(Model model) {
+		List<ToEvaSettleUpdateLog> toEvaSettleUpdateLogList = toEvaSettleUpdateLogService.selectUpdateLog();
+		model.addAttribute("updateLogList",toEvaSettleUpdateLogList);
 		return  "eval/settle/majorAppro";
 	}
 	
 	/**
 	 * 
-	 * 审批不通过
+	 * 总监审批通过与否
+	 * @param 
+	 * @param caseCodes
+	 * @param request
+	 * @return 描述
+	 * 
+	 */
+	/*@RequestMapping("/majorApproBoolean")
+	public String majorNoAppro( HttpServletRequest request,String[] caseCodes,String rejectCause) {
+		for (String caseCode : caseCodes) {
+			//System.out.println(rejectCause);
+			ToEvalSettle toEvalSettle = new ToEvalSettle();
+			if(rejectCause != "") {
+				*//**审批不通过*//*
+				toEvalSettle.setStatus(String.valueOf(0));//0:修改状态，未提交
+			}else {
+				*//**审批通过*//*
+				toEvalSettle.setStatus(String.valueOf(6));//6:修改状态，已提交财务审批中
+			}
+			toEvalSettle.setCaseCode(caseCode);
+			toEvalSettleService.updateByCaseCode(toEvalSettle);
+			
+		}
+		
+		return  "redirect:evalWaitEndList";
+	}*/
+	
+	/**
+	 * 
+	 * 总监审批不通过
 	 * @param 
 	 * @param caseCodes
 	 * @param request
@@ -115,14 +222,23 @@ public class EvalWaitAccountListController {
 			toEvalSettle.setStatus(String.valueOf(0));//0:修改状态，未提交
 			toEvalSettle.setCaseCode(caseCode);
 			toEvalSettleService.updateByCaseCode(toEvalSettle);
+			
+			//插入案件到记录表
+			ToEvaSettleUpdateLog record = new ToEvaSettleUpdateLog();
+			record.setCaseCode(caseCode);
+			record.setApproTime(new Date());
+			record.setRejectCause("总监："+rejectCause);
+			SessionUser user = uamSessionService.getSessionUser();
+			record.setRejectPerson(user.getUsername());
+			toEvaSettleUpdateLogService.insertSelective(record);
+			
 		}
-
-		return  "redirect:evalWaitEndList";
+		return  "redirect:majorAppro2";
 	}
 	
 	/**
 	 * 
-	 * 审批通过
+	 * 总监审批通过
 	 * @param 
 	 * @param caseCodes
 	 * @param request
@@ -137,9 +253,12 @@ public class EvalWaitAccountListController {
 			toEvalSettle.setStatus(String.valueOf(6));//6:修改状态，已提交财务审批中
 			toEvalSettle.setCaseCode(caseCode);
 			toEvalSettleService.updateByCaseCode(toEvalSettle);
+			
+			//删除修改日记表里已通过的案件
+			toEvaSettleUpdateLogService.deleteByCaseCode(caseCode);
 		}
+		return  "redirect:majorAppro2";
 
-		return  "redirect:evalWaitEndList";
 	}
 	
 	/**
@@ -173,6 +292,9 @@ public class EvalWaitAccountListController {
 			record.setCaseCode(toEvalSettle.getCaseCode());
 			System.out.println(toEvalSettle.getCaseCode());
 			int cout2 = toEvalSettleService.updateByCaseCode(record);
+			
+			
+				
 			if(cout2>0) {
 				return  AjaxResponse.success("新增结算费用成功！");
 			}else {
@@ -262,7 +384,7 @@ public class EvalWaitAccountListController {
 			evalAccountShowVO.setEvalRealCharges(toEvalRebate.getEvalRealCharges());
 			//结算费用
 			evalAccountShowVO.setEvalComAmount(toEvalRebate.getEvaComAmount());
-			//List<ToEvaSettleUpdateLog> updateLogList = new ArrayList<>();
+			
 			//查询修改记录列表
 			List<ToEvaSettleUpdateLog> toEvaSettleUpdateLogList = toEvaSettleUpdateLogService.selectUpdateLogByCaseCode(caseCode);
 			/*if(CollectionUtils.isNotEmpty(toEvaSettleUpdateLogList)) {
@@ -300,12 +422,14 @@ public class EvalWaitAccountListController {
 		int count = toEvalSettleService.updateSettleFeeByCaseCode(toEvalSettle);
 	    
 		if(count>0) {
-			//插入案件到记录表
-			ToEvaSettleUpdateLog record = new ToEvaSettleUpdateLog();
+			//查询记录表此案件
+			List<ToEvaSettleUpdateLog> toEvaSettleUpdateLogList = toEvaSettleUpdateLogService.selectUpdateLogByCaseCodeAndDesc(evalAccountShowVO.getCaseCode());
+			ToEvaSettleUpdateLog record =  toEvaSettleUpdateLogList.get(0);
+			//修改案件到记录表
 			record.setCaseCode(evalAccountShowVO.getCaseCode());
 			record.setUpdateTime(new Date());
 			record.setUpdateReason(evalAccountShowVO.getUpdateReason());//修改原因
-			//查询记录表是否有此案件
+			toEvaSettleUpdateLogService.updateByPrimaryKeySelective(record);
 			/*List<ToEvaSettleUpdateLog> toEvaSettleUpdateLogList = toEvaSettleUpdateLogService.selectUpdateNumByCaseCode(evalAccountShowVO.getCaseCode());
 			if(CollectionUtils.isNotEmpty(toEvaSettleUpdateLogList)) {
 				ToEvaSettleUpdateLog log =  toEvaSettleUpdateLogList.get(0);
@@ -318,7 +442,7 @@ public class EvalWaitAccountListController {
 				record.setUpdateNum(1);
 			}*/
 			
-		    toEvaSettleUpdateLogService.insertSelective(record);
+		   // toEvaSettleUpdateLogService.insertSelective(record);
 			
 			return  AjaxResponse.success("结算费用修改成功！");
 		}

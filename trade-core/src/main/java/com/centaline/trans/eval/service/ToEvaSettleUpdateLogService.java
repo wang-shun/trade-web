@@ -11,6 +11,8 @@ import com.centaline.trans.eval.entity.ToEvaSettleUpdateLog;
  */
 public interface ToEvaSettleUpdateLogService {
 	int deleteByPrimaryKey(Long pkid);
+	
+	int deleteByCaseCode(String caseCode);
 
     int insert(ToEvaSettleUpdateLog record);
 
@@ -25,4 +27,9 @@ public interface ToEvaSettleUpdateLogService {
     int updateEvaLogByCaseCode(ToEvaSettleUpdateLog record);
     
     List<ToEvaSettleUpdateLog> selectUpdateLogByCaseCode(String caseCode);
+    
+    List<ToEvaSettleUpdateLog> selectUpdateLog();
+    
+    List<ToEvaSettleUpdateLog> selectUpdateLogByCaseCodeAndDesc(String caseCode);
+    
 }
