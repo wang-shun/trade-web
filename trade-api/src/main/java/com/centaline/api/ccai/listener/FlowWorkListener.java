@@ -123,9 +123,6 @@ public class FlowWorkListener {
 			} else if (MQCaseMessage.UPDATEFLOW_TYPE.equals(message.getType())) {
 				updateProcess(message.getCaseCode());
 				mqlog.setStatus("0");
-			}else if(MQCaseMessage.STARTFLOW_LOANANDASSE_TYPE.equals(message.getType())){
-				startProcessLoanAndAsse(message.getCaseCode());
-				mqlog.setStatus("0");
 			} else if (MQCaseMessage.REPEAL_TYPE.equals(message.getType())) {
 				repealProcess(message.getCaseCode());
 				mqlog.setStatus("0");

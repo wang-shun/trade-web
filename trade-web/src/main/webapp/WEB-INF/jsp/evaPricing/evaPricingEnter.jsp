@@ -123,7 +123,7 @@
 		<div class="panel-body ibox-content">
 			<div class="ibox-content-head lh24">
 				<h5>询价基本信息</h5>
-				<small class="pull-right">交易编号：${toEvaPricingVo.caseCode}｜成交报告编号：${toEvaPricingVo.ctmCode}</small>
+				<small class="pull-right">交易编号：${toEvaPricingVo.caseCode}｜成交报告编号：${toEvaPricingVo.ccaiCode}</small>
 			</div>
 			<div id="infoDiv infos" class="row " id="basicInfo">
 				<div class="ibox white_bg">
@@ -199,9 +199,8 @@
 						<div class="height_line1"></div>
 						<div class="row font-family" >
 							<label class="col-sm-4 control-label">贷款银行 ：${toEvaPricingVo.loanBank }</label>
-							<label class="col-sm-3 control-label">合同价 ：</label>
-							<label class="col-sm-3 control-label">转入时间 ：</label>
-							<label class="col-sm-2 control-label">询价值 ：<c:if test="${!empty toEvaPricingVo.totalPrice }">${toEvaPricingVo.totalPrice/10000 }&nbsp;&nbsp;万元</c:if></label>
+							<label class="col-sm-3 control-label">合同价 ：${toEvaPricingVo.conPrice }</label>
+							<label class="col-sm-3 control-label">询价值 ：<c:if test="${!empty toEvaPricingVo.totalPrice }">${toEvaPricingVo.totalPrice/10000 }&nbsp;&nbsp;万元</c:if></label>
 						</div>
 					</div>
 				</div>
@@ -212,34 +211,52 @@
 				<div class="info_box info_box_one col-sm-12 ">
 			  		<span>填写询价信息</span>
 			  		<form method="get" class="form_list" id="evaEnterForm">
-				  		<input hidden="true" name="pkid" value="${toEvaPricingVo.pkid }">
-				  		<input hidden="true" name="evaCode" value="${toEvaPricingVo.evaCode }">
-				  		<div class="row clearfix">
-							<div class="form_content">
-								<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>评估公司</label>
-								
-									<select id="finorgId" name ="finorgId" class="from-control select_control width_evaCommpany">
-									</select>
+				  		<input type="hidden" name="pkid" value="${toEvaPricingVo.pkid }">
+				  		<input type="hidden" name="evaCode" value="${toEvaPricingVo.evaCode }">
+				  		<input type="hidden" name="taskId" value="${taskId }" >
+				  		<input type="hidden" name="processInstanceId" value="${processInstanceId }">
+				  		
+				  		<div class="row clearfix" >
+				  			<div class="form_content" style="margin-left:50px;">
+				  				<input type="radio" checked="checked" value="1"  name="isValid">&nbsp;&nbsp;有效
+				  			</div>
+				  			<div class="form_content" style="margin-left:100px;">
+				  				<input type="radio" value="2"  name="isValid">&nbsp;&nbsp;无效
+			  				</div>
+				  		</div>
+				  		<div id="valid">
+					  		<div class="row clearfix">
+								<div class="form_content">
+									<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>评估公司</label>
+									
+										<select id="finorgId" name ="finorgId" class="from-control select_control width_evaCommpany">
+										</select>
+								</div>
+								<div class="form_content">
+									<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>询价时间</label>
+									<div id="datepicker" class="input-group sign-right  input-daterange pull-left width_house"  data-date-format="yyyy-mm-dd">
+					                  		<input id="evalTime" name="evalTime" class="form-control " style="font-size: 13px; border-radius: 2px;" type="text" placeholder="询价时间">
+					                  	</div> 
+								</div>
 							</div>
+							
+							<div class="row clearfix">
+								<div class="form_content">
+									<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>询价值</label>
+									<input type="text" id="totalPrice" name="totalPrice" class="select_control"  onkeyup="checkNum(this)">
+									<div class="date_icon">万元</div>
+								</div>
+								<div class="form_content">
+									<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>房龄</label>
+									<input type="text" id="houseAge" class="select_control" name="houseAge" style="margin-left:2px;" onkeyup="checkNum(this)">
+								</div>
+							</div>	
+						</div>
+						<div class="clearfix" id="inValid" style="position:relative;float:left;margin-left:50px;margin-top:-100px;">
 							<div class="form_content">
-								<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>询价时间</label>
-								<div id="datepicker" class="input-group sign-right  input-daterange pull-left width_house"  data-date-format="yyyy-mm-dd">
-				                  		<input id="evalTime" name="evalTime" class="form-control " style="font-size: 13px; border-radius: 2px;" type="text" placeholder="询价时间">
-				                  	</div> 
+								<input type="text" class="form-control pull-left" id="invalidReason" name="reason" style="width:300px;" placeholder="无效原因">
 							</div>
 						</div>
-						
-						<div class="row clearfix">
-							<div class="form_content">
-								<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>询价值</label>
-								<input type="text" id="totalPrice" name="totalPrice" class="select_control"  onkeyup="checkNum(this)">
-								<div class="date_icon">万元</div>
-							</div>
-							<div class="form_content">
-								<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>房龄</label>
-								<input type="text" id="houseAge" class="select_control" name="houseAge" style="margin-left:2px;" onkeyup="checkNum(this)">
-							</div>
-						</div>	
 					</form>
 				</div>
 		  	</div>	  	
@@ -248,7 +265,7 @@
 	
 	<div class="add_btn text-center mt20">
 	   	<div class="more_btn">		   
- 	   	    <button id="submitButton" type="button" class="btn btn_blue">提交</button>
+ 	   	    <button id="submitButton" type="button" class="btn btn_blue">提交</button>&nbsp;&nbsp;&nbsp;
    	    	<button id="saveButton" type="button" class="btn btn_blue">保存</button>
 		</div>
 	</div>
@@ -256,28 +273,41 @@
 	<content tag="local_script"> 
 <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
 	<script>
-	$(document).ready(function() {
-		getEvaFinOrg('finorgId');
-	});
+		$(document).ready(function() {
+			getEvaFinOrg('finorgId');
+			
+			$('#inValid').css('visibility','hidden');
+		});
+		
+		$("input[name='isValid']").click(function(){
+			if(this.value=='1'){
+				$('#valid').css('visibility','visible');
+				$('#inValid').css('visibility','hidden');
+				$('#saveButton').show();
+			}else if(this.value == '2'){
+				$('#valid').css('visibility','hidden');
+				$('#inValid').css('visibility','visible');
+				$('#saveButton').hide();
+			}
+		});
 		/**
 		 * 获取评估公司 格式化
 		 * @param finOrgId
 		 */
 		function getEvaFinOrg(finOrgId){
-			var url = "/evaPricing/getEvaFinOrg";
+			var url = "/manage/queryEvaCompany";
 			$.ajax({
 				async: true,
 				type:'POST',
 				url:ctx+url,
 				dataType:'json',
 				success:function(data){
-					console.log(data.content);
 					var html = '<option value="" selected>请选择</option>';
-					if(data.content && data.content.length >0){
-						$.each(data.content,function(i,item){
-							html += '<option value="'+item.id+'">'+item.name+'</option>';
+					if(data != null){
+						$.each(data,function(i,item){
+							html += '<option value="'+item.pkid+'">'+item.finOrgName+'</option>';
 						});
-					}
+					}					
 					$('#'+finOrgId).empty();
 					$('#'+finOrgId).append(html);
 				},
@@ -319,7 +349,7 @@
 					value: '1'
 				};
 			jsonData.push(obj);
-			url = "${ctx}/evaPricing/evaPricingEnterUpdate";
+			url = "${ctx}/evaPricing/evaPricingEnterSubmit";
 			$.ajax({
 				cache:true,
 				async:false,
@@ -345,7 +375,7 @@
 			}
 			var jsonData = $('#evaEnterForm').serializeArray();
 		
-			url = "${ctx}/evaPricing/evaPricingEnterUpdate";
+			url = "${ctx}/evaPricing/evaPricingEnterSubmit";
 			$.ajax({
 				cache:true,
 				async:false,
@@ -365,6 +395,10 @@
 		});
 
 		function checkForm(){
+			var valid = $("input[name='isValid']:checked").val();
+			if(valid == '2'){
+				return true;
+			}
 			if($('#finorgId').val() == ''){
 				window.wxc.alert("评估公司为必填项!");
 				$('#finorgId').focus();
@@ -383,12 +417,12 @@
 				$('#totalPrice').css("border-color","red");
 				return false;
 			}
-			if($('#houseAge').val() == ''  || $('#houseAge').val().length==0){
+ 			if($('#houseAge').val() == ''  || $('#houseAge').val().length==0){
 				window.wxc.alert("房龄为必填项!");
 				$('#houseAge').focus();
 				$('#houseAge').css("border-color","red");
 				return false;
-			}
+			} 
 			return true;
 		}
 	</script>

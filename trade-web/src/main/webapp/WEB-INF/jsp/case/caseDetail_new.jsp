@@ -530,8 +530,8 @@
 								</div>
 								<div class="row">
 									<label class="col-sm-3 control-label">评估值：<label id="assessmentFee"></label></label>
-									<label class="col-sm-3 control-label">应收评估值：<label id="receivableAssessmentFee"></label></label>
-									<label class="col-sm-3 control-label">实收评估值：<label id="receiptsAssessmentFee"></label></label>
+									<label class="col-sm-3 control-label">应收评估费：<label id="receivableAssessmentFee"></label></label>
+									<label class="col-sm-3 control-label">实收评估费：<label id="receiptsAssessmentFee"></label></label>
 								</div>
 							</div>
 						</div>
@@ -711,8 +711,8 @@
 				{{/if}}
 			</td>
 			<td class="td_width">
-				{{if item.type == 1}}
-					{{item.sharingProportion}}
+				{{if item.type == 1 && item.sharingProportion !=null}}
+					{{item.sharingProportion}}%
 				{{/if}}
 			</td>
 			<td class="td_width">
@@ -749,7 +749,9 @@
 				{{item.sharingAmount}}
 			</td> 
 			<td class="td_width">
-				{{item.sharingProportion}}
+				{{if item.sharingProportion !=null}}
+					{{item.sharingProportion}}%
+				{{/if}}
 			</td> 
 			<td class="td_width">
 				{{item.partner}}

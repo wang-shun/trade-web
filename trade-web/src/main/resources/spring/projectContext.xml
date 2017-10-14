@@ -689,6 +689,15 @@
     <bean name="qqcdDictEvalType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="EVAL_TYPE"></property>
     </bean>
+    <!-- 贷款类型 -->
+    <bean name="qqcdDictMortType" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="30016"></property>
+    </bean>
+    <!-- 询价状态 -->
+    <bean name="qqEvaPricingStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="EVA_STATUS"></property>
+    </bean>
+    
     <aop:aspectj-autoproxy expose-proxy="true"/>
 
 </beans>
