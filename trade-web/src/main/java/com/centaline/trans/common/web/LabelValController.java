@@ -27,7 +27,7 @@ public class LabelValController {
 	@ResponseBody
 	public List<LabelVal> queryGuestInfo(String keyword) {
 		List<LabelVal> list = labelValService.queryUserInfo(keyword);
-		return list;
+ 		return list;
 	}
 	@RequestMapping(value="queryOrgInfo")
 	@ResponseBody

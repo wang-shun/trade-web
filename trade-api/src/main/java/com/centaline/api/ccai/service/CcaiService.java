@@ -1,6 +1,7 @@
 package com.centaline.api.ccai.service;
 import com.centaline.api.ccai.vo.CaseImport;
 import com.centaline.api.ccai.vo.CaseRepealImport;
+import com.centaline.api.ccai.vo.SelfDoImport;
 import com.centaline.api.common.vo.CcaiServiceResult;
 
 public interface CcaiService {
@@ -31,6 +32,12 @@ public interface CcaiService {
 	 * @return
 	 */
 	boolean isExistCcaiCode(String ccaiCode);
+	/**
+	 * 导入自办评估/自办贷款信息
+	 * @param info
+	 * @return
+	 */
+	CcaiServiceResult importSelfDo(SelfDoImport info);
 
 	/**
 	 * 成交报告撤单

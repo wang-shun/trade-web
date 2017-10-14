@@ -22,7 +22,11 @@ import com.centaline.trans.common.enums.*;
 import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToCcaiAttachmentMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
+import com.centaline.trans.eloan.entity.ToSelfAppInfo;
+import com.centaline.trans.eloan.service.ToSelfAppInfoService;
 import com.centaline.trans.utils.DateUtil;
+
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
@@ -33,6 +37,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -57,7 +63,10 @@ public class CcaiServiceImpl implements CcaiService {
 	private UamUserOrgService uamUserOrgService;//用户信息
 	@Autowired
 	private ToCaseParticipantMapper toCaseParticipantMapper;//案件参与人信息
-
+	
+	@Autowired
+	private ToSelfAppInfoService toSelfAppInfoService; //自办贷款评估信息
+	
 	@Autowired
 	private JmsMessagingTemplate jmsTemplate; //activemq 消息队列
 
@@ -802,4 +811,26 @@ public class CcaiServiceImpl implements CcaiService {
 			}
 		}
 	}
+	@Override
+	public CcaiServiceResult importSelfDo(SelfDoImport info) {
+		CcaiServiceResult result = new CcaiServiceResult();
+		ToSelfAppInfo toSelfAppInfo = new ToSelfAppInfo();
+		try {
+			BeanUtils.copyProperties(toSelfAppInfo, info);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		String caseCode = toSelfAppInfoService.addSelfAppInfo(toSelfAppInfo);
+		if(StringUtils.isBlank(caseCode)){
+			result.setSuccess(false);
+			result.setMessage("同步失败!caceCode没查到!");
+			result.setCode("99");
+			return result;
+		}
+		result.setSuccess(true);
+		result.setMessage("同步成功!");
+		result.setCode("00");
+		return result;
+	}
+
 }

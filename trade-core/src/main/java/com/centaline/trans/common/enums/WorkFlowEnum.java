@@ -16,14 +16,17 @@ public enum WorkFlowEnum {
 	SPV_CLOSE_DEFKEY("SpvCloseApplyProcess","processDefinitionKey"),
 	TMP_BANK_DEFKEY("TempBankAudit_Process","processDefinitionKey"),
 	SATIS_DEFKEY("SatisProcess","processDefinitionKey"),
-	
+	//自办贷款/评估审批流程
+	LOANANDASSE_PROCESS("loanAndAsse_Process","loanAndAsse_Process"),
+//	评估发票管理流程
+	EVAL_INVOICE("EvalInvoiceProcess","processDefinitionKey"),
 	SPV_OUT("spv_out","businessKey"),
 	SERVICE_RESTART("serviceRestart","serviceRestartBusinesskey"),
 	COMLOAN_PROCESS("ComLoan_Process:4:645463","ComLoan_Process"),	
 	LOANLOST_PROCESS("LoanLost_Process:10:950004","LoanLost_Process"),	
 	LOANER_PROCESS("Loaner_Process:5:1030036","Loaner_Process"),	
 	PSFLOAN_PROCESS("PSFLoan_Process:1:645460","PSFLoan_Process"),
-	EVAL_PROCESS("EvalProcess:1:1235087","processDefinitionKey"),
+	EVAL_PROCESS("EvalProcess","processDefinitionKey"),
 	//随便写的
 	COMANDPSFLOAN_PROCESS("PSFLoan_Process:1:645460","ComLoanAndPSFLoan_Process"),
 	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId"),

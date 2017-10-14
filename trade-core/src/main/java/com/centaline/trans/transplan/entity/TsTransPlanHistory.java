@@ -20,7 +20,28 @@ public class TsTransPlanHistory {
     private Date newEstPartTime;
     
     private Long batchId;//交易计划变更批次ID add by zhoujp
-    
+    /**
+     * 新增发起环节编码和审批结果 by wbzhouht
+     */
+    private String appverPartCode;//发起环节编码
+
+    private Integer auditResult;//审批结果0待审核1审核通过2审核不通过
+
+    public String getAppverPartCode() {
+        return appverPartCode;
+    }
+
+    public void setAppverPartCode(String appverPartCode) {
+        this.appverPartCode = appverPartCode;
+    }
+
+    public Integer getAuditResult() {
+        return auditResult;
+    }
+
+    public void setAuditResult(Integer auditResult) {
+        this.auditResult = auditResult;
+    }
 
     public Long getPkid() {
         return pkid;

@@ -1,7 +1,13 @@
 package com.centaline.trans.eval.entity;
 
 import java.math.BigDecimal;
-
+import java.util.Date;
+/**
+ * @author xiefei1
+ * @since 2017年10月11日 下午3:14:04 
+ * @description 调佣对象与调佣金额
+ * 
+ */
 public class ToEvaCommPersonAmount {
     private Long pkid;
 
@@ -14,18 +20,26 @@ public class ToEvaCommPersonAmount {
     private String employeeName;
 
     private BigDecimal shareAmount;
-
+//分成说明
     private String shareReason;
-
+//成交单数
     private Integer dealCount;
-
+//合作类型
     private String cooperateType;
-
+//合作人
     private String cooperatePerson;
-
+//合作人部门
     private String cooperateDept;
 
     private String cooperateManager;
+//评估号
+    private String evaCode;
+
+    private String employeeCode;
+
+    private String departCode;
+
+    private Date processTime;
 
     public Long getPkid() {
         return pkid;
@@ -121,5 +135,37 @@ public class ToEvaCommPersonAmount {
 
     public void setCooperateManager(String cooperateManager) {
         this.cooperateManager = cooperateManager == null ? null : cooperateManager.trim();
+    }
+
+    public String getEvaCode() {
+        return evaCode;
+    }
+
+    public void setEvaCode(String evaCode) {
+        this.evaCode = evaCode == null ? null : evaCode.trim();
+    }
+
+    public String getEmployeeCode() {
+        return employeeCode;
+    }
+
+    public void setEmployeeCode(String employeeCode) {
+        this.employeeCode = employeeCode == null ? null : employeeCode.trim();
+    }
+
+    public String getDepartCode() {
+        return departCode;
+    }
+
+    public void setDepartCode(String departCode) {
+        this.departCode = departCode == null ? null : departCode.trim();
+    }
+
+    public Date getProcessTime() {
+        return processTime;
+    }
+
+    public void setProcessTime(Date processTime) {
+        this.processTime = processTime;
     }
 }

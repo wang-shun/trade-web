@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+	<dicts>
+		<customDict id="getPartNameByCode" beanName="qqcdDictPartName"></customDict>
+		<customDict id="getRealNameByUserId" beanName="qqcdUserIdName"></customDict>
+		<customDict id="getAuditResult" beanName="qqcdDictAppverType"></customDict>
+	</dicts>
+	<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<!--新增了发起环节和审批结果字段 by wbzhouht-->
+	<query id="queryTransAppverHistoryList">
+		<searchCondition>
+			<condition field="CASE_CODE" name="caseCode" label="案件编码" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+			<condition field="AUDIT_RESULT" name="auditResult" label="审批结果" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		</searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+					    PKID,
+						CASE_CODE,
+						PART_CODE AS PART_CODE_OLD,
+						OLD_EST_PART_TIME,
+						NEW_EST_PART_TIME,
+						CHANGER_ID AS CHANGER_ID_OLD,
+						CHANGE_TIME,
+						CHANGE_REASON,
+						AUDIT_RESULT As AUDIT_RESULT_OLD,
+						APPVER_PART_CODE AS APPVER_PART_CODE_OLD
+					FROM
+					sctrans.T_TS_TRANS_PLAN_HISTORY
+					WHERE 1=1
+				]]>
+			</baseSql>
+			<orderBySql>
+				ORDER BY CHANGE_TIME DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PKID" index="" checkbox="" display="PKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="both" name="PART_CODE_OLD" index="" checkbox="" display="环节编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="PART_CODE" display="环节编号" referencecol="PART_CODE_OLD"  customDict="getPartNameByCode" order="desc" hidden="false"/>
+				<column type="both" name="OLD_EST_PART_TIME" index="" checkbox="" display="原预计时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="NEW_EST_PART_TIME" index="" checkbox="" display="新预计时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CHANGER_ID_OLD" index="" checkbox="" display="变更人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="CHANGER_ID" display="变更人" referencecol="CHANGER_ID_OLD"  customDict="getRealNameByUserId" isSort="true" hidden="false"/>
+				<column type="both" name="AUDIT_RESULT_OLD" index="" checkbox="" display="审批结果" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="AUDIT_RESULT" display="审批结果" referencecol="AUDIT_RESULT_OLD"  customDict="getAuditResult" order="desc" hidden="false"/>
+				<column type="both" name="APPVER_PART_CODE_OLD" index="" checkbox="" display="发起环节" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="APPVER_PART_CODE" display="发起环节" referencecol="APPVER_PART_CODE_OLD"  customDict="getPartNameByCode" order="desc" hidden="false"/>
+				<column type="both" name="CHANGE_TIME" index="" checkbox="" display="变更时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CHANGE_REASON" index="" checkbox="" display="变更原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+			</table-row>
+		</grid>
+	</query>
+</querys>

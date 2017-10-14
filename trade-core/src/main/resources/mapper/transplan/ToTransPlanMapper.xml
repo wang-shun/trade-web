@@ -214,4 +214,10 @@
 
 
   </select>
+
+  <select id="findTransPlanPKIDBycasecodeAndPartCode" parameterType="com.centaline.trans.transplan.entity.TsTransPlanHistory" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_TRANS_PLAN where  CASE_CODE=#{caseCode,jdbcType=VARCHAR} and PART_CODE=#{partCode,jdbcType=VARCHAR}
+  </select>
 </mapper>

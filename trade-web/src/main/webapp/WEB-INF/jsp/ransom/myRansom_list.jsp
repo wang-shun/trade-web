@@ -287,7 +287,7 @@ text-decoration: underline !important;
 	<td class="center"></td>
 	<td class="center">
 			<p>
-				<a href = "${ctx}/ransomList/ransom/ransomDetail">{{item.RANSOM_CODE}}</a>
+				<a href = "${ctx}/ransomList/ransomDetail?caseCode={{item.CASE_CODE}}">{{item.RANSOM_CODE}}</a>
 			</p>
 			<p>
 				{{if item.RANSOM_STATUS == "RANSOMCENCLE"}}

@@ -66,11 +66,31 @@ public class ToEvaPricingVo {
 	//房龄
 	private Integer houseAge;
 	//ccai成交报告编号 
-	private String ctmCode;
+	private String ccaiCode;
 	//评估公司集合
 	private List<String> finorgIds;
 	//记录提交还是保存
 	private Integer isSubmit;
+	//合同价
+	private BigDecimal conPrice;
+	//状态
+	private String status;
+	/**
+	 * 任务id
+	 */
+	private String taskId; 
+	/**
+	 * 赎楼流程实例id
+	 */
+	private String processInstanceId;
+	/**
+	 * 是否有效
+	 */
+	private String isValid;
+	/**
+	 *无效理由
+	 */
+	private String reason;
 	
 	public String getCaseCode() {
 		return caseCode;
@@ -271,15 +291,6 @@ public class ToEvaPricingVo {
 	public void setAriserOrgName(String ariserOrgName) {
 		this.ariserOrgName = ariserOrgName;
 	}
-
-	public String getCtmCode() {
-		return ctmCode;
-	}
-
-	public void setCtmCode(String ctmCode) {
-		this.ctmCode = ctmCode;
-	}
-
 	public List<String> getFinorgIds() {
 		return finorgIds;
 	}
@@ -319,5 +330,62 @@ public class ToEvaPricingVo {
 	public void setIsSubmit(Integer isSubmit) {
 		this.isSubmit = isSubmit;
 	}
-	
+
+	public String getCcaiCode() {
+		return ccaiCode;
+	}
+
+	public void setCcaiCode(String ccaiCode) {
+		this.ccaiCode = ccaiCode;
+	}
+
+	public BigDecimal getConPrice() {
+		return conPrice;
+	}
+
+	public void setConPrice(BigDecimal conPrice) {
+		this.conPrice = conPrice;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
+
+	public String getProcessInstanceId() {
+		return processInstanceId;
+	}
+
+	public void setProcessInstanceId(String processInstanceId) {
+		this.processInstanceId = processInstanceId;
+	}
+
+	public String getIsValid() {
+		return isValid;
+	}
+
+	public void setIsValid(String isValid) {
+		this.isValid = isValid;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+
 }

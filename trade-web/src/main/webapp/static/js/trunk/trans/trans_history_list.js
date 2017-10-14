@@ -20,7 +20,7 @@ $(document).ready(function() {
 						rowNum : 10,
 						/* rowList: [10, 20, 30], */
 						colNames : [ 'id','案件编号', '环节名称',
-								'原预计时间', '新预计时间', '变更人', '变更时间','变更原因'],
+								'原预计时间', '新预计时间', '变更人', '变更时间','变更原因','发起环节','审批结果'],
 						colModel : [ {
 							name : 'PKID',
 							index : 'PKID',
@@ -58,8 +58,15 @@ $(document).ready(function() {
 							name : 'CHANGE_REASON',
 							index : 'CHANGE_REASON',
 							width : 120
-						},
-						 
+						},{
+							name : 'APPVER_PART_CODE',
+							index : 'APPVER_PART_CODE',
+                            width : 60
+						},{
+                            name : 'AUDIT_RESULT',
+                            index : 'AUDIT_RESULT',
+                            width : 60
+                            }
 						],
 						pager : "#pager_list_1",
 						viewrecords : true,

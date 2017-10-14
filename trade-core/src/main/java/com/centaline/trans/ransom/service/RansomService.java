@@ -3,9 +3,16 @@ package com.centaline.trans.ransom.service;
 import java.util.Date;
 import java.util.List;
 
+import com.centaline.trans.ransom.entity.ToRansomApplyVo;
+import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
+import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
+import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
+import com.centaline.trans.ransom.entity.ToRansomPermitVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
+import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomSubmitVo;
+import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 
 /**
  * 赎楼service
@@ -81,5 +88,53 @@ public interface RansomService {
 	 * @return
 	 */
 	public int updateRansomPayment(String ransomCode, Date paymentTime);
+	
+	/**
+	 * 尾款信息查询
+	 * @param caseCode
+	 * @return
+	 */
+	public ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode);
+	
+	/**
+	 * 查询赎楼面签信息
+	 * @param ransomCode
+	 * @return
+	 */
+	public ToRansomSignVo getInterviewInfo(String ransomCode);
+	
+	/**
+	 * 申请信息查询
+	 * @param ransomCode
+	 * @return
+	 */
+	public ToRansomApplyVo getApplyInfo(String ransomCode);
+	
+	/**
+	 * 陪同还贷信息查询
+	 * @param ransomCode
+	 * @return
+	 */
+	ToRansomMortgageVo getMortgageInfo(String ransomCode);
 
+	/**
+	 * 注销抵押信息查询
+	 * @param ransomCode
+	 * @return
+	 */
+	ToRansomCancelVo getCancelInfo(String ransomCode);
+	
+	/**
+	 * 查询领取产证信息
+	 * @param ransomCode
+	 * @return
+	 */
+	ToRansomPermitVo getPermitInfo(String ransomCode);
+	
+	/**
+	 * 查询回款结清信息
+	 * @param ransomCode
+	 * @return
+	 */
+	ToRansomPaymentVo getPaymentInfo(String ransomCode);
 }

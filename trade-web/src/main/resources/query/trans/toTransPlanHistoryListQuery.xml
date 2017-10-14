@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
-<dicts>
+	<dicts>
 		<customDict id="getPartNameByCode" beanName="qqcdDictPartName"></customDict>
 		<customDict id="getRealNameByUserId" beanName="qqcdUserIdName"></customDict>
-</dicts>
-<formatters>
+		<customDict id="getAuditResult" beanName="qqcdDictAppverType"></customDict>
+	</dicts>
+	<formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
 			</properties>
 		</formatter>
 		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
-		
+
 		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
 			<properties>
 				<property name="groupingUsed">true</property>
@@ -28,10 +29,11 @@
 		</formatter>
 		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
 	</formatters>
+	<!--新增了发起环节和审批结果字段 by wbzhouht-->
 	<query id="queryTransHistoryList">
 		<searchCondition>
-            <condition field="CASE_CODE" name="caseCode" label="案件编码" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-          </searchCondition>
+			<condition field="CASE_CODE" name="caseCode" label="案件编码" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+		</searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
@@ -43,14 +45,16 @@
 						NEW_EST_PART_TIME,
 						CHANGER_ID AS CHANGER_ID_OLD,
 						CHANGE_TIME,
-						CHANGE_REASON
+						CHANGE_REASON,
+						AUDIT_RESULT As AUDIT_RESULT_OLD,
+						APPVER_PART_CODE AS APPVER_PART_CODE_OLD
 					FROM
-					sctrans.T_TS_TRANS_PLAN_HISTORY 
+					sctrans.T_TS_TRANS_PLAN_HISTORY
 					WHERE 1=1
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY CHANGE_TIME DESC
+				ORDER BY CHANGE_TIME DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -65,8 +69,12 @@
 				<column type="both" name="NEW_EST_PART_TIME" index="" checkbox="" display="新预计时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="CHANGER_ID_OLD" index="" checkbox="" display="变更人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="CHANGER_ID" display="变更人" referencecol="CHANGER_ID_OLD"  customDict="getRealNameByUserId" isSort="true" hidden="false"/>
-				<column type="both" name="CHANGE_TIME" index="" checkbox="" display="变更时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
-				<column type="both" name="CHANGE_REASON" index="" checkbox="" display="变更原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="AUDIT_RESULT_OLD" index="" checkbox="" display="审批结果" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="AUDIT_RESULT" display="审批结果" referencecol="AUDIT_RESULT_OLD"  customDict="getAuditResult" order="desc" hidden="false"/>
+				<column type="both" name="APPVER_PART_CODE_OLD" index="" checkbox="" display="发起环节" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
+				<column type="virtual" name="APPVER_PART_CODE" display="发起环节" referencecol="APPVER_PART_CODE_OLD"  customDict="getPartNameByCode" order="desc" hidden="false"/>
+				<column type="both" name="CHANGE_TIME" index="" checkbox="" display="变更时间" customDict="" sysDict="" beanFormatter="dateFormatter"  expType="date" expFmt="yyyy/MM/dd" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CHANGE_REASON" index="" checkbox="" display="变更原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

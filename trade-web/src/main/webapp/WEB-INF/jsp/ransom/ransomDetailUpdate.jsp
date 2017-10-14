@@ -50,6 +50,8 @@
 <link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<input type="hidden" value="${tailinsVo.ransomCode }" id="ransomCode">
 <div class="wrapper wrapper-content animated fadeInUp">
 	<form method="post" class="form-horizontal" >
 		<div class="ibox-content" id="reportOne">
@@ -60,21 +62,19 @@
 						<div class="form_content">
 							<label class="control-label sign_left_small">
 							<font color=" red" class="mr5">*</font>主贷人姓名</label> 
-							<input type="text" class="input_type yuanwid" id="personalIncomeTax"
-								name="personalIncomeTax" onkeyup="checkNum(this)"
-								value="<fmt:formatNumber value='${ transSign.personalIncomeTax}' type='number' pattern='#0.00' />">
+							<select class="input_type yuanwid" id="borrowerName">
+								<option value="">请选择</option>
+								<option value="${guestInfo.get(0).guestCode }">${guestInfo.get(0).guestName }</option>
+								<option value="${guestInfo.get(1).guestCode }">${guestInfo.get(1).guestName }</option>
+							</select>
 						</div>
 						<div class="form_content">
-							<label class="control-label sign_left_small"><font
-								color=" red" class="mr5">*</font>电话</label> <input type="text"
-								class="input_type yuanwid" id="sellerTax" name="sellerTax"
-								onkeyup="checkNum(this)" value="<fmt:formatNumber value='${ transSign.sellerTax}' type='number' pattern='#0.00' />">
+							<label class="control-label sign_left_small"><font color=" red" class="mr5">*</font>电话</label> 
+							<input type="text" class="input_type yuanwid" id="borrowerPhone" name="borrowerPhone" value="${guestInfo.get(1).guestPhone }"/>
 						</div>
 						<div class="form_content">
-							<label class="control-label sign_left_small">
-								<font color=" red" class="mr5">*</font>受理时间 </label> 
-								<input type="text" class="input_type yuanwid" id="buyerTax" name="buyerTax"
-								onkeyup="checkNum(this)" value="<fmt:formatNumber value='${ transSign.buyerTax}' type='number' pattern='#0.00' />">
+							<label class="control-label sign_left_small"><font color=" red" class="mr5">*</font>受理时间 </label> 
+								<input type="text" class="input_type yuanwid" id="signTime" name="signTime" value="<fmt:formatDate value='${tailinsVo.signTime }' pattern='yyyy-MM-dd'/>" />
 						</div>
 					</div>
 					<div class="line">
@@ -92,19 +92,19 @@
 								<tbody>
 									<tr>
 										<td>
-											<select name="loanLostFinOrgName" id="loanLostFinOrgName" class="teamcode select_control "></select>
+										<aist:dict id="finOrgCode" name="finOrgCode" clazz=" select_control yuanwid " display="select" dictType="FINAL_ORG" defaultvalue="${toMortgage.mortType }" />
 										</td>
 										<td>
-											<aist:dict id="mortType" name="mortType" clazz=" select_control yuanwid " display="select" dictType="30016" defaultvalue="${toMortgage.mortType }" />
+											<aist:dict id="mortgageType" name="mortgageType" clazz=" select_control yuanwid " display="select" dictType="30016" defaultvalue="${toMortgage.mortType }" />
 										</td>
 										<td>
-											<aist:dict id="mortType" name="mortType" clazz=" select_control yuanwid " display="select" dictType="30016" defaultvalue="${toMortgage.mortType }" />
+											<aist:dict id="diyaType" name="diyaType" clazz=" select_control yuanwid " display="select" dictType="71015" defaultvalue="${toMortgage.mortType }" />
 										</td>
 										<td>
-											<input name="" value="" type="text" class="form-control input-one" placeholder=""> 
+											<input id="loanMoney" name="loanMoney" value="" type="text" class="form-control input-one" placeholder="" value="${tailinsVo.loanMoney }"> 
 									    </td>
 										<td>
-											<input name="" value="" type="text" class="form-control input-one" placeholder=""> 
+											<input id="restMoney" name="restMoney" value="" type="text" class="form-control input-one" placeholder="" value="${tailinsVo.restMoney }"> 
 										</td>
 									</tr>
 								</tbody>
@@ -112,37 +112,28 @@
 							</table>
 							<div class="form_content">
 								<label class="control-label sign_left_small">借款金额总计</label> 
-								<input type="text" class="input_type yuanwid" id="personalIncomeTax"
-									name="personalIncomeTax" onkeyup="checkNum(this)"
-									value="<fmt:formatNumber value='${ transSign.personalIncomeTax}' type='number' pattern='#0.00' />">
+								<input type="text" class="input_type yuanwid" id="borrowerMoney"
+									name="borrowerMoney" 
+									value="<fmt:formatNumber value='${ caseVo.borroMoney / 10000}' type='number' pattern='#0.00' />">
 								<span>万</span>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		
+		</form>
 			<h4 class="title">作业信息修改</h4>
 			<hr>
 			<table class="table table_blue table-striped table-bordered table-hover ">
-				<tr>
-					<td>已完成环节</td>
-					<td>完成日期</td>
-					<td>执行人</td>
-					<td>操作</td>
-				</tr>
-				<tr>
-					<td>申请</td>
-					<td>2017-01-01</td>
-					<td>小王</td>
-					<td><a href="javascript:void(0)">前往修改</a></td>
-				</tr>
-				<tr>
-					<td>面签</td>
-					<td>2017-01-01</td>
-					<td>小王</td>
-					<td><a href="javascript:void(0)">前往修改</a></td>
-				</tr>
+				<thead>
+					<tr>
+						<td>已完成环节</td>
+						<td>完成日期</td>
+						<td>执行人</td>
+						<td>操作</td>
+					</tr>
+				</thead>
+				<tbody id="work-info"></tbody>
 			</table>
 			<div>
 				<div class="text-center">
@@ -151,22 +142,74 @@
 				</div>
 			</div>
 		</div>
-	</form>
-	<%-- <script src="${ctx}/static/js/jquery-1.10.1.min.js" type="text/javascript"> --%>
-	<script src="<c:url value='/js/jquery-1.10.1.min.js' />"></script>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		
-		var ctx = "${ctx}";
-		$('#save').click(function() {
-			window.location.href = ctx + "/ransomList/ransom/ransomDetail";
-		});
-		$("#close").click(function(){
-			if (confirm("您确定要关闭本页吗？")) { 
-				window.open('', '_self').close(); 
-			}
-		});
-	});
+	
+	<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+	<script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
+	<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
+	<script src="<c:url value='/js/ransom/ransomDetailUpdate.js'/>" type="text/javascript"></script>
+	<script id="template_workInfo" type= "text/html">
+		{{each rows as item index}}
+			<tr>
+				<td>
+					<p>
+						{{if item.RANSOM_PROPERTY_NAME != ""}}
+							{{item.RANSOM_PROPERTY_NAME}}
+						{{/if}}
+					</p>
+				</td>
+				<td>
+					<p>
+						{{if item.RANSOM_PROPERTY != ""}}
+						{{/if}}
+						{{if item.RANSOM_PROPERTY == "APPLY"}}
+		 					{{item.APPLY_TIME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "SIGN"}}
+		 					{{item.INTERVIEW_TIME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "PAYLOAN_ONE"}}
+		 					{{item.REPAY_TIME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "PAYLOAN_TWO"}}
+		 					{{item.REPAY_TIME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "CANCELDIYA_ONE"}}
+		 					{{item.CANCEL_TIME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "CANCELDIYA_TWO"}}
+		 					{{item.CANCEL_TIME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "RECEIVE_ONE"}}
+		 					{{item.REDEEM_TIME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "RECEIVE_TWO"}}
+		 					{{item.REDEEM_TIME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "PAYCLEAR"}}
+		 					{{item.PAYMENT_TIME}}
+						{{/if}}
+					</p>
+				</td>
+				<td>
+					<p>
+						{{item.UPDATE_USER}}
+					</p>
+				</td>
+				<td>
+					<p>
+						<a href="javascript:void(0)">前往修改</a>
+					</p>
+				</td>
+			</tr>
+		{{/each}}
 	</script>
 </body>
 </html>
