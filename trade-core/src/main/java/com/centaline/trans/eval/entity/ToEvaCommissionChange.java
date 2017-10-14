@@ -12,21 +12,21 @@ public class ToEvaCommissionChange {
     private String caseCode;
 
     private String evaCode;
-
+//    调佣事项
     private String changeChargesItem;
-
+//    调佣事由
     private String changeChargesCause;
-
+//    中介费折评估费总金额
     private BigDecimal agEvalAmount;
-
+//    评估调佣审批状态
     private String status;
 
     private String evaProcessId;
 
     private String type;
-
+//    调佣类型
     private String changeChargesType;
-
+//    佣金总数
     private BigDecimal commisionTtlAmount;
 
     public Long getPkid() {

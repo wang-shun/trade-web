@@ -1,5 +1,6 @@
 package com.centaline.trans.eval.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,12 +80,16 @@ public class ToEvaCommPersonAmountServiceImpl implements ToEvaCommPersonAmountSe
 		}
 		ToEvaCommissionChange toEvaCommissionChange = toEvaCommissionChangeMapper.selectByCaseCode(caseCode);
 		evalChangeCommVO.setTtlComm(toEvaCommissionChange.getCommisionTtlAmount());
+		evalChangeCommVO.setDealCount(1);
 		return evalChangeCommVO;
 	}
 //	保存调佣对象与调佣金额VO
 //	save**是有事务的
 	@Override
-	public void saveEvalChangeCommVO(EvalChangeCommVO evalChangeCommVO) {
+	/**
+	 * ToEvaCommissionChange&EvalChangeCommVO有重叠的属性，前台以EvalChangeCommVO为主，所以这里只判断EvalChangeCommVO；
+	 */
+	public void saveEvalChangeCommVO(EvalChangeCommVO evalChangeCommVO,ToEvaCommissionChange toEvaCommissionChange) {
 		ArrayList<ToEvaCommPersonAmount> toEvaCommPersonAmountList = new ArrayList<ToEvaCommPersonAmount>();
 
 		List<ToEvaCommPersonAmount> coPersonList = evalChangeCommVO.getCoPersonList();
@@ -103,12 +108,21 @@ public class ToEvaCommPersonAmountServiceImpl implements ToEvaCommPersonAmountSe
 		for (ToEvaCommPersonAmount toEvaCommPersonAmount : toEvaCommPersonAmountList) {
 			toEvaCommPersonAmountMapper.updateByPrimaryKeySelective(toEvaCommPersonAmount);
 		}
-		if(null!=evalChangeCommVO.getTtlComm()){
-			ToEvaCommissionChange toEvaCommissionChange = new ToEvaCommissionChange();
-			toEvaCommissionChange.setCommisionTtlAmount(evalChangeCommVO.getTtlComm());
-			toEvaCommissionChangeMapper.updateByCaseCodeSelective(toEvaCommissionChange);			
+//		保存EvalChangeCommVO中的 ttlComm dealCount；
+		BigDecimal ttlComm = evalChangeCommVO.getTtlComm();
+		if(null!=ttlComm){
+			toEvaCommissionChange.setCommisionTtlAmount(ttlComm);			
 		}
 
+//		ToEvaCommissionChange中主要使用了两个属性：调佣事由和调佣类型
+		if(null!=toEvaCommissionChange&&toEvaCommissionChange.getCaseCode()!=null){
+			toEvaCommissionChangeMapper.updateByCaseCodeSelective(toEvaCommissionChange);			
+		}
+		
+		
+
 	}
+	
+
 
 }
