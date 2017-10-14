@@ -6,6 +6,7 @@ import java.util.Map;
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
 import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.entity.TsTransPlanHistory;
 
 @MyBatisRepository
 public interface ToTransPlanMapper {
@@ -38,4 +39,11 @@ public interface ToTransPlanMapper {
 
 	List<ToTransPlanOrToPropertyInfo> getToTransPlanByDictOrUserId(
 			List<String> dictCodeList, String id);
+
+    /**
+     * 通过交易变更历史的环节编码和案件编号查询交易计划的PKID
+     * @param tsTransPlanHistory
+     * @return
+     */
+    ToTransPlan findTransPlanPKIDBycasecodeAndPartCode(TsTransPlanHistory tsTransPlanHistory);
 }

@@ -277,6 +277,8 @@
 		<mapper resource="mapper/evaPricing/ToEvaPricingMapper.xml"/>
         <!-- 评估申请 -->
 		<mapper resource="mapper/eval/ToEvaReportProcessMapper.xml"/>
+		<!--评估退费 -->
+		<mapper resource="mapper/eval/ToEvaRefundMapper.xml"/>
 		<!--消息队列操作 日志-->
 		<mapper resource="mapper/common/MqOpertationLogMapper.xml"/>
 		<!--评估费变更调整-->

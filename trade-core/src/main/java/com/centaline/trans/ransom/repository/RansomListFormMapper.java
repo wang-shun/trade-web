@@ -13,6 +13,7 @@ import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
 import com.centaline.trans.ransom.entity.ToRansomPermitVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
+import com.centaline.trans.ransom.vo.ToRansomLinkVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
 
 @MyBatisRepository
@@ -116,4 +117,10 @@ public interface RansomListFormMapper {
 	 */
 	int updateRansomPaymentInfoByRansomCode(ToRansomPaymentVo paymentVo);
 	
+	/**
+	 * 赎楼案件关联信息查询
+	 * @param caseCode
+	 * @return
+	 */
+	ToRansomLinkVo getRansomLinkInfoByCaseCode(String caseCode);
 }

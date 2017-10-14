@@ -112,4 +112,13 @@ public interface ToCaseInfoService {
      * @return
      */
     List<CaseAssistantVO> getAssistantInfo(String orgId);
+    
+    /**
+     * 获取案件责任主管
+     * @param caseCode
+     * @return
+     * @author jinwl6
+     */
+    String getCaseManager(String caseCode);
+    
 }

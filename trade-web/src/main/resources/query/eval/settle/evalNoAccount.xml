@@ -40,7 +40,7 @@
 			<baseSql>
 				<![CDATA[
 			select a.CASE_CODE as caseCode,a.EVA_CODE as evalCode,b.FIN_ORG_ID,b.APPLY_DATE,b.ISSUE_DATE,b.EVA_PRICE,
-				a.PKID as pkId,a.FEE_CHANGE_REASON,a.SETTLE_FEE,a.REJECT_CAUSE,a.STATUS,a.SETTLE_NOT_REASON,
+				a.PKID as pkId,a.FEE_CHANGE_REASON,a.SETTLE_FEE,a.STATUS,a.SETTLE_NOT_REASON,
 				c.PROPERTY_ADDR,
 				d.EVAL_REAL_CHARGES
 			from sctrans.T_TO_EVA_SETTLE a inner join 
@@ -72,7 +72,6 @@
 				<column type="both" name="EVAL_REAL_CHARGES" index="" checkbox="" title="实收评估费" display="实收评估费" customDict="" sysDict="" format=""  width="60" isSort="" align="" halign="" order="" resizable="" />			
 				<column type="both" name="SETTLE_FEE" index="" checkbox="" title="结算费用" display="结算费用" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="" index="" checkbox="" title="贷款权证" display="贷款权证" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="REJECT_CAUSE" index="" title="驳回原因" checkbox="" display="驳回原因" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />				
 				<column type="both" name="STATUS" index="" checkbox="" title="案件状态" display="状态" customDict="" sysDict="" beanFormatter=""  format=""  width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="SETTLE_NOT_REASON" index="" checkbox="" title="无需结算原因" display="无需结算原因" customDict="" sysDict="" beanFormatter=""  format=""  width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="virtual" isDynamicDict="true" name="glCount" display="glCount" referencecol="CASE_CODE,CASE_ORIGIN"  customDict="getGlCaseCount" />				

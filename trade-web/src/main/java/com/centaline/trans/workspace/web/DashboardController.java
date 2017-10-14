@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.task.service.TsTaskDelegateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,9 @@ public class DashboardController {
 	
     @Autowired
     private QuerysParseService  querysParseService;
+
+	@Autowired
+    private TsTaskDelegateService tsTaskDelegateService;
 	
 	@RequestMapping("showRLightList")
 	public String showRLightList(HttpServletRequest request, HttpServletResponse response,String orgId,Model model) {
@@ -114,7 +118,7 @@ public class DashboardController {
 	}
 	@RequestMapping(value = "select")
 	public String select(Model model){
-		Org org=uamUserOrgService.getOrgByCode(TsTaskDelegateServiceImpl.YC_ORG_CODE);
+		Org org=uamUserOrgService.getOrgByCode(tsTaskDelegateService.getYC_ORG_CODE());
 		List<Org>orgs=uamUserOrgService.getOrgByParentId(org.getId());
 		model.addAttribute("orgs", orgs);
 		return "mobile/workspace/select";

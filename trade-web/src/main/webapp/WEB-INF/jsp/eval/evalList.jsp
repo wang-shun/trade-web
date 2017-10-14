@@ -209,7 +209,13 @@ text-decoration: underline !important;
 								<th >经纪人</th>
 								<th >申请人</th>
 								<th >办理人</th>
-								<th >上报完成时间</th>
+								<th >
+								      上报时间
+								      <p>
+								          完成时间
+								      </p>
+								
+								</th>
 								<th >评估状态</th>
 							</tr>
 						</thead>
@@ -278,7 +284,7 @@ text-decoration: underline !important;
 
 						<td >
  							<p class="big">
-								<a href="{{ctx}}/eval/detail?caseCode={{item.CASE_CODE}}"  target="_blank">{{item.CASE_CODE}}</a>
+								<a href="{{ctx}}/eval/detail?caseCode={{item.CASE_CODE}}&evaCode={{item.EVA_CODE}}"  target="_blank">{{item.CASE_CODE}}</a>
 								{{if item.SUBSCRIBE_COUNT == 0}}
 									<span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.CASE_CODE}}" isSubscribe="true">
 										<i class="iconfont_s  markstar star_subscribe" status="1">&#xe644;</i>
@@ -317,7 +323,9 @@ text-decoration: underline !important;
                                 
 						</td>
                          <td class="center">
-						</td>
+                                {{item.SYS_CREATE_TIME}}
+                                <p>{{item.SYS_FINSH_TIME}}</p>					
+                          </td>
 
 						<td class="center">
                                {{item.STATUS}}

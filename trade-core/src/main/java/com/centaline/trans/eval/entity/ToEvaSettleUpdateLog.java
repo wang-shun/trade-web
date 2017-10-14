@@ -10,14 +10,19 @@ public class ToEvaSettleUpdateLog {
     private String caseCode;
 
     private String evaCode;
-
-    private String updateBy;
     
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", locale = "zh", timezone = "GMT+8")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date updateTime;
 
     private String updateReason;
+
+    private String rejectPerson;
     
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date approTime;
+
+    private String rejectCause;
+
     public Long getPkid() {
         return pkid;
     }
@@ -42,14 +47,6 @@ public class ToEvaSettleUpdateLog {
         this.evaCode = evaCode == null ? null : evaCode.trim();
     }
 
-    public String getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy == null ? null : updateBy.trim();
-    }
-
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -66,4 +63,27 @@ public class ToEvaSettleUpdateLog {
         this.updateReason = updateReason == null ? null : updateReason.trim();
     }
 
+    public String getRejectPerson() {
+        return rejectPerson;
+    }
+
+    public void setRejectPerson(String rejectPerson) {
+        this.rejectPerson = rejectPerson == null ? null : rejectPerson.trim();
+    }
+
+    public Date getApproTime() {
+        return approTime;
+    }
+
+    public void setApproTime(Date approTime) {
+        this.approTime = approTime;
+    }
+
+    public String getRejectCause() {
+        return rejectCause;
+    }
+
+    public void setRejectCause(String rejectCause) {
+        this.rejectCause = rejectCause == null ? null : rejectCause.trim();
+    }
 }

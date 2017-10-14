@@ -5,42 +5,66 @@
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
     <result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR" />
-    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_REASON" property="updateReason" jdbcType="VARCHAR" />
+    <result column="REJECT_PERSON" property="rejectPerson" jdbcType="VARCHAR" />
+    <result column="APPRO_TIME" property="approTime" jdbcType="TIMESTAMP" />
+    <result column="REJECT_CAUSE" property="rejectCause" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, EVA_CODE, UPDATE_BY, UPDATE_TIME, UPDATE_REASON
+    PKID, CASE_CODE, EVA_CODE, UPDATE_TIME, UPDATE_REASON, REJECT_PERSON, APPRO_TIME, 
+    REJECT_CAUSE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    from sctrans.T_TO_EVA_SETTLE_UPDATE_LOG
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
   
   <select id="selectUpdateLogByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     	<include refid="Base_Column_List" />
-    from "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    from sctrans.T_TO_EVA_SETTLE_UPDATE_LOG
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-    ORDER BY UPDATE_TIME
+    ORDER BY APPRO_TIME ASC
+  </select>
+  
+  <select id="selectUpdateLogByCaseCodeAndDesc" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    	<include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_SETTLE_UPDATE_LOG
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    ORDER BY APPRO_TIME DESC
+  </select>
+  
+   <select id="selectUpdateLog" resultMap="BaseResultMap" >
+    select 
+    	<include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_SETTLE_UPDATE_LOG
+    ORDER BY APPRO_TIME DESC
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    delete from sctrans.T_TO_EVA_SETTLE_UPDATE_LOG
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
+  
+  <delete id="deleteByCaseCode" parameterType="java.lang.String" >
+    delete from sctrans.T_TO_EVA_SETTLE_UPDATE_LOG
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </delete>
+  
   <insert id="insert" parameterType="com.centaline.trans.eval.entity.ToEvaSettleUpdateLog" >
-    insert into "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG" (PKID, CASE_CODE, EVA_CODE, 
-      UPDATE_BY, UPDATE_TIME, UPDATE_REASON
-      )
+    insert into sctrans.T_TO_EVA_SETTLE_UPDATE_LOG (PKID, CASE_CODE, EVA_CODE, 
+      UPDATE_TIME, UPDATE_REASON, REJECT_PERSON, 
+      APPRO_TIME, REJECT_CAUSE)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
-      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateReason,jdbcType=VARCHAR}
-      )
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateReason,jdbcType=VARCHAR}, #{rejectPerson,jdbcType=VARCHAR}, 
+      #{approTime,jdbcType=TIMESTAMP}, #{rejectCause,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvaSettleUpdateLog" >
-    insert into "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    insert into sctrans.T_TO_EVA_SETTLE_UPDATE_LOG
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
         PKID,
@@ -51,14 +75,20 @@
       <if test="evaCode != null" >
         EVA_CODE,
       </if>
-      <if test="updateBy != null" >
-        UPDATE_BY,
-      </if>
       <if test="updateTime != null" >
         UPDATE_TIME,
       </if>
       <if test="updateReason != null" >
         UPDATE_REASON,
+      </if>
+      <if test="rejectPerson != null" >
+        REJECT_PERSON,
+      </if>
+      <if test="approTime != null" >
+        APPRO_TIME,
+      </if>
+      <if test="rejectCause != null" >
+        REJECT_CAUSE,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -71,19 +101,25 @@
       <if test="evaCode != null" >
         #{evaCode,jdbcType=VARCHAR},
       </if>
-      <if test="updateBy != null" >
-        #{updateBy,jdbcType=VARCHAR},
-      </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateReason != null" >
         #{updateReason,jdbcType=VARCHAR},
       </if>
+      <if test="rejectPerson != null" >
+        #{rejectPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="approTime != null" >
+        #{approTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rejectCause != null" >
+        #{rejectCause,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eval.entity.ToEvaSettleUpdateLog" >
-    update "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    update sctrans.T_TO_EVA_SETTLE_UPDATE_LOG
     <set >
       <if test="caseCode != null" >
         CASE_CODE = #{caseCode,jdbcType=VARCHAR},
@@ -91,34 +127,41 @@
       <if test="evaCode != null" >
         EVA_CODE = #{evaCode,jdbcType=VARCHAR},
       </if>
-      <if test="updateBy != null" >
-        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
-      </if>
       <if test="updateTime != null" >
         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateReason != null" >
         UPDATE_REASON = #{updateReason,jdbcType=VARCHAR},
       </if>
+      <if test="rejectPerson != null" >
+        REJECT_PERSON = #{rejectPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="approTime != null" >
+        APPRO_TIME = #{approTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rejectCause != null" >
+        REJECT_CAUSE = #{rejectCause,jdbcType=VARCHAR},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eval.entity.ToEvaSettleUpdateLog" >
-    update "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    update sctrans.T_TO_EVA_SETTLE_UPDATE_LOG
     set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       EVA_CODE = #{evaCode,jdbcType=VARCHAR},
-      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      UPDATE_REASON = #{updateReason,jdbcType=VARCHAR}
+      UPDATE_REASON = #{updateReason,jdbcType=VARCHAR},
+      REJECT_PERSON = #{rejectPerson,jdbcType=VARCHAR},
+      APPRO_TIME = #{approTime,jdbcType=TIMESTAMP},
+      REJECT_CAUSE = #{rejectCause,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   
   <update id="updateEvaLogByCaseCode" parameterType="com.centaline.trans.eval.entity.ToEvaSettleUpdateLog" >
-    update "sctrans"."T_TO_EVA_SETTLE _UPDATE_LOG"
+    update sctrans.T_TO_EVA_SETTLE_UPDATE_LOG
     set 
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       UPDATE_REASON = #{updateReason,jdbcType=VARCHAR}
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </update>
-  
 </mapper>

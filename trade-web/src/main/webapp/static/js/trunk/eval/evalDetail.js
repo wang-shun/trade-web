@@ -711,10 +711,10 @@ function evalProcessRestart(){
 	window.wxc.confirm("确定重启评估流程？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		$.ajax({
-			url:ctx+"/service/restart",
+			url:ctx+"/eval/restart/init",
 			method:"post",
 			dataType:"json",
-			data:{caseCode:caseCode},
+			data:{caseCode:caseCode,evaCode:$("#evaCode").val()},
 		    beforeSend:function(){  
 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				$(".blockOverlay").css({'z-index':'9998'});
@@ -733,7 +733,7 @@ function evalProcessRestart(){
 					window.wxc.error(data.message);
 				
 				}else{
-					window.location.href=ctx+"/task/serviceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
+					window.location.href=ctx+"/eval/task/route/evalServiceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode+"&evalCode="+data.content.evalCode;
 				}
 			}
 		});
@@ -745,7 +745,7 @@ function evalBaodan(){
 	window.wxc.confirm("确定评估爆单？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		$.ajax({
-			url:ctx+"/service/restart",
+			url:ctx+"/eval/evalBaodan",
 			method:"post",
 			dataType:"json",
 			data:{caseCode:caseCode},
@@ -767,7 +767,7 @@ function evalBaodan(){
 					window.wxc.error(data.message);
 				
 				}else{
-					window.location.href=ctx+"/task/serviceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
+					window.location.href=ctx+"/task/baodanApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
 				}
 			}
 		});

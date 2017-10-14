@@ -2,6 +2,7 @@ package com.centaline.trans.cases.vo;
 
 public class ServiceRestartVo {
 	private String caseCode;
+	private String evaCode;//新增评估单号
 	private String instCode;
 	private String taskId;
 	private String content;
@@ -13,6 +14,12 @@ public class ServiceRestartVo {
 	private String userId;
 	private String orgId;
 	
+	public String getEvaCode() {
+		return evaCode;
+	}
+	public void setEvaCode(String evalCode) {
+		this.evaCode = evalCode;
+	}
 	public String getUserName() {
 		return userName;
 	}
