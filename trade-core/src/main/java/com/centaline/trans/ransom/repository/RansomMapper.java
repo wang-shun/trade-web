@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
+import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
@@ -120,6 +121,13 @@ public interface RansomMapper {
 	 * @return
 	 */
 	int updateCaseStatusComplete(String ransomCode);
+	
+	/**
+	 * 根据caseCode查询案件信息
+	 * @param caseCode
+	 * @return
+	 */
+	ToRansomCaseVo getRansomCaseInfoByCaseCode(String caseCode);
 	
 	/**
 	 * 根据caseCode查询尾款信息
