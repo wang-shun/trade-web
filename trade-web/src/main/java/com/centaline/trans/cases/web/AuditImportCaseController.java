@@ -180,15 +180,39 @@ public class AuditImportCaseController {
 	
 	@RequestMapping(value = "auditSuccess")
 	@ResponseBody
-	public AjaxResponse<String> AuditSuccess(String caseCode){
+	/**
+	 * 
+	 * @since:2017年10月13日 下午5:41:43
+	 * @description:如何付款方式需要贷款专员的先就判断他有没有贷款专员，付款方式含有'自'或者'一次'字样 的就不用贷款专员，其它都要；
+	 * @author:xiefei1
+	 * @param caseCode
+	 * @param payType
+	 * @return
+	 */
+	public AjaxResponse<String> AuditSuccess(String caseCode,String payType){
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		try{
-			auditCaseService.updateAuditCaseSuccess(caseCode);
-    	}catch(Exception e){
-    		response.setSuccess(false);
-    		response.setMessage(e.getMessage());
-    		logger.error("保存失败！"+e.getCause());
-    	}
+		if(caseCode.length()>3){
+			if(!payType.contains("自")&&!payType.contains("一次")){
+				// 如果需要贷款
+				ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
+				toCaseParticipant.setCaseCode(caseCode);
+				toCaseParticipant.setPosition("loan");
+				List<ToCaseParticipant> loan = toCaseParticipantMapper.selectByCondition(toCaseParticipant);
+				if(loan.size()<=0){
+					return response.fail("当前付款方式需要贷款专员，请先选择谢谢；");
+				}
+			}
+			try{
+				auditCaseService.updateAuditCaseSuccess(caseCode);
+			}catch(Exception e){
+				response.setSuccess(false);
+				response.setMessage(e.getMessage());
+				logger.error("保存失败！"+e.getCause());
+			}
+			
+		}else{
+			response.fail("caseCode案件号为空！");
+		}
     	return response;
 	}
     
