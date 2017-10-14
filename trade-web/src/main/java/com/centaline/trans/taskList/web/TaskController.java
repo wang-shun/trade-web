@@ -664,11 +664,11 @@ public class TaskController {
      * @return
      */
     @RequestMapping(value="caseDetail")
-    public String caseDetail(HttpServletRequest request, String caseCode) {
+    public String caseDetail(HttpServletRequest request, String caseCode,String taskitem) {//添加了taskitem, 用来获取环节编码 by wbzhouht
     	ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
     	String st = null;
     	if(toCase != null) {
-    		st = "redirect:/case/caseDetail?&caseId="+toCase.getPkid();
+    		st = "redirect:/case/caseDetail?&caseId="+toCase.getPkid()+"&partCode="+taskitem;
     	} else {
     		st = "redirect:/case/caseDetail";
     	}

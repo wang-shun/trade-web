@@ -39,4 +39,19 @@ public class EvalApiServiceTest extends AbstractServiceTest {
 		}
 	}
 
+	@Test
+	public void getAllBank(){
+		CcaiBankResultData result = evalApiService.getAllBankName();
+		System.out.println(result);
+		for(String c : result.getBankList()){
+			System.out.println(c);
+		}
+	}
+
+	@Test
+	public void syncBankRebate(){
+		ApiResultData result = evalApiService.evalBankRebateSync();
+		System.out.println(result);
+	}
+
 }

@@ -161,7 +161,7 @@ display: none;}
 											<div class="height_line1"></div>
 											<div class="row font-family" style=" margin-top:20px;">
 												<label class="col-sm-4 control-label">评估值：<span  style="background-color:#87CEFA" v-html="evalVO.evaPrice+'元'"></span></label>
-												<label class="col-sm-3 control-label">贷款权证：校长</label>
+												<label class="col-sm-3 control-label">贷款权证：</label>
 											</div>
 									</div>
 							</div>
@@ -386,15 +386,12 @@ display: none;}
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
 	<!-- 放款监管信息  -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
-	<%-- <script	src="<c:url value='/transjs/task/caseflowlist.js' />"></script> --%>
 	<script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script	src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<script	src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<!-- 关联评估案件 -->
 	<%-- <script	src="<c:url value='/js/trunk/eval/settle/associatedEvalCase.js' />"></script> --%>
-	<!-- 各个环节的备注信息  -->
-	<%-- <script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script> --%>
 	<jsp:include	page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script id="evalListTemp" type= "text/html">
                            {{each rows as item index}}

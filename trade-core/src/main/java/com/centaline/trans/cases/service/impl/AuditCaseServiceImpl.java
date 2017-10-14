@@ -155,7 +155,7 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 		// TODO Auto-generated method stub
 		if(null!=toCaseParticipant.getCaseCode()&&null!=toCaseParticipant.getUserName()){
 		List<ToCaseParticipant> userList = toCaseParticipantMapper.selectByCondition(toCaseParticipant);
-		if(userList.size()==1){
+		if(userList.size()!=0&&userList!=null){
 			ToCaseParticipant toCaseParticipant2 = userList.get(0);
 			return toCaseParticipant2.getGrpMgrUsername();
 		}					

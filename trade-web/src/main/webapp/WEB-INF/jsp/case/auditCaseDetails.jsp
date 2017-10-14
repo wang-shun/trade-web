@@ -156,7 +156,7 @@ var AttachmentList = (function(){
             <div class="line">
 		                     <div class="form_content">
                                 <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>付款方式:</label>
-                                <span><b>${payType}</b></span>
+                                <span><b id="payType">${payType}</b></span>
                                  <%-- <aist:dict clazz="select_control data_style" id="payType" name="payType" display="select" defaultvalue="${payType}" dictType="61003" /> --%>
 		                     </div> 
 		                </div>
@@ -191,6 +191,7 @@ var AttachmentList = (function(){
 							<div class="modal-body">
 							<form id="jvForm" action="#" method="post">
 							<input type="hidden" value="${caseCode}" name="caseCode" id="caseCode">
+							<input type="hidden" value="${payType}" name="payType" id="payTypeFormValue">
 								贷款专员： <select id="loanProcessor" name="loanProcessor">
 									<c:forEach var="item" items="${loanUserList}" >
 										<option value="${item.username}">${item.realName}(${item.orgName})</option>
@@ -262,7 +263,7 @@ var AttachmentList = (function(){
 			    <script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 				<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
 				<script src="<c:url value='/transjs/task/follow.pic.list_new.js' />"></script>
-				<script src="<c:url value='/static/js/jquery.json.min.js' />"></script>
+				<%-- <script src="<c:url value='/static/js/jquery.json.min.js' />"></script> --%>
 				<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
 			    <script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 			    <script src="<c:url value='/js/plugins/validate/common/additional-methods.js' />"></script>
@@ -283,6 +284,22 @@ var AttachmentList = (function(){
 	
 	function auditSuccess(){
 		var caseCode = $("#caseCode").val();
+		//如何付款方式需要贷款专员的先就判断他有没有贷款专员，付款方式含有'自'或者'一次'字样 的就不用贷款专员，其它都要；
+		var payType = $("#payType").text();
+        console.log(payType);
+        var selfLoan=payType.indexOf('自');
+        var fullPay=payType.indexOf('一次');
+        if(payType.indexOf('自')==-1&&payType.indexOf('一次')==-1){
+            console.log('need loan');
+           // 如果需要贷款却没有贷款专员的情况
+            
+            var loan = $("#loan").text();
+            console.log('贷款专员 :'+loan);
+            
+        }else{
+            console.log('no need loan');
+        }
+		
 		console.log(caseCode);
 		window.wxc.confirm("请确认审核接单通过？",{"wxcOk":function(){
 			var url=ctx+"/AuditImportCase/auditSuccess";
@@ -308,9 +325,13 @@ var AttachmentList = (function(){
 				success : function(data) {
 					 $.unblockUI();
 					 console.log(data);
-					 window.wxc.alert(data.message);
+					 if(!data.success){
+					 window.wxc.alert(data.message);						 
+					 }else{
+						 window.wxc.alert("保存数据成功！");
+					window.location.href=ctx+"/task/myTaskList";						 
+					 }
 				
-					window.location.href=ctx+"/task/myTaskList";
 					
 				},
 				error : function(errors) {
@@ -415,7 +436,7 @@ var AttachmentList = (function(){
 	}
 </script>
 				<script>
-					$(document).ready(function(){
+					$(document).ready(function(){						
 						var ctx = $("#ctx").val();
 						var caseCode = $("#caseCode").val();						
 						console.log(caseCode);

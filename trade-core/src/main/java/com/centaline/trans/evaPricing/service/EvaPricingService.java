@@ -16,13 +16,13 @@ public interface EvaPricingService {
 	 * 查询询价明细	
 	 * @return
 	 */
-	ToEvaPricingVo findEvaPricingDetailByPKID(Long PKID);
+	ToEvaPricingVo findEvaPricingDetailByPKID(Long PKID,String evaCode);
 	
 	/**
 	 * 新增询价数据
 	 * @param vo
 	 */
-	void insertEvaPricing(ToEvaPricingVo vo);
+	List<String> insertEvaPricing(ToEvaPricingVo vo);
 	
 	/**
 	 * 记录询价数据
@@ -63,5 +63,14 @@ public interface EvaPricingService {
 	 * @author jinwl6
 	 */
 	ToEvaPricingVo findEvaPricingDetailByCaseCode(String caseCode);
+	
+	/**
+	 * 询价详情更新
+	 * @param pkid
+	 * @param isValid
+	 * @param reason
+	 * @return
+	 */
+	int updateEvaPricingDetail(Long pkid,String isValid,String reason);
 
 }

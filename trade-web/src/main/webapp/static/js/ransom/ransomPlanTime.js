@@ -69,7 +69,35 @@ function submitUpdateRansom(){
 		}
 	});
 }
-	
+/**
+ * 变更记录明细
+ * @returns
+ */
+function reloadTimeRecord(){
+	var url = ctx + '/quickGrid/findPage';
+	var ransomCode = $('#ransomCode').val();
+	var data = {};
+	data.page = 1;
+	data.rows = 10;
+	data.queryId = "queryRansomTimeRecord";
+	data.argu_ransomCode = ransomCode;
+	debugger;
+	$.ajax({
+		async: true,
+		type:'POST',
+		url:url,
+		dataType:'json',
+		data:data,
+		beforeSend: function () {  
+        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+        },  
+        success: function(data){
+        	$.unblockUI();
+        	var html = template('template_timeRecord',data);
+      		$('#record-detail').html(html);
+        }
+	});	
+}
 	/**
 	 * 根据日期字符串转换成日期
 	 * 控件字符串转换成日期格式 "2017-10-11"

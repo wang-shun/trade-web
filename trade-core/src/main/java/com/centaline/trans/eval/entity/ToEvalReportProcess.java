@@ -3,6 +3,8 @@ package com.centaline.trans.eval.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ToEvalReportProcess {
     private Long pkid;
 
@@ -31,15 +33,19 @@ public class ToEvalReportProcess {
     private BigDecimal inquiryResult;
 
     private Integer reportNum;
-
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date applyDate;
-
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date forwardDate;
-
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date toIssueDate;
-
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date issueDate;
-
+    
     private BigDecimal evaPrice;
 
     private Date reportGetDate;
@@ -47,7 +53,8 @@ public class ToEvalReportProcess {
     private Integer houseAgeIssue;
 
     private Integer reportNumIssue;
-
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date reportRevDate;
 
     private String receiver;
