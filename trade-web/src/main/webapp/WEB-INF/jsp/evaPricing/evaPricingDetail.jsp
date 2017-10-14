@@ -40,8 +40,8 @@ font-family:Microsoft Yahei;
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <input type="hidden" id="ctx" value="${ctx}" />
-	
-	
+<input type="hidden" id="status" value="${toEvaPricingVo.status }">	
+					
 	<nav id="navbar-example" class="navbar navbar-default navbar-static"
 		role="navigation">
 		<div id="isFixed" style="position: relative; top: 0px;"
@@ -59,7 +59,7 @@ font-family:Microsoft Yahei;
 		<div class="panel-body ibox-content">
 			<div class="ibox-content-head lh24">
 				<h5>询价基本信息</h5>
-				<small class="pull-right">交易编号：${toEvaPricingVo.caseCode}｜成交报告编号：${toEvaPricingVo.ctmCode}</small>
+				<small class="pull-right">交易编号：${toEvaPricingVo.caseCode}｜成交报告编号：${toEvaPricingVo.ccaiCode}</small>
 			</div>
 			<div id="infoDiv infos" class="row " id="basicInfo">
 				<div class="ibox white_bg">
@@ -128,7 +128,7 @@ font-family:Microsoft Yahei;
 							<label class="col-sm-4 control-label">总层高/所在楼层 ：${toEvaPricingVo.floor }/${toEvaPricingVo.totalFloor }</label>
 							<label class="col-sm-3 control-label">竣工年限 ：${toEvaPricingVo.completeYear }&nbsp;&nbsp;年</label>
 							<label class="col-sm-3 control-label">贷款银行 ：${toEvaPricingVo.loanBank }</label>
-							<label class="col-sm-2 control-label">合同价 ：</label>
+							<label class="col-sm-2 control-label">合同价 ：${toEvaPricingVo.conPrice }</label>
 						</div>
 						<div class="height_line1"></div>
 						<div class="row font-family" >
@@ -143,16 +143,33 @@ font-family:Microsoft Yahei;
 	  	<div class="panel-body ibox-content" id="result">
 	  		<div class="info_box info_box_one col-sm-12 ">
 		  		<span>询价结果</span>
-		  		<div class="height_line"></div>
-		  		<div class="row font-family">
-					<label class="col-sm-4 control-label">评估公司 ：${toEvaPricingVo.evaCompany }</label>
-					<label class="col-sm-3 control-label">评估时间 ：<fmt:formatDate value="${toEvaPricingVo.evalTime }" type="date" pattern="yyyy-MM-dd"/></label>
-				</div>
-				<div class="height_lin1"></div>
-				<div class="row font-family">
-					<label class="col-sm-4 control-label">询价值 ：<c:if test="${!empty toEvaPricingVo.totalPrice }">${toEvaPricingVo.totalPrice/10000 }&nbsp;&nbsp;万元</c:if></label>
-					<label class="col-sm-3 control-label">房龄 ：${toEvaPricingVo.houseAge }&nbsp;&nbsp;年</label>
-				</div>
+		  		<form method="get" class="form_list" id="evaDetailForm">
+			  		<input type="hidden" id="taskId" name="taskId" value="${toEvaPricingVo.taskId }">	
+					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${instCode }">
+					<input type="hidden" id="pkid" name="pkid" value="${toEvaPricingVo.pkid }">
+					<input type="hidden" id="evaCode" name="evaCode" value="${toEvaPricingVo.evaCode }">
+			  		<div class="height_line"></div>
+			  		<c:if test="${toEvaPricingVo.status == 0}">
+			  			<input type="radio" checked="checked" value="1"  name="isValid">&nbsp;&nbsp;有效
+	                </c:if>  
+	                <div style="margin-top:5px;"></div>             	
+			  		<div class="row font-family">
+						<label class="col-sm-4 control-label">评估公司 ：${toEvaPricingVo.evaCompany }</label>
+						<label class="col-sm-3 control-label">评估时间 ：<fmt:formatDate value="${toEvaPricingVo.evalTime }" type="date" pattern="yyyy-MM-dd"/></label>
+					</div>
+					<div class="height_lin1"></div>
+					<div class="row font-family">
+						<label class="col-sm-4 control-label">询价值 ：<c:if test="${!empty toEvaPricingVo.totalPrice }">${toEvaPricingVo.totalPrice/10000 }&nbsp;&nbsp;万元</c:if></label>
+						<label class="col-sm-3 control-label">房龄 ：${toEvaPricingVo.houseAge }&nbsp;&nbsp;年</label>
+					</div>
+					<c:if test="${toEvaPricingVo.status == 0}">
+						<div class="row font-family">
+							<input type="radio" value="2"  name="isValid">&nbsp;&nbsp;无效
+							<div style="margin-top:5px;"></div>
+							<input type="text" class="form-control " id="invalidReason" name="reason" style="margin-left:15px;width:400px;">
+						</div>
+					</c:if>
+				</form>
 			</div>
 	  	</div>	  	
 			
@@ -160,6 +177,7 @@ font-family:Microsoft Yahei;
 	
 	<div class="add_btn text-center mt20">
 	   	<div class="more_btn">
+	   		<button id="submitButton" type="button" class="btn btn_blue">提交</button>
    	    	<button id="closeButton" type="button" class="btn btn_blue">关闭</button>
 		</div>
 	</div>
@@ -167,6 +185,52 @@ font-family:Microsoft Yahei;
 	<content tag="local_script"> 
 
 	<script>
+		$(window).ready(function(){
+			var status = $('#status').val();
+			if(status != 0){
+				$('#submitButton').css('visibility','hidden');
+			}
+			$('#invalidReason').attr('readonly','readonly');
+		});
+		
+		$("input[name='isValid']").click(function(){
+			if(this.value=='1'){			
+				$('#invalidReason').val("");
+				$('#invalidReason').attr('readonly','readonly');
+			}else if(this.value == '2'){
+				$('#invalidReason').removeAttr('readonly');
+			}
+		});
+		
+		$('#submitButton').click(function(){
+			var url = '${ctx}/evaPricing/evaPricingDetailSubmit';
+			
+			var jsonData = $('#evaDetailForm').serializeArray();
+	
+			 $.ajax({
+				cache:true,
+				async:false,
+				type:"POST",
+				url:url,
+				data:jsonData,
+				dataType:'json',
+				success:function(data){
+					if(data){
+						window.wxc.success("提交成功!",{"wxcOk":function(){
+							window.close();
+						}});
+					}else{
+						window.wxc.error("提交失败!"+error.message);
+					}
+					
+				},
+				error : function(error) {
+					window.wxc.error("提交失败!"+error.message);
+				}
+			})
+			
+		});
+		
 		//关闭
 		$('#closeButton').click(function() {
 			window.close();

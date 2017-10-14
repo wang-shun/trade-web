@@ -8,6 +8,8 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Map" %>
+<%@page import="com.aist.uam.basedata.remote.UamBasedataService" %>
+
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
@@ -15,6 +17,11 @@
 <%
 	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	Menu menu = MenuConstants.getMenu();
+	UamBasedataService uamBasedataService =  SpringUtils.getBean(UamBasedataService.class);
+	String loginUserImgBaseUrl=uamBasedataService.getParam(
+			"USER_INFO", "LOGINPERSON_IMG_URL",SessionUserConstants.getSesstionUser().getServiceDepId());
+	request.setAttribute("LOGINPERSON_IMG_URL", loginUserImgBaseUrl);
+	
 	if(menu != null){
 		request.setAttribute("menuVO", menu.getChildren());
 	}
@@ -76,7 +83,7 @@
                     <li class="nav-header">
                         <div class="dropdown profile-element">
                         	<span>
-							    <img src="http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/${SESSION_USER.employeeCode}.jpg" 
+							    <img src="${LOGINPERSON_IMG_URL}${SESSION_USER.employeeCode}.jpg" 
 							    	onerror="this.src='${ctx}/img/a5.png'" style="object-fit:cover; width: 48px;height: 48px; display: block;border-radius: 50%;"/>
                          	</span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">

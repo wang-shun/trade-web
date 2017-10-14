@@ -260,7 +260,7 @@ public class RansomListController {
 	 */
 	@RequestMapping(value="updateRansom",method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResponse<?> updateRansom(ToRansomVo ransomVo) {
+	public String updateRansom(ToRansomVo ransomVo) {
 		
 		boolean flag = false;
 		SessionUser user= uamSessionService.getSessionUser();
@@ -287,15 +287,64 @@ public class RansomListController {
 				tailinsVo.setUpdateTime(new Date());
 				tailinsVo.setUpdateUser(user.getUsername());
 				
-				ransomListFormService.updateRansomCaseInfo(caseVo);
-				ransomListFormService.updateRansomTailinsInfo(tailinsVo);
+				flag = ransomListFormService.updateRansomCaseInfo(caseVo);
+				flag = ransomListFormService.updateRansomTailinsInfo(tailinsVo);
 				
+				if(flag) {
+					String status = "信息修改成功！";
+					rs.setCode(status);
+					rs.setMessage(status);
+					rs.setStatus(status);
+				}
 			}
-			return  AjaxResponse.success("修改成功！");
+			return  JSONObject.toJSONString(rs);
 		} catch (Exception e) {
 			logger.error("",e);
-			return  AjaxResponse.success("修改失败！");
+			rs.setMessage(e.getMessage());
+			return  JSONObject.toJSONString(rs);
 		}
 	}
 	
+	/**
+	 * 计划时间信息
+	 * @param ransomCode
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("planTime")
+	public String ransomPlanTimeInfo(String ransomCode,ServletRequest request) {
+		
+		ToRansomVo ransomVo = ransomListFormService.getRansomPlanInfo(ransomCode);
+		request.setAttribute("ransomVo", ransomVo);
+		
+		return "ransom/ransomPlanTime";
+	}
+	
+	/**
+	 * 计划时间信息更新
+	 * @param ransomVo
+	 * @return
+	 */
+	@RequestMapping(value="updateRansomPlanTime",method = RequestMethod.POST)
+	@ResponseBody
+	public String updateRansomPlanTimeInfo(ToRansomVo ransomVo) {
+		
+		try {
+			
+			ransomListFormService.updateRansomApplyInfo(ransomVo);
+			ransomListFormService.updateRansomInterviewInfo(ransomVo);
+			ransomListFormService.updateRansomRepayInfo(ransomVo);
+			ransomListFormService.updateRansomCancelInfo(ransomVo);
+			ransomListFormService.updateRansomRedeemInfo(ransomVo);
+			ransomListFormService.updateRansomPaymentInfo(ransomVo);
+			
+			String status = "赎楼计划时间修改成功！";
+			rs.setMessage(status);
+			return JSONObject.toJSONString(rs);
+		} catch (Exception e) {
+			logger.error("",e);
+			rs.setMessage(e.getMessage());
+			return  JSONObject.toJSONString(rs);
+		}
+	}
 }

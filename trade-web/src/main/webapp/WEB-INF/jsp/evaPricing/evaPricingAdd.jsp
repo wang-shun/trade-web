@@ -219,9 +219,9 @@
 <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
 	
 	<script>
-	$(document).ready(function() {
-		getEvaFinOrg('finorgId_0');
-	});
+		$(document).ready(function() {
+			getEvaFinOrg('finorgId_0');
+		});
 		/**
 		 * 获取评估公司 格式化
 		 * @param finOrgId
@@ -418,7 +418,7 @@
 				return false;
 			}
 			if($('#evalTime').val() ==''){
-				window.wxc.alert("询价时间为必填项!");
+				window.wxc.alert("询价申请时间为必填项!");
 				$('#evalTime').focus();
 				$('#evalTime').css("border-color","red");
 				return false;

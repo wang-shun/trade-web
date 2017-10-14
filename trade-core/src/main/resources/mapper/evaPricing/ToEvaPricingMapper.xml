@@ -22,7 +22,10 @@
 		<result column="HOUSE_AGE" property="houseAge" jdbcType="INTEGER"/>
 		<result column="EVA_COMPANY" property="evaCompany" jdbcType="VARCHAR"/>
 		<result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR"/>
-		<result column="CTM_CODE" property="ctmCode" jdbcType="VARCHAR"/>
+		<result column="CCAI_CODE" property="ccaiCode" jdbcType="VARCHAR"/>
+		<result column="CON_PRICE" property="conPrice" jdbcType="DECIMAL"/>
+		<result column="STATUS" property="status" jdbcType="VARCHAR"/>
+		<result column="taskId" property="taskId" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<!-- 查询询价明细 -->
@@ -48,14 +51,27 @@
 			pro.HOUSE_AGE,
 			fin.FIN_ORG_NAME EVA_COMPANY,
 			cas.CASE_CODE,
-			cas.CTM_CODE
+			cas.CCAI_CODE,
+			si.CON_PRICE,
+			pri.STATUS,
+			ART.ID_ taskId
 		FROM
 			sctrans.T_TO_EVA_PRICING pri
 			INNER JOIN sctrans.T_TO_EGU_PROPERTY_INFO pro ON pri.EVA_CODE = pro.EVA_CODE
 			INNER JOIN sctrans.T_TS_FIN_ORG fin ON pri.FIN_ORG_ID = fin.PKID
 			LEFT JOIN sctrans.T_TO_CASE cas ON pri.CASE_CODE = cas.CASE_CODE
-		WHERE
-			pri.PKID = #{pkid,jdbcType=BIGINT}
+			LEFT JOIN sctrans.T_TO_SIGN si ON pri.CASE_CODE= si.CASE_CODE
+			LEFT JOIN sctrans.T_TO_WORKFLOW wf ON pri.EVA_CODE = wf.BIZ_CODE
+			LEFT JOIN	sctrans.ACT_RU_TASK ART ON wf.INST_CODE = ART.PROC_INST_ID_
+		<where>
+			<if test="PKID != null">
+				pri.PKID = #{PKID,jdbcType=BIGINT}
+			</if>
+			<if test="evaCode != null">
+				AND pri.EVA_CODE = #{evaCode,jdbcType=VARCHAR}
+			</if>
+		</where>
+			
 	</select>
 	
 	<!-- 新增询价数据 -->
@@ -206,24 +222,30 @@
 				</if>
 			</trim>
 	</insert>
-	
+
 	<update id="updateEvaPricing" parameterType="com.centaline.trans.evaPricing.entity.ToEvaPricingVo">
 		UPDATE 
 			sctrans.T_TO_EVA_PRICING
 		<set>
-			<if test="isSubmit != null and isSubmit == 1">
-				STATUS = '1',
+			<if test="isValid == 1">
+				<if test="isSubmit != null and isSubmit == 1">
+					STATUS = '1',
+					COMPLETE_TIME = CURRENT_TIMESTAMP,
+				</if>
+				<if test="finorgId != null">
+					FIN_ORG_ID = #{finorgId,jdbcType=NVARCHAR},
+				</if>
+				<if test="evalTime != null">
+					EVAL_TIME = #{evalTime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="totalPrice != null">
+					TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+				</if>
+			</if>	
+			<if test="isValid == 2">
+					STATUS = '2',
+					REASON = #{reason,jdbcType=VARCHAR},
 			</if>
-			<if test="finorgId != null">
-				FIN_ORG_ID = #{finorgId,jdbcType=NVARCHAR},
-			</if>
-			<if test="evalTime != null">
-				EVAL_TIME = #{evalTime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="totalPrice != null">
-				TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
-			</if>
-				COMPLETE_TIME = CURRENT_TIMESTAMP
 		</set>
 		WHERE
 			PKID = #{pkid,jdbcType=BIGINT}	
@@ -307,4 +329,19 @@
 		WHERE
 			pri.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	</select>
+	
+	<update id="updateEvaPricingDetail">
+		UPDATE
+			sctrans.T_TO_EVA_PRICING
+			<if test="isValid == 1">
+				SET STATUS = '1',
+				COMPLETE_TIME = CURRENT_TIMESTAMP
+			</if>
+			<if test="isValid == 2">
+				SET STATUS = '2',
+					REASON = #{reason,jdbcType=VARCHAR}
+			</if>
+		WHERE
+			PKID = #{pkid,jdbcType=BIGINT}
+	</update>
 </mapper>

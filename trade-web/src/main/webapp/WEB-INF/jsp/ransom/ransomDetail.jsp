@@ -423,7 +423,7 @@
 						<div class="details-update">
 							<a href="javascript:void(0)">变更金融权证</a> 
 							<a href="${ctx }/ransomList/updateRansomInfo?caseCode=${detailVo.caseCode}" target="_blank">修改赎楼单详情</a>
-							<a href="${ctx }/ransomList/ransom/planTime?caseCode=${detailVo.caseCode}" target="_blank">修改时间计划</a>
+							<a href="${ctx }/ransomList/planTime?ransomCode=${detailVo.ransomCode}" target="_blank">修改时间计划</a>
 						</div>
 						<hr>
 						<table class="table table_blue table-striped table-bordered table-hover ">

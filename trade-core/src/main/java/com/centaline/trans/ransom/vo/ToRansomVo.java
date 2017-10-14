@@ -2,6 +2,8 @@ package com.centaline.trans.ransom.vo;
 
 import java.util.Date;
 
+import com.centaline.trans.utils.DateUtil;
+
 public class ToRansomVo {
 
 	private String ransomCode;
@@ -23,6 +25,42 @@ public class ToRansomVo {
 	private Double restMoney;
 	
 	private Double borrowerMoney;
+
+	private Date applyTime;
+	
+	private String applyRemake;
+	
+	private Date interviewTime;
+	
+	private String interviewRemake;
+	
+	/**
+	 * 陪同还贷时间
+	 */
+	private Date repayTime;
+	
+	private String repayRemake;
+	
+	/**
+	 * 注销抵押时间
+	 */
+	private Date cancelTime;
+	
+	private String cancelRemake;
+	
+	/**
+	 * 赎回产证时间
+	 */
+	private Date redeemTime;
+	
+	private String redeemRemake;
+	
+	/**
+	 * 回款结清时间
+	 */
+	private Date paymentTime;
+	
+	private String paymentRemake;
 
 	public String getRansomCode() {
 		return ransomCode;
@@ -104,4 +142,100 @@ public class ToRansomVo {
 		this.borrowerMoney = borrowerMoney;
 	}
 
+	public Date getApplyTime() {
+		return applyTime;
+	}
+
+	public void setApplyTime(Date applyTime) {
+		this.applyTime = applyTime;
+	}
+
+	public String getApplyRemake() {
+		return applyRemake;
+	}
+
+	public void setApplyRemake(String applyRemake) {
+		this.applyRemake = applyRemake;
+	}
+
+	public Date getInterviewTime() {
+		return interviewTime;
+	}
+
+	public void setInterviewTime(Date interviewTime) {
+		this.interviewTime = interviewTime;
+	}
+
+	public String getInterviewRemake() {
+		return interviewRemake;
+	}
+
+	public void setInterviewRemake(String interviewRemake) {
+		this.interviewRemake = interviewRemake;
+	}
+
+	public Date getRepayTime() {
+		return repayTime;
+	}
+
+	public void setRepayTime(Date repayTime) {
+		this.repayTime = repayTime;
+	}
+
+	public String getRepayRemake() {
+		return repayRemake;
+	}
+
+	public void setRepayRemake(String repayRemake) {
+		this.repayRemake = repayRemake;
+	}
+
+	public Date getCancelTime() {
+		return cancelTime;
+	}
+
+	public void setCancelTime(Date cancelTime) {
+		this.cancelTime = cancelTime;
+	}
+
+	public String getCancelRemake() {
+		return cancelRemake;
+	}
+
+	public void setCancelRemake(String cancelRemake) {
+		this.cancelRemake = cancelRemake;
+	}
+
+	public Date getRedeemTime() {
+		return redeemTime;
+	}
+
+	public void setRedeemTime(Date redeemTime) {
+		this.redeemTime = redeemTime;
+	}
+
+	public String getRedeemRemake() {
+		return redeemRemake;
+	}
+
+	public void setRedeemRemake(String redeemRemake) {
+		this.redeemRemake = redeemRemake;
+	}
+
+	public Date getPaymentTime() {
+		return paymentTime;
+	}
+
+	public void setPaymentTime(Date paymentTime) {
+		this.paymentTime = paymentTime;
+	}
+
+	public String getPaymentRemake() {
+		return paymentRemake;
+	}
+
+	public void setPaymentRemake(String paymentRemake) {
+		this.paymentRemake = paymentRemake;
+	}
+	
 }
