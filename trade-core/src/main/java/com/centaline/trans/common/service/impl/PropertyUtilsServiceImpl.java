@@ -82,6 +82,12 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	@Value("${process.df.key.ransom_suspend}")
 	private String RansomSuspendProcessDfKey;
 
+	/**交易计划变更审核*/
+	@Value("${process.df.key.TransPlanAppver}")
+	private String transPlanAppverProcessDfKey;
+
+
+
 	public String getSpvCashflowInProcess() {
 		return spvCashflowInProcess;
 	}

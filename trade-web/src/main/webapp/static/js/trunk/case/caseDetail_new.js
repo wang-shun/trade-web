@@ -123,7 +123,6 @@ function getShowAttachment() {
 			value : 'Y'
 		}
     	],
-		dataType : "json",
 		success : function(data) {
 			dataLength=data.length;
 			//将返回的数据进行包装
@@ -303,7 +302,7 @@ function showPlanModal(){
 	resetPlanModal();
 	$('#plan-modal-form').modal("show");
 }
-//重置交易计划
+//重置交易计划 by wbzhouht
 function resetPlanModal(){
 	$("input[name='estPartTime']").val("");
 	var url = "/case/getTransPlanByCaseCode";
@@ -377,13 +376,20 @@ function openTransHistory(){
 	url = ctx + url + params;
 	window.location.href= url;
 }
-//交易计划变更 - 保存
+//交易计划变更 - 保存 by wbzhouht
 function savePlanItems(){
-	var url = "/case/savePlanItems";
+	var isAudit=auditResult;
+	if(isAudit){
+		window.wxc.error("你已提交过变更，请等待审核！",function () {
+            window.location.reload();
+        })
+		return;
+	}
+	var url = "/case/startTransPlan";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
 	var caseCode = $("#caseCode").val();
-	var params ='&caseCode=' + caseCode;
+	var params ='&caseCode=' + caseCode+"&partCode="+partCode;
 	var isChanges = new Array;
 	var estIds = new Array;
 	var estTimes = new Array;
@@ -470,7 +476,8 @@ function savePlanItems(){
 		success : function(data) {
 			if(data.success){
 				window.wxc.success("提交成功",{"wxcOk":function(){
-					window.location.reload();
+                    window.location.href = ctx+"/task/myTaskList";
+					//window.location.reload();
 				}});
 			}else{
 				window.wxc.error(data.message);
