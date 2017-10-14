@@ -32,4 +32,10 @@ public interface TsTaskDelegateService {
 	 * @return
 	 */
 	public String getTaskAgent(String owner);
+
+	/**
+	 * 获取交易按揭部部门CODE
+	 * @return
+	 */
+	public String getYC_ORG_CODE();
 }
