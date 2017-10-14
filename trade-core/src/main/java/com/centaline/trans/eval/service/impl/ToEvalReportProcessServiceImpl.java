@@ -105,11 +105,13 @@ public class ToEvalReportProcessServiceImpl implements ToEvalReportProcessServic
 	public int insertEvaApply(ToEvalReportProcess toEvalReportProcess) {
 		toEvalReportProcess.setStatus(EvalStatusEnum.YSQ.getCode());
 		toEvalReportProcess.setEvaCode(getEvalCode("120000"));//TODO 这里暂时写死城市代码
+		toEvalReportProcess.setSysCreateTime(new Date());
 		return toEvalReportProcessMapper.insertSelective(toEvalReportProcess);
 	}
 
 	@Override
 	public int updateEvaReport(ToEvalReportProcess toEvalReportProcess) {
+		toEvalReportProcess.setSysFinshTime(new Date());
 		return toEvalReportProcessMapper.updateEvaReportByEvaCode(toEvalReportProcess);
 	}
 

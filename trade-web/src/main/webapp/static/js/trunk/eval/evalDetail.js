@@ -714,7 +714,7 @@ function evalProcessRestart(){
 			url:ctx+"/eval/restart/init",
 			method:"post",
 			dataType:"json",
-			data:{caseCode:caseCode},
+			data:{caseCode:caseCode,evaCode:$("#evaCode").val()},
 		    beforeSend:function(){  
 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				$(".blockOverlay").css({'z-index':'9998'});

@@ -44,7 +44,7 @@ public class EvalDetailController {
 	 * @return
 	 */
 	@RequestMapping(value = "detail")
-	public String detail(HttpServletRequest request,String caseCode) {
+	public String detail(HttpServletRequest request,String caseCode,String evaCode) {
 		// TODO
 		SessionUser user = uamSessionService.getSessionUser();
 		String userOrgId = user.getServiceDepId();
@@ -53,7 +53,7 @@ public class EvalDetailController {
 		// 工作流
 		ToWorkFlow inWorkFlow = new ToWorkFlow();
 		inWorkFlow.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
-		inWorkFlow.setCaseCode(caseCode);
+		inWorkFlow.setBizCode(evaCode);
 		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
 		
 		//评估发票信息
@@ -73,6 +73,7 @@ public class EvalDetailController {
 		//备注
 		
 		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("evaCode", evaCode);
 		request.setAttribute("queryOrg", userOrgId);
 		request.setAttribute("toEvaPricingVo", toEvaPricingVo);
 		request.setAttribute("toWorkFlow", toWorkFlow);

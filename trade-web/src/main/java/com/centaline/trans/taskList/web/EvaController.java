@@ -72,7 +72,7 @@ public class EvaController {
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);
 		request.setAttribute("Lamp3", lamps[2]);
-		request.setAttribute("processDfId", propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()));
+		//request.setAttribute("processDfId", propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()));
 		return "task/evalTaskList";
 	}
 	
@@ -115,7 +115,7 @@ public class EvaController {
 		toEvalReportProcessService.insertEvaApply(toEvalReportProcess);
 		//启动流程引擎
 		ProcessInstance process = new ProcessInstance();
-		process.setBusinessKey(toEvalReportProcess.getCaseCode());
+		process.setBusinessKey(toEvalReportProcess.getEvaCode());
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()));
 		//流程引擎相关
     	//Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.EVAL_PROCESS.getCode());

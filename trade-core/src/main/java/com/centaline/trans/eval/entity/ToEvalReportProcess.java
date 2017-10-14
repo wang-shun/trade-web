@@ -54,6 +54,10 @@ public class ToEvalReportProcess {
 
     private Integer receiveNum;
     
+    private Date sysCreateTime;
+    
+    private Date sysFinshTime;
+    
     private String evalProperty;
 
     public Long getPkid() {
@@ -263,5 +267,23 @@ public class ToEvalReportProcess {
 	public void setEvalProperty(String evalProperty) {
 		this.evalProperty = evalProperty;
 	}
+
+	public Date getSysCreateTime() {
+		return sysCreateTime;
+	}
+
+	public void setSysCreateTime(Date sysCreateTime) {
+		this.sysCreateTime = sysCreateTime;
+	}
+
+	public Date getSysFinshTime() {
+		return sysFinshTime;
+	}
+
+	public void setSysFinshTime(Date sysFinshTime) {
+		this.sysFinshTime = sysFinshTime;
+	}
+	
+	
     
 }

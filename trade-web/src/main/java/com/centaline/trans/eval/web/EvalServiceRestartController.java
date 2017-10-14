@@ -60,7 +60,7 @@ public class EvalServiceRestartController {
 				return resp;
 			}
 		}catch(Exception e){
-			throw new BusinessException("重启流程异常！");	 
+			throw new BusinessException("重启流程异常！",e);	 
 		}
 	}
 	
