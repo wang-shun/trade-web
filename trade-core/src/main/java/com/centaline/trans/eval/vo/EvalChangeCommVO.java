@@ -13,7 +13,7 @@ public class EvalChangeCommVO {
 	private List<ToEvaCommPersonAmount> sharePersonList;
 //	权证list
 	private List<ToEvaCommPersonAmount> warrantPersonList;
-//	佣金总计，总业绩
+//	佣金合计，总业绩
 	private BigDecimal ttlComm;
 //	单数合计
 	private int dealCount;
@@ -21,6 +21,16 @@ public class EvalChangeCommVO {
 	private String caseCode;
 	
 	
+	public EvalChangeCommVO() {
+		super();
+		ArrayList<ToEvaCommPersonAmount> coPersonList = new ArrayList<ToEvaCommPersonAmount>();
+		ArrayList<ToEvaCommPersonAmount> sharePersonList = new ArrayList<ToEvaCommPersonAmount>();
+		ArrayList<ToEvaCommPersonAmount> warrantPersonList = new ArrayList<ToEvaCommPersonAmount>();
+		
+		this.coPersonList = coPersonList;
+		this.sharePersonList = sharePersonList;
+		this.warrantPersonList = warrantPersonList;
+	}
 	public EvalChangeCommVO(String caseCode) {
 		ArrayList<ToEvaCommPersonAmount> coPersonList = new ArrayList<ToEvaCommPersonAmount>();
 		ArrayList<ToEvaCommPersonAmount> sharePersonList = new ArrayList<ToEvaCommPersonAmount>();

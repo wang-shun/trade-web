@@ -111,7 +111,7 @@ function reloadGrid() {
 
   /*  ---------------备注模块组件结束------------------*/
 
- 
+
 	$(function(){
 		
 		//在途列表点击链接转向
@@ -122,7 +122,8 @@ function reloadGrid() {
 		//案件视图点击链接转向
 		$("#btnCaseView").click(function(){
 			var caseCode = $(this).attr("lang");
-			location.href = ctx + "/task/caseDetail?&caseCode=" + caseCode;
+			console.log(taskitem)
+			location.href = ctx + "/task/caseDetail?&caseCode=" + caseCode+"&taskitem="+taskitem;
 		});
 		
 		//日历控件

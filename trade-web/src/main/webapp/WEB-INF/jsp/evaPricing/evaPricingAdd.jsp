@@ -219,28 +219,27 @@
 <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
 	
 	<script>
-	$(document).ready(function() {
-		getEvaFinOrg('finorgId_0');
-	});
+		$(document).ready(function() {
+			getEvaFinOrg('finorgId_0');
+		});
 		/**
 		 * 获取评估公司 格式化
 		 * @param finOrgId
 		 */
 		function getEvaFinOrg(finOrgId){
-			var url = "/evaPricing/getEvaFinOrg";
+			var url = "/manage/queryEvaCompany";
 			$.ajax({
 				async: true,
 				type:'POST',
 				url:ctx+url,
 				dataType:'json',
 				success:function(data){
-					console.log(data.content);
 					var html = '<option value="" selected>请选择</option>';
-					if(data.content && data.content.length >0){
-						$.each(data.content,function(i,item){
-							html += '<option value="'+item.id+'">'+item.name+'</option>';
+					if(data != null){
+						$.each(data,function(i,item){
+							html += '<option value="'+item.pkid+'">'+item.finOrgName+'</option>';
 						});
-					}
+					}					
 					$('#'+finOrgId).empty();
 					$('#'+finOrgId).append(html);
 				},
@@ -248,6 +247,7 @@
 				}
 			});
 		}
+
 		// 日期控件
 		$('#datepicker').datepicker({
 			format : 'yyyy-mm-dd',
@@ -418,7 +418,7 @@
 				return false;
 			}
 			if($('#evalTime').val() ==''){
-				window.wxc.alert("询价时间为必填项!");
+				window.wxc.alert("询价申请时间为必填项!");
 				$('#evalTime').focus();
 				$('#evalTime').css("border-color","red");
 				return false;

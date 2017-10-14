@@ -28,7 +28,8 @@ public class CommFindUserServiceImpl implements CommFindUserService {
 	/**
 	 * yucui总部orgCode
 	 */
-	public static final String YC_ORG_CODE = TsTaskDelegateServiceImpl.YC_ORG_CODE;
+	@Value("${trade.yucui.org_code}")
+	public String YC_ORG_CODE;
 	static final String GUOHU_APPROVAL_MODULE="GUOHU_APPROVE";
 	static final String GUOHU_APPROVAL_CODE="GUOHU_APPROVE_MAPPING";
 	static final String GUOHU_APPROVAL_TASK_DEF_KEY="GuohuApprove";

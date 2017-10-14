@@ -38,7 +38,8 @@ public class FindUserLogicImpl implements FindUserLogic {
 	/**
 	 * yucui总部orgCode
 	 */
-	public static final String YC_ORG_CODE = TsTaskDelegateServiceImpl.YC_ORG_CODE;
+	@Value("${trade.yucui.org_code}")
+	public String YC_ORG_CODE;
 
 	@Autowired
 	private UamBasedataService dictService;

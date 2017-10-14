@@ -452,4 +452,28 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 		return tsTaskPlanSetMapper.deleteByPrimaryKey(pkid);
 	}
 
+	/***
+	 * @author wbzhouht
+	 * @param tsTransPlanHistory
+	 * @return
+	 */
+	@Override
+	public TsTransPlanHistory findTransPlanHistoryByCaseCode(TsTransPlanHistory tsTransPlanHistory) {
+		List<TsTransPlanHistory>list=tsTransPlanHistoryMapper.findTransPlanHistoryByCaseCode(tsTransPlanHistory);
+		if(list!=null&&list.size()!=0){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	public ToTransPlan findTransPlanPKIDBycasecodeAndPartCode(TsTransPlanHistory tsTransPlanHistory) {
+		return toTransPlanMapper.findTransPlanPKIDBycasecodeAndPartCode(tsTransPlanHistory);
+	}
+
+	@Override
+	public int updateTransPlanHistoryByPKID(TsTransPlanHistory tsTransPlanHistory) {
+		return tsTransPlanHistoryMapper.updateByPrimaryKeySelective(tsTransPlanHistory);
+	}
+
 }
