@@ -101,7 +101,7 @@ public class ToEvaCommPersonAmountServiceImpl implements ToEvaCommPersonAmountSe
 		}
 		
 		for (ToEvaCommPersonAmount toEvaCommPersonAmount : toEvaCommPersonAmountList) {
-			toEvaCommPersonAmountMapper.updateByCaseCodeSelective(toEvaCommPersonAmount);
+			toEvaCommPersonAmountMapper.updateByPrimaryKeySelective(toEvaCommPersonAmount);
 		}
 		if(null!=evalChangeCommVO.getTtlComm()){
 			ToEvaCommissionChange toEvaCommissionChange = new ToEvaCommissionChange();

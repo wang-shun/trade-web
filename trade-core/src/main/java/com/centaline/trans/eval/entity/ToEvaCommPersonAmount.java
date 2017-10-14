@@ -20,19 +20,19 @@ public class ToEvaCommPersonAmount {
     private String employeeName;
 
     private BigDecimal shareAmount;
-
+//分成说明
     private String shareReason;
-
+//成交单数
     private Integer dealCount;
-
+//合作类型
     private String cooperateType;
-
+//合作人
     private String cooperatePerson;
-
+//合作人部门
     private String cooperateDept;
 
     private String cooperateManager;
-
+//评估号
     private String evaCode;
 
     private String employeeCode;
