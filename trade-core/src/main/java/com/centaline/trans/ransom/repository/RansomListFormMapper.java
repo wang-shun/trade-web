@@ -25,5 +25,5 @@ public interface RansomListFormMapper {
 	 * @param caseCode
 	 * @return
 	 */
-	int updateRansomDiscountinue(String caseCode);
+	int updateRansomDiscountinue(ToRansomCaseVo ransomCaseVo);
 }

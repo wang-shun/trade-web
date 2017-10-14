@@ -68,7 +68,8 @@ import com.centaline.trans.ransom.service.RansomService;
 			request.setAttribute("Lamp1", lamps[0]);
 			request.setAttribute("Lamp2", lamps[1]);
 			request.setAttribute("Lamp3", lamps[2]);
-			request.setAttribute("PROCESS_DEFINITION_ID", propertyUtilsService.getProcessDfId("ransom_process"));
+			request.setAttribute("PROCESS_DEFINITION_ID_RANSOM", propertyUtilsService.getProcessDfId("ransom_process"));
+			request.setAttribute("PROCESS_DEFINITION_ID_RANSOM_SUSPEND", propertyUtilsService.getProcessDfId("ransom_suspend"));
 			return "ransom/ransomTaskList";
 		}
 		
