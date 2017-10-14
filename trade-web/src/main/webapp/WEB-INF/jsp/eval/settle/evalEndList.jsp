@@ -192,7 +192,7 @@ display: none;}
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
 									 <td>{{item.EVA_PRICE}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
-                                    <td>贷款权证</td>
+                                    <td>小张</td>
 									<td>
 									{{if item.STATUS=='3'}}
 						 				<span class="yes_color">未结算</span>

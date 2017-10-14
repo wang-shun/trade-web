@@ -10,13 +10,12 @@
     <result column="SETTLE_FEE" property="settleFee" jdbcType="DECIMAL" />
     <result column="SETTLE_ADD_REASON" property="settleAddReason" jdbcType="VARCHAR" />
     <result column="STATUS" property="status" jdbcType="NVARCHAR" />
-    <result column="REJECT_CAUSE" property="rejectCause" jdbcType="VARCHAR" />
     <result column="SETTLE_TIME" property="settleTime" jdbcType="TIMESTAMP" />
     <result column="SETTLE_NOT_REASON" property="settleNotReason" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, EVA_CODE, FEE_CHANGE_REASON, FIN_ORG_ID, SETTLE_FEE, SETTLE_ADD_REASON, 
-    STATUS, REJECT_CAUSE, SETTLE_TIME, SETTLE_NOT_REASON
+    STATUS, SETTLE_TIME, SETTLE_NOT_REASON
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -25,7 +24,7 @@
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
   
-  <select id="findToCaseByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+   <select id="findToCaseByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_EVA_SETTLE 
@@ -39,6 +38,13 @@
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </select>
   
+  <select id="findCaseCodesByStauts" resultMap="BaseResultMap">
+    select 
+    CASE_CODE
+    from sctrans.T_TO_EVA_SETTLE 
+    where STATUS = '6'
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_EVA_SETTLE
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -46,12 +52,12 @@
   <insert id="insert" parameterType="com.centaline.trans.eval.entity.ToEvalSettle" >
     insert into sctrans.T_TO_EVA_SETTLE (PKID, CASE_CODE, EVA_CODE, 
       FEE_CHANGE_REASON, FIN_ORG_ID, SETTLE_FEE, 
-      SETTLE_ADD_REASON, STATUS, REJECT_CAUSE, 
-      SETTLE_TIME, SETTLE_NOT_REASON)
+      SETTLE_ADD_REASON, STATUS, SETTLE_TIME, 
+      SETTLE_NOT_REASON)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
       #{feeChangeReason,jdbcType=VARCHAR}, #{finOrgId,jdbcType=VARCHAR}, #{settleFee,jdbcType=DECIMAL}, 
-      #{settleAddReason,jdbcType=VARCHAR}, #{status,jdbcType=NVARCHAR}, #{rejectCause,jdbcType=VARCHAR}, 
-      #{settleTime,jdbcType=TIMESTAMP}, #{settleNotReason,jdbcType=VARCHAR})
+      #{settleAddReason,jdbcType=VARCHAR}, #{status,jdbcType=NVARCHAR}, #{settleTime,jdbcType=TIMESTAMP}, 
+      #{settleNotReason,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvalSettle" >
     insert into sctrans.T_TO_EVA_SETTLE
@@ -79,9 +85,6 @@
       </if>
       <if test="status != null" >
         STATUS,
-      </if>
-      <if test="rejectCause != null" >
-        REJECT_CAUSE,
       </if>
       <if test="settleTime != null" >
         SETTLE_TIME,
@@ -115,9 +118,6 @@
       <if test="status != null" >
         #{status,jdbcType=NVARCHAR},
       </if>
-      <if test="rejectCause != null" >
-        #{rejectCause,jdbcType=VARCHAR},
-      </if>
       <if test="settleTime != null" >
         #{settleTime,jdbcType=TIMESTAMP},
       </if>
@@ -150,9 +150,6 @@
       <if test="status != null" >
         STATUS = #{status,jdbcType=NVARCHAR},
       </if>
-      <if test="rejectCause != null" >
-        REJECT_CAUSE = #{rejectCause,jdbcType=VARCHAR},
-      </if>
       <if test="settleTime != null" >
         SETTLE_TIME = #{settleTime,jdbcType=TIMESTAMP},
       </if>
@@ -171,7 +168,6 @@
       SETTLE_FEE = #{settleFee,jdbcType=DECIMAL},
       SETTLE_ADD_REASON = #{settleAddReason,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=NVARCHAR},
-      REJECT_CAUSE = #{rejectCause,jdbcType=VARCHAR},
       SETTLE_TIME = #{settleTime,jdbcType=TIMESTAMP},
       SETTLE_NOT_REASON = #{settleNotReason,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
