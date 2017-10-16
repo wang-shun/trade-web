@@ -37,6 +37,7 @@ public class SelfLoanWarrantManagerApproController {
 	@Autowired
 	private ToSelfAppInfoService toSelfAppInfoService;
 	
+	@Autowired
 	private SelfLoanWarrantManagerApproService selfLoanWarrantManagerApproService;
 	
 	/**
@@ -75,6 +76,7 @@ public class SelfLoanWarrantManagerApproController {
 	@ResponseBody
 	@RequestMapping(value = "submit")
 	public boolean submit(ToAppRecordInfoVO vo){
+		System.out.println("11111111111111111111");
 		return selfLoanWarrantManagerApproService.saveAndSubmit(vo);
 	}
 	

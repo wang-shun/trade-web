@@ -29,7 +29,7 @@ import com.centaline.trans.engine.core.WorkFlowEngine;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
-import com.centaline.trans.task.service.SelfLoanWarrantManagerApproService;
+import com.centaline.trans.task.service.ChiefInspectorApproService;
 import com.centaline.trans.task.vo.ToAppRecordInfoVO;
 
 import reactor.core.support.Assert;
@@ -39,7 +39,7 @@ import reactor.core.support.Assert;
  *
  */
 @Service
-public class SelfLoanWarrantManagerApproServiceImp implements SelfLoanWarrantManagerApproService {
+public class ChiefInspectorApproServiceImp implements ChiefInspectorApproService {
 
 	@Autowired
 	private WorkFlowManager workFlowManager;
@@ -80,32 +80,31 @@ public class SelfLoanWarrantManagerApproServiceImp implements SelfLoanWarrantMan
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		RestVariable  restVariable = new RestVariable();
 		boolean b = false;
-		if(vo.getResult() == 1){ //0通过1驳回
+		if(vo.getResult() == 0){ //0通过1驳回
 			restVariable.setName("approval");
-			restVariable.setValue(false);
+			restVariable.setValue(true);
 			variables.add(restVariable);
 			 b = workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
 		}else{
 			restVariable.setName("approval");
-			restVariable.setValue(true);
+			restVariable.setValue(false);
 			variables.add(restVariable);
 			b = workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
 			return b;
 		}
 		SessionUser user = uamSessionService.getSessionUserById(getManagerId(vo.getCaseCode()));
 		FlowFeedBack info = new FlowFeedBack(user, CcaiFlowResultEnum.BACK,"权证人员不正确");
-		ApiResultData result = flowApiService.tradeFeedBackCcai(vo.getCaseCode(), CcaiTaskEnum.MORTGAGE_CUSTOMER_MANAGER, info);
+		ApiResultData result = flowApiService.tradeFeedBackCcai(vo.getCaseCode(), CcaiTaskEnum.MORTGAGE_CUSTOMER_MAJORDOMO, info);
 		System.out.println(result.getMessage()+"-------"+result.isSuccess());
 		if(result.isSuccess()){
-			//修改案件状态为驳回CCAI
+			//修改案件状态为已终止
 			ToCase ca  = toCasemapper.findToCaseByCaseCode(vo.getCaseCode());
-			ca.setStartDate(CaseStatusEnum.BHCCAI.getCode());
+			ca.setStartDate(CaseStatusEnum.YZZ.getCode());
 			toCasemapper.updateByCaseCodeSelective(ca);
 			return true;
 		}
 		return false;
 	}
-
 	
 	private int saveToAppRecordInfoVO(ToAppRecordInfoVO vo) {
 		ToAppRecordInfo toAppRecordInfo = copyProperties(vo);
@@ -125,14 +124,11 @@ public class SelfLoanWarrantManagerApproServiceImp implements SelfLoanWarrantMan
 		toAppRecordInfo.setDealTime(new Date());
 		toAppRecordInfo.setLevel(user.getServiceJobName());
 		toAppRecordInfo.setResult(vo.getResult());
-		toAppRecordInfo.setSelfAppInfoId(vo.getSelfAppInfoId());
-		toAppRecordInfo.setVisitResult(vo.getVisitResult());
-		toAppRecordInfo.setVisitTime(vo.getVisitTime());
+		toAppRecordInfo.setSelfAppInfoId(vo.getSelfAppInfoId());;
 		toAppRecordInfo.setComment(vo.getComment());
 		return toAppRecordInfo;
 	}
-
-
+	
 	/**
 	 * 获取对应的权证经理 域账号
 	 * @param caseCode
@@ -158,4 +154,5 @@ public class SelfLoanWarrantManagerApproServiceImp implements SelfLoanWarrantMan
 		Assert.notNull(u,pa.getGrpMgrUsername()+" 主管信息不存在");
 		return u.getId();
 	}
+
 }

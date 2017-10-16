@@ -287,10 +287,10 @@
 		}
 
 		function checkform(formId){
-			if(formId.find("textarea[name='comment']").text() == ""){
+			if(formId.find("textarea[name='comment']").val() == ""){
 				 window.wxc.error("审批意见不能为空");
 				 return false;
-			}else if(formId.find("textarea[name='visitResult']").text() == ""){
+			}else if(formId.find("textarea[name='visitResult']").val() == ""){
 				 window.wxc.error("回访结果不能为空");
 				 return false;
 			}else if(formId.find("input[name='visitTime']").val() == ""){

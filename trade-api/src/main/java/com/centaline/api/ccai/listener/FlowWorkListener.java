@@ -54,7 +54,7 @@ import java.util.*;
 @Component
 public class FlowWorkListener {
 	//案件消息队列名称
-	private static final String caseQueueName = "casequeue";
+	private static final String caseQueueName = "casequeue-test";
 	Logger logger = LoggerFactory.getLogger(FlowWorkListener.class);
 	@Autowired
 	ToCaseParticipantMapper participantMapper;
