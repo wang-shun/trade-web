@@ -744,10 +744,10 @@ function evalBaodan(){
 	window.wxc.confirm("确定评估爆单？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		$.ajax({
-			url:ctx+"/eval/evalBaodan",
+			url:ctx+"/eval/stop/init",
 			method:"post",
 			dataType:"json",
-			data:{caseCode:caseCode},
+			data:{caseCode:caseCode,evaCode:$("#evaCode").val()},
 		    beforeSend:function(){  
 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				$(".blockOverlay").css({'z-index':'9998'});
@@ -766,7 +766,7 @@ function evalBaodan(){
 					window.wxc.error(data.message);
 				
 				}else{
-					window.location.href=ctx+"/task/baodanApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
+					window.location.href=ctx+"/eval/task/route/evalServiceStopApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode+"&evaCode="+data.content.businessKey;
 				}
 			}
 		});
@@ -775,7 +775,37 @@ function evalBaodan(){
 
 //驳回
 function evalReject(caseCode){
-	
+	window.wxc.confirm("确定评估驳回？",{"wxcOk":function(){
+		var caseCode = $("#caseCode").val();
+		$.ajax({
+			url:ctx+"/eval/stop/init",
+			method:"post",
+			dataType:"json",
+			data:{caseCode:caseCode,evaCode:$("#evaCode").val()},
+		    beforeSend:function(){  
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+            },
+            complete: function() {  
+                if(status=='timeout'){//超时,status还有success,error等值的情况
+	          	  Modal.alert(
+				  {
+				    msg:"抱歉，系统处理超时。"
+				  });
+		        }
+		   } , 
+		   success:function(data){
+				if(!data.success){
+					$.unblockUI();   
+					window.wxc.error(data.message);
+				
+				}else{
+					window.wxc.alert("驳回成功");
+					//window.location.href=ctx+"/eval/task/route/evalServiceStopApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode+"&evaCode="+data.content.businessKey;
+				}
+			}
+		});
+	}});
 }
 
 
