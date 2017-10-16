@@ -102,6 +102,9 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	
 	@Value("${process.df.key.evalServiceRestartProces}")
 	private String evalServiceRestartProcesDfKey;
+	
+	@Value("${process.df.key.evalServiceStopProcess}")
+	private String evalServiceStopProcessDfKey;
     
 	public String getEvalProcessDfKey() {
 		return evalProcessDfKey;
