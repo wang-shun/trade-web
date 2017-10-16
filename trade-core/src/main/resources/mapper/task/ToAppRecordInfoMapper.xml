@@ -10,17 +10,21 @@
     <result column="RESULT" property="result" jdbcType="INTEGER" />
     <result column="COMMENT" property="comment" jdbcType="VARCHAR" />
     <result column="SELF_APP_INFO_ID" property="selfAppInfoId" jdbcType="VARCHAR" />
+    <result column="VISIT_RESULT" property="visitResult" jdbcType="VARCHAR" />
+    <result column="VISIT_TIME" property="visitTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
 	
 	
 	<insert id="insertAppRecordInfo" useGeneratedKeys="true" parameterType="java.util.List">
-		insert into sctrans.T_TO_APP_RECORD_INFO (APPLY_USER_NAME,APPLY_REAL_NAME,LEVEL,DEAL_TIME,RESULT,COMMENT,SELF_APP_INFO_ID)
+		insert into sctrans.T_TO_APP_RECORD_INFO (APPLY_USER_NAME,APPLY_REAL_NAME,LEVEL,DEAL_TIME,RESULT,COMMENT,SELF_APP_INFO_ID,VISIT_RESULT,VISIT_TIME,CREATE_TIME)
 		values
 		<foreach collection="list" item="item" index="index" separator="," >  
-       (#{item.applyUserName,jdbcType=VARCHAR},#{item.applyRealName,jdbcType=VARCHAR},#{item.level,jdbcType=VARCHAR},#{item.dealTime,jdbcType=TIMESTAMP},#{item.result,jdbcType=INTEGER},#{item.comment,jdbcType=VARCHAR},#{item.selfAppInfoId,jdbcType=VARCHAR})
+       (#{item.applyUserName,jdbcType=VARCHAR},#{item.applyRealName,jdbcType=VARCHAR},#{item.level,jdbcType=VARCHAR},#{item.dealTime,jdbcType=TIMESTAMP},#{item.result,jdbcType=INTEGER},#{item.comment,jdbcType=VARCHAR},#{item.selfAppInfoId,jdbcType=VARCHAR},#{item.visitResult,jdbcType=VARCHAR},#{item.visitTime,jdbcType=TIMESTAMP},#{item.createTime,jdbcType=TIMESTAMP})
     	</foreach>  
 	</insert>
 	
-
-
+	<select id="getAppRecordInfo" parameterType="string" resultMap="BaseResultMap">
+			select PKID,APPLY_USER_NAME,APPLY_REAL_NAME,LEVEL,DEAL_TIME,RESULT,COMMENT,SELF_APP_INFO_ID,VISIT_RESULT,VISIT_TIME,CREATE_TIME from sctrans.T_TO_APP_RECORD_INFO WITH(NOLOCK) where SELF_APP_INFO_ID=#{appInfoId,jdbcType=VARCHAR} order by CREATE_TIME DESC;
+	</select>
 </mapper>

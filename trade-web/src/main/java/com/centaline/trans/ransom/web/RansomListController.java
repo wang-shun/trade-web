@@ -40,6 +40,7 @@ import com.centaline.trans.ransom.service.RansomListFormService;
 import com.centaline.trans.ransom.service.RansomService;
 import com.centaline.trans.ransom.vo.ToRansomLinkVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
+import com.centaline.trans.utils.DateUtil;
 
 /**
  * 赎楼单列表控制器
@@ -92,23 +93,26 @@ public class RansomListController {
 		SessionUser user= uamSessionService.getSessionUser();
 		
 		try {
-			Calendar ca = Calendar.getInstance();
-			int month = ca.get(Calendar.MONTH);// 获取月份
-			int day = ca.get(Calendar.DATE);// 获取日
-			int minute = ca.get(Calendar.MINUTE);// 分
-			int hour = ca.get(Calendar.HOUR);// 小时
-			int second=ca.get(Calendar.SECOND);//秒
+//			Calendar ca = Calendar.getInstance();
+//			int year = ca.get(Calendar.YEAR);// 获取年份
+//			int month = ca.get(Calendar.MONTH);// 获取月份
+//			int day = ca.get(Calendar.DATE);// 获取日
+//			int minute = ca.get(Calendar.MINUTE);// 分
+//			int hour = ca.get(Calendar.HOUR);// 小时
+//			int second=ca.get(Calendar.SECOND);//秒
 		      
 			List<ToRansomFormVo> list = JSONObject.parseArray(jsonStr, ToRansomFormVo.class);
 			
 			for (ToRansomFormVo arf : list) {
 				arf.setRansomCode(new StringBuffer()
-						.append("TJ-ZH-")
-						.append(String.valueOf(month))
-						.append(String.valueOf(day))
-						.append(String.valueOf(minute))
-						.append(String.valueOf(hour))
-						.append(String.valueOf(second))
+						.append("TJ-SL-").append(getCalendarTime())
+//						.append(String.valueOf(year))
+//						.append(String.valueOf(month))
+//						.append(String.valueOf("-"))
+//						.append(String.valueOf(day))
+//						.append(String.valueOf(minute))
+//						.append(String.valueOf(hour))
+//						.append(String.valueOf(second))
 						.toString()); //赎楼单编号
 				arf.setLoanMoney(arf.getLoanMoney() * 10000);
 				arf.setRestMoney(new BigDecimal(arf.getRestMoney().doubleValue() * 1000));
@@ -269,12 +273,12 @@ public class RansomListController {
 			ToRansomTailinsVo tailinsVo = (ToRansomTailinsVo) list.get(0);
 			List<TgGuestInfo> guestInfo = (List<TgGuestInfo>) list.get(1);
 			ToRansomCaseVo caseVo = (ToRansomCaseVo) list.get(2);
-			TsFinOrg finOrg = (TsFinOrg) list.get(3);
+			//TsFinOrg finOrg = (TsFinOrg) list.get(3);
 			
 			request.setAttribute("tailinsVo", tailinsVo);
 			request.setAttribute("guestInfo", guestInfo);
 			request.setAttribute("caseVo", caseVo);
-			request.setAttribute("finOrg", finOrg);
+			//request.setAttribute("finOrg", finOrg);
 			return "ransom/ransomDetailUpdate";
 		} catch (Exception e) {
 			logger.error("", e);
@@ -301,17 +305,18 @@ public class RansomListController {
 			if(ransomVo != null) {
 				caseVo.setRansomCode(ransomVo.getRansomCode());
 				caseVo.setBorrowerName(ransomVo.getBorrowerName());
-				caseVo.setBorroMoney(ransomVo.getBorrowerMoney() * 10000);
+				caseVo.setBorroMoney(ransomVo.getBorrowerMoney());
 				caseVo.setBorrowerTel(ransomVo.getBorrowerPhone());
 				caseVo.setUpdateUser(user.getUsername());
 				caseVo.setUpdateTime(new Date());
 				
 				tailinsVo.setRansomCode(ransomVo.getRansomCode());
+				tailinsVo.setSignTime(DateUtil.strToFullDate(ransomVo.getSignTime()));
 				tailinsVo.setFinOrgCode(ransomVo.getFinOrgCode());
 				tailinsVo.setMortgageType(ransomVo.getMortgageType());
 				tailinsVo.setDiyaType(ransomVo.getDiyaType());
-				tailinsVo.setLoanMoney(ransomVo.getLoanMoney() * 10000);
-				tailinsVo.setRestMoney(ransomVo.getRestMoney() * 10000);
+				tailinsVo.setLoanMoney(ransomVo.getLoanMoney());
+				tailinsVo.setRestMoney(ransomVo.getRestMoney());
 				tailinsVo.setUpdateTime(new Date());
 				tailinsVo.setUpdateUser(user.getUsername());
 				
@@ -374,5 +379,56 @@ public class RansomListController {
 			rs.setMessage(e.getMessage());
 			return  JSONObject.toJSONString(rs);
 		}
+	}
+	
+	
+	public static StringBuffer getCalendarTime() {
+		StringBuffer sb = new StringBuffer();
+		Calendar ca = Calendar.getInstance();
+		int year = ca.get(Calendar.YEAR);// 获取年份
+		int month = ca.get(Calendar.MONTH);// 获取月份
+		int day = ca.get(Calendar.DATE);// 获取日
+		int minute = ca.get(Calendar.MINUTE);// 分
+		int hour = ca.get(Calendar.HOUR);// 小时
+		int second=ca.get(Calendar.SECOND);//秒
+		
+		//sb.append(String.valueOf(year));
+		
+		if(month < 10) {
+			 sb.append(String.valueOf(year) + String.valueOf("0" + month) + "-");
+		}else {
+			sb.append(String.valueOf(year) + String.valueOf(month) + "-");
+		}
+		
+//		if(day < 10) {
+//			 sb.append(String.valueOf("0" + day));
+//		}else {
+//			sb.append(String.valueOf(day));
+//		}
+		
+//		if(hour < 10) {
+//			sb.append(String.valueOf("0" + hour));
+//		}else {
+//			sb.append(String.valueOf(hour));
+//		}
+		
+		if(minute < 10) {
+			 sb.append(String.valueOf("0" + minute));
+		}else {
+			sb.append(String.valueOf(minute));
+		}
+		
+		if(second < 10) {
+			 sb.append(String.valueOf("0" + second));
+		}else {
+			sb.append(String.valueOf(second));
+		}
+		
+		return sb;
+	}
+	
+	public static void main(String[] args) {
+		StringBuffer sb = getCalendarTime();
+		System.out.println(sb);
 	}
 }

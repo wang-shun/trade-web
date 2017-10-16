@@ -177,4 +177,11 @@ public interface RansomMapper {
 	 * @return
 	 */
 	ToRansomPaymentVo getPaymentInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 根据ransomCode删除赎楼申请表对应数据
+	 * @param ransomCode
+	 * @return
+	 */
+	boolean deleteRansomApplyByRansomCode(String ransomCode);
 }

@@ -294,34 +294,14 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
     }
 
     @Override
-    public ApiResultData submitToHouseTransfer(ToHouseTransfer toHouseTransfer, MortgageToSaveVO toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId,
+    public Boolean submitToHouseTransfer(ToHouseTransfer toHouseTransfer, MortgageToSaveVO toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId,
             String processInstanceId) {
         // 2 执行交易系统代码
         savaToHouseTransferAndMortageToVO(toHouseTransfer, toMortgage);
             /* 保存过户申请 */
         saveToApproveRecord(toHouseTransfer, processInstanceId, loanlostApproveVO);
         SessionUser sender = uamSessionService.getSessionUser();
-        //获取审批结果信息
-        FlowFeedBack info = new FlowFeedBack(sender, CcaiFlowResultEnum.SUCCESS, "进入过户审批环节");
-        //获取审批状态
-        ApiResultData apiResultData = flowApiService.tradeFeedBackCcai(toHouseTransfer.getCaseCode(), CcaiTaskEnum.TRADE_WARRANT_TRANSFER, info);
-        if (apiResultData.isSuccess()) {
-
-
-
-     /*       TaskQuery taskQuery=new TaskQuery();
-            taskQuery.setProcessInstanceBusinessKey(toHouseTransfer.getCaseCode());
-            taskQuery.setTaskDefinitionKey("Guohu");
-            taskQuery.setAssignee(sender.getUsername());
-            PageableVo listTasks = workFlowManager.listTasks(taskQuery);
-                TaskVo taskVo = (TaskVo) listTasks.getData().get(0);
-                //把审核通过添加到流程变量
-                RestVariable caseApprove = new RestVariable();
-                caseApprove.setName("GuohuApprove");
-                caseApprove.setValue(true);*/
-                 /* 流程引擎相关 */
             List<RestVariable> variables = new ArrayList<RestVariable>();
-            //variables.add(caseApprove);
             ToCase toCase = toCaseService.findToCaseByCaseCode(toHouseTransfer.getCaseCode());
             if (workFlowManager.submitTask(variables, taskId, processInstanceId, toCase.getLeadingProcessId(), toHouseTransfer.getCaseCode())) {
                 /**
@@ -336,25 +316,8 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
                 if (satis != null && SatisfactionTypeEnum.NEW.getCode().equals(satis.getType())) {
                     satisfactionService.handleAfterGuohu(toCase.getCaseCode(), sender.getId(), null);
                 }
-                System.out.println("交互成功！" + apiResultData.toString());
             }
-        } else {
-            throw new BusinessException(apiResultData.getMessage());
-            //System.out.println("交互失败！" + apiResultData.toString());
-        }
-        /*
-         * 佣金分配 绩效奖金自动化,取消原有的数据获取方式 add by zhuody in 2017-06-20
-         */
-        /*
-         * awardBaseService.doAwardCalculate(toHouseTransfer,
-         * processInstanceId);
-         */
-
-
-        /* 修改案件状态 */
-        //toCase.setStatus("30001004");
-        //toCaseService.updateByCaseCodeSelective(toCase);
-        return apiResultData;
+        return true;
     }
 
     public AjaxResponse saveToHouseTransfer(ToHouseTransfer toHouseTransfer, ToMortgage toMortgage, LoanlostApproveVO loanlostApproveVO, String processInstanceId)

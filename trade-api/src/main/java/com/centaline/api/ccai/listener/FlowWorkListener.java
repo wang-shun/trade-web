@@ -4,6 +4,7 @@ import com.aist.common.exception.BusinessException;
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.api.ccai.vo.MQCaseMessage;
@@ -126,7 +127,10 @@ public class FlowWorkListener {
 			} else if (MQCaseMessage.REPEAL_TYPE.equals(message.getType())) {
 				repealProcess(message.getCaseCode());
 				mqlog.setStatus("0");
-			} else {
+			} else if(MQCaseMessage.LOAN_TYPE.equals(message.getType())){
+				startProcessLoanAndAsse(message.getCaseCode());
+				mqlog.setStatus("0");
+			}else {
 				mqlog.setOpertation(message.getType());
 				mqlog.setStatus("-1");
 				mqlog.setErrmsg("未识别的操作.");
@@ -137,7 +141,7 @@ public class FlowWorkListener {
 		}
 		logMapper.insertSelective(mqlog);
 	}
-	
+
 	/**
 	 * 开启自办贷款/评估审批流程
 	 * @param caseCode
@@ -219,8 +223,10 @@ public class FlowWorkListener {
 		}
 
 		ToWorkFlow toWorkFlow = new ToWorkFlow();
+		//获取案件拥有者所属组别 根据所属组别获取部署的流程ID 并启动流程
+		Org org = uamUserOrgService.getOrgByCode(owner.getGrpCode());
 		//启动流程引擎
-		StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode()), caseCode, defValsMap);
+		StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.WBUSSKEY.getCode(),org.getId()), caseCode, defValsMap);
 		toWorkFlow.setInstCode(pIVo.getId());
 		toWorkFlow.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
 		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
