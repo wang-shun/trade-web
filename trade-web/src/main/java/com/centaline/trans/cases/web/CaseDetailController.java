@@ -1921,7 +1921,7 @@ public class CaseDetailController {
 				TsTransPlanHistory hisRecord = new TsTransPlanHistory();
 				ToTransPlan record = new ToTransPlan();
 				try {
-					//add by zhoujp添加一条交易计划变更历史批次信息
+					//添加一条交易计划变更历史批次信息
 					if(isDeal){
 						ttpb.setCaseCode(oldPlan.getCaseCode());
 						ttpb.setOldEstPartTime(oldPlan.getEstPartTime());
@@ -1967,6 +1967,7 @@ public class CaseDetailController {
 	@ResponseBody
 	public AjaxResponse<?> startTransPlan(String[] isChanges, String[] estIds, String[] estDates, String[] whyChanges,String partCode,String caseCode,
 										  HttpServletRequest request){
+		if(isChanges!=null&&isChanges.length>0){
 		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 		SessionUser sessionUser=uamSessionService.getSessionUser();
 		//变更历史批次表
@@ -1974,7 +1975,6 @@ public class CaseDetailController {
 		//是否处理
 		boolean isDeal=true;
 		ToTransPlan toTransPlan=new ToTransPlan();
-
 		//启动交易变更审核流程
 		Map<String,Object> vars=new HashMap<>();
 		ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
@@ -2053,6 +2053,9 @@ public class CaseDetailController {
 		}
 		}else {
 			return AjaxResponse.fail("未获取到办理人！");
+		}
+		}else {
+			return AjaxResponse.fail("交易计划未做变更！");
 		}
 	}
 

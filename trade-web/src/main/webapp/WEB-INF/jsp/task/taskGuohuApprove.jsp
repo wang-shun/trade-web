@@ -499,11 +499,14 @@
     <!-- jqGrid -->
     <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
     <script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
+    <!--审批记录-->
     <script src="<c:url value='/transjs/task/loanlostApprove.js' />"></script>
+    <!--产调-->
     <script src="<c:url value='/transjs/task/showAttachment.js' />"></script>  <%-- --%>
     <!-- Custom and plugin javascript -->
+    <!--文件拖拽上传插件-->
     <script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script>
-    <!-- Data picker -->
+    <!-- Data picker 时间插件-->
     <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 
     <!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js' />"></script>
@@ -524,11 +527,14 @@
     <script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>
+    <!--用于固定菜单或导航条固定在页面顶部-->
     <script src="<c:url value='/js/stickUp.js' />"></script>
     <!-- 上传附件 结束 -->
     <!-- 附件保存修改相关 -->
-    <script src="<c:url value='/js/trunk/task/attachment.js' />"></script><%--  --%>
+    <script src="<c:url value='/js/trunk/task/attachment.js' />"></script>
+    <!--遮罩需要的js-->
     <script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
+    <!--同案件任务列表-->
     <script src="<c:url value='/transjs/common/caseTaskCheck.js' />"></script>
     <!-- 图片查看JS -->
     <script src="<c:url value='/js/trunk/case/showCaseAttachmentGuohu.js' />"></script>
@@ -750,6 +756,7 @@
                 url : "${ctx}/task/guohuApprove/guohuApprove",
                 dataType : "json",
                 data : jsonData,
+                timeout:10000,
                 beforeSend : function() {
                     console.log(11111)
                     $.blockUI({
@@ -765,6 +772,16 @@
                 },
                 complete : function() {
                     $.unblockUI();
+                    $.blockUI({
+                        message : $("#salesLoading"),
+                        css : {
+                            'border' : 'none',
+                            'z-index' : '9999'
+                        }
+                    });
+                    $(".blockOverlay").css({
+                        'z-index' : '9998'
+                    });
                     if (status == 'timeout') {//超时,status还有success,error等值的情况
                         Modal.alert({
                             msg : "抱歉，系统处理超时。"
@@ -777,7 +794,9 @@
                 success : function(data) {
                     if(data){
                         caseTaskCheck();
-                        window.wxc.alert("提交成功！");
+                        window.wxc.success("提交成功",{"wxcOk":function () {
+                            $.unblockUI();
+                        }})
                     }else {
                         window.wxc.error("提交失败！",{"wxcOk":function () {
                             window.location.href = "${ctx }/task/myTaskList";
