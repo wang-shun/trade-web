@@ -55,7 +55,7 @@ public class EvalServiceRestartController {
 				vo.setOrgId(u.getServiceDepId());		
 				
 				//评估相关流程挂起并启动评估重启流程
-				StartProcessInstanceVo piv = evalServiceRestartService.SuspendEvalSubProcess(vo);		
+				StartProcessInstanceVo piv = evalServiceRestartService.SuspendEvalSubProcess(vo,resp);		
 				resp.setContent(piv);
 				return resp;
 			}
@@ -116,11 +116,11 @@ public class EvalServiceRestartController {
 	 */
 	@RequestMapping("approve/process")
 	public String toApproveProcess(HttpServletRequest request,
-			HttpServletResponse response, String caseCode, String source,
+			HttpServletResponse response,String source,String  businessKey,
 			String taskitem, String processInstanceId) {
 		SessionUser user = uamSessionService.getSessionUser();
 		request.setAttribute("source", source);
-
+        request.setAttribute("evaCode", businessKey);
 		request.setAttribute("approveType", "10");
 		request.setAttribute("operator", user != null ? user.getId() : "");
 		return "eval/taskevalServiceRestartApprove";
