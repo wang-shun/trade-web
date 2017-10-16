@@ -101,7 +101,7 @@
     background: #fff;
     display: block;
     margin: 8px 0 0;
-    min-height: 700px;
+    min-height: 450px;
     overflow: hidden;
     position: relative;
     width: auto;
@@ -171,7 +171,7 @@
             margin: 5px 10px;
         }
         .wizard > .content {
-            min-height: 820px;
+            min-height: 450px;
         }
         .grey_visited {
             background-color: #ccc;

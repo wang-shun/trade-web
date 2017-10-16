@@ -9,6 +9,7 @@ public enum EventTypeEnum {
 	GUOHUFINISHEVENTCATCH(ConstantsUtil.MESSAGE_EVENT,"GuohuFinishMsgEventCatch","GuohuFinishMsgEventCatch"),
 	TRADEBOUNDARYMSG(ConstantsUtil.MESSAGE_EVENT,"TradeBoundaryMsg", "TradeBoundaryMsg"),
 	BANKLEVELAPPROVEEVENTCATCH(ConstantsUtil.MESSAGE_EVENT,"BankLevelApproveMsgEventCatch","BankLevelApproveMsgEventCatch"),
+	SELF_LOAN_MSG_EVENT_CATCH(ConstantsUtil.MESSAGE_EVENT,"SelfLoanMsgEventCatch","SelfLoanMsgEventCatch"),
 	//CCAI修改完成 消息事件捕获
 	CCAI_UPDATED_MSG_EVENT_CATCH(ConstantsUtil.MESSAGE_EVENT,"CCAIUpdatedMsgEventCatch","CCAIUpdatedMsgEventCatch");
 

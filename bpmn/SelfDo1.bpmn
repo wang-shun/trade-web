@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <message id="CCAIModifyMsg" name="CCAIModifyMsg"></message>
+  <process id="selfDo" name="selfDo" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <userTask id="warrantManagerAppro" name="权证经理审批" activiti:assignee="${manager}" activiti:formKey="/task/warrantManagerAppro/process"></userTask>
+    <userTask id="chiefInspectorAppro" name="总监审批" activiti:assignee="${manager}" activiti:formKey="/task/chiefInspectorAppro/process"></userTask>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
+    <intermediateCatchEvent id="SelfLoanMsgEventCatch" name="SelfLoanMsgEventCatch">
+      <messageEventDefinition messageRef="CCAIModifyMsg"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="warrantManagerAppro"></sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="warrantManagerAppro" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="exclusivegateway1" targetRef="chiefInspectorAppro">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approval}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="exclusivegateway1" targetRef="SelfLoanMsgEventCatch">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approval == false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="SelfLoanMsgEventCatch" targetRef="warrantManagerAppro"></sequenceFlow>
+    <sequenceFlow id="flow6" sourceRef="chiefInspectorAppro" targetRef="exclusivegateway2"></sequenceFlow>
+    <sequenceFlow id="flow7" sourceRef="exclusivegateway2" targetRef="warrantManagerAppro">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approval == false}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="exclusivegateway2" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approval}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_selfDo">
+    <bpmndi:BPMNPlane bpmnElement="selfDo" id="BPMNPlane_selfDo">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="80.0" y="140.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="warrantManagerAppro" id="BPMNShape_warrantManagerAppro">
+        <omgdc:Bounds height="55.0" width="105.0" x="190.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="chiefInspectorAppro" id="BPMNShape_chiefInspectorAppro">
+        <omgdc:Bounds height="55.0" width="105.0" x="410.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="630.0" y="140.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="330.0" y="137.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway2" id="BPMNShape_exclusivegateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="560.0" y="137.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="SelfLoanMsgEventCatch" id="BPMNShape_SelfLoanMsgEventCatch">
+        <omgdc:Bounds height="35.0" width="35.0" x="225.0" y="287.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="115.0" y="157.0"></omgdi:waypoint>
+        <omgdi:waypoint x="190.0" y="157.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="295.0" y="157.0"></omgdi:waypoint>
+        <omgdi:waypoint x="330.0" y="157.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="370.0" y="157.0"></omgdi:waypoint>
+        <omgdi:waypoint x="410.0" y="157.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="350.0" y="177.0"></omgdi:waypoint>
+        <omgdi:waypoint x="242.0" y="287.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="242.0" y="287.0"></omgdi:waypoint>
+        <omgdi:waypoint x="242.0" y="185.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="515.0" y="157.0"></omgdi:waypoint>
+        <omgdi:waypoint x="560.0" y="157.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="580.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="579.0" y="38.0"></omgdi:waypoint>
+        <omgdi:waypoint x="434.0" y="38.0"></omgdi:waypoint>
+        <omgdi:waypoint x="242.0" y="38.0"></omgdi:waypoint>
+        <omgdi:waypoint x="242.0" y="130.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="600.0" y="157.0"></omgdi:waypoint>
+        <omgdi:waypoint x="630.0" y="157.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
