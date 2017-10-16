@@ -62,6 +62,12 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		
 		return ransomListFormMapper.updateRansomDiscountinue(ransomCaseVo);
 	}
+	
+	@Override
+	public int updateRansomDiscountinue(String caseCode) {
+		
+		return ransomListFormMapper.updateRansomDiscountinue(caseCode);
+	}
 
 	@Override
 	public List getUpdateRansomInfo(String caseCode) {
