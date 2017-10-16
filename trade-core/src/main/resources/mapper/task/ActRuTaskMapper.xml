@@ -31,5 +31,34 @@
         WHERE  w.CASE_CODE=  #{caseCode,jdbcType=VARCHAR}
         and w.STATUS='0'
     </select>
+    
+    <select id="getRuTaskByBizCode" resultType="com.centaline.trans.engine.vo.TaskVo">
+        select
+        ASSIGNEE_ as assignee
+        ,CREATE_TIME_ as createTime
+        ,DELEGATION_ as delegationState
+        ,DESCRIPTION_ as description
+        ,DUE_DATE_ as dueDate
+        ,EXECUTION_ID_ as execution
+        ,ID_ as id
+        ,NAME_ as name
+        ,OWNER_ as owner
+        ,PARENT_TASK_ID_ as parentTaskId
+        ,PRIORITY_ as priority
+        ,PROCESS_DEFINITION_ID as processInstanceId
+       ,case
+            when SUSPENSION_STATE_='1' then 'false'
+            when SUSPENSION_STATE_='2' then 'true'
+        end  as suspended
+        ,TASK_DEF_KEY_ as taskDefinitionKey
+        ,TENANT_ID_ as tenantId
+        ,FORM_KEY_ as formKey
+        ,w.BUSINESS_KEY as business_key
+        ,w.INST_CODE as instCode
+        from sctrans.ACT_RU_TASK art
+        left join  sctrans.T_TO_WORKFLOW w on art.PROC_INST_ID_=w.INST_CODE
+        WHERE  w.BIZ_CODE=  #{bizCode,jdbcType=VARCHAR}
+        and w.STATUS='0'
+    </select>
 
 </mapper>

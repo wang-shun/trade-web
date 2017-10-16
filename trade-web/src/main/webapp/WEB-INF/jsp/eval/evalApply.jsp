@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>e+产品</title>
+<title>评估申请</title>
 
 <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
 <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />"

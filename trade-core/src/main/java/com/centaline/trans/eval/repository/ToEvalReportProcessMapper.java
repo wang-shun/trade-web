@@ -22,4 +22,50 @@ public interface ToEvalReportProcessMapper {
     int updateByPrimaryKey(ToEvalReportProcess record);
     
     ToEvalReportProcess findToEvalReportProcessByCaseCode(String caseCode);
+    
+    ToEvalReportProcess findToEvalReportProcessByEvalCode(String evalCode);
+    
+    int ToEvalReportProcess(ToEvalReportProcess toEvalReportProcess);
+    
+    /**
+     * 
+     * @param toEvalReportProcess
+     * @return
+     * @author jinwl6
+     */
+    int updateEvalPropertyByEvalCode(ToEvalReportProcess toEvalReportProcess);
+    
+    /**
+     * 
+     * @param toEvalReportProcess
+     * @return
+     * @author jinwl6
+     */
+    int updateEvalPropertyByCaseCode(ToEvalReportProcess toEvalReportProcess);
+    
+    /**
+     * 
+     * @param toEvalReportProcess
+     * @return
+     * @author jinwl6
+     */
+    int updateStatusByEvalCode(ToEvalReportProcess toEvalReportProcess);
+    
+    /**
+     * 根据案件号和评估状态查询评估信息
+     * @param caseCode
+     * @return
+     * @author jinwl6
+     */
+    ToEvalReportProcess selectToEvaReportProcessByCaseCodeAndStatus(String caseCode);
+    
+    /**
+     * 根据ID更新评估流程信息
+     * @param record
+     * @return
+     * @author jinwl6
+     */
+    int updateEvaReportByPkid(ToEvalReportProcess record);
+    
+    int updateEvaReportByEvaCode(ToEvalReportProcess record);
 }

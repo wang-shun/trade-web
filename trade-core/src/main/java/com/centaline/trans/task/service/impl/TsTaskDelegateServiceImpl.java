@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,7 +31,8 @@ import com.centaline.trans.task.vo.UserPagebleVO;
 
 @Service
 public class TsTaskDelegateServiceImpl implements TsTaskDelegateService {
-	public static final String YC_ORG_CODE = "033G970";
+	@Value("${trade.yucui.org_code}")
+	public String YC_ORG_CODE;
 	public static final String TASK_DELEGATE_STATUS_CLOSE = "20011001";
 	public static final String TASK_DELEGATE_STATUS_OPEN = "20011002";
 	@Autowired
@@ -188,5 +190,10 @@ public class TsTaskDelegateServiceImpl implements TsTaskDelegateService {
 		if (ttds == null || ttds.isEmpty())
 			return null;
 		return ttds.get(0).getAssignee();
+	}
+
+	@Override
+	public String getYC_ORG_CODE() {
+		return YC_ORG_CODE;
 	}
 }

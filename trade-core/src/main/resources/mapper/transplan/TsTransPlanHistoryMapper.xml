@@ -11,6 +11,8 @@
     <result column="CHANGE_REASON" property="changeReason" jdbcType="NVARCHAR" />
     <result column="NEW_EST_PART_TIME" property="newEstPartTime" jdbcType="TIMESTAMP" />
     <result column="BATCH_ID" property="batchId" jdbcType="BIGINT" />
+    <result column="APPVER_PART_CODE" property="appverPartCode" jdbcType="VARCHAR"/>
+    <result column="AUDIT_RESULT" property="auditResult" jdbcType="INTEGER"/>
   </resultMap>
   <resultMap id="queryTtsTransPlanHistorysMap" type="com.centaline.trans.transplan.vo.TsTransPlanHistoryVO" >
     <id column="PKID" property="pkid" jdbcType="BIGINT" />
@@ -22,10 +24,12 @@
     <result column="CHANGE_REASON" property="changeReason" jdbcType="NVARCHAR" />
     <result column="newEstPartTime" property="newEstPartTime" jdbcType="VARCHAR" />
     <result column="BATCH_ID" property="batchId" jdbcType="BIGINT" />
+    <result column="APPVER_PART_CODE" property="appverPartCode" jdbcType="VARCHAR"/>
+    <result column="AUDIT_RESULT" property="auditResult" jdbcType="INTEGER"/>
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, PART_CODE, OLD_EST_PART_TIME, CHANGE_TIME, CHANGER_ID, CHANGE_REASON, 
-    NEW_EST_PART_TIME
+    NEW_EST_PART_TIME,APPVER_PART_CODE,AUDIT_RESULT
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -87,6 +91,12 @@
       <if test="newEstPartTime != null" >
         NEW_EST_PART_TIME,
       </if>
+      <if test="auditResult!=null">
+        AUDIT_RESULT,
+      </if>
+      <if test="appverPartCode!=null">
+        APPVER_PART_CODE,
+      </if>
         CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -117,6 +127,12 @@
       <if test="newEstPartTime != null" >
         #{newEstPartTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="auditResult!=null">
+       #{auditResult,jdbcType=INTEGER},
+      </if>
+      <if test="appverPartCode!=null">
+        #{appverPartCode,jdbcType=VARCHAR},
+      </if>
         GETDATE(),GETDATE(),@{SESSION_USER_ID},@{SESSION_USER_ID},
     </trim>
   </insert>
@@ -143,6 +159,12 @@
       </if>
       <if test="newEstPartTime != null" >
         NEW_EST_PART_TIME = #{newEstPartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditResult!=null">
+        AUDIT_RESULT=#{auditResult,jdbcType=INTEGER},
+      </if>
+      <if test="appverPartCode!=null">
+        APPVER_PART_CODE=#{appverPartCode,jdbcType=VARCHAR},
       </if>
             CREATE_TIME = GETDATE(),
        UPDATE_TIME = GETDATE(),
@@ -210,6 +232,10 @@
 			    where CASE_CODE=a.caseCode and PART_CODE=a.partCode and IS_SUCCESS=1
 	         )
 	      ORDER BY a.estPartTime DESC
-	  </select> 
- 
+	  </select>
+  <select id="findTransPlanHistoryByCaseCode" parameterType="com.centaline.trans.transplan.entity.TsTransPlanHistory" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sctrans.T_TS_TRANS_PLAN_HISTORY where  CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  </select>
 </mapper>

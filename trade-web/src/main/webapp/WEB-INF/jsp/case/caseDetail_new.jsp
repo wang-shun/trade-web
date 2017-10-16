@@ -22,19 +22,23 @@
 <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
 <link href="<c:url value='/css/animate.css' />" rel="stylesheet">
 <link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/iCheck/custom.css' />" rel="stylesheet">
 
 <link href="<c:url value='/css/plugins/jasny/jasny-bootstrap.min.css' />"	rel="stylesheet">
-
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"	rel="stylesheet">
 <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />"	rel="stylesheet">
 <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />"	rel="stylesheet">
 <link href="<c:url value='/css/transcss/comment/caseComment.css' />"	rel="stylesheet">
 <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"	rel="stylesheet" />
-
+<link href="<c:url value='/static/trans/css/workflow/caseDetail.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/trans/css/workflow/details.css' />" rel="stylesheet" />
 <link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
 <link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
-
+<link href="<c:url value='/css/common/subscribe.css' />" rel="stylesheet">
 <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" />
-
+<link href="<c:url value='/static/trans/css/workflow/details.css' />" rel="stylesheet" />
+<link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
 </head>
 <body>
 <style>
@@ -65,6 +69,9 @@
 	<input type="hidden" id="data" value="${data }"/>
 	<script>
 		var resourceDistributionBtn = false;
+		var partCode="${partCode}";//用以获取发起交易变更时的环节 by wbzhouht
+		var auditResult="${auditResult}";//交易计划变更审核时的状态 待审核状态下不能在发起交易变更 by wbzhouht
+		console.log(auditResult);
 		<%if (request.getAttribute("msg") == null || request.getAttribute("msg") == "") {%>
 		<%} else {%>
 			window.wxc.alert("<%=request.getAttribute("msg")%>");
@@ -550,11 +557,11 @@
 	<script src="<c:url value='/js/trunk/case/caseDetail_new.js' />"></script>
 	<%-- <script src="<c:url value='js/trunk/case/showCaseAttachment.js' />"></script> --%>
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
-	<%-- <script src="<c:url value='/js/trunk/case/showCaseAttachmentByJagd.js' />"></script> --%>
+	<%--<script src="<c:url value='/js/trunk/case/showCaseAttachmentByJagd.js' />"></script>--%>
 	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/additional-methods.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
-	<%--<script src="<c:url value='/js/stickUp.js' />"></script>--%> <%--by wbzhouht 解决点击交易变化变更js报错--%>
+	<%--<script src="<c:url value='/js/stickUp.js' />"></script>--%>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
 	<!-- 放款监管信息  -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>

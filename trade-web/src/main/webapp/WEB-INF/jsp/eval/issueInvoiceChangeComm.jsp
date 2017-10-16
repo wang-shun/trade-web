@@ -115,6 +115,7 @@
 	height: 35px;
 }
 </style>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- jdGrid相关 -->
@@ -137,7 +138,7 @@
 <link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
 <link href="<c:url value='/css/iconfont/iconfont.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
-<link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
+<%-- <link href="<c:url value='/css/common/input.css' />" rel="stylesheet"> --%>
 <link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
 <!--弹出框样式  -->
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
@@ -176,15 +177,15 @@ function submit() {
 
 //保存数据
 function save(b) {
-	if(b){
+	/* if(b){
 		if (!checkForm()) {
 			return;
 		}													
-	}
+	} */
 	
-	var jsonData = $("#evalForm").serializeArray();
+	var jsonData = $("#invoiceChangeForm").serializeArray();
 
-	var url = "${ctx}/eval/addEval";
+	var url = "${ctx}/eval/submitIssueInvoiceChangeComm";
 	
 	$.ajax({
         cache : true,
@@ -213,7 +214,7 @@ function save(b) {
                     window.wxc.alert("提交成功"+data);
                 }
                 var ctx = $("#ctx").val();
-                window.location.href=ctx+ "/task/myTaskList";
+                //window.location.href=ctx+ "/task/myTaskList";
             }else{
             	if (data.message) {
                     window.wxc.alert("提交成功"+data);
@@ -485,71 +486,138 @@ function checkForm() {
 
 
 	<div class="">
-<!-- 		<div class="wrapper white-bg new-heading" id="serviceFlow">
-             <div class="pl10">
-                 <h2 class="newtitle-big">
-                        	调佣任务填写
-                 </h2>
-             </div>
-        </div> -->
-
-        <div class="ibox-content border-bottom clearfix space_box noborder marginbot" id="serviceFlow">
-            <h2 class="newtitle title-mark">调佣任务填写</h2>
-			<form method="get" class="form_list" id="evalForm"
-				style="overflow: visible;">
-				<input type="hidden" id="ctx" value="${ctx }" />
-				<!-- 交易单编号 -->
-				<%-- <input type="hidden" id="caseCode" name="caseCode"
-					value="${caseCode}"> --%>
-					<input type="hidden" id="caseCode" name="caseCode"
-					value="ZY-TJ-2017100213">
-
-				<div class="marinfo">
-					<div class="line">
-						<div class="form_content">
-							<label class="control-label sign_left_small"><font
-								color=" red" class="mr5">*</font>调佣类型： </label> <input type="text"
-								class="input_type yuanwid" id="changeChargesType" maxlength="16"
-								name="changeChargesType" >
-						</div>
-					</div>
-
-					<div class="line">
-						<div class="form_content">
-							<label class="control-label sign_left_small"><font
-								color=" red" class="mr5">*</font>调佣事由 </label> <input type="text" id="changeChargesCause"
-								class="input_type mendwidth" maxlength="150" name="changeChargesCause">
-						</div>
-					</div>
-
-					<div class="line">
-						<div class="form_content mt3">
-							<label class="control-label sign_left_small"> 调佣对象 </label> <input
-								type="text" class="input_type mendwidth" maxlength="32"
-								name="changeChargesTargat">
-						</div>
-					</div>
-
-					<div class="line" id="aboutInfo">
-						<div class="form_content mt3">
-							<label class="control-label sign_left_small"> 调佣金额 </label> 
-								<input type="text" placeholder="成交价" class="input_type yuanwid" id="changeChargesAmount" name="changeChargesAmount" onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value="" type='number' pattern='#0.00'/>"> 
-						</div>
-					</div>
-				</div>
-				<div class="hr"></div>
-			</form>
 
 
 
-			<div class="form-btn">
+<!-- 调佣对象调佣金额 -->
+		 <div class="ibox-content border-bottom clearfix space_box noborder marginbot" id="serviceFlow">
+		 <form action="#" id="invoiceChangeForm">
+<input type="hidden" id="caseCode" name="caseCode" value="caseCode123123">
+<input type="hidden" id="ctx" name="ctx" value="${ctx}">
+		<!-- 原来的页面 -->
+		<h2 class="newtitle title-mark">调佣任务填写</h2>		
+	                <!-- 原来的页面 -->
+		<div  style="width: 80%" align="center" class="table_content">
+		
+		<div align="left" style="height:30px">
+			<font color=" red" >*</font>调佣类型： 
+			<input type="text" id="changeChargesType" maxlength="16" name="changeChargesType" >
+		</div>
+		<div align="left" style="height:30px">
+			<font color=" red" >*</font>调佣事由：
+			<input type="text" id="changeChargesCause" maxlength="16" name="changeChargesCause" >
+		</div>
+        <table style="width: 100%;height: 600px;" class="table-hover">
+            <thead>
+            <tr>
+                <td></td><td>合作费类型</td><td>分成金额</td><td>分成比例</td><td>合作人</td><td>合作部门</td><td>合作经理</td>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${evalChangeCommVO.coPersonList }" var="coPerson" varStatus="s">
+            <tr>
+                    <td>${coPerson.position }${s.count} : <input type="hidden" name="coPersonList[${s.index}].pkid" value="${coPerson.pkid }"></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateType" value="${coPerson.cooperateType }" ></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].shareAmount" value="${coPerson.shareAmount }"></td>
+                    <td><input type="text" style="width: 120px" ></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].employeeName" value="${coPerson.employeeName }"></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateDept" value="${coPerson.cooperateDept }"></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateManager" value="${coPerson.cooperateManager }"></td>
+                </tr>
+            </c:forEach>
+                <!-- <tr>
+                    <td>合作人1:</td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                </tr> -->
+                
+
+                <tr>
+                    <td></td><td>部门</td><td>员工</td><td>分成金额</td><td>分成比例</td><td>分成说明</td><td>成交单数</td>
+                </tr>
+                <c:forEach items="${evalChangeCommVO.sharePersonList }" var="sharePerson" varStatus="s">
+                <tr>
+                    <td>${sharePerson.position }${s.count}:<input type="hidden" name="sharePersonList[${s.index}].pkid" value="${sharePerson.pkid }"></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].department" value="${sharePerson.department }"></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].employeeName" value="${sharePerson.employeeName }"></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].shareAmount" value="${sharePerson.shareAmount }"></td>
+                    <td></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].shareReason" value="${sharePerson.shareReason }"></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].dealCount" value="${sharePerson.dealCount }"></td>
+                </tr>
+                </c:forEach>
+                <!-- <tr>
+                    <td>分成人2:</td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                </tr> -->               
+                <tr></tr><tr></tr>
+                
+                <c:forEach items="${evalChangeCommVO.warrantPersonList }" var="warrantPersonList" varStatus="s">
+                <tr>
+                    <td>权证1:<input type="hidden" name="warrantPersonList[${s.index}].pkid" value="${warrantPersonList.pkid }"></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].department" value="${warrantPersonList.department }" style="width: 120px"></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].employeeName" value="${warrantPersonList.employeeName }" style="width: 120px"></td>
+                    <td></td>
+                    <td></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].position" value="${warrantPersonList.position }" style="width: 120px"></td>
+                    <td></td>
+                </tr>
+                </c:forEach>
+                <!-- <tr>
+                    <td>权证2:</td>
+                    <td align="left"><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td></td>
+                </tr> -->
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>合计:</td>
+                    <td><input type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px"></td>
+                    <td><input type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px"></td>
+                    <td>单数合计:</td>
+                    <td><input type="text" value="${evalChangeCommVO.dealCount }" name="dealCount" style="width: 120px"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>总业绩:</td>
+                    <td><input type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+</div>
+</form>
+<!-- 调佣对象调佣金额 -->
+
+<div class="form-btn" id="aboutInfo">
 	                    <div class="text-center">
 	                        <button  class="btn btn-success btn-space" onclick="save(false)" id="btnSave">保存</button>
 	                         <button class="btn btn-success btn-space" onclick="submit()">提交</button>
+	                         
 	                    </div>
 	                </div>
-	            </div>
+
+	
+		</div>
+        
 			</div>
 	
 			<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>

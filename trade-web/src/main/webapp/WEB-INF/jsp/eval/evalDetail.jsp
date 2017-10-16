@@ -58,6 +58,7 @@
 	<input type="hidden" id="Lamp3" value="${Lamp3}" />
 	<input type="hidden" id="activityFlag" value="${toCase.caseProperty}" />
 	<input type="hidden" id="caseCode" value="${caseCode}" />
+	<input type="hidden" id="evaCode" value="${evaCode}" />
 	<input type="hidden" id="instCode" value="${toWorkFlow.instCode}" />
 	<input type="hidden" id="srvCodes" value="${caseDetailVO.srvCodes}" />
 	<input type="hidden" id="processDefinitionId"
@@ -98,21 +99,21 @@
 							</div>
 							<div class="tab-pane fade" id="profile">
 								<div class="row">
-									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUSPEND">
+									<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUSPEND"> -->
 										<a role="button" id="processRestart" class="btn btn-primary btn-xm" href="javascript:evalProcessRestart()">评估重启 </a>
-									</shiro:hasPermission>
-									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE">
+									<!-- </shiro:hasPermission> -->
+									<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE"> -->
 										<a role="button" id="evalComChange" class="btn btn-primary btn-xm" href="javascript:evalComChange()">评估公司变更</a>
-									</shiro:hasPermission>
-									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PRARISE">
+									<!-- </shiro:hasPermission> -->
+									<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PRARISE"> -->
 										<a role="button" id="evalBaodan" class="btn btn-primary btn-xm btn-activity" href="javascript:evalBaodan()">评估爆单 </a>
-									</shiro:hasPermission>
-									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPEND">
+									<!-- </shiro:hasPermission> -->
+									<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPEND"> -->
 										<a role="button" id="evalReject" class="btn btn-primary btn-xm btn-activity" href="javascript:evalReject('${caseCode}')">驳回申请</a>
-									</shiro:hasPermission>
-									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.DAISHOU">
+									<!-- </shiro:hasPermission> -->
+									<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.DAISHOU"> -->
 										<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:transferCommission()" target="_blank">评估公司变更调佣</a>
-									</shiro:hasPermission>
+									<!-- </shiro:hasPermission> -->
 									
 								</div>
 

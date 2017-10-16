@@ -108,4 +108,12 @@ public interface ToCaseInfoMapper {
 	 */
 	int isExistCcaiCode(String ccaiCode);
 	
+	 /**
+     * 获取案件责任主管
+     * @param caseCode
+     * @return
+     * @author jinwl6
+     */
+    String getCaseManager(String caseCode);
+	
 }

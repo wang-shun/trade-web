@@ -301,8 +301,8 @@ function checkForm() {
             		<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseRecvVO.caseCode}">
-					<!-- <input type="hidden" id="caseCode" name="caseCode" value="ZY-TJ-2017100212"> -->
+					<%-- <input type="hidden" id="caseCode" name="caseCode" value="${caseRecvVO.caseCode}"> --%>
+					<input type="hidden" id="caseCode" name="caseCode" value="ZY-TJ-2017100212">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">				
