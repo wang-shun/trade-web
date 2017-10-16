@@ -81,7 +81,17 @@
 						)
 						INNER JOIN sctrans.T_RA_CASE AS tr ON tw.CASE_CODE = tr.CASE_CODE
 						/*  WHERE  ART.ASSIGNEE_ = #userLoginName# */
-					    AND ART.SUSPENSION_STATE_ = '1'
+						<choose>
+							<when test="isSuspended != null and isSuspended != '' and isSuspended == true">
+								AND ART.SUSPENSION_STATE_ = '2'
+							</when>
+							<when test="isSuspended != null and isSuspended != '' and isSuspended == false">
+								AND ART.SUSPENSION_STATE_ = '1'
+							</when>
+							<otherwise>
+							    AND ART.SUSPENSION_STATE_ = '1'
+							</otherwise>
+						</choose>
 					    <ifNotNull caseCode>
 							AND tw.CASE_CODE=#caseCode#
 						</ifNotNull>

@@ -141,12 +141,12 @@
 	<%--环节编码 --%>
 	<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 	<!-- 交易单编号 -->
-	<input  id="caseCode" name="caseCode" value="${caseCode}">
+	<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 	<%-- 原有数据对应id --%>
-	<input  id="taskId" name="taskId" value="${taskId }">
-	<input  id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+	<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+	<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 	<%-- 设置审批类型 --%>
-	<input  name="approveType" value="${approveType}">
+	<input type="hidden" name="approveType" value="${approveType}">
 	<input type="hidden" id="operator" name="operator" value="${operator }">
 	<div class="ibox-content border-bottom clearfix space_box ">
 		<div class="col-lg-12 case-info">
