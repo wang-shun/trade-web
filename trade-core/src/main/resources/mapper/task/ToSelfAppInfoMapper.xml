@@ -24,6 +24,10 @@
 	<select id="getAppInfoByCaseCode" parameterType="string" resultMap="BaseResultMap">
 		select PKID,CCAI_CODE,CASE_CODE,TYPE,USER_NAME,REAL_NAME,GRP_CODE,GRP_NAME,APPLY_TIME,STATUS,CITY from sctrans.T_TO_SELF_APP_INFO WITH(NOLOCK) where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	</select>
+	
+	<select id="getAppInfoByCCAICode" parameterType="string" resultMap="BaseResultMap">
+		select PKID,CCAI_CODE,CASE_CODE,TYPE,USER_NAME,REAL_NAME,GRP_CODE,GRP_NAME,APPLY_TIME,STATUS,CITY from sctrans.T_TO_SELF_APP_INFO WITH(NOLOCK) where CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR}
+	</select>
 
 
 </mapper>

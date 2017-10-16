@@ -71,4 +71,18 @@ public class ToSelfAppInfoServiceImp implements ToSelfAppInfoService {
 		return toAppRecordInfoMapper.getAppRecordInfo(appInfoId);
 	}
 
+	@Override
+	public ToSelfAppInfo getAppInfoByCCAICode(String ccaiCode) {
+		if(StringUtils.isBlank(ccaiCode)){
+			return null;
+		}
+		return toSelfAppInfoMapper.getAppInfoByCCAICode(ccaiCode);
+	}
+
+	@Override
+	public int saveBatchToAppRecordInfo(List<ToAppRecordInfo> listRecord) {
+		return toAppRecordInfoMapper.insertAppRecordInfo(listRecord);
+	}
+
+
 }

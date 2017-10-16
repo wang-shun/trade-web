@@ -15,4 +15,6 @@ public interface ToSelfAppInfoMapper {
 
 	ToSelfAppInfo getAppInfoByCaseCode(String caseCode);
 
+	ToSelfAppInfo getAppInfoByCCAICode(String ccaiCode);
+
 }

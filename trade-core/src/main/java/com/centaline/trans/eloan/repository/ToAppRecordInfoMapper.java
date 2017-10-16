@@ -13,7 +13,7 @@ import com.centaline.trans.eloan.entity.ToAppRecordInfo;
 @MyBatisRepository
 public interface ToAppRecordInfoMapper {
 
-	void insertAppRecordInfo(List<ToAppRecordInfo> list);
+	int insertAppRecordInfo(List<ToAppRecordInfo> list);
 
 	List<ToAppRecordInfo> getAppRecordInfo(String appInfoId);
 }

@@ -17,4 +17,8 @@ public interface ToSelfAppInfoService {
 	public ToSelfAppInfo getAppInfoByCaseCode(String caseCode);
 
 	public List<ToAppRecordInfo> getAppRecordInfo(String appInfoId);
+
+	public ToSelfAppInfo getAppInfoByCCAICode(String ccaiCode);
+
+	public int saveBatchToAppRecordInfo(List<ToAppRecordInfo> listRecord);
 }

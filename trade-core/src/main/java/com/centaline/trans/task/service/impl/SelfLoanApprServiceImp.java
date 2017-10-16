@@ -10,10 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.api.service.FlowApiService;
+import com.centaline.trans.api.vo.ApiResultData;
+import com.centaline.trans.api.vo.FlowFeedBack;
 import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.entity.ToCaseParticipant;
+import com.centaline.trans.cases.repository.ToCaseMapper;
+import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
+import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
+import com.centaline.trans.common.enums.CcaiFlowResultEnum;
+import com.centaline.trans.common.enums.CcaiTaskEnum;
 import com.centaline.trans.common.enums.EventTypeEnum;
 import com.centaline.trans.common.enums.MessageEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -34,6 +45,8 @@ import com.centaline.trans.task.service.SelfLoanApprService;
 import com.centaline.trans.task.vo.MortgageToSaveVO;
 import com.centaline.trans.task.vo.ToAppRecordInfoVO;
 import com.centaline.trans.utils.ConstantsUtil;
+
+import reactor.core.support.Assert;
 /**
  * 
  * @author wblujian
@@ -57,6 +70,18 @@ public class SelfLoanApprServiceImp implements SelfLoanApprService {
 	@Autowired
 	private WorkFlowEngine engine;//该处使用engine 否则无法进行访问流程引擎平台
 	
+	@Autowired
+	private FlowApiService flowApiService;
+	
+	@Autowired
+	UamSessionService uamSessionService;
+	
+	@Autowired
+	ToCaseParticipantMapper participantMapper;
+	
+	@Autowired
+	ToCaseMapper toCasemapper;
+	
 	@Override
 	public boolean saveAndSubmit(ToAppRecordInfoVO vo) {
 		List<RestVariable> variables = new ArrayList<RestVariable>();
@@ -74,45 +99,48 @@ public class SelfLoanApprServiceImp implements SelfLoanApprService {
 			b = workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
 			return b;
 		}
-		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
-		if(workF!=null){
-			vo.setProcessDefinitionId(workF.getProcessDefinitionId());
+		SessionUser user = uamSessionService.getSessionUserById(getManagerId(vo.getCaseCode()));
+		FlowFeedBack info = new FlowFeedBack(user, CcaiFlowResultEnum.BACK,"权证人员不正确");
+		ApiResultData result = flowApiService.tradeFeedBackCcai(vo.getCaseCode(), CcaiTaskEnum.MORTGAGE_CUSTOMER_MANAGER, info);
+		System.out.println(result.getMessage()+"-------"+result.isSuccess());
+		if(result.isSuccess()){
+			//修改案件状态为驳回CCAI
+			ToCase ca  = toCasemapper.findToCaseByCaseCode(vo.getCaseCode());
+			ca.setStartDate(CaseStatusEnum.BHCCAI.getCode());
+			toCasemapper.updateByCaseCodeSelective(ca);
+			return true;
 		}
-		updateProcess(vo);
 		return false;
 	}
 	
+	/**
+	 * 获取对应的权证经理 域账号
+	 * @param caseCode
+	 * @return
+	 */
+	private String getManagerId(String caseCode){
+		List<ToCaseParticipant> participants = participantMapper.selectByCaseCode(caseCode);
+		ToCaseParticipant pa = null;
+		for(ToCaseParticipant p :participants){
+			System.out.println(p.getPosition()+"---"+p.getUserName()+"----"+p.getRealName()+" manager :"+p.getGrpMgrUsername());
+			//优先找贷款权证
+			if(CaseParticipantEnum.LOAN.getCode().equals(p.getPosition())){
+				pa = p ;
+				break;
+			}
+			//没有贷款权证 找过户权证
+			if(pa==null && CaseParticipantEnum.WARRANT.getCode().equals(p.getPosition())){
+				pa = p;
+			}
+		}
+		Assert.notNull(pa,"贷款或者过户权证不能都不存在");
+		User u = uamUserOrgService.getUserByUsername(pa.getGrpMgrUsername());
+		Assert.notNull(u,pa.getGrpMgrUsername()+" 主管信息不存在");
+		return u.getId();
+	}
 	
-	public void updateProcess(ToAppRecordInfoVO vo) {
-		//获取流程信息
-				ToWorkFlow wf = new ToWorkFlow();
-				wf.setCaseCode(vo.getCaseCode());
-				wf.setBusinessKey(WorkFlowEnum.LOANANDASSE_PROCESS.getCode());
-				ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
-				if (wordkFlowDB != null) {
-					// 发送消息
-					ActRuEventSubScr event = new ActRuEventSubScr();
-					event.setEventType(MessageEnum.CCAI_UPDATED_MSG.getEventType());
-					event.setEventName(MessageEnum.CCAI_UPDATED_MSG.getName());
-					event.setProcInstId(wordkFlowDB.getInstCode());
-					event.setActivityId(EventTypeEnum.CCAI_UPDATED_MSG_EVENT_CATCH.getName());
-					ExecuteAction action = new ExecuteAction();
-					action.setAction(EventTypeEnum.CCAI_UPDATED_MSG_EVENT_CATCH.getEventType());
-					action.setMessageName(MessageEnum.CCAI_UPDATED_MSG.getName());
-					List<ActRuEventSubScr> subScrs = actRuEventSubScrMapper.listBySelective(event);
-					if (CollectionUtils.isNotEmpty(subScrs)) {
-						//设置流程引擎登录用户 否则无法访问REST接口
-						User user = uamUserOrgService.getUserById(wordkFlowDB.getProcessOwner());
-						engine.setAuthUserName(user.getUsername());
-
-						//更新案件参与人信息 及 案件所有人信息
-						//action.setVariables(updateFlowParticipants(vo.getCaseCode(), wordkFlowDB.getPkid()));
-
-						//调用REST接口发送消息
-						action.setExecutionId(subScrs.get(0).getExecutionId());
-						engine.RESTfulWorkFlow(WorkFlowConstant.PUT_EXECUTE_KEY, ExecutionVo.class, action);
-					}
-			
-				}
-	}	
+	
+	
+	
+	
 }
