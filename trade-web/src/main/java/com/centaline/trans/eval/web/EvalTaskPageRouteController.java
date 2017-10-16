@@ -37,6 +37,7 @@ public class EvalTaskPageRouteController {
 			request.setAttribute("caseCode", caseCode);
 			request.setAttribute("taskitem", taskitem);
 			request.setAttribute("source", source);
+			request.setAttribute("evaCode", evalCode);
 			
 			if("evalServiceRestartApply".equals(taskitem) || "evalServiceRestartApprove".equals(taskitem)){ //天津评估流程
 				initApproveRecord(request, caseCode, "10");
