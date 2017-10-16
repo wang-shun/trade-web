@@ -3,6 +3,8 @@ package com.centaline.trans.eval.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ToEvalReportProcess {
     private Long pkid;
 
@@ -31,15 +33,19 @@ public class ToEvalReportProcess {
     private BigDecimal inquiryResult;
 
     private Integer reportNum;
-
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date applyDate;
-
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date forwardDate;
-
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date toIssueDate;
-
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date issueDate;
-
+    
     private BigDecimal evaPrice;
 
     private Date reportGetDate;
@@ -47,12 +53,19 @@ public class ToEvalReportProcess {
     private Integer houseAgeIssue;
 
     private Integer reportNumIssue;
-
+    
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date reportRevDate;
 
     private String receiver;
 
     private Integer receiveNum;
+    
+    private Date sysCreateTime;
+    
+    private Date sysFinshTime;
+    
+    private String evalProperty;
 
     public Long getPkid() {
         return pkid;
@@ -253,4 +266,31 @@ public class ToEvalReportProcess {
     public void setReceiveNum(Integer receiveNum) {
         this.receiveNum = receiveNum;
     }
+
+	public String getEvalProperty() {
+		return evalProperty;
+	}
+
+	public void setEvalProperty(String evalProperty) {
+		this.evalProperty = evalProperty;
+	}
+
+	public Date getSysCreateTime() {
+		return sysCreateTime;
+	}
+
+	public void setSysCreateTime(Date sysCreateTime) {
+		this.sysCreateTime = sysCreateTime;
+	}
+
+	public Date getSysFinshTime() {
+		return sysFinshTime;
+	}
+
+	public void setSysFinshTime(Date sysFinshTime) {
+		this.sysFinshTime = sysFinshTime;
+	}
+	
+	
+    
 }

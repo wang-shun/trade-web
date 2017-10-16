@@ -123,112 +123,108 @@ table tbody select, input {
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	
 	<div id="wrapper">
-		<form id="extraInfo">
-			<%-- 流程相关 --%>
-			<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}"> 
-			<input type="hidden" id="taskId" name="taskId" value="${taskId }"> 
-			<input type="hidden" id="taskitem" name="taskitem" value="${taskitem }"> 
-			<input type="hidden" id="instCode" name="instCode" value="${instCode}">
-			<input type="hidden" id="source" name="source" value="${source}">
-			<input type="hidden" id="urlType" name="urlType" value="${urlType}">
-			<input type="hidden" name="spvCode" value="${spvBaseInfoVO.toSpv.spvCode }" />
-		</form>
 
 		<!-- main Start -->
 		<div class="row">
 			<div class="wrapper wrapper-content animated fadeInUp">
-				<!-- <div class="ibox"> -->
-				<c:if test="${empty handle or handle eq 'SpvApply' or handle eq 'SpvAudit'}">
-					<div class="ibox-content" id="case_info">
-						<div class="main_titile" style="position: relative;">
-							<h5>关联案件
-								<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal" onClick="showPop();">关联案件</button>
-							</h5>
-							<div class="case_content" ${empty caseCode?'style="display:none;"':''}>
-								<div class="case_row">
-									<div class="case_lump">
-										<p>
-											<em>案件编号</em><span class="span_one" id="content_caseCode">${caseInfoMap['caseCode']}</span>
-										</p>
+				<div class="ibox-content" >
+					<h5>关联案件
+						<button type="button" id="link_btn" class="btn btn-success btn-blue" data-toggle="modal" data-target="#myModal" onClick="showPop();">关联案件</button>
+					</h5>
+				</div>
+				<div class="modal inmodal" id="myModal" tabindex="-1"role="dialog" aria-hidden="true">
+					<div class="modal-dialog" style="width: 1070px;">
+						<div
+							class="modal-content animated fadeIn apply_box ibox-content">
+							<form action="" class="form_list clearfix">
+								<div class="modal_title">监管合约关联案件</div>
+								<div class="line">
+									<div class="form_content">
+										<label class="control-label mr10"> 案件编码 </label> 
+										<input class="teamcode input_type" value="" placeholder="请输入" id="caseCodet" name="caseCodet">
 									</div>
-									<div class="case_lump">
-										<p>
-											<em>产证地址</em><span class="span_two" id="content_propertyAddr">${caseInfoMap['propertyAddr']}</span>
-										</p>
-									</div>
-								</div>
-								<div class="case_row">
-									<div class="case_lump">
-										<p>
-											<em>交易顾问</em><span class="span_one" id="content_processorId">${caseInfoMap['processorName']}</span>
-										</p>
-									</div>
-									<div class="case_lump">
-										<p>
-											<em>上家姓名</em><span class="span_two" id="content_seller">${caseInfoMap['sellerName']}</span>
-										</p>
+									<div class="form_content">
+										<label class="control-label sign_left"> 产证地址 </label> 
+										<input class="input_type" value="" placeholder="请输入" style="width: 435px;" id="propertyAddr" name="propertyAddr">
 									</div>
 								</div>
-								<div class="case_row">
-									<div class="case_lump">
-										<p>
-											<em>经纪人</em><span class="span_one" id="content_agentName">${caseInfoMap['agentName']}</span>
-										</p>
+								<div class="line">
+									<div class="form_content">
+										<label class="control-label mr10"> 上家姓名 </label> 
+										<input class="teamcode input_type" value="" placeholder="请输入" id="sellerName" name="sellerName">
 									</div>
-									<div class="case_lump">
-										<p>
-											<em>下家姓名</em><span class="span_two" id="content_buyer">${caseInfoMap['buyerName']}</span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="modal inmodal" id="myModal" tabindex="-1"
-							role="dialog" aria-hidden="true">
-							<div class="modal-dialog" style="width: 1070px;">
-								<div
-									class="modal-content animated fadeIn apply_box ibox-content">
-									<form action="" class="form_list clearfix">
-										<div class="modal_title">监管合约关联案件</div>
-										<div class="line">
-											<div class="form_content">
-												<label class="control-label mr10"> 案件编码 </label> 
-												<input class="teamcode input_type" value="" placeholder="请输入" id="caseCodet" name="caseCodet">
-											</div>
-											<div class="form_content">
-												<label class="control-label sign_left"> 产证地址 </label> 
-												<input class="input_type" value="" placeholder="请输入" style="width: 435px;" id="propertyAddr" name="propertyAddr">
-											</div>
+									<div class="form_content space">
+										<div class="add_btn">
+											<button type="button" class="btn btn-success" id="searchButton">
+												<i class="icon iconfont"></i> 查询
+											</button>
+											<button type="button" class="btn btn-success"id="addNewCase">新增案件</button>
 										</div>
-										<div class="line">
-											<div class="form_content">
-												<label class="control-label mr10"> 上家姓名 </label> 
-												<input class="teamcode input_type" value="" placeholder="请输入" id="caseNamet" name="caseNamet">
-											</div>
-											<div class="form_content space">
-												<div class="add_btn">
-													<button type="button" class="btn btn-success" id="searchButton">
-														<i class="icon iconfont"></i> 查询
-													</button>
-
-													<button type="button" class="btn btn-success"
-														id="addNewCase">新增案件</button>
-												</div>
-											</div>
-										</div>
-
-									</form>
-									<button type="button" class="close close_blue"
-										data-dismiss="modal">
-										<i class="iconfont icon_rong"> &#xe60a; </i>
-									</button>
-									<div class="eloanApply-table"></div>
+									</div>
 								</div>
+							</form>
+							<button type="button" class="close close_blue"data-dismiss="modal">
+								<i class="iconfont icon_rong"> &#xe60a; </i>
+							</button>
+							<div class="eloanApply-table">
+								<table class= "table table_blue table-striped table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>案件编号</th>
+											<th>产证地址</th>
+											<th>工作人员</th>
+											<th>上家</th>
+											<th>下家</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody id="case-link"></tbody>
+								</table>
 							</div>
 						</div>
 					</div>
-				</c:if>
-				<!-- <div class="ibox"> -->
+				</div>
+				<div class="ibox-content" id="case_info">
+					<div class="case_content" >
+						<div class="case_row">
+							<div class="case_lump">
+								<p>
+									<em>案件编号</em><span class="span_one" id="content_caseCode">${ransomLinkVo.caseCode}</span>
+								</p>
+							</div>
+							<div class="case_lump">
+								<p>
+									<em>产证地址</em><span class="span_two" id="content_propertyAddr">${ransomLinkVo.propertyAddr}</span>
+								</p>
+							</div>
+						</div>
+						<div class="case_row">
+							<div class="case_lump">
+								<p>
+									<em>交易顾问</em><span class="span_one" id="content_processorId">${ransomLinkVo.warrent}</span>
+								</p>
+							</div>
+							<div class="case_lump">
+								<p>
+									<em>上家姓名</em><span class="span_two" id="content_seller">${ransomLinkVo.seller}</span>
+								</p>
+							</div>
+						</div>
+						<div class="case_row">
+							<div class="case_lump">
+								<p>
+									<em>经纪人</em><span class="span_one" id="content_agentName">${ransomLinkVo.agentName}</span>
+								</p>
+							</div>
+							<div class="case_lump">
+								<p>
+									<em>下家姓名</em><span class="span_two" id="content_buyer">${ransomLinkVo.buyer}</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
 				<!-- value待修改  此处只是copy   saveSpvCase.jsp  样式 -->
 				<div class="ibox-content" id="base_info">
 					<form class="form-inline" id="guestInfo">
@@ -236,44 +232,38 @@ table tbody select, input {
 						<div class="title">客户信息</div>
 						<div class="form-row form-rowbot clear">
 							<div class="form-group form-margin form-space-one left-extent">
-								<input type="hidden" name="spvCustList[0].pkid"
-									value="${spvBaseInfoVO.spvCustList[0].pkid }" /> <input
-									type="hidden" name="spvCustList[0].tradePosition" value="BUYER" />
+								
 								<label for="" class="lable-one"><i style="color: red;">*</i>主贷人姓名</label>
-								<input name="spvCustList[1].name" id="custName" disabled
-									value="${not empty spvBaseInfoVO.spvCustList[1].name?spvBaseInfoVO.spvCustList[1].name:caseInfoMap['sellerName'] }"
-									type="text" class="form-control input-one" placeholder="">
+								<input type="hidden" id="sellName" value="${ransomLinkVo.seller }"/>
+								<input type="hidden" id="buyName" value="${ransomLinkVo.buyer }"/>
+								<select class="form-control input-one" id="custName" onchange="choseRoleChange()">
+									<option value="">请选择</option>
+									<option value="${ransomLinkVo.seller }">${ransomLinkVo.seller }</option>
+									<option value="${ransomLinkVo.buyer }">${ransomLinkVo.buyer }</option>
+								</select>	
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
-								<label for="" class="lable-one"><i style="color: red;">*</i>
-									手机号码</label> <input name="spvCustList[1].phone"  id="phone" disabled
-									value="${not empty spvBaseInfoVO.spvCustList[1].phone?spvBaseInfoVO.spvCustList[1].phone:caseInfoMap['sellerMobil'] }"
-									type="text" class="form-control input-one"placeholder="">
+								<label for="" class="lable-one"><i style="color: red;">*</i>手机号码</label> 
+								<input type="hidden" value="${ransomLinkVo.sellPhone }" id="sellTel" />	
+								<input type="hidden" value="${ransomLinkVo.buyPhone }" id="buyTel" />	
+								<input type="text" id="phone" class="form-control input-one" disabled value="" placeholder="手机号码"/>
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color: red;">*</i>受理时间</label> 
 								<input id="date-picker2" name="toSpv.signTime" class="form-control input-one date-picker"
-									style="font-size: 13px;" type="text" 
-									value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>"
-									placeholder="">
+									style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>" placeholder="">
 							</div>
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color: red;">*</i>计划申请时间</label> 
 								<input id="date-picker1" name="toSpv.signTime" class="form-control input-one date-picker"
-									style="font-size: 13px;" type="text" 
-									value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>"
-									placeholder="">
+									style="font-size: 13px;" type="text" value="<fmt:formatDate value="${spvBaseInfoVO.toSpv.signTime }" pattern="yyyy-MM-dd"/>"placeholder="">
 							</div>
 							<div class="hr-line-dashed"></div>
 
 							<table>
 								<thead>
 									<tr>
-										<td>尾款机构</td>
-										<td>尾款类型</td>
-										<td>抵押类型</td>
-										<td>贷款金额</td>
-										<td>剩余金额</td>
+										<td>尾款机构</td><td>尾款类型</td><td>抵押类型</td><td>贷款金额</td><td>剩余金额</td>
 									</tr>
 								</thead>
 								<tbody id="tableInfo">
@@ -369,221 +359,28 @@ table tbody select, input {
 	<!-- 引入弹出框js文件 --> 
 	<script src="<c:url value='/js/common/xcConfirm.js' />"></script> 
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> 
-	<script id="queryCastListItemList2" type="text/html">
+	
+	
+	
+	<script id="template_ransomCaseLink" type="text/html">
         {{each rows as item index}}
-    	<tr>
-        <td>
-            <p class="big">
-                <a href="${ctx}/case/caseDetail?caseId={{item.PKID}}" class="case-num" target="_blank">
-                   <span id="modal_caseCode{{index}}">{{item.CASE_CODE}}</span>
-                </a>
-            </p>
-            <p>
-                <i class="tag_sign">c</i>
-                 {{item.ctmCode}}
-            </p>
-        </td>
-        <td>
-            <p class="big">
-           		<span id="modal_propertyAddr{{index}}">{{item.PROPERTY_ADDR}}</span>
-            </p>
-            <p class="tooltip-demo">
-                <i class="salesman-icon">
-                </i>
-                <a class="salesman-info" href="javascript:;" title="" data-toggle="tooltip" data-placement="top" data-original-title="">
-                	{{item.AGENT_NAME}}/{{item.AGENT_ORG_NAME}}
-                </a>
-            </p>
-        </td>
-        <td>
-            <p class="name">
-                <span>交易顾问：</span><a href="#" class="a_blue" id="modal_processorId{{index}}">{{item.FONT_NAME}}</a>
-            </p>
-        </td>
-        <td class="center">
-            <p class="big">
-           		<span id="modal_seller{{index}}" title="{{item.SELLER}}">{{item.SELLER.substring(0,item.SELLER.length >10?10:item.SELLER.length).concat(item.SELLER.length >10?'...':'')}}</span>
-            </p>
-        </td>
-        <td class="center">
-            <p class="big">
-          	   <span id="modal_buyer{{index}}" title="{{item.BUYER}}">{{item.BUYER.substring(0,item.BUYER.length >10?10:item.BUYER.length).concat(item.BUYER.length >10?'...':'')}}</span>
-            </p>
-        </td>
-        <td class="text-left">
-            <button type="button" class="btn btn-success linkCase" name="linkCase" id="{{index}}">
-                              关联
-            </button>
-        </td>
-    </tr>
-    {{/each}}		
-		</script> <script>
-			/**取最大索引 */
-			
-			var accTypeSum;//账户类型 
-
-			
-			$(document).ready(function() {
-				
-				$(".eloanApply-table").aistGrid({
-					ctx : "${ctx}",
-					queryId : 'queryCastListItemList',
-					templeteId : 'queryCastListItemList2',
-					rows : '6',
-					gridClass : 'table table_blue table-striped table-bordered table-hover',
-					data : '',
-					wrapperData : {
-						ctx : ctx
-					},
-					columns : [{
-						colName : "案件编号",
-						sortColumn : "CASE_CODE",
-						sord : "desc",
-						sortActive : true
-						},
-						{
-							colName : "产证地址"
-						},
-						{
-							colName : "工作人员"
-						}, {
-							colName : "上家"
-						}, {
-							colName : "下家"
-						}, {
-							colName : "操作"
-						} ]
-
-				});
-
-			// 查询
-			$('#searchButton').click(function() {
-				reloadGrid();
-			});
-
-			// 添加
-			$('#addNewCase').click(function() {
-				window.location.href = ctx + "/caseMerge/addCase/spv";
-			});
-			
-			// 关联案件
-			$('.eloanApply-table').on("click",'.linkCase',function() {
-				var index = $(this).attr("id");
-				$.ajax({url : ctx + "/spv/queryByCaseCode",
-					method : "post",
-					dataType : "json",
-					data : {
-						caseCode : $("#modal_caseCode"+ index).html()
-					},
-					beforeSend : function() {
-						$.blockUI({message : $("#salesLoading"),
-							css : {
-								'border' : 'none',
-								'z-index' : '9999'
-							}
-						});
-						$(".blockOverlay").css({
-							'z-index' : '9998'
-						});
-					},
-					complete : function() {
-						$.unblockUI();
-						if (status == 'timeout') { //超时,status还有success,error等值的情况
-							Modal.alert({
-								msg : "抱歉，系统处理超时。"
-							});
-						}
-					},
-					success : function(data) {
-						if (data.success) {
-							var caseInfoMap = eval('('+ data.content + ')');
-							$("#caseCode").val(caseInfoMap['caseCode']);
-							fileUpload.init({
-								caseCode : $('#caseCode').val(),
-								partCode : "SpvApplyApprove",
-								fileUploadContainer : "fileUploadContainer",
-								exclude : [ 'spv_contract' ]
-							});
-
-							$("#content_caseCode").html(caseInfoMap['caseCode']);
-							$("#content_propertyAddr").html(caseInfoMap['propertyAddr']);
-							$("#content_processorId").html(caseInfoMap['processorName']);
-							$("#content_seller").html(caseInfoMap['sellerName']);
-							$("#content_agentName").html(caseInfoMap['agentName']);
-							$("#content_buyer").html(caseInfoMap['buyerName']);
-							$("input[name='toSpv.caseCode']").val(caseInfoMap['caseCode']);
-
-							/* if ($("input[name='spvCustList[0].name']").val() == '')
-								$("input[name='spvCustList[0].name']").val(
-												caseInfoMap['buyerName']
-												.substr(0,caseInfoMap['buyerName']
-												.indexOf("/") == -1 ? caseInfoMap['buyerName']
-												.length : caseInfoMap['buyerName']
-												.indexOf("/")));
-							if ($("input[name='spvCustList[0].phone']").val() == '')
-								$("input[name='spvCustList[0].phone']").val(caseInfoMap['buyerMobil']); */
-							if ($("input[name='spvCustList[1].name']").val() == '')
-								$("input[name='spvCustList[1].name']").val(caseInfoMap['sellerName']
-												.substr(0,caseInfoMap['sellerName']
-												.indexOf("/") == -1 ? caseInfoMap['sellerName']
-												.length : caseInfoMap['sellerName']
-												.indexOf("/")));
-							if ($("input[name='spvCustList[1].phone']").val() == '')
-								$("input[name='spvCustList[1].phone']").val(caseInfoMap['sellerMobil']);
-							if ($("input[name='toSpvProperty.prOwnerName']").val() == '')
-								$("input[name='toSpvProperty.prOwnerName']").val(caseInfoMap['sellerName']
-												.substr(0,caseInfoMap['sellerName']
-												.indexOf("/") == -1 ? caseInfoMap['sellerName']
-												.length : caseInfoMap['sellerName']
-												.indexOf("/")));
-							if ($("input[name='toSpvProperty.prSize']").val() == '')
-								$("input[name='toSpvProperty.prSize']").val(caseInfoMap['propertySquare']);
-							if ($("input[name='toSpvProperty.prAddr']").val() == '')
-								$("input[name='toSpvProperty.prAddr']").val(caseInfoMap['propertyAddr']);
-							$('.case_content').show();
-							$(".close").click();
-							$(".modal-backdrop").hide();
-
-							//$('#myModal').modal('hide');
-						} else {
-							window.wxc.error("案件关联失败！");
-						}
-
-						$.unblockUI();
-					},
-					error : function(errors) {
-						$.unblockUI();
-						window.wxc.error("数据保存出错！");
-					}
-				});
-			});
-		});
-			function showPop() {
-				$("#myModal").show();
-				$(".modal-backdrop").show();
-			}
-
-			function reloadGrid() {
-				var data = {};
-				var propertyAddr = $.trim($("#propertyAddr").val());
-				var caseCode = $.trim($("#caseCodet").val());
-				var caseName = $.trim($("#caseNamet").val());
-
-				data.propertyAddr = propertyAddr;
-				data.caseCode = caseCode;
-				data.sname = caseName;
-				$(".eloanApply-table").reloadGrid({
-					ctx : "${ctx}",
-					rows : '6',
-					queryId : 'queryCastListItemList',
-					templeteId : 'queryCastListItemList2',
-					wrapperData : {
-						ctx : ctx
-					},
-					data : data
-				})
-			}
-			
+    		<tr id="tr-num{{index}}">
+        		<td>
+					<input type="hidden" value="{{item.pkid}}" id="casePkid{{index}}"/>
+					<a href="${ctx}/case/caseDetail?caseId={{item.pkid}}" id="td{{index}}" class="case-num" target="_blank">{{item.caseCode}}</a>
+				</td>
+        		<td>
+					<p class="big">{{item.propertyAddr}}</p>
+					<p class="big">{{item.agentName}} / {{item.grpName}}</p>
+				</td>
+        		<td>交易顾问:{{item.realName}}</td>
+        		<td>{{item.seller}}</td>
+        		<td>{{item.buyer}}</td>
+        		<td class="text-left"><button type="button" onclick = "checkLink('{{item.caseCode}}')" class="btn btn-success linkCase" name="linkCase">关联 </button></td>
+    		</tr>
+    	{{/each}}		
+	</script>
+		 <script>
 
 			/*******************************************************控件相关*********************************************************************/
 			// 日期控件
@@ -609,44 +406,6 @@ table tbody select, input {
 			//});
 
 		</script> </content>
-
-	<content tag="local_require"> <script>
-		var fileUpload;
-		require([ 'main' ], function() {
-			requirejs([ 'jquery', 'aistFileUpload', 'validate', 'grid',
-					'jqGrid', 'steps', 'ligerui', 'aistJquery', 'poshytip',
-					'twbsPagination', 'bootstrapModal', 'modalmanager',
-					'eselect' ], function($, aistFileUpload) {
-				fileUpload = aistFileUpload;
-				var handle = $("#handle").val();
-				if (handle == "SpvApprove") {
-					fileUpload.init({
-						caseCode : $('#caseCode').val(),
-						partCode : "SpvApplyApprove",
-						fileUploadContainer : "fileUploadContainer",
-						readonly : true,
-						exclude : [ 'spv_contract' ]
-					});
-				} else if (handle == "" || handle == "SpvApply"
-						|| handle == "SpvAudit") {
-					if ($('#caseCode').val() != '') {
-						fileUpload.init({
-							caseCode : $('#caseCode').val(),
-							partCode : "SpvApplyApprove",
-							fileUploadContainer : "fileUploadContainer",
-							exclude : [ 'spv_contract' ]
-						});
-					}
-				} else if (handle == "SpvSign") {
-					fileUpload.init({
-						caseCode : $('#caseCode').val(),
-						partCode : "SpvApplyApprove",
-						fileUploadContainer : "fileUploadContainer"
-					});
-				}
-			});
-		});
-	</script> </content>
 
 </body>
 

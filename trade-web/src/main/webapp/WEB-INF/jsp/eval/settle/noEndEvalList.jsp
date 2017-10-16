@@ -181,7 +181,7 @@ display: none;}
 										<p>申：{{item.APPLY_DATE}}</p>
 										<p>出：{{item.ISSUE_DATE}}</p>
 									</td>
-									<td>评估进程</td>
+									<td>出具评估报告</td>
                                     <td>{{item.SETTLE_NOT_REASON}}</td>
                                 </tr>
 						{{/each}}

@@ -66,4 +66,46 @@
 		</grid>
 	</query>
 	
+	<query id="queryEvalInvoiceAuditComment">
+		<searchCondition>
+            <condition field="TR.CASE_CODE" name="caseCode" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+            <condition field="TR.PART_CODE" name="partCode" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+            <condition field="TR.PROCESS_INSTANCE" name="processInstanceId" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
+        </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+						PART_CODE AS PART_CODE_OLD, 
+						su.real_name as OPERATOR, 
+						OPERATOR_TIME,
+						CONTENT,
+						NOT_APPROVE AS NOT_APPROVE_OLD,
+						su.avatar as AVATAR
+					FROM sctrans.T_TO_APPROVE_RECORD TR
+						left join sctrans.sys_user su on su.id = tr.OPERATOR 
+					where 1 = 1 
+				]]>
+			</baseSql>
+			<groupSql>
+			</groupSql>
+			<orderBySql>
+				order by TR.OPERATOR_TIME desc
+			</orderBySql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="PART_CODE_OLD"  display="环节编码" />
+				<column type="virtual" name="PART_CODE" display="环节编码" referencecol="PART_CODE_OLD"  customDict="getDictPartName" hidden="false"/>
+				<column type="both" name="OPERATOR_OLD"   display="操作人"  />
+				<column type="both" name="OPERATOR" display="操作人" />
+				<column type="both" name="OPERATOR_TIME"  />
+				<column type="both" name="CONTENT"   display="内容" />
+				<column type="both" name="NOT_APPROVE_OLD"  display="未通过原因" />
+				<column type="virtual" name="NOT_APPROVE" display="未通过原因" referencecol="NOT_APPROVE_OLD"  customDict="getDictNotAppeove" hidden="false"/>
+				<column type="both" name="AVATAR" />
+			</table-row>
+		</grid>
+	</query>
+	
 </querys>

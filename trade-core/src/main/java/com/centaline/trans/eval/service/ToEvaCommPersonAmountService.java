@@ -1,6 +1,7 @@
 package com.centaline.trans.eval.service;
 
 import com.centaline.trans.eval.entity.ToEvaCommPersonAmount;
+import com.centaline.trans.eval.entity.ToEvaCommissionChange;
 import com.centaline.trans.eval.vo.EvalChangeCommVO;
 /**
  * @author xiefei1
@@ -11,7 +12,7 @@ public interface ToEvaCommPersonAmountService {
 //	获取完整的调佣对象与调佣金额VO
 	EvalChangeCommVO getFullEvalChangeCommVO(String caseCode);
 //	保存调佣对象与调佣金额VO
-	void saveEvalChangeCommVO(EvalChangeCommVO EvalChangeCommVO);
+	void saveEvalChangeCommVO(EvalChangeCommVO EvalChangeCommVO,ToEvaCommissionChange toEvaCommissionChange);
 	
     int deleteByPrimaryKey(Long pkid);
 

@@ -67,13 +67,10 @@
 			<h5>填写任务信息</h5>
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalUsedForm">
-				    <input type="hidden" id="pkid" name="pkid" value="${pkid }">
+				    <input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcess.evaCode }">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode"
 						value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode"
-						value="${caseCode}">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId"

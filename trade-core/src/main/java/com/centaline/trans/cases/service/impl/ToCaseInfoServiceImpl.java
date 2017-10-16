@@ -358,4 +358,11 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 		return toCaseInfoMapper.queryAssistantInfo(orgId);
 	}
 
+	@Override
+	public String getCaseManager(String caseCode) {
+		String managerId = toCaseInfoMapper.getCaseManager(caseCode);
+		User user = uamUserOrgService.getUserById(managerId);
+		return user.getUsername();
+	}
+
 }

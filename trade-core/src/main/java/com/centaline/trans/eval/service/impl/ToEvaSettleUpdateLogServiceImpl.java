@@ -63,4 +63,22 @@ public class ToEvaSettleUpdateLogServiceImpl implements ToEvaSettleUpdateLogServ
 		return toEvaSettleUpdateLogMapper.selectUpdateLogByCaseCode(caseCode);
 	}
 
+	@Override
+	public List<ToEvaSettleUpdateLog> selectUpdateLog() {
+		// TODO Auto-generated method stub
+		return toEvaSettleUpdateLogMapper.selectUpdateLog();
+	}
+
+	@Override
+	public int deleteByCaseCode(String caseCode) {
+		// TODO Auto-generated method stub
+		return toEvaSettleUpdateLogMapper.deleteByCaseCode(caseCode);
+	}
+
+	@Override
+	public List<ToEvaSettleUpdateLog> selectUpdateLogByCaseCodeAndDesc(String caseCode) {
+		// TODO Auto-generated method stub
+		return toEvaSettleUpdateLogMapper.selectUpdateLogByCaseCodeAndDesc(caseCode);
+	}
+
 }
