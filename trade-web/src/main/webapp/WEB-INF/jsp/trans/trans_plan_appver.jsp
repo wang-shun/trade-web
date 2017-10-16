@@ -51,6 +51,9 @@
 	</div>
 	<div class="form-btn">
 		<div class="text-center">
+			<%--环节编码 --%>
+			<input type="hidden" id="partCode" name="partCode"
+				   value="${taskitem}">
 			<!-- 流程引擎需要字段 -->
 			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 			<input type="hidden" id="processInstanceId"

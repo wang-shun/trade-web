@@ -3,6 +3,7 @@ package com.centaline.trans.taskList.web;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
@@ -19,6 +20,9 @@ import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
+import com.centaline.trans.task.entity.ToApproveRecord;
+import com.centaline.trans.task.repository.ToApproveRecordMapper;
+import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.entity.TsTransPlanHistory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +56,8 @@ public class TransPlanController {
 	private UamSessionService uamSessionService;
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private LoanlostApproveService loanlostApproveService;
 	@RequestMapping("process")
 	public String toProcess(HttpServletRequest request,
 			HttpServletResponse response, String caseCode, String source,
@@ -175,6 +181,15 @@ public class TransPlanController {
 			List<RestVariable> variables = new ArrayList<>();
 			//提交任务
 			workFlowManager.submitTask(variables, transPlanVO.getTaskId(), transPlanVO.getProcessInstanceId(), sessionUser.getId(), transPlanVO.getCaseCode());
+			//在审批记录表中插入数据
+			ToApproveRecord toApproveRecord=new ToApproveRecord();
+			toApproveRecord.setCaseCode(transPlanVO.getCaseCode());
+			toApproveRecord.setProcessInstance(transPlanVO.getProcessInstanceId());
+			toApproveRecord.setPartCode(transPlanVO.getPartCode());
+			toApproveRecord.setOperator(sessionUser.getId());
+			toApproveRecord.setContent(audit==true?"交易变更审核通过！":"交易变更审核不通过！");
+			toApproveRecord.setOperatorTime(new Date());
+			loanlostApproveService.saveLoanlostApprove(toApproveRecord);
 			//任务完结
 			ToWorkFlow flow=new ToWorkFlow();
 			flow.setBusinessKey("TransPlanAppver");

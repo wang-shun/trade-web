@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -372,6 +373,14 @@ public class RansomServiceImpl implements RansomService{
 		ToRansomLinkVo ransomLinkVo = new ToRansomLinkVo();
 		ransomLinkVo = ransomListFormMapper.getRansomLinkInfoByCaseCode(caseCode);
 		return ransomLinkVo;
+	}
+
+	@Override
+	public boolean deleteRansomApplyByRansomCode(String ransomCode) {
+		if(StringUtils.isNotBlank(ransomCode)) {
+			return ransomMapper.deleteRansomApplyByRansomCode(ransomCode);
+		}
+		return false;
 	}
 
 

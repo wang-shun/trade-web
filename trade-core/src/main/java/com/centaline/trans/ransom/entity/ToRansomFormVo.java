@@ -2,10 +2,6 @@ package com.centaline.trans.ransom.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-
-import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.mgr.entity.TsFinOrg;
 
 /**
  * @author wbwumf
@@ -68,7 +64,7 @@ public class ToRansomFormVo {
 	/**
 	 * 借款总金额
 	 */
-	private double borroMoney;
+	private BigDecimal borroMoney;
 	
 	private Date createTime;
 	
@@ -212,11 +208,11 @@ public class ToRansomFormVo {
 		this.borrowerName = borrowerName;
 	}
 
-	public double getBorroMoney() {
+	public BigDecimal getBorroMoney() {
 		return borroMoney;
 	}
 
-	public void setBorroMoney(double borroMoney) {
+	public void setBorroMoney(BigDecimal borroMoney) {
 		this.borroMoney = borroMoney;
 	}
 

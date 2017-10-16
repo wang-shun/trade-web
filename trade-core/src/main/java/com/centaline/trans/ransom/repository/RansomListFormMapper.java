@@ -123,4 +123,12 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	ToRansomLinkVo getRansomLinkInfoByCaseCode(String caseCode);
+	
+	/**
+	 * 根据caseCode保存赎楼中止信息
+	 * @param caseCode
+	 * @return
+	 */
+	int updateRansomDiscountinue(ToRansomCaseVo ransomCaseVo);
+
 }

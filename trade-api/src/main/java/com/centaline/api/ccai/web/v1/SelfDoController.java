@@ -49,7 +49,6 @@ public class SelfDoController extends AbstractBaseController {
 			@Valid @RequestBody SelfDoImport info, Errors errors, HttpServletRequest request){
 		CcaiServiceResult result = buildErrorResult(errors);
 		ObjectMapper mapper = new ObjectMapper();
-		System.out.println("11111111111111111111111111111111");
 		if(result.isSuccess()) {
 			//Hibernate Validator 注解校验
 			
@@ -73,7 +72,6 @@ public class SelfDoController extends AbstractBaseController {
 			}
 		}
 		//写入日志
-		System.out.println("2222222222222222222222222222222222222");
 		 writeLog(ApiLogModuleEnum.SELF_DO_DYNC,"/api/ccai/v1/eva/selfdo/sync",info,result,request);
 		return result;
 	}

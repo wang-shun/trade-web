@@ -79,8 +79,14 @@ public class ToEvaCommPersonAmountServiceImpl implements ToEvaCommPersonAmountSe
 			}
 		}
 		ToEvaCommissionChange toEvaCommissionChange = toEvaCommissionChangeMapper.selectByCaseCode(caseCode);
-		evalChangeCommVO.setTtlComm(toEvaCommissionChange.getCommisionTtlAmount());
-		evalChangeCommVO.setDealCount(1);
+		if(null!=toEvaCommissionChange){
+			evalChangeCommVO.setTtlComm(toEvaCommissionChange.getCommisionTtlAmount());
+			evalChangeCommVO.setDealCount(1);
+			evalChangeCommVO.setChangeChargesCause(toEvaCommissionChange.getChangeChargesCause());
+			evalChangeCommVO.setChangeChargesItem(toEvaCommissionChange.getChangeChargesItem());
+			evalChangeCommVO.setChangeChargesType(toEvaCommissionChange.getChangeChargesType());		
+			evalChangeCommVO.setAgEvalAmount(toEvaCommissionChange.getAgEvalAmount());
+		}
 		return evalChangeCommVO;
 	}
 //	保存调佣对象与调佣金额VO

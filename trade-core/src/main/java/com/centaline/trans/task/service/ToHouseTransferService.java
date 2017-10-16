@@ -111,7 +111,7 @@ public interface ToHouseTransferService {
 	 * @param taskId
 	 * @param processInstanceId
 	 */
-	ApiResultData submitToHouseTransfer(ToHouseTransfer toHouseTransfer, MortgageToSaveVO toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId);
+	Boolean submitToHouseTransfer(ToHouseTransfer toHouseTransfer, MortgageToSaveVO toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId);
 
 	/**
 	 * 过户保存数据,提供给APP使得保存数据和提交流程分开的需求

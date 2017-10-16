@@ -20,6 +20,8 @@ public enum WorkFlowEnum {
 	LOANANDASSE_PROCESS("loanAndAsse_Process","loanAndAsse_Process"),
 //	评估发票管理流程
 	EVAL_INVOICE("EvalInvoiceProcess","processDefinitionKey"),
+//	评估发票管理流程
+	EVAL_CHANGE_COMPANY("EvalChangeCommProcess","processDefinitionKey"),
 	SPV_OUT("spv_out","businessKey"),
 	SERVICE_RESTART("serviceRestart","serviceRestartBusinesskey"),
 	COMLOAN_PROCESS("ComLoan_Process:4:645463","ComLoan_Process"),	

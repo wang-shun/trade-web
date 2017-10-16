@@ -1,11 +1,12 @@
 package com.centaline.trans.ransom.vo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
-import com.centaline.trans.utils.DateUtil;
-
 public class ToRansomVo {
-
+	
+	private String caseCode;
+	
 	private String ransomCode;
 	
 	private String borrowerName;
@@ -20,11 +21,11 @@ public class ToRansomVo {
 	
 	private String diyaType;
 	
-	private Double loanMoney;
+	private BigDecimal loanMoney;
 	
-	private Double restMoney;
+	private BigDecimal restMoney;
 	
-	private Double borrowerMoney;
+	private BigDecimal borrowerMoney;
 
 	private Date applyTime;
 	
@@ -61,6 +62,14 @@ public class ToRansomVo {
 	private Date paymentTime;
 	
 	private String paymentRemake;
+
+	public String getCaseCode() {
+		return caseCode;
+	}
+
+	public void setCaseCode(String caseCode) {
+		this.caseCode = caseCode;
+	}
 
 	public String getRansomCode() {
 		return ransomCode;
@@ -118,27 +127,27 @@ public class ToRansomVo {
 		this.diyaType = diyaType;
 	}
 
-	public Double getLoanMoney() {
+	public BigDecimal getLoanMoney() {
 		return loanMoney;
 	}
 
-	public void setLoanMoney(Double loanMoney) {
+	public void setLoanMoney(BigDecimal loanMoney) {
 		this.loanMoney = loanMoney;
 	}
 
-	public Double getRestMoney() {
+	public BigDecimal getRestMoney() {
 		return restMoney;
 	}
 
-	public void setRestMoney(Double restMoney) {
+	public void setRestMoney(BigDecimal restMoney) {
 		this.restMoney = restMoney;
 	}
 
-	public Double getBorrowerMoney() {
+	public BigDecimal getBorrowerMoney() {
 		return borrowerMoney;
 	}
 
-	public void setBorrowerMoney(Double borrowerMoney) {
+	public void setBorrowerMoney(BigDecimal borrowerMoney) {
 		this.borrowerMoney = borrowerMoney;
 	}
 

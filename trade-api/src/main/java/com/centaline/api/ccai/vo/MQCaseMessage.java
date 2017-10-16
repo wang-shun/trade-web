@@ -15,6 +15,7 @@ public class MQCaseMessage  implements Serializable {
 	
 	public static final String REPEAL_TYPE = "REPEAL";
 
+	public static final String LOAN_TYPE="LOAN";
 	private String caseCode;
 	private String type;
 

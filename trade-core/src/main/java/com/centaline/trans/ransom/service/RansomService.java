@@ -153,4 +153,11 @@ public interface RansomService {
 	 * @return
 	 */
 	ToRansomLinkVo getRansomLinkInfo(String caseCode);
+	
+	/**
+	 * 根据ransomCode删除赎楼申请表对应数据
+	 * @param ransomCode
+	 * @return
+	 */
+	boolean deleteRansomApplyByRansomCode(String ransomCode);
 }
