@@ -101,7 +101,7 @@ public class RansomDiscontinueController {
 		Map<String, Object> task = null;
 		String taskId = null;
 		//获取赎楼中止流程信息
-		task = getSingleRansomTaskInfo((HttpServletRequest)request, true);
+		task = getSingleRansomTaskInfo((HttpServletRequest)request, true, false);
 		if(task != null) {
 			taskId = (String) task.get("ID");
 			request.setAttribute("taskId", taskId);
@@ -131,13 +131,13 @@ public class RansomDiscontinueController {
 		Map<String, Object> task = null;
 		String taskId = null;
 		//查询当前caseCode赎楼流程是否有对应的中止流程,若有则不进入赎楼中止申请
-		task = getSingleRansomTaskInfo((HttpServletRequest)request, true);
+		task = getSingleRansomTaskInfo((HttpServletRequest)request, true, false);
 		if(task != null) {
 			return null;
 		}
 		//查询是否有对应的赎楼流程,若有则挂起对应的【赎楼流程】
 		task = null; taskId= null;
-		task = getSingleRansomTaskInfo((HttpServletRequest)request, false);
+		task = getSingleRansomTaskInfo((HttpServletRequest)request, false, false);
 		if(task != null) {//这里节省了一个变量名,用 taskId 表示 PROC_INST_ID_
 			taskId = (String) task.get("INST_CODE");
 			workFlowManager.activateOrSuspendProcessInstance(taskId, false);
@@ -162,7 +162,7 @@ public class RansomDiscontinueController {
 		toWorkFlowService.insertSelective(wf);
 		//获取刚开启的【赎楼中止流程】taskId
 		taskId = null;task = null;
-		task = getSingleRansomTaskInfo((HttpServletRequest)request, true);
+		task = getSingleRansomTaskInfo((HttpServletRequest)request, true, false);
 		if(task != null) {
 			taskId = (String) task.get("ID");
 			request.setAttribute("taskId", taskId);
@@ -275,9 +275,10 @@ public class RansomDiscontinueController {
 		
 		//通过：删除 [赎楼流程]
 		if("pass".equals(examContent)) {
-			Map<String, Object> task = getSingleRansomTaskInfo(request, false);
+			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true);
 			if(task != null) {
 				workFlowManager.deleteProcess((String) task.get("INST_CODE"));
+				ransomService.deleteRansomApplyByRansomCode((String) task.get("RANSOM_CODE"));
 			}
 		}
 		/*else if("reject".equals(examContent)) {
@@ -285,7 +286,7 @@ public class RansomDiscontinueController {
 		}*/
 		//不通过：[赎楼中止流程] 结束，重启 [赎楼流程]
 		else if("noPass".equals(examContent)) {
-			Map<String, Object> task = getSingleRansomTaskInfo(request, false);
+			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true);
 			if(task != null) {
 				workFlowManager.activateOrSuspendProcessInstance((String) task.get("INST_CODE"), true);
 			}
@@ -323,7 +324,7 @@ public class RansomDiscontinueController {
 		return toApproveRecord;
 	}
 	
-	private Map<String ,Object> getSingleRansomTaskInfo(HttpServletRequest request, boolean isSuspend) {
+	private Map<String ,Object> getSingleRansomTaskInfo(HttpServletRequest request, boolean isSuspend, boolean isSuspended) {
 		Map<String, String[]> paramMap = ParamterHander.getParameters(request);
         Map<String, Object> paramObj = new HashMap<String, Object>();
         ParamterHander.mergeParamter(paramMap, paramObj);
@@ -334,6 +335,13 @@ public class RansomDiscontinueController {
         	String processDfId = propertyUtilsService.getProcessDfId("ransom_process");
         	paramObj.put("PROCESS_DEFINITION_ID_RANSOM", processDfId);
         }
+        if(isSuspended) {
+        	paramObj.put("isSuspended", true);
+        }else {
+        	paramObj.put("isSuspended", false);
+        }
+        SessionUser user = uamSessionService.getSessionUser();
+        paramObj.put("sessionUserId", user.getId());
         JQGridParam gp = new JQGridParam();
         gp.setPage(1);
         gp.setRows(1);
