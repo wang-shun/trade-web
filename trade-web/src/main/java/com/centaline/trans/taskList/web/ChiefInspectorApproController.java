@@ -1,4 +1,9 @@
 package com.centaline.trans.taskList.web;
+/**
+ * 自办贷款审批总监审批controller
+ * @author wblujian
+ *
+ */
 
 import java.util.List;
 
@@ -15,20 +20,15 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.eloan.entity.ToAppRecordInfo;
 import com.centaline.trans.eloan.entity.ToSelfAppInfo;
+import com.centaline.trans.eloan.service.ToAppRecordInfoService;
 import com.centaline.trans.eloan.service.ToSelfAppInfoService;
-import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.service.SelfLoanWarrantManagerApproService;
 import com.centaline.trans.task.vo.ToAppRecordInfoVO;
 
-/**
- * 自办单款权证经理审批
- * @author wblujian
- *
- */
 @Controller
-@RequestMapping(value="/task/warrantManagerAppro")
-public class SelfLoanWarrantManagerApproController {
-	
+@RequestMapping(value="/task/chiefInspectorAppro")
+public class ChiefInspectorApproController {
+
 	@Autowired(required = true)
 	private ToCaseService toCaseService;
 	@Autowired
@@ -36,6 +36,9 @@ public class SelfLoanWarrantManagerApproController {
 	
 	@Autowired
 	private ToSelfAppInfoService toSelfAppInfoService;
+	
+	@Autowired
+	private ToAppRecordInfoService toAppRecordInfoService;
 	
 	private SelfLoanWarrantManagerApproService selfLoanWarrantManagerApproService;
 	
@@ -57,8 +60,10 @@ public class SelfLoanWarrantManagerApproController {
 		request.setAttribute("caseBaseVO", caseBaseVO);	
 		toAccesoryListService.getAccesoryList(request, taskitem);
 		ToSelfAppInfo toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(caseCode);
+		ToAppRecordInfo toAppRecordInfo = toAppRecordInfoService.getAppRedordByAppInfoId(toSelfAppInfo.getPkid());
 		request.setAttribute("toSelfAppInfo", toSelfAppInfo);
-		return "task/taskWarrantManagerAppro";
+		request.setAttribute("toAppRecordInfo", toAppRecordInfo);
+		return "task/taskChiefInspectorAppro";
 	}
 	
 	/**

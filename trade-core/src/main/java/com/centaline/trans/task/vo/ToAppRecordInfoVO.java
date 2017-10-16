@@ -2,6 +2,8 @@ package com.centaline.trans.task.vo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ToAppRecordInfoVO {
 
 	private Long pkid;
@@ -22,6 +24,7 @@ public class ToAppRecordInfoVO {
 	
 	private String visitResult; //回访结果
 	
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
 	private Date visitTime;//回访时间
 	
 	private Date createTime; //创建时间

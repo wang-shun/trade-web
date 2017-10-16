@@ -123,8 +123,12 @@
 												<td>自办贷款银行：</td>
 												<td>1</td>
 											</tr>
-											
-											
+											<tr style="height:50px">
+												<td>权证经理回访结果：</td>
+												<td>${toAppRecordInfo.visitResult}</td>
+												<td>权证经理回访时间：</td>
+												<td>${toAppRecordInfo.visitTime}</td>
+											</tr>
 									</table>
 									</div>
 								</div>
@@ -160,17 +164,6 @@
 									  <tr>
 									    <th><span class="star">*</span>审批意见</th>
 									    <td><textarea name="comment" rows="2" cols="100"></textarea><input type="hidden" name="selfAppInfoId" value="${toSelfAppInfo.pkid}"/></td>
-									    
-									  </tr>
-									  <tr>
-									    <th><span class="star">*</span>回访结果</th>
-									    <td><textarea name="visitResult" rows="2" cols="100"></textarea></td>
-									  </tr>
-									  <tr>
-									    <th><span class="star">*</span>回访时间</th>
-									    <td><div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-	                                                                        <input name="visitTime" id="dateTime" class="input_type yuanwid datatime" type="text" value="" placeholder=""/>
-	                                                                    </div></td>
 									  </tr>
 							</table>
 								
@@ -290,13 +283,7 @@
 			if(formId.find("textarea[name='comment']").text() == ""){
 				 window.wxc.error("审批意见不能为空");
 				 return false;
-			}else if(formId.find("textarea[name='visitResult']").text() == ""){
-				 window.wxc.error("回访结果不能为空");
-				 return false;
-			}else if(formId.find("input[name='visitTime']").val() == ""){
-				window.wxc.error("回访时间不能为空");
-				return false;
-			};
+			}
 			return true;
 		}
 		
