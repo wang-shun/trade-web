@@ -24,8 +24,8 @@ import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.eloan.entity.ToCloseLoan;
 import com.centaline.trans.eloan.repository.ToCloseLoanMapper;
-import com.centaline.trans.eval.entity.ToEvaReportProcess;
-import com.centaline.trans.eval.repository.ToEvaReportProcessMapper;
+import com.centaline.trans.eval.entity.ToEvalReportProcess;
+import com.centaline.trans.eval.repository.ToEvalReportProcessMapper;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.repository.TsFinOrgMapper;
 import com.centaline.trans.mortgage.entity.ToEvaReport;
@@ -95,7 +95,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
     @Autowired
     private ToRatePaymentMapper	toRatePaymentMapper;
     @Autowired
-    private ToEvaReportProcessMapper toEvaReportProcessMapper;
+    private ToEvalReportProcessMapper toEvaReportProcessMapper;
     @Autowired
     private AddRansomFormMapper addRansomFormMapper;
 
@@ -328,7 +328,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         }
         
         /*评估价格 by wbshume*/
-        ToEvaReportProcess toEvaReportProcess = toEvaReportProcessMapper.selectToEvaReportProcessByCaseCodeAndStatus(caseCode);
+        ToEvalReportProcess toEvaReportProcess = toEvaReportProcessMapper.selectToEvaReportProcessByCaseCodeAndStatus(caseCode);
         if(toEvaReportProcess != null) {
         	editCaseDetailVO.setEvaPrice(toEvaReportProcess.getEvaPrice() != null ? toEvaReportProcess.getEvaPrice().divide(new BigDecimal(10000)) : null);
         }

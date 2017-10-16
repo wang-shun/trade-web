@@ -177,5 +177,5 @@ public interface ToCaseMapper {
 	 * @author yinchao
 	 */
 	String nextCaseCodeNumber();
-
+	
 }

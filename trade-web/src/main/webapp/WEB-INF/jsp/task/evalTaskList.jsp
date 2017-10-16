@@ -99,7 +99,7 @@ text-decoration: underline !important;
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox-content border-bottom clearfix space_box">
 		 	<h1 class="title">
-				待办任务
+				评估待办任务
         	</h1>
 				<form method="get" class="form_list">
 				 <div class="clearfix">
@@ -157,7 +157,7 @@ text-decoration: underline !important;
              <div class="row clearfix">	
 					<div class="form_content">
 						<label class="control-label sign_left">评估公司</label>
-						<input id="evalCompany" name="" type="evalCompany" class="sign_right input_type"   placeholder="请输入">
+						<select class="select_control sign_right" name="finOrgId" id="finOrgId"></select>
 					</div>
 					<div class="form_content">
 						<label class="control-label sign_left">贷款权证</label>
