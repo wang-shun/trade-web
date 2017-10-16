@@ -28,7 +28,7 @@
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   	</select>
 	
-	<insert id="addRansomForm" useGeneratedKeys="true" parameterType="java.util.List">
+	<insert id="insertRansomForm" useGeneratedKeys="true" parameterType="java.util.List">
 		INSERT INTO [sctrans].[T_RA_TAILINS](
 			[CASE_CODE],
             [RANSOM_CODE],

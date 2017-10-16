@@ -31,11 +31,14 @@
         border: 1px solid red;
     }
     .line{padding-left:27%;}
+    .title{margin-top:0}
+    #record-detail tr{height: 25px;}
 </style>
     </head>
     <body>
     <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <input type="hidden" id = "ransomCode" value="${ransomVo.ransomCode }" />
+    <input type="hidden" id = "ransomCode" value="${ransomVo.caseCode }" />
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="ibox-content border-bottom clearfix space_box">
                 <h2 class="title text-center">如修改已经的录入时间计划，需录入变更理由</h2>
@@ -44,7 +47,7 @@
                       <div class="form_content">
                           <label class="control-label sign_left_small select_style mend_select">申请时间</label>
                           <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="applyTime" id="applyTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${ransomVo.applyTime }' pattern='yyyy-MM-dd'/>" placeholder="">
+                              <input name="applyTime" id="applyTime" class="form-control data_style" type="text"  value="<fmt:formatDate value='${ransomVo.applyTime }' pattern='yyyy-MM-dd'/>" placeholder="">
                           </div>
                       </div>
                       <div class="form_content">
@@ -124,7 +127,7 @@
         
         <div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
         	<div class="modal-dialog" style="width: 1070px;height: 500px;top: 88px;background: #ccc;">
-				<div class="modal-header"><button class="close" type="button" data-dismiss="modal">×</button>
+				<div class="modal-header" style="height: 0;"><button class="close" type="button" data-dismiss="modal">×</button>
 					<h2 class="title">变更明细记录查看</h2>
 				</div>
 				<div class="modal-body">

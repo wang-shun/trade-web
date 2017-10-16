@@ -1,10 +1,7 @@
 package com.centaline.trans.ransom.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-
-import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.mgr.entity.TsFinOrg;
 
 /**
  * 赎楼列表
@@ -44,7 +41,7 @@ public class ToRansomCaseVo {
     /**
      * 借款总金额
      */
-    private double borroMoney;
+    private BigDecimal borroMoney;
 
     /**
      * 主贷人姓名
@@ -154,11 +151,11 @@ public class ToRansomCaseVo {
         this.comOrgCode = comOrgCode == null ? null : comOrgCode.trim();
     }
 
-    public double getBorroMoney() {
+    public BigDecimal getBorroMoney() {
         return borroMoney;
     }
 
-    public void setBorroMoney(double borroMoney) {
+    public void setBorroMoney(BigDecimal borroMoney) {
         this.borroMoney = borroMoney;
     }
 

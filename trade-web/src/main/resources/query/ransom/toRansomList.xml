@@ -221,6 +221,7 @@
 						rc.RANSOM_CODE,
 						rc.RANSOM_PROPERTY,
 				
+						CASE app.PART_CODE WHEN 'DEAL' THEN rt.PLAN_TIME END dealTime,
 						CASE app.PART_CODE WHEN 'APPLY' THEN app.APPLY_TIME END applyTime,
 						CASE ri.PART_CODE WHEN 'SIGN' THEN ri.INTERVIEW_TIME END signTime,
 						CASE rr.PART_CODE WHEN 'PAYLOAN_ONE' THEN rr.REPAY_TIME END paylonOne,
@@ -255,6 +256,7 @@
 				<column type="both" name="RANSOM_PROPERTY" display="赎楼环节" customDict=""  />
 				<column type="virtual" name="RANSOM_PROPERTY_NAME" display="赎楼环节名" referencecol="RANSOM_PROPERTY" customDict="qqcdDictRansomPart"/>	
 
+				<column type="both" name="DEAL_TIME" display="受理完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="APPLY_TIME" display="申请完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="INTERVIEW_TIME" display="面签完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="REPAY_TIME" display="陪同还贷完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
@@ -266,7 +268,7 @@
 			</table-row>
 		</grid>
 	</query>
-	<query id="queryRansomTimeRecord" cacheCount="true">
+	<query id="queryRansomTimeRecord1" cacheCount="true">
 		<searchSql>
 			<baseSql>
 				<![CDATA[
