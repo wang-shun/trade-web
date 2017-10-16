@@ -188,6 +188,7 @@
 		$(document).ready(function(){
 			
 			$("#mortageService").find("option").eq(0).remove();
+			$("#mortageService").find("option").eq(1).remove();
 			/*根据贷款服务项，设置默认合作项目*/
 			mortageService();
 			$("#mortageService").change(function(){
