@@ -32,6 +32,8 @@ public interface RansomListFormService {
 	 * @param caseCode
 	 * @return
 	 */
+	int updateRansomDiscountinue(ToRansomCaseVo ransomCase);
+
 	int updateRansomDiscountinue(String caseCode);
 	
 	/**
