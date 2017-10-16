@@ -1,6 +1,13 @@
 package com.centaline.trans.common.service.impl;
 
-import java.lang.reflect.Field;
+import com.aist.common.exception.BusinessException;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.centaline.trans.common.service.PropertyUtilsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +34,7 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	@Override
 	public String getProcessDfId(String process, String orgId) {
 		String processId = uamBasedataService.getParam(PARAM_MODEL, process, orgId);
-		System.out.println(orgId+"------------get processId is -----------"+processId);
+		// System.out.println(orgId+"------------get processId is -----------"+processId);
 		return processId;
 	}
 
