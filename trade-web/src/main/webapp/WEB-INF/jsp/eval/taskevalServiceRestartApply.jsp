@@ -157,15 +157,18 @@
     		            } , 
 				success : function(data) {
 					if(data) {
-						alert("操作成功。");
+						window.wxc.success("操作成功",{"wxcOk":function(){
+							window.close();
+							//window.location.href = ctx + "/task/eval/evalTaskList";
+					}});
 						//caseTaskCheck();
 					} else {
-						alert("操作失败。");
+						window.wxc.alert("操作失败。");
 					}
 					//window.location.href = "${ctx }/task/myTaskList";
 				},
 				error : function(errors) {
-					alert("操作失败。");
+					window.wxc.error("操作失败。");
 				}
 			});
 		}
