@@ -82,8 +82,8 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	@Value("${process.df.key.ransom_suspend}")
 	private String RansomSuspendProcessDfKey;
 	
-	@Value("${process.df.key.EvalAccountApproProcess}")
-	private String evalAccountApproDfKey;
+//	@Value("${process.df.key.EvalAccountApproProcess}")
+//	private String evalAccountApproDfKey;
 
 	/**交易计划变更审核*/
 	@Value("${process.df.key.TransPlanAppver}")
@@ -96,6 +96,9 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	//	评估发票管理流程
 	@Value("${process.df.key.EvalInvoiceProcess}")
 	private String EvalInvoiceProcess;
+	//	评估公司变更调佣流程
+	@Value("${process.df.key.EvalChangeCommProcess}")
+	private String EvalChangeCommProcess;
 	
 	@Value("${process.df.key.EvalProcess}")
 	private String evalProcessDfKey;
@@ -270,4 +273,13 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	public String getSatisProcessDfKey() {
 		return satisProcessDfKey;
 	}
+
+	public String getEvalChangeCommProcess() {
+		return EvalChangeCommProcess;
+	}
+
+	public void setEvalChangeCommProcess(String evalChangeCommProcess) {
+		EvalChangeCommProcess = evalChangeCommProcess;
+	}
+	
 }

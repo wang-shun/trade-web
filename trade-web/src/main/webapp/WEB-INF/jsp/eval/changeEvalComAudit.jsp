@@ -12,6 +12,31 @@
 <html>
 <head>
 <style type="text/css">
+/* 个人样式 */
+.title-mark {
+  padding-left: 6px!important;
+  border-left: 3px solid #00CFEC!important;
+  line-height: 18px!important;
+}
+
+.line {
+  overflow: hidden;
+}
+
+.input_type {
+  display: inline-block;
+  padding: 6px 12px;
+  color: inherit;
+  font-size: 14px;
+  font-family: 'Microsoft Yahei';
+/*   background-color: #fff; */
+  background-image: none;
+  border: 1px solid #e5e6e7;
+  border-radius: 0px;
+  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+</style>
+<style type="text/css">
 .radio.radio-inline > label{margin-left:10px;}
 .radio.radio-inline > input{margin-left:10px;}
 .checkbox.checkbox-inline > div{margin-left:25px;}
@@ -21,6 +46,7 @@
 .ibox-content-task{padding-bottom:40px !important;}
 #corss_area{padding:0 8px 0 0;margin-left:369px;}
 #corss_area select{height:34px;border-radius:2px;margin-left:20px;}
+
 </style>
 <style>
 [class^=mark]{position:absolute;top:8px;left:130px;width:56px;height:37px;z-index:0; background-position:left center;background-repeat:no-repeat}
@@ -183,9 +209,9 @@ function save(b) {
 		}													
 	} */
 	
-	var jsonData = $("#invoiceChangeForm").serializeArray();
+	var jsonData = $("#evalChangeAuditform").serializeArray();
 
-	var url = "${ctx}/eval/submitIssueInvoiceChangeComm";
+	var url = "${ctx}/eval/submitEvalChangeAudit";
 	
 	$.ajax({
         cache : true,
@@ -439,39 +465,31 @@ function checkForm() {
 							</div>
 
 <!-- 调佣信息 -->
-								<div  class="info_box info_box_two col-sm-12" >
+								<!-- <div  class="info_box info_box_two col-sm-12" >
 									<span>调佣信息</span>
 									<div  class="ibox-conn else_conn_two">
 										<table style="width:100%">
 											<tr style="height:30px">
-												<td>合同价：</td>
+												<td>调佣事项：</td>
 												<td>1</td>
-												<td>评估价：</td>
+												<td>调佣类型：</td>
 												<td>1</td>
-												<td>评估公司：</td>
-												<td>1</td>
-											</tr>
-											
-											<tr style="height:30px">
-												<td>出具评估报告的份数：</td>
-												<td>1</td>
-												<td>评估报告回收份数：</td>
-												<td>1</td>
-												<td>评估报告领取人：</td>
+												<td>调佣对象：</td>
 												<td>1</td>
 											</tr>
 											
 											<tr style="height:30px">
-												<td>评估报告领取时间：</td>
+												<td>调佣金额：</td>
 												<td>1</td>
+												<td>调佣事由：</td>
 												<td>1</td>
-												<td>1</td>
-												<td>1</td>
-												<td>1</td>
+												<td></td>
+												<td></td>
 											</tr>
+
 									</table>
 									</div>
-								</div>
+								</div> -->
 								<!-- 调佣信息 -->
 								
 						</div>
@@ -491,23 +509,27 @@ function checkForm() {
 
 <!-- 调佣对象调佣金额 -->
 		 <div class="ibox-content border-bottom clearfix space_box noborder marginbot" id="serviceFlow">
-		 <form action="#" id="invoiceChangeForm">
+		 <form action="#" id="changeCommForm">
 <input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 <input type="hidden" id="ctx" name="ctx" value="${ctx}">
 		<!-- 原来的页面 -->
 		<h2 class="newtitle title-mark">调佣任务填写</h2>		
 	                <!-- 原来的页面 -->
 		<div  style="width: 80%" align="center" class="table_content">
-		
+		<div align="left" style="height:30px">
+			<font color=" red" >*</font>调佣事项： 
+			<input type="text" id="changeChargesType" maxlength="16" name="changeChargesItem" value="评估公司变更" readonly="readonly">
+		</div>
 		<div align="left" style="height:30px">
 			<font color=" red" >*</font>调佣类型： 
-			<input type="text" id="changeChargesType" maxlength="16" name="changeChargesType" >
+			<input type="text" id="changeChargesType" value="${evalChangeCommVO.changeChargesType }" name="changeChargesType" >
 		</div>
-		<div align="left" style="height:30px">
-			<font color=" red" >*</font>调佣事由：
-			<input type="text" id="changeChargesCause" maxlength="16" name="changeChargesCause" >
+		<div align="left" style="height: 30px">
+			<font color=" red">*</font>调佣事由： <input type="text"
+				id="changeChargesCause" value="${evalChangeCommVO.changeChargesCause }" maxlength="16" name="changeChargesCause">
 		</div>
-        <table style="width: 100%;height: 600px;" class="table-hover">
+		
+			<table style="width: 100%;height: 600px;" class="table-hover">
             <thead>
             <tr>
                 <td></td><td>合作费类型</td><td>分成金额</td><td>分成比例</td><td>合作人</td><td>合作部门</td><td>合作经理</td>
@@ -518,8 +540,8 @@ function checkForm() {
             <tr>
                     <td>${coPerson.position }${s.count} : <input type="hidden" name="coPersonList[${s.index}].pkid" value="${coPerson.pkid }"></td>
                     <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateType" value="${coPerson.cooperateType }" ></td>
-                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].shareAmount" value="${coPerson.shareAmount }"></td>
-                    <td><input type="text" style="width: 120px" ></td>
+                    <td><input class="shareAmount"  type="text" style="width: 120px" name="coPersonList[${s.index}].shareAmount" value="${coPerson.shareAmount }"></td>
+                    <td><span class="aa"></span><span>%</span></td>
                     <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].employeeName" value="${coPerson.employeeName }"></td>
                     <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateDept" value="${coPerson.cooperateDept }"></td>
                     <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateManager" value="${coPerson.cooperateManager }"></td>
@@ -544,8 +566,8 @@ function checkForm() {
                     <td>${sharePerson.position }${s.count}:<input type="hidden" name="sharePersonList[${s.index}].pkid" value="${sharePerson.pkid }"></td>
                     <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].department" value="${sharePerson.department }"></td>
                     <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].employeeName" value="${sharePerson.employeeName }"></td>
-                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].shareAmount" value="${sharePerson.shareAmount }"></td>
-                    <td></td>
+                    <td><input class="shareAmount" type="text" style="width: 120px" name="sharePersonList[${s.index}].shareAmount" value="${sharePerson.shareAmount }"></td>
+                    <td><span class="aa"></span><span>%</span></td>
                     <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].shareReason" value="${sharePerson.shareReason }"></td>
                     <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].dealCount" value="${sharePerson.dealCount }"></td>
                 </tr>
@@ -586,20 +608,20 @@ function checkForm() {
                     <td></td>
                     <td></td>
                     <td>合计:</td>
-                    <td><input type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px"></td>
-                    <td><input type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px"></td>
+                    <td><input id="ttlComm" class="shareAmount" type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px"></td>
+                    <td><span id="totalPacentage"></span><span>%</span></td>
                     <td>单数合计:</td>
                     <td><input type="text" value="${evalChangeCommVO.dealCount }" name="dealCount" style="width: 120px"></td>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>总业绩:</td>
-                    <td><input type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px"></td>
+                <!-- <tr>
                     <td></td>
                     <td></td>
                     <td></td>
-                </tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr> -->
             </tbody>
         </table>
 
@@ -607,9 +629,42 @@ function checkForm() {
 </form>
 <!-- 调佣对象调佣金额 -->
 
-<div class="form-btn" id="aboutInfo">
+<!-- 填写审批任务 -->
+<hr>
+<div class="">
+	            <div class="line">	
+		            <div class="title title-mark" id="aboutInfo">
+		               <strong style="font-weight:bold;">填写审批任务</strong>
+		            </div>
+	            </div>
+	            <form method="post" class="form_list" id="evalChangeAuditform" style="overflow: visible;">
+	            <input type="hidden" name="partCode" value="changeEvalComAudit">
+	            <input type="hidden" id="caseCode1" name="caseCode" value="${caseCode}">
+	            <div class="line" style="margin-top:18px">		                 
+		                    <div class="form_content" >
+		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批结果：</label>
+		                        <input type="radio" name="status" value="1"><span>通过</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    							<input type="radio" name="status" value="0"><span>驳回</span>
+		                    </div>
+			                  	                     
+		                </div>
+		        
+		        <div class="line" style="margin-top:18px">		                 		                    
+		                    <div class="form_content">
+		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批意见：</label> 
+		                        <input type="text"  class="input_type mendwidth" id="content" name="content" 
+										value="" maxlength="64">
+		                    </div>			                  	                     
+		                </div>   
+		                     	          	            
+				</form>
+				
+</div>
+	            <!-- 填写审批任务 -->
+<br><br>	
+<div class="form-btn">
 	                    <div class="text-center">
-	                        <button  class="btn btn-success btn-space" onclick="save(false)" id="btnSave">保存</button>
+	                        <button  class="btn btn-success btn-space" onclick="javascript:window.close()" id="btnSave">关闭</button>
 	                         <button class="btn btn-success btn-space" onclick="submit()">提交</button>
 	                         
 	                    </div>
@@ -651,14 +706,7 @@ function checkForm() {
 				<script>
 					$(document).ready(function(){
 						var ctx = $("#ctx").val();
-						var caseCode=$("#caseCode").val();
-						
-						$("#caseCommentList").caseCommentGrid({
-							caseCode : caseCode,
-							srvCode : 'caseRecvFlow'
-						});
-
-						
+						var caseCode=$("#caseCode").val();					
 					//设置div显示或隐藏
 					function isShow(divName, stats) {
 					    var div_array = document.getElementsByName(divName);   
@@ -667,9 +715,7 @@ function checkForm() {
 						    div_array[i].style.display = stats; 
 					    }  
 					}
-					
-					
-			      
+	      
 		            $("[name=businessLoanWarn]").click(function(){
 		                if($(this).val()=='1'){
 		                    $("#divContent").css("display","inherit");
@@ -677,9 +723,76 @@ function checkForm() {
 		                    $("#divContent").css("display","none");
 		                }
 		            });
-				
+		            //页面加载时计算出百分比
+		            //var shareAmountArray=$('.shareAmount');
+		            //console.log(shareAmountArray);
+		            
+		            /* $('.shareAmount').each(function(){
+		            	var totalcomm=$("#ttlComm").val();
+		            	totalcomm=parseInt(totalcomm);
+		            	console.log(totalcomm);
+		                var sharePacentage=$(this).val()/totalcomm*100;
+		                sharePacentage=sharePacentage.toFixed(2)
+		            	$(this).parent().siblings().children(".aa").text(sharePacentage);
+		            }) */
+		            
+		            refeshShareAmount();
+		            getTotalSharePacentage();
+		            
+					//绑定计算百分比事件
+		            $('.shareAmount').bind('keyup onpropertychange', function() {   
+		                console.log($(this).val());
+		                //var totalcomm=10000;
+		                var totalcomm=$("#ttlComm").val();
+		                totalcomm=parseInt(totalcomm);
+		                var sharePacentage=$(this).val()/totalcomm*100;
+		                sharePacentage=sharePacentage.toFixed(2)
+		                console.log(sharePacentage);
+		                //$(this).parent().siblings().children(".aa").text(sharePacentage);
+		                console.log($(this).parent().siblings().children(".aa").text(sharePacentage));
+		                refeshShareAmount();
+		                getTotalSharePacentage();
+		              //计算总百分比
+		                /* var totalPacentage=0;
+		                var totalPacentageArray=new Array();
+		                $(".aa").each(function(){
+		                    totalPacentageArray.push(parseInt($(this).text()));
+		                })
+		                for(var i=0;i<totalPacentageArray.length;i++){
+		                    totalPacentage=totalPacentageArray[i]+totalPacentage;
+		                }
+		                console.log(totalPacentageArray);
+		                console.log(totalPacentage);
+		                $("#totalPacentage").text(totalPacentage);   */              
+		            }); 
+		            		            
 					})//end ready function
 					
+					function refeshShareAmount(){
+						$('.shareAmount').each(function(){
+			            	var totalcomm=$("#ttlComm").val();
+			            	totalcomm=parseInt(totalcomm);
+			            	console.log(totalcomm);
+			                var sharePacentage=$(this).val()/totalcomm*100;
+			                sharePacentage=sharePacentage.toFixed(2)
+			            	$(this).parent().siblings().children(".aa").text(sharePacentage);
+			            })
+					}
+					
+					function getTotalSharePacentage(){
+						//计算总百分比
+		                var totalPacentage=0;
+		                var totalPacentageArray=new Array();
+		                $(".aa").each(function(){
+		                    totalPacentageArray.push(parseInt($(this).text()));
+		                })
+		                for(var i=0;i<totalPacentageArray.length;i++){
+		                    totalPacentage=totalPacentageArray[i]+totalPacentage;
+		                }
+		                console.log(totalPacentageArray);
+		                console.log(totalPacentage);
+		                $("#totalPacentage").text(totalPacentage);     
+					}
 				</script> 
 			</content>
 	</body>

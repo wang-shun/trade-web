@@ -113,6 +113,7 @@ public class EvalInvoiceController {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		System.out.println("测试是否进入该方法。。");
 		try{
+			//只要有同名的属性都会同时分配给这两个对象
 		toEvaCommPersonAmountService.saveEvalChangeCommVO(evalChangeCommVO,toEvaCommissionChange);
 		}
 		catch(Exception e){

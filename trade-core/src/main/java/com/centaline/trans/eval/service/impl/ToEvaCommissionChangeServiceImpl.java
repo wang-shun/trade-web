@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.centaline.trans.eval.entity.ToEvaCommissionChange;
 import com.centaline.trans.eval.repository.ToEvaCommissionChangeMapper;
 import com.centaline.trans.eval.service.ToEvaCommissionChangeService;
+import com.centaline.trans.task.entity.ToApproveRecord;
+import com.centaline.trans.task.repository.ToApproveRecordMapper;
 
 /**
  * @author xiefei1
@@ -16,7 +18,8 @@ import com.centaline.trans.eval.service.ToEvaCommissionChangeService;
 public class ToEvaCommissionChangeServiceImpl implements ToEvaCommissionChangeService {
 	@Autowired
 	private ToEvaCommissionChangeMapper toEvaCommissionChangeMapper;
-
+	@Autowired
+	private ToApproveRecordMapper toApproveRecordMapper; 
 	@Override
 	public int deleteByPrimaryKey(Long pkid) {
 		// TODO Auto-generated method stub
@@ -58,6 +61,11 @@ public class ToEvaCommissionChangeServiceImpl implements ToEvaCommissionChangeSe
 		// TODO Auto-generated method stub
 		int updateByPrimaryKey = toEvaCommissionChangeMapper.updateByPrimaryKey(record);
 		return updateByPrimaryKey;
+	}
+
+	@Override
+	public int updateEvalChangeApproveRecord(ToApproveRecord toApproveRecord) {
+		return toApproveRecordMapper.insertSelective(toApproveRecord);
 	}
 
 //	@Override

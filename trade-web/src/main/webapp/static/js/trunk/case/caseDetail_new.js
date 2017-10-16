@@ -296,6 +296,18 @@ function buttonActivity(){
 }
 
 /**
+ * 评估公司变更 by xiefei1
+ */
+function showEvalCompanyChangeModal(){
+	resetPlanModal();
+	$('#change-eval-company-modal-form').modal("show");
+}
+
+function submitEvalCompanyChangeModal(){
+    var ctx = $("#ctx").val();
+    window.location.href=ctx+ "/eval/changeEvalCom";
+}
+/**
  * 交易计划变更
  */
 function showPlanModal(){
