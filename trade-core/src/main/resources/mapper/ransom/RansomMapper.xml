@@ -554,4 +554,8 @@
 		WHERE
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</update>
+	
+	<delete id="deleteRansomApplyByRansomCode" parameterType="java.lang.String">
+		DELETE FROM sctrans.T_RA_APPLY WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</delete>
 </mapper>

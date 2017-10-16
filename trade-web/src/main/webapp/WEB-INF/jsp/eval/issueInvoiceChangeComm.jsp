@@ -505,7 +505,7 @@ function checkForm() {
 		</div>
 		<div align="left" style="height:30px">
 			<font color=" red" >*</font>调佣事由：
-			<input type="text" id="changeChargesType" maxlength="16" name="changeChargesReason" >
+			<input type="text" id="changeChargesCause" maxlength="16" name="changeChargesCause" >
 		</div>
         <table style="width: 100%;height: 600px;" class="table-hover">
             <thead>

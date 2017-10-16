@@ -11,11 +11,15 @@ public interface ToEvaInvoiceService {
     int insertSelective(ToEvaInvoice record);
 
     ToEvaInvoice selectByPrimaryKey(Long pkid);
+    
+    ToEvaInvoice selectByCaseCode(String caseCode);
+    
+    ToEvaInvoice selectByCaseCodeWithEvalCompany(String caseCode);
 
     int updateByPrimaryKeySelective(ToEvaInvoice record);
 
     int updateByPrimaryKey(ToEvaInvoice record);
-    
+//	权证经理发票审核是否通过
     int updateEvalInvoiceApproveRecord(ToApproveRecord toApproveRecord);
 
 }

@@ -284,6 +284,7 @@
 		<!--评估费变更调整-->
 		<mapper resource="mapper/eval/ToEvaCommissionChangeMapper.xml"/>
 		<mapper resource="mapper/eval/ToEvaCommPersonAmountMapper.xml"/>
+		<mapper resource="mapper/eval/ToEvaInvoiceMapper.xml"/>
 		<!-- 自办评估/自办贷款申请信息新增接口 -->
 		<mapper resource="mapper/task/ToAppRecordInfoMapper.xml"/>
 		

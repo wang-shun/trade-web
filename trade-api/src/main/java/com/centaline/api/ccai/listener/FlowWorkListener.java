@@ -126,7 +126,10 @@ public class FlowWorkListener {
 			} else if (MQCaseMessage.REPEAL_TYPE.equals(message.getType())) {
 				repealProcess(message.getCaseCode());
 				mqlog.setStatus("0");
-			} else {
+			} else if(MQCaseMessage.LOAN_TYPE.equals(message.getType())){
+				startProcessLoanAndAsse(message.getCaseCode());
+				mqlog.setStatus("0");
+			}else {
 				mqlog.setOpertation(message.getType());
 				mqlog.setStatus("-1");
 				mqlog.setErrmsg("未识别的操作.");

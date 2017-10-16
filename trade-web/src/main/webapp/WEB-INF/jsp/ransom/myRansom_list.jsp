@@ -334,7 +334,7 @@ text-decoration: underline !important;
 	</td>
 	<td class="center"> 
 		<a href="${ctx}/task/ransom/ransomApply?caseCode={{item.CASE_CODE}}" target="_blank">申请</a>
-		<a href="${ctx}/ransomList/ransom/ransomDiscontinue" target="_blank">中止</a>
+		<a href="${ctx}/task/ransomDiscontinue/stopApplyProcessFromRansomList?caseCode={{item.CASE_CODE}}" target="_blank">中止</a>
 	</td>
   </tr>
 {{/each}}

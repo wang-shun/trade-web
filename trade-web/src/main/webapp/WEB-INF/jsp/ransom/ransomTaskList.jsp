@@ -92,7 +92,8 @@ text-decoration: underline !important;
 <input type="hidden" id="Lamp1" value="${Lamp1}" />
 <input type="hidden" id="Lamp2" value="${Lamp2}" />
 <input type="hidden" id="Lamp3" value="${Lamp3}" />
-<input type="hidden" id="PROCESS_DEFINITION_ID" value="${PROCESS_DEFINITION_ID}" />
+<input type="hidden" id="PROCESS_DEFINITION_ID_RANSOM" value="${PROCESS_DEFINITION_ID_RANSOM}" />
+<input type="hidden" id="PROCESS_DEFINITION_ID_RANSOM_SUSPEND" value="${PROCESS_DEFINITION_ID_RANSOM_SUSPEND}" />
 	
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="ibox-content border-bottom clearfix space_box">
@@ -325,20 +326,7 @@ text-decoration: underline !important;
 			<td>
 				<p>
                 	<i class="sign_blue">
-						<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >
-							{{if item.NAME == "RANSOMDEAL"}}
-		 						受理
-							{{/if}}
-							{{if item.NAME == "RANSOMLOADING"}}
-		 						在途
-							{{/if}}
-							{{if item.NAME == "RANSOMCENCLE"}}
-		 						中止
-							{{/if}}
-							{{if item.NAME == "RANSOMEND"}}
-		 						结束
-							{{/if}}
-						</a>									
+						<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>									
 					</i>
 				</p>
 				<!--<p>
