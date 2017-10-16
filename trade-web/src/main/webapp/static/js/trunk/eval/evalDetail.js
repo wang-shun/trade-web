@@ -731,9 +731,8 @@ function evalProcessRestart(){
 				if(!data.success){
 					$.unblockUI();   
 					window.wxc.error(data.message);
-				
 				}else{
-					window.location.href=ctx+"/eval/task/route/evalServiceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode+"&evalCode="+data.content.evalCode;
+					window.location.href=ctx+"/eval/task/route/evalServiceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode+"&evalCode="+data.content.businessKey;
 				}
 			}
 		});
