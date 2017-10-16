@@ -8,6 +8,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>案件总览</title>
 <!-- Toastr style -->
 <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 
@@ -121,6 +122,7 @@ text-decoration: underline !important;
 }
 
 </style>
+<content tag="pagetitle">案件总览</content>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
