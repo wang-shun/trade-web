@@ -395,7 +395,7 @@ public class CcaiServiceImpl implements CcaiService {
 		if(hasAssistant) return;
 		//自动添加内勤助理
 		Org org = uamUserOrgService.getOrgByCode(owner.getGrpCode());
-		List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),TradeJobCodeEnum.ASSISTANT.getCode());
+		List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),TransJobs.TNQZL.getCode());
 		if(users!=null && users.size()>0){
 			User assistant = users.get(0);
 			ToCaseParticipant casepa = new ToCaseParticipant();
