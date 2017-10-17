@@ -1,6 +1,5 @@
 package com.centaline.trans.eval.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.aist.common.exception.BusinessException;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.service.ToCaseInfoService;
@@ -19,7 +18,6 @@ import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
-import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ProcessInstanceService;
@@ -84,7 +82,14 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public StartProcessInstanceVo SuspendEvalSubProcess(ServiceRestartVo vo) {
+	public StartProcessInstanceVo SuspendEvalSubProcess(ServiceRestartVo vo,AjaxResponse<StartProcessInstanceVo> resp) {
+		//查询评估单状态
+		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(vo.getEvaCode());
+		if(toEvalReportProcess!=null && EvalStatusEnum.YCQ.getCode().equals(toEvalReportProcess.getStatus())){
+			 resp.setSuccess(false);
+			 resp.setMessage("当前重启流程刚完成，无需再重启！");
+			 return null;
+		}
 		
 		// 1.查询流程
 		ToWorkFlow wf = new ToWorkFlow();
@@ -92,8 +97,11 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		wf.setBizCode(vo.getEvaCode());
 		ToWorkFlow activeWf = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(wf);
 		if (activeWf != null) {
-			throw new BusinessException("当前重启流程尚未结束！");
+			 resp.setSuccess(false);
+			 resp.setMessage("当前重启流程尚未结束！");
+			 return null;
 		}
+		
 		
 	    /** 评估相关流程挂起  */
 		activateOrSuspendProcessInstance(vo.getEvaCode(),false);
@@ -126,7 +134,7 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 
 	@Override
 	public boolean apply(ServiceRestartVo vo) {
-		workFlowManager.submitTask(null, vo.getTaskId(), vo.getInstCode(), null, vo.getCaseCode());
+		taskService.submitTask(vo.getTaskId());
 		ToApproveRecord record = new ToApproveRecord();
 		record.setApproveType("10");
 		record.setCaseCode(vo.getCaseCode());
@@ -143,8 +151,10 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 	public boolean approve(ServiceRestartVo vo) {
 		SessionUser u = uamSessionService.getSessionUser();
 		insertIntoApproveRecord(vo);//入审批记录表
-		handerProcessAfterServiceRestart(vo,u);//流程重启后续业务处理
-		activateOrSuspendProcessInstance(vo.getEvaCode(),true);//打开挂起流程
+		if(vo.getIsApproved()){
+			handerProcessAfterServiceRestart(vo,u);//流程重启后续业务处理
+			activateOrSuspendProcessInstance(vo.getEvaCode(),true);//打开挂起流程
+		}
 		submitEvelRestartTask(vo);//审批提交重启任务
 		return true;
 	}
@@ -171,9 +181,7 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		}
 		
 		//workflow流程表更改为已结束
-		ToWorkFlow workFlow = new ToWorkFlow();
-		workFlow.setBizCode(vo.getEvaCode());
-		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(workFlow);
+		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(t);
 		if (record != null) {
 			record.setStatus(WorkFlowStatus.COMPLETE.getCode());
 			toWorkFlowService.updateByPrimaryKeySelective(record);
@@ -187,11 +195,11 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		//启动新的评估流程，入workflow表
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()), 
     			vo.getEvaCode());
-
+		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(vo.getEvaCode());
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
-		wf.setCaseCode(vo.getCaseCode());
-		wf.setBizCode(vo.getCaseCode());
+		wf.setCaseCode(toEvalReportProcess.getCaseCode());
+		wf.setBizCode(vo.getEvaCode());
 		wf.setProcessOwner(user.getId());
 		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()));
 		wf.setInstCode(processInstance.getId());
@@ -244,19 +252,21 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		/*if (vo.getIsApproved()) {
 			ToEvalReportProcess toEvalReportProcess = new ToEvalReportProcess();
 			toEvalReportProcessService.updateEvalPropertyByEvalCode(vo.getEvaCode(),EvalPropertyEnum.PGYX.getCode());
-		} else {
+		} else {*/
 
 			ToWorkFlow wf = new ToWorkFlow();
-			wf.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+			wf.setBusinessKey(WorkFlowEnum.EVAL_SERVICE_RESTART_PROCESS.getCode());
 			wf.setCaseCode(vo.getCaseCode());
 			wf.setInstCode(vo.getInstCode());
 			wf.setStatus(WorkFlowStatus.COMPLETE.getCode());
 			toWorkFlowService.updateWorkFlowByInstCode(wf);
-		}*/
-		List<RestVariable> vs = new ArrayList<>();
+		//}
+			Map<String, Object> defValsMap = new HashMap<String,Object>();
+	    	defValsMap.put("is_approved", vo.getIsApproved());
+		/*List<RestVariable> vs = new ArrayList<>();
 		RestVariable v = new RestVariable("is_approved", vo.getIsApproved());
-		vs.add(v);
-		workFlowManager.submitTask(vs, vo.getTaskId(), vo.getInstCode(), null, vo.getCaseCode());
+		vs.add(v);*/
+		taskService.submitTask(vo.getTaskId(),defValsMap);
 	}
 	
 	

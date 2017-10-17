@@ -12,13 +12,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
+import com.centaline.trans.eval.service.ToEvalReportProcessService;
+import com.centaline.trans.task.service.ActRuTaskService;
 
 /**
  * @Description:评估单详情-天津
@@ -38,6 +43,10 @@ public class EvalDetailController {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private WorkFlowManager workFlowManager;
+	@Autowired
+	ActRuTaskService actRuTaskService;
+	
+	ToEvalReportProcessService toEvalReportProcessService;
 	/**
 	 * 评估单详情for tj
 	 * @param request
@@ -80,34 +89,23 @@ public class EvalDetailController {
 		return "eval/evalDetail";
 	}
 	
-	/**
-	 * 评估单爆单for tj
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "evalBaodan")
+	@RequestMapping(value = "reject")
 	@ResponseBody
-	public AjaxResponse<?> evalBaodan(String caseCode){
-		ToWorkFlow record = new ToWorkFlow();
-		record.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
-		record.setCaseCode(caseCode);
-		List<ToWorkFlow> wfls = toWorkFlowService.queryActiveToWorkFlowByCaseCode(record);
-		//工作流数据更新：爆单
-		if(wfls != null && wfls.size() > 0){
-			for(ToWorkFlow toWorkFlow : wfls){
-				toWorkFlow.setStatus(WorkFlowStatus.BAODAN.getCode());
-				toWorkFlowService.updateByPrimaryKey(toWorkFlow);
-        		workFlowManager.deleteProcess(toWorkFlow.getInstCode());
-			}
+	public AjaxResponse<?> evalReject(HttpServletRequest request,String caseCode,String evaCode){
+		
+		//删除评估流程
+		List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(evaCode);
+		for (TaskVo task : taskVos) {
+				try{
+					workFlowManager.deleteProcess(task.getInstCode());
+				}catch(WorkFlowException e){
+                    throw e;					
+				}
 		}
 		
-		//评估单状态更新
-		//TODO 
-		int res=0;
-		if(res == 0){
-			return AjaxResponse.fail("更新案件失败!");
-		}
+		//更新评估单状态为驳回
+		toEvalReportProcessService.updateStatusByEvalCode(EvalStatusEnum.BBH.getCode(),evaCode);
 		
-		return AjaxResponse.success();
+		return new AjaxResponse<>(true);
 	}
 }

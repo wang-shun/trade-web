@@ -840,6 +840,12 @@ public class CcaiServiceImpl implements CcaiService {
 			//只复制审核信息
 			List <ToAppRecordInfo> listRecord = copyProperties1(info,toSelfAppInfo1);
 			count = toSelfAppInfoService.saveBatchToAppRecordInfo(listRecord);
+			if(count == 0){
+				result.setSuccess(false);
+				result.setMessage("同步失败!审批信息保存失败!");
+				result.setCode("99");
+				return result;
+			}
 		}else{
 			
 			ToSelfAppInfo toSelfAppInfo = new ToSelfAppInfo();
@@ -849,13 +855,14 @@ public class CcaiServiceImpl implements CcaiService {
 				e.printStackTrace();
 			} 
 			caseCode = toSelfAppInfoService.addSelfAppInfo(toSelfAppInfo);
+			if(StringUtils.isBlank(caseCode)){
+				result.setSuccess(false);
+				result.setMessage("同步失败!caceCode没查到!");
+				result.setCode("99");
+				return result;
+			}
 		}
-		if(StringUtils.isBlank(caseCode) || 0 == count){
-			result.setSuccess(false);
-			result.setMessage("同步失败!caceCode没查到!");
-			result.setCode("99");
-			return result;
-		}
+
 		//将案件编号 放入消息队列中
 		if(null == toSelfAppInfo1 ){
 			MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.LOAN_TYPE);
@@ -884,13 +891,13 @@ public class CcaiServiceImpl implements CcaiService {
 		if (wordkFlowDB != null) {
 			// 发送消息
 			ActRuEventSubScr event = new ActRuEventSubScr();
-			event.setEventType(MessageEnum.CCAI_UPDATED_MSG.getEventType());
-			event.setEventName(MessageEnum.CCAI_UPDATED_MSG.getName());
+			event.setEventType(MessageEnum.CCAI_MODIFY_MSG.getEventType());
+			event.setEventName(MessageEnum.CCAI_MODIFY_MSG.getName());
 			event.setProcInstId(wordkFlowDB.getInstCode());
-			event.setActivityId(EventTypeEnum.CCAI_UPDATED_MSG_EVENT_CATCH.getName());
+			event.setActivityId(EventTypeEnum.SELF_LOAN_MSG_EVENT_CATCH.getName());
 			ExecuteAction action = new ExecuteAction();
-			action.setAction(EventTypeEnum.CCAI_UPDATED_MSG_EVENT_CATCH.getEventType());
-			action.setMessageName(MessageEnum.CCAI_UPDATED_MSG.getName());
+			action.setAction(EventTypeEnum.SELF_LOAN_MSG_EVENT_CATCH.getEventType());
+			action.setMessageName(MessageEnum.CCAI_MODIFY_MSG.getName());
 			List<ActRuEventSubScr> subScrs = actRuEventSubScrMapper.listBySelective(event);
 			if (CollectionUtils.isNotEmpty(subScrs)) {
 				//设置流程引擎登录用户 否则无法访问REST接口

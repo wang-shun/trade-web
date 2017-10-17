@@ -64,6 +64,7 @@
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 交易单编号 -->
 					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+					<input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="instCode" value="${processInstanceId}">
@@ -156,15 +157,18 @@
     		            } , 
 				success : function(data) {
 					if(data) {
-						alert("操作成功。");
+						window.wxc.success("操作成功",{"wxcOk":function(){
+							window.close();
+							//window.location.href = ctx + "/task/eval/evalTaskList";
+					}});
 						//caseTaskCheck();
 					} else {
-						alert("操作失败。");
+						window.wxc.alert("操作失败。");
 					}
 					//window.location.href = "${ctx }/task/myTaskList";
 				},
 				error : function(errors) {
-					alert("操作失败。");
+					window.wxc.error("操作失败。");
 				}
 			});
 		}

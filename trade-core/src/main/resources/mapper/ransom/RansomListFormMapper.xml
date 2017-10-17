@@ -61,6 +61,7 @@
 	
 	<select id="getRansomInfoByRansomCode" resultType="com.centaline.trans.ransom.vo.ToRansomVo">
 		SELECT 
+			cai.CASE_CODE caseCode,
 			app.RANSOM_CODE ransomCode,
 			app.APPLY_TIME applyTime,
 			app.REMAKE applyRemake,
@@ -75,6 +76,7 @@
 			pay.PAYMENT_TIME paymentTime,
 			pay.REMAKE paymentRemake
 		FROM	sctrans.T_RA_APPLY app 
+		INNER JOIN sctrans.T_RA_CASE cai ON cai.RANSOM_CODE = app.RANSOM_CODE
 		LEFT JOIN sctrans.T_RA_INTERVIEW inter ON inter.RANSOM_CODE = app.RANSOM_CODE
 		LEFT JOIN	sctrans.T_RA_REPAY rep ON rep.RANSOM_CODE = inter.RANSOM_CODE
 		LEFT JOIN	sctrans.T_RA_CANCEL can ON can.RANSOM_CODE = rep.RANSOM_CODE

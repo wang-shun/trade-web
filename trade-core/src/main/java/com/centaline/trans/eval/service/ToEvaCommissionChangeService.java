@@ -5,6 +5,7 @@ import java.util.List;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.common.entity.ToCcaiAttachment;
 import com.centaline.trans.eval.entity.ToEvaCommissionChange;
+import com.centaline.trans.task.entity.ToApproveRecord;
 
 
 
@@ -15,6 +16,7 @@ import com.centaline.trans.eval.entity.ToEvaCommissionChange;
  */
 
 public interface ToEvaCommissionChangeService {
+	int updateEvalChangeApproveRecord(ToApproveRecord toApproveRecord);
 
     int deleteByPrimaryKey(Long pkid);
 

@@ -22,7 +22,7 @@ import com.centaline.trans.eloan.entity.ToAppRecordInfo;
 import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 import com.centaline.trans.eloan.service.ToAppRecordInfoService;
 import com.centaline.trans.eloan.service.ToSelfAppInfoService;
-import com.centaline.trans.task.service.SelfLoanWarrantManagerApproService;
+import com.centaline.trans.task.service.ChiefInspectorApproService;
 import com.centaline.trans.task.vo.ToAppRecordInfoVO;
 
 @Controller
@@ -40,7 +40,8 @@ public class ChiefInspectorApproController {
 	@Autowired
 	private ToAppRecordInfoService toAppRecordInfoService;
 	
-	private SelfLoanWarrantManagerApproService selfLoanWarrantManagerApproService;
+	@Autowired
+	private ChiefInspectorApproService chiefInspectorApproService;
 	
 	/**
 	 * 跳转权证经理审批页面
@@ -80,7 +81,7 @@ public class ChiefInspectorApproController {
 	@ResponseBody
 	@RequestMapping(value = "submit")
 	public boolean submit(ToAppRecordInfoVO vo){
-		return selfLoanWarrantManagerApproService.saveAndSubmit(vo);
+		return chiefInspectorApproService.saveAndSubmit(vo);
 	}
 	
 }

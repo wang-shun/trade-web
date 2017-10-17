@@ -33,7 +33,11 @@ import com.centaline.trans.task.service.SelfLoanWarrantManagerApproService;
 import com.centaline.trans.task.vo.ToAppRecordInfoVO;
 
 import reactor.core.support.Assert;
-
+/**
+ * 
+ * @author wblujian
+ *
+ */
 @Service
 public class SelfLoanWarrantManagerApproServiceImp implements SelfLoanWarrantManagerApproService {
 
@@ -76,7 +80,7 @@ public class SelfLoanWarrantManagerApproServiceImp implements SelfLoanWarrantMan
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		RestVariable  restVariable = new RestVariable();
 		boolean b = false;
-		if(vo.getResult().equals("0")){ //0通过1驳回
+		if(vo.getResult() == 1){ //0通过1驳回
 			restVariable.setName("approval");
 			restVariable.setValue(false);
 			variables.add(restVariable);
@@ -124,6 +128,7 @@ public class SelfLoanWarrantManagerApproServiceImp implements SelfLoanWarrantMan
 		toAppRecordInfo.setSelfAppInfoId(vo.getSelfAppInfoId());
 		toAppRecordInfo.setVisitResult(vo.getVisitResult());
 		toAppRecordInfo.setVisitTime(vo.getVisitTime());
+		toAppRecordInfo.setComment(vo.getComment());
 		return toAppRecordInfo;
 	}
 

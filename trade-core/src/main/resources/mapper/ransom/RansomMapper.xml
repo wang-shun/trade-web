@@ -107,6 +107,7 @@
 	
 	<select id="getTailinsInfoByCaseCode" resultType="com.centaline.trans.ransom.entity.ToRansomTailinsVo">
 		SELECT 
+			CASE_CODE caseCode,
 			RANSOM_CODE ransomCode,
 			FIN_ORG_CODE finOrgCode,
 			MORTGAGE_TYPE mortgageType,

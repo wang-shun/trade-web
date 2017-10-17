@@ -492,7 +492,7 @@ function checkForm() {
 <!-- 调佣对象调佣金额 -->
 		 <div class="ibox-content border-bottom clearfix space_box noborder marginbot" id="serviceFlow">
 		 <form action="#" id="invoiceChangeForm">
-<input type="hidden" id="caseCode" name="caseCode" value="caseCode123123">
+<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 <input type="hidden" id="ctx" name="ctx" value="${ctx}">
 		<!-- 原来的页面 -->
 		<h2 class="newtitle title-mark">调佣任务填写</h2>		

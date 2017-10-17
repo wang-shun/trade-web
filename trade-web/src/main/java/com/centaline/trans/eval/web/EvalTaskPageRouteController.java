@@ -37,8 +37,9 @@ public class EvalTaskPageRouteController {
 			request.setAttribute("caseCode", caseCode);
 			request.setAttribute("taskitem", taskitem);
 			request.setAttribute("source", source);
+			request.setAttribute("evaCode", evalCode);
 			
-			if("evalServiceRestartApply".equals(taskitem) || "evalServiceRestartApprove".equals(taskitem)){ //天津评估流程
+			if("evalServiceRestartApply".equals(taskitem)){ //天津评估重启流程申请
 				initApproveRecord(request, caseCode, "10");
 	     		if(instCode == null && caseCode != null) {
 	        		ToWorkFlow toWorkFlow = new ToWorkFlow();
@@ -47,6 +48,8 @@ public class EvalTaskPageRouteController {
 	        		instCode = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlow).getInstCode();
 	        		request.setAttribute("processInstanceId", instCode);
 	        	}
+			}else if("evalServiceStopApply".equals(taskitem)){//天津评估爆单流程申请
+				initApproveRecord(request, caseCode, "11");
 			}
 			
 			return "eval/task"+taskitem;

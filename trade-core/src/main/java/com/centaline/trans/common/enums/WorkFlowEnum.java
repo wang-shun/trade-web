@@ -20,6 +20,8 @@ public enum WorkFlowEnum {
 	LOANANDASSE_PROCESS("loanAndAsse_Process","loanAndAsse_Process"),
 //	评估发票管理流程
 	EVAL_INVOICE("EvalInvoiceProcess","processDefinitionKey"),
+//	评估发票管理流程
+	EVAL_CHANGE_COMPANY("EvalChangeCommProcess","processDefinitionKey"),
 	SPV_OUT("spv_out","businessKey"),
 	SERVICE_RESTART("serviceRestart","serviceRestartBusinesskey"),
 	COMLOAN_PROCESS("ComLoan_Process:4:645463","ComLoan_Process"),	
@@ -28,6 +30,7 @@ public enum WorkFlowEnum {
 	PSFLOAN_PROCESS("PSFLoan_Process:1:645460","PSFLoan_Process"),
 	EVAL_PROCESS("EvalProcess","processDefinitionKey"),
 	EVAL_SERVICE_RESTART_PROCESS("evalServiceRestartProces","processDefinitionKey"),
+	EVAL_SERVICE_STOP_PROCESS("evalServiceStopProcess","processDefinitionKey"),
 	//随便写的
 	COMANDPSFLOAN_PROCESS("PSFLoan_Process:1:645460","ComLoanAndPSFLoan_Process"),
 	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId"),

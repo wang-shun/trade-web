@@ -55,6 +55,7 @@ function reloadWorkInfo(){
 	 */
 	function submitUpdateRansom(){
 		debugger;
+		var caseCode = $("#caseCode").val();
 		var ransomCode = $("#ransomCode").val();
 		//主贷人姓名
 		var borrowerName = $("#borrowerName option:selected").val();
@@ -69,11 +70,11 @@ function reloadWorkInfo(){
 		//抵押类型
 		var diyaType = $("#diyaType").val();
 		//贷款金额
-		var loanMoney = $("#loanMoney").val();
+		var loanMoney =   parseInt($("#loanMoney").val() * 10000);
 		//剩余金额
-		var restMoney = $("#restMoney").val();
+		var restMoney =  parseInt($("#restMoney").val() * 10000);
 		//借款总金额
-		var borrowerMoney = $("#borrowerMoney").val();
+		var borrowerMoney =  parseInt($("#borrowerMoney").val() * 10000);
 		
 		var ransomVo = {
 				ransomCode:ransomCode,
@@ -94,7 +95,7 @@ function reloadWorkInfo(){
 			data:ransomVo,
 			type:"POST",
 			success: function(data){
-				window.location.href = ctx + "/ransomList/ransom/ransomDetail";
+				window.location.href = ctx + "/ransomList/ransomDetail?caseCode=" + caseCode;
 			},
 			error: function(data){
 				window.wxc.error(data.message);

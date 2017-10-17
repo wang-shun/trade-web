@@ -280,7 +280,7 @@
 		}
 
 		function checkform(formId){
-			if(formId.find("textarea[name='comment']").text() == ""){
+			if(formId.find("textarea[name='comment']").val() == ""){
 				 window.wxc.error("审批意见不能为空");
 				 return false;
 			}
@@ -293,7 +293,7 @@
 			
 				var jsonData = $("#firstFollowform").serializeArray();
 				var 
-					url = "${ctx}/task/warrantManagerAppro/submit";
+					url = "${ctx}/task/chiefInspectorAppro/submit";
 				$.ajax({
 					cache : true,
 					async : true,//false同步，true异步
