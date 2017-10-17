@@ -6,7 +6,7 @@
 <html>
 
 <head>
-
+<title>询价列表</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -54,7 +54,7 @@
 }
 </style> 
 
-
+<content tag="pagetitle">询价列表</content>
 </head>
 
 <body>

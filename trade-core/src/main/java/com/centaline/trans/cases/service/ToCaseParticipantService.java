@@ -2,8 +2,7 @@ package com.centaline.trans.cases.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
 
 /**
@@ -21,4 +20,13 @@ public interface ToCaseParticipantService {
 	 * @author jinwl6
 	 */
 	List<ToCaseParticipant> findToCaseParticipantByCondition(ToCaseParticipant toCaseParticipant);
+	
+	/**
+	 * 更新案件参与人
+	 * @param caseCode
+	 * @param user
+	 * @return
+	 * @author wbcaiyx
+	 */
+	int updateCaseParticipant(String caseCode, User user ,User manager);
 }
