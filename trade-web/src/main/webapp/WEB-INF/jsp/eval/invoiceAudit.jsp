@@ -257,7 +257,7 @@ function checkForm() {
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
-		<div class="row wrapper white-bg new-heading" id="serviceFlow">
+		<div class="wrapper white-bg new-heading" id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
                         	接单跟进

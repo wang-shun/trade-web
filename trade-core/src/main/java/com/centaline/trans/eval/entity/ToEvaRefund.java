@@ -41,12 +41,72 @@ public class ToEvaRefund {
     private String evaProcessId;
 
     private String status;
+    
+    private String ccaiCode;
+    
+    private String applyId;
+    
+    private String proposerId;
+    
+    private String applyDepartCode;
+    
+    private String evalCompany;
+    
+    private String city;
 
     public Long getPkid() {
         return pkid;
     }
 
-    public void setPkid(Long pkid) {
+    public String getCcaiCode() {
+		return ccaiCode;
+	}
+
+	public void setCcaiCode(String ccaiCode) {
+		this.ccaiCode = ccaiCode == null ? null : ccaiCode.trim();
+	}
+
+	public String getApplyId() {
+		return applyId;
+	}
+
+	public void setApplyId(String applyId) {
+		this.applyId = applyId== null ? null : applyId.trim();
+	}
+
+	public String getProposerId() {
+		return proposerId;
+	}
+
+	public void setProposerId(String proposerId) {
+		this.proposerId = proposerId== null ? null : proposerId.trim();
+	}
+
+	public String getApplyDepartCode() {
+		return applyDepartCode;
+	}
+
+	public void setApplyDepartCode(String applyDepartCode) {
+		this.applyDepartCode = applyDepartCode== null ? null : applyDepartCode.trim();
+	}
+
+	public String getEvalCompany() {
+		return evalCompany;
+	}
+
+	public void setEvalCompany(String evalCompany) {
+		this.evalCompany = evalCompany== null ? null : evalCompany.trim();
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city== null ? null : city.trim();
+	}
+
+	public void setPkid(Long pkid) {
         this.pkid = pkid;
     }
 

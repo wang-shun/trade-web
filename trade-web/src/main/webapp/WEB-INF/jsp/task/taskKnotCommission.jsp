@@ -368,6 +368,7 @@
 			url : url,
 			dataType : "json",
 			data : jsonData,
+            timeout:10000,
             beforeSend : function() {
 			    console.log(111111111111)
                  $.blockUI({
@@ -383,6 +384,16 @@
              },
              complete : function() {
                  $.unblockUI();
+                 $.blockUI({
+                     message : $("#salesLoading"),
+                     css : {
+                         'border' : 'none',
+                         'z-index' : '9999'
+                     }
+                 });
+                 $(".blockOverlay").css({
+                     'z-index' : '9998'
+                 });
                  if (status == 'timeout') {//超时,status还有success,error等值的情况
                      Modal.alert({
                          msg : "抱歉，系统处理超时。"
@@ -396,7 +407,9 @@
                  if(data.data){
                      caseTaskCheck();
                      if (null != data.message) {
-                         window.wxc.alert(data.message);
+                         window.wxc.success(data.message,{"wxcOk":function () {
+                             $.unblockUI();
+                         }})
                      }
                     /* window.wxc.success(data.message,{"wxcOk":function () {
                          window.location.href = "${ctx }/task/myTaskList";

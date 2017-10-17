@@ -61,8 +61,8 @@
 				<form method="get" class="form-horizontal" id="lamform">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+					<!-- 评估单编号 -->
+					<input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="instCode" value="${processInstanceId}">
@@ -158,20 +158,18 @@
     		            } , 
 				success : function(data) {
 					if(data.success) {
-						alert(data.message);
-						 if(window.opener)
-					     {
-							 window.close();
-							 window.opener.callback();
-					     } else {
-					    	 window.location.href = "${ctx }/task/eval/evalTaskList";
-					     }
+						if(data) {
+							window.wxc.alert("操作成功。");
+							//caseTaskCheck();
+						} else {
+							window.wxc.alert("操作失败。");
+						}
 					} else {
-						alert("操作失败。");
+						window.wxc.alert("操作失败。");
 					}
 				},
 				error : function(errors) {
-					alert("操作失败。");
+					window.wxc.alert("操作失败。");
 				}
 			});
 		}

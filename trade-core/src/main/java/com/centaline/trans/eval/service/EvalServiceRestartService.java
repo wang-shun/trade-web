@@ -1,5 +1,6 @@
 package com.centaline.trans.eval.service;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 
@@ -31,7 +32,7 @@ public interface EvalServiceRestartService {
 	 * @param vo
 	 * @return
 	 */
-	StartProcessInstanceVo SuspendEvalSubProcess(ServiceRestartVo vo);
+	StartProcessInstanceVo SuspendEvalSubProcess(ServiceRestartVo vo,AjaxResponse<StartProcessInstanceVo> resp);
 	
 	/**
 	 * 评估流程重启申请

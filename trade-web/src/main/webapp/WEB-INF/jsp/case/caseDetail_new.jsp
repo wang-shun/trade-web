@@ -130,8 +130,56 @@
 								href="javascript:evaPricingApply()">询价申请</a>
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 								href="javascript:void(0)">评估申请</a>
+							<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVAL.COMPANY.CHANGE">
+								<a role="button" class="btn btn-primary btn-xm btn-activity"
+												href="javascript:showEvalCompanyChangeModal()">评估公司变更</a>
+							</shiro:hasPermission>
 						</div>
 						
+						<!-- 评估公司变更-->
+						<div id="change-eval-company-modal-form" class="modal fade" role="dialog"
+							aria-labelledby="plan-modal-title" aria-hidden="true">
+							<div class="modal-dialog" style="width: 1000px">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">×</button>
+										<h4 class="modal-title" id="plan-modal-title">评估公司变更</h4>
+									</div>
+									<div class="modal-body">
+									<div style="margin-left: 150px">
+										<div class="row">
+											<form id="change-eval-company-form" class="form-horizontal">
+												<table>
+													<tr>
+													<td>评估公司变更</td>
+													<td>是<input type="radio" name="changeItem">&nbsp&nbsp&nbsp&nbsp&nbsp否
+													<input type="radio" name="changeItem"></td>
+													</tr>
+													<tr>
+													<td>评估公司变更原因</td>
+													<td><input type="text" name="changeReason"></td>
+													</tr>
+													<tr>
+													<td>是否退报告</td>
+													<td>是<input type="radio" name="returnEvalReport">&nbsp&nbsp&nbsp&nbsp&nbsp否
+													<input type="radio" name="returnEvalReport"></td>
+													</tr>
+												</table>
+											
+											</form>
+										</div>
+									</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">关闭</button>
+										<button type="button" class="btn btn-primary"
+											onclick="return savePlanItems();">提交</button>
+									</div>
+								</div>
+							</div>
+						</div>
 	
 						<!-- 交易计划变更 -->
 						<div id="plan-modal-form" class="modal fade" role="dialog"

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="evalServiceStopService" name="evalServiceStopService" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <userTask id="evalServiceStopApplyProcess" name="评估爆单申请" activiti:assignee="${consultant}" activiti:formKey="/eval/stop/apply/process"></userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="evalServiceStopApplyProcess"></sequenceFlow>
+    <userTask id="evalServiceStopApproveProcess" name="评估爆单审批" activiti:assignee="${manager}" activiti:formKey="/eval/stop/approve/process"></userTask>
+    <sequenceFlow id="flow2" sourceRef="evalServiceStopApplyProcess" targetRef="evalServiceStopApproveProcess"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow3" sourceRef="evalServiceStopApproveProcess" targetRef="exclusivegateway1"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow4" sourceRef="exclusivegateway1" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${is_approved}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="evalServiceStopApplyProcess">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${is_approved==false}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_evalServiceStopService">
+    <bpmndi:BPMNPlane bpmnElement="evalServiceStopService" id="BPMNPlane_evalServiceStopService">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="120.0" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="evalServiceStopApplyProcess" id="BPMNShape_evalServiceStopApplyProcess">
+        <omgdc:Bounds height="55.0" width="105.0" x="200.0" y="260.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="evalServiceStopApproveProcess" id="BPMNShape_evalServiceStopApproveProcess">
+        <omgdc:Bounds height="55.0" width="105.0" x="350.0" y="260.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="500.0" y="268.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="585.0" y="271.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="155.0" y="287.0"></omgdi:waypoint>
+        <omgdi:waypoint x="200.0" y="287.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="305.0" y="287.0"></omgdi:waypoint>
+        <omgdi:waypoint x="350.0" y="287.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="455.0" y="287.0"></omgdi:waypoint>
+        <omgdi:waypoint x="500.0" y="288.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="540.0" y="288.0"></omgdi:waypoint>
+        <omgdi:waypoint x="585.0" y="288.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="520.0" y="268.0"></omgdi:waypoint>
+        <omgdi:waypoint x="519.0" y="201.0"></omgdi:waypoint>
+        <omgdi:waypoint x="252.0" y="201.0"></omgdi:waypoint>
+        <omgdi:waypoint x="252.0" y="260.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

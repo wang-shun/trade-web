@@ -302,6 +302,18 @@ function showPlanModal(){
 	resetPlanModal();
 	$('#plan-modal-form').modal("show");
 }
+/**
+ * 评估公司变更 by xiefei1
+ */
+function showEvalCompanyChangeModal(){
+	resetPlanModal();
+	$('#change-eval-company-modal-form').modal("show");
+}
+
+function submitEvalCompanyChangeModal(){
+    var ctx = $("#ctx").val();
+    window.location.href=ctx+ "/eval/changeEvalCom";
+}
 //重置交易计划 by wbzhouht
 function resetPlanModal(){
 	$("input[name='estPartTime']").val("");
@@ -395,23 +407,28 @@ function savePlanItems(){
 	var estTimes = new Array;
 	var whyChanges = new Array;
 	var msg = "";
-
 	$("input:hidden[name='estFlag']").each(function(k) {
+        var pkid=$("#pkId_"+k).val();
+        var whyChange=$("#whyChange_"+k).val();
+        var newEstPartTime=$("#estPartTime_"+k).val();
 		if($(this).val() == 'true'){
 			var whyChange = $("#whyChange_"+k).val();
 			if(whyChange==""||whyChange.trim==""){
 				msg = "请输入变更理由";
 				return false;
 			}
+            isChanges.push($(this).val());
+            estTimes.push(newEstPartTime);
+            estIds.push(pkid);
+            whyChanges.push(whyChange);
 		}
-		isChanges.push($(this).val());
 	});
 	
 	var isChange = false;
 	$("#plan-form input[name='estPartTime']").each(function(index){
 		var newEstPartTime = this.value;
 		var oldEstPartTime = $(this).attr("lang");
-		
+		console.log(oldEstPartTime)
 		if(newEstPartTime != oldEstPartTime){
 			var reason = $("#whyChange_" + index).val();
 			
@@ -421,7 +438,6 @@ function savePlanItems(){
 				return false;
 			}
 		}
-		
 	});
 	
 	
@@ -430,7 +446,7 @@ function savePlanItems(){
 		return false;
 	}
 	
-	$("#plan-form").find("input:text[name='estPartTime']").each(function(k) {
+	/*$("#plan-form").find("input:text[name='estPartTime']").each(function(k) {
 		if($(this).val()==""||$(this).val().trim==""){
 			msg = "交易计划不允许为空";
 			return false;
@@ -442,13 +458,13 @@ function savePlanItems(){
 	});
 	$("input:text[name='whyChange']").each(function() {
 		whyChanges.push($(this).val());
-	});
+	});*/
 	if(msg!=""){
 		window.wxc.alert(msg);
 		return false;
 	}
 	params+="&isChanges="+isChanges+"&estIds="+estIds+"&estDates="+estTimes+"&whyChanges="+whyChanges;
-	
+	console.log(params)
 	$.ajax({
 		cache : false,
 		async : true,

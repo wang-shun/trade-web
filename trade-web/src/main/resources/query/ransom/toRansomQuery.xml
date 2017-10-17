@@ -6,7 +6,11 @@
 		<customDict id="qqcdDictFinalOrg" beanName="qqcdDictFinalOrg"/>	
 	</dicts>
 	<formatters>
-		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+			</properties>
+		</formatter>
 	</formatters>
 	<query id="queryRansomDetail">
 
@@ -85,19 +89,17 @@
 			<baseSql>
 				<![CDATA[
 					SELECT 
-						rap.APPLY_USER,
-						rap.APPLY_TIME,
-						tai.LOAN_MONEY,
-						rap.APPLY_ORG_CODE,
-						cas.STOP_REASON,
-						org.FIN_ORG_NAME
+						rap.APPLY_USER APPLY_USER,
+						rap.APPLY_TIME APPLY_TIME,
+						tai.LOAN_MONEY LOAN_MONEY,
+						(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = cas.COM_ORG_CODE) FIN_ORG_NAME,
+						cas.STOP_REASON STOP_REASON
 					FROM 
 						sctrans.T_RA_APPLY  rap
 						LEFT JOIN sctrans.T_RA_CASE  cas ON  cas.RANSOM_CODE = rap.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_TAILINS tai ON tai.CASE_CODE = cas.CASE_CODE
-						LEFT JOIN sctrans.T_TS_FIN_ORG org ON rap.APPLY_ORG_CODE = org.FIN_ORG_CODE
 					WHERE 
-						rap.APPLY_USER = #borrowerUser#
+						cas.RANSOM_CODE = #ransomCode#
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -109,7 +111,7 @@
 		<grid>
 			<table-row>
 				<column type="both" name="APPLY_USER" display="申请人" />
-				<column type="both" name="APPLY_TIME" display="申请时间" beanFormatter="dateFormatter1"/>
+				<column type="both" name="APPLY_TIME" display="申请时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="LOAN_MONEY" display="申请金额" />
 				<column type="both" name="FIN_ORG_NAME" display="申请机构" />
 				<column type="both" name="STOP_REASON" display="中止原因" />
@@ -126,6 +128,7 @@
 						cas.CASE_CODE caseCode,
 						tai.SIGN_TIME signTime,
 						tai.PLAN_TIME planTime,
+						tai.DIYA_TYPE diyaType,
 						app.APPLY_TIME applyTime,
 						inter.INTERVIEW_TIME interTime,
 						rep.REPAY_TIME repayTime,
@@ -151,16 +154,17 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="signTime" display="受理实际办理时间" />
-				<column type="both" name="planTime" display="受理预计完成时间"/>
+				<column type="both" name="signTime" display="受理实际办理时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="planTime" display="受理预计完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="diyaType" display="抵押类型" />
 				
-				<column type="both" name="applyTime" display="申请时间" />
-				<column type="both" name="interTime" display="面签时间" />
+				<column type="both" name="applyTime" display="申请时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="interTime" display="面签时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				
-				<column type="both" name="repayTime" display="陪同还贷时间(一抵)" />
-				<column type="both" name="cancelTime" display="注销抵押时间(一抵)" />
-				<column type="both" name="redeemTime" display="领取产证时间(一抵)" />
-				<column type="both" name="paymentTime" display="回款结清时间" />
+				<column type="both" name="repayTime" display="陪同还贷时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="cancelTime" display="注销抵押时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="redeemTime" display="领取产证时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="paymentTime" display="回款结清时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 			</table-row>
 		</grid>
 	</query>

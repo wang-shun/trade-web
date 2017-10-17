@@ -15,21 +15,21 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
-import com.centaline.trans.eval.service.EvalServiceRestartService;
+import com.centaline.trans.eval.service.EvalServiceStopService;
 
 /**
- * @Description:评估流程重启
+ * @Description:评估爆单
  * @author：jinwl6
- * @date:2017年10月12日
+ * @date:2017年10月16日
  * @version:
  */
 @Controller
-@RequestMapping(value = "/eval/restart")
-public class EvalServiceRestartController {
+@RequestMapping(value = "/eval/stop")
+public class evalServiceStopController {
 	@Autowired
 	private UamSessionService uamSessionService;
 	@Autowired
-	private EvalServiceRestartService evalServiceRestartService;
+	private EvalServiceStopService evalServiceStopService;
 	
 	/**
 	 * @评估流程初始化处理
@@ -39,47 +39,24 @@ public class EvalServiceRestartController {
 	@ResponseBody
 	public AjaxResponse<StartProcessInstanceVo> restart(Model model,ServiceRestartVo vo) {
 		
-		AjaxResponse<StartProcessInstanceVo> resp = new AjaxResponse<>();
-		SessionUser u = uamSessionService.getSessionUser();
-		String userId = u.getId();
-		String userJob = u.getServiceJobCode();
 		try{
-			boolean flag = evalServiceRestartService.checkIsCanRestart(vo,userJob);
-			if(flag == false){
-				 resp.setSuccess(false);
-				 resp.setMessage("此评估报告已使用，不能重启流程！");
-				 return resp;
-			}else{
-				vo.setUserId(userId);
-				vo.setUserName(u.getUsername());
-				vo.setOrgId(u.getServiceDepId());		
-				
-				//评估相关流程挂起并启动评估重启流程
-				StartProcessInstanceVo piv = evalServiceRestartService.SuspendEvalSubProcess(vo,resp);		
-				resp.setContent(piv);
-				return resp;
-			}
+			return evalServiceStopService.checkIsCanStop(vo);
 		}catch(Exception e){
-			throw new BusinessException("重启流程异常！",e);	 
+			throw new BusinessException("评估爆单异常！",e);	 
 		}
 	}
 	
 	/**
-	 * 评估流程重启申请提交
+	 * 评估流程爆单申请提交
 	 * @param model
 	 * @param vo
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "submit")
+	@RequestMapping(value = "apply/submit")
 	@ResponseBody
 	public AjaxResponse apply(Model model, ServiceRestartVo vo) {
-		SessionUser u = uamSessionService.getSessionUser();
-		vo.setUserId(u.getId());
-		vo.setUserName(u.getUsername());
-		boolean piv = evalServiceRestartService.apply(vo);
-		AjaxResponse resp = new AjaxResponse(piv);
-		return resp;
+		return evalServiceStopService.applySubmit(vo);
 	}
 	
 	/**
@@ -99,9 +76,9 @@ public class EvalServiceRestartController {
 		SessionUser user = uamSessionService.getSessionUser();
 		request.setAttribute("source", source);
 
-		request.setAttribute("approveType", "10");
+		request.setAttribute("approveType", "11");
 		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "eval/taskevalServiceRestartApply";
+		return "eval/taskevalServiceStopApply";
 	}
     
 	/**
@@ -121,9 +98,9 @@ public class EvalServiceRestartController {
 		SessionUser user = uamSessionService.getSessionUser();
 		request.setAttribute("source", source);
         request.setAttribute("evaCode", businessKey);
-		request.setAttribute("approveType", "10");
+		request.setAttribute("approveType", "11");
 		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "eval/taskevalServiceRestartApprove";
+		return "eval/taskevalServiceStopApprove";
 	}
 	
 	/**
@@ -133,11 +110,10 @@ public class EvalServiceRestartController {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/approve")
+	@RequestMapping(value = "/approve/submit")
 	@ResponseBody
 	public AjaxResponse approve(Model model, ServiceRestartVo vo) {
-		boolean result = evalServiceRestartService.approve(vo);
-		AjaxResponse resp = new AjaxResponse(result);
-		return resp;
+		return evalServiceStopService.approveSubmit(vo);
 	}
+
 }
