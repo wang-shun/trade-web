@@ -198,6 +198,7 @@
 		</div>
 	</div>
 </form>
+<iframe id="rfFrame" name="rfFrame" src="about:blank" style="display:none;"></iframe>
 	<content tag="local_script"> <!-- Peity --> <script
 		src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<!-- jqGrid --> <script
@@ -252,18 +253,20 @@
 								}});
 							}else{
 								window.wxc.error("提交失败!");
+								JQuery:$("#submitDiscontinue").attr("target","rfFrame");
 							}
 							
 						},
 						error : function(errors) {
 							window.wxc.error("提交失败!");
+							JQuery:$("#submitDiscontinue").attr("target","rfFrame");
 						}
 					});
 				});
 				//取消
 				$("#cancel").click(function(){
 					if(confirm('您确定要取消吗？')){ 
-						value="取消";
+						 window.close();
 					}
 				});
 			});

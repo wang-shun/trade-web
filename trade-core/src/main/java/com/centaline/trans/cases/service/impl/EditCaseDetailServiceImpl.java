@@ -332,7 +332,6 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         if(toEvaReportProcess != null) {
         	editCaseDetailVO.setEvaPrice(toEvaReportProcess.getEvaPrice() != null ? toEvaReportProcess.getEvaPrice().divide(new BigDecimal(10000)) : null);
         }
-        /*赎楼信息 by wbshume*/
         ToRansomFormVo toRansomFormVo = addRansomFormMapper.selectByCaseCode(caseCode);
         if(toRansomFormVo != null) {
         	editCaseDetailVO.setRestFinOrgCode(toRansomFormVo.getFinOrgCode());
