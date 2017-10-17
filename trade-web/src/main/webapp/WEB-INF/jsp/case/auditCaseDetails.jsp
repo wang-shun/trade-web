@@ -39,8 +39,24 @@
 <!--弹出框样式  -->
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+<script src="<c:url value='/js/stickUp.js' />"></script>
 <script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
+<script src="<c:url value='/js/common/common.js' />"></script>
+<script type="text/javascript">
+	//记录案件视图跳转等所需变量
+	var teamProperty = "${teamProperty}";
+	/**记录附件div变化，%2=0时执行自动上传并清零*/
+	var index=0;
+	var taskitem = "${taskitem}";
 
+	var processInstanceId = "${processInstanceId}";
+	var approveType = "${approveType }";
+	if("${idList}" != "") {
+		var idList = eval("("+"${idList}"+")");
+	} else {
+		var idList = [];
+	}
+</script>
 
 <script type="text/javascript">
 var AttachmentList = (function(){    
@@ -134,8 +150,8 @@ var AttachmentList = (function(){
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
-	<div class="">
-		<div class="row wrapper white-bg new-heading" id="serviceFlow">
+	<div class="" id="basicInfo">
+		<div class="wrapper white-bg new-heading" id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
                         	接单审核
@@ -274,10 +290,10 @@ var AttachmentList = (function(){
 				<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 				<script src="<c:url value='/js/template.js' />"></script>
 				<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-				<script src="<c:url value='/js/stickUp.js' />"></script>
+				
 				<!-- 改版引入的新的js文件 -->
 				<script src="<c:url value='/js/common/textarea.js' />"></script>
-				<script src="<c:url value='/js/common/common.js' />"></script>
+				
 	<script type="text/javascript">
 	var ctx = "${ctx}";	
 	var caseCode = $("#caseCode").val();
