@@ -508,33 +508,66 @@ function savePlanItems(){
 }
 
 /**
- * 爆单
+ * 案件爆单
  */
 function caseBoomXiakalaka(){
-	var ctx = $("#ctx").val();
-	var url = ctx + "/case/caseBoomXiakalaka";
-	var caseCode = $('#caseCode').val();
-	var data = "&caseCode="+caseCode; 
-	window.wxc.confirm("确认对案件进行爆单？",{"wxcOk":function(){
+//	var ctx = $("#ctx").val();
+//	var url = ctx + "/case/caseBoomXiakalaka";
+//	var caseCode = $('#caseCode').val();
+//	var data = "&caseCode="+caseCode; 
+//	window.wxc.confirm("确认对案件进行爆单？",{"wxcOk":function(){
+//		$.ajax({
+//			cache : false,
+//			async : true,
+//			type:"POST",
+//			URL:URL,
+//			dataType:"json",
+//			timeout : 10000,
+//			data : data,
+//			success : function(data) {
+//				if(data.success){
+//					window.wxc.success("爆单成功!");
+//				}else{
+//					window.wxc.error(data.message);
+//				}
+//			},
+//			error : function(XMLHttpRequest, textStatus, errorThrown) {
+//			}
+//		});
+//	}});
+	
+
+	window.wxc.confirm("确定案件爆单？",{"wxcOk":function(){
+		var caseCode = $("#caseCode").val();
 		$.ajax({
-			cache : false,
-			async : true,
-			type:"POST",
-			URL:URL,
+			url:ctx+"/eval/stop/init",
+			method:"post",
 			dataType:"json",
-			timeout : 10000,
-			data : data,
-			success : function(data) {
-				if(data.success){
-					window.wxc.success("爆单申请成功!");
-				}else{
+			data:{caseCode:caseCode,evaCode:$("#evaCode").val()},
+		    beforeSend:function(){  
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+            },
+            complete: function() {  
+                if(status=='timeout'){//超时,status还有success,error等值的情况
+	          	  Modal.alert(
+				  {
+				    msg:"抱歉，系统处理超时。"
+				  });
+		        }
+		   } , 
+		   success:function(data){
+				if(!data.success){
+					$.unblockUI();   
 					window.wxc.error(data.message);
+				
+				}else{
+					window.location.href=ctx+"/eval/task/route/evalServiceStopApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode+"&evaCode="+data.content.businessKey;
 				}
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
 			}
 		});
 	}});
+	
 	
 }
 
