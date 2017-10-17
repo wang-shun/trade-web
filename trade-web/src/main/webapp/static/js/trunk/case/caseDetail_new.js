@@ -238,6 +238,7 @@ function queryPer(){
 
 /**
  * 案件挂起
+ * @author wbcaiyx
  */
 function casePause(){
 	var activityFlag = $("#activityFlag").val();
@@ -280,7 +281,7 @@ function casePause(){
 //挂起案件按钮toggle
 function buttonActivity(){
 	var activityFlag = $("#activityFlag").val();
-	if(activityFlag == "30003003" || activityFlag == "30003007" || activityFlag == "30003008"){
+	if(activityFlag == "30003003"){
 		$('.btn-activity').show();
 		$('#casePause').text("案件挂起");
 		$('#casePause').show();
@@ -484,9 +485,9 @@ function savePlanItems(){
 /**
  * 爆单
  */
-function caseBaodan(){
+function caseBoomXiakalaka(){
 	var ctx = $("#ctx").val();
-	var url = ctx + "/case/caseBaodan";
+	var url = ctx + "/case/caseBoomXiakalaka";
 	var caseCode = $('#caseCode').val();
 	var data = "&caseCode="+caseCode; 
 	window.wxc.confirm("确认对案件进行爆单？",{"wxcOk":function(){
@@ -500,7 +501,7 @@ function caseBaodan(){
 			data : data,
 			success : function(data) {
 				if(data.success){
-					window.wxc.success("爆单成功!");
+					window.wxc.success("爆单申请成功!");
 				}else{
 					window.wxc.error(data.message);
 				}
@@ -634,31 +635,87 @@ function serviceRestart(){
 
 
 /**
- * 权证变更
+ * 经办人变更
  */
 function showOrgCp() {
-
-	var url = "/case/getUserOrgCpUserList";
+	
+	var caseCode = $('#caseCode').val();
+	//获取贷款/过户权证,根据案件负责人
+	var url = "/case/getLoanOrWarrantList？caseCode="+caseCode;
 	var ctx = $("#ctx").val();
-	url = ctx + url;
-	var data={operation:""};
+	
 	$.ajax({
 		cache : false,
 		async : true,
 		type : "POST",
-		url : url,
+		url : ctx + url,
 		dataType : "json",
 		timeout : 10000,
-		data : data,
 		success : function(data) {
 			console.info(data);
-			showLeadingModal(data);
+			showCaseLeadingModal(data);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 		}
 	});
 }
 
+/**
+ * 案件责任人选择
+ * @param data
+ */
+function showCaseLeadingModal(data) {
+	if(data != null && data.length >0){
+		var addHtml = '';
+		$.each(data,function(i,item){
+			addHtml += '<option value="'+item.id+'">'+item.realName+'('+${item.orgName}+')'+'</option>';
+		});
+		
+		$("#leading-modal-data-show").append(addHtml);
+		$('#leadingSubmit').show();
+		$('#leading-modal-form').modal("show");	
+	}else{
+		$('#leadingSubmit').hide();
+		$('#leading-modal-form').modal("show");	
+		
+	}
+}
+/**
+ * 选择权证提交
+ */
+function leadingChangeSubmit(){
+	
+	var leadingId = $('#leading-modal-data-show').val();
+	window.wxc.confirm("您是否确认进行责任人变更？",{"wxcOk":function(){
+		var caseCode = $("#caseCode").val();
+		var instCode = $("#instCode").val();
+		
+		var url = "/case/changeLeadingUser";
+		var ctx = $("#ctx").val();
+		var params = '&userId=' + leadingId + '&caseCode=' + caseCode+"&instCode="+instCode;
+
+		$.ajax({
+			cache : false,
+			async : true,
+			type : "POST",
+			url : ctx + url,
+			dataType : "json",
+			timeout : 10000,
+			data : params,
+			success : function(data) {
+				if(data.success){
+					window.wxc.success("变更成功");
+					location.reload();
+				}else{
+					window.wxc.error(data.message);
+				}
+				
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+			}
+		});
+	}});
+}
 /**
  * 选择权证modal
  * @param data
@@ -719,7 +776,6 @@ function changeLeadingUser(index) {
 			dataType : "json",
 			timeout : 10000,
 			data : params,
-			
 			success : function(data) {
 				if(data.success){
 					window.wxc.success("变更成功");
@@ -737,9 +793,9 @@ function changeLeadingUser(index) {
 
 /**
  * 询价申请
+ * @author wbcaiyx
  */
 function evaPricingApply(){
-	var info = "系统已存在与此案件相关的询价记录，是否关联？";
 	var caseCode = $('#caseCode').val();
 	var url = ctx+'/case/checkEvaPricing?caseCode='+caseCode;
 	$.ajax({
@@ -749,22 +805,13 @@ function evaPricingApply(){
 		type:'POST',
 		dataType:'json',
 		success : function(data) {
-			if(data.success){
-				if(data.content){
-					window.wxc.confirm(info,{'wxcOk':function(){
-						
-					},'wxcCancel':function(){
-						//新增询价
-						var ctx = $("#ctx").val();
-						window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
-					}});
-				}else{
-					var ctx = $("#ctx").val();
-					window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
-				}
+			//已存在询价申请单
+			if(data.content){
+				window.wxc.alert("已存在与此案件关联的的询价申请!");
 			}else{
-				window.wxc.error(data.message);
-			}	
+				var ctx = $("#ctx").val();
+				window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" + caseCode);
+			}		
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 		}

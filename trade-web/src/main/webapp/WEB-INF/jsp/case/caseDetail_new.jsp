@@ -81,29 +81,26 @@
 					<div class="panel-body">
 						<h5>案件基本操作</h5>
 						<div class="row">
-							<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUSPEND">
+							<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUSPEND"> -->
 								<a role="button" id="casePause" class="btn btn-primary btn-xm"
 												href="javascript:casePause()">案件挂起 </a>
-							</shiro:hasPermission>
+							<!-- </shiro:hasPermission> -->
 							<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PLANCHANGE">
 								<a role="button" class="btn btn-primary btn-xm btn-activity"
 												href="javascript:showPlanModal()">交易计划变更</a>
 							</shiro:hasPermission>
-							<a role="button" class="btn btn-primary btn-xm btn-activity"
-												href="javascript:caseBaodan()">爆单</a>
-							<!-- 已过户&&已领他证 不可变更 -->
-							<c:if test="${ !isBackTeam}">
-								<c:if test="${not empty toWorkFlow.processDefinitionId}">
-									<c:if test="${not empty toWorkFlow.instCode}">
-										<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">
-											<a role="button"
-												class="btn btn-primary btn-xm btn-activity"
-												href="javascript:showOrgCp()">责任人变更</a>
-										</shiro:hasPermission>
-									</c:if>
-								</c:if>
-							</c:if>
 							
+							<a role="button" class="btn btn-primary btn-xm btn-activity"
+												href="javascript:caseBoomXiakalaka()">爆单</a>
+							<%-- <c:if test="${not empty toWorkFlow.processDefinitionId}">
+								<c:if test="${not empty toWorkFlow.instCode}"> 
+									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">--%>
+										<a role="button" class="btn btn-primary btn-xm btn-activity"
+											href="javascript:showOrgCp()">变更经办人</a>
+									<%--  </shiro:hasPermission>
+								</c:if>
+							</c:if> --%>
+												
 							<c:if test="${toCase.caseProperty != 30003002}">
 								<!-- 已经结案审批通过限制流程重启 -->
 								<!-- 已经过户或者已经领证的案件限制流程重启 -->
@@ -115,12 +112,15 @@
 							    </shiro:hasPermission>
 								</c:if>
 							</c:if>	
+							
 							<c:if test="${isCaseOwner}">
 								<a role="button" class="btn btn-primary btn-xm btn-activity"
 									href="javascript:void(0)">贷款需求选择</a>
 							</c:if>				
+							
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 								href="javascript:evaPricingApply()">询价申请</a>
+								
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 								href="javascript:void(0)">评估申请</a>
 						</div>
@@ -167,15 +167,21 @@
 										<h4 class="modal-title" id="leading-modal-title">
 											请选择责任人</h4>
 									</div>
+									<!-- <option value="${item.username}">${item.realName}(${item.orgName})</option> -->
 									<div class="modal-body">
-										<div class="row" style="height: 450px; overflow: auto;">
-											<div class="col-lg-12 ">
+										<!-- <div class="row" style="height: 450px; overflow: auto;">
+											<div class="col-lg-12 "> -->
 												<h3 class="m-t-none m-b"></h3>
 												<div class="wrapper wrapper-content animated fadeInRight">
-													<div id="leading-modal-data-show" class="row"></div>
+													<select id="leading-modal-data-show" class="select_control from-control"></select>
 												</div>
-											</div>
-										</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-success"
+														data-dismiss="modal">关闭</button>
+													<button type="button" class="btn btn-success" id="leadingSubmit" onclick="leadingChangeSubmit()">提交</button>
+												</div>
+											<!--</div>
+										 </div> -->
 									</div>
 								</div>
 							</div>
