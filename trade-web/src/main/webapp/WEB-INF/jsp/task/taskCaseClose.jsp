@@ -10,9 +10,9 @@
 
 <html>
 <head>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>结案归档</title>
 <link href="${ctx}/css/plugins/steps/jquery.steps.css" rel="stylesheet">
 <!-- 上传相关 -->
 <link href="${ctx}/css/trunk/JSPFileUpload/jquery.fancybox.css"
@@ -70,6 +70,7 @@
 		var idList = [];
 	}
 </script>
+<content tag="pagetitle">结案归档</content>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -357,11 +358,6 @@
 														<label class="control-label sign_left_small">
 															卖方剩余贷款 </label> <input class=" input_type yuanwid" pid="personalIncomeTax"  readonly="readonly"  name="personalIncomeTax" onkeyup="checkNum(this)"
 													value="<fmt:formatNumber value='${ editCaseDetailVO.restMoney}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
-													</div>
-													<div class="form_content">
-														<label class="control-label sign_left_small">
-															还款方式 </label> <input class=" input_type yuanwid"  readonly="readonly"   id="businessTax" name="businessTax" onkeyup="checkNum(this)"
-												value="<fmt:formatNumber value='${ editCaseDetailVO.restPayType}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
 													</div>
 													<div class="form_content">
 														<label
