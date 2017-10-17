@@ -1348,7 +1348,7 @@
 		var fileUpload;
 
 		require(['main'], function() {
-			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+			requirejs(['jquery','aistFileUpload'],function($,aistFileUpload){
 				fileUpload = aistFileUpload;
 
 				fileUpload.init({
