@@ -1109,3 +1109,26 @@ function ts(status){
 function hlts(){
 	window.wxc.alert("没有找到可以合流的案件！");
 }
+
+function ransomSuspend(caseCode){
+	var ctx = $("#ctx").val();
+	var url = ctx + "/task/ransomDiscontinue/getSingleRansomTaskInfo";
+	var params =  {caseCode : caseCode,	isSuspend : true, isSuspended : 0};
+	$.ajax({
+		async : false,//false同步，true异步
+		type : "GET",
+		url : url,
+		dataType :"json",
+		data : $.param(params),
+		success : function(data) {
+			if(data.isExist != true){
+				window.wxc.alert("已存在赎楼中止任务,请不要重复申请");
+			}else{
+				window.open(ctx + "/task/ransomDiscontinue/stopApplyProcessFromRansomList?caseCode="+caseCode)
+			}
+		},
+		error : function(errors) {
+			window.wxc.error("数据查询出错");
+		}
+	});
+}
