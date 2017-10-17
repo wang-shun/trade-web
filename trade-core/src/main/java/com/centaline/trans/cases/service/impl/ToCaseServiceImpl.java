@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.aist.uam.basedata.remote.UamBasedataService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -159,6 +160,8 @@ public class ToCaseServiceImpl implements ToCaseService {
 	private ToSignMapper signMapper;
 	@Autowired
 	private ToCaseParticipantService toCaseParticipantService;
+	@Autowired
+	private UamBasedataService uamBasedataService;
 	
 	@Override
 	public int updateByPrimaryKey(ToCase record) {
@@ -942,7 +945,9 @@ public class ToCaseServiceImpl implements ToCaseService {
 				if(!StringUtils.isBlank(user1.getMobile())) vCaseDistributeUserVO.setMobile(user1.getMobile());
 				if(!StringUtils.isBlank(user1.getRealName())) vCaseDistributeUserVO.setRealName(user1.getRealName());
 				if(!StringUtils.isBlank(user1.getEmployeeCode())){
-					String url = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+user1.getEmployeeCode()+".jpg";
+					//头像地址根据该人员所在组织的参数配置决定
+					String url = uamBasedataService.getParam(
+							"USER_INFO", "LOGINPERSON_IMG_URL",user1.getOrgId()) + user.get("EMPLOYEE_CODE").toString()+".jpg";
 					vCaseDistributeUserVO.setImgUrl(url);
 				}
 				vCaseDistributeUserVO.setJobName("");
@@ -953,7 +958,9 @@ public class ToCaseServiceImpl implements ToCaseService {
 			vCaseDistributeUserVO.setJobName(user.get("JOB_NAME").toString());
 			vCaseDistributeUserVO.setMobile(user.get("MOBILE").toString());
 			vCaseDistributeUserVO.setRealName(user.get("REAL_NAME").toString());
-			String url = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"+user.get("EMPLOYEE_CODE").toString()+".jpg";
+			//头像地址根据该人员所在组织的参数配置决定
+			String url = uamBasedataService.getParam(
+					"USER_INFO", "LOGINPERSON_IMG_URL",user1.getOrgId()) + user.get("EMPLOYEE_CODE").toString()+".jpg";
 			vCaseDistributeUserVO.setImgUrl(url);
 		}
 		return vCaseDistributeUserVO;

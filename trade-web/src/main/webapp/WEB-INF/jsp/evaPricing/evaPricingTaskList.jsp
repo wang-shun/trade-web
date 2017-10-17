@@ -6,7 +6,7 @@
 <html>
 
 <head>
-
+<title>询价待办任务</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -89,7 +89,7 @@ text-decoration: underline !important;
 }
 </style> 
 
-
+<content tag="pagetitle">询价待办列表</content>
 </head>
 
 <body>

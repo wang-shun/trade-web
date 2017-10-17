@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import com.aist.uam.basedata.remote.UamBasedataService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -102,6 +103,9 @@ public class CaseDistributeController
     TsPrResearchMapService tsPrResearchMapService;
     @Autowired(required = true)
     TsTeamScopeTargetService tsTeamScopeTargetService;
+    @Autowired(required = true)
+    UamBasedataService uamBasedataService;
+
     @Autowired
     private TsCaseEfficientService tsCaseEfficientService;
 
@@ -197,7 +201,9 @@ public class CaseDistributeController
             vo.setUserCaseCount(userCaseCount);
             vo.setUserCaseMonthCount(userCaseMonthCount);
             vo.setUserCaseUnTransCount(userCaseUnTransCount);
-            String url = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/" + user.getEmployeeCode() + ".jpg";
+            //头像地址根据该人员所在组织的参数配置决定
+            String url = uamBasedataService.getParam(
+                    "USER_INFO", "LOGINPERSON_IMG_URL",user.getOrgId()) + user.getEmployeeCode() + ".jpg";
             /** 所用合作顾问 **/
             vo.setType("ALL");
             vo.setImgUrl(url);
