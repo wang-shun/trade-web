@@ -279,4 +279,24 @@
       </where>
     </trim>
   </select>
+  
+  <update id="updateCaseParticipant">
+		UPDATE
+			sctrans.T_TO_CASE_PARTICIPANT
+		SET
+			USER_NAME = #{user.username,jdbcType=VARCHAR},
+			REAL_NAME = #{user.realName,jdbcType=VARCHAR},
+			MOBILE = #{user.mobile,jdbcType=VARCHAR},
+			GRP_MGR_USERNAME = #{manager.username,jdbcType=VARCHAR},
+			GRP_MGR_REALNAME = #{manager.realName,jdbcType=VARCHAR},
+			GRP_MGR_MOBILE = #{manager.mobile,jdbcType=VARCHAR}
+		where  
+			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+			AND POSITION = 
+			ISNULL(
+				(SELECT POSITION FROM sctrans.T_TO_CASE_PARTICIPANT WHERE 
+					CASE_CODE =  #{caseCode,jdbcType=VARCHAR} AND POSITION = 'loan'), 'warrant')
+  
+  </update>
+  
 </mapper>
