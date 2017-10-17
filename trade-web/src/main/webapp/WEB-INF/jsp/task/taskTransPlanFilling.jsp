@@ -13,6 +13,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>填写交易计划</title>
 <link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
 <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 <link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
@@ -30,8 +31,10 @@
 	var ctx = "${ctx}";
 	var dy = "${dy}";
 	var dk = "${dk}";
+	var taskitem="${taskitem}";
 	var caseCode = "${caseCode}";
 </script>
+	<content tag="pagetitle">填写交易计划</content>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -219,7 +222,8 @@
 			<!-- 改版引入的新的js文件 -->
 			<script src="<c:url value='/js/common/textarea.js' />"></script>
 			<script src="<c:url value='/js/common/common.js' />"></script>
-
+			<!-- 必须JS -->
+			<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 			<!--公共信息-->
 			<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 			<script>

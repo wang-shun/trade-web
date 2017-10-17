@@ -39,7 +39,7 @@
 	<!-- aist列表样式 -->
 	<link href="<c:url value='/css/common/aist.grid.css' />" rel="stylesheet">
 	<!-- 备注信息 -->
-	<link href="<c:url value='/css/transcss/comment/caseComment_new.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
 	<!-- 新调整页面样式 -->
 	<link href="<c:url value='/css/common/caseDetail.css' />" rel="stylesheet">
 	<link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
@@ -50,16 +50,16 @@
 	<link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
 	<link rel="stylesheet" href="<c:url value='/js/viewer/viewer.min.css' />" />
 	<script type="text/javascript">
-		var ctx = "${ctx}";
-		var taskitem = "${taskitem}";
-		var caseCode = "${caseCode}";
-		var source = "${source}";
-		var finishYear = "${transSign.finishYear}";
-		if ("${idList}" != "") {
-			var idList = eval("(" + "${idList}" + ")");
-		} else {
-			var idList = [];
-		}
+        var ctx = "${ctx}";
+        var taskitem = "${taskitem}";
+        var caseCode = "${caseCode}";
+        var source = "${source}";
+        var finishYear = "${transSign.finishYear}";
+        if ("${idList}" != "") {
+            var idList = eval("(" + "${idList}" + ")");
+        } else {
+            var idList = [];
+        }
 	</script>
 	<style type='text/css'>
 		.divider {position: relative}
@@ -140,14 +140,14 @@
 										   onkeyup="checkNum(this)">
 									<span class="date_icon">万元</span>
 								</div>
-								
+
 								<div class="form_content mt3">
 									<label class="control-label sign_left_small select_style mend_select">
 										<font color=" red" class="mr5" >*</font>预计过户时间
 									</label>
 									<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
 										<input type="text" class="input_type yuanwid datatime" id="estimateTransferTime" name="estimateTransferTime"
-											    value="<fmt:formatDate value='${transSign.estimateTransferTime}' type='both' pattern='yyyy-MM-dd'/>"
+											   value="<fmt:formatDate value='${transSign.estimateTransferTime}' type='both' pattern='yyyy-MM-dd'/>"
 											   onfocus="this.blur()">
 									</div>
 								</div>
@@ -186,7 +186,7 @@
 									</div>
 								</div>
 
-								
+
 
 							</div>
 						</div>
@@ -196,120 +196,133 @@
 				<div>
 					<h2 class="newtitle title-mark">付款方式</h2>
 					<div class="form_list">
-						<div class="marinfo">
-							<div class="line">
-								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font> 一期款 </label>
-									<input type="hidden" value="一期款" id="initPayName" name="initPayName">
-									<input type="text"
-										   value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
-										   class="input_type yuanwid" id="initAmount" name="initAmount"
-										   onkeyup="checkNum(this)">
-									<span class="date_icon">万元</span>
-								</div>
+						<div class="marinfo" >
+							<table >
 
-								<div class="form_content mt3">
-									<label class="control-label sign_left_small select_style mend_select">
-										<font color=" red" class="mr5" >*</font>时间
-									</label>
-									<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+								<tr >
+									<td><div class="form_content">
+										<label ><font color=" red" class="mr5" >*</font> 一期款 </label>
+										<input type="hidden" value="一期款" id="initPayName" name="initPayName">
+
 										<input type="text"
-											   value="<fmt:formatDate  value='${transSign.initPayTime }' type='both' pattern='yyyy-MM-dd' />"
-											   class="input_type yuanwid datatime" id="initPayTime" name="initPayTime"
-											   onfocus="this.blur()">
-									</div>
-								</div>
+											   value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
+											   class="input_type yuanwid" id="initAmount" name="initAmount"
+											   onkeyup="checkNum(this)">
+										<span class="date_icon">万元</span>
 
-								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>方式 </label>
-									<aist:dict clazz="select_control data_style" id="initPayType"
-											   name="initPayType" display="select"
-											   defaultvalue="${transSign.initPayType}" dictType="30015" />
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>监管金额</label>
-									<input type="text"
-										   value="<fmt:formatNumber value='${transSign.initSupervisionAmount }' type='number' pattern='#0.00' />"
-										   class="input_type yuanwid" id="initSupervisionAmount" name="initSupervisionAmount"
-										   onkeyup="checkNum(this)">
-									<span class="date_icon">万元</span>
-								</div>
-							</div>
+									</div></td>
+									<td><div class="form_content mt3">
+										<label >
+											<font color=" red" class="mr5" >*</font>时间
+										</label>
+										<div class="input-group sign-right dataleft input-daterange pull-right" data-date-format="yyyy-mm-dd">
+											<input type="text"
+												   value="<fmt:formatDate  value='${transSign.initPayTime }' type='both' pattern='yyyy-MM-dd' />"
+												   class="input_type yuanwid datatime" id="initPayTime" name="initPayTime"
+												   onfocus="this.blur()">
+										</div>
+									</div></td>
+									<td><div class="form_content">
+										<label ><font color=" red" class="mr5" >*</font>方式 </label>
 
-							<div class="line">
-								<div class="form_content">
-									<label class="control-label sign_left_small">二期款</label>
-									<input type="hidden" value="二期款" id="secPayName" name="secPayName">
-									<input type="text"
-										   value="<fmt:formatNumber value='${transSign.secAmount }' type='number' pattern='#0.00' />"
-										   class="input_type yuanwid" id="secAmount" name="secAmount"
-										   onkeyup="checkNum(this)">
-									<span class="date_icon">万元</span>
-								</div>
-								<div class="form_content mt3">
-									<label class="control-label sign_left_small select_style mend_select">
-										时间
-									</label>
-									<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+										<aist:dict clazz="select_control data_style" id="initPayType"
+												   name="initPayType" display="select"
+												   defaultvalue="${transSign.initPayType}" dictType="30015" />
+
+									</div></td>
+									<td><div class="form_content">
+										<label ><font color=" red" class="mr5" >*</font>监管金额</label>
+
 										<input type="text"
-											   value="<fmt:formatDate  value='${transSign.secPayTime }' type='both' pattern='yyyy-MM-dd' />"
-											   class="input_type yuanwid datatime" id="secPayTime" name="secPayTime"
-											   onfocus="this.blur()">
-									</div>
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_small">方式 </label>
-									<aist:dict clazz="select_control data_style" id="secPayType"
-											   name="secPayType" display="select"
-											   defaultvalue="${transSign.secPayType}" dictType="30015" />
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_small">监管金额</label>
-									<input type="text"
-										   value="<fmt:formatNumber value='${transSign.secSupervisionAmount }' type='number' pattern='#0.00' />"
-										   class="input_type yuanwid" id="secSupervisionAmount" name="secSupervisionAmount"
-										   onkeyup="checkNum(this)">
-									<span class="date_icon">万元</span>
-								</div>
-							</div>
+											   value="<fmt:formatNumber value='${transSign.initSupervisionAmount }' type='number' pattern='#0.00' />"
+											   class="input_type yuanwid" id="initSupervisionAmount" name="initSupervisionAmount"
+											   onkeyup="checkNum(this)">
+										<span class="date_icon">万元</span>
 
-							<div class="line">
-								<div class="form_content">
-									<label class="control-label sign_left_small">三期款</label>
-									<input type="hidden" value="三期款" id="lastPayName" name="lastPayName">
-									<input type="text"
-										   value="<fmt:formatNumber value='${transSign.lastAmount}' type='number' pattern='#0.00' />"
-										   class="input_type yuanwid" id="lastAmount" name="lastAmount"
-										   onkeyup="checkNum(this)">
-									<span class="date_icon">万元</span>
-								</div>
-								<div class="form_content mt3">
-									<label class="control-label sign_left_small select_style mend_select">
-										时间
-									</label>
-									<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+									</div></td>
+								</tr>
+								<tr >
+									<td><div class="form_content">
+										<label ><font class="mr5">&nbsp;&nbsp;</font>二期款</label>
+										<input type="hidden" value="二期款" id="secPayName" name="secPayName">
+
 										<input type="text"
-											   value="<fmt:formatDate  value='${transSign.lastPayTime }' type='both' pattern='yyyy-MM-dd' />"
-											   class="input_type yuanwid datatime" id="lastPayTime" name="lastPayTime"
-											   onfocus="this.blur()">
-									</div>
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_small"> 方式 </label>
-									<aist:dict clazz="select_control data_style" id="lastPayType"
-											   name="lastPayType" display="select"
-											   defaultvalue="${transSign.lastPayType}" dictType="30015" />
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_small">监管金额</label>
-									<input type="text"
-										   value="<fmt:formatNumber value='${transSign.lastSupervisionAmount }' type='number' pattern='#0.00' />"
-										   class="input_type yuanwid" id="lastSupervisionAmount" name="lastSupervisionAmount"
-										   onkeyup="checkNum(this)">
-									<span class="date_icon">万元</span>
-								</div>
-							</div>
+											   value="<fmt:formatNumber value='${transSign.secAmount }' type='number' pattern='#0.00' />"
+											   class="input_type yuanwid" id="secAmount" name="secAmount"
+											   onkeyup="checkNum(this)">
+										<span class="date_icon">万元</span>
+									</div></td>
+									<td><div class="form_content mt3">
+										<label>
+											<font class="mr5">&nbsp;&nbsp;</font>时间
+										</label>
+										<div class="input-group sign-right dataleft input-daterange pull-right" data-date-format="yyyy-mm-dd">
+											<input type="text"
+												   value="<fmt:formatDate  value='${transSign.secPayTime }' type='both' pattern='yyyy-MM-dd' />"
+												   class="input_type yuanwid datatime" id="secPayTime" name="secPayTime"
+												   onfocus="this.blur()">
+										</div>
+									</div></td>
+									<td><div class="form_content">
+										<label ><font class="mr5">&nbsp;&nbsp;</font>方式 </label>
 
+										<aist:dict clazz="select_control data_style" id="secPayType"
+												   name="secPayType" display="select"
+												   defaultvalue="${transSign.secPayType}" dictType="30015" />
+
+									</div></td>
+									<td ><div class="form_content">
+										<label ><font class="mr5">&nbsp;&nbsp;</font>监管金额</label>
+
+										<input type="text"
+											   value="<fmt:formatNumber value='${transSign.secSupervisionAmount }' type='number' pattern='#0.00' />"
+											   class="input_type yuanwid" id="secSupervisionAmount" name="secSupervisionAmount"
+											   onkeyup="checkNum(this)">
+										<span class="date_icon">万元</span>
+
+									</div></td>
+								</tr>
+								<tr >
+									<td height="25%"><div class="form_content">
+										<label><font class="mr5">&nbsp;&nbsp;</font>三期款</label>
+										<input type="hidden" value="三期款" id="lastPayName" name="lastPayName">
+										<input type="text"
+											   value="<fmt:formatNumber value='${transSign.lastAmount}' type='number' pattern='#0.00' />"
+											   class="input_type yuanwid" id="lastAmount" name="lastAmount"
+											   onkeyup="checkNum(this)">
+										<span class="date_icon">万元</span>
+									</div></td>
+									<td height="25%"><div class="form_content">
+										<label >
+											<font class="mr5">&nbsp;&nbsp;</font>时间
+										</label>
+										<div class="input-group sign-right dataleft input-daterange pull-right" data-date-format="yyyy-mm-dd">
+											<input type="text"
+												   value="<fmt:formatDate  value='${transSign.lastPayTime }' type='both' pattern='yyyy-MM-dd' />"
+												   class="input_type yuanwid datatime" id="lastPayTime" name="lastPayTime"
+												   onfocus="this.blur()">
+										</div>
+									</div></td>
+									<td height="25%"><div class="form_content">
+										<label > <font class="mr5">&nbsp;&nbsp;</font>方式 </label>
+
+										<aist:dict clazz="select_control data_style" id="lastPayType"
+												   name="lastPayType" display="select"
+												   defaultvalue="${transSign.lastPayType}" dictType="30015" />
+
+									</div></td>
+									<td height="25%"><div class="form_content">
+										<label ><font class="mr5">&nbsp;&nbsp;</font>监管金额</label>
+
+										<input type="text"
+											   value="<fmt:formatNumber value='${transSign.lastSupervisionAmount }' type='number' pattern='#0.00' />"
+											   class="input_type " id="lastSupervisionAmount" name="lastSupervisionAmount"
+											   onkeyup="checkNum(this)">
+										<span class="date_icon">万元</span>
+
+									</div></td>
+								</tr>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -384,6 +397,10 @@
 									<aist:dict clazz="select_control data_style" id="propertyType"
 											   name="propertyType" display="select"
 											   defaultvalue="${transSign.propertyType}" dictType="30014" />
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_small">购房年数</label>
+									<aist:dict clazz="select_control data_style" id="holdYear" name="holdYear" display="select" defaultvalue="${transSign.holdYear}" dictType="hold_year" />
 								</div>
 							</div>
 						</div>
@@ -460,827 +477,827 @@
 
 <content tag="local_script">
 	<script>
-		//判断是否有重复字符
-		function isUniqueChar(value){
-			if(!value){
-				return false;
-			}
-			var uniqueMap   = {};
-			for(i=0;i<value.length;i++){
-				var val = value.charAt(i);
-				uniqueMap[val]=val;
-			}
-			var result = ""
-			for(var key in uniqueMap){
-				result +=key;
-			}
-			return (result.length==1);
-		}
+        //判断是否有重复字符
+        function isUniqueChar(value){
+            if(!value){
+                return false;
+            }
+            var uniqueMap   = {};
+            for(i=0;i<value.length;i++){
+                var val = value.charAt(i);
+                uniqueMap[val]=val;
+            }
+            var result = ""
+            for(var key in uniqueMap){
+                result +=key;
+            }
+            return (result.length==1);
+        }
 
-		//验证手机和电话号码
-		function checkContactNumber(ContactNumber) {
-			var mobile = $.trim(ContactNumber);
-			var number=/^[0-9]*$/;
-			var isValid = true;
+        //验证手机和电话号码
+        function checkContactNumber(ContactNumber) {
+            var mobile = $.trim(ContactNumber);
+            var number=/^[0-9]*$/;
+            var isValid = true;
 
-			if(!number.exec(mobile)){
-				window.wxc.alert("电话号码只能由数字组成！");
-				isValid = false;
-				return isValid;
-			}
-			if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13 || mobile.length ==14)){
-				window.wxc.alert("电话号码只能由是8位、11位、13位或者14位的数字组成！");
-				isValid = false;
-				return isValid;
-			}
+            if(!number.exec(mobile)){
+                window.wxc.alert("电话号码只能由数字组成！");
+                isValid = false;
+                return isValid;
+            }
+            if(!(mobile.length ==8 || mobile.length ==11 || mobile.length ==13 || mobile.length ==14)){
+                window.wxc.alert("电话号码只能由是8位、11位、13位或者14位的数字组成！");
+                isValid = false;
+                return isValid;
+            }
 
-			if(isUniqueChar(mobile)){
-				window.wxc.alert("电话号码不能为全部相同的数字！");
-				isValid = false;
-				return isValid;
-			}
-			return isValid;
-		}
+            if(isUniqueChar(mobile)){
+                window.wxc.alert("电话号码不能为全部相同的数字！");
+                isValid = false;
+                return isValid;
+            }
+            return isValid;
+        }
 
-		$("#sendSMS").click(function() {
-			var t = '';
-			var s = '/';
+        $("#sendSMS").click(function() {
+            var t = '';
+            var s = '/';
 
-			$("#reminder_list").find("input:checkbox:checked").closest('td').next().each(function() {
-				t += ($(this).text() + s);
-			});
+            $("#reminder_list").find("input:checkbox:checked").closest('td').next().each(function() {
+                t += ($(this).text() + s);
+            });
 
-			if (t != '') {
-				t = t.substring(0, t.length - 1);
-			}
+            if (t != '') {
+                t = t.substring(0, t.length - 1);
+            }
 
-			$("#smsPlatFrom").smsPlatFrom({
-				ctx : '${ctx}',
-				caseCode : $('#caseCode').val(),
-				serviceItem : t
-			});
-		});
+            $("#smsPlatFrom").smsPlatFrom({
+                ctx : '${ctx}',
+                caseCode : $('#caseCode').val(),
+                serviceItem : t
+            });
+        });
 
-		$(function() {
-			var caseCode = $('#caseCode').val();
-			var srvCode = 'TransSign';
-			$("#caseCommentList").caseCommentGrid({
-				caseCode : caseCode,
-				srvCode : srvCode
-			});
+        $(function() {
+            var caseCode = $('#caseCode').val();
+            var srvCode = 'TransSign';
+            $("#caseCommentList").caseCommentGrid({
+                caseCode : caseCode,
+                srvCode : srvCode
+            });
 
-			TaskTransSignValidate.init("transSignForm", "");
-			if ('caseDetails' == source) {
-				readOnlyForm();
-			}
+            TaskTransSignValidate.init("transSignForm", "");
+            if ('caseDetails' == source) {
+                readOnlyForm();
+            }
 
-			$("#reminder_list").jqGrid({
-				url : "${ctx}/quickGrid/findPage",
-				datatype : "json",
-				height : 210,
-				multiselect : true,
-				autowidth : true,
-				shrinkToFit : true,
-				viewrecords : true,
-				colNames : [ '提醒事项', '备注' ],
-				colModel : [ {
-					name : 'REMIND_ITEM',
-					index : 'REMIND_ITEM',
-					width : 500
-				}, {
-					name : 'COMMENT',
-					index : 'COMMENT',
-					width : 500
-				}
+            $("#reminder_list").jqGrid({
+                url : "${ctx}/quickGrid/findPage",
+                datatype : "json",
+                height : 210,
+                multiselect : true,
+                autowidth : true,
+                shrinkToFit : true,
+                viewrecords : true,
+                colNames : [ '提醒事项', '备注' ],
+                colModel : [ {
+                    name : 'REMIND_ITEM',
+                    index : 'REMIND_ITEM',
+                    width : 500
+                }, {
+                    name : 'COMMENT',
+                    index : 'COMMENT',
+                    width : 500
+                }
 
-				],
-				viewrecords : false,
-				pagebuttions : false,
-				hidegrid : false,
-				postData : {
-					queryId : "queryToReminderList",
-					search_partCode : taskitem
-				},
-			});
+                ],
+                viewrecords : false,
+                pagebuttions : false,
+                hidegrid : false,
+                postData : {
+                    queryId : "queryToReminderList",
+                    search_partCode : taskitem
+                },
+            });
 
-			$(window).bind('resize', function() {
-				var width = $('.jqGrid_wrapper').width();
-				$('#reminder_list').setGridWidth(width);
+            $(window).bind('resize', function() {
+                var width = $('.jqGrid_wrapper').width();
+                $('#reminder_list').setGridWidth(width);
 
-			});
+            });
 
-			//日期组件
-			$('#data_1 .input-group.date').datepicker({
-				todayBtn : "linked",
-				keyboardNavigation : false,
-				forceParse : false,
-				calendarWeeks : false,//显示年日历周
-				autoclose : true
-			});
+            //日期组件
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn : "linked",
+                keyboardNavigation : false,
+                forceParse : false,
+                calendarWeeks : false,//显示年日历周
+                autoclose : true
+            });
 
-			//年份选择初始化
-			initSelectYear("finishYear", finishYear);
+            //年份选择初始化
+            initSelectYear("finishYear", finishYear);
 
-			$(window).bind('resize', function() {
-				var width = $('.jqGrid_wrapper').width();
-				$('#table_list_1').setGridWidth(width);
-				$('#table_list_2').setGridWidth(width);
+            $(window).bind('resize', function() {
+                var width = $('.jqGrid_wrapper').width();
+                $('#table_list_1').setGridWidth(width);
+                $('#table_list_2').setGridWidth(width);
 
-			});
+            });
 
-			initGuestInfo("30006002");
-			initGuestInfo("30006001")
+            initGuestInfo("30006002");
+            initGuestInfo("30006001")
 
-		});
+        });
 
-		//初始化select
-		function initSelectYear(id, value) {
-			var d = new Date();
-			var endYear = d.getFullYear();
-			var starYear = 1900;
-			var friend = $("#" + id);
-			friend.empty();
-			for (var i = endYear; i >= starYear; i--) {
-				if (value == null || value == '' || value == undefined
-						|| value > endYear || value < starYear) {
-					value = endYear;
-				}
-				if (value == i) {
-					friend
-							.append("<option value='"+i+"'  selected='selected'>"
-							+ i + "</option>");
-				} else {
-					friend.append("<option value='"+i+"'>" + i
-							+ "</option>");
-				}
+        //初始化select
+        function initSelectYear(id, value) {
+            var d = new Date();
+            var endYear = d.getFullYear();
+            var starYear = 1900;
+            var friend = $("#" + id);
+            friend.empty();
+            for (var i = endYear; i >= starYear; i--) {
+                if (value == null || value == '' || value == undefined
+                    || value > endYear || value < starYear) {
+                    value = endYear;
+                }
+                if (value == i) {
+                    friend
+                        .append("<option value='"+i+"'  selected='selected'>"
+                            + i + "</option>");
+                } else {
+                    friend.append("<option value='"+i+"'>" + i
+                        + "</option>");
+                }
 
-			}
-		}
+            }
+        }
 
-		//提交数据
-		function submit() {
-			save(true);
-		}
+        //提交数据
+        function submit() {
+            save(true);
+        }
 
-		//验证控件checkUI();
-		function checkForm() {
-			var checkGuest = true;
-			var conPrice = Number($('input[name=conPrice]').val());
-			var initAmount = Number($('input[name=initAmount]').val());
-			var secAmount = Number($('input[name=secAmount]').val());
-			var lastAmount = Number($('input[name=lastAmount]').val());
+        //验证控件checkUI();
+        function checkForm() {
+            var checkGuest = true;
+            var conPrice = Number($('input[name=conPrice]').val());
+            var initAmount = Number($('input[name=initAmount]').val());
+            var secAmount = Number($('input[name=secAmount]').val());
+            var lastAmount = Number($('input[name=lastAmount]').val());
 
-			if ($('input[name=realConTime]').val() == '') {
-				window.wxc.alert("实际签约时间为必填项!");
-				$('input[name=realConTime]').focus();
-				return false;
-			}
+            if ($('input[name=realConTime]').val() == '') {
+                window.wxc.alert("实际签约时间为必填项!");
+                $('input[name=realConTime]').focus();
+                return false;
+            }
 			/*天津没有
-			var compensateAmount = Number($('input[name=compensateAmount]').val());
-			if ($('input[name=realPrice]').val() == '') {
-				window.wxc.alert("成交价为必填项!");
-				$('input[name=realPrice]').focus();
-				return false;
-			}
+			 var compensateAmount = Number($('input[name=compensateAmount]').val());
+			 if ($('input[name=realPrice]').val() == '') {
+			 window.wxc.alert("成交价为必填项!");
+			 $('input[name=realPrice]').focus();
+			 return false;
+			 }
 
-			if (Number($('input[name=realPrice]').val()) <= 0) {
-				window.wxc.alert("成交价必须大于0!");
-				$('input[name=realPrice]').focus();
-				return false;
-			}*/
+			 if (Number($('input[name=realPrice]').val()) <= 0) {
+			 window.wxc.alert("成交价必须大于0!");
+			 $('input[name=realPrice]').focus();
+			 return false;
+			 }*/
 
-			if ($('input[name=conPrice]').val() == '') {
-				window.wxc.alert("合同价为必填项!");
-				$('input[name=conPrice]').focus();
-				return false;
-			}
-			if (Number($('input[name=conPrice]').val()) <= 0) {
-				window.wxc.alert("合同价必须大于0!");
-				$('input[name=conPrice]').focus();
-				return false;
-			}
+            if ($('input[name=conPrice]').val() == '') {
+                window.wxc.alert("合同价为必填项!");
+                $('input[name=conPrice]').focus();
+                return false;
+            }
+            if (Number($('input[name=conPrice]').val()) <= 0) {
+                window.wxc.alert("合同价必须大于0!");
+                $('input[name=conPrice]').focus();
+                return false;
+            }
 
-			if ($('input[name=estimateTransferTime]').val() == '') {
-				window.wxc.alert("预计过户时间为必填项!");
-				$('input[name=estimateTransferTime]').focus();
-				return false;
-			}
-			if ($('select[name=houseQuantity]').val() == '') {
-				window.wxc.alert("下家是否首套为必选项!");
-				$('select[name=houseQuantity]').focus();
-				return false;
-			}
-			if ($('select[name=fundSupervisionme]').val() == '') {
-				window.wxc.alert("资金监管为必选项!");
-				$('select[name=fundSupervisionme]').focus();
-				return false;
-			}
-			if ($('select[name=netPlace]').val() == '') {
-				window.wxc.alert("网签地点为必选项!");
-				$('select[name=netPlace]').focus();
-				return false;
-			}
-			if ($('input[name=initAmount]').val() == '') {
-				window.wxc.alert("一期款为必填项!");
-				$('input[name=initAmount]').focus();
-				return false;
-			}
-			if (Number($('input[name=initAmount]').val()) <= 0 ) {
-				window.wxc.alert("一期款必须大于等于0!");
-				$('input[name=initAmount]').focus();
-				return false;
-			}
-			if(null == $('input[name=initPayTime]').val() || '' == $('input[name=initPayTime]').val()){
-				window.wxc.alert("一期款时间不能为空!");
-				$('input[name=initPayTime]').focus();
-				return false;
-			}
-			
-			if ($('select[name=initPayType]').val() == '') {
-				window.wxc.alert("一期款方式不能为空!");
-				$('select[name=initPayType]').focus();
-				return false;
-			}
-			if ($('input[name=initSupervisionAmount]').val() == '') {
-				window.wxc.alert("一期款监管金额不能为空!");
-				$('input[name=initSupervisionAmount]').focus();
-				return false;
-			}
-			if(Number($('input[name=initAmount]').val()) < Number($('input[name=initSupervisionAmount]').val())){
-				window.wxc.alert("一期款监管金额不能大于一期款金额!");
-				$('input[name=initSupervisionAmount]').focus();
-				return false;
-			}
-			if(secAmount>0){
-				if(null == $('input[name=secPayTime]').val() || '' == $('input[name=secPayTime]').val()){
-					window.wxc.alert("二期款时间不能为空!");
-					$('input[name=secPayTime]').focus();
-					return false;
-				}
+            if ($('input[name=estimateTransferTime]').val() == '') {
+                window.wxc.alert("预计过户时间为必填项!");
+                $('input[name=estimateTransferTime]').focus();
+                return false;
+            }
+            if ($('select[name=houseQuantity]').val() == '') {
+                window.wxc.alert("下家是否首套为必选项!");
+                $('select[name=houseQuantity]').focus();
+                return false;
+            }
+            if ($('select[name=fundSupervisionme]').val() == '') {
+                window.wxc.alert("资金监管为必选项!");
+                $('select[name=fundSupervisionme]').focus();
+                return false;
+            }
+            if ($('select[name=netPlace]').val() == '') {
+                window.wxc.alert("网签地点为必选项!");
+                $('select[name=netPlace]').focus();
+                return false;
+            }
+            if ($('input[name=initAmount]').val() == '') {
+                window.wxc.alert("一期款为必填项!");
+                $('input[name=initAmount]').focus();
+                return false;
+            }
+            if (Number($('input[name=initAmount]').val()) <= 0 ) {
+                window.wxc.alert("一期款必须大于等于0!");
+                $('input[name=initAmount]').focus();
+                return false;
+            }
+            if(null == $('input[name=initPayTime]').val() || '' == $('input[name=initPayTime]').val()){
+                window.wxc.alert("一期款时间不能为空!");
+                $('input[name=initPayTime]').focus();
+                return false;
+            }
 
-				if ($('select[name=secPayType]').val() == '') {
-					window.wxc.alert("二期款方式不能为空!");
-					$('select[name=secPayType]').focus();
-					return false;
-				}
-				if ($('input[name=secSupervisionAmount]').val() == '') {
-					window.wxc.alert("二期款监管金额不能为空!");
-					$('input[name=secSupervisionAmount]').focus();
-					return false;
-				}
-				if(Number($('input[name=secAmount]').val()) < Number($('input[name=secSupervisionAmount]').val())){
-					window.wxc.alert("二 期款监管金额不能大于二期款金额!");
-					$('input[name=secSupervisionAmount]').focus();
-					return false;
-				}
+            if ($('select[name=initPayType]').val() == '') {
+                window.wxc.alert("一期款方式不能为空!");
+                $('select[name=initPayType]').focus();
+                return false;
+            }
+            if ($('input[name=initSupervisionAmount]').val() == '') {
+                window.wxc.alert("一期款监管金额不能为空!");
+                $('input[name=initSupervisionAmount]').focus();
+                return false;
+            }
+            if(Number($('input[name=initAmount]').val()) < Number($('input[name=initSupervisionAmount]').val())){
+                window.wxc.alert("一期款监管金额不能大于一期款金额!");
+                $('input[name=initSupervisionAmount]').focus();
+                return false;
+            }
+            if(secAmount>0){
+                if(null == $('input[name=secPayTime]').val() || '' == $('input[name=secPayTime]').val()){
+                    window.wxc.alert("二期款时间不能为空!");
+                    $('input[name=secPayTime]').focus();
+                    return false;
+                }
 
-			}
-			if(lastAmount>0){
-				if(null == $('input[name=lastPayTime]').val() || '' == $('input[name=lastPayTime]').val()){
-					window.wxc.alert("三期款时间不能为空!");
-					$('input[name=lastPayTime]').focus();
-					return false;
-				}
+                if ($('select[name=secPayType]').val() == '') {
+                    window.wxc.alert("二期款方式不能为空!");
+                    $('select[name=secPayType]').focus();
+                    return false;
+                }
+                if ($('input[name=secSupervisionAmount]').val() == '') {
+                    window.wxc.alert("二期款监管金额不能为空!");
+                    $('input[name=secSupervisionAmount]').focus();
+                    return false;
+                }
+                if(Number($('input[name=secAmount]').val()) < Number($('input[name=secSupervisionAmount]').val())){
+                    window.wxc.alert("二 期款监管金额不能大于二期款金额!");
+                    $('input[name=secSupervisionAmount]').focus();
+                    return false;
+                }
 
-				if ($('select[name=lastPayType]').val() == '') {
-					window.wxc.alert("三期款方式不能为空!");
-					$('select[name=lastPayType]').focus();
-					return false;
-				}
-				if ($('input[name=lastSupervisionAmount]').val() == '') {
-					window.wxc.alert("三期款监管金额不能为空!");
-					$('input[name=lastSupervisionAmount]').focus();
-					return false;
-				}
-				if(Number($('input[name=lastAmount]').val()) < Number($('input[name=lastSupervisionAmount]').val())){
-					window.wxc.alert("三期款监管金额不能大于三期款金额!");
-					$('input[name=lastSupervisionAmount]').focus();
-					return false;
-				}
-			}
+            }
+            if(lastAmount>0){
+                if(null == $('input[name=lastPayTime]').val() || '' == $('input[name=lastPayTime]').val()){
+                    window.wxc.alert("三期款时间不能为空!");
+                    $('input[name=lastPayTime]').focus();
+                    return false;
+                }
+
+                if ($('select[name=lastPayType]').val() == '') {
+                    window.wxc.alert("三期款方式不能为空!");
+                    $('select[name=lastPayType]').focus();
+                    return false;
+                }
+                if ($('input[name=lastSupervisionAmount]').val() == '') {
+                    window.wxc.alert("三期款监管金额不能为空!");
+                    $('input[name=lastSupervisionAmount]').focus();
+                    return false;
+                }
+                if(Number($('input[name=lastAmount]').val()) < Number($('input[name=lastSupervisionAmount]').val())){
+                    window.wxc.alert("三期款监管金额不能大于三期款金额!");
+                    $('input[name=lastSupervisionAmount]').focus();
+                    return false;
+                }
+            }
 			/*
-			if(compensateAmount>0){
-				if(null == $('input[name=compensatePayTime]').val() || '' == $('input[name=compensatePayTime]').val()){
-					window.wxc.alert("装修补偿款时间不能为空!");
-					$('input[name=compensatePayTime]').focus();
-					return false;
-				}
+			 if(compensateAmount>0){
+			 if(null == $('input[name=compensatePayTime]').val() || '' == $('input[name=compensatePayTime]').val()){
+			 window.wxc.alert("装修补偿款时间不能为空!");
+			 $('input[name=compensatePayTime]').focus();
+			 return false;
+			 }
 
-				if ($('select[name=compensatePayType]').val() == '') {
-					window.wxc.alert("装修补偿款方式不能为空!");
-					$('select[name=compensatevPayType]').focus();
-					return false;
-				}
+			 if ($('select[name=compensatePayType]').val() == '') {
+			 window.wxc.alert("装修补偿款方式不能为空!");
+			 $('select[name=compensatevPayType]').focus();
+			 return false;
+			 }
 
-			}*/
+			 }*/
 
-			if (conPrice < initAmount+secAmount+lastAmount) {
-				window.wxc.alert("付款信息项之和必须小于等于合同价!");
-				$('input[name=conPrice]').focus();
-				return false;
-			}
+            if (conPrice < initAmount+secAmount+lastAmount) {
+                window.wxc.alert("付款信息项之和必须小于等于合同价!");
+                $('input[name=conPrice]').focus();
+                return false;
+            }
 
 			/*天津没有
-			if ($('select[name=isLoanClose]').val() == '') {
-				window.wxc.alert("抵押情况为必选项!");
-				$('select[name=isLoanClose]').focus();
-				return false;
-			}
+			 if ($('select[name=isLoanClose]').val() == '') {
+			 window.wxc.alert("抵押情况为必选项!");
+			 $('select[name=isLoanClose]').focus();
+			 return false;
+			 }
 
 
-			if ($('select[name=isPerchaseReserachNeed]').val() == '') {
-				window.wxc.alert("查限购为必选项!");
-				$('select[name=isPerchaseReserachNeed]').focus();
-				return false;
-			}*/
-			if($("#topHome").children().length == 1){
-				window.wxc.alert("上家信息为必填项!");
-				return false;
-			}
+			 if ($('select[name=isPerchaseReserachNeed]').val() == '') {
+			 window.wxc.alert("查限购为必选项!");
+			 $('select[name=isPerchaseReserachNeed]').focus();
+			 return false;
+			 }*/
+            if($("#topHome").children().length == 1){
+                window.wxc.alert("上家信息为必填项!");
+                return false;
+            }
 
-			if($("#downHome").children().length == 1){
-				window.wxc.alert("下家信息为必填项!");
-				return false;
-			}
+            if($("#downHome").children().length == 1){
+                window.wxc.alert("下家信息为必填项!");
+                return false;
+            }
 
-			if (!upAndDownCheck()) {
-				return false;
-			}
+            if (!upAndDownCheck()) {
+                return false;
+            }
 
-			if (!phoneUpAndphoneDownCheck()) {
-				return false;
-			}
+            if (!phoneUpAndphoneDownCheck()) {
+                return false;
+            }
 
-			if ($('input[name=square]').val() == '') {
-				window.wxc.alert("产证面积为必填项!");
-				$('input[name=square]').focus();
-				return false;
-			}
+            if ($('input[name=square]').val() == '') {
+                window.wxc.alert("产证面积为必填项!");
+                $('input[name=square]').focus();
+                return false;
+            }
 
-			if ($('input[name=propertyAddr]').val() == '') {
-				window.wxc.alert("产证地址为必填项!");
-				$('input[name=propertyAddr]').focus();
-				return false;
-			}
+            if ($('input[name=propertyAddr]').val() == '') {
+                window.wxc.alert("产证地址为必填项!");
+                $('input[name=propertyAddr]').focus();
+                return false;
+            }
 
-			if ($('input[name=locateFloor]').val() == '') {
-				window.wxc.alert("所在楼层为必填项!");
-				$('input[name=locateFloor]').focus();
-				return false;
-			}
+            if ($('input[name=locateFloor]').val() == '') {
+                window.wxc.alert("所在楼层为必填项!");
+                $('input[name=locateFloor]').focus();
+                return false;
+            }
 
-			if ($('input[name=totalFloor]').val() == '') {
-				window.wxc.alert("总层高为必填项!");
-				$('input[name=totalFloor]').focus();
-				return false;
-			}
+            if ($('input[name=totalFloor]').val() == '') {
+                window.wxc.alert("总层高为必填项!");
+                $('input[name=totalFloor]').focus();
+                return false;
+            }
 
-			if ($('select[name=propertyType]').val() == '') {
-				window.wxc.alert("房屋类型为必选项!");
-				$('select[name=propertyType]').focus();
-				return false;
-			}
+            if ($('select[name=propertyType]').val() == '') {
+                window.wxc.alert("房屋类型为必选项!");
+                $('select[name=propertyType]').focus();
+                return false;
+            }
 			/*天津没有
-			if ($('select[name=isConCert]').val() == '') {
-				window.wxc.alert("合同公证为必选项!");
-				$('select[name=isConCert]').focus();
-				return false;
-			}
+			 if ($('select[name=isConCert]').val() == '') {
+			 window.wxc.alert("合同公证为必选项!");
+			 $('select[name=isConCert]').focus();
+			 return false;
+			 }
 
-			if ($('select[name=isHukou]').val() == '') {
-				window.wxc.alert("房屋有户口为必选项!");
-				$('select[name=isHukou]').focus();
-				return false;
-			}
+			 if ($('select[name=isHukou]').val() == '') {
+			 window.wxc.alert("房屋有户口为必选项!");
+			 $('select[name=isHukou]').focus();
+			 return false;
+			 }
 
-			if ($('input[name=houseHodingTax]').val() == '') {
-				window.wxc.alert("房产税为必填项!");
-				$('input[name=houseHodingTax]').focus();
-				return false;
-			}*/
+			 if ($('input[name=houseHodingTax]').val() == '') {
+			 window.wxc.alert("房产税为必填项!");
+			 $('input[name=houseHodingTax]').focus();
+			 return false;
+			 }*/
 
-			if ($('input[name=personalIncomeTax]').val() == '') {
-				window.wxc.alert("个人所得税为必填项!");
-				$('input[name=personalIncomeTax]').focus();
-				return false;
-			}
+            if ($('input[name=personalIncomeTax]').val() == '') {
+                window.wxc.alert("个人所得税为必填项!");
+                $('input[name=personalIncomeTax]').focus();
+                return false;
+            }
 			/*
-			if ($('input[name=businessTax]').val() == '') {
-				window.wxc.alert("上家营业税为必填项!");
-				$('input[name=businessTax]').focus();
-				return false;
-			}
+			 if ($('input[name=businessTax]').val() == '') {
+			 window.wxc.alert("上家营业税为必填项!");
+			 $('input[name=businessTax]').focus();
+			 return false;
+			 }
 
-			if ($('input[name=contractTax]').val() == '') {
-				window.wxc.alert("下家契税为必填项!");
-				$('input[name=contractTax]').focus();
-				return false;
-			}*/
-			if ($('input[name=sellerTax]').val() == '') {
-				window.wxc.alert("卖方增值税为必填项!");
-				$('input[name=sellerTax]').focus();
-				return false;
-			}
-			if ($('input[name=buyerTax]').val() == '') {
-				window.wxc.alert("买方契税为必填项!");
-				$('input[name=buyerTax]').focus();
-				return false;
-			}
-			if ($('input[name=landIncrementTax]').val() == '') {
-				window.wxc.alert("土地增值税为必填项!");
-				$('input[name=landIncrementTax]').focus();
-				return false;
-			}
+			 if ($('input[name=contractTax]').val() == '') {
+			 window.wxc.alert("下家契税为必填项!");
+			 $('input[name=contractTax]').focus();
+			 return false;
+			 }*/
+            if ($('input[name=sellerTax]').val() == '') {
+                window.wxc.alert("卖方增值税为必填项!");
+                $('input[name=sellerTax]').focus();
+                return false;
+            }
+            if ($('input[name=buyerTax]').val() == '') {
+                window.wxc.alert("买方契税为必填项!");
+                $('input[name=buyerTax]').focus();
+                return false;
+            }
+            if ($('input[name=landIncrementTax]').val() == '') {
+                window.wxc.alert("土地增值税为必填项!");
+                $('input[name=landIncrementTax]').focus();
+                return false;
+            }
 
-			if ($("#property_research_letter_pic_list li").length == undefined
-					|| $("#property_research_letter_pic_list li").length == 0 ) {
-				window.wxc.alert("收件收据未上传!");
+            if ($("#property_research_letter_pic_list li").length == undefined
+                || $("#property_research_letter_pic_list li").length == 0 ) {
+                window.wxc.alert("收件收据未上传!");
 
-				return false;
-			}
+                return false;
+            }
 
-			//验证上传文件是否全部上传
-			var isCompletedUpload = fileUpload.isCompletedUpload();
+            //验证上传文件是否全部上传
+            var isCompletedUpload = fileUpload.isCompletedUpload();
 
-			if(!isCompletedUpload){
-				window.wxc.alert("收件收据还未全部上传!");
-				return false;
-			}
+            if(!isCompletedUpload){
+                window.wxc.alert("收件收据还未全部上传!");
+                return false;
+            }
 
-			return true;
-		}
+            return true;
+        }
 
 
-		//保存数据
-		function save(b) {
-			if (!checkForm()) {
-				return false;
-			}
-			/**
-			if (!$("#transSignForm").valid()) {
+        //保存数据
+        function save(b) {
+            if (!checkForm()) {
+                return false;
+            }
+            /**
+             if (!$("#transSignForm").valid()) {
 				return false;
 			} */
-			var jsonData = $("#transSignForm").serializeArray();
+            var jsonData = $("#transSignForm").serializeArray();
 
-			deleteAndModify();
+            deleteAndModify();
 
-			var url = "${ctx}/task/sign/saveSign";
-			if (b) {
-				url = "${ctx}/task/sign/submitSign";
-			}
+            var url = "${ctx}/task/sign/saveSign";
+            if (b) {
+                url = "${ctx}/task/sign/submitSign";
+            }
 
-			$.ajax({
-				cache : true,
-				async : false,
-				type : "POST",
-				url : url,
-				dataType : "json",
-				data : jsonData,
-				beforeSend : function() {
-					$.blockUI({
-						message : $("#salesLoading"),
-						css : {
-							'border' : 'none',
-							'z-index' : '9999'
-						}
-					});
-					$(".blockOverlay").css({
-						'z-index' : '9998'
-					});
-				},
-				complete : function() {
-					$.unblockUI();
-					if (b) {
-						$.blockUI({
-							message : $("#salesLoading"),
-							css : {
-								'border' : 'none',
-								'z-index' : '1900'
-							}
-						});
-						$(".blockOverlay").css({
-							'z-index' : '1900'
-						});
-					}
+            $.ajax({
+                cache : true,
+                async : false,
+                type : "POST",
+                url : url,
+                dataType : "json",
+                data : jsonData,
+                beforeSend : function() {
+                    $.blockUI({
+                        message : $("#salesLoading"),
+                        css : {
+                            'border' : 'none',
+                            'z-index' : '9999'
+                        }
+                    });
+                    $(".blockOverlay").css({
+                        'z-index' : '9998'
+                    });
+                },
+                complete : function() {
+                    $.unblockUI();
+                    if (b) {
+                        $.blockUI({
+                            message : $("#salesLoading"),
+                            css : {
+                                'border' : 'none',
+                                'z-index' : '1900'
+                            }
+                        });
+                        $(".blockOverlay").css({
+                            'z-index' : '1900'
+                        });
+                    }
 
-					//超时,status还有success,error等值的情况
-					if (status == 'timeout') {
-						Modal.alert({
-							msg : "抱歉，系统处理超时。"
-						});
-						$(".btn-primary").one("click", function() {
-							parent.$.fancybox.close();
-						});
-					}
-				},
-				success : function(data) {
-					if (b) {
-						caseTaskCheck();
-						if (null != data.message) {
-							window.wxc.alert(data.message);
-						}
-					} else {
-						window.wxc.success("保存成功。",{"wxcOk":function(){
-							window.close();
-							window.opener.callback();
-						}});
-					}
-				},
-				error : function(errors) {
-					window.wxc.error("数据保存出错");
-				}
-			});
-		}
-		//double 验证
-		function checkNum(obj) {
-			//先把非数字的都替换掉，除了数字和.
-			obj.value = obj.value.replace(/[^\d.]/g, "");
-			//必须保证第一个为数字而不是.
-			obj.value = obj.value.replace(/^\./g, "");
-			//保证只有出现一个.而没有多个.
-			obj.value = obj.value.replace(/\.{2,}/g, ".");
-			//保证.只出现一次，而不能出现两次以上
-			obj.value = obj.value.replace(".", "$#$").replace(/\./g, "")
-					.replace("$#$", ".");
-		}
+                    //超时,status还有success,error等值的情况
+                    if (status == 'timeout') {
+                        Modal.alert({
+                            msg : "抱歉，系统处理超时。"
+                        });
+                        $(".btn-primary").one("click", function() {
+                            parent.$.fancybox.close();
+                        });
+                    }
+                },
+                success : function(data) {
+                    if (b) {
+                        caseTaskCheck();
+                        if (null != data.message) {
+                            window.wxc.alert(data.message);
+                        }
+                    } else {
+                        window.wxc.success("保存成功。",{"wxcOk":function(){
+                            window.close();
+                            window.opener.callback();
+                        }});
+                    }
+                },
+                error : function(errors) {
+                    window.wxc.error("数据保存出错");
+                }
+            });
+        }
+        //double 验证
+        function checkNum(obj) {
+            //先把非数字的都替换掉，除了数字和.
+            obj.value = obj.value.replace(/[^\d.]/g, "");
+            //必须保证第一个为数字而不是.
+            obj.value = obj.value.replace(/^\./g, "");
+            //保证只有出现一个.而没有多个.
+            obj.value = obj.value.replace(/\.{2,}/g, ".");
+            //保证.只出现一次，而不能出现两次以上
+            obj.value = obj.value.replace(".", "$#$").replace(/\./g, "")
+                .replace("$#$", ".");
+        }
 
-		function checkNum2(obj) {
-			//先把非数字的都替换掉，除了数字和.
-			obj.value = obj.value.replace(/[^\d.]/g, "");
-			//必须保证第一个为数字而不是.
-			obj.value = obj.value.replace(/^\./g, "");
-		}
+        function checkNum2(obj) {
+            //先把非数字的都替换掉，除了数字和.
+            obj.value = obj.value.replace(/[^\d.]/g, "");
+            //必须保证第一个为数字而不是.
+            obj.value = obj.value.replace(/^\./g, "");
+        }
 
 
-		//上下家电话相同验证
-		function phoneUpAndphoneDownCheck() {
-			var checkGuestPhone= true;
-			var selectsPhoneDown = $("input[name='guestPhoneDown']");
-			var selectsPhoneUp = $("input[name='guestPhoneUp']");
+        //上下家电话相同验证
+        function phoneUpAndphoneDownCheck() {
+            var checkGuestPhone= true;
+            var selectsPhoneDown = $("input[name='guestPhoneDown']");
+            var selectsPhoneUp = $("input[name='guestPhoneUp']");
 
-			$.each(selectsPhoneUp, function(j, item) {
-				if (item.value == '') {
-					window.wxc.alert("上家电话为必填项!");
-					selectsPhoneUp[j].focus();
-					checkGuestPhone = false;
-				} else {
-					checkGuestPhone = checkContactNumber(item.value);
-					if (!checkGuestPhone) {
-						selectsPhoneUp[j].focus();
-						return false;
-					}
-				}
-			});
+            $.each(selectsPhoneUp, function(j, item) {
+                if (item.value == '') {
+                    window.wxc.alert("上家电话为必填项!");
+                    selectsPhoneUp[j].focus();
+                    checkGuestPhone = false;
+                } else {
+                    checkGuestPhone = checkContactNumber(item.value);
+                    if (!checkGuestPhone) {
+                        selectsPhoneUp[j].focus();
+                        return false;
+                    }
+                }
+            });
 
-			if (!checkGuestPhone || selectsPhoneUp == null) {
-				return false;
-			}
+            if (!checkGuestPhone || selectsPhoneUp == null) {
+                return false;
+            }
 
-			//验证下家电话号码
-			$.each(selectsPhoneDown, function(j, item) {
-				if (item.value == '') {
-					window.wxc.alert("下家电话为必填项!");
-					selectsPhoneDown[j].focus();
-					checkGuestPhone = false;
-				} else {
-					checkGuestPhone = checkContactNumber(item.value);
-					if (!checkGuestPhone) {
-						selectsPhoneDown[j].focus();
-						return false;
-					}
-				}
-			});
+            //验证下家电话号码
+            $.each(selectsPhoneDown, function(j, item) {
+                if (item.value == '') {
+                    window.wxc.alert("下家电话为必填项!");
+                    selectsPhoneDown[j].focus();
+                    checkGuestPhone = false;
+                } else {
+                    checkGuestPhone = checkContactNumber(item.value);
+                    if (!checkGuestPhone) {
+                        selectsPhoneDown[j].focus();
+                        return false;
+                    }
+                }
+            });
 
-			if (!checkGuestPhone || selectsPhoneDown == null) {
-				return false;
-			}
+            if (!checkGuestPhone || selectsPhoneDown == null) {
+                return false;
+            }
 
-			$.each(selectsPhoneUp,function(i, itemPhoneUp) {
-				if (itemPhoneUp.value != '') {
-					$.each(selectsPhoneDown,function(j,	itemPhoneDown) {
-						if (itemPhoneDown.value != '') {
-							if (itemPhoneUp.value.trim() == itemPhoneDown.value.trim()) {
-								window.wxc.alert("上下家电话不能填写一样!");
-								checkGuestPhone=false;
-								return checkGuestPhone;
-							}
-						}
-					})
-				}
-				if(checkGuestPhone==false) {return  false;}
-			});
+            $.each(selectsPhoneUp,function(i, itemPhoneUp) {
+                if (itemPhoneUp.value != '') {
+                    $.each(selectsPhoneDown,function(j,	itemPhoneDown) {
+                        if (itemPhoneDown.value != '') {
+                            if (itemPhoneUp.value.trim() == itemPhoneDown.value.trim()) {
+                                window.wxc.alert("上下家电话不能填写一样!");
+                                checkGuestPhone=false;
+                                return checkGuestPhone;
+                            }
+                        }
+                    })
+                }
+                if(checkGuestPhone==false) {return  false;}
+            });
 
-			return checkGuestPhone;
-		}
+            return checkGuestPhone;
+        }
 
-		function  upAndDownCheck(){
-			var checkGuest = true;
-			var selectsUp = $("input[name='guestNameUp']");
-			$.each(selectsUp, function(j, item) {
-				if (item.value == '') {
-					window.wxc.alert("上家姓名为必填项!");
-					selectsUp[j].focus();
-					checkGuest = false;
-					return false;
-				} else if (item.value.trim().indexOf(" ") > -1) {
-					window.wxc.alert("上家姓名中不能包含空格!");
-					selectsUp[j].focus();
-					checkGuest = false;
-					return false;
-				} else if (item.value.indexOf("先生") > 0
-						|| item.value.indexOf("小姐") > 0
-						|| item.value.indexOf("叔叔") > 0
-						|| item.value.indexOf("阿姨") > 0
-						|| item.value.indexOf("女士") > 0) {
-					window.wxc.alert("上家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
-					selectsUp[j].focus();
-					checkGuest = false;
-					return false;
-				} else {
-					$(selectsUp[j]).val(item.value.trim());
-					checkGuest = true;
-				}
-			});
-			if (!checkGuest || selectsUp == null) {
-				return false;
-			}
+        function  upAndDownCheck(){
+            var checkGuest = true;
+            var selectsUp = $("input[name='guestNameUp']");
+            $.each(selectsUp, function(j, item) {
+                if (item.value == '') {
+                    window.wxc.alert("上家姓名为必填项!");
+                    selectsUp[j].focus();
+                    checkGuest = false;
+                    return false;
+                } else if (item.value.trim().indexOf(" ") > -1) {
+                    window.wxc.alert("上家姓名中不能包含空格!");
+                    selectsUp[j].focus();
+                    checkGuest = false;
+                    return false;
+                } else if (item.value.indexOf("先生") > 0
+                    || item.value.indexOf("小姐") > 0
+                    || item.value.indexOf("叔叔") > 0
+                    || item.value.indexOf("阿姨") > 0
+                    || item.value.indexOf("女士") > 0) {
+                    window.wxc.alert("上家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
+                    selectsUp[j].focus();
+                    checkGuest = false;
+                    return false;
+                } else {
+                    $(selectsUp[j]).val(item.value.trim());
+                    checkGuest = true;
+                }
+            });
+            if (!checkGuest || selectsUp == null) {
+                return false;
+            }
 
-			selectsDown = $("input[name='guestNameDown']");
-			$.each(selectsDown, function(j, item) {
-				if (item.value == '') {
-					window.wxc.alert("下家姓名为必填项!");
-					selectsDown[j].focus();
-					checkGuest = false;
-					return false;
-				} else if (item.value.trim().indexOf(" ") > -1) {
-					window.wxc.alert("下家姓名中不能包含空格!");
-					selectsDown[j].focus();
-					checkGuest = false;
-					return false;
-				} else if (item.value.indexOf("先生") > 0
-						|| item.value.indexOf("小姐") > 0
-						|| item.value.indexOf("叔叔") > 0
-						|| item.value.indexOf("阿姨") > 0
-						|| item.value.indexOf("女士") > 0) {
-					window.wxc.alert("下家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
-					selectsDown[j].focus();
-					checkGuest = false;
-					return false;
-				} else {
-					$(selectsDown[j]).val(item.value.trim());
-					checkGuest = true;
-				}
-			});
-			if (!checkGuest || selectsDown == null) {
-				return false;
-			}
-			return checkGuest;
-		}
+            selectsDown = $("input[name='guestNameDown']");
+            $.each(selectsDown, function(j, item) {
+                if (item.value == '') {
+                    window.wxc.alert("下家姓名为必填项!");
+                    selectsDown[j].focus();
+                    checkGuest = false;
+                    return false;
+                } else if (item.value.trim().indexOf(" ") > -1) {
+                    window.wxc.alert("下家姓名中不能包含空格!");
+                    selectsDown[j].focus();
+                    checkGuest = false;
+                    return false;
+                } else if (item.value.indexOf("先生") > 0
+                    || item.value.indexOf("小姐") > 0
+                    || item.value.indexOf("叔叔") > 0
+                    || item.value.indexOf("阿姨") > 0
+                    || item.value.indexOf("女士") > 0) {
+                    window.wxc.alert("下家姓名中不能包含先生、小姐、叔叔、阿姨、女士!");
+                    selectsDown[j].focus();
+                    checkGuest = false;
+                    return false;
+                } else {
+                    $(selectsDown[j]).val(item.value.trim());
+                    checkGuest = true;
+                }
+            });
+            if (!checkGuest || selectsDown == null) {
+                return false;
+            }
+            return checkGuest;
+        }
 
-		var divIndexDown = 1;
-		function addDateDivDown() {
-			var txt = "<div class='line' id=dateDivD_" + divIndexDown + ">";
-			txt += "<div class='form_content'>";
-			txt += "<input type='hidden' name='pkidDown' value='0'/>";
-			txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' placeholder='' value='' name='guestNameDown'>";
-			txt += "</div>";
-			txt += "<div class='form_content'>";
-			txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='' name='guestPhoneDown'>";
-			txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivD_" + divIndexDown + "')\">删除</a>";
-			txt += "</div>"
+        var divIndexDown = 1;
+        function addDateDivDown() {
+            var txt = "<div class='line' id=dateDivD_" + divIndexDown + ">";
+            txt += "<div class='form_content'>";
+            txt += "<input type='hidden' name='pkidDown' value='0'/>";
+            txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' placeholder='' value='' name='guestNameDown'>";
+            txt += "</div>";
+            txt += "<div class='form_content'>";
+            txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='' name='guestPhoneDown'>";
+            txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivD_" + divIndexDown + "')\">删除</a>";
+            txt += "</div>"
 
-			$("#guestDownDiv").before(txt);
-			divIndexDown++;
-		}
+            $("#guestDownDiv").before(txt);
+            divIndexDown++;
+        }
 
-		var divIndexUp = 1;
-		function addDateDivUp() {
-			var txt = "<div class='line' id=dateDivU_" + divIndexUp + ">";
-			txt += "<div class='form_content'>";
-			txt += "<input type='hidden' name='pkidUp' value='0'/>";
-			txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' name='guestNameUp' placeholder='' value=''>";
-			txt += "</div>";
-			txt += "<div class='form_content'>";
-			txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='' name='guestPhoneUp'>";
-			txt += "</div>";
-			txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivU_" + divIndexUp + "')\">删除</a>";
-			txt += "</div>";
+        var divIndexUp = 1;
+        function addDateDivUp() {
+            var txt = "<div class='line' id=dateDivU_" + divIndexUp + ">";
+            txt += "<div class='form_content'>";
+            txt += "<input type='hidden' name='pkidUp' value='0'/>";
+            txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' name='guestNameUp' placeholder='' value=''>";
+            txt += "</div>";
+            txt += "<div class='form_content'>";
+            txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='' name='guestPhoneUp'>";
+            txt += "</div>";
+            txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDateDiv('dateDivU_" + divIndexUp + "')\">删除</a>";
+            txt += "</div>";
 
-			$("#guestUpDiv").before(txt);
-			divIndexUp++;
-		}
+            $("#guestUpDiv").before(txt);
+            divIndexUp++;
+        }
 
-		function removeDateDiv(index) {
-			$("#" + index).remove();
-		}
+        function removeDateDiv(index) {
+            $("#" + index).remove();
+        }
 
-		function removeDiv(id, pkid) {
-			var txt = "<input type='hidden' name='guestPkid' value='"+pkid+"'/>";
-			$("#guestDelDiv").before(txt);
-			$("#" + id).remove();
-		}
+        function removeDiv(id, pkid) {
+            var txt = "<input type='hidden' name='guestPkid' value='"+pkid+"'/>";
+            $("#guestDelDiv").before(txt);
+            $("#" + id).remove();
+        }
 
-		function initGuestInfo(transPosition) {
-			$.ajax({
-				cache : true,
-				async : false,
-				type : "POST",
-				url : "${ctx}/task/sign/queryGuestInfo",
-				dataType : "json",
-				data : [ {
-					name : "transPosition",
-					value : transPosition
-				}, {
-					name : "caseCode",
-					value : caseCode
-				} ],
-				success : function(data) {
-					var length = data.length;
-					if (length > 0) {
-						$.each(data,function(index, value) {
-							if (transPosition == "30006002") {
-								var txt = "<div class='line' id=dateDivD_" + divIndexDown + ">";
-								txt += "<div class='form_content'>";
-								txt += "<input type='hidden' name='pkidDown' value='"+value.pkid+"'/>";
-								txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' placeholder='' value='" + value.guestName + "' name='guestNameDown'>";
-								txt += "</div>";
-								txt += "<div class='form_content'>";
-								txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneDown'>";
-								txt += "</div>";
-								txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDiv('dateDivD_" + divIndexDown + "','" + value.pkid + "')\">删除</a>";
-								txt += "</div>";
+        function initGuestInfo(transPosition) {
+            $.ajax({
+                cache : true,
+                async : false,
+                type : "POST",
+                url : "${ctx}/task/sign/queryGuestInfo",
+                dataType : "json",
+                data : [ {
+                    name : "transPosition",
+                    value : transPosition
+                }, {
+                    name : "caseCode",
+                    value : caseCode
+                } ],
+                success : function(data) {
+                    var length = data.length;
+                    if (length > 0) {
+                        $.each(data,function(index, value) {
+                            if (transPosition == "30006002") {
+                                var txt = "<div class='line' id=dateDivD_" + divIndexDown + ">";
+                                txt += "<div class='form_content'>";
+                                txt += "<input type='hidden' name='pkidDown' value='"+value.pkid+"'/>";
+                                txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' placeholder='' value='" + value.guestName + "' name='guestNameDown'>";
+                                txt += "</div>";
+                                txt += "<div class='form_content'>";
+                                txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneDown'>";
+                                txt += "</div>";
+                                txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDiv('dateDivD_" + divIndexDown + "','" + value.pkid + "')\">删除</a>";
+                                txt += "</div>";
 
-								$("#guestDownDiv").before(txt);
-								divIndexDown++;
-							} else if (transPosition == "30006001") {
-								var txt = "<div class='line' id=dateDivU_" + divIndexUp + ">";
-								txt += "<div class='form_content'>";
-								txt += "<input type='hidden' name='pkidUp' value='" + value.pkid +"'/>";
-								txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' name='guestNameUp' placeholder='' value='" + value.guestName + "'>";
-								txt += "</div>";
-								txt += "<div class='form_content'>";
-								txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneUp'>";
-								txt += "</div>";
-								txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDiv('dateDivU_" + divIndexUp + "','" + value.pkid + "')\">删除</a>";
-								txt += "</div>";
+                                $("#guestDownDiv").before(txt);
+                                divIndexDown++;
+                            } else if (transPosition == "30006001") {
+                                var txt = "<div class='line' id=dateDivU_" + divIndexUp + ">";
+                                txt += "<div class='form_content'>";
+                                txt += "<input type='hidden' name='pkidUp' value='" + value.pkid +"'/>";
+                                txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' name='guestNameUp' placeholder='' value='" + value.guestName + "'>";
+                                txt += "</div>";
+                                txt += "<div class='form_content'>";
+                                txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneUp'>";
+                                txt += "</div>";
+                                txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDiv('dateDivU_" + divIndexUp + "','" + value.pkid + "')\">删除</a>";
+                                txt += "</div>";
 
-								$("#guestUpDiv").before(txt);
-								divIndexUp++;
-							}
-						});
-					} else {
-						if (transPosition == "30006002") {
-							var txt = "<div class='line' id=dateDivD_" + divIndexDown + ">";
-							txt += "<div class='form_content'>";
-							txt += "<input type='hidden' name='pkidDown' value='0'/>";
-							txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' placeholder='' value='" + value.guestName + "' name='guestNameDown'>";
-							txt += "</div>";
-							txt += "<div class='form_content'>";
-							txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneDown'>";
-							txt += "</div>";
-							txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDiv('dateDivD_" + divIndexDown + "','" + value.pkid + "')\">删除</a>";
-							txt += "</div>";
+                                $("#guestUpDiv").before(txt);
+                                divIndexUp++;
+                            }
+                        });
+                    } else {
+                        if (transPosition == "30006002") {
+                            var txt = "<div class='line' id=dateDivD_" + divIndexDown + ">";
+                            txt += "<div class='form_content'>";
+                            txt += "<input type='hidden' name='pkidDown' value='0'/>";
+                            txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' placeholder='' value='" + value.guestName + "' name='guestNameDown'>";
+                            txt += "</div>";
+                            txt += "<div class='form_content'>";
+                            txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneDown'>";
+                            txt += "</div>";
+                            txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDiv('dateDivD_" + divIndexDown + "','" + value.pkid + "')\">删除</a>";
+                            txt += "</div>";
 
-							$("#guestDownDiv").before(txt);
-							divIndexDown++;
-						} else if (transPosition == "30006001") {
-							var txt = "<div class='line' id=dateDivU_" + divIndexUp + ">";
-							txt += "<div class='form_content'>";
-							txt += "<input type='hidden' name='pkidUp' value='0'/>";
-							txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' name='guestNameUp' placeholder='' value='" + value.guestName + "'>";
-							txt += "</div>";
-							txt += "<div class='form_content'>";
-							txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneUp'>";
-							txt += "</div>";
-							txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDiv('dateDivU_" + divIndexUp + "','" + value.pkid + "')\">删除</a>";
-							txt += "</div>";
+                            $("#guestDownDiv").before(txt);
+                            divIndexDown++;
+                        } else if (transPosition == "30006001") {
+                            var txt = "<div class='line' id=dateDivU_" + divIndexUp + ">";
+                            txt += "<div class='form_content'>";
+                            txt += "<input type='hidden' name='pkidUp' value='0'/>";
+                            txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>姓名</label><input class='input_type yuanwid' name='guestNameUp' placeholder='' value='" + value.guestName + "'>";
+                            txt += "</div>";
+                            txt += "<div class='form_content'>";
+                            txt += "<label class='control-label sign_left_small'><font color='red' class='mr5'>*</font>电话</label><input class='input_type yuanwid' placeholder='' value='" + value.guestPhone + "' name='guestPhoneUp'>";
+                            txt += "</div>";
+                            txt += "<a href='javascript:void(0)' class='add_space' onclick=\"removeDiv('dateDivU_" + divIndexUp + "','" + value.pkid + "')\">删除</a>";
+                            txt += "</div>";
 
-							$("#guestUpDiv").before(txt);
-							divIndexUp++;
-						}
-					}
-				},
-				error : function(errors) {
-					window.wxc.error("上下家加载失败！");
-				}
-			});
-		}
+                            $("#guestUpDiv").before(txt);
+                            divIndexUp++;
+                        }
+                    }
+                },
+                error : function(errors) {
+                    window.wxc.error("上下家加载失败！");
+                }
+            });
+        }
 
-		function readOnlyForm() {
-			//设置实际签约时间不可修改
-			$("#realConTime").parent().removeClass("input-daterange");
-			$("#realConTime").removeClass("datatime");
-			$("#realConTime").attr("readonly",true);
-			$("#realConTime").css("background-color","#ccc");
-			//设置提交按钮隐藏
-			$("#btnSubmit").hide();
-		}
+        function readOnlyForm() {
+            //设置实际签约时间不可修改
+            $("#realConTime").parent().removeClass("input-daterange");
+            $("#realConTime").removeClass("datatime");
+            $("#realConTime").attr("readonly",true);
+            $("#realConTime").css("background-color","#ccc");
+            //设置提交按钮隐藏
+            $("#btnSubmit").hide();
+        }
 
-		//渲染图片
-		function renderImg(){
-			$('.wrapper-content').viewer('destroy');
-			$('.wrapper-content').viewer();
-		}
+        //渲染图片
+        function renderImg(){
+            $('.wrapper-content').viewer('destroy');
+            $('.wrapper-content').viewer();
+        }
 	</script>
 	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
@@ -1321,25 +1338,26 @@
 	<!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
 	<script src="<c:url value='/js/common/common.js' />"></script>
-	
+	<!-- 必须JS -->
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<!--公共信息-->
 	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 </content>
 <content tag="local_require">
 	<script>
-		var fileUpload;
+        var fileUpload;
 
-		require(['main'], function() {
-			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
-				fileUpload = aistFileUpload;
+        require(['main'], function() {
+            requirejs(['jquery','aistFileUpload'],function($,aistFileUpload){
+                fileUpload = aistFileUpload;
 
-				fileUpload.init({
-					caseCode : $('#caseCode').val(),
-					partCode : "TransSign",
-					fileUploadContainer : "transSignfileUploadContainer"
-				});
-			});
-		});
+                fileUpload.init({
+                    caseCode : $('#caseCode').val(),
+                    partCode : "TransSign",
+                    fileUploadContainer : "transSignfileUploadContainer"
+                });
+            });
+        });
 	</script>
 </content>
 </body>

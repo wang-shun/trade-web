@@ -16,7 +16,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>过户审批</title>
     <!-- 上传相关 -->
     <link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />" rel="stylesheet">
     <link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />" rel="stylesheet">
@@ -119,6 +119,7 @@
             width: 725px;
         }
     </style>
+    <centent tag="pagetitle">过户审批</centent>
 </head>
 
 <body>
