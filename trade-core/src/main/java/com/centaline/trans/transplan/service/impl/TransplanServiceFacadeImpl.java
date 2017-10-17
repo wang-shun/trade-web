@@ -394,9 +394,6 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 			ToTransPlan toTransPlanFk = new ToTransPlan();
 			toTransPlanFk.setEstPartTime(transPlanVO.getEstPartTimeFk());
 			toTransPlanFk.setCaseCode(transPlanVO.getCaseCode());
-			if (transPlanVO.getEstPartTimeFk() != null) {
-				toTransPlanFk.setEstPartTime(transPlanVO.getEstPartTimeFk());
-				toTransPlanFk.setCaseCode(transPlanVO.getCaseCode());
 				if (transPlanVO.getPkidFk() != null) {
 					toTransPlanFk.setPkid(transPlanVO.getPkidFk());
 					toTransPlanFk.setCaseCode(transPlanVO.getCaseCode());
@@ -408,7 +405,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 						toTransPlanMapper.insertSelective(toTransPlanFk);
 					}
 				}
-			}
+
 			}
 
 			return true;
