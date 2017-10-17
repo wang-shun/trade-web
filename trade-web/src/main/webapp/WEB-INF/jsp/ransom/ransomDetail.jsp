@@ -63,7 +63,7 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-	
+	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="ransomCode" value="${detailVo.ransomCode}">
 	<div class="wrapper wrapper-content animated fadeInUp">
 		<div class="ibox-content" id="reportOne">
@@ -76,7 +76,7 @@
 							<dl class="dl-horizontal">
 								<dt>借款人</dt>
 								<dd>
-									<a data-toggle="popover" data-placement="right" data-content="${detailVo.borrowTel }"> ${detailVo.borrowName }</a>
+									<a data-toggle="popover" data-placement="right" data-content="${detailVo.borrowTel }" id="borrowerUser"> ${detailVo.borrowName }</a>
 								</dd>
 								<dt>房屋地址</dt>
 								<dd>${detailVo.addr }</dd>
@@ -113,9 +113,9 @@
 								<div
 									class="col-lg-1 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${info.status=='apply'}"> active
+										    <c:when test="${caseVo.ransomProperty=='DEAL'}"> active
 										   </c:when>  
-										    <c:when test="${info.status!='apply'}"> complete
+										    <c:when test="${caseVo.ransomProperty!='DEAL'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -137,9 +137,9 @@
 								</div>
 								<div class="col-lg-1 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${info.status=='apply'}"> active
+										    <c:when test="${caseVo.ransomProperty=='APPLY'}"> active
 										   </c:when>  
-										    <c:when test="${info.status!='apply'}"> complete
+										    <c:when test="${caseVo.ransomProperty!='APPLY'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -163,9 +163,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${info.status=='apply'}"> active
+										    <c:when test="${caseVo.ransomProperty=='SIGN'}"> active
 										   </c:when>  
-										    <c:when test="${info.status!='apply'}"> complete
+										    <c:when test="${caseVo.ransomProperty!='SIGN'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -189,9 +189,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${info.status=='apply'}"> active
+										    <c:when test="${caseVo.ransomProperty=='PAYLOAN_ONE'}"> active
 										   </c:when>  
-										    <c:when test="${info.status!='apply'}"> complete
+										    <c:when test="${caseVo.ransomProperty!='PAYLOAN_ONE'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -215,9 +215,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${info.status=='apply'}"> active
+										    <c:when test="${caseVo.ransomProperty=='CANCELDIYA_ONE'}"> active
 										   </c:when>  
-										    <c:when test="${info.status!='apply'}"> complete
+										    <c:when test="${caseVo.ransomProperty!='CANCELDIYA_ONE'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -241,9 +241,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${info.status=='apply'}"> active
+										    <c:when test="${caseVo.ransomProperty=='RECEIVE_ONE'}"> active
 										   </c:when>  
-										    <c:when test="${info.status!='apply'}"> complete
+										    <c:when test="${caseVo.ransomProperty!='RECEIVE_ONE'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -267,9 +267,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${info.status=='apply'}"> active
+										    <c:when test="${caseVo.ransomProperty=='PAYCLEAR'}"> active
 										   </c:when>  
-										    <c:when test="${info.status!='apply'}"> complete
+										    <c:when test="${caseVo.ransomProperty!='PAYCLEAR'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -286,7 +286,7 @@
 									<div class="bs-wizard-info text-center">
 										<dl>
 											<dd>
-												<strong>回款结清(一抵)</strong></dd>
+												<strong>回款结清</strong></dd>
 										</dl>
 									</div>
 								</div>
@@ -301,9 +301,9 @@
 									
 									<div class="col-lg-1 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${info.status=='apply'}"> active
+											    <c:when test=""> active
 											   </c:when>  
-											    <c:when test="${info.status!='apply'}"> complete
+											    <c:when test=""> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -316,9 +316,9 @@
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${info.status=='apply'}"> active
+											    <c:when test="${caseVo.ransomProperty=='ODEPAYLOAN_TWO'}"> active
 											   </c:when>  
-											    <c:when test="${info.status!='apply'}"> complete
+											    <c:when test="${caseVo.ransomProperty!='ODEPAYLOAN_TWO'}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -337,9 +337,9 @@
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${info.status=='apply'}"> active
+											    <c:when test="${caseVo.ransomProperty=='CANCELDIYA_TWO'}"> active
 											   </c:when>  
-											    <c:when test="${info.status!='apply'}"> complete
+											    <c:when test="${caseVo.ransomProperty!='CANCELDIYA_TWO'}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -358,9 +358,9 @@
 									<div
 										class="col-lg-1 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${info.status=='apply'}"> active
+											    <c:when test="${caseVo.ransomProperty=='RECEIVE_TWO'}"> active
 											   </c:when>  
-											    <c:when test="${info.status!='apply'}"> complete
+											    <c:when test="${caseVo.ransomProperty!='RECEIVE_TWO'}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -378,9 +378,9 @@
 									</div>
 									<div class="col-lg-1 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${info.status=='apply'}"> active
+											    <c:when test=""> active
 											   </c:when>  
-											    <c:when test="${info.status!='apply'}"> complete
+											    <c:when test=""> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -421,7 +421,10 @@
 					<div class="panel blank-panel">
 						<h2 class="title">赎楼单详情</h2>
 						<div class="details-update">
-							<a href="javascript:void(0)">变更金融权证</a> 
+							<a href="javascript:void(0)" onclick="showOrgCp()">变更金融权证</a> 
+							<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">
+								<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showOrgCp()">责任人变更</a>
+							</shiro:hasPermission> -->
 							<a href="${ctx }/ransomList/updateRansomInfo?caseCode=${detailVo.caseCode}" target="_blank">修改赎楼单详情</a>
 							<a href="${ctx }/ransomList/planTime?ransomCode=${detailVo.ransomCode}" target="_blank">修改时间计划</a>
 						</div>
@@ -479,42 +482,7 @@
 												<th>预计完成时间</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
-												<td>受理时间
-												<td><fmt:formatDate value="${tailinsVo.signTime }" pattern="yyyy-MM-dd"/></td>
-												<td><fmt:formatDate value="${tailinsVo.planTime }" pattern="yyyy-MM-dd"/></td>
-											</tr>
-											<tr>
-												<td>申请时间</td>
-												<td><fmt:formatDate value="${tapplyVo.applyTime }" pattern="yyyy-MM-dd"/></td>
-												<td>2017-01-01</td>
-											</tr>
-											<tr>
-												<td>面签时间</td>
-												<td><fmt:formatDate value="${signVo.signTime }" pattern="yyyy-MM-dd"/></td>
-												<td>2017-01-01</td>
-											</tr>
-											<tr>
-												<td>陪同还贷时间(一抵)</td>
-												<td><fmt:formatDate value="${mortgageVo.mortgageTime }" pattern="yyyy-MM-dd"/></td>
-												<td>2017-01-01</td>
-											</tr>
-											<tr>
-												<td>注销抵押时间(一抵)</td>
-												<td><fmt:formatDate value="${cancelVo.cancelTime }" pattern="yyyy-MM-dd"/></td>
-												<td>2017-01-01</td>
-											</tr>
-											<tr>
-												<td>领取产证时间(一抵)</td>
-												<td><fmt:formatDate value="${permitVo.redeemTime }" pattern="yyyy-MM-dd"/></td>
-												<td>2017-01-01</td>
-											</tr>
-											<tr>
-												<td>回款结清时间</td>
-												<td><fmt:formatDate value="${paymentVo.paymentTime }" pattern="yyyy-MM-dd"/></td>
-												<td>2017-01-01</td>
-											</tr>
+										<tbody id="time-record">
 										</tbody>
 									</table>
 								</div>
@@ -537,8 +505,8 @@
 												<th>任务状态</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
+										<tbody id="operation-record">
+											<!-- <tr>
 												<td>红灯</td>
 												<td>红灯</td>
 												<td>申请</td>
@@ -546,7 +514,7 @@
 												<td>交易部小罗</td>
 												<td>2017-01-01</td>
 												<td>完成</td>
-											</tr>
+											</tr> -->
 										</tbody>
 									</table>
 								</div>
@@ -590,6 +558,33 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- 金融权证变更 -->
+		<div id="leading-modal-form" class="modal fade" role="dialog"
+			aria-labelledby="leading-modal-title" aria-hidden="true">
+			<div class="modal-dialog" style="width: 1200px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title" id="leading-modal-title">
+							请选择责任人</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row" style="height: 450px; overflow: auto;">
+							<div class="col-lg-12 ">
+								<h3 class="m-t-none m-b"></h3>
+								<div class="wrapper wrapper-content animated fadeInRight">
+									<div id="leading-modal-data-show" class="row"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
+		
+		
 	</div>
 
 	<!-- main End -->
@@ -673,6 +668,50 @@
 					</p>
 				</td>
 			</tr>
+	{{/each}}
+</script>
+<script id="template_ransomTimeInfo" type= "text/html">
+	{{each rows as item index}}
+		<tr>
+			<td>受理时间</td>
+			<td>{{item.signTime}}</td><td>{{item.planTime}}</td>
+		</tr>
+		<tr>
+			{{if item.applyTime != null}}
+				<td>申请时间</td>
+				<td>{{item.applyTime}}</td><td>{{item.interTime}}</td>
+			{{/if}}
+		</tr>
+		<tr>
+			{{if item.interTime != null}}
+				<td>面签时间</td>
+				<td>{{item.interTime}}</td><td>{{item.repayTime}}</td>
+			{{/if}}
+		</tr>
+		<tr>
+			{{if item.repayTime != null && item.diyaType == '710150001'}}
+				<td>陪同还贷时间(一抵)</td>
+				<td>{{item.repayTime}}</td><td>{{item.cancelTime}}</td>
+			{{/if}}
+		</tr>
+		<tr>
+			{{if item.cancelTime != null && item.diyaType == '710150001'}}
+				<td>注销抵押时间(一抵)</td>
+				<td>{{item.cancelTime}}</td><td>{{item.redeemTime}}</td>
+			{{/if}}
+		</tr>
+		<tr>
+			{{if item.redeemTime != null && item.diyaType == '710150001'}}
+				<td>领取产证时间(一抵)</td>
+				<td>{{item.redeemTime}}</td><td>{{item.paymentTime}}</td>
+			{{/if}}
+		</tr>
+		<tr>
+			{{if item.paymentTime != null && item.diyaType == '710150001'}}
+				<td>回款结清时间(一抵)</td>
+				<td>{{item.paymentTime}}</td><td>{{item.paymentTime}}</td>
+			{{/if}}
+		</tr>
 	{{/each}}
 </script>
 </body>

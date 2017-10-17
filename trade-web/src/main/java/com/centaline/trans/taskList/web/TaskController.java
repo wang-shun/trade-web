@@ -437,6 +437,15 @@ public class TaskController {
     		plan.setCaseCode(caseCode);
     		plan.setPartCode("LoanRelease");//放款
     		request.setAttribute("loanReleasePlan", transplanServiceFacade.findTransPlan(plan));
+    	}else if("evalServiceRestartApply".equals(taskitem) || "evalServiceRestartApprove".equals(taskitem)){ //天津评估流程
+    		initApproveRecord(request, caseCode, "10");
+     		if(instCode == null && caseCode != null) {
+        		ToWorkFlow toWorkFlow = new ToWorkFlow();
+        		toWorkFlow.setBizCode(request.getParameter("evalCode"));
+        		toWorkFlow.setBusinessKey(WorkFlowEnum.SRV_BUSSKEY.getCode());
+        		instCode = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlow).getInstCode();
+        		request.setAttribute("processInstanceId", instCode);
+        	}
     	}
         return "task"+UiImproveUtil.getPageType(request)+"/task"+taskitem;
   
@@ -655,11 +664,11 @@ public class TaskController {
      * @return
      */
     @RequestMapping(value="caseDetail")
-    public String caseDetail(HttpServletRequest request, String caseCode) {
+    public String caseDetail(HttpServletRequest request, String caseCode,String taskitem) {//添加了taskitem, 用来获取环节编码 by wbzhouht
     	ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
     	String st = null;
     	if(toCase != null) {
-    		st = "redirect:/case/caseDetail?&caseId="+toCase.getPkid();
+    		st = "redirect:/case/caseDetail?&caseId="+toCase.getPkid()+"&partCode="+taskitem;
     	} else {
     		st = "redirect:/case/caseDetail";
     	}

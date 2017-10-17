@@ -1,6 +1,7 @@
 package com.centaline.trans.eloan.service;
 
-import com.centaline.trans.common.MyBatisRepository;
+import java.util.List;
+import com.centaline.trans.eloan.entity.ToAppRecordInfo;
 import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 
 /**
@@ -12,4 +13,12 @@ public interface ToSelfAppInfoService {
 
 	
 	public String addSelfAppInfo(ToSelfAppInfo toSelfAppInfo);
+
+	public ToSelfAppInfo getAppInfoByCaseCode(String caseCode);
+
+	public List<ToAppRecordInfo> getAppRecordInfo(String appInfoId);
+
+	public ToSelfAppInfo getAppInfoByCCAICode(String ccaiCode);
+
+	public int saveBatchToAppRecordInfo(List<ToAppRecordInfo> listRecord);
 }

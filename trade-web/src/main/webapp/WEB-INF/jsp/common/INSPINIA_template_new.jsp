@@ -34,7 +34,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
     <link rel="shortcut icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
-    <title>誉萃交易系统</title>
+    <title>
+		<sitemesh:title /> - 金融交易平台
+	</title>
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
     <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet">
     <link href="<c:url value='/static/css/animate.css' />" rel="stylesheet">
@@ -135,7 +137,11 @@
 		        <div class="navbar-header">
 		            <a class="navbar-minimalize minimalize-styl-2 btn btn-warning " href="#"><i class="fa fa-bars"></i> </a>
 		        </div>
-		        <div class="navbar-header" style="margin-left: 30%;"><h2 class="welcome">欢迎使用金融交易平台！</h2></div>
+		        <div class="navbar-header" style="margin-left: 30%;"><h2 class="welcome">
+
+					<sitemesh:getProperty property='page.pagetitle' default="欢迎使用金融交易平台！" />
+
+				</h2></div>
 	            <ul class="nav navbar-top-links navbar-right">
 	                <li>
 	                    <span class="m-r-sm text-muted welcome-message">	</span>

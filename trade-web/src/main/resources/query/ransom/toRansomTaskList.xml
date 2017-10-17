@@ -50,8 +50,7 @@
 					select * from ( SELECT
 						ART.ID_ AS ID,
 						ART.CREATE_TIME_ CREATE_TIME,
-						/*ART.NAME_ AS NAME,*/
-						tr.RANSOM_STATUS AS NAME,
+						ART.NAME_ AS NAME,
 						tr.RANSOM_CODE ,
 						tr.BORROWER_NAME,
 						ART.TASK_DEF_KEY_ AS PART_CODE,
@@ -65,10 +64,37 @@
 
 					FROM
 						sctrans.ACT_RU_TASK ART
-						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE AND ART.PROC_DEF_ID_ = #PROCESS_DEFINITION_ID#
+						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE AND ART.PROC_DEF_ID_ IN (
+						<choose>
+							<when test	="PROCESS_DEFINITION_ID_RANSOM_SUSPEND != null and PROCESS_DEFINITION_ID_RANSOM != null and PROCESS_DEFINITION_ID_RANSOM_SUSPEND != '' and PROCESS_DEFINITION_ID_RANSOM != '' ">
+								#PROCESS_DEFINITION_ID_RANSOM_SUSPEND#,#PROCESS_DEFINITION_ID_RANSOM#
+							</when>
+							<otherwise>
+								<ifNotNull PROCESS_DEFINITION_ID_RANSOM_SUSPEND>
+									#PROCESS_DEFINITION_ID_RANSOM_SUSPEND#
+								</ifNotNull>
+								<ifNotNull PROCESS_DEFINITION_ID_RANSOM>
+									#PROCESS_DEFINITION_ID_RANSOM#
+								</ifNotNull>
+							</otherwise>
+						</choose>
+						)
 						INNER JOIN sctrans.T_RA_CASE AS tr ON tw.CASE_CODE = tr.CASE_CODE
 						/*  WHERE  ART.ASSIGNEE_ = #userLoginName# */
-					    AND ART.SUSPENSION_STATE_ = '1'
+						<choose>
+							<when test="isSuspended != null and isSuspended != '' and isSuspended == true">
+								AND ART.SUSPENSION_STATE_ = '2'
+							</when>
+							<when test="isSuspended != null and isSuspended != '' and isSuspended == false">
+								AND ART.SUSPENSION_STATE_ = '1'
+							</when>
+							<otherwise>
+							    AND ART.SUSPENSION_STATE_ = '1'
+							</otherwise>
+						</choose>
+					    <ifNotNull caseCode>
+							AND tw.CASE_CODE=#caseCode#
+						</ifNotNull>
 					   /* and exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=tw.CASE_CODE) */
 					    AND exists (Select 1 from sctrans.T_RA_CASE  where CASE_CODE=tw.CASE_CODE)
 						<ifNotNull allType>

@@ -10,7 +10,7 @@ import com.centaline.trans.ransom.entity.ToRansomFormVo;
 public interface AddRansomFormMapper {
 	int insert(ToRansomTailinsVo ar);
 
-	void addRansomForm(List<ToRansomFormVo> list);
+	void insertRansomForm(List<ToRansomFormVo> list);
 	
 	ToRansomFormVo selectByCaseCode(String caseCode);
 }

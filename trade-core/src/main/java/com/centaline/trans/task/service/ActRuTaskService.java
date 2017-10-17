@@ -9,4 +9,12 @@ import java.util.List;
  */
 public interface ActRuTaskService {
     List<TaskVo> getRuTask(String caseCode);
+    
+    /**
+     * 根据bizcode查询任务流程
+     * @param bizCode
+     * @return
+     * @author jinwl6
+     */
+    List<TaskVo> getRuTaskByBizCode(String bizCode);
 }

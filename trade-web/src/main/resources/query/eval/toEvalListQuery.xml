@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
+<dicts>
+		<customDict id="getStatusNameByCode" beanName="qqcdDictEvalStatus"></customDict>
+</dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
@@ -182,8 +185,9 @@
 						E.PROPERTY_ADDR,
 						FO.FIN_ORG_NAME,
 						ERP.STATUS,
-						<!-- ERP.SYS_CREATE_TIME,
-						ERP.SYS_FINSH_TIME, -->
+						ERP.SYS_CREATE_TIME,
+						ERP.SYS_FINSH_TIME,
+						ERP.EVA_CODE, 
 						loan.REAL_NAME
 					FROM
 					sctrans.T_TO_EVA_REPORT_PROCESS AS ERP
@@ -301,14 +305,16 @@
 			<table-row>
 				<column type="both" name="ID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="CASE_ORIGIN" index="" checkbox="" display="案件来源" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SELLER" index="" checkbox="" display="上家" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="BUYER" index="" checkbox="" display="下家" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="评估公司" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="REAL_NAME" index="" checkbox="" display="贷款申请人" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="STATUS" index="" checkbox="" display="评估状态" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="STATUS" index="" checkbox="" display="评估状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="SYS_CREATE_TIME" index="" checkbox="" display="上报时间" customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="SYS_FINSH_TIME" index="" checkbox="" display="完成时间" customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="EVA_CODE" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />		
 			</table-row>
 		</grid>
 	</query>

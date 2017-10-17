@@ -20,8 +20,6 @@ public class ToEvalSettle {
 
     private String status;
 
-    private String rejectCause;
-
     private Date settleTime;
 
     private String settleNotReason;
@@ -88,14 +86,6 @@ public class ToEvalSettle {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
-    }
-
-    public String getRejectCause() {
-        return rejectCause;
-    }
-
-    public void setRejectCause(String rejectCause) {
-        this.rejectCause = rejectCause == null ? null : rejectCause.trim();
     }
 
     public Date getSettleTime() {

@@ -16,6 +16,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.cases.service.*;
 import com.centaline.trans.task.entity.*;
 import com.centaline.trans.task.service.*;
 
@@ -52,6 +53,7 @@ import com.centaline.trans.cases.service.ToCaseParticipantService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
+import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
 import com.centaline.trans.cases.vo.CaseAssistantVO;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
@@ -189,9 +191,12 @@ public class CaseDetailController {
 
 	@Autowired
 	private BizWarnInfoService bizWarnInfoService;
+	//获取流程实例id，用以启动流程
 	@Autowired
 	private ProcessInstanceService processInstanceService;
-
+	//用来获取上级任务办理人
+	@Autowired
+	private AuditCaseService auditCaseService;
 	// E+金融
 	@Autowired
 	private ToEloanRelService toEloanRelService;
@@ -755,14 +760,25 @@ public class CaseDetailController {
 	 * @return
 	 */
 	@RequestMapping(value = "caseDetail")
-	public String caseDetail(Long caseId,HttpServletRequest request) {
+	public String caseDetail(Long caseId,String partCode,HttpServletRequest request) {
 		if (caseId == null){
 			return "case/caseList";
 		}
-		
 		/** 基本信息 **/ 
 		CaseDetailShowVO reVo = new CaseDetailShowVO();
 		ToCase toCase = toCaseService.selectByPrimaryKey(caseId);
+		TsTransPlanHistory tsTransPlanHistory=new TsTransPlanHistory();
+		if (partCode!=null){
+			tsTransPlanHistory.setCaseCode(toCase.getCaseCode());
+			tsTransPlanHistory.setAppverPartCode(partCode);
+			request.setAttribute("partCode",partCode);
+		}
+		TsTransPlanHistory th=transplanServiceFacade.findTransPlanHistoryByCaseCode(tsTransPlanHistory);
+		if (th!=null){
+			if (th.getAuditResult().equals(0)){
+				request.setAttribute("auditResult",true);
+			}
+		}
 		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
 		
@@ -1324,7 +1340,7 @@ public class CaseDetailController {
 
 	/**
 	 * 交易计划变更 页面初始化
-	 * 
+	 * @author wbzhouht
 	 * @param caseCode
 	 * @param request
 	 * @return
@@ -1349,7 +1365,7 @@ public class CaseDetailController {
 				if (plan.getEstPartTime() != null) {
 					plan.setEstPartTimeStr(format.format(plan.getEstPartTime()));
 				}
-				/**判断是否有已经走了的环节，走过的环节则不能修改时间*/
+				/**判断是否有已经走了的环节，走过的环节则不能修改时间 by wbzhouht*/
 				if(toRatePayment!=null){
 					if("RatePayment".equals(plan.getPartCode())){
 						plan.setEdit(false);
@@ -2018,7 +2034,7 @@ public class CaseDetailController {
 
 	/**
 	 * 变更交易计划保存
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -2038,7 +2054,7 @@ public class CaseDetailController {
 				TsTransPlanHistory hisRecord = new TsTransPlanHistory();
 				ToTransPlan record = new ToTransPlan();
 				try {
-					//add by zhoujp添加一条交易计划变更历史批次信息
+					//添加一条交易计划变更历史批次信息
 					if(isDeal){
 						ttpb.setCaseCode(oldPlan.getCaseCode());
 						ttpb.setOldEstPartTime(oldPlan.getEstPartTime());
@@ -2074,6 +2090,106 @@ public class CaseDetailController {
 		}
 
 		return AjaxResponse.success("变更成功！");
+	}
+
+	/**
+	 * 变更交易计划提交，启动变更审批流程，设置任务办理人为自己的上司，在变更历史表中和变更历史批次表中插入记录
+	 * @author wbzhouht
+	 * */
+	@RequestMapping(value = "/startTransPlan")
+	@ResponseBody
+	public AjaxResponse<?> startTransPlan(String[] isChanges, String[] estIds, String[] estDates, String[] whyChanges,String partCode,String caseCode,
+										  HttpServletRequest request){
+		if(isChanges!=null&&isChanges.length>0){
+		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+		SessionUser sessionUser=uamSessionService.getSessionUser();
+		//变更历史批次表
+		TtsTransPlanHistoryBatch ttpb=new TtsTransPlanHistoryBatch();
+		//是否处理
+		boolean isDeal=true;
+		ToTransPlan toTransPlan=new ToTransPlan();
+		//启动交易变更审核流程
+		Map<String,Object> vars=new HashMap<>();
+		ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
+		toCaseParticipant.setCaseCode(caseCode);
+		toCaseParticipant.setPosition("warrant");//交易计划变更只能是过户权证操作
+		toCaseParticipant.setUserName(sessionUser.getUsername());
+		//获取当前登录人的上级领导
+		String userName=auditCaseService.getLeaderUserName(toCaseParticipant);
+		if(userName!=null){
+		vars.put("manager",userName);
+		//获取流程实例id
+		String processId=propertyUtilsService.getProcessDfId("TransPlanAppver");
+		StartProcessInstanceVo processInstanceVo=processInstanceService.startWorkFlowByDfId(processId,caseCode,vars);
+		/**插入工作流记录表*/
+		ToWorkFlow wf = new ToWorkFlow();
+		int n=0;
+		if(processInstanceVo!=null) {
+			wf.setBusinessKey("TransPlanAppver");
+			wf.setCaseCode(caseCode);
+			wf.setBizCode(caseCode);
+			wf.setProcessOwner(sessionUser.getId());
+			wf.setProcessDefinitionId(processInstanceVo.getProcessDefinitionId());
+			wf.setInstCode(processInstanceVo.getId());
+			wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
+			n= toWorkFlowService.insertSelective(wf);
+		}
+		if(n>0){
+			for (int i=0;i<isChanges.length;i++){
+				//根据Pkid查询交易计划信息
+				if(isChanges[i].equals("true")) {
+					toTransPlan= transplanServiceFacade.selectByPrimaryKey(Long.parseLong(estIds[i]));
+					if (toTransPlan==null||toTransPlan.getPkid()==null){
+						return AjaxResponse.fail("未找到交易计划！");
+					}
+					//变更历史表
+					TsTransPlanHistory tsTransPlanHistory=new TsTransPlanHistory();
+
+					try {
+						if(isDeal){
+							//插入历史变更批次
+							ttpb.setCaseCode(toTransPlan.getCaseCode());
+							ttpb.setOldEstPartTime(toTransPlan.getEstPartTime());
+							ttpb.setNewEstPartTime(format.parse(estDates[i]));
+							ttpb.setChangeReason(whyChanges[i]);
+							ttpb.setPartCode(toTransPlan.getPartCode());
+							ttpb.setOperateFlag("0");//手工
+							int res=transplanServiceFacade.insertTtsTransPlanHistoryBatch(ttpb);
+							if(res==0){
+								return AjaxResponse.fail("交易计划历史变更批次失败！");
+							}
+							isDeal = false;
+						}
+						tsTransPlanHistory.setBatchId(ttpb.getPkid());
+						// 插入历史记录
+						tsTransPlanHistory.setCaseCode(toTransPlan.getCaseCode());
+						tsTransPlanHistory.setPartCode(toTransPlan.getPartCode());
+						tsTransPlanHistory.setOldEstPartTime(toTransPlan.getEstPartTime());
+						tsTransPlanHistory.setNewEstPartTime(format.parse(estDates[i]));
+						tsTransPlanHistory.setChangeTime(new Date());
+						tsTransPlanHistory.setChangerId(sessionUser.getId());
+						tsTransPlanHistory.setChangeReason(whyChanges[i]);
+						tsTransPlanHistory.setAppverPartCode(partCode);
+						tsTransPlanHistory.setAuditResult(0);//默认为待审核状态
+						int res1=transplanServiceFacade.insertTsTransPlanHistorySelective(tsTransPlanHistory);
+						if(res1==0){
+							return AjaxResponse.fail("交易计划历史变更失败！");
+						}
+					}catch (ParseException e){
+						return AjaxResponse.fail("数据转换失败！");
+					}
+				}
+			}
+			return AjaxResponse.success("操作成功");
+		}else {
+			return AjaxResponse.fail("提交失败！");
+		}
+		}else {
+			return AjaxResponse.fail("未获取到办理人！");
+		}
+		}else {
+			return AjaxResponse.fail("交易计划未做变更！");
+		}
 	}
 
 	/**

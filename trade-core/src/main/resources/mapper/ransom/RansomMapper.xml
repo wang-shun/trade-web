@@ -33,7 +33,7 @@
 	
 	<select id="getRansomDetailInfoByCode" resultMap="BaseResultMap">
 		SELECT
-			ra.RANSOM_CODE ransomCode,
+			distinct(ra.RANSOM_CODE) ransomCode,
 			ra.CASE_CODE caseCode,
 			ra.CREATE_USER financial,
 			ra.BORRO_MONEY borrowMoney,
@@ -58,15 +58,10 @@
 			tai.SIGN_TIME signTime, 
 			tai.PLAN_TIME planTime, 
 			app.APPLY_TIME applyTime, 
-
 			vie.INTERVIEW_TIME intervalTime,
-
 			rep.REPAY_TIME repayTime,
-
 			can.CANCEL_TIME  cancleTime,
-
 			red.REDEEM_TIME redeemTime,
-
 			pay.PAYMENT_TIME paymentTime
 			<!-- 还贷金额 -->
 		FROM
@@ -81,13 +76,16 @@
 			LEFT JOIN sctrans.T_RA_CANCEL can ON rep.RANSOM_CODE = can.RANSOM_CODE
 			LEFT JOIN sctrans.T_RA_REDEEM red ON can.RANSOM_CODE = red.RANSOM_CODE
 			LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
-			INNER JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
+			LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
 		WHERE 
 			ra.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 
 	</select>
 
-
+	<select id="getRansomCaseInfoByCaseCode" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
+		SELECT * FROM sctrans.T_RA_CASE WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</select>
+	
 	<select id="getRansomPlanByCode" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
 		SELECT
 			rap.PART_CODE partCode,
@@ -109,6 +107,7 @@
 	
 	<select id="getTailinsInfoByCaseCode" resultType="com.centaline.trans.ransom.entity.ToRansomTailinsVo">
 		SELECT 
+			CASE_CODE caseCode,
 			RANSOM_CODE ransomCode,
 			FIN_ORG_CODE finOrgCode,
 			MORTGAGE_TYPE mortgageType,
@@ -556,4 +555,8 @@
 		WHERE
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</update>
+	
+	<delete id="deleteRansomApplyByRansomCode" parameterType="java.lang.String">
+		DELETE FROM sctrans.T_RA_APPLY WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</delete>
 </mapper>

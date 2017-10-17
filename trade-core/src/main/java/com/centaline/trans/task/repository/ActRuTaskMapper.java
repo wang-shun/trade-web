@@ -13,5 +13,13 @@ import java.util.List;
 public interface ActRuTaskMapper {
 
     List<TaskVo> getRuTask(@Param("caseCode") String caseCode);
+    
+    /**
+     * 根据bizcode查询任务流程
+     * @param bizCode
+     * @return
+     * @author jinwl6
+     */
+    List<TaskVo> getRuTaskByBizCode(@Param("bizCode") String bizCode);
 
 }

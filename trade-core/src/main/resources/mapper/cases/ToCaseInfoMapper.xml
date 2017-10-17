@@ -616,4 +616,11 @@
 	where 
 		uoj.ORG_ID=o.ID and uoj.JOB_ID =j.ID and u.ID = uoj.USER_ID and j.JOB_CODE='TeamAssistant' and u.IS_DELETED = '0' and u.AVAILABLE = '1' and uoj.ORG_ID = #{orgId,jdbcType=VARCHAR} 
   </select>
+  
+  <select id="getCaseManager" parameterType="java.lang.String" resultType="java.lang.String">
+  	SELECT 
+  	     REQUIRE_PROCESSOR_ID
+  	FROM
+  		sctrans.T_TO_CASE_INFO WHERE CASE_CODE=#{caseCode,jdbcType=VARCHAR}  
+  </select>
 </mapper>

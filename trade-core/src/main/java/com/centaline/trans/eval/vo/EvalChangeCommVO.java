@@ -7,18 +7,26 @@ import java.util.List;
 import com.centaline.trans.eval.entity.ToEvaCommPersonAmount;
 
 public class EvalChangeCommVO {
-//	合作人list
+	// 合作人list
 	private List<ToEvaCommPersonAmount> coPersonList;
-//	分成人list
+	// 分成人list
 	private List<ToEvaCommPersonAmount> sharePersonList;
-//	权证list
+	// 权证list
 	private List<ToEvaCommPersonAmount> warrantPersonList;
-//	佣金合计，总业绩
+	// 佣金合计，总业绩
 	private BigDecimal ttlComm;
-//	单数合计
+	// 单数合计
 	private int dealCount;
-//	caseCode
+	// caseCode
 	private String caseCode;
+	// 调佣事项
+	private String changeChargesItem;
+	// 调佣事由
+	private String changeChargesCause;
+	// 中介费折评估费总金额
+	private BigDecimal agEvalAmount;
+	// 调佣类型
+	private String changeChargesType;
 	
 	
 	public EvalChangeCommVO() {
@@ -36,6 +44,7 @@ public class EvalChangeCommVO {
 		ArrayList<ToEvaCommPersonAmount> sharePersonList = new ArrayList<ToEvaCommPersonAmount>();
 		ArrayList<ToEvaCommPersonAmount> warrantPersonList = new ArrayList<ToEvaCommPersonAmount>();
 		
+		this.caseCode=caseCode;
 		this.coPersonList = coPersonList;
 		this.sharePersonList = sharePersonList;
 		this.warrantPersonList = warrantPersonList;
@@ -76,6 +85,30 @@ public class EvalChangeCommVO {
 	}
 	public void setCaseCode(String caseCode) {
 		this.caseCode = caseCode;
+	}
+	public String getChangeChargesItem() {
+		return changeChargesItem;
+	}
+	public void setChangeChargesItem(String changeChargesItem) {
+		this.changeChargesItem = changeChargesItem;
+	}
+	public String getChangeChargesCause() {
+		return changeChargesCause;
+	}
+	public void setChangeChargesCause(String changeChargesCause) {
+		this.changeChargesCause = changeChargesCause;
+	}
+	public BigDecimal getAgEvalAmount() {
+		return agEvalAmount;
+	}
+	public void setAgEvalAmount(BigDecimal agEvalAmount) {
+		this.agEvalAmount = agEvalAmount;
+	}
+	public String getChangeChargesType() {
+		return changeChargesType;
+	}
+	public void setChangeChargesType(String changeChargesType) {
+		this.changeChargesType = changeChargesType;
 	}
 
 }

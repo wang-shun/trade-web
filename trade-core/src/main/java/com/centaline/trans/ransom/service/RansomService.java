@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
+import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
@@ -13,6 +14,7 @@ import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomSubmitVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
+import com.centaline.trans.ransom.vo.ToRansomLinkVo;
 
 /**
  * 赎楼service
@@ -90,6 +92,13 @@ public interface RansomService {
 	public int updateRansomPayment(String ransomCode, Date paymentTime);
 	
 	/**
+	 * 赎楼案件信息查询
+	 * @param caseCode
+	 * @return
+	 */
+	public ToRansomCaseVo getRansomCaseInfo(String caseCode);
+	
+	/**
 	 * 尾款信息查询
 	 * @param caseCode
 	 * @return
@@ -137,4 +146,18 @@ public interface RansomService {
 	 * @return
 	 */
 	ToRansomPaymentVo getPaymentInfo(String ransomCode);
+	
+	/**
+	 * 关联案件信息查询
+	 * @param caseCode
+	 * @return
+	 */
+	ToRansomLinkVo getRansomLinkInfo(String caseCode);
+	
+	/**
+	 * 根据ransomCode删除赎楼申请表对应数据
+	 * @param ransomCode
+	 * @return
+	 */
+	boolean deleteRansomApplyByRansomCode(String ransomCode);
 }

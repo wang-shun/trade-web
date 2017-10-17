@@ -296,9 +296,16 @@
       <if test="receiveNum != null" >
         RECEIVE_NUM = #{receiveNum,jdbcType=INTEGER},
       </if>
+      <if test="sysCreateTime != null" >
+        SYS_CREATE_TIME = #{sysCreateTime,jdbcType=INTEGER},
+      </if>
+      <if test="sysFinshTime != null" >
+        SYS_FINSH_TIME = #{sysFinshTime,jdbcType=INTEGER},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eval.entity.ToEvalReportProcess" >
     update sctrans.T_TO_EVA_REPORT_PROCESS
     set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
@@ -329,6 +336,144 @@
   </update>
   
   <select id="findToEvalReportProcessByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	select * from sctrans.T_TO_EVA_REPORT_PROCESS where case_code=#{caseCode,jdbcType=VARCHAR}
+  	 SELECT 
+  	     <include refid="Base_Column_List" />
+  	 FROM 
+  	     sctrans.T_TO_EVA_REPORT_PROCESS 
+  	 WHERE 
+  	     CASE_CODE=#{caseCode,jdbcType=VARCHAR}
   </select>
+  
+  <select id="findToEvalReportProcessByEvalCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	 SELECT 
+  	     <include refid="Base_Column_List" />
+  	 FROM 
+  	     sctrans.T_TO_EVA_REPORT_PROCESS 
+  	 WHERE 
+  	     EVA_CODE=#{evaCode,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateEvalPropertyByEvalCode" parameterType="com.centaline.trans.eval.entity.ToEvalReportProcess" >
+    update 
+         sctrans.T_TO_EVA_REPORT_PROCESS
+    set 
+         CASE_PROPERTY = #{caseProperty,jdbcType=VARCHAR}
+    where 
+         EVA_CODE = #{evaCode,jdbcType=VARCHAR}
+  </update>
+  
+   <update id="updateEvalPropertyByCaseCode" parameterType="com.centaline.trans.eval.entity.ToEvalReportProcess" >
+    update 
+         sctrans.T_TO_EVA_REPORT_PROCESS
+    set 
+         CASE_PROPERTY = #{caseProperty,jdbcType=VARCHAR}
+    where 
+         CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateStatusByEvalCode" parameterType="com.centaline.trans.eval.entity.ToEvalReportProcess" >
+    update 
+         sctrans.T_TO_EVA_REPORT_PROCESS
+    set 
+         STATUS = #{status,jdbcType=VARCHAR}
+    where 
+         EVA_CODE = #{evaCode,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectToEvaReportProcessByCaseCodeAndStatus" resultMap="BaseResultMap">
+        SELECT
+            <include refid="Base_Column_List"/>
+         FROM 
+            sctrans.T_TO_EVA_REPORT_PROCESS
+        WHERE 
+          CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
+        AND NOT EXISTS(
+               SELECT 1 from sctrans.T_TO_EVA_REPORT_PROCESS WHERE  CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND STATUS='5'
+        )
+  </select>
+  
+  <update id="updateEvaReportByEvaCode" parameterType="com.centaline.trans.eval.entity.ToEvalReportProcess" >
+    update sctrans.T_TO_EVA_REPORT_PROCESS
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reportType != null" >
+        REPORT_TYPE = #{reportType,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="proposeer != null" >
+        PROPOSEER = #{proposeer,jdbcType=VARCHAR},
+      </if>
+      <if test="transactor != null" >
+        TRANSACTOR = #{transactor,jdbcType=VARCHAR},
+      </if>
+      <if test="ornginPrice != null" >
+        ORNGIN_PRICE = #{ornginPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="finOrgId != null" >
+        FIN_ORG_ID = #{finOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="evaComContact != null" >
+        EVA_COM_CONTACT = #{evaComContact,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null" >
+        CONTACT_WAY = #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAgeApply != null" >
+        HOUSE_AGE_APPLY = #{houseAgeApply,jdbcType=INTEGER},
+      </if>
+      <if test="inquiryResult != null" >
+        INQUIRY_RESULT = #{inquiryResult,jdbcType=DECIMAL},
+      </if>
+      <if test="reportNum != null" >
+        REPORT_NUM = #{reportNum,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null" >
+        APPLY_DATE = #{applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="forwardDate != null" >
+        FORWARD_DATE = #{forwardDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toIssueDate != null" >
+        TO_ISSUE_DATE = #{toIssueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issueDate != null" >
+        ISSUE_DATE = #{issueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evaPrice != null" >
+        EVA_PRICE = #{evaPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="reportGetDate != null" >
+        REPORT_GET_DATE = #{reportGetDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="houseAgeIssue != null" >
+        HOUSE_AGE_ISSUE = #{houseAgeIssue,jdbcType=INTEGER},
+      </if>
+      <if test="reportNumIssue != null" >
+        REPORT_NUM_ISSUE = #{reportNumIssue,jdbcType=INTEGER},
+      </if>
+      <if test="reportRevDate != null" >
+        REPORT_REV_DATE = #{reportRevDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiver != null" >
+        RECEIVER = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveNum != null" >
+        RECEIVE_NUM = #{receiveNum,jdbcType=INTEGER},
+      </if>
+      <if test="sysCreateTime != null" >
+        SYS_CREATE_TIME = #{sysCreateTime,jdbcType=INTEGER},
+      </if>
+      <if test="sysFinshTime != null" >
+        SYS_FINSH_TIME = #{sysFinshTime,jdbcType=INTEGER}
+      </if>
+    </set>
+    where EVA_CODE = #{evaCode,jdbcType=VARCHAR}
+    </update>
 </mapper>

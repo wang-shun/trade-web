@@ -26,6 +26,12 @@ public class ToAppRecordInfo {
 	private String comment ; // 审批意见
 	
 	private Long  selfAppInfoId; //关联自办申请信息表
+	
+	private String visitResult; //回访结果
+	
+	private Date visitTime;//回访时间
+	
+	private Date createTime; //创建时间
 
 	public Long getPkid() {
 		return pkid;
@@ -89,6 +95,30 @@ public class ToAppRecordInfo {
 
 	public void setSelfAppInfoId(Long selfAppInfoId) {
 		this.selfAppInfoId = selfAppInfoId;
+	}
+
+	public String getVisitResult() {
+		return visitResult;
+	}
+
+	public void setVisitResult(String visitResult) {
+		this.visitResult = visitResult;
+	}
+
+	public Date getVisitTime() {
+		return visitTime;
+	}
+
+	public void setVisitTime(Date visitTime) {
+		this.visitTime = visitTime;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 	
 	

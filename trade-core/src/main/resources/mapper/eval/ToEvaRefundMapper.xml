@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.eval.repository.ToEvaRefundMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.eval.entity.ToEvaRefund" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR" />
+    <result column="REFUND_KINDS" property="refundKinds" jdbcType="NVARCHAR" />
+    <result column="PRICING_TIME" property="pricingTime" jdbcType="TIMESTAMP" />
+    <result column="PROPOSER" property="proposer" jdbcType="VARCHAR" />
+    <result column="APPLY_DEPART" property="applyDepart" jdbcType="VARCHAR" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="REFUND_AMOUNT" property="refundAmount" jdbcType="DECIMAL" />
+    <result column="REFUND_TARGET" property="refundTarget" jdbcType="VARCHAR" />
+    <result column="REFUND_CAUSE" property="refundCause" jdbcType="VARCHAR" />
+    <result column="FIN_ORG_ID" property="finOrgId" jdbcType="VARCHAR" />
+    <result column="TO_REFUND_TIME" property="toRefundTime" jdbcType="TIMESTAMP" />
+    <result column="REPORT_BACK_NUM" property="reportBackNum" jdbcType="INTEGER" />
+    <result column="BACK_TIME" property="backTime" jdbcType="TIMESTAMP" />
+    <result column="BACK_CAUSE" property="backCause" jdbcType="VARCHAR" />
+    <result column="EVAL_REAL_CHARGES" property="evalRealCharges" jdbcType="DECIMAL" />
+    <result column="EVA_PROCESS_ID" property="evaProcessId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CCAI_CODE" property="ccaiCode" jdbcType="VARCHAR" />
+    <result column="APPLY_ID" property="applyId" jdbcType="VARCHAR" />
+    <result column="PROPOSER_ID" property="proposerId" jdbcType="VARCHAR" />
+    <result column="APPLY_DEPART_CODE" property="applyDepartCode" jdbcType="VARCHAR" />
+    <result column="EVAL_COMPANY" property="evalCompany" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, EVA_CODE, REFUND_KINDS, PRICING_TIME, PROPOSER, APPLY_DEPART, APPLY_TIME, 
+    REFUND_AMOUNT, REFUND_TARGET, REFUND_CAUSE, FIN_ORG_ID, TO_REFUND_TIME, REPORT_BACK_NUM, 
+    BACK_TIME, BACK_CAUSE, EVAL_REAL_CHARGES, EVA_PROCESS_ID, STATUS, CCAI_CODE, APPLY_ID, PROPOSER_ID,
+    APPLY_DEPART_CODE, EVAL_COMPANY, CITY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_REFUND
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByCaseCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" /> 
+  	from sctrans.T_TO_EVA_REFUND 
+  	where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_EVA_REFUND
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.eval.entity.ToEvaRefund" >
+    insert into sctrans.T_TO_EVA_REFUND (PKID, CASE_CODE, EVA_CODE, 
+      REFUND_KINDS, PRICING_TIME, PROPOSER, 
+      APPLY_DEPART, APPLY_TIME, REFUND_AMOUNT, 
+      REFUND_TARGET, REFUND_CAUSE, FIN_ORG_ID, 
+      TO_REFUND_TIME, REPORT_BACK_NUM, BACK_TIME, 
+      BACK_CAUSE, EVAL_REAL_CHARGES, EVA_PROCESS_ID, 
+      STATUS, CCAI_CODE, APPLY_ID, PROPOSER_ID,
+      APPLY_DEPART_CODE, EVAL_COMPANY, CITY)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
+      #{refundKinds,jdbcType=NVARCHAR}, #{pricingTime,jdbcType=TIMESTAMP}, #{proposer,jdbcType=VARCHAR}, 
+      #{applyDepart,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{refundAmount,jdbcType=DECIMAL}, 
+      #{refundTarget,jdbcType=VARCHAR}, #{refundCause,jdbcType=VARCHAR}, #{finOrgId,jdbcType=VARCHAR}, 
+      #{toRefundTime,jdbcType=TIMESTAMP}, #{reportBackNum,jdbcType=INTEGER}, #{backTime,jdbcType=TIMESTAMP}, 
+      #{backCause,jdbcType=VARCHAR}, #{evalRealCharges,jdbcType=DECIMAL}, #{evaProcessId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR},#{ccaiCode,jdbcType=VARCHAR},#{applyId,jdbcType=VARCHAR},#{proposerId,jdbcType=VARCHAR},
+      #{applyDepartCode,jdbcType=VARCHAR},#{evalCompany,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvaRefund" >
+    insert into sctrans.T_TO_EVA_REFUND
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE,
+      </if>
+      <if test="refundKinds != null" >
+        REFUND_KINDS,
+      </if>
+      <if test="pricingTime != null" >
+        PRICING_TIME,
+      </if>
+      <if test="proposer != null" >
+        PROPOSER,
+      </if>
+      <if test="applyDepart != null" >
+        APPLY_DEPART,
+      </if>
+      <if test="applyTime != null" >
+        APPLY_TIME,
+      </if>
+      <if test="refundAmount != null" >
+        REFUND_AMOUNT,
+      </if>
+      <if test="refundTarget != null" >
+        REFUND_TARGET,
+      </if>
+      <if test="refundCause != null" >
+        REFUND_CAUSE,
+      </if>
+      <if test="finOrgId != null" >
+        FIN_ORG_ID,
+      </if>
+      <if test="toRefundTime != null" >
+        TO_REFUND_TIME,
+      </if>
+      <if test="reportBackNum != null" >
+        REPORT_BACK_NUM,
+      </if>
+      <if test="backTime != null" >
+        BACK_TIME,
+      </if>
+      <if test="backCause != null" >
+        BACK_CAUSE,
+      </if>
+      <if test="evalRealCharges != null" >
+        EVAL_REAL_CHARGES,
+      </if>
+      <if test="evaProcessId != null" >
+        EVA_PROCESS_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="ccaiCode != null" >
+        CCAI_CODE,
+      </if>
+      <if test="applyId != null" >
+        APPLY_ID,
+      </if>
+      <if test="proposerId != null" >
+        PROPOSER_ID,
+      </if>
+      <if test="applyDepartCode != null" >
+        APPLY_DEPART_CODE,
+      </if>
+      <if test="evalCompany != null" >
+        EVAL_COMPANY,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="refundKinds != null" >
+        #{refundKinds,jdbcType=NVARCHAR},
+      </if>
+      <if test="pricingTime != null" >
+        #{pricingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposer != null" >
+        #{proposer,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepart != null" >
+        #{applyDepart,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundAmount != null" >
+        #{refundAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="refundTarget != null" >
+        #{refundTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="refundCause != null" >
+        #{refundCause,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgId != null" >
+        #{finOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="toRefundTime != null" >
+        #{toRefundTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportBackNum != null" >
+        #{reportBackNum,jdbcType=INTEGER},
+      </if>
+      <if test="backTime != null" >
+        #{backTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backCause != null" >
+        #{backCause,jdbcType=VARCHAR},
+      </if>
+      <if test="evalRealCharges != null" >
+        #{evalRealCharges,jdbcType=DECIMAL},
+      </if>
+      <if test="evaProcessId != null" >
+        #{evaProcessId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="ccaiCode != null" >
+        #{ccaiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="applyId != null" >
+        #{applyId,jdbcType=VARCHAR},
+      </if>
+      <if test="proposerId != null" >
+        #{proposerId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepartCode != null" >
+        #{applyDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evalCompany != null" >
+        #{evalCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eval.entity.ToEvaRefund" >
+    update sctrans.T_TO_EVA_REFUND
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evaCode != null" >
+        EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="refundKinds != null" >
+        REFUND_KINDS = #{refundKinds,jdbcType=NVARCHAR},
+      </if>
+      <if test="pricingTime != null" >
+        PRICING_TIME = #{pricingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposer != null" >
+        PROPOSER = #{proposer,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepart != null" >
+        APPLY_DEPART = #{applyDepart,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundAmount != null" >
+        REFUND_AMOUNT = #{refundAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="refundTarget != null" >
+        REFUND_TARGET = #{refundTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="refundCause != null" >
+        REFUND_CAUSE = #{refundCause,jdbcType=VARCHAR},
+      </if>
+      <if test="finOrgId != null" >
+        FIN_ORG_ID = #{finOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="toRefundTime != null" >
+        TO_REFUND_TIME = #{toRefundTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportBackNum != null" >
+        REPORT_BACK_NUM = #{reportBackNum,jdbcType=INTEGER},
+      </if>
+      <if test="backTime != null" >
+        BACK_TIME = #{backTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backCause != null" >
+        BACK_CAUSE = #{backCause,jdbcType=VARCHAR},
+      </if>
+      <if test="evalRealCharges != null" >
+        EVAL_REAL_CHARGES = #{evalRealCharges,jdbcType=DECIMAL},
+      </if>
+      <if test="evaProcessId != null" >
+        EVA_PROCESS_ID = #{evaProcessId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="ccaiCode != null" >
+        CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="applyId != null" >
+        APPLY_ID = #{applyId,jdbcType=VARCHAR},
+      </if>
+      <if test="proposerId != null" >
+        PROPOSER_ID = #{proposerId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepartCode != null" >
+        APPLY_DEPART_CODE = #{applyDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="evalCompany != null" >
+        EVAL_COMPANY = #{evalCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.eval.entity.ToEvaRefund" >
+    update sctrans.T_TO_EVA_REFUND
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      EVA_CODE = #{evaCode,jdbcType=VARCHAR},
+      REFUND_KINDS = #{refundKinds,jdbcType=NVARCHAR},
+      PRICING_TIME = #{pricingTime,jdbcType=TIMESTAMP},
+      PROPOSER = #{proposer,jdbcType=VARCHAR},
+      APPLY_DEPART = #{applyDepart,jdbcType=VARCHAR},
+      APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      REFUND_AMOUNT = #{refundAmount,jdbcType=DECIMAL},
+      REFUND_TARGET = #{refundTarget,jdbcType=VARCHAR},
+      REFUND_CAUSE = #{refundCause,jdbcType=VARCHAR},
+      FIN_ORG_ID = #{finOrgId,jdbcType=VARCHAR},
+      TO_REFUND_TIME = #{toRefundTime,jdbcType=TIMESTAMP},
+      REPORT_BACK_NUM = #{reportBackNum,jdbcType=INTEGER},
+      BACK_TIME = #{backTime,jdbcType=TIMESTAMP},
+      BACK_CAUSE = #{backCause,jdbcType=VARCHAR},
+      EVAL_REAL_CHARGES = #{evalRealCharges,jdbcType=DECIMAL},
+      EVA_PROCESS_ID = #{evaProcessId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      APPLY_ID = #{applyId,jdbcType=VARCHAR},
+      PROPOSER_ID = #{proposerId,jdbcType=VARCHAR},
+      APPLY_DEPART_CODE = #{applyDepartCode,jdbcType=VARCHAR},
+      EVAL_COMPANY = #{evalCompany,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

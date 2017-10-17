@@ -180,7 +180,8 @@ function searchMethod(page){
 }
 
 function reloadGrid(data) {
-	data.PROCESS_DEFINITION_ID = $("#PROCESS_DEFINITION_ID").val(),
+	data.PROCESS_DEFINITION_ID_RANSOM = $("#PROCESS_DEFINITION_ID_RANSOM").val(),
+	data.PROCESS_DEFINITION_ID_RANSOM_SUSPEND = $("#PROCESS_DEFINITION_ID_RANSOM_SUSPEND").val(),
 	$.ajax({
 		async: true,
         url:ctx+ "/quickGrid/findPage" ,

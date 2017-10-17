@@ -117,9 +117,9 @@
      select 1;
   </delete>
   <insert id="insertSelective" parameterType="com.centaline.trans.engine.entity.ToWorkFlow" >
-    delete from sctrans.T_TO_WORKFLOW
+     delete from sctrans.T_TO_WORKFLOW
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR} and BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR} 
-    	  and biz_code=#{bizCode,jdbcType=VARCHAR};
+    	  and biz_code=#{bizCode,jdbcType=VARCHAR}; 
 
     insert into sctrans.T_TO_WORKFLOW
     <trim prefix="(" suffix=")" suffixOverrides="," >
