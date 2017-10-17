@@ -13,7 +13,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>过户信息修改</title>
 <!-- jdGrid相关 -->
 <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
@@ -49,6 +49,7 @@
 	margin-left:20px;}
 
 </style>
+	<content tag="pagetitle">过户信息修改</content>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>

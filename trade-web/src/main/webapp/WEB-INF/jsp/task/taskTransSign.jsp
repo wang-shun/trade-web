@@ -39,7 +39,7 @@
 	<!-- aist列表样式 -->
 	<link href="<c:url value='/css/common/aist.grid.css' />" rel="stylesheet">
 	<!-- 备注信息 -->
-	<link href="<c:url value='/css/transcss/comment/caseComment_new.css' />" rel="stylesheet">
+	<link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
 	<!-- 新调整页面样式 -->
 	<link href="<c:url value='/css/common/caseDetail.css' />" rel="stylesheet">
 	<link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
@@ -140,7 +140,7 @@
 										   onkeyup="checkNum(this)">
 									<span class="date_icon">万元</span>
 								</div>
-								
+
 								<div class="form_content mt3">
 									<label class="control-label sign_left_small select_style mend_select">
 										<font color=" red" class="mr5" >*</font>预计过户时间
@@ -186,7 +186,7 @@
 									</div>
 								</div>
 
-								
+
 
 							</div>
 						</div>
@@ -196,120 +196,133 @@
 				<div>
 					<h2 class="newtitle title-mark">付款方式</h2>
 					<div class="form_list">
-						<div class="marinfo">
-							<div class="line">
-								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font> 一期款 </label>
-									<input type="hidden" value="一期款" id="initPayName" name="initPayName">
-									<input type="text"
-										   value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
-										   class="input_type yuanwid" id="initAmount" name="initAmount"
-										   onkeyup="checkNum(this)">
-									<span class="date_icon">万元</span>
-								</div>
+						<div class="marinfo" >
+							<table >
 
-								<div class="form_content mt3">
-									<label class="control-label sign_left_small select_style mend_select">
-										<font color=" red" class="mr5" >*</font>时间
-									</label>
-									<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+								<tr >
+									<td><div class="form_content">
+										<label ><font color=" red" class="mr5" >*</font> 一期款 </label>
+										<input type="hidden" value="一期款" id="initPayName" name="initPayName">
+
 										<input type="text"
-											   value="<fmt:formatDate  value='${transSign.initPayTime }' type='both' pattern='yyyy-MM-dd' />"
-											   class="input_type yuanwid datatime" id="initPayTime" name="initPayTime"
-											   onfocus="this.blur()">
-									</div>
-								</div>
+											   value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
+											   class="input_type yuanwid" id="initAmount" name="initAmount"
+											   onkeyup="checkNum(this)">
+										<span class="date_icon">万元</span>
 
-								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>方式 </label>
-									<aist:dict clazz="select_control data_style" id="initPayType"
-											   name="initPayType" display="select"
-											   defaultvalue="${transSign.initPayType}" dictType="30015" />
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>监管金额</label>
-									<input type="text"
-										   value="<fmt:formatNumber value='${transSign.initSupervisionAmount }' type='number' pattern='#0.00' />"
-										   class="input_type yuanwid" id="initSupervisionAmount" name="initSupervisionAmount"
-										   onkeyup="checkNum(this)">
-									<span class="date_icon">万元</span>
-								</div>
-							</div>
+									</div></td>
+									<td><div class="form_content mt3">
+										<label >
+											<font color=" red" class="mr5" >*</font>时间
+										</label>
+										<div class="input-group sign-right dataleft input-daterange pull-right" data-date-format="yyyy-mm-dd">
+											<input type="text"
+												   value="<fmt:formatDate  value='${transSign.initPayTime }' type='both' pattern='yyyy-MM-dd' />"
+												   class="input_type yuanwid datatime" id="initPayTime" name="initPayTime"
+												   onfocus="this.blur()">
+										</div>
+									</div></td>
+									<td><div class="form_content">
+										<label ><font color=" red" class="mr5" >*</font>方式 </label>
 
-							<div class="line">
-								<div class="form_content">
-									<label class="control-label sign_left_small">二期款</label>
-									<input type="hidden" value="二期款" id="secPayName" name="secPayName">
-									<input type="text"
-										   value="<fmt:formatNumber value='${transSign.secAmount }' type='number' pattern='#0.00' />"
-										   class="input_type yuanwid" id="secAmount" name="secAmount"
-										   onkeyup="checkNum(this)">
-									<span class="date_icon">万元</span>
-								</div>
-								<div class="form_content mt3">
-									<label class="control-label sign_left_small select_style mend_select">
-										时间
-									</label>
-									<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+										<aist:dict clazz="select_control data_style" id="initPayType"
+												   name="initPayType" display="select"
+												   defaultvalue="${transSign.initPayType}" dictType="30015" />
+
+									</div></td>
+									<td><div class="form_content">
+										<label ><font color=" red" class="mr5" >*</font>监管金额</label>
+
 										<input type="text"
-											   value="<fmt:formatDate  value='${transSign.secPayTime }' type='both' pattern='yyyy-MM-dd' />"
-											   class="input_type yuanwid datatime" id="secPayTime" name="secPayTime"
-											   onfocus="this.blur()">
-									</div>
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_small">方式 </label>
-									<aist:dict clazz="select_control data_style" id="secPayType"
-											   name="secPayType" display="select"
-											   defaultvalue="${transSign.secPayType}" dictType="30015" />
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_small">监管金额</label>
-									<input type="text"
-										   value="<fmt:formatNumber value='${transSign.secSupervisionAmount }' type='number' pattern='#0.00' />"
-										   class="input_type yuanwid" id="secSupervisionAmount" name="secSupervisionAmount"
-										   onkeyup="checkNum(this)">
-									<span class="date_icon">万元</span>
-								</div>
-							</div>
+											   value="<fmt:formatNumber value='${transSign.initSupervisionAmount }' type='number' pattern='#0.00' />"
+											   class="input_type yuanwid" id="initSupervisionAmount" name="initSupervisionAmount"
+											   onkeyup="checkNum(this)">
+										<span class="date_icon">万元</span>
 
-							<div class="line">
-								<div class="form_content">
-									<label class="control-label sign_left_small">三期款</label>
-									<input type="hidden" value="三期款" id="lastPayName" name="lastPayName">
-									<input type="text"
-										   value="<fmt:formatNumber value='${transSign.lastAmount}' type='number' pattern='#0.00' />"
-										   class="input_type yuanwid" id="lastAmount" name="lastAmount"
-										   onkeyup="checkNum(this)">
-									<span class="date_icon">万元</span>
-								</div>
-								<div class="form_content mt3">
-									<label class="control-label sign_left_small select_style mend_select">
-										时间
-									</label>
-									<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+									</div></td>
+								</tr>
+								<tr >
+									<td><div class="form_content">
+										<label ><font class="mr5">&nbsp;&nbsp;</font>二期款</label>
+										<input type="hidden" value="二期款" id="secPayName" name="secPayName">
+
 										<input type="text"
-											   value="<fmt:formatDate  value='${transSign.lastPayTime }' type='both' pattern='yyyy-MM-dd' />"
-											   class="input_type yuanwid datatime" id="lastPayTime" name="lastPayTime"
-											   onfocus="this.blur()">
-									</div>
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_small"> 方式 </label>
-									<aist:dict clazz="select_control data_style" id="lastPayType"
-											   name="lastPayType" display="select"
-											   defaultvalue="${transSign.lastPayType}" dictType="30015" />
-								</div>
-								<div class="form_content">
-									<label class="control-label sign_left_small">监管金额</label>
-									<input type="text"
-										   value="<fmt:formatNumber value='${transSign.lastSupervisionAmount }' type='number' pattern='#0.00' />"
-										   class="input_type yuanwid" id="lastSupervisionAmount" name="lastSupervisionAmount"
-										   onkeyup="checkNum(this)">
-									<span class="date_icon">万元</span>
-								</div>
-							</div>
+											   value="<fmt:formatNumber value='${transSign.secAmount }' type='number' pattern='#0.00' />"
+											   class="input_type yuanwid" id="secAmount" name="secAmount"
+											   onkeyup="checkNum(this)">
+										<span class="date_icon">万元</span>
+									</div></td>
+									<td><div class="form_content mt3">
+										<label>
+											<font class="mr5">&nbsp;&nbsp;</font>时间
+										</label>
+										<div class="input-group sign-right dataleft input-daterange pull-right" data-date-format="yyyy-mm-dd">
+											<input type="text"
+												   value="<fmt:formatDate  value='${transSign.secPayTime }' type='both' pattern='yyyy-MM-dd' />"
+												   class="input_type yuanwid datatime" id="secPayTime" name="secPayTime"
+												   onfocus="this.blur()">
+										</div>
+									</div></td>
+									<td><div class="form_content">
+										<label ><font class="mr5">&nbsp;&nbsp;</font>方式 </label>
 
+										<aist:dict clazz="select_control data_style" id="secPayType"
+												   name="secPayType" display="select"
+												   defaultvalue="${transSign.secPayType}" dictType="30015" />
+
+									</div></td>
+									<td ><div class="form_content">
+										<label ><font class="mr5">&nbsp;&nbsp;</font>监管金额</label>
+
+										<input type="text"
+											   value="<fmt:formatNumber value='${transSign.secSupervisionAmount }' type='number' pattern='#0.00' />"
+											   class="input_type yuanwid" id="secSupervisionAmount" name="secSupervisionAmount"
+											   onkeyup="checkNum(this)">
+										<span class="date_icon">万元</span>
+
+									</div></td>
+								</tr>
+								<tr >
+									<td height="25%"><div class="form_content">
+										<label><font class="mr5">&nbsp;&nbsp;</font>三期款</label>
+										<input type="hidden" value="三期款" id="lastPayName" name="lastPayName">
+										<input type="text"
+											   value="<fmt:formatNumber value='${transSign.lastAmount}' type='number' pattern='#0.00' />"
+											   class="input_type yuanwid" id="lastAmount" name="lastAmount"
+											   onkeyup="checkNum(this)">
+										<span class="date_icon">万元</span>
+									</div></td>
+									<td height="25%"><div class="form_content">
+										<label >
+											<font class="mr5">&nbsp;&nbsp;</font>时间
+										</label>
+										<div class="input-group sign-right dataleft input-daterange pull-right" data-date-format="yyyy-mm-dd">
+											<input type="text"
+												   value="<fmt:formatDate  value='${transSign.lastPayTime }' type='both' pattern='yyyy-MM-dd' />"
+												   class="input_type yuanwid datatime" id="lastPayTime" name="lastPayTime"
+												   onfocus="this.blur()">
+										</div>
+									</div></td>
+									<td height="25%"><div class="form_content">
+										<label > <font class="mr5">&nbsp;&nbsp;</font>方式 </label>
+
+										<aist:dict clazz="select_control data_style" id="lastPayType"
+												   name="lastPayType" display="select"
+												   defaultvalue="${transSign.lastPayType}" dictType="30015" />
+
+									</div></td>
+									<td height="25%"><div class="form_content">
+										<label ><font class="mr5">&nbsp;&nbsp;</font>监管金额</label>
+
+										<input type="text"
+											   value="<fmt:formatNumber value='${transSign.lastSupervisionAmount }' type='number' pattern='#0.00' />"
+											   class="input_type " id="lastSupervisionAmount" name="lastSupervisionAmount"
+											   onkeyup="checkNum(this)">
+										<span class="date_icon">万元</span>
+
+									</div></td>
+								</tr>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -384,6 +397,10 @@
 									<aist:dict clazz="select_control data_style" id="propertyType"
 											   name="propertyType" display="select"
 											   defaultvalue="${transSign.propertyType}" dictType="30014" />
+								</div>
+								<div class="form_content">
+									<label class="control-label sign_left_small">购房年数</label>
+									<aist:dict clazz="select_control data_style" id="holdYear" name="holdYear" display="select" defaultvalue="${transSign.holdYear}" dictType="hold_year" />
 								</div>
 							</div>
 						</div>
@@ -695,7 +712,7 @@
 				$('input[name=initPayTime]').focus();
 				return false;
 			}
-			
+
 			if ($('select[name=initPayType]').val() == '') {
 				window.wxc.alert("一期款方式不能为空!");
 				$('select[name=initPayType]').focus();
@@ -1321,7 +1338,8 @@
 	<!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
 	<script src="<c:url value='/js/common/common.js' />"></script>
-	
+	<!-- 必须JS -->
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<!--公共信息-->
 	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 </content>
