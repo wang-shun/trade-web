@@ -173,10 +173,13 @@ public class FlowWorkListener {
 		}else{
 			throw new BusinessException("交易案件 编号["+caseCode+"] 未获取到案件贷款或过户权证信息 启动流程失败.");
 		}
-
+		
+		//获取案件拥有者所属组别 根据所属组别获取部署的流程ID 并启动流程
+		Org org = uamUserOrgService.getOrgByCode(owner.getGrpCode());
+		
 		ToWorkFlow toWorkFlow = new ToWorkFlow();
 		//启动流程引擎
-		StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.LOANANDASSE_PROCESS.getCode()), caseCode, defValsMap);
+		StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.LOANANDASSE_PROCESS.getCode(),org.getId()), caseCode, defValsMap);
 		toWorkFlow.setInstCode(pIVo.getId());
 		toWorkFlow.setBusinessKey(WorkFlowEnum.LOANANDASSE_PROCESS.getCode());
 		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
