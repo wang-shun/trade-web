@@ -14,7 +14,6 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ToWorkFlowService;
@@ -22,7 +21,13 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
+import com.centaline.trans.eval.entity.ToEvaInvoice;
+import com.centaline.trans.eval.entity.ToEvalReportProcess;
+import com.centaline.trans.eval.entity.ToEvalSettle;
+import com.centaline.trans.eval.service.ToEvaCommissionChangeService;
+import com.centaline.trans.eval.service.ToEvaInvoiceService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
+import com.centaline.trans.eval.service.ToEvalSettleService;
 import com.centaline.trans.task.service.ActRuTaskService;
 
 /**
@@ -45,8 +50,14 @@ public class EvalDetailController {
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	ActRuTaskService actRuTaskService;
-	
+	@Autowired
 	ToEvalReportProcessService toEvalReportProcessService;
+	@Autowired
+	ToEvalSettleService toEvalSettleService;
+	@Autowired
+	ToEvaInvoiceService toEvaInvoiceService;
+	@Autowired
+	ToEvaCommissionChangeService toEvaCommissionChangeService;
 	/**
 	 * 评估单详情for tj
 	 * @param request
@@ -59,6 +70,8 @@ public class EvalDetailController {
 		String userOrgId = user.getServiceDepId();
 		
 		ToEvaPricingVo toEvaPricingVo = evaPricingService.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
+		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(evaCode);//查询
+		
 		// 工作流
 		ToWorkFlow inWorkFlow = new ToWorkFlow();
 		inWorkFlow.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
@@ -66,14 +79,18 @@ public class EvalDetailController {
 		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
 		
 		//评估发票信息
+		ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByCaseCode(caseCode);
 		
 		//评估返利报告审批信息
 		
+		
 		//评估爆单信息
+		//
 		
 		//评估公司变更信息
 		
 		//评估结算信息
+		ToEvalSettle toEvalSettle=toEvalSettleService.findToCaseByCaseCode(caseCode);
 		
 		//调佣审批信息
 		
@@ -81,10 +98,13 @@ public class EvalDetailController {
 		
 		//备注
 		
+		request.setAttribute("toEvaPricingVo", toEvaPricingVo);
+		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
+		request.setAttribute("toEvaInvoice", toEvaInvoice);
+		request.setAttribute("toEvalSettle", toEvalSettle);
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("evaCode", evaCode);
 		request.setAttribute("queryOrg", userOrgId);
-		request.setAttribute("toEvaPricingVo", toEvaPricingVo);
 		request.setAttribute("toWorkFlow", toWorkFlow);
 		return "eval/evalDetail";
 	}
@@ -105,6 +125,8 @@ public class EvalDetailController {
 		
 		//更新评估单状态为驳回
 		toEvalReportProcessService.updateStatusByEvalCode(EvalStatusEnum.BBH.getCode(),evaCode);
+		
+		//TODO 发站内信息通知申请人
 		
 		return new AjaxResponse<>(true);
 	}

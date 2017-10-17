@@ -73,10 +73,10 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 	@Override
 	public boolean checkIsCanRestart(ServiceRestartVo vo, String userJob) {
 		//查询评估信息
-		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(vo.getEvaCode());
+		/*ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(vo.getEvaCode());
 		if(EvalStatusEnum.YSYBG.getCode().equals(toEvalReportProcess.getStatus())){
 			  return false;
-		}
+		}*/
 		return true;
 	}
 
@@ -104,7 +104,7 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		
 		
 	    /** 评估相关流程挂起  */
-		activateOrSuspendProcessInstance(vo.getEvaCode(),false);
+		//activateOrSuspendProcessInstance(vo.getEvaCode(),false);
 		
 		//评估单更新成挂起评估
 		//toEvalReportProcessService.updateEvalPropertyByEvalCode(vo.getEvaCode(),EvalPropertyEnum.PGGQ.getCode());
@@ -120,9 +120,7 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		if (tasks != null && !tasks.isEmpty()) {
 			spv.setActiveTaskId(tasks.get(0).getId() + "");
 		}
-		//wf.setBusinessKey(WorkFlowEnum.EVAL_SERVICE_RESTART_PROCESS.getCode());
 		wf.setCaseCode(vo.getCaseCode());
-		//wf.setBizCode(vo.getEvaCode());
 		wf.setProcessOwner(vo.getUserId());
 		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_SERVICE_RESTART_PROCESS.getCode()));
 		wf.setInstCode(spv.getId());
@@ -138,7 +136,7 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		ToApproveRecord record = new ToApproveRecord();
 		record.setApproveType("10");
 		record.setCaseCode(vo.getCaseCode());
-		record.setContent(vo.getContent());
+		record.setContent("重启原因:"+vo.getContent());
 		record.setOperator(vo.getUserId());
 		record.setOperatorTime(new Date());
 		record.setPartCode(vo.getPartCode());
@@ -150,11 +148,11 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 	@Override
 	public boolean approve(ServiceRestartVo vo) {
 		SessionUser u = uamSessionService.getSessionUser();
-		insertIntoApproveRecord(vo);//入审批记录表
 		if(vo.getIsApproved()){
 			handerProcessAfterServiceRestart(vo,u);//流程重启后续业务处理
 			activateOrSuspendProcessInstance(vo.getEvaCode(),true);//打开挂起流程
 		}
+		insertIntoApproveRecord(vo);//入审批记录表
 		submitEvelRestartTask(vo);//审批提交重启任务
 		return true;
 	}
@@ -233,14 +231,21 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 	 * @param vo
 	 */
 	private void insertIntoApproveRecord(ServiceRestartVo vo) {
+		String prefix=null;
+		if(vo.getIsApproved()){
+			prefix="通过:";
+		}else{
+			prefix="驳回原因:";
+		}
 		ToApproveRecord record = new ToApproveRecord();
 		record.setApproveType("10");
 		record.setCaseCode(vo.getCaseCode());
-		record.setContent(vo.getContent());
+		record.setContent(prefix+vo.getContent());
 		record.setOperator(vo.getUserId());
 		record.setOperatorTime(new Date());
 		record.setPartCode(vo.getPartCode());
 		record.setProcessInstance(vo.getInstCode());
+		record.setNotApprove(prefix+vo.getContent());
 		toApproveRecordService.insertToApproveRecord(record);		
 	}
 
