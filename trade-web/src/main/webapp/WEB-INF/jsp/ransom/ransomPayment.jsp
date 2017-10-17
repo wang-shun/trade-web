@@ -15,7 +15,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>赎楼回款结清</title>
 
 <link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />"
 	rel="stylesheet" />
@@ -72,6 +72,7 @@
 .underline{margin-top: -30px;}
 
 </style>
+<content tag="pagetitle">赎楼回款结清</content>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>

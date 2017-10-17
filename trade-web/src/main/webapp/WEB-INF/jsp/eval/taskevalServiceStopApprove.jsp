@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -20,8 +21,8 @@
 <link href="${ctx}/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/jqGrid/ui.jqgrid.css" rel="stylesheet">
 <link href="${ctx}/css/style.css" rel="stylesheet">
-<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <link href="${ctx}/css/plugins/pager/centaline.pager.css" rel="stylesheet" />
+<link href="${ctx}/css/transcss/comment/caseComment.css" rel="stylesheet">
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
@@ -43,46 +44,51 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
-<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 		<div class="row wrapper border-bottom white-bg page-heading">
 			<div class="col-lg-10">
-				<h2>流程重启申请</h2>
+				<h2>评估爆单审批</h2>
 				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">评估视图</a></li>
+					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
 					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
 				</ol>
 			</div>
 			<div class="col-lg-2"></div>
 		</div>
 		<div class="ibox-title">
-			<h5>填写重启原因</h5>
+			<h5>填写任务信息</h5>
 			<div class="ibox-content">
 				<form method="get" class="form-horizontal" id="lamform">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+					<!-- 评估单编号 -->
 					<input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="instCode" value="${processInstanceId}">
-					<%-- 设置审批类型 --%>
-					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
-					<input type="hidden" id="operator" name="operator" value="${operator }">
-					<div class="row">
-						<div class="col-lg-7">
-							<input type="text" class="form-control" id="content" name="content" >
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">审批结果</label>
+						<div class="radio i-checks radio-inline">
+							<label> 
+								<input type="radio" checked="checked" value="true" id="optionsRadios1" name="isApproved">审批通过
+							</label>
+						</div>
+						<div class="radio i-checks radio-inline">
+							<label> 
+								<input type="radio" value="false" id="optionsRadios2" name="isApproved">审批未通过
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">审批意见</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="content" name="content" value="">
 						</div>
 					</div>
 				</form>
 
 			</div>
-		</div>
-		
-		<!-- 案件备注信息 -->
-		<div id="caseCommentList" class="add_form">
 		</div>
 		
 		<div class="ibox-title">
@@ -95,9 +101,9 @@
 			</div>
 		</div>
 		<div class="ibox-title">
+			<!-- <a href="#" class="btn" onclick="save()">保存</a> -->
 			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
 		</div>
-
 
 	<content tag="local_script"> 
 	<!-- Peity --> 
@@ -108,7 +114,6 @@
 	<script src="${ctx}/transjs/task/loanlostApprove.js"></script>
 	<script src="${ctx}/transjs/task/showAttachment.js"></script> 
 	<script src="${ctx}/js/jquery.blockui.min.js"></script>
-	<script src="${ctx}/transjs/common/caseTaskCheck.js?v=1.0.1"></script> 
 
 	<script src="${ctx}/js/trunk/comment/caseComment.js"></script>
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
@@ -124,7 +129,7 @@
 		function save() {
 			var jsonData = $("#lamform").serializeArray();
 			
-			var url = "${ctx}/eval/restart/submit";
+			var url = "${ctx}/eval/stop/approve/submit";
 			
 			$.ajax({
 				cache : true,
@@ -138,14 +143,7 @@
     				$(".blockOverlay").css({'z-index':'9998'});
                 },
                 complete: function() {  
-
-                	$.unblockUI();  
-                	if(data){ 
-                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}}); 
-    				    $(".blockOverlay").css({'z-index':'1900'});
-                	}   
-                    if(status=='timeout'){//超时,status还有success,error等值的情况
-
+                     if(status=='timeout'){//超时,status还有success,error等值的情况
     	          	  Modal.alert(
     				  {
     				    msg:"抱歉，系统处理超时。"
@@ -156,19 +154,22 @@
     		                }
     		            } , 
 				success : function(data) {
-					if(data) {
-						window.wxc.success("操作成功",{"wxcOk":function(){
-							window.close();
-							//window.location.href = ctx + "/task/eval/evalTaskList";
-					}});
-						//caseTaskCheck();
+					if(data.success) {
+						if(data) {
+							window.wxc.success("操作成功",{"wxcOk":function(){
+								window.close();
+						 		//window.location.href = ctx + "/task/eval/evalTaskList";
+						    }});
+							//caseTaskCheck();
+						} else {
+							window.wxc.alert("操作失败。");
+						}
 					} else {
 						window.wxc.alert("操作失败。");
 					}
-					//window.location.href = "${ctx }/task/myTaskList";
 				},
 				error : function(errors) {
-					window.wxc.error("操作失败。");
+					window.wxc.alert("操作失败。");
 				}
 			});
 		}

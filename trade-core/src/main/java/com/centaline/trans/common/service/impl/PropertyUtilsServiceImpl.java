@@ -75,6 +75,13 @@ public class PropertyUtilsServiceImpl implements PropertyUtilsService {
 	public String getSatisProcessDfKey() {
 		return getProcessDfId("SatisProcess");
 	}
+	
+	public String getEvalServiceRestartProcesDfKey() {
+		return getProcessDfId("evalServiceRestartProces");
+	}
+	public String getEvalServiceStopProcessDfKey() {
+		return getProcessDfId("evalServiceStopProcess");
+	}
 
 
 }

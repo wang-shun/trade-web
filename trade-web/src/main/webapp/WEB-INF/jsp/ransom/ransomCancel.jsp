@@ -67,6 +67,7 @@
 .underline{margin-top: -30px;}
 
 </style>
+<content tag="pagetitle">赎楼注销抵押</content>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/ransom/ransomBaseInfo.jsp"></jsp:include>

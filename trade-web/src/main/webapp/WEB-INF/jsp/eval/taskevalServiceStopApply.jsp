@@ -48,7 +48,7 @@
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 		<div class="row wrapper border-bottom white-bg page-heading">
 			<div class="col-lg-10">
-				<h2>流程重启申请</h2>
+				<h2>评估爆单申请</h2>
 				<ol class="breadcrumb">
 					<li><a href="${ctx }/case/myCaseList">评估视图</a></li>
 					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
@@ -57,7 +57,7 @@
 			<div class="col-lg-2"></div>
 		</div>
 		<div class="ibox-title">
-			<h5>填写重启原因</h5>
+			<h5>填写爆单原因</h5>
 			<div class="ibox-content">
 				<form method="get" class="form-horizontal" id="lamform">
 					<%--环节编码 --%>
@@ -79,10 +79,6 @@
 				</form>
 
 			</div>
-		</div>
-		
-		<!-- 案件备注信息 -->
-		<div id="caseCommentList" class="add_form">
 		</div>
 		
 		<div class="ibox-title">
@@ -159,8 +155,8 @@
 					if(data) {
 						window.wxc.success("操作成功",{"wxcOk":function(){
 							window.close();
-							//window.location.href = ctx + "/task/eval/evalTaskList";
-					}});
+					 		//window.location.href = ctx + "/task/eval/evalTaskList";
+					    }});
 						//caseTaskCheck();
 					} else {
 						window.wxc.alert("操作失败。");

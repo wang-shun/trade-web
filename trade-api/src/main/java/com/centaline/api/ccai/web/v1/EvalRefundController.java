@@ -1,5 +1,6 @@
 package com.centaline.api.ccai.web.v1;
 
+import com.centaline.api.ccai.service.CcaiService;
 import com.centaline.api.ccai.vo.EvalRefundImport;
 import com.centaline.api.common.enums.ApiLogModuleEnum;
 import com.centaline.api.common.vo.CcaiServiceResult;
@@ -8,6 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,10 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = "/api/ccai/v1")
 public class EvalRefundController extends AbstractBaseController {
+	
+	@Autowired
+	private CcaiService ccaiService;
+	
 
 	@ApiOperation(value = "评估退费申请同步", notes = "CCAI发起的评估费退费流程，经过部门逐级审批同意后，调用该接口将信息同步至交易系统，由权证进行后续处理", produces = "application/json,application/json;charset=UTF-8")
 	@RequestMapping(value="/eval/refund/sync",method = RequestMethod.POST,produces = {"application/json", "application/json;charset=UTF-8"})
@@ -37,12 +44,13 @@ public class EvalRefundController extends AbstractBaseController {
 		if(result.isSuccess()) {
 			//TODO 联调时增加业务代码
 			System.out.println(info);
+			result = ccaiService.importEvalRefund(info);
 			result.setSuccess(true);
 			result.setMessage("do noting.");
 			result.setCode(SUCCESS_CODE);
 		}
 		//写入日志
-		// writeLog(ApiLogModuleEnum.EVAL_REFUND_SYNC,"/api/ccai/v1/eva/refund/sync",info,result,request);
+		writeLog(ApiLogModuleEnum.EVAL_REFUND_SYNC,"/api/ccai/v1/eva/refund/sync",info,result,request);
 		return result;
 	}
 }
