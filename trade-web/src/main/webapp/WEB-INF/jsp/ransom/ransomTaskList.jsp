@@ -6,7 +6,7 @@
 <html>
 
 <head>
-
+<title>赎楼待办任务列表</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -81,7 +81,7 @@ text-decoration: underline !important;
 	display: inline-block;
 }
 </style> 
-
+<content tag="pagetitle">赎楼待办任务列表</content>
 </head>
 
 <body>
