@@ -14,6 +14,10 @@ import com.centaline.trans.api.vo.FlowFeedBack;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.CcaiFlowResultEnum;
 import com.centaline.trans.common.enums.CcaiTaskEnum;
+import com.centaline.trans.eloan.entity.ToAppRecordInfo;
+import com.centaline.trans.eloan.entity.ToSelfAppInfo;
+import com.centaline.trans.eloan.service.ToAppRecordInfoService;
+import com.centaline.trans.eloan.service.ToSelfAppInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +56,12 @@ public class KnotCommissionController {
 	@Autowired
 	private FlowApiService flowApiService;
 
+	@Autowired
+	private ToSelfAppInfoService toSelfAppInfoService;
+
+	@Autowired
+	private ToAppRecordInfoService toAppRecordInfoService;
+
 	@RequestMapping(value="process")
 	public String toProcess(HttpServletRequest request,
 			HttpServletResponse response, String caseCode, String source,
@@ -61,6 +71,16 @@ public class KnotCommissionController {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
+		//自办贷款信息查询
+		ToSelfAppInfo toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(caseCode);
+		//审批记录信息查询
+		ToAppRecordInfo toAppRecordInfo = toAppRecordInfoService.getAppRedordByAppInfoId(toSelfAppInfo.getPkid());
+		if(toSelfAppInfo!=null){
+			request.setAttribute("toSelfAppInfo", toSelfAppInfo);
+		}
+		if(toAppRecordInfo!=null){
+			request.setAttribute("toAppRecordInfo", toAppRecordInfo);
+		}
 		return "task" + UiImproveUtil.getPageType(request) + "/taskKnotCommission";
 	}
 	@RequestMapping(value="submitKnotCommission")
