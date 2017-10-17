@@ -2,6 +2,9 @@ package com.centaline.trans.cases.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.common.MyBatisRepository;
 @MyBatisRepository
@@ -38,4 +41,13 @@ public interface ToCaseParticipantMapper {
      * @return
      */
     List<ToCaseParticipant> selectByCondition(ToCaseParticipant record);
+    
+    /**
+     * 案件分配信息更新(责任人变更)
+     * @param caseCode
+     * @param user
+     * @param manager
+     * @return
+     */
+    int updateCaseParticipant(@Param("caseCode")String caseCode, @Param("user")User user, @Param("manager")User manager);
 }

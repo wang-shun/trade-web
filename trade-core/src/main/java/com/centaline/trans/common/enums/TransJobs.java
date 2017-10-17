@@ -11,6 +11,10 @@ public enum TransJobs {
 	 */
 	GHQZ("GHQZ", "过户权证"),
 	/**
+	 * 贷款权证
+	 */
+	DKQZ("DKQZ", "贷款权证"),
+	/**
 	 * 交易助理
 	 */
 	TJYZL("TeamAssistant", "交易助理"), 

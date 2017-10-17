@@ -12,7 +12,7 @@
 <html>
 
 <head>
-
+<title>赎楼面签</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- 展示相关 -->
@@ -137,6 +137,7 @@
 .form_list .sign_left_small{text-align: left;margin-right: -10px;}
 .underline{margin-top: -30px;}
 </style>
+<content tag="pagetitle">赎楼面签</content>
 </head>
 
 <body>

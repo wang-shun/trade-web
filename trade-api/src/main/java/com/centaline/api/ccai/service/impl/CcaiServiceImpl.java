@@ -879,7 +879,7 @@ public class CcaiServiceImpl implements CcaiService {
 	/**
 	 * 向流程发送CCAI修改完成消息
 	 * 并更改案件状态
-	 *
+	 *lujian
 	 * @param caseCode
 	 */
 	private void updateProcess(String caseCode) {
@@ -954,6 +954,16 @@ public class CcaiServiceImpl implements CcaiService {
 		}
 		toSelfAppInfo.setTasks(tasks);
 		return toSelfAppInfo;
+	}
+
+	/**
+	 * 导入退费评估信息
+	 * lujian
+	 */
+	@Override
+	public CcaiServiceResult importEvalRefund(EvalRefundImport info) {
+		
+		return null;
 	}
 
 }

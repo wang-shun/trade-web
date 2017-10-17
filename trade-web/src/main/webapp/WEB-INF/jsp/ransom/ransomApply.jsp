@@ -15,6 +15,8 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>赎楼申请</title>
+
 <!-- 展示相关 -->
 <link
 	href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />"
@@ -70,6 +72,8 @@
 .underline{margin-top: -30px;}
 
 </style>
+
+<content tag="pagetitle">赎楼申请</content>
 </head>
 
 <body>

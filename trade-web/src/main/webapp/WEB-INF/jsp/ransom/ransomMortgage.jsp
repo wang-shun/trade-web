@@ -15,7 +15,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>赎楼陪同还贷</title>
 <link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />"
 	rel="stylesheet" />
 <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
@@ -71,6 +71,7 @@
 .underline{margin-top: -30px;}
 
 </style>
+<content tag="pagetitle">赎楼陪同还贷</content>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
