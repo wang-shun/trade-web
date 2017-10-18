@@ -42,12 +42,13 @@ public class EvalRefundController extends AbstractBaseController {
 		CcaiServiceResult result = buildErrorResult(errors);
 		ObjectMapper mapper = new ObjectMapper();
 		if(result.isSuccess()) {
-			//TODO 联调时增加业务代码
-			System.out.println(info);
-			result = ccaiService.importEvalRefund(info);
-			result.setSuccess(true);
-			result.setMessage("do noting.");
-			result.setCode(SUCCESS_CODE);
+			try {
+				result = ccaiService.importEvalRefund(info);
+			} catch (Exception e) {
+				result.setSuccess(false);
+				result.setCode(FAILURE_CODE);
+				result.setMessage(e.getMessage());
+			}
 		}
 		//写入日志
 		writeLog(ApiLogModuleEnum.EVAL_REFUND_SYNC,"/api/ccai/v1/eva/refund/sync",info,result,request);

@@ -449,15 +449,15 @@
 										<label class="control-label sign_left_small">
 											<font color=" red" class="mr5">*</font> 借款金额
 							 			</label>
-								 			&nbsp;<c:if test="${!empty detailVo.borrowMoney }">${detailVo.borrowMoney/10000 }&nbsp;&nbsp;万</c:if>
+								 			&nbsp;<c:if test="${!empty detailVo.borrowMoney }">${detailVo.borrowMoney }&nbsp;&nbsp;万</c:if>
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 面签金额 </label> 
-											&nbsp;<c:if test="${!empty detailVo.interViewMoney }">${detailVo.interViewMoney/10000 }&nbsp;&nbsp;万</c:if>
+											&nbsp;<c:if test="${!empty detailVo.interViewMoney }">${detailVo.interViewMoney }&nbsp;&nbsp;万</c:if>
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 还贷金额</label> 
-											&nbsp;<c:if test="${!empty detailVo.repayLoanMoney }">${detailVo.repayLoanMoney/10000 }&nbsp;&nbsp;万</c:if>	
+											&nbsp;<c:if test="${!empty detailVo.repayLoanMoney }">${detailVo.repayLoanMoney }&nbsp;&nbsp;万</c:if>	
 									</div>
 								</div>
 								<div class="line">
@@ -615,21 +615,21 @@
 				<td>
 					<p>
 						{{if item.loanMoney !=null}}
-							{{item.loanMoney/10000}}万元
+							{{item.loanMoney}}万元
 						{{/if}}
 					</p>
 				</td>
 				<td>
 					<p>
 						{{if item.restMoney !=null}}
-							{{item.restMoney/10000}}万元
+							{{item.restMoney}}万元
 						{{/if}}
 					</p>
 				</td>
 				<td>
 					<p>
 						{{if item.actualMoney !=null}}
-							{{item.actualMoney/10000}}万元
+							{{item.actualMoney}}万元
 						{{/if}}
 					</p>
 				</td>
@@ -653,7 +653,7 @@
 				<td>
 					<p>
 						{{if item.LOAN_MONEY !=null}}
-							{{item.LOAN_MONEY/10000}}万元
+							{{item.LOAN_MONEY}}万元
 						{{/if}}
 					</p>
 				</td>

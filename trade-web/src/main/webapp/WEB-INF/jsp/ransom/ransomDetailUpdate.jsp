@@ -65,8 +65,8 @@
 							<font color=" red" class="mr5">*</font>主贷人姓名</label> 
 							<select class="input_type yuanwid" id="borrowerName">
 								<option value="">请选择</option>
-								<option value="${guestInfo.get(0).guestCode }">${guestInfo.get(0).guestName }</option>
-								<option value="${guestInfo.get(1).guestCode }">${guestInfo.get(1).guestName }</option>
+								<option value="${guestInfo.get(0).guestName }">${guestInfo.get(0).guestName }</option>
+								<option value="${guestInfo.get(1).guestName }">${guestInfo.get(1).guestName }</option>
 							</select>
 						</div>
 						<div class="form_content">
@@ -102,10 +102,10 @@
 											<aist:dict id="diyaType" name="diyaType" clazz=" select_control yuanwid " display="select" dictType="71015" defaultvalue="${tailinsVo.diyaType }" />
 										</td>
 										<td>
-											<input id="loanMoney" name="loanMoney" type="text" class="form-control input-one" placeholder="单位：万元"  value="${ tailinsVo.loanMoney / 10000}"> 
+											<input id="loanMoney" name="loanMoney" type="text" class="form-control input-one" placeholder="单位：万元"  value="${ tailinsVo.loanMoney}"> 万
 									    </td>
 										<td>
-											<input id="restMoney" name="restMoney" type="text" class="form-control input-one" placeholder="单位：万元" value="${tailinsVo.restMoney / 10000 }"> 
+											<input id="restMoney" name="restMoney" type="text" class="form-control input-one" placeholder="单位：万元" value="${tailinsVo.restMoney}"> 万
 										</td>
 									</tr>
 								</tbody>
@@ -115,7 +115,7 @@
 								<label class="control-label sign_left_small">借款金额总计</label> 
 								<input type="text" class="input_type yuanwid" id="borrowerMoney"
 									name="borrowerMoney" 
-									value="<fmt:formatNumber value='${ caseVo.borroMoney / 10000}' type='number' pattern='#0.00' />">
+									value="<fmt:formatNumber value='${ caseVo.borroMoney}' type='number' pattern='#0.00' />">
 								<span>万</span>
 							</div>
 						</div>
