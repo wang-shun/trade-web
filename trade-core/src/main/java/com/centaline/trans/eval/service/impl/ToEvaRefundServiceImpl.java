@@ -1,8 +1,10 @@
 package com.centaline.trans.eval.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.centaline.trans.cases.repository.ToCaseInfoMapper;
 import com.centaline.trans.eval.entity.ToEvaRefund;
 import com.centaline.trans.eval.repository.ToEvaRefundMapper;
 import com.centaline.trans.eval.service.ToEvaRefundService;
@@ -11,7 +13,11 @@ public class ToEvaRefundServiceImpl implements ToEvaRefundService{
 
 	@Autowired
 	private ToEvaRefundMapper toEvaRefundMapper;
-
+	
+	@Autowired
+	private ToCaseInfoMapper toCaseInfoMapper;
+	
+	
 	@Override
 	public int deleteByPrimaryKey(Long pkid) {
 		// TODO Auto-generated method stub
@@ -25,9 +31,20 @@ public class ToEvaRefundServiceImpl implements ToEvaRefundService{
 	}
 
 	@Override
-	public int insertSelective(ToEvaRefund record) {
-		// TODO Auto-generated method stub
-		return toEvaRefundMapper.insertSelective(record);
+	public String insertSelective(ToEvaRefund record) {
+		if(StringUtils.isBlank(record.getCcaiCode())){
+			return null;
+		}
+		String caseCode = toCaseInfoMapper.findcaseCodeByCcaiCode(record.getCcaiCode());
+		if(StringUtils.isBlank(caseCode)){
+			return null;
+		}
+		record.setCaseCode(caseCode); 
+		int count = toEvaRefundMapper.insertSelective(record);
+		if(count == 0){
+			return null;
+		}
+		return caseCode;
 	}
 
 	@Override

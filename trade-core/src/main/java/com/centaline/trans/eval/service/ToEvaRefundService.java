@@ -12,7 +12,7 @@ public interface ToEvaRefundService {
 
     int insert(ToEvaRefund record);
 
-    int insertSelective(ToEvaRefund record);
+    String insertSelective(ToEvaRefund record);
 
     ToEvaRefund selectByPrimaryKey(Long pkid);
     
