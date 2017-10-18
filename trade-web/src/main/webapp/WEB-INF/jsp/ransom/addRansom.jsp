@@ -285,7 +285,7 @@ table tbody select, input {
 											<input name="loanMoney" value="" type="text" class="form-control input-one" placeholder="贷款金额(单位：万元)" id="loanMoney">
 										</td>
 										<td>
-											<input name="restMoney" value="" onchange="changeRestMoney()" type="text" class="form-control input-one" placeholder="剩余金额(单位：万元)" id="restMoney">
+											<input name="restMoney" value="0.00" onchange="changeRestMoney()" type="text" class="form-control input-one" placeholder="剩余金额(单位：万元)" id="restMoney">
 										</td>
 									</tr>
 								

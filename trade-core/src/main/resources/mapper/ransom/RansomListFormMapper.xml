@@ -29,7 +29,21 @@
     	<result column="guest_phone" property="guestPhone" jdbcType="VARCHAR"/>
 	</resultMap>
 	
-	
+	<select id="getRansomPlanTime" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
+		SELECT 
+			RANSOM_CODE ransomCode,
+			PART_CODE partCode,
+			EST_PART_TIME estPartTime,
+			REMARK remark,
+			CREATE_TIME createTime,
+			CREATE_USER createUser,
+			UPDATE_TIME updateTime,
+			UPDATE_USER updateUser
+		FROM 
+			sctrans.T_RA_PLAN  
+		WHERE 
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
 	
 	<select id="getRansomCase" resultMap="BaseResultMap">
 		SELECT * FROM sctrans.T_RA_CASE WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR}
@@ -62,28 +76,39 @@
 	<select id="getRansomInfoByRansomCode" resultType="com.centaline.trans.ransom.vo.ToRansomVo">
 		SELECT 
 			cai.CASE_CODE caseCode,
-			app.RANSOM_CODE ransomCode,
+			cai.RANSOM_CODE ransomCode,
 			app.APPLY_TIME applyTime,
 			app.REMAKE applyRemake,
+			app.part_code partCode,
+
 			inter.INTERVIEW_TIME interviewTime,
 			inter.REMAKE interviewRemake,
+			inter.part_code partCode,
+
 			rep.REPAY_TIME repayTime,
 			rep.REMAKE repayRemake,
+			rep.part_code partCode,
+
 			can.CANCEL_TIME cancelTime,
 			can.REMAKE cancelRemake,
+			can.part_code partCode,
+		
 			red.REDEEM_TIME redeemTime,
 			red.REMAKE redeemRemake,
+			red.part_code partCode,
+
 			pay.PAYMENT_TIME paymentTime,
-			pay.REMAKE paymentRemake
-		FROM	sctrans.T_RA_APPLY app 
-		INNER JOIN sctrans.T_RA_CASE cai ON cai.RANSOM_CODE = app.RANSOM_CODE
+			pay.REMAKE paymentRemake,
+			pay.part_code partCode
+		FROM	sctrans.T_RA_CASE cai  
+		LEFT JOIN sctrans.T_RA_APPLY app ON cai.RANSOM_CODE = app.RANSOM_CODE
 		LEFT JOIN sctrans.T_RA_INTERVIEW inter ON inter.RANSOM_CODE = app.RANSOM_CODE
 		LEFT JOIN	sctrans.T_RA_REPAY rep ON rep.RANSOM_CODE = inter.RANSOM_CODE
 		LEFT JOIN	sctrans.T_RA_CANCEL can ON can.RANSOM_CODE = rep.RANSOM_CODE
 		LEFT JOIN	sctrans.T_RA_REDEEM red ON red.RANSOM_CODE = can.RANSOM_CODE
 		LEFT JOIN	sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
 		WHERE
-			app.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+			cai.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 		
 	</select>
 	
@@ -109,6 +134,50 @@
 			par.POSITION = 'warrant'
 			AND ca.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	</select>
+	
+	<select id="queryCountRansomsByUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(RANSOM_CODE) 
+		FROM sctrans.T_RA_TAILINS tai,sctrans.T_TO_CASE cai with(nolock)
+		WHERE 
+			cai.CASE_CODE = tai.CASE_CODE 
+				AND LEADING_PROCESS_ID = #{userId,jdbcType=VARCHAR}
+		GROUP BY LEADING_PROCESS_ID
+	</select>
+	
+	<select id="queryCountMonthRansomsByUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
+	     select 
+	       COUNT(C.RANSOM_CODE) 
+	    from sctrans.T_TO_CASE A,
+			sctrans.T_RA_CASE C
+	    where LEADING_PROCESS_ID = #{userId,jdbcType=VARCHAR}
+			AND A.CASE_CODE = C.RANSOM_CODE
+	    and datediff(month,C.UPDATE_TIME,getdate())=0
+	    GROUP BY LEADING_PROCESS_ID
+  	</select>
+	
+	<insert id="insertRansomPlanTimeVo" parameterType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
+		INSERT INTO 
+			sctrans.T_RA_PLAN(
+				RANSOM_CODE,
+				PART_CODE,
+				EST_PART_TIME,
+				REMARK,				
+				CREATE_USER,
+				CREATE_TIME,
+				UPDATE_TIME,
+				UPDATE_USER
+		) VALUES(
+				#{ransomCode,jdbcType=VARCHAR}, 
+				#{partCode,jdbcType=VARCHAR}, 
+				#{estPartTime,jdbcType=TIMESTAMP}, 
+				#{remark,jdbcType=VARCHAR}, 
+				#{createUser,jdbcType=VARCHAR}, 
+				#{createTime,jdbcType=TIMESTAMP}, 
+				#{updateTime,jdbcType=TIMESTAMP}, 
+				#{updateUser,jdbcType=VARCHAR}
+		)
+	</insert>
 	
 	<insert id="addRansomDetail" parameterType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
 		insert into sctrans.T_RA_CASE (
@@ -172,6 +241,20 @@
 			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
 		WHERE
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateRansomPlanTimeInfoByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
+		UPDATE 
+			sctrans.T_RA_PLAN 
+		SET
+			EST_PART_TIME = #{estPartTime,jdbcType=TIMESTAMP},
+			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			REMARK = #{remark,jdbcType=VARCHAR}
+		WHERE
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+				AND PART_CODE = #{partCode,jdbcType=VARCHAR}
+				
 	</update>
 	
 	<update id="updateRansomTailinsByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomTailinsVo">
