@@ -103,7 +103,7 @@ public interface RansomService {
 	 * @param caseCode
 	 * @return
 	 */
-	public ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode);
+	public List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode);
 	
 	/**
 	 * 查询赎楼面签信息

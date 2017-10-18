@@ -47,7 +47,7 @@ $(document).ready( function() {
 		  };
 		  jsonStr.push(resJson);
 	  }
-	  console.log(jsonStr.length);
+	  
    	  $.ajax({
    		url:ctx + "/ransomList/addRansom",
    		method:"post",

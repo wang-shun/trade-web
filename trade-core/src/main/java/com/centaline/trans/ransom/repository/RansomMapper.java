@@ -134,7 +134,7 @@ public interface RansomMapper {
 	 * @param caseCode
 	 * @return 
 	 */
-	ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode);
+	List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode);
 	
 	/**
 	 * 根据ransomCode查询尾款信息

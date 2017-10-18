@@ -40,59 +40,59 @@ public class AddRansomFormServiceImpl implements AddRansomFormService {
 	public void addRansomForm(List<ToRansomFormVo> ar) {
 		
 		try {
-//			SessionUser user= uamSessionService.getSessionUser();
-//			String ransomCode = ar.get(0).getRansomCode();
-//			Date date = new Date();
-//			String userName = user.getUsername();
-//			
-//			ToRansomApplyVo applyVo = new ToRansomApplyVo();
-//			applyVo.setRansomCode(ransomCode);
-//			applyVo.setCreateTime(date);
-//			applyVo.setCreateUser(userName);
-//			applyVo.setUpdateTime(date);
-//			applyVo.setUpdateUser(userName);
-//			
-//			ToRansomSignVo signVo = new ToRansomSignVo();
-//			signVo.setRansomCode(ransomCode);
-//			signVo.setCreateUser(userName);
-//			signVo.setCreateTime(date);
-//			signVo.setUpdateUser(userName);
-//			signVo.setUpdateTime(date);
-//			
-//			ToRansomMortgageVo mortgageVo = new ToRansomMortgageVo();
-//			mortgageVo.setRansomCode(ransomCode);
-//			mortgageVo.setCreateUser(userName);
-//			mortgageVo.setCreateTime(date);
-//			mortgageVo.setUpdateUser(userName);
-//			mortgageVo.setUpdateTime(date);
-//			
-//			ToRansomCancelVo cancelVo = new ToRansomCancelVo();
-//			cancelVo.setRansomCode(ransomCode);
-//			cancelVo.setCreateUser(userName);
-//			cancelVo.setCancelTime(date);
-//			cancelVo.setUpdateUser(userName);
-//			cancelVo.setUpdateTime(date);
-//			
-//			ToRansomPermitVo permitVo = new ToRansomPermitVo();
-//			permitVo.setRansomCode(ransomCode);
-//			permitVo.setCreateUser(userName);
-//			permitVo.setCreateTime(date);
-//			permitVo.setUpdateUser(userName);
-//			permitVo.setUpdateTime(date);
-//			
-//			ToRansomPaymentVo paymentVo = new ToRansomPaymentVo();
-//			paymentVo.setRansomCode(ransomCode);
-//			paymentVo.setCreateTime(date);
-//			paymentVo.setCreateUser(userName);
-//			paymentVo.setUpdateTime(date);
-//			paymentVo.setUpdateUser(userName);
-//			
-//			ransomMapper.insertRansomApply(applyVo );
-//			ransomMapper.insertRansomSign(signVo);
-//			ransomMapper.insertRansomMortgage(mortgageVo);
-//			ransomMapper.insertRansomCancel(cancelVo);
-//			ransomMapper.insertRansomPermit(permitVo);
-//			ransomMapper.insertRansomPayment(paymentVo);
+			SessionUser user= uamSessionService.getSessionUser();
+			String ransomCode = ar.get(0).getRansomCode();
+			Date date = new Date();
+			String userName = user.getUsername();
+			
+			ToRansomApplyVo applyVo = new ToRansomApplyVo();
+			applyVo.setRansomCode(ransomCode);
+			applyVo.setCreateTime(date);
+			applyVo.setCreateUser(userName);
+			applyVo.setUpdateTime(date);
+			applyVo.setUpdateUser(userName);
+			
+			ToRansomSignVo signVo = new ToRansomSignVo();
+			signVo.setRansomCode(ransomCode);
+			signVo.setCreateUser(userName);
+			signVo.setCreateTime(date);
+			signVo.setUpdateUser(userName);
+			signVo.setUpdateTime(date);
+			
+			ToRansomMortgageVo mortgageVo = new ToRansomMortgageVo();
+			mortgageVo.setRansomCode(ransomCode);
+			mortgageVo.setCreateUser(userName);
+			mortgageVo.setCreateTime(date);
+			mortgageVo.setUpdateUser(userName);
+			mortgageVo.setUpdateTime(date);
+			
+			ToRansomCancelVo cancelVo = new ToRansomCancelVo();
+			cancelVo.setRansomCode(ransomCode);
+			cancelVo.setCreateUser(userName);
+			cancelVo.setCancelTime(date);
+			cancelVo.setUpdateUser(userName);
+			cancelVo.setUpdateTime(date);
+			
+			ToRansomPermitVo permitVo = new ToRansomPermitVo();
+			permitVo.setRansomCode(ransomCode);
+			permitVo.setCreateUser(userName);
+			permitVo.setCreateTime(date);
+			permitVo.setUpdateUser(userName);
+			permitVo.setUpdateTime(date);
+			
+			ToRansomPaymentVo paymentVo = new ToRansomPaymentVo();
+			paymentVo.setRansomCode(ransomCode);
+			paymentVo.setCreateTime(date);
+			paymentVo.setCreateUser(userName);
+			paymentVo.setUpdateTime(date);
+			paymentVo.setUpdateUser(userName);
+			
+			ransomMapper.insertRansomApply(applyVo );
+			ransomMapper.insertRansomSign(signVo);
+			ransomMapper.insertRansomMortgage(mortgageVo);
+			ransomMapper.insertRansomCancel(cancelVo);
+			ransomMapper.insertRansomPermit(permitVo);
+			ransomMapper.insertRansomPayment(paymentVo);
 			addRansomFormMapper.insertRansomForm(ar);
 		} catch (Exception e) {
 			logger.error("",e);
