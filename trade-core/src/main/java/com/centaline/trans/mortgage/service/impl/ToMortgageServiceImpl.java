@@ -1355,7 +1355,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
         toMortgage.setIsMainLoanBank("1");
         ToMortgage mortage = findToMortgageById(toMortgage.getPkid());
         mortage.setLendDate(toMortgage.getLendDate());
-        mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
+//        mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
         mortage.setRemark(toMortgage.getRemark());
         saveToMortgage(mortage);
 

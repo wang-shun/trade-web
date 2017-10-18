@@ -32,7 +32,14 @@
 	
 	
 	<select id="getRansomCase" resultMap="BaseResultMap">
-		SELECT * FROM sctrans.T_RA_CASE WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+		SELECT * FROM sctrans.T_RA_CASE WHERE 1=1
+		<if test="caseCode != null and caseCode != ''">
+			and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+		</if>
+		<if test="ransomCode != null and ransomCode != ''">
+			and RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+		</if>
+		
 	</select>
 	
 	<select id="getGuestInfo" resultMap="guestMap">

@@ -53,8 +53,8 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	}
 
 	@Override
-	public ToRansomCaseVo getRansomCase(String caseCode) {
-		return ransomListFormMapper.getRansomCase(caseCode);
+	public ToRansomCaseVo getRansomCase(String caseCode, String ransomCode) {
+		return ransomListFormMapper.getRansomCase(caseCode, ransomCode);
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 			
 			List<TgGuestInfo> guestInfo = ransomListFormMapper.getGuestInfo(caseCode);
 			
-			ToRansomCaseVo caseVo = ransomListFormMapper.getRansomCase(caseCode);
+			ToRansomCaseVo caseVo = ransomListFormMapper.getRansomCase(caseCode, null);
 			String finOrgCode = tailinsVo.getFinOrgCode();
 			TsFinOrg finOrg = ransomListFormMapper.getTsFinOrgIinfo(finOrgCode);
 			

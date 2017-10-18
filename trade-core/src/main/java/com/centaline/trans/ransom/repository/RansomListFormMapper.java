@@ -2,6 +2,8 @@ package com.centaline.trans.ransom.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.mgr.entity.TsFinOrg;
@@ -31,7 +33,7 @@ public interface RansomListFormMapper {
 	 * @param caseCode
 	 * @return
 	 */
-	ToRansomCaseVo getRansomCase(String caseCode);
+	ToRansomCaseVo getRansomCase(@Param("caseCode")String caseCode, @Param("ransomCode")String ransomCode);
 	
 	/**
 	 * 根据caseCode保存赎楼中止信息

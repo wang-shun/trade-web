@@ -187,7 +187,7 @@ public class RansomListController {
 		ResultNew rs=new ResultNew();
 		try {
 			ToRansomCaseVo trco = new ToRansomCaseVo();
-			trco = ransomListFormService.getRansomCase(caseCode);
+			trco = ransomListFormService.getRansomCase(caseCode, null);
 			String result = "-1";
 			//如果赎楼信息不为空说明已有案件编号与赎楼编号相关联
 			if(trco != null) {
@@ -223,7 +223,7 @@ public class RansomListController {
 			//案件详情信息
 			ToRansomCaseVo caseVo = ransomService.getRansomCaseInfo(caseCode);
 			//赎楼详情信息
-			ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode);
+			ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode, null);
 			//新建赎楼单即是受理状态
 			ToRansomTailinsVo tailinsVo = ransomService.getTailinsInfoByCaseCode(caseCode);
 			//查询赎楼编号
