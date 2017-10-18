@@ -1,13 +1,5 @@
 package com.centaline.trans.cases.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
@@ -26,14 +18,21 @@ import com.centaline.trans.common.enums.TransDictEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
+import com.centaline.trans.eloan.service.ToCloseLoanService;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
 import com.centaline.trans.eval.service.ToEvaFeeRecordService;
-import com.centaline.trans.eloan.service.ToCloseLoanService;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.service.TsFinOrgService;
 import com.centaline.trans.mortgage.entity.ToEvaReport;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToEvaReportService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ToCaseInfoServiceImpl implements ToCaseInfoService {
@@ -363,6 +362,11 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 		String managerId = toCaseInfoMapper.getCaseManager(caseCode);
 		User user = uamUserOrgService.getUserById(managerId);
 		return user.getUsername();
+	}
+
+	@Override
+	public String findcaseCodeByccaiCode(String ccaiCode) {
+		return toCaseInfoMapper.findcaseCodeByCcaiCode(ccaiCode);
 	}
 
 }

@@ -2,11 +2,6 @@ package com.centaline.trans.eval.repository;
 
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.eval.entity.ToEvalRebate;
-/***
- * 
- * @author wbwangxj
- *
- */
 @MyBatisRepository
 public interface ToEvalRebateMapper {
     int deleteByPrimaryKey(Long pkid);
@@ -21,6 +16,7 @@ public interface ToEvalRebateMapper {
 
     int updateByPrimaryKey(ToEvalRebate record);
 
-	ToEvalRebate findToEvalRebateByCaseCode(String caseCode);
+    ToEvalRebate findToEvalRebateByCaseCode(String caseCode);
 
+    ToEvalRebate findToEvalRebateByCcaiCode(String ccaiCode);
 }

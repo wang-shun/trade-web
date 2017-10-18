@@ -31,6 +31,8 @@ public enum WorkFlowEnum {
 	EVAL_PROCESS("EvalProcess","processDefinitionKey"),
 	EVAL_SERVICE_RESTART_PROCESS("evalServiceRestartProces","processDefinitionKey"),
 	EVAL_SERVICE_STOP_PROCESS("evalServiceStopProcess","processDefinitionKey"),
+	//评估返利流程process id
+	EVAL_REBATE_PROCESS("evalRebateProcess","evalRebateProcess"),
 	//随便写的
 	COMANDPSFLOAN_PROCESS("PSFLoan_Process:1:645460","ComLoanAndPSFLoan_Process"),
 	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId"),

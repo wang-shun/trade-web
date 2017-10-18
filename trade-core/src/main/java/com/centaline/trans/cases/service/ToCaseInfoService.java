@@ -1,13 +1,13 @@
 package com.centaline.trans.cases.service;
 
-import java.util.List;
-import java.util.Map;
-
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.vo.CaseAssistantVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.mortgage.entity.ToMortgage;
+
+import java.util.List;
+import java.util.Map;
 
 public interface ToCaseInfoService {
 
@@ -120,5 +120,11 @@ public interface ToCaseInfoService {
      * @author jinwl6
      */
     String getCaseManager(String caseCode);
+
+	/**
+	 * 功能：根据CCAI成交报告获取caseCode
+	 * @author yinchao
+	 */
+	public String findcaseCodeByccaiCode(String ccaiCode);
     
 }

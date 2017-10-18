@@ -6,19 +6,23 @@
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
     <result column="EVA_CODE" property="evaCode" jdbcType="VARCHAR" />
     <result column="EVAL_RECEPT" property="evalRecept" jdbcType="VARCHAR" />
-    <result column="PRICING_TIME" property="pricingTime" jdbcType="TIMESTAMP" />
-    <result column="ORINGIN_CASE_CODE" property="oringinCaseCode" jdbcType="VARCHAR" />
     <result column="EVAL_REAL_CHARGES" property="evalRealCharges" jdbcType="DECIMAL" />
     <result column="EVAL_DUE_CHARGES" property="evalDueCharges" jdbcType="DECIMAL" />
     <result column="CENTA_COM_AMOUNT" property="centaComAmount" jdbcType="DECIMAL" />
     <result column="EVA_COM_AMOUNT" property="evaComAmount" jdbcType="DECIMAL" />
     <result column="INPUT_TIME" property="inputTime" jdbcType="TIMESTAMP" />
     <result column="EVA_RPOCESS_ID" property="evaRpocessId" jdbcType="VARCHAR" />
-    <result column="STATUS" property="status" jdbcType="NVARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CCAI_CODE" property="ccaiCode" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="APPLY_USER_NAME" property="applyUserName" jdbcType="VARCHAR" />
+    <result column="APPLY_REAL_NAME" property="applyRealName" jdbcType="VARCHAR" />
+    <result column="EVAL_PRICE" property="evalPrice" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, EVA_CODE, EVAL_RECEPT, PRICING_TIME, ORINGIN_CASE_CODE, EVAL_REAL_CHARGES, 
-    EVAL_DUE_CHARGES, CENTA_COM_AMOUNT, EVA_COM_AMOUNT, INPUT_TIME, EVA_RPOCESS_ID, STATUS
+    PKID, CASE_CODE, EVA_CODE, EVAL_RECEPT, EVAL_REAL_CHARGES, EVAL_DUE_CHARGES, CENTA_COM_AMOUNT, 
+    EVA_COM_AMOUNT, INPUT_TIME, EVA_RPOCESS_ID, STATUS, CCAI_CODE, CREATE_TIME, APPLY_USER_NAME, 
+    APPLY_REAL_NAME, EVAL_PRICE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -26,29 +30,23 @@
     from sctrans.T_TO_EVA_REBATE
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
-  
-  <select id="findToEvalRebateByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from sctrans.T_TO_EVA_REBATE
-    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-  </select>
-  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_EVA_REBATE
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.centaline.trans.eval.entity.ToEvalRebate" >
     insert into sctrans.T_TO_EVA_REBATE (PKID, CASE_CODE, EVA_CODE, 
-      EVAL_RECEPT, PRICING_TIME, ORINGIN_CASE_CODE, 
-      EVAL_REAL_CHARGES, EVAL_DUE_CHARGES, CENTA_COM_AMOUNT, 
-      EVA_COM_AMOUNT, INPUT_TIME, EVA_RPOCESS_ID, 
-      STATUS)
+      EVAL_RECEPT, EVAL_REAL_CHARGES, EVAL_DUE_CHARGES, 
+      CENTA_COM_AMOUNT, EVA_COM_AMOUNT, INPUT_TIME, 
+      EVA_RPOCESS_ID, STATUS, CCAI_CODE, 
+      CREATE_TIME, APPLY_USER_NAME, APPLY_REAL_NAME, 
+      EVAL_PRICE)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
-      #{evalRecept,jdbcType=VARCHAR}, #{pricingTime,jdbcType=TIMESTAMP}, #{oringinCaseCode,jdbcType=VARCHAR}, 
-      #{evalRealCharges,jdbcType=DECIMAL}, #{evalDueCharges,jdbcType=DECIMAL}, #{centaComAmount,jdbcType=DECIMAL}, 
-      #{evaComAmount,jdbcType=DECIMAL}, #{inputTime,jdbcType=TIMESTAMP}, #{evaRpocessId,jdbcType=VARCHAR}, 
-      #{status,jdbcType=NVARCHAR})
+      #{evalRecept,jdbcType=VARCHAR}, #{evalRealCharges,jdbcType=DECIMAL}, #{evalDueCharges,jdbcType=DECIMAL}, 
+      #{centaComAmount,jdbcType=DECIMAL}, #{evaComAmount,jdbcType=DECIMAL}, #{inputTime,jdbcType=TIMESTAMP}, 
+      #{evaRpocessId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{ccaiCode,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{applyUserName,jdbcType=VARCHAR}, #{applyRealName,jdbcType=VARCHAR}, 
+      #{evalPrice,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvalRebate" >
     insert into sctrans.T_TO_EVA_REBATE
@@ -64,12 +62,6 @@
       </if>
       <if test="evalRecept != null" >
         EVAL_RECEPT,
-      </if>
-      <if test="pricingTime != null" >
-        PRICING_TIME,
-      </if>
-      <if test="oringinCaseCode != null" >
-        ORINGIN_CASE_CODE,
       </if>
       <if test="evalRealCharges != null" >
         EVAL_REAL_CHARGES,
@@ -92,6 +84,21 @@
       <if test="status != null" >
         STATUS,
       </if>
+      <if test="ccaiCode != null" >
+        CCAI_CODE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="applyUserName != null" >
+        APPLY_USER_NAME,
+      </if>
+      <if test="applyRealName != null" >
+        APPLY_REAL_NAME,
+      </if>
+      <if test="evalPrice != null" >
+        EVAL_PRICE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -105,12 +112,6 @@
       </if>
       <if test="evalRecept != null" >
         #{evalRecept,jdbcType=VARCHAR},
-      </if>
-      <if test="pricingTime != null" >
-        #{pricingTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="oringinCaseCode != null" >
-        #{oringinCaseCode,jdbcType=VARCHAR},
       </if>
       <if test="evalRealCharges != null" >
         #{evalRealCharges,jdbcType=DECIMAL},
@@ -131,7 +132,22 @@
         #{evaRpocessId,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=NVARCHAR},
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="ccaiCode != null" >
+        #{ccaiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyUserName != null" >
+        #{applyUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyRealName != null" >
+        #{applyRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="evalPrice != null" >
+        #{evalPrice,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -146,12 +162,6 @@
       </if>
       <if test="evalRecept != null" >
         EVAL_RECEPT = #{evalRecept,jdbcType=VARCHAR},
-      </if>
-      <if test="pricingTime != null" >
-        PRICING_TIME = #{pricingTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="oringinCaseCode != null" >
-        ORINGIN_CASE_CODE = #{oringinCaseCode,jdbcType=VARCHAR},
       </if>
       <if test="evalRealCharges != null" >
         EVAL_REAL_CHARGES = #{evalRealCharges,jdbcType=DECIMAL},
@@ -172,7 +182,22 @@
         EVA_RPOCESS_ID = #{evaRpocessId,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        STATUS = #{status,jdbcType=NVARCHAR},
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="ccaiCode != null" >
+        CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyUserName != null" >
+        APPLY_USER_NAME = #{applyUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyRealName != null" >
+        APPLY_REAL_NAME = #{applyRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="evalPrice != null" >
+        EVAL_PRICE = #{evalPrice,jdbcType=DECIMAL},
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
@@ -182,16 +207,32 @@
     set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
       EVA_CODE = #{evaCode,jdbcType=VARCHAR},
       EVAL_RECEPT = #{evalRecept,jdbcType=VARCHAR},
-      PRICING_TIME = #{pricingTime,jdbcType=TIMESTAMP},
-      ORINGIN_CASE_CODE = #{oringinCaseCode,jdbcType=VARCHAR},
       EVAL_REAL_CHARGES = #{evalRealCharges,jdbcType=DECIMAL},
       EVAL_DUE_CHARGES = #{evalDueCharges,jdbcType=DECIMAL},
       CENTA_COM_AMOUNT = #{centaComAmount,jdbcType=DECIMAL},
       EVA_COM_AMOUNT = #{evaComAmount,jdbcType=DECIMAL},
       INPUT_TIME = #{inputTime,jdbcType=TIMESTAMP},
       EVA_RPOCESS_ID = #{evaRpocessId,jdbcType=VARCHAR},
-      STATUS = #{status,jdbcType=NVARCHAR}
+      STATUS = #{status,jdbcType=VARCHAR},
+      CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      APPLY_USER_NAME = #{applyUserName,jdbcType=VARCHAR},
+      APPLY_REAL_NAME = #{applyRealName,jdbcType=VARCHAR},
+      EVAL_PRICE = #{evalPrice,jdbcType=DECIMAL}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  
+
+  <select id="findToEvalRebateByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_REBATE
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+
+  <select id="findToEvalRebateByCcaiCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_REBATE
+    where CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR}
+  </select>
 </mapper>

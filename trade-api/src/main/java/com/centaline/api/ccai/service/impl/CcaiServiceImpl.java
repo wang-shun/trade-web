@@ -34,8 +34,6 @@ import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 import com.centaline.trans.utils.DateUtil;
-
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +45,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
-
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -90,7 +86,6 @@ public class CcaiServiceImpl implements CcaiService {
 	private WorkFlowEngine engine;//该处使用engine 否则无法进行访问流程引擎平台
 
 	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-	;//Hibernate校验工具
 
 	@Override
 	public CcaiServiceResult importCase(CaseImport acase) {

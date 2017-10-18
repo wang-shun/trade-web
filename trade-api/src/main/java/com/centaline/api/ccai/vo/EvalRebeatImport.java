@@ -28,8 +28,14 @@ public class EvalRebeatImport extends AbstractBaseImport {
 	private BigDecimal evalRealCharges;
 	@ApiModelProperty(value = "评估费应收", required = true, dataType = "number", position = 9)
 	private BigDecimal evalDueCharges;
-	@ApiModelProperty(value = "申请时间", required = true, example = "1503460440000", dataType = "integer", position = 10)
+	@ApiModelProperty(value = "申请人域账号", required = true , position = 10)
+	private String applyUserName;
+	@ApiModelProperty(value = "申请人名称", required = true , position = 11)
+	private String applyRealName;
+	@ApiModelProperty(value = "申请时间", required = true, example = "1503460440000", dataType = "integer", position = 12)
 	private Date inputTime;
+	@ApiModelProperty(value = "审批记录", required = true , position = 16)
+	List<TaskInfo> tasks;
 
 	@NotBlank(message = "评估返利报告编号不能为空")
 	public String getCcaiCode() {
@@ -82,5 +88,29 @@ public class EvalRebeatImport extends AbstractBaseImport {
 
 	public void setEvalPrice(BigDecimal evalPrice) {
 		this.evalPrice = evalPrice;
+	}
+	@NotBlank(message = "申请人域账号不能为空")
+	public String getApplyUserName() {
+		return applyUserName;
+	}
+
+	public void setApplyUserName(String applyUserName) {
+		this.applyUserName = applyUserName;
+	}
+	@NotBlank(message = "申请人名称不能为空")
+	public String getApplyRealName() {
+		return applyRealName;
+	}
+
+	public void setApplyRealName(String applyRealName) {
+		this.applyRealName = applyRealName;
+	}
+	@NotEmpty(message = "审批记录不能为空")
+	public List<TaskInfo> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<TaskInfo> tasks) {
+		this.tasks = tasks;
 	}
 }
