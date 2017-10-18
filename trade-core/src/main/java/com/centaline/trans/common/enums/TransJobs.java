@@ -57,7 +57,11 @@ public enum TransJobs {
 	/**
 	 * 中台顾问
 	 */
-	JYUZTGW("JYUZTGW","中台顾问");
+	JYUZTGW("JYUZTGW","中台顾问"),
+	/**
+	 * 权证经理
+	 */
+	QZJL("QZJL","权证经理");
 
 
 
@@ -79,7 +83,7 @@ public enum TransJobs {
 	public static String getName(String code) {
 		for (TransJobs cte : TransJobs.values()) {
 			if (code.equalsIgnoreCase(cte.getCode()))
-				return cte.getCode();
+				return cte.getName();
 		}
 		return null;
 	}

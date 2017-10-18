@@ -11,6 +11,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>案件详情</title>
 
 <!-- Toastr style -->
 <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
@@ -39,6 +40,8 @@
 <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" />
 <link href="<c:url value='/static/trans/css/workflow/details.css' />" rel="stylesheet" />
 <link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
+
+<content tag="pagetitle">案件详情</content>
 </head>
 <body>
 <style>

@@ -7,6 +7,7 @@ import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,44 +75,22 @@ public class ServiceRestartController {
 	
 	
 	@RequestMapping("apply/process")
-	public String toApplyProcess(HttpServletRequest request,
-			HttpServletResponse response, String caseCode, String source,
-			String taskitem, String processInstanceId) {
-		SessionUser user = uamSessionService.getSessionUser();
-		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		request.setAttribute("source", source);
-		request.setAttribute("caseBaseVO", caseBaseVO);
+	public String toApplyProcess(HttpServletRequest request) {
 
-		request.setAttribute("approveType", "7");
-		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "task" + UiImproveUtil.getPageType(request)
-				+ "/taskserviceRestartApply";
+		return "task/taskserviceRestartApply";
 	}
 
 	@RequestMapping("approve/process")
-	public String toApproveProcess(HttpServletRequest request,
-			HttpServletResponse response, String caseCode, String source,
-			String taskitem, String processInstanceId) {
-		SessionUser user = uamSessionService.getSessionUser();
-		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		// 税费卡
-		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
-		if (cou > 0) {
-			caseBaseVO.setLoanType("30004005");
-		}
-		request.setAttribute("source", source);
-		request.setAttribute("caseBaseVO", caseBaseVO);
+	public String toApproveProcess(HttpServletRequest request) {
 
-		request.setAttribute("approveType", "7");
-		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "task" + UiImproveUtil.getPageType(request)
-				+ "/taskserviceRestartApprove";
+		return "task/taskserviceRestartApprove";
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/apply")
 	@ResponseBody
 	public AjaxResponse apply(Model model, ServiceRestartVo vo) {
@@ -137,14 +116,6 @@ public class ServiceRestartController {
 			if (vo.getIsApproved()) {
 				toAttachmentService.updateToAttachmentByCaseCode(vo.getCaseCode() == null ? "" : vo.getCaseCode());
 			}
-		}
-		ToWorkFlow workFlow = new ToWorkFlow();
-
-		workFlow.setCaseCode(vo.getCaseCode());
-		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
-		if (record != null) {
-			record.setStatus(WorkFlowStatus.COMPLETE.getCode());
-			toWorkFlowService.updateByPrimaryKeySelective(record);
 		}
 
 		vo.setUserId(u.getId());

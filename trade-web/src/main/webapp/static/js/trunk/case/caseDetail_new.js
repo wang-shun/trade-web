@@ -510,40 +510,51 @@ function savePlanItems(){
 /**
  * 案件爆单
  */
-function caseBoomXiakalaka(){
-//	var ctx = $("#ctx").val();
-//	var url = ctx + "/case/caseBoomXiakalaka";
-//	var caseCode = $('#caseCode').val();
-//	var data = "&caseCode="+caseCode; 
-//	window.wxc.confirm("确认对案件进行爆单？",{"wxcOk":function(){
-//		$.ajax({
-//			cache : false,
-//			async : true,
-//			type:"POST",
-//			URL:URL,
-//			dataType:"json",
-//			timeout : 10000,
-//			data : data,
-//			success : function(data) {
-//				if(data.success){
-//					window.wxc.success("爆单成功!");
-//				}else{
-//					window.wxc.error(data.message);
-//				}
-//			},
-//			error : function(XMLHttpRequest, textStatus, errorThrown) {
-//			}
-//		});
-//	}});
-	
+function caseBaodan(){
 
 	window.wxc.confirm("确定案件爆单？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
+		var data = "&caseCode="+caseCode; 
 		$.ajax({
-			url:ctx+"/eval/stop/init",
+			url:ctx+"/caseStop/initCheck",
 			method:"post",
 			dataType:"json",
-			data:{caseCode:caseCode,evaCode:$("#evaCode").val()},
+			data:data,
+		    beforeSend:function(){  
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+            },
+            complete: function() {  
+                if(status=='timeout'){
+	          	  Modal.alert(
+				  {
+				    msg:"抱歉，系统处理超时。"
+				  });
+		        }
+		   } , 
+		   success:function(data){
+			   if(data.success){
+				   	window.location.href=ctx+"/caseStop/apply/process?taskId="+data.content.activeTaskId
+				   						+"&instCode="+data.content.id+"&caseCode="+caseCode+"&type=1";
+			   }else{
+				   $.unblockUI();   
+					window.wxc.error(data.message);
+			   }
+			}
+		});
+	}});
+}
+/**
+ * 流程重启
+ */
+function serviceRestart(){
+	window.wxc.confirm("确定重启流程？",{"wxcOk":function(){
+		var caseCode = $("#caseCode").val();
+		$.ajax({
+			url:ctx+"/service/restart",
+			method:"post",
+			dataType:"json",
+			data:{caseCode:caseCode},
 		    beforeSend:function(){  
 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				$(".blockOverlay").css({'z-index':'9998'});
@@ -555,20 +566,19 @@ function caseBoomXiakalaka(){
 				    msg:"抱歉，系统处理超时。"
 				  });
 		        }
-		   } , 
+		   },
 		   success:function(data){
+			   console.log("===Result==="+JSON.stringify(data));
 				if(!data.success){
 					$.unblockUI();   
 					window.wxc.error(data.message);
 				
 				}else{
-					window.location.href=ctx+"/eval/task/route/evalServiceStopApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode+"&evaCode="+data.content.businessKey;
+					window.location.href=ctx+"/task/serviceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
 				}
 			}
 		});
 	}});
-	
-	
 }
 
 /**
@@ -654,43 +664,6 @@ function changeAssistantInfo() {
 	}});
 }
 
-/**
- * 流程重启
- */
-function serviceRestart(){
-	window.wxc.confirm("确定重启流程？",{"wxcOk":function(){
-		var caseCode = $("#caseCode").val();
-		$.ajax({
-			url:ctx+"/service/restart",
-			method:"post",
-			dataType:"json",
-			data:{caseCode:caseCode},
-		    beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-				$(".blockOverlay").css({'z-index':'9998'});
-            },
-            complete: function() {  
-                if(status=='timeout'){//超时,status还有success,error等值的情况
-	          	  Modal.alert(
-				  {
-				    msg:"抱歉，系统处理超时。"
-				  });
-		        }
-		   } , 
-		   success:function(data){
-			   console.log("===Result==="+JSON.stringify(data));
-				if(!data.success){
-					$.unblockUI();   
-					window.wxc.error(data.message);
-				
-				}else{
-					window.location.href=ctx+"/task/serviceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
-				}
-			}
-		});
-	}});
-}
-
 
 /**
  * 经办人变更
@@ -699,7 +672,7 @@ function showOrgCp() {
 	
 	var caseCode = $('#caseCode').val();
 	//获取贷款/过户权证,根据案件负责人
-	var url = "/case/getLoanOrWarrantList？caseCode="+caseCode;
+	var url = "/case/getLoanOrWarrantList?caseCode="+caseCode;
 	var ctx = $("#ctx").val();
 	
 	$.ajax({
@@ -711,7 +684,7 @@ function showOrgCp() {
 		timeout : 10000,
 		success : function(data) {
 			console.info(data);
-			showCaseLeadingModal(data);
+			showLeadingModal(data);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 		}
@@ -726,7 +699,7 @@ function showCaseLeadingModal(data) {
 	if(data != null && data.length >0){
 		var addHtml = '';
 		$.each(data,function(i,item){
-			addHtml += '<option value="'+item.id+'">'+item.realName+'('+${item.orgName}+')'+'</option>';
+			addHtml += '<option value="'+item.id+'">'+item.realName+'('+item.orgName+')'+'</option>';
 		});
 		
 		$("#leading-modal-data-show").append(addHtml);
@@ -791,7 +764,7 @@ function showLeadingModal(data) {
 							addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'">';
 						}
 						addHtml+='</span>';
-						addHtml += '<div class="m-t-xs font-bold">交易顾问</div></div></div>';
+						addHtml += '<div class="m-t-xs font-bold">'+n.type+'</div></div></div>';
 						addHtml += '<div class="col-sm-8">';
 						addHtml += '<input id="user_' + i
 								+ '" type="hidden" value="' + n.id + '">';

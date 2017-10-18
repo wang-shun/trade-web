@@ -213,6 +213,7 @@
 			  		<form method="get" class="form_list" id="evaEnterForm">
 				  		<input type="hidden" name="pkid" value="${toEvaPricingVo.pkid }">
 				  		<input type="hidden" name="evaCode" value="${toEvaPricingVo.evaCode }">
+				  		<input type="hidden" name="caseCode" value="${toEvaPricingVo.caseCode }">
 				  		<input type="hidden" name="taskId" value="${taskId }" >
 				  		<input type="hidden" name="processInstanceId" value="${processInstanceId }">
 				  		
