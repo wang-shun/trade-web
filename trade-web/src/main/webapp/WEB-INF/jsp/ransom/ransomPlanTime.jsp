@@ -37,112 +37,101 @@
     </head>
     <body>
     <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-    <input type="hidden" id = "ransomCode" value="${ransomVo.ransomCode }" />
-    <input type="hidden" id = "ransomCode" value="${ransomVo.caseCode }" />
+    <input type="hidden" id = "ransomCode" value="${ransomCode }" />
+    <input type="hidden" id = "caseCode" value="${caseVo.caseCode }" />
+    <input type="hidden" nanme = "partCode" value="${applyVo.partCode }" />
+    <input type="hidden" nanme = "partCode" value="${signVo.partCode }" />
+    <input type="hidden" nanme = "partCode" value="${mortgageVo.partCode }" />
+    <input type="hidden" nanme = "partCode" value="${cancelVo.partCode }" />
+    <input type="hidden" nanme = "partCode" value="${permitVo.partCode }" />
+    <input type="hidden" nanme = "partCode" value="${paymentVo.partCode }" />
+    
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="ibox-content border-bottom clearfix space_box">
                 <h2 class="title text-center">如修改已经的录入时间计划，需录入变更理由</h2>
                 <form method="get" class="form_list text-center">
                    <div class="line">
                       <div class="form_content">
-                          <label class="control-label sign_left_small select_style mend_select">申请时间</label>
+                          <label class="control-label sign_left_small select_style mend_select" id="partCode0">申请时间</label>
                           <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="applyTime" id="applyTime" class="form-control data_style" type="text"  value="<fmt:formatDate value='${ransomVo.applyTime }' pattern='yyyy-MM-dd'/>" placeholder="">
+                              <input name="estPartTime0" id="applyTime" class="form-control data_style" type="text"  value="<fmt:formatDate value='${ransomVo.applyTime }' pattern='yyyy-MM-dd'/>" placeholder="">
                           </div>
                       </div>
                       <div class="form_content">
                           <label class="control-label sign_left_small">变更理由</label>
-                          <input name="applyRemake" id="applyRemake" class="teamcode input_type" placeholder="" value="${ransomVo.applyRemake }" />
+                          <input name="remark0" id="applyRemake" class="teamcode input_type" placeholder="" value="${ransomVo.applyRemake }" />
                       </div>
                		</div>
                		<div class="line">
                       <div class="form_content">
-                          <label class="control-label sign_left_small select_style mend_select">面签时间</label>
+                          <label class="control-label sign_left_small select_style mend_select" id="partCode1">面签时间</label>
                           <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="interviewTime" id="interviewTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${ransomVo.interviewTime }' pattern='yyyy-MM-dd'/>" placeholder="">
+                              <input name="estPartTime1" id="interviewTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${ransomVo.interviewTime }' pattern='yyyy-MM-dd'/>" placeholder="">
                           </div>
                       </div>
                       <div class="form_content">
                           <label class="control-label sign_left_small">变更理由</label>
-                          <input name="interviewRemake" id="interviewRemake" class="teamcode input_type" placeholder="" value="${ransomVo.interviewRemake }" />
+                          <input name="remark1" id="interviewRemake" class="teamcode input_type" placeholder="" value="${ransomVo.interviewRemake }" />
                       </div>
                		</div>
                		<div class="line">
                       <div class="form_content">
-                          <label class="control-label sign_left_small select_style mend_select">陪同还贷时间</label>
+                          <label class="control-label sign_left_small select_style mend_select" id="partCode2">陪同还贷时间</label>
                           <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="repayTime" id="repayTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${ransomVo.repayTime }' pattern='yyyy-MM-dd'/>" placeholder="">
+                              <input name="estPartTime2" id="repayTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${ransomVo.repayTime }' pattern='yyyy-MM-dd'/>" placeholder="">
                           </div>
                       </div>
                       <div class="form_content">
                           <label class="control-label sign_left_small">变更理由</label>
-                          <input name="repayRemake" id="repayRemake" class="teamcode input_type" placeholder="" value="${ransomVo.repayRemake }" />
+                          <input name="remark2" id="repayRemake" class="teamcode input_type" placeholder="" value="${ransomVo.repayRemake }" />
+                      </div>
+               		</div>
+               		<div class="line" id="line">
+                      <div class="form_content">
+                          <label class="control-label sign_left_small select_style mend_select" id="partCode3">注销抵押时间</label>
+                          <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
+                              <input name="estPartTime3" id="cancelTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${ransomVo.cancelTime }' pattern='yyyy-MM-dd'/>" placeholder="">
+                          </div>
+                      </div>
+                      <div class="form_content">
+                          <label class="control-label sign_left_small">变更理由</label>
+                          <input name="remark3" id="cancelRemake" class="teamcode input_type" placeholder="" value="${ransomVo.cancelRemake }" />
                       </div>
                		</div>
                		<div class="line">
                       <div class="form_content">
-                          <label class="control-label sign_left_small select_style mend_select">注销抵押时间</label>
+                          <label class="control-label sign_left_small select_style mend_select" id="partCode4">领取产证时间</label>
                           <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="cancelTime" id="cancelTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${ransomVo.cancelTime }' pattern='yyyy-MM-dd'/>" placeholder="">
+                              <input name="estPartTime4" id="redeemTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${ransomVo.redeemTime }' pattern='yyyy-MM-dd'/>" placeholder="">
                           </div>
                       </div>
                       <div class="form_content">
                           <label class="control-label sign_left_small">变更理由</label>
-                          <input name="cancelRemake" id="cancelRemake" class="teamcode input_type" placeholder="" value="${ransomVo.cancelRemake }" />
+                          <input name="remark4" id="redeemRemake" class="teamcode input_type" placeholder="" value="${ransomVo.redeemRemake }" />
                       </div>
                		</div>
                		<div class="line">
                       <div class="form_content">
-                          <label class="control-label sign_left_small select_style mend_select">领取产证时间</label>
+                          <label class="control-label sign_left_small select_style mend_select" id="partCode5">回款结清时间</label>
                           <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="redeemTime" id="redeemTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${ransomVo.redeemTime }' pattern='yyyy-MM-dd'/>" placeholder="">
+                              <input name="estPartTime5" id="paymentTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${ransomVo.paymentTime }' pattern='yyyy-MM-dd'/>" placeholder="">
                           </div>
                       </div>
                       <div class="form_content">
                           <label class="control-label sign_left_small">变更理由</label>
-                          <input name="redeemRemake" id="redeemRemake" class="teamcode input_type" placeholder="" value="${ransomVo.redeemRemake }" />
-                      </div>
-               		</div>
-               		<div class="line">
-                      <div class="form_content">
-                          <label class="control-label sign_left_small select_style mend_select">回款结清时间</label>
-                          <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="paymentTime" id="paymentTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${ransomVo.paymentTime }' pattern='yyyy-MM-dd'/>" placeholder="">
-                          </div>
-                      </div>
-                      <div class="form_content">
-                          <label class="control-label sign_left_small">变更理由</label>
-                          <input name="paymentRemake" id="paymentRemake" class="teamcode input_type" placeholder="" value="${ransomVo.paymentRemake }" />
+                          <input name="remark5" id="paymentRemake" class="teamcode input_type" placeholder="" value="${ransomVo.paymentRemake }" />
                       </div>
                		</div>
                		<div>
 						<div class="text-center">
-							<a class='btn btn-primary ' href="javascript:void(0)" id="save" style="width: 110px;">保存</a>
-							<a class='btn btn-primary ' onclick = "reloadTimeRecord()" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">变更记录查看</a>
+							<a class='btn btn-primary ' href="javascript:void(0)" onclick="submitChangeRecord(1)" style="width: 110px;">保存</a>
+							<a class='btn btn-primary ' onclick = "submitChangeRecord(2)" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">变更记录查看</a>
 						</div>
 					</div>
                 </form>
             </div>
         </div>
         
-        <div class="modal inmodal in" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-        	<div class="modal-dialog" style="width: 1070px;height: 500px;top: 88px;background: #ccc;">
-				<div class="modal-header" style="height: 0;"><button class="close" type="button" data-dismiss="modal">×</button>
-					<h2 class="title">变更明细记录查看</h2>
-				</div>
-				<div class="modal-body">
-					<table class="table table_blue table-striped table-bordered table-hover ">
-						<thead>
-							<tr>
-								<th></th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody id="record-detail"></tbody>
-					</table>
-				</div>
-			</div>
-		</div>
         <content tag="local_script">
         <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
         <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>

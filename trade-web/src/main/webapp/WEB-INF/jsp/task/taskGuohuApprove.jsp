@@ -263,14 +263,17 @@
                 </c:choose>
                 <!--新加-->
                 <li>
-                    <em>贷款总金额</em><span class="yuanwid">${caseDetailVO.mortTypeName}</span>
+                    <em>贷款总金额</em><span class="yuanwid">
+                    <c:if test="${!empty caseDetailVO.mortTypeName}">
+                    ${caseDetailVO.mortTypeName}&nbsp;&nbsp;万元
+                    </c:if></span>
                 </li>
                 <!--end-->
                 <li>
                     <em>商贷金额</em>
                             <span class="yuanwid">
                             <c:if test="${!empty toMortgage.comAmount}">
-                                ${toMortgage.comAmount}&nbsp&nbsp万元
+                                ${toMortgage.comAmount}&nbsp;&nbsp;万元
                             </c:if>
 			                </span>
                 </li>
@@ -295,7 +298,7 @@
                     <em>公积金贷款金额</em>
                             <span class="yuanwid">
                             	<c:if test="${!empty toMortgage.prfAmount}">
-                                    ${toMortgage.prfAmount}&nbsp&nbsp万元
+                                    ${toMortgage.prfAmount}&nbsp;&nbsp;万元
                                 </c:if>
                             </span>
                 </li>
@@ -324,23 +327,31 @@
                 <li>
                     <em class="pull-left">是否自办评估</em>
                     <span class="infolong pull-left">
-                        <input type="radio" value="1"/>是
-                        <input type="radio" value="0" checked="checked"/>否
+                        <c:if test="${caseDetailVO.isEvas=='true'}">
+                        <input type="radio" value="1" checked="checked"/>是
+                        <input type="radio" value="0" />否
+                        </c:if>
+                        <c:if test="${caseDetailVO.isEvas=='false'}">
+                            <input type="radio" value="1" />是
+                            <input type="radio" value="0" checked="checked"/>否
+                        </c:if>
                    </span>
                 </li>
                 <!--end-->
 
                 <li>
                     <em>评估金额</em>
-                            <span class="yuanwid"> 
+                            <span class="yuanwid">
                             <c:if test="${!empty caseDetailVO.evaFee}">
-                                ${caseDetailVO.evaFee}&nbsp&nbsp元
+                                ${caseDetailVO.evaFee}&nbsp;&nbsp;万元
                             </c:if>
                 			</span>
                 </li>
                 <!--新加-->
                 <li>
-                    <em class="pull-left">评估均价</em><span class="infolong pull-left">${caseDetailVO.evaName}</span>
+                    <em class="pull-left">评估均价</em><span class="infolong pull-left">
+                    <c:if test="${!empty caseDetailVO.evaPrice}">
+                    ${caseDetailVO.evaPrice}&nbsp;&nbsp;万元</c:if></span>
                 </li>
                 <!--end-->
                <%-- <li>
@@ -354,26 +365,37 @@
                     <em >典当公司</em><span class="yuanwid">${houseTransfer.pawnCompanies}</span>
                 </li>
                 <li>
-                    <em >业主垫资金额</em><span class="yuanwid">${houseTransfer.ownerMatAmount}</span>
+                    <em >业主垫资金额</em><span class="yuanwid">
+                    <c:if test="${!empty houseTransfer.ownerMatAmount}">
+                    ${houseTransfer.ownerMatAmount}&nbsp;&nbsp;万元</c:if></span>
                 </li>
                 <li>
                     <em >垫资日期</em><span class="yuanwid">
                     <fmt:formatDate value="${houseTransfer.matAmountTime}" pattern="yyyy-MM-dd" /></span>
                 </li>
                 <li>
-                    <em class="pull-left">垫资费用</em><span class="infolong pull-left">${houseTransfer.matCharges}</span>
+                    <em class="pull-left">垫资费用</em><span class="infolong pull-left">
+                    <c:if test="${!empty houseTransfer.matCharges}">
+                    ${houseTransfer.matCharges}&nbsp;&nbsp;万元</c:if></span>
                 </li>
                 <li>
-                    <em >担保费金额</em><span class="yuanwid">${houseTransfer.guaranteeFeeAmount}</span>
+                    <em >担保费金额</em><span class="yuanwid">
+                    <c:if test="${!empty houseTransfer.guaranteeFeeAmount}">
+                    ${houseTransfer.guaranteeFeeAmount}&nbsp;&nbsp;万元</c:if></span>
                 </li>
                 <li>
-                    <em >契税</em><span class="yuanwid">${toRatePayment.contractTax}</span>
+                    <em >契税</em><span class="yuanwid">
+                    <c:if test="${!empty toRatePayment.contractTax}">
+                    ${toRatePayment.contractTax}&nbsp;&nbsp;万元</c:if></span>
                 </li>
                 <li>
-                    <em >个人所得税</em><span class="yuanwid">${toRatePayment.personalIncomeTax}</span>
+                    <em >个人所得税</em><span class="yuanwid">
+                    <c:if test="${!empty toRatePayment.personalIncomeTax}">
+                    ${toRatePayment.personalIncomeTax}&nbsp;&nbsp;万元</c:if></span>
                 </li>
                 <li>
-                    <em >土地增值税</em><span class="yuanwid">${toRatePayment.landIncrementTax}</span>
+                    <em >土地增值税</em><span class="yuanwid"><c:if test="${!empty toRatePayment.landIncrementTax}">
+                    ${toRatePayment.landIncrementTax}&nbsp;&nbsp;万元</c:if></span>
                 </li>
             </ul>
         </div>
@@ -384,7 +406,7 @@
             <div id="imgShow" class="lightBoxGallery"></div>
         </div>
     </div>
-   <%-- <div class="clearfix">
+    <%--<div class="clearfix">
         <h2 class="newtitle title-mark">CTM附件</h2>
         <div class="jqGrid_wrapper">
             <table id="gridTable"></table>
@@ -502,7 +524,7 @@
     <script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
     <!--审批记录-->
     <script src="<c:url value='/transjs/task/loanlostApprove.js' />"></script>
-    <!--产调-->
+    <!--产调 查询附件-->
     <script src="<c:url value='/transjs/task/showAttachment.js' />"></script>  <%-- --%>
     <!-- Custom and plugin javascript -->
     <!--文件拖拽上传插件-->
@@ -510,7 +532,7 @@
     <!-- Data picker 时间插件-->
     <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 
-    <!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js' />"></script>
+    <!-- 上传附件相关 --> <script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script>
@@ -609,11 +631,11 @@
             });
 
             window.open(attachPath);
-            /*var url=ctx+"/api/imageshow/imgShow?img="+attachPath;
+          /*  var url=ctx+"/api/imageshow/imgShow?img="+attachPath;
              window.open(encodeURI(encodeURI(url)));*/
         }
 
-       /* $("#gridTable")
+        /*$("#gridTable")
                 .jqGrid(
                 {
                     url : ctx + url,
@@ -623,7 +645,7 @@
                     autowidth : true,
                     shrinkToFit : true,
                     rowNum : 20,
-                    /!*   rowList: [10, 20, 30], *!/
+                    rowList: [10, 20, 30],
                     colNames : [ '附件类型', '附件名称', '附件路径', '上传时间',
                         '操作' ],
                     colModel : [ {
@@ -828,11 +850,11 @@
                 }
             });
         }
-        /*//渲染图片
+        //渲染图片
         function renderImg(){
             $('.wrapper-content').viewer('destroy');
             $('.wrapper-content').viewer();
-        }*/
+        }
     </script> </content>
 </body>
 </html>
