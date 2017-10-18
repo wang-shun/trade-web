@@ -53,11 +53,11 @@ import com.centaline.trans.cases.service.ToCaseParticipantService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.ToCloseService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
-import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
 import com.centaline.trans.cases.vo.CaseAssistantVO;
 import com.centaline.trans.cases.vo.CaseDetailProcessorVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.cases.vo.ChangeTaskAssigneeVO;
+import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
@@ -1144,7 +1144,7 @@ public class CaseDetailController {
 			}
 		}*/
 		/** 公共信息 start **/
-		getCaseBaseInfo(request, toCase.getCaseCode());
+		/*getCaseBaseInfo(request, toCase.getCaseCode());*/
 		/** 公共信息 end **/
 		
 		request.setAttribute("isCaseManager", isCaseManager);
@@ -1178,9 +1178,9 @@ public class CaseDetailController {
 	 */
     @RequestMapping(value = "/getLoanOrWarrantList")
     @ResponseBody
-    public List<User> getUserOrgCpUserList(HttpServletRequest request, 
+    public List<VCaseDistributeUserVO> getLoanOrWarrantList(HttpServletRequest request, 
     									@RequestParam(value="caseCode",required=true)String caseCode) throws ParseException{
-       
+    	List<VCaseDistributeUserVO> res = new ArrayList<VCaseDistributeUserVO>();
         // 获取当前用户
         SessionUser sessionUser = uamSessionService.getSessionUser();
         ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
@@ -1188,10 +1188,10 @@ public class CaseDetailController {
         //默认过户
         String leadingType = TransJobs.GHQZ.getCode();
         
-        ToCaseParticipant vo = new ToCaseParticipant();
-		vo.setCaseCode(caseCode);
+        ToCaseParticipant partVo = new ToCaseParticipant();
+        partVo.setCaseCode(caseCode);
 		//案件参与人信息
-		List<ToCaseParticipant> caseParticipants = toCaseParticipantService.findToCaseParticipantByCondition(vo);
+		List<ToCaseParticipant> caseParticipants = toCaseParticipantService.findToCaseParticipantByCondition(partVo);
         for(ToCaseParticipant part : caseParticipants){
         	if(CaseParticipantEnum.LOAN.getCode().equals(part.getPosition())){
         		leadingType = TransJobs.DKQZ.getCode();
@@ -1208,10 +1208,29 @@ public class CaseDetailController {
         		break;
         	}
         }
-        
-        return userList;
+        for (int i = 0; i < userList.size(); i++){
+            VCaseDistributeUserVO vo = new VCaseDistributeUserVO();
+            User user = userList.get(i);
+            vo.setId(user.getId());
+            vo.setMobile(user.getMobile());
+            vo.setRealName(user.getRealName());
+            int userCaseCount = toCaseInfoService.queryCountCasesByUserId(user.getId());
+            int userCaseMonthCount = toCaseInfoService.queryCountMonthCasesByUserId(user.getId());
+            int userCaseUnTransCount = toCaseInfoService.queryCountUnTransCasesByUserId(user.getId());
+
+            vo.setUserCaseCount(userCaseCount);
+            vo.setUserCaseMonthCount(userCaseMonthCount);
+            vo.setUserCaseUnTransCount(userCaseUnTransCount);
+            //添加个权证区分
+            vo.setType(TransJobs.getName(leadingType));
+            String url = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/" + user.getEmployeeCode() + ".jpg";
+            vo.setImgUrl(url);
+            res.add(vo);
+        }
+        return res;
     }
-	
+    
+    
 	private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){
 		if (tasks == null || mySerivceItems == null || tasks.isEmpty() || mySerivceItems.isEmpty()) {
 			return tasks;
@@ -1402,7 +1421,7 @@ public class CaseDetailController {
 	 * @return
 	 * @throws ParseException
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/changeLeadingUser")
 	@ResponseBody
 	public AjaxResponse<?> changeLeadingUser(String instCode, String caseCode, String userId, HttpServletRequest request) {
@@ -1411,9 +1430,9 @@ public class CaseDetailController {
 		String origUserId = toCase.getLeadingProcessId();
 		User u = uamUserOrgService.getUserById(origUserId);
 		User u_new = uamUserOrgService.getUserById(userId);
-		//新责任人分行经理
+		//新责任人权证经理
 		User manager = new User();
-		List<User> managerList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(u_new.getOrgId(),TransJobs.TFHJL.getCode());
+		List<User> managerList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(u_new.getOrgId(),TransJobs.QZJL.getCode());
 		if(managerList != null && managerList.size() > 0){
 			manager = managerList.get(0);
 		}else{
@@ -1428,6 +1447,9 @@ public class CaseDetailController {
 			toCaseParticipantService.updateCaseParticipant(caseCode, u_new, manager);
 		} catch(Exception e){
 			return AjaxResponse.fail(e.getMessage());
+		}
+		if (reToCase == 0){
+			return AjaxResponse.fail("案件基本表更新失败！");
 		}
 		/**
 		 * 原码,no modify
@@ -1478,18 +1500,21 @@ public class CaseDetailController {
 			tq.setProcessInstanceId(instCode);
 			tq.setFinished(false);
 			tq.setAssignee(u.getUsername());
-			List<TaskVo> tasks = workFlowManager.listTasks(tq).getData();
+			List<TaskVo> tasks =  new ArrayList<TaskVo>();		
+			PageableVo pageVo =	workFlowManager.listTasks(tq);
+			if(pageVo != null){
+				tasks = pageVo.getData();
+			}				
 			//获取贷款流程(贷款权证)
 			tasks.addAll(getNonMainWorkflowByAssignee(caseCode,u.getUsername()));
 			//流程任务人变更
 			updateWorkflow(userId, tasks, caseCode);        
 		}
 		
-		if (reToCase == 0)
-			return AjaxResponse.fail("案件基本表更新失败！");
-		
 		return AjaxResponse.success("变更成功！");
 	}
+	
+	
 	/**
 	 * 查询指定办理人的任务项(贷款流程)
 	 * @param caseCode
@@ -2219,11 +2244,15 @@ public class CaseDetailController {
 		Map<String,Boolean> taskInstCode = new HashMap<>();
 		
 		/**
-		 *  检查是否有流程重启任务及获取掐所有任务暂停状态 
+		 *  检查是否有流程重启任务或报单流程及获取所有任务暂停状态 
 		 */
 		for(TaskVo task : taskVos){
 			if(WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
 				response.setMessage("该案件有流程重启任务，等待主管审批");
+				response.setSuccess(false);
+				return response;
+			}if(WorkFlowEnum.CASE_STOP_PROCESS.getCode().equals(task.getBusiness_key())){
+				response.setMessage("该案件有爆单任务，等待主管审批");
 				response.setSuccess(false);
 				return response;
 			}else{

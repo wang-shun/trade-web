@@ -16,6 +16,7 @@ $(document).ready(function(){
  * 详情table加载
  */
 function reloadDetail(){
+	debugger;
 	var url = ctx + '/quickGrid/findPage';
 	var ransomCode = $('#ransomCode').val();
 	var data = {};
@@ -23,7 +24,6 @@ function reloadDetail(){
 	data.rows = 10;
 	data.queryId = "queryRansomDetail";
 	data.argu_ransomCode = ransomCode;
-//	debugger;
 	$.ajax({
 		async: true,
 		type:'POST',
@@ -104,11 +104,11 @@ function reloadDetail(){
 	}
 	
 	/**
-	 * 权证变更
+	 * 金融权证变更
 	 */
 	function showOrgCp() {
 		debugger;
-		var url = "/case/getUserOrgCpUserList";
+		var url = "/ransomList/getUserOrgFWUserList";
 		var ctx = $("#ctx").val();
 		var caseCode= $("#caseCode").val();
 		url = ctx + url;
@@ -156,7 +156,6 @@ function reloadDetail(){
 							addHtml += '<p>联系电话：' + n.mobile + '</p>';
 							addHtml += '<p>当前单数：' + n.userCaseCount + '</p>';
 							addHtml += '<p>本月接单：' + n.userCaseMonthCount + '</p>';
-							addHtml += '<p>未过户单：' + n.userCaseUnTransCount + '</p>';
 							addHtml += '</div><div class="clearfix"></div></a>';
 							addHtml += '</div></div>';
 						})

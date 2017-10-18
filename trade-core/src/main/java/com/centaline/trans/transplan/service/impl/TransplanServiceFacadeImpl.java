@@ -78,7 +78,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 		// 删除交易计划表该案件相关信息
 		Map map = new HashMap();
 		map.put("caseCode", caseCode);
-		if (ConstantsUtil.PROCESS_RESTART.equals(changeReason)) {
+		/*if (ConstantsUtil.PROCESS_RESTART.equals(changeReason)) {
 			// 流程重启保留首次跟进环节信息并更新首次跟进原预计时间
 			map.put("partCode", ToAttachmentEnum.FIRSTFOLLOW.getCode());
 			TsTaskPlanSet tps = tsTaskPlanSetMapper
@@ -96,7 +96,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				}
 			}
 
-		}
+		}*/
 		toTransPlanMapper.deleteTransPlansByCaseCode(map);
 
 	}
@@ -189,18 +189,18 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				.findTransPlanByCaseCode(caseCode);
 		TransPlanVO transPlanVO = new TransPlanVO();
 		for (ToTransPlan toTransPlan : list) {
-			if (toTransPlan.getPartCode().equals("LoanClose")) {/* 还贷，贷款结清 */
+			/*if (toTransPlan.getPartCode().equals("LoanClose")) {*//* 还贷，贷款结清 *//*
 				transPlanVO.setEstPartTimeHd(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidHd(toTransPlan.getPkid());
-			} /** 审税 天津废弃
+			}*/ /** 审税 天津废弃
 			else if (toTransPlan.getPartCode().equals("TaxReview")) {
 				transPlanVO.setEstPartTimeTr(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidTr(toTransPlan.getPkid());
 			} */
-			else if (toTransPlan.getPartCode().equals("LoanRelease")) {/* 放款 */
+			if (toTransPlan.getPartCode().equals("LoanRelease")) {/* 放款 */
 				transPlanVO.setEstPartTimeFk(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidFk(toTransPlan.getPkid());
-			} else if (toTransPlan.getPartCode().equals("PayTax")) { /*缴税Pt*/
+			} else if (toTransPlan.getPartCode().equals("RatePayment")) { /*缴税Pt*/
 				transPlanVO.setEstPartTimeGh(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidGh(toTransPlan.getPkid());
 			}else if (toTransPlan.getPartCode().equals("Guohu")) {/* 过户 */

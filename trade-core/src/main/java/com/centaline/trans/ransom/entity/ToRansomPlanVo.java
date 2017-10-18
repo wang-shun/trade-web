@@ -40,11 +40,22 @@ public class ToRansomPlanVo {
      * 创建人
      */
     private String createUser;
+    
     /**
      * 更新人
      */
     private String updateUser;
     
+    private Date updateTime;
+    
+    private String remark;
+    
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 	public String getRansomCode() {
 		return ransomCode;
 	}
@@ -110,6 +121,12 @@ public class ToRansomPlanVo {
 	}
 	public void setPkid(Long pkid) {
 		this.pkid = pkid;
+	}
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 	
     

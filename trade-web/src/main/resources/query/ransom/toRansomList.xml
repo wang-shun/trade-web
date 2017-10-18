@@ -273,54 +273,22 @@
 			<baseSql>
 				<![CDATA[
 					SELECT 
-						app.PKID pkid,
-						app.APPLY_TIME applyTime,
-						app.REMAKE applyRemake,
-						inter.INTERVIEW_TIME interviewTime,
-						inter.REMAKE interviewRemake,
-						rep.REPAY_TIME repayTime,
-						rep.REMAKE repayRemake,
-						can.CANCEL_TIME cancelTime,
-						can.REMAKE cancelRemake,
-						red.REDEEM_TIME redeemTime,
-						red.REMAKE redeemRemake,
-						pay.PAYMENT_TIME paymentTime,
-						pay.REMAKE paymentRemake
-					FROM	sctrans.T_RA_APPLY app 
-					LEFT JOIN sctrans.T_RA_INTERVIEW inter ON inter.RANSOM_CODE = app.RANSOM_CODE
-					LEFT JOIN	sctrans.T_RA_REPAY rep ON rep.RANSOM_CODE = inter.RANSOM_CODE
-					LEFT JOIN	sctrans.T_RA_CANCEL can ON can.RANSOM_CODE = rep.RANSOM_CODE
-					LEFT JOIN	sctrans.T_RA_REDEEM red ON red.RANSOM_CODE = can.RANSOM_CODE
-					LEFT JOIN	sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
-					WHERE
-						app.RANSOM_CODE = #ransomCode#
+						PKID,RANSOM_CODE,PART_CODE,EST_PART_TIME,REMARK 
+					FROM sctrans.T_RA_PLAN
+						WHERE
+							RANSOM_CODE = #ransomCode#
+						
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY app.PKID DESC
+			  ORDER BY PKID DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>
-				
-				<column type="both" name="applyTime" display="申请时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="applyRemake" display="申请变更理由"/>
-				
-				<column type="both" name="interviewTime" display="面签时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="interviewRemake" display="面签变更理由"/>
-				
-				<column type="both" name="repayTime" display="陪同还贷时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="repayRemake" display="陪同还贷变更理由"/>
-				
-				<column type="both" name="cancelTime" display="注销抵押时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="cancelRemake" display="注销抵押变更理由"/>
-				
-				<column type="both" name="redeemTime" display="领取产证时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="redeemRemake" display="领取产证变更理由"/>
-				
-				<column type="both" name="paymentTime" display="回款结清时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="paymentRemake" display="回款结清理由"/>
-				
+				<column type="both" name="EST_PART_TIME" display="变更时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="REMARK" display="变更理由"/>
+				<column type="both" name="PART_CODE" display="赎楼环节"/>
 			</table-row>
 		</grid>
 	</query>
