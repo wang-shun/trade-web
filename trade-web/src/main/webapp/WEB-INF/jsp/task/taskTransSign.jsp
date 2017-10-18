@@ -909,8 +909,8 @@
                 return false;
             }
 
-            if ($("#property_research_letter_pic_list li").length == undefined
-                || $("#property_research_letter_pic_list li").length == 0 ) {
+            if ($("#sign_the_agreement_pic_list li").length == undefined
+                || $("#sign_the_agreement_pic_list li").length == 0 ) {
                 window.wxc.alert("收件收据未上传!");
 
                 return false;

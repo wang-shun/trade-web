@@ -2,6 +2,7 @@ package com.centaline.trans.ransom.service.impl;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -362,9 +363,9 @@ public class RansomServiceImpl implements RansomService{
 	}
 
 	@Override
-	public ToRansomCaseVo getRansomCaseInfo(String caseCode) {
+	public ToRansomCaseVo getRansomCaseInfo(String ransomCode) {
 		ToRansomCaseVo caseVo = new ToRansomCaseVo();
-		caseVo = ransomMapper.getRansomCaseInfoByCaseCode(caseCode);
+		caseVo = ransomMapper.getRansomCaseInfoByCaseCode(ransomCode);
 		return caseVo;
 	}
 

@@ -18,6 +18,8 @@ public enum WorkFlowEnum {
 	SATIS_DEFKEY("SatisProcess","processDefinitionKey"),
 	//自办贷款/评估审批流程
 	LOANANDASSE_PROCESS("loanAndAsse_Process","loanAndAsse_Process"),
+	//评估退费流程
+	EVALREFUND_PROCESS("evalRefund_Process","evalRefund_Process"),
 //	评估发票管理流程
 	EVAL_INVOICE("EvalInvoiceProcess","processDefinitionKey"),
 //	评估发票管理流程

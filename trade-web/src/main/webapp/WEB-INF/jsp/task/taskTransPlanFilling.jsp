@@ -69,7 +69,7 @@
 				<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 				<%-- 原有数据对应id --%>
 				<%-- <input type="hidden" id="pkidTp" name="pkidTp" value="${transPlan.pkidTp}"> --%>
-				<input type="hidden" id="pkidPc" name="pkidPc" value="${transPlan.pkidHd}">
+				<%--天津废弃<input type="hidden" id="pkidPc" name="pkidPc" value="${transPlan.pkidHd}">--%>
 				<%--天津废弃<input type="hidden" id="pkidTr" name="pkidTr" value="${transPlan.pkidTr}"> --%>
 				<input type="hidden" id="pkidGh" name="pkidGh" value="${transPlan.pkidGh}">
 				<input type="hidden" id="pkidLz" name="pkidLz" value="${transPlan.pkidLz}">

@@ -31,9 +31,13 @@ import com.centaline.trans.engine.core.WorkFlowEngine;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.vo.ExecutionVo;
+import com.centaline.trans.eval.entity.ToEvaRefund;
+import com.centaline.trans.eval.service.ToEvaRefundService;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 import com.centaline.trans.utils.DateUtil;
+
+import io.swagger.annotations.ApiModelProperty;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.CollectionUtils;
@@ -49,6 +53,7 @@ import javax.validation.Validator;
 import javax.validation.groups.Default;
 
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -91,6 +96,8 @@ public class CcaiServiceImpl implements CcaiService {
 
 	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 	;//Hibernate校验工具
+	@Autowired
+	private ToEvaRefundService toEvaRefundService;
 
 	@Override
 	public CcaiServiceResult importCase(CaseImport acase) {
@@ -962,8 +969,41 @@ public class CcaiServiceImpl implements CcaiService {
 	 */
 	@Override
 	public CcaiServiceResult importEvalRefund(EvalRefundImport info) {
-		
-		return null;
+		CcaiServiceResult result = new CcaiServiceResult();
+		ToEvaRefund toEvaRefund = copyEvaRefund(info);
+		String caseCode = toEvaRefundService.insertSelective(toEvaRefund);
+		if(StringUtils.isBlank(caseCode)){
+			result.setSuccess(false);
+			result.setMessage("同步失败!审批信息保存失败!");
+			result.setCode("99");
+			return result;
+		}
+		MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.EVAREFUND_TYPE);
+		jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
+		result.setSuccess(true);
+		result.setMessage("同步成功！");
+		result.setCode("00");
+		return result;
+	}
+
+	private ToEvaRefund copyEvaRefund(EvalRefundImport info) {
+		ToEvaRefund toEvaRefund = new ToEvaRefund();                     
+		toEvaRefund.setApplyId(info.getApplyId());
+		toEvaRefund.setApplyTime(info.getApplyTime());
+		toEvaRefund.setCcaiCode(info.getCcaiCode());
+		toEvaRefund.setCity(info.getCity());
+		toEvaRefund.setEvalCompany(info.getEvalCompany());
+		toEvaRefund.setFinOrgId(info.getEvalCompanyId());
+		toEvaRefund.setApplyDepartCode(info.getGrpCode());
+		toEvaRefund.setApplyDepart(info.getGrpName());
+		toEvaRefund.setProposer(info.getRealName());
+		toEvaRefund.setRefundAmount(info.getRefundAmount());
+		toEvaRefund.setRefundCause(info.getRefundCause());
+		toEvaRefund.setRefundKinds(info.getRefundKinds());
+		toEvaRefund.setRefundTarget(info.getRefundTarget());
+		toEvaRefund.setToRefundTime(info.getToRefundTime());
+		toEvaRefund.setProposerId(info.getUserName());
+		return toEvaRefund;
 	}
 
 }

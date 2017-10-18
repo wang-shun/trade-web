@@ -62,7 +62,7 @@ function getShowAttachment() {
 				}
 			});
 			$("#imgShow").append(trStr);
-			$('.wrapper-content').viewer();
+			$('#imgShow').viewer();
 		},
 		error : function(errors) {
 		}
