@@ -16,6 +16,7 @@ import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
+import com.alibaba.druid.util.StringUtils;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.service.CaseStopService;
@@ -102,6 +103,15 @@ public class CaseStopServiceImpl implements CaseStopService {
 			result.setMessage("已过户的案件不可爆单");
 			return result;
 		}
+		ToWorkFlow wfl = new ToWorkFlow();
+		wfl.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+		wfl.setCaseCode(toCase.getCaseCode());
+		ToWorkFlow awfl = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wfl);
+		if (awfl != null) {
+			 result.setSuccess(false);
+			 result.setMessage("当前已存在未结束的重启流程");
+			 return result;
+		}
 		//检查是否正在爆单流程中
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.CASE_STOP_PROCESS.getCode());
@@ -186,7 +196,7 @@ public class CaseStopServiceImpl implements CaseStopService {
 	 */
 	private void activateOrSuspendProcess(String caseCode, boolean active) {
 		//只操作主流程相关
-		List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(caseCode);
+		/*List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(caseCode);
 		for (TaskVo task : taskVos) {
 			if (!WorkFlowEnum.CASE_STOP_PROCESS.getCode().equals(task.getBusiness_key())) {
 				if(active){
@@ -201,7 +211,34 @@ public class CaseStopServiceImpl implements CaseStopService {
 					workFlowManager.activateOrSuspendProcessInstance(task.getInstCode(), active);
 				}	
 			}
+		}*/
+		
+		List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(caseCode);
+		/**
+		 * 同实例id不同任务去重复
+		 * @author wbcaiyx
+		 */
+		Map<String,Boolean> taskInstCode = new HashMap<>();
+		for(TaskVo task : taskVos){
+			if(!WorkFlowEnum.CASE_STOP_PROCESS.getCode().equals(task.getBusiness_key())){
+				if(!taskInstCode.containsKey(task.getInstCode())){
+					taskInstCode.put(task.getInstCode(), task.getSuspended());
+				}
+			}
 		}
+		for(String instCode : taskInstCode.keySet()){
+			if (!StringUtils.isEmpty(instCode)) {
+				if(active){
+					if(taskInstCode.get(instCode)){
+						workFlowManager.activateOrSuspendProcessInstance(instCode, active);
+					}
+				}else{
+					if(!taskInstCode.get(instCode)){
+						workFlowManager.activateOrSuspendProcessInstance(instCode, active);
+					}
+				}
+			}
+		}	
 	}
 	
 	/**

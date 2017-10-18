@@ -16,7 +16,6 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			  var random = 'hwT6tmrtX45NiDMepFnDw6nnsAzJRKD7';
 			  
 			  init = function(options) {
-				  
 				  var settings = $.extend({
 						ctx  :  window.ctx,
 						fileUploadContainer : "fileUploadContainer",
@@ -107,7 +106,6 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		      };
 		      
 			  initWebUploader = function(settings) {
-				   
 				    // 初始化Web Uploader
 					var uploader = WebUploader.create({
 
@@ -147,7 +145,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 						$("."+settings.pick).removeClass("checked");
 						$this.addClass("checked");
 					});
-					
+
 					// 当有文件添加进来的时候
 					uploader.on('fileQueued', function(file) {
 						var checkedBtn = $("."+settings.pick+".checked");
@@ -226,6 +224,14 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 					uploader.on( 'uploadComplete', function(file) {
 						//isCompletedUpload();
 					});
+					//错误提示 处理
+                    uploader.on('error', function(type) {
+                        //Q_EXCEED_NUM_LIMIT  设置了fileNumLimit ，超过则会有该error type,文件数量超过设置
+                        //Q_EXCEED_SIZE_LIMIT 设置fileSizeLimit、fileSingleSizeLimit 文件大小超过了设置值
+                        if(type == 'Q_TYPE_DENIED'){
+                        	window.wxc.error("文件类型不正确!");
+                        }
+                    });
 			  };
 			  
 			  initDeleteImgEvent = function (settings) {
@@ -271,7 +277,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 				    }  
 				    return pwd;  
 			  };
-		      
+
 		      queryAttachments = function(settings) {
 		    	  var ctx = settings.ctx;
 		    	  var caseCode = settings.caseCode;

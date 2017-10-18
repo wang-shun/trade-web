@@ -99,7 +99,7 @@ public class EditCaseDetailVO {
     private Long taxid;
     private Date taxTime;
     private String isUniqueHome;
-    private String holdYear;
+    private String holdYear;				/*购房年数*/
     
     /*查限购*/
     private Date realPlsTime;
@@ -140,9 +140,8 @@ public class EditCaseDetailVO {
     
     /*赎楼*/
     private BigDecimal restMoney;			/*剩余贷款金额*/
-    private String restFinOrgCode;			/*还款银行*/
-    private String restPayType;				/*还款方式*/
-    private Date restPayTime;				/*还款时间*/
+    private String restFinOrgCode;			/*还款银行,即原贷款银行*/
+    private Date restPayTime;				/*还款时间,即陪同还款时间*/
     
     
     /**
@@ -868,14 +867,6 @@ public class EditCaseDetailVO {
 
 	public void setRestFinOrgCode(String restFinOrgCode) {
 		this.restFinOrgCode = restFinOrgCode;
-	}
-
-	public String getRestPayType() {
-		return restPayType;
-	}
-
-	public void setRestPayType(String restPayType) {
-		this.restPayType = restPayType;
 	}
 
 	public Date getRestPayTime() {

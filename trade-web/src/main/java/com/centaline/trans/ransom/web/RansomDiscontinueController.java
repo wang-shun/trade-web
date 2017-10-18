@@ -10,8 +10,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.cxf.common.i18n.Exception;
-import org.apache.cxf.common.i18n.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +21,8 @@ import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.web.QuickQueryController;
 import com.aist.common.quickQuery.web.vo.DatagridVO;
 import com.aist.common.rapidQuery.paramter.ParamterHander;
-import com.aist.common.rapidQuery.service.RapidQueryService;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.common.enums.WorkFlowStatus;
@@ -102,12 +98,10 @@ public class RansomDiscontinueController {
 		String taskId = null;
 		//获取赎楼中止流程信息
 		task = getSingleRansomTaskInfo((HttpServletRequest)request, true, false);
-		if(task != null) {
+		if(!(boolean)task.get("isExist")) {
 			taskId = (String) task.get("ID");
 			request.setAttribute("taskId", taskId);
 			request.setAttribute("processInstanceId", task.get("INST_CODE"));
-		}else {
-			return null;
 		}
 		//赎楼案件信息
 		ToRansomCaseVo ransomCase = ransomListFormService.getRansomCase(caseCode);
@@ -130,19 +124,12 @@ public class RansomDiscontinueController {
 	public String stopApplyProcessFromRansomList(String caseCode, ServletRequest request) {
 		Map<String, Object> task = null;
 		String taskId = null;
-		//查询当前caseCode赎楼流程是否有对应的中止流程,若有则不进入赎楼中止申请
-		task = getSingleRansomTaskInfo((HttpServletRequest)request, true, false);
-		if(task != null) {
-			return null;
-		}
 		//查询是否有对应的赎楼流程,若有则挂起对应的【赎楼流程】
 		task = null; taskId= null;
 		task = getSingleRansomTaskInfo((HttpServletRequest)request, false, false);
-		if(task != null) {//这里节省了一个变量名,用 taskId 表示 PROC_INST_ID_
+		if(!(boolean)task.get("isExist")) {//这里节省了一个变量名,用 taskId 表示 PROC_INST_ID_
 			taskId = (String) task.get("INST_CODE");
 			workFlowManager.activateOrSuspendProcessInstance(taskId, false);
-		}else {
-			return null;
 		}
 		//开启赎楼中止流程
 		SessionUser user = uamSessionService.getSessionUser();
@@ -163,7 +150,7 @@ public class RansomDiscontinueController {
 		//获取刚开启的【赎楼中止流程】taskId
 		taskId = null;task = null;
 		task = getSingleRansomTaskInfo((HttpServletRequest)request, true, false);
-		if(task != null) {
+		if(!(boolean)task.get("isExist")) {
 			taskId = (String) task.get("ID");
 			request.setAttribute("taskId", taskId);
 			request.setAttribute("processInstanceId", task.get("INST_CODE"));
@@ -276,7 +263,7 @@ public class RansomDiscontinueController {
 		//通过：删除 [赎楼流程]
 		if("pass".equals(examContent)) {
 			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true);
-			if(task != null) {
+			if(!(boolean)task.get("isExist")) {
 				workFlowManager.deleteProcess((String) task.get("INST_CODE"));
 				ransomService.deleteRansomApplyByRansomCode((String) task.get("RANSOM_CODE"));
 			}
@@ -287,7 +274,7 @@ public class RansomDiscontinueController {
 		//不通过：[赎楼中止流程] 结束，重启 [赎楼流程]
 		else if("noPass".equals(examContent)) {
 			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true);
-			if(task != null) {
+			if(!(boolean)task.get("isExist")) {
 				workFlowManager.activateOrSuspendProcessInstance((String) task.get("INST_CODE"), true);
 			}
 		}
@@ -324,7 +311,16 @@ public class RansomDiscontinueController {
 		return toApproveRecord;
 	}
 	
-	private Map<String ,Object> getSingleRansomTaskInfo(HttpServletRequest request, boolean isSuspend, boolean isSuspended) {
+	/**
+	 * 获取单条task信息,此方法仅用于查询【赎楼流程】、【赎楼中止流程】的查询,不可扩展改造
+	 * @param request
+	 * @param isSuspend
+	 * @param isSuspended
+	 * @return
+	 */
+	@RequestMapping(value = "getSingleRansomTaskInfo")
+	@ResponseBody
+	public Map<String ,Object> getSingleRansomTaskInfo(HttpServletRequest request, boolean isSuspend, boolean isSuspended) {
 		Map<String, String[]> paramMap = ParamterHander.getParameters(request);
         Map<String, Object> paramObj = new HashMap<String, Object>();
         ParamterHander.mergeParamter(paramMap, paramObj);
@@ -348,10 +344,14 @@ public class RansomDiscontinueController {
         gp.putAll(paramObj);
         gp.setQueryId("queryRansomTaskListItemList");
         DatagridVO taskPage = quickQueryController.findPage(gp, request);
+        Map<String, Object> map = new HashMap<>();
 		if(taskPage != null && taskPage.getRows() != null && taskPage.getRows().size() > 0) {
-			return (Map<String ,Object>)taskPage.getRows().get(0);
+			map = (Map<String ,Object>)taskPage.getRows().get(0);
+			map.put("isExist", false);
+		}else {
+			map.put("isExist", true);
 		}
-		return null;
+		return map;
 	}
 	
 }

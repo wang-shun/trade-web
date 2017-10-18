@@ -1,11 +1,6 @@
 package com.centaline.trans.cases.web;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.enums.WorkFlowStatus;
-import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +16,8 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.attachment.service.ToAttachmentService;
 import com.centaline.trans.cases.service.ServiceRestartService;
 import com.centaline.trans.cases.service.ToCaseService;
-import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
-import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping(value = "/service")
@@ -52,11 +45,9 @@ public class ServiceRestartController {
 		String userId = u.getId();
 		String userJob = u.getServiceJobCode();
 		try{
-			boolean flag = serviceRestart.restartCheckout(vo,userJob);
-			if(flag == false){
-				 resp.setSuccess(false);
-				 resp.setMessage("此案件已过户，不能重启流程！");
-				 return resp;
+			AjaxResponse<StartProcessInstanceVo> result = serviceRestart.restartCheckout(vo,userJob);
+			if(!result.getSuccess()){
+				 return result;
 			}else{
 				vo.setUserId(userId);
 				vo.setUserName(u.getUsername());
@@ -67,6 +58,8 @@ public class ServiceRestartController {
 				resp.setContent(piv);
 				return resp;
 			}
+		}catch(BusinessException be){
+			throw new BusinessException(be.getMessage());	 
 		}catch(Exception e){
 			throw new BusinessException("重启流程异常！");	 
 		}

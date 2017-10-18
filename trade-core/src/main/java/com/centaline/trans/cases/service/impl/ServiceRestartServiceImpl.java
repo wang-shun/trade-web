@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.common.quickQuery.service.QuickGridService;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.alibaba.druid.util.StringUtils;
 import com.centaline.trans.award.service.TsAwardCaseCentalService;
 import com.centaline.trans.bizwarn.repository.BizWarnInfoMapper;
 import com.centaline.trans.cases.entity.ToCase;
@@ -140,14 +142,34 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		}
 		
 		// 相关流程都挂起,只关注主流程
-		List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(vo.getCaseCode());
+		/*List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(vo.getCaseCode());
 		for(TaskVo task : taskVos){
 			if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
 				if(!task.getSuspended()){
 					workFlowManager.activateOrSuspendProcessInstance(task.getInstCode(), false);// 案件的相关流程挂起
 				}
 			}
-		}	
+		}	*/
+		List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(vo.getCaseCode());
+		/**
+		 * 同实例id不同任务去重复
+		 * @author wbcaiyx
+		 */
+		Map<String,Boolean> taskInstCode = new HashMap<>();
+		for(TaskVo task : taskVos){
+			if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
+				if(!taskInstCode.containsKey(task.getInstCode())){
+					taskInstCode.put(task.getInstCode(), task.getSuspended());
+				}
+			}
+		}
+		for(String instCode : taskInstCode.keySet()){
+			if (!StringUtils.isEmpty(instCode)) {
+				if(!taskInstCode.get(instCode)){
+					workFlowManager.activateOrSuspendProcessInstance(instCode, false);// 案件的相关流程挂起
+				}
+			}
+		}		
 	
 		Map<String, Object> vars = new HashMap<>();
 		// 根据案件所在组找主管
@@ -264,11 +286,32 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 			/**
 			 * 审批未通过,恢复挂起的流程，只关注主流程相关的(主流程/贷款)
 			 */
-			List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(vo.getCaseCode());
+			/*List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(vo.getCaseCode());
 			for(TaskVo task : taskVos){
 				if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
 					if(task.getSuspended()){
 						workFlowManager.activateOrSuspendProcessInstance(task.getInstCode(), true);// 案件的相关流程挂起
+					}
+				}
+			}	*/
+			
+			List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(vo.getCaseCode());
+			/**
+			 * 同实例id不同任务去重复
+			 * @author wbcaiyx
+			 */
+			Map<String,Boolean> taskInstCode = new HashMap<>();
+			for(TaskVo task : taskVos){
+				if(!WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
+					if(!taskInstCode.containsKey(task.getInstCode())){
+						taskInstCode.put(task.getInstCode(), task.getSuspended());
+					}
+				}
+			}
+			for(String instCode : taskInstCode.keySet()){
+				if (!StringUtils.isEmpty(instCode)) {
+					if(taskInstCode.get(instCode)){
+						workFlowManager.activateOrSuspendProcessInstance(instCode, true);
 					}
 				}
 			}	
@@ -351,8 +394,8 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 	}
 
 	@Override
-	public boolean restartCheckout(ServiceRestartVo vo, String userJob) {
-		
+	public AjaxResponse<StartProcessInstanceVo> restartCheckout(ServiceRestartVo vo, String userJob) {
+		AjaxResponse<StartProcessInstanceVo> result = new AjaxResponse<StartProcessInstanceVo>();
 		//已过户案件不可重启
 		String caseCode = "";
 		if(vo != null){
@@ -360,12 +403,32 @@ public class ServiceRestartServiceImpl implements ServiceRestartService {
 		}
 		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
 		if(toCase != null){
-			if(CaseStatusEnum.YGH.getCode().equals(toCase.getStatus())){
-				return false;
+			if(CaseStatusEnum.YGH.getCode().equals(toCase.getStatus())
+					||CaseStatusEnum.YJY.getCode().equals(toCase.getStatus())
+					||CaseStatusEnum.YLTZ.getCode().equals(toCase.getStatus())){
+				result.setSuccess(false);
+				result.setMessage("此案件已过户，不能重启流程!");
 			}
 		}
-		return true;
-
+		ToWorkFlow wfl = new ToWorkFlow();
+		wfl.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
+		wfl.setCaseCode(toCase.getCaseCode());
+		ToWorkFlow awfl = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wfl);
+		if (awfl != null) {
+			 result.setSuccess(false);
+			 result.setMessage("当前已存在未结束的重启流程");
+			 return result;
+		}
+		ToWorkFlow wf = new ToWorkFlow();
+		wf.setBusinessKey(WorkFlowEnum.CASE_STOP_PROCESS.getCode());
+		wf.setCaseCode(toCase.getCaseCode());
+		ToWorkFlow awf = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+		if (awf != null) {
+			 result.setSuccess(false);
+			 result.setMessage("当前已存在未结束的爆单流程");
+			 return result;
+		}
+		return result;
 	}
 
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
