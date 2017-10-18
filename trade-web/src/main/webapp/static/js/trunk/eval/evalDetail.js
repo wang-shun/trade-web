@@ -22,8 +22,9 @@ $(document).ready(function() {
 		mortageService();
 	});
 	var caseCode = $("#caseCode").val();
+	var evaCode = $("#evaCode").val();
 	//评估操作记录
-	getOperateLogList(caseCode);
+	getOperateLogList(evaCode);
 	
 	//流程备注
 	caseremarkList.init(ctx,'/quickGrid/findPage','evalCommenTable','evalCommenPager',caseCode);  // 显示各个流程的备注信息列表
@@ -60,11 +61,11 @@ $(document).ready(function() {
 	//附件		
 	getShowAttachment();
 	//业绩记录/收费情况查询
-	queryPer();
+	//queryPer();
 
 });
 
-function getOperateLogList(caseCode){
+function getOperateLogList(evaCode){
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
 	url = ctx + url;
@@ -169,7 +170,7 @@ function getOperateLogList(caseCode){
 				},
 				postData : {
 					queryId : "queryTaskHistoryItemList",
-					argu_casecode : caseCode
+					argu_evaCode : evaCode
 				}
 
 	});

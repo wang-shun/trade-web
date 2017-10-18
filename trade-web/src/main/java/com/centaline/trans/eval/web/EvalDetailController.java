@@ -22,10 +22,12 @@ import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
 import com.centaline.trans.eval.entity.ToEvaInvoice;
+import com.centaline.trans.eval.entity.ToEvaRefund;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
 import com.centaline.trans.eval.entity.ToEvalSettle;
 import com.centaline.trans.eval.service.ToEvaCommissionChangeService;
 import com.centaline.trans.eval.service.ToEvaInvoiceService;
+import com.centaline.trans.eval.service.ToEvaRefundService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.eval.service.ToEvalSettleService;
 import com.centaline.trans.task.service.ActRuTaskService;
@@ -58,6 +60,8 @@ public class EvalDetailController {
 	ToEvaInvoiceService toEvaInvoiceService;
 	@Autowired
 	ToEvaCommissionChangeService toEvaCommissionChangeService;
+	@Autowired
+	ToEvaRefundService toEvaRefundService;
 	/**
 	 * 评估单详情for tj
 	 * @param request
@@ -76,7 +80,7 @@ public class EvalDetailController {
 		ToWorkFlow inWorkFlow = new ToWorkFlow();
 		inWorkFlow.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
 		inWorkFlow.setBizCode(evaCode);
-		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
+		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(inWorkFlow);
 		
 		//评估发票信息
 		ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByCaseCode(caseCode);
@@ -90,7 +94,10 @@ public class EvalDetailController {
 		//评估公司变更信息
 		
 		//评估结算信息
-		ToEvalSettle toEvalSettle=toEvalSettleService.findToCaseByCaseCode(caseCode);
+		ToEvalSettle toEvalSettle = toEvalSettleService.findToCaseByCaseCode(caseCode);
+		
+		//评估退费信息
+		//ToEvaRefund toEvaRefund = toEvaRefundService.
 		
 		//调佣审批信息
 		

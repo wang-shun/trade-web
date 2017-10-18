@@ -99,21 +99,11 @@
 							</div>
 							<div class="tab-pane fade" id="profile">
 								<div class="row">
-									<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUSPEND"> -->
 										<a role="button" id="processRestart" class="btn btn-primary btn-xm" href="javascript:evalProcessRestart()">评估重启 </a>
-									<!-- </shiro:hasPermission> -->
-									<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EDITWDCASE"> -->
 										<a role="button" id="evalComChange" class="btn btn-primary btn-xm" href="javascript:evalComChange()">评估公司变更</a>
-									<!-- </shiro:hasPermission> -->
-									<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PRARISE"> -->
 										<a role="button" id="evalBaodan" class="btn btn-primary btn-xm btn-activity" href="javascript:evalBaodan()">评估爆单 </a>
-									<!-- </shiro:hasPermission> -->
-									<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUPEND"> -->
 										<a role="button" id="evalReject" class="btn btn-primary btn-xm btn-activity" href="javascript:evalReject('${caseCode}')">驳回申请</a>
-									<!-- </shiro:hasPermission> -->
-									<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.DAISHOU"> -->
 										<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:transferCommission()" target="_blank">评估公司变更调佣</a>
-									<!-- </shiro:hasPermission> -->
 									
 								</div>
 
@@ -201,7 +191,7 @@
 							<li class=""><a href="#rebate_info" data-toggle="tab">评估返利报告审批</a></li>
 							<li class=""><a href="#baodao_info" data-toggle="tab">评估爆单</a></li>
 							<li class=""><a href="#change_info" data-toggle="tab">评估公司变更</a></li>
-							<li class=""><a href="#settle-info" data-toggle="tab" style="padding:10px;">评估结算</a></li>
+							<li class=""><a href="#settle_info" data-toggle="tab" style="padding:10px;">评估结算</a></li>
 							<li class=""><a href="#message_info" data-toggle="tab" style="padding:10px;">调佣审批</a></li>
 							<li class=""><a href="#refund_info" data-toggle="tab" style="padding:10px;">评估退费</a></li>
 						    <li class=""><a href="#attanchmet_info" data-toggle="tab" style="padding:10px;">附件</a></li>
@@ -297,9 +287,9 @@
 							
 							<!-- 评估爆单 -->
 						    <div class="tab-pane fade" id="baodao_info">
-									<%-- <div class="row">
+									<div class="row">
 										<label class="col-sm-3 control-label">爆单原因：${ToEvalReportProcess.houseAgeApply}</label>
-									</div> --%>
+									</div>
 									 <div class="content">
 										<table id="gridTable_baodao"></table>
 								        <div id="gridPager_baodao"></div>
