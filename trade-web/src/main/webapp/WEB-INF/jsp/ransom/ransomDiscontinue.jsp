@@ -12,7 +12,7 @@
 <html>
 
 <head>
-
+<title>赎楼中止申请</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- 展示相关 -->
@@ -133,6 +133,7 @@
 }
 .form-group{margin-top: 15px;}
 </style>
+<content tag="pagetitle">赎楼中止申请</content>
 </head>
 
 <body>

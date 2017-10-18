@@ -4,6 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
+import com.centaline.trans.eval.entity.ToEvalRebate;
+import com.centaline.trans.eval.entity.ToEvalReportProcess;
+import com.centaline.trans.eval.service.ToEvalRebateService;
+import com.centaline.trans.eval.service.ToEvalReportProcessService;
+import com.centaline.trans.mgr.service.TsSupService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,6 +65,12 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 	private ToEvaFeeRecordService toEvaFeeRecordService;
 	@Autowired
 	private ToCloseLoanService toCloseLoanService;
+	@Autowired
+	private ToEvalReportProcessService toEvalReportProcessService;//评估services
+	@Autowired
+	private TsSupService tsSupService;//供应商services
+	@Autowired
+	private ToEvalRebateService toEvalRebateService;
 
 	/****
 	 * 查询案件详情
@@ -152,17 +163,34 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 					reVo.setParentBankName(faBank.getFinOrgName());
 				}
 			}
-			// 评估公司
-			ToEvaReport evaReport = toEvaReportService.findFinalComByCaseCode(caseCode);
+			// 评估公司 原评估公司查询，现已废弃
+			/*ToEvaReport evaReport = toEvaReportService.findFinalComByCaseCode(caseCode);
 			if (evaReport != null && !StringUtils.isEmpty(evaReport.getFinOrgCode())) {
 				TsFinOrg reportCom = tsFinOrgService.findBankByFinOrg(evaReport.getFinOrgCode());
 				reVo.setEvaName(reportCom.getFinOrgName());
+			}*/
+			//by wbzhouht 新评估公司查询
+			ToEvalReportProcess toEvalReportProcess= toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
+			if(toEvalReportProcess!=null){//评估数据不为空，则不是自办评估（true），否则为自办评估(false)
+				//根据评估公司code查询评估公司名称
+				String finOrgName=tsSupService.getFinOrgByFinCode(toEvalReportProcess.getFinOrgId());
+				reVo.setEvaName(finOrgName);//评估公司
+				reVo.setEvaPrice(toEvalReportProcess.getEvaPrice());//评估均价
+				reVo.setIsEvas("true");
+			}else {
+				reVo.setIsEvas("true");
 			}
-			// 评估费金额
+			// 评估费金额 已废弃
 			ToEvaFeeRecord evaFeeReport = toEvaFeeRecordService.findToEvaFeeRecordByCaseCode(caseCode);
 			if (evaFeeReport != null && evaFeeReport.getEvalFee() != null) {
 				reVo.setEvaFee(evaFeeReport.getEvalFee());
 			}
+			//by wbzhouht 新评估费金额
+			/*ToEvalRebate toEvalRebate=toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
+			if (toEvalRebate!=null){
+				reVo.setEvaFee(toEvalRebate.getEvalDueCharges());
+			}*/
+
 			// 主贷人
 			if (null != toMortgage.getCustCode()) {
 				// update zhangxb16 2016-2-16

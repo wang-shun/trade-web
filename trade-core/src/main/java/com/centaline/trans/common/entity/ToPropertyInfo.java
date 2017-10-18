@@ -18,6 +18,8 @@ public class ToPropertyInfo {
 	private Integer totalFloor;
 
 	private String propertyType;
+
+	private String holdYear;//购房年限 by wbzhouht 天津新增
 	
 	private String propertyTypeName;
 
@@ -45,7 +47,18 @@ public class ToPropertyInfo {
     
 	/*********************全国交易金融系统   弃用字段 begin***********************/
 	private String ctmCode;
+
+	public String getHoldYear() {
+		return holdYear;
+	}
+
+	public void setHoldYear(String holdYear) {
+		this.holdYear = holdYear;
+	}
+
 	/*********************全国交易金融系统   弃用字段 end***********************/
+
+
 
 	public Date getUpdateTime() {
 		return updateTime;
