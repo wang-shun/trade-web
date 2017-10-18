@@ -384,7 +384,7 @@
             <div id="imgShow" class="lightBoxGallery"></div>
         </div>
     </div>
-   <%-- <div class="clearfix">
+    <%--<div class="clearfix">
         <h2 class="newtitle title-mark">CTM附件</h2>
         <div class="jqGrid_wrapper">
             <table id="gridTable"></table>
@@ -502,7 +502,7 @@
     <script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
     <!--审批记录-->
     <script src="<c:url value='/transjs/task/loanlostApprove.js' />"></script>
-    <!--产调-->
+    <!--产调 查询附件-->
     <script src="<c:url value='/transjs/task/showAttachment.js' />"></script>  <%-- --%>
     <!-- Custom and plugin javascript -->
     <!--文件拖拽上传插件-->
@@ -510,7 +510,7 @@
     <!-- Data picker 时间插件-->
     <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 
-    <!-- 上传附件相关 --> <script src="${ctx}/js/trunk/JSPFileUpload/app.js' />"></script>
+    <!-- 上传附件相关 --> <script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script>
@@ -609,11 +609,11 @@
             });
 
             window.open(attachPath);
-            /*var url=ctx+"/api/imageshow/imgShow?img="+attachPath;
-             window.open(encodeURI(encodeURI(url)));*/
+            var url=ctx+"/api/imageshow/imgShow?img="+attachPath;
+             window.open(encodeURI(encodeURI(url)));
         }
 
-       /* $("#gridTable")
+        /*$("#gridTable")
                 .jqGrid(
                 {
                     url : ctx + url,
@@ -623,7 +623,7 @@
                     autowidth : true,
                     shrinkToFit : true,
                     rowNum : 20,
-                    /!*   rowList: [10, 20, 30], *!/
+                    rowList: [10, 20, 30],
                     colNames : [ '附件类型', '附件名称', '附件路径', '上传时间',
                         '操作' ],
                     colModel : [ {
@@ -828,11 +828,11 @@
                 }
             });
         }
-        /*//渲染图片
+        //渲染图片
         function renderImg(){
             $('.wrapper-content').viewer('destroy');
             $('.wrapper-content').viewer();
-        }*/
+        }
     </script> </content>
 </body>
 </html>

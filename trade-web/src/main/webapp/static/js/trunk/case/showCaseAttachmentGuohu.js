@@ -35,6 +35,7 @@ function getShowAttachment() {
     	],
 		dataType : "json",
 		success : function(data) {
+			console.log(22222)
 			dataLength=data.length;
 			//将返回的数据进行包装
 			var trStr = "";
@@ -62,7 +63,7 @@ function getShowAttachment() {
 				}
 			});
 			$("#imgShow").append(trStr);
-			$('.wrapper-content').viewer();
+			$('#imgShow').viewer();
 		},
 		error : function(errors) {
 		}
