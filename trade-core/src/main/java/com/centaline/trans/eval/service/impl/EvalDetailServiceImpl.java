@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.web.validate.AjaxResponse;
@@ -71,8 +73,9 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 	ToEvaRefundService toEvaRefundService;
 	@Autowired
 	ToEvalRebateService toEvalRebateService;
-	@Autowired
+	@Resource
     private UamTemplateService  uamTemplateService;	
+	@Qualifier("uamMessageServiceClient")
 	@Autowired
 	UamMessageService uamMessageService;
 	
