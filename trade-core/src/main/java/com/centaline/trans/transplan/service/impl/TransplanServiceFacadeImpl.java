@@ -78,7 +78,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 		// 删除交易计划表该案件相关信息
 		Map map = new HashMap();
 		map.put("caseCode", caseCode);
-		if (ConstantsUtil.PROCESS_RESTART.equals(changeReason)) {
+		/*if (ConstantsUtil.PROCESS_RESTART.equals(changeReason)) {
 			// 流程重启保留首次跟进环节信息并更新首次跟进原预计时间
 			map.put("partCode", ToAttachmentEnum.FIRSTFOLLOW.getCode());
 			TsTaskPlanSet tps = tsTaskPlanSetMapper
@@ -96,7 +96,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				}
 			}
 
-		}
+		}*/
 		toTransPlanMapper.deleteTransPlansByCaseCode(map);
 
 	}
