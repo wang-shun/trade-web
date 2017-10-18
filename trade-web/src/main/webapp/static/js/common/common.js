@@ -126,6 +126,11 @@ function reloadGrid() {
 			location.href = ctx + "/task/caseDetail?&caseCode=" + caseCode+"&taskitem="+taskitem;
 		});
 		
+		//评视图点击
+		$("#btnEvalView").click(function(){
+			var caseCode = $(this).attr("lang");
+			location.href = ctx + "/eval/list";
+		});
 		//日历控件
 	    $('.input-daterange').datepicker({
 	    	todayBtn: "linked",

@@ -117,11 +117,11 @@
 		<div class="row animated fadeInDown">
 			<div class="scroll_box fadeInDown animated">
 				<div class="top12 panel">
-				   <div class="sign sign-red">挂起</div>
+				   <div class="sign sign-red"></div>
 			       <div class="panel-body">
 						<div class="ibox-content-head">
-							<h5>案件基本信息</h5>
-							<small class="pull-right">誉萃编号：CaseCode1502775428882｜中原编号：test1502775428882</small>
+							<h5>评估基本信息</h5>
+							<small class="pull-right">交易编号：${caseBaseVO.toCase.caseCode}｜成交报告编号：${caseBaseVO.toCase.ccaiCode}</small>
 						</div> 
 						<div id="infoDiv infos" class="row">
 						           <div class="ibox white_bg">
