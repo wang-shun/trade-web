@@ -93,9 +93,8 @@ public class CcaiServiceImpl implements CcaiService {
 	
 	@Autowired
 	private WorkFlowEngine engine;//该处使用engine 否则无法进行访问流程引擎平台
-
+	//Hibernate校验工具
 	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-	;//Hibernate校验工具
 	@Autowired
 	private ToEvaRefundService toEvaRefundService;
 
