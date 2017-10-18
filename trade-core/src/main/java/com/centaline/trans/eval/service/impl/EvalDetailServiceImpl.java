@@ -107,7 +107,7 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				//评估退费信息
 				ToEvaRefund toEvaRefund = toEvaRefundService.selectByCaseCode(caseCode);
 				//调佣审批信息
-				ToEvaCommissionChange toEvaCommissionChange = toEvaCommissionChangeService.selectByCaseCode(caseCode);
+				//ToEvaCommissionChange toEvaCommissionChange = toEvaCommissionChangeService.selectByCaseCode(caseCode);
 				
 				//附件
 				
@@ -119,7 +119,7 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				request.setAttribute("toEvalRebate", toEvalRebate);
 				request.setAttribute("toEvalSettle", toEvalSettle);
 				request.setAttribute("toEvaRefund", toEvaRefund);
-				request.setAttribute("toEvaCommissionChange", toEvaCommissionChange);
+				//request.setAttribute("toEvaCommissionChange", toEvaCommissionChange);
 				
 				request.setAttribute("caseCode", caseCode);
 				request.setAttribute("evaCode", evaCode);
