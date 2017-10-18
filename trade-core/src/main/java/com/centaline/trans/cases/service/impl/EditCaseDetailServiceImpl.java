@@ -340,10 +340,11 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         if(toRansomFormVo != null) {
         	editCaseDetailVO.setRestFinOrgCode(toRansomFormVo.getFinOrgCode());
         	editCaseDetailVO.setRestMoney(toRansomFormVo.getRestMoney() != null ? toRansomFormVo.getRestMoney().divide(new BigDecimal(10000)) : null);
-        	ToRansomVo toRansomVo = ransomListFormMapper.getRansomInfoByRansomCode(toRansomFormVo.getRansomCode());
+        	//TODO
+        	/*ToRansomVo toRansomVo = ransomListFormMapper.getRansomInfoByRansomCode(toRansomFormVo.getRansomCode());
         	if(toRansomVo != null) {
         		editCaseDetailVO.setRestPayTime(toRansomVo.getRepayTime());
-        	}
+        	}*/
         }
 
         return editCaseDetailVO;
