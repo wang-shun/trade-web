@@ -162,7 +162,7 @@
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
 	<script src="<c:url value='/js/jquery.editable-select.min.js' />"></script> 
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	<%-- <script src="<c:url value='/js/common/textarea.js' />"></script> --%> 
+	<script src="<c:url value='/js/common/textarea.js' />"></script>
     <%-- <script src="<c:url value='/js/eloan/eloancommon.js' />"></script>  --%>
     <script src="<c:url value='/js/common/common.js' />"></script>
 		<script>	
