@@ -93,9 +93,8 @@ public class CcaiServiceImpl implements CcaiService {
 	
 	@Autowired
 	private WorkFlowEngine engine;//该处使用engine 否则无法进行访问流程引擎平台
-
+	//Hibernate校验工具
 	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-	;//Hibernate校验工具
 	@Autowired
 	private ToEvaRefundService toEvaRefundService;
 
@@ -987,7 +986,7 @@ public class CcaiServiceImpl implements CcaiService {
 	}
 
 	private ToEvaRefund copyEvaRefund(EvalRefundImport info) {
-		ToEvaRefund toEvaRefund = new ToEvaRefund();                     
+		ToEvaRefund toEvaRefund = new ToEvaRefund();
 		toEvaRefund.setApplyId(info.getApplyId());
 		toEvaRefund.setApplyTime(info.getApplyTime());
 		toEvaRefund.setCcaiCode(info.getCcaiCode());

@@ -12,10 +12,6 @@ public class ToEvalRebate {
 
     private String evalRecept;
 
-    private Date pricingTime;
-
-    private String oringinCaseCode;
-
     private BigDecimal evalRealCharges;
 
     private BigDecimal evalDueCharges;
@@ -29,6 +25,16 @@ public class ToEvalRebate {
     private String evaRpocessId;
 
     private String status;
+
+    private String ccaiCode;
+
+    private Date createTime;
+
+    private String applyUserName;
+
+    private String applyRealName;
+
+    private BigDecimal evalPrice;
 
     public Long getPkid() {
         return pkid;
@@ -60,22 +66,6 @@ public class ToEvalRebate {
 
     public void setEvalRecept(String evalRecept) {
         this.evalRecept = evalRecept == null ? null : evalRecept.trim();
-    }
-
-    public Date getPricingTime() {
-        return pricingTime;
-    }
-
-    public void setPricingTime(Date pricingTime) {
-        this.pricingTime = pricingTime;
-    }
-
-    public String getOringinCaseCode() {
-        return oringinCaseCode;
-    }
-
-    public void setOringinCaseCode(String oringinCaseCode) {
-        this.oringinCaseCode = oringinCaseCode == null ? null : oringinCaseCode.trim();
     }
 
     public BigDecimal getEvalRealCharges() {
@@ -132,5 +122,45 @@ public class ToEvalRebate {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public String getCcaiCode() {
+        return ccaiCode;
+    }
+
+    public void setCcaiCode(String ccaiCode) {
+        this.ccaiCode = ccaiCode == null ? null : ccaiCode.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getApplyUserName() {
+        return applyUserName;
+    }
+
+    public void setApplyUserName(String applyUserName) {
+        this.applyUserName = applyUserName == null ? null : applyUserName.trim();
+    }
+
+    public String getApplyRealName() {
+        return applyRealName;
+    }
+
+    public void setApplyRealName(String applyRealName) {
+        this.applyRealName = applyRealName == null ? null : applyRealName.trim();
+    }
+
+    public BigDecimal getEvalPrice() {
+        return evalPrice;
+    }
+
+    public void setEvalPrice(BigDecimal evalPrice) {
+        this.evalPrice = evalPrice;
     }
 }

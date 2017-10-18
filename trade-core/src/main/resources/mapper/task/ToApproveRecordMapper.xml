@@ -22,7 +22,7 @@
     CONTENT
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -173,14 +173,14 @@
        UPDATE_BY = @{SESSION_USER_ID}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
-  
+
   <select id="findApproveRecordByRecord" resultMap="ResultMapWithBLOBs" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
-	    select 
+	    select
 	    <include refid="Base_Column_List" />
 	    ,
 	    <include refid="Blob_Column_List" />
 	    from sctrans.T_TO_APPROVE_RECORD
-	    where 1=1 
+	    where 1=1
 	    <if test="caseCode != null" >
 	      and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	    </if>
@@ -198,17 +198,17 @@
       </if>
       <if test="taskId != null" >
         and task_id = #{taskId,jdbcType=VARCHAR}
-      </if>      
+      </if>
   </select>
-  
-  
+
+
     <select id="findApproveRecordByRecordForSpvApply" resultMap="ResultMapWithBLOBs" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
 	    select  top 1
 	    <include refid="Base_Column_List" />
 	    ,
 	    <include refid="Blob_Column_List" />
 	    from sctrans.T_TO_APPROVE_RECORD
-	    where 1=1 
+	    where 1=1
 	    <if test="caseCode != null" >
 	      and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	    </if>
@@ -229,29 +229,35 @@
       </if>
        order by UPDATE_TIME DESC
   </select>
-  
+
   <select id="findApproveRecordByList" resultType="java.lang.String" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
 	    select OPERATOR
 	    from sctrans.T_TO_APPROVE_RECORD
-	    where 1=1 
+	    where 1=1
 	    <if test="caseCode != null" >
-	      and CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
+	      and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	    </if>
       <if test="approveType != null" >
-        and APPROVE_TYPE = #{approveType,jdbcType=VARCHAR} 
+        and APPROVE_TYPE = #{approveType,jdbcType=VARCHAR}
       </if>
       group by OPERATOR
   </select>
   <select id="findLastApproveRecord" resultMap="BaseResultMap" parameterType="com.centaline.trans.task.entity.ToApproveRecord" >
 	    select TOP 1 OPERATOR
 	    from sctrans.T_TO_APPROVE_RECORD
-	    where 1=1 
+	    where 1=1
 		<if test="caseCode != null" >
-			and CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
+			and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 		</if>
 		<if test="partCode != null" >
-			and PART_CODE = #{partCode,jdbcType=VARCHAR} 
+			and PART_CODE = #{partCode,jdbcType=VARCHAR}
 		</if>
       order by OPERATOR_TIME DESC
   </select>
+  <delete id="deleteByCaseCodeAndType">
+    delete from sctrans.T_TO_APPROVE_RECORD
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR} and APPROVE_TYPE = #{approveType,jdbcType=VARCHAR}
+  </delete>
+
+
 </mapper>

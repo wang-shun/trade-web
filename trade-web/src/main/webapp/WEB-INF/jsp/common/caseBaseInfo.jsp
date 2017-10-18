@@ -73,7 +73,7 @@
 					<div class="ibox-content-head lh24">
 						<h5>案件基本信息</h5>
 
-						<small v-cloak class="pull-right">交易编号：{{caseCode}}｜成家报告编号：{{ccaiCode}}</small>
+						<small v-cloak class="pull-right">交易编号：{{caseCode}}｜成交报告编号：{{ccaiCode}}</small>
 					</div>
 					<div id="infoDiv infos" class="row">
 						<div class="ibox white_bg">
@@ -88,7 +88,7 @@
 										<dt>产证面积</dt>
 										<dd v-cloak>{{toPropertyInfo.square}}<label v-if="toPropertyInfo.square !='' && toPropertyInfo.square !=null">平方</label></dd>
 										<dt>竣工年限</dt>
-										<dd v-cloak>{{toPropertyInfo.finishYear}}<label v-if="toPropertyInfo.finishYear !='' && toPropertyInfo.finishYear !=null">年</label></dd>
+										<dd v-cloak>{{toPropertyInfo.finishYear | year}}<label v-if="toPropertyInfo.finishYear !='' && toPropertyInfo.finishYear !=null">年</label></dd>
 										<dt>房屋类型</dt>
 										<dd v-cloak>{{toPropertyInfo.propertyTypeName}}</dd>
 									</dl>
