@@ -35,7 +35,6 @@ function getShowAttachment() {
     	],
 		dataType : "json",
 		success : function(data) {
-			console.log(22222)
 			dataLength=data.length;
 			//将返回的数据进行包装
 			var trStr = "";
