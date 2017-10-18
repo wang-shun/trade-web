@@ -510,10 +510,8 @@
             },
             complete: function() {
                 $.unblockUI();
-                if(b){
                     $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}});
                     $(".blockOverlay").css({'z-index':'1900'});
-                }
                 if(status=='timeout'){//超时,status还有success,error等值的情况
                     Modal.alert(
                         {
