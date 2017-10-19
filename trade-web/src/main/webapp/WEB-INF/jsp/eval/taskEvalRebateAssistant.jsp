@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 		 pageEncoding="utf-8"%>
@@ -61,17 +62,20 @@
 		<h2 class="newtitle title-mark">评估返利报告信息</h2>
 		<div class="text_list">
 			<div class="row">
-				<label class="col-sm-3 control-label">评估公司:${evalCompany.finOrgName}</label>
+				<label class="col-sm-3 control-label">评估公司:${evalCompany.FIN_ORG_NAME}</label>
 				<label class="col-sm-3 control-label">评估价:${eval.evaPrice}</label>
+				<c:if test="${evalCompany.TAGS > 0}">
+					<label class="col-sm-3 control-label">评估公司成本:${evalCompany.TAGS}</label>
+				</c:if>
 			</div>
 			<div class="row">
 				<label class="col-sm-3 control-label">评估费实收:${rebate.evalRealCharges}</label>
-				<label class="col-sm-3 control-label">评估费应收:${rebate.evalRealCharges}</label>
-				<label class="col-sm-3 control-label">中原分成金额:${rebate.evalRealCharges}</label>
-				<label class="col-sm-3 control-label">评估公司分成金额:${rebate.evalRealCharges}</label>
+				<label class="col-sm-3 control-label">评估费应收:${rebate.evalDueCharges}</label>
+				<label class="col-sm-3 control-label" id="centacomamount">中原分成金额:${rebate.evalRealCharges - evalCompany.TAGS}</label>
+				<label class="col-sm-3 control-label" id="evacomamount">评估公司分成金额:${evalCompany.TAGS}</label>
 			</div>
 			<div class="row">
-				<label class="col-sm-3 control-label">录入时间:${rebate.evalRealCharges}</label>
+				<label class="col-sm-3 control-label">录入时间:<fmt:formatDate value='${rebate.inputTime}' pattern="yyyy-MM-dd" /></label>
 			</div>
 		</div>
 	</div>
@@ -83,13 +87,21 @@
 				<%--环节编码 --%>
 				<input type="hidden" name="partCode" value="${taskitem}">
 				<!-- 关联的交易单编号 -->
-				<input type="hidden" name="caseCode" value="${caseCode}">
+				<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 				<!-- 流程引擎需要字段 -->
 				<input type="hidden" name="taskId" value="${taskId}">
 				<input type="hidden" name="processInstance" value="${processInstanceId}">
 				<input type="hidden" name="rebateId" value="${rebate.pkid}">
 
 				<div class="marinfo">
+
+						<div class="line" <c:if test="${evalCompany.TAGS != 0}"> style="display:none"</c:if>>
+							<div class="form_content">
+								<label class="control-label sign_left_small">评估公司成本</label>
+								<input type="text" id="evalCost" class="input_type" name="evalCost" value="${evalCompany.TAGS}" onblur="cal()" real="${rebate.evalRealCharges}" >
+							</div>
+						</div>
+
 					<div class="line">
 						<div class="form_content">
 							<label class="control-label sign_left_small">评估费收据</label>
