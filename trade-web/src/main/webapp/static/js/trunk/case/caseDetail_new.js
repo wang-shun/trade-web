@@ -818,13 +818,14 @@ function evaPricingApply(){
         success : function(data) {
             if(data.success){
                 if(data.content){
-                    window.wxc.confirm(info,{'wxcOk':function(){
+                	window.wxc.alert("系统已存在与此案件相关的询价记录!");
+                    /*window.wxc.confirm(info,{'wxcOk':function(){
 
                     },'wxcCancel':function(){
                         //新增询价
                         var ctx = $("#ctx").val();
                         window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
-                    }});
+                    }});*/
                 }else{
                     var ctx = $("#ctx").val();
                     window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
@@ -843,9 +844,31 @@ function evaPricingApply(){
  * 评估申请
  */
 function evalApply(){
+	
 	var ctx = $("#ctx").val();
 	var caseCode = $('#caseCode').val();
-    window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+	//判断是否已有评估申请流程	
+	var url = ctx+'/case/checkEvalProcess?caseCode='+caseCode;
+	$.ajax({
+		url:url,
+		type:'POST',
+		dataType:'json',
+		success:function(data){
+			if(data.success){
+				if(data.content == 1){//询价已完成,可以评估申请
+					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+				}else if(data.content == 2){//无询价,进入询价申请
+					window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+				}
+			}else{
+				window.wxc.alert(data.message);
+			}
+		},
+		error:function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(11);
+		}
+	});
+	
 }
 
 function dateFormat(dateTime){

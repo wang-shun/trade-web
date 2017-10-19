@@ -99,7 +99,7 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 	public CcaiServiceResult updateEvalRebate(EvalRebeatImport info) {
 		ToEvalRebate evalRebate = validateAndConvert(info);
 		ToEvalRebate old = toEvalRebateService.findToEvalRebateByCaseCode(evalRebate.getCaseCode());
-		if(old!=null && EvalRebateStatusEnum.BACK.equals(old.getStatus())){
+		if(old!=null && EvalRebateStatusEnum.BACK.getCode().equals(old.getStatus())){
 			//TODO 驳回修改后再次同步
 			evalRebate.setPkid(old.getPkid());
 			toEvalRebateService.updateByPrimaryKeySelective(evalRebate);
@@ -135,7 +135,7 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 	public CcaiServiceResult importEvalRebateReport(EvalRebeatReportImport info) {
 		ToEvalRebate evalRebate = validateAndConvert(info);
 		ToEvalRebate old = toEvalRebateService.findToEvalRebateByCaseCode(evalRebate.getCaseCode());
-		if(old!=null && EvalRebateStatusEnum.SUCCESS.equals(old.getStatus())){
+		if(old!=null && EvalRebateStatusEnum.SUCCESS.getCode().equals(old.getStatus())){
 			//修改原有信息 生成最终报告
 			evalRebate.setPkid(old.getPkid());
 			evalRebate.setStatus(EvalRebateStatusEnum.FINISH.getCode());
