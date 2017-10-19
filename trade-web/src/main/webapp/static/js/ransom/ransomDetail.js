@@ -9,7 +9,7 @@ $(document).ready(function(){
 	reloadDetail();
 	reloadHistoryRecord();
 	reloadTimeRecord();
-
+	reloadOprationRecord();
 });
 
 /**
@@ -99,6 +99,39 @@ function reloadDetail(){
 	        	$.unblockUI();
 	        	var html = template('template_ransomTimeInfo',data);
 	      		$('#time-record').html(html);
+	        }
+		});	
+	}
+	
+	
+	/**
+	 * 加载操作记录
+	 * @returns
+	 */
+	function reloadOprationRecord(){
+		debugger;
+		var url = ctx + '/quickGrid/findPage';
+		var ransomCode = $('#ransomCode').val();
+		var caseCode = $('#caseCode').val();
+		var data = {};
+		data.page = 1;
+		data.rows = 10;
+		data.queryId = "queryRansomOperationRecord";
+		data.argu_ransomCode = ransomCode;
+		data.argu_caseCode = caseCode;
+		$.ajax({
+			async: true,
+			type:'POST',
+			url:url,
+			dataType:'json',
+			data:data,
+			beforeSend: function () {
+	        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+	        },  
+	        success: function(data){
+	        	$.unblockUI();
+	        	var html = template('template_ransomOperationInfo',data);
+	      		$('#operation-record').html(html);
 	        }
 		});	
 	}

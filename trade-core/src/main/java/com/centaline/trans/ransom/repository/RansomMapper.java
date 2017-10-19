@@ -32,7 +32,7 @@ public interface RansomMapper {
 	 * @param caseCode
 	 * @return
 	 */
-	ToRansomDetailVo getRansomDetailInfoByCode(String caseCode);
+	List<ToRansomDetailVo> getRansomDetailInfoByCode(String caseCode);
 	
 	/**
 	 * 根据赎楼编号获取计划 时间
@@ -184,4 +184,6 @@ public interface RansomMapper {
 	 * @return
 	 */
 	boolean deleteRansomApplyByRansomCode(String ransomCode);
+	
+	ToRansomCaseVo getRansomCaseInfoByRansomCode(String ransomCode);
 }

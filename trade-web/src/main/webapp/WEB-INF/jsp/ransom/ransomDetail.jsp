@@ -65,6 +65,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx}" />
 	<input type="hidden" id="ransomCode" value="${detailVo.ransomCode}">
+	<input type="hidden" id="caseCode" value="${detailVo.caseCode}">
 	<div class="wrapper wrapper-content animated fadeInUp">
 		<div class="ibox-content" id="reportOne">
 			<h2 class="title">赎楼清尾</h2>  
@@ -677,43 +678,63 @@
 			<td>{{item.signTime}}</td><td>{{item.planTime}}</td>
 		</tr>
 		<tr>
-			{{if item.applyTime != null}}
 				<td>申请时间</td>
-				<td>{{item.applyTime}}</td><td>{{item.interTime}}</td>
-			{{/if}}
+				<td>{{item.applyTime}}</td><td>{{item.applyPartTime}}</td>
 		</tr>
 		<tr>
-			{{if item.interTime != null}}
 				<td>面签时间</td>
-				<td>{{item.interTime}}</td><td>{{item.repayTime}}</td>
-			{{/if}}
+				<td>{{item.interTime}}</td><td>{{item.interPartTime}}</td>
 		</tr>
 		<tr>
-			{{if item.repayTime != null && item.diyaType == '710150001'}}
 				<td>陪同还贷时间(一抵)</td>
-				<td>{{item.repayTime}}</td><td>{{item.cancelTime}}</td>
-			{{/if}}
+				<td>{{item.repayTime}}</td><td>{{item.repPartTime}}</td>
 		</tr>
 		<tr>
-			{{if item.cancelTime != null && item.diyaType == '710150001'}}
 				<td>注销抵押时间(一抵)</td>
-				<td>{{item.cancelTime}}</td><td>{{item.redeemTime}}</td>
-			{{/if}}
+				<td>{{item.cancelTime}}</td><td>{{item.canPartTime}}</td>
 		</tr>
 		<tr>
-			{{if item.redeemTime != null && item.diyaType == '710150001'}}
 				<td>领取产证时间(一抵)</td>
-				<td>{{item.redeemTime}}</td><td>{{item.paymentTime}}</td>
-			{{/if}}
+				<td>{{item.redeemTime}}</td><td>{{item.redPartTime}}</td>
 		</tr>
 		<tr>
-			{{if item.paymentTime != null && item.diyaType == '710150001'}}
 				<td>回款结清时间(一抵)</td>
-				<td>{{item.paymentTime}}</td><td>{{item.paymentTime}}</td>
-			{{/if}}
+				<td>{{item.paymentTime}}</td><td>{{item.payPartTime}}</td>
 		</tr>
 	{{/each}}
 </script>
+<script id="template_ransomOperationInfo" type= "text/html">
+	{{each rows as item index}}
+		{{if index%2 == 0}}
+      		<tr class="tr-1">
+  		{{else}}
+      		 <tr class="tr-2">
+   		{{/if}}
+			<td class="center">
+				{{if item.applyEstTime <= 1}}绿灯{{else if item.applyEstTime > 2}}红灯{{else}}黄灯{{/if}}
+			</td>
+			<td class="center">
+				{{if test="item.applyEstTime - new Date() > 0"}}绿灯{{else}}红灯{{/if}}
+			</td>
+			<td class="center">
+				{{item.partName}}
+			</td>
+			<td class="center">
+				{{if test="item.applyEstTime - new Date() > 0"}}绿灯{{else}}红灯{{/if}}
+			</td>
+			<td class="center">
+				{{if test="item.applyEstTime - new Date() > 0"}}绿灯{{else}}红灯{{/if}}
+			</td>
+			<td class="center">
+				{{if test="item.applyEstTime - new Date() > 0"}}绿灯{{else}}红灯{{/if}}
+			</td>
+			<td class="center">
+				{{if status == 4}}完成{{else}}正在处理{{/if}}
+			</td>
+		</tr>
+	{{/each}}
+</script>
+
 </body>
 </html>
 

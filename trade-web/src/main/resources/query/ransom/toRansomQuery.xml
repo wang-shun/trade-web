@@ -130,11 +130,17 @@
 						tai.PLAN_TIME planTime,
 						tai.DIYA_TYPE diyaType,
 						app.APPLY_TIME applyTime,
+						(SELECT EST_PART_TIME FROM sctrans.T_RA_PLAN pla WHERE pla.RANSOM_CODE = app.RANSOM_CODE AND app.PART_CODE = pla.PART_CODE  AND app.RANSOM_CODE = #ransomCode#) applyPartTime, 
 						inter.INTERVIEW_TIME interTime,
+						(SELECT EST_PART_TIME FROM sctrans.T_RA_PLAN pla WHERE pla.RANSOM_CODE = inter.RANSOM_CODE AND inter.PART_CODE = pla.PART_CODE  AND inter.RANSOM_CODE = #ransomCode#) interPartTime, 
 						rep.REPAY_TIME repayTime,
+						(SELECT EST_PART_TIME FROM sctrans.T_RA_PLAN pla WHERE pla.RANSOM_CODE = rep.RANSOM_CODE AND rep.PART_CODE = pla.PART_CODE  AND rep.RANSOM_CODE = #ransomCode#) repPartTime, 
 						can.CANCEL_TIME cancelTime,
+						(SELECT EST_PART_TIME FROM sctrans.T_RA_PLAN pla WHERE pla.RANSOM_CODE = can.RANSOM_CODE AND can.PART_CODE = pla.PART_CODE  AND can.RANSOM_CODE = #ransomCode#) canPartTime, 
 						red.REDEEM_TIME redeemTime,
-						pay.PAYMENT_TIME paymentTime
+						(SELECT EST_PART_TIME FROM sctrans.T_RA_PLAN pla WHERE pla.RANSOM_CODE = red.RANSOM_CODE AND red.PART_CODE = pla.PART_CODE  AND red.RANSOM_CODE = #ransomCode#) redPartTime, 
+						pay.PAYMENT_TIME paymentTime,
+						(SELECT EST_PART_TIME FROM sctrans.T_RA_PLAN pla WHERE pla.RANSOM_CODE = pay.RANSOM_CODE AND pay.PART_CODE = pla.PART_CODE  AND pay.RANSOM_CODE = #ransomCode#) payPartTime
 					FROM sctrans.T_RA_CASE cas
 					INNER JOIN sctrans.T_RA_TAILINS tai ON tai.CASE_CODE = cas.CASE_CODE
 					LEFT JOIN sctrans.T_RA_APPLY app ON app.RANSOM_CODE = tai.RANSOM_CODE
@@ -159,12 +165,19 @@
 				<column type="both" name="diyaType" display="抵押类型" />
 				
 				<column type="both" name="applyTime" display="申请时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="applyPartTime" display="申请预计完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="interTime" display="面签时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="interPartTime" display="面签预计完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				
 				<column type="both" name="repayTime" display="陪同还贷时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="repPartTime" display="陪同还贷预计完成时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="cancelTime" display="注销抵押时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="redeemTime" display="领取产证时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="canPartTime" display="注销抵押预计完成时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				
+				<column type="both" name="redeemTime" display="领取产证时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="redPartTime" display="领取产证预计完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 				<column type="both" name="paymentTime" display="回款结清时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="payPartTime" display="回款结清预计完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
 			</table-row>
 		</grid>
 	</query>
@@ -221,4 +234,98 @@
 			</table-row>
 		</grid>
 	</query>
+	
+	<query id="queryRansomOperationRecord">
+
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT
+						ar.task_def_key_ partCode,
+						ar.NAME_ partName,
+						tw.BUSINESS_KEY processName,
+						ap.APPLY_TIME  applyTime,
+						DATEDIFF(DAY,(select pla.EST_PART_TIME from  sctrans.T_RA_PLAN pla WHERE ap.RANSOM_CODE = pla.RANSOM_CODE AND pla.PART_CODE = ap.PART_CODE),GETDATE())  applyEstTime,
+						(SELECT REAL_NAME FROM sctrans.SYS_USER sy WHERE sy.ID = ap.UPDATE_USER  AND ra.RANSOM_CODE = #ransomCode#) applyName,
+						si.INTERVIEW_TIME  signTime,
+						DATEDIFF(DAY,(select pla.EST_PART_TIME from  sctrans.T_RA_PLAN pla WHERE si.RANSOM_CODE = pla.RANSOM_CODE AND pla.PART_CODE = si.PART_CODE),GETDATE())  signEstTime,
+						(SELECT REAL_NAME FROM sctrans.SYS_USER sy WHERE sy.ID = si.UPDATE_USER  AND ra.RANSOM_CODE = #ransomCode#) signName,
+						ci.CANCEL_TIME cencelTime,
+						DATEDIFF(DAY,(select pla.EST_PART_TIME from  sctrans.T_RA_PLAN pla WHERE ci.RANSOM_CODE = pla.RANSOM_CODE AND pla.PART_CODE = ci.PART_CODE),GETDATE())  cancelEstTime,
+						(SELECT REAL_NAME FROM sctrans.SYS_USER sy WHERE sy.ID = ci.UPDATE_USER  AND ra.RANSOM_CODE = #ransomCode#) cancelName,
+						ri.REPAY_TIME  repayTime,
+						DATEDIFF(DAY,(select pla.EST_PART_TIME from  sctrans.T_RA_PLAN pla WHERE ri.RANSOM_CODE = pla.RANSOM_CODE AND pla.PART_CODE = ri.PART_CODE),GETDATE())  repayEstTime,
+						(SELECT REAL_NAME FROM sctrans.SYS_USER sy WHERE sy.ID = ri.UPDATE_USER  AND ra.RANSOM_CODE = #ransomCode#) repayName,
+						re.REDEEM_TIME  redeemTime,
+						DATEDIFF(DAY,(select pla.EST_PART_TIME from  sctrans.T_RA_PLAN pla WHERE re.RANSOM_CODE = pla.RANSOM_CODE AND pla.PART_CODE = re.PART_CODE),GETDATE())  redeemEstTime,
+						(SELECT REAL_NAME FROM sctrans.SYS_USER sy WHERE sy.ID = re.UPDATE_USER  AND ra.RANSOM_CODE = #ransomCode#) redeemName,
+						pi.PAYMENT_TIME  paymentTime,
+						DATEDIFF(DAY,(select pla.EST_PART_TIME from  sctrans.T_RA_PLAN pla WHERE pi.RANSOM_CODE = pla.RANSOM_CODE AND pla.PART_CODE = pi.PART_CODE),GETDATE())  paymentEstTime,
+						(SELECT REAL_NAME FROM sctrans.SYS_USER sy WHERE sy.ID = pi.UPDATE_USER  AND ra.RANSOM_CODE = #ransomCode#) paymentName,
+						tw.STATUS status
+					FROM
+						sctrans.T_TO_WORKFLOW tw
+					INNER JOIN 
+						sctrans.ACT_RU_TASK ar ON ar.PROC_INST_ID_  = tw.INST_CODE
+					INNER JOIN 
+						sctrans.T_RA_CASE ra ON tw.BIZ_CODE = ra.RANSOM_CODE
+					LEFT JOIN 
+						sctrans.T_RA_APPLY ap ON ra.RANSOM_CODE = ap.RANSOM_CODE 
+					LEFT JOIN 
+						sctrans.T_RA_INTERVIEW si ON ra.RANSOM_CODE = si.RANSOM_CODE 
+					LEFT JOIN 
+						sctrans.T_RA_REPAY ri ON ra.RANSOM_CODE = ri.RANSOM_CODE
+					LEFT JOIN 
+						sctrans.T_RA_CANCEL ci ON ra.RANSOM_CODE = ci.RANSOM_CODE
+					LEFT JOIN 
+						sctrans.T_RA_REDEEM re ON ra.RANSOM_CODE = re.RANSOM_CODE
+					LEFT JOIN 
+						sctrans.T_RA_PAYMENT pi ON ra.RANSOM_CODE = pi.RANSOM_CODE
+					
+					WHERE
+						tw.CASE_CODE = #caseCode#
+					<ifNotNull process>
+						AND tw.BUSINESS_KEY = 'ransom_process'
+					</ifNotNull>
+						
+				]]>
+			</baseSql>
+			<orderBySql>
+				ORDER BY ra.PKID  DESC
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="partCode" display="环节流程"/>
+				<column type="both" name="partName" display="环节流程名"/>
+				<column type="both" name="processName" display="流程名"/>
+				<column type="both" name="applyTime" display="申请时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="applyEstTime" display="申请计划时间" />
+				<column type="both" name="applyName" display="申请执行人"/>
+				
+				<column type="both" name="signTime" display="面签时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="signEstTime" display="面签计划时间" />
+				<column type="both" name="signName" display="面签执行人"/>
+				<column type="both" name="cencelTime" display="中止时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="cancelEstTime" display="计划中止时间"/>
+				
+				<column type="both" name="cancelName" display="中止执行人"/>
+				<column type="both" name="repayTime" display="陪同还贷时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="repayEstTime" display="陪同还贷计划时间" />
+				<column type="both" name="repayName" display="执行人"/>
+				<column type="both" name="redeemTime" display="注销抵押时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				
+				<column type="both" name="redeemEstTime" display="注销抵押计划时间" />
+				<column type="both" name="redeemName" display="执行人"/>
+				<column type="both" name="paymentTime" display="回款结清时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="paymentName" display="计划时间" />
+				<column type="both" name="paymentEstTime" display="执行人"/>
+				
+				<column type="both" name="status" display="完成状态"/>
+			</table-row>
+		</grid>
+	</query>
+	
 </querys>

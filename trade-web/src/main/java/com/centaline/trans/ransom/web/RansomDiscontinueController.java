@@ -211,7 +211,8 @@ public class RansomDiscontinueController {
 	void getTaskBaseInfo(ServletRequest request, String caseCode) {
 		SessionUser user =uamSessionService.getSessionUser(); 
 		// 公共基本信息
-		ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode);
+		List<ToRansomDetailVo> ransomDetailVo = ransomService.getRansomDetail(caseCode);
+		ToRansomDetailVo detailVo = ransomDetailVo.get(0);
 		if(detailVo != null) {
 			request.setAttribute("detailVo", detailVo);
 			request.setAttribute("caseCode", detailVo.getCaseCode());
