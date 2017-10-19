@@ -14,6 +14,8 @@ public enum TransJobs {
 	 * 贷款权证
 	 */
 	DKQZ("DKQZ", "贷款权证"),
+	
+	TJAJBZJ("TJAJBZJ","总监"),
 	/**
 	 *金融权证 
 	 */
