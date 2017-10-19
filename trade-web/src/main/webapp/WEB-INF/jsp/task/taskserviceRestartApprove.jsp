@@ -107,7 +107,7 @@
         			</div>
         			
 					<!-- 案件备注信息 -->
-				  	<div id="caseCommentList" class="view-content"></div>
+				  	<!-- <div id="caseCommentList" class="view-content"></div> -->
 				  	
 				  	<div class="clearfix">
 						<h2 class="newtitle title-mark">审批记录</h2>
@@ -137,6 +137,7 @@
 		<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 		<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
 		<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+		<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 		<!-- 改版引入的新的js文件 -->
 	    <script src="<c:url value='/js/common/textarea.js' />"></script> 
 		<script src="<c:url value='/js/common/common.js' />"></script>

@@ -71,6 +71,9 @@
 	     				<ifNotNull casecode>	
 	     						AND TW.CASE_CODE = #casecode#
 						</ifNotNull>
+						<ifNotNull evaCode>	
+	     						AND TW.BIZ_CODE = #evaCode#
+						</ifNotNull>
 							)UNION(
 							SELECT
 							    AHT.ID_ AS ID,
@@ -94,6 +97,9 @@
      				<ifNotNull casecode>	
      						AND TW.CASE_CODE = #casecode#
 					</ifNotNull>
+					<ifNotNull evaCode>	
+	     						AND TW.BIZ_CODE = #evaCode#
+						</ifNotNull>
 						)) A
 				]]>
 			</baseSql>

@@ -66,4 +66,5 @@ public interface ToEvalReportProcessService {
 	  * @return
 	  */
 	 ToEvalReportProcess selecttoEvalReportProcessByCaseCodeAndStatus(String caseCode,String status);
+	 
 }

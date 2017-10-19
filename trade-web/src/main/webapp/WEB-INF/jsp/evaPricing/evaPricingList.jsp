@@ -227,13 +227,10 @@
 				<p class="big">
 					{{item.CASE_CODE}}				
 				</p>
-				<p>
-					e:{{item.EVA_CODE}}
-				</p>
 			</td>
 
 			<td>
-				<p>
+				<p class="demo-top">
                 	{{item.RESIDENCE_NAME}}
                 </p>                
 			</td>
@@ -297,7 +294,7 @@
             	<div class="float_left big_pad">
 					<select pval="{{item.PKID}}" caseCode="{{item.CASE_CODE}}" instCode="{{item.INST_CODE}}" class="form-control select_control" style="width:120px">
 						<option value="0">查看</option>
-						{{if item.STATUS != 2}}
+						{{if item.STATUS == 1}}
 							<option value="1">评估申请</option>
 						{{/if}}
 						{{if item.STATUS == 2}}

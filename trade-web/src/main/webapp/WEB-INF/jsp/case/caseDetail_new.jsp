@@ -65,250 +65,261 @@
 <input type="hidden" id="srvCodes" value="${caseDetailVO.srvCodes}" />
 <input type="hidden" id="processDefinitionId"
 	   value="${toWorkFlow.processDefinitionId}" />
-<%-- 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include> cyx--%>
-<input type="hidden" id="data" value="${data }"/>
-<script>
-    var resourceDistributionBtn = false;
-    var partCode="${partCode}";//用以获取发起交易变更时的环节 by wbzhouht
-    var auditResult="${auditResult}";//交易计划变更审核时的状态 待审核状态下不能在发起交易变更 by wbzhouht
-    console.log(auditResult);
-    <%if (request.getAttribute("msg") == null || request.getAttribute("msg") == "") {%>
-    <%} else {%>
-    window.wxc.alert("<%=request.getAttribute("msg")%>");
-    <%}%>
-    <shiro:hasPermission name="TRADE.CASE.DISTRIBUTION">
-    resourceDistributionBtn = true;
-    </shiro:hasPermission>
-</script>
-<%-- <%@include file="/WEB-INF/jsp/common/caseBaseInfo.jsp"%> --%>
-<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+	<input type="hidden" id="data" value="${data }"/>
+	<script>
+		var resourceDistributionBtn = false;
+		var partCode="${partCode}";//用以获取发起交易变更时的环节 by wbzhouht
+		var auditResult="${auditResult}";//交易计划变更审核时的状态 待审核状态下不能在发起交易变更 by wbzhouht
+		console.log(auditResult);
+		<%if (request.getAttribute("msg") == null || request.getAttribute("msg") == "") {%>
+		<%} else {%>
+			window.wxc.alert("<%=request.getAttribute("msg")%>");
+		<%}%>
+		<shiro:hasPermission name="TRADE.CASE.DISTRIBUTION">
+		 resourceDistributionBtn = true;
+		</shiro:hasPermission>
+	</script>
+	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 
-<!-- 服务流程 -->
-<div class="panel" style="min-height:100px" id="serviceFlow">
-	<div class="panel-body">
-		<h5>案件基本操作</h5>
-		<div class="row">
-			<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUSPEND">
-				<a role="button" id="casePause" class="btn btn-primary btn-xm"
-				   href="javascript:casePause()">案件挂起 </a>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PLANCHANGE">
-				<a role="button" class="btn btn-primary btn-xm btn-activity"
-				   href="javascript:showPlanModal()">交易计划变更</a>
-			</shiro:hasPermission>
-			<a role="button" class="btn btn-primary btn-xm btn-activity"
-			   href="javascript:caseBaodan()">爆单</a>
-			<!-- 已过户&&已领他证 不可变更 -->
-			<c:if test="${ !isBackTeam}">
-				<c:if test="${not empty toWorkFlow.processDefinitionId}">
-					<c:if test="${not empty toWorkFlow.instCode}">
-						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">
-							<a role="button"
-							   class="btn btn-primary btn-xm btn-activity"
-							   href="javascript:showOrgCp()">责任人变更</a>
+	<!-- 服务流程 -->
+	<div class="panel" style="min-height:100px" id="serviceFlow">
+		<div class="panel-body">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#profile" data-toggle="tab">案件基本操作</a></li>
+				<li class=""><a href="#messages" data-toggle="tab">案件进程总览</a></li>
+			</ul>
+			<div class="tab-content">
+				
+				<div class="tab-pane active fade in" id="profile">
+					<div class="row">
+						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUSPEND">
+							<a role="button" id="casePause" class="btn btn-primary btn-xm"
+											href="javascript:casePause()">案件挂起 </a>
 						</shiro:hasPermission>
-					</c:if>
-				</c:if>
-			</c:if>
-
-			<c:if test="${toCase.caseProperty != 30003002}">
-				<!-- 已经结案审批通过限制流程重启 -->
-				<!-- 已经过户或者已经领证的案件限制流程重启 -->
-				<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' and toCase.status != '30001007' and toCase.caseProperty!='30003009'  || serviceJobType=='Y' }">
-					<shiro:hasPermission name="TRADE.CASE.RESTART">
-						<a role="button" id="processRestart"
-						   class="btn btn-primary btn-xm btn-activity"
-						   href="javascript:serviceRestart()">流程重启</a>
-					</shiro:hasPermission>
-				</c:if>
-			</c:if>
-			<c:if test="${isCaseOwner}">
-				<a role="button" class="btn btn-primary btn-xm btn-activity"
-				   href="javascript:void(0)">贷款需求选择</a>
-			</c:if>
-			<a role="button" class="btn btn-primary btn-xm btn-activity"
-			   href="javascript:evaPricingApply()">询价申请</a>
-			<a role="button" class="btn btn-primary btn-xm btn-activity"
-			   href="javascript:void(0)">评估申请</a>
-			<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVAL.COMPANY.CHANGE">
-				<a role="button" class="btn btn-primary btn-xm btn-activity"
-				   href="javascript:showEvalCompanyChangeModal()">评估公司变更</a>
-			</shiro:hasPermission>
-		</div>
-
-		<!-- 评估公司变更-->
-		<div id="change-eval-company-modal-form" class="modal fade" role="dialog"
-			 aria-labelledby="plan-modal-title" aria-hidden="true">
-			<div class="modal-dialog" style="width: 1000px">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-								aria-hidden="true">×</button>
-						<h4 class="modal-title" id="plan-modal-title">评估公司变更</h4>
+						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PLANCHANGE">
+							<a role="button" class="btn btn-primary btn-xm btn-activity"
+											href="javascript:showPlanModal()">交易计划变更</a>
+						</shiro:hasPermission>
+						
+						<c:if test="${toCase.caseProperty != '30003001' and toCase.caseProperty != '30003002' and toCase.caseProperty != '30003005' and toCase.status != '30001004' and toCase.status != '30001005'}">
+							<a role="button" class="btn btn-primary btn-xm btn-activity"
+											href="javascript:caseBaodan()">爆单</a>
+						</c:if>
+						<!-- 已过户&&已领他证 不可变更 -->
+						<c:if test="${not empty toWorkFlow.processDefinitionId}">
+							<c:if test="${not empty toWorkFlow.instCode}">
+								<c:if test="${toCase.status != '30001004' and toCase.status != '30001005'}">
+									<a role="button" class="btn btn-primary btn-xm btn-activity"
+										href="javascript:showOrgCp()">责任人变更</a>
+								</c:if>
+							</c:if>
+						</c:if>
+						<!-- FALSE：无效/结案/爆单/已过户/已领他证 -->
+						<c:if test="${toCase.caseProperty != '30003001' and toCase.caseProperty != '30003002' and toCase.caseProperty != '30003005' and toCase.status != '30001004' and toCase.status != '30001005'}">
+							<a role="button" id="processRestart" class="btn btn-primary btn-xm btn-activity"
+										href="javascript:serviceRestart()">流程重启</a>
+						</c:if>
+	
+						<c:if test="${isCaseOwner}">
+							<a role="button" class="btn btn-primary btn-xm btn-activity"
+										href="javascript:void(0)">贷款需求选择</a>
+						</c:if>				
+						<a role="button" class="btn btn-primary btn-xm btn-activity"
+							href="javascript:evaPricingApply()">询价申请</a>
+						<a role="button" class="btn btn-primary btn-xm btn-activity"
+							href="javascript:evalApply()">评估申请</a>
+						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVAL.COMPANY.CHANGE">
+							<a role="button" class="btn btn-primary btn-xm btn-activity"
+											href="javascript:showEvalCompanyChangeModal()">评估公司变更</a>
+						</shiro:hasPermission>
 					</div>
-					<div class="modal-body">
-						<div style="margin-left: 150px">
-							<div class="row">
-								<form id="change-eval-company-form" class="form-horizontal">
-									<table>
-										<tr>
-											<td>评估公司变更</td>
-											<td>是<input type="radio" name="changeItem">&nbsp&nbsp&nbsp&nbsp&nbsp否
+					<!-- 评估公司变更-->
+					<div id="change-eval-company-modal-form" class="modal fade" role="dialog"
+						aria-labelledby="plan-modal-title" aria-hidden="true">
+						<div class="modal-dialog" style="width: 1000px">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">×</button>
+									<h4 class="modal-title" id="plan-modal-title">评估公司变更</h4>
+								</div>
+								<div class="modal-body">
+								<div style="margin-left: 150px">
+									<div class="row">
+										<form id="change-eval-company-form" class="form-horizontal">
+											<table>
+												<tr>
+												<td>评估公司变更</td>
+												<td>是<input type="radio" name="changeItem">&nbsp&nbsp&nbsp&nbsp&nbsp否
 												<input type="radio" name="changeItem"></td>
-										</tr>
-										<tr>
-											<td>评估公司变更原因</td>
-											<td><input type="text" name="changeReason"></td>
-										</tr>
-										<tr>
-											<td>是否退报告</td>
-											<td>是<input type="radio" name="returnEvalReport">&nbsp&nbsp&nbsp&nbsp&nbsp否
+												</tr>
+												<tr>
+												<td>评估公司变更原因</td>
+												<td><input type="text" name="changeReason"></td>
+												</tr>
+												<tr>
+												<td>是否退报告</td>
+												<td>是<input type="radio" name="returnEvalReport">&nbsp&nbsp&nbsp&nbsp&nbsp否
 												<input type="radio" name="returnEvalReport"></td>
-										</tr>
-									</table>
-
-								</form>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default"
-								data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary"
-								onclick="return savePlanItems();">提交</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-		<!-- 交易计划变更 -->
-		<div id="plan-modal-form" class="modal fade" role="dialog"
-			 aria-labelledby="plan-modal-title" aria-hidden="true">
-			<div class="modal-dialog" style="width: 1000px">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-								aria-hidden="true">×</button>
-						<h4 class="modal-title" id="plan-modal-title">交易计划变更</h4>
-					</div>
-					<div class="modal-body">
-						<div class="row">
-							<form id="plan-form" class="form-horizontal"></form>
-						</div>
-					</div>
-					<div class="modal-footer">
-
-						<button type="button" class="btn btn-primary"
-								onclick="javascript:openTransHistory()">变更记录</button>
-						<button type="button" class="btn btn-primary"
-								onclick="javascript:resetPlanModal()">重置</button>
-						<button type="button" class="btn btn-default"
-								data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary"
-								onclick="return savePlanItems();">提交</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- 责任人变更 -->
-		<div id="leading-modal-form" class="modal fade" role="dialog"
-			 aria-labelledby="leading-modal-title" aria-hidden="true">
-			<div class="modal-dialog" style="width: 1200px">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-								aria-hidden="true">×</button>
-						<h4 class="modal-title" id="leading-modal-title">
-							请选择责任人</h4>
-					</div>
-					<div class="modal-body">
-						<div class="row" style="height: 450px; overflow: auto;">
-							<div class="col-lg-12 ">
-								<h3 class="m-t-none m-b"></h3>
-								<div class="wrapper wrapper-content animated fadeInRight">
-									<div id="leading-modal-data-show" class="row"></div>
+												</tr>
+											</table>
+										
+										</form>
+									</div>
+								</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">关闭</button>
+									<button type="button" class="btn btn-primary"
+										onclick="return savePlanItems();">提交</button>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div>
-		<!-- loanRequirementChange -->
-		<div id="loanReqmentChg-modal-form" class="modal fade"
-			 role="dialog" aria-labelledby="plan-modal-title"
-			 aria-hidden="true">
-			<div class="modal-dialog" style="width: 1000px">
-				<form method="get" class="form-horizontal"
-					  id="loan_reqment_chg_form">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal"
-									aria-hidden="true">×</button>
-							<h4 class="modal-title" id="plan-modal-title">贷款需求选择</h4>
+	
+					<!-- 交易计划变更 -->
+					<div id="plan-modal-form" class="modal fade" role="dialog"
+						aria-labelledby="plan-modal-title" aria-hidden="true">
+						<div class="modal-dialog" style="width: 1000px">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">×</button>
+									<h4 class="modal-title" id="plan-modal-title">交易计划变更</h4>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+										<form id="plan-form" class="form-horizontal"></form>
+									</div>
+								</div>
+								<div class="modal-footer">
+	
+									<button type="button" class="btn btn-primary"
+										onclick="javascript:openTransHistory()">变更记录</button>
+									<button type="button" class="btn btn-primary"
+										onclick="javascript:resetPlanModal()">重置</button>
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">关闭</button>
+									<button type="button" class="btn btn-primary"
+										onclick="return savePlanItems();">提交</button>
+								</div>
+							</div>
 						</div>
-
-						<!-- 交易单编号 -->
-						<input type="hidden" name="caseCode"
-							   value="${toCase.caseCode}">
-						<!-- 流程引擎需要字段 -->
-						<input type="hidden" name="processInstanceId"
-							   value="${toWorkFlow.instCode}">
-						<div class="modal-body">
-							<div style="padding-left: 20px; padding-right: 20px;">
-								<div class="row">
-									<div class="col-md-7">
-										<div class="form-group" id="data_1" name="isYouXiao">
-											<label class="col-md-5 control-label"
-												   style='padding-left: 0px; text-align: left;'><font
-													color="red">*</font>请选择客户贷款需求</label>
-											<div class="col-md-7">
-												<aist:dict clazz="form-control" id="mortageService"
-														   name="mortageService" display="select"
-														   defaultvalue="0" dictType="mortage_service" />
+					</div>
+						
+					<!-- 责任人变更 -->
+					<div id="leading-modal-form" class="modal fade" role="dialog"
+						aria-labelledby="leading-modal-title" aria-hidden="true">
+						<div class="modal-dialog" style="width: 1200px">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">×</button>
+									<h4 class="modal-title" id="leading-modal-title">
+										请选择权证</h4>
+								</div>
+								<div class="modal-body">
+									<div class="row" style="height: 450px; overflow: auto;">
+										<div class="col-lg-12 ">
+											<h3 class="m-t-none m-b"></h3>
+											<div class="wrapper wrapper-content animated fadeInRight">
+												<div id="leading-modal-data-show" class="row"></div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="row" id='div_releasePlan'>
-									<div class="col-md-7">
-										<div class="form-group">
-											<label class="col-md-5 control-label"
-												   style='padding-left: 0px; text-align: left;'><font
-													color="red">*</font>预计放款时间</label>
-											<div class="col-md-7">
-												<div class=" input-group date">
-																	<span class="input-group-addon"><i
-																			class="fa fa-calendar"></i></span> <input type="text"
-																													  class="form-control" name="estPartTime"
-																													  id="estPartTime" disabled="disabled" value="">
+							</div>
+						</div>
+					</div>	
+					<!-- loanRequirementChange -->
+					<div id="loanReqmentChg-modal-form" class="modal fade"
+						role="dialog" aria-labelledby="plan-modal-title"
+						aria-hidden="true">
+						<div class="modal-dialog" style="width: 1000px">
+							<form method="get" class="form-horizontal"
+								id="loan_reqment_chg_form">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">×</button>
+										<h4 class="modal-title" id="plan-modal-title">贷款需求选择</h4>
+									</div>
+	
+									<!-- 交易单编号 -->
+									<input type="hidden" name="caseCode"
+										value="${toCase.caseCode}">
+									<!-- 流程引擎需要字段 -->
+									<input type="hidden" name="processInstanceId"
+										value="${toWorkFlow.instCode}">
+									<div class="modal-body">
+										<div style="padding-left: 20px; padding-right: 20px;">
+											<div class="row">
+												<div class="col-md-7">
+													<div class="form-group" id="data_1" name="isYouXiao">
+														<label class="col-md-5 control-label"
+															style='padding-left: 0px; text-align: left;'><font
+															color="red">*</font>请选择客户贷款需求</label>
+														<div class="col-md-7">
+															<aist:dict clazz="form-control" id="mortageService"
+																name="mortageService" display="select"
+																defaultvalue="0" dictType="mortage_service" />
+														</div>
+													</div>
 												</div>
 											</div>
+											<div class="row" id='div_releasePlan'>
+												<div class="col-md-7">
+													<div class="form-group">
+														<label class="col-md-5 control-label"
+															style='padding-left: 0px; text-align: left;'><font
+															color="red">*</font>预计放款时间</label>
+														<div class="col-md-7">
+															<div class=" input-group date">
+																<span class="input-group-addon"><i
+																	class="fa fa-calendar"></i></span> <input type="text"
+																	class="form-control" name="estPartTime"
+																	id="estPartTime" disabled="disabled" value="">
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												*请注意：当您选择纯公积金贷款时，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。</div>
+											<div class="divider">
+												<hr>
+											</div>
+											<div id="hzxm"></div>
 										</div>
 									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">关闭</button>
+										<button type="button" id="btn_loan_reqment_chg"
+											class="btn btn-primary">变更</button>
+									</div>
 								</div>
-								<div class="row">
-									*请注意：当您选择纯公积金贷款时，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。</div>
-								<div class="divider">
-									<hr>
-								</div>
-								<div id="hzxm"></div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-									data-dismiss="modal">关闭</button>
-							<button type="button" id="btn_loan_reqment_chg"
-									class="btn btn-primary">变更</button>
+							</form>
 						</div>
 					</div>
-				</form>
+				
+				</div>
+				
+				<div class="tab-pane fade" id="messages">
+				<c:if test="${not empty toWorkFlow.processDefinitionId}">
+						<c:if test="${not empty toWorkFlow.instCode}">
+							<iframe frameborder="no" border="0" marginwidth="0"
+								marginheight="0" scrolling="auto" allowtransparency="yes"
+								overflow:auto;
+									style="height: 650px; width: 100%;"
+								src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
+						</c:if>
+				</c:if>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
 
 
@@ -610,7 +621,7 @@
 	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/additional-methods.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
-	<%--<script src="<c:url value='/js/stickUp.js' />"></script>--%>
+	<script src="<c:url value='/js/stickUp.js' />"></script>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
 	<!-- 放款监管信息  -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
@@ -691,7 +702,6 @@
             window.open(attachPath);
 
         }
-
         //加载页面获取屏幕高度
         $(function(){
 
@@ -722,8 +732,20 @@
             }
 
         });
-
-
+        jQuery(function($) {
+            $(document).ready( function() {
+               $('.stickup-nav-bar').stickUp({
+                                    parts: {
+                                      0:'basicInfo',
+                                      1:'serviceFlow',
+                                      2:'aboutInfo'
+                                    },
+                                    itemClass: 'menuItem',
+                                    itemHover: 'active',
+                                    marginTop: 'auto'
+                                  });
+            });
+        });
 
 	</script>
 	<script

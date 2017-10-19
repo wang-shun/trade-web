@@ -1,12 +1,8 @@
 package com.centaline.trans.cases.web;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.enums.WorkFlowStatus;
-import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +16,8 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.attachment.service.ToAttachmentService;
 import com.centaline.trans.cases.service.ServiceRestartService;
 import com.centaline.trans.cases.service.ToCaseService;
-import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
-import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
 @RequestMapping(value = "/service")
@@ -51,11 +45,9 @@ public class ServiceRestartController {
 		String userId = u.getId();
 		String userJob = u.getServiceJobCode();
 		try{
-			boolean flag = serviceRestart.restartCheckout(vo,userJob);
-			if(flag == false){
-				 resp.setSuccess(false);
-				 resp.setMessage("此案件已过户，不能重启流程！");
-				 return resp;
+			AjaxResponse<StartProcessInstanceVo> result = serviceRestart.restartCheckout(vo,userJob);
+			if(!result.getSuccess()){
+				 return result;
 			}else{
 				vo.setUserId(userId);
 				vo.setUserName(u.getUsername());
@@ -66,6 +58,8 @@ public class ServiceRestartController {
 				resp.setContent(piv);
 				return resp;
 			}
+		}catch(BusinessException be){
+			throw new BusinessException(be.getMessage());	 
 		}catch(Exception e){
 			throw new BusinessException("重启流程异常！");	 
 		}
@@ -74,44 +68,22 @@ public class ServiceRestartController {
 	
 	
 	@RequestMapping("apply/process")
-	public String toApplyProcess(HttpServletRequest request,
-			HttpServletResponse response, String caseCode, String source,
-			String taskitem, String processInstanceId) {
-		SessionUser user = uamSessionService.getSessionUser();
-		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		request.setAttribute("source", source);
-		request.setAttribute("caseBaseVO", caseBaseVO);
+	public String toApplyProcess(HttpServletRequest request) {
 
-		request.setAttribute("approveType", "7");
-		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "task" + UiImproveUtil.getPageType(request)
-				+ "/taskserviceRestartApply";
+		return "task/taskserviceRestartApply";
 	}
 
 	@RequestMapping("approve/process")
-	public String toApproveProcess(HttpServletRequest request,
-			HttpServletResponse response, String caseCode, String source,
-			String taskitem, String processInstanceId) {
-		SessionUser user = uamSessionService.getSessionUser();
-		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		// 税费卡
-		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
-		if (cou > 0) {
-			caseBaseVO.setLoanType("30004005");
-		}
-		request.setAttribute("source", source);
-		request.setAttribute("caseBaseVO", caseBaseVO);
+	public String toApproveProcess(HttpServletRequest request) {
 
-		request.setAttribute("approveType", "7");
-		request.setAttribute("operator", user != null ? user.getId() : "");
-		return "task" + UiImproveUtil.getPageType(request)
-				+ "/taskserviceRestartApprove";
+		return "task/taskserviceRestartApprove";
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/apply")
 	@ResponseBody
 	public AjaxResponse apply(Model model, ServiceRestartVo vo) {
@@ -137,14 +109,6 @@ public class ServiceRestartController {
 			if (vo.getIsApproved()) {
 				toAttachmentService.updateToAttachmentByCaseCode(vo.getCaseCode() == null ? "" : vo.getCaseCode());
 			}
-		}
-		ToWorkFlow workFlow = new ToWorkFlow();
-
-		workFlow.setCaseCode(vo.getCaseCode());
-		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(workFlow);
-		if (record != null) {
-			record.setStatus(WorkFlowStatus.COMPLETE.getCode());
-			toWorkFlowService.updateByPrimaryKeySelective(record);
 		}
 
 		vo.setUserId(u.getId());

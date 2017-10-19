@@ -65,6 +65,7 @@
 						  WHERE  ART.ASSIGNEE_ = #userLoginName#
 					    AND ART.SUSPENSION_STATE_ = '1'
 					    and exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=tw.CASE_CODE)
+					    AND tw.CASE_CODE = tw.BIZ_CODE
 						<ifNotNull allType>
    						AND ART.DELEGATION_ IS NULL
 						</ifNotNull>

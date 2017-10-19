@@ -82,9 +82,13 @@
                             </div>
 
                             </div>
-                            
+                            <input type="hidden" id="queryOrgFlag" value="${queryOrgFlag}" />
+                            <input type="hidden" id="isAdminFlag" value="${isAdminFlag}" />
+                            <input type="hidden" id="queryOrgs" value="${queryOrgs}" />
+                            <input type="hidden" id="serviceDepId" value="${serviceDepId}" />
+                            <input type="hidden" id="userId" value="${userId}" />
                             <div class="line">
-                                <div class="form_content">
+                                <%--<div class="form_content">
                                     <label class="control-label sign_left_small">
                                         所在组
                                     </label>
@@ -93,6 +97,19 @@
                                     <div class="input-group float_icon organize_icon">
                                         <i class="icon iconfont"></i>
                                     </div>
+                                </div>--%>
+                                <div class="form_content">
+                                    <label class="control-label sign_left_small">所在组</label>
+
+                                        <input type="text"  class="teamcode input_type" id="teamCode" name="teamCode" readonly="readonly"
+                                               onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+                                                       chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value="${serviceDepName}"></input>
+                                        <input class="teamcode form-control" type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">
+                                        <div class="input-group float_icon organize_icon" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
+                                                chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value="${serviceDepName}">
+                                            <i class="icon iconfont"></i>
+                                        </div>
+
                                 </div>
                             	 <div class="form_content choices">
                                     <label class="control-label sign_left_small">
