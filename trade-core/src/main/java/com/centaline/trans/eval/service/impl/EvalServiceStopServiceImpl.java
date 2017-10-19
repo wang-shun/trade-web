@@ -77,11 +77,11 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 			 resp.setMessage("此评估不存在！");
 			 return resp;
 		}
-		if(EvalStatusEnum.YSYBG.getCode().equals(toEvalReportProcess.getStatus())){
+		/*if(EvalStatusEnum.YSYBG.getCode().equals(toEvalReportProcess.getStatus())){
 			   resp.setSuccess(false);
 			   resp.setMessage("此评估报告已使用，不能重启流程！");
 			   return resp;
-		}
+		}*/
 		
 		if(EvalStatusEnum.YCQ.getCode().equals(toEvalReportProcess.getStatus())){
 			 resp.setSuccess(false);
@@ -101,7 +101,7 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 		}
 		
 		//相关流程挂起
-		activateOrSuspendProcessInstance(vo.getEvaCode(),false);
+		//activateOrSuspendProcessInstance(vo.getEvaCode(),false);
 		
 		/** 启动 评估重启流程 */
 		Map<String, Object> vars = new HashMap<>();
@@ -133,9 +133,9 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 		AjaxResponse<StartProcessInstanceVo> resp = new AjaxResponse<StartProcessInstanceVo>();
 		taskService.submitTask(vo.getTaskId());
 		ToApproveRecord record = new ToApproveRecord();
-		record.setApproveType("11");
+		record.setApproveType("16");
 		record.setCaseCode(vo.getCaseCode());
-		record.setContent(vo.getContent());
+		record.setContent("爆单原因:"+vo.getContent());
 		record.setOperator(vo.getUserId());
 		record.setOperatorTime(new Date());
 		record.setPartCode(vo.getPartCode());
@@ -163,10 +163,10 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 	 */
 	private void handerProcessAfterServiceStop(ServiceRestartVo vo) {
 		
-		//删除评估所有子流程(退费，返利) //TODO 这里待定
+		//删除评估爆单 //TODO 这里待定
 		List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(vo.getEvaCode());
 		for (TaskVo task : taskVos) {
-			if (!WorkFlowEnum.EVAL_SERVICE_STOP_PROCESS.getCode().equals(task.getBusiness_key())) {
+			if (WorkFlowEnum.EVAL_SERVICE_STOP_PROCESS.getCode().equals(task.getBusiness_key())) {
 				try{
 					workFlowManager.deleteProcess(task.getInstCode());
 				}catch(WorkFlowException e){
@@ -185,7 +185,7 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 			toWorkFlowService.updateByPrimaryKeySelective(record);
 		}
 		
-		//更改评估单状态为重启
+		//更改评估单状态为爆单
 		toEvalReportProcessService.updateStatusByEvalCode(EvalStatusEnum.YBD.getCode(),vo.getEvaCode());
 	}
 
@@ -216,14 +216,21 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 	 * @param vo
 	 */
 	private void insertIntoApproveRecord(ServiceRestartVo vo) {
+		String prefix=null;
+		if(vo.getIsApproved()){
+			prefix="通过:";
+		}else{
+			prefix="驳回原因:";
+		}
 		ToApproveRecord record = new ToApproveRecord();
-		record.setApproveType("11");
+		record.setApproveType("16");
 		record.setCaseCode(vo.getCaseCode());
-		record.setContent(vo.getContent());
+		record.setContent(prefix+vo.getContent());
 		record.setOperator(vo.getUserId());
 		record.setOperatorTime(new Date());
 		record.setPartCode(vo.getPartCode());
 		record.setProcessInstance(vo.getInstCode());
+		record.setNotApprove(prefix+vo.getContent());
 		toApproveRecordService.insertToApproveRecord(record);		
 	}
 	

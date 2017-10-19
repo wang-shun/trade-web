@@ -8,6 +8,7 @@ import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
 import com.centaline.trans.ransom.entity.ToRansomPermitVo;
+import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
@@ -25,7 +26,7 @@ public interface RansomListFormService {
 	 * @param caseCode
 	 * @return
 	 */
-	ToRansomCaseVo getRansomCase(String caseCode);
+	ToRansomCaseVo getRansomCase(String caseCode, String ransomCode);
 	
 	/**
 	 * 根据caseCode保存赎楼中止信息
@@ -62,7 +63,29 @@ public interface RansomListFormService {
 	 * @param caseCode
 	 * @return
 	 */
-	ToRansomVo getRansomPlanInfo(String ransomCode);
+	List<ToRansomVo> getRansomPlanInfo(String ransomCode);
+	
+	/**
+	 * 赎楼时间计划信息
+	 * @param ransomCode
+	 * @return
+	 */
+	List<ToRansomPlanVo> getRansomPlanTimeInfo(String ransomCode);
+	
+	/**
+	 * 赎楼时间计划信息插入
+	 * @param ransomCode
+	 * @return
+	 */
+	int insertRansomPlanTimeInfo(ToRansomPlanVo planVo);
+	
+	/**
+	 * 赎楼时间计划信息更新
+	 * @param ransomCode
+	 * @return
+	 */
+	int updateRansomPlanTimeInfo(ToRansomPlanVo ransomPlanVo);
+	
 	
 	/**
 	 * 赎楼申请信息更新
@@ -105,4 +128,19 @@ public interface RansomListFormService {
 	 * @return
 	 */
 	int updateRansomPaymentInfo(ToRansomVo ransomVo);
+	
+	/**
+	 * 当前单数
+	 * @param userId
+	 * @return
+	 */
+	int queryCountRansomsByUserId(String userId);
+	
+	/**
+	 * 本月单数
+	 * @param userId
+	 * @return
+	 */
+	int queryCountMonthRansomsByUserId(String userId);
+	
 }

@@ -7,7 +7,8 @@ package com.centaline.trans.common.enums;
 public enum CaseParticipantEnum {
 	
 	AGENT("agent", "经纪人"),SECRETARY("secretary","秘书"), WARRANT("warrant", "过户权证"),
-	LOAN("loan", "贷款权证"), FINANCIAL("financial", "金融权证"),ASSISTANT("assistant","权证秘书");
+	LOAN("loan", "贷款权证"), FINANCIAL("financial", "金融权证"),MANAGER("manager","权证经理"),CHEIF("chief","总监"),ASSISTANT("assistant","权证秘书");
+	
 
 	private String code;
 

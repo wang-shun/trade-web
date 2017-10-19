@@ -4,133 +4,173 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class ToEvalRebate {
-    private Long pkid;
+	private Long pkid;
 
-    private String caseCode;
+	private String caseCode;
 
-    private String evaCode;
+	private String evaCode;
 
-    private String evalRecept;
+	private String evalRecept;
 
-    private Date pricingTime;
+	private BigDecimal evalRealCharges;
 
-    private String oringinCaseCode;
+	private BigDecimal evalDueCharges;
 
-    private BigDecimal evalRealCharges;
+	private BigDecimal centaComAmount;
 
-    private BigDecimal evalDueCharges;
+	private BigDecimal evaComAmount;
 
-    private BigDecimal centaComAmount;
+	private Date inputTime;
 
-    private BigDecimal evaComAmount;
+	private String evaRpocessId;
 
-    private Date inputTime;
+	private String status;
 
-    private String evaRpocessId;
+	private String ccaiCode;
 
-    private String status;
+	private Date createTime;
 
-    public Long getPkid() {
-        return pkid;
-    }
+	private String applyUserName;
 
-    public void setPkid(Long pkid) {
-        this.pkid = pkid;
-    }
+	private String applyRealName;
 
-    public String getCaseCode() {
-        return caseCode;
-    }
+	private BigDecimal evalPrice;
 
-    public void setCaseCode(String caseCode) {
-        this.caseCode = caseCode == null ? null : caseCode.trim();
-    }
+	private BigDecimal evalCost;
 
-    public String getEvaCode() {
-        return evaCode;
-    }
+	public Long getPkid() {
+		return pkid;
+	}
 
-    public void setEvaCode(String evaCode) {
-        this.evaCode = evaCode == null ? null : evaCode.trim();
-    }
+	public void setPkid(Long pkid) {
+		this.pkid = pkid;
+	}
 
-    public String getEvalRecept() {
-        return evalRecept;
-    }
+	public String getCaseCode() {
+		return caseCode;
+	}
 
-    public void setEvalRecept(String evalRecept) {
-        this.evalRecept = evalRecept == null ? null : evalRecept.trim();
-    }
+	public void setCaseCode(String caseCode) {
+		this.caseCode = caseCode == null ? null : caseCode.trim();
+	}
 
-    public Date getPricingTime() {
-        return pricingTime;
-    }
+	public String getEvaCode() {
+		return evaCode;
+	}
 
-    public void setPricingTime(Date pricingTime) {
-        this.pricingTime = pricingTime;
-    }
+	public void setEvaCode(String evaCode) {
+		this.evaCode = evaCode == null ? null : evaCode.trim();
+	}
 
-    public String getOringinCaseCode() {
-        return oringinCaseCode;
-    }
+	public String getEvalRecept() {
+		return evalRecept;
+	}
 
-    public void setOringinCaseCode(String oringinCaseCode) {
-        this.oringinCaseCode = oringinCaseCode == null ? null : oringinCaseCode.trim();
-    }
+	public void setEvalRecept(String evalRecept) {
+		this.evalRecept = evalRecept == null ? null : evalRecept.trim();
+	}
 
-    public BigDecimal getEvalRealCharges() {
-        return evalRealCharges;
-    }
+	public BigDecimal getEvalRealCharges() {
+		return evalRealCharges;
+	}
 
-    public void setEvalRealCharges(BigDecimal evalRealCharges) {
-        this.evalRealCharges = evalRealCharges;
-    }
+	public void setEvalRealCharges(BigDecimal evalRealCharges) {
+		this.evalRealCharges = evalRealCharges;
+	}
 
-    public BigDecimal getEvalDueCharges() {
-        return evalDueCharges;
-    }
+	public BigDecimal getEvalDueCharges() {
+		return evalDueCharges;
+	}
 
-    public void setEvalDueCharges(BigDecimal evalDueCharges) {
-        this.evalDueCharges = evalDueCharges;
-    }
+	public void setEvalDueCharges(BigDecimal evalDueCharges) {
+		this.evalDueCharges = evalDueCharges;
+	}
 
-    public BigDecimal getCentaComAmount() {
-        return centaComAmount;
-    }
+	public BigDecimal getCentaComAmount() {
+		return centaComAmount;
+	}
 
-    public void setCentaComAmount(BigDecimal centaComAmount) {
-        this.centaComAmount = centaComAmount;
-    }
+	public void setCentaComAmount(BigDecimal centaComAmount) {
+		this.centaComAmount = centaComAmount;
+	}
 
-    public BigDecimal getEvaComAmount() {
-        return evaComAmount;
-    }
+	public BigDecimal getEvaComAmount() {
+		return evaComAmount;
+	}
 
-    public void setEvaComAmount(BigDecimal evaComAmount) {
-        this.evaComAmount = evaComAmount;
-    }
+	public void setEvaComAmount(BigDecimal evaComAmount) {
+		this.evaComAmount = evaComAmount;
+	}
 
-    public Date getInputTime() {
-        return inputTime;
-    }
+	public Date getInputTime() {
+		return inputTime;
+	}
 
-    public void setInputTime(Date inputTime) {
-        this.inputTime = inputTime;
-    }
+	public void setInputTime(Date inputTime) {
+		this.inputTime = inputTime;
+	}
 
-    public String getEvaRpocessId() {
-        return evaRpocessId;
-    }
+	public String getEvaRpocessId() {
+		return evaRpocessId;
+	}
 
-    public void setEvaRpocessId(String evaRpocessId) {
-        this.evaRpocessId = evaRpocessId == null ? null : evaRpocessId.trim();
-    }
+	public void setEvaRpocessId(String evaRpocessId) {
+		this.evaRpocessId = evaRpocessId == null ? null : evaRpocessId.trim();
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
+	public void setStatus(String status) {
+		this.status = status == null ? null : status.trim();
+	}
+
+	public String getCcaiCode() {
+		return ccaiCode;
+	}
+
+	public void setCcaiCode(String ccaiCode) {
+		this.ccaiCode = ccaiCode == null ? null : ccaiCode.trim();
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getApplyUserName() {
+		return applyUserName;
+	}
+
+	public void setApplyUserName(String applyUserName) {
+		this.applyUserName = applyUserName == null ? null : applyUserName.trim();
+	}
+
+	public String getApplyRealName() {
+		return applyRealName;
+	}
+
+	public void setApplyRealName(String applyRealName) {
+		this.applyRealName = applyRealName == null ? null : applyRealName.trim();
+	}
+
+	public BigDecimal getEvalPrice() {
+		return evalPrice;
+	}
+
+	public void setEvalPrice(BigDecimal evalPrice) {
+		this.evalPrice = evalPrice;
+	}
+
+	public BigDecimal getEvalCost() {
+		return evalCost;
+	}
+
+	public void setEvalCost(BigDecimal evalCost) {
+		this.evalCost = evalCost;
+	}
 }

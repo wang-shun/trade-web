@@ -1109,3 +1109,26 @@ function ts(status){
 function hlts(){
 	window.wxc.alert("没有找到可以合流的案件！");
 }
+
+function ransomSuspend(caseCode){
+	var ctx = $("#ctx").val();
+	var url = ctx + "/task/ransomDiscontinue/isCanBeSuspend";
+	var params =  {caseCode : caseCode};
+	$.ajax({
+		async : false,//false同步，true异步
+		type : "GET",
+		url : url,
+		dataType :"json",
+		data : $.param(params),
+		success : function(data) {
+			if(data.suspend == true){
+				window.open(ctx + "/task/ransomDiscontinue/stopApplyProcess1?caseCode="+caseCode)
+			}else{
+				window.wxc.alert(data.msg);
+			}
+		},
+		error : function(errors) {
+			window.wxc.error("数据查询出错");
+		}
+	});
+}

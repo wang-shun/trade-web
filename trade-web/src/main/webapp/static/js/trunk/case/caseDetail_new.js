@@ -3,30 +3,30 @@
  *
  */
 Array.prototype.contains = function(obj){
-	 var i = this.length;
-     while (i--) {
-         if (this[i] === obj) {
-         return true;
-         }
-     }
-     return false;
+    var i = this.length;
+    while (i--) {
+        if (this[i] === obj) {
+            return true;
+        }
+    }
+    return false;
 };
 
 $(document).ready(function() {
 
-	$("#subscribe").subscribeToggle({
-		moduleType:"1001",
-		subscribeType:"2001"
-	});
-	$("#mortageService").change(function(){
-		mortageService();
-	});
-	//CCAI附件
-	getShowCCAIAttachment();
-	//附件
-	getShowAttachment();
-	//业绩记录/收费情况查询
-	queryPer();
+    $("#subscribe").subscribeToggle({
+        moduleType:"1001",
+        subscribeType:"2001"
+    });
+    $("#mortageService").change(function(){
+        mortageService();
+    });
+    //CCAI附件
+    getShowCCAIAttachment();
+    //附件
+    getShowAttachment();
+    //业绩记录/收费情况查询
+    queryPer();
 
 });
 
@@ -34,311 +34,307 @@ $(document).ready(function() {
  * CCAI附件
  */
 function getShowCCAIAttachment(){
-	var caseCode = $("#caseCode").val();
-	$("#gridTable").jqGrid({
-		url : ctx+'/quickGrid/findPage',
-		mtype : 'GET',
-		datatype : "json",
-		height : 250,
-		autowidth : true,
-		shrinkToFit : true,
-		rowNum : 5,
-		colNames : [ '附件类型','附件名称','附件路径','上传时间','操作'],
-		colModel : [ {
-			name : 'FILE_CAT',
-			index : 'FILE_CAT',
-			align : "center",
-			width : 120,
-			resizable : false
-		},{
-			name : 'FILE_NAME',
-			index : 'FILE_NAME',
-			align : "center",
-			width : 240,
-			resizable : false
-		}, {
-			name : 'URL',
-			index : 'URL',
-			align : "center",
-			width : 300,
-			resizable : false
-		}, {
-			name : 'UPLOAD_TIME',
-			index : 'UPLOAD_TIME',
-			align : "center",
-			width : 180,
-			resizable : false
-		},{
-			name : 'READ',
-			index : 'READ',
-			align : "center",
-			width : 180,
-			resizable : false
-		}],
-		multiselect: true,
-		pager : "#gridPager",
-		viewrecords : true,
-		pagebuttions : true,
-		multiselect:false,
-		hidegrid : false,
-		recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-		pgtext : " {0} 共 {1} 页",
-		gridComplete:function(){
-			var ids = jQuery("#gridTable").jqGrid('getDataIDs');
-			for (var i = 0; i < ids.length; i++) {
-				var id = ids[i];
-				var rowData = jQuery("#gridTable").jqGrid('getRowData', ids[i]); // 获取当前行	    				
-				var link = "<button  class='btn red' onclick='showAttachment(\""+rowData['URL']+"\")'>查看附件</a>";
-				
-				jQuery("#gridTable").jqGrid('setRowData', ids[i], { READ: link});
-			}
-		},
-		postData : {
-			queryId : "getCcaiAttachmentListByCaseCode",
-			caseCode : caseCode
-		}
-		 
-	});
+    var caseCode = $("#caseCode").val();
+    $("#gridTable").jqGrid({
+        url : ctx+'/quickGrid/findPage',
+        mtype : 'GET',
+        datatype : "json",
+        height : 250,
+        autowidth : true,
+        shrinkToFit : true,
+        rowNum : 5,
+        colNames : [ '附件类型','附件名称','附件路径','上传时间','操作'],
+        colModel : [ {
+            name : 'FILE_CAT',
+            index : 'FILE_CAT',
+            align : "center",
+            width : 120,
+            resizable : false
+        },{
+            name : 'FILE_NAME',
+            index : 'FILE_NAME',
+            align : "center",
+            width : 240,
+            resizable : false
+        }, {
+            name : 'URL',
+            index : 'URL',
+            align : "center",
+            width : 300,
+            resizable : false
+        }, {
+            name : 'UPLOAD_TIME',
+            index : 'UPLOAD_TIME',
+            align : "center",
+            width : 180,
+            resizable : false
+        },{
+            name : 'READ',
+            index : 'READ',
+            align : "center",
+            width : 180,
+            resizable : false
+        }],
+        multiselect: true,
+        pager : "#gridPager",
+        viewrecords : true,
+        pagebuttions : true,
+        multiselect:false,
+        hidegrid : false,
+        recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+        pgtext : " {0} 共 {1} 页",
+        gridComplete:function(){
+            var ids = jQuery("#gridTable").jqGrid('getDataIDs');
+            for (var i = 0; i < ids.length; i++) {
+                var id = ids[i];
+                var rowData = jQuery("#gridTable").jqGrid('getRowData', ids[i]); // 获取当前行
+                var link = "<button  class='btn red' onclick='showAttachment(\""+rowData['URL']+"\")'>查看附件</a>";
+
+                jQuery("#gridTable").jqGrid('setRowData', ids[i], { READ: link});
+            }
+        },
+        postData : {
+            queryId : "getCcaiAttachmentListByCaseCode",
+            caseCode : caseCode
+        }
+
+    });
 }
 function showAttachment(url){
-	window.open(url);
+    window.open(url);
 }
 /**
  * 附件信息
  */
 function getShowAttachment() {
-	var caseCode = $("#caseCode").val();
-	$.ajax({
-		type : 'post',
-		cache : false,
-		async : true,//false同步，true异步
-		dataType : 'json',
-		url : ctx+'/attachment/quereyAttachment',
-		data : [{
-			name : 'caseCode',
-			value : caseCode
-		}, 
-		{
-			name : 'available',
-			value : 'Y'
-		}
-    	],
-		dataType : "json",
-		success : function(data) {
-			dataLength=data.length;
-			//将返回的数据进行包装
-			var trStr = "";
+    var caseCode = $("#caseCode").val();
+    $.ajax({
+        type : 'post',
+        cache : false,
+        async : true,//false同步，true异步
+        dataType : 'json',
+        url : ctx+'/attachment/quereyAttachment',
+        data : [{
+            name : 'caseCode',
+            value : caseCode
+        },
+            {
+                name : 'available',
+                value : 'Y'
+            }
+        ],
+        success : function(data) {
+            dataLength=data.length;
+            //将返回的数据进行包装
+            var trStr = "";
 
-			var ssss="";
-			
-			var oldType = "";
-			$.each(data, function(indexAcc, value){
-				if(value.partCode !='property_research'){//!产调
-					//附件类型,T_TO_ACCESORY_LIST
-					if(value.preFileName!=oldType){
-						if(oldType!=""){
-							trStr += '</div></div>';
-						}
-						oldType=value.preFileName;
-						trStr += '<div class="row ibox-content">';
-						trStr += '<label class="col-sm-2 control-label" style="line-height:90px;text-align:center;">'+value.preFileName+'</label>';
-						trStr += '<div class="col-sm-10 lightBoxGallery" style="text-align:left">';
-					}
-					trStr += "<a href='#' title='"+value.fileName+"' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
-					trStr += "<img src='"+appCtx['shcl-filesvr-web'] +"/JQeryUpload/getfile?fileId="+value.preFileAdress+"' style='padding-bottom: 5px;padding-top: 5px;width:100px;'>";
-					trStr += "</a>";
-					
-				}
-			});
-			$("#imgShow").append(trStr);
-			$('.wrapper-content').viewer();
-		},
-		error : function(errors) {
-		}
-	});
+            var ssss="";
+
+            var oldType = "";
+            $.each(data, function(indexAcc, value){
+                if(value.partCode !='property_research'){//!产调
+                    //附件类型,T_TO_ACCESORY_LIST
+                    if(value.preFileName!=oldType){
+                        if(oldType!=""){
+                            trStr += '</div></div>';
+                        }
+                        oldType=value.preFileName;
+                        trStr += '<div class="row ibox-content">';
+                        trStr += '<label class="col-sm-2 control-label" style="line-height:90px;text-align:center;">'+value.preFileName+'</label>';
+                        trStr += '<div class="col-sm-10 lightBoxGallery" style="text-align:left">';
+                    }
+                    trStr += "<a href='#' title='"+value.fileName+"' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
+                    trStr += "<img src='"+appCtx['shcl-filesvr-web'] +"/JQeryUpload/getfile?fileId="+value.preFileAdress+"' style='padding-bottom: 5px;padding-top: 5px;width:100px;'>";
+                    trStr += "</a>";
+
+                }
+            });
+            $("#imgShow").append(trStr);
+            $('.wrapper-content').viewer();
+        },
+        error : function(errors) {
+        }
+    });
 }
 
 /**
  * 业绩记录/收费情况
  */
 function queryPer(){
-	var ccaiCode = $("#ctm").val();
-	if(ccaiCode == null || ccaiCode == '' || ccaiCode == undefined){
-		return;
-	}
-	var url =  "/case/getPricingAndFee?ccaiCode=" + ccaiCode;
-	
-	var templeteId1 = 'template_successList';
-	var templeteId2 = 'template_successList2';
-	var part1 = $("#table_content_pre");
-	var part2 = $("#table_content_pre_partner");
-	
-	$.ajax({
-		async: true,
-		url:ctx+url ,
-		method: "post",
-		dataType: "json",
-		success: function(da){
-			var data = da.content;
-			//业绩记录
-			if(data.fees != null){
-				var templateHtmlExec = "";
-				var templateHtmlPart = "";
-	      	  	if(data.fees.sharingInfo != null && data.fees.sharingInfo.length > 0){
-	      	  		templateHtmlExec = template(templeteId1,data.fees);
-	      	  	}else {
-	      	  		var temp1 = {};
-	      	  		var temp2 = {};
-	      	  		temp1.type=1;
-					temp2.type=2;
-					if(data.fees.sharingInfo == null || data.fees.sharingInfo == undefined){
-						data.fees.sharingInfo = new Array();
-					}
-	      		  	data.fees.sharingInfo.push(temp1);
-	      		  	data.fees.sharingInfo.push(temp2);
-	      		  	templateHtmlExec = template(templeteId1,data.fees);
-	      	  	}
-  	  			if(data.fees.cooperateFeeInfo !=null&&  data.fees.cooperateFeeInfo.length >0){
-  	  				templateHtmlPart = template(templeteId2,data.fees);
-  	  			}else{
-  	  				var temp3 = {};
-		      		if(data.fees.cooperateFeeInfo == null || data.fees.cooperateFeeInfo == undefined){
-		      			data.fees.cooperateFeeInfo = new Array();
-		      		}
-		      		data.fees.cooperateFeeInfo.push(temp3);
-		      		templateHtmlPart = template(templeteId2,data.fees);
-  				}
-	      	  
-  	  			part1.empty();
-  	  			part1.html(templateHtmlExec);
-				part2.empty();
-				part2.html(templateHtmlPart);
-				$('#totalFee').html(data.fees.totalFee);
-				$('#totalPerformance').html(data.fees.totalPerformance);
-				$('#totalTurnoverNum').html(data.fees.totalTurnoverNum);
-			}
-			if(data.prices !=null){
-				var prices = data.prices;
-				$('#ownerReceivableCommission').html(prices.ownerReceivableCommission);
-				$('#guestReceivableCommission').html(prices.guestReceivableCommission);
-				$('#ownerCommissionTime').html(dateFormat(prices.ownerCommissionTime));
-				$('#guestCommissionTime').html(dateFormat(prices.guestCommissionTime));
-				$('#ownerCommissionDis').html(prices.ownerCommissionDis);
-				$('#guestCommissionDis').html(prices.guestCommissionDis);
-				$('#ownerCommissionMature').html(dateFormat(prices.ownerCommissionMature));
-				$('#guestCommissionMature').html(dateFormat(prices.guestCommissionMature));
-				$('#assessmentFee').html(prices.assessmentFee);
-				$('#receivableAssessmentFee').html(prices.receivableAssessmentFee);
-				$('#receiptsAssessmentFee').html(prices.receiptsAssessmentFee);
-			}
-		}		
-      	 
-	});
+    var ccaiCode = $("#ctm").val();
+    if(ccaiCode == null || ccaiCode == '' || ccaiCode == undefined){
+        return;
+    }
+    var url =  "/case/getPricingAndFee?ccaiCode=" + ccaiCode;
+
+    var templeteId1 = 'template_successList';
+    var templeteId2 = 'template_successList2';
+    var part1 = $("#table_content_pre");
+    var part2 = $("#table_content_pre_partner");
+
+    $.ajax({
+        async: true,
+        url:ctx+url ,
+        method: "post",
+        dataType: "json",
+        success: function(da){
+            var data = da.content;
+            //业绩记录
+            if(data.fees != null){
+                var templateHtmlExec = "";
+                var templateHtmlPart = "";
+                if(data.fees.sharingInfo != null && data.fees.sharingInfo.length > 0){
+                    templateHtmlExec = template(templeteId1,data.fees);
+                }else {
+                    var temp1 = {};
+                    var temp2 = {};
+                    temp1.type=1;
+                    temp2.type=2;
+                    if(data.fees.sharingInfo == null || data.fees.sharingInfo == undefined){
+                        data.fees.sharingInfo = new Array();
+                    }
+                    data.fees.sharingInfo.push(temp1);
+                    data.fees.sharingInfo.push(temp2);
+                    templateHtmlExec = template(templeteId1,data.fees);
+                }
+                if(data.fees.cooperateFeeInfo !=null&&  data.fees.cooperateFeeInfo.length >0){
+                    templateHtmlPart = template(templeteId2,data.fees);
+                }else{
+                    var temp3 = {};
+                    if(data.fees.cooperateFeeInfo == null || data.fees.cooperateFeeInfo == undefined){
+                        data.fees.cooperateFeeInfo = new Array();
+                    }
+                    data.fees.cooperateFeeInfo.push(temp3);
+                    templateHtmlPart = template(templeteId2,data.fees);
+                }
+
+                part1.empty();
+                part1.html(templateHtmlExec);
+                part2.empty();
+                part2.html(templateHtmlPart);
+                $('#totalFee').html(data.fees.totalFee);
+                $('#totalPerformance').html(data.fees.totalPerformance);
+                $('#totalTurnoverNum').html(data.fees.totalTurnoverNum);
+            }
+            if(data.prices !=null){
+                var prices = data.prices;
+                $('#ownerReceivableCommission').html(prices.ownerReceivableCommission);
+                $('#guestReceivableCommission').html(prices.guestReceivableCommission);
+                $('#ownerCommissionTime').html(dateFormat(prices.ownerCommissionTime));
+                $('#guestCommissionTime').html(dateFormat(prices.guestCommissionTime));
+                $('#ownerCommissionDis').html(prices.ownerCommissionDis);
+                $('#guestCommissionDis').html(prices.guestCommissionDis);
+                $('#ownerCommissionMature').html(dateFormat(prices.ownerCommissionMature));
+                $('#guestCommissionMature').html(dateFormat(prices.guestCommissionMature));
+                $('#assessmentFee').html(prices.assessmentFee);
+                $('#receivableAssessmentFee').html(prices.receivableAssessmentFee);
+                $('#receiptsAssessmentFee').html(prices.receiptsAssessmentFee);
+            }
+        }
+
+    });
 }
 
 /**
  * 案件挂起
- * @author wbcaiyx
  */
 function casePause(){
-	var activityFlag = $("#activityFlag").val();
-	var showStr = "";
-	if(activityFlag == "30003003"){
-		showStr = "您是否确认进行案件挂起操作？";
-	}else if(activityFlag == "30003004"){
-		showStr = "您是否确认进行案件恢复操作？";
-	}
-	
-	window.wxc.confirm(showStr,{"wxcOk":function(){
-		var url = "/case/casePause";
-		var ctx = $("#ctx").val();
-		url = ctx + url;
-		var caseCode = $("#caseCode").val();
-		var params ='&caseCode=' + caseCode;
-		$.ajax({
-			cache : false,
-			async : true,
-			type : "POST",
-			url : url,
-			dataType : "json",
-			timeout : 10000,
-			data : params,
-			success : function(data) {
-				if(data.success){
-					window.wxc.success("操作成功");
-					$("#activityFlag").val(data.content);
-					buttonActivity();
-				}else{
-					window.wxc.error(data.message);
-				}
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-			}
-		});
-	}});
+    var activityFlag = $("#activityFlag").val();
+    var showStr = "";
+    if(activityFlag == "30003003"){
+        showStr = "您是否确认进行案件挂起操作？";
+    }else if(activityFlag == "30003004"){
+        showStr = "您是否确认进行案件恢复操作？";
+    }
+
+    window.wxc.confirm(showStr,{"wxcOk":function(){
+        var url = "/case/casePause";
+        var ctx = $("#ctx").val();
+        url = ctx + url;
+        var caseCode = $("#caseCode").val();
+        var params ='&caseCode=' + caseCode;
+        $.ajax({
+            cache : false,
+            async : true,
+            type : "POST",
+            url : url,
+            dataType : "json",
+            timeout : 10000,
+            data : params,
+            success : function(data) {
+                if(data.success){
+                    window.wxc.success("操作成功");
+                    $("#activityFlag").val(data.content);
+                    buttonActivity();
+                }else{
+                    window.wxc.error(data.message);
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+            }
+        });
+    }});
 }
 
 //挂起案件按钮toggle
 function buttonActivity(){
-	var activityFlag = $("#activityFlag").val();
-	if(activityFlag == "30003003"){
-		$('.btn-activity').show();
-		$('#casePause').text("案件挂起");
-		$('#casePause').show();
-	}else{
-		if(activityFlag=="30003004"){
-			$('#casePause').text("案件恢复");
-			$('#casePause').show();
-			$('.btn-activity').hide();
-		}else{
-			$('.btn-activity').hide();
-			$('#casePause').hide();
-		}
-	}
+    var activityFlag = $("#activityFlag").val();
+    if(activityFlag == "30003003" || activityFlag == "30003007" || activityFlag == "30003008"){
+        $('.btn-activity').show();
+        $('#casePause').text("案件挂起");
+        $('#casePause').show();
+    }else{
+        if(activityFlag=="30003004"){
+            $('#casePause').text("案件恢复");
+            $('#casePause').show();
+            $('.btn-activity').hide();
+        }else{
+            $('.btn-activity').hide();
+            $('#casePause').hide();
+        }
+    }
 }
-
-/**
- * 交易计划变更
- */
-function showPlanModal(){
-	resetPlanModal();
-	$('#plan-modal-form').modal("show");
-}
-
 /**
  * 评估公司变更 by xiefei1
  */
 function showEvalCompanyChangeModal(){
-	resetPlanModal();
-	$('#change-eval-company-modal-form').modal("show");
+    resetPlanModal();
+    $('#change-eval-company-modal-form').modal("show");
 }
 
 function submitEvalCompanyChangeModal(){
     var ctx = $("#ctx").val();
     window.location.href=ctx+ "/eval/changeEvalCom";
 }
+/**
+ * 交易计划变更
+ */
+function showPlanModal(){
+    resetPlanModal();
+    $('#plan-modal-form').modal("show");
+}
 //重置交易计划 by wbzhouht
 function resetPlanModal(){
-	$("input[name='estPartTime']").val("");
-	var url = "/case/getTransPlanByCaseCode";
-	var ctx = $("#ctx").val();
-	url = ctx + url;
-	var caseCode = $("#caseCode").val();
-	var params ='&caseCode=' + caseCode;
-	$.ajax({
-		cache : false,
-		async : true,
-		type : "POST",
-		url : url,
-		dataType : "json",
-		timeout : 10000,
-		data : params,
-		success : function(data) {
+    $("input[name='estPartTime']").val("");
+    var url = "/case/getTransPlanByCaseCode";
+    var ctx = $("#ctx").val();
+    url = ctx + url;
+    var caseCode = $("#caseCode").val();
+    var params ='&caseCode=' + caseCode;
+    $.ajax({
+        cache : false,
+        async : true,
+        type : "POST",
+        url : url,
+        dataType : "json",
+        timeout : 10000,
+        data : params,
+        success : function(data) {
 
-			var inHtml = "";
+            var inHtml = "";
             $("#plan-form").html(inHtml);
             console.log(data);
-			$.each(data, function(k, v){
+            $.each(data, function(k, v){
                 inHtml+='<div class="form-group"><div class="col-lg-2 control-label">';
                 inHtml+= '预计'+v.partName+'时间';
                 inHtml+='</div><div class="col-lg-4 control-label" style="text-align:left; margin-top:-10px;" >';
@@ -356,200 +352,176 @@ function resetPlanModal(){
                 inHtml+='</div>';
                 inHtml+='</div>';
 
-			});
-			$("#plan-form").html(inHtml);
-			$.each(data,function (k1,v1) {
+            });
+            $("#plan-form").html(inHtml);
+            $.each(data,function (k1,v1) {
                 if(!v1.edit){
                     $("#estPartTime_"+k1).prop("disabled","disabled");
                     $("#whyChange_"+k1).attr("disabled","disabled");
                 }
             })
-			 $('.input-group.date').datepicker({
-				  todayBtn: "linked",
-	                keyboardNavigation: false,
-	                forceParse: false,
-	                calendarWeeks: true,
-	                autoclose: true
-	            });
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-		}
-	});	
+            $('.input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true
+            });
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });
 }
 function changeEstTime(index){
-	$("#isChange_"+index).val("true");
+    $("#isChange_"+index).val("true");
 }
 function initBorderColor(obj){
-	$(obj).css("border-color","#e5e6e7");
+    $(obj).css("border-color","#e5e6e7");
 }
 //交易计划变更记录页面跳转
 function openTransHistory(){
-	var url = "/task/transPlan/showTransPlanHistory?";
-	var ctx = $("#ctx").val();
-	var caseCode = $("#caseCode").val();
-	var params ='&caseCode=' + caseCode;
-	url = ctx + url + params;
-	window.location.href= url;
+    var url = "/task/transPlan/showTransPlanHistory?";
+    var ctx = $("#ctx").val();
+    var caseCode = $("#caseCode").val();
+    var params ='&caseCode=' + caseCode;
+    url = ctx + url + params;
+    window.location.href= url;
 }
 //交易计划变更 - 保存 by wbzhouht
 function savePlanItems(){
-	var isAudit=auditResult;
-	if(isAudit){
-		window.wxc.error("你已提交过变更，请等待审核！",function () {
+    var isAudit=auditResult;
+    if(isAudit){
+        window.wxc.error("你已提交过变更，请等待审核！",function () {
             window.location.reload();
         })
-		return;
-	}
-	var url = "/case/startTransPlan";
-	var ctx = $("#ctx").val();
-	url = ctx + url;
-	var caseCode = $("#caseCode").val();
-	var params ='&caseCode=' + caseCode+"&partCode="+partCode;
-	var isChanges = new Array;
-	var estIds = new Array;
-	var estTimes = new Array;
-	var whyChanges = new Array;
-	var msg = "";
-	$("input:hidden[name='estFlag']").each(function(k) {
+        return;
+    }
+    var url = "/case/startTransPlan";
+    var ctx = $("#ctx").val();
+    url = ctx + url;
+    var caseCode = $("#caseCode").val();
+    var params ='&caseCode=' + caseCode+"&partCode="+partCode;
+    var isChanges = new Array;
+    var estIds = new Array;
+    var estTimes = new Array;
+    var whyChanges = new Array;
+    var msg = "";
+    $("input:hidden[name='estFlag']").each(function(k) {
         var pkid=$("#pkId_"+k).val();
         var whyChange=$("#whyChange_"+k).val();
         var newEstPartTime=$("#estPartTime_"+k).val();
-		if($(this).val() == 'true'){
-			var whyChange = $("#whyChange_"+k).val();
-			if(whyChange==""||whyChange.trim==""){
-				msg = "请输入变更理由";
-				return false;
-			}
+        if($(this).val() == 'true'){
+            var whyChange = $("#whyChange_"+k).val();
+            if(whyChange==""||whyChange.trim==""){
+                msg = "请输入变更理由";
+                return false;
+            }
             isChanges.push($(this).val());
             estTimes.push(newEstPartTime);
             estIds.push(pkid);
             whyChanges.push(whyChange);
-		}
-	});
-	
-	var isChange = false;
-	$("#plan-form input[name='estPartTime']").each(function(index){
-		var newEstPartTime = this.value;
-		var oldEstPartTime = $(this).attr("lang");
-		console.log(oldEstPartTime)
-		if(newEstPartTime != oldEstPartTime){
-			var reason = $("#whyChange_" + index).val();
-			
-			if(reason == ""){
-				$("#whyChange_" + index).css("border-color","red");
-				isChange = true;
-				return false;
-			}
-		}
-	});
-	
-	
-	if(isChange){
-		window.wxc.alert("变更理由为必填项！");
-		return false;
-	}
-	
+        }
+    });
+
+    var isChange = false;
+    $("#plan-form input[name='estPartTime']").each(function(index){
+        var newEstPartTime = this.value;
+        var oldEstPartTime = $(this).attr("lang");
+        console.log(oldEstPartTime)
+        if(newEstPartTime != oldEstPartTime){
+            var reason = $("#whyChange_" + index).val();
+
+            if(reason == ""){
+                $("#whyChange_" + index).css("border-color","red");
+                isChange = true;
+                return false;
+            }
+        }
+    });
+
+
+    if(isChange){
+        window.wxc.alert("变更理由为必填项！");
+        return false;
+    }
+
 	/*$("#plan-form").find("input:text[name='estPartTime']").each(function(k) {
-		if($(this).val()==""||$(this).val().trim==""){
-			msg = "交易计划不允许为空";
-			return false;
-		}
-		estTimes.push($(this).val());
-	});
-	$("input:hidden[name='estId']").each(function() {
-		estIds.push($(this).val());
-	});
-	$("input:text[name='whyChange']").each(function() {
-		whyChanges.push($(this).val());
-	});*/
-	if(msg!=""){
-		window.wxc.alert(msg);
-		return false;
-	}
-	params+="&isChanges="+isChanges+"&estIds="+estIds+"&estDates="+estTimes+"&whyChanges="+whyChanges;
-	console.log(params)
-	$.ajax({
-		cache : false,
-		async : true,
-		type : "POST",
-		url : url,
-		dataType : "json",
-		timeout : 10000,
-		data : params,
-		beforeSend:function(){  
-			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-			$(".blockOverlay").css({'z-index':'9998'});
-        },  
-        complete: function() {  
-            $.unblockUI();   
+	 if($(this).val()==""||$(this).val().trim==""){
+	 msg = "交易计划不允许为空";
+	 return false;
+	 }
+	 estTimes.push($(this).val());
+	 });
+	 $("input:hidden[name='estId']").each(function() {
+	 estIds.push($(this).val());
+	 });
+	 $("input:text[name='whyChange']").each(function() {
+	 whyChanges.push($(this).val());
+	 });*/
+    if(msg!=""){
+        window.wxc.alert(msg);
+        return false;
+    }
+    params+="&isChanges="+isChanges+"&estIds="+estIds+"&estDates="+estTimes+"&whyChanges="+whyChanges;
+    console.log(params)
+    $.ajax({
+        cache : false,
+        async : true,
+        type : "POST",
+        url : url,
+        dataType : "json",
+        timeout : 10000,
+        data : params,
+        beforeSend:function(){
+            $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+            $(".blockOverlay").css({'z-index':'9998'});
+        },
+        complete: function() {
+            $.unblockUI();
             if(status=='timeout'){//超时,status还有success,error等值的情况
-          	  Modal.alert(
-			  {
-			    msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
-			  });
-	  		 $(".btn-primary").one("click",function(){
-	  				parent.$.fancybox.close();
-	  			});	 
-	                }
-	            } , 
-		success : function(data) {
-			if(data.success){
-				window.wxc.success("提交成功",{"wxcOk":function(){
+                Modal.alert(
+                    {
+                        msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
+                    });
+                $(".btn-primary").one("click",function(){
+                    parent.$.fancybox.close();
+                });
+            }
+        } ,
+        success : function(data) {
+            if(data.success){
+                window.wxc.success("提交成功",{"wxcOk":function(){
                     window.location.href = ctx+"/task/myTaskList";
-					//window.location.reload();
-				}});
-			}else{
-				window.wxc.error(data.message);
-			}
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-		}
-	});
+                    //window.location.reload();
+                }});
+            }else{
+                window.wxc.error(data.message);
+            }
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });
 }
 
 /**
- * 案件爆单
+ * 爆单
  */
-function caseBoomXiakalaka(){
-//	var ctx = $("#ctx").val();
-//	var url = ctx + "/case/caseBoomXiakalaka";
-//	var caseCode = $('#caseCode').val();
-//	var data = "&caseCode="+caseCode; 
-//	window.wxc.confirm("确认对案件进行爆单？",{"wxcOk":function(){
-//		$.ajax({
-//			cache : false,
-//			async : true,
-//			type:"POST",
-//			URL:URL,
-//			dataType:"json",
-//			timeout : 10000,
-//			data : data,
-//			success : function(data) {
-//				if(data.success){
-//					window.wxc.success("爆单成功!");
-//				}else{
-//					window.wxc.error(data.message);
-//				}
-//			},
-//			error : function(XMLHttpRequest, textStatus, errorThrown) {
-//			}
-//		});
-//	}});
-	
+function caseBaodan(){
 
 	window.wxc.confirm("确定案件爆单？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
+		var data = "&caseCode="+caseCode; 
 		$.ajax({
-			url:ctx+"/eval/stop/init",
+			url:ctx+"/caseStop/initCheck",
 			method:"post",
 			dataType:"json",
-			data:{caseCode:caseCode,evaCode:$("#evaCode").val()},
+			data:data,
 		    beforeSend:function(){  
 				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
 				$(".blockOverlay").css({'z-index':'9998'});
             },
             complete: function() {  
-                if(status=='timeout'){//超时,status还有success,error等值的情况
+                if(status=='timeout'){
 	          	  Modal.alert(
 				  {
 				    msg:"抱歉，系统处理超时。"
@@ -557,98 +529,13 @@ function caseBoomXiakalaka(){
 		        }
 		   } , 
 		   success:function(data){
-				if(!data.success){
-					$.unblockUI();   
+			   if(data.success){
+				   	window.location.href=ctx+"/caseStop/apply/process?taskId="+data.content.activeTaskId
+				   						+"&instCode="+data.content.id+"&caseCode="+caseCode+"&type=1";
+			   }else{
+				   $.unblockUI();   
 					window.wxc.error(data.message);
-				
-				}else{
-					window.location.href=ctx+"/eval/task/route/evalServiceStopApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode+"&evaCode="+data.content.businessKey;
-				}
-			}
-		});
-	}});
-	
-	
-}
-
-/**
- * 变更交易助理
- */
-function showChangeAssistantModal() {
-	//查询该组别下所有交易助理
-	var url = "/case/getAssistantInfo";
-	var ctx = $("#ctx").val();
-	url = ctx + url;
-	$.ajax({
-		cache : false,
-		async : true,
-		type : "POST",
-		url : url,
-		dataType : "json",
-		timeout : 10000,
-		success : function(data) {
-			changeAssistant(data);
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-		}
-	});
-}
-
-//变更交易助理
-function changeAssistant(data) {
-	var assistantName = $("#assistantUserName").val();
-	var addHtml = '';
-	addHtml+='<div class="row">';
-	addHtml += '<div class="col-md-6 wd-50" style="width:100%">';
-	addHtml += "<label class='col-md-3 control-label'>交易助理</label>";
-	addHtml += "<div class=\"col-md-6\">";
-	addHtml += "<select class='form-control m-b' id='assistantChange' name='assistantId'>";
-	if(data.users!=null && data.users!=''){
-		$.each(data.users, function(index, value){
-			// 让修改后的复选框默认被选中
-			if(assistantName==value.userRealName){
-				addHtml += "<option value='"+value.userId+"' selected='selected'>"+value.userRealName+"</option>";
-			}else{
-				addHtml += "<option value='"+value.userId+"'>"+value.userRealName+"</option>";
-			}
-		});
-	}
-	addHtml += "</select>";
-	addHtml += "</div></div>";
-	addHtml += '</div>';
-	addHtml += '</div>';
-	$("#change-assistant-data-show").html(addHtml);
-	$('#change-assistant-form').modal("show");
-}
-/**
- * 变更助理
- * 
- */
-function changeAssistantInfo() {
-	window.wxc.confirm("您是否确认进行助理变更？",{"wxcOk":function(){
-		var assistantId = $("#assistantChange").val();
-		var pkid = $("#pkidAssistant").val();
-		var url = "/case/changeAssistant";
-		var ctx = $("#ctx").val();
-		url = ctx + url;
-		var params = '&assistantId=' + assistantId + '&pkid=' + pkid;
-		$.ajax({
-			cache : false,
-			async : true,
-			type : "POST",
-			url : url,
-			dataType : "json",
-			timeout : 10000,
-			data : params,
-			success : function(data) {
-				if(data.success){
-					window.wxc.success("变更成功");
-					location.reload();
-				}else{
-					window.wxc.error(data.message);
-				}
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
+			   }
 			}
 		});
 	}});
@@ -658,48 +545,131 @@ function changeAssistantInfo() {
  * 流程重启
  */
 function serviceRestart(){
-	window.wxc.confirm("确定重启流程？",{"wxcOk":function(){
-		var caseCode = $("#caseCode").val();
-		$.ajax({
-			url:ctx+"/service/restart",
-			method:"post",
-			dataType:"json",
-			data:{caseCode:caseCode},
-		    beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-				$(".blockOverlay").css({'z-index':'9998'});
+    window.wxc.confirm("确定重启流程？",{"wxcOk":function(){
+        var caseCode = $("#caseCode").val();
+        $.ajax({
+            url:ctx+"/service/restart",
+            method:"post",
+            dataType:"json",
+            data:{caseCode:caseCode},
+            beforeSend:function(){
+                $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+                $(".blockOverlay").css({'z-index':'9998'});
             },
-            complete: function() {  
+            complete: function() {
                 if(status=='timeout'){//超时,status还有success,error等值的情况
-	          	  Modal.alert(
-				  {
-				    msg:"抱歉，系统处理超时。"
-				  });
-		        }
-		   } , 
-		   success:function(data){
-			   console.log("===Result==="+JSON.stringify(data));
-				if(!data.success){
-					$.unblockUI();   
-					window.wxc.error(data.message);
-				
-				}else{
-					window.location.href=ctx+"/task/serviceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
-				}
-			}
-		});
-	}});
+                    Modal.alert(
+                        {
+                            msg:"抱歉，系统处理超时。"
+                        });
+                }
+            } ,
+            success:function(data){
+                console.log("===Result==="+JSON.stringify(data));
+                if(!data.success){
+                    $.unblockUI();
+                    window.wxc.error(data.message);
+
+                }else{
+                    window.location.href=ctx+"/task/serviceRestartApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode;
+                }
+            }
+        });
+    }});
 }
 
 
 /**
- * 经办人变更
+ * 变更交易助理
+ */
+function showChangeAssistantModal() {
+    //查询该组别下所有交易助理
+    var url = "/case/getAssistantInfo";
+    var ctx = $("#ctx").val();
+    url = ctx + url;
+    $.ajax({
+        cache : false,
+        async : true,
+        type : "POST",
+        url : url,
+        dataType : "json",
+        timeout : 10000,
+        success : function(data) {
+            changeAssistant(data);
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });
+}
+
+//变更交易助理
+function changeAssistant(data) {
+    var assistantName = $("#assistantUserName").val();
+    var addHtml = '';
+    addHtml+='<div class="row">';
+    addHtml += '<div class="col-md-6 wd-50" style="width:100%">';
+    addHtml += "<label class='col-md-3 control-label'>交易助理</label>";
+    addHtml += "<div class=\"col-md-6\">";
+    addHtml += "<select class='form-control m-b' id='assistantChange' name='assistantId'>";
+    if(data.users!=null && data.users!=''){
+        $.each(data.users, function(index, value){
+            // 让修改后的复选框默认被选中
+            if(assistantName==value.userRealName){
+                addHtml += "<option value='"+value.userId+"' selected='selected'>"+value.userRealName+"</option>";
+            }else{
+                addHtml += "<option value='"+value.userId+"'>"+value.userRealName+"</option>";
+            }
+        });
+    }
+    addHtml += "</select>";
+    addHtml += "</div></div>";
+    addHtml += '</div>';
+    addHtml += '</div>';
+    $("#change-assistant-data-show").html(addHtml);
+    $('#change-assistant-form').modal("show");
+}
+/**
+ * 变更助理
+ *
+ */
+function changeAssistantInfo() {
+    window.wxc.confirm("您是否确认进行助理变更？",{"wxcOk":function(){
+        var assistantId = $("#assistantChange").val();
+        var pkid = $("#pkidAssistant").val();
+        var url = "/case/changeAssistant";
+        var ctx = $("#ctx").val();
+        url = ctx + url;
+        var params = '&assistantId=' + assistantId + '&pkid=' + pkid;
+        $.ajax({
+            cache : false,
+            async : true,
+            type : "POST",
+            url : url,
+            dataType : "json",
+            timeout : 10000,
+            data : params,
+            success : function(data) {
+                if(data.success){
+                    window.wxc.success("变更成功");
+                    location.reload();
+                }else{
+                    window.wxc.error(data.message);
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+            }
+        });
+    }});
+}
+
+
+/**
+ * 权证变更
  */
 function showOrgCp() {
-	
 	var caseCode = $('#caseCode').val();
 	//获取贷款/过户权证,根据案件负责人
-	var url = "/case/getLoanOrWarrantList？caseCode="+caseCode;
+	var url = "/case/getLoanOrWarrantList?caseCode="+caseCode;
 	var ctx = $("#ctx").val();
 	
 	$.ajax({
@@ -711,33 +681,14 @@ function showOrgCp() {
 		timeout : 10000,
 		success : function(data) {
 			console.info(data);
-			showCaseLeadingModal(data);
+			showLeadingModal(data);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 		}
 	});
+
 }
 
-/**
- * 案件责任人选择
- * @param data
- */
-function showCaseLeadingModal(data) {
-	if(data != null && data.length >0){
-		var addHtml = '';
-		$.each(data,function(i,item){
-			addHtml += '<option value="'+item.id+'">'+item.realName+'('+${item.orgName}+')'+'</option>';
-		});
-		
-		$("#leading-modal-data-show").append(addHtml);
-		$('#leadingSubmit').show();
-		$('#leading-modal-form').modal("show");	
-	}else{
-		$('#leadingSubmit').hide();
-		$('#leading-modal-form').modal("show");	
-		
-	}
-}
 /**
  * 选择权证提交
  */
@@ -774,6 +725,7 @@ function leadingChangeSubmit(){
 		});
 	}});
 }
+
 /**
  * 选择权证modal
  * @param data
@@ -791,7 +743,7 @@ function showLeadingModal(data) {
 							addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'">';
 						}
 						addHtml+='</span>';
-						addHtml += '<div class="m-t-xs font-bold">交易顾问</div></div></div>';
+						addHtml += '<div class="m-t-xs font-bold">'+n.type+'</div></div></div>';
 						addHtml += '<div class="col-sm-8">';
 						addHtml += '<input id="user_' + i
 								+ '" type="hidden" value="' + n.id + '">';
@@ -806,81 +758,123 @@ function showLeadingModal(data) {
 					})
 	$("#leading-modal-data-show").html(addHtml);
 
-	$('.contact-box').each(function() {
-		animationHover(this, 'pulse');
-	});
-	$('#leading-modal-form').modal("show");
+    $('.contact-box').each(function() {
+        animationHover(this, 'pulse');
+    });
+    $('#leading-modal-form').modal("show");
 }
 /**
  * 变更权证
  * @param index
  */
 function changeLeadingUser(index) {
-	window.wxc.confirm("您是否确认进行责任人变更？",{"wxcOk":function(){
-		var caseCode = $("#caseCode").val();
-		var instCode = $("#instCode").val();
-		var userId = $("#user_" + index).val();
+    window.wxc.confirm("您是否确认进行责任人变更？",{"wxcOk":function(){
+        var caseCode = $("#caseCode").val();
+        var instCode = $("#instCode").val();
+        var userId = $("#user_" + index).val();
 
-		var url = "/case/changeLeadingUser";
-		var ctx = $("#ctx").val();
-		url = ctx + url;
-		var params = '&userId=' + userId + '&caseCode=' + caseCode+"&instCode="+instCode;
+        var url = "/case/changeLeadingUser";
+        var ctx = $("#ctx").val();
+        url = ctx + url;
+        var params = '&userId=' + userId + '&caseCode=' + caseCode+"&instCode="+instCode;
 
-		$.ajax({
-			cache : false,
-			async : true,
-			type : "POST",
-			url : url,
-			dataType : "json",
-			timeout : 10000,
-			data : params,
-			success : function(data) {
-				if(data.success){
-					window.wxc.success("变更成功");
-					location.reload();
-				}else{
-					window.wxc.error(data.message);
-				}
-				
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-			}
-		});
-	}});
+        $.ajax({
+            cache : false,
+            async : true,
+            type : "POST",
+            url : url,
+            dataType : "json",
+            timeout : 10000,
+            data : params,
+
+            success : function(data) {
+                if(data.success){
+                    window.wxc.success("变更成功");
+                    location.reload();
+                }else{
+                    window.wxc.error(data.message);
+                }
+
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+            }
+        });
+    }});
 }
 
 /**
  * 询价申请
- * @author wbcaiyx
  */
 function evaPricingApply(){
+    var info = "系统已存在与此案件相关的询价记录，是否关联？";
+    var caseCode = $('#caseCode').val();
+    var url = ctx+'/case/checkEvaPricing?caseCode='+caseCode;
+    $.ajax({
+        cache : false,
+        async : true,
+        url:url,
+        type:'POST',
+        dataType:'json',
+        success : function(data) {
+            if(data.success){
+                if(data.content){
+                	window.wxc.alert("系统已存在与此案件相关的询价记录!");
+                    /*window.wxc.confirm(info,{'wxcOk':function(){
+
+                    },'wxcCancel':function(){
+                        //新增询价
+                        var ctx = $("#ctx").val();
+                        window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+                    }});*/
+                }else{
+                    var ctx = $("#ctx").val();
+                    window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+                }
+            }else{
+                window.wxc.error(data.message);
+            }
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });
+
+}
+
+/**
+ * 评估申请
+ */
+function evalApply(){
+	
+	var ctx = $("#ctx").val();
 	var caseCode = $('#caseCode').val();
-	var url = ctx+'/case/checkEvaPricing?caseCode='+caseCode;
+	//判断是否已有评估申请流程	
+	var url = ctx+'/case/checkEvalProcess?caseCode='+caseCode;
 	$.ajax({
-		cache : false,
-		async : true,
 		url:url,
 		type:'POST',
 		dataType:'json',
-		success : function(data) {
-			//已存在询价申请单
-			if(data.content){
-				window.wxc.alert("已存在与此案件关联的的询价申请!");
+		success:function(data){
+			if(data.success){
+				if(data.content == 1){//询价已完成,可以评估申请
+					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+				}else if(data.content == 2){//无询价,进入询价申请
+					window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+				}
 			}else{
-				var ctx = $("#ctx").val();
-				window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" + caseCode);
-			}		
+				window.wxc.alert(data.message);
+			}
 		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		error:function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(11);
 		}
 	});
 	
 }
 
 function dateFormat(dateTime){
-	if(dateTime ==null || dateTime == '' || dateTime == undefined){
-		return '';
-	}
-	var date = new Date(dateTime);
-	return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+    if(dateTime ==null || dateTime == '' || dateTime == undefined){
+        return '';
+    }
+    var date = new Date(dateTime);
+    return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
 }

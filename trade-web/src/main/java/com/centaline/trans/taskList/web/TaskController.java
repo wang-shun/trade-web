@@ -427,7 +427,7 @@ public class TaskController {
      		if(instCode == null && caseCode != null) {
         		ToWorkFlow toWorkFlow = new ToWorkFlow();
         		toWorkFlow.setCaseCode(caseCode);
-        		toWorkFlow.setBusinessKey(WorkFlowEnum.SRV_BUSSKEY.getCode());
+        		toWorkFlow.setBusinessKey(WorkFlowEnum.SERVICE_RESTART.getCode());
         		instCode = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlow).getInstCode();
         		request.setAttribute("processInstanceId", instCode);
         	}

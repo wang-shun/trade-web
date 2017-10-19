@@ -1,7 +1,5 @@
 package com.centaline.trans.eval.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.auth.remote.vo.SessionUser;
-import com.centaline.trans.common.enums.EvalStatusEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.enums.WorkFlowStatus;
-import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.exception.WorkFlowException;
-import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.TaskVo;
-import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
-import com.centaline.trans.evaPricing.service.EvaPricingService;
+import com.centaline.trans.eval.service.EvalDetailService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.task.service.ActRuTaskService;
 
@@ -38,15 +27,13 @@ public class EvalDetailController {
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
 	@Autowired
-	private EvaPricingService evaPricingService;
-	@Autowired
-	private ToWorkFlowService toWorkFlowService;
-	@Autowired
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	ActRuTaskService actRuTaskService;
-	
+	@Autowired
 	ToEvalReportProcessService toEvalReportProcessService;
+	@Autowired
+	EvalDetailService evalDetailService;
 	/**
 	 * 评估单详情for tj
 	 * @param request
@@ -54,58 +41,13 @@ public class EvalDetailController {
 	 */
 	@RequestMapping(value = "detail")
 	public String detail(HttpServletRequest request,String caseCode,String evaCode) {
-		// TODO
-		SessionUser user = uamSessionService.getSessionUser();
-		String userOrgId = user.getServiceDepId();
-		
-		ToEvaPricingVo toEvaPricingVo = evaPricingService.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
-		// 工作流
-		ToWorkFlow inWorkFlow = new ToWorkFlow();
-		inWorkFlow.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
-		inWorkFlow.setBizCode(evaCode);
-		ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(inWorkFlow);
-		
-		//评估发票信息
-		
-		//评估返利报告审批信息
-		
-		//评估爆单信息
-		
-		//评估公司变更信息
-		
-		//评估结算信息
-		
-		//调佣审批信息
-		
-		//附件
-		
-		//备注
-		
-		request.setAttribute("caseCode", caseCode);
-		request.setAttribute("evaCode", evaCode);
-		request.setAttribute("queryOrg", userOrgId);
-		request.setAttribute("toEvaPricingVo", toEvaPricingVo);
-		request.setAttribute("toWorkFlow", toWorkFlow);
+		evalDetailService.evalDetail(request, caseCode, evaCode);
 		return "eval/evalDetail";
 	}
 	
 	@RequestMapping(value = "reject")
 	@ResponseBody
 	public AjaxResponse<?> evalReject(HttpServletRequest request,String caseCode,String evaCode){
-		
-		//删除评估流程
-		List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(evaCode);
-		for (TaskVo task : taskVos) {
-				try{
-					workFlowManager.deleteProcess(task.getInstCode());
-				}catch(WorkFlowException e){
-                    throw e;					
-				}
-		}
-		
-		//更新评估单状态为驳回
-		toEvalReportProcessService.updateStatusByEvalCode(EvalStatusEnum.BBH.getCode(),evaCode);
-		
-		return new AjaxResponse<>(true);
+		return evalDetailService.evalReject(request, caseCode, evaCode);
 	}
 }

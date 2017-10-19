@@ -14,7 +14,7 @@
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<title>过户</title>
 
 	<!-- 上传相关 -->
 	<link href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />" rel="stylesheet">
@@ -58,6 +58,7 @@
 			var idList = [];
 		}
 	</script>
+	<content tag="pagetitle">过户</content>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>

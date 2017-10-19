@@ -19,9 +19,10 @@
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
     <result column="CCAI_CODE" property="ccaiCode" jdbcType="VARCHAR" />
+    <result column="HOLD_YEAR" property="holdYear" jdbcType="NVARCHAR"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, PROPERTY_CODE, PROPERTY_AGENT_ID, PROPERTY_ADDR, CASE_CODE, TOTAL_FLOOR, PROPERTY_TYPE, 
+    PKID, PROPERTY_CODE, PROPERTY_AGENT_ID, PROPERTY_ADDR, CASE_CODE, TOTAL_FLOOR, PROPERTY_TYPE,HOLD_YEAR,
     LOCATE_FLOOR, SQUARE, FINISH_YEAR, COMMENT, CTM_CODE, DIST_CODE, CTM_ADDR,UPDATE_TIME, UPDATE_BY, CCAI_CODE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -75,6 +76,9 @@
       <if test="propertyType != null" >
         PROPERTY_TYPE,
       </if>
+      <if test="holdYear!=null">
+        HOLD_YEAR,
+      </if>
       <if test="locateFloor != null" >
         LOCATE_FLOOR,
       </if>
@@ -123,6 +127,9 @@
       <if test="propertyType != null" >
         #{propertyType,jdbcType=NVARCHAR},
       </if>
+      <if test="holdYear!=null">
+        #{holdYear,jdbcType=NVARCHAR},
+      </if>
       <if test="locateFloor != null" >
         #{locateFloor,jdbcType=INTEGER},
       </if>
@@ -170,6 +177,9 @@
       </if>
       <if test="propertyType != null" >
         PROPERTY_TYPE = #{propertyType,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdYear!=null">
+        HOLD_YEAR=#{holdYear,jdbcType=NVARCHAR},
       </if>
       <if test="locateFloor != null" >
         LOCATE_FLOOR = #{locateFloor,jdbcType=INTEGER},

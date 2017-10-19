@@ -125,8 +125,8 @@
 								<p>
 									计划变更<br /> <span id="planeChange"></span>
 								</p></li>
-								<c:choose>
-							<c:when test="${jobCode!='Manager' }">	
+							<%--	<c:choose>
+							<c:when test="${jobCode!='QZJL' }">
 							<li><i class="icon iconfont icon40 pink">&#xe630;</i>
 								<p>
 									贷款流失<br /> <span id="bizwarnCaseCount"></span>
@@ -138,7 +138,11 @@
 									贷款流失<br /> <span id=""></span>
 								</p></li>
 							</c:otherwise>
-							</c:choose>
+							</c:choose>--%>
+							<li><i class="icon iconfont icon40 pink">&#xe630;</i>
+								<p>
+									贷款流失<br /> <span id="bizwarnCaseCount"></span>
+								</p></li>
 							<li><i class="icon iconfont icon40 grey">&#xe639;</i>
 								<p>
 									e+转化<br /> <span id="eloanChange"></span>
@@ -147,8 +151,8 @@
 								<p>
 									监管渗透<br /> <span id="jgCtou"></span>
 								</p></li>
-							<c:choose>
-							<c:when test="${jobCode!='consultant' && jobCode!='director' }">
+						<%--	<c:choose>
+							<c:when test="${jobCode!='GHQZ' && jobCode!='director' }">
 							    <li><i class="icon iconfont icon40 pink">&#xe636;</i>
 								<p>
 									无主案件<br> <span id="unLocatedCaseCount"></span>
@@ -160,8 +164,12 @@
 									无主案件<br> <span id=""></span>
 								</p></li>
 							</c:otherwise>
-							</c:choose>
-							<c:choose>
+							</c:choose>--%>
+							<li><i class="icon iconfont icon40 pink">&#xe636;</i>
+								<p>
+									无主案件<br> <span id="unLocatedCaseCount"></span>
+								</p></li>
+							<%--<c:choose>
 							<c:when test="${jobCode!='director' }">
 							<li><i class="icon iconfont icon40 yellow">&#xe637;</i>
 								<p>
@@ -174,7 +182,11 @@
 									无主任务<br> <span id=""></span>
 								</p></li>
 							</c:otherwise>
-							</c:choose>
+							</c:choose>--%>
+							<li><i class="icon iconfont icon40 yellow">&#xe637;</i>
+								<p>
+									无主任务<br> <span id="unLocatedTaskCount"></span>
+								</p></li>
 							<li><i class="icon iconfont icon40 grey">&#xe638;</i>
 								<p>
 									无主资源<br> <span id="unLocatedResourcesCount"></span>
@@ -193,10 +205,35 @@
 									接单逾期<br /> <span id="loanerOverdueAcceptCount"></span>
 								</p>
 							</li>
+							<li>
+								<i class="icon iconfont icon40 green">&#xe6bb;</i>
+								<p>
+									时效管理<br/><span id="curOverdueCaseEffCount"></span>
+								</p>
+							</li>
 						</ul>
                     	
                     </div>
             </div>
+			<div class="row space_line" style="padding-top: 30px">
+				<div class="col-md-8">
+					<div id="ionrange_4" class="ionr"></div>
+				</div>
+				<div class="col-md-2">
+					<select class="form-control m-b ml5" id="sUserId">
+						<option value="">默认</option>
+						<c:forEach items="${uList}" var="user">
+							<option value="${user.id}">${user.realName}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="col-md-2" style="padding-left: 0">
+					<button class="btn btn-success" type="button" id="btn_sta"
+							onclick="queryConutCaseByDate()" style="padding: 4px 12px;">
+						<i class="icon iconfont">&#xe635;</i> 查询
+					</button>
+				</div>
+			</div>
         </div>
 
 			<div class="ibox-content" id="zj_info">

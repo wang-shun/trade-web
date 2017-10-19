@@ -29,8 +29,12 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.utils.WorkFlowUtils;
 import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.eval.entity.ToEvalReportProcess;
+import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
+import com.centaline.trans.task.service.TsTaskDelegateService;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +80,11 @@ public class FlowWorkListener {
 	@Autowired(required=true)
 	@Qualifier("uamMessageServiceClient")
 	UamMessageService uamMessageService;
+	@Autowired
+	private ToEvalReportProcessService toEvalReportProcessService;
+	
+	@Autowired
+	private TsTaskDelegateService tsTaskDelegateService;
 
 	@Autowired
 	private WorkFlowEngine engine;//该处使用engine 否则无法进行访问流程引擎平台
@@ -130,6 +139,12 @@ public class FlowWorkListener {
 			} else if(MQCaseMessage.LOAN_TYPE.equals(message.getType())){
 				startProcessLoanAndAsse(message.getCaseCode());
 				mqlog.setStatus("0");
+			}else if(MQCaseMessage.ASS_TYPE.equals(message.getType())){
+				startProcessAsse(message.getCaseCode());
+				mqlog.setStatus("0");
+			}else if(MQCaseMessage.EVAREFUND_TYPE.equals(message.getType())){
+				startProcessEvaRefund(message.getCaseCode());
+				mqlog.setStatus("0");
 			}else {
 				mqlog.setOpertation(message.getType());
 				mqlog.setStatus("-1");
@@ -140,6 +155,117 @@ public class FlowWorkListener {
 			mqlog.setErrmsg(e.getMessage());
 		}
 		logMapper.insertSelective(mqlog);
+	}
+	/**
+	 * 开启自办评估审批流程
+	 * @param caseCode
+	 */
+	private void startProcessAsse(String caseCode) {
+		List<ToCaseParticipant> participants = participantMapper.selectByCaseCode(caseCode);
+		//流程引擎相关
+		Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.ASSE_PROCESS.getCode());
+		ToCaseParticipant owner = null;
+		for(ToCaseParticipant pa : participants){
+			//将所有的参与人 以参与人类型放入到流程引擎参数中
+			defValsMap.put(pa.getPosition(), pa.getUserName());
+			//有贷款权证 则贷款权证是案件拥有者 否则为过户权证
+			if(owner == null && CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())){
+				owner = pa;
+			}else if(CaseParticipantEnum.LOAN.getCode().equals(pa.getPosition())){
+				owner = pa;
+			}
+		}
+		if(owner!=null){
+			//设置流程引擎平台登录用户 否则无法创建httpclient
+			engine.setAuthUserName(owner.getUserName());
+			//权证经理环节
+			defValsMap.put("manager",owner.getGrpMgrUsername());
+			//总监环节
+			String ParantOrgCode = tsTaskDelegateService.getYC_ORG_CODE();
+			Org org = uamUserOrgService.getOrgByCode(ParantOrgCode);
+			List<User> list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.TJAJBZJ.getCode());
+			if(list == null || list.size() == 0){
+				throw new BusinessException("交易案件 编号["+caseCode+"] 未获取到案件总监信息 启动流程失败.");
+			}
+			//defValsMap.put("chief",list.get(0).getUsername());
+			defValsMap.put("chief",owner.getUserName());
+		}else{
+			throw new BusinessException("交易案件 编号["+caseCode+"] 未获取到案件贷款或过户权证信息 启动流程失败.");
+		}
+		
+		//获取案件拥有者所属组别 根据所属组别获取部署的流程ID 并启动流程
+		Org org = uamUserOrgService.getOrgByCode(owner.getGrpCode());
+		
+		ToWorkFlow toWorkFlow = new ToWorkFlow();
+		//启动流程引擎
+		StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.ASSE_PROCESS.getCode(),org.getId()), caseCode, defValsMap);
+		toWorkFlow.setInstCode(pIVo.getId());
+		toWorkFlow.setBusinessKey(WorkFlowEnum.ASSE_PROCESS.getCode());
+		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
+		User user = uamUserOrgService.getUserByUsername(owner.getUserName());
+		toWorkFlow.setProcessOwner(user.getId());
+		toWorkFlow.setCaseCode(caseCode);
+		toWorkFlow.setBizCode(caseCode);
+		toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
+		toWorkFlowService.insertSelective(toWorkFlow);
+		logger.info("交易案件 编号["+caseCode+"] 自办评估审批流程启动成功");
+		
+	}
+
+	/**
+	 * 开启评估退费流程
+	 * @param caseCode
+	 */
+	private void startProcessEvaRefund(String caseCode) {
+		List<ToCaseParticipant> participants = participantMapper.selectByCaseCode(caseCode);
+		//流程引擎相关
+		Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.WBUSSKEY.getCode());
+		ToCaseParticipant owner = null;
+		for(ToCaseParticipant pa : participants){
+			//将所有的参与人 以参与人类型放入到流程引擎参数中
+			defValsMap.put(pa.getPosition(), pa.getUserName());
+			//有贷款权证 则贷款权证是案件拥有者 否则为过户权证
+			if(owner == null && CaseParticipantEnum.WARRANT.getCode().equals(pa.getPosition())){
+				owner = pa;
+			}else if(CaseParticipantEnum.LOAN.getCode().equals(pa.getPosition())){
+				owner = pa;
+			}
+		}
+		if(owner!=null){
+			//设置流程引擎平台登录用户 否则无法创建httpclient
+			engine.setAuthUserName(owner.getUserName());
+			//接单跟进人员
+			defValsMap.put("receiver",owner.getUserName());
+			//权证经理环节
+			defValsMap.put("manager",owner.getGrpMgrUsername());
+			//TODO 兼容原有流程 否则会无法启动 后面正式流程删除
+			defValsMap.put("caseOwner",owner.getGrpMgrUsername());
+		}else{
+			throw new BusinessException("交易案件 编号["+caseCode+"] 未获取到案件贷款或过户权证信息 启动流程失败.");
+		}
+		
+		//获取案件拥有者所属组别 根据所属组别获取部署的流程ID 并启动流程
+		Org org = uamUserOrgService.getOrgByCode(owner.getGrpCode());
+		
+		ToWorkFlow toWorkFlow = new ToWorkFlow();
+		//启动流程引擎
+		StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVALREFUND_PROCESS.getCode(),org.getId()), caseCode, defValsMap);
+		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
+		toWorkFlow.setInstCode(pIVo.getId());
+		toWorkFlow.setBusinessKey(WorkFlowEnum.EVALREFUND_PROCESS.getCode());
+		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
+		User user = uamUserOrgService.getUserByUsername(owner.getUserName());
+		toWorkFlow.setProcessOwner(user.getId());
+		toWorkFlow.setCaseCode(caseCode);
+		if(toEvalReportProcess != null){
+			toWorkFlow.setBizCode(toEvalReportProcess.getEvaCode());
+		}
+		toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
+
+		toWorkFlowService.insertSelective(toWorkFlow);
+
+		logger.info("交易案件 编号["+caseCode+"] 评估退费流程启动成功");
+		
 	}
 
 	/**
@@ -173,10 +299,13 @@ public class FlowWorkListener {
 		}else{
 			throw new BusinessException("交易案件 编号["+caseCode+"] 未获取到案件贷款或过户权证信息 启动流程失败.");
 		}
-
+		
+		//获取案件拥有者所属组别 根据所属组别获取部署的流程ID 并启动流程
+		Org org = uamUserOrgService.getOrgByCode(owner.getGrpCode());
+		
 		ToWorkFlow toWorkFlow = new ToWorkFlow();
 		//启动流程引擎
-		StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.LOANANDASSE_PROCESS.getCode()), caseCode, defValsMap);
+		StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.LOANANDASSE_PROCESS.getCode(),org.getId()), caseCode, defValsMap);
 		toWorkFlow.setInstCode(pIVo.getId());
 		toWorkFlow.setBusinessKey(WorkFlowEnum.LOANANDASSE_PROCESS.getCode());
 		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
@@ -188,7 +317,7 @@ public class FlowWorkListener {
 
 		toWorkFlowService.insertSelective(toWorkFlow);
 
-		logger.info("交易案件 编号["+caseCode+"] 自办贷款/评估审批流程启动成功");
+		logger.info("交易案件 编号["+caseCode+"] 自办贷款审批流程启动成功");
 	}
 	/**
 	 * 开启案件交易流程

@@ -148,6 +148,7 @@ font-family:Microsoft Yahei;
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${instCode }">
 					<input type="hidden" id="pkid" name="pkid" value="${toEvaPricingVo.pkid }">
 					<input type="hidden" id="evaCode" name="evaCode" value="${toEvaPricingVo.evaCode }">
+					<input type="hidden" id="caseCode" name="caseCode" value="${toEvaPricingVo.caseCode }">
 			  		<div class="height_line"></div>
 			  		<c:if test="${toEvaPricingVo.status == 0}">
 			  			<input type="radio" checked="checked" value="1"  name="isValid">&nbsp;&nbsp;有效

@@ -12,7 +12,7 @@
 <html>
 
 <head>
-
+<title>赎楼中止审批</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -132,6 +132,7 @@
 .form-group{margin-top: 15px;}
 .line_content{ margin-left: 15px;}
 </style>
+<content tag="pagetitle">赎楼中止审批</content>
 </head>
 
 <body>
@@ -248,22 +249,27 @@
 						success:function(data){
 							if(data){
 								window.wxc.success("提交成功!",{"wxcOk":function(){
-									 window.close();
+									debugger
+									window.close();
 								}});
 							}else{
-								window.wxc.error("提交失败!");
+								window.wxc.success("提交失败!",{"wxcOk":function(){
+									console.log("提交失败");
+								}});
 							}
 							
 						},
 						error : function(errors) {
-							window.wxc.error("提交失败!");
+							window.wxc.success("提交失败!",{"wxcOk":function(){
+								console.log("提交失败");
+							}});
 						}
 					});
 				});
 				//取消
 				$("#cancel").click(function(){
 					if(confirm('您确定要取消吗？')){ 
-						value="取消";
+						 window.close();
 					}
 				});
 			});

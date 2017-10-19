@@ -81,7 +81,7 @@ public class TransSignVO {
 	private Date estimateTransferTime;//预计过户时间
 	private String fundSupervisionme;//资金监管
 	private String netPlace;//网签地点
-	
+	private String holdYear;//购房年限
 
 
 
@@ -102,6 +102,13 @@ public class TransSignVO {
 	private String isPerchaseReserachNeed;  /*是否需要查限购*/
 	private String isLoanClose;  /*抵押情况*/
 
+	public String getHoldYear() {
+		return holdYear;
+	}
+
+	public void setHoldYear(String holdYear) {
+		this.holdYear = holdYear;
+	}
 
 	public Long getPropertyPkid() {
 		return propertyPkid;

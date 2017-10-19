@@ -7,6 +7,8 @@ public class ToRansomVo {
 	
 	private String caseCode;
 	
+	private String partCode;
+	
 	private String ransomCode;
 	
 	private String borrowerName;
@@ -63,12 +65,30 @@ public class ToRansomVo {
 	
 	private String paymentRemake;
 
+	private Integer flag;
+	
+	public Integer getFlag() {
+		return flag;
+	}
+
+	public void setFlag(Integer flag) {
+		this.flag = flag;
+	}
+
 	public String getCaseCode() {
 		return caseCode;
 	}
 
 	public void setCaseCode(String caseCode) {
 		this.caseCode = caseCode;
+	}
+
+	public String getPartCode() {
+		return partCode;
+	}
+
+	public void setPartCode(String partCode) {
+		this.partCode = partCode;
 	}
 
 	public String getRansomCode() {
@@ -128,7 +148,8 @@ public class ToRansomVo {
 	}
 
 	public BigDecimal getLoanMoney() {
-		return loanMoney;
+		BigDecimal wan = new BigDecimal(10000.00);
+		return loanMoney.divide(wan);
 	}
 
 	public void setLoanMoney(BigDecimal loanMoney) {
@@ -136,7 +157,8 @@ public class ToRansomVo {
 	}
 
 	public BigDecimal getRestMoney() {
-		return restMoney;
+		BigDecimal wan = new BigDecimal(10000.00);
+		return restMoney.divide(wan);
 	}
 
 	public void setRestMoney(BigDecimal restMoney) {
@@ -144,7 +166,8 @@ public class ToRansomVo {
 	}
 
 	public BigDecimal getBorrowerMoney() {
-		return borrowerMoney;
+		BigDecimal wan = new BigDecimal(10000.00);
+		return borrowerMoney.divide(wan);
 	}
 
 	public void setBorrowerMoney(BigDecimal borrowerMoney) {

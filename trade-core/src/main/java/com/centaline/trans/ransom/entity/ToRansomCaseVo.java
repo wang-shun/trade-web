@@ -152,7 +152,8 @@ public class ToRansomCaseVo {
     }
 
     public BigDecimal getBorroMoney() {
-        return borroMoney;
+    	BigDecimal wan = new BigDecimal(10000.00);
+        return borroMoney.divide(wan);
     }
 
     public void setBorroMoney(BigDecimal borroMoney) {

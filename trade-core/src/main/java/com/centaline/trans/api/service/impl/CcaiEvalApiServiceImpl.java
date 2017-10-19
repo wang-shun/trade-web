@@ -5,6 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.api.service.ApiService;
 import com.centaline.trans.api.service.EvalApiService;
 import com.centaline.trans.api.vo.*;
+import com.centaline.trans.cases.entity.ToCaseInfo;
+import com.centaline.trans.cases.repository.ToCaseInfoMapper;
+import com.centaline.trans.eval.entity.ToEvalRebate;
+import com.centaline.trans.eval.service.ToEvalRebateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -25,28 +29,41 @@ public class CcaiEvalApiServiceImpl extends ApiService implements EvalApiService
 	@Autowired
 	private RestTemplate restTemplate;
 
+	@Autowired
+	private ToEvalRebateService toEvalRebateService;
+
+	@Autowired
+	private ToCaseInfoMapper toCaseInfoMapper;
+
 	@Override
 	public ApiResultData evalRebateFeedBack(FlowFeedBack result, CcaiEvalRebateVo info) {
 		ApiResultData apiResult = new CcaiFlowApiResultData();
 		if(serviceIsEnable()){
-			//TODO 校验 并获取评估返利报告CCAI中的applyId和评估报告编号
-			String reportNo = "TJZY-FLCF2-1702-0001";
-			String applyId = "A458D9A7-DAD0-4C58-BEE1-1623322693F1";
-			SessionUser user = result.getUser();
-			//转换成CCAI需要的信息
-			CcaiPostAssessFlowInfo requestBody = new CcaiPostAssessFlowInfo();
-			requestBody.setReportNo(reportNo);
-			requestBody.setApplyId(applyId);
-			requestBody.setAssessPrice(info.getAssessPrice());
-			requestBody.setAssessCompany(info.getAssessCompany());
-			requestBody.setAssessReceip(info.getAssessReceip());
-			requestBody.setUserName(user.getUsername());
-			requestBody.setRealName(user.getRealName());
-			requestBody.setResult(result.getResult().getCode());
-			requestBody.setComment(result.getComment());
-			requestBody.setApproveTime(result.getApproveTime());
-			String url =getServiceAddress()+"/CCAIData/PostAssessFlowInfo";
-			apiResult = restTemplate.postForObject(url,requestBody,CcaiFlowApiResultData.class);
+			//获取评估返利报告CCAI中的applyId和评估报告编号
+			ToEvalRebate rebate = toEvalRebateService.findToEvalRebateByCaseCode(info.getCode());
+			ToCaseInfo caseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(info.getCode());
+			if(rebate!=null && caseInfo!=null){
+				String reportNo = caseInfo.getCcaiCode();
+				String applyId = rebate.getEvaRpocessId();
+				SessionUser user = result.getUser();
+				//转换成CCAI需要的信息
+				CcaiPostAssessFlowInfo requestBody = new CcaiPostAssessFlowInfo();
+				requestBody.setReportNo(reportNo);
+				requestBody.setApplyId(applyId);
+				requestBody.setAssessPrice(info.getAssessPrice());
+				requestBody.setAssessCompany(info.getAssessCompany());
+				requestBody.setAssessReceip(info.getAssessReceip());
+				requestBody.setUserName(user.getUsername());
+				requestBody.setRealName(user.getRealName());
+				requestBody.setResult(result.getResult().getCode());
+				requestBody.setComment(result.getComment());
+				requestBody.setApproveTime(result.getApproveTime());
+				String url =getServiceAddress()+"/CCAIData/PostAssessFlowInfo";
+				apiResult = restTemplate.postForObject(url,requestBody,CcaiFlowApiResultData.class);
+			}else{
+				apiResult.setSuccess(false);
+				apiResult.setMessage("未获取到案件["+info.getCode()+"]，对应的返利申请信息!");
+			}
 		}else{
 			apiResult.setSuccess(true);
 			apiResult.setMessage("服务未开启，默认成功!");

@@ -1,24 +1,43 @@
 package com.centaline.trans.eval.service;
 
 import com.centaline.trans.eval.entity.ToEvalRebate;
-/***
- * 
- * @author wbwangxj
- *
- */
+import com.centaline.trans.task.entity.ToApproveRecord;
+
 public interface ToEvalRebateService {
-	int deleteByPrimaryKey(Long pkid);
+	/**
+	 * 新增评估返利申请
+	 * @param record
+	 * @return
+	 */
+	int insertSelective(ToEvalRebate record);
 
-    int insert(ToEvalRebate record);
+	/**
+	 * 更新评估返利报告信息
+	 * @param record
+	 * @return
+	 */
+	int updateByPrimaryKeySelective(ToEvalRebate record);
 
-    int insertSelective(ToEvalRebate record);
-
-    ToEvalRebate selectByPrimaryKey(Long pkid);
-
-    int updateByPrimaryKeySelective(ToEvalRebate toEvalRebate);
-
-    int updateByPrimaryKey(ToEvalRebate record);
-    
+	/**
+	 * 根据案件编号 获取返利报告信息
+	 * @param caseCode
+	 * @return
+	 */
 	ToEvalRebate findToEvalRebateByCaseCode(String caseCode);
-	
+
+	/**
+	 * 根据主键ID获取评估返利信息
+	 * @param pkid
+	 * @return
+	 */
+	ToEvalRebate selectByPrimaryKey(Long pkid);
+
+	/**
+	 * 内勤确认评估返利
+	 * @param rebate 评估返利信息
+	 * @param record 审批信息
+	 * @param approve 是否通过
+	 */
+	void assistantApprove(ToEvalRebate rebate, ToApproveRecord record,boolean approve);
+
 }
