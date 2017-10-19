@@ -17,6 +17,16 @@ public class CcaiServiceResult {
 	private boolean success;
 	@ApiModelProperty(value="响应消息",position = 2)
 	private String message;
+
+	public CcaiServiceResult() {
+	}
+
+	public CcaiServiceResult(String code, boolean success, String message) {
+		this.code = code;
+		this.success = success;
+		this.message = message;
+	}
+
 	public String getCode() {
 		return code;
 	}

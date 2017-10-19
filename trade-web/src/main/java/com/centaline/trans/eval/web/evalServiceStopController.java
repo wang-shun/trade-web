@@ -60,7 +60,7 @@ public class evalServiceStopController {
 	}
 	
 	/**
-	 * 从代办任务进入评估流程重启流程申请页面  (流程重启审批驳回后出现的申请任务)
+	 * 从代办任务进入评估流程爆单流程申请页面 
 	 * @param request
 	 * @param response
 	 * @param caseCode
@@ -82,7 +82,7 @@ public class evalServiceStopController {
 	}
     
 	/**
-	 * 从代办任务进入评估流程重启流程审批页面
+	 * 从代办任务进入评估流程爆单流程审批页面
 	 * @param request
 	 * @param response
 	 * @param caseCode
@@ -104,7 +104,7 @@ public class evalServiceStopController {
 	}
 	
 	/**
-	 * 评估重启流程审批提交
+	 * 评估爆单流程审批提交
 	 * @param model
 	 * @param vo
 	 * @return

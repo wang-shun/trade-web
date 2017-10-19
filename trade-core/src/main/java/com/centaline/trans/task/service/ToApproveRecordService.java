@@ -1,8 +1,8 @@
 package com.centaline.trans.task.service;
 
-import java.util.List;
-
 import com.centaline.trans.task.entity.ToApproveRecord;
+
+import java.util.List;
 
 public interface ToApproveRecordService {
 	
@@ -15,4 +15,12 @@ public interface ToApproveRecordService {
 	List<String> findOperatorList(ToApproveRecord toApproveRecord);
 	
 	void insertToApproveRecord(ToApproveRecord toApproveRecord);
+
+	/**
+	 * 根据案件编号和approve_type删除审批记录
+	 * @param caseCode
+	 * @param approveType
+	 * @author yinchao 2017-10-18
+	 */
+	void deleteByCaseCodeAndType(String caseCode,String approveType);
 }

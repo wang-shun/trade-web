@@ -466,15 +466,14 @@
   WHERE ART.SUSPENSION_STATE_ = 1
   </select>
   <select id="inActiveForm" parameterType="java.lang.String" >
-  	update sctrans.t_to_close_loan set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
-	update sctrans.T_TO_FIRST_FOLLOW set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
-	update sctrans.T_TO_GET_PROPERTY_BOOK set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
-	update sctrans.T_TO_HOUSE_TRANSFER set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
+  	delete from sctrans.T_TO_CASE_RECV where CASE_CODE = #{caseCode,jdbcType=VARCHAR};
+  	delete from sctrans.T_TO_mortgage where CASE_CODE = #{caseCode,jdbcType=VARCHAR};
+  	delete from sctrans.T_TO_mortgage_tosave where CASE_CODE = #{caseCode,jdbcType=VARCHAR};
+  	delete from sctrans.T_TO_RATE_PAYMENT where CASE_CODE = #{caseCode,jdbcType=VARCHAR};	
+  	update sctrans.T_TO_SIGN set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
+	update sctrans.T_TO_TAX set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};	
+  	update sctrans.T_TO_HOUSE_TRANSFER set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR}; 	
+  	update sctrans.T_TO_GET_PROPERTY_BOOK set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
 	update sctrans.T_TO_PAYMENT set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
-	update sctrans.T_TO_PURCHASE_LIMIT_SEARCH set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
-	update sctrans.T_TO_SIGN set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
-	update sctrans.T_TO_TAX set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
-	update sctrans.T_TO_PRICING set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
-	update sctrans.T_TO_mortgage set IS_ACTIVE='0',LAST_LOAN_BANK=null,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID},TMP_BANK_UPDATE_BY=null,TMP_BANK_STATUS=null,TMP_BANK_REASON=null,TMP_BANK_REJECT_REASON=null,TMP_BANK_UPDATE_TIME=null where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
   </select>
 </mapper>

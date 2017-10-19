@@ -68,6 +68,15 @@ public class ToEvaCommissionChangeServiceImpl implements ToEvaCommissionChangeSe
 		return toApproveRecordMapper.insertSelective(toApproveRecord);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.centaline.trans.eval.service.ToEvaCommissionChangeService#selectByCaseCode(java.lang.String)
+	 */
+	@Override
+	public ToEvaCommissionChange selectByCaseCode(String caseCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 //	@Override
 //	public int deleteByCaseCode(String caseCode) {
 //		// TODO Auto-generated method stub

@@ -122,10 +122,15 @@ function reloadGrid() {
 		//案件视图点击链接转向
 		$("#btnCaseView").click(function(){
 			var caseCode = $(this).attr("lang");
-			console.log(taskitem)
+			if(taskitem==undefined) var taskitem="";
 			location.href = ctx + "/task/caseDetail?&caseCode=" + caseCode+"&taskitem="+taskitem;
 		});
 		
+		//评视图点击
+		$("#btnEvalView").click(function(){
+			var caseCode = $(this).attr("lang");
+			location.href = ctx + "/eval/list";
+		});
 		//日历控件
 	    $('.input-daterange').datepicker({
 	    	todayBtn: "linked",

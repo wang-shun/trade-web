@@ -25,7 +25,8 @@ public enum WorkFlowEnum {
 //	评估发票管理流程
 	EVAL_CHANGE_COMPANY("EvalChangeCommProcess","processDefinitionKey"),
 	SPV_OUT("spv_out","businessKey"),
-	SERVICE_RESTART("serviceRestart","serviceRestartBusinesskey"),
+	//案件流程重启
+	SERVICE_RESTART("caseReStart_Process","serviceRestartBusinesskey"),
 	COMLOAN_PROCESS("ComLoan_Process:4:645463","ComLoan_Process"),	
 	LOANLOST_PROCESS("LoanLost_Process:10:950004","LoanLost_Process"),	
 	LOANER_PROCESS("Loaner_Process:5:1030036","Loaner_Process"),	
@@ -33,6 +34,10 @@ public enum WorkFlowEnum {
 	EVAL_PROCESS("EvalProcess","processDefinitionKey"),
 	EVAL_SERVICE_RESTART_PROCESS("evalServiceRestartProces","processDefinitionKey"),
 	EVAL_SERVICE_STOP_PROCESS("evalServiceStopProcess","processDefinitionKey"),
+	//案件爆单
+	CASE_STOP_PROCESS("caseStop_Process","processDefinitionKey"),
+	//评估返利流程process id
+	EVAL_REBATE_PROCESS("evalRebateProcess","evalRebateProcess"),
 	//随便写的
 	COMANDPSFLOAN_PROCESS("PSFLoan_Process:1:645460","ComLoanAndPSFLoan_Process"),
 	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId"),

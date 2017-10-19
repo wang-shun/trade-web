@@ -66,6 +66,7 @@ public class ToEvalReportProcess {
     private Date sysFinshTime;
     
     private String evalProperty;
+    
 
     public Long getPkid() {
         return pkid;

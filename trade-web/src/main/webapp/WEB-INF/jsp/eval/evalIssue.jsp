@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>e+产品</title>
+<title>出具评估报告</title>
 
 <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
 <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />"
@@ -54,7 +54,7 @@
 				出具评估报告
 			</h2>
 			<div class="mt20">
-				<button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+				<button type="button" class="btn btn-icon btn-blue mr5" id="btnEvalView">
 					<i class="iconfont icon">&#xe600;</i> 评估视图
 				</button>
 				<button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
@@ -81,7 +81,7 @@
 						<li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 实际出具评估报告日期</label> 
-								<input class="input_type sign_right_two"  value='' name="forwardDate" id="forwardDate" />
+								<input class="input_type sign_right_two"  value='' name="toIssueDate" id="toIssueDate" value="${toEvalReportProcess.toIssueDate}"/>
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>
@@ -90,7 +90,7 @@
 						<li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 收取报告日期</label> 
-								<input class="input_type sign_right_two"  value='' name="reportGetDate" id="reportGetDate" />
+								<input class="input_type sign_right_two"  value='' name="reportGetDate" id="reportGetDate" value="${toEvalReportProcess.reportGetDate}"/>
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>
@@ -169,7 +169,8 @@
 	<script src="<c:url value='/js/jquery.editable-select.min.js' />"></script> 
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script src="<c:url value='/js/common/textarea.js' />"></script> 
-    <script src="<c:url value='/js/eloan/eloancommon.js' />"></script> 
+    <%-- <script src="<c:url value='/js/eloan/eloancommon.js' />"></script> --%>
+    <script src="<c:url value='/js/common/common.js' />"></script>
 		<script>	
 		$(document).ready(function() {
 				$('.input-daterange').datepicker({

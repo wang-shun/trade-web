@@ -27,9 +27,9 @@ public class EvalRebeatReportImport extends EvalRebeatImport {
 	private String evalRecept;
 	@ApiModelProperty(value = "中原分成金额", required = true, position = 9)
 	private BigDecimal centaComAmount;
-	@ApiModelProperty(value = "评估公司分成金额", required = true, position = 10)
+	@ApiModelProperty(value = "评估公司分成金额", required = true, position = 13)
 	private BigDecimal evalComAmount;
-	@ApiModelProperty(value = "评估报告生成时间", example = "1503460440000", required = true, position = 12)
+	@ApiModelProperty(value = "评估报告生成时间", example = "1503460440000", required = true, position = 14)
 	private Date createTime;
 
 	@NotBlank(message = "评估公司名称不能为空")
