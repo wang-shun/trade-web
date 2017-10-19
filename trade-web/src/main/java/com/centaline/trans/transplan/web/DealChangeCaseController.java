@@ -6,9 +6,17 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Org;
+import com.centaline.trans.common.enums.DepTypeEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +38,10 @@ public class DealChangeCaseController {
 	
 	@Resource
 	TransplanServiceFacade toTransplanOperateService;
+	@Autowired(required = true)
+	private UamSessionService uamSessionService;
+	@Autowired(required = true)
+	private UamUserOrgService uamUserOrgService;
 	private Logger logger = LoggerFactory.getLogger(this.getClass()); 
 	
 	/**
@@ -38,7 +50,7 @@ public class DealChangeCaseController {
 	 * @return
 	 */
 	@RequestMapping(value="dealChangeCaseList")
-	public String dealChangeCaseList(Model model){
+	public String dealChangeCaseList(Model model, HttpServletRequest request){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		//获取当前月第一天：
@@ -47,9 +59,47 @@ public class DealChangeCaseController {
 		c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
 		//获取当前月最后一天
 		Calendar ca = Calendar.getInstance();    
-		ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
-		
-		
+		ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+		/**
+		 * 查询用户所在组
+		 */
+		SessionUser user = uamSessionService.getSessionUser();
+		String userJob=user.getServiceJobCode();
+		boolean queryOrgFlag = false;
+		boolean isAdminFlag = false;
+
+		StringBuffer reBuffer = new StringBuffer();
+		//如果登录用户不是交易顾问
+		//TODO 如果非交易顾问(过户/贷款权证),查组织内案件
+		if(!userJob.equals(TransJobs.TJYGW.getCode())){
+			queryOrgFlag=true;
+			String depString = user.getServiceDepHierarchy();
+			String userOrgIdString = user.getServiceDepId();
+			//组别
+			if(depString.equals(DepTypeEnum.TYCTEAM.getCode())){
+				reBuffer.append(userOrgIdString);
+				//区域
+			}else if(depString.equals(DepTypeEnum.TYCQY.getCode())){
+				List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(userOrgIdString, DepTypeEnum.TYCTEAM.getCode());
+				for(Org org:orgList){
+					reBuffer.append(org.getId());
+					reBuffer.append(",");
+				}
+				reBuffer.deleteCharAt(reBuffer.length()-1);
+
+			}else{
+				isAdminFlag=true;//总部flag
+			}
+		}
+		request.setAttribute("queryOrgs", reBuffer.toString());
+
+		request.setAttribute("queryOrgFlag", queryOrgFlag);
+		request.setAttribute("isAdminFlag", isAdminFlag);
+		request.setAttribute("userId", user.getId());
+		request.setAttribute("serviceDepId", user.getServiceDepId());//登录用户的org_id
+		request.setAttribute("serviceDepName", user.getServiceDepName());
+
 		model.addAttribute("curMonthStart", sdf.format(c.getTime()));
 		model.addAttribute("curMonthEnd", sdf.format(ca.getTime()));
 		return "transplan/dealChangeList";

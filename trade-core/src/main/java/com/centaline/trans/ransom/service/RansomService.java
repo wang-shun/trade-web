@@ -29,6 +29,7 @@ public interface RansomService {
 	 * @return
 	 */
 	public List<ToRansomDetailVo> getRansomDetail(String caseCode);
+	public ToRansomDetailVo getRansomDetail(String caseCode, String ransomCode);
 	
 	/**
 	 * 赎楼计划Vo

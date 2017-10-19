@@ -91,6 +91,8 @@ public class EvaController {
 	public String apply(HttpServletRequest request, HttpServletResponse response, String caseCode){
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		ToEvaPricingVo toEvaPricingVo = evaPricingService.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
+		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
+		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvaPricingVo", toEvaPricingVo);
 		request.setAttribute("caseCode", caseCode);
@@ -160,6 +162,7 @@ public class EvaController {
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.selecttoEvalReportProcessByCaseCodeAndStatus(caseCode,EvalStatusEnum.YSQ.getCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
+		request.setAttribute("caseCode", caseCode);
 	    return "eval/evalReport";
 	}
 	
@@ -206,6 +209,7 @@ public class EvaController {
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.selecttoEvalReportProcessByCaseCodeAndStatus(caseCode,EvalStatusEnum.YSB.getCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
+		request.setAttribute("caseCode", caseCode);
 	    return "eval/evalIssue";
 	}
 	
@@ -253,6 +257,7 @@ public class EvaController {
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.selecttoEvalReportProcessByCaseCodeAndStatus(caseCode,EvalStatusEnum.YCNBG.getCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
+		request.setAttribute("caseCode", caseCode);
 	    return "eval/evalUsed";
 	}
 	

@@ -225,6 +225,7 @@ public class SignServiceImpl implements SignService
         toPropertyInfo.setSquare(transSignVO.getSquare());
         toPropertyInfo.setFinishYear(DateUtil.strToFullDate(transSignVO.getFinishYear() + "-01-01"));
         toPropertyInfo.setPropertyType(transSignVO.getPropertyType());
+        toPropertyInfo.setHoldYear(transSignVO.getHoldYear());
         if (transSignVO.getPropertyPkid() != null)
         {
             toPropertyInfo.setPkid(transSignVO.getPropertyPkid());

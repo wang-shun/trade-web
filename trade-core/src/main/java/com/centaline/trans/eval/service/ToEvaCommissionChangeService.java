@@ -1,9 +1,5 @@
 package com.centaline.trans.eval.service;
 
-import java.util.List;
-
-import com.centaline.trans.cases.entity.ToCaseParticipant;
-import com.centaline.trans.common.entity.ToCcaiAttachment;
 import com.centaline.trans.eval.entity.ToEvaCommissionChange;
 import com.centaline.trans.task.entity.ToApproveRecord;
 
@@ -34,6 +30,6 @@ public interface ToEvaCommissionChangeService {
     
 //    int updateByCaseCodeSelective(ToEvaCommissionChange record);
 //    
-//    ToEvaCommissionChange selectByCaseCode(String caseCode);
+      ToEvaCommissionChange selectByCaseCode(String caseCode);
     
 }

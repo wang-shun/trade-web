@@ -15,7 +15,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>赎楼领取产证</title>
 <link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />"
 	rel="stylesheet" />
 <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
@@ -65,7 +65,7 @@
 .form_list .sign_left_small{text-align: left;margin-right: -10px;}
 
 </style>
-
+<content tag="pagetitle">赎楼领取产证</content>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>

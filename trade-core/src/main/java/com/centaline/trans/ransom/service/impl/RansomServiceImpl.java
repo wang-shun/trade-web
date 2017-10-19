@@ -69,6 +69,23 @@ public class RansomServiceImpl implements RansomService{
 		}
 		return detailVo;
 	}
+	
+	@Override
+	public ToRansomDetailVo getRansomDetail(String caseCode, String ransomCode) {
+		ToRansomDetailVo detailVo = ransomMapper.getRansomDetailInfoByCode(caseCode, ransomCode);
+		if(detailVo != null){
+			User financ = uamUserOrgService.getUserById(detailVo.getFinancial());
+			if(financ !=null){
+				detailVo.setFinancial(financ.getRealName());
+				detailVo.setFinancialTel(financ.getMobile());
+			}else{
+				detailVo.setFinancial(null);
+			}
+			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+			detailVo.setLeadingProcessName(user.getRealName()); //经办人
+		}
+		return detailVo;
+	}
 
 	@Override
 	public List<ToRansomPlanVo> getPartPlanTime(String ransomCode) {

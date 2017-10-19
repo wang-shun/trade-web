@@ -26,7 +26,7 @@ public interface RansomListFormService {
 	 * @param caseCode
 	 * @return
 	 */
-	ToRansomCaseVo getRansomCase(String caseCode);
+	ToRansomCaseVo getRansomCase(String caseCode, String ransomCode);
 	
 	/**
 	 * 根据caseCode保存赎楼中止信息

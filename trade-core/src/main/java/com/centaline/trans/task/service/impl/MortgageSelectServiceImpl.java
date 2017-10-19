@@ -378,7 +378,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		if (!ConstantsUtil.NO_LOAN.equals(vo.getMortageService())) {// 有贷款
 			ToTransPlan queryPlan = new ToTransPlan();
 			queryPlan.setCaseCode(vo.getCaseCode());
-			queryPlan.setPartCode("MortgageSelect"); 
+            //by wbzhouht 在贷款需求选择这里插入的放款时间的partCode应该是LoanRelease,用MortgageSelect会导致在交易计划表中找不到该信息，导致重复插入
+			queryPlan.setPartCode("LoanRelease");
 			queryPlan = transplanServiceFacade.findTransPlan(queryPlan);
 			ToTransPlan plan = new ToTransPlan();
 			plan.setEstPartTime(vo.getEstPartTime());

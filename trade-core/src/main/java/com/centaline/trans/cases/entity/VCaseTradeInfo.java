@@ -111,6 +111,8 @@ public class VCaseTradeInfo {
 
     private BigDecimal landIncrementTaxSign;
 
+    private String evalCode;
+
     public BigDecimal getHouseHodingTaxSign() {
         return houseHodingTaxSign;
     }
@@ -541,5 +543,13 @@ public class VCaseTradeInfo {
 
     public void setPaymentTime(Date paymentTime) {
         this.paymentTime = paymentTime;
+    }
+
+    public String getEvalCode() {
+        return evalCode;
+    }
+
+    public void setEvalCode(String evalCode) {
+        this.evalCode = evalCode;
     }
 }

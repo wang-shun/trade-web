@@ -190,4 +190,8 @@ select @@identity
 		WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR} AND TYPE = #{type,jdbcType=VARCHAR}
     </delete>
   
+  	<delete id="deleteByCasecode"  parameterType="java.util.Map">
+  		DELETE FROM sctrans.T_TO_CASE_COMMENT
+		WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  	</delete>
 </mapper>

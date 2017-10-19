@@ -9,6 +9,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>案件待办任务</title>
 
 <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 <link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
@@ -82,7 +83,7 @@ text-decoration: underline !important;
 }
 </style> 
 
-
+<content tag="pagetitle">案件待办任务</content>
 </head>
 
 <body>

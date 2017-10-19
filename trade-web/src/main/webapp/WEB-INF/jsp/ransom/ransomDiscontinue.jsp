@@ -12,7 +12,7 @@
 <html>
 
 <head>
-
+<title>赎楼中止申请</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- 展示相关 -->
@@ -133,6 +133,7 @@
 }
 .form-group{margin-top: 15px;}
 </style>
+<content tag="pagetitle">赎楼中止申请</content>
 </head>
 
 <body>
@@ -145,13 +146,14 @@
 			<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 			<!-- 交易单编号 -->
 			<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+			<input type="hidden" id="ransomCode" name="ransomCode" value="${ransomCase.ransomCode}">
 			<%-- 原有数据对应id --%>
 			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 			<%-- 设置审批类型 --%>
 			<input type="hidden" id="approveType" name="approveType" value="${approveType }">
 			<input type="hidden" id="operator" name="operator" value="${operator }">
-		
+			
 			<div class="form_content">
 				<label class="control-label sign_left_small">中止类型 </label>
 				<div class="controls isnowid" style="width: 1000px;margin-left: 40px;">

@@ -45,3 +45,12 @@ $(document).ready( function() {
 		}               	               	
        });
    });
+//竣工年限处理
+Vue.filter('year', function (value) {
+	if(value && value.length>0){
+        return value.substr(0,4);
+	}else{
+		return "";
+	}
+
+})

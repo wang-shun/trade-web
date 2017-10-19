@@ -457,10 +457,9 @@
 				$('input[name=pricingTax]').css("border-color","red");
 				return false;
 			}
-			if ($("#ratePaymentfileUploadContainer li").length == undefined
-				|| $("#ratePaymentfileUploadContainer li").length == 0 ) {
+			if ($("#added_value_tax_pic_list li").length == undefined
+				|| $("#added_value_tax_pic_list li").length == 0 ) {
 				window.wxc.alert("增值税发票未上传!");
-
 				return false;
 			}
 
@@ -510,10 +509,6 @@
             },
             complete: function() {
                 $.unblockUI();
-                if(b){
-                    $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}});
-                    $(".blockOverlay").css({'z-index':'1900'});
-                }
                 if(status=='timeout'){//超时,status还有success,error等值的情况
                     Modal.alert(
                         {
@@ -567,7 +562,7 @@
 
     function imgLoad(img){
         img.parentNode.style.backgroundImage="url("+img.src+")";
-        alert(img.src)
+        //alert(img.src)
     }
     var userName;
     var id;
