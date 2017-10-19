@@ -28,7 +28,6 @@ import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
-import com.centaline.trans.engine.bean.ExecuteAction;
 import com.centaline.trans.engine.bean.ExecuteGet;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -255,49 +254,6 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				toWorkFlowService.insertSelective(workFlow);
 			} 
 		} 
-		
-		
-		/*
-		 * @author:zhuody
-		 * @date:2017-04-10
-		 * @des: 贷款需求选择，只要不是委托中原办理的商贷， 删除原先的信贷员派单流程
-		 * 
-		 * */
-		
-		/*	if(null == vo.getMortageService() || "".equals(vo.getMortageService())){
-			throw new BusinessException("贷款需求变更类型不明确！");
-		}
-		if (!"1".equals(vo.getMortageService())){
-			//删除信贷员派单和分级银行审批流程
-			deleteLoanerProcess(vo);
-		}*/
-	}
-	
-	
-	/*
-	 * @author:zhuody
-	 * @date:2017-04-10
-	 * @des: 交易顾问派单和分级银行审批流程删除
-	 * 
-	 * */
-	private void deleteLoanerProcess(MortgageSelecteVo vo){		
-		//First 删除交易顾问派单流程
-		ToWorkFlow loanerProcessWf = new ToWorkFlow();
-		loanerProcessWf.setBusinessKey(WorkFlowEnum.LOANER_PROCESS.getName());
-		loanerProcessWf.setCaseCode(vo.getCaseCode());		
-		toMortgageService.deleteTmpBankProcess(loanerProcessWf);
-		toWorkFlowService.deleteWorkFlowByProperty(loanerProcessWf);
-		
-		
-		//second 删除临时银行流程相关
-		ToWorkFlow twf = new ToWorkFlow();
-
-		twf.setBusinessKey(WorkFlowEnum.TMP_BANK_DEFKEY.getCode());
-		twf.setCaseCode(vo.getCaseCode());
-		toMortgageService.deleteTmpBankProcess(twf);
-		//将T_TO_WORKFLOW 和 T_HI_WORKFLOW 中的status设置为2 非正常结束
-		toWorkFlowService.deleteWorkFlowByProperty(twf);		
-		
 	}
 	
 	/****
