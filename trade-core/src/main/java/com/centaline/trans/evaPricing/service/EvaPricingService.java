@@ -3,6 +3,7 @@ package com.centaline.trans.evaPricing.service;
 import java.util.List;
 import java.util.Map;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 
 /**
@@ -41,6 +42,13 @@ public interface EvaPricingService {
 	 * @return
 	 */
 	boolean queryInfoByCase(String caseCode);
+	
+	/**
+	 * 案件评估申请检查
+	 * @param caseCode
+	 * @return
+	 */
+	AjaxResponse<Integer> checkEvalProcess(String caseCode);
 	
 	/**
 	 * 获取评估 公司数据

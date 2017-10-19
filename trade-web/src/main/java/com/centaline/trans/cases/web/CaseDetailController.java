@@ -2391,6 +2391,21 @@ public class CaseDetailController {
 	}
 	
 	/**
+	 * 评估申请检查
+	 * @param caseCode
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/checkEvalProcess")
+	@ResponseBody
+	public AjaxResponse<Integer> checkEvalProcess(String caseCode){
+		if(com.alibaba.druid.util.StringUtils.isEmpty(caseCode)){
+			return AjaxResponse.fail("无案件编号");
+		}
+		return evaPricingService.checkEvalProcess(caseCode);
+	}
+	
+	/**
 	 * 业绩记录/收费情况CCAI查询
 	 * @param ccaiCode
 	 * @return
