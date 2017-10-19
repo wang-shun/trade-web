@@ -54,8 +54,8 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	}
 
 	@Override
-	public ToRansomCaseVo getRansomCase(String caseCode) {
-		return ransomListFormMapper.getRansomCase(caseCode);
+	public ToRansomCaseVo getRansomCase(String caseCode, String ransomCode) {
+		return ransomListFormMapper.getRansomCase(caseCode, ransomCode);
 	}
 
 	@Override
@@ -74,21 +74,12 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	public List getUpdateRansomInfo(String caseCode) {
 		List list = new ArrayList();
 		try {
-			List<ToRansomTailinsVo> tailinsList =  ransomMapper.getTailinsInfoByCaseCode(caseCode);
+			ToRansomTailinsVo tailinsVo =  ransomMapper.getTailinsInfoByCaseCode(caseCode);
+			
 			List<TgGuestInfo> guestInfo = ransomListFormMapper.getGuestInfo(caseCode);
-			ToRansomCaseVo caseVo = ransomListFormMapper.getRansomCase(caseCode);
 			
-			ToRansomTailinsVo tailinsVo = new ToRansomTailinsVo();
-			tailinsVo.setCaseCode(tailinsList.get(0).getCaseCode());
-			tailinsVo.setRansomCode(tailinsList.get(0).getRansomCode());
-			tailinsVo.setMortgageType(tailinsList.get(0).getMortgageType());
-			tailinsVo.setDiyaType(tailinsList.get(0).getDiyaType());
-			tailinsVo.setLoanMoney(tailinsList.get(0).getLoanMoney());
-			tailinsVo.setRestMoney(tailinsList.get(0).getRestMoney());
-			tailinsVo.setSignTime(tailinsList.get(0).getSignTime());
-			tailinsVo.setPlanTime(tailinsList.get(0).getPlanTime());
-			
-			String finOrgCode = tailinsList.get(0).getFinOrgCode();
+			ToRansomCaseVo caseVo = ransomListFormMapper.getRansomCase(caseCode, null);
+			String finOrgCode = tailinsVo.getFinOrgCode();
 			TsFinOrg finOrg = ransomListFormMapper.getTsFinOrgIinfo(finOrgCode);
 			
 			list.add(tailinsVo);

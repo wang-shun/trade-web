@@ -392,7 +392,7 @@ import com.centaline.trans.ransom.service.RansomService;
 		 */
 		void getTaskBaseInfo(ServletRequest request,String caseCode){
 			//公共基本信息
-			ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode);
+			ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode, null);
 			request.setAttribute("detailVo", detailVo);
 		}
 
