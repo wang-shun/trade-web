@@ -131,15 +131,7 @@
 							<aist:dict clazz="select_control" id="mortageService" name="mortageService"
 									   display="select" defaultvalue="0" dictType="mortage_service" />
 						</div>
-						<div class="form_content" id="div_releasePlan">
-							<label class="control-label sign_left_small select_style mend_select">
-								预计放款时间
-							</label>
-							<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-								<input class="input_type yuanwid datatime" type="text" name="estPartTime" id="estPartTime" disabled="disabled"
-									   value="<fmt:formatDate  value='${loanReleasePlan.estPartTime}' type='both' pattern='yyyy-MM-dd'/>">
-							</div>
-						</div>
+			
 					</div>
 					<div class ="line">
 					<div class="form_content">
@@ -174,7 +166,6 @@
 
 			<div class="form-btn">
 				<div class="text-center">
-					<%--<button  class="btn btn-success btn-space">保存</button>--%>
 					<button class="btn btn-success btn-space" onclick="submit()">提交</button>
 				</div>
 			</div>
@@ -219,7 +210,7 @@
 	<script>
 		$(document).ready(function(){
 			$("#mortageService").find("option").eq(0).remove();
-			
+			$("#mortageService").find("option").eq(1).remove();
 			f = $("#mortgageTosave");
 			var cl;
 			var finOrgCode = null;
@@ -256,12 +247,8 @@
 				}
 			}
 			);
-			mortageService();
-			/*根据贷款服务项，设置默认合作项目*/
-			$("#mortageService").change(function(){
-				mortageService();
-			});
-			//$('#div_releasePlan').hide();
+			
+
 
 			$('#div_releasePlan .input-group.date').datepicker({
 				todayBtn : "linked",
@@ -273,18 +260,7 @@
 		});
 	
 		
-        function mortageService() {
-			var value = $("#mortageService").val();
-			if(value!='0' && value !='4'){
-				$("#estPartTime").removeProp('disabled');
-				$("#estPartTime").removeAttr('disabled');
-				 $('#div_releasePlan').show();
-			}else{
-				$("#estPartTime").prop('disabled','disabled');//防止后台拿到数据
-				$('#div_releasePlan').hide();
-			}
-			
-        }
+ 
         /**
         *代办检查非空
         */

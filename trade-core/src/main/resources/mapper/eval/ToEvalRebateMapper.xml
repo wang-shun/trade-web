@@ -18,11 +18,12 @@
     <result column="APPLY_USER_NAME" property="applyUserName" jdbcType="VARCHAR" />
     <result column="APPLY_REAL_NAME" property="applyRealName" jdbcType="VARCHAR" />
     <result column="EVAL_PRICE" property="evalPrice" jdbcType="DECIMAL" />
+    <result column="EVAL_COST" property="evalCost" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, EVA_CODE, EVAL_RECEPT, EVAL_REAL_CHARGES, EVAL_DUE_CHARGES, CENTA_COM_AMOUNT, 
     EVA_COM_AMOUNT, INPUT_TIME, EVA_RPOCESS_ID, STATUS, CCAI_CODE, CREATE_TIME, APPLY_USER_NAME, 
-    APPLY_REAL_NAME, EVAL_PRICE
+    APPLY_REAL_NAME, EVAL_PRICE, EVAL_COST
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -40,13 +41,13 @@
       CENTA_COM_AMOUNT, EVA_COM_AMOUNT, INPUT_TIME, 
       EVA_RPOCESS_ID, STATUS, CCAI_CODE, 
       CREATE_TIME, APPLY_USER_NAME, APPLY_REAL_NAME, 
-      EVAL_PRICE)
+      EVAL_PRICE, EVAL_COST)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
       #{evalRecept,jdbcType=VARCHAR}, #{evalRealCharges,jdbcType=DECIMAL}, #{evalDueCharges,jdbcType=DECIMAL}, 
       #{centaComAmount,jdbcType=DECIMAL}, #{evaComAmount,jdbcType=DECIMAL}, #{inputTime,jdbcType=TIMESTAMP}, 
       #{evaRpocessId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{ccaiCode,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{applyUserName,jdbcType=VARCHAR}, #{applyRealName,jdbcType=VARCHAR}, 
-      #{evalPrice,jdbcType=DECIMAL})
+      #{evalPrice,jdbcType=DECIMAL}, #{evalCost,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvalRebate" >
     insert into sctrans.T_TO_EVA_REBATE
@@ -99,6 +100,9 @@
       <if test="evalPrice != null" >
         EVAL_PRICE,
       </if>
+      <if test="evalCost != null" >
+        EVAL_COST,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -148,6 +152,9 @@
       </if>
       <if test="evalPrice != null" >
         #{evalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="evalCost != null" >
+        #{evalCost,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -199,6 +206,9 @@
       <if test="evalPrice != null" >
         EVAL_PRICE = #{evalPrice,jdbcType=DECIMAL},
       </if>
+      <if test="evalCost != null" >
+        EVAL_COST = #{evalCost,jdbcType=DECIMAL},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -218,7 +228,8 @@
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       APPLY_USER_NAME = #{applyUserName,jdbcType=VARCHAR},
       APPLY_REAL_NAME = #{applyRealName,jdbcType=VARCHAR},
-      EVAL_PRICE = #{evalPrice,jdbcType=DECIMAL}
+      EVAL_PRICE = #{evalPrice,jdbcType=DECIMAL},
+      EVAL_COST = #{evalCost,jdbcType=DECIMAL}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
 

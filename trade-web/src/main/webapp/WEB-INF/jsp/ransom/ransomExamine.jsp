@@ -199,7 +199,6 @@
 		</div>
 	</div>
 </form>
-<iframe id="rfFrame" name="rfFrame" src="about:blank" style="display:none;"></iframe>
 	<content tag="local_script"> <!-- Peity --> <script
 		src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<!-- jqGrid --> <script
@@ -250,21 +249,20 @@
 						success:function(data){
 							if(data){
 								window.wxc.success("提交成功!",{"wxcOk":function(){
-									window.opener = null;
-									window.open("", "_self");
+									debugger
 									window.close();
 								}});
 							}else{
-								window.wxc.error("提交失败!");
-								//JQuery:$("#submitDiscontinue").attr("target","rfFrame");
-								window.opener = null;
-								window.open("", "_self");
+								window.wxc.success("提交失败!",{"wxcOk":function(){
+									console.log("提交失败");
+								}});
 							}
 							
 						},
 						error : function(errors) {
-							window.wxc.error("提交失败!");
-							JQuery:$("#submitDiscontinue").attr("target","rfFrame");
+							window.wxc.success("提交失败!",{"wxcOk":function(){
+								console.log("提交失败");
+							}});
 						}
 					});
 				});

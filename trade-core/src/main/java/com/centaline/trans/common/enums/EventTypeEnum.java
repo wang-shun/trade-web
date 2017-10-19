@@ -10,9 +10,10 @@ public enum EventTypeEnum {
 	TRADEBOUNDARYMSG(ConstantsUtil.MESSAGE_EVENT,"TradeBoundaryMsg", "TradeBoundaryMsg"),
 	BANKLEVELAPPROVEEVENTCATCH(ConstantsUtil.MESSAGE_EVENT,"BankLevelApproveMsgEventCatch","BankLevelApproveMsgEventCatch"),
 	SELF_LOAN_MSG_EVENT_CATCH(ConstantsUtil.MESSAGE_EVENT,"SelfLoanMsgEventCatch","SelfLoanMsgEventCatch"),
+	SELF_ASSE_MSG_EVENT_CATCH(ConstantsUtil.MESSAGE_EVENT,"SelfAsseMsgEventCatch","SelfAsseMsgEventCatch"),
 	//CCAI修改完成 消息事件捕获
 	CCAI_UPDATED_MSG_EVENT_CATCH(ConstantsUtil.MESSAGE_EVENT,"CCAIUpdatedMsgEventCatch","CCAIUpdatedMsgEventCatch");
-
+	
 	private String eventType;
 
 	private String name;

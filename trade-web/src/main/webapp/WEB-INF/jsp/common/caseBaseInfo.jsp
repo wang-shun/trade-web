@@ -11,7 +11,7 @@
 
 <nav id="navbar-example" class="navbar navbar-default navbar-static"
 		role="navigation">
-		<div id="isFixed" style="position: absolute; top: 0px;"
+		<div id="isFixed" style="position: relative; top: 0px;"
 			class="collapse navbar-collapse bs-js-navbar-scrollspy stuckMenu stickup-nav-bar scroll_nav">
 			<ul class="nav navbar-nav scroll_content">
 				<li class="menuItem active"><a href="#basicInfo"> 基本信息 </a></li>

@@ -252,6 +252,8 @@ function checkForm() {
 #corss_area{padding:0 8px 0 0;margin-left:369px;}
 #corss_area select{height:34px;border-radius:2px;margin-left:20px;}
 </style>
+<title>权证经理评估发票审核</title>
+<content tag="pagetitle">权证经理评估发票审核</content>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -260,7 +262,7 @@ function checkForm() {
 		<div class="wrapper white-bg new-heading" id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
-                        	接单跟进
+                        	评估发票审核
                  </h2>
                 <div class="mt20">
                     <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
@@ -313,7 +315,7 @@ function checkForm() {
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small">发票金额：</label> 
 		                        <input type="text"  class="input_type yuanwid" value="<fmt:formatNumber value='${toEvaInvoice.invoiceAmount}' type='number' pattern='#0.00'/> "  readonly="readonly">		                        
-		                    	<span>元</span>/>
+		                    	<span>元</span>
 		                    </div>	                     
 		                </div>
 		                

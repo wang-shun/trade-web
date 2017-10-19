@@ -222,8 +222,15 @@
                     <em>是否自办贷款</em>
                     <span class="yuanwid">
                             <c:choose>
-                                <c:when test="${toMortgage.isDelegateYucui=='0'}">是</c:when>
-                                <c:when test="${toMortgage.isDelegateYucui=='1'}">否</c:when>
+                                <c:when test="${toMortgage.isDelegateYucui=='0'}">
+
+                                <input type="radio" value="0" checked="checked" name="isDelegateYucui" />是
+                                <input type="radio" value="1" name="isDelegateYucui" disabled="disabled"/>否
+                                </c:when>
+                                <c:when test="${toMortgage.isDelegateYucui=='1'}">
+                                    <input type="radio" value="0" name="isDelegateYucui" disabled="disabled"/>是
+                                    <input type="radio" value="1" checked="checked" name="isDelegateYucui"/>否
+                                    </c:when>
                                 <c:otherwise>
                                     ${toMortgage.isDelegateYucui}
                                 </c:otherwise>
@@ -328,12 +335,12 @@
                     <em class="pull-left">是否自办评估</em>
                     <span class="infolong pull-left">
                         <c:if test="${caseDetailVO.isEvas=='true'}">
-                        <input type="radio" value="1" checked="checked"/>是
-                        <input type="radio" value="0" />否
+                        <input type="radio" value="1" checked="checked" name="isEvas"/>是
+                        <input type="radio" value="0" name="isEvas" disabled="disabled"/>否
                         </c:if>
                         <c:if test="${caseDetailVO.isEvas=='false'}">
-                            <input type="radio" value="1" />是
-                            <input type="radio" value="0" checked="checked"/>否
+                            <input type="radio" value="1" name="isEvas" disabled="disabled"/>是
+                            <input type="radio" value="0" checked="checked" name="isEvas"/>否
                         </c:if>
                    </span>
                 </li>

@@ -29,7 +29,6 @@ import com.centaline.trans.common.repository.TgServItemAndProcessorMapper;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
-import com.centaline.trans.engine.bean.ExecuteAction;
 import com.centaline.trans.engine.bean.ExecuteGet;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -45,8 +44,6 @@ import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 import com.centaline.trans.task.repository.ToMortgageTosaveMapper;
 import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.vo.MortgageToSaveVO;
-import com.centaline.trans.transplan.entity.ToTransPlan;
-import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.utils.ConstantsUtil;
 
 @Service
@@ -94,8 +91,7 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 	@Autowired(required = true)
 	private PropertyUtilsService propertyUtilsService;
 	
-	@Autowired
-	private TransplanServiceFacade transplanServiceFacade;
+
 	
 	@Autowired
 	private TgServItemAndProcessorService tgServItemAndProcessorService;
@@ -188,19 +184,12 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 
 		if(isNewFlow) {
 			ActRuEventSubScr event = new ActRuEventSubScr();
-			event.setEventType(MessageEnum.CCAI_UPDATED_MSG.getEventType());
-			event.setEventName(MessageEnum.CCAI_UPDATED_MSG.getName());
-			event.setProcInstId(vo.getProcessInstanceId());
-			//event.setActivityId(EventTypeEnum.TRADEBOUNDARYMSG.getName());
-			event.setActivityId(EventTypeEnum.CCAI_UPDATED_MSG_EVENT_CATCH.getName());
-			List<ActRuEventSubScr> subScrsList= actRuEventSubScrMapper.listBySelective(event);
-			
 			event.setEventType(MessageEnum.MORTGAGE_FINISH_MSG.getEventType());
 			event.setEventName(MessageEnum.MORTGAGE_FINISH_MSG.getName());
 			event.setProcInstId(vo.getProcessInstanceId());
 			event.setActivityId(EventTypeEnum.INTERMEDIATECATCHEVENT.getName());
 			List<ActRuEventSubScr> mortSubScrsList= actRuEventSubScrMapper.listBySelective(event);
-			if (CollectionUtils.isEmpty(subScrsList)&&CollectionUtils.isEmpty(mortSubScrsList)) {
+			if (CollectionUtils.isEmpty(mortSubScrsList)) {
 				throw new BusinessException("当前流程下不允许变更贷款需求！");
 			}
 			String mortType = vo.getMortageService();
@@ -213,15 +202,6 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 			String processDfId=null;
 			wf.setCaseCode(vo.getCaseCode());
 			if(mortType.equals(ConstantsUtil.NO_LOAN)) {
-				// 发送边界消息
-				/*List<RestVariable> variables = new ArrayList<RestVariable>();
-				editRestVariables(variables, vo.getMortageService());
-
-				messageService.sendMortgageSelectMsgByBoudary(vo.getProcessInstanceId(), variables);*/
-				//修改流程变量
-			/*	for(RestVariable var:variables){
-					workFlowManager.setVariableByProcessInsId(vo.getProcessInstanceId(),var.getName(),var);
-				}*/
 				// 删除所有的贷款流程
 				deleteMortFlowByCaseCode(vo.getCaseCode());
 				// 发送消息
@@ -277,24 +257,6 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 				workFlow.setProcessOwner(vo.getPartner());
 				toWorkFlowService.insertSelective(workFlow);
 			} 
-			
-			
-		} else {
-
-			ActRuEventSubScr subScr = getHightPriorityExecution(vo.getProcessInstanceId());
-			if (subScr == null) {
-				throw new BusinessException("当前流程下不允许变更贷款需求！");
-			}
-			doBusiness(vo);
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-			editRestVariables(variables, vo.getMortageService());
-			ExecuteAction action = new ExecuteAction();
-			action.setAction("messageEventReceived");
-			action.setExecutionId(subScr.getExecutionId());
-			action.setMessageName(MessageEnum.CCAI_UPDATED_MSG.getName());
-			action.setVariables(variables);
-			workFlowManager.executeAction(action);
-			workFlowManager.claimByInstCode(vo.getProcessInstanceId(), vo.getCaseCode(), null);
 		}
 	}
 	
@@ -320,22 +282,6 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 
 			tgServItemAndProcessorMapper.deleteMortageServItem(vo.getCaseCode());
 			
-			if (!"0".equals(vo.getMortageService())) {// 有贷款
-				ToTransPlan queryPlan = new ToTransPlan();
-				queryPlan.setCaseCode(vo.getCaseCode());
-				queryPlan.setPartCode("LoanRelease"); //不明白
-				queryPlan = transplanServiceFacade.findTransPlan(queryPlan);
-				ToTransPlan plan = new ToTransPlan();
-				plan.setEstPartTime(vo.getEstPartTime());
-				if (queryPlan != null) {
-					plan.setPkid(queryPlan.getPkid());
-					transplanServiceFacade.updateByPrimaryKeySelective(plan);
-				} else {
-					plan.setCaseCode(vo.getCaseCode());
-					plan.setPartCode("LoanRelease");
-					transplanServiceFacade.insertSelective(plan);
-				}
-			}
 
 			if (serivceCode != null) {
 				TgServItemAndProcessor tsiap = new TgServItemAndProcessor();

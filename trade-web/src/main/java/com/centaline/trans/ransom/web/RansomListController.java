@@ -29,6 +29,7 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.web.ResultNew;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.enums.RansomPartEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
@@ -83,21 +84,6 @@ public class RansomListController {
 	public String caseProcess(Model model, ServletRequest request,@PathVariable String keyFlag){
 		model.addAttribute("flag",keyFlag);
 		return "ransom/" + keyFlag;
-	}
-	
-	/**
-	 * 赎楼时间变更明细
-	 * @param caseCode
-	 * @return
-	 */
-	@RequestMapping("ransomChangeRecord")
-	public String ransomChangeRecord(String caseCode,ServletRequest request) {
-		
-		List<ToRansomTailinsVo> tailinsVo =  ransomService.getTailinsInfoByCaseCode(caseCode);
-		
-		ToRansomTailinsVo ransomTailinsVo = tailinsVo.get(0);
-		request.setAttribute("ransomTailinsVo", ransomTailinsVo);
-		return "ransom/ransomChangeRecord";
 	}
 	
 	/**
@@ -196,7 +182,7 @@ public class RansomListController {
 		ResultNew rs=new ResultNew();
 		try {
 			ToRansomCaseVo trco = new ToRansomCaseVo();
-			trco = ransomListFormService.getRansomCase(caseCode);
+			trco = ransomListFormService.getRansomCase(caseCode, null);
 			String result = "-1";
 			//如果赎楼信息不为空说明已有案件编号与赎楼编号相关联
 			if(trco != null) {
@@ -232,20 +218,12 @@ public class RansomListController {
 			//案件详情信息
 			ToRansomCaseVo caseVo = ransomService.getRansomCaseInfo(caseCode);
 			//赎楼详情信息
-			ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode);
+			List<ToRansomDetailVo> ransomDetailVo = ransomService.getRansomDetail(caseCode);
+			ToRansomDetailVo detailVo = ransomDetailVo.get(0);
 			//新建赎楼单即是受理状态
-			List<ToRansomTailinsVo> tailinsList = ransomService.getTailinsInfoByCaseCode(caseCode);
-			ToRansomTailinsVo tailinsVo = new ToRansomTailinsVo();
-			tailinsVo.setCaseCode(caseCode);
-			tailinsVo.setRansomCode(tailinsList.get(0).getRansomCode());
-			tailinsVo.setMortgageType(tailinsList.get(0).getMortgageType());
-			tailinsVo.setDiyaType(tailinsList.get(0).getDiyaType());
-			tailinsVo.setLoanMoney(tailinsList.get(0).getLoanMoney());
-			tailinsVo.setRestMoney(tailinsList.get(0).getRestMoney());
-			tailinsVo.setSignTime(tailinsList.get(0).getSignTime());
-			tailinsVo.setPlanTime(tailinsList.get(0).getPlanTime());
+			ToRansomTailinsVo tailinsVo = ransomService.getTailinsInfoByCaseCode(caseCode).get(0);
 			//查询赎楼编号
-			String ransomCode = tailinsList.get(0).getRansomCode();
+			String ransomCode = tailinsVo.getRansomCode();
 			//申请
 			ToRansomApplyVo applyVo = ransomService.getApplyInfo(ransomCode);
 			//面签
@@ -374,7 +352,7 @@ public class RansomListController {
 			ToRansomCancelVo cancelVo = ransomService.getCancelInfo(ransomCode);
 			ToRansomPermitVo permitVo = ransomService.getPermitInfo(ransomCode);
 			ToRansomPaymentVo paymentVo = ransomService.getPaymentInfo(ransomCode);
-			ToRansomCaseVo caseVo = ransomService.getRansomCaseInfo(ransomCode);
+			ToRansomCaseVo caseVo = ransomService.getRansomInfoByRansomCode(ransomCode);
 			List<ToRansomPlanVo> planVo = ransomListFormService.getRansomPlanTimeInfo(ransomCode);
 			
 			//如果计划时间信息为空，添加赎楼时间计划信息的ransomCode、更新人、更新时间
@@ -395,6 +373,7 @@ public class RansomListController {
 			request.setAttribute("permitVo", permitVo);
 			request.setAttribute("paymentVo", paymentVo);
 			request.setAttribute("caseVo", caseVo);
+			request.setAttribute("planVo", planVo);
 			request.setAttribute("ransomCode", ransomCode);
 			
 			return "ransom/ransomPlanTime";
@@ -404,7 +383,12 @@ public class RansomListController {
 		}
 	}
 	
-	
+	/**
+	 * 赎楼计划时间
+	 * @param ransomVo
+	 * @param flag
+	 * @return
+	 */
 	@RequestMapping(value="updateRansomPlanTime",method = RequestMethod.POST)
 	@ResponseBody
 	public String updateRansomPlanTimeInfo(@RequestParam String ransomVo,int flag) {
@@ -544,5 +528,10 @@ public class RansomListController {
 		return sb;
 	}
 	
+	public static void main(String[] args) {
+		for (RansomPartEnum e : RansomPartEnum.values()) {
+			System.out.println(e.toString());
+		}
+	}
 	
 }

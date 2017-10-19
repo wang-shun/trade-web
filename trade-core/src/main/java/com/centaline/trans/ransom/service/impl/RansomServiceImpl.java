@@ -54,8 +54,25 @@ public class RansomServiceImpl implements RansomService{
 	private UamSessionService uamSessionService;
 	
 	@Override
-	public ToRansomDetailVo getRansomDetail(String caseCode) {
-		ToRansomDetailVo detailVo = ransomMapper.getRansomDetailInfoByCode(caseCode);
+	public List<ToRansomDetailVo> getRansomDetail(String caseCode) {
+		List<ToRansomDetailVo> detailVo = ransomMapper.getRansomDetailInfoByCode(caseCode);
+		if(detailVo != null){
+			User financ = uamUserOrgService.getUserById(detailVo.get(0).getFinancial());
+			if(financ !=null){
+				detailVo.get(0).setFinancial(financ.getRealName());
+				detailVo.get(0).setFinancialTel(financ.getMobile());
+			}else{
+				detailVo.get(0).setFinancial(null);
+			}
+			User user = uamUserOrgService.getUserById(detailVo.get(0).getLeadingProcessId());
+			detailVo.get(0).setLeadingProcessName(user.getRealName()); //经办人
+		}
+		return detailVo;
+	}
+	
+	@Override
+	public ToRansomDetailVo getRansomDetail(String caseCode, String ransomCode) {
+		ToRansomDetailVo detailVo = ransomMapper.getRansomDetailInfoByCode(caseCode, ransomCode);
 		if(detailVo != null){
 			User financ = uamUserOrgService.getUserById(detailVo.getFinancial());
 			if(financ !=null){
@@ -108,6 +125,7 @@ public class RansomServiceImpl implements RansomService{
 		applyVo.setApplyTime(submitVo.getApplyTime());
 		applyVo.setApplyOrgCode(submitVo.getApplyOrgCode());
 		applyVo.setLoanOfficer(submitVo.getLoanOfficer());
+		applyVo.setIsApply("1");
 		applyVo.setUpdateUser(user.getId());
 		applyVo.setCreateUser(user.getId());
 		//申请数据插入
@@ -363,9 +381,16 @@ public class RansomServiceImpl implements RansomService{
 	}
 
 	@Override
-	public ToRansomCaseVo getRansomCaseInfo(String ransomCode) {
+	public ToRansomCaseVo getRansomCaseInfo(String caseCode) {
 		ToRansomCaseVo caseVo = new ToRansomCaseVo();
-		caseVo = ransomMapper.getRansomCaseInfoByCaseCode(ransomCode);
+		caseVo = ransomMapper.getRansomCaseInfoByCaseCode(caseCode);
+		return caseVo;
+	}
+
+	@Override
+	public ToRansomCaseVo getRansomInfoByRansomCode(String ransomCode) {
+		ToRansomCaseVo caseVo = new ToRansomCaseVo();
+		caseVo = ransomMapper.getRansomCaseInfoByRansomCode(ransomCode);
 		return caseVo;
 	}
 
