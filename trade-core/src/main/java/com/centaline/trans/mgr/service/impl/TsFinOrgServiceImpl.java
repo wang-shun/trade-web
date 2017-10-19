@@ -182,4 +182,9 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 		return tsFinOrgMapper.findBankByFinOrgList(finOrgs);
 	}
 
+	@Override
+	public List<TsFinOrg> findCooperations() {
+		return tsFinOrgMapper.findBySupCat(SupCatEnum.COOPERATION_SUPPLIER.getCode(),null);
+	}
+
 }

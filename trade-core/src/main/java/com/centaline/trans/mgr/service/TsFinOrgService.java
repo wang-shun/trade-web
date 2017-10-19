@@ -123,4 +123,10 @@ public interface TsFinOrgService {
 	 * @return
 	 */
 	List<TsFinOrg> findFinCompany(String tag);
+	
+	/**
+	 * 查询合作机构
+	 * @return
+	 */
+	List<TsFinOrg> findCooperations();
 }
