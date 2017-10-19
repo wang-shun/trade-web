@@ -61,6 +61,8 @@
 		.divider {position: relative}
 		.divider label {position: absolute;left: 0;top: -17px}
 	</style>
+	<title>开具评估发票</title>
+<content tag="pagetitle">开具评估发票</content>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>

@@ -39,17 +39,17 @@
 <!--弹出框样式  -->
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
-<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
-<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+<%-- <script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script> --%>
+<%-- <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script> --%>
 <script type="text/javascript">
-	var coworkService = "${firstFollow.coworkService }";
+	//记录案件视图跳转等所需变量
+	var caseCode="${caseCode}";
+	var aa='aa';
 	var teamProperty = "${teamProperty}";
-	var caseProperty = "${firstFollow.caseProperty}";
-	var cooperationUser = "${firstFollow.cooperationUser}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
 	var index=0;
 	var taskitem = "${taskitem}";
-
+	var taskId="${taskId}";
 	var processInstanceId = "${processInstanceId}";
 	var approveType = "${approveType }";
 	if("${idList}" != "") {
@@ -61,44 +61,87 @@
 <script type="text/javascript">
 var AttachmentList = (function(){    
     return {    
-       init : function(ctx,url,gridTableId,gridPagerId,ctmCode,caseCode){    
+       init : function(ctx,url,gridTableId,gridPagerId,ctmCode,caseCode,postData){    
     	 //jqGrid 初始化
     		$("#"+gridTableId).jqGrid({
     			url : ctx+url,
-    			mtype : 'GET',
+    			mtype : 'POST',
     			datatype : "json",
-    			height : 125,
+    			height : 230,
     			autowidth : true,
     			shrinkToFit : true,
-    			rowNum : 3,
+    			rowNum : 4,
     			/*   rowList: [10, 20, 30], */
-    			colNames : [ '审批人','审批时间','审批结果','审批意见'],
+    			colNames : [ '案件编号','评估单编号','产权地址','评估公司','评估值','评估费实收','买方姓名','贷款权证','经纪人','操作'],
     			colModel : [ {
-    				name : 'OPERATOR',
-    				index : 'OPERATOR',
+    				name : 'CASE_CODE',
+    				index : 'CASE_CODE',
     				align : "center",
-    				width : 25,
-    				resizable : false
+    				width : 50,
+    				resizable : true
     			},{
-    				name : 'OPERATOR_TIME',
-    				index : 'OPERATOR_TIME',
+    				name : 'EVA_CODE',
+    				index : 'EVA_CODE',
     				align : "center",
-    				width : 25,
-    				resizable : false
+    				width : 50,
+    				resizable : true
     			}, {
-    				name : 'NOT_APPROVE',
-    				index : 'NOT_APPROVE',
+    				name : 'PROPERTY_ADDR',
+    				index : 'PROPERTY_ADDR',
     				align : "center",
-    				width : 25,
-    				resizable : false
+    				width : 100,
+    				resizable : true
     				//formatter : linkhouseInfo
     			}, {
-    				name : 'CONTENT',
-    				index : 'CONTENT',
+    				name : 'FIN_ORG_NAME',
+    				index : 'FIN_ORG_NAME',
     				align : "center",
     				width : 25,
-    				resizable : false
-    			}],
+    				resizable : true
+    			}, {
+    				name : 'EVA_PRICE',
+    				index : 'EVA_PRICE',
+    				align : "center",
+    				width : 25,
+    				resizable : true
+    				//formatter : linkhouseInfo
+    			}, {
+    				name : 'EVAL_REAL_CHARGES',
+    				index : 'EVAL_REAL_CHARGES',
+    				align : "center",
+    				width : 25,
+    				resizable : true
+    				//formatter : linkhouseInfo
+    			}, {
+    				name : 'GUEST_NAME',
+    				index : 'GUEST_NAME',
+    				align : "center",
+    				width : 25,
+    				resizable : true
+    				//formatter : linkhouseInfo
+    			}, {
+    				name : 'LOAN',
+    				index : 'LOAN',
+    				align : "center",
+    				width : 25,
+    				resizable : true
+    				//formatter : linkhouseInfo
+    			}, {
+    				name : 'AGENT',
+    				index : 'AGENT',
+    				align : "center",
+    				width : 25,
+    				resizable : true
+    				//formatter : linkhouseInfo
+    			}, {
+    				name : 'OPERATION',
+    				index : 'OPERATION',
+    				align : "center",
+    				width : 25,
+    				resizable : true
+    				//formatter : linkhouseInfo
+    			}
+				],
     			multiselect: true,
     			pager : "#"+gridPagerId,
     			//sortname:'UPLOAD_DATE',
@@ -114,30 +157,26 @@ var AttachmentList = (function(){
     				for (var i = 0; i < ids.length; i++) {
 	    				var id = ids[i];
 	    				var rowDatas = jQuery("#"+gridTableId).jqGrid('getRowData', ids[i]); // 获取当前行
-	    				
-	    				var auditResult = rowDatas['NOT_APPROVE'];
-	    				var auditResultDisplay = null;
-	    				if(!auditResult){
-	    					auditResultDisplay="审批通过"
-	    				}else{
-	    					auditResultDisplay=auditResult;
-	    				}	    				    				
-	    				jQuery("#"+gridTableId).jqGrid('setRowData', ids[i], { NOT_APPROVE: auditResultDisplay});
+	    				var link = "<button  class='btn red' onclick='linkCase(\""+rowDatas['EVA_CODE']+"\")'>关联案件</a>";    				    				    				
+	    				jQuery("#"+gridTableId).jqGrid('setRowData', ids[i], { OPERATION: link});
     				}
     			},
-    			postData : {
-    				queryId : "queryEvalInvoiceAuditComment",
-    				//caseCode : caseCode
-    				caseCode : caseCode,
-    				partCode : 'evalInvoiceAudit'
-    			}
-    			 
+    			/* postData : {
+    				queryId : "queryConnectEvalReport",
+    				caseCode : caseCode
+    			} */
+    			postData : postData
     		});
        }   
     };    
 })(); 
 </script>
 <script type="text/javascript">
+//关联评估单
+function linkCase(evaCode){
+	//console.log(evaCode);
+	window.close();
+}
 //显示附件图片
 function showAttachment(url){
 	window.open(url);
@@ -167,10 +206,30 @@ function save(b) {
 		}													
 	}
 	
-	var jsonData = $("#evalInvoiceAuditform").serializeArray();
+	var jsonData = $("#firstFollowform").serializeArray();
+	
+	var result = ''
+	$("span.selected[name='srvCode']").each(function() {
+		result += $(this).attr('value') + ',';
+	});
+	var obj = {
+		name : 'srvCode',
+		value : result.substring(0, result.length - 1)
+	};
+	jsonData.push(obj);
 
-	var url = "${ctx}/eval/submitInvoiceAudit";
+	for (var i = 0; i < jsonData.length; i++) {
+		var item = jsonData[i];
+		if (item["name"] == 'cooperationUser'
+				&& (item["value"] == 0 || item["value"] == -1)) {
+			delete jsonData[parseInt(i)];
+		}
+	}
 
+	var url = "${ctx}/task/caseRecvFollow/save";
+	if (b) {
+		url = "${ctx}/task/caseRecvFollow/submit";
+	}
 	
 	$.ajax({
         cache : true,
@@ -232,7 +291,7 @@ function checkForm() {
 		$("#distCode").focus();
 		$("#distCode").css("border-color","red");
 		return false;
-	}
+	}	
 		return true;
 	}
 
@@ -242,6 +301,10 @@ function checkForm() {
 
 </script>
 <style type="text/css">
+.btn_blue {
+    background-color: #428fcc !important;
+    color: #fff;
+}
 .radio.radio-inline > label{margin-left:10px;}
 .radio.radio-inline > input{margin-left:10px;}
 .checkbox.checkbox-inline > div{margin-left:25px;}
@@ -252,124 +315,89 @@ function checkForm() {
 #corss_area{padding:0 8px 0 0;margin-left:369px;}
 #corss_area select{height:34px;border-radius:2px;margin-left:20px;}
 </style>
-<title>权证经理评估发票审核</title>
-<content tag="pagetitle">权证经理评估发票审核</content>
+<title>评估发票申请</title>
+<content tag="pagetitle">评估发票申请</content>
 </head>
 <body>
-<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
-	<div class="">
-		<div class="wrapper white-bg new-heading" id="serviceFlow">
-             <div class="pl10">
-                 <h2 class="newtitle-big">
-                        	评估发票审核
-                 </h2>
-                <div class="mt20">
-                    <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
-                    	<i class="iconfont icon">&#xe640;</i> 在途单列表
-                    </button>
-                    <button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
-                        <i class="iconfont icon">&#xe642;</i>案件视图
-                    </button>
-                </div>
-             </div>
-        </div>
-
         <div class="ibox-content border-bottom clearfix space_box noborder marginbot">
-            <h2 class="newtitle title-mark">开票信息</h2>
-            	<form method="get" class="form_list" id="firstFollowform" style="overflow: visible;">
-            		<input type="hidden" id="ctx" value="${ctx }" />
-            	
-            		<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${toEvaInvoice.caseCode}">
-					<!-- 流程引擎需要字段 -->
-					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					<%-- 原有数据对应id --%>
-					<input type="hidden" id="caseId" name="caseId" value="${firstFollow.caseId }">
-					<input type="hidden" id="tTLId" name="tTLId" value="${firstFollow.tTLId }">
-					<input type="hidden" id="signId" name="signId" value="${firstFollow.signId}">
-					<input type="hidden" id="propertyInfoId" name="propertyInfoId" value="${firstFollow.propertyInfoId}">
-					<%-- 设置审批类型 --%>
-					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
-					<input type="hidden" id="operator" name="operator" value="${operator }">
-					<%-- T_TO_FIRST_FOLLOW 表  --%>
-					<input type="hidden" id="firstfollowId" name="firstfollowId" value="${firstFollow.firstfollowId}" />
+        <h2 class="newtitle-big">评估单列表</h2>
+        	
+        <div class="ibox-content border-bottom clearfix space_box">
+				<form id="jvForm" method="get" class="form_list" >
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small">评估公司：</label> <input
+							type="text" class="input_type yuanwid" id="evaCompany"
+							name="evaCompany"  >
+					</div>		
+					
+					<div class="form_content">
+						<label class="control-label sign_left_small">案件编号：</label> <input
+							type="text" class="input_type yuanwid" id="caseCode" value="${caseCode}"
+							name="caseCode" readonly="readonly" >
+					</div>	
+					
+					<div class="form_content">
+						<label class="control-label sign_left_small">产证地址：</label> <input
+							type="text" class="input_type yuanwid" id="propertyAddr"
+							name="propertyAddr"  >
+					</div>				
+				</div>
+				
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small">评估编号：</label> <input
+							type="text" class="input_type yuanwid" id="evaCode"
+							name="evaCode"  >
+					</div>		
+					
+					<div class="form_content">
+						<label class="control-label sign_left_small">买方姓名：</label> <input
+							type="text" class="input_type yuanwid" id="guestName"
+							name="guestName"  >
+					</div>	
+					
+					<div class="form_content">
+						<label class="control-label sign_left_small">经纪人：</label> <input
+							type="text" class="input_type yuanwid" id="agentName"
+							name="agentName"  >
+					</div>				
+				</div>
+				
+				<div class="line">
+					<div class="form_content">
+						<label class="control-label sign_left_small">贷款权证：</label> <input
+							type="text" class="input_type yuanwid" id="loanName"
+							name="loanName"  >
+					</div>		
+					
+					<div class="form_content">
+						
+					</div>	
+					
+					<div class="form_content">
+						<!-- <button id="reloadButton" onclick="initMyJqgrid()" type="button" class="btn btn_blue">
+                           	 	<i class="icon iconfont">&#xe635;</i>查询
+                             </button> -->
+                             <button id="reloadButton" type="button" class="btn btn_blue">
+                           	 	<i class="icon iconfont">&#xe635;</i>查询
+                             </button>
+					</div>				
+				</div>
 
-	            
-		            <div class="marinfo">
-		                <div class="line">		                 
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small">评估公司：</label>
-		                        <input type="text" class="input_type yuanwid" value="${toEvaInvoice.evaCompanyName}" readonly="readonly"> 
-		                    </div>
-		                    
-		                    <div class="form_content">
-		                        <!-- <label class="control-label sign_left_small">申请日期：</label> -->                  
-		                        <label class="control-label sign_left_small select_style mend_select">申请日期：</label>
-		                        <input class="input_type yuanwid" type="text" readonly="readonly" value="<fmt:formatDate value='${toEvaInvoice.applyDate}' pattern='yyyy-MM-dd'/>">
-		                    </div>	
-		                    
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small">发票金额：</label> 
-		                        <input type="text"  class="input_type yuanwid" value="<fmt:formatNumber value='${toEvaInvoice.invoiceAmount}' type='number' pattern='#0.00'/> "  readonly="readonly">		                        
-		                    	<span>元</span>
-		                    </div>	                     
-		                </div>
-		                
-		                <div class="line">		                 
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small">发票种类：</label>
-		                        <input type="text"  class="input_type yuanwid" value="${toEvaInvoice.invoiceType}"  readonly="readonly"> 
-		                    </div>
-		                    
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small">开票抬头：</label> 
-		                        <input type="text"  class="input_type yuanwid" value="${toEvaInvoice.invoiceHeader}"  readonly="readonly">
-		                    </div>			                  	                     
-		                </div>
-					<hr>	          
-
-				</div>	                
-	                <!-- <div class="line clearfix" id="hzxm" style="overflow:visible;"></div> -->
-            	</form>
-
-	            <div class="title title-mark" id="aboutInfo">
-	               <strong style="font-weight:bold;">开票审批记录</strong>
-	            </div>
-	            
+					<div class="form_content space">
+                         <div class="add_btn" align="center" id="queryFilter">
+                         </div>
+                   	</div>
+                     
+				</form>
+	  </div>
+       
+        	            
 	            <div class="view-content">
 	              	<table id="gridTable" class=""></table>
 	   				<div id="gridPager"></div>
-	            </div>
-	            <br><hr>
-	            <div class="line">	
-		            <div class="title title-mark" id="aboutInfo">
-		               <strong style="font-weight:bold;">填写审批任务</strong>
-		            </div>
-	            </div>
-	            <form method="get" class="form_list" id="evalInvoiceAuditform" style="overflow: visible;">
-	            <input type="hidden" name="partCode" value="evalInvoiceAudit">
-	            <input type="hidden" id="caseCode1" name="caseCode" value="${toEvaInvoice.caseCode}">
-	            <div class="line">		                 
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批结果：</label>
-		                        <input type="radio" name="status" value="1"><span>通过</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-    							<input type="radio" name="status" value="0"><span>驳回</span>
-		                    </div>
-			                  	                     
-		                </div>
-		        
-		        <div class="line">		                 		                    
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批意见：</label> 
-		                        <input type="text"  class="input_type mendwidth" id="content" name="content" 
-										value="" maxlength="64">
-		                    </div>			                  	                     
-		                </div>        	          	            
-			</form>
+	            </div>	            
 	            <div class="form-btn">
 	                    <div class="text-center">
 	                        <button  class="btn btn-success btn-space" onclick="javascript:window.close()" id="btnSave">关闭</button>
@@ -377,7 +405,7 @@ function checkForm() {
 	                    </div>
 	                </div>
 	            </div>
-			</div>
+			
 	
 			<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 			<content tag="local_script"> 
@@ -392,7 +420,7 @@ function checkForm() {
 			    <script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 				<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
 				<script src="<c:url value='/transjs/task/follow.pic.list_new.js' />"></script>
-				<%-- <script src="<c:url value='/static/js/jquery.json.min.js' />"></script> --%>
+				<script src="<c:url value='/static/js/jquery.json.min.js' />"></script>
 				<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
 			    <script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 			    <script src="<c:url value='/js/plugins/validate/common/additional-methods.js' />"></script>
@@ -403,18 +431,25 @@ function checkForm() {
 				<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 				<script src="<c:url value='/js/template.js' />"></script>
 				<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-				<script src="<c:url value='/js/stickUp.js' />"></script>
+				<%-- <script src="<c:url value='/js/stickUp.js' />"></script> --%>
 				<!-- 改版引入的新的js文件 -->
 				<script src="<c:url value='/js/common/textarea.js' />"></script>
-				<script src="<c:url value='/js/common/common.js' />"></script>
+				<%-- <script src="<c:url value='/js/common/common.js' />"></script> --%>
 				<script>
 					$(document).ready(function(){
 						var ctx = $("#ctx").val();
 /* 						if(!$("#caseCode").val()){
 							$("#caseCode").val("ZY-TJ-2017080038");						
 						} */
-						var caseCode=$("#caseCode").val();
-						AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}',caseCode);
+						//var caseCode=$("#caseCode").val();
+						var postData={};
+						postData.queryId="queryConnectEvalReport";
+						postData.caseCode=caseCode;
+						AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}',caseCode,postData);
+						/* $("#caseCommentList").caseCommentGrid({
+							caseCode : caseCode,
+							srvCode : 'caseRecvFlow'
+						}); */
 						//日历控件
 					    $('.input-daterange').datepicker({
 					        keyboardNavigation: false,
@@ -439,6 +474,76 @@ function checkForm() {
 		                }
 		            });
 		            
+					//日期组件
+			        $('#invoiceApplyTime').datepicker({
+			            todayBtn: "linked",
+			            keyboardNavigation: false,
+			            forceParse: false,
+			            calendarWeeks: false,
+			            autoclose: true
+			        });
+					
+			      //日期组件
+			        $('#invoiceFinishTime').datepicker({
+			            todayBtn: "linked",
+			            keyboardNavigation: false,
+			            forceParse: false,
+			            calendarWeeks: false,
+			            autoclose: true
+			        });
+		            
+			  	  $('#reloadButton').on('click', function() {     //页面上的button按钮的click事件，重新获取参数后发送参数，然后重新加载数据。  
+			 		  //获取输入框内容  
+			  		var caseCode=$('#caseCode').val();
+			  		var propertyAddr=$('#propertyAddr').val();
+			  		var evaCode=$('#evaCode').val();
+			  		var guestName=$('#guestName').val();
+			  		var agentName=$('#agentName').val();
+			  		var loanName=$('#loanName').val();
+			  		var evaCompany=$('#evaCompany').val();
+			  		var postData={};
+			  		if(caseCode){
+			  			postData.caseCode=caseCode;
+			  		}else{
+			  			postData.caseCode='';
+			  		}
+			  		if(propertyAddr){
+			  			postData.propertyAddr=propertyAddr;
+			  		}else{
+			  			postData.propertyAddr='';
+			  		}
+			  		if(evaCode){
+			  			postData.evaCode=evaCode;
+			  		}else{
+			  			postData.evaCode='';
+			  		}
+			  		if(guestName){
+			  			postData.guestName=guestName;
+			  		}else{
+			  			postData.guestName='';
+			  		}
+			  		if(agentName){
+			  			postData.agentName=agentName;
+			  		}else{
+			  			postData.agentName='';
+			  		}
+			  		if(loanName){
+			  			postData.loanName=loanName;
+			  		}else{
+			  			postData.loanName='';
+			  		}
+			  		if(evaCompany){
+			  			postData.evaCompany=evaCompany;
+			  		}else{
+			  			postData.evaCompany='';
+			  		}
+			  		
+			  		postData.queryId="queryConnectEvalReport";
+			 		 
+			 	        $("#gridTable").jqGrid('setGridParam',{  
+			 	        	postData :postData //发送数据  	             
+			 	        }).trigger("reloadGrid"); //重新载入  
+			 	});
 					})//end ready function
 					
 				</script> 
