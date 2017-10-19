@@ -84,15 +84,7 @@ public class ToEvalReportProcessServiceImpl implements ToEvalReportProcessServic
 		return toEvalReportProcessMapper.updateEvalPropertyByCaseCode(toEvalReportProcess);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.centaline.trans.eval.service.ToEvalReportProcessService#deleteEvalPropertyByEvalCode(java.lang.String)
-	 */
-	@Override
-	public int deleteEvalPropertyByEvalCode(String evalCode) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	
 	@Override
 	public int updateStatusByEvalCode(String status,String evalCode) {
 		ToEvalReportProcess toEvalReportProcess = new ToEvalReportProcess();
