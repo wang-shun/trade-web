@@ -1286,12 +1286,28 @@ function  listtable(formId){
     		if(data != null){
     			var list = data.content;
     			for (var i = 0; i < list.length; i++) {
-    				formId.find("tr").eq(0).after("<tr><td>"+list[i].finOrgName+"</td><td>"+list[i].reportTime+"</td><td>"+111+"</td><td>"+list[i].houseAge+"</td></tr>")
+    				formId.find("tr").eq(0).after("<tr><td>"+list[i].finOrgName+"</td><td>"+new Date(list[i].reportTime).Format("yyyy-MM-dd")+"</td><td>"+list[i].price+"</td><td>"+list[i].houseAge+"</td></tr>")
 				}
     		}
     	}
  });
 	}
+}
+
+Date.prototype.Format = function (fmt) { //author: meizz 
+    var o = {
+        "M+": this.getMonth() + 1, //月份 
+        "d+": this.getDate(), //日 
+        "h+": this.getHours(), //小时 
+        "m+": this.getMinutes(), //分 
+        "s+": this.getSeconds(), //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3),  
+        "S": this.getMilliseconds() //毫秒 
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
 }
 
 //点击tab页面触发函数   -----From Bootstrap 标签页（Tab）插件
