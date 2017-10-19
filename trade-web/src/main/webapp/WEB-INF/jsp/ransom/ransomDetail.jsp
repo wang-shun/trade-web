@@ -13,48 +13,56 @@
 
 <title>赎楼单详情</title>
 
-<link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />"
-	rel="stylesheet" />
-
-<link rel="stylesheet"
-	href="<c:url value='/static/css/bootstrap.min.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/font-awesome/css/font-awesome.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/iconfont/iconfont.css' />">
+<link href="<c:url value='/static/trans/css/eloan/eloan/eloan.css' />"rel="stylesheet" />
+<link rel="stylesheet"href="<c:url value='/static/css/bootstrap.min.css' />">
+<link rel="stylesheet"href="<c:url value='/static/font-awesome/css/font-awesome.css' />">
+<link rel="stylesheet"href="<c:url value='/static/iconfont/iconfont.css' />">
 <link rel="stylesheet" href="<c:url value='/static/css/animate.css' />">
 <link rel="stylesheet" href="<c:url value='/static/css/style.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/css/plugins/aist-steps/steps.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />">
+<link rel="stylesheet"href="<c:url value='/static/css/plugins/aist-steps/steps.css' />">
+<link rel="stylesheet"href="<c:url value='/static/css/plugins/toastr/toastr.min.css' />">
 <!-- stickUp fixed css -->
-<link rel="stylesheet"
-	href="<c:url value='/static/css/plugins/stickup/stickup.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/common/stickmenu.css' />">
+<link rel="stylesheet"href="<c:url value='/static/css/plugins/stickup/stickup.css' />">
+<link rel="stylesheet"href="<c:url value='/static/trans/css/common/stickmenu.css' />">
 <!-- index_css  -->
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/common/input.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/common/table.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/common/uplodydome.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/eloan/eloan_detail.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/eloan/eloan_guaranty.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.css' />">
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css' />"
-	type="text/css" />
+<link rel="stylesheet"href="<c:url value='/static/trans/css/common/input.css' />">
+<link rel="stylesheet"href="<c:url value='/static/trans/css/common/table.css' />">
+<link rel="stylesheet"href="<c:url value='/static/trans/css/common/uplodydome.css' />">
+<link rel="stylesheet"href="<c:url value='/static/trans/css/eloan/eloan_detail.css' />">
+<link rel="stylesheet"href="<c:url value='/static/trans/css/eloan/eloan_guaranty.css' />">
+<link rel="stylesheet"href="<c:url value='/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.css' />">
+<link rel="stylesheet"href="<c:url value='/static/trans/js/plugins/poshytip/tip-twitter/tip-twitter.css' />"type="text/css" />
 <!-- 分页控件 -->
-<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"
-	rel="stylesheet" />
-<link href="<c:url value='/css/transcss/comment/caseComment.css' />"
-	rel="stylesheet">
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"rel="stylesheet" />
+<link href="<c:url value='/css/transcss/comment/caseComment.css' />"rel="stylesheet">
 <link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
+<!-- Toastr style -->
+<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
+<!-- stickUp fixed css -->
+<link href="<c:url value='/static/trans/css/common/hint.css' />" rel="stylesheet" />
+<!-- Gritter -->
+<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />"	rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+<link href="<c:url value='/css/plugins/iCheck/custom.css' />" rel="stylesheet">
+
+<link href="<c:url value='/css/plugins/jasny/jasny-bootstrap.min.css' />"	rel="stylesheet">
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"	rel="stylesheet">
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />"	rel="stylesheet">
+<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />"	rel="stylesheet">
+<link href="<c:url value='/css/transcss/comment/caseComment.css' />"	rel="stylesheet">
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />"	rel="stylesheet" />
+<link href="<c:url value='/static/trans/css/workflow/caseDetail.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/trans/css/workflow/details.css' />" rel="stylesheet" />
+<link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
+<link href="<c:url value='/css/common/subscribe.css' />" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" />
+<link href="<c:url value='/static/trans/css/workflow/details.css' />" rel="stylesheet" />
+<link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
 <style type="text/css">
 	.interval{width:300px;}
 	.row11{margin-left: 315px;}
@@ -430,7 +438,7 @@
 							<a href="${ctx }/ransomList/planTime?ransomCode=${detailVo.ransomCode}" target="_blank">修改时间计划</a>
 						</div>
 						<hr>
-						<table class="table table_blue table-striped table-bordered table-hover ">
+						<!-- <table class="table table_blue table-striped table-bordered table-hover ">
 							<thead>
 								<tr>
 									<th>尾款机构</th>
@@ -442,7 +450,13 @@
 								</tr>
 							</thead>
 							<tbody id="tails"></tbody>
-						</table>
+						</table> -->
+						<div class="tab-pane active fade in" style="margin-top: 35px;">
+							<div class="jqGrid_wrapper row">
+								<table id="tails"></table>
+								<div id="tails_pager"></div>
+							</div>
+						</div>
 						<div class="form_list">
 							<div class="marinfo">
 								<div class="line">
@@ -493,60 +507,32 @@
 										<button class="btn btn-success btn-space" onclick="">只看赎楼</button>
 										<button class="btn btn-success btn-space" onclick="" id="btnSubmit">全部流程</button>
 									</div>
-									<table
-										class="table table_blue table-striped table-bordered table-hover ">
-										<thead>
-											<tr>
-												<th>红绿灯</th>
-												<th>红灯记录</th>
-												<th>流程环节</th>
-												<th>所属流程</th>
-												<th>执行人</th>
-												<th>执行时间</th>
-												<th>任务状态</th>
-											</tr>
-										</thead>
-										<tbody id="operation-record">
-											<!-- <tr>
-												<td>红灯</td>
-												<td>红灯</td>
-												<td>申请</td>
-												<td>赎楼流程</td>
-												<td>交易部小罗</td>
-												<td>2017-01-01</td>
-												<td>完成</td>
-											</tr> -->
-										</tbody>
-									</table>
-								</div>
+									<div class="tab-content">
+										<div class="tab-pane active fade in">
+											<div class="jqGrid_wrapper row">
+												<table id="operation_history_table"></table>
+												<div id="operation_history_pager"></div>
+											</div>
+										</div>
+									</div>
 								<div class="ibox-content">
 									<h2 class="title">附件查看</h2>
-									<table border="0">
-										<tr>
-											<td><img alt="" src="" width="60px" height="60px"></td>
-											<td><img alt="" src="" width="60px" height="60px"></td>
-										</tr>
-										<tr>
-											<td style="height: 100px;width: 150px;">身份证</td>
-											<td>征信报告</td>
-										</tr>
-									</table>
+									<div class="tab-pane fade" id="fujian_info">
+										<div class="panel-body">
+											<div id="imgShow" class=""></div>
+										</div>
+									</div>
 								</div>
 								<div class="ibox-content">
 									<h2 class="title">历史申请记录</h2>
-									<table
-										class="table table_blue table-striped table-bordered table-hover ">
-										<thead>
-											<tr>
-												<th>申请人</th>
-												<th>申请时间</th>
-												<th>申请金额</th>
-												<th>申请机构</th>
-												<th>中止原因</th>
-											</tr>
-										</thead>
-										<tbody id="his-record"></tbody>
-									</table>
+									<div class="tab-content">
+										<div class="tab-pane active fade in" style="margin-top: 35px;">
+											<div class="jqGrid_wrapper row">
+												<table id="his_record"></table>
+												<div id="his_record_pager"></div>
+											</div>
+										</div>
+									</div>
 								</div>
 								<div class="ibox-content">
 									跟进信息
@@ -594,83 +580,27 @@
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-
-	<script id="template_ransomDetail" type= "text/html">	
-		{{each rows as item index}}
-			<tr>
-				<td>
-					<p>
-						{{item.tailOrgName}}
-					</p>
-				</td>
-				<td>
-					<p>
-						{{item.retaTypeName}}
-					</p>
-				</td>
-				<td>
-					<p>
-						{{item.diyaTypeName}}
-					</p>
-				</td>
-				<td>
-					<p>
-						{{if item.loanMoney !=null}}
-							{{item.loanMoney}}万元
-						{{/if}}
-					</p>
-				</td>
-				<td>
-					<p>
-						{{if item.restMoney !=null}}
-							{{item.restMoney}}万元
-						{{/if}}
-					</p>
-				</td>
-				<td>
-					<p>
-						{{if item.actualMoney !=null}}
-							{{item.actualMoney}}万元
-						{{/if}}
-					</p>
-				</td>
-			</tr>
-		{{/each}}
-	</script>
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
+	<script	src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script>
+	<script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
+	<script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+	<script	src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/jasny/jasny-bootstrap.min.js' />"></script>
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/case/moduleSubscribe.js' />"></script>
+	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
+	<script src="<c:url value='/js/trunk/case/showCaseAttachmentByJagd.js' />"></script>
+	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/validate/common/additional-methods.js' />"></script>
+	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
+	<script src="<c:url value='/js/stickUp.js' />"></script>
+	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
+	<!-- 各个环节的备注信息  -->
+	<script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script>
+	<!-- 公共信息js -->	
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 </content>
-<script id="template_ransomHistoryRecord" type= "text/html">
-	{{each rows as item index}}
-			<tr>
-				<td>
-					<p>
-						{{item.APPLY_USER}}
-					</p>
-				</td>
-				<td>
-					<p>
-						{{item.APPLY_TIME}}
-					</p>
-				</td>
-				<td>
-					<p>
-						{{if item.LOAN_MONEY !=null}}
-							{{item.LOAN_MONEY}}万元
-						{{/if}}
-					</p>
-				</td>
-				<td>
-					<p>
-						{{item.FIN_ORG_NAME}}
-					</p>
-				</td>
-				<td>
-					<p>
-						{{item.STOP_REASON}}
-					</p>
-				</td>
-			</tr>
-	{{/each}}
-</script>
 <script id="template_ransomTimeInfo" type= "text/html">
 	{{each rows as item index}}
 		<tr>
@@ -700,37 +630,6 @@
 		<tr>
 				<td>回款结清时间(一抵)</td>
 				<td>{{item.paymentTime}}</td><td>{{item.payPartTime}}</td>
-		</tr>
-	{{/each}}
-</script>
-<script id="template_ransomOperationInfo" type= "text/html">
-	{{each rows as item index}}
-		{{if index%2 == 0}}
-      		<tr class="tr-1">
-  		{{else}}
-      		 <tr class="tr-2">
-   		{{/if}}
-			<td class="center">
-				{{if item.applyEstTime <= 1}}绿灯{{else if item.applyEstTime > 2}}红灯{{else}}黄灯{{/if}}
-			</td>
-			<td class="center">
-				{{if test="item.applyEstTime - new Date() > 0"}}绿灯{{else}}红灯{{/if}}
-			</td>
-			<td class="center">
-				{{item.partName}}
-			</td>
-			<td class="center">
-				{{if test="item.applyEstTime - new Date() > 0"}}绿灯{{else}}红灯{{/if}}
-			</td>
-			<td class="center">
-				{{if test="item.applyEstTime - new Date() > 0"}}绿灯{{else}}红灯{{/if}}
-			</td>
-			<td class="center">
-				{{if test="item.applyEstTime - new Date() > 0"}}绿灯{{else}}红灯{{/if}}
-			</td>
-			<td class="center">
-				{{if status == 4}}完成{{else}}正在处理{{/if}}
-			</td>
 		</tr>
 	{{/each}}
 </script>

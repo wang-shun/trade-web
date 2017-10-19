@@ -18,11 +18,12 @@
 			<baseSql>
 				<![CDATA[
 					SELECT
-						FIN_ORG_CODE finOrgCode,
-						MORTGAGE_TYPE retaType,
-						DIYA_TYPE diyaType,
-						LOAN_MONEY loanMoney,
-						REST_MONEY restMoney
+						FIN_ORG_CODE FIN_ORG_CODE,
+						MORTGAGE_TYPE MORTGAGE_TYPE,
+						DIYA_TYPE DIYA_TYPE,
+						LOAN_MONEY LOAN_MONEY,
+						REST_MONEY REST_MONEY,
+						(LOAN_MONEY - REST_MONEY) ACTUALMoney 
 					FROM
 						sctrans.T_RA_TAILINS
 					WHERE
@@ -30,22 +31,22 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-				ORDER BY diyaType  DESC
+				ORDER BY DIYA_TYPE  DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="finOrgCode" display="尾款机构Code" hide="true"/>
-				<column type="virtual" name="tailOrgName" display="尾款机构名" referencecol="finOrgCode" customDict="qqcdDictFinalOrg"/>
-				<column type="both" name="retaType" display="尾款类型"   />
-				<column type="virtual" name="retaTypeName" display="尾款类型名" referencecol="retaType" customDict="qqcdDictRetaType"/>
-				<column type="both" name="diyaType" display="抵押类型"  />
-				<column type="virtual" name="diyaTypeName" display="抵押类型名" referencecol="diyaType" customDict="qqcdDictDiyaType"/>				
-				<column type="both" name="loanMoney" display="贷款金额" />
-				<column type="both" name="restMoney" display="剩余金额"/>
-				<column type="both" name="actualMoney" display="实际还款金额"/>			
+				<column type="both" name="FIN_ORG_CODE" display="尾款机构Code" hide="true"/>
+				<column type="virtual" name="tailOrgName" display="尾款机构名" referencecol="FIN_ORG_CODE" customDict="qqcdDictFinalOrg"/>
+				<column type="both" name="MORTGAGE_TYPE" display="尾款类型"   />
+				<column type="virtual" name="retaTypeName" display="尾款类型名" referencecol="MORTGAGE_TYPE" customDict="qqcdDictRetaType"/>
+				<column type="both" name="DIYA_TYPE" display="抵押类型"  />
+				<column type="virtual" name="diyaTypeName" display="抵押类型名" referencecol="DIYA_TYPE" customDict="qqcdDictDiyaType"/>				
+				<column type="both" name="LOAN_MONEY" display="贷款金额" />
+				<column type="both" name="REST_MONEY" display="剩余金额"/>
+				<column type="both" name="ACTUALMoney" display="实际还款金额"/>			
 			</table-row>
 		</grid>
 	</query>
@@ -99,7 +100,7 @@
 						LEFT JOIN sctrans.T_RA_CASE  cas ON  cas.RANSOM_CODE = rap.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_TAILINS tai ON tai.CASE_CODE = cas.CASE_CODE
 					WHERE 
-						cas.RANSOM_CODE = #ransomCode#
+						cas.RANSOM_CODE = #ransomcode#
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -204,8 +205,8 @@
 					INNER JOIN sctrans.T_TG_GUEST_INFO guest1 ON cai.CASE_CODE = guest1.CASE_CODE and guest1.TRANS_POSITION='30006002'
 					INNER JOIN sctrans.T_TO_CASE_PARTICIPANT par ON guest.CASE_CODE = par.CASE_CODE
 					WHERE  par.POSITION = 'warrant' 
-					<ifNotNull caseCode>
-						AND ca.CASE_CODE = #caseCode#
+					<ifNotNull casecode>
+						AND ca.CASE_CODE = #casecode#
 					</ifNotNull>
 					<ifNotNull propertyAddr>
 						AND pro.PROPERTY_ADDR = #propertyAddr#
