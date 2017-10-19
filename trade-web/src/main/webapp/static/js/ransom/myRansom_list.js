@@ -1112,8 +1112,8 @@ function hlts(){
 
 function ransomSuspend(caseCode){
 	var ctx = $("#ctx").val();
-	var url = ctx + "/task/ransomDiscontinue/getSingleRansomTaskInfo";
-	var params =  {caseCode : caseCode,	isSuspend : true, isSuspended : 0};
+	var url = ctx + "/task/ransomDiscontinue/isCanBeSuspend";
+	var params =  {caseCode : caseCode};
 	$.ajax({
 		async : false,//false同步，true异步
 		type : "GET",
@@ -1121,10 +1121,10 @@ function ransomSuspend(caseCode){
 		dataType :"json",
 		data : $.param(params),
 		success : function(data) {
-			if(data.isExist != true){
-				window.wxc.alert("已存在赎楼中止任务,请不要重复申请");
+			if(data.suspend == true){
+				window.open(ctx + "/task/ransomDiscontinue/stopApplyProcess1?caseCode="+caseCode)
 			}else{
-				window.open(ctx + "/task/ransomDiscontinue/stopApplyProcessFromRansomList?caseCode="+caseCode)
+				window.wxc.alert(data.msg);
 			}
 		},
 		error : function(errors) {

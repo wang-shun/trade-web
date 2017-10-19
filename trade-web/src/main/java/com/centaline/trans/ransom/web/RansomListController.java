@@ -86,21 +86,6 @@ public class RansomListController {
 	}
 	
 	/**
-	 * 赎楼时间变更明细
-	 * @param caseCode
-	 * @return
-	 */
-	@RequestMapping("ransomChangeRecord")
-	public String ransomChangeRecord(String caseCode,ServletRequest request) {
-		
-		List<ToRansomTailinsVo> tailinsVo =  ransomService.getTailinsInfoByCaseCode(caseCode);
-		
-		ToRansomTailinsVo ransomTailinsVo = tailinsVo.get(0);
-		request.setAttribute("ransomTailinsVo", ransomTailinsVo);
-		return "ransom/ransomChangeRecord";
-	}
-	
-	/**
 	 * 新建赎楼单
 	 * @param model
 	 * @param jsonStr
@@ -196,7 +181,7 @@ public class RansomListController {
 		ResultNew rs=new ResultNew();
 		try {
 			ToRansomCaseVo trco = new ToRansomCaseVo();
-			trco = ransomListFormService.getRansomCase(caseCode);
+			trco = ransomListFormService.getRansomCase(caseCode, null);
 			String result = "-1";
 			//如果赎楼信息不为空说明已有案件编号与赎楼编号相关联
 			if(trco != null) {
@@ -232,20 +217,11 @@ public class RansomListController {
 			//案件详情信息
 			ToRansomCaseVo caseVo = ransomService.getRansomCaseInfo(caseCode);
 			//赎楼详情信息
-			ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode);
+			ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode, null);
 			//新建赎楼单即是受理状态
-			List<ToRansomTailinsVo> tailinsList = ransomService.getTailinsInfoByCaseCode(caseCode);
-			ToRansomTailinsVo tailinsVo = new ToRansomTailinsVo();
-			tailinsVo.setCaseCode(caseCode);
-			tailinsVo.setRansomCode(tailinsList.get(0).getRansomCode());
-			tailinsVo.setMortgageType(tailinsList.get(0).getMortgageType());
-			tailinsVo.setDiyaType(tailinsList.get(0).getDiyaType());
-			tailinsVo.setLoanMoney(tailinsList.get(0).getLoanMoney());
-			tailinsVo.setRestMoney(tailinsList.get(0).getRestMoney());
-			tailinsVo.setSignTime(tailinsList.get(0).getSignTime());
-			tailinsVo.setPlanTime(tailinsList.get(0).getPlanTime());
+			ToRansomTailinsVo tailinsVo = ransomService.getTailinsInfoByCaseCode(caseCode);
 			//查询赎楼编号
-			String ransomCode = tailinsList.get(0).getRansomCode();
+			String ransomCode = tailinsVo.getRansomCode();
 			//申请
 			ToRansomApplyVo applyVo = ransomService.getApplyInfo(ransomCode);
 			//面签
