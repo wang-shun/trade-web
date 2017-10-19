@@ -57,6 +57,7 @@
 						ART.PROC_INST_ID_ AS INST_CODE,
 						ART.DELEGATION_ AS DELEGATION,
 						tw.CASE_CODE,
+						ART.ASSIGNEE_ AS ASSIGNEE,
 						tw.BUSINESS_KEY,
 						(select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.CASE_CODE ) as SUBSCRIBE_COUNT
 						,(select PROPERTY_CODE  from sctrans.T_TO_PROPERTY_INFO where CASE_CODE=tw.CASE_CODE) propertyCode
@@ -80,7 +81,10 @@
 						</choose>
 						)
 						INNER JOIN sctrans.T_RA_CASE AS tr ON tw.CASE_CODE = tr.CASE_CODE
-						  WHERE  ART.ASSIGNEE_ = #userLoginName# 
+						  WHERE  1 =1 
+						  <ifNotNull PROCESS_DEFINITION_ID_RANSOM_SUSPEND>
+						  	and ART.ASSIGNEE_ = #userLoginName# 
+						  </ifNotNull>
 						<choose>
 							<when test="isSuspended != null and isSuspended != '' and isSuspended == true">
 								AND ART.SUSPENSION_STATE_ = '2'
@@ -157,6 +161,7 @@
 			<table-row>
 				<column type="both" name="ID" index="" checkbox="" display="TASKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASECODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="ASSIGNEE" index="" checkbox="" display="ASSIGNEE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="BORROWER_NAME" index="" checkbox="" display="BORROWERNAME" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="RANSOM_CODE" index="" checkbox="" display="RANSOMCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="PART_CODE" index="" checkbox="" display="PARTCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>

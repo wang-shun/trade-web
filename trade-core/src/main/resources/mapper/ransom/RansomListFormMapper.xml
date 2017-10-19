@@ -233,8 +233,13 @@
 		UPDATE 
 			sctrans.T_RA_CASE
 		SET
+		<if test="stopType != null and stopType != ''">
 			STOP_TYPE = #{stopType,jdbcType=VARCHAR},
-			STOP_REASON = #{stopReason,jdbcType=VARCHAR}
+		</if>
+		<if test="stopReason != null and stopReason != ''">
+			STOP_REASON = #{stopReason,jdbcType=VARCHAR},
+		</if>
+		ISSTOP = #{isstop,jdbcType=VARCHAR}
 		WHERE
 			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	</update>
