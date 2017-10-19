@@ -11,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.repository.ToEvaPricingMapper;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
+import com.centaline.trans.eval.entity.ToEvalReportProcess;
+import com.centaline.trans.eval.repository.ToEvalReportProcessMapper;
 import com.centaline.trans.mortgage.entity.ToEguPropertyInfo;
 import com.centaline.trans.utils.DateUtil;
 
@@ -38,6 +41,8 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 	ToEvaPricingMapper toEvaPricingMapper;
 	@Autowired
 	UamUserOrgService uamUserOrgService;
+	@Autowired
+	private ToEvalReportProcessMapper toEvalReportProcessMapper;
 
 	@Override
 	public ToEvaPricingVo findEvaPricingDetailByPKID(Long PKID,String evaCode) {
@@ -162,6 +167,35 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 	public int updateEvaPricingDetail(Long pkid, String isValid, String reason) {
 		int count = toEvaPricingMapper.updateEvaPricingDetail(pkid, isValid, reason.length()>255?reason.substring(0, 255):reason);
 		return count;
+	}
+
+	@Override
+	public AjaxResponse<Integer> checkEvalProcess(String caseCode) {
+		AjaxResponse<Integer> result = new AjaxResponse<Integer>();
+		
+		//检查是否已有评估申请记录
+		ToEvalReportProcess reportProcess = toEvalReportProcessMapper.findToEvalReportProcessByCaseCode(caseCode);		
+		if(reportProcess != null){
+			result.setSuccess(false);
+			result.setMessage("系统已经存在此案件评估上报申请，请在评估申请中查询!");
+			return result;
+		}
+		//检查是否已有询价申请记录及是否已完成,区分
+		ToEvaPricingVo evaPricing =  toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);
+		if(evaPricing != null){
+			if("0".equals(evaPricing.getStatus())){
+				result.setSuccess(false);
+				result.setMessage("系统已存在与此案件相关的未完成的询价申请记录,请完成询价申请!");
+				return result;
+			}else if("1".equals(evaPricing.getStatus())){
+				//1：询价已完成,可以评估申请
+				result.setContent(1);
+				return result;
+			}
+		}
+		//2：无询价申请记录或询价无效,需要先询价
+		result.setContent(2);
+		return result;
 	}
 
 

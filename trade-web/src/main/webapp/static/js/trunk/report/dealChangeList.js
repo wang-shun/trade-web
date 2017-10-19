@@ -187,9 +187,10 @@ function getParams() {
 }
 //选择变更人
 function chooseChanger(id) {
+	var orgId=$("#serviceDepId").val()
 	userSelect({
-		startOrgId : 'ff8080814f459a78014f45a73d820006',//非营业部
-		expandNodeId : 'ff8080814f459a78014f45a73d820006',
+		startOrgId : orgId,//非营业部
+		expandNodeId : orgId,
 		nameType : 'long|short',
 		orgType : '',
 		departmentType : '',
@@ -211,7 +212,17 @@ function dealChangeSelectUserBack(array){
 	}
 }
 //选业务组织的回调函数
-function radioYuCuiOrgSelectCallBack(array){
+function radioYuCuiOrgSelectCallBack(array) {
+    if (array && array.length > 0) {
+        $("#teamCode").val(array[0].name);
+        $("#yuCuiOriGrpId").val(array[0].id);
+    } else {
+        $("#teamCode").val("");
+        $("#yuCuiOriGrpId").val("");
+    }
+}
+//选业务组织的回调函数
+/*function radioYuCuiOrgSelectCallBack(array){
 	if(array && array.length >0){
 	    $("#teamId").val(array[0].name);
 	    $("#teamId").attr('hVal', array[0].id);
@@ -219,7 +230,7 @@ function radioYuCuiOrgSelectCallBack(array){
 		 $("#teamId").val("");
 		 $("#teamId").attr('hVal', '');
 	}
-}
+}*/
 //点击查询按钮
 $("#searchBtn").click(function(){
 	reloadGrid();

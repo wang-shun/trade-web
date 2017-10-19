@@ -74,8 +74,15 @@ var AttachmentList = (function(){
 function submit(ctx){
     if ($("#evalRecept").val().length==0) {
         window.wxc.alert("请填写评估费收据");
-        return false;
+        return ;
     }
+    var cost = $("#evalCost").val();
+    var real = $('#evalCost').attr('real');
+    if(isNaN(cost)  || parseFloat(cost) == 0 || parseFloat(cost) > parseFloat(real)){
+        window.wxc.alert("请输入正确的评估公司成本!");
+        return ;
+    }
+
     var jsonData = $("#rebateForm").serializeArray();
     var url = ctx+"/task/evalRebate/assistant";
 
@@ -104,7 +111,14 @@ function submit(ctx){
         success : function(data) {
         	if(data.ajaxResponse.success){
                 window.wxc.success("评估返利确认成功!",{"wxcOk":function(){
-                    window.location.href = ctx + "/task/eval/evalTaskList";
+                    //关闭当前页面，并通知父页面刷新
+                    if(window.opener)
+                    {
+                        window.close();
+                        window.opener.callback();
+                    } else {
+                        window.location.href = ctx + "/task/eval/evalTaskList";
+                    }
                 }});
 			}else{
                 window.wxc.error(data.ajaxResponse.message);
@@ -116,4 +130,16 @@ function submit(ctx){
             window.wxc.error("数据保存出错");
         }
     });
+}
+
+function cal(){
+    var cost = $('#evalCost').val();
+    var real = $('#evalCost').attr('real');
+    if(!isNaN(cost) && parseFloat(cost) > 0 && !isNaN(real) && parseFloat(real)){
+        $('#centacomamount').html('中原分成金额:'+(parseFloat(real) - parseFloat(cost)).toFixed(2));
+        $('#evacomamount').html('评估公司分成金额:'+parseFloat(cost).toFixed(2));
+    }else{
+        $('#centacomamount').html('中原分成金额:');
+        $('#evacomamount').html('评估公司分成金额:');
+    }
 }

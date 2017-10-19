@@ -4,163 +4,173 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class ToEvalRebate {
-    private Long pkid;
+	private Long pkid;
 
-    private String caseCode;
+	private String caseCode;
 
-    private String evaCode;
+	private String evaCode;
 
-    private String evalRecept;
+	private String evalRecept;
 
-    private BigDecimal evalRealCharges;
+	private BigDecimal evalRealCharges;
 
-    private BigDecimal evalDueCharges;
+	private BigDecimal evalDueCharges;
 
-    private BigDecimal centaComAmount;
+	private BigDecimal centaComAmount;
 
-    private BigDecimal evaComAmount;
+	private BigDecimal evaComAmount;
 
-    private Date inputTime;
+	private Date inputTime;
 
-    private String evaRpocessId;
+	private String evaRpocessId;
 
-    private String status;
+	private String status;
 
-    private String ccaiCode;
+	private String ccaiCode;
 
-    private Date createTime;
+	private Date createTime;
 
-    private String applyUserName;
+	private String applyUserName;
 
-    private String applyRealName;
+	private String applyRealName;
 
-    private BigDecimal evalPrice;
+	private BigDecimal evalPrice;
 
-    public Long getPkid() {
-        return pkid;
-    }
+	private BigDecimal evalCost;
 
-    public void setPkid(Long pkid) {
-        this.pkid = pkid;
-    }
+	public Long getPkid() {
+		return pkid;
+	}
 
-    public String getCaseCode() {
-        return caseCode;
-    }
+	public void setPkid(Long pkid) {
+		this.pkid = pkid;
+	}
 
-    public void setCaseCode(String caseCode) {
-        this.caseCode = caseCode == null ? null : caseCode.trim();
-    }
+	public String getCaseCode() {
+		return caseCode;
+	}
 
-    public String getEvaCode() {
-        return evaCode;
-    }
+	public void setCaseCode(String caseCode) {
+		this.caseCode = caseCode == null ? null : caseCode.trim();
+	}
 
-    public void setEvaCode(String evaCode) {
-        this.evaCode = evaCode == null ? null : evaCode.trim();
-    }
+	public String getEvaCode() {
+		return evaCode;
+	}
 
-    public String getEvalRecept() {
-        return evalRecept;
-    }
+	public void setEvaCode(String evaCode) {
+		this.evaCode = evaCode == null ? null : evaCode.trim();
+	}
 
-    public void setEvalRecept(String evalRecept) {
-        this.evalRecept = evalRecept == null ? null : evalRecept.trim();
-    }
+	public String getEvalRecept() {
+		return evalRecept;
+	}
 
-    public BigDecimal getEvalRealCharges() {
-        return evalRealCharges;
-    }
+	public void setEvalRecept(String evalRecept) {
+		this.evalRecept = evalRecept == null ? null : evalRecept.trim();
+	}
 
-    public void setEvalRealCharges(BigDecimal evalRealCharges) {
-        this.evalRealCharges = evalRealCharges;
-    }
+	public BigDecimal getEvalRealCharges() {
+		return evalRealCharges;
+	}
 
-    public BigDecimal getEvalDueCharges() {
-        return evalDueCharges;
-    }
+	public void setEvalRealCharges(BigDecimal evalRealCharges) {
+		this.evalRealCharges = evalRealCharges;
+	}
 
-    public void setEvalDueCharges(BigDecimal evalDueCharges) {
-        this.evalDueCharges = evalDueCharges;
-    }
+	public BigDecimal getEvalDueCharges() {
+		return evalDueCharges;
+	}
 
-    public BigDecimal getCentaComAmount() {
-        return centaComAmount;
-    }
+	public void setEvalDueCharges(BigDecimal evalDueCharges) {
+		this.evalDueCharges = evalDueCharges;
+	}
 
-    public void setCentaComAmount(BigDecimal centaComAmount) {
-        this.centaComAmount = centaComAmount;
-    }
+	public BigDecimal getCentaComAmount() {
+		return centaComAmount;
+	}
 
-    public BigDecimal getEvaComAmount() {
-        return evaComAmount;
-    }
+	public void setCentaComAmount(BigDecimal centaComAmount) {
+		this.centaComAmount = centaComAmount;
+	}
 
-    public void setEvaComAmount(BigDecimal evaComAmount) {
-        this.evaComAmount = evaComAmount;
-    }
+	public BigDecimal getEvaComAmount() {
+		return evaComAmount;
+	}
 
-    public Date getInputTime() {
-        return inputTime;
-    }
+	public void setEvaComAmount(BigDecimal evaComAmount) {
+		this.evaComAmount = evaComAmount;
+	}
 
-    public void setInputTime(Date inputTime) {
-        this.inputTime = inputTime;
-    }
+	public Date getInputTime() {
+		return inputTime;
+	}
 
-    public String getEvaRpocessId() {
-        return evaRpocessId;
-    }
+	public void setInputTime(Date inputTime) {
+		this.inputTime = inputTime;
+	}
 
-    public void setEvaRpocessId(String evaRpocessId) {
-        this.evaRpocessId = evaRpocessId == null ? null : evaRpocessId.trim();
-    }
+	public String getEvaRpocessId() {
+		return evaRpocessId;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setEvaRpocessId(String evaRpocessId) {
+		this.evaRpocessId = evaRpocessId == null ? null : evaRpocessId.trim();
+	}
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public String getCcaiCode() {
-        return ccaiCode;
-    }
+	public void setStatus(String status) {
+		this.status = status == null ? null : status.trim();
+	}
 
-    public void setCcaiCode(String ccaiCode) {
-        this.ccaiCode = ccaiCode == null ? null : ccaiCode.trim();
-    }
+	public String getCcaiCode() {
+		return ccaiCode;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public void setCcaiCode(String ccaiCode) {
+		this.ccaiCode = ccaiCode == null ? null : ccaiCode.trim();
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    public String getApplyUserName() {
-        return applyUserName;
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
-    public void setApplyUserName(String applyUserName) {
-        this.applyUserName = applyUserName == null ? null : applyUserName.trim();
-    }
+	public String getApplyUserName() {
+		return applyUserName;
+	}
 
-    public String getApplyRealName() {
-        return applyRealName;
-    }
+	public void setApplyUserName(String applyUserName) {
+		this.applyUserName = applyUserName == null ? null : applyUserName.trim();
+	}
 
-    public void setApplyRealName(String applyRealName) {
-        this.applyRealName = applyRealName == null ? null : applyRealName.trim();
-    }
+	public String getApplyRealName() {
+		return applyRealName;
+	}
 
-    public BigDecimal getEvalPrice() {
-        return evalPrice;
-    }
+	public void setApplyRealName(String applyRealName) {
+		this.applyRealName = applyRealName == null ? null : applyRealName.trim();
+	}
 
-    public void setEvalPrice(BigDecimal evalPrice) {
-        this.evalPrice = evalPrice;
-    }
+	public BigDecimal getEvalPrice() {
+		return evalPrice;
+	}
+
+	public void setEvalPrice(BigDecimal evalPrice) {
+		this.evalPrice = evalPrice;
+	}
+
+	public BigDecimal getEvalCost() {
+		return evalCost;
+	}
+
+	public void setEvalCost(BigDecimal evalCost) {
+		this.evalCost = evalCost;
+	}
 }
