@@ -48,7 +48,7 @@
 			sctrans.T_TO_EVA_REPORT_PROCESS b on a.CASE_CODE = b.CASE_CODE
 			inner join sctrans.T_TO_PROPERTY_INFO c on a.CASE_CODE = c.CASE_CODE
 			inner join sctrans.T_TO_EVA_REBATE d on a.CASE_CODE = d.CASE_CODE
-			  WHERE 1=1 and a.STATUS = '3' or a.STATUS = '4'
+			  WHERE 1=1 and (a.STATUS = '3' or a.STATUS = '4')
 						
      				
 				]]>

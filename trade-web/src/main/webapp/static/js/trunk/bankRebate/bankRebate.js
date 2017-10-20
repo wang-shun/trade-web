@@ -1,5 +1,13 @@
-/*加载待结算评估案件*/
+/*加载银行返利*/
 $(document).ready(function(){
+	
+	$('#datepicker_0').datepicker({
+			format : 'yyyy-mm-dd',
+			weekStart : 1,
+			autoclose : true,
+			todayBtn : 'linked',
+			language : 'zh-CN'
+		});
 	
 	aist.sortWrapper({
 		reloadGrid : searchMethod
@@ -11,42 +19,50 @@ $(document).ready(function(){
 	//添加排序------------
 	reloadGrid(data);
 	
-	//获取评估公司
-	getEvaFinOrg('finOrgId');
+	
+});
+
+//清空
+$('#myCaseListCleanButton').click(function() {
+	$("input[name='dtBegin']").val('');
+	$("input[name='dtEnd']").val('');
+	$("#caseStatus").val("");
+	$("#applyer").val("");
+	$("#finOrgId").val("");
 });
 
 var ctx = $("#ctx").val();
-/**
- * 获取评估公司 格式化
- * @param finOrgId
- */
-function getEvaFinOrg(finOrgId){
-	var url = "/manage/queryEvaCompany";
-	$.ajax({
-		async: true,
-		type:'POST',
-		url:ctx+url,
-		dataType:'json',
-		success:function(data){
-			var html = '<option value="" selected>请选择</option>';
-			if(data != null){
-				$.each(data,function(i,item){
-					html += '<option value="'+item.pkid+'">'+item.finOrgName+'</option>';
-				});
-			}					
-			$('#'+finOrgId).empty();
-			$('#'+finOrgId).append(html);
-		},
-		error : function(errors) {
-		}
-	});
+var index = 1;
+function addOrg() {
+	
+	var txt='<tr id="trId' + index + '"><td><input name="loanMoney"';
+	txt +='	id="loanMoney" type="text" class="form-control input-one" placeholder="请在此输入成交编号">';
+	txt += $("#loanMoney").html()
+    txt += '</input></td>';
+    txt +='<td >'
+    txt+= '<a href="">查看成交</a></td>';
+	txt +='<td ><aist:dict id="diyaType" name="diyaType" clazz=" select_control yuanwid " display="select" dictType="71015" defaultvalue="" /></td>';
+	txt +='<td><input id="rebateMoney" name="loanMoney" value="" type="text" class="form-control input-one" placeholder="" value="" /></td>';
+	txt +='<td><input id="warrantMoney" name="restMoney" value="" type="text" class="form-control input-one" placeholder="" value="${tailinsVo.restMoney } /></td>';
+	txt +='<td><input id="businessMoney" name="" value="" type="text" class="form-control input-one" placeholder="" value="${tailinsVo.restMoney } /></td>';
+	txt +='<td><a href="javascript:removeTr('+ index + ');">删除</a></td></tr></tbody>';
+	alert(txt);
+	$("#addInput").before(txt);
+	$("#addMoneyLine").css("display","none");
+	index++;
 }
 
+function removeTr(index) {
+	$("#trId" + index).remove();
+	$("#addMoneyLine").css("display","block");
+	
+}
 
 /*条件查询*/
 $('#searchButton').click(function(){
     searchMethod(1)
 });
+
 //search
 function searchMethod(page){
 	$("#batchappro").attr("disabled", true);
@@ -64,30 +80,17 @@ function getQueryParams(page){
 	}
 	//案件状态
 	var status = $("#caseStatus  option:selected").val().trim();
-//	if(caseStatus==""){
-//		caseStatus=null;
-//	}
+
 	//结算费用
 	var settleFee = $("#endfee").val();
-//	if(endFee==""){
-//		endFee=null;
-//	}
-	
+
 	//费用调整类型
 	var feeChangeReason = $('#costUpdateType option:selected').val();
-//	if(costUpdateType==""){
-//		costUpdateType=null;
-//	}
-	//贷款权证
-	//var loadWarrant = $('#loadWarrant').val();
-//	if(loadWarrant==""){
-//		loadWarrant=null;
-//	}
+
+
 	//评估公司
 	var finOrgID = $('#finOrgId').val();
-//	if(evalOrg==""){
-//		evalOrg=null;
-//	}
+
 	var params = {
 		search_status : status,
 		search_settleFee : settleFee,
@@ -102,7 +105,7 @@ function getQueryParams(page){
 	return params;	
 }
 
-/*获取评估待结算的案件列表*/
+/*获取银行返利案件列表*/
 function reloadGrid(data) {
 	var ctx = $("#ctx").val();
 	
@@ -123,26 +126,6 @@ function reloadGrid(data) {
         	$("#t_body_data_contents").html(myCaseEvalList);
 			// 显示分页 
             initpage(data.total,data.pagesize,data.page, data.records);
-//            $('.demo-left').poshytip({
-//    			className: 'tip-twitter',
-//    			showTimeout: 1,
-//    			alignTo: 'target',
-//    			alignX: 'left',
-//    			alignY: 'center',
-//    			offsetX: 8,
-//    			offsetY: 5,
-//    		});
-//
-//    		//top
-//    		$('.demo-top').poshytip({
-//    			className: 'tip-twitter',
-//    			showTimeout: 1,
-//    			alignTo: 'target',
-//    			alignX: 'center',
-//    			alignY: 'top',
-//    			offsetX: 8,
-//    			offsetY: 5,
-//    		});
         },
         error: function (e, jqxhr, settings, exception) {
         	$.unblockUI();   	 
@@ -203,32 +186,6 @@ $('#checkAllNot').click(function(){
 	}
 });
 
-/*单选框*/
-/*function _checkbox(){
-	var my_checkboxes = $('input[name="my_checkbox"]');
-	var flag =false;
-	var count=0;
-	$.each(my_checkboxes, function(j, item){
-		if($('input[name="my_checkbox"]:eq('+j+')').prop('checked')){
-			flag=true;
-			++count;
-		}
-	});
-	if(flag){
-		$("#batchappro").attr("disabled", false);
-		$("#caseAdd").attr("disabled", false);
-		if(count==my_checkboxes.length){
-			$('#checkAllNot').prop('checked', true);
-			
-		}else if(count<my_checkboxes.length){
-			$('#checkAllNot').prop('checked', false);
-		}
-	}else{
-		$("#batchappro").attr("disabled", true);
-		$("#caseAdd").attr("disabled", true);
-		$('#checkAllNot').prop('checked', false);
-	}
-}*/
 
 /*单选框*/
 function _checkbox(){
@@ -256,25 +213,6 @@ function _checkbox(){
 	}
 }
 
-/**
- * 导入EXCEL表格(2013之前)
- * @returns
- */
-
-/*$('#exportBtn').click(function exportExcel(){
-	var data1=packgeData();
-//	var data1=getQueryParams(page);
-	$.exportExcel({
-	ctx : $("#ctx").val(),
-	colomns : [PROPERTY_ADDR,FEE_CHANGE_REASON,FIN_ORG_ID,APPLY_DATE,ISSUE_DATE,EVAL_REAL_CHARGES,SETTLE_FEE,REJECT_CAUSE,STATUS],//<table-row>里面的name
-	data:data1
-	});
-});
-
-function packgeData(page){
-	var data1 = getQueryParams(page);
-	return data1;
-}*/
 
 /**
  * 新增结算单
