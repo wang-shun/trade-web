@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author wbzhouht
- * 新增了缴税字段
+ * 案件详情字段
+ *
  */
 public class VCaseTradeInfo {
     private String caseCode;
@@ -110,6 +110,8 @@ public class VCaseTradeInfo {
     private BigDecimal contractTaxSign;
 
     private BigDecimal landIncrementTaxSign;
+    //案件接单时间
+    private Date recvTime;
 
     public BigDecimal getHouseHodingTaxSign() {
         return houseHodingTaxSign;
@@ -542,4 +544,13 @@ public class VCaseTradeInfo {
     public void setPaymentTime(Date paymentTime) {
         this.paymentTime = paymentTime;
     }
+
+	public Date getRecvTime() {
+		return recvTime;
+	}
+
+	public void setRecvTime(Date recvTime) {
+		this.recvTime = recvTime;
+	}
+    
 }
