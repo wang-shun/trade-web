@@ -30,19 +30,22 @@
 							rac.STOP_REASON,
 							rac.BORRO_MONEY,
 							rac.UPDATE_TIME,
-						app.isApply
+							app.ISAPPLY
 						FROM sctrans.T_RA_CASE rac
 						INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON pro.CASE_CODE = rac.CASE_CODE
 						INNER JOIN sctrans.T_TO_CASE_INFO toc ON toc.CASE_CODE = pro.CASE_CODE
 						INNER JOIN sctrans.T_RA_TAILINS tai ON tai.RANSOM_CODE = rac.RANSOM_CODE
-						LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT part ON rac.CASE_CODE = part.CASE_CODE
+						INNER JOIN sctrans.T_TO_CASE_PARTICIPANT part ON rac.CASE_CODE = part.CASE_CODE
 						LEFT JOIN sctrans.T_RA_APPLY app ON app.RANSOM_CODE = rac.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_INTERVIEW inter ON inter.RANSOM_CODE = app.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_REPAY rep ON rep.RANSOM_CODE = inter.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_CANCEL can ON can.RANSOM_CODE = rep.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_REDEEM red ON red.RANSOM_CODE = can.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
-						WHERE 1 = 1 AND app.isApply = 0
+						WHERE 1 = 1 
+						<ifNotNull isApply>
+							AND app.ISAPPLY = 0
+						</ifNotNull>
 						<ifNotNull ransomStatus>
 							AND RANSOM_STATUS = #ransomStatus#
 						</ifNotNull>
@@ -237,7 +240,7 @@
 						CASE rre.PART_CODE WHEN 'RECEIVE_TWO' THEN rre.REDEEM_TIME END receiveTwo,
 						CASE rp.PART_CODE WHEN 'PAYCLEAR' THEN rp.PAYMENT_TIME END payclear,
 					
-						rc.UPDATE_USER 
+						(SELECT REAL_NAME FROM sctrans.SYS_USER sy WHERE rc.UPDATE_USER = sy.ID) UPDATE_USER
 					FROM sctrans.T_RA_CASE rc
 						LEFT JOIN sctrans.T_RA_TAILINS rt ON rc.RANSOM_CODE = rt.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_INTERVIEW ri ON ri.RANSOM_CODE = rt.CASE_CODE

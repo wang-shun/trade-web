@@ -29,6 +29,8 @@ public interface ToEvalReportProcessService {
     
     int updateStatusByEvalCode(String status,String evalCode);
     
+    int updateEvaReportByEvaCode(ToEvalReportProcess record);
+    
     /**
 	  * 保存评估申请信息
 	  * @param toEvaReportProcess

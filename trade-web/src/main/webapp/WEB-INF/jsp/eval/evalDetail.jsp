@@ -87,7 +87,7 @@
 							</li>
 							<li class=""><a href="#messages" data-toggle="tab">评估进程总览</a>
 							</li>
-							<li class=""><a href="#home" data-toggle="tab">流程备注</a></li>
+							<!-- <li class=""><a href="#home" data-toggle="tab">流程备注</a></li> -->
 						</ul>
 
 						<div class="tab-content">
@@ -126,7 +126,8 @@
 															style="margin-top: 9px; margin-left: 15px;">
 															请选择您要修改的环节</div>
 														<div class="col-lg-3">
-															<input name="caseCode" value="${toCase.caseCode}" id="hid_case_code" type="hidden">
+															<input name="caseCode" value="${caseCode}" id="hid_case_code" type="hidden">
+															<input name="caseCode" value="${evaCode}" id="hid_case_code" type="hidden">
 															<input name="source" value="caseDetails" type="hidden">
 															<input name="instCode" value="${toWorkFlow.instCode}" type="hidden">
 															<select id="sel_changeFrom"	name="changeFrom" class="form-control m-b"	style="padding-bottom: 3px; height: 45.003px;">
@@ -139,13 +140,7 @@
 													<div class="row">
 														<div class="col-lg-12"
 															style="margin-top: 9px; margin-left: 10px;">
-															<font color="red">*</font>注1：交易顾问只能修改归属自己的、已提交的任务，未完成的任务请在待办任务中填写。
-														</div>
-													</div>
-													<div class="row">
-														<div class="col-lg-12"
-															style="margin-top: 9px; margin-left: 10px;">
-															<font color="red">*</font>注2：在环节表单中，凡是涉及到交易时间或变更流程走向的信息，系统不允许用户修改。
+															<font color="red">*</font>注1：内勤助理问只能修改归属自己的、已提交的评估任务，未完成的任务请在待办任务中填写。
 														</div>
 													</div>
 												</div>
@@ -182,8 +177,8 @@
 
 				<!-- 相关信息 -->
 				<div class="panel " id="aboutInfo" style="min-height: 800px;">
-					<a style="float: right; margin-right: 12px; margin-top: 10px;"
-						href="javascript:showChangeFormModal();">修改</a>
+					<!-- <a style="float: right; margin-right: 12px; margin-top: 10px;"
+						href="javascript:showChangeFormModal();">修改</a> -->
 					<div class="panel-body">
 						<ul class="nav nav-tabs">
 							<li class="active"><a href="#eval_info" data-toggle="tab">评估信息</a></li>

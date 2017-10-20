@@ -2,12 +2,13 @@
  * 赎楼详情js
  * @author wbcaiyx
  */
-
-
 $(document).ready(function(){
 	debugger;
+	//详情单
 	reloadDetail();
+	//历史记录
 	reloadHistoryRecord();
+	//时间申请记录
 	reloadTimeRecord();
 	//操作记录
 	getOperateLogList();
@@ -24,7 +25,7 @@ function reloadDetail(){
 	var ctx = $("#ctx").val();
 	var ransomCode = $("#ransomCode").val();
 	url = ctx + url;
-	var dispCols=[ '尾款机构','尾款类型', '抵押类型','贷款金额','剩余部分','实际还款金额' ];
+	var dispCols=[ '尾款机构','尾款类型', '抵押类型','贷款金额(单位:万元)','剩余部分(单位:万元)','实际还款金额(单位:万元)' ];
 	var colModels=
 	[ {
 		name : 'tailOrgName',
