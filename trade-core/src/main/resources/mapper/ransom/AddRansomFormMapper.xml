@@ -14,6 +14,8 @@
 		<result column="BORROWER_NAME" property="borrowerName" jdbcType="VARCHAR" />
 		<result column="BORRO_MONEY" property="borroMoney" jdbcType="DECIMAL" />
 		<result column="REST_MONEY" property="restMoney" jdbcType="DECIMAL" />
+		<result column="REPAY_TIME" property="repayTime" jdbcType="TIMESTAMP"/>
+		<result column="comOrgName" property="comOrgName" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<sql id="Base_Column_List" >
@@ -71,4 +73,18 @@
         )	
         </foreach>
 	</insert>
+	
+	<select id="findTaiLinsInfoByCaseCode" resultMap="BaseResultMap">
+		SELECT
+			ta.REST_MONEY,
+			rep.REPAY_TIME,
+			(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = cas.COM_ORG_CODE) comOrgName
+		FROM
+			sctrans.T_RA_CASE cas
+			INNER JOIN sctrans.T_RA_TAILINS ta ON cas.RANSOM_CODE = ta.RANSOM_CODE
+			LEFT JOIN	sctrans.T_RA_REPAY rep ON rep.RANSOM_CODE = cas.RANSOM_CODE
+		WHERE
+			cas.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+			AND (cas.ISSTOP IS NULL OR cas.ISSTOP != '710170003')
+	</select>
 </mapper>

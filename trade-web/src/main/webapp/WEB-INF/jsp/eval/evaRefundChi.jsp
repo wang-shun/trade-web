@@ -14,6 +14,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>总监审核退费</title>
 <!-- jdGrid相关 -->
 <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 <link href="<c:url value='/font-awesome/css/font-awesome.css' />"
@@ -257,6 +258,7 @@ $('#closeButton').click(function() {
 	margin-left: 20px;
 }
 </style>
+<content tag="pagetitle">总监审核退费</content>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -270,28 +272,28 @@ $('#closeButton').click(function() {
         	<div style="padding-left: 10px">
         		<table  width="100%">
         			<tr style="height: 40px;">
-        				<td> <label class="control-label sign_left_small">退费类型：</label></td><td>${toEvaRefund.refundKinds}</td>
-        				<td><label class="control-label sign_left_small">申请人：</label></td><td>${toEvaRefund.proposer }</td>
-        				<td><label class="control-label sign_left_small">申请分行：</label></td><td>${toEvaRefund.applyDepart }</td>
-        				<td><label class="control-label sign_left_small">申请时间：</label></td><td><fmt:formatDate  value='${toEvaRefund.applyTime }' type='both' pattern='yyyy-MM-dd'/></td>        				
+        				<td><label class="control-label sign_left_small">退费类型：${toEvaRefund.refundKinds}</label></td>
+        				<td><label class="control-label sign_left_small">申请人：${toEvaRefund.proposer }</label></td>
+        				<td><label class="control-label sign_left_small">申请分行：${toEvaRefund.applyDepart }</label></td>
+        				<td><label class="control-label sign_left_small">申请时间：<fmt:formatDate  value='${toEvaRefund.applyTime }' type='both' pattern='yyyy-MM-dd'/></label></td>      				
         			</tr>
         			<tr style="height: 40px;">
-        			<td><label class="control-label sign_left_small">评估公司：</label></td><td>${toEvaRefund.evalCompany }</td>        
-        				<td><label class="control-label sign_left_small">退费金额：</label></td><td>${toEvaRefund.refundAmount }</td>
-        				<td><label class="control-label sign_left_small">退款对象：</label></td><td>${toEvaRefund.refundTarget }</td>
-        				<td><label class="control-label sign_left_small">退款原因：</label></td><td>${toEvaRefund.refundCause }</td>
+        			<td><label class="control-label sign_left_small">评估公司：${toEvaRefund.evalCompany }</label></td>        
+        				<td><label class="control-label sign_left_small">退费金额：${toEvaRefund.refundAmount }</label></td>
+        				<td><label class="control-label sign_left_small">退款对象：${toEvaRefund.refundTarget }</label></td>
+        				<td><label class="control-label sign_left_small">退款原因：${toEvaRefund.refundCause }</label></td>
         			</tr>
         			<tr style="height: 40px;">
-        				<td><label class="control-label sign_left_small">预计退款时间：</label></td><td><fmt:formatDate  value='${toEvaRefund.toRefundTime }' type='both' pattern='yyyy-MM-dd'/></td>
-        				<td><label class="control-label sign_left_small">评估费时收金额：</label></td><td>${toEvaRefund.evalRealCharges}</td>
-        				<td><label class="control-label sign_left_small">评估费实收时间：</label></td><td></td>
-        				<td><label class="control-label sign_left_small">出具评估报告时间：</label></td><td><fmt:formatDate  value='${toEvaReport.issueDate }' type='both' pattern='yyyy-MM-dd'/></td>        				
+        				<td><label class="control-label sign_left_small">预计退款时间：<fmt:formatDate  value='${toEvaRefund.toRefundTime }' type='both' pattern='yyyy-MM-dd'/></label></td>
+        				<td><label class="control-label sign_left_small">评估费时收金额：${toEvaRefund.evalRealCharges}</label></td>
+        				<td><label class="control-label sign_left_small">评估费实收时间：</label></td>
+        				<td><label class="control-label sign_left_small">出具评估报告时间：<fmt:formatDate  value='${toEvaReport.issueDate }' type='both' pattern='yyyy-MM-dd'/></label></td>      				
         			</tr>
         			<tr style="height: 40px;">
-        				<td><label class="control-label sign_left_small">报告领取时间：</label></td><td><fmt:formatDate  value='${toEvaReport.reportRevDate }' type='both' pattern='yyyy-MM-dd'/></td>
-        				<td><label class="control-label sign_left_small">报告领取人：</label></td><td>${toEvaReport.receiver }</td>
-        				<td><label class="control-label sign_left_small">评估报告份数：</label></td><td>${toEvaReport.receiveNum }</td>
-        				<td><label class="control-label sign_left_small">评估报告回收份数：</label></td><td>${toEvaRefund.reportBackNum}</td>        				
+        				<td><label class="control-label sign_left_small">报告领取时间：<fmt:formatDate  value='${toEvaReport.reportRevDate }' type='both' pattern='yyyy-MM-dd'/></label></td>
+        				<td><label class="control-label sign_left_small">报告领取人：${toEvaReport.receiver }</label></td>
+        				<td><label class="control-label sign_left_small">评估报告份数：${toEvaReport.receiveNum }</label></td>
+        				<td><label class="control-label sign_left_small">评估报告回收份数：${toEvaRefund.reportBackNum}</label></td>       				
         			</tr>
         		</table>
         	</div>

@@ -122,8 +122,12 @@ function reloadGrid() {
 		//案件视图点击链接转向
 		$("#btnCaseView").click(function(){
 			var caseCode = $(this).attr("lang");
-			if(taskitem==undefined) var taskitem="";
-			location.href = ctx + "/task/caseDetail?&caseCode=" + caseCode+"&taskitem="+taskitem;
+			if(taskitem==undefined){//by wbzhouht 因为有些页面没有传taskitem，因此应先判断
+                var partCode='';
+			} else {
+				var partCode=taskitem;
+			}
+			location.href = ctx + "/task/caseDetail?&caseCode=" + caseCode+"&taskitem="+partCode;
 		});
 		
 		//评视图点击

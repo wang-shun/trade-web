@@ -1,5 +1,6 @@
 package com.centaline.trans.cases.web;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.cases.repository.ToCaseRecvMapper;
 import com.centaline.trans.cases.service.*;
 import com.centaline.trans.task.entity.*;
 import com.centaline.trans.task.service.*;
@@ -46,6 +48,7 @@ import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
+import com.centaline.trans.cases.entity.ToCaseRecv;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
 import com.centaline.trans.cases.service.CaseMergeService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
@@ -106,6 +109,8 @@ import com.centaline.trans.mortgage.service.ToEvaReportService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.property.service.ToPropertyResearchService;
 import com.centaline.trans.property.service.ToPropertyService;
+import com.centaline.trans.ransom.entity.ToRansomFormVo;
+import com.centaline.trans.ransom.repository.AddRansomFormMapper;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
@@ -237,6 +242,10 @@ public class CaseDetailController {
 	//领证
 	@Autowired
 	private ToGetPropertyBookService toGetPropertyBookService;
+	@Autowired
+	private ToCaseRecvMapper toCaseRecvMapper;
+	@Autowired
+	private AddRansomFormMapper addRansomFormMapper;
 
 	/**
 	 * 页面初始化
@@ -779,8 +788,11 @@ public class CaseDetailController {
 				request.setAttribute("auditResult",true);
 			}
 		}
+		SimpleDateFormat yearFort = new SimpleDateFormat("yyyy");
 		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
+		toPropertyInfo.setFinishYearStr(toPropertyInfo.getFinishYear() ==null?
+										null:yearFort.format(toPropertyInfo.getFinishYear()));
 		
 		// add zhangxb16 2016-2-22 功能
 		ToCase te = toCaseService.findToCaseByCaseCode(toCase.getCaseCode());
@@ -809,28 +821,41 @@ public class CaseDetailController {
 			String createTime = format.format(caseInfo.getCreateTime());
 			reVo.setCreateTime(createTime);
 		}
-		// 接单时间
-		if (caseInfo.getResDate() != null) {
-			String resDate = format.format(caseInfo.getResDate());
-			reVo.setResDate(resDate);
-		} 
-		// 房屋性质
-		if (caseInfo.getHouseProperty() != null) {
-			String houseProperty = uamBasedataService.getDictValue(TransDictEnum.TFWXZ.getCode(),
-					caseInfo.getHouseProperty());
-			reVo.setHouseProperty(houseProperty);
+		//接单时间
+		if(caseInfo.getRecvTime() != null){
+			reVo.setResDate(format.format(caseInfo.getRecvTime()));
 		}
-		// 购房年数
-		if (caseInfo.getHoldYear() != null) {
+		//买卖家
+		List<TgGuestInfo> guestList = tgGuestInfoService.findTgGuestInfoByCaseCode(toCase.getCaseCode());
+		for (TgGuestInfo guest : guestList) {
+			if (guest.getTransPosition().equals(TransPositionEnum.TKHSJ.getCode())) {
+				reVo.setSellerName(guest.getGuestName());
+				reVo.setSellerMobile(guest.getGuestPhone());
+			} else if (guest.getTransPosition().equals(TransPositionEnum.TKHXJ.getCode())) {
+				reVo.setBuyerName(guest.getGuestName());
+				reVo.setBuyerMobile(guest.getGuestPhone());
+			}
+		}
+		// 房屋类型
+		if(toPropertyInfo.getPropertyType() != null){
+			String propertyTypeName = uamBasedataService.getDictValue("30014", toPropertyInfo.getPropertyType());
+			reVo.setPropertyTypeName(propertyTypeName);
+		}	
+		// 购房年数,现在存在物业信息中
+		/*if (caseInfo.getHoldYear() != null) {
 			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), caseInfo.getHoldYear());
 			reVo.setHoldYear(holdYear);
+		}*/
+		// 唯一住房,接单购房套数判断
+		ToCaseRecv caseRecv =  toCaseRecvMapper.selectByPrimaryKey(toCase.getCaseCode());
+		if(caseRecv != null){
+			if("61000001".equals(caseRecv.getPurchaseHouseNo())){
+				reVo.setIsUniqueHome("是");
+			}else{
+				reVo.setIsUniqueHome("否");
+			}
 		}
-		// 唯一住房
-		if (caseInfo.getIsUniqueHome() != null) {
-			String isUniqueHome = uamBasedataService.getDictValue(TransDictEnum.TWYZF.getCode(),
-					caseInfo.getIsUniqueHome());
-			reVo.setIsUniqueHome(isUniqueHome);
-		}
+		
 		//网签时间
 		if (caseInfo.getRealConTime() != null) {
 			String realConTime = format.format(caseInfo.getRealConTime());
@@ -871,11 +896,6 @@ public class CaseDetailController {
 			String paymentTime=format.format(caseInfo.getPaymentTime());
 			reVo.setPaymentTime(paymentTime);
 		}
-		// 审税时间
-		if (caseInfo.getTaxTime() != null) {
-			String taxTime = format.format(caseInfo.getTaxTime());
-			reVo.setTaxTime(taxTime);
-		}
 		// 过户时间
 		if (caseInfo.getRealHtTime() != null) {
 			String realHtTime = format.format(caseInfo.getRealHtTime());
@@ -886,16 +906,19 @@ public class CaseDetailController {
 			String realPropertyGetTime = format.format(caseInfo.getRealPropertyGetTime());
 			reVo.setRealPropertyGetTime(realPropertyGetTime);
 		}
-		// 还款方式
-		if (caseInfo.getCloseType() != null) {
-			String closeType = uamBasedataService.getDictValue(TransDictEnum.THKFS.getCode(), caseInfo.getCloseType());
-			reVo.setCloseType(closeType);
-		}
-		// 还款时间
-		if (caseInfo.getLoanCloseCode() != null) {
-			String loanCloseCode = format.format(caseInfo.getLoanCloseCode());
-			reVo.setLoanCloseCode(loanCloseCode);
-		}   
+		//卖方剩余贷款，还贷时间，还贷银行,赎楼
+		List<ToRansomFormVo> tails = addRansomFormMapper.findTaiLinsInfoByCaseCode(toCase.getCaseCode());
+		if(tails != null && tails.size() > 0){
+			BigDecimal resMoney = tails.get(0).getRestMoney().add(
+					tails.size() >1?(tails.get(1).getRestMoney()==null?BigDecimal.ZERO:tails.get(1).getRestMoney()):BigDecimal.ZERO
+							);
+			
+			caseInfo.setUncloseMoney(resMoney);//剩余金额
+			//还款时间
+			reVo.setLoanCloseCode(tails.get(0).getRepayTime()==null?null:format.format(tails.get(0).getRepayTime()));
+			//还款银行/合作机构
+			caseInfo.setUpBank(tails.get(0).getComOrgName());
+		}  
 		// 结案时间
 		if (caseInfo.getCloseTime() != null) {
 			String closeTime = format.format(caseInfo.getCloseTime());
@@ -903,20 +926,16 @@ public class CaseDetailController {
 		}
 		
 		/** 贷款信息 **/
-		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(toCase.getCaseCode());
-		String loanReqType="FullPay";
+		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCodeOnlyOne(toCase.getCaseCode());
+		//贷款挽回
+		String mortgageSaveSelf = toMortgageService.findMortgageSave(toCase.getCaseCode());
 		if (toMortgage != null) {
-			if("1".equals(toMortgage.getIsDelegateYucui())){
-				if("30016003".equals(toMortgage.getMortType())){
-					loanReqType="PSFLoan";
-				}else{
-					loanReqType="ComLoan";
-				}
-			}else{
-				loanReqType="SelfLoan";
-			}
-			
-			// 网签时间
+
+			//贷款方式
+			toMortgage.setMortType(uamBasedataService.getDictValue("30016", toMortgage.getMortType()));
+			//自办代办
+			reVo.setIsSelf("否");
+			// 面签时间
 			if (toMortgage.getSignDate() != null) {
 				String signDate = format.format(toMortgage.getSignDate());
 				reVo.setSignDate(signDate);
@@ -926,14 +945,7 @@ public class CaseDetailController {
 				String apprDate = format.format(toMortgage.getApprDate());
 				reVo.setApprDate(apprDate);
 			}
-			// 主贷人
-			if (null != toMortgage.getCustCode()) {
-				TgGuestInfo guest = tgGuestInfoService.selectByPrimaryKey(Long.parseLong(toMortgage.getCustCode()));
-				if (null != guest) {
-					reVo.setBuyerWork(guest.getWorkUnit());
-					reVo.setMortBuyer(guest.getGuestName());
-				}
-			}
+
 			// 放款方式
 			if (toMortgage.getLendWay() != null) {
 				String lendWay = uamBasedataService.getDictValue(TransDictEnum.TLENDWAY.getCode(),
@@ -970,6 +982,10 @@ public class CaseDetailController {
 					TsFinOrg faBank = tsFinOrgService.findBankByFinOrg(bank.getFaFinOrgCode());
 					reVo.setParentBankName(faBank.getFinOrgName());
 				}
+			}
+		}else if(mortgageSaveSelf !=null){
+			if("1".equals(mortgageSaveSelf) ){
+				reVo.setIsSelf("是");
 			}
 		}
 
@@ -1149,7 +1165,7 @@ public class CaseDetailController {
 		
 		request.setAttribute("isCaseManager", isCaseManager);
 		request.setAttribute("serivceDefId", sessionUser.getServiceDepId());
-		request.setAttribute("loanReqType", loanReqType);
+//		request.setAttribute("loanReqType", loanReqType);
 		String[] lamps = LampEnum.getCodes();
 		request.setAttribute("Lamp1", lamps[0]);
 		request.setAttribute("Lamp2", lamps[1]);

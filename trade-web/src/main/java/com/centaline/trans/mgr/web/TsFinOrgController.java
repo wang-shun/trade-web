@@ -197,4 +197,17 @@ public class TsFinOrgController {
 		map.put("bankCode", "");
 		return map;
 	}
+	
+	/**
+	 * 查询合作机构下拉列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "queryCooperation")
+	@ResponseBody
+	public List<TsFinOrg> queryCooperation() {
+
+		List<TsFinOrg> cooperationList = tsFinOrgService.findCooperations();
+		return cooperationList;
+	}
 }

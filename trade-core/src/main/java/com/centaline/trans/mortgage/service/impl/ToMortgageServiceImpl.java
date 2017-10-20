@@ -48,8 +48,6 @@ import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.impl.PropertyUtilsServiceImpl;
-import com.centaline.trans.eloan.entity.ToSelfAppInfo;
-import com.centaline.trans.eloan.service.ToSelfAppInfoService;
 import com.centaline.trans.engine.bean.ProcessInstance;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -80,7 +78,6 @@ import com.centaline.trans.task.vo.MortgageToSaveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.service.TransplanServiceFacade;
-import com.centaline.trans.utils.DateUtil;
 import com.centaline.trans.wdcase.entity.TpdCommSubsDetals;
 import com.centaline.trans.wdcase.service.CommSubsService;
 import com.centaline.trans.wdcase.vo.CommSubsVo;
@@ -1418,6 +1415,25 @@ public class ToMortgageServiceImpl implements ToMortgageService
 	public List<Map<String, String>> queryEguProInfo(String caseCode) {
 		// TODO Auto-generated method stub
 		return toEvalMapper.queryEguProInfo(caseCode);
+	}
+	@Override
+	public ToMortgage findToMortgageByCaseCodeOnlyOne(String caseCode) {
+		List<ToMortgage> toMortgages = toMortgageMapper.findToMortgageByCaseCodes(caseCode);
+		ToMortgage toMortgage = null; 
+	    if (toMortgages != null && toMortgages.size() > 0){
+	    	toMortgage = toMortgages.get(0);
+
+	    	toMortgage.setComAmount(toMortgage.getComAmount() != null ? toMortgage.getComAmount().divide(new BigDecimal(10000)) : null);
+	    	toMortgage.setMortTotalAmount(toMortgage.getMortTotalAmount() != null ? toMortgage.getMortTotalAmount().divide(new BigDecimal(10000)) : null);
+	    	toMortgage.setPrfAmount(toMortgage.getPrfAmount() != null ? toMortgage.getPrfAmount().divide(new BigDecimal(10000)) : null);
+	    }
+
+	    return toMortgage;
+	}
+	@Override
+	public String findMortgageSave(String caseCode) {
+		
+		return toMortgageMapper.findToMortgageSave(caseCode);
 	}
 }
 

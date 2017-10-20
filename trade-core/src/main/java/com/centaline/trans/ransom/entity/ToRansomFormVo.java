@@ -78,7 +78,10 @@ public class ToRansomFormVo {
 	private Date updateTime;
 	
 	private String updateUser;
-	
+	//陪同还贷时间
+	private Date repayTime;
+	//合作机构
+	private String comOrgName;
 
 	public Long getPkid() {
 		return pkid;
@@ -214,6 +217,24 @@ public class ToRansomFormVo {
 
 	public void setBorroMoney(BigDecimal borroMoney) {
 		this.borroMoney = borroMoney;
+	}
+
+	
+	public Date getRepayTime() {
+		return repayTime;
+	}
+
+	public void setRepayTime(Date repayTime) {
+		this.repayTime = repayTime;
+	}
+
+	
+	public String getComOrgName() {
+		return comOrgName;
+	}
+
+	public void setComOrgName(String comOrgName) {
+		this.comOrgName = comOrgName;
 	}
 
 	@Override
