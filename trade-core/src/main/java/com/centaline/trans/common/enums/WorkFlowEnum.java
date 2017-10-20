@@ -16,14 +16,18 @@ public enum WorkFlowEnum {
 	SPV_CLOSE_DEFKEY("SpvCloseApplyProcess","processDefinitionKey"),
 	TMP_BANK_DEFKEY("TempBankAudit_Process","processDefinitionKey"),
 	SATIS_DEFKEY("SatisProcess","processDefinitionKey"),
-	//自办贷款/评估审批流程
+	//自办贷款审批流程
 	LOANANDASSE_PROCESS("loanAndAsse_Process","loanAndAsse_Process"),
+	//自办评估审批流程
+	ASSE_PROCESS("Asse_Process","Asse_Process"),
 	//评估退费流程
 	EVALREFUND_PROCESS("evalRefund_Process","evalRefund_Process"),
 //	评估发票管理流程
 	EVAL_INVOICE("EvalInvoiceProcess","processDefinitionKey"),
 //	评估发票管理流程
 	EVAL_CHANGE_COMPANY("EvalChangeCommProcess","processDefinitionKey"),
+//	调佣审批
+	CHANGE_COMMISION("change_commision","processDefinitionKey"),
 	SPV_OUT("spv_out","businessKey"),
 	//案件流程重启
 	SERVICE_RESTART("caseReStart_Process","serviceRestartBusinesskey"),

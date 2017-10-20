@@ -172,6 +172,8 @@
 <script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 <script type="text/javascript">
+//记录案件视图跳转等所需变量
+	var caseCode=$("#caseCode").val();
 	var coworkService = "${firstFollow.coworkService }";
 	var teamProperty = "${teamProperty}";
 	var caseProperty = "${firstFollow.caseProperty}";
@@ -188,8 +190,84 @@
 		var idList = [];
 	}
 </script>
-
-
+<script type="text/javascript">
+var AttachmentList = (function(){    
+    return {    
+       init : function(ctx,url,gridTableId,gridPagerId,ctmCode,caseCode){    
+    	 //jqGrid 初始化
+    		$("#"+gridTableId).jqGrid({
+    			url : ctx+url,
+    			mtype : 'GET',
+    			datatype : "json",
+    			height : 125,
+    			autowidth : true,
+    			shrinkToFit : true,
+    			rowNum : 3,
+    			/*   rowList: [10, 20, 30], */
+    			colNames : [ '审批人','审批时间','审批结果','审批意见'],
+    			colModel : [ {
+    				name : 'OPERATOR',
+    				index : 'OPERATOR',
+    				align : "center",
+    				width : 25,
+    				resizable : false
+    			},{
+    				name : 'OPERATOR_TIME',
+    				index : 'OPERATOR_TIME',
+    				align : "center",
+    				width : 25,
+    				resizable : false
+    			}, {
+    				name : 'NOT_APPROVE',
+    				index : 'NOT_APPROVE',
+    				align : "center",
+    				width : 25,
+    				resizable : false
+    				//formatter : linkhouseInfo
+    			}, {
+    				name : 'CONTENT',
+    				index : 'CONTENT',
+    				align : "center",
+    				width : 25,
+    				resizable : false
+    			}],
+    			multiselect: true,
+    			pager : "#"+gridPagerId,
+    			//sortname:'UPLOAD_DATE',
+    	        //sortorder:'desc',
+    			viewrecords : true,
+    			pagebuttions : true,
+    			multiselect:false,
+    			hidegrid : false,
+    			recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+    			pgtext : " {0} 共 {1} 页",
+    			gridComplete:function(){
+    				var ids = jQuery("#"+gridTableId).jqGrid('getDataIDs');
+    				for (var i = 0; i < ids.length; i++) {
+	    				var id = ids[i];
+	    				var rowDatas = jQuery("#"+gridTableId).jqGrid('getRowData', ids[i]); // 获取当前行
+	    				
+	    				var auditResult = rowDatas['NOT_APPROVE'];
+	    				var auditResultDisplay = null;
+	    				if(!auditResult){
+	    					auditResultDisplay="审批通过"
+	    				}else{
+	    					auditResultDisplay=auditResult;
+	    				}	    				    				
+	    				jQuery("#"+gridTableId).jqGrid('setRowData', ids[i], { NOT_APPROVE: auditResultDisplay});
+    				}
+    			},
+    			postData : {
+    				queryId : "queryLoanlostApproveList",
+    				caseCode : caseCode
+    				//caseCode : 'CaseCode1503653095536'
+    			}
+    			 
+    		});
+       }   
+    };    
+})(); 
+</script>
 <script type="text/javascript">
 //显示附件图片
 function showAttachment(url){
@@ -240,7 +318,7 @@ function save(b) {
                     window.wxc.alert("提交成功"+data);
                 }
                 var ctx = $("#ctx").val();
-                //window.location.href=ctx+ "/task/myTaskList";
+                window.location.href=ctx+ "/task/myTaskList";
             }else{
             	if (data.message) {
                     window.wxc.alert("提交成功"+data);
@@ -513,7 +591,7 @@ function checkForm() {
 <input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 <input type="hidden" id="ctx" name="ctx" value="${ctx}">
 		<!-- 原来的页面 -->
-		<h2 class="newtitle title-mark">调佣任务填写</h2>		
+		<h2 class="newtitle title-mark">调佣信息</h2>		
 	                <!-- 原来的页面 -->
 		<div  style="width: 80%" align="center" class="table_content">
 		<div align="left" style="height:30px">
@@ -528,7 +606,10 @@ function checkForm() {
 			<font color=" red">*</font>调佣事由： <input type="text"
 				id="changeChargesCause" value="${evalChangeCommVO.changeChargesCause }" maxlength="16" name="changeChargesCause">
 		</div>
-		
+		<div align="left" style="height: 30px">
+			<font color=" red">*</font>调佣对象与调佣金额如下表：
+		</div>
+		<hr>
 			<table style="width: 100%;height: 600px;" class="table-hover">
             <thead>
             <tr>
@@ -640,6 +721,8 @@ function checkForm() {
 	            <form method="post" class="form_list" id="evalChangeAuditform" style="overflow: visible;">
 	            <input type="hidden" name="partCode" value="changeEvalComAudit">
 	            <input type="hidden" id="caseCode1" name="caseCode" value="${caseCode}">
+				<input type="hidden" id="taskId" name="taskId" value="${taskId}">
+				<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 	            <div class="line" style="margin-top:18px">		                 
 		                    <div class="form_content" >
 		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批结果：</label>
@@ -659,8 +742,16 @@ function checkForm() {
 		                     	          	            
 				</form>
 				
-</div>
+</div><hr>
+
 	            <!-- 填写审批任务 -->
+	            <div class="title title-mark" id="aboutInfo">
+	               <strong style="font-weight:bold;">开票审批记录</strong>
+	            </div>	            
+	            <div class="view-content">
+	              	<table id="gridTable" class=""></table>
+	   				<div id="gridPager"></div>
+	            </div>	
 <br><br>	
 <div class="form-btn">
 	                    <div class="text-center">
@@ -706,7 +797,8 @@ function checkForm() {
 				<script>
 					$(document).ready(function(){
 						var ctx = $("#ctx").val();
-						var caseCode=$("#caseCode").val();					
+						var caseCode=$("#caseCode").val();	
+						AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}',caseCode);
 					//设置div显示或隐藏
 					function isShow(divName, stats) {
 					    var div_array = document.getElementsByName(divName);   

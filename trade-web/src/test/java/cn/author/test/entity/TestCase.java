@@ -64,8 +64,8 @@ public class TestCase {
 		toCaseParticipant1.setMobile("17720100958");
 		toCaseParticipant1.setGrpCode("022A458");
 		toCaseParticipant1.setGrpName("交易按揭1组");
-		toCaseParticipant1.setGrpMgrUsername("xiefeifei");
-		toCaseParticipant1.setGrpMgrRealname("谢飞飞");
+		toCaseParticipant1.setGrpMgrUsername("xiefei2");
+		toCaseParticipant1.setGrpMgrRealname("谢飞");
 		toCaseParticipant1.setGrpMgrMobile("18622064168");
 		toCaseParticipant.setAvailable("Y");
 		participants.add(toCaseParticipant1);

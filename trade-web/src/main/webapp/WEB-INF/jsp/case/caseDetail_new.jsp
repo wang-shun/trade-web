@@ -126,8 +126,10 @@
 						</c:if>				
 						<a role="button" class="btn btn-primary btn-xm btn-activity"
 							href="javascript:evaPricingApply()">询价申请</a>
-						<a role="button" class="btn btn-primary btn-xm btn-activity"
-							href="javascript:evalApply()">评估申请</a>
+						<c:if test="${caseInfo.evalCode == null}">
+							<a role="button" class="btn btn-primary btn-xm btn-activity"
+								href="javascript:evalApply()">评估申请</a>
+						</c:if>
 						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVAL.COMPANY.CHANGE">
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="javascript:showEvalCompanyChangeModal()">评估公司变更</a>
@@ -838,4 +840,3 @@
 
 </body>
 </html>
-

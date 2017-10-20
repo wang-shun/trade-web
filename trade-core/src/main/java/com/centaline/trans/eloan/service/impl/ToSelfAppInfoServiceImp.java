@@ -72,11 +72,11 @@ public class ToSelfAppInfoServiceImp implements ToSelfAppInfoService {
 	}
 
 	@Override
-	public ToSelfAppInfo getAppInfoByCCAICode(String ccaiCode) {
+	public ToSelfAppInfo getAppInfoByCCAICode(String ccaiCode,String type) {
 		if(StringUtils.isBlank(ccaiCode)){
 			return null;
 		}
-		return toSelfAppInfoMapper.getAppInfoByCCAICode(ccaiCode);
+		return toSelfAppInfoMapper.getAppInfoByCCAICode(ccaiCode,type);
 	}
 
 	@Override

@@ -69,6 +69,55 @@ public class EvalInvoiceController {
 	private ToEvaInvoiceService toEvaInvoiceService;
 	
 	/**
+	 * 
+	 * @since:2017年10月19日 下午7:41:48
+	 * @description:提交开具发票
+	 * @author:xiefei1
+	 * @param request
+	 * @param model
+	 * @param caseCode
+	 * @return
+	 */
+	@RequestMapping(value = "submitIssueInvoice")
+	@ResponseBody
+	public AjaxResponse<String> submitIssueInvoice(ToEvaInvoice toEvaInvoice) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		if(StringUtils.isNotBlank(toEvaInvoice.getCaseCode())&&StringUtils.isNotBlank(toEvaInvoice.getEvaCode())){
+			try{
+				toEvaInvoiceService.insertSelective(toEvaInvoice);
+			}
+			catch(Exception e){
+				response.setSuccess(false);
+				response.setMessage(e.getMessage());
+				logger.error("保存失败！"+e.getCause());
+			}			
+		}else{
+			response.setSuccess(false);
+			response.setMessage("案件编码或评估号为空，请关联评估单！");
+		}
+		return response;
+	}
+	
+	/**
+	 * 
+	 * @since:2017年10月19日 下午7:16:41
+	 * @description:获取CCAI发票信息
+	 * @author:xiefei1
+	 * @param request
+	 * @param toEvaCommissionChange
+	 * @return
+	 */
+	@RequestMapping(value = "getInvoiceInfo")
+	@ResponseBody
+	public ToEvaInvoice getInvoiceInfo(String evaCode) {
+		ToEvaInvoice invoice =null;
+			if(StringUtils.isNotBlank(evaCode)){
+				 invoice = toEvaInvoiceService.selectByEvaCode(evaCode);
+			}			
+		return invoice;
+	}
+
+	/**
 	 * @since:2017年10月11日 上午11:04:28
 	 * @description: 跳转页面
 	 * @author:xiefei1
@@ -122,6 +171,24 @@ public class EvalInvoiceController {
     		logger.error("保存失败！"+e.getCause());
     	}
 		return response;
+	}
+	/**
+	 * 
+	 * @since:2017年10月18日 下午5:40:38
+	 * @description:跳转关联评估单页面
+	 * @author:xiefei1
+	 * @param request
+	 * @param model
+	 * @param caseCode
+	 * @return
+	 */
+	@RequestMapping(value = "invoiceConnectEval")
+	public String toInvoiceConnectEval(HttpServletRequest request,Model model,String caseCode) {
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		model.addAttribute("caseCode", caseCode);
+		request.setAttribute("ctx", ctx);
+		return "eval/invoiceConnectEval";
 	}
 	/**
 	 * @since:2017年10月11日 上午11:04:28

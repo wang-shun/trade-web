@@ -188,15 +188,15 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 				reVo.setIsEvas("true");
 			}
 			// 评估费金额 已废弃
-			ToEvaFeeRecord evaFeeReport = toEvaFeeRecordService.findToEvaFeeRecordByCaseCode(caseCode);
+			/*ToEvaFeeRecord evaFeeReport = toEvaFeeRecordService.findToEvaFeeRecordByCaseCode(caseCode);
 			if (evaFeeReport != null && evaFeeReport.getEvalFee() != null) {
 				reVo.setEvaFee(evaFeeReport.getEvalFee());
-			}
-			//by wbzhouht 新评估费金额
-			/*ToEvalRebate toEvalRebate=toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
-			if (toEvalRebate!=null){
-				reVo.setEvaFee(toEvalRebate.getEvalDueCharges());
 			}*/
+			//by wbzhouht 新评估费金额
+			ToEvalRebate toEvalRebate=toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
+			if (toEvalRebate!=null){
+				reVo.setEvaFee(toEvalRebate.getEvalRealCharges());
+			}
 
 			// 主贷人
 			if (null != toMortgage.getCustCode()) {

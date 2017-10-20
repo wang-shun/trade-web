@@ -366,6 +366,8 @@ function checkForm() {
 #corss_area{padding:0 8px 0 0;margin-left:369px;}
 #corss_area select{height:34px;border-radius:2px;margin-left:20px;}
 </style>
+<title>接单跟进</title>
+<content tag="pagetitle">接单跟进</content>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>

@@ -27,8 +27,6 @@ public interface ToEvalReportProcessService {
     
     int updateEvalPropertyByEvalCode(String evalCode,String evalProperty);
     
-    int deleteEvalPropertyByEvalCode(String evalCode);
-    
     int updateStatusByEvalCode(String status,String evalCode);
     
     /**

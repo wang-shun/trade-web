@@ -139,6 +139,7 @@
 		INNER JOIN sctrans.T_TO_CASE_PARTICIPANT par ON guest.CASE_CODE = par.CASE_CODE
 		WHERE  
 			par.POSITION = 'warrant'
+			AND  NOT EXISTS(SELECT cas.CASE_CODE FROM sctrans.T_RA_CASE cas WHERE cas.CASE_CODE = ca.CASE_CODE)
 			AND ca.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	</select>
 	

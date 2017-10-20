@@ -14,6 +14,8 @@ public interface ToEvaInvoiceMapper {
     
     ToEvaInvoice selectByCaseCode(String caseCode);
     
+    ToEvaInvoice selectByEvaCode(String evaCode);
+    
     ToEvaInvoice selectByCaseCodeWithEvalCompany(String caseCode);
 
     int updateByPrimaryKeySelective(ToEvaInvoice record);

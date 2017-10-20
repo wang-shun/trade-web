@@ -1,6 +1,7 @@
 package com.centaline.trans.ransom.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
@@ -161,7 +162,8 @@ public class RansomDiscontinueController {
 	private ToRansomDetailVo getTaskBaseInfo(ServletRequest request, String caseCode, String ransomCode) {
 		SessionUser user =uamSessionService.getSessionUser(); 
 		// 公共基本信息
-		ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode, ransomCode);
+		List<ToRansomDetailVo> ransomDetailVo = ransomService.getRansomDetail(caseCode);
+		ToRansomDetailVo detailVo = ransomDetailVo.get(0);
 		if(detailVo != null) {
 			request.setAttribute("detailVo", detailVo);
 			request.setAttribute("caseCode", detailVo.getCaseCode());
