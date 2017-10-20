@@ -12,14 +12,10 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
-import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.mortgage.entity.ToMortgage;
-import com.centaline.trans.task.service.MortgageSelectService;
 import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.vo.MortgageToSaveVO;
 import com.centaline.trans.transplan.entity.ToTransPlan;
-import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.utils.UiImproveUtil;
 
 @Controller
@@ -28,16 +24,10 @@ public class MortgageTosaveController {
 	
 	@Inject
 	private UamSessionService uamSessionService;
-	@Inject
-	private MortgageSelectService mortgageSelectService;
-	@Inject
-	private TransplanServiceFacade transplanServiceFacade;
+
 	@Inject
 	private ToCaseService toCaseService;
-	@Inject
-	private WorkFlowManager workFlowManager;
-	@Inject
-	private ToWorkFlowService toWorkFlowService;
+
 	@Inject
 	private ToMortgageTosaveService toMortgageTosaveService;
 	

@@ -4,6 +4,8 @@ import com.centaline.trans.eval.entity.ToEvaInvoice;
 import com.centaline.trans.task.entity.ToApproveRecord;
 
 public interface ToEvaInvoiceService {
+    ToEvaInvoice selectByEvaCode(String evaCode);
+    
 	int deleteByPrimaryKey(Long pkid);
 
     int insert(ToEvaInvoice record);

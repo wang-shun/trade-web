@@ -212,7 +212,7 @@ public class EvalRefundController {
 		}
 		
 		SessionUser user = uamSessionService.getSessionUserById(getManagerId(toEvaRefundvo.getCaseCode()));
-		FlowFeedBack info = new FlowFeedBack(user, CcaiFlowResultEnum.BACK,"权证人员不正确");
+		FlowFeedBack info = new FlowFeedBack(user, CcaiFlowResultEnum.BACK,"权证经理驳回");
 		ApiResultData result = flowApiService.tradeFeedBackCcai(toEvaRefundvo.getCaseCode(), CcaiTaskEnum.EVAL_REFUND_MANAGER, info);
 		if(result.isSuccess()){
 			//修改案件状态为驳回CCAI

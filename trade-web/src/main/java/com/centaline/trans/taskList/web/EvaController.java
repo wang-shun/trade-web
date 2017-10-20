@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.cases.entity.ToCaseParticipant;
+import com.centaline.trans.cases.service.ToCaseParticipantService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -57,6 +60,8 @@ public class EvaController {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private TaskService taskService;
+	@Autowired
+	ToCaseParticipantService toCaseParticipantService;
 	
 	/**
 	 * 评估代办任务
@@ -112,18 +117,27 @@ public class EvaController {
 	@RequestMapping(value="submitApply")
 	@ResponseBody
 	public Boolean submitEvalApply(HttpServletRequest request,HttpServletResponse response,ToEvalReportProcess toEvalReportProcess){
+		SessionUser user = uamSessionService.getSessionUser();
 		
 		//保存申请信息
 		toEvalReportProcessService.insertEvaApply(toEvalReportProcess);
+		
 		//启动流程引擎
 		ProcessInstance process = new ProcessInstance();
 		process.setBusinessKey(toEvalReportProcess.getEvaCode());
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()));
 		//流程引擎相关
-    	//Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.EVAL_PROCESS.getCode());
-    	SessionUser user = uamSessionService.getSessionUser();
+    	ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
+    	toCaseParticipant.setCaseCode(toEvalReportProcess.getCaseCode());
+		toCaseParticipant.setPosition(CaseParticipantEnum.ASSISTANT.getCode());
+		ToCaseParticipant tp =  toCaseParticipantService.findToCaseParticipantByCondition(toCaseParticipant).get(0);
+		
+    	Map<String, Object> defValsMap = new HashMap<String,Object>();
+    	defValsMap.put(CaseParticipantEnum.LOAN.getCode(), user.getUsername());
+    	defValsMap.put(CaseParticipantEnum.ASSISTANT.getCode(), tp.getUserName());
+    	
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()), 
-    			toEvalReportProcess.getEvaCode());
+    			toEvalReportProcess.getEvaCode(),defValsMap);
     	
     	//入交易系统工作流表
     	ToWorkFlow toWorkFlow = new ToWorkFlow();
@@ -136,10 +150,10 @@ public class EvaController {
     	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
     	toWorkFlowService.insertSelective(toWorkFlow);
     	
-    	Map<String, Object> defValsMap = new HashMap<String,Object>();
-    	defValsMap.put("assistant", user.getUsername());
+    	
+    	
     	TaskVo taskvo = (TaskVo) taskService.listTasks(processInstance.getId()).getData().get(0);
-    	taskService.submitTask(String.valueOf(taskvo.getId()),defValsMap);
+    	taskService.submitTask(String.valueOf(taskvo.getId()));
     	return true;
 	}
 	

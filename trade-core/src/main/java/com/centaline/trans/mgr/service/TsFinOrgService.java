@@ -127,6 +127,17 @@ public interface TsFinOrgService {
 	/**
 	 * 查询合作机构
 	 * @return
+	 * @author wbcaiyx 2017/10/19
 	 */
 	List<TsFinOrg> findCooperations();
+
+	/**
+	 * 根据金融机构编号
+	 * 获取金融机构基础信息+供应商配置信息
+	 * @param finCode
+	 * @return
+	 * @author yinchao 2017-10-19
+	 */
+	Map<String,Object> findFinByFinCode(String finCode);
+
 }

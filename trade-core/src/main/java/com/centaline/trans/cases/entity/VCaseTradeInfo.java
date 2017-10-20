@@ -113,6 +113,8 @@ public class VCaseTradeInfo {
     //案件接单时间
     private Date recvTime;
 
+    private String evalCode;
+
     public BigDecimal getHouseHodingTaxSign() {
         return houseHodingTaxSign;
     }
@@ -553,4 +555,12 @@ public class VCaseTradeInfo {
 		this.recvTime = recvTime;
 	}
     
+
+    public String getEvalCode() {
+        return evalCode;
+    }
+
+    public void setEvalCode(String evalCode) {
+        this.evalCode = evalCode;
+    }
 }

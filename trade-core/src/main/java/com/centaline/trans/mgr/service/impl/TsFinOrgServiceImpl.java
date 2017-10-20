@@ -1,14 +1,8 @@
 package com.centaline.trans.mgr.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.aist.common.exception.BusinessException;
+import com.aist.common.quickQuery.bo.JQGridParam;
+import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.basedata.remote.vo.Dict;
 import com.centaline.trans.mgr.entity.TsBankEvaRelationship;
@@ -19,6 +13,14 @@ import com.centaline.trans.mgr.repository.TsBankEvaRelationshipMapper;
 import com.centaline.trans.mgr.repository.TsFinOrgMapper;
 import com.centaline.trans.mgr.repository.TsSupMapper;
 import com.centaline.trans.mgr.service.TsFinOrgService;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class TsFinOrgServiceImpl implements TsFinOrgService {
@@ -33,6 +35,9 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 	private TsSupMapper tsSupMapper;
 	@Autowired
 	private UamBasedataService uamBasedataService;
+
+	@Autowired
+	private QuickGridService quickGridService;
 
 	@Override
 	public void saveTsFinOrg(TsFinOrg tsFinOrg) {
@@ -185,6 +190,19 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 	@Override
 	public List<TsFinOrg> findCooperations() {
 		return tsFinOrgMapper.findBySupCat(SupCatEnum.COOPERATION_SUPPLIER.getCode(),null);
+	}
+
+	@Override
+	public Map<String, Object> findFinByFinCode(String finCode) {
+		JQGridParam evalCompanyParam = new JQGridParam("querySupPage",true);
+		evalCompanyParam.setPage(1);
+		evalCompanyParam.setRows(1);
+		evalCompanyParam.put("supCode",finCode);
+		Page<Map<String, Object>> fins = quickGridService.findPageForSqlServer(evalCompanyParam);
+		if(fins!=null && fins.hasContent()){
+			return fins.getContent().get(0);
+		}
+		return null;
 	}
 
 }

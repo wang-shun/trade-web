@@ -838,7 +838,108 @@ public class CcaiServiceImpl implements CcaiService {
 	}
 	@Override
 	public CcaiServiceResult importSelfDo(SelfDoImport info) {
-		ToSelfAppInfo toSelfAppInfo1 = toSelfAppInfoService.getAppInfoByCCAICode(info.getCcaiCode());
+		if(info.getType().equals("自办贷款")){
+			return importSelfDoLoan(info);
+		}else if(info.getType().equals("自办评估")){
+			return importSelfDoAss(info);
+		}else{
+			CcaiServiceResult result = new CcaiServiceResult();
+			result.setSuccess(false);
+			result.setMessage("同步失败!请导入正确的类型!");
+			result.setCode("99");
+			return result;
+		}
+	}
+	
+	
+	/**
+	 * 自办评估流程启动
+	 * @param info
+	 * @return
+	 */
+	private CcaiServiceResult importSelfDoAss(SelfDoImport info){
+		ToSelfAppInfo toSelfAppInfo1 = toSelfAppInfoService.getAppInfoByCCAICode(info.getCcaiCode(),info.getType());
+		String caseCode = null;
+		int count = 0;
+		CcaiServiceResult result = new CcaiServiceResult();
+		if(toSelfAppInfo1 != null){//权证经理驳回后的二次请求
+			//只复制审核信息
+			List <ToAppRecordInfo> listRecord = copyProperties1(info,toSelfAppInfo1);
+			count = toSelfAppInfoService.saveBatchToAppRecordInfo(listRecord);
+			if(count == 0){
+				result.setSuccess(false);
+				result.setMessage("同步失败!审批信息保存失败!");
+				result.setCode("99");
+				return result;
+			}
+		}else{
+			
+			ToSelfAppInfo toSelfAppInfo = new ToSelfAppInfo();
+			try {
+				toSelfAppInfo = copyProperties(info);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+			caseCode = toSelfAppInfoService.addSelfAppInfo(toSelfAppInfo);
+			if(StringUtils.isBlank(caseCode)){
+				result.setSuccess(false);
+				result.setMessage("同步失败!caceCode没查到!");
+				result.setCode("99");
+				return result;
+			}
+		}
+
+		//将案件编号 放入消息队列中
+		if(null == toSelfAppInfo1 ){
+			MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.ASS_TYPE);
+			jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
+		}else{
+			updateProcessAss(toSelfAppInfo1.getCaseCode());
+		}
+		result.setSuccess(true);
+		result.setMessage("同步成功!");
+		result.setCode("00");
+		return result;
+	} 
+	/**
+	 * 自办评估审批向流程发送CCAI修改完成消息
+	 * @param caseCode
+	 */
+	private void updateProcessAss(String caseCode) {
+		//获取流程信息
+				ToWorkFlow wf = new ToWorkFlow();
+				wf.setCaseCode(caseCode);
+				wf.setBusinessKey(WorkFlowEnum.ASSE_PROCESS.getCode());
+				ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+				if (wordkFlowDB != null) {
+					// 发送消息
+					ActRuEventSubScr event = new ActRuEventSubScr();
+					event.setEventType(MessageEnum.CCAI_MODIFY_ASS_MSG.getEventType());
+					event.setEventName(MessageEnum.CCAI_MODIFY_ASS_MSG.getName());
+					event.setProcInstId(wordkFlowDB.getInstCode());
+					event.setActivityId(EventTypeEnum.SELF_ASSE_MSG_EVENT_CATCH.getName());
+					ExecuteAction action = new ExecuteAction();
+					action.setAction(EventTypeEnum.SELF_ASSE_MSG_EVENT_CATCH.getEventType());
+					action.setMessageName(MessageEnum.CCAI_MODIFY_ASS_MSG.getName());
+					List<ActRuEventSubScr> subScrs = actRuEventSubScrMapper.listBySelective(event);
+					if (CollectionUtils.isNotEmpty(subScrs)) {
+						//设置流程引擎登录用户 否则无法访问REST接口
+						User user = uamUserOrgService.getUserById(wordkFlowDB.getProcessOwner());
+						engine.setAuthUserName(user.getUsername());
+						//调用REST接口发送消息
+						action.setExecutionId(subScrs.get(0).getExecutionId());
+						engine.RESTfulWorkFlow(WorkFlowConstant.PUT_EXECUTE_KEY, ExecutionVo.class, action);
+					}
+				}
+	}
+
+	/**
+	 * 自办贷款流程启动
+	 * @param info
+	 * @return
+	 */
+	private CcaiServiceResult importSelfDoLoan(SelfDoImport info){
+		ToSelfAppInfo toSelfAppInfo1 = toSelfAppInfoService.getAppInfoByCCAICode(info.getCcaiCode(),info.getType());
 		String caseCode = null;
 		int count = 0;
 		CcaiServiceResult result = new CcaiServiceResult();
@@ -880,10 +981,10 @@ public class CcaiServiceImpl implements CcaiService {
 		result.setMessage("同步成功!");
 		result.setCode("00");
 		return result;
-	}
+	} 
 	
 	/**
-	 * 向流程发送CCAI修改完成消息
+	 * 自办贷款审批向流程发送CCAI修改完成消息
 	 * 并更改案件状态
 	 *lujian
 	 * @param caseCode

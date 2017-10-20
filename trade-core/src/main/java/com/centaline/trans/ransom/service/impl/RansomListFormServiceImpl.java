@@ -74,12 +74,12 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	public List getUpdateRansomInfo(String caseCode) {
 		List list = new ArrayList();
 		try {
-			ToRansomTailinsVo tailinsVo =  ransomMapper.getTailinsInfoByCaseCode(caseCode);
+			List<ToRansomTailinsVo> tailinsVo =  ransomMapper.getTailinsInfoByCaseCode(caseCode);
 			
 			List<TgGuestInfo> guestInfo = ransomListFormMapper.getGuestInfo(caseCode);
 			
 			ToRansomCaseVo caseVo = ransomListFormMapper.getRansomCase(caseCode, null);
-			String finOrgCode = tailinsVo.getFinOrgCode();
+			String finOrgCode = tailinsVo.get(0).getFinOrgCode();
 			TsFinOrg finOrg = ransomListFormMapper.getTsFinOrgIinfo(finOrgCode);
 			
 			list.add(tailinsVo);

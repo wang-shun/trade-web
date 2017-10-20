@@ -38,6 +38,11 @@ public class ToRansomApplyVo {
 	 * 信贷员
 	 */
 	private String loanOfficer;
+	
+	/**
+	 * 是否已申请
+	 */
+	private String isApply;
 
 	/**
 	 * 更新人员
@@ -144,6 +149,14 @@ public class ToRansomApplyVo {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getIsApply() {
+		return isApply;
+	}
+
+	public void setIsApply(String isApply) {
+		this.isApply = isApply;
 	}
 
 }

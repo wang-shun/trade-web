@@ -41,78 +41,37 @@ function loadTimeInfo(){
 	//回款结清时间变更理由
 	var paymentRemake = $("#paymentRemake").val();
 	
-	if(property != null && property != "" && property == "APPLY"){
-		$("#applyTime").attr("disabled",true); 
-		$("#applyRemake").attr("disabled",true); 
-	}
-	
-	if(property != null && property != "" && property == "SIGN"){
-		$("#applyTime").attr("disabled",true); 
-		$("#applyRemake").attr("disabled",true); 
-		$("#interviewTime").attr("disabled",true); 
-		$("#interviewRemake").attr("disabled",true); 
-	}
-	
-	if(property != null && property != "" && (property == "PAYLOAN_ONE" || property == "PAYLOAN_TWO")){
-		$("#applyTime").attr("disabled",true); 
-		$("#applyRemake").attr("disabled",true); 
+	switch(property){
+		case "APPLY" :
+			$("#applyTime").attr("disabled",true); 
+			$("#applyRemake").attr("disabled",true);
+		case "SIGN" :
+			$("#interviewTime").attr("disabled",true); 
+			$("#interviewRemake").attr("disabled",true); 
+		case "PAYLOAN_ONE" :
+			$("#repayTime").attr("disabled",true); 
+			$("#repayRemake").attr("disabled",true);
+		case "PAYLOAN_TWO" :
+			$("#repayTime").attr("disabled",true); 
+			$("#repayRemake").attr("disabled",true);
+		case "CANCELDIYA_ONE" :
+			$("#cancelTime").attr("disabled",true); 
+			$("#cancelRemake").attr("disabled",true); 
+		case "CANCELDIYA_TWO" :
+			$("#cancelTime").attr("disabled",true); 
+			$("#cancelRemake").attr("disabled",true); 
+		case "RECEIVE_ONE" :
+			$("#redeemTime").attr("disabled",true); 
+			$("#redeemRemake").attr("disabled",true); 
+		case "RECEIVE_TWO" :
+			$("#redeemTime").attr("disabled",true); 
+			$("#redeemRemake").attr("disabled",true); 
+		case "PAYCLEAR" :
+			$("#paymentTime").attr("disabled",true); 
+			$("#paymentRemake").attr("disabled",true); 
+			break;
+		default:break;
 		
-		$("#interviewTime").attr("disabled",true); 
-		$("#interviewRemake").attr("disabled",true); 
-		
-		$("#repayTime").attr("disabled",true); 
-		$("#repayRemake").attr("disabled",true);
-	}
-	
-	if(property != null && property != "" && (property == "CANCELDIYA_ONE" || property == "CANCELDIYA_TWO")){
-		$("#applyTime").attr("disabled",true); 
-		$("#applyRemake").attr("disabled",true); 
-		
-		$("#interviewTime").attr("disabled",true); 
-		$("#interviewRemake").attr("disabled",true); 
-		
-		$("#repayTime").attr("disabled",true); 
-		$("#repayRemake").attr("disabled",true);
-		
-		$("#cancelTime").attr("disabled",true); 
-		$("#cancelRemake").attr("disabled",true); 
-	}
-	
-	if(property != null && property != "" && (property == "RECEIVE_ONE" || property == "RECEIVE_TWO")){
-		$("#applyTime").attr("disabled",true); 
-		$("#applyRemake").attr("disabled",true); 
-		
-		$("#interviewTime").attr("disabled",true); 
-		$("#interviewRemake").attr("disabled",true); 
-		
-		$("#repayTime").attr("disabled",true); 
-		$("#repayRemake").attr("disabled",true);
-		
-		$("#cancelTime").attr("disabled",true); 
-		$("#cancelRemake").attr("disabled",true); 
-		
-		$("#redeemTime").attr("disabled",true); 
-		$("#redeemRemake").attr("disabled",true); 
-	}
-	
-	if(property != null && property != "" && property == "PAYCLEAR"){
-		$("#applyTime").attr("disabled",true); 
-		$("#applyRemake").attr("disabled",true); 
-		
-		$("#interviewTime").attr("disabled",true); 
-		$("#interviewRemake").attr("disabled",true); 
-		
-		$("#repayTime").attr("disabled",true); 
-		$("#repayRemake").attr("disabled",true);
-		
-		$("#cancelTime").attr("disabled",true); 
-		$("#cancelRemake").attr("disabled",true); 
-		
-		$("#redeemTime").attr("disabled",true); 
-		$("#redeemRemake").attr("disabled",true); 
-		
-		$("#paymentTime").attr("disabled",true); 
-		$("#paymentRemake").attr("disabled",true); 
 	}
 	
 }

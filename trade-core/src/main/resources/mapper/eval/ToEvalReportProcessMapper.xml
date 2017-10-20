@@ -476,4 +476,9 @@
     </set>
     where EVA_CODE = #{evaCode,jdbcType=VARCHAR}
     </update>
+    
+    <delete id="deleteToEvalReportProcessByEvalCode" parameterType="com.centaline.trans.eval.entity.ToEvalReportProcess" >
+      delete from sctrans.T_TO_EVA_REPORT_PROCESS
+      where EVA_CODE = #{evaCode,jdbcType=VARCHAR}
+    </delete>
 </mapper>

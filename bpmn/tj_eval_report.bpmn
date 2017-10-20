@@ -8,7 +8,7 @@
     <sequenceFlow id="flow6" sourceRef="EvalIssue" targetRef="EvalUsed"></sequenceFlow>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow7" sourceRef="EvalUsed" targetRef="endevent1"></sequenceFlow>
-    <userTask id="EvalApply" name="评估申请"></userTask>
+    <userTask id="EvalApply" name="评估申请" activiti:assignee="${loan}" activiti:formKey="/task/eval/apply"></userTask>
     <sequenceFlow id="flow8" sourceRef="EvalApply" targetRef="EvalReport"></sequenceFlow>
     <startEvent id="startevent1" name="Start"></startEvent>
     <sequenceFlow id="flow9" sourceRef="startevent1" targetRef="EvalApply"></sequenceFlow>

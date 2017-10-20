@@ -14,9 +14,11 @@ public class MQCaseMessage  implements Serializable {
 	public static final String UPDATEFLOW_TYPE = "UPDATE";
 	
 	public static final String REPEAL_TYPE = "REPEAL";
-
+	//自办贷款审批类型
 	public static final String LOAN_TYPE="LOAN";
-	
+	//自办评估审批类型
+	public static final String ASS_TYPE="ASS";
+	//评估退费类型
 	public static final String EVAREFUND_TYPE="EVAREFUND";
 	private String caseCode;
 	private String type;

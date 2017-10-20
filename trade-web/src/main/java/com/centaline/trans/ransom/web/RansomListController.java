@@ -29,6 +29,7 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.web.ResultNew;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.enums.RansomPartEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
@@ -217,9 +218,10 @@ public class RansomListController {
 			//案件详情信息
 			ToRansomCaseVo caseVo = ransomService.getRansomCaseInfo(caseCode);
 			//赎楼详情信息
-			ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode, null);
+			List<ToRansomDetailVo> ransomDetailVo = ransomService.getRansomDetail(caseCode);
+			ToRansomDetailVo detailVo = ransomDetailVo.get(0);
 			//新建赎楼单即是受理状态
-			ToRansomTailinsVo tailinsVo = ransomService.getTailinsInfoByCaseCode(caseCode);
+			ToRansomTailinsVo tailinsVo = ransomService.getTailinsInfoByCaseCode(caseCode).get(0);
 			//查询赎楼编号
 			String ransomCode = tailinsVo.getRansomCode();
 			//申请
@@ -350,7 +352,7 @@ public class RansomListController {
 			ToRansomCancelVo cancelVo = ransomService.getCancelInfo(ransomCode);
 			ToRansomPermitVo permitVo = ransomService.getPermitInfo(ransomCode);
 			ToRansomPaymentVo paymentVo = ransomService.getPaymentInfo(ransomCode);
-			ToRansomCaseVo caseVo = ransomService.getRansomCaseInfo(ransomCode);
+			ToRansomCaseVo caseVo = ransomService.getRansomInfoByRansomCode(ransomCode);
 			List<ToRansomPlanVo> planVo = ransomListFormService.getRansomPlanTimeInfo(ransomCode);
 			
 			//如果计划时间信息为空，添加赎楼时间计划信息的ransomCode、更新人、更新时间
@@ -371,6 +373,7 @@ public class RansomListController {
 			request.setAttribute("permitVo", permitVo);
 			request.setAttribute("paymentVo", paymentVo);
 			request.setAttribute("caseVo", caseVo);
+			request.setAttribute("planVo", planVo);
 			request.setAttribute("ransomCode", ransomCode);
 			
 			return "ransom/ransomPlanTime";
@@ -380,7 +383,12 @@ public class RansomListController {
 		}
 	}
 	
-	
+	/**
+	 * 赎楼计划时间
+	 * @param ransomVo
+	 * @param flag
+	 * @return
+	 */
 	@RequestMapping(value="updateRansomPlanTime",method = RequestMethod.POST)
 	@ResponseBody
 	public String updateRansomPlanTimeInfo(@RequestParam String ransomVo,int flag) {
@@ -520,5 +528,10 @@ public class RansomListController {
 		return sb;
 	}
 	
+	public static void main(String[] args) {
+		for (RansomPartEnum e : RansomPartEnum.values()) {
+			System.out.println(e.toString());
+		}
+	}
 	
 }

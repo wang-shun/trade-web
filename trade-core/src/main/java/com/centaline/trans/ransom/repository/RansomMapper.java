@@ -32,6 +32,7 @@ public interface RansomMapper {
 	 * @param caseCode
 	 * @return
 	 */
+	List<ToRansomDetailVo> getRansomDetailInfoByCode(String caseCode);
 	ToRansomDetailVo getRansomDetailInfoByCode(@Param("caseCode")String caseCode, @Param("ransomCode")String ransomCode);
 	
 	/**
@@ -134,7 +135,7 @@ public interface RansomMapper {
 	 * @param caseCode
 	 * @return 
 	 */
-	ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode);
+	List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode);
 	
 	/**
 	 * 根据ransomCode查询尾款信息
@@ -184,4 +185,6 @@ public interface RansomMapper {
 	 * @return
 	 */
 	boolean deleteRansomApplyByRansomCode(String ransomCode);
+	
+	ToRansomCaseVo getRansomCaseInfoByRansomCode(String ransomCode);
 }
