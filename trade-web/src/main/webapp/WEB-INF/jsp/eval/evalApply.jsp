@@ -69,6 +69,8 @@
 				<form method="get" class="form_list" id="evalApplyForm">
 					<!-- 交易单编号 -->
 					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+					<%--环节编码 --%>
+					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 						<ul class="form_lump">
 						<div class="modal_title title-mark">
                                 	填写任务信息
@@ -82,7 +84,7 @@
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two">原购入价</label>
-								<input class="input_type sign_right_two"  name="originPrice" id="originPrice" value="${toEvalReportProcess.ornginPrice}" style="visibility:hidden" onkeyup="checkNum(this)">
+								<input class="input_type sign_right_two"  name="ornginPrice" id="ornginPrice" value="${toEvalReportProcess.ornginPrice}" style="visibility:hidden" onkeyup="checkNum(this)">
 								<div class="input-group date_icon">
 									<span class="danwei">万</span>
 								</div>
