@@ -680,8 +680,11 @@ function showOrgCp() {
 		dataType : "json",
 		timeout : 10000,
 		success : function(data) {
-			console.info(data);
-			showLeadingModal(data);
+			if(data == null || data.length ==0){
+				window.wxc.alert("查无同组织下的其他权证人员!");
+			}else{
+				showLeadingModal(data);
+			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 		}

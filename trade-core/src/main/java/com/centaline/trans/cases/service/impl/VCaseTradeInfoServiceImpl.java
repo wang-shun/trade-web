@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
+import com.centaline.trans.cases.entity.ToCaseRecv;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
+import com.centaline.trans.cases.repository.ToCaseRecvMapper;
 import com.centaline.trans.cases.repository.VCaseTradeInfoMapper;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
 
@@ -15,6 +17,8 @@ public class VCaseTradeInfoServiceImpl implements VCaseTradeInfoService {
 
 	@Autowired
 	private VCaseTradeInfoMapper vCaseTradeInfoMapper;
+	@Autowired
+	private ToCaseRecvMapper toCaseRecvMapper;
 
 	@Override
 	public VCaseTradeInfo queryCaseTradeInfoByCaseCode(String caseCode) {
@@ -44,7 +48,13 @@ public class VCaseTradeInfoServiceImpl implements VCaseTradeInfoService {
 			long guohuDays = getDistanceDaysByOrder(guohuSubTime, caseTradeInfo.getRealHtTime());
 			caseTradeInfo.setGuohuSubAndRealTimeDiff(guohuDays);
 		}
-
+		/**
+		 * 添加案件接单时间
+		 * @author wbcaiyx
+		 *	@date 2017/10/19
+		 */
+		ToCaseRecv caseRecv = toCaseRecvMapper.selectByPrimaryKey(caseCode);
+		caseTradeInfo.setRecvTime(caseRecv==null?null:caseRecv.getProcessTime());
 		return caseTradeInfo;
 	}
 
