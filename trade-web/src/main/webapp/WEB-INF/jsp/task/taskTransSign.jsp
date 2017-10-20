@@ -576,7 +576,7 @@
                 hidegrid : false,
                 postData : {
                     queryId : "queryToReminderList",
-                    search_partCode : taskitem
+                    search_partCode : "${taskitem}"
                 },
             });
 
