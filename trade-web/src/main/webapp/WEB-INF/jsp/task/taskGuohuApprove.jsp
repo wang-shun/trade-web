@@ -177,10 +177,10 @@
         </div>
     </div>
     <div class="clearfix">
-        <c:if test="${!empty toMortgage}">
+        <c:if test="${!empty toMortgage or !empty mortgageToSaveVO}">
             <h2 class="newtitle title-mark">案件贷款情况 : 有贷款</h2>
         </c:if>
-        <c:if test="${empty toMortgage}">
+        <c:if test="${empty toMortgage and empty mortgageToSaveVO}">
             <h2 class="newtitle title-mark">案件贷款情况 : 无贷款</h2>
         </c:if>
         <div class="text_list">
@@ -221,20 +221,16 @@
                 <li>
                     <em>是否自办贷款</em>
                     <span class="yuanwid">
-                            <c:choose>
-                                <c:when test="${toMortgage.isDelegateYucui=='0'}">
 
-                                <input type="radio" value="0" checked="checked" name="isDelegateYucui" />是
-                                <input type="radio" value="1" name="isDelegateYucui" disabled="disabled"/>否
-                                </c:when>
-                                <c:when test="${toMortgage.isDelegateYucui=='1'}">
-                                    <input type="radio" value="0" name="isDelegateYucui" disabled="disabled"/>是
-                                    <input type="radio" value="1" checked="checked" name="isDelegateYucui"/>否
-                                    </c:when>
-                                <c:otherwise>
-                                    ${toMortgage.isDelegateYucui}
-                                </c:otherwise>
-                            </c:choose>
+                                <c:if test="${!empty toMortgage or mortgageToSaveVO.selfMort=='2'}">
+                                <input type="radio" value="0"  name="isDelegateYucui" disabled="disabled"/>是
+                                <input type="radio" value="1" name="isDelegateYucui"  checked="checked"/>否
+                                </c:if>
+                                <c:if test="${mortgageToSaveVO.selfMort=='1'}">
+                                    <input type="radio" value="0" name="isDelegateYucui" checked="checked" />是
+                                    <input type="radio" value="1"  name="isDelegateYucui" disabled="disabled"/>否
+                                    </c:if>
+
                             </span>
                 </li>
                 <c:choose>
@@ -272,7 +268,7 @@
                 <li>
                     <em>贷款总金额</em><span class="yuanwid">
                     <c:if test="${!empty caseDetailVO.mortTypeName}">
-                    ${caseDetailVO.mortTypeName}&nbsp;&nbsp;万元
+                    ${toMortgage.mortTotalAmount}&nbsp;&nbsp;万元
                     </c:if></span>
                 </li>
                 <!--end-->
@@ -289,11 +285,15 @@
                     <em>商贷利率</em><span class="yuanwid">${toMortgage.comDiscount}</span>
                 </li>
                 <li>
-                    <em>商贷年限</em><span class="yuanwid">${toMortgage.comYear}</span>
+                    <em>商贷年限</em><span class="yuanwid"><c:if test="${!empty toMortgage.comYear}">
+                    ${toMortgage.comYear}&nbsp;&nbsp;年
+                </c:if></span>
                 </li>
 
                 <li>
-                    <em>房贷套数</em><span class="yuanwid">${toMortgage.houseNum}</span>
+                    <em>房贷套数</em><span class="yuanwid"><c:if test="${!empty toMortgage.houseNum}">
+                    ${toMortgage.houseNum}&nbsp;&nbsp;套
+                </c:if></span>
                 </li>
                 <li>
                     <em>信贷员</em><span class="yuanwid">${toMortgage.loanerName}</span>
@@ -313,7 +313,7 @@
                     <em>公积金贷款年限</em><span class="yuanwid">${toMortgage.prfYear}</span>
                 </li>
                 <li>
-                    <em>申请时间</em><span class="yuanwid">${caseDetailVO.prfApplyDate}</span>
+                    <em>申请时间</em><span class="yuanwid"><fmt:formatDate value="${toMortgage.createTime}" pattern="yyyy-MM-dd"/> </span>
                 </li>
                 <li>
                     <em>主贷人</em><span class="yuanwid">${caseDetailVO.mortBuyer}</span>
