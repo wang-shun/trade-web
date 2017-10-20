@@ -108,13 +108,15 @@
 										<table style="width:100%">
 											<tr style="height:50px">
 												<td>流程状态：</td>
-												<td>${toSelfAppInfo.status}</td>
+												<td><c:if test="${toSelfAppInfo.status==1}">通过</c:if>
+													<c:if test="${toSelfAppInfo.status==0}">审批中</c:if>
+													<c:if test="${toSelfAppInfo.status==-1}">驳回</c:if></td>
 												<td>申请人：</td>
 												<td>${toSelfAppInfo.realName}</td>
 												<td>申请分行：</td>
 												<td>${toSelfAppInfo.grpName}</td>
 												<td>申请时间：</td>
-												<td>${toSelfAppInfo.applyTime}</td>
+												<td><fmt:formatDate  value='${toSelfAppInfo.applyTime}' type='both' pattern='yyyy-MM-dd'/></td>
 											</tr>
 											
 											<tr style="height:50px">
@@ -127,7 +129,7 @@
 												<td>权证经理回访结果：</td>
 												<td>${toAppRecordInfo.visitResult}</td>
 												<td>权证经理回访时间：</td>
-												<td>${toAppRecordInfo.visitTime}</td>
+												<td><fmt:formatDate  value='${toAppRecordInfo.visitTime}' type='both' pattern='yyyy-MM-dd'/></td>
 											</tr>
 									</table>
 									</div>
@@ -168,21 +170,14 @@
 							</table>
 								
 								
-					<div><span>审批记录</span></div>				
-					<div class="form_content" id="content">
-						<table id="table_list_0"  width="800" border="1" cellspacing="0" cellpadding="0" >
-	                                <tr>
-	                                	<th>审批人名称</th>
-	                                	<th>审批人级别</th>
-	                                	<th>审批时间</th>
-	                                	<th>审批结果</th>
-	                                	<th>审批意见</th>
-	                                </tr>
-	                    </table>
-							
+						<div class="title title-mark" >
+				<strong style="font-weight: bold;">审批记录</strong>
+				</div>
 
-					
-					</div>
+			<div class="view-content">
+				<table id="gridTable" class=""></table>
+				<div id="gridPager"></div>
+			</div>
 					
 				</div>
 			</div>
@@ -236,10 +231,112 @@
 	<script src="<c:url value='/js/common/common.js' />"></script>
 	
 	<script>
+var caseCode = $("#caseCode").val();
+	
+	var AttachmentList = (function() {
+		return {
+			init : function(ctx, url, gridTableId, gridPagerId, ctmCode,
+					caseCode) {
+				//jqGrid 初始化
+				$("#" + gridTableId)
+						.jqGrid(
+								{
+									url : ctx + url,
+									mtype : 'GET',
+									datatype : "json",
+									height : 125,
+									autowidth : true,
+									shrinkToFit : true,
+									rowNum : 3,
+									/*   rowList: [10, 20, 30], */
+									colNames : [ '审批人', '审批时间', '审批结果', '审批意见' ],
+									colModel : [ {
+										name : 'OPERATOR',
+										index : 'OPERATOR',
+										align : "center",
+										width : 25,
+										resizable : false
+									}, {
+										name : 'OPERATOR_TIME',
+										index : 'OPERATOR_TIME',
+										align : "center",
+										width : 25,
+										resizable : false
+									}, {
+										name : 'NOT_APPROVE',
+										index : 'NOT_APPROVE',
+										align : "center",
+										width : 25,
+										resizable : false
+									//formatter : linkhouseInfo
+									}, {
+										name : 'CONTENT',
+										index : 'CONTENT',
+										align : "center",
+										width : 25,
+										resizable : false
+									} ],
+									multiselect : true,
+									pager : "#" + gridPagerId,
+									//sortname:'UPLOAD_DATE',
+									//sortorder:'desc',
+									viewrecords : true,
+									pagebuttions : true,
+									multiselect : false,
+									hidegrid : false,
+									recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+									pgtext : " {0} 共 {1} 页",
+									gridComplete : function() {
+										var ids = jQuery("#" + gridTableId)
+												.jqGrid('getDataIDs');
+										for (var i = 0; i < ids.length; i++) {
+											var id = ids[i];
+											var rowDatas = jQuery(
+													"#" + gridTableId).jqGrid(
+													'getRowData', ids[i]); // 获取当前行
+
+											var auditResult = rowDatas['NOT_APPROVE'];
+											var auditResultDisplay = null;
+											if (!auditResult) {
+												auditResultDisplay = "审批通过"
+											} else {
+												auditResultDisplay = auditResult;
+											}
+											jQuery("#" + gridTableId)
+													.jqGrid(
+															'setRowData',
+															ids[i],
+															{
+																NOT_APPROVE : auditResultDisplay
+															});
+										}
+									},
+									postData : {
+										queryId : "queryLoanlostApproveList",
+										//caseCode : caseCode
+										caseCode : caseCode
+									}
+
+								});
+			}
+		};
+	})();
+	
 		$(document).ready(function(){	
-			listtable($("#table_list_0"));
+
+					var ctx = $("#ctx").val();
+					/* 	if(!$("#caseCode").val()){
+					           $("#caseCode").val("ZY-TJ-2017080038");						
+					     } */
+					var caseCode = $("#caseCode").val();
+					AttachmentList.init('${ctx}','/quickGrid/findPage', 'gridTable',
+							'gridPager', '${ctmCode}', caseCode);
+					$("#caseCommentList").caseCommentGrid({
+						caseCode : caseCode,
+						srvCode : 'caseRecvFlow'
+					});
+					
 		});
-		
 	
 	
 		function  listtable(formId){
