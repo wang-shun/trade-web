@@ -74,18 +74,15 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	public List getUpdateRansomInfo(String caseCode) {
 		List list = new ArrayList();
 		try {
-			List<ToRansomTailinsVo> tailinsVo =  ransomMapper.getTailinsInfoByCaseCode(caseCode);
+			ToRansomTailinsVo tailinsVo =  ransomMapper.getTailinsInfoByCaseCode(caseCode);
 			
 			List<TgGuestInfo> guestInfo = ransomListFormMapper.getGuestInfo(caseCode);
 			
 			ToRansomCaseVo caseVo = ransomListFormMapper.getRansomCase(caseCode, null);
-			String finOrgCode = tailinsVo.get(0).getFinOrgCode();
-			TsFinOrg finOrg = ransomListFormMapper.getTsFinOrgIinfo(finOrgCode);
 			
 			list.add(tailinsVo);
 			list.add(guestInfo);
 			list.add(caseVo);
-			list.add(finOrg);
 			
 			return list;
 		} catch (Exception e) {
@@ -142,7 +139,7 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		applyVo.setRansomCode(ransomVo.getRansomCode());
 		applyVo.setApplyTime(ransomVo.getApplyTime());
 		applyVo.setRemark(ransomVo.getApplyRemake());
-		applyVo.setUpdateUser(user.getUsername());
+		applyVo.setUpdateUser(user.getId());
 		applyVo.setUpdateTime(new Date());
 		
 		int res = ransomListFormMapper.updateRansomApplyInfoByRansomCode(applyVo);
@@ -158,7 +155,7 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		signVo.setRansomCode(ransomVo.getRansomCode());
 		signVo.setSignTime(ransomVo.getInterviewTime());
 		signVo.setRemark(ransomVo.getInterviewRemake());
-		signVo.setUpdateUser(user.getUsername());
+		signVo.setUpdateUser(user.getId());
 		signVo.setUpdateTime(new Date());
 		
 		int res = ransomListFormMapper.updateRansomInterviewInfoByRansomCode(signVo );
@@ -174,7 +171,7 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		mortgageVo.setRansomCode(ransomVo.getRansomCode());
 		mortgageVo.setMortgageTime(ransomVo.getRepayTime());
 		mortgageVo.setRemark(ransomVo.getRepayRemake());
-		mortgageVo.setUpdateUser(user.getUsername());
+		mortgageVo.setUpdateUser(user.getId());
 		mortgageVo.setUpdateTime(new Date());
 		
 		int res = ransomListFormMapper.updateRansomRepayInfoByRansomCode(mortgageVo);
@@ -190,7 +187,7 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		cancelVo.setRansomCode(ransomVo.getRansomCode());
 		cancelVo.setCancelTime(ransomVo.getCancelTime());
 		cancelVo.setRemark(ransomVo.getCancelRemake());
-		cancelVo.setUpdateUser(user.getUsername());
+		cancelVo.setUpdateUser(user.getId());
 		cancelVo.setUpdateTime(new Date());
 		
 		int res = ransomListFormMapper.updateRansomCancelInfoByRansomCode(cancelVo);
@@ -206,7 +203,7 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		permitVo.setRansomCode(ransomVo.getRansomCode());
 		permitVo.setRedeemTime(ransomVo.getRedeemTime());
 		permitVo.setRemark(ransomVo.getRedeemRemake());
-		permitVo.setUpdateUser(user.getUsername());
+		permitVo.setUpdateUser(user.getId());
 		permitVo.setUpdateTime(new Date());
 		
 		int res = ransomListFormMapper.updateRansomRedeemInfoByRansomCode(permitVo);
@@ -228,7 +225,7 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		paymentVo.setRansomCode(ransomVo.getRansomCode());
 		paymentVo.setPaymentTime(ransomVo.getPaymentTime());
 		paymentVo.setRemark(ransomVo.getRepayRemake());
-		paymentVo.setUpdateUser(user.getUsername());
+		paymentVo.setUpdateUser(user.getId());
 		paymentVo.setUpdateTime(new Date());
 		
 		int res = ransomListFormMapper.updateRansomPaymentInfoByRansomCode(paymentVo);

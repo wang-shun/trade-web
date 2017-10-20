@@ -102,22 +102,31 @@ public class RansomListController {
 		SessionUser user= uamSessionService.getSessionUser();
 		
 		try {
-		      
 			List<ToRansomFormVo> list = JSONObject.parseArray(jsonStr, ToRansomFormVo.class);
-			
-			for (ToRansomFormVo arf : list) {
-				arf.setRansomCode(new StringBuffer()
-						.append("TJ-SL-").append(getCalendarTime())
-						.toString()); //赎楼单编号
-				arf.setLoanMoney(arf.getLoanMoney() * 10000);
-				arf.setRestMoney(new BigDecimal(arf.getRestMoney().doubleValue() * 1000));
-				arf.setCreateTime(new Date());
-				arf.setCreateUser(user.getUsername());
-				arf.setUpdateTime(new Date());
-				arf.setUpdateUser(user.getUsername());
+			String ransomCode = new StringBuffer().append("TJ-SL-").append(getCalendarTime()).toString(); //赎楼单编号
+			String caseCode = list.get(0).getCaseCode();
+			List<ToRansomFormVo> ransomList = new ArrayList<ToRansomFormVo>();
+			for (int i = 0; i < list.size(); i++) {
+				ToRansomFormVo ransomFormVo = new ToRansomFormVo();
+				
+				ransomFormVo.setCaseCode(caseCode);
+				ransomFormVo.setRansomCode(ransomCode);
+				ransomFormVo.setSignTime(list.get(0).getSignTime());
+				ransomFormVo.setPlanTime(list.get(0).getPlanTime());
+				ransomFormVo.setFinOrgCode(list.get(i).getFinOrgCode());
+				ransomFormVo.setMortgageType(list.get(i).getMortgageType());
+				ransomFormVo.setDiyaType(list.get(i).getDiyaType());
+				ransomFormVo.setLoanMoney((list.get(i).getLoanMoney()).multiply(new BigDecimal(Double.toString(10000.00))));
+				ransomFormVo.setRestMoney((list.get(i).getRestMoney().multiply(new BigDecimal(Double.toString(10000.00)))));
+				ransomFormVo.setCreateTime(new Date());
+				ransomFormVo.setCreateUser(user.getId());
+				ransomFormVo.setUpdateTime(new Date());
+				ransomFormVo.setUpdateUser(user.getId());
+				
+				ransomList.add(ransomFormVo);
 			}
 			
-			addRansomFormService.addRansomForm(list);
+			addRansomFormService.addRansomForm(ransomList);
 			result = "0";
 			if("0".equals(result)){
 				rs.setStatus(result);
@@ -126,17 +135,18 @@ public class RansomListController {
 
 				ToRansomCaseVo trco = new ToRansomCaseVo();
 				//赎楼列表单插入数据
-				trco.setRansomCode(list.get(0).getRansomCode());
-				trco.setCaseCode(list.get(0).getCaseCode());
+				trco.setRansomCode(ransomCode);
+				trco.setCaseCode(caseCode);
 				trco.setRansomStatus("RANSOMDEAL");
 				trco.setRansomProperty("DEAL");
 				trco.setBorrowerName(list.get(0).getBorrowerName());
-				trco.setBorroMoney(list.get(0).getBorroMoney());
+				trco.setBorrowerTel(list.get(0).getBorrowerTel());
+				trco.setBorroMoney((list.get(0).getBorroMoney().multiply(new BigDecimal(Double.toString(10000.00)))));
 				trco.setAcceptTime(list.get(0).getPlanTime());
 				trco.setCreateTime(new Date());
-				trco.setCreateUser(user.getUsername());
+				trco.setCreateUser(user.getId());
 				trco.setUpdateTime(new Date());
-				trco.setUpdateUser(user.getUsername());
+				trco.setUpdateUser(user.getId());
 				
 				ransomListFormService.addRansomDetail(trco);
 			}else{
@@ -221,7 +231,7 @@ public class RansomListController {
 			List<ToRansomDetailVo> ransomDetailVo = ransomService.getRansomDetail(caseCode);
 			ToRansomDetailVo detailVo = ransomDetailVo.get(0);
 			//新建赎楼单即是受理状态
-			ToRansomTailinsVo tailinsVo = ransomService.getTailinsInfoByCaseCode(caseCode).get(0);
+			ToRansomTailinsVo tailinsVo = ransomService.getTailinsInfoByCaseCode(caseCode);
 			//查询赎楼编号
 			String ransomCode = tailinsVo.getRansomCode();
 			//申请
@@ -269,12 +279,10 @@ public class RansomListController {
 			ToRansomTailinsVo tailinsVo = (ToRansomTailinsVo) list.get(0);
 			List<TgGuestInfo> guestInfo = (List<TgGuestInfo>) list.get(1);
 			ToRansomCaseVo caseVo = (ToRansomCaseVo) list.get(2);
-			//TsFinOrg finOrg = (TsFinOrg) list.get(3);
 			
 			request.setAttribute("tailinsVo", tailinsVo);
 			request.setAttribute("guestInfo", guestInfo);
 			request.setAttribute("caseVo", caseVo);
-			//request.setAttribute("finOrg", finOrg);
 			return "ransom/ransomDetailUpdate";
 		} catch (Exception e) {
 			logger.error("", e);
@@ -301,9 +309,9 @@ public class RansomListController {
 			if(ransomVo != null) {
 				caseVo.setRansomCode(ransomVo.getRansomCode());
 				caseVo.setBorrowerName(ransomVo.getBorrowerName());
-				caseVo.setBorroMoney(ransomVo.getBorrowerMoney().multiply(new BigDecimal(10000.00)));
+				caseVo.setBorroMoney((ransomVo.getBorrowerMoney()).multiply(new BigDecimal(Double.toString(10000.00))));
 				caseVo.setBorrowerTel(ransomVo.getBorrowerPhone());
-				caseVo.setUpdateUser(user.getUsername());
+				caseVo.setUpdateUser(user.getId());
 				caseVo.setUpdateTime(new Date());
 				
 				tailinsVo.setRansomCode(ransomVo.getRansomCode());
@@ -311,10 +319,10 @@ public class RansomListController {
 				tailinsVo.setFinOrgCode(ransomVo.getFinOrgCode());
 				tailinsVo.setMortgageType(ransomVo.getMortgageType());
 				tailinsVo.setDiyaType(ransomVo.getDiyaType());
-				tailinsVo.setLoanMoney(ransomVo.getLoanMoney().multiply(new BigDecimal(10000.00)));
-				tailinsVo.setRestMoney(ransomVo.getRestMoney().multiply(new BigDecimal(10000.00)));
+				tailinsVo.setLoanMoney((ransomVo.getLoanMoney()).multiply(new BigDecimal(Double.toString(10000.00))));
+				tailinsVo.setRestMoney((ransomVo.getRestMoney()).multiply(new BigDecimal(Double.toString(10000.00))));
 				tailinsVo.setUpdateTime(new Date());
-				tailinsVo.setUpdateUser(user.getUsername());
+				tailinsVo.setUpdateUser(user.getId());
 				
 				flag = ransomListFormService.updateRansomCaseInfo(caseVo);
 				flag = ransomListFormService.updateRansomTailinsInfo(tailinsVo);
@@ -360,8 +368,8 @@ public class RansomListController {
 				ToRansomPlanVo ransomPlanVo = new ToRansomPlanVo();
 				ransomPlanVo.setCreateTime(new Date());
 				ransomPlanVo.setRansomCode(ransomCode);
-				ransomPlanVo.setCreateUser(user.getUsername());
-				ransomPlanVo.setUpdateUser(user.getUsername());
+				ransomPlanVo.setCreateUser(user.getId());
+				ransomPlanVo.setUpdateUser(user.getId());
 				ransomPlanVo.setUpdateTime(new Date());
 				ransomListFormService.insertRansomPlanTimeInfo(ransomPlanVo);
 			}
@@ -413,9 +421,9 @@ public class RansomListController {
 				ransomPlan.setEstPartTime(planVo.getEstPartTime());
 				ransomPlan.setRemark(planVo.getRemark());
 				ransomPlan.setUpdateTime(new Date());
-				ransomPlan.setUpdateUser(user.getUsername());
+				ransomPlan.setUpdateUser(user.getId());
 				ransomPlan.setCreateTime(new Date());
-				ransomPlan.setCreateUser(user.getUsername());
+				ransomPlan.setCreateUser(user.getId());
 				
 				//如果查询存在此环节有记录则进行修改，没有进行插入
 				if (partCode.contains("APPLY") && partCode.contains(planVo.getPartCode())) {
