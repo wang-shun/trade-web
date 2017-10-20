@@ -290,7 +290,7 @@ text-decoration: underline !important;
 				<a href = "${ctx}/ransomList/ransomDetail?caseCode={{item.CASE_CODE}}">{{item.RANSOM_CODE}}</a>
 			</p>
 			<p>
-				{{if item.RANSOM_STATUS == "RANSOMCENCLE"}}
+				{{if item.RANSOM_STATUS == 4}}
 					<i class="demo-top sign_blue" title = "{{item.STOP_REASON}}">中止</i>
 				{{else}}
 					<i class="sign_gray" style="display:none;">{{item.RANSOM_STATUS}}</i>
@@ -316,16 +316,16 @@ text-decoration: underline !important;
 		{{item.COM_ORG_CODE}}
 	</td>
 	<td class="center"> 
-		{{if item.RANSOM_STATUS == "RANSOMDEAL"}}
+		{{if item.RANSOM_STATUS == 1}}
 		 	受理 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
-		{{if item.RANSOM_STATUS == "RANSOMLOADING"}}
+		{{if item.RANSOM_STATUS == 2}}
 		 	在途 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
-		{{if item.RANSOM_STATUS == "RANSOMCENCLE"}}
+		{{if item.RANSOM_STATUS == 4}}
 		 	中止 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
-		{{if item.RANSOM_STATUS == "RANSOMEND"}}
+		{{if item.RANSOM_STATUS == 3}}
 		 	结束 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
 	</td>

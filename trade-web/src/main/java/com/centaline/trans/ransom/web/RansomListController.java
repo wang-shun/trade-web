@@ -137,7 +137,7 @@ public class RansomListController {
 				//赎楼列表单插入数据
 				trco.setRansomCode(ransomCode);
 				trco.setCaseCode(caseCode);
-				trco.setRansomStatus("RANSOMDEAL");
+				trco.setRansomStatus("1");
 				trco.setRansomProperty("DEAL");
 				trco.setBorrowerName(list.get(0).getBorrowerName());
 				trco.setBorrowerTel(list.get(0).getBorrowerTel());
@@ -354,12 +354,7 @@ public class RansomListController {
 		SessionUser user= uamSessionService.getSessionUser();
 		
 		try {
-			ToRansomApplyVo applyVo = ransomService.getApplyInfo(ransomCode);
-			ToRansomSignVo signVo = ransomService.getInterviewInfo(ransomCode);
-			ToRansomMortgageVo mortgageVo = ransomService.getMortgageInfo(ransomCode);
-			ToRansomCancelVo cancelVo = ransomService.getCancelInfo(ransomCode);
-			ToRansomPermitVo permitVo = ransomService.getPermitInfo(ransomCode);
-			ToRansomPaymentVo paymentVo = ransomService.getPaymentInfo(ransomCode);
+			
 			ToRansomCaseVo caseVo = ransomService.getRansomInfoByRansomCode(ransomCode);
 			List<ToRansomPlanVo> planVo = ransomListFormService.getRansomPlanTimeInfo(ransomCode);
 			
@@ -374,15 +369,8 @@ public class RansomListController {
 				ransomListFormService.insertRansomPlanTimeInfo(ransomPlanVo);
 			}
 			
-			request.setAttribute("applyVo", applyVo);
-			request.setAttribute("signVo", signVo);
-			request.setAttribute("mortgageVo", mortgageVo);
-			request.setAttribute("cancelVo", cancelVo);
-			request.setAttribute("permitVo", permitVo);
-			request.setAttribute("paymentVo", paymentVo);
 			request.setAttribute("caseVo", caseVo);
 			request.setAttribute("planVo", planVo);
-			request.setAttribute("ransomCode", ransomCode);
 			
 			return "ransom/ransomPlanTime";
 		} catch (Exception e) {

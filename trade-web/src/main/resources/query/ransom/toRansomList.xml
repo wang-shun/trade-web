@@ -29,8 +29,8 @@
 							rac.RANSOM_STATUS,
 							rac.STOP_REASON,
 							rac.BORRO_MONEY,
-							rac.UPDATE_TIME,
-							app.ISAPPLY
+							rac.UPDATE_TIME
+							
 						FROM sctrans.T_RA_CASE rac
 						INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON pro.CASE_CODE = rac.CASE_CODE
 						INNER JOIN sctrans.T_TO_CASE_INFO toc ON toc.CASE_CODE = pro.CASE_CODE
@@ -43,9 +43,6 @@
 						LEFT JOIN sctrans.T_RA_REDEEM red ON red.RANSOM_CODE = can.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
 						WHERE 1 = 1 
-						<ifNotNull isApply>
-							AND app.ISAPPLY = 0
-						</ifNotNull>
 						<ifNotNull ransomStatus>
 							AND RANSOM_STATUS = #ransomStatus#
 						</ifNotNull>
@@ -102,8 +99,7 @@
 					rac.RANSOM_STATUS,
 					rac.STOP_REASON,
 					rac.BORRO_MONEY,
-					rac.UPDATE_TIME,
-					app.isApply
+					rac.UPDATE_TIME
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -131,7 +127,7 @@
 				<column type="both" name="UPDATE_TIME" display="最新状态" customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"  />
 				
 				<column type="both" name="BORRO_MONEY" index="" checkbox="" display="借款金额" customDict="" sysDict="" />
-				<column type="both" name="ISAPPLY" index="" checkbox="" display="是否已申请" customDict="" sysDict="" />
+				<!-- <column type="both" name="ISAPPLY" index="" checkbox="" display="是否已申请" customDict="" sysDict="" /> -->
 			
 			</table-row>
 		</grid>
