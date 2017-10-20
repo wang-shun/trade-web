@@ -83,4 +83,18 @@ public interface ToMortgageMapper {
 	ToMortgage findToMortgageByCaseCodeAndDisTime(Map<String,Object> map);
 
 	void updateIsPatch(ToMortgage toMortgage);
+	
+	/**
+	 * 取贷款信息，主副
+	 * @param caseCode
+	 * @return
+	 */
+	List<ToMortgage> findToMortgageByCaseCodes(String caseCode);
+	
+	/**
+	 * 查询贷款挽回信息
+	 * @param caseCode
+	 * @return
+	 */
+	String findToMortgageSave(String caseCode);
 }

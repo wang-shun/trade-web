@@ -17,20 +17,7 @@ $(document).ready(function() {
 	aist.wrap(data);//格式化，添加排序字段及排序正反序
 	reloadGrid(data);
 
-	//$("input:checkbox[name='srvCode'][value='30004010']").parent().parent().parent().hide();
-	$("span[name='srvCode']").click(function(){
-		var id = $(this).attr("id");
-		$("span[id='"+id+"']").changeSelect();
-	});
 });
-
-jQuery.fn.changeSelect = function(params){
-	if(this.hasClass("selected")) {
-		this.removeClass("selected");
-	} else {
-		this.addClass("selected");
-	}
-};
 
 // select控件
 var config = {
@@ -201,9 +188,9 @@ function getParamsValue() {
 		} else if (inTextType == '2') {
 			caseCode = inTextVal.trim();//案件编号
 		}else if (inTextType == '3') {
-			buyer = hVal.trim();//买方
+			buyer = inTextVal.trim();//买方
 		}else if (inTextType == '4') {
-			seller = hVal.trim();//卖方
+			seller = inTextVal.trim();//卖方
 		}else if (inTextType == '5') {
 			agentName = inTextVal.trim();//经纪人姓名
 		}else if (inTextType == '6') {
@@ -336,7 +323,7 @@ function caseCodeSort(){
 function getEvaCompanyList(pcode){
 	var friend = $("#finOrgId");
 	friend.empty();
-	friend.append("<option>请选择</option>");
+	friend.append("<option value=''>请选择</option>");
 	 $.ajax({
 	    url:ctx+"/manage/queryEvaCompany",
 	    method:"post",

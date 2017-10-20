@@ -26,6 +26,8 @@ public enum WorkFlowEnum {
 	EVAL_INVOICE("EvalInvoiceProcess","processDefinitionKey"),
 //	评估发票管理流程
 	EVAL_CHANGE_COMPANY("EvalChangeCommProcess","processDefinitionKey"),
+//	调佣审批
+	CHANGE_COMMISION("change_commision","processDefinitionKey"),
 	SPV_OUT("spv_out","businessKey"),
 	//案件流程重启
 	SERVICE_RESTART("caseReStart_Process","serviceRestartBusinesskey"),

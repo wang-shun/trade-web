@@ -91,17 +91,19 @@
              	<div class="form_content fo">
           			<label class="control-label matching"><font color=" red" class="mr5" >*</font>匹配资方</label>
 					<div class="control-div ">
-				   		<select id="applyOrgCode" name="applyOrgCode" class= "btn btn-white chosen-select " style="float :left;margin-right:40px;width:200px;">							
-							<option value="W0001" selected>合作机构1</option>
-							<option value="W0002">合作机构2</option>
-							<option value="W0003">合作机构3</option>
-
-						</select>
-						<select id="loanOfficer" name="loanOfficer" class= "btn btn-white chosen-select" style="float :left;width:200px;margin-left:95px;" >
+						<div class="form_content">
+					   		<select id="applyOrgCode" name="applyOrgCode" class= "btn btn-white chosen-select " style="float :left;margin-right:40px;width:200px;">
+							</select>
+						</div>
+						<!-- <select id="loanOfficer" name="loanOfficer" class= "btn btn-white chosen-select" style="float :left;width:200px;margin-left:95px;" >
 							<option value="信贷员1" selected>信贷员1</option>
 							<option value="信贷员2">信贷员2</option>
 							<option value="信贷员3">信贷员3</option>
-						</select>
+						</select> -->
+						<div class="form_content">
+							<label class="sign_left_two control-label" style="margin-left:-28px;"><font color=" red" class="mr5" >*</font>信贷员</label>
+							<input type="text" class="select_control" id="loanOfficer" name="loanOfficer" style="width:200px;">
+						</div>
 					</div>
                  </div>
 			</div>
@@ -198,6 +200,8 @@
 	<script>
 		$(document).ready(function(){
 			
+			getEvaFinOrg('applyOrgCode');
+			
 			//案件跟进,common.js 
 			var caseCode = $('#caseCode').val();
 			$("#caseCommentList").caseCommentGrid({
@@ -213,6 +217,28 @@
 			queryApplyRecord(data);
 		})
 	
+		function getEvaFinOrg(finOrgId){
+			var url = "/manage/queryCooperation";
+			$.ajax({
+				async: true,
+				type:'POST',
+				url:ctx+url,
+				dataType:'json',
+				success:function(data){
+					var html = '';
+					if(data != null){
+						$.each(data,function(i,item){
+							html += '<option value="'+item.finOrgCode+'">'+item.finOrgName+'</option>';
+						});
+					}					
+					$('#'+finOrgId).empty();
+					$('#'+finOrgId).append(html);
+				},
+				error : function(errors) {
+				}
+			});
+		}
+		
 		//日期初始化
 		$('#applyTime').datepicker({
 			format : 'yyyy-mm-dd',
@@ -259,6 +285,13 @@
 		
 		//提交
 		$('#submitButton').click(function(){
+			if($('#loanOfficer').val() == ''){
+				window.wxc.alert("信贷员为必填项!");
+				$('#loanOfficer').focus();
+				$('#loanOfficer').css('border-color',"red");
+				return;
+			}
+			
 			if($('#applyTime').val() == ''){
 				window.wxc.alert("申请时间为必填项!");
 				$('#applyTime').focus();

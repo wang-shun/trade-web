@@ -70,6 +70,48 @@
 			LEFT JOIN sctrans.T_RA_REDEEM red ON can.RANSOM_CODE = red.RANSOM_CODE
 			LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
 			LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
+		WHERE ra.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getRansomDetailInfoByCodes" resultMap="BaseResultMap">
+		SELECT
+			distinct(ra.RANSOM_CODE) ransomCode,
+			ra.CASE_CODE caseCode,
+			ra.CREATE_USER financial,
+			ra.BORRO_MONEY borrowMoney,
+			ra.BORROWER_NAME borrowName,
+			ra.BORROWER_TEL borrowTel,
+			pro.PROPERTY_ADDR addr,
+			ra.COM_ORG_CODE comOrgCode,
+			(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = ra.COM_ORG_CODE) comOrgName,
+			app.LOANOFFICER credit,
+			cai.AGENT_NAME agentName,
+			cai.AGENT_PHONE agentPhone,
+			cas.LEADING_PROCESS_ID leadingProcessId,
+			vie.INTERVIEW_MONEY interViewMoney,
+			vie.INTEREST interest,
+			vie.IS_ENTRUST isEntrust,
+			tai.SIGN_TIME signTime, 
+			tai.PLAN_TIME planTime, 
+			app.APPLY_TIME applyTime, 
+			vie.INTERVIEW_TIME intervalTime,
+			rep.REPAY_TIME repayTime,
+			can.CANCEL_TIME  cancleTime,
+			red.REDEEM_TIME redeemTime,
+			pay.PAYMENT_TIME paymentTime
+		FROM
+			sctrans.T_RA_CASE ra
+			INNER JOIN sctrans.T_TO_CASE cas ON ra.CASE_CODE = cas.CASE_CODE
+			INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON ra.CASE_CODE = pro.CASE_CODE
+			INNER JOIN sctrans.T_TO_CASE_INFO cai ON ra.CASE_CODE = cai.CASE_CODE
+			LEFT JOIN sctrans.T_RA_TAILINS tai ON ra.RANSOM_CODE = tai.RANSOM_CODE 
+			LEFT JOIN sctrans.T_RA_INTERVIEW vie ON ra.RANSOM_CODE = vie.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_APPLY app ON ra.RANSOM_CODE = app.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_REPAY rep ON rep.RANSOM_CODE = app.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_CANCEL can ON rep.RANSOM_CODE = can.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_REDEEM red ON can.RANSOM_CODE = red.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
+			LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
 		WHERE 1=1 AND ra.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 
 	</select>

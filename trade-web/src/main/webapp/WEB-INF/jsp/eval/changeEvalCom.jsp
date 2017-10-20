@@ -271,7 +271,8 @@ function checkForm() {
 	});
 
 </script>
-
+<title>调佣审核</title>
+<content tag="pagetitle">调佣审核</content>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>

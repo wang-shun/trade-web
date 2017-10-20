@@ -23,7 +23,7 @@ public class ToEvaInvoice {
     private String taxNum;
 
     private Date applyDate;
-
+    //预计开票完成时间
     private Date toFinshDate;
 
     private Date bankOpenedDate;

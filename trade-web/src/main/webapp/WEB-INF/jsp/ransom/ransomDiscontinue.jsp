@@ -177,6 +177,7 @@
 		<div class="form-btn">
 			<div class="text-center">
 				<button class="btn btn-success btn-space" id="discontinue">提交</button>
+				<button class="btn btn-grey btn-space" id="cancel">取消</button>
 			</div>
 		</div>
 	</div>
@@ -215,8 +216,6 @@
 				});
 				
 				$("#discontinue").click(function(){
-					//window.location.href = ctx + "/ransomList/discontinue/ransomExamine";
-					debugger;
 					if($('#stopType').val() == ''){
 						window.wxc.alert("中止类型为必填项!");
 						return;
@@ -233,7 +232,6 @@
 					var url = "${ctx}/task/ransomDiscontinue/submitDiscontinue";
 					
 					$.ajax({
-						cache:true,
 						async:false,
 						type:"POST",
 						url:url,
@@ -245,7 +243,7 @@
 									 window.close();	
 								}});
 							}else{
-								window.wxc.error("提交失败!");
+								window.wxc.error("申请中止失败,请确认是否已经开启中止流程,或确认您是否是该赎楼流程环节责任人");
 							}
 							
 						},
@@ -256,11 +254,11 @@
 					
 				});
 				
-				
-				
-				
-				
-				
+				$("#cancel").click(function(){
+					if(confirm('您确定要取消吗？')){ 
+						 window.close();
+					}
+				});
 			});
 		</script> </content>
 </body>

@@ -32,6 +32,8 @@ public class ToPropertyInfo {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", locale = "zh", timezone = "GMT+8")
 	private Date finishYear;
 
+	private String finishYearStr;
+	
 	private String comment;
 
 	private String propertyAgentId;
@@ -202,6 +204,14 @@ public class ToPropertyInfo {
 
 	public void setPropertyTypeName(String propertyTypeName) {
 		this.propertyTypeName = propertyTypeName;
+	}
+
+	public String getFinishYearStr() {
+		return finishYearStr;
+	}
+
+	public void setFinishYearStr(String finishYearStr) {
+		this.finishYearStr = finishYearStr;
 	}
 	
 }

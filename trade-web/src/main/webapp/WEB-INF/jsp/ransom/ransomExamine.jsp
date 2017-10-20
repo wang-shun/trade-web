@@ -193,7 +193,7 @@
 		</div>
 		<div class="form-btn">
 			<div class="text-center">
-				<button class="btn btn-success btn-space" id="submit">提交</button>
+				<input type = "button" class="btn btn-success btn-space" id="aprrove" value="提交"></button>
 				<button class="btn btn-grey btn-space" id="cancel">取消</button>
 			</div>
 		</div>
@@ -232,15 +232,11 @@
 				});
 				
 				//提交
-				$("#submit").click(function(){
-					//check表单
-					
-					
+				$("#aprrove").click(function(){
 					var jsonData = $('#submitDiscontinue').serializeArray();
 					var url = "${ctx}/task/ransomDiscontinue/aprroSubmit";
 					
 					$.ajax({
-						cache:true,
 						async:false,
 						type:"POST",
 						url:url,
@@ -249,20 +245,15 @@
 						success:function(data){
 							if(data){
 								window.wxc.success("提交成功!",{"wxcOk":function(){
-									debugger
 									window.close();
 								}});
 							}else{
-								window.wxc.success("提交失败!",{"wxcOk":function(){
-									console.log("提交失败");
-								}});
+								window.wxc.error("提交失败!");
 							}
 							
 						},
 						error : function(errors) {
-							window.wxc.success("提交失败!",{"wxcOk":function(){
-								console.log("提交失败");
-							}});
+							window.wxc.error("查询失败!");
 						}
 					});
 				});

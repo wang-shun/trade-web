@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<querys>
+<dicts>
+		<customDict id="getIsFeeGetNameByCode" beanName="qqcdDictIsFeeGet"></customDict>
+		<customDict id="qqcdUserIdName" beanName="qqcdUserIdName" />
+</dicts>
+<formatters>
+		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
+			<properties>
+				<property name="pattern">yyyy-MM-dd</property>
+				
+			</properties>
+		</formatter>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
+		
+		<formatter id="numberFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="groupingUsed">true</property>
+				<property name="maximumFractionDigits">3</property>
+				<property name="maximumIntegerDigits">40</property>
+				<property name="minimumFractionDigits">0</property>
+				<property name="minimumIntegerDigits">1</property>
+			</properties>
+		</formatter>
+		<formatter id="integerFormater" ref="" class="com.aist.common.quickQuery.formatter.NumberFormatter">
+			<properties>
+				<property name="maximumFractionDigits">0</property>
+			</properties>
+		</formatter>
+		<formatter id="emailFormater" ref="" class="com.aist.common.quickQuery.formatter.EmailFormatter"/>
+	</formatters>
+	<query id="queryConnectEvalReport">
+		<searchCondition>
+            <condition field="EP.CASE_CODE" name="caseCode" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="PR.PROPERTY_ADDR" name="propertyAddr" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="EP.EVA_CODE" name="evaCode" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="GU.GUEST_NAME" name="guestName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="PB.REAL_NAME" name="agentName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="PA.REAL_NAME" name="loanName" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+			<condition field="FIN.FIN_ORG_NAME" name="evaCompany" label="" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+          </searchCondition>
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+						SELECT EP.CASE_CODE,EP.EVA_CODE,PR.PROPERTY_ADDR,FIN.FIN_ORG_NAME,
+						EP.FIN_ORG_ID,EP.EVA_PRICE,RB.EVAL_REAL_CHARGES,GU.GUEST_NAME,
+						PA.REAL_NAME AS LOAN,PB.REAL_NAME AS AGENT
+						
+						FROM [sctrans].[T_TO_EVA_REPORT_PROCESS] AS EP
+						LEFT JOIN [sctrans].[T_TO_EVA_REBATE] RB ON RB.CASE_CODE=EP.CASE_CODE
+						LEFT JOIN [sctrans].[T_TO_PROPERTY_INFO] PR ON PR.CASE_CODE=EP.CASE_CODE
+						LEFT JOIN [sctrans].[T_TO_CASE_PARTICIPANT] PA ON PA.CASE_CODE=EP.CASE_CODE
+						LEFT JOIN [sctrans].[T_TO_CASE_PARTICIPANT] PB ON PB.CASE_CODE=EP.CASE_CODE
+						LEFT JOIN [sctrans].[T_TS_FIN_ORG] FIN ON EP.FIN_ORG_ID=FIN.FIN_ORG_CODE
+						LEFT JOIN [sctrans].[T_TG_GUEST_INFO] GU ON EP.CASE_CODE=GU.CASE_CODE
+						
+						WHERE PA.[POSITION]='loan'
+							AND PB.[POSITION]='agent'
+							AND GU.TRANS_POSITION='30006002'
+							
+							AND EP.CASE_CODE LIKE '%%'
+							AND PR.PROPERTY_ADDR LIKE '%%'
+							AND EP.EVA_CODE LIKE '%%'
+							AND GU.GUEST_NAME LIKE '%%'
+							AND PB.REAL_NAME LIKE '%%'
+							AND FIN.FIN_ORG_NAME LIKE '%%' 
+				]]>
+			</baseSql>
+			<orderBySql>
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" name="CASE_CODE" index="" checkbox="" title="案件编号" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_CODE" index="" checkbox="" title="评估编号" display="评估编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" title="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" title="评估公司" display="评估公司" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_PRICE" index="" checkbox="" title="评估值" expType="Double" customDict="" sysDict="" format="numberFormater"  width="60" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="EVAL_REAL_CHARGES" index="" checkbox="" title="评估费实收" expType="Double" customDict="" sysDict="" format="numberFormater"  width="60" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="GUEST_NAME" index="" checkbox="" title="买方姓名" display="买方姓名" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="LOAN" index="" checkbox="" title="贷款权证" display="贷款权证" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="AGENT" index="" checkbox="" title="经纪人" display="经纪人" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
+				<column type="both" name="EVA_CODE" index="" checkbox="" title="评估单编号" display="评估单编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>				
+			</table-row>
+		</grid>
+	</query>
+</querys>
