@@ -123,8 +123,10 @@ public class GuohuApproveController {
 		//过户信息
 		ToHouseTransfer toHouseTransfer =  toHouseTransferService.findToGuoHuByCaseCode(caseCode);
 		if(toHouseTransfer!=null){
-			request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
-			String accompanyReasonCn = findDictAccompanyReason(toHouseTransfer.getAccompanyReason());
+			request.setAttribute("houseTransfer", toHouseTransfer);
+		}
+		String accompanyReasonCn = findDictAccompanyReason(toHouseTransfer.getAccompanyReason());
+		if(accompanyReasonCn!=null){
 			request.setAttribute("accompanyReasonCn", accompanyReasonCn);
 		}
 		//缴税信息
@@ -135,19 +137,22 @@ public class GuohuApproveController {
 		//查询自办贷款
 		/*确认是否已经是贷款流失*/
 		MortgageToSaveVO mortgageToSaveVO=toMortgageTosaveService.selectByCaseCode(caseCode);
-		//如果是自办贷款，显示自办贷款信息，否则则显示贷款信息
 		if(mortgageToSaveVO!=null){
+			//如果是自办贷款，显示自办贷款信息，否则则显示贷款信息
 			mortgageToSaveVO.setLoanLossAmount(mortgageToSaveVO.getLoanLossAmount()!=null?mortgageToSaveVO
 					.getLoanLossAmount().divide(new BigDecimal(10000)):null);
 			request.setAttribute("mortgageToSaveVO",mortgageToSaveVO);
-		}else {
+		}
 			//贷款信息
-			ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(caseCode);
-			CaseDetailShowVO reVo  = toCaseInfoService.getCaseDetailShowVO(caseCode, toMortgage);
-			request.setAttribute("caseDetailVO", reVo);
+		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(caseCode);
+		if(toMortgage!=null){
 			request.setAttribute("toMortgage", toMortgage);
 		}
-
+		//交易信息
+		CaseDetailShowVO reVo  = toCaseInfoService.getCaseDetailShowVO(caseCode, toMortgage);
+		if(reVo!=null){
+			request.setAttribute("caseDetailVO", reVo);
+		}
 		Dict dict = uamBasedataService.findDictByType("guohu_not_approve");
 		if(dict!=null){
 			request.setAttribute("notApproves", dict.getChildren());
