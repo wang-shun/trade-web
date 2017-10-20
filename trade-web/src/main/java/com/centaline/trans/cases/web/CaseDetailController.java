@@ -730,8 +730,7 @@ public class CaseDetailController {
             vo.setImgUrl(url);
             res.add(vo);
         }
-//        return res;
-        return new ArrayList<VCaseDistributeUserVO>();
+        return res;
     }
     
     
