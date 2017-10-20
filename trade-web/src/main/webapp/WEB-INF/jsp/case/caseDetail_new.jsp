@@ -363,7 +363,7 @@
 				</div>
 				<div class="row">
 					<label class="col-sm-3 control-label">房屋类型：${caseDetailVO.propertyTypeName }</label>
-					<label class="col-sm-3 control-label">购房年数：${caseDetailVO.holdYear }</label>
+					<label class="col-sm-3 control-label">购房年数：${toPropertyInfo.holdYear }</label>
 					<label class="col-sm-3 control-label">唯一住房：${caseDetailVO.isUniqueHome }</label>
 				</div>
 				<div class="row">
@@ -428,7 +428,7 @@
 					<label class="col-sm-3 control-label">卖方剩余贷款：
 						<c:if test="${!empty caseInfo.uncloseMoney}"> ${caseInfo.uncloseMoney/10000}&nbsp&nbsp万元 </c:if>
 					</label>
-					<label class="col-sm-3 control-label">还款方式：${caseDetailVO.closeType}</label>
+					<label class="col-sm-3 control-label">还款方式：</label>
 					<label class="col-sm-3 control-label">还款时间：${caseDetailVO.loanCloseCode}</label>
 					<label class="col-sm-3 control-label">还款银行：${caseInfo.upBank}</label>
 				</div>
