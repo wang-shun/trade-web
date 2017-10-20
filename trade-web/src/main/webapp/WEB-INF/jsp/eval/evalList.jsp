@@ -285,7 +285,7 @@ text-decoration: underline !important;
 
 						<td >
  							<p class="big">
-								<a href="{{ctx}}/eval/detail?caseCode={{item.CASE_CODE}}&evaCode={{item.EVA_CODE}}"  target="_blank">{{item.CASE_CODE}}</a>
+								<a href="{{ctx}}/eval/detail?caseCode={{item.CASE_CODE}}&evaCode={{item.EVA_CODE}}"  target="_blank">{{item.EVA_CODE}}</a>
 								{{if item.SUBSCRIBE_COUNT == 0}}
 									<span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.CASE_CODE}}" isSubscribe="true">
 										<i class="iconfont_s  markstar star_subscribe" status="1">&#xe644;</i>
@@ -295,7 +295,12 @@ text-decoration: underline !important;
 										<i class="iconfont_s  markstar star_subscribe" status="1">&#xe63e;</i>
 									</span>
 								{{/if}}
+                                
 							</p>
+                            <p>
+								<i class="tag_sign">案</i>{{item.CASE_CODE}}
+							</p>
+
 						</td>
 
 						<td class="center">

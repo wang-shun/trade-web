@@ -67,6 +67,8 @@ public class ToEvalReportProcess {
     
     private String evalProperty;
     
+    private String finOrgName;
+    
 
     public Long getPkid() {
         return pkid;
@@ -291,7 +293,11 @@ public class ToEvalReportProcess {
 	public void setSysFinshTime(Date sysFinshTime) {
 		this.sysFinshTime = sysFinshTime;
 	}
-	
-	
+	public String getFinOrgName() {
+		return finOrgName;
+	}
+	public void setFinOrgName(String finOrgName) {
+		this.finOrgName = finOrgName;
+	}
     
 }

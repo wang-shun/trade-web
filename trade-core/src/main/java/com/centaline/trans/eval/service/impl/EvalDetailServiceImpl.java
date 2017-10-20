@@ -20,7 +20,6 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.service.ToCaseParticipantService;
-import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -35,11 +34,11 @@ import com.centaline.trans.eval.entity.ToEvaRefund;
 import com.centaline.trans.eval.entity.ToEvalRebate;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
 import com.centaline.trans.eval.entity.ToEvalSettle;
+import com.centaline.trans.eval.repository.ToEvaRefundMapper;
 import com.centaline.trans.eval.repository.ToEvalReportProcessMapper;
 import com.centaline.trans.eval.service.EvalDetailService;
 import com.centaline.trans.eval.service.ToEvaCommissionChangeService;
 import com.centaline.trans.eval.service.ToEvaInvoiceService;
-import com.centaline.trans.eval.service.ToEvaRefundService;
 import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.eval.service.ToEvalSettleService;
@@ -72,7 +71,7 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 	@Autowired
 	ToEvaCommissionChangeService toEvaCommissionChangeService;
 	@Autowired
-	ToEvaRefundService toEvaRefundService;
+	ToEvaRefundMapper toEvaRefundMapper;
 	@Autowired
 	ToEvalRebateService toEvalRebateService;
 	@Resource
@@ -100,11 +99,9 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(inWorkFlow);
 				
 				//评估发票信息
-				ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByCaseCode(caseCode);
+				ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByEvaCode(evaCode);
 				//评估返利报告审批信息
 				ToEvalRebate toEvalRebate = toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
-				//评估爆单信息
-				//TODO
 				
 				//评估公司变更信息
 				//TODO
@@ -113,7 +110,7 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				ToEvalSettle toEvalSettle = toEvalSettleService.findToCaseByCaseCode(caseCode);
 				
 				//评估退费信息
-				ToEvaRefund toEvaRefund = toEvaRefundService.selectByCaseCode(caseCode);
+				ToEvaRefund toEvaRefund = toEvaRefundMapper.selectByEvaCode(caseCode);
 				//调佣审批信息
 				//TODO
 				//ToEvaCommissionChange toEvaCommissionChange = toEvaCommissionChangeService.selectByCaseCode(caseCode);
