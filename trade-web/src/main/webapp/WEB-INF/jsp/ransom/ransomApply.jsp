@@ -86,6 +86,8 @@
 			<input type="hidden" id="caseCode" name="caseCode" value="${detailVo.caseCode }">
 			<input type="hidden" id="ransomCode" name="ransomCode" value="${detailVo.ransomCode }">
 			<input type="hidden" id="borrowName" name="${detailVo.borrowName }">
+			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId }">
+			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 			<div class="line">
 				<div class="title">信息录入</div>
              	<div class="form_content fo">
