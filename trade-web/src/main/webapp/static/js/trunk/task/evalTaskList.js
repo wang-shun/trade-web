@@ -3,8 +3,8 @@
  * wanggh
  */
 $(document).ready(function() {
-	
-
+	      
+  
 			var url = "/rapidQuery/findPage";
 			var ctx = $("#ctx").val();
 			url = ctx + url;
@@ -38,7 +38,28 @@ $(document).ready(function() {
 			$('input:radio[name="ownerRadios"]').click(function() {
 				searchMethod();
 			});
+			
+			getEvaCompanyList()
 		});
+
+/*获取评估公司列表*/
+function getEvaCompanyList(pcode){
+	var friend = $("#finOrgId");
+	friend.empty();
+	 $.ajax({
+	    url:ctx+"/manage/queryEvaCompany",
+	    method:"post",
+	    dataType:"json",
+	    data:{"pcode":pcode},
+    	success:function(evaComList){
+    		if(evaComList != null){
+    			for(var i = 0;i<evaComList.length;i++){
+    					friend.append("<option value='"+evaComList[i].finOrgCode+"'>"+evaComList[i].finOrgName+"</option>");
+    			}
+    		}
+    	}
+	  });
+}
 
 //select控件
 var config = {

@@ -24,8 +24,8 @@ import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.eloan.entity.ToCloseLoan;
 import com.centaline.trans.eloan.repository.ToCloseLoanMapper;
-import com.centaline.trans.eval.entity.ToEvaReportProcess;
-import com.centaline.trans.eval.repository.ToEvaReportProcessMapper;
+import com.centaline.trans.eval.entity.ToEvalReportProcess;
+import com.centaline.trans.eval.repository.ToEvalReportProcessMapper;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.repository.TsFinOrgMapper;
 import com.centaline.trans.mortgage.entity.ToEvaReport;
@@ -35,6 +35,8 @@ import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.ransom.entity.ToRansomFormVo;
 import com.centaline.trans.ransom.repository.AddRansomFormMapper;
+import com.centaline.trans.ransom.repository.RansomListFormMapper;
+import com.centaline.trans.ransom.vo.ToRansomVo;
 import com.centaline.trans.task.entity.ToGetPropertyBook;
 import com.centaline.trans.task.entity.ToHouseTransfer;
 import com.centaline.trans.task.entity.ToPayment;
@@ -95,9 +97,11 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
     @Autowired
     private ToRatePaymentMapper	toRatePaymentMapper;
     @Autowired
-    private ToEvaReportProcessMapper toEvaReportProcessMapper;
+    private ToEvalReportProcessMapper toEvaReportProcessMapper;
     @Autowired
     private AddRansomFormMapper addRansomFormMapper;
+    @Autowired
+    private RansomListFormMapper ransomListFormMapper;
 
     
     /**
@@ -328,18 +332,21 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         }
         
         /*评估价格 by wbshume*/
-        ToEvaReportProcess toEvaReportProcess = toEvaReportProcessMapper.selectToEvaReportProcessByCaseCodeAndStatus(caseCode);
+        ToEvalReportProcess toEvaReportProcess = toEvaReportProcessMapper.selectToEvaReportProcessByCaseCodeAndStatus(caseCode);
         if(toEvaReportProcess != null) {
         	editCaseDetailVO.setEvaPrice(toEvaReportProcess.getEvaPrice() != null ? toEvaReportProcess.getEvaPrice().divide(new BigDecimal(10000)) : null);
         }
-        /*赎楼信息 by wbshume*/
         ToRansomFormVo toRansomFormVo = addRansomFormMapper.selectByCaseCode(caseCode);
         if(toRansomFormVo != null) {
         	editCaseDetailVO.setRestFinOrgCode(toRansomFormVo.getFinOrgCode());
         	editCaseDetailVO.setRestMoney(toRansomFormVo.getRestMoney() != null ? toRansomFormVo.getRestMoney().divide(new BigDecimal(10000)) : null);
-        	//待定
-        	editCaseDetailVO.setRestPayTime(null);
-        	editCaseDetailVO.setRestPayType(null);
+        	List<ToRansomVo> toRansomVos = ransomListFormMapper.getRansomInfoByRansomCode(toRansomFormVo.getRansomCode());
+        	if(toRansomVos != null && toRansomVos.size() > 0) {
+        		ToRansomVo toRansomVo = toRansomVos.get(0);
+				if(toRansomVo != null) { 
+					editCaseDetailVO.setRestPayTime(toRansomVo.getRepayTime());
+				}
+        	}
         }
 
         return editCaseDetailVO;

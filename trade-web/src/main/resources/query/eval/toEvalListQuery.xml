@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
+<dicts>
+		<customDict id="getStatusNameByCode" beanName="qqcdDictEvalStatus"></customDict>
+</dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
@@ -182,15 +185,19 @@
 						E.PROPERTY_ADDR,
 						FO.FIN_ORG_NAME,
 						ERP.STATUS,
-						<!-- ERP.SYS_CREATE_TIME,
-						ERP.SYS_FINSH_TIME, -->
-						loan.REAL_NAME
+						ERP.SYS_CREATE_TIME,
+						ERP.SYS_FINSH_TIME,
+						ERP.EVA_CODE, 
+						loan.REAL_NAME as LOANNAME,
+						ast.REAL_NAME as ASSITNAME
 					FROM
 					sctrans.T_TO_EVA_REPORT_PROCESS AS ERP
 					LEFT JOIN sctrans.T_TO_CASE AS A ON A.CASE_CODE=ERP.CASE_CODE
 					LEFT JOIN sctrans.T_TO_CASE_INFO AS B ON A.CASE_CODE = B.CASE_CODE
 					LEFT JOIN sctrans.T_TS_FIN_ORG AS FO ON ERP.FIN_ORG_ID=FO.FIN_ORG_CODE
 					LEFT JOIN (SELECT REAL_NAME,CASE_CODE FROM sctrans.T_TO_CASE_PARTICIPANT tcp  where tcp.POSITION='loan') loan ON A.CASE_CODE=loan.CASE_CODE
+					LEFT JOIN (SELECT REAL_NAME,CASE_CODE FROM sctrans.T_TO_CASE_PARTICIPANT tcp  where tcp.POSITION='agent') agent ON A.CASE_CODE=agent.CASE_CODE
+					LEFT JOIN (SELECT REAL_NAME,CASE_CODE FROM sctrans.T_TO_CASE_PARTICIPANT tcp  where tcp.POSITION='assistant') ast ON A.CASE_CODE=ast.CASE_CODE
 					LEFT JOIN (
 						   SELECT DISTINCT 
 						       TG1.CASE_CODE, 
@@ -253,7 +260,7 @@
 					     AND ERP.FIN_ORG_ID = #finOrgId#
 					</ifNotNull>
 					<ifNotNull caseCode>
-					     AND D.CASE_CODE like '%'+#caseCode#+'%'
+					     AND A.CASE_CODE like '%'+#caseCode#+'%'
 					</ifNotNull>
 					<ifNotNull  createTimeStart>
 							AND ERP.SYS_CREATE_TIME >= #createTimeStart#  
@@ -261,14 +268,13 @@
 					<ifNotNull  resDateStart>
 							AND ERP.SYS_CREATE_TIME >= #resDateStart#  
 					</ifNotNull>
-					
 					<ifNotNull  createTimeEnd>
 							AND ERP.SYS_FINSH_TIME <= #createTimeEnd#  
 					</ifNotNull>
 					<ifNotNull  resDateEnd>
 							AND ERP.SYS_FINSH_TIME <= #resDateStart#  
 					</ifNotNull>
-					<ifNotNull  propertyAddr>
+					<ifNotNull  PROPERTY_ADDR>
 							AND E.propertyAddr like '%'+#propertyAddr#+'%'  
 					</ifNotNull>
 					<ifNotNull  buyer>
@@ -276,6 +282,15 @@
 					</ifNotNull>
 					<ifNotNull  seller>
 							AND C.SELLER like '%'+#seller#+'%' 
+					</ifNotNull>
+					<ifNotNull  loan>
+							AND loan.REAL_NAME like '%'+#loan#+'%' 
+					</ifNotNull>
+					<ifNotNull  agentName>
+							AND agent.REAL_NAME like '%'+#agentName#+'%' 
+					</ifNotNull>
+					 <ifNotNull  handler>
+							AND ast.REAL_NAME like '%'+#handler#+'%' 
 					</ifNotNull>
 					<choose>
 						<when test	="isSubscribeFilter==0">
@@ -301,14 +316,17 @@
 			<table-row>
 				<column type="both" name="ID" index="" checkbox="" display="CASEID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
-				<column type="both" name="CASE_ORIGIN" index="" checkbox="" display="案件来源" customDict="" sysDict="" format="" width="90" isSort="true" align="" halign="" order="desc" resizable=""/>
 				<column type="both" name="PROPERTY_ADDR" index="" checkbox="" display="产证地址" customDict="" sysDict="" format="" width="180" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="经纪人" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SELLER" index="" checkbox="" display="上家" customDict="" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="BUYER" index="" checkbox="" display="下家" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="评估公司" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="REAL_NAME" index="" checkbox="" display="贷款申请人" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="STATUS" index="" checkbox="" display="评估状态" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
+				<column type="both" name="LOANNAME" index="" checkbox="" display="贷款申请人" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="ASSITNAME" index="" checkbox="" display="办理人" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="STATUS" index="" checkbox="" display="评估状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="SYS_CREATE_TIME" index="" checkbox="" display="上报时间" customDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="SYS_FINSH_TIME" index="" checkbox="" display="完成时间" customDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="EVA_CODE" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />		
 			</table-row>
 		</grid>
 	</query>

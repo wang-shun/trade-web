@@ -12,7 +12,7 @@
 <html>
 
 <head>
-
+<title>赎楼中止审批</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -77,7 +77,7 @@
 	var taskitem = "${taskitem}";
 	var caseCode = "${caseCode}";
 	var processInstanceId = "${processInstanceId}";
-	var approveType = "${approveType }";
+	var approveType = "${approveType}";
 	if ("${idList}" != "") {
 		var idList = eval("(" + "${idList}" + ")");
 	} else {
@@ -88,42 +88,33 @@
 .radio.radio-inline>label {
 	margin-left: 10px;
 }
-
 .radio.radio-inline>input {
 	margin-left: 10px;
 }
-
 .checkbox.checkbox-inline>div {
 	margin-left: 25px;
 }
-
 .checkbox.checkbox-inline>input {
 	margin-left: 20px;
 }
-
 #notApproves label {
 	font-weight: normal;
 	margin: 0;
 }
-
 #notApproves {
 	padding: 20px 0px;
 }
-
 #notApproves .col-sm-4 {
 	margin: 5px 0px;
 }
-
 #notApproves input[type=checkbox], input[type=radio] {
 	margin: 0px 0 0;
 	line-height: normal;
 }
-
 .form_sign .sign {
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
-
 .other_reason_title {
 	float: left;
 	width: 76px;
@@ -132,7 +123,6 @@
 	color: #808080;
 	font-size: 14px;
 }
-
 .other_reason {
 	float: left;
 	padding-left: 15px;
@@ -142,12 +132,23 @@
 .form-group{margin-top: 15px;}
 .line_content{ margin-left: 15px;}
 </style>
+<content tag="pagetitle">赎楼中止审批</content>
 </head>
 
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/ransom/ransomBaseInfo.jsp"></jsp:include>
-
+<form method="post" id="submitDiscontinue" >
+	<%--环节编码 --%>
+	<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+	<!-- 交易单编号 -->
+	<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+	<%-- 原有数据对应id --%>
+	<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+	<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+	<%-- 设置审批类型 --%>
+	<input type="hidden" name="approveType" value="${approveType}">
+	<input type="hidden" id="operator" name="operator" value="${operator }">
 	<div class="ibox-content border-bottom clearfix space_box ">
 		<div class="col-lg-12 case-info">
 			<h2 class="title">待审批内容</h2>
@@ -157,23 +158,28 @@
 			<div class="form_content">
 				<label>中止类型 </label>
 				<div class="controls isnowid" style="width: 1000px;margin-left: 40px;">
-					<span>客户放弃</span>
+					<aist:dict id="stopType" name="ransom_discountinue" defaultvalue="${ransomCase.stopType}" display="select" dictType="71016" clazz="select_control data_style"/>
 				</div>
 			</div>
 			<div class="form_content">
 				<div class="form-group">
 				    <label for="name" style="float: left;">详情描述</label>
-				    <div class="controls isnowid" style="width: 1000px;margin-left: 40px;">
-						<span>客户认为太贵，自己想办法凑钱赎楼</span>
-					</div>
+					<textarea class="form-control" readonly="readonly" rows="8" style="resize:none;width:960px;margin-left:95px;" id="stopReason" >${ransomCase.stopReason}</textarea>
 			  	</div>
 			</div>
 			<div class="form_content">
 				<div class="form-group">
-				    <label for="name" style="float: left;">审批内容</label>
+				    <label for="name" style="float: left;">审批结果</label>
 				     <div class="controls isnowid" style="width: 1000px;margin-left: 40px;">
 						<input type="radio" name="examContent" value="pass" checked> 通过&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="examContent" value="reject" > 驳回&nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="radio" name="examContent" value="noPass" > 不通过
+					</div> 
+			  	</div>
+			  	<div class="form-group">
+				    <label for="name" style="float: left;">备注</label>
+				     <div class="controls isnowid" style="width: 1000px;margin-left: 40px;">
+                        <input class="input_type optionwid" id="remark" name="remark" value="" >
 					</div> 
 			  	</div>
 			</div>
@@ -187,12 +193,12 @@
 		</div>
 		<div class="form-btn">
 			<div class="text-center">
-				<button class="btn btn-success btn-space" id="submit">提交</button>
+				<input type = "button" class="btn btn-success btn-space" id="aprrove" value="提交"></button>
 				<button class="btn btn-grey btn-space" id="cancel">取消</button>
 			</div>
 		</div>
 	</div>
-
+</form>
 	<content tag="local_script"> <!-- Peity --> <script
 		src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<!-- jqGrid --> <script
@@ -203,7 +209,7 @@
 		src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> <!-- Data picker -->
 	<script
 		src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
-
+	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script>
 	<script
 		src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
@@ -219,47 +225,6 @@
 					caseCode : caseCode,
 					srvCode : taskitem
 				});
-
-				$("#reminder_list").jqGrid({
-					//data : reminderdata,
-					//url:ctx+"/quickGrid/findPage",
-					datatype : "json",
-					height : 120,
-					width : 1059,
-					shrinkToFit : true,
-					rowNum : 4,
-					sortname : 'OPERATOR_TIME',
-					viewrecords : true,
-					sortorder : "desc",
-					viewrecords : true,
-					colNames : [ '审批时间', '审批人员', '审批意见' ],
-					colModel : [ {
-						name : 'OPERATOR_TIME',
-						index : 'OPERATOR_TIME',
-						width : '15%'
-					}, {
-						name : 'OPERATOR',
-						index : 'OPERATOR',
-						width : '15%'
-					}, {
-						name : 'PART_CODE',
-						index : 'PART_CODE',
-						width : '20%'
-					} ],
-					pager : "#pager_list_1",
-					viewrecords : true,
-					pagebuttions : true,
-					hidegrid : false,
-					recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-					pgtext : " {0} 共 {1} 页",
-					postData : {
-						queryId : "queryLoanlostApproveList",
-						search_caseCode : caseCode,
-						search_approveType : approveType,
-						search_processInstanceId : processInstanceId
-					},
-				});
-				// Add responsive to jqGrid
 				$(window).bind('resize', function() {
 					var width = $('.jqGrid_wrapper').width();
 					$('#reminder_list').setGridWidth(width);
@@ -267,13 +232,35 @@
 				});
 				
 				//提交
-				$("#submit").click(function(){
-					window.location.href = ctx + "/ransomList/ransomCase/myRansom_list";
+				$("#aprrove").click(function(){
+					var jsonData = $('#submitDiscontinue').serializeArray();
+					var url = "${ctx}/task/ransomDiscontinue/aprroSubmit";
+					
+					$.ajax({
+						async:false,
+						type:"POST",
+						url:url,
+						data:jsonData,
+						dataType:"json",
+						success:function(data){
+							if(data){
+								window.wxc.success("提交成功!",{"wxcOk":function(){
+									window.close();
+								}});
+							}else{
+								window.wxc.error("提交失败!");
+							}
+							
+						},
+						error : function(errors) {
+							window.wxc.error("查询失败!");
+						}
+					});
 				});
 				//取消
 				$("#cancel").click(function(){
 					if(confirm('您确定要取消吗？')){ 
-						value="取消";
+						 window.close();
 					}
 				});
 			});

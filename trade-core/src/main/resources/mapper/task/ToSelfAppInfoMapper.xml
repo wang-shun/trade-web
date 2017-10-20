@@ -21,6 +21,13 @@
 		values(#{ccaiCode,jdbcType=VARCHAR},#{caseCode,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{realName,jdbcType=VARCHAR},#{grpCode,jdbcType=VARCHAR},#{grpName,jdbcType=VARCHAR},#{applyTime,jdbcType=TIMESTAMP},#{status,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR})
 	</insert>
 	
+	<select id="getAppInfoByCaseCode" parameterType="string" resultMap="BaseResultMap">
+		select PKID,CCAI_CODE,CASE_CODE,TYPE,USER_NAME,REAL_NAME,GRP_CODE,GRP_NAME,APPLY_TIME,STATUS,CITY from sctrans.T_TO_SELF_APP_INFO WITH(NOLOCK) where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getAppInfoByCCAICode"  resultMap="BaseResultMap">
+		select PKID,CCAI_CODE,CASE_CODE,TYPE,USER_NAME,REAL_NAME,GRP_CODE,GRP_NAME,APPLY_TIME,STATUS,CITY from sctrans.T_TO_SELF_APP_INFO WITH(NOLOCK) where CCAI_CODE = #{0} and TYPE=#{1}
+	</select>
 
 
 </mapper>

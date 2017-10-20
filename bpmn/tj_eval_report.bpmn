@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="EvalProcess" name="EvalProcess" isExecutable="true">
-    <startEvent id="startevent1" name="Start"></startEvent>
     <userTask id="EvalReport" name="评估上报" activiti:assignee="${assistant}" activiti:formKey="/task/eval/report"></userTask>
     <userTask id="EvalIssue" name="出具评估报告" activiti:assignee="${assistant}" activiti:formKey="/task/eval/issue"></userTask>
     <sequenceFlow id="flow3" sourceRef="EvalReport" targetRef="EvalIssue"></sequenceFlow>
-    <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="EvalReport"></sequenceFlow>
     <userTask id="EvalUsed" name="使用评估报告" activiti:assignee="${assistant}" activiti:formKey="/task/eval/used"></userTask>
     <sequenceFlow id="flow6" sourceRef="EvalIssue" targetRef="EvalUsed"></sequenceFlow>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow7" sourceRef="EvalUsed" targetRef="endevent1"></sequenceFlow>
+    <userTask id="EvalApply" name="评估申请" activiti:assignee="${loan}" activiti:formKey="/task/eval/apply"></userTask>
+    <sequenceFlow id="flow8" sourceRef="EvalApply" targetRef="EvalReport"></sequenceFlow>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <sequenceFlow id="flow9" sourceRef="startevent1" targetRef="EvalApply"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_EvalProcess">
     <bpmndi:BPMNPlane bpmnElement="EvalProcess" id="BPMNPlane_EvalProcess">
-      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="140.0" y="190.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="EvalReport" id="BPMNShape_EvalReport">
         <omgdc:Bounds height="55.0" width="105.0" x="260.0" y="180.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
@@ -28,13 +27,15 @@
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="800.0" y="190.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="EvalApply" id="BPMNShape_EvalApply">
+        <omgdc:Bounds height="55.0" width="105.0" x="90.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="10.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
         <omgdi:waypoint x="365.0" y="207.0"></omgdi:waypoint>
         <omgdi:waypoint x="460.0" y="207.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
-        <omgdi:waypoint x="175.0" y="207.0"></omgdi:waypoint>
-        <omgdi:waypoint x="260.0" y="207.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
         <omgdi:waypoint x="565.0" y="207.0"></omgdi:waypoint>
@@ -43,6 +44,14 @@
       <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
         <omgdi:waypoint x="755.0" y="207.0"></omgdi:waypoint>
         <omgdi:waypoint x="800.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="195.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="260.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="45.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="90.0" y="207.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

@@ -2,6 +2,8 @@ package com.centaline.trans.ransom.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.mgr.entity.TsFinOrg;
@@ -11,6 +13,7 @@ import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
 import com.centaline.trans.ransom.entity.ToRansomPermitVo;
+import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.vo.ToRansomLinkVo;
@@ -31,7 +34,7 @@ public interface RansomListFormMapper {
 	 * @param caseCode
 	 * @return
 	 */
-	ToRansomCaseVo getRansomCase(String caseCode);
+	ToRansomCaseVo getRansomCase(@Param("caseCode")String caseCode, @Param("ransomCode")String ransomCode);
 	
 	/**
 	 * 根据caseCode保存赎楼中止信息
@@ -55,6 +58,20 @@ public interface RansomListFormMapper {
 	TsFinOrg getTsFinOrgIinfo(String finOrgCode);
 	
 	/**
+	 * 获取时间计划信息
+	 * @param ransomCode
+	 * @return
+	 */
+	List<ToRansomPlanVo> getRansomPlanTime(String ransomCode);
+	
+	/**
+	 * 时间计划信息更新
+	 * @param ransomCode
+	 * @return
+	 */
+	int updateRansomPlanTimeInfoByRansomCode(ToRansomPlanVo ransomPlanVo);
+	
+	/**
 	 * 修改赎楼列表信息
 	 * @param ransomCode
 	 * @return
@@ -73,8 +90,14 @@ public interface RansomListFormMapper {
 	 * @param caseCode
 	 * @return
 	 */
-	ToRansomVo getRansomInfoByRansomCode(String ransomCode);
+	List<ToRansomVo> getRansomInfoByRansomCode(String ransomCode);
 	
+	/**
+	 * 计划时间信息插入
+	 * @param planVo
+	 * @return
+	 */
+	int insertRansomPlanTimeVo(ToRansomPlanVo planVo);
 	/**
 	 * 赎楼申请信息更新
 	 * @param ransomCode
@@ -123,4 +146,28 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	ToRansomLinkVo getRansomLinkInfoByCaseCode(String caseCode);
+	
+	/**
+	 * 根据caseCode保存赎楼中止信息
+	 * @param caseCode
+	 * @return
+	 */
+	int updateRansomDiscountinue(ToRansomCaseVo ransomCaseVo);
+
+	/**
+	 * 当前单数
+	 * @param userId
+	 * @return
+	 */
+	Integer queryCountRansomsByUserId(String userId);
+
+	/**
+	 * 本月单数
+	 * @param userId
+	 * @return
+	 */
+	Integer queryCountMonthRansomsByUserId(String userId);
+	
+	
+
 }

@@ -2,10 +2,6 @@ package com.centaline.trans.ransom.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-
-import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.mgr.entity.TsFinOrg;
 
 /**
  * @author wbwumf
@@ -34,7 +30,12 @@ public class ToRansomFormVo {
 	 * 主贷人
 	 */
 	private String borrowerName;
-
+	
+	/**
+	 * 电话
+	 */
+	private String borrowerTel;
+	
 	/**
 	 * 受理时间
 	 */
@@ -58,7 +59,7 @@ public class ToRansomFormVo {
 	/**
 	 * 贷款金额
 	 */
-	private double loanMoney;
+	private BigDecimal loanMoney;
 	
 	/**
 	 * 剩余金额
@@ -68,7 +69,7 @@ public class ToRansomFormVo {
 	/**
 	 * 借款总金额
 	 */
-	private double borroMoney;
+	private BigDecimal borroMoney;
 	
 	private Date createTime;
 	
@@ -82,7 +83,10 @@ public class ToRansomFormVo {
 	private Date updateTime;
 	
 	private String updateUser;
-	
+	//陪同还贷时间
+	private Date repayTime;
+	//合作机构
+	private String comOrgName;
 
 	public Long getPkid() {
 		return pkid;
@@ -148,15 +152,16 @@ public class ToRansomFormVo {
 		this.diyaType = diyaType;
 	}
 
-	public double getLoanMoney() {
+	public BigDecimal getLoanMoney() {
 		return loanMoney;
 	}
 
-	public void setLoanMoney(double loanMoney) {
+	public void setLoanMoney(BigDecimal loanMoney) {
 		this.loanMoney = loanMoney;
 	}
 
 	public BigDecimal getRestMoney() {
+		
 		return restMoney;
 	}
 
@@ -212,20 +217,46 @@ public class ToRansomFormVo {
 		this.borrowerName = borrowerName;
 	}
 
-	public double getBorroMoney() {
+	public BigDecimal getBorroMoney() {
 		return borroMoney;
 	}
 
-	public void setBorroMoney(double borroMoney) {
+	public void setBorroMoney(BigDecimal borroMoney) {
 		this.borroMoney = borroMoney;
+	}
+
+	public String getBorrowerTel() {
+		return borrowerTel;
+	}
+
+	public void setBorrowerTel(String borrowerTel) {
+		this.borrowerTel = borrowerTel;
+	}
+
+	
+	public Date getRepayTime() {
+		return repayTime;
+	}
+
+	public void setRepayTime(Date repayTime) {
+		this.repayTime = repayTime;
+	}
+
+	
+	public String getComOrgName() {
+		return comOrgName;
+	}
+
+	public void setComOrgName(String comOrgName) {
+		this.comOrgName = comOrgName;
 	}
 
 	@Override
 	public String toString() {
 		return "ToRansomFormVo [pkid=" + pkid + ", ransomCode=" + ransomCode + ", caseCode=" + caseCode
-				+ ", finOrgCode=" + finOrgCode + ", borrowerName=" + borrowerName + ", signTime=" + signTime
-				+ ", planTime=" + planTime + ", mortgageType=" + mortgageType + ", diyaType=" + diyaType
-				+ ", loanMoney=" + loanMoney + ", restMoney=" + restMoney + ", borroMoney=" + borroMoney
+				+ ", finOrgCode=" + finOrgCode + ", borrowerName=" + borrowerName + ", borrowerTel=" + borrowerTel
+				+ ", signTime=" + signTime + ", planTime=" + planTime + ", mortgageType=" + mortgageType + ", diyaType="
+				+ diyaType + ", loanMoney=" + loanMoney + ", restMoney=" + restMoney + ", borroMoney=" + borroMoney
 				+ ", createTime=" + createTime + ", createUser=" + createUser + ", remark=" + remark + ", updateTime="
 				+ updateTime + ", updateUser=" + updateUser + "]";
 	}

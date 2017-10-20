@@ -5,98 +5,101 @@ $(document).ready(function() {
 		autoclose : true
 	});
 	var ctx = "${ctx}";
-	$('#save').click(function() {
-		//window.location.href = ctx + "/ransomList/ransom/ransomDetail";
-		submitUpdateRansom();
-	});
+	loadTimeInfo();
 });
 
-function submitUpdateRansom(){
+/**
+ * 加载赎楼变更时间信息
+ * @returns
+ */
+function loadTimeInfo(){
 	debugger;
-	var ransomCode = $("#ransomCode").val();
-	//申请时间
-	var applyTime = strToDate($("#applyTime").val());
-	//申请时间变更理由
-	var applyRemake = $("#applyRemake").val().trim();
-	//面签时间
-	var interviewTime = strToDate($("#interviewTime").val());
-	//面签时间变更理由
-	var interviewRemake = $("#interviewRemake").val().trim();
-	//陪同还贷时间
-	var repayTime = strToDate($("#repayTime").val());
-	//陪同还贷时间变更理由
-	var repayRemake = $("#repayRemake").val().trim();
-	//注销抵押时间
-	var cancelTime = strToDate($("#cancelTime").val());
-	//注销抵押时间变更理由
-	var cancelRemake = $("#cancelRemake").val().trim();
-	//领取产证时间
-	var redeemTime = strToDate($("#redeemTime").val());
-	//领取产证时间变更理由
-	var redeemRemake = $("#redeemRemake").val().trim();
-	//回款结清时间
-	var paymentTime = strToDate($("#paymentTime").val());
-	//回款结清时间变更理由
-	var paymentRemake = $("#paymentRemake").val().trim();
+	//赎楼环节
+	var property = $("#taskCode").val();
 	
-	var ransomVo = {
-			ransomCode:ransomCode,
-			applyTime:applyTime,
-			applyRemake:applyRemake,
-			interviewTime:interviewTime,
-			interviewRemake:interviewRemake,
-			repayTime:repayTime,
-			repayRemake:repayRemake,
-			cancelTime:cancelTime,
-			cancelRemake:cancelRemake,
-			redeemTime:redeemTime,
-			redeemRemake:redeemRemake,
-			paymentTime:paymentTime,
-			paymentRemake:paymentRemake
-	};
-	
+	for(var i = 0; i < $(".form_content").length/2; i++){
+//		if(property == 'RansomSign'){
+//			$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+//			$("input[name='remark'" + i + "]").attr("disabled",true);
+//		}
+	}
+}
+
+/**
+ * 保存 i=1 ，查看变更记录 i = 2
+ * @param i
+ * @returns
+ */
+function submitChangeRecord(i){
+	debugger;
+	var caseCode = $("#caseCode").val();
+	var ransomVo = getParams();
 	$.ajax({
 		url: ctx + "/ransomList/updateRansomPlanTime",
 		dataType:"json",
-		data:ransomVo,
+		data:{ransomVo:JSON.stringify(ransomVo),flag:i},
 		type:"POST",
 		success: function(data){
-			window.wxc.alert("赎楼计划时间修改保存成功！");
-			//window.location.href = ctx + "/ransomList/ransom/ransomDetail";
+			
+			if(data.code == "1"){
+				window.wxc.alert("赎楼计划时间修改保存成功！");
+				window.location.href = ctx + "/ransomList/ransomDetail?caseCode=" + caseCode;
+			}else if(data.code == "2"){
+				window.location.href = ctx + "/ransomList/ransomChangeRecord?caseCode=" + caseCode;
+			}
 		},
 		error: function(data){
 			window.wxc.error(data.message);
 		}
 	});
 }
-/**
- * 变更记录明细
- * @returns
- */
-function reloadTimeRecord(){
-	var url = ctx + '/quickGrid/findPage';
-	var ransomCode = $('#ransomCode').val();
-	var data = {};
-	data.page = 1;
-	data.rows = 10;
-	data.queryId = "queryRansomTimeRecord";
-	data.argu_ransomCode = ransomCode;
+
+function getParams(){
+	
+	var caseCode = $("#caseCode").val();
+	var ransomCode = $("#ransomCode").val();
 	debugger;
-	$.ajax({
-		async: true,
-		type:'POST',
-		url:url,
-		dataType:'json',
-		data:data,
-		beforeSend: function () {  
-        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-        },  
-        success: function(data){
-        	$.unblockUI();
-        	var html = template('template_timeRecord',data);
-      		$('#record-detail').html(html);
-        }
-	});	
+	var array = new Array();
+	for(var i = 0;i < $(".line input").length / 2;i++){
+		var estPartTime = $("input[name='estPartTime" + i + "']").val();
+		var remark = $("input[name='remark" + i + "']").val();
+		var partCode = $("#taskCode"+ i + "").text();
+		
+		if(partCode == "申请时间"){
+			partCode = "APPLY";
+		}
+		
+		if(partCode == "面签时间"){
+			partCode = "SIGN";		
+		}
+		
+		if(partCode == "陪同还贷时间"){
+			partCode = "PAYLOAN_ONE";
+		}
+		
+		if(partCode == "注销抵押时间"){
+			partCode = "CANCELDIYA_ONE";
+		}
+		
+		if(partCode == "领取产证时间"){
+			partCode = "RECEIVE_ONE";
+		}
+		
+		if(partCode == "回款结清时间"){
+			partCode = "PAYCLEAR";
+		}
+		
+		var resJson = {
+			ransomCode:ransomCode,	
+			partCode:partCode,
+			estPartTime:estPartTime,
+			remark:remark
+		}
+		
+		array.push(resJson);
+	}
+	
+	return array;
 }
 	/**
 	 * 根据日期字符串转换成日期

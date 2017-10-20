@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>e+产品</title>
+<title>评估申请</title>
 
 <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
 <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />"
@@ -54,7 +54,7 @@
 				评估申请
 			</h2>
 			<div class="mt20">
-				<button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+				<button type="button" class="btn btn-icon btn-blue mr5" id="btnEvalView">
 					<i class="iconfont icon">&#xe600;</i> 评估视图
 				</button>
 				<button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
@@ -69,6 +69,8 @@
 				<form method="get" class="form_list" id="evalApplyForm">
 					<!-- 交易单编号 -->
 					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+					<%--环节编码 --%>
+					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 						<ul class="form_lump">
 						<div class="modal_title title-mark">
                                 	填写任务信息
@@ -82,7 +84,7 @@
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two">原购入价</label>
-								<input class="input_type sign_right_two"  name="originPrice" id="originPrice" style="visibility:hidden" onkeyup="checkNum(this)">
+								<input class="input_type sign_right_two"  name="ornginPrice" id="ornginPrice" value="${toEvalReportProcess.ornginPrice}" style="visibility:hidden" onkeyup="checkNum(this)">
 								<div class="input-group date_icon">
 									<span class="danwei">万</span>
 								</div>
@@ -91,28 +93,28 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i> 评估公司</label> 
-								<select class="select_control sign_right_two" name="finOrgId" id="finOrgId"></select>
+								<select class="select_control sign_right_two" name="finOrgId" id="finOrgId" ></select>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two">评估公司联系人</label> 
-								<input class="input_type sign_right_two"  name="evaComContact" id="evaComContact">
+								<input class="input_type sign_right_two"  name="evaComContact" id="evaComContact" value="${toEvalReportProcess.evaComContact}">
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two">联系方式</label> 
-								<input class="input_type sign_right_two"  name="contactWay" id="contactWay">
+								<input class="input_type sign_right_two"  name="contactWay" id="contactWay" value="${toEvalReportProcess.contactWay}">
 							</div>
 						</li>
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 房龄</label>
-								<input class="input_type sign_right_two"  name="houseAgeApply" id="houseAgeApply">
+								<input class="input_type sign_right_two"  name="houseAgeApply" id="houseAgeApply" value="${toEvalReportProcess.houseAgeApply}">
 								<div class="input-group date_icon">
 									<span class="danwei">年</span>
 								</div>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i>询价值</label> 
-								<input class="input_type sign_right_two"  name="inquiryResult" id="inquiryResult">
+								<input class="input_type sign_right_two"  name="inquiryResult" id="inquiryResult" value="${toEvalReportProcess.inquiryResult}">
 								<div class="input-group date_icon">
 									<span class="danwei">万</span>
 								</div>
@@ -122,7 +124,7 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i>评估报告份数</label>  							
-								<input class="input_type sign_right_two"  name="reportNum" id="reportNum">												
+								<input class="input_type sign_right_two"  name="reportNum" id="reportNum" value="${toEvalReportProcess.reportNum}">												
 							</div>
 							
 							<!-- <div class="form_content">
@@ -133,7 +135,7 @@
 							</div> -->
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 申请评估日期</label> 
-								<input class="input_type sign_right_two"  value='' name="applyDate" id="applyDate" />
+								<input class="input_type sign_right_two"  value='' name="applyDate" id="applyDate" value="${toEvalReportProcess.applyDate}"/>
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>
@@ -162,8 +164,9 @@
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script> 
 	<script src="<c:url value='/js/jquery.editable-select.min.js' />"></script> 
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	<script src="<c:url value='/js/common/textarea.js' />"></script> 
-    <script src="<c:url value='/js/eloan/eloancommon.js' />"></script> 
+	<script src="<c:url value='/js/common/textarea.js' />"></script>
+    <%-- <script src="<c:url value='/js/eloan/eloancommon.js' />"></script>  --%>
+    <script src="<c:url value='/js/common/common.js' />"></script>
 		<script>	
 		$(document).ready(function() {
 				getEvaCompanyList();

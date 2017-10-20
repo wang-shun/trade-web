@@ -277,11 +277,14 @@
 		<mapper resource="mapper/evaPricing/ToEvaPricingMapper.xml"/>
         <!-- 评估申请 -->
 		<mapper resource="mapper/eval/ToEvaReportProcessMapper.xml"/>
+		<!--评估退费 -->
+		<mapper resource="mapper/eval/ToEvaRefundMapper.xml"/>
 		<!--消息队列操作 日志-->
 		<mapper resource="mapper/common/MqOpertationLogMapper.xml"/>
 		<!--评估费变更调整-->
 		<mapper resource="mapper/eval/ToEvaCommissionChangeMapper.xml"/>
 		<mapper resource="mapper/eval/ToEvaCommPersonAmountMapper.xml"/>
+		<mapper resource="mapper/eval/ToEvaInvoiceMapper.xml"/>
 		<!-- 自办评估/自办贷款申请信息新增接口 -->
 		<mapper resource="mapper/task/ToAppRecordInfoMapper.xml"/>
 		

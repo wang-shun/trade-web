@@ -115,6 +115,7 @@
 	height: 35px;
 }
 </style>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- jdGrid相关 -->
@@ -137,11 +138,12 @@
 <link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
 <link href="<c:url value='/css/iconfont/iconfont.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
-<link href="<c:url value='/css/common/input.css' />" rel="stylesheet">
+<%-- <link href="<c:url value='/css/common/input.css' />" rel="stylesheet"> --%>
 <link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
 <!--弹出框样式  -->
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 <script type="text/javascript">
 	var coworkService = "${firstFollow.coworkService }";
@@ -175,15 +177,15 @@ function submit() {
 
 //保存数据
 function save(b) {
-	if(b){
+	/* if(b){
 		if (!checkForm()) {
 			return;
 		}													
-	}
+	} */
 	
-	var jsonData = $("#evalForm").serializeArray();
+	var jsonData = $("#changeCommForm").serializeArray();
 
-	var url = "${ctx}/eval/addEval";
+	var url = "${ctx}/eval/submitChangeComm";
 	
 	$.ajax({
         cache : true,
@@ -212,7 +214,7 @@ function save(b) {
                     window.wxc.alert("提交成功"+data);
                 }
                 var ctx = $("#ctx").val();
-                window.location.href=ctx+ "/task/myTaskList";
+                //window.location.href=ctx+ "/task/myTaskList";
             }else{
             	if (data.message) {
                     window.wxc.alert("提交成功"+data);
@@ -269,227 +271,175 @@ function checkForm() {
 	});
 
 </script>
-
+<title>调佣审核</title>
+<content tag="pagetitle">调佣审核</content>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
+<!-- caseBaseInfo -->
+<link href="<c:url value='/css/common/subscribe.css' />" rel="stylesheet">
+<link href="<c:url value='/static/trans/css/workflow/caseDetail.css' />" rel="stylesheet" />
+<link href="<c:url value='/static/trans/css/workflow/details.css' />" rel="stylesheet" />
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+
 <nav id="navbar-example" class="navbar navbar-default navbar-static"
 		role="navigation">
 		<div id="isFixed" style="position: relative; top: 0px;"
 			class="collapse navbar-collapse bs-js-navbar-scrollspy stuckMenu stickup-nav-bar scroll_nav">
 			<ul class="nav navbar-nav scroll_content">
 				<li class="menuItem active"><a href="#basicInfo"> 基本信息 </a></li>
-				<li class="menuItem"> <a href="#serviceFlow"> 服务流程  </a></li>
-				<li class="menuItem"> <a href="#aboutInfo"> 相关信息 </a> </li>
+				<li class="menuItem"><a href="#serviceFlow"> 服务流程 </a></li>
+				<li class="menuItem"><a href="#aboutInfo"> 相关信息 </a></li>
 
 			</ul>
 		</div>
 	</nav>
+	
+<div class="wrapper wrapper-content">
+	<div class="row animated fadeInDown">
+		<div class="scroll_box fadeInDown animated">
+			<div class="top12 panel" id="basicInfo">
+			
+           		<div v-cloak v-if="caseProperty=='30003001'" class="sign sign-red" >
+            		<span >无效</span>
+           		</div>
+         		<div v-cloak v-if="caseProperty=='30003002'" class="sign sign-red">结案</div>
+          		<div v-cloak v-if="caseProperty=='30003009'" class="sign sign-out"> 外单 </div>
+          		<div v-cloak v-if="caseProperty=='30003005'" class="sign sign-red ">
+           			<span>爆单</span>
+          		</div>
 
- <div class="wrapper wrapper-content" id="basicInfo">
-		<div class="row animated fadeInDown">
-			<div class="scroll_box fadeInDown animated">
-				<div class="top12 panel">
-			       	<c:if test="${caseBaseVO.loanType=='30004005'}">
-			          	<div class="sign sign-yellow">税费卡</div>
-			        </c:if>
-					<c:if test="${caseBaseVO.toCase.caseProperty=='30003001'}">
-						<div class="sign sign-red" ><span
-								<c:if test="${toApproveRecord!=''}">
-									class="hint hint-top" data-hint="${toApproveRecord}"
-								</c:if> >无效</span></div>
-					</c:if>
-					<c:if test="${caseBaseVO.toCase.caseProperty=='30003002'}">
-						<div class="sign sign-red">结案</div>
-					</c:if>
-					<c:if test="${caseBaseVO.toCase.caseProperty=='30003005'}">
-						<div class="sign sign-red ">
-                  		<span
-								<c:if test="${toApproveRecord!=''}">
-									class="hint hint-top" data-hint="${toApproveRecord}"
-								</c:if> >爆单</span>
+           		<div v-cloak v-if="caseProperty==30003003 || caseProperty==30003007 || caseProperty==30003008" class="sign sign-red">在途</div>
+           		<div v-cloak class="sign sign-blue">
+             		<p v-if="status == '30001001' ">未分单</p>
+             		<p v-if="status == '30001002' ">已接单</p>
+             		<p v-if="status == '30001003' ">已签约</p>
+             		<p v-if="status == '30001004' ">已过户</p>
+             		<p v-if="status == '30001005' ">已领证</p>
+             		<p v-if="status == '30001006' ">未指定</p>
+             		<p v-if="status == '30001007' ">被合流</p>
+           		</div>
+            		
+           		<div v-cloak v-if="caseProperty=='30003004'" class="sign sign-red">挂起</div>
+           		<div v-cloak class="sign sign-blue">
+             		<p v-if="status == '30001001' ">未分单</p>
+             		<p v-if="status == '30001002' ">已接单</p>
+             		<p v-if="status == '30001003' ">已签约</p>
+             		<p v-if="status == '30001004' ">已过户</p>
+             		<p v-if="status == '30001005' ">已领证</p>
+             		<p v-if="status == '30001006' ">未指定</p>
+             		<p v-if="status == '30001007' ">被合流</p>
+           	 	</div>
+           	 	
+          		<div v-cloak v-if="caseProperty=='30003006'" class="sign sign-red">全部</div>
+           		<div v-cloak class="sign sign-blue">
+            		<p v-if="status == '30001001' ">未分单</p>
+            		<p v-if="status == '30001002' ">已接单</p>
+            		<p v-if="status == '30001003' ">已签约</p>
+            		<p v-if="status == '30001004' ">已过户</p>
+            		<p v-if="status == '30001005' ">已领证</p>
+            		<p v-if="status == '30001006' ">未指定</p>
+            		<p v-if="status == '30001007' ">被合流</p>
+           		</div>
+                  	
+				<div class="panel-body">
+					<div class="ibox-content-head lh24">
+						<h5>案件基本信息</h5>
 
-						</div>
-					</c:if>
-					<c:if test="${caseBaseVO.toCase.caseProperty=='30003004'}">
-						<div class="sign sign-red">挂起</div>
-						<div class="sign sign-blue">
-							<c:if test="${caseBaseVO.toCase.status=='30001001'}">
-								未分单
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001002'}">
-								已分单
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001003'}">
-								已签约
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001004'}">
-								已过户
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001005'}">
-								已领证
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001006'}">
-								未指定
-							</c:if>
-						</div>
-					</c:if>
-					<c:if test="${toCase.caseProperty=='30003006'}">
-						<div class="sign sign-red">全部</div>
-						<div class="sign sign-blue">
-							<c:if test="${caseBaseVO.toCase.status=='30001001'}">
-								未分单
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001002'}">
-								已分单
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001003'}">
-								已签约
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001004'}">
-								已过户
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001005'}">
-								已领证
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001006'}">
-								未指定
-							</c:if>
-						</div>
-					</c:if>
-					<c:if test="${caseBaseVO.toCase.caseProperty=='30003003'}">
-						<div class="sign sign-red">在途</div>
-						<div class="sign sign-blue">
-							<c:if test="${caseBaseVO.toCase.status=='30001001'}">
-								未分单
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001002'}">
-								已分单
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001003'}">
-								已签约
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001004'}">
-								已过户
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001005'}">
-								已领证
-							</c:if>
-							<c:if test="${caseBaseVO.toCase.status=='30001006'}">
-								未指定
-							</c:if>
-						</div>
-					</c:if>
-
-			       <div class="panel-body">
-						<div class="ibox-content-head">
-							<h5>案件基本信息</h5>
-							<small class="pull-right">誉萃编号：${caseBaseVO.toCase.caseCode}｜中原编号：${caseBaseVO.toCase.ctmCode}</small>
-						</div> 
-						
-						<div id="infoDiv infos" class="row">
-							<div class="ibox white_bg">
-								<div class="info_box info_box_one col-sm-4 ">
-									<span>物业信息</span>
-									<div class="ibox-conn ibox-text">
-										<dl class="dl-horizontal">
-											<dt>CTM地址</dt>
-											<dd>${caseBaseVO.toPropertyInfo.ctmAddr}</dd>
-											<dt>产证地址</dt>
-											<dd>${caseBaseVO.toPropertyInfo.propertyAddr}</dd>
-											<dt>层高</dt>
-											<dd>${caseBaseVO.toPropertyInfo.locateFloor}／${caseBaseVO.toPropertyInfo.totalFloor}</dd>
-											<dt>产证面积</dt>
-											<dd>${caseBaseVO.toPropertyInfo.square}平方</dd>
-											<dt>房屋类型</dt>
-											<dd>
-												<aist:dict id="propertyType" name="propertyType"
-													display="label" dictType="30014"
-													dictCode="${caseBaseVO.toPropertyInfo.propertyType}" />
-											</dd>
-										</dl>
-									</div>
+						<small v-cloak class="pull-right">交易编号：{{caseCode}}｜成家报告编号：{{ccaiCode}}</small>
+					</div>
+					<div id="infoDiv infos" class="row">
+						<div class="ibox white_bg">
+							<div class="info_box info_box_one col-sm-4 ">
+								<span>物业信息</span>
+								<div class="ibox-conn ibox-text">
+									<dl class="dl-horizontal">
+										<dt>产证地址</dt>
+										<dd v-cloak>{{toPropertyInfo.propertyAddr}}</dd>
+										<dt>层高</dt>
+										<dd v-cloak>{{toPropertyInfo.locateFloor}}／{{toPropertyInfo.totalFloor}}</dd>
+										<dt>产证面积</dt>
+										<dd v-cloak>{{toPropertyInfo.square}}<label v-if="toPropertyInfo.square !='' && toPropertyInfo.square !=null">平方</label></dd>
+										<dt>竣工年限</dt>
+										<dd v-cloak>{{toPropertyInfo.finishYear}}<label v-if="toPropertyInfo.finishYear !='' && toPropertyInfo.finishYear !=null">年</label></dd>
+										<dt>房屋类型</dt>
+										<dd v-cloak>{{toPropertyInfo.propertyTypeName}}</dd>
+									</dl>
 								</div>
-								<div class="info_box info_box_two col-sm-5">
-									<span>买卖双方</span>
-									<div class="ibox-conn else_conn">
-										<dl class="dl-horizontal col-sm-6">
-											<dt>上家姓名</dt>
-											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseBaseVO.buyerSellerInfo.sellerMobile}">
-													${caseBaseVO.buyerSellerInfo.sellerName}</a>
+							</div>
+							
+							<div class="info_box info_box_two col-sm-5">
+								<span>买卖双方</span>
+								<div class="ibox-conn else_conn">
+									<dl class="dl-horizontal col-sm-6">
+										<dt>买方姓名</dt>
+										<dd>
+											<a v-cloak id="buyer" data-toggle="popover" data-placement="right" 
+												data-content="">{{buyerName}}</a>
+										</dd>
+									</dl>
+									<dl class="dl-horizontal col-sm-6">
+										<dt>卖方姓名</dt>
+										<dd>
+											<a v-cloak id="seller" data-toggle="popover" data-placement="right" 
+												data-content="">{{sellerName}}</a>
+										</dd>
+									</dl>
+								</div>
+							    <span>经纪人信息</span>
+								<div class="ibox-conn else_conn_two ">
+									<dl class="dl-horizontal">
+										<dt>姓名</dt>
+										<dd>
+											<a v-cloak id="agent" data-toggle="popover" data-placement="right" 
+												data-content="">{{agentName}}</a>
+										</dd>
+										<dt>所属分行</dt>
+										<dd v-cloak>{{agentGrpName}}</dd>
+										<dt>直属经理</dt>
+										<dd>
+											<a v-cloak id="manager" data-toggle="popover" data-placement="right"
+												data-content="">{{mcName}} </a>
+										</dd>
+										<dt>分行秘书</dt>
+										<dd>
+											<a v-cloak id="ms" data-toggle="popover" data-placement="right"
+												data-content="">{{msName}}</a>
+										</dd>
+									</dl>
+								</div>
+
+							</div>
+							<div class="info_box info_box_three col-sm-3">
+								<span>经办人信息</span>
+								<div class="ibox-conn  ibox-text">
+									<dl class="dl-horizontal">
+										<dt>贷款权证</dt>
+										<dd>
+											<a v-cloak id="loan" data-toggle="popover" data-placement="right"
+												data-content="">{{loanName}} </a>
+										</dd>
+										<dt>过户权证</dt>
+										<dd>
+											<a v-cloak id="warr" data-toggle="popover" data-placement="right"
+												data-content="">{{warName}} </a>
+										</dd>
+										<dt>内勤</dt>
+										<dd>												
+											<a v-cloak id="as" data-toggle="popover" data-placement="right"
+												data-content="">{{asName}} </a>
 												
-											</dd>
-										</dl>
-										<dl class="dl-horizontal col-sm-6">
-											<dt>下家姓名</dt>
-											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseBaseVO.buyerSellerInfo.buyerMobile}">
-													${caseBaseVO.buyerSellerInfo.buyerName}</a>
-											</dd>
-										</dl>
-									</div>
-									
-									<span>经纪人信息</span>
-									<div class="ibox-conn else_conn_two ">
-										<dl class="dl-horizontal">
-											<dt>姓名</dt>
-											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseBaseVO.agentManagerInfo.agentPhone}">
-													${caseBaseVO.agentManagerInfo.agentName }</a>
-											</dd>
-											<dt>所属分行</dt>
-											<dd>${caseBaseVO.agentManagerInfo.grpName }</dd>
-											<dt>直管经理</dt>
-											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseBaseVO.agentManagerInfo.mcMobile}">
-													${caseBaseVO.agentManagerInfo.mcName} </a>
-											</dd>
-										</dl>
-									</div>
+										</dd>
+									</dl>
 								</div>
-								
-								
-								<div class="info_box info_box_three col-sm-3">
-									<span>经办人信息</span>
-									<div id="cpDiv" class="ibox-conn  ibox-text">
-										<dl class="dl-horizontal">
-											<dt>交易顾问</dt>
-											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseBaseVO.agentManagerInfo.cpMobile}">
-													${caseBaseVO.agentManagerInfo.cpName} </a>
-											</dd>
-											<c:if test="${empty caseBaseVO.agentManagerInfo.proList}">
-												<dt>合作顾问</dt>
-												<dd></dd>
-											</c:if>
-											<c:if test="${!empty caseBaseVO.agentManagerInfo.proList}">
-												<c:forEach items="${caseBaseVO.agentManagerInfo.proList}" var="pro">
-													<dt>合作顾问</dt>
-													<dd>
-														<a data-toggle="popover" data-placement="right"
-															data-content="${pro.processorMobile}">
-															${pro.processorName} </a>
-													</dd>
-												</c:forEach>
-											</c:if>
-											<dt>交易助理</dt>
-											<dd>
-												<a data-toggle="popover" data-placement="right"
-													data-content="${caseBaseVO.agentManagerInfo.asMobile}">
-													${caseBaseVO.agentManagerInfo.asName} </a>
-											</dd>
-										</dl>
-									</div>
-								</div>
-								
-							<!-- 调佣信息 -->
+							</div>
+
+<!-- 调佣信息 -->
 								<div  class="info_box info_box_two col-sm-12" >
 									<span>调佣信息</span>
 									<div  class="ibox-conn else_conn_two">
@@ -523,95 +473,159 @@ function checkForm() {
 									</table>
 									</div>
 								</div>
+								<!-- 调佣信息 -->
 								
-							</div>
-							</div>                      
-        </div>
-    </div>
-</div>
-	<div class="">
-		<div class="wrapper white-bg new-heading" id="serviceFlow">
-             <div class="pl10">
-                 <h2 class="newtitle-big">
-                        	评估公司变更
-                 </h2>
-             </div>
-        </div>
-
-        <div class="ibox-content border-bottom clearfix space_box noborder marginbot" id="serviceFlow">
-            <h2 class="newtitle title-mark">填写房产信息</h2>
-			<form method="get" class="form_list" id="evalForm"
-				style="overflow: visible;">
-				<input type="hidden" id="ctx" value="${ctx }" />
-				<!-- 交易单编号 -->
-				<input type="hidden" id="caseCode" name="caseCode"
-					value="${caseCode}">
-
-				<div class="marinfo">
-					<div class="line">
-						<div class="form_content">
-							<label class="control-label sign_left_small"><font
-								color=" red" class="mr5">*</font>调佣事项 :</label> <input type="text"
-								class="input_type yuanwid" id="" name="changeChargesItem"
-								readonly="readonly"  value="评估公司变更" maxlength="32">
-						</div>
-
-						<div class="form_content">
-							<label class="control-label sign_left_small"><font
-								color=" red" class="mr5">*</font>调佣类型： </label> <input type="text"
-								class="input_type yuanwid" id="changeChargesType" maxlength="16"
-								name="changeChargesType" >
-						</div>
-					</div>
-
-					<div class="line">
-						<div class="form_content">
-							<label class="control-label sign_left_small"><font
-								color=" red" class="mr5">*</font>调佣事由 </label> <input type="text" id="changeChargesCause"
-								class="input_type mendwidth" maxlength="150" name="changeChargesCause">
-						</div>
-					</div>
-
-					<div class="line">
-						<div class="form_content mt3">
-							<label
-								class="control-label sign_left_small select_style mend_select">
-								中介费折评估费总金额 </label> 
-								
-							<input type="text" placeholder="成交价" class="input_type yuanwid" id="agEvalAmount" name="agEvalAmount" onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value="" type='number' pattern='#0.00'/>"/> 
-						</div>
-
-					</div>
-
-					<div class="line">
-						<div class="form_content mt3">
-							<label class="control-label sign_left_small"> 调佣对象 </label> <input
-								type="text" class="input_type mendwidth" maxlength="32"
-								name="changeChargesTargat">
-						</div>
-					</div>
-
-					<div class="line" id="aboutInfo">
-						<div class="form_content mt3">
-							<label class="control-label sign_left_small"> 调佣金额 </label> 
-								<input type="text" placeholder="成交价" class="input_type yuanwid" id="changeChargesAmount" name="changeChargesAmount" onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value="" type='number' pattern='#0.00'/>"> 
 						</div>
 					</div>
 				</div>
-				<div class="hr"></div>
-			</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script	src="<c:url value='/js/vue.min.js' />" type="text/javascript"></script>
+<!-- caseBaseInfo -->
+
+
+	<div class="">
 
 
 
-			<div class="form-btn">
+<!-- 调佣对象调佣金额 -->
+		 <div class="ibox-content border-bottom clearfix space_box noborder marginbot" id="serviceFlow">
+		 <form action="#" id="changeCommForm">
+<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+<input type="hidden" id="ctx" name="ctx" value="${ctx}">
+		<!-- 原来的页面 -->
+		<h2 class="newtitle title-mark">调佣任务填写</h2>		
+	                <!-- 原来的页面 -->
+		<div  style="width: 80%" align="center" class="table_content">
+		<div align="left" style="height:30px">
+			<font color=" red" >*</font>调佣事项： 
+			<input type="text" id="changeChargesType" maxlength="16" name="changeChargesItem" value="评估公司变更" readonly="readonly">
+		</div>
+		<div align="left" style="height:30px">
+			<font color=" red" >*</font>调佣类型： 
+			<input type="text" id="changeChargesType" value="${evalChangeCommVO.changeChargesType }" name="changeChargesType" >
+		</div>
+		<div align="left" style="height: 30px">
+			<font color=" red">*</font>调佣事由： <input type="text"
+				id="changeChargesCause" value="${evalChangeCommVO.changeChargesCause }" maxlength="16" name="changeChargesCause">
+		</div>
+		<div align="left" style="height: 30px">
+			<font color=" red">*</font>中介费折评估费总金额： <input type="text"
+				id="changeChargesCause" maxlength="16" value="${evalChangeCommVO.agEvalAmount }" name="agEvalAmount">
+		</div>
+			<table style="width: 100%;height: 600px;" class="table-hover">
+            <thead>
+            <tr>
+                <td></td><td>合作费类型</td><td>分成金额</td><td>分成比例</td><td>合作人</td><td>合作部门</td><td>合作经理</td>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${evalChangeCommVO.coPersonList }" var="coPerson" varStatus="s">
+            <tr>
+                    <td>${coPerson.position }${s.count} : <input type="hidden" name="coPersonList[${s.index}].pkid" value="${coPerson.pkid }"></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateType" value="${coPerson.cooperateType }" ></td>
+                    <td><input class="shareAmount"  type="text" style="width: 120px" name="coPersonList[${s.index}].shareAmount" value="${coPerson.shareAmount }"></td>
+                    <td><span class="aa"></span><span>%</span></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].employeeName" value="${coPerson.employeeName }"></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateDept" value="${coPerson.cooperateDept }"></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateManager" value="${coPerson.cooperateManager }"></td>
+                </tr>
+            </c:forEach>
+                <!-- <tr>
+                    <td>合作人1:</td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                </tr> -->
+                
+
+                <tr>
+                    <td></td><td>部门</td><td>员工</td><td>分成金额</td><td>分成比例</td><td>分成说明</td><td>成交单数</td>
+                </tr>
+                <c:forEach items="${evalChangeCommVO.sharePersonList }" var="sharePerson" varStatus="s">
+                <tr>
+                    <td>${sharePerson.position }${s.count}:<input type="hidden" name="sharePersonList[${s.index}].pkid" value="${sharePerson.pkid }"></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].department" value="${sharePerson.department }"></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].employeeName" value="${sharePerson.employeeName }"></td>
+                    <td><input class="shareAmount" type="text" style="width: 120px" name="sharePersonList[${s.index}].shareAmount" value="${sharePerson.shareAmount }"></td>
+                    <td><span class="aa"></span><span>%</span></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].shareReason" value="${sharePerson.shareReason }"></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].dealCount" value="${sharePerson.dealCount }"></td>
+                </tr>
+                </c:forEach>
+                <!-- <tr>
+                    <td>分成人2:</td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                </tr> -->               
+                <tr></tr><tr></tr>
+                
+                <c:forEach items="${evalChangeCommVO.warrantPersonList }" var="warrantPersonList" varStatus="s">
+                <tr>
+                    <td>权证1:<input type="hidden" name="warrantPersonList[${s.index}].pkid" value="${warrantPersonList.pkid }"></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].department" value="${warrantPersonList.department }" style="width: 120px"></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].employeeName" value="${warrantPersonList.employeeName }" style="width: 120px"></td>
+                    <td></td>
+                    <td></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].position" value="${warrantPersonList.position }" style="width: 120px"></td>
+                    <td></td>
+                </tr>
+                </c:forEach>
+                <!-- <tr>
+                    <td>权证2:</td>
+                    <td align="left"><input type="text" style="width: 120px"></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="text" style="width: 120px"></td>
+                    <td></td>
+                </tr> -->
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>合计:</td>
+                    <td><input id="ttlComm" class="shareAmount" type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px"></td>
+                    <td><span id="totalPacentage"></span><span>%</span></td>
+                    <td>单数合计:</td>
+                    <td><input type="text" value="${evalChangeCommVO.dealCount }" name="dealCount" style="width: 120px"></td>
+                </tr>
+                <!-- <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr> -->
+            </tbody>
+        </table>
+
+</div>
+</form>
+<!-- 调佣对象调佣金额 -->
+
+<div class="form-btn" id="aboutInfo">
 	                    <div class="text-center">
-	                        <button  class="btn btn-success btn-space" onclick="save(false)" id="btnSave">保存</button>
+	                        <button  class="btn btn-success btn-space" onclick="javascript:window.close()" id="btnSave">关闭</button>
 	                         <button class="btn btn-success btn-space" onclick="submit()">提交</button>
+	                         
 	                    </div>
 	                </div>
-	            </div>
+
+	
+		</div>
+        
 			</div>
 	
 			<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
@@ -645,14 +659,7 @@ function checkForm() {
 				<script>
 					$(document).ready(function(){
 						var ctx = $("#ctx").val();
-						var caseCode=$("#caseCode").val();
-						
-						$("#caseCommentList").caseCommentGrid({
-							caseCode : caseCode,
-							srvCode : 'caseRecvFlow'
-						});
-
-						
+						var caseCode=$("#caseCode").val();					
 					//设置div显示或隐藏
 					function isShow(divName, stats) {
 					    var div_array = document.getElementsByName(divName);   
@@ -661,9 +668,7 @@ function checkForm() {
 						    div_array[i].style.display = stats; 
 					    }  
 					}
-					
-					
-			      
+	      
 		            $("[name=businessLoanWarn]").click(function(){
 		                if($(this).val()=='1'){
 		                    $("#divContent").css("display","inherit");
@@ -671,9 +676,76 @@ function checkForm() {
 		                    $("#divContent").css("display","none");
 		                }
 		            });
-				
+		            //页面加载时计算出百分比
+		            //var shareAmountArray=$('.shareAmount');
+		            //console.log(shareAmountArray);
+		            
+		            /* $('.shareAmount').each(function(){
+		            	var totalcomm=$("#ttlComm").val();
+		            	totalcomm=parseInt(totalcomm);
+		            	console.log(totalcomm);
+		                var sharePacentage=$(this).val()/totalcomm*100;
+		                sharePacentage=sharePacentage.toFixed(2)
+		            	$(this).parent().siblings().children(".aa").text(sharePacentage);
+		            }) */
+		            
+		            refeshShareAmount();
+		            getTotalSharePacentage();
+		            
+					//绑定计算百分比事件
+		            $('.shareAmount').bind('keyup onpropertychange', function() {   
+		                console.log($(this).val());
+		                //var totalcomm=10000;
+		                var totalcomm=$("#ttlComm").val();
+		                totalcomm=parseInt(totalcomm);
+		                var sharePacentage=$(this).val()/totalcomm*100;
+		                sharePacentage=sharePacentage.toFixed(2)
+		                console.log(sharePacentage);
+		                //$(this).parent().siblings().children(".aa").text(sharePacentage);
+		                console.log($(this).parent().siblings().children(".aa").text(sharePacentage));
+		                refeshShareAmount();
+		                getTotalSharePacentage();
+		              //计算总百分比
+		                /* var totalPacentage=0;
+		                var totalPacentageArray=new Array();
+		                $(".aa").each(function(){
+		                    totalPacentageArray.push(parseInt($(this).text()));
+		                })
+		                for(var i=0;i<totalPacentageArray.length;i++){
+		                    totalPacentage=totalPacentageArray[i]+totalPacentage;
+		                }
+		                console.log(totalPacentageArray);
+		                console.log(totalPacentage);
+		                $("#totalPacentage").text(totalPacentage);   */              
+		            }); 
+		            		            
 					})//end ready function
 					
+					function refeshShareAmount(){
+						$('.shareAmount').each(function(){
+			            	var totalcomm=$("#ttlComm").val();
+			            	totalcomm=parseInt(totalcomm);
+			            	console.log(totalcomm);
+			                var sharePacentage=$(this).val()/totalcomm*100;
+			                sharePacentage=sharePacentage.toFixed(2)
+			            	$(this).parent().siblings().children(".aa").text(sharePacentage);
+			            })
+					}
+					
+					function getTotalSharePacentage(){
+						//计算总百分比
+		                var totalPacentage=0;
+		                var totalPacentageArray=new Array();
+		                $(".aa").each(function(){
+		                    totalPacentageArray.push(parseInt($(this).text()));
+		                })
+		                for(var i=0;i<totalPacentageArray.length;i++){
+		                    totalPacentage=totalPacentageArray[i]+totalPacentage;
+		                }
+		                console.log(totalPacentageArray);
+		                console.log(totalPacentage);
+		                $("#totalPacentage").text(totalPacentage);     
+					}
 				</script> 
 			</content>
 	</body>

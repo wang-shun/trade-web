@@ -11,6 +11,12 @@ public interface ToEvaInvoiceMapper {
     int insertSelective(ToEvaInvoice record);
 
     ToEvaInvoice selectByPrimaryKey(Long pkid);
+    
+    ToEvaInvoice selectByCaseCode(String caseCode);
+    
+    ToEvaInvoice selectByEvaCode(String evaCode);
+    
+    ToEvaInvoice selectByCaseCodeWithEvalCompany(String caseCode);
 
     int updateByPrimaryKeySelective(ToEvaInvoice record);
 

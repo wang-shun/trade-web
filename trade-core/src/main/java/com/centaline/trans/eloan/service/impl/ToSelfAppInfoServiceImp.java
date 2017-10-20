@@ -1,6 +1,8 @@
 package com.centaline.trans.eloan.service.impl;
 
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -40,11 +42,47 @@ public class ToSelfAppInfoServiceImp implements ToSelfAppInfoService {
 			List<ToAppRecordInfo> list = toSelfAppInfo.getTasks();
 			for (ToAppRecordInfo toAppRecordInfo : list) {
 				toAppRecordInfo.setSelfAppInfoId(toSelfAppInfo.getPkid());
+				toAppRecordInfo.setCreateTime(new Date());
 			}
-			toAppRecordInfoMapper.insertAppRecordInfo(list);
+			try {
+				toAppRecordInfoMapper.insertAppRecordInfo(list);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			return caseCode;
 		}
 		return null;
 	}
+
+	@Override
+	public ToSelfAppInfo getAppInfoByCaseCode(String caseCode) {
+		if(StringUtils.isBlank(caseCode)){
+			return null;
+		}
+		return toSelfAppInfoMapper.getAppInfoByCaseCode(caseCode);
+	}
+
+	@Override
+	public List<ToAppRecordInfo> getAppRecordInfo(String appInfoId) {
+		if(StringUtils.isBlank(appInfoId)){
+			return new ArrayList<ToAppRecordInfo>();
+		}
+		return toAppRecordInfoMapper.getAppRecordInfo(appInfoId);
+	}
+
+	@Override
+	public ToSelfAppInfo getAppInfoByCCAICode(String ccaiCode,String type) {
+		if(StringUtils.isBlank(ccaiCode)){
+			return null;
+		}
+		return toSelfAppInfoMapper.getAppInfoByCCAICode(ccaiCode,type);
+	}
+
+	@Override
+	public int saveBatchToAppRecordInfo(List<ToAppRecordInfo> listRecord) {
+		return toAppRecordInfoMapper.insertAppRecordInfo(listRecord);
+	}
+
 
 }

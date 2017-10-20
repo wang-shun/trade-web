@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
 import com.centaline.trans.cases.service.ToCaseParticipantService;
@@ -24,6 +25,11 @@ public class ToCaseParticipantServiceImpl implements ToCaseParticipantService {
 	@Override
 	public List<ToCaseParticipant> findToCaseParticipantByCondition(ToCaseParticipant toCaseParticipant) {
 		return toCaseParticipantMapper.selectByCondition(toCaseParticipant);
+	}
+
+	@Override
+	public int updateCaseParticipant(String caseCode, User user, User manager) {
+		return toCaseParticipantMapper.updateCaseParticipant(caseCode, user, manager);
 	}
 
 }

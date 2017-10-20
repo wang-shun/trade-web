@@ -10,7 +10,15 @@ import com.centaline.trans.ransom.entity.ToRansomFormVo;
 public interface AddRansomFormMapper {
 	int insert(ToRansomTailinsVo ar);
 
-	void addRansomForm(List<ToRansomFormVo> list);
+	void insertRansomForm(List<ToRansomFormVo> list);
 	
 	ToRansomFormVo selectByCaseCode(String caseCode);
+	
+	/**
+	 * 根据案件编号获取尾款信息
+	 * @author wbcaiyx
+	 * @param caseCode
+	 * @return
+	 */
+	List<ToRansomFormVo> findTaiLinsInfoByCaseCode(String caseCode);
 }

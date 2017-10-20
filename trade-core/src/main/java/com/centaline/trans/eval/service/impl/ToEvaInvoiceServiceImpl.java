@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.centaline.trans.eval.entity.ToEvaInvoice;
+import com.centaline.trans.eval.repository.ToEvaInvoiceMapper;
 import com.centaline.trans.eval.service.ToEvaInvoiceService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.repository.ToApproveRecordMapper;
@@ -11,7 +12,9 @@ import com.centaline.trans.task.repository.ToApproveRecordMapper;
 public class ToEvaInvoiceServiceImpl implements ToEvaInvoiceService {
 	@Autowired
 	private ToApproveRecordMapper toApproveRecordMapper; 
-	
+	@Autowired
+	private ToEvaInvoiceMapper toEvaInvoiceMapper; 
+
 	@Override
 	public int deleteByPrimaryKey(Long pkid) {
 		// TODO Auto-generated method stub
@@ -27,7 +30,7 @@ public class ToEvaInvoiceServiceImpl implements ToEvaInvoiceService {
 	@Override
 	public int insertSelective(ToEvaInvoice record) {
 		// TODO Auto-generated method stub
-		return 0;
+		return toEvaInvoiceMapper.insertSelective(record);
 	}
 
 	@Override
@@ -49,16 +52,28 @@ public class ToEvaInvoiceServiceImpl implements ToEvaInvoiceService {
 	}
 
 	@Override
+//	权证经理发票审核是否通过
 	public int updateEvalInvoiceApproveRecord(ToApproveRecord toApproveRecord) {
-		ToApproveRecord findApproveRecordByRecord = toApproveRecordMapper.findApproveRecordByRecord(toApproveRecord);
-		if(null!=findApproveRecordByRecord){
-			findApproveRecordByRecord.setNotApprove(toApproveRecord.getNotApprove());
-			findApproveRecordByRecord.setContent(toApproveRecord.getContent());
-			return toApproveRecordMapper.updateByPrimaryKeyWithBLOBs(findApproveRecordByRecord);
-		}else{
 			return toApproveRecordMapper.insertSelective(toApproveRecord);
-		}
-
 	}
+
+	@Override
+	public ToEvaInvoice selectByCaseCode(String caseCode) {
+		ToEvaInvoice toEvaInvoice = toEvaInvoiceMapper.selectByCaseCode(caseCode);
+		return toEvaInvoice;
+	}
+
+	@Override
+	public ToEvaInvoice selectByCaseCodeWithEvalCompany(String caseCode) {
+		return toEvaInvoiceMapper.selectByCaseCodeWithEvalCompany(caseCode);
+	}
+
+	@Override
+	public ToEvaInvoice selectByEvaCode(String evaCode) {
+		// TODO Auto-generated method stub
+		return toEvaInvoiceMapper.selectByEvaCode(evaCode);
+	}
+
+
 
 }

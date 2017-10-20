@@ -21,6 +21,7 @@ import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
 import com.centaline.trans.ransom.entity.ToRansomPermitVo;
+import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.repository.RansomListFormMapper;
@@ -53,10 +54,16 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	}
 
 	@Override
-	public ToRansomCaseVo getRansomCase(String caseCode) {
-		return ransomListFormMapper.getRansomCase(caseCode);
+	public ToRansomCaseVo getRansomCase(String caseCode, String ransomCode) {
+		return ransomListFormMapper.getRansomCase(caseCode, ransomCode);
 	}
 
+	@Override
+	public int updateRansomDiscountinue(ToRansomCaseVo ransomCaseVo) {
+		
+		return ransomListFormMapper.updateRansomDiscountinue(ransomCaseVo);
+	}
+	
 	@Override
 	public int updateRansomDiscountinue(String caseCode) {
 		
@@ -71,14 +78,11 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 			
 			List<TgGuestInfo> guestInfo = ransomListFormMapper.getGuestInfo(caseCode);
 			
-			ToRansomCaseVo caseVo = ransomListFormMapper.getRansomCase(caseCode);
-			String finOrgCode = tailinsVo.getFinOrgCode();
-			TsFinOrg finOrg = ransomListFormMapper.getTsFinOrgIinfo(finOrgCode);
+			ToRansomCaseVo caseVo = ransomListFormMapper.getRansomCase(caseCode, null);
 			
 			list.add(tailinsVo);
 			list.add(guestInfo);
 			list.add(caseVo);
-			list.add(finOrg);
 			
 			return list;
 		} catch (Exception e) {
@@ -86,6 +90,18 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 			logger.error("",e);
 			return list;
 		}
+	}
+	
+	@Override
+	public List<ToRansomPlanVo> getRansomPlanTimeInfo(String ransomCode) {
+		List<ToRansomPlanVo> planVo = new ArrayList<ToRansomPlanVo>();
+		planVo = ransomListFormMapper.getRansomPlanTime(ransomCode);
+		return planVo;
+	}
+
+	@Override
+	public int updateRansomPlanTimeInfo(ToRansomPlanVo ransomPlanVo) {
+		return ransomListFormMapper.updateRansomPlanTimeInfoByRansomCode(ransomPlanVo);
 	}
 
 	@Override
@@ -101,13 +117,13 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	}
 
 	@Override
-	public ToRansomVo getRansomPlanInfo(String ransomCode) {
+	public List<ToRansomVo> getRansomPlanInfo(String ransomCode) {
 		
 		try {
-			ToRansomVo ransomVo = new ToRansomVo();
-			ransomVo = ransomListFormMapper.getRansomInfoByRansomCode(ransomCode);
+			List<ToRansomVo> ransomList = new ArrayList<ToRansomVo>();
+			ransomList = ransomListFormMapper.getRansomInfoByRansomCode(ransomCode);
 			
-			return ransomVo;
+			return ransomList;
 		} catch (Exception e) {
 			logger.error("",e);
 			return null;
@@ -123,10 +139,11 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		applyVo.setRansomCode(ransomVo.getRansomCode());
 		applyVo.setApplyTime(ransomVo.getApplyTime());
 		applyVo.setRemark(ransomVo.getApplyRemake());
-		applyVo.setUpdateUser(user.getUsername());
+		applyVo.setUpdateUser(user.getId());
 		applyVo.setUpdateTime(new Date());
 		
-		return ransomListFormMapper.updateRansomApplyInfoByRansomCode(applyVo);
+		int res = ransomListFormMapper.updateRansomApplyInfoByRansomCode(applyVo);
+		return res;
 	}
 
 	@Override
@@ -138,10 +155,11 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		signVo.setRansomCode(ransomVo.getRansomCode());
 		signVo.setSignTime(ransomVo.getInterviewTime());
 		signVo.setRemark(ransomVo.getInterviewRemake());
-		signVo.setUpdateUser(user.getUsername());
+		signVo.setUpdateUser(user.getId());
 		signVo.setUpdateTime(new Date());
 		
-		return ransomListFormMapper.updateRansomInterviewInfoByRansomCode(signVo );
+		int res = ransomListFormMapper.updateRansomInterviewInfoByRansomCode(signVo );
+		return res;
 	}
 
 	@Override
@@ -153,10 +171,11 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		mortgageVo.setRansomCode(ransomVo.getRansomCode());
 		mortgageVo.setMortgageTime(ransomVo.getRepayTime());
 		mortgageVo.setRemark(ransomVo.getRepayRemake());
-		mortgageVo.setUpdateUser(user.getUsername());
+		mortgageVo.setUpdateUser(user.getId());
 		mortgageVo.setUpdateTime(new Date());
 		
-		return ransomListFormMapper.updateRansomRepayInfoByRansomCode(mortgageVo);
+		int res = ransomListFormMapper.updateRansomRepayInfoByRansomCode(mortgageVo);
+		return res;
 	}
 
 	@Override
@@ -168,10 +187,11 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		cancelVo.setRansomCode(ransomVo.getRansomCode());
 		cancelVo.setCancelTime(ransomVo.getCancelTime());
 		cancelVo.setRemark(ransomVo.getCancelRemake());
-		cancelVo.setUpdateUser(user.getUsername());
+		cancelVo.setUpdateUser(user.getId());
 		cancelVo.setUpdateTime(new Date());
 		
-		return ransomListFormMapper.updateRansomCancelInfoByRansomCode(cancelVo);
+		int res = ransomListFormMapper.updateRansomCancelInfoByRansomCode(cancelVo);
+		return res;
 	}
 
 	@Override
@@ -183,10 +203,17 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		permitVo.setRansomCode(ransomVo.getRansomCode());
 		permitVo.setRedeemTime(ransomVo.getRedeemTime());
 		permitVo.setRemark(ransomVo.getRedeemRemake());
-		permitVo.setUpdateUser(user.getUsername());
+		permitVo.setUpdateUser(user.getId());
 		permitVo.setUpdateTime(new Date());
 		
-		return ransomListFormMapper.updateRansomRedeemInfoByRansomCode(permitVo);
+		int res = ransomListFormMapper.updateRansomRedeemInfoByRansomCode(permitVo);
+		return res;
+	}
+
+	@Override
+	public int insertRansomPlanTimeInfo(ToRansomPlanVo planVo) {
+		
+		return ransomListFormMapper.insertRansomPlanTimeVo(planVo);
 	}
 
 	@Override
@@ -198,10 +225,23 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		paymentVo.setRansomCode(ransomVo.getRansomCode());
 		paymentVo.setPaymentTime(ransomVo.getPaymentTime());
 		paymentVo.setRemark(ransomVo.getRepayRemake());
-		paymentVo.setUpdateUser(user.getUsername());
+		paymentVo.setUpdateUser(user.getId());
 		paymentVo.setUpdateTime(new Date());
 		
-		return ransomListFormMapper.updateRansomPaymentInfoByRansomCode(paymentVo);
+		int res = ransomListFormMapper.updateRansomPaymentInfoByRansomCode(paymentVo);
+		return res;
+	}
+
+	@Override
+	public int queryCountRansomsByUserId(String userId) {
+		Integer reInt = ransomListFormMapper.queryCountRansomsByUserId(userId);
+		return reInt == null ? 0 : reInt;
+	}
+
+	@Override
+	public int queryCountMonthRansomsByUserId(String userId) {
+		Integer reInt = ransomListFormMapper.queryCountMonthRansomsByUserId(userId);
+		return reInt == null ? 0 : reInt;
 	}
 
 }

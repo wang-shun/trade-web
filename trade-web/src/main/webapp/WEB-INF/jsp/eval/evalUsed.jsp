@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>e+产品</title>
+<title>使用评估报告</title>
 
 <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
 <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />"
@@ -54,7 +54,7 @@
 				使用评估报告
 			</h2>
 			<div class="mt20">
-				<button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
+				<button type="button" class="btn btn-icon btn-blue mr5" id="btnEvalView">
 					<i class="iconfont icon">&#xe600;</i> 评估视图
 				</button>
 				<button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
@@ -67,13 +67,10 @@
 			<h5>填写任务信息</h5>
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalUsedForm">
-				    <input type="hidden" id="pkid" name="pkid" value="${pkid }">
+				    <input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcess.evaCode }">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode"
 						value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode"
-						value="${caseCode}">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId"
@@ -85,7 +82,7 @@
 						<li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 领取报告时间</label> 
-								<input class="input_type sign_right_two"  value='' name="reportRevDate" id="reportRevDate" />
+								<input class="input_type sign_right_two"  value='' name="reportRevDate" id="reportRevDate" value="${toEvalReportProcess.reportRevDate}"/>
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>
@@ -94,13 +91,13 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i> 领取人</label> 
-								<input class="input_type sign_right_two" name="reveiver" id="reveiver"></select>
+								<input class="input_type sign_right_two" name="reveiver" id="reveiver" value="${toEvalReportProcess.reveiver}"/>
 							</div>
 						</li>
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 领取份数</label> 
-								<input class="input_type sign_right_two"  value='' name="receiveNum" id="receiveNum" />
+								<input class="input_type sign_right_two"  value='' name="receiveNum" id="receiveNum" value="${toEvalReportProcess.receiveNum}"/>
 							</div>
 						</li>
 					</ul>
@@ -126,7 +123,8 @@
 	<script src="<c:url value='/js/jquery.editable-select.min.js' />"></script> 
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script src="<c:url value='/js/common/textarea.js' />"></script> 
-    <script src="<c:url value='/js/eloan/eloancommon.js' />"></script> 
+    <%-- <script src="<c:url value='/js/eloan/eloancommon.js' />"></script> --%>
+    <script src="<c:url value='/js/common/common.js' />"></script>
 		<script>	
 		$(document).ready(function() {
 				

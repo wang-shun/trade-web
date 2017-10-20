@@ -1,5 +1,6 @@
 package com.centaline.trans.ransom.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -50,12 +51,12 @@ public class ToRansomTailinsVo {
 	/**
 	 * 贷款金额
 	 */
-	private double loanMoney;
+	private BigDecimal loanMoney;
 	
 	/**
 	 * 剩余金额
 	 */
-	private double restMoney;
+	private BigDecimal restMoney;
 	
 	private Date createTime;
 	
@@ -134,19 +135,21 @@ public class ToRansomTailinsVo {
 		this.diyaType = diyaType;
 	}
 
-	public double getLoanMoney() {
-		return loanMoney;
+	public BigDecimal getLoanMoney() {
+		BigDecimal wan = new BigDecimal(10000.00);
+		return loanMoney.divide(wan);
 	}
 
-	public void setLoanMoney(double loanMoney) {
+	public void setLoanMoney(BigDecimal loanMoney) {
 		this.loanMoney = loanMoney;
 	}
 
-	public double getRestMoney() {
-		return restMoney;
+	public BigDecimal getRestMoney() {
+		BigDecimal wan = new BigDecimal(10000.00);
+		return restMoney.divide(wan);
 	}
 
-	public void setRestMoney(double restMoney) {
+	public void setRestMoney(BigDecimal restMoney) {
 		this.restMoney = restMoney;
 	}
 

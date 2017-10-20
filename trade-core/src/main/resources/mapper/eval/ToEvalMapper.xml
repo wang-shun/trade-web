@@ -195,8 +195,9 @@
   </update>
   
   <select id="queryEguProInfo" resultType="java.util.Map" parameterType="string">
-		select  p.HOUSE_AGE houseAge,r.REPORT_RESPONSE_TIME reportTime,f.FIN_ORG_NAME finOrgName from sctrans.T_TO_EGU_PROPERTY_INFO p ,sctrans.T_TO_EVA_REPORT r,sctrans.T_TS_FIN_ORG f
-		where p.EVA_CODE = r.EVA_CODE and r.FIN_ORG_CODE = f.FIN_ORG_CODE and r.CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
+		select  p.HOUSE_AGE_ISSUE houseAge,p.ISSUE_DATE reportTime,p.EVA_PRICE price,f.FIN_ORG_NAME finOrgName from sctrans.T_TO_EVA_REPORT_PROCESS  p with(nolock),sctrans.T_TS_FIN_ORG  f with(nolock)
+		where  p.FIN_ORG_ID = f.FIN_ORG_CODE and p.CASE_CODE = #{caseCode,jdbcType=VARCHAR} 
 </select>
+
   
 </mapper>

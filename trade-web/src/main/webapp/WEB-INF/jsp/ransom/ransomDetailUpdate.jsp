@@ -51,6 +51,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<input type="hidden" value="${tailinsVo.caseCode }" id="caseCode">
 <input type="hidden" value="${tailinsVo.ransomCode }" id="ransomCode">
 <div class="wrapper wrapper-content animated fadeInUp">
 	<form method="post" class="form-horizontal" >
@@ -64,8 +65,8 @@
 							<font color=" red" class="mr5">*</font>主贷人姓名</label> 
 							<select class="input_type yuanwid" id="borrowerName">
 								<option value="">请选择</option>
-								<option value="${guestInfo.get(0).guestCode }">${guestInfo.get(0).guestName }</option>
-								<option value="${guestInfo.get(1).guestCode }">${guestInfo.get(1).guestName }</option>
+								<option value="${guestInfo.get(0).guestName }">${guestInfo.get(0).guestName }</option>
+								<option value="${guestInfo.get(1).guestName }">${guestInfo.get(1).guestName }</option>
 							</select>
 						</div>
 						<div class="form_content">
@@ -82,29 +83,25 @@
 							<table class="table table_blue table-striped table-bordered table-hover ">
 								<thead>
 									<tr>
-										<td>尾款机构</td>
-										<td>尾款类型</td>
-										<td>抵押类型</td>
-										<td>贷款金额</td>
-										<td>剩余金额</td>
+										<td>尾款机构</td><td>尾款类型</td><td>抵押类型</td><td>贷款金额</td><td>剩余金额</td>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
 										<td>
-										<aist:dict id="finOrgCode" name="finOrgCode" clazz=" select_control yuanwid " display="select" dictType="FINAL_ORG" defaultvalue="${toMortgage.mortType }" />
+										<aist:dict id="finOrgCode" name="finOrgCode" clazz=" select_control yuanwid " display="select" dictType="FINAL_ORG" defaultvalue="${tailinsVo.finOrgCode }" />
 										</td>
 										<td>
-											<aist:dict id="mortgageType" name="mortgageType" clazz=" select_control yuanwid " display="select" dictType="30016" defaultvalue="${toMortgage.mortType }" />
+											<aist:dict id="mortgageType" name="mortgageType" clazz=" select_control yuanwid " display="select" dictType="30016" defaultvalue="${tailinsVo.mortgageType }" />
 										</td>
 										<td>
-											<aist:dict id="diyaType" name="diyaType" clazz=" select_control yuanwid " display="select" dictType="71015" defaultvalue="${toMortgage.mortType }" />
+											<aist:dict id="diyaType" name="diyaType" clazz=" select_control yuanwid " display="select" dictType="71015" defaultvalue="${tailinsVo.diyaType }" />
 										</td>
 										<td>
-											<input id="loanMoney" name="loanMoney" value="" type="text" class="form-control input-one" placeholder="" value="${tailinsVo.loanMoney }"> 
+											<input id="loanMoney" name="loanMoney" type="text" class="form-control input-one" placeholder="单位：万元"  value="<fmt:formatNumber value='${ tailinsVo.loanMoney * 10000}' type='number' pattern='#0.00' />"> 万
 									    </td>
 										<td>
-											<input id="restMoney" name="restMoney" value="" type="text" class="form-control input-one" placeholder="" value="${tailinsVo.restMoney }"> 
+											<input id="restMoney" name="restMoney" type="text" class="form-control input-one" placeholder="单位：万元" value="<fmt:formatNumber value='${tailinsVo.restMoney * 10000}' type='number' pattern='#0.00' />"> 万
 										</td>
 									</tr>
 								</tbody>
@@ -112,9 +109,7 @@
 							</table>
 							<div class="form_content">
 								<label class="control-label sign_left_small">借款金额总计</label> 
-								<input type="text" class="input_type yuanwid" id="borrowerMoney"
-									name="borrowerMoney" 
-									value="<fmt:formatNumber value='${ caseVo.borroMoney / 10000}' type='number' pattern='#0.00' />">
+								<input type="text" class="input_type yuanwid" id="borrowerMoney"name="borrowerMoney" value="<fmt:formatNumber value='${ caseVo.borroMoney * 10000}' type='number' pattern='#0.00' />">
 								<span>万</span>
 							</div>
 						</div>
@@ -142,25 +137,74 @@
 				</div>
 			</div>
 		</div>
-	
+	<script src="<c:url value='/js/trunk/report/dealChangeList.js' />"></script> 
 	<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
 	<script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
 	<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
 	<script src="<c:url value='/js/ransom/ransomDetailUpdate.js'/>" type="text/javascript"></script>
+	<script>
+    $(document).ready(function () {
+        $('.input-daterange').datepicker({
+            keyboardNavigation: false,
+            forceParse: false,
+            autoclose: true
+        });
+    });
+</script>
 	<script id="template_workInfo" type= "text/html">
 		{{each rows as item index}}
 			<tr>
 				<td>
 					<p>
-						{{if item.RANSOM_PROPERTY_NAME != ""}}
-							{{item.RANSOM_PROPERTY_NAME}}
+						{{if item.RANSOM_PROPERTY == "DEAL"}}
+		 					{{item.RANSOM_PROPERTY_NAME}}
 						{{/if}}
+
+						{{if item.RANSOM_PROPERTY == "APPLY"}}
+		 					{{item.RANSOM_PROPERTY_NAME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "SIGN"}}
+		 					{{item.RANSOM_PROPERTY_NAME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "PAYLOAN_ONE"}}
+		 					{{item.RANSOM_PROPERTY_NAME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "PAYLOAN_TWO"}}
+		 					{{item.RANSOM_PROPERTY_NAME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "CANCELDIYA_ONE"}}
+		 					{{item.RANSOM_PROPERTY_NAME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "CANCELDIYA_TWO"}}
+		 					{{item.RANSOM_PROPERTY_NAME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "RECEIVE_ONE"}}
+		 					{{item.RANSOM_PROPERTY_NAME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "RECEIVE_TWO"}}
+		 					{{item.RANSOM_PROPERTY_NAME}}
+						{{/if}}
+						
+						{{if item.RANSOM_PROPERTY == "PAYCLEAR"}}
+		 					{{item.RANSOM_PROPERTY_NAME}}
+						{{/if}}
+							
+						
 					</p>
 				</td>
 				<td>
 					<p>
-						{{if item.RANSOM_PROPERTY != ""}}
+						{{if item.RANSOM_PROPERTY == "DEAL"}}
+		 					{{item.DEAL_TIME}}
 						{{/if}}
+
 						{{if item.RANSOM_PROPERTY == "APPLY"}}
 		 					{{item.APPLY_TIME}}
 						{{/if}}

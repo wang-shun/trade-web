@@ -165,13 +165,15 @@ text-decoration: underline !important;
 								<option value="7">办理人</option>
 					 	</select>
                  	</div> 
-	 		 	</div>
+                    <div id="select_div_1" class="sign_right" style="width:300px;">
+				 		<input id="inTextVal" type="text" class="form-control pull-left">
+				 	</div>
+	 		 	</div>	
              </div>
-             
 			 <div class="row date-info clearfix">
 				<div class="form_content">
-						<div id="dateDiv_0" >
-							<div id="select_div_0" class="sign_left">
+						<div id="dateDiv_0" style="padding-left:45px;">
+							<div id="select_div_0" class="sign_left_two">
 								<aist:dict id="eval_date" name="eval_date" clazz="form-control" display="select" defaultvalue="600001001" dictType="600001" />
 							</div>
 							<div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
@@ -179,7 +181,6 @@ text-decoration: underline !important;
 									<span class="input-group-addon">到</span> 
 								<input id="dtEnd" name="dtEnd" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
 							</div>
-							<div id="addLine" class="pull-left m-l"></div>
 						</div>
 				</div>
 			</div>
@@ -209,7 +210,13 @@ text-decoration: underline !important;
 								<th >经纪人</th>
 								<th >申请人</th>
 								<th >办理人</th>
-								<th >上报完成时间</th>
+								<th >
+								      上报时间
+								      <p>
+								          完成时间
+								      </p>
+								
+								</th>
 								<th >评估状态</th>
 							</tr>
 						</thead>
@@ -278,7 +285,7 @@ text-decoration: underline !important;
 
 						<td >
  							<p class="big">
-								<a href="{{ctx}}/eval/detail?caseCode={{item.CASE_CODE}}"  target="_blank">{{item.CASE_CODE}}</a>
+								<a href="{{ctx}}/eval/detail?caseCode={{item.CASE_CODE}}&evaCode={{item.EVA_CODE}}"  target="_blank">{{item.EVA_CODE}}</a>
 								{{if item.SUBSCRIBE_COUNT == 0}}
 									<span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.CASE_CODE}}" isSubscribe="true">
 										<i class="iconfont_s  markstar star_subscribe" status="1">&#xe644;</i>
@@ -288,7 +295,12 @@ text-decoration: underline !important;
 										<i class="iconfont_s  markstar star_subscribe" status="1">&#xe63e;</i>
 									</span>
 								{{/if}}
+                                
 							</p>
+                            <p>
+								<i class="tag_sign">案</i>{{item.CASE_CODE}}
+							</p>
+
 						</td>
 
 						<td class="center">
@@ -311,13 +323,38 @@ text-decoration: underline !important;
 								{{item.AGENT_NAME}}
 						</td>
                          <td class="center">
-								{{item.REAL_NAME}}
+								{{item.LOANNAME}}
+						</td>
+                         <td class="center">
+                                {{item.ASSITNAME}}
 						</td>
                          <td class="center">
                                 
-						</td>
-                         <td class="center">
-						</td>
+                                             	{{if item.SYS_CREATE_TIME!=null}}
+					                             <p>  
+                    	                             <i class="sign_normal">上</i>
+                                                      {{item.SYS_CREATE_TIME}}          
+                	                             </p>
+				                               {{else}}
+                	                               <p>  
+                    	                              <i class="sign_grey">上</i>
+                    	                               {{item.SYS_CREATE_TIME}}          
+                	                               </p>
+				                              {{/if}}
+
+					                          {{if item.SYS_FINSH_TIME!=null}}
+						                            <p>  
+                        	                            <i class="sign_normal">完</i>
+                        	                             {{item.SYS_FINSH_TIME}}          
+                    	                            </p>
+					                        {{else}}
+                    	                            <p>  
+                        	                            <i class="sign_grey">完</i>
+                        	                            {{item.SYS_FINSH_TIME}}          
+                    	                            </p>
+					                         {{/if}}                                
+				
+                          </td>
 
 						<td class="center">
                                {{item.STATUS}}

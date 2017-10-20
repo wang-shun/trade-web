@@ -38,6 +38,8 @@ public class CaseDetailShowVO {
 
 	private String evaName;            //评估公司
 	private BigDecimal evaFee;            //评估费金额
+	private BigDecimal evaPrice;         //评估价 by wbzhouht
+	private String isEvas;				//是否自办评估
 	private String bankName;            //分行
 	private String parentBankName;            //支行
 	private String priCreditUnit;//现主贷人单位
@@ -77,6 +79,8 @@ public class CaseDetailShowVO {
     private String lendWay;    //放款方式
     private String holdYear;      //购房年数
     private String houseProperty;  //房屋性质
+    
+    private String propertyTypeName; //房屋类型
     private String isUniqueHome;   //唯一住房
     private String isHukou;   //户口情况
     private String isConCert;   //合同公证
@@ -112,6 +116,25 @@ public class CaseDetailShowVO {
     private ToCase toCase;//案件信息
     
     private ToPropertyInfo toPropertyInfo;//物业信息
+    
+	//是否自办：是/否
+	private String isSelf;
+
+	public BigDecimal getEvaPrice() {
+		return evaPrice;
+	}
+
+	public void setEvaPrice(BigDecimal evaPrice) {
+		this.evaPrice = evaPrice;
+	}
+
+	public String getIsEvas() {
+		return isEvas;
+	}
+
+	public void setIsEvas(String isEvas) {
+		this.isEvas = isEvas;
+	}
 
 	public String getPriCreditUnit() {
 		return priCreditUnit;
@@ -696,6 +719,22 @@ public class CaseDetailShowVO {
 
 	public void setToPropertyInfo(ToPropertyInfo toPropertyInfo) {
 		this.toPropertyInfo = toPropertyInfo;
+	}
+
+	public String getPropertyTypeName() {
+		return propertyTypeName;
+	}
+
+	public void setPropertyTypeName(String propertyTypeName) {
+		this.propertyTypeName = propertyTypeName;
+	}
+
+	public String getIsSelf() {
+		return isSelf;
+	}
+
+	public void setIsSelf(String isSelf) {
+		this.isSelf = isSelf;
 	}
 
 

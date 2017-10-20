@@ -41,10 +41,6 @@ public class TaskController {
 	@Autowired
 	private UamPermissionService uamPermissionService;
 
-	@Autowired
-	private ToApproveRecordService toApproveRecordService;
-
-	
 
 	/**
 	 * 任务处理跳转

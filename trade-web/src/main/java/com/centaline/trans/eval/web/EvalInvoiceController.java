@@ -34,10 +34,13 @@ import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.eval.entity.ToEvaCommissionChange;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
+import com.centaline.trans.eval.entity.ToEvaInvoice;
 import com.centaline.trans.eval.service.ToEvaCommPersonAmountService;
 import com.centaline.trans.eval.service.ToEvaCommissionChangeService;
 import com.centaline.trans.eval.service.ToEvaFeeRecordService;
+import com.centaline.trans.eval.service.ToEvaInvoiceService;
 import com.centaline.trans.eval.vo.EvalChangeCommVO;
+import com.centaline.trans.task.entity.ToApproveRecord;
 
 
 
@@ -62,7 +65,92 @@ public class EvalInvoiceController {
 	private UamPermissionService uamPermissionService;
 	@Autowired
 	private ToEvaCommPersonAmountService toEvaCommPersonAmountService;
+	@Autowired
+	private ToEvaInvoiceService toEvaInvoiceService;
 	
+	/**
+	 * 
+	 * @since:2017年10月19日 下午7:41:48
+	 * @description:提交开具发票
+	 * @author:xiefei1
+	 * @param request
+	 * @param model
+	 * @param caseCode
+	 * @return
+	 */
+	@RequestMapping(value = "submitIssueInvoice")
+	@ResponseBody
+	public AjaxResponse<String> submitIssueInvoice(ToEvaInvoice toEvaInvoice) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		if(StringUtils.isNotBlank(toEvaInvoice.getCaseCode())&&StringUtils.isNotBlank(toEvaInvoice.getEvaCode())){
+			try{
+				toEvaInvoiceService.insertSelective(toEvaInvoice);
+			}
+			catch(Exception e){
+				response.setSuccess(false);
+				response.setMessage(e.getMessage());
+				logger.error("保存失败！"+e.getCause());
+			}			
+		}else{
+			response.setSuccess(false);
+			response.setMessage("案件编码或评估号为空，请关联评估单！");
+		}
+		return response;
+	}
+	
+	/**
+	 * 
+	 * @since:2017年10月19日 下午7:16:41
+	 * @description:获取CCAI发票信息
+	 * @author:xiefei1
+	 * @param request
+	 * @param toEvaCommissionChange
+	 * @return
+	 */
+	@RequestMapping(value = "getInvoiceInfo")
+	@ResponseBody
+	public ToEvaInvoice getInvoiceInfo(String evaCode) {
+		ToEvaInvoice invoice =null;
+			if(StringUtils.isNotBlank(evaCode)){
+				 invoice = toEvaInvoiceService.selectByEvaCode(evaCode);
+			}			
+		return invoice;
+	}
+
+	/**
+	 * @since:2017年10月11日 上午11:04:28
+	 * @description: 跳转页面
+	 * @author:xiefei1
+	 */
+	@RequestMapping(value = "submitInvoiceAudit")
+	public AjaxResponse<String> submitInvoiceAudit(HttpServletRequest request,Model model,String caseCode,String partCode,String content,String status) {
+		SessionUser user = uamSessionService.getSessionUser();		
+		ToApproveRecord toApproveRecord = new ToApproveRecord();
+		toApproveRecord.setOperator(user.getId());
+		toApproveRecord.setOperatorTime(new Date());
+		toApproveRecord.setPartCode(partCode);
+		toApproveRecord.setCaseCode(caseCode);
+		toApproveRecord.setContent(content);
+		toApproveRecord.setCaseCode(caseCode);
+		//1是通过，0是没通过
+		//notApprove为空表示通过，不为空表示没通过
+		if(status.contains("1")){
+			toApproveRecord.setNotApprove(null);			
+		}else{
+			toApproveRecord.setNotApprove("没通过");
+		}
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		
+		try{
+		toEvaInvoiceService.updateEvalInvoiceApproveRecord(toApproveRecord);
+			}catch(Exception e){
+		response.setSuccess(false);
+		response.setMessage(e.getMessage());
+		logger.error("保存失败！"+e.getCause());
+	}
+	return response;
+
+	}
 	/**
 	 * @since:2017年10月13日 上午11:04:28
 	 * @description: 跳转页面
@@ -70,11 +158,12 @@ public class EvalInvoiceController {
 	 */
 	@RequestMapping(value = "submitIssueInvoiceChangeComm")
 	@ResponseBody
-	public AjaxResponse<String> submitIssueInvoiceChangeComm(EvalChangeCommVO evalChangeCommVO,HttpServletRequest request,Model model,String caseCode) {
+	public AjaxResponse<String> submitIssueInvoiceChangeComm(EvalChangeCommVO evalChangeCommVO,ToEvaCommissionChange toEvaCommissionChange, HttpServletRequest request,Model model,String caseCode) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		System.out.println("测试是否进入该方法。。");
 		try{
-		toEvaCommPersonAmountService.saveEvalChangeCommVO(evalChangeCommVO);
+			//只要有同名的属性都会同时分配给这两个对象
+		toEvaCommPersonAmountService.saveEvalChangeCommVO(evalChangeCommVO,toEvaCommissionChange);
 		}
 		catch(Exception e){
     		response.setSuccess(false);
@@ -82,6 +171,24 @@ public class EvalInvoiceController {
     		logger.error("保存失败！"+e.getCause());
     	}
 		return response;
+	}
+	/**
+	 * 
+	 * @since:2017年10月18日 下午5:40:38
+	 * @description:跳转关联评估单页面
+	 * @author:xiefei1
+	 * @param request
+	 * @param model
+	 * @param caseCode
+	 * @return
+	 */
+	@RequestMapping(value = "invoiceConnectEval")
+	public String toInvoiceConnectEval(HttpServletRequest request,Model model,String caseCode) {
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		model.addAttribute("caseCode", caseCode);
+		request.setAttribute("ctx", ctx);
+		return "eval/invoiceConnectEval";
 	}
 	/**
 	 * @since:2017年10月11日 上午11:04:28
@@ -92,8 +199,10 @@ public class EvalInvoiceController {
 	public String toInvoiceAudit(HttpServletRequest request,Model model,String caseCode) {
 		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
 		String ctx = app.genAbsoluteUrl();
-		request.setAttribute("ctx", ctx);
+		ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByCaseCodeWithEvalCompany(caseCode);
+		model.addAttribute("toEvaInvoice", toEvaInvoice);
 		model.addAttribute("caseCode", caseCode);
+		request.setAttribute("ctx", ctx);
 		return "eval/invoiceAudit";
 	}
 	/**

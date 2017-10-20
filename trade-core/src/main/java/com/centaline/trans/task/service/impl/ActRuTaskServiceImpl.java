@@ -20,4 +20,9 @@ public class ActRuTaskServiceImpl implements ActRuTaskService {
     public List<TaskVo> getRuTask(String caseCode) {
         return actRuTaskMapper.getRuTask(caseCode);
     }
+    
+	@Override
+	public List<TaskVo> getRuTaskByBizCode(String bizCode) {
+		return actRuTaskMapper.getRuTaskByBizCode(bizCode);
+	}
 }

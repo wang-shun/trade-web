@@ -23,7 +23,7 @@ public class ToEvaInvoice {
     private String taxNum;
 
     private Date applyDate;
-
+    //预计开票完成时间
     private Date toFinshDate;
 
     private Date bankOpenedDate;
@@ -33,8 +33,28 @@ public class ToEvaInvoice {
     private Date billTime;
 
     private String evaProcessId;
+    
+    private String evaCompanyId;
+    
+    private String evaCompanyName;
 
-    public Long getPkid() {
+    public String getEvaCompanyId() {
+		return evaCompanyId;
+	}
+
+	public void setEvaCompanyId(String evaCompanyId) {
+		this.evaCompanyId = evaCompanyId;
+	}
+
+	public String getEvaCompanyName() {
+		return evaCompanyName;
+	}
+
+	public void setEvaCompanyName(String evaCompanyName) {
+		this.evaCompanyName = evaCompanyName;
+	}
+
+	public Long getPkid() {
         return pkid;
     }
 

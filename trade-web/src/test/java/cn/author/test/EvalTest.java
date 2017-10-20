@@ -2,6 +2,7 @@ package cn.author.test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,9 +29,11 @@ import com.centaline.trans.common.entity.ToCcaiAttachment;
 import com.centaline.trans.common.repository.ToCcaiAttachmentMapper;
 import com.centaline.trans.eval.entity.ToEvaCommPersonAmount;
 import com.centaline.trans.eval.entity.ToEvaCommissionChange;
+import com.centaline.trans.eval.entity.ToEvaInvoice;
 import com.centaline.trans.eval.repository.ToEvaCommPersonAmountMapper;
 import com.centaline.trans.eval.repository.ToEvaCommissionChangeMapper;
 import com.centaline.trans.eval.service.ToEvaCommPersonAmountService;
+import com.centaline.trans.eval.service.ToEvaInvoiceService;
 import com.centaline.trans.eval.vo.EvalChangeCommVO;
 import com.centaline.trans.task.entity.AuditCase;
 import com.centaline.trans.task.repository.AuditCaseMapper;
@@ -65,7 +68,37 @@ public class EvalTest {
 	@Autowired
 	private ToCcaiAttachmentMapper toCcaiAttachmentMapper;
 	@Autowired
+	private ToEvaInvoiceService toEvaInvoiceService;
+	@Autowired
 	private ToEvaCommPersonAmountMapper toEvaCommPersonAmountMapper;
+	
+	@Test
+	public void testGetEvalConnectReport() throws Exception {
+		JQGridParam gp = new CacheGridParam();
+        gp.setQueryId("queryConnectEvalReport");
+        gp.setPagination(true);
+        gp.setPage(1);
+        gp.setRows(20);
+		Page<Map<String, Object>> page = quickGridService.findPageWithOutSessionUser(gp);
+		//先查出还未接单的案件 
+		//导入的还未接单的案件清单
+		List<Map<String, Object>> importCaseList = page.getContent();
+		for (Map<String, Object> caseMap : importCaseList) {			
+
+			Set<String> columns = caseMap.keySet();
+			for (String key : columns) {
+				System.out.print(key+":"+caseMap.get(key)+" ");
+			}
+			System.out.println();
+		}
+		System.out.println("查询结束");
+	}
+	@Test
+	public void testtoEvaInvoiceService() throws Exception {
+		String caseCode="ZY-TJ-2017090568";
+		ToEvaInvoice selectByCaseCodeWithEvalCompany = toEvaInvoiceService.selectByCaseCodeWithEvalCompany(caseCode);
+		System.out.println(selectByCaseCodeWithEvalCompany.toString());
+	}
 	@Test
 	public void testtoEvaCommPersonAmountService() throws Exception {
 		String caseCode="caseCode123123";
@@ -85,10 +118,13 @@ public class EvalTest {
 	@Test
 	public void testtoEvaCommPersonAmountMapper() throws Exception {
 		ToEvaCommPersonAmount toEvaCommPersonAmount = new ToEvaCommPersonAmount();
-		toEvaCommPersonAmount.setCaseCode("casecode1930349307");
+		toEvaCommPersonAmount.setCaseCode("casecode1930349308");
 		toEvaCommPersonAmount.setPosition("分成人01");
 		toEvaCommPersonAmount.setShareAmount(new BigDecimal("123.23"));
 		toEvaCommPersonAmount.setEmployeeName("xiefei2");
+		toEvaCommPersonAmount.setDepartCode("departmentcode123");
+		toEvaCommPersonAmount.setProcessTime(new Date());
+		toEvaCommPersonAmount.setEmployeeCode("xiefeifei");
 		int insertSelective = toEvaCommPersonAmountMapper.insertSelective(toEvaCommPersonAmount);
 		System.out.println(insertSelective);
 	}

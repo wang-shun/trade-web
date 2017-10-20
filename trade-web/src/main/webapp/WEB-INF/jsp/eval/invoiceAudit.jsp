@@ -126,9 +126,10 @@ var AttachmentList = (function(){
     				}
     			},
     			postData : {
-    				queryId : "queryLoanlostApproveList",
+    				queryId : "queryEvalInvoiceAuditComment",
     				//caseCode : caseCode
-    				caseCode : 'CaseCode1503653095536'
+    				caseCode : caseCode,
+    				partCode : 'evalInvoiceAudit'
     			}
     			 
     		});
@@ -166,30 +167,10 @@ function save(b) {
 		}													
 	}
 	
-	var jsonData = $("#firstFollowform").serializeArray();
-	
-	var result = ''
-	$("span.selected[name='srvCode']").each(function() {
-		result += $(this).attr('value') + ',';
-	});
-	var obj = {
-		name : 'srvCode',
-		value : result.substring(0, result.length - 1)
-	};
-	jsonData.push(obj);
+	var jsonData = $("#evalInvoiceAuditform").serializeArray();
 
-	for (var i = 0; i < jsonData.length; i++) {
-		var item = jsonData[i];
-		if (item["name"] == 'cooperationUser'
-				&& (item["value"] == 0 || item["value"] == -1)) {
-			delete jsonData[parseInt(i)];
-		}
-	}
+	var url = "${ctx}/eval/submitInvoiceAudit";
 
-	var url = "${ctx}/task/caseRecvFollow/save";
-	if (b) {
-		url = "${ctx}/task/caseRecvFollow/submit";
-	}
 	
 	$.ajax({
         cache : true,
@@ -252,9 +233,6 @@ function checkForm() {
 		$("#distCode").css("border-color","red");
 		return false;
 	}
-	
-	
-	
 		return true;
 	}
 
@@ -274,15 +252,17 @@ function checkForm() {
 #corss_area{padding:0 8px 0 0;margin-left:369px;}
 #corss_area select{height:34px;border-radius:2px;margin-left:20px;}
 </style>
+<title>权证经理评估发票审核</title>
+<content tag="pagetitle">权证经理评估发票审核</content>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<div class="">
-		<div class="row wrapper white-bg new-heading" id="serviceFlow">
+		<div class="wrapper white-bg new-heading" id="serviceFlow">
              <div class="pl10">
                  <h2 class="newtitle-big">
-                        	接单跟进
+                        	评估发票审核
                  </h2>
                 <div class="mt20">
                     <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
@@ -303,7 +283,7 @@ function checkForm() {
             		<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${caseRecvVO.caseCode}">
+					<input type="hidden" id="caseCode" name="caseCode" value="${toEvaInvoice.caseCode}">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
@@ -317,60 +297,44 @@ function checkForm() {
 					<input type="hidden" id="operator" name="operator" value="${operator }">
 					<%-- T_TO_FIRST_FOLLOW 表  --%>
 					<input type="hidden" id="firstfollowId" name="firstfollowId" value="${firstFollow.firstfollowId}" />
-					<%--自办服务 --%>
-					<input type="hidden" id="zbkServices" name="zbkServices" value="3000401001" />
+
 	            
 		            <div class="marinfo">
 		                <div class="line">		                 
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small">评估公司：</label>
-		                        <input type="text" class="input_type yuanwid" id="realPrice" name="realPrice" onkeyup="checkNum(this)"
-										value=""> 
+		                        <input type="text" class="input_type yuanwid" value="${toEvaInvoice.evaCompanyName}" readonly="readonly"> 
 		                    </div>
 		                    
 		                    <div class="form_content">
-		                        <label class="control-label sign_left_small">申请日期：</label> 
-		                        <input type="text" class="input_type yuanwid" id="conPrice" name="conPrice" onkeyup="checkNum(this)"
-										value="">
+		                        <!-- <label class="control-label sign_left_small">申请日期：</label> -->                  
+		                        <label class="control-label sign_left_small select_style mend_select">申请日期：</label>
+		                        <input class="input_type yuanwid" type="text" readonly="readonly" value="<fmt:formatDate value='${toEvaInvoice.applyDate}' pattern='yyyy-MM-dd'/>">
 		                    </div>	
 		                    
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small">发票金额：</label> 
-		                        <input type="text"  class="input_type yuanwid" id="conPrice" name="conPrice" onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value='${caseRecvVO.toSign.conPrice}' type='number' pattern='#0.00'/>">
-		                        <span class="date_icon">万元</span>
+		                        <input type="text"  class="input_type yuanwid" value="<fmt:formatNumber value='${toEvaInvoice.invoiceAmount}' type='number' pattern='#0.00'/> "  readonly="readonly">		                        
+		                    	<span>元</span>
 		                    </div>	                     
 		                </div>
 		                
 		                <div class="line">		                 
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small">发票种类：</label>
-		                        <input type="text"  class="input_type yuanwid" id="realPrice" name="realPrice" onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value='${caseRecvVO.toSign.realPrice}' type='number' pattern='#0.00'/>"> 
+		                        <input type="text"  class="input_type yuanwid" value="${toEvaInvoice.invoiceType}"  readonly="readonly"> 
 		                    </div>
 		                    
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small">开票抬头：</label> 
-		                        <input type="text"  class="input_type yuanwid" id="conPrice" name="conPrice" onkeyup="checkNum(this)"
-										value="<fmt:formatNumber value='${caseRecvVO.toSign.conPrice}' type='number' pattern='#0.00'/>">
+		                        <input type="text"  class="input_type yuanwid" value="${toEvaInvoice.invoiceHeader}"  readonly="readonly">
 		                    </div>			                  	                     
 		                </div>
+					<hr>	          
 
-
-					<hr>
-					
-
-		                
-		          
-
-				</div>
-              
-
-	                
+				</div>	                
 	                <!-- <div class="line clearfix" id="hzxm" style="overflow:visible;"></div> -->
             	</form>
-            	
-
 
 	            <div class="title title-mark" id="aboutInfo">
 	               <strong style="font-weight:bold;">开票审批记录</strong>
@@ -386,12 +350,14 @@ function checkForm() {
 		               <strong style="font-weight:bold;">填写审批任务</strong>
 		            </div>
 	            </div>
-	            <form method="get" class="form_list" id="firstFollowform" style="overflow: visible;">
+	            <form method="get" class="form_list" id="evalInvoiceAuditform" style="overflow: visible;">
+	            <input type="hidden" name="partCode" value="evalInvoiceAudit">
+	            <input type="hidden" id="caseCode1" name="caseCode" value="${toEvaInvoice.caseCode}">
 	            <div class="line">		                 
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批结果：</label>
-		                        <input type="radio" name="name" value="1"><span>通过</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-    							<input type="radio" name="name" value="2"><span>驳回</span>
+		                        <input type="radio" name="status" value="1"><span>通过</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    							<input type="radio" name="status" value="0"><span>驳回</span>
 		                    </div>
 			                  	                     
 		                </div>
@@ -399,7 +365,7 @@ function checkForm() {
 		        <div class="line">		                 		                    
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批意见：</label> 
-		                        <input type="text"  class="input_type mendwidth" id="conPrice" name="conPrice" 
+		                        <input type="text"  class="input_type mendwidth" id="content" name="content" 
 										value="" maxlength="64">
 		                    </div>			                  	                     
 		                </div>        	          	            
@@ -426,7 +392,7 @@ function checkForm() {
 			    <script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 				<script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
 				<script src="<c:url value='/transjs/task/follow.pic.list_new.js' />"></script>
-				<script src="<c:url value='/static/js/jquery.json.min.js' />"></script>
+				<%-- <script src="<c:url value='/static/js/jquery.json.min.js' />"></script> --%>
 				<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
 			    <script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 			    <script src="<c:url value='/js/plugins/validate/common/additional-methods.js' />"></script>
@@ -449,10 +415,6 @@ function checkForm() {
 						} */
 						var caseCode=$("#caseCode").val();
 						AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}',caseCode);
-						$("#caseCommentList").caseCommentGrid({
-							caseCode : caseCode,
-							srvCode : 'caseRecvFlow'
-						});
 						//日历控件
 					    $('.input-daterange').datepicker({
 					        keyboardNavigation: false,

@@ -119,21 +119,7 @@
 							<aist:dict clazz="select_control" id="mortageService" name="mortageService"
 									   display="select" defaultvalue="0" dictType="mortage_service" />
 						</div>
-						<div class="form_content" id="div_releasePlan">
-							<label class="control-label sign_left_small select_style mend_select">
-								预计放款时间
-							</label>
-							<div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
-								<input class="input_type yuanwid datatime" type="text" name="estPartTime" id="estPartTime" disabled="disabled"
-									   value="<fmt:formatDate  value='${loanReleasePlan.estPartTime}' type='both' pattern='yyyy-MM-dd'/>">
-							</div>
-						</div>
 					</div>
-					<div class="line" id="hzxm">
-
-					</div>
-
-
 				</div>
 			</div>
 			</form>
@@ -142,7 +128,6 @@
 			</div>
 			<div class="form-btn">
 				<div class="text-center">
-					<%--<button  class="btn btn-success btn-space">保存</button>--%>
 					<button class="btn btn-success btn-space" onclick="submit()">提交</button>
 				</div>
 			</div>
@@ -188,11 +173,8 @@
 		$(document).ready(function(){
 			
 			$("#mortageService").find("option").eq(0).remove();
-			/*根据贷款服务项，设置默认合作项目*/
-			mortageService();
-			$("#mortageService").change(function(){
-				mortageService();
-			});
+			$("#mortageService").find("option").eq(1).remove();
+	
 			//$('#div_releasePlan').hide();
 
 			$('#div_releasePlan .input-group.date').datepicker({
@@ -203,179 +185,6 @@
 			});
 			
 		});
-	
-		
-        function mortageService() {
-			var value = $("#mortageService").val();
-			if(value!='0' && value !='4'){
-				$("#estPartTime").removeProp('disabled');
-				$("#estPartTime").removeAttr('disabled');
-				 $('#div_releasePlan').show();
-			}else{
-				$("#estPartTime").prop('disabled','disabled');//防止后台拿到数据
-				$('#div_releasePlan').hide();
-			}
-			$("#hzxm").html("");
-        }
-			/*if(value=='2'){
-				var url = "${ctx}/task/firstFollow/queryMortageByServiceCode";
-				 $.ajax({
-					cache : false,
-					async : true,//false同步，true异步
-					type : "POST",
-					url : url,
-					dataType : "json",
-					data : {"serviceCode":'3000400201'},
-					success : function(data) {
-						txt = "<div class='row'>";
-					    txt += "<div class='col-xs-2 col-md-3'>";
-					    txt += "<div class=''  name='isYouXiao'>";
-						txt += "<input type='hidden' name='coworkService' value='"+data.dic.code+"'/>";
-						txt += "</div>";
-						txt += "</div>";
-						txt += "</div>";
-						txt += "<div class='col-xs-12 col-md-4'>";
-						txt += "<div class='form-group' id='data_1' name='isYouXiao'>";
-						txt += "<label class='col-md-3 control-label sign_left_small' style='margin-right: 0px;padding-left: 0px; padding-right: 0px;'><font color='red'>*</font>合作顾问</label>";
-						txt += "<div class='col-md-8' style='padding-left: 24px;'>";
-						txt += "<select class='form-control m-b' name='unCrossPartner' id='cooperationUser"+index+"'>";
-						txt += "<option value='0'>----未选择----</option>";
-						$.each(data.users, function(j, user){
-							if(cooperationUser==user.id){
-								txt += "<option selected='selected' value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";
-							}else{
-								txt += "<option value='"+user.id+"'>"+user.realName+"("+user.orgName+"):"+user.count+"件</option>";	
-							}
-						});
-						if($.trim(data.orgcode)!='033F045'){/* 浦东合作顾问选中台*/
-						/* 	txt += "<option value='-1'>----跨区选择----</option>";
-						}
-						txt += '</select>';
-						txt += "<input type='hidden'  id='partner"+index+"' name='partner' value=''/>";
-						txt += '</div></div>';
-						txt += "</div>";
-						txt += "</div>";
-						$("#hzxm").append(txt);
-						$('#partner'+index).val($('#cooperationUser'+index).find(':selected').val()); */
-						
-						/*点击跨区合作选项*/
-			        	/* var partner = $('select[name="unCrossPartner"]');
-			        	partner.bind("change", function(){
-			        		if(partner.find(":selected").val()=="-1"){
-			        			$('#partner'+index).val('');
-			        			//alert($('#partner'+index).val());
-								if($("#corss_area").length==0){
-			        				crossAreaCooperation();
-								}
-			        		}else{
-			        			$('#partner'+index).val($('#cooperationUser'+index).find(':selected').val());
-			        			//alert($('#partner'+index).val());
-			        			if($("#corss_area").length>0){
-			        				removeCrossAreaCooperation();
-			        			}
-							}	
-			        	}); 
-						
-					},
-					
-					error : function(errors) {
-						window.wxc.error("数据出错。");
-					}
-				}); 
-			}
-		}*/
-
-		/*生成跨区合作选项框*/
-        /* function crossAreaCooperation(){
-			
-			var url = "${ctx}/task/firstFollow/getCrossAeraCooperationItems";
-			var corsstxt = "";
-			corsstxt += "<div class='col-md-4' id='corss_area'>";
-			corsstxt += "<select name='crossPartner' id='crossConsult"+index+"'>";
-			corsstxt += "<option value='0'>----人员----</option>";
-			corsstxt += '</select>';
-			corsstxt += "<select name='crossOrg' id='crossOrg"+index+"'>";
-			corsstxt += "<option value='0'>----组别----</option>";
-			corsstxt += '</select>';				
-			corsstxt += "<select id='crossDistrict"+index+"'>";
-			corsstxt += "<option value='0'>----部门----</option>";
-			corsstxt += '</select></div>';
-			$("#hzxm").append(corsstxt);
-			
-			$.ajax({
-				cache : true,
-				async : false,//false同步，true异步
-				type : "POST",
-				url : url,
-				dataType : "json",
-				success : function(data) {
-					
-					/*三级联动
-					var district = $('#crossDistrict'+index);
-					var org = $('#crossOrg'+index);
-					var consult = $("#crossConsult"+index);
-					var districtStr="";
-					
-					$.each(data.cross,function(j,items){
-						districtStr += "<option value='"+ items.districtId+"'>" + items.districtName+"</option>";
-					});
-					district.empty().append("<option value='0'>----部门----</option>"+districtStr);
-					
-					district.bind("change", function(){
-							var orgStr="";
-							var myIndex = district.find(":selected").index()-1;
-							if(myIndex>=0){
-							$.each(data.cross[myIndex].orgs, function(i, items){
-								orgStr += "<option value='"+items.orgId+"'>"+items.orgName+"</option>";
-							})
-							org.empty().append("<option value='0'>----组别----</option>"+orgStr);
-							var val1 = org.find(":selected").val();
-							if(val1!='0'){
-								changeConsult();
-							}
-						}else{
-							org.empty().append("<option value='0'>----组别----</option>");
-							consult.empty().append("<option value='0'>----人员----</option>");							
-						}
-					});
-					
-					org.bind("change", changeConsult);
-					function changeConsult(){
-						var consultStr="";
-						var index1 = district.find(":selected").index()-1;
-						var index2 = org.find(":selected").index()-1;
-						if(index2>=0){
-							$.each(data.cross[index1].orgs[index2].userItems, function(k,items) {
-								consultStr += "<option value='"+items.id+"'>"+items.realName+"("+items.count+"件)</option>";
-							});
-							consult.empty().append("<option value='0'>----人员----</option>"+consultStr);
-							if(consultStr == ""){
-								consult.empty();
-								consult.append("<option value='0'>----人员----</option>");
-							}
-							getVals();
-						}else{
-							consult.empty().append("<option value='0'>----人员----</option>");
-						}
-					}
-					
-					consult.bind("change", getVals);
-					/*改变隐藏框的值
-					function getVals(){
-						var guwen=consult.find(':selected').val();
-						
-						if(guwen!='0'){
-							$('#partner'+index).val(guwen);
-						}
-						//alert($('#partner'+index).val());
-					}
-				},
-				error : function(errors) {
-					window.wxc.error("数据出错。");
-				}
-			});
-        } */
-		
 		/*删除跨区合作的DOM节点*/
 		function removeCrossAreaCooperation(){
 			$("#corss_area").remove();
@@ -389,14 +198,9 @@
 
 		/**保存数据*/
 		function save(b) {
-			/* if(!checkForm()) {
-				return;
-			} */
 			var jsonData = $("#firstFollowform").serializeArray();
 			var 
 				url = "${ctx}/task/mortgageSelect/submit";
-		
-			
 			$.ajax({
 				cache : true,
 				async : true,//false同步，true异步
@@ -429,8 +233,6 @@
 						window.wxc.success("提交成功！",{"wxcOk":function(){
 							caseTaskCheck();
 						}});
-						
-						//$('#case-task-modal-form').modal("show");
 				},
 				error : function(errors) {
 					 window.wxc.error("数据保存出错");
@@ -438,53 +240,6 @@
 				}
 			});
 		}
-		
-		/*double 验证*/
-	 /*    function checkNum(obj) { 
-	        //先把非数字的都替换掉，除了数字和.
-	        obj.value = obj.value.replace(/[^\d.]/g,"");
-	        //必须保证第一个为数字而不是.
-	        obj.value = obj.value.replace(/^\./g,"");
-	        //保证只有出现一个.而没有多个.
-	        obj.value = obj.value.replace(/\.{2,}/g,".");
-	        //保证.只出现一次，而不能出现两次以上
-	        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-	     }   */
-
-		//验证控件checkUI();
-	/* 	function checkForm() {
-			
-				if($('select[id="mortageService"] option:selected').val()=='2'&&$('select[name="unCrossPartner"]').size()==0){
-					 window.wxc.alert("正在加载合作项目!");
-					 return false;
-				}
-				if($('#mortageService').val()!='0'&& $('#estPartTime').val()==''){
-					window.wxc.alert('请选择预计放款时间');
-					return false;
-				}
-				
-				var flag = false;
-				$('select[name="unCrossPartner"] option:selected').each(function(i,item){
-					if(item.value == "0"){
-						 window.wxc.alert("合作顾问为必选项!");
-//	 					 item.focus();
-						 flag = true;
-						 return false;
-					}else if(item.value == "-1"){
-						$('#consult'+index+' option:selected').each(function(j,item2){
-							if(item2.value == "0"){
-								 window.wxc.alert("跨区合作顾问未选择!");
-								 flag = true;
-								 return false;
-							}
-						});						
-					}
-				});
-				
-				if(flag)return false;
-				
-			return true;
-		} */
 	</script> 
 	</content>
 </body>

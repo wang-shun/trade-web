@@ -18,6 +18,7 @@ import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.alibaba.druid.util.StringUtils;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.engine.bean.RestVariable;
@@ -110,7 +111,7 @@ public class EvaPricingListController {
 	
 				ToWorkFlow wf = new ToWorkFlow();
 				wf.setBusinessKey("evaPricing_process");
-				wf.setCaseCode(evaCode);
+				wf.setCaseCode(!StringUtils.isEmpty(ToEvaPricingVo.getCaseCode())?ToEvaPricingVo.getCaseCode():evaCode);
 				wf.setBizCode(evaCode);
 				wf.setProcessOwner(user.getId());
 				wf.setProcessDefinitionId(processDefId);
@@ -169,7 +170,7 @@ public class EvaPricingListController {
 			//flow完结
 			ToWorkFlow flow=new ToWorkFlow();
 			flow.setBusinessKey("evaPricing_process");
-			flow.setCaseCode(toEvaPricingVo.getEvaCode());
+			flow.setCaseCode(!StringUtils.isEmpty(toEvaPricingVo.getCaseCode())?toEvaPricingVo.getCaseCode():toEvaPricingVo.getEvaCode());
 			flow.setBizCode(toEvaPricingVo.getEvaCode());
 			ToWorkFlow evaPricingFlow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(flow);
 			evaPricingFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
@@ -221,7 +222,7 @@ public class EvaPricingListController {
 				//flow完结
 				ToWorkFlow flow=new ToWorkFlow();
 				flow.setBusinessKey("evaPricing_process");
-				flow.setCaseCode(toEvaPricingVo.getEvaCode());
+				flow.setCaseCode(!StringUtils.isEmpty(toEvaPricingVo.getCaseCode())?toEvaPricingVo.getCaseCode():toEvaPricingVo.getEvaCode());
 				flow.setBizCode(toEvaPricingVo.getEvaCode());
 				ToWorkFlow evaPricingFlow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(flow);
 				evaPricingFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());

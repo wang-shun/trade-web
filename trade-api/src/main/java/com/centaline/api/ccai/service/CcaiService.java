@@ -1,6 +1,7 @@
 package com.centaline.api.ccai.service;
 import com.centaline.api.ccai.vo.CaseImport;
 import com.centaline.api.ccai.vo.CaseRepealImport;
+import com.centaline.api.ccai.vo.EvalRefundImport;
 import com.centaline.api.ccai.vo.SelfDoImport;
 import com.centaline.api.common.vo.CcaiServiceResult;
 
@@ -45,4 +46,9 @@ public interface CcaiService {
 	 * @return
 	 */
 	CcaiServiceResult repealCase(CaseRepealImport repealInfo);
+	/**
+	 * 导入评估退费信息
+	 * @param info
+	 */
+	CcaiServiceResult importEvalRefund(EvalRefundImport info);
 }

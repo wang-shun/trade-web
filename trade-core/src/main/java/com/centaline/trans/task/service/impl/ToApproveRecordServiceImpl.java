@@ -1,14 +1,13 @@
 package com.centaline.trans.task.service.impl;
 
-import java.util.List;
-
+import com.centaline.trans.task.entity.ToApproveRecord;
+import com.centaline.trans.task.repository.ToApproveRecordMapper;
+import com.centaline.trans.task.service.ToApproveRecordService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.repository.ToApproveRecordMapper;
-import com.centaline.trans.task.service.ToApproveRecordService;
+import java.util.List;
 
 @Service
 public class ToApproveRecordServiceImpl implements ToApproveRecordService {
@@ -33,14 +32,10 @@ public class ToApproveRecordServiceImpl implements ToApproveRecordService {
 		if(StringUtils.isBlank(toApproveRecord.getCaseCode())) {
 			return;
 		}
-		ToApproveRecord t=new ToApproveRecord();
-		t.setTaskId(toApproveRecord.getTaskId());
 		if(toApproveRecord.getPkid() != null) {
 			toApproveRecordMapper.updateByPrimaryKeySelective(toApproveRecord);
 		} else {
-			if(toApproveRecordMapper.findApproveRecordByRecord(t) == null) {
-				toApproveRecordMapper.insertSelective(toApproveRecord);
-			}
+			toApproveRecordMapper.insertSelective(toApproveRecord);
 		}
 	}
 
@@ -53,6 +48,11 @@ public class ToApproveRecordServiceImpl implements ToApproveRecordService {
 	public void insertToApproveRecord(ToApproveRecord toApproveRecord) {
 		toApproveRecordMapper.insertSelective(toApproveRecord);
 		
+	}
+
+	@Override
+	public void deleteByCaseCodeAndType(String caseCode, String approveType) {
+		toApproveRecordMapper.deleteByCaseCodeAndType(caseCode,approveType);
 	}
 
 }

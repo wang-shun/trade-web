@@ -48,4 +48,11 @@ public interface ToCaseCommentMapper
      * @return 返回1,删除成功,返回0,删除失败。
      */
     public int deleteByCasecodeAndType(Map<String, Object> map);
+    
+    /**
+     * 删除案件备注信息
+     * @param map
+     * @return
+     */
+    public int deleteByCasecode(Map<String, Object> map);
 }

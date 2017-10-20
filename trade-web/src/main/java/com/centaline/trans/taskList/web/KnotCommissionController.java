@@ -14,6 +14,10 @@ import com.centaline.trans.api.vo.FlowFeedBack;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.CcaiFlowResultEnum;
 import com.centaline.trans.common.enums.CcaiTaskEnum;
+import com.centaline.trans.eloan.entity.ToAppRecordInfo;
+import com.centaline.trans.eloan.entity.ToSelfAppInfo;
+import com.centaline.trans.eloan.service.ToAppRecordInfoService;
+import com.centaline.trans.eloan.service.ToSelfAppInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +56,12 @@ public class KnotCommissionController {
 	@Autowired
 	private FlowApiService flowApiService;
 
+	@Autowired
+	private ToSelfAppInfoService toSelfAppInfoService;
+
+	@Autowired
+	private ToAppRecordInfoService toAppRecordInfoService;
+
 	@RequestMapping(value="process")
 	public String toProcess(HttpServletRequest request,
 			HttpServletResponse response, String caseCode, String source,
@@ -61,18 +71,16 @@ public class KnotCommissionController {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		//获取流程变量
-		RestVariable psf = workFlowManager.getVar(processInstanceId,
-				"PSFLoanNeed");
-		RestVariable self = workFlowManager.getVar(processInstanceId,
-				"SelfLoanNeed"); 
-		RestVariable com = workFlowManager.getVar(processInstanceId,
-				"ComLoanNeed"); 
-
-		toAccesoryListService.getAccesoryListLingZheng(request, taskitem,
-				(boolean) (psf == null ? false : psf.getValue()),
-				(boolean) (self == null ? false : self.getValue()),
-				(boolean) (com == null ? false : com.getValue()));
+		//自办贷款信息查询
+		ToSelfAppInfo toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(caseCode);
+		//审批记录信息查询
+		ToAppRecordInfo toAppRecordInfo = toAppRecordInfoService.getAppRedordByAppInfoId(toSelfAppInfo.getPkid());
+		if(toSelfAppInfo!=null){
+			request.setAttribute("toSelfAppInfo", toSelfAppInfo);
+		}
+		if(toAppRecordInfo!=null){
+			request.setAttribute("toAppRecordInfo", toAppRecordInfo);
+		}
 		return "task" + UiImproveUtil.getPageType(request) + "/taskKnotCommission";
 	}
 	@RequestMapping(value="submitKnotCommission")
@@ -84,7 +92,7 @@ public class KnotCommissionController {
 		 */
 		SessionUser sessionUser=uamSessionService.getSessionUser();
 		FlowFeedBack info=new FlowFeedBack(sessionUser, CcaiFlowResultEnum.SUCCESS,"进入结案归档环节");
-		ApiResultData apiResultData=flowApiService.tradeFeedBackCcai(knotCommissionVO.getCaseCode(), CcaiTaskEnum.TRADE_ACCESS_BROKERAGE,info);
+		ApiResultData apiResultData=flowApiService.tradeFeedBackCcai(knotCommissionVO.getCaseCode(), CcaiTaskEnum.TRADE_WARRANT_TRANSFER,info);
 		if(apiResultData.isSuccess()){
 
 			/* 流程引擎相关 */
@@ -97,7 +105,7 @@ public class KnotCommissionController {
 					knotCommissionVO.getCaseCode())){
 				//修改案件状态为允许结佣
 				ToCase ca  = toCaseService.findToCaseByCaseCode(knotCommissionVO.getCaseCode());
-				ca.setStartDate(CaseStatusEnum.YJY.getCode());
+				ca.setStartDate(CaseStatusEnum.YGH.getCode());
 				toCaseService.updateByCaseCodeSelective(ca);
 				rs.setData(true);
 				rs.setMessage("提交成功！");

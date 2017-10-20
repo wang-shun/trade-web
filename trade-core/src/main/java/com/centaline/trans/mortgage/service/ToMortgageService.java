@@ -226,4 +226,19 @@ public interface ToMortgageService {
 	ToEval findEvalByMortgageId(Long mid);
 	
 	List<Map<String,String>> queryEguProInfo(String caseCode);
+	
+	/**
+	 * 获取贷款信息,可能有2条，取更新时间最新的一条
+	 * @author wbcaiyx
+	 * @param caseCode
+	 * @return
+	 */
+	ToMortgage findToMortgageByCaseCodeOnlyOne(String caseCode);
+	
+	/**
+	 * 贷款挽回信息
+	 * @param caseCode
+	 * @return
+	 */
+	String findMortgageSave(String  caseCode);
 }

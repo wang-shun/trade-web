@@ -17,6 +17,9 @@
     <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
     <result column="BILL_TIME" property="billTime" jdbcType="TIMESTAMP" />
     <result column="EVA_PROCESS_ID" property="evaProcessId" jdbcType="VARCHAR" />
+    <!-- 扩展字段 -->
+    <result column="FIN_ORG_ID" property="evaCompanyId" jdbcType="VARCHAR" />
+    <result column="FIN_ORG_NAME" property="evaCompanyName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, EVA_CODE, INVOICE_TYPE, INVOICE_HEADER, INVOICE_AMOUNT, INVOICE_ADDRESS, 
@@ -28,6 +31,25 @@
     <include refid="Base_Column_List" />
     from sctrans.T_TO_EVA_INVOICE
     where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <select id="selectByEvaCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_INVOICE
+    where EVA_CODE = #{evaCode,jdbcType=VARCHAR}
+  </select>
+    <select id="selectByCaseCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_INVOICE
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+    <select id="selectByCaseCodeWithEvalCompany" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT I.PKID,I.CASE_CODE,I.EVA_CODE,I.INVOICE_HEADER,I.INVOICE_AMOUNT,I.INVOICE_ADDRESS,I.APPLY_DATE,I.INVOICE_TYPE,F.FIN_ORG_NAME,E.FIN_ORG_ID 
+    FROM [sctrans].[T_TO_EVA_INVOICE] AS I
+	LEFT JOIN [sctrans].[T_TO_EVA_REPORT_PROCESS] AS E ON I.CASE_CODE=E.CASE_CODE
+	LEFT JOIN [sctrans].[T_TS_FIN_ORG] AS F ON E.FIN_ORG_ID=F.FIN_ORG_CODE
+	WHERE I.CASE_CODE=#{caseCode,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_EVA_INVOICE

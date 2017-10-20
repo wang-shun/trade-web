@@ -21,7 +21,7 @@ $(document).ready(function() {
 						shrinkToFit : true,
 						rowNum : 10,
 						/* rowList: [10, 20, 30], */
-						colNames : [ 'id','PART_CODE_OLD','案件编号','变更项',
+						colNames : [ 'id','PART_CODE_OLD','APPVER_PART_CODE_OLD','案件编号','变更项',
 								'变更前交易计划', '变更后交易计划','变更原因','发起环节','审批结果'],
 						colModel : [ {
                             name : 'PKID',
@@ -34,6 +34,14 @@ $(document).ready(function() {
                         },{
                             name : 'PART_CODE_OLD',
                             index : 'PART_CODE_OLD',
+                            align : "center",
+                            width : 0,
+                            key : true,
+                            resizable : false,
+                            hidden : true
+                        },{
+                            name : 'APPVER_PART_CODE_OLD',
+                            index : 'APPVER_PART_CODE_OLD',
                             align : "center",
                             width : 0,
                             key : true,
@@ -103,6 +111,7 @@ function save(boo) {
 	var caseCode=$("#caseCode").val();
 	var processInstanceId=$("#processInstanceId").val();
 	var taskId=$("#taskId").val();
+
 	var pkids=new Array();
 	obj=$("#table_list_1").getRowData();
 	console.log(obj)
@@ -111,13 +120,14 @@ function save(boo) {
 		partCodes.push(obj[i].PART_CODE_OLD);
 		pkids.push(obj[i].PKID);
 	}
-	console.log("newDates:"+newDates+"partCodes:"+partCodes)
+    var partCode=obj[0].APPVER_PART_CODE_OLD;
+	console.log("newDates:"+newDates+"partCodes:"+partCodes+"partCode"+partCode)
 	var url="/task/transPlan/submitTransAppver?";
 	var ctx=$("#ctx").val();
 	url=ctx+url;
 	console.log(url)
 	var data="&pkids="+pkids+"&newDates="+newDates+"&partCodes="+partCodes+
-		"&caseCode="+caseCode+"&taskId="+taskId+"&processInstanceId="+processInstanceId+"&audit="+audit;
+		"&caseCode="+caseCode+"&taskId="+taskId+"&processInstanceId="+processInstanceId+"&audit="+audit+"&partCode="+partCode;
 	$.ajax({
 		cache:false,
 		async:true,
@@ -144,6 +154,7 @@ function save(boo) {
 		error:function (errors) {
             window.wxc.error("数据保存出错");
             $.unblockUI();
+            window.location.href=ctx+"/task/myTaskList";
         }
 
 	});

@@ -50,14 +50,14 @@
 					select * from ( SELECT
 						ART.ID_ AS ID,
 						ART.CREATE_TIME_ CREATE_TIME,
-						/*ART.NAME_ AS NAME,*/
-						tr.RANSOM_STATUS AS NAME,
+						ART.NAME_ AS NAME,
 						tr.RANSOM_CODE ,
 						tr.BORROWER_NAME,
 						ART.TASK_DEF_KEY_ AS PART_CODE,
 						ART.PROC_INST_ID_ AS INST_CODE,
 						ART.DELEGATION_ AS DELEGATION,
 						tw.CASE_CODE,
+						ART.ASSIGNEE_ AS ASSIGNEE,
 						tw.BUSINESS_KEY,
 						(select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.CASE_CODE ) as SUBSCRIBE_COUNT
 						,(select PROPERTY_CODE  from sctrans.T_TO_PROPERTY_INFO where CASE_CODE=tw.CASE_CODE) propertyCode
@@ -65,10 +65,37 @@
 
 					FROM
 						sctrans.ACT_RU_TASK ART
-						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE AND ART.PROC_DEF_ID_ = #PROCESS_DEFINITION_ID#
+						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE AND ART.PROC_DEF_ID_ IN (
+						<choose>
+							<when test	="PROCESS_DEFINITION_ID_RANSOM_SUSPEND != null and PROCESS_DEFINITION_ID_RANSOM != null and PROCESS_DEFINITION_ID_RANSOM_SUSPEND != '' and PROCESS_DEFINITION_ID_RANSOM != '' ">
+								#PROCESS_DEFINITION_ID_RANSOM_SUSPEND#,#PROCESS_DEFINITION_ID_RANSOM#
+							</when>
+							<otherwise>
+								<ifNotNull PROCESS_DEFINITION_ID_RANSOM_SUSPEND>
+									#PROCESS_DEFINITION_ID_RANSOM_SUSPEND#
+								</ifNotNull>
+								<ifNotNull PROCESS_DEFINITION_ID_RANSOM>
+									#PROCESS_DEFINITION_ID_RANSOM#
+								</ifNotNull>
+							</otherwise>
+						</choose>
+						)
 						INNER JOIN sctrans.T_RA_CASE AS tr ON tw.CASE_CODE = tr.CASE_CODE
-						/*  WHERE  ART.ASSIGNEE_ = #userLoginName# */
-					    AND ART.SUSPENSION_STATE_ = '1'
+						  WHERE  1 =1 
+						  <ifNotNull PROCESS_DEFINITION_ID_RANSOM_SUSPEND>
+						  	and ART.ASSIGNEE_ = #userLoginName# 
+						  </ifNotNull>
+						<choose>
+							<when test="isSuspended != null and isSuspended != '' and isSuspended == true">
+								AND ART.SUSPENSION_STATE_ = '2'
+							</when>
+							<otherwise>
+							    AND ART.SUSPENSION_STATE_ = '1'
+							</otherwise>
+						</choose>
+					    <ifNotNull caseCode>
+							AND tw.CASE_CODE=#caseCode#
+						</ifNotNull>
 					   /* and exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=tw.CASE_CODE) */
 					    AND exists (Select 1 from sctrans.T_RA_CASE  where CASE_CODE=tw.CASE_CODE)
 						<ifNotNull allType>
@@ -134,6 +161,7 @@
 			<table-row>
 				<column type="both" name="ID" index="" checkbox="" display="TASKID" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="desc" resizable="" hide="true"/>
 				<column type="both" name="CASE_CODE" index="" checkbox="" display="CASECODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="ASSIGNEE" index="" checkbox="" display="ASSIGNEE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="BORROWER_NAME" index="" checkbox="" display="BORROWERNAME" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="RANSOM_CODE" index="" checkbox="" display="RANSOMCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="PART_CODE" index="" checkbox="" display="PARTCODE" customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>

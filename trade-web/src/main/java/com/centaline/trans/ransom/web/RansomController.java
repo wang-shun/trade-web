@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.enums.LampEnum;
+import com.centaline.trans.common.enums.RansomDiyaEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.entity.ToRansomSubmitVo;
 import com.centaline.trans.ransom.service.RansomService;
@@ -53,7 +56,8 @@ import com.centaline.trans.ransom.service.RansomService;
 		
 		@Autowired
 		private ProcessInstanceService processInstanceService;
-		
+		@Autowired
+		private TaskService taskService;
 		
 		/**
 		 * 赎楼待办任务列表
@@ -68,7 +72,8 @@ import com.centaline.trans.ransom.service.RansomService;
 			request.setAttribute("Lamp1", lamps[0]);
 			request.setAttribute("Lamp2", lamps[1]);
 			request.setAttribute("Lamp3", lamps[2]);
-			request.setAttribute("PROCESS_DEFINITION_ID", propertyUtilsService.getProcessDfId("ransom_process"));
+			request.setAttribute("PROCESS_DEFINITION_ID_RANSOM", propertyUtilsService.getProcessDfId("ransom_process"));
+			request.setAttribute("PROCESS_DEFINITION_ID_RANSOM_SUSPEND", propertyUtilsService.getProcessDfId("ransom_suspend"));
 			return "ransom/ransomTaskList";
 		}
 		
@@ -92,10 +97,42 @@ import com.centaline.trans.ransom.service.RansomService;
 		 * @param request
 		 * @return
 		 */
+		@SuppressWarnings("unchecked")
 		@RequestMapping(value="ransomApply")
-		public String  ransomApply(String caseCode, ServletRequest request){
+		public String  ransomApply(String ransomCode, ServletRequest request){
 			//公共基本信息
-			getTaskBaseInfo(request, caseCode);
+//			getTaskBaseInfo(request, caseCode);
+			ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
+
+			request.setAttribute("detailVo", detailVo);
+			
+			
+			SessionUser user = uamSessionService.getSessionUser();
+			//赎楼流程启动
+			Map<String,Object> defValsMap = new HashMap<String,Object>();
+			defValsMap.put("sessionUser", user.getUsername());
+			String processDfId = propertyUtilsService.getProcessDfId("ransom_process");
+			
+			StartProcessInstanceVo pVo = processInstanceService.startWorkFlowByDfId(processDfId, ransomCode, defValsMap);
+			List<TaskVo> tasks = taskService.listTasks(pVo.getId(), false, user.getUsername()).getData();
+			if (tasks != null && !tasks.isEmpty()) {
+				pVo.setActiveTaskId(tasks.get(0).getId() + "");
+			}
+			ToWorkFlow wf = new ToWorkFlow();
+			wf.setBusinessKey("ransom_process");
+			wf.setCaseCode(detailVo.getCaseCode());
+			wf.setBizCode(ransomCode);
+			wf.setProcessOwner(user.getId());
+			wf.setProcessDefinitionId(processDfId);
+			wf.setInstCode(pVo.getId());
+			wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
+			toWorkFlowService.insertSelective(wf);
+			
+			//更新赎楼状态为在途
+			ransomService.updateRansomIsStart(ransomCode);
+			
+			request.setAttribute("processInstanceId", pVo.getId());
+			request.setAttribute("taskId", pVo.getActiveTaskId());
 			
 			return "ransom/ransomApply";
 		}
@@ -116,13 +153,19 @@ import com.centaline.trans.ransom.service.RansomService;
 				System.out.println(e.getMessage());
 				return false;
 			}
-			SessionUser user = uamSessionService.getSessionUser();
+			
+			taskService.submitTask(submitVo.getTaskId());
+
+			/***
+			 * 赎楼启动放在点击申请上
+			 */
+			/*SessionUser user = uamSessionService.getSessionUser();
 			//赎楼流程启动
 			Map<String,Object> defValsMap = new HashMap<String,Object>();
 			defValsMap.put("sessionUser", user.getUsername());
 			String processDfId = propertyUtilsService.getProcessDfId("ransom_process");
 			
-			/** businsessKey还是用caseCode，因为在engineTask中caseCode兼容老程序,用的businessKey赋值 **/
+			*//** businsessKey还是用caseCode，因为在engineTask中caseCode兼容老程序,用的businessKey赋值 **//*
 			StartProcessInstanceVo pVo = processInstanceService.startWorkFlowByDfId(processDfId, submitVo.getCaseCode(), defValsMap);
 
 			ToWorkFlow wf = new ToWorkFlow();
@@ -133,7 +176,7 @@ import com.centaline.trans.ransom.service.RansomService;
 			wf.setProcessDefinitionId(processDfId);
 			wf.setInstCode(pVo.getId());
 			wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
-			toWorkFlowService.insertSelective(wf);
+			toWorkFlowService.insertSelective(wf);*/
 
 			return true;
 		}
@@ -199,7 +242,7 @@ import com.centaline.trans.ransom.service.RansomService;
 			getTaskBaseInfo(request, caseCode);
 			
 			Integer diyaType = 1;
-			if("RansomMortgageTwo".equals(taskitem)){
+			if(RansomDiyaEnum.PAYLOAN_TWO.getPart().equals(taskitem)){
 				diyaType = 2;
 			}
 			
@@ -244,7 +287,7 @@ import com.centaline.trans.ransom.service.RansomService;
 			getTaskBaseInfo(request, caseCode);
 			
 			Integer diyaType = 1;
-			if("RansomCancelTwo".equals(taskitem)){
+			if(RansomDiyaEnum.CANCELDIYA_TWO.getPart().equals(taskitem)){
 				diyaType = 2;
 			}
 			request.setAttribute("diyaType", diyaType);
@@ -295,7 +338,7 @@ import com.centaline.trans.ransom.service.RansomService;
 			getTaskBaseInfo(request, caseCode);
 			
 			Integer diyaType = 1;
-			if("RansomPermitTwo".equals(taskitem)){
+			if(RansomDiyaEnum.RECEIVE_TWO.getPart().equals(taskitem)){
 				diyaType = 2;
 			}
 			
@@ -389,10 +432,13 @@ import com.centaline.trans.ransom.service.RansomService;
 		 * @param request
 		 * @param caseCode
 		 */
-		void getTaskBaseInfo(ServletRequest request,String caseCode){
+		ToRansomDetailVo getTaskBaseInfo(ServletRequest request,String ransomCode){
 			//公共基本信息
-			ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode);
+			ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
+
 			request.setAttribute("detailVo", detailVo);
+			
+			return detailVo;
 		}
 
 	}

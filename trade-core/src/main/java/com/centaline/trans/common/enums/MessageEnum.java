@@ -7,8 +7,13 @@ public enum MessageEnum {
 	SPV_FINISH_MSG("message","SpvFinishMsg", "SpvFinishMsg"),
 	GUOHU_FINISH_MSG("message","GuohuFinishMsg", "GuohuFinishMsg"),
 	BANK_LEVEL_APPROVE_MSG("message","BankLevelApproveMsg", "BankLevelApproveMsg"),
+	//自办贷款审批交易系统驳回后ccai再次请求
+	CCAI_MODIFY_MSG("message","CCAIModifyMsg","CCAIModifyMsg"),
+	//自办评估审批交易系统驳回后ccai再次请求
+	CCAI_MODIFY_ASS_MSG("message","CCAIModifyAssMsg","CCAIModifyAssMsg"),
 	//CCAI修改成交报告后 再次到接单跟进流程
 	CCAI_UPDATED_MSG("message","CCAIUpdatedMsg","CCAIUpdatedMsg");
+
 	
 
 	private String eventType;

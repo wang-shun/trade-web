@@ -92,7 +92,7 @@
                 </div>
             </div>
             
-            <div class="view-content" id="caseCommentList"></div>
+           <!--  <div class="view-content" id="caseCommentList"></div> -->
             
             <div class="form-btn">
                 <div class="text-center">
@@ -114,6 +114,7 @@
 			<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 			<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
 			<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+			<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 			<!-- 改版引入的新的js文件 -->
 			<script src="<c:url value='/js/common/textarea.js' />"></script>
 			<script src="<c:url value='/js/common/common.js' />"></script>

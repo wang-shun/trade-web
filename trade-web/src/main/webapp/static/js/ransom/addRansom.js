@@ -11,7 +11,7 @@ $(document).ready( function() {
    
    
    function submitNewRansom(){
-	   debugger;
+	  debugger;
 	  var totalArr = [];
 	  var caseCode = $('#content_caseCode').text();
 	  
@@ -47,7 +47,7 @@ $(document).ready( function() {
 		  };
 		  jsonStr.push(resJson);
 	  }
-	  console.log(jsonStr.length);
+	  
    	  $.ajax({
    		url:ctx + "/ransomList/addRansom",
    		method:"post",

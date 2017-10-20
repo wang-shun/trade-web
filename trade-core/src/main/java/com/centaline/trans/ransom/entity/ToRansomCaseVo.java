@@ -1,10 +1,7 @@
 package com.centaline.trans.ransom.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-
-import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.mgr.entity.TsFinOrg;
 
 /**
  * 赎楼列表
@@ -30,7 +27,12 @@ public class ToRansomCaseVo {
      * 案件状态
      */
     private String ransomStatus;
-
+    
+    /**
+     * 任务环节
+     */
+    private String taskProperty;
+    
     /**
      * 赎楼环节
      */
@@ -44,7 +46,7 @@ public class ToRansomCaseVo {
     /**
      * 借款总金额
      */
-    private double borroMoney;
+    private BigDecimal borroMoney;
 
     /**
      * 主贷人姓名
@@ -154,11 +156,12 @@ public class ToRansomCaseVo {
         this.comOrgCode = comOrgCode == null ? null : comOrgCode.trim();
     }
 
-    public double getBorroMoney() {
-        return borroMoney;
+    public BigDecimal getBorroMoney() {
+    	BigDecimal wan = new BigDecimal(10000.00);
+        return borroMoney.divide(wan);
     }
 
-    public void setBorroMoney(double borroMoney) {
+    public void setBorroMoney(BigDecimal borroMoney) {
         this.borroMoney = borroMoney;
     }
 
@@ -257,5 +260,24 @@ public class ToRansomCaseVo {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public String getTaskProperty() {
+		return taskProperty;
+	}
+
+	public void setTaskProperty(String taskProperty) {
+		this.taskProperty = taskProperty;
+	}
+
+	@Override
+	public String toString() {
+		return "ToRansomCaseVo [pkid=" + pkid + ", ransomCode=" + ransomCode + ", caseCode=" + caseCode
+				+ ", ransomStatus=" + ransomStatus + ", taskProperty=" + taskProperty + ", ransomProperty="
+				+ ransomProperty + ", comOrgCode=" + comOrgCode + ", borroMoney=" + borroMoney + ", borrowerName="
+				+ borrowerName + ", borrowerTel=" + borrowerTel + ", isstop=" + isstop + ", stopType=" + stopType
+				+ ", stopReason=" + stopReason + ", acceptTime=" + acceptTime + ", createTime=" + createTime
+				+ ", createUser=" + createUser + ", updateTime=" + updateTime + ", updateUser=" + updateUser
+				+ ", finOrgId=" + finOrgId + ", remark=" + remark + "]";
+	}
 
 }

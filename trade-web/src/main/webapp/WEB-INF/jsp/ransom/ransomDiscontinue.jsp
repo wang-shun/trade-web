@@ -12,7 +12,7 @@
 <html>
 
 <head>
-
+<title>赎楼中止申请</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- 展示相关 -->
@@ -133,6 +133,7 @@
 }
 .form-group{margin-top: 15px;}
 </style>
+<content tag="pagetitle">赎楼中止申请</content>
 </head>
 
 <body>
@@ -141,16 +142,28 @@
 
 	<div class="ibox-content border-bottom clearfix space_box noborder">
 		<form method="post" id="submitDiscontinue" >
+			<%--环节编码 --%>
+			<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+			<!-- 交易单编号 -->
+			<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+			<input type="hidden" id="ransomCode" name="ransomCode" value="${ransomCase.ransomCode}">
+			<%-- 原有数据对应id --%>
+			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+			<%-- 设置审批类型 --%>
+			<input type="hidden" id="approveType" name="approveType" value="${approveType }">
+			<input type="hidden" id="operator" name="operator" value="${operator }">
+			
 			<div class="form_content">
 				<label class="control-label sign_left_small">中止类型 </label>
 				<div class="controls isnowid" style="width: 1000px;margin-left: 40px;">
-					<aist:dict id="stopType" name="ransom_discountinue" display="select" dictType="71016" clazz="select_control data_style"/>
+					<aist:dict id="stopType" name="stopType" display="select" dictType="71016" defaultvalue="${ransomCase.stopType}" clazz="select_control data_style"/>
 				</div>
 			</div>
 			<div class="form_content">
 				<div class="form-group">
 				    <label for="name" style="float: left;">详情描述</label>
-				    <textarea class="form-control" rows="8" style="resize:none;width:960px;margin-left:95px;" id="stopReason" ></textarea>
+				    <textarea class="form-control" rows="8" style="resize:none;width:960px;margin-left:95px;" id="stopReason" name="stopReason">${ransomCase.stopReason}</textarea>
 			  	</div>
 			</div>
 		</form>
@@ -163,7 +176,7 @@
 		</div>
 		<div class="form-btn">
 			<div class="text-center">
-				<button class="btn btn-success btn-space" id="discontinue">中止</button>
+				<button class="btn btn-success btn-space" id="discontinue">提交</button>
 				<button class="btn btn-grey btn-space" id="cancel">取消</button>
 			</div>
 		</div>
@@ -179,7 +192,7 @@
 		src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> <!-- Data picker -->
 	<script
 		src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
-
+	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script>
 	<script
 		src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
@@ -196,46 +209,6 @@
 					srvCode : taskitem
 				});
 
-				$("#reminder_list").jqGrid({
-					//data : reminderdata,
-					//url:ctx+"/quickGrid/findPage",
-					datatype : "json",
-					height : 120,
-					width : 1059,
-					shrinkToFit : true,
-					rowNum : 4,
-					sortname : 'OPERATOR_TIME',
-					viewrecords : true,
-					sortorder : "desc",
-					viewrecords : true,
-					colNames : [ '审批时间', '审批人员', '审批意见' ],
-					colModel : [ {
-						name : 'OPERATOR_TIME',
-						index : 'OPERATOR_TIME',
-						width : '15%'
-					}, {
-						name : 'OPERATOR',
-						index : 'OPERATOR',
-						width : '15%'
-					}, {
-						name : 'PART_CODE',
-						index : 'PART_CODE',
-						width : '20%'
-					} ],
-					pager : "#pager_list_1",
-					viewrecords : true,
-					pagebuttions : true,
-					hidegrid : false,
-					recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-					pgtext : " {0} 共 {1} 页",
-					postData : {
-						queryId : "queryLoanlostApproveList",
-						search_caseCode : caseCode,
-						search_approveType : approveType,
-						search_processInstanceId : processInstanceId
-					},
-				});
-				// Add responsive to jqGrid
 				$(window).bind('resize', function() {
 					var width = $('.jqGrid_wrapper').width();
 					$('#reminder_list').setGridWidth(width);
@@ -243,8 +216,6 @@
 				});
 				
 				$("#discontinue").click(function(){
-					//window.location.href = ctx + "/ransomList/discontinue/ransomExamine";
-					debugger;
 					if($('#stopType').val() == ''){
 						window.wxc.alert("中止类型为必填项!");
 						return;
@@ -261,7 +232,6 @@
 					var url = "${ctx}/task/ransomDiscontinue/submitDiscontinue";
 					
 					$.ajax({
-						cache:true,
 						async:false,
 						type:"POST",
 						url:url,
@@ -273,7 +243,7 @@
 									 window.close();	
 								}});
 							}else{
-								window.wxc.error("提交失败!");
+								window.wxc.error("申请中止失败,请确认是否已经开启中止流程,或确认您是否是该赎楼流程环节责任人");
 							}
 							
 						},
@@ -284,11 +254,11 @@
 					
 				});
 				
-				
-				
-				
-				
-				
+				$("#cancel").click(function(){
+					if(confirm('您确定要取消吗？')){ 
+						 window.close();
+					}
+				});
 			});
 		</script> </content>
 </body>

@@ -6,7 +6,7 @@
 <html>
 
 <head>
-
+<title>询价回复</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -98,7 +98,7 @@
 
 </style> 
 
-
+<content tag="pagetitle">询价回复</content>
 </head>
 
 <body>
@@ -213,6 +213,7 @@
 			  		<form method="get" class="form_list" id="evaEnterForm">
 				  		<input type="hidden" name="pkid" value="${toEvaPricingVo.pkid }">
 				  		<input type="hidden" name="evaCode" value="${toEvaPricingVo.evaCode }">
+				  		<input type="hidden" name="caseCode" value="${toEvaPricingVo.caseCode }">
 				  		<input type="hidden" name="taskId" value="${taskId }" >
 				  		<input type="hidden" name="processInstanceId" value="${processInstanceId }">
 				  		
