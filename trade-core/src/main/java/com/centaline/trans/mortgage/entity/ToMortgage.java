@@ -863,6 +863,6 @@ public class ToMortgage {
 
 	public void setPatchTimeSell(Date patchTimeSell) {
 		this.patchTimeSell = patchTimeSell;
-	}  	
+	}
 	
 }

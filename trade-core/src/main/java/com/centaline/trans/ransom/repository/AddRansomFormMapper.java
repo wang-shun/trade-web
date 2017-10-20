@@ -13,4 +13,12 @@ public interface AddRansomFormMapper {
 	void insertRansomForm(List<ToRansomFormVo> list);
 	
 	ToRansomFormVo selectByCaseCode(String caseCode);
+	
+	/**
+	 * 根据案件编号获取尾款信息
+	 * @author wbcaiyx
+	 * @param caseCode
+	 * @return
+	 */
+	List<ToRansomFormVo> findTaiLinsInfoByCaseCode(String caseCode);
 }
