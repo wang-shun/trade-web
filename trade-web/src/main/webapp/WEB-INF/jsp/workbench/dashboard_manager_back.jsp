@@ -245,9 +245,11 @@
 									<ul class="nav nav-tabs">
 										<li class="active"><a href="#tab-1" data-toggle="tab">工作数据显示</a>
 										</li>
-										<li class=""><a href="#tab-2" data-toggle="tab">业务提醒</a>
+										<li class=""><a href="#tab-2" data-toggle="tab">业务提醒</a>
 										</li>
 										<li class=""><a href="#tab-3" data-toggle="tab">龙虎榜</a></li>
+										<li class=""><a href="#tab-4" data-toggle="tab">过户/贷款权证工作数据显示</a>
+										</li>
 									</ul>
 								</div>
 							</div>
@@ -435,6 +437,120 @@
 											</div>
 										</div>
 									</div>
+
+									<!--过户/贷款权证工作数据显示  by wbzhouht-->
+									<div class="tab-pane active" id="tab-4">
+
+										<div class="data-progress-wrap">
+											<div class="data-progress data1">
+												<div class="data-left">
+													<span class="left-label h50 pt10">e+申请金额</span>
+													<div class="data-bar">
+														<div class="progress progress-small">
+															<div id="sp_loanAmount_bar" style="width: 100%;"
+																 class="progress-bar bar-yellow"></div>
+														</div>
+													</div>
+													<span class="right-label pt10" id="sp_loanAmount"
+														  style="color: #337ab7; cursor: pointer;">4000万</span>
+												</div>
+												<div class="data-left">
+													<span class="left-label">e+面签金额</span>
+													<div class="data-bar">
+														<div class="progress progress-small">
+															<div id="sp_signAmount_bar" style="width: 80%;"
+																 class="progress-bar bar-yellow"></div>
+														</div>
+													</div>
+													<span class="right-label" id="sp_signAmount"
+														  style="color: #337ab7; cursor: pointer;">2000万</span>
+												</div>
+												<div class="data-left">
+													<span class="left-label">e+放款金额</span>
+													<div class="data-bar">
+														<div class="progress progress-small">
+															<div id="sp_actualAmount_bar" style="width: 56%;"
+																 class="progress-bar bar-yellow"></div>
+														</div>
+													</div>
+													<span class="right-label" id="sp_actualAmount"
+														  style="color: #337ab7; cursor: pointer;">2000万</span>
+												</div>
+												<div class="data-left">
+													<span class="left-label h50 pb10">e+转换率</span>
+													<div class="data-bar">
+														<div class="progress progress-small">
+															<div id="sp_convRate_bar" style="width: 100%;"
+																 class="progress-bar bar-yellow"></div>
+														</div>
+													</div>
+													<span id="sp_convRate" class="right-label hint hint-top1"
+														  data-hint="e+转换率=总的面签金额/总的合同价">100%</span>
+												</div>
+
+											</div>
+											<div class="data-progress data2">
+												<p>
+													<span>评估费</span><em><span id="sp_evalFee"
+																			  style="color: #337ab7; cursor: pointer;">6万</span></em>
+												</p>
+												<p>
+													<span>评估单转化率</span> <em><span id="ef_converRt"
+																				  class="hint hint-top1"
+																				  data-hint="评估单转化率=收取评估费的单数/有商贷金额的单数(商贷流程提交)">100%</span></em>
+												</p>
+												<p>
+													<span>评估费折扣</span><em><span id="sp_efConvRate"
+																				class="hint hint-top1"
+																				data-hint="评估费折扣=收取的评估费总额/有收取评估费的合同价金额的千一">30%</span></em>
+												</p>
+											</div>
+											<div class="data-progress data3">
+												<div class="data-left">
+													<span class="left-label wd88 h50 pt10">接单数</span>
+													<div class="data-bar">
+														<div class="progress progress-small">
+															<div id="sp_receiveCount_bar" style="width: 40%;"
+																 class="progress-bar bar-blue"></div>
+														</div>
+													</div>
+													<span id="sp_receiveCount" class="right-label pt10">43单</span>
+												</div>
+												<div class="data-left">
+													<span class="left-label wd88 ">签约数</span>
+													<div class="data-bar">
+														<div class="progress progress-small">
+															<div id="sp_signCount_bar" style="width: 100%;"
+																 class="progress-bar bar-blue"></div>
+														</div>
+													</div>
+													<span id="sp_signCount" class="right-label">1亿&nbsp;&nbsp;4单</span>
+												</div>
+												<div class="data-left">
+													<span class="left-label wd88">贷款申请数</span>
+													<div class="data-bar">
+														<div class="progress progress-small">
+															<div id="sp_loanApplyCount_bar" style="width: 56%;"
+																 class="progress-bar bar-blue"></div>
+														</div>
+													</div>
+													<span id="sp_loanApplyCount" class="right-label">13单</span>
+												</div>
+												<div class="data-left">
+													<span class="left-label wd88 h50 pb10">结案数</span>
+													<div class="data-bar">
+														<div class="progress progress-small">
+															<div id="sp_closeCount_bar" style="width: 30%;"
+																 class="progress-bar bar-blue"></div>
+														</div>
+													</div>
+													<span id="sp_closeCount" class="right-label pb10">23单</span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
 								</div>
 							</div>
 						</div>
@@ -504,8 +620,10 @@
 			//加载echarts
 			reloadStatus();
 
-			reloadMonth();	
-			
+			reloadMonth();
+        	queryConutCaseByDate();
+        	//查询警示案件数
+        	queryBizwarnCaseCount();
 			//龙虎榜数据查询
 			queryGetRankBank();
 			$('#sp_evalFee').on('click', evalFeeClick);

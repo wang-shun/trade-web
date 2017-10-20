@@ -11,7 +11,7 @@ public interface RansomDiscontinueService {
 	
 	ToApproveRecord saveToApproveRecord(ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
 			String loanLost, String loanLost_response);
-	boolean submitDiscontinueAppro(ProcessInstanceVO processInstanceVO, String examContent);
+	boolean submitDiscontinueAppro(ProcessInstanceVO processInstanceVO, String examContent, String caseCode, String ransomCode);
 	
 	boolean startDiscontinueTask(String caseCode, String ransomCase);
 }

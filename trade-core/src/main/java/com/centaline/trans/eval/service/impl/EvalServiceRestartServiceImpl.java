@@ -150,7 +150,7 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		SessionUser u = uamSessionService.getSessionUser();
 		if(vo.getIsApproved()){
 			handerProcessAfterServiceRestart(vo,u);//流程重启后续业务处理
-			activateOrSuspendProcessInstance(vo.getEvaCode(),true);//打开挂起流程
+			//activateOrSuspendProcessInstance(vo.getEvaCode(),true);//打开挂起流程
 		}
 		insertIntoApproveRecord(vo);//入审批记录表
 		submitEvelRestartTask(vo);//审批提交重启任务

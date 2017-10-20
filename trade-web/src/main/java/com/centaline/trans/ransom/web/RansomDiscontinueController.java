@@ -19,11 +19,9 @@ import com.aist.common.quickQuery.web.vo.DatagridVO;
 import com.aist.common.rapidQuery.paramter.ParamterHander;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.enums.RansomStopStatusEnum;
 import com.centaline.trans.common.service.PropertyUtilsService;
-import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
-import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.service.RansomDiscontinueService;
@@ -114,24 +112,36 @@ public class RansomDiscontinueController {
 	 */
 	@RequestMapping(value = "submitDiscontinue")
 	@ResponseBody
-	public boolean submitDiscontinue(ToRansomCaseVo ransomCase, ServletRequest request, ProcessInstanceVO processInstanceVO, String caseCode, String ransomCode) {
+	public boolean submitDiscontinue(ToRansomCaseVo ransomCase, HttpServletRequest request, ProcessInstanceVO processInstanceVO, String caseCode, String ransomCode) {
 		Map<String, Object> task = null;
 		String taskId = null;
 		ransomCase.setRansomCode(ransomCode);
 		ransomCase.setCaseCode(caseCode);
-		//查询是否有对应的赎楼中止流程,若没有则①挂起对应的【赎楼流程】②开启一个【赎楼中止流程】③给processInstanceVO赋值
-		task = getSingleRansomTaskInfo((HttpServletRequest)request, false, false);
+		//①挂起对应的【赎楼流程】(如果有)②开启一个【赎楼中止流程】(如果没有)③给processInstanceVO赋值
+		task = getSingleRansomTaskInfo(request, true, false, caseCode);//查询中止流程
 		if((boolean)task.get("hasData")) {
-			taskId = (String) task.get("INST_CODE");
-			processInstanceService.activateOrSuspendProcessInstance(taskId, false);//①
-		}
-		task = null;
-		task = getSingleRansomTaskInfo((HttpServletRequest)request, true, false);
-		if(!(boolean)task.get("hasData")) {
+			//如果存在对应中止流程，那么判断责任人
+			String assignee = (String) task.get("ASSIGNEE");
+			SessionUser user = uamSessionService.getSessionUser();
+			if(assignee == null || !assignee.equals(user.getUsername())) {
+				return false;
+			}
+		}else {
+			//如果不存在赎楼中止流程，则继续判断赎楼流程
+			task = null;
+			task = getSingleRansomTaskInfo(request, false, false, caseCode);//查询赎楼流程
+			if((boolean)task.get("hasData")) {
+				//如果有赎楼，无相应中止，那么表示第一次申请中止，则需要做①、②、③
+				taskId = (String) task.get("INST_CODE");
+				processInstanceService.activateOrSuspendProcessInstance(taskId, false);//①
+			}else {
+				//如果中止和赎楼都不存在，返回错误
+				return false;
+			}
 			ransomDiscontinueService.startDiscontinueTask(caseCode, ransomCode);//②
 			task = null;
-			task = getSingleRansomTaskInfo((HttpServletRequest)request, true, false);
-			processInstanceVO.setTaskId((String)task.get("ID"));
+			task = getSingleRansomTaskInfo(request, true, false, caseCode);
+			processInstanceVO.setTaskId((String)task.get("ID"));//③
 			processInstanceVO.setProcessInstanceId((String)task.get("INST_CODE"));
 			processInstanceVO.setPartCode((String)task.get("PART_CODE"));
 			processInstanceVO.setCaseCode(caseCode);
@@ -148,10 +158,12 @@ public class RansomDiscontinueController {
 	private ToRansomDetailVo getTaskBaseInfo(ServletRequest request, String caseCode, String ransomCode) {
 		SessionUser user =uamSessionService.getSessionUser(); 
 		// 公共基本信息
-		ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode, ransomCode);
+		ToRansomDetailVo ransomDetailVo = ransomService.getRansomDetail(caseCode, ransomCode);
+		ToRansomDetailVo detailVo = ransomDetailVo;
 		if(detailVo != null) {
 			request.setAttribute("detailVo", detailVo);
 			request.setAttribute("caseCode", detailVo.getCaseCode());
+			request.setAttribute("ransomCode", detailVo.getRansomCode());
 		}
 		request.setAttribute("approveType", "3");
 		request.setAttribute("operator", user.getId());
@@ -179,28 +191,12 @@ public class RansomDiscontinueController {
 	
 	@RequestMapping(value = "isCanBeSuspend")
 	@ResponseBody
-	public Map<String, Object> isCanSuspend(HttpServletRequest request) {
-		Map<String, Object> map = new HashMap<>();
-		//查询是否有相应赎楼中止流程
-		map = this.getSingleRansomTaskInfo(request, true, false);
-		if((boolean)map.get("hasData")) {
-			map.clear();
-			map.put("suspend", false);
-			map.put("msg", "已有相应的赎楼流程,请勿重复申请");
-			return map;
+	public boolean isCanSuspend(ServletRequest request, String ransomCode) {
+		ToRansomCaseVo ranCase = ransomService.getRansomInfoByRansomCode(ransomCode);
+		if(ranCase != null && !RansomStopStatusEnum.STOPING.getCode().equals(ranCase.getIsstop())) {
+			return true;
 		}
-		
-		//查询是否有相应赎楼流程
-		map = null;
-		map = this.getSingleRansomTaskInfo(request, false, false);
-		if(!(boolean)map.get("hasData")) {
-			map.clear();
-			map.put("suspend", false);
-			map.put("msg", "没有相应的赎楼流程,无需中止");
-			return map;
-		}
-		map.put("suspend", true);
-		return map;
+		return false;
 	}
 	
 	/**
@@ -217,18 +213,19 @@ public class RansomDiscontinueController {
 	@RequestMapping(value = "aprroSubmit")
 	@ResponseBody
 	public Boolean aprroSubmit(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
-			LoanlostApproveVO loanlostApproveVO, String examContent, String remark) {
+			LoanlostApproveVO loanlostApproveVO, String examContent, String remark, String caseCode, String ransomCode) {
 		//通过：删除 [赎楼流程]
 		if("pass".equals(examContent)) {
-			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true);
+			//或者直接使用processInstanceVO.getProcessInstanceId()
+			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true, caseCode);
 			if((boolean)task.get("hasData")) {
 				processInstanceService.deleteProcess((String) task.get("INST_CODE"));
 				ransomService.deleteRansomApplyByRansomCode((String) task.get("RANSOM_CODE"));
 			}
 		}
-		//不通过：[赎楼中止流程] 结束，重启 [赎楼流程]
+		//不通过：重启 [赎楼流程]
 		else if("noPass".equals(examContent)) {
-			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true);
+			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true, caseCode);
 			if((boolean)task.get("hasData")) {
 				processInstanceService.activateOrSuspendProcessInstance((String) task.get("INST_CODE"), true);
 			}
@@ -236,7 +233,7 @@ public class RansomDiscontinueController {
 		//保存审批记录
 		ransomDiscontinueService.saveToApproveRecord(processInstanceVO, loanlostApproveVO, examContent, remark);
 		//赎楼中止 流程下一步
-		return ransomDiscontinueService.submitDiscontinueAppro(processInstanceVO, examContent);
+		return ransomDiscontinueService.submitDiscontinueAppro(processInstanceVO, examContent, caseCode, ransomCode);
 	}
 	
 	/**
@@ -247,7 +244,7 @@ public class RansomDiscontinueController {
 	 * 实际参数有caseCode,userName,isSuspend,isSuspended
 	 * @return
 	 */
-	private Map<String ,Object> getSingleRansomTaskInfo(HttpServletRequest request, boolean isSuspend, boolean isSuspended) {
+	private Map<String ,Object> getSingleRansomTaskInfo(HttpServletRequest request, boolean isSuspend, boolean isSuspended, String caseCode) {
 		Map<String, String[]> paramMap = ParamterHander.getParameters(request);
         Map<String, Object> paramObj = new HashMap<String, Object>();
         ParamterHander.mergeParamter(paramMap, paramObj);
@@ -262,6 +259,9 @@ public class RansomDiscontinueController {
         	paramObj.put("isSuspended", true);
         }else {
         	paramObj.put("isSuspended", false);
+        }
+        if(caseCode != null) {
+        	paramObj.put("caseCode",caseCode);
         }
         SessionUser user = uamSessionService.getSessionUser();
         paramObj.put("sessionUserId", user.getId());

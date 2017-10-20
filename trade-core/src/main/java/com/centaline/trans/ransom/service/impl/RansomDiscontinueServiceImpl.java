@@ -4,23 +4,20 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.service.ToCaseInfoService;
+import com.centaline.trans.common.enums.RansomStopStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.engine.vo.PageableVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
-import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.service.RansomDiscontinueService;
 import com.centaline.trans.ransom.service.RansomListFormService;
@@ -59,12 +56,6 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 	@Override
 	public boolean submitDiscontinueApply(ToRansomCaseVo ransomCase, ProcessInstanceVO vo) {
 		//点击中止时即保存中止原因信息
-		ToRansomCaseVo ransomCaseVo = ransomListFormService.getRansomCase(ransomCase.getCaseCode(), ransomCase.getRansomCode());
-		if(StringUtils.isBlank(ransomCaseVo.getCaseCode())) {
-			ransomListFormService.addRansomDetail(ransomCase);
-		}else {
-			ransomListFormService.updateRansomDiscountinue(ransomCase);
-		}
 		//work_flow
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(propertyUtilsService.getProcessDfId("ransom_suspend"));
@@ -75,6 +66,8 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 		//run_task
 		Map<String, Object> defValsMap = new HashMap<String,Object>();
     	taskService.submitTask(vo.getTaskId(),defValsMap);
+		ransomCase.setIsstop(RansomStopStatusEnum.STOPING.getCode());
+		ransomListFormService.updateRansomDiscountinue(ransomCase);
 		return true;
 	}
 
@@ -107,7 +100,9 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 	}
 	
 	@Override
-	public boolean submitDiscontinueAppro(ProcessInstanceVO vo, String examContent) {
+	public boolean submitDiscontinueAppro(ProcessInstanceVO vo, String examContent, String caseCode, String ransomCode) {
+		ToRansomCaseVo ransomCaseVo = new ToRansomCaseVo();
+		ransomCaseVo.setCaseCode(caseCode);
 		//work_flow
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(propertyUtilsService.getProcessDfId("ransom_suspend"));
@@ -115,13 +110,20 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 		wf.setInstCode(vo.getProcessInstanceId());
 		if(!examContent.equals("reject")) {
 			wf.setStatus(WorkFlowStatus.COMPLETE.getCode());
+			if(examContent.equals("pass")) {
+				ransomCaseVo.setIsstop(RansomStopStatusEnum.STOPED.getCode());
+			}else {
+				ransomCaseVo.setIsstop(RansomStopStatusEnum.UNSTOP.getCode());
+			}
 		}else {
+			ransomCaseVo.setIsstop(RansomStopStatusEnum.STOPING.getCode());
 			wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		}
 		toWorkFlowService.updateWorkFlowByInstCode(wf);
 		//run_task
 		Map<String, Object> defValsMap = new HashMap<String,Object>();
     	defValsMap.put("ransomAprro", !examContent.equals("reject"));
+    	ransomListFormService.updateRansomDiscountinue(ransomCaseVo);
     	taskService.submitTask(vo.getTaskId(),defValsMap);
     	return true;
 	}

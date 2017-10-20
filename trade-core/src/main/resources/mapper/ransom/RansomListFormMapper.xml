@@ -139,6 +139,7 @@
 		INNER JOIN sctrans.T_TO_CASE_PARTICIPANT par ON guest.CASE_CODE = par.CASE_CODE
 		WHERE  
 			par.POSITION = 'warrant'
+			AND  NOT EXISTS(SELECT cas.CASE_CODE FROM sctrans.T_RA_CASE cas WHERE cas.CASE_CODE = ca.CASE_CODE)
 			AND ca.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	</select>
 	
@@ -233,14 +234,21 @@
 		UPDATE 
 			sctrans.T_RA_CASE
 		SET
+		<if test="stopType != null and stopType != ''">
 			STOP_TYPE = #{stopType,jdbcType=VARCHAR},
-			STOP_REASON = #{stopReason,jdbcType=VARCHAR}
+		</if>
+		<if test="stopReason != null and stopReason != ''">
+			STOP_REASON = #{stopReason,jdbcType=VARCHAR},
+		</if>
+		ISSTOP = #{isstop,jdbcType=VARCHAR}
 		WHERE
 			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	</update>
 	
 	<update id="updateRansomCaseByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
 		UPDATE sctrans.T_RA_CASE SET 
+			RANSOM_STATUS = #{ransomStatus,jdbcType=VARCHAR},
+			RANSOM_PROPERTY = #{ransomProperty,jdbcType=VARCHAR},
 			BORROWER_NAME = #{borrowerName,jdbcType=VARCHAR},
 			BORROWER_TEL = #{borrowerTel,jdbcType=VARCHAR},
 			BORRO_MONEY = #{borroMoney,jdbcType=DECIMAL},

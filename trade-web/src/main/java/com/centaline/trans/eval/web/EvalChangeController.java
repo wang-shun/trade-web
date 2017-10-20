@@ -28,7 +28,7 @@ import com.centaline.trans.task.entity.ToApproveRecord;
 /**
  * @author xiefei1
  * @since 2017年9月21日 下午5:51:56 
- * @description 评估公司变更controller
+ * @description 评估公司变更调佣金controller
  */
 @Controller
 @RequestMapping(value = "/eval")
@@ -52,7 +52,9 @@ public class EvalChangeController {
 	 * @author:xiefei1
 	 */
 	@RequestMapping(value = "submitEvalChangeAudit")
-	public AjaxResponse<String> submitInvoiceAudit(HttpServletRequest request,Model model,String caseCode,String partCode,String content,String status) {
+	public AjaxResponse<String> submitInvoiceAudit(HttpServletRequest request,Model model,
+			String caseCode,String partCode,String content,String status,
+			String taskId, String processInstanceId) {
 		SessionUser user = uamSessionService.getSessionUser();		
 		ToApproveRecord toApproveRecord = new ToApproveRecord();
 		toApproveRecord.setOperator(user.getId());
@@ -68,10 +70,10 @@ public class EvalChangeController {
 		}else{
 			toApproveRecord.setNotApprove("没通过");
 		}
-		AjaxResponse<String> response = new AjaxResponse<String>();
-		
+		AjaxResponse<String> response = new AjaxResponse<String>();		
 		try{
-			toEvaCommissionChangeService.updateEvalChangeApproveRecord(toApproveRecord);
+			//提交任务，插入评论，回写CCAI，若taskId,processInstanceId则只插入保存toApproveRecord
+			toEvaCommissionChangeService.updateEvalChangeApproveRecord(toApproveRecord,taskId,processInstanceId);
 			}catch(Exception e){
 		response.setSuccess(false);
 		response.setMessage(e.getMessage());

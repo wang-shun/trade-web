@@ -362,16 +362,16 @@
 					<label class="col-sm-3 control-label">联系电话：${caseDetailVO.buyerMobile}</label>
 				</div>
 				<div class="row">
-					<label class="col-sm-3 control-label">房屋性质：${caseDetailVO.houseProperty }</label>
-					<label class="col-sm-3 control-label">购房年数：${caseDetailVO.holdYear }</label>
+					<label class="col-sm-3 control-label">房屋类型：${caseDetailVO.propertyTypeName }</label>
+					<label class="col-sm-3 control-label">购房年数：${toPropertyInfo.holdYear }</label>
 					<label class="col-sm-3 control-label">唯一住房：${caseDetailVO.isUniqueHome }</label>
 				</div>
 				<div class="row">
-					<label class="col-sm-3 control-label">产证面积：${toPropertyInfo.square }</label>
+					<label class="col-sm-3 control-label">产证面积：${toPropertyInfo.square }&nbsp;&nbsp;平方</label>
 					<label class="col-sm-3 control-label">产证地址：${toPropertyInfo.propertyAddr }</label>
 				</div>
 				<div class="row">
-					<label class="col-sm-3 control-label">竣工年份：${toPropertyInfo.finishYear}</label>
+					<label class="col-sm-3 control-label">竣工年份：${toPropertyInfo.finishYearStr}</label>
 					<label class="col-sm-3 control-label">所在楼层：${toPropertyInfo.locateFloor }</label>
 					<label class="col-sm-3 control-label">总层高：${toPropertyInfo.totalFloor }</label>
 				</div>
@@ -428,7 +428,7 @@
 					<label class="col-sm-3 control-label">卖方剩余贷款：
 						<c:if test="${!empty caseInfo.uncloseMoney}"> ${caseInfo.uncloseMoney/10000}&nbsp&nbsp万元 </c:if>
 					</label>
-					<label class="col-sm-3 control-label">还款方式：${caseDetailVO.closeType}</label>
+					<label class="col-sm-3 control-label">还款方式：</label>
 					<label class="col-sm-3 control-label">还款时间：${caseDetailVO.loanCloseCode}</label>
 					<label class="col-sm-3 control-label">还款银行：${caseInfo.upBank}</label>
 				</div>
@@ -439,15 +439,9 @@
 
 			<div class="tab-pane fade" id="profile_info">
 				<div class="row ">
-					<label class="col-sm-3 control-label">付款方式：</label>
+					<label class="col-sm-3 control-label">贷款方式：${toMortgage.mortType }</label>
 					<label class="col-sm-3 control-label">贷款金额：${toMortgage.mortTotalAmount }&nbsp&nbsp万元</label>
-					<label class="col-sm-3 control-label">是否自办：
-						<c:choose>
-							<c:when test="${toMortgage.isDelegateYucui=='1' }">否</c:when>
-							<c:when test="${toMortgage.isDelegateYucui=='0' }">是</c:when>
-							<c:otherwise>${toMortgage.isDelegateYucui }</c:otherwise>
-						</c:choose>
-					</label>
+					<label class="col-sm-3 control-label">是否自办：${caseDetailVO.isSelf }</label>
 				</div>
 				<div class="row ">
 					<label class="col-sm-3 control-label">面签时间：${caseDetailVO.signDate }</label>
@@ -459,7 +453,7 @@
 						<c:if test="${!empty toMortgage.prfAmount}"> ${toMortgage.prfAmount}&nbsp&nbsp万元</c:if>
 					</label>
 					<label class="col-sm-3 control-label">公积金贷款年限：${toMortgage.prfYear}</label>
-					<label class="col-sm-3 control-label">主贷人：${caseDetailVO.mortBuyer}</label>
+					<label class="col-sm-3 control-label">主贷人：${toMortgage.custName}</label>
 				</div>
 				<div class="row ">
 					<label class="col-sm-3 control-label">商贷贷款金额：
@@ -840,4 +834,3 @@
 
 </body>
 </html>
-

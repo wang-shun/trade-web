@@ -188,6 +188,11 @@ public class TsFinOrgServiceImpl implements TsFinOrgService {
 	}
 
 	@Override
+	public List<TsFinOrg> findCooperations() {
+		return tsFinOrgMapper.findBySupCat(SupCatEnum.COOPERATION_SUPPLIER.getCode(),null);
+	}
+
+	@Override
 	public Map<String, Object> findFinByFinCode(String finCode) {
 		JQGridParam evalCompanyParam = new JQGridParam("querySupPage",true);
 		evalCompanyParam.setPage(1);

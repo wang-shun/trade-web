@@ -48,7 +48,7 @@
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
 	var index=0;
 	var taskitem = "${taskitem}";
-
+	var taskId="${taskId}";
 	var processInstanceId = "${processInstanceId}";
 	var approveType = "${approveType }";
 	if("${idList}" != "") {
@@ -146,6 +146,8 @@ var AttachmentList = (function(){
 #corss_area{padding:0 8px 0 0;margin-left:369px;}
 #corss_area select{height:34px;border-radius:2px;margin-left:20px;}
 </style>
+<title>权证经理审核</title>
+<content tag="pagetitle">权证经理审核</content>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>

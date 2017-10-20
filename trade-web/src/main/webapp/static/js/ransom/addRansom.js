@@ -11,7 +11,7 @@ $(document).ready( function() {
    
    
    function submitNewRansom(){
-	   debugger;
+	  debugger;
 	  var totalArr = [];
 	  var caseCode = $('#content_caseCode').text();
 	  

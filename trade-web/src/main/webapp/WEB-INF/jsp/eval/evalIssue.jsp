@@ -69,8 +69,7 @@
 				<form method="get" class="form_list" id="evalIssueForm">
 				<input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcess.evaCode }">
 					<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode"
-						value="${taskitem}">
+					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
@@ -81,7 +80,7 @@
 						<li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 实际出具评估报告日期</label> 
-								<input class="input_type sign_right_two"  value='' name="toIssueDate" id="toIssueDate" value="${toEvalReportProcess.toIssueDate}"/>
+								<input class="input_type sign_right_two"  value='' name="issueDate" id="issueDate" value="${toEvalReportProcess.issueDate}"/>
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>

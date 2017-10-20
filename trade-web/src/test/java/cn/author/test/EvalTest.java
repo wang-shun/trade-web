@@ -73,6 +73,27 @@ public class EvalTest {
 	private ToEvaCommPersonAmountMapper toEvaCommPersonAmountMapper;
 	
 	@Test
+	public void testGetEvalConnectReport() throws Exception {
+		JQGridParam gp = new CacheGridParam();
+        gp.setQueryId("queryConnectEvalReport");
+        gp.setPagination(true);
+        gp.setPage(1);
+        gp.setRows(20);
+		Page<Map<String, Object>> page = quickGridService.findPageWithOutSessionUser(gp);
+		//先查出还未接单的案件 
+		//导入的还未接单的案件清单
+		List<Map<String, Object>> importCaseList = page.getContent();
+		for (Map<String, Object> caseMap : importCaseList) {			
+
+			Set<String> columns = caseMap.keySet();
+			for (String key : columns) {
+				System.out.print(key+":"+caseMap.get(key)+" ");
+			}
+			System.out.println();
+		}
+		System.out.println("查询结束");
+	}
+	@Test
 	public void testtoEvaInvoiceService() throws Exception {
 		String caseCode="ZY-TJ-2017090568";
 		ToEvaInvoice selectByCaseCodeWithEvalCompany = toEvaInvoiceService.selectByCaseCodeWithEvalCompany(caseCode);

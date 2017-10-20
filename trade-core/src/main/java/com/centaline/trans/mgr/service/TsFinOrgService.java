@@ -123,6 +123,13 @@ public interface TsFinOrgService {
 	 * @return
 	 */
 	List<TsFinOrg> findFinCompany(String tag);
+	
+	/**
+	 * 查询合作机构
+	 * @return
+	 * @author wbcaiyx 2017/10/19
+	 */
+	List<TsFinOrg> findCooperations();
 
 	/**
 	 * 根据金融机构编号
