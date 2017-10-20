@@ -3,20 +3,20 @@
   <process id="EvalRefundProcess" name="评估退费流程" isExecutable="true">
     <userTask id="assistantRefund" name="内勤填写任务" activiti:assignee="${assistant}" activiti:formKey="/task/evalRefund/assistant"></userTask>
     <endEvent id="endevent3" name="End"></endEvent>
-    <userTask id="usertask7" name="退费总监审核" activiti:assignee="${chief}" activiti:formKey="/task/evalRefund/chief"></userTask>
+    <userTask id="chiefRefund" name="退费总监审核" activiti:assignee="${chief}" activiti:formKey="/task/evalRefund/chief"></userTask>
     <exclusiveGateway id="exclusivegateway5" name="Exclusive Gateway"></exclusiveGateway>
     <startEvent id="startevent3" name="Start"></startEvent>
     <userTask id="managerRefund" name="退费经理审核" activiti:assignee="${manager}" activiti:formKey="/task/evalRefund/manager"></userTask>
     <sequenceFlow id="flow14" sourceRef="startevent3" targetRef="assistantRefund"></sequenceFlow>
     <sequenceFlow id="flow15" sourceRef="assistantRefund" targetRef="managerRefund"></sequenceFlow>
     <sequenceFlow id="flow16" sourceRef="managerRefund" targetRef="exclusivegateway5"></sequenceFlow>
-    <sequenceFlow id="flow17" name="审核通过" sourceRef="exclusivegateway5" targetRef="chiefRefund">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${EvalRefundFirstCheck}]]></conditionExpression>
-    </sequenceFlow>
-    <sequenceFlow id="flow18" sourceRef="chiefRefund" targetRef="endevent3"></sequenceFlow>
     <sequenceFlow id="flow19" name="审核不通过" sourceRef="exclusivegateway5" targetRef="endevent3">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${EvalRefundFirstCheck == false}]]></conditionExpression>
     </sequenceFlow>
+    <sequenceFlow id="flow20" name="审核通过" sourceRef="exclusivegateway5" targetRef="chiefRefund">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${EvalRefundFirstCheck}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow21" sourceRef="chiefRefund" targetRef="endevent3"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_EvalRefundProcess">
     <bpmndi:BPMNPlane bpmnElement="EvalRefundProcess" id="BPMNPlane_EvalRefundProcess">
@@ -26,7 +26,7 @@
       <bpmndi:BPMNShape bpmnElement="endevent3" id="BPMNShape_endevent3">
         <omgdc:Bounds height="35.0" width="35.0" x="740.0" y="120.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="usertask7" id="BPMNShape_usertask7">
+      <bpmndi:BPMNShape bpmnElement="chiefRefund" id="BPMNShape_chiefRefund">
         <omgdc:Bounds height="55.0" width="105.0" x="550.0" y="110.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway5" id="BPMNShape_exclusivegateway5">
@@ -58,6 +58,17 @@
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="14.0" width="60.0" x="553.0" y="179.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
+        <omgdi:waypoint x="450.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="550.0" y="137.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="14.0" width="100.0" x="460.0" y="137.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow21" id="BPMNEdge_flow21">
+        <omgdi:waypoint x="655.0" y="137.0"></omgdi:waypoint>
+        <omgdi:waypoint x="740.0" y="137.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
