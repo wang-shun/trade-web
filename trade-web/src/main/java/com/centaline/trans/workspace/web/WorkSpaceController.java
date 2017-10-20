@@ -169,8 +169,9 @@ public class WorkSpaceController
         boolean isBackTeam = false;
         if (tp != null)
         {
-            isBackTeam = "yu_all".equals(tp.getTeamProperty());
+            //isBackTeam = "yu_all".equals(tp.getTeamProperty());
             //isBackTeam=false;
+            isBackTeam=true;//不区分前后台
         }
 
         List<User> uList = new ArrayList<User>();
@@ -292,8 +293,9 @@ public class WorkSpaceController
                 /* 工作数据显示 */
                 WorkSpace work = new WorkSpace();
                 work.setOrgId(user.getServiceDepId());
-                work.setUserId(user.getUsername());
-                model.addAttribute("workLoadConsultant", workSpaceService.workloadConsultantBackoffice(work));
+                work.setUsername(user.getUsername());//by wbzhouht 查询当前人任务数sql中传的是username，这里设置的是userId，所以导致查不到数据
+                List<WorkLoad> workLoad=workSpaceService.workloadConsultantBackoffice(work);
+                model.addAttribute("workLoadConsultant",workLoad );
 
                 return "workbench/dashboard_consultant_back";
             }
@@ -521,7 +523,7 @@ public class WorkSpaceController
             toCaseInfoCount.setCountJAS(jas);
 
         }
-        else if (TransJobs.QZJL.getCode().equals(user.getServiceJobCode())||TransJobs.DKQZ.getCode().equals(user.getServiceJobCode()))
+        else if (TransJobs.QZJL.getCode().equals(user.getServiceJobCode()))
         {// 如果是交易主管
             Org team = this.uamUserOrgService.getOrgById(user.getServiceDepId());
 
