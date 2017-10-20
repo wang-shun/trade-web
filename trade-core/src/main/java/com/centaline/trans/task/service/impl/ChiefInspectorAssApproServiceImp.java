@@ -22,14 +22,19 @@ import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.trans.common.enums.CaseStatusEnum;
 import com.centaline.trans.common.enums.CcaiFlowResultEnum;
 import com.centaline.trans.common.enums.CcaiTaskEnum;
+import com.centaline.trans.common.enums.SelfDoStatusEnum;
 import com.centaline.trans.eloan.entity.ToAppRecordInfo;
+import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 import com.centaline.trans.eloan.repository.ToAppRecordInfoMapper;
+import com.centaline.trans.eloan.service.ToSelfAppInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.core.WorkFlowEngine;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 import com.centaline.trans.task.service.ChiefInspectorAssApproService;
+import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.vo.ToAppRecordInfoVO;
 
 import reactor.core.support.Assert;
@@ -37,6 +42,8 @@ import reactor.core.support.Assert;
 @Service
 public class ChiefInspectorAssApproServiceImp implements ChiefInspectorAssApproService {
 
+	private static final String SELFDO_ASSE_TYPE = "21"; //自办评估审批类型
+	
 	@Autowired
 	private WorkFlowManager workFlowManager;
 	
@@ -67,9 +74,35 @@ public class ChiefInspectorAssApproServiceImp implements ChiefInspectorAssApproS
 	@Autowired
 	private ToAppRecordInfoMapper toAppRecordInfoMapper;
 	
+	@Autowired
+	private ToSelfAppInfoService toSelfAppInfoService;
+	
+	@Autowired
+	private ToApproveRecordService toApproveRecordService;
+	
+	
+	
+	private void insertRcord(ToAppRecordInfoVO vo){
+		SessionUser user = uamSessionService.getSessionUser();
+		ToApproveRecord record = new ToApproveRecord();
+		record.setCaseCode(vo.getCaseCode());
+		record.setPartCode(vo.getTaskId());
+		record.setApproveType(SELFDO_ASSE_TYPE);
+		record.setProcessInstance(vo.getProcessInstanceId());
+		record.setContent(vo.getResult()==0?"通过审批,"+vo.getComment():"驳回,"+vo.getComment());
+		record.setOperatorTime(new Date());
+		//设置处理人
+		if(user!=null){
+			record.setOperator(user.getId());
+		}
+		toApproveRecordService.saveToApproveRecord(record);
+	}
+	
+	
 	@Override
 	public boolean saveAndSubmit(ToAppRecordInfoVO vo) {
-		
+		String type = "自办评估";
+		ToSelfAppInfo  toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(vo.getCaseCode(), type);
 		int count = saveToAppRecordInfoVO(vo);
 		if(count <= 0){
 			return false;
@@ -82,23 +115,33 @@ public class ChiefInspectorAssApproServiceImp implements ChiefInspectorAssApproS
 			restVariable.setValue(true);
 			variables.add(restVariable);
 			 b = workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
+			 insertRcord(vo);
 		}else{
 			restVariable.setName("approval");
 			restVariable.setValue(false);
 			variables.add(restVariable);
 			b = workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
-			return b;
+			insertRcord(vo);
+			if(toSelfAppInfo != null){
+				toSelfAppInfo.setStatus(SelfDoStatusEnum.SUCCESS.getCode());
+				toSelfAppInfoService.updateByPrimaryKeySelective(toSelfAppInfo);
+				return b;
+			}else{
+				return false;
+			}
 		}
 		SessionUser user = uamSessionService.getSessionUserById(getManagerId(vo.getCaseCode()));
 		FlowFeedBack info = new FlowFeedBack(user, CcaiFlowResultEnum.BACK,"权证人员不正确");
 		ApiResultData result = flowApiService.tradeFeedBackCcai(vo.getCaseCode(), CcaiTaskEnum.MORTGAGE_CUSTOMER_MAJORDOMO, info);
 		System.out.println(result.getMessage()+"-------"+result.isSuccess());
 		if(result.isSuccess()){
-			//修改案件状态为已终止
-			ToCase ca  = toCasemapper.findToCaseByCaseCode(vo.getCaseCode());
-			ca.setStartDate(CaseStatusEnum.YZZ.getCode());
-			toCasemapper.updateByCaseCodeSelective(ca);
-			return true;
+			if(toSelfAppInfo != null){
+				toSelfAppInfo.setStatus(SelfDoStatusEnum.SUCCESS.getCode());
+				toSelfAppInfoService.updateByPrimaryKeySelective(toSelfAppInfo);
+				return b;
+			}else{
+				return false;
+			}
 		}
 		return false;
 	}
