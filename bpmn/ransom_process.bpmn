@@ -1,118 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://trade.sh.centaline.com.cn">
-  <process id="RansomProcess" name="RansomProcess" isExecutable="true">
+  <process id="RansomProcess" name="赎楼流程" isExecutable="true">
     <endEvent id="endevent1" name="End"></endEvent>
-    <userTask id="RansomSign" name="面签" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomSign"></userTask>
-    <userTask id="RansomMortgageOne" name="陪同还贷(一抵)" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomMortgage"></userTask>
-    <userTask id="RansomMortgageTwo" name="陪同还贷(二抵)" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomMortgage"></userTask>
-    <userTask id="RansomCancelOne" name="注销抵押(一抵)" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomCancel"></userTask>
-    <userTask id="RansomCancelTwo" name="注销抵押(二抵)" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomCancel"></userTask>
-    <userTask id="RansomPermitOne" name="领取产证(一抵)" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomPermit"></userTask>
-    <userTask id="RansomPermitTwo" name="领取产证(二抵)" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomPermit"></userTask>
-    <userTask id="RansomPayment" name="回款结清" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomPayment"></userTask>
+    <userTask id="SIGN" name="面签" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomSign"></userTask>
+    <userTask id="PAYLOAN_ONE" name="陪同还贷(一抵)" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomMortgage"></userTask>
+    <userTask id="PAYLOAN_TWO" name="陪同还贷(二抵)" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomMortgage"></userTask>
+    <userTask id="CANCELDIYA_ONE" name="注销抵押(一抵)" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomCancel"></userTask>
+    <userTask id="CANCELDIYA_TWO" name="注销抵押(二抵)" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomCancel"></userTask>
+    <userTask id="RECEIVE_ONE" name="领取产证(一抵)" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomPermit"></userTask>
+    <userTask id="RECEIVE_TWO" name="领取产证(二抵)" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomPermit"></userTask>
+    <userTask id="PAYCLEAR" name="回款结清" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomPayment"></userTask>
     <inclusiveGateway id="inclusivegateway1" name="Inclusive Gateway"></inclusiveGateway>
     <inclusiveGateway id="inclusivegateway3" name="Inclusive Gateway"></inclusiveGateway>
-    <sequenceFlow id="flow17" sourceRef="RansomSign" targetRef="inclusivegateway1"></sequenceFlow>
-    <sequenceFlow id="flow18" sourceRef="inclusivegateway1" targetRef="RansomMortgageOne"></sequenceFlow>
-    <sequenceFlow id="flow19" sourceRef="inclusivegateway1" targetRef="RansomMortgageTwo">
+    <sequenceFlow id="flow17" sourceRef="SIGN" targetRef="inclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow18" sourceRef="inclusivegateway1" targetRef="PAYLOAN_ONE"></sequenceFlow>
+    <sequenceFlow id="flow19" sourceRef="inclusivegateway1" targetRef="PAYLOAN_TWO">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${erdi}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow20" sourceRef="RansomMortgageOne" targetRef="RansomCancelOne"></sequenceFlow>
-    <sequenceFlow id="flow21" sourceRef="RansomCancelOne" targetRef="RansomPermitOne"></sequenceFlow>
-    <sequenceFlow id="flow22" sourceRef="RansomPermitOne" targetRef="inclusivegateway3"></sequenceFlow>
-    <sequenceFlow id="flow23" sourceRef="RansomMortgageTwo" targetRef="RansomCancelTwo"></sequenceFlow>
-    <sequenceFlow id="flow24" sourceRef="RansomCancelTwo" targetRef="RansomPermitTwo"></sequenceFlow>
-    <sequenceFlow id="flow25" sourceRef="RansomPermitTwo" targetRef="inclusivegateway3"></sequenceFlow>
-    <sequenceFlow id="flow26" sourceRef="inclusivegateway3" targetRef="RansomPayment"></sequenceFlow>
-    <sequenceFlow id="flow27" sourceRef="RansomPayment" targetRef="endevent1"></sequenceFlow>
-    <startEvent id="RansomApply" name="Start申请启动"></startEvent>
-    <sequenceFlow id="flow28" sourceRef="RansomApply" targetRef="RansomSign"></sequenceFlow>
+    <sequenceFlow id="flow20" sourceRef="PAYLOAN_ONE" targetRef="CANCELDIYA_ONE"></sequenceFlow>
+    <sequenceFlow id="flow21" sourceRef="CANCELDIYA_ONE" targetRef="RECEIVE_ONE"></sequenceFlow>
+    <sequenceFlow id="flow22" sourceRef="RECEIVE_ONE" targetRef="inclusivegateway3"></sequenceFlow>
+    <sequenceFlow id="flow23" sourceRef="PAYLOAN_TWO" targetRef="CANCELDIYA_TWO"></sequenceFlow>
+    <sequenceFlow id="flow24" sourceRef="CANCELDIYA_TWO" targetRef="RECEIVE_TWO"></sequenceFlow>
+    <sequenceFlow id="flow25" sourceRef="RECEIVE_TWO" targetRef="inclusivegateway3"></sequenceFlow>
+    <sequenceFlow id="flow26" sourceRef="inclusivegateway3" targetRef="PAYCLEAR"></sequenceFlow>
+    <sequenceFlow id="flow27" sourceRef="PAYCLEAR" targetRef="endevent1"></sequenceFlow>
+    <startEvent id="start" name="Start"></startEvent>
+    <userTask id="APPLY" name="申请" activiti:assignee="${sessionUser}" activiti:formKey="/task/ransom/ransomApply"></userTask>
+    <sequenceFlow id="flow29" sourceRef="start" targetRef="APPLY"></sequenceFlow>
+    <sequenceFlow id="flow30" sourceRef="APPLY" targetRef="SIGN"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_RansomProcess">
     <bpmndi:BPMNPlane bpmnElement="RansomProcess" id="BPMNPlane_RansomProcess">
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="1100.0" y="190.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="1150.0" y="190.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="RansomSign" id="BPMNShape_RansomSign">
-        <omgdc:Bounds height="55.0" width="105.0" x="160.0" y="180.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="SIGN" id="BPMNShape_SIGN">
+        <omgdc:Bounds height="55.0" width="105.0" x="224.0" y="180.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="RansomMortgageOne" id="BPMNShape_RansomMortgageOne">
-        <omgdc:Bounds height="55.0" width="105.0" x="420.0" y="126.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="PAYLOAN_ONE" id="BPMNShape_PAYLOAN_ONE">
+        <omgdc:Bounds height="55.0" width="105.0" x="490.0" y="126.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="RansomMortgageTwo" id="BPMNShape_RansomMortgageTwo">
-        <omgdc:Bounds height="55.0" width="105.0" x="420.0" y="240.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="PAYLOAN_TWO" id="BPMNShape_PAYLOAN_TWO">
+        <omgdc:Bounds height="55.0" width="105.0" x="490.0" y="240.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="RansomCancelOne" id="BPMNShape_RansomCancelOne">
-        <omgdc:Bounds height="55.0" width="105.0" x="580.0" y="126.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="CANCELDIYA_ONE" id="BPMNShape_CANCELDIYA_ONE">
+        <omgdc:Bounds height="55.0" width="105.0" x="650.0" y="126.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="RansomCancelTwo" id="BPMNShape_RansomCancelTwo">
-        <omgdc:Bounds height="55.0" width="105.0" x="580.0" y="240.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="CANCELDIYA_TWO" id="BPMNShape_CANCELDIYA_TWO">
+        <omgdc:Bounds height="55.0" width="105.0" x="650.0" y="240.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="RansomPermitOne" id="BPMNShape_RansomPermitOne">
-        <omgdc:Bounds height="55.0" width="105.0" x="730.0" y="126.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="RECEIVE_ONE" id="BPMNShape_RECEIVE_ONE">
+        <omgdc:Bounds height="55.0" width="105.0" x="800.0" y="126.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="RansomPermitTwo" id="BPMNShape_RansomPermitTwo">
-        <omgdc:Bounds height="55.0" width="105.0" x="730.0" y="240.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="RECEIVE_TWO" id="BPMNShape_RECEIVE_TWO">
+        <omgdc:Bounds height="55.0" width="105.0" x="800.0" y="240.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="RansomPayment" id="BPMNShape_RansomPayment">
-        <omgdc:Bounds height="55.0" width="105.0" x="960.0" y="180.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="PAYCLEAR" id="BPMNShape_PAYCLEAR">
+        <omgdc:Bounds height="55.0" width="105.0" x="1010.0" y="180.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="inclusivegateway1" id="BPMNShape_inclusivegateway1">
-        <omgdc:Bounds height="40.0" width="40.0" x="330.0" y="187.0"></omgdc:Bounds>
+        <omgdc:Bounds height="40.0" width="40.0" x="394.0" y="187.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="inclusivegateway3" id="BPMNShape_inclusivegateway3">
-        <omgdc:Bounds height="40.0" width="40.0" x="890.0" y="187.0"></omgdc:Bounds>
+        <omgdc:Bounds height="40.0" width="40.0" x="940.0" y="187.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="RansomApply" id="BPMNShape_RansomApply">
-        <omgdc:Bounds height="35.0" width="35.0" x="66.0" y="190.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+        <omgdc:Bounds height="35.0" width="35.0" x="10.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="APPLY" id="BPMNShape_APPLY">
+        <omgdc:Bounds height="55.0" width="105.0" x="70.0" y="180.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
-        <omgdi:waypoint x="265.0" y="207.0"></omgdi:waypoint>
-        <omgdi:waypoint x="330.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="329.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="394.0" y="207.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow18" id="BPMNEdge_flow18">
-        <omgdi:waypoint x="370.0" y="207.0"></omgdi:waypoint>
-        <omgdi:waypoint x="472.0" y="181.0"></omgdi:waypoint>
+        <omgdi:waypoint x="434.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="542.0" y="181.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow19" id="BPMNEdge_flow19">
-        <omgdi:waypoint x="350.0" y="227.0"></omgdi:waypoint>
-        <omgdi:waypoint x="472.0" y="240.0"></omgdi:waypoint>
+        <omgdi:waypoint x="414.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="542.0" y="240.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
-        <omgdi:waypoint x="525.0" y="153.0"></omgdi:waypoint>
-        <omgdi:waypoint x="580.0" y="153.0"></omgdi:waypoint>
+        <omgdi:waypoint x="595.0" y="153.0"></omgdi:waypoint>
+        <omgdi:waypoint x="650.0" y="153.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow21" id="BPMNEdge_flow21">
-        <omgdi:waypoint x="685.0" y="153.0"></omgdi:waypoint>
-        <omgdi:waypoint x="730.0" y="153.0"></omgdi:waypoint>
+        <omgdi:waypoint x="755.0" y="153.0"></omgdi:waypoint>
+        <omgdi:waypoint x="800.0" y="153.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow22" id="BPMNEdge_flow22">
-        <omgdi:waypoint x="835.0" y="153.0"></omgdi:waypoint>
-        <omgdi:waypoint x="910.0" y="187.0"></omgdi:waypoint>
+        <omgdi:waypoint x="905.0" y="153.0"></omgdi:waypoint>
+        <omgdi:waypoint x="960.0" y="187.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23">
-        <omgdi:waypoint x="525.0" y="267.0"></omgdi:waypoint>
-        <omgdi:waypoint x="580.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="595.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="650.0" y="267.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow24" id="BPMNEdge_flow24">
-        <omgdi:waypoint x="685.0" y="267.0"></omgdi:waypoint>
-        <omgdi:waypoint x="730.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="755.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="800.0" y="267.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25">
-        <omgdi:waypoint x="782.0" y="240.0"></omgdi:waypoint>
-        <omgdi:waypoint x="910.0" y="227.0"></omgdi:waypoint>
+        <omgdi:waypoint x="852.0" y="240.0"></omgdi:waypoint>
+        <omgdi:waypoint x="960.0" y="227.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow26" id="BPMNEdge_flow26">
-        <omgdi:waypoint x="930.0" y="207.0"></omgdi:waypoint>
-        <omgdi:waypoint x="960.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="980.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1010.0" y="207.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow27" id="BPMNEdge_flow27">
-        <omgdi:waypoint x="1065.0" y="207.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1100.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1115.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1150.0" y="207.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow28" id="BPMNEdge_flow28">
-        <omgdi:waypoint x="101.0" y="207.0"></omgdi:waypoint>
-        <omgdi:waypoint x="160.0" y="207.0"></omgdi:waypoint>
+      <bpmndi:BPMNEdge bpmnElement="flow29" id="BPMNEdge_flow29">
+        <omgdi:waypoint x="45.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="70.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow30" id="BPMNEdge_flow30">
+        <omgdi:waypoint x="175.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="224.0" y="207.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
