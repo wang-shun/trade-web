@@ -15,6 +15,8 @@ public class CcaiPostAssessFlowInfo {
 	private BigDecimal assessPrice;
 	// 评估公司名称
 	private String assessCompany;
+	// 评估公司成本
+	private BigDecimal assessCompanyPrice;
 	// 评估费收据
 	private String assessReceip;
 	// CCAI流程ID
@@ -108,5 +110,13 @@ public class CcaiPostAssessFlowInfo {
 
 	public void setApproveTime(Date approveTime) {
 		this.approveTime = approveTime;
+	}
+
+	public BigDecimal getAssessCompanyPrice() {
+		return assessCompanyPrice;
+	}
+
+	public void setAssessCompanyPrice(BigDecimal assessCompanyPrice) {
+		this.assessCompanyPrice = assessCompanyPrice;
 	}
 }

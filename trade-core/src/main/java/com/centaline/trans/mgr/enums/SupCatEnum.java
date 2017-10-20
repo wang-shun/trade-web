@@ -6,7 +6,7 @@ public enum SupCatEnum {
 
 	FINANCE_LOAN_SUPPLIER("3", "金融贷款供应商"), MONEY_SUPPLIER("2", "资金监管供应商"), EVA_SUPPLIER(
 			"1", "评估供应商"), LOAN_SUPPLIER("0", "按揭贷款供应商"), PRF_SUPPLIER("5",
-			"公积金贷款供应商");
+			"公积金贷款供应商"),COOPERATION_SUPPLIER("4","合作机构供应商");
 
 	private String code;
 	private String value;
