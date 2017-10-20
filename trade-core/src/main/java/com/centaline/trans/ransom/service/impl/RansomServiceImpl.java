@@ -55,7 +55,8 @@ public class RansomServiceImpl implements RansomService{
 	
 	@Override
 	public List<ToRansomDetailVo> getRansomDetail(String caseCode) {
-		List<ToRansomDetailVo> detailVo = ransomMapper.getRansomDetailInfoByCode(caseCode);
+		List<ToRansomDetailVo> detailVo = ransomMapper.getRansomDetailInfoByCaseCode(caseCode);
+		
 		if(detailVo != null){
 			User financ = uamUserOrgService.getUserById(detailVo.get(0).getFinancial());
 			if(financ !=null){
@@ -332,9 +333,8 @@ public class RansomServiceImpl implements RansomService{
 	}
 
 	@Override
-	public List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode) {
-		List<ToRansomTailinsVo> tailinsVo = new ArrayList<ToRansomTailinsVo>();
-		tailinsVo = ransomMapper.getTailinsInfoByCaseCode(caseCode);
+	public ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode) {
+		ToRansomTailinsVo tailinsVo = ransomMapper.getTailinsInfoByCaseCode(caseCode);
 		return tailinsVo;
 	}
 
