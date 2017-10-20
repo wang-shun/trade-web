@@ -26,7 +26,11 @@ public class EvalInvoiceImport extends AbstractBaseImport{
 	private String invoiceHeader;
 	@ApiModelProperty(value = "发票金额", required = true, position = 5)
 	private BigDecimal invoiceAmount;
-	@ApiModelProperty(value = "申请时间", required = true,example = "1503460440000", dataType = "integer", position = 6)
+	@ApiModelProperty(value = "申请人域账号", required = true , position = 6)
+	private String applyUserName;
+	@ApiModelProperty(value = "申请人名称", required = true , position = 7)
+	private String applyRealName;
+	@ApiModelProperty(value = "申请时间", required = true,example = "1503460440000", dataType = "integer", position = 8)
 	private Date  applyDate;
 	@ApiModelProperty(value = "备注", required = true, position = 9)
 	private String remark;
@@ -72,6 +76,23 @@ public class EvalInvoiceImport extends AbstractBaseImport{
 	public void setInvoiceAmount(BigDecimal invoiceAmount) {
 		this.invoiceAmount = invoiceAmount;
 	}
+	@NotBlank(message = "申请人域账号不能为空")
+	public String getApplyUserName() {
+		return applyUserName;
+	}
+
+	public void setApplyUserName(String applyUserName) {
+		this.applyUserName = applyUserName;
+	}
+	@NotBlank(message = "申请人名称不能为空")
+	public String getApplyRealName() {
+		return applyRealName;
+	}
+
+	public void setApplyRealName(String applyRealName) {
+		this.applyRealName = applyRealName;
+	}
+
 	@NotNull(message = "发票申请时间不能为空")
 	public Date getApplyDate() {
 		return applyDate;
@@ -105,6 +126,8 @@ public class EvalInvoiceImport extends AbstractBaseImport{
 				", invoiceType='" + invoiceType + '\'' +
 				", invoiceHeader='" + invoiceHeader + '\'' +
 				", invoiceAmount=" + invoiceAmount +
+				", applyUserName='" + applyUserName + '\'' +
+				", applyRealName='" + applyRealName + '\'' +
 				", applyDate=" + applyDate +
 				", remark='" + remark + '\'' +
 				", tasks=" + tasks +
