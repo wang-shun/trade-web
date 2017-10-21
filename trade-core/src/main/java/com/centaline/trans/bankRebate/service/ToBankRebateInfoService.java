@@ -3,6 +3,7 @@ package com.centaline.trans.bankRebate.service;
 import java.util.List;
 
 import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
+import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
 
 /**
  * 
@@ -25,4 +26,6 @@ public interface ToBankRebateInfoService {
 	int deleteRebateInfoByGuaranteeCompId(String guaCompId);
 
 	List<ToBankRebateInfo> selectRebateInfoByGuaranteeCompId(String guaranteeCompId);
+
+	void saveToBankRebateInfoVO(ToBankRebateInfoVO toBankRebateInfoVO);
 }

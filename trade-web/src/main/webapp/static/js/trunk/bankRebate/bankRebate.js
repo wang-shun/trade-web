@@ -1,6 +1,5 @@
 /*加载银行返利*/
 $(document).ready(function(){
-	
 	$('#datepicker_0').datepicker({
 			format : 'yyyy-mm-dd',
 			weekStart : 1,
@@ -18,6 +17,8 @@ $(document).ready(function(){
     aist.wrap(data);
 	//添加排序------------
 	reloadGrid(data);
+	
+	
 	
 	
 });
@@ -249,6 +250,45 @@ $('#batchappro').click(function() {
 		window.location.href = ctx + "/eval/settle/majorAppro?caseCodes="+ids;
 	//}});
 });
+
+
+
+
+//function changemoney(){
+//	debugger;
+//	var index = $("#t_body_data_contents tr").length;
+//	var sum = 0;
+//	for(var i = 0; i < index; i++ ){
+//		
+//		var resMoney = parseInt($("#rebateMoney_" +  i +"").val());
+//		sum += resMoney;
+//		var rebateMoney = parseInt($("#rebateMoney").val());
+//		
+//		if(sum == rebateMoney){
+//			alert("保存成功！");
+//		}
+//		//alert(resMoney);
+//	}
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * 导出excel（2013年之后版本）

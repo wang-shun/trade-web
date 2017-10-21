@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
 import com.centaline.trans.bankRebate.repository.ToBankRebateInfoMapper;
 import com.centaline.trans.bankRebate.service.ToBankRebateInfoService;
+import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
 
 @Service
 public class ToBankRebateInfoServiceImpl implements ToBankRebateInfoService {
@@ -61,6 +62,19 @@ public class ToBankRebateInfoServiceImpl implements ToBankRebateInfoService {
 	public List<ToBankRebateInfo> selectRebateInfoByGuaranteeCompId(String guaranteeCompId) {
 		// TODO Auto-generated method stub
 		return toBankRebateInfoMapper.selectRebateInfoByGuaranteeCompId(guaranteeCompId);
+	}
+	
+	/**
+	 * 保存修改的银行返利批次号
+	 */
+	@Override
+	public void saveToBankRebateInfoVO(ToBankRebateInfoVO toBankRebateInfoVO) {
+		// TODO Auto-generated method stub
+		List<ToBankRebateInfo> toBankRebateInfoList = toBankRebateInfoVO.getToBankRebateInfoList();
+		for (ToBankRebateInfo toBankRebateInfo : toBankRebateInfoList) {
+			toBankRebateInfoMapper.updateByPrimaryKeySelective(toBankRebateInfo);
+		}
+		
 	}
 	
 	

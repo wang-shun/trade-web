@@ -43,7 +43,7 @@ display: none;}
     
     <body class="pace-done">
     <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-    <span>返利申请》》修改</span>
+    	<span>返利申请》》修改</span>
         <div id="wrapper" class="Index">
        			<!-- Main view -->
                 <div class="main-bonus">
@@ -100,8 +100,10 @@ display: none;}
                         </div>
                     </div>
                  </div>
-               </div>
+              </div> 
+              <div class="Index">
                <span>返利分配情况列表</span>
+               <form action="#" id="changeRebateForm">
                <div class="bonus-table">
                         <table>
                             <thead>
@@ -116,32 +118,53 @@ display: none;}
                                     <th>权证返利</th>
                                     
                                     <th>业务返利</th>
-                                    <th>操作</th>
+                                    <!-- <th>操作</th> -->
                                 </tr>
                             </thead>
                             <tbody id="t_body_data_contents">
-                                  <c:forEach items="${toBankRebateInfoList}" var="item" varStatus="status">  
+                            
+                                  <c:forEach items="${toBankRebateInfoVO.toBankRebateInfoList}" var="item" varStatus="status">  
 									  <tr id="tr_${status.index}" >  
 									  
-									  <input type="hidden" id="count" value="${toBankRebateInfoList}.length()" />
-									  	<input type="hidden" id="pkId_${status.index}" value="${item.pkid}" />
-									    <td><input id="ccai_${status.index}" type="text" value="${item.ccaiCode}" ></td>
+									  <input type="hidden" id="count" value="" />
+									  	<input type="hidden" id="pkId_${status.index}" name="toBankRebateInfoList[${status.index}].pkid" value="${item.pkid}" />
+									    <td><input id="ccai_${status.index}" type="text" name="toBankRebateInfoList[${status.index}].ccaiCode" value="${item.ccaiCode}" ></td>
 									    <td><a>查看成交</a></td>  
-									    <td><input id="bank_${status.index}" type="text" value="${item.bankName}" ></td>  
-									    <td><input id="money_${status.index}" type="text" value="${item.rebateMoney}" ></td>  
-									    <td><input id="warrant_${status.index}" type="text" value="${item.rebateWarrant}" ></td>
-									    <td><input id="business_${status.index}" type="text" value="${item.rebateBusiness}" ></td>
-									    <td><a href="javascript:void(0)" onclick="deleteParam(this)">删除</a></td>
+									    <td><input id="bank_${status.index}" type="text" name="toBankRebateInfoList[${status.index}].bankName" value="${item.bankName}" ></td>  
+									    <td><input id="rebateMoney_${status.index}" class="shareAmount" type="text" name="toBankRebateInfoList[${status.index}].rebateMoney" value="${item.rebateMoney}" ></td>  
+									    <td><input id="warrant_${status.index}" class="aa" type="text" name="toBankRebateInfoList[${status.index}].rebateWarrant" value="${item.rebateWarrant}" ></td>
+									    <td><input id="business_${status.index}" class="bb" type="text" name="toBankRebateInfoList[${status.index}].rebateBusiness" value="${item.rebateBusiness}" ></td>
+									   <!--  <td><a href="javascript:void(0)" onclick="deleteParam(this)">删除</a></td> -->
 									  </tr>  
 									</c:forEach>                             
                             </tbody>
                         </table> 
-                        <input type="button" onclick="save()" value="保存">
+                       
                    </div>
-         <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
+                   </form>
+                   <div class="form_content">
+						<label class="control-label sign_left_small" >已录入金额</label> 
+						<input type="text" class="input_type yuanwid" id="enteringMoney"
+							name="borrowerMoney" 
+							value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							
+						<label class="control-label sign_left_small" >与总金额的差额</label> 
+						<input type="text" class="input_type yuanwid" id="differenceMoney"
+							name="borrowerMoney" 
+							readonly="readonly" value=""  >
+					</div> 
+                    <div class="form-btn" id="aboutInfo">
+	                    <div class="text-center">
+	                        <button  class="btn btn-success btn-space" onclick="javascript:window.close()" id="btnSave">关闭</button>
+	                         <button class="btn btn-success btn-space" onclick="submit()">提交</button>
+	                         <!-- <button class="btn btn-success btn-space" id="submitDate">提交</button> -->
+	                    </div>
+	                </div>
+	    	 </div>
         <!-- End page wrapper-->
         <!-- Mainly scripts -->
         <content tag="local_script"> 
+        <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
        <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
         <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
          <!-- 日期控件 -->
@@ -159,9 +182,11 @@ display: none;}
         <script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
         <script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
         <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+        <script src="<c:url value='/js/common/textarea.js' />"></script>
         <!-- 评估结算  -->
-        <%-- <script	src="<c:url value='/js/trunk/eval/settle/evalEndList.js' />"></script> --%>
+       <%--  <script	src="<c:url value='/js/trunk/bankRebate/bankRebate.js' />"></script> --%>
         <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+        
 		<script id="evalListTemp" type= "text/html">
                            {{each rows as item index}}
  							  <tr class="border-e7">
@@ -189,6 +214,54 @@ display: none;}
 						{{/each}}
 	    </script>
 	    <script>
+	    $(document).ready(function(){
+	    		 refeshShareAmount();
+				//绑定计算百分比事件
+	            $('.shareAmount').bind('keyup onpropertychange', function() {   
+	            	
+	                console.log($(this).val());
+	                var sharePacentage=$(this).val()*0.3;
+	                sharePacentage=sharePacentage.toFixed(2)
+	                console.log(sharePacentage);
+	                console.log($(this).parent().siblings().children(".aa").val(sharePacentage));
+	                
+	                var sharePacentage2=$(this).val()*0.7;
+	                sharePacentage2=sharePacentage2.toFixed(2)
+	                console.log(sharePacentage2);
+	                console.log($(this).parent().siblings().children(".bb").val(sharePacentage2));
+	                refeshShareAmount();
+	            }); 
+				
+				
+	    		
+	    })
+	    
+	    $('#enteringMoney').click(function(){   
+	    	var index = $("#t_body_data_contents tr").length;
+    		var sum = 0;
+    		for(var i = 0; i < index; i++ ){
+    			var resMoney = parseInt($("#rebateMoney_" +  i +"").val());
+    			sum += resMoney;
+    			var rebateMoney = parseInt($("#rebateMoney").val());
+    		}
+    		
+    		var differ = parseInt(sum)-parseInt($("#rebateMoney").val());
+    		$("#enteringMoney").val(sum);
+    		$("#differenceMoney").val(differ);	 
+	                
+	     });
+	    
+	    function refeshShareAmount(){
+			$('.shareAmount').each(function(){
+            	var sharePacentage=$(this).val()*0.3;
+                sharePacentage=sharePacentage.toFixed(2)
+            	$(this).parent().siblings().children(".aa").val(sharePacentage);
+                var sharePacentage2=$(this).val()*0.7;
+                sharePacentage2=sharePacentage2.toFixed(2)
+            	$(this).parent().siblings().children(".bb").val(sharePacentage2);
+            })
+		}
+	    
 	  	//删除行;(obj代表连接对象)  
 	   function deleteParam(obj){
 	    	//在js端删除一整行数据  
@@ -199,12 +272,95 @@ display: none;}
 	        var paramCode = $td.eq(1).text();   */
 	        
 	    } 
-	  	
-	   function save(){
+	  
+	 //提交数据
+	   function submit() {	
+	  	var index = $("#t_body_data_contents tr").length;
+		var sum = 0;
+		for(var i = 0; i < index; i++ ){
+			var resMoney = parseInt($("#rebateMoney_" +  i +"").val());
+			sum += resMoney;
+			var rebateMoney = parseInt($("#rebateMoney").val());
+			
+			//alert(resMoney);
+		}
+		if(sum == rebateMoney){
+			//alert("保存成功！");
+			save(true);
+		}else{
+			window.wxc.alert("返利单明细【返利金额】之和与【总金额】不匹配，请检查！");
+		}
+	   	
+	   } 
+	 //保存数据
+	   function save(b) {
+	   	var jsonData = $("#changeRebateForm").serializeArray();
+
+	   	var url = "${ctx}/bankRebate/submitChangeBankRebate";
+	   	
+	   	$.ajax({
+	           cache : true,
+	           async : false,
+	           type : "POST",
+	           url : url,
+	           dataType : "json",
+	           data : jsonData,
+	           beforeSend : function() {
+	               $.blockUI({
+	                   message : $("#salesLoading"),
+	                   css : {
+	                       'border' : 'none',
+	                       'z-index' : '9999'
+	                   }
+	               });
+	               $(".blockOverlay").css({
+	                   'z-index' : '9998'
+	               });
+	           },
+	           success: function(data){
+	               $.unblockUI();
+	               console.log(data);
+	               if (b) {
+	                   if (data) {
+	                       window.wxc.alert("提交成功"+data);
+	                   }
+	                   var ctx = $("#ctx").val();
+	               }else{
+	               	if (data.message) {
+	                       window.wxc.alert("提交成功"+data);
+	                   }
+	               }
+	           },
+	           error:function(){
+	           	window.wxc.alert("提交信息出错。。");
+	           }
+	       });
+	   }
+	 
+	   $("#submitDate").click(function(){
+			debugger;
+			var index = $("#t_body_data_contents tr").length;
+			
+			var sum = 0;
+			for(var i = 0; i < index; i++ ){
+				$("#rebateMoney_" +  i +"").bind(function(){
+					var resMoney = parseInt($("#rebateMoney_" +  i +"").val());
+					sum += resMoney;
+					var rebateMoney = parseInt($("#rebateMoney").val());
+					
+					if(sum == rebateMoney){
+						alert("保存成功！");
+					}
+				});
+			}
+			
+		});
+	   
+	   /* function save(){
 	    	
 	        /* var $td= $("#tr_0").children('td');  
 	        var ccaiCode = $td.eq(0).val();  
-	        var bankName = $td.eq(2).val(); */
+	        var bankName = $td.eq(2).val(); 
 	        
 	        var index = ${toBankRebateInfoList}
 	        var json = new Array();
@@ -217,7 +373,7 @@ display: none;}
 	        	json.push(obj);
 	        }
 	        
-	    }  
+	    }   */
 	    
 	    </script>
 	    </content> 

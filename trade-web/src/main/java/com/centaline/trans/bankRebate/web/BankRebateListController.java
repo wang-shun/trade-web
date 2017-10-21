@@ -2,37 +2,35 @@ package com.centaline.trans.bankRebate.web;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.compress.archivers.dump.InvalidFormatException;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Encoder;
 
-import com.aist.common.exception.BusinessException;
 import com.aist.common.utils.excel.ImportExcel;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.bankRebate.entity.ToBankRebate;
 import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
 import com.centaline.trans.bankRebate.service.ToBankRebateInfoService;
 import com.centaline.trans.bankRebate.service.ToBankRebateService;
+import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
 import com.centaline.trans.bankRebate.vo.ToBankRebateVO;
-import com.centaline.trans.cases.entity.ToCase;
-import com.centaline.trans.eval.entity.ToEvaSettleUpdateLog;
 import com.centaline.trans.utils.DateUtil;
 /**
  * Description:银行返利
@@ -42,6 +40,8 @@ import com.centaline.trans.utils.DateUtil;
 @Controller
 @RequestMapping(value = "bankRebate")
 public class BankRebateListController {
+	
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private ToBankRebateInfoService toBankRebateInfoService;
@@ -92,15 +92,42 @@ public class BankRebateListController {
 	@RequestMapping(value="/bankRebateUpdate")
 	public String bankRebateUpdate(Long pkid, Model model, HttpServletRequest request,String guaranteeCompId) {
 		SessionUser user = uamSessionService.getSessionUser();
+		
+		ToBankRebateInfoVO toBankRebateInfoVO = new ToBankRebateInfoVO();
 		//查询修改记录列表
 		List<ToBankRebateInfo> toBankRebateInfoList = toBankRebateInfoService.selectRebateInfoByGuaranteeCompId(guaranteeCompId);
 		ToBankRebate toBankRebate = toBankRebateService.selectByPrimaryKey(pkid);
+		
+		toBankRebateInfoVO.setToBankRebateInfoList(toBankRebateInfoList);
 		model.addAttribute("user", user);
 		model.addAttribute("toBankRebate", toBankRebate);
-		model.addAttribute("toBankRebateInfoList",toBankRebateInfoList);
+		model.addAttribute("toBankRebateInfoVO",toBankRebateInfoVO);
 		return "bankRebate/bankRebateUpdate";
 	}
 	
+	/**
+	 * 保存修改记录
+	 * @param toBankRebateInfoVO
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "submitChangeBankRebate")
+	@ResponseBody
+	public AjaxResponse<String> submitChangeBankRebate(ToBankRebateInfoVO toBankRebateInfoVO, HttpServletRequest request,Model model) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		
+		try{
+		//保存修改对象
+			toBankRebateInfoService.saveToBankRebateInfoVO(toBankRebateInfoVO);
+		}
+		catch(Exception e){
+    		response.setSuccess(false);
+    		response.setMessage(e.getMessage());
+    		logger.error("保存失败！"+e.getCause());
+    	}
+		return response;
+	}
 	
 	/**
 	 * 批量导入

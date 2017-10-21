@@ -1,6 +1,7 @@
 package com.centaline.trans.bankRebate.vo;
 
 
+
 import com.aist.common.utils.excel.annotation.ExcelField;
 
 public class ToBankRebateVO {
@@ -19,7 +20,7 @@ public class ToBankRebateVO {
     
     @ExcelField(title = "业务返利金额")
     private String rebateBusiness;
-
+   
     public String getCcaiCode() {
 		return ccaiCode;
 	}
