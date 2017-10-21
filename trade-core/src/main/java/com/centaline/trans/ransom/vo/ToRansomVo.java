@@ -148,8 +148,8 @@ public class ToRansomVo {
 	}
 
 	public BigDecimal getLoanMoney() {
-		BigDecimal wan = new BigDecimal(10000.00);
-		return loanMoney.divide(wan);
+		
+		return loanMoney;
 	}
 
 	public void setLoanMoney(BigDecimal loanMoney) {
@@ -157,8 +157,8 @@ public class ToRansomVo {
 	}
 
 	public BigDecimal getRestMoney() {
-		BigDecimal wan = new BigDecimal(10000.00);
-		return restMoney.divide(wan);
+		
+		return restMoney;
 	}
 
 	public void setRestMoney(BigDecimal restMoney) {
@@ -166,8 +166,8 @@ public class ToRansomVo {
 	}
 
 	public BigDecimal getBorrowerMoney() {
-		BigDecimal wan = new BigDecimal(10000.00);
-		return borrowerMoney.divide(wan);
+		
+		return borrowerMoney;
 	}
 
 	public void setBorrowerMoney(BigDecimal borrowerMoney) {

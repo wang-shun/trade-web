@@ -154,33 +154,17 @@
             </ul>
             <ul class="textinfo">
                 <li>
-                    <em>所属区域</em><span>${caseDetailVO.propertyAddress }</span>
+                    <em>所属区域</em><span>${caseDetailVO.cityName }</span>
                 </li>
 
-                <li>
-                    <em>合同价</em>
-                            <span>
-                            <c:if test="${!empty caseInfo.conPrice}">
-                                ${caseInfo.conPrice/10000}  &nbsp&nbsp万元
-                            </c:if>
-                 		    </span>
-                </li>
-                <li>
-                    <em>核定价格</em>
-                            <span class="yuanwid">
-                            <c:if test="${!empty caseInfo.pricingTax}">
-                                ${caseInfo.pricingTax/10000}&nbsp&nbsp万元
-                            </c:if>
-                 		    </span>
-                </li>
             </ul>
         </div>
     </div>
     <div class="clearfix">
-        <c:if test="${!empty toMortgage}">
+        <c:if test="${!empty toMortgage or !empty mortgageToSaveVO}">
             <h2 class="newtitle title-mark">案件贷款情况 : 有贷款</h2>
         </c:if>
-        <c:if test="${empty toMortgage}">
+        <c:if test="${empty toMortgage and empty mortgageToSaveVO}">
             <h2 class="newtitle title-mark">案件贷款情况 : 无贷款</h2>
         </c:if>
         <div class="text_list">
@@ -221,26 +205,28 @@
                 <li>
                     <em>是否自办贷款</em>
                     <span class="yuanwid">
-                            <c:choose>
-                                <c:when test="${toMortgage.isDelegateYucui=='0'}">
 
-                                <input type="radio" value="0" checked="checked" name="isDelegateYucui" />是
-                                <input type="radio" value="1" name="isDelegateYucui" disabled="disabled"/>否
-                                </c:when>
-                                <c:when test="${toMortgage.isDelegateYucui=='1'}">
-                                    <input type="radio" value="0" name="isDelegateYucui" disabled="disabled"/>是
-                                    <input type="radio" value="1" checked="checked" name="isDelegateYucui"/>否
-                                    </c:when>
-                                <c:otherwise>
-                                    ${toMortgage.isDelegateYucui}
-                                </c:otherwise>
-                            </c:choose>
+                                <c:if test="${!empty toMortgage or mortgageToSaveVO.selfMort=='2'}">
+                                <input type="radio" value="0"  name="isDelegateYucui" disabled="disabled"/>是
+                                <input type="radio" value="1" name="isDelegateYucui"  checked="checked"/>否
+                                </c:if>
+                                <c:if test="${mortgageToSaveVO.selfMort=='1'}">
+                                    <input type="radio" value="0" name="isDelegateYucui" checked="checked" />是
+                                    <input type="radio" value="1"  name="isDelegateYucui" disabled="disabled"/>否
+                                    </c:if>
+
                             </span>
                 </li>
-                <c:choose>
+                <%--<c:choose>
                     <c:when test="${toMortgage.isDelegateYucui=='1' && (toMortgage.mortType=='30016001' or toMortgage.mortType=='30016002')}">
                         <li>
-                            <em>贷款银行</em><span class="yuanwid">${caseDetailVO.parentBankName}</span>
+                            <em>贷款银行</em><span class="yuanwid">
+                            <c:if test="${!empty caseDetailVO.parentBankName}">
+                                  ${caseDetailVO.parentBankName}</c:if>
+                            <c:if test="${!empty mortgageToSaveVO}">
+                               ${mortgageToSaveVO.bankName}
+                            </c:if>
+                        </span>
                         </li>
                         <li>
                             <em>是否临时银行</em>
@@ -261,19 +247,39 @@
                     </c:when>
                     <c:otherwise>
                         <li>
-                            <em>贷款银行</em><span class="yuanwid">${caseDetailVO.parentBankName}</span>
+                            <em>贷款银行</em><span class="yuanwid">
+                            ${caseDetailVO.parentBankName}
+                        </span>
                         </li>
                         <li>
                             <em class="pull-left">支行</em><span class="infolong pull-left">${caseDetailVO.bankName}</span>
                         </li>
                     </c:otherwise>
-                </c:choose>
+                </c:choose>--%>
+                <li>
+                    <em>贷款银行</em><span class="yuanwid">
+                    <c:if test="${!empty caseDetailVO.parentBankName}">
+                        ${caseDetailVO.parentBankName}
+                    </c:if>
+                    <c:if test="${!empty mortgageToSaveVO}">
+                        ${mortgageToSaveVO.bankName}
+                    </c:if>
+                        </span>
+                </li>
+                <li>
+                    <em class="pull-left">支行</em><span class="infolong pull-left">${caseDetailVO.bankName}</span>
+                </li>
                 <!--新加-->
                 <li>
                     <em>贷款总金额</em><span class="yuanwid">
                     <c:if test="${!empty caseDetailVO.mortTypeName}">
-                    ${caseDetailVO.mortTypeName}&nbsp;&nbsp;万元
-                    </c:if></span>
+                    ${toMortgage.mortTotalAmount}&nbsp;&nbsp;万元
+                    </c:if>
+                    <c:if test="${!empty mortgageToSaveVO}">
+                        ${mortgageToSaveVO.loanLossAmount}&nbsp;&nbsp;万元
+                    </c:if>
+                </span>
+
                 </li>
                 <!--end-->
                 <li>
@@ -289,11 +295,15 @@
                     <em>商贷利率</em><span class="yuanwid">${toMortgage.comDiscount}</span>
                 </li>
                 <li>
-                    <em>商贷年限</em><span class="yuanwid">${toMortgage.comYear}</span>
+                    <em>商贷年限</em><span class="yuanwid"><c:if test="${!empty toMortgage.comYear}">
+                    ${toMortgage.comYear}&nbsp;&nbsp;年
+                </c:if></span>
                 </li>
 
                 <li>
-                    <em>房贷套数</em><span class="yuanwid">${toMortgage.houseNum}</span>
+                    <em>房贷套数</em><span class="yuanwid"><c:if test="${!empty toMortgage.houseNum}">
+                    ${toMortgage.houseNum}&nbsp;&nbsp;套
+                </c:if></span>
                 </li>
                 <li>
                     <em>信贷员</em><span class="yuanwid">${toMortgage.loanerName}</span>
@@ -313,7 +323,12 @@
                     <em>公积金贷款年限</em><span class="yuanwid">${toMortgage.prfYear}</span>
                 </li>
                 <li>
-                    <em>申请时间</em><span class="yuanwid">${caseDetailVO.prfApplyDate}</span>
+                    <em>申请时间</em><span class="yuanwid">
+                    <c:if test="${!empty toMortgage}">
+                    <fmt:formatDate value="${toMortgage.createTime}" pattern="yyyy-MM-dd"/></c:if>
+                    <c:if test="${!empty mortgageToSaveVO}">
+                        <fmt:formatDate value="${mortgageToSaveVO.createTime}" pattern="yyyy-MM-dd"/></c:if>
+                </span>
                 </li>
                 <li>
                     <em>主贷人</em><span class="yuanwid">${caseDetailVO.mortBuyer}</span>
@@ -389,6 +404,23 @@
                     <em >担保费金额</em><span class="yuanwid">
                     <c:if test="${!empty houseTransfer.guaranteeFeeAmount}">
                     ${houseTransfer.guaranteeFeeAmount}&nbsp;&nbsp;万元</c:if></span>
+                </li>
+
+                <li>
+                    <em>合同价</em>
+                    <span>
+                            <c:if test="${!empty caseInfo.conPrice}">
+                                ${caseInfo.conPrice/10000}  &nbsp&nbsp万元
+                            </c:if>
+                 		    </span>
+                </li>
+                <li>
+                    <em>核定价格</em>
+                    <span class="yuanwid">
+                            <c:if test="${!empty caseInfo.pricingTax}">
+                                ${caseInfo.pricingTax/10000}&nbsp&nbsp万元
+                            </c:if>
+                 		    </span>
                 </li>
                 <li>
                     <em >契税</em><span class="yuanwid">

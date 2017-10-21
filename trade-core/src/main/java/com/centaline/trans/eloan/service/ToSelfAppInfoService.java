@@ -12,13 +12,17 @@ import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 public interface ToSelfAppInfoService {
 
 	
-	public String addSelfAppInfo(ToSelfAppInfo toSelfAppInfo);
+	public void addSelfAppInfo(ToSelfAppInfo toSelfAppInfo);
+
+	public ToSelfAppInfo getAppInfoByCaseCode(String caseCode,String type);
 
 	public ToSelfAppInfo getAppInfoByCaseCode(String caseCode);
-
+	
 	public List<ToAppRecordInfo> getAppRecordInfo(String appInfoId);
 
 	public ToSelfAppInfo getAppInfoByCCAICode(String ccaiCode,String type);
 
 	public int saveBatchToAppRecordInfo(List<ToAppRecordInfo> listRecord);
+
+	public void updateByPrimaryKeySelective(ToSelfAppInfo toSelfAppInfo);
 }

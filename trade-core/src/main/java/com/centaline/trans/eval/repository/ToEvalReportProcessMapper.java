@@ -68,4 +68,12 @@ public interface ToEvalReportProcessMapper {
     int updateEvaReportByPkid(ToEvalReportProcess record);
     
     int updateEvaReportByEvaCode(ToEvalReportProcess record);
+    
+    /**
+     * 根据条件删除评估单
+     * @param record
+     * @return
+     * @author jinwl6
+     */
+    int deleteToEvalReportProcessByEvalCode(ToEvalReportProcess record);
 }

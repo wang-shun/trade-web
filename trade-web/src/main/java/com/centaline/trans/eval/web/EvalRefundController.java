@@ -1,6 +1,5 @@
 package com.centaline.trans.eval.web;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,12 +37,8 @@ import com.centaline.trans.eval.entity.ToEvaRefund;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
 import com.centaline.trans.eval.service.ToEvaRefundService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
-import com.centaline.trans.mortgage.entity.ToEvaReport;
-import com.centaline.trans.mortgage.service.ToEvaReportService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
-import com.centaline.trans.task.vo.LoanlostApproveVO;
-import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 import reactor.core.support.Assert;
 
@@ -257,6 +251,8 @@ public class EvalRefundController {
 		toApproveRecord.setOperatorTime(new Date());
 		toApproveRecord.setCaseCode(toEvaRefundvo.getCaseCode());
 		toApproveRecord.setOperator(user.getId());
+		toApproveRecord.setApproveType("17");
+		//System.out.println("测试是否编译");
 		boolean b = approveResult.equals("0");
 		boolean c = approveContent == null || approveContent.length() == 0;
 		toApproveRecord.setContent((b?"通过":"不通过") + (c?",没有审批意见。":",审批意见为"+approveContent));

@@ -438,19 +438,6 @@
 							<a href="${ctx }/ransomList/planTime?ransomCode=${detailVo.ransomCode}" target="_blank">修改时间计划</a>
 						</div>
 						<hr>
-						<!-- <table class="table table_blue table-striped table-bordered table-hover ">
-							<thead>
-								<tr>
-									<th>尾款机构</th>
-									<th>尾款类型</th>
-									<th>抵押类型</th>
-									<th>贷款金额</th>
-									<th>剩余部分</th>
-									<th>实际还款金额</th>
-								</tr>
-							</thead>
-							<tbody id="tails"></tbody>
-						</table> -->
 						<div class="tab-pane active fade in" style="margin-top: 35px;">
 							<div class="jqGrid_wrapper row">
 								<table id="tails"></table>

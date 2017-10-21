@@ -20,12 +20,12 @@ clusterServersConfig:
   masterConnectionPoolSize: 250
   readMode: "SLAVE"
   nodeAddresses:
-  - "redis://redis01:6379"
-  - "redis://redis02:6380"
-  - "redis://redis03:6381"
-  - "redis://redis04:6379"
-  - "redis://redis05:6380"
-  - "redis://redis06:6381"
+  - "redis://redis01:6380"
+  - "redis://redis02:6381"
+  - "redis://redis03:6382"
+  - "redis://redis04:6383"
+  - "redis://redis05:6384"
+  - "redis://redis06:6385"
   scanInterval: 1000
 threads: 0
 nettyThreads: 0

@@ -1,5 +1,6 @@
 package com.centaline.trans.taskList.web;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.cases.entity.ToCaseParticipant;
+import com.centaline.trans.cases.service.ToCaseParticipantService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
+import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -57,6 +61,8 @@ public class EvaController {
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
 	private TaskService taskService;
+	@Autowired
+	ToCaseParticipantService toCaseParticipantService;
 	
 	/**
 	 * 评估代办任务
@@ -88,11 +94,12 @@ public class EvaController {
 	 * @return
 	 */
 	@RequestMapping(value = "apply")
-	public String apply(HttpServletRequest request, HttpServletResponse response, String caseCode){
+	public String apply(HttpServletRequest request, HttpServletResponse response, String caseCode,String source,
+			String taskitem,String businessKey, String processInstanceId){
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		ToEvaPricingVo toEvaPricingVo = evaPricingService.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
-		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
+		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvaPricingVo", toEvaPricingVo);
 		request.setAttribute("caseCode", caseCode);
@@ -112,18 +119,35 @@ public class EvaController {
 	@RequestMapping(value="submitApply")
 	@ResponseBody
 	public Boolean submitEvalApply(HttpServletRequest request,HttpServletResponse response,ToEvalReportProcess toEvalReportProcess){
+		SessionUser user = uamSessionService.getSessionUser();
 		
-		//保存申请信息
-		toEvalReportProcessService.insertEvaApply(toEvalReportProcess);
+		ToEvalReportProcess erp = toEvalReportProcessService.findToEvalReportProcessByCaseCode(toEvalReportProcess.getCaseCode());
+		if(erp==null){
+			//保存申请信息
+			toEvalReportProcessService.insertEvaApply(toEvalReportProcess);
+		}else{
+			toEvalReportProcess.setStatus(EvalStatusEnum.YSQ.getCode());
+			toEvalReportProcess.setEvaCode(erp.getEvaCode());
+			toEvalReportProcessService.updateEvaReportByEvaCode(toEvalReportProcess);
+		}
+		
+		
 		//启动流程引擎
 		ProcessInstance process = new ProcessInstance();
 		process.setBusinessKey(toEvalReportProcess.getEvaCode());
     	process.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()));
 		//流程引擎相关
-    	//Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.EVAL_PROCESS.getCode());
-    	SessionUser user = uamSessionService.getSessionUser();
+    	ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
+    	toCaseParticipant.setCaseCode(toEvalReportProcess.getCaseCode());
+		toCaseParticipant.setPosition(CaseParticipantEnum.ASSISTANT.getCode());
+		ToCaseParticipant tp =  toCaseParticipantService.findToCaseParticipantByCondition(toCaseParticipant).get(0);
+		
+    	Map<String, Object> defValsMap = new HashMap<String,Object>();
+    	defValsMap.put(CaseParticipantEnum.LOAN.getCode(), user.getUsername());
+    	defValsMap.put(CaseParticipantEnum.ASSISTANT.getCode(), tp.getUserName());
+    	
     	StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()), 
-    			toEvalReportProcess.getEvaCode());
+    			toEvalReportProcess.getEvaCode(),defValsMap);
     	
     	//入交易系统工作流表
     	ToWorkFlow toWorkFlow = new ToWorkFlow();
@@ -136,10 +160,10 @@ public class EvaController {
     	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
     	toWorkFlowService.insertSelective(toWorkFlow);
     	
-    	Map<String, Object> defValsMap = new HashMap<String,Object>();
-    	defValsMap.put("assistant", user.getUsername());
+    	
+    	
     	TaskVo taskvo = (TaskVo) taskService.listTasks(processInstance.getId()).getData().get(0);
-    	taskService.submitTask(String.valueOf(taskvo.getId()),defValsMap);
+    	taskService.submitTask(String.valueOf(taskvo.getId()));
     	return true;
 	}
 	
@@ -161,7 +185,7 @@ public class EvaController {
 		//查询评估申请信息
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.selecttoEvalReportProcessByCaseCodeAndStatus(caseCode,EvalStatusEnum.YSQ.getCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
+		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseCode", caseCode);
 	    return "eval/evalReport";
 	}
@@ -203,13 +227,15 @@ public class EvaController {
 	@RequestMapping(value = "issue")
 	public String issue(HttpServletRequest request, HttpServletResponse response, String businessKey, String source,
 			String taskitem, String processInstanceId){
+
 		String caseCode = toEvalReportProcessService.findToEvalReportProcessByEvalCode(businessKey).getCaseCode();
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		//查询评估申请信息
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.selecttoEvalReportProcessByCaseCodeAndStatus(caseCode,EvalStatusEnum.YSB.getCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
+		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("taskitem", taskitem);
 	    return "eval/evalIssue";
 	}
 	
@@ -256,7 +282,7 @@ public class EvaController {
 		//查询评估申请
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.selecttoEvalReportProcessByCaseCodeAndStatus(caseCode,EvalStatusEnum.YCNBG.getCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
+		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseCode", caseCode);
 	    return "eval/evalUsed";
 	}
@@ -277,6 +303,7 @@ public class EvaController {
 		
         //评估使用信息保存
 		toEvalReportProcess.setStatus(EvalStatusEnum.YSYBG.getCode());
+		toEvalReportProcess.setSysFinshTime(new Date());
 		toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
 		taskService.submitTask(taskId,null);
 	    return true;

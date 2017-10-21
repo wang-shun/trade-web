@@ -14,6 +14,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>总监审核退费</title>
 <!-- jdGrid相关 -->
 <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 <link href="<c:url value='/font-awesome/css/font-awesome.css' />"
@@ -159,11 +160,10 @@
 	})();
 </script>
 <script type="text/javascript">
-
-//关闭
-$('#closeButton').click(function() {
-	window.close();
-});
+	//关闭
+	$('#closeButton').click(function() {
+		window.close();
+	});
 
 	//提交数据
 	function submit() {
@@ -174,33 +174,33 @@ $('#closeButton').click(function() {
 	function save(b) {
 		var jsonData = $("#ManRefundform").serializeArray();
 		var url = "${ctx}/task/evalRefund/submitChif";
-		if(checkForm()){
-		$.ajax({
-			cache : true,
-			async : false,
-			type : "POST",
-			url : url,
-			dataType : "json",
-			data : jsonData,
-			success : function(data) {
-				console.log(data);
-				if (b) {
-					if (data.message) {
-						window.wxc.alert("提交成功" + data.message);
+		if (checkForm()) {
+			$.ajax({
+				cache : true,
+				async : false,
+				type : "POST",
+				url : url,
+				dataType : "json",
+				data : jsonData,
+				success : function(data) {
+					console.log(data);
+					if (b) {
+						if (data.message) {
+							window.wxc.alert("提交成功" + data.message);
+						}
+						var ctx = $("#ctx").val();
+						window.location.href = ctx + "/task/myTaskList";
+					} else {
+						if (data.message) {
+							window.wxc.alert("提交成功" + data.message);
+						}
 					}
-					var ctx = $("#ctx").val();
-					window.location.href = ctx + "/task/myTaskList";
-				} else {
-					if (data.message) {
-						window.wxc.alert("提交成功" + data.message);
-					}
+				},
+				error : function() {
+					window.wxc.alert("提交信息出错。。");
 				}
-			},
-			error : function() {
-				window.wxc.alert("提交信息出错。。");
-			}
-		});
-	}
+			});
+		}
 	}
 	//验证控件checkUI();
 	function checkForm() {
@@ -257,46 +257,55 @@ $('#closeButton').click(function() {
 	margin-left: 20px;
 }
 </style>
+<content tag="pagetitle">总监审核退费</content>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> 
+	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 	<input type="hidden" id="ctx" value="${ctx }" />
 	<%--环节编码 --%>
 	<div class="">
 		<div
 			class="ibox-content border-bottom clearfix space_box noborder marginbot">
 			<h2 class="newtitle title-mark" id="aboutInfo">退费信息</h2>
-        	<div style="padding-left: 10px">
-        		<table  width="100%">
-        			<tr style="height: 40px;">
-        				<td> <label class="control-label sign_left_small">退费类型：</label></td><td>${toEvaRefund.refundKinds}</td>
-        				<td><label class="control-label sign_left_small">申请人：</label></td><td>${toEvaRefund.proposer }</td>
-        				<td><label class="control-label sign_left_small">申请分行：</label></td><td>${toEvaRefund.applyDepart }</td>
-        				<td><label class="control-label sign_left_small">申请时间：</label></td><td><fmt:formatDate  value='${toEvaRefund.applyTime }' type='both' pattern='yyyy-MM-dd'/></td>        				
-        			</tr>
-        			<tr style="height: 40px;">
-        			<td><label class="control-label sign_left_small">评估公司：</label></td><td>${toEvaRefund.evalCompany }</td>        
-        				<td><label class="control-label sign_left_small">退费金额：</label></td><td>${toEvaRefund.refundAmount }</td>
-        				<td><label class="control-label sign_left_small">退款对象：</label></td><td>${toEvaRefund.refundTarget }</td>
-        				<td><label class="control-label sign_left_small">退款原因：</label></td><td>${toEvaRefund.refundCause }</td>
-        			</tr>
-        			<tr style="height: 40px;">
-        				<td><label class="control-label sign_left_small">预计退款时间：</label></td><td><fmt:formatDate  value='${toEvaRefund.toRefundTime }' type='both' pattern='yyyy-MM-dd'/></td>
-        				<td><label class="control-label sign_left_small">评估费时收金额：</label></td><td>${toEvaRefund.evalRealCharges}</td>
-        				<td><label class="control-label sign_left_small">评估费实收时间：</label></td><td></td>
-        				<td><label class="control-label sign_left_small">出具评估报告时间：</label></td><td><fmt:formatDate  value='${toEvaReport.issueDate }' type='both' pattern='yyyy-MM-dd'/></td>        				
-        			</tr>
-        			<tr style="height: 40px;">
-        				<td><label class="control-label sign_left_small">报告领取时间：</label></td><td><fmt:formatDate  value='${toEvaReport.reportRevDate }' type='both' pattern='yyyy-MM-dd'/></td>
-        				<td><label class="control-label sign_left_small">报告领取人：</label></td><td>${toEvaReport.receiver }</td>
-        				<td><label class="control-label sign_left_small">评估报告份数：</label></td><td>${toEvaReport.receiveNum }</td>
-        				<td><label class="control-label sign_left_small">评估报告回收份数：</label></td><td>${toEvaRefund.reportBackNum}</td>        				
-        			</tr>
-        		</table>
-        	</div>
+			<div style="padding-left: 10px">
+				<table width="100%">
+					<tr style="height: 40px;">
+						<td><label class="control-label sign_left_small">退费类型：${toEvaRefund.refundKinds}</label></td>
+						<td><label class="control-label sign_left_small">申请人：${toEvaRefund.proposer }</label></td>
+						<td><label class="control-label sign_left_small">申请分行：${toEvaRefund.applyDepart }</label></td>
+						<td><label class="control-label sign_left_small">申请时间：<fmt:formatDate
+									value='${toEvaRefund.applyTime }' type='both'
+									pattern='yyyy-MM-dd' /></label></td>
+					</tr>
+					<tr style="height: 40px;">
+						<td><label class="control-label sign_left_small">评估公司：${toEvaRefund.evalCompany }</label></td>
+						<td><label class="control-label sign_left_small">退费金额：${toEvaRefund.refundAmount }</label></td>
+						<td><label class="control-label sign_left_small">退款对象：${toEvaRefund.refundTarget }</label></td>
+						<td><label class="control-label sign_left_small">退款原因：${toEvaRefund.refundCause }</label></td>
+					</tr>
+					<tr style="height: 40px;">
+						<td><label class="control-label sign_left_small">预计退款时间：<fmt:formatDate
+									value='${toEvaRefund.toRefundTime }' type='both'
+									pattern='yyyy-MM-dd' /></label></td>
+						<td><label class="control-label sign_left_small">评估费时收金额：${toEvaRefund.evalRealCharges}</label></td>
+						<td><label class="control-label sign_left_small">评估费实收时间：</label></td>
+						<td><label class="control-label sign_left_small">出具评估报告时间：<fmt:formatDate
+									value='${toEvaReport.issueDate }' type='both'
+									pattern='yyyy-MM-dd' /></label></td>
+					</tr>
+					<tr style="height: 40px;">
+						<td><label class="control-label sign_left_small">报告领取时间：<fmt:formatDate
+									value='${toEvaReport.reportRevDate }' type='both'
+									pattern='yyyy-MM-dd' /></label></td>
+						<td><label class="control-label sign_left_small">报告领取人：${toEvaReport.receiver }</label></td>
+						<td><label class="control-label sign_left_small">评估报告份数：${toEvaReport.receiveNum }</label></td>
+						<td><label class="control-label sign_left_small">评估报告回收份数：${toEvaRefund.reportBackNum}</label></td>
+					</tr>
+				</table>
+			</div>
 
-			<div class="title title-mark" >
+			<div class="title title-mark">
 				<strong style="font-weight: bold;">退费审批记录</strong>
 			</div>
 
@@ -313,27 +322,32 @@ $('#closeButton').click(function() {
 			</div>
 			<form method="get" class="form_list" id="ManRefundform"
 				style="overflow: visible;">
-					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<%-- <input type="hidden" id="caseCode" name="caseCode" value="${caseRecvVO.caseCode}"> --%>
-					<input type="hidden" id="caseCode" name="caseCode"  value="${caseCode}">
-					<!-- 流程引擎需要字段 -->
-					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
+				<input type="hidden" id="partCode" name="partCode"
+					value="${taskitem}">
+				<!-- 交易单编号 -->
+				<%-- <input type="hidden" id="caseCode" name="caseCode" value="${caseRecvVO.caseCode}"> --%>
+				<input type="hidden" id="caseCode" name="caseCode"
+					value="${caseCode}">
+				<!-- 流程引擎需要字段 -->
+				<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+				<input type="hidden" id="processInstanceId" name="processInstanceId"
+					value="${processInstanceId}">
 				<div class="line">
 					<div class="form_content">
-						<label class="control-label sign_left_small">
-						<font color=" red" class="mr5">*</font>审批结果：</label> 
-						<input type="radio" name="approveResult" value="0" checked="checked"><span>通过</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+						<label class="control-label sign_left_small"> <font
+							color=" red" class="mr5">*</font>审批结果：
+						</label> <input type="radio" name="approveResult" value="0"
+							checked="checked"><span>通过</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 						<input type="radio" name="approveResult" value="1"><span>驳回</span>
 					</div>
 				</div>
 
 				<div class="line">
 					<div class="form_content">
-						<label class="control-label sign_left_small">
-						<font color=" red" class="mr5">*</font>审批意见：</label> 
-						<input type="text" class="input_type mendwidth" id="approveContent" name="approveContent" maxlength="64">
+						<label class="control-label sign_left_small"> <font
+							color=" red" class="mr5">*</font>审批意见：
+						</label> <input type="text" class="input_type mendwidth"
+							id="approveContent" name="approveContent" maxlength="64">
 					</div>
 				</div>
 			</form>
@@ -377,28 +391,25 @@ $('#closeButton').click(function() {
 	<script src="<c:url value='/js/template.js' />"></script> <script
 		src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<script src="<c:url value='/js/stickUp.js' />"></script> <!-- 改版引入的新的js文件 -->
-	<script src="<c:url value='/js/common/textarea.js' />"></script> 
-	<script
-		src="<c:url value='/js/common/common.js' />"></script> 
-		<script
-		src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script> 
-		<script>
+	<script src="<c:url value='/js/common/textarea.js' />"></script> <script
+		src="<c:url value='/js/common/common.js' />"></script> <script
+		src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script> <script>
 			$(document).ready(
 					function() {
-								var ctx = $("#ctx").val();
-								/* 	if(!$("#caseCode").val()){
-								           $("#caseCode").val("ZY-TJ-2017080038");						
-								     } */
-								var caseCode = $("#caseCode").val();
-								AttachmentList.init('${ctx}','/quickGrid/findPage', 'gridTable',
-										'gridPager', '${ctmCode}', caseCode);
-								$("#caseCommentList").caseCommentGrid({
-									caseCode : caseCode,
-									srvCode : 'caseRecvFlow'
-								});
+						var ctx = $("#ctx").val();
+						/* 	if(!$("#caseCode").val()){
+						           $("#caseCode").val("ZY-TJ-2017080038");						
+						     } */
+						var caseCode = $("#caseCode").val();
+						AttachmentList.init('${ctx}', '/quickGrid/findPage',
+								'gridTable', 'gridPager', '${ctmCode}',
+								caseCode);
+						$("#caseCommentList").caseCommentGrid({
+							caseCode : caseCode,
+							srvCode : 'caseRecvFlow'
+						});
 
-
-							})//end ready function
+					})//end ready function
 		</script> </content>
 </body>
 </html>

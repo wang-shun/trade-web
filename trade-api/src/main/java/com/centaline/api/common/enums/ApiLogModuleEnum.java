@@ -13,6 +13,7 @@ public enum ApiLogModuleEnum {
 	EVAL_REBATE_SYNC_UPDATE("评估返利报告驳回修改同步","EVAL_REBATE_SYNC_UPDATE"),
 	EVAL_REBATE_REPORT("评估返利报告同步","EVAL_REBATE_REPORT"),
 	EVAL_REFUND_SYNC("评估退费申请同步","EVAL_REFUND_SYNC"),
+	SELF_DO_DYNC_UPDATE("自办贷款/评估审批驳回修改同步","SELF_DO_DYNC_UPDATE"),
 	SELF_DO_DYNC("自办贷款/评估审批同步","SELF_DO_DYNC");
 
 	private String name;

@@ -18,7 +18,8 @@ import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
-import com.centaline.trans.common.enums.EvalStatusEnum;
+import com.centaline.trans.cases.entity.ToCaseParticipant;
+import com.centaline.trans.cases.service.ToCaseParticipantService;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -28,16 +29,16 @@ import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
-import com.centaline.trans.eval.entity.ToEvaCommissionChange;
 import com.centaline.trans.eval.entity.ToEvaInvoice;
 import com.centaline.trans.eval.entity.ToEvaRefund;
 import com.centaline.trans.eval.entity.ToEvalRebate;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
 import com.centaline.trans.eval.entity.ToEvalSettle;
+import com.centaline.trans.eval.repository.ToEvaRefundMapper;
+import com.centaline.trans.eval.repository.ToEvalReportProcessMapper;
 import com.centaline.trans.eval.service.EvalDetailService;
 import com.centaline.trans.eval.service.ToEvaCommissionChangeService;
 import com.centaline.trans.eval.service.ToEvaInvoiceService;
-import com.centaline.trans.eval.service.ToEvaRefundService;
 import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.eval.service.ToEvalSettleService;
@@ -70,7 +71,7 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 	@Autowired
 	ToEvaCommissionChangeService toEvaCommissionChangeService;
 	@Autowired
-	ToEvaRefundService toEvaRefundService;
+	ToEvaRefundMapper toEvaRefundMapper;
 	@Autowired
 	ToEvalRebateService toEvalRebateService;
 	@Resource
@@ -78,10 +79,13 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 	@Qualifier("uamMessageServiceClient")
 	@Autowired
 	UamMessageService uamMessageService;
+	@Autowired
+	ToCaseParticipantService toCaseParticipantService;
+	@Autowired
+	ToEvalReportProcessMapper toEvalReportProcessMapper;
 	
 	@Override
 	public void evalDetail(HttpServletRequest request, String caseCode, String evaCode) {
-		        // TODO
 				SessionUser user = uamSessionService.getSessionUser();
 				String userOrgId = user.getServiceDepId();
 				
@@ -95,11 +99,9 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				ToWorkFlow toWorkFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(inWorkFlow);
 				
 				//评估发票信息
-				ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByCaseCode(caseCode);
+				ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByEvaCode(evaCode);
 				//评估返利报告审批信息
 				ToEvalRebate toEvalRebate = toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
-				//评估爆单信息
-				//TODO
 				
 				//评估公司变更信息
 				//TODO
@@ -108,13 +110,11 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				ToEvalSettle toEvalSettle = toEvalSettleService.findToCaseByCaseCode(caseCode);
 				
 				//评估退费信息
-				ToEvaRefund toEvaRefund = toEvaRefundService.selectByCaseCode(caseCode);
+				ToEvaRefund toEvaRefund = toEvaRefundMapper.selectByEvaCode(caseCode);
 				//调佣审批信息
+				//TODO
 				//ToEvaCommissionChange toEvaCommissionChange = toEvaCommissionChangeService.selectByCaseCode(caseCode);
 				
-				//附件
-				
-				//备注
 				
 				request.setAttribute("toEvaPricingVo", toEvaPricingVo);
 				request.setAttribute("toEvalReportProcess", toEvalReportProcess);
@@ -144,28 +144,37 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 						}
 				}
 				
-				//更新评估单状态为驳回
-				toEvalReportProcessService.updateStatusByEvalCode(EvalStatusEnum.BBH.getCode(),evaCode);
+				//删除评估单状态为驳回
+			    ToEvalReportProcess toEvalReportProcess = new ToEvalReportProcess();
+			    toEvalReportProcess.setEvaCode(evaCode);
+				toEvalReportProcessMapper.deleteToEvalReportProcessByEvalCode(toEvalReportProcess);
 				
-				//TODO 发站内信息通知申请人
-				/*Map<String,Object> params = new HashMap<String,Object>();
-				params.put("mobile", currentUser.getMobile());
-				params.put("caseCode", caseCode);
-				String content = uamTemplateService.mergeTemplate("TMP_EVAL_REJECT", params);
-			    Message message = new Message();
-			    // 消息标题
-			    message.setTitle("评估驳回提醒");
-			    // 消息类型
-			    message.setType(MessageType.SITE);
-			    //设置提醒列别 
-			    message.setMsgCatagory(MsgCatagoryEnum.NEWS.getCode());
-			    //内容 
-			    message.setContent(content);
-			    // 发送人 
-			    String senderId = currentUser.getId();
-			    //设置发送人 
-			    message.setSenderId(senderId);
-			    uamMessageService.sendMessageByDist(message,"");*/
+				//根据案件号查询贷款权证
+				ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
+				toCaseParticipant.setCaseCode(caseCode);
+				toCaseParticipant.setPosition("loan");
+				List<ToCaseParticipant> toCaseParticipantList = toCaseParticipantService.findToCaseParticipantByCondition(toCaseParticipant);
+				if(toCaseParticipantList!=null && toCaseParticipantList.size()>0){
+					//发站内信息通知申请人
+					Map<String,Object> params = new HashMap<String,Object>();
+					params.put("mobile", currentUser.getMobile());
+					params.put("caseCode", caseCode);
+					String content = uamTemplateService.mergeTemplate("TMP_EVAL_REJECT", params);
+				    Message message = new Message();
+				    // 消息标题
+				    message.setTitle("评估驳回提醒");
+				    // 消息类型
+				    message.setType(MessageType.SITE);
+				    //设置提醒列别 
+				    message.setMsgCatagory(MsgCatagoryEnum.NEWS.getCode());
+				    //内容 
+				    message.setContent(content);
+				    // 发送人 
+				    String senderId = currentUser.getId();
+				    //设置发送人 
+				    message.setSenderId(senderId);
+				    uamMessageService.sendMessageByDist(message,toCaseParticipantList.get(0).getUserName());
+				}
 				
 		 return new AjaxResponse<>(true);
 	}

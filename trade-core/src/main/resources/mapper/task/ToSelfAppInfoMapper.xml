@@ -21,13 +21,20 @@
 		values(#{ccaiCode,jdbcType=VARCHAR},#{caseCode,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{realName,jdbcType=VARCHAR},#{grpCode,jdbcType=VARCHAR},#{grpName,jdbcType=VARCHAR},#{applyTime,jdbcType=TIMESTAMP},#{status,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR})
 	</insert>
 	
-	<select id="getAppInfoByCaseCode" parameterType="string" resultMap="BaseResultMap">
-		select PKID,CCAI_CODE,CASE_CODE,TYPE,USER_NAME,REAL_NAME,GRP_CODE,GRP_NAME,APPLY_TIME,STATUS,CITY from sctrans.T_TO_SELF_APP_INFO WITH(NOLOCK) where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	<select id="getAppInfoByCaseCode"  resultMap="BaseResultMap">
+		select PKID,CCAI_CODE,CASE_CODE,TYPE,USER_NAME,REAL_NAME,GRP_CODE,GRP_NAME,APPLY_TIME,STATUS,CITY from sctrans.T_TO_SELF_APP_INFO WITH(NOLOCK) where CASE_CODE = #{0} and TYPE=#{1}
 	</select>
 	
 	<select id="getAppInfoByCCAICode"  resultMap="BaseResultMap">
 		select PKID,CCAI_CODE,CASE_CODE,TYPE,USER_NAME,REAL_NAME,GRP_CODE,GRP_NAME,APPLY_TIME,STATUS,CITY from sctrans.T_TO_SELF_APP_INFO WITH(NOLOCK) where CCAI_CODE = #{0} and TYPE=#{1}
 	</select>
-
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eloan.entity.ToSelfAppInfo">
+			update sctrans.T_TO_SELF_APP_INFO set CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},CASE_CODE=#{caseCode,jdbcType=VARCHAR},TYPE=#{type,jdbcType=VARCHAR},USER_NAME=#{userName,jdbcType=VARCHAR},REAL_NAME=#{realName,jdbcType=VARCHAR},GRP_CODE=#{grpCode,jdbcType=VARCHAR},GRP_NAME=#{grpName,jdbcType=VARCHAR},APPLY_TIME=#{applyTime,jdbcType=TIMESTAMP},STATUS=#{status,jdbcType=VARCHAR},CITY=#{city,jdbcType=VARCHAR} where PKID=#{pkid,jdbcType=BIGINT}
+	</update>
+	
+	<select id="getAppInfoByCaseCo" parameterType="string"  resultMap="BaseResultMap">
+				select PKID,CCAI_CODE,CASE_CODE,TYPE,USER_NAME,REAL_NAME,GRP_CODE,GRP_NAME,APPLY_TIME,STATUS,CITY from sctrans.T_TO_SELF_APP_INFO WITH(NOLOCK) where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+	</select>
 
 </mapper>

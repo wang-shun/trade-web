@@ -84,15 +84,7 @@ public class ToEvalReportProcessServiceImpl implements ToEvalReportProcessServic
 		return toEvalReportProcessMapper.updateEvalPropertyByCaseCode(toEvalReportProcess);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.centaline.trans.eval.service.ToEvalReportProcessService#deleteEvalPropertyByEvalCode(java.lang.String)
-	 */
-	@Override
-	public int deleteEvalPropertyByEvalCode(String evalCode) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	
 	@Override
 	public int updateStatusByEvalCode(String status,String evalCode) {
 		ToEvalReportProcess toEvalReportProcess = new ToEvalReportProcess();
@@ -111,7 +103,6 @@ public class ToEvalReportProcessServiceImpl implements ToEvalReportProcessServic
 
 	@Override
 	public int updateEvaReport(ToEvalReportProcess toEvalReportProcess) {
-		toEvalReportProcess.setSysFinshTime(new Date());
 		return toEvalReportProcessMapper.updateEvaReportByEvaCode(toEvalReportProcess);
 	}
 
@@ -155,6 +146,14 @@ public class ToEvalReportProcessServiceImpl implements ToEvalReportProcessServic
 	@Override
 	public ToEvalReportProcess selecttoEvalReportProcessByCaseCodeAndStatus(String caseCode, String status) {
 		return toEvalReportProcessMapper.selectToEvaReportProcessByCaseCodeAndStatus(caseCode);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.centaline.trans.eval.service.ToEvalReportProcessService#updateEvaReportByEvaCode(com.centaline.trans.eval.entity.ToEvalReportProcess)
+	 */
+	@Override
+	public int updateEvaReportByEvaCode(ToEvalReportProcess record) {
+		return toEvalReportProcessMapper.updateEvaReportByEvaCode(record);
 	}
 
 }

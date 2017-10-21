@@ -15,65 +15,14 @@ $(document).ready(function() {
 function loadTimeInfo(){
 	debugger;
 	//赎楼环节
-	var property = $("input[name='partCode']").val();
-	//申请时间
-	var applyTime = $("#applyTime").val();
-	//申请时间变更理由
-	var applyRemake = $("#applyRemake").val();
-	//面签时间
-	var interviewTime = $("#interviewTime").val();
-	//面签时间变更理由
-	var interviewRemake = $("#interviewRemake").val();
-	//陪同还贷时间
-	var repayTime = $("#repayTime").val();
-	//陪同还贷时间变更理由
-	var repayRemake = $("#repayRemake").val();
-	//注销抵押时间
-	var cancelTime = $("#cancelTime").val();
-	//注销抵押时间变更理由
-	var cancelRemake = $("#cancelRemake").val();
-	//领取产证时间
-	var redeemTime = $("#redeemTime").val();
-	//领取产证时间变更理由
-	var redeemRemake = $("#redeemRemake").val();
-	//回款结清时间
-	var paymentTime = $("#paymentTime").val();
-	//回款结清时间变更理由
-	var paymentRemake = $("#paymentRemake").val();
+	var property = $("#taskCode").val();
 	
-	switch(property){
-		case "APPLY" :
-			$("#applyTime").attr("disabled",true); 
-			$("#applyRemake").attr("disabled",true);
-		case "SIGN" :
-			$("#interviewTime").attr("disabled",true); 
-			$("#interviewRemake").attr("disabled",true); 
-		case "PAYLOAN_ONE" :
-			$("#repayTime").attr("disabled",true); 
-			$("#repayRemake").attr("disabled",true);
-		case "PAYLOAN_TWO" :
-			$("#repayTime").attr("disabled",true); 
-			$("#repayRemake").attr("disabled",true);
-		case "CANCELDIYA_ONE" :
-			$("#cancelTime").attr("disabled",true); 
-			$("#cancelRemake").attr("disabled",true); 
-		case "CANCELDIYA_TWO" :
-			$("#cancelTime").attr("disabled",true); 
-			$("#cancelRemake").attr("disabled",true); 
-		case "RECEIVE_ONE" :
-			$("#redeemTime").attr("disabled",true); 
-			$("#redeemRemake").attr("disabled",true); 
-		case "RECEIVE_TWO" :
-			$("#redeemTime").attr("disabled",true); 
-			$("#redeemRemake").attr("disabled",true); 
-		case "PAYCLEAR" :
-			$("#paymentTime").attr("disabled",true); 
-			$("#paymentRemake").attr("disabled",true); 
-			break;
-		default:break;
-		
+	for(var i = 0; i < $(".form_content").length/2; i++){
+//		if(property == 'RansomSign'){
+//			$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+//			$("input[name='remark'" + i + "]").attr("disabled",true);
+//		}
 	}
-	
 }
 
 /**
@@ -114,7 +63,7 @@ function getParams(){
 	for(var i = 0;i < $(".line input").length / 2;i++){
 		var estPartTime = $("input[name='estPartTime" + i + "']").val();
 		var remark = $("input[name='remark" + i + "']").val();
-		var partCode = $("#partCode"+ i + "").text();
+		var partCode = $("#taskCode"+ i + "").text();
 		
 		if(partCode == "申请时间"){
 			partCode = "APPLY";

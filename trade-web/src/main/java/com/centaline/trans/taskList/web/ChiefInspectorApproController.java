@@ -60,7 +60,8 @@ public class ChiefInspectorApproController {
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);	
 		toAccesoryListService.getAccesoryList(request, taskitem);
-		ToSelfAppInfo toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(caseCode);
+		String type = "自办贷款";
+		ToSelfAppInfo toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(caseCode, type);
 		ToAppRecordInfo toAppRecordInfo = toAppRecordInfoService.getAppRedordByAppInfoId(toSelfAppInfo.getPkid());
 		request.setAttribute("toSelfAppInfo", toSelfAppInfo);
 		request.setAttribute("toAppRecordInfo", toAppRecordInfo);

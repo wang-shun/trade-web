@@ -680,8 +680,11 @@ function showOrgCp() {
 		dataType : "json",
 		timeout : 10000,
 		success : function(data) {
-			console.info(data);
-			showLeadingModal(data);
+			if(data == null || data.length ==0){
+				window.wxc.alert("查无同组织下的其他权证人员!");
+			}else{
+				showLeadingModal(data);
+			}
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 		}
@@ -858,7 +861,9 @@ function evalApply(){
 				if(data.content == 1){//询价已完成,可以评估申请
 					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
 				}else if(data.content == 2){//无询价,进入询价申请
-					window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+					window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
+						window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+					}});
 				}
 			}else{
 				window.wxc.alert(data.message);
