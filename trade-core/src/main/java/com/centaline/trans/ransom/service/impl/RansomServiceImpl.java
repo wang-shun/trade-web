@@ -64,7 +64,9 @@ public class RansomServiceImpl implements RansomService{
 			}else{
 				detailVo.setFinancial(null);
 			}
-			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			detailVo.setLeadingProcessName(user.getRealName()); //经办人
+			SessionUser user = uamSessionService.getSessionUser();
 			detailVo.setLeadingProcessName(user.getRealName()); //经办人
 		}
 		return detailVo;
@@ -81,7 +83,9 @@ public class RansomServiceImpl implements RansomService{
 			}else{
 				detailVo.setFinancial(null);
 			}
-			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			detailVo.setLeadingProcessName(user.getRealName()); //经办人
+			SessionUser user = uamSessionService.getSessionUser();
 			detailVo.setLeadingProcessName(user.getRealName()); //经办人
 		}
 		return detailVo;
