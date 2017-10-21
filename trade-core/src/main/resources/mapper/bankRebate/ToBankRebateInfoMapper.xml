@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.bankRebate.repository.ToBankRebateInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.bankRebate.entity.ToBankRebateInfo" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="CCAI_CODE" property="ccaiCode" jdbcType="VARCHAR" />
+    <result column="GUARANTEE_COMP_ID" property="guaranteeCompId" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="REBATE_MONEY" property="rebateMoney" jdbcType="DECIMAL" />
+    <result column="REBATE_WARRANT" property="rebateWarrant" jdbcType="DECIMAL" />
+    <result column="REBATE_BUSINESS" property="rebateBusiness" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PKID, CASE_CODE, CCAI_CODE, GUARANTEE_COMP_ID, BANK_NAME, REBATE_MONEY, REBATE_WARRANT, 
+    REBATE_BUSINESS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_BANK_REBATE_INFO
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sctrans.T_TO_BANK_REBATE_INFO
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebateInfo" >
+    insert into sctrans.T_TO_BANK_REBATE_INFO (PKID, CASE_CODE, CCAI_CODE, 
+      GUARANTEE_COMP_ID, BANK_NAME, REBATE_MONEY, 
+      REBATE_WARRANT, REBATE_BUSINESS)
+    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{ccaiCode,jdbcType=VARCHAR}, 
+      #{guaranteeCompId,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{rebateMoney,jdbcType=DECIMAL}, 
+      #{rebateWarrant,jdbcType=DECIMAL}, #{rebateBusiness,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebateInfo" >
+    insert into sctrans.T_TO_BANK_REBATE_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="caseCode != null" >
+        CASE_CODE,
+      </if>
+      <if test="ccaiCode != null" >
+        CCAI_CODE,
+      </if>
+      <if test="guaranteeCompId != null" >
+        GUARANTEE_COMP_ID,
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME,
+      </if>
+      <if test="rebateMoney != null" >
+        REBATE_MONEY,
+      </if>
+      <if test="rebateWarrant != null" >
+        REBATE_WARRANT,
+      </if>
+      <if test="rebateBusiness != null" >
+        REBATE_BUSINESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="caseCode != null" >
+        #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ccaiCode != null" >
+        #{ccaiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeCompId != null" >
+        #{guaranteeCompId,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="rebateMoney != null" >
+        #{rebateMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="rebateWarrant != null" >
+        #{rebateWarrant,jdbcType=DECIMAL},
+      </if>
+      <if test="rebateBusiness != null" >
+        #{rebateBusiness,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebateInfo" >
+    update sctrans.T_TO_BANK_REBATE_INFO
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ccaiCode != null" >
+        CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeCompId != null" >
+        GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="rebateMoney != null" >
+        REBATE_MONEY = #{rebateMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="rebateWarrant != null" >
+        REBATE_WARRANT = #{rebateWarrant,jdbcType=DECIMAL},
+      </if>
+      <if test="rebateBusiness != null" >
+        REBATE_BUSINESS = #{rebateBusiness,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebateInfo" >
+    update sctrans.T_TO_BANK_REBATE_INFO
+    set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      CCAI_CODE = #{ccaiCode,jdbcType=VARCHAR},
+      GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR},
+      BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      REBATE_MONEY = #{rebateMoney,jdbcType=DECIMAL},
+      REBATE_WARRANT = #{rebateWarrant,jdbcType=DECIMAL},
+      REBATE_BUSINESS = #{rebateBusiness,jdbcType=DECIMAL}
+    where PKID = #{pkid,jdbcType=BIGINT}
+  </update>
+</mapper>

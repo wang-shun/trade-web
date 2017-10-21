@@ -295,5 +295,9 @@
 		
 		<!-- 赎楼流程数据更新 -->
 		<mapper resource="mapper/ransom/RansomMapper.xml"/>
+		
+		<!-- 银行返利-->
+		<mapper resource="mapper/bankRebate/ToBankRebateMapper.xml"/>
+		<mapper resource="mapper/bankRebate/ToBankRebateInfoMapper.xml"/>
 	</mappers>
 </configuration>

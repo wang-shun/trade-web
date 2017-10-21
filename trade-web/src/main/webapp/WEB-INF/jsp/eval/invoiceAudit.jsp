@@ -127,7 +127,6 @@ var AttachmentList = (function(){
     			},
     			postData : {
     				queryId : "queryEvalInvoiceAuditComment",
-    				//caseCode : caseCode
     				caseCode : caseCode,
     				partCode : 'evalInvoiceAudit'
     			}
@@ -169,7 +168,7 @@ function save(b) {
 	
 	var jsonData = $("#evalInvoiceAuditform").serializeArray();
 
-	var url = "${ctx}/eval/submitInvoiceAudit";
+	var url = "${ctx}/eval/submitWarrantManagerInvoiceAudit";
 
 	
 	$.ajax({
@@ -278,27 +277,7 @@ function checkForm() {
         <div class="ibox-content border-bottom clearfix space_box noborder marginbot">
             <h2 class="newtitle title-mark">开票信息</h2>
             	<form method="get" class="form_list" id="firstFollowform" style="overflow: visible;">
-            		<input type="hidden" id="ctx" value="${ctx }" />
-            	
-            		<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
-					<!-- 交易单编号 -->
-					<input type="hidden" id="caseCode" name="caseCode" value="${toEvaInvoice.caseCode}">
-					<!-- 流程引擎需要字段 -->
-					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
-					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-					<%-- 原有数据对应id --%>
-					<input type="hidden" id="caseId" name="caseId" value="${firstFollow.caseId }">
-					<input type="hidden" id="tTLId" name="tTLId" value="${firstFollow.tTLId }">
-					<input type="hidden" id="signId" name="signId" value="${firstFollow.signId}">
-					<input type="hidden" id="propertyInfoId" name="propertyInfoId" value="${firstFollow.propertyInfoId}">
-					<%-- 设置审批类型 --%>
-					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
-					<input type="hidden" id="operator" name="operator" value="${operator }">
-					<%-- T_TO_FIRST_FOLLOW 表  --%>
-					<input type="hidden" id="firstfollowId" name="firstfollowId" value="${firstFollow.firstfollowId}" />
 
-	            
 		            <div class="marinfo">
 		                <div class="line">		                 
 		                    <div class="form_content">
@@ -351,17 +330,21 @@ function checkForm() {
 		            </div>
 	            </div>
 	            <form method="get" class="form_list" id="evalInvoiceAuditform" style="overflow: visible;">
-	            <input type="hidden" name="partCode" value="evalInvoiceAudit">
-	            <input type="hidden" id="caseCode1" name="caseCode" value="${toEvaInvoice.caseCode}">
+				<input type="hidden" id="ctx" value="${ctx }" />
+				<!-- 环节编码  -->
+				<%-- <input type="hidden" id="partCode" name="partCode" value="${taskitem}"> --%>
+				<!-- 交易单编号 -->
+				<input type="hidden" id="caseCode" name="caseCode" value="${toEvaInvoice.caseCode}"> 
+				<input type="hidden" name="partCode" value="evalInvoiceAudit">
+	            <input type="hidden" id="taskId" name="taskId" value="${taskId }">
+				<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 	            <div class="line">		                 
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批结果：</label>
-		                        <input type="radio" name="status" value="1"><span>通过</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+		                        <input type="radio" name="status" value="1" checked="checked"><span>通过</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     							<input type="radio" name="status" value="0"><span>驳回</span>
-		                    </div>
-			                  	                     
-		                </div>
-		        
+		                    </div>			                  	                     
+		                </div>		        
 		        <div class="line">		                 		                    
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批意见：</label> 
@@ -410,9 +393,6 @@ function checkForm() {
 				<script>
 					$(document).ready(function(){
 						var ctx = $("#ctx").val();
-/* 						if(!$("#caseCode").val()){
-							$("#caseCode").val("ZY-TJ-2017080038");						
-						} */
 						var caseCode=$("#caseCode").val();
 						AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}',caseCode);
 						//日历控件

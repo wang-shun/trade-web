@@ -300,10 +300,9 @@ function addOrg() {
 	txt +='<td><input type="text" name="loanMoney" id="loanMoney" class="form-control input-one" placeholder="贷款金额(单位：万元)"  /></td>';
 	txt +='<td><input type="text" name="restMoney" id="restMoney" class="form-control input-one" placeholder="剩余金额(单位：万元)"  onchange="changeRestMoney()" /></td>';
 	txt +='<td><span><a href="javascript:removeTr('+ index + ');"><font>删除</font></a></span></td></tr></tbody>';
-
 	$("#addInput").before(txt);
 	$("#addMoneyLine").css("display","none");
-//	index++;
+	//index++;
 }
 
 function removeTr(index) {

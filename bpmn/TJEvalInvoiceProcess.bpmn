@@ -4,10 +4,10 @@
   <process id="TJEvalInvoiceProcess" name="天津评估发票管理流程" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <endEvent id="endevent1" name="End"></endEvent>
-    <userTask id="auditInvoiceApplication" name="权证经理审批发票申请" activiti:assignee="${warantManager}"></userTask>
-    <userTask id="invoiceApply" name="发票申请" activiti:assignee="${assistant}"></userTask>
-    <userTask id="issueInvoice" name="开具发票" activiti:assignee="${assistant}"></userTask>
-    <userTask id="collectInvoice" name="领取发票" activiti:assignee="${assistant}"></userTask>
+    <userTask id="auditInvoiceApplication" name="权证经理审批发票申请" activiti:assignee="${warantManager}" activiti:formKey="/eval/invoiceAudit"></userTask>
+    <userTask id="invoiceApply" name="发票申请" activiti:assignee="${assistant}" activiti:formKey="/eval/invoiceApply"></userTask>
+    <userTask id="issueInvoice" name="开具发票" activiti:assignee="${assistant}" activiti:formKey="/eval/issueInvoice"></userTask>
+    <userTask id="collectInvoice" name="领取发票" activiti:assignee="${assistant}" activiti:formKey="/eval/collectInvoice"></userTask>
     <sequenceFlow id="flow3" sourceRef="invoiceApply" targetRef="issueInvoice"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="issueInvoice" targetRef="collectInvoice"></sequenceFlow>
     <sequenceFlow id="flow5" sourceRef="collectInvoice" targetRef="endevent1"></sequenceFlow>
@@ -71,7 +71,7 @@
         <omgdi:waypoint x="407.0" y="71.0"></omgdi:waypoint>
         <omgdi:waypoint x="480.0" y="71.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="409.0" y="54.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="409.0" y="54.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
@@ -79,7 +79,7 @@
         <omgdi:waypoint x="386.0" y="176.0"></omgdi:waypoint>
         <omgdi:waypoint x="238.0" y="175.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="281.0" y="150.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="281.0" y="150.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">

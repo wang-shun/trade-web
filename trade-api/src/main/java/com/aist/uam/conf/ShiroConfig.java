@@ -119,8 +119,11 @@ public class ShiroConfig {
 
 	@Bean
 	@ConfigurationProperties("casRealm")
-	public CasAppRealm casAppRealm() {
+	public CasAppRealm casAppRealm(@Value("${casRealm.casService}") String casService,
+								   @Value("${casRealm.casServerUrlPrefix}") String casServerUrlPrefix) {
 		CasAppRealm realm = new CasAppRealm();
+		realm.setCasServerUrlPrefix(casServerUrlPrefix);
+		realm.setCasService(casService);
 		realm.setCachingEnabled(false);
 		return realm;
 	}

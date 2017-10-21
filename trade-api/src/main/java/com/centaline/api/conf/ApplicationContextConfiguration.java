@@ -16,15 +16,17 @@ public class ApplicationContextConfiguration {
 		ClassPathResource resource = new ClassPathResource("application-dev.properties");
 		PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
 		propertyPlaceholderConfigurer.setLocation(resource);
+		propertyPlaceholderConfigurer.setIgnoreUnresolvablePlaceholders(true);
 		return propertyPlaceholderConfigurer;
 	}
 
 	@Bean
-	@Profile("prod")
+	@Profile("production")
 	public PropertySourcesPlaceholderConfigurer createPropertySourcesPlaceholderConfigurerPrd() {
 		ClassPathResource resource = new ClassPathResource("application-prod.properties");
 		PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
 		propertyPlaceholderConfigurer.setLocation(resource);
+		propertyPlaceholderConfigurer.setIgnoreUnresolvablePlaceholders(true);
 		return propertyPlaceholderConfigurer;
 	}
 
