@@ -45,7 +45,11 @@
 	<link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
 	<link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
 	<link rel="stylesheet" href="<c:url value='/js/viewer/viewer.min.css' />" />
-	<script type="text/javascript">
+	<style type='text/css'>
+		.divider {position: relative}
+		.divider label {position: absolute;left: 0;top: -17px}
+	</style>
+		<script type="text/javascript">
 		var ctx = "${ctx}";
 		var taskitem = "${taskitem}";
 		var caseCode = "${caseCode}";
@@ -57,16 +61,93 @@
 			var idList = [];
 		}
 	</script>
-	<style type='text/css'>
-		.divider {position: relative}
-		.divider label {position: absolute;left: 0;top: -17px}
-	</style>
+	<script>	
+	//提交数据
+	function submit() {	
+		var pkid=$("#pkid").val();
+		if(!pkid){
+		 window.wxc.alert("请以正确的方式进入该页面!");
+		return;		
+		}
+		save(true);
+	}
+
+	//保存数据
+	function save(b) {	
+		if(b){
+			if (!checkForm()) {
+				return;
+			}													
+		} 
+		var jsonData={};
+		var pkid=$('#pkid').val();
+		var billTime=$('#billTime').val();
+		
+		jsonData.pkid=pkid;
+		jsonData.billTime=billTime;
+		
+		var url = "${ctx}/eval/submitIssueInvoice";
+		
+		$.ajax({
+	        cache : true,
+	        async : false,
+	        type : "POST",
+	        url : url,
+	        dataType : "json",
+	        data : jsonData,
+	        beforeSend : function() {
+	            $.blockUI({
+	                message : $("#salesLoading"),
+	                css : {
+	                    'border' : 'none',
+	                    'z-index' : '9999'
+	                }
+	            });
+	            $(".blockOverlay").css({
+	                'z-index' : '9998'
+	            });
+	        },
+	        success: function(data){
+	            $.unblockUI();
+	            console.log(data);
+	            if (b) {
+	                if (data.message) {
+	                    window.wxc.alert("提交成功"+data.message);
+	                }
+	                var ctx = $("#ctx").val();
+	                window.location.href=ctx+ "/task/myTaskList";
+	            }else{
+	            	if (data.message) {
+	                    window.wxc.alert("提交成功"+data.message);
+	                }
+	            }
+	        },
+	        error:function(){
+	        	window.wxc.alert("提交信息出错。。");
+	        }
+	    });
+	}
+	
+	//验证控件checkUI();
+	function checkForm() {
+		if(!$("#billTime").val()){
+			window.wxc.alert("开具发票时间为必填项!");
+			$("#billTime").focus();
+			$("#billTime").css("border-color","red");
+			return false;
+		}	
+			return true;
+		}
+
+		$("input[type='text'],select").focus(function() {
+			$(this).css("border-color", "rgb(229, 230, 231)");
+		});
+	</script>
 	<title>开具评估发票</title>
 <content tag="pagetitle">开具评估发票</content>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-<%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
 <nav id="navbar-example" class="navbar navbar-default navbar-static"
 		role="navigation">
 		<div id="isFixed" style="position: relative; top: 0px;"
@@ -191,29 +272,31 @@
 										<table style="width:100%">
 											<tr style="height:30px">
 												<td>发票种类：</td>
-												<td>1</td>
+												<td>${toEvaInvoice.invoiceType}</td>
 												<td>申请日期：</td>
-												<td>1</td>
+												<td>
+												<fmt:formatDate value="${toEvaInvoice.applyDate}" type="both" pattern="yyyy-MM-dd"/>
+												</td>
 												<td>开票抬头：</td>
-												<td>1</td>
+												<td>${toEvaInvoice.invoiceHeader}</td>
 											</tr>
 											
 											<tr style="height:30px">
 												<td>发票金额：</td>
-												<td>1</td>
+												<td>${toEvaInvoice.invoiceAmount}</td>
 												<td>开户银行：</td>
-												<td>1</td>
+												<td>${toEvaInvoice.openAccountBank}</td>
 												<td>银行账户：</td>
-												<td>1</td>
+												<td>${toEvaInvoice.bankAccount}</td>
 											</tr>
 											
 											<tr style="height:30px">
 												<td>开票地址：</td>
-												<td>1</td>
+												<td>${toEvaInvoice.invoiceAddress}</td>
 												<td>税号:</td>
-												<td>1</td>
-												<td>1</td>
-												<td>1</td>
+												<td>${toEvaInvoice.taxNum}</td>
+												<td></td>
+												<td></td>
 											</tr>
 									</table>
 									</div>
@@ -244,7 +327,7 @@
 
 		<div class="ibox-content border-bottom clearfix space_box noborder">
 			<form method="get" class="form_list" id="issueInvoiceform" style="overflow: visible;">
-			
+			<input type="hidden" name="pkid" id="pkid" value="${toEvaInvoice.pkid}">
 			<h2 class="newtitle title-mark">填写开票任务信息</h2>
         	<div style="padding-left: 10px">
         		<div class="line">		                 
@@ -254,12 +337,10 @@
 		                           	<font color=" red" class="mr5" >*</font>开具发票时间：
 		                        </label>
 		                        <div class="input-group sign-right dataleft input-daterange pull-left" id="estFinishTime" data-date-format="yyyy-mm-dd">
-		                        	<input type="text" class="input_type yuanwid datatime" id="issueInvoiceTime" name="issueInvoiceTime" onfocus="this.blur()"
-												value="<fmt:formatDate  value='${firstFollow}' type='both' pattern='yyyy-MM-dd'/>">
+		                        	<input type="text" class="input_type yuanwid datatime" id="billTime" name="billTime" onfocus="this.blur()"
+												value="<fmt:formatDate  value='${toEvaInvoice.billTime}' type='both' pattern='yyyy-MM-dd'/>">
 		                        </div> 
-		                    </div>
-		                    
-		                                      	                     
+		                    </div>               	                     
 		                </div>
         	</div>
 			</form>
@@ -272,7 +353,7 @@
 			</div>
 			<div class="form-btn clear pt20">
 				<div class="text-center">
-					<button  class="btn btn-success btn-space" onclick="save(false)">保存</button>
+					<button  class="btn btn-success btn-space" onclick="javascript:window.close()">关闭</button>
 					<button class="btn btn-success btn-space" onclick="submit()" id="btnSubmit">提交</button>
 				</div>
 			</div>
@@ -341,13 +422,14 @@
 </content>
 <content tag="local_require">
 	<script>
+	var caseCode=$("#caseCode").val();
 	var fileUpload;
 	require(['main'], function() {
 		requirejs(['jquery','aistFileUpload'],function($,aistFileUpload){
 			fileUpload = aistFileUpload;
 
 			fileUpload.init({
-				caseCode : "ZY-TJ-2017090083",
+				caseCode : caseCode,
 				partCode : "eval_invoice_manage",
 				fileUploadContainer : "transSignfileUploadContainer"
 			});

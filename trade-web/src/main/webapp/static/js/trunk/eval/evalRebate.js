@@ -143,3 +143,21 @@ function cal(){
         $('#evacomamount').html('评估公司分成金额:');
     }
 }
+
+function loadVerifyFee(ccaiCode){
+    var url =  "/case/getPricingAndFee?ccaiCode=" + ccaiCode;
+    $.ajax({
+        async: true,
+        url:ctx+url ,
+        method: "post",
+        dataType: "json",
+        success: function(data){
+            if(data.success){
+                var fee = data.content.prices.receiptsAssessmentFee;
+                if(fee != null){
+                    $('#verify').html('评估费实收:'+fee);
+                }
+            }
+        }
+    });
+}

@@ -13,6 +13,8 @@ public interface ToEvaInvoiceMapper {
     ToEvaInvoice selectByPrimaryKey(Long pkid);
     
     ToEvaInvoice selectByCaseCode(String caseCode);
+//    查出当前案件所指向的评估单
+    ToEvaInvoice selectByCaseCodeWithEvaPointer(String caseCode);
     
     ToEvaInvoice selectByEvaCode(String evaCode);
     

@@ -59,7 +59,7 @@
 
 <div class="ibox-content border-bottom clearfix space_box noborder">
 	<div>
-		<h2 class="newtitle title-mark">评估返利报告信息</h2>
+		<h2 class="newtitle title-mark">评估返利报告申请信息</h2>
 		<div class="text_list">
 			<div class="row">
 				<label class="col-sm-3 control-label">评估公司:${evalCompany.FIN_ORG_NAME}</label>
@@ -76,6 +76,15 @@
 			</div>
 			<div class="row">
 				<label class="col-sm-3 control-label">录入时间:<fmt:formatDate value='${rebate.inputTime}' pattern="yyyy-MM-dd" /></label>
+			</div>
+		</div>
+	</div>
+
+	<div>
+		<h2 class="newtitle title-mark">财务确认信息</h2>
+		<div class="text_list">
+			<div class="row">
+				<label class="col-sm-3 control-label" id="verify">评估费实收:无</label>
 			</div>
 		</div>
 	</div>
@@ -137,7 +146,7 @@
 	</div>
 	<div class="form-btn">
 		<div class="text-center">
-			<button class="btn btn-success btn-space" onclick="submit('${ctx}')">提交</button>
+			<button id="subBtn" class="btn btn-success btn-space" onclick="submit('${ctx}')">提交</button>
 		</div>
 	</div>
 </div>
@@ -163,6 +172,7 @@
 		$(function(){
 		    //审批记录列表
             AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${caseCode}');
+            loadVerifyFee('${ccaiCode}');
 		});
 	</script>
 </content>

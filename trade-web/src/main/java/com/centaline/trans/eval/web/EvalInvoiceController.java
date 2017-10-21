@@ -57,7 +57,7 @@ public class EvalInvoiceController {
 	private UamSessionService uamSessionService;
 	@Autowired(required = true)
 	private UamUserOrgService uamUserOrgService;
-	@Autowired(required = true)
+	@Autowired(required =true)
 	private UamBasedataService uamBasedataService;
 	@Autowired
 	private ToEvaCommissionChangeService toEvaCommissionChangeService;
@@ -67,9 +67,28 @@ public class EvalInvoiceController {
 	private ToEvaCommPersonAmountService toEvaCommPersonAmountService;
 	@Autowired
 	private ToEvaInvoiceService toEvaInvoiceService;
-	
 	/**
-	 * 
+	 * @since:2017年10月20日 下午2:53:56
+	 * @description:跳转领取发票页面
+	 * @author:xiefei1
+	 * @param request
+	 * @param model
+	 * @param caseCode
+	 * @return
+	 */
+	@RequestMapping(value = "collectInvoice")
+	public String toCollectInvoice(HttpServletRequest request,Model model,String caseCode) {
+		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+		String ctx = app.genAbsoluteUrl();
+		ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByCaseCodeWithEvaPointer(caseCode);
+		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
+		request.setAttribute("ctx", ctx);
+		model.addAttribute("evalChangeCommVO", evalChangeCommVO);
+		model.addAttribute("caseCode", caseCode);
+		model.addAttribute("toEvaInvoice", toEvaInvoice);
+		return "eval/collectInvoice";
+	}
+	/**
 	 * @since:2017年10月19日 下午7:41:48
 	 * @description:提交开具发票
 	 * @author:xiefei1
@@ -82,19 +101,14 @@ public class EvalInvoiceController {
 	@ResponseBody
 	public AjaxResponse<String> submitIssueInvoice(ToEvaInvoice toEvaInvoice) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		if(StringUtils.isNotBlank(toEvaInvoice.getCaseCode())&&StringUtils.isNotBlank(toEvaInvoice.getEvaCode())){
 			try{
-				toEvaInvoiceService.insertSelective(toEvaInvoice);
+				toEvaInvoiceService.updateByPrimaryKeySelective(toEvaInvoice);
 			}
 			catch(Exception e){
 				response.setSuccess(false);
 				response.setMessage(e.getMessage());
 				logger.error("保存失败！"+e.getCause());
-			}			
-		}else{
-			response.setSuccess(false);
-			response.setMessage("案件编码或评估号为空，请关联评估单！");
-		}
+			}					
 		return response;
 	}
 	
@@ -123,7 +137,7 @@ public class EvalInvoiceController {
 	 * @author:xiefei1
 	 */
 	@RequestMapping(value = "submitInvoiceAudit")
-	public AjaxResponse<String> submitInvoiceAudit(HttpServletRequest request,Model model,String caseCode,String partCode,String content,String status) {
+	public AjaxResponse<String> submitInvoiceAudit(EvalChangeCommVO evalChangeCommVO,ToEvaCommissionChange toEvaCommissionChange,HttpServletRequest request,Model model,String caseCode,String partCode,String content,String status) {
 		SessionUser user = uamSessionService.getSessionUser();		
 		ToApproveRecord toApproveRecord = new ToApproveRecord();
 		toApproveRecord.setOperator(user.getId());
@@ -143,6 +157,8 @@ public class EvalInvoiceController {
 		
 		try{
 		toEvaInvoiceService.updateEvalInvoiceApproveRecord(toApproveRecord);
+		//只要有同名的属性都会同时分配给这两个对象
+		toEvaCommPersonAmountService.saveEvalChangeCommVO(evalChangeCommVO,toEvaCommissionChange);
 			}catch(Exception e){
 		response.setSuccess(false);
 		response.setMessage(e.getMessage());
@@ -160,7 +176,6 @@ public class EvalInvoiceController {
 	@ResponseBody
 	public AjaxResponse<String> submitIssueInvoiceChangeComm(EvalChangeCommVO evalChangeCommVO,ToEvaCommissionChange toEvaCommissionChange, HttpServletRequest request,Model model,String caseCode) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		System.out.println("测试是否进入该方法。。");
 		try{
 			//只要有同名的属性都会同时分配给这两个对象
 		toEvaCommPersonAmountService.saveEvalChangeCommVO(evalChangeCommVO,toEvaCommissionChange);
@@ -228,6 +243,8 @@ public class EvalInvoiceController {
 		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
 		String ctx = app.genAbsoluteUrl();
 		request.setAttribute("ctx", ctx);
+		ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByCaseCodeWithEvaPointer(caseCode);
+		model.addAttribute("toEvaInvoice", toEvaInvoice);
 		model.addAttribute("caseCode", caseCode);
 		return "eval/issueInvoice";
 	}

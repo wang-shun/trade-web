@@ -165,8 +165,10 @@
 <link href="<c:url value='/css/iconfont/iconfont.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/btn.css' />" rel="stylesheet">
 <%-- <link href="<c:url value='/css/common/input.css' />" rel="stylesheet"> --%>
+<link href="<c:url value='/css/common/input-collectInvoice.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/table.css' />" rel="stylesheet">
 <!--弹出框样式  -->
+<link href="<c:url value='/css/transcss/comment/caseComment.css' />" rel="stylesheet">
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
 <script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
@@ -275,21 +277,32 @@ function showAttachment(url){
 	
 }
 //提交数据
-function submit() {					
+function submit() {	
+	var pkid=$("#pkid").val();
+	if(!pkid){
+	 window.wxc.alert("请以正确的方式进入该页面!");
+	return;		
+	}
 	save(true);
 }
 
 //保存数据
-function save(b) {
-	 if(b){
+function save(b) {	
+	if(b){
 		if (!checkForm()) {
 			return;
 		}													
 	} 
+	var jsonData={};
+	var pkid=$('#pkid').val();
+	var collectTime=$('#collectTime').val();
+	var collectPerson=$('#collectPerson').val();
 	
-	var jsonData = $("#changeCommForm").serializeArray();
-
-	var url = "${ctx}/eval/submitInvoiceAudit";
+	jsonData.pkid=pkid;
+	jsonData.collectTime=collectTime;
+	jsonData.collectPerson=collectPerson;
+	
+	var url = "${ctx}/eval/submitIssueInvoice";
 	
 	$.ajax({
         cache : true,
@@ -314,14 +327,14 @@ function save(b) {
             $.unblockUI();
             console.log(data);
             if (b) {
-                if (data) {
-                    window.wxc.alert("提交成功"+data);
+                if (data.message) {
+                    window.wxc.alert("提交成功"+data.message);
                 }
                 var ctx = $("#ctx").val();
                 window.location.href=ctx+ "/task/myTaskList";
             }else{
             	if (data.message) {
-                    window.wxc.alert("提交成功"+data);
+                    window.wxc.alert("提交成功"+data.message);
                 }
             }
         },
@@ -331,51 +344,27 @@ function save(b) {
     });
 }
 
-//double验证
-function checkNum(obj) {
-	//先把非数字的都替换掉，除了数字和.
-	obj.value = obj.value.replace(/[^\d.]/g, "");
-	//必须保证第一个为数字而不是.
-	obj.value = obj.value.replace(/^\./g, "");
-	//保证只有出现一个.而没有多个.
-	obj.value = obj.value.replace(/\.{2,}/g, ".");
-	//保证.只出现一次，而不能出现两次以上
-	obj.value = obj.value.replace(".", "$#$").replace(/\./g, "")
-			.replace("$#$", ".");
-}
-
 //验证控件checkUI();
 function checkForm() {
-	var caseCode=$("#caseCode").val();
-
-	if(!$("#changeChargesType").val()){
-		window.wxc.alert("调佣类型为必填项!");
-		$("#changeChargesType").focus();
-		$("#changeChargesType").css("border-color","red");
+	if(!$("#collectTime").val()){
+		window.wxc.alert("领取发票时间为必填项!");
+		$("#collectTime").focus();
+		$("#collectTime").css("border-color","red");
 		return false;
-	}
-	
-	if(!$("#changeChargesCause").val()){
-		window.wxc.alert("调佣事由为必填项!");
-		$("#changeChargesCause").focus();
-		$("#changeChargesCause").css("border-color","red");
+	}	
+	if(!$("#collectPerson").val()){
+		window.wxc.alert("领取人为必填项!");
+		$("#collectPerson").focus();
+		$("#collectPerson").css("border-color","red");
 		return false;
-	}
-	
-	if(!caseCode){
-		window.wxc.alert("缺少caseCode,请以正确的方式进入系统!");
-		return false;
-	}
-	
+	}	
 		return true;
 	}
 
 	$("input[type='text'],select").focus(function() {
 		$(this).css("border-color", "rgb(229, 230, 231)");
 	});
-
 </script>
-
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -553,21 +542,51 @@ function checkForm() {
 
 
 	<div class="">
-
-
-
-<!-- 调佣对象调佣金额 -->
 		 <div class="ibox-content border-bottom clearfix space_box noborder marginbot" id="serviceFlow">
+		 
+		 		
+			<form method="get" class="form_list" id="collectInvoiceform" style="overflow: visible;">
+			<input type="hidden" id="pkid" name="pkid" value="${toEvaInvoice.pkid}">
+			<h2 class="newtitle title-mark">填写开票任务信息</h2>
+        	<div style="padding-left: 10px">
+        		<div class="line">		                 
+		                    <div class="form_content mt3">
+		                        <label class="control-label sign_left_small select_style mend_select">
+		                           	<font color=" red" class="mr5" >*</font>领取时间：
+		                        </label>
+		                        <div class="input-group sign-right dataleft input-daterange pull-left" id="estFinishTime" data-date-format="yyyy-mm-dd">
+		                        	<input type="text" class="input_type yuanwid datatime" id="collectTime" name="collectTime" onfocus="this.blur()"
+												value="<fmt:formatDate  value='${toEvaInvoice.collectTime}' type='both' pattern='yyyy-MM-dd'/>">
+		                        </div> 
+		                    </div>               	                     
+		                <div class="form_content mt3">
+		                        <label class="control-label sign_left_small select_style mend_select">
+		                           	<font color=" red" class="mr5" >*</font>领取人：
+		                        </label>
+		                        <div class="input-group sign-right dataleft  pull-left">
+		                        	<input type="text" class="input_type yuanwid" id="collectPerson" name="collectPerson" value="${toEvaInvoice.collectPerson}">
+		                        </div> 
+		                    </div> 	                
+		                </div>
+        	</div>
+			</form>
+			
+		 
+		<div class="">
+			<div class="view-content" id="caseCommentList"></div>				
+		</div><hr>
+<!-- 调佣对象调佣金额 -->
 		 <form action="#" id="changeCommForm">
 <input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 <input type="hidden" id="ctx" name="ctx" value="${ctx}">
+
 		<!-- 原来的页面 -->
-		<h2 class="newtitle title-mark">调佣信息</h2>		
+		<h2 class="newtitle title-mark">增减佣信息</h2>		
 	                <!-- 原来的页面 -->
 		<div  style="width: 80%" align="center" class="table_content">
 		<div align="left" style="height:30px">
 			<font color=" red" >*</font>调佣事项： 
-			<input type="text" id="changeChargesItem" maxlength="16" name="changeChargesItem" value="评估公司变更" readonly="readonly">
+			<input type="text" id="changeChargesType" maxlength="16" name="changeChargesItem" value="评估公司变更" readonly="readonly">
 		</div>
 		<div align="left" style="height:30px">
 			<font color=" red" >*</font>调佣类型： 
@@ -599,17 +618,6 @@ function checkForm() {
                     <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateManager" value="${coPerson.cooperateManager }"></td>
                 </tr>
             </c:forEach>
-                <!-- <tr>
-                    <td>合作人1:</td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                </tr> -->
-                
-
                 <tr>
                     <td></td><td>部门</td><td>员工</td><td>分成金额</td><td>分成比例</td><td>分成说明</td><td>成交单数</td>
                 </tr>
@@ -624,15 +632,7 @@ function checkForm() {
                     <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].dealCount" value="${sharePerson.dealCount }"></td>
                 </tr>
                 </c:forEach>
-                <!-- <tr>
-                    <td>分成人2:</td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                </tr> -->               
+              
                 <tr></tr><tr></tr>
                 
                 <c:forEach items="${evalChangeCommVO.warrantPersonList }" var="warrantPersonList" varStatus="s">
@@ -646,7 +646,6 @@ function checkForm() {
                     <td></td>
                 </tr>
                 </c:forEach>
-
                 <tr>
                     <td></td>
                     <td></td>
@@ -660,44 +659,16 @@ function checkForm() {
         </table>
 
 </div>
-
+</form>
 <!-- 调佣对象调佣金额 -->
 
 <!-- 填写审批任务 -->
 <hr>
-<div class="">
-	            <div class="line">	
-		            <div class="title title-mark" id="aboutInfo">
-		               <strong style="font-weight:bold;">填写审批任务</strong>
-		            </div>
-	            </div>	            
-	            <input type="hidden" name="partCode" value="changeEvalComAudit">
-				<input type="hidden" id="taskId" name="taskId" value="${taskId}">
-				<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-	            <div class="line" style="margin-top:18px">		                 
-		                    <div class="form_content" >
-		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批结果：</label>
-		                        <input type="radio" name="status" value="1" checked="checked"><span>通过</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-    							<input type="radio" name="status" value="0"><span>驳回</span>
-		                    </div>
-			                  	                     
-		                </div>
-		        
-		        <div class="line" style="margin-top:18px">		                 		                    
-		                    <div class="form_content">
-		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批意见：</label> 
-		                        <input type="text"  class="input_type mendwidth" id="content" name="content" 
-										value="" maxlength="64">
-		                    </div>			                  	                     
-		                </div>   
-		                     	          	            
-				</form>
-				
-</div><hr>
+
 
 	            <!-- 填写审批任务 -->
 	            <div class="title title-mark" id="aboutInfo">
-	               <strong style="font-weight:bold;">开票审批记录</strong>
+	               <strong style="font-weight:bold;">审批记录</strong>
 	            </div>	            
 	            <div class="view-content">
 	              	<table id="gridTable" class=""></table>
@@ -750,35 +721,11 @@ function checkForm() {
 						var ctx = $("#ctx").val();
 						var caseCode=$("#caseCode").val();	
 						AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}',caseCode);
-					//设置div显示或隐藏
-					function isShow(divName, stats) {
-					    var div_array = document.getElementsByName(divName);   
-					    for(i=0;i<div_array.length;i++)  
-					    {  
-						    div_array[i].style.display = stats; 
-					    }  
-					}
-	      
-		            $("[name=businessLoanWarn]").click(function(){
-		                if($(this).val()=='1'){
-		                    $("#divContent").css("display","inherit");
-		                }else{
-		                    $("#divContent").css("display","none");
-		                }
-		            });
-		            //页面加载时计算出百分比
-		            //var shareAmountArray=$('.shareAmount');
-		            //console.log(shareAmountArray);
-		            
-		            /* $('.shareAmount').each(function(){
-		            	var totalcomm=$("#ttlComm").val();
-		            	totalcomm=parseInt(totalcomm);
-		            	console.log(totalcomm);
-		                var sharePacentage=$(this).val()/totalcomm*100;
-		                sharePacentage=sharePacentage.toFixed(2)
-		            	$(this).parent().siblings().children(".aa").text(sharePacentage);
-		            }) */
-		            
+						$("#caseCommentList").caseCommentGrid({
+							caseCode : caseCode,
+							srvCode : 'collectInvoice'
+						});
+
 		            refeshShareAmount();
 		            getTotalSharePacentage();
 		            
@@ -795,18 +742,8 @@ function checkForm() {
 		                console.log($(this).parent().siblings().children(".aa").text(sharePacentage));
 		                refeshShareAmount();
 		                getTotalSharePacentage();
-		              //计算总百分比
-		                /* var totalPacentage=0;
-		                var totalPacentageArray=new Array();
-		                $(".aa").each(function(){
-		                    totalPacentageArray.push(parseInt($(this).text()));
-		                })
-		                for(var i=0;i<totalPacentageArray.length;i++){
-		                    totalPacentage=totalPacentageArray[i]+totalPacentage;
-		                }
-		                console.log(totalPacentageArray);
-		                console.log(totalPacentage);
-		                $("#totalPacentage").text(totalPacentage);   */              
+
+             
 		            }); 
 		            		            
 					})//end ready function
