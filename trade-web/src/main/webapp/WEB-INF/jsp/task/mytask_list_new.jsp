@@ -427,6 +427,12 @@ $(function(){
 
 		
 	});
+/***
+ *  回调刷新的方法
+ */
+function callback() {
+    setTimeout('searchMethod()',1000);
+}
 </script>
 </content>
 </body>

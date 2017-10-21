@@ -1,10 +1,7 @@
 package com.centaline.trans.taskList.web;
 
-import com.aist.common.quickQuery.bo.JQGridParam;
-import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.web.validate.AjaxResponse;
-import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.auth.remote.vo.SessionUser;
+import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.common.enums.EvalRebateStatusEnum;
 import com.centaline.trans.eval.entity.ToEvalRebate;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
@@ -19,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Map;
 
 /**
  * 评估返利任务办理
@@ -39,12 +34,16 @@ public class ToEvalRebateController {
 	@Autowired
 	private TsFinOrgService tsFinOrgService;
 
+	@Autowired
+	private ToCaseInfoService toCaseInfoService;
+
 	@RequestMapping(value = "evalRebate/assistant",method = RequestMethod.GET)
 	public String toProcess(HttpServletRequest request,String caseCode){
 		ToEvalReportProcess eval = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
 		request.setAttribute("eval",eval);
-		request.setAttribute("evalCompany",tsFinOrgService.findFinByFinCode(eval.getFinOrgId()));
+		request.setAttribute("evalCompany",eval !=null?tsFinOrgService.findFinByFinCode(eval.getFinOrgId()) : "");
 		request.setAttribute("rebate",toEvalRebateService.findToEvalRebateByCaseCode(caseCode));
+		request.setAttribute("ccaiCode",toCaseInfoService.findccaiCodeBycaseCode(caseCode));
 		return "eval/taskEvalRebateAssistant";
 	}
 

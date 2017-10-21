@@ -7,7 +7,7 @@ server:
 #数据源
 dataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://10.1.30.100:1433;databaseName=scpf_dev
+  url: jdbc:sqlserver://10.1.30.100:1433;databaseName=scpf_prd
   username: dev
   password: dev@123
   maxActive: 10

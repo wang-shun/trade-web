@@ -4,22 +4,11 @@ import com.aist.common.exception.BusinessException;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.api.ccai.listener.EvalFlowWorkListener;
-import com.centaline.api.ccai.listener.FlowWorkListener;
 import com.centaline.api.ccai.service.CcaiEvalService;
-import com.centaline.api.ccai.vo.EvalRebeatImport;
-import com.centaline.api.ccai.vo.EvalRebeatReportImport;
-import com.centaline.api.ccai.vo.EvalRefundImport;
-import com.centaline.api.ccai.vo.MQCaseMessage;
-import com.centaline.api.ccai.vo.MQEvalMessage;
-import com.centaline.api.ccai.vo.SelfDoImport;
-import com.centaline.api.ccai.vo.TaskInfo;
+import com.centaline.api.ccai.vo.*;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import com.centaline.trans.cases.service.ToCaseInfoService;
-import com.centaline.trans.common.enums.EvalRebateStatusEnum;
-import com.centaline.trans.common.enums.EventTypeEnum;
-import com.centaline.trans.common.enums.MessageEnum;
-import com.centaline.trans.common.enums.SelfDoStatusEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.enums.*;
 import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 import com.centaline.trans.eloan.service.ToSelfAppInfoService;
 import com.centaline.trans.engine.WorkFlowConstant;
@@ -34,11 +23,12 @@ import com.centaline.trans.eval.entity.ToEvalReportProcess;
 import com.centaline.trans.eval.service.ToEvaRefundService;
 import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
+import com.centaline.trans.message.activemq.vo.MQCaseMessage;
+import com.centaline.trans.message.activemq.vo.MQEvalMessage;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 import com.centaline.trans.task.service.ToApproveRecordService;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-
 import java.util.List;
 import java.util.Set;
 
@@ -81,7 +70,7 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 
 	@Autowired
 	private ToEvaRefundService toEvaRefundService;
-	
+
 	@Autowired
 	private ToSelfAppInfoService toSelfAppInfoService;
 	
@@ -103,8 +92,12 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 		ToEvalRebate evalRebate = validateAndConvert(info);
 		ToEvalRebate old = toEvalRebateService.findToEvalRebateByCaseCode(evalRebate.getCaseCode());
 		if(old==null){
-			evalRebate.setStatus(EvalRebateStatusEnum.DOING.getCode());
-			//首次同步
+			//设置案件状态
+			if(StringUtils.isBlank(evalRebate.getEvaCode())){
+				evalRebate.setStatus(EvalRebateStatusEnum.RELATION.getCode());
+			}else{
+				evalRebate.setStatus(EvalRebateStatusEnum.DOING.getCode());
+			}
 			toEvalRebateService.insertSelective(evalRebate);
 			//导入审批记录
 			for(TaskInfo task : info.getTasks()){
@@ -126,8 +119,15 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 				}
 				toApproveRecordService.saveToApproveRecord(record);
 			}
-			//发送消息 启动流程
-			MQEvalMessage message = new MQEvalMessage(evalRebate.getCaseCode(), WorkFlowEnum.EVAL_REBATE_PROCESS.getCode(),MQEvalMessage.STARTFLOW_TYPE);
+			MQEvalMessage message;
+			//有关联的评估才发起流程
+			if(StringUtils.isNotBlank(evalRebate.getEvaCode())){
+				//发送启动流程消息
+				message = new MQEvalMessage(evalRebate.getCaseCode(), WorkFlowEnum.EVAL_REBATE_PROCESS.getCode(),MQEvalMessage.STARTFLOW_TYPE);
+			}else{
+				//发送消息 通知内勤有新的评估返利申请，但是无评估单
+				message = new MQEvalMessage(evalRebate.getCaseCode(), WorkFlowEnum.EVAL_REBATE_PROCESS.getCode(),MQEvalMessage.SENDMESSAGE_TYPE);
+			}
 			jmsTemplate.convertAndSend(EvalFlowWorkListener.getEvalQueueName(), message);
 			return new CcaiServiceResult("00",true,"成功");
 		}else{
@@ -224,27 +224,26 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 		}
 		//TODO 其他更多的校验
 		String caseCode = toCaseInfoService.findcaseCodeByccaiCode(erImport.getOringinCcaiCode());
+		ToEvalRebate rebate = new ToEvalRebate();
 		if(StringUtils.isNotBlank(caseCode)){
-			ToEvalReportProcess evalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
-			if(evalReportProcess!=null&&StringUtils.isNotBlank(evalReportProcess.getEvaCode())){
-				ToEvalRebate rebate = new ToEvalRebate();
-				rebate.setEvaCode(evalReportProcess.getEvaCode());
-				rebate.setCaseCode(caseCode);
-				rebate.setCcaiCode(erImport.getCcaiCode());
-				rebate.setEvaRpocessId(erImport.getApplyId());
-				rebate.setEvalPrice(erImport.getEvalPrice());
-				rebate.setEvalRealCharges(erImport.getEvalRealCharges());
-				rebate.setEvalDueCharges(erImport.getEvalDueCharges());
-				rebate.setInputTime(erImport.getInputTime());
-				rebate.setApplyRealName(erImport.getApplyRealName());
-				rebate.setApplyUserName(erImport.getApplyUserName());
-				return rebate;
-			}else{
-				throw new BusinessException("未获取到返利申请对应的评估信息!");
+			//关联评估报告改为非强制关联 有可能存在评估返利申请完成，评估单并未开始的情况
+			ToEvalReportProcess eval = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
+			if(eval!=null){
+				rebate.setEvaCode(eval.getEvaCode());
 			}
+			rebate.setCaseCode(caseCode);
+			rebate.setCcaiCode(erImport.getCcaiCode());
+			rebate.setEvaRpocessId(erImport.getApplyId());
+			rebate.setEvalPrice(erImport.getEvalPrice());
+			rebate.setEvalRealCharges(erImport.getEvalRealCharges());
+			rebate.setEvalDueCharges(erImport.getEvalDueCharges());
+			rebate.setInputTime(erImport.getInputTime());
+			rebate.setApplyRealName(erImport.getApplyRealName());
+			rebate.setApplyUserName(erImport.getApplyUserName());
 		}else{
 			throw new BusinessException("未获取到返利申请对应的成交报告["+erImport.getOringinCcaiCode()+"]信息!");
 		}
+		return rebate;
 	}
 
 	/**
@@ -277,7 +276,7 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			return result;
 		}
 		MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.EVAREFUND_TYPE);
-		jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
+		jmsTemplate.convertAndSend(EvalFlowWorkListener.getEvalQueueName(), message);
 		result.setSuccess(true);
 		result.setMessage("同步成功！");
 		result.setCode("00");

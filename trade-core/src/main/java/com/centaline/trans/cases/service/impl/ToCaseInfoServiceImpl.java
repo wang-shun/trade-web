@@ -408,4 +408,9 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 		return toCaseInfoMapper.findcaseCodeByCcaiCode(ccaiCode);
 	}
 
+	@Override
+	public String findccaiCodeBycaseCode(String caseCode) {
+		return toCaseInfoMapper.findcaseCodeByCcaiCode(caseCode);
+	}
+
 }

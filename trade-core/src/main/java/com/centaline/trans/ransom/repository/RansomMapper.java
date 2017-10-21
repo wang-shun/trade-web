@@ -205,4 +205,6 @@ public interface RansomMapper {
 	int updateRansomPlanTime(ToRansomPlanVo planVo);
 	
 	int updateRansomIsStart(String ransomCode);
+	
+	List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode);
 }

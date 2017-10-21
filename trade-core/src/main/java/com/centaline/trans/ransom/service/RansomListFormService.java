@@ -80,11 +80,25 @@ public interface RansomListFormService {
 	int insertRansomPlanTimeInfo(ToRansomPlanVo planVo);
 	
 	/**
+	 * 时间计划批量插入
+	 * @param planVo
+	 * @return
+	 */
+	int insertListRansomPlanTime(List<ToRansomPlanVo> list);
+	
+	/**
 	 * 赎楼时间计划信息更新
 	 * @param ransomCode
 	 * @return
 	 */
 	int updateRansomPlanTimeInfo(ToRansomPlanVo ransomPlanVo);
+	
+	/**
+	 * 赎楼时间计划信息更新
+	 * @param ransomCode
+	 * @return
+	 */
+	int updateListPlanTimeInfo(List<ToRansomPlanVo> planList);
 	
 	
 	/**
