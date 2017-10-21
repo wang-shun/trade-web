@@ -9,7 +9,7 @@ $(document).ready(function() {
 });
 
 /**
- * 加载赎楼变更时间信息
+ * 加载赎楼变更时间信息,已完成环节控件不可更改
  * @returns
  */
 function loadTimeInfo(){
@@ -18,10 +18,48 @@ function loadTimeInfo(){
 	var property = $("#taskCode").val();
 	
 	for(var i = 0; i < $(".form_content").length/2; i++){
-//		if(property == 'RansomSign'){
-//			$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
-//			$("input[name='remark'" + i + "]").attr("disabled",true);
-//		}
+		
+		switch(property){
+			case "APPLY":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "SIGN":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "PAYLOAN_ONE":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "PAYLOAN_TWO":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "CANCELDIYA_ONE":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "CANCELDIYA_TWO":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "RECEIVE_ONE":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "RECEIVE_TWO":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "PAYCLEAR":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			default:
+				break;
+		}
+		
 	}
 }
 
@@ -32,7 +70,7 @@ function loadTimeInfo(){
  */
 function submitChangeRecord(i){
 	debugger;
-	var caseCode = $("#caseCode").val();
+	var ransomCode = $("#ransomCode").val();
 	var ransomVo = getParams();
 	$.ajax({
 		url: ctx + "/ransomList/updateRansomPlanTime",
@@ -43,9 +81,9 @@ function submitChangeRecord(i){
 			
 			if(data.code == "1"){
 				window.wxc.alert("赎楼计划时间修改保存成功！");
-				window.location.href = ctx + "/ransomList/ransomDetail?caseCode=" + caseCode;
+				window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
 			}else if(data.code == "2"){
-				window.location.href = ctx + "/ransomList/ransomChangeRecord?caseCode=" + caseCode;
+				window.location.href = ctx + "/ransomList/ransomChangeRecord?ransomCode=" + ransomCode;
 			}
 		},
 		error: function(data){
@@ -54,44 +92,21 @@ function submitChangeRecord(i){
 	});
 }
 
+/**
+ * 获取参数
+ * @returns
+ */
 function getParams(){
 	
-	var caseCode = $("#caseCode").val();
 	var ransomCode = $("#ransomCode").val();
 	debugger;
 	var array = new Array();
 	for(var i = 0;i < $(".line input").length / 2;i++){
 		var estPartTime = $("input[name='estPartTime" + i + "']").val();
 		var remark = $("input[name='remark" + i + "']").val();
-		var partCode = $("#taskCode"+ i + "").text();
-		
-		if(partCode == "申请时间"){
-			partCode = "APPLY";
-		}
-		
-		if(partCode == "面签时间"){
-			partCode = "SIGN";		
-		}
-		
-		if(partCode == "陪同还贷时间"){
-			partCode = "PAYLOAN_ONE";
-		}
-		
-		if(partCode == "注销抵押时间"){
-			partCode = "CANCELDIYA_ONE";
-		}
-		
-		if(partCode == "领取产证时间"){
-			partCode = "RECEIVE_ONE";
-		}
-		
-		if(partCode == "回款结清时间"){
-			partCode = "PAYCLEAR";
-		}
 		
 		var resJson = {
 			ransomCode:ransomCode,	
-			partCode:partCode,
 			estPartTime:estPartTime,
 			remark:remark
 		}

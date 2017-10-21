@@ -38,7 +38,7 @@
     </head>
     <body>
     <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-    <input type="hidden" id = "ransomCode" data="赎楼编号" value="${caseVo.ransomCode }" />
+    <input type="hidden" id = "ransomCode" data="赎楼编号" value="${ransomCode }" />
     <input type="hidden" id = "caseCode" data="案件编号" value="${caseVo.caseCode }" />
     <input type="hidden" id = "taskCode" data="任务名称" value="${caseVo.taskProperty }" />
     
@@ -46,7 +46,7 @@
         <div class="ibox-content border-bottom clearfix space_box">
             <h2 class="title text-center">如修改已经的录入时间计划，需录入变更理由</h2>
             <form method="get" class="form_list text-center">
-            	<c:forEach items="${planVo }" var="planVo" varStatus="status" begin="0" end="5">
+            	<c:forEach items="${planVo }" var="planVo" varStatus="status" begin="0" end="8">
 	                   	<div class="line">
 		                    <div class="form_content">
 		                    	<c:choose>
@@ -56,14 +56,23 @@
 		                    		<c:when test="${planVo.partCode == 'APPLY' }">
 				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">面签时间</label>
 		                    		</c:when>
-		                    		<c:when test="${planVo.partCode == 'PAYLOAN_ONE' || planVo.partCode == 'PAYLOAN_TWO'  }">
-				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">陪同还贷时间</label>
+		                    		<c:when test="${planVo.partCode == 'PAYLOAN_ONE'}">
+				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">陪同还贷时间(一抵)</label>
 		                    		</c:when>
-		                    		<c:when test="${planVo.partCode == 'CANCELDIYA_ONE' || planVo.partCode == 'CANCELDIYA_TWO'  }">
-				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">注销抵押时间</label>
+		                    		<c:when test="${ planVo.partCode == 'PAYLOAN_TWO'  }">
+				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">陪同还贷时间(二抵)</label>
 		                    		</c:when>
-		                    		<c:when test="${planVo.partCode == 'RECEIVE_ONE' || planVo.partCode == 'RECEIVE_TWO'  }">
-				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">领取产证时间</label>
+		                    		<c:when test="${planVo.partCode == 'CANCELDIYA_ONE'}">
+				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">注销抵押时间(一抵)</label>
+		                    		</c:when>
+		                    		<c:when test="${planVo.partCode == 'CANCELDIYA_TWO'  }">
+				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">注销抵押时间(二抵)</label>
+		                    		</c:when>
+		                    		<c:when test="${planVo.partCode == 'RECEIVE_ONE'}">
+				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">领取产证时间(一抵)</label>
+		                    		</c:when>
+		                    		<c:when test="${planVo.partCode == 'RECEIVE_TWO'  }">
+				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">领取产证时间(二抵)</label>
 		                    		</c:when>
 		                    		<c:when test="${planVo.partCode == 'PAYCLEAR'  }">
 				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">回款结清时间</label>

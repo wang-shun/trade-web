@@ -485,6 +485,27 @@
 											</tr>
 										</thead>
 										<tbody id="time-record">
+												<tr>
+													<td>受理时间</td><td><fmt:formatDate value="${tailinsVo.signTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${tailinsVo.planTime }" pattern="yyyy-MM-dd"/></td>
+												</tr>
+												<tr>
+													<td>申请时间</td><td><fmt:formatDate value="${applyVo.applyTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${appTime }" pattern="yyyy-MM-dd"/></td>
+												</tr>
+												<tr>
+													<td>面签时间</td><td><fmt:formatDate value="${signVo.signTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${signTime}" pattern="yyyy-MM-dd"/></td>
+												</tr>
+												<tr>
+													<td>陪同还贷时间(一抵)</td><td><fmt:formatDate value="${mortgageVo.mortgageTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${morTime }" pattern="yyyy-MM-dd"/></td>
+												</tr>
+												<tr>
+													<td>注销抵押时间(一抵)</td><td><fmt:formatDate value="${cancelVo.cancelTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${canTime }" pattern="yyyy-MM-dd"/></td>
+												</tr>
+												<tr>
+													<td>领取产证时间(一抵)</td><td><fmt:formatDate value="${permitVo.redeemTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${perTime }" pattern="yyyy-MM-dd"/></td>
+												</tr>
+												<tr>
+													<td>回款结清时间(一抵)</td><td><fmt:formatDate value="${paymentVo.paymentTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${payTime }" pattern="yyyy-MM-dd"/></td>
+												</tr>
 										</tbody>
 									</table>
 								</div>
@@ -588,38 +609,6 @@
 	<!-- 公共信息js -->	
 	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 </content>
-<script id="template_ransomTimeInfo" type= "text/html">
-	{{each rows as item index}}
-		<tr>
-			<td>受理时间</td>
-			<td>{{item.signTime}}</td><td>{{item.planTime}}</td>
-		</tr>
-		<tr>
-				<td>申请时间</td>
-				<td>{{item.applyTime}}</td><td>{{item.applyPartTime}}</td>
-		</tr>
-		<tr>
-				<td>面签时间</td>
-				<td>{{item.interTime}}</td><td>{{item.interPartTime}}</td>
-		</tr>
-		<tr>
-				<td>陪同还贷时间(一抵)</td>
-				<td>{{item.repayTime}}</td><td>{{item.repPartTime}}</td>
-		</tr>
-		<tr>
-				<td>注销抵押时间(一抵)</td>
-				<td>{{item.cancelTime}}</td><td>{{item.canPartTime}}</td>
-		</tr>
-		<tr>
-				<td>领取产证时间(一抵)</td>
-				<td>{{item.redeemTime}}</td><td>{{item.redPartTime}}</td>
-		</tr>
-		<tr>
-				<td>回款结清时间(一抵)</td>
-				<td>{{item.paymentTime}}</td><td>{{item.payPartTime}}</td>
-		</tr>
-	{{/each}}
-</script>
 
 </body>
 </html>
