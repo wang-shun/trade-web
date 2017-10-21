@@ -105,6 +105,11 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	}
 
 	@Override
+	public int updateListPlanTimeInfo(List<ToRansomPlanVo> planList) {
+		return ransomListFormMapper.updateListPlanTimeInfoByRansomCode(planList);
+	}
+
+	@Override
 	public boolean updateRansomCaseInfo(ToRansomCaseVo caseVo) {
 		
 		return ransomListFormMapper.updateRansomCaseByRansomCode(caseVo);
@@ -214,6 +219,12 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	public int insertRansomPlanTimeInfo(ToRansomPlanVo planVo) {
 		
 		return ransomListFormMapper.insertRansomPlanTimeVo(planVo);
+	}
+
+	@Override
+	public int insertListRansomPlanTime(List<ToRansomPlanVo> planVo) {
+
+		return ransomListFormMapper.insertListRansomPlanTime(planVo);
 	}
 
 	@Override

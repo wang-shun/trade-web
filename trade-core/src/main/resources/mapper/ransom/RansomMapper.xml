@@ -259,6 +259,17 @@
 		 WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
+	<select id="getPlanTimeInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo" >
+		SELECT
+			RANSOM_CODE ransomCode,
+			 PART_CODE partCode,
+			 EST_PART_TIME estPartTime
+		FROM 
+			sctrans.T_RA_PLAN  
+		WHERE 
+			PART_CODE IN('APPLY','SIGN','PAYLOAN_ONE','CANCELDIYA_ONE','RECEIVE_ONE','PAYCLEAR')
+				AND RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
 	
 	<insert id="insertRansomApply" parameterType="com.centaline.trans.ransom.entity.ToRansomApplyVo">
 		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">

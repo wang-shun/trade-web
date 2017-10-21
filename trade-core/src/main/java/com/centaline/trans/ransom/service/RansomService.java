@@ -176,4 +176,7 @@ public interface RansomService {
 	 * @return
 	 */
 	int updateRansomIsStart(String ransomCode);
+	
+	
+	List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode);
 }

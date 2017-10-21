@@ -20,7 +20,7 @@ public class ApplicationContextConfiguration {
 	}
 
 	@Bean
-	@Profile("prod")
+	@Profile("production")
 	public PropertySourcesPlaceholderConfigurer createPropertySourcesPlaceholderConfigurerPrd() {
 		ClassPathResource resource = new ClassPathResource("application-prod.properties");
 		PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();

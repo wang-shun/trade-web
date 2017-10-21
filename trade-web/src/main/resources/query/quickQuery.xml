@@ -263,4 +263,7 @@
 	<import resource="query/eval/settle/evalAccount.xml"></import>
 	<!-- 评估发票管理 -->
 	<import resource="query/eval/toEvalInvoice.xml"></import>
+	
+	<!-- 银行返利 -->
+	<import resource="query/bankRebate/bankRebate.xml"></import>
 </queryConfig>

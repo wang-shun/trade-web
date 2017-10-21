@@ -29,4 +29,50 @@ public interface ToCaseParticipantService {
 	 * @author wbcaiyx
 	 */
 	int updateCaseParticipant(String caseCode, User user ,User manager);
+
+	/**
+	 * 获取案件主办人信息
+	 * 案件有贷款则为贷款权证
+	 * 案件无贷款则为过户权证
+	 * @param caseCode 案件编号
+	 * @return
+	 * @author：yinchao
+	 */
+	User findCaseOwner(String caseCode);
+
+	/**
+	 * 获取案件贷款权证信息
+	 * 如果没有贷款则返回null
+	 * @param caseCode 案件编号
+	 * @return
+	 * @author：yinchao
+	 */
+	User findCaseLoan(String caseCode);
+
+	/**
+	 * 获取案件内勤信息
+	 * @param caseCode 案件编号
+	 * @return
+	 * @author：yinchao
+	 */
+	User findCaseAssistant(String caseCode);
+
+	/**
+	 * 获取案件过户权证信息
+	 * @param caseCode 案件编号
+	 * @return
+	 * @author：yinchao
+	 */
+	User findCaseWarrant(String caseCode);
+
+	/**
+	 * 获取案件的权证经理
+	 * 有贷款则为贷款的权证经理
+	 * 否则为过户的权证经理
+	 * @param caseCode 案件编号
+	 * @return
+	 * @author：yinchao
+	 */
+	User findCaseLeader(String caseCode);
+
 }

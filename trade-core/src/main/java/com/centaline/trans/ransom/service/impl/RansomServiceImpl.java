@@ -461,7 +461,9 @@ public class RansomServiceImpl implements RansomService{
 		return ransomMapper.updateRansomIsStart(ransomCode);
 	}
 
-
-
+	@Override
+	public List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode) {
+		return ransomMapper.getPlanTimeInfoByRansomCode(ransomCode);
+	}
 
 }

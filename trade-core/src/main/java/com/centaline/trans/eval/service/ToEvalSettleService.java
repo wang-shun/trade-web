@@ -23,6 +23,8 @@ public interface ToEvalSettleService {
     
     int updateByCaseCode(ToEvalSettle record);
     
+    int updateSettleTimeByCaseCode(ToEvalSettle record);
+    
     int updateSettleFeeByCaseCode(ToEvalSettle record);
     
     int newSettleFeeByCaseCode(ToEvalSettle record);
