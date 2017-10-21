@@ -9,7 +9,7 @@ $(document).ready(function(){
 	//历史记录
 	reloadHistoryRecord();
 	//时间申请记录
-	reloadTimeRecord();
+	//reloadTimeRecord();
 	//操作记录
 	getOperateLogList();
 	//附件信息
@@ -162,31 +162,31 @@ function reloadDetail(){
 	 * 加载时间信息记录
 	 * @returns
 	 */
-	function reloadTimeRecord(){
-		debugger;
-		var url = ctx + '/quickGrid/findPage';
-		var ransomCode = $('#ransomCode').val();
-		var data = {};
-		data.page = 1;
-		data.rows = 10;
-		data.queryId = "queryRansomTimeRecord";
-		data.argu_ransomCode = ransomCode;
-		$.ajax({
-			async: true,
-			type:'POST',
-			url:url,
-			dataType:'json',
-			data:data,
-			beforeSend: function () {
-	        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-	        },  
-	        success: function(data){
-	        	$.unblockUI();
-	        	var html = template('template_ransomTimeInfo',data);
-	      		$('#time-record').html(html);
-	        }
-		});	
-	}
+//	function reloadTimeRecord(){
+//		debugger;
+//		var url = ctx + '/quickGrid/findPage';
+//		var ransomCode = $('#ransomCode').val();
+//		var data = {};
+//		data.page = 1;
+//		data.rows = 10;
+//		data.queryId = "queryRansomTimeRecord";
+//		data.argu_ransomCode = ransomCode;
+//		$.ajax({
+//			async: true,
+//			type:'POST',
+//			url:url,
+//			dataType:'json',
+//			data:data,
+//			beforeSend: function () {
+//	        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+//	        },  
+//	        success: function(data){
+//	        	$.unblockUI();
+//	        	var html = template('template_ransomTimeInfo',data);
+//	      		$('#time-record').html(html);
+//	        }
+//		});	
+//	}
 	
 	/**
 	 * 操作记录

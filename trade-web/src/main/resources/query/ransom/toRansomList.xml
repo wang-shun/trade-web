@@ -99,7 +99,8 @@
 					rac.RANSOM_STATUS,
 					rac.STOP_REASON,
 					rac.BORRO_MONEY,
-					rac.UPDATE_TIME
+					rac.UPDATE_TIME,
+					app.isApply
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -283,7 +284,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY PKID DESC
+			  ORDER BY PKID 
 			</orderBySql>
 		</searchSql>
 		<grid>

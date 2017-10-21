@@ -37,12 +37,11 @@
     </head>
     <body>
     <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-    <input type="hidden" id = "caseCode" value="${ransomTailinsVo.caseCode }" />
-    <input type="hidden" id = "ransomCode" value="${ransomTailinsVo.ransomCode }" />
+    <input type="hidden" id = "ransomCode" value="${ransomCode }" />
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="ibox-content border-bottom clearfix space_box">
                 <h2 class="title text-center">变更记录查看详情</h2>
-	        	<div  style="width: 1070px;height: 500px;top: 88px;">
+	        	<div  style="width: 1070px;height: 100%;top: 88px;">
 					<table class="table table_blue table-striped table-bordered table-hover ">
 						<!-- <thead>
 							<tr><th></th><th></th></tr>
@@ -83,9 +82,9 @@
 						<td>{{item.REMARK}}</td>
 					</tr>
 				{{/if}}
-				{{if item.PART_CODE == "PAYLOAN_ONE" || item.EST_PART_TIME == "PAYLOAN_TWO"}}
+				{{if item.PART_CODE == "PAYLOAN_ONE"}}
 					<tr>
-						<td>陪同还贷时间</td>
+						<td>陪同还贷时间(一抵)</td>
 						<td>变更理由</td>
 					</tr>
 					<tr>
@@ -93,9 +92,9 @@
 						<td>{{item.REMARK}}</td>
 					</tr>
 				{{/if}}
-				{{if item.PART_CODE == "CANCELDIYA_ONE" || item.PART_CODE == "CANCELDIYA_TWO" }}
+				{{if item.PART_CODE == "PAYLOAN_TWO"}}
 					<tr>
-						<td>注销抵押时间</td>
+						<td>陪同还贷时间(二抵)</td>
 						<td>变更理由</td>
 					</tr>
 					<tr>
@@ -103,9 +102,39 @@
 						<td>{{item.REMARK}}</td>
 					</tr>
 				{{/if}}
-				{{if item.PART_CODE == "RECEIVE_ONE" || item.PART_CODE == "RECEIVE_TWO" }}
+				{{if item.PART_CODE == "CANCELDIYA_ONE" }}
 					<tr>
-						<td>领取产证时间</td>
+						<td>注销抵押时间(一抵)</td>
+						<td>变更理由</td>
+					</tr>
+					<tr>
+						<td>{{item.EST_PART_TIME}}</td>
+						<td>{{item.REMARK}}</td>
+					</tr>
+				{{/if}}
+				{{if item.PART_CODE == "CANCELDIYA_TWO" }}
+					<tr>
+						<td>注销抵押时间(二抵)</td>
+						<td>变更理由</td>
+					</tr>
+					<tr>
+						<td>{{item.EST_PART_TIME}}</td>
+						<td>{{item.REMARK}}</td>
+					</tr>
+				{{/if}}
+				{{if item.PART_CODE == "RECEIVE_ONE" }}
+					<tr>
+						<td>领取产证时间(一抵)</td>
+						<td>变更理由</td>
+					</tr>
+					<tr>
+						<td>{{item.EST_PART_TIME}}</td>
+						<td>{{item.REMARK}}</td>
+					</tr>
+				{{/if}}
+				{{if item.PART_CODE == "RECEIVE_TWO" }}
+					<tr>
+						<td>领取产证时间(二抵)</td>
 						<td>变更理由</td>
 					</tr>
 					<tr>

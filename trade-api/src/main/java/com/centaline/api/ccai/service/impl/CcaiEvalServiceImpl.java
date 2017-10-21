@@ -4,22 +4,11 @@ import com.aist.common.exception.BusinessException;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.api.ccai.listener.EvalFlowWorkListener;
-import com.centaline.api.ccai.listener.FlowWorkListener;
 import com.centaline.api.ccai.service.CcaiEvalService;
-import com.centaline.api.ccai.vo.EvalRebeatImport;
-import com.centaline.api.ccai.vo.EvalRebeatReportImport;
-import com.centaline.api.ccai.vo.EvalRefundImport;
-import com.centaline.trans.message.activemq.vo.MQCaseMessage;
-import com.centaline.trans.message.activemq.vo.MQEvalMessage;
-import com.centaline.api.ccai.vo.SelfDoImport;
-import com.centaline.api.ccai.vo.TaskInfo;
+import com.centaline.api.ccai.vo.*;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import com.centaline.trans.cases.service.ToCaseInfoService;
-import com.centaline.trans.common.enums.EvalRebateStatusEnum;
-import com.centaline.trans.common.enums.EventTypeEnum;
-import com.centaline.trans.common.enums.MessageEnum;
-import com.centaline.trans.common.enums.SelfDoStatusEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.enums.*;
 import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 import com.centaline.trans.eloan.service.ToSelfAppInfoService;
 import com.centaline.trans.engine.WorkFlowConstant;
@@ -34,11 +23,12 @@ import com.centaline.trans.eval.entity.ToEvalReportProcess;
 import com.centaline.trans.eval.service.ToEvaRefundService;
 import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
+import com.centaline.trans.message.activemq.vo.MQCaseMessage;
+import com.centaline.trans.message.activemq.vo.MQEvalMessage;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 import com.centaline.trans.task.service.ToApproveRecordService;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-
 import java.util.List;
 import java.util.Set;
 
@@ -286,8 +275,8 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			result.setCode("99");
 			return result;
 		}
-		MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.EVAREFUND_TYPE);
-		jmsTemplate.convertAndSend(FlowWorkListener.getCaseQueueName(), message);
+		MQEvalMessage message = new MQEvalMessage(caseCode,WorkFlowEnum.EVALREFUND_PROCESS.getCode() ,MQCaseMessage.EVAREFUND_TYPE);
+		jmsTemplate.convertAndSend(EvalFlowWorkListener.getEvalQueueName(), message);
 		result.setSuccess(true);
 		result.setMessage("同步成功！");
 		result.setCode("00");

@@ -95,7 +95,7 @@ function reloadWorkInfo(){
 			data:ransomVo,
 			type:"POST",
 			success: function(data){
-				window.location.href = ctx + "/ransomList/ransomDetail?caseCode=" + caseCode;
+				window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
 			},
 			error: function(data){
 				window.wxc.error(data.message);
