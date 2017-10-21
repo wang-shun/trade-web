@@ -385,13 +385,29 @@
 			}
 
 			//验证控件checkUI();
-			function checkForm(formId) {
+			/* function checkForm(formId) {
 				if (formId.find("input[name='evalRealCharges']").val() == "") {
 					window.wxc.alert("评估费实收金额为必填项!");
 					formId, find("input[name='evalRealCharges']").focus();
 					$("#evalRealCharges").css("border-color", "red");
 					return false;
 				}
+				return true;
+			} */
+			function checkForm(formId) {
+				if ($("#evalRealCharges").val() == "") {
+					window.wxc.alert("评估费实收金额为必填项!");
+					$("#evalRealCharges").focus();
+					$("#evalRealCharges").css("border-color", "red");
+					return false;
+				}
+				/* var r = /^\+?[1-9][0-9]*$/;
+				if(!$("#reportBackNum").val()==""||!r.test($("#reportBackNum").val())){
+					window.wxc.alert("评估报告回收份数只能输入数字或者为空");
+					$("#reportBackNum").focus();
+					$("#reportBackNum").css("border-color", "red");
+					return false;
+				} */
 				return true;
 			}
 
