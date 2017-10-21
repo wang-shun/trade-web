@@ -4,6 +4,9 @@ import com.centaline.trans.eval.entity.ToEvaInvoice;
 import com.centaline.trans.task.entity.ToApproveRecord;
 
 public interface ToEvaInvoiceService {
+	//  查出当前案件所指向的评估单
+	ToEvaInvoice selectByCaseCodeWithEvaPointer(String caseCode);
+  
     ToEvaInvoice selectByEvaCode(String evaCode);
     
 	int deleteByPrimaryKey(Long pkid);

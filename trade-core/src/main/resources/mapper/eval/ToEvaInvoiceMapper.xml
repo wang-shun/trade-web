@@ -17,6 +17,10 @@
     <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
     <result column="BILL_TIME" property="billTime" jdbcType="TIMESTAMP" />
     <result column="EVA_PROCESS_ID" property="evaProcessId" jdbcType="VARCHAR" />
+    <result column="EVA_POINTER" property="evaPointer" jdbcType="INTEGER" />
+    <result column="OPEN_ACCOUNT_BANK" property="openAccountBank" jdbcType="NVARCHAR" />    
+    <result column="COLLECT_TIME" property="collectTime" jdbcType="TIMESTAMP" />
+    <result column="COLLECT_PERSON" property="collectPerson" jdbcType="NVARCHAR" />
     <!-- 扩展字段 -->
     <result column="FIN_ORG_ID" property="evaCompanyId" jdbcType="VARCHAR" />
     <result column="FIN_ORG_NAME" property="evaCompanyName" jdbcType="VARCHAR" />
@@ -24,7 +28,7 @@
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, EVA_CODE, INVOICE_TYPE, INVOICE_HEADER, INVOICE_AMOUNT, INVOICE_ADDRESS, 
     STATUS, TAX_NUM, APPLY_DATE, TO_FINSH_DATE, BANK_OPENED_DATE, BANK_ACCOUNT, BILL_TIME, 
-    EVA_PROCESS_ID
+    EVA_PROCESS_ID,EVA_POINTER,OPEN_ACCOUNT_BANK,COLLECT_TIME,COLLECT_PERSON
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -43,6 +47,13 @@
     <include refid="Base_Column_List" />
     from sctrans.T_TO_EVA_INVOICE
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+      <select id="selectByCaseCodeWithEvaPointer" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_EVA_INVOICE
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    AND EVA_POINTER = 1
   </select>
     <select id="selectByCaseCodeWithEvalCompany" resultMap="BaseResultMap" parameterType="java.lang.String" >
     SELECT I.PKID,I.CASE_CODE,I.EVA_CODE,I.INVOICE_HEADER,I.INVOICE_AMOUNT,I.INVOICE_ADDRESS,I.APPLY_DATE,I.INVOICE_TYPE,F.FIN_ORG_NAME,E.FIN_ORG_ID 
@@ -117,6 +128,15 @@
       <if test="evaProcessId != null" >
         EVA_PROCESS_ID,
       </if>
+       <if test="openAccountBank != null" >
+        OPEN_ACCOUNT_BANK,
+      </if>
+      <if test="collectTime != null" >
+        COLLECT_TIME,
+      </if>
+      <if test="collectPerson != null" >
+        COLLECT_PERSON,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -164,6 +184,15 @@
       <if test="evaProcessId != null" >
         #{evaProcessId,jdbcType=VARCHAR},
       </if>
+      <if test="openAccountBank != null" >
+        #{openAccountBank,jdbcType=NVARCHAR},
+      </if>
+      <if test="collectTime != null" >
+        #{collectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectPerson != null" >
+        #{collectPerson,jdbcType=NVARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.eval.entity.ToEvaInvoice" >
@@ -210,6 +239,15 @@
       </if>
       <if test="evaProcessId != null" >
         EVA_PROCESS_ID = #{evaProcessId,jdbcType=VARCHAR},
+      </if>
+       <if test="openAccountBank != null" >
+        OPEN_ACCOUNT_BANK = #{openAccountBank,jdbcType=NVARCHAR},
+      </if>
+      <if test="collectTime != null" >
+        COLLECT_TIME=#{collectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectPerson != null" >
+       COLLECT_PERSON= #{collectPerson,jdbcType=NVARCHAR},
       </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
