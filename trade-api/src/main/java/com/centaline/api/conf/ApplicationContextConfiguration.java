@@ -16,6 +16,7 @@ public class ApplicationContextConfiguration {
 		ClassPathResource resource = new ClassPathResource("application-dev.properties");
 		PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
 		propertyPlaceholderConfigurer.setLocation(resource);
+		propertyPlaceholderConfigurer.setIgnoreUnresolvablePlaceholders(true);
 		return propertyPlaceholderConfigurer;
 	}
 
@@ -25,6 +26,7 @@ public class ApplicationContextConfiguration {
 		ClassPathResource resource = new ClassPathResource("application-prod.properties");
 		PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
 		propertyPlaceholderConfigurer.setLocation(resource);
+		propertyPlaceholderConfigurer.setIgnoreUnresolvablePlaceholders(true);
 		return propertyPlaceholderConfigurer;
 	}
 
