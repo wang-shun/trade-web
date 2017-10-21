@@ -12,7 +12,7 @@ shiroConfig.shiroFilter:
   successUrl: /
   unauthorizedUrl: http://a.sh.centanet.com/partner
   filterChainDefinitionMap:
- /casFailure.jsp: anon
+    /casFailure.jsp: anon
     /cas: cas
     /html/**: anon
     /remote/**: anon
