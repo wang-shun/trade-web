@@ -53,7 +53,7 @@
                                       location="classpath:properties/resources.production.properties"/>
         <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"> 
             <property name="driverClassName"><value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value></property> 
-			<property name="url"><value>jdbc:sqlserver://10.1.30.100:1433;databaseName=sctrans_dev</value></property> 
+			<property name="url"><value>jdbc:sqlserver://10.1.30.100:1433;databaseName=sctrans_prd</value></property>
             <property name="username"><value>dev</value></property> 
             <property name="password"><value>dev@123</value></property>
             <!-- property name="url"><value>jdbc:sqlserver://AG-LISTENER;databaseName=sctrans_prd;applicationName=tradeprod</value></property> 
@@ -71,7 +71,7 @@
         </bean>
         <bean id="readOnlyDataSource" class="com.alibaba.druid.pool.DruidDataSource">
 			<property name="driverClassName"><value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value></property>
-			<property name="url"><value>jdbc:sqlserver://10.1.30.100:1433;databaseName=sctrans_dev;ApplicationIntent=ReadOnly</value></property>
+			<property name="url"><value>jdbc:sqlserver://10.1.30.100:1433;databaseName=sctrans_prd;ApplicationIntent=ReadOnly</value></property>
 			<property name="username"><value>dev</value></property>
 			<property name="password"><value>dev@123</value></property>
 			<!-- property name="url"><value>jdbc:sqlserver://AG-LISTENER;databaseName=sctrans_prd;applicationName=tradeprod;ApplicationIntent=ReadOnly</value></property>
