@@ -253,19 +253,19 @@
 		                <div class="line">		                 
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small">发票类型：</label>
-		                        <input type="text" class="input_type yuanwid" id="invoiceType" name="invoiceType" onkeyup="checkNum(this)"
+		                        <input type="text" class="input_type yuanwid" id="invoiceType" name="invoiceType" readonly="readonly"
 										> 
 		                    </div>
 		                    
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small">开票抬头：</label> 
-		                        <input type="text" class="input_type yuanwid" id="invoiceHeader" name="invoiceHeader" onkeyup="checkNum(this)"
+		                        <input type="text" class="input_type yuanwid" id="invoiceHeader" name="invoiceHeader"  readonly="readonly"
 										>
 		                    </div>	
 		                    
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small">发票金额：</label> 
-		                        <input type="text"  class="input_type yuanwid" id="invoiceAmount" name="invoiceAmount" onkeyup="checkNum(this)"
+		                        <input type="text"  class="input_type yuanwid" id="invoiceAmount" name="invoiceAmount"  readonly="readonly"
 										value="<fmt:formatNumber value='${caseRecvVO.toSign.conPrice}' type='number' pattern='#0.00'/>">
 		                        <span class="date_icon">万元</span>
 		                    </div>	                     
@@ -274,13 +274,13 @@
 		                <div class="line">		                 
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small">开票地址：</label>
-		                        <input type="text"  class="input_type yuanwid" id="invoiceAddress" name="invoiceAddress" onkeyup="checkNum(this)"
+		                        <input type="text"  class="input_type yuanwid" id="invoiceAddress" name="invoiceAddress"  readonly="readonly"
 										 type='number' pattern='#0.00'/>
 		                    </div>
 		                    
 		                    <div class="form_content">
 		                        <label class="control-label sign_left_small">税号：</label> 
-		                        <input type="text"  class="input_type yuanwid" id="taxNum" name="taxNum" onkeyup="checkNum(this)"
+		                        <input type="text"  class="input_type yuanwid" id="taxNum" name="taxNum"  readonly="readonly"
 										 type='number' pattern='#0.00'/>
 		                    </div>			                  	                     
 		                </div>
@@ -291,8 +291,9 @@
             	
             <h2 class="newtitle title-mark">填写开票任务信息</h2>
         	<div style="padding-left: 10px">
+        	<form id="invoiceForm" method="get">
         		<div class="line">		                 
-		                    
+		                    <input type="hidden" name="pkid" id="pkid">
 		                    <div class="form_content mt3">
 		                        <label class="control-label sign_left_small select_style mend_select">
 		                           	<font color=" red" class="mr5" >*</font>申请日期：
@@ -313,6 +314,7 @@
 		                        </div> 
 		                    </div>		                  	                     
 		                </div>
+		                </form>
         	</div>
         		</form>
         	<hr>
@@ -609,9 +611,10 @@ function linkCase(evaCode){
 			console.log(data);
 			$('#invoiceType').val(data.invoiceType);
 			$('#invoiceHeader').val(data.invoiceHeader);
-			$('#invoiceAmount').val(data.invoiceAmount);
+			$('#invoiceAmount').val(data.invoiceAmount/10000);
 			$('#invoiceAddress').val(data.invoiceAddress);
 			$('#taxNum').val(data.taxNum);
+			$('#pkid').val(data.pkid);
 			
         }
   		});
@@ -632,52 +635,31 @@ function showAttachment(url){
 }
 //提交数据
 function submit() {	
-	var caseCode=$("#caseCode").val();
-	if(!caseCode){
-	 window.wxc.alert("请以正确的方式进入该页面！");
+	var pkid=$("#pkid").val();
+	if(!pkid){
+	 window.wxc.alert("请以正确的方式进入该页面,并关联评估单");
 	return;		
 	}
 	save(true);
 }
 
 //保存数据
-function save(b) {
-	var caseCode=$("#caseCode").val();
-	if(!caseCode){
-	 window.wxc.alert("请以正确的方式进入该页面！");
-	return;		
-	}
-	
+function save(b) {	
 	if(b){
 		if (!checkForm()) {
 			return;
 		}													
-	}
+	} 
+	var jsonData={};
+	var pkid=$('#pkid').val();
+	var applyDate=$('#applyDate').val();
+	var toFinshDate=$('#toFinshDate').val();
 	
-	var jsonData = $("#firstFollowform").serializeArray();
+	jsonData.pkid=pkid;
+	jsonData.applyDate=applyDate;
+	jsonData.toFinshDate=toFinshDate;
 	
-	var result = ''
-	$("span.selected[name='srvCode']").each(function() {
-		result += $(this).attr('value') + ',';
-	});
-	var obj = {
-		name : 'srvCode',
-		value : result.substring(0, result.length - 1)
-	};
-	jsonData.push(obj);
-
-	for (var i = 0; i < jsonData.length; i++) {
-		var item = jsonData[i];
-		if (item["name"] == 'cooperationUser'
-				&& (item["value"] == 0 || item["value"] == -1)) {
-			delete jsonData[parseInt(i)];
-		}
-	}
-
-	var url = "${ctx}/task/caseRecvFollow/save";
-	if (b) {
-		url = "${ctx}/task/caseRecvFollow/submit";
-	}
+	var url = "${ctx}/eval/submitIssueInvoice";
 	
 	$.ajax({
         cache : true,
@@ -734,12 +716,18 @@ function checkNum(obj) {
 
 //验证控件checkUI();
 function checkForm() {
-	if($("#distCode").val()==0){
-		window.wxc.alert("区域为必选项!");
-		$("#distCode").focus();
-		$("#distCode").css("border-color","red");
+	if(!$("#applyDate").val()){
+		window.wxc.alert("申请日期为必填项!");
+		$("#applyDate").focus();
+		$("#applyDate").css("border-color","red");
 		return false;
 	}	
+	if(!$("#toFinshDate").val()){
+		window.wxc.alert("预计开票完成时间为必填项!");
+		$("#toFinshDate").focus();
+		$("#toFinshDate").css("border-color","red");
+		return false;
+	}
 		return true;
 	}
 

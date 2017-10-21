@@ -42,7 +42,7 @@ public class ToEvaInvoiceServiceImpl implements ToEvaInvoiceService {
 	@Override
 	public int updateByPrimaryKeySelective(ToEvaInvoice record) {
 		// TODO Auto-generated method stub
-		return 0;
+		return toEvaInvoiceMapper.updateByPrimaryKeySelective(record);
 	}
 
 	@Override
@@ -72,6 +72,12 @@ public class ToEvaInvoiceServiceImpl implements ToEvaInvoiceService {
 	public ToEvaInvoice selectByEvaCode(String evaCode) {
 		// TODO Auto-generated method stub
 		return toEvaInvoiceMapper.selectByEvaCode(evaCode);
+	}
+
+	@Override
+	public ToEvaInvoice selectByCaseCodeWithEvaPointer(String caseCode) {
+		// TODO Auto-generated method stub
+		return toEvaInvoiceMapper.selectByCaseCodeWithEvaPointer(caseCode);
 	}
 
 

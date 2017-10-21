@@ -38,27 +38,27 @@ shiroConfig.shiroFilter:
       corpId: wx7b47806a86fe27db
       corpsecret: du8lu_E-kC1zyvofc4CPw53tNFdtF4AnbBXRJ9l9Z3d316FzsLRl1WB2Yqw4VVzB
 shiroConfig.logouFilter:
-  redirectUrl: http://sso.sh.centaline.com.cn/aist-sso-web/login?service=http://a.sh.centanet.com/partner/cas
+  redirectUrl: http://tradesso.centaline.com.cn/aist-sso-web/login?service=http://a.sh.centanet.com/partner/cas
 casRealm:
   casService: a.sh.centanet.com/partner/cas
-  casServerUrlPrefix: http://sso.sh.centaline.com.cn/aist-sso-web
+  casServerUrlPrefix: http://tradesso.centaline.com.cn/aist-sso-web
 # Server settings (ServerProperties Spring boot)
 server:
   port: 8095
   #address: 127.0.0.1
   sessionTimeout: 30
-  contextPath: /trade-mobile
+  contextPath: /trade-api
 #数据源
 dataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://AG-LISTENER;databaseName=sctrans_prd;applicationName=trade-mobile
+  url: jdbc:sqlserver://10.1.30.100:1433;databaseName=sctrans_prd;applicationName=trade-api
   maxActive: 250
   initialSize: 50
   filters: stat
 #数据源
 readOnlyDataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://AG-LISTENER;databaseName=sctrans_prd;applicationName=trade-mobile
+  url: jdbc:sqlserver://10.1.30.100:1433;databaseName=sctrans_prd;applicationName=trade-api
   #;ApplicationIntent=ReadOnly
   maxActive: 350
   initialSize: 50

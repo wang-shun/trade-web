@@ -88,7 +88,7 @@
 			<h2 class="newtitle title-mark">完成提醒</h2>
 			<div class="jqGrid_wrapper">
 				<table id="remind_list"></table>
-				<div id="pager_list_1"></div>
+				<%--<div id="pager_list_1"></div>--%>
 				<button type="button" class="btn btn-icon btn-grey-border mt20" id="sendSMS">
 					<i class="iconfont icon">&#xe62a;</i> 发送短信提醒
 				</button>
@@ -448,7 +448,7 @@
 				// pgtext : " {0} 共 {1} 页",
 				postData : {
 					queryId : "queryToReminderList",
-					search_partCode : taskitem
+					search_partCode : "${taskitem}"
 				},
 
 			});
@@ -911,7 +911,6 @@
         var fileUpload;
         require(['main'], function() {
             requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
-                console.log('in require init.')
                 fileUpload = aistFileUpload;
                 fileUpload.init({
                     caseCode : $('#caseCode').val(),
