@@ -275,7 +275,7 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			result.setCode("99");
 			return result;
 		}
-		MQCaseMessage message = new MQCaseMessage(caseCode, MQCaseMessage.EVAREFUND_TYPE);
+		MQEvalMessage message = new MQEvalMessage(caseCode,WorkFlowEnum.EVALREFUND_PROCESS.getCode() ,MQCaseMessage.EVAREFUND_TYPE);
 		jmsTemplate.convertAndSend(EvalFlowWorkListener.getEvalQueueName(), message);
 		result.setSuccess(true);
 		result.setMessage("同步成功！");
