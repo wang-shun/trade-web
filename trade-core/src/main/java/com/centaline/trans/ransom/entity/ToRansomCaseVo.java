@@ -27,7 +27,12 @@ public class ToRansomCaseVo {
      * 案件状态
      */
     private String ransomStatus;
-
+    
+    /**
+     * 任务环节
+     */
+    private String taskProperty;
+    
     /**
      * 赎楼环节
      */
@@ -255,5 +260,24 @@ public class ToRansomCaseVo {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public String getTaskProperty() {
+		return taskProperty;
+	}
+
+	public void setTaskProperty(String taskProperty) {
+		this.taskProperty = taskProperty;
+	}
+
+	@Override
+	public String toString() {
+		return "ToRansomCaseVo [pkid=" + pkid + ", ransomCode=" + ransomCode + ", caseCode=" + caseCode
+				+ ", ransomStatus=" + ransomStatus + ", taskProperty=" + taskProperty + ", ransomProperty="
+				+ ransomProperty + ", comOrgCode=" + comOrgCode + ", borroMoney=" + borroMoney + ", borrowerName="
+				+ borrowerName + ", borrowerTel=" + borrowerTel + ", isstop=" + isstop + ", stopType=" + stopType
+				+ ", stopReason=" + stopReason + ", acceptTime=" + acceptTime + ", createTime=" + createTime
+				+ ", createUser=" + createUser + ", updateTime=" + updateTime + ", updateUser=" + updateUser
+				+ ", finOrgId=" + finOrgId + ", remark=" + remark + "]";
+	}
 
 }

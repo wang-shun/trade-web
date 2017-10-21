@@ -28,7 +28,7 @@ public interface RansomService {
 	 * @param caseCode
 	 * @return
 	 */
-	public List<ToRansomDetailVo> getRansomDetail(String caseCode);
+	public ToRansomDetailVo getRansomDetail(String ransomCode);
 	
 	public ToRansomDetailVo getRansomDetail(String caseCode, String ransomCode);
 	
@@ -169,4 +169,11 @@ public interface RansomService {
 	 * @return
 	 */
 	boolean deleteRansomApplyByRansomCode(String ransomCode);
+	
+	/**
+	 * 更新赎楼案件为在途
+	 * @param ransomCode
+	 * @return
+	 */
+	int updateRansomIsStart(String ransomCode);
 }

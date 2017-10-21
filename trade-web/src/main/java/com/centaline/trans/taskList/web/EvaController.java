@@ -1,5 +1,6 @@
 package com.centaline.trans.taskList.web;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,11 +94,12 @@ public class EvaController {
 	 * @return
 	 */
 	@RequestMapping(value = "apply")
-	public String apply(HttpServletRequest request, HttpServletResponse response, String caseCode){
+	public String apply(HttpServletRequest request, HttpServletResponse response, String caseCode,String source,
+			String taskitem,String businessKey, String processInstanceId){
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		ToEvaPricingVo toEvaPricingVo = evaPricingService.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
-		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
+		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvaPricingVo", toEvaPricingVo);
 		request.setAttribute("caseCode", caseCode);
@@ -119,8 +121,16 @@ public class EvaController {
 	public Boolean submitEvalApply(HttpServletRequest request,HttpServletResponse response,ToEvalReportProcess toEvalReportProcess){
 		SessionUser user = uamSessionService.getSessionUser();
 		
-		//保存申请信息
-		toEvalReportProcessService.insertEvaApply(toEvalReportProcess);
+		ToEvalReportProcess erp = toEvalReportProcessService.findToEvalReportProcessByCaseCode(toEvalReportProcess.getCaseCode());
+		if(erp==null){
+			//保存申请信息
+			toEvalReportProcessService.insertEvaApply(toEvalReportProcess);
+		}else{
+			toEvalReportProcess.setStatus(EvalStatusEnum.YSQ.getCode());
+			toEvalReportProcess.setEvaCode(erp.getEvaCode());
+			toEvalReportProcessService.updateEvaReportByEvaCode(toEvalReportProcess);
+		}
+		
 		
 		//启动流程引擎
 		ProcessInstance process = new ProcessInstance();
@@ -175,7 +185,7 @@ public class EvaController {
 		//查询评估申请信息
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.selecttoEvalReportProcessByCaseCodeAndStatus(caseCode,EvalStatusEnum.YSQ.getCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
+		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseCode", caseCode);
 	    return "eval/evalReport";
 	}
@@ -217,13 +227,15 @@ public class EvaController {
 	@RequestMapping(value = "issue")
 	public String issue(HttpServletRequest request, HttpServletResponse response, String businessKey, String source,
 			String taskitem, String processInstanceId){
+
 		String caseCode = toEvalReportProcessService.findToEvalReportProcessByEvalCode(businessKey).getCaseCode();
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		//查询评估申请信息
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.selecttoEvalReportProcessByCaseCodeAndStatus(caseCode,EvalStatusEnum.YSB.getCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
+		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("taskitem", taskitem);
 	    return "eval/evalIssue";
 	}
 	
@@ -270,7 +282,7 @@ public class EvaController {
 		//查询评估申请
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.selecttoEvalReportProcessByCaseCodeAndStatus(caseCode,EvalStatusEnum.YCNBG.getCode());
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		request.setAttribute("toEvalReportProcess", toEvalReportProcess);
+		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseCode", caseCode);
 	    return "eval/evalUsed";
 	}
@@ -291,6 +303,7 @@ public class EvaController {
 		
         //评估使用信息保存
 		toEvalReportProcess.setStatus(EvalStatusEnum.YSYBG.getCode());
+		toEvalReportProcess.setSysFinshTime(new Date());
 		toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
 		taskService.submitTask(taskId,null);
 	    return true;

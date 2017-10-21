@@ -8,7 +8,7 @@
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>交易变更列表</title>
+        <title>赎楼时间计划变更</title>
         <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet"/>
         <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet"/>
         <link href="<c:url value='/css/animate.css' />" rel="stylesheet"/>
@@ -38,91 +38,50 @@
     </head>
     <body>
     <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-    <input type="hidden" id = "ransomCode" value="${ransomCode }" />
-    <input type="hidden" id = "caseCode" value="${caseVo.caseCode }" />
-    <input type="hidden" nanme = "partCode" value="${applyVo.partCode }" />
-    <input type="hidden" nanme = "partCode" value="${signVo.partCode }" />
-    <input type="hidden" nanme = "partCode" value="${mortgageVo.partCode }" />
-    <input type="hidden" nanme = "partCode" value="${cancelVo.partCode }" />
-    <input type="hidden" nanme = "partCode" value="${permitVo.partCode }" />
-    <input type="hidden" nanme = "partCode" value="${paymentVo.partCode }" />
+    <input type="hidden" id = "ransomCode" data="赎楼编号" value="${caseVo.ransomCode }" />
+    <input type="hidden" id = "caseCode" data="案件编号" value="${caseVo.caseCode }" />
+    <input type="hidden" id = "taskCode" data="任务名称" value="${caseVo.taskProperty }" />
     
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="ibox-content border-bottom clearfix space_box">
             <h2 class="title text-center">如修改已经的录入时间计划，需录入变更理由</h2>
             <form method="get" class="form_list text-center">
-                   <div class="line">
-                      <div class="form_content">
-                          <label class="control-label sign_left_small select_style mend_select" id="partCode0">申请时间</label>
-                          <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="estPartTime0" id="applyTime" class="form-control data_style" type="text"  value="<fmt:formatDate value='${applyVo.applyTime }' pattern='yyyy-MM-dd'/>" placeholder="">
-                          </div>
-                      </div>
-                      <div class="form_content">
-                          <label class="control-label sign_left_small">变更理由</label>
-                          <input name="remark0" id="applyRemake" class="teamcode input_type" placeholder="" value="${applyVo.remark }" />
-                      </div>
-               		</div>
-               		<div class="line">
-                      <div class="form_content">
-                          <label class="control-label sign_left_small select_style mend_select" id="partCode1">面签时间</label>
-                          <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="estPartTime1" id="interviewTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${signVo.interviewTime }' pattern='yyyy-MM-dd'/>" placeholder="">
-                          </div>
-                      </div>
-                      <div class="form_content">
-                          <label class="control-label sign_left_small">变更理由</label>
-                          <input name="remark1" id="interviewRemake" class="teamcode input_type" placeholder="" value="${signVo.remark }" />
-                      </div>
-               		</div>
-               		<div class="line">
-                      <div class="form_content">
-                          <label class="control-label sign_left_small select_style mend_select" id="partCode2">陪同还贷时间</label>
-                          <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="estPartTime2" id="repayTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${mortgageVo.repayTime }' pattern='yyyy-MM-dd'/>" placeholder="">
-                          </div>
-                      </div>
-                      <div class="form_content">
-                          <label class="control-label sign_left_small">变更理由</label>
-                          <input name="remark2" id="repayRemake" class="teamcode input_type" placeholder="" value="${mortgageVo.remark }" />
-                      </div>
-               		</div>
-               		<div class="line" id="line">
-                      <div class="form_content">
-                          <label class="control-label sign_left_small select_style mend_select" id="partCode3">注销抵押时间</label>
-                          <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="estPartTime3" id="cancelTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${cancelVo.cancelTime }' pattern='yyyy-MM-dd'/>" placeholder="">
-                          </div>
-                      </div>
-                      <div class="form_content">
-                          <label class="control-label sign_left_small">变更理由</label>
-                          <input name="remark3" id="cancelRemake" class="teamcode input_type" placeholder="" value="${cancelVo.remark }" />
-                      </div>
-               		</div>
-               		<div class="line">
-                      <div class="form_content">
-                          <label class="control-label sign_left_small select_style mend_select" id="partCode4">领取产证时间</label>
-                          <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="estPartTime4" id="redeemTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${permitVo.redeemTime }' pattern='yyyy-MM-dd'/>" placeholder="">
-                          </div>
-                      </div>
-                      <div class="form_content">
-                          <label class="control-label sign_left_small">变更理由</label>
-                          <input name="remark4" id="redeemRemake" class="teamcode input_type" placeholder="" value="${permitVo.remark }" />
-                      </div>
-               		</div>
-               		<div class="line">
-                      <div class="form_content">
-                          <label class="control-label sign_left_small select_style mend_select" id="partCode5">回款结清时间</label>
-                          <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                              <input name="estPartTime5" id="paymentTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${paymentVo.paymentTime }' pattern='yyyy-MM-dd'/>" placeholder="">
-                          </div>
-                      </div>
-                      <div class="form_content">
-                          <label class="control-label sign_left_small">变更理由</label>
-                          <input name="remark5" id="paymentRemake" class="teamcode input_type" placeholder="" value="${paymentVo.remark }" />
-                      </div>
-               		</div>
+            	<c:forEach items="${planVo }" var="planVo" varStatus="status" begin="0" end="5">
+	                   	<div class="line">
+		                    <div class="form_content">
+		                    	<c:choose>
+		                    		<c:when test="${planVo.partCode == 'SIGN' }">
+				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">申请时间</label>
+		                    		</c:when>
+		                    		<c:when test="${planVo.partCode == 'APPLY' }">
+				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">面签时间</label>
+		                    		</c:when>
+		                    		<c:when test="${planVo.partCode == 'PAYLOAN_ONE' || planVo.partCode == 'PAYLOAN_TWO'  }">
+				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">陪同还贷时间</label>
+		                    		</c:when>
+		                    		<c:when test="${planVo.partCode == 'CANCELDIYA_ONE' || planVo.partCode == 'CANCELDIYA_TWO'  }">
+				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">注销抵押时间</label>
+		                    		</c:when>
+		                    		<c:when test="${planVo.partCode == 'RECEIVE_ONE' || planVo.partCode == 'RECEIVE_TWO'  }">
+				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">领取产证时间</label>
+		                    		</c:when>
+		                    		<c:when test="${planVo.partCode == 'PAYCLEAR'  }">
+				                        <label class="control-label sign_left_small select_style mend_select" id="partCode0">回款结清时间</label>
+		                    		</c:when>
+		                    		<c:otherwise>
+		                    			<label class="control-label sign_left_small select_style mend_select" style="display:none"></label>
+		                    		</c:otherwise>
+		                    	</c:choose>
+		                        <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
+		                          <input name="estPartTime${status.index }"  class="form-control data_style" type="text"  value="<fmt:formatDate value='${planVo.estPartTime }' pattern='yyyy-MM-dd'/>" placeholder="">
+		                        </div>
+		                     </div>
+		                     <div class="form_content">
+		                          <label class="control-label sign_left_small">变更理由</label>
+		                          <input name="remark${status.index }"  class="teamcode input_type" placeholder="" value="${planVo.remark }" />
+		                     </div>
+	              		</div>
+	              		</c:forEach>	
                		<div>
 						<div class="text-center">
 							<a class='btn btn-primary ' href="javascript:void(0)" onclick="submitChangeRecord(1)" style="width: 110px;">保存</a>

@@ -287,10 +287,10 @@ text-decoration: underline !important;
 	<td class="center"></td>
 	<td class="center">
 			<p>
-				<a href = "${ctx}/ransomList/ransomDetail?caseCode={{item.CASE_CODE}}">{{item.RANSOM_CODE}}</a>
+				<a href = "${ctx}/ransomList/ransomDetail?ransomCode={{item.RANSOM_CODE}}">{{item.RANSOM_CODE}}</a>
 			</p>
 			<p>
-				{{if item.RANSOM_STATUS == "RANSOMCENCLE"}}
+				{{if item.RANSOM_STATUS == "4"}}
 					<i class="demo-top sign_blue" title = "{{item.STOP_REASON}}">中止</i>
 				{{else}}
 					<i class="sign_gray" style="display:none;">{{item.RANSOM_STATUS}}</i>
@@ -316,16 +316,16 @@ text-decoration: underline !important;
 		{{item.COM_ORG_CODE}}
 	</td>
 	<td class="center"> 
-		{{if item.RANSOM_STATUS == "RANSOMDEAL"}}
+		{{if item.RANSOM_STATUS == 1}}
 		 	受理 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
-		{{if item.RANSOM_STATUS == "RANSOMLOADING"}}
+		{{if item.RANSOM_STATUS == 2}}
 		 	在途 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
-		{{if item.RANSOM_STATUS == "RANSOMCENCLE"}}
+		{{if item.RANSOM_STATUS == 4}}
 		 	中止 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
-		{{if item.RANSOM_STATUS == "RANSOMEND"}}
+		{{if item.RANSOM_STATUS == 3}}
 		 	结束 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
 	</td>
@@ -334,8 +334,11 @@ text-decoration: underline !important;
 	</td>
 	<td class="center"> 
 		{{if item.ISAPPLY == 0}}
-			<a href="${ctx}/task/ransom/ransomApply?caseCode={{item.CASE_CODE}}" target="_blank">申请</a>
+			<a href="${ctx}/task/ransom/ransomApply?ransomCode={{item.RANSOM_CODE}}" target="_blank">申请</a>
+		{{/if}}
+		{{if item.ISAPPLY == 1}}
 			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}')" />
+		{{/if}}
 	</td>
   </tr>
 {{/each}}

@@ -2,6 +2,8 @@ package com.centaline.api.ccai.service;
 
 import com.centaline.api.ccai.vo.EvalRebeatImport;
 import com.centaline.api.ccai.vo.EvalRebeatReportImport;
+import com.centaline.api.ccai.vo.EvalRefundImport;
+import com.centaline.api.ccai.vo.SelfDoImport;
 import com.centaline.api.common.vo.CcaiServiceResult;
 
 /**
@@ -27,4 +29,24 @@ public interface CcaiEvalService {
 	 * @param info
 	 */
 	CcaiServiceResult importEvalRebateReport(EvalRebeatReportImport info);
+	
+	/**
+	 * 导入评估退费信息
+	 * @param info
+	 */
+	CcaiServiceResult importEvalRefund(EvalRefundImport info);
+	
+	/**
+	 * 导入自办贷款审批信息或自办评估审批信息
+	 * @param info
+	 * @return
+	 */
+	CcaiServiceResult importSelfDo(SelfDoImport info);
+
+	/**
+	 * 驳回修改自办贷款审批/自办评估审批信息
+	 * @param info
+	 * @return
+	 */
+	CcaiServiceResult updateSelfDo(SelfDoImport info);
 }
