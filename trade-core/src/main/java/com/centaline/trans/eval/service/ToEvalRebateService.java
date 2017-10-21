@@ -40,4 +40,18 @@ public interface ToEvalRebateService {
 	 */
 	void assistantApprove(ToEvalRebate rebate, ToApproveRecord record,boolean approve);
 
+	/**
+	 * 启动评估返利流程
+	 *
+	 * 根据caseCode获取已同步的评估返利申请
+	 * 获取到则更新对应返利报告关联的评估单并启动流程
+	 * 未获取到不做处理，等待CCAI同步时触发启动流程
+	 *
+	 * 如果对应的返利状态不为关联评估单，则也不启动流程
+	 *
+	 * @param caseCode 申请评估的案件编号
+	 * @param evalCode 要关联的评估单编号
+	 */
+	void startRebateFlow(String caseCode,String evalCode);
+
 }

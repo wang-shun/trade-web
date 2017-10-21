@@ -1,4 +1,4 @@
-package com.centaline.api.ccai.vo;
+package com.centaline.trans.message.activemq.vo;
 
 import java.io.Serializable;
 
@@ -12,6 +12,7 @@ public class MQEvalMessage implements Serializable {
 
 	public static final String STARTFLOW_TYPE = "START";
 	public static final String UPDATEFLOW_TYPE = "UPDATE";
+	public static final String SENDMESSAGE_TYPE = "SEND_MSG";
 	/**
 	 * 评估报告编号
 	 */

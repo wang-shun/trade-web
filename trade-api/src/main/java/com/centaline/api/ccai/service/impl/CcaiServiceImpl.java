@@ -23,6 +23,7 @@ import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToCcaiAttachmentMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.engine.core.WorkFlowEngine;
+import com.centaline.trans.message.activemq.vo.MQCaseMessage;
 import com.centaline.trans.utils.DateUtil;
 
 import org.apache.commons.lang3.StringUtils;
