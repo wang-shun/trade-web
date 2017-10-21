@@ -71,26 +71,39 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	}
 
 	@Override
-	public List getUpdateRansomInfo(String caseCode) {
-		List list = new ArrayList();
-		try {
-			ToRansomTailinsVo tailinsVo =  ransomMapper.getTailinsInfoByCaseCode(caseCode);
-			
-			List<TgGuestInfo> guestInfo = ransomListFormMapper.getGuestInfo(caseCode);
-			
-			ToRansomCaseVo caseVo = ransomListFormMapper.getRansomCase(caseCode, null);
-			
-			list.add(tailinsVo);
-			list.add(guestInfo);
-			list.add(caseVo);
-			
-			return list;
-		} catch (Exception e) {
-			list.add("数据信息查询错误！");
-			logger.error("",e);
-			return list;
-		}
+	public List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode) {
+		List<ToRansomTailinsVo> tailinsVo =  ransomMapper.getTailinsInfoByCaseCode(caseCode);
+		return tailinsVo;
 	}
+
+	@Override
+	public List<TgGuestInfo> getGuestInfo(String caseCode) {
+		List<TgGuestInfo> guestInfo = ransomListFormMapper.getGuestInfo(caseCode);
+		return guestInfo;
+	}
+
+	@Override
+	public ToRansomCaseVo getRansomCase(String caseCode) {
+		ToRansomCaseVo caseVo = ransomListFormMapper.getRansomCase(caseCode, null);
+		return caseVo;
+	}
+
+//	@Override
+//	public List getUpdateRansomInfo(String caseCode) {
+//		List list = new ArrayList();
+//		try {
+//			
+//			ToRansomCaseVo caseVo = ransomListFormMapper.getRansomCase(caseCode, null);
+//			
+//			list.add(caseVo);
+//			
+//			return list;
+//		} catch (Exception e) {
+//			list.add("数据信息查询错误！");
+//			logger.error("",e);
+//			return list;
+//		}
+//	}
 	
 	@Override
 	public List<ToRansomPlanVo> getRansomPlanTimeInfo(String ransomCode) {
@@ -253,6 +266,12 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	public int queryCountMonthRansomsByUserId(String userId) {
 		Integer reInt = ransomListFormMapper.queryCountMonthRansomsByUserId(userId);
 		return reInt == null ? 0 : reInt;
+	}
+
+	@Override
+	public List getUpdateRansomInfo(String caseCode) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

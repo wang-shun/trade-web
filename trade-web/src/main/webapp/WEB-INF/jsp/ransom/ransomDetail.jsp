@@ -512,8 +512,8 @@
 								<div class="ibox-content">
 									<h2 class="title">操作记录</h2>
 									<div>
-										<button class="btn btn-success btn-space" onclick="">只看赎楼</button>
-										<button class="btn btn-success btn-space" onclick="" id="btnSubmit">全部流程</button>
+										<button class="btn btn-success btn-space" onclick="getOperateLogRansom()">只看赎楼</button>
+										<button class="btn btn-success btn-space" onclick="getOperateLogList()" id="btnSubmit">全部流程</button>
 									</div>
 									<div class="tab-content">
 										<div class="tab-pane active fade in">

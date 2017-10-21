@@ -66,7 +66,7 @@ public class RansomListController {
 	@Autowired(required = true)
 	private RansomListFormService ransomListFormService;
 	@Autowired(required=true)
-	private RansomService ransomService;
+	private  RansomService ransomService;
 	@Autowired(required = true)
     UamUserOrgService uamUserOrgService;
 	@Autowired
@@ -227,11 +227,12 @@ public class RansomListController {
 		try {
 			ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
 			//案件详情信息
-			ToRansomCaseVo caseVo = ransomService.getRansomCaseInfo(detailVo.getCaseCode());
+			ToRansomCaseVo caseVo = ransomService.getRansomCaseInfo(ransomCode);
 			//赎楼详情信息
 			
 			//新建赎楼单即是受理状态
-			ToRansomTailinsVo tailinsVo = ransomService.getTailinsInfoByCaseCode(detailVo.getCaseCode());
+			List<ToRansomTailinsVo> ransomTailinsVo = ransomService.getTailinsInfoByRansomCode(ransomCode);
+			ToRansomTailinsVo tailinsVo = ransomTailinsVo.get(0);
 			//申请
 			ToRansomApplyVo applyVo = ransomService.getApplyInfo(ransomCode);
 			//面签
@@ -246,12 +247,22 @@ public class RansomListController {
 			ToRansomPaymentVo paymentVo = ransomService.getPaymentInfo(ransomCode);
 			//计划时间信息
 			List<ToRansomPlanVo> planVo = ransomService.getPlanTimeInfoByRansomCode(ransomCode);
-			Date appTime = planVo.get(0).getEstPartTime();
-			Date signTime = planVo.get(1).getEstPartTime();
-			Date morTime = planVo.get(2).getEstPartTime();
-			Date canTime = planVo.get(3).getEstPartTime();
-			Date perTime = planVo.get(4).getEstPartTime();
-			Date payTime = planVo.get(5).getEstPartTime();
+			
+			if(!planVo.isEmpty()) {
+				Date appTime = planVo.get(0).getEstPartTime();
+				Date signTime = planVo.get(1).getEstPartTime();
+				Date morTime = planVo.get(2).getEstPartTime();
+				Date canTime = planVo.get(3).getEstPartTime();
+				Date perTime = planVo.get(4).getEstPartTime();
+				Date payTime = planVo.get(5).getEstPartTime();
+				
+				request.setAttribute("appTime", appTime);
+				request.setAttribute("signTime", signTime);
+				request.setAttribute("morTime", morTime);
+				request.setAttribute("canTime", canTime);
+				request.setAttribute("perTime", perTime);
+				request.setAttribute("payTime", payTime);
+			}
 			
 			request.setAttribute("caseVo", caseVo);
 			request.setAttribute("detailVo", detailVo);
@@ -263,12 +274,7 @@ public class RansomListController {
 			request.setAttribute("permitVo", permitVo);
 			request.setAttribute("paymentVo", paymentVo);
 			
-			request.setAttribute("appTime", appTime);
-			request.setAttribute("signTime", signTime);
-			request.setAttribute("morTime", morTime);
-			request.setAttribute("canTime", canTime);
-			request.setAttribute("perTime", perTime);
-			request.setAttribute("payTime", payTime);
+			
 			return "ransom/ransomDetail";
 		} catch (Exception e) {
 			logger.error("",e);
@@ -301,13 +307,13 @@ public class RansomListController {
 	public String queryUpdateRansomByCaseCode(String caseCode, ServletRequest request) {
 		
 		try {
-			List list = ransomListFormService.getUpdateRansomInfo(caseCode);
+//			List list = ransomListFormService.getUpdateRansomInfo(caseCode);
 			
-			ToRansomTailinsVo tailinsVo = (ToRansomTailinsVo) list.get(0);
-			List<TgGuestInfo> guestInfo = (List<TgGuestInfo>) list.get(1);
-			ToRansomCaseVo caseVo = (ToRansomCaseVo) list.get(2);
+			List<ToRansomTailinsVo> tailinsVo = ransomListFormService.getTailinsInfoByCaseCode(caseCode);
+			List<TgGuestInfo> guestInfo = ransomListFormService.getGuestInfo(caseCode);
+			ToRansomCaseVo caseVo = ransomListFormService.getRansomCase(caseCode);
 			
-			request.setAttribute("tailinsVo", tailinsVo);
+			request.setAttribute("tailinsVo", tailinsVo.get(0));
 			request.setAttribute("guestInfo", guestInfo);
 			request.setAttribute("caseVo", caseVo);
 			return "ransom/ransomDetailUpdate";
@@ -553,9 +559,7 @@ public class RansomListController {
 	}
 	
 	public static void main(String[] args) {
-		for (RansomPartEnum e : RansomPartEnum.values()) {
-			System.out.println(e.toString());
-		}
+		
 	}
 	
 }

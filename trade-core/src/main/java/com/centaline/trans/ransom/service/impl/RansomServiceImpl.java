@@ -379,8 +379,14 @@ public class RansomServiceImpl implements RansomService{
 	}
 
 	@Override
-	public ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode) {
-		ToRansomTailinsVo tailinsVo = ransomMapper.getTailinsInfoByCaseCode(caseCode);
+	public List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode) {
+		List<ToRansomTailinsVo> tailinsVo = ransomMapper.getTailinsInfoByCaseCode(caseCode);
+		return tailinsVo;
+	}
+
+	@Override
+	public List<ToRansomTailinsVo> getTailinsInfoByRansomCode(String caseCode) {
+		List<ToRansomTailinsVo> tailinsVo = ransomMapper.getTailinsInfoByRansomCode(caseCode);
 		return tailinsVo;
 	}
 
