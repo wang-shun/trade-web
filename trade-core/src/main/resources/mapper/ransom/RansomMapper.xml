@@ -311,9 +311,6 @@
 			<if test="loanOfficer != null">
 				LOANOFFICER,
 			</if>
-			<if test="isApply != null">
-				ISAPPLY,
-			</if>
 			<if test="updateUser != null">
 				UPDATE_USER,
 			</if>
@@ -341,9 +338,6 @@
 			</if>
 			<if test="loanOfficer != null">
 				#{loanOfficer,jdbcType=VARCHAR},
-			</if>
-			<if test="isApply != null">
-				#{isApply,jdbcType=VARCHAR},
 			</if>
 			<if test="updateUser != null">
 				#{updateUser,jdbcType=VARCHAR},
