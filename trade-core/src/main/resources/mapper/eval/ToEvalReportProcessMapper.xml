@@ -374,9 +374,17 @@
   
   <select id="findToEvalReportProcessByEvalCode" parameterType="java.lang.String" resultMap="BaseResultMap">
   	 SELECT 
-  	     <include refid="Base_Column_List" />
+  	     ep.PKID, CASE_CODE, EVA_CODE, REPORT_TYPE, STATUS, PROPOSEER, TRANSACTOR, ORNGIN_PRICE, 
+    FIN_ORG_ID, EVA_COM_CONTACT, CONTACT_WAY, HOUSE_AGE_APPLY, INQUIRY_RESULT, REPORT_NUM, 
+    APPLY_DATE, FORWARD_DATE, TO_ISSUE_DATE, ISSUE_DATE, EVA_PRICE, REPORT_GET_DATE, 
+    HOUSE_AGE_ISSUE, REPORT_NUM_ISSUE, REPORT_REV_DATE, RECEIVER, RECEIVE_NUM
+  	     ,fo.FIN_ORG_NAME
   	 FROM 
-  	     sctrans.T_TO_EVA_REPORT_PROCESS 
+  	     sctrans.T_TO_EVA_REPORT_PROCESS  ep
+  	 LEFT JOIN 
+  	     sctrans.T_TS_FIN_ORG fo
+  	 ON 
+  	     ep.FIN_ORG_ID = fo.FIN_ORG_CODE
   	 WHERE 
   	     EVA_CODE=#{evaCode,jdbcType=VARCHAR}
   </select>
