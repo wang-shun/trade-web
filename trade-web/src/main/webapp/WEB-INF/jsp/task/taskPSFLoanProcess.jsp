@@ -7,6 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>公积金贷款审批</title>
 <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 <link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />"
 	rel="stylesheet">
@@ -309,7 +310,7 @@
 		<div class="panel " id="serviceFlow">
 	        <div class="row wrapper white-bg new-heading ">
 	             <div class="pl10">
-	                 <h2 class="newtitle-big">按揭贷款审批</h2>
+	                 <h2 class="newtitle-big">公积金贷款审批</h2>
 	                    <div class="mt20">
 	                        <button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
 	                            <i class="iconfont icon">&#xe600;</i> 在途单列表

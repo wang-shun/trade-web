@@ -408,7 +408,7 @@
 
                 <li>
                     <em>合同价</em>
-                    <span>
+                    <span class="yuanwid">
                             <c:if test="${!empty caseInfo.conPrice}">
                                 ${caseInfo.conPrice/10000}  &nbsp&nbsp万元
                             </c:if>

@@ -333,12 +333,11 @@ text-decoration: underline !important;
 	</td>
 	<td class="center"> 
 		{{if item.ISAPPLY == 0}}
-			
-			<a href="${ctx}/task/ransom/ransomApply?ransomCode={{item.RANSOM_CODE}}" target="_blank">申请</a>
-			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}')" />
+			<a class="btn btn-success btn-space" href="${ctx}/task/ransom/ransomApply?ransomCode={{item.RANSOM_CODE}}" target="_blank">申请</a>
+			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}','{{item.RANSOM_CODE}}')" />
 		{{/if}}
 		{{if item.ISAPPLY == 1}}
-			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}')" />
+			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}','{{item.RANSOM_CODE}}')" />
 		{{/if}}
 	</td>
   </tr>

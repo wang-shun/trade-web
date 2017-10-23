@@ -69,7 +69,7 @@
 </style>
 
 </head>
-<body>
+
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<div class="ibox-content border-bottom clearfix space_box">
 		<div class="row base-height">

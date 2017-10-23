@@ -1,5 +1,9 @@
 package com.centaline.trans.ransom.service;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
@@ -14,4 +18,6 @@ public interface RansomDiscontinueService {
 	boolean submitDiscontinueAppro(ProcessInstanceVO processInstanceVO, String examContent, String caseCode, String ransomCode);
 	
 	boolean startDiscontinueTask(String caseCode, String ransomCase);
+	
+	Map<String ,Object> getSingleRansomTaskInfo(Map<String, Object> paramObj, Boolean isSuspend, Boolean isSuspended, Boolean isIgnoreAssignee, String caseCode);
 }
