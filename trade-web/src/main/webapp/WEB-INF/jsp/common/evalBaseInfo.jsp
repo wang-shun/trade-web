@@ -157,7 +157,7 @@
 											<span>询价信息</span>
 											<div class="ibox-conn  ibox-text">
 												<!-- <dl class="dl-horizontal"> -->
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">询价类型</dt><dd>${toEvaPricingVo.evaType}</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">询价类型</dt><dd><aist:dict id="evalPriceType" name="evalPriceType" display="label" dictType="EVAPRICING_TYPE" dictCode="${toEvaPricingVo.evaType}" /></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估公司</dt> <dd>${toEvaPricingVo.evaCompany}</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">合同价</dt> <dd>万元</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">房龄</dt> <dd>${toEvaPricingVo.houseAge}</dd></dl>
@@ -174,7 +174,7 @@
 											<span>评估申请信息</span>
 											<div class="ibox-conn  ibox-text">
 												<!-- <dl class="dl-horizontal"> -->
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估类型</dt><dd><aist:dict id="evalType" name="evalType" display="label" dictType="EVAL_TYPE" dictCode="${toEvalReportProcessVo.reportType}" /></dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估类型</dt><dd><aist:dict id="evalType" name="evalType" display="label" dictType="EVAL_TYPE" dictCode="${toEvalReportProcessVo.reportType}"/></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估公司</dt> <dd>${toEvalReportProcessVo.finOrgName}</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">合同价</dt> <dd>万元</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">房龄</dt> <dd>${toEvalReportProcessVo.houseAgeApply}</dd></dl>
