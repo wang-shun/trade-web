@@ -94,7 +94,7 @@
 
                 <div class="form_list table-capital" >
                     <div class="table-box">
-                        <table class="table table-bordered customerinfo">
+                        <table id="info" class="table table-bordered customerinfo">
                             <thead>
                             <tr>
                                 <th>成交报告编号</th>
@@ -114,8 +114,8 @@
                                         <td width="10%"><a>查看成交</a></td>
                                         <td width="17%"><input id="bank_${status.index}" class="form-control"  type="text" name="toBankRebateInfoList[${status.index}].bankName" value="${item.bankName}" ></td>
                                         <td width="17%"><input id="rebateMoney_${status.index}" class="form-control" type="text" name="toBankRebateInfoList[${status.index}].rebateMoney" value="${item.rebateMoney}" ></td>
-                                        <td width="12%"><input id="warrant_${status.index}" class="form-control" type="text" name="toBankRebateInfoList[${status.index}].rebateWarrant" value="${item.rebateWarrant}" ></td>
-                                        <td width="12%"><input id="business_${status.index}" class="form-control" type="text" name="toBankRebateInfoList[${status.index}].rebateBusiness" value="${item.rebateBusiness}" ></td>
+                                        <td width="12%"><input id="warrant_${status.index}" class="form-control" type="text" name="toBankRebateInfoList[${status.index}].rebateWarrant" value="${item.rebateWarrant}" readonly ></td>
+                                        <td width="12%"><input id="business_${status.index}" class="form-control" type="text" name="toBankRebateInfoList[${status.index}].rebateBusiness" value="${item.rebateBusiness}" readonly ></td>
                                         <!--  <td><a href="javascript:void(0)" onclick="deleteParam(this)">删除</a></td> -->
                                     </tr>
                                 </c:forEach>
@@ -123,37 +123,23 @@
                         </table>
                     </div>
                 </div>
-			 <div class="form_content">
-					<label class="control-label sign_left_small" >已录入金额</label> 
-					<input type="text" class="input_type yuanwid" id="enteringMoney"
-						name="borrowerMoney" 
-						value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						
-					<label class="control-label sign_left_small" >与总金额的差额</label> 
-					<input type="text" class="input_type yuanwid" id="differenceMoney"
-						name="borrowerMoney" 
-						readonly="readonly" value=""  >
-				</div> 
+                <div class="form_list" >
+                    <div class="line">
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">已录入金额：</label>
+                            <input type="text" class="select_control sign_right_one"  id="enteringMoney" name="borrowerMoney" readonly="readonly" value="" />
+                        </div>
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">与总金额的差额</label>
+                            <input type="text" class="select_control sign_right_one" id="differenceMoney" name="borrowerMoney" readonly="readonly" value="" />
+                        </div>
+                    </div>
+                </div>
                 <div class="text-center mt40 mb30">
-                    <button type="button" class="btn btn-success mr5" id="cc" >提交</button>
+                    <button type="button" class="btn btn-success mr5" id="submitBtn" >提交</button>
                     <button type="button" class="btn btn-grey" id="caseInfoClean" onclick="javascript:window.close()">关闭</button>
                 </div>
             </form>
-        </div>
-
-        <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" >
-            <div class="modal-dialog">
-                <div class="modal-content animated fadeIn">
-                    <div class="modal-body" style="background:#fff;">
-                        <p class="text-center" style="font-size: 20px;">点击删除，将丢失本次填写信息！选择保存按钮可保存本次填写信息！</p>
-                    </div>
-                    <div class="modal-footer" style="text-align:center;">
-                        <button type="button" class="btn btn-save" id="newCaseInfoSave">确认保存</button>
-                        <button type="button" class="btn btn-success" id="newCaseInfoDelete">我要删除</button>
-                        <button type="button" class="btn btn-white" id="newCaseInfoCancel">取消</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
         <!-- End page wrapper-->
@@ -162,8 +148,6 @@
         <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
        <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
         <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
-         <!-- 日期控件 -->
-    	<script	src="<c:url value='/js/plugins/dateSelect/dateSelect.js' />"></script>
         <!-- Custom and plugin javascript -->
         <script src="<c:url value='/js/inspinia.js' />"></script>
         <script src="<c:url value='/js/plugins/pace/pace.min.js' />"></script>
@@ -180,100 +164,40 @@
         <script src="<c:url value='/js/common/textarea.js' />"></script>
         <!-- 评估结算  -->
        <%--  <script	src="<c:url value='/js/trunk/bankRebate/bankRebate.js' />"></script> --%>
-        <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-        
-		<script id="evalListTemp" type= "text/html">
-                           {{each rows as item index}}
- 							  <tr class="border-e7">
-				<td class="center">
-					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.caseCode}}" 
-					 
-					 caseCode="{{item.caseCode}}" />
-                    <input id='caseCode' type='hidden' name='case_code'  value="{{item.caseCode}}"/>
-					<input type='hidden' name='pkId' value="{{item.pkid}}" disabled>
-					<input type='hidden' name='taskIds' value="{{item.ID}}" disabled>
-					
-				</td>
-                                    <td>{{item.caseCode}}</td>
-                                    <td>{{item.PROPERTY_ADDR}}</td>
-									<td>{{item.FIN_ORG_ID}}</td>
-                                    <td>{{item.EVAL_REAL_CHARGES}}</td>
-									<td>{{item.EVA_PRICE}}</td>
-									<td class="center">
-										{{if item.STATUS=='4'}}
-											<a href="${ctx}/eval/settle/evalEndUpdate?pkid={{item.pkId}}&&caseCode={{item.caseCode}}" target="_blank">修改</a>
-											<a href="${ctx}/eval/settle/evalEndUpdate?pkid={{item.pkId}}&&caseCode={{item.caseCode}}" target="_blank">提交</a>
-										{{/if}}
-                        			</td>
-                                </tr>
-						{{/each}}
-	    </script>
 	    <script>
 	    $(document).ready(function(){
-	    		 refeshShareAmount();
-				//绑定计算百分比事件
-	            $('.shareAmount').bind('keyup onpropertychange', function() {   
-	            	debugger;
-	                console.log($(this).val());
-	                var sharePacentage=$(this).val()*0.3;
-	                sharePacentage=sharePacentage.toFixed(2)
-	                console.log(sharePacentage);
-	                console.log($(this).parent().siblings().children(".aa").val(sharePacentage));
-	                
-	                var sharePacentage2=$(this).val()*0.7;
-	                sharePacentage2=sharePacentage2.toFixed(2)
-	                console.log(sharePacentage2);
-	                console.log($(this).parent().siblings().children(".bb").val(sharePacentage2));
-	                refeshShareAmount();
-	            }); 
-				
-				var index = $("#t_body_data_contents tr").length;
-	    		var sum = 0;
-	    		for(var i = 0; i < index; i++ ){
-	    			var resMoney = parseInt($("#rebateMoney_" +  i +"").val());
-	    			sum += resMoney;
-	    			var rebateMoney = parseInt($("#rebateMoney").val());
-	    		}
-	    		
-	    		var differ = parseInt(sum)-parseInt($("#rebateMoney").val());
-	    		$("#enteringMoney").val(sum);
-	    		$("#differenceMoney").val(differ);	
-				
-	    		
-	    })
-	    
-	    $('#enteringMoney').click(function(){   
-	    	var index = $("#t_body_data_contents tr").length;
-    		var sum = 0;
-    		for(var i = 0; i < index; i++ ){
-    			var resMoney = parseInt($("#rebateMoney_" +  i +"").val());
-    			sum += resMoney;
-    			var rebateMoney = parseInt($("#rebateMoney").val());
-    		}
-    		
-    		var differ = parseInt(sum)-parseInt($("#rebateMoney").val());
-    		$("#enteringMoney").val(sum);
-    		$("#differenceMoney").val(differ);	 
-	                
-	     });
-	    
-	    function refeshShareAmount(){
-			$('.shareAmount').each(function(){
-            	var sharePacentage=$(this).val()*0.3;
-                sharePacentage=sharePacentage.toFixed(2)
-            	$(this).parent().siblings().children(".aa").val(sharePacentage);
-                var sharePacentage2=$(this).val()*0.7;
-                sharePacentage2=sharePacentage2.toFixed(2)
-            	$(this).parent().siblings().children(".bb").val(sharePacentage2);
-            })
-		}
-	    
-	  
+            $('#info').change(cal);
+            cal();
+	    });
+
+	    function cal(){
+            var total = parseFloat($('#rebateMoney').val());
+            var count = 0;
+            $('#info').find("tr:gt(0)").each(function(index,tr){
+                var rebateMoneyi = $(tr).find('td:eq(3)').find('input');
+                var rebateWarranti = $(tr).find('td:eq(4)').find('input');
+                var rebateBusinessi = $(tr).find('td:eq(5)').find('input');
+
+                if(isNaN($(rebateMoneyi).val())){
+                    window.wxc.alert("请输入正确的返利金额！");
+                    return;
+                }else{
+                    var rebateMoney = parseFloat($(rebateMoneyi).val());
+                    rebateWarranti.val((rebateMoney* 0.3).toFixed(2));
+                    rebateBusinessi.val((rebateMoney* 0.7).toFixed(2));
+                    count += rebateMoney;
+                    $("#enteringMoney").val(rebateMoney);
+                }
+            });
+            $("#differenceMoney").val((total-count).toFixed(2));
+        }
+
 	 //提交数据
-	    $('#cc').click(function(){   	
+	    $('#submitBtn').click(function(){
 	   	var guaranteeCompany = $("#guaranteeCompany").val();
 		if(guaranteeCompany==""){
 			window.wxc.alert("请选择担保公司！");
+			return;
 		} 
 	  	var index = $("#t_body_data_contents tr").length;
 		var sum = 0;
@@ -291,7 +215,7 @@
 			window.wxc.alert("返利单明细【返利金额】之和与【总金额】不匹配，请检查！");
 		}
 	   	
-	   }) 
+	   });
 	 //保存数据
 	   function save(b) {
 	   	var jsonData = $("#changeRebateForm").serializeArray();

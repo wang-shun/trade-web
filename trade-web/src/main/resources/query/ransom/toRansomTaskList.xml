@@ -87,7 +87,7 @@
 						  </ifNotNull>
 						  <ifNotNull isSuspended>
 						  	<choose>
-								<when test="isSuspended == true">
+								<when test="isSuspended == 'true'">
 									AND ART.SUSPENSION_STATE_ = '2'
 								</when>
 								<otherwise>
