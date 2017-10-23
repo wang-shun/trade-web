@@ -146,7 +146,11 @@ public class GuohuApproveController {
 			//贷款信息
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(caseCode);
 		if(toMortgage!=null){
-			request.setAttribute("toMortgage", toMortgage);
+			//当贷款为按揭贷款时，公积金为空，贷款总额则为按揭贷款金额
+			if(toMortgage.getPrfAmount()==null){
+				toMortgage.setMortTotalAmount(toMortgage.getComAmount());
+			}
+				request.setAttribute("toMortgage", toMortgage);
 		}
 		//交易信息
 		CaseDetailShowVO reVo  = toCaseInfoService.getCaseDetailShowVO(caseCode, toMortgage);

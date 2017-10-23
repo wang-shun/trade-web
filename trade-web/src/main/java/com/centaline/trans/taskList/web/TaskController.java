@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.centaline.trans.task.entity.ToRatePayment;
 import com.centaline.trans.task.service.*;
+import com.centaline.trans.task.vo.MortgageToSaveVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -158,6 +159,9 @@ public class TaskController {
 	
 	@Autowired
     private UamPermissionService       uamPermissionService;
+
+	@Autowired
+	private ToMortgageTosaveService toMortgageTosaveService;
 	
 	@Autowired(required = true)
 	TsFinOrgService tsFinOrgService;
@@ -247,10 +251,20 @@ public class TaskController {
 		} else if(taskitem.equals("Guohu")){/*过户*/
         	/*过户申请信息*/
         	initApproveRecord(request, caseCode, "2");
+        	//获取附件信息
     		getAccesoryListGuoHu(request, taskitem, caseCode);
     		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
+    		//贷款信息
     		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-    		request.setAttribute("toMortgage", toMortgage);
+    		if(toMortgage!=null){
+				request.setAttribute("toMortgage", toMortgage);
+			}
+			//自办贷款信息
+			MortgageToSaveVO mortgageToSaveVO=toMortgageTosaveService.selectByCaseCode(caseCode);
+			if (mortgageToSaveVO!=null){
+				request.setAttribute("mortgageToSaveVO",mortgageToSaveVO);
+			}
+			//获取经济人陪同原因
 			Dict dict = uamBasedataService.findDictByType("accompany_reason");
 			if(dict!=null){
 				request.setAttribute("accompanyReason", dict.getChildren());
