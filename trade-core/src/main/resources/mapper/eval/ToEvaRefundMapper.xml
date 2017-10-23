@@ -271,12 +271,15 @@
       <if test="toRefundTime != null" >
         TO_REFUND_TIME = #{toRefundTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="reportBackNum != null" >
+  <!-- <if test="reportBackNum != null" >
         REPORT_BACK_NUM = #{reportBackNum,jdbcType=INTEGER},
       </if>
-      <if test="backTime != null" >
+     <if test="backTime != null" >
         BACK_TIME = #{backTime,jdbcType=TIMESTAMP},
       </if>
+    -->
+       REPORT_BACK_NUM = #{reportBackNum,jdbcType=INTEGER},
+       BACK_TIME = #{backTime,jdbcType=TIMESTAMP},
       <if test="backCause != null" >
         BACK_CAUSE = #{backCause,jdbcType=VARCHAR},
       </if>

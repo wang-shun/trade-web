@@ -130,7 +130,7 @@
 					</div>	
 					<div class="row clearfix line">
 						<div class="form_content">
-							<label  class="control-label matching" style="margin-right:114px;"><font color=" red" class="mr5" >*</font>回款时间</label> 
+							<label  class="control-label matching" style="margin-right:110px;"><font color=" red" class="mr5" >*</font>回款时间</label> 
 							<div  class="input-group sign-right  input-daterange"  data-date-format="yyyy-mm-dd">
 								<input id="planPaymentTime" name="planPaymentTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width:200px; border-radius: 2px;" type="text"  >
 							</div>
