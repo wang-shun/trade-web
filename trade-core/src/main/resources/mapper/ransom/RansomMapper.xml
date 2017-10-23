@@ -311,9 +311,6 @@
 			<if test="loanOfficer != null">
 				LOANOFFICER,
 			</if>
-			<if test="isApply != null">
-				ISAPPLY,
-			</if>
 			<if test="updateUser != null">
 				UPDATE_USER,
 			</if>
