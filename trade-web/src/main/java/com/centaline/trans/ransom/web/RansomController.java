@@ -6,16 +6,18 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aist.common.rapidQuery.paramter.ParamterHander;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.alibaba.druid.util.StringUtils;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.RansomDiyaEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
@@ -455,6 +457,23 @@ import com.centaline.trans.ransom.service.RansomService;
 			request.setAttribute("detailVo", detailVo);
 			
 			return detailVo;
+		}
+		
+		/**
+		 * 变更赎楼单的金融权证负责人
+		 * @param req
+		 * @param userId
+		 * @param caseCode
+		 * @return
+		 */
+		@RequestMapping("changeRansomOwner")
+		@ResponseBody
+		public boolean changeRansomOwner(HttpServletRequest req, String userId, String caseCode, String ransomCode) {
+			//检查是否有对应的赎楼流程(活动、暂停都要查)
+			Map<String, String[]> paramMap = ParamterHander.getParameters(req);
+	        Map<String, Object> paramObj = new HashMap<String, Object>();
+	        ParamterHander.mergeParamter(paramMap, paramObj);
+			return ransomService.changeRansomOwner(paramObj, userId, caseCode, ransomCode);
 		}
 
 	}

@@ -118,7 +118,7 @@ public class RansomDiscontinueController {
 		ransomCase.setRansomCode(ransomCode);
 		ransomCase.setCaseCode(caseCode);
 		//①挂起对应的【赎楼流程】(如果有)②开启一个【赎楼中止流程】(如果没有)③给processInstanceVO赋值
-		task = getSingleRansomTaskInfo(request, true, false, caseCode);//查询中止流程
+		task = getSingleRansomTaskInfo(request, true, false, false, caseCode);//查询中止流程
 		if((boolean)task.get("hasData")) {
 			//如果存在对应中止流程，那么判断责任人
 			String assignee = (String) task.get("ASSIGNEE");
@@ -129,7 +129,7 @@ public class RansomDiscontinueController {
 		}else {
 			//如果不存在赎楼中止流程，则继续判断赎楼流程
 			task = null;
-			task = getSingleRansomTaskInfo(request, false, false, caseCode);//查询赎楼流程
+			task = getSingleRansomTaskInfo(request, false, false, true, caseCode);//查询赎楼流程
 			if((boolean)task.get("hasData")) {
 				//如果有赎楼，无相应中止，那么表示第一次申请中止，则需要做①、②、③
 				taskId = (String) task.get("INST_CODE");
@@ -140,7 +140,7 @@ public class RansomDiscontinueController {
 			}
 			ransomDiscontinueService.startDiscontinueTask(caseCode, ransomCode);//②
 			task = null;
-			task = getSingleRansomTaskInfo(request, true, false, caseCode);
+			task = getSingleRansomTaskInfo(request, true, false, false, caseCode);
 			processInstanceVO.setTaskId((String)task.get("ID"));//③
 			processInstanceVO.setProcessInstanceId((String)task.get("INST_CODE"));
 			processInstanceVO.setPartCode((String)task.get("PART_CODE"));
@@ -217,7 +217,7 @@ public class RansomDiscontinueController {
 		//通过：删除 [赎楼流程]
 		if("pass".equals(examContent)) {
 			//或者直接使用processInstanceVO.getProcessInstanceId()
-			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true, caseCode);
+			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true, true, caseCode);
 			if((boolean)task.get("hasData")) {
 				processInstanceService.deleteProcess((String) task.get("INST_CODE"));
 				ransomService.deleteRansomApplyByRansomCode((String) task.get("RANSOM_CODE"));
@@ -225,7 +225,7 @@ public class RansomDiscontinueController {
 		}
 		//不通过：重启 [赎楼流程]
 		else if("noPass".equals(examContent)) {
-			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true, caseCode);
+			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true, true, caseCode);
 			if((boolean)task.get("hasData")) {
 				processInstanceService.activateOrSuspendProcessInstance((String) task.get("INST_CODE"), true);
 			}
@@ -244,7 +244,7 @@ public class RansomDiscontinueController {
 	 * 实际参数有caseCode,userName,isSuspend,isSuspended
 	 * @return
 	 */
-	private Map<String ,Object> getSingleRansomTaskInfo(HttpServletRequest request, boolean isSuspend, boolean isSuspended, String caseCode) {
+	private Map<String ,Object> getSingleRansomTaskInfo(HttpServletRequest request, boolean isSuspend, boolean isSuspended, boolean isIgnoreAssignee, String caseCode) {
 		Map<String, String[]> paramMap = ParamterHander.getParameters(request);
         Map<String, Object> paramObj = new HashMap<String, Object>();
         ParamterHander.mergeParamter(paramMap, paramObj);
@@ -254,6 +254,9 @@ public class RansomDiscontinueController {
         }else {//查询赎楼流程数据
         	String processDfId = propertyUtilsService.getProcessDfId("ransom_process");
         	paramObj.put("PROCESS_DEFINITION_ID_RANSOM", processDfId);
+        }
+        if(!isIgnoreAssignee) {//如果不忽略【任务责任人】条件
+        	paramObj.put("isIgnoreAssignee", "exist");
         }
         if(isSuspended) {
         	paramObj.put("isSuspended", true);
