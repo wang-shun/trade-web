@@ -37,20 +37,21 @@
     <input type="hidden" id="ctx" value="${ctx}" />
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="ibox-content" id="reportFive">
-            <form  action="${ctx}/caseMerge/saveCaseInfo/${flag}"  method="post"  id="saveCaseInfo">
+            <form  action="#"  id="changeRebateForm">
+            	<input type="hidden" id="" name="guaranteeCompId" value="${toBankRebate.guaranteeCompId}" />
                 <div  class="form_list">
                     <div class="title">银行返利-修改</div>
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">担保公司</label>
-                            <select name="" class="select_control" id="finOrgId">
+                            <select name="guaranteeCompany" class="select_control" id="guaranteeCompany">
                                 <option value="" selected="selected">请选择</option>
                                 <option value="0">评估公司</option>
                             </select>
                         </div>
                         <div class="form_content">
                             <label class="control-label sign_left_small">返利总金额</label>
-                            <input type="text"  class="select_control sign_right_one" id="rebateMoney" name="rebateMoney" value="${toBankRebate.rebateTotal}">
+                            <input type="text"  class="select_control sign_right_one" id="rebateMoney" name="rebateTotal" value="${toBankRebate.rebateTotal}">
                         </div>
                     </div>
                 </div>
@@ -85,7 +86,7 @@
                     <div class="line">
                         <div class="form_content">
                             <label class="control-label sign_left_small">备注：</label>
-                            <textarea class="select_control" cols="100" ></textarea>
+                            <textarea class="select_control" name="comment" cols="100" >${toBankRebate.comment}</textarea>
                         </div>
                     </div>
                 </div>
@@ -122,9 +123,19 @@
                         </table>
                     </div>
                 </div>
-
+			 <div class="form_content">
+					<label class="control-label sign_left_small" >已录入金额</label> 
+					<input type="text" class="input_type yuanwid" id="enteringMoney"
+						name="borrowerMoney" 
+						value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						
+					<label class="control-label sign_left_small" >与总金额的差额</label> 
+					<input type="text" class="input_type yuanwid" id="differenceMoney"
+						name="borrowerMoney" 
+						readonly="readonly" value=""  >
+				</div> 
                 <div class="text-center mt40 mb30">
-                    <button type="button" class="btn btn-success mr5" id="newCaseInfoSubmit" onclick="submit()">提交</button>
+                    <button type="button" class="btn btn-success mr5" id="cc" >提交</button>
                     <button type="button" class="btn btn-grey" id="caseInfoClean" onclick="javascript:window.close()">关闭</button>
                 </div>
             </form>
@@ -178,7 +189,7 @@
 					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.caseCode}}" 
 					 
 					 caseCode="{{item.caseCode}}" />
-                    <input id='caseCode' type='hidden' name='case_code' value="{{item.caseCode}}"/>
+                    <input id='caseCode' type='hidden' name='case_code'  value="{{item.caseCode}}"/>
 					<input type='hidden' name='pkId' value="{{item.pkid}}" disabled>
 					<input type='hidden' name='taskIds' value="{{item.ID}}" disabled>
 					
@@ -202,7 +213,7 @@
 	    		 refeshShareAmount();
 				//绑定计算百分比事件
 	            $('.shareAmount').bind('keyup onpropertychange', function() {   
-	            	
+	            	debugger;
 	                console.log($(this).val());
 	                var sharePacentage=$(this).val()*0.3;
 	                sharePacentage=sharePacentage.toFixed(2)
@@ -216,6 +227,17 @@
 	                refeshShareAmount();
 	            }); 
 				
+				var index = $("#t_body_data_contents tr").length;
+	    		var sum = 0;
+	    		for(var i = 0; i < index; i++ ){
+	    			var resMoney = parseInt($("#rebateMoney_" +  i +"").val());
+	    			sum += resMoney;
+	    			var rebateMoney = parseInt($("#rebateMoney").val());
+	    		}
+	    		
+	    		var differ = parseInt(sum)-parseInt($("#rebateMoney").val());
+	    		$("#enteringMoney").val(sum);
+	    		$("#differenceMoney").val(differ);	
 				
 	    		
 	    })
@@ -246,19 +268,13 @@
             })
 		}
 	    
-	  	//删除行;(obj代表连接对象)  
-	   function deleteParam(obj){
-	    	//在js端删除一整行数据  
-	        $(obj).parent().parent().remove();  
-	    	
-	        /* var $td= $(obj).parents('tr').children('td');  
-	        var paramName = $td.eq(0).text();  
-	        var paramCode = $td.eq(1).text();   */
-	        
-	    } 
 	  
 	 //提交数据
-	   function submit() {	
+	    $('#cc').click(function(){   	
+	   	var guaranteeCompany = $("#guaranteeCompany").val();
+		if(guaranteeCompany==""){
+			window.wxc.alert("请选择担保公司！");
+		} 
 	  	var index = $("#t_body_data_contents tr").length;
 		var sum = 0;
 		for(var i = 0; i < index; i++ ){
@@ -275,7 +291,7 @@
 			window.wxc.alert("返利单明细【返利金额】之和与【总金额】不匹配，请检查！");
 		}
 	   	
-	   } 
+	   }) 
 	 //保存数据
 	   function save(b) {
 	   	var jsonData = $("#changeRebateForm").serializeArray();
@@ -306,7 +322,7 @@
 	               console.log(data);
 	               if (b) {
 	                   if (data) {
-	                       window.wxc.alert("提交成功"+data);
+	                      window.wxc.alert("提交成功");
 	                   }
 	                   var ctx = $("#ctx").val();
 	               }else{
@@ -321,43 +337,16 @@
 	       });
 	   }
 	 
-	   $("#submitDate").click(function(){
-			debugger;
-			var index = $("#t_body_data_contents tr").length;
-			
-			var sum = 0;
-			for(var i = 0; i < index; i++ ){
-				$("#rebateMoney_" +  i +"").bind(function(){
-					var resMoney = parseInt($("#rebateMoney_" +  i +"").val());
-					sum += resMoney;
-					var rebateMoney = parseInt($("#rebateMoney").val());
-					
-					if(sum == rebateMoney){
-						alert("保存成功！");
-					}
-				});
-			}
-			
-		});
-	   
-	   /* function save(){
+		//删除行;(obj代表连接对象)  
+	  /*  function deleteParam(obj){
+	    	//在js端删除一整行数据  
+	        $(obj).parent().parent().remove();  
 	    	
-	        /* var $td= $("#tr_0").children('td');  
-	        var ccaiCode = $td.eq(0).val();  
-	        var bankName = $td.eq(2).val(); 
 	        
-	        var index = ${toBankRebateInfoList}
-	        var json = new Array();
-	        for(var i = 0;i< index;i++){
-	        	var obj = {};
-	        	obj.pkid = $('#pkId_'+i).val();
-	        	..
-	        	..
-	        	..
-	        	json.push(obj);
-	        }
-	        
-	    }   */
+	    }  */
+	  
+	   
+	   
 	    
 	    </script>
 	    </content> 

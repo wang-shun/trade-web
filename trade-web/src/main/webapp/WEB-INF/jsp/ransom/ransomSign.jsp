@@ -66,6 +66,8 @@
 </style>
 </head>
 <body>
+	<input type="hidden" id="PROCESS_DEFINITION_ID_RANSOM" value="${PROCESS_DEFINITION_ID_RANSOM}" />
+	<jsp:include page="/WEB-INF/jsp/ransom/taskListByRansomCode.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/ransom/ransomBaseInfo.jsp"></jsp:include>
 
 	<form method="get" id="ransomSign" class="form_list">
@@ -132,6 +134,8 @@
 	<!-- main End -->
 <content tag="local_script"> 
 	<script src="<c:url value='/static/trans/js/plugins/bootstrap-switch/bootstrap-switch.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 	<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
@@ -139,6 +143,7 @@
 	<script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
+	<script src="<c:url value='/js/ransom/ransomTaskCheck.js' />"></script> 
 	<script >
 		$(document).ready(function(){
 			
@@ -226,7 +231,7 @@
 				success:function(data){
 					if(data){
 						window.wxc.success("提交成功!",{"wxcOk":function(){
-							 window.close();	
+							ransomTaskCheck();
 						}});
 					}else{
 						window.wxc.error("提交失败!");

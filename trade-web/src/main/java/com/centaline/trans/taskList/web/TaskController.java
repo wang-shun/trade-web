@@ -10,7 +10,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.centaline.trans.task.entity.ToRatePayment;
 import com.centaline.trans.task.service.*;
+import com.centaline.trans.task.vo.MortgageToSaveVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -157,6 +159,9 @@ public class TaskController {
 	
 	@Autowired
     private UamPermissionService       uamPermissionService;
+
+	@Autowired
+	private ToMortgageTosaveService toMortgageTosaveService;
 	
 	@Autowired(required = true)
 	TsFinOrgService tsFinOrgService;
@@ -235,14 +240,31 @@ public class TaskController {
     		request.setAttribute("taxReview", toTaxService.findToTaxByCaseCode(caseCode));
     	} else if (taskitem.equals("RatePayment")){/*缴税*/
 			getAccesoryList(request,taskitem);
-			request.setAttribute("ratePayment",ratePaymentService.qureyToRatePayment(caseCode));
+			ToRatePayment ratePayment=ratePaymentService.qureyToRatePayment(caseCode);
+			if(ratePayment!=null){
+				User user=uamUserOrgService.getUserById(ratePayment.getAutualOperatorId());
+				if (user!=null){
+					ratePayment.setAutualOperatorName(user.getRealName());//根据操作人的id查询操作人的姓名
+				}
+			}
+			request.setAttribute("ratePayment",ratePayment);
 		} else if(taskitem.equals("Guohu")){/*过户*/
         	/*过户申请信息*/
         	initApproveRecord(request, caseCode, "2");
+        	//获取附件信息
     		getAccesoryListGuoHu(request, taskitem, caseCode);
     		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
+    		//贷款信息
     		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-    		request.setAttribute("toMortgage", toMortgage);
+    		if(toMortgage!=null){
+				request.setAttribute("toMortgage", toMortgage);
+			}
+			//自办贷款信息
+			MortgageToSaveVO mortgageToSaveVO=toMortgageTosaveService.selectByCaseCode(caseCode);
+			if (mortgageToSaveVO!=null){
+				request.setAttribute("mortgageToSaveVO",mortgageToSaveVO);
+			}
+			//获取经济人陪同原因
 			Dict dict = uamBasedataService.findDictByType("accompany_reason");
 			if(dict!=null){
 				request.setAttribute("accompanyReason", dict.getChildren());
