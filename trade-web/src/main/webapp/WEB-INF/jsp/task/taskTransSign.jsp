@@ -911,7 +911,7 @@
 
             if ($("#sign_the_agreement_pic_list li").length == undefined
                 || $("#sign_the_agreement_pic_list li").length == 0 ) {
-                window.wxc.alert("收件收据未上传!");
+                window.wxc.alert("网签协议未上传!");
 
                 return false;
             }
@@ -920,7 +920,7 @@
             var isCompletedUpload = fileUpload.isCompletedUpload();
 
             if(!isCompletedUpload){
-                window.wxc.alert("收件收据还未全部上传!");
+                window.wxc.alert("网签协议还未全部上传!");
                 return false;
             }
 

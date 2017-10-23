@@ -23,10 +23,17 @@
     from sctrans.T_TO_BANK_REBATE
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sctrans.T_TO_BANK_REBATE
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
+  
+  <delete id="deleteByGuaranteeCompId" parameterType="java.lang.String" >
+    delete from sctrans.T_TO_BANK_REBATE
+    where GUARANTEE_COMP_ID = #{guaCompId,jdbcType=VARCHAR}
+  </delete>
+  
   <insert id="insert" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebate" >
     insert into sctrans.T_TO_BANK_REBATE (PKID, CASE_CODE, APPLY_TIME, 
       GUARANTEE_COMPANY, COMPANY_ACCOUNT, REBATE_TOTAL, 
@@ -137,6 +144,32 @@
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
+  
+   <update id="updateByGuaranteeCompId" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebate" >
+    update sctrans.T_TO_BANK_REBATE
+    <set >
+      <if test="guaranteeCompany != null" >
+        GUARANTEE_COMPANY = #{guaranteeCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAccount != null" >
+        COMPANY_ACCOUNT = #{companyAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="rebateTotal != null" >
+        REBATE_TOTAL = #{rebateTotal,jdbcType=DECIMAL},
+      </if>
+       <if test="companyAccount != null" >
+        COMPANY_ACCOUNT = #{companyAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="comment != null" >
+        COMMENT = #{comment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR}
+  </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebate" >
     update sctrans.T_TO_BANK_REBATE
     set CASE_CODE = #{caseCode,jdbcType=VARCHAR},
