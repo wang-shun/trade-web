@@ -100,11 +100,51 @@
 							<div class="tab-pane fade" id="profile">
 								<div class="row">
 										<a role="button" id="processRestart" class="btn btn-primary btn-xm" href="javascript:evalProcessRestart()">评估重启 </a>
-										<a role="button" id="evalComChange" class="btn btn-primary btn-xm" href="javascript:evalComChange()">评估公司变更</a>
+										<a role="button" id="evalComChange" class="btn btn-primary btn-xm" href="javascript:evalComChange('${evaCode}')">评估公司变更</a>
 										<a role="button" id="evalBaodan" class="btn btn-primary btn-xm btn-activity" href="javascript:evalBaodan()">评估爆单 </a>
 										<a role="button" id="evalReject" class="btn btn-primary btn-xm btn-activity" href="javascript:evalReject('${caseCode}')">驳回申请</a>
 										<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:transferCommission()" target="_blank">评估公司变更调佣</a>
 									
+								</div>
+								
+								<!-- 评估公司变更-->
+								<div id="change-eval-company-modal-form" class="modal fade" role="dialog"
+									aria-labelledby="plan-modal-title" aria-hidden="true">
+									<div class="modal-dialog" style="width: 1000px">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal"
+													aria-hidden="true">×</button>
+												<h4 class="modal-title" id="plan-modal-title">评估公司变更</h4>
+											</div>
+											<div class="modal-body">
+											<div style="margin-left: 150px">
+												<div class="row">
+													<form id="change-eval-company-form" class="form-horizontal">
+														<table>
+															<tr>
+															<td>评估公司变更</td>
+															<td>是<input type="radio" name="changeItem">&nbsp&nbsp&nbsp&nbsp&nbsp否
+															<input type="radio" name="changeItem"></td>
+															</tr>
+															<tr>
+															<td>评估公司变更原因</td>
+															<td><input type="text" id="changeReason" name="changeReason"></td>
+															</tr>
+														</table>
+													
+													</form>
+												</div>
+											</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">关闭</button>
+												<button type="button" class="btn btn-primary"
+													onclick="return saveEvaComChangeItems();">提交</button>
+											</div>
+										</div>
+									</div>
 								</div>
 
 								<!-- 修改表单数据-->
@@ -198,65 +238,65 @@
 							        <h4><span style="font-size:12px;color:#b0b0b0;">● </span>评估询价</h4>
 									<div class="row">
 										<label class="col-sm-3 control-label">询价类型：<aist:dict id="evalPriceType" name="evalPriceType" display="label" dictType="EVAPRICING_TYPE" dictCode="${toEvaPricingVo.evaType}" /></label>
-										<label class="col-sm-3 control-label">询价值：${toEvaPricingVo.totalPrice}万元</label>
+										<label class="col-sm-3 control-label">询价值：${toEvaPricingVo.totalPrice}&nbsp;万元</label>
 										<label class="col-sm-3 control-label">询价时间：<fmt:formatDate value="${toEvaPricingVo.evalTime}" type="date" pattern="yyyy-MM-dd"/></label>
 									</div>
 									<div class="row">
 										<label class="col-sm-3 control-label">评估公司：${toEvaPricingVo.evaCompany}</label>
-										<label class="col-sm-3 control-label">房龄：${toEvaPricingVo.houseAge}年</label>
+										<label class="col-sm-3 control-label">房龄：${toEvaPricingVo.houseAge}&nbsp;年</label>
 									</div>
 									
 									<h4><span style="font-size:12px;color:#b0b0b0;">● </span>评估申请</h4>
 									<div class="row">
 									    <label class="col-sm-3 control-label">评估类型：<aist:dict id="evalType" name="evalType" display="label" dictType="EVAPRICING_TYPE" dictCode="${toEvalReportProcess.evalType}" /></label>
-										<label class="col-sm-3 control-label">评估公司：${toEvalReportProcess.finOrgName}</label>
-										<label class="col-sm-3 control-label">评估公司联系人：${toEvalReportProcess.evaComContact}</label>
+										<label class="col-sm-3 control-label">评估公司：${toEvalReportProcessVo.finOrgName}</label>
+										<label class="col-sm-3 control-label">评估公司联系人：${toEvalReportProcessVo.evaComContact}</label>
 									</div>
 									<div class="row">
-									    <label class="col-sm-3 control-label">联系方式：${toEvalReportProcess.contactWay}</label>
-										<label class="col-sm-3 control-label">房龄：${ToEvalReportProcess.houseAgeApply}年</label>
-										<label class="col-sm-3 control-label">询价值：${ToEvalReportProcess.inquiryResult}万元</label>
+									    <label class="col-sm-3 control-label">联系方式：${toEvalReportProcessVo.contactWay}</label>
+										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeApply}&nbsp;年</label>
+										<label class="col-sm-3 control-label">询价值：${toEvalReportProcessVo.inquiryResult}&nbsp;万元</label>
 									</div>
 									<div class="row">
-									    <label class="col-sm-3 control-label">评估报告份数：${ToEvalReportProcess.reportNum}份</label>
-										<label class="col-sm-3 control-label">申请评估日期：${ToEvalReportProcess.applyDate}</label>
+									    <label class="col-sm-3 control-label">评估报告份数：${toEvalReportProcessVo.reportNum}&nbsp;份</label>
+										<label class="col-sm-3 control-label">申请评估日期：<fmt:formatDate value="${toEvalReportProcessVo.applyDate}" type="date" pattern="yyyy-MM-dd"/></label>
 									</div>
 									
 									<h4><span style="font-size:12px;color:#b0b0b0;">● </span>出具评估报告</h4>
 									<div class="row">
-										<label class="col-sm-3 control-label">实际出具评估报告日期：${ToEvalReportProcess.issueDate}</label>
-										<label class="col-sm-3 control-label">收取报告日期：${ToEvalReportProcess.reportGetDate}</label>
-										<label class="col-sm-3 control-label">评估价：${ToEvalReportProcess.evaPrice}万元</label>
+										<label class="col-sm-3 control-label">实际出具评估报告日期：<fmt:formatDate value="${toEvalReportProcessVo.issueDate}" type="date" pattern="yyyy-MM-dd"/></label>
+										<label class="col-sm-3 control-label">收取报告日期：<fmt:formatDate value="${toEvalReportProcessVo.reportGetDate}" type="date" pattern="yyyy-MM-dd"/></label>
+										<label class="col-sm-3 control-label">评估价：${toEvalReportProcessVo.evaPrice}&nbsp;万元</label>
 									</div>
 									<div class="row">
-										<label class="col-sm-3 control-label">房龄：${ToEvalReportProcess.houseAgeIssue}年</label>
-										<label class="col-sm-3 control-label">评估报告份数：${ToEvalReportProcess.reportNumIssue}份</label>
+										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeIssue}&nbsp;年</label>
+										<label class="col-sm-3 control-label">评估报告份数：${toEvalReportProcessVo.reportNumIssue}&nbsp;份</label>
 									</div>
 									
 									<h4><span style="font-size:12px;color:#b0b0b0;">● </span>使用评估报告</h4>
 									<div class="row">
-										<label class="col-sm-3 control-label">领取报告时间：${ToEvalReportProcess.reportRevDate}</label>
-										<label class="col-sm-3 control-label">领取人：${ToEvalReportProcess.receiver}</label>
-										<label class="col-sm-3 control-label">领取份数：${ToEvalReportProcess.receiveNum}份</label>
+										<label class="col-sm-3 control-label">领取报告时间：${toEvalReportProcessVo.reportRevDate}</label>
+										<label class="col-sm-3 control-label">领取人：${toEvalReportProcessVo.receiver}</label>
+										<label class="col-sm-3 control-label">领取份数：${toEvalReportProcessVo.receiveNum}&nbsp;份</label>
 									</div>
 						       </div>
 						     
 						     <!-- 评估发票信息 -->
 						    <div class="tab-pane fade" id="invoice_info">
 									<div class="row">
-										<label class="col-sm-3 control-label">申请日期：${toEvaInvoice.applyDate}</label>
-										<label class="col-sm-3 control-label">发票金额：${toEvaInvoice.invoiceAmount}元</label>
-										<label class="col-sm-3 control-label">发票种类：${toEvaInvoice.invoiceType}</label>
+										<label class="col-sm-3 control-label">申请日期：${toEvaInvoiceVo.applyDate}</label>
+										<label class="col-sm-3 control-label">发票金额：${toEvaInvoiceVo.invoiceAmount}&nbsp;元</label>
+										<label class="col-sm-3 control-label">发票种类：${toEvaInvoiceVo.invoiceType}</label>
 									</div>
 									<div class="row">
-										<label class="col-sm-3 control-label">开票抬头：${toEvaInvoice.invoiceHeader}</label>
-										<label class="col-sm-3 control-label">开票地址：${toEvaInvoice.invoiceAddress}</label>
-										<label class="col-sm-3 control-label">税号：${toEvaInvoice.taxNum}</label>
+										<label class="col-sm-3 control-label">开票抬头：${toEvaInvoiceVo.invoiceHeader}</label>
+										<label class="col-sm-3 control-label">开票地址：${toEvaInvoiceVo.invoiceAddress}</label>
+										<label class="col-sm-3 control-label">税号：${toEvaInvoiceVo.taxNum}</label>
 									</div>
 									<div class="row">
-										<label class="col-sm-3 control-label">预计开具发票日期：${toEvaInvoice.toFinshDate}</label>
-										<label class="col-sm-3 control-label">开具发票时间：<fmt:formatDate value="${toEvaInvoice.billTime}" type="date" pattern="yyyy-MM-dd"/></label>
-										<label class="col-sm-3 control-label">银行账户：${toEvaInvoice.bankAccount}</label>
+										<label class="col-sm-3 control-label">预计开具发票日期：${toEvaInvoiceVo.toFinshDate}</label>
+										<label class="col-sm-3 control-label">开具发票时间：<fmt:formatDate value="${toEvaInvoiceVo.billTime}" type="date" pattern="yyyy-MM-dd"/></label>
+										<label class="col-sm-3 control-label">银行账户：${toEvaInvoiceVo.bankAccount}</label>
 									</div>
 									<div class="content">
 										<table id="gridTable_invoice"></table>
@@ -267,14 +307,14 @@
 							<!-- 评估返利报告审批 -->
 						    <div class="tab-pane fade" id="rebate_info">
 									<div class="row">
-									    <label class="col-sm-3 control-label">评估费收据：${toEvalRebate.evalRecept}</label>
-										<label class="col-sm-3 control-label">评估费实收：${toEvalRebate.evalRealCharges}元</label>
-										<label class="col-sm-3 control-label">评估费应收：${toEvalRebate.evalDueCharges}元</label>
+									    <label class="col-sm-3 control-label">评估费收据：${toEvalRebateVo.evalRecept}</label>
+										<label class="col-sm-3 control-label">评估费实收：${toEvalRebateVo.evalRealCharges}元</label>
+										<label class="col-sm-3 control-label">评估费应收：${toEvalRebateVo.evalDueCharges}元</label>
 									</div>
 									<div class="row">
-									    <label class="col-sm-3 control-label">中原分成金额：${toEvalRebate.centaComAmount}元</label>
-										<label class="col-sm-3 control-label">评估公司分成金额：${toEvalRebate.evaComAmount}元</label>
-										<label class="col-sm-3 control-label">录入时间：<fmt:formatDate value="${toEvalRebate.inputTime}" type="date" pattern="yyyy-MM-dd"/></label>
+									    <label class="col-sm-3 control-label">中原分成金额：${toEvalRebateVo.centaComAmount}元</label>
+										<label class="col-sm-3 control-label">评估公司分成金额：${toEvalRebateVo.evaComAmount}元</label>
+										<label class="col-sm-3 control-label">录入时间：<fmt:formatDate value="${toEvalRebateVo.inputTime}" type="date" pattern="yyyy-MM-dd"/></label>
 									</div>
 									<div class="content">
 										<table id="gridTable_rebate"></table>
@@ -293,14 +333,14 @@
 							<!-- 评估公司变更 -->
 						    <div class="tab-pane fade" id="change_info">
 									<div class="row">
-									    <label class="col-sm-3 control-label">变更原因：${ToEvalReportProcess.houseAgeApply}</label>
+									    <label class="col-sm-3 control-label">变更原因：${toEvalReportProcessVo.changeInfo}</label>
 									</div>
 							</div>
 							
 							<!-- 评估结算 -->
 						    <div class="tab-pane fade" id="settle_info">
 									<div class="row">
-									    <label class="col-sm-3 control-label">结算费用：${ToEvalSettle.settleFee}</label>
+									    <label class="col-sm-3 control-label">结算费用：${toEvalSettleVo.settleFee}</label>
 									</div>
 									<div class="row">
 										<table id="gridTable_settle"></table>
@@ -310,50 +350,50 @@
 							
 							<!-- 调佣审批 -->
 						    <div class="tab-pane fade" id="message_info">
-									<div class="row">
-									     <label class="col-sm-3 control-label">调佣事项：${ToEvalReportProcess.houseAgeApply}</label>
-									     <label class="col-sm-3 control-label">调佣类型：${ToEvalReportProcess.houseAgeApply}</label>
-									     <label class="col-sm-3 control-label">调佣对象：${ToEvalReportProcess.houseAgeApply}</label>
+								<%-- 	<div class="row">
+									     <label class="col-sm-3 control-label">调佣事项：${toEvaCommissionChange.changeChargesItem}</label>
+									     <label class="col-sm-3 control-label">调佣类型：${toEvaCommissionChange.changeChargesType}</label>
+									     <label class="col-sm-3 control-label">调佣对象：${toEvaCommissionChange.houseAgeApply}</label>
 									</div>
 									<div class="row">
-									     <label class="col-sm-3 control-label">调佣金额：${ToEvalReportProcess.houseAgeApply}</label>
-									     <label class="col-sm-3 control-label">调佣事由：${ToEvalReportProcess.houseAgeApply}</label>
+									     <label class="col-sm-3 control-label">调佣金额：${toEvaCommissionChange.houseAgeApply}</label>
+									     <label class="col-sm-3 control-label">调佣事由：${toEvaCommissionChange.changeChargesCause}</label>
 									</div>
 									<div class="content">
 										<table id="gridTable_message"></table>
 								        <div id="gridPager_message"></div>
-									 </div>
+									 </div> --%>
 							</div>
-							
+								
 							<!-- 评估退费 -->
 							<div class="tab-pane fade" id="refund_info">
 							       <div class="row">
-										<label class="col-sm-3 control-label">退费类别：${toEvaRefund.refundKinds}</label>
-										<label class="col-sm-3 control-label">申请人：${toEvaRefund.proposer}</label>
-										<label class="col-sm-3 control-label">申请分行：${toEvaRefund.applyDepart}</label>
+										<label class="col-sm-3 control-label">退费类别：${toEvaRefundVo.refundKinds}</label>
+										<label class="col-sm-3 control-label">申请人：${toEvaRefundVo.proposer}</label>
+										<label class="col-sm-3 control-label">申请分行：${toEvaRefundVo.applyDepart}</label>
 									</div>
 									 <div class="row">
-										<label class="col-sm-3 control-label">申请时间：${toEvaRefund.applyTime}</label>
-										<label class="col-sm-3 control-label">退费金额：${toEvaRefund.refundAmount}</label>
-										<label class="col-sm-3 control-label">退款对象：${toEvaRefund.refundTarget}</label>
+										<label class="col-sm-3 control-label">申请时间：${toEvaRefundVo.applyTime}</label>
+										<label class="col-sm-3 control-label">退费金额：${toEvaRefundVo.refundAmount}</label>
+										<label class="col-sm-3 control-label">退款对象：${toEvaRefundVo.refundTarget}</label>
 									</div>
 									 <div class="row">
-										<label class="col-sm-3 control-label">退款原因：${toEvaRefund.refundCause}</label>
-										<label class="col-sm-3 control-label">预计退款时间：${toEvaRefund.toRefundTime}</label>
-										<label class="col-sm-3 control-label">评估报告回收份数：${toEvaRefund.reportBackNum}</label>
+										<label class="col-sm-3 control-label">退款原因：${toEvaRefundVo.refundCause}</label>
+										<label class="col-sm-3 control-label">预计退款时间：${toEvaRefundVo.toRefundTime}</label>
+										<label class="col-sm-3 control-label">评估报告回收份数：${toEvaRefundVo.reportBackNum}</label>
 									</div>
 									<div class="row">
-										<label class="col-sm-3 control-label">评估报告回收份数：${toEvaRefund.reportBackNum}</label>
-										<label class="col-sm-3 control-label">回收时间：${toEvaRefund.backTime}</label>
-										<label class="col-sm-3 control-label">未回收原因：${toEvaRefund.backCause}</label>
+										<label class="col-sm-3 control-label">评估报告回收份数：${toEvaRefundVo.reportBackNum}</label>
+										<label class="col-sm-3 control-label">回收时间：${toEvaRefundVo.backTime}</label>
+										<label class="col-sm-3 control-label">未回收原因：${toEvaRefundVo.backCause}</label>
 									</div>
 									<div class="row">
-										<label class="col-sm-3 control-label">评估报告回收份数：${toEvaRefund.reportBackNum}</label>
-										<label class="col-sm-3 control-label">回收时间：${toEvaRefund.backTime}</label>
-										<label class="col-sm-3 control-label">未回收原因：${toEvaRefund.backCause}</label>
+										<label class="col-sm-3 control-label">评估报告回收份数：${toEvaRefundVo.reportBackNum}</label>
+										<label class="col-sm-3 control-label">回收时间：${toEvaRefundVo.backTime}</label>
+										<label class="col-sm-3 control-label">未回收原因：${toEvaRefundVo.backCause}</label>
 									</div>
 									<div class="row">
-										<label class="col-sm-3 control-label">评估费实收金额：${toEvaRefund.evalRealCharges}</label>
+										<label class="col-sm-3 control-label">评估费实收金额：${toEvaRefundVo.evalRealCharges}</label>
 									</div>
 									<div class="row">
 										<table id="gridTable_refund"></table>
