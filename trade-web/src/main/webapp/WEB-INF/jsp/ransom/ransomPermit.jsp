@@ -68,7 +68,8 @@
 <content tag="pagetitle">赎楼领取产证</content>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	<input type="hidden" id="PROCESS_DEFINITION_ID_RANSOM" value="${PROCESS_DEFINITION_ID_RANSOM}" />
+	<jsp:include page="/WEB-INF/jsp/ransom/taskListByRansomCode.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/ransom/ransomBaseInfo.jsp"></jsp:include>
 	<form method="get" id="ransomPermit" class="form_list">
 		<input type="hidden" id="caseCode" name="caseCode" value="${detailVo.caseCode }">
@@ -106,7 +107,8 @@
 	
 	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
-
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	<script src="<c:url value='/transjs/task/showAttachment.js' />"></script>
  	<script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> <!-- Data picker -->
 	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
@@ -119,6 +121,7 @@
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> 
 	<script src="<c:url value='/js/common/textarea.js' />"></script> 
 	<script src="<c:url value='/js/common/common.js' />"></script> 
+	<script src="<c:url value='/js/ransom/ransomTaskCheck.js' />"></script> 
 	<script>
 	$(document).ready(function(){
 		
@@ -168,7 +171,7 @@
 			success:function(data){
 				if(data){
 					window.wxc.success("提交成功!",{"wxcOk":function(){
-						window.close();
+						ransomTaskCheck();
 					}});
 				}else{
 					window.wxc.error("提交失败!");
