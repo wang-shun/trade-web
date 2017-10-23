@@ -129,9 +129,9 @@ public class RansomServiceImpl implements RansomService{
 		applyVo.setApplyTime(submitVo.getApplyTime());
 		applyVo.setApplyOrgCode(submitVo.getApplyOrgCode());
 		applyVo.setLoanOfficer(submitVo.getLoanOfficer());
-		applyVo.setIsApply("1");
 		applyVo.setUpdateUser(user.getId());
 		applyVo.setCreateUser(user.getId());
+		
 		//申请数据插入
 		int applyCount = ransomMapper.insertRansomApply(applyVo);
 

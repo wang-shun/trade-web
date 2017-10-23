@@ -30,7 +30,7 @@
 							rac.STOP_REASON,
 							rac.BORRO_MONEY,
 							rac.UPDATE_TIME,
-							ISNULL(app.ISAPPLY, 0) ISAPPLY
+							ISNULL(rac.ISAPPLY, 0) ISAPPLY
 						FROM sctrans.T_RA_CASE rac
 						INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON pro.CASE_CODE = rac.CASE_CODE
 						INNER JOIN sctrans.T_TO_CASE_INFO toc ON toc.CASE_CODE = pro.CASE_CODE
@@ -100,7 +100,7 @@
 					rac.STOP_REASON,
 					rac.BORRO_MONEY,
 					rac.UPDATE_TIME,
-					app.isApply
+					rac.isApply
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -128,7 +128,7 @@
 				<column type="both" name="UPDATE_TIME" display="最新状态" customDict="" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"  />
 				
 				<column type="both" name="BORRO_MONEY" index="" checkbox="" display="借款金额" customDict="" sysDict="" />
-				<!-- <column type="both" name="ISAPPLY" index="" checkbox="" display="是否已申请" customDict="" sysDict="" /> -->
+				<column type="both" name="ISAPPLY" index="" checkbox="" display="是否已申请" customDict="" sysDict="" /> 
 			
 			</table-row>
 		</grid>

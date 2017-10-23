@@ -14,7 +14,10 @@ $(document).ready(function(){
 	});
 	
 	var data = getQueryParams(1);
-	
+    // 初始化列表
+    data.queryId = "bankRebate";
+    data.rows = 10;
+    data.page = 1;
     aist.wrap(data);
 	//添加排序------------
 	reloadGrid(data);
@@ -200,16 +203,15 @@ function initpage(totalCount,pageSize,currentPage,records) {
 	$(currentTotalstrong).empty();
 	$(currentTotalstrong).text(currentPage+'/'+totalCount);
 	$('#totalP').text(records);
-	
-	
+
 	$("#pageBar").twbsPagination({
 		totalPages:totalCount,
 		visiblePages:9,
 		startPage:currentPage,
-		first:'<i class="icon-step-backward"></i>',
-		prev:'<i class="icon-chevron-left"></i>',
-		next:'<i class="icon-chevron-right"></i>',
-		last:'<i class="icon-step-forward"></i>',
+        first:'<i class="fa fa-step-backward"></i>',
+        prev:'<i class="fa fa-chevron-left"></i>',
+        next:'<i class="fa fa-chevron-right"></i>',
+        last:'<i class="fa fa-step-forward"></i>',
 		showGoto:true,
 		onPageClick: function (event, page) {
 			//reloadGrid(page);
