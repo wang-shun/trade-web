@@ -12,7 +12,7 @@ $(document).ready(function(){
 	reloadGrid(data);
 	
 	//获取评估公司
-	//getEvaFinOrg('finOrgId');
+	getEvaFinOrg('finOrgId');
 });
 
 var ctx = $("#ctx").val();
@@ -20,28 +20,27 @@ var ctx = $("#ctx").val();
  * 获取评估公司 格式化
  * @param finOrgId
  */
-/*function getEvaFinOrg(finOrgId){
-	var url = ctx+"/evaPricing/getEvaFinOrg";
+function getEvaFinOrg(finOrgId){
+	var url = "/manage/queryEvaCompany";
 	$.ajax({
 		async: true,
 		type:'POST',
 		url:ctx+url,
 		dataType:'json',
 		success:function(data){
-			console.log(data.content);
 			var html = '<option value="" selected>请选择</option>';
-			if(data.content && data.content.length >0){
-				$.each(data.content,function(i,item){
-					html += '<option value="'+item.id+'">'+item.name+'</option>';
+			if(data != null){
+				$.each(data,function(i,item){
+					html += '<option value="'+item.pkid+'">'+item.finOrgName+'</option>';
 				});
-			}
-			$('#'+evalCompany).empty();
-			$('#'+evalCompany).append(html);
+			}					
+			$('#'+finOrgId).empty();
+			$('#'+finOrgId).append(html);
 		},
 		error : function(errors) {
 		}
 	});
-}*/
+}
 
 
 /*条件查询*/
@@ -85,7 +84,7 @@ function getQueryParams(page){
 //		loadWarrant=null;
 //	}
 	//评估公司
-	var finOrgID = $('#evalCompany').val();
+	var finOrgID = $('#finOrgId').val();
 //	if(evalOrg==""){
 //		evalOrg=null;
 //	}
@@ -322,7 +321,7 @@ $('#batchappro').click(function() {
  		params.search_status = $("#caseStatus  option:selected").val().trim();
  		params.search_settleFee = $("#endfee").val();
  		params.search_feeChangeReason = $('#costUpdateType option:selected').val();
- 		params.search_finOrgID = $('#evalCompany').val();
+ 		params.search_finOrgID = $('#finOrgId').val();
 
  		var displayColomn = new Array;
  		displayColomn.push('caseCode');

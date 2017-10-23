@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.centaline.trans.eval.service.ToEvalRebateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,6 +64,8 @@ public class EvaController {
 	private TaskService taskService;
 	@Autowired
 	ToCaseParticipantService toCaseParticipantService;
+	@Autowired
+	ToEvalRebateService toEvalRebateService; //评估返利
 	
 	/**
 	 * 评估代办任务
@@ -130,8 +133,7 @@ public class EvaController {
 			toEvalReportProcess.setEvaCode(erp.getEvaCode());
 			toEvalReportProcessService.updateEvaReportByEvaCode(toEvalReportProcess);
 		}
-		
-		
+
 		//启动流程引擎
 		ProcessInstance process = new ProcessInstance();
 		process.setBusinessKey(toEvalReportProcess.getEvaCode());
@@ -164,6 +166,10 @@ public class EvaController {
     	
     	TaskVo taskvo = (TaskVo) taskService.listTasks(processInstance.getId()).getData().get(0);
     	taskService.submitTask(String.valueOf(taskvo.getId()));
+
+		//启动评估返利流程 by:yinchao 2017-10-21
+		toEvalRebateService.startRebateFlow(toEvalReportProcess.getCaseCode(),toEvalReportProcess.getEvaCode());
+
     	return true;
 	}
 	

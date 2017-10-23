@@ -2,6 +2,7 @@ package com.centaline.trans.ransom.service;
 
 import java.util.List;
 
+import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
@@ -44,6 +45,17 @@ public interface RansomListFormService {
 	 */
 	List getUpdateRansomInfo(String caseCode);
 	
+	ToRansomCaseVo getRansomCase(String caseCode);
+	/**
+	 * 尾款信息查询
+	 * @param caseCode
+	 * @return
+	 */
+	List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode);
+	
+	List<TgGuestInfo> getGuestInfo(String caseCode);
+	
+	
 	/**
 	 * 修改赎楼列表信息
 	 * @param ransomCode
@@ -80,11 +92,25 @@ public interface RansomListFormService {
 	int insertRansomPlanTimeInfo(ToRansomPlanVo planVo);
 	
 	/**
+	 * 时间计划批量插入
+	 * @param planVo
+	 * @return
+	 */
+	int insertListRansomPlanTime(List<ToRansomPlanVo> list);
+	
+	/**
 	 * 赎楼时间计划信息更新
 	 * @param ransomCode
 	 * @return
 	 */
 	int updateRansomPlanTimeInfo(ToRansomPlanVo ransomPlanVo);
+	
+	/**
+	 * 赎楼时间计划信息更新
+	 * @param ransomCode
+	 * @return
+	 */
+	int updateListPlanTimeInfo(List<ToRansomPlanVo> planList);
 	
 	
 	/**

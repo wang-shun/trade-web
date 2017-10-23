@@ -1,6 +1,7 @@
 package com.centaline.trans.ransom.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 赎楼计划
@@ -18,6 +19,11 @@ public class ToRansomPlanVo {
 	 * 赎楼环节
 	 */
     private String partCode;
+    
+    /**
+     * 赎楼环节s
+     */
+    private List<String> partListCode;
     /**
 	 * 赎楼环节名
 	 */
@@ -128,7 +134,11 @@ public class ToRansomPlanVo {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
+	public List<String> getPartListCode() {
+		return partListCode;
+	}
+	public void setPartListCode(List<String> partListCode) {
+		this.partListCode = partListCode;
+	}
 	
-    
-
 }

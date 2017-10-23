@@ -99,6 +99,9 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(caseCode);
 		if (toPropertyInfo != null) {
 			reVo.setPropertyAddress(toPropertyInfo.getPropertyAddr());
+			String cityName=uamBasedataService.getDictValue(TransDictEnum.CITY.getCode(),
+					toPropertyInfo.getDistCode());
+			reVo.setCityName(cityName);
 		}
 		User agentUser = null;
 		// 经纪人
@@ -403,6 +406,11 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 	@Override
 	public String findcaseCodeByccaiCode(String ccaiCode) {
 		return toCaseInfoMapper.findcaseCodeByCcaiCode(ccaiCode);
+	}
+
+	@Override
+	public String findccaiCodeBycaseCode(String caseCode) {
+		return toCaseInfoMapper.findcaseCodeByCcaiCode(caseCode);
 	}
 
 }

@@ -165,7 +165,7 @@
 		FROM
 			sctrans.T_RA_CASE 
 				WHERE 
-					CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+					RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	<select id="getRansomCaseInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
 		SELECT
@@ -231,6 +231,22 @@
 		WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	</select>
 	
+	<select id="getTailinsInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomTailinsVo">
+		SELECT 
+			CASE_CODE caseCode,
+			RANSOM_CODE ransomCode,
+			FIN_ORG_CODE finOrgCode,
+			MORTGAGE_TYPE mortgageType,
+			DIYA_TYPE diyaType,
+			LOAN_MONEY loanMoney,
+			REST_MONEY restMoney,
+			SIGN_TIME signTime,
+			PLAN_TIME planTime
+		FROM 
+			sctrans.T_RA_TAILINS 
+		WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+	
 	<select id="getApplyInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomApplyVo">
 		SELECT APPLY_TIME applyTime,PART_CODE partCode FROM sctrans.T_RA_APPLY WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
@@ -259,6 +275,17 @@
 		 WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
+	<select id="getPlanTimeInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo" >
+		SELECT
+			RANSOM_CODE ransomCode,
+			 PART_CODE partCode,
+			 EST_PART_TIME estPartTime
+		FROM 
+			sctrans.T_RA_PLAN  
+		WHERE 
+			PART_CODE IN('APPLY','SIGN','PAYLOAN_ONE','CANCELDIYA_ONE','RECEIVE_ONE','PAYCLEAR')
+				AND RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
 	
 	<insert id="insertRansomApply" parameterType="com.centaline.trans.ransom.entity.ToRansomApplyVo">
 		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">

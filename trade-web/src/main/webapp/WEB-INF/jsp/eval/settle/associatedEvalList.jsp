@@ -7,7 +7,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>首页</title>
+        <title>关联评估单列表</title>
         <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
         <link href="<c:url value='/fonts/font-awesome/css/font-awesome.min.css' />" rel="stylesheet"/>
         <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
@@ -40,6 +40,7 @@ text-decoration: underline !important;
 .hideDiv{
 display: none;}
 	</style>
+	<content tag="pagetitle">关联评估单列表</content>
     </head>
     
     <body class="pace-done">

@@ -296,6 +296,9 @@
       <if test="receiveNum != null" >
         RECEIVE_NUM = #{receiveNum,jdbcType=INTEGER},
       </if>
+     <if test="evaPointer != null" >
+        EVA_POINTER = #{evaPointer,jdbcType=INTEGER},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>

@@ -23,7 +23,7 @@ public class ApiApplication extends SpringBootServletInitializer
 	@Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		//设置activemq的安全序列化 否则客户端发送消息会报错 该版本spring-boot没有解决的办法 后续高版本支持配置
-		System.setProperty("org.apache.activemq.SERIALIZABLE_PACKAGES","com.centaline.api.ccai.vo");
+		System.setProperty("org.apache.activemq.SERIALIZABLE_PACKAGES","com.centaline.trans.message.activemq.vo");
         //指向原有@SpringBootApplication的启动类
 		return application.sources(ApiApplication.class);
     }

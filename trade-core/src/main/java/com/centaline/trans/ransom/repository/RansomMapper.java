@@ -136,7 +136,14 @@ public interface RansomMapper {
 	 * @param caseCode
 	 * @return 
 	 */
-	ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode);
+	List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode);
+	
+	/**
+	 * 根据caseCode查询尾款信息
+	 * @param caseCode
+	 * @return 
+	 */
+	List<ToRansomTailinsVo> getTailinsInfoByRansomCode(String ransomCode);
 	
 	/**
 	 * 根据ransomCode查询尾款信息
@@ -205,4 +212,6 @@ public interface RansomMapper {
 	int updateRansomPlanTime(ToRansomPlanVo planVo);
 	
 	int updateRansomIsStart(String ransomCode);
+	
+	List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode);
 }

@@ -153,50 +153,11 @@
 </script>
 	<script id="template_workInfo" type= "text/html">
 		{{each rows as item index}}
+			{{if test="item.RANSOM_PROPERTY != '' || item.RANSOM_PROPERTY != null"}}
 			<tr>
 				<td>
 					<p>
-						{{if item.RANSOM_PROPERTY == "DEAL"}}
-		 					{{item.RANSOM_PROPERTY_NAME}}
-						{{/if}}
-
-						{{if item.RANSOM_PROPERTY == "APPLY"}}
-		 					{{item.RANSOM_PROPERTY_NAME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "SIGN"}}
-		 					{{item.RANSOM_PROPERTY_NAME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "PAYLOAN_ONE"}}
-		 					{{item.RANSOM_PROPERTY_NAME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "PAYLOAN_TWO"}}
-		 					{{item.RANSOM_PROPERTY_NAME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "CANCELDIYA_ONE"}}
-		 					{{item.RANSOM_PROPERTY_NAME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "CANCELDIYA_TWO"}}
-		 					{{item.RANSOM_PROPERTY_NAME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "RECEIVE_ONE"}}
-		 					{{item.RANSOM_PROPERTY_NAME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "RECEIVE_TWO"}}
-		 					{{item.RANSOM_PROPERTY_NAME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "PAYCLEAR"}}
-		 					{{item.RANSOM_PROPERTY_NAME}}
-						{{/if}}
-							
-						
+		 				{{item.RANSOM_PROPERTY_NAME}}
 					</p>
 				</td>
 				<td>
@@ -253,6 +214,7 @@
 					</p>
 				</td>
 			</tr>
+			{{/if}}
 		{{/each}}
 	</script>
 </body>
