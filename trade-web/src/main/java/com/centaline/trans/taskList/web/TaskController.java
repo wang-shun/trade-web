@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.centaline.trans.task.entity.ToRatePayment;
 import com.centaline.trans.task.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -235,7 +236,14 @@ public class TaskController {
     		request.setAttribute("taxReview", toTaxService.findToTaxByCaseCode(caseCode));
     	} else if (taskitem.equals("RatePayment")){/*缴税*/
 			getAccesoryList(request,taskitem);
-			request.setAttribute("ratePayment",ratePaymentService.qureyToRatePayment(caseCode));
+			ToRatePayment ratePayment=ratePaymentService.qureyToRatePayment(caseCode);
+			if(ratePayment!=null){
+				User user=uamUserOrgService.getUserById(ratePayment.getAutualOperatorId());
+				if (user!=null){
+					ratePayment.setAutualOperatorName(user.getRealName());//根据操作人的id查询操作人的姓名
+				}
+			}
+			request.setAttribute("ratePayment",ratePayment);
 		} else if(taskitem.equals("Guohu")){/*过户*/
         	/*过户申请信息*/
         	initApproveRecord(request, caseCode, "2");

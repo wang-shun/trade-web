@@ -50,7 +50,7 @@ public class ToRatePaymentServiceImpl implements ToRatePaymentService {
 				.getCaseCode());
 		if (toRatePayment2!= null) {
 			toRatePayment.setPkid(toRatePayment2.getPkid());
-			if (toRatePaymentMapper.updateByPrimaryKey(toRatePayment)>0) {
+			if (toRatePaymentMapper.updateByPrimaryKeySelective(toRatePayment)>0) {
 				return true;
 			}
 		}else {
