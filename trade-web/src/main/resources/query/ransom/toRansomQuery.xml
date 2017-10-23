@@ -65,7 +65,7 @@
 						sctrans.T_RA_CASE cas
 						INNER JOIN sctrans.T_RA_APPLY app ON cas.RANSOM_CODE = app.RANSOM_CODE
 					WHERE
-						cas.RANSOM_CODE = #ransomCode#
+						cas.CASE_CODE = #caseCode#
 				]]>
 			</baseSql>
 			<orderBySql>

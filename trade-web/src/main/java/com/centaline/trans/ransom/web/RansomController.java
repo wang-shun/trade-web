@@ -150,7 +150,7 @@ import com.centaline.trans.ransom.service.RansomService;
 				request.setAttribute("processInstanceId", processInstanceId);
 				request.setAttribute("taskId", taskId);
 			}
-			
+			request.setAttribute("PROCESS_DEFINITION_ID_RANSOM", propertyUtilsService.getProcessDfId("ransom_process"));
 			
 			return "ransom/ransomApply";
 		}
@@ -455,6 +455,7 @@ import com.centaline.trans.ransom.service.RansomService;
 			ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
 
 			request.setAttribute("detailVo", detailVo);
+			request.setAttribute("PROCESS_DEFINITION_ID_RANSOM", propertyUtilsService.getProcessDfId("ransom_process"));
 			
 			return detailVo;
 		}
