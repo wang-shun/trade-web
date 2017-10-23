@@ -139,6 +139,7 @@
 			</div>
 		</div>
 		<div class="ibox-content border-bottom clearfix space_box noborder">
+		<input type="hidden" name="needRecovery" value="${toEvaRefund.isNeedRecovery}">
 
 			<form method="get" class="form-horizontal" id="evalRefundForm">
 				<%--环节编码 --%>
@@ -157,10 +158,10 @@
 								<label class="control-label sign_left_small">
 								<font color=" red" class="mr5">*</font>报告回收 :</label> 
 								<label class="radio-inline"> 
-									<input type="radio" name="isNeedRecovery" id="need" value="1" checked="checked">需要
+									<input type="radio" name="isNeedRecovery" id="need" value="1" ${toEvaRefund.isNeedRecovery eq '1'?'checked="checked"':'' }>需要
 								</label> 
 								<label class="radio-inline">
-								    <input type="radio" name="isNeedRecovery" id="noNeed" value="0"> 不需要
+								    <input type="radio" name="isNeedRecovery" id="noNeed" value="0" ${toEvaRefund.isNeedRecovery eq '0'?'checked="checked"':'' }> 不需要
 								</label>
 							</div>
 						</div>
@@ -243,6 +244,7 @@
 		src="<c:url value='/js/common/common.js' />"></script> <script
 		src="<c:url value='/js/trunk/case/caseBaseInfo.js'/>"></script> <script>
 			$(document).ready(function() {
+				
 				var ctx = $("#ctx").val();
 				var caseCode = $("#caseCode").val();
 
@@ -255,8 +257,14 @@
 					language : 'zh-CN'
 				});
 
-				//设置div显示或隐藏
+				//页面加载时div显示或隐藏
+				if ($("[name=needRecovery]").val() == '1') {
+					$("#isNeedDiv").css("display", "inherit");
+				} else {
+					$("#isNeedDiv").css("display", "none");
+				}
 
+				//点击事件时div显示或隐藏
 				$("[name=isNeedRecovery]").click(function() {
 					if ($(this).val() == '1') {
 						$("#isNeedDiv").css("display", "inherit");
