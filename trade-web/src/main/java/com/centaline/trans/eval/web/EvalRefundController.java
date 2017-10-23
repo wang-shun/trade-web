@@ -120,10 +120,17 @@ public class EvalRefundController {
 	private ToEvaRefund copyProperties(ToEvaRefundVO toEvaRefundvo) {
 		ToEvaRefund toEvaRefund = new ToEvaRefund();
 		toEvaRefund.setPkid(toEvaRefundvo.getPkid());
-		toEvaRefund.setReportBackNum(toEvaRefundvo.getReportBackNum());
-		toEvaRefund.setBackTime(toEvaRefundvo.getBackTime());
-		toEvaRefund.setBackCause(toEvaRefundvo.getBackCause());
 		toEvaRefund.setEvalRealCharges(toEvaRefundvo.getEvalRealCharges());
+		toEvaRefund.setIsNeedRecovery(toEvaRefundvo.getIsNeedRecovery());
+		if (toEvaRefundvo.getIsNeedRecovery().equals("0")) {
+			toEvaRefund.setReportBackNum(null);
+			toEvaRefund.setBackTime(null);
+			toEvaRefund.setBackCause(null);
+		}else{
+			toEvaRefund.setReportBackNum(toEvaRefundvo.getReportBackNum());
+			toEvaRefund.setBackTime(toEvaRefundvo.getBackTime());
+			toEvaRefund.setBackCause(toEvaRefundvo.getBackCause());
+		}
 		return toEvaRefund;
 	}
 	

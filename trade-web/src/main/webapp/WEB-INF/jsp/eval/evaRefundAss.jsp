@@ -139,6 +139,7 @@
 			</div>
 		</div>
 		<div class="ibox-content border-bottom clearfix space_box noborder">
+		<input type="hidden" name="needRecovery" value="${toEvaRefund.isNeedRecovery}">
 
 			<form method="get" class="form-horizontal" id="evalRefundForm">
 				<%--环节编码 --%>
@@ -243,6 +244,7 @@
 		src="<c:url value='/js/common/common.js' />"></script> <script
 		src="<c:url value='/js/trunk/case/caseBaseInfo.js'/>"></script> <script>
 			$(document).ready(function() {
+				
 				var ctx = $("#ctx").val();
 				var caseCode = $("#caseCode").val();
 
@@ -255,8 +257,14 @@
 					language : 'zh-CN'
 				});
 
-				//设置div显示或隐藏
+				//页面加载时div显示或隐藏
+				if ($("[name=needRecovery]").val() == '1') {
+					$("#isNeedDiv").css("display", "inherit");
+				} else {
+					$("#isNeedDiv").css("display", "none");
+				}
 
+				//点击事件时div显示或隐藏
 				$("[name=isNeedRecovery]").click(function() {
 					if ($(this).val() == '1') {
 						$("#isNeedDiv").css("display", "inherit");
