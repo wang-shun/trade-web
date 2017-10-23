@@ -114,12 +114,18 @@ public class BankRebateListController {
 	 */
 	@RequestMapping(value = "submitChangeBankRebate")
 	@ResponseBody
-	public AjaxResponse<String> submitChangeBankRebate(ToBankRebateInfoVO toBankRebateInfoVO, HttpServletRequest request,Model model) {
+	public AjaxResponse<String> submitChangeBankRebate(ToBankRebateInfoVO toBankRebateInfoVO,String guaranteeCompany,String companyAccount,BigDecimal rebateTotal,String comment,String guaranteeCompId, HttpServletRequest request,Model model) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		
+		ToBankRebate toBankRebate = new ToBankRebate();
+		toBankRebate.setCompanyAccount(companyAccount);
+		toBankRebate.setComment(comment);
+		toBankRebate.setGuaranteeCompany(guaranteeCompany);
+		toBankRebate.setGuaranteeCompId(guaranteeCompId);
+		toBankRebate.setRebateTotal(rebateTotal);
 		try{
 		//保存修改对象
 			toBankRebateInfoService.saveToBankRebateInfoVO(toBankRebateInfoVO);
+			toBankRebateService.updateByGuaranteeCompId(toBankRebate);
 		}
 		catch(Exception e){
     		response.setSuccess(false);

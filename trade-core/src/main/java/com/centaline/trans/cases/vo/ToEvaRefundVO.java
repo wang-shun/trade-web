@@ -33,6 +33,8 @@ public class ToEvaRefundVO {
     private Date toRefundTime;
 
     private Integer reportBackNum;
+    
+    private String isNeedRecovery;
 
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date backTime;
@@ -235,6 +237,12 @@ public class ToEvaRefundVO {
 	}
 	public void setPartCode(String partCode) {
 		this.partCode = partCode;
+	}
+	public String getIsNeedRecovery() {
+		return isNeedRecovery;
+	}
+	public void setIsNeedRecovery(String isNeedRecovery) {
+		this.isNeedRecovery = isNeedRecovery;
 	}
 	
 	

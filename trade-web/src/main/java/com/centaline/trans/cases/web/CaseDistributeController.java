@@ -173,7 +173,13 @@ public class CaseDistributeController
         List<User>userList=new ArrayList<User>();
         // 获取机构交易顾问列表,加了个标识，用来查询过户权证信息和交易顾问信息
         if(operation!=null&&operation!=""){
-            userList=  uamUserOrgService.getUserByOrgIdAndJobCode(sessionUser.getServiceDepId(),TransJobs.GHQZ.getCode());
+        	if(TransJobs.GHQZ.getCode().equals(operation)) {
+        		userList=  uamUserOrgService.getUserByOrgIdAndJobCode(sessionUser.getServiceDepId(),TransJobs.GHQZ.getCode());
+        	}else if(TransJobs.JRQZ.getCode().equals(operation)){
+        		userList=  uamUserOrgService.getUserByOrgIdAndJobCode(sessionUser.getServiceDepId(),TransJobs.JRQZ.getCode());
+        	}else {
+        		
+        	}
         }else {
             userList = uamUserOrgService.getUserByOrgIdAndJobCode(sessionUser.getServiceDepId(),TransJobs.TJYGW.getCode());
         }
@@ -181,7 +187,7 @@ public class CaseDistributeController
         if (!StringUtils.isBlank(caseCode))
         {
             VCaseDistributeUserVO vd = toCaseService.getVCaseDistributeUserVO(caseCode);
-            if (null != vd)
+            if (null != vd && vd.getId() != null)
             {
                 res.add(vd);
             }
