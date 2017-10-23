@@ -68,7 +68,7 @@ public class EvalFlowWorkListener {
 	 * @see com.centaline.trans.eval.service.impl.ToEvalRebateServiceImpl#startRebateFlow(String, String)
 	 */
 	//案件消息队列名称
-	private static final String evalQueueName = "evalqueue-test1";
+	private static final String evalQueueName = "evalqueue";
 	Logger logger = LoggerFactory.getLogger(EvalFlowWorkListener.class);
 
 	@Autowired
