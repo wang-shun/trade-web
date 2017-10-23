@@ -376,9 +376,6 @@ function checkForm() {
 					</div>	
 					
 					<div class="form_content">
-						<!-- <button id="reloadButton" onclick="initMyJqgrid()" type="button" class="btn btn_blue">
-                           	 	<i class="icon iconfont">&#xe635;</i>查询
-                             </button> -->
                              <button id="reloadButton" type="button" class="btn btn_blue">
                            	 	<i class="icon iconfont">&#xe635;</i>查询
                              </button>

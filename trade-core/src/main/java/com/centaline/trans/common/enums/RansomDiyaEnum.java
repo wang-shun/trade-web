@@ -6,6 +6,8 @@ package com.centaline.trans.common.enums;
  */
 public enum RansomDiyaEnum {
 	
+	APPLY("1","APPLY"),
+	
 	SING("1","SIGN"),
 	/**
 	 * 陪同还贷_一抵

@@ -70,11 +70,11 @@ function reloadWorkInfo(){
 		//抵押类型
 		var diyaType = $("#diyaType").val();
 		//贷款金额
-		var loanMoney =   parseInt($("#loanMoney").val() * 10000);
+		var loanMoney =   parseInt($("#loanMoney").val());
 		//剩余金额
-		var restMoney =  parseInt($("#restMoney").val() * 10000);
+		var restMoney =  parseInt($("#restMoney").val());
 		//借款总金额
-		var borrowerMoney =  parseInt($("#borrowerMoney").val() * 10000);
+		var borrowerMoney =  parseInt($("#borrowerMoney").val());
 		
 		var ransomVo = {
 				ransomCode:ransomCode,
@@ -95,7 +95,7 @@ function reloadWorkInfo(){
 			data:ransomVo,
 			type:"POST",
 			success: function(data){
-				window.location.href = ctx + "/ransomList/ransomDetail?caseCode=" + caseCode;
+				window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
 			},
 			error: function(data){
 				window.wxc.error(data.message);

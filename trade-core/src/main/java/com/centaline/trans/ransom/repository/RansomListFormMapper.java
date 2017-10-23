@@ -72,6 +72,12 @@ public interface RansomListFormMapper {
 	int updateRansomPlanTimeInfoByRansomCode(ToRansomPlanVo ransomPlanVo);
 	
 	/**
+	 * 时间计划信息批量更新
+	 * @param list
+	 */
+	int updateListPlanTimeInfoByRansomCode(List<ToRansomPlanVo> list);
+	
+	/**
 	 * 修改赎楼列表信息
 	 * @param ransomCode
 	 * @return
@@ -98,6 +104,14 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	int insertRansomPlanTimeVo(ToRansomPlanVo planVo);
+	
+	/**
+	 * 批量插入赎楼时间计划
+	 * @param planVo
+	 * @return
+	 */
+	int insertListRansomPlanTime(List<ToRansomPlanVo> planVo);
+	
 	/**
 	 * 赎楼申请信息更新
 	 * @param ransomCode

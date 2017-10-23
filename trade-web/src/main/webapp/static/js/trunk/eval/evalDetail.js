@@ -399,7 +399,7 @@ function evalReject(caseCode){
 	window.wxc.confirm("确定评估驳回？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		$.ajax({
-			url:ctx+"/eval/stop/init",
+			url:ctx+"/eval/reject",
 			method:"post",
 			dataType:"json",
 			data:{caseCode:caseCode,evaCode:$("#evaCode").val()},

@@ -285,7 +285,7 @@ table tbody select, input {
 											<input name="loanMoney" value="" type="text" class="form-control input-one" placeholder="贷款金额(单位：万元)" id="loanMoney">
 										</td>
 										<td>
-											<input name="restMoney" value="0.00" onchange="changeRestMoney()" type="text" class="form-control input-one" placeholder="剩余金额(单位：万元)" id="restMoney">
+											<input name="restMoney" value="" onchange="changeRestMoney()" type="text" class="form-control input-one" placeholder="剩余金额(单位：万元)" id="restMoney">
 										</td>
 									</tr>
 								
@@ -299,7 +299,7 @@ table tbody select, input {
 
 							<div class="form-group form-margin form-space-one left-extent">
 								<label for="" class="lable-one"><i style="color: red;">*</i>借款总金额</label> 
-								<input name="" value="" type="text" readOnly="readonly" class="form-control input-one" placeholder="" id="allLoanMoney" > 
+								<input name="" value="0.00" type="text" readOnly="readonly" class="form-control input-one" placeholder="" id="allLoanMoney" > 
 								<span>万</span>
 							</div>
 						</div>

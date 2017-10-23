@@ -69,8 +69,7 @@
 				<form method="get" class="form_list" id="evalReportForm">
 				    <input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcess.evaCode }">
 					<%--环节编码 --%>
-					<input type="hidden" id="partCode" name="partCode"
-						value="${taskitem}">
+					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 流程引擎需要字段 -->
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">

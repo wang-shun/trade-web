@@ -29,7 +29,7 @@ public interface RansomService {
 	 * @param caseCode
 	 * @return
 	 */
-	public List<ToRansomDetailVo> getRansomDetail(String caseCode);
+	public ToRansomDetailVo getRansomDetail(String ransomCode);
 	
 	public ToRansomDetailVo getRansomDetail(String caseCode, String ransomCode);
 	
@@ -116,6 +116,13 @@ public interface RansomService {
 	public List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode);
 	
 	/**
+	 * 尾款信息查询
+	 * @param caseCode
+	 * @return
+	 */
+	public List<ToRansomTailinsVo> getTailinsInfoByRansomCode(String caseCode);
+	
+	/**
 	 * 查询赎楼面签信息
 	 * @param ransomCode
 	 * @return
@@ -170,7 +177,17 @@ public interface RansomService {
 	 * @return
 	 */
 	boolean deleteRansomApplyByRansomCode(String ransomCode);
-
+	
+	/**
+	 * 更新赎楼案件为在途
+	 * @param ransomCode
+	 * @return
+	 */
+	int updateRansomIsStart(String ransomCode);
+	
+	
+	List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode);
+	
 	/**
 	 * 变更赎楼单金融权证
 	 * @param paramObj

@@ -30,7 +30,12 @@ public class ToRansomFormVo {
 	 * 主贷人
 	 */
 	private String borrowerName;
-
+	
+	/**
+	 * 电话
+	 */
+	private String borrowerTel;
+	
 	/**
 	 * 受理时间
 	 */
@@ -54,7 +59,7 @@ public class ToRansomFormVo {
 	/**
 	 * 贷款金额
 	 */
-	private double loanMoney;
+	private BigDecimal loanMoney;
 	
 	/**
 	 * 剩余金额
@@ -147,15 +152,16 @@ public class ToRansomFormVo {
 		this.diyaType = diyaType;
 	}
 
-	public double getLoanMoney() {
+	public BigDecimal getLoanMoney() {
 		return loanMoney;
 	}
 
-	public void setLoanMoney(double loanMoney) {
+	public void setLoanMoney(BigDecimal loanMoney) {
 		this.loanMoney = loanMoney;
 	}
 
 	public BigDecimal getRestMoney() {
+		
 		return restMoney;
 	}
 
@@ -219,6 +225,14 @@ public class ToRansomFormVo {
 		this.borroMoney = borroMoney;
 	}
 
+	public String getBorrowerTel() {
+		return borrowerTel;
+	}
+
+	public void setBorrowerTel(String borrowerTel) {
+		this.borrowerTel = borrowerTel;
+	}
+
 	
 	public Date getRepayTime() {
 		return repayTime;
@@ -240,9 +254,9 @@ public class ToRansomFormVo {
 	@Override
 	public String toString() {
 		return "ToRansomFormVo [pkid=" + pkid + ", ransomCode=" + ransomCode + ", caseCode=" + caseCode
-				+ ", finOrgCode=" + finOrgCode + ", borrowerName=" + borrowerName + ", signTime=" + signTime
-				+ ", planTime=" + planTime + ", mortgageType=" + mortgageType + ", diyaType=" + diyaType
-				+ ", loanMoney=" + loanMoney + ", restMoney=" + restMoney + ", borroMoney=" + borroMoney
+				+ ", finOrgCode=" + finOrgCode + ", borrowerName=" + borrowerName + ", borrowerTel=" + borrowerTel
+				+ ", signTime=" + signTime + ", planTime=" + planTime + ", mortgageType=" + mortgageType + ", diyaType="
+				+ diyaType + ", loanMoney=" + loanMoney + ", restMoney=" + restMoney + ", borroMoney=" + borroMoney
 				+ ", createTime=" + createTime + ", createUser=" + createUser + ", remark=" + remark + ", updateTime="
 				+ updateTime + ", updateUser=" + updateUser + "]";
 	}

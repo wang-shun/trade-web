@@ -55,9 +55,8 @@ display: none;}
                                 <div class="col-lg-5 col-md-5">
                                         <label class="col-lg-3 col-md-3 control-label font_w">评估公司</label>
                                         <div class="col-lg-9 col-md-9">
-                                        	<select  id="evalCompany" class="form-control select_control">
-                                        	
-                                        	</select>
+                                        	<select  id="finOrgId" class="form-control select_control">
+											</select>
                                             <!-- <input type="text" class="form-control" id="evalCompany" name="evalCompany"> -->
                                             <!-- <aist:dict id="evalCompany" name="evalCompany" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one_case"/> -->
                                         </div>
@@ -75,12 +74,12 @@ display: none;}
                                         <div class="col-lg-9 col-md-9">
 												<select name="" class="form-control" id="caseStatus">
 													<option value="" selected="selected">请选择</option>
-													<option value="0">已结算</option>
-													<option value="未结算">未结算</option>
+													<option value="0">未提交</option>
+													<option value="1">未核对</option><!--  
 													<option value="2">已核对</option>
-													<option value="未核对">未核对</option>
+													<option value="3">未核对</option>
 													<option value="4">已审批</option>
-													<option value="5">未审批</option>
+													<option value="5">未审批</option>-->
 													<!--  <option value="6">已驳回</option>-->
 												</select>
                                           <!--  <aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one_case"/> -->
@@ -127,10 +126,10 @@ display: none;}
 							<div class="more_btn">
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="searchButton" type="button" class="btn btn-success">查询</button>&nbsp;&nbsp;&nbsp;
 								
-	                            	<shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
+	                            	
 										<!-- <a data-toggle="modal" class="btn btn-success"  href="javascript:void(0)" id="exportBtn">导出到excel</a> -->
 										<a data-toggle="modal" class="btn btn-success" onclick="javascript:exportToExcel()" href="" id="exportBtn">导出到excel</a>
-									</shiro:hasPermission>&nbsp;&nbsp;&nbsp;&nbsp;
+									&nbsp;&nbsp;&nbsp;&nbsp;
 								<button id="batchappro" onclick="showOptUsers()" type="button" class="btn btn-success" disabled="true">批量审批</button>&nbsp;&nbsp;&nbsp;
 								<button id="caseAdd"  onclick="javascript:caseAdd()" type="button" class="btn btn-success" disabled="true">新增结算单</button> &nbsp;&nbsp;&nbsp;
 							</div>
@@ -245,7 +244,7 @@ display: none;}
 									</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
 									<td>{{item.FEE_CHANGE_REASON}}</td>
-                                    <td>{{item.FIN_ORG_ID}}</td>
+                                    <td>{{item.EVA_COMPANY}}</td>
 									<td>
 										<p>评：{{item.APPLY_DATE}}</p>
 										<p>出：{{item.ISSUE_DATE}}</p>

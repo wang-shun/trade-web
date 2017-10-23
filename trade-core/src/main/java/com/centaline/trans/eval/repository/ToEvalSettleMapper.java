@@ -27,6 +27,8 @@ public interface ToEvalSettleMapper {
     
     int updateByCaseCode(ToEvalSettle record);
     
+    int updateSettleTimeByCaseCode(ToEvalSettle record);
+    
     ToEvalSettle findToCaseByCaseCode(String caseCode);
 
 	int updateSettleFeeByCaseCode(ToEvalSettle record);

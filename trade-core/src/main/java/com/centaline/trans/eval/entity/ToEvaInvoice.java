@@ -29,7 +29,7 @@ public class ToEvaInvoice {
     private Date bankOpenedDate;
 
     private String bankAccount;
-
+//开具发票时间
     private Date billTime;
 
     private String evaProcessId;
@@ -37,8 +37,49 @@ public class ToEvaInvoice {
     private String evaCompanyId;
     
     private String evaCompanyName;
+    
+    private int evaPointer;
+    
+    private String openAccountBank;
+    
+    private Date collectTime;
 
-    public String getEvaCompanyId() {
+    private String collectPerson;
+    
+    
+    public Date getCollectTime() {
+		return collectTime;
+	}
+
+	public void setCollectTime(Date collectTime) {
+		this.collectTime = collectTime;
+	}
+
+	public String getCollectPerson() {
+		return collectPerson;
+	}
+
+	public void setCollectPerson(String collectPerson) {
+		this.collectPerson = collectPerson;
+	}
+
+	public String getOpenAccountBank() {
+		return openAccountBank;
+	}
+
+	public void setOpenAccountBank(String openAccountBank) {
+		this.openAccountBank = openAccountBank;
+	}
+
+	public int getEvaPointer() {
+		return evaPointer;
+	}
+
+	public void setEvaPointer(int evaPointer) {
+		this.evaPointer = evaPointer;
+	}
+
+	public String getEvaCompanyId() {
 		return evaCompanyId;
 	}
 
