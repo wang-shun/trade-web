@@ -2,6 +2,7 @@ package com.centaline.trans.ransom.service.impl;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,9 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.enums.RansomDiyaEnum;
 import com.centaline.trans.common.enums.RansomPartEnum;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
@@ -31,6 +35,7 @@ import com.centaline.trans.ransom.entity.ToRansomSubmitVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.repository.RansomListFormMapper;
 import com.centaline.trans.ransom.repository.RansomMapper;
+import com.centaline.trans.ransom.service.RansomDiscontinueService;
 import com.centaline.trans.ransom.service.RansomService;
 import com.centaline.trans.ransom.vo.ToRansomLinkVo;
 
@@ -51,6 +56,10 @@ public class RansomServiceImpl implements RansomService{
 	private UamUserOrgService uamUserOrgService;
 	@Autowired
 	private UamSessionService uamSessionService;
+	@Autowired
+	private WorkFlowManager workFlowManager;
+	@Autowired
+	RansomDiscontinueService ransomDiscontinueService;
 	
 	@Override
 	public ToRansomDetailVo getRansomDetail(String ransomCode) {
@@ -475,5 +484,44 @@ public class RansomServiceImpl implements RansomService{
 	public List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode) {
 		return ransomMapper.getPlanTimeInfoByRansomCode(ransomCode);
 	}
-
+	
+	/**
+	 * 步骤:
+	 * ①变更赎楼单责任人
+	 * 	1、T_RA_CASE表CREATE_USER字段
+	 *  2、T_RA_TAILINGS表CREATE_USER字段(可能有多条数据)
+	 * ②如果流程存在则变更流程责任人(workFlowManager.setVariableByProcessInsId(processInstanceId, variableName, restVariable)方法)
+	 * 	1、ACT_RU_TASK表ASIGNEE_字段
+	 * 	2、T_TO_WORKFLOW表PROCESS_OWNER字段(可选)
+	 */
+	@Override
+	public boolean changeRansomOwner(Map<String, Object> paramObj, String userId, String caseCode, String ransomCode) {
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+		Date date = new Date();
+		ToRansomTailinsVo tailVo = new ToRansomTailinsVo();
+		tailVo.setRansomCode(ransomCode);
+		tailVo.setCreateUser(userId);
+		tailVo.setCreateTime(date);
+		tailVo.setUpdateUser(sessionUser.getId());
+		tailVo.setUpdateTime(date);
+		ToRansomCaseVo caseVo = new ToRansomCaseVo();
+		caseVo.setCreateUser(userId);
+		caseVo.setCreateTime(date);
+		caseVo.setUpdateUser(sessionUser.getId());
+		caseVo.setUpdateTime(date);
+		ransomListFormMapper.updateRansomTailUserByRansomCode(tailVo);
+		ransomListFormMapper.updateRansomCaseUserByRansomCode(caseVo);
+		Map<String, Object> taskInfo = ransomDiscontinueService.getSingleRansomTaskInfo(paramObj, false, null, false, caseCode);
+		if((boolean)taskInfo.get("hasData")) {
+			TaskVo task = new TaskVo();
+			task.setId(Long.valueOf(String.valueOf(taskInfo.get("ID"))));
+			task.setAssignee(userId);
+			RestVariable restVariable = new RestVariable();
+			restVariable.setType("string");
+			restVariable.setValue(uamSessionService.getSessionUserById(userId).getUsername());
+			workFlowManager.updateTask(task);
+			workFlowManager.setVariableByProcessInsId(String.valueOf(taskInfo.get("INST_CODE")), "sessionUser", restVariable);
+		}
+		return true;
+	}
 }

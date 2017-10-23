@@ -490,11 +490,11 @@
 		$("#btnSubmit").hide();
 	}*/
     function caseDistribute(){
-        console.log("=======================")
+        //console.log("=======================")
         var url = "/case/getUserOrgCpUserList";
         var ctx = $("#ctx").val();
         url = ctx + url;
-        var data={operation:"ratePayment"};
+        var data={operation:"GHQZ"};
         $.ajax({
             cache : false,
             async:true,

@@ -53,6 +53,8 @@ public class ToEvaRefund {
     private String evalCompany;
     
     private String city;
+    
+    private String isNeedRecovery;
 
     public Long getPkid() {
         return pkid;
@@ -253,4 +255,12 @@ public class ToEvaRefund {
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
     }
+
+	public String getIsNeedRecovery() {
+		return isNeedRecovery;
+	}
+
+	public void setIsNeedRecovery(String isNeedRecovery) {
+		this.isNeedRecovery = isNeedRecovery;
+	}
 }
