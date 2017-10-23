@@ -281,15 +281,15 @@ function submit() {
 
 //保存数据
 function save(b) {
-	/* if(b){
+	 if(b){
 		if (!checkForm()) {
 			return;
 		}													
-	} */
+	} 
 	
-	var jsonData = $("#evalChangeAuditform").serializeArray();
+	var jsonData = $("#changeCommForm").serializeArray();
 
-	var url = "${ctx}/eval/submitEvalChangeAudit";
+	var url = "${ctx}/eval/submitInvoiceAudit";
 	
 	$.ajax({
         cache : true,
@@ -541,35 +541,6 @@ function checkForm() {
 									</dl>
 								</div>
 							</div>
-
-<!-- 调佣信息 -->
-								<!-- <div  class="info_box info_box_two col-sm-12" >
-									<span>调佣信息</span>
-									<div  class="ibox-conn else_conn_two">
-										<table style="width:100%">
-											<tr style="height:30px">
-												<td>调佣事项：</td>
-												<td>1</td>
-												<td>调佣类型：</td>
-												<td>1</td>
-												<td>调佣对象：</td>
-												<td>1</td>
-											</tr>
-											
-											<tr style="height:30px">
-												<td>调佣金额：</td>
-												<td>1</td>
-												<td>调佣事由：</td>
-												<td>1</td>
-												<td></td>
-												<td></td>
-											</tr>
-
-									</table>
-									</div>
-								</div> -->
-								<!-- 调佣信息 -->
-								
 						</div>
 					</div>
 				</div>
@@ -596,7 +567,7 @@ function checkForm() {
 		<div  style="width: 80%" align="center" class="table_content">
 		<div align="left" style="height:30px">
 			<font color=" red" >*</font>调佣事项： 
-			<input type="text" id="changeChargesType" maxlength="16" name="changeChargesItem" value="评估公司变更" readonly="readonly">
+			<input type="text" id="changeChargesItem" maxlength="16" name="changeChargesItem" value="评估公司变更" readonly="readonly">
 		</div>
 		<div align="left" style="height:30px">
 			<font color=" red" >*</font>调佣类型： 
@@ -675,15 +646,6 @@ function checkForm() {
                     <td></td>
                 </tr>
                 </c:forEach>
-                <!-- <tr>
-                    <td>权证2:</td>
-                    <td align="left"><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td></td>
-                    <td></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td></td>
-                </tr> -->
 
                 <tr>
                     <td></td>
@@ -694,20 +656,11 @@ function checkForm() {
                     <td>单数合计:</td>
                     <td><input type="text" value="${evalChangeCommVO.dealCount }" name="dealCount" style="width: 120px"></td>
                 </tr>
-                <!-- <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr> -->
             </tbody>
         </table>
 
 </div>
-</form>
+
 <!-- 调佣对象调佣金额 -->
 
 <!-- 填写审批任务 -->
@@ -717,16 +670,14 @@ function checkForm() {
 		            <div class="title title-mark" id="aboutInfo">
 		               <strong style="font-weight:bold;">填写审批任务</strong>
 		            </div>
-	            </div>
-	            <form method="post" class="form_list" id="evalChangeAuditform" style="overflow: visible;">
+	            </div>	            
 	            <input type="hidden" name="partCode" value="changeEvalComAudit">
-	            <input type="hidden" id="caseCode1" name="caseCode" value="${caseCode}">
 				<input type="hidden" id="taskId" name="taskId" value="${taskId}">
 				<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 	            <div class="line" style="margin-top:18px">		                 
 		                    <div class="form_content" >
 		                        <label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>审批结果：</label>
-		                        <input type="radio" name="status" value="1"><span>通过</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+		                        <input type="radio" name="status" value="1" checked="checked"><span>通过</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     							<input type="radio" name="status" value="0"><span>驳回</span>
 		                    </div>
 			                  	                     

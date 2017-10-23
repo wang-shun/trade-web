@@ -32,7 +32,7 @@ public interface RansomMapper {
 	 * @param caseCode
 	 * @return
 	 */
-	List<ToRansomDetailVo> getRansomDetailInfoByCaseCode(String caseCode);
+	ToRansomDetailVo getRansomDetailInfoByCaseCode(String ransomCode);
 	
 	ToRansomDetailVo getRansomDetailInfoByCodes(@Param("caseCode")String caseCode, @Param("ransomCode")String ransomCode);
 	
@@ -90,7 +90,7 @@ public interface RansomMapper {
 	int insertRansomMortgage(ToRansomMortgageVo mortVo);
 	
 	/**
-	 * 陪同还贷计划 时间
+	 * 计划 时间
 	 * @param planVo
 	 * @return
 	 */
@@ -136,7 +136,14 @@ public interface RansomMapper {
 	 * @param caseCode
 	 * @return 
 	 */
-	ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode);
+	List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode);
+	
+	/**
+	 * 根据caseCode查询尾款信息
+	 * @param caseCode
+	 * @return 
+	 */
+	List<ToRansomTailinsVo> getTailinsInfoByRansomCode(String ransomCode);
 	
 	/**
 	 * 根据ransomCode查询尾款信息
@@ -188,4 +195,23 @@ public interface RansomMapper {
 	boolean deleteRansomApplyByRansomCode(String ransomCode);
 	
 	ToRansomCaseVo getRansomCaseInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 检查计划表里是否已有计划时间数据
+	 * @param ransoMCode
+	 * @param partCode
+	 * @return
+	 */
+	Integer findRansomPartPlanTime(@Param("ransomCode")String ransomCode,@Param("partCode")String partCode);
+	
+	/**
+	 * 计划时间更新
+	 * @param planVo
+	 * @return
+	 */
+	int updateRansomPlanTime(ToRansomPlanVo planVo);
+	
+	int updateRansomIsStart(String ransomCode);
+	
+	List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode);
 }

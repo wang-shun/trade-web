@@ -33,7 +33,7 @@
 	
 	<select id="getRansomDetailInfoByCaseCode" resultMap="BaseResultMap" parameterType="string">
 		SELECT
-			distinct(ra.RANSOM_CODE) ransomCode,
+			ra.RANSOM_CODE ransomCode,
 			ra.CASE_CODE caseCode,
 			ra.CREATE_USER financial,
 			ra.BORRO_MONEY borrowMoney,
@@ -42,35 +42,17 @@
 			pro.PROPERTY_ADDR addr,
 			ra.COM_ORG_CODE comOrgCode,
 			(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = ra.COM_ORG_CODE) comOrgName,
-			app.LOANOFFICER credit,
 			cai.AGENT_NAME agentName,
 			cai.AGENT_PHONE agentPhone,
 			cas.LEADING_PROCESS_ID leadingProcessId,
-			vie.INTERVIEW_MONEY interViewMoney,
-			vie.INTEREST interest,
-			vie.IS_ENTRUST isEntrust,
-			tai.SIGN_TIME signTime, 
-			tai.PLAN_TIME planTime, 
-			app.APPLY_TIME applyTime, 
-			vie.INTERVIEW_TIME intervalTime,
-			rep.REPAY_TIME repayTime,
-			can.CANCEL_TIME  cancleTime,
-			red.REDEEM_TIME redeemTime,
-			pay.PAYMENT_TIME paymentTime
+			app.LOANOFFICER credit
 		FROM
 			sctrans.T_RA_CASE ra
 			INNER JOIN sctrans.T_TO_CASE cas ON ra.CASE_CODE = cas.CASE_CODE
 			INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON ra.CASE_CODE = pro.CASE_CODE
 			INNER JOIN sctrans.T_TO_CASE_INFO cai ON ra.CASE_CODE = cai.CASE_CODE
-			LEFT JOIN sctrans.T_RA_TAILINS tai ON ra.RANSOM_CODE = tai.RANSOM_CODE 
-			LEFT JOIN sctrans.T_RA_INTERVIEW vie ON ra.RANSOM_CODE = vie.RANSOM_CODE
 			LEFT JOIN sctrans.T_RA_APPLY app ON ra.RANSOM_CODE = app.RANSOM_CODE
-			LEFT JOIN sctrans.T_RA_REPAY rep ON rep.RANSOM_CODE = app.RANSOM_CODE
-			LEFT JOIN sctrans.T_RA_CANCEL can ON rep.RANSOM_CODE = can.RANSOM_CODE
-			LEFT JOIN sctrans.T_RA_REDEEM red ON can.RANSOM_CODE = red.RANSOM_CODE
-			LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
-			LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
-		WHERE ra.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+		WHERE ra.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
 	<select id="getRansomDetailInfoByCodes" resultMap="BaseResultMap">
@@ -183,32 +165,35 @@
 		FROM
 			sctrans.T_RA_CASE 
 				WHERE 
-					CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+					RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	<select id="getRansomCaseInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
-		SELECT 
-			RANSOM_CODE ransomCode,
-			CASE_CODE caseCode,
-			RANSOM_STATUS ransomStatus,
-			RANSOM_PROPERTY ransomProperty,
-			COM_ORG_CODE comOrgCode,
-			BORRO_MONEY borroMoney,
-			BORROWER_NAME borrowerName,
-			BORROWER_TEL borrowerTel,
-			ISSTOP isstop,
-			STOP_TYPE stopType,
-			STOP_REASON stopReason,
-			ACCEPT_TIME acceptTime,
-			CREATE_TIME createTime,
-			CREATE_USER createUser,
-			UPDATE_TIME updateTime,
-			UPDATE_USER updateUser,
-			REMARK remark,
-			FIN_ORG_ID finOrgId
+		SELECT
+			act.TASK_DEF_KEY_ taskProperty,
+			cas.RANSOM_CODE ransomCode,
+			cas.CASE_CODE caseCode,
+			cas.RANSOM_STATUS ransomStatus,
+			cas.RANSOM_PROPERTY ransomProperty,
+			cas.COM_ORG_CODE comOrgCode,
+			cas.BORRO_MONEY borroMoney,
+			cas.BORROWER_NAME borrowerName,
+			cas.BORROWER_TEL borrowerTel,
+			cas.ISSTOP isstop,
+			cas.STOP_TYPE stopType,
+			cas.STOP_REASON stopReason,
+			cas.ACCEPT_TIME acceptTime,
+			cas.CREATE_TIME createTime,
+			cas.CREATE_USER createUser,
+			cas.UPDATE_TIME updateTime,
+			cas.UPDATE_USER updateUser,
+			cas.REMARK remark,
+			cas.FIN_ORG_ID finOrgId
 		FROM
-			sctrans.T_RA_CASE 
-				WHERE 
-					RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+			sctrans.T_RA_CASE cas
+			LEFT JOIN sctrans.T_TO_WORKFLOW tw ON cas.RANSOM_CODE =tw.BIZ_CODE
+			LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE = act.PROC_INST_ID_
+		WHERE
+			tw.BIZ_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
 	<select id="getRansomPlanByCode" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
@@ -246,6 +231,22 @@
 		WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	</select>
 	
+	<select id="getTailinsInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomTailinsVo">
+		SELECT 
+			CASE_CODE caseCode,
+			RANSOM_CODE ransomCode,
+			FIN_ORG_CODE finOrgCode,
+			MORTGAGE_TYPE mortgageType,
+			DIYA_TYPE diyaType,
+			LOAN_MONEY loanMoney,
+			REST_MONEY restMoney,
+			SIGN_TIME signTime,
+			PLAN_TIME planTime
+		FROM 
+			sctrans.T_RA_TAILINS 
+		WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+	
 	<select id="getApplyInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomApplyVo">
 		SELECT APPLY_TIME applyTime,PART_CODE partCode FROM sctrans.T_RA_APPLY WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
@@ -274,6 +275,17 @@
 		 WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
+	<select id="getPlanTimeInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo" >
+		SELECT
+			RANSOM_CODE ransomCode,
+			 PART_CODE partCode,
+			 EST_PART_TIME estPartTime
+		FROM 
+			sctrans.T_RA_PLAN  
+		WHERE 
+			PART_CODE IN('APPLY','SIGN','PAYLOAN_ONE','CANCELDIYA_ONE','RECEIVE_ONE','PAYCLEAR')
+				AND RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
 	
 	<insert id="insertRansomApply" parameterType="com.centaline.trans.ransom.entity.ToRansomApplyVo">
 		<selectKey resultType="java.lang.Long" keyProperty="pkid" order="AFTER">
@@ -298,9 +310,6 @@
 			</if>
 			<if test="loanOfficer != null">
 				LOANOFFICER,
-			</if>
-			<if test="isApply != null">
-				ISAPPLY,
 			</if>
 			<if test="updateUser != null">
 				UPDATE_USER,
@@ -330,9 +339,6 @@
 			<if test="loanOfficer != null">
 				#{loanOfficer,jdbcType=VARCHAR},
 			</if>
-			<if test="isApply != null">
-				#{isApply,jdbcType=VARCHAR},
-			</if>
 			<if test="updateUser != null">
 				#{updateUser,jdbcType=VARCHAR},
 			</if>
@@ -348,7 +354,7 @@
 		UPDATE sctrans.T_RA_CASE
 		SET 
 			COM_ORG_CODE = #{applyOrgCode,jdbcType=VARCHAR},
-			RANSOM_STATUS = 3,
+			<!-- RANSOM_STATUS = 2, -->
 			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
 			UPDATE_TIME = CURRENT_TIMESTAMP
 		WHERE
@@ -362,7 +368,7 @@
 			sctrans.T_RA_TAILINS
 		WHERE
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
-			AND DIYA_TYPE = '2'
+			AND DIYA_TYPE = '710150002'
 	</select>
 	
 	<insert id="insertRansomSign" parameterType="com.centaline.trans.ransom.entity.ToRansomSignVo">
@@ -682,7 +688,15 @@
 	<update id="updateCaseStatusComplete">
 		UPDATE sctrans.T_RA_CASE
 		SET 
-			RANSOM_STATUS = 4
+			RANSOM_STATUS = 3
+		WHERE
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateRansomIsStart" >
+		UPDATE sctrans.T_RA_CASE
+		SET 
+			RANSOM_STATUS = 2
 		WHERE
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</update>
@@ -690,4 +704,34 @@
 	<delete id="deleteRansomApplyByRansomCode" parameterType="java.lang.String">
 		DELETE FROM sctrans.T_RA_APPLY WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</delete>
+	
+	<select id="findRansomPartPlanTime" resultType="java.lang.Integer">
+		SELECT
+			1
+		FROM
+			sctrans.T_RA_PLAN
+		WHERE
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+			AND PART_CODE = #{partCode,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateRansomPlanTime">
+		update into sctrans.T_RA_PLAN
+		<set>
+				RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR},
+				PART_CODE = #{partCode,jdbcType=VARCHAR},
+			<if test="estPartTime != null">
+				EST_PART_TIME = #{estPartTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			</if>
+				UPDATE_TIME
+		</set>
+		WHERE 
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+			AND PART_CODE = #{partCode,jdbcType=VARCHAR}
+
+	</update>
+	
 </mapper>

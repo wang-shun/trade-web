@@ -73,14 +73,15 @@ public class KnotCommissionController {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		//自办贷款信息查询
 		ToSelfAppInfo toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(caseCode);
-		//审批记录信息查询
-		ToAppRecordInfo toAppRecordInfo = toAppRecordInfoService.getAppRedordByAppInfoId(toSelfAppInfo.getPkid());
 		if(toSelfAppInfo!=null){
+			//审批记录信息查询
+			ToAppRecordInfo toAppRecordInfo = toAppRecordInfoService.getAppRedordByAppInfoId(toSelfAppInfo.getPkid());
+			if(toAppRecordInfo!=null){
+				request.setAttribute("toAppRecordInfo", toAppRecordInfo);
+			}
 			request.setAttribute("toSelfAppInfo", toSelfAppInfo);
 		}
-		if(toAppRecordInfo!=null){
-			request.setAttribute("toAppRecordInfo", toAppRecordInfo);
-		}
+
 		return "task" + UiImproveUtil.getPageType(request) + "/taskKnotCommission";
 	}
 	@RequestMapping(value="submitKnotCommission")

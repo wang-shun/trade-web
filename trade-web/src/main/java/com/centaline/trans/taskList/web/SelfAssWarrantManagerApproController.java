@@ -60,7 +60,8 @@ public class SelfAssWarrantManagerApproController {
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);	
 		toAccesoryListService.getAccesoryList(request, taskitem);
-		ToSelfAppInfo toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(caseCode);
+		String type = "自办评估";
+		ToSelfAppInfo toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(caseCode,type);
 		request.setAttribute("toSelfAppInfo", toSelfAppInfo);
 		return "task/taskWarrantManagerAssAppro";
 	}

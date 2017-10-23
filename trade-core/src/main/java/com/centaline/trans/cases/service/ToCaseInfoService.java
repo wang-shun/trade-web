@@ -126,5 +126,11 @@ public interface ToCaseInfoService {
 	 * @author yinchao
 	 */
 	public String findcaseCodeByccaiCode(String ccaiCode);
+
+	/**
+	 * 功能：根据CCAI成交报告获取caseCode
+	 * @author yinchao
+	 */
+	public String findccaiCodeBycaseCode(String caseCode);
     
 }

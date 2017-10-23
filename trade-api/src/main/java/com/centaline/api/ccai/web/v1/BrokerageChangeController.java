@@ -26,7 +26,7 @@ import javax.validation.Valid;
 public class BrokerageChangeController extends AbstractBaseController {
 
 	@ApiOperation(value = "代理费折评估费申请同步", notes = "CCAI将发起的代理费折评估费申请同步到交易系统，由权证进行审核和调佣", produces = "application/json,application/json;charset=UTF-8")
-	@RequestMapping(value="/brokerage/2eval/sync",method = RequestMethod.POST,produces = {"application/json", "application/json;charset=UTF-8"})
+	@RequestMapping(value="/brokerage/toeval/sync",method = RequestMethod.POST,produces = {"application/json", "application/json;charset=UTF-8"})
 	public CcaiServiceResult invoiceSync(
 			@ApiParam(name = "代理费折评估费申请信息", value = "代理费折评估费申请信息", required = true)
 			@Valid @RequestBody Brokerage2EvalFee info, Errors errors){

@@ -6,8 +6,9 @@ package com.centaline.trans.common.enums;
  * @date 2017-10-18
  */
 public enum EvalRebateStatusEnum {
-    DOING("0","审批中"),
+    RELATION("-2","未关联评估"),
     BACK("-1","驳回"),
+    DOING("0","审批中"),
 	SUCCESS("1","通过"),
     FINISH("9","报告生成");
 

@@ -30,7 +30,7 @@
 	</resultMap>
 	
 	<select id="getRansomPlanTime" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
-		SELECT 
+		<!-- SELECT 
 			RANSOM_CODE ransomCode,
 			PART_CODE partCode,
 			EST_PART_TIME estPartTime,
@@ -42,7 +42,27 @@
 		FROM 
 			sctrans.T_RA_PLAN  
 		WHERE 
-			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} -->
+			
+		SELECT 
+			RANSOM_CODE ransomCode,
+			PART_CODE partCode,
+			EST_PART_TIME estPartTime,
+			REMARK remark,
+			CREATE_TIME createTime,
+			CREATE_USER createUser,
+			UPDATE_TIME updateTime,
+			UPDATE_USER updateUser 
+	FROM sctrans.T_RA_PLAN 
+	WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} AND PART_CODE IN(SELECT PART_CODE FROM sctrans.T_RA_PLAN 
+	WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR})	
+			
+			
+			
+			
+			
+			
+			
 	</select>
 	
 	<select id="getRansomCase" resultMap="BaseResultMap">
@@ -187,6 +207,29 @@
 		)
 	</insert>
 	
+	
+	<insert id="insertListRansomPlanTime" useGeneratedKeys="true" parameterType="java.util.List">
+		INSERT INTO 
+			sctrans.T_RA_PLAN(
+				RANSOM_CODE,
+				PART_CODE,
+				CREATE_USER,
+				CREATE_TIME,
+				UPDATE_USER,
+				UPDATE_TIME
+			)VALUES
+			<foreach collection="list" item="item" index="index" separator="," >  
+		   	(
+			   	#{item.ransomCode,jdbcType=VARCHAR},
+			   	#{item.partCode,jdbcType=VARCHAR},
+			   	#{item.createUser,jdbcType=VARCHAR},
+			   	#{item.createTime,jdbcType=TIMESTAMP},
+			   	#{item.updateUser,jdbcType=VARCHAR},
+			   	#{item.createTime,jdbcType=TIMESTAMP}
+		   	)
+			</foreach>  
+	</insert>
+	
 	<insert id="addRansomDetail" parameterType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
 		insert into sctrans.T_RA_CASE (
 			RANSOM_CODE, 
@@ -271,6 +314,26 @@
 				AND PART_CODE = #{partCode,jdbcType=VARCHAR}
 				
 	</update>
+	
+	<update id="updateListPlanTimeInfoByRansomCode" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";">  
+	    	UPDATE 
+	    		sctrans.T_RA_PLAN  
+	    	SET 
+	    		EST_PART_TIME = #{item.estPartTime,jdbcType=TIMESTAMP},
+				UPDATE_TIME = #{item.updateTime,jdbcType=TIMESTAMP},
+				UPDATE_USER = #{item.updateUser,jdbcType=VARCHAR},
+				REMARK = #{item.remark,jdbcType=VARCHAR}
+	    	WHERE 
+	    		RANSOM_CODE = #{item.ransomCode,jdbcType=VARCHAR}
+					AND 
+						PART_CODE = #{item.partCode,jdbcType=VARCHAR}
+	    </foreach> 
+	</update>
+	
+	
+	
+	
 	
 	<update id="updateRansomTailinsByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomTailinsVo">
 		UPDATE 

@@ -1,12 +1,8 @@
 package com.centaline.api.conf;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,10 +13,10 @@ import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
-
-import com.aist.common.cache.CustomKeyGenerator;
-
 import redis.clients.jedis.JedisPoolConfig;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by bobin on 2017/3/1.
@@ -52,12 +48,6 @@ public class JedisConfiguration {
         return new RedisClusterConfiguration(mapPropertySource);
     }
     
-    @Bean(name = "customKeyGenerator")
-    public KeyGenerator customKeyGenerator()
-    {
-        return new CustomKeyGenerator();
-    }
-
     @Bean
     public JedisPoolConfig jedisPoolConfig()
     {

@@ -2,7 +2,6 @@ package com.centaline.trans.ransom.service.impl;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -54,19 +53,21 @@ public class RansomServiceImpl implements RansomService{
 	private UamSessionService uamSessionService;
 	
 	@Override
-	public List<ToRansomDetailVo> getRansomDetail(String caseCode) {
-		List<ToRansomDetailVo> detailVo = ransomMapper.getRansomDetailInfoByCaseCode(caseCode);
+	public ToRansomDetailVo getRansomDetail(String ransomCode) {
+		ToRansomDetailVo detailVo = ransomMapper.getRansomDetailInfoByCaseCode(ransomCode);
 		
 		if(detailVo != null){
-			User financ = uamUserOrgService.getUserById(detailVo.get(0).getFinancial());
+			User financ = uamUserOrgService.getUserById(detailVo.getFinancial());
 			if(financ !=null){
-				detailVo.get(0).setFinancial(financ.getRealName());
-				detailVo.get(0).setFinancialTel(financ.getMobile());
+				detailVo.setFinancial(financ.getRealName());
+				detailVo.setFinancialTel(financ.getMobile());
 			}else{
-				detailVo.get(0).setFinancial(null);
+				detailVo.setFinancial(null);
 			}
-			User user = uamUserOrgService.getUserById(detailVo.get(0).getLeadingProcessId());
-			detailVo.get(0).setLeadingProcessName(user.getRealName()); //经办人
+//			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			detailVo.setLeadingProcessName(user.getRealName()); //经办人
+			SessionUser user = uamSessionService.getSessionUser();
+			detailVo.setLeadingProcessName(user.getRealName()); //经办人
 		}
 		return detailVo;
 	}
@@ -82,7 +83,9 @@ public class RansomServiceImpl implements RansomService{
 			}else{
 				detailVo.setFinancial(null);
 			}
-			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			detailVo.setLeadingProcessName(user.getRealName()); //经办人
+			SessionUser user = uamSessionService.getSessionUser();
 			detailVo.setLeadingProcessName(user.getRealName()); //经办人
 		}
 		return detailVo;
@@ -126,9 +129,9 @@ public class RansomServiceImpl implements RansomService{
 		applyVo.setApplyTime(submitVo.getApplyTime());
 		applyVo.setApplyOrgCode(submitVo.getApplyOrgCode());
 		applyVo.setLoanOfficer(submitVo.getLoanOfficer());
-		applyVo.setIsApply("1");
 		applyVo.setUpdateUser(user.getId());
 		applyVo.setCreateUser(user.getId());
+		
 		//申请数据插入
 		int applyCount = ransomMapper.insertRansomApply(applyVo);
 
@@ -148,9 +151,16 @@ public class RansomServiceImpl implements RansomService{
 		planVo.setUpdateUser(user.getId());
 		planVo.setEstPartTime(submitVo.getPlanSignTime());
 		planVo.setPartCode(RansomDiyaEnum.SING.getPart());
-		int signPlan = ransomMapper.insertRansomPlanTime(planVo);
+		//检查是否已有计划时间
+		Integer isExistPlan = ransomMapper.findRansomPartPlanTime(submitVo.getRansomCode(), RansomDiyaEnum.SING.getPart());
+		int signPlan = 0 ;
+		if(isExistPlan != null &&isExistPlan > 0){
+			signPlan = ransomMapper.updateRansomPlanTime(planVo);
+		}else{
+			signPlan = ransomMapper.insertRansomPlanTime(planVo);
+		}
 		if(signPlan ==0){
-			throw new BusinessException("面签计划时间新增失败!");
+			throw new BusinessException("面签计划时间更新失败!");
 		}
 		return applyCount;
 	}
@@ -186,15 +196,32 @@ public class RansomServiceImpl implements RansomService{
 		planVo.setUpdateUser(user.getId());
 		planVo.setEstPartTime(submitVo.getPlanMortgageTime());
 		planVo.setPartCode(RansomDiyaEnum.PAYLOAN_ONE.getPart());
-		int mort1 = ransomMapper.insertRansomPlanTime(planVo);
-		if(mort1 ==0){
-			throw new BusinessException("陪同还贷计划时间新增失败!");
+		
+		//检查是否已有计划时间
+		Integer mort1Plan = ransomMapper.findRansomPartPlanTime(submitVo.getRansomCode(), RansomDiyaEnum.PAYLOAN_ONE.getPart());
+		int mort1 = 0 ;
+		if(mort1Plan != null && mort1Plan > 0){
+			mort1 = ransomMapper.updateRansomPlanTime(planVo);
+		}else{
+			mort1 = ransomMapper.insertRansomPlanTime(planVo);
 		}
+		if(mort1 ==0){
+			throw new BusinessException("陪同还贷计划时间更新失败!");
+		}
+		
+		
 		if(count>0){
 			planVo.setPartCode(RansomDiyaEnum.PAYLOAN_TWO.getPart());
-			int mort2 = ransomMapper.insertRansomPlanTime(planVo);
+			
+			Integer mort2Plan = ransomMapper.findRansomPartPlanTime(submitVo.getRansomCode(), RansomDiyaEnum.PAYLOAN_TWO.getPart());
+			int mort2 = 0;
+			if(mort2Plan != null && mort2Plan >0){
+				mort2 = ransomMapper.updateRansomPlanTime(planVo);
+			}else{
+				mort2 = ransomMapper.insertRansomPlanTime(planVo);
+			}
 			if(mort2 ==0){
-				throw new BusinessException("陪同还贷计划时间新增失败!");
+				throw new BusinessException("陪同还贷计划时间更新失败!");
 			}
 		}
 
@@ -234,10 +261,18 @@ public class RansomServiceImpl implements RansomService{
 			planVo.setPartCode(RansomDiyaEnum.CANCELDIYA_TWO.getPart());
 		}
 		planVo.setEstPartTime(submitVo.getPlanCancelTime());
-		int cancel = ransomMapper.insertRansomPlanTime(planVo);
-		if(cancel ==0){
-			throw new BusinessException("注销抵押计划时间新增失败!");
+		
+		Integer cancelPlan = ransomMapper.findRansomPartPlanTime(submitVo.getRansomCode(), planVo.getPartCode());
+		int cancel = 0;
+		if(cancelPlan != null && cancelPlan > 0){
+			cancel = ransomMapper.updateRansomPlanTime(planVo);
+		}else{
+			cancel = ransomMapper.insertRansomPlanTime(planVo);
 		}
+		if(cancel ==0){
+			throw new BusinessException("注销抵押计划时间更新失败!");
+		}
+		
 		//领取产证计划时间
 		if(RansomDiyaEnum.PAYLOAN_ONE.getCode().equals(submitVo.getDiyaType().toString())){
 			planVo.setPartCode(RansomDiyaEnum.RECEIVE_ONE.getPart());
@@ -245,17 +280,32 @@ public class RansomServiceImpl implements RansomService{
 			planVo.setPartCode(RansomDiyaEnum.RECEIVE_TWO.getPart());
 		}
 		planVo.setEstPartTime(submitVo.getPlanPermitTime());
-		int receive = ransomMapper.insertRansomPlanTime(planVo);
-		if(receive ==0){
-			throw new BusinessException("领取产证计划时间新增失败!");
+		Integer receivePlan = ransomMapper.findRansomPartPlanTime(submitVo.getRansomCode(), planVo.getPartCode());
+		int receive = 0;
+		if(receivePlan != null && receivePlan > 0){
+			receive = ransomMapper.updateRansomPlanTime(planVo);
+		}else{
+			receive = ransomMapper.insertRansomPlanTime(planVo);
 		}
+		if(receive ==0){
+			throw new BusinessException("领取产证计划时间更新失败!");
+		}
+		
 		//回款结清计划时间
 		if(RansomDiyaEnum.PAYLOAN_ONE.getCode().equals(submitVo.getDiyaType().toString())){
 			planVo.setPartCode(RansomDiyaEnum.PAY_CLEAR.getPart());
 			planVo.setEstPartTime(submitVo.getPlanPaymentTime());
-			int clear = ransomMapper.insertRansomPlanTime(planVo);
+			
+			Integer clearPlan = ransomMapper.findRansomPartPlanTime(submitVo.getRansomCode(), planVo.getPartCode());
+			int clear = 0;
+			if(clearPlan != null &&clearPlan > 0){
+				clear = ransomMapper.updateRansomPlanTime(planVo);
+			}else{
+				clear = ransomMapper.insertRansomPlanTime(planVo);
+			}
+
 			if(clear ==0){
-				throw new BusinessException("回款结清计划时间新增失败!");
+				throw new BusinessException("回款结清计划时间更新失败!");
 			}
 		}
 		
@@ -333,8 +383,14 @@ public class RansomServiceImpl implements RansomService{
 	}
 
 	@Override
-	public ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode) {
-		ToRansomTailinsVo tailinsVo = ransomMapper.getTailinsInfoByCaseCode(caseCode);
+	public List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode) {
+		List<ToRansomTailinsVo> tailinsVo = ransomMapper.getTailinsInfoByCaseCode(caseCode);
+		return tailinsVo;
+	}
+
+	@Override
+	public List<ToRansomTailinsVo> getTailinsInfoByRansomCode(String caseCode) {
+		List<ToRansomTailinsVo> tailinsVo = ransomMapper.getTailinsInfoByRansomCode(caseCode);
 		return tailinsVo;
 	}
 
@@ -409,7 +465,15 @@ public class RansomServiceImpl implements RansomService{
 		return false;
 	}
 
+	@Override
+	public int updateRansomIsStart(String ransomCode) {
+		
+		return ransomMapper.updateRansomIsStart(ransomCode);
+	}
 
-
+	@Override
+	public List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode) {
+		return ransomMapper.getPlanTimeInfoByRansomCode(ransomCode);
+	}
 
 }

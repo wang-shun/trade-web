@@ -9,71 +9,58 @@ $(document).ready(function() {
 });
 
 /**
- * 加载赎楼变更时间信息
+ * 加载赎楼变更时间信息,已完成环节控件不可更改
  * @returns
  */
 function loadTimeInfo(){
 	debugger;
 	//赎楼环节
-	var property = $("input[name='partCode']").val();
-	//申请时间
-	var applyTime = $("#applyTime").val();
-	//申请时间变更理由
-	var applyRemake = $("#applyRemake").val();
-	//面签时间
-	var interviewTime = $("#interviewTime").val();
-	//面签时间变更理由
-	var interviewRemake = $("#interviewRemake").val();
-	//陪同还贷时间
-	var repayTime = $("#repayTime").val();
-	//陪同还贷时间变更理由
-	var repayRemake = $("#repayRemake").val();
-	//注销抵押时间
-	var cancelTime = $("#cancelTime").val();
-	//注销抵押时间变更理由
-	var cancelRemake = $("#cancelRemake").val();
-	//领取产证时间
-	var redeemTime = $("#redeemTime").val();
-	//领取产证时间变更理由
-	var redeemRemake = $("#redeemRemake").val();
-	//回款结清时间
-	var paymentTime = $("#paymentTime").val();
-	//回款结清时间变更理由
-	var paymentRemake = $("#paymentRemake").val();
+	var property = $("#taskCode").val();
 	
-	switch(property){
-		case "APPLY" :
-			$("#applyTime").attr("disabled",true); 
-			$("#applyRemake").attr("disabled",true);
-		case "SIGN" :
-			$("#interviewTime").attr("disabled",true); 
-			$("#interviewRemake").attr("disabled",true); 
-		case "PAYLOAN_ONE" :
-			$("#repayTime").attr("disabled",true); 
-			$("#repayRemake").attr("disabled",true);
-		case "PAYLOAN_TWO" :
-			$("#repayTime").attr("disabled",true); 
-			$("#repayRemake").attr("disabled",true);
-		case "CANCELDIYA_ONE" :
-			$("#cancelTime").attr("disabled",true); 
-			$("#cancelRemake").attr("disabled",true); 
-		case "CANCELDIYA_TWO" :
-			$("#cancelTime").attr("disabled",true); 
-			$("#cancelRemake").attr("disabled",true); 
-		case "RECEIVE_ONE" :
-			$("#redeemTime").attr("disabled",true); 
-			$("#redeemRemake").attr("disabled",true); 
-		case "RECEIVE_TWO" :
-			$("#redeemTime").attr("disabled",true); 
-			$("#redeemRemake").attr("disabled",true); 
-		case "PAYCLEAR" :
-			$("#paymentTime").attr("disabled",true); 
-			$("#paymentRemake").attr("disabled",true); 
-			break;
-		default:break;
+	for(var i = 0; i < $(".form_content").length/2; i++){
+		
+		switch(property){
+			case "APPLY":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "SIGN":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "PAYLOAN_ONE":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "PAYLOAN_TWO":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "CANCELDIYA_ONE":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "CANCELDIYA_TWO":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "RECEIVE_ONE":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "RECEIVE_TWO":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			case "PAYCLEAR":
+				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
+				$("input[name='remark'" + i + "]").attr("disabled",true);
+				break;
+			default:
+				break;
+		}
 		
 	}
-	
 }
 
 /**
@@ -83,7 +70,7 @@ function loadTimeInfo(){
  */
 function submitChangeRecord(i){
 	debugger;
-	var caseCode = $("#caseCode").val();
+	var ransomCode = $("#ransomCode").val();
 	var ransomVo = getParams();
 	$.ajax({
 		url: ctx + "/ransomList/updateRansomPlanTime",
@@ -94,9 +81,9 @@ function submitChangeRecord(i){
 			
 			if(data.code == "1"){
 				window.wxc.alert("赎楼计划时间修改保存成功！");
-				window.location.href = ctx + "/ransomList/ransomDetail?caseCode=" + caseCode;
+				window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
 			}else if(data.code == "2"){
-				window.location.href = ctx + "/ransomList/ransomChangeRecord?caseCode=" + caseCode;
+				window.location.href = ctx + "/ransomList/ransomChangeRecord?ransomCode=" + ransomCode;
 			}
 		},
 		error: function(data){
@@ -105,44 +92,21 @@ function submitChangeRecord(i){
 	});
 }
 
+/**
+ * 获取参数
+ * @returns
+ */
 function getParams(){
 	
-	var caseCode = $("#caseCode").val();
 	var ransomCode = $("#ransomCode").val();
 	debugger;
 	var array = new Array();
 	for(var i = 0;i < $(".line input").length / 2;i++){
 		var estPartTime = $("input[name='estPartTime" + i + "']").val();
 		var remark = $("input[name='remark" + i + "']").val();
-		var partCode = $("#partCode"+ i + "").text();
-		
-		if(partCode == "申请时间"){
-			partCode = "APPLY";
-		}
-		
-		if(partCode == "面签时间"){
-			partCode = "SIGN";		
-		}
-		
-		if(partCode == "陪同还贷时间"){
-			partCode = "PAYLOAN_ONE";
-		}
-		
-		if(partCode == "注销抵押时间"){
-			partCode = "CANCELDIYA_ONE";
-		}
-		
-		if(partCode == "领取产证时间"){
-			partCode = "RECEIVE_ONE";
-		}
-		
-		if(partCode == "回款结清时间"){
-			partCode = "PAYCLEAR";
-		}
 		
 		var resJson = {
 			ransomCode:ransomCode,	
-			partCode:partCode,
 			estPartTime:estPartTime,
 			remark:remark
 		}
