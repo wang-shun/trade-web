@@ -256,6 +256,16 @@
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</update>
 	
+	<update id="updateRansomCaseUserByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
+		UPDATE sctrans.T_RA_CASE SET 
+			CREATE_USER = #{createUser,jdbcType=VARCHAR},
+			CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		WHERE
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</update>
+	
 	<update id="updateRansomPlanTimeInfoByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
 		UPDATE 
 			sctrans.T_RA_PLAN 
@@ -280,6 +290,18 @@
 			DIYA_TYPE = #{diyaType,jdbcType=VARCHAR},
 			LOAN_MONEY = #{loanMoney,jdbcType=DECIMAL},
 			REST_MONEY = #{restMoney,jdbcType=DECIMAL},
+			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		WHERE
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateRansomTailUserByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomTailinsVo">
+		UPDATE 
+			sctrans.T_RA_TAILINS 
+		SET 
+			CREATE_USER = #{createUser,jdbcType=VARCHAR},
+			CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
 			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
 			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
 		WHERE

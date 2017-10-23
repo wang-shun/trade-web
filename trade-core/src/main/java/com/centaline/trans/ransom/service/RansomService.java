@@ -2,6 +2,7 @@ package com.centaline.trans.ransom.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
@@ -169,4 +170,12 @@ public interface RansomService {
 	 * @return
 	 */
 	boolean deleteRansomApplyByRansomCode(String ransomCode);
+
+	/**
+	 * 变更赎楼单金融权证
+	 * @param paramObj
+	 * @param caseCode
+	 * @return
+	 */
+	boolean changeRansomOwner(Map<String, Object> paramObj, String userId, String caseCode, String ransomCode);
 }

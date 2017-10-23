@@ -334,7 +334,7 @@ text-decoration: underline !important;
 	</td>
 	<td class="center"> 
 		{{if item.ISAPPLY == 0}}
-			<a href="${ctx}/task/ransom/ransomApply?caseCode={{item.CASE_CODE}}" target="_blank">申请</a>
+			<a class="btn btn-success btn-space" href="${ctx}/task/ransom/ransomApply?caseCode={{item.CASE_CODE}}" target="_blank">申请</a>
 		{{/if}}
 		<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}','{{item.RANSOM_CODE}}')" />
 	</td>

@@ -5,7 +5,6 @@
 
 
 $(document).ready(function(){
-	debugger;
 	reloadDetail();
 	reloadHistoryRecord();
 	reloadTimeRecord();
@@ -19,7 +18,6 @@ $(document).ready(function(){
  * 详情table加载
  */
 function reloadDetail(){
-	debugger;
 	var url = "/quickGrid/findPage";
 	var ctx = $("#ctx").val();
 	var ransomCode = $("#ransomCode").val();
@@ -93,7 +91,6 @@ function reloadDetail(){
 	 * @returns
 	 */
 	function reloadHistoryRecord(){
-		debugger;
 		var url = "/quickGrid/findPage";
 		var ctx = $("#ctx").val();
 		var ransomcode = $("#ransomCode").val();
@@ -162,7 +159,6 @@ function reloadDetail(){
 	 * @returns
 	 */
 	function reloadTimeRecord(){
-		debugger;
 		var url = ctx + '/quickGrid/findPage';
 		var ransomCode = $('#ransomCode').val();
 		var data = {};
@@ -192,7 +188,6 @@ function reloadDetail(){
 	 * @returns
 	 */
 	function getOperateLogList(){
-		debugger;
 		var url = "/quickGrid/findPage";
 		var ctx = $("#ctx").val();
 		var ransomcode = $("#ransomCode").val();
@@ -305,7 +300,6 @@ function reloadDetail(){
 	 * 附件信息
 	 */
 	function getShowAttachment() {
-		debugger;
 		var caseCode = $("#caseCode").val();
 		$.ajax({
 			type : 'post',
@@ -356,15 +350,14 @@ function reloadDetail(){
 		});
 	}
 	/**
-	 * 金融权证变更
+	 * 变更金融权证
 	 */
 	function showOrgCp() {
-		debugger;
-		var url = "/ransomList/getUserOrgFWUserList";
+		var url = "/case/getUserOrgCpUserList";
 		var ctx = $("#ctx").val();
 		var caseCode= $("#caseCode").val();
 		url = ctx + url;
-		var data={operation:""};
+		var data={operation:"JRQZ", caseCode:caseCode};
 		$.ajax({
 			cache : false,
 			async : true,
@@ -373,11 +366,17 @@ function reloadDetail(){
 			dataType : "json",
 			timeout : 10000,
 			data : data,
+			beforeSend:function(){
+                $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+                $(".blockOverlay").css({'z-index':'9998'});
+            },
 			success : function(data) {
-				console.info(data);
+				$.unblockUI();
+//				console.log(data.length);如果没有数据，则提示没有责任人
 				showLeadingModal(data);
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				$.unblockUI();
 			}
 		});
 	}
@@ -390,48 +389,46 @@ function reloadDetail(){
 		var addHtml = '';
 		var ctx = $("#ctx").val();
 		$.each(data,function(i, n) {
-							addHtml += '<div class="col-lg-4"><div class="contact-box">';
-							addHtml += '<a href="javascript:changeLeadingUser(' + i
-									+ ')">';
-							addHtml += '<div class="col-sm-4"><div class="text-center">';
-							addHtml+='<span class="userHead">';
-							if(n.imgUrl!=null){
-								addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'">';
-							}
-							addHtml+='</span>';
-							addHtml += '<div class="m-t-xs font-bold">金融权证</div></div></div>';
-							addHtml += '<div class="col-sm-8">';
-							addHtml += '<input id="user_' + i
-									+ '" type="hidden" value="' + n.id + '">';
-							addHtml += '<h3><strong>' + n.realName
-									+ '</strong></h3>';
-							addHtml += '<p>联系电话：' + n.mobile + '</p>';
-							addHtml += '<p>当前单数：' + n.userCaseCount + '</p>';
-							addHtml += '<p>本月接单：' + n.userCaseMonthCount + '</p>';
-							addHtml += '</div><div class="clearfix"></div></a>';
-							addHtml += '</div></div>';
-						})
+			addHtml += '<div class="col-lg-4"><div class="contact-box">';
+            addHtml += '<a href="javascript:distributeCase('+i+')">';
+            addHtml += '<div class="col-sm-5"><div class="text-center">';
+            addHtml +='<span class="userHead1">';
+            if(n.imgUrl!=null){
+                addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'"/>';
+            }
+            addHtml +='</span>';
+            addHtml += '<div class="m-t-xs font-bold">金融权证</div></div></div>';
+            addHtml += '<div class="col-sm-7">';
+            addHtml += '<input id="user_'+i+'" type="hidden" value="'+n.id+'">';
+            addHtml += '<input id="userName_'+i+'" type="hidden" value="'+n.realName+'">';
+            addHtml += '<h3><strong>'+n.realName+'</strong></h3>';
+            addHtml += '<input id="mobile_'+i+'" type="hidden" value="联系电话：'+n.mobile+'">'+'联系电话：'+n.mobile;
+            addHtml += '<p>当前单数：'+n.userCaseCount+'</p>';
+            addHtml += '<p>本月接单：'+n.userCaseMonthCount+'</p>';
+            addHtml += '<p>未过户单：'+n.userCaseUnTransCount+'</p>';
+            addHtml += '</div><div class="clearfix"></div></a>';
+            addHtml += '</div></div>';
+		})
 		$("#leading-modal-data-show").html(addHtml);
-
 		$('.contact-box').each(function() {
 			animationHover(this, 'pulse');
 		});
 		$('#leading-modal-form').modal("show");
 	}
-	/**
-	 * 变更权证
-	 * @param index
-	 */
-	function changeLeadingUser(index) {
+	
+	var userName;
+    var id;
+    function distributeCase(index) {
 		window.wxc.confirm("您是否确认进行责任人变更？",{"wxcOk":function(){
 			var caseCode = $("#caseCode").val();
 			var instCode = $("#instCode").val();
+			var ransomCode = $("#ransomCode").val();
 			var userId = $("#user_" + index).val();
 
-			var url = "/case/changeLeadingUser";
+			var url = "/task/ransom/changeRansomOwner";
 			var ctx = $("#ctx").val();
 			url = ctx + url;
-			var params = '&userId=' + userId + '&caseCode=' + caseCode+"&instCode="+instCode;
+			var params = {userId:userId,caseCode:caseCode,ransomCode:ransomCode};
 
 			$.ajax({
 				cache : false,
@@ -455,7 +452,13 @@ function reloadDetail(){
 				}
 			});
 		}});
-	}
+		$('#leading-modal-form').modal("hide");
+	
+    }
+	
+	function imgLoad(img){
+        img.parentNode.style.backgroundImage="url("+img.src+")";
+    }
 	
 	function dateFormat(dateTime){
 		if(dateTime ==null || dateTime == '' || dateTime == undefined){

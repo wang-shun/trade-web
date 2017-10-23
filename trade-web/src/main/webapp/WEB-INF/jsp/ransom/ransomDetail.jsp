@@ -67,6 +67,15 @@
 	.interval{width:300px;}
 	.row11{margin-left: 315px;}
 	.time-up{color: blue;}    
+	.userHead1{
+		width: 80px;
+		height: 80px;
+		display: inline-block;
+		border-radius: 50%;
+		background-size: 80px 108px;
+		vertical-align: middle;
+		background-image:url(../static/img/a5.png);
+	}
 </style>
 </head>
 <body>
@@ -429,13 +438,13 @@
 				<div class="fk-block col-lg-12">
 					<div class="panel blank-panel">
 						<h2 class="title">赎楼单详情</h2>
-						<div class="details-update">
-							<a href="javascript:void(0)" onclick="showOrgCp()">变更金融权证</a> 
+						<div class="details-update" style="float: right;">
+							<input type="button" onclick="showOrgCp()" class="btn btn-success btn-space" value="变更金融权证" />
 							<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">
 								<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showOrgCp()">责任人变更</a>
 							</shiro:hasPermission> -->
-							<a href="${ctx }/ransomList/updateRansomInfo?caseCode=${detailVo.caseCode}" target="_blank">修改赎楼单详情</a>
-							<a href="${ctx }/ransomList/planTime?ransomCode=${detailVo.ransomCode}" target="_blank">修改时间计划</a>
+							<a class="btn btn-success btn-space" href="${ctx }/ransomList/updateRansomInfo?caseCode=${detailVo.caseCode}" target="_blank">修改赎楼单详情</a>
+							<a class="btn btn-success btn-space" href="${ctx }/ransomList/planTime?ransomCode=${detailVo.ransomCode}" target="_blank">修改时间计划</a>
 						</div>
 						<hr>
 						<!-- <table class="table table_blue table-striped table-bordered table-hover ">
@@ -546,9 +555,9 @@
 			</div>
 		</div>
 		
-		<!-- 金融权证变更 -->
-		<div id="leading-modal-form" class="modal fade" role="dialog"
-			aria-labelledby="leading-modal-title" aria-hidden="true">
+		<!-- 变更金融权证 -->
+		<div id="leading-modal-form"class="modal fade" aria-labelledby="modal-title"
+		 aria-hidden="true">
 			<div class="modal-dialog" style="width: 1200px">
 				<div class="modal-content">
 					<div class="modal-header">
