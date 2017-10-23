@@ -179,9 +179,9 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
         	paramObj.put("isIgnoreAssignee", "exist");
         }
         if(isSuspended != null && isSuspended) {
-        	paramObj.put("isSuspended", true);
+        	paramObj.put("isSuspended", "true");
         }else if(isSuspended != null && !isSuspended){
-        	paramObj.put("isSuspended", false);
+        	paramObj.put("isSuspended", "false");
         }
         if(caseCode != null) {
         	paramObj.put("caseCode",caseCode);
