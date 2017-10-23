@@ -186,9 +186,9 @@
                     rebateWarranti.val((rebateMoney* 0.3).toFixed(2));
                     rebateBusinessi.val((rebateMoney* 0.7).toFixed(2));
                     count += rebateMoney;
-                    $("#enteringMoney").val(rebateMoney);
                 }
             });
+            $("#enteringMoney").val(count.toFixed(2));
             $("#differenceMoney").val((total-count).toFixed(2));
         }
 
