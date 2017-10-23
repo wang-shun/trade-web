@@ -14,6 +14,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自办贷款挽回</title>
 <!-- jdGrid相关 -->
 <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
@@ -85,7 +86,7 @@
 		<div class="row wrapper white-bg new-heading ">
 			<div class="pl10">
 				<h2 class="newtitle-big">
-					贷款需求选择
+					自办贷款挽回
 				</h2>
 				<div class="mt20">
 					<button type="button" class="btn btn-icon btn-blue mr5" id="btnZaitu">
