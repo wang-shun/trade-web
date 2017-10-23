@@ -33,12 +33,6 @@ public interface CcaiService {
 	 * @return
 	 */
 	boolean isExistCcaiCode(String ccaiCode);
-	/**
-	 * 导入自办评估/自办贷款信息
-	 * @param info
-	 * @return
-	 */
-	CcaiServiceResult importSelfDo(SelfDoImport info);
 
 	/**
 	 * 成交报告撤单
@@ -46,9 +40,5 @@ public interface CcaiService {
 	 * @return
 	 */
 	CcaiServiceResult repealCase(CaseRepealImport repealInfo);
-	/**
-	 * 导入评估退费信息
-	 * @param info
-	 */
-	CcaiServiceResult importEvalRefund(EvalRefundImport info);
+	
 }

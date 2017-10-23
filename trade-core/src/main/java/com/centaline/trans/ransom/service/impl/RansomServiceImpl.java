@@ -64,7 +64,9 @@ public class RansomServiceImpl implements RansomService{
 			}else{
 				detailVo.setFinancial(null);
 			}
-			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			detailVo.setLeadingProcessName(user.getRealName()); //经办人
+			SessionUser user = uamSessionService.getSessionUser();
 			detailVo.setLeadingProcessName(user.getRealName()); //经办人
 		}
 		return detailVo;
@@ -81,7 +83,9 @@ public class RansomServiceImpl implements RansomService{
 			}else{
 				detailVo.setFinancial(null);
 			}
-			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			detailVo.setLeadingProcessName(user.getRealName()); //经办人
+			SessionUser user = uamSessionService.getSessionUser();
 			detailVo.setLeadingProcessName(user.getRealName()); //经办人
 		}
 		return detailVo;
@@ -379,8 +383,14 @@ public class RansomServiceImpl implements RansomService{
 	}
 
 	@Override
-	public ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode) {
-		ToRansomTailinsVo tailinsVo = ransomMapper.getTailinsInfoByCaseCode(caseCode);
+	public List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode) {
+		List<ToRansomTailinsVo> tailinsVo = ransomMapper.getTailinsInfoByCaseCode(caseCode);
+		return tailinsVo;
+	}
+
+	@Override
+	public List<ToRansomTailinsVo> getTailinsInfoByRansomCode(String caseCode) {
+		List<ToRansomTailinsVo> tailinsVo = ransomMapper.getTailinsInfoByRansomCode(caseCode);
 		return tailinsVo;
 	}
 
@@ -461,7 +471,9 @@ public class RansomServiceImpl implements RansomService{
 		return ransomMapper.updateRansomIsStart(ransomCode);
 	}
 
-
-
+	@Override
+	public List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode) {
+		return ransomMapper.getPlanTimeInfoByRansomCode(ransomCode);
+	}
 
 }

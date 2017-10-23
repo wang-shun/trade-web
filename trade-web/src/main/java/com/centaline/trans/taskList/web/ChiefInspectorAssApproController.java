@@ -22,7 +22,6 @@ import com.centaline.trans.eloan.entity.ToAppRecordInfo;
 import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 import com.centaline.trans.eloan.service.ToAppRecordInfoService;
 import com.centaline.trans.eloan.service.ToSelfAppInfoService;
-import com.centaline.trans.task.service.ChiefInspectorApproService;
 import com.centaline.trans.task.service.ChiefInspectorAssApproService;
 import com.centaline.trans.task.vo.ToAppRecordInfoVO;
 
@@ -41,8 +40,6 @@ public class ChiefInspectorAssApproController {
 	@Autowired
 	private ToAppRecordInfoService toAppRecordInfoService;
 	
-	@Autowired
-	private ChiefInspectorApproService chiefInspectorApproService;
 	
 	
 	@Autowired
@@ -64,7 +61,8 @@ public class ChiefInspectorAssApproController {
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);	
 		toAccesoryListService.getAccesoryList(request, taskitem);
-		ToSelfAppInfo toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(caseCode);
+		String type = "自办评估";
+		ToSelfAppInfo toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(caseCode,type);
 		ToAppRecordInfo toAppRecordInfo = toAppRecordInfoService.getAppRedordByAppInfoId(toSelfAppInfo.getPkid());
 		request.setAttribute("toSelfAppInfo", toSelfAppInfo);
 		request.setAttribute("toAppRecordInfo", toAppRecordInfo);

@@ -316,16 +316,16 @@ text-decoration: underline !important;
 		{{item.COM_ORG_CODE}}
 	</td>
 	<td class="center"> 
-		{{if item.RANSOM_STATUS == "1"}}
+		{{if item.RANSOM_STATUS == 1}}
 		 	受理 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
-		{{if item.RANSOM_STATUS == "2"}}
+		{{if item.RANSOM_STATUS == 2}}
 		 	在途 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
-		{{if item.RANSOM_STATUS == "4"}}
+		{{if item.RANSOM_STATUS == 4}}
 		 	中止 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
-		{{if item.RANSOM_STATUS == "3"}}
+		{{if item.RANSOM_STATUS == 3}}
 		 	结束 &nbsp;&nbsp;{{item.UPDATE_TIME}}
 		{{/if}}
 	</td>

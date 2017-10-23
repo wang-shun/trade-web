@@ -99,7 +99,9 @@ public class ToHouseTransferController {
 		toAccesoryListService.getAccesoryListGuoHu(request, taskitem, caseCode);
 		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
-		request.setAttribute("toMortgage", toMortgage);
+		if(toMortgage!=null) {
+			request.setAttribute("toMortgage", toMortgage);
+		}
 		/*确认是否已经是贷款流失*/
 		MortgageToSaveVO mortgageToSaveVO=toMortgageTosaveService.selectByCaseCode(caseCode);
 		//修复无贷款流失 点击过户页面报错问题 by:yinchao 2017-9-28

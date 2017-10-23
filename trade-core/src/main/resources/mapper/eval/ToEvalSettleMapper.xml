@@ -189,6 +189,14 @@
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </update>
   
+  <update id="updateSettleTimeByCaseCode" parameterType="com.centaline.trans.eval.entity.ToEvalSettle" >
+  	 update sctrans.T_TO_EVA_SETTLE
+  	<set >
+        SETTLE_TIME = #{settleTime,jdbcType=TIMESTAMP},
+    </set>
+    where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </update>
+  
   <update id="updateSettleFeeByCaseCode" parameterType="com.centaline.trans.eval.entity.ToEvalSettle" >
     update sctrans.T_TO_EVA_SETTLE
      set SETTLE_FEE = #{settleFee,jdbcType=DECIMAL}

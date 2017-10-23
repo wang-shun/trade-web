@@ -67,7 +67,7 @@ public class TestCase {
 		toCaseParticipant1.setGrpMgrUsername("xiefei2");
 		toCaseParticipant1.setGrpMgrRealname("谢飞");
 		toCaseParticipant1.setGrpMgrMobile("18622064168");
-		toCaseParticipant.setAvailable("Y");
+		toCaseParticipant1.setAvailable("Y");
 		participants.add(toCaseParticipant1);
 		
 		ToCaseParticipant toCaseParticipant2 = new ToCaseParticipant();
@@ -82,8 +82,24 @@ public class TestCase {
 		toCaseParticipant2.setGrpMgrUsername("xiefeifei");
 		toCaseParticipant2.setGrpMgrRealname("谢飞飞");
 		toCaseParticipant2.setGrpMgrMobile("18622064168");
-		toCaseParticipant.setAvailable("Y");
+		toCaseParticipant2.setAvailable("Y");
 		participants.add(toCaseParticipant2);
+		
+		ToCaseParticipant toCaseParticipant3 = new ToCaseParticipant();
+		toCaseParticipant3.setCaseCode(primaryCaseCode);
+		toCaseParticipant3.setCcaiCode(this.ccaiId);
+		toCaseParticipant3.setPosition("assistant");
+		toCaseParticipant3.setUserName("xiefei2");
+		toCaseParticipant3.setRealName("谢飞");
+		toCaseParticipant3.setMobile("17720100958");
+		toCaseParticipant3.setGrpCode("022A458");
+		toCaseParticipant3.setGrpName("交易按揭1组");
+		toCaseParticipant3.setGrpMgrUsername("xiefeifei");
+		toCaseParticipant3.setGrpMgrRealname("谢飞飞");
+		toCaseParticipant3.setGrpMgrMobile("18622064168");
+		toCaseParticipant3.setAvailable("Y");
+		participants.add(toCaseParticipant3);
+		
 		this.participants = participants;
 		ToPropertyInfo toPropertyInfo2 = new ToPropertyInfo();
 		toPropertyInfo2.setCaseCode(primaryCaseCode);

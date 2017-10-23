@@ -92,6 +92,7 @@ public class CaseDetailShowVO {
     private String caseProperty; // 案件属性
     
     private String propertyAddress;//物业地址
+	private String cityName;//所属区域
     private String loanLostType;//贷款流失类型
     
     private String loanType;//税费卡类型
@@ -119,6 +120,14 @@ public class CaseDetailShowVO {
     
 	//是否自办：是/否
 	private String isSelf;
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
 
 	public BigDecimal getEvaPrice() {
 		return evaPrice;

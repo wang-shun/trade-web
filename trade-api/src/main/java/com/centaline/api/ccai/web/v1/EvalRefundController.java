@@ -1,5 +1,6 @@
 package com.centaline.api.ccai.web.v1;
 
+import com.centaline.api.ccai.service.CcaiEvalService;
 import com.centaline.api.ccai.service.CcaiService;
 import com.centaline.api.ccai.vo.EvalRefundImport;
 import com.centaline.api.common.enums.ApiLogModuleEnum;
@@ -30,8 +31,10 @@ import javax.validation.Valid;
 @RequestMapping(value = "/api/ccai/v1")
 public class EvalRefundController extends AbstractBaseController {
 	
+
+	
 	@Autowired
-	private CcaiService ccaiService;
+	private CcaiEvalService ccaiEvalService;
 	
 
 	@ApiOperation(value = "评估退费申请同步", notes = "CCAI发起的评估费退费流程，经过部门逐级审批同意后，调用该接口将信息同步至交易系统，由权证进行后续处理", produces = "application/json,application/json;charset=UTF-8")
@@ -43,7 +46,7 @@ public class EvalRefundController extends AbstractBaseController {
 		ObjectMapper mapper = new ObjectMapper();
 		if(result.isSuccess()) {
 			try {
-				result = ccaiService.importEvalRefund(info);
+				result = ccaiEvalService.importEvalRefund(info);
 			} catch (Exception e) {
 				result.setSuccess(false);
 				result.setCode(FAILURE_CODE);
