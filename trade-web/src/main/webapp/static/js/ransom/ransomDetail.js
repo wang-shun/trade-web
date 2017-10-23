@@ -163,7 +163,6 @@ function reloadDetail(){
 	 * @returns
 	 */
 //	function reloadTimeRecord(){
-//		debugger;
 //		var url = ctx + '/quickGrid/findPage';
 //		var ransomCode = $('#ransomCode').val();
 //		var data = {};
@@ -271,37 +270,155 @@ function reloadDetail(){
 		}
 		];
 		$("#operation_history_table").jqGrid(
-				{
-					url : url,
-					datatype : "json",
-					mtype : "POST",
-					height : 300,
-					autowidth : true,
-					shrinkToFit : true,
-					rowNum : 10,
-					/* rowList: [10, 20, 30], */
-					colNames : dispCols,
-					colModel : colModels,
-					pager : "#operation_history_pager",
-					sortname:'A.create_time',
-	    	        sortorder:'desc',
-					viewrecords : true,
-					pagebuttions : true,
-					hidegrid : false,
-					recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-					pgtext : " {0} 共 {1} 页",
-
-					// rowid为grid中的行顺序
-					onSelectRow : function(rowid) {
-					},
-					postData : {
-						queryId : "queryRansomTaskHistoryItemList",
-						argu_casecode : casecode,
-						argu_ransomcode : ransomcode
-					}
+			{
+				url : url,
+				datatype : "json",
+				mtype : "POST",
+				height : 300,
+				autowidth : true,
+				shrinkToFit : true,
+				rowNum : 10,
+				/* rowList: [10, 20, 30], */
+				colNames : dispCols,
+				colModel : colModels,
+				pager : "#operation_history_pager",
+				sortname:'A.create_time',
+		        sortorder:'desc',
+				viewrecords : true,
+				pagebuttions : true,
+				hidegrid : false,
+				recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+				pgtext : " {0} 共 {1} 页",
+	
+				// rowid为grid中的行顺序
+				onSelectRow : function(rowid) {
+				},
+				postData : {
+					queryId : "queryRansomTaskHistoryItemList",
+					argu_casecode : casecode,
+					argu_ransomcode : ransomcode
+				}
 
 		});
 	}
+	
+	/**
+	 * 
+	 * @returns
+	 */
+	function getOperateLogRansom(){
+		debugger;
+		var url = "/quickGrid/findPage";
+		var ctx = $("#ctx").val();
+		var ransomcode = $("#ransomCode").val();
+		var casecode = $("#caseCode").val();
+		var wfeName= '赎楼流程';
+		url = ctx + url;
+		// Configuration for jqGrid Example 1
+		var dispCols=[ 'TASKID', 'CASECODE', 'PARTCODE',
+						'INSTCODE', '红绿灯', '红灯记录', '所属流程信息','任务名', '执行人',
+						'执行时间','任务状态' ];
+		var colModels=
+		[ {
+			name : 'ID',
+			index : 'ID',
+			align : "center",
+			width : 0,
+			key : true,
+			resizable : false,
+			hidden : true
+		}, {
+			name : 'CASE_CODE',
+			index : 'CASE_CODE',
+			align : "center",
+			width : 0,
+			key : true,
+			resizable : false,
+			hidden : true
+		}, {
+			name : 'PART_CODE',
+			index : 'PART_CODE',
+			align : "center",
+			width : 0,
+			key : true,
+			resizable : false,
+			hidden : true
+		}, {
+			name : 'INST_CODE',
+			index : 'INST_CODE',
+			align : "center",
+			width : 0,
+			key : true,
+			resizable : false,
+			hidden : true
+		}, {
+			name : 'DATELAMP',
+			index : 'DATELAMP',
+			width : 40,
+			editable : true,
+			formatter : dateLampFormatter
+		}, {
+			name : 'RED_LOCK',
+			index : 'RED_LOCK',
+			width : 30,
+			editable : true,
+			formatter : isRedFormatter
+		}, {
+			name : 'WFE_NAME',
+			index : 'WFE_NAME',
+			width : 30
+		}, {
+			name : 'NAME',
+			index : 'NAME',
+			width : 75
+		}, {
+			name : 'ASSIGNEE',
+			index : 'ASSIGNEE',
+			width : 75
+		},  {
+			name : 'END_TIME',
+			index : 'END_TIME',
+			width : 90
+		},{
+			name : 'status',
+			index : 'status',
+			width : 90
+		}
+		];
+		$("#operation_history_table").jqGrid(
+			{
+				url : url,
+				datatype : "json",
+				mtype : "POST",
+				height : 300,
+				autowidth : true,
+				shrinkToFit : true,
+				rowNum : 10,
+				/* rowList: [10, 20, 30], */
+				colNames : dispCols,
+				colModel : colModels,
+				pager : "#operation_history_pager",
+				sortname:'A.create_time',
+		        sortorder:'desc',
+				viewrecords : true,
+				pagebuttions : true,
+				hidegrid : false,
+				recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+				pgtext : " {0} 共 {1} 页",
+	
+				// rowid为grid中的行顺序
+				onSelectRow : function(rowid) {
+				},
+				postData : {
+					queryId : "queryRansomTaskHistoryItemList",
+					argu_casecode : casecode,
+					argu_ransomcode : ransomcode,
+					argu_wfeName : wfeName
+				}
+
+		});
+	}
+	
 	/**
 	 * 附件信息
 	 */
@@ -357,15 +474,15 @@ function reloadDetail(){
 		});
 	}
 	/**
-	 * 金融权证变更
+	 * 变更金融权证
 	 */
 	function showOrgCp() {
-		debugger;
-		var url = "/ransomList/getUserOrgFWUserList";
+		var url = "/case/getUserOrgCpUserList";
 		var ctx = $("#ctx").val();
 		var caseCode= $("#caseCode").val();
 		url = ctx + url;
-		var data={operation:""};
+//		var data={operation:"JRQZ", caseCode:caseCode};
+		var data={operation:"JRQZ", caseCode:"ZY-TJ-2017100477"};
 		$.ajax({
 			cache : false,
 			async : true,
@@ -374,11 +491,17 @@ function reloadDetail(){
 			dataType : "json",
 			timeout : 10000,
 			data : data,
+			beforeSend:function(){
+                $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+                $(".blockOverlay").css({'z-index':'9998'});
+            },
 			success : function(data) {
-				console.info(data);
+				$.unblockUI();
+//				console.log(data.length);如果没有数据，则提示没有责任人
 				showLeadingModal(data);
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				$.unblockUI();
 			}
 		});
 	}
@@ -391,48 +514,46 @@ function reloadDetail(){
 		var addHtml = '';
 		var ctx = $("#ctx").val();
 		$.each(data,function(i, n) {
-							addHtml += '<div class="col-lg-4"><div class="contact-box">';
-							addHtml += '<a href="javascript:changeLeadingUser(' + i
-									+ ')">';
-							addHtml += '<div class="col-sm-4"><div class="text-center">';
-							addHtml+='<span class="userHead">';
-							if(n.imgUrl!=null){
-								addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'">';
-							}
-							addHtml+='</span>';
-							addHtml += '<div class="m-t-xs font-bold">金融权证</div></div></div>';
-							addHtml += '<div class="col-sm-8">';
-							addHtml += '<input id="user_' + i
-									+ '" type="hidden" value="' + n.id + '">';
-							addHtml += '<h3><strong>' + n.realName
-									+ '</strong></h3>';
-							addHtml += '<p>联系电话：' + n.mobile + '</p>';
-							addHtml += '<p>当前单数：' + n.userCaseCount + '</p>';
-							addHtml += '<p>本月接单：' + n.userCaseMonthCount + '</p>';
-							addHtml += '</div><div class="clearfix"></div></a>';
-							addHtml += '</div></div>';
-						})
+			addHtml += '<div class="col-lg-4"><div class="contact-box">';
+            addHtml += '<a href="javascript:distributeCase('+i+')">';
+            addHtml += '<div class="col-sm-5"><div class="text-center">';
+            addHtml +='<span class="userHead1">';
+            if(n.imgUrl!=null){
+                addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'"/>';
+            }
+            addHtml +='</span>';
+            addHtml += '<div class="m-t-xs font-bold">金融权证</div></div></div>';
+            addHtml += '<div class="col-sm-7">';
+            addHtml += '<input id="user_'+i+'" type="hidden" value="'+n.id+'">';
+            addHtml += '<input id="userName_'+i+'" type="hidden" value="'+n.realName+'">';
+            addHtml += '<h3><strong>'+n.realName+'</strong></h3>';
+            addHtml += '<input id="mobile_'+i+'" type="hidden" value="联系电话：'+n.mobile+'">'+'联系电话：'+n.mobile;
+            addHtml += '<p>当前单数：'+n.userCaseCount+'</p>';
+            addHtml += '<p>本月接单：'+n.userCaseMonthCount+'</p>';
+            addHtml += '<p>未过户单：'+n.userCaseUnTransCount+'</p>';
+            addHtml += '</div><div class="clearfix"></div></a>';
+            addHtml += '</div></div>';
+		})
 		$("#leading-modal-data-show").html(addHtml);
-
 		$('.contact-box').each(function() {
 			animationHover(this, 'pulse');
 		});
 		$('#leading-modal-form').modal("show");
 	}
-	/**
-	 * 变更权证
-	 * @param index
-	 */
-	function changeLeadingUser(index) {
+	
+	var userName;
+    var id;
+    function distributeCase(index) {
 		window.wxc.confirm("您是否确认进行责任人变更？",{"wxcOk":function(){
 			var caseCode = $("#caseCode").val();
 			var instCode = $("#instCode").val();
+			var ransomCode = $("#ransomCode").val();
 			var userId = $("#user_" + index).val();
 
-			var url = "/case/changeLeadingUser";
+			var url = "/task/ransom/changeRansomOwner";
 			var ctx = $("#ctx").val();
 			url = ctx + url;
-			var params = '&userId=' + userId + '&caseCode=' + caseCode+"&instCode="+instCode;
+			var params = {changeToUserId:userId,caseCode:caseCode,ransomCode:ransomCode};
 
 			$.ajax({
 				cache : false,
@@ -444,11 +565,11 @@ function reloadDetail(){
 				data : params,
 				
 				success : function(data) {
-					if(data.success){
+					if(data){
 						window.wxc.success("变更成功");
 						location.reload();
 					}else{
-						window.wxc.error(data.message);
+						window.wxc.error("变更失败");
 					}
 					
 				},
@@ -456,7 +577,13 @@ function reloadDetail(){
 				}
 			});
 		}});
-	}
+		$('#leading-modal-form').modal("hide");
+	
+    }
+	
+	function imgLoad(img){
+        img.parentNode.style.backgroundImage="url("+img.src+")";
+    }
 	
 	function dateFormat(dateTime){
 		if(dateTime ==null || dateTime == '' || dateTime == undefined){

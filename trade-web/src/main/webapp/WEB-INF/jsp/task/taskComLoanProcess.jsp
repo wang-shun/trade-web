@@ -7,6 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>按揭贷款审批</title>
 <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 <link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />"
 	rel="stylesheet">

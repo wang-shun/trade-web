@@ -53,19 +53,18 @@ server:
 #数据源
 dataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://${systemProperties['dbhost']}:1433;databaseName=sctrans_prd;applicationName=trade-mobile
-  username: ${systemProperties['dbuid']}
-  password: ${systemProperties['dbpass']}
+  url: jdbc:sqlserver://${dbhost}:1433;databaseName=sctrans_prd;applicationName=trade-mobile
+  username: ${dbuid}
+  password: ${dbpass}
   maxActive: 250
   initialSize: 50
   filters: stat
 #数据源
 readOnlyDataSource:
   driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://${systemProperties['dbhost']}:1433;databaseName=sctrans_prd;applicationName=trade-mobile
-  #;ApplicationIntent=ReadOnly
-  username: ${systemProperties['dbuid']}
-  password: ${systemProperties['dbpass']}
+  url: jdbc:sqlserver://${dbhost}:1433;databaseName=sctrans_prd;applicationName=trade-mobile
+  username: ${dbuid}
+  password: ${dbpass}
   maxActive: 350
   initialSize: 50
   filters: stat

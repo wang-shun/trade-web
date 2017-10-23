@@ -57,7 +57,8 @@ public class SelfLoanWarrantManagerApproController {
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);	
 		toAccesoryListService.getAccesoryList(request, taskitem);
-		ToSelfAppInfo toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(caseCode);
+		String type="自办贷款";
+		ToSelfAppInfo toSelfAppInfo = toSelfAppInfoService.getAppInfoByCaseCode(caseCode,type);
 		request.setAttribute("toSelfAppInfo", toSelfAppInfo);
 		return "task/taskWarrantManagerAppro";
 	}

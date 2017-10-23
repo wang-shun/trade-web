@@ -4,9 +4,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.aist.common.quickQuery.bo.JQGridParam;
+import com.aist.common.quickQuery.service.QuickGridService;
+import com.aist.common.quickQuery.web.vo.DatagridVO;
+import com.aist.common.rapidQuery.paramter.ParamterHander;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.service.ToCaseInfoService;
@@ -52,6 +59,9 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 	
 	@Autowired
 	ToCaseInfoService toCaseInfoService;
+	
+	@Autowired
+	QuickGridService quickGridService;
 	
 	@Override
 	public boolean submitDiscontinueApply(ToRansomCaseVo ransomCase, ProcessInstanceVO vo) {
@@ -150,6 +160,48 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 		wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(wf);
 		return true;
+	}
+	
+	@Override
+	public Map<String, Object> getSingleRansomTaskInfo(Map<String, Object> paramObj, Boolean isSuspend,
+			Boolean isSuspended, Boolean isIgnoreAssignee, String caseCode) {
+		String processDfId = propertyUtilsService.getProcessDfId("ransom_suspend");
+		String processDfId1 = propertyUtilsService.getProcessDfId("ransom_process");
+        if(isSuspend != null && isSuspend) {//查询赎楼中止流程数据
+        	paramObj.put("PROCESS_DEFINITION_ID_RANSOM_SUSPEND", processDfId);
+        }else if(isSuspend != null && !isSuspend){//查询赎楼流程数据
+        	paramObj.put("PROCESS_DEFINITION_ID_RANSOM", processDfId1);
+        }else {
+        	paramObj.put("PROCESS_DEFINITION_ID_RANSOM_SUSPEND", processDfId);
+        	paramObj.put("PROCESS_DEFINITION_ID_RANSOM", processDfId1);
+        }
+        if(!isIgnoreAssignee) {//如果不忽略【任务责任人】条件
+        	paramObj.put("isIgnoreAssignee", "exist");
+        }
+        if(isSuspended != null && isSuspended) {
+        	paramObj.put("isSuspended", "true");
+        }else if(isSuspended != null && !isSuspended){
+        	paramObj.put("isSuspended", "false");
+        }
+        if(caseCode != null) {
+        	paramObj.put("caseCode",caseCode);
+        }
+        SessionUser user = uamSessionService.getSessionUser();
+        paramObj.put("sessionUserId", user.getId());
+        JQGridParam gp = new JQGridParam();
+        gp.setPage(1);
+        gp.setRows(1);
+        gp.putAll(paramObj);
+        gp.setQueryId("queryRansomTaskListItemList");
+        Page<Map<String, Object>> page = quickGridService.findPageForSqlServer(gp);
+        Map<String, Object> map = new HashMap<>();
+		if(page != null && page.hasContent() && page.getContent().size() > 0) {
+			map = page.getContent().get(0);
+			map.put("hasData", true);
+		}else {
+			map.put("hasData", false);
+		}
+		return map;
 	}
 
 }

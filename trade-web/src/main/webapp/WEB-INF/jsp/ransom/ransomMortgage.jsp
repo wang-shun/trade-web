@@ -74,7 +74,8 @@
 <content tag="pagetitle">赎楼陪同还贷</content>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	<input type="hidden" id="PROCESS_DEFINITION_ID_RANSOM" value="${PROCESS_DEFINITION_ID_RANSOM}" />
+	<jsp:include page="/WEB-INF/jsp/ransom/taskListByRansomCode.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/ransom/ransomBaseInfo.jsp"></jsp:include>
 	
 	<form method="get" id="ransomMortgage" class="form_list">
@@ -130,7 +131,7 @@
 					</div>	
 					<div class="row clearfix line">
 						<div class="form_content">
-							<label  class="control-label matching" style="margin-right:114px;"><font color=" red" class="mr5" >*</font>回款时间</label> 
+							<label  class="control-label matching" style="margin-right:110px;"><font color=" red" class="mr5" >*</font>回款时间</label> 
 							<div  class="input-group sign-right  input-daterange"  data-date-format="yyyy-mm-dd">
 								<input id="planPaymentTime" name="planPaymentTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width:200px; border-radius: 2px;" type="text"  >
 							</div>
@@ -180,7 +181,8 @@
 	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>
 	
 	<!-- 上传附件 结束 -->
-
+	<script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 
@@ -196,6 +198,7 @@
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> <!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script> 
 	<script src="<c:url value='/js/common/common.js' />"></script>  
+	<script src="<c:url value='/js/ransom/ransomTaskCheck.js' />"></script> 
 	<script>
 	$(document).ready(function(){
 		
@@ -308,7 +311,6 @@
 	
 	//提交
 	$('#submitButton').click(function(){
-		
 		if(!checkForm()){
 			return;
 		}
@@ -326,13 +328,13 @@
 			dataType:"json",
 			success:function(data){
 				window.wxc.success("提交成功!",{"wxcOk":function(){
-					 window.close();	
+					ransomTaskCheck();
 				}});
 			},
 			error : function(errors) {
 				window.wxc.error("提交失败!");
 			}
-		});
+		}); 
 	});
 	</script> 
 </content>

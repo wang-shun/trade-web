@@ -14,6 +14,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自办评估审批</title>
 <!-- jdGrid相关 -->
 <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
@@ -104,7 +105,7 @@
 	
 	<div class="">
 		<div  class="info_box info_box_two col-sm-12" >
-									<span>自办贷款信息</span>
+									<span>自办评估信息</span>
 									<div  class="ibox-conn else_conn_two">
 										<table style="width:100%">
 											<tr style="height:50px">

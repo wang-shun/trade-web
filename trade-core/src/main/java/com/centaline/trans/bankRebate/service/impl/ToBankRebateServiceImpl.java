@@ -55,4 +55,10 @@ public class ToBankRebateServiceImpl implements ToBankRebateService {
 		return toBankRebateMapper.deleteByGuaranteeCompId(guaCompId);
 	}
 
+	@Override
+	public int updateByGuaranteeCompId(ToBankRebate toBankRebate) {
+		// TODO Auto-generated method stub
+		return toBankRebateMapper.updateByGuaranteeCompId(toBankRebate);
+	}
+
 }

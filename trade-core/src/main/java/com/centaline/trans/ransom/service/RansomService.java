@@ -2,6 +2,7 @@ package com.centaline.trans.ransom.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
@@ -112,7 +113,14 @@ public interface RansomService {
 	 * @param caseCode
 	 * @return
 	 */
-	public ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode);
+	public List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode);
+	
+	/**
+	 * 尾款信息查询
+	 * @param caseCode
+	 * @return
+	 */
+	public List<ToRansomTailinsVo> getTailinsInfoByRansomCode(String caseCode);
 	
 	/**
 	 * 查询赎楼面签信息
@@ -179,4 +187,12 @@ public interface RansomService {
 	
 	
 	List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 变更赎楼单金融权证
+	 * @param paramObj
+	 * @param caseCode
+	 * @return
+	 */
+	boolean changeRansomOwner(Map<String, Object> paramObj, String userId, String caseCode, String ransomCode);
 }
