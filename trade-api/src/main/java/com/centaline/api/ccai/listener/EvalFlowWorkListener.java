@@ -35,6 +35,8 @@ import com.centaline.trans.message.activemq.vo.MQCaseMessage;
 import com.centaline.trans.message.activemq.vo.MQEvalMessage;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
+import com.centaline.trans.task.service.TsTaskDelegateService;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -66,7 +68,7 @@ public class EvalFlowWorkListener {
 	 * @see com.centaline.trans.eval.service.impl.ToEvalRebateServiceImpl#startRebateFlow(String, String)
 	 */
 	//案件消息队列名称
-	private static final String evalQueueName = "evalqueue";
+	private static final String evalQueueName = "evalqueue-test1";
 	Logger logger = LoggerFactory.getLogger(EvalFlowWorkListener.class);
 
 	@Autowired
@@ -107,6 +109,12 @@ public class EvalFlowWorkListener {
 	
 	@Autowired
 	private ToSelfAppInfoService toSelfAppInfoService;
+	
+	@Autowired
+	private TsTaskDelegateService tsTaskDelegateService;
+	
+	@Autowired
+	private ToCaseParticipantService ToCaseParticipantService;
 	
 	@JmsListener(destination = evalQueueName)
 	public void mqEvalOpertation(Message msg) {
@@ -166,7 +174,7 @@ public class EvalFlowWorkListener {
 					throw new BusinessException("自办评估消息:未识别的操作.");
 				}
 				mqlog.setStatus("0");
-			}else if(WorkFlowEnum.LOANANDASSE_PROCESS.equals(message.getFlowType())){
+			}else if(WorkFlowEnum.LOANANDASSE_PROCESS.getCode().equals(message.getFlowType())){
 				//自办贷款
 				if(MQEvalMessage.STARTFLOW_TYPE.equals(message.getType())){
 					startProcessLoan(message.getEvalCode());
@@ -399,32 +407,39 @@ public class EvalFlowWorkListener {
 		return obj;
 	}
 	
+	private Map<String, Object> getDefValsMap(Map<String, Object> defValsMap,String caseCode){
+		String ParantOrgCode = tsTaskDelegateService.getYC_ORG_CODE();
+		Org org = uamUserOrgService.getOrgByCode(ParantOrgCode);
+		List<User> list = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(), TransJobs.TJAJBZJ.getCode());
+		if(list == null || list.size() == 0){
+			throw new BusinessException("交易案件 编号["+caseCode+"] 未获取到案件总监信息 启动流程失败.");
+		}
+		//defValsMap.put("chief",list.get(0).getUsername());
+		defValsMap.put("chief",list.get(0).getUsername());
+		return defValsMap;
+	}
+	
 	/**
 	 * 开启自办贷款/评估审批流程
 	 * @param caseCode
 	 */
 	private void startProcessAss(String caseCode){
 		ToCaseInfo info = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
-		//获取评估返利对应案件所属组别内勤信息
 		Org org = uamUserOrgService.getOrgByCode(info.getArCode());
-		List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),TransJobs.QZJL.getCode());
-		if(users!=null&&users.size()>0){
-			//防止报错 取第一个内勤作为办理人
-			User assign = users.get(0);
-			//设置流程引擎平台登录用户 否则无法创建httpclient
-			engine.setAuthUserName(assign.getUsername());
+		User user = toCaseParticipantService.findCaseLeader(caseCode);
+		if(user!=null){
+			engine.setAuthUserName(user.getUsername());
 			//流程引擎相关
 			Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.ASSE_PROCESS.getCode());
-			User user = users.get(0);
 			defValsMap.put("manager",user.getUsername());
-			defValsMap.put("chief",user.getUsername());
+			defValsMap = getDefValsMap(defValsMap,caseCode);
 			ToWorkFlow toWorkFlow = new ToWorkFlow();
 			//启动流程引擎
 			StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.ASSE_PROCESS.getCode(),org.getId()), caseCode, defValsMap);
 			toWorkFlow.setInstCode(pIVo.getId());
 			toWorkFlow.setBusinessKey(WorkFlowEnum.ASSE_PROCESS.getCode());
 			toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
-			toWorkFlow.setProcessOwner(assign.getId());
+			toWorkFlow.setProcessOwner(user.getId());
 			toWorkFlow.setCaseCode(caseCode);
 			toWorkFlow.setBizCode(caseCode);
 			toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
@@ -445,33 +460,29 @@ public class EvalFlowWorkListener {
 		ToCaseInfo info = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
 		if(toEvalReportProcess != null && StringUtils.isNotBlank(toEvalReportProcess.getEvaCode())){
-			//获取评估返利对应案件所属组别内勤信息
 			Org org = uamUserOrgService.getOrgByCode(info.getArCode());
-			List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),TransJobs.TNQZL.getCode());
-			if(users!=null&&users.size()>0){
-				//防止报错 取第一个内勤作为办理人
-				User assign = users.get(0);
-				//设置流程引擎平台登录用户 否则无法创建httpclient
-				engine.setAuthUserName(assign.getUsername());
-				//流程引擎相关
+			User userNq = toCaseParticipantService.findCaseAssistant(caseCode);
+			User userQz = toCaseParticipantService.findCaseLeader(caseCode);
+			if(userNq!=null&&userQz!=null){
+				engine.setAuthUserName(userNq.getUsername());
 				Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.EVALREFUND_PROCESS.getCode());
-				defValsMap.put("assistant", users.get(0).getUsername());
-				defValsMap.put("manager",users.get(0).getUsername());
-				defValsMap.put("chief",users.get(0).getUsername());
+				defValsMap.put("assistant", userNq.getUsername());
+				defValsMap.put("manager",userQz.getUsername());
+				defValsMap = getDefValsMap(defValsMap,caseCode);
 				ToWorkFlow toWorkFlow = new ToWorkFlow();
 				//启动流程引擎
 				StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVALREFUND_PROCESS.getCode(),org.getId()), caseCode, defValsMap);
 				toWorkFlow.setInstCode(pIVo.getId());
 				toWorkFlow.setBusinessKey(WorkFlowEnum.EVALREFUND_PROCESS.getCode());
 				toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
-				toWorkFlow.setProcessOwner(assign.getId());
+				toWorkFlow.setProcessOwner(userNq.getId());
 				toWorkFlow.setCaseCode(caseCode);
-				toWorkFlow.setBizCode(caseCode);
+				toWorkFlow.setBizCode(toEvalReportProcess.getEvaCode());
 				toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 				toWorkFlowService.insertSelective(toWorkFlow);
 				logger.info("评估退费编号[" + caseCode + "] 流程启动成功");
 			}else{
-				throw new BusinessException(org.getOrgName()+"["+info.getArCode()+"]部门下未获取到权证总监");
+				throw new BusinessException(org.getOrgName()+"["+info.getArCode()+"]部门下未获取到权证经理或内勤助理！");
 			}
 		}else{
 			throw new BusinessException("报告类评估信息["+caseCode+"]不存在！");
@@ -484,25 +495,21 @@ public class EvalFlowWorkListener {
 	 */
 	private void startProcessLoan(String caseCode) {
 		ToCaseInfo info = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
-		//获取评估返利对应案件所属组别内勤信息
 		Org org = uamUserOrgService.getOrgByCode(info.getArCode());
-		List<User> users = uamUserOrgService.getUserByOrgIdAndJobCode(org.getId(),TransJobs.QZJL.getCode());
-		if(users!=null&&users.size()>0){
-			//防止报错 取第一个内勤作为办理人
-			User assign = users.get(0);
-			//设置流程引擎平台登录用户 否则无法创建httpclient
-			engine.setAuthUserName(assign.getUsername());
+		User user = toCaseParticipantService.findCaseLeader(caseCode);
+		if(user!=null){
+			engine.setAuthUserName(user.getUsername());
 			//流程引擎相关
 			Map<String, Object> defValsMap = propertyUtilsService.getProcessDefVals(WorkFlowEnum.LOANANDASSE_PROCESS.getCode());
-			defValsMap.put("manager",users.get(0).getUsername());
-			defValsMap.put("chief",users.get(0).getUsername());
+			defValsMap.put("manager",user.getUsername());
+			defValsMap = getDefValsMap(defValsMap,caseCode);
 			ToWorkFlow toWorkFlow = new ToWorkFlow();
 			//启动流程引擎
 			StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.LOANANDASSE_PROCESS.getCode(),org.getId()), caseCode, defValsMap);
 			toWorkFlow.setInstCode(pIVo.getId());
 			toWorkFlow.setBusinessKey(WorkFlowEnum.LOANANDASSE_PROCESS.getCode());
 			toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
-			toWorkFlow.setProcessOwner(assign.getId());
+			toWorkFlow.setProcessOwner(user.getId());
 			toWorkFlow.setCaseCode(caseCode);
 			toWorkFlow.setBizCode(caseCode);
 			toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
@@ -510,7 +517,7 @@ public class EvalFlowWorkListener {
 		
 			logger.info("自办贷款审批编号[" + caseCode + "] 流程启动成功");
 		}else{
-			throw new BusinessException(org.getOrgName()+"["+info.getArCode()+"]部门下未获取到权证总监");
+			throw new BusinessException(org.getOrgName()+"["+info.getArCode()+"]部门下未获取到权证经理");
 		}
 		
 	}
