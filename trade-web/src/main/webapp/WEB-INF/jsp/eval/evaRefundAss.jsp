@@ -157,10 +157,10 @@
 								<label class="control-label sign_left_small">
 								<font color=" red" class="mr5">*</font>报告回收 :</label> 
 								<label class="radio-inline"> 
-									<input type="radio" name="isNeedRecovery" id="need" value="1" checked="checked">需要
+									<input type="radio" name="isNeedRecovery" id="need" value="1" ${toEvaRefund.isNeedRecovery eq '1'?'checked="checked"':'' }>需要
 								</label> 
 								<label class="radio-inline">
-								    <input type="radio" name="isNeedRecovery" id="noNeed" value="0"> 不需要
+								    <input type="radio" name="isNeedRecovery" id="noNeed" value="0" ${toEvaRefund.isNeedRecovery eq '0'?'checked="checked"':'' }> 不需要
 								</label>
 							</div>
 						</div>
