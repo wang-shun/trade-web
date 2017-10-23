@@ -112,7 +112,14 @@ public interface RansomService {
 	 * @param caseCode
 	 * @return
 	 */
-	public ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode);
+	public List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode);
+	
+	/**
+	 * 尾款信息查询
+	 * @param caseCode
+	 * @return
+	 */
+	public List<ToRansomTailinsVo> getTailinsInfoByRansomCode(String caseCode);
 	
 	/**
 	 * 查询赎楼面签信息

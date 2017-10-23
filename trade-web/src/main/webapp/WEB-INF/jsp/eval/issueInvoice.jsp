@@ -82,9 +82,17 @@
 		var jsonData={};
 		var pkid=$('#pkid').val();
 		var billTime=$('#billTime').val();
+		var taskId=$('#taskId').val();
+		var processInstanceId=$('#processInstanceId').val();
+		var caseCode=$('#caseCode').val();
+		var evaPointer=$('#evaPointer').val();
 		
 		jsonData.pkid=pkid;
 		jsonData.billTime=billTime;
+		jsonData.taskId=taskId;
+		jsonData.processInstanceId=processInstanceId;
+		jsonData.caseCode=caseCode;
+		jsonData.evaPointer=evaPointer;
 		
 		var url = "${ctx}/eval/submitIssueInvoice";
 		
@@ -326,27 +334,38 @@
 		</div>
 
 		<div class="ibox-content border-bottom clearfix space_box noborder">
-			<form method="get" class="form_list" id="issueInvoiceform" style="overflow: visible;">
-			<input type="hidden" name="pkid" id="pkid" value="${toEvaInvoice.pkid}">
-			<h2 class="newtitle title-mark">填写开票任务信息</h2>
-        	<div style="padding-left: 10px">
-        		<div class="line">		                 
-		                    
-		                    <div class="form_content mt3">
-		                        <label class="control-label sign_left_small select_style mend_select">
-		                           	<font color=" red" class="mr5" >*</font>开具发票时间：
-		                        </label>
-		                        <div class="input-group sign-right dataleft input-daterange pull-left" id="estFinishTime" data-date-format="yyyy-mm-dd">
-		                        	<input type="text" class="input_type yuanwid datatime" id="billTime" name="billTime" onfocus="this.blur()"
+						<form method="get" class="form_list" id="issueInvoiceform"
+							style="overflow: visible;">
+							<input type="hidden" name="pkid" id="pkid" value="${toEvaInvoice.pkid}"> 
+							<input type="hidden" name="evaPointer" id="evaPointer" value="${toEvaInvoice.evaPointer}"> 
+							<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+							<!-- 流程引擎需要字段 -->
+							<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+							<input type="hidden" id="processInstanceId"
+								name="processInstanceId" value="${processInstanceId}">
+							<h2 class="newtitle title-mark">填写开票任务信息</h2>
+							<div style="padding-left: 10px">
+								<div class="line">
+
+									<div class="form_content mt3">
+										<label
+											class="control-label sign_left_small select_style mend_select">
+											<font color=" red" class="mr5">*</font>开具发票时间：
+										</label>
+										<div
+											class="input-group sign-right dataleft input-daterange pull-left"
+											id="estFinishTime" data-date-format="yyyy-mm-dd">
+											<input type="text" class="input_type yuanwid datatime"
+												id="billTime" name="billTime" onfocus="this.blur()"
 												value="<fmt:formatDate  value='${toEvaInvoice.billTime}' type='both' pattern='yyyy-MM-dd'/>">
-		                        </div> 
-		                    </div>               	                     
-		                </div>
-        	</div>
-			</form>
-			
-			
-			<div class="ibox-title" style="height: auto;border:0;padding-left:0;" id="aboutInfo">
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+
+
+						<div class="ibox-title" style="height: auto;border:0;padding-left:0;" id="aboutInfo">
 			<h5 class="title-mark">
 							上传备件</h5><br>
 						<div class="table-box" id="transSignfileUploadContainer"></div>				

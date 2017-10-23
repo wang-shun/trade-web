@@ -59,6 +59,11 @@ public class ToEvalSettleServiceImpl implements ToEvalSettleService {
 	}
 	
 	@Override
+	public int updateSettleTimeByCaseCode(ToEvalSettle record) {
+		return toEvalSettleMapper.updateSettleTimeByCaseCode(record);
+	}
+	
+	@Override
 	public ToEvalSettle findToCaseByCaseCode(String caseCode) {
 		return toEvalSettleMapper.findToCaseByCaseCode(caseCode);
 	}

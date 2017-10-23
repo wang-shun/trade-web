@@ -108,6 +108,11 @@ public class ToRansomCaseVo {
      */
     private String remark;
     
+	/**
+	 * 是否已申请
+	 */
+	private String isApply;
+	
     public Long getPkid() {
         return pkid;
     }
@@ -267,6 +272,14 @@ public class ToRansomCaseVo {
 
 	public void setTaskProperty(String taskProperty) {
 		this.taskProperty = taskProperty;
+	}
+
+	public String getIsApply() {
+		return isApply;
+	}
+
+	public void setIsApply(String isApply) {
+		this.isApply = isApply;
 	}
 
 	@Override

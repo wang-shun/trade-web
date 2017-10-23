@@ -152,7 +152,7 @@ text-decoration: underline !important;
                                <aist:dict id="ransomProperty" name="ransom_Property" display="select" dictType="RANSOM_PART_CODE" clazz="select_control sign_right_one_case"/>
                          </div>
                     </div>
-                    <div class="form_content">
+                   <%--  <div class="form_content">
                           <label class="sign_left_two control-label">案件归属</label>
                           <div class="sign_right teamcode" style="position:relative;">
 	                    	<input type="text" style="width:300px;" class=" form-control" id="teamCode" name="teamCode" readonly="readonly"
@@ -164,7 +164,7 @@ text-decoration: underline !important;
 	                        	<i class="icon iconfont"></i>
 	                   		</div>
 	                   	</div>
-                      </div>
+                      </div> --%>
              </div>
 			
              <div class="row clearfix">
@@ -278,7 +278,6 @@ text-decoration: underline !important;
 
 <script id="template_myCaseList" type="text/html">
 {{each rows as item index}}
-	
   {{if index%2 == 0}}
       <tr class="tr-1">
   {{else}}
@@ -334,7 +333,9 @@ text-decoration: underline !important;
 	</td>
 	<td class="center"> 
 		{{if item.ISAPPLY == 0}}
+			
 			<a href="${ctx}/task/ransom/ransomApply?ransomCode={{item.RANSOM_CODE}}" target="_blank">申请</a>
+			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}')" />
 		{{/if}}
 		{{if item.ISAPPLY == 1}}
 			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}')" />

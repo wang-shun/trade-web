@@ -271,37 +271,155 @@ function reloadDetail(){
 		}
 		];
 		$("#operation_history_table").jqGrid(
-				{
-					url : url,
-					datatype : "json",
-					mtype : "POST",
-					height : 300,
-					autowidth : true,
-					shrinkToFit : true,
-					rowNum : 10,
-					/* rowList: [10, 20, 30], */
-					colNames : dispCols,
-					colModel : colModels,
-					pager : "#operation_history_pager",
-					sortname:'A.create_time',
-	    	        sortorder:'desc',
-					viewrecords : true,
-					pagebuttions : true,
-					hidegrid : false,
-					recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
-					pgtext : " {0} 共 {1} 页",
-
-					// rowid为grid中的行顺序
-					onSelectRow : function(rowid) {
-					},
-					postData : {
-						queryId : "queryRansomTaskHistoryItemList",
-						argu_casecode : casecode,
-						argu_ransomcode : ransomcode
-					}
+			{
+				url : url,
+				datatype : "json",
+				mtype : "POST",
+				height : 300,
+				autowidth : true,
+				shrinkToFit : true,
+				rowNum : 10,
+				/* rowList: [10, 20, 30], */
+				colNames : dispCols,
+				colModel : colModels,
+				pager : "#operation_history_pager",
+				sortname:'A.create_time',
+		        sortorder:'desc',
+				viewrecords : true,
+				pagebuttions : true,
+				hidegrid : false,
+				recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+				pgtext : " {0} 共 {1} 页",
+	
+				// rowid为grid中的行顺序
+				onSelectRow : function(rowid) {
+				},
+				postData : {
+					queryId : "queryRansomTaskHistoryItemList",
+					argu_casecode : casecode,
+					argu_ransomcode : ransomcode
+				}
 
 		});
 	}
+	
+	/**
+	 * 
+	 * @returns
+	 */
+	function getOperateLogRansom(){
+		debugger;
+		var url = "/quickGrid/findPage";
+		var ctx = $("#ctx").val();
+		var ransomcode = $("#ransomCode").val();
+		var casecode = $("#caseCode").val();
+		var wfeName= '赎楼流程';
+		url = ctx + url;
+		// Configuration for jqGrid Example 1
+		var dispCols=[ 'TASKID', 'CASECODE', 'PARTCODE',
+						'INSTCODE', '红绿灯', '红灯记录', '所属流程信息','任务名', '执行人',
+						'执行时间','任务状态' ];
+		var colModels=
+		[ {
+			name : 'ID',
+			index : 'ID',
+			align : "center",
+			width : 0,
+			key : true,
+			resizable : false,
+			hidden : true
+		}, {
+			name : 'CASE_CODE',
+			index : 'CASE_CODE',
+			align : "center",
+			width : 0,
+			key : true,
+			resizable : false,
+			hidden : true
+		}, {
+			name : 'PART_CODE',
+			index : 'PART_CODE',
+			align : "center",
+			width : 0,
+			key : true,
+			resizable : false,
+			hidden : true
+		}, {
+			name : 'INST_CODE',
+			index : 'INST_CODE',
+			align : "center",
+			width : 0,
+			key : true,
+			resizable : false,
+			hidden : true
+		}, {
+			name : 'DATELAMP',
+			index : 'DATELAMP',
+			width : 40,
+			editable : true,
+			formatter : dateLampFormatter
+		}, {
+			name : 'RED_LOCK',
+			index : 'RED_LOCK',
+			width : 30,
+			editable : true,
+			formatter : isRedFormatter
+		}, {
+			name : 'WFE_NAME',
+			index : 'WFE_NAME',
+			width : 30
+		}, {
+			name : 'NAME',
+			index : 'NAME',
+			width : 75
+		}, {
+			name : 'ASSIGNEE',
+			index : 'ASSIGNEE',
+			width : 75
+		},  {
+			name : 'END_TIME',
+			index : 'END_TIME',
+			width : 90
+		},{
+			name : 'status',
+			index : 'status',
+			width : 90
+		}
+		];
+		$("#operation_history_table").jqGrid(
+			{
+				url : url,
+				datatype : "json",
+				mtype : "POST",
+				height : 300,
+				autowidth : true,
+				shrinkToFit : true,
+				rowNum : 10,
+				/* rowList: [10, 20, 30], */
+				colNames : dispCols,
+				colModel : colModels,
+				pager : "#operation_history_pager",
+				sortname:'A.create_time',
+		        sortorder:'desc',
+				viewrecords : true,
+				pagebuttions : true,
+				hidegrid : false,
+				recordtext : "{0} - {1}\u3000共 {2} 条", // 共字前是全角空格
+				pgtext : " {0} 共 {1} 页",
+	
+				// rowid为grid中的行顺序
+				onSelectRow : function(rowid) {
+				},
+				postData : {
+					queryId : "queryRansomTaskHistoryItemList",
+					argu_casecode : casecode,
+					argu_ransomcode : ransomcode,
+					argu_wfeName : wfeName
+				}
+
+		});
+	}
+	
 	/**
 	 * 附件信息
 	 */

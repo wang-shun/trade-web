@@ -297,10 +297,16 @@ function save(b) {
 	var pkid=$('#pkid').val();
 	var collectTime=$('#collectTime').val();
 	var collectPerson=$('#collectPerson').val();
+	var taskId=$('#taskId').val();
+	var processInstanceId=$('#processInstanceId').val();
+	var caseCode=$('#caseCode').val();
 	
 	jsonData.pkid=pkid;
 	jsonData.collectTime=collectTime;
 	jsonData.collectPerson=collectPerson;
+	jsonData.taskId=taskId;
+	jsonData.processInstanceId=processInstanceId;
+	jsonData.caseCode=caseCode;
 	
 	var url = "${ctx}/eval/submitIssueInvoice";
 	
@@ -547,6 +553,11 @@ function checkForm() {
 		 		
 			<form method="get" class="form_list" id="collectInvoiceform" style="overflow: visible;">
 			<input type="hidden" id="pkid" name="pkid" value="${toEvaInvoice.pkid}">
+			<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+			<input type="hidden" id="ctx" name="ctx" value="${ctx}">
+			<!-- 流程引擎需要字段 -->
+			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 			<h2 class="newtitle title-mark">填写开票任务信息</h2>
         	<div style="padding-left: 10px">
         		<div class="line">		                 
@@ -577,8 +588,6 @@ function checkForm() {
 		</div><hr>
 <!-- 调佣对象调佣金额 -->
 		 <form action="#" id="changeCommForm">
-<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
-<input type="hidden" id="ctx" name="ctx" value="${ctx}">
 
 		<!-- 原来的页面 -->
 		<h2 class="newtitle title-mark">增减佣信息</h2>		

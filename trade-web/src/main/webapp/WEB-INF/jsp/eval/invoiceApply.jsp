@@ -173,7 +173,7 @@
 										<div class="form_content">
 											<label class="control-label mr10"> 案件编码 </label> <input
 												class="teamcode input_type" value="" placeholder="请输入"
-												id="caseCodet" name="caseCodet">
+												id="caseCode" name="caseCode">
 										</div>
 										<div class="form_content">
 											<label class="control-label sign_left"> 产证地址 </label> <input
@@ -248,7 +248,8 @@
 					<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">				
 					<%-- 设置审批类型 --%>
 					<input type="hidden" id="approveType" name="approveType" value="${approveType }">
-					<input type="hidden" id="operator" name="operator" value="${operator }">	            
+					<input type="hidden" id="operator" name="operator" value="${operator }">
+					<input type="hidden" id="evaPointer" name="evaPointer" value="${evaPointer}">	            
 		            <div class="marinfo">
 		                <div class="line">		                 
 		                    <div class="form_content">
@@ -615,6 +616,7 @@ function linkCase(evaCode){
 			$('#invoiceAddress').val(data.invoiceAddress);
 			$('#taxNum').val(data.taxNum);
 			$('#pkid').val(data.pkid);
+			$('#evaPointer').val(data.evaPointer);
 			
         }
   		});
@@ -654,10 +656,18 @@ function save(b) {
 	var pkid=$('#pkid').val();
 	var applyDate=$('#applyDate').val();
 	var toFinshDate=$('#toFinshDate').val();
+	var taskId=$('#taskId').val();
+	var processInstanceId=$('#processInstanceId').val();
+	var caseCode=$('#caseCode').val();
+	var evaPointer=$('#evaPointer').val();
 	
 	jsonData.pkid=pkid;
 	jsonData.applyDate=applyDate;
 	jsonData.toFinshDate=toFinshDate;
+	jsonData.taskId=taskId;
+	jsonData.processInstanceId=processInstanceId;
+	jsonData.caseCode=caseCode;
+	jsonData.evaPointer=evaPointer;
 	
 	var url = "${ctx}/eval/submitIssueInvoice";
 	

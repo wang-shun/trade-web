@@ -172,6 +172,9 @@
 	     				<ifNotNull casecode>	
 	     						AND TW.CASE_CODE = #casecode#
 						</ifNotNull>
+	     				<ifNotNull wfeName>	
+	     						AND wfe.WFE_NAME = #wfeName#
+						</ifNotNull>
 							)UNION(
 							SELECT
 							    AHT.ID_ AS ID,
@@ -223,4 +226,5 @@
 			</table-row>
 		</grid>
 	</query>
+	
 </querys>

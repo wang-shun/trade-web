@@ -64,7 +64,9 @@ public class RansomServiceImpl implements RansomService{
 			}else{
 				detailVo.setFinancial(null);
 			}
-			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			detailVo.setLeadingProcessName(user.getRealName()); //经办人
+			SessionUser user = uamSessionService.getSessionUser();
 			detailVo.setLeadingProcessName(user.getRealName()); //经办人
 		}
 		return detailVo;
@@ -81,7 +83,9 @@ public class RansomServiceImpl implements RansomService{
 			}else{
 				detailVo.setFinancial(null);
 			}
-			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
+//			detailVo.setLeadingProcessName(user.getRealName()); //经办人
+			SessionUser user = uamSessionService.getSessionUser();
 			detailVo.setLeadingProcessName(user.getRealName()); //经办人
 		}
 		return detailVo;
@@ -125,9 +129,9 @@ public class RansomServiceImpl implements RansomService{
 		applyVo.setApplyTime(submitVo.getApplyTime());
 		applyVo.setApplyOrgCode(submitVo.getApplyOrgCode());
 		applyVo.setLoanOfficer(submitVo.getLoanOfficer());
-		applyVo.setIsApply("1");
 		applyVo.setUpdateUser(user.getId());
 		applyVo.setCreateUser(user.getId());
+		
 		//申请数据插入
 		int applyCount = ransomMapper.insertRansomApply(applyVo);
 
@@ -379,8 +383,14 @@ public class RansomServiceImpl implements RansomService{
 	}
 
 	@Override
-	public ToRansomTailinsVo getTailinsInfoByCaseCode(String caseCode) {
-		ToRansomTailinsVo tailinsVo = ransomMapper.getTailinsInfoByCaseCode(caseCode);
+	public List<ToRansomTailinsVo> getTailinsInfoByCaseCode(String caseCode) {
+		List<ToRansomTailinsVo> tailinsVo = ransomMapper.getTailinsInfoByCaseCode(caseCode);
+		return tailinsVo;
+	}
+
+	@Override
+	public List<ToRansomTailinsVo> getTailinsInfoByRansomCode(String caseCode) {
+		List<ToRansomTailinsVo> tailinsVo = ransomMapper.getTailinsInfoByRansomCode(caseCode);
 		return tailinsVo;
 	}
 

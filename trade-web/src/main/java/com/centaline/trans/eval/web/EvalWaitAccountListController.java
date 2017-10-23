@@ -229,7 +229,8 @@ public class EvalWaitAccountListController {
 			record.setApproTime(new Date());
 			record.setRejectCause("总监："+rejectCause);
 			SessionUser user = uamSessionService.getSessionUser();
-			record.setRejectPerson(user.getUsername());
+			//System.out.println(user.getRealName());
+			record.setRejectPerson(user.getRealName());
 			toEvaSettleUpdateLogService.insertSelective(record);
 			
 		}
@@ -497,6 +498,11 @@ public class EvalWaitAccountListController {
 			toEvalSettle.setCaseCode(caseCode);
 			toEvalSettle.setSettleNotReason("");
 			toEvalSettleService.updateByCaseCode(toEvalSettle);
+			
+			ToEvalSettle record = new ToEvalSettle();
+			record.setSettleTime(null);
+			record.setCaseCode(caseCode);
+			toEvalSettleService.updateSettleTimeByCaseCode(record);
 			model.addAttribute("caseCode", caseCode);
 		}
 

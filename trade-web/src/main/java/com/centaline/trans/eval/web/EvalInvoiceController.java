@@ -1,6 +1,7 @@
 package com.centaline.trans.eval.web;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,6 +33,8 @@ import com.aist.uam.userorg.remote.vo.UserOrgJob;
 import com.centaline.trans.cases.service.MyCaseListService;
 import com.centaline.trans.common.enums.AppTypeEnum;
 import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.eval.entity.ToEvaCommissionChange;
 import com.centaline.trans.eval.entity.ToEvaFeeRecord;
 import com.centaline.trans.eval.entity.ToEvaInvoice;
@@ -67,6 +70,8 @@ public class EvalInvoiceController {
 	private ToEvaCommPersonAmountService toEvaCommPersonAmountService;
 	@Autowired
 	private ToEvaInvoiceService toEvaInvoiceService;
+	@Autowired
+	private WorkFlowManager workFlowManager;
 	/**
 	 * @since:2017年10月20日 下午2:53:56
 	 * @description:跳转领取发票页面
@@ -80,12 +85,16 @@ public class EvalInvoiceController {
 	public String toCollectInvoice(HttpServletRequest request,Model model,String caseCode) {
 		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
 		String ctx = app.genAbsoluteUrl();
-		ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByCaseCodeWithEvaPointer(caseCode);
+		ToEvaInvoice toEvaInvoice = null;
+		List<ToEvaInvoice> toEvaInvoiceList = toEvaInvoiceService.selectByCaseCodeWithEvaPointer(caseCode);
+		if(toEvaInvoiceList.size()>0){
+			 toEvaInvoice = toEvaInvoiceList.get(0);			
+			 model.addAttribute("toEvaInvoice", toEvaInvoice);
+		}
 		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
 		request.setAttribute("ctx", ctx);
 		model.addAttribute("evalChangeCommVO", evalChangeCommVO);
 		model.addAttribute("caseCode", caseCode);
-		model.addAttribute("toEvaInvoice", toEvaInvoice);
 		return "eval/collectInvoice";
 	}
 	/**
@@ -99,10 +108,13 @@ public class EvalInvoiceController {
 	 */
 	@RequestMapping(value = "submitIssueInvoice")
 	@ResponseBody
-	public AjaxResponse<String> submitIssueInvoice(ToEvaInvoice toEvaInvoice) {
+	public AjaxResponse<String> submitIssueInvoice(ToEvaInvoice toEvaInvoice,String processInstanceId,String taskId,String caseCode) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
+		SessionUser user = uamSessionService.getSessionUser();
+		List<RestVariable> variables = new ArrayList<RestVariable>();
 			try{
 				toEvaInvoiceService.updateByPrimaryKeySelective(toEvaInvoice);
+				workFlowManager.submitTask(variables, taskId, processInstanceId, user.getId(), caseCode);
 			}
 			catch(Exception e){
 				response.setSuccess(false);
@@ -123,12 +135,8 @@ public class EvalInvoiceController {
 	 */
 	@RequestMapping(value = "getInvoiceInfo")
 	@ResponseBody
-	public ToEvaInvoice getInvoiceInfo(String evaCode) {
-		ToEvaInvoice invoice =null;
-			if(StringUtils.isNotBlank(evaCode)){
-				 invoice = toEvaInvoiceService.selectByEvaCode(evaCode);
-			}			
-		return invoice;
+	public ToEvaInvoice getInvoiceInfo(String evaCode) {		
+		return toEvaInvoiceService.updateLinkInvoice(evaCode);
 	}
 
 	/**
@@ -136,8 +144,47 @@ public class EvalInvoiceController {
 	 * @description: 跳转页面
 	 * @author:xiefei1
 	 */
+	@RequestMapping(value = "submitWarrantManagerInvoiceAudit")
+	@ResponseBody
+	public AjaxResponse<String> submitWarrantManagerInvoiceAudit(HttpServletRequest request,Model model,String caseCode,
+			String partCode,String content,String status,String taskId,String processInstanceId) {
+		SessionUser user = uamSessionService.getSessionUser();		
+		ToApproveRecord toApproveRecord = new ToApproveRecord();
+		toApproveRecord.setOperator(user.getId());
+		toApproveRecord.setOperatorTime(new Date());
+		toApproveRecord.setPartCode(partCode);
+		toApproveRecord.setCaseCode(caseCode);
+		toApproveRecord.setContent(content);
+		toApproveRecord.setCaseCode(caseCode);
+		//1是通过，0是没通过
+		//notApprove为空表示通过，不为空表示没通过
+		if(status.contains("1")){
+			toApproveRecord.setNotApprove(null);			
+		}else{
+			toApproveRecord.setNotApprove("没通过");
+		}
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		
+		try{
+		toEvaInvoiceService.updateEvalInvoiceSubmit(toApproveRecord, taskId, processInstanceId);
+			}catch(Exception e){
+		response.setSuccess(false);
+		response.setMessage(e.getMessage());
+		logger.error("保存失败！"+e.getCause());
+	}
+	return response;
+
+	}
+	/**
+	 * @since:2017年10月11日 上午11:04:28
+	 * @description: 跳转页面
+	 * @author:xiefei1
+	 */
 	@RequestMapping(value = "submitInvoiceAudit")
-	public AjaxResponse<String> submitInvoiceAudit(EvalChangeCommVO evalChangeCommVO,ToEvaCommissionChange toEvaCommissionChange,HttpServletRequest request,Model model,String caseCode,String partCode,String content,String status) {
+	@ResponseBody
+	public AjaxResponse<String> submitInvoiceAudit(EvalChangeCommVO evalChangeCommVO,
+			ToEvaCommissionChange toEvaCommissionChange,HttpServletRequest request,Model model,String caseCode,
+			String partCode,String content,String status) {
 		SessionUser user = uamSessionService.getSessionUser();		
 		ToApproveRecord toApproveRecord = new ToApproveRecord();
 		toApproveRecord.setOperator(user.getId());
@@ -243,8 +290,12 @@ public class EvalInvoiceController {
 		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
 		String ctx = app.genAbsoluteUrl();
 		request.setAttribute("ctx", ctx);
-		ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByCaseCodeWithEvaPointer(caseCode);
-		model.addAttribute("toEvaInvoice", toEvaInvoice);
+		ToEvaInvoice toEvaInvoice = null;
+		List<ToEvaInvoice> list = toEvaInvoiceService.selectByCaseCodeWithEvaPointer(caseCode);
+		if(list.size()>0){
+			 toEvaInvoice = list.get(0);
+			 model.addAttribute("toEvaInvoice", toEvaInvoice);
+		}
 		model.addAttribute("caseCode", caseCode);
 		return "eval/issueInvoice";
 	}
