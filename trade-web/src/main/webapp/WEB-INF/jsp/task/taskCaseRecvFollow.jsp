@@ -196,13 +196,13 @@ function save(b) {
             console.log(data);
             if (b) {
                 if (data.message) {
-                    window.wxc.alert("提交成功"+data.message);
+                    window.wxc.alert("提交成功！");
                 }
                 var ctx = $("#ctx").val();
                 window.location.href=ctx+ "/task/myTaskList";
             }else{
             	if (data.message) {
-                    window.wxc.alert("提交成功"+data.message);
+                    window.wxc.alert("保存成功!");
                 }
             }
         },

@@ -619,12 +619,12 @@ function checkForm() {
             <c:forEach items="${evalChangeCommVO.coPersonList }" var="coPerson" varStatus="s">
             <tr>
                     <td>${coPerson.position }${s.count} : <input type="hidden" name="coPersonList[${s.index}].pkid" value="${coPerson.pkid }"></td>
-                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateType" value="${coPerson.cooperateType }" ></td>
-                    <td><input class="shareAmount"  type="text" style="width: 120px" name="coPersonList[${s.index}].shareAmount" value="${coPerson.shareAmount }"></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateType" value="${coPerson.cooperateType }" readonly="readonly"></td>
+                    <td><input class="shareAmount"  type="text" style="width: 120px" name="coPersonList[${s.index}].shareAmount" value="${coPerson.shareAmount }"  readonly="readonly"></td>
                     <td><span class="aa"></span><span>%</span></td>
-                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].employeeName" value="${coPerson.employeeName }"></td>
-                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateDept" value="${coPerson.cooperateDept }"></td>
-                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateManager" value="${coPerson.cooperateManager }"></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].employeeName" value="${coPerson.employeeName }"  readonly="readonly"></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateDept" value="${coPerson.cooperateDept }" readonly="readonly"></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateManager" value="${coPerson.cooperateManager }" readonly="readonly"></td>
                 </tr>
             </c:forEach>
                 <tr>
@@ -633,12 +633,12 @@ function checkForm() {
                 <c:forEach items="${evalChangeCommVO.sharePersonList }" var="sharePerson" varStatus="s">
                 <tr>
                     <td>${sharePerson.position }${s.count}:<input type="hidden" name="sharePersonList[${s.index}].pkid" value="${sharePerson.pkid }"></td>
-                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].department" value="${sharePerson.department }"></td>
-                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].employeeName" value="${sharePerson.employeeName }"></td>
-                    <td><input class="shareAmount" type="text" style="width: 120px" name="sharePersonList[${s.index}].shareAmount" value="${sharePerson.shareAmount }"></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].department" value="${sharePerson.department }" readonly="readonly"></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].employeeName" value="${sharePerson.employeeName }" readonly="readonly"></td>
+                    <td><input class="shareAmount" type="text" style="width: 120px" name="sharePersonList[${s.index}].shareAmount" value="${sharePerson.shareAmount }" readonly="readonly"></td>
                     <td><span class="aa"></span><span>%</span></td>
-                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].shareReason" value="${sharePerson.shareReason }"></td>
-                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].dealCount" value="${sharePerson.dealCount }"></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].shareReason" value="${sharePerson.shareReason }" readonly="readonly"></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].dealCount" value="${sharePerson.dealCount }" readonly="readonly"></td>
                 </tr>
                 </c:forEach>
               
@@ -646,12 +646,12 @@ function checkForm() {
                 
                 <c:forEach items="${evalChangeCommVO.warrantPersonList }" var="warrantPersonList" varStatus="s">
                 <tr>
-                    <td>权证1:<input type="hidden" name="warrantPersonList[${s.index}].pkid" value="${warrantPersonList.pkid }"></td>
-                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].department" value="${warrantPersonList.department }" style="width: 120px"></td>
-                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].employeeName" value="${warrantPersonList.employeeName }" style="width: 120px"></td>
+                    <td>权证1:<input type="hidden" name="warrantPersonList[${s.index}].pkid" value="${warrantPersonList.pkid }" readonly="readonly"></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].department" value="${warrantPersonList.department }" style="width: 120px" readonly="readonly"></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].employeeName" value="${warrantPersonList.employeeName }" style="width: 120px" readonly="readonly"></td>
                     <td></td>
                     <td></td>
-                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].position" value="${warrantPersonList.position }" style="width: 120px"></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].position" value="${warrantPersonList.position }" style="width: 120px" readonly="readonly"></td>
                     <td></td>
                 </tr>
                 </c:forEach>
@@ -659,10 +659,10 @@ function checkForm() {
                     <td></td>
                     <td></td>
                     <td>合计:</td>
-                    <td><input id="ttlComm" class="shareAmount" type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px"></td>
+                    <td><input id="ttlComm" class="shareAmount" type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px" readonly="readonly"></td>
                     <td><span id="totalPacentage"></span><span>%</span></td>
                     <td>单数合计:</td>
-                    <td><input type="text" value="${evalChangeCommVO.dealCount }" name="dealCount" style="width: 120px"></td>
+                    <td><input type="text" value="${evalChangeCommVO.dealCount }" name="dealCount" style="width: 120px" readonly="readonly"></td>
                 </tr>
             </tbody>
         </table>
