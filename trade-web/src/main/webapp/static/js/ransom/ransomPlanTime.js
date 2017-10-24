@@ -5,63 +5,11 @@ $(document).ready(function() {
 		autoclose : true
 	});
 	var ctx = "${ctx}";
-	//loadTimeInfo();
 	
-	loadGridTable();
+	
+
 });
 
-//function loadGridTable(){
-//	debugger;
-//	//var inHtml = "";
-//	 //$("#time-info").html(inHtml);
-//	var index = $("#order1").val();
-//	var index = $("#order2").val();
-//	$("#time-info").html('');
-//	for(var i = 0; i < 6; i++){
-//		var inHtml  = "<div class='line'><div class='form_content'><label class='control-label sign_left_small select_style mend_select' id='partCode0'>申请时间</label>";
-//			inHtml += "<div class='input-group sign-right dataleft input-daterange' data-date-format='yyyy-mm-dd' >";
-//			inHtml += "<input name='estPartTime" + i + "' class='form-control data_style' type='text' value='' placeholder=''></div></div>";
-//			inHtml += "<div class='form_content'><label class='control-label sign_left_small'>变更理由</label>";
-//			inHtml += "<input name='remark1" + i + "' class='teamcode input_type' placeholder='' value=''' /></div></div>";
-//			
-//			inHtml += "<div class='line'><div class='form_content'><label class='control-label sign_left_small select_style mend_select' id='partCode0'>面签时间</label>";
-//			inHtml += "<div class='input-group sign-right dataleft input-daterange' >";
-//			inHtml += "<input name='estPartTime" + i + "' class='form-control data_style' type='text' value='' placeholder=''></div></div>";
-//			inHtml += "<div class='form_content'><label class='control-label sign_left_small'>变更理由</label>";
-//			inHtml += "<input name='remark1" + i + "' class='teamcode input_type' placeholder='' value=''' /></div></div>";
-//			
-//			inHtml += "<div class='line'><div class='form_content'><label class='control-label sign_left_small select_style mend_select' id='partCode0'>陪同还贷时间</label>";
-//			inHtml += "<div class='input-group sign-right dataleft input-daterange' >";
-//			inHtml += "<input name='estPartTime" + i + "' class='form-control data_style' type='text' value='' placeholder=''></div></div>";
-//			inHtml += "<div class='form_content'><label class='control-label sign_left_small'>变更理由</label>";
-//			inHtml += "<input name='remark1" + i + "' class='teamcode input_type' placeholder='' value=''' /></div></div>";
-//		
-//			inHtml += "<div class='line'><div class='form_content'><label class='control-label sign_left_small select_style mend_select' id='partCode0'>注销抵押时间</label>";
-//			inHtml += "<div class='input-group sign-right dataleft input-daterange' >";
-//			inHtml += "<input name='estPartTime" + i + "' class='form-control data_style' type='text' value='' placeholder=''></div></div>";
-//			inHtml += "<div class='form_content'><label class='control-label sign_left_small'>变更理由</label>";
-//			inHtml += "<input name='remark1" + i + "' class='teamcode input_type' placeholder='' value=''' /></div></div>";
-//			
-//			inHtml += "<div class='line'><div class='form_content'><label class='control-label sign_left_small select_style mend_select' id='partCode0'>领取产证时间</label>";
-//			inHtml += "<div class='input-group sign-right dataleft input-daterange' >";
-//			inHtml += "<input name='estPartTime" + i + "' class='form-control data_style' type='text' value='' placeholder=''></div></div>";
-//			inHtml += "<div class='form_content'><label class='control-label sign_left_small'>变更理由</label>";
-//			inHtml += "<input name='remark1" + i + "' class='teamcode input_type' placeholder='' value=''' /></div></div>";
-//			
-//			inHtml += "<div class='line'><div class='form_content'><label class='control-label sign_left_small select_style mend_select' id='partCode0'>回款结清时间</label>";
-//			inHtml += "<div class='input-group sign-right dataleft input-daterange' >";
-//			inHtml += "<input name='estPartTime" + i + "' class='form-control data_style' type='text' value='' placeholder=''></div></div>";
-//			inHtml += "<div class='form_content'><label class='control-label sign_left_small'>变更理由</label>";
-//			inHtml += "<input name='remark1" + i + "' class='teamcode input_type' placeholder='' value=''' /></div></div>";
-//	
-//	}
-//	$("#time-info").html(inHtml);
-//	$('.input-daterange').datepicker({
-//		keyboardNavigation : false,
-//		forceParse : false,
-//		autoclose : true
-//	});
-//}
 /**
  * 加载赎楼变更时间信息,已完成环节控件不可更改
  * @returns
@@ -73,46 +21,6 @@ function loadTimeInfo(){
 	
 	for(var i = 0; i < $(".form_content").length/2; i++){
 		
-		switch(property){
-			case "APPLY":
-				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
-				$("input[name='remark'" + i + "]").attr("disabled",true);
-				break;
-			case "SIGN":
-				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
-				$("input[name='remark'" + i + "]").attr("disabled",true);
-				break;
-			case "PAYLOAN_ONE":
-				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
-				$("input[name='remark'" + i + "]").attr("disabled",true);
-				break;
-			case "PAYLOAN_TWO":
-				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
-				$("input[name='remark'" + i + "]").attr("disabled",true);
-				break;
-			case "CANCELDIYA_ONE":
-				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
-				$("input[name='remark'" + i + "]").attr("disabled",true);
-				break;
-			case "CANCELDIYA_TWO":
-				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
-				$("input[name='remark'" + i + "]").attr("disabled",true);
-				break;
-			case "RECEIVE_ONE":
-				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
-				$("input[name='remark'" + i + "]").attr("disabled",true);
-				break;
-			case "RECEIVE_TWO":
-				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
-				$("input[name='remark'" + i + "]").attr("disabled",true);
-				break;
-			case "PAYCLEAR":
-				$("input[name='estPartTime'" + i + "]").attr("disabled",true); 
-				$("input[name='remark'" + i + "]").attr("disabled",true);
-				break;
-			default:
-				break;
-		}
 		
 	}
 }

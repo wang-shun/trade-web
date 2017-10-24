@@ -39,7 +39,7 @@
     <body>
     <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <input type="hidden" id = "ransomCode" data="赎楼编号" value="${ransomCode }" />
-    <input type="hidden" id = "partCode" data="赎楼编号" value="${caseVo.partCode }" />
+    <input type="hidden" id = "partCode" data="赎楼编号" value="${caseVo.taskProperty }" />
     <input type="hidden" id = "count" data="" value="${count}" />
     
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -51,7 +51,7 @@
                         <label class="control-label sign_left_small select_style mend_select" id="partCode0">申请时间</label>
                         <div class="input-group sign-right dataleft input-daterange" >
                           <c:if test="${planMap['APPLY']==null}">
-                          	<input name="estPartTime0"  class="form-control data_style" type="text"   value="<fmt:formatDate  value='' pattern='yyyy-MM-dd'/>" placeholder="">
+                          	<input name="estPartTime0"  class="form-control data_style" type="text" value="" placeholder="">
                           </c:if>
                           <c:if test="${planMap['APPLY']!=null}">
                           	<input name="estPartTime0"  class="form-control data_style" type="text"   
@@ -249,8 +249,8 @@
 	              		</div>	
                		<div> 
 						<div class="text-center">
-							<a class='btn btn-primary ' href="javascript:void(0)" onclick="submitChangeRecord(1)" style="width: 110px;">保存</a>
-							<a class='btn btn-primary ' onclick = "submitChangeRecord(2)" href="javascript:void(0)" data-toggle="modal" data-target="#myModal">变更记录查看</a>
+							<a class="btn btn-success btn-space" href="javascript:submitChangeRecord(1)" style="width: 110px;">保存</a>
+							<a class="btn btn-success btn-space" href="javascript:submitChangeRecord(2)" >变更记录查看</a>
 						</div>
 					</div>
                 </form>
@@ -265,7 +265,6 @@
 		<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
       	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
         <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
-		<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
 		<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 		<!-- 提示 -->
         <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
@@ -276,28 +275,5 @@
         <script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
         <script src="<c:url value='/js/ransom/ransomPlanTime.js'/>" type="text/javascript"></script>
 		</content>
-		<script type="text/javascript">
-		/* 
-			$(document).ready(function() {
-				loadGridTable();
-			});
-			
-			function loadGridTable(){
-				debugger;
-				var inHtml = "";
-				 $("#time-info").html(inHtml);
-				var index = $("#order").val();
-				
-				for(var i = 0; i < 6; i++){
-					inHtml += "<div class='line'><div class='form_content'><label class='control-label sign_left_small select_style mend_select' id='partCode0'>面签时间</label>";
-					inHtml += "<div class='input-group sign-right dataleft input-daterange' ><input name='estPartTime1'  class='form-control data_style' type='text'";
-					inHtml += "value='' placeholder=''>";
-					inHtml += "<input name='estPartTime1'  class='form-control data_style' type='text'value='' placeholder=''></div></div>";
-					inHtml += "<div class='form_content'><label class='control-label sign_left_small'>变更理由</label>";
-					inHtml += "<input name='remark1'  class='teamcode input_type' placeholder='' value=''' /></div></div>";
-				}
-			} */
-		
-		</script>
     </body>
 </html>

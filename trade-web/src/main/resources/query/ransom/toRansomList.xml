@@ -219,55 +219,73 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT
-						rc.CASE_CODE,
-						rc.RANSOM_CODE,
-						rc.RANSOM_PROPERTY,
-				
-						CASE app.PART_CODE WHEN 'DEAL' THEN rt.PLAN_TIME END dealTime,
-						CASE app.PART_CODE WHEN 'APPLY' THEN app.APPLY_TIME END applyTime,
-						CASE ri.PART_CODE WHEN 'SIGN' THEN ri.INTERVIEW_TIME END signTime,
-						CASE rr.PART_CODE WHEN 'PAYLOAN_ONE' THEN rr.REPAY_TIME END paylonOne,
-				
-						CASE rr.PART_CODE WHEN 'PAYLOAN_TWO' THEN rr.REPAY_TIME END paylonTwo,
-						CASE rca.PART_CODE WHEN 'CANCELDIYA_ONE' THEN rca.CANCEL_TIME END cancelOne,
-						CASE rca.PART_CODE WHEN 'CANCELDIYA_TWO' THEN rca.CANCEL_TIME END cancelTwo,
-				 
-						CASE rre.PART_CODE WHEN 'RECEIVE_ONE' THEN rre.REDEEM_TIME END receiveOne,
-						CASE rre.PART_CODE WHEN 'RECEIVE_TWO' THEN rre.REDEEM_TIME END receiveTwo,
-						CASE rp.PART_CODE WHEN 'PAYCLEAR' THEN rp.PAYMENT_TIME END payclear,
-					
-						(SELECT REAL_NAME FROM sctrans.SYS_USER sy WHERE rc.UPDATE_USER = sy.ID) UPDATE_USER
-					FROM sctrans.T_RA_CASE rc
-						LEFT JOIN sctrans.T_RA_TAILINS rt ON rc.RANSOM_CODE = rt.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_INTERVIEW ri ON ri.RANSOM_CODE = rt.CASE_CODE
-						LEFT JOIN sctrans.T_RA_REPAY rr ON rr.RANSOM_CODE = ri.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_CANCEL rca ON rca.RANSOM_CODE = rr.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_REDEEM rre ON rre.RANSOM_CODE = rca.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_PAYMENT rp ON rp.RANSOM_CODE = rre.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_APPLY app ON app.RANSOM_CODE = rp.RANSOM_CODE
-						WHERE rc.RANSOM_CODE = #ransomCode#
+					SELECT 
+						cas.CASE_CODE caseCode,
+						cas.RANSOM_CODE ramsomCode,
+						act.TASK_DEF_KEY_ taskProperty,
+						app.PART_CODE appPart,
+						app.APPLY_TIME appTime,
+						vie.PART_CODE viePart,
+						vie.INTERVIEW_TIME vieTime,
+						rr1.PART_CODE paylonePart,
+						rr1.REPAY_TIME payoneTime,	
+						rr2.PART_CODE payltwoPart,
+						rr2.REPAY_TIME paytwoTime,
+						rca1.PART_CODE cancelonePart,
+						rca1.CANCEL_TIME canceloneTime,
+						rca2.PART_CODE canceltwoPart,
+						rca2.CANCEL_TIME canceltwoTime,
+						rre1.PART_CODE receiveonePart,
+						rre1.REDEEM_TIME receiveoneTime,
+						rre2.PART_CODE receivetwoPart,
+						rre2.REDEEM_TIME receivetwoTime,	
+						rp.PART_CODE paymentPart,
+						rp.PAYMENT_TIME paymentTime,
+						(SELECT REAL_NAME FROM sctrans.SYS_USER sy WHERE sy.ID = tw.UPDATE_BY ) doUser
+					FROM sctrans.T_RA_CASE cas 
+					LEFT JOIN sctrans.T_TO_WORKFLOW tw ON cas.RANSOM_CODE =tw.BIZ_CODE
+					LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE = act.PROC_INST_ID_
+					LEFT JOIN sctrans.T_RA_APPLY app ON app.RANSOM_CODE = cas.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_INTERVIEW vie ON vie.RANSOM_CODE = cas.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_REPAY rr1 ON rr1.RANSOM_CODE = cas.RANSOM_CODE AND rr1.PART_CODE = 'PAYLOAN_ONE'
+					LEFT JOIN sctrans.T_RA_REPAY rr2 ON rr2.RANSOM_CODE = cas.RANSOM_CODE AND rr1.PART_CODE = 'PAYLOAN_TWO'
+					LEFT JOIN sctrans.T_RA_CANCEL rca1 ON rca1.RANSOM_CODE = cas.RANSOM_CODE AND rca1.PART_CODE = 'CANCELDIYA_ONE'
+					LEFT JOIN sctrans.T_RA_CANCEL rca2 ON rca2.RANSOM_CODE = cas.RANSOM_CODE AND rca2.PART_CODE = 'CANCELDIYA_TWO'
+					LEFT JOIN sctrans.T_RA_REDEEM rre1 ON rre1.RANSOM_CODE = cas.RANSOM_CODE AND rre1.PART_CODE = 'RECEIVE_ONE'
+					LEFT JOIN sctrans.T_RA_REDEEM rre2 ON rre2.RANSOM_CODE = cas.RANSOM_CODE AND rre2.PART_CODE = 'RECEIVE_TWO'
+					LEFT JOIN sctrans.T_RA_PAYMENT rp ON rp.RANSOM_CODE = cas.RANSOM_CODE
+					WHERE tw.BIZ_CODE = #ransomCode#
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY rc.CASE_CODE DESC
+			  ORDER BY cas.CASE_CODE DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>
 				
-				<column type="both" name="RANSOM_PROPERTY" display="赎楼环节" customDict=""  />
-				<column type="virtual" name="RANSOM_PROPERTY_NAME" display="赎楼环节名" referencecol="RANSOM_PROPERTY" customDict="qqcdDictRansomPart"/>	
-
-				<column type="both" name="DEAL_TIME" display="受理完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="APPLY_TIME" display="申请完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="INTERVIEW_TIME" display="面签完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="REPAY_TIME" display="陪同还贷完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="CANCEL_TIME" display="注销抵押完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="REDEEM_TIME" display="领取产证完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="PAYMENT_TIME" display="回款结清完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="taskProperty" display="赎楼环节" customDict=""  />
+				<column type="virtual" name="taskPropertyName" display="赎楼环节名(已完成的环节)" referencecol="taskProperty" customDict="qqcdDictRansomPart"/>	
+				<column type="both" name="appPart" display="申请环节"  />
+				<column type="both" name="viePart" display="面签环节" />
+				<column type="both" name="paylonePart" display="陪同还贷环节(一抵)" />
+				<column type="both" name="payltwoPart" display="陪同还贷环节(二抵)" />
+				<column type="both" name="cancelonePart" display="注销抵押环节(一抵)" />
+				<column type="both" name="canceltwoPart" display="注销抵押环节(二抵)"  />
+				<column type="both" name="receiveonePart" display="领取产证环节(一抵)" />
+				<column type="both" name="receivetwoPart" display="领取产证环节(二抵)"  />
+				<column type="both" name="paymentPart" display="回款结清"  />
 				
-				<column type="both" name="UPDATE_USER" display="执行人" />
+				<column type="both" name="appTime" display="申请完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="vieTime" display="面签完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="payoneTime" display="陪同还贷完成时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="paytwoTime" display="陪同还贷完成时间(二抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="canceloneTime" display="注销抵押完成时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="canceltwoTime" display="注销抵押完成时间(二抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="receiveoneTime" display="领取产证完成时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="receivetwoTime" display="领取产证完成时间(二抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="paymentTime" display="回款结清完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="doUser" display="执行人" />
 			</table-row>
 		</grid>
 	</query>
