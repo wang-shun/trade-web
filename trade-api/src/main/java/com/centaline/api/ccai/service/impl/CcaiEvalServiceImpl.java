@@ -7,6 +7,7 @@ import com.centaline.api.ccai.listener.EvalFlowWorkListener;
 import com.centaline.api.ccai.service.CcaiEvalService;
 import com.centaline.api.ccai.vo.*;
 import com.centaline.api.common.vo.CcaiServiceResult;
+import com.centaline.trans.cases.repository.ToCaseInfoMapper;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.common.enums.*;
 import com.centaline.trans.eloan.entity.ToSelfAppInfo;
@@ -82,6 +83,9 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 	
 	@Autowired
 	private WorkFlowEngine engine;//该处使用engine 否则无法进行访问流程引擎平台
+	
+	@Autowired
+	private ToCaseInfoMapper toCaseInfoMapper;
 	
 	@Autowired
 	private JmsMessagingTemplate jmsTemplate; //activemq 消息队列
@@ -268,8 +272,29 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 	public CcaiServiceResult importEvalRefund(EvalRefundImport info) {
 		CcaiServiceResult result = new CcaiServiceResult();
 		ToEvaRefund toEvaRefund = copyEvaRefund(info);
-		String caseCode = toEvaRefundService.insertSelective(toEvaRefund);
+		if(StringUtils.isBlank(toEvaRefund.getCcaiCode())){
+			result.setSuccess(false);
+			result.setMessage("同步失败!ccaiCode不能为空!");
+			result.setCode("99");
+			return result;
+		}
+		String caseCode = toCaseInfoMapper.findcaseCodeByCcaiCode(toEvaRefund.getCcaiCode());
 		if(StringUtils.isBlank(caseCode)){
+			result.setSuccess(false);
+			result.setMessage("同步失败!ccaiCode没有对应的caseCode!");
+			result.setCode("99");
+			return result;
+		}
+		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
+		if(toEvalReportProcess == null){
+			result.setSuccess(false);
+			result.setMessage("同步失败!caseCode没有生成对应的报告类评估信息!");
+			result.setCode("99");
+			return result;
+		}
+		toEvaRefund.setCaseCode(caseCode);
+		int count = toEvaRefundService.insertSelective(toEvaRefund);
+		if(count <= 0){
 			result.setSuccess(false);
 			result.setMessage("同步失败!审批信息保存失败!");
 			result.setCode("99");
