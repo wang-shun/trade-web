@@ -31,20 +31,9 @@ public class ToEvaRefundServiceImpl implements ToEvaRefundService{
 	}
 
 	@Override
-	public String insertSelective(ToEvaRefund record) {
-		if(StringUtils.isBlank(record.getCcaiCode())){
-			return null;
-		}
-		String caseCode = toCaseInfoMapper.findcaseCodeByCcaiCode(record.getCcaiCode());
-		if(StringUtils.isBlank(caseCode)){
-			return null;
-		}
-		record.setCaseCode(caseCode); 
+	public int insertSelective(ToEvaRefund record) { 
 		int count = toEvaRefundMapper.insertSelective(record);
-		if(count == 0){
-			return null;
-		}
-		return caseCode;
+		return count;
 	}
 
 	@Override

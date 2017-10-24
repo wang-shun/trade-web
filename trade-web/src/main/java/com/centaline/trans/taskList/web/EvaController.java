@@ -162,8 +162,6 @@ public class EvaController {
     	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
     	toWorkFlowService.insertSelective(toWorkFlow);
     	
-    	
-    	
     	TaskVo taskvo = (TaskVo) taskService.listTasks(processInstance.getId()).getData().get(0);
     	taskService.submitTask(String.valueOf(taskvo.getId()));
 

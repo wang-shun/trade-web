@@ -469,12 +469,12 @@ import com.centaline.trans.ransom.service.RansomService;
 		 */
 		@RequestMapping("changeRansomOwner")
 		@ResponseBody
-		public boolean changeRansomOwner(HttpServletRequest req, String userId, String caseCode, String ransomCode) {
+		public boolean changeRansomOwner(HttpServletRequest req, String changeToUserId, String caseCode, String ransomCode) {
 			//检查是否有对应的赎楼流程(活动、暂停都要查)
 			Map<String, String[]> paramMap = ParamterHander.getParameters(req);
 	        Map<String, Object> paramObj = new HashMap<String, Object>();
 	        ParamterHander.mergeParamter(paramMap, paramObj);
-			return ransomService.changeRansomOwner(paramObj, userId, caseCode, ransomCode);
+			return ransomService.changeRansomOwner(paramObj, changeToUserId, caseCode, ransomCode);
 		}
 
 	}

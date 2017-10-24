@@ -88,30 +88,18 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		return caseVo;
 	}
 
-//	@Override
-//	public List getUpdateRansomInfo(String caseCode) {
-//		List list = new ArrayList();
-//		try {
-//			
-//			ToRansomCaseVo caseVo = ransomListFormMapper.getRansomCase(caseCode, null);
-//			
-//			list.add(caseVo);
-//			
-//			return list;
-//		} catch (Exception e) {
-//			list.add("数据信息查询错误！");
-//			logger.error("",e);
-//			return list;
-//		}
-//	}
-	
 	@Override
 	public List<ToRansomPlanVo> getRansomPlanTimeInfo(String ransomCode) {
-		List<ToRansomPlanVo> planVo = new ArrayList<ToRansomPlanVo>();
-		planVo = ransomListFormMapper.getRansomPlanTime(ransomCode);
-		return planVo;
+		
+		return ransomListFormMapper.getRansomPlanTime(ransomCode);
 	}
 
+	@Override
+	public List<String> getRansomPlanCodeInfo(String ransomCode) {
+		
+		return ransomListFormMapper.getPartCode(ransomCode);
+	}
+	
 	@Override
 	public int updateRansomPlanTimeInfo(ToRansomPlanVo ransomPlanVo) {
 		return ransomListFormMapper.updateRansomPlanTimeInfoByRansomCode(ransomPlanVo);

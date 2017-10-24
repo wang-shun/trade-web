@@ -191,6 +191,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             editCaseDetailVO.setTotalFloor(toPropertyInfo.getTotalFloor());
             editCaseDetailVO.setLocateFloor(toPropertyInfo.getLocateFloor());
             editCaseDetailVO.setSquare(toPropertyInfo.getSquare());
+            editCaseDetailVO.setHoldYear(toPropertyInfo.getHoldYear());
             if (toPropertyInfo.getFinishYear() != null)
             {
                 editCaseDetailVO.setFinishYear(DateUtil.getFormatDate(toPropertyInfo.getFinishYear(), "yyyy"));
@@ -256,7 +257,6 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             editCaseDetailVO.setTaxid(toTax.getPkid());
             editCaseDetailVO.setTaxTime(toTax.getTaxTime());
             editCaseDetailVO.setIsUniqueHome(toTax.getIsUniqueHome());
-            editCaseDetailVO.setHoldYear(toTax.getHoldYear());
         }
 
         /* 查限购 */
