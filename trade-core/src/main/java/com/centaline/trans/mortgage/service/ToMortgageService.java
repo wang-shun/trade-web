@@ -241,4 +241,10 @@ public interface ToMortgageService {
 	 * @return
 	 */
 	String findMortgageSave(String  caseCode);
+
+	/**
+	 * 删除所有的贷款信息
+	 * @param caseCode
+	 */
+	public void deleteMortageByCaseCode(String caseCode);
 }

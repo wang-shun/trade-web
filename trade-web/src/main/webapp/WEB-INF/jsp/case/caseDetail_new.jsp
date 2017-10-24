@@ -122,7 +122,7 @@
 	
 						<c:if test="${isCaseOwner}">
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
-										href="javascript:void(0)">贷款需求选择</a>
+										href="javascript:showLoanReqmentChgModal()">贷款需求选择</a>
 						</c:if>				
 						<a role="button" class="btn btn-primary btn-xm btn-activity"
 							href="javascript:evaPricingApply()">询价申请</a>
@@ -217,34 +217,12 @@
 														<div class="col-md-7">
 															<aist:dict clazz="form-control" id="mortageService"
 																name="mortageService" display="select"
-																defaultvalue="0" dictType="mortage_service" />
+																defaultvalue="1" dictType="mortage_service" />
 														</div>
 													</div>
 												</div>
 											</div>
-											<div class="row" id='div_releasePlan'>
-												<div class="col-md-7">
-													<div class="form-group">
-														<label class="col-md-5 control-label"
-															style='padding-left: 0px; text-align: left;'><font
-															color="red">*</font>预计放款时间</label>
-														<div class="col-md-7">
-															<div class=" input-group date">
-																<span class="input-group-addon"><i
-																	class="fa fa-calendar"></i></span> <input type="text"
-																	class="form-control" name="estPartTime"
-																	id="estPartTime" disabled="disabled" value="">
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												*请注意：当您选择纯公积金贷款时，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。</div>
-											<div class="divider">
-												<hr>
-											</div>
-											<div id="hzxm"></div>
+											
 										</div>
 									</div>
 									<div class="modal-footer">
@@ -653,6 +631,9 @@
         //加载页面获取屏幕高度
         $(function(){
 
+        	$("#mortageService").find("option").eq(0).remove();
+        	$("#mortageService").find("option").eq(1).remove();
+        	$("#mortageService").val("1")
             var caseCode = $('#caseCode').val();
             //备注,common.js
             $("#caseCommentList").caseCommentGrid({

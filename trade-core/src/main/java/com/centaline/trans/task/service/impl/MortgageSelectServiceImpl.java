@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,7 @@ import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
+import com.centaline.trans.mortgage.service.MortStepService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
@@ -79,6 +81,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	private BizWarnInfoMapper bizWarnInfoMapper;
 	@Autowired
 	private ProcessInstanceService processInstanceService;
+	@Autowired
+	private MortStepService mortStepService;
 
 	private String getLoanReq(String mortageService){
 		if(mortageService==null)return null;
@@ -233,7 +237,13 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 				processDfId=propertyUtilsService.getProcessDfId("LoanLost_Process");
 			}
 			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
-			if(wordkFlowDB == null) {			
+			if(wordkFlowDB == null) {
+				if(StringUtils.isBlank(vo.getCaseCode())){
+					throw new BusinessException("caseCode不能为空！");
+				}
+				mortStepService.deleteMortStepByCaseCode(vo.getCaseCode());
+				//删除所有的贷款信息
+				toMortgageService.deleteMortageByCaseCode(vo.getCaseCode());
 				// 删除所有的贷款流程
 				deleteMortFlowByCaseCode(vo.getCaseCode());
 				// 重新启动一个新的流程

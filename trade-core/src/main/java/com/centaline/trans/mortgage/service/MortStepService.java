@@ -9,4 +9,6 @@ public interface MortStepService {
 	MortStep findMortStep(MortStep mortStep);
 
 	Integer[] getMortStep(String caseCode);
+
+	void deleteMortStepByCaseCode(String caseCode);
 }
