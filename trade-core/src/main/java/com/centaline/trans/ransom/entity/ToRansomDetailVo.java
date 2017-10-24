@@ -1,6 +1,7 @@
 package com.centaline.trans.ransom.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 赎楼详情VO
@@ -8,87 +9,104 @@ import java.math.BigDecimal;
  *
  */
 public class ToRansomDetailVo {
-	
+
 	/**
-	 * 赎楼编号  
+	 * 赎楼编号
 	 */
-	private String      ransomCode;
+	private String ransomCode;
 	/**
 	 * 案件编号
 	 */
-	private String     	caseCode;
+	private String caseCode;
+
+	/**
+	 * 赎楼状态
+	 */
+	private String ransomStatus;
+
 	/**
 	 * 借款金额
 	 */
-	private BigDecimal  borrowMoney;
+	private BigDecimal borrowMoney;
 	/**
 	 * 借款人
 	 */
-	private String      borrowName;
+	private String borrowName;
 	/**
-	 * 借款人电话 
+	 * 借款人电话
 	 */
-	private String   	borrowTel;
+	private String borrowTel;
 	/**
 	 * 房屋地址
 	 */
-	private String      addr;
+	private String addr;
 	/**
 	 * 合作机构Code
 	 */
-	private String      comOrgCode;
+	private String comOrgCode;
 	/**
 	 * 合作机构名
 	 */
-	private String      comOrgName;
+	private String comOrgName;
 	/**
 	 * 信贷员
 	 */
-	private String      credit;
+	private String credit;
 	/**
 	 * 信贷员电话
 	 */
-	private String      creditTel;
+	private String creditTel;
 	/**
 	 * 金融权证
 	 */
-	private String      financial;
+	private String financial;
 	/**
 	 * 金融权证电话
 	 */
-	private String      financialTel;
+	private String financialTel;
 	/**
 	 * 经纪人名
 	 */
-	private String      agentName;
+	private String agentName;
 	/**
 	 * 经济人电话
 	 */
-	private String      agentPhone;
+	private String agentPhone;
 	/**
 	 * 经办人
 	 */
-	private String      leadingProcessId;
+	private String leadingProcessId;
 	/**
 	 * 经纪人名
 	 */
-	private String      leadingProcessName;
+	private String leadingProcessName;
 	/**
 	 * 面签金额
 	 */
-	private BigDecimal  interViewMoney;
+	private BigDecimal interViewMoney;
 	/**
 	 * 还贷金额
 	 */
-	private BigDecimal  repayLoanMoney;
+	private BigDecimal repayLoanMoney;
+
+	private Date repayTime;//还贷时间  by wbzhouht
 	/**
 	 * 贷款费用/利息
 	 */
-	private BigDecimal  interest;
+	private BigDecimal interest;
 	/**
 	 * 是否委托公证
 	 */
-	private String      isEntrust;
+	private String isEntrust;
+
+	public Date getRepayTime() {
+		return repayTime;
+	}
+
+	public void setRepayTime(Date repayTime) {
+		this.repayTime = repayTime;
+	}
+
 	public String getRansomCode() {
 		return ransomCode;
 	}

@@ -96,7 +96,7 @@ public class ToEvalRebateServiceImpl implements ToEvalRebateService {
 		if(approve){
 			feedBack = new FlowFeedBack(user, CcaiFlowResultEnum.SUCCESS,record.getContent());
 		}else{
-			feedBack = new FlowFeedBack(user, CcaiFlowResultEnum.FAILURE,record.getContent());
+			feedBack = new FlowFeedBack(user, CcaiFlowResultEnum.NORMAL_BACK,record.getContent());
 		}
 		ToEvalReportProcess eval = toEvalReportProcessService.findToEvalReportProcessByCaseCode(rebate.getCaseCode());
 

@@ -105,7 +105,7 @@
 					WHERE
 						pri.PKID = #pkid#
 						AND (ep.STATUS IS NULL OR ep.STATUS ='2')
-						AND cas.CASE_PROPERTY IN('30003003','30003007','30003008','30003009')
+						AND cas.CASE_PROPERTY IN('30003003')
 						AND info.PROPERTY_ADDR LIKE '%'+pro.RESIDENCE_NAME+'%'
 				]]>
 			</baseSql>
