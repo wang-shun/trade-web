@@ -140,5 +140,13 @@ public class ToRansomPlanVo {
 	public void setPartListCode(List<String> partListCode) {
 		this.partListCode = partListCode;
 	}
+	@Override
+	public String toString() {
+		return "ToRansomPlanVo [pkid=" + pkid + ", ransomCode=" + ransomCode + ", partCode=" + partCode
+				+ ", partListCode=" + partListCode + ", partName=" + partName + ", estPartTime=" + estPartTime
+				+ ", estPartTimeStr=" + estPartTimeStr + ", completeTime=" + completeTime + ", completeTimeStr="
+				+ completeTimeStr + ", createTime=" + createTime + ", createUser=" + createUser + ", updateUser="
+				+ updateUser + ", updateTime=" + updateTime + ", remark=" + remark + "]";
+	}
 	
 }

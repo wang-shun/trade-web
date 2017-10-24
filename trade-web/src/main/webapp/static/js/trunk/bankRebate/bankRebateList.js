@@ -81,7 +81,10 @@ function checkFileTypeExcel()
 
 	return true;
 }
-
+//新增按钮
+$("#addNewCase").click(function(){
+	window.location.href = ctx + "/bankRebate/newBankRebate";
+});
 //提交按钮
 /*$("#submit").click(function(){
 	var evalAccountShowVO = {
@@ -118,8 +121,7 @@ $('#searchButton').click(function(){
 
 //search
 function searchMethod(page){
-	$("#batchappro").attr("disabled", true);
-	$("#caseAdd").attr("disabled", true);
+	$("#deleteButton").attr("disabled", true);
 	var data = getQueryParams(page);
     aist.wrap(data);
 	reloadGrid(data);
@@ -228,14 +230,12 @@ $('#checkAllNot').click(function(){
 		for(var i=0; i<my_checkboxes.length; i++){
 			$('input[name="my_checkbox"]:eq('+i+')').prop('checked',true);
 		}
-		$("#batchappro").attr("disabled", false);
-		$("#caseAdd").attr("disabled", false);
+		$("#deleteButton").attr("disabled", false);
 	}else{
 		for(var i=0; i<my_checkboxes.length; i++){
 			$('input[name="my_checkbox"]:eq('+i+')').prop('checked',false);
 		}
-		$("#batchappro").attr("disabled", true);
-		$("#caseAdd").attr("disabled", true);
+		$("#deleteButton").attr("disabled", true);
 	}
 });
 
@@ -252,16 +252,14 @@ function _checkbox(){
 		}
 	});
 	if(flag){
-		$("#batchappro").attr("disabled", false);
-		$("#caseAdd").attr("disabled", false);
+		$("#deleteButton").attr("disabled", false);
 		if(count==my_checkboxes.length){
 			$('#checkAllNot').prop('checked', true);
 		}else if(count<my_checkboxes.length){
 			$('#checkAllNot').prop('checked', false);
 		}
 	}else{
-		$("#batchappro").attr("disabled", true);
-		$("#caseAdd").attr("disabled", true);
+		$("#deleteButton").attr("disabled", true);
 		$('#checkAllNot').prop('checked', false);
 	}
 }
@@ -270,38 +268,22 @@ function _checkbox(){
 /**
  *批量删除
  */
-
-function deleteButton(){
-	var ids = new Array();
-	var checkeds=$('input[name="my_checkbox"]:checked');
-	$.each(checkeds, function(i, items){
-		var $td = $(items).parent();
-		var id = $('input[name="guaranteeCompId"]',$td).val();
-		ids.push(id);
-	});
-	var ctx = $("#ctx").val();
-	window.location.href = ctx + "/bankRebate/deleteCompany?guaranteeCompId="+ids;
-	
-}
-
-
-/**
- * 批量审批
- */
-$('#batchappro').click(function() {
-	var ids = new Array();
-	var checkeds=$('input[name="my_checkbox"]:checked');
-	$.each(checkeds, function(i, items){
-		var $td = $(items).parent();
-		var id = $('input[name="case_code"]',$td).val();
-		ids.push(id);
-	});
-	var ctx = $("#ctx").val();
-	
-	//window.wxc.success("确定批量审批吗？",{"wxcOk":function(){
-		window.location.href = ctx + "/eval/settle/majorAppro?caseCodes="+ids;
-	//}});
+$('#deleteButton').click(function() {
+	window.wxc.confirm("确定删除吗？",{"wxcOk":function(){
+		var ids = new Array();
+		var checkeds=$('input[name="my_checkbox"]:checked');
+		$.each(checkeds, function(i, items){
+			var $td = $(items).parent();
+			var id = $('input[name="guaranteeCompId"]',$td).val();
+			ids.push(id);
+		});
+		var ctx = $("#ctx").val();
+		window.location.href = ctx + "/bankRebate/deleteCompany?guaranteeCompId="+ids;
+	}});
 });
+
+
+
 
 /**
  * 导出excel（2013年之后版本）

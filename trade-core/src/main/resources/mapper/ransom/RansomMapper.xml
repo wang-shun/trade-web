@@ -4,6 +4,7 @@
 	<resultMap id="BaseResultMap" type="com.centaline.trans.ransom.entity.ToRansomDetailVo" >
 		<result column="ransomCode" property="ransomCode" jdbcType="VARCHAR"/>
 		<result column="caseCode" property="caseCode" jdbcType="VARCHAR"/>
+		<result column="ransomStatus" property="ransomStatus" jdbcType="VARCHAR"/>
 		<result column="financial" property="financial" jdbcType="VARCHAR"/>
 		<result column="financialTel" property="financialTel" jdbcType="VARCHAR"/>
 		<result column="borrowMoney" property="borrowMoney" jdbcType="DECIMAL"/>
@@ -35,6 +36,7 @@
 		SELECT
 			ra.RANSOM_CODE ransomCode,
 			ra.CASE_CODE caseCode,
+			ra.RANSOM_STATUS ransomStatus,
 			ra.CREATE_USER financial,
 			ra.BORRO_MONEY borrowMoney,
 			ra.BORROWER_NAME borrowName,
@@ -263,15 +265,15 @@
 	</select>
 	
 	<select id="getMortgageInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomMortgageVo">
-		SELECT REPAY_TIME mortgageTime,PART_CODE partCode FROM sctrans.T_RA_REPAY WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+		SELECT REPAY_TIME mortgageTime,PART_CODE partCode FROM sctrans.T_RA_REPAY WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} AND PART_CODE = 'PAYLOAN_ONE'
 	</select>
 
 	<select id="getCancelInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomCancelVo">
-		SELECT CANCEL_TIME  cancelTime,PART_CODE partCode FROM sctrans.T_RA_CANCEL WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+		SELECT CANCEL_TIME  cancelTime,PART_CODE partCode FROM sctrans.T_RA_CANCEL WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} AND PART_CODE = 'CANCELDIYA_ONE'
 	</select>
 
 	<select id="getPermitInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomPermitVo">
-		SELECT REDEEM_TIME redeemTime,PART_CODE partCode FROM sctrans.T_RA_REDEEM WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+		SELECT REDEEM_TIME redeemTime,PART_CODE partCode FROM sctrans.T_RA_REDEEM WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} AND PART_CODE = 'RECEIVE_ONE'
 	</select>
 
 	<select id="getPaymentInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomPaymentVo">
