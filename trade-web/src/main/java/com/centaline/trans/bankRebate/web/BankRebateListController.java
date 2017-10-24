@@ -1,6 +1,7 @@
 package com.centaline.trans.bankRebate.web;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -289,6 +290,21 @@ public class BankRebateListController {
     	request.setAttribute("ex_message",ex_message );
 		return "redirect:bankRebateList";
 	}
+	
+	/**
+	 * 返利导入模板下载
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/exportMatrixLeaderSheet")  
+	public String exportMatrixLeaderSheet(HttpServletResponse response) throws IOException{  
+	    response.setHeader("Content-Disposition","attachment; filename="+new String(("返利导入格式").getBytes("gb2312"),"ISO-8859-1")+".xls");  
+	    OutputStream out = response.getOutputStream();  
+	    toBankRebateInfoService.exportMatrixLeaderSheet(out);  
+	    out.close();  
+	    return null;  
+	} 
 	
 	/* 根据录入时间毫秒值字符串，
      * 担保公司ID的批次唯一标识符

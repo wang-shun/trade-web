@@ -319,7 +319,11 @@
                                 </tr>
 						{{/each}}
 	    </script>
-
+		<script>
+			function showExcelIn(){
+				window.location.href = ctx + "/bankRebate/exportMatrixLeaderSheet"
+			}
+		</script>
 	    </content>
           </body>
 </html>
