@@ -80,5 +80,34 @@ public interface EvaProcessService {
 	 * @return
 	 */
 	AjaxResponse<?> submitUsed(ToEvalReportProcess toEvalReportProcess,String taskId);
+	
+	/**
+	 * 评估申请保存
+	 * @param toEvalReportProcess
+	 * @return
+	 */
+	AjaxResponse<?> saveEvalApply(ToEvalReportProcess toEvalReportProcess);
+	
+	
+	/**
+	 * 评估上报保存
+	 * @param toEvalReportProcess
+	 * @return
+	 */
+	AjaxResponse<?> saveReport(ToEvalReportProcess toEvalReportProcess,String taskId);
+	
+	/**
+	 * 评估出具保存
+	 * @param toEvalReportProcess
+	 * @return
+	 */
+	AjaxResponse<?> saveIssue(ToEvalReportProcess toEvalReportProcess,String taskId);
+	
+	/**
+	 * 评估使用保存
+	 * @param toEvalReportProcess
+	 * @return
+	 */
+	AjaxResponse<?> saveUsed(ToEvalReportProcess toEvalReportProcess,String taskId);
 
 }

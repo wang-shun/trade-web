@@ -69,6 +69,7 @@ public class EvaController {
 	public String apply(HttpServletRequest request, HttpServletResponse response, String caseCode,String evaCode,String source,
 			String taskitem,String businessKey, String processInstanceId){
 		evaProcessService.initApply(request, caseCode, evaCode, taskitem, businessKey);
+		request.setAttribute("source",source);
 		return "eval/evalApply";
 	}
 	
@@ -86,6 +87,23 @@ public class EvaController {
 	@ResponseBody
 	public AjaxResponse<?> submitEvalApply(HttpServletRequest request,HttpServletResponse response,ToEvalReportProcess toEvalReportProcess){
     	return evaProcessService.submitEvalApply(toEvalReportProcess);
+	}
+	
+
+	/**
+	 * 评估申请保存
+	 * @param request
+	 * @param response
+	 * @param caseCode
+	 * @param source
+	 * @param taskitem
+	 * @param processInstanceId
+	 * @return
+	 */
+	@RequestMapping(value="saveApply")
+	@ResponseBody
+	public AjaxResponse<?> saveEvalApply(HttpServletRequest request,HttpServletResponse response,ToEvalReportProcess toEvalReportProcess){
+    	return evaProcessService.saveEvalApply(toEvalReportProcess);
 	}
 	
 	/**
@@ -119,6 +137,22 @@ public class EvaController {
 	@ResponseBody
 	public  AjaxResponse<?> submitReport(HttpServletRequest request, HttpServletResponse response, ToEvalReportProcess toEvalReportProcess,String taskId){
 		return evaProcessService.submitReport(toEvalReportProcess, taskId);
+	}
+	
+	/**
+	 * 评估上报保存
+	 * @param request
+	 * @param response
+	 * @param caseCode
+	 * @param source
+	 * @param taskitem
+	 * @param processInstanceId
+	 * @return
+	 */
+	@RequestMapping(value = "saveReport")
+	@ResponseBody
+	public  AjaxResponse<?> saveReport(HttpServletRequest request, HttpServletResponse response, ToEvalReportProcess toEvalReportProcess,String taskId){
+		return evaProcessService.saveReport(toEvalReportProcess, taskId);
 	}
 	
 	/**
@@ -156,6 +190,22 @@ public class EvaController {
 	}
 	
 	/**
+	 * 出具评估报告保存
+	 * @param request
+	 * @param response
+	 * @param caseCode
+	 * @param source
+	 * @param taskitem
+	 * @param processInstanceId
+	 * @return
+	 */
+	@RequestMapping(value = "saveIssue")
+	@ResponseBody
+	public AjaxResponse<?> saveIssue(HttpServletRequest request, HttpServletResponse response, ToEvalReportProcess toEvalReportProcess,String taskId){
+	    return evaProcessService.saveIssue(toEvalReportProcess, taskId);
+	}
+	
+	/**
 	 * 使用评估报告初始化
 	 * @param request
 	 * @param response
@@ -182,9 +232,9 @@ public class EvaController {
 	 * @param processInstanceId
 	 * @return
 	 */
-	@RequestMapping(value = "submitUsed")
+	@RequestMapping(value = "saveUsed")
 	@ResponseBody
-	public AjaxResponse<?> submitUsed(HttpServletRequest request, HttpServletResponse response,ToEvalReportProcess toEvalReportProcess,String taskId){
-	    return evaProcessService.submitUsed(toEvalReportProcess, taskId);
+	public AjaxResponse<?> saveUsed(HttpServletRequest request, HttpServletResponse response,ToEvalReportProcess toEvalReportProcess,String taskId){
+	    return evaProcessService.saveUsed(toEvalReportProcess, taskId);
 	}
 }

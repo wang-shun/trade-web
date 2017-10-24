@@ -254,4 +254,72 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		   }
 		return response;
 	}
+
+	@Override
+	public AjaxResponse<?> saveEvalApply(ToEvalReportProcess toEvalReportProcess) {
+		 AjaxResponse<String> response = new AjaxResponse<String>();
+		 try{
+				ToEvalReportProcess erp = toEvalReportProcessService.findToEvalReportProcessByCaseCode(toEvalReportProcess.getCaseCode());
+				BigDecimal ornginPrice = toEvalReportProcess.getOrnginPrice();
+				BigDecimal inquiryResult = toEvalReportProcess.getInquiryResult();
+				toEvalReportProcess.setInquiryResult(inquiryResult.multiply(new BigDecimal(10000.00)));
+				toEvalReportProcess.setEvaCode(erp.getEvaCode());
+				toEvalReportProcess.setOrnginPrice(ornginPrice.multiply(new BigDecimal(10000.00)));
+				toEvalReportProcessService.updateEvaReportByEvaCode(toEvalReportProcess);
+		 }catch(Exception e){
+			 response.setSuccess(false);
+			   response.setMessage(e.getMessage());
+			   logger.error("评估申请保存失败！",e);
+		 }
+		return response;
+	}
+
+	@Override
+	public AjaxResponse<?> saveReport(ToEvalReportProcess toEvalReportProcess, String taskId) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		 try{
+			    //评估上报保存
+				toEvalReportProcess.setStatus(EvalStatusEnum.YSB.getCode());
+				toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
+		 }catch(Exception e){
+			 response.setSuccess(false);
+			   response.setMessage(e.getMessage());
+			   logger.error("评估申请保存失败！",e);
+		 }
+		return response;
+	}
+
+	@Override
+	public AjaxResponse<?> saveIssue(ToEvalReportProcess toEvalReportProcess, String taskId) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		 try{
+			 //评估出具信息保存
+		     BigDecimal evaPrice = toEvalReportProcess.getEvaPrice();
+			 toEvalReportProcess.setStatus(EvalStatusEnum.YCNBG.getCode());
+			 toEvalReportProcess.setEvaPrice(evaPrice.multiply(new BigDecimal(10000.00)));
+			 toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
+		 }catch(Exception e){
+			 response.setSuccess(false);
+			   response.setMessage(e.getMessage());
+			   logger.error("评估申请保存失败！",e);
+		 }
+		return response;
+	}
+
+	@Override
+	public AjaxResponse<?> saveUsed(ToEvalReportProcess toEvalReportProcess, String taskId) {
+		
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		 try{
+			    //评估使用信息保存
+				toEvalReportProcess.setStatus(EvalStatusEnum.YSYBG.getCode());
+				toEvalReportProcess.setSysFinshTime(new Date());
+				toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
+		 }catch(Exception e){
+			 response.setSuccess(false);
+			   response.setMessage(e.getMessage());
+			   logger.error("评估申请保存失败！",e);
+		 }
+		return response;
+	}
 }

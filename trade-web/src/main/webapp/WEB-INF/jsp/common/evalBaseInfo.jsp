@@ -177,7 +177,7 @@
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估类型</dt><dd><aist:dict id="evalType" name="evalType" display="label" dictType="EVAL_TYPE" dictCode="${toEvalReportProcessVo.reportType}"/></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估公司</dt> <dd>${toEvalReportProcessVo.finOrgName}</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">合同价</dt> <dd>&nbsp;万</dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">房龄</dt> <dd>${toEvalReportProcessVo.houseAgeApply}</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">房龄</dt> <dd>${toEvalReportProcessVo.houseAgeApply}&nbsp;年</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">申请评估时间</dt> <dd><fmt:formatDate value="${toEvalReportProcessVo.applyDate}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估值</dt> <dd><%-- ${toEvalReportProcessVo.evalPrice} --%></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">贷款银行</dt> <dd><%-- ${toEvalReportProcessVo.loanBank} --%></dd></dl>

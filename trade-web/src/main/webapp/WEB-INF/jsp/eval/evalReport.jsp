@@ -68,6 +68,7 @@
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalReportForm">
 				    <input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcess.evaCode }">
+				    <input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 流程引擎需要字段 -->
@@ -80,7 +81,8 @@
 						<li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left"> <i style="color:red">* </i> 评估上报日期</label> 
-								<input class="input_type sign_right_two"  value='' name="forwardDate" id="forwardDate" value="${toEvalReportProcess.forwardDate}"/>
+								<input class="input_type sign_right_two"  value='' name="forwardDate" id="forwardDate" 
+								    value="<fmt:formatDate value="${toEvalReportProcess.forwardDate}" type="date" pattern="yyyy-MM-dd"/>"/>
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>
@@ -89,7 +91,8 @@
 						<li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left"> <i style="color:red">* </i> 预计出评估报告日期</label> 
-								<input class="input_type sign_right_two"  value='' name="toIssueDate" id="toIssueDate" value="${toEvalReportProcess.toIssueDate}" />
+								<input class="input_type sign_right_two"  value='' name="toIssueDate" id="toIssueDate" 
+								    value="<fmt:formatDate value="${toEvalReportProcess.toIssueDate}" type="date" pattern="yyyy-MM-dd"/>" />
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>
@@ -97,7 +100,12 @@
 						</li>
 					</ul>
 					<p class="text-center">
-							<input type="button" class="btn btn-success submit_From" value="提交"> 
+							<c:if test="${source == null}">
+							<input type="button" class="btn btn-success submit_From" value="提交">
+							</c:if>
+							<c:if test="${source == 'evalDetails'}">
+							<input type="button" class="btn btn-success submit_save" value="保存">
+							</c:if>
 						    <a type="button" href="${ctx}/task/eval/evalTaskList" class="btn btn-grey ml5">关闭</a>
 					</p>
 				</form>
@@ -135,14 +143,19 @@
 					if (!checkForm()) {
 						return;
 					}
-					saveEvalReport();
+					saveEvalReport("${ctx}/task/eval/submitReport","评估上报提交成功");
+				});
+				
+				$('.submit_save').click(function() {
+					if (!checkForm()) {
+						return;
+					}
+					saveEvalReport("${ctx}/task/eval/saveReport","评估保存成功");
 				});
 		});
 		
-		function saveEvalReport(){
+		function saveEvalReport(url,message){
 			var jsonData = $("#evalReportForm").serializeArray();
-			var url = "${ctx}/task/eval/submitReport";			
-			
 			$.ajax({
 				cache : false,
 				async : true,//false同步，true异步
@@ -167,7 +180,7 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					window.wxc.success("评估上报提交成功",{"wxcOk":function(){
+					window.wxc.success(message,{"wxcOk":function(){
 							window.location.href = ctx + "/task/eval/evalTaskList";
 					}});
 				},

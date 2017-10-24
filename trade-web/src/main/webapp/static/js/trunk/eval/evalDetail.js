@@ -60,10 +60,27 @@ $(document).ready(function() {
 	
 	//附件		
 	getShowAttachment();
-	//业绩记录/收费情况查询
-	//queryPer();
+	
+	$("#sel_changeFrom").change(function(){
+		$("#changeForm-form").attr('action','../'+$("#sel_changeFrom").val());
+
+    });
+	$("#sel_changeFrom").change();
+	$("#changeForm-form").submit(function(){
+		$('#changeForm-modal-form').modal("hide");
+	});
+	$("#changeForm-form").submit(function(){
+		if($("#sel_changeFrom").val()==null||$("#sel_changeFrom").val()==''){
+			window.wxc.alert('请选择要修改的项目！');
+			return false;
+		}
+	});
 
 });
+
+function showChangeFormModal(){
+	$('#changeForm-modal-form').modal("show");
+}
 
 function getOperateLogList(evaCode){
 	var url = "/quickGrid/findPage";

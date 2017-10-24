@@ -68,6 +68,7 @@
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalUsedForm">
 				    <input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcess.evaCode }">
+				    <input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode"
 						value="${taskitem}">
@@ -82,7 +83,7 @@
 						<li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 领取报告时间</label> 
-								<input class="input_type sign_right_two"  value='' name="reportRevDate" id="reportRevDate" value="${toEvalReportProcess.reportRevDate}"/>
+								<input class="input_type sign_right_two"  name="reportRevDate" id="reportRevDate" value="<fmt:formatDate value="${toEvalReportProcess.reportRevDate}" type="date" pattern="yyyy-MM-dd"/>"/>
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>
@@ -97,12 +98,17 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 领取份数</label> 
-								<input class="input_type sign_right_two"  value='' name="receiveNum" id="receiveNum" value="${toEvalReportProcess.receiveNum}"/>
+								<input class="input_type sign_right_two" name="receiveNum" id="receiveNum" value="${toEvalReportProcess.receiveNum}"/>
 							</div>
 						</li>
 					</ul>
 					<p class="text-center">
-							<input type="button" class="btn btn-success submit_From" value="提交"> 
+							<c:if test="${source == null}">
+							<input type="button" class="btn btn-success submit_From" value="提交">
+							</c:if>
+							<c:if test="${source == 'evalDetails'}">
+							<input type="button" class="btn btn-success submit_save" value="保存">
+							</c:if> 
 						    <a type="button" href="${ctx}/task/eval/evalTaskList" class="btn btn-grey ml5">关闭</a>
 					</p>
 				</form>
@@ -140,16 +146,20 @@
 					if (!checkForm()) {
 						return;
 					}
-					saveEvalUsed();
+					saveEvalUsed("${ctx}/task/eval/submitUsed","评估使用提交成功");
+				});
+				$('.submit_save').click(function() {
+					if (!checkForm()) {
+						return;
+					}
+					saveEvalUsed("${ctx}/task/eval/saveUsed","评估使用提交成功");
 				});
 		});
 		
 
 		
-		function saveEvalUsed(){
+		function saveEvalUsed(url,message){
 			var jsonData = $("#evalUsedForm").serializeArray();
-			var url = "${ctx}/task/eval/submitUsed";			
-			
 			$.ajax({
 				cache : false,
 				async : true,//false同步，true异步
@@ -174,7 +184,7 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					window.wxc.success("评估使用提交成功",{"wxcOk":function(){
+					window.wxc.success(message,{"wxcOk":function(){
 							window.location.href = ctx + "/task/eval/evalTaskList";
 					}});
 				},
