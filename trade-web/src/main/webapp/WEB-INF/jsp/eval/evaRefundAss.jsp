@@ -158,10 +158,13 @@
 								<label class="control-label sign_left_small">
 								<font color=" red" class="mr5">*</font>报告回收 :</label> 
 								<label class="radio-inline"> 
-									<input type="radio" name="isNeedRecovery" id="need" value="1" ${toEvaRefund.isNeedRecovery eq '1'?'checked="checked"':'' }>需要
+								    <input type="hidden" name="isNeedRecovery" value="2"/>
+									<input type="radio" name="isNeedRecovery" id="need"  
+									   value="1" ${toEvaRefund.isNeedRecovery eq '1'?'checked="checked"':'' } onclick="getValue1()">需要
 								</label> 
 								<label class="radio-inline">
-								    <input type="radio" name="isNeedRecovery" id="noNeed" value="0" ${toEvaRefund.isNeedRecovery eq '0'?'checked="checked"':'' }> 不需要
+								    <input type="radio" name="isNeedRecovery" id="noNeed" 
+								      value="0" ${toEvaRefund.isNeedRecovery eq '0'?'checked="checked"':'' } onclick="getValue2()"> 不需要
 								</label>
 							</div>
 						</div>
@@ -392,30 +395,35 @@
 						.replace("$#$", ".");
 			}
 
-			//验证控件checkUI();
-			/* function checkForm(formId) {
-				if (formId.find("input[name='evalRealCharges']").val() == "") {
-					window.wxc.alert("评估费实收金额为必填项!");
-					formId, find("input[name='evalRealCharges']").focus();
-					$("#evalRealCharges").css("border-color", "red");
-					return false;
-				}
-				return true;
-			} */
+			
+			//报告是否回收校验
+			var value=$("[name=isNeedRecovery]").val();
+			function getValue1() {
+				value=$("#need").val();
+			}
+			function getValue2() {
+				value=$("#noNeed").val();
+			}
 			function checkForm(formId) {
+				if (value == '2') {
+						window.wxc.alert("报告回收为必选项,请再次选择确认!");
+						return false;
+				}
+				
 				if ($("#evalRealCharges").val() == "") {
 					window.wxc.alert("评估费实收金额为必填项!");
 					$("#evalRealCharges").focus();
 					$("#evalRealCharges").css("border-color", "red");
 					return false;
 				}
-				/* var r = /^\+?[1-9][0-9]*$/;
-				if(!$("#reportBackNum").val()==""||!r.test($("#reportBackNum").val())){
-					window.wxc.alert("评估报告回收份数只能输入数字或者为空");
+				
+			 	var r = /^\+?[1-9][0-9]*$/;
+				if(!$("#reportBackNum").val()==""&&!r.test($("#reportBackNum").val())){
+					window.wxc.alert("评估报告回收份数只能输入数字或不输入");
 					$("#reportBackNum").focus();
 					$("#reportBackNum").css("border-color", "red");
 					return false;
-				} */
+				} 
 				return true;
 			}
 

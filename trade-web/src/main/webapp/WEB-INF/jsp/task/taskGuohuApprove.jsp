@@ -516,9 +516,16 @@
                                 <div class="col-sm-6">&nbsp;</div>
                                 <c:forEach items="${users}" var="user" varStatus="var">
                                     <div class="col-sm-6">
-                                        <input type="checkbox" value="${user.username }"
-                                               name="members" class="btn btn-white" >
-                                        <label>${user.realName}(${var.index eq 0 ? '前台':'后台' })</label>
+                                        <c:if test="${user.position=='warrant' or user.position=='loan' or user.position=='assistant'}">
+                                            <input type="checkbox" value="${user.userName }"
+                                                   name="members" class="btn btn-white" >
+                                        <label>${user.realName}<%--${var.index eq 0 ? '前台':'后台' }--%>
+                                            (
+                                            <c:if test="${user.position=='warrant'}">过户权证</c:if>
+                                            <c:if test="${user.position=='loan'}">贷款权证</c:if>
+                                            <c:if test="${user.position=='assistant'}">内勤助理</c:if>)
+                                            </label>
+                                        </c:if>
                                     </div>
                                 </c:forEach>
                             </c:if>
