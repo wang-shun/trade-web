@@ -18,8 +18,10 @@ import com.aist.message.core.remote.vo.MessageType;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.template.remote.UamTemplateService;
+import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.service.ToCaseParticipantService;
+import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -37,11 +39,13 @@ import com.centaline.trans.eval.entity.ToEvalSettle;
 import com.centaline.trans.eval.repository.ToEvaRefundMapper;
 import com.centaline.trans.eval.repository.ToEvalReportProcessMapper;
 import com.centaline.trans.eval.service.EvalDetailService;
+import com.centaline.trans.eval.service.ToEvaCommPersonAmountService;
 import com.centaline.trans.eval.service.ToEvaCommissionChangeService;
 import com.centaline.trans.eval.service.ToEvaInvoiceService;
 import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.eval.service.ToEvalSettleService;
+import com.centaline.trans.eval.vo.EvalChangeCommVO;
 import com.centaline.trans.task.service.ActRuTaskService;
 
 /**
@@ -83,6 +87,10 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 	ToCaseParticipantService toCaseParticipantService;
 	@Autowired
 	ToEvalReportProcessMapper toEvalReportProcessMapper;
+	@Autowired
+	ToEvaCommPersonAmountService toEvaCommPersonAmountService;
+	@Autowired
+	UamUserOrgService uamUserOrgService;
 	
 	@Override
 	public void evalDetail(HttpServletRequest request, String caseCode, String evaCode) {
@@ -103,26 +111,22 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				//评估返利报告审批信息
 				ToEvalRebate toEvalRebate = toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
 				
-				//评估公司变更信息
-				//TODO
-				
 				//评估结算信息
 				ToEvalSettle toEvalSettle = toEvalSettleService.findToCaseByCaseCode(caseCode);
 				
 				//评估退费信息
 				ToEvaRefund toEvaRefund = toEvaRefundMapper.selectByEvaCode(caseCode);
 				//调佣审批信息
-				//TODO
 				//ToEvaCommissionChange toEvaCommissionChange = toEvaCommissionChangeService.selectByCaseCode(caseCode);
-				
+				EvalChangeCommVO toEvaCommPersonAmount = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
 				
 				request.setAttribute("toEvaPricingVo", toEvaPricingVo);
-				request.setAttribute("toEvalReportProcess", toEvalReportProcess);
-				request.setAttribute("toEvaInvoice", toEvaInvoice);
-				request.setAttribute("toEvalRebate", toEvalRebate);
-				request.setAttribute("toEvalSettle", toEvalSettle);
-				request.setAttribute("toEvaRefund", toEvaRefund);
-				//request.setAttribute("toEvaCommissionChange", toEvaCommissionChange);
+				request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
+				request.setAttribute("toEvaInvoiceVo", toEvaInvoice);
+				request.setAttribute("toEvalRebateVo", toEvalRebate);
+				request.setAttribute("toEvalSettleVo", toEvalSettle);
+				request.setAttribute("toEvaRefundVo", toEvaRefund);
+				request.setAttribute("toEvaCommissionChange", toEvaCommPersonAmount);
 				
 				request.setAttribute("caseCode", caseCode);
 				request.setAttribute("evaCode", evaCode);
@@ -144,10 +148,11 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 						}
 				}
 				
-				//删除评估单状态为驳回
+				//更新评估单状态为驳回
 			    ToEvalReportProcess toEvalReportProcess = new ToEvalReportProcess();
+			    toEvalReportProcess.setStatus(EvalStatusEnum.BBH.getCode());
 			    toEvalReportProcess.setEvaCode(evaCode);
-				toEvalReportProcessMapper.deleteToEvalReportProcessByEvalCode(toEvalReportProcess);
+				toEvalReportProcessMapper.updateStatusByEvalCode(toEvalReportProcess);
 				
 				//根据案件号查询贷款权证
 				ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
@@ -173,10 +178,33 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				    String senderId = currentUser.getId();
 				    //设置发送人 
 				    message.setSenderId(senderId);
-				    uamMessageService.sendMessageByDist(message,toCaseParticipantList.get(0).getUserName());
+				    uamMessageService.sendMessageByDist(message,uamUserOrgService.getUserByUsername(toCaseParticipantList.get(0).getUserName()).getId());
 				}
 				
 		 return new AjaxResponse<>(true);
+	}
+    
+	@Override
+	public AjaxResponse<?> saveEvaComChangeItems(HttpServletRequest request, String evaCode,String changeInfo) {
+		int result = toEvalReportProcessService.updateChangeInfoByEvalCode(evaCode, changeInfo);
+		if(result>0){
+			return new AjaxResponse<>(true);
+		}else{
+			return new AjaxResponse<>(false);
+		}
+		
+	}
+
+
+	@Override
+	public AjaxResponse<?> checkTransferCommission(HttpServletRequest request, String evaCode) {
+		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.selectToEvaReportProcessByEvaCode(evaCode);
+		String changeInfo=toEvalReportProcess.getChangeInfo();
+		if(changeInfo!=null){
+			return new AjaxResponse<>(true);
+		}else{
+			return new AjaxResponse<>(false);
+		}
 	}
 
 }

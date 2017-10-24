@@ -33,6 +33,12 @@
     delete from sctrans.T_TO_BANK_REBATE_INFO
     where PKID = #{pkid,jdbcType=BIGINT}
   </delete>
+  
+  <delete id="deleteRebateInfoByGuaranteeCompId" parameterType="java.lang.String" >
+    delete from sctrans.T_TO_BANK_REBATE_INFO
+    where GUARANTEE_COMP_ID = #{guaCompId,jdbcType=VARCHAR}
+  </delete>
+  
   <insert id="insert" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebateInfo" >
     insert into sctrans.T_TO_BANK_REBATE_INFO (PKID, CASE_CODE, CCAI_CODE, 
       GUARANTEE_COMP_ID, BANK_NAME, REBATE_MONEY, 

@@ -65,7 +65,7 @@ public class ToEvalReportProcess {
     
     private Date sysFinshTime;
     
-    private String evalProperty;
+    private String changeInfo;
     
     private String finOrgName;
     
@@ -270,14 +270,6 @@ public class ToEvalReportProcess {
         this.receiveNum = receiveNum;
     }
 
-	public String getEvalProperty() {
-		return evalProperty;
-	}
-
-	public void setEvalProperty(String evalProperty) {
-		this.evalProperty = evalProperty;
-	}
-
 	public Date getSysCreateTime() {
 		return sysCreateTime;
 	}
@@ -299,5 +291,15 @@ public class ToEvalReportProcess {
 	public void setFinOrgName(String finOrgName) {
 		this.finOrgName = finOrgName;
 	}
+
+	public String getChangeInfo() {
+		return changeInfo;
+	}
+
+	public void setChangeInfo(String changeInfo) {
+		this.changeInfo = changeInfo;
+	}
+	
+	
     
 }

@@ -248,9 +248,9 @@
 		function evaTypeChange(){
 			var evaVal = $('#reportType').val();
 			if(evaVal == '2' || evaVal == '3'){
-				$('#originPrice').css('visibility','visible');
+				$('#ornginPrice').css('visibility','visible');
 			}else{
-				$('#originPrice').css('visibility','hidden');
+				$('#ornginPrice').css('visibility','hidden');
 			}
 		}
 		

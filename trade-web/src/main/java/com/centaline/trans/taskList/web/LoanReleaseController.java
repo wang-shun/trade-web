@@ -41,17 +41,18 @@ public class LoanReleaseController
     	CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
         request.setAttribute("source", source);
         request.setAttribute("caseBaseVO", caseBaseVO);
-
-        RestVariable psf = workFlowManager.getVar(processInstanceId, "PSFLoanNeed"); //公积金 
-        boolean tz = !(boolean) (psf == null ? false : psf.getValue());
-        toAccesoryListService.getAccesoryList(request, taskitem);
         ToMortgage mortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+        toAccesoryListService.getAccesoryList(request, taskitem);
+
+        /*RestVariable psf = workFlowManager.getVar(processInstanceId, "PSFLoanNeed"); //公积金 
+        boolean tz = !(boolean) (psf == null ? false : psf.getValue());
         // 公积金的话无他证送抵时间
         if (mortgage != null && "30016003".equals(mortgage.getMortType()) && "1".equals(mortgage.getIsDelegateYucui()))
         {
             tz = false;
         }
-        request.setAttribute("tz", tz);
+        request.setAttribute("tz", tz);*/
+        
         request.setAttribute("loanRelease", mortgage);
         
         return "task" + UiImproveUtil.getPageType(request) + "/taskLoanRelease";

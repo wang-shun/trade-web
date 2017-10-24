@@ -37,7 +37,7 @@ public interface RansomListFormMapper {
 	ToRansomCaseVo getRansomCase(@Param("caseCode")String caseCode, @Param("ransomCode")String ransomCode);
 	
 	/**
-	 * 根据caseCode保存赎楼中止信息
+	 * 根据caseCode更新赎楼中止信息
 	 * @param caseCode
 	 * @return
 	 */
@@ -189,6 +189,17 @@ public interface RansomListFormMapper {
 	 */
 	Integer queryCountMonthRansomsByUserId(String userId);
 	
+	/**
+	 * 根据赎楼单编号修改金融权证(create_user)
+	 * @param tailinsVo
+	 * @return
+	 */
+	boolean updateRansomTailUserByRansomCode(ToRansomTailinsVo tailinsVo);
 	
-
+	/**
+	 * 根据赎楼单编号修改金融权证(create_user)
+	 * @param caseVo
+	 * @return
+	 */
+	boolean updateRansomCaseUserByRansomCode(ToRansomCaseVo caseVo);
 }

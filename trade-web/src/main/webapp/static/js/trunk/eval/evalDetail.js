@@ -399,7 +399,7 @@ function evalReject(caseCode){
 	window.wxc.confirm("确定评估驳回？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		$.ajax({
-			url:ctx+"/eval/reject",
+			url:ctx+"/eval/detail/reject",
 			method:"post",
 			dataType:"json",
 			data:{caseCode:caseCode,evaCode:$("#evaCode").val()},
@@ -421,8 +421,49 @@ function evalReject(caseCode){
 					window.wxc.error(data.message);
 				
 				}else{
+					$.unblockUI();
 					window.wxc.alert("驳回成功");
-					//window.location.href=ctx+"/eval/task/route/evalServiceStopApply?taskId="+data.content.activeTaskId+"&instCode="+data.content.id+"&caseCode="+caseCode+"&evaCode="+data.content.businessKey;
+				}
+			}
+		});
+	}});
+}
+
+//评估公司变更
+function evalComChange(evaCode){
+	 $('#change-eval-company-modal-form').modal("show");
+}
+
+//评估公司变更调佣
+function transferCommission(){
+	window.wxc.confirm("确定评估公司变更调佣？",{"wxcOk":function(){
+		var caseCode = $("#caseCode").val();
+		$.ajax({
+			url:ctx+"/eval/collectInvoice",
+			method:"post",
+			dataType:"json",
+			data:{caseCode:caseCode,evaCode:$("#evaCode").val()},
+		    beforeSend:function(){  
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+            },
+            complete: function() {  
+                if(status=='timeout'){//超时,status还有success,error等值的情况
+	          	  Modal.alert(
+				  {
+				    msg:"抱歉，系统处理超时。"
+				  });
+		        }
+		   } , 
+		   success:function(data){
+				if(!data.success){
+					$.unblockUI();   
+					window.wxc.error(data.message);
+				
+				}else{
+					$.unblockUI();
+					window.location.href=ctx+"/eval/collectInvoice";
+					window.wxc.alert("驳回成功");
 				}
 			}
 		});
@@ -470,4 +511,34 @@ function isRedFormatter(cellvalue) {
 	if (cellvalue =='1')
 		reStr='有';
 	return reStr;
+}
+function saveEvaComChangeItems(){
+	 var url  = ctx + "/eval/detail/saveEvaComChangeItems";
+	 $.ajax({
+			url:url,
+			method:"post",
+			dataType:"json",
+			data:{evaCode:$("#evaCode").val(),changeInfo:$("#changeReason").val()},
+		    beforeSend:function(){  
+         },
+         complete: function() {  
+             if(status=='timeout'){//超时,status还有success,error等值的情况
+	          	  Modal.alert(
+				  {
+				    msg:"抱歉，系统处理超时。"
+				  });
+		        }
+		   } , 
+		   success:function(data){
+				if(data.success){
+					window.wxc.alert("保存成功",{"wxcOk":function(){
+						$('#change-eval-company-modal-form').modal("hide");
+						location.reload();
+					}});
+				}else{
+					$.unblockUI();   
+					window.wxc.error(data.message);
+				}
+			}
+		});
 }

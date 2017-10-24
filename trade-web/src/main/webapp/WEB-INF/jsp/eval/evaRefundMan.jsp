@@ -162,9 +162,9 @@
 <script type="text/javascript">
 
 	//关闭
-	$('#closeButton').click(function() {
+	/* $('#closeButton').click(function() {
 		window.close();
-	});
+	}); */
 
 	//提交数据
 	function submit() {
@@ -344,7 +344,7 @@
 			</form>
 			<div class="form-btn">
 				<div class="text-center">
-					<button class="btn btn-success btn-space" id="closeButton">关闭</button>
+					<button class="btn btn-success btn-space" id="closeButton" onclick="javascript:self.close()">关闭</button>
 					<button class="btn btn-success btn-space" onclick="submit()">提交</button>
 				</div>
 			</div>

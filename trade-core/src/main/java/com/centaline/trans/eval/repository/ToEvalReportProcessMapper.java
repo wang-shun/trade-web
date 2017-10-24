@@ -33,15 +33,7 @@ public interface ToEvalReportProcessMapper {
      * @return
      * @author jinwl6
      */
-    int updateEvalPropertyByEvalCode(ToEvalReportProcess toEvalReportProcess);
-    
-    /**
-     * 
-     * @param toEvalReportProcess
-     * @return
-     * @author jinwl6
-     */
-    int updateEvalPropertyByCaseCode(ToEvalReportProcess toEvalReportProcess);
+    int updateChangeInfoByEvalCode(ToEvalReportProcess toEvalReportProcess);
     
     /**
      * 
