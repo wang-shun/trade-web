@@ -698,7 +698,7 @@ public class CaseDetailController {
 			}
 		}
 		
-		
+		                                                                                                                
 		SessionUser sessionUser = uamSessionService.getSessionUser();		
 		List<TaskVo> tasks = new ArrayList<TaskVo>();
 		if (toWorkFlow != null) {
@@ -842,10 +842,10 @@ public class CaseDetailController {
 			reVo.setPropertyTypeName(propertyTypeName);
 		}	
 		// 购房年数,现在存在物业信息中
-		/*if (caseInfo.getHoldYear() != null) {
-			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), caseInfo.getHoldYear());
+		if (toPropertyInfo.getHoldYear() != null) {
+			String holdYear = uamBasedataService.getDictValue(TransDictEnum.TGFNS.getCode(), toPropertyInfo.getHoldYear());
 			reVo.setHoldYear(holdYear);
-		}*/
+		}
 		// 唯一住房,接单购房套数判断
 		ToCaseRecv caseRecv =  toCaseRecvMapper.selectByPrimaryKey(toCase.getCaseCode());
 		if(caseRecv != null){

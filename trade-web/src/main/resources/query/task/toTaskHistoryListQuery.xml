@@ -170,7 +170,7 @@
 							    left join sctrans.SYS_WFE_TEMPLATE as wfe on TW.BUSINESS_KEY=wfe.WFE_CODE 
 							WHERE 1=1
 	     				<ifNotNull casecode>	
-	     						AND TW.CASE_CODE = #casecode#
+	     						AND TW.BIZ_CODE = #ransomcode#
 						</ifNotNull>
 	     				<ifNotNull wfeName>	
 	     						AND wfe.WFE_NAME = #wfeName#

@@ -59,7 +59,7 @@
 						tw.CASE_CODE,
 						ART.ASSIGNEE_ AS ASSIGNEE,
 						tw.BUSINESS_KEY,
-						(select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.CASE_CODE ) as SUBSCRIBE_COUNT
+						(select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.BIZ_CODE ) as SUBSCRIBE_COUNT
 						,(select PROPERTY_CODE  from sctrans.T_TO_PROPERTY_INFO where CASE_CODE=tw.CASE_CODE) propertyCode
 						,(select top 1 CASE_ORIGIN from sctrans.T_TO_CASE where CASE_CODE=tw.CASE_CODE) CASE_ORIGIN
 
@@ -87,7 +87,7 @@
 						  </ifNotNull>
 						  <ifNotNull isSuspended>
 						  	<choose>
-								<when test="isSuspended == true">
+								<when test="isSuspended == 'true'">
 									AND ART.SUSPENSION_STATE_ = '2'
 								</when>
 								<otherwise>
@@ -176,7 +176,7 @@
 				<column type="virtual" name="SELLER" referencecol="CASE_CODE" index="" checkbox="" display="上家" customDict="qqcdSeller" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="virtual" name="BUYER" referencecol="CASE_CODE" index="" checkbox="" display="下家" customDict="qqcdBuyer" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 
-				<column type="virtual" name="PKID,PROPERTY_ADDR,AGENT_ORG_NAME,AGENT_NAME,CCAI_CODE,MOBILE,ORG_ID,MANAGER_INFO" isDynamicDict="true" display="caseId,所属分行,经纪人,CTM_CODE,手机,ORG_ID" referencecol="CASE_CODE" index="" checkbox="" customDict="getCaseInfo" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="PKID,PROPERTY_ADDR,AGENT_ORG_NAME,AGENT_NAME,CCAI_CODE,AGENT_PHONE,ORG_ID,MANAGER_INFO" isDynamicDict="true" display="caseId,所属分行,经纪人,CTM_CODE,手机,ORG_ID" referencecol="CASE_CODE" index="" checkbox="" customDict="getCaseInfo" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 
 				<!-- <column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,PART_CODE" index="" checkbox="" customDict="qqFindTranPlan" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" /> -->
 				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" display="红灯记录,预计执行时间,红绿灯" referencecol="RANSOM_CODE,PART_CODE" index="" checkbox="" customDict="qqFindRAPlan" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />

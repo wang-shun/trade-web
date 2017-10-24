@@ -9,6 +9,10 @@ import com.centaline.trans.eval.entity.ToEvalReportProcess;
 import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.mgr.service.TsSupService;
+import com.centaline.trans.ransom.entity.ToRansomCaseVo;
+import com.centaline.trans.ransom.entity.ToRansomDetailVo;
+import com.centaline.trans.ransom.service.RansomListFormService;
+import com.centaline.trans.ransom.service.RansomService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,6 +82,9 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 	private TsSupService tsSupService;//供应商services
 	@Autowired
 	private ToEvalRebateService toEvalRebateService;
+	@Autowired
+	private RansomListFormService ransomListFormService;//赎楼services
+	@Autowired RansomService ransomService;
 
 	/****
 	 * 查询案件详情
@@ -93,6 +100,21 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 		ToCase te = toCaseService.findToCaseByCaseCode(caseCode);
 		if (null != te) {
 			reVo.setCaseProperty(te.getCaseProperty());
+		}
+		/**
+		 * 赎楼信息 By wbzhouht
+		 */
+		ToRansomCaseVo toRansomCaseVo=ransomListFormService.getRansomCase(caseCode);
+		if(toRansomCaseVo!=null){
+			//获取赎楼详细信息
+			ToRansomDetailVo toRansomDetailVo=ransomService.getRansomDetail(toRansomCaseVo.getRansomCode());
+			if(toRansomDetailVo!=null) {
+				reVo.setPawnCompanies(toRansomDetailVo.getComOrgName());//典当公司
+				reVo.setOwnerMatAmount(toRansomDetailVo.getRepayLoanMoney());//垫资金额
+				reVo.setMatCharges(toRansomDetailVo.getInterest());//垫资费用
+				reVo.setMatAmountTime(toRansomDetailVo.getRepayTime());//垫资日期
+			}
+
 		}
 
 		// 物业信息

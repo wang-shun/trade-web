@@ -166,7 +166,7 @@
 								</div>
 							</div>
 						</c:if>
-						<div class="line">
+						<%--<div class="line">
 							<div class="form_content">
 								<label class="control-label sign_left_small">业主垫资金额<font color=" red" class="mr5" >*</font></label>
 								<input type="text" name="ownerMatAmount"
@@ -203,7 +203,7 @@
 									   class=" input_type yuanwid" onkeyup="checkNonum(this)" placeholder="万元">
 							</div>
 
-						</div>
+						</div>--%>
 
 						<h2 class="newtitle title-mark">经纪人陪同</h2>
 						<div class="line">
@@ -582,34 +582,14 @@
 			}
 		}
 		function checkAttachments() {
-			$.each($("#guohufileUploadContainer ul"), function(index, value){
-
-				var length = $(this).find("li").length;
-				if(length == 0) {
-					window.wxc.alert("请上传备件！");
-					checkAtt = false;
-					return false;
-				} else {
-					checkAtt = true;
-				}
-			});
-			return checkAtt;
+			if($("#house_book_receipt_pic_list li").length == undefined||
+				$("#house_book_receipt_pic_list li").length==0){
+                window.wxc.alert("收件收据未上传!");
+                return false;
+			}
+			return true;
 		}
 
-		function checkAtts(){
-			var result = true;
-
-			$(".table tbody tr .filelist").each(function(){
-				var length = $(this).find("li").length;
-
-				if(length == 0){
-					result = false;
-					return false;
-				}
-			});
-
-			return result;
-		}
 
 		/**保存数据*/
 		function save(b) {
@@ -882,13 +862,6 @@
 						return false;
 					}
 				}
-			}
-
-			var result = checkAtts();
-
-			if(!result){
-				window.wxc.alert('请上传附件！');
-				return false;
 			}
 
 			return true;

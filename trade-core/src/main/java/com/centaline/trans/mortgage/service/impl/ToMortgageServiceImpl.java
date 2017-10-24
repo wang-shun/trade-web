@@ -1435,5 +1435,9 @@ public class ToMortgageServiceImpl implements ToMortgageService
 		
 		return toMortgageMapper.findToMortgageSave(caseCode);
 	}
+	@Override
+	public void deleteMortageByCaseCode(String caseCode) {
+		toMortgageMapper.deleteMortageByCaseCode(caseCode);
+	}
 }
 

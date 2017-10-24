@@ -77,9 +77,7 @@
 </head>
 
 <body>
-<input type="hidden" id="PROCESS_DEFINITION_ID_RANSOM" value="${PROCESS_DEFINITION_ID_RANSOM}" />
-
-	<jsp:include page="/WEB-INF/jsp/ransom/taskListByRansomCode.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/ransom/ransomBaseInfo.jsp"></jsp:include>
 
 	<div class="ibox-content border-bottom clearfix space_box noborder">
@@ -92,7 +90,6 @@
 			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 			<div class="line">
 				<div class="title">信息录入</div>
-				<hr>
              	<div class="form_content fo">
           			<label class="control-label matching"><font color=" red" class="mr5" >*</font>匹配资方</label>
 					<div class="control-div ">
@@ -178,7 +175,6 @@
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> 
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
 	<script src="<c:url value='/js/common/common.js' />"></script> 
-	<script src="<c:url value='/js/ransom/ransomTaskCheck.js' />"></script> 
 	
 	<script id="template_applyRecord" type="text/html">
 		{{each rows as item inddex}}
@@ -217,7 +213,7 @@
 			//获取历史申请记录
 			var data = {};
 			data.queryId = "getApplyRecord";
-			data.caseCode = $('#caseCode').val();
+			data.ransomCode = $('#ransomCode').val();
 			data.rows = 10;
 		    data.page = 1;
 			queryApplyRecord(data);
@@ -329,7 +325,7 @@
 				success:function(data){
 					if(data){
 						window.wxc.success("提交成功!",{"wxcOk":function(){
-							ransomTaskCheck();
+							 window.close();	
 						}});
 					}else{
 						window.wxc.error("提交失败!");

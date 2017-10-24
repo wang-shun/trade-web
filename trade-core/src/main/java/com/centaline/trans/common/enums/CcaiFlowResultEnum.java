@@ -11,7 +11,8 @@ public enum CcaiFlowResultEnum {
 	BACK("驳回修改",2),
 	SUPPLEMENT("补充资料",3),
 	//终止流程
-	FAILURE("拒绝",-1);
+	FAILURE("拒绝",-1),
+	NORMAL_BACK("通用驳回",0);
 
 	private String name;
 	private int code;

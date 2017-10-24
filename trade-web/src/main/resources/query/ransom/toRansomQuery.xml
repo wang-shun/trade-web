@@ -65,7 +65,7 @@
 						sctrans.T_RA_CASE cas
 						INNER JOIN sctrans.T_RA_APPLY app ON cas.RANSOM_CODE = app.RANSOM_CODE
 					WHERE
-						cas.RANSOM_CODE = #ransomCode#
+						cas.CASE_CODE = #caseCode#
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -192,19 +192,21 @@
 						ca.PKID pkid,
 						ca.CASE_CODE caseCode,
 						pro.PROPERTY_ADDR propertyAddr,
-						cai.AGENT_NAME agentName,
-						cai.GRP_NAME grpName,
+						ca.AGENT_NAME agentName,
+						ca.GRP_NAME grpName,
 						guest.GUEST_NAME seller,
 						guest1.GUEST_NAME buyer,
-						par.USER_NAME userName,
-						par.REAL_NAME realName
+						(SELECT REAL_NAME FROM sctrans.SYS_USER u WHERE u.ID = cas.LEADING_PROCESS_ID) realName
 					FROM sctrans.T_TO_CASE_INFO ca
 					INNER JOIN sctrans.T_TO_PROPERTY_INFO  pro ON ca.CASE_CODE = pro.CASE_CODE
-					INNER JOIN sctrans.T_TO_CASE_INFO cai ON pro.CASE_CODE = cai.CASE_CODE
-					INNER  JOIN sctrans.T_TG_GUEST_INFO guest ON cai.CASE_CODE = guest.CASE_CODE AND guest.TRANS_POSITION='30006001'
-					INNER JOIN sctrans.T_TG_GUEST_INFO guest1 ON cai.CASE_CODE = guest1.CASE_CODE AND guest1.TRANS_POSITION='30006002'
-					INNER JOIN sctrans.T_TO_CASE_PARTICIPANT par ON guest.CASE_CODE = par.CASE_CODE
-					WHERE NOT EXISTS (SELECT cas.CASE_CODE FROM sctrans.T_RA_CASE cas WHERE cas.CASE_CODE = ca.CASE_CODE)
+					INNER  JOIN sctrans.T_TG_GUEST_INFO guest ON ca.CASE_CODE = guest.CASE_CODE AND guest.TRANS_POSITION='30006001'
+					INNER JOIN sctrans.T_TG_GUEST_INFO guest1 ON ca.CASE_CODE = guest1.CASE_CODE AND guest1.TRANS_POSITION='30006002'
+					INNER  JOIN sctrans.T_TO_CASE cas ON cas.CASE_CODE = ca.CASE_CODE 
+					LEFT JOIN  sctrans.T_RA_CASE tr ON cas.CASE_CODE =tr.CASE_CODE
+					WHERE 
+						tr.RANSOM_CODE is NULL
+						OR 
+							tr.RANSOM_STATUS = '4'
 					<ifNotNull casecode>
 						AND ca.CASE_CODE = #casecode#
 					</ifNotNull>

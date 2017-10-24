@@ -148,7 +148,7 @@
 			<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
-    <div class="clearfix">
+    <div class="clearfix" id="aboutInfo">
         <h2 class="newtitle title-mark">佣金折返评估费</h2>
         <div class="text_list">
             <ul class="textinfo">
@@ -315,6 +315,7 @@
     <!-- jqGrid -->
     <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
     <script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
+
     <!-- Custom and plugin javascript -->
     <script src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script>
     <!-- Data picker -->
@@ -322,7 +323,7 @@
 
 
     <!-- 上传附件相关 -->
-   <%-- <script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script>
+    <%--<script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script>
@@ -337,8 +338,8 @@
     <script src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script>
     <script src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script>
-    <script src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>
-    <script src="<c:url value='/js/stickUp.js' />"></script>--%>
+    <script src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>--%>
+    <script src="<c:url value='/js/stickUp.js' />"></script>
     <!-- 上传附件 结束 -->
     <!-- 附件保存修改相关 -->
     <script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
@@ -347,6 +348,8 @@
 
     <!-- 改版引入的新的js文件 -->
     <script src="<c:url value='/js/common/textarea.js' />"></script>
+    <script src="<c:url value='/js/common/common.js' />"></script>
+
 
     <!-- 必须JS -->
     <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
@@ -371,7 +374,6 @@
 			data : jsonData,
             timeout:10000,
             beforeSend : function() {
-			    console.log(111111111111)
                  $.blockUI({
                      message : $("#salesLoading"),
                      css : {

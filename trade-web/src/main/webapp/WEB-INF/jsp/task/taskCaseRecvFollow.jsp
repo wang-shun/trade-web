@@ -40,7 +40,7 @@
 <!--弹出框样式  -->
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
-<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
+
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 <script type="text/javascript">
 	var teamProperty = "${teamProperty}";
@@ -196,13 +196,13 @@ function save(b) {
             console.log(data);
             if (b) {
                 if (data.message) {
-                    window.wxc.alert("提交成功"+data.message);
+                    window.wxc.alert("提交成功！");
                 }
                 var ctx = $("#ctx").val();
                 window.location.href=ctx+ "/task/myTaskList";
             }else{
             	if (data.message) {
-                    window.wxc.alert("提交成功"+data.message);
+                    window.wxc.alert("保存成功!");
                 }
             }
         },
@@ -679,6 +679,7 @@ function checkForm() {
 				<!-- 改版引入的新的js文件 -->
 				<script src="<c:url value='/js/common/textarea.js' />"></script>
 				<script src="<c:url value='/js/common/common.js' />"></script>
+				<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
 				<script>
 					$(document).ready(function(){
 						var ctx = $("#ctx").val();

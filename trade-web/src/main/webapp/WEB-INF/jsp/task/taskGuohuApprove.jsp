@@ -384,31 +384,31 @@
                 </li>--%>
                 <!--新加-->
                 <li>
-                    <em >典当公司</em><span class="yuanwid">${houseTransfer.pawnCompanies}</span>
+                    <em >典当公司</em><span class="yuanwid">${caseDetailVO.pawnCompanies}</span>
                 </li>
                 <li>
                     <em >业主垫资金额</em><span class="yuanwid">
                     <c:if test="${!empty houseTransfer.ownerMatAmount}">
-                    ${houseTransfer.ownerMatAmount}&nbsp;&nbsp;万元</c:if></span>
+                    ${caseDetailVO.ownerMatAmount}&nbsp;&nbsp;万元</c:if></span>
                 </li>
                 <li>
                     <em >垫资日期</em><span class="yuanwid">
-                    <fmt:formatDate value="${houseTransfer.matAmountTime}" pattern="yyyy-MM-dd" /></span>
+                    <fmt:formatDate value="${caseDetailVO.matAmountTime}" pattern="yyyy-MM-dd" /></span>
                 </li>
                 <li>
                     <em class="pull-left">垫资费用</em><span class="infolong pull-left">
-                    <c:if test="${!empty houseTransfer.matCharges}">
+                    <c:if test="${!empty caseDetailVO.matCharges}">
                     ${houseTransfer.matCharges}&nbsp;&nbsp;万元</c:if></span>
                 </li>
-                <li>
+              <%--  <li>
                     <em >担保费金额</em><span class="yuanwid">
                     <c:if test="${!empty houseTransfer.guaranteeFeeAmount}">
                     ${houseTransfer.guaranteeFeeAmount}&nbsp;&nbsp;万元</c:if></span>
-                </li>
+                </li>--%>
 
                 <li>
                     <em>合同价</em>
-                    <span>
+                    <span class="yuanwid">
                             <c:if test="${!empty caseInfo.conPrice}">
                                 ${caseInfo.conPrice/10000}  &nbsp&nbsp万元
                             </c:if>

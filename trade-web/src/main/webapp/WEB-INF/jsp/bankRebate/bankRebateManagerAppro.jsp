@@ -14,7 +14,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>自办贷款审批</title>
+<title>银行返利权证经理复审</title>
 <!-- jdGrid相关 -->
 <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
@@ -103,38 +103,6 @@
 
 	
 	<div class="">
-		<div  class="info_box info_box_two col-sm-12" >
-									<span>自办贷款信息</span>
-									<div  class="ibox-conn else_conn_two">
-										<table style="width:100%">
-											<tr style="height:50px">
-												<td>流程状态：</td>
-												<td><c:if test="${toSelfAppInfo.status==1}">通过</c:if>
-													<c:if test="${toSelfAppInfo.status==0}">审批中</c:if>
-													<c:if test="${toSelfAppInfo.status==-1}">驳回</c:if></td>
-												<td>申请人：</td>
-												<td>${toSelfAppInfo.realName}</td>
-												<td>申请分行：</td>
-												<td>${toSelfAppInfo.grpName}</td>
-												<td>申请时间：</td>
-												<td><fmt:formatDate  value='${toSelfAppInfo.applyTime}' type='both' pattern='yyyy-MM-dd'/></td>
-											</tr>
-											
-											<tr style="height:50px">
-												<td>自办原因：</td>
-												<td>1</td>
-												<td>自办贷款银行：</td>
-												<td>1</td>
-											</tr>
-											<tr style="height:50px">
-												<td>权证经理回访结果：</td>
-												<td>${toAppRecordInfo.visitResult}</td>
-												<td>权证经理回访时间：</td>
-												<td><fmt:formatDate  value='${toAppRecordInfo.visitTime}' type='both' pattern='yyyy-MM-dd'/></td>
-											</tr>
-									</table>
-									</div>
-								</div>
 
 		<div class="ibox-content border-bottom clearfix space_box noborder">
 
@@ -151,34 +119,59 @@
 			<h2 class="newtitle title-mark">填写审批任务</h2>
 			<div class="tab-content">
 							
-							<div class="tab-pane active fade in" id="settings">
+					<div class="tab-pane active fade in" id="settings">
 							<table border="1" class="table table_blue table-striped table-bordered table-hover">
+							 		<tr>
+									    <th><span class="star">*</span>审批意见</th>
+									    <td><textarea name="comment" rows="2" cols="100"></textarea><input type="hidden" name="selfAppInfoId" value="${toSelfAppInfo.pkid}"/></td>
+									    
+									  </tr>
 									  <tr>
 									    <th width="100px" align="center"><span class="star">*</span>审批结果</th>
 									    <td width="500px">
 									    <label> 
 							   			 <input type="radio" value="0"  name="result" checked="checked"/> <span >通过</span>
 										</label>
-										<label> 
-							   			 <input type="radio" value="1"  name="result"/> <span >驳回</span>
-										</label>
-									</td>
+										</td>
 									  </tr>
-									  <tr>
-									    <th><span class="star">*</span>审批意见</th>
-									    <td><textarea name="comment" rows="2" cols="100"></textarea><input type="hidden" name="selfAppInfoId" value="${toSelfAppInfo.pkid}"/></td>
-									  </tr>
+									 
 							</table>
 								
 								
-						<div class="title title-mark" >
-				<strong style="font-weight: bold;">审批记录</strong>
-				</div>
-
+			<div class="title title-mark" >
+				<strong style="font-weight: bold;">审批历史记录</strong>
+			</div>
 			<div class="view-content">
+			  <table class="table table_blue table-striped table-bordered table-hover" id="editable" >
+                                         <thead>
+                                            <tr>
+                                                <th> 步骤名称</th>
+                                                <th>审批人域账号</th>
+                                                <th>审批人姓名</th>
+                                                <th> 审批时间</th>
+                                                <th>审批结果</th>
+                                                <th> 备注</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table_content_pre">
+                                      		<c:forEach items="${updateLogList}" var="item" varStatus="status">  
+											  <tr >  
+											    <td class="center"><span class="center">${status.index+1}</span></td>  
+											    <td><fmt:formatDate value="${item.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>  
+											    <td>${item.updateReason}</td>  
+											    <td>${item.rejectPerson}</td>  
+											    <td><fmt:formatDate value="${item.approTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+											    <td>${item.rejectCause}</td>
+											  </tr>  
+											</c:forEach> 
+                                        </tbody>
+                                    </table> 
+                               </div>
+			<!-- <div class="view-content">
 				<table id="gridTable" class=""></table>
 				<div id="gridPager"></div>
-			</div>
+			</div>	 -->		
+					
 					
 				</div>
 			</div>
@@ -187,9 +180,8 @@
 
 			<div class="form-btn" style="margin-top:50px">
 				<div class="text-center">
-					<%--<button  class="btn btn-success btn-space">保存</button>--%>
 					<button class="btn btn-success btn-space" onclick="closeWin()" >关闭</button>
-					<button class="btn btn-success btn-space" onclick="submit()">提交</button>
+					<button class="btn btn-success btn-space" onclick="submit()">提交审批</button>
 				</div>
 			</div>
 		</div>
@@ -381,7 +373,13 @@ var caseCode = $("#caseCode").val();
 			if(formId.find("textarea[name='comment']").val() == ""){
 				 window.wxc.error("审批意见不能为空");
 				 return false;
-			}
+			}else if(formId.find("textarea[name='visitResult']").val() == ""){
+				 window.wxc.error("回访结果不能为空");
+				 return false;
+			}else if(formId.find("input[name='visitTime']").val() == ""){
+				window.wxc.error("回访时间不能为空");
+				return false;
+			};
 			return true;
 		}
 		
@@ -391,7 +389,7 @@ var caseCode = $("#caseCode").val();
 			
 				var jsonData = $("#firstFollowform").serializeArray();
 				var 
-					url = "${ctx}/task/chiefInspectorAppro/submit";
+					url = "${ctx}/task/warrantManagerAppro/submit";
 				$.ajax({
 					cache : true,
 					async : true,//false同步，true异步

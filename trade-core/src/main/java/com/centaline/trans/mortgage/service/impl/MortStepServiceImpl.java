@@ -64,4 +64,9 @@ public class MortStepServiceImpl implements MortStepService {
 		return result;
 	}
 
+	@Override
+	public void deleteMortStepByCaseCode(String caseCode) {
+		mortStepMapper.deleteCaseCode(caseCode);
+	}
+
 }

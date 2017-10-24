@@ -1,6 +1,6 @@
 /**
  * 案件详情
- *
+ * @author wbcaiyx
  */
 Array.prototype.contains = function(obj){
     var i = this.length;
@@ -18,9 +18,9 @@ $(document).ready(function() {
         moduleType:"1001",
         subscribeType:"2001"
     });
-    $("#mortageService").change(function(){
-        mortageService();
-    });
+   /* $("#mortageService").change(function(){
+        //mortageService();
+    });*/
     //CCAI附件
     getShowCCAIAttachment();
     //附件
@@ -30,6 +30,8 @@ $(document).ready(function() {
 
 });
 
+
+$("#btn_loan_reqment_chg").click(chgLoanReqment);
 /**
  * CCAI附件
  */
@@ -294,18 +296,7 @@ function buttonActivity(){
         }
     }
 }
-/**
- * 评估公司变更 by xiefei1
- */
-function showEvalCompanyChangeModal(){
-    resetPlanModal();
-    $('#change-eval-company-modal-form').modal("show");
-}
 
-function submitEvalCompanyChangeModal(){
-    var ctx = $("#ctx").val();
-    window.location.href=ctx+ "/eval/changeEvalCom";
-}
 /**
  * 交易计划变更
  */
@@ -578,91 +569,6 @@ function serviceRestart(){
     }});
 }
 
-
-/**
- * 变更交易助理
- */
-function showChangeAssistantModal() {
-    //查询该组别下所有交易助理
-    var url = "/case/getAssistantInfo";
-    var ctx = $("#ctx").val();
-    url = ctx + url;
-    $.ajax({
-        cache : false,
-        async : true,
-        type : "POST",
-        url : url,
-        dataType : "json",
-        timeout : 10000,
-        success : function(data) {
-            changeAssistant(data);
-        },
-        error : function(XMLHttpRequest, textStatus, errorThrown) {
-        }
-    });
-}
-
-//变更交易助理
-function changeAssistant(data) {
-    var assistantName = $("#assistantUserName").val();
-    var addHtml = '';
-    addHtml+='<div class="row">';
-    addHtml += '<div class="col-md-6 wd-50" style="width:100%">';
-    addHtml += "<label class='col-md-3 control-label'>交易助理</label>";
-    addHtml += "<div class=\"col-md-6\">";
-    addHtml += "<select class='form-control m-b' id='assistantChange' name='assistantId'>";
-    if(data.users!=null && data.users!=''){
-        $.each(data.users, function(index, value){
-            // 让修改后的复选框默认被选中
-            if(assistantName==value.userRealName){
-                addHtml += "<option value='"+value.userId+"' selected='selected'>"+value.userRealName+"</option>";
-            }else{
-                addHtml += "<option value='"+value.userId+"'>"+value.userRealName+"</option>";
-            }
-        });
-    }
-    addHtml += "</select>";
-    addHtml += "</div></div>";
-    addHtml += '</div>';
-    addHtml += '</div>';
-    $("#change-assistant-data-show").html(addHtml);
-    $('#change-assistant-form').modal("show");
-}
-/**
- * 变更助理
- *
- */
-function changeAssistantInfo() {
-    window.wxc.confirm("您是否确认进行助理变更？",{"wxcOk":function(){
-        var assistantId = $("#assistantChange").val();
-        var pkid = $("#pkidAssistant").val();
-        var url = "/case/changeAssistant";
-        var ctx = $("#ctx").val();
-        url = ctx + url;
-        var params = '&assistantId=' + assistantId + '&pkid=' + pkid;
-        $.ajax({
-            cache : false,
-            async : true,
-            type : "POST",
-            url : url,
-            dataType : "json",
-            timeout : 10000,
-            data : params,
-            success : function(data) {
-                if(data.success){
-                    window.wxc.success("变更成功");
-                    location.reload();
-                }else{
-                    window.wxc.error(data.message);
-                }
-            },
-            error : function(XMLHttpRequest, textStatus, errorThrown) {
-            }
-        });
-    }});
-}
-
-
 /**
  * 权证变更
  */
@@ -861,16 +767,22 @@ function evalApply(){
 				if(data.content == 1){//询价已完成,可以评估申请
 					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
 				}else if(data.content == 2){//无询价,进入询价申请
-					window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
+					/*window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
 						window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
-					}});
+					}});*/
+					/**
+					 * modify 无询价直接评估 
+					 * @author wbcaiyx
+					 * date 2017/10/24
+					 */
+					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
 				}
 			}else{
 				window.wxc.alert(data.message);
 			}
 		},
 		error:function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(11);
+
 		}
 	});
 	
@@ -882,4 +794,62 @@ function dateFormat(dateTime){
     }
     var date = new Date(dateTime);
     return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+}
+
+/*贷款需求变更*/
+function showLoanReqmentChgModal(){
+	$("#mortageService").val("0");
+	$("#hzxm").html('');
+	$('#div_releasePlan').hide();
+	$('#div_releasePlan .input-group.date').datepicker({
+		todayBtn : "linked",
+		keyboardNavigation : false,
+		forceParse : false,
+		autoclose : true
+	});
+	$('#loanReqmentChg-modal-form').modal("show");
+}
+function chgLoanReqmentCheck(){
+	var selectVal =  $("#mortageService").val();
+	if(selectVal == "" || selectVal == null){
+		window.wxc.alert("贷款需求选择必须选!");
+		return false;
+	}
+	return true;
+}
+
+/*贷款需求选择提交*/
+function chgLoanReqment(){
+	if(!chgLoanReqmentCheck()){
+		return false;
+	}
+	window.wxc.confirm("您是否确认进行贷款选择变更？",{"wxcOk":function(){
+	var jsonData = $("#loan_reqment_chg_form").serializeArray();
+	$.ajax({
+		cache : false,
+		async : false,//false同步，true异步
+		type : "POST",
+		url : ctx+"/task/mortgageSelect/loanRequirementChange",
+		dataType : "json",
+		data : jsonData,
+		beforeSend:function(){
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+				$(".blockOverlay").css({'z-index':'9998'});
+         },
+		success : function(data) {
+			if(data.success){
+				window.wxc.success("变更成功",{"wxcOk": function(){
+					location.reload();
+				}});
+			}else{
+				window.wxc.error(data.message);
+			}
+		},complete: function() {
+			 $.unblockUI();
+		},
+		error : function(errors) {
+			window.wxc.error("数据保存出错");
+			 $.unblockUI();
+		}
+	})}});
 }

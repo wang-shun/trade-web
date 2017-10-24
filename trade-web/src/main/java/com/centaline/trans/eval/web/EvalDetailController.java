@@ -45,9 +45,21 @@ public class EvalDetailController {
 		return "eval/evalDetail";
 	}
 	
-	@RequestMapping(value = "reject")
+	@RequestMapping(value = "/detail/reject")
 	@ResponseBody
 	public AjaxResponse<?> evalReject(HttpServletRequest request,String caseCode,String evaCode){
 		return evalDetailService.evalReject(request, caseCode, evaCode);
+	}
+	
+	@RequestMapping(value = "/detail/saveEvaComChangeItems")
+	@ResponseBody
+	public AjaxResponse<?> saveEvaComChangeItems(HttpServletRequest request,String caseCode,String evaCode,String changeInfo){
+		return evalDetailService.saveEvaComChangeItems(request,evaCode,changeInfo);
+	}
+	
+	@RequestMapping(value = "/detail/checkTransferCommission")
+	@ResponseBody
+	public AjaxResponse<?> checkTransferCommission(HttpServletRequest request,String caseCode,String evaCode,String changeInfo){
+		return evalDetailService.checkTransferCommission(request,evaCode);
 	}
 }

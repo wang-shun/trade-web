@@ -96,7 +96,7 @@ public class ToEvalRebateServiceImpl implements ToEvalRebateService {
 		if(approve){
 			feedBack = new FlowFeedBack(user, CcaiFlowResultEnum.SUCCESS,record.getContent());
 		}else{
-			feedBack = new FlowFeedBack(user, CcaiFlowResultEnum.FAILURE,record.getContent());
+			feedBack = new FlowFeedBack(user, CcaiFlowResultEnum.NORMAL_BACK,record.getContent());
 		}
 		ToEvalReportProcess eval = toEvalReportProcessService.findToEvalReportProcessByCaseCode(rebate.getCaseCode());
 
@@ -106,6 +106,7 @@ public class ToEvalRebateServiceImpl implements ToEvalRebateService {
 		vo.setAssessPrice(eval.getEvaPrice());//评估价
 		vo.setAssessReceip(rebate.getEvalRecept());//评估收据
 		vo.setCode(rebate.getCaseCode());//案件编号
+		vo.setAssessCompanyPrice(rebate.getEvalCost());//评估公司成本
 		ApiResultData result = evalApiService.evalRebateFeedBack(feedBack,vo);
 		//根据交互成功 修改信息及完成流程变更状态
 		if(result.isSuccess()){
@@ -141,7 +142,7 @@ public class ToEvalRebateServiceImpl implements ToEvalRebateService {
 				//发送消息 启动流程
 				MQEvalMessage message = new MQEvalMessage(evalRebate.getCaseCode(), WorkFlowEnum.EVAL_REBATE_PROCESS.getCode(),MQEvalMessage.STARTFLOW_TYPE);
 				//队列名称与trade-api中 EvalFlowWorkListener 中定义一致，需要同步修改
-				jmsTemplate.convertAndSend("evalqueue-test", message);
+				jmsTemplate.convertAndSend("evalqueue", message);
 			}
 		}else{
 			throw new BusinessException("未获取到评估报告编号!");

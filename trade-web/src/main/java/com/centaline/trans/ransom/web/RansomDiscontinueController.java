@@ -192,7 +192,7 @@ public class RansomDiscontinueController {
 	@RequestMapping(value = "isCanBeSuspend")
 	@ResponseBody
 	public boolean isCanSuspend(ServletRequest request, String ransomCode) {
-		ToRansomCaseVo ranCase = ransomService.getRansomInfoByRansomCode(ransomCode);
+		ToRansomCaseVo ranCase = ransomListFormService.getRansomCase(null, ransomCode);
 		if(ranCase != null && !RansomStopStatusEnum.STOPING.getCode().equals(ranCase.getIsstop())) {
 			return true;
 		}
@@ -259,9 +259,9 @@ public class RansomDiscontinueController {
         	paramObj.put("isIgnoreAssignee", "exist");
         }
         if(isSuspended) {
-        	paramObj.put("isSuspended", true);
+        	paramObj.put("isSuspended", "true");
         }else {
-        	paramObj.put("isSuspended", false);
+        	paramObj.put("isSuspended", "false");
         }
         if(caseCode != null) {
         	paramObj.put("caseCode",caseCode);

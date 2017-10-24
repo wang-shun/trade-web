@@ -22,4 +22,6 @@ public interface ToBankRebateMapper {
     int updateByPrimaryKey(ToBankRebate record);
     
     int deleteByGuaranteeCompId(String guaCompId);
+    
+    int updateByGuaranteeCompId(ToBankRebate toBankRebate);
 }

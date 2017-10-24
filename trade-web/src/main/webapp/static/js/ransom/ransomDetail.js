@@ -481,7 +481,8 @@ function reloadDetail(){
 		var ctx = $("#ctx").val();
 		var caseCode= $("#caseCode").val();
 		url = ctx + url;
-		var data={operation:"JRQZ", caseCode:caseCode};
+//		var data={operation:"JRQZ", caseCode:caseCode};
+		var data={operation:"JRQZ", caseCode:"ZY-TJ-2017100477"};
 		$.ajax({
 			cache : false,
 			async : true,
@@ -496,11 +497,15 @@ function reloadDetail(){
             },
 			success : function(data) {
 				$.unblockUI();
-//				console.log(data.length);如果没有数据，则提示没有责任人
-				showLeadingModal(data);
+				if(data == null || data.length < 1){//如果没有数据，则提示没有责任人
+					window.wxc.error("没有符合的责任人");
+				}else{
+					showLeadingModal(data);
+				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				$.unblockUI();
+				window.wxc.error("查询失败");
 			}
 		});
 	}
@@ -552,7 +557,7 @@ function reloadDetail(){
 			var url = "/task/ransom/changeRansomOwner";
 			var ctx = $("#ctx").val();
 			url = ctx + url;
-			var params = {userId:userId,caseCode:caseCode,ransomCode:ransomCode};
+			var params = {changeToUserId:userId,caseCode:caseCode,ransomCode:ransomCode};
 
 			$.ajax({
 				cache : false,
@@ -564,11 +569,12 @@ function reloadDetail(){
 				data : params,
 				
 				success : function(data) {
-					if(data.success){
-						window.wxc.success("变更成功");
-						location.reload();
+					if(data){
+						window.wxc.success("变更成功",{"wxcOk":function(){
+							location.reload();
+						}});
 					}else{
-						window.wxc.error(data.message);
+						window.wxc.error("变更失败");
 					}
 					
 				},
