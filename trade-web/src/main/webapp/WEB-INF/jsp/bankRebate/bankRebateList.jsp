@@ -81,7 +81,7 @@
 			<h1 class="title">
 				银行返利列表
 			</h1>
-			<form method="get" class="form-horizontal form_box">
+			<!-- <form method="get" class="form-horizontal form_box"> -->
 				<div class="row clearfix">
 					<div class="form_content">
 						<label class="sign_left_two control-label">申请单状态</label>
@@ -135,7 +135,7 @@
 							<button id="addNewCase"  type="button" class="btn btn-success">新增</button>
 							<button id="importButton" type="button" class="btn btn-success" onclick="javascript:showExcelModal()">返利批量导入</button>
 							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:showExcelIn()">下载Excel模板</a>
-							<button id="deleteButton" onclick="javascript:deleteButton()" type="button" class="btn btn-success">删除</button>&nbsp;
+							<button id="deleteButton" onclick="javascript:deleteButton()" type="button" class="btn btn-success" disabled="true">删除</button>&nbsp;
 						</div>
 					</div>
 				</div>
@@ -170,7 +170,7 @@
                 </div>
             </div>
         </div>
-		<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
+		<!-- <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form> -->
 
         <!-- 返利导入 -->
         <div id="excel-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
@@ -313,7 +313,7 @@
 									<td class="center">
 										{{if item.STATUS=='0'}}
 											<a href="${ctx}/bankRebate/bankRebateUpdate?pkid={{item.pkId}}&&guaranteeCompId={{item.GUARANTEE_COMP_ID}}" target="_blank">修改</a>
-											<a href="${ctx}/eval/settle/evalEndUpdate?pkid={{item.pkId}}&&caseCode={{item.caseCode}}" target="_blank">提交</a>
+											<a href="${ctx}/eval/settle/evalEndUpdate?pkid={{item.pkId}}&&caseCode={{item.GUARANTEE_COMP_ID}}" target="_blank">提交</a>
 										{{/if}}
                         			</td>
                                 </tr>

@@ -2,6 +2,7 @@ package com.centaline.trans.bankRebate.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,6 +77,29 @@ public class ToBankRebateInfoServiceImpl implements ToBankRebateInfoService {
 		}
 		
 	}
+	
+	/**
+	 * 保存新增的银行返利批次号
+	 */
+	@Override
+	public void saveBankRebateInfoVO(ToBankRebateInfoVO info,String guaranteeCompId) {
+		// TODO Auto-generated method stub
+		List<ToBankRebateInfo> toBankRebateInfoList = info.getToBankRebateInfoList();
+		for (ToBankRebateInfo toBankRebateInfo : toBankRebateInfoList) {
+			ToBankRebateInfo record = new ToBankRebateInfo();
+			record.setBankName(toBankRebateInfo.getBankName());
+			record.setCcaiCode(toBankRebateInfo.getCcaiCode());
+			record.setGuaranteeCompId(guaranteeCompId);
+			record.setRebateMoney(toBankRebateInfo.getRebateMoney());
+			record.setRebateWarrant(toBankRebateInfo.getRebateWarrant());
+			record.setRebateBusiness(toBankRebateInfo.getRebateBusiness());
+			if(!StringUtils.isEmpty(record.getCcaiCode())) {
+				toBankRebateInfoMapper.insertSelective(record);
+			}
+		}
+		
+	}
+	
 	
 	
 }

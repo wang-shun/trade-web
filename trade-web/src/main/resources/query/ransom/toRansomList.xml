@@ -30,7 +30,7 @@
 							rac.STOP_REASON,
 							rac.BORRO_MONEY,
 							rac.UPDATE_TIME,
-							ISNULL(rac.ISAPPLY, 0) ISAPPLY
+							rac.ISAPPLY ISAPPLY
 						FROM sctrans.T_RA_CASE rac
 						INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON pro.CASE_CODE = rac.CASE_CODE
 						INNER JOIN sctrans.T_TO_CASE_INFO toc ON toc.CASE_CODE = pro.CASE_CODE

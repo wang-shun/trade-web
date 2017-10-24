@@ -28,4 +28,6 @@ public interface ToBankRebateInfoService {
 	List<ToBankRebateInfo> selectRebateInfoByGuaranteeCompId(String guaranteeCompId);
 
 	void saveToBankRebateInfoVO(ToBankRebateInfoVO toBankRebateInfoVO);
+
+	void saveBankRebateInfoVO(ToBankRebateInfoVO info, String guaranteeCompId);
 }
