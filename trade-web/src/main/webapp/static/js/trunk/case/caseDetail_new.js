@@ -765,16 +765,22 @@ function evalApply(){
 				if(data.content == 1){//询价已完成,可以评估申请
 					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
 				}else if(data.content == 2){//无询价,进入询价申请
-					window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
+					/*window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
 						window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
-					}});
+					}});*/
+					/**
+					 * modify 无询价直接评估 
+					 * @author wbcaiyx
+					 * date 2017/10/24
+					 */
+					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
 				}
 			}else{
 				window.wxc.alert(data.message);
 			}
 		},
 		error:function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(11);
+
 		}
 	});
 	
