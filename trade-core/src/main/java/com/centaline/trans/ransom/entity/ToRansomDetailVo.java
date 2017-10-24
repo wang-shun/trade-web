@@ -107,8 +107,6 @@ public class ToRansomDetailVo {
 		this.repayTime = repayTime;
 	}
 
-	private String isEntrust;
-
 	public String getRansomCode() {
 		return ransomCode;
 	}
