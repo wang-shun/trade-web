@@ -1,10 +1,10 @@
 package com.centaline.trans.ransom.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 赎楼详情VO
- * 
  * @author wbcaiyx
  *
  */
@@ -88,6 +88,8 @@ public class ToRansomDetailVo {
 	 * 还贷金额
 	 */
 	private BigDecimal repayLoanMoney;
+
+	private Date repayTime;//还贷时间  by wbzhouht
 	/**
 	 * 贷款费用/利息
 	 */
@@ -97,174 +99,134 @@ public class ToRansomDetailVo {
 	 */
 	private String isEntrust;
 
+	public Date getRepayTime() {
+		return repayTime;
+	}
+
+	public void setRepayTime(Date repayTime) {
+		this.repayTime = repayTime;
+	}
+
 	public String getRansomCode() {
 		return ransomCode;
 	}
-
 	public void setRansomCode(String ransomCode) {
 		this.ransomCode = ransomCode;
 	}
-
 	public String getCaseCode() {
 		return caseCode;
 	}
-
 	public void setCaseCode(String caseCode) {
 		this.caseCode = caseCode;
 	}
-
 	public BigDecimal getBorrowMoney() {
 		return borrowMoney;
 	}
-
 	public void setBorrowMoney(BigDecimal borrowMoney) {
 		this.borrowMoney = borrowMoney;
 	}
-
 	public String getBorrowName() {
 		return borrowName;
 	}
-
 	public void setBorrowName(String borrowName) {
 		this.borrowName = borrowName;
 	}
-
 	public String getBorrowTel() {
 		return borrowTel;
 	}
-
 	public void setBorrowTel(String borrowTel) {
 		this.borrowTel = borrowTel;
 	}
-
 	public String getAddr() {
 		return addr;
 	}
-
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
-
 	public String getComOrgCode() {
 		return comOrgCode;
 	}
-
 	public void setComOrgCode(String comOrgCode) {
 		this.comOrgCode = comOrgCode;
 	}
-
 	public String getComOrgName() {
 		return comOrgName;
 	}
-
 	public void setComOrgName(String comOrgName) {
 		this.comOrgName = comOrgName;
 	}
-
 	public String getCredit() {
 		return credit;
 	}
-
 	public void setCredit(String credit) {
 		this.credit = credit;
 	}
-
 	public String getCreditTel() {
 		return creditTel;
 	}
-
 	public void setCreditTel(String creditTel) {
 		this.creditTel = creditTel;
 	}
-
 	public String getFinancial() {
 		return financial;
 	}
-
 	public void setFinancial(String financial) {
 		this.financial = financial;
 	}
-
 	public String getFinancialTel() {
 		return financialTel;
 	}
-
 	public void setFinancialTel(String financialTel) {
 		this.financialTel = financialTel;
 	}
-
 	public String getAgentName() {
 		return agentName;
 	}
-
 	public void setAgentName(String agentName) {
 		this.agentName = agentName;
 	}
-
 	public String getAgentPhone() {
 		return agentPhone;
 	}
-
 	public void setAgentPhone(String agentPhone) {
 		this.agentPhone = agentPhone;
 	}
-
 	public String getLeadingProcessId() {
 		return leadingProcessId;
 	}
-
 	public void setLeadingProcessId(String leadingProcessId) {
 		this.leadingProcessId = leadingProcessId;
 	}
-
 	public String getLeadingProcessName() {
 		return leadingProcessName;
 	}
-
 	public void setLeadingProcessName(String leadingProcessName) {
 		this.leadingProcessName = leadingProcessName;
 	}
-
 	public BigDecimal getInterViewMoney() {
 		return interViewMoney;
 	}
-
 	public void setInterViewMoney(BigDecimal interViewMoney) {
 		this.interViewMoney = interViewMoney;
 	}
-
 	public BigDecimal getRepayLoanMoney() {
 		return repayLoanMoney;
 	}
-
 	public void setRepayLoanMoney(BigDecimal repayLoanMoney) {
 		this.repayLoanMoney = repayLoanMoney;
 	}
-
 	public BigDecimal getInterest() {
 		return interest;
 	}
-
 	public void setInterest(BigDecimal interest) {
 		this.interest = interest;
 	}
-
 	public String getIsEntrust() {
 		return isEntrust;
 	}
-
 	public void setIsEntrust(String isEntrust) {
 		this.isEntrust = isEntrust;
 	}
-
-	public String getRansomStatus() {
-		return ransomStatus;
-	}
-
-	public void setRansomStatus(String ransomStatus) {
-		this.ransomStatus = ransomStatus;
-	}
-
 	@Override
 	public String toString() {
 		return "ToRansomDetailVo [ransomCode=" + ransomCode + ", caseCode=" + caseCode + ", borrowMoney=" + borrowMoney
@@ -275,5 +237,5 @@ public class ToRansomDetailVo {
 				+ leadingProcessName + ", interViewMoney=" + interViewMoney + ", repayLoanMoney=" + repayLoanMoney
 				+ ", interest=" + interest + ", isEntrust=" + isEntrust + "]";
 	}
-
+	
 }
