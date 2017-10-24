@@ -252,6 +252,7 @@ function gotoPage(obj){
 	var instCode = $(obj).prev().find('select').attr('instCode');//流程实例id
 	var sVal = $(obj).prev().find('select').val();
 	var caseCode = $(obj).prev().find('select').attr('caseCode');
+	var evaCode = $(obj).prev().find('select').attr('evaCode');
 	
 	var url = ctx+"/evaPricing/";
 	if(sVal == '0'){//查看明细
@@ -259,7 +260,8 @@ function gotoPage(obj){
 		window.open(url);
 	}else  if(sVal == '1'){
 		if(caseCode != null && caseCode !="" && caseCode != undefined){//已关联交易案件
-			window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+			//直接给询价编号
+			window.open(ctx+"/task/eval/apply?evaCode="+evaCode);
 		}else{
 			var data = {};
 		    data.queryId = "queryEvalApplyList";
@@ -277,6 +279,7 @@ function gotoPage(obj){
 				dataType:'json',
 				success:function(data){
 					$('#evaPricingId').val(pVal);
+					$('#evaCode').val(evaCode);
 					
 					var html = template('template_evalApply',data);
 					$('#eval-modal-body').empty();
@@ -318,6 +321,8 @@ function evalApply(){
 	if(caseCode != ''){
 		//关联案件
 		var pkid = $('#evaPricingId').val();
+		var evaCode = $('#evaCode').val();
+		
 		var data = "&pkid=" + pkid +"&caseCode=" + caseCode;
 		$.ajax({
 			cache:true,
@@ -328,7 +333,7 @@ function evalApply(){
 			dataType:'json',
 			success:function(data){
 				if(data.content){
-					window.location.href= ctx+"/task/eval/apply?caseCode="+caseCode;
+					window.location.href= ctx+"/task/eval/apply?evaCode="+evaCode;
 				}else{
 					window.wxc.error('关联失败!');
 				}

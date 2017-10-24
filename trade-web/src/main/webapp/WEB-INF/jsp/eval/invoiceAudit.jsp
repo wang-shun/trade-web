@@ -39,7 +39,6 @@
 <!--弹出框样式  -->
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
-<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 <script type="text/javascript">
 	var coworkService = "${firstFollow.coworkService }";
@@ -256,7 +255,8 @@ function checkForm() {
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+		<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
 	<div class="">
 		<div class="wrapper white-bg new-heading" id="serviceFlow">
              <div class="pl10">

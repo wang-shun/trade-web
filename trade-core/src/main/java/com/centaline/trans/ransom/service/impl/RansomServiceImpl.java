@@ -505,6 +505,7 @@ public class RansomServiceImpl implements RansomService{
 		tailVo.setUpdateUser(sessionUser.getId());
 		tailVo.setUpdateTime(date);
 		ToRansomCaseVo caseVo = new ToRansomCaseVo();
+		caseVo.setRansomCode(ransomCode);
 		caseVo.setCreateUser(changeToUserId);
 		caseVo.setCreateTime(date);
 		caseVo.setUpdateUser(sessionUser.getId());

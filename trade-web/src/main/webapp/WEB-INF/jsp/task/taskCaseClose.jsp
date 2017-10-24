@@ -165,16 +165,16 @@
 															<label class="control-label sign_left_small">
 																付款金额(一期) </label> <input class="input_type yuanwid"  
 																value="<fmt:formatNumber value='${ editCaseDetailVO.initAmount}' type='number' pattern='#0.00' />" 
-															    id="initAmount" readonly="readonly" name="initAmount" onkeyup="checkNum(this)"> <span class="date_icon">万元</span>
+															    id="initAmount" name="initAmount" onkeyup="checkNum(this)"> <span class="date_icon">万元</span>
 														</div>
 														<div class="form_content mt3">
 															<label
 																class="control-label sign_left_small select_style mend_select">
 																付款时间(一期) </label>
 															<div
-																class="input-group sign-right dataleft pull-left"
-																data-date-format="yyyy-mm-dd"> <!-- input-daterange -->
-																<input  class="input_type yuanwid datatime" readonly="readonly"
+																class="input-group sign-right dataleft pull-left input-daterange"
+																data-date-format="yyyy-mm-dd">
+																<input  class="input_type yuanwid datatime"
 																	value="<fmt:formatDate  value='${editCaseDetailVO.initPayTime }' type='both' pattern='yyyy-MM-dd' />" 
 															       id="initPayTime" name="initPayTime">
 															</div>
@@ -189,7 +189,7 @@
 													<div class="line">
 														<div class="form_content">
 															<label class="control-label sign_left_small">付款金额(二期)</label>
-															<input class=" input_type yuanwid" readonly="readonly"
+															<input class=" input_type yuanwid"
 															value="<fmt:formatNumber value='${editCaseDetailVO.secAmount }' type='number' pattern='#0.00' />" 
 															id="secAmount" name="secAmount" onkeyup="checkNum(this)"> 
 															<span class="date_icon">万元</span>
@@ -199,9 +199,9 @@
 																class="control-label sign_left_small select_style mend_select">
 																付款时间(二期) </label>
 															<div
-																class="input-group sign-right dataleft pull-left"
+																class="input-group sign-right dataleft pull-left input-daterange"
 																data-date-format="yyyy-mm-dd"> <!-- input-daterange -->
-																<input  class="input_type yuanwid datatime" readonly="readonly"
+																<input  class="input_type yuanwid datatime"
 																	value="<fmt:formatDate  value='${editCaseDetailVO.secPayTime }' type='both' pattern='yyyy-MM-dd' />" 
 															       id="secPayTime" name="secPayTime"">
 															</div>
@@ -216,16 +216,16 @@
 														<div class="form_content">
 															<label class="control-label sign_left_small">付款金额(三期)</label>
 															<input class=" input_type yuanwid" value="<fmt:formatNumber value='${editCaseDetailVO.lastAmount}' type='number' pattern='#0.00' />" 
-															      readonly="readonly" id="lastAmount" name="lastAmount" onkeyup="checkNum(this)"> <span class="date_icon">万元</span>
+															      id="lastAmount" name="lastAmount" onkeyup="checkNum(this)"> <span class="date_icon">万元</span>
 														</div>
 														<div class="form_content mt3">
 															<label
 																class="control-label sign_left_small select_style mend_select">
 																付款时间(三期) </label>
 															<div
-																class="input-group sign-right dataleft pull-left"
+																class="input-group sign-right dataleft pull-left input-daterange"
 																data-date-format="yyyy-mm-dd"> <!-- input-daterange -->
-																<input class="input_type yuanwid datatime" readonly="readonly"
+																<input class="input_type yuanwid datatime"
 																	value="<fmt:formatDate  value='${editCaseDetailVO.lastPayTime }' type='both' pattern='yyyy-MM-dd' />" 
 															        id="lastPayTime" name="lastPayTime"">
 															</div>
@@ -1025,15 +1025,16 @@
 						} ,
 
 				success : function(data) {
-							if(data.message){
-								window.wxc.alert(data.message);
-							}
-							if(window.opener)
-							{
-								 window.close();
-								 window.opener.callback();
-							} else {
-								 window.location.href = "${ctx }/task/myTaskList";
+							if(data){
+								window.wxc.success("处理成功",{"wxcOk":function(){
+									if(window.opener)
+									{
+										 window.close();
+										 window.opener.callback();
+									} else {
+										 window.location.href = "${ctx }/task/myTaskList";
+									}
+								}})
 							}
 							//window.location.href = "${ctx }/task/myTaskList";
 				},

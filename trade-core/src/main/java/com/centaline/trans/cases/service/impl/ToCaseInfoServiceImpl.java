@@ -432,7 +432,8 @@ public class ToCaseInfoServiceImpl implements ToCaseInfoService {
 
 	@Override
 	public String findccaiCodeBycaseCode(String caseCode) {
-		return toCaseInfoMapper.findcaseCodeByCcaiCode(caseCode);
+		ToCaseInfo info  = toCaseInfoMapper.findToCaseInfoByCaseCode(caseCode);
+		return info==null?"":info.getCcaiCode();
 	}
 
 }

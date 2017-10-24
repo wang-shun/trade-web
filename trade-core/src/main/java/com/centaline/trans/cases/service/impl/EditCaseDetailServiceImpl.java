@@ -239,7 +239,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         ToHouseTransfer toHouseTransfer = toHouseTransferMapper.findToGuoHuByCaseCode(caseCode);
         editCaseDetailVO.setGhid(toHouseTransfer.getPkid());
         editCaseDetailVO.setRealHtTime(toHouseTransfer.getRealHtTime());
-        editCaseDetailVO.setHouseHodingTax(toHouseTransfer.getHouseHodingTax() != null ? toHouseTransfer.getHouseHodingTax() : null);
+//        editCaseDetailVO.setHouseHodingTax(toHouseTransfer.getHouseHodingTax() != null ? toHouseTransfer.getHouseHodingTax() : null);
         ToRatePayment toRatePayment = toRatePaymentService.qureyToRatePayment(caseCode);
         if(toRatePayment != null) {
 	        editCaseDetailVO.setRpid(toRatePayment.getPkid());
