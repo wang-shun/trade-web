@@ -152,14 +152,14 @@ text-decoration: underline !important;
 						<aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="part_code" defaultvalue="" />
 					</div>-->
 					
-					<!--<div class="form_content">
+					<div class="form_content">
 						<label class="control-label sign_left">是否关注</label>
 						<select class="select_control teamcode" id="isSubscribeFilter">
 							<option value="">请选择</option>
 							<option value="0">已关注</option>
 							<option value="1">未关注</option>
 						</select>
-					</div>-->
+					</div>
 					
 					<div class="form_content space">
                          <div class="add_btn" align="center" id="queryFilter">
@@ -329,13 +329,13 @@ text-decoration: underline !important;
 						<a  href="{{ctx}}/engine/task/{{item.ID}}/process" target="_blank" >{{item.NAME}}</a>									
 					</i>
 				</p>
-				<!--<p>
+				<p>
                 	{{item.WFE_NAME}}
-                </p>  -->              
+                </p>                
 			</td>
 
 			<td class="t-left">
-				<p class="demo-top" title="{{item.AGENT_NAME}}/{{item.MOBILE}}/{{item.AGENT_ORG_NAME}}">			
+				<p class="demo-top" title="{{item.AGENT_NAME}}/{{item.AGENT_PHONE}}/{{item.AGENT_ORG_NAME}}">			
 					{{item.PROPERTY_ADDR}}				 
 				</p>
 			</td>
@@ -353,7 +353,7 @@ text-decoration: underline !important;
                 	</p>
 				{{/if}}
 
-					<!--{{if item.EST_PART_TIME!=null}}
+					{{if item.EST_PART_TIME!=null}}
 						<p>  
                         	<i class="sign_normal">预</i>
                         	{{item.EST_PART_TIME}}          
@@ -363,7 +363,7 @@ text-decoration: underline !important;
                         	<i class="sign_grey">预</i>
                         	{{item.EST_PART_TIME}}          
                     	</p>
-					{{/if}}-->
+					{{/if}}
 			</td>
 
 			<td class="center">

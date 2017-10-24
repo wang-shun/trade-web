@@ -591,7 +591,6 @@
 													 <p>${accesory.preFileName}</p></br>
 													<div class="mb20 mt20" style="text-align:left">
 														<a href="#"  data-gallery="">
-															<!-- <img src="<aist:appCtx appName='shcl-image-web'/>/image/${accesory.preFileAdress}/_f.jpg" style="padding-bottom: 5px;padding-top: 5px;width:100px;" class="viewer-toggle"> -->
 															<img src="<aist:appCtx appName='shcl-filesvr-web'/>/JQeryUpload/getfile?fileId=${accesory.preFileAdress}" data-type="GET" style="padding-bottom: 5px;padding-top: 5px;width:100px;" class="viewer-toggle">
 														</a>
 													</div>
@@ -1175,6 +1174,7 @@
 		function show(fileId) {
 			window.open(appCtx['shcl-image-web'] + "/image/"+fileId+"/_f.jpg");
 		}
+		$('.wrapper-content').viewer();
 	</script> </content>
 </body>
 

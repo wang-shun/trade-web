@@ -566,8 +566,9 @@ function reloadDetail(){
 				
 				success : function(data) {
 					if(data){
-						window.wxc.success("变更成功");
-						location.reload();
+						window.wxc.confirm("变更成功",{"wxcOk":function(){
+							location.reload();
+						}});
 					}else{
 						window.wxc.error("变更失败");
 					}
