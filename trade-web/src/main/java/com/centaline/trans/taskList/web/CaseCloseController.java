@@ -30,11 +30,13 @@ import com.centaline.trans.cases.vo.EditCaseDetailVO;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.MsgLampEnum;
+import com.centaline.trans.common.enums.OldActivitiFormKey;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.LoanlostApproveService;
+import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 import com.centaline.trans.utils.UiImproveUtil;
@@ -58,7 +60,8 @@ public class CaseCloseController {
 	private ToPropertyInfoService toPropertyInfoService;
 	@Autowired
 	private UamSessionService uamSessionService;
-	
+	@Autowired
+	private ToApproveRecordService toApproveRecordService;
 	@Autowired
 	private LoanlostApproveService loanlostApproveService;
 	@Autowired
@@ -76,6 +79,14 @@ public class CaseCloseController {
 		request.setAttribute("operator", user != null ? user.getId():"");
 		toAccesoryListService.getAccesoryListCaseClose(request, caseCode);
 		EditCaseDetailVO editCaseDetailVO=editCaseDetailService.queryCaseDetai(caseCode);
+		ToApproveRecord tar = new ToApproveRecord();
+		tar.setCaseCode(caseCode);
+		tar.setPartCode(OldActivitiFormKey.CaseCloseFirstApprove.getTaskDefinitionKey());
+		tar.setProcessInstance(String.valueOf(request.getAttribute("processInstanceId")));
+		List<ToApproveRecord> tarList = toApproveRecordService.queryToApproveRecords(tar);
+		if(tarList != null && tarList.size() > 0) {
+			request.setAttribute("notFirstTimeSubmit", 1);
+		}
 		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
 		request.setAttribute("loanReq", editCaseDetailVO.getLoanReq());
 		return "task" + UiImproveUtil.getPageType(request) + "/taskCaseClose";
