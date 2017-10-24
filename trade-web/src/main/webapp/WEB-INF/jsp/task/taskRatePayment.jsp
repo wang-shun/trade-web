@@ -203,7 +203,7 @@
 		<div class="form-btn">
 			<div class="text-center">
 				<a href="#" class="btn btn-success btn-space" onclick="save(false)">保存</a>
-				<a href="#" class="btn btn-success btn-space" onclick="submit()" readOnlydata="1">提交</a>
+				<a href="#" class="btn btn-success btn-space" onclick="submit()" readOnlydata="1" id="btnSubmit">提交</a>
 			</div>
 		</div>
 
@@ -311,12 +311,12 @@
             //console.log("aaaaaaaaaaaaaaaa")
             caseDistribute();
         });
-		if($("#paymentTime").val()!=''){
+		/*if($("#paymentTime").val()!=''){
             $("#paymentTime").attr("disabled","false");
-		}
-      /*  if('caseDetails'==source){
+		}*/
+       if('caseDetails'==source){
             readOnlyForm();
-        }*/
+        }
      /*   setTimeout(function(){
 //            $('.blockUI').hide();
         },2000);*/
@@ -457,19 +457,19 @@
 				$('input[name=pricingTax]').css("border-color","red");
 				return false;
 			}
-			if ($("#added_value_tax_pic_list li").length == undefined
+			/*if ($("#added_value_tax_pic_list li").length == undefined
 				|| $("#added_value_tax_pic_list li").length == 0 ) {
 				window.wxc.alert("增值税发票未上传!");
 				return false;
-			}
+			}*/
 
         //验证上传文件是否全部上传
-        var isCompletedUpload = fileUpload.isCompletedUpload();
+        /*var isCompletedUpload = fileUpload.isCompletedUpload();
 
         if(!isCompletedUpload){
             window.wxc.alert("增值税发票还未全部上传!");
             return false;
-        }
+        }*/
 			return true;
 		}
 	
@@ -479,16 +479,13 @@
 		$('.wrapper-content').viewer();
 	}
 	
-	/*function readOnlyForm(){
-		//设置核价时间不可修改
-		$("#pricingTime").parent().removeClass("input-daterange");
-		$("#pricingTime").removeClass("datatime");
-		$("#pricingTime").attr("readonly",true);
-		$("#pricingTime").css("background-color","#ccc");
+	function readOnlyForm(){
+		//设置缴税时间不可修改
+        $("#paymentTime").attr("disabled","false");
 		
 		//设置提交按钮隐藏
 		$("#btnSubmit").hide();
-	}*/
+	}
     function caseDistribute(){
         //console.log("=======================")
         var url = "/case/getUserOrgCpUserList";

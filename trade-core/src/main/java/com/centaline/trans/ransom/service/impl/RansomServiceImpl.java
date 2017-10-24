@@ -495,33 +495,33 @@ public class RansomServiceImpl implements RansomService{
 	 * 	2、T_TO_WORKFLOW表PROCESS_OWNER字段(可选)
 	 */
 	@Override
-	public boolean changeRansomOwner(Map<String, Object> paramObj, String userId, String caseCode, String ransomCode) {
+	public boolean changeRansomOwner(Map<String, Object> paramObj, String changeToUserId, String caseCode, String ransomCode) {
 		SessionUser sessionUser = uamSessionService.getSessionUser();
 		Date date = new Date();
 		ToRansomTailinsVo tailVo = new ToRansomTailinsVo();
 		tailVo.setRansomCode(ransomCode);
-		tailVo.setCreateUser(userId);
+		tailVo.setCreateUser(changeToUserId);
 		tailVo.setCreateTime(date);
 		tailVo.setUpdateUser(sessionUser.getId());
 		tailVo.setUpdateTime(date);
 		ToRansomCaseVo caseVo = new ToRansomCaseVo();
-		caseVo.setCreateUser(userId);
+		caseVo.setCreateUser(changeToUserId);
 		caseVo.setCreateTime(date);
 		caseVo.setUpdateUser(sessionUser.getId());
 		caseVo.setUpdateTime(date);
-		ransomListFormMapper.updateRansomTailUserByRansomCode(tailVo);
-		ransomListFormMapper.updateRansomCaseUserByRansomCode(caseVo);
 		Map<String, Object> taskInfo = ransomDiscontinueService.getSingleRansomTaskInfo(paramObj, false, null, false, caseCode);
 		if((boolean)taskInfo.get("hasData")) {
 			TaskVo task = new TaskVo();
 			task.setId(Long.valueOf(String.valueOf(taskInfo.get("ID"))));
-			task.setAssignee(userId);
+			task.setAssignee(uamSessionService.getSessionUserById(changeToUserId).getUsername());
 			RestVariable restVariable = new RestVariable();
 			restVariable.setType("string");
-			restVariable.setValue(uamSessionService.getSessionUserById(userId).getUsername());
+			restVariable.setValue(uamSessionService.getSessionUserById(changeToUserId).getUsername());
 			workFlowManager.updateTask(task);
 			workFlowManager.setVariableByProcessInsId(String.valueOf(taskInfo.get("INST_CODE")), "sessionUser", restVariable);
 		}
+		ransomListFormMapper.updateRansomTailUserByRansomCode(tailVo);
+		ransomListFormMapper.updateRansomCaseUserByRansomCode(caseVo);
 		return true;
 	}
 }

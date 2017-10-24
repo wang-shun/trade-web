@@ -481,7 +481,8 @@ function reloadDetail(){
 		var ctx = $("#ctx").val();
 		var caseCode= $("#caseCode").val();
 		url = ctx + url;
-		var data={operation:"JRQZ", caseCode:caseCode};
+//		var data={operation:"JRQZ", caseCode:caseCode};
+		var data={operation:"JRQZ", caseCode:"ZY-TJ-2017100477"};
 		$.ajax({
 			cache : false,
 			async : true,
@@ -552,7 +553,7 @@ function reloadDetail(){
 			var url = "/task/ransom/changeRansomOwner";
 			var ctx = $("#ctx").val();
 			url = ctx + url;
-			var params = {userId:userId,caseCode:caseCode,ransomCode:ransomCode};
+			var params = {changeToUserId:userId,caseCode:caseCode,ransomCode:ransomCode};
 
 			$.ajax({
 				cache : false,
@@ -564,11 +565,11 @@ function reloadDetail(){
 				data : params,
 				
 				success : function(data) {
-					if(data.success){
+					if(data){
 						window.wxc.success("变更成功");
 						location.reload();
 					}else{
-						window.wxc.error(data.message);
+						window.wxc.error("变更失败");
 					}
 					
 				},
