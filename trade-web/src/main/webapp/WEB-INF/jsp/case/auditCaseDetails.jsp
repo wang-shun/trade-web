@@ -40,9 +40,10 @@
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
 <script src="<c:url value='/js/stickUp.js' />"></script>
-<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
+
 <script src="<c:url value='/js/common/common.js' />"></script>
 <script type="text/javascript">
+	var showAddLoadButton="${showAddLoadButton}";
 	//记录案件视图跳转等所需变量
 	var teamProperty = "${teamProperty}";
 	/**记录附件div变化，%2=0时执行自动上传并清零*/
@@ -152,6 +153,8 @@ var AttachmentList = (function(){
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
+<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
 	<div class="" id="basicInfo">
 		<div class="wrapper white-bg new-heading" id="serviceFlow">
              <div class="pl10">
@@ -194,13 +197,14 @@ var AttachmentList = (function(){
 				&nbsp&nbsp&nbsp&nbsp
 				<button type="button" class="btn btn-success" onclick="openReturnModal()">驳回</button>
 				&nbsp&nbsp&nbsp&nbsp
-				<button type="button" class="btn btn-success" onclick="openModal()">新增贷款专员</button>
-
+				<c:if test="${showAddLoadButton=='true'}">
+				<button id="addLoanProcessor" type="button" class="btn btn-success" onclick="openModal()">新增贷款专员</button>
+				</c:if>
 				<!-- 新增贷款专员 - 模态框（Modal） -->
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-					aria-labelledby="myModalLabel">
-					<div class="modal-dialog">
-						<div class="modal-content">
+					aria-labelledby="myModalLabel" >
+					<div class="modal-dialog" style="width: 1070px;">
+						<div class="modal-content"  style="width:1000px">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal"
 									aria-hidden="true">&times;</button>
@@ -303,23 +307,15 @@ var AttachmentList = (function(){
 	function auditSuccess(){
 		var caseCode = $("#caseCode").val();
 		//如何付款方式需要贷款专员的先就判断他有没有贷款专员，付款方式含有'自'或者'一次'字样 的就不用贷款专员，其它都要；
-		var payType = $("#payType").text();
+		/* var payType = $("#payType").text();
         console.log(payType);
         var selfLoan=payType.indexOf('自');
         var fullPay=payType.indexOf('一次');
         if(payType.indexOf('自')==-1&&payType.indexOf('一次')==-1){
-            console.log('need loan');
-           // 如果需要贷款却没有贷款专员的情况
-            
-            var loan = $("#loan").text();
-            console.log('贷款专员 :'+loan);
-            
+            console.log('need loan');           
         }else{
             console.log('no need loan');
-        }
-		
-		console.log(caseCode);
-		window.wxc.confirm("请确认审核接单通过？",{"wxcOk":function(){
+        } */		
 			var url=ctx+"/AuditImportCase/auditSuccess";
 			$.ajax({
 				cache : false,
@@ -342,22 +338,20 @@ var AttachmentList = (function(){
 		        },
 				success : function(data) {
 					 $.unblockUI();
-					 console.log(data);
+					 //console.log(data);
 					 if(!data.success){
 					 window.wxc.alert(data.message);						 
-					 }else{
-						 window.wxc.alert("保存数据成功！");
-					window.location.href=ctx+"/task/myTaskList";						 
-					 }
-				
-					
+					 }else{					 
+					 window.wxc.success("保存成功。",{"wxcOk":function(){
+                         window.close();
+                         window.opener.callback();
+                     }});
+					 }				
 				},
 				error : function(errors) {
 					window.wxc.error("数据出错."+errors.message);
 				}
 			});
-		}
-		});
 	}
 	
 	function openModal(){
@@ -377,10 +371,6 @@ var AttachmentList = (function(){
 	}
 	//增加贷款权证
 	function formSubmit(){
-		//var url=ctx+"/AuditImportCase/addLoanProcessor";
-		//$("#jvForm").attr("action",url);
-		//document.getElementById("jvForm").submit();
-		
 		var url=ctx+"/AuditImportCase/addLoanProcessor";
 		$.ajax({
 			cache : false,
@@ -403,9 +393,17 @@ var AttachmentList = (function(){
 	        },
 			success : function(data) {
 				 $.unblockUI();
-				 console.log(data);
-				 window.wxc.alert(data.message);
-				window.location.href=ctx+"/task/myTaskList";
+				 //console.log(data);
+				// window.wxc.alert(data.message);
+				//window.location.href=ctx+"/task/myTaskList";
+				if(!data.success){
+					 window.wxc.alert(data.message);						 
+					 }else{					 
+					 window.wxc.success("保存成功。",{"wxcOk":function(){
+                        window.close();
+                        window.opener.callback();
+                    }});
+					 }
 			},
 			error : function(errors) {
 				window.wxc.error("数据出错。");
@@ -443,9 +441,14 @@ var AttachmentList = (function(){
 	        },
 			success : function(data) {
 				 $.unblockUI();
-				 console.log(data);
-				 window.wxc.alert(data.message);
-				window.location.href=ctx+"/task/myTaskList";
+				 if(!data.success){
+					 window.wxc.alert(data.message);						 
+					 }else{					 
+					 window.wxc.success("保存成功。",{"wxcOk":function(){
+                         window.close();
+                         window.opener.callback();
+                     }});
+					 }
 			},
 			error : function(errors) {
 				window.wxc.error("数据出错。");
@@ -459,6 +462,17 @@ var AttachmentList = (function(){
 						var caseCode = $("#caseCode").val();						
 						console.log(caseCode);
 						AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${ctmCode}',caseCode);
+					
+						//如果当前案件有贷款权证就要显示新增贷款权证按钮，没有则不显示  model.addAttribute("showAddLoadButton", "true");
+						 //if(payType.indexOf('自')==-1&&payType.indexOf('一次')==-1){
+						/* f(!showAddLoadButton.indexOf('true')==-1){			
+								$("#addLoanProcessor").css("display",
+										"inherit");
+						} else {
+							$("#addLoanProcessor").css("display",
+									"none");
+						} */
+						
 					});
 					//显示附件图片
 					function showAttachment(url){
@@ -544,7 +558,7 @@ var AttachmentList = (function(){
 			
 						var jsonData = $("#firstFollowform").serializeArray();
 						
-						var result = ''
+						/* var result = ''
 						$("span.selected[name='srvCode']").each(function() {
 							result += $(this).attr('value') + ',';
 						});
@@ -560,7 +574,7 @@ var AttachmentList = (function(){
 									&& (item["value"] == 0 || item["value"] == -1)) {
 								delete jsonData[parseInt(i)];
 							}
-						}
+						} */
 			
 						var url = "${ctx}/task/caseRecvFollow/save";
 						if (b) {
@@ -587,7 +601,15 @@ var AttachmentList = (function(){
 								});
 							},							
 							success : function(data) {
-								$.unblockUI();						
+								$.unblockUI();	
+								if(!data.success){
+									 window.wxc.alert(data.message);						 
+									 }else{					 
+									 window.wxc.success("保存成功。",{"wxcOk":function(){
+				                         window.close();
+				                         window.opener.callback();
+				                     }});
+									 }
 							},
 							/* error : function(errors) {
 								window.wxc.error("数据保存出错");

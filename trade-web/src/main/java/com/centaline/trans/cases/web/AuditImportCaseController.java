@@ -275,18 +275,28 @@ public class AuditImportCaseController {
 //		测试时用这个
 //		List<User> loanUserList = uamUserOrgServiceClient.getUserByBelongOrgId("A05D3E9C1ED343118F2286EC7E3D2637");
 //		查询出当前权证经理下面的所有用户供其选择贷款专员
+		//JOBCode:DKQZ==>贷款权证 ==>来自DB
+		String jobCode="DKQZ";
 		SessionUser sessionUser = uamSessionService.getSessionUser();
 		String username = sessionUser.getUsername();
 		User userByUsername = uamUserOrgServiceClient.getUserByUsername(username);
-		List<User> loanUserList = uamUserOrgServiceClient.getUserByBelongOrgId(userByUsername.getOrgId());
+		List<User> loanUserList = uamUserOrgServiceClient.getUserByOrgIdAndJobCode(userByUsername.getOrgId(),jobCode);
 		String payType = auditCaseService.getPayType(caseCode);
 		Dict dict = dictService.findDictByTypeAndCode("61003", payType);
 		String dictPayTypeName = dict.getName();
 		model.addAttribute("payType", dictPayTypeName);
 		model.addAttribute("caseCode", caseCode);
 		model.addAttribute("loanUserList", loanUserList);
+		//如果当前案件没有贷款权证就要显示新增贷款权证按钮，没有则不显示 
 		ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
-		auditCaseService.getLeaderUserName(toCaseParticipant);		
+		toCaseParticipant.setPosition("loan");
+		toCaseParticipant.setCaseCode(caseCode);
+		List<ToCaseParticipant> loadList = toCaseParticipantMapper.selectByCondition(toCaseParticipant);
+		if(loadList.size()>0){
+			model.addAttribute("showAddLoadButton", "false");
+		}else{
+			model.addAttribute("showAddLoadButton", "true");
+		}
 		return "case/auditCaseDetails";
 		
 	}

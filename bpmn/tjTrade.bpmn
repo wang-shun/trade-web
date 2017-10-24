@@ -3,7 +3,7 @@
   <message id="CCAIUpdatedMsg" name="CCAIUpdatedMsg"></message>
   <message id="MortgageFinishMsg" name="MortgageFinishMsg"></message>
   <process id="TjTrade" name="天津交易主流程" isExecutable="true" isClosed="false" processType="None">
-    <userTask id="warrantManagerAudit" name="权证经理审核" activiti:assignee="${manager}" activiti:formKey="/AuditImportCase/details"></userTask>
+    <userTask id="warrantManagerAudit" name="接单审核" activiti:assignee="${manager}" activiti:formKey="/AuditImportCase/details"></userTask>
     <inclusiveGateway id="inclusivegateway1" name="Inclusive Gateway"></inclusiveGateway>
     <userTask id="MortgageSelect" name="贷款需求选择" activiti:assignee="${loan}" activiti:formKey="/task/mortgageSelect/process"></userTask>
     <userTask id="MortgageLossTosave" name="自办贷款挽回" activiti:assignee="${loan}" activiti:formKey="/task/mortgageTosave/process"></userTask>
@@ -222,7 +222,7 @@
         <omgdi:waypoint x="360.0" y="224.0"></omgdi:waypoint>
         <omgdi:waypoint x="460.0" y="224.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="370.0" y="234.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="72.0" x="370.0" y="234.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow75" id="BPMNEdge_flow75">
@@ -230,7 +230,7 @@
         <omgdi:waypoint x="360.0" y="149.0"></omgdi:waypoint>
         <omgdi:waypoint x="460.0" y="148.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="380.0" y="132.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="48.0" x="380.0" y="132.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow76" id="BPMNEdge_flow76">
@@ -261,7 +261,7 @@
         <omgdi:waypoint x="1105.0" y="224.0"></omgdi:waypoint>
         <omgdi:waypoint x="1192.0" y="224.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="100.0" x="1129.0" y="207.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="36.0" x="1129.0" y="207.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow90" id="BPMNEdge_flow90">
