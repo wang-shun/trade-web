@@ -102,33 +102,44 @@
 						</shiro:hasPermission>
 						
 						<c:if test="${toCase.caseProperty != '30003001' and toCase.caseProperty != '30003002' and toCase.caseProperty != '30003005' and toCase.status != '30001004' and toCase.status != '30001005'}">
-							<a role="button" class="btn btn-primary btn-xm btn-activity"
+							
+							<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.CASESTOP">
+								<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="javascript:caseBaodan()">爆单</a>
+							</shiro:hasPermission>
 						</c:if>
 						<!-- 已过户&&已领他证 不可变更 -->
 						<c:if test="${not empty toWorkFlow.processDefinitionId}">
 							<c:if test="${not empty toWorkFlow.instCode}">
 								<c:if test="${toCase.status != '30001004' and toCase.status != '30001005'}">
-									<a role="button" class="btn btn-primary btn-xm btn-activity"
-										href="javascript:showOrgCp()">责任人变更</a>
+									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">
+										<a role="button" class="btn btn-primary btn-xm btn-activity"
+											href="javascript:showOrgCp()">责任人变更</a>
+									</shiro:hasPermission>
 								</c:if>
 							</c:if>
 						</c:if>
 						<!-- FALSE：无效/结案/爆单/已过户/已领他证 -->
 						<c:if test="${toCase.caseProperty != '30003001' and toCase.caseProperty != '30003002' and toCase.caseProperty != '30003005' and toCase.status != '30001004' and toCase.status != '30001005'}">
-							<a role="button" id="processRestart" class="btn btn-primary btn-xm btn-activity"
+							<shiro:hasPermission name="TRADE.CASE.RESTART">
+								<a role="button" id="processRestart" class="btn btn-primary btn-xm btn-activity"
 										href="javascript:serviceRestart()">流程重启</a>
+							</shiro:hasPermission>
 						</c:if>
 	
 						<c:if test="${isCaseOwner}">
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 										href="javascript:void(0)">贷款需求选择</a>
-						</c:if>				
-						<a role="button" class="btn btn-primary btn-xm btn-activity"
-							href="javascript:evaPricingApply()">询价申请</a>
-						<c:if test="${caseInfo.evalCode == null}">
+						</c:if>			
+						<shiro:hasPermission name="TRADE.CASE.EVAPRICINGAPPLY">	
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
-								href="javascript:evalApply()">评估申请</a>
+								href="javascript:evaPricingApply()">询价申请</a>
+						</shiro:hasPermission>
+						<c:if test="${caseInfo.evalCode == null}">
+							<shiro:hasPermission name="TRADE.CASE.EVALAPPLY">
+								<a role="button" class="btn btn-primary btn-xm btn-activity"
+									href="javascript:evalApply()">评估申请</a>
+						</shiro:hasPermission>
 						</c:if>
 						
 	
