@@ -258,8 +258,8 @@
 						</div>
 					</div>
 				
+					</div>
 				</div>
-				
 				<div class="tab-pane fade" id="messages">
 				<c:if test="${not empty toWorkFlow.processDefinitionId}">
 						<c:if test="${not empty toWorkFlow.instCode}">
@@ -315,7 +315,7 @@
 				</div>
 				<div class="row">
 					<label class="col-sm-3 control-label">房屋类型：${caseDetailVO.propertyTypeName }</label>
-					<label class="col-sm-3 control-label">购房年数：${toPropertyInfo.holdYear }</label>
+					<label class="col-sm-3 control-label">购房年数：${caseDetailVO.holdYear }</label>
 					<label class="col-sm-3 control-label">唯一住房：${caseDetailVO.isUniqueHome }</label>
 				</div>
 				<div class="row">
