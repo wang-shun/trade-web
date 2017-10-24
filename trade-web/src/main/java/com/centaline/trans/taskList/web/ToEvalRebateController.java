@@ -56,7 +56,7 @@ public class ToEvalRebateController {
 				record.setContent("通过,审批意见为:"+response);
 			}else{
 				record.setContent("驳回,审批意见为:"+response);
-				record.setNotApprove("审批不通过");
+				record.setNotApprove("审批不通过"+response);
 			}
 			ToEvalRebate rebate = toEvalRebateService.selectByPrimaryKey(Long.parseLong(rebateId));
 			if(approve){
