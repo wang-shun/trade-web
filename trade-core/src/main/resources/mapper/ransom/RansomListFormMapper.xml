@@ -183,6 +183,49 @@
 	    GROUP BY LEADING_PROCESS_ID
   	</select>
 	
+	<select id="getRansomTaskInfo" parameterType="java.lang.String" resultType="com.centaline.trans.ransom.vo.VRansomFinishTaskVo">
+		SELECT 
+			cas.CASE_CODE caseCode,
+			cas.RANSOM_CODE ransomCode,
+			act.TASK_DEF_KEY_ taskProperty,
+			app.PART_CODE applyCode,
+			app.APPLY_TIME applyTime,
+			vie.PART_CODE signCode,
+			vie.INTERVIEW_TIME signTime,
+			rr1.PART_CODE payOneCode,
+			rr1.REPAY_TIME payOneTime,	
+			rr2.PART_CODE payTwoCode,
+			rr2.REPAY_TIME payTwoTime,
+			rca1.PART_CODE cancelOneCode,
+			rca1.CANCEL_TIME cancelOneTime,
+			rca2.PART_CODE cancelTwoCode,
+			rca2.CANCEL_TIME cancelTwoeTime,
+			rre1.PART_CODE receiveOneCode,
+			rre1.REDEEM_TIME receiveOneTime,
+			rre2.PART_CODE receiveTwoCode,
+			rre2.REDEEM_TIME receiveTwoTime,	
+			rp.PART_CODE paymentCode,
+			rp.PAYMENT_TIME paymentTime,
+			(SELECT REAL_NAME FROM sctrans.SYS_USER sy WHERE sy.ID = tw.UPDATE_BY ) doUser
+		FROM sctrans.T_RA_CASE cas 
+		LEFT JOIN sctrans.T_TO_WORKFLOW tw ON cas.RANSOM_CODE =tw.BIZ_CODE
+		LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE = act.PROC_INST_ID_
+		LEFT JOIN sctrans.T_RA_APPLY app ON app.RANSOM_CODE = cas.RANSOM_CODE
+		LEFT JOIN sctrans.T_RA_INTERVIEW vie ON vie.RANSOM_CODE = cas.RANSOM_CODE
+		
+		LEFT JOIN sctrans.T_RA_REPAY rr1 ON rr1.RANSOM_CODE = cas.RANSOM_CODE AND rr1.PART_CODE = 'PAYLOAN_ONE'
+		LEFT JOIN sctrans.T_RA_REPAY rr2 ON rr2.RANSOM_CODE = cas.RANSOM_CODE AND rr1.PART_CODE = 'PAYLOAN_TWO'
+		
+		LEFT JOIN sctrans.T_RA_CANCEL rca1 ON rca1.RANSOM_CODE = cas.RANSOM_CODE AND rca1.PART_CODE = 'CANCELDIYA_ONE'
+		LEFT JOIN sctrans.T_RA_CANCEL rca2 ON rca2.RANSOM_CODE = cas.RANSOM_CODE AND rca2.PART_CODE = 'CANCELDIYA_TWO'
+		
+		LEFT JOIN sctrans.T_RA_REDEEM rre1 ON rre1.RANSOM_CODE = cas.RANSOM_CODE AND rre1.PART_CODE = 'RECEIVE_ONE'
+		LEFT JOIN sctrans.T_RA_REDEEM rre2 ON rre2.RANSOM_CODE = cas.RANSOM_CODE AND rre2.PART_CODE = 'RECEIVE_TWO'
+		
+		LEFT JOIN sctrans.T_RA_PAYMENT rp ON rp.RANSOM_CODE = cas.RANSOM_CODE
+		WHERE tw.BIZ_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+	
 	<insert id="insertRansomPlanTimeVo" parameterType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
 		INSERT INTO 
 			sctrans.T_RA_PLAN(

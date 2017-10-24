@@ -13,6 +13,7 @@ import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
+import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
 
 public interface RansomListFormService {
 	/**
@@ -176,4 +177,10 @@ public interface RansomListFormService {
 	 */
 	int queryCountMonthRansomsByUserId(String userId);
 	
+	/**
+	 * 获取已完成任务信息
+	 * @param ransomCode
+	 * @return
+	 */
+	VRansomFinishTaskVo getRansomTaskInfoByRansomCode(String ransomCode);
 }

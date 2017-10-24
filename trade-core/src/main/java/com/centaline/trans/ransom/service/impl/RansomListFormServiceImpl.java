@@ -28,6 +28,7 @@ import com.centaline.trans.ransom.repository.RansomListFormMapper;
 import com.centaline.trans.ransom.repository.RansomMapper;
 import com.centaline.trans.ransom.service.RansomListFormService;
 import com.centaline.trans.ransom.vo.ToRansomVo;
+import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
 import com.centaline.trans.utils.DateUtil;
 
 /**
@@ -242,6 +243,12 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		
 		int res = ransomListFormMapper.updateRansomPaymentInfoByRansomCode(paymentVo);
 		return res;
+	}
+
+	
+	@Override
+	public VRansomFinishTaskVo getRansomTaskInfoByRansomCode(String ransomCode) {
+		return ransomListFormMapper.getRansomTaskInfo(ransomCode);
 	}
 
 	@Override

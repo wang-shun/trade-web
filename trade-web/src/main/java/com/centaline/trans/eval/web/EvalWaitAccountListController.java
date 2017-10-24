@@ -169,8 +169,8 @@ public class EvalWaitAccountListController {
 	 * @return 描述
 	 * 
 	 */
-	@RequestMapping(value = "majorAppro2")
-	public String majorAppro2(Model model) {
+	@RequestMapping(value = "majorApprove")
+	public String majorApprove(Model model) {
 		List<ToEvaSettleUpdateLog> toEvaSettleUpdateLogList = toEvaSettleUpdateLogService.selectUpdateLog();
 		model.addAttribute("updateLogList",toEvaSettleUpdateLogList);
 		return  "eval/settle/majorAppro";
@@ -234,7 +234,7 @@ public class EvalWaitAccountListController {
 			toEvaSettleUpdateLogService.insertSelective(record);
 			
 		}
-		return  "redirect:majorAppro2";
+		return  "redirect:majorApprove";
 	}
 	
 	/**
@@ -258,7 +258,7 @@ public class EvalWaitAccountListController {
 			//删除修改日记表里已通过的案件
 			toEvaSettleUpdateLogService.deleteByCaseCode(caseCode);
 		}
-		return  "redirect:majorAppro2";
+		return  "redirect:majorApprove";
 
 	}
 	

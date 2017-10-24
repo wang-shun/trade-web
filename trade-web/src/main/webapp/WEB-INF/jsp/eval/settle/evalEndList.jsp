@@ -90,9 +90,7 @@ display: none;}
 										 </select>
 										 <input id="inTextVal" type="text"  style="width:320px;overflow-x:visible;overflow-y:visible;">
 										 <button id="searchButton" type="button" class="btn btn-success">查询</button>
-										 <shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
-														<a data-toggle="modal" class="btn btn-success" onclick="javascript:exportToExcel()"  href="" id="exportBtn">导出到excel</a>
-													</shiro:hasPermission>&nbsp;&nbsp;&nbsp;&nbsp;
+											<a data-toggle="modal" class="btn btn-success" onclick="javascript:exportToExcel()"  href="" id="exportBtn">导出到excel</a>
 										<button id="batEnd"  onclick="javascript:batEnd()" type="button" class="btn btn-success" disabled="true">批量结算</button> &nbsp;&nbsp;&nbsp;
 				                     </div>
 				                    

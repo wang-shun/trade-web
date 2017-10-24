@@ -18,6 +18,7 @@ import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.vo.ToRansomLinkVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
+import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
 
 @MyBatisRepository
 public interface RansomListFormMapper {
@@ -202,4 +203,11 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	boolean updateRansomCaseUserByRansomCode(ToRansomCaseVo caseVo);
+	
+	/**
+	 * 获取已完成任务信息
+	 * @param ransomCode
+	 * @return
+	 */
+	VRansomFinishTaskVo getRansomTaskInfo(String ransomCode);
 }

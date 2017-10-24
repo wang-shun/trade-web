@@ -97,4 +97,10 @@ public interface ToMortgageMapper {
 	 * @return
 	 */
 	String findToMortgageSave(String caseCode);
+
+	/**
+	 * 删除所有的贷款信息
+	 * @param caseCode
+	 */
+	void deleteMortageByCaseCode(String caseCode);
 }
