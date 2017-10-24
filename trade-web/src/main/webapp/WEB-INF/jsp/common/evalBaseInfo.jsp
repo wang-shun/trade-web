@@ -130,7 +130,7 @@
 											<div class="ibox-conn ibox-text-two">
 												    <dl class="dl-horizontal col-sm-5"><dt class="col-sm-6">产证地址</dt><dd>${caseBaseVO.toPropertyInfo.propertyAddr}</dd></dl>
 												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">层高</dt><dd>${caseBaseVO.toPropertyInfo.locateFloor}／${caseBaseVO.toPropertyInfo.totalFloor}</dd></dl>
-												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">产证面积</dt><dd>${caseBaseVO.toPropertyInfo.square}平方</dd></dl>
+												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">产证面积</dt><dd>${caseBaseVO.toPropertyInfo.square}&nbsp;平方</dd></dl>
 												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">竣工年限</dt> <dd><fmt:formatDate value="${caseBaseVO.toPropertyInfo.finishYear}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
 												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">房屋类型</dt><dd><aist:dict id="propertyType" name="propertyType" display="label" dictType="30014" dictCode="${caseBaseVO.toPropertyInfo.propertyType}" /></dd></dl>
 												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">房型</dt><dd></dd></dl>
@@ -159,12 +159,12 @@
 												<!-- <dl class="dl-horizontal"> -->
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">询价类型</dt><dd><aist:dict id="evalPriceType" name="evalPriceType" display="label" dictType="EVAPRICING_TYPE" dictCode="${toEvaPricingVo.evaType}" /></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估公司</dt> <dd>${toEvaPricingVo.evaCompany}</dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">合同价</dt> <dd>万元</dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">房龄</dt> <dd>${toEvaPricingVo.houseAge}</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">合同价</dt> <dd>&nbsp;万</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">房龄</dt> <dd>${toEvaPricingVo.houseAge}&nbsp;年</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">询价时间</dt> <dd><fmt:formatDate value="${toEvaPricingVo.evalTime}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">询价值</dt> <dd>${toEvaPricingVo.totalPrice / 10000}&nbsp;万元</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">询价值</dt> <dd>${toEvaPricingVo.totalPrice / 10000}&nbsp;万</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">贷款银行</dt> <dd>${toEvaPricingVo.loanBank}</dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd>${toEvaPricingVo.originPrice}&nbsp;万元</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd>${toEvaPricingVo.originPrice / 10000.00}&nbsp;万</dd></dl>
 											</div>
 										</div>
 										</c:if>
@@ -176,12 +176,12 @@
 												<!-- <dl class="dl-horizontal"> -->
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估类型</dt><dd><aist:dict id="evalType" name="evalType" display="label" dictType="EVAL_TYPE" dictCode="${toEvalReportProcessVo.reportType}"/></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估公司</dt> <dd>${toEvalReportProcessVo.finOrgName}</dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">合同价</dt> <dd>&nbsp;万元</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">合同价</dt> <dd>&nbsp;万</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">房龄</dt> <dd>${toEvalReportProcessVo.houseAgeApply}</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">申请评估时间</dt> <dd><fmt:formatDate value="${toEvalReportProcessVo.applyDate}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估值</dt> <dd><%-- ${toEvalReportProcessVo.evalPrice} --%></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">贷款银行</dt> <dd><%-- ${toEvalReportProcessVo.loanBank} --%></dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd>${toEvalReportProcessVo.ornginPrice}&nbsp;万元</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd>${toEvalReportProcessVo.ornginPrice}&nbsp;万</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估报告份数</dt> <dd>${toEvalReportProcessVo.reportNum}&nbsp;份</dd></dl>
 											</div>
 										</div>
@@ -193,12 +193,12 @@
 												<!-- <dl class="dl-horizontal"> -->
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估类型</dt><dd><aist:dict id="evalType" name="evalType" display="label" dictType="EVAL_TYPE" dictCode="${toEvalReportProcessVo.reportType}" /></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估公司</dt> <dd>${toEvalReportProcessVo.finOrgName}</dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">合同价</dt> <dd>&nbsp;万元</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">合同价</dt> <dd>&nbsp;万</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">房龄</dt> <dd>${toEvalReportProcessVo.houseAgeApply}&nbsp;年</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">申请评估时间</dt> <dd><fmt:formatDate value="${toEvalReportProcessVo.applyDate}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估值</dt> <dd><%-- ${toEvalReportProcessVo.evalPrice} --%></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">贷款银行</dt> <dd><%-- ${toEvalReportProcessVo.loanBank} --%></dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd>${toEvalReportProcessVo.ornginPrice}&nbsp;万元</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd>${toEvalReportProcessVo.ornginPrice}&nbsp;万</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估报告份数</dt> <dd>${toEvalReportProcessVo.reportNum}&nbsp;份</dd></dl>
 											</div>
 										</div>
@@ -210,12 +210,12 @@
 												<!-- <dl class="dl-horizontal"> -->
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估类型</dt><dd><aist:dict id="evalType" name="evalType" display="label" dictType="EVAL_TYPE" dictCode="${toEvalReportProcessVo.reportType}" /></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估公司</dt> <dd>${toEvalReportProcessVo.finOrgName}</dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">合同价</dt> <dd>&nbsp;万元</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">合同价</dt> <dd>&nbsp;万</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">房龄</dt> <dd>${toEvalReportProcessVo.houseAgeApply}&nbsp;年</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">申请评估时间</dt> <dd><fmt:formatDate value="${toEvalReportProcessVo.applyDate}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估值</dt> <dd><%-- ${toEvalReportProcessVo.evalPrice} --%></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">贷款银行</dt> <dd><%-- ${toEvalReportProcessVo.loanBank} --%></dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd>${toEvalReportProcessVo.ornginPrice}&nbsp;万元</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd>${toEvalReportProcessVo.ornginPrice}&nbsp;万</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估报告份数</dt> <dd>${toEvalReportProcessVo.reportNum}&nbsp;份</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-8">实际出具评估报告日期</dt> <dd>${toEvalReportProcessVo.issueDate}</dd></dl>
 											</div>

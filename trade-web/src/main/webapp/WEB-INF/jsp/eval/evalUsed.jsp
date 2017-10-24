@@ -103,7 +103,7 @@
 					</ul>
 					<p class="text-center">
 							<input type="button" class="btn btn-success submit_From" value="提交"> 
-						    <a type="button" href="${ctx}/eloan/Eloanlist" class="btn btn-grey ml5">关闭</a>
+						    <a type="button" href="${ctx}/task/eval/evalTaskList" class="btn btn-grey ml5">关闭</a>
 					</p>
 				</form>
 			</div>

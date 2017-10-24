@@ -84,7 +84,7 @@
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two">原购入价</label>
-								<input class="input_type sign_right_two"  name="ornginPrice" id="ornginPrice" value="${toEvalReportProcess.ornginPrice}" style="visibility:hidden" onkeyup="checkNum(this)">
+								<input class="input_type sign_right_two"  name="ornginPrice" id="ornginPrice" value="${toEvalReportProcess.ornginPrice / 10000.00}" style="visibility:hidden" onkeyup="checkNum(this)">
 								<div class="input-group date_icon">
 									<span class="danwei">万</span>
 								</div>
@@ -114,7 +114,7 @@
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i>询价值</label> 
-								<input class="input_type sign_right_two"  name="inquiryResult" id="inquiryResult" value="${toEvalReportProcess.inquiryResult}">
+								<input class="input_type sign_right_two"  name="inquiryResult" id="inquiryResult" value="${toEvalReportProcess.inquiryResult / 10000.00}">
 								<div class="input-group date_icon">
 									<span class="danwei">万</span>
 								</div>
@@ -145,7 +145,7 @@
 					</ul>
 					<p class="text-center">
 							<input type="button" class="btn btn-success submit_From" value="提交"> 
-						    <a type="button" href="${ctx}/eloan/Eloanlist" class="btn btn-grey ml5">关闭</a>
+						    <input type="button" id="closeButton" class="btn btn-grey ml5" value="关闭">
 					</p>
 				</form>
 			</div>
@@ -185,6 +185,11 @@
 					}
 					saveEvalApply();
 				});
+		});
+		
+		//关闭
+		$('#closeButton').click(function() {
+			window.close();
 		});
 		
 		/*获取评估公司列表*/
@@ -235,7 +240,7 @@
 				},
 				success : function(data) {
 					window.wxc.success("评估申请提交成功",{"wxcOk":function(){
-							window.location.href = ctx + "/task/eval/evalTaskList";
+						window.close();
 					}});
 				},
 				error : function(errors) {

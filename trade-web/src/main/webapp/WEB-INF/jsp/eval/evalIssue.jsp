@@ -98,14 +98,14 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i> 评估价</label> 
-								<input class="input_type sign_right_two" name="evaPrice" id="evaPrice"></input>
+								<input class="input_type sign_right_two" name="evaPrice" id="evaPrice" value="${toEvalReportProcess.evaPrice / 10000}"></input>
 								<div class="input-group date_icon">
 									<span class="danwei">万</span>
 								</div>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i> 房龄</label> 
-								<input class="input_type sign_right_two" name="houseAgeIssue" id="houseAgeIssue"></input>
+								<input class="input_type sign_right_two" name="houseAgeIssue" id="houseAgeIssue" value="${toEvalReportProcess.houseAgeIssue}"></input>
 								<div class="input-group date_icon">
 									<span class="danwei">年</span>
 								</div>
@@ -114,7 +114,7 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i>评估报告份数</label> 
-								<input class="input_type sign_right_two" name="reportNumIssue" id="reportNumIssue"></input>
+								<input class="input_type sign_right_two" name="reportNumIssue" id="reportNumIssue" value="${toEvalReportProcess.reportNumIssue}"></input>
 							</div>
 						</li>
 						<li>
@@ -131,7 +131,7 @@
 					</ul>
 					<p class="text-center">
 							<input type="button" class="btn btn-success submit_From" value="提交"> 
-						    <a type="button" href="${ctx}/eloan/Eloanlist" class="btn btn-grey ml5">关闭</a>
+						    <a type="button" href="${ctx}/task/eval/evalTaskList" class="btn btn-grey ml5">关闭</a>
 					</p>
 				</form>
 			</div>

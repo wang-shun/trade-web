@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,6 @@ import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -92,6 +93,8 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 	@Autowired
 	UamUserOrgService uamUserOrgService;
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Override
 	public void evalDetail(HttpServletRequest request, String caseCode, String evaCode) {
 				SessionUser user = uamSessionService.getSessionUser();
@@ -136,16 +139,14 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 	
 	
 	@Override
-	public AjaxResponse<?> evalReject(HttpServletRequest request, String caseCode, String evaCode) {
+	public AjaxResponse<?> submitEvalReject(HttpServletRequest request, String caseCode, String evaCode) {
+		 AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
 		        SessionUser currentUser = uamSessionService.getSessionUser();
 		        //删除评估流程
 				List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(evaCode);
 				for (TaskVo task : taskVos) {
-						try{
-							workFlowManager.deleteProcess(task.getInstCode());
-						}catch(WorkFlowException e){
-		                    throw e;					
-						}
+					  workFlowManager.deleteProcess(task.getInstCode());
 				}
 				
 				//更新评估单状态为驳回
@@ -180,8 +181,13 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				    message.setSenderId(senderId);
 				    uamMessageService.sendMessageByDist(message,uamUserOrgService.getUserByUsername(toCaseParticipantList.get(0).getUserName()).getId());
 				}
+		}catch(Exception e){
+			   response.setSuccess(false);
+			   response.setMessage(e.getMessage());
+			   logger.error("评估驳回失败！",e);
+		}
 				
-		 return new AjaxResponse<>(true);
+		 return response;
 	}
     
 	@Override

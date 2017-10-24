@@ -27,7 +27,7 @@ public interface EvalDetailService {
 	  * @param evaCode
 	  * @return
 	  */
-	 AjaxResponse<?>  evalReject(HttpServletRequest request,String caseCode,String evaCode);
+	 AjaxResponse<?>  submitEvalReject(HttpServletRequest request,String caseCode,String evaCode);
 	 
 	 /**
 	  * 评估公司变更保存
