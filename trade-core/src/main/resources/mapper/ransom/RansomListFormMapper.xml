@@ -30,21 +30,7 @@
 	</resultMap>
 	
 	<select id="getRansomPlanTime" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
-		<!-- SELECT 
-			RANSOM_CODE ransomCode,
-			PART_CODE partCode,
-			EST_PART_TIME estPartTime,
-			REMARK remark,
-			CREATE_TIME createTime,
-			CREATE_USER createUser,
-			UPDATE_TIME updateTime,
-			UPDATE_USER updateUser
-		FROM 
-			sctrans.T_RA_PLAN  
-		WHERE 
-			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} -->
-			
-		SELECT 
+		 SELECT 
 			RANSOM_CODE ransomCode,
 			PART_CODE partCode,
 			EST_PART_TIME estPartTime,
@@ -53,17 +39,30 @@
 			CREATE_USER createUser,
 			UPDATE_TIME updateTime,
 			UPDATE_USER updateUser 
-	FROM sctrans.T_RA_PLAN 
-	WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} AND PART_CODE IN(SELECT PART_CODE FROM sctrans.T_RA_PLAN 
-	WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR})	
-			
-			
-			
-			
-			
-			
-			
+	FROM 
+		sctrans.T_RA_PLAN 
+	WHERE 
+		RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} 
+			AND 
+				PART_CODE IN(
+					SELECT 
+						PART_CODE 
+							FROM sctrans.T_RA_PLAN 
+								WHERE 
+									RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+							)
 	</select>
+	
+	<select id="getPartCode" resultType="java.lang.String">
+		SELECT 
+			PART_CODE partCode
+		FROM 
+			sctrans.T_RA_PLAN  
+		WHERE 
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+	
+	
 	
 	<select id="getRansomCase" resultMap="BaseResultMap">
 		SELECT * FROM sctrans.T_RA_CASE WHERE 1=1
@@ -290,13 +289,30 @@
 	
 	<update id="updateRansomCaseByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
 		UPDATE sctrans.T_RA_CASE SET 
-			RANSOM_STATUS = #{ransomStatus,jdbcType=VARCHAR},
-			RANSOM_PROPERTY = #{ransomProperty,jdbcType=VARCHAR},
-			BORROWER_NAME = #{borrowerName,jdbcType=VARCHAR},
-			BORROWER_TEL = #{borrowerTel,jdbcType=VARCHAR},
-			BORRO_MONEY = #{borroMoney,jdbcType=DECIMAL},
-			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
-			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+			<if test="ransomStatus != null">
+				RANSOM_STATUS = #{ransomStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="ransomProperty != null">
+				RANSOM_PROPERTY = #{ransomProperty,jdbcType=VARCHAR},
+			</if>
+			<if test="borrowerName != null">
+				BORROWER_NAME = #{borrowerName,jdbcType=VARCHAR},
+			</if>
+			<if test="borrowerTel != null">
+				BORROWER_TEL = #{borrowerTel,jdbcType=VARCHAR},
+			</if>
+			<if test="borroMoney != null">
+				BORRO_MONEY = #{borroMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="isApply != null">
+				ISAPPLY = #{isApply,jdbcType=VARCHAR},
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
 		WHERE
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</update>

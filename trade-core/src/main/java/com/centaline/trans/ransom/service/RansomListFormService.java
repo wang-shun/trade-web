@@ -85,6 +85,13 @@ public interface RansomListFormService {
 	List<ToRansomPlanVo> getRansomPlanTimeInfo(String ransomCode);
 	
 	/**
+	 * 赎楼时间计划信息
+	 * @param ransomCode
+	 * @return
+	 */
+	List<String> getRansomPlanCodeInfo(String ransomCode);
+	
+	/**
 	 * 赎楼时间计划信息插入
 	 * @param ransomCode
 	 * @return

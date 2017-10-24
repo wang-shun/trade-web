@@ -429,14 +429,16 @@
 				<div class="fk-block col-lg-12">
 					<div class="panel blank-panel">
 						<h2 class="title">赎楼单详情</h2>
-						<div class="details-update">
-							<a href="javascript:void(0)" onclick="showOrgCp()">变更金融权证</a> 
-							<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">
-								<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showOrgCp()">责任人变更</a>
-							</shiro:hasPermission> -->
-							<a href="${ctx }/ransomList/updateRansomInfo?caseCode=${detailVo.caseCode}" target="_blank">修改赎楼单详情</a>
-							<a href="${ctx }/ransomList/planTime?ransomCode=${detailVo.ransomCode}" target="_blank">修改时间计划</a>
-						</div>
+						<c:if test="${detailVo.ransomStatus != '3' }">
+							<div class="details-update">
+								<a href="javascript:void(0)" onclick="showOrgCp()">变更金融权证</a> 
+								<!-- <shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">
+									<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:showOrgCp()">责任人变更</a>
+								</shiro:hasPermission> -->
+								<a href="${ctx }/ransomList/updateRansomInfo?caseCode=${detailVo.caseCode}" target="_blank">修改赎楼单详情</a>
+								<a href="${ctx }/ransomList/planTime?ransomCode=${detailVo.ransomCode}" target="_blank">修改时间计划</a>
+							</div>
+						</c:if>
 						<hr>
 						<div class="tab-pane active fade in" style="margin-top: 35px;">
 							<div class="jqGrid_wrapper row">

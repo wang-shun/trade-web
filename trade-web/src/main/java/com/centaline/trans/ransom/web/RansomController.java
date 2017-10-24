@@ -10,12 +10,10 @@ import javax.servlet.ServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.alibaba.druid.util.StringUtils;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.RansomDiyaEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
@@ -94,61 +92,47 @@ import com.centaline.trans.ransom.service.RansomService;
 		}
 		
 		/**
-		 * 赎楼申请,流程图改后分两个节点
-		 * @param ransomCode jsp过来启动
-		 * @param caseCode taskController过来赎楼编号
+		 * 赎楼申请
+		 * @param caseCode
 		 * @param request
 		 * @return
 		 */
 		@SuppressWarnings("unchecked")
 		@RequestMapping(value="ransomApply")
-		public String  ransomApply(@RequestParam(value="ransomCode",required=false)String ransomCode,
-									@RequestParam(value="caseCode",required=false)String caseCode,
-									String processInstanceId,String taskId,ServletRequest request){
-			if(!StringUtils.isEmpty(ransomCode)){
-				//公共基本信息
-//				getTaskBaseInfo(request, caseCode);
-				ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
+		public String  ransomApply(String ransomCode, ServletRequest request){
+			//公共基本信息
+//			getTaskBaseInfo(request, caseCode);
+			ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
 
-				request.setAttribute("detailVo", detailVo);
-				
-				
-				SessionUser user = uamSessionService.getSessionUser();
-				//赎楼流程启动
-				Map<String,Object> defValsMap = new HashMap<String,Object>();
-				defValsMap.put("sessionUser", user.getUsername());
-				String processDfId = propertyUtilsService.getProcessDfId("ransom_process");
-				
-				StartProcessInstanceVo pVo = processInstanceService.startWorkFlowByDfId(processDfId, ransomCode, defValsMap);
-				List<TaskVo> tasks = taskService.listTasks(pVo.getId(), false, user.getUsername()).getData();
-				if (tasks != null && !tasks.isEmpty()) {
-					pVo.setActiveTaskId(tasks.get(0).getId() + "");
-				}
-				ToWorkFlow wf = new ToWorkFlow();
-				wf.setBusinessKey("ransom_process");
-				wf.setCaseCode(detailVo.getCaseCode());
-				wf.setBizCode(ransomCode);
-				wf.setProcessOwner(user.getId());
-				wf.setProcessDefinitionId(processDfId);
-				wf.setInstCode(pVo.getId());
-				wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
-				toWorkFlowService.insertSelective(wf);
-				
-				//更新赎楼状态为在途
-				ransomService.updateRansomIsStart(ransomCode);
-				
-				request.setAttribute("processInstanceId", pVo.getId());
-				request.setAttribute("taskId", pVo.getActiveTaskId());
-			}else if(!StringUtils.isEmpty(caseCode)){
-
-				ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode);
-
-				request.setAttribute("detailVo", detailVo);
-				
-				request.setAttribute("processInstanceId", processInstanceId);
-				request.setAttribute("taskId", taskId);
-			}
+			request.setAttribute("detailVo", detailVo);
 			
+			
+			SessionUser user = uamSessionService.getSessionUser();
+			//赎楼流程启动
+			Map<String,Object> defValsMap = new HashMap<String,Object>();
+			defValsMap.put("sessionUser", user.getUsername());
+			String processDfId = propertyUtilsService.getProcessDfId("ransom_process");
+			
+			StartProcessInstanceVo pVo = processInstanceService.startWorkFlowByDfId(processDfId, ransomCode, defValsMap);
+			List<TaskVo> tasks = taskService.listTasks(pVo.getId(), false, user.getUsername()).getData();
+			if (tasks != null && !tasks.isEmpty()) {
+				pVo.setActiveTaskId(tasks.get(0).getId() + "");
+			}
+			ToWorkFlow wf = new ToWorkFlow();
+			wf.setBusinessKey("ransom_process");
+			wf.setCaseCode(detailVo.getCaseCode());
+			wf.setBizCode(ransomCode);
+			wf.setProcessOwner(user.getId());
+			wf.setProcessDefinitionId(processDfId);
+			wf.setInstCode(pVo.getId());
+			wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
+			toWorkFlowService.insertSelective(wf);
+			
+			//更新赎楼状态为在途
+			ransomService.updateRansomIsStart(ransomCode);
+			
+			request.setAttribute("processInstanceId", pVo.getId());
+			request.setAttribute("taskId", pVo.getActiveTaskId());
 			
 			return "ransom/ransomApply";
 		}
