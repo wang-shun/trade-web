@@ -148,7 +148,7 @@ text-decoration: underline !important;
 						
 					<div class="form_content">
 						<label class="control-label sign_left">任务名</label>
-						<aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="part_code" defaultvalue="" />
+						<aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="PART_CODE_NEW" defaultvalue="" />
 					</div>
 					
 					<div class="form_content">
