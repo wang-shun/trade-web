@@ -1,6 +1,6 @@
 /**
  * 待办任务
- * wanggh
+ * @author wbcaiyx
  */
 $(document).ready(function() {
 	
@@ -169,11 +169,6 @@ function searchMethod(page){
 		aist.wrap(params);
 		reloadGrid(params);
 
-		//jqGrid reload
-		/*$("#table_list_1").setGridParam({
-			"postData" : params,
-			"page":1 
-		}).trigger('reloadGrid');*/
 }
 
 function reloadGrid(data) {

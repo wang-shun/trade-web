@@ -457,19 +457,19 @@
 				$('input[name=pricingTax]').css("border-color","red");
 				return false;
 			}
-			if ($("#added_value_tax_pic_list li").length == undefined
+			/*if ($("#added_value_tax_pic_list li").length == undefined
 				|| $("#added_value_tax_pic_list li").length == 0 ) {
 				window.wxc.alert("增值税发票未上传!");
 				return false;
-			}
+			}*/
 
         //验证上传文件是否全部上传
-        var isCompletedUpload = fileUpload.isCompletedUpload();
+        /*var isCompletedUpload = fileUpload.isCompletedUpload();
 
         if(!isCompletedUpload){
             window.wxc.alert("增值税发票还未全部上传!");
             return false;
-        }
+        }*/
 			return true;
 		}
 	

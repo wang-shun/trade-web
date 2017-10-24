@@ -65,23 +65,13 @@ public class ToEvalReportProcessServiceImpl implements ToEvalReportProcessServic
 		return toEvalReportProcessMapper.findToEvalReportProcessByEvalCode(evalCode);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.centaline.trans.eval.service.ToEvalReportProcessService#updateEvalPropertyByCaseCode(java.lang.String)
-	 */
-	@Override
-	public int updateEvalPropertyByCaseCode(String caseCode,String evalProperty) {
-		ToEvalReportProcess toEvalReportProcess = new ToEvalReportProcess();
-		toEvalReportProcess.setEvalProperty(evalProperty);
-		toEvalReportProcess.setCaseCode(caseCode);
-		return toEvalReportProcessMapper.updateEvalPropertyByCaseCode(toEvalReportProcess);
-	}
 
 	@Override
-	public int updateEvalPropertyByEvalCode(String evalCode,String evalProperty) {
+	public int updateChangeInfoByEvalCode(String evalCode,String changeInfo) {
 		ToEvalReportProcess toEvalReportProcess = new ToEvalReportProcess();
-		toEvalReportProcess.setEvalProperty(evalProperty);
+		toEvalReportProcess.setChangeInfo(changeInfo);
 		toEvalReportProcess.setEvaCode(evalCode);
-		return toEvalReportProcessMapper.updateEvalPropertyByCaseCode(toEvalReportProcess);
+		return toEvalReportProcessMapper.updateChangeInfoByEvalCode(toEvalReportProcess);
 	}
 
 	
