@@ -14,6 +14,7 @@ import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.repository.ToEvaPricingMapper;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
@@ -33,10 +34,10 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 	/**
 	 * 询价编码前缀
 	 */
-	private static String EVA_CODE_PRE = "EvaCode";
+	private static String EVA_CODE_PRE = "XJ-TJ-";
 	
-	private static String DATE_FORMAT = "yyyyMMddHHmmssSSS";
-	
+	@Autowired
+	private ToCaseMapper tocaseMapper;
 	@Autowired
 	ToEvaPricingMapper toEvaPricingMapper;
 	@Autowired
@@ -150,12 +151,15 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 	}
 	
 	/**
-	 * 自生成询价编号:EvaCodeyyyyMMddHHmmss
+	 * 自生成询价编号
 	 * @return
 	 */
-	private String generateEvaCode(){
-		String dateString = DateUtil.getFormatDate(new Date(), DATE_FORMAT);
-		return EVA_CODE_PRE+dateString;
+	private String generateEvaCode(){	
+		StringBuilder s = new StringBuilder();
+		s.append(EVA_CODE_PRE);
+		s.append(DateUtil.getFormatDate(new Date(), "yyyyMM"));
+		s.append(tocaseMapper.nextCaseCodeNumber());
+		return s.toString();
 	}
 
 	@Override

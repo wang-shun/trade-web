@@ -256,7 +256,7 @@ text-decoration: underline !important;
 								<th ><span class="sort" sortColumn="B.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 								<th >案件状态</th>
 								<th >产权地址</th>
-								<th >买房姓名</th>
+								<th >买方姓名</th>
 								<th >卖方姓名</th>
 								<th >经办人</th>
 								<!-- <th class="text-center light_icon">转入时间<i class="icon iconfont clock_icon"> &#xe60b; </i> </th> -->

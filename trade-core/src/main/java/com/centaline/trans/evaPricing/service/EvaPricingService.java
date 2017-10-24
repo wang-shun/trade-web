@@ -80,5 +80,5 @@ public interface EvaPricingService {
 	 * @return
 	 */
 	int updateEvaPricingDetail(Long pkid,String isValid,String reason);
-
+	
 }

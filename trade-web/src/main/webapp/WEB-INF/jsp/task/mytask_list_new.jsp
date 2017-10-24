@@ -185,7 +185,7 @@ text-decoration: underline !important;
 					<th >产证地址</th>
 					<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc" onclick="createTimeSort();" >创建时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
 					<th >卖方姓名</th>
-					<th >卖方姓名</th>
+					<th >买方姓名</th>
 					<th >操作</th>
 				</tr>
 			</thead>

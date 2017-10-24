@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <div class="ibox-content border-bottom clearfix space_box noborder marginbot">
+    <div class="ibox-content border-bottom clearfix space_box noborder marginbot" id="serviceFlow">
         <div>
             <h2 class="newtitle title-mark">填写计划信息</h2>
             <div class="form_list">
@@ -193,10 +193,11 @@
                 </form>
             </div>
         </div>
-        
+		<div id="aboutInfo">
         <div class="view-content" id="caseCommentList">
-        </div>
 
+        </div>
+		</div>
         <div class="form-btn">
                 <div class="text-center">
                      <button class="btn btn-success btn-space" onclick="save(false)">保存</button>
@@ -219,6 +220,8 @@
 			<script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 			<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
 			<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+			<!--用于固定菜单或导航条固定在页面顶部-->
+			<script src="<c:url value='/js/stickUp.js' />"></script>
 			<!-- 改版引入的新的js文件 -->
 			<script src="<c:url value='/js/common/textarea.js' />"></script>
 			<script src="<c:url value='/js/common/common.js' />"></script>
@@ -311,19 +314,8 @@
 		
 				//验证控件checkUI();
 				function checkForm() {
-					if(dy) {
-						if($('input[name=estPartTimeHd]').val()=='') {
-							window.wxc.alert("预计还贷时间为必填项!");
-			                $('input[name=estPartTimeHd]').focus();
-			                return false;
-			           }
-					}
-					/*
-					if($('input[name=estPartTimeTr]').val()=='') {
-						window.wxc.alert("预计审税时间为必填项!");
-		                $('input[name=estPartTimeTr]').focus();
-		                return false;
-		           }*/
+				    var payType="${toCaseInfo.payType}";
+				    console.log(payType)
 		           if($('input[name=estPartTimePt]').val()=='') {
 						window.wxc.alert("预计缴税时间为必填项!");
 		                $('input[name=estPartTimePt]').focus();
@@ -334,18 +326,21 @@
 		                $('input[name=estPartTimeGh]').focus();
 		                return false;
 		           }
-					if($('input[name=estPartTimeLz]').val()=='') {
-						window.wxc.alert("预计领他证时间为必填项!");
-		                $('input[name=estPartTimeLz]').focus();
-		                return false;
-		           }
+		           if(payType=='公积金（组合）贷款'||payType=='公积金贷款'||payType=='按揭贷款') {
+                       if ($('input[name=estPartTimeLz]').val() == '') {
+                           window.wxc.alert("预计领他证时间为必填项!");
+                           $('input[name=estPartTimeLz]').focus();
+                           return false;
+                       }
+                   }
+                   if(payType=='公积金（组合）贷款'||payType=='按揭贷款'){
 					if($('input[name=estPartTimeCS]').val()=='') {
-						window.wxc.alert("预计商贷面签时间为必填项!");
+						window.wxc.alert("预计按揭贷款面签时间为必填项!");
 		                $('input[name=estPartTimeCS]').focus();
 		                return false;
 		           }
 					if($('input[name=estPartTimeBr]').val()=='') {
-						window.wxc.alert("预计商贷出评估报告时间为必填项!");
+						window.wxc.alert("预计按揭贷款出评估报告时间为必填项!");
 		                $('input[name=estPartTimeBr]').focus();
 		                return false;
 		           }
@@ -354,28 +349,31 @@
 		                $('input[name=estPartTimeCc]').focus();
 		                return false;
 		           }
-					if($('input[name=estPartTimePa]').val()=='') {
-						window.wxc.alert("预计公积金贷款预约申请时间为必填项!");
-		                $('input[name=estPartTimePa]').focus();
-		                return false;
-		           }
-					if($('input[name=estPartTimePfs]').val()=='') {
-						window.wxc.alert("预计公积金面签时间为必填项!");
-		                $('input[name=estPartTimePfs]').focus();
-		                return false;
-		           }
-					if($('input[name=estPartTimePfc]').val()=='') {
-						window.wxc.alert("预计公积金批贷完成时间为必填项!");
-		                $('input[name=estPartTimePfc]').focus();
-		                return false;
-		           }
-					if(dk) {
-						if($('input[name=estPartTimeFk]').val()=='') {
-							window.wxc.alert("预计放款时间为必填项!");
-			                $('input[name=estPartTimeFk]').focus();
-			                return false;
-			           }
-					}
+                   }
+                   if(payType=='公积金（组合）贷款'||payType=='公积金贷款') {
+                       if ($('input[name=estPartTimePa]').val() == '') {
+                           window.wxc.alert("预计公积金贷款预约申请时间为必填项!");
+                           $('input[name=estPartTimePa]').focus();
+                           return false;
+                       }
+                       if ($('input[name=estPartTimePfs]').val() == '') {
+                           window.wxc.alert("预计公积金面签时间为必填项!");
+                           $('input[name=estPartTimePfs]').focus();
+                           return false;
+                       }
+                       if ($('input[name=estPartTimePfc]').val() == '') {
+                           window.wxc.alert("预计公积金批贷完成时间为必填项!");
+                           $('input[name=estPartTimePfc]').focus();
+                           return false;
+                       }
+                   }
+                   if(payType=='公积金（组合）贷款'||payType=='公积金贷款'||payType=='按揭贷款') {
+                       if ($('input[name=estPartTimeFk]').val() == '') {
+                           window.wxc.alert("预计放款时间为必填项!");
+                           $('input[name=estPartTimeFk]').focus();
+                           return false;
+                       }
+                   }
 					return true;
 				}
 			</script> 

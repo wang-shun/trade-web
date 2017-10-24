@@ -166,7 +166,7 @@
 								</div>
 							</div>
 						</c:if>
-						<div class="line">
+						<%--<div class="line">
 							<div class="form_content">
 								<label class="control-label sign_left_small">业主垫资金额<font color=" red" class="mr5" >*</font></label>
 								<input type="text" name="ownerMatAmount"
@@ -203,7 +203,7 @@
 									   class=" input_type yuanwid" onkeyup="checkNonum(this)" placeholder="万元">
 							</div>
 
-						</div>
+						</div>--%>
 
 						<h2 class="newtitle title-mark">经纪人陪同</h2>
 						<div class="line">
