@@ -1,5 +1,6 @@
 package com.centaline.trans.bankRebate.service;
 
+import java.io.OutputStream;
 import java.util.List;
 
 import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
@@ -28,4 +29,8 @@ public interface ToBankRebateInfoService {
 	List<ToBankRebateInfo> selectRebateInfoByGuaranteeCompId(String guaranteeCompId);
 
 	void saveToBankRebateInfoVO(ToBankRebateInfoVO toBankRebateInfoVO);
+
+	void saveBankRebateInfoVO(ToBankRebateInfoVO info, String guaranteeCompId);
+
+	void exportMatrixLeaderSheet(OutputStream out);
 }

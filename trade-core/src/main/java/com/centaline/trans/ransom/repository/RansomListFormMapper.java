@@ -65,6 +65,13 @@ public interface RansomListFormMapper {
 	List<ToRansomPlanVo> getRansomPlanTime(String ransomCode);
 	
 	/**
+	 * 获取时间计划信息
+	 * @param ransomCode
+	 * @return
+	 */
+	List<String> getPartCode(String ransomCode);
+	
+	/**
 	 * 时间计划信息更新
 	 * @param ransomCode
 	 * @return

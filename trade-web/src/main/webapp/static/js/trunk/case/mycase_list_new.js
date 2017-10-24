@@ -311,10 +311,10 @@ function getParamsValue() {
 		caseProperty = null;
 	}
 	// 如果不是结案结案,默认查询不显示已结案案件
-	var isNotResearchCloseCase;
+	/*var isNotResearchCloseCase;
 	if(caseProperty != '30003002') {
 		isNotResearchCloseCase = "true";
-	}
+	}*/
 	//状态为空，条件无
 	if (status == ''){
 		status = null;
@@ -405,9 +405,9 @@ function getParamsValue() {
 		argu_signlendDate : (signTimeStart == null && signTimeEnd == null && lendTimeStart == null && lendTimeEnd == null ? null : true),
 
 		argu_closeTimeStart : closeTimeStart,
-		argu_closeTimeEnd : closeTimeEnd,
+		argu_closeTimeEnd : closeTimeEnd
 
-		argu_isNotResearchCloseCase : isNotResearchCloseCase
+		/*argu_isNotResearchCloseCase : isNotResearchCloseCase*/
 
 	};
 	return params;

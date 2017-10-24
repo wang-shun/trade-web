@@ -28,5 +28,22 @@ public interface EvalDetailService {
 	  * @return
 	  */
 	 AjaxResponse<?>  evalReject(HttpServletRequest request,String caseCode,String evaCode);
+	 
+	 /**
+	  * 评估公司变更保存
+	  * @param request
+	  * @param evaCode
+	  * @return
+	  */
+	 AjaxResponse<?> saveEvaComChangeItems(HttpServletRequest request,String evaCode,String changeInfo);
+	 
+	 /**
+	  * 检查评估公司调佣
+	  * @param request
+	  * @param evaCode
+	  * @return
+	  */
+	 AjaxResponse<?> checkTransferCommission(HttpServletRequest request,String evaCode);
+	 
 
 }

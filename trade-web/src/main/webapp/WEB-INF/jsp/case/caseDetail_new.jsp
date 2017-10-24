@@ -102,83 +102,54 @@
 						</shiro:hasPermission>
 						
 						<c:if test="${toCase.caseProperty != '30003001' and toCase.caseProperty != '30003002' and toCase.caseProperty != '30003005' and toCase.status != '30001004' and toCase.status != '30001005'}">
-							<a role="button" class="btn btn-primary btn-xm btn-activity"
+							
+							<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.CASESTOP">
+								<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="javascript:caseBaodan()">爆单</a>
+							</shiro:hasPermission>
 						</c:if>
 						<!-- 已过户&&已领他证 不可变更 -->
 						<c:if test="${not empty toWorkFlow.processDefinitionId}">
 							<c:if test="${not empty toWorkFlow.instCode}">
 								<c:if test="${toCase.status != '30001004' and toCase.status != '30001005'}">
-									<a role="button" class="btn btn-primary btn-xm btn-activity"
-										href="javascript:showOrgCp()">责任人变更</a>
+									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">
+										<a role="button" class="btn btn-primary btn-xm btn-activity"
+											href="javascript:showOrgCp()">责任人变更</a>
+									</shiro:hasPermission>
 								</c:if>
 							</c:if>
 						</c:if>
 						<!-- FALSE：无效/结案/爆单/已过户/已领他证 -->
 						<c:if test="${toCase.caseProperty != '30003001' and toCase.caseProperty != '30003002' and toCase.caseProperty != '30003005' and toCase.status != '30001004' and toCase.status != '30001005'}">
-							<a role="button" id="processRestart" class="btn btn-primary btn-xm btn-activity"
+							<shiro:hasPermission name="TRADE.CASE.RESTART">
+								<a role="button" id="processRestart" class="btn btn-primary btn-xm btn-activity"
 										href="javascript:serviceRestart()">流程重启</a>
+							</shiro:hasPermission>
 						</c:if>
 	
 						<c:if test="${isCaseOwner}">
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
-										href="javascript:void(0)">贷款需求选择</a>
+<<<<<<< HEAD
+										href="javascript:showLoanReqmentChgModal()">贷款需求选择</a>
 						</c:if>				
 						<a role="button" class="btn btn-primary btn-xm btn-activity"
 							href="javascript:evaPricingApply()">询价申请</a>
 						<c:if test="${caseInfo.evalCode == null}">
+=======
+										href="javascript:void(0)">贷款需求选择</a>
+						</c:if>			
+						<shiro:hasPermission name="TRADE.CASE.EVAPRICINGAPPLY">	
+>>>>>>> branch 'develop' of http://gitlab.centaline.com.cn/centaline-trade/trade-web.git
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
-								href="javascript:evalApply()">评估申请</a>
-						</c:if>
-						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVAL.COMPANY.CHANGE">
-							<a role="button" class="btn btn-primary btn-xm btn-activity"
-											href="javascript:showEvalCompanyChangeModal()">评估公司变更</a>
+								href="javascript:evaPricingApply()">询价申请</a>
 						</shiro:hasPermission>
-					</div>
-					<!-- 评估公司变更-->
-					<div id="change-eval-company-modal-form" class="modal fade" role="dialog"
-						aria-labelledby="plan-modal-title" aria-hidden="true">
-						<div class="modal-dialog" style="width: 1000px">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal"
-										aria-hidden="true">×</button>
-									<h4 class="modal-title" id="plan-modal-title">评估公司变更</h4>
-								</div>
-								<div class="modal-body">
-								<div style="margin-left: 150px">
-									<div class="row">
-										<form id="change-eval-company-form" class="form-horizontal">
-											<table>
-												<tr>
-												<td>评估公司变更</td>
-												<td>是<input type="radio" name="changeItem">&nbsp&nbsp&nbsp&nbsp&nbsp否
-												<input type="radio" name="changeItem"></td>
-												</tr>
-												<tr>
-												<td>评估公司变更原因</td>
-												<td><input type="text" name="changeReason"></td>
-												</tr>
-												<tr>
-												<td>是否退报告</td>
-												<td>是<input type="radio" name="returnEvalReport">&nbsp&nbsp&nbsp&nbsp&nbsp否
-												<input type="radio" name="returnEvalReport"></td>
-												</tr>
-											</table>
-										
-										</form>
-									</div>
-								</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">关闭</button>
-									<button type="button" class="btn btn-primary"
-										onclick="return savePlanItems();">提交</button>
-								</div>
-							</div>
-						</div>
-					</div>
+						<c:if test="${caseInfo.evalCode == null}">
+							<shiro:hasPermission name="TRADE.CASE.EVALAPPLY">
+								<a role="button" class="btn btn-primary btn-xm btn-activity"
+									href="javascript:evalApply()">评估申请</a>
+						</shiro:hasPermission>
+						</c:if>
+						
 	
 					<!-- 交易计划变更 -->
 					<div id="plan-modal-form" class="modal fade" role="dialog"
@@ -265,34 +236,12 @@
 														<div class="col-md-7">
 															<aist:dict clazz="form-control" id="mortageService"
 																name="mortageService" display="select"
-																defaultvalue="0" dictType="mortage_service" />
+																defaultvalue="1" dictType="mortage_service" />
 														</div>
 													</div>
 												</div>
 											</div>
-											<div class="row" id='div_releasePlan'>
-												<div class="col-md-7">
-													<div class="form-group">
-														<label class="col-md-5 control-label"
-															style='padding-left: 0px; text-align: left;'><font
-															color="red">*</font>预计放款时间</label>
-														<div class="col-md-7">
-															<div class=" input-group date">
-																<span class="input-group-addon"><i
-																	class="fa fa-calendar"></i></span> <input type="text"
-																	class="form-control" name="estPartTime"
-																	id="estPartTime" disabled="disabled" value="">
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												*请注意：当您选择纯公积金贷款时，您需要选择一位合作人；当您选择其它贷款时，默认的服务执行人为您自己。</div>
-											<div class="divider">
-												<hr>
-											</div>
-											<div id="hzxm"></div>
+											
 										</div>
 									</div>
 									<div class="modal-footer">
@@ -306,8 +255,8 @@
 						</div>
 					</div>
 				
+					</div>
 				</div>
-				
 				<div class="tab-pane fade" id="messages">
 				<c:if test="${not empty toWorkFlow.processDefinitionId}">
 						<c:if test="${not empty toWorkFlow.instCode}">
@@ -363,7 +312,7 @@
 				</div>
 				<div class="row">
 					<label class="col-sm-3 control-label">房屋类型：${caseDetailVO.propertyTypeName }</label>
-					<label class="col-sm-3 control-label">购房年数：${toPropertyInfo.holdYear }</label>
+					<label class="col-sm-3 control-label">购房年数：${caseDetailVO.holdYear }</label>
 					<label class="col-sm-3 control-label">唯一住房：${caseDetailVO.isUniqueHome }</label>
 				</div>
 				<div class="row">
@@ -701,6 +650,9 @@
         //加载页面获取屏幕高度
         $(function(){
 
+        	$("#mortageService").find("option").eq(0).remove();
+        	$("#mortageService").find("option").eq(1).remove();
+        	$("#mortageService").val("1")
             var caseCode = $('#caseCode').val();
             //备注,common.js
             $("#caseCommentList").caseCommentGrid({

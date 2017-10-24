@@ -122,14 +122,16 @@ public class EvalRefundController {
 		toEvaRefund.setPkid(toEvaRefundvo.getPkid());
 		toEvaRefund.setEvalRealCharges(toEvaRefundvo.getEvalRealCharges());
 		toEvaRefund.setIsNeedRecovery(toEvaRefundvo.getIsNeedRecovery());
-		if (toEvaRefundvo.getIsNeedRecovery().equals("0")) {
+		if (toEvaRefundvo.getIsNeedRecovery().contains("0")) {
 			toEvaRefund.setReportBackNum(null);
 			toEvaRefund.setBackTime(null);
 			toEvaRefund.setBackCause(null);
+			toEvaRefund.setIsNeedRecovery("0");
 		}else{
 			toEvaRefund.setReportBackNum(toEvaRefundvo.getReportBackNum());
 			toEvaRefund.setBackTime(toEvaRefundvo.getBackTime());
 			toEvaRefund.setBackCause(toEvaRefundvo.getBackCause());
+			toEvaRefund.setIsNeedRecovery("1");
 		}
 		return toEvaRefund;
 	}

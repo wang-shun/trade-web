@@ -72,6 +72,7 @@
 					<h4 class="modal-title" id="plan-modal-title">评估申请关联</h4>
 				</div>
 				<input id="evaPricingId" type="hidden">
+				<input id="evaCode" type="hidden">
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary"
 						onclick="javascript:evalApply()">关联</button>
@@ -292,7 +293,7 @@
 	
 			<td class="text-center">
             	<div class="float_left big_pad">
-					<select pval="{{item.PKID}}" caseCode="{{item.CASE_CODE}}" instCode="{{item.INST_CODE}}" class="form-control select_control" style="width:120px">
+					<select pval="{{item.PKID}}" evaCode="{{item.EVA_CODE}}" caseCode="{{item.CASE_CODE}}" instCode="{{item.INST_CODE}}" class="form-control select_control" style="width:120px">
 						<option value="0">查看</option>
 						{{if item.STATUS == 1}}
 							<option value="1">评估申请</option>

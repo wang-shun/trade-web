@@ -51,6 +51,10 @@
 <link href="<c:url value='/css/common/xcConfirm.css' />"
 	rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'develop' of http://gitlab.centaline.com.cn/centaline-trade/trade-web.git
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 <script type="text/javascript">
 	var teamProperty = "${teamProperty}";
@@ -801,7 +805,6 @@
 			<div class="title title-mark" id="aboutInfo">
 				<strong style="font-weight: bold;">CCAI附件</strong>
 			</div>
-
 			<div class="view-content">
 				<table id="gridTable" class=""></table>
 				<div id="gridPager"></div>

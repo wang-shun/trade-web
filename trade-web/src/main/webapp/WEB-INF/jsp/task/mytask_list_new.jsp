@@ -148,7 +148,7 @@ text-decoration: underline !important;
 						
 					<div class="form_content">
 						<label class="control-label sign_left">任务名</label>
-						<aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="part_code" defaultvalue="" />
+						<aist:dict id="taskDfKey" name="taskDfKey" clazz="select_control sign_right_one" display="select" dictType="PART_CODE_NEW" defaultvalue="" />
 					</div>
 					
 					<div class="form_content">
@@ -185,7 +185,7 @@ text-decoration: underline !important;
 					<th >产证地址</th>
 					<th ><span class="sort" sortColumn="CREATE_TIME" sord="asc" onclick="createTimeSort();" >创建时间</span><i id="createTimeSorti" class="fa fa-sort-asc fa_up"></i></th>
 					<th >卖方姓名</th>
-					<th >卖方姓名</th>
+					<th >买方姓名</th>
 					<th >操作</th>
 				</tr>
 			</thead>

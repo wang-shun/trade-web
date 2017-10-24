@@ -106,9 +106,9 @@
                      					AND G.SRV_CODE IN ( '3000400201', '3000401002' ) 
 							)
 			    	  	)
-				    	<ifNotNull isNotResearchCloseCase>
+				    	<!-- <ifNotNull isNotResearchCloseCase>
 							AND A.CASE_PROPERTY != '30003002'
-						</ifNotNull>
+						</ifNotNull> -->
 						<ifNotNull yuCuiOriGrpId>
 							AND EXISTS 
 							(
@@ -276,7 +276,7 @@
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY A.STATUS,A.PKID DESC
+			  ORDER BY A.STATUS,A.UPDATE_TIME DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>

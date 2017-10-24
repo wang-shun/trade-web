@@ -23,9 +23,8 @@ public interface ToEvalReportProcessService {
     
     ToEvalReportProcess findToEvalReportProcessByEvalCode(String evalCode);
     
-    int updateEvalPropertyByCaseCode(String caseCode,String evalProperty);
     
-    int updateEvalPropertyByEvalCode(String evalCode,String evalProperty);
+    int updateChangeInfoByEvalCode(String evalCode,String changeInfo);
     
     int updateStatusByEvalCode(String status,String evalCode);
     

@@ -1178,4 +1178,8 @@
    	where 
 		CASE_CODE=#{caseCode,jdbcType=VARCHAR} 
   </select>
+  
+  <delete id="deleteMortageByCaseCode" parameterType="java.lang.String">
+  	delete from sctrans.T_TO_MORTGAGE_TOSAVE where CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  </delete>
 </mapper>
