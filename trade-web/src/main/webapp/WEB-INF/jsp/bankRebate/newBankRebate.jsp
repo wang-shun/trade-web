@@ -213,21 +213,6 @@
         }
 		
 	    
-	    $('#enteringMoney').click(function(){   
-	    	var index = $("#t_body_data_contents tr").length;
-    		var sum = 0;
-    		for(var i = 0; i < index; i++ ){
-    			var resMoney = parseInt($("#rebateMoney_" +  i +"").val());
-    			sum += resMoney;
-    			var rebateMoney = parseInt($("#rebateMoney").val());
-    		}
-    		
-    		var differ = parseInt(sum)-parseInt($("#rebateMoney").val());
-    		$("#enteringMoney").val(sum);
-    		$("#differenceMoney").val(differ);	 
-	                
-	     });
-	    
 	    
 	    $('#caseInfoClean').click(function(){
 	    	window.close()

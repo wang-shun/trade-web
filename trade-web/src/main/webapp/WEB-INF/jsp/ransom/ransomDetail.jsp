@@ -131,9 +131,9 @@
 								<div
 									class="col-lg-1 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='DEAL'}"> active
+										    <c:when test="${caseVo.taskProperty=='DEAL'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='DEAL'}"> complete
+										    <c:when test="${caseVo.taskProperty!='DEAL'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -155,9 +155,9 @@
 								</div>
 								<div class="col-lg-1 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='APPLY'}"> active
+										    <c:when test="${caseVo.taskProperty=='APPLY'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='APPLY'}"> complete
+										    <c:when test="${caseVo.taskProperty!='APPLY'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -181,9 +181,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='SIGN'}"> active
+										    <c:when test="${caseVo.taskProperty=='SIGN'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='SIGN'}"> complete
+										    <c:when test="${caseVo.taskProperty!='SIGN'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -207,9 +207,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='PAYLOAN_ONE'}"> active
+										    <c:when test="${caseVo.taskProperty=='PAYLOAN_ONE'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='PAYLOAN_ONE'}"> complete
+										    <c:when test="${caseVo.taskProperty!='PAYLOAN_ONE'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -233,9 +233,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='CANCELDIYA_ONE'}"> active
+										    <c:when test="${caseVo.taskProperty=='CANCELDIYA_ONE'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='CANCELDIYA_ONE'}"> complete
+										    <c:when test="${caseVo.taskProperty!='CANCELDIYA_ONE'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -259,9 +259,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='RECEIVE_ONE'}"> active
+										    <c:when test="${caseVo.taskProperty=='RECEIVE_ONE'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='RECEIVE_ONE'}"> complete
+										    <c:when test="${caseVo.taskProperty!='RECEIVE_ONE'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -285,9 +285,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='PAYCLEAR'}"> active
+										    <c:when test="${caseVo.taskProperty=='PAYCLEAR'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='PAYCLEAR'}"> complete
+										    <c:when test="${caseVo.taskProperty!='PAYCLEAR'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -334,9 +334,9 @@
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.ransomProperty=='ODEPAYLOAN_TWO'}"> active
+											    <c:when test="${caseVo.taskProperty=='ODEPAYLOAN_TWO'}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.ransomProperty!='ODEPAYLOAN_TWO'}"> complete
+											    <c:when test="${caseVo.taskProperty!='ODEPAYLOAN_TWO'}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -355,9 +355,9 @@
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.ransomProperty=='CANCELDIYA_TWO'}"> active
+											    <c:when test="${caseVo.taskProperty=='CANCELDIYA_TWO'}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.ransomProperty!='CANCELDIYA_TWO'}"> complete
+											    <c:when test="${caseVo.taskProperty!='CANCELDIYA_TWO'}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -376,9 +376,9 @@
 									<div
 										class="col-lg-1 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.ransomProperty=='RECEIVE_TWO'}"> active
+											    <c:when test="${caseVo.taskProperty=='RECEIVE_TWO'}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.ransomProperty!='RECEIVE_TWO'}"> complete
+											    <c:when test="${caseVo.taskProperty!='RECEIVE_TWO'}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -518,13 +518,13 @@
 										</tbody>
 									</table>
 								</div>
-								<div class="ibox-content">
+								<div class="ibox-content" >
 									<h2 class="title">操作记录</h2>
-									<div>
+									<!-- <div>
 										<button class="btn btn-success btn-space" onclick="getOperateLogRansom()">只看赎楼</button>
 										<button class="btn btn-success btn-space" onclick="getOperateLogList()" id="btnSubmit">全部流程</button>
-									</div>
-									<div class="tab-content">
+									</div> -->
+									<div class="tab-content" style="margin-top: 35px">
 										<div class="tab-pane active fade in">
 											<div class="jqGrid_wrapper row">
 												<table id="operation_history_table"></table>

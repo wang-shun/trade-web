@@ -18,9 +18,9 @@ $(document).ready(function() {
         moduleType:"1001",
         subscribeType:"2001"
     });
-    $("#mortageService").change(function(){
-        mortageService();
-    });
+   /* $("#mortageService").change(function(){
+        //mortageService();
+    });*/
     //CCAI附件
     getShowCCAIAttachment();
     //附件
@@ -30,6 +30,8 @@ $(document).ready(function() {
 
 });
 
+
+$("#btn_loan_reqment_chg").click(chgLoanReqment);
 /**
  * CCAI附件
  */
@@ -792,4 +794,62 @@ function dateFormat(dateTime){
     }
     var date = new Date(dateTime);
     return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+}
+
+/*贷款需求变更*/
+function showLoanReqmentChgModal(){
+	$("#mortageService").val("0");
+	$("#hzxm").html('');
+	$('#div_releasePlan').hide();
+	$('#div_releasePlan .input-group.date').datepicker({
+		todayBtn : "linked",
+		keyboardNavigation : false,
+		forceParse : false,
+		autoclose : true
+	});
+	$('#loanReqmentChg-modal-form').modal("show");
+}
+function chgLoanReqmentCheck(){
+	var selectVal =  $("#mortageService").val();
+	if(selectVal == "" || selectVal == null){
+		window.wxc.alert("贷款需求选择必须选!");
+		return false;
+	}
+	return true;
+}
+
+/*贷款需求选择提交*/
+function chgLoanReqment(){
+	if(!chgLoanReqmentCheck()){
+		return false;
+	}
+	window.wxc.confirm("您是否确认进行贷款选择变更？",{"wxcOk":function(){
+	var jsonData = $("#loan_reqment_chg_form").serializeArray();
+	$.ajax({
+		cache : false,
+		async : false,//false同步，true异步
+		type : "POST",
+		url : ctx+"/task/mortgageSelect/loanRequirementChange",
+		dataType : "json",
+		data : jsonData,
+		beforeSend:function(){
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+				$(".blockOverlay").css({'z-index':'9998'});
+         },
+		success : function(data) {
+			if(data.success){
+				window.wxc.success("变更成功",{"wxcOk": function(){
+					location.reload();
+				}});
+			}else{
+				window.wxc.error(data.message);
+			}
+		},complete: function() {
+			 $.unblockUI();
+		},
+		error : function(errors) {
+			window.wxc.error("数据保存出错");
+			 $.unblockUI();
+		}
+	})}});
 }

@@ -169,7 +169,6 @@
 <!--弹出框样式  -->
 <link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
-<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 <script type="text/javascript">
 //记录案件视图跳转等所需变量
@@ -745,6 +744,8 @@ function checkForm() {
 				<!-- 改版引入的新的js文件 -->
 				<script src="<c:url value='/js/common/textarea.js' />"></script>
 				<script src="<c:url value='/js/common/common.js' />"></script>
+					
+		<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
 				<script>
 					$(document).ready(function(){
 						var ctx = $("#ctx").val();
