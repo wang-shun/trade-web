@@ -80,7 +80,55 @@ public class BankRebateListController {
 		}
 		return "redirect:bankRebateList";
 	}
+
+	/**
+	 * 新增页面初始化化
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/newBankRebate")
+	public String newBankRebate(HttpServletRequest request,Model model) {
+		SessionUser user = uamSessionService.getSessionUser();
+		model.addAttribute("user", user);
+		return "bankRebate/newBankRebate";
+	}
 	
+	/**
+	 * 保存新增银行返利批次
+	 * @param request
+	 * @param model
+	 * @param info
+	 * @param toBankRebate
+	 * @return
+	 */
+	@RequestMapping(value="/saveNewBankRebate")
+	@ResponseBody
+	public AjaxResponse<String> saveNewBankRebate(HttpServletRequest request,Model model,ToBankRebateInfoVO info,ToBankRebate toBankRebate) {
+		AjaxResponse<String> response = new AjaxResponse<String>();
+		ToBankRebate record = new ToBankRebate();
+		Date applyTime = new Date();
+		record.setApplyTime(applyTime);
+		record.setApplyPerson(toBankRebate.getApplyPerson());
+		record.setComment(toBankRebate.getComment());
+		record.setCompanyAccount(toBankRebate.getCompanyAccount());
+		record.setGuaranteeCompany(toBankRebate.getGuaranteeCompany());
+		record.setRebateTotal(toBankRebate.getRebateTotal());
+		record.setGuaranteeCompId(generateToken(applyTime));
+		record.setStatus("0");//未提交
+		toBankRebateService.insertSelective(record);
+		try {
+			//保存新增对象
+			toBankRebateInfoService.saveBankRebateInfoVO(info,generateToken(applyTime));
+		} catch (Exception e) {
+			response.setSuccess(false);
+    		response.setMessage(e.getMessage());
+    		logger.error("保存失败！"+e.getCause());
+		}
+		return response;
+	}
+	
+
 	/**
 	 * 跳转到修改页面
 	 * @param request
@@ -148,15 +196,14 @@ public class BankRebateListController {
 	 * @return
 	 */
 	@RequestMapping(value="uploadExcelBankRebate")
-	public String uploadExcelBankRebate(@RequestParam("fileupload") MultipartFile  file,  String[] guaranteeCompany,BigDecimal[] rebateTotal,
-			String[] companyAccount,String[] applyPerson,String[] comment,
+	public String uploadExcelBankRebate(@RequestParam("fileupload") MultipartFile  file,ToBankRebate record,
             HttpServletRequest request, HttpServletResponse response){
 		
 		 ToBankRebate toBankRebate = new ToBankRebate();
-		 toBankRebate.setGuaranteeCompany(guaranteeCompany[0]);
-		 toBankRebate.setRebateTotal(rebateTotal[0]);
-		 toBankRebate.setApplyPerson(applyPerson[0]);
-		 toBankRebate.setComment(comment[0]);
+		 toBankRebate.setGuaranteeCompany(record.getGuaranteeCompany());
+		 toBankRebate.setRebateTotal(record.getRebateTotal());
+		 toBankRebate.setApplyPerson(record.getApplyPerson());
+		 toBankRebate.setComment(record.getComment());
 		
 		 Date applyTime = new Date();
 		 toBankRebate.setApplyTime(applyTime);
@@ -189,7 +236,7 @@ public class BankRebateListController {
 					// TODO: handle exception
 					e.printStackTrace();
 					request.setAttribute("ex_message", "文件第"+rowNum+"行收入金额信息类型转换失败");
-            		return "bankRebate/bankRebateList";
+            		return "redirect:bankRebateList";
 				}
                 
                 //导入权证返利金额
@@ -200,7 +247,7 @@ public class BankRebateListController {
 					// TODO: handle exception
 					e.printStackTrace();
 					request.setAttribute("ex_message", "文件第"+rowNum+"行收入金额信息类型转换失败");
-            		return "bankRebate/bankRebateList";
+            		return "redirect:bankRebateList";
 				}
             	
             	//导入业务返利金额
@@ -211,7 +258,7 @@ public class BankRebateListController {
 					// TODO: handle exception
 					e.printStackTrace();
 					request.setAttribute("ex_message", "文件第"+rowNum+"行收入金额信息类型转换失败");
-            		return "bankRebate/bankRebateList";
+            		return "redirect:bankRebateList";
 				}
             	//导入担保公司ID的批次唯一标识符
             	item.setGuaranteeCompId(generateToken(applyTime));

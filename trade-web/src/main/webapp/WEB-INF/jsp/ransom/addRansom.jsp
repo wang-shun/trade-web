@@ -370,6 +370,7 @@ table tbody select, input {
 					<a href="${ctx}/case/caseDetail?caseId={{item.pkid}}" id="td{{index}}" class="case-num" target="_blank">{{item.caseCode}}</a>
 				</td>
         		<td>
+					<input type="hidden" value="{{item.propertyAddr}}" />
 					<p class="big">{{item.propertyAddr}}</p>
 					<p class="big">{{item.agentName}} / {{item.grpName}}</p>
 				</td>
