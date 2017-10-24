@@ -8,7 +8,6 @@
         display: none;
     }
 </style>
-
 <nav id="navbar-example" class="navbar navbar-default navbar-static"
 		role="navigation">
 		<div id="isFixed" style="position: relative; top: 0px;"

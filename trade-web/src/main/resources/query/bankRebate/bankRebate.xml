@@ -29,8 +29,7 @@
 	</formatters>
 	<query id="bankRebate">
 		<searchCondition>
-            <condition field="a.STATUS" name="status" label="申请状态" searchType="eq" showType="" showCallback="" defaultValue=""/>
-            <condition field="a.APPLY_TIME" name="applyTime" label="申请时间" searchType="gt" showType="" showCallback="" defaultValue=""/>
+            <condition field="a.STATUS" name="status" label="申请状态" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="a.APPLY_PERSON" name="applyPerson" label="申请人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="a.GUARANTEE_COMPANY" name="guaranteeCompany" label="担保公司" searchType="EQ" showType="" showCallback="" defaultValue=""/>
           
@@ -41,7 +40,12 @@
 			SELECT a.pkId, a.APPLY_TIME,a.GUARANTEE_COMPANY,a.COMPANY_ACCOUNT,a.REBATE_TOTAL,a.APPLY_PERSON,a.STATUS,a.GUARANTEE_COMP_ID
  				FROM sctrans.T_TO_BANK_REBATE a  
  				where 1=1 
- 				   				
+ 				 <ifNotNull closeTimeStart>
+				  	and a.APPLY_TIME >= #closeTimeStart#
+				</ifNotNull>
+				<ifNotNull closeTimeEnd>
+				  	and a.APPLY_TIME &lt;= #closeTimeEnd#
+				</ifNotNull>  				
 				]]>
 			</baseSql>
 			<orderBySql>

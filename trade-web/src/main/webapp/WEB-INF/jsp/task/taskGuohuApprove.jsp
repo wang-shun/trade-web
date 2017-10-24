@@ -384,27 +384,27 @@
                 </li>--%>
                 <!--新加-->
                 <li>
-                    <em >典当公司</em><span class="yuanwid">${houseTransfer.pawnCompanies}</span>
+                    <em >典当公司</em><span class="yuanwid">${caseDetailVO.pawnCompanies}</span>
                 </li>
                 <li>
                     <em >业主垫资金额</em><span class="yuanwid">
                     <c:if test="${!empty houseTransfer.ownerMatAmount}">
-                    ${houseTransfer.ownerMatAmount}&nbsp;&nbsp;万元</c:if></span>
+                    ${caseDetailVO.ownerMatAmount}&nbsp;&nbsp;万元</c:if></span>
                 </li>
                 <li>
                     <em >垫资日期</em><span class="yuanwid">
-                    <fmt:formatDate value="${houseTransfer.matAmountTime}" pattern="yyyy-MM-dd" /></span>
+                    <fmt:formatDate value="${caseDetailVO.matAmountTime}" pattern="yyyy-MM-dd" /></span>
                 </li>
                 <li>
                     <em class="pull-left">垫资费用</em><span class="infolong pull-left">
-                    <c:if test="${!empty houseTransfer.matCharges}">
+                    <c:if test="${!empty caseDetailVO.matCharges}">
                     ${houseTransfer.matCharges}&nbsp;&nbsp;万元</c:if></span>
                 </li>
-                <li>
+              <%--  <li>
                     <em >担保费金额</em><span class="yuanwid">
                     <c:if test="${!empty houseTransfer.guaranteeFeeAmount}">
                     ${houseTransfer.guaranteeFeeAmount}&nbsp;&nbsp;万元</c:if></span>
-                </li>
+                </li>--%>
 
                 <li>
                     <em>合同价</em>
@@ -516,9 +516,16 @@
                                 <div class="col-sm-6">&nbsp;</div>
                                 <c:forEach items="${users}" var="user" varStatus="var">
                                     <div class="col-sm-6">
-                                        <input type="checkbox" value="${user.username }"
-                                               name="members" class="btn btn-white" >
-                                        <label>${user.realName}(${var.index eq 0 ? '前台':'后台' })</label>
+                                        <c:if test="${user.position=='warrant' or user.position=='loan' or user.position=='assistant'}">
+                                            <input type="checkbox" value="${user.userName }"
+                                                   name="members" class="btn btn-white" >
+                                        <label>${user.realName}<%--${var.index eq 0 ? '前台':'后台' }--%>
+                                            (
+                                            <c:if test="${user.position=='warrant'}">过户权证</c:if>
+                                            <c:if test="${user.position=='loan'}">贷款权证</c:if>
+                                            <c:if test="${user.position=='assistant'}">内勤助理</c:if>)
+                                            </label>
+                                        </c:if>
                                     </div>
                                 </c:forEach>
                             </c:if>

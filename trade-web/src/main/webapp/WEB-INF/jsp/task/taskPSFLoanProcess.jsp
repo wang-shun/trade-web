@@ -404,7 +404,7 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="form_content">
-                                                                    <label class="control-label sign_left_small2"> 共贷人<span class="star">*</span></label> 
+                                                                    <label class="control-label sign_left_small2"> 共贷人</label> 
                                                                     <input name="coLender" id="coLender" class="input_type yuanwid"/>
                                                                   
                                                                 </div>
@@ -585,7 +585,7 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="form_content">
-                                                                    <label class="control-label sign_left_small2"> 共贷人<span class="star">*</span></label> 
+                                                                    <label class="control-label sign_left_small2"> 共贷人</label> 
                                                                     <input name="coLender" id="coLender" class="input_type yuanwid"/>
                                                                   
                                                                 </div>

@@ -37,7 +37,7 @@
     <input type="hidden" id="ctx" value="${ctx}" />
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="ibox-content" id="reportFive">
-            <form  action="#"  id="changeRebateForm">
+            <form  action="#" method="post" id="changeRebateForm">
             	<input type="hidden" id="" name="guaranteeCompId" value="${toBankRebate.guaranteeCompId}" />
                 <div  class="form_list">
                     <div class="title">银行返利-修改</div>

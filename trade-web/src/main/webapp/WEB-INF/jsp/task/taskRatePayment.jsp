@@ -154,7 +154,7 @@
 									<label class="control-label sign_left_small">核税价<font color=" red" class="mr5" >*</font></label>
 									<input type="text" class=" input_type yuanwid" id="pricingTax"
 										   name="pricingTax" onkeyup="checkNoNum(this)"
-										   value="<fmt:formatNumber value='${ ratePayment.landIncrementTax}' type='number' pattern='#0.00' />">
+										   value="<fmt:formatNumber value='${ ratePayment.pricingTax}' type='number' pattern='#0.00' />">
 									<span class="date_icon">万元</span>
 								</div>
 							<div class="form_content">
@@ -308,18 +308,12 @@
 			srvCode : taskitem
 		});
         $("#ActualOperator").click(function () {
-            //console.log("aaaaaaaaaaaaaaaa")
             caseDistribute();
         });
-		/*if($("#paymentTime").val()!=''){
-            $("#paymentTime").attr("disabled","false");
-		}*/
+
        if('caseDetails'==source){
             readOnlyForm();
         }
-     /*   setTimeout(function(){
-//            $('.blockUI').hide();
-        },2000);*/
 });
 
 	//提交数据
@@ -407,24 +401,12 @@
 	//验证控件checkUI();
 	function checkForm() {
 			$("input").css("border-color","#ccc");
-
 			if ($('input[name=paymentTime]').val() == '') {
 				window.wxc.alert("缴税时间为必填项!");
 				$('input[name=paymentTime]').focus();
 				$('input[name=paymentTime]').css("border-color","red");
 				return false;
 			}
-			if ($('input[name=taxPricing]').val() == '') {
-				window.wxc.alert("核税价为必填项!");
-				$('input[name=taxPricing]').focus();
-				$('input[name=taxPricing]').css("border-color","red");
-				return false;
-			}
-			/* if($('input[name=commet]').val()=='') {
-			 alert("备注为必填项!");
-			 $('input[name=commet]').focus();
-			 return false;
-			 } */
 			if ($('input[name=personalIncomeTax]').val() == '') {
 				window.wxc.alert("个人所得税为必填项!");
 				$('input[name=personalIncomeTax]').focus();
@@ -445,31 +427,12 @@
 
 				return false;
 			}
-			/*if ($('input[name=landIncrementTax]').val() == '') {
-				window.wxc.alert("土地增值税及附加为必填项!");
-				$('input[name=landIncrementTax]').focus();
-				$('input[name=landIncrementTax]').css("border-color","red");
-				return false;
-			}*/
 			if ($('input[name=pricingTax]').val() == '') {
 				window.wxc.alert("核税价为必填项!");
 				$('input[name=pricingTax]').focus();
 				$('input[name=pricingTax]').css("border-color","red");
 				return false;
 			}
-			/*if ($("#added_value_tax_pic_list li").length == undefined
-				|| $("#added_value_tax_pic_list li").length == 0 ) {
-				window.wxc.alert("增值税发票未上传!");
-				return false;
-			}*/
-
-        //验证上传文件是否全部上传
-        /*var isCompletedUpload = fileUpload.isCompletedUpload();
-
-        if(!isCompletedUpload){
-            window.wxc.alert("增值税发票还未全部上传!");
-            return false;
-        }*/
 			return true;
 		}
 	
@@ -487,7 +450,6 @@
 		$("#btnSubmit").hide();
 	}
     function caseDistribute(){
-        //console.log("=======================")
         var url = "/case/getUserOrgCpUserList";
         var ctx = $("#ctx").val();
         url = ctx + url;
@@ -536,7 +498,6 @@
                 addHtml += '<img onload="javascript:imgLoad(this)" alt="image" class="himg" src="'+n.imgUrl+'"/>';
             }
             addHtml+='</span>';
-
             addHtml += '<div class="m-t-xs font-bold">过户权证</div></div></div>';
             addHtml += '<div class="col-sm-7">';
             addHtml += '<input id="user_'+i+'" type="hidden" value="'+n.id+'">';
