@@ -1,6 +1,7 @@
 package com.centaline.trans.cases.vo;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import com.centaline.trans.cases.entity.ToCase;
@@ -117,9 +118,49 @@ public class CaseDetailShowVO {
     private ToCase toCase;//案件信息
     
     private ToPropertyInfo toPropertyInfo;//物业信息
-    
+	/**
+	 * 赎楼信息
+	 * @author wbzhouht
+	 */
+    private String pawnCompanies;//典当公司
+	private BigDecimal ownerMatAmount;//垫资金额
+	private Date matAmountTime;//垫资日期
+	private BigDecimal matCharges;//垫资费用
+
 	//是否自办：是/否
 	private String isSelf;
+
+	public String getPawnCompanies() {
+		return pawnCompanies;
+	}
+
+	public void setPawnCompanies(String pawnCompanies) {
+		this.pawnCompanies = pawnCompanies;
+	}
+
+	public BigDecimal getOwnerMatAmount() {
+		return ownerMatAmount;
+	}
+
+	public void setOwnerMatAmount(BigDecimal ownerMatAmount) {
+		this.ownerMatAmount = ownerMatAmount;
+	}
+
+	public Date getMatAmountTime() {
+		return matAmountTime;
+	}
+
+	public void setMatAmountTime(Date matAmountTime) {
+		this.matAmountTime = matAmountTime;
+	}
+
+	public BigDecimal getMatCharges() {
+		return matCharges;
+	}
+
+	public void setMatCharges(BigDecimal matCharges) {
+		this.matCharges = matCharges;
+	}
 
 	public String getCityName() {
 		return cityName;

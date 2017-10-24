@@ -3,9 +3,12 @@ package com.centaline.trans.ransom.web;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +29,10 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
+import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.web.ResultNew;
 import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.common.enums.RansomPartEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
@@ -37,6 +40,7 @@ import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.entity.ToRansomFormVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
+import com.centaline.trans.ransom.entity.ToRansomPartOrderVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
 import com.centaline.trans.ransom.entity.ToRansomPermitVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
@@ -106,6 +110,7 @@ public class RansomListController {
 			String ransomCode = new StringBuffer().append("TJ-SL-").append(getCalendarTime()).toString(); //赎楼单编号
 			String caseCode = list.get(0).getCaseCode();
 			List<ToRansomFormVo> ransomList = new ArrayList<ToRansomFormVo>();
+			
 			for (int i = 0; i < list.size(); i++) {
 				ToRansomFormVo ransomFormVo = new ToRansomFormVo();
 				
@@ -127,6 +132,18 @@ public class RansomListController {
 			}
 			
 			addRansomFormService.addRansomForm(ransomList);
+			
+			
+			ToRansomPlanVo planVo = new ToRansomPlanVo();
+			planVo.setRansomCode(ransomCode);
+			planVo.setPartCode("APPLY");
+			planVo.setEstPartTime(list.get(0).getPlanTime());
+			planVo.setCreateUser(user.getId());
+			planVo.setCreateTime(new Date());
+			planVo.setUpdateTime(new Date());
+			planVo.setUpdateUser(user.getId());
+			ransomListFormService.insertRansomPlanTimeInfo(planVo);
+			
 			result = "0";
 			if("0".equals(result)){
 				rs.setStatus(result);
@@ -249,12 +266,29 @@ public class RansomListController {
 			List<ToRansomPlanVo> planVo = ransomService.getPlanTimeInfoByRansomCode(ransomCode);
 			
 			if(!planVo.isEmpty()) {
-				Date appTime = planVo.get(0).getEstPartTime();
-				Date signTime = planVo.get(1).getEstPartTime();
-				Date morTime = planVo.get(2).getEstPartTime();
-				Date canTime = planVo.get(3).getEstPartTime();
-				Date perTime = planVo.get(4).getEstPartTime();
-				Date payTime = planVo.get(5).getEstPartTime();
+				Date appTime = tailinsVo.getPlanTime();
+				Date signTime = null;
+				Date morTime = null;
+				Date canTime = null;
+				Date perTime = null;
+				Date payTime = null;
+				for (int i = 0; i < planVo.size(); i++) {
+					if(i == 0) {
+						signTime = planVo.get(0).getEstPartTime();
+					}
+					if(i == 1) {
+						morTime = planVo.get(1).getEstPartTime();
+					}
+					if(i == 2) {
+						canTime = planVo.get(2).getEstPartTime();
+					}
+					if(i == 3) {
+						perTime = planVo.get(3).getEstPartTime();
+					}
+					if(i == 4) {
+						payTime = planVo.get(4).getEstPartTime();
+					}
+				}
 				
 				request.setAttribute("appTime", appTime);
 				request.setAttribute("signTime", signTime);
@@ -307,7 +341,6 @@ public class RansomListController {
 	public String queryUpdateRansomByCaseCode(String caseCode, ServletRequest request) {
 		
 		try {
-//			List list = ransomListFormService.getUpdateRansomInfo(caseCode);
 			
 			List<ToRansomTailinsVo> tailinsVo = ransomListFormService.getTailinsInfoByCaseCode(caseCode);
 			List<TgGuestInfo> guestInfo = ransomListFormService.getGuestInfo(caseCode);
@@ -384,52 +417,21 @@ public class RansomListController {
 	@RequestMapping("planTime")
 	public String ransomPlanTimeInfo(String ransomCode,ServletRequest request) {
 		
-		SessionUser user= uamSessionService.getSessionUser();
-		
 		try {
-			
+			SessionUser user= uamSessionService.getSessionUser();
 			ToRansomCaseVo caseVo = ransomService.getRansomInfoByRansomCode(ransomCode);
-			List<ToRansomPlanVo> planVo = ransomListFormService.getRansomPlanTimeInfo(ransomCode);
-			
-			//如果计划时间信息为空，添加赎楼时间计划信息的ransomCode、更新人、更新时间
-			if(planVo.isEmpty()) {
-				//如果计划时间信息为空,根据赎楼单编号向时间计划添加每个环节partCode
-				List<String> partCodeList = new ArrayList<String>();
-				partCodeList.add("APPLY");
-				partCodeList.add("SIGN");
-				partCodeList.add("PAYLOAN_ONE");
-				partCodeList.add("PAYLOAN_TWO");
-				partCodeList.add("CANCELDIYA_ONE");
-				partCodeList.add("CANCELDIYA_TWO");
-				partCodeList.add("RECEIVE_ONE");
-				partCodeList.add("RECEIVE_TWO");
-				partCodeList.add("PAYCLEAR");
-				
-				
-				List<ToRansomPlanVo> planList = new ArrayList<ToRansomPlanVo>();
-				for(int i = 0; i < partCodeList.size(); i++ ) {
-					ToRansomPlanVo ransomPlanVo = new ToRansomPlanVo();
-					ransomPlanVo.setCreateTime(new Date());
-					ransomPlanVo.setRansomCode(ransomCode);
-					ransomPlanVo.setCreateUser(user.getId());
-					ransomPlanVo.setUpdateUser(user.getId());
-					ransomPlanVo.setUpdateTime(new Date());
-					ransomPlanVo.setPartCode(partCodeList.get(i));
-					
-					planList.add(ransomPlanVo);
-				}
-				
-				ransomListFormService.insertListRansomPlanTime(planList);
-				//ransomListFormService.insertRansomPlanTimeInfo(ransomPlanVo);
-				request.setAttribute("ransomCode", ransomCode);
-				request.setAttribute("caseVo", caseVo);
-				request.setAttribute("planVo", planList);
-			}else {
-				request.setAttribute("ransomCode", ransomCode);
-				request.setAttribute("caseVo", caseVo);
-				request.setAttribute("planVo", planVo);
+			List<ToRansomPlanVo> toRansomPlanVoList = ransomListFormService.getRansomPlanTimeInfo(ransomCode);
+			//将List 转为Map 便于页面通过partCode获取数据
+			Map<String,ToRansomPlanVo> planMap = new HashMap<>();
+			for(ToRansomPlanVo plan : toRansomPlanVoList) {
+				planMap.put(plan.getPartCode(), plan);
 			}
+			int count = ransomService.queryErdiByRansomCode(ransomCode);
 			
+			request.setAttribute("ransomCode", ransomCode);
+			request.setAttribute("caseVo", caseVo);
+			request.setAttribute("planMap", planMap);
+			request.setAttribute("count", count);
 			
 			return "ransom/ransomPlanTime";
 		} catch (Exception e) {
@@ -440,36 +442,41 @@ public class RansomListController {
 	
 	/**
 	 * 赎楼计划时间
-	 * @param ransomVo
-	 * @param flag
+	 * @param ransomVo json数组对象
+	 * @param flag 页面跳转标志 1：跳转详情页， 2：跳转时间计划明细页面
+	 * @param ransomCode 赎楼编号
+	 * @param count 判断是否存在二抵 0：否， 1： 是
 	 * @return
 	 */
 	@RequestMapping(value="updateRansomPlanTime",method = RequestMethod.POST)
 	@ResponseBody
-	public String updateRansomPlanTimeInfo(@RequestParam String ransomVo,int flag) {
+	public String updateRansomPlanTimeInfo(@RequestParam String ransomVo,int flag,String ransomCode,String count) {
 		
 		SessionUser user= uamSessionService.getSessionUser();
 		
 		try {
-			List<ToRansomPlanVo> list = JSONObject.parseArray(ransomVo, ToRansomPlanVo.class);
-			List<ToRansomPlanVo> ransomPlanVo = ransomListFormService.getRansomPlanTimeInfo(list.get(0).getRansomCode());
+			List<ToRansomPlanVo> planTimes = JSONObject.parseArray(ransomVo, ToRansomPlanVo.class);
+			List<String> partCodes = ransomListFormService.getRansomPlanCodeInfo(ransomCode);
 			
-			List<ToRansomPlanVo> planList = new ArrayList<ToRansomPlanVo>();
-			for(int i = 0; i < list.size(); i++) {
-				ToRansomPlanVo ransomPlan = new ToRansomPlanVo();
-				
-				ransomPlan.setRansomCode(list.get(i).getRansomCode());
-				ransomPlan.setPartCode(ransomPlanVo.get(i).getPartCode());
-				ransomPlan.setEstPartTime(list.get(i).getEstPartTime());
-				ransomPlan.setRemark(list.get(i).getRemark());
-				ransomPlan.setUpdateTime(new Date());
-				ransomPlan.setUpdateUser(user.getId());
-				ransomPlan.setCreateTime(new Date());
-				ransomPlan.setCreateUser(user.getId());
-				
-				planList.add(ransomPlan);
+			for(ToRansomPlanVo part :planTimes) {
+				if(part.getEstPartTime() != null) {
+					if(partCodes.contains(part.getPartCode())) {
+						//update
+						part.setRansomCode(ransomCode);
+						part.setUpdateTime(new Date());
+						part.setUpdateUser(user.getId());
+						ransomListFormService.updateRansomPlanTimeInfo(part);
+					}else {
+						//insert
+						part.setRansomCode(ransomCode);
+						part.setUpdateTime(new Date());
+						part.setUpdateUser(user.getId());
+						part.setCreateTime(new Date());
+						part.setCreateUser(user.getId());
+						ransomListFormService.insertRansomPlanTimeInfo(part);
+					}
+				}
 			}
-			ransomListFormService.updateListPlanTimeInfo(planList );
 			
 			String status = "赎楼计划时间修改成功！";
 			rs.setMessage(status);
@@ -530,7 +537,7 @@ public class RansomListController {
 		StringBuffer sb = new StringBuffer();
 		Calendar ca = Calendar.getInstance();
 		int year = ca.get(Calendar.YEAR);// 获取年份
-		int month = ca.get(Calendar.MONTH);// 获取月份
+		int month = ca.get(Calendar.MONTH)+1;// 获取月份
 		int day = ca.get(Calendar.DATE);// 获取日
 		int minute = ca.get(Calendar.MINUTE);// 分
 		int hour = ca.get(Calendar.HOUR);// 小时
@@ -540,7 +547,6 @@ public class RansomListController {
 			 sb.append(String.valueOf(year)).append(String.valueOf(0)).append(String.valueOf(month)).append(String.valueOf("-"));
 		}else {
 			 sb.append(String.valueOf(year)).append(String.valueOf(month)).append(String.valueOf("-"));
-			sb.append(String.valueOf(year) + String.valueOf(month) + "-");
 		}
 		
 		if(minute < 10) {
@@ -557,6 +563,11 @@ public class RansomListController {
 		
 		return sb;
 	}
+	
+	public static boolean containsValue(List<ToRansomPlanVo> ransomPlanVoList, String targetValue) {
+		    return Arrays.asList(ransomPlanVoList).contains(targetValue);
+		}
+
 	
 	public static void main(String[] args) {
 		

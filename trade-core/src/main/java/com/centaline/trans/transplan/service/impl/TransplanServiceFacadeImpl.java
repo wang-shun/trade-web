@@ -189,26 +189,18 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				.findTransPlanByCaseCode(caseCode);
 		TransPlanVO transPlanVO = new TransPlanVO();
 		for (ToTransPlan toTransPlan : list) {
-			/*if (toTransPlan.getPartCode().equals("LoanClose")) {*//* 还贷，贷款结清 *//*
-				transPlanVO.setEstPartTimeHd(toTransPlan.getEstPartTime());
-				transPlanVO.setPkidHd(toTransPlan.getPkid());
-			}*/ /** 审税 天津废弃
-			else if (toTransPlan.getPartCode().equals("TaxReview")) {
-				transPlanVO.setEstPartTimeTr(toTransPlan.getEstPartTime());
-				transPlanVO.setPkidTr(toTransPlan.getPkid());
-			} */
 			if (toTransPlan.getPartCode().equals("LoanRelease")) {/* 放款 */
 				transPlanVO.setEstPartTimeFk(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidFk(toTransPlan.getPkid());
 			} else if (toTransPlan.getPartCode().equals("RatePayment")) { /*缴税Pt*/
-				transPlanVO.setEstPartTimeGh(toTransPlan.getEstPartTime());
-				transPlanVO.setPkidGh(toTransPlan.getPkid());
+				transPlanVO.setEstPartTimePt(toTransPlan.getEstPartTime());
+				transPlanVO.setPkidPt(toTransPlan.getPkid());
 			}else if (toTransPlan.getPartCode().equals("Guohu")) {/* 过户 */
 				transPlanVO.setEstPartTimeGh(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidGh(toTransPlan.getPkid());
 			}else if (toTransPlan.getPartCode().equals("HouseBookGet")) {/* 领证 */
-				transPlanVO.setEstPartTimePfs(toTransPlan.getEstPartTime());
-				transPlanVO.setPkidPfs(toTransPlan.getPkid());
+				transPlanVO.setEstPartTimeLz(toTransPlan.getEstPartTime());
+				transPlanVO.setPkidLz(toTransPlan.getPkid());
 			}else if (toTransPlan.getPartCode().equals("CommercialLoansSigned")) { /*商贷面签Cs*/
 				transPlanVO.setEstPartTimeCs(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidCs(toTransPlan.getPkid());

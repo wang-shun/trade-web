@@ -52,7 +52,7 @@ public class CcaiEvalApiServiceImpl extends ApiService implements EvalApiService
 				requestBody.setApplyId(applyId);
 				requestBody.setAssessPrice(info.getAssessPrice());
 				requestBody.setAssessCompany(info.getAssessCompany());
-				requestBody.setAssessCompanyPrice(rebate.getEvalCost());
+				requestBody.setAssessCompanyPrice(info.getAssessCompanyPrice());
 				requestBody.setAssessReceip(info.getAssessReceip());
 				requestBody.setUserName(user.getUsername());
 				requestBody.setRealName(user.getRealName());

@@ -204,8 +204,18 @@
 					INNER  JOIN sctrans.T_TO_CASE cas ON cas.CASE_CODE = ca.CASE_CODE 
 					LEFT JOIN  sctrans.T_RA_CASE tr ON cas.CASE_CODE =tr.CASE_CODE
 					WHERE 
-					tr.RANSOM_CODE is NULL
-					OR tr.RANSOM_STATUS = '4'
+						tr.RANSOM_CODE is NULL
+						OR 
+							tr.RANSOM_STATUS = '4'
+					<ifNotNull casecode>
+						AND ca.CASE_CODE = #casecode#
+					</ifNotNull>
+					<ifNotNull propertyAddr>
+						AND pro.PROPERTY_ADDR = #propertyAddr#
+					</ifNotNull>
+					<ifNotNull sellerName>
+						AND guest.GUEST_NAME = #sellerName#
+					</ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>

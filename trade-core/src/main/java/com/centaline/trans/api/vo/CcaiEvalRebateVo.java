@@ -16,6 +16,8 @@ public class CcaiEvalRebateVo {
 	private String assessCompany;
 	// 评估费收据  多个用,分割
 	private String assessReceip;
+	// 评估公司成本
+	private BigDecimal assessCompanyPrice;
 
 	public String getCode() {
 		return code;
@@ -47,5 +49,13 @@ public class CcaiEvalRebateVo {
 
 	public void setAssessReceip(String assessReceip) {
 		this.assessReceip = assessReceip;
+	}
+
+	public BigDecimal getAssessCompanyPrice() {
+		return assessCompanyPrice;
+	}
+
+	public void setAssessCompanyPrice(BigDecimal assessCompanyPrice) {
+		this.assessCompanyPrice = assessCompanyPrice;
 	}
 }

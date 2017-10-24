@@ -72,10 +72,10 @@ var AttachmentList = (function(){
 })();
 
 function submit(ctx){
-    if ($("#evalRecept").val().length==0) {
-        window.wxc.alert("请填写评估费收据");
-        return ;
-    }
+    // if ($("#evalRecept").val().length==0) {
+    //     window.wxc.alert("请填写评估费收据");
+    //     return ;
+    // }
     var cost = $("#evalCost").val();
     var real = $('#evalCost').attr('real');
     if(isNaN(cost)  || parseFloat(cost) == 0 || parseFloat(cost) > parseFloat(real)){
