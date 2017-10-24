@@ -126,6 +126,7 @@
 			tai.PLAN_TIME planTime, 
 			app.APPLY_TIME applyTime, 
 			vie.INTERVIEW_TIME intervalTime,
+			rep.REPAY_MONEY repayLoanMoney,
 			rep.REPAY_TIME repayTime,
 			can.CANCEL_TIME  cancleTime,
 			red.REDEEM_TIME redeemTime,

@@ -1,6 +1,7 @@
 package com.centaline.trans.ransom.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 赎楼详情VO
@@ -81,6 +82,8 @@ public class ToRansomDetailVo {
 	 * 还贷金额
 	 */
 	private BigDecimal  repayLoanMoney;
+
+	private Date repayTime;//还贷时间  by wbzhouht
 	/**
 	 * 贷款费用/利息
 	 */
@@ -89,6 +92,15 @@ public class ToRansomDetailVo {
 	 * 是否委托公证
 	 */
 	private String      isEntrust;
+
+	public Date getRepayTime() {
+		return repayTime;
+	}
+
+	public void setRepayTime(Date repayTime) {
+		this.repayTime = repayTime;
+	}
+
 	public String getRansomCode() {
 		return ransomCode;
 	}
