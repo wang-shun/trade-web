@@ -194,6 +194,7 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			evalRebate.setStatus(EvalRebateStatusEnum.FINISH.getCode());
 			evalRebate.setEvalRecept(info.getEvalRecept());
 			evalRebate.setCreateTime(info.getCreateTime());
+			evalRebate.setEvalRecept(null);//不根据CCAI传入的评估费收据修改 由于天津未保存
 			toEvalRebateService.updateByPrimaryKeySelective(evalRebate);
 			//先删除旧的审批记录
 			toApproveRecordService.deleteByCaseCodeAndType(evalRebate.getCaseCode(),REBATE_APPROVE_TYPE);
