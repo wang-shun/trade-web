@@ -270,7 +270,7 @@ function exportToExcel() {
 		var displayColomn = new Array;
 		displayColomn.push('caseCode');
 		displayColomn.push('PROPERTY_ADDR');
-		displayColomn.push('FIN_ORG_ID');
+		displayColomn.push('EVA_COMPANY');
 		displayColomn.push('APPLY_DATE');
 		displayColomn.push('ISSUE_DATE');
 		displayColomn.push('EVAL_REAL_CHARGES');
