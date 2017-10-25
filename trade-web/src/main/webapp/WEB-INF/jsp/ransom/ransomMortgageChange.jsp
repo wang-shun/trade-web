@@ -99,7 +99,7 @@
 							<div  class="input-group sign-right  input-daterange"  data-date-format="yyyy-mm-dd"> 
 								<input id="mortgageTime" name="mortgageTime" class="form-control input-one date-picker data_style" 
 								value="<fmt:formatDate value='${payloanVo.mortgageTime }' pattern='yyyy-MM-dd'/>" 
-								style="font-size: 13px;width: 200px; border-radius: 2px;" type="text"  placeholder="陪同还贷时间">
+								style="font-size: 13px;width: 200px; border-radius: 2px;" type="text"  placeholder="陪同还贷时间" disabled>
 							</div>
 						</div>
 						<div class="form_content">
@@ -122,12 +122,12 @@
 									<c:if test="${count == 0 }">
 										<input id="planCancelTime" name="planCancelTime" class="form-control input-one date-picker data_style" 
 										value="<fmt:formatDate value='${planVoMap[\'CANCELDIYA_ONE\'].estPartTime}' pattern='yyyy-MM-dd' />" 
-										style="font-size: 13px;width: 200px; border-radius: 2px;" type="text"  >
+										style="font-size: 13px;width: 200px; border-radius: 2px;" type="text" disabled >
 									</c:if>
 									<c:if test="${count == 1 }">
 										<input id="planCancelTime" name="planCancelTime" class="form-control input-one date-picker data_style" 
 										value="<fmt:formatDate value='${planVoMap[\'CANCELDIYA_TWO\'].estPartTime}' pattern='yyyy-MM-dd' />" 
-										style="font-size: 13px;width: 200px; border-radius: 2px;" type="text"  >
+										style="font-size: 13px;width: 200px; border-radius: 2px;" type="text" disabled >
 									</c:if>
 								</div>
 						</div>
@@ -141,12 +141,12 @@
 								<c:if test="${count == 0 }">
 									<input id="planPermitTime" name="planPermitTime" class="form-control input-one date-picker data_style" 
 									value="<fmt:formatDate value='${planVoMap[\'RECEIVE_ONE\'].estPartTime}' pattern='yyyy-MM-dd' />"
-									style="font-size: 13px;width:200px; border-radius: 2px;" type="text"  >
+									style="font-size: 13px;width:200px; border-radius: 2px;" type="text" disabled >
 								</c:if>
 								<c:if test="${count == 1 }">
 									<input id="planPermitTime" name="planPermitTime" class="form-control input-one date-picker data_style" 
 									value="<fmt:formatDate value='${planVoMap[\'RECEIVE_TWO\'].estPartTime}' pattern='yyyy-MM-dd' />"
-									style="font-size: 13px;width:200px; border-radius: 2px;" type="text"  >
+									style="font-size: 13px;width:200px; border-radius: 2px;" type="text" disabled >
 								</c:if>
 							</div>
 						</div>
@@ -157,7 +157,7 @@
 							<div  class="input-group sign-right  input-daterange"  data-date-format="yyyy-mm-dd">
 								<input id="planPaymentTime" name="planPaymentTime" class="form-control input-one date-picker data_style" 
 								value="<fmt:formatDate value='${planVoMap[\'PAYCLEAR\'].estPartTime}' pattern='yyyy-MM-dd' />"
-								style="font-size: 13px;width:200px; border-radius: 2px;" type="text"  >
+								style="font-size: 13px;width:200px; border-radius: 2px;" type="text" disabled >
 							</div>
 						</div>
 					</div>
