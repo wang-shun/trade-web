@@ -376,7 +376,7 @@ public class RansomListController {
 			if(ransomVo != null) {
 				caseVo.setRansomCode(ransomVo.getRansomCode());
 				caseVo.setBorrowerName(ransomVo.getBorrowerName());
-				caseVo.setBorroMoney((ransomVo.getBorrowerMoney()).multiply(new BigDecimal(Double.toString(10000.00))));
+				caseVo.setBorroMoney(ransomVo.getBorrowerMoney());
 				caseVo.setBorrowerTel(ransomVo.getBorrowerPhone());
 				caseVo.setUpdateUser(user.getId());
 				caseVo.setUpdateTime(new Date());
@@ -386,8 +386,8 @@ public class RansomListController {
 				tailinsVo.setFinOrgCode(ransomVo.getFinOrgCode());
 				tailinsVo.setMortgageType(ransomVo.getMortgageType());
 				tailinsVo.setDiyaType(ransomVo.getDiyaType());
-				tailinsVo.setLoanMoney((ransomVo.getLoanMoney()).multiply(new BigDecimal(Double.toString(10000.00))));
-				tailinsVo.setRestMoney((ransomVo.getRestMoney()).multiply(new BigDecimal(Double.toString(10000.00))));
+				tailinsVo.setLoanMoney(ransomVo.getLoanMoney());
+				tailinsVo.setRestMoney(ransomVo.getRestMoney());
 				tailinsVo.setUpdateTime(new Date());
 				tailinsVo.setUpdateUser(user.getId());
 				

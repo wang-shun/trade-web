@@ -1,9 +1,10 @@
 package com.centaline.trans.ransom.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
@@ -29,7 +29,6 @@ import com.centaline.trans.ransom.repository.RansomMapper;
 import com.centaline.trans.ransom.service.RansomListFormService;
 import com.centaline.trans.ransom.vo.ToRansomVo;
 import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
-import com.centaline.trans.utils.DateUtil;
 
 /**
  * 赎楼详情列表
@@ -248,7 +247,10 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	
 	@Override
 	public VRansomFinishTaskVo getRansomTaskInfoByRansomCode(String ransomCode) {
-		return ransomListFormMapper.getRansomTaskInfo(ransomCode);
+		
+		VRansomFinishTaskVo taskVo = ransomListFormMapper.getRansomTaskInfo(ransomCode);
+		
+		return taskVo;
 	}
 
 	@Override

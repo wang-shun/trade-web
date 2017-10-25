@@ -42,6 +42,7 @@ import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.eval.service.ToEvalSettleService;
 import com.centaline.trans.eval.vo.EvalAccountShowVO;
+import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
 
@@ -318,7 +319,9 @@ public class EvalWaitAccountListController {
 				//evalAccountShowVO.setEvaPrice(toEvalReportProcess.getEvaPrice());
 				//System.out.println(format.format(toEvalReportProcess.getApplyDate()));
 				evalAccountShowVO.setApplyDate(format.format(toEvalReportProcess.getApplyDate()));
-				evalAccountShowVO.setFinOrgId(toEvalReportProcess.getFinOrgId());
+				//查询评估公司名称
+				TsFinOrg tsFinOrg = toEvalSettleService.findTsFinOrgByfinOrgCode(toEvalReportProcess.getFinOrgId());
+				evalAccountShowVO.setEvalCompany(tsFinOrg.getFinOrgName());
 				if(toEvalReportProcess.getIssueDate() != null) {
 					evalAccountShowVO.setIssueDate(format.format(toEvalReportProcess.getIssueDate()));
 				}else {
@@ -374,7 +377,10 @@ public class EvalWaitAccountListController {
 			evalAccountShowVO.setCaseCode(caseCode);
 			//System.out.println(format.format(toEvalReportProcess.getApplyDate()));
 			evalAccountShowVO.setApplyDate(format.format(toEvalReportProcess.getApplyDate()));
-			evalAccountShowVO.setFinOrgId(toEvalReportProcess.getFinOrgId());
+			//查询评估公司名称
+			TsFinOrg tsFinOrg = toEvalSettleService.findTsFinOrgByfinOrgCode(toEvalReportProcess.getFinOrgId());
+			evalAccountShowVO.setEvalCompany(tsFinOrg.getFinOrgName());
+			//evalAccountShowVO.setFinOrgId(toEvalReportProcess.getFinOrgId());
 			if(toEvalReportProcess.getIssueDate() != null) {
 				evalAccountShowVO.setIssueDate(format.format(toEvalReportProcess.getIssueDate()));
 			}else {

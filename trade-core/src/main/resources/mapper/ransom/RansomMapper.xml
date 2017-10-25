@@ -47,13 +47,19 @@
 			cai.AGENT_NAME agentName,
 			cai.AGENT_PHONE agentPhone,
 			cas.LEADING_PROCESS_ID leadingProcessId,
-			app.LOANOFFICER credit
+			app.LOANOFFICER credit,
+			vie.INTERVIEW_MONEY interViewMoney,
+			vie.INTEREST interest,
+			vie.IS_ENTRUST isEntrust,
+			rep.REPAY_MONEY repayLoanMoney
 		FROM
 			sctrans.T_RA_CASE ra
 			INNER JOIN sctrans.T_TO_CASE cas ON ra.CASE_CODE = cas.CASE_CODE
 			INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON ra.CASE_CODE = pro.CASE_CODE
 			INNER JOIN sctrans.T_TO_CASE_INFO cai ON ra.CASE_CODE = cai.CASE_CODE
 			LEFT JOIN sctrans.T_RA_APPLY app ON ra.RANSOM_CODE = app.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_INTERVIEW vie ON ra.RANSOM_CODE = vie.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_REPAY rep ON ra.RANSOM_CODE = rep.RANSOM_CODE
 		WHERE ra.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
@@ -181,7 +187,7 @@
 	</select>
 	<select id="getRansomCaseInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
 		SELECT
-			act.TASK_DEF_KEY_ taskProperty,
+			<!-- act.TASK_DEF_KEY_ taskProperty, -->
 			cas.RANSOM_CODE ransomCode,
 			cas.CASE_CODE caseCode,
 			cas.RANSOM_STATUS ransomStatus,
@@ -203,9 +209,9 @@
 		FROM
 			sctrans.T_RA_CASE cas
 			LEFT JOIN sctrans.T_TO_WORKFLOW tw ON cas.RANSOM_CODE =tw.BIZ_CODE
-			LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE = act.PROC_INST_ID_
+			<!-- LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE = act.PROC_INST_ID_ -->
 		WHERE
-			tw.BIZ_CODE = #{ransomCode,jdbcType=VARCHAR}
+			cas.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
 	<select id="getRansomPlanByCode" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo">

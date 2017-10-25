@@ -329,7 +329,7 @@ text-decoration: underline !important;
 		{{/if}}
 	</td>
 	<td class="center"> 
-		{{item.BORRO_MONEY}}万元
+		{{item.BORRO_MONEY/10000}}万元
 	</td>
 	<td class="center"> 
 		{{if item.RANSOM_STATUS == 1}}

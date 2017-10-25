@@ -148,7 +148,7 @@ display: none;}
 											</div>
 											<div class="height_line1" ></div>
 											<div class="row font-family" style=" margin-top:20px;">
-												<label class="col-sm-4 control-label">评估公司：<span  style="background-color:#87CEFA" v-html="evalVO.finOrgId"></span></label>
+												<label class="col-sm-4 control-label">评估公司：<span  style="background-color:#87CEFA" v-html="evalVO.evalCompany"></span></label>
 												<label class="col-sm-3 control-label">评估费实收金额：<span  style="background-color:#87CEFA" v-html="evalVO.evalRealCharges+'元'"></span></label>
 												<label class="col-sm-3 control-label">评估申请日期：<span  style="background-color:#87CEFA" v-html="evalVO.applyDate"></span></label>
 											</div>
@@ -235,7 +235,6 @@ display: none;}
 							aria-hidden="true">×</button>
 						<p class="modal-title" id="modal-title" style="font-size:16px;">关联评估单列表</p>
 					</div>
-					<!-- <div > -->
 						<div class="row" style="height: 450px;overflow-y: auto; overflow-x: hidden; ">
 								<div class="wrapper wrapper-content animated fadeInRight" style="padding-top: 0;">
 							                <div class="main-bonus">
@@ -245,7 +244,8 @@ display: none;}
 							                                <div class="col-lg-5 col-md-5">
 							                                        <label class="col-lg-3 col-md-3 control-label font_w">评估公司</label>
 							                                        <div class="col-lg-9 col-md-9">
-							                                            <input type="text" class="form-control" id="evalCompany" name="evalCompany">
+							                                            <select  id="finOrgId" class="form-control select_control">
+																		</select>
 							                                        </div>
 							                                </div>
 							                                <div class="col-lg-5 col-md-5">
@@ -262,13 +262,14 @@ display: none;}
 							                                        <div class="col-lg-9 col-md-9">
 																			<select name="" class="form-control" id="caseStatus">
 																				<option value="" selected="selected">请选择</option>
-																				<option value="0">已结算</option>
-																				<option value="1">未结算</option>
-																				<option value="2">已核对</option>
-																				<option value="3">未核对</option>
-																				<option value="4">已审批</option>
+																				
+																				<option value="0">已核对</option>
+																				<option value="1">未核对</option>
+																				<option value="4">已结算</option>
+																				<option value="3">未结算</option>
+																				<!--<option value="4">已审批</option>  
 																				<option value="5">未审批</option>
-																				  <option value="6">已驳回</option>
+																				  <option value="6">已驳回</option>-->
 																			</select>
 							                                        </div>
 							                                </div>
@@ -330,13 +331,10 @@ display: none;}
 													<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
 													<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
 											    </div>
-								<!-- <button type="button" class="btn btn-primary" onclick="javascript:closeEval()">关闭</button> -->
-									
 							     
 							</div>
 							
 					</div>
-				<!-- </div> -->
 			</div>
 		</div>
 	</div>
@@ -401,9 +399,9 @@ display: none;}
 										<p>评：{{item.evalCode}}</p>
 									</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
-                                    <td>{{item.FIN_ORG_ID}}</td>
-									<td>贷款权证</td>
-									<td>经纪人</td>
+                                    <td>{{item.EVA_COMPANY}}</td>
+									<td></td>
+									<td></td>
 									<td>
 										{{item.APPLY_DATE}}
 									</td>
@@ -534,7 +532,9 @@ display: none;}
 				todayBtn : 'linked',
 				language : 'zh-CN'
 			});
-			
+		//获取评估公司
+		getEvaFinOrg('finOrgId');
+		
 			aist.sortWrapper({
 			reloadGrid : reloadGrid
 		});
@@ -584,7 +584,7 @@ display: none;}
 		 data1.search_propertyAddr = propertyAddr;
 		 data1.search_caseCode = caseCode;
 		 data1.search_evalCode = evalCode;
-	    data1.search_finOrgID = $("#evalCompany").val();
+	    data1.search_finOrgID = $("#finOrgId").val();
 		data1.search_applyDate=$('#dtBegin_0').val();
 		return data1;
 	}
@@ -654,6 +654,32 @@ display: none;}
 				 //console.log(page);
 				reloadGrid(page);
 		    }
+		});
+	}
+	
+	/**
+	 * 获取评估公司 格式化
+	 * @param finOrgId
+	 */
+	function getEvaFinOrg(finOrgId){
+		var url = "/manage/queryEvaCompany";
+		$.ajax({
+			async: true,
+			type:'POST',
+			url:ctx+url,
+			dataType:'json',
+			success:function(data){
+				var html = '<option value="" selected>请选择</option>';
+				if(data != null){
+					$.each(data,function(i,item){
+						html += '<option value="'+item.pkid+'">'+item.finOrgName+'</option>';
+					});
+				}					
+				$('#'+finOrgId).empty();
+				$('#'+finOrgId).append(html);
+			},
+			error : function(errors) {
+			}
 		});
 	}
 	
