@@ -79,6 +79,6 @@ public interface EvaPricingService {
 	 * @param reason
 	 * @return
 	 */
-	int updateEvaPricingDetail(Long pkid,String isValid,String reason);
+	AjaxResponse<String> updateEvaPricingDetail(ToEvaPricingVo toEvaPricingVo);
 	
 }
