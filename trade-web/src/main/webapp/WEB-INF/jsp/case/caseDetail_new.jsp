@@ -51,6 +51,10 @@
 	.td_width{
 		width:130px;
 	}
+	.change_width_left{
+		width:250px;
+		margin-left:10px;
+	}
 </style>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <input type="hidden" id="ctx" value="${ctx}" />
@@ -114,7 +118,7 @@
 								<c:if test="${toCase.status != '30001004' and toCase.status != '30001005'}">
 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
-											href="javascript:showOrgCp()">责任人变更</a>
+											href="javascript:showChoose()">经办人变更</a>
 									</shiro:hasPermission>
 								</c:if>
 							</c:if>
@@ -131,12 +135,12 @@
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 										href="javascript:showLoanReqmentChgModal()">贷款需求选择</a>
 						</c:if>			
-						<shiro:hasPermission name="TRADE.CASE.EVAPRICINGAPPLY">	
+						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVAPRICINGAPPLY">	
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 								href="javascript:evaPricingApply()">询价申请</a>
 						</shiro:hasPermission>
 						<c:if test="${caseInfo.evalCode == null}">
-							<shiro:hasPermission name="TRADE.CASE.EVALAPPLY">
+							<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVALAPPLY">
 								<a role="button" class="btn btn-primary btn-xm btn-activity"
 									href="javascript:evalApply()">评估申请</a>
 						</shiro:hasPermission>
@@ -196,7 +200,32 @@
 								</div>
 							</div>
 						</div>
+					</div>
+					<!-- 贷款/过户选择modal -->	
+					<div id="lead-modal-choose" class="modal fade" role="dialog"
+						aria-labelledby="leading-modal-title" aria-hidden="true">
+						<div class="modal-dialog" style="width: 300px">
+							<div class="modal-content" style="width:300px;">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">×</button>
+									<h4 class="modal-title" id="leading-modal-title">
+										请选择变更权证</h4>
+								</div>
+								<div class="modal-body">
+									<!-- <div class="row" style="height: 200px;">
+										<div class="col-lg-12 ">
+											<h3 class="m-t-none m-b"></h3> -->
+											<!-- <div class="wrapper wrapper-content animated fadeInRight"> -->
+												<div id="leading-choose" class="row"></div>
+											<!-- </div> -->
+									<!-- 	</div>
+									</div> -->
+								</div>
+							</div>
+						</div>
 					</div>	
+					
 					<!-- loanRequirementChange -->
 					<div id="loanReqmentChg-modal-form" class="modal fade"
 						role="dialog" aria-labelledby="plan-modal-title"

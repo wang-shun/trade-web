@@ -43,11 +43,15 @@ public interface ToCaseParticipantMapper {
     List<ToCaseParticipant> selectByCondition(ToCaseParticipant record);
     
     /**
-     * 案件分配信息更新(责任人变更)
+     * 案件分配信息更新(经办人变更)
      * @param caseCode
      * @param user
      * @param manager
+     * @param chooseType
      * @return
      */
-    int updateCaseParticipant(@Param("caseCode")String caseCode, @Param("user")User user, @Param("manager")User manager);
+    int updateCaseParticipant(@Param("caseCode")String caseCode,
+    							@Param("user")User user,
+    							@Param("manager")User manager,
+    							@Param("chooseType")String chooseType);
 }

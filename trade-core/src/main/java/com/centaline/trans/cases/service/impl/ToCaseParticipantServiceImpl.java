@@ -44,8 +44,8 @@ public class ToCaseParticipantServiceImpl implements ToCaseParticipantService {
 	}
 
 	@Override
-	public int updateCaseParticipant(String caseCode, User user, User manager) {
-		return toCaseParticipantMapper.updateCaseParticipant(caseCode, user, manager);
+	public int updateCaseParticipant(String caseCode, User user, User manager,String chooseType) {
+		return toCaseParticipantMapper.updateCaseParticipant(caseCode, user, manager,chooseType);
 	}
 
 	@Override
