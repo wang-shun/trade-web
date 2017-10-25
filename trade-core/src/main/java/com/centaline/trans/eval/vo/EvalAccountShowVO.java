@@ -8,7 +8,8 @@ public class EvalAccountShowVO {
 	
 	private String caseCode;                       //
 	private String evaCode;                   
-	private String finOrgId;           
+	private String finOrgId;  
+	private String evalCompany;
 	private String applyDate;            
 	private String issueDate;
 	private BigDecimal evaPrice; 
@@ -143,6 +144,14 @@ public class EvalAccountShowVO {
 
 	public void setApproTime(String approTime) {
 		this.approTime = approTime;
+	}
+
+	public String getEvalCompany() {
+		return evalCompany;
+	}
+
+	public void setEvalCompany(String evalCompany) {
+		this.evalCompany = evalCompany;
 	}
 	
 	

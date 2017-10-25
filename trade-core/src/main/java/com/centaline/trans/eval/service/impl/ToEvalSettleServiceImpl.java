@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.centaline.trans.eval.entity.ToEvalSettle;
 import com.centaline.trans.eval.repository.ToEvalSettleMapper;
 import com.centaline.trans.eval.service.ToEvalSettleService;
+import com.centaline.trans.mgr.entity.TsFinOrg;
+import com.centaline.trans.mgr.repository.TsFinOrgMapper;
 
 @Service
 public class ToEvalSettleServiceImpl implements ToEvalSettleService {
@@ -15,6 +17,9 @@ public class ToEvalSettleServiceImpl implements ToEvalSettleService {
 	
 	@Autowired
 	private ToEvalSettleMapper toEvalSettleMapper; 
+	
+	@Autowired
+	private TsFinOrgMapper tsFinOrgMapper; 
 	
 	@Autowired(required = true)
 	ToEvalSettleService toEvalSettleService;
@@ -93,6 +98,14 @@ public class ToEvalSettleServiceImpl implements ToEvalSettleService {
 		}
 		return recordList;
 	}
-
+	
+	//根据评估公司编号查询评估公司
+	@Override
+	public TsFinOrg findTsFinOrgByfinOrgCode(String finOrgCode) {
+		// TODO Auto-generated method stub
+		return tsFinOrgMapper.findBankByFinOrg(finOrgCode);
+	}
+	
+	
 
 }
