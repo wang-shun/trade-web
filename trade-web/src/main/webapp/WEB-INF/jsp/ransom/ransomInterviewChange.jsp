@@ -153,13 +153,15 @@
                 <div class="form_content">
                     <label class="control-label sign_left_small select_style mend_select"><font color=" red" class="mr5" >*</font>实际面签时间</label>
                     <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                        <input name="signTime" id="signTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${signVo.signTime }' pattern='yyyy-MM-dd'/>" placeholder="">
+                        <input name="signTime" id="signTime" class="form-control data_style" type="text" 
+                        value="<fmt:formatDate value='${signVo.signTime }' pattern='yyyy-MM-dd'/>" placeholder="" disabled>
                     </div>
                 </div>
                 <div class="form_content">
                     <label class="control-label sign_left_small select_style mend_select"><font color=" red" class="mr5" >*</font>陪同还贷时间</label>
                     <div class="input-group sign-right dataleft input-daterange" data-date-format="yyyy-mm-dd" >
-                        <input name="planPayloanTime" id="planPayloanTime" class="form-control data_style" type="text" value="<fmt:formatDate value='${signVo.planPayloanTime }' pattern='yyyy-MM-dd'/>" placeholder="">
+                        <input name="planPayloanTime" id="planPayloanTime" class="form-control data_style" type="text" 
+                        value="<fmt:formatDate value='${signVo.planPayloanTime }' pattern='yyyy-MM-dd'/>" placeholder="" disabled>
                     </div>
                 </div>
              </div>

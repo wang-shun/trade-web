@@ -114,14 +114,14 @@
 					<label  class="control-label matching"><font color=" red" class="mr5" >*</font>申请时间</label> 
 					<div  class="input-group sign-right  input-daterange"  data-date-format="yyyy-mm-dd">
 						<input id="applyTime" name="applyTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 200px; border-radius: 2px;" 
-						type="text"  value="<fmt:formatDate value='${applyVo.applyTime }' pattern='yyyy-MM-dd'/>" placeholder="申请时间">
+						type="text"  value="<fmt:formatDate value='${applyVo.applyTime }' pattern='yyyy-MM-dd'/>" placeholder="申请时间" disabled>
 					</div>
 				</div>
 				<div class="form_content">
 					<label  class="control-label matching"><font color=" red" class="mr5" >*</font>计划面签时间</label> 
 					<div  class="input-group sign-right  input-daterange"  data-date-format="yyyy-mm-dd">
 						<input id="planSignTime" name="planSignTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 200px; border-radius: 2px;" 
-						type="text" value="<fmt:formatDate value='${applyVo.planSignTime }' pattern='yyyy-MM-dd'/>">
+						type="text" value="<fmt:formatDate value='${applyVo.planSignTime }' pattern='yyyy-MM-dd'/>" disabled>
 					</div>
 				</div>
 			</div>
