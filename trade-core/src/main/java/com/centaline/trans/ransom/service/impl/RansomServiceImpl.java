@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -535,5 +536,15 @@ public class RansomServiceImpl implements RansomService{
 		ransomListFormMapper.updateRansomTailUserByRansomCode(tailVo);
 		ransomListFormMapper.updateRansomCaseUserByRansomCode(caseVo);
 		return true;
+	}
+
+	@Override
+	public Map<String,String> getActTasks(String ransomCode) {
+		List<String> tasks = ransomListFormMapper.getRansomActTasks(ransomCode);
+		Map<String,String> map = new HashMap<String,String>();
+		for(String str:tasks){
+			map.put(str, str);
+		}
+		return map;
 	}
 }

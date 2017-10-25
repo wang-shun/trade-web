@@ -201,9 +201,9 @@
 								</div>
 								<div class="col-lg-1 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='APPLY'}"> active
+										    <c:when test="${!empty actTasks['APPLY']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='APPLY'}"> complete
+										    <c:when test="${empty actTasks['APPLY']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -227,9 +227,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='SIGN'}"> active
+										    <c:when test="${!empty actTasks['SIGN']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='SIGN'}"> complete
+										    <c:when test="${empty actTasks['SIGN']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -254,9 +254,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='PAYLOAN_ONE'}"> active
+										    <c:when test="${empty actTasks['PAYLOAN_ONE']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='PAYLOAN_ONE'}"> complete
+										    <c:when test="${!empty actTasks['PAYLOAN_ONE']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -280,9 +280,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='CANCELDIYA_ONE'}"> active
+										    <c:when test="${empty actTasks['CANCELDIYA_ONE']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='CANCELDIYA_ONE'}"> complete
+										    <c:when test="${!empty actTasks['CANCELDIYA_ONE']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -306,9 +306,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='RECEIVE_ONE'}"> active
+										    <c:when test="${empty actTasks['RECEIVE_ONE']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='RECEIVE_ONE'}"> complete
+										    <c:when test="${!empty actTasks['RECEIVE_ONE']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -332,9 +332,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='PAYCLEAR'}"> active
+										    <c:when test="${empty actTasks['PAYCLEAR']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='PAYCLEAR'}"> complete
+										    <c:when test="${!empty actTasks['PAYCLEAR']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -382,9 +382,9 @@
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.taskProperty=='ODEPAYLOAN_TWO'}"> active
+											    <c:when test="${empty actTasks['ODEPAYLOAN_TWO']}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.taskProperty!='ODEPAYLOAN_TWO'}"> complete
+											    <c:when test="${!empty actTasks['ODEPAYLOAN_TWO']}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -403,9 +403,9 @@
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.taskProperty=='CANCELDIYA_TWO'}"> active
+											    <c:when test="${empty actTasks['CANCELDIYA_TWO']}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.taskProperty!='CANCELDIYA_TWO'}"> complete
+											    <c:when test="${!empty actTasks['CANCELDIYA_TWO']}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -424,9 +424,9 @@
 									<div
 										class="col-lg-1 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.taskProperty=='RECEIVE_TWO'}"> active
+											    <c:when test="${empty actTasks['RECEIVE_TWO']}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.taskProperty!='RECEIVE_TWO'}"> complete
+											    <c:when test="${!empty actTasks['RECEIVE_TWO']}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	

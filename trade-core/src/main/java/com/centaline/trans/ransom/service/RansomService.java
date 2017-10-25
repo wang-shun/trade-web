@@ -213,4 +213,11 @@ public interface RansomService {
 	 * @return
 	 */
 	boolean changeRansomOwner(Map<String, Object> paramObj, String userId, String caseCode, String ransomCode);
+	
+	/**
+	 * 获取赎楼当前存在的任务
+	 * @param ransomCode
+	 * @return
+	 */
+	Map<String,String> getActTasks(String ransomCode);
 }

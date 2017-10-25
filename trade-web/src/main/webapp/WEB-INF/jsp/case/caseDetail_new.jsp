@@ -135,6 +135,7 @@
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 										href="javascript:showLoanReqmentChgModal()">贷款需求选择</a>
 						</c:if>			
+
 						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVAPRICINGAPPLY">	
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 								href="javascript:evaPricingApply()">询价申请</a>
@@ -800,6 +801,5 @@
 		{{/each}}
 	</script>
 </content>
-
 </body>
 </html>
