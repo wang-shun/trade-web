@@ -53,7 +53,8 @@
 						ART.PROC_INST_ID_ AS INST_CODE,
 						ART.DELEGATION_ AS DELEGATION,
 						ART.PROC_DEF_ID_,
-						tcp.REAL_NAME,
+						ART.ASSIGNEE_ as REAL_NAME,
+						<!-- tcp.REAL_NAME, -->
 						tw.CASE_CODE,
 						tw.BUSINESS_KEY,
 						(select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.CASE_CODE ) as SUBSCRIBE_COUNT
@@ -64,7 +65,7 @@
 					FROM
 						sctrans.ACT_RU_TASK ART
 						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
-						LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT tcp ON tcp.CASE_CODE= tw.CASE_CODE
+						<!-- LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT tcp ON tcp.CASE_CODE= tw.CASE_CODE -->
 						LEFT JOIN  sctrans.SYS_WFE_TEMPLATE AS WFE ON TW.BUSINESS_KEY=WFE.WFE_CODE
 						  WHERE  ART.ASSIGNEE_ = #userLoginName# AND tcp.POSITION= 'loan'
 					    AND ART.SUSPENSION_STATE_ = '1'
@@ -82,6 +83,9 @@
 					     <when test	="isSubscribeFilter==1">
 							and AB.SUBSCRIBE_COUNT=0
 					     </when>
+					     <ifNotNull loan>
+							ART.ASSIGNEE_ like '%'+#loan#+'%'
+						</ifNotNull>
 						<ifNotNull propertyAddr>
 							AND exists (select 1 from sctrans.T_TO_PROPERTY_INFO TP  where TP.CASE_CODE=AB.CASE_CODE AND TP.PROPERTY_ADDR like '%'+#propertyAddr#+'%')
 						</ifNotNull>
@@ -96,11 +100,11 @@
 						<ifNotNull finOrgId>
 							AND exists (Select 1 from sctrans.T_TO_EVA_REPORT_PROCESS  where FIN_ORG_ID=#finOrgId#)
 						</ifNotNull>
-						<ifNotNull loan>
+						<!-- <ifNotNull loan>
 							AND exists (Select 1 from sctrans.T_TO_CASE_PARTICIPANT  where REAL_NAME=#loan#)
-						</ifNotNull>
-						<ifNotNull caseCode>
-							AND exists (Select 1 from sctrans.T_TO_WORKFLOW  where CASE_CODE=#caseCode#)
+						</ifNotNull> -->
+						<ifNotNull ccaiCode>
+							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and CCAI_CODE like '%'+#ccaiCode#+'%')
 						</ifNotNull>
 						<if test="minDateLamp!=null or maxDateLamp!=null " >
 							<if test="minDateLamp!='' or maxDateLamp!='' " >

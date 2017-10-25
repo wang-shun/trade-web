@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.centaline.trans.eval.service.EvalDetailService;
-import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.task.service.ActRuTaskService;
 
 /**
@@ -27,8 +26,6 @@ public class EvalDetailController {
 	UamSessionService uamSessionService;
 	@Autowired
 	ActRuTaskService actRuTaskService;
-	@Autowired
-	ToEvalReportProcessService toEvalReportProcessService;
 	@Autowired
 	EvalDetailService evalDetailService;
 	/**
