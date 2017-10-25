@@ -70,6 +70,7 @@
 				min-width: 140px;
 				display: inline-block;
 			}
+			
 		</style>
 		<content tag="pagetitle">银行返利列表</content>
     </head>
