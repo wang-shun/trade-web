@@ -359,9 +359,14 @@
 				data:jsonData,
 				dataType:"json",
 				success:function(data){
-					window.wxc.success("记录提交成功!",{"wxcOk":function(){
-						window.location.href = "${ctx}/evaPricing/list";
-					}});
+					if(data.success){
+						window.wxc.success("记录提交成功!",{"wxcOk":function(){
+							window.location.href = "${ctx}/evaPricing/list";
+						}});	
+					}else{
+						window.wxc.error(data.message);
+					}
+
 				},
 				error : function(errors) {
 					window.wxc.error("记录提交失败!");
@@ -375,7 +380,11 @@
 				return;
 			}
 			var jsonData = $('#evaEnterForm').serializeArray();
-		
+			var obj = {
+					name: 'isSubmit',
+					value: '0'
+				};
+			jsonData.push(obj);
 			url = "${ctx}/evaPricing/evaPricingEnterSubmit";
 			$.ajax({
 				cache:true,
@@ -385,9 +394,14 @@
 				data:jsonData,
 				dataType:"json",
 				success:function(data){
-					window.wxc.success("记录保存成功!",{"wxcOk":function(){
-						window.location.href = "${ctx}/evaPricing/list";
-					}});
+					if(data.success){
+						window.wxc.success("记录保存成功!",{"wxcOk":function(){
+							window.location.href = "${ctx}/evaPricing/list";
+						}});
+					}else{
+						window.wxc.error(data.message);
+					}
+					
 				},
 				error : function(errors) {
 					window.wxc.error("记录保存失败!");

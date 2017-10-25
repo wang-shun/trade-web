@@ -141,7 +141,14 @@ public interface RansomService {
 	 * @param ransomCode
 	 * @return
 	 */
-	ToRansomMortgageVo getMortgageInfo(String ransomCode);
+	ToRansomMortgageVo getMortgageInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 陪同还贷信息查询，并判断存在二抵
+	 * @param ransomCode
+	 * @return
+	 */
+	ToRansomMortgageVo getMortgageInfo(String ransomCode,Integer isEr);
 
 	/**
 	 * 注销抵押信息查询
@@ -185,8 +192,19 @@ public interface RansomService {
 	 */
 	int updateRansomIsStart(String ransomCode);
 	
-	
+	/**
+	 * 查询存在一抵的时间计划信息
+	 * @param ransomCode
+	 * @return
+	 */
 	List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 时间计划查询
+	 * @param ransomCode
+	 * @return
+	 */
+	List<ToRansomPlanVo> getPlanTimeInfo(String ransomCode);
 	
 	/**
 	 * 变更赎楼单金融权证

@@ -163,7 +163,12 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-	
+									<div class="row">
+									<div class="col-lg-12"
+										 style="margin-top: 9px; margin-left: 10px;">
+										<font color="red">*</font>注：已完成的环节不能做交易计划修改，灰色不能输入的框表示已完成环节
+									</div>
+									</div>
 									<button type="button" class="btn btn-primary"
 										onclick="javascript:openTransHistory()">变更记录</button>
 									<button type="button" class="btn btn-primary"

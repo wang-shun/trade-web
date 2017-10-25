@@ -15,7 +15,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>赎楼申请</title>
+<title>赎楼申请修改</title>
 
 <!-- 展示相关 -->
 <link
@@ -83,11 +83,11 @@
 	<div class="ibox-content border-bottom clearfix space_box noborder">
 		
  		<form method="get" id="ransomApply" class="form_list">
+ 			<input type="hidden" id="ctx" value="${ctx}" />
 			<input type="hidden" id="caseCode" name="caseCode" value="${detailVo.caseCode }">
 			<input type="hidden" id="ransomCode" name="ransomCode" value="${detailVo.ransomCode }">
-			<input type="hidden" id="borrowName" name="${detailVo.borrowName }">
-			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId }">
-			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
+			<input type="hidden" id="borrowName" name="borrowName" value="${detailVo.borrowName }">
+			<input type="hidden" id="partCode" name="partCode" value="${partCode }">
 			<div class="line">
 				<div class="title">信息录入</div>
              	<div class="form_content fo">
@@ -104,7 +104,7 @@
 						</select> -->
 						<div class="form_content">
 							<label class="sign_left_two control-label" style="margin-left:-28px;"><font color=" red" class="mr5" >*</font>信贷员</label>
-							<input type="text" class="select_control" id="loanOfficer" name="loanOfficer" style="width:200px;">
+							<input type="text" class="select_control" id="loanOfficer" name="loanOfficer" value="${applyVo.loanOfficer }" style="width:200px;">
 						</div>
 					</div>
                  </div>
@@ -113,13 +113,15 @@
 			    <div class="form_content">
 					<label  class="control-label matching"><font color=" red" class="mr5" >*</font>申请时间</label> 
 					<div  class="input-group sign-right  input-daterange"  data-date-format="yyyy-mm-dd">
-						<input id="applyTime" name="applyTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 200px; border-radius: 2px;" type="text"  placeholder="申请时间">
+						<input id="applyTime" name="applyTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 200px; border-radius: 2px;" 
+						type="text"  value="<fmt:formatDate value='${applyVo.applyTime }' pattern='yyyy-MM-dd'/>" placeholder="申请时间" disabled>
 					</div>
 				</div>
 				<div class="form_content">
 					<label  class="control-label matching"><font color=" red" class="mr5" >*</font>计划面签时间</label> 
 					<div  class="input-group sign-right  input-daterange"  data-date-format="yyyy-mm-dd">
-						<input id="planSignTime" name="planSignTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 200px; border-radius: 2px;" type="text">
+						<input id="planSignTime" name="planSignTime" class="form-control input-one date-picker data_style" style="font-size: 13px;width: 200px; border-radius: 2px;" 
+						type="text" value="<fmt:formatDate value='${applyVo.planSignTime }' pattern='yyyy-MM-dd'/>" disabled>
 					</div>
 				</div>
 			</div>
@@ -154,11 +156,10 @@
 		</div>
 		<div class="add_btn text-center mt20">
 	   		<div class="more_btn">
-			    <button id="submitButton" type="button" class="btn btn_blue">提交</button>
+			    <button id="saveButton" type="button" class="btn btn_blue">保存</button>
 	   	    	<button id="closeButton" type="button" class="btn btn_blue">关闭</button>
 			</div>
 		</div>
-
 	
 <content tag="local_script"> 
 	<script src="<c:url value='/js/plugins/peity/jquery.peity.min.js' />"></script>
@@ -286,7 +287,8 @@
 		});
 		
 		//提交
-		$('#submitButton').click(function(){
+		$('#saveButton').click(function(){
+			debugger;
 			if($('#loanOfficer').val() == ''){
 				window.wxc.alert("信贷员为必填项!");
 				$('#loanOfficer').focus();
@@ -309,12 +311,12 @@
 			
 			var jsonData = $('#ransomApply').serializeArray();
 			var object = {
-					name:'borrowName',
-					value:$('#borrowName').text()
+					name:'partCode',
+					value:$('#partCode').val()
 			}
-			jsonData.push(object);
-			var url = "${ctx}/task/ransom/submitApply";
-	
+			jsonData.push(object); 
+			var url = "${ctx}/ransomChange/saveApply";
+			var caseCode = $("#caseCode").val();
 			$.ajax({
 				cache:true,
 				async:false,
@@ -324,16 +326,16 @@
 				dataType:"json",
 				success:function(data){
 					if(data){
-						window.wxc.success("提交成功!",{"wxcOk":function(){
-							 window.close();	
+						window.wxc.success("保存成功!",{"wxcOk":function(){
+							window.location.href = ctx + "/ransomList/updateRansomInfo?caseCode=" + caseCode;
 						}});
 					}else{
-						window.wxc.error("提交失败!");
+						window.wxc.error("保存失败!");
 					}
 					
 				},
 				error : function(errors) {
-					window.wxc.error("提交失败!");
+					window.wxc.error("保存失败!");
 				}
 			});
 		});

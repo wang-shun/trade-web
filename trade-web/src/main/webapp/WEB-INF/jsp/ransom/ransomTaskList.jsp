@@ -289,7 +289,7 @@ text-decoration: underline !important;
 				
 			<td class="t-left">
 				<p class="big">
-                	<a href="{{ctx}}/ransomList/ransom/ransomDetail?RANSOM_CODE={{item.RANSOM_CODE}}" target="_blank">{{item.RANSOM_CODE}}</a>
+                	<a href="{{ctx}}/ransomList/ransomDetail?ransomCode={{item.RANSOM_CODE}}" target="_blank">{{item.RANSOM_CODE}}</a>
 					{{if item.SUBSCRIBE_COUNT == 0}}
 						<span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.RANSOM_CODE}}" isSubscribe="true">
                         	<i class="iconfont_s markstar star_subscribe" status="1">&#xe644;</i>
