@@ -321,43 +321,48 @@ function resetPlanModal(){
         timeout : 10000,
         data : params,
         success : function(data) {
+            if (data != null && data != "" && data != undefined) {
+                var inHtml = "";
+                $("#plan-form").html(inHtml);
+                console.log(data);
+                $.each(data, function (k, v) {
+                    inHtml += '<div class="form-group"><div class="col-lg-2 control-label">';
+                    inHtml += '预计' + v.partName + '时间';
+                    inHtml += '</div><div class="col-lg-4 control-label" style="text-align:left; margin-top:-10px;" >';
+                    inHtml += '<input type="hidden" id="pkId_' + k + '" name="estId" value="' + v.pkid + '" >';
+                    inHtml += '<input type="hidden" id="isChange_' + k + '" name="estFlag" value="false" >';
+                    inHtml += '<span style="position: relative; z-index: 9999;">';
+                    inHtml += '<div class="input-group date" ><span class="input-group-addon" >';
+                    inHtml += '<i class="fa fa-calendar" style="z-index:2100;position:relative;" ></i></span>';
+                    inHtml += '<input class="form-control" type="text" id="estPartTime_' + k + '" name="estPartTime" value="' + v.estPartTimeStr + '" lang="' + v.estPartTimeStr + '" onchange="javascript:changeEstTime(' + k + ')">';
+                    inHtml += '</div>	</span></div>';
+                    inHtml += '<div class="col-lg-1 control-label">';
+                    inHtml += '变更理由';
+                    inHtml += '</div><div class="col-lg-3 control-label" style="text-align:left; margin-top:-10px;" >';
+                    inHtml += '<input class="form-control" type="text" id="whyChange_' + k + '" name="whyChange" value="" onfocus="javascript:initBorderColor(this);">';
+                    inHtml += '</div>';
+                    inHtml += '</div>';
 
-            var inHtml = "";
-            $("#plan-form").html(inHtml);
-            console.log(data);
-            $.each(data, function(k, v){
-                inHtml+='<div class="form-group"><div class="col-lg-2 control-label">';
-                inHtml+= '预计'+v.partName+'时间';
-                inHtml+='</div><div class="col-lg-4 control-label" style="text-align:left; margin-top:-10px;" >';
-                inHtml+='<input type="hidden" id="pkId_'+k+'" name="estId" value="'+v.pkid+'" >';
-                inHtml+='<input type="hidden" id="isChange_'+k+'" name="estFlag" value="false" >';
-                inHtml+='<span style="position: relative; z-index: 9999;">';
-                inHtml+='<div class="input-group date"><span class="input-group-addon">';
-                inHtml+='<i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>';
-                inHtml+='<input class="form-control" type="text" id="estPartTime_'+k+'" name="estPartTime" value="'+v.estPartTimeStr+'" lang="' + v.estPartTimeStr + '" onchange="javascript:changeEstTime('+k+')">';
-                inHtml+='</div>	</span></div>';
-                inHtml+='<div class="col-lg-1 control-label">';
-                inHtml+= '变更理由';
-                inHtml+='</div><div class="col-lg-3 control-label" style="text-align:left; margin-top:-10px;" >';
-                inHtml+='<input class="form-control" type="text" id="whyChange_'+k+'" name="whyChange" value="" onfocus="javascript:initBorderColor(this);">';
-                inHtml+='</div>';
-                inHtml+='</div>';
-
-            });
-            $("#plan-form").html(inHtml);
-            $.each(data,function (k1,v1) {
-                if(!v1.edit){
-                    $("#estPartTime_"+k1).prop("disabled","disabled");
-                    $("#whyChange_"+k1).attr("disabled","disabled");
-                }
-            })
-            $('.input-group.date').datepicker({
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                calendarWeeks: true,
-                autoclose: true
-            });
+                });
+                $("#plan-form").html(inHtml);
+                $.each(data, function (k1, v1) {
+                    if (!v1.edit) {
+                        $("#estPartTime_" + k1).prop("disabled", "disabled");
+                        $("#whyChange_" + k1).attr("disabled", "disabled");
+                    }
+                })
+                $('.input-group.date input').datepicker({
+                    todayBtn: "linked",
+                    keyboardNavigation: false,
+                    forceParse: false,
+                    calendarWeeks: false,
+                    autoclose: true
+                });
+            }else {
+                window.wxc.error("请先填写交易计划变更！",{"wxcOk":function () {
+                    ('#plan-modal-form').modal("hide");
+                }})
+            }
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {
         }

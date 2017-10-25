@@ -51,7 +51,9 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<input type="hidden" id="ctx" value="${ctx}" />
 <input type="hidden" value="${tailinsVo.caseCode }" id="caseCode">
+<input type="hidden" value="${tailinsVo.ransomCode }" id="ransomCode">
 <input type="hidden" value="${tailinsVo.ransomCode }" id="ransomCode">
 <div class="wrapper wrapper-content animated fadeInUp">
 	<form method="post" class="form-horizontal" >
@@ -134,7 +136,7 @@
 							<td>申请</td>
 							<td><fmt:formatDate value='${taskVo.applyTime }' pattern='yyyy-MM-dd'/></td>
 							<td>${taskVo.doUser }</td>
-							<td><a href="javascript:void(0)">前往修改</a></td>
+							<td><a href="${ctx}/ransomChange/applyView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.applyCode }">前往修改</a></td>
 						</tr>
 					</c:if>
 					<c:if test="${taskVo.signCode != null }">
@@ -142,7 +144,7 @@
 							<td>面签</td>
 							<td><fmt:formatDate value='${taskVo.signTime }' pattern='yyyy-MM-dd'/></td>
 							<td>${taskVo.doUser }</td>
-							<td><a href="javascript:void(0)">前往修改</a></td>
+							<td><a href="${ctx}/ransomChange/signView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }">前往修改</a></td>
 						</tr>
 					</c:if>
 					<c:if test="${count == 0 }">
@@ -151,7 +153,7 @@
 								<td>陪同还贷</td>
 								<td><fmt:formatDate value='${taskVo.payOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="javascript:void(0)">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.cancelOneCode != null }">
@@ -172,25 +174,49 @@
 						</c:if>	
 					</c:if>
 					<c:if test="${count == 1 }">
+						<c:if test="${taskVo.payOneCode != null }">
+							<tr>
+								<td>陪同还贷(一抵)</td>
+								<td><fmt:formatDate value='${taskVo.payOneTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskVo.doUser }</td>
+								<td><a href="javascript:void(0)">前往修改</a></td>
+							</tr>
+						</c:if>
 						<c:if test="${taskVo.payTwoCode != null }">
 							<tr>
-								<td>陪同还贷</td>
+								<td>陪同还贷(二抵)</td>
 								<td><fmt:formatDate value='${taskVo.payTwoTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskVo.doUser }</td>
+								<td><a href="javascript:void(0)">前往修改</a></td>
+							</tr>
+						</c:if>
+						<c:if test="${taskVo.cancelOneCode != null }">
+							<tr>
+								<td>注销抵押(一抵)</td>
+								<td><fmt:formatDate value='${taskVo.cancelOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
 								<td><a href="javascript:void(0)">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.cancelTwoCode != null }">
 							<tr>
-								<td>注销抵押</td>
+								<td>注销抵押(二抵)</td>
 								<td><fmt:formatDate value='${taskVo.cancelTwoeTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
 								<td><a href="javascript:void(0)">前往修改</a></td>
 							</tr>
 						</c:if>
+						<c:if test="${taskVo.receiveOneCode != null }">
+							<tr>
+								<td>领取产证(一抵)</td>
+								<td><fmt:formatDate value='${taskVo.receiveOneTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskVo.doUser }</td>
+								<td><a href="javascript:void(0)">前往修改</a></td>
+							</tr>
+						</c:if>	
 						<c:if test="${taskVo.receiveTwoCode != null }">
 							<tr>
-								<td>领取产证</td>
+								<td>领取产证(二抵)</td>
 								<td><fmt:formatDate value='${taskVo.receiveTwoTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
 								<td><a href="javascript:void(0)">前往修改</a></td>

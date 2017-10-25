@@ -78,11 +78,11 @@ function submit(ctx){
     // }
     var cost = $("#evalCost").val();
     var real = $('#evalCost').attr('real');
-    if(isNaN(cost)  || parseFloat(cost) == 0 || parseFloat(cost) > parseFloat(real)){
+    var approve = $(":radio[name='approve']:checked").val();//审批结果
+    if(approve === 'true' && (isNaN(cost)  || parseFloat(cost) == 0 || parseFloat(cost) > parseFloat(real))){
         window.wxc.alert("请输入正确的评估公司成本!");
         return ;
     }
-
     var jsonData = $("#rebateForm").serializeArray();
     var url = ctx+"/task/evalRebate/assistant";
 

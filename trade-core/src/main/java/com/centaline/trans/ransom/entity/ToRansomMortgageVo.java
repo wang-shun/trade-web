@@ -35,6 +35,12 @@ public class ToRansomMortgageVo {
 	 * 抵押类型
 	 */
 	private String diyaType;
+	
+	/**
+	 * 是否有二抵
+	 */
+	private Integer isEr;
+	
 	/**
 	 * 更新人员
 	 */
@@ -132,6 +138,14 @@ public class ToRansomMortgageVo {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public Integer getIsEr() {
+		return isEr;
+	}
+
+	public void setIsEr(Integer isEr) {
+		this.isEr = isEr;
 	}
 
 }

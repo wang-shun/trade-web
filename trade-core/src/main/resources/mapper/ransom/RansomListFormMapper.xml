@@ -504,4 +504,14 @@
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</update>
 	
+	<select id="getRansomActTasks" resultType="java.lang.String">
+		SELECT
+			act.TASK_DEF_KEY_ 
+		FROM
+			sctrans.T_TO_WORKFLOW tw
+			LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE = act.PROC_INST_ID_
+
+		WHERE
+			tw.BIZ_CODE= #{ransomCode,jdbcType=VARCHAR}
+	</select>
 </mapper>

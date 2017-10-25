@@ -358,7 +358,9 @@
     <script>
 	//提交数据
 	function submit() {
-        save();
+	    window.wxc.confirm("确认结佣?",{"wxcOk":function () {
+            save();
+        }})
 	} 
 
 	//保存数据

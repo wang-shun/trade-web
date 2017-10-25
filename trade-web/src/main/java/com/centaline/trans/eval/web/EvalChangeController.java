@@ -87,6 +87,7 @@ public class EvalChangeController {
 	 * @description: 表单提交
 	 * @author:xiefei1
 	 */
+	@Deprecated
 	@RequestMapping(value = "submitChangeComm")
 	@ResponseBody
 	public AjaxResponse<String> submitChangeComm(EvalChangeCommVO evalChangeCommVO,ToEvaCommissionChange toEvaCommissionChange, HttpServletRequest request,Model model,String caseCode) {
@@ -106,7 +107,7 @@ public class EvalChangeController {
 	/**
 	 * 
 	 * @since:2017年10月16日 下午3:31:21
-	 * @description:changeEvalComAudit
+	 * @description:changeEvalComAudit 调佣审批 页面跳转用这个
 	 * @author:xiefei1
 	 * @param request
 	 * @param model
@@ -115,11 +116,7 @@ public class EvalChangeController {
 	 */
 	@RequestMapping(value = "changeEvalComAudit")
 	public String changeEvalComAudit(HttpServletRequest request,Model model,String caseCode) {
-		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
-		String ctx = app.genAbsoluteUrl();
-		
 		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
-		request.setAttribute("ctx", ctx);
 		model.addAttribute("caseCode", caseCode);
 		model.addAttribute("evalChangeCommVO", evalChangeCommVO);
 		return "eval/changeEvalComAudit";
@@ -127,20 +124,17 @@ public class EvalChangeController {
 	/**
 	 * 
 	 * @since:2017年10月16日 下午3:31:21
-	 * @description:changeEvalCom 跳转评估公司变更
+	 * @description:changeEvalCom 跳转评估公司变更,已经不用
 	 * @author:xiefei1
 	 * @param request
 	 * @param model
 	 * @param caseCode
 	 * @return
 	 */
+	@Deprecated
 	@RequestMapping(value = "changeEvalCom")
 	public String changeEvalComDetails(HttpServletRequest request,Model model,String caseCode) {
-		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
-		String ctx = app.genAbsoluteUrl();
-		
 		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
-		request.setAttribute("ctx", ctx);
 		model.addAttribute("caseCode", caseCode);
 		model.addAttribute("evalChangeCommVO", evalChangeCommVO);
 		return "eval/changeEvalCom";
