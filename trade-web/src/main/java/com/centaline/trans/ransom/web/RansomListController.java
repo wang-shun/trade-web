@@ -251,7 +251,7 @@ public class RansomListController {
 			//面签
 			ToRansomSignVo signVo = ransomService.getInterviewInfo(ransomCode);
 			//陪同还贷
-			ToRansomMortgageVo mortgageVo =  ransomService.getMortgageInfo(ransomCode);
+			ToRansomMortgageVo mortgageVo =  ransomService.getMortgageInfoByRansomCode(ransomCode);
 			//注销抵押
 			ToRansomCancelVo cancelVo = ransomService.getCancelInfo(ransomCode);
 			//领取产证

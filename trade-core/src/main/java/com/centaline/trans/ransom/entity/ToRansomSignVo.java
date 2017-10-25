@@ -39,6 +39,12 @@ public class ToRansomSignVo {
 	 * 是否委托公证
 	 */
 	private String isEntrust;
+	
+	/**
+	 * 预计陪同还贷时间
+	 */
+	private Date planPayloanTime;
+	
 	/**
 	 * 更新人员
 	 */
@@ -121,6 +127,12 @@ public class ToRansomSignVo {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public Date getPlanPayloanTime() {
+		return planPayloanTime;
+	}
+	public void setPlanPayloanTime(Date planPayloanTime) {
+		this.planPayloanTime = planPayloanTime;
 	}
 	
 }
