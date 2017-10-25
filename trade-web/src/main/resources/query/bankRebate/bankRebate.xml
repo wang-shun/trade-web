@@ -29,7 +29,7 @@
 	</formatters>
 	<query id="bankRebate">
 		<searchCondition>
-            <condition field="a.STATUS" name="status" label="申请状态" searchType="eq" showType="" showCallback="" defaultValue=""/>
+            <condition field="a.STATUS" name="status" label="申请状态" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="a.APPLY_PERSON" name="applyPerson" label="申请人" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="a.GUARANTEE_COMPANY" name="guaranteeCompany" label="担保公司" searchType="EQ" showType="" showCallback="" defaultValue=""/>
           

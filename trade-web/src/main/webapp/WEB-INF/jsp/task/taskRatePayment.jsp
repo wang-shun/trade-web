@@ -308,18 +308,12 @@
 			srvCode : taskitem
 		});
         $("#ActualOperator").click(function () {
-            //console.log("aaaaaaaaaaaaaaaa")
             caseDistribute();
         });
-		/*if($("#paymentTime").val()!=''){
-            $("#paymentTime").attr("disabled","false");
-		}*/
+
        if('caseDetails'==source){
             readOnlyForm();
         }
-     /*   setTimeout(function(){
-//            $('.blockUI').hide();
-        },2000);*/
 });
 
 	//提交数据

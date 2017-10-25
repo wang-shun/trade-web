@@ -59,11 +59,13 @@
 						(select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.CASE_CODE ) as SUBSCRIBE_COUNT
 						,(select PROPERTY_CODE  from sctrans.T_TO_PROPERTY_INFO where CASE_CODE=tw.CASE_CODE) propertyCode
 						,(select top 1 CASE_ORIGIN from sctrans.T_TO_CASE where CASE_CODE=tw.CASE_CODE) CASE_ORIGIN
+						,WFE.WFE_NAME as WFE_NAME
 
 					FROM
 						sctrans.ACT_RU_TASK ART
 						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
 						LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT tcp ON tcp.CASE_CODE= tw.CASE_CODE
+						LEFT JOIN  sctrans.SYS_WFE_TEMPLATE AS WFE ON TW.BUSINESS_KEY=WFE.WFE_CODE
 						  WHERE  ART.ASSIGNEE_ = #userLoginName# AND tcp.POSITION= 'loan'
 					    AND ART.SUSPENSION_STATE_ = '1'
 					    and exists (Select 1 from sctrans.T_TO_EVA_REPORT_PROCESS  where EVA_CODE=tw.BIZ_CODE)
@@ -91,9 +93,14 @@
 						<ifNotNull agentOrgName>
 							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and GRP_NAME like '%'+#agentOrgName#+'%')
 						</ifNotNull>
-
-						<ifNotNull evalCompany>
-							AND exists (Select 1 from sctrans.T_TO_EVA_REPORT_PROCESS  where EVA_CODE=tw.BIZ_CODE)
+						<ifNotNull finOrgId>
+							AND exists (Select 1 from sctrans.T_TO_EVA_REPORT_PROCESS  where FIN_ORG_ID=#finOrgId#)
+						</ifNotNull>
+						<ifNotNull loan>
+							AND exists (Select 1 from sctrans.T_TO_CASE_PARTICIPANT  where REAL_NAME=#loan#)
+						</ifNotNull>
+						<ifNotNull caseCode>
+							AND exists (Select 1 from sctrans.T_TO_WORKFLOW  where CASE_CODE=#caseCode#)
 						</ifNotNull>
 						<if test="minDateLamp!=null or maxDateLamp!=null " >
 							<if test="minDateLamp!='' or maxDateLamp!='' " >

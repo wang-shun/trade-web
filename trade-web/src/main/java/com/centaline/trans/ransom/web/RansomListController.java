@@ -3,7 +3,6 @@ package com.centaline.trans.ransom.web;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +28,6 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
-import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.web.ResultNew;
 import com.centaline.trans.common.entity.TgGuestInfo;
@@ -40,7 +38,6 @@ import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.entity.ToRansomFormVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
-import com.centaline.trans.ransom.entity.ToRansomPartOrderVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
 import com.centaline.trans.ransom.entity.ToRansomPermitVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
@@ -52,6 +49,7 @@ import com.centaline.trans.ransom.service.RansomService;
 import com.centaline.trans.ransom.vo.ToRansomLinkVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
 import com.centaline.trans.ransom.vo.VRansomChangeUserVo;
+import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
 import com.centaline.trans.utils.DateUtil;
 
 /**
@@ -245,8 +243,6 @@ public class RansomListController {
 			ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
 			//案件详情信息
 			ToRansomCaseVo caseVo = ransomService.getRansomCaseInfo(ransomCode);
-			//赎楼详情信息
-			
 			//新建赎楼单即是受理状态
 			List<ToRansomTailinsVo> ransomTailinsVo = ransomService.getTailinsInfoByRansomCode(ransomCode);
 			ToRansomTailinsVo tailinsVo = ransomTailinsVo.get(0);
@@ -255,7 +251,7 @@ public class RansomListController {
 			//面签
 			ToRansomSignVo signVo = ransomService.getInterviewInfo(ransomCode);
 			//陪同还贷
-			ToRansomMortgageVo mortgageVo =  ransomService.getMortgageInfo(ransomCode);
+			ToRansomMortgageVo mortgageVo =  ransomService.getMortgageInfoByRansomCode(ransomCode);
 			//注销抵押
 			ToRansomCancelVo cancelVo = ransomService.getCancelInfo(ransomCode);
 			//领取产证
@@ -345,10 +341,14 @@ public class RansomListController {
 			List<ToRansomTailinsVo> tailinsVo = ransomListFormService.getTailinsInfoByCaseCode(caseCode);
 			List<TgGuestInfo> guestInfo = ransomListFormService.getGuestInfo(caseCode);
 			ToRansomCaseVo caseVo = ransomListFormService.getRansomCase(caseCode);
+			VRansomFinishTaskVo  taskVo = ransomListFormService.getRansomTaskInfoByRansomCode(caseVo.getRansomCode());
+			int count = ransomService.queryErdiByRansomCode(caseVo.getRansomCode());
 			
 			request.setAttribute("tailinsVo", tailinsVo.get(0));
 			request.setAttribute("guestInfo", guestInfo);
 			request.setAttribute("caseVo", caseVo);
+			request.setAttribute("taskVo", taskVo);
+			request.setAttribute("count", count);
 			return "ransom/ransomDetailUpdate";
 		} catch (Exception e) {
 			logger.error("", e);
@@ -501,7 +501,6 @@ public class RansomListController {
     @ResponseBody
 	public List<VRansomChangeUserVo> getUserOrgFWUserList(HttpServletRequest request, String ransomCode,String operation) throws ParseException{
 		
-		//TODO 未写完
 		List<VRansomChangeUserVo> res = new ArrayList<VRansomChangeUserVo>();
 		
 		// 获取当前用户
@@ -563,11 +562,6 @@ public class RansomListController {
 		
 		return sb;
 	}
-	
-	public static boolean containsValue(List<ToRansomPlanVo> ransomPlanVoList, String targetValue) {
-		    return Arrays.asList(ransomPlanVoList).contains(targetValue);
-		}
-
 	
 	public static void main(String[] args) {
 		

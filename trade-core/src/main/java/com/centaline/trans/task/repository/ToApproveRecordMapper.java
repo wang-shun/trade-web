@@ -37,4 +37,12 @@ public interface ToApproveRecordMapper {
      * @author yinchao 2017-10-18
      */
 	void deleteByCaseCodeAndType(@Param("caseCode") String caseCode,@Param("approveType") String approveType);
+
+	/**
+	 * 查询记录，与queryToApproveRecord区别就是返回值数量
+	 * @param toApproveRecord
+	 * @return
+	 * @author wbshume
+	 */
+	List<ToApproveRecord> findApproveRecordByRecords(ToApproveRecord toApproveRecord);
 }

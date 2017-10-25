@@ -54,7 +54,8 @@ display: none;}
                                 <div class="col-lg-5 col-md-5">
                                         <label class="col-lg-3 col-md-3 control-label font_w">评估公司</label>
                                         <div class="col-lg-9 col-md-9">
-                                            <input type="text" class="form-control" id="evalCompany" name="evalCompany">
+                                        	<select  id="finOrgId" class="form-control select_control">
+											</select>
                                         </div>
                                 </div>
                                 <div class="col-lg-5 col-md-5">
@@ -90,10 +91,8 @@ display: none;}
 										 </select>
 										 <input id="inTextVal" type="text"  style="width:320px;overflow-x:visible;overflow-y:visible;">
 										 <button id="searchButton" type="button" class="btn btn-success">查询</button>
-										 <shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
-														<a data-toggle="modal" class="btn btn-success" onclick="javascript:exportToExcel()"  href="" id="exportBtn">导出到excel</a>
-													</shiro:hasPermission>&nbsp;&nbsp;&nbsp;&nbsp;
-										<button id="batEnd"  onclick="javascript:batEnd()" type="button" class="btn btn-success" disabled="true">批量结算</button> &nbsp;&nbsp;&nbsp;
+											<a data-toggle="modal" class="btn btn-success" onclick="javascript:exportToExcel()"  href="" id="exportBtn">导出到excel</a>
+										<button id="batEnd"  type="button" class="btn btn-success" disabled="true">批量结算</button> &nbsp;&nbsp;&nbsp;
 				                     </div>
 				                    
 								 </div>
@@ -104,8 +103,8 @@ display: none;}
                     </div>
                     </div>
                  
-                    <div class="bonus-table">
-                        <table>
+                    <div class="table_content">
+                        <table class="table table_blue table-striped table-bordered table-hover ">
                             <thead>
                                 <tr>
                                 	<th ><input type="checkbox" id="checkAllNot" class="i-checks"/></th>
@@ -166,6 +165,7 @@ display: none;}
         <script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
         <script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
         <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+         <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
         <!-- 评估结算  -->
         <script	src="<c:url value='/js/trunk/eval/settle/evalEndList.js' />"></script>
         <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
@@ -181,10 +181,10 @@ display: none;}
 					<input type='hidden' name='taskIds' value="{{item.ID}}" disabled>
 					
 				</td>
-                                     <td>{{item.caseCode}}
+                                     <td class="demo-left">{{item.caseCode}}
 									</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
-									<td>{{item.FIN_ORG_ID}}</td>
+									<td>{{item.EVA_COMPANY}}</td>
 									<td>
 										<p>评：{{item.APPLY_DATE}}</p>
 										<p>出：{{item.ISSUE_DATE}}</p>

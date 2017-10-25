@@ -292,10 +292,10 @@
 			GRP_MGR_MOBILE = #{manager.mobile,jdbcType=VARCHAR}
 		where  
 			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
-			AND POSITION = 
-			ISNULL(
+			AND POSITION = #{chooseType,jdbcType=VARCHAR}
+			<!-- ISNULL(
 				(SELECT POSITION FROM sctrans.T_TO_CASE_PARTICIPANT WHERE 
-					CASE_CODE =  #{caseCode,jdbcType=VARCHAR} AND POSITION = 'loan'), 'warrant')
+					CASE_CODE =  #{caseCode,jdbcType=VARCHAR} AND POSITION = 'loan'), 'warrant') -->
   
   </update>
   

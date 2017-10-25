@@ -1,28 +1,3 @@
-/*加载银行返利*/
-$(document).ready(function(){
-	$('#datepicker_0').datepicker({
-			format : 'yyyy-mm-dd',
-			weekStart : 1,
-			autoclose : true,
-			todayBtn : 'linked',
-			language : 'zh-CN'
-		});
-	
-	aist.sortWrapper({
-		reloadGrid : searchMethod
-	});
-	
-	var data = getQueryParams(1);
-	
-    aist.wrap(data);
-	//添加排序------------
-	reloadGrid(data);
-	
-	
-	
-	
-});
-
 //清空
 $('#myCaseListCleanButton').click(function() {
 	$("input[name='dtBegin']").val('');
@@ -35,7 +10,6 @@ $('#myCaseListCleanButton').click(function() {
 var ctx = $("#ctx").val();
 var index = 1;
 function addOrg() {
-	
 	var txt='<tr id="trId' + index + '"><td><input name="loanMoney"';
 	txt +='	id="loanMoney" type="text" class="form-control input-one" placeholder="请在此输入成交编号">';
 	txt += $("#loanMoney").html()
@@ -47,7 +21,6 @@ function addOrg() {
 	txt +='<td><input id="warrantMoney" name="restMoney" value="" type="text" class="form-control input-one" placeholder="" value="${tailinsVo.restMoney } /></td>';
 	txt +='<td><input id="businessMoney" name="" value="" type="text" class="form-control input-one" placeholder="" value="${tailinsVo.restMoney } /></td>';
 	txt +='<td><a href="javascript:removeTr('+ index + ');">删除</a></td></tr></tbody>';
-	alert(txt);
 	$("#addInput").before(txt);
 	$("#addMoneyLine").css("display","none");
 	index++;
@@ -246,270 +219,62 @@ $('#batchappro').click(function() {
 	});
 	var ctx = $("#ctx").val();
 	
-	//window.wxc.success("确定批量审批吗？",{"wxcOk":function(){
-		window.location.href = ctx + "/eval/settle/majorAppro?caseCodes="+ids;
-	//}});
+	window.location.href = ctx + "/eval/settle/majorAppro?caseCodes="+ids;
 });
-
-
-
-
-//function changemoney(){
-//	debugger;
-//	var index = $("#t_body_data_contents tr").length;
-//	var sum = 0;
-//	for(var i = 0; i < index; i++ ){
-//		
-//		var resMoney = parseInt($("#rebateMoney_" +  i +"").val());
-//		sum += resMoney;
-//		var rebateMoney = parseInt($("#rebateMoney").val());
-//		
-//		if(sum == rebateMoney){
-//			alert("保存成功！");
-//		}
-//		//alert(resMoney);
-//	}
-//}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * 导出excel（2013年之后版本）
  */
+function exportToExcel() {
+	var params = {};
+	params.search_status = $("#caseStatus  option:selected").val().trim();
+	params.search_settleFee = $("#endfee").val();
+	params.search_feeChangeReason = $('#costUpdateType option:selected').val();
+	params.search_finOrgID = $('#finOrgId').val();
 
-	function exportToExcel() {
- 		var params = {};
- 		params.search_status = $("#caseStatus  option:selected").val().trim();
- 		params.search_settleFee = $("#endfee").val();
- 		params.search_feeChangeReason = $('#costUpdateType option:selected').val();
- 		params.search_finOrgID = $('#finOrgId').val();
+	var displayColomn = new Array;
+	displayColomn.push('caseCode');
+	displayColomn.push('PROPERTY_ADDR');
+	displayColomn.push('FEE_CHANGE_REASON');
+	displayColomn.push('FIN_ORG_ID');
+	displayColomn.push('APPLY_DATE');
+	displayColomn.push('ISSUE_DATE');
+	displayColomn.push('EVAL_REAL_CHARGES');
+	displayColomn.push('SETTLE_FEE');
+	displayColomn.push('REJECT_CAUSE');
+	displayColomn.push('STATUS');
 
- 		var displayColomn = new Array;
- 		displayColomn.push('caseCode');
- 		displayColomn.push('PROPERTY_ADDR');
- 		displayColomn.push('FEE_CHANGE_REASON');
-		displayColomn.push('FIN_ORG_ID');
-		displayColomn.push('APPLY_DATE');
- 		displayColomn.push('ISSUE_DATE');
- 		displayColomn.push('EVAL_REAL_CHARGES');
- 		displayColomn.push('SETTLE_FEE');
- 		displayColomn.push('REJECT_CAUSE');
- 		displayColomn.push('STATUS');
- 		
- 		var colomns = '&colomns=' + displayColomn;
- 		var url = "/quickGrid/findPage?xlsx&";
- 		var ctx = $("#ctx").val();
- 		var queryId = '&queryId=queryEvalWaitEndList';
- 		url = ctx + url + jQuery.param(params) + queryId  + colomns;
- 		$('#excelForm').attr('action', url);
- 		$('#excelForm').method="post" ;
- 		$('#excelForm').submit();  
-    }
-
-
-
-
-
-
-
+	var colomns = '&colomns=' + displayColomn;
+	var url = "/quickGrid/findPage?xlsx&";
+	var ctx = $("#ctx").val();
+	var queryId = '&queryId=queryEvalWaitEndList';
+	url = ctx + url + jQuery.param(params) + queryId  + colomns;
+	$('#excelForm').attr('action', url);
+	$('#excelForm').method="post" ;
+	$('#excelForm').submit();
+}
 /**
- * 案件分配
- * @param index
+ * 计算返利分成和合计
  */
-/*function distributeCase(index){
-		var userName =$("#userName_"+index).val();
-		var mobile=$("#mobile_"+index).val();
-		var checkeds=$('input[name="my_checkbox"]:checked');
-		var ids = new Array();
-		$.each(checkeds, function(i, items){
-			var id = $('input[name="my_checkbox"]:checked:eq('+i+')').next('input[name="case_code"]').val();
-			ids.push(id);
-		});
-		var userId =$("#user_"+index).val();
-		
-		var url = "/case/isTransferOtherDistrict";
-		var ctx = $("#ctx").val();
-		url = ctx + url;
-		var params='&userId='+userId+'&caseCodes='+ids;
-		
-		$.ajax({	
-			cache : false,
-			async: false,
-			type : "POST",
-			url : url,
-			dataType : "json",
-			timeout: 10000,
-		    data : params, 
-		    beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-				$(".blockOverlay").css({'z-index':'9998'});
-            },  
-            complete: function() {  
-                $.unblockUI();   
-                if(status=='timeout'){//超时,status还有success,error等值的情况
-	          	  Modal.alert(
-				  {
-				    msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
-				  });
-		  		 $(".btn-primary").one("click",function(){
-		  				parent.$.fancybox.close();
-		  			});	 
-		                }
-		            } , 
-            
-			success : function(data) {
-				 var confrimMsg = '';
-				 if(data.content == false){
-					 confrimMsg = "您是否确认分配给"+userName+"?"+"业务员"+mobile;
-				 } else {
-					 confrimMsg = "案件所属区域与主办或合作对象不匹配,您是否确认分配给"+userName+"?";
-				 }
-				 
-				 window.wxc.confirm(confrimMsg,{"wxcOk":function(){
-		            $("#myCaseList").html("");
-					var url = "/case/bindCaseDist";
-					var ctx = $("#ctx").val();
-					url = ctx + url;
-					var params='&userId='+userId+'&caseCodes='+ids;
-					 $.ajax({
-							cache : false,
-							async: true,
-							type : "POST",
-							url : url,
-							dataType : "json",
-							timeout: 10000,
-						    data : params, 
-						    beforeSend:function(){  
-								$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-								$(".blockOverlay").css({'z-index':'9998'});
-				            },  
-				          complete: function() {  
-				                $.unblockUI();   
-				                if(status=='timeout'){//超时,status还有success,error等值的情况
-					          	  Modal.alert(
-								  {
-								    msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
-								  });
-						  		 $(".btn-primary").one("click",function(){
-						  				parent.$.fancybox.close();
-						  			});	 
-						                }
-						            } , 
-				            
-							success : function(data) {
-								if(data.success){
-									window.wxc.success("分配成功",{"wxcOk":function(){
-										$('#modal-form').modal("hide");
-										//jqGrid reload
-										reloadGrid(1);
-									}});
-								}else{
-									window.wxc.error(data.message);
-								}
-							},
-							error : function(XMLHttpRequest, textStatus, errorThrown) {
-							}
-						});
-				 }});
-			}
-		}); 
-}*/
-/**
- * 案件转组
- * @param index
- */
-/*function changeCaseTeam(){
-	//var orgName =$('input[name="teamRadio"]:checked').parent().text();
-	var orgName =$('select[name="yuTeamCode"]').find("option:selected").text();
-	
-	window.wxc.confirm("您是否确认分配给"+orgName+"?",{"wxcOk":function(){
-    	//var orgId =$('input[name="teamRadio"]:checked').val();
-		var orgId =$('select[name="yuTeamCode"]').val();
-		var url = "/case/bindCaseTeam";
-		var ctx = $("#ctx").val();
-		url = ctx + url;
-		//var caseCodes=$("#table_list_1").jqGrid("getGridParam","selarrrow");
-		//var params='&orgId='+orgId+'&caseCodes='+caseCodes;
-		
-		var caseInfoList = new Array();
-		var checkeds=$('input[name="my_checkbox"]:checked');
-		$.each(checkeds, function(i, items){
-			var $myCheckbox = $('input[name="my_checkbox"]:checked:eq('+i+')');
-			var $caseCode = $myCheckbox.next('input[name="case_code"]');
-			var $grpCode  = $caseCode.next('input[name="yu_team_code"]');
-			var $leadingProcessId  = $grpCode.next('input[name="leading_process_id"]');
-			
-			var toCaseInfo = {
-				caseCode : $caseCode.val(),
-				grpCode : $grpCode.val(),
-				requireProcessorId:$leadingProcessId.val()
-			}
-			caseInfoList.push(toCaseInfo);
-			
-		});
-		
-		var teamTransferVO = {
-		   caseInfoList	: caseInfoList,
-		   orgId : orgId
-		}
-		teamTransferVO = $.toJSON(teamTransferVO);
-		$.ajax({
-			cache : false,
-			async:true,
-			type : "POST",
-			url : url,
-			dataType : "json",
-			contentType: "application/json; charset=utf-8" ,
-			timeout: 10000,
-		    data : teamTransferVO, 
-		    beforeSend:function(){  
-				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-				$(".blockOverlay").css({'z-index':'9998'});
-            },  
-            complete: function() {  
-            	$("#myCaseList").html("");
-                $.unblockUI();   
-                if(status=='timeout'){//超时,status还有success,error等值的情况
-	          	  Modal.alert(
-				  {
-				    msg:"抱歉，系统处理超时。后台仍可能在处理您的请求，请过2分钟后刷新页面查看您的客源数量是否改变"
-				  });
-		  		 $(".btn-primary").one("click",function(){
-		  				parent.$.fancybox.close();
-		  			});	 
-		                }
-		            } , 
-			success : function(data) {
-				if(data.success){
-					window.wxc.success("分配成功",{"wxcOk":function(){
-						$('#team-modal-form').modal("hide");
-						//jqGrid reload
-						reloadGrid(1);
-					}});
-				}else{
-					window.wxc.error(data.message);
-				}
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				
-			}
-		}); 
-	}});
-}*/
+function cal(){
+    var total = parseFloat($('#rebateMoney').val());
+    var count = 0;
+    $('#info').find("tr:gt(0)").each(function(index,tr){
+        if(tr.attr(id)=='add')  return true;//跳过add行的计算
+        var rebateMoneyi = $(tr).find('td:eq(3)').find('input');
+        var rebateWarranti = $(tr).find('td:eq(4)').find('input');
+        var rebateBusinessi = $(tr).find('td:eq(5)').find('input');
+
+        if(isNaN($(rebateMoneyi).val())){
+            window.wxc.alert("请输入正确的返利金额！");
+            return;
+        }else{
+            var rebateMoney = parseFloat($(rebateMoneyi).val());
+            rebateWarranti.val((rebateMoney* 0.3).toFixed(2));
+            rebateBusinessi.val((rebateMoney* 0.7).toFixed(2));
+            count += rebateMoney;
+        }
+    });
+    $("#enteringMoney").val(count.toFixed(2));
+    $("#differenceMoney").val((total-count).toFixed(2));
+}

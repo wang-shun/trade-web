@@ -33,6 +33,7 @@ import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomSubmitVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
+import com.centaline.trans.ransom.repository.RansomChangeMapper;
 import com.centaline.trans.ransom.repository.RansomListFormMapper;
 import com.centaline.trans.ransom.repository.RansomMapper;
 import com.centaline.trans.ransom.service.RansomDiscontinueService;
@@ -50,6 +51,8 @@ public class RansomServiceImpl implements RansomService{
 
 	@Autowired
 	private RansomMapper ransomMapper;
+	@Autowired
+	private RansomChangeMapper ransomChangeMapper;
 	@Autowired
 	private RansomListFormMapper ransomListFormMapper;
 	@Autowired
@@ -73,10 +76,6 @@ public class RansomServiceImpl implements RansomService{
 			}else{
 				detailVo.setFinancial(null);
 			}
-//			User user = uamUserOrgService.getUserById(detailVo.getLeadingProcessId());
-//			detailVo.setLeadingProcessName(user.getRealName()); //经办人
-			SessionUser user = uamSessionService.getSessionUser();
-			detailVo.setLeadingProcessName(user.getRealName()); //经办人
 		}
 		return detailVo;
 	}
@@ -418,9 +417,16 @@ public class RansomServiceImpl implements RansomService{
 	}
 
 	@Override
-	public ToRansomMortgageVo getMortgageInfo(String ransomCode) {
+	public ToRansomMortgageVo getMortgageInfoByRansomCode(String ransomCode) {
 		ToRansomMortgageVo mortgageVo = new ToRansomMortgageVo();
 		mortgageVo = ransomMapper.getMortgageInfoByRansomCode(ransomCode);
+		return mortgageVo;
+	}
+	
+	@Override
+	public ToRansomMortgageVo getMortgageInfo(String ransomCode,Integer isEr) {
+		ToRansomMortgageVo mortgageVo = new ToRansomMortgageVo();
+		mortgageVo = ransomMapper.getMortgageInfo(ransomCode,isEr);
 		return mortgageVo;
 	}
 
@@ -485,6 +491,11 @@ public class RansomServiceImpl implements RansomService{
 		return ransomMapper.getPlanTimeInfoByRansomCode(ransomCode);
 	}
 	
+	@Override
+	public List<ToRansomPlanVo> getPlanTimeInfo(String ransomCode) {
+		return ransomChangeMapper.getPlanTimeInfo(ransomCode);
+	}
+
 	/**
 	 * 步骤:
 	 * ①变更赎楼单责任人

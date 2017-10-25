@@ -63,18 +63,8 @@
 	<input type="hidden" id="srvCodes" value="${caseDetailVO.srvCodes}" />
 	<input type="hidden" id="processDefinitionId"
 		value="${toWorkFlow.processDefinitionId}" />
+		
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
-	<script>
-		var resourceDistributionBtn = false;
-		<%if (request.getAttribute("msg") == null || request.getAttribute("msg") == "") {%>
-		<%} else {%>
-			window.wxc.alert("<%=request.getAttribute("msg")%>");
-		<%}%>
-		<shiro:hasPermission name="TRADE.CASE.DISTRIBUTION">
-		 resourceDistributionBtn = true;
-		</shiro:hasPermission>
-	</script>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 
 				<!-- 服务流程 -->
@@ -124,7 +114,7 @@
 														<table>
 															<tr>
 															<td>评估公司变更</td>
-															<td>是<input type="radio" name="changeItem">&nbsp&nbsp&nbsp&nbsp&nbsp否
+															<td>是<input type="radio" name="changeItem">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;否
 															<input type="radio" name="changeItem"></td>
 															</tr>
 															<tr>
@@ -168,11 +158,11 @@
 														<div class="col-lg-3">
 															<input name="caseCode" value="${caseCode}" id="hid_case_code" type="hidden">
 															<input name="evaCode" value="${evaCode}" id="hid_case_code" type="hidden">
-															<input name="source" value="caseDetails" type="hidden">
+															<input name="source" value="evalDetails" type="hidden">
 															<input name="instCode" value="${toWorkFlow.instCode}" type="hidden">
 															<select id="sel_changeFrom"	name="changeFrom" class="form-control m-b"	style="padding-bottom: 3px; height: 45.003px;">
 																<c:forEach items="${myTasks}" var="item">
-																	<option value="${item.taskDefinitionKey }">${item.name }</option>
+																	<option value="${item.formKey }">${item.name }</option>
 																</c:forEach>
 															</select>
 														</div>
@@ -217,8 +207,8 @@
 
 				<!-- 相关信息 -->
 				<div class="panel " id="aboutInfo" style="min-height: 800px;">
-					<!-- <a style="float: right; margin-right: 12px; margin-top: 10px;"
-						href="javascript:showChangeFormModal();">修改</a> -->
+					 <a style="float: right; margin-right: 12px; margin-top: 10px;"
+						href="javascript:showChangeFormModal();">修改</a>
 					<div class="panel-body">
 						<ul class="nav nav-tabs">
 							<li class="active"><a href="#eval_info" data-toggle="tab">评估信息</a></li>
@@ -238,7 +228,7 @@
 							        <h4><span style="font-size:12px;color:#b0b0b0;">● </span>评估询价</h4>
 									<div class="row">
 										<label class="col-sm-3 control-label">询价类型：<aist:dict id="evalPriceType" name="evalPriceType" display="label" dictType="EVAPRICING_TYPE" dictCode="${toEvaPricingVo.evaType}" /></label>
-										<label class="col-sm-3 control-label">询价值：${toEvaPricingVo.totalPrice}&nbsp;万元</label>
+										<label class="col-sm-3 control-label">询价值：${toEvaPricingVo.totalPrice / 10000.00}&nbsp;万元</label>
 										<label class="col-sm-3 control-label">询价时间：<fmt:formatDate value="${toEvaPricingVo.evalTime}" type="date" pattern="yyyy-MM-dd"/></label>
 									</div>
 									<div class="row">
@@ -255,7 +245,7 @@
 									<div class="row">
 									    <label class="col-sm-3 control-label">联系方式：${toEvalReportProcessVo.contactWay}</label>
 										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeApply}&nbsp;年</label>
-										<label class="col-sm-3 control-label">询价值：${toEvalReportProcessVo.inquiryResult}&nbsp;万元</label>
+										<label class="col-sm-3 control-label">询价值：${toEvalReportProcessVo.inquiryResult / 10000.00}&nbsp;万元</label>
 									</div>
 									<div class="row">
 									    <label class="col-sm-3 control-label">评估报告份数：${toEvalReportProcessVo.reportNum}&nbsp;份</label>
@@ -266,7 +256,7 @@
 									<div class="row">
 										<label class="col-sm-3 control-label">实际出具评估报告日期：<fmt:formatDate value="${toEvalReportProcessVo.issueDate}" type="date" pattern="yyyy-MM-dd"/></label>
 										<label class="col-sm-3 control-label">收取报告日期：<fmt:formatDate value="${toEvalReportProcessVo.reportGetDate}" type="date" pattern="yyyy-MM-dd"/></label>
-										<label class="col-sm-3 control-label">评估价：${toEvalReportProcessVo.evaPrice}&nbsp;万元</label>
+										<label class="col-sm-3 control-label">评估价：${toEvalReportProcessVo.evaPrice / 10000.00}&nbsp;万元</label>
 									</div>
 									<div class="row">
 										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeIssue}&nbsp;年</label>

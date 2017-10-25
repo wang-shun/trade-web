@@ -76,6 +76,32 @@
 		vertical-align: middle;
 		background-image:url(../../static/img/a5.png);
 	}
+	.shuxian{
+		position: absolute;
+		height: 129px;
+		width: 40%;
+		top: 20px;
+		left: 50%;
+		border-left: 8px solid #ccc;
+		border-bottom: 8px solid #ccc;
+	}
+	.bs-wizard > .bs-wizard-step > .change_shuxian{
+		position: absolute;
+		height: 129px;
+		width: 40%;
+		top: 20px;
+		left: -90px;
+		border-right: 8px solid #ccc;
+		border-bottom: 8px solid #ccc;
+	}
+	.bs-wizard > .bs-wizard-step.complete > .change_shuxian{
+		border-right-color: #5bc0de;
+		border-bottom-color: #5bc0de;
+	}
+	.col-lg-1 .bs-wizard-info strong{
+		display: block;
+		width: 200px;
+	}
 </style>
 </head>
 <body>
@@ -85,44 +111,64 @@
 	<input type="hidden" id="caseCode" value="${detailVo.caseCode}">
 	<div class="wrapper wrapper-content animated fadeInUp">
 		<div class="ibox-content" id="reportOne">
-			<h2 class="title">赎楼清尾</h2>  
-			<small class="pull-right">编号：${detailVo.ransomCode}</small>
 			<div class="row">
-				<div class="col-lg-9">
-					<div class="row" id="">
-						<div class="col-lg-5" id="cluster_info">
-							<dl class="dl-horizontal">
-								<dt>借款人</dt>
-								<dd>
-									<a data-toggle="popover" data-placement="right" data-content="${detailVo.borrowTel }" id="borrowerUser"> ${detailVo.borrowName }</a>
-								</dd>
-								<dt>房屋地址</dt>
-								<dd>${detailVo.addr }</dd>
-							</dl>
-						</div>
-						<div class="col-lg-4" id="cluster_info">
-							<dl class="dl-horizontal">
-								<dt>合作机构</dt>
-								<dd>${detailVo.comOrgName }</dd>
-								<dt>信贷员</dt>
-								<dd>
-									<a data-toggle="popover" data-placement="right" data-content="${detailVo.creditTel }"> ${detailVo.credit }</a>
-								</dd>
-							</dl>
-						</div>
-						<div class="col-lg-3">
-							<dl class="dl-horizontal">
-								<dt>金融权证</dt>
-								<dd>
-									<a data-toggle="popover" data-placement="right" data-content="${detailVo.financialTel }">${detailVo.financial }</a>
-								</dd>
-								<dt>经纪人</dt>
-								<dd>
-									<a data-toggle="popover" data-placement="right" data-content="${detailVo.agentPhone }">${detailVo.agentName }</a>
-								</dd>
-							</dl>
+				<h2 class="col-sm-8 title">赎楼清尾</h2>
+				<small class="col-sm-2 pull-right">编号：${detailVo.ransomCode}</small>
+				<div class="col-sm-2 m-b-md">
+					<h4>关联案件</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4" id="cluster_info">
+					<dl class="dl-horizontal">
+						<dt>借款人</dt>
+						<dd>
+							<a data-toggle="popover" data-placement="right" data-content="${detailVo.borrowTel }" id="borrowerUser"> ${detailVo.borrowName }</a>
+						</dd>
+						<dt>房屋地址</dt>
+						<dd>${detailVo.addr }</dd>
+					</dl>
+				</div>
+				<div class="col-sm-3" id="cluster_info">
+					<dl class="dl-horizontal">
+						<dt>合作机构</dt>
+						<dd>${detailVo.comOrgName }</dd>
+						<dt>信贷员</dt>
+						<dd>
+							<a data-toggle="popover" data-placement="right" data-content="${detailVo.creditTel }"> ${detailVo.credit }</a>
+						</dd>
+					</dl>
+				</div>
+				<div class="col-lg-3">
+					<dl class="dl-horizontal">
+						<dt>金融权证</dt>
+						<dd>
+							<a data-toggle="popover" data-placement="right" data-content="${detailVo.financialTel }">${detailVo.financial }</a>
+						</dd>
+						<dt>经纪人</dt>
+						<dd>
+							<a data-toggle="popover" data-placement="right" data-content="${detailVo.agentPhone }">${detailVo.agentName }</a>
+						</dd>
+					</dl>
+				</div>
+				<div class="col-lg-2">
+					<div class="feed-activity-list">
+						<div class="feed-element">
+							<div class="pull-lef contract-icon-block">
+								<div class="icon icon_blue iconfont">&#xe607;</div>
+							</div>
+							<div class="media-body">
+								<strong><a>${detailVo.caseCode }</a></strong><br />经办人 <strong>${detailVo.leadingProcessName }</strong>
+								<br />
+							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+			<br>
+
+			<div class="row">
+				<div class="col-lg-10">
 					<br>
 					<div class="row">
 						<div class="col-lg-12">
@@ -131,9 +177,9 @@
 								<div
 									class="col-lg-1 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='DEAL'}"> active
+										    <c:when test="${caseVo.taskProperty=='DEAL'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='DEAL'}"> complete
+										    <c:when test="${caseVo.taskProperty!='DEAL'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -155,9 +201,9 @@
 								</div>
 								<div class="col-lg-1 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='APPLY'}"> active
+										    <c:when test="${caseVo.taskProperty=='APPLY'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='APPLY'}"> complete
+										    <c:when test="${caseVo.taskProperty!='APPLY'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -181,9 +227,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='SIGN'}"> active
+										    <c:when test="${caseVo.taskProperty=='SIGN'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='SIGN'}"> complete
+										    <c:when test="${caseVo.taskProperty!='SIGN'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -191,6 +237,7 @@
 									<div class="progress">
 										<div class="progress-bar"></div>
 									</div>
+									<div class="shuxian"></div>
 									<a href="#" class="bs-wizard-dot"></a>
 									<div class="time-up">
 										<dl>
@@ -207,9 +254,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='PAYLOAN_ONE'}"> active
+										    <c:when test="${caseVo.taskProperty=='PAYLOAN_ONE'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='PAYLOAN_ONE'}"> complete
+										    <c:when test="${caseVo.taskProperty!='PAYLOAN_ONE'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -233,9 +280,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='CANCELDIYA_ONE'}"> active
+										    <c:when test="${caseVo.taskProperty=='CANCELDIYA_ONE'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='CANCELDIYA_ONE'}"> complete
+										    <c:when test="${caseVo.taskProperty!='CANCELDIYA_ONE'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -259,9 +306,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='RECEIVE_ONE'}"> active
+										    <c:when test="${caseVo.taskProperty=='RECEIVE_ONE'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='RECEIVE_ONE'}"> complete
+										    <c:when test="${caseVo.taskProperty!='RECEIVE_ONE'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -285,9 +332,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='PAYCLEAR'}"> active
+										    <c:when test="${caseVo.taskProperty=='PAYCLEAR'}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='PAYCLEAR'}"> complete
+										    <c:when test="${caseVo.taskProperty!='PAYCLEAR'}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -295,6 +342,7 @@
 									<div class="progress">
 										<div class="progress-bar"></div>
 									</div>
+									<div class="change_shuxian"></div>
 									<a href="#" class="bs-wizard-dot"></a>
 									<div class="time-up">
 										<dl>
@@ -334,9 +382,9 @@
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.ransomProperty=='ODEPAYLOAN_TWO'}"> active
+											    <c:when test="${caseVo.taskProperty=='ODEPAYLOAN_TWO'}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.ransomProperty!='ODEPAYLOAN_TWO'}"> complete
+											    <c:when test="${caseVo.taskProperty!='ODEPAYLOAN_TWO'}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -355,9 +403,9 @@
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.ransomProperty=='CANCELDIYA_TWO'}"> active
+											    <c:when test="${caseVo.taskProperty=='CANCELDIYA_TWO'}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.ransomProperty!='CANCELDIYA_TWO'}"> complete
+											    <c:when test="${caseVo.taskProperty!='CANCELDIYA_TWO'}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -376,9 +424,9 @@
 									<div
 										class="col-lg-1 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.ransomProperty=='RECEIVE_TWO'}"> active
+											    <c:when test="${caseVo.taskProperty=='RECEIVE_TWO'}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.ransomProperty!='RECEIVE_TWO'}"> complete
+											    <c:when test="${caseVo.taskProperty!='RECEIVE_TWO'}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -386,6 +434,7 @@
 										<div class="progress">
 											<div class="progress-bar"></div>
 										</div>
+
 										<a href="#" class="bs-wizard-dot"></a>
 										<div class="bs-wizard-info text-center">
 											<dl>
@@ -411,25 +460,7 @@
 							</div>
 						</div>
 				</div>
-				<div class="col-lg-3">
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="m-b-md">
-								<h4>关联案件</h4>
-							</div>
-						</div>
-					</div>
-					<div class="feed-activity-list">
-						<div class="feed-element">
-							<div class="pull-lef contract-icon-block">
-								<div class="icon icon_blue iconfont">&#xe607;</div>
-							</div>
-							<div class="media-body">
-								<strong><a>${detailVo.caseCode }</a></strong><br />经办人 <strong>${detailVo.leadingProcessName }</strong>
-								<br />
-							</div>
-						</div>
-					</div>
+				<div class="col-lg-2">
 				</div>
 			</div>
 		</div>
@@ -518,13 +549,13 @@
 										</tbody>
 									</table>
 								</div>
-								<div class="ibox-content">
+								<div class="ibox-content" >
 									<h2 class="title">操作记录</h2>
-									<div>
+									<!-- <div>
 										<button class="btn btn-success btn-space" onclick="getOperateLogRansom()">只看赎楼</button>
 										<button class="btn btn-success btn-space" onclick="getOperateLogList()" id="btnSubmit">全部流程</button>
-									</div>
-									<div class="tab-content">
+									</div> -->
+									<div class="tab-content" style="margin-top: 35px">
 										<div class="tab-pane active fade in">
 											<div class="jqGrid_wrapper row">
 												<table id="operation_history_table"></table>

@@ -78,10 +78,6 @@ function checkMortgageForm(formId){
 		window.wxc.alert("主贷人为必填项！");
 		formId.find("select[name='custCode']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name=coLender]").val() =="" || formId.find("input[name=coLender]").val() == null){
-		window.wxc.alert("共贷人为必填项！");
-		formId.find("input[name='coLender']").css("border-color","red");
-		return false;
 	}else if(formId.find("select[name=mortTotalAmount]").val() == "" || formId.find("select[name=mortTotalAmount]").val()==null){
 		window.wxc.alert("贷款总额必填项！");
 		formId.find("input[name='mortTotalAmount']").css("border-color","red");
@@ -166,11 +162,6 @@ function checkCompleteMortgage(formId){
 	}else if(formId.find("select[name='lendWay']").val() == ""){
 		window.wxc.alert("放款方式必填项！");
 		formId.find("select[name='lendWay']").css("border-color","red");
-		return false;
-	}
-	else if(formId.find("input[name=coLender]").val() =="" || formId.find("input[name=coLender]").val() == null){
-		window.wxc.alert("共贷人为必填项！");
-		formId.find("input[name='coLender']").css("border-color","red");
 		return false;
 	}else if(formId.find("select[name=mortTotalAmount]").val() == null || formId.find("select[name=mortTotalAmount]").val()==""){
 		window.wxc.alert("贷款总额必填项！");
