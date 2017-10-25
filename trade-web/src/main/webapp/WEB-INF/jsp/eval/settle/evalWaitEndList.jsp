@@ -70,7 +70,7 @@ display: none;}
 										</div>
                                 </div>
                                  <div class="col-lg-5 col-md-5">
-                                        <label class="col-lg-3 col-md-3 control-label font_w">案件状态</label>
+                                        <label class="col-lg-3 col-md-3 control-label font_w">状态</label>
                                         <div class="col-lg-9 col-md-9">
 												<select name="" class="form-control" id="caseStatus">
 													<option value="" selected="selected">请选择</option>
@@ -135,9 +135,9 @@ display: none;}
 							</div>
 						</div>
 				 </div>
-				  <div class="bonus-table">
+				  <div class="table_content">
                     <form id="form1"> <input type="hidden" id="h_userId" name="userId">
-                        <table>
+                        <table class="table table_blue table-striped table-bordered table-hover ">
                             <thead>
                                 <tr>
                                 	<th ><input type="checkbox" id="checkAllNot" class="i-checks"/></th>
