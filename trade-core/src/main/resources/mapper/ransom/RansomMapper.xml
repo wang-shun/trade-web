@@ -745,4 +745,25 @@
 
 	</update>
 	
+	<select id="getRansomInfoByCaseCode" resultType="com.centaline.trans.ransom.entity.ToRansomFormVo">
+		SELECT
+			tr.RANSOM_CODE ransomCode
+			,(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = tr.COM_ORG_CODE) comOrgName
+			,tr.BORROWER_NAME  borrowerName
+			,(SELECT REAL_NAME FROM sctrans.SYS_USER WHERE ID = tr.CREATE_USER) handler
+			,(SELECT SUM(REPAY_MONEY) FROM sctrans.T_RA_REPAY WHERE RANSOM_CODE = tr.RANSOM_CODE) repayMoney
+			,ti.INTEREST interest
+			,ti.INTERVIEW_TIME signTime
+			,tre.REPAY_TIME repayTime
+			,tp.PAYMENT_TIME paymentTime
+		FROM
+			sctrans.T_RA_CASE tr
+			INNER JOIN sctrans.T_TO_CASE tc ON tr.CASE_CODE = tc.CASE_CODE
+			LEFT JOIN sctrans.T_RA_INTERVIEW ti ON tr.RANSOM_CODE = ti.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_REPAY tre ON tr.RANSOM_CODE = tre.RANSOM_CODE AND tre.PART_CODE = 'PAYLOAN_ONE'
+			LEFT JOIN sctrans.T_RA_PAYMENT tp ON tr.RANSOM_CODE= tp.RANSOM_CODE
+		WHERE
+			tr.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+			AND tr.RANSOM_STATUS != '4'
+	</select>
 </mapper>

@@ -1,6 +1,5 @@
 package com.centaline.trans.cases.web;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -110,7 +109,7 @@ import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.property.service.ToPropertyResearchService;
 import com.centaline.trans.property.service.ToPropertyService;
 import com.centaline.trans.ransom.entity.ToRansomFormVo;
-import com.centaline.trans.ransom.repository.AddRansomFormMapper;
+import com.centaline.trans.ransom.repository.RansomMapper;
 import com.centaline.trans.spv.service.ToSpvService;
 import com.centaline.trans.team.entity.TsTeamProperty;
 import com.centaline.trans.team.service.TsTeamPropertyService;
@@ -245,7 +244,8 @@ public class CaseDetailController {
 	@Autowired
 	private ToCaseRecvMapper toCaseRecvMapper;
 	@Autowired
-	private AddRansomFormMapper addRansomFormMapper;
+	private RansomMapper ransomMapper;
+	
 
 	/**
 	 * 页面初始化
@@ -790,6 +790,12 @@ public class CaseDetailController {
 		}
 		SimpleDateFormat yearFort = new SimpleDateFormat("yyyy");
 		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(toCase.getCaseCode());
+		
+		if(toCaseInfo.getPayType() != null){
+			String payTypeName = uamBasedataService.getDictValue(TransDictEnum.FKFS.getCode(), toCaseInfo.getPayType());
+			toCaseInfo.setPayType(payTypeName);
+		}
+		
 		ToPropertyInfo toPropertyInfo = toPropertyInfoService.findToPropertyInfoByCaseCode(toCase.getCaseCode());
 		toPropertyInfo.setFinishYearStr(toPropertyInfo.getFinishYear() ==null?
 										null:yearFort.format(toPropertyInfo.getFinishYear()));
@@ -907,7 +913,7 @@ public class CaseDetailController {
 			reVo.setRealPropertyGetTime(realPropertyGetTime);
 		}
 		//卖方剩余贷款，还贷时间，还贷银行,赎楼
-		List<ToRansomFormVo> tails = addRansomFormMapper.findTaiLinsInfoByCaseCode(toCase.getCaseCode());
+		/*List<ToRansomFormVo> tails = addRansomFormMapper.findTaiLinsInfoByCaseCode(toCase.getCaseCode());
 		if(tails != null && tails.size() > 0){
 			BigDecimal resMoney = tails.get(0).getRestMoney().add(
 					tails.size() >1?(tails.get(1).getRestMoney()==null?BigDecimal.ZERO:tails.get(1).getRestMoney()):BigDecimal.ZERO
@@ -918,7 +924,7 @@ public class CaseDetailController {
 			reVo.setLoanCloseCode(tails.get(0).getRepayTime()==null?null:format.format(tails.get(0).getRepayTime()));
 			//还款银行/合作机构
 			caseInfo.setUpBank(tails.get(0).getComOrgName());
-		}  
+		} */ 
 		// 结案时间
 		if (caseInfo.getCloseTime() != null) {
 			String closeTime = format.format(caseInfo.getCloseTime());
@@ -989,150 +995,9 @@ public class CaseDetailController {
 			}
 		}
 
-		// 金融服务信息
-		/*List<LoanAgent> toLoanAgents = toLoanAgentService.selectByCaseCode(toCase.getCaseCode());
-		List<ToLoanAgentVO> toLoanAgentVOs = new ArrayList<ToLoanAgentVO>();
-		List<ToLoanAgentVO> toEloanCaseVOs = new ArrayList<ToLoanAgentVO>();
-		// E+金融
-		ToEloanCase eloanCase = new ToEloanCase();
-		eloanCase.setCaseCode(toCase.getCaseCode());
-		List<ToEloanCase> toEloanCases = toEloanCaseService.getToEloanCaseListByProperty(eloanCase);
-		if (toEloanCases.size() > 0) {
-			
-			for (ToEloanCase toEloanCase : toEloanCases) {
-				ToLoanAgentVO toEloanCaseVO = new ToLoanAgentVO();
-				// 贷款服务编码
-				if (!StringUtils.isEmpty(toEloanCase.getLoanSrvCode())) {
-					String loanSrvName = uamBasedataService.getDictValue(TransDictEnum.TFWBM.getCode(),
-							toEloanCase.getLoanSrvCode());
-					toEloanCaseVO.setLoanSrvName(loanSrvName);
-				}
-				// 贷款机构
-				if (toEloanCase.getFinOrgCode() != null) {
-					TsFinOrg tsFinOrg = tsFinOrgService.findBankByFinOrg(toEloanCase.getFinOrgCode());
-					if (tsFinOrg != null && !StringUtils.isEmpty(tsFinOrg.getFinOrgName())) {
-						toEloanCaseVO.setFinOrgName(tsFinOrg.getFinOrgName());
-					}
-				}
-				// 申请时间
-				if (toEloanCase.getApplyTime() != null) {
-					String applyTime = format.format(toEloanCase.getApplyTime());
-					toEloanCaseVO.setApplyTime(applyTime);
-				}
-				// 确认时间
-				if (toEloanCase.getApplyConfTime() != null) {
-					String formatTime = format.format(toEloanCase.getApplyConfTime());
-					toEloanCaseVO.setConfirmTime(formatTime);
-				}
-				// 面签时间
-				if (toEloanCase.getSignTime() != null) {
-					String formatTime = format.format(toEloanCase.getSignTime());
-					toEloanCaseVO.setSignTime(formatTime);
-				}
-				// 申请状态
-				if (toEloanCase.getApplyConfTime()!= null) {
-					toEloanCaseVO.setApplyStatusName("已确认");
-				} else {
-					toEloanCaseVO.setApplyStatusName("待确认");
-				}
-				if(!StringUtils.isBlank(toEloanCase.getLoanerName())){
-					toEloanCaseVO.setLoanerName(toEloanCase.getLoanerName());
-				}
-				if(!StringUtils.isBlank(toEloanCase.getLoanerPhone())){
-					toEloanCaseVO.setLoanerName(toEloanCase.getLoanerPhone());
-				}
-				// 放款时间
-				List<ToEloanRel> eloanRels = toEloanRelService.getEloanRelByEloanCode(toEloanCase.getEloanCode());
-				// 确认状态
-				if (toEloanCase.getApplyTime()!=null) {
-					toEloanCaseVO.setConfirmStatusName("申请");
-				} if(toEloanCase.getSignTime()!=null){
-					toEloanCaseVO.setConfirmStatusName("面签");
-				}if(eloanRels.size()>0){
-					toEloanCaseVO.setConfirmStatusName("放款");
-				}
-				//放款金额
-				BigDecimal releaseAmount=new BigDecimal(0);
-				for (ToEloanRel eloanRel : eloanRels) {
-					if (eloanRel.getReleaseTime() != null) {
-						String formatTime = format.format(eloanRel.getReleaseTime());
-						toEloanCaseVO.setReleaseTime(formatTime);
-					}
-					if(eloanRel.getConfirmStatus().equals("1")){
-						releaseAmount=releaseAmount.add(eloanRel.getReleaseAmount());
-						toEloanCaseVO.setReleaseAmount(releaseAmount.toString());
-					}
-				}
-				toEloanCaseVOs.add(toEloanCaseVO);
-			}
-
-		}
-		if (toLoanAgents.size() > 0) {
-			for (LoanAgent toLoanAgent : toLoanAgents) {
-				ToLoanAgentVO toLoanAgentVO = new ToLoanAgentVO();
-				// 贷款服务编码
-				if (!StringUtils.isEmpty(toLoanAgent.getLoanSrvCode())) {
-					String loanSrvName = uamBasedataService.getDictValue(TransDictEnum.TFWBM.getCode(),
-							toLoanAgent.getLoanSrvCode());
-					toLoanAgentVO.setLoanSrvName(loanSrvName);
-				}
-				// 贷款机构
-				if (toLoanAgent.getFinOrgCode() != null) {
-					TsFinOrg tsFinOrg = tsFinOrgService.findBankByFinOrg(toLoanAgent.getFinOrgCode());
-					if (tsFinOrg != null && !StringUtils.isEmpty(tsFinOrg.getFinOrgName())) {
-						toLoanAgentVO.setFinOrgName(tsFinOrg.getFinOrgName());
-					}
-				}
-				// 申请状态
-				if (!StringUtils.isEmpty(toLoanAgent.getApplyStatus())) {
-					String applyStatusName = uamBasedataService.getDictValue(TransDictEnum.TSQZT.getCode(),
-							toLoanAgent.getApplyStatus());
-					toLoanAgentVO.setApplyStatusName(applyStatusName);
-				}
-				// 确认状态
-				if (!StringUtils.isEmpty(toLoanAgent.getConfirmStatus())) {
-					String confirmStatusName = uamBasedataService.getDictValue(TransDictEnum.TSQZT.getCode(),
-							toLoanAgent.getConfirmStatus());
-					toLoanAgentVO.setConfirmStatusName(confirmStatusName);
-				}
-				// 确认时间
-				if (toLoanAgent.getConfirmTime() != null) {
-					String formatTime = format.format(toLoanAgent.getConfirmTime());
-					toLoanAgentVO.setConfirmTime(formatTime);
-				}
-				// 超期导出时间
-				if (toLoanAgent.getLastExceedExportTime() != null) {
-					String lastExceedExportTime = format.format(toLoanAgent.getLastExceedExportTime());
-					toLoanAgentVO.setLastExceedExportTime(lastExceedExportTime);
-				}
-				// 申请时间
-				if (toLoanAgent.getApplyTime() != null) {
-					String applyTime = format.format(toLoanAgent.getApplyTime());
-					toLoanAgentVO.setApplyTime(applyTime);
-				}
-				// 面签时间
-				if (toLoanAgent.getSignTime() != null) {
-					String formatTime = format.format(toLoanAgent.getSignTime());
-					toLoanAgentVO.setSignTime(formatTime);
-				}
-				// 放款时间
-				if (toLoanAgent.getReleaseTime() != null) {
-					String formatTime = format.format(toLoanAgent.getReleaseTime());
-					toLoanAgentVO.setReleaseTime(formatTime);
-				}
-				// 对账时间
-				if (toLoanAgent.getIncomeConfirmTime() != null) {
-					String formatTime = format.format(toLoanAgent.getIncomeConfirmTime());
-					toLoanAgentVO.setIncomeConfirmTime(formatTime);
-				}
-				// 结账时间
-				if (toLoanAgent.getIncomeArriveTime() != null) {
-					String formatTime = format.format(toLoanAgent.getIncomeArriveTime());
-					toLoanAgentVO.setIncomeArriveTime(formatTime);
-				}
-				toLoanAgentVOs.add(toLoanAgentVO);
-			}
-		}*/
+		// 金融服务信息,赎楼信息
+		ToRansomFormVo ransomInfo =  ransomMapper.getRansomInfoByCaseCode(toCase.getCaseCode());
+		
 	
 		boolean isCaseOwner=false;
 		boolean isCaseManager=false;
@@ -1181,6 +1046,7 @@ public class CaseDetailController {
 		request.setAttribute("toCase", toCase);
 
 		request.setAttribute("toPropertyInfo", toPropertyInfo);
+		request.setAttribute("ransomInfo", ransomInfo);
 		
 		return "case/caseDetail_new";
 	}

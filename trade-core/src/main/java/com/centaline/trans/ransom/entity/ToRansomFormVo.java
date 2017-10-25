@@ -87,6 +87,15 @@ public class ToRansomFormVo {
 	private Date repayTime;
 	//合作机构
 	private String comOrgName;
+	//经办人
+	private String handler;
+	//放款金额
+	private BigDecimal repayMoney;
+	//利息
+	private BigDecimal interest;
+	//回款结清时间
+	private Date paymentTime;
+	
 
 	public Long getPkid() {
 		return pkid;
@@ -249,6 +258,40 @@ public class ToRansomFormVo {
 
 	public void setComOrgName(String comOrgName) {
 		this.comOrgName = comOrgName;
+	}
+
+	
+	
+	public String getHandler() {
+		return handler;
+	}
+
+	public void setHandler(String handler) {
+		this.handler = handler;
+	}
+
+	public BigDecimal getRepayMoney() {
+		return repayMoney;
+	}
+
+	public void setRepayMoney(BigDecimal repayMoney) {
+		this.repayMoney = repayMoney;
+	}
+
+	public BigDecimal getInterest() {
+		return interest;
+	}
+
+	public void setInterest(BigDecimal interest) {
+		this.interest = interest;
+	}
+
+	public Date getPaymentTime() {
+		return paymentTime;
+	}
+
+	public void setPaymentTime(Date paymentTime) {
+		this.paymentTime = paymentTime;
 	}
 
 	@Override

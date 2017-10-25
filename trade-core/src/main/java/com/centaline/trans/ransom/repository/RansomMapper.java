@@ -11,6 +11,7 @@ import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
+import com.centaline.trans.ransom.entity.ToRansomFormVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
 import com.centaline.trans.ransom.entity.ToRansomPermitVo;
@@ -214,4 +215,11 @@ public interface RansomMapper {
 	int updateRansomIsStart(String ransomCode);
 	
 	List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 查询案件的赎楼信息
+	 * @param caseCode
+	 * @return
+	 */
+	ToRansomFormVo getRansomInfoByCaseCode(String caseCode);
 }
