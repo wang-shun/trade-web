@@ -192,7 +192,6 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			//修改原有信息 生成最终报告
 			evalRebate.setPkid(old.getPkid());
 			evalRebate.setStatus(EvalRebateStatusEnum.FINISH.getCode());
-			evalRebate.setEvalRecept(info.getEvalRecept());
 			evalRebate.setCreateTime(info.getCreateTime());
 			evalRebate.setEvalRecept(null);//不根据CCAI传入的评估费收据修改 由于天津未保存
 			toEvalRebateService.updateByPrimaryKeySelective(evalRebate);
