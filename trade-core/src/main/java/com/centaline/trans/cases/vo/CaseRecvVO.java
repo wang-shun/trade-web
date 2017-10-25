@@ -27,7 +27,7 @@ public class CaseRecvVO {
 	private ToSign toSign;
 
 	private ToCaseRecv toCaseRecv;
-	
+//	toCaseInfo表-->payType
 	private String payType;
 //	卖方房屋是否唯一
 	//主要使用的字段private String isUniqueHouse;

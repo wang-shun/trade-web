@@ -23,11 +23,12 @@ public interface ToEvaInvoiceService {
 	 * @description:开启评估发票管理流程,warrantManager为该流程的assignee,如果其为空则会在系统中查询当前案件的warrantManager，若还为空则会报错；
 	 * @author:xiefei1
 	 * @param caseCode
+	 * @param evaCode	evaCode与caseCode为一对多，所以要evaCode
 	 * @param warrantManager为该流程的assignee,如果其为空则会在系统中查询当前案件的warrantManager，若还为空则会报错；
 	 * @return
 	 * @throws Exception
 	 */
-	int updateStartEvaInvoiceProcess(String caseCode,String warrantManager)throws Exception;
+	public int updateStartEvaInvoiceProcess(String caseCode,String evaCode,String warrantManager) throws Exception;
 	//  查出当前案件所指向的评估单
 	 List<ToEvaInvoice> selectByCaseCodeWithEvaPointer(String caseCode);
   

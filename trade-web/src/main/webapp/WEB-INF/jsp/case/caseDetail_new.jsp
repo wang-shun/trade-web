@@ -129,17 +129,9 @@
 	
 						<c:if test="${isCaseOwner}">
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
-<<<<<<< HEAD
-										href="javascript:showLoanReqmentChgModal()">贷款需求选择</a>
-						</c:if>				
-						<a role="button" class="btn btn-primary btn-xm btn-activity"
-							href="javascript:evaPricingApply()">询价申请</a>
-						<c:if test="${caseInfo.evalCode == null}">
-=======
 										href="javascript:void(0)">贷款需求选择</a>
 						</c:if>			
 						<shiro:hasPermission name="TRADE.CASE.EVAPRICINGAPPLY">	
->>>>>>> branch 'develop' of http://gitlab.centaline.com.cn/centaline-trade/trade-web.git
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 								href="javascript:evaPricingApply()">询价申请</a>
 						</shiro:hasPermission>
