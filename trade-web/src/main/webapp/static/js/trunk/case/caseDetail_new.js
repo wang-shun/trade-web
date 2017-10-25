@@ -321,43 +321,48 @@ function resetPlanModal(){
         timeout : 10000,
         data : params,
         success : function(data) {
+            if(data!=null&&data!=""&&data!=undefined) {
+                var inHtml = "";
+                $("#plan-form").html(inHtml);
+                console.log(data);
+                $.each(data, function (k, v) {
+                    inHtml += '<div class="form-group"><div class="col-lg-2 control-label">';
+                    inHtml += '预计' + v.partName + '时间';
+                    inHtml += '</div><div class="col-lg-4 control-label" style="text-align:left; margin-top:-10px;" >';
+                    inHtml += '<input type="hidden" id="pkId_' + k + '" name="estId" value="' + v.pkid + '" >';
+                    inHtml += '<input type="hidden" id="isChange_' + k + '" name="estFlag" value="false" >';
+                    inHtml += '<span style="position: relative; z-index: 9999;">';
+                    inHtml += '<div class="input-group date" ><span class="input-group-addon" >';
+                    inHtml += '<i class="fa fa-calendar" style="z-index:2100;position:relative;" ></i></span>';
+                    inHtml += '<input class="form-control" type="text" id="estPartTime_' + k + '" name="estPartTime" value="' + v.estPartTimeStr + '" lang="' + v.estPartTimeStr + '" onchange="javascript:changeEstTime(' + k + ')">';
+                    inHtml += '</div>	</span></div>';
+                    inHtml += '<div class="col-lg-1 control-label">';
+                    inHtml += '变更理由';
+                    inHtml += '</div><div class="col-lg-3 control-label" style="text-align:left; margin-top:-10px;" >';
+                    inHtml += '<input class="form-control" type="text" id="whyChange_' + k + '" name="whyChange" value="" onfocus="javascript:initBorderColor(this);">';
+                    inHtml += '</div>';
+                    inHtml += '</div>';
 
-            var inHtml = "";
-            $("#plan-form").html(inHtml);
-            console.log(data);
-            $.each(data, function(k, v){
-                inHtml+='<div class="form-group"><div class="col-lg-2 control-label">';
-                inHtml+= '预计'+v.partName+'时间';
-                inHtml+='</div><div class="col-lg-4 control-label" style="text-align:left; margin-top:-10px;" >';
-                inHtml+='<input type="hidden" id="pkId_'+k+'" name="estId" value="'+v.pkid+'" >';
-                inHtml+='<input type="hidden" id="isChange_'+k+'" name="estFlag" value="false" >';
-                inHtml+='<span style="position: relative; z-index: 9999;">';
-                inHtml+='<div class="input-group date"><span class="input-group-addon">';
-                inHtml+='<i class="fa fa-calendar" style="z-index:2100;position:relative;"></i></span>';
-                inHtml+='<input class="form-control" type="text" id="estPartTime_'+k+'" name="estPartTime" value="'+v.estPartTimeStr+'" lang="' + v.estPartTimeStr + '" onchange="javascript:changeEstTime('+k+')">';
-                inHtml+='</div>	</span></div>';
-                inHtml+='<div class="col-lg-1 control-label">';
-                inHtml+= '变更理由';
-                inHtml+='</div><div class="col-lg-3 control-label" style="text-align:left; margin-top:-10px;" >';
-                inHtml+='<input class="form-control" type="text" id="whyChange_'+k+'" name="whyChange" value="" onfocus="javascript:initBorderColor(this);">';
-                inHtml+='</div>';
-                inHtml+='</div>';
-
-            });
-            $("#plan-form").html(inHtml);
-            $.each(data,function (k1,v1) {
-                if(!v1.edit){
-                    $("#estPartTime_"+k1).prop("disabled","disabled");
-                    $("#whyChange_"+k1).attr("disabled","disabled");
-                }
-            })
-            $('.input-group.date').datepicker({
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                calendarWeeks: true,
-                autoclose: true
-            });
+                });
+                $("#plan-form").html(inHtml);
+                $.each(data, function (k1, v1) {
+                    if (!v1.edit) {
+                        $("#estPartTime_" + k1).prop("disabled", "disabled");
+                        $("#whyChange_" + k1).attr("disabled", "disabled");
+                    }
+                })
+                $('.input-group.date input').datepicker({
+                    todayBtn: "linked",
+                    keyboardNavigation: false,
+                    forceParse: false,
+                    calendarWeeks: false,
+                    autoclose: true
+                });
+            }else {
+                window.wxc.error("请先完成填写交易计划环节！",{"wxcOk":function () {
+                    $('#plan-modal-form').modal("hide");
+                }});
+            }
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {
         }
@@ -569,57 +574,13 @@ function serviceRestart(){
     }});
 }
 
-//选择的权证类型
-var chooseType;
-//选择过户or贷款权证modal
-function showChoose(){
-	
-	chooseType = null;
-	var warrant = $('#warr').html();
-	var loan = $('#loan').html();
-
-	var addHtml = '<div class="col-lg-12">';
-	if((warrant && warrant.trim().length > 0) && (loan && loan.trim().length > 0)){	
-		addHtml += '<a href="javascript:showOrgCp(1)"><div class="contact-box change_width_left">贷款权证</div></a>';
-		addHtml += '<a href="javascript:showOrgCp(2)"><div class="contact-box change_width_left">过户权证</div></a>';
-
-	}else if(loan && loan.trim().length > 0){
-		addHtml += '<a href="javascript:showOrgCp(1)"><div class="contact-box change_width_left">贷款权证</div></a>';
-	}else if(warrant && warrant.trim().length > 0){
-		addHtml += '<a href="javascript:showOrgCp(2)"><div class="contact-box change_width_left">过户权证</div></a>';
-	}else{
-		window.wxc.alert("案件无过户或贷款权证");
-		return;
-	}
-	addHtml += '</div>';
-	
-	$("#leading-choose").empty();
-	$("#leading-choose").html(addHtml);
-
-    $('.contact-box').each(function() {
-        animationHover(this, 'pulse');
-    });
-    $('#lead-modal-choose').modal("show");
-}
-
-
-
 /**
  * 权证变更
  */
-function showOrgCp(param) {
-	
-	$('#lead-modal-choose').modal("hide");
-	if(param == 1){
-		chooseType = "loan";
-	}else if(param == 2){
-		chooseType = "warrant";
-	}
-	
-	
+function showOrgCp() {
 	var caseCode = $('#caseCode').val();
-	//获取贷款/过户权证
-	var url = "/case/getLoanOrWarrantList?caseCode="+caseCode +"&type="+chooseType;
+	//获取贷款/过户权证,根据案件负责人
+	var url = "/case/getLoanOrWarrantList?caseCode="+caseCode;
 	var ctx = $("#ctx").val();
 	
 	$.ajax({
@@ -640,6 +601,43 @@ function showOrgCp(param) {
 		}
 	});
 
+}
+
+/**
+ * 选择权证提交
+ */
+function leadingChangeSubmit(){
+	
+	var leadingId = $('#leading-modal-data-show').val();
+	window.wxc.confirm("您是否确认进行责任人变更？",{"wxcOk":function(){
+		var caseCode = $("#caseCode").val();
+		var instCode = $("#instCode").val();
+		
+		var url = "/case/changeLeadingUser";
+		var ctx = $("#ctx").val();
+		var params = '&userId=' + leadingId + '&caseCode=' + caseCode+"&instCode="+instCode;
+
+		$.ajax({
+			cache : false,
+			async : true,
+			type : "POST",
+			url : ctx + url,
+			dataType : "json",
+			timeout : 10000,
+			data : params,
+			success : function(data) {
+				if(data.success){
+					window.wxc.success("变更成功");
+					location.reload();
+				}else{
+					window.wxc.error(data.message);
+				}
+				
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+			}
+		});
+	}});
 }
 
 /**
@@ -684,7 +682,7 @@ function showLeadingModal(data) {
  * @param index
  */
 function changeLeadingUser(index) {
-    window.wxc.confirm("您是否确认进行变更？",{"wxcOk":function(){
+    window.wxc.confirm("您是否确认进行责任人变更？",{"wxcOk":function(){
         var caseCode = $("#caseCode").val();
         var instCode = $("#instCode").val();
         var userId = $("#user_" + index).val();
@@ -692,7 +690,7 @@ function changeLeadingUser(index) {
         var url = "/case/changeLeadingUser";
         var ctx = $("#ctx").val();
         url = ctx + url;
-        var params = '&userId=' + userId + '&caseCode=' + caseCode+"&instCode="+instCode +"&chooseType="+chooseType;
+        var params = '&userId=' + userId + '&caseCode=' + caseCode+"&instCode="+instCode;
 
         $.ajax({
             cache : false,

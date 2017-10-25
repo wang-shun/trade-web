@@ -728,7 +728,8 @@
                 $('input[name=initSupervisionAmount]').focus();
                 return false;
             }
-            if(secAmount>0){
+            //付款项不做验证
+            /*if(secAmount>0){
                 if(null == $('input[name=secPayTime]').val() || '' == $('input[name=secPayTime]').val()){
                     window.wxc.alert("二期款时间不能为空!");
                     $('input[name=secPayTime]').focus();
@@ -774,42 +775,15 @@
                     $('input[name=lastSupervisionAmount]').focus();
                     return false;
                 }
-            }
+            }*/
 			/*
-			 if(compensateAmount>0){
-			 if(null == $('input[name=compensatePayTime]').val() || '' == $('input[name=compensatePayTime]').val()){
-			 window.wxc.alert("装修补偿款时间不能为空!");
-			 $('input[name=compensatePayTime]').focus();
-			 return false;
-			 }
 
-			 if ($('select[name=compensatePayType]').val() == '') {
-			 window.wxc.alert("装修补偿款方式不能为空!");
-			 $('select[name=compensatevPayType]').focus();
-			 return false;
-			 }
-
-			 }*/
-
-            if (conPrice < initAmount+secAmount+lastAmount) {
+            /*if (conPrice < initAmount+secAmount+lastAmount) {
                 window.wxc.alert("付款信息项之和必须小于等于合同价!");
                 $('input[name=conPrice]').focus();
                 return false;
-            }
+            }*/
 
-			/*天津没有
-			 if ($('select[name=isLoanClose]').val() == '') {
-			 window.wxc.alert("抵押情况为必选项!");
-			 $('select[name=isLoanClose]').focus();
-			 return false;
-			 }
-
-
-			 if ($('select[name=isPerchaseReserachNeed]').val() == '') {
-			 window.wxc.alert("查限购为必选项!");
-			 $('select[name=isPerchaseReserachNeed]').focus();
-			 return false;
-			 }*/
             if($("#topHome").children().length == 1){
                 window.wxc.alert("上家信息为必填项!");
                 return false;
@@ -857,24 +831,6 @@
                 $('select[name=propertyType]').focus();
                 return false;
             }
-			/*天津没有
-			 if ($('select[name=isConCert]').val() == '') {
-			 window.wxc.alert("合同公证为必选项!");
-			 $('select[name=isConCert]').focus();
-			 return false;
-			 }
-
-			 if ($('select[name=isHukou]').val() == '') {
-			 window.wxc.alert("房屋有户口为必选项!");
-			 $('select[name=isHukou]').focus();
-			 return false;
-			 }
-
-			 if ($('input[name=houseHodingTax]').val() == '') {
-			 window.wxc.alert("房产税为必填项!");
-			 $('input[name=houseHodingTax]').focus();
-			 return false;
-			 }*/
 
             if ($('input[name=personalIncomeTax]').val() == '') {
                 window.wxc.alert("个人所得税为必填项!");

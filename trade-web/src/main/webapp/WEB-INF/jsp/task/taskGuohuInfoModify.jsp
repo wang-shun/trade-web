@@ -104,7 +104,7 @@
 							<div class="row">
 								<div class="col-lg-12"
 									style="margin-top: 9px; margin-left: 10px;">
-									<font color="red">*</font>注1：交易顾问只能修改归属自己的、已提交的任务，未完成的任务请在待办任务中填写。
+									<font color="red">*</font>注1：权证只能修改归属自己的、已提交的任务，未完成的任务请在待办任务中填写。
 								</div>
 							</div>
 							<div class="row">
@@ -202,7 +202,7 @@
 	     return false;
 	};
 	var changeTaskList=['TransSign','RatePayment','ComLoanProcess','PSFApply','PSFSign', 'PSFApprove',
-	                    'LoanlostApply','SelfLoanApprove','Guohu','HouseBookGet','LoanRelease'];
+	                    'LoanlostApply','SelfLoanApprove','Guohu','HouseBookGet','LoanRelease','ComLoanAndPSFLoanProcess'];
 	var comLoanTasks=['ComLoanProcess'];
 	var psfLoanTasks=["PSFApply","PSFSign","PSFApprove"];
 	var loanLostTasks=['LoanlostApply','LoanlostApproveManager','LoanlostApproveDirector','SelfLoanApprove','LoanlostApproveGeneralManager','EvaReportArise'];

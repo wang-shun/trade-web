@@ -271,7 +271,23 @@ public class TaskController {
 			}
     	} else if(taskitem.equals("LoanClose")) {/*贷款结清*/
     		request.setAttribute("loanClose", toCloseLoanService.qureyToCloseLoan(caseCode));
-    	} else if(taskitem.equals("PSFApply")) {/*纯公积金贷款申请*/
+    	}else if(taskitem.equals("ComLoanAndPSFLoanProcess")){//组合贷款 by wbzhouht
+			CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+			int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
+			if ( cou >0) {
+				caseBaseVO.setLoanType("30004005");
+			}
+			request.setAttribute("source", source);
+			request.setAttribute("caseBaseVO", caseBaseVO);
+			toAccesoryListService.getAccesoryLists(request, taskitem);
+			MortStep mortStep = new MortStep();
+			mortStep.setCaseCode(caseCode);
+			Integer[] step = mortStepService.getMortStep(caseCode);
+			request.setAttribute("step", step[0]);
+			return "task"+UiImproveUtil.getPageType(request)+"/taskComAndPSFLoanProcess";
+		}
+
+    	else if(taskitem.equals("PSFApply")) {/*纯公积金贷款申请*/
     		getAccesoryList(request, taskitem);
     		ToTransPlan toTransPlan = new ToTransPlan();
     		toTransPlan.setPartCode(taskitem);
