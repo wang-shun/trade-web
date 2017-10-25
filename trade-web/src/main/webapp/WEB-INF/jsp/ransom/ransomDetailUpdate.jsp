@@ -100,10 +100,10 @@
 											<aist:dict id="diyaType" name="diyaType" clazz=" select_control yuanwid " display="select" dictType="71015" defaultvalue="${tailinsVo.diyaType }" />
 										</td>
 										<td>
-											<input id="loanMoney" name="loanMoney" type="text" class="form-control input-one" placeholder="单位：万元"  value="<fmt:formatNumber value='${ tailinsVo.loanMoney * 10000}' type='number' pattern='#0.00' />"> 万
+											<input id="loanMoney" name="loanMoney" type="text" class="form-control input-one" placeholder="单位：万元"  value="<fmt:formatNumber value='${ tailinsVo.loanMoney/10000 }' type='number' pattern='#0.00' />"> 万
 									    </td>
 										<td>
-											<input id="restMoney" name="restMoney" type="text" class="form-control input-one" placeholder="单位：万元" value="<fmt:formatNumber value='${tailinsVo.restMoney * 10000}' type='number' pattern='#0.00' />"> 万
+											<input id="restMoney" name="restMoney" type="text" class="form-control input-one" placeholder="单位：万元" value="<fmt:formatNumber value='${tailinsVo.restMoney/10000 }' type='number' pattern='#0.00' />"> 万
 										</td>
 									</tr>
 								</tbody>
@@ -111,7 +111,7 @@
 							</table>
 							<div class="form_content">
 								<label class="control-label sign_left_small">借款金额总计</label> 
-								<input type="text" class="input_type yuanwid" id="borrowerMoney"name="borrowerMoney" value="<fmt:formatNumber value='${ caseVo.borroMoney * 10000}' type='number' pattern='#0.00' />">
+								<input type="text" class="input_type yuanwid" id="borrowerMoney"name="borrowerMoney" value="<fmt:formatNumber value='${ caseVo.borroMoney /10000}' type='number' pattern='#0.00' />">
 								<span>万</span>
 							</div>
 						</div>

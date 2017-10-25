@@ -161,10 +161,10 @@ $(document).ready( function() {
  function changeRestMoney(){
 	 var allLoanMoney = 0;
 	 for(var i = 0; i < $("select[name='finalOrg']").length;i++){
-		 allLoanMoney += parseInt($("#trId" + i + " td input[name='restMoney']").val() * 1000000);
+		 allLoanMoney += parseInt($("#trId" + i + " td input[name='restMoney']").val());
 	 }
 	 
-	$("#allLoanMoney").val(allLoanMoney / 1000000);
+	$("#allLoanMoney").val(allLoanMoney);
  }
 
  /**
