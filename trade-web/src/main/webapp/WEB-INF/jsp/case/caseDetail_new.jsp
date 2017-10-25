@@ -346,6 +346,7 @@
 					<label class="col-sm-3 control-label">总层高：${toPropertyInfo.totalFloor }</label>
 				</div>
 				<div class="row">
+					<label class="col-sm-3 control-label">付款方式：${toCaseInfo.payType }</label>
 					<label class="col-sm-3 control-label">成交价：
 						<c:if test="${!empty caseInfo.realPrice }">${caseInfo.realPrice/1000 }&nbsp&nbsp万元</c:if>
 					</label>
@@ -394,14 +395,13 @@
 						<c:if test="${!empty caseInfo.landIncrementTax}"> ${caseInfo.landIncrementTax/10000}&nbsp&nbsp万元 </c:if>
 					</label>
 				</div>
-				<div class="row">
+				<%-- <div class="row">
 					<label class="col-sm-3 control-label">卖方剩余贷款：
 						<c:if test="${!empty caseInfo.uncloseMoney}"> ${caseInfo.uncloseMoney/10000}&nbsp&nbsp万元 </c:if>
 					</label>
-					<label class="col-sm-3 control-label">还款方式：</label>
 					<label class="col-sm-3 control-label">还款时间：${caseDetailVO.loanCloseCode}</label>
 					<label class="col-sm-3 control-label">还款银行：${caseInfo.upBank}</label>
-				</div>
+				</div> --%>
 				<div class="row">
 					<label class="col-sm-3 control-label">结案时间：${caseDetailVO.closeTime}</label>
 				</div>
@@ -415,7 +415,16 @@
 				</div>
 				<div class="row ">
 					<label class="col-sm-3 control-label">面签时间：${caseDetailVO.signDate }</label>
-					<label class="col-sm-3 control-label">递件时间：</label>
+					<label class="col-sm-3 control-label">补件时间：
+					买：
+					<c:if test="${!empty toMortgage.patchTimeBuy}">
+						<fmt:formatDate value="${toMortgage.patchTimeBuy }" type="date" pattern="yyyy-MM-dd"/>
+					</c:if>
+					/卖：
+					<c:if test="${!empty toMortgage.patchTimeSell}">
+						<fmt:formatDate value="${toMortgage.patchTimeSell }" type="date" pattern="yyyy-MM-dd"/>
+					</c:if>
+					</label>
 					<label class="col-sm-3 control-label">批贷时间：${caseDetailVO.apprDate }</label>
 				</div>
 				<div class="row ">
@@ -460,46 +469,28 @@
 
 			<div class="tab-pane fade" id="settings_info">
 				<div class="row ">
-					<label class="col-sm-3 control-label">付款方式：</label>
-					<label class="col-sm-3 control-label">贷款金额：</label>
-					<label class="col-sm-3 control-label">是否自办：</label>
+					<label class="col-sm-3 control-label">赎楼编号：${ransomInfo.ransomCode }</label>
+					<label class="col-sm-3 control-label">合作机构：${ransomInfo.comOrgName }</label>
+					<label class="col-sm-3 control-label">客户：${ransomInfo.borrowerName }</label>
 				</div>
 				<div class="row ">
-					<label class="col-sm-3 control-label">面签时间：</label>
-					<label class="col-sm-3 control-label">递件时间：</label>
-					<label class="col-sm-3 control-label">批贷时间：</label>
+					<label class="col-sm-3 control-label">经办人：${ransomInfo.handler }</label>
+					<label class="col-sm-3 control-label">放款金额：<c:if test="${!empty ransomInfo.repayMoney }">${ransomInfo.repayMoney/10000}&nbsp;&nbsp;万元</c:if>
+					</label>
+					<label class="col-sm-3 control-label">价格(利息)：${ransomInfo.interest}&nbsp; ‰。每天</label>
 				</div>
 				<div class="row ">
-					<label class="col-sm-3 control-label">公积金贷款金额：</label>
-					<label class="col-sm-3 control-label">公积金贷款年限：</label>
+					<label class="col-sm-3 control-label">面签时间：
+						<fmt:formatDate value="${ransomInfo.signTime }" type="date" pattern="yyyy-MM-dd"/>
+					</label>
+					<label class="col-sm-3 control-label">放款时间：
+						<fmt:formatDate value="${ransomInfo.repayTime }" type="date" pattern="yyyy-MM-dd"/>
+					</label>
+					<label class="col-sm-3 control-label">回款结清时间：
+						<fmt:formatDate value="${ransomInfo.paymentTime }" type="date" pattern="yyyy-MM-dd"/>
+					</label>
 				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">商贷贷款金额：</label>
-					<label class="col-sm-3 control-label">商贷贷款年限：</label>
-					<label class="col-sm-3 control-label">商贷利率折扣：</label>
-				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">放款方式：</label>
-					<label class="col-sm-3 control-label">送房产证时间：</label>
-					<label class="col-sm-3 control-label">送他项证时间：</label>
-				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">房贷套数：</label>
-					<label class="col-sm-3 control-label">放款时间：</label>
-				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">信贷员：</label>
-					<label class="col-sm-3 control-label">信贷员联系电话：</label>
-				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">评估公司：</label>
-				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">承办银行：</label>
-				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">支行名称：</label>
-				</div>
+				
 			</div>
 
 			<div class="tab-pane fade" id="fujian_info">

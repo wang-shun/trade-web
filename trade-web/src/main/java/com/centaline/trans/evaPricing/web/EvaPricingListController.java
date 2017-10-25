@@ -1,7 +1,5 @@
 package com.centaline.trans.evaPricing.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,20 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.alibaba.druid.util.StringUtils;
-import com.centaline.trans.common.enums.WorkFlowStatus;
-import com.centaline.trans.common.service.PropertyUtilsService;
-import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.service.ProcessInstanceService;
-import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
 
@@ -43,14 +31,6 @@ public class EvaPricingListController {
 	UamSessionService uamSessionService;
 	@Autowired
 	EvaPricingService evaPricingService;
-	@Autowired
-	private PropertyUtilsService propertyUtilsService;
-	@Autowired
-	private ProcessInstanceService processInstanceService;
-	@Autowired
-	private ToWorkFlowService toWorkFlowService;
-	@Autowired
-	private WorkFlowManager workFlowManager;
 	
 	/**
 	 * 初始化
@@ -85,43 +65,19 @@ public class EvaPricingListController {
 	 */
 	@RequestMapping(value="save")
 	public AjaxResponse<String> saveEvaPricing(ToEvaPricingVo ToEvaPricingVo, ServletRequest request){
-		//内勤申请，内勤回复
+		//申请，内勤回复
 		SessionUser user = uamSessionService.getSessionUser();
 		String userId = user.getId();
 		ToEvaPricingVo.setAriserId(userId);//申请人
 		AjaxResponse<String> result = new AjaxResponse<String>();
-		List<String> evaCodes = new ArrayList<String>();
+
 		try{
-			evaCodes = evaPricingService.insertEvaPricing(ToEvaPricingVo);
+			result = evaPricingService.insertEvaPricing(ToEvaPricingVo);
 		} catch(Exception e){
 			result.setSuccess(false);
 			result.setMessage(e.getMessage());
 			return result;
 		}
-		
-		if(evaCodes.size() > 0 ){
-			for(String evaCode : evaCodes){
-				//启动流程
-				String processDefId = propertyUtilsService.getProcessDfId("evaPricing_process");
-				Map<String, Object> vals = new HashMap<String,Object>();
-				//目前为内勤本身
-				vals.put("assistant", user.getUsername());
-				
-				StartProcessInstanceVo pVo = processInstanceService.startWorkFlowByDfId(processDefId, evaCode, vals);
-	
-				ToWorkFlow wf = new ToWorkFlow();
-				wf.setBusinessKey("evaPricing_process");
-				wf.setCaseCode(!StringUtils.isEmpty(ToEvaPricingVo.getCaseCode())?ToEvaPricingVo.getCaseCode():evaCode);
-				wf.setBizCode(evaCode);
-				wf.setProcessOwner(user.getId());
-				wf.setProcessDefinitionId(processDefId);
-				wf.setInstCode(pVo.getId());
-				wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
-				toWorkFlowService.insertSelective(wf);
-			}
-		}
-		
-		
 		return result;
 	}
 	
@@ -154,35 +110,18 @@ public class EvaPricingListController {
 	 * @return
 	 */
 	@RequestMapping("evaPricingDetailSubmit")
+	@ResponseBody
 	public AjaxResponse<String> evaPricingDetailSubmit(ToEvaPricingVo toEvaPricingVo){
 		AjaxResponse<String> result = new AjaxResponse<String>();
 		
 		try{
 			//询价更新
-			int count = evaPricingService.updateEvaPricingDetail(toEvaPricingVo.getPkid(), toEvaPricingVo.getIsValid(), toEvaPricingVo.getReason());
-			if(count ==0){
-				result.setSuccess(false);
-				return result;
-			}
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-			workFlowManager.submitTask(variables, toEvaPricingVo.getTaskId(), toEvaPricingVo.getProcessInstanceId(), null, null);
-			
-			//flow完结
-			ToWorkFlow flow=new ToWorkFlow();
-			flow.setBusinessKey("evaPricing_process");
-			flow.setCaseCode(!StringUtils.isEmpty(toEvaPricingVo.getCaseCode())?toEvaPricingVo.getCaseCode():toEvaPricingVo.getEvaCode());
-			flow.setBizCode(toEvaPricingVo.getEvaCode());
-			ToWorkFlow evaPricingFlow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(flow);
-			evaPricingFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
-			toWorkFlowService.updateByPrimaryKeySelective(evaPricingFlow);
+			result = evaPricingService.updateEvaPricingDetail(toEvaPricingVo);
 		} catch(Exception e){
 			result.setSuccess(false);
 			result.setMessage(e.getMessage());
 			return result;
 		}
-		
-		
-		
 		return result;
 	}
 	
@@ -210,27 +149,14 @@ public class EvaPricingListController {
 	 * @return
 	 */
 	@RequestMapping(value="evaPricingEnterSubmit")
+	@ResponseBody
 	public AjaxResponse<String> evaPricingEnterSubmit(ToEvaPricingVo toEvaPricingVo ,Model model, ServletRequest request){
 		AjaxResponse<String> result = new AjaxResponse<String>();
 		try{
 			evaPricingService.updateEvaPricing(toEvaPricingVo);
-		
-			if(toEvaPricingVo.getIsSubmit() == 1){
-				List<RestVariable> variables = new ArrayList<RestVariable>();
-				workFlowManager.submitTask(variables, toEvaPricingVo.getTaskId(), toEvaPricingVo.getProcessInstanceId(), null, null);
-				
-				//flow完结
-				ToWorkFlow flow=new ToWorkFlow();
-				flow.setBusinessKey("evaPricing_process");
-				flow.setCaseCode(!StringUtils.isEmpty(toEvaPricingVo.getCaseCode())?toEvaPricingVo.getCaseCode():toEvaPricingVo.getEvaCode());
-				flow.setBizCode(toEvaPricingVo.getEvaCode());
-				ToWorkFlow evaPricingFlow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(flow);
-				evaPricingFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
-				toWorkFlowService.updateByPrimaryKeySelective(evaPricingFlow);
-			}
 		} catch(Exception e){
 			result.setSuccess(false);
-			result.setMessage(e.getMessage());
+			result.setMessage("数据更新失败");
 			return result;
 		}
 		

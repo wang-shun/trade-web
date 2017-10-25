@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.centaline.trans.ransom.repository.RansomChangeMapper">
+	
+	<update id="updateRansomApplyInfo" parameterType="com.centaline.trans.ransom.entity.ToRansomApplyVo">
+		UPDATE sctrans.T_RA_APPLY 
+		SET 
+			LOANOFFICER = #{loanOfficer,jdbcType=VARCHAR},
+			APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		WHERE 
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateRansomSignInfo" parameterType="com.centaline.trans.ransom.entity.ToRansomSignVo">
+		UPDATE sctrans.T_RA_INTERVIEW
+		SET 
+			INTERVIEW_TIME = #{signTime,jdbcType=TIMESTAMP},
+			INTERVIEW_MONEY = #{signMoney,jdbcType=DECIMAL},
+			INTEREST = #{interest,jdbcType=VARCHAR},
+			IS_ENTRUST = #{isEntrust,jdbcType=VARCHAR},
+			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		WHERE
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="getPlanTimeInfo" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo" >
+		SELECT
+			 RANSOM_CODE ransomCode,
+			 PART_CODE partCode,
+			 EST_PART_TIME estPartTime
+		FROM 
+			sctrans.T_RA_PLAN  
+		WHERE 
+			 RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updatePayloanInfo" parameterType="com.centaline.trans.ransom.entity.ToRansomMortgageVo">
+		UPDATE sctrans.T_RA_REPAY 
+		SET 
+			REPAY_TIME = #{mortgageTime,jdbcType=TIMESTAMP},
+			REPAY_MONEY = #{repayLoanMoney,jdbcType=DECIMAL},
+			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP} 
+		WHERE 
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -26,6 +26,12 @@ public class ToRansomApplyVo {
 	 * 申请时间
 	 */
 	private Date applyTime;
+	
+	/**
+	 * 计划面签时间
+	 */
+	private Date planSignTime;
+	
 	/**
 	 * 申请机构code
 	 */
@@ -82,6 +88,14 @@ public class ToRansomApplyVo {
 
 	public void setApplyTime(Date applyTime) {
 		this.applyTime = applyTime;
+	}
+
+	public Date getPlanSignTime() {
+		return planSignTime;
+	}
+
+	public void setPlanSignTime(Date planSignTime) {
+		this.planSignTime = planSignTime;
 	}
 
 	public String getApplyOrgCode() {
