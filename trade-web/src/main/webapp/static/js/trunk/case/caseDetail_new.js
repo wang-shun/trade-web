@@ -321,7 +321,7 @@ function resetPlanModal(){
         timeout : 10000,
         data : params,
         success : function(data) {
-            if(data!=null&&data!=""&&data!=undefined) {
+            if (data != null && data != "" && data != undefined) {
                 var inHtml = "";
                 $("#plan-form").html(inHtml);
                 console.log(data);
@@ -359,9 +359,9 @@ function resetPlanModal(){
                     autoclose: true
                 });
             }else {
-                window.wxc.error("请先完成填写交易计划环节！",{"wxcOk":function () {
-                    $('#plan-modal-form').modal("hide");
-                }});
+                window.wxc.error("请先填写交易计划变更！",{"wxcOk":function () {
+                    ('#plan-modal-form').modal("hide");
+                }})
             }
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {
