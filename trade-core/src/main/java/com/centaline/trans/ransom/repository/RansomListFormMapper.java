@@ -210,4 +210,11 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	VRansomFinishTaskVo getRansomTaskInfo(String ransomCode);
+	
+	/**
+	 * 获取当前存在的任务
+	 * @param ransomCode
+	 * @return
+	 */
+	List<String> getRansomActTasks(String ransomCode);
 }
