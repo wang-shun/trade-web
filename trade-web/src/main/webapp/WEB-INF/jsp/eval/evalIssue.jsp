@@ -67,8 +67,7 @@
 			<h5>填写任务信息</h5>
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalIssueForm">
-				<input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcess.evaCode }">
-				<input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
+				<input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcessVo.evaCode }">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 流程引擎需要字段 -->
@@ -82,7 +81,7 @@
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 实际出具评估报告日期</label> 
 								<input class="input_type sign_right_two"  name="issueDate" id="issueDate" 
-								      value="<fmt:formatDate value="${toEvalReportProcess.issueDate}" type="date" pattern="yyyy-MM-dd"/>"/>
+								      value="<fmt:formatDate value='${toEvalReportProcessVo.issueDate}' type="date" pattern="yyyy-MM-dd"/>"/>
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>
@@ -92,7 +91,7 @@
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 收取报告日期</label> 
 								<input class="input_type sign_right_two" name="reportGetDate" id="reportGetDate"
-								      value="<fmt:formatDate value="${toEvalReportProcess.reportGetDate}" type="date" pattern="yyyy-MM-dd"/>"/>
+								      value="<fmt:formatDate value='${toEvalReportProcessVo.reportGetDate}' type="date" pattern="yyyy-MM-dd"/>"/>
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>
@@ -101,14 +100,14 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i> 评估价</label> 
-								<input class="input_type sign_right_two" name="evaPrice" id="evaPrice" value="${toEvalReportProcess.evaPrice / 10000}"></input>
+								<input class="input_type sign_right_two" name="evaPrice" id="evaPrice" value="${toEvalReportProcessVo.evaPrice / 10000}"></input>
 								<div class="input-group date_icon">
 									<span class="danwei">万</span>
 								</div>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i> 房龄</label> 
-								<input class="input_type sign_right_two" name="houseAgeIssue" id="houseAgeIssue" value="${toEvalReportProcess.houseAgeIssue}"></input>
+								<input class="input_type sign_right_two" name="houseAgeIssue" id="houseAgeIssue" value="${toEvalReportProcessVo.houseAgeIssue}"></input>
 								<div class="input-group date_icon">
 									<span class="danwei">年</span>
 								</div>
@@ -138,6 +137,7 @@
 							</c:if>
 							<c:if test="${source == 'evalDetails'}">
 							<input type="button" class="btn btn-success submit_save" value="保存">
+							<input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
 							</c:if>
 						    <a type="button" href="${ctx}/task/eval/evalTaskList" class="btn btn-grey ml5">关闭</a>
 					</p>
@@ -192,7 +192,13 @@
 					if (!checkForm()) {
 						return;
 					}
-					saveEvalIssue("${ctx}/task/eval/saveIssue","评估出具提交成功");
+					saveEvalIssue("${ctx}/task/eval/submitIssue","评估出具提交成功");
+				});
+				$('.submit_save').click(function() {
+					if (!checkForm()) {
+						return;
+					}
+					saveEvalUsed("${ctx}/task/eval/saveIssue","评估出具提交成功");
 				});
 		});
 		

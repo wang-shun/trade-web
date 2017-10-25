@@ -67,8 +67,7 @@
 			<h5>填写上报任务</h5>
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalReportForm">
-				    <input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcess.evaCode }">
-				    <input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
+				    <input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcessVo.evaCode }">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 流程引擎需要字段 -->
@@ -81,8 +80,8 @@
 						<li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left"> <i style="color:red">* </i> 评估上报日期</label> 
-								<input class="input_type sign_right_two"  value='' name="forwardDate" id="forwardDate" 
-								    value="<fmt:formatDate value="${toEvalReportProcess.forwardDate}" type="date" pattern="yyyy-MM-dd"/>"/>
+								<input class="input_type sign_right_two"  name="forwardDate" id="forwardDate" 
+								    value="<fmt:formatDate value='${toEvalReportProcessVo.forwardDate}' type="date" pattern="yyyy-MM-dd"/>"/>
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>
@@ -91,8 +90,8 @@
 						<li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left"> <i style="color:red">* </i> 预计出评估报告日期</label> 
-								<input class="input_type sign_right_two"  value='' name="toIssueDate" id="toIssueDate" 
-								    value="<fmt:formatDate value="${toEvalReportProcess.toIssueDate}" type="date" pattern="yyyy-MM-dd"/>" />
+								<input class="input_type sign_right_two"   name="toIssueDate" id="toIssueDate" 
+								    value="<fmt:formatDate value='${toEvalReportProcessVo.toIssueDate}' type="date" pattern="yyyy-MM-dd"/>" />
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>
@@ -104,6 +103,7 @@
 							<input type="button" class="btn btn-success submit_From" value="提交">
 							</c:if>
 							<c:if test="${source == 'evalDetails'}">
+							<input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
 							<input type="button" class="btn btn-success submit_save" value="保存">
 							</c:if>
 						    <a type="button" href="${ctx}/task/eval/evalTaskList" class="btn btn-grey ml5">关闭</a>
