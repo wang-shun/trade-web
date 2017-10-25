@@ -87,7 +87,7 @@
  		<form method="get" id="ransomApply" class="form_list">
 			<input type="hidden" id="caseCode" name="caseCode" value="${detailVo.caseCode }">
 			<input type="hidden" id="ransomCode" name="ransomCode" value="${detailVo.ransomCode }">
-			<input type="hidden" id="borrowName" name="${detailVo.borrowName }">
+			<input type="hidden" id="borrowName" name="borrowName" value="${detailVo.borrowName }">
 			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId }">
 			<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 			<div class="line">
@@ -312,11 +312,11 @@
 			}
 			
 			var jsonData = $('#ransomApply').serializeArray();
-			var object = {
+			/* var object = {
 					name:'borrowName',
-					value:$('#borrowName').text()
+					value:$('#borrowName').val()
 			}
-			jsonData.push(object);
+			jsonData.push(object); */
 			var url = "${ctx}/task/ransom/submitApply";
 	
 			$.ajax({

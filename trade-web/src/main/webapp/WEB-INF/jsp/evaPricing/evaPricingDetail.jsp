@@ -216,12 +216,12 @@ font-family:Microsoft Yahei;
 				data:jsonData,
 				dataType:'json',
 				success:function(data){
-					if(data){
+					if(data.success){
 						window.wxc.success("提交成功!",{"wxcOk":function(){
 							window.close();
 						}});
 					}else{
-						window.wxc.error("提交失败!"+error.message);
+						window.wxc.error("提交失败!"+data.message);
 					}
 					
 				},

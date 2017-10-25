@@ -23,7 +23,7 @@ public interface EvaPricingService {
 	 * 新增询价数据
 	 * @param vo
 	 */
-	List<String> insertEvaPricing(ToEvaPricingVo vo);
+	AjaxResponse<String> insertEvaPricing(ToEvaPricingVo vo);
 	
 	/**
 	 * 记录询价数据
@@ -79,6 +79,6 @@ public interface EvaPricingService {
 	 * @param reason
 	 * @return
 	 */
-	int updateEvaPricingDetail(Long pkid,String isValid,String reason);
+	AjaxResponse<String> updateEvaPricingDetail(ToEvaPricingVo toEvaPricingVo);
 	
 }
