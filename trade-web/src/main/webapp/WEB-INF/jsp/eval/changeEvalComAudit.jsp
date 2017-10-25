@@ -310,19 +310,15 @@ function save(b) {
             });
         },
         success: function(data){
-            $.unblockUI();
-            console.log(data);
-            if (b) {
-                if (data) {
-                    window.wxc.alert("提交成功"+data);
-                }
-                var ctx = $("#ctx").val();
-                window.location.href=ctx+ "/task/myTaskList";
-            }else{
-            	if (data.message) {
-                    window.wxc.alert("提交成功"+data);
-                }
-            }
+        	$.unblockUI();	
+			if(!data.success){
+				 window.wxc.alert(data.message);						 
+				 }else{					 
+				 window.wxc.success("保存成功。",{"wxcOk":function(){
+                     window.close();
+                     window.opener.callback();
+                 }});
+				 }
         },
         error:function(){
         	window.wxc.alert("提交信息出错。。");
@@ -378,6 +374,7 @@ function checkForm() {
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
 <!-- caseBaseInfo -->
 <link href="<c:url value='/css/common/subscribe.css' />" rel="stylesheet">

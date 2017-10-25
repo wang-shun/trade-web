@@ -135,6 +135,7 @@
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 										href="javascript:showLoanReqmentChgModal()">贷款需求选择</a>
 						</c:if>			
+
 						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVAPRICINGAPPLY">	
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 								href="javascript:evaPricingApply()">询价申请</a>
@@ -163,7 +164,12 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-	
+									<div class="row">
+									<div class="col-lg-12"
+										 style="margin-top: 9px; margin-left: 10px;">
+										<font color="red">*</font>注：已完成的环节不能做交易计划修改，灰色不能输入的框表示已完成环节
+									</div>
+									</div>
 									<button type="button" class="btn btn-primary"
 										onclick="javascript:openTransHistory()">变更记录</button>
 									<button type="button" class="btn btn-primary"
@@ -795,6 +801,5 @@
 		{{/each}}
 	</script>
 </content>
-
 </body>
 </html>

@@ -307,9 +307,9 @@ $('#batchappro').click(function() {
 	});
 	var ctx = $("#ctx").val();
 	
-	//window.wxc.success("确定批量审批吗？",{"wxcOk":function(){
+	window.wxc.confirm("确定发起批量审批吗？",{"wxcOk":function(){
 		window.location.href = ctx + "/eval/settle/majorAppro?caseCodes="+ids;
-	//}});
+	}});
 });
 
 /**

@@ -113,7 +113,7 @@ public class ToEvaInvoiceServiceImpl implements ToEvaInvoiceService {
 
 //	开启工作流
 	@Override
-	public int updateStartEvaInvoiceProcess(String caseCode,String warrantManager) throws Exception{
+	public int updateStartEvaInvoiceProcess(String caseCode,String evaCode,String warrantManager) throws Exception{
 		ToWorkFlow toWorkFlow = new ToWorkFlow();
 //    	开启工作流
     		Map<String,Object>vars=new HashMap<>();  
@@ -164,7 +164,7 @@ public class ToEvaInvoiceServiceImpl implements ToEvaInvoiceService {
 		toWorkFlow.setBusinessKey(WorkFlowEnum.EVAL_INVOICE.getCode());
 		toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
 		toWorkFlow.setCaseCode(caseCode);
-		toWorkFlow.setBizCode(caseCode);
+		toWorkFlow.setBizCode(evaCode);
 		toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());		
 		toWorkFlowService.insertSelective(toWorkFlow);
 		return toWorkFlowService.insertSelective(toWorkFlow);
