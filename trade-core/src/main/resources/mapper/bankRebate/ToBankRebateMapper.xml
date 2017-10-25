@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.centaline.trans.bankRebate.repository.ToBankRebateMapper" >
   <resultMap id="BaseResultMap" type="com.centaline.trans.bankRebate.entity.ToBankRebate" >
-    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <id column="PKID" property="pkid" jdbcType="CHAR" />
     <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
     <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
     <result column="GUARANTEE_COMPANY" property="guaranteeCompany" jdbcType="VARCHAR" />
@@ -12,21 +12,22 @@
     <result column="STATUS" property="status" jdbcType="NVARCHAR" />
     <result column="COMMENT" property="comment" jdbcType="VARCHAR" />
     <result column="GUARANTEE_COMP_ID" property="guaranteeCompId" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, APPLY_TIME, GUARANTEE_COMPANY, COMPANY_ACCOUNT, REBATE_TOTAL, APPLY_PERSON, 
-    STATUS, COMMENT, GUARANTEE_COMP_ID
+    STATUS, COMMENT, GUARANTEE_COMP_ID, DEPT_ID
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sctrans.T_TO_BANK_REBATE
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
   
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sctrans.T_TO_BANK_REBATE
-    where PKID = #{pkid,jdbcType=BIGINT}
+    where PKID = #{pkid,jdbcType=CHAR}
   </delete>
   
   <delete id="deleteByGuaranteeCompId" parameterType="java.lang.String" >
@@ -38,18 +39,16 @@
     insert into sctrans.T_TO_BANK_REBATE (PKID, CASE_CODE, APPLY_TIME, 
       GUARANTEE_COMPANY, COMPANY_ACCOUNT, REBATE_TOTAL, 
       APPLY_PERSON, STATUS, COMMENT, 
-      GUARANTEE_COMP_ID)
-    values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, 
+      GUARANTEE_COMP_ID, DEPT_ID)
+    values (newid(), #{caseCode,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP},
       #{guaranteeCompany,jdbcType=VARCHAR}, #{companyAccount,jdbcType=VARCHAR}, #{rebateTotal,jdbcType=DECIMAL}, 
       #{applyPerson,jdbcType=VARCHAR}, #{status,jdbcType=NVARCHAR}, #{comment,jdbcType=VARCHAR}, 
-      #{guaranteeCompId,jdbcType=VARCHAR})
+      #{guaranteeCompId,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebate" >
     insert into sctrans.T_TO_BANK_REBATE
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pkid != null" >
-        PKID,
-      </if>
+      PKID,
       <if test="caseCode != null" >
         CASE_CODE,
       </if>
@@ -77,11 +76,12 @@
       <if test="guaranteeCompId != null" >
         GUARANTEE_COMP_ID,
       </if>
+      <if test="deptId != null" >
+        DEPT_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pkid != null" >
-        #{pkid,jdbcType=BIGINT},
-      </if>
+       newid(),
       <if test="caseCode != null" >
         #{caseCode,jdbcType=VARCHAR},
       </if>
@@ -108,6 +108,9 @@
       </if>
       <if test="guaranteeCompId != null" >
         #{guaranteeCompId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -141,8 +144,11 @@
       <if test="guaranteeCompId != null" >
         GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR},
       </if>
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      </if>
     </set>
-    where PKID = #{pkid,jdbcType=BIGINT}
+    where PKID = #{pkid,jdbcType=CHAR}
   </update>
   
    <update id="updateByGuaranteeCompId" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebate" >
@@ -166,6 +172,9 @@
       <if test="comment != null" >
         COMMENT = #{comment,jdbcType=VARCHAR},
       </if>
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      </if>
     </set>
     where GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR}
   </update>
@@ -180,7 +189,17 @@
       APPLY_PERSON = #{applyPerson,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=NVARCHAR},
       COMMENT = #{comment,jdbcType=VARCHAR},
-      GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR}
-    where PKID = #{pkid,jdbcType=BIGINT}
+      GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR},
+      DEPT_ID = #{deptId,jdbcType=VARCHAR}
+    where PKID = #{pkid,jdbcType=CHAR}
   </update>
+
+  <select id="selectRebateByGuaranteeCompId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_BANK_REBATE
+    where GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR}
+  </select>
+
+
 </mapper>

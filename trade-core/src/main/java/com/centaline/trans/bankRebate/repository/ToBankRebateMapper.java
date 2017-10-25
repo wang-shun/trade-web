@@ -24,4 +24,11 @@ public interface ToBankRebateMapper {
     int deleteByGuaranteeCompId(String guaCompId);
     
     int updateByGuaranteeCompId(ToBankRebate toBankRebate);
+
+    /**
+     * 根据批次号 获取返利基本信息
+     * @param guaranteeCompId
+     * @return
+     */
+    ToBankRebate selectRebateByGuaranteeCompId(String guaranteeCompId);
 }

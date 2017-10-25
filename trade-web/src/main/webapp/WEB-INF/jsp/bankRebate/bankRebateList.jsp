@@ -47,31 +47,6 @@
 		<!-- 必须CSS -->
 		<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" />
 
-		<style type="text/css">
-			.radio label {
-				margin-left: 10px;
-			}
-
-			.radio.radio-inline>input {
-				margin-left: 10px;
-			}
-
-			.checkbox.checkbox-inline>div {
-				margin-left: 25px;
-			}
-
-			.checkbox.checkbox-inline>input {
-				margin-left: 20px;
-			}
-			.date-info .col-md-12 .form-group:not(first-child){margin-bottom:0}
-			.text-center{text-align:center;}
-			#searchButton{margin-right:5px;}
-			.table_content .big a{
-				min-width: 140px;
-				display: inline-block;
-			}
-			
-		</style>
 		<content tag="pagetitle">银行返利列表</content>
     </head>
 
@@ -93,13 +68,11 @@
 
 					<div class="row date-info clearfix">
 						<div class="form_content">
-							<div id="dateDiv_0" style="padding-left:45px;">
-								<label class="sign_left_two control-label">申请时间</label>
-								<div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
-									<input id="dtBegin_0" name="dtBegin" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期">
-									<span class="input-group-addon">到</span>
-									<input id="dtEnd_0" name="dtEnd" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
-								</div>
+							<label class="sign_left_two control-label">申请时间</label>
+							<div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
+								<input id="dtBegin_0" name="dtBegin" class="form-control data_style" type="text" value="" placeholder="起始日期">
+								<span class="input-group-addon">到</span>
+								<input id="dtEnd_0" name="dtEnd" class="form-control data_style" type="text" value="" placeholder="结束日期">
 							</div>
 						</div>
 					</div>
@@ -118,10 +91,7 @@
 							<div id="dateDiv_0" style="padding-left:45px;">
 								<label class="sign_left_two control-label">担保公司</label>
 								<div class="sign_right big_pad">
-									<select name="" class="form-control" id="finOrgId">
-										<option value="" selected="selected">请选择</option>
-										<option value="0">评估公司</option>
-									</select>
+									<aist:dict id="finOrgId" name="" display="select" dictType="bank_rebate_guarantee" clazz="form-control"/>
 								</div>
 							</div>
 						</div>
@@ -134,8 +104,10 @@
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;&nbsp;&nbsp;
 							<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<button id="addNewCase"  type="button" class="btn btn-success">新增</button>
+							<%--
 							<button id="importButton" type="button" class="btn btn-success" onclick="javascript:showExcelModal()">返利批量导入</button>
-							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:showExcelIn()">下载Excel模板</a>
+							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:showExcelIn()">下载导入模板</a>
+							--%>
 							<button id="deleteButton" onclick="javascript:deleteButton()" type="button" class="btn btn-success" disabled="true">删除</button>&nbsp;
 						</div>
 					</div>
@@ -175,93 +147,78 @@
 
         <!-- 返利导入 -->
         <div id="excel-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
-            <div class="modal-dialog" style="width:1200px">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <span>返利单批量导入》》</span>
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"
-                                aria-hidden="true">×
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                         </button>
-                        <h4 class="modal-title" id="excel-modal-title">
-                            请上传附件
+                        <h4 class="modal-title">
+							返利单批量导入
                         </h4>
                     </div>
                     <input type="hidden" id="ex_message" value="${ex_message}" />
                     <form id="excelInForm"  method="post" enctype="multipart/form-data">
                         <div class="modal-body">
-                            <div id="wrapper" class="Index">
-                                <div class="main-bonus">
-                                    <div class="bonus-wrap">
-                                        <div class="ibox-content bonus-m-con">
-                                            <div class="row">
-                                                <div class="col-lg-5 col-md-5">
-                                                    <label class="col-lg-3 col-md-3 control-label font_w">担保公司</label>
-                                                    <div class="col-lg-9 col-md-9">
-                                                        <select name="guaranteeCompany" class="form-control" id="finOrgId">
-                                                            <option value="" selected="selected">请选择</option>
-                                                            <option value="评估公司">评估公司</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5">
-                                                    <label class="col-lg-3 col-md-3 control-label font_w">返利总金额</label>
-                                                    <div class="col-lg-9 col-md-9">
-                                                        <input type="text" class="form-control" id="rebateMoney" name="rebateTotal">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5">
-                                                    <label class="col-lg-3 col-md-3 control-label font_w">公司账户</label>
-                                                    <div class="col-lg-9 col-md-9">
-                                                        <select name="companyAccount" class="form-control" id="companyAccount"  readonly="readonly">
-                                                            <option value="" selected="selected">请选择</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5">
-                                                    <label class="col-lg-3 col-md-3 control-label font_w">申请人</label>
-                                                    <div class="col-lg-9 col-md-9">
-                                                        <input type="text" class="form-control" id="applyer" name="applyPerson"  value="${user.realName}" readonly="readonly">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5">
-                                                    <label class="col-lg-3 col-md-3 control-label font_w">录入时间</label>
-                                                    <!--   <div id="datepicker_1" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd hh:mm:ss">
-                                                         <input id="dtBegin_0" name="applyTime" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="录入时间">
-                                                     </div> -->
-                                                    <div class="col-lg-9 col-md-9">
-                                                        <input type="text" class="form-control" id="applyTime" name="applyTime"  value="" readonly="readonly">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5">
-                                                    <label class="col-lg-3 col-md-3 control-label font_w">录入人所在部门</label>
-                                                    <div class="col-lg-9 col-md-9">
-                                                        <input type="text" class="form-control" id="applyOrg" name="applyOrg" value="${user.serviceDepName }" readonly="readonly">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5">
-                                                    <label class="col-lg-3 col-md-3 control-label font_w">备注</label>
-                                                    <textarea rows="2" cols="100" name="comment"></textarea>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <input type="hidden" id="inType" value="" />
-                            <label class="col-sm-7 control-label">
-                                <input id="file"  class="btn btn-default"  type="file" name="fileupload"  />
-                            </label>
-                            <div class="col-sm-3"></div>
+							<div class="form_list">
+								<div class="line">
+									<div class="form_content">
+										<label class="control-label sign_left_small">担保公司</label>
+										<aist:dict id="guaranteeCompany" name="toBankRebate.guaranteeCompany" display="select"
+												   dictType="bank_rebate_guarantee" clazz="select_control"/>
+									</div>
+									<div class="form_content">
+										<label class="control-label sign_left_small">返利总金额</label>
+										<input type="text" class="select_control sign_right_one" id="rebateMoney" name="toBankRebate.rebateTotal"
+											   value="">
+									</div>
+								</div>
+							</div>
+							<div class="form_list">
+								<div class="line">
+									<div class="form_content">
+										<label class="control-label sign_left_small">申请人</label>
+										<input type="text" class="select_control sign_right_one" id="applyer" name="toBankRebate.applyPerson"
+											   readonly="readonly" value="${user.realName}"/>
+									</div>
+									<div class="form_content">
+										<label class="control-label sign_left_small">录入人所在部门</label>
+										<input type="text" class="select_control sign_right_one" id="applyDepartment"
+											   readonly="readonly" value="${user.serviceDepName }"/>
+										<input type="hidden" name="toBankRebate.deptId" value="${user.serviceDepId}" />
+									</div>
+									<div class="form_content">
+										<label class="control-label sign_left_small">录入时间：</label>
+										<c:set var="now" value="<%=new java.util.Date()%>"/>
+										<input type="text" class="select_control sign_right_one" id="applyTime" name="applyTime"
+											   readonly="readonly"
+											   value="<fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+									</div>
+								</div>
+							</div>
+							<div class="form_list">
+								<div class="line">
+									<div class="form_content">
+										<label class="control-label sign_left_small">备注：</label>
+										<textarea class="select_control sign_right_one" style="width: 400px;" name="toBankRebate.comment" cols="100"></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="form_list">
+								<div class="line">
+									<div class="form_content">
+										<label class="control-label sign_left_small">附件：</label>
+										<input id="file"  class="btn btn-default"  type="file" name="fileupload"  />
+									</div>
+								</div>
+							</div>
                         </div>
-
                     </form>
                     <div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="javascript:excelIn()">
+							提交
+						</button>
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal">关闭
-                        </button>
-                        <button type="button" class="btn btn-primary" onclick="javascript:excelIn()">
-                            提交
                         </button>
                     </div>
 
@@ -309,21 +266,42 @@
 									<td>{{item.REBATE_TOTAL}}</td>
                                     <td>{{item.APPLY_PERSON}}</td>
 									<td>
-										{{if item.STATUS=='0'}}未提交{{/if}}
+										{{item.STATUS}}
 									</td>
 									<td class="center">
-										{{if item.STATUS=='0'}}
-											<a href="${ctx}/bankRebate/bankRebateUpdate?pkid={{item.pkId}}&&guaranteeCompId={{item.GUARANTEE_COMP_ID}}" target="_blank">修改</a>
-											<a href="${ctx}/eval/settle/evalEndUpdate?pkid={{item.pkId}}&&caseCode={{item.GUARANTEE_COMP_ID}}" target="_blank">提交</a>
+										{{if item.STATUS_OLD=='0'}}
+											<a href="${ctx}/bankRebate/bankRebateUpdate?guaranteeCompId={{item.GUARANTEE_COMP_ID}}" target="_blank">修改</a>
+											<%-- <a href="${ctx}/eval/settle/evalEndUpdate?pkid={{item.pkId}}&&caseCode={{item.GUARANTEE_COMP_ID}}" target="_blank">提交</a> --%>
 										{{/if}}
                         			</td>
                                 </tr>
 						{{/each}}
 	    </script>
 		<script>
+			$(function(){
+                $('#datepicker_0').datepicker({
+                    format : 'yyyy-mm-dd',
+                    weekStart : 1,
+                    autoclose : true,
+                    todayBtn : 'linked',
+                    language : 'zh-CN'
+                });
+                aist.sortWrapper({
+                    reloadGrid : searchMethod
+                });
+                var data = getQueryParams(1);
+                data.queryId = "bankRebate";
+                data.rows = 10;
+                data.page = 1;
+                aist.wrap(data);
+                reloadGrid(data);
+			})
 			function showExcelIn(){
 				window.location.href = ctx + "/bankRebate/exportMatrixLeaderSheet"
 			}
+            function callback() {
+                setTimeout('searchMethod(1)',1000);
+            }
 		</script>
 	    </content>
           </body>

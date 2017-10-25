@@ -1,30 +1,3 @@
-/*加载银行返利*/
-$(document).ready(function(){
-	
-	$('#datepicker_0').datepicker({
-			format : 'yyyy-mm-dd',
-			weekStart : 1,
-			autoclose : true,
-			todayBtn : 'linked',
-			language : 'zh-CN'
-		});
-	
-	aist.sortWrapper({
-		reloadGrid : searchMethod
-	});
-	
-	var data = getQueryParams(1);
-    // 初始化列表
-    data.queryId = "bankRebate";
-    data.rows = 10;
-    data.page = 1;
-    aist.wrap(data);
-	//添加排序------------
-	reloadGrid(data);
-	
-	
-});
-
 var ctx = $("#ctx").val();
 //清空
 $('#myCaseListCleanButton').click(function() {
@@ -40,17 +13,6 @@ var excelInUrl = "";
 function showExcelModal(){
 	excelInUrl = "/bankRebate/uploadExcelBankRebate?";
 	$('#excel-modal-form').modal("show");
-	
-	/*var toBankRebate = {
-			guaranteeCompany : $("#finOrgId").val(),
-			rebateTotal : $("#rebateMoney").val(),
-			companyAccount:$("#companyAccount").val(),
-			applyPerson:$("#applyer").val(),
-			applyTime:$("#applyTime").val()
-			//applyOrg:$("#applyOrg").val(),
-		};
-	toBankRebate = $.toJSON(toBankRebate);*/
-	
 }
 //Excel 导入
 function excelIn(){
@@ -85,34 +47,6 @@ function checkFileTypeExcel()
 $("#addNewCase").click(function(){
 	window.location.href = ctx + "/bankRebate/newBankRebate";
 });
-//提交按钮
-/*$("#submit").click(function(){
-	var evalAccountShowVO = {
-			caseCode : $("#caseCode").val(),
-			settleFee : $("#editEndCost").val(),
-			updateReason:$("#updateCause").val()
-		};
-	evalAccountShowVO = $.toJSON(evalAccountShowVO);
-   	  $.ajax({
-				cache:false,
-				async:true,
-				type:"POST",
-				dataType:"json",
-				contentType: "application/json; charset=utf-8" ,
-				url:ctx+"/eval/settle/evalEndUpdateFee",
-				data:evalAccountShowVO,
-				success:function(data){
-					if(data.success){
-						location.href = "../settle/evalWaitEndList"
-					}else{
-						window.wxc.error(data.message);
-					}
-				},
-				
-		}); 
-	  	
- });*/
-
 
 /*条件查询*/
 $('#searchButton').click(function(){
@@ -137,9 +71,14 @@ function getQueryParams(page){
 	var status = $("#caseStatus  option:selected").val().trim();
 
 	//申请日期
-	var closeTimeStart = $("#dtBegin_0").val();
-	var closeTimeEnd = $("#dtEnd_0").val();
-
+	var applyStart = $("#dtBegin_0").val();
+	var applyEnd = $("#dtEnd_0").val() ;
+	if(applyStart.length>0){
+        applyStart +=" 00:00:00.000";
+	}
+	if(applyEnd.length>0){
+        applyEnd+=" 23:59:59.999"
+	}
 	//申请人
 	var applyer = $('#applyer').val();
 
@@ -151,8 +90,8 @@ function getQueryParams(page){
 		search_status : status,
 		search_applyPerson : applyer,
 		search_guaranteeCompany : finOrgID,
-		argu_closeTimeStart : closeTimeStart,
-		argu_closeTimeEnd : closeTimeEnd,
+		argu_applyStart : applyStart,
+		argu_applyEnd : applyEnd,
 		queryId : 'bankRebate',
 		rows : 10,
 	    page : page
@@ -263,7 +202,6 @@ function _checkbox(){
 		$('#checkAllNot').prop('checked', false);
 	}
 }
-
 
 /**
  *批量删除

@@ -1,6 +1,7 @@
 package com.centaline.trans.bankRebate.service;
 
 import com.centaline.trans.bankRebate.entity.ToBankRebate;
+import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
 
 /**
  * 
@@ -8,19 +9,38 @@ import com.centaline.trans.bankRebate.entity.ToBankRebate;
  *
  */
 public interface ToBankRebateService {
-	int deleteByPrimaryKey(Long pkid);
 
-    int insert(ToBankRebate record);
 
-    int insertSelective(ToBankRebate record);
+	/**
+	 * 新增银行返利信息 带事务
+	 * @param info 银行返利申请信息
+	 * @return
+	 */
+	void insertBankRebate(ToBankRebateInfoVO info);
 
-    ToBankRebate selectByPrimaryKey(Long pkid);
+	/**
+	 * 根据批次号删除银行返利申请
+	 * @param guaCompIds
+	 */
+	void deleteByGuaranteeCompId(String[] guaCompIds);
 
-    int updateByPrimaryKeySelective(ToBankRebate record);
+	/**
+	 * 根据银行返利批次号获取银行返利申请信息
+	 * @param guaCompId 批次号
+	 * @return
+	 */
+	ToBankRebateInfoVO selectRebateByGuaranteeCompId(String guaCompId);
 
-    int updateByPrimaryKey(ToBankRebate record);
+	/**
+	 * 删除指定银行返利案件信息
+	 * @param pkid
+	 */
+	void deleteTobankRebateInfo(Long pkid);
 
-	int deleteByGuaranteeCompId(String guaCompId);
-
-	int updateByGuaranteeCompId(ToBankRebate toBankRebate);
+	/**
+	 * 修改银行返利信息 带事务
+	 * @param info 银行返利申请信息
+	 * @return
+	 */
+	void updateBankRebate(ToBankRebateInfoVO info);
 }
