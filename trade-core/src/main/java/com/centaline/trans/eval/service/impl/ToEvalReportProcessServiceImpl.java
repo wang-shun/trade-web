@@ -1,5 +1,6 @@
 package com.centaline.trans.eval.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,10 @@ public class ToEvalReportProcessServiceImpl implements ToEvalReportProcessServic
 	
 	@Override
 	public int insertEvaApply(ToEvalReportProcess toEvalReportProcess) {
+		BigDecimal ornginPrice = toEvalReportProcess.getOrnginPrice();
+		BigDecimal inquiryResult = toEvalReportProcess.getInquiryResult();
+		toEvalReportProcess.setOrnginPrice(ornginPrice.multiply(new BigDecimal(10000.00)));
+		toEvalReportProcess.setInquiryResult(inquiryResult.multiply(new BigDecimal(10000.00)));
 		toEvalReportProcess.setStatus(EvalStatusEnum.YSQ.getCode());
 		toEvalReportProcess.setEvaCode(getEvalCode("120000"));//TODO 这里暂时写死城市代码
 		toEvalReportProcess.setSysCreateTime(new Date());

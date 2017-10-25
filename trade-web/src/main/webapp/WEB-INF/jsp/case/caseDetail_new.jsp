@@ -51,6 +51,10 @@
 	.td_width{
 		width:130px;
 	}
+	.change_width_left{
+		width:250px;
+		margin-left:10px;
+	}
 </style>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <input type="hidden" id="ctx" value="${ctx}" />
@@ -114,7 +118,7 @@
 								<c:if test="${toCase.status != '30001004' and toCase.status != '30001005'}">
 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
-											href="javascript:showOrgCp()">责任人变更</a>
+											href="javascript:showChoose()">经办人变更</a>
 									</shiro:hasPermission>
 								</c:if>
 							</c:if>
@@ -131,12 +135,12 @@
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 										href="javascript:showLoanReqmentChgModal()">贷款需求选择</a>
 						</c:if>			
-						<shiro:hasPermission name="TRADE.CASE.EVAPRICINGAPPLY">	
+						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVAPRICINGAPPLY">	
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 								href="javascript:evaPricingApply()">询价申请</a>
 						</shiro:hasPermission>
 						<c:if test="${caseInfo.evalCode == null}">
-							<shiro:hasPermission name="TRADE.CASE.EVALAPPLY">
+							<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVALAPPLY">
 								<a role="button" class="btn btn-primary btn-xm btn-activity"
 									href="javascript:evalApply()">评估申请</a>
 						</shiro:hasPermission>
@@ -196,7 +200,32 @@
 								</div>
 							</div>
 						</div>
+					</div>
+					<!-- 贷款/过户选择modal -->	
+					<div id="lead-modal-choose" class="modal fade" role="dialog"
+						aria-labelledby="leading-modal-title" aria-hidden="true">
+						<div class="modal-dialog" style="width: 300px">
+							<div class="modal-content" style="width:300px;">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">×</button>
+									<h4 class="modal-title" id="leading-modal-title">
+										请选择变更权证</h4>
+								</div>
+								<div class="modal-body">
+									<!-- <div class="row" style="height: 200px;">
+										<div class="col-lg-12 ">
+											<h3 class="m-t-none m-b"></h3> -->
+											<!-- <div class="wrapper wrapper-content animated fadeInRight"> -->
+												<div id="leading-choose" class="row"></div>
+											<!-- </div> -->
+									<!-- 	</div>
+									</div> -->
+								</div>
+							</div>
+						</div>
 					</div>	
+					
 					<!-- loanRequirementChange -->
 					<div id="loanReqmentChg-modal-form" class="modal fade"
 						role="dialog" aria-labelledby="plan-modal-title"
@@ -317,6 +346,7 @@
 					<label class="col-sm-3 control-label">总层高：${toPropertyInfo.totalFloor }</label>
 				</div>
 				<div class="row">
+					<label class="col-sm-3 control-label">付款方式：${toCaseInfo.payType }</label>
 					<label class="col-sm-3 control-label">成交价：
 						<c:if test="${!empty caseInfo.realPrice }">${caseInfo.realPrice/1000 }&nbsp&nbsp万元</c:if>
 					</label>
@@ -365,14 +395,13 @@
 						<c:if test="${!empty caseInfo.landIncrementTax}"> ${caseInfo.landIncrementTax/10000}&nbsp&nbsp万元 </c:if>
 					</label>
 				</div>
-				<div class="row">
+				<%-- <div class="row">
 					<label class="col-sm-3 control-label">卖方剩余贷款：
 						<c:if test="${!empty caseInfo.uncloseMoney}"> ${caseInfo.uncloseMoney/10000}&nbsp&nbsp万元 </c:if>
 					</label>
-					<label class="col-sm-3 control-label">还款方式：</label>
 					<label class="col-sm-3 control-label">还款时间：${caseDetailVO.loanCloseCode}</label>
 					<label class="col-sm-3 control-label">还款银行：${caseInfo.upBank}</label>
-				</div>
+				</div> --%>
 				<div class="row">
 					<label class="col-sm-3 control-label">结案时间：${caseDetailVO.closeTime}</label>
 				</div>
@@ -386,7 +415,16 @@
 				</div>
 				<div class="row ">
 					<label class="col-sm-3 control-label">面签时间：${caseDetailVO.signDate }</label>
-					<label class="col-sm-3 control-label">递件时间：</label>
+					<label class="col-sm-3 control-label">补件时间：
+					买：
+					<c:if test="${!empty toMortgage.patchTimeBuy}">
+						<fmt:formatDate value="${toMortgage.patchTimeBuy }" type="date" pattern="yyyy-MM-dd"/>
+					</c:if>
+					/卖：
+					<c:if test="${!empty toMortgage.patchTimeSell}">
+						<fmt:formatDate value="${toMortgage.patchTimeSell }" type="date" pattern="yyyy-MM-dd"/>
+					</c:if>
+					</label>
 					<label class="col-sm-3 control-label">批贷时间：${caseDetailVO.apprDate }</label>
 				</div>
 				<div class="row ">
@@ -431,46 +469,28 @@
 
 			<div class="tab-pane fade" id="settings_info">
 				<div class="row ">
-					<label class="col-sm-3 control-label">付款方式：</label>
-					<label class="col-sm-3 control-label">贷款金额：</label>
-					<label class="col-sm-3 control-label">是否自办：</label>
+					<label class="col-sm-3 control-label">赎楼编号：${ransomInfo.ransomCode }</label>
+					<label class="col-sm-3 control-label">合作机构：${ransomInfo.comOrgName }</label>
+					<label class="col-sm-3 control-label">客户：${ransomInfo.borrowerName }</label>
 				</div>
 				<div class="row ">
-					<label class="col-sm-3 control-label">面签时间：</label>
-					<label class="col-sm-3 control-label">递件时间：</label>
-					<label class="col-sm-3 control-label">批贷时间：</label>
+					<label class="col-sm-3 control-label">经办人：${ransomInfo.handler }</label>
+					<label class="col-sm-3 control-label">放款金额：<c:if test="${!empty ransomInfo.repayMoney }">${ransomInfo.repayMoney/10000}&nbsp;&nbsp;万元</c:if>
+					</label>
+					<label class="col-sm-3 control-label">价格(利息)：${ransomInfo.interest}&nbsp; ‰。每天</label>
 				</div>
 				<div class="row ">
-					<label class="col-sm-3 control-label">公积金贷款金额：</label>
-					<label class="col-sm-3 control-label">公积金贷款年限：</label>
+					<label class="col-sm-3 control-label">面签时间：
+						<fmt:formatDate value="${ransomInfo.signTime }" type="date" pattern="yyyy-MM-dd"/>
+					</label>
+					<label class="col-sm-3 control-label">放款时间：
+						<fmt:formatDate value="${ransomInfo.repayTime }" type="date" pattern="yyyy-MM-dd"/>
+					</label>
+					<label class="col-sm-3 control-label">回款结清时间：
+						<fmt:formatDate value="${ransomInfo.paymentTime }" type="date" pattern="yyyy-MM-dd"/>
+					</label>
 				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">商贷贷款金额：</label>
-					<label class="col-sm-3 control-label">商贷贷款年限：</label>
-					<label class="col-sm-3 control-label">商贷利率折扣：</label>
-				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">放款方式：</label>
-					<label class="col-sm-3 control-label">送房产证时间：</label>
-					<label class="col-sm-3 control-label">送他项证时间：</label>
-				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">房贷套数：</label>
-					<label class="col-sm-3 control-label">放款时间：</label>
-				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">信贷员：</label>
-					<label class="col-sm-3 control-label">信贷员联系电话：</label>
-				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">评估公司：</label>
-				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">承办银行：</label>
-				</div>
-				<div class="row ">
-					<label class="col-sm-3 control-label">支行名称：</label>
-				</div>
+				
 			</div>
 
 			<div class="tab-pane fade" id="fujian_info">

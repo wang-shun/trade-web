@@ -3,6 +3,7 @@ package com.centaline.trans.evaPricing.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,9 +13,18 @@ import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.repository.ToCaseMapper;
+import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.service.PropertyUtilsService;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.repository.ToEvaPricingMapper;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
@@ -44,6 +54,14 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 	UamUserOrgService uamUserOrgService;
 	@Autowired
 	private ToEvalReportProcessMapper toEvalReportProcessMapper;
+	@Autowired
+	private PropertyUtilsService propertyUtilsService;
+	@Autowired
+	private ProcessInstanceService processInstanceService;
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private UamSessionService uamSessionService;
 
 	@Override
 	public ToEvaPricingVo findEvaPricingDetailByPKID(Long PKID,String evaCode) {
@@ -57,8 +75,12 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 		return vo;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<String> insertEvaPricing(ToEvaPricingVo vo) {
+	public AjaxResponse<String> insertEvaPricing(ToEvaPricingVo vo) {
+		SessionUser user = uamSessionService.getSessionUser();
+		String userId = user.getId();
+		
 		BigDecimal evaPrice = vo.getTotalPrice();
 		BigDecimal originPrice = vo.getOriginPrice();
 		
@@ -96,7 +118,34 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 			
 			evaCodes.add(evaCode);
 		}
-		return evaCodes;
+		
+		if(evaCodes.size() > 0 ){
+			for(String evaCode : evaCodes){
+				//启动流程
+				String processDefId = propertyUtilsService.getProcessDfId("evaPricing_process");
+				Map<String, Object> vals = new HashMap<String,Object>();
+				//目前为内勤本身
+				//查询内勤
+//				vals.put("assistant", user.getUsername());
+				List<User>  assiss = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(user.getServiceDepId(),TransJobs.TNQZL.getCode());
+				if(assiss == null || assiss.size() <= 0){
+					throw new BusinessException("查无内勤助理!");
+				}
+				vals.put("assistant", assiss.get(0).getUsername());
+				StartProcessInstanceVo pVo = processInstanceService.startWorkFlowByDfId(processDefId, evaCode, vals);
+	
+				ToWorkFlow wf = new ToWorkFlow();
+				wf.setBusinessKey("evaPricing_process");
+				wf.setCaseCode(!StringUtils.isEmpty(vo.getCaseCode())?vo.getCaseCode():evaCode);
+				wf.setBizCode(evaCode);
+				wf.setProcessOwner(userId);
+				wf.setProcessDefinitionId(processDefId);
+				wf.setInstCode(pVo.getId());
+				wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
+				toWorkFlowService.insertSelective(wf);
+			}
+		}
+		return AjaxResponse.success();
 	}
 
 	@Override

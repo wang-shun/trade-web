@@ -4,7 +4,7 @@
  */
 
 $(document).ready(function(){
-	reloadWorkInfo();	
+	//reloadWorkInfo();	
 	$('#save').click(function() {
 		//window.location.href = ctx + "/ransomList/ransom/ransomDetail";
 		if(checkForm()){
@@ -12,42 +12,10 @@ $(document).ready(function(){
 		}
 	});
 	$("#close").click(function(){
-		if (confirm("您确定要关闭本页吗？")) { 
-			window.open('', '_self').close(); 
-		}
+		window.wxc.confirm("您确定要关闭吗？",{"wxcOk":function(){}});
 	});
 });
 
-/**
- * 加载完成环节信息
- * @returns
- */
-function reloadWorkInfo(){
-	var url = ctx + '/quickGrid/findPage';
-	var ransomCode = $('#ransomCode').val();
-	var data = {};
-	data.page = 1;
-	data.rows = 10;
-	data.queryId = "queryRansomLink";
-	data.argu_ransomCode = ransomCode;
-//	debugger;
-	debugger;
-	$.ajax({
-		async: true,
-		type:'POST',
-		url:url,
-		dataType:'json',
-		data:data,
-		beforeSend: function () {  
-        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-        },  
-        success: function(data){
-        	$.unblockUI();
-        	var html = template('template_workInfo',data);
-      		$('#work-info').html(html);
-        }
-	});	
-}
 
 	/**
 	 * 赎楼单修改

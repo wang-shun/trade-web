@@ -139,8 +139,8 @@ text-decoration: underline !important;
 				<div class="clearfix">
 					<div class="form_content">
 					      <select id="inTextType"   class="form-control select_control sign_left"  onchange="intextTypeChange()">
-							<option value="1" selected>产权地址</option>
-							<option value="0" >客户姓名</option>
+							<option value="0" selected>产权地址</option>
+							<option value="1" >客户姓名</option>
 							<option value="2">经纪人姓名</option>
 							<option value="3">所属分行</option>
 							<option value="4">案件编号</option>

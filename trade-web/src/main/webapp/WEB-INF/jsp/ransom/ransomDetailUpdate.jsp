@@ -121,14 +121,91 @@
 			<hr>
 			<table class="table table_blue table-striped table-bordered table-hover ">
 				<thead>
-					<tr>
+					<tr class="center">
 						<td>已完成环节</td>
 						<td>完成日期</td>
 						<td>执行人</td>
 						<td>操作</td>
 					</tr>
 				</thead>
-				<tbody id="work-info"></tbody>
+				<tbody id="work-info">
+					<c:if test="${taskVo.applyCode != null }">
+						<tr>
+							<td>申请</td>
+							<td><fmt:formatDate value='${taskVo.applyTime }' pattern='yyyy-MM-dd'/></td>
+							<td>${taskVo.doUser }</td>
+							<td><a href="javascript:void(0)">前往修改</a></td>
+						</tr>
+					</c:if>
+					<c:if test="${taskVo.signCode != null }">
+						<tr>
+							<td>面签</td>
+							<td><fmt:formatDate value='${taskVo.signTime }' pattern='yyyy-MM-dd'/></td>
+							<td>${taskVo.doUser }</td>
+							<td><a href="javascript:void(0)">前往修改</a></td>
+						</tr>
+					</c:if>
+					<c:if test="${count == 0 }">
+						<c:if test="${taskVo.payOneCode != null }">
+							<tr>
+								<td>陪同还贷</td>
+								<td><fmt:formatDate value='${taskVo.payOneTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskVo.doUser }</td>
+								<td><a href="javascript:void(0)">前往修改</a></td>
+							</tr>
+						</c:if>
+						<c:if test="${taskVo.cancelOneCode != null }">
+							<tr>
+								<td>注销抵押</td>
+								<td><fmt:formatDate value='${taskVo.cancelOneTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskVo.doUser }</td>
+								<td><a href="javascript:void(0)">前往修改</a></td>
+							</tr>
+						</c:if>
+						<c:if test="${taskVo.receiveOneCode != null }">
+							<tr>
+								<td>领取产证</td>
+								<td><fmt:formatDate value='${taskVo.receiveOneTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskVo.doUser }</td>
+								<td><a href="javascript:void(0)">前往修改</a></td>
+							</tr>
+						</c:if>	
+					</c:if>
+					<c:if test="${count == 1 }">
+						<c:if test="${taskVo.payTwoCode != null }">
+							<tr>
+								<td>陪同还贷</td>
+								<td><fmt:formatDate value='${taskVo.payTwoTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskVo.doUser }</td>
+								<td><a href="javascript:void(0)">前往修改</a></td>
+							</tr>
+						</c:if>
+						<c:if test="${taskVo.cancelTwoCode != null }">
+							<tr>
+								<td>注销抵押</td>
+								<td><fmt:formatDate value='${taskVo.cancelTwoeTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskVo.doUser }</td>
+								<td><a href="javascript:void(0)">前往修改</a></td>
+							</tr>
+						</c:if>
+						<c:if test="${taskVo.receiveTwoCode != null }">
+							<tr>
+								<td>领取产证</td>
+								<td><fmt:formatDate value='${taskVo.receiveTwoTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskVo.doUser }</td>
+								<td><a href="javascript:void(0)">前往修改</a></td>
+							</tr>
+						</c:if>	
+					</c:if>
+					<c:if test="${taskVo.paymentCode != null }">
+						<tr>
+							<td>回款结清</td>
+							<td><fmt:formatDate value='${taskVo.paymentTime }' pattern='yyyy-MM-dd'/></td>
+							<td>${taskVo.doUser }</td>
+							<td><a href="javascript:void(0)">前往修改</a></td>
+						</tr>
+					</c:if>
+				</tbody>
 			</table>
 			<div>
 				<div class="text-center">
@@ -143,79 +220,13 @@
 	<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
 	<script src="<c:url value='/js/ransom/ransomDetailUpdate.js'/>" type="text/javascript"></script>
 	<script>
-    $(document).ready(function () {
-        $('.input-daterange').datepicker({
-            keyboardNavigation: false,
-            forceParse: false,
-            autoclose: true
-        });
-    });
+	    $(document).ready(function () {
+	        $('.input-daterange').datepicker({
+	            keyboardNavigation: false,
+	            forceParse: false,
+	            autoclose: true
+	        });
+	    });
 </script>
-	<script id="template_workInfo" type= "text/html">
-		{{each rows as item index}}
-			{{if test="item.RANSOM_PROPERTY != '' || item.RANSOM_PROPERTY != null"}}
-			<tr>
-				<td>
-					<p>
-		 				{{item.RANSOM_PROPERTY_NAME}}
-					</p>
-				</td>
-				<td>
-					<p>
-						{{if item.RANSOM_PROPERTY == "DEAL"}}
-		 					{{item.DEAL_TIME}}
-						{{/if}}
-
-						{{if item.RANSOM_PROPERTY == "APPLY"}}
-		 					{{item.APPLY_TIME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "SIGN"}}
-		 					{{item.INTERVIEW_TIME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "PAYLOAN_ONE"}}
-		 					{{item.REPAY_TIME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "PAYLOAN_TWO"}}
-		 					{{item.REPAY_TIME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "CANCELDIYA_ONE"}}
-		 					{{item.CANCEL_TIME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "CANCELDIYA_TWO"}}
-		 					{{item.CANCEL_TIME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "RECEIVE_ONE"}}
-		 					{{item.REDEEM_TIME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "RECEIVE_TWO"}}
-		 					{{item.REDEEM_TIME}}
-						{{/if}}
-						
-						{{if item.RANSOM_PROPERTY == "PAYCLEAR"}}
-		 					{{item.PAYMENT_TIME}}
-						{{/if}}
-					</p>
-				</td>
-				<td>
-					<p>
-						{{item.UPDATE_USER}}
-					</p>
-				</td>
-				<td>
-					<p>
-						<a href="javascript:void(0)">前往修改</a>
-					</p>
-				</td>
-			</tr>
-			{{/if}}
-		{{/each}}
-	</script>
 </body>
 </html>
