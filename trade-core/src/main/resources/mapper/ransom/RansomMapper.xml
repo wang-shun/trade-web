@@ -181,7 +181,7 @@
 	</select>
 	<select id="getRansomCaseInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
 		SELECT
-			act.TASK_DEF_KEY_ taskProperty,
+			<!-- act.TASK_DEF_KEY_ taskProperty, -->
 			cas.RANSOM_CODE ransomCode,
 			cas.CASE_CODE caseCode,
 			cas.RANSOM_STATUS ransomStatus,
@@ -203,9 +203,9 @@
 		FROM
 			sctrans.T_RA_CASE cas
 			LEFT JOIN sctrans.T_TO_WORKFLOW tw ON cas.RANSOM_CODE =tw.BIZ_CODE
-			LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE = act.PROC_INST_ID_
+			<!-- LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE = act.PROC_INST_ID_ -->
 		WHERE
-			tw.BIZ_CODE = #{ransomCode,jdbcType=VARCHAR}
+			cas.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
 	<select id="getRansomPlanByCode" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo">

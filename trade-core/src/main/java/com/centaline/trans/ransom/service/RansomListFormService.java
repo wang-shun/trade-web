@@ -1,16 +1,11 @@
 package com.centaline.trans.ransom.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.ransom.entity.ToRansomApplyVo;
-import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
-import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
-import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
-import com.centaline.trans.ransom.entity.ToRansomPermitVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
-import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
 import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
