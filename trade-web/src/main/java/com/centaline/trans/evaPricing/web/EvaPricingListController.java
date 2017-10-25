@@ -1,7 +1,6 @@
 package com.centaline.trans.evaPricing.web;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +25,6 @@ import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
-import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
 
@@ -85,26 +83,27 @@ public class EvaPricingListController {
 	 */
 	@RequestMapping(value="save")
 	public AjaxResponse<String> saveEvaPricing(ToEvaPricingVo ToEvaPricingVo, ServletRequest request){
-		//内勤申请，内勤回复
+		//申请，内勤回复
 		SessionUser user = uamSessionService.getSessionUser();
 		String userId = user.getId();
 		ToEvaPricingVo.setAriserId(userId);//申请人
 		AjaxResponse<String> result = new AjaxResponse<String>();
-		List<String> evaCodes = new ArrayList<String>();
+
 		try{
-			evaCodes = evaPricingService.insertEvaPricing(ToEvaPricingVo);
+			result = evaPricingService.insertEvaPricing(ToEvaPricingVo);
 		} catch(Exception e){
 			result.setSuccess(false);
 			result.setMessage(e.getMessage());
 			return result;
 		}
 		
-		if(evaCodes.size() > 0 ){
+		/*if(evaCodes.size() > 0 ){
 			for(String evaCode : evaCodes){
 				//启动流程
 				String processDefId = propertyUtilsService.getProcessDfId("evaPricing_process");
 				Map<String, Object> vals = new HashMap<String,Object>();
 				//目前为内勤本身
+				//查询内勤
 				vals.put("assistant", user.getUsername());
 				
 				StartProcessInstanceVo pVo = processInstanceService.startWorkFlowByDfId(processDefId, evaCode, vals);
@@ -119,7 +118,7 @@ public class EvaPricingListController {
 				wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
 				toWorkFlowService.insertSelective(wf);
 			}
-		}
+		}*/
 		
 		
 		return result;
