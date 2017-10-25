@@ -8,7 +8,6 @@
         display: none;
     }
 </style>
-
 <nav id="navbar-example" class="navbar navbar-default navbar-static"
 		role="navigation">
 		<div id="isFixed" style="position: relative; top: 0px;"
@@ -148,12 +147,12 @@
 										</dd>
 										<dt>过户权证</dt>
 										<dd>
-											<a id="warrant" v-cloak id="warr" data-toggle="popover" data-placement="right"
+											<a v-cloak id="warr" data-toggle="popover" data-placement="right"
 												data-content="">{{warName}} </a>
 										</dd>
 										<dt>内勤</dt>
 										<dd>												
-											<a id="loan" v-cloak id="as" data-toggle="popover" data-placement="right"
+											<a v-cloak id="as" data-toggle="popover" data-placement="right"
 												data-content="">{{asName}} </a>
 												
 										</dd>

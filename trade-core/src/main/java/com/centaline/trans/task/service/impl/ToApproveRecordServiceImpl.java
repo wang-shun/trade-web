@@ -54,5 +54,10 @@ public class ToApproveRecordServiceImpl implements ToApproveRecordService {
 	public void deleteByCaseCodeAndType(String caseCode, String approveType) {
 		toApproveRecordMapper.deleteByCaseCodeAndType(caseCode,approveType);
 	}
+	
+	@Override
+	public List<ToApproveRecord> queryToApproveRecords(ToApproveRecord toApproveRecord) {
+		return toApproveRecordMapper.findApproveRecordByRecords(toApproveRecord);
+	}
 
 }

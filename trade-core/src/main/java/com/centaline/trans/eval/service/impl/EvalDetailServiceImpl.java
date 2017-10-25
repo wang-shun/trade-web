@@ -1,5 +1,6 @@
 package com.centaline.trans.eval.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,11 +24,13 @@ import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.service.ToCaseParticipantService;
+import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
+import com.centaline.trans.common.service.TgServItemAndProcessorService;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.TaskVo;
@@ -91,6 +96,10 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 	ToEvaCommPersonAmountService toEvaCommPersonAmountService;
 	@Autowired
 	UamUserOrgService uamUserOrgService;
+	@Autowired
+	TgServItemAndProcessorService tgServItemAndProcessorService;
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Override
 	public void evalDetail(HttpServletRequest request, String caseCode, String evaCode) {
@@ -120,6 +129,9 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				//ToEvaCommissionChange toEvaCommissionChange = toEvaCommissionChangeService.selectByCaseCode(caseCode);
 				EvalChangeCommVO toEvaCommPersonAmount = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
 				
+	             //获取本人做的任务
+				List<TaskVo> taskVoList = getMyEvalTasks(evaCode,caseCode,toWorkFlow);
+				
 				request.setAttribute("toEvaPricingVo", toEvaPricingVo);
 				request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 				request.setAttribute("toEvaInvoiceVo", toEvaInvoice);
@@ -132,20 +144,39 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				request.setAttribute("evaCode", evaCode);
 				request.setAttribute("queryOrg", userOrgId);
 				request.setAttribute("toWorkFlow", toWorkFlow);
+				request.setAttribute("myTasks", taskVoList);
+				
 	}
 	
 	
+	/**
+	 * @param evaCode
+	 */
+	private List<TaskVo>  getMyEvalTasks(String evaCode,String caseCode,ToWorkFlow toWorkFlow) {
+		List<TaskVo> tasks = new ArrayList<TaskVo>();
+		if (toWorkFlow != null) {
+			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByBizCode(evaCode,toWorkFlow.getBusinessKey());
+			for(String insCode : insCodeList) {
+				TaskHistoricQuery tq = new TaskHistoricQuery();
+				tq.setProcessInstanceId(insCode);
+				tq.setFinished(true);
+				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());
+				tasks.addAll(taskList1);
+			}
+		}
+		return tasks;
+	}
+
+
 	@Override
-	public AjaxResponse<?> evalReject(HttpServletRequest request, String caseCode, String evaCode) {
+	public AjaxResponse<?> submitEvalReject(HttpServletRequest request, String caseCode, String evaCode) {
+		 AjaxResponse<String> response = new AjaxResponse<String>();
+		try{
 		        SessionUser currentUser = uamSessionService.getSessionUser();
 		        //删除评估流程
 				List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(evaCode);
 				for (TaskVo task : taskVos) {
-						try{
-							workFlowManager.deleteProcess(task.getInstCode());
-						}catch(WorkFlowException e){
-		                    throw e;					
-						}
+					  workFlowManager.deleteProcess(task.getInstCode());
 				}
 				
 				//更新评估单状态为驳回
@@ -180,8 +211,13 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				    message.setSenderId(senderId);
 				    uamMessageService.sendMessageByDist(message,uamUserOrgService.getUserByUsername(toCaseParticipantList.get(0).getUserName()).getId());
 				}
+		}catch(Exception e){
+			   response.setSuccess(false);
+			   response.setMessage(e.getMessage());
+			   logger.error("评估驳回失败！",e);
+		}
 				
-		 return new AjaxResponse<>(true);
+		 return response;
 	}
     
 	@Override
@@ -206,5 +242,14 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 			return new AjaxResponse<>(false);
 		}
 	}
-
+	
+	private List<TaskVo> taskDuplicateRemoval(List<TaskVo> oList) {
+		Map<String, TaskVo> hashMap = new HashMap<>();
+	
+		for (TaskVo taskVo : oList) {
+			hashMap.put(taskVo.getTaskDefinitionKey(), taskVo);
+		}
+		List<TaskVo> result = new ArrayList<>(hashMap.values());
+		return result;
+	}
 }

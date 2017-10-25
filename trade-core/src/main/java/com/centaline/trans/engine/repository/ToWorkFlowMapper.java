@@ -2,6 +2,8 @@ package com.centaline.trans.engine.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.centaline.trans.common.MyBatisRepository;
 import com.centaline.trans.engine.entity.ToOutTimeTask;
 import com.centaline.trans.engine.entity.ToWorkFlow;
@@ -55,5 +57,13 @@ public interface ToWorkFlowMapper {
 	int updateWorkFlowByInstCode(ToWorkFlow record);
 	
 	void deleteWorkFlowByInstCode(String instCode);
+	
+	/**
+	 * 根据条件查询任务
+	 * @param bizCode
+	 * @param businessKey
+	 * @return
+	 */
+	List<String> queryAllInstCodesByBizCode(@Param("bizCode")String bizCode,@Param("businessKey")String businessKey);
 	
 }

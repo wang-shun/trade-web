@@ -84,10 +84,10 @@ public class MortgageSelectController {
 			return AjaxResponse.fail("当前流程版本下不允许变更贷款需求！");
 		}
 
-		if (!"2".equals(vo.getMortageService())) {//只有纯公积金才需要选择合作人否则都是取当前用户
+		//if (!"2".equals(vo.getMortageService())) {//只有纯公积金才需要选择合作人否则都是取当前用户
 			SessionUser u = uamSessionService.getSessionUser();
 			vo.setPartner(u.getId());
-		}
+		//}
 		
 		try {
 			mortgageSelectService.loanRequirementChange(vo);

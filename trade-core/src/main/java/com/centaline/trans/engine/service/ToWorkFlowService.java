@@ -20,6 +20,8 @@ public interface ToWorkFlowService {
 	List<String> queryInstCodesByCaseCode(String caseCode);
 	
 	List<String> queryAllInstCodesByCaseCode(String caseCode);
+	
+	List<String> queryAllInstCodesByBizCode(String bizCode,String businessKey);
 
 	ToWorkFlow queryToWorkFlowByCaseCodeBusKey(ToWorkFlow record);
 	

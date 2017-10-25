@@ -354,6 +354,13 @@
     from sctrans.T_TO_WORKFLOW  with(nolock)
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
   </select>
+  <select id="queryAllInstCodesByBizCode" resultType="java.lang.String" parameterType="java.lang.String" >
+    select 
+    INST_CODE
+    from sctrans.T_TO_WORKFLOW  with(nolock)
+    where BIZ_CODE = #{bizCode,jdbcType=VARCHAR}
+    AND BUSINESS_KEY = #{businessKey,jdbcType=VARCHAR}
+  </select>
   <select id="queryToWorkFlowByCaseCodeBusKey" resultMap="BaseResultMap" parameterType="com.centaline.trans.engine.entity.ToWorkFlow" >
     select 
     <include refid="Base_Column_List" />
