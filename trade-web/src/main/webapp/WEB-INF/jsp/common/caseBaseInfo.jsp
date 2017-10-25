@@ -148,12 +148,12 @@
 										</dd>
 										<dt>过户权证</dt>
 										<dd>
-											<a v-cloak id="warr" data-toggle="popover" data-placement="right"
+											<a id="warrant" v-cloak id="warr" data-toggle="popover" data-placement="right"
 												data-content="">{{warName}} </a>
 										</dd>
 										<dt>内勤</dt>
 										<dd>												
-											<a v-cloak id="as" data-toggle="popover" data-placement="right"
+											<a id="loan" v-cloak id="as" data-toggle="popover" data-placement="right"
 												data-content="">{{asName}} </a>
 												
 										</dd>

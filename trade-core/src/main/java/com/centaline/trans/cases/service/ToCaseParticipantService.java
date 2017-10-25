@@ -28,7 +28,7 @@ public interface ToCaseParticipantService {
 	 * @return
 	 * @author wbcaiyx
 	 */
-	int updateCaseParticipant(String caseCode, User user ,User manager);
+	int updateCaseParticipant(String caseCode, User user ,User manager,String chooseType);
 
 	/**
 	 * 获取案件主办人信息
