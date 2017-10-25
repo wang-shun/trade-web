@@ -55,7 +55,8 @@ display: none;}
                                 <div class="col-lg-5 col-md-5">
                                         <label class="col-lg-3 col-md-3 control-label font_w">评估公司</label>
                                         <div class="col-lg-9 col-md-9">
-                                            <input type="text" class="form-control" id="evalCompany" name="evalCompany">
+                                        	<select  id="finOrgId" class="form-control select_control">
+											</select>
                                         </div>
                                 </div>
                                  <div class="col-lg-5 col-md-5">
@@ -71,14 +72,13 @@ display: none;}
 													<option value="5">未审批</option>
 													  <option value="6">已驳回</option>-->
 												</select>
-                                          <!--  <aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one_case"/> -->
                                         </div>
                                 </div>
 
                             </div>
-                            <div >
-	             		 		<div id="select_div_1" >
-				           			<div >
+                            <div class="row date-info clearfix" >
+	             		 		<div id="select_div_1" class="form_content" >
+				           			<div class="sign_right big_pad" >
 		                                 <select id="inTextType" data-placeholder="搜索条件设定" onchange="intextTypeChange()">
 												<option value="1" selected>产证地址</option>
 												<option value="0">案件编号</option>
@@ -87,20 +87,18 @@ display: none;}
 										 </select>
 										 <input id="inTextVal" type="text"  style="width:320px;overflow-x:visible;overflow-y:visible;">
 										 <button id="searchButton" type="button" class="btn btn-success">查询</button>
-										<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" id="exportBtn">导出</a>&nbsp;&nbsp;&nbsp;&nbsp;
-										<button type="button" class="btn btn-success" onclick="javascript:reNewAccount()"  id="renewbatEnd"  disabled="true">重新结算</button>&nbsp;&nbsp;&nbsp;
+						<button type="button" class="btn btn-success" onclick="javascript:reNewAccount()"  id="renewbatEnd"  disabled="true">重新结算</button>
 				                     </div>
-				                    
+				                    &nbsp;&nbsp;&nbsp;
 								 </div>
-	                   			
 							</div>
                           
                         </div>
                     </div>
                  </div>
                  
-                    <div class="bonus-table">
-                        <table>
+                    <div class="table_content">
+                        <table class="table table_blue table-striped table-bordered table-hover ">
                             <thead>
                                 <tr>
                                 	<th ><input type="checkbox" id="checkAllNot" class="i-checks"/></th>
@@ -157,7 +155,8 @@ display: none;}
         <script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
         <script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
         <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
-		<!-- 评估待结算  -->
+        <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+		<!-- 评估无需结算  -->
         <script	src="<c:url value='/js/trunk/eval/settle/noEndEvalList.js' />"></script>
         <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 		<script id="evalNoListTemp" type= "text/html">
@@ -172,9 +171,9 @@ display: none;}
 					<input type='hidden' name='pkId' value="{{item.pkid}}"/>
 					<input type='hidden' name='case_code' value="{{item.caseCode}}"/>
 				</td>
-									<td>{{item.caseCode}}</td>
+									<td class="demo-left">{{item.caseCode}}</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
-                                    <td>{{item.FIN_ORG_ID}}</td>
+                                    <td>{{item.EVA_COMPANY}}</td>
                                     <td>
 										<p>申：{{item.APPLY_DATE}}</p>
 										<p>出：{{item.ISSUE_DATE}}</p>

@@ -327,7 +327,7 @@ $('#batchappro').click(function() {
  		displayColomn.push('caseCode');
  		displayColomn.push('PROPERTY_ADDR');
  		displayColomn.push('FEE_CHANGE_REASON');
-		displayColomn.push('FIN_ORG_ID');
+		displayColomn.push('EVA_COMPANY');
 		displayColomn.push('APPLY_DATE');
  		displayColomn.push('ISSUE_DATE');
  		displayColomn.push('EVAL_REAL_CHARGES');
