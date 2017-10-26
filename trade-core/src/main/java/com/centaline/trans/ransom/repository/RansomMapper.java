@@ -125,12 +125,6 @@ public interface RansomMapper {
 	 */
 	int updateCaseStatusComplete(String ransomCode);
 	
-	/**
-	 * 根据caseCode查询案件信息
-	 * @param caseCode
-	 * @return
-	 */
-	ToRansomCaseVo getRansomCaseInfoByCaseCode(String caseCode);
 	
 	/**
 	 * 根据caseCode查询尾款信息

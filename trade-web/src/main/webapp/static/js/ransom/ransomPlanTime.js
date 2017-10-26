@@ -5,10 +5,145 @@ $(document).ready(function() {
 		autoclose : true
 	});
 	var ctx = "${ctx}";
-	
-	
+	debugger;
+	getPlanDate();
 
 });
+
+function getPlanDate(){
+	debugger;
+	var ransomCode = $('#ransomCode').val();
+	var url = "/ransomList/getPlanTimeDate?ransomCode="+ransomCode;
+	$.ajax({
+		async: true,
+		type:'POST',
+		url:ctx+url,
+		dataType:'json',
+		success:function(data){
+			if(data.success){						
+				var obj = data.content;
+				//所有排列
+				if(obj.allPartCodes){
+					var html = "";
+					//已存在的计划时间数据
+					var planTimes = obj.planTimes;
+					$.each(obj.allPartCodes,function(i,pn){
+						var estTime = null;
+						var remark = null;
+						$.each(planTimes,function(pi,plan){
+							if(plan.partCode == pn.partCode){
+								estTime = plan.estPartTime;
+								remark = plan.remark;
+								return false;
+							}
+						});
+						html += '<div class="line"><div class="form_content">';
+						html += '<label class="control-label sign_left_small select_style mend_select" id="partCode5">'+pn.name+'时间</label>';
+						html += '<div class="input-group sign-right dataleft input-daterange"  >';
+						html += '<input id="'+pn.partCode+'T" name="'+pn.partCode+'time"  class="form-control data_style" type="text" value="'+estTime+'"></div></div>';
+						html += '<div class="form_content"><label class="control-label sign_left_small">变更理由</label>';
+						html += '<input id="'+pn.partCode+'M" name="'+pn.partCode+'remark"  class="teamcode input_type" value="'+remark+'" />';
+						html += '</div></div>';
+					});
+					$('#dataBody').empty();
+					$('#dataBody').html(html);
+					
+					//disbale判断
+					var status = obj.ransomStatus;
+					if(status =='3' || status == '4'){
+						$.each(obj.allPartCodes,function(i,pn){
+							$("#"+pn.partCode+"T").prop("disabled", "disabled");
+							$("#"+pn.partCode+"M").prop("disabled", "disabled");
+						});
+					}else if(status == '2'){
+						 if(obj.diyaNum == 1){
+							 //一抵申请无需操作
+							 if(obj.partOrders[0].partCode !='APPLY'){
+								 //当前任务顺序下标
+								 var index = obj.partOrders[0].order;
+								 //每个下标小于当前任务环节下标，disabled
+								 $.each(obj.allPartCodes,function(i,pn){
+									 if(pn.order < index){
+										 $("#"+pn.partCode+"T").prop("disabled", "disabled");
+										 $("#"+pn.partCode+"M").prop("disabled", "disabled"); 										 
+									 }
+								 });
+							 }
+						 }else if(obj.diyaNum == 2 ){
+							 //只有一个任务:申请，面签，回款结清,小于的都disabled
+							if(obj.partOrders.length == 1){
+								var index = obj.partOrders[0].order;
+								if(obj.partOrders[0].partCode == 'SIGN' || obj.partOrders[0].partCode == 'PAYCLEAR'){
+									$.each(obj.allPartCodes,function(i,pn){
+										 if(pn.order < index){
+											 $("#"+pn.partCode+"T").prop("disabled", "disabled");
+											 $("#"+pn.partCode+"M").prop("disabled", "disabled"); 										 
+										 }
+									 });
+								}
+								//2个任务
+							} else if(obj.partOrders.length == 2){
+								var partCode = obj.partOrders[0].partCode;
+								//TODO 判断第一个任务是否是二抵，是，另一个即一抵，不是，这个则是一抵，另一个是二抵
+								var flag = false;
+								$.each(obj.twoPartCodes,function(i,tp){
+									if(tp.partCode == partCode){
+										flag = true;
+										return false;
+									}
+								});
+								//第一个任务是二抵，操作
+								if(flag){
+									if(partCode != 'PAYLOAN_TWO'){
+										//第一个任务下标
+										var index = obj.partOrders[0].order;
+										$.each(obj.twoPartCodes,function(i,pn){
+											 if(pn.order < index){
+												 $("#"+pn.partCode+"T").prop("disabled", "disabled");
+												 $("#"+pn.partCode+"M").prop("disabled", "disabled"); 										 
+											 }
+										 });	
+									}
+									var partCode1 = obj.partOrders[1].partCode;
+									//第二个任务下标
+									var index = obj.partOrders[1].order;
+									$.each(obj.onePartCodes,function(i,pn){
+										 if(pn.order < index){
+											 $("#"+pn.partCode+"T").prop("disabled", "disabled");
+											 $("#"+pn.partCode+"M").prop("disabled", "disabled"); 										 
+										 }
+									 });
+								}else{//第一个任务不是二抵，操作
+									var index = obj.partOrders[0].order;
+									$.each(obj.onePartCodes,function(i,pn){
+										 if(pn.order < index){
+											 $("#"+pn.partCode+"T").prop("disabled", "disabled");
+											 $("#"+pn.partCode+"M").prop("disabled", "disabled"); 										 
+										 }
+									 });
+									//第二个任务下标
+									var index2 = obj.partOrders[1].order;
+									var partCode2 = obj.partOrders[1].partCode;
+									if(partCode2 != 'PAYLOAN_TWO'){
+										$.each(obj.twoPartCodes,function(i,pn){
+											 if(pn.order < index2){
+												 $("#"+pn.partCode+"T").prop("disabled", "disabled");
+												 $("#"+pn.partCode+"M").prop("disabled", "disabled"); 										 
+											 }
+										 });
+									}
+								}
+							}
+						 }
+					}
+				}	
+			}
+		},
+		error : function(error) {
+			window.wxc.error(error);
+		}
+	});
+}
 
 /**
  * 加载赎楼变更时间信息,已完成环节控件不可更改

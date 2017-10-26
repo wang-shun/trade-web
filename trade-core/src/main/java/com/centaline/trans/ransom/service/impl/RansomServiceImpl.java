@@ -557,12 +557,6 @@ public class RansomServiceImpl implements RansomService{
 		return paymentVo;
 	}
 
-	@Override
-	public ToRansomCaseVo getRansomCaseInfo(String caseCode) {
-		ToRansomCaseVo caseVo = new ToRansomCaseVo();
-		caseVo = ransomMapper.getRansomCaseInfoByCaseCode(caseCode);
-		return caseVo;
-	}
 
 	@Override
 	public ToRansomCaseVo getRansomInfoByRansomCode(String ransomCode) {

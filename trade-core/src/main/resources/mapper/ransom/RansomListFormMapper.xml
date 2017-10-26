@@ -43,14 +43,14 @@
 		sctrans.T_RA_PLAN 
 	WHERE 
 		RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} 
-			AND 
+			<!-- AND 
 				PART_CODE IN(
 					SELECT 
 						PART_CODE 
 							FROM sctrans.T_RA_PLAN 
 								WHERE 
 									RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
-							)
+							) -->
 	</select>
 	
 	<select id="getPartCode" resultType="java.lang.String">
@@ -529,5 +529,17 @@
 
 		WHERE
 			tw.BIZ_CODE= #{ransomCode,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getRansomStatusAndPart" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
+		SELECT 
+			rac.RANSOM_CODE ransomCode,
+			rac.RANSOM_STATUS ransomStatus,
+			act.TASK_DEF_KEY_ partCode
+		FROM sctrans.T_RA_CASE rac
+			LEFT JOIN sctrans.T_TO_WORKFLOW tw ON rac.RANSOM_CODE = tw.BIZ_CODE
+			LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE =act.PROC_INST_ID_
+		WHERE 
+			rac.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 </mapper>
