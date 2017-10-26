@@ -169,11 +169,11 @@
                                     <td>{{item.caseCode}}
 									</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
-                                    <td>{{item.FIN_ORG_ID}}</td>
+                                    <td>{{item.EVA_COMPANY}}</td>
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
-                                    <td>备注信息</td>
-									<td>贷款权证</td>
+                                    <td></td>
+									<td></td>
 				<td class="center">
 					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.caseCode}}" 
 					 
