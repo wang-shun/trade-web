@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
@@ -59,7 +60,7 @@ public interface RansomService {
 	 * @param submitVo
 	 * @return
 	 */
-	public int updateRansomSign(ToRansomSubmitVo submitVo,int count);
+	public int updateRansomSign(ToRansomSubmitVo submitVo);
 	
 	/**
 	 * 陪同还贷数据更新
@@ -75,7 +76,7 @@ public interface RansomService {
 	 * @param cancelDiyaTime
 	 * @return
 	 */
-	public int updateRansomCancel(String ransomCode,Integer diyaType,Date cancelTime);
+	public int updateRansomCancel(ToRansomSubmitVo submitVo);
 	
 	/**
 	 * 领取产证实际时间更新
@@ -84,7 +85,7 @@ public interface RansomService {
 	 * @param permitTime
 	 * @return
 	 */
-	public int updateRansomPermit(String ransomCode, Integer diyaType, Date permitTime);
+	public int updateRansomPermit(ToRansomSubmitVo submitVo);
 	
 	/**
 	 * 回款结清实际时间更新
@@ -92,7 +93,7 @@ public interface RansomService {
 	 * @param paymentTime
 	 * @return
 	 */
-	public int updateRansomPayment(String ransomCode, Date paymentTime);
+	public int updateRansomPayment(ToRansomSubmitVo submitVo);
 	
 	/**
 	 * 赎楼案件信息查询
@@ -186,11 +187,11 @@ public interface RansomService {
 	boolean deleteRansomApplyByRansomCode(String ransomCode);
 	
 	/**
-	 * 更新赎楼案件为在途
+	 * 更新赎楼案件为在途,启动流程
 	 * @param ransomCode
 	 * @return
 	 */
-	int updateRansomIsStart(String ransomCode);
+	StartProcessInstanceVo updateRansomIsStart(String ransomCode,String caseCode);
 	
 	/**
 	 * 查询存在一抵的时间计划信息
