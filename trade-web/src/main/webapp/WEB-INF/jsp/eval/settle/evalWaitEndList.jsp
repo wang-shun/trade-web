@@ -16,7 +16,8 @@
 		<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
-		<%-- <link href="<c:url value='/css/style.css' />" rel="stylesheet"> --%>
+		<link href="<c:url value='/css/style.css' />" rel="stylesheet">
+		<link href="<c:url value='/css/transcss/award/bonus.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
@@ -72,11 +73,15 @@
 				display: inline-block;
 			}
 			.table thead tr th {
-	   		 background-color: #4bccec;
-		    font-size: 14px;
-		    font-weight: normal;
-		    color: #fff;
-		}
+				 background-color: #4bccec;
+				font-size: 14px;
+				font-weight: normal;
+				color: #fff;
+			}
+			.apply_box{
+				padding: 30px 15px 50px 15px;
+				border-radius: 0px;
+			}
 		</style>
 		<content tag="pagetitle">评估结算案件列表</content>
     </head>
@@ -206,24 +211,27 @@
                                  <div class="modal-content animated fadeIn apply_box">
                                  	<%-- <input type="hidden" value="${caseCode}" id="caseCode" /> --%>
                                      <form action="" class="form_list clearfix" style="margin-bottom: 20px;">
-                                         <div class="form_tan">
+                                         <div class="line">
                                              <label class="control-label">
                                             		     请输入无需结算原因：
                                              </label>
                                              <input class="input_type input_extent" placeholder="请输入" value="" style="width:320px" id="noEndCause"/>
                                          </div>
-                                         <div class="form_tan tan_space">
-                                             <button type="button" class="btn btn-success" id="noEnd2" onclick="">
-                                                 <i class="icon iconfont"></i>&nbsp;确认
-                                             </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                             <button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
+                                         <div class="line">
+											 <div class="add_btn text-center" style="margin:30px 126px;">
+												 <button type="button" class="btn btn-success" id="noEnd2" onclick="">
+													 <i class="icon iconfont"></i>&nbsp;确认
+												 </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												 <button type="button" class="btn btn-default"
+														 data-dismiss="modal">关闭</button>
+											 </div>
                  						</div>
                                      </form>
                                      <button type="button" class="close close_blue" data-dismiss="modal"><i class="iconfont icon_rong"> &#xe60a; </i></button>
 								 </div>
 							</div>
 				</div>
+
 
     <input type="hidden" id="ctx" value="${ctx}" />
         <!-- End page wrapper-->
@@ -270,17 +278,14 @@
 									</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
 									<td>{{item.FEE_CHANGE_REASON}}</td>
-                                    <td>
-						 				{{item.EVA_COMPANY}}
-										
-									</td>
+                                    <td>{{item.EVA_COMPANY}}</td>
 									<td>
 										<p>评：{{item.APPLY_DATE}}</p>
 										<p>出：{{item.ISSUE_DATE}}</p>
 									</td>
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
-                                    <td></td>
+                                    <td>小张</td>
 									<td>{{item.REJECT_CAUSE}}</td>
 									
 									<td>
