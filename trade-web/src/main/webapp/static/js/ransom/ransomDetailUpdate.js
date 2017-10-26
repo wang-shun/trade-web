@@ -12,11 +12,7 @@ $(document).ready(function(){
 			submitUpdateRansom();
 		}
 	});
-	$("#close").click(function(){
-		window.wxc.confirm("您确定要关闭吗？",{"wxcOk":function(){}});
-	});
 });
-
 
 	/**
 	 * 赎楼单修改

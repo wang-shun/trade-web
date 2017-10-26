@@ -52,8 +52,8 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <input type="hidden" id="ctx" value="${ctx}" />
-<input type="hidden" value="${tailinsVo.caseCode }" id="caseCode">
-<input type="hidden" value="${tailinsVo.ransomCode }" id="ransomCode">
+<input type="hidden" value="${caseVo.caseCode }" id="caseCode">
+<input type="hidden" value="${caseVo.ransomCode }" id="ransomCode">
 <input type="hidden" value="${count }" id="count">
 <div class="wrapper wrapper-content animated fadeInUp">
 	<form method="post" class="form-horizontal" >
@@ -145,7 +145,7 @@
 							<td>申请</td>
 							<td><fmt:formatDate value='${taskVo.applyTime }' pattern='yyyy-MM-dd'/></td>
 							<td>${taskVo.doUser }</td>
-							<td><a href="${ctx}/ransomChange/applyView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.applyCode }">前往修改</a></td>
+							<td><a href="${ctx}/ransomChange/applyView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.applyCode }">前往修改</a></td>
 						</tr>
 					</c:if>
 					<c:if test="${taskVo.signCode != null }">
@@ -153,7 +153,7 @@
 							<td>面签</td>
 							<td><fmt:formatDate value='${taskVo.signTime }' pattern='yyyy-MM-dd'/></td>
 							<td>${taskVo.doUser }</td>
-							<td><a href="${ctx}/ransomChange/signView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }">前往修改</a></td>
+							<td><a href="${ctx}/ransomChange/signView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }">前往修改</a></td>
 						</tr>
 					</c:if>
 					<c:if test="${count == 0 }">
@@ -162,7 +162,7 @@
 								<td>陪同还贷</td>
 								<td><fmt:formatDate value='${taskVo.payOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.cancelOneCode != null }">
@@ -170,7 +170,7 @@
 								<td>注销抵押</td>
 								<td><fmt:formatDate value='${taskVo.cancelOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.receiveOneCode != null }">
@@ -178,7 +178,7 @@
 								<td>领取产证</td>
 								<td><fmt:formatDate value='${taskVo.receiveOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>	
 					</c:if>
@@ -188,7 +188,7 @@
 								<td>陪同还贷(一抵)</td>
 								<td><fmt:formatDate value='${taskVo.payOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=0">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=0">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.payTwoCode != null }">
@@ -196,7 +196,7 @@
 								<td>陪同还贷(二抵)</td>
 								<td><fmt:formatDate value='${taskVo.payTwoTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.cancelOneCode != null }">
@@ -204,7 +204,7 @@
 								<td>注销抵押(一抵)</td>
 								<td><fmt:formatDate value='${taskVo.cancelOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=0">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=0">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.cancelTwoCode != null }">
@@ -212,7 +212,7 @@
 								<td>注销抵押(二抵)</td>
 								<td><fmt:formatDate value='${taskVo.cancelTwoeTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.receiveOneCode != null }">
@@ -220,7 +220,7 @@
 								<td>领取产证(一抵)</td>
 								<td><fmt:formatDate value='${taskVo.receiveOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="javascript:void(0)">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=0">前往修改</a></td>
 							</tr>
 						</c:if>	
 						<c:if test="${taskVo.receiveTwoCode != null }">
@@ -228,7 +228,7 @@
 								<td>领取产证(二抵)</td>
 								<td><fmt:formatDate value='${taskVo.receiveTwoTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="javascript:void(0)">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>	
 					</c:if>
@@ -237,7 +237,7 @@
 							<td>回款结清</td>
 							<td><fmt:formatDate value='${taskVo.paymentTime }' pattern='yyyy-MM-dd'/></td>
 							<td>${taskVo.doUser }</td>
-							<td><a href="${ctx}/ransomChange/paymentView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.applyCode }">前往修改</a></td>
+							<td><a href="${ctx}/ransomChange/paymentView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.applyCode }">前往修改</a></td>
 						</tr>
 					</c:if>
 				</tbody>
@@ -245,7 +245,7 @@
 			<div>
 				<div class="text-center">
 					<a class='btn btn-primary ' href="javascript:void(0)" id="save">保存</a>
-					<a class='btn btn-primary ' href="javascript:void(0)" id="close">关闭</a>
+					<a class='btn btn-primary ' id="close" onclick="window.close()" >关闭</a>
 				</div>
 			</div>
 		</div>
