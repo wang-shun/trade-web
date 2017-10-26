@@ -24,7 +24,6 @@ import com.aist.uam.template.remote.UamTemplateService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.service.ToCaseParticipantService;
-import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.MsgCatagoryEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -106,7 +105,11 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				SessionUser user = uamSessionService.getSessionUser();
 				String userOrgId = user.getServiceDepId();
 				
-				ToEvaPricingVo toEvaPricingVo = evaPricingService.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
+				List<ToEvaPricingVo> toEvaPricingVoList = evaPricingService.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
+				//这里暂取询价默认一条，后期有修改需求
+				if(toEvaPricingVoList!=null && toEvaPricingVoList.size()>0){
+					request.setAttribute("toEvaPricingVo", toEvaPricingVoList.get(0));
+				}
 				ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(evaCode);//查询
 				
 				// 工作流
@@ -119,26 +122,23 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByEvaCode(evaCode);
 				//评估返利报告审批信息
 				ToEvalRebate toEvalRebate = toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
-				
 				//评估结算信息
 				ToEvalSettle toEvalSettle = toEvalSettleService.findToCaseByCaseCode(caseCode);
-				
 				//评估退费信息
 				ToEvaRefund toEvaRefund = toEvaRefundMapper.selectByEvaCode(caseCode);
 				//调佣审批信息
 				//ToEvaCommissionChange toEvaCommissionChange = toEvaCommissionChangeService.selectByCaseCode(caseCode);
-				EvalChangeCommVO toEvaCommPersonAmount = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
+				EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
 				
 	             //获取本人做的任务
 				List<TaskVo> taskVoList = getMyEvalTasks(evaCode,caseCode,toWorkFlow);
 				
-				request.setAttribute("toEvaPricingVo", toEvaPricingVo);
 				request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 				request.setAttribute("toEvaInvoiceVo", toEvaInvoice);
 				request.setAttribute("toEvalRebateVo", toEvalRebate);
 				request.setAttribute("toEvalSettleVo", toEvalSettle);
 				request.setAttribute("toEvaRefundVo", toEvaRefund);
-				request.setAttribute("toEvaCommissionChange", toEvaCommPersonAmount);
+				request.setAttribute("evalChangeCommVO", evalChangeCommVO);
 				
 				request.setAttribute("caseCode", caseCode);
 				request.setAttribute("evaCode", evaCode);
