@@ -31,7 +31,7 @@
 		<searchCondition>
             <condition field="b.FIN_ORG_ID" name="finOrgID" label="评估公司" searchType="Like" showType="" showCallback="" defaultValue=""/>
             <condition field="a.STATUS" name="status" label="案件状态" searchType="eq" showType="" showCallback="" defaultValue=""/>
-            <condition field="a.SETTLE_TIME" name="settleNotReason" label="结算时间" searchType="gt" showType="" showCallback="" defaultValue=""/>
+            <condition field="a.SETTLE_TIME" name="settleTime" label="结算时间" searchType="GTE" showType="" showCallback="" defaultValue=""/>
             <condition field="b.EVA_CODE" name="evalCode" label="评估单编号" searchType="Like" showType="" showCallback="" defaultValue=""/>
             <condition field="a.CASE_CODE" name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="c.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="Like" showType="" showCallback="" defaultValue=""/>

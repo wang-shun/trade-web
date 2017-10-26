@@ -510,7 +510,16 @@ public class RansomServiceImpl implements RansomService{
 	@Override
 	public ToRansomMortgageVo getMortgageInfoByRansomCode(String ransomCode) {
 		ToRansomMortgageVo mortgageVo = new ToRansomMortgageVo();
-		mortgageVo = ransomMapper.getMortgageInfoByRansomCode(ransomCode);
+		List<ToRansomMortgageVo> mortgageVoList = ransomMapper.getMortgageInfoByRansomCode(ransomCode);
+		
+		int count = ransomMapper.queryErdi(ransomCode);
+		
+		if(count == 0) {
+			mortgageVo = mortgageVoList.get(0);
+		}else {
+			
+		}
+		
 		return mortgageVo;
 	}
 	

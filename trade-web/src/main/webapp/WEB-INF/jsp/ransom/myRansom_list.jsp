@@ -143,7 +143,7 @@ text-decoration: underline !important;
                   <div class="form_content">
 						<label class="sign_left_one control-label">赎楼状态</label>
 						<div class="sign_right big_pad">
-                               <aist:dict id="ransomStatus" name="ransom_Status" display="select" dictType="RANSOM_STATUS" clazz="select_control sign_right_one_case"/>
+                               <aist:dict id="ransomStatus" name="ransom_Status" display="select" dictType="RANSOM_STATUS"  clazz="select_control sign_right_one_case"/>
                          </div>
 					</div>
 					<div class="form_content">

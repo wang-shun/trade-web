@@ -199,6 +199,7 @@
         <script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
         <script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
         <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+         <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
         <!-- 评估无需结算  -->
         <script	src="<c:url value='/js/trunk/eval/settle/noEndEvalList.js' />"></script>
         
@@ -223,7 +224,7 @@
 										<p>申：{{item.APPLY_DATE}}</p>
 										<p>出：{{item.ISSUE_DATE}}</p>
 									</td>
-									<td>出具评估报告</td>
+									<td></td>
                                     <td>{{item.SETTLE_NOT_REASON}}</td>
                                 </tr>
 						{{/each}}

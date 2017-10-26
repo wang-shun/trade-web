@@ -47,6 +47,7 @@ import com.centaline.trans.ransom.service.AddRansomFormService;
 import com.centaline.trans.ransom.service.RansomListFormService;
 import com.centaline.trans.ransom.service.RansomService;
 import com.centaline.trans.ransom.vo.ToRansomLinkVo;
+import com.centaline.trans.ransom.vo.ToRansomMoneyVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
 import com.centaline.trans.ransom.vo.VRansomChangeUserVo;
 import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
@@ -244,6 +245,7 @@ public class RansomListController {
 			//案件详情信息
 			ToRansomCaseVo caseVo = ransomService.getRansomCaseInfo(ransomCode);
 			Map<String,String> actTasks =  ransomService.getActTasks(ransomCode);
+			ToRansomMoneyVo moneyVo = ransomListFormService.getRansomDetailMoneyInfo(ransomCode);
 			//新建赎楼单即是受理状态
 			List<ToRansomTailinsVo> ransomTailinsVo = ransomService.getTailinsInfoByRansomCode(ransomCode);
 			ToRansomTailinsVo tailinsVo = ransomTailinsVo.get(0);
@@ -252,11 +254,11 @@ public class RansomListController {
 			//面签
 			ToRansomSignVo signVo = ransomService.getInterviewInfo(ransomCode);
 			//陪同还贷
-			ToRansomMortgageVo mortgageVo =  ransomService.getMortgageInfoByRansomCode(ransomCode);
+			//ToRansomMortgageVo mortgageVo =  ransomService.getMortgageInfoByRansomCode(ransomCode);
 			//注销抵押
-			ToRansomCancelVo cancelVo = ransomService.getCancelInfo(ransomCode);
+			//ToRansomCancelVo cancelVo = ransomService.getCancelInfo(ransomCode);
 			//领取产证
-			ToRansomPermitVo permitVo = ransomService.getPermitInfo(ransomCode);
+			//ToRansomPermitVo permitVo = ransomService.getPermitInfo(ransomCode);
 			//回款结清
 			ToRansomPaymentVo paymentVo = ransomService.getPaymentInfo(ransomCode);
 			//计划时间信息
@@ -297,12 +299,13 @@ public class RansomListController {
 			
 			request.setAttribute("caseVo", caseVo);
 			request.setAttribute("detailVo", detailVo);
+			request.setAttribute("moneyVo", moneyVo);
 			request.setAttribute("tailinsVo", tailinsVo);
 			request.setAttribute("signVo", signVo);
 			request.setAttribute("applyVo", applyVo);
-			request.setAttribute("mortgageVo", mortgageVo);
-			request.setAttribute("cancelVo", cancelVo);
-			request.setAttribute("permitVo", permitVo);
+//			request.setAttribute("mortgageVo", mortgageVo);
+//			request.setAttribute("cancelVo", cancelVo);
+//			request.setAttribute("permitVo", permitVo);
 			request.setAttribute("paymentVo", paymentVo);
 			request.setAttribute("actTasks", actTasks);
 			

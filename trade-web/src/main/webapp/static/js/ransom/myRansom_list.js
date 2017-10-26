@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 	cleanForm();
 	aist.sortWrapper({
-		reloadGrid : searchMethod
+		reloadGrid : searchMethod(1)
 	});
 
 	//基本信息等高
