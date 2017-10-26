@@ -104,7 +104,7 @@
 						LEFT JOIN sctrans.T_TO_EVA_PRICING ep ON ep.CASE_CODE = cas.CASE_CODE
 					WHERE
 						pri.PKID = #pkid#
-						AND (ep.STATUS IS NULL OR ep.STATUS ='2')
+						<!-- AND (ep.STATUS IS NULL OR ep.STATUS ='2') -->
 						AND cas.CASE_PROPERTY IN('30003003')
 						AND info.PROPERTY_ADDR LIKE '%'+pro.RESIDENCE_NAME+'%'
 				]]>
