@@ -9,6 +9,7 @@
     <result column="PROCESS_DEFINITION_ID" property="processDefinitionId" jdbcType="VARCHAR" />
     <result column="PROCESS_OWNER" property="processOwner" jdbcType="VARCHAR"/>
     <result column="biz_Code" property="bizCode" jdbcType="VARCHAR"/>
+    <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
   </resultMap>
   <resultMap id="OutTimeTaskResultMap" type="com.centaline.trans.engine.entity.ToOutTimeTask" >
     <id column="USER_ID" property="userId" jdbcType="VARCHAR" />
@@ -34,7 +35,7 @@
     <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, INST_CODE,BUSINESS_KEY,PROCESS_DEFINITION_ID,PROCESS_OWNER,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,biz_Code
+    PKID, CASE_CODE, INST_CODE,BUSINESS_KEY,PROCESS_DEFINITION_ID,PROCESS_OWNER,CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,biz_Code,REMARK
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -144,6 +145,9 @@
       <if test="bizCode !=null">
       	BIZ_CODE,
       </if>
+      <if test="remark !=null">
+        REMARK,
+      </if>
       CREATE_TIME,CREATE_BY,UPDATE_TIME,UPDATE_BY,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -167,6 +171,9 @@
       </if>
       <if test="bizCode != null" >
         #{bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
       GETDATE(),@{SESSION_USER_ID}, GETDATE(),@{SESSION_USER_ID},
       </trim>;

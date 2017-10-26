@@ -25,6 +25,10 @@ public class ToBankRebateInfo {
 
     private Long caseId;
 
+    private String applyId;
+
+    private String reportCode;
+
     public Long getPkid() {
         return pkid;
     }
@@ -95,5 +99,21 @@ public class ToBankRebateInfo {
 
     public void setCaseId(Long caseId) {
         this.caseId = caseId;
+    }
+
+    public String getApplyId() {
+        return applyId;
+    }
+
+    public void setApplyId(String applyId) {
+        this.applyId = applyId;
+    }
+
+    public String getReportCode() {
+        return reportCode;
+    }
+
+    public void setReportCode(String reportCode) {
+        this.reportCode = reportCode;
     }
 }

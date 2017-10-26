@@ -73,5 +73,25 @@ public interface ToBankRebateService {
 	 */
 	void submitCcai(ToBankRebateInfoVO info);
 
+	/**
+	 * 根据ID 查询银行返利基本信息
+	 * @param id
+	 * @return
+	 */
+	ToBankRebate selectById(String id);
+
+	/**
+	 * 修改银行返利申请
+	 * @param bankRebate
+	 */
+	void updateToBankRebate(ToBankRebate bankRebate);
+
+	/**
+	 * 修改银行返利
+	 * 案件关联信息
+	 * @param info
+	 */
+	void updateToBankRebateInfo(ToBankRebateInfo info);
+
 
 }

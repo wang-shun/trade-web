@@ -14,6 +14,7 @@ public class ToWorkFlow {
 	private String status;
 	private String bizCode;
 	private List<String> bizCodes;
+	private String remark;
 	
 	public Long getPkid() {
 		return pkid;
@@ -91,5 +92,13 @@ public class ToWorkFlow {
 
 	public void setBizCodes(List<String> bizCodes) {
 		this.bizCodes = bizCodes;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 }
