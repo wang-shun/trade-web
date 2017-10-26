@@ -650,7 +650,7 @@ function checkForm() {
                     <td align="left"><input type="text" name="warrantPersonList[${s.index}].employeeName" value="${warrantPersonList.employeeName }" style="width: 120px" readonly="readonly"></td>
                     <td></td>
                     <td></td>
-                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].position" value="${warrantPersonList.position }" style="width: 120px" readonly="readonly"></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].shareReason" value="${warrantPersonList.shareReason }" style="width: 120px" readonly="readonly"></td>
                     <td></td>
                 </tr>
                 </c:forEach>
