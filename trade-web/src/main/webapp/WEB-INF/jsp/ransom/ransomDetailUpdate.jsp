@@ -66,6 +66,13 @@
 <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
 <!-- 提示 -->
 <link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" />
+<style type="text/css">
+.restMoney {
+	
+}
+.diyaType{
+}
+</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -99,7 +106,7 @@
 							</label> 
 							<div class="input-group sign-right dataleft input-daterange" >
 								<input type="text" class="form-control data_style" id="signTime" name="signTime" 
-								value="<fmt:formatDate value='${tailinsVo.signTime }' pattern='yyyy-MM-dd'/>" />
+								value="<fmt:formatDate value='${tailinsVoList[0].signTime }' pattern='yyyy-MM-dd'/>" />
 							</div>
 						</div>
 					</div>
@@ -123,16 +130,16 @@
 												dictType="30016" defaultvalue="${tailinsVo.mortgageType }" />
 											</td>
 											<td>
-												<aist:dict id="diyaType${status.index }" name="diyaType" clazz="select_control data_style" 
-												display="select" dictType="71015" dictCode="${tailinsVo.diyaType }" />
-												
+												<input type="hidden" id="diyaType${status.index }" name="partCode" value="${tailinsVo.diyaType}">
+												<aist:dict id="${tailinsVo.diyaType }" name="diyaType" clazz="select_control data_style diyaType" 
+												display="label" dictType="71015" dictCode="${tailinsVo.diyaType }" defaultvalue="${tailinsVo.diyaType}" />
 											</td>
 											<td>
-												<input id="loanMoney${status.index }" name="loanMoney" type="text" class="form-control input-one" placeholder="单位：万元"  
+												<input id="loanMoney${status.index }" name="loanMoney" type="text" class="restMoney form-control input-one" placeholder="单位：万元"  
 												value="<fmt:formatNumber value='${ tailinsVo.loanMoney/10000 }' type='number' pattern='#0.00' />"> 万
 										    </td>
 											<td>
-												<input id="restMoney${status.index }" name="restMoney" type="text" class="form-control input-one" placeholder="单位：万元" 
+												<input id="restMoney${status.index }" name="restMoney" type="text" class="restMoney form-control input-one" placeholder="单位：万元" 
 												value="<fmt:formatNumber value='${tailinsVo.restMoney/10000 }' type='number' pattern='#0.00' />"> 万
 											</td>
 										</tr>
@@ -267,7 +274,7 @@
 			</table>
 			<div>
 				<div class="text-center">
-					<a class='btn btn-primary ' href="javascript:void(0)" id="save">保存</a>
+					<input type="button" class="btn btn-primary" onclick="submitUpdateRansom()" value="保存" />
 					<a class='btn btn-primary ' id="close" onclick="window.close()" >关闭</a>
 				</div>
 			</div>

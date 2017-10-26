@@ -427,16 +427,29 @@
 		UPDATE 
 			sctrans.T_RA_TAILINS 
 		SET 
+		<if test="signTime != null">
 			SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="finOrgCode != null and finOrgCode != ''">
 			FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+		</if>
+		<if test="mortgageType != null and mortgageType != ''">
 			MORTGAGE_TYPE = #{mortgageType,jdbcType=VARCHAR},
-			DIYA_TYPE = #{diyaType,jdbcType=VARCHAR},
+		</if>
+		<if test="loanMoney != null and loanMoney != ''">
 			LOAN_MONEY = #{loanMoney,jdbcType=DECIMAL},
+		</if>
+		<if test="restMoney != null and restMoney != ''">
 			REST_MONEY = #{restMoney,jdbcType=DECIMAL},
+		</if>
+		<if test="updateUser != null and updateUser != ''">
 			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
-			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		</if>
+			UPDATE_TIME = GETDATE()
 		WHERE
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+			and 
+			DIYA_TYPE = #{diyaType,jdbcType=VARCHAR}
 	</update>
 	
 	<update id="updateRansomTailUserByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomTailinsVo">
