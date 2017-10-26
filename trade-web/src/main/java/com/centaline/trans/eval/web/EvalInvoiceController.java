@@ -294,7 +294,7 @@ public class EvalInvoiceController {
 	 */
 	@RequestMapping(value = "issueInvoiceChangeComm")
 	public String toIssueInvoiceChangeComm(HttpServletRequest request,Model model,String caseCode) {
-		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
+		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVOFromDB(caseCode);
 		model.addAttribute("caseCode", caseCode);
 		model.addAttribute("evalChangeCommVO", evalChangeCommVO);
 		return "eval/issueInvoiceChangeComm";

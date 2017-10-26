@@ -4,6 +4,7 @@ import com.centaline.api.validate.group.FeedTrueGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
@@ -37,12 +38,15 @@ public class BankRebeatFeedBack {
 	private String comment;
 	@ApiModelProperty(value = "审批时间", required = true, position = 10, example = "1505990444260")
 	private Date approveTime;
-
-	@ApiModelProperty(value = "财务审批通过后，新的返利报告关联关系", position = 10)
+	@ApiModelProperty(value = "公司账户", required = true, position = 11)
+	private String companyAccount;
+	@ApiModelProperty(value = "财务审批通过后，新的返利报告关联关系", position = 12)
 	private List<ReportRelation> relation;
+	@ApiModelProperty(value = "审批记录", position = 13)
+	private List<TaskInfo> tasks;
 
 	@ApiModelProperty(value = "信息对应的城市行政区划编码", required = true, example = "120000",
-			allowableValues = "110000-北京,120000-天津", position = 11)
+			allowableValues = "110000-北京,120000-天津", position = 14)
 	private String city;
 
 	@NotBlank(message = "银行返利ID不能为空")
@@ -142,5 +146,21 @@ public class BankRebeatFeedBack {
 
 	public void setRelation(List<ReportRelation> relation) {
 		this.relation = relation;
+	}
+	@NotBlank(message = "公司账户不能为空")
+	public String getCompanyAccount() {
+		return companyAccount;
+	}
+
+	public void setCompanyAccount(String companyAccount) {
+		this.companyAccount = companyAccount;
+	}
+	@NotEmpty(message = "审批记录不能为空")
+	public List<TaskInfo> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<TaskInfo> tasks) {
+		this.tasks = tasks;
 	}
 }

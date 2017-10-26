@@ -130,7 +130,7 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				ToEvaRefund toEvaRefund = toEvaRefundMapper.selectByEvaCode(caseCode);
 				//调佣审批信息
 				//ToEvaCommissionChange toEvaCommissionChange = toEvaCommissionChangeService.selectByCaseCode(caseCode);
-				EvalChangeCommVO toEvaCommPersonAmount = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
+				//EvalChangeCommVO toEvaCommPersonAmount = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode); by xiefei1 getFullEvalChangeCommVO 增加了从CCAI和DB获取调佣信息两种不同渠道 
 				
 	             //获取本人做的任务
 				List<TaskVo> taskVoList = getMyEvalTasks(evaCode,caseCode,toWorkFlow);
@@ -141,7 +141,7 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				request.setAttribute("toEvalRebateVo", toEvalRebate);
 				request.setAttribute("toEvalSettleVo", toEvalSettle);
 				request.setAttribute("toEvaRefundVo", toEvaRefund);
-				request.setAttribute("toEvaCommissionChange", toEvaCommPersonAmount);
+				//request.setAttribute("toEvaCommissionChange", toEvaCommPersonAmount); by xiefei1
 				
 				request.setAttribute("caseCode", caseCode);
 				request.setAttribute("evaCode", evaCode);

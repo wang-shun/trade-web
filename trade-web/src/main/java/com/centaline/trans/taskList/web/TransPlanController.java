@@ -15,6 +15,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
+import com.centaline.trans.common.enums.ToApproveRecordEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
@@ -159,7 +160,7 @@ public class TransPlanController {
 						//修改交易计划
 						transplanServiceFacade.updateByPrimaryKeySelective(tp);
 						ts1.setPkid(Long.parseLong(pkids[i]));
-						ts1.setAuditResult(1);
+						ts1.setAuditResult(ToApproveRecordEnum.AGREE.getCode());
 						//修改交易计划历史记录为审核通过状态
 						transplanServiceFacade.updateTransPlanHistoryByPKID(ts1);
 						}else {
@@ -170,7 +171,7 @@ public class TransPlanController {
 					}
 				} else {
 					ts1.setPkid(Long.parseLong(pkids[i]));
-					ts1.setAuditResult(2);
+					ts1.setAuditResult(ToApproveRecordEnum.REJECT.getCode());
 					//修改交易计划历史记录为审核不通过状态
 					transplanServiceFacade.updateTransPlanHistoryByPKID(ts1);
 				}

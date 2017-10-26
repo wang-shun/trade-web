@@ -5,13 +5,15 @@
 
 $(document).ready(function(){
 	
-	//reloadWorkInfo();	
-	$('#save').click(function() {
-		//window.location.href = ctx + "/ransomList/ransom/ransomDetail";
-		if(checkForm()){
-			submitUpdateRansom();
+	$('.restMoney').change(function(){
+		var borrowerMoney = 0.00;
+		for(var i = 0; i < $("#bank-org tr").length; i ++){
+			var restMoney =  parseInt($("#restMoney" + i + "").val() * 10000);
+			borrowerMoney = borrowerMoney + restMoney;
 		}
+		$('#borrowerMoney').val(borrowerMoney / 10000);
 	});
+	
 });
 
 	/**
@@ -19,7 +21,10 @@ $(document).ready(function(){
 	 * @returns
 	 */
 	function submitUpdateRansom(){
-		debugger;
+		
+		if(!checkForm())
+			return ;
+		
 		var caseCode = $("#caseCode").val();
 		var ransomCode = $("#ransomCode").val();
 		//主贷人姓名
@@ -41,6 +46,8 @@ $(document).ready(function(){
 			var loanMoney =   parseInt($("#loanMoney" + i + "").val() * 10000);
 			//剩余金额
 			var restMoney =  parseInt($("#restMoney" + i + "").val() * 10000);
+			//借款总额
+			var borrowerMoney =  parseInt($("#borrowerMoney").val() * 10000);
 			
 			var resJson = {
 					ransomCode:ransomCode,
@@ -52,15 +59,12 @@ $(document).ready(function(){
 					diyaType:diyaType,
 					loanMoney:loanMoney,
 					restMoney:restMoney,
-//					borrowerMoney:borrowerMoney
+					borrowerMoney:borrowerMoney
 			};
 			
 			ransomVo.push(resJson);
 		}
-		
 		//借款总金额
-		var borrowerMoney =  parseInt($("#borrowerMoney").val() * 10000);
-		ransomVo.push(borrowerMoney);
 //		var ransomVo = {
 //				ransomCode:ransomCode,
 //				borrowerName:borrowerName,
@@ -73,7 +77,6 @@ $(document).ready(function(){
 //				restMoney:restMoney,
 //				borrowerMoney:borrowerMoney
 //		};
-		
 		$.ajax({
 			url: ctx + "/ransomList/updateRansom",
 			dataType:"json",
@@ -82,7 +85,10 @@ $(document).ready(function(){
 	   		},
 			type:"POST",
 			success: function(data){
-				window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
+				window.wxc.success("提交成功!",{"wxcOk":function(){
+					window.close();
+//					window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
+				}});
 			},
 			error: function(data){
 				window.wxc.error(data.message);
