@@ -19,6 +19,9 @@
 <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 <link rel="stylesheet" href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" >
 <link rel="stylesheet" href="<c:url value='/css/plugins/pager/centaline.pager.css' />"  />
+<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" />
+
+
 <style type="text/css">
 
 .sign_left {
@@ -201,19 +204,14 @@
 <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script> 
 <script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
 <script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
-<script src="<c:url value='/js/trunk/evaPricing/evaPricingList.js' />"></script>
+
 <!-- 分页控件  -->
 <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 <script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+<script src="<c:url value='/js/trunk/evaPricing/evaPricingList.js' />"></script>
 
-<!-- 原操作
-{{if item.STATUS != 1}}
-	<option value="1">记录</option>
-{{/if}}
-<option value="2">无效</option>
-<option value="3">发起评估申请</option>
- -->
 <script id="template_evaluateList" type= "text/html">
 	{{each rows as item index}}
 		{{if index%2 == 0}}
@@ -231,8 +229,8 @@
 			</td>
 
 			<td>
-				<p class="demo-top">
-                	{{item.RESIDENCE_NAME}}
+				<p class="demo-top" title="{{item.RESIDENCE_NAME}}">
+						{{item.RESIDENCE_NAME.substring(0,10)}}...
                 </p>                
 			</td>
 
@@ -292,8 +290,8 @@
 			</td>
 	
 			<td class="text-center">
-            	<div class="float_left big_pad">
-					<select pval="{{item.PKID}}" evaCode="{{item.EVA_CODE}}" caseCode="{{item.CASE_CODE}}" instCode="{{item.INST_CODE}}" class="form-control select_control" style="width:120px">
+            	<div class="float_left" style="width:105px;">
+					<select pval="{{item.PKID}}" evaCode="{{item.EVA_CODE}}" caseCode="{{item.CASE_CODE}}" instCode="{{item.INST_CODE}}" class="form-control select_control" style="width:100px">
 						<option value="0">查看</option>
 						{{if item.STATUS == 1}}
 							<option value="1">评估申请</option>
