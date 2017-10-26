@@ -64,6 +64,13 @@
 	<style type='text/css'>
 		.divider {position: relative}
 		.divider label {position: absolute;left: 0;top: -17px}
+		.fkfs_date_icon{
+			right: 100px;
+		}
+		.form_list .row .form_content{
+			margin: 0px;
+		}
+		.common_width{width: 180px;}
 	</style>
 </head>
 <body>
@@ -157,7 +164,7 @@
 								<div class="form_content">
 									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>下家是否首套</label>
 									<div class="controls isnowid" style="width: 180px;margin-left: 0px;">
-										<select class="select_control data_style" readOnlydata='1' name="houseQuantity" id="houseQuantity">
+										<select class="select_control  common_width" readOnlydata='1' name="houseQuantity" id="houseQuantity">
 											<option value="">请选择</option>
 											<option value="0" ${transSign.houseQuantity=="0"?'selected':''}>首套</option>
 											<option value="1" ${transSign.houseQuantity=="1"?'selected':''}>二套</option>
@@ -168,7 +175,7 @@
 								<div class="form_content">
 									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>资金监管</label>
 									<div class="controls ismortgage " style="width: 180px;margin-left: 0px;">
-										<select class="select_control data_style" readOnlydata='1' name="fundSupervisionme" id="fundSupervisionme">
+										<select class="select_control  common_width" readOnlydata='1' name="fundSupervisionme" id="fundSupervisionme">
 											<option value="">请选择</option>
 											<option value="1" ${transSign.fundSupervisionme=="1"?'selected':''}>是</option>
 											<option value="0" ${transSign.fundSupervisionme=="0"?'selected':''}>否</option>
@@ -178,7 +185,7 @@
 								<div class="form_content">
 									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>网签地点 </label>
 									<div class="controls isnowid" style="width: 180px;margin-left: 0px;">
-										<select class="select_control data_style" readOnlydata='1' name="netPlace" id="netPlace">
+										<select class="select_control  common_width" readOnlydata='1' name="netPlace" id="netPlace">
 											<option value="">请选择</option>
 											<option value="1" ${transSign.netPlace=="1"?'selected':''}>交易中心</option>
 											<option value="0" ${transSign.netPlace=="0"?'selected':''}>房管局</option>
@@ -197,10 +204,8 @@
 					<h2 class="newtitle title-mark">付款方式</h2>
 					<div class="form_list">
 						<div class="marinfo" >
-							<table >
-
-								<tr >
-									<td><div class="form_content">
+								<div class="row">
+									<div class="form_content col-sm-3">
 										<label ><font color=" red" class="mr5" >*</font> 一期款 </label>
 										<input type="hidden" value="一期款" id="initPayName" name="initPayName">
 
@@ -208,10 +213,10 @@
 											   value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
 											   class="input_type yuanwid" id="initAmount" name="initAmount"
 											   onkeyup="checkNum(this)">
-										<span class="date_icon">万元</span>
+										<span class="date_icon fkfs_date_icon">万元</span>
 
-									</div></td>
-									<td><div class="form_content mt3">
+									</div>
+									<div class="form_content mt3 col-sm-3">
 										<label >
 											<font color=" red" class="mr5" >*</font>时间
 										</label>
@@ -221,28 +226,29 @@
 												   class="input_type yuanwid datatime" id="initPayTime" name="initPayTime"
 												   onfocus="this.blur()">
 										</div>
-									</div></td>
-									<td><div class="form_content">
+									</div>
+									<div class="form_content col-sm-3">
 										<label ><font color=" red" class="mr5" >*</font>方式 </label>
 
 										<aist:dict clazz="select_control data_style" id="initPayType"
 												   name="initPayType" display="select"
 												   defaultvalue="${transSign.initPayType}" dictType="30015" />
 
-									</div></td>
-									<td><div class="form_content">
+									</div>
+									<div class="form_content col-sm-3">
 										<label ><font color=" red" class="mr5" >*</font>监管金额</label>
 
 										<input type="text"
 											   value="<fmt:formatNumber value='${transSign.initSupervisionAmount }' type='number' pattern='#0.00' />"
 											   class="input_type yuanwid" id="initSupervisionAmount" name="initSupervisionAmount"
 											   onkeyup="checkNum(this)">
-										<span class="date_icon">万元</span>
+										<span class="date_icon fkfs_date_icon">万元</span>
 
-									</div></td>
-								</tr>
-								<tr >
-									<td><div class="form_content">
+									</div>
+								</div>
+								<p></p>
+								<div class="row">
+									<div class="form_content col-sm-3">
 										<label ><font class="mr5">&nbsp;&nbsp;</font>二期款</label>
 										<input type="hidden" value="二期款" id="secPayName" name="secPayName">
 
@@ -250,9 +256,9 @@
 											   value="<fmt:formatNumber value='${transSign.secAmount }' type='number' pattern='#0.00' />"
 											   class="input_type yuanwid" id="secAmount" name="secAmount"
 											   onkeyup="checkNum(this)">
-										<span class="date_icon">万元</span>
-									</div></td>
-									<td><div class="form_content mt3">
+										<span class="date_icon fkfs_date_icon">万元</span>
+									</div>
+									<div class="form_content mt3 col-sm-3">
 										<label>
 											<font class="mr5">&nbsp;&nbsp;</font>时间
 										</label>
@@ -262,37 +268,39 @@
 												   class="input_type yuanwid datatime" id="secPayTime" name="secPayTime"
 												   onfocus="this.blur()">
 										</div>
-									</div></td>
-									<td><div class="form_content">
+									</div>
+									<div class="form_content col-sm-3">
 										<label ><font class="mr5">&nbsp;&nbsp;</font>方式 </label>
 
 										<aist:dict clazz="select_control data_style" id="secPayType"
 												   name="secPayType" display="select"
 												   defaultvalue="${transSign.secPayType}" dictType="30015" />
 
-									</div></td>
-									<td ><div class="form_content">
+									</div>
+									<div class="form_content col-sm-3">
 										<label ><font class="mr5">&nbsp;&nbsp;</font>监管金额</label>
 
 										<input type="text"
 											   value="<fmt:formatNumber value='${transSign.secSupervisionAmount }' type='number' pattern='#0.00' />"
 											   class="input_type yuanwid" id="secSupervisionAmount" name="secSupervisionAmount"
 											   onkeyup="checkNum(this)">
-										<span class="date_icon">万元</span>
+										<span class="date_icon fkfs_date_icon">万元</span>
 
-									</div></td>
-								</tr>
-								<tr >
-									<td height="25%"><div class="form_content">
+									</div>
+
+								</div>
+								<p></p>
+								<div class="row">
+									<div class="form_content col-sm-3">
 										<label><font class="mr5">&nbsp;&nbsp;</font>三期款</label>
 										<input type="hidden" value="三期款" id="lastPayName" name="lastPayName">
 										<input type="text"
 											   value="<fmt:formatNumber value='${transSign.lastAmount}' type='number' pattern='#0.00' />"
 											   class="input_type yuanwid" id="lastAmount" name="lastAmount"
 											   onkeyup="checkNum(this)">
-										<span class="date_icon">万元</span>
-									</div></td>
-									<td height="25%"><div class="form_content">
+										<span class="date_icon fkfs_date_icon">万元</span>
+									</div>
+									<div class="form_content col-sm-3">
 										<label >
 											<font class="mr5">&nbsp;&nbsp;</font>时间
 										</label>
@@ -302,27 +310,28 @@
 												   class="input_type yuanwid datatime" id="lastPayTime" name="lastPayTime"
 												   onfocus="this.blur()">
 										</div>
-									</div></td>
-									<td height="25%"><div class="form_content">
+									</div>
+									<div class="form_content col-sm-3">
 										<label > <font class="mr5">&nbsp;&nbsp;</font>方式 </label>
 
 										<aist:dict clazz="select_control data_style" id="lastPayType"
 												   name="lastPayType" display="select"
 												   defaultvalue="${transSign.lastPayType}" dictType="30015" />
 
-									</div></td>
-									<td height="25%"><div class="form_content">
+									</div>
+									<div class="form_content col-sm-3">
 										<label ><font class="mr5">&nbsp;&nbsp;</font>监管金额</label>
 
 										<input type="text"
 											   value="<fmt:formatNumber value='${transSign.lastSupervisionAmount }' type='number' pattern='#0.00' />"
 											   class="input_type " id="lastSupervisionAmount" name="lastSupervisionAmount"
 											   onkeyup="checkNum(this)">
-										<span class="date_icon">万元</span>
+										<span class="date_icon fkfs_date_icon">万元</span>
 
-									</div></td>
-								</tr>
-							</table>
+									</div>
+								</div>
+								<p></p>
+
 						</div>
 					</div>
 				</div>

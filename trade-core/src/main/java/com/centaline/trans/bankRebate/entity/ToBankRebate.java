@@ -26,6 +26,8 @@ public class ToBankRebate {
 
     private String deptId;
 
+    private Date submitTime;
+
     public String getPkid() {
         return pkid;
     }
@@ -112,5 +114,13 @@ public class ToBankRebate {
 
     public void setDeptId(String deptId) {
         this.deptId = deptId;
+    }
+
+    public Date getSubmitTime() {
+        return submitTime;
+    }
+
+    public void setSubmitTime(Date submitTime) {
+        this.submitTime = submitTime;
     }
 }

@@ -338,6 +338,9 @@
 		<if test="stopType != null and stopType != ''">
 			STOP_TYPE = #{stopType,jdbcType=VARCHAR},
 		</if>
+		<if test="ransomStatus != null and ransomStatus != ''">
+			RANSOM_STATUS = #{ransomStatus,jdbcType=VARCHAR},
+		</if>
 		<if test="stopReason != null and stopReason != ''">
 			STOP_REASON = #{stopReason,jdbcType=VARCHAR},
 		</if>

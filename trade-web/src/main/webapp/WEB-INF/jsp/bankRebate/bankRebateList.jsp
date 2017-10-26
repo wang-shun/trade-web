@@ -48,6 +48,12 @@
 		<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" />
 
 		<content tag="pagetitle">银行返利列表</content>
+		<style>
+			input[type="file"] {
+				display: inline-block;
+				width: 250px;
+			}
+		</style>
     </head>
 
     <body>
@@ -104,10 +110,8 @@
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;&nbsp;&nbsp;
 							<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<button id="addNewCase"  type="button" class="btn btn-success">新增</button>
-							<%--
 							<button id="importButton" type="button" class="btn btn-success" onclick="javascript:showExcelModal()">返利批量导入</button>
 							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:showExcelIn()">下载导入模板</a>
-							--%>
 							<button id="deleteButton" onclick="javascript:deleteButton()" type="button" class="btn btn-success" disabled="true">删除</button>&nbsp;
 						</div>
 					</div>
@@ -143,8 +147,6 @@
                 </div>
             </div>
         </div>
-		<!-- <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form> -->
-
         <!-- 返利导入 -->
         <div id="excel-modal-form" class="modal fade" role="dialog" aria-labelledby="excel-modal-title" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -156,20 +158,18 @@
 							返利单批量导入
                         </h4>
                     </div>
-                    <input type="hidden" id="ex_message" value="${ex_message}" />
                     <form id="excelInForm"  method="post" enctype="multipart/form-data">
                         <div class="modal-body">
 							<div class="form_list">
 								<div class="line">
 									<div class="form_content">
 										<label class="control-label sign_left_small">担保公司</label>
-										<aist:dict id="guaranteeCompany" name="toBankRebate.guaranteeCompany" display="select"
+										<aist:dict id="" name="guaranteeCompany" display="select"
 												   dictType="bank_rebate_guarantee" clazz="select_control"/>
 									</div>
 									<div class="form_content">
 										<label class="control-label sign_left_small">返利总金额</label>
-										<input type="text" class="select_control sign_right_one" id="rebateMoney" name="toBankRebate.rebateTotal"
-											   value="">
+										<input type="text" class="select_control sign_right_one" name="rebateTotal" value="" />
 									</div>
 								</div>
 							</div>
@@ -177,19 +177,18 @@
 								<div class="line">
 									<div class="form_content">
 										<label class="control-label sign_left_small">申请人</label>
-										<input type="text" class="select_control sign_right_one" id="applyer" name="toBankRebate.applyPerson"
+										<input type="text" class="select_control sign_right_one" name="applyPerson"
 											   readonly="readonly" value="${user.realName}"/>
 									</div>
 									<div class="form_content">
 										<label class="control-label sign_left_small">录入人所在部门</label>
-										<input type="text" class="select_control sign_right_one" id="applyDepartment"
-											   readonly="readonly" value="${user.serviceDepName }"/>
-										<input type="hidden" name="toBankRebate.deptId" value="${user.serviceDepId}" />
+										<input type="text" class="select_control sign_right_one"  readonly="readonly" value="${user.serviceDepName }"/>
+										<input type="hidden" name="deptId" value="${user.serviceDepId}" />
 									</div>
 									<div class="form_content">
 										<label class="control-label sign_left_small">录入时间：</label>
 										<c:set var="now" value="<%=new java.util.Date()%>"/>
-										<input type="text" class="select_control sign_right_one" id="applyTime" name="applyTime"
+										<input type="text" class="select_control sign_right_one"
 											   readonly="readonly"
 											   value="<fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
 									</div>
@@ -199,7 +198,7 @@
 								<div class="line">
 									<div class="form_content">
 										<label class="control-label sign_left_small">备注：</label>
-										<textarea class="select_control sign_right_one" style="width: 400px;" name="toBankRebate.comment" cols="100"></textarea>
+										<textarea class="select_control sign_right_one" style="width: 400px;" name="comment" cols="100"></textarea>
 									</div>
 								</div>
 							</div>
@@ -207,7 +206,7 @@
 								<div class="line">
 									<div class="form_content">
 										<label class="control-label sign_left_small">附件：</label>
-										<input id="file"  class="btn btn-default"  type="file" name="fileupload"  />
+										<input id="file" class="btn btn-default select_control sign_right_one"  type="file" name="fileupload" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"  />
 									</div>
 								</div>
 							</div>
@@ -230,7 +229,7 @@
     <input type="hidden" id="ctx" value="${ctx}" />
         <!-- End page wrapper-->
         <!-- Mainly scripts -->
-        <content tag="local_script">
+	<content tag="local_script">
        <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
         <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
          <!-- 日期控件 -->
@@ -249,16 +248,16 @@
         <script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
         <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
         <script	src="<c:url value='/js/trunk/bankRebate/bankRebateList.js' />"></script>
-        <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 		<script id="bankRebate" type= "text/html">
                            {{each rows as item index}}
  							  <tr class="border-e7">
 				<td class="center">
+					{{if item.STATUS_OLD=='0'}}
 					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.GUARANTEE_COMP_ID}}"
-
 					 guaranteeCompId="{{item.GUARANTEE_COMP_ID}}" />
                     <input id='guaranteeCompId' type='hidden' name='guaranteeCompId' value="{{item.GUARANTEE_COMP_ID}}"/>
 					<input type='hidden' name='pkId' value="{{item.pkId}}" >
+					{{/if}}
 
 				</td>
                                     <td>{{item.APPLY_TIME}}</td>
@@ -271,7 +270,10 @@
 									<td class="center">
 										{{if item.STATUS_OLD=='0'}}
 											<a href="${ctx}/bankRebate/bankRebateUpdate?guaranteeCompId={{item.GUARANTEE_COMP_ID}}" target="_blank">修改</a>
-											<%-- <a href="${ctx}/eval/settle/evalEndUpdate?pkid={{item.pkId}}&&caseCode={{item.GUARANTEE_COMP_ID}}" target="_blank">提交</a> --%>
+											<a href="javascript:void(0)" onclick="submitBankRebate('{{item.GUARANTEE_COMP_ID}}')">提交</a>
+										{{/if}}
+										{{if item.STATUS_OLD=='1'}}
+											<a href="${ctx}/bankRebate/details?guaranteeCompId={{item.GUARANTEE_COMP_ID}}">查看</a>
 										{{/if}}
                         			</td>
                                 </tr>
@@ -286,9 +288,7 @@
                     todayBtn : 'linked',
                     language : 'zh-CN'
                 });
-                aist.sortWrapper({
-                    reloadGrid : searchMethod
-                });
+                aist.sortWrapper({reloadGrid : searchMethod});
                 var data = getQueryParams(1);
                 data.queryId = "bankRebate";
                 data.rows = 10;
@@ -296,13 +296,10 @@
                 aist.wrap(data);
                 reloadGrid(data);
 			})
-			function showExcelIn(){
-				window.location.href = ctx + "/bankRebate/exportMatrixLeaderSheet"
-			}
             function callback() {
                 setTimeout('searchMethod(1)',1000);
             }
 		</script>
-	    </content>
-          </body>
+	</content>
+	</body>
 </html>

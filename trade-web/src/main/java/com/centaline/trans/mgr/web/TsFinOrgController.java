@@ -210,4 +210,15 @@ public class TsFinOrgController {
 		List<TsFinOrg> cooperationList = tsFinOrgService.findCooperations();
 		return cooperationList;
 	}
+	
+	/**
+	 * 获取尾款机构
+	 * @return
+	 */
+	@RequestMapping(value = "queryTailins")
+	@ResponseBody
+	public List<TsFinOrg> queryTailins() {
+		
+		return tsFinOrgService.findFinCompany();
+	}
 }

@@ -957,9 +957,7 @@
 					$(".blockOverlay").css({'z-index':'9998'});
 				},
 				complete: function() {
-					if(!b){
-						$.unblockUI();
-					}
+					$.unblockUI();
 					 if(status=='timeout'){//超时,status还有success,error等值的情况
 					  Modal.alert(
 					  {
@@ -976,8 +974,8 @@
 								window.wxc.success("处理成功",{"wxcOk":function(){
 									if(window.opener)
 									{
+										 window.opener.location.reload();
 										 window.close();
-										 window.opener.callback();
 									} else {
 										 window.location.href = "${ctx }/task/myTaskList";
 									}
