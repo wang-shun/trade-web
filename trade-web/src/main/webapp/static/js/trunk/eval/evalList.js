@@ -32,6 +32,14 @@ $(document).ready(function() {
 
 });
 
+function _checkbox(target){
+	if($(target).prop('checked')){
+		$(target).prop('checked',false);
+	}else{
+		$(target).prop('checked',true);
+	};
+}
+
 // select控件
 var config = {
 	'.chosen-select' : {},
@@ -325,7 +333,7 @@ $('#settleButton').click(function() {
 	
 	$.ajax({
 		async: true,
-		url:ctx+ "/eval/toSettle" ,
+		url:ctx+ "/task/eval/toSettle" ,
 		method: "post",
 		dataType: "json",
 		data: {evals:JSON.stringify(evalCodeArr)},

@@ -280,9 +280,7 @@ text-decoration: underline !important;
                    {{/if}}
 						
 						<td class="center">
-                            {{if item.CASE_STATUS == '30001004' && item.REBATE_STATUS == '9' }
-								<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.EVA_CODE}}"
-                            {{/if}}
+								<input type="checkbox" name="my_checkbox" class="i-checks"  value="{{item.EVA_CODE}}"
 						</td>
 
 						<td >

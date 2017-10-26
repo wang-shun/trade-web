@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.centaline.trans.common.enums.EvalWaitAccountEnum;
+import com.centaline.trans.common.enums.FeeChangeTypeEnum;
 import com.centaline.trans.eval.entity.ToEvalSettle;
 import com.centaline.trans.eval.repository.ToEvalSettleMapper;
 import com.centaline.trans.eval.service.ToEvalSettleService;
@@ -104,6 +106,24 @@ public class ToEvalSettleServiceImpl implements ToEvalSettleService {
 	public TsFinOrg findTsFinOrgByfinOrgCode(String finOrgCode) {
 		// TODO Auto-generated method stub
 		return tsFinOrgMapper.findBankByFinOrg(finOrgCode);
+	}
+
+	@Override
+	public int insertWaitAccount(String caseCode,String evaCode, String feeChangeReason) {
+		if(feeChangeReason.equals(FeeChangeTypeEnum.FPSD.getCode())) {//发票税点
+				ToEvalSettle record = new ToEvalSettle();
+				record.setCaseCode(caseCode);
+				record.setEvaCode(evaCode);
+				record.setStatus(EvalWaitAccountEnum.WTJ.getCode());//未提交
+				toEvalSettleMapper.insertSelective(record);
+		}else {
+				ToEvalSettle record = new ToEvalSettle();
+				record.setCaseCode(caseCode);
+				record.setEvaCode(evaCode);
+				record.setStatus(EvalWaitAccountEnum.WXJS.getCode());//无需结算
+				toEvalSettleMapper.insertSelective(record);
+		}
+		return 0;
 	}
 	
 	

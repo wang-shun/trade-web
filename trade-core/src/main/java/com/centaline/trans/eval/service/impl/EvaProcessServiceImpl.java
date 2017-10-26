@@ -24,6 +24,7 @@ import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.trans.common.enums.EvalPropertyEnum;
 import com.centaline.trans.common.enums.EvalStatusEnum;
+import com.centaline.trans.common.enums.FeeChangeTypeEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
@@ -37,12 +38,15 @@ import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.repository.ToEvaPricingMapper;
 import com.centaline.trans.eval.entity.ToEvaInvoice;
+import com.centaline.trans.eval.entity.ToEvaRefund;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
 import com.centaline.trans.eval.entity.ToEvalSettle;
 import com.centaline.trans.eval.repository.ToEvaInvoiceMapper;
+import com.centaline.trans.eval.repository.ToEvaRefundMapper;
 import com.centaline.trans.eval.service.EvaProcessService;
 import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
+import com.centaline.trans.eval.service.ToEvalSettleService;
 import com.centaline.trans.task.entity.ToSign;
 import com.centaline.trans.task.repository.ToSignMapper;
 
@@ -78,7 +82,10 @@ public class EvaProcessServiceImpl implements EvaProcessService {
     private ToSignMapper toSignMapper;
 	@Autowired
 	private ToEvaInvoiceMapper toEvaInvoiceMapper;
-	
+	@Autowired
+	private ToEvaRefundMapper toEvaRefundMapper;
+	@Autowired
+	ToEvalSettleService toEvalSettleService;
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Override
@@ -338,25 +345,33 @@ public class EvaProcessServiceImpl implements EvaProcessService {
           //待结算的评估编号list
 		  List<String> list = JSONObject.parseArray(evals, String.class);
 		  if(list==null){
+			  response.setSuccess(false);
+			  response.setMessage("传入参数为空");
+			  return response;
 		  }
+		  
 		  for(String evaCode:list){
-			    
+			  ToEvalSettle toEvalSettle = new ToEvalSettle();
 			  
-			  //toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(evaCode);
+			  toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(evaCode);
 			  toEvalReportProcess.setEvalProperty(EvalPropertyEnum.PGBD.getCode());
 			  toEvalReportProcess.setEvaCode(evaCode);
+			  toEvalSettle.setCaseCode(toEvalReportProcess.getCaseCode());
 			  toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
 			  ToEvaInvoice toEvaInvoice = toEvaInvoiceMapper.selectByEvaCode(evaCode);
-			  if(toEvaInvoice!=null){//TODO 待确认发票申请状态
-				  ToEvalSettle toEvalSettle = new ToEvalSettle();
-				  toEvalSettle.setFeeChangeReason("");
+			  
+			  ToEvaRefund toEvaRefund = toEvaRefundMapper.selectByCaseCode(toEvalReportProcess.getCaseCode());
+			  if(EvalStatusEnum.YBD.getCode().equals(toEvalReportProcess.getStatus())){
+				  toEvalSettle.setFeeChangeReason(FeeChangeTypeEnum.BD.getCode());
+			  }else if(toEvaRefund!=null){//TODO 待确认退报告是否意味退费
+				  toEvalSettle.setFeeChangeReason(FeeChangeTypeEnum.TBG.getCode());
+			  }else if(toEvaInvoice!=null){//TODO 待确认发票申请状态
+				  toEvalSettle.setFeeChangeReason(FeeChangeTypeEnum.FPSD.getCode());
+			  }else{
+				  toEvalSettle.setFeeChangeReason(FeeChangeTypeEnum.FPSD.getCode());
 			  }
-			  
-			  
+			  toEvalSettleService.insertWaitAccount(toEvalSettle.getCaseCode(),evaCode,toEvalSettle.getFeeChangeReason());
 		  }
-		
-		  //遍历 查询出评估对象，更改结算状态为      、查询出是否有发票税点、爆单、退费流程、入待结算
-		  
-		return  null;
+		return  response;
 	}
 }

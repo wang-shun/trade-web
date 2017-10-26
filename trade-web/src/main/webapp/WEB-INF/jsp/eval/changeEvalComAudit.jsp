@@ -603,6 +603,7 @@ function checkForm() {
                 <c:forEach items="${evalChangeCommVO.sharePersonList }" var="sharePerson" varStatus="s">
                 <tr>
                     <td>${sharePerson.position }${s.count}:<input type="hidden" name="sharePersonList[${s.index}].pkid" value="${sharePerson.pkid }"></td>
+                    <input type="hidden" name="sharePersonList[${s.index}].position" value="${sharePerson.position }">
                     <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].department" value="${sharePerson.department }" ></td>
                     <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].employeeName" value="${sharePerson.employeeName }" ></td>
                     <td><input class="shareAmount" type="text" style="width: 120px" name="sharePersonList[${s.index}].shareAmount" value="${sharePerson.shareAmount }" ></td>
@@ -617,11 +618,12 @@ function checkForm() {
                 <c:forEach items="${evalChangeCommVO.warrantPersonList }" var="warrantPersonList" varStatus="s">
                 <tr>
                     <td>${warrantPersonList.position }${s.count}:<input type="hidden" name="warrantPersonList[${s.index}].pkid" value="${warrantPersonList.pkid }" ></td>
+                    <input type="hidden" name="warrantPersonList[${s.index}].position" value="${warrantPersonList.position }">
                     <td align="left"><input type="text" name="warrantPersonList[${s.index}].department" value="${warrantPersonList.department }" style="width: 120px" ></td>
                     <td align="left"><input type="text" name="warrantPersonList[${s.index}].employeeName" value="${warrantPersonList.employeeName }" style="width: 120px" ></td>
                     <td></td>
                     <td></td>
-                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].position" value="${warrantPersonList.position }" style="width: 120px" ></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].shareReason" value="${warrantPersonList.shareReason }" style="width: 120px" ></td>
                     <td></td>
                 </tr>
                 </c:forEach>
@@ -747,17 +749,7 @@ function checkForm() {
 		                }
 		            });
 		            //页面加载时计算出百分比
-		            //var shareAmountArray=$('.shareAmount');
-		            //console.log(shareAmountArray);
 		            
-		            /* $('.shareAmount').each(function(){
-		            	var totalcomm=$("#ttlComm").val();
-		            	totalcomm=parseInt(totalcomm);
-		            	console.log(totalcomm);
-		                var sharePacentage=$(this).val()/totalcomm*100;
-		                sharePacentage=sharePacentage.toFixed(2)
-		            	$(this).parent().siblings().children(".aa").text(sharePacentage);
-		            }) */
 		            
 		            refeshShareAmount();
 		            getTotalSharePacentage();
@@ -767,26 +759,14 @@ function checkForm() {
 		                console.log($(this).val());
 		                //var totalcomm=10000;
 		                var totalcomm=$("#ttlComm").val();
-		                totalcomm=parseInt(totalcomm);
+		                totalcomm=parseFloat(totalcomm);
 		                var sharePacentage=$(this).val()/totalcomm*100;
 		                sharePacentage=sharePacentage.toFixed(2)
 		                console.log(sharePacentage);
 		                //$(this).parent().siblings().children(".aa").text(sharePacentage);
 		                console.log($(this).parent().siblings().children(".aa").text(sharePacentage));
 		                refeshShareAmount();
-		                getTotalSharePacentage();
-		              //计算总百分比
-		                /* var totalPacentage=0;
-		                var totalPacentageArray=new Array();
-		                $(".aa").each(function(){
-		                    totalPacentageArray.push(parseInt($(this).text()));
-		                })
-		                for(var i=0;i<totalPacentageArray.length;i++){
-		                    totalPacentage=totalPacentageArray[i]+totalPacentage;
-		                }
-		                console.log(totalPacentageArray);
-		                console.log(totalPacentage);
-		                $("#totalPacentage").text(totalPacentage);   */              
+		                getTotalSharePacentage();            
 		            }); 
 		            		            
 					})//end ready function
@@ -794,7 +774,7 @@ function checkForm() {
 					function refeshShareAmount(){
 						$('.shareAmount').each(function(){
 			            	var totalcomm=$("#ttlComm").val();
-			            	totalcomm=parseInt(totalcomm);
+			            	totalcomm=parseFloat(totalcomm);
 			            	console.log(totalcomm);
 			                var sharePacentage=$(this).val()/totalcomm*100;
 			                sharePacentage=sharePacentage.toFixed(2)
@@ -806,8 +786,9 @@ function checkForm() {
 						//计算总百分比
 		                var totalPacentage=0;
 		                var totalPacentageArray=new Array();
+		                //class aa 为把各个所占百分比加总起来
 		                $(".aa").each(function(){
-		                    totalPacentageArray.push(parseInt($(this).text()));
+		                    totalPacentageArray.push(parseFloat($(this).text()));
 		                })
 		                for(var i=0;i<totalPacentageArray.length;i++){
 		                    totalPacentage=totalPacentageArray[i]+totalPacentage;

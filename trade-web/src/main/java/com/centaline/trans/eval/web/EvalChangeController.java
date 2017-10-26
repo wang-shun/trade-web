@@ -54,6 +54,7 @@ public class EvalChangeController {
 	@RequestMapping(value = "submitEvalChangeAudit")
 	public AjaxResponse<String> submitInvoiceAudit(HttpServletRequest request,Model model,
 			String caseCode,String partCode,String content,String status,
+			EvalChangeCommVO evalChangeCommVO,ToEvaCommissionChange toEvaCommissionChange,
 			String taskId, String processInstanceId) {
 		SessionUser user = uamSessionService.getSessionUser();		
 		ToApproveRecord toApproveRecord = new ToApproveRecord();
@@ -74,6 +75,9 @@ public class EvalChangeController {
 		try{
 			//提交任务，插入评论，回写CCAI，若taskId,processInstanceId则只插入保存toApproveRecord
 			toEvaCommissionChangeService.updateEvalChangeApproveRecord(toApproveRecord,taskId,processInstanceId);
+			//保存调佣信息
+			//只要有同名的属性都会同时分配给这两个对象
+			toEvaCommPersonAmountService.saveEvalChangeCommVO(evalChangeCommVO,toEvaCommissionChange);
 			}catch(Exception e){
 		response.setSuccess(false);
 		response.setMessage(e.getMessage());
@@ -116,7 +120,7 @@ public class EvalChangeController {
 	 */
 	@RequestMapping(value = "changeEvalComAudit")
 	public String changeEvalComAudit(HttpServletRequest request,Model model,String caseCode) {
-		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
+		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVOFromCCAI(caseCode);
 		model.addAttribute("caseCode", caseCode);
 		model.addAttribute("evalChangeCommVO", evalChangeCommVO);
 		return "eval/changeEvalComAudit";
@@ -134,7 +138,7 @@ public class EvalChangeController {
 	@Deprecated
 	@RequestMapping(value = "changeEvalCom")
 	public String changeEvalComDetails(HttpServletRequest request,Model model,String caseCode) {
-		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
+		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVOFromCCAI(caseCode);
 		model.addAttribute("caseCode", caseCode);
 		model.addAttribute("evalChangeCommVO", evalChangeCommVO);
 		return "eval/changeEvalCom";

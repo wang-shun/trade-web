@@ -1,7 +1,10 @@
 package com.centaline.trans.bankRebate.service;
 
 import com.centaline.trans.bankRebate.entity.ToBankRebate;
+import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
 import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
+
+import java.io.OutputStream;
 
 /**
  * 
@@ -43,4 +46,32 @@ public interface ToBankRebateService {
 	 * @return
 	 */
 	void updateBankRebate(ToBankRebateInfoVO info);
+
+	/**
+	 * 生成银行返利导入模板
+	 * @param out
+	 */
+	void exportMatrixLeaderSheet(OutputStream out);
+
+	/**
+	 * 校验银行返利信息是否准确
+	 * 校验一下内容:
+	 * 案件编号是否存在CCAICODE
+	 * 银行编码是否能找到对应的名称
+	 * 所有返利金额合计是否等于总额
+	 * 返利金额 = 权证返利金额 + 业务返利金额
+	 * 权证返利金额 = 0.3 * 返利金额
+	 * 业务返利金额 = 0.7 * 返利金额
+	 * @param info
+	 * @return success 表示成功 其他内容则为错误信息
+	 */
+	String checkBankRebate(ToBankRebateInfoVO info);
+
+	/**
+	 * 提交银行返利申请信息到CCAI
+	 * @param info
+	 */
+	void submitCcai(ToBankRebateInfoVO info);
+
+
 }
