@@ -16,7 +16,7 @@
 		<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
-		<link href="<c:url value='/css/style.css' />" rel="stylesheet">
+		<%-- <link href="<c:url value='/css/style.css' />" rel="stylesheet"> --%>
 		<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
@@ -270,14 +270,17 @@
 									</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
 									<td>{{item.FEE_CHANGE_REASON}}</td>
-                                    <td>{{item.EVA_COMPANY}}</td>
+                                    <td>
+						 				{{item.EVA_COMPANY}}
+										
+									</td>
 									<td>
 										<p>评：{{item.APPLY_DATE}}</p>
 										<p>出：{{item.ISSUE_DATE}}</p>
 									</td>
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
-                                    <td>小张</td>
+                                    <td></td>
 									<td>{{item.REJECT_CAUSE}}</td>
 									
 									<td>

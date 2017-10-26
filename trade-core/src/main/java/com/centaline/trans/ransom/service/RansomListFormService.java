@@ -7,6 +7,7 @@ import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
+import com.centaline.trans.ransom.vo.ToRansomMoneyVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
 import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
 
@@ -17,6 +18,8 @@ public interface RansomListFormService {
 	 * @return
 	 */
 	int addRansomDetail(ToRansomCaseVo trco);
+	
+	ToRansomMoneyVo getRansomDetailMoneyInfo(String ransomCode);
 	
 	/**
 	 * 查询赎楼单列表

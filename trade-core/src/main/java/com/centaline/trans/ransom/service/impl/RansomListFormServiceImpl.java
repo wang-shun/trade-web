@@ -1,5 +1,6 @@
 package com.centaline.trans.ransom.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.repository.RansomListFormMapper;
 import com.centaline.trans.ransom.repository.RansomMapper;
 import com.centaline.trans.ransom.service.RansomListFormService;
+import com.centaline.trans.ransom.vo.ToRansomMoneyVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
 import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
 
@@ -51,6 +53,48 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	public int addRansomDetail(ToRansomCaseVo trco) {
 		
 		return ransomListFormMapper.addRansomDetail(trco);
+	}
+
+	
+	
+	@Override
+	public ToRansomMoneyVo getRansomDetailMoneyInfo(String ransomCode) {
+		List<ToRansomMoneyVo> moneyVoList = ransomListFormMapper.getRansomDetailMoneyInfo(ransomCode);
+		//判断是否存在二抵  count = 1 :存在
+		int count = ransomMapper.queryErdi(ransomCode);
+		ToRansomMoneyVo moneyVo = new ToRansomMoneyVo();
+		
+		if(count == 0) {
+			moneyVo = moneyVoList.get(0);
+		}else {
+			BigDecimal repayLoanMoney = new BigDecimal(0);
+			for (ToRansomMoneyVo ransomMoneyVo : moneyVoList) {
+				BigDecimal borrowerMoney = ransomMoneyVo.getBorrowerMoney();
+				BigDecimal interViewMoney = ransomMoneyVo.getInterViewMoney();
+				String interest = ransomMoneyVo.getInterest();
+				String isEntrust = ransomMoneyVo.getIsEntrust();
+				
+				BigDecimal loanMoney = ransomMoneyVo.getRepayLoanMoney();
+				repayLoanMoney.add(loanMoney);
+				
+				moneyVo.setRansomCode(ransomMoneyVo.getRansomCode());
+				moneyVo.setBorrowerMoney(borrowerMoney);
+				moneyVo.setInterViewMoney(interViewMoney);
+				moneyVo.setRepayLoanMoney(repayLoanMoney);
+				moneyVo.setInterest(interest);
+				moneyVo.setIsEntrust(isEntrust);
+			}
+			
+			moneyVo.getRansomCode();
+			moneyVo.getBorrowerMoney();
+			moneyVo.getInterViewMoney();
+			moneyVo.getRepayLoanMoney();
+			moneyVo.getInterest();
+			moneyVo.getIsEntrust();
+			
+		}
+		
+		return moneyVo;
 	}
 
 	@Override

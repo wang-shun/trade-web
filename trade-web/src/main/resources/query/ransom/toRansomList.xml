@@ -42,13 +42,16 @@
 						LEFT JOIN sctrans.T_RA_CANCEL can ON can.RANSOM_CODE = rep.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_REDEEM red ON red.RANSOM_CODE = can.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
+						LEFT JOIN sctrans.T_TO_WORKFLOW tw ON rac.RANSOM_CODE = tw.BIZ_CODE AND tw.STATUS = 0
+						LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE =act.PROC_INST_ID_
 						WHERE 1 = 1 
 						<ifNotNull ransomStatus>
 							AND RANSOM_STATUS = #ransomStatus#
 						</ifNotNull>
-						<ifNotNull ransomProperty>
-							AND RANSOM_PROPERTY = #ransomProperty#
-						</ifNotNull>
+
+						<if test="ransomProperty != null and ransomProperty != 'DEAL'">
+							AND act.TASK_DEF_KEY_ = #ransomProperty#
+						</if>
 						<ifNotNull teamCode>
 							AND AGENT_NAME = #AGENT_NAME# 
 						</ifNotNull>

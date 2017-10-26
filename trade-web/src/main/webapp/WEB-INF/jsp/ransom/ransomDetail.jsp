@@ -491,26 +491,26 @@
 										<label class="control-label sign_left_small">
 											<font color=" red" class="mr5">*</font> 借款金额
 							 			</label>
-								 			&nbsp;<c:if test="${!empty detailVo.borrowMoney }">${detailVo.borrowMoney/10000 }&nbsp;&nbsp;万</c:if>
+								 			&nbsp;<c:if test="${!empty moneyVo.borrowerMoney }">${moneyVo.borrowerMoney/10000 }&nbsp;&nbsp;万</c:if>
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 面签金额 </label> 
-											&nbsp;<c:if test="${!empty detailVo.interViewMoney }">${detailVo.interViewMoney/10000 }&nbsp;&nbsp;万</c:if>
+											&nbsp;<c:if test="${!empty moneyVo.interViewMoney }">${moneyVo.interViewMoney/10000 }&nbsp;&nbsp;万</c:if>
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 还贷金额</label> 
-											&nbsp;<c:if test="${!empty detailVo.repayLoanMoney }">${detailVo.repayLoanMoney/10000 }&nbsp;&nbsp;万</c:if>	
+											&nbsp;<c:if test="${!empty moneyVo.repayLoanMoney }">${moneyVo.repayLoanMoney/10000 }&nbsp;&nbsp;万</c:if>	
 									</div>
 								</div>
 								<div class="line">
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 贷款费用</label>
-											&nbsp;  ${detailVo.interest}&nbsp;‰。每天
+											&nbsp;  ${moneyVo.interest}&nbsp;‰。每天
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small" style="width: 133px;"><font color=" red" class="mr5">*</font>是否委托公正&nbsp;&nbsp;</label>
-											<c:if test="${detailVo.isEntrust == 1 }">是</c:if>
-											<c:if test="${detailVo.isEntrust == 0 }">否</c:if>
+											<c:if test="${moneyVo.isEntrust == 1 }">是</c:if>
+											<c:if test="${moneyVo.isEntrust == 0 }">否</c:if>
 									</div>
 								</div>
 								<div class="ibox-content">
