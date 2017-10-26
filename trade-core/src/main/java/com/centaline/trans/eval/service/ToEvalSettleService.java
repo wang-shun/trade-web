@@ -39,4 +39,9 @@ public interface ToEvalSettleService {
     List<ToEvalSettle> findCaseCodesByStauts();
     //待财务审批案件信息
     List<String> waitApproCaseCodes();
+    
+    //传入需要结算案件 feeChangeReason：1--发票税点；2--退报告；3--爆单
+    int insertWaitAccount(String caseCode,String evaCode,String feeChangeReason);
+    
+    
 }

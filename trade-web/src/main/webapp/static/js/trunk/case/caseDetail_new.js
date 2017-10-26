@@ -792,7 +792,7 @@ function evalApply(){
 					 * date 2017/10/24
 					 */
 					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
-				}
+//				}
 			}else{
 				window.wxc.alert(data.message);
 			}

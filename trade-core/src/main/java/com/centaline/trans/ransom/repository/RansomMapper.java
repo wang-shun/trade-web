@@ -35,7 +35,7 @@ public interface RansomMapper {
 	 */
 	ToRansomDetailVo getRansomDetailInfoByCaseCode(String ransomCode);
 	
-	ToRansomDetailVo getRansomDetailInfoByCodes(@Param("caseCode")String caseCode, @Param("ransomCode")String ransomCode);
+	List<ToRansomDetailVo> getRansomDetailInfoByCodes(@Param("caseCode")String caseCode, @Param("ransomCode")String ransomCode);
 	
 	/**
 	 * 根据赎楼编号获取计划 时间
