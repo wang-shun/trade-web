@@ -254,11 +254,11 @@ public class RansomListController {
 			//面签
 			ToRansomSignVo signVo = ransomService.getInterviewInfo(ransomCode);
 			//陪同还贷
-			//ToRansomMortgageVo mortgageVo =  ransomService.getMortgageInfoByRansomCode(ransomCode);
+			Map<String,Date> mortgageMap =  ransomService.getMortgageInfoByRansomCode(ransomCode);
 			//注销抵押
-			//ToRansomCancelVo cancelVo = ransomService.getCancelInfo(ransomCode);
+			Map<String,Date> cancelMap = ransomService.getCancelInfo(ransomCode);
 			//领取产证
-			//ToRansomPermitVo permitVo = ransomService.getPermitInfo(ransomCode);
+			Map<String,Date> permitMap = ransomService.getPermitInfo(ransomCode);
 			//回款结清
 			ToRansomPaymentVo paymentVo = ransomService.getPaymentInfo(ransomCode);
 			//计划时间信息
@@ -303,9 +303,9 @@ public class RansomListController {
 			request.setAttribute("tailinsVo", tailinsVo);
 			request.setAttribute("signVo", signVo);
 			request.setAttribute("applyVo", applyVo);
-//			request.setAttribute("mortgageVo", mortgageVo);
-//			request.setAttribute("cancelVo", cancelVo);
-//			request.setAttribute("permitVo", permitVo);
+			request.setAttribute("mortgageMap", mortgageMap);
+			request.setAttribute("cancelMap", cancelMap);
+			request.setAttribute("permitMap", permitMap);
 			request.setAttribute("paymentVo", paymentVo);
 			request.setAttribute("actTasks", actTasks);
 			
