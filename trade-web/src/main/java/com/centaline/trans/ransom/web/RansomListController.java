@@ -342,13 +342,13 @@ public class RansomListController {
 		
 		try {
 			
-			List<ToRansomTailinsVo> tailinsVo = ransomListFormService.getTailinsInfoByCaseCode(caseCode);
+			List<ToRansomTailinsVo> tailinsVoList = ransomListFormService.getTailinsInfoByCaseCode(caseCode);
 			List<TgGuestInfo> guestInfo = ransomListFormService.getGuestInfo(caseCode);
 			ToRansomCaseVo caseVo = ransomListFormService.getRansomCase(caseCode);
 			VRansomFinishTaskVo  taskVo = ransomListFormService.getRansomTaskInfoByRansomCode(caseVo.getRansomCode());
 			int count = ransomService.queryErdiByRansomCode(caseVo.getRansomCode());
 			
-			request.setAttribute("tailinsVo", tailinsVo.get(0));
+			request.setAttribute("tailinsVoList", tailinsVoList);
 			request.setAttribute("guestInfo", guestInfo);
 			request.setAttribute("caseVo", caseVo);
 			request.setAttribute("taskVo", taskVo);
@@ -366,36 +366,41 @@ public class RansomListController {
 	 */
 	@RequestMapping(value="updateRansom",method = RequestMethod.POST)
 	@ResponseBody
-	public String updateRansom(ToRansomVo ransomVo) {
+	public String updateRansom(@RequestParam String ransomJSON) {
 		
 		boolean flag = false;
 		SessionUser user= uamSessionService.getSessionUser();
 		
 		try {
+			List<ToRansomVo> ransomVoList = JSONObject.parseArray(ransomJSON, ToRansomVo.class);
 			
 			ToRansomCaseVo caseVo = new ToRansomCaseVo();
 			ToRansomTailinsVo tailinsVo = new ToRansomTailinsVo();
 			
-			if(ransomVo != null) {
-				caseVo.setRansomCode(ransomVo.getRansomCode());
-				caseVo.setBorrowerName(ransomVo.getBorrowerName());
-				caseVo.setBorroMoney(ransomVo.getBorrowerMoney());
-				caseVo.setBorrowerTel(ransomVo.getBorrowerPhone());
-				caseVo.setUpdateUser(user.getId());
-				caseVo.setUpdateTime(new Date());
+			if(!ransomVoList.isEmpty()) {
 				
-				tailinsVo.setRansomCode(ransomVo.getRansomCode());
-				tailinsVo.setSignTime(DateUtil.strToFullDate(ransomVo.getSignTime()));
-				tailinsVo.setFinOrgCode(ransomVo.getFinOrgCode());
-				tailinsVo.setMortgageType(ransomVo.getMortgageType());
-				tailinsVo.setDiyaType(ransomVo.getDiyaType());
-				tailinsVo.setLoanMoney(ransomVo.getLoanMoney());
-				tailinsVo.setRestMoney(ransomVo.getRestMoney());
-				tailinsVo.setUpdateTime(new Date());
-				tailinsVo.setUpdateUser(user.getId());
-				
-				flag = ransomListFormService.updateRansomCaseInfo(caseVo);
-				flag = ransomListFormService.updateRansomTailinsInfo(tailinsVo);
+				for (ToRansomVo ransomVo : ransomVoList) {
+					
+					caseVo.setRansomCode(ransomVo.getRansomCode());
+					caseVo.setBorrowerName(ransomVo.getBorrowerName());
+					caseVo.setBorroMoney(ransomVo.getBorrowerMoney());
+					caseVo.setBorrowerTel(ransomVo.getBorrowerPhone());
+					caseVo.setUpdateUser(user.getId());
+					caseVo.setUpdateTime(new Date());
+					
+					tailinsVo.setRansomCode(ransomVo.getRansomCode());
+					tailinsVo.setSignTime(DateUtil.strToFullDate(ransomVo.getSignTime()));
+					tailinsVo.setFinOrgCode(ransomVo.getFinOrgCode());
+					tailinsVo.setMortgageType(ransomVo.getMortgageType());
+					tailinsVo.setDiyaType(ransomVo.getDiyaType());
+					tailinsVo.setLoanMoney(ransomVo.getLoanMoney());
+					tailinsVo.setRestMoney(ransomVo.getRestMoney());
+					tailinsVo.setUpdateTime(new Date());
+					tailinsVo.setUpdateUser(user.getId());
+					
+					flag = ransomListFormService.updateRansomCaseInfo(caseVo);
+					flag = ransomListFormService.updateRansomTailinsInfo(tailinsVo);
+				}
 				
 				if(flag) {
 					String status = "信息修改成功！";
