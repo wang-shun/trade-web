@@ -1,35 +1,22 @@
 package com.centaline.trans.ransom.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.aist.common.rapidQuery.paramter.ParamterHander;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.enums.LampEnum;
 import com.centaline.trans.common.enums.RansomDiyaEnum;
-import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
-import com.centaline.trans.engine.bean.RestVariable;
-import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.service.ProcessInstanceService;
-import com.centaline.trans.engine.service.TaskService;
-import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
-import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.entity.ToRansomSubmitVo;
 import com.centaline.trans.ransom.service.RansomService;
@@ -46,23 +33,12 @@ import com.centaline.trans.ransom.service.RansomService;
 		@Autowired(required=true)
 		private RansomService ransomService;
 		
-		@Autowired(required=true)
-		private WorkFlowManager workFlowManager;
-		
 		@Autowired
 		private UamSessionService uamSessionService;
-		
-		@Autowired
-		private ToWorkFlowService toWorkFlowService;
-		
+
 		@Autowired
 		private PropertyUtilsService propertyUtilsService;
-		
-		@Autowired
-		private ProcessInstanceService processInstanceService;
-		@Autowired
-		private TaskService taskService;
-		
+
 		/**
 		 * 赎楼待办任务列表
 		 * by wbshume
@@ -102,47 +78,24 @@ import com.centaline.trans.ransom.service.RansomService;
 		 * @param request
 		 * @return
 		 */
-		@SuppressWarnings("unchecked")
 		@RequestMapping(value="ransomApply")
 		public String  ransomApply(@RequestParam(value="ransomCode",required=false)String ransomCode,
 									@RequestParam(value="caseCode",required=false)String caseCode,
 									String processInstanceId,String taskId,ServletRequest request){
 			if(!StringUtils.isEmpty(ransomCode)){
 				//公共基本信息
-//				getTaskBaseInfo(request, caseCode);
 				ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
-
 				request.setAttribute("detailVo", detailVo);
 				
-				
-				SessionUser user = uamSessionService.getSessionUser();
-				//赎楼流程启动
-				Map<String,Object> defValsMap = new HashMap<String,Object>();
-				defValsMap.put("sessionUser", user.getUsername());
-				String processDfId = propertyUtilsService.getProcessDfId("ransom_process");
-				
-				StartProcessInstanceVo pVo = processInstanceService.startWorkFlowByDfId(processDfId, ransomCode, defValsMap);
-				List<TaskVo> tasks = taskService.listTasks(pVo.getId(), false, user.getUsername()).getData();
-				if (tasks != null && !tasks.isEmpty()) {
-					pVo.setActiveTaskId(tasks.get(0).getId() + "");
-				}
-				ToWorkFlow wf = new ToWorkFlow();
-				wf.setBusinessKey("ransom_process");
-				wf.setCaseCode(detailVo.getCaseCode());
-				wf.setBizCode(ransomCode);
-				wf.setProcessOwner(user.getId());
-				wf.setProcessDefinitionId(processDfId);
-				wf.setInstCode(pVo.getId());
-				wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
-				toWorkFlowService.insertSelective(wf);
-				
-				//更新赎楼状态为在途
-				ransomService.updateRansomIsStart(ransomCode);
+				//更新赎楼状态为在途并启动流程
+				StartProcessInstanceVo pVo = ransomService.updateRansomIsStart(ransomCode,detailVo.getCaseCode());
 				
 				request.setAttribute("processInstanceId", pVo.getId());
 				request.setAttribute("taskId", pVo.getActiveTaskId());
 			}else if(!StringUtils.isEmpty(caseCode)){
-
+				/**
+				 * task过来:流程启动用的ransomCode，caseCode实际为赎楼编号
+				 */
 				ToRansomDetailVo detailVo = ransomService.getRansomDetail(caseCode);
 
 				request.setAttribute("detailVo", detailVo);
@@ -168,34 +121,9 @@ import com.centaline.trans.ransom.service.RansomService;
 			try{
 				ransomService.updateRansomApply(submitVo);
 			}catch(Exception e){
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 				return false;
 			}
-			
-			taskService.submitTask(submitVo.getTaskId());
-
-			/***
-			 * 赎楼启动放在点击申请上
-			 */
-			/*SessionUser user = uamSessionService.getSessionUser();
-			//赎楼流程启动
-			Map<String,Object> defValsMap = new HashMap<String,Object>();
-			defValsMap.put("sessionUser", user.getUsername());
-			String processDfId = propertyUtilsService.getProcessDfId("ransom_process");
-			
-			*//** businsessKey还是用caseCode，因为在engineTask中caseCode兼容老程序,用的businessKey赋值 **//*
-			StartProcessInstanceVo pVo = processInstanceService.startWorkFlowByDfId(processDfId, submitVo.getCaseCode(), defValsMap);
-
-			ToWorkFlow wf = new ToWorkFlow();
-			wf.setBusinessKey("ransom_process");
-			wf.setCaseCode(submitVo.getCaseCode());
-			wf.setBizCode(submitVo.getRansomCode());
-			wf.setProcessOwner(user.getId());
-			wf.setProcessDefinitionId(processDfId);
-			wf.setInstCode(pVo.getId());
-			wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
-			toWorkFlowService.insertSelective(wf);*/
-
 			return true;
 		}
 		
@@ -223,29 +151,16 @@ import com.centaline.trans.ransom.service.RansomService;
 		@RequestMapping(value="submiSign")
 		@ResponseBody
 		public boolean submiSign(ToRansomSubmitVo submitVo, ServletRequest request){
-			//检查是否有二抵
-			int count = ransomService.queryErdiByRansomCode(submitVo.getRansomCode());
+
 			//面签数据更新
 			try{
-				ransomService.updateRansomSign(submitVo,count);
+				ransomService.updateRansomSign(submitVo);
 			}catch(Exception e){
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 				return false;
 			}
 				
-			SessionUser user = uamSessionService.getSessionUser();
-			//完成任务流程
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-			
-
-			if(count >0){
-				variables.add(new RestVariable("erdi", true));
-			}else{
-				variables.add(new RestVariable("erdi", false));
-			}
-			boolean result = workFlowManager.submitTask(variables, submitVo.getTaskId(), submitVo.getProcessInstanceId(), user.getId(), submitVo.getCaseCode());		
-			
-			return result;
+			return true;
 		}
 		/**
 		 * 陪同还贷
@@ -281,15 +196,10 @@ import com.centaline.trans.ransom.service.RansomService;
 			try{
 				ransomService.updateRansomMortgage(submitVo);
 			}catch(Exception e){
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 				return false;
 			}
-			SessionUser user = uamSessionService.getSessionUser();
-			//完成任务流程
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-			
-			boolean result = workFlowManager.submitTask(variables, submitVo.getTaskId(), submitVo.getProcessInstanceId(), user.getId(), submitVo.getCaseCode());		
-			return result;
+			return true;
 		}
 		
 		/**
@@ -328,17 +238,12 @@ import com.centaline.trans.ransom.service.RansomService;
 		public boolean submitCancelDiya(ToRansomSubmitVo submitVo, ServletRequest request){
 			//插入注销抵押数据
 			try{
-				ransomService.updateRansomCancel(submitVo.getRansomCode(), submitVo.getDiyaType(), submitVo.getCancelDiyaTime());
+				ransomService.updateRansomCancel(submitVo);
 			}catch(Exception e){
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 				return false;
 			}
-			SessionUser user =uamSessionService.getSessionUser(); 
-			//完成任务流程
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-			
-			boolean result = workFlowManager.submitTask(variables, submitVo.getTaskId(), submitVo.getProcessInstanceId(), user.getId(), submitVo.getCaseCode());		
-			return result;
+			return true;
 		}
 		
 		
@@ -379,17 +284,12 @@ import com.centaline.trans.ransom.service.RansomService;
 		public boolean submitPermit(ToRansomSubmitVo submitVo, ServletRequest request){
 			//插入领取产证数据
 			try{
-				ransomService.updateRansomPermit(submitVo.getRansomCode(), submitVo.getDiyaType(), submitVo.getPermitTime());
+				ransomService.updateRansomPermit(submitVo);
 			}catch(Exception e){
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 				return false;
 			}
-			SessionUser user =uamSessionService.getSessionUser(); 
-			//完成任务流程
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-			
-			boolean result = workFlowManager.submitTask(variables, submitVo.getTaskId(), submitVo.getProcessInstanceId(), user.getId(), submitVo.getCaseCode());		
-			return result;
+			return true;
 		}
 		
 		
@@ -422,27 +322,13 @@ import com.centaline.trans.ransom.service.RansomService;
 		public boolean submitPayment(ToRansomSubmitVo submitVo, ServletRequest request){
 			//插入回款结清数据,完结赎楼单
 			try{
-				ransomService.updateRansomPayment(submitVo.getRansomCode(), submitVo.getPaymentTime());
+				ransomService.updateRansomPayment(submitVo);
 			}catch(Exception e){
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 				return false;
 			}
-			SessionUser user =uamSessionService.getSessionUser(); 
-			//完成任务流程
-			List<RestVariable> variables = new ArrayList<RestVariable>();
-			
-			boolean result = workFlowManager.submitTask(variables, submitVo.getTaskId(), submitVo.getProcessInstanceId(), user.getId(), submitVo.getCaseCode());		
-			
-			//flow完结
-			ToWorkFlow flow=new ToWorkFlow();
-			flow.setBusinessKey("ransom_process");
-			flow.setCaseCode(submitVo.getCaseCode());
-			flow.setBizCode(submitVo.getRansomCode());
-			ToWorkFlow ransomFlow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(flow);
-			ransomFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
-			toWorkFlowService.updateByPrimaryKeySelective(ransomFlow);
 		
-			return result;
+			return true;
 		}
 		
 		/**
