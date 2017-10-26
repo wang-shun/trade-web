@@ -508,19 +508,15 @@ public class RansomServiceImpl implements RansomService{
 	}
 
 	@Override
-	public ToRansomMortgageVo getMortgageInfoByRansomCode(String ransomCode) {
-		ToRansomMortgageVo mortgageVo = new ToRansomMortgageVo();
+	public Map<String,Date> getMortgageInfoByRansomCode(String ransomCode) {
 		List<ToRansomMortgageVo> mortgageVoList = ransomMapper.getMortgageInfoByRansomCode(ransomCode);
 		
-		int count = ransomMapper.queryErdi(ransomCode);
-		
-		if(count == 0) {
-			mortgageVo = mortgageVoList.get(0);
-		}else {
-			
+		Map<String,Date> mortgageMap = new HashMap<String, Date>();
+		for (ToRansomMortgageVo mortgageVo : mortgageVoList) {
+			mortgageMap.put(mortgageVo.getPartCode(), mortgageVo.getMortgageTime());
 		}
 		
-		return mortgageVo;
+		return mortgageMap;
 	}
 	
 	@Override
@@ -531,17 +527,27 @@ public class RansomServiceImpl implements RansomService{
 	}
 
 	@Override
-	public ToRansomCancelVo getCancelInfo(String ransomCode) {
-		ToRansomCancelVo cancelVo = new ToRansomCancelVo();
-		cancelVo = ransomMapper.getCancelInfoByRansomCode(ransomCode);
-		return cancelVo;
+	public Map<String,Date> getCancelInfo(String ransomCode) {
+		List<ToRansomCancelVo> cancelList = ransomMapper.getCancelInfoByRansomCode(ransomCode);
+		
+		Map<String,Date> cancelMap = new HashMap<String, Date>();
+		for (ToRansomCancelVo cancelVo : cancelList) {
+			cancelMap.put(cancelVo.getPartCode(), cancelVo.getCancelTime());
+		}
+		return cancelMap;
 	}
 
 	@Override
-	public ToRansomPermitVo getPermitInfo(String ransomCode) {
-		ToRansomPermitVo permitVo = new ToRansomPermitVo();
-		permitVo = ransomMapper.getPermitInfoByRansomCode(ransomCode);
-		return permitVo;
+	public Map<String,Date> getPermitInfo(String ransomCode) {
+		
+		List<ToRansomPermitVo> permitList = ransomMapper.getPermitInfoByRansomCode(ransomCode);
+		
+		Map<String,Date> permitMap = new HashMap<String, Date>();
+		for (ToRansomPermitVo permitVo : permitList) {
+			permitMap.put(permitVo.getPartCode(), permitVo.getRedeemTime());
+		}
+		
+		return permitMap;
 	}
 
 	@Override

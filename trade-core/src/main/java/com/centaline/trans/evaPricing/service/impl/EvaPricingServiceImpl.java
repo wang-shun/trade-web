@@ -231,11 +231,6 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 	}
 
 	@Override
-	public ToEvaPricingVo findEvaPricingDetailByCaseCode(String caseCode) {
-		return toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);
-	}
-
-	@Override
 	public AjaxResponse<String> updateEvaPricingDetail(ToEvaPricingVo toEvaPricingVo) {
 		AjaxResponse<String> result = new AjaxResponse<String>();
 		
@@ -273,20 +268,22 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 			return result;
 		}
 		//检查是否已有询价申请记录及是否已完成,区分
-		ToEvaPricingVo evaPricing =  toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);
-		if(evaPricing != null){
-			if("0".equals(evaPricing.getStatus())){
-				result.setSuccess(false);
-				result.setMessage("系统已存在与此案件相关的未完成的询价申请记录,请完成询价申请!");
-				return result;
-			}else if("1".equals(evaPricing.getStatus())){
-				//1：询价已完成,可以评估申请
-				result.setContent(1);
-				return result;
-			}
+		/*List<ToEvaPricingVo> evaPricings =  toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);
+		if(evaPricings != null){
+			for(ToEvaPricingVo evaPricing:evaPricings){
+				if("0".equals(evaPricing.getStatus())){
+					result.setSuccess(false);
+					result.setMessage("系统已存在与此案件相关的未完成的询价申请记录,请完成询价申请!");
+					return result;
+				}else if("1".equals(evaPricing.getStatus())){
+					//1：询价已完成,可以评估申请
+					result.setContent(1);
+					return result;
+				}
+			}	
 		}
 		//2：无询价申请记录或询价无效,需要先询价
-		result.setContent(2);
+		result.setContent(2);*/
 		return result;
 	}
 

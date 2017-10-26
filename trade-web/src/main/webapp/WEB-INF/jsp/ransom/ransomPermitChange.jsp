@@ -84,11 +84,18 @@
         			<hr>
 	        		<div class="form_content">
 						<label  class="control-label matching"><font color=" red" class="mr5" >*</font>领取产证时间(
-							<c:if test="${count == 1 }">一</c:if>
-							<c:if test="${count == 2 }">二</c:if>抵)</label> 
-						<input id="permitTime" name="permitTime" class="form-control input-one date-picker data_style" 
-						style="font-size: 13px;width: 200px; border-radius: 2px;" type="text" 
-						value="<fmt:formatDate value='${permitVo.redeemTime }' pattern='yyyy-MM-dd'/>" placeholder="领取产证时间" disabled>
+							<c:if test="${count == 0 }">一</c:if>
+							<c:if test="${count == 1 }">二</c:if>抵)</label> 
+							<c:if test="${count == 0 }">
+								<input id="permitTime" name="permitTime" class="form-control input-one date-picker data_style" 
+								style="font-size: 13px;width: 200px; border-radius: 2px;" type="text" 
+								value="<fmt:formatDate value='${permitMap[\'RECEIVE_ONE\']}' pattern='yyyy-MM-dd'/>" placeholder="领取产证时间" disabled>
+							</c:if>
+							<c:if test="${count == 1 }">
+								<input id="permitTime" name="permitTime" class="form-control input-one date-picker data_style" 
+								style="font-size: 13px;width: 200px; border-radius: 2px;" type="text" 
+								value="<fmt:formatDate value='${permitMap[\'RECEIVE_TWO\']}' pattern='yyyy-MM-dd'/>" placeholder="领取产证时间" disabled>
+							</c:if>
 					</div> 
 			</div>
 		</div>

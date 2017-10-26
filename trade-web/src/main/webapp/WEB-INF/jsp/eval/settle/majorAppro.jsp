@@ -42,9 +42,8 @@
     <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <span>待结算审批列表</span>
         <div id="wrapper" class="Index">
-       			<!-- Main view -->
                     <div class="bonus-table">
-                        <table>
+                        <table class="table table_blue table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>案件编号</th>
@@ -169,11 +168,11 @@
                                     <td>{{item.caseCode}}
 									</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
-                                    <td>{{item.FIN_ORG_ID}}</td>
+                                    <td>{{item.EVA_COMPANY}}</td>
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
-                                    <td>备注信息</td>
-									<td>贷款权证</td>
+                                    <td></td>
+									<td></td>
 				<td class="center">
 					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.caseCode}}" 
 					 
@@ -377,7 +376,10 @@
 					});
 					var ctx = $("#ctx").val();
 					
-		 			window.location.href = ctx+"/eval/settle/majorIsAppro?caseCodes="+ids;
+					window.wxc.confirm("确定批量审批通过吗？",{"wxcOk":function(){
+						window.location.href = ctx+"/eval/settle/majorIsAppro?caseCodes="+ids;
+					}});
+		 			
 	 	    })
 
 	    </script>

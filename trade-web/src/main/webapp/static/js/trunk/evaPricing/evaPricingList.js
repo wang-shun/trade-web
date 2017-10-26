@@ -166,6 +166,7 @@ function reloadGrid(data) {
 			  $("#evaluateList").html(myTaskList);
 			  // 显示分页 
               initpage(data.total,data.pagesize,data.page, data.records);
+              demoPoshytip();
         }
   });
 }
@@ -346,4 +347,16 @@ function evalApply(){
 		window.wxc.info('请选择一条数据!');
 	}
 	
+}
+
+function demoPoshytip(){
+	$('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});
 }

@@ -89,15 +89,20 @@
 						<label class="control-label matching"><font color=" red" class="mr5" >*</font>注销抵押时间(
 							<c:if test="${count == 0 }">一</c:if>
 							<c:if test="${count == 1 }">二</c:if>抵)</label> 
-						<input id="cancelDiyaTime" name="cancelDiyaTime" class="form-control input-one date-picker data_style" 
-						style="font-size: 13px;width: 200px; border-radius: 2px;" type="text" 
-						value="<fmt:formatDate value='${cancelVo.cancelTime }' pattern='yyyy-MM-dd'/>" placeholder="注销抵押时间" disabled />
+							<c:if test="${count == 0 }">
+								<input id="cancelDiyaTime" name="cancelDiyaTime" class="form-control input-one date-picker data_style" 
+								style="font-size: 13px;width: 200px; border-radius: 2px;" type="text" 
+								value="<fmt:formatDate value='${cancelMap[\'CANCELDIYA_ONE\']}' pattern='yyyy-MM-dd'/>" placeholder="注销抵押时间" disabled />
+							</c:if>
+							<c:if test="${count == 1 }">
+								<input id="cancelDiyaTime" name="cancelDiyaTime" class="form-control input-one date-picker data_style" 
+								style="font-size: 13px;width: 200px; border-radius: 2px;" type="text" 
+								value="<fmt:formatDate value='${cancelMap[\'CANCELDIYA_TWO\']}' pattern='yyyy-MM-dd' />" placeholder="注销抵押时间" disabled />
+							</c:if>
 					</div>
-
 			</div>
 		</div>
 	</form>
-	
 	<div class="ibox-content border-bottom clearfix space_box noborder">
 		<div id="caseCommentList" class="add_form"></div>
 	</div>

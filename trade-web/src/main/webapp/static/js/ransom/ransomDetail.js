@@ -14,6 +14,13 @@ $(document).ready(function(){
 	getOperateLogList();
 	//附件信息
 	getShowAttachment();
+	
+	//案件跟进,common.js 
+	var caseCode = $('#caseCode').val();
+	$("#caseCommentList").caseCommentGrid({
+		caseCode : caseCode,
+		srvCode : null
+	});
 });
 
 /**

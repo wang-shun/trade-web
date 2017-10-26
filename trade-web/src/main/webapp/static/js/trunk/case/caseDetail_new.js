@@ -776,10 +776,14 @@ function evalApply(){
 		dataType:'json',
 		success:function(data){
 			if(data.success){
-				if(data.content == 1){//询价已完成,可以评估申请
+				/**
+				 * modify wbcaiyx 2017/10/26
+				 * 无关询价，注释
+				 */				
+				/*if(data.content == 1){//询价已完成,可以评估申请
 					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
 				}else if(data.content == 2){//无询价,进入询价申请
-					/*window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
+*/					/*window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
 						window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
 					}});*/
 					/**
@@ -788,7 +792,7 @@ function evalApply(){
 					 * date 2017/10/24
 					 */
 					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
-				}
+//				}
 			}else{
 				window.wxc.alert(data.message);
 			}
