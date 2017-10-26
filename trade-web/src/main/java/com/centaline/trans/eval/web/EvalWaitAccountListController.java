@@ -43,6 +43,8 @@ import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.eval.service.ToEvalSettleService;
 import com.centaline.trans.eval.vo.EvalAccountShowVO;
 import com.centaline.trans.mgr.entity.TsFinOrg;
+import com.centaline.trans.common.enums.EvalWaitAccountEnum;
+import com.centaline.trans.common.enums.FeeChangeTypeEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
 
@@ -101,12 +103,15 @@ public class EvalWaitAccountListController {
 	 * @return
 	 */
 	@RequestMapping(value = "/evalWaitEndList")
-	public String evalWaitEndList(String caseCode) {
-		if(caseCode != null) {
-			ToEvalSettle toEvalSettle = new ToEvalSettle();
-			toEvalSettle.setCaseCode(caseCode);
-			toEvalSettleService.insertSelective(toEvalSettle);
-		}
+	public String evalWaitEndList() {
+//		String caseCode = "ZY-TJ-2017100491";
+//		String evaCode = "PG-TJ-2017100492";
+//		String feeChangeReason = "1";
+//		String caseCode = "ZY-TJ-2017100575";
+//		String evaCode = "PG-TJ-2017100578";
+//		String feeChangeReason = "2";
+//		int a =toEvalSettleService.insertWaitAccount(caseCode, evaCode, feeChangeReason);
+//		System.out.println(a);
 		return "eval/settle/evalWaitEndList";
 	}
 	
@@ -126,7 +131,7 @@ public class EvalWaitAccountListController {
 			for (String caseCode : caseCodes) {
 				//System.out.println(caseCode);
 				ToEvalSettle toEvalSettle = new ToEvalSettle();
-				toEvalSettle.setStatus(String.valueOf(5));//5:进入总监审批页状态
+				toEvalSettle.setStatus(String.valueOf(EvalWaitAccountEnum.ZJSP.getCode()));//5:进入总监审批页状态
 				toEvalSettle.setCaseCode(caseCode);
 				toEvalSettleService.updateByCaseCode(toEvalSettle);
 				
@@ -220,7 +225,7 @@ public class EvalWaitAccountListController {
 		for (String caseCode : caseCodes) {
 			//System.out.println(rejectCause);
 			ToEvalSettle toEvalSettle = new ToEvalSettle();
-			toEvalSettle.setStatus(String.valueOf(1));//1:修改状态，已驳回
+			toEvalSettle.setStatus(String.valueOf(EvalWaitAccountEnum.YBH.getCode()));//1:修改状态，已驳回
 			toEvalSettle.setCaseCode(caseCode);
 			toEvalSettleService.updateByCaseCode(toEvalSettle);
 			
@@ -252,7 +257,7 @@ public class EvalWaitAccountListController {
 		for (String caseCode : caseCodes) {
 			//System.out.println(caseCode);
 			ToEvalSettle toEvalSettle = new ToEvalSettle();
-			toEvalSettle.setStatus(String.valueOf(6));//6:修改状态，已提交财务审批中
+			toEvalSettle.setStatus(String.valueOf(EvalWaitAccountEnum.CWSP.getCode()));//6:修改状态，已提交财务审批中
 			toEvalSettle.setCaseCode(caseCode);
 			toEvalSettleService.updateByCaseCode(toEvalSettle);
 			
@@ -290,7 +295,7 @@ public class EvalWaitAccountListController {
 		int count = toEvalSettleService.newSettleFeeByCaseCode(toEvalSettle);
 		if (count > 0) {
 			ToEvalSettle record = new ToEvalSettle();
-			record.setStatus(String.valueOf(0));//0:未提交
+			record.setStatus(String.valueOf(EvalWaitAccountEnum.WTJ.getCode()));//0:未提交
 			record.setCaseCode(toEvalSettle.getCaseCode());
 			System.out.println(toEvalSettle.getCaseCode());
 			int cout2 = toEvalSettleService.updateByCaseCode(record);
@@ -470,7 +475,7 @@ public class EvalWaitAccountListController {
 			//toEvalSettleService.insertSelective(record);
 			//ToEvalSettle toEvalSettle = toEvalSettleService.findToCaseByCaseCode(caseCode);
 			ToEvalSettle toEvalSettle = new ToEvalSettle();
-			toEvalSettle.setStatus(String.valueOf(2));//2；无需结算状态
+			toEvalSettle.setStatus(String.valueOf(EvalWaitAccountEnum.WXJS.getCode()));//2；无需结算状态
 			toEvalSettle.setPkid(pkid);
 			toEvalSettle.setSettleNotReason(settleNotReason);
 			//toEvalSettle.setCaseCode(caseCode);
@@ -500,7 +505,7 @@ public class EvalWaitAccountListController {
 		for (String caseCode : caseCodes) {
 			//System.out.println(caseCode);
 			ToEvalSettle toEvalSettle = new ToEvalSettle();
-			toEvalSettle.setStatus(String.valueOf(3));//3:未结算状态
+			toEvalSettle.setStatus(String.valueOf(EvalWaitAccountEnum.WJS.getCode()));//3:未结算状态
 			toEvalSettle.setCaseCode(caseCode);
 			toEvalSettle.setSettleNotReason("");
 			toEvalSettleService.updateByCaseCode(toEvalSettle);
@@ -521,7 +526,7 @@ public class EvalWaitAccountListController {
 		for (String caseCode : caseCodes) {
 			//System.out.println(caseCode);
 			ToEvalSettle toEvalSettle = new ToEvalSettle();
-			toEvalSettle.setStatus(String.valueOf(4));//4:已结算状态
+			toEvalSettle.setStatus(String.valueOf(EvalWaitAccountEnum.YJS.getCode()));//4:已结算状态
 			toEvalSettle.setCaseCode(caseCode);
 			toEvalSettle.setSettleTime(new Date());
 			//System.out.println(new Date());
@@ -549,7 +554,7 @@ public class EvalWaitAccountListController {
 		try {
 			for(String caseC : caseCodes) {
 				ToEvalSettle toEvalSettle = new ToEvalSettle();
-				toEvalSettle.setStatus(String.valueOf(3));//3:未结算状态
+				toEvalSettle.setStatus(String.valueOf(EvalWaitAccountEnum.WJS.getCode()));//3:未结算状态
 				toEvalSettle.setCaseCode(caseC);
 				toEvalSettleService.updateByCaseCode(toEvalSettle);
 			}
