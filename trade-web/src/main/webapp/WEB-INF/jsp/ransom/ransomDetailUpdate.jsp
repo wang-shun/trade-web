@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
+<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <title>赎楼修改</title>
@@ -48,6 +48,24 @@
 <link href="<c:url value='/css/transcss/comment/caseComment.css' />"
 	rel="stylesheet">
 <link href="<c:url value='/css/common/details.css' />" rel="stylesheet">
+<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet"/>
+<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet"/>
+<link href="<c:url value='/css/animate.css' />" rel="stylesheet"/>
+<link href="<c:url value='/css/style.css' />" rel="stylesheet"/>
+<!-- Data Tables -->
+<link href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css' />" rel="stylesheet"/>
+<link href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css' />" rel="stylesheet"/>
+<link href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css' />" rel="stylesheet"/>
+<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
+
+<!-- index_css -->
+<link rel="stylesheet" href="<c:url value='/css/common/base.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
+<link rel="stylesheet" href="<c:url value='/css/iconfont/iconfont.css' />" ">
+<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+<!-- 提示 -->
+<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" />
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -56,7 +74,7 @@
 <input type="hidden" value="${tailinsVo.ransomCode }" id="ransomCode">
 <input type="hidden" value="${count }" id="count">
 <div class="wrapper wrapper-content animated fadeInUp">
-	<form method="post" class="form-horizontal" >
+	<form method="post" class="form-horizontal" id="dataForm">
 		<div class="ibox-content" id="reportOne">
 			<h4 class="title">客户需求修改</h4>
 			<div class="form_list">
@@ -76,8 +94,13 @@
 							<input type="text" class="input_type yuanwid" id="borrowerPhone" name="borrowerPhone" value="${guestInfo.get(1).guestPhone }"/>
 						</div>
 						<div class="form_content">
-							<label class="control-label sign_left_small"><font color=" red" class="mr5">*</font>受理时间 </label> 
-								<input type="text" class="input_type yuanwid" id="signTime" name="signTime" value="<fmt:formatDate value='${tailinsVo.signTime }' pattern='yyyy-MM-dd'/>" />
+							<label class="control-label sign_left_small select_style mend_select">
+								<font color=" red" class="mr5">*</font>受理时间 
+							</label> 
+							<div class="input-group sign-right dataleft input-daterange" >
+								<input type="text" class="form-control data_style" id="signTime" name="signTime" 
+								value="<fmt:formatDate value='${tailinsVo.signTime }' pattern='yyyy-MM-dd'/>" />
+							</div>
 						</div>
 					</div>
 					<div class="line">
@@ -100,8 +123,8 @@
 												dictType="30016" defaultvalue="${tailinsVo.mortgageType }" />
 											</td>
 											<td>
-												<aist:dict id="diyaType${status.index }" name="diyaType" clazz=" select_control yuanwid " 
-												display="label" dictType="71015" dictCode="${tailinsVo.diyaType }" />
+												<aist:dict id="diyaType${status.index }" name="diyaType" clazz="select_control data_style" 
+												display="select" dictType="71015" dictCode="${tailinsVo.diyaType }" />
 												
 											</td>
 											<td>
@@ -249,11 +272,43 @@
 				</div>
 			</div>
 		</div>
-	<script src="<c:url value='/js/trunk/report/dealChangeList.js' />"></script> 
+    <content tag="local_script">
+    
+    <script src="<c:url value='/js/trunk/report/dealChangeList.js' />"></script> 
 	<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
 	<script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
 	<script src= "<c:url value='/js/template.js' />" type="text/javascript" ></script>
 	<script src="<c:url value='/js/ransom/ransomDetailUpdate.js'/>" type="text/javascript"></script>
+	<script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+    <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
+    <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+    <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+	<!-- 提示 -->
+    <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+    <script src="<c:url value='/js/poshytitle/src/jquery.poshytipuser.js' />"></script>
+    
+    <script src="<c:url value='/js/ransom/ransomPlanTime.js'/>" type="text/javascript"></script>
+        <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
+        <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+		<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
+		<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
+		<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
+      	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+        <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+		<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+		<!-- 提示 -->
+        <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+        <script src="<c:url value='/js/poshytitle/src/jquery.poshytipuser.js' />"></script>
+        <script src="<c:url value='/js/trunk/report/dealChangeList.js' />"></script> 
+        
+        <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
+        <script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
+        <script src="<c:url value='/js/ransom/ransomPlanTime.js'/>" type="text/javascript"></script>
+		</content>
 	<script>
 	    $(document).ready(function () {
 	        $('.input-daterange').datepicker({

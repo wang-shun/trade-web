@@ -13,7 +13,9 @@ $(document).ready(function(){
 		}
 	});
 	$("#close").click(function(){
-		window.wxc.confirm("您确定要关闭吗？",{"wxcOk":function(){}});
+		window.wxc.confirm("您确定要关闭吗？",{"wxcOk":function(){
+			window.close();
+		}});
 	});
 });
 
@@ -61,7 +63,6 @@ $(document).ready(function(){
 			
 			ransomVo.push(resJson);
 		}
-		
 		//借款总金额
 		var borrowerMoney =  parseInt($("#borrowerMoney").val() * 10000);
 		ransomVo.push(borrowerMoney);
@@ -77,7 +78,7 @@ $(document).ready(function(){
 //				restMoney:restMoney,
 //				borrowerMoney:borrowerMoney
 //		};
-		
+		debugger;
 		$.ajax({
 			url: ctx + "/ransomList/updateRansom",
 			dataType:"json",
