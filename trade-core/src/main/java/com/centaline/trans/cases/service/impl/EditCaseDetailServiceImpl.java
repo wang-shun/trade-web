@@ -666,16 +666,18 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
     @Override
     public void saveCaseCloseDetai(EditCaseDetailVO editCaseDetailVO)
     {
-    	if(editCaseDetailVO.getLendDate() != null || editCaseDetailVO.getTazhengArrDate() != null) {
-    		ToMortgage record = new ToMortgage();
-    		record.setPkid(editCaseDetailVO.getMpkid());
-    		if(editCaseDetailVO.getLendDate() != null) {
-        		record.setLendDate(editCaseDetailVO.getLendDate());
-        	}
-        	if(editCaseDetailVO.getTazhengArrDate() != null) {
-        		record.setTazhengArrDate(editCaseDetailVO.getTazhengArrDate());
-        	}
-    		toMortgageMapper.update(record);
+    	if(editCaseDetailVO != null && StringUtils.isNotBlank(String.valueOf(editCaseDetailVO.getMpkid()))) {
+    		if(editCaseDetailVO.getLendDate() != null || editCaseDetailVO.getTazhengArrDate() != null) {
+    			ToMortgage record = new ToMortgage();
+    			record.setPkid(editCaseDetailVO.getMpkid());
+    			if(editCaseDetailVO.getLendDate() != null) {
+    				record.setLendDate(editCaseDetailVO.getLendDate());
+    			}
+    			if(editCaseDetailVO.getTazhengArrDate() != null) {
+    				record.setTazhengArrDate(editCaseDetailVO.getTazhengArrDate());
+    			}
+    			toMortgageMapper.update(record);
+    		}
     	}
     	
          //执行上下家删除操作 

@@ -87,6 +87,14 @@ public interface ToEvaPricingMapper {
 	ToEvaPricingVo findEvaPricingDetailByCaseCode(@Param("caseCode")String caseCode);
 	
 	/**
+	 * 根据询价编号查询询价信息
+	 * @param caseCode
+	 * @return
+	 * @author jinwl6
+	 */
+	ToEvaPricingVo findEvaPricingDetailByEvaCode(@Param("evaCode")String evaCode);
+	
+	/**
 	 * 询价详情页更新
 	 * @param pkid
 	 * @param taskId

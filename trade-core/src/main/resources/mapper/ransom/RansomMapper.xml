@@ -46,7 +46,6 @@
 			(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = ra.COM_ORG_CODE) comOrgName,
 			cai.AGENT_NAME agentName,
 			cai.AGENT_PHONE agentPhone,
-			cas.LEADING_PROCESS_ID leadingProcessId,
 			app.LOANOFFICER credit
 		FROM
 			sctrans.T_RA_CASE ra

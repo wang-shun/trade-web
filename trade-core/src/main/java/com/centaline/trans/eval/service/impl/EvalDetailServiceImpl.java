@@ -234,13 +234,16 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 
 	@Override
 	public AjaxResponse<?> checkTransferCommission(HttpServletRequest request, String evaCode) {
+		 AjaxResponse<String> response = new AjaxResponse<String>();
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.selectToEvaReportProcessByEvaCode(evaCode);
 		String changeInfo=toEvalReportProcess.getChangeInfo();
 		if(changeInfo!=null){
-			return new AjaxResponse<>(true);
+			response.setSuccess(true);
 		}else{
-			return new AjaxResponse<>(false);
+			response.setSuccess(false);
+			response.setMessage("评估公司未变更，不可发起调佣");
 		}
+		return response;
 	}
 	
 	private List<TaskVo> taskDuplicateRemoval(List<TaskVo> oList) {

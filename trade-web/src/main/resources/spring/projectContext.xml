@@ -705,6 +705,18 @@
     <bean name="qqEvaPricingStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="EVA_STATUS"></property>
     </bean>
+    <!-- 银行返利状态 -->
+    <bean name="qqcdDictBankRebateStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+        <property name="dictType" value="bank_rebate_status"></property>
+    </bean>
+    <!-- 银行返利 担保公司 -->
+    <bean name="qqcdDictBankRebateGuarantee" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+        <property name="dictType" value="bank_rebate_guarantee"></property>
+    </bean>
+    <!-- 银行返利 银行名称 -->
+    <bean name="qqcdDictBankRebateBank" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+        <property name="dictType" value="bank_rebate_bank"></property>
+    </bean>
     
     <aop:aspectj-autoproxy expose-proxy="true"/>
 

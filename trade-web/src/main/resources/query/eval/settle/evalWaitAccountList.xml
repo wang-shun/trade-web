@@ -29,7 +29,7 @@
 	</formatters>
 	<query id="queryEvalWaitEndList">
 		<searchCondition>
-            <condition field="a.FIN_ORG_ID" name="finOrgID" label="评估公司" searchType="Like" showType="" showCallback="" defaultValue=""/>
+            <condition field="b.FIN_ORG_ID" name="finOrgID" label="评估公司ID" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="a.SETTLE_FEE" name="settleFee" label="结算费用" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="a.STATUS" name="status" label="案件状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="a.FEE_CHANGE_REASON" name="feeChangeReason" label="费用调整类型" searchType="EQ" showType="" showCallback="" defaultValue=""/>

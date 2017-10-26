@@ -301,13 +301,6 @@ public class TaskController {
     		getAccesoryList(request, taskitem);
     		request.setAttribute("PSFApprove", toMortgageService.findToMortgageByMortTypeAndCaseCode(caseCode,"30016003"));//--30016003
     	} else if(taskitem.equals("HouseBookGet")) {/*领证*/
-    		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/*公积金*/
-
-    		// add zhangxb16 2016-2-22
-    		RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");/*自办*/
-    		RestVariable com = workFlowManager.getVar(instCode, "ComLoanNeed");/*贷款*/
-    		
-    		getAccesoryListLingZheng(request, taskitem, (boolean)(psf==null?false:psf.getValue()), (boolean)(self==null?false:self.getValue()), (boolean)(com==null?false:com.getValue()));
     		request.setAttribute("tgpb", toGetPropertyBookService.queryToGetPropertyBook(caseCode));
     	} else if(taskitem.equals("LoanRelease")) {/*放款*/
     		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/*公积金*/
