@@ -211,6 +211,7 @@
         <script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
         <script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
         <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+        <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
         <!-- 评估结算  -->
         <script	src="<c:url value='/js/trunk/eval/settle/evalEndList.js' />"></script>
         
@@ -239,7 +240,7 @@
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
 									 <td>{{item.EVA_PRICE}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
-                                    <td>小张</td>
+                                    <td></td>
 									<td>
 									{{if item.STATUS=='3'}}
 						 				<span class="yes_color">未结算</span>

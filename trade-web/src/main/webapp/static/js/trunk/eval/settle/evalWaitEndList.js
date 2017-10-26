@@ -31,7 +31,7 @@ function getEvaFinOrg(finOrgId){
 			var html = '<option value="" selected>请选择</option>';
 			if(data != null){
 				$.each(data,function(i,item){
-					html += '<option value="'+item.pkid+'">'+item.finOrgName+'</option>';
+					html += '<option value="'+item.finOrgCode+'">'+item.finOrgName+'</option>';
 				});
 			}					
 			$('#'+finOrgId).empty();
