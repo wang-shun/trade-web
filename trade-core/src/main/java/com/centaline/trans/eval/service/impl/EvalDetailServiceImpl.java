@@ -34,7 +34,7 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
-import com.centaline.trans.evaPricing.service.EvaPricingService;
+import com.centaline.trans.evaPricing.repository.ToEvaPricingMapper;
 import com.centaline.trans.eval.entity.ToEvaInvoice;
 import com.centaline.trans.eval.entity.ToEvaRefund;
 import com.centaline.trans.eval.entity.ToEvalRebate;
@@ -62,8 +62,6 @@ import com.centaline.trans.task.service.ActRuTaskService;
 public class EvalDetailServiceImpl implements EvalDetailService {
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
-	@Autowired
-	private EvaPricingService evaPricingService;
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
 	@Autowired
@@ -97,6 +95,8 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 	UamUserOrgService uamUserOrgService;
 	@Autowired
 	TgServItemAndProcessorService tgServItemAndProcessorService;
+	@Autowired
+	private ToEvaPricingMapper toEvaPricingMapper;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -105,7 +105,7 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				SessionUser user = uamSessionService.getSessionUser();
 				String userOrgId = user.getServiceDepId();
 				
-				List<ToEvaPricingVo> toEvaPricingVoList = evaPricingService.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
+				List<ToEvaPricingVo> toEvaPricingVoList = toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
 				//这里暂取询价默认一条，后期有修改需求
 				if(toEvaPricingVoList!=null && toEvaPricingVoList.size()>0){
 					request.setAttribute("toEvaPricingVo", toEvaPricingVoList.get(0));

@@ -46,20 +46,13 @@
 			(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = ra.COM_ORG_CODE) comOrgName,
 			cai.AGENT_NAME agentName,
 			cai.AGENT_PHONE agentPhone,
-			cas.LEADING_PROCESS_ID leadingProcessId,
-			app.LOANOFFICER credit,
-			vie.INTERVIEW_MONEY interViewMoney,
-			vie.INTEREST interest,
-			vie.IS_ENTRUST isEntrust,
-			rep.REPAY_MONEY repayLoanMoney
+			app.LOANOFFICER credit
 		FROM
 			sctrans.T_RA_CASE ra
 			INNER JOIN sctrans.T_TO_CASE cas ON ra.CASE_CODE = cas.CASE_CODE
 			INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON ra.CASE_CODE = pro.CASE_CODE
 			INNER JOIN sctrans.T_TO_CASE_INFO cai ON ra.CASE_CODE = cai.CASE_CODE
 			LEFT JOIN sctrans.T_RA_APPLY app ON ra.RANSOM_CODE = app.RANSOM_CODE
-			LEFT JOIN sctrans.T_RA_INTERVIEW vie ON ra.RANSOM_CODE = vie.RANSOM_CODE
-			LEFT JOIN sctrans.T_RA_REPAY rep ON ra.RANSOM_CODE = rep.RANSOM_CODE
 		WHERE ra.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
@@ -324,11 +317,11 @@
 	</select>
 
 	<select id="getCancelInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomCancelVo">
-		SELECT CANCEL_TIME  cancelTime,PART_CODE partCode FROM sctrans.T_RA_CANCEL WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} AND PART_CODE = 'CANCELDIYA_ONE'
+		SELECT CANCEL_TIME  cancelTime,PART_CODE partCode FROM sctrans.T_RA_CANCEL WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} 
 	</select>
 
 	<select id="getPermitInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomPermitVo">
-		SELECT REDEEM_TIME redeemTime,PART_CODE partCode FROM sctrans.T_RA_REDEEM WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} AND PART_CODE = 'RECEIVE_ONE'
+		SELECT REDEEM_TIME redeemTime,PART_CODE partCode FROM sctrans.T_RA_REDEEM WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} 
 	</select>
 
 	<select id="getPaymentInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomPaymentVo">

@@ -30,7 +30,8 @@
 							rac.STOP_REASON,
 							rac.BORRO_MONEY,
 							rac.UPDATE_TIME,
-							rac.ISAPPLY ISAPPLY
+							rac.ISAPPLY ISAPPLY,
+							act.SUSPENSION_STATE_ suspenState
 						FROM sctrans.T_RA_CASE rac
 						INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON pro.CASE_CODE = rac.CASE_CODE
 						INNER JOIN sctrans.T_TO_CASE_INFO toc ON toc.CASE_CODE = pro.CASE_CODE
@@ -42,13 +43,16 @@
 						LEFT JOIN sctrans.T_RA_CANCEL can ON can.RANSOM_CODE = rep.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_REDEEM red ON red.RANSOM_CODE = can.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
+						LEFT JOIN sctrans.T_TO_WORKFLOW tw ON rac.RANSOM_CODE = tw.BIZ_CODE AND tw.STATUS = 0
+						LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE =act.PROC_INST_ID_
 						WHERE 1 = 1 
 						<ifNotNull ransomStatus>
 							AND RANSOM_STATUS = #ransomStatus#
 						</ifNotNull>
-						<ifNotNull ransomProperty>
-							AND RANSOM_PROPERTY = #ransomProperty#
-						</ifNotNull>
+
+						<if test="ransomProperty != null and ransomProperty != 'DEAL'">
+							AND act.TASK_DEF_KEY_ = #ransomProperty#
+						</if>
 						<ifNotNull teamCode>
 							AND AGENT_NAME = #AGENT_NAME# 
 						</ifNotNull>
@@ -100,7 +104,8 @@
 					rac.STOP_REASON,
 					rac.BORRO_MONEY,
 					rac.UPDATE_TIME,
-					rac.isApply
+					rac.isApply,
+					act.SUSPENSION_STATE_
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -129,7 +134,7 @@
 				
 				<column type="both" name="BORRO_MONEY" index="" checkbox="" display="借款金额" customDict="" sysDict="" />
 				<column type="both" name="ISAPPLY" index="" checkbox="" display="是否已申请" customDict="" sysDict="" /> 
-			
+				<column type="both" name="suspenState" display="暂停状态"/>
 			</table-row>
 		</grid>
 	</query>

@@ -267,7 +267,7 @@
 									<a href="#" class="bs-wizard-dot"></a>
 									<div class="time-up">
 										<dl>
-											<dd><strong><fmt:formatDate value="${mortgageVo.mortgageTime }" pattern="yyyy-MM-dd"/></strong></dd>
+											<dd><strong><fmt:formatDate value="${mortgageMap['PAYLOAN_ONE'] }" pattern="yyyy-MM-dd"/></strong></dd>
 										</dl>
 									</div>
 									<div class="bs-wizard-info text-center">
@@ -293,7 +293,7 @@
 									<a href="#" class="bs-wizard-dot"></a>
 									<div class="time-up">
 										<dl>
-											<dd><strong><fmt:formatDate value="${cancelVo.cancelTime }" pattern="yyyy-MM-dd"/></strong></dd>
+											<dd><strong><fmt:formatDate value="${cancelMap['CANCELDIYA_ONE'] }" pattern="yyyy-MM-dd"/></strong></dd>
 										</dl>
 									</div>
 									<div class="bs-wizard-info text-center">
@@ -319,7 +319,7 @@
 									<a href="#" class="bs-wizard-dot"></a>
 									<div class="time-up">
 										<dl>
-											<dd><strong><fmt:formatDate value="${permitVo.redeemTime }" pattern="yyyy-MM-dd"/></strong></dd>
+											<dd><strong><fmt:formatDate value="${permitMap['RECEIVE_ONE'] }" pattern="yyyy-MM-dd"/></strong></dd>
 										</dl>
 									</div>
 									<div class="bs-wizard-info text-center">
@@ -393,6 +393,11 @@
 											<div class="progress-bar"></div>
 										</div>
 										<a href="#" class="bs-wizard-dot"></a>
+										<div class="time-up">
+											<dl>
+												<dd><strong><fmt:formatDate value="${mortgageMap['PAYLOAN_TWO'] }" pattern="yyyy-MM-dd"/></strong></dd>
+											</dl>
+										</div>
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
@@ -414,6 +419,11 @@
 											<div class="progress-bar"></div>
 										</div>
 										<a href="#" class="bs-wizard-dot"></a>
+										<div class="time-up">
+											<dl>
+												<dd><strong><fmt:formatDate value="${cancelMap['CANCELDIYA_TWO'] }" pattern="yyyy-MM-dd"/></strong></dd>
+											</dl>
+										</div>
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
@@ -436,6 +446,11 @@
 										</div>
 
 										<a href="#" class="bs-wizard-dot"></a>
+										<div class="time-up">
+											<dl>
+												<dd><strong><fmt:formatDate value="${permitMap['RECEIVE_TWO'] }" pattern="yyyy-MM-dd"/></strong></dd>
+											</dl>
+										</div>
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
@@ -491,26 +506,26 @@
 										<label class="control-label sign_left_small">
 											<font color=" red" class="mr5">*</font> 借款金额
 							 			</label>
-								 			&nbsp;<c:if test="${!empty detailVo.borrowMoney }">${detailVo.borrowMoney/10000 }&nbsp;&nbsp;万</c:if>
+								 			&nbsp;<c:if test="${!empty moneyVo.borrowerMoney }">${moneyVo.borrowerMoney/10000 }&nbsp;&nbsp;万</c:if>
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 面签金额 </label> 
-											&nbsp;<c:if test="${!empty detailVo.interViewMoney }">${detailVo.interViewMoney/10000 }&nbsp;&nbsp;万</c:if>
+											&nbsp;<c:if test="${!empty moneyVo.interViewMoney }">${moneyVo.interViewMoney/10000 }&nbsp;&nbsp;万</c:if>
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 还贷金额</label> 
-											&nbsp;<c:if test="${!empty detailVo.repayLoanMoney }">${detailVo.repayLoanMoney/10000 }&nbsp;&nbsp;万</c:if>	
+											&nbsp;<c:if test="${!empty moneyVo.repayLoanMoney }">${moneyVo.repayLoanMoney/10000 }&nbsp;&nbsp;万</c:if>	
 									</div>
 								</div>
 								<div class="line">
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 贷款费用</label>
-											&nbsp;  ${detailVo.interest}&nbsp;‰。每天
+											&nbsp;  ${moneyVo.interest}&nbsp;‰。每天
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small" style="width: 133px;"><font color=" red" class="mr5">*</font>是否委托公正&nbsp;&nbsp;</label>
-											<c:if test="${detailVo.isEntrust == 1 }">是</c:if>
-											<c:if test="${detailVo.isEntrust == 0 }">否</c:if>
+											<c:if test="${moneyVo.isEntrust == 1 }">是</c:if>
+											<c:if test="${moneyVo.isEntrust == 0 }">否</c:if>
 									</div>
 								</div>
 								<div class="ibox-content">
@@ -535,13 +550,13 @@
 													<td>面签时间</td><td><fmt:formatDate value="${signVo.signTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${signTime}" pattern="yyyy-MM-dd"/></td>
 												</tr>
 												<tr>
-													<td>陪同还贷时间(一抵)</td><td><fmt:formatDate value="${mortgageVo.mortgageTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${morTime }" pattern="yyyy-MM-dd"/></td>
+													<td>陪同还贷时间(一抵)</td><td><fmt:formatDate value="${mortgageMap['PAYLOAN_ONE'] }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${morTime }" pattern="yyyy-MM-dd"/></td>
 												</tr>
 												<tr>
-													<td>注销抵押时间(一抵)</td><td><fmt:formatDate value="${cancelVo.cancelTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${canTime }" pattern="yyyy-MM-dd"/></td>
+													<td>注销抵押时间(一抵)</td><td><fmt:formatDate value="${cancelMap['CANCELDIYA_ONE'] }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${canTime }" pattern="yyyy-MM-dd"/></td>
 												</tr>
 												<tr>
-													<td>领取产证时间(一抵)</td><td><fmt:formatDate value="${permitVo.redeemTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${perTime }" pattern="yyyy-MM-dd"/></td>
+													<td>领取产证时间(一抵)</td><td><fmt:formatDate value="${permitMap['RECEIVE_ONE'] }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${perTime }" pattern="yyyy-MM-dd"/></td>
 												</tr>
 												<tr>
 													<td>回款结清时间(一抵)</td><td><fmt:formatDate value="${paymentVo.paymentTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${payTime }" pattern="yyyy-MM-dd"/></td>
@@ -582,10 +597,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="ibox-content">
-									跟进信息
-									<h2 class="title">案件跟进</h2>
-									<div id="caseCommentList" class="view-content"></div>
+								<div class="ibox-content border-bottom clearfix space_box noborder">
+									<div id="caseCommentList" class="add_form"></div>
 								</div>
 							</div>
 						</div>
@@ -624,7 +637,8 @@
 
 	<!-- main End -->
 	<content tag="local_script">
-	<script src="<c:url value='/js/ransom/ransomDetail.js'/>" type="text/javascript"></script>
+	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+	
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
@@ -644,6 +658,7 @@
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
 	<script src="<c:url value='/js/stickUp.js' />"></script>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
+	<script src="<c:url value='/js/ransom/ransomDetail.js'/>" type="text/javascript"></script>
 	<!-- 各个环节的备注信息  -->
 	<script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script>
 	<!-- 公共信息js -->	

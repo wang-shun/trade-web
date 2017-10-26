@@ -62,6 +62,20 @@
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
+	<select id="getRansomDetailMoneyInfo" resultType="com.centaline.trans.ransom.vo.ToRansomMoneyVo">
+		SELECT
+			ra.RANSOM_CODE ransomCode,
+			ra.BORRO_MONEY borrowerMoney,
+			vie.INTERVIEW_MONEY interViewMoney,
+			vie.INTEREST interest,
+			vie.IS_ENTRUST isEntrust,
+			rep.REPAY_MONEY repayLoanMoney
+		FROM
+			sctrans.T_RA_CASE ra
+			LEFT JOIN sctrans.T_RA_INTERVIEW vie ON ra.RANSOM_CODE = vie.RANSOM_CODE
+			LEFT JOIN sctrans.T_RA_REPAY rep ON ra.RANSOM_CODE = rep.RANSOM_CODE
+		WHERE ra.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
 	
 	
 	<select id="getRansomCase" resultMap="BaseResultMap">

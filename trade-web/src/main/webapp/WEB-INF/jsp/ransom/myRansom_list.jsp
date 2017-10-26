@@ -143,7 +143,7 @@ text-decoration: underline !important;
                   <div class="form_content">
 						<label class="sign_left_one control-label">赎楼状态</label>
 						<div class="sign_right big_pad">
-                               <aist:dict id="ransomStatus" name="ransom_Status" display="select" dictType="RANSOM_STATUS" clazz="select_control sign_right_one_case"/>
+                               <aist:dict id="ransomStatus" name="ransom_Status" display="select" dictType="RANSOM_STATUS"  clazz="select_control sign_right_one_case"/>
                          </div>
 					</div>
 					<div class="form_content">
@@ -336,8 +336,8 @@ text-decoration: underline !important;
 			<a class="btn btn-success btn-space" href="${ctx}/task/ransom/ransomApply?ransomCode={{item.RANSOM_CODE}}" target="_blank">申请</a>
 			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}','{{item.RANSOM_CODE}}')" />
 		{{/if}}
-		{{if item.RANSOM_STATUS != 1}}
-			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}')" />
+		{{if item.RANSOM_STATUS == 2 && item.suspenState ==1}}
+			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}','{{item.RANSOM_CODE}}')" />
 		{{/if}}
 	</td>
   </tr>

@@ -1,5 +1,6 @@
 package com.centaline.trans.ransom.web;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
+import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
+import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
+import com.centaline.trans.ransom.entity.ToRansomPermitVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomSubmitVo;
@@ -182,13 +186,71 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		}
 	}
 	
+	/**
+	 * 注销抵押
+	 * @param ransomCode
+	 * @param partCode
+	 * @param count 0:一抵 1:二抵
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("cancelView")
+	public String toCancelView(String ransomCode,String partCode,@RequestParam("count") Integer count,ServletRequest request) {
+		
+		//公共基本信息
+		ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
+		Map<String,Date> cancelMap = ransomService.getCancelInfo(ransomCode);
+		
+		request.setAttribute("partCode", partCode);
+		request.setAttribute("count", count);
+		request.setAttribute("detailVo", detailVo);
+		request.setAttribute("cancelMap", cancelMap);
+		
+		return "ransom/ransomCancelChange";
+	}
 	
+	/**
+	 * 领取产证
+	 * @param ransomCode
+	 * @param partCode
+	 * @param count 0:一抵  1:二抵
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("permitView")
+	public String toPermitView(String ransomCode,String partCode,@RequestParam("count") Integer count,ServletRequest request) {
+		
+		//公共基本信息
+		ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
+		Map<String,Date> permitMap = ransomService.getPermitInfo(ransomCode);
+		
+		request.setAttribute("partCode", partCode);
+		request.setAttribute("count", count);
+		request.setAttribute("detailVo", detailVo);
+		request.setAttribute("permitMap", permitMap);
+		
+		return "ransom/ransomPermitChange";
+	}
 	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 回款结清
+	 * @param ransomCode
+	 * @param partCode
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("paymentView")
+	public String toPaymentView(String ransomCode,String partCode,ServletRequest request) {
+		
+		//公共基本信息
+		ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
+		ToRansomPaymentVo paymentVo = ransomService.getPaymentInfo(ransomCode);
+		
+		request.setAttribute("detailVo", detailVo);
+		request.setAttribute("paymentVo", paymentVo);
+		request.setAttribute("partCode", partCode);
+		
+		return "ransom/ransomPaymentChange";
+	}
 	
 }
