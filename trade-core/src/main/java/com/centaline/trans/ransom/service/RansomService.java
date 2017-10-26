@@ -95,19 +95,14 @@ public interface RansomService {
 	 */
 	public int updateRansomPayment(ToRansomSubmitVo submitVo);
 	
-	/**
-	 * 赎楼案件信息查询
-	 * @param caseCode
-	 * @return
-	 */
-	public ToRansomCaseVo getRansomCaseInfo(String caseCode);
+
 	
 	/**
 	 * 赎楼案件信息查询
 	 * @param caseCode
 	 * @return
 	 */
-	public ToRansomCaseVo getRansomInfoByRansomCode(String caseCode);
+	public ToRansomCaseVo getRansomInfoByRansomCode(String ransomCode);
 	
 	/**
 	 * 尾款信息查询

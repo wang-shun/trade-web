@@ -122,8 +122,9 @@
 									<c:forEach items="${tailinsVoList }" var="tailinsVo" varStatus="status">
 										<tr id="tr${status.index }">
 											<td>
-											<aist:dict id="finOrgCode${status.index }" name="finOrgCode" clazz=" select_control yuanwid " display="select" 
-											dictType="FINAL_ORG" defaultvalue="${tailinsVo.finOrgCode }" />
+											<%-- <aist:dict id="finOrgCode${status.index }" name="finOrgCode" clazz=" select_control yuanwid " display="select" 
+											dictType="FINAL_ORG" defaultvalue="${tailinsVo.finOrgCode }" /> --%>
+											<select id="finOrgCode${status.index }" name="finOrgCode" class= "select_control yuanwid " ></select>
 											</td>
 											<td>
 												<aist:dict id="mortgageType${status.index }" name="mortgageType" clazz=" select_control yuanwid " display="select" 
@@ -323,7 +324,30 @@
 	            forceParse: false,
 	            autoclose: true
 	        });
+	        getEvaFinOrg('finOrgCode');
 	    });
+	    
+	    function getEvaFinOrg(name){
+			var url = "/manage/queryTailins";
+			$.ajax({
+				async: true,
+				type:'POST',
+				url:ctx+url,
+				dataType:'json',
+				success:function(data){
+					var html = '';
+					if(data != null){
+						$.each(data,function(i,item){
+							html += '<option value="'+item.finOrgCode+'">'+item.finOrgName+'</option>';
+						});
+					}					
+					$('[name='+name+']').empty();
+					$('[name='+name+']').append(html);
+				},
+				error : function(errors) {
+				}
+			});
+		}
 </script>
 </body>
 </html>

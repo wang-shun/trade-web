@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
@@ -32,6 +33,7 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.web.ResultNew;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.enums.RansomPartOrderEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
@@ -244,7 +246,7 @@ public class RansomListController {
 		try {
 			ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
 			//案件详情信息
-			ToRansomCaseVo caseVo = ransomService.getRansomCaseInfo(ransomCode);
+			ToRansomCaseVo caseVo = ransomService.getRansomInfoByRansomCode(ransomCode);
 			Map<String,String> actTasks =  ransomService.getActTasks(ransomCode);
 			ToRansomMoneyVo moneyVo = ransomListFormService.getRansomDetailMoneyInfo(ransomCode);
 			//新建赎楼单即是受理状态
@@ -326,7 +328,12 @@ public class RansomListController {
 	 */
 	@RequestMapping("ransomChangeRecord")
 	public String changeRecord(String ransomCode, ServletRequest request) {
-		List<ToRansomPlanVo> planVo = ransomListFormService.getRansomPlanTimeInfo(ransomCode);
+		
+		ToRansomFormVo formVo	= ransomListFormService.getRansomPlanTimeInfo(ransomCode);
+		List<ToRansomPlanVo> planVo = null;
+		if(formVo != null) {
+			planVo = formVo.getPlanTimes();
+		}
 		request.setAttribute("ransomCode", ransomCode);
 		request.setAttribute("planVo", planVo);
 		return "ransom/ransomChangeRecord";
@@ -423,7 +430,7 @@ public class RansomListController {
 	@RequestMapping("planTime")
 	public String ransomPlanTimeInfo(String ransomCode,ServletRequest request) {
 		
-		try {
+		/*try {
 			SessionUser user= uamSessionService.getSessionUser();
 			ToRansomCaseVo caseVo = ransomService.getRansomInfoByRansomCode(ransomCode);
 			List<ToRansomPlanVo> toRansomPlanVoList = ransomListFormService.getRansomPlanTimeInfo(ransomCode);
@@ -443,7 +450,26 @@ public class RansomListController {
 		} catch (Exception e) {
 			logger.error("",e);
 			return null;
-		}
+		}*/
+		
+		request.setAttribute("ransomCode", ransomCode);
+		
+		return "ransom/ransomPlanTime";
+	}
+	
+	/**
+	 * 获取计划时间数据
+	 * @param ransomCode
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("getPlanTimeDate")
+	@ResponseBody
+	public AjaxResponse<ToRansomFormVo> getPlanTimeDate(String ransomCode){	
+		//计划时间数据
+		ToRansomFormVo planVo = ransomListFormService.getRansomPlanTimeInfo(ransomCode);
+		
+		return AjaxResponse.successContent(planVo);
 	}
 	
 	/**

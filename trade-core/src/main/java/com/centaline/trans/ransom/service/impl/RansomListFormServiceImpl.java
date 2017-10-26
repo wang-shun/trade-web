@@ -16,9 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.entity.TgGuestInfo;
+import com.centaline.trans.common.enums.RansomPartEnum;
+import com.centaline.trans.common.enums.RansomPartOrderEnum;
+import com.centaline.trans.ransom.entity.RansomPartOrderVo;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
+import com.centaline.trans.ransom.entity.ToRansomFormVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
 import com.centaline.trans.ransom.entity.ToRansomPermitVo;
@@ -136,9 +140,36 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	}
 
 	@Override
-	public List<ToRansomPlanVo> getRansomPlanTimeInfo(String ransomCode) {
+	public ToRansomFormVo getRansomPlanTimeInfo(String ransomCode) {
+		ToRansomFormVo data =new ToRansomFormVo();
+		List<ToRansomCaseVo> casePartStatus = ransomListFormMapper.getRansomStatusAndPart(ransomCode);
+		List<ToRansomPlanVo> planTimes = ransomListFormMapper.getRansomPlanTime(ransomCode);
 		
-		return ransomListFormMapper.getRansomPlanTime(ransomCode);
+		data.setRansomStatus(casePartStatus.get(0).getRansomStatus());
+		data.setCasePartStatus(casePartStatus);
+		data.setPlanTimes(planTimes);
+		
+		List<RansomPartOrderVo> partOrders = new ArrayList<RansomPartOrderVo>();
+		
+		for(ToRansomCaseVo vo : casePartStatus) {
+			if(vo.getPartCode() != null ) {
+				partOrders.add(new RansomPartOrderVo(vo.getPartCode(),RansomPartOrderEnum.getOrder(vo.getPartCode())));
+			}
+		}
+		data.setPartOrders(partOrders);
+		int count = ransomMapper.queryErdi(ransomCode);
+		//抵押数量
+		if(count ==0) {
+			data.setDiyaNum(1);
+			data.setAllPartCodes(RansomPartEnum.getDiyaOne());
+		}else {
+			data.setDiyaNum(2);
+			data.setAllPartCodes(RansomPartEnum.getDiyaTwo());
+			data.setOnePartCodes(RansomPartEnum.getDiyaOne());
+			data.setTwoPartCodes(RansomPartEnum.getDiyaTwoTwo());
+		}
+		
+		return data;
 	}
 
 	@Override

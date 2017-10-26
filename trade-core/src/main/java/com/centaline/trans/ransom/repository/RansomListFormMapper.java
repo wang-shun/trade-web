@@ -225,4 +225,12 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	List<String> getRansomActTasks(String ransomCode);
+	
+	/**
+	 * 计划时间用
+	 * @author wbwumf
+	 * @param ransomCode
+	 * @return
+	 */
+	List<ToRansomCaseVo> getRansomStatusAndPart(String ransomCode);
 }

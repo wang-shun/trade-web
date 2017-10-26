@@ -2,6 +2,7 @@ package com.centaline.trans.ransom.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author wbwumf
@@ -95,8 +96,23 @@ public class ToRansomFormVo {
 	private BigDecimal interest;
 	//回款结清时间
 	private Date paymentTime;
+	//案件环节及状态
+	private List<ToRansomCaseVo> casePartStatus;
+	//案件计划时间
+	private List<ToRansomPlanVo> planTimes;
+	//当前任务环节及顺序
+	private List<RansomPartOrderVo> partOrders;
+	//抵押数量
+	private Integer diyaNum;
 	
-
+	private String ransomStatus;
+	//案件所有的环节
+	private List<RansomPartOrderVo> allPartCodes;
+	//二抵时，一抵的环节
+	private List<RansomPartOrderVo> onePartCodes;
+	//二抵时，二抵的环节
+	private List<RansomPartOrderVo> twoPartCodes;
+	
 	public Long getPkid() {
 		return pkid;
 	}
@@ -292,6 +308,72 @@ public class ToRansomFormVo {
 
 	public void setPaymentTime(Date paymentTime) {
 		this.paymentTime = paymentTime;
+	}
+
+	public List<ToRansomCaseVo> getCasePartStatus() {
+		return casePartStatus;
+	}
+
+	public void setCasePartStatus(List<ToRansomCaseVo> casePartStatus) {
+		this.casePartStatus = casePartStatus;
+	}
+
+	public List<ToRansomPlanVo> getPlanTimes() {
+		return planTimes;
+	}
+
+	public void setPlanTimes(List<ToRansomPlanVo> planTimes) {
+		this.planTimes = planTimes;
+	}
+
+	
+
+	public List<RansomPartOrderVo> getPartOrders() {
+		return partOrders;
+	}
+
+	public void setPartOrders(List<RansomPartOrderVo> partOrders) {
+		this.partOrders = partOrders;
+	}
+
+	public Integer getDiyaNum() {
+		return diyaNum;
+	}
+
+	public void setDiyaNum(Integer diyaNum) {
+		this.diyaNum = diyaNum;
+	}
+
+	public String getRansomStatus() {
+		return ransomStatus;
+	}
+
+	public void setRansomStatus(String ransomStatus) {
+		this.ransomStatus = ransomStatus;
+	}
+
+	public List<RansomPartOrderVo> getAllPartCodes() {
+		return allPartCodes;
+	}
+
+	public void setAllPartCodes(List<RansomPartOrderVo> allPartCodes) {
+		this.allPartCodes = allPartCodes;
+	}
+
+	public List<RansomPartOrderVo> getOnePartCodes() {
+		return onePartCodes;
+	}
+
+	public void setOnePartCodes(List<RansomPartOrderVo> onePartCodes) {
+		this.onePartCodes = onePartCodes;
+	}
+
+	public List<RansomPartOrderVo> getTwoPartCodes() {
+		return twoPartCodes;
+	}
+
+	public void setTwoPartCodes(List<RansomPartOrderVo> twoPartCodes) {
+		this.twoPartCodes = twoPartCodes;
 	}
 
 	@Override

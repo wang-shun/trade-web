@@ -25,7 +25,7 @@
 							toc.AGENT_NAME,
 							toc.GRP_NAME,
 							rac.BORROWER_NAME,
-							rac.COM_ORG_CODE,
+							(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = rac.COM_ORG_CODE) COM_ORG_CODE,
 							rac.RANSOM_STATUS,
 							rac.STOP_REASON,
 							rac.BORRO_MONEY,

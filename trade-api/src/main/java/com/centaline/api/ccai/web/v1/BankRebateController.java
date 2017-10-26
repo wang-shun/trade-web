@@ -1,12 +1,15 @@
 package com.centaline.api.ccai.web.v1;
 
+import com.centaline.api.ccai.service.CcaiEvalService;
 import com.centaline.api.ccai.vo.BankRebeatFeedBack;
 import com.centaline.api.ccai.vo.EvalRebeatImport;
+import com.centaline.api.common.enums.ApiLogModuleEnum;
 import com.centaline.api.common.vo.CcaiServiceResult;
 import com.centaline.api.common.web.AbstractBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,9 @@ import javax.validation.Valid;
 @RequestMapping(value = "/api/ccai/v1")
 public class BankRebateController extends AbstractBaseController {
 
+	@Autowired
+	private CcaiEvalService ccaiEvalService;
+
 	@ApiOperation(value = "银行返利，财务审批反馈接口", notes = "财务在CCAI审批通过后，将新生成的返利单编号、流程ID、原成交报告单号对应关系，同步到交易系统中", produces = "application/json,application/json;charset=UTF-8")
 	@RequestMapping(value="/bank/rebate/feedback",method = RequestMethod.POST,produces = {"application/json", "application/json;charset=UTF-8"})
 	public CcaiServiceResult rebateSync(
@@ -33,13 +39,15 @@ public class BankRebateController extends AbstractBaseController {
 			@Valid @RequestBody BankRebeatFeedBack info, Errors errors, HttpServletRequest request){
 		CcaiServiceResult result = buildErrorResult(errors);
 		if(result.isSuccess()){
-			//TODO 联调时增加业务代码
-			System.out.println(info);
-			result.setSuccess(true);
-			result.setMessage("do noting.");
-			result.setCode(SUCCESS_CODE);
+			try {
+				result = ccaiEvalService.bankRebateFeedBack(info);
+			}catch (Exception e){
+				result.setSuccess(false);
+				result.setCode(FAILURE_CODE);
+				result.setMessage(e.getMessage());
+			}
 		}
-		// writeLog(ApiLogModuleEnum.EVA_REBATE_SYNC,"/api/ccai/v1/eva/rebate/sync",info,result,request);
+		writeLog(ApiLogModuleEnum.BANK_REBATE_FEEDBACK,"/api/ccai/v1/bank/rebate/feedback",info,result,request);
 		return result;
 	}
 }
